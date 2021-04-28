@@ -115,9 +115,9 @@
                             </f:facet>
                             <h:outputText value="#{itemAngaz.id}"/>
                         </p:column>
-                        <p:column width="100" style="text-align: center;">
+                        <p:column width="40" style="text-align: center;">
                             <f:facet name="header">
-                                <h:outputText value="rodzaj wynagrodzenia"/>
+                                <h:outputText value="rodzaj wyn."/>
                             </f:facet>
                             <h:outputText value="#{itemAngaz.rodzajwynagrodzenia}"/>
                         </p:column>
@@ -126,6 +126,12 @@
                                 <h:outputText value="firma"/>
                             </f:facet>
                             <h:outputText value="#{itemAngaz.firma.nazwa}"/>
+                        </p:column>
+                        <p:column width="40" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="serial"/>
+                            </f:facet>
+                            <h:outputText value="#{itemAngaz.serialsp}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">

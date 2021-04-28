@@ -72,6 +72,8 @@ public class Angaz implements Serializable {
     private Pracownik pracownik;
     @Column(name = "rodzajwynagrodzenia")
     private Integer rodzajwynagrodzenia;
+    @Column(name = "serialsp")
+    private String serialsp;
 
 
     public Angaz() {
@@ -178,6 +180,14 @@ public class Angaz implements Serializable {
 
     public void setCiagloscchorobowe(Boolean ciagloscchorobowe) {
         this.ciagloscchorobowe = ciagloscchorobowe;
+    }
+
+    public String getSerialsp() {
+        return serialsp;
+    }
+
+    public void setSerialsp(String serialsp) {
+        this.serialsp = serialsp;
     }
 
     @XmlTransient

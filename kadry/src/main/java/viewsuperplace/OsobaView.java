@@ -120,6 +120,7 @@ public class OsobaView implements Serializable {
                 FirmaKadry firma = wpisView.getFirma();
                 Angaz angaz = OsobaBean.nowyangaz(pracownik, firma);
                 Msg.msg("Stworzono angaż");
+                angaz.setSerialsp(serial);
                 angazFacade.create(angaz);
                 wpisView.setAngaz(angaz);
                 List<Slownikszkolazatrhistoria> rodzajezatr = slownikszkolazatrhistoriaFacade.findAll();
@@ -148,7 +149,7 @@ public class OsobaView implements Serializable {
                 kalendarzmiesiacFacade.createList(generujKalendarzNowaUmowa);
                 List<Rok> rokList = osoba.getOsoFirSerial().getRokList();
                 Rok rok = pobierzrok(rokdlakalendarza, rokList);
-                List<Okres> okresList = pobierzokresy(Integer.valueOf(wpisView.getMiesiacWpisu()), rok.getOkresList());
+                List<Okres> okresList = pobierzokresy(1, rok.getOkresList());
                 List<Pasekwynagrodzen> paski = OsobaBean.zrobpaski(wpisView, osoba, okresList);
                 List<Definicjalistaplac> listyplac = definicjalistaplacFacade.findByFirmaRok(wpisView.getFirma(), rokdlakalendarza);
                 List<Kalendarzmiesiac> kalendarze = kalendarzmiesiacFacade.findByRokUmowa(aktywna, rokdlakalendarza);
@@ -161,7 +162,7 @@ public class OsobaView implements Serializable {
                 generujKalendarzNowaUmowa = OsobaBean.generujKalendarzNowaUmowa(angaz, pracownik, aktywna, kalendarzmiesiacFacade, kalendarzwzorFacade, rokdlakalendarza);
                 kalendarzmiesiacFacade.createList(generujKalendarzNowaUmowa);
                 rok = pobierzrok(rokdlakalendarza, rokList);
-                okresList = pobierzokresy(Integer.valueOf(wpisView.getMiesiacWpisu()), rok.getOkresList());
+                okresList = pobierzokresy(1, rok.getOkresList());
                 paski = OsobaBean.zrobpaski(wpisView, osoba, okresList);
                 listyplac = definicjalistaplacFacade.findByFirmaRok(wpisView.getFirma(), rokdlakalendarza);
                 kalendarze = kalendarzmiesiacFacade.findByRokUmowa(aktywna, rokdlakalendarza);

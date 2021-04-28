@@ -24,6 +24,7 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import msg.Msg;
+import org.primefaces.PrimeFaces;
 
 /**
  *
@@ -197,6 +198,28 @@ public class FirmaView  implements Serializable {
     public void pobierzinfo() {
         if (selectedlista!=null) {
             Msg.msg("Pobrano firmę do edycji");
+        }
+    }
+    
+    public void sprawdzmail() {
+        if (selected.getEmail()!=null) {
+            Uz uzer = uzFacade.findUzByLogin(selected.getEmail());
+            if (uzer!=null) {
+                Msg.msg("e","Adres mail musi być unikalny! Jest już taki adres w programie");
+                selected.setEmail(null);
+                PrimeFaces.current().ajax().update("FirmaCreateForm:email");
+            }
+        }
+    }
+    
+    public void sprawdznip() {
+        if (selected.getNip()!=null) {
+            FirmaKadry firma = firmaFacade.findByNIP(selected.getNip());
+            if (firma!=null) {
+                Msg.msg("e","NIP musi być unikalny! Jest już taki NIP firmy w programie");
+                selected.setNip(null);
+                PrimeFaces.current().ajax().update("FirmaCreateForm:nip");
+            }
         }
     }
       

@@ -314,6 +314,15 @@ public class Data implements Serializable {
         return zwrot;
     }
     
+    public static boolean czyjestpo(Date data, WpisView wpisView) {
+        boolean zwrot = false;
+        String rok = Data.getRok(Data.data_yyyyMMdd(data));
+        String mc = Data.getMc(Data.data_yyyyMMdd(data));
+        String ostatnidzien = ostatniDzien(wpisView);
+        zwrot = czyjestpo(ostatnidzien, rok,mc);
+        return zwrot;
+    }
+    
     //chodzi o to czy okres MC, ROK jest po jakiesc dacie
     public static boolean czyjestpo(String termingraniczny, String rokbadanegookresu, String mcbadanegookresu) {
         boolean zwrot = false;

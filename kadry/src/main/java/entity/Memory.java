@@ -51,7 +51,7 @@ public class Memory implements Serializable {
     @ManyToOne(optional = false)
     private FirmaKadry firma;
     @JoinColumn(name = "pracownik", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private Pracownik pracownik;
     @JoinColumn(name = "umowa", referencedColumnName = "id")
     @ManyToOne

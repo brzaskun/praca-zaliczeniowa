@@ -6,7 +6,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
         
     xmlns:bcf="http://brzaskun.com/facelets">
-    <p:panelGrid columns="1" columnClasses="thirty-percent, seventy-percent" style="height: 600px;width: 1500px;">
+    <p:panelGrid columns="1" columnClasses="thirty-percent, seventy-percent" style="height: 600px;width: 1800px;">
         <p:outputPanel style="padding: 10px;">
             <p:panel header="Pobranie danych firmy z programu SuperPłace"/>
             <h:outputText value="Należy najpierw wyszukać firmę, a potem serial pracownika. Pracownicy zwolnieni są oznaczeni na szaro." style="color: darkorchid;margin-left: 30px;"/>
@@ -45,7 +45,7 @@
                     <p:dataTable id="datalist" value="#{historiaView.osoby}" var="osobylistdata" rowIndexVar="yndex"
                                  rowKey="#{osobylistdata.osoSerial}" emptyMessage="brak osób w firmie"
                                  selection="#{historiaView.selectedosoba}" selectionMode="single"
-                                 style="height: 200px;overflow-y: scroll; width: 690px; " sortBy="#{osobylistdata.osoNazwisko}"
+                                 style="height: 200px;overflow-y: scroll; width: 950px; " sortBy="#{osobylistdata.osoNazwisko}"
                                  >
                         <p:ajax event="rowSelect" partialSubmit="true" listener="#{historiaView.pobierzinfo()}"/>
                         <p:column width="50" style="text-align: center;">
@@ -55,31 +55,45 @@
                             <f:facet name="header">
                                 <h:outputText value="nazwisko"/>
                             </f:facet>
-                            <h:outputText value="#{osobylistdata.osoNazwisko}" style="#{osobylistdata.osoDataZwol ne null ? 'color:gray;':''}"/>
+                            <h:outputText value="#{osobylistdata.osoNazwisko}" style="#{historiaView.zwrotkolor(osobylistdata)}"/>
                         </p:column>
                         <p:column width="100" style="text-align: left;">
                             <f:facet name="header">
                                 <h:outputText value="imię"/>
                             </f:facet>
-                            <h:outputText value="#{osobylistdata.osoImie1}" style="#{osobylistdata.osoDataZwol ne null ? 'color:gray;':''}"/>
+                            <h:outputText value="#{osobylistdata.osoImie1}" style="#{historiaView.zwrotkolor(osobylistdata)}"/>
                         </p:column>
                         <p:column width="90" style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="pesel"/>
                             </f:facet>
-                            <h:outputText value="#{osobylistdata.osoPesel}" style="#{osobylistdata.osoDataZwol ne null ? 'color:gray;':''}"/>
+                            <h:outputText value="#{osobylistdata.osoPesel}" style="#{historiaView.zwrotkolor(osobylistdata)}"/>
+                        </p:column>
+                         <p:column width="80" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="prac/zlec"/>
+                            </f:facet>
+                            <h:outputText value="#{osobylistdata.osoSerial}" style="#{historiaView.zwrotkolor(osobylistdata)}"/>
                         </p:column>
                         <p:column width="80" style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="serial"/>
                             </f:facet>
-                            <h:outputText value="#{osobylistdata.osoSerial}" style="#{osobylistdata.osoDataZwol ne null ? 'color:gray;':''}"/>
+                            <h:outputText value="#{osobylistdata.osoTyp eq 'P'?'Prac':'Zlec'}" style="#{historiaView.zwrotkolor(osobylistdata)}"/>
                         </p:column>
                         <p:column width="60" style="text-align: center;">
                             <f:facet name="header">
-                                <h:outputText value="zatr"/>
+                                <h:outputText value="zatr."/>
                             </f:facet>
-                            <h:outputText value="#{osobylistdata.osoDataZatr}" style="#{osobylistdata.osoDataZwol ne null ? 'color:gray;':''}">
+                            <h:outputText value="#{osobylistdata.osoDataZatr}" style="#{historiaView.zwrotkolor(osobylistdata)}">
+                                <f:convertDateTime dateStyle="medium" locale="pl"/>
+                            </h:outputText>
+                        </p:column>
+                         <p:column width="60" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="zwol."/>
+                            </f:facet>
+                             <h:outputText value="#{osobylistdata.osoDataZwol}" style="#{historiaView.zwrotkolor(osobylistdata)}">
                                 <f:convertDateTime dateStyle="medium" locale="pl"/>
                             </h:outputText>
                         </p:column>

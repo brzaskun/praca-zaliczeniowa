@@ -11,16 +11,21 @@
                 <p:panel header="dodaj nową firmę"/>
                 <p:panelGrid columns="2" rendered="#{firmaView.selected != null}" >
                     <p:outputLabel value="nip" for="nip" />
-                    <p:inputText id="nip" value="#{firmaView.selected.nip}" title="nip" required="true" requiredMessage="NIP wymagany}"/>
+                    <p:inputText id="nip" value="#{firmaView.selected.nip}" title="nip" required="true" requiredMessage="NIP wymagany}">
+                        <p:ajax event="blur" listener="#{firmaView.sprawdznip}" partialSubmit="true"/>
+                    </p:inputText>
                     <p:outputLabel value="nazwa" for="nazwa" />
                     <p:inputText id="nazwa" value="#{firmaView.selected.nazwa}" title="nazwa" required="true" requiredMessage="Wpisz nazwę"/>
                     <p:outputLabel value="email" for="email" />
-                    <p:inputText id="email" value="#{firmaView.selected.email}" title="email" required="true" requiredMessage="Wpisz email"/>
+                    <p:inputText id="email" value="#{firmaView.selected.email}" title="email" required="true" requiredMessage="Wpisz email">
+                        <p:ajax event="blur" listener="#{firmaView.sprawdzmail}" partialSubmit="true"/>
+                    </p:inputText>
                     <p:outputLabel value="telefon" for="telefon" />
                     <p:inputText id="telefon" value="#{firmaView.selected.telefon}" title="telefon" required="true" requiredMessage="Wpisz telefon"/>
                 </p:panelGrid>
                 <p:commandButton styleClass="buttonnorm" actionListener="#{firmaView.create()}" value="#{bundle.Save}" update="@(form)"/>
                 <p:commandButton value="#{bundle.Cancel}"/>
+                <p:messages ><p:autoUpdate/></p:messages>
             </h:form>
         </p:outputPanel>
         <p:outputPanel>

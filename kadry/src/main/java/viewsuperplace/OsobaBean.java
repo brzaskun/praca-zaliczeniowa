@@ -163,38 +163,40 @@ public class OsobaBean {
     static List<Kalendarzmiesiac> generujKalendarzNowaUmowa(Angaz angaz, Pracownik pracownik, Umowa umowa, KalendarzmiesiacFacade kalendarzmiesiacFacade, KalendarzwzorFacade kalendarzwzorFacade, String rok) {
         List<Kalendarzmiesiac> zwrot = new ArrayList<>();
         if (angaz!=null && pracownik!=null && umowa!=null) {
-            Integer rokodumowy = Integer.parseInt(Data.getRok(umowa.getDataod()));
-            Integer rokimportu = Integer.parseInt(rok);
-            Integer mcod = Integer.parseInt(Data.getMc(umowa.getDataod()));
-            Integer dzienod = Integer.parseInt(Data.getDzien(umowa.getDataod()));
-            if (rokodumowy<rokimportu) {
-                mcod = 1;
-                dzienod = 1;
-            }
-            if (rokodumowy<=rokimportu) {
-                for (String mce: Mce.getMceListS()) {
-                    Integer kolejnymc = Integer.parseInt(mce);
-                    if (kolejnymc>=mcod) {
-                        Kalendarzmiesiac kal = new Kalendarzmiesiac();
-                        kal.setRok(rok);
-                        kal.setMc(mce);
-                        kal.setUmowa(umowa);
-                        Kalendarzmiesiac kalmiesiac = kalendarzmiesiacFacade.findByRokMcUmowa(umowa,rok, mce);
-                        if (kalmiesiac==null) {
-                            Kalendarzwzor pobranywzorcowy = kalendarzwzorFacade.findByFirmaRokMc(kal.getUmowa().getAngaz().getFirma(), kal.getRok(), mce);
-                            if (pobranywzorcowy!=null) {
-                                kal.ganerujdnizwzrocowego(pobranywzorcowy, dzienod);
-                                zwrot.add(kal);
-                                dzienod = 1;
-                            } else {
-                                Msg.msg("e","Brak kalendarza wzorcowego za "+mce);
-                                break;
-                            }
+            //Integer rokodumowy = Integer.parseInt(Data.getRok(umowa.getDataod()));
+            //Integer rokimportu = Integer.parseInt(rok);
+            //Integer mcod = Integer.parseInt(Data.getMc(umowa.getDataod()));
+            //Integer dzienod = Integer.parseInt(Data.getDzien(umowa.getDataod()));
+            Integer mcod = 1;
+            Integer dzienod = 1;
+//            if (rokodumowy<rokimportu) {
+//                mcod = 1;
+//                dzienod = 1;
+//            }
+//            if (rokodumowy<=rokimportu) {
+            for (String mce: Mce.getMceListS()) {
+                Integer kolejnymc = Integer.parseInt(mce);
+                if (kolejnymc>=mcod) {
+                    Kalendarzmiesiac kal = new Kalendarzmiesiac();
+                    kal.setRok(rok);
+                    kal.setMc(mce);
+                    kal.setUmowa(umowa);
+                    Kalendarzmiesiac kalmiesiac = kalendarzmiesiacFacade.findByRokMcUmowa(umowa,rok, mce);
+                    if (kalmiesiac==null) {
+                        Kalendarzwzor pobranywzorcowy = kalendarzwzorFacade.findByFirmaRokMc(kal.getUmowa().getAngaz().getFirma(), kal.getRok(), mce);
+                        if (pobranywzorcowy!=null) {
+                            kal.ganerujdnizwzrocowego(pobranywzorcowy, dzienod);
+                            zwrot.add(kal);
+                            dzienod = 1;
+                        } else {
+                            Msg.msg("e","Brak kalendarza wzorcowego za "+mce);
+                            break;
                         }
                     }
                 }
+                }
                 Msg.msg("Pobrano dane z kalendarza wzorcowego z bazy danych i utworzono kalendarze pracownika");
-            }
+//            }
         } else {
             Msg.msg("e","Nie wybrano pracownika i umowy");
         }

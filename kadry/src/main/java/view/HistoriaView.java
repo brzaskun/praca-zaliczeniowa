@@ -111,6 +111,17 @@ public class HistoriaView  implements Serializable {
             Msg.msg("Pobrano pracownika do edycji");
         }
     }
+     
+    public String zwrotkolor(Osoba osoba) {
+        String zwrot = "color: initial";
+        if (osoba.getOsoDataZwol()!=null) {
+            boolean czyjestpozniej = Data.czyjestpo(osoba.getOsoDataZwol(), wpisView);
+            if (czyjestpozniej==false) {
+                zwrot = "color: grey";
+            }
+        }
+        return zwrot;
+    }
 
     public List<Angaz> getListapracownikow() {
         return listapracownikow;
