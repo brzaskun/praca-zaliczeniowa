@@ -96,10 +96,12 @@ public class Nieobecnosc implements Serializable {
 
    
     public Nieobecnosc() {
+        this.zwolnienieprocent = 100;
     }
 
-    public Nieobecnosc(int id) {
-        this.id = id;
+    public Nieobecnosc(Umowa umowa) {
+        this.umowa = umowa;
+        this.zwolnienieprocent = 100;
     }
 
     public Nieobecnosc(RaportEzla zwrot, Umowa umowa) {

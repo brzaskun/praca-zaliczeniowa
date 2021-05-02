@@ -21,6 +21,25 @@
         </attribute>
     </tag>
     <tag>
+        <tag-name>inputplid</tag-name>
+        <source>tags/inputplid.xhtml</source>
+        <attribute>
+            <name>value</name>
+        </attribute>
+        <attribute>
+            <name>id</name>
+        </attribute>
+        <attribute>
+            <name>rendered</name>
+        </attribute>
+        <attribute>
+            <name>style</name>
+        </attribute>
+        <attribute>
+            <name>stylePlus</name>
+        </attribute>
+    </tag>
+    <tag>
         <tag-name>outputpl</tag-name>
         <source>tags/outputpl.xhtml</source>
         <attribute>

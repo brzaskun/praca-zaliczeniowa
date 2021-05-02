@@ -696,6 +696,18 @@ public class Data implements Serializable {
         int dzienodint = Integer.parseInt(dzienod);
         return dziendoint-dzienodint+1;
     }
+    
+    public static String pelnadata(Kalendarzmiesiac kal, int nrdnia) {
+        String zwrot = null;
+        if (kal!=null) {
+            if (nrdnia <10) {
+                zwrot = kal.getRok()+"-"+kal.getMc()+"-0"+nrdnia;
+            } else {
+                zwrot = kal.getRok()+"-"+kal.getMc()+"-"+nrdnia;
+            }
+        }
+        return zwrot;
+    }
 //    public static void main(String[] args) {
 //        try {
 //            String termin = "10-05-2012";
@@ -785,6 +797,8 @@ public class Data implements Serializable {
 //  public static LocalDateTime asLocalDateTime(Date date) {
 //    return Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDateTime();
 //  }
+
+    
 
     
 

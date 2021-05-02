@@ -11,6 +11,7 @@ import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import dao.NieobecnosckodzusFacade;
 import entity.Angaz;
 import entity.Definicjalistaplac;
 import entity.Kalendarzmiesiac;
@@ -37,7 +38,7 @@ import z.Z;
  * @author Osito
  */
 public class PdfListaPlac {
-    public static void drukuj(Pasekwynagrodzen p) {
+    public static void drukuj(Pasekwynagrodzen p, NieobecnosckodzusFacade nieobecnosckodzus) {
         try {
             Angaz a = p.getKalendarzmiesiac().getUmowa().getAngaz();
             String nazwa = a.getAngazStringPlik()+"lp.pdf";
@@ -62,8 +63,8 @@ public class PdfListaPlac {
                         PdfPCell cell = new PdfPCell();
                         cell.addElement(tabelaskladniki);
                         tablazestawienia.addCell(cell);
-                        if (p.getKalendarzmiesiac().getUmowa().getNieobecnoscList()!=null&&!p.getKalendarzmiesiac().getUmowa().getNieobecnoscList().isEmpty()) {
-                            PdfPTable tabelanieobecnosci = dodajtabelenieobecnosci(p, document);
+                        if (!p.getKalendarzmiesiac().nieobecnoscipdf(nieobecnosckodzus).isEmpty()) {
+                            PdfPTable tabelanieobecnosci = dodajtabelenieobecnosci(p, document, nieobecnosckodzus);
                             cell = new PdfPCell();
                             cell.addElement(tabelanieobecnosci);
                             tablazestawienia.addCell(cell);
@@ -295,10 +296,10 @@ public class PdfListaPlac {
         return sb.toString();
     }
      
-      private static PdfPTable dodajtabelenieobecnosci(Pasekwynagrodzen p, Document document) {
+      private static PdfPTable dodajtabelenieobecnosci(Pasekwynagrodzen p, Document document, NieobecnosckodzusFacade nieobecnosckodzus) {
         PdfPTable table = null;
         try {
-            List<Nieobecnosc> lista = p.getKalendarzmiesiac().getUmowa().getNieobecnoscList();
+            List<Nieobecnosc> lista = p.getKalendarzmiesiac().nieobecnoscipdf(nieobecnosckodzus);
             table = generujTabeleNieobecnosci();
             dodajwierszeNieobecnosci(lista, table);
         } catch (Exception ex) {
@@ -307,10 +308,10 @@ public class PdfListaPlac {
         return table;
     }
       
-    private static String generujpasekobecnosci(Pasekwynagrodzen p, Document document) {
+    private static String generujpasekobecnosci(Pasekwynagrodzen p, Document document, NieobecnosckodzusFacade nieobecnosckodzus) {
          String wierszeString = "";
         try {
-            List<Nieobecnosc> lista = p.getKalendarzmiesiac().getUmowa().getNieobecnoscList();
+            List<Nieobecnosc> lista = p.getKalendarzmiesiac().nieobecnoscipdf(nieobecnosckodzus);
             wierszeString = wierszeNieobecnosciString(lista);
         } catch (Exception ex) {
             Logger.getLogger(PdfListaPlac.class.getName()).log(Level.SEVERE, null, ex);
@@ -344,7 +345,7 @@ public class PdfListaPlac {
             table.addCell(ustawfrazeAlign(rs.getNieobecnosckodzus().getOpisskrocony(), "left",6));
             table.addCell(ustawfrazeAlign(rs.getDataod(), "right",6));
             table.addCell(ustawfrazeAlign(rs.getDatado(), "right",6));
-            table.addCell(ustawfrazeAlign(rs.getUmowa().getUmowakodzus().getOpis(), "left",6));
+            table.addCell(ustawfrazeAlign(rs.getUmowa().getUmowakodzus()!=null?rs.getUmowa().getUmowakodzus().getOpis():"brak kodu w umowie", "left",6));
         }
     }
       public static String wierszeNieobecnosciString(List<Nieobecnosc> wykaznieob) {
@@ -417,7 +418,7 @@ public class PdfListaPlac {
         table.addCell(ustawfrazeAlign(roboczenieob[1], "left",6));
     }
 
-    public static void drukujListaPodstawowa(List<Pasekwynagrodzen> lista, Definicjalistaplac def) {
+    public static void drukujListaPodstawowa(List<Pasekwynagrodzen> lista, Definicjalistaplac def, NieobecnosckodzusFacade nieobecnosckodzus) {
         try {
             String nrpoprawny = def.getNrkolejny().replaceAll("[^A-Za-z0-9]", "");
             String nazwa = def.getFirma().getNip() + "_" + nrpoprawny + "_" + "lp.pdf";
@@ -435,7 +436,7 @@ public class PdfListaPlac {
                     sb.append(generujpasekskladniki(p, document));
                     document.add(ustawparagrafSmall(sb.toString()));
                     sb = new StringBuilder();
-                    sb.append(generujpasekobecnosci(p, document));
+                    sb.append(generujpasekobecnosci(p, document, nieobecnosckodzus));
                     document.add(ustawparagrafSmall(sb.toString()));
                     document.add(Chunk.NEWLINE);
                 }

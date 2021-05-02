@@ -4,13 +4,15 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
-    >
-        <p:outputPanel>
-            <h:form id="RodzajwynagrodzeniaForm">
-                <p:panel header="Rodzaje skłądników wynagrodzęń">
-                    <p:dataTable id="datalist" value="#{rodzjawynagrodzeniaSetView.lista}" var="item1"
+        
+    xmlns:bcf="http://brzaskun.com/facelets">
+    <p:outputPanel>
+        <p:tabView id="akordeon">
+            <p:tab title="Rodzaje składników wynagrodzeń">
+                <h:form id="RodzajwynagrodzeniaForm">
+                    <p:dataTable id="datalist" value="#{rodzjawynagrodzeniaSetView.lista}" var="item11"
                                  selectionMode="single" selection="#{rodzjawynagrodzeniaSetView.selectedlista}"
-                                 rowKey="#{item1.id}" 
+                                 rowKey="#{item11.id}" 
                                  style="height: 400px; overflow-y: scroll; width: 1200px;"
                                  >
 
@@ -18,47 +20,144 @@
                             <f:facet name="header">
                                 <h:outputText value="id"/>
                             </f:facet>
-                            <h:outputText value="#{item1.id}"/>
+                            <h:outputText value="#{item11.id}"/>
                         </p:column>
                         <p:column width="50" style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="kod"/>
                             </f:facet>
-                            <h:outputText value="#{item1.kod}"/>
+                            <h:outputText value="#{item11.kod}"/>
                         </p:column>
                         <p:column width="300">
                             <f:facet name="header">
                                 <h:outputText value="opis"/>
                             </f:facet>
-                            <h:outputText value="#{item1.opispelny}"/>
+                            <h:outputText value="#{item11.opispelny}"/>
                         </p:column>
                         <p:column style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="godzinowe0 miesieczne1"/>
                             </f:facet>
-                            <p:selectBooleanCheckbox value="#{item1.godzinowe0miesieczne1}"/>
+                            <p:selectBooleanCheckbox value="#{item11.godzinowe0miesieczne1}"/>
                         </p:column>
                         <p:column style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="redukowany"/>
                             </f:facet>
-                            <p:selectBooleanCheckbox value="#{item1.redukowany}"/>
+                            <p:selectBooleanCheckbox value="#{item11.redukowany}"/>
                         </p:column>
                         <p:column style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="stale0 zmienne1"/>
                             </f:facet>
-                            <p:selectBooleanCheckbox value="#{item1.stale0zmienne1}"/>
+                            <p:selectBooleanCheckbox value="#{item11.stale0zmienne1}"/>
                         </p:column>
                         <p:column style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="zus0 bezzus1"/>
                             </f:facet>
-                            <p:selectBooleanCheckbox value="#{item1.zus0bezzus1}"/>
+                            <p:selectBooleanCheckbox value="#{item11.zus0bezzus1}"/>
                         </p:column>
                     </p:dataTable>
-                </p:panel>
-                <p:commandButton value="zachowaj" styleClass="buttonnorm" actionListener="#{rodzjawynagrodzeniaSetView.zachowaj}" update="@form"/>
-            </h:form>
-        </p:outputPanel>
+                    <p:commandButton value="zachowaj" styleClass="buttonnorm" actionListener="#{rodzjawynagrodzeniaSetView.zachowaj}" update="@form"/>
+                </h:form>
+            </p:tab>
+             <p:tab title="Zmienne podatkowe">
+                <h:form id="ZmiennepodatkoweForm">
+                    <p:panelGrid columns="8">
+                        <p:outputLabel for="prok" value="rok"/>
+                        <p:inputText id="prok" value="#{podatkiUstawieniaView.selected.rok}"/>
+                        <p:outputLabel for="pstawka1" value="stawka"/>
+                        <bcf:inputplid id="pstawka1" value="#{podatkiUstawieniaView.selected.stawka}"/>
+                        <p:outputLabel for="pkwotaod" value="kwota od"/>
+                        <bcf:inputplid id="pkwotaod" value="#{podatkiUstawieniaView.selected.kwotawolnaod}"/>
+                        <p:outputLabel for="pkwotado" value="kwota do"/>
+                        <bcf:inputplid id="pkwotado" value="#{podatkiUstawieniaView.selected.kwotawolnado}"/>
+                        <p:outputLabel for="pwolanrok" value="kwota wolna/rok"/>
+                        <bcf:inputplid id="pwolanrok" value="#{podatkiUstawieniaView.selected.wolnarok}"/>
+                        <p:outputLabel for="pwolanmc" value="kwota wolna/mc"/>
+                        <bcf:inputplid id="pwolanmc" value="#{podatkiUstawieniaView.selected.wolnamc}"/>
+                        <p:outputLabel for="pkup" value="kup"/>
+                        <bcf:inputplid id="pkup" value="#{podatkiUstawieniaView.selected.kup}"/>
+                        <p:outputLabel for="pkupp" value="kup podwyż."/>
+                        <bcf:inputplid id="pkupp" value="#{podatkiUstawieniaView.selected.kuppodwyzszone}"/>
+                        <p:outputLabel for="prodz" value="rodzja um."/>
+                        <p:inputText id="prodz" value="#{podatkiUstawieniaView.selected.rodzajumowy}"/>
+                    </p:panelGrid>
+                    <p:panelGrid columns="4">
+                        <p:commandButton value="dodaj" styleClass="buttonnorm" actionListener="#{podatkiUstawieniaView.dodajrok}" update="akordeon:ZmiennepodatkoweFormLista" />
+                    </p:panelGrid>
+                </h:form>
+                 <p:outputPanel style="margin-top: 20px;">
+                <h:form id="ZmiennepodatkoweFormLista">
+                    <p:dataTable value="#{podatkiUstawieniaView.lista}" var="itempodatki" rowIndexVar="indexpod" rowKey="#{itempodatki.id}"
+                                 selection="#{podatkiUstawieniaView.selected}" selectionMode="single"
+                                 style="height: 400px; overflow-y: scroll; width: 1200px;">
+                        <p:ajax event="rowSelect" partialSubmit="true" update="akordeon:ZmiennepodatkoweForm"/>
+                        <p:column width="30" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value=""/>
+                            </f:facet>
+                            <h:outputText value="#{indexpod+1}"/>
+                        </p:column>
+                        <p:column style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="rok"/>
+                            </f:facet>
+                            <h:outputText value="#{itempodatki.rok}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="stawka"/>
+                            </f:facet>
+                            <bcf:outputplprocent value="#{itempodatki.stawka}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="limit od"/>
+                            </f:facet>
+                            <bcf:outputpl value="#{itempodatki.kwotawolnaod}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="limit do"/>
+                            </f:facet>
+                            <bcf:outputpl value="#{itempodatki.kwotawolnado}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="wolna rok"/>
+                            </f:facet>
+                            <bcf:outputpl value="#{itempodatki.wolnarok}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="wolna mc"/>
+                            </f:facet>
+                            <bcf:outputpl value="#{itempodatki.wolnamc}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="kup"/>
+                            </f:facet>
+                            <bcf:outputpl value="#{itempodatki.kup}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="kup podwyż."/>
+                            </f:facet>
+                            <bcf:outputpl value="#{itempodatki.kuppodwyzszone}"/>
+                        </p:column>
+                        <p:column style="text-align: center;" width="40">
+                            <f:facet name="header">
+                                <h:outputText value="rodzaj umowy"/>
+                            </f:facet>
+                            <h:outputText value="#{itempodatki.rodzajumowy}"/>
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+                </p:outputPanel>
+             </p:tab>
+        </p:tabView>
+    </p:outputPanel>
 </ui:composition>

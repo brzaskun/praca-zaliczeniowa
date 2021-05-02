@@ -22,7 +22,7 @@
                                 <f:convertDateTime dateStyle="medium" locale="pl"/>
                             </h:outputText>
                             <p:outputLabel value="nazwa nieobecnosci" for="nieobkodzus" />
-                            <p:selectOneMenu id="nieobkodzus" value="#{nieobecnoscView.selected.nieobecnosckodzus}" required="true" requiredMessage="wybierz rodzaj nieobecnosci"  converter="#{nieobecnosckodzusConverter}" filter="true">
+                            <p:selectOneMenu id="nieobkodzus" value="#{nieobecnoscView.selected.nieobecnosckodzus}" required="true" requiredMessage="wybierz rodzaj nieobecnosci"  converter="#{nieobecnosckodzusConverter}" filter="true" filterMatchMode="contains">
                                 <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
                                 <f:selectItems value="#{nieobecnoscView.listanieobecnosckodzus}" 
                                                var="kodzusItem"
@@ -34,11 +34,11 @@
                             <p:outputLabel value="uwagi" for="uwagi" />
                             <p:inputText id="uwagi" value="#{nieobecnoscView.selected.uzasadnienie}" title="uwagi" />
                             <p:outputLabel value="procent" for="procent" />
-                            <p:inputText id="procent" value="#{nieobecnoscView.selected.zwolnienieprocent}" title="uwagi" rendered="#{nieobecnoscView.selected.zwolnienieprocent ne 0.0}"/>
+                            <p:inputText id="procent" value="#{nieobecnoscView.selected.zwolnienieprocent}" title="procent zwolenienia" />
                             <p:outputLabel value="data od" for="dataod" />
-                            <p:inputText id="dataod" value="#{nieobecnoscView.selected.dataod}" title="datac od"  placeholder="____-__-__" />
+                            <p:inputText id="dataod" value="#{nieobecnoscView.selected.dataod}" title="datac od"  placeholder="____-__-__" maxlength="10"/>
                             <p:outputLabel value="data do" for="datado" />
-                            <p:inputText id="datado" value="#{nieobecnoscView.selected.datado}" title="data do"  placeholder="____-__-__" />
+                            <p:inputText id="datado" value="#{nieobecnoscView.selected.datado}" title="data do"  placeholder="____-__-__" maxlength="10"/>
 
 
                         </p:panelGrid>
@@ -80,7 +80,7 @@
                             <f:facet name="header">
                                 <h:outputText value="nazwa"/>
                             </f:facet>
-                            <h:outputText value="#{itemNieob.nieobecnosckodzus.opis}"/>
+                            <h:outputText value="#{itemNieob.nieobecnosckodzus.opisskrocony}"/>
                         </p:column>
                         <p:column width="50">
                             <f:facet name="header">
@@ -154,8 +154,14 @@
                             </f:facet>
                             <h:outputText value="#{itemNieob.umowa.nrkolejny}"/>
                         </p:column>
+                        <p:column width="40">
+                            <f:facet name="header">
+                                <h:outputText value=""/>
+                            </f:facet>
+                            <p:commandButton icon="fa fa-trash" actionListener="#{nieobecnoscView.usun(itemNieob)}" rendered="#{itemNieob.naniesiona eq false}" update="NieobecnoscListForm:datalist"/>
+                        </p:column>
                     </p:dataTable>
-                    <p:commandButton styleClass="buttonnorm" actionListener="#{nieobecnoscView.nieniesnakalendarz()}" value="nanieś na kal." update="NieobecnoscListForm:datalist"/>
+                    <p:commandButton styleClass="buttonnorm" actionListener="#{nieobecnoscView.nieniesnakalendarz()}" value="nanieś na kal." update="NieobecnoscListForm:datalist KalendarzmiesiacCreateForm KalendarzmiesiacListForm"/>
                 </p:panel>
             </h:form>
         </p:outputPanel>

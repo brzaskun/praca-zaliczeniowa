@@ -19,6 +19,7 @@ import entity.Naliczenieskladnikawynagrodzenia;
 import entity.Nieobecnosc;
 import entity.Nieobecnosckodzus;
 import entity.Pasekwynagrodzen;
+import entity.Podatki;
 import entity.Pracownik;
 import entity.Umowa;
 import entity.Wynagrodzeniahistoryczne;
@@ -50,7 +51,7 @@ public class PasekwynagrodzenBean {
     }
     
       
-    public static Pasekwynagrodzen oblicz(Kalendarzmiesiac kalendarz, Definicjalistaplac definicjalistaplac, NieobecnosckodzusFacade nieobecnosckodzusFacade, List<Pasekwynagrodzen> paskidowyliczeniapodstawy, List<Wynagrodzeniahistoryczne> historiawynagrodzen) {
+    public static Pasekwynagrodzen oblicz(Kalendarzmiesiac kalendarz, Definicjalistaplac definicjalistaplac, NieobecnosckodzusFacade nieobecnosckodzusFacade, List<Pasekwynagrodzen> paskidowyliczeniapodstawy, List<Wynagrodzeniahistoryczne> historiawynagrodzen, Podatki stawkipodatkowe) {
         Pasekwynagrodzen pasek = new Pasekwynagrodzen();
         double kurs = 4.4745;
         double dietastawka = 49.0;
@@ -87,9 +88,9 @@ public class PasekwynagrodzenBean {
         if (jestoddelegowanie) {
             PasekwynagrodzenBean.obliczdietedoodliczenia(pasek, kalendarz);
         }
-        PasekwynagrodzenBean.obliczpodstaweopodatkowania(pasek);
-        PasekwynagrodzenBean.obliczpodatekwstepny(pasek);
-        PasekwynagrodzenBean.ulgapodatkowa(pasek);
+        PasekwynagrodzenBean.obliczpodstaweopodatkowania(pasek, stawkipodatkowe);
+        PasekwynagrodzenBean.obliczpodatekwstepny(pasek, stawkipodatkowe);
+        PasekwynagrodzenBean.ulgapodatkowa(pasek, stawkipodatkowe);
         PasekwynagrodzenBean.naliczzdrowota(pasek);
         PasekwynagrodzenBean.obliczpodatekdowplaty(pasek);
         PasekwynagrodzenBean.potracenia(pasek);
@@ -157,9 +158,9 @@ public class PasekwynagrodzenBean {
         PasekwynagrodzenBean.pracownikrentowa(pasek);
         PasekwynagrodzenBean.pracownikchorobowa(pasek);
         PasekwynagrodzenBean.razemspolecznepracownik(pasek);
-        PasekwynagrodzenBean.obliczpodstaweopodatkowania(pasek);
-        PasekwynagrodzenBean.obliczpodatekwstepny(pasek);
-        PasekwynagrodzenBean.ulgapodatkowa(pasek);
+        PasekwynagrodzenBean.obliczpodstaweopodatkowania(pasek, null);
+        PasekwynagrodzenBean.obliczpodatekwstepny(pasek, null);
+        PasekwynagrodzenBean.ulgapodatkowa(pasek, null);
         PasekwynagrodzenBean.naliczzdrowota(pasek);
         PasekwynagrodzenBean.obliczpodatekdowplaty(pasek);
         PasekwynagrodzenBean.potracenia(pasek);
@@ -265,11 +266,11 @@ public class PasekwynagrodzenBean {
      private static void razemkosztpracodawcy(Pasekwynagrodzen pasek) {
          pasek.setKosztpracodawcy(Z.z(pasek.getRazemspolecznefirma()+pasek.getFgsp()+pasek.getFgsp()));
     }
-    private static void obliczpodstaweopodatkowania(Pasekwynagrodzen pasek) {
+    private static void obliczpodstaweopodatkowania(Pasekwynagrodzen pasek, Podatki stawkipodatkowe) {
         double zzus = pasek.getBruttozus();
         double bezzus = pasek.getBruttobezzus();
         double skladki = pasek.getRazemspolecznepracownik();
-        double kosztyuzyskania = pasek.getKalendarzmiesiac().getUmowa().getKosztyuzyskaniaprocent();
+        double kosztyuzyskania = pasek.getKalendarzmiesiac().getUmowa().getKosztyuzyskaniaprocent()==100?stawkipodatkowe.getKup():stawkipodatkowe.getKuppodwyzszone();
         double dieta30proc = pasek.getDietaodliczeniepodstawaop();
         double podstawa = Z.z0(zzus+bezzus-skladki-kosztyuzyskania-dieta30proc) > 0.0 ? Z.z0(zzus+bezzus-skladki-kosztyuzyskania-dieta30proc) :0.0;
         pasek.setPodstawaopodatkowania(podstawa);
@@ -277,15 +278,15 @@ public class PasekwynagrodzenBean {
         
     }
 
-    private static void obliczpodatekwstepny(Pasekwynagrodzen pasek) {
-        double podatek = Z.z(Z.z0(pasek.getPodstawaopodatkowania())*0.17);
+    private static void obliczpodatekwstepny(Pasekwynagrodzen pasek, Podatki stawkipodatkowe) {
+        double podatek = Z.z(Z.z0(pasek.getPodstawaopodatkowania())*stawkipodatkowe.getStawka());
         pasek.setPodatekwstepny(podatek);
     }
 
-    private static void ulgapodatkowa(Pasekwynagrodzen pasek) {
+    private static void ulgapodatkowa(Pasekwynagrodzen pasek, Podatki stawkipodatkowe) {
         boolean ulga = pasek.getKalendarzmiesiac().getUmowa().getOdliczaculgepodatkowa();
         if (ulga) {
-            double kwotawolna = 43.76;
+            double kwotawolna = stawkipodatkowe.getWolnamc();
             pasek.setKwotawolna(kwotawolna);
         }
     }

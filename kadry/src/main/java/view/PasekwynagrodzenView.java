@@ -12,12 +12,14 @@ import dao.DefinicjalistaplacFacade;
 import dao.KalendarzmiesiacFacade;
 import dao.NieobecnosckodzusFacade;
 import dao.PasekwynagrodzenFacade;
+import dao.PodatkiFacade;
 import dao.WynagrodzeniahistoryczneFacade;
 import data.Data;
 import entity.Angaz;
 import entity.Definicjalistaplac;
 import entity.Kalendarzmiesiac;
 import entity.Pasekwynagrodzen;
+import entity.Podatki;
 import entity.Wynagrodzeniahistoryczne;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -58,6 +60,8 @@ public class PasekwynagrodzenView  implements Serializable {
     private NieobecnosckodzusFacade nieobecnosckodzusFacade;
     @Inject
     private WynagrodzeniahistoryczneFacade wynagrodzeniahistoryczneFacade;
+    @Inject
+    private PodatkiFacade podatkiFacade;
     @Inject
     private WpisView wpisView;
     
@@ -104,6 +108,7 @@ public class PasekwynagrodzenView  implements Serializable {
     public void przelicz() {
         if (wybranalistaplac!=null && !listakalendarzmiesiac.getTarget().isEmpty()) {
             int i = 1;
+            Podatki stawkipodatkowe = podatkiFacade.findByRokUmowa(wpisView.getRokWpisu(), "P");
             for (Kalendarzmiesiac p : listakalendarzmiesiac.getTarget()) {
                 boolean czysainnekody = p.czysainnekody();
                 List<Pasekwynagrodzen> paskidowyliczeniapodstawy = new ArrayList<>();
@@ -112,7 +117,7 @@ public class PasekwynagrodzenView  implements Serializable {
                     paskidowyliczeniapodstawy = pobierzpaskidosredniej(p);
                     historiawynagrodzen = wynagrodzeniahistoryczneFacade.findByAngaz(p.getUmowa().getAngaz());
                 }
-                Pasekwynagrodzen pasek = PasekwynagrodzenBean.oblicz(p, wybranalistaplac, nieobecnosckodzusFacade, paskidowyliczeniapodstawy, historiawynagrodzen);
+                Pasekwynagrodzen pasek = PasekwynagrodzenBean.oblicz(p, wybranalistaplac, nieobecnosckodzusFacade, paskidowyliczeniapodstawy, historiawynagrodzen, stawkipodatkowe);
                 usunpasekjakzawiera(pasek);
                 lista.add(pasek);
             }
@@ -142,15 +147,15 @@ public class PasekwynagrodzenView  implements Serializable {
     
     public void drukuj(Pasekwynagrodzen p ) {
         if (p!=null) {
-            PdfListaPlac.drukuj(p);
-            Msg.msg("Wydrukowano listę płac");
+            PdfListaPlac.drukuj(p, nieobecnosckodzusFacade);
+            Msg.msg("Wydrukowano pwsek wynagrodzeń");
         } else {
             Msg.msg("e","Błąd drukowania. Pasek null");
         }
     }
     public void drukujliste () {
         if (lista!=null && lista.size()>0) {
-            PdfListaPlac.drukujListaPodstawowa(lista, wybranalistaplac);
+            PdfListaPlac.drukujListaPodstawowa(lista, wybranalistaplac, nieobecnosckodzusFacade);
             Msg.msg("Wydrukowano listę płac");
         } else {
             Msg.msg("e","Błąd drukowania. Brak pasków");

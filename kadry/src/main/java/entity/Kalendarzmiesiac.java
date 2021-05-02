@@ -5,6 +5,7 @@
  */
 package entity;
 
+import dao.NieobecnosckodzusFacade;
 import data.Data;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -189,7 +190,7 @@ private static final long serialVersionUID = 1L;
     }
     
     public double[] roboczenieob(String kod) {
-        double[] zwrot = new double[2];
+        double[] zwrot = new double[3];
         double roboczenalicz = 0;
         double roboczenawyk = 0;
         if (this.dzienList!=null) {
@@ -206,7 +207,50 @@ private static final long serialVersionUID = 1L;
         zwrot[1] = roboczenawyk;
         return zwrot;
     }
+    
+    public List nieobecnoscipdf(NieobecnosckodzusFacade nieobecnosckodzusFacade) {
+        List<Nieobecnosc> wykaz = new ArrayList<>();
+        if (this.dzienList!=null) {
+            Nieobecnosc biezaca = null;
+            int licznik = 1;
+            for (Dzien d : dzienList) {
+                if (cosjest(d.getKod())&&biezaca==null) {
+                    //nowykod
+                    Nieobecnosckodzus nieobecnosckodzus = nieobecnosckodzusFacade.findByKod(d.getKod());
+                    biezaca = new Nieobecnosc(this.getUmowa());
+                    biezaca.setKodzwolnienia(d.getKod());
+                    biezaca.setDataod(Data.pelnadata(this,d.getNrdnia()));
+                    biezaca.setDatado(Data.pelnadata(this,d.getNrdnia()));
+                    biezaca.setNieobecnosckodzus(nieobecnosckodzus);
+                } else if (cosjest(d.getKod())&&biezaca!=null) {
+                    if (d.getKod().equals(biezaca.getKodzwolnienia())) {
+                        biezaca.setDatado(Data.pelnadata(this,d.getNrdnia()));
+                    } else {
+                        wykaz.add(biezaca);
+                        Nieobecnosckodzus nieobecnosckodzus = nieobecnosckodzusFacade.findByKod(d.getKod());
+                        biezaca = new Nieobecnosc(this.getUmowa());
+                        biezaca.setKodzwolnienia(d.getKod());
+                        biezaca.setDataod(Data.pelnadata(this,d.getNrdnia()));
+                        biezaca.setDatado(Data.pelnadata(this,d.getNrdnia()));
+                        biezaca.setNieobecnosckodzus(nieobecnosckodzus);
+                    }
+                } else if (!cosjest(d.getKod())&&biezaca!=null) {
+                        wykaz.add(biezaca);
+                        biezaca = null;
+                }
+                if (licznik==dzienList.size() && biezaca!=null) {
+                    wykaz.add(biezaca);
+                    biezaca = null;
+                }
+                licznik++;
+            }
+        }
+        return wykaz;
+    }
 
+    private boolean cosjest(String kod) {
+        return kod!=null&&!kod.equals("");
+    }
 
    
 

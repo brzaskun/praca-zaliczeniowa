@@ -69,6 +69,8 @@ public class NieobecnoscView  implements Serializable {
     @Inject
     private UmowaFacade umowaFacade;
     @Inject
+    private KalendarzmiesiacView kalendarzmiesiacView;
+    @Inject
     private WpisView wpisView;
     @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/zuszla.wsdl")
     private zuszla.WsdlPlatnikRaportyZla wsdlPlatnikRaportyZla;
@@ -97,7 +99,7 @@ public class NieobecnoscView  implements Serializable {
             selected.setRokdo(Data.getRok(selected.getDatado()));
             nieobecnoscFacade.create(selected);
             lista.add(selected);
-            selected = new Nieobecnosc();
+            selected = new Nieobecnosc(wpisView.getUmowa());
             Msg.msg("Dodano nieobecnośc");
           } catch (Exception e) {
               System.out.println("");
@@ -122,13 +124,18 @@ public class NieobecnoscView  implements Serializable {
             }
             for (Nieobecnosc p : lista) {
                 if (p.isNaniesiona()==false && p.isImportowana()==false) {
-                    znaleziony.naniesnieobecnosc(p);
-                    p.setNaniesiona(true);
+                    if (p.getRokod().equals(wpisView.getRokWpisu())||p.getRokdo().equals(wpisView.getRokWpisu())) {
+                        znaleziony.naniesnieobecnosc(p);
+                        p.setNaniesiona(true);
+                    } else {
+                        Msg.msg("w","Zwolnienie z innego roku");
+                    }
                 }
                 
             }
             nieobecnoscFacade.editList(lista);
             kalendarzmiesiacFacade.edit(znaleziony);
+            kalendarzmiesiacView.init();
             Msg.msg("Naniesiono nieobecnosci");
         }
     }
@@ -195,6 +202,15 @@ public class NieobecnoscView  implements Serializable {
             }
         } catch (Exception e) {
             System.out.println("");
+        }
+    }
+    
+    public void usun(Nieobecnosc nieob) {
+        if (nieob!=null && nieob.isNaniesiona()==false) {
+            nieobecnoscFacade.remove(nieob);
+            lista.remove(nieob);
+        } else {
+            Msg.msg("e","Nie można usunąc nieobecnosci");
         }
     }
     
