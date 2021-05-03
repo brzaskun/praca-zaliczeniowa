@@ -30,7 +30,7 @@
                     </p:column>
                     <p:column>
                         <p:inputText value="#{wpisView.miesiacWpisu}" style="font-weight: 900; font-size: x-large;" size="2">
-                            <p:ajax event="change" partialSubmit="true" global="false" update="@(form)"/>
+                            <p:ajax event="change" partialSubmit="true" global="false" update="@(form)"  listener="#{updateClassView.updateRok}"/>
                         </p:inputText>
                     </p:column>
                 </p:panelGrid>

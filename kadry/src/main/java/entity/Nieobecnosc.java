@@ -94,8 +94,10 @@ public class Nieobecnosc implements Serializable {
     private String rokdo;
     @Column(name = "mcod")
     private String mcod;
-    @Column(name = "rokdo")
+    @Column(name = "mcdo")
     private String mcdo;
+    @OneToMany(mappedBy = "nieobecnosc")
+    private List<Dzien> dzienList;
     
 
    
@@ -144,23 +146,7 @@ public class Nieobecnosc implements Serializable {
 
      
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-    @XmlTransient
-    public List<Naliczenienieobecnosc> getNaliczenienieobecnoscList() {
-        return naliczenienieobecnoscList;
-    }
-
-    public void setNaliczenienieobecnoscList(List<Naliczenienieobecnosc> naliczenienieobecnoscList) {
-        this.naliczenienieobecnoscList = naliczenienieobecnoscList;
-    }
-
-
+  
 
 
     @Override
@@ -185,8 +171,35 @@ public class Nieobecnosc implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Nieobecnosc[ id=" + id + " ]";
+        return "Nieobecnosc{" + "dataod=" + dataod + ", datado=" + datado + ", nieobecnosckodzus=" + nieobecnosckodzus.getKod() + ", umowa=" + umowa.getAngaz().getPracownik().getNazwiskoImie() + ", opis=" + opis + ", uzasadnienie=" + uzasadnienie + ", dnirobocze=" + dnirobocze + ", importowana=" + importowana + ", pobranaZUS=" + pobranaZUS + ", rokod=" + rokod + ", rokdo=" + rokdo + ", mcod=" + mcod + ", mcdo=" + mcdo + '}';
     }
+
+ 
+    
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+    @XmlTransient
+    public List<Naliczenienieobecnosc> getNaliczenienieobecnoscList() {
+        return naliczenienieobecnoscList;
+    }
+
+    public void setNaliczenienieobecnoscList(List<Naliczenienieobecnosc> naliczenienieobecnoscList) {
+        this.naliczenienieobecnoscList = naliczenienieobecnoscList;
+    }
+    @XmlTransient
+    public List<Dzien> getDzienList() {
+        return dzienList;
+    }
+
+    public void setDzienList(List<Dzien> dzienList) {
+        this.dzienList = dzienList;
+    }
+
     public Umowa getUmowa() {
         return umowa;
     }
@@ -251,7 +264,11 @@ public class Nieobecnosc implements Serializable {
     }
 
     public double getDnikalendarzowe() {
-        return dnikalendarzowe;
+        double zwrot = dnikalendarzowe;
+        if (this.dzienList!=null && this.dzienList.size()>0) {
+            zwrot = dzienList.size();
+        }
+        return zwrot;
     }
 
     public void setDnikalendarzowe(double dnikalendarzowe) {

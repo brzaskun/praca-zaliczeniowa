@@ -328,6 +328,7 @@ private static final long serialVersionUID = 1L;
             } else if (p.getNieobecnosckodzus().getKod().equals("777")) {
                 
             }
+            dzienaktualny.setNieobecnosc(p);
         }
     }
 
@@ -349,7 +350,7 @@ private static final long serialVersionUID = 1L;
             int mckalendarzaint = Integer.parseInt(mckalendarza);
             int mcdoint = Integer.parseInt(mcoddo);
             if (mcdoint>mckalendarzaint) {
-                dziendo = Integer.parseInt(Data.ostatniDzien(this.rok, this.mc))-1;
+                dziendo = Integer.parseInt(Data.getDzien(Data.ostatniDzien(this.rok, this.mc)))-1;
             }
         }
         return dziendo;

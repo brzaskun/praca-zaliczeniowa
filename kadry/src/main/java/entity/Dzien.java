@@ -83,6 +83,9 @@ public class Dzien implements Serializable {
     @JoinColumn(name = "kalendarzmiesiac", referencedColumnName = "id")
     @ManyToOne
     private Kalendarzmiesiac kalendarzmiesiac;
+    @JoinColumn(name = "nieobecnosc", referencedColumnName = "id")
+    @ManyToOne
+    private Nieobecnosc nieobecnosc;
 
     public Dzien() {
     }
@@ -153,19 +156,7 @@ public class Dzien implements Serializable {
 
     
     
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-    public Kalendarzmiesiac getKalendarzmiesiac() {
-        return kalendarzmiesiac;
-    }
-    public void setKalendarzmiesiac(Kalendarzmiesiac kalendarzmiesiac) {
-        this.kalendarzmiesiac = kalendarzmiesiac;
-    }
+    
     @Override
     public int hashCode() {
         int hash = 0;
@@ -187,6 +178,27 @@ public class Dzien implements Serializable {
     @Override
     public String toString() {
         return "Dzien{" + "nrdnia=" + nrdnia + ", typdnia=" + typdnia + ", normagodzin=" + normagodzin + ", przepracowano=" + przepracowano + ", piecdziesiatki=" + piecdziesiatki + ", setki=" + setki + ", poranocna=" + poranocna + ", kod=" + kod + '}';
+    }
+    
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+    public Kalendarzmiesiac getKalendarzmiesiac() {
+        return kalendarzmiesiac;
+    }
+    public void setKalendarzmiesiac(Kalendarzmiesiac kalendarzmiesiac) {
+        this.kalendarzmiesiac = kalendarzmiesiac;
+    }
+    public Nieobecnosc getNieobecnosc() {
+        return nieobecnosc;
+    }
+
+    public void setNieobecnosc(Nieobecnosc nieobecnosc) {
+        this.nieobecnosc = nieobecnosc;
     }
     public Kalendarzwzor getKalendarzwzor() {
         return kalendarzwzor;
