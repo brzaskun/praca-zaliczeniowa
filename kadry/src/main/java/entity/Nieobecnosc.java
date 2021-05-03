@@ -92,6 +92,10 @@ public class Nieobecnosc implements Serializable {
     private String rokod;
     @Column(name = "rokdo")
     private String rokdo;
+    @Column(name = "mcod")
+    private String mcod;
+    @Column(name = "rokdo")
+    private String mcdo;
     
 
    
@@ -316,6 +320,22 @@ public class Nieobecnosc implements Serializable {
 
     public void setRokdo(String rokdo) {
         this.rokdo = rokdo;
+    }
+
+    public String getMcod() {
+        return mcod;
+    }
+
+    public void setMcod(String mcod) {
+        this.mcod = mcod;
+    }
+
+    public String getMcdo() {
+        return mcdo;
+    }
+
+    public void setMcdo(String mcdo) {
+        this.mcdo = mcdo;
     }
 
    

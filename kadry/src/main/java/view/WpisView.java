@@ -140,7 +140,7 @@ public class WpisView implements Serializable {
             memoryFacade.edit(memory);
         } else {
             memory = createMemory();
-            memory.setMc(rokWpisu);
+            memory.setMc(miesiacWpisu);
             memoryFacade.edit(memory);
         }
         this.miesiacWpisu = miesiacWpisu;

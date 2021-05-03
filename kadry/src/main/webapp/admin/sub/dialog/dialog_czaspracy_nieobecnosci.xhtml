@@ -80,19 +80,19 @@
                             <f:facet name="header">
                                 <h:outputText value="nazwa"/>
                             </f:facet>
-                            <h:outputText value="#{itemNieob.nieobecnosckodzus.opisskrocony}"/>
+                            <h:outputText value="#{itemNieob.nieobecnosckodzus.opisskrocony}" style="#{itemNieob.rokod eq wpisView.rokWpisu ? 'color: green':''}"/>
                         </p:column>
                         <p:column width="50">
                             <f:facet name="header">
                                 <h:outputText value="data od"/>
                             </f:facet>
-                            <h:outputText value="#{itemNieob.dataod}"/>
+                            <h:outputText value="#{itemNieob.dataod}" style="#{itemNieob.rokod eq wpisView.rokWpisu ? 'color: green':''}"/>
                         </p:column>
                         <p:column width="50">
                             <f:facet name="header">
                                 <h:outputText value="data do"/>
                             </f:facet>
-                            <h:outputText value="#{itemNieob.datado}"/>
+                            <h:outputText value="#{itemNieob.datado}" style="#{itemNieob.rokod eq wpisView.rokWpisu ? 'color: green':''}"/>
                         </p:column>
                         <p:column style="text-align: center;" width="40">
                             <f:facet name="header">

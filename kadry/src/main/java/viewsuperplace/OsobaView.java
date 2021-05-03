@@ -175,6 +175,8 @@ public class OsobaView implements Serializable {
                     p.setImportowana(true);
                     p.setRokod(Data.getRok(p.getDataod()));
                     p.setRokdo(Data.getRok(p.getDatado()));
+                    p.setMcod(Data.getMc(p.getDataod()));
+                    p.setMcdo(Data.getMc(p.getDatado()));
                     if (p.getKodzwolnienia().length() < 3) {
                         p.setNieobecnosckodzus(nieobecnosckodzusFacade.findByOpis(p.getOpis()));
                     } else {

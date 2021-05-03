@@ -5,7 +5,6 @@
  */
 package view;
 
-import beanstesty.KalendarzmiesiacBean;
 import comparator.Nieobecnoscikodzuscomparator;
 import dao.KalendarzmiesiacFacade;
 import dao.KalendarzwzorFacade;
@@ -14,7 +13,6 @@ import dao.NieobecnosckodzusFacade;
 import dao.UmowaFacade;
 import data.Data;
 import entity.Kalendarzmiesiac;
-import entity.Kalendarzwzor;
 import entity.Nieobecnosc;
 import entity.Nieobecnosckodzus;
 import entity.Umowa;
@@ -97,6 +95,8 @@ public class NieobecnoscView  implements Serializable {
           try {
             selected.setRokod(Data.getRok(selected.getDataod()));
             selected.setRokdo(Data.getRok(selected.getDatado()));
+            selected.setMcod(Data.getMc(selected.getDataod()));
+            selected.setMcdo(Data.getMc(selected.getDatado()));
             nieobecnoscFacade.create(selected);
             lista.add(selected);
             selected = new Nieobecnosc(wpisView.getUmowa());
@@ -110,31 +110,23 @@ public class NieobecnoscView  implements Serializable {
     
     public void nieniesnakalendarz() {
         if (wpisView.getUmowa() != null) {
-            Kalendarzmiesiac znaleziony = kalendarzmiesiacFacade.findByRokMcUmowa(wpisView.getUmowa(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
-            if (znaleziony == null) {
-                znaleziony = new Kalendarzmiesiac(wpisView.getUmowa(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
-                Kalendarzwzor znaleziono = kalendarzwzorFacade.findByFirmaRokMc(wpisView.getFirma(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
-                if (znaleziono != null) {
-                    znaleziony.ganerujdnizwzrocowego(znaleziono, null);
-                    Msg.msg("Pobrano dane z kalendarza wzorcowego z bazy danych");
-                } else {
-                    KalendarzmiesiacBean.create(znaleziony);
-                    Msg.msg("Przygotowano kalendarz");
-                }
-            }
             for (Nieobecnosc p : lista) {
-                if (p.isNaniesiona()==false && p.isImportowana()==false) {
-                    if (p.getRokod().equals(wpisView.getRokWpisu())||p.getRokdo().equals(wpisView.getRokWpisu())) {
-                        znaleziony.naniesnieobecnosc(p);
-                        p.setNaniesiona(true);
-                    } else {
-                        Msg.msg("w","Zwolnienie z innego roku");
+                Kalendarzmiesiac znaleziony = kalendarzmiesiacFacade.findByRokMcUmowa(wpisView.getUmowa(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
+                if (znaleziony != null) {
+                    if (p.isNaniesiona()==false) {
+                        if (p.getRokod().equals(wpisView.getRokWpisu())||p.getRokdo().equals(wpisView.getRokWpisu())) {
+                            znaleziony.naniesnieobecnosc(p);
+                            p.setNaniesiona(true);
+                        }
+                        nieobecnoscFacade.edit(p);
+                        kalendarzmiesiacFacade.edit(znaleziony);
                     }
+                } else {
+                   Msg.msg("e","Brak kalendarza pracownika za miesiąc rozliczeniowy. Nie można nanieść nieobecności!");
+                   break;
                 }
                 
             }
-            nieobecnoscFacade.editList(lista);
-            kalendarzmiesiacFacade.edit(znaleziony);
             kalendarzmiesiacView.init();
             Msg.msg("Naniesiono nieobecnosci");
         }
