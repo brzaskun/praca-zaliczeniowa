@@ -109,7 +109,9 @@ public class Slownikszkolazatrhistoria implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Slownikszkolazatrhistoria[ id=" + id + " ]";
+        return "Slownikszkolazatrhistoria{" + "symbol=" + symbol + ", opis=" + opis + ", praca0nauka1=" + praca0nauka1 + '}';
     }
+
+   
     
 }

@@ -57,7 +57,15 @@
 <!--                         <p:commandButton value="zus zla" styleClass="buttonnorm" actionListener="#{zusZLAView.zuszla()}" />-->
 <!--                         <p:commandButton value="prac zmiany" styleClass="buttonnorm" actionListener="#{pracownikView.korektadat()}" />-->
                      </h:form>
-                             
+                     <p:panelGrid columns="1" style="padding: 20px;">
+                     <h:outputText value="w celu sporządzenia listy płac:" style="color: green"/>
+                     <h:outputText value="- wprowaź nieobecności" style="color: green"/>
+                     <h:outputText value="- nanieś je na kalendarz pracownika" style="color: green"/>
+                     <h:outputText value="- otwórz dialog z listą płac" style="color: green"/>
+                     <h:outputText value="- wybierz pracowników do listy" style="color: green"/>
+                     <h:outputText value="- przelicz, zachowaj i wydrukuj listę" style="color: green"/>
+                     <h:outputText value="- wyślij informacje do pracodawcy i pracownika" style="color: green"/>
+                     </p:panelGrid>
 <!--                       <h:form>
                        <h:outputText value="rok WpisView"/>
                        <h:outputText value="#{wpisView.rokWpisu}"/>

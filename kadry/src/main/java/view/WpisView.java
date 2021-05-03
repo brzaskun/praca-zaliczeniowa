@@ -182,10 +182,6 @@ public class WpisView implements Serializable {
          if (memory!=null) {
             memory.setPracownik(pracownik);
             memoryFacade.edit(memory);
-        } else {
-            memory = createMemory();
-            memory.setPracownik(pracownik);
-            memoryFacade.edit(memory);
         }
         this.pracownik = pracownik;
     }

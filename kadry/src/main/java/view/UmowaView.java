@@ -171,6 +171,16 @@ public class UmowaView  implements Serializable {
       }
     }
     
+    public void cancel() {
+        try {
+          wpisView.setUmowa(null);
+          selected = new Umowa();
+          Msg.msg("Reset umowy zakończony");
+        } catch (Exception e) {
+            Msg.msg("e", "Błąd - nie dodano resetu umowy.");
+        }
+    }
+    
     public void aktywuj() {
         if (selectedlista!=null) {
             wpisView.setUmowa(selectedlista);

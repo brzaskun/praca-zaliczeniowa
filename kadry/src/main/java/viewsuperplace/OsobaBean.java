@@ -112,6 +112,7 @@ public class OsobaBean {
         for (Slownikszkolazatrhistoria p : rodzajezatr) {
             if (p.getSymbol().equals(r.getZahTyp().toString())) {
                 zwrot = p;
+                break;
             }
         }
         return zwrot;

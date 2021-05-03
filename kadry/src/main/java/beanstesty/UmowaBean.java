@@ -37,7 +37,7 @@ public class UmowaBean {
             umowa.setCzastrwania("umowa na okres próbny");
             umowa.setKodzawodu(KodzawoduBean.create());
             umowa.setKosztyuzyskaniaprocent(250.0);
-            umowa.setNfz("16");
+            umowa.setNfz("16R");
             umowa.setNieliczFGSP(Boolean.FALSE);
             umowa.setNieliczFP(Boolean.FALSE);
             umowa.setOdliczaculgepodatkowa(Boolean.TRUE);
@@ -74,7 +74,7 @@ public class UmowaBean {
                 umowa.setCzastrwania("umowa na okres próbny");
                 umowa.setKosztyuzyskaniaprocent(osoba.getOsoWynKosztyProc().doubleValue());
                 umowa.setKwotawolnaprocent(osoba.getOsoPodWolnaProc().doubleValue());
-                umowa.setNfz("16");
+                umowa.setNfz("16R");
                 umowa.setNieliczFGSP(Boolean.FALSE);
                 umowa.setNieliczFP(Boolean.FALSE);
                 umowa.setOdliczaculgepodatkowa(Boolean.TRUE);

@@ -6,16 +6,15 @@
 package view;
 
 import beanstesty.IPaddress;
-import dao.AngazFacade;
-import dao.NieobecnoscFacade;
+import dao.KalendarzmiesiacFacade;
 import dao.PracownikFacade;
 import dao.UrlopprezentacjaFacade;
 import data.Data;
-import entity.Angaz;
-import entity.Nieobecnosc;
-import entity.Pracownik;
+import embeddable.Mce;
+import entity.Kalendarzmiesiac;
 import entity.Urlopprezentacja;
 import java.io.Serializable;
+import java.lang.reflect.Method;
 import java.util.Calendar;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -25,6 +24,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import msg.Msg;
+import z.Z;
 
 /**
  *
@@ -35,44 +35,35 @@ import msg.Msg;
 public class PracownikUrlopView  implements Serializable {
     private static final long serialVersionUID = 1L;
     @Inject
-    private Pracownik selected;
-    @Inject
     private PracownikFacade pracownikFacade;
     @Inject
     private UrlopprezentacjaFacade urlopprezentacjaFacade;
     @Inject
-    private AngazFacade angazFacade;
-    @Inject
     private WpisView wpisView;
-    private List<Angaz> listapracownikow;
-    private Angaz selectedangaz;
     private Urlopprezentacja urlopprezentacja;
+    private Urlopprezentacja urlopprezentacja1;
     @Inject
-    private NieobecnoscFacade nieobecnoscFacade;
+    private KalendarzmiesiacFacade kalendarzmiesiacFacade;
     
     
     @PostConstruct
-    private void init() {
+    public void init() {
         try {
-            if (wpisView.getFirma()!=null) {
-                listapracownikow = angazFacade.findByFirma(wpisView.getFirma());
-            }
-            selected = selectedangaz.getPracownik();
-            if (selected!=null) {
-                pobierzdane();
+            if (wpisView.getPracownik()!=null) {
+                pobierz();
             }
         } catch (Exception e){}
     }
 
         
     public void edit() {
-      if (selected!=null) {
+      if (wpisView.getPracownik()!=null) {
           try {
-            selected.setIpusera(IPaddress.getIpAddr((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest()));
+            wpisView.getPracownik().setIpusera(IPaddress.getIpAddr((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest()));
             Calendar calendar = Calendar.getInstance();
-            selected.setDatalogowania(Data.aktualnaDataCzas());
-            selected.setModyfikowal(wpisView.getUzer().getSecname());
-            pracownikFacade.edit(selected);
+            wpisView.getPracownik().setDatalogowania(Data.aktualnaDataCzas());
+            wpisView.getPracownik().setModyfikowal(wpisView.getUzer().getSecname());
+            pracownikFacade.edit(wpisView.getPracownik());
             Msg.msg("Uaktualniono dane");
           } catch (Exception e) {
               System.out.println("");
@@ -81,58 +72,49 @@ public class PracownikUrlopView  implements Serializable {
       }
     }
     
-    public void pobierzdane() {
-        if (selectedangaz!=null) {
-            selected = selectedangaz.getPracownik();
-            wpisView.setPracownik(selected);
-            urlopprezentacja = urlopprezentacjaFacade.findPracownik(selected, wpisView.getRokWpisu());  
-            List<Nieobecnosc> nieobcenosci = nieobecnoscFacade.findByUmowa(wpisView.getUmowa());
-            naniesurlopy(nieobcenosci, urlopprezentacja);
+    public void pobierz() {
+        if (wpisView.getPracownik()!=null) {
+            urlopprezentacja = new Urlopprezentacja(wpisView.getPracownik(), wpisView.getRokWpisu());  
+            urlopprezentacja1 = new Urlopprezentacja(wpisView.getPracownik(), wpisView.getRokWpisu());  
+            List<Kalendarzmiesiac> kalendarze = kalendarzmiesiacFacade.findByRokUmowa(wpisView.getUmowa(), wpisView.getRokWpisu());
+            naniesdnizkodem(kalendarze, urlopprezentacja, "100");
+            naniesdnizkodem(kalendarze, urlopprezentacja1, "331");
             Msg.msg("Pobrano dane");
         }
     }
     
-    private void naniesurlopy(List<Nieobecnosc> nieobcenosci, Urlopprezentacja urlopprezentacja) {
-        for (Nieobecnosc p : nieobcenosci) {
-            if (p.getRokod().equals(wpisView.getRokWpisu())||p.getRokdo().equals(wpisView.getRokWpisu())) {
-                if (p.getKodzwolnienia().equals("U")) {
-                    urlopprezentacja.setW1(p.getDnirobocze());
-                }
+    private void naniesdnizkodem(List<Kalendarzmiesiac> kalendarze, Urlopprezentacja urlopprezentacja, String kod) {
+        double suma = 0.0;
+        for (Kalendarzmiesiac p : kalendarze) {
+            double dniurlopu = Z.z(p.roboczenieob(kod)[0]/8.0);
+            suma = suma + dniurlopu;
+            try {
+                Class[] paramString = new Class[1];	
+                paramString[0] = Double.class;
+                Method met = Urlopprezentacja.class.getDeclaredMethod("setW"+Mce.getMiesiacToNumber().get(p.getMc()), paramString);
+                met.invoke(urlopprezentacja, dniurlopu);
+            } catch (Exception e){
+                System.out.println("");
             }
         }
+        urlopprezentacja.setW13(Z.z(suma));
     }
 
-    
-    public Pracownik getSelected() {
-        return selected;
-    }
 
-    public void setSelected(Pracownik selected) {
-        this.selected = selected;
-    }
-
-    public List<Angaz> getListapracownikow() {
-        return listapracownikow;
-    }
-
-    public void setListapracownikow(List<Angaz> listapracownikow) {
-        this.listapracownikow = listapracownikow;
-    }
-
-    public Angaz getSelectedangaz() {
-        return selectedangaz;
-    }
-
-    public void setSelectedangaz(Angaz selectedangaz) {
-        this.selectedangaz = selectedangaz;
-    }
-
-    public Urlopprezentacja getUrlopprezentacja() {
+      public Urlopprezentacja getUrlopprezentacja() {
         return urlopprezentacja;
     }
 
     public void setUrlopprezentacja(Urlopprezentacja urlopprezentacja) {
         this.urlopprezentacja = urlopprezentacja;
+    }
+
+    public Urlopprezentacja getUrlopprezentacja1() {
+        return urlopprezentacja1;
+    }
+
+    public void setUrlopprezentacja1(Urlopprezentacja urlopprezentacja1) {
+        this.urlopprezentacja1 = urlopprezentacja1;
     }
 
     

@@ -10,6 +10,8 @@
             <h:form id="UmowaCreateForm">
                 <p:panel header="Dodawanie/edycja umowy"/>
                 <h:panelGroup id="display">
+                    <h:outputText value="Dodajesz nową umowę" style="color:green; margin-left: 50px; font-weight: bolder;" rendered="#{umowaView.selected.id eq null}"/>
+                    <h:outputText value="Zmieniasz istniejącą umowę" style="color:blue; margin-left: 50px; font-weight: bolder;" rendered="#{umowaView.selected.id ne null}"/>
                     <p:panelGrid columns="4" rendered="#{umowaView.selected != null}">
                         <p:panelGrid columns="2">
                             <p:outputLabel value="angaz" for="angaz" />
@@ -139,8 +141,8 @@
                         </p:dataTable>
                     </p:panelGrid>-->
                     <p:commandButton styleClass="buttonnorm" actionListener="#{umowaView.edit}" value="#{bundle.Edit}" update="north, @(form)" rendered="#{umowaView.selected.id ne null}"/>
-                    <p:commandButton styleClass="buttonnorm" actionListener="#{umowaView.create}" value="#{bundle.Save}" update="north, @(form)"  rendered="#{umowaView.selected.id eq null}"/>
-                    <p:commandButton value="#{bundle.Cancel}" onclick="UmowaCreateDialog.hide()"/>
+                    <p:commandButton styleClass="buttonnorm2" actionListener="#{umowaView.create}" value="#{bundle.Save}" update="north, @(form)"  rendered="#{umowaView.selected.id eq null}"/>
+                    <p:commandButton styleClass="buttonnorm2" value="#{bundle.Cancel}"  actionListener="#{umowaView.cancel}"  update="north, @(form)" process="@this"/>
                 </h:panelGroup>
             </h:form>
         </p:outputPanel>

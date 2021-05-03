@@ -71,6 +71,8 @@ public class AngazView  implements Serializable {
     private PracownikView pracownikView;
     @Inject
     private EtatView etatView;
+    @Inject
+    private UpdateClassView updateClassView;
     
     @PostConstruct
     public void init() {
@@ -126,6 +128,7 @@ public class AngazView  implements Serializable {
             zmiennaWynagrodzeniaView.init();
             kalendarzmiesiacView.init();
             etatView.init();
+            updateClassView.updateRok();
             Msg.msg("Aktywowano pracownika");
         }
     }
@@ -146,6 +149,7 @@ public class AngazView  implements Serializable {
             zmiennaWynagrodzeniaView.init();
             kalendarzmiesiacView.init();
             etatView.init();
+            updateClassView.updateRok();
             Msg.msg("Aktywowano pracownika");
         }
     }

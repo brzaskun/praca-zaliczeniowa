@@ -82,6 +82,8 @@ public class Urlopprezentacja implements Serializable {
     private double w11;
     @Column(name = "w12")
     private double w12;
+    @Column(name = "w13")
+    private double w13;
     @Column(name = "ekwiwalent")
     private double ekwiwalent;
     @Column(name = "doprzeniesienia")
@@ -132,7 +134,7 @@ public class Urlopprezentacja implements Serializable {
         return w1;
     }
 
-    public void setW1(double w1) {
+    public void setW1(Double w1) {
         this.w1 = w1;
     }
 
@@ -140,7 +142,7 @@ public class Urlopprezentacja implements Serializable {
         return w2;
     }
 
-    public void setW2(double w2) {
+    public void setW2(Double w2) {
         this.w2 = w2;
     }
 
@@ -148,7 +150,7 @@ public class Urlopprezentacja implements Serializable {
         return w3;
     }
 
-    public void setW3(double w3) {
+    public void setW3(Double w3) {
         this.w3 = w3;
     }
 
@@ -156,7 +158,7 @@ public class Urlopprezentacja implements Serializable {
         return w4;
     }
 
-    public void setW4(double w4) {
+    public void setW4(Double w4) {
         this.w4 = w4;
     }
 
@@ -164,7 +166,7 @@ public class Urlopprezentacja implements Serializable {
         return w5;
     }
 
-    public void setW5(double w5) {
+    public void setW5(Double w5) {
         this.w5 = w5;
     }
 
@@ -172,7 +174,7 @@ public class Urlopprezentacja implements Serializable {
         return w6;
     }
 
-    public void setW6(double w6) {
+    public void setW6(Double w6) {
         this.w6 = w6;
     }
 
@@ -180,7 +182,7 @@ public class Urlopprezentacja implements Serializable {
         return w7;
     }
 
-    public void setW7(double w7) {
+    public void setW7(Double w7) {
         this.w7 = w7;
     }
 
@@ -188,7 +190,7 @@ public class Urlopprezentacja implements Serializable {
         return w8;
     }
 
-    public void setW8(double w8) {
+    public void setW8(Double w8) {
         this.w8 = w8;
     }
 
@@ -196,7 +198,7 @@ public class Urlopprezentacja implements Serializable {
         return w9;
     }
 
-    public void setW9(double w9) {
+    public void setW9(Double w9) {
         this.w9 = w9;
     }
 
@@ -204,7 +206,7 @@ public class Urlopprezentacja implements Serializable {
         return w10;
     }
 
-    public void setW10(double w10) {
+    public void setW10(Double w10) {
         this.w10 = w10;
     }
 
@@ -212,7 +214,7 @@ public class Urlopprezentacja implements Serializable {
         return w11;
     }
 
-    public void setW11(double w11) {
+    public void setW11(Double w11) {
         this.w11 = w11;
     }
 
@@ -220,8 +222,16 @@ public class Urlopprezentacja implements Serializable {
         return w12;
     }
 
-    public void setW12(double w12) {
+    public void setW12(Double w12) {
         this.w12 = w12;
+    }
+    
+    public double getW13() {
+        return w13;
+    }
+
+    public void setW13(Double w13) {
+        this.w13 = w13;
     }
 
     public double getEkwiwalent() {
