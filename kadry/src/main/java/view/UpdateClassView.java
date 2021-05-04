@@ -33,6 +33,8 @@ public class UpdateClassView   implements Serializable {
     private NieobecnoscView nieobecnoscView;
     @Inject
     private PracownikUrlopView pracownikUrlopView;
+    @Inject
+    private KartaWynagrodzenView kartaWynagrodzenView;
 
     public void updateRok(){
         definicjalistaplacView.init();
@@ -42,6 +44,7 @@ public class UpdateClassView   implements Serializable {
         draView.init();
         nieobecnoscView.init();
         pracownikUrlopView.init();
+        kartaWynagrodzenView.init();
     }
     
 }

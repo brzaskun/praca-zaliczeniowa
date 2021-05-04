@@ -6,7 +6,6 @@
 package view;
 
 import comparator.Kartawynagrodzencomparator;
-import dao.AngazFacade;
 import dao.KartaWynagrodzenFacade;
 import dao.PasekwynagrodzenFacade;
 import embeddable.Mce;
@@ -36,11 +35,7 @@ public class KartaWynagrodzenView  implements Serializable {
     @Inject
     private KartaWynagrodzenFacade kartaWynagrodzenFacade;
     @Inject
-    private AngazFacade angazFacade;
-    @Inject
     private WpisView wpisView;
-    private List<Angaz> listapracownikow;
-    private Angaz selectedangaz;
     private List<Kartawynagrodzen> kartawynagrodzenlist;
     @Inject
     private PasekwynagrodzenFacade pasekwynagrodzenFacade;
@@ -48,17 +43,16 @@ public class KartaWynagrodzenView  implements Serializable {
     
     
     @PostConstruct
-    private void init() {
-        listapracownikow = angazFacade.findByFirma(wpisView.getFirma());
+    public void init() {
+        pobierzdane();
     }
 
         
        
     public void pobierzdane() {
-        if (selectedangaz!=null) {
-            wpisView.setPracownik(selectedangaz.getPracownik());
-            kartawynagrodzenlist = pobierzkartywynagrodzen(selectedangaz, wpisView.getRokWpisu());
-            aktualizujdane(kartawynagrodzenlist, wpisView.getRokWpisu(), selectedangaz);
+        if (wpisView.getAngaz()!=null) {
+            kartawynagrodzenlist = pobierzkartywynagrodzen(wpisView.getAngaz(), wpisView.getRokWpisu());
+            aktualizujdane(kartawynagrodzenlist, wpisView.getRokWpisu(), wpisView.getAngaz());
             Msg.msg("Pobrano dane");
         }
     }
@@ -76,6 +70,13 @@ public class KartaWynagrodzenView  implements Serializable {
                 kartypobranezbazy.add(nowa);
             }
             kartaWynagrodzenFacade.createList(kartypobranezbazy);
+        } else {
+            for (Iterator<Kartawynagrodzen> it = kartypobranezbazy.iterator();it.hasNext();) {
+                Kartawynagrodzen k = it.next();
+                if (k.getId()==null) {
+                    it.remove();
+                }
+            }
         }
         return kartypobranezbazy;
     }
@@ -108,28 +109,13 @@ public class KartaWynagrodzenView  implements Serializable {
     
     public void drukuj() {
         if (kartawynagrodzenlist!=null && kartawynagrodzenlist.size()>0) {
-            PdfKartaWynagrodzen.drukuj(kartawynagrodzenlist, selectedangaz, wpisView.getRokWpisu());
+            PdfKartaWynagrodzen.drukuj(kartawynagrodzenlist, wpisView.getAngaz(), wpisView.getRokWpisu());
             Msg.msg("Wydrukowano kartę wynagrodzeń");
         } else {
             Msg.msg("e","Błąd drukowania. Brak karty wynagrodze");
         }
     }
 
-    public List<Angaz> getListapracownikow() {
-        return listapracownikow;
-    }
-
-    public void setListapracownikow(List<Angaz> listapracownikow) {
-        this.listapracownikow = listapracownikow;
-    }
-
-    public Angaz getSelectedangaz() {
-        return selectedangaz;
-    }
-
-    public void setSelectedangaz(Angaz selectedangaz) {
-        this.selectedangaz = selectedangaz;
-    }
 
     public List<Kartawynagrodzen> getKartawynagrodzenlist() {
         return kartawynagrodzenlist;

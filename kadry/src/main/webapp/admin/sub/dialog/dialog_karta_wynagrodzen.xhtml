@@ -6,25 +6,13 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
         
     xmlns:bcf="http://brzaskun.com/facelets">
-    <p:dialog id="dialogkartawynagrodzen" header="Rozliczenie urlopu" widgetVar="dialogkartawynagrodzen"  
+    <p:dialog id="dialogkartawynagrodzen" header="Karta wynagrodzeń" widgetVar="dialogkartawynagrodzen"  
               resizable="false"  onShow="ustawdialog('dialogkartawynagrodzen','centertile',1650,800);" closeOnEscape="true" onHide="resetujdialog('dialogkartawynagrodzen');" 
               fitViewport="true">
-            <p:panelGrid columns="1">
-                <p:outputPanel style="height: 200px">
-                <h:form id="KartyWynagrodzenForm">
-                    <p:selectOneMenu id="pracownik" value="#{kartaWynagrodzenView.selectedangaz}" required="true" requiredMessage="pracownik"  converter="#{angazConverter}" style="width: 300px;" filter="true" filterMatchMode="contains">
-                        <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
-                        <f:selectItems value="#{kartaWynagrodzenView.listapracownikow}"
-                                       var="pracownikItem"
-                                       itemValue="#{pracownikItem}" itemLabel="#{pracownikItem.pracownik.nazwiskoImie}"/>
-                        <p:ajax event="change" partialSubmit="true" listener="#{kartaWynagrodzenView.pobierzdane}" global="false" update="KartyWynangrodzenListForm"/>
-                    </p:selectOneMenu>
-                </h:form>
-            </p:outputPanel>
-            </p:panelGrid>
+
         <p:outputPanel>
              <h:form id="KartyWynangrodzenListForm">
-                  <p:panel header="Karta wynagrodzen"/>
+                  <p:panel header="Karta wynagrodzeń"/>
                     <p:dataTable id="datalist" value="#{kartaWynagrodzenView.kartawynagrodzenlist}" var="itemkarta"
                                  rowKey="#{itemkarta.id}" sortBy="#{itemkarta.mc}" rowIndexVar="indexka"
                                 style="height: 450px; overflow-y: scroll;"

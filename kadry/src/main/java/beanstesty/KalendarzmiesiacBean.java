@@ -166,6 +166,7 @@ public class KalendarzmiesiacBean {
                 for (Dzien p : kalendarz.getDzienList()) {
                     if (p.getNrdnia()==i) {
                         p.setKod(nieobecnosc.getNieobecnosckodzus().getKod());
+                        p.setNieobecnosc(nieobecnosc);
                     }
                 }
             }
