@@ -110,6 +110,8 @@ public class FirmaKadry implements Serializable {
         this.id = id;
     }
 
+    
+    
     public Integer getId() {
         return id;
     }
@@ -311,6 +313,10 @@ public class FirmaKadry implements Serializable {
 
     public void setBankkonto(String bankkonto) {
         this.bankkonto = bankkonto;
+    }
+    
+    public String getAdres() {
+        return this.kod+" "+this.miasto+", "+this.ulica+" "+this.dom+"/"+this.lokal;
     }
     
 }

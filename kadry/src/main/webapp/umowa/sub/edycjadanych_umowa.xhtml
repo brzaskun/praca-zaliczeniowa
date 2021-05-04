@@ -6,7 +6,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
         
     xmlns:bcf="http://brzaskun.com/facelets">
-        <p:outputPanel style="height: 360px">
+    <p:outputPanel style="height: 360px" id="panelumowadane">
             <h:form id="UmowaCreateForm">
                 <p:panel header="Dodawanie/edycja umowy"/>
                 <h:panelGroup id="display">
@@ -277,6 +277,9 @@
                         </p:column>
                         <p:column width="40" style="text-align: center;">
                             <p:commandButton icon="fa fa-edit" actionListener="#{umowaView.edytuj(itemumowa)}" update="north, @(form)"/>
+                        </p:column>
+                        <p:column width="40" style="text-align: center;">
+                            <p:commandButton icon="fa fa-file-text-o"  actionListener="#{umowaView.edytuj(itemumowa)}" onclick="PF('dialogumowatresc').show();" update="north, @(form)"/>
                         </p:column>
                         <p:column width="40" style="text-align: center;">
                             <p:commandButton icon="fa fa-trash" actionListener="#{umowaView.usun(itemumowa)}" update="north, @(form)"/>

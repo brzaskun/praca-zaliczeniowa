@@ -76,6 +76,8 @@ public class UmowaView  implements Serializable {
     private double wynagrodzemieskrot;
     private Integer etat1;
     private Integer etat2;
+    private String datadzisiejsza;
+    private String miejscowosc;
     
     
     @PostConstruct
@@ -87,7 +89,8 @@ public class UmowaView  implements Serializable {
         if (listaangaz!=null && listaangaz.size()==1 && wpisView.getAngaz()==null) {
             wpisView.setAngaz(listaangaz.get(listaangaz.size()-1));
         }
-       
+       datadzisiejsza = Data.aktualnaData();
+       miejscowosc = "Szczecin";
     }
  
     public void create() {
@@ -388,6 +391,22 @@ public class UmowaView  implements Serializable {
 
     public void setEtat2(Integer etat2) {
         this.etat2 = etat2;
+    }
+
+    public String getDatadzisiejsza() {
+        return datadzisiejsza;
+    }
+
+    public void setDatadzisiejsza(String datadzisiejsza) {
+        this.datadzisiejsza = datadzisiejsza;
+    }
+
+    public String getMiejscowosc() {
+        return miejscowosc;
+    }
+
+    public void setMiejscowosc(String miejscowosc) {
+        this.miejscowosc = miejscowosc;
     }
 
     

@@ -1,0 +1,143 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+
+    xmlns:bcf="http://brzaskun.com/facelets">
+    <p:dialog id="dialogumowatresc" header="Wyliczanie listy płac" widgetVar="dialogumowatresc"  appendTo="@(body)"
+              resizable="false"  onShow="ustawdialog('dialogumowatresc','centertile',1650,800);" closeOnEscape="true" onHide="resetujdialog('dialogumowatresc');" 
+              >
+        <style>
+            .umowatresc td {
+                border-width: 1px !important;
+                padding: 5px 5px !important;
+            }
+        </style>
+        <p:outputPanel style="height: 580px">
+            <h:form id="UmowaTextCreateForm">
+                <p:panel header="TREŚĆ UMOWY O PRACĘ"/>
+                <p:panelGrid style="margin-top:20px;width: 800px;" styleClass="umowatresc">
+                    <p:row>
+                        <p:column  colspan="2"  style="height: 100px;">
+                            <h:outputText value="pieczęć nagłówkowa pracodawcy"/>
+                        </p:column>
+                        <p:column colspan="2">
+                            <h:outputText value="Miejscowość "/>
+                            <p:inputText value="#{umowaView.miejscowosc}"/>
+                        </p:column>
+                        <p:column colspan="2">
+                            <h:outputText value="Data "/>
+                            <p:inputText value="#{umowaView.datadzisiejsza}"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column colspan="6">
+                            <h:outputText value="zawarta w dniu "/>
+                            <p:inputText value="#{umowaView.selected.datazawarcia}"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column colspan="3">
+                            <h:outputText value="między"/>
+                            <p:inputText value="#{umowaView.selected.angaz.firma.nazwa}" style="width: 300px;"/>
+                        </p:column>
+                        <p:column colspan="3">
+                            <h:outputText value="z siedzibą"/>
+                            <p:inputText value="#{umowaView.selected.angaz.firma.adres}" style="width: 300px;"/>
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>Houston</p:column>
+                        <p:column>0</p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column colspan="4" styleClass="ui-widget-header">
+                            <p:spacer height="0"/>
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column style="font-weight: bold;">Utah</p:column>
+                        <p:column style="font-weight: bold;">4</p:column>
+
+                        <p:column rowspan="2">Utah</p:column>
+                        <p:column rowspan="2">3</p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>San Antonio</p:column>
+                        <p:column>2</p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column colspan="6" styleClass="ui-widget-header">
+                            <p:spacer height="0"/>
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column style="font-weight: bold;">Chicago</p:column>
+                        <p:column style="font-weight: bold;">4</p:column>
+
+                        <p:column rowspan="2" style="font-weight: bold;">Chicago</p:column>
+                        <p:column rowspan="2" style="font-weight: bold;">4</p:column>
+
+                        <p:column rowspan="5" style="font-weight: bold;">Chicago</p:column>
+                        <p:column rowspan="5" style="font-weight: bold;">4</p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>New York</p:column>
+                        <p:column>1</p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column colspan="4" styleClass="ui-widget-header">
+                            <p:spacer height="0"/>
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>Atlanta</p:column>
+                        <p:column>1</p:column>
+
+                        <p:column rowspan="2">Orlando</p:column>
+                        <p:column rowspan="2">0</p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column style="font-weight: bold;">Orlando</p:column>
+                        <p:column style="font-weight: bold;">4</p:column>
+                    </p:row>
+
+
+                    <f:facet name="footer">
+                        <p:row>
+                            <p:column colspan="4" style="text-align: right">
+                                Finals MVP
+                            </p:column>
+                            <p:column colspan="3" rowspan="3">
+                                Michael Jordan (Chicago)
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column colspan="4" style="text-align: right">
+                                Season MVP
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="4" style="text-align: right">
+                                Top Scorer
+                            </p:column>
+                        </p:row>
+                    </f:facet>
+                </p:panelGrid>
+            </h:form>
+        </p:outputPanel>
+    </p:dialog>
+</ui:composition>
