@@ -698,6 +698,11 @@
             <redirect></redirect>
         </navigation-case>
         <navigation-case>
+            <from-outcome>MultiuserBook</from-outcome>
+            <to-view-id>/indexMulti.xhtml</to-view-id>
+            <redirect></redirect>
+        </navigation-case>
+        <navigation-case>
             <from-outcome>menudokumentyFK</from-outcome>
             <to-view-id>/ksiegowaFK/ksiegowaFKDokument.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>

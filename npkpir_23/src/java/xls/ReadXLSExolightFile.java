@@ -183,7 +183,7 @@ public class ReadXLSExolightFile {
             interpaperXLS.setVatwaluta(Z.z(interpaperXLS.getNettowaluta()*0.23));
             interpaperXLS.setNettoPLN(zamiennakwote(row.getCell(7).getStringCellValue()));
             interpaperXLS.setBruttoPLN(zamiennakwote(row.getCell(9).getStringCellValue()));
-            interpaperXLS.setVatPLN(interpaperXLS.getNettoPLN()*0.23);
+            interpaperXLS.setVatPLN(Z.z(interpaperXLS.getNettoPLN()*0.23));
             interpaperXLS.setOpis("zakup towaru");
         }
    }

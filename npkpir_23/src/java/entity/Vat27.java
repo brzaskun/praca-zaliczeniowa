@@ -27,7 +27,7 @@ public class Vat27 extends VatSuper implements Serializable{
     @JoinColumn(name = "deklaracjavat27", referencedColumnName = "id")
     @ManyToOne(cascade = CascadeType.ALL)
     private Deklaracjavat27 deklaracjavat27;
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "vat27")
+    
     private List<Dok> zawiera;
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "vat27")
     private List<Dokfk> zawierafk;

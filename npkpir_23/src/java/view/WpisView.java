@@ -466,11 +466,21 @@ public class WpisView implements Serializable {
     
 
     public String skierujmultisuera() {
-        rodzajopodatkowania = zwrocFormaOpodatkowania(rokWpisuSt).getFormaopodatkowania();
-        if (rodzajopodatkowania.contains("księgi rachunkowe")) {
-            return "/guestFK/guestFKTablica.xhtml?faces-redirect=true";
+        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        if(request.isUserInRole("MultiuserBook")){
+            rodzajopodatkowania = zwrocFormaOpodatkowania(rokWpisuSt).getFormaopodatkowania();
+            if (rodzajopodatkowania.contains("księgi rachunkowe")) {
+                return "/ksiegowaFK/ksiegowaFKDokument.xhtml?faces-redirect=true";
+            } else {
+                return "/ksiegowa/ksiegowaTablica.xhtml?faces-redirect=true";
+            }
         } else {
-            return "/guest/guestPodatki.xhtml?faces-redirect=true";
+            rodzajopodatkowania = zwrocFormaOpodatkowania(rokWpisuSt).getFormaopodatkowania();
+            if (rodzajopodatkowania.contains("księgi rachunkowe")) {
+                return "/guestFK/guestFKTablica.xhtml?faces-redirect=true";
+            } else {
+                return "/guest/guestPodatki.xhtml?faces-redirect=true";
+            }
         }
     }
     
@@ -483,7 +493,7 @@ public class WpisView implements Serializable {
     
     private void czyniegosc() {
         niegosc = true;
-        if (this.uzer.getUprawnienia().equals("Guest")||this.uzer.getUprawnienia().equals("GuestFK")||this.uzer.getUprawnienia().equals("GuestFKBook")||this.uzer.getUprawnienia().equals("GuestFaktura")||this.uzer.getUprawnienia().equals("Multiuser")||this.uzer.getUprawnienia().equals("Dedra")) {
+        if (this.uzer.getUprawnienia().equals("Guest")||this.uzer.getUprawnienia().equals("GuestFK")||this.uzer.getUprawnienia().equals("GuestFKBook")||this.uzer.getUprawnienia().equals("GuestFaktura")||this.uzer.getUprawnienia().equals("Multiuser")||this.uzer.getUprawnienia().equals("MultiuserBook")||this.uzer.getUprawnienia().equals("Dedra")) {
             niegosc = false;
         }
     }

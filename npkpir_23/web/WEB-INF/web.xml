@@ -140,6 +140,9 @@
     <security-role>
         <role-name>Multiuser</role-name>
     </security-role>
+     <security-role>
+        <role-name>MultiuserBook</role-name>
+    </security-role>
     <security-role>
         <role-name>Dedra</role-name>
     </security-role>
@@ -208,6 +211,7 @@
             <role-name>Manager</role-name>
             <role-name>Administrator</role-name>
             <role-name>BookkeeperFK</role-name>
+            <role-name>MultiuserBook</role-name>
         </auth-constraint>
     </security-constraint>
     <security-constraint>
@@ -235,6 +239,7 @@
             <role-name>Bookkeeper</role-name>
             <role-name>BookkeeperFK</role-name>
             <role-name>Multiuser</role-name>
+            <role-name>MultiuserBook</role-name>
         </auth-constraint>
     </security-constraint>
     <security-constraint>
@@ -250,6 +255,7 @@
             <role-name>Bookkeeper</role-name>
             <role-name>BookkeeperFK</role-name>
             <role-name>Multiuser</role-name>
+            <role-name>MultiuserBook</role-name>
         </auth-constraint>
     </security-constraint>
     <security-constraint>
@@ -267,6 +273,7 @@
             <role-name>Bookkeeper</role-name>
             <role-name>BookkeeperFK</role-name>
             <role-name>Multiuser</role-name>
+            <role-name>MultiuserBook</role-name>
         </auth-constraint>
     </security-constraint>
     <security-constraint>
@@ -285,6 +292,7 @@
             <role-name>Bookkeeper</role-name>
             <role-name>BookkeeperFK</role-name>
             <role-name>Multiuser</role-name>
+            <role-name>MultiuserBook</role-name>
             <role-name>Stowarzyszenie</role-name>
         </auth-constraint>
     </security-constraint>

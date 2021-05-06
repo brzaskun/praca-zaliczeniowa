@@ -80,7 +80,7 @@ public class SprawaView  implements Serializable{
             Uz s = it.next();
             if (s.getLoginglowny() != null) {
                 it.remove();
-            } else if (s.getUprawnienia().equals("Guest")||s.getUprawnienia().equals("GuestFK")||s.getUprawnienia().equals("GuestFKBook")||s.getUprawnienia().equals("GuestFaktura")||s.getUprawnienia().equals("Multiuser")||s.getUprawnienia().equals("Dedra")) {
+            } else if (s.getUprawnienia().equals("Guest")||s.getUprawnienia().equals("GuestFK")||s.getUprawnienia().equals("GuestFKBook")||s.getUprawnienia().equals("GuestFaktura")||s.getUprawnienia().equals("Multiuser")||s.getUprawnienia().equals("MultiuserBook")||s.getUprawnienia().equals("Dedra")) {
                 it.remove();
             }
         }

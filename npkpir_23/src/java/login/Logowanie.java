@@ -102,6 +102,8 @@ public class Logowanie implements Serializable {
                     navto = "BookkeeperFK";
                 } else if (request.isUserInRole("Multiuser")) {
                     navto = "Multiuser";
+                } else if (request.isUserInRole("MultiuserBook")) {
+                    navto = "MultiuserBook";
                 } else if (request.isUserInRole("Guest")) {
                     String nip = uzDAO.findUzByLogin(uzytkownik).getFirma();
                     Podatnik p = podatnikDAO.findPodatnikByNIP(nip);

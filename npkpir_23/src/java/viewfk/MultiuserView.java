@@ -11,17 +11,16 @@ import dao.UzDAO;
 import entity.MultiuserSettings;
 import entity.Podatnik;
 import entity.Uz;
-import error.E;
 import java.io.Serializable;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.inject.Named;
-import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -53,6 +52,7 @@ public class MultiuserView   implements Serializable{
     @PostConstruct
     private void init() { //E.m(this);
         listamutliuserow.addAll(uzDAO.findByUprawnienia("Multiuser"));
+        listamutliuserow.addAll(uzDAO.findByUprawnienia("MultiuserBook"));
         listamutliuserow.addAll(uzDAO.findByUprawnienia("GuestFaktura"));
         HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         Principal principal = request.getUserPrincipal();
