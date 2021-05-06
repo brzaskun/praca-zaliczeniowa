@@ -194,7 +194,7 @@ public class UmowaView  implements Serializable {
     }
     
     public void ustawumowe() {
-        if (selected.getUmowakodzus() != null) {
+        if (selected.getId() == null) {
             if (selected.getUmowakodzus().getKod().equals("0110")) {
                 selected.setNrkolejny("UP/"+wpisView.getPracownik().getPesel()+"/"+wpisView.getRokWpisu()+"/"+wpisView.getMiesiacWpisu());
                 selected.setChorobowe(true);
@@ -208,7 +208,7 @@ public class UmowaView  implements Serializable {
                 selected.setDataspoleczne("2020-01-01");
                 selected.setDatazawarcia("2020-01-01");
                 selected.setDatazdrowotne("2020-01-01");
-                selected.setKosztyuzyskaniaprocent(250.0);
+                selected.setKosztyuzyskaniaprocent(100.0);
                 selected.setNfz("16");
                 selected.setKodzawodu(KodzawoduBean.create());
                 selected.setOdliczaculgepodatkowa(true);

@@ -5,7 +5,7 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     >
-    <p:dialog id="dialgoczaspracyurlop" header="Rozliczenie urlopu" widgetVar="dialgoczaspracyurlop"  appendTo="@(body)"
+    <p:dialog id="dialgoczaspracyurlop" header="Rozliczenie urlopu" widgetVar="dialgoczaspracyurlop"  
               resizable="false"  onShow="ustawdialog('dialgoczaspracyurlop','centertile',1650,800);" closeOnEscape="true" onHide="resetujdialog('dialgoczaspracyurlop');" 
               fitViewport="true">
         <p:ajax event="open" listener="#{pracownikUrlopView.init()}" update="PracownikUrlopForm" global="false"/>
