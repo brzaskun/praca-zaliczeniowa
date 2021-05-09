@@ -334,7 +334,7 @@ private static final long serialVersionUID = 1L;
 
     private int modyfikujod(String mcod, int dzienod) {
         String mckalendarza = this.getMc();
-        if (!mcod.equals(mckalendarza)||!mcod.equals(mckalendarza)) {
+        if (!mcod.equals(mckalendarza)) {
             int mckalendarzaint = Integer.parseInt(mckalendarza);
             int mcodint = Integer.parseInt(mcod);
             if (mcodint<mckalendarzaint) {
@@ -346,7 +346,7 @@ private static final long serialVersionUID = 1L;
     
     private int modyfikujdo(String mcoddo, int dziendo) {
         String mckalendarza = this.getMc();
-        if (!mcoddo.equals(mckalendarza)||!mcoddo.equals(mckalendarza)) {
+        if (!mcoddo.equals(mckalendarza)) {
             int mckalendarzaint = Integer.parseInt(mckalendarza);
             int mcdoint = Integer.parseInt(mcoddo);
             if (mcdoint>mckalendarzaint) {

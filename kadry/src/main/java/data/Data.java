@@ -798,6 +798,16 @@ public class Data implements Serializable {
 //    return Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDateTime();
 //  }
 
+    public static boolean jestrownywiekszy(String mcbadany, String mcod) {
+        int mcbadanyi = Integer.valueOf(mcbadany);
+        int mcodi = Integer.valueOf(mcod);
+        boolean zwrot = false;
+        if (mcbadanyi>=mcodi) {
+            zwrot = true;
+        }
+        return zwrot;
+    }
+
     
 
     

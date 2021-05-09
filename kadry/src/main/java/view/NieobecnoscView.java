@@ -12,6 +12,7 @@ import dao.NieobecnoscFacade;
 import dao.NieobecnosckodzusFacade;
 import dao.UmowaFacade;
 import data.Data;
+import embeddable.Mce;
 import entity.Kalendarzmiesiac;
 import entity.Nieobecnosc;
 import entity.Nieobecnosckodzus;
@@ -111,19 +112,26 @@ public class NieobecnoscView  implements Serializable {
     public void nieniesnakalendarz() {
         if (wpisView.getUmowa() != null) {
             for (Nieobecnosc p : lista) {
-                Kalendarzmiesiac znaleziony = kalendarzmiesiacFacade.findByRokMcUmowa(wpisView.getUmowa(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
-                if (znaleziony != null) {
-                    if (p.isNaniesiona()==false) {
-                        if (p.getRokod().equals(wpisView.getRokWpisu())||p.getRokdo().equals(wpisView.getRokWpisu())) {
-                            znaleziony.naniesnieobecnosc(p);
-                            p.setNaniesiona(true);
+                String mcod = p.getMcod();
+                if (p.getRokod().equals(wpisView.getRokUprzedni())) {
+                    mcod = "01";
+                }
+                String mcdo = p.getMcdo();
+                for (String mc : Mce.getMceListS()) {
+                    if (Data.jestrownywiekszy(mc,mcod)&&Data.jestrownywiekszy(mcdo,mc)) {
+                        Kalendarzmiesiac znaleziony = kalendarzmiesiacFacade.findByRokMcUmowa(wpisView.getUmowa(), wpisView.getRokWpisu(), mc);
+                        if (znaleziony != null) {
+                            if (p.getRokod().equals(wpisView.getRokWpisu())||p.getRokdo().equals(wpisView.getRokWpisu())) {
+                                znaleziony.naniesnieobecnosc(p);
+                                p.setNaniesiona(true);
+                            }
+                            nieobecnoscFacade.edit(p);
+                            kalendarzmiesiacFacade.edit(znaleziony);
+                        } else {
+                           Msg.msg("e","Brak kalendarza pracownika za miesiąc rozliczeniowy. Nie można nanieść nieobecności!");
+                           break;
                         }
-                        nieobecnoscFacade.edit(p);
-                        kalendarzmiesiacFacade.edit(znaleziony);
                     }
-                } else {
-                   Msg.msg("e","Brak kalendarza pracownika za miesiąc rozliczeniowy. Nie można nanieść nieobecności!");
-                   break;
                 }
                 
             }
