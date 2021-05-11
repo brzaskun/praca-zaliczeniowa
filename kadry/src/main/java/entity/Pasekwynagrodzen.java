@@ -59,15 +59,19 @@ import z.Z;
     @NamedQuery(name = "Pasekwynagrodzen.findByWypadkowe", query = "SELECT p FROM Pasekwynagrodzen p WHERE p.wypadkowe = :wypadkowe")})
 public class Pasekwynagrodzen implements Serializable {
 
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id")
+    private Integer id;
+    @Column(name = "brutto")
+    private double brutto;
     @Column(name = "bruttobezzus")
     private double bruttobezzus;
     @Column(name = "bruttozus")
     private double bruttozus;
+    @Column(name = "bruttobezzusbezpodatek")
+    private double bruttobezzusbezpodatek;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "fgsp")
     private double fgsp;
@@ -138,11 +142,6 @@ public class Pasekwynagrodzen implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "pasekwynagrodzen", orphanRemoval = true)
     private List<Naliczenienieobecnosc> naliczenienieobecnoscList;
     private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id")
-    private Integer id;
     @JoinColumn(name = "definicjalistaplac", referencedColumnName = "id")
     @ManyToOne
     private Definicjalistaplac definicjalistaplac;
@@ -172,6 +171,8 @@ public class Pasekwynagrodzen implements Serializable {
     public Pasekwynagrodzen(Place r) {
         this.bruttobezzus = r.getLplNiezd().doubleValue();
         this.bruttozus = r.getLplPodst().doubleValue();
+        this.bruttobezzusbezpodatek = 0.0;
+        this.brutto = this.bruttobezzus+this.bruttozus+this.bruttobezzusbezpodatek;
         this.fgsp = r.getLplFgspPrac().doubleValue();
         this.fp = r.getLplFpPrac().doubleValue();
         this.kosztyuzyskania = r.getLplKoszty().doubleValue();
@@ -206,7 +207,9 @@ public class Pasekwynagrodzen implements Serializable {
     }
     
     public void dodajPasek(Pasekwynagrodzen p) {
+        this.bruttobezzusbezpodatek = this.bruttobezzusbezpodatek +p.bruttobezzusbezpodatek;
         this.bruttozus = this.bruttozus + p.bruttozus;
+        this.brutto = this.brutto + p.brutto;
         this.fgsp = this.fgsp + p.fgsp;
         this.fp = this.fp + p.fp;
         this.bruttobezzus = this.bruttobezzus + p.bruttobezzus;
@@ -589,6 +592,22 @@ public class Pasekwynagrodzen implements Serializable {
 
     public void setImportowany(boolean importowany) {
         this.importowany = importowany;
+    }
+
+    public double getBrutto() {
+        return brutto;
+    }
+
+    public void setBrutto(double brutto) {
+        this.brutto = brutto;
+    }
+
+    public double getBruttobezzusbezpodatek() {
+        return bruttobezzusbezpodatek;
+    }
+
+    public void setBruttobezzusbezpodatek(double bruttobezzusbezpodatek) {
+        this.bruttobezzusbezpodatek = bruttobezzusbezpodatek;
     }
 
    
