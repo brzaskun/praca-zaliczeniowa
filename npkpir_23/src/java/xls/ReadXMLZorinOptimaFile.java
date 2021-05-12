@@ -147,7 +147,7 @@ public class ReadXMLZorinOptimaFile {
                                     } else {
                                         importyzbrakami.add(interpaperXLS);
                                     }
-                                } else if (jakipobor.equals("fiz") && (nip==null || nip.equals("") || nip.length()<8)&&dobryvat(row)==false) {
+                                } else if (jakipobor.equals("fiz") && (nip==null || nip.equals("") || nip.length()<8)) {
                                     zlyrow = uzupelnijsprzedaz(interpaperXLS, row, k, klienciDAO, znalezieni);
                                     if (zlyrow != null) {
                                         przerwanyimport.add(zlyrow);
