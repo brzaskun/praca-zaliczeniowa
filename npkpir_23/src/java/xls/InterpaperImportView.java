@@ -607,10 +607,10 @@ public class InterpaperImportView implements Serializable {
                 if (wybranyrodzajimportu.getLp()==1) {
                     rodzajdk = polska0unia1zagranica2==0 ? "SZ" : polska0unia1zagranica2==1 ? "UPTK100" : "UPTK";
                 } else {
-                    if (interpaperXLS.getVatPLN()!=0.0) {
-                        rodzajdk = "SZ";
+                    if (Z.z(interpaperXLS.getVatPLN())==0.0) {
+                        rodzajdk = polska0unia1zagranica2==2 ? "EXP" : "WDT";
                     } else {
-                        rodzajdk = polska0unia1zagranica2==0 ? "SZ" : polska0unia1zagranica2==1 ? "WDT" : "EXP";
+                        rodzajdk = "SZ";
                     }
                         
                 }
