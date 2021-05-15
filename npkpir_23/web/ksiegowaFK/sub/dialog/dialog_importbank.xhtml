@@ -65,7 +65,7 @@
                         </p:selectOneMenu>
                     <p:outputLabel for="pobierzcalyrok" value="cały rok"/>
                     <p:selectBooleanCheckbox id="pobierzcalyrok" value="#{bankImportView.pobierzcalyrok}">
-                        <p:ajax global="false" event="change"  partialSubmit="true" listener="#{bankImportView.czyjeststyczen}" update="@parent"/>
+                        <p:ajax global="false" event="change"  partialSubmit="true" listener="#{bankImportView.czyjeststyczen}"/>
                     </p:selectBooleanCheckbox>
                 </p:panelGrid>
             </p:panelGrid>

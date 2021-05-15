@@ -836,7 +836,6 @@ public class BankImportView implements Serializable {
     public void czyjeststyczen() {
         if (!wpisView.getMiesiacWpisu().equals("01")) {
             Msg.msg("e","Pobieranie rozpocznie się od bieżącego mca.");
-            pobierzcalyrok = false;
         }
     }
     

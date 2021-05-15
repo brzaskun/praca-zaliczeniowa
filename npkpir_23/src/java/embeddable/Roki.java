@@ -33,6 +33,14 @@ public class Roki implements Serializable{
         rokiList.add(2015);
         rokiList.add(2014);
         rokiList.add(2013);
+        rokiList.add(2012);
+        rokiList.add(2011);
+        rokiList.add(2010);
+        rokiList.add(2009);
+        rokiList.add(2008);
+        rokiList.add(2007);
+        rokiList.add(2006);
+        rokiList.add(2005);
         rokiListS = Collections.synchronizedList(new ArrayList<>());
         rokiListS.add("2021");
         rokiListS.add("2020");
@@ -43,6 +51,14 @@ public class Roki implements Serializable{
         rokiListS.add("2015");
         rokiListS.add("2014");
         rokiListS.add("2013");
+        rokiListS.add("2012");
+        rokiListS.add("2011");
+        rokiListS.add("2010");
+        rokiListS.add("2009");
+        rokiListS.add("2008");
+        rokiListS.add("2007");
+        rokiListS.add("2006");
+        rokiListS.add("2005");
     }
     
     public static List<Integer> getRokiListS() {
