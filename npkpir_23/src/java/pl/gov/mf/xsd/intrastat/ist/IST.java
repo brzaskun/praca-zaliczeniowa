@@ -293,15 +293,15 @@ public class IST {
         @XmlAttribute(name = "Rok")
         protected Short rok;
         @XmlAttribute(name = "Miesiac")
-        protected Byte miesiac;
+        protected Integer miesiac;
         @XmlAttribute(name = "Numer")
-        protected Byte numer;
+        protected Integer numer;
         @XmlAttribute(name = "Wersja")
-        protected Byte wersja;
+        protected Integer wersja;
         @XmlAttribute(name = "LacznaWartoscFaktur")
         protected Short lacznaWartoscFaktur;
         @XmlAttribute(name = "LacznaLiczbaPozycji")
-        protected Byte lacznaLiczbaPozycji;
+        protected Integer lacznaLiczbaPozycji;
         @XmlAttribute(name = "Miejscowosc")
         protected String miejscowosc;
         @XmlAttribute(name = "Data")
@@ -534,10 +534,10 @@ public class IST {
          * 
          * @return
          *     possible object is
-         *     {@link Byte }
+         *     {@link Integer }
          *     
          */
-        public Byte getMiesiac() {
+        public Integer getMiesiac() {
             return miesiac;
         }
 
@@ -546,10 +546,10 @@ public class IST {
          * 
          * @param value
          *     allowed object is
-         *     {@link Byte }
+         *     {@link Integer }
          *     
          */
-        public void setMiesiac(Byte value) {
+        public void setMiesiac(Integer value) {
             this.miesiac = value;
         }
 
@@ -558,10 +558,10 @@ public class IST {
          * 
          * @return
          *     possible object is
-         *     {@link Byte }
+         *     {@link Integer }
          *     
          */
-        public Byte getNumer() {
+        public Integer getNumer() {
             return numer;
         }
 
@@ -570,10 +570,10 @@ public class IST {
          * 
          * @param value
          *     allowed object is
-         *     {@link Byte }
+         *     {@link Integer }
          *     
          */
-        public void setNumer(Byte value) {
+        public void setNumer(Integer value) {
             this.numer = value;
         }
 
@@ -582,10 +582,10 @@ public class IST {
          * 
          * @return
          *     possible object is
-         *     {@link Byte }
+         *     {@link Integer }
          *     
          */
-        public Byte getWersja() {
+        public Integer getWersja() {
             return wersja;
         }
 
@@ -594,10 +594,10 @@ public class IST {
          * 
          * @param value
          *     allowed object is
-         *     {@link Byte }
+         *     {@link Integer }
          *     
          */
-        public void setWersja(Byte value) {
+        public void setWersja(Integer value) {
             this.wersja = value;
         }
 
@@ -630,10 +630,10 @@ public class IST {
          * 
          * @return
          *     possible object is
-         *     {@link Byte }
+         *     {@link Integer }
          *     
          */
-        public Byte getLacznaLiczbaPozycji() {
+        public Integer getLacznaLiczbaPozycji() {
             return lacznaLiczbaPozycji;
         }
 
@@ -642,10 +642,10 @@ public class IST {
          * 
          * @param value
          *     allowed object is
-         *     {@link Byte }
+         *     {@link Integer }
          *     
          */
-        public void setLacznaLiczbaPozycji(Byte value) {
+        public void setLacznaLiczbaPozycji(Integer value) {
             this.lacznaLiczbaPozycji = value;
         }
 
@@ -946,19 +946,19 @@ public class IST {
             @XmlValue
             protected String value;
             @XmlAttribute(name = "PozId")
-            protected Byte pozId;
+            protected Integer pozId;
             @XmlAttribute(name = "OpisTowaru")
             protected String opisTowaru;
             @XmlAttribute(name = "KrajPrzeznaczeniaWysylki")
             protected String krajPrzeznaczeniaWysylki;
             @XmlAttribute(name = "RodzajTransakcji")
-            protected Byte rodzajTransakcji;
+            protected Integer rodzajTransakcji;
             @XmlAttribute(name = "KodTowarowy")
             protected Integer kodTowarowy;
             @XmlAttribute(name = "MasaNetto")
-            protected Byte masaNetto;
+            protected Integer masaNetto;
             @XmlAttribute(name = "IloscUzupelniajacaJm")
-            protected Byte iloscUzupelniajacaJm;
+            protected Integer iloscUzupelniajacaJm;
             @XmlAttribute(name = "WartoscFaktury")
             protected Short wartoscFaktury;
             @XmlAttribute(name = "IdKontrahenta")
@@ -993,10 +993,10 @@ public class IST {
              * 
              * @return
              *     possible object is
-             *     {@link Byte }
+             *     {@link Integer }
              *     
              */
-            public Byte getPozId() {
+            public Integer getPozId() {
                 return pozId;
             }
 
@@ -1005,10 +1005,10 @@ public class IST {
              * 
              * @param value
              *     allowed object is
-             *     {@link Byte }
+             *     {@link Integer }
              *     
              */
-            public void setPozId(Byte value) {
+            public void setPozId(Integer value) {
                 this.pozId = value;
             }
 
@@ -1065,10 +1065,10 @@ public class IST {
              * 
              * @return
              *     possible object is
-             *     {@link Byte }
+             *     {@link Integer }
              *     
              */
-            public Byte getRodzajTransakcji() {
+            public Integer getRodzajTransakcji() {
                 return rodzajTransakcji;
             }
 
@@ -1077,10 +1077,10 @@ public class IST {
              * 
              * @param value
              *     allowed object is
-             *     {@link Byte }
+             *     {@link Integer }
              *     
              */
-            public void setRodzajTransakcji(Byte value) {
+            public void setRodzajTransakcji(Integer value) {
                 this.rodzajTransakcji = value;
             }
 
@@ -1113,10 +1113,10 @@ public class IST {
              * 
              * @return
              *     possible object is
-             *     {@link Byte }
+             *     {@link Integer }
              *     
              */
-            public Byte getMasaNetto() {
+            public Integer getMasaNetto() {
                 return masaNetto;
             }
 
@@ -1125,10 +1125,10 @@ public class IST {
              * 
              * @param value
              *     allowed object is
-             *     {@link Byte }
+             *     {@link Integer }
              *     
              */
-            public void setMasaNetto(Byte value) {
+            public void setMasaNetto(Integer value) {
                 this.masaNetto = value;
             }
 
@@ -1137,10 +1137,10 @@ public class IST {
              * 
              * @return
              *     possible object is
-             *     {@link Byte }
+             *     {@link Integer }
              *     
              */
-            public Byte getIloscUzupelniajacaJm() {
+            public Integer getIloscUzupelniajacaJm() {
                 return iloscUzupelniajacaJm;
             }
 
@@ -1149,10 +1149,10 @@ public class IST {
              * 
              * @param value
              *     allowed object is
-             *     {@link Byte }
+             *     {@link Integer }
              *     
              */
-            public void setIloscUzupelniajacaJm(Byte value) {
+            public void setIloscUzupelniajacaJm(Integer value) {
                 this.iloscUzupelniajacaJm = value;
             }
 

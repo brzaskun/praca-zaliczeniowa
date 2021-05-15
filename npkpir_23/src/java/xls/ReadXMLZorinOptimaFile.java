@@ -874,7 +874,7 @@ public class ReadXMLZorinOptimaFile {
         if (Z.z(kwoty[1])==0.0) {
             zwrot=true;
         } else {
-            double procent = Z.z(kwoty[1]/kwoty[0]*100);
+            double procent = Math.abs(Z.z(kwoty[1]/kwoty[0]*100));
             if (Z.z(procent)==23.0||Z.z(procent)==8.0) {
                 zwrot=true;
             }

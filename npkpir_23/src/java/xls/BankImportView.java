@@ -312,7 +312,8 @@ public class BankImportView implements Serializable {
         if (pobierzcalyrok==true) {
             pobranefaktury = new ArrayList<>();
             int zwrot = 1;
-            for (String mc : Mce.getMceListS()) {
+            List<String> zakresmiesiecy = Mce.zakresmiesiecy(wpisView.getMiesiacWpisu(), "12");
+            for (String mc : zakresmiesiecy) {
                 zwrot = importujdok(mc);
             }
             if (zwrot==0) {
@@ -834,7 +835,7 @@ public class BankImportView implements Serializable {
      
     public void czyjeststyczen() {
         if (!wpisView.getMiesiacWpisu().equals("01")) {
-            Msg.msg("e","Bieżący miesiąc to nie styczeń. Nie można importować całego roku");
+            Msg.msg("e","Pobieranie rozpocznie się od bieżącego mca.");
             pobierzcalyrok = false;
         }
     }

@@ -130,19 +130,19 @@ public class AmazonImportIntrastat implements Serializable {
                 ObjectFactory ob = new ObjectFactory();
                 IST.Deklaracja deklaracja = ob.createISTDeklaracja();
                 deklaracja.setData(Data.databiezaca());
-                deklaracja.setLacznaLiczbaPozycji((byte)lista.size());
+                deklaracja.setLacznaLiczbaPozycji(lista.size());
                 deklaracja.setLacznaWartoscFaktur(podsumuj(lista));
                 deklaracja.setMiejscowosc("Szczecin");
-                deklaracja.setMiesiac(Mce.getMiesiacToNumber().get(wpisView.getMiesiacWpisu()).byteValue());
+                deklaracja.setMiesiac(Mce.getMiesiacToNumber().get(wpisView.getMiesiacWpisu()));
                 deklaracja.setNrWlasny("1D"+wpisView.getRokWpisuSt()+wpisView.getMiesiacWpisu()+"W1");
-                deklaracja.setNumer((byte)1);
+                deklaracja.setNumer(1);
                 deklaracja.setPodmiotZobowiazany(zrobpodmiot(wpisView));
                 deklaracja.setZglaszajacy(zrobzglaszajacy(wpisView));
                 deklaracja.setRodzaj("D");
                 deklaracja.setRok(Short.valueOf(wpisView.getRokWpisuSt()));
                 deklaracja.setTyp("W");
                 deklaracja.setUC(420000);
-                deklaracja.setWersja((byte)1);
+                deklaracja.setWersja(1);
                 deklaracja.setWypelniajacy(zrobwypelniajacy(wpisView));
                 dodajwiersze(deklaracja, lista);
                 ist.setDeklaracja(deklaracja);
@@ -170,19 +170,19 @@ public class AmazonImportIntrastat implements Serializable {
             marshaller.marshal(ist, writer);
             Object[] walidacja = XMLValid.walidujIntrastat(mainfilename);
             String[] zwrot = new String[2];
-            if (walidacja!=null && walidacja[0]==Boolean.TRUE) {
+//            if (walidacja!=null && walidacja[0]==Boolean.TRUE) {
                 zwrot[0] = mainfilename;
                 zwrot[1] = "ok";
-                Msg.msg("Walidacja Intrastat pomyślna");
+//                Msg.msg("Walidacja Intrastat pomyślna");
                 Msg.msg("Zachowano Intrastat");
                 String exec = "wydrukJPK('"+mainfilename+"')";
                 PrimeFaces.current().executeScript(exec);
-            } else if (walidacja!=null && walidacja[0]==Boolean.FALSE){
-                zwrot[0] = mainfilename;
-                zwrot[1] = null;
-                Msg.msg("Nie zachowano Intrastat");
-                Msg.msg("e", (String) walidacja[1]);
-            }
+//            } else if (walidacja!=null && walidacja[0]==Boolean.FALSE){
+//                zwrot[0] = mainfilename;
+//                zwrot[1] = null;
+//                Msg.msg("Nie zachowano Intrastat");
+//                Msg.msg("e", (String) walidacja[1]);
+//            }
             sciezka = mainfilename;
         } catch (Exception ex) {
             E.e(ex);
@@ -237,20 +237,20 @@ public class AmazonImportIntrastat implements Serializable {
     }
 
     private void dodajwiersze(IST.Deklaracja deklaracja, List<Intrastatwiersz> lista) {
-        byte i = 1;
+        Integer i = 1;
         for (Intrastatwiersz p : lista) {
             try {
                 IST.Deklaracja.Towar tow = new IST.Deklaracja.Towar();
                 tow.setIdKontrahenta(p.getVatuekontrahenta());
                 Integer ilosc = Integer.parseInt(p.getIlosc());
-                tow.setIloscUzupelniajacaJm(ilosc.byteValue());
+                tow.setIloscUzupelniajacaJm(ilosc);
                 tow.setKodTowarowy(p.getKodtowaru());
                 tow.setKrajPrzeznaczeniaWysylki(p.getKrajprzeznaczenia());
                 Integer masa = (int) Double.parseDouble(p.getMasanettokg());
-                tow.setMasaNetto(masa.byteValue());
+                tow.setMasaNetto(masa);
                 tow.setOpisTowaru(p.getOpistowaru());
                 tow.setPozId(i++);
-                tow.setRodzajTransakcji(p.getRodzajtransakcji().byteValue());
+                tow.setRodzajTransakcji(p.getRodzajtransakcji());
                 tow.setWartoscFaktury(p.getWartoscfaktury().shortValue());
                 deklaracja.getTowar().add(tow);
             } catch (Exception e) {
