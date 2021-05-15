@@ -311,32 +311,35 @@ public class BankImportView implements Serializable {
     public void importujdokbadaj() {
         if (pobierzcalyrok==true) {
             pobranefaktury = new ArrayList<>();
-            int zwrot = 1;
+            int[] zwrot = new int[2];
+            int lpwersza = 1;
             List<String> zakresmiesiecy = Mce.zakresmiesiecy(wpisView.getMiesiacWpisu(), "12");
             for (String mc : zakresmiesiecy) {
-                zwrot = importujdok(mc);
+                zwrot = importujdok(mc, lpwersza);
+                lpwersza = lpwersza+zwrot[1];
             }
-            if (zwrot==0) {
+            if (zwrot[0]==0) {
                 Msg.msg("Pobrano wyciągi za cały rok");
             }
         } else {
             pobranefaktury = new ArrayList<>();
-            int zwrot = 1;
-            zwrot = importujdok(wpisView.getMiesiacWpisu());
-            if (zwrot==0) {
+            int[] zwrot = new int[2];
+            int lpwersza = 1;
+            zwrot[0] = 1;
+            zwrot = importujdok(wpisView.getMiesiacWpisu(), lpwersza);
+            if (zwrot[0]==0) {
                 Msg.msg("Pobrano wyciągi za miesiąc");
             }
         }
     }
     
     
-    public int importujdok(String mc) {
+    public int[] importujdok(String mc, int lpwiersza) {
         int zwrota = 1;
         try {
             List zwrot = null;
             if (pobraneplikibytes!=null && pobraneplikibytes.size()>0) {
                 int numerwyciagu = -1;
-                int lpwiersza = 1;
                 for (byte[] partia : pobraneplikibytes) {
                     switch (wybranyrodzajimportu.getLp()) {
                         case 1 :
@@ -349,7 +352,8 @@ public class BankImportView implements Serializable {
                            zwrot = ImportMbankHist_CSV.importujdok(partia, wyciagdataod, numerwyciagu, lpwiersza, mc);
                            break;
                         case 4 :
-                           return -1;
+                           zwrota = -1;
+                           break;
                         case 5 :
                             zwrot = ImportiPKOBP_XLS.importujdok(partia, wyciagdataod, numerwyciagu, lpwiersza, mc);
                             break;
@@ -418,13 +422,17 @@ public class BankImportView implements Serializable {
             Msg.msg("e", "Wystąpił błąd przy pobieraniu danych ");
             error.E.s(E.e(e));
         }
-        return zwrota;
+        int[] returna = new int[2];
+        returna[0] = zwrota;
+        returna[1] = lpwiersza;
+        return returna;
     }
     
      public void generujbadaj() {
         if (pobierzcalyrok==true) {
             int zwrot = 1;
-            for (String mc : Mce.getMceListS()) {
+            List<String> zakresmiesiecy = Mce.zakresmiesiecy(wpisView.getMiesiacWpisu(), "12");
+            for (String mc : zakresmiesiecy) {
                 if (!pobranefaktury.isEmpty()) {
                     zwrot = generuj(mc);
                 }
@@ -835,7 +843,7 @@ public class BankImportView implements Serializable {
      
     public void czyjeststyczen() {
         if (!wpisView.getMiesiacWpisu().equals("01")) {
-            Msg.msg("e","Pobieranie rozpocznie się od bieżącego mca.");
+            Msg.msg("w","Pobieranie rozpocznie się od bieżącego mca.");
         }
     }
     
