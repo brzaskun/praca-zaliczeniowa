@@ -8,11 +8,11 @@ import beansFK.PozycjaRZiSFKBean;
 import beansFK.StronaWierszaBean;
 import beansFK.UkladBRBean;
 import converter.RomNumb;
-import dao.StronaWierszaDAO;
 import dao.KontoDAOfk;
 import dao.KontopozycjaZapisDAO;
 import dao.PozycjaBilansDAO;
 import dao.PozycjaRZiSDAO;
+import dao.StronaWierszaDAO;
 import dao.UkladBRDAO;
 import dao.WierszBODAO;
 import data.Data;
@@ -32,14 +32,15 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.inject.Named;
-
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
-import msg.Msg;import org.primefaces.model.TreeNode;
+import javax.inject.Named;
+import msg.Msg;
+import org.primefaces.model.TreeNode;
 import pdffk.PdfBilans;
 import pdffk.PdfRZiS;
-import view.WpisView;import waluty.Z;
+import view.WpisView;
+import waluty.Z;
 
 /**
  *
@@ -187,7 +188,7 @@ public class PozycjaBRZestawienieView implements Serializable {
     }
     
     public void obliczRZiSOtwarciaRZiSData() {
-        if (uklad.getUklad() == null) {
+        if (uklad == null || uklad.getUklad() == null) {
             uklad = ukladBRDAO.findukladBRPodatnikRokPodstawowy(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         }
         List<PozycjaRZiSBilans> pozycje = Collections.synchronizedList(new ArrayList<>());

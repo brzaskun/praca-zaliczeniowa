@@ -27,7 +27,8 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import msg.Msg;
-import view.WpisView;import waluty.Z;
+import view.WpisView;
+import waluty.Z;
 
 /**
  *
@@ -386,12 +387,13 @@ public class PozycjaRZiSFKBean {
     
     public static void przyporzadkujpotkomkowZwykle(Konto macierzyste, KontoDAOfk kontoDAO, Podatnik podatnik, String bilanswynik) {
         List<Konto> potomki = null;
-        potomki = kontoDAO.findKontaPotomnePodatnik(podatnik, macierzyste.getRok(), macierzyste);
+        potomki = kontoDAO.findKontaPotomneByPodatnik(podatnik, macierzyste);
         if (potomki != null) {
             for (Konto p : potomki) {
                 p.kopiujPozycje(macierzyste);
                 p.setSyntetykaanalityka("syntetyka");
                 kontoDAO.edit(p);
+                p.setMapotomkow(czykontomapotomkow(p,kontoDAO, podatnik));
                 if (p.isMapotomkow() == true) {
                     przyporzadkujpotkomkowZwykle(p, kontoDAO, podatnik, bilanswynik);
                 }
@@ -403,7 +405,7 @@ public class PozycjaRZiSFKBean {
     
     public static void przyporzadkujpotkomkowRozrachunkowe(Konto konto, KontoDAOfk kontoDAO,  Podatnik podatnik, String wnma) {
         List<Konto> potomki = null;
-        potomki = kontoDAO.findKontaPotomnePodatnik(podatnik, konto.getRok(), konto);
+        potomki = kontoDAO.findKontaPotomneByPodatnik(podatnik, konto);
         if (potomki != null) {
             for (Konto p : potomki) {
                 try {
@@ -414,6 +416,7 @@ public class PozycjaRZiSFKBean {
                 } catch (Exception e) {
                     E.e(e);
                 }
+                p.setMapotomkow(czykontomapotomkow(p,kontoDAO, podatnik));
                 if (p.isMapotomkow() == true) {
                     przyporzadkujpotkomkowRozrachunkowe(p, kontoDAO, podatnik, wnma);
                 }
@@ -421,7 +424,16 @@ public class PozycjaRZiSFKBean {
         }
     }
     
-    
+    private static boolean czykontomapotomkow(Konto konto, KontoDAOfk kontoDAO, Podatnik podatnik) {
+        boolean zwrot = false;
+         List<Konto> kontaPotomneByPodatnik = kontoDAO.findKontaPotomneByPodatnik(podatnik, konto);
+         if (kontaPotomneByPodatnik!=null&&kontaPotomneByPodatnik.size()>0) {
+             zwrot = true;
+         }
+         konto.setMapotomkow(zwrot);
+         kontoDAO.edit(konto);
+         return zwrot;
+    }
 
     public static void sumujObrotyNaKontach(List<StronaWiersza> zapisy, List<Konto> plankont) {
         for (StronaWiersza p : zapisy) {

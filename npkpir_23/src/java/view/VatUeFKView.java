@@ -641,6 +641,8 @@ public class VatUeFKView implements Serializable {
                     }
                 }
             } else {
+                String name = Plik.zapiszplik("vatuedekl"+wpisView.getPodatnikObiekt().getNip(), "xml", deklaracja.getBytes());
+                PrimeFaces.current().executeScript("pokazwydrukpdf('"+name+"')");
                 Msg.msg("e", (String) walidacja[1]);
                 Msg.msg("e","Wystąpił błąd. Niesporządzono deklaracji VAT-UE. Sprawdź czy włożono kartę z podpisem! Sprawdź oznaczenia krajów i NIP-y");
             }

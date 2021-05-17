@@ -534,6 +534,18 @@ public class KontoDAOfk extends DAO implements Serializable {
         }
         return zwrot;
     }
+    
+     public List<Konto> findKontaPotomneByPodatnik(Podatnik podatnik, Konto macierzyste) {
+        List<Konto> zwrot = new ArrayList<>();
+        try {
+            LoadGroup lg = new LoadGroup();
+            lg.addAttribute("kontokategoria");
+            zwrot = getEntityManager().createNamedQuery("Konto.findByMacierzysteByPodatnik").setParameter("macierzyste", macierzyste).setParameter("podatnik", podatnik).setHint(QueryHints.LOAD_GROUP, lg).getResultList();
+        } catch (Exception e) {
+            E.e(e);
+        }
+        return zwrot;
+    }
 
   
     public List<Konto> findKontaWszystkiePotomnePodatnik(List<Konto> listakontwszystkie, Podatnik podatnik, Integer rok, Konto macierzyste) {

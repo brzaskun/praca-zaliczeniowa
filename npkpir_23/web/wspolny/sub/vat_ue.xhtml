@@ -70,7 +70,7 @@
                     </p:column>
                     <p:column id="krajkodColumn" headerText="kraj" filterBy="#{wpis1.kontrahent.krajkod}" filterMatchMode="contains" sortBy="#{wpis1.kontrahent.krajkod}" 
                               style="width: 20px; text-align: center;" filterStyle="display : none;" >  
-                        <h:outputText value="#{wpis1.kontrahent.krajkod}"/>
+                        <h:outputText value="#{wpis1.kontrahent.krajkod}" style="color: #{wpis1.kontrahent.krajkod eq 'PL'?'red':'initial'}"/>
                     </p:column>
                     <p:column id="nipColumn" headerText="nip" filterBy="#{wpis1.kontrahentwyborNIP}" 
                               filterMatchMode="contains" sortBy="#{wpis1.kontrahentwyborNIP}" style="width: 20%;" filterStyle="display : none;" >  

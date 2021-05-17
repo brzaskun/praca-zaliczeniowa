@@ -45,7 +45,7 @@
             </p:splitButton>
             </p:panelGrid>
             <p:dataTable id="tablicasymulacjasumanar" value="#{symulacjaWynikuNarastajacoView.listamiesiecy}" var="loop_wyn" rowKey="#{loop_wyn.id}"
-                         emptyMessage="#{mgs.niepobranosuma}" selectionMode="single" 
+                         emptyMessage="#{mgs.niepobranosuma}" selectionMode="single" sortBy="#{loop_wyn.mc}"
                          styleClass="gridtablicasyntetyczne"  style="margin-top: 10px; width: 1280px; padding: 10px;" widgetVar="tablicasymulacjasumanar"
                          >
                 <f:facet name="header">

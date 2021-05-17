@@ -817,6 +817,7 @@ public class PlanKontFKBean {
             konto.setWynik0bilans1(true);
             kontoDAO.edit(konto);
             kontopozycjazapisZapisz(konto, ukladBR, true, kontopozycjaZapisDAO);
+            konto.setMapotomkow(czykontomapotomkow(konto,kontoDAO, podatnik));
             //czesc nanoszaca informacje na potomku
             if (konto.isMapotomkow() == true) {
                 PozycjaRZiSFKBean.przyporzadkujpotkomkowRozrachunkowe(konto, kontoDAO, podatnik, wnmaPrzypisywanieKont);
@@ -844,6 +845,7 @@ public class PlanKontFKBean {
             kontoDAO.edit(konto);
             kontopozycjazapisZapisz(konto, ukladBR, true, kontopozycjaZapisDAO);
             //czesc nanoszaca informacje na potomku
+            konto.setMapotomkow(czykontomapotomkow(konto,kontoDAO, podatnik));
             if (konto.isMapotomkow() == true) {
                 PozycjaRZiSFKBean.przyporzadkujpotkomkowZwykle(konto, kontoDAO, podatnik, "bilans");
             }
@@ -969,5 +971,18 @@ public class PlanKontFKBean {
 //        String nowynumer = str.substring(0, indexkoncowy);
 //        error.E.s("w "+nowynumer);
     }
+
+    private static boolean czykontomapotomkow(Konto konto, KontoDAOfk kontoDAO, Podatnik podatnik) {
+        boolean zwrot = false;
+         List<Konto> kontaPotomneByPodatnik = kontoDAO.findKontaPotomneByPodatnik(podatnik, konto);
+         if (kontaPotomneByPodatnik!=null&&kontaPotomneByPodatnik.size()>0) {
+             zwrot = true;
+         }
+         konto.setMapotomkow(zwrot);
+         kontoDAO.edit(konto);
+         return zwrot;
+    }
+
+
 }
 

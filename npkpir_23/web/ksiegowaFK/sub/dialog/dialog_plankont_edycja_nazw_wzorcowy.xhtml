@@ -24,6 +24,7 @@
                     </p:selectOneMenu>
                     <h:outputLabel value="Zwykle/rozrach/szczegolne:" for="zwyklerozrachszczegolne" />
                     <p:selectOneMenu id="zwyklerozrachszczegolne" value="#{planKontView.selectednodekonto.zwyklerozrachszczegolne}" required="true" requiredMessage="The Zwyklerozrachszczegolne field is required." style="width: 170px;">
+                        <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true"/>
                         <f:selectItem itemLabel="zwykłe" itemValue="zwykłe"/>
                         <f:selectItem itemLabel="rozrachunkowe" itemValue="rozrachunkowe"/>
                         <f:selectItem itemLabel="szczególne" itemValue="szczególne"/>

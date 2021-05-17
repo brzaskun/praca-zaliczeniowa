@@ -34,13 +34,13 @@ public class Waluty implements Serializable {
     @Basic(optional = false)
     @Column(name = "idwaluty", nullable = false)
     private Integer id;
-    @Column(name = "symbolwaluty")
+    @Column(name = "symbolwaluty", nullable = false)
     private String symbolwaluty;
-    @Column(name = "nazwawaluty")
+    @Column(name = "nazwawaluty", nullable = false)
     private String nazwawaluty;
     @Column(name = "przelicznik")
     private int przelicznik;
-    @Column(name = "skrotsymbolu")
+    @Column(name = "skrotsymbolu", nullable = false)
     private String skrotsymbolu;
 //    @OneToMany(mappedBy = "waluta", fetch = FetchType.LAZY)
 //    private List<Tabelanbp> tabelanbp;

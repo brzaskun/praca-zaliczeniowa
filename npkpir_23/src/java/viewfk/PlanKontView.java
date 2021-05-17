@@ -1113,6 +1113,8 @@ public class PlanKontView implements Serializable {
         for (Konto p : kontadoporzadkowania) {
             p.czyscPozycje();
         }
+        //sprawdzmacierzyste
+        KontaFKBean.sprawdzMacierzyste(kontadoporzadkowania, kontoDAOfk);
         //tutaj nanosi czy ma potomkow
         KontaFKBean.ustawCzyMaPotomkow(kontadoporzadkowania, kontoDAOfk);
         kontadoporzadkowania = kontoDAOfk.findWszystkieKontaPodatnikaRO(podatnik, rok);
