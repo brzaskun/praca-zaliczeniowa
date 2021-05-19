@@ -15,8 +15,6 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.math.BigInteger;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
@@ -36,11 +34,15 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
-import pl.gov.crd.wzor._2020._07._03._9690.Deklaracja.*;
-import pl.gov.crd.wzor._2020._07._03._9690.Deklaracja.PozycjeSzczegolowe.*;
+import pl.gov.crd.wzor._2020._07._03._9690.Deklaracja.Podmiot1;
+import pl.gov.crd.wzor._2020._07._03._9690.Deklaracja.PozycjeSzczegolowe;
+import pl.gov.crd.wzor._2020._07._03._9690.Deklaracja.PozycjeSzczegolowe.Grupa1;
+import pl.gov.crd.wzor._2020._07._03._9690.Deklaracja.PozycjeSzczegolowe.Grupa2;
+import pl.gov.crd.wzor._2020._07._03._9690.Deklaracja.PozycjeSzczegolowe.Grupa3;
 import pl.gov.crd.xml.schematy.dziedzinowe.mf._2013._05._23.ed.kodyue.TKodKrajuUE;
 import pl.gov.crd.xml.schematy.dziedzinowe.mf._2020._03._11.ed.definicjetypy.*;
-import view.WpisView;import waluty.Z;
+import view.WpisView;
+import waluty.Z;
 
 
 /**
@@ -75,7 +77,7 @@ public class VATUEM5Bean {
     
     public static Podmiot1 podmiot1(WpisView wv) {
         Podmiot1 p = new Podmiot1();
-        if (wv.getFormaprawna() == null) {
+        if (wv.getFormaprawna() == null || wv.getFormaprawna().equals("OSOBA_FIZYCZNA")) {
             p.setRola("Podatnik");
             p.setOsobaFizyczna(pobierzindetyfikator(wv));
         } else {
@@ -132,6 +134,19 @@ public class VATUEM5Bean {
                             poz.getGrupa3().add(grupa3(p));
                             break;
                     }
+                } else if (p.getKontrahentnip() !=null){
+                    switch (p.getTransakcja()) {
+                        case "WDT":
+                            poz.getGrupa1().add(grupa1(p));
+                            break;
+                        case "WNT":
+                            poz.getGrupa2().add(grupa2(p));
+                            break;
+                        default:
+                            poz.getGrupa3().add(grupa3(p));
+                            break;
+                    }
+                    
                 }
             }
         }
@@ -141,7 +156,7 @@ public class VATUEM5Bean {
     private static Grupa1 grupa1(VatUe p) {
         Grupa1 g = new Grupa1();
         g.setPDa(kodkraju(p));
-        g.setPDb(przetworznip(p.getKontrahent().getNip()));
+        g.setPDb(przetworznip(p));
         g.setPDc(new BigInteger(Z.zUDI(p.getNetto()).toString()));
         g.setPDd((byte)1);
         return g;
@@ -150,7 +165,7 @@ public class VATUEM5Bean {
     private static Grupa2 grupa2(VatUe p) {
         Grupa2 g = new Grupa2();
         g.setPNa(kodkraju(p));
-        g.setPNb(przetworznip(p.getKontrahent().getNip()));
+        g.setPNb(przetworznip(p));
         g.setPNc(new BigInteger(Z.zUDI(p.getNetto()).toString()));
         g.setPNd((byte)1);
         return g;
@@ -159,16 +174,16 @@ public class VATUEM5Bean {
     private static Grupa3 grupa3(VatUe p) {
         Grupa3 g = new Grupa3();
         g.setPUa(kodkraju(p));
-        g.setPUb(przetworznip(p.getKontrahent().getNip()));
+        g.setPUb(przetworznip(p));
         g.setPUc(new BigInteger(Z.zUDI(p.getNetto()).toString()));
         return g;
     }
     
-    public static String przetworznip(String nip) {
-        String dobrynip = nip;
-        boolean jestprefix = sprawdznip(nip);
+    public static String przetworznip(VatUe p) {
+        String dobrynip = p.getKontrahent()!=null?p.getKontrahent().getNip():p.getKontrahentnip();
+        boolean jestprefix = sprawdznip(dobrynip);
             if (jestprefix) {
-                dobrynip = nip.substring(2);
+                dobrynip = dobrynip.substring(2);
         }
         return dobrynip;
     }
@@ -183,9 +198,18 @@ public class VATUEM5Bean {
 
     private static TKodKrajuUE kodkraju(VatUe p) {
         TKodKrajuUE zwrot = null;
-        if (p.getKontrahent().getKrajkod() != null) {
+        if (p.getKontrahent()!=null&&p.getKontrahent().getKrajkod() != null) {
             try {
                 String k = p.getKontrahent().getKrajkod();
+                if (k.equals("GR")) {
+                    k = "EL";
+                }
+                zwrot = TKodKrajuUE.fromValue(k);
+            } catch (Exception e) {
+            }
+        } else if (p.getKontrahentnip()!=null) {
+            try {
+                String k = p.getKontrahentkraj();
                 if (k.equals("GR")) {
                     k = "EL";
                 }

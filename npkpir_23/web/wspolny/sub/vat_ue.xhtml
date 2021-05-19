@@ -29,7 +29,7 @@
             <p:commandButton value="#{mgs.drukujtab}" style="margin-left: 10px; margin-bottom: 1%; width: 120px;" actionListener="#{vatUeFKView.drukujewidencjeUEfkTabela()}"/>
             <p:commandButton value="rozwiń/zwiń" style="margin-left: 10px; margin-bottom: 1%; width: 120px;" onclick="jQuery('.ui-row-toggler').click()" global="false"/>
             <p:commandButton value="deklar. test" style="margin-left: 10px; margin-bottom: 1%; width: 120px;display:inline ;"
-                             actionListener="#{vatUeFKView.tworzdeklaracje(vatUeFKView.klienciWDTWNT,0)}" update="@(.upd3) @(.upd)" ajax="false"  rendered="#{!vatUeFKView.deklaracja0korekta1}"/>
+                             actionListener="#{vatUeFKView.tworzdeklaracje(vatUeFKView.klienciWDTWNT,0)}" rendered="#{!vatUeFKView.deklaracja0korekta1}"/>
             <p:commandButton value="deklaracja" style="margin-left: 10px; margin-bottom: 1%; width: 120px;display: none ;" id="deklbutton"
                              actionListener="#{vatUeFKView.tworzdeklaracje(vatUeFKView.klienciWDTWNT,1)}" update="@(.upd3) @(.upd)" rendered="#{!vatUeFKView.deklaracja0korekta1}"/>
             <p:commandButton value="korekta test" style="margin-left: 10px; margin-bottom: 1%; width: 120px; display: inline;"  update="@(.upd3) @(.upd)"   styleClass="upd3"

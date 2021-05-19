@@ -222,7 +222,7 @@ public class VatUeFKView implements Serializable {
     
     public void init3() {
         try {
-            DeklaracjavatUE d = deklaracjavatUEDAO.findbyPodatnikRokMc(wpisView);
+                DeklaracjavatUE d = deklaracjavatUEDAO.findbyPodatnikRokMc(wpisView);
             if (d != null) {
                 deklaracja0korekta1 = true;
             } else {
