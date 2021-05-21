@@ -41,7 +41,6 @@ import pl.gov.crd.wzor._2020._07._03._9689.Deklaracja.PozycjeSzczegolowe.Grupa2;
 import pl.gov.crd.wzor._2020._07._03._9689.Deklaracja.PozycjeSzczegolowe.Grupa3;
 import pl.gov.crd.xml.schematy.dziedzinowe.mf._2013._05._23.ed.kodyue.TKodKrajuUE;
 import pl.gov.crd.xml.schematy.dziedzinowe.mf._2020._03._11.ed.definicjetypy.TIdentyfikatorOsobyFizycznej2;
-import pl.gov.crd.xml.schematy.dziedzinowe.mf._2020._03._11.ed.definicjetypy.TIdentyfikatorOsobyNiefizycznej;
 import pl.gov.crd.xml.schematy.dziedzinowe.mf._2020._03._11.ed.definicjetypy.TIdentyfikatorOsobyNiefizycznej1;
 import view.WpisView;import waluty.Z;
 
@@ -78,7 +77,7 @@ public class VATUEKM5Bean {
     
     public static Podmiot1 podmiot1(WpisView wv) {
         Podmiot1 p = new Podmiot1();
-        if (wv.getFormaprawna() != null) {
+        if (wv.getFormaprawna() == null || wv.getFormaprawna().equals("OSOBA_FIZYCZNA")) {
             p.setRola("Podatnik");
             p.setOsobaNiefizyczna(pobierzidentyfikatorspolka(wv));
         } else {
@@ -102,7 +101,7 @@ public class VATUEKM5Bean {
     private static TIdentyfikatorOsobyNiefizycznej1 pobierzidentyfikatorspolka(WpisView w) {
         TIdentyfikatorOsobyNiefizycznej1 idf = new TIdentyfikatorOsobyNiefizycznej1();
         idf.setNIP(w.getPodatnikObiekt().getNip());
-        idf.setPelnaNazwa(w.getPodatnikObiekt().getNazwapelna());
+        idf.setPelnaNazwa(w.getPodatnikObiekt().getPrintnazwa());
         return idf;
     }
 
