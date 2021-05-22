@@ -23,10 +23,9 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.inject.Named;
-
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import msg.Msg;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.poi.ss.usermodel.Cell;
@@ -125,13 +124,13 @@ public class ImportMataczView  implements Serializable {
                     waluta = waluta.substring(0, 3);
                     //interpaperXLS.setKlient(ustawkontrahenta(interpaperXLS, k, klienciDAO, znalezieni));
                     interpaperXLS.setWalutaplatnosci(waluta);
-                    interpaperXLS.setNettowaluta(zamiennakwote(row.getCell(19).getStringCellValue()));
-                    interpaperXLS.setVatwaluta(zamiennakwote(row.getCell(20).getStringCellValue()));
+                    interpaperXLS.setNettowaluta(zamiennakwote(row.getCell(19)));
+                    interpaperXLS.setVatwaluta(zamiennakwote(row.getCell(20)));
                     interpaperXLS.setBruttowaluta(Z.z(interpaperXLS.getNettowaluta()+interpaperXLS.getVatwaluta()));
-                    interpaperXLS.setNettoPLN(zamiennakwote(row.getCell(19).getStringCellValue()));
-                    interpaperXLS.setVatPLN(zamiennakwote(row.getCell(20).getStringCellValue()));
+                    interpaperXLS.setNettoPLN(zamiennakwote(row.getCell(19)));
+                    interpaperXLS.setVatPLN(zamiennakwote(row.getCell(20)));
                     interpaperXLS.setBruttoPLN(Z.z(interpaperXLS.getNettowaluta()+interpaperXLS.getVatwaluta()));
-                    if (zamiennakwote(row.getCell(6).getStringCellValue())>0) {
+                    if (zamiennakwote(row.getCell(6))>0) {
                         interpaperXLS.setEvewidencja(evewidencja23);
                     } else {
                         interpaperXLS.setEvewidencja(evewidencja8);
@@ -181,11 +180,11 @@ public class ImportMataczView  implements Serializable {
                     waluta = waluta.substring(0, 3);
                     //interpaperXLS.setKlient(ustawkontrahenta(interpaperXLS, k, klienciDAO, znalezieni));
                     interpaperXLS.setWalutaplatnosci(waluta);
-                    interpaperXLS.setNettowaluta(zamiennakwote(row.getCell(19).getStringCellValue()));
-                    interpaperXLS.setVatwaluta(zamiennakwote(row.getCell(20).getStringCellValue()));
+                    interpaperXLS.setNettowaluta(zamiennakwote(row.getCell(19)));
+                    interpaperXLS.setVatwaluta(zamiennakwote(row.getCell(20)));
                     interpaperXLS.setBruttowaluta(Z.z(interpaperXLS.getNettowaluta()+interpaperXLS.getVatwaluta()));
-                    interpaperXLS.setNettoPLN(zamiennakwote(row.getCell(19).getStringCellValue()));
-                    interpaperXLS.setVatPLN(zamiennakwote(row.getCell(20).getStringCellValue()));
+                    interpaperXLS.setNettoPLN(zamiennakwote(row.getCell(19)));
+                    interpaperXLS.setVatPLN(zamiennakwote(row.getCell(20)));
                     interpaperXLS.setBruttoPLN(Z.z(interpaperXLS.getNettowaluta()+interpaperXLS.getVatwaluta()));
                     interpaperXLS.setNr(i);
                     i++;
@@ -197,14 +196,21 @@ public class ImportMataczView  implements Serializable {
         }
     }
     
-    private static double zamiennakwote(String stringCellValue) {
-        int nettowalutasize = stringCellValue.length();
-        String waluta = stringCellValue.substring(nettowalutasize-3, nettowalutasize);
-        waluta = " "+waluta;
-        String kwota = stringCellValue.replace(waluta,"");
-        kwota = kwota.replace(",", ".");
-        kwota = kwota.replace(" ", "");
-        double zwrot = Z.z(Double.parseDouble(kwota));
+    private static double zamiennakwote(Cell cell) {
+        double zwrot = 0.0;
+        Object pobrana = xls.X.x(cell);
+        if (pobrana instanceof String) {
+            String stringCellValue = (String) pobrana;
+            int nettowalutasize = stringCellValue.length();
+            String waluta = stringCellValue.substring(nettowalutasize-3, nettowalutasize);
+            waluta = " "+waluta;
+            String kwota = stringCellValue.replace(waluta,"");
+            kwota = kwota.replace(",", ".");
+            kwota = kwota.replace(" ", "");
+            zwrot = Z.z(Double.parseDouble(kwota));
+        } else if (pobrana instanceof Double) {
+            zwrot = (double) pobrana;
+        }
         return zwrot;
     }
     
