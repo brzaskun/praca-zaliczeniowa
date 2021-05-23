@@ -80,51 +80,51 @@
                                 </f:facet>
                                 <h:outputText value="#{itemskladnikwyn.id}"/>
                             </p:column>
-                            <p:column>
+                            <p:column width="170">
                                 <f:facet name="header">
                                     <h:outputText value="nazwa"/>
                                 </f:facet>
                                 <h:outputText value="#{itemskladnikwyn.rodzajwynagrodzenia.opispelny}"/>
                             </p:column>
-                            <p:column style="text-align: center;">
+                            <p:column style="text-align: center;" width="40">
                                 <f:facet name="header">
                                     <h:outputText value="godz./mies."/>
                                 </f:facet>
                                 <h:outputText value="godz." rendered="#{itemskladnikwyn.rodzajwynagrodzenia.godzinowe0miesieczne1 eq false}"/>
                                 <h:outputText value="miesięczne" rendered="#{itemskladnikwyn.rodzajwynagrodzenia.godzinowe0miesieczne1 eq true}"/>
                             </p:column>
-                            <p:column width="120">
+                            <p:column width="100">
                                 <f:facet name="header">
                                     <h:outputText value="umowa"/>
                                 </f:facet>
                                 <h:outputText value="#{itemskladnikwyn.umowa.umowanumernazwa()}"/>
                             </p:column>
-                            <p:column style="text-align: center;">
+                            <p:column style="text-align: center;" width="40">
                                 <f:facet name="header">
                                     <h:outputText value="reduk. za czas nieob."/>
                                 </f:facet>
                                 <h:outputText value="tak" rendered="#{itemskladnikwyn.rodzajwynagrodzenia.redukowany eq true}"/>
                             </p:column>
-                            <p:column style="text-align: center;">
+                            <p:column style="text-align: center;" width="30">
                                 <f:facet name="header">
                                     <h:outputText value="kod"/>
                                 </f:facet>
                                 <h:outputText value="#{itemskladnikwyn.rodzajwynagrodzenia.kod}"/>
                             </p:column>
-                            <p:column style="text-align: center;">
+                            <p:column style="text-align: center;" width="40">
                                 <f:facet name="header">
                                     <h:outputText value="stala0 zmienna1"/>
                                 </f:facet>
                                 <h:outputText value="zmienna" rendered="#{itemskladnikwyn.rodzajwynagrodzenia.stale0zmienne1 eq true}"/>
                                 <h:outputText value="stała" rendered="#{itemskladnikwyn.rodzajwynagrodzenia.stale0zmienne1 eq false}"/>
                             </p:column>
-                             <p:column style="text-align: center;">
+                            <p:column style="text-align: center;" width="20">
                                 <f:facet name="header">
                                     <h:outputText value="oddel."/>
                                 </f:facet>
                                  <h:outputText value="&#x2714;" rendered="#{itemskladnikwyn.oddelegowanie eq true}"/>
                             </p:column>
-                            <p:column style="text-align: center; width: 40px;">
+                            <p:column style="text-align: center; width: 30px;">
                                 <p:commandButton icon="fa fa-trash" actionListener="#{skladnikWynagrodzeniaView.usunSkladnikWyn(itemskladnikwyn)}" update="north, @(form)"/>
                             </p:column>
                         </p:dataTable>

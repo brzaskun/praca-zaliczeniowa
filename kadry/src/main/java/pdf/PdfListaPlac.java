@@ -124,7 +124,7 @@ public class PdfListaPlac {
             table.addCell(ustawfraze("Należna zaliczka na podatek dochodowy", 0, 2));
             table.addCell(ustawfraze("Do wypłaty", 0, 2));
             table.addCell(ustawfrazeAlign("Składniki z ZUS", "center",6));
-            table.addCell(ustawfrazeAlign("Składniki bez ZUS", "center",6));
+            table.addCell(ustawfrazeAlign("Składniki bez ZUS/bez pod.", "center",6));
             table.addCell(ustawfrazeAlign("Ubezp. Emerytalne", "center",6));
             table.addCell(ustawfrazeAlign("Ubezp. rentowe", "center",6));
             table.addCell(ustawfrazeAlign("Ubezp. chorobowe", "center",6));
@@ -160,8 +160,8 @@ public class PdfListaPlac {
         for (Pasekwynagrodzen rs : wykaz) {
             table.addCell(ustawfrazeAlign(String.valueOf(i++), "center",6,18f));
             table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getBruttozus())), "right",6));
-            table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getBruttobezzus())), "right",6));
-            table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getBruttozus()+rs.getBruttobezzus())), "right",6));
+            table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getBruttobezzus()+rs.getBruttobezzusbezpodatek())), "right",6));
+            table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getBrutto())), "right",6));
             table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getBruttozus())), "right",6));
             table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPracemerytalne())), "right",6));
             table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPracrentowe())), "right",6));

@@ -54,10 +54,13 @@
                                         <h:outputText value=""/>
                                     </p:column>
                                     <p:column>
-                                        <h:outputText value="brutto bez zus"/>
+                                        <h:outputText value="skł. normalne"/>
                                     </p:column>
                                     <p:column>
-                                        <h:outputText value="brutto zus"/>
+                                        <h:outputText value="skł. bez zus"/>
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="skł. bez zus i pod."/>
                                     </p:column>
                                     <p:column>
                                         <h:outputText value="brutto"/>
@@ -75,9 +78,6 @@
                                         <h:outputText value="razem spoleczne prac."/>
                                     </p:column>
                                     <p:column>
-                                        <h:outputText value="podstawa opodatk."/>
-                                    </p:column>
-                                    <p:column>
                                         <h:outputText value=" "/>
                                     </p:column>
                                 </p:row>
@@ -87,13 +87,16 @@
                                         <h:outputText value="/import" style="color:blue;" rendered="#{itempasek.importowany eq true}"/>
                                     </p:column>
                                     <p:column>
-                                        <bcf:inputpl value="#{itempasek.bruttobezzus}"/>
-                                    </p:column>
-                                    <p:column>
                                         <bcf:inputpl value="#{itempasek.bruttozus}" />
                                     </p:column>
                                     <p:column>
-                                        <bcf:outputpl value="#{itempasek.wartoscbrutto}"/>
+                                        <bcf:inputpl value="#{itempasek.bruttobezzus}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <bcf:inputpl value="#{itempasek.bruttobezzusbezpodatek}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <bcf:outputpl value="#{itempasek.brutto}"/>
                                     </p:column>
                                     <p:column>
                                         <bcf:inputpl value="#{itempasek.pracchorobowe}"/>
@@ -107,9 +110,7 @@
                                     <p:column>
                                         <bcf:inputpl value="#{itempasek.razemspolecznepracownik}"/>
                                     </p:column>
-                                    <p:column>
-                                        <bcf:inputpl value="#{itempasek.podstawaopodatkowania}"/>
-                                    </p:column>
+                                    
                                     <p:column style="text-align: center;">
                                         <p:commandButton icon="fa fa-print" actionListener="#{pasekwynagrodzenView.drukuj(itempasek)}" global="false"/>
                                     </p:column>
@@ -129,6 +130,9 @@
                                 <p:row>
                                     <p:column>
                                         <h:outputText value="#{itempasek.rok}/#{itempasek.mc}"/>
+                                    </p:column>
+                                     <p:column>
+                                        <h:outputText value="podstawa opodatk."/>
                                     </p:column>
                                     <p:column>
                                         <h:outputText value="koszty uzyskania"/>
@@ -161,6 +165,9 @@
                                 <p:row>
                                      <p:column>
                                          <h:outputText value="#{itempasek.nazwiskoImie}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <bcf:inputpl value="#{itempasek.podstawaopodatkowania}"/>
                                     </p:column>
                                     <p:column>
                                         <bcf:inputpl value="#{itempasek.kosztyuzyskania}"/>

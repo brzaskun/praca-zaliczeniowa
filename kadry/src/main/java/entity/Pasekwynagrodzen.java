@@ -24,6 +24,7 @@ import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import kadryiplace.Place;
+import kadryiplace.PlaceSkl;
 import z.Z;
 
 /**
@@ -169,9 +170,20 @@ public class Pasekwynagrodzen implements Serializable {
     }
 
     public Pasekwynagrodzen(Place r) {
-        this.bruttobezzus = r.getLplNiezd().doubleValue();
-        this.bruttozus = r.getLplPodst().doubleValue();
-        this.bruttobezzusbezpodatek = 0.0;
+        List<PlaceSkl> placeSklList = r.getPlaceSklList();
+        if (placeSklList!=null) {
+            for (PlaceSkl p: placeSklList) {
+                String doch = String.valueOf(p.getSklWksSerial().getWksPodDoch());
+                String zus = String.valueOf(p.getSklWksSerial().getWksZus());
+                if (doch.equals("N")&&zus.equals("N")) {
+                    this.bruttobezzusbezpodatek = Z.z(this.bruttobezzusbezpodatek+p.getSklKwota().doubleValue());
+                } else if (zus.equals("N")) {
+                    this.bruttobezzus = Z.z(this.bruttobezzus+p.getSklKwota().doubleValue());
+                } else {
+                    this.bruttozus = Z.z(this.bruttozus+p.getSklKwota().doubleValue());
+                }
+            }
+        }
         this.brutto = this.bruttobezzus+this.bruttozus+this.bruttobezzusbezpodatek;
         this.fgsp = r.getLplFgspPrac().doubleValue();
         this.fp = r.getLplFpPrac().doubleValue();
@@ -298,9 +310,7 @@ public class Pasekwynagrodzen implements Serializable {
     public void setKalendarzmiesiac(Kalendarzmiesiac kalendarzmiesiac) {
         this.kalendarzmiesiac = kalendarzmiesiac;
     }
-    public double getWartoscbrutto() {
-        return Z.z(this.bruttobezzus+this.bruttozus);
-    }
+
     public String getNazwiskoImie() {
         return this.kalendarzmiesiac.getUmowa().getAngaz().getPracownik().getNazwiskoImie();
     }

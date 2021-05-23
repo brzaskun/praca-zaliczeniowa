@@ -152,7 +152,7 @@
                     <p:dataTable id="datalist" value="#{umowaView.lista}" var="itemumowa" widgetVar="dataListumowa"
                                  selectionMode="single" selection="#{umowaView.selectedlista}"
                                  rowKey="#{itemumowa.id}" sortBy="#{itemumowa.dataod}" sortOrder="descending"
-                                 style="height: 200px; overflow-y: scroll; width: 1600px;"
+                                 style="height: 200px; overflow-y: scroll; width: 1800px;"
                                  >
                         <p:ajax event="rowSelect" listener="#{umowaView.aktywuj}" partialSubmit="true" global="false" update="north, @(form)"/>
                         <p:column width="40" style="text-align: center;">

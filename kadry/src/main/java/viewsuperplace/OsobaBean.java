@@ -8,6 +8,8 @@ package viewsuperplace;
 import beanstesty.UmowaBean;
 import dao.KalendarzmiesiacFacade;
 import dao.KalendarzwzorFacade;
+import dao.SkladnikWynagrodzeniaFacade;
+import dao.ZmiennaWynagrodzeniaFacade;
 import data.Data;
 import embeddable.Mce;
 import entity.Angaz;
@@ -31,12 +33,16 @@ import java.util.List;
 import kadryiplace.Okres;
 import kadryiplace.Osoba;
 import kadryiplace.OsobaPrz;
+import kadryiplace.OsobaSkl;
 import kadryiplace.Place;
+import kadryiplace.StSystOpis;
+import kadryiplace.StSystWart;
 import kadryiplace.StanHist;
 import kadryiplace.WymiarHist;
 import kadryiplace.ZatrudHist;
 import msg.Msg;
 import view.WpisView;
+import z.Z;
 
 /**
  *
@@ -204,21 +210,84 @@ public class OsobaBean {
         return zwrot;
     }
     
-    static Skladnikwynagrodzenia pobierzskladnikwynagrodzenia(Rodzajwynagrodzenia rodzajwynagrodzenia, Umowa aktywna) {
-        Skladnikwynagrodzenia zwrot = new Skladnikwynagrodzenia();
-        zwrot.setUmowa(aktywna);
-        zwrot.setRodzajwynagrodzenia(rodzajwynagrodzenia);
+    
+    static void pobierzskladnikwynagrodzenia(List<OsobaSkl> skladniki, List<Rodzajwynagrodzenia> rodzajewynagrodzenia, Umowa aktywna, SkladnikWynagrodzeniaFacade skladnikWynagrodzeniaFacade, ZmiennaWynagrodzeniaFacade zmiennaWynagrodzeniaFacade) {
+        if (skladniki!=null) {
+            for (OsobaSkl s : skladniki) {
+                Skladnikwynagrodzenia skladnik = new Skladnikwynagrodzenia();
+                skladnik.setUmowa(aktywna);
+                skladnik.setRodzajwynagrodzenia(pobierzrodzajwynagrodzenia(s,rodzajewynagrodzenia));
+                skladnikWynagrodzeniaFacade.create(skladnik);
+                pobierzzmiennawynagrodzenia(aktywna, skladnik, s, zmiennaWynagrodzeniaFacade);
+            }
+        }
+    }
+    
+    private static Rodzajwynagrodzenia pobierzrodzajwynagrodzenia(OsobaSkl s, List<Rodzajwynagrodzenia> rodzajewynagrodzenia) {
+        Rodzajwynagrodzenia zwrot = null;
+        if (rodzajewynagrodzenia!=null) {
+            for (Rodzajwynagrodzenia p : rodzajewynagrodzenia) {
+                if (p.getKod().equals(s.getOssWksSerial().getWksKod())) {
+                    zwrot = p;
+                    break;
+                }
+            }
+        }
         return zwrot;
     }
 
-    static Zmiennawynagrodzenia pobierzzmiennawynagrodzenia(Umowa aktywna, Skladnikwynagrodzenia skladnikwynagrodzenia) {
-        Zmiennawynagrodzenia zwrot = new Zmiennawynagrodzenia();
-        zwrot.setSkladnikwynagrodzenia(skladnikwynagrodzenia);
-        zwrot.setNazwa("podstawowa");
-        zwrot.setNetto0brutto1(true);
-        zwrot.setWaluta("PLN");
-        zwrot.setDataod(aktywna.getDataod());
-        return zwrot;
+
+    static void pobierzzmiennawynagrodzenia(Umowa aktywna, Skladnikwynagrodzenia skladnikwynagrodzenia, OsobaSkl s, ZmiennaWynagrodzeniaFacade zmiennaWynagrodzeniaFacade) {
+        if (skladnikwynagrodzenia!=null) {
+            StSystOpis ossSsdSerial1 = s.getOssSsdSerial1();
+            if (ossSsdSerial1!=null) {
+                List<StSystWart> osobaSklList = s.getOssSsdSerial1().getStSystWartList();
+                if (osobaSklList!=null) {
+                    for (StSystWart t :osobaSklList) {
+                        Zmiennawynagrodzenia wiersz = new Zmiennawynagrodzenia();
+                        wiersz.setSkladnikwynagrodzenia(skladnikwynagrodzenia);
+                        wiersz.setNazwa(ossSsdSerial1.getSsdNazwa());
+                        wiersz.setNetto0brutto1(true);
+                        wiersz.setWaluta("PLN");
+                        if (t.getSsoDataOd()!=null) {
+                            wiersz.setDataod(Data.data_yyyyMMdd(t.getSsoDataOd()));
+                            if (t.getSsoDataDo()!=null) {
+                                wiersz.setDatado(Data.data_yyyyMMdd(t.getSsoDataDo()));
+                            }
+                            String ss = String.valueOf(t.getSsoStatus());
+                            if (ss.equals("A")) {
+                                wiersz.setAktywna(true);
+                            }
+                        } else {
+                            String dataod = t.getSsoRokOd()+"-"+t.getSsoMiesiacOd()+"-01";
+                            wiersz.setDataod(dataod);
+                            String datado = Data.ostatniDzien(String.valueOf(t.getSsoRokDo()),String.valueOf(t.getSsoMiesiacDo()));
+                            wiersz.setDatado(datado);
+                        }
+                        wiersz.setKwota(Z.z(t.getSsoNumeric().doubleValue()));
+                        if (wiersz.getKwota()!=0.0) {
+                            zmiennaWynagrodzeniaFacade.create(wiersz);
+                        }
+                    }
+                }
+            } else {
+                Zmiennawynagrodzenia wiersz = new Zmiennawynagrodzenia();
+                wiersz.setSkladnikwynagrodzenia(skladnikwynagrodzenia);
+                wiersz.setNazwa(s.getOssWksSerial().getWksOpisSkr());
+                wiersz.setNetto0brutto1(true);
+                wiersz.setWaluta("PLN");
+                wiersz.setDataod(Data.data_yyyyMMdd(s.getOssDataOd()));
+                if (s.getOssDataDo()!=null) {
+                    wiersz.setDatado(Data.data_yyyyMMdd(s.getOssDataDo()));
+                } else {
+                    wiersz.setAktywna(true);
+                }
+                wiersz.setKwota(Z.z(s.getOssKwota().doubleValue()));
+                if (wiersz.getKwota()!=0.0) {
+                    zmiennaWynagrodzeniaFacade.create(wiersz);
+                }
+            }
+        }
     }
 
     static List<Pasekwynagrodzen> zrobpaski(WpisView wpisView, Osoba osoba, List<Okres> okresList) {
@@ -273,5 +342,8 @@ public class OsobaBean {
         }
         return zwrot;
     }
+
+    
+    
     
 }

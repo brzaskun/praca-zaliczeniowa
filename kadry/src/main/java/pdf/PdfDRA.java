@@ -96,7 +96,7 @@ public class PdfDRA {
         for (Pasekwynagrodzen rs : lista) {
             table.addCell(ustawfrazeAlign(String.valueOf(i++), "center",6,18f));
             table.addCell(ustawfrazeAlign(rs.getNazwiskoImie(), "left",6,18f));
-            table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getWartoscbrutto())), "right",6));
+            table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getBrutto())), "right",6));
             table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getBruttozus())), "right",6));
             table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPracemerytalne())), "right",6));
             table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPracrentowe())), "right",6));

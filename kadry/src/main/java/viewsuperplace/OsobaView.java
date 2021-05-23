@@ -31,12 +31,10 @@ import entity.Nieobecnosc;
 import entity.Pasekwynagrodzen;
 import entity.Pracownik;
 import entity.Rodzajwynagrodzenia;
-import entity.Skladnikwynagrodzenia;
 import entity.Slownikszkolazatrhistoria;
 import entity.Slownikwypowiedzenieumowy;
 import entity.Stanowiskoprac;
 import entity.Umowa;
-import entity.Zmiennawynagrodzenia;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,10 +46,10 @@ import javax.persistence.EntityManagerFactory;
 import kadryiplace.Okres;
 import kadryiplace.Osoba;
 import kadryiplace.OsobaPrz;
+import kadryiplace.OsobaSkl;
 import kadryiplace.Rok;
 import msg.Msg;
 import view.WpisView;
-import z.Z;
 
 /**
  *
@@ -135,13 +133,9 @@ public class OsobaView implements Serializable {
                 Short formawynagrodzenia = osoba.getOsoWynForma();
                 List<EtatPrac> etaty = OsobaBean.pobierzetaty(osoba, aktywna);
                 etatpracFacade.createList(etaty);
-                Rodzajwynagrodzenia rodzajwynagrodzenia = rodzajwynagrodzeniaFacade.findZasadnicze();
-                Skladnikwynagrodzenia skladnikwynagrodzenia = OsobaBean.pobierzskladnikwynagrodzenia(rodzajwynagrodzenia, aktywna);
-                skladnikWynagrodzeniaFacade.create(skladnikwynagrodzenia);
-                Zmiennawynagrodzenia zmiennawynagrodzenia = OsobaBean.pobierzzmiennawynagrodzenia(aktywna, skladnikwynagrodzenia);
-                double kwota = osoba.getOsoWynZasadn().doubleValue();
-                zmiennawynagrodzenia.setKwota(Z.z(kwota));
-                zmiennaWynagrodzeniaFacade.create(zmiennawynagrodzenia);
+                List<OsobaSkl> skladniki  = osoba.getOsobaSklList();
+                List<Rodzajwynagrodzenia> rodzajewynagrodzenia = rodzajwynagrodzeniaFacade.findAll();
+                OsobaBean.pobierzskladnikwynagrodzenia(skladniki, rodzajewynagrodzenia, aktywna, skladnikWynagrodzeniaFacade, zmiennaWynagrodzeniaFacade);
                 Msg.msg("Uzupełniono zmienne dotyczące wynagrodzeń");
                 String rokdlakalendarza = "2020";
                  //paski rok 2020
