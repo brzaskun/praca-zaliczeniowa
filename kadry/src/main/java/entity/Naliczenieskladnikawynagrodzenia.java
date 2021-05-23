@@ -40,6 +40,8 @@ public class Naliczenieskladnikawynagrodzenia implements Serializable {
     private double kwota;
     @Column(name = "kwotabezzus")
     private double kwotabezzus;
+    @Column(name = "kwotabezzusbezpodatek")
+    private double kwotabezzusbezpodatek;
     @Column(name = "kwotazus")
     private double kwotazus;
     @Column(name = "kwotazredukowana")
@@ -124,6 +126,14 @@ public class Naliczenieskladnikawynagrodzenia implements Serializable {
 
     public void setKwotabezzus(double kwotabezzus) {
         this.kwotabezzus = kwotabezzus;
+    }
+
+    public double getKwotabezzusbezpodatek() {
+        return kwotabezzusbezpodatek;
+    }
+
+    public void setKwotabezzusbezpodatek(double kwotabezzusbezpodatek) {
+        this.kwotabezzusbezpodatek = kwotabezzusbezpodatek;
     }
 
     public double getKwotazus() {

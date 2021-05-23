@@ -217,6 +217,11 @@ public class KalendarzmiesiacBean {
                 if (naliczenieskladnikawynagrodzenia.getKwota()!=0.0) {
                     pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().add(naliczenieskladnikawynagrodzenia);
                 }
+            } else if (p.getRodzajwynagrodzenia().getKod().equals("90")) {
+                Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = NaliczenieskladnikawynagrodzeniaBean.createBezZusPodatekDB(pasekwynagrodzen, p);
+                if (naliczenieskladnikawynagrodzenia.getKwota()!=0.0) {
+                    pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().add(naliczenieskladnikawynagrodzenia);
+                }
             }
         }
         return jestoddelegowanie;

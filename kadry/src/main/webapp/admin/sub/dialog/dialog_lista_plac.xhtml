@@ -47,8 +47,11 @@
                                  rowKey="#{itempasek.kalendarzmiesiac.hashCode()}" sortBy="#{itempasek.kalendarzmiesiac.umowa.angaz.pracownik.nazwiskoImie}"
                                  style="height: 500px; overflow-y: scroll;"
                                  >
+                        <p:column width="40" style="text-align: center;">
+                            <p:rowToggler rendered="#{itempasek.pobierzskladniki.size() gt 0}"/>
+                        </p:column>
                         <p:column>
-                            <p:panelGrid styleClass="pasekwyn">
+                            <p:panelGrid styleClass="pasekwync">
                                 <p:row>
                                     <p:column width="40" style="text-align: center;">
                                         <h:outputText value=""/>
@@ -98,7 +101,7 @@
                                     <p:column>
                                         <bcf:outputpl value="#{itempasek.brutto}"/>
                                     </p:column>
-                                    <p:column>
+                                    <p:column >
                                         <bcf:inputpl value="#{itempasek.pracchorobowe}"/>
                                     </p:column>
                                     <p:column>
@@ -199,6 +202,23 @@
                                 </p:row>
                             </p:panelGrid>
                         </p:column>
+                        <p:rowExpansion>
+                            <p:dataTable id="datalist" value="#{itempasek.pobierzskladniki}" var="itempasekszcz"
+                                 rowIndexVar="indexpasekszcz"
+                                 style="height: 200px; overflow-y: scroll;width: 500px;"
+                                 >
+                                <p:column style="text-align: center;" headerText="lp" width="40">
+                                    <h:outputText value="#{itempasekszcz.lp}"/>
+                                 </p:column>
+                                <p:column headerText="składnik">
+                                    <h:outputText value="#{itempasekszcz.nazwa}"/>
+                                 </p:column>
+                                <p:column headerText="kwota" width="80">
+                                    <bcf:outputpl value="#{itempasekszcz.kwota}"/>
+                                 </p:column>
+                            </p:dataTable>
+                        </p:rowExpansion>
+                       
                     </p:dataTable>
                 </p:panel>
             </h:form>

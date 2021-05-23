@@ -8,6 +8,7 @@ package entity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -620,7 +621,114 @@ public class Pasekwynagrodzen implements Serializable {
         this.bruttobezzusbezpodatek = bruttobezzusbezpodatek;
     }
 
-   
+    public List<Pasekwynagrodzen.Skladnikwynlista> getPobierzskladniki(){
+        List<Pasekwynagrodzen.Skladnikwynlista> zwrot = new ArrayList<>();
+        int i = 1;
+        if (this.naliczenieskladnikawynagrodzeniaList!=null) {
+            for (Naliczenieskladnikawynagrodzenia p : this.naliczenieskladnikawynagrodzeniaList) {
+                Skladnikwynlista wiersz = new Skladnikwynlista();
+                wiersz.lp = i++;
+                wiersz.nazwa = p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getOpisskrocony();
+                wiersz.kwota = p.getKwota();
+                zwrot.add(wiersz);
+            }
+        }
+        if (this.naliczenienieobecnoscList!=null) {
+            for (Naliczenienieobecnosc p : this.naliczenienieobecnoscList) {
+                Skladnikwynlista wiersz = new Skladnikwynlista();
+                wiersz.lp = i++;
+                wiersz.nazwa = p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getOpisskrocony();
+                wiersz.kwota = p.getKwota();
+                zwrot.add(wiersz);
+            }
+        }
+        return zwrot;
+    }
+
+    public class Skladnikwynlista {
+        int lp;
+        String nazwa;
+        String dataod;
+        String datado;
+        double kwota;
+        public Skladnikwynlista() {
+        }
+
+        public int getLp() {
+            return lp;
+        }
+
+        public void setLp(int lp) {
+            this.lp = lp;
+        }
+
+        public String getNazwa() {
+            return nazwa;
+        }
+
+        public void setNazwa(String nazwa) {
+            this.nazwa = nazwa;
+        }
+
+        public String getDataod() {
+            return dataod;
+        }
+
+        public void setDataod(String dataod) {
+            this.dataod = dataod;
+        }
+
+        public String getDatado() {
+            return datado;
+        }
+
+        public void setDatado(String datado) {
+            this.datado = datado;
+        }
+
+        public double getKwota() {
+            return kwota;
+        }
+
+        public void setKwota(double kwota) {
+            this.kwota = kwota;
+        }
+
+        @Override
+        public int hashCode() {
+            int hash = 5;
+            hash = 67 * hash + this.lp;
+            hash = 67 * hash + Objects.hashCode(this.nazwa);
+            hash = 67 * hash + (int) (Double.doubleToLongBits(this.kwota) ^ (Double.doubleToLongBits(this.kwota) >>> 32));
+            return hash;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            final Skladnikwynlista other = (Skladnikwynlista) obj;
+            if (this.lp != other.lp) {
+                return false;
+            }
+            if (Double.doubleToLongBits(this.kwota) != Double.doubleToLongBits(other.kwota)) {
+                return false;
+            }
+            if (!Objects.equals(this.nazwa, other.nazwa)) {
+                return false;
+            }
+            return true;
+        }
+        
+        
+    }
     
 
     

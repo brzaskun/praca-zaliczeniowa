@@ -11,12 +11,12 @@ table {
 }
 
 
-
-.pasekwyn.ui-panelgrid td {
-     padding: -5px -5px !important;
-     border-style: none !important;
-     border-spacing: 0px !important;
+.pasekwync.ui-panelgrid .ui-panelgrid-cell {
+   border-style: solid !important;
+   border-width: 1px !important;
+   border-spacing: 0px !important;
 }
+
 
 .pasekwyn.ui-panelgrid td input{
     width: 90px !important;
@@ -24,6 +24,9 @@ table {
 
 .pasek.ui-inputfield {
     padding: 0px !important;
+     border-style: initial !important;
+     border-spacing: 1px !important;
+     webkit-box-shadow: inset 0 2px 2px #8f8f8f;
 }
 
 .panelzramka.ui-outputpanel {

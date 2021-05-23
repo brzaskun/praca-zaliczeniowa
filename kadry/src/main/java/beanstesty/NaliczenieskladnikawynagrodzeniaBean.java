@@ -64,6 +64,7 @@ public class NaliczenieskladnikawynagrodzeniaBean {
         zwrot.setPasekwynagrodzen(pasekwynagrodzen);
         zwrot.setKwota(zmiennawynagrodzeniakwota);
         zwrot.setKwotabezzus(0.0);
+        zwrot.setKwotabezzusbezpodatek(0.0);
         zwrot.setKwotazus(zmiennawynagrodzeniakwota);
         zwrot.setKwotazredukowana(zmiennawynagrodzeniakwota);
         zwrot.setSkladnikwynagrodzenia(skladnikwynagrodzenia);
@@ -95,11 +96,14 @@ public class NaliczenieskladnikawynagrodzeniaBean {
             zwrot.setPasekwynagrodzen(pasekwynagrodzen);
             zwrot.setKwota(zmiennawynagrodzeniakwota);
             zwrot.setKwotabezzus(0.0);
+            zwrot.setKwotabezzusbezpodatek(0.0);
             zwrot.setKwotazus(zmiennawynagrodzeniakwota);
             zwrot.setKwotazredukowana(zmiennawynagrodzeniakwota);
             zwrot.setSkladnikwynagrodzenia(skladnikwynagrodzenia);
         return zwrot;
     }
+    
+    
     
     public static Naliczenieskladnikawynagrodzenia createNadgodziny50() {
         if (naliczenieskladnikanadgodziny50 == null) {
@@ -127,6 +131,26 @@ public class NaliczenieskladnikawynagrodzeniaBean {
         return naliczenieskladnikanadgodziny100;
     }
     
-   
+   public static Naliczenieskladnikawynagrodzenia createBezZusPodatekDB(Pasekwynagrodzen pasekwynagrodzen, Skladnikwynagrodzenia skladnikwynagrodzenia) {
+            Naliczenieskladnikawynagrodzenia zwrot = new Naliczenieskladnikawynagrodzenia();
+            double zmiennawynagrodzeniakwota = 0.0;
+            List<Zmiennawynagrodzenia> zmiennawynagrodzeniaList = skladnikwynagrodzenia.getZmiennawynagrodzeniaList();
+            for (Zmiennawynagrodzenia p : zmiennawynagrodzeniaList) {
+                if (p.isAktywna()) {
+                    if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod().equals("90")) {
+                        zmiennawynagrodzeniakwota = p.getKwota();
+                        zwrot.setPasekwynagrodzen(pasekwynagrodzen);
+                        zwrot.setKwota(zmiennawynagrodzeniakwota);
+                        zwrot.setKwotabezzus(0.0);
+                        zwrot.setKwotabezzusbezpodatek(zmiennawynagrodzeniakwota);
+                        zwrot.setKwotazus(0.0);
+                        zwrot.setKwotazredukowana(zmiennawynagrodzeniakwota);
+                        zwrot.setSkladnikwynagrodzenia(skladnikwynagrodzenia);
+                    }
+                }
+            }
+            
+        return zwrot;
+    }
     
 }

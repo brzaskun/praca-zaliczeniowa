@@ -81,6 +81,7 @@ public class PasekwynagrodzenBean {
 //        KalendarzmiesiacBean.naliczskladnikipotracenia(kalendarz, pasek);
         PasekwynagrodzenBean.obliczbruttozus(pasek);
         PasekwynagrodzenBean.obliczbruttobezzus(pasek);
+        PasekwynagrodzenBean.obliczbruttobezzusbezpodatek(pasek);
         PasekwynagrodzenBean.pracownikemerytalna(pasek);
         PasekwynagrodzenBean.pracownikrentowa(pasek);
         PasekwynagrodzenBean.pracownikchorobowa(pasek);
@@ -203,6 +204,7 @@ public class PasekwynagrodzenBean {
             bruttozus = Z.z(bruttozus+p.getKwotazus());
         }
         pasek.setBruttozus(bruttozus);
+        pasek.setBrutto(Z.z(pasek.getBrutto()+bruttozus));
     }
 
     private static void obliczbruttobezzus(Pasekwynagrodzen pasek) {
@@ -214,6 +216,16 @@ public class PasekwynagrodzenBean {
             bruttobezzus = Z.z(bruttobezzus+p.getKwotabezzus());
         }
         pasek.setBruttobezzus(bruttobezzus);
+        pasek.setBrutto(Z.z(pasek.getBrutto()+bruttobezzus));
+    }
+    
+    private static void obliczbruttobezzusbezpodatek(Pasekwynagrodzen pasek) {
+        double bruttobezzusbezpodatek = 0.0;
+        for (Naliczenieskladnikawynagrodzenia p : pasek.getNaliczenieskladnikawynagrodzeniaList()) {
+            bruttobezzusbezpodatek = Z.z(bruttobezzusbezpodatek+p.getKwotabezzusbezpodatek());
+        }
+        pasek.setBruttobezzusbezpodatek(bruttobezzusbezpodatek);
+        pasek.setBrutto(Z.z(pasek.getBrutto()+bruttobezzusbezpodatek));
     }
 
     private static void pracownikemerytalna(Pasekwynagrodzen pasek) {
