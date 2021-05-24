@@ -197,7 +197,7 @@ public class VatUeFKView implements Serializable {
                                 s.setNetto(netto + s.getNetto());
                                 s.setNettowaluta(nettowaluta + s.getNettowaluta());
                                 s.setLiczbadok(s.getLiczbadok() + 1);
-                                s.setNazwawaluty(new Waluty());
+                                s.setNazwawaluty(s.getNazwawaluty());
                                 break;
                             }
                     }
