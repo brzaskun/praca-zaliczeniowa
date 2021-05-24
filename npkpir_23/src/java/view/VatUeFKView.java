@@ -13,6 +13,7 @@ import dao.KlientJPKDAO;
 import dao.PodatnikDAO;
 import dao.VatuepodatnikDAO;
 import dao.ViesDAO;
+import dao.WalutyDAOfk;
 import data.Data;
 import deklaracje.vatue.m4.VATUEM4Bean;
 import deklaracje.vatuek.m4.VATUEKM4Bean;
@@ -33,9 +34,11 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
 import javax.faces.view.ViewScoped;
@@ -97,6 +100,8 @@ public class VatUeFKView implements Serializable {
     boolean deklaracja0korekta1;
     boolean inicjacjabyla;
     private String komunikat="W danym miesiącu nie było żadnych zapisów";
+    @Inject
+    private WalutyDAOfk walutyDAOfk;
 
     public VatUeFKView() {
         klienciWDTWNT = Collections.synchronizedList(new ArrayList<>());
@@ -140,37 +145,39 @@ public class VatUeFKView implements Serializable {
                 klienciWDTWNT.addAll(kontrahenciUE(listadokumentowUE));
                 double sumanettovatue = 0.0;
                 double sumanettovatuewaluta = 0.0;
-                for (DokSuper p : listadokumentowUE) {
-                    String typdokumentu = null;
-                    if (p instanceof Dok) {
-                        typdokumentu = ((Dok) p).getRodzajedok().getSkrot();
-                    } else {
-                        typdokumentu = ((Dokfk) p).getRodzajedok().getSkrot();
-                    }
-                    for (VatUe s : klienciWDTWNT) {
-                        if (p.getKontr()!= null && p.getKontr().getNip().equals(s.getKontrahent().getNip()) && typdokumentu.equals(s.getTransakcja())) {
-                                double[] t = p.pobierzwartosci();
-                                double netto = t[0];
-                                double nettowaluta = t[1];
-                                s.setNetto(netto + s.getNetto());
-                                s.setNettowaluta(nettowaluta + s.getNettowaluta());
-                                s.setLiczbadok(s.getLiczbadok() + 1);
-                                if (p instanceof Dokfk) {
-                                    s.getZawierafk().add((Dokfk)p);
-                                    Dokfk dodod = ((Dokfk)p);
-                                    dodod.setVatUe(s);
-                                    listaDokfk.add(dodod);
-                                } else {
-                                    s.getZawiera().add((Dok) p);
-                                    Dok dodod = ((Dok)p);
-                                    dodod.setVatUe(s);
-                                    listaDok.add(dodod);
+                if (klienciWDTWNT!=null&&!klienciWDTWNT.isEmpty()) {
+                    for (DokSuper p : listadokumentowUE) {
+                        String typdokumentu = null;
+                        if (p instanceof Dok) {
+                            typdokumentu = ((Dok) p).getRodzajedok().getSkrot();
+                        } else {
+                            typdokumentu = ((Dokfk) p).getRodzajedok().getSkrot();
+                        }
+                        for (VatUe s : klienciWDTWNT) {
+                            if (p.getKontr()!= null && p.getKontr().getNip().equals(s.getKontrahent().getNip()) && typdokumentu.equals(s.getTransakcja())) {
+                                    double[] t = p.pobierzwartosci();
+                                    double netto = t[0];
+                                    double nettowaluta = t[1];
+                                    s.setNetto(netto + s.getNetto());
+                                    s.setNettowaluta(nettowaluta + s.getNettowaluta());
+                                    s.setLiczbadok(s.getLiczbadok() + 1);
+                                    if (p instanceof Dokfk) {
+                                        s.getZawierafk().add((Dokfk)p);
+                                        Dokfk dodod = ((Dokfk)p);
+                                        dodod.setVatUe(s);
+                                        listaDokfk.add(dodod);
+                                    } else {
+                                        s.getZawiera().add((Dok) p);
+                                        Dok dodod = ((Dok)p);
+                                        dodod.setVatUe(s);
+                                        listaDok.add(dodod);
+                                    }
+                                    s.setNazwawaluty(p.getWalutadokumentu());
+                                    sumanettovatue += netto;
+                                    sumanettovatuewaluta += nettowaluta;
+                                    break;
                                 }
-                                s.setNazwawaluty(p.getWalutadokumentu());
-                                sumanettovatue += netto;
-                                sumanettovatuewaluta += nettowaluta;
-                                break;
-                            }
+                        }
                     }
                 }
     //            if (klienciWDTWNT.size() > 0) {
@@ -287,6 +294,7 @@ public class VatUeFKView implements Serializable {
     
     private Set<VatUe> kontrahenciUEJPK(List<KlientJPK> listadokumentow) {
         Set<VatUe> klienty = new HashSet<>();
+        Map<String,Waluty> waluty = new HashMap<>();
         for (KlientJPK p : listadokumentow) {
             if (p.isWdt()) {
                 //wyszukujemy dokumenty WNT i WDT dodajemu do sumy
@@ -295,11 +303,27 @@ public class VatUeFKView implements Serializable {
                 veu.setKontrahentkraj(p.getKodKrajuDoreczenia());
                 veu.setKontrahentnazwa(p.getNazwaKontrahenta()!=null?p.getNazwaKontrahenta():"incydentalny");
                 veu.setZawierafk(new ArrayList<>());
+                veu.setNazwawaluty(pobierzwalute(p,waluty));
                 klienty.add(veu);
             }
         }
         return klienty;
     }
+    
+    private Waluty pobierzwalute(KlientJPK p, Map<String, Waluty> waluty) {
+        Waluty zwrot = null;
+        if (!waluty.isEmpty()) {
+            zwrot = waluty.get(p.getWaluta());
+        }
+        if (zwrot == null) {
+            zwrot = walutyDAOfk.findWalutaBySymbolWaluty(p.getWaluta());
+            if (zwrot!=null) {
+                waluty.put(p.getWaluta(), zwrot);
+            }
+        }
+        return zwrot;
+    }
+
     
     private boolean warunekkontrahenci(DokSuper p) {
 //        Dok dok = (Dok) p;
@@ -887,6 +911,7 @@ public class VatUeFKView implements Serializable {
         this.komunikat = komunikat;
     }
 
+    
 
    
  
