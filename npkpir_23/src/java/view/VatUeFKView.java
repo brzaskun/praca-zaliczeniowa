@@ -96,6 +96,7 @@ public class VatUeFKView implements Serializable {
     private String opisvatuepkpir;
     boolean deklaracja0korekta1;
     boolean inicjacjabyla;
+    private String komunikat="W danym miesiącu nie było żadnych zapisów";
 
     public VatUeFKView() {
         klienciWDTWNT = Collections.synchronizedList(new ArrayList<>());
@@ -112,7 +113,10 @@ public class VatUeFKView implements Serializable {
             String m = wpisView.getMiesiacWpisu();
             try {
                 String vatUEokres = ParametrView.zwrocParametr(wpisView.getPodatnikObiekt().getParamVatUE(), rok, m);
-                if (vatUEokres.equals("miesięczne")) {
+                if (vatUEokres.equals("blad")) {
+                    komunikat= "Nie ustawiono parametru dla VAT-UE! Przerywam pobieranie danych";
+                    return;
+                } else if (vatUEokres.equals("miesięczne")) {
                     if (wpisView.isKsiegirachunkowe()) {
                         listadokumentowUE = dokDAOfk.findDokfkPodatnikRokMcVAT(wpisView);
                     } else {
@@ -874,6 +878,15 @@ public class VatUeFKView implements Serializable {
     public void setDeklaracjeUE_biezace(List<DeklaracjavatUE> deklaracjeUE_biezace) {
         this.deklaracjeUE_biezace = deklaracjeUE_biezace;
     }
+
+    public String getKomunikat() {
+        return komunikat;
+    }
+
+    public void setKomunikat(String komunikat) {
+        this.komunikat = komunikat;
+    }
+
 
    
  

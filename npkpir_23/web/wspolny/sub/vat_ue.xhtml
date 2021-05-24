@@ -47,7 +47,7 @@
 
                 <p:dataTable  var="wpis1" value="#{vatUeFKView.klienciWDTWNT}" id="dokumentyLista" 
                               rowKey="#{wpis1.hashCode()}" selection="#{vatUeFKView.listawybranych}"
-                              emptyMessage="W danym miesiącu nie było żadnych zapisów"
+                              emptyMessage="#{vatUeFKView.komunikat}"
                               sortBy="#{wpis1.kontrahent.npelna}" styleClass="upd1"
                               style="height: 400px;overflow-y: scroll;width: 1280px;" widgetVar="dokTable" 
                               > 
