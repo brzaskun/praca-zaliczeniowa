@@ -166,6 +166,7 @@ public class PasekwynagrodzenBean {
         PasekwynagrodzenBean.obliczpodatekdowplaty(pasek);
         PasekwynagrodzenBean.potracenia(pasek);
         PasekwynagrodzenBean.dowyplaty(pasek);
+        PasekwynagrodzenBean.doliczbezzusbezpodatek(pasek);
 
         System.out.println("****************");
         for (Naliczenieskladnikawynagrodzenia r : pasek.getNaliczenieskladnikawynagrodzeniaList()) {
@@ -305,12 +306,14 @@ public class PasekwynagrodzenBean {
 
     private static void naliczzdrowota(Pasekwynagrodzen pasek) {
         double zzus = pasek.getBruttozus();
+        double chorobowe = pasek.getBruttobezzus();
         double skladki = pasek.getRazemspolecznepracownik();
-        double podstawazdrowotna = Z.z(zzus-skladki) > 0.0 ? Z.z(zzus-skladki) :0.0;
+        double podstawazdrowotna = Z.z(zzus+chorobowe-skladki) > 0.0 ? Z.z(zzus+chorobowe-skladki) :0.0;
         pasek.setPodstawaubezpzdrowotne(podstawazdrowotna);
         double zdrowotne = Z.z(podstawazdrowotna*0.09);
         pasek.setPraczdrowotne(zdrowotne);
         double zdrowotneodliczane = Z.z(podstawazdrowotna*0.0775);
+        pasek.setPraczdrowotnepomniejszone(zdrowotne-zdrowotneodliczane);
         pasek.setPraczdrowotnedopotracenia(zdrowotneodliczane);
         //trzeba zrobic tez inne opcje
     }
@@ -469,6 +472,14 @@ public class PasekwynagrodzenBean {
         int[] robocze = kalendarz.robocze();
         pasek.setDniobowiazku(robocze[0]);
         pasek.setDniprzepracowane(robocze[1]);
+    }
+
+    private static void doliczbezzusbezpodatek(Pasekwynagrodzen pasek) {
+        double bruttobezzusbezpodatek = 0.0;
+        for (Naliczenieskladnikawynagrodzenia p : pasek.getNaliczenieskladnikawynagrodzeniaList()) {
+            bruttobezzusbezpodatek = Z.z(bruttobezzusbezpodatek+p.getKwotabezzusbezpodatek());
+        }
+        pasek.setNetto(Z.z(pasek.getNetto())+bruttobezzusbezpodatek);
     }
 
     

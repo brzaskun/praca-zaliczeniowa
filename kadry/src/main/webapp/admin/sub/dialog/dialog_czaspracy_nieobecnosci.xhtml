@@ -26,7 +26,7 @@
                                 <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
                                 <f:selectItems value="#{nieobecnoscView.listanieobecnosckodzus}" 
                                                var="kodzusItem"
-                                               itemValue="#{kodzusItem}" itemLabel="#{kodzusItem.opisskrocony}"/>
+                                               itemValue="#{kodzusItem}" itemLabel="#{kodzusItem.kod} #{kodzusItem.opisskrocony}"/>
                                 <p:ajax event="change" partialSubmit="true" global="false" update="NieobecnoscCreateForm:kod"/>
                             </p:selectOneMenu>
                             <p:outputLabel value="kod" for="kod" />
@@ -76,19 +76,19 @@
                             </f:facet>
                             <h:outputText value="#{itemNieob.nieobecnosckodzus.kod}" style="#{itemNieob.rokod eq wpisView.rokWpisu ? 'color: green':''}"/>
                         </p:column>
-                        <p:column width="300">
+                        <p:column width="300" filterBy="#{itemNieob.nieobecnosckodzus.opisskrocony}" filterMatchMode="contains">
                             <f:facet name="header">
                                 <h:outputText value="nazwa"/>
                             </f:facet>
                             <h:outputText value="#{itemNieob.nieobecnosckodzus.opisskrocony}" style="#{itemNieob.rokod eq wpisView.rokWpisu ? 'color: green':''}"/>
-                        </p:column>
-                        <p:column width="50">
+                        </p:column> 
+                        <p:column width="50" filterBy="#{itemNieob.dataod}" filterMatchMode="startsWith">
                             <f:facet name="header">
                                 <h:outputText value="data od"/>
                             </f:facet>
                             <h:outputText value="#{itemNieob.dataod}" style="#{itemNieob.rokod eq wpisView.rokWpisu ? 'color: green':''}"/>
                         </p:column>
-                        <p:column width="50">
+                        <p:column width="50" filterBy="#{itemNieob.datado}" filterMatchMode="startsWith">
                             <f:facet name="header">
                                 <h:outputText value="data do"/>
                             </f:facet>
@@ -98,9 +98,9 @@
                             <f:facet name="header">
                                 <h:outputText value="dni kal."/>
                             </f:facet>
-                            <h:outputText value="#{itemNieob.dnikalendarzowe}"/>
+                            <h:outputText value="#{itemNieob.dnikalendarzowe}" style="#{itemNieob.rokod eq wpisView.rokWpisu ? 'color: green':''}"/>
                         </p:column>
-                        <p:column>
+                        <p:column style="#{itemNieob.rokod eq wpisView.rokWpisu ? 'color: green':''}">
                             <f:facet name="header">
                                 <h:outputText value="przycz."/>
                             </f:facet>

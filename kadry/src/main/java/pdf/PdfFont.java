@@ -107,16 +107,21 @@ public class PdfFont {
         return cell;
     }
 
-    public static PdfPCell ustawfrazeSpanFont(String fraza, int colsp, int rowsp, int fontsize) throws DocumentException, IOException {
-        String fraza2 = String.valueOf(fraza != null ? fraza : "");
-        PdfPCell cell = new PdfPCell(new Phrase(fraza2, PF.getFont(Fonty.CALIBRI, fontsize)));
-        if (rowsp > 0) {
-            cell.setRowspan(rowsp);
-        } else {
-            cell.setColspan(colsp);
+    public static PdfPCell ustawfrazeSpanFont(String fraza, int colsp, int rowsp, int fontsize) {
+        PdfPCell cell = null;
+        try {
+            String fraza2 = String.valueOf(fraza != null ? fraza : "");
+            cell = new PdfPCell(new Phrase(fraza2, PF.getFont(Fonty.CALIBRI, fontsize)));
+            if (rowsp > 0) {
+                cell.setRowspan(rowsp);
+            } else {
+                cell.setColspan(colsp);
+            }
+            cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        } catch (Exception ex) {
+            E.e(ex);
         }
-        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         return cell;
     }
 

@@ -102,34 +102,36 @@ public class PdfListaPlac {
     }
     
     private static PdfPTable generujTabele(String firma, String pracownik, String pesel, String rok, String mc, String nrkol) {
-        PdfPTable table = new PdfPTable(17);
+        PdfPTable table = new PdfPTable(19);
         try {
-            table.setWidthPercentage(95);
-            table.setWidths(new int[]{1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,3,3});
-            table.addCell(ustawfraze(pracownik, 4, 0));
-            table.addCell(ustawfraze(pesel, 2, 0));
-            table.addCell(ustawfraze("firma: " + firma, 6, 0));
-            table.addCell(ustawfraze("nr kol: " + nrkol, 3, 0));
-            table.addCell(ustawfraze("za okres: " + rok + "/" + mc, 2, 0));
-            table.addCell(ustawfraze("lp", 0, 2));
-            table.addCell(ustawfraze("Składniki wynagrodzenia", 2, 0));
-            table.addCell(ustawfraze("Razem przychód", 0, 2));
-            table.addCell(ustawfraze("Podst. wymiaru składek ubezp. społecznych", 0, 2));
-            table.addCell(ustawfraze("Składki ZUS pracownik", 4, 0));
-            table.addCell(ustawfraze("Podst. wymiaru składek ubezp. zdrowotnego", 0, 2));
-            table.addCell(ustawfraze("Koszty uzyskania przychodu", 0, 2));
-            table.addCell(ustawfraze("Podstawa opodatkowania", 0, 2));
-            table.addCell(ustawfraze("Potrącona zaliczka na podatek dochodowy", 0, 2));
-            table.addCell(ustawfraze("Ubezpieczenie zdrowotne", 2, 0));
-            table.addCell(ustawfraze("Należna zaliczka na podatek dochodowy", 0, 2));
-            table.addCell(ustawfraze("Do wypłaty", 0, 2));
+            table.setWidthPercentage(100);
+            table.setWidths(new int[]{1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3});
+            table.addCell(ustawfrazeSpanFont(pracownik, 4, 0, 6));
+            table.addCell(ustawfrazeSpanFont(pesel, 2, 0, 6));
+            table.addCell(ustawfrazeSpanFont("firma: " + firma, 6, 0, 6));
+            table.addCell(ustawfrazeSpanFont("nr kol: " + nrkol, 5, 0, 6));
+            table.addCell(ustawfrazeSpanFont("za okres: " + rok + "/" + mc, 2, 0, 6));
+            table.addCell(ustawfrazeSpanFont("lp", 0, 2, 6));
+            table.addCell(ustawfrazeSpanFont("Składniki wynagrodzenia", 2, 0, 6));
+            table.addCell(ustawfrazeSpanFont("Razem przychód", 0, 2, 6));
+            table.addCell(ustawfrazeSpanFont("Podst. wymiaru składek ubezp. społecznych", 0, 2, 6));
+            table.addCell(ustawfrazeSpanFont("Składki ZUS pracownik", 4, 0, 6));
+            table.addCell(ustawfrazeSpanFont("Podst. wymiaru składek ubezp. zdrowotnego", 0, 2, 6));
+            table.addCell(ustawfrazeSpanFont("Składka zdrow.", 0, 2, 6));
+            table.addCell(ustawfrazeSpanFont("Koszty uzyskania przychodu", 0, 2, 6));
+            table.addCell(ustawfrazeSpanFont("Podstawa opodatkowania", 0, 2, 6));
+            table.addCell(ustawfrazeSpanFont("Potrącona zaliczka na podatek dochodowy", 0, 2, 6));
+            table.addCell(ustawfrazeSpanFont("Ubezpieczenie zdrowotne", 2, 0, 6));
+            table.addCell(ustawfrazeSpanFont("Kwota wolna", 0, 2, 6));
+            table.addCell(ustawfrazeSpanFont("Należna zaliczka na podatek dochodowy", 0, 2, 6));
+            table.addCell(ustawfrazeSpanFont("Do wypłaty", 0, 2, 6));
             table.addCell(ustawfrazeAlign("Składniki z ZUS", "center",6));
             table.addCell(ustawfrazeAlign("Składniki bez ZUS/bez pod.", "center",6));
             table.addCell(ustawfrazeAlign("Ubezp. Emerytalne", "center",6));
             table.addCell(ustawfrazeAlign("Ubezp. rentowe", "center",6));
             table.addCell(ustawfrazeAlign("Ubezp. chorobowe", "center",6));
-            table.addCell(ustawfrazeAlign("Razem składki na ub. Społ.", "center",6));
-            table.addCell(ustawfrazeAlign("Potrącona", "center",6));
+            table.addCell(ustawfrazeAlign("Razem składki na ub. społ.", "center",6));
+            table.addCell(ustawfrazeAlign("Potrącona z wyn.", "center",6));
             table.addCell(ustawfrazeAlign("Odliczona od podatku", "center",6));
             table.addCell(ustawfrazeAlign("1", "center",6));
             table.addCell(ustawfrazeAlign("2", "center",6));
@@ -148,6 +150,8 @@ public class PdfListaPlac {
             table.addCell(ustawfrazeAlign("15", "center",6));
             table.addCell(ustawfrazeAlign("16", "center",6));
             table.addCell(ustawfrazeAlign("17", "center",6));
+            table.addCell(ustawfrazeAlign("18", "center",6));
+            table.addCell(ustawfrazeAlign("19", "center",6));
             table.setHeaderRows(4);
         } catch (DocumentException ex) {
             System.out.println("");
@@ -168,11 +172,13 @@ public class PdfListaPlac {
             table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPracchorobowe())), "right",6));
             table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getRazemspolecznepracownik())), "right",6));
             table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPodstawaubezpzdrowotne())), "right",6));
+            table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPraczdrowotne())), "right",6));
             table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getKosztyuzyskania())), "right",6));
             table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPodstawaopodatkowania())), "right",6));
             table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPodatekwstepny())), "right",6));
-            table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPraczdrowotne())), "right",6));
+            table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPraczdrowotnepomniejszone())), "right",6));
             table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPraczdrowotnedopotracenia())), "right",6));
+            table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getKwotawolna())), "right",6));
             table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPodatekdochodowy())), "right",6));
             table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getNetto())), "right",6));
         }
@@ -271,6 +277,11 @@ public class PdfListaPlac {
                         sb.append(formatujWaluta(rs.getKwotabezzus()));
                         sb.append("; ");
                     } 
+                    if (Z.z(rs.getKwotabezzusbezpodatek())!=0.0) {
+                        sb.append("kwBezZus/ ");
+                        sb.append(formatujWaluta(rs.getKwotabezzusbezpodatek()));
+                        sb.append("; ");
+                    } 
 
                 }
             }
@@ -358,7 +369,12 @@ public class PdfListaPlac {
             sb.append(rs.getDataod().replace("-", "."));
             sb.append("-");
             sb.append(rs.getDatado().replace("-", "."));
-            sb.append("; ");
+            if (rs.getZwolnienieprocent()!=0.0) {
+                sb.append(" proc: "+rs.getZwolnienieprocent()+"%");
+                sb.append("; ");
+            } else{
+                sb.append("; ");
+            }
         }
         return sb.toString();
     }
