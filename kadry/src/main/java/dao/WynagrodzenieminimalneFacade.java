@@ -5,8 +5,8 @@
  */
 package dao;
 
-import entity.Podatki;
-import java.util.List;
+import entity.Wynagrodzenieminimalne;
+import java.io.Serializable;
 import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -19,11 +19,12 @@ import javax.transaction.Transactional;
  */
 @Stateless
 @Transactional
-public class PodatkiFacade extends DAO  {
+public class WynagrodzenieminimalneFacade extends DAO implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     @PersistenceContext(unitName = "kadryPU")
     private EntityManager em;
-    
+
     @PreDestroy
     private void preDestroy() {
         em.clear();
@@ -37,13 +38,13 @@ public class PodatkiFacade extends DAO  {
         return em;
     }
 
-    public PodatkiFacade() {
-        super(Podatki.class);
+    public WynagrodzenieminimalneFacade() {
+        super(Wynagrodzenieminimalne.class);
         super.em = em;
     }
 
-    public List<Podatki> findByRokUmowa(String rokWpisu, String rodzajumowy) {
-        return  getEntityManager().createNamedQuery("Podatki.findByRokUmowa").setParameter("rok", rokWpisu).setParameter("rodzajumowy", rodzajumowy).getResultList();
+    public Wynagrodzenieminimalne findByRok(String rokWpisu) {
+        return (Wynagrodzenieminimalne) getEntityManager().createNamedQuery("Wynagrodzenieminimalne.findByRok").setParameter("rok", rokWpisu).getSingleResult();
     }
-    
-}
+
+ }

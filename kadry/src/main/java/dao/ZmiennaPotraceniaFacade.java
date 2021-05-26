@@ -5,7 +5,10 @@
  */
 package dao;
 
-import entity.Podatki;
+import entity.Skladnikpotracenia;
+import entity.Umowa;
+import entity.Zmiennapotracenia;
+import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
@@ -19,11 +22,12 @@ import javax.transaction.Transactional;
  */
 @Stateless
 @Transactional
-public class PodatkiFacade extends DAO  {
+public class ZmiennaPotraceniaFacade extends DAO implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     @PersistenceContext(unitName = "kadryPU")
     private EntityManager em;
-    
+
     @PreDestroy
     private void preDestroy() {
         em.clear();
@@ -37,13 +41,16 @@ public class PodatkiFacade extends DAO  {
         return em;
     }
 
-    public PodatkiFacade() {
-        super(Podatki.class);
+    public ZmiennaPotraceniaFacade() {
+        super(Zmiennapotracenia.class);
         super.em = em;
     }
 
-    public List<Podatki> findByRokUmowa(String rokWpisu, String rodzajumowy) {
-        return  getEntityManager().createNamedQuery("Podatki.findByRokUmowa").setParameter("rok", rokWpisu).setParameter("rodzajumowy", rodzajumowy).getResultList();
+    public List<Zmiennapotracenia> findByUmowa(Umowa umowa) {
+        return getEntityManager().createNamedQuery("Zmiennapotracenia.findByUmowa").setParameter("umowa", umowa).getResultList();
     }
-    
+
+    public List<Zmiennapotracenia> findBySkladnik(Skladnikpotracenia skladnikpotracenia) {
+        return getEntityManager().createNamedQuery("Zmiennapotracenia.findBySkladnik").setParameter("skladnikpotracenia", skladnikpotracenia).getResultList();
+    }
 }

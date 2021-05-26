@@ -5,7 +5,10 @@
  */
 package dao;
 
-import entity.Podatki;
+import entity.Pracownik;
+import entity.Skladnikpotracenia;
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
@@ -19,7 +22,8 @@ import javax.transaction.Transactional;
  */
 @Stateless
 @Transactional
-public class PodatkiFacade extends DAO  {
+public class SkladnikPotraceniaFacade extends DAO  implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     @PersistenceContext(unitName = "kadryPU")
     private EntityManager em;
@@ -37,13 +41,14 @@ public class PodatkiFacade extends DAO  {
         return em;
     }
 
-    public PodatkiFacade() {
-        super(Podatki.class);
+    public SkladnikPotraceniaFacade() {
+        super(Skladnikpotracenia.class);
         super.em = em;
     }
-
-    public List<Podatki> findByRokUmowa(String rokWpisu, String rodzajumowy) {
-        return  getEntityManager().createNamedQuery("Podatki.findByRokUmowa").setParameter("rok", rokWpisu).setParameter("rodzajumowy", rodzajumowy).getResultList();
-    }
     
+    public List<Skladnikpotracenia> findByPracownik(Pracownik pracownik) {
+        List<Skladnikpotracenia> zwrot = new ArrayList<>();
+        zwrot = getEntityManager().createNamedQuery("Skladnikpotracenia.findByPracownik").setParameter("pracownik", pracownik).getResultList();
+        return zwrot;
+    }
 }

@@ -81,6 +81,8 @@ public class Pasekwynagrodzen implements Serializable {
     private double fp;
     @Column(name = "kosztyuzyskania")
     private double kosztyuzyskania;
+    @Column(name = "procentkosztow")
+    private double procentkosztow;
     @Column(name = "kwotawolna")
     private double kwotawolna;
     @Column(name = "netto")
@@ -156,6 +158,8 @@ public class Pasekwynagrodzen implements Serializable {
     private String mc;
     @Column(name="importowany")
     private boolean importowany;
+    @Column(name="wynagrodzenieminimalne")
+    private double wynagrodzenieminimalne;
 
     public Pasekwynagrodzen() {
         this.naliczeniepotracenieList = new ArrayList<>();
@@ -354,6 +358,14 @@ public class Pasekwynagrodzen implements Serializable {
 
     public void setKosztyuzyskania(double kosztyuzyskania) {
         this.kosztyuzyskania = kosztyuzyskania;
+    }
+
+    public double getProcentkosztow() {
+        return procentkosztow;
+    }
+
+    public void setProcentkosztow(double procentkosztow) {
+        this.procentkosztow = procentkosztow;
     }
 
     public double getKwotawolna() {
@@ -620,6 +632,16 @@ public class Pasekwynagrodzen implements Serializable {
     public void setBruttobezzusbezpodatek(double bruttobezzusbezpodatek) {
         this.bruttobezzusbezpodatek = bruttobezzusbezpodatek;
     }
+
+    public double getWynagrodzenieminimalne() {
+        return wynagrodzenieminimalne;
+    }
+
+    public void setWynagrodzenieminimalne(double wynagrodzenieminimalne) {
+        this.wynagrodzenieminimalne = wynagrodzenieminimalne;
+    }
+
+  
 
     public List<Pasekwynagrodzen.Skladnikwynlista> getPobierzskladniki(){
         List<Pasekwynagrodzen.Skladnikwynlista> zwrot = new ArrayList<>();

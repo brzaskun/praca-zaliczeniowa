@@ -1,0 +1,153 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:bcf="http://brzaskun.com/facelets">
+    <p:panelGrid columns="2" columnClasses="fifty-percent fifty-percent">
+            <p:outputPanel style="height: 140px" styleClass="panelzramka">
+                <h:form id="PotraceniaCreateForm">
+                    <p:panel header="Dodawanie/edycja składnika potrąceń"/>
+                    <h:panelGroup id="display">
+                        <p:panelGrid columns="4" rendered="#{skladnikPotraceniaView.selected != null}">
+                            <p:outputLabel value="umowa" for="umowaskladnik" />
+                            <p:selectOneMenu id="umowaskladnik" value="#{skladnikPotraceniaView.selected.umowa}" converter="#{umowaConverter}" required="true" style="width: 250px;">
+                                <f:selectItem itemLabel="wybierz" noSelectionOption="true" />
+                                <f:selectItems value="#{skladnikPotraceniaView.listaumow}"
+                                               var="umowaskladnikItem1"
+                                               itemValue="#{umowaskladnikItem1}" itemLabel="#{umowaskladnikItem1.nrkolejny}"/>
+                                <p:ajax event="change" partialSubmit="true" global="false"/>
+                            </p:selectOneMenu>
+                             <p:outputLabel value="nazwa" for="nazwa" />
+                             <p:selectOneMenu id="nazwa" value="#{skladnikPotraceniaView.selected.slownikpotracenia}" converter="#{slownikpotracenConverter}" filter="true" required="true">
+                                <f:selectItem itemLabel="wybierz" noSelectionOption="true" />
+                                <f:selectItems value="#{skladnikPotraceniaView.listapotracen}"
+                                               var="rodzajpotrItem"
+                                               itemValue="#{rodzajpotrItem}" itemLabel="#{rodzajpotrItem.nazwa}"/>
+                                <p:ajax event="change" partialSubmit="true" global="false"  update="PotraceniaCreateForm:kod"/>
+                            </p:selectOneMenu>
+                            <p:outputLabel value="limit umowa o pracę" for="kod" />
+                            <h:outputText id="kod" value="#{skladnikPotraceniaView.selected.slownikpotracenia.limitumowaoprace}" title="limit umowa o pracę" />
+                            <p:outputLabel value="limit umowa zlecenia" for="uwagi" />
+                            <h:outputText id="uwagi" value="#{skladnikPotraceniaView.selected.slownikpotracenia.limitumowazlecenia}" title="limit umowa zlecenia"/>
+                        </p:panelGrid>
+                        <p:commandButton styleClass="buttonnorm" actionListener="#{skladnikPotraceniaView.create}" value="#{bundle.Save}" update="display,@(form)"/>
+                        <p:commandButton value="#{bundle.Cancel}" onclick="SkladnikwynagrodzeniaCreateDialog.hide()"/>
+                    </h:panelGroup>
+                </h:form>
+            </p:outputPanel>
+            <p:outputPanel style="height: 140px" styleClass="panelzramka">
+                <h:form id="ZmiennapotraceniaCreateForm">
+                    <p:panel header="Dodawanie/edycja zmiennych potrąceń"/>
+                    <h:panelGroup id="display">
+                        <p:panelGrid columns="4" rendered="#{zmiennaPotraceniaView.selected != null}">
+                            <p:outputLabel value="nazwa" for="nazwa" />
+                            <p:inputText id="nazwa" value="#{zmiennaPotraceniaView.selected.nazwa}" title="nazwa"  required="true"/>
+                            <p:outputLabel value="kwota" />
+                            <bcf:innum  value="#{zmiennaPotraceniaView.selected.kwotastala}" />
+                            <p:outputLabel value="data od" for="dataod" />
+                            <p:inputText id="dataod" value="#{zmiennaPotraceniaView.selected.dataod}" title="data od" placeholder="____-__-__"  required="true"/>
+                            <p:outputLabel value="data do" for="datado" />
+                            <p:inputText id="datado" value="#{zmiennaPotraceniaView.selected.datado}" title="data do" placeholder="____-__-__" />
+                        </p:panelGrid>
+                        <p:commandButton styleClass="buttonnorm" actionListener="#{zmiennaPotraceniaView.create}" value="#{bundle.Save}" update="ZmiennapotraceniaCreateForm :SkladnikporaceniaListForm:datalist"/>
+                        <p:commandButton value="#{bundle.Cancel}"/>
+                    </h:panelGroup>
+                </h:form>
+            </p:outputPanel>
+            <p:outputPanel>
+                <h:form id="SkladnikpotraceniaListForm">
+                    <p:panel header="Wykaz składników potrącenia">
+                        <p:dataTable id="datalist" value="#{skladnikPotraceniaView.lista}" var="itemskladnikpotracenia"
+                                     selectionMode="single" selection="#{skladnikPotraceniaView.selectedlista}"
+                                     rowKey="#{itemskladnikpotracenia.id}"
+                                     style="height: 200px; overflow-y: scroll;"
+                                     >
+                            <p:ajax event="rowSelect" listener="#{zmiennaPotraceniaView.init2(skladnikPotraceniaView.selectedlista)}" partialSubmit="true" global="false" update="SkladnikporaceniaListForm"/>
+                            <p:column width="40" style="text-align: center;">
+                                <f:facet name="header">
+                                    <h:outputText value="id"/>
+                                </f:facet>
+                                <h:outputText value="#{itemskladnikpotracenia.id}"/>
+                            </p:column>
+                            <p:column width="170">
+                                <f:facet name="header">
+                                    <h:outputText value="nazwa"/>
+                                </f:facet>
+                                <h:outputText value="#{itemskladnikpotracenia.slownikpotracenia.nazwa}"/>
+                            </p:column>
+                            <p:column width="100">
+                                <f:facet name="header">
+                                    <h:outputText value="umowa"/>
+                                </f:facet>
+                                <h:outputText value="#{itemskladnikpotracenia.umowa.umowanumernazwa()}"/>
+                            </p:column>
+                            <p:column style="text-align: center;" width="40">
+                                <f:facet name="header">
+                                    <h:outputText value="limit um. o pracę"/>
+                                </f:facet>
+                                <h:outputText value="#{itemskladnikpotracenia.slownikpotracenia.limitumowaoprace}"/>
+                            </p:column>
+                            <p:column style="text-align: center;" width="40">
+                                <f:facet name="header">
+                                    <h:outputText value="limit um. zlecenia"/>
+                                </f:facet>
+                                <h:outputText value="#{itemskladnikpotracenia.slownikpotracenia.limitumowazlecenia}"/>
+                            </p:column>
+                            <p:column style="text-align: center; width: 30px;">
+                                <p:commandButton icon="fa fa-trash" actionListener="#{skladnikPotraceniaView.usunSkladnikPotr(itemskladnikpotracenia)}" update="north, @(form)"/>
+                            </p:column>
+                        </p:dataTable>
+                    </p:panel>
+                </h:form>
+            </p:outputPanel>
+            <p:outputPanel>
+                <h:form id="SkladnikporaceniaListForm">
+                    <p:panel header="Wykaz zmiennych potrąceń">
+                        <p:dataTable id="datalist" value="#{zmiennaPotraceniaView.lista}" var="itemzmiennapotr"
+                                     selectionMode="single" selection="#{pracownikView.selectedlista}"
+                                     rowKey="#{itemzmiennapotr.id}" emptyMessage="Składnik nie posiada zdefiniowanych zmiennych"
+                                     style="height: 200px; overflow-y: scroll;"
+                                     >
+
+                            <p:column width="40" style="text-align: center;">
+                                <f:facet name="header">
+                                    <h:outputText value="id"/>
+                                </f:facet>
+                                <h:outputText value="#{itemzmiennapotr.id}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="nazwa"/>
+                                </f:facet>
+                                <h:outputText value="#{itemzmiennapotr.nazwa}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="data od"/>
+                                </f:facet>
+                                <h:outputText value="#{itemzmiennapotr.dataod}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="data do"/>
+                                </f:facet>
+                                <h:outputText value="#{itemzmiennapotr.datado}"/>
+                            </p:column>
+
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="kwota"/>
+                                </f:facet>
+                                <bcf:outputpl value="#{itemzmiennapotr.kwotastala}"/>
+                            </p:column>
+                            <p:column style="text-align: center;">
+                                <p:commandButton icon="fa fa-trash" actionListener="#{zmiennaPotraceniaView.usunZmiennaPotr(itemzmiennapotr)}" update="north @(form)"/>
+                            </p:column>
+                        </p:dataTable>
+                    </p:panel>
+                </h:form>
+            </p:outputPanel>
+        </p:panelGrid>
+</ui:composition>

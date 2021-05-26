@@ -32,7 +32,10 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Zmiennapotracenia.findById", query = "SELECT z FROM Zmiennapotracenia z WHERE z.id = :id"),
     @NamedQuery(name = "Zmiennapotracenia.findByDatado", query = "SELECT z FROM Zmiennapotracenia z WHERE z.datado = :datado"),
     @NamedQuery(name = "Zmiennapotracenia.findByDataod", query = "SELECT z FROM Zmiennapotracenia z WHERE z.dataod = :dataod"),
-    @NamedQuery(name = "Zmiennapotracenia.findByNazwa", query = "SELECT z FROM Zmiennapotracenia z WHERE z.nazwa = :nazwa")})
+    @NamedQuery(name = "Zmiennapotracenia.findByNazwa", query = "SELECT z FROM Zmiennapotracenia z WHERE z.nazwa = :nazwa"),
+    @NamedQuery(name = "Zmiennapotracenia.findByUmowa", query = "SELECT z FROM Zmiennapotracenia z WHERE z.skladnikpotracenia.umowa = :umowa"),
+    @NamedQuery(name = "Zmiennapotracenia.findBySkladnik", query = "SELECT z FROM Zmiennapotracenia z WHERE z.skladnikpotracenia = :skladnikpotracenia")
+    })
 public class Zmiennapotracenia implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id

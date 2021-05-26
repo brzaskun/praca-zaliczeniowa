@@ -14,6 +14,7 @@ import dao.NieobecnosckodzusFacade;
 import dao.PasekwynagrodzenFacade;
 import dao.PodatkiFacade;
 import dao.WynagrodzeniahistoryczneFacade;
+import dao.WynagrodzenieminimalneFacade;
 import data.Data;
 import entity.Angaz;
 import entity.Definicjalistaplac;
@@ -60,6 +61,8 @@ public class PasekwynagrodzenView  implements Serializable {
     private NieobecnosckodzusFacade nieobecnosckodzusFacade;
     @Inject
     private WynagrodzeniahistoryczneFacade wynagrodzeniahistoryczneFacade;
+    @Inject
+    private WynagrodzenieminimalneFacade wynagrodzenieminimalneFacade;
     @Inject
     private PodatkiFacade podatkiFacade;
     @Inject
@@ -108,7 +111,7 @@ public class PasekwynagrodzenView  implements Serializable {
     public void przelicz() {
         if (wybranalistaplac!=null && !listakalendarzmiesiac.getTarget().isEmpty()) {
             int i = 1;
-            Podatki stawkipodatkowe = podatkiFacade.findByRokUmowa(wpisView.getRokWpisu(), "P");
+            List<Podatki> stawkipodatkowe = podatkiFacade.findByRokUmowa(wpisView.getRokWpisu(), "P");
             for (Kalendarzmiesiac p : listakalendarzmiesiac.getTarget()) {
                 boolean czysainnekody = p.czysainnekody();
                 List<Pasekwynagrodzen> paskidowyliczeniapodstawy = new ArrayList<>();
@@ -117,7 +120,9 @@ public class PasekwynagrodzenView  implements Serializable {
                     paskidowyliczeniapodstawy = pobierzpaskidosredniej(p);
                     historiawynagrodzen = wynagrodzeniahistoryczneFacade.findByAngaz(p.getUmowa().getAngaz());
                 }
-                Pasekwynagrodzen pasek = PasekwynagrodzenBean.oblicz(p, wybranalistaplac, nieobecnosckodzusFacade, paskidowyliczeniapodstawy, historiawynagrodzen, stawkipodatkowe);
+                double sumapoprzednich = PasekwynagrodzenBean.sumaprzychodowpoprzednich(pasekwynagrodzenFacade, p, stawkipodatkowe.get(1).getKwotawolnaod());
+                double wynagrodzenieminimalne = wynagrodzenieminimalneFacade.findByRok(wpisView.getRokWpisu()).getKwotabrutto();
+                Pasekwynagrodzen pasek = PasekwynagrodzenBean.oblicz(p, wybranalistaplac, nieobecnosckodzusFacade, paskidowyliczeniapodstawy, historiawynagrodzen, stawkipodatkowe, sumapoprzednich, wynagrodzenieminimalne);
                 usunpasekjakzawiera(pasek);
                 lista.add(pasek);
             }

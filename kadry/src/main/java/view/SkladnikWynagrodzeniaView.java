@@ -29,7 +29,6 @@ public class SkladnikWynagrodzeniaView  implements Serializable {
     private static final long serialVersionUID = 1L;
     @Inject
     private Skladnikwynagrodzenia selected;
-    private Umowa selectedumowa;
     @Inject
     private Skladnikwynagrodzenia selectedlista;
     private List<Skladnikwynagrodzenia> lista;
@@ -58,9 +57,8 @@ public class SkladnikWynagrodzeniaView  implements Serializable {
     
 
     public void create() {
-      if (selected!=null && selectedumowa!=null) {
+      if (selected!=null && selected.getUmowa()!=null) {
           try {
-            selected.setUmowa(selectedumowa);
             skladnikWynagrodzeniaFacade.create(selected);
             lista.add(selected);
             selected = new Skladnikwynagrodzenia();
@@ -113,14 +111,6 @@ public class SkladnikWynagrodzeniaView  implements Serializable {
 
     public void setListaumow(List<Umowa> listaumow) {
         this.listaumow = listaumow;
-    }
-
-    public Umowa getSelectedumowa() {
-        return selectedumowa;
-    }
-
-    public void setSelectedumowa(Umowa selectedumowa) {
-        this.selectedumowa = selectedumowa;
     }
 
     public List<Rodzajwynagrodzenia> getListarodzajwynagrodzenia() {

@@ -51,8 +51,10 @@ public class PasekwynagrodzenBean {
     }
     
       
-    public static Pasekwynagrodzen oblicz(Kalendarzmiesiac kalendarz, Definicjalistaplac definicjalistaplac, NieobecnosckodzusFacade nieobecnosckodzusFacade, List<Pasekwynagrodzen> paskidowyliczeniapodstawy, List<Wynagrodzeniahistoryczne> historiawynagrodzen, Podatki stawkipodatkowe) {
+    public static Pasekwynagrodzen oblicz(Kalendarzmiesiac kalendarz, Definicjalistaplac definicjalistaplac, NieobecnosckodzusFacade nieobecnosckodzusFacade, List<Pasekwynagrodzen> paskidowyliczeniapodstawy, 
+            List<Wynagrodzeniahistoryczne> historiawynagrodzen, List<Podatki> stawkipodatkowe, double sumapoprzednich, double wynagrodzenieminimalne) {
         Pasekwynagrodzen pasek = new Pasekwynagrodzen();
+        pasek.setWynagrodzenieminimalne(wynagrodzenieminimalne);
         double kurs = 4.4745;
         double dietastawka = 49.0;
         double limitZUS = 5227.0;
@@ -90,7 +92,7 @@ public class PasekwynagrodzenBean {
             PasekwynagrodzenBean.obliczdietedoodliczenia(pasek, kalendarz);
         }
         PasekwynagrodzenBean.obliczpodstaweopodatkowania(pasek, stawkipodatkowe);
-        PasekwynagrodzenBean.obliczpodatekwstepny(pasek, stawkipodatkowe);
+        PasekwynagrodzenBean.obliczpodatekwstepny(pasek, stawkipodatkowe, sumapoprzednich);
         PasekwynagrodzenBean.ulgapodatkowa(pasek, stawkipodatkowe);
         PasekwynagrodzenBean.naliczzdrowota(pasek);
         PasekwynagrodzenBean.obliczpodatekdowplaty(pasek);
@@ -160,7 +162,7 @@ public class PasekwynagrodzenBean {
         PasekwynagrodzenBean.pracownikchorobowa(pasek);
         PasekwynagrodzenBean.razemspolecznepracownik(pasek);
         PasekwynagrodzenBean.obliczpodstaweopodatkowania(pasek, null);
-        PasekwynagrodzenBean.obliczpodatekwstepny(pasek, null);
+        PasekwynagrodzenBean.obliczpodatekwstepny(pasek, null, 0.0);
         PasekwynagrodzenBean.ulgapodatkowa(pasek, null);
         PasekwynagrodzenBean.naliczzdrowota(pasek);
         PasekwynagrodzenBean.obliczpodatekdowplaty(pasek);
@@ -279,27 +281,40 @@ public class PasekwynagrodzenBean {
      private static void razemkosztpracodawcy(Pasekwynagrodzen pasek) {
          pasek.setKosztpracodawcy(Z.z(pasek.getRazemspolecznefirma()+pasek.getFgsp()+pasek.getFgsp()));
     }
-    private static void obliczpodstaweopodatkowania(Pasekwynagrodzen pasek, Podatki stawkipodatkowe) {
+    private static void obliczpodstaweopodatkowania(Pasekwynagrodzen pasek, List<Podatki> stawkipodatkowe) {
+        Podatki pierwszyprog = stawkipodatkowe.get(0);
         double zzus = pasek.getBruttozus();
         double bezzus = pasek.getBruttobezzus();
         double skladki = pasek.getRazemspolecznepracownik();
-        double kosztyuzyskania = pasek.getKalendarzmiesiac().getUmowa().getKosztyuzyskaniaprocent()==100?stawkipodatkowe.getKup():stawkipodatkowe.getKuppodwyzszone();
+        double kosztyuzyskania = pasek.getKalendarzmiesiac().getUmowa().getKosztyuzyskaniaprocent()==100?pierwszyprog.getKup():pierwszyprog.getKuppodwyzszone();
         double dieta30proc = pasek.getDietaodliczeniepodstawaop();
         double podstawa = Z.z0(zzus+bezzus-skladki-kosztyuzyskania-dieta30proc) > 0.0 ? Z.z0(zzus+bezzus-skladki-kosztyuzyskania-dieta30proc) :0.0;
         pasek.setPodstawaopodatkowania(podstawa);
         pasek.setKosztyuzyskania(kosztyuzyskania);
+        pasek.setProcentkosztow(pasek.getKalendarzmiesiac().getUmowa().getKosztyuzyskaniaprocent());
         
     }
 
-    private static void obliczpodatekwstepny(Pasekwynagrodzen pasek, Podatki stawkipodatkowe) {
-        double podatek = Z.z(Z.z0(pasek.getPodstawaopodatkowania())*stawkipodatkowe.getStawka());
+    private static void obliczpodatekwstepny(Pasekwynagrodzen pasek, List<Podatki> stawkipodatkowe, double sumapoprzednich) {
+        double podatek = Z.z(Z.z0(pasek.getPodstawaopodatkowania())*stawkipodatkowe.get(0).getStawka());
+        double drugiprog = stawkipodatkowe.get(0).getKwotawolnado();
+        if (sumapoprzednich>=drugiprog) {
+            podatek = Z.z(Z.z0(pasek.getPodstawaopodatkowania())*stawkipodatkowe.get(1).getStawka());
+        } else if (sumapoprzednich<drugiprog) {
+            double razemzbiezacym = sumapoprzednich+pasek.getPodstawaopodatkowania();
+            if (razemzbiezacym>drugiprog) {
+                double podatekdol = Z.z(Z.z0(drugiprog-sumapoprzednich)*stawkipodatkowe.get(0).getStawka());
+                double podatekgora = Z.z(Z.z0(razemzbiezacym-drugiprog)*stawkipodatkowe.get(0).getStawka());
+                podatek = podatekdol+podatekgora;
+            }
+        }
         pasek.setPodatekwstepny(podatek);
     }
 
-    private static void ulgapodatkowa(Pasekwynagrodzen pasek, Podatki stawkipodatkowe) {
+    private static void ulgapodatkowa(Pasekwynagrodzen pasek,  List<Podatki> stawkipodatkowe) {
         boolean ulga = pasek.getKalendarzmiesiac().getUmowa().getOdliczaculgepodatkowa();
         if (ulga) {
-            double kwotawolna = stawkipodatkowe.getWolnamc();
+            double kwotawolna = stawkipodatkowe.get(0).getWolnamc();
             pasek.setKwotawolna(kwotawolna);
         }
     }
@@ -331,7 +346,7 @@ public class PasekwynagrodzenBean {
     }
 
     private static void dowyplaty(Pasekwynagrodzen pasek) {
-        pasek.setNetto(Z.z(pasek.getPodstawaubezpzdrowotne()+pasek.getBruttobezzus()-pasek.getPraczdrowotne()-pasek.getPodatekdochodowy()));
+        pasek.setNetto(Z.z(pasek.getPodstawaubezpzdrowotne()+pasek.getBruttobezzusbezpodatek()-pasek.getPraczdrowotne()-pasek.getPodatekdochodowy()-pasek.getPotracenia()));
     }
 
     private static Nieobecnosc pobierz(List<Nieobecnosc> nieobecnosci, String string) {
@@ -480,6 +495,15 @@ public class PasekwynagrodzenBean {
             bruttobezzusbezpodatek = Z.z(bruttobezzusbezpodatek+p.getKwotabezzusbezpodatek());
         }
         pasek.setNetto(Z.z(pasek.getNetto())+bruttobezzusbezpodatek);
+    }
+
+    public static double sumaprzychodowpoprzednich(PasekwynagrodzenFacade pasekwynagrodzenFacade, Kalendarzmiesiac p, double prog) {
+        List<Pasekwynagrodzen> paskipodatnika = pasekwynagrodzenFacade.findByRokAngaz(p.getRok(), p.getUmowa().getAngaz());
+        double suma = 0.0;
+        for (Pasekwynagrodzen r : paskipodatnika) {
+            suma = suma+r.getPodstawaopodatkowania();
+        }
+        return suma;
     }
 
     
