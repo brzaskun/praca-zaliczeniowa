@@ -11,9 +11,11 @@ import dao.KalendarzwzorFacade;
 import dao.UprawnieniaFacade;
 import dao.UzFacade;
 import embeddable.Mce;
+import entity.Angaz;
 import entity.Definicjalistaplac;
 import entity.FirmaKadry;
 import entity.Kalendarzwzor;
+import entity.Umowa;
 import entity.Uprawnienia;
 import entity.Uz;
 import java.io.Serializable;
@@ -137,6 +139,14 @@ public class FirmaView  implements Serializable {
                 wpisView.setPracownik(null);
                 wpisView.setAngaz(null);
                 wpisView.setUmowa(null);
+            } else {
+                Angaz angaz = firma.getAngazList().get(0);
+                wpisView.setPracownik(angaz.getPracownik());
+                wpisView.setAngaz(angaz);
+                List<Umowa> umowaList = angaz.getUmowaList();
+                if (!umowaList.isEmpty()) {
+                    wpisView.setUmowa(umowaList.get(0));
+                }
             }
             angazView.init();
             pracodawcaDaneView.init();

@@ -62,6 +62,43 @@
                     <p:commandButton value="zachowaj" styleClass="buttonnorm" actionListener="#{rodzjawynagrodzeniaSetView.zachowaj}" update="@form"/>
                 </h:form>
             </p:tab>
+             <p:tab title="Rodzaje składników potrąceń">
+                <h:form id="SlownikPotracenForm">
+                    <p:dataTable id="datalist" value="#{slownikpotraceniaView.lista}" var="item12"
+                                 selectionMode="single" selection="#{slownikpotraceniaView.selectedlista}"
+                                 rowKey="#{item12.id}" 
+                                 style="height: 400px; overflow-y: scroll; width: 800px;"
+                                 >
+
+                        <p:column width="40" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="id"/>
+                            </f:facet>
+                            <h:outputText value="#{item12.id}"/>
+                        </p:column>
+                        <p:column width="250">
+                            <f:facet name="header">
+                                <h:outputText value="nazwa"/>
+                            </f:facet>
+                            <h:outputText value="#{item12.nazwa}"/>
+                        </p:column>
+                        <p:column width="70">
+                            <f:facet name="header">
+                                <h:outputText value="limit praca"/>
+                            </f:facet>
+                            <h:outputText value="#{item12.limitumowaoprace}"/>
+                        </p:column>
+                        <p:column width="70">
+                            <f:facet name="header">
+                                <h:outputText value="limit zlecenia"/>
+                            </f:facet>
+                            <h:outputText value="#{item12.limitumowazlecenia}"/>
+                        </p:column>
+                        
+                    </p:dataTable>
+                    <p:commandButton value="zachowaj" styleClass="buttonnorm" actionListener="#{slownikpotraceniaView.zachowaj}" update="@form"/>
+                </h:form>
+            </p:tab>
              <p:tab title="Zmienne podatkowe">
                 <h:form id="ZmiennepodatkoweForm">
                     <p:panelGrid columns="8">

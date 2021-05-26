@@ -39,19 +39,20 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Skladnikpotracenia.findByPracownik", query = "SELECT s FROM Skladnikpotracenia s WHERE s.umowa.angaz.pracownik = :pracownik")
 })
 public class Skladnikpotracenia implements Serializable {
-
-    @Size(max = 255)
-    @Column(name = "nazwa")
-    private String nazwa;
-   private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
+    @Size(max = 255)
+    @Column(name = "nazwa")
+    private String nazwa;
+    @JoinColumn(name = "slownikpotracenia", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Slownikpotracenia slownikpotracenia;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "skladnikpotracenia")
     private List<Zmiennapotracenia> zmiennapotraceniaList;
-
     @OneToMany(mappedBy = "skladnikpotracenia")
     private List<Naliczeniepotracenie> naliczeniepotracenieList;
     @JoinColumn(name = "umowa", referencedColumnName = "id")
@@ -136,6 +137,14 @@ public class Skladnikpotracenia implements Serializable {
 
     public void setNazwa(String nazwa) {
         this.nazwa = nazwa;
+    }
+
+    public Slownikpotracenia getSlownikpotracenia() {
+        return slownikpotracenia;
+    }
+
+    public void setSlownikpotracenia(Slownikpotracenia slownikpotracenia) {
+        this.slownikpotracenia = slownikpotracenia;
     }
     
 }
