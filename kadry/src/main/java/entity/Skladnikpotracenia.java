@@ -36,7 +36,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Skladnikpotracenia.findAll", query = "SELECT s FROM Skladnikpotracenia s"),
     @NamedQuery(name = "Skladnikpotracenia.findById", query = "SELECT s FROM Skladnikpotracenia s WHERE s.id = :id"),
     @NamedQuery(name = "Skladnikpotracenia.findByNazwa", query = "SELECT s FROM Skladnikpotracenia s WHERE s.nazwa = :nazwa"),
-    @NamedQuery(name = "Skladnikpotracenia.findByPracownik", query = "SELECT s FROM Skladnikpotracenia s WHERE s.umowa.angaz.pracownik = :pracownik")
+    @NamedQuery(name = "Skladnikpotracenia.findByPracownik", query = "SELECT s FROM Skladnikpotracenia s WHERE s.umowa.angaz.pracownik = :pracownik"),
+    @NamedQuery(name = "Skladnikpotracenia.findByUmowa", query = "SELECT s FROM Skladnikpotracenia s WHERE s.umowa = :umowa")
 })
 public class Skladnikpotracenia implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -147,4 +148,43 @@ public class Skladnikpotracenia implements Serializable {
         this.slownikpotracenia = slownikpotracenia;
     }
     
+    public String getTytul() {
+        String zwrot = "blad";
+        if (this.zmiennapotraceniaList!=null && this.zmiennapotraceniaList.size()>0) {
+            zwrot = zmiennapotraceniaList.get(0).getNazwa();
+        }
+        return zwrot;
+    }
+    
+    public String getDataOd() {
+        String zwrot = "blad";
+        if (this.zmiennapotraceniaList!=null && this.zmiennapotraceniaList.size()>0) {
+            zwrot = zmiennapotraceniaList.get(0).getDataod();
+        }
+        return zwrot;
+    }
+    
+    public String getDataDo() {
+        String zwrot = "blad";
+        if (this.zmiennapotraceniaList!=null && this.zmiennapotraceniaList.size()>0) {
+            zwrot = zmiennapotraceniaList.get(0).getDatado();
+        }
+        return zwrot;
+    }
+    
+    public double getKwotastala() {
+        double zwrot = 0.0;
+        if (this.zmiennapotraceniaList!=null && this.zmiennapotraceniaList.size()>0) {
+            zwrot = zmiennapotraceniaList.get(0).getKwotastala();
+        }
+        return zwrot;
+    }
+    
+    public double getKwotakomornicza() {
+        double zwrot = 0.0;
+        if (this.zmiennapotraceniaList!=null && this.zmiennapotraceniaList.size()>0) {
+            zwrot = zmiennapotraceniaList.get(0).getKwotakomornicza();
+        }
+        return zwrot;
+    }
 }

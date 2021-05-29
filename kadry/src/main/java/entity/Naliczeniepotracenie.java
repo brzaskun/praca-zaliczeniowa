@@ -17,6 +17,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -29,6 +30,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Naliczeniepotracenie.findAll", query = "SELECT n FROM Naliczeniepotracenie n"),
     @NamedQuery(name = "Naliczeniepotracenie.findById", query = "SELECT n FROM Naliczeniepotracenie n WHERE n.id = :id"),
+    @NamedQuery(name = "Naliczeniepotracenie.findByUmowa", query = "SELECT n FROM Naliczeniepotracenie n WHERE n.skladnikpotracenia.umowa = :umowa"),
     @NamedQuery(name = "Naliczeniepotracenie.findByKwota", query = "SELECT n FROM Naliczeniepotracenie n WHERE n.kwota = :kwota")})
 public class Naliczeniepotracenie implements Serializable {
 
@@ -49,6 +51,8 @@ public class Naliczeniepotracenie implements Serializable {
     @JoinColumn(name = "skladnikpotracenia", referencedColumnName = "id")
     @ManyToOne
     private Skladnikpotracenia skladnikpotracenia;
+    @Transient
+    private double kwotanarastajaco;
 
     public Naliczeniepotracenie() {
     }
@@ -112,6 +116,18 @@ public class Naliczeniepotracenie implements Serializable {
 
     public void setPasekwynagrodzen(Pasekwynagrodzen pasekwynagrodzen) {
         this.pasekwynagrodzen = pasekwynagrodzen;
+    }
+    
+    public String getRokMc() {
+        return this.getPasekwynagrodzen().getRok()+this.getPasekwynagrodzen().getMc();
+    }
+
+    public double getKwotanarastajaco() {
+        return kwotanarastajaco;
+    }
+
+    public void setKwotanarastajaco(double kwotanarastajaco) {
+        this.kwotanarastajaco = kwotanarastajaco;
     }
     
 }
