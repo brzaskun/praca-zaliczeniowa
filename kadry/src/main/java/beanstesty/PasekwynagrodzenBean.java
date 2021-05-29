@@ -96,6 +96,9 @@ public class PasekwynagrodzenBean {
         PasekwynagrodzenBean.ulgapodatkowa(pasek, stawkipodatkowe);
         PasekwynagrodzenBean.naliczzdrowota(pasek);
         PasekwynagrodzenBean.obliczpodatekdowplaty(pasek);
+        PasekwynagrodzenBean.netto(pasek);
+        double wolneodzajecia = obliczminimalna(kalendarz, definicjalistaplac, nieobecnosckodzusFacade, paskidowyliczeniapodstawy, historiawynagrodzen, stawkipodatkowe, sumapoprzednich, wynagrodzenieminimalne);
+        KalendarzmiesiacBean.naliczskladnikipotracenia(kalendarz, pasek, wolneodzajecia);
         PasekwynagrodzenBean.potracenia(pasek);
         PasekwynagrodzenBean.dowyplaty(pasek);
         PasekwynagrodzenBean.emerytalna(pasek);
@@ -109,28 +112,50 @@ public class PasekwynagrodzenBean {
         PasekwynagrodzenBean.naniesrobocze(pasek,kalendarz);
         pasek.setRok(definicjalistaplac.getRok());
         pasek.setMc(definicjalistaplac.getMc());
-        System.out.println("****************");
-        for (Naliczenieskladnikawynagrodzenia r : pasek.getNaliczenieskladnikawynagrodzeniaList()) {
-            if (r.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getRedukowany()) {
-                System.out.println(r.getSkladnikwynagrodzenia().getUwagi()+" "+Z.z(r.getKwotazredukowana()));
-            } else {
-                System.out.println(r.getSkladnikwynagrodzenia().getUwagi()+" "+Z.z(r.getKwota()));
-            }
-        }
-        for (Naliczenienieobecnosc r : pasek.getNaliczenienieobecnoscList()) {
-            System.out.println(r.getNieobecnosc().getNieobecnosckodzus().getOpisskrocony()+" od "+r.getSkladnikwynagrodzenia().getUwagi()+" "+Z.z(r.getKwota()));
-            if (r.getKwotaredukcji()!=0.0 && r.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getRedukowany()) {
-                System.out.println(r.getSkladnikwynagrodzenia().getUwagi()+" redukcja za "+r.getNieobecnosc().getNieobecnosckodzus().getOpisskrocony()+" kwota redukcji "+Z.z(r.getKwotaredukcji()));
-            }
-        }
-        System.out.println("****************");
-        System.out.println(pasek.getBruttozus());
-        System.out.println(pasek.getBruttobezzus());
-        double suma = pasek.getBruttozus()+pasek.getBruttobezzus();
-        System.out.println("Razem: "+Z.z(suma));
-        System.out.println(pasek.getNetto());
-        System.out.println("");
+//        System.out.println("****************");
+//        for (Naliczenieskladnikawynagrodzenia r : pasek.getNaliczenieskladnikawynagrodzeniaList()) {
+//            if (r.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getRedukowany()) {
+//                System.out.println(r.getSkladnikwynagrodzenia().getUwagi()+" "+Z.z(r.getKwotazredukowana()));
+//            } else {
+//                System.out.println(r.getSkladnikwynagrodzenia().getUwagi()+" "+Z.z(r.getKwota()));
+//            }
+//        }
+//        for (Naliczenienieobecnosc r : pasek.getNaliczenienieobecnoscList()) {
+//            System.out.println(r.getNieobecnosc().getNieobecnosckodzus().getOpisskrocony()+" od "+r.getSkladnikwynagrodzenia().getUwagi()+" "+Z.z(r.getKwota()));
+//            if (r.getKwotaredukcji()!=0.0 && r.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getRedukowany()) {
+//                System.out.println(r.getSkladnikwynagrodzenia().getUwagi()+" redukcja za "+r.getNieobecnosc().getNieobecnosckodzus().getOpisskrocony()+" kwota redukcji "+Z.z(r.getKwotaredukcji()));
+//            }
+//        }
+//        System.out.println("****************");
+//        System.out.println(pasek.getBruttozus());
+//        System.out.println(pasek.getBruttobezzus());
+//        double suma = pasek.getBruttozus()+pasek.getBruttobezzus();
+//        System.out.println("Razem: "+Z.z(suma));
+//        System.out.println(pasek.getNetto());
+//        System.out.println("");
         return pasek;
+    }
+    
+      public static double obliczminimalna(Kalendarzmiesiac kalendarz, Definicjalistaplac definicjalistaplac, NieobecnosckodzusFacade nieobecnosckodzusFacade, List<Pasekwynagrodzen> paskidowyliczeniapodstawy, 
+            List<Wynagrodzeniahistoryczne> historiawynagrodzen, List<Podatki> stawkipodatkowe, double sumapoprzednich, double wynagrodzenieminimalne) {
+        Pasekwynagrodzen pasek = new Pasekwynagrodzen();
+        pasek.setWynagrodzenieminimalne(wynagrodzenieminimalne);
+        double kurs = 4.4745;
+        pasek.setDefinicjalistaplac(definicjalistaplac);
+        pasek.setKalendarzmiesiac(kalendarz);
+        pasek.setBruttozus(wynagrodzenieminimalne);
+        pasek.setBrutto(Z.z(wynagrodzenieminimalne));
+        PasekwynagrodzenBean.pracownikemerytalna(pasek);
+        PasekwynagrodzenBean.pracownikrentowa(pasek);
+        pasek.setPracchorobowe(Z.z(pasek.getBruttozus()*0.0245));
+        PasekwynagrodzenBean.razemspolecznepracownik(pasek);
+        PasekwynagrodzenBean.obliczpodstaweopodatkowania(pasek, stawkipodatkowe);
+        PasekwynagrodzenBean.obliczpodatekwstepny(pasek, stawkipodatkowe, sumapoprzednich);
+        PasekwynagrodzenBean.ulgapodatkowa(pasek, stawkipodatkowe);
+        PasekwynagrodzenBean.naliczzdrowota(pasek);
+        PasekwynagrodzenBean.obliczpodatekdowplaty(pasek);
+        PasekwynagrodzenBean.netto(pasek);
+        return pasek.getNetto();
     }
     
     
@@ -151,7 +176,7 @@ public class PasekwynagrodzenBean {
         KalendarzmiesiacBean.dodajnieobecnosc(kalendarz, urlop, pasek);
         KalendarzmiesiacBean.dodajnieobecnosc(kalendarz, urlopbezplatny, pasek);
         KalendarzmiesiacBean.redukujskladnikistale(kalendarz, pasek);
-        KalendarzmiesiacBean.naliczskladnikipotracenia(kalendarz, pasek);
+        KalendarzmiesiacBean.naliczskladnikipotracenia(kalendarz, pasek, 2800.0);
         Definicjalistaplac definicjalistaplac = DefinicjalistaplacBean.create();
         
         pasek.setDefinicjalistaplac(definicjalistaplac);
@@ -345,8 +370,12 @@ public class PasekwynagrodzenBean {
         pasek.setPotracenia(potracenia);
     }
 
+    private static void netto(Pasekwynagrodzen pasek) {
+        pasek.setNetto(Z.z(pasek.getPodstawaubezpzdrowotne()+pasek.getBruttobezzusbezpodatek()-pasek.getPraczdrowotne()-pasek.getPodatekdochodowy()));
+    }
+    
     private static void dowyplaty(Pasekwynagrodzen pasek) {
-        pasek.setNetto(Z.z(pasek.getPodstawaubezpzdrowotne()+pasek.getBruttobezzusbezpodatek()-pasek.getPraczdrowotne()-pasek.getPodatekdochodowy()-pasek.getPotracenia()));
+        pasek.setNetto(Z.z(pasek.getNetto()-pasek.getPotracenia()));
     }
 
     private static Nieobecnosc pobierz(List<Nieobecnosc> nieobecnosci, String string) {

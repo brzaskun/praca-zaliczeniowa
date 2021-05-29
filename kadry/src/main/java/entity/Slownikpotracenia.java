@@ -48,9 +48,9 @@ public class Slownikpotracenia implements Serializable {
     private String nazwa;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "limitumowaoprace")
-    private Double limitumowaoprace;
+    private double limitumowaoprace;
     @Column(name = "limitumowazlecenia")
-    private Double limitumowazlecenia;
+    private double limitumowazlecenia;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "slownikpotracenia")
     private List<Skladnikpotracenia> skladnikpotraceniaList;
 
@@ -77,19 +77,19 @@ public class Slownikpotracenia implements Serializable {
         this.nazwa = nazwa;
     }
 
-    public Double getLimitumowaoprace() {
+    public double getLimitumowaoprace() {
         return limitumowaoprace;
     }
 
-    public void setLimitumowaoprace(Double limitumowaoprace) {
+    public void setLimitumowaoprace(double limitumowaoprace) {
         this.limitumowaoprace = limitumowaoprace;
     }
 
-    public Double getLimitumowazlecenia() {
+    public double getLimitumowazlecenia() {
         return limitumowazlecenia;
     }
 
-    public void setLimitumowazlecenia(Double limitumowazlecenia) {
+    public void setLimitumowazlecenia(double limitumowazlecenia) {
         this.limitumowazlecenia = limitumowazlecenia;
     }
 

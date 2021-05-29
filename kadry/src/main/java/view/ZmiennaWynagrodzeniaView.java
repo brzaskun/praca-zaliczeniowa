@@ -76,6 +76,19 @@ public class ZmiennaWynagrodzeniaView  implements Serializable {
       }
     }
     
+     public void edytuj(Zmiennawynagrodzenia selected) {
+      if (selected!=null && selected.getSkladnikwynagrodzenia()!=null) {
+          try {
+            zmiennaWynagrodzeniaFacade.edit(selected);
+            Msg.msg("Zmieniono zmienną wyn");
+          } catch (Exception e) {
+              Msg.msg("e", "Błąd edycji zmiennej wyn");
+          }
+      } else {
+          Msg.msg("e", "Nie wybrano składnika");
+      }
+    }
+    
     private void zakonczokrespoprzedni(List<Zmiennawynagrodzenia> lista, Zmiennawynagrodzenia selected) {
         try {
             Zmiennawynagrodzenia ostatnia = lista.get(lista.size()-1);

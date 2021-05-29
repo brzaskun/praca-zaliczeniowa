@@ -68,6 +68,10 @@ public class AngazView  implements Serializable {
     @Inject
     private SkladnikWynagrodzeniaView skladnikWynagrodzeniaView;
     @Inject
+    private ZmiennaPotraceniaView zmiennaPotraceniaView;
+    @Inject
+    private SkladnikPotraceniaView skladnikPotraceniaView;
+    @Inject
     private PracownikView pracownikView;
     @Inject
     private EtatView etatView;
@@ -147,6 +151,8 @@ public class AngazView  implements Serializable {
             umowaView.init();
             skladnikWynagrodzeniaView.init();
             zmiennaWynagrodzeniaView.init();
+            skladnikPotraceniaView.init();
+            zmiennaPotraceniaView.init();
             kalendarzmiesiacView.init();
             etatView.init();
             updateClassView.updateRok();

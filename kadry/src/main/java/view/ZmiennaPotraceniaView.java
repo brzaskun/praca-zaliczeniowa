@@ -7,7 +7,6 @@ package view;
 
 import dao.SkladnikPotraceniaFacade;
 import dao.ZmiennaPotraceniaFacade;
-import data.Data;
 import entity.Skladnikpotracenia;
 import entity.Zmiennapotracenia;
 import java.io.Serializable;
@@ -61,12 +60,13 @@ public class ZmiennaPotraceniaView  implements Serializable {
       if (selected!=null && selected.getSkladnikpotracenia()!=null) {
           try {
             if (lista!=null && lista.size()>0) {
-                zakonczokrespoprzedni(lista,selected);
+                Msg.msg("Do składnika potrąceń można dodać tylko jedną zmienną");
+            } else {
+                zmiennaPotraceniaFacade.create(selected);
+                lista.add(selected);
+                selected = new Zmiennapotracenia();
+                Msg.msg("Dodano zmienną wyn");
             }
-            zmiennaPotraceniaFacade.create(selected);
-            lista.add(selected);
-            selected = new Zmiennapotracenia();
-            Msg.msg("Dodano zmienną wyn");
           } catch (Exception e) {
               System.out.println("");
               Msg.msg("e", "Błąd - nie dodano zmiennej wyn");
@@ -76,15 +76,15 @@ public class ZmiennaPotraceniaView  implements Serializable {
       }
     }
     
-    private void zakonczokrespoprzedni(List<Zmiennapotracenia> lista, Zmiennapotracenia selected) {
-        try {
-            Zmiennapotracenia ostatnia = lista.get(lista.size()-1);
-            String nowadataod = selected.getDataod();
-            String wyliczonadatado = Data.odejmijdni(nowadataod, 1);
-            ostatnia.setDatado(wyliczonadatado);
-            zmiennaPotraceniaFacade.edit(ostatnia);
-        } catch (Exception e) {}
-    }
+//    private void zakonczokrespoprzedni(List<Zmiennapotracenia> lista, Zmiennapotracenia selected) {
+//        try {
+//            Zmiennapotracenia ostatnia = lista.get(lista.size()-1);
+//            String nowadataod = selected.getDataod();
+//            String wyliczonadatado = Data.odejmijdni(nowadataod, 1);
+//            ostatnia.setDatado(wyliczonadatado);
+//            zmiennaPotraceniaFacade.edit(ostatnia);
+//        } catch (Exception e) {}
+//    }
 
     public void usunZmiennaPotr(Zmiennapotracenia zmienna) {
         if (zmienna!=null) {

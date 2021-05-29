@@ -41,11 +41,13 @@
                 <h:form id="ZmiennapotraceniaCreateForm">
                     <p:panel header="Dodawanie/edycja zmiennych potrąceń"/>
                     <h:panelGroup id="display">
-                        <p:panelGrid columns="4" rendered="#{zmiennaPotraceniaView.selected != null}">
+                        <p:panelGrid columns="6" rendered="#{zmiennaPotraceniaView.selected != null}">
                             <p:outputLabel value="nazwa" for="nazwa" />
                             <p:inputText id="nazwa" value="#{zmiennaPotraceniaView.selected.nazwa}" title="nazwa"  required="true"/>
-                            <p:outputLabel value="kwota" />
+                            <p:outputLabel value="kwota stała" />
                             <bcf:innum  value="#{zmiennaPotraceniaView.selected.kwotastala}" />
+                            <p:outputLabel value="suma komornicza" />
+                            <bcf:innum  value="#{zmiennaPotraceniaView.selected.kwotakomornicza}" />
                             <p:outputLabel value="data od" for="dataod" />
                             <p:inputText id="dataod" value="#{zmiennaPotraceniaView.selected.dataod}" title="data od" placeholder="____-__-__"  required="true"/>
                             <p:outputLabel value="data do" for="datado" />
@@ -141,6 +143,18 @@
                                     <h:outputText value="kwota"/>
                                 </f:facet>
                                 <bcf:outputpl value="#{itemzmiennapotr.kwotastala}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="komornik"/>
+                                </f:facet>
+                                <bcf:outputpl value="#{itemzmiennapotr.kwotakomornicza}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="rozliczono"/>
+                                </f:facet>
+                                <bcf:outputpl value="#{itemzmiennapotr.kwotakomorniczarozliczona}"/>
                             </p:column>
                             <p:column style="text-align: center;">
                                 <p:commandButton icon="fa fa-trash" actionListener="#{zmiennaPotraceniaView.usunZmiennaPotr(itemzmiennapotr)}" update="north @(form)"/>

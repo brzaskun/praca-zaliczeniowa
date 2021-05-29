@@ -227,10 +227,12 @@ public class KalendarzmiesiacBean {
         return jestoddelegowanie;
     }
 
-    static void naliczskladnikipotracenia(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasekwynagrodzen) {
+    static void naliczskladnikipotracenia(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasekwynagrodzen, double wolneodzajecia) {
         for (Skladnikpotracenia p : kalendarz.getUmowa().getSkladnikpotraceniaList()) {
-            Naliczeniepotracenie naliczeniepotracenie = NaliczeniepotracenieBean.create();
-            pasekwynagrodzen.getNaliczeniepotracenieList().add(naliczeniepotracenie);
+            Naliczeniepotracenie naliczeniepotracenie = NaliczeniepotracenieBean.createPotracenieDB(pasekwynagrodzen, p, wolneodzajecia);
+            if (naliczeniepotracenie.getKwota()>0.0) {
+                pasekwynagrodzen.getNaliczeniepotracenieList().add(naliczeniepotracenie);
+            }
         }
     }
 

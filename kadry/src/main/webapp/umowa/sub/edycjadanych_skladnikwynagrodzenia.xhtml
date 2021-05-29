@@ -133,7 +133,7 @@
             </p:outputPanel>
             <p:outputPanel>
                 <h:form id="ZmiennawynagrodzeniaListForm">
-                    <p:panel header="Wykaz zmiennych">
+                    <p:panel header="Wykaz zmiennych składniki wynagrodzenia">
                         <p:dataTable id="datalist" value="#{zmiennaWynagrodzeniaView.lista}" var="itemzmiennawyn"
                                      selectionMode="single" selection="#{pracownikView.selectedlista}"
                                      rowKey="#{itemzmiennawyn.id}" emptyMessage="Składnik nie posiada zdefiniowanych zmiennych"
@@ -169,7 +169,16 @@
                                 <f:facet name="header">
                                     <h:outputText value="kwota"/>
                                 </f:facet>
-                                <bcf:outputpl value="#{itemzmiennawyn.kwota}"/>
+                                <p:inplace  effectSpeed="fast" event="dblclick" editor="true">
+                                    <f:facet name="output">
+                                        <bcf:outputpl value="#{itemzmiennawyn.kwota}"/>
+                                    </f:facet>
+                                    <f:facet name="input">
+                                        <bcf:inputpl  value="#{itemzmiennawyn.kwota}"/>
+                                    </f:facet>
+                                    <p:ajax event="save" listener="#{zmiennaWynagrodzeniaView.edytuj(itemzmiennawyn)}" update="@this"/>
+                                </p:inplace>
+                                
                             </p:column>
                             <p:column width="40" style="text-align: center;">
                                 <f:facet name="header">
