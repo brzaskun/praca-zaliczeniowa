@@ -495,7 +495,7 @@ private static Klienci ustawkontrahenta(InterpaperXLS interpaperXLS, List<Klienc
         String rodzajtransakcji = row.get("TRANSACTION_TYPE");
         String serial = row.get("TRANSACTION_EVENT_ID");
         try {
-            if (wybortrans.equals("FC_TRANSFER")||wybortrans.equals(rodzajtransakcji)) {
+            if (wybortrans.equals("FC_TRANSFER")&&wybortrans.equals(rodzajtransakcji)) {
                 klientJPK.setDowodSprzedazy(rodzajtransakcji);
                 if (serial.equals("203-1765216-3856314")) {
                     System.out.println("");
@@ -535,7 +535,7 @@ private static Klienci ustawkontrahenta(InterpaperXLS interpaperXLS, List<Klienc
                 klientJPK.setNetto(Z.z(klientJPK.getNettowaluta()*kurs));
                 klientJPK.setVat(Z.z(klientJPK.getVatwaluta()*kurs));
                 klientJPK.setWdt(true);
-            } else if (wybortrans.equals("WSZYSTKIE")||wybortrans.equals(rodzajtransakcji)) {
+            } else if (wybortrans.equals("WSZYSTKIE")) {
                 klientJPK.setDowodSprzedazy(rodzajtransakcji);
                 if (serial.equals("203-1765216-3856314")) {
                     System.out.println("");

@@ -17,7 +17,7 @@
 
     <p:dialog id="importamazoncsv" header="Amazon pobieranie danych" widgetVar="importamazoncsv" height="900" width="1450"
               resizable="false"  onShow="ustawdialog('importamazoncsv','menudokumenty',1450,900);" closeOnEscape="true" onHide="resetujdialog('importamazoncsv');" >
-        <p:ajax event="open" listener="#{interpaperImportView.init()}" update="panelplik"/>
+        <p:ajax event="open" listener="#{importCSVView.init()}" update="panelplik"/>
         <p:ajax event="close" listener="#{dokfkView.resetujzaksiegowaneimport}" update=":akordeon5:form_importinterpaper"/>
         <!--        <h:form>
                     <p:commandButton value="uzupełnij" actionListener="#{dokfkView.uzupelnijdokumentyodkontrahenta()}"/>
@@ -72,7 +72,7 @@
                                 </f:facet>
 
                                 <p:column style="width: 10px; height: 45px; text-align: center;" >
-                                    <p:rowToggler rendered="#{wpisama.ewidencja.size() gt 0}"/>
+                                    <p:rowToggler rendered="#{wpisama.ewidencja ne null}"/>
 
                                 </p:column>
                                 <p:column id="idColumn" headerText="#{mgs.numerkolejny}"  style="width: 20px; text-align: center;">  
@@ -154,7 +154,7 @@
                             </p:dataTable> 
                             <p:growl life="3600"  id="messages2" ><p:autoUpdate/></p:growl>
                             <p:commandButton  icon="fa fa-print" style="margin-top: 20px; width: 120px;" actionListener="#{importCSVView.drukujfk()}"  rendered="#{importCSVView.listafk.size() gt 0}"/>
-                            <p:commandButton  value="zaksięguj WDT" style="margin-top: 20px; width: 120px;" actionListener="#{importCSVView.zaksiegujWDTjpk()}"  rendered="#{importCSVView.listafk.size() gt 0}"/>
+                            <p:commandButton  value="zaksięguj WDT" style="margin-top: 20px; width: 120px;" actionListener="#{importCSVView.zaksiegujWDTjpk()}"  rendered="#{importCSVView.listafk.size() gt 0 and importCSVView.wybortransakcji eq 'FC_TRANSFER'}"/>
 <!--                            <p:commandButton  value="CSV WDT" style="margin-top: 20px; width: 120px; margin-left: 40px;" actionListener="#{importCSVView.robcsv()}"  rendered="#{importCSVView.dokumenty.size() gt 0}"/>-->
                         </h:form>
 
