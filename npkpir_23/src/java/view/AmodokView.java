@@ -209,7 +209,7 @@ public class AmodokView implements Serializable {
         if (znalezionyBiezacy != null) {
             nrdokumentu = znalezionyBiezacy.getNumerwlasnydokfk();
             dokumentAMO.setNumerwlasnydokfk(DokumentFKBean.zwieksznumerojeden(nrdokumentu));
-            Msg.msg("w", "Wskazanie umorzenie nie dotyczy bieżącego miesiąca. Nie jest to prawidłowe!");
+            Msg.msg("w", "Dokument amortyzacyjny za mc już jest zaksięgowany. Nie jest to prawidłowe!");
         }
         try {
             dokDAOfk.create(dokumentAMO);

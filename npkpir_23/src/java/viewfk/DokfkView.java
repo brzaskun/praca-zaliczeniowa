@@ -1239,6 +1239,12 @@ public class DokfkView implements Serializable {
         try {
             Faktura fksiegi = dokumentdousuniecia.getFaktura();
             Faktura fkontrahent = dokumentdousuniecia.getFakturakontrahent();
+            if (dokumentdousuniecia.getUmorzenia()!=null&&dokumentdousuniecia.getUmorzenia().size()>0) {
+                for (UmorzenieN p : dokumentdousuniecia.getUmorzenia()) {
+                    p.setDokfk(null);
+                    umorzenieNDAO.edit(p);
+                }
+            }
             dokDAOfk.usun(dokumentdousuniecia);
             if (fksiegi!=null) {
                 fksiegi.setZaksiegowana(false);

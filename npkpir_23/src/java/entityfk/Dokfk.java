@@ -13,6 +13,7 @@ import entity.Faktura;
 import entity.Klienci;
 import entity.Podatnik;
 import entity.Rodzajedok;
+import entity.UmorzenieN;
 import entity.Vat27;
 import entity.VatUe;
 import entity.WniosekVATZDEntity;
@@ -241,7 +242,8 @@ public class Dokfk extends DokSuper implements Serializable {
     private Faktura fakturakontrahent;
     @Column(name = "nieprzeliczaj")
     private boolean nieprzeliczaj;
-    
+    @OneToMany(mappedBy = "dokfk", orphanRemoval = false, fetch = FetchType.LAZY)
+    private List<UmorzenieN> umorzenia;
     
 
 
@@ -817,6 +819,14 @@ public class Dokfk extends DokSuper implements Serializable {
 
     public void setNieprzeliczaj(boolean nieprzeliczaj) {
         this.nieprzeliczaj = nieprzeliczaj;
+    }
+
+    public List<UmorzenieN> getUmorzenia() {
+        return umorzenia;
+    }
+
+    public void setUmorzenia(List<UmorzenieN> umorzenia) {
+        this.umorzenia = umorzenia;
     }
     
    
