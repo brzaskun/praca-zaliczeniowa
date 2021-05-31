@@ -25,7 +25,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import msg.Msg;
 import org.apache.commons.text.WordUtils;
-
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -129,6 +128,7 @@ public class ImportiPKOBP_XLS implements Serializable {
                             kwota = Math.abs(kwota);
                             x.setKwota(kwota);
                             x.setWaluta(pn.getWyciagwaluta());
+                            //lewa kolumna
                             x.setNrtransakji(baza.getCell(2).getStringCellValue());
                             x.setTyptransakcji(oblicztyptransakcji(x));
                             x.setNaglowek(pn);
@@ -186,7 +186,10 @@ public class ImportiPKOBP_XLS implements Serializable {
         int zwrot = 0;
         if (p.getNrtransakji().equals("OPŁATA/PROWIZJA")) {
             zwrot = 3;
-        } else if (p.getNrtransakji().equals("Opłata")) {
+        } else if (p.getNrtransakji().startsWith("Prowizja")) {
+            zwrot = 3;
+            //prawa kolumna
+        } else if (p.getOpistransakcji().startsWith("KOSZTY SR")) {
             zwrot = 3;
         } else if (p.getNrtransakji().equals("PRZELEW ELIXIR - ONLINE") || p.getNrtransakji().equals("PRZELEW NA RACHUNEK W SAN PL - ONLINE")) {
             zwrot = 1;
@@ -200,12 +203,14 @@ public class ImportiPKOBP_XLS implements Serializable {
             zwrot = 7;
         } else if (p.getNrtransakji().contains("Przelew podatkowy")) {
             zwrot = 6;
-        } else if (p.getNrtransakji().equals("Płatnośc kartą")) {
-            zwrot = 4;
-        } else if (p.getNrtransakji().contains("REZERWACJA")) {
-            zwrot = 10;
-        } else if (p.getNrtransakji().contains("TRANSAKCJA KARTĄ ")) {
+        } else if (p.getNrtransakji().equals("Płatność kartą")) {
             zwrot = 5;
+        } else if (p.getNrtransakji().startsWith("Opłata za")) {
+            zwrot = 5;
+        }else if (p.getNrtransakji().contains("REZERWACJA")) {
+            zwrot = 10;
+        } else if (p.getNrtransakji().contains("Wypłata z bankomatu")) {
+            zwrot = 1;
         } else if (p.getWnma().equals("Wn")) {
             zwrot = 1;
         } else if (p.getWnma().equals("Ma")) {
