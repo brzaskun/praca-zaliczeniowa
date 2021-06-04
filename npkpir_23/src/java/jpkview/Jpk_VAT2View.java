@@ -1080,7 +1080,7 @@ public class Jpk_VAT2View implements Serializable {
             }
             if (kliencijpk!=null&& !kliencijpk.isEmpty()) {
                 for (KlientJPK p : kliencijpk) {
-                    lista.add(JPK_VAT2020M_Bean.dodajwierszsprzedazy(p, BigInteger.valueOf(lp++),sprzedazCtrl, mapa.get(p.getEwidencja())));
+                    lista.add(JPK_VAT2020M_Bean.dodajwierszsprzedazy(p, BigInteger.valueOf(lp++),sprzedazCtrl, mapa.get(p.getEwidencjaVAT().get(0).getEwidencja())));
                 }
             }
             zwrot[0] = lista;
