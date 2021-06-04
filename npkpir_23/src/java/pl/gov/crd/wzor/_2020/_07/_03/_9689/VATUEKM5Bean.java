@@ -42,7 +42,8 @@ import pl.gov.crd.wzor._2020._07._03._9689.Deklaracja.PozycjeSzczegolowe.Grupa3;
 import pl.gov.crd.xml.schematy.dziedzinowe.mf._2013._05._23.ed.kodyue.TKodKrajuUE;
 import pl.gov.crd.xml.schematy.dziedzinowe.mf._2020._03._11.ed.definicjetypy.TIdentyfikatorOsobyFizycznej2;
 import pl.gov.crd.xml.schematy.dziedzinowe.mf._2020._03._11.ed.definicjetypy.TIdentyfikatorOsobyNiefizycznej1;
-import view.WpisView;import waluty.Z;
+import view.WpisView;
+import waluty.Z;
 
 
 /**
@@ -79,10 +80,11 @@ public class VATUEKM5Bean {
         Podmiot1 p = new Podmiot1();
         if (wv.getFormaprawna() == null || wv.getFormaprawna().equals("OSOBA_FIZYCZNA")) {
             p.setRola("Podatnik");
-            p.setOsobaNiefizyczna(pobierzidentyfikatorspolka(wv));
+            p.setOsobaFizyczna(pobierzindetyfikator(wv));
         } else {
             p.setRola("Podatnik");
-            p.setOsobaFizyczna(pobierzindetyfikator(wv));
+            p.setOsobaNiefizyczna(pobierzidentyfikatorspolka(wv));
+            
         }
         return p;
     }
