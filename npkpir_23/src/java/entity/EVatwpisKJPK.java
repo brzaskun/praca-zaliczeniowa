@@ -44,9 +44,11 @@ public class EVatwpisKJPK extends EVatwpisSuper implements Serializable {
     private int sprawdzony;
 
     
-    public EVatwpisKJPK(EVatwpisKJPK wiersz) {
-        super(wiersz);
-        this.klientJPK = wiersz.klientJPK;
+    public EVatwpisKJPK(EVatwpisKJPK eVatwpisFK) {
+        super(eVatwpisFK);
+        this.lp = eVatwpisFK.lp;
+        this.brutto = eVatwpisFK.brutto;
+        this.klientJPK = eVatwpisFK.klientJPK;
     }
     
      
@@ -214,13 +216,15 @@ public class EVatwpisKJPK extends EVatwpisSuper implements Serializable {
     public Klienci getKontr() {
       Klienci zwrot = new Klienci();
       if (this.getKlientJPK()!=null) {
+         if (this.getKlientJPK().getNazwaKontrahenta()!=null && !this.getKlientJPK().getNazwaKontrahenta().equals("")) {
+            zwrot.setNpelna(this.getKlientJPK().getNazwaKontrahenta());
+            zwrot.setNip(this.getKlientJPK().getNrKontrahenta());
+        } else {
           zwrot.setNpelna("klient incydentalny");
           zwrot.setNip(this.getKlientJPK().getNrKontrahenta());
+        }
       }
-      if (this.getKlientJPK().getNazwaKontrahenta()!=null && !this.getKlientJPK().getNazwaKontrahenta().equals("")) {
-          zwrot.setNpelna(this.getKlientJPK().getNazwaKontrahenta());
-          zwrot.setNip(this.getKlientJPK().getNrKontrahenta());
-      }
+      
       return zwrot;
     }
     
@@ -238,8 +242,8 @@ public class EVatwpisKJPK extends EVatwpisSuper implements Serializable {
   @Override
    public String getNrpozycji() {
         if (!this.getOpis().equals("podsumowanie")) {
-            return this.getNrWlDk();
-        } else if (!this.getOpis().equals("podsumowanie")){
+            return this.getKlientJPK().getSerial();
+        } else if (this.getOpis().equals("podsumowanie")){
             return "";
         } else {
             return "";
@@ -248,6 +252,9 @@ public class EVatwpisKJPK extends EVatwpisSuper implements Serializable {
     @Override
     public String getOpis() {
       String zwrot = this.getKlientJPK() != null ? "WDT online" : "podsumowanie";
+      if (this.getKlientJPK()!=null&&this.getKlientJPK().isWnt()) {
+          zwrot = "WNT online";
+      }
       return zwrot;
     }
     
@@ -275,12 +282,12 @@ public class EVatwpisKJPK extends EVatwpisSuper implements Serializable {
     
     @Override
     public String getInnymc(){
-        return this.getKlientJPK().getMc();
+        return this.mcEw;
     }
     
     @Override
     public String getInnyrok(){
-        return this.getKlientJPK().getRok();
+        return this.rokEw;
     }
     
     @Override

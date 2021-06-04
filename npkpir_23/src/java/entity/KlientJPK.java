@@ -93,6 +93,8 @@ public class KlientJPK implements Serializable {
     private String waluta;
     @Column(name = "wdt")
     private boolean wdt;
+    @Column(name = "wnt")
+    private boolean wnt;
 
     public KlientJPK() {
         this.ewidencjaVAT = new ArrayList<>();
@@ -305,6 +307,14 @@ public class KlientJPK implements Serializable {
 
     public void setWdt(boolean wdt) {
         this.wdt = wdt;
+    }
+
+    public boolean isWnt() {
+        return wnt;
+    }
+
+    public void setWnt(boolean wnt) {
+        this.wnt = wnt;
     }
 
     public List<EVatwpisKJPK> getEwidencjaVAT() {

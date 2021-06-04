@@ -72,7 +72,7 @@ public class JPK_VAT2020M_Bean {
     public static JPK.Ewidencja.SprzedazWiersz dodajwierszsprzedazy(KlientJPK ev, BigInteger lp, JPK.Ewidencja.SprzedazCtrl sprzedazCtrl, JPKvatwersjaEvewidencja jPKvatwersjaEvewidencja) {
         JPK.Ewidencja.SprzedazWiersz w = new JPK.Ewidencja.SprzedazWiersz();
         try {
-            if (ev.isWdt()==false) {
+            if (ev.isWdt()==false&&ev.isWnt()==false) {
                 w.setTypDokumentu(pl.gov.crd.wzor._2020._05._08._9393.TDowoduSprzedazy.FP);
             }
             w.setLpSprzedazy(lp);

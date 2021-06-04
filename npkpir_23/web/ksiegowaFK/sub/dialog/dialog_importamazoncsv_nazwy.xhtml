@@ -15,11 +15,11 @@
         }
     </style>
 
-    <p:dialog id="importamazoncsvnazwy" header="Zestawienie pobranych faktur" widgetVar="importamazoncsvnazwy" height="900" width="1450"
+    <p:dialog id="importamazoncsvnazwy" header="Zestawienie pobranych faktur dla Amazon WNT/WDT" widgetVar="importamazoncsvnazwy" height="900" width="1450"
               resizable="false"  onShow="ustawdialog('importamazoncsvnazwy','menudokumenty',1450,900);" closeOnEscape="true" onHide="resetujdialog('importamazoncsvnazwy');" >
         <p:ajax event="open" listener="#{amazonImportNazwy.init()}" update="importtabelanazwy"/>
         <bcf:ajaxs/>
-        <h:outputText value="import dokumentów z pliku XLS AdditionalDataTemplate"/>
+        <h:outputText value="import dokumentów WDT/WNT z pliku XLS AdditionalDataTemplate"/>
         <h:form>
             <p:growl life="3600"  id="messages1"/>
             <p:panelGrid columns="2">
@@ -34,33 +34,36 @@
                     </p:fileUpload>
                 </p:panelGrid>
                 <p:panelGrid columns="2" style="margin-left: 30px;">
-                    <p:commandButton value="uzupełnij nazwy" update="importtabelanazwy" actionListener="#{amazonImportNazwy.zaksieguj}"/>
+                    <p:commandButton value="zaksięguj WDT/WNT" update="importtabelanazwy" actionListener="#{amazonImportNazwy.zaksiegujWDTjpk}"/>
                     
                 </p:panelGrid>
             </p:panelGrid>
         </h:form>
         <h:form id="importtabelanazwy">
             <p:panel header="Lista faktur kontrahenci incydentalni pobranych za miesiąc bieżący"/>
-            <p:dataTable value="#{amazonImportNazwy.lista}" var="itemikjpk" rowIndexVar="indexjpk"
-                         style="width: 1250px; height: 500px; overflow-y: scroll" 
+            <p:dataTable value="#{amazonImportNazwy.lista}" var="itemikjpk" rowIndexVar="indexjpk" sortBy="#{itemikjpk.dataSprzedazy}"
+                         style="width: 1350px; height: 500px; overflow-y: scroll" 
                          >
                 <p:column style="width: 50px;">
                     <h:outputText value="#{indexjpk+1}"/>
                 </p:column>
-                <p:column headerText="data wystawienia">
+                <p:column headerText="data wystawienia" width="60">
                     <h:outputText value="#{itemikjpk.dataWystawienia}"/>
                 </p:column>
-                <p:column headerText="data sprzedaży">
+                <p:column headerText="data sprzedaży" width="60">
                     <h:outputText value="#{itemikjpk.dataSprzedazy}"/>
                 </p:column>
-                <p:column headerText="nazwa" width="350" sortBy="#{itemikjpk.nazwaKontrahenta}" filterBy="#{itemikjpk.nazwaKontrahenta}" filterMatchMode="contains">
+                <p:column headerText="nazwa" width="250" sortBy="#{itemikjpk.nazwaKontrahenta}" filterBy="#{itemikjpk.nazwaKontrahenta}" filterMatchMode="contains">
                     <h:outputText value="#{itemikjpk.nazwaKontrahenta}" style="color: #{itemikjpk.nazwaKontrahenta eq 'brak' ? 'green':'initial'}"/>
                 </p:column>
-                <p:column headerText="nr kontr" width="150" sortBy="#{itemikjpk.nrKontrahenta}" filterBy="#{itemikjpk.nrKontrahenta}"  filterMatchMode="contains">
+                <p:column headerText="nr kontr" width="100" sortBy="#{itemikjpk.nrKontrahenta}" filterBy="#{itemikjpk.nrKontrahenta}"  filterMatchMode="contains">
                     <h:outputText value="#{itemikjpk.nrKontrahenta}"/>
                 </p:column>
-                <p:column headerText="nr kontr" width="150" sortBy="#{itemikjpk.serial}" filterBy="#{itemikjpk.serial}"  filterMatchMode="contains">
+                <p:column headerText="serial" width="300" sortBy="#{itemikjpk.serial}" filterBy="#{itemikjpk.serial}"  filterMatchMode="contains">
                     <h:outputText value="#{itemikjpk.serial}"/>
+                </p:column>
+                <p:column headerText="wartość netto wal"  sortBy="#{itemikjpk.netto}">
+                    <bcf:outputpl value="#{itemikjpk.nettowaluta}"/>
                 </p:column>
                 <p:column headerText="wartość netto"  sortBy="#{itemikjpk.netto}">
                     <bcf:outputpl value="#{itemikjpk.netto}"/>
@@ -68,8 +71,14 @@
                 <p:column headerText="wartość vat"  sortBy="#{itemikjpk.vat}">
                     <bcf:outputpl value="#{itemikjpk.vat}"/>
                 </p:column>
-                <p:column headerText="WDT" >
-                    <h:outputText value="#{itemikjpk.wdt}"/>
+                <p:column headerText="vat stawka"  sortBy="#{itemikjpk.vat}">
+                    <bcf:outputplprocent value="#{itemikjpk.stawkavat}"/>
+                </p:column>
+                <p:column headerText="WDT" style="text-align: center;">
+                    <h:outputText value="#{itemikjpk.wdt eq true ? '&#x2713;':''}" style="color: green;"/>
+                </p:column>
+                <p:column headerText="WNT" style="text-align: center;">
+                    <h:outputText value="#{itemikjpk.wnt eq true ? '&#x2713;':''}" style="color: green;"/>
                 </p:column>
             </p:dataTable>
 

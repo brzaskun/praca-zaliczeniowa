@@ -191,15 +191,20 @@ public class VatUeFKView implements Serializable {
                  klienciWDTWNT.addAll(kontrahenciUEJPK(lista));
                  for (KlientJPK p : lista) {
                     for (VatUe s : klienciWDTWNT) {
-                        if (p.getNrKontrahenta().equals(s.getKontrahentwyborNIP())) {
-                                double netto = p.getNetto();
-                                double nettowaluta = p.getNettowaluta();
-                                s.setNetto(netto + s.getNetto());
-                                s.setNettowaluta(nettowaluta + s.getNettowaluta());
-                                s.setLiczbadok(s.getLiczbadok() + 1);
-                                s.setNazwawaluty(s.getNazwawaluty());
-                                break;
-                            }
+                        if (p.getNrKontrahenta().equals("FR39508893922")) {
+                            System.out.println("");
+                        }
+                        if ((s.getTransakcja().equals("WDT")&&p.isWdt())||(s.getTransakcja().equals("WNT")&&p.isWnt())) {
+                            if (p.getNrKontrahenta().equals(s.getKontrahentwyborNIP())) {
+                                    double netto = p.getNetto();
+                                    double nettowaluta = p.getNettowaluta();
+                                    s.setNetto(netto + s.getNetto());
+                                    s.setNettowaluta(nettowaluta + s.getNettowaluta());
+                                    s.setLiczbadok(s.getLiczbadok() + 1);
+                                    s.setNazwawaluty(s.getNazwawaluty());
+                                    break;
+                                }
+                        }
                     }
                 }
             }
@@ -300,7 +305,16 @@ public class VatUeFKView implements Serializable {
                 //wyszukujemy dokumenty WNT i WDT dodajemu do sumy
                 VatUe veu = new VatUe("WDT", null, 0.0, 0);
                 veu.setKontrahentnip(pobierznip(p.getNrKontrahenta()));
-                veu.setKontrahentkraj(p.getKodKrajuDoreczenia());
+                veu.setKontrahentkraj(pobierzkraj(p.getNrKontrahenta()));
+                veu.setKontrahentnazwa(p.getNazwaKontrahenta()!=null?p.getNazwaKontrahenta():"incydentalny");
+                veu.setZawierafk(new ArrayList<>());
+                veu.setNazwawaluty(pobierzwalute(p,waluty));
+                klienty.add(veu);
+            } else if (p.isWnt()) {
+                //wyszukujemy dokumenty WNT i WDT dodajemu do sumy
+                VatUe veu = new VatUe("WNT", null, 0.0, 0);
+                veu.setKontrahentnip(pobierznip(p.getNrKontrahenta()));
+                veu.setKontrahentkraj(pobierzkraj(p.getNrKontrahenta()));
                 veu.setKontrahentnazwa(p.getNazwaKontrahenta()!=null?p.getNazwaKontrahenta():"incydentalny");
                 veu.setZawierafk(new ArrayList<>());
                 veu.setNazwawaluty(pobierzwalute(p,waluty));
@@ -486,6 +500,23 @@ public class VatUeFKView implements Serializable {
         String zwrot = nip;
         if (!isnumber) {
             zwrot = nip.substring(2);
+        }
+        return zwrot;
+    }
+     
+     private String pobierzkraj(String nip) {
+       //jezeli false to dobrze
+        int ile = 2;
+        String pr = nip.substring(0, 2);
+        if (pr.equals("ES")|| pr.equals("AT")) {
+            ile = 3;
+        }
+        String prefix = nip.substring(0, ile);
+        Pattern p = Pattern.compile("[0-9]");
+        boolean isnumber = p.matcher(prefix).find();
+        String zwrot = nip;
+        if (!isnumber) {
+            zwrot = nip.substring(0,2);
         }
         return zwrot;
     }

@@ -40,7 +40,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -95,12 +94,10 @@ public class ImportCSVView  implements Serializable {
     private List<Waluty> listaWalut;
     private Waluty walutapln;
     private double kursumst;
-    private String wybortransakcji;
         
     @PostConstruct
     private void init() { //E.m(this);
         dokSZ = rodzajedokDAO.find("SZ", wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
-        dokWDT = rodzajedokDAO.find("WDT", wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         evewidencje = evewidencjaDAO.znajdzpotransakcji("sprzedaz");
         listaWalut = walutyDAOfk.findAll();
         if (listaWalut!=null) {
@@ -110,7 +107,6 @@ public class ImportCSVView  implements Serializable {
               }
             });
         }
-        wybortransakcji= "WSZYSTKIE";
     }
     
     public void importujsprzedaz(FileUploadEvent event) {
@@ -141,8 +137,8 @@ public class ImportCSVView  implements Serializable {
             for (CSVRecord row : recordss) {
                 String serial = row.get("TRANSACTION_EVENT_ID");
                 String rodzajtransakcji = row.get("TRANSACTION_TYPE");
-                if ((rodzajtransakcji.equals("SALE") || rodzajtransakcji.equals("REFUND") || rodzajtransakcji.equals("FC_TRANSFER"))&&!serial.equals("")) {
-                    tmpzwrot = tworzobiektAmazonNowy(row, wybortransakcji);
+                if ((rodzajtransakcji.equals("SALE") || rodzajtransakcji.equals("REFUND"))&&!serial.equals("")) {
+                    tmpzwrot = tworzobiektAmazonNowy(row);
                     if (tmpzwrot!=null) {
                         if (tmpzwrot.isWdt() && tmpzwrot.getJurysdykcja().equals("POLAND")) {
                             tmpzwrot.setPodatnik(wpisView.getPodatnikObiekt());
@@ -154,6 +150,7 @@ public class ImportCSVView  implements Serializable {
             }
         } catch (Exception ex) {
             E.e(ex);
+            Msg.msg("e","Błąd w strukturze pliku");
         }
         return zwrot;
     }
@@ -165,13 +162,7 @@ public class ImportCSVView  implements Serializable {
         Msg.msg("Zaksięgowano dokumenty dla JPK");
     }
      
-     public void zaksiegujWDTjpk() {
-        klientJPKDAO.deleteByPodRokMc(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
-        List<KlientJPK> lista = listafk.stream().filter(p->p.isWdt()).collect(Collectors.toList());
-        System.out.println("");
-        klientJPKDAO.createList(lista);
-        Msg.msg("Zaksięgowano dokumenty dla JPK");
-    }
+    
     
     private List<Dok> stworzdokumenty(List<AmazonCSV> lista) {
         List<Dok> dokumenty = Collections.synchronizedList(new ArrayList<>());
@@ -487,55 +478,50 @@ private static Klienci ustawkontrahenta(InterpaperXLS interpaperXLS, List<Klienc
         return zwrot;
     }
     
-    private static Evewidencja pobierzewidencje(KlientJPK klientJPK) {
-        return null;
-    }
-    private KlientJPK tworzobiektAmazonNowy(CSVRecord row, String wybortrans) {
+    
+    private KlientJPK tworzobiektAmazonNowy(CSVRecord row) {
         KlientJPK klientJPK = new KlientJPK();
         String rodzajtransakcji = row.get("TRANSACTION_TYPE");
         String serial = row.get("TRANSACTION_EVENT_ID");
         try {
-            if (wybortrans.equals("FC_TRANSFER")&&wybortrans.equals(rodzajtransakcji)) {
-                klientJPK.setDowodSprzedazy(rodzajtransakcji);
-                if (serial.equals("203-1765216-3856314")) {
-                    System.out.println("");
-                }
-                klientJPK.setSerial(row.get("TRANSACTION_EVENT_ID"));
-                String data = row.get("TRANSACTION_DEPART_DATE");
-                String data2 = row.get("TRANSACTION_DEPART_DATE");
-                if (data2.equals("")) {
-                    data2 = data;
-                }
-                klientJPK.setDataSprzedazy(Data.zmienkolejnosc(data));
-                klientJPK.setDataWystawienia(Data.zmienkolejnosc(data2));
-                String krajcdocelowy = row.get("SALE_ARRIVAL_COUNTRY");
-                String krajwysylki = row.get("SALE_DEPART_COUNTRY");
-                String stawka = row.get("PRICE_OF_ITEMS_VAT_RATE_PERCENT").equals("") ? "0.0":row.get("PRICE_OF_ITEMS_VAT_RATE_PERCENT");
-                double stawkavat = Double.valueOf(stawka);
-                klientJPK.setStawkavat(stawkavat);
-                String opodatkowanie = row.get("TAXABLE_JURISDICTION");
-                klientJPK.setJurysdykcja(opodatkowanie);
-                if (opodatkowanie.equals("POLAND")) {
-                    klientJPK.setEwidencja(pobierzewidencje(klientJPK));
-                }
-                String nip = row.get("BUYER_VAT_NUMBER");
-                klientJPK.setKodKrajuNadania(krajwysylki);
-                klientJPK.setKodKrajuDoreczenia(krajcdocelowy);
-                klientJPK.setNazwaKontrahenta("brak");
-                klientJPK.setNrKontrahenta(nip);
-                klientJPK.setRok(wpisView.getRokWpisuSt());
-                klientJPK.setMc(wpisView.getMiesiacWpisu());
-                String waluta = row.get("TRANSACTION_CURRENCY_CODE");
-                klientJPK.setWaluta(waluta);
-                double brutto = format.F.kwota(row.get("TOTAL_ACTIVITY_VALUE_AMT_VAT_INCL"));
-                klientJPK.setNettowaluta(format.F.kwota(row.get("TOTAL_ACTIVITY_VALUE_AMT_VAT_EXCL")));
-                klientJPK.setVatwaluta(Z.z(brutto -klientJPK.getNettowaluta()));
-                double kurs = pobierzkurs(klientJPK.getDataSprzedazy(), waluta);
-                klientJPK.setKurs(kurs);
-                klientJPK.setNetto(Z.z(klientJPK.getNettowaluta()*kurs));
-                klientJPK.setVat(Z.z(klientJPK.getVatwaluta()*kurs));
-                klientJPK.setWdt(true);
-            } else if (wybortrans.equals("WSZYSTKIE")) {
+//            if (wybortrans.equals("FC_TRANSFER")&&wybortrans.equals(rodzajtransakcji)) {
+//                klientJPK.setDowodSprzedazy(rodzajtransakcji);
+//                if (serial.equals("203-1765216-3856314")) {
+//                    System.out.println("");
+//                }
+//                klientJPK.setSerial(row.get("TRANSACTION_EVENT_ID"));
+//                String data = row.get("TRANSACTION_DEPART_DATE");
+//                String data2 = row.get("TRANSACTION_DEPART_DATE");
+//                if (data2.equals("")) {
+//                    data2 = data;
+//                }
+//                klientJPK.setDataSprzedazy(Data.zmienkolejnosc(data));
+//                klientJPK.setDataWystawienia(Data.zmienkolejnosc(data2));
+//                String krajcdocelowy = row.get("SALE_ARRIVAL_COUNTRY");
+//                String krajwysylki = row.get("SALE_DEPART_COUNTRY");
+//                String stawka = row.get("PRICE_OF_ITEMS_VAT_RATE_PERCENT").equals("") ? "0.0":row.get("PRICE_OF_ITEMS_VAT_RATE_PERCENT");
+//                double stawkavat = Double.valueOf(stawka);
+//                klientJPK.setStawkavat(stawkavat);
+//                String opodatkowanie = row.get("TAXABLE_JURISDICTION");
+//                klientJPK.setJurysdykcja(opodatkowanie);
+//                String nip = row.get("BUYER_VAT_NUMBER");
+//                klientJPK.setKodKrajuNadania(krajwysylki);
+//                klientJPK.setKodKrajuDoreczenia(krajcdocelowy);
+//                klientJPK.setNazwaKontrahenta("brak");
+//                klientJPK.setNrKontrahenta(nip);
+//                klientJPK.setRok(wpisView.getRokWpisuSt());
+//                klientJPK.setMc(wpisView.getMiesiacWpisu());
+//                String waluta = row.get("TRANSACTION_CURRENCY_CODE");
+//                klientJPK.setWaluta(waluta);
+//                double brutto = format.F.kwota(row.get("TOTAL_ACTIVITY_VALUE_AMT_VAT_INCL"));
+//                klientJPK.setNettowaluta(format.F.kwota(row.get("TOTAL_ACTIVITY_VALUE_AMT_VAT_EXCL")));
+//                klientJPK.setVatwaluta(Z.z(brutto -klientJPK.getNettowaluta()));
+//                double kurs = pobierzkurs(klientJPK.getDataSprzedazy(), waluta);
+//                klientJPK.setKurs(kurs);
+//                klientJPK.setNetto(Z.z(klientJPK.getNettowaluta()*kurs));
+//                klientJPK.setVat(Z.z(klientJPK.getVatwaluta()*kurs));
+//                klientJPK.setWdt(true);
+//            } else if (wybortrans.equals("WSZYSTKIE")) {
                 klientJPK.setDowodSprzedazy(rodzajtransakcji);
                 if (serial.equals("203-1765216-3856314")) {
                     System.out.println("");
@@ -555,9 +541,6 @@ private static Klienci ustawkontrahenta(InterpaperXLS interpaperXLS, List<Klienc
                 klientJPK.setStawkavat(stawkavat);
                 String opodatkowanie = row.get("TAXABLE_JURISDICTION");
                 klientJPK.setJurysdykcja(opodatkowanie);
-                if (opodatkowanie.equals("POLAND")) {
-                    klientJPK.setEwidencja(pobierzewidencje(klientJPK));
-                }
                 String nip = row.get("BUYER_VAT_NUMBER");
                 klientJPK.setNazwaKontrahenta("brak");
                 klientJPK.setKodKrajuNadania(krajwysylki);
@@ -577,10 +560,6 @@ private static Klienci ustawkontrahenta(InterpaperXLS interpaperXLS, List<Klienc
                 if (klientJPK.getNrKontrahenta().length()>0&&Z.z(klientJPK.getVat())==0.0) {
                     klientJPK.setWdt(true);
                 }
-                //System.out.println(klientJPK.getSerial());
-            } else {
-                klientJPK = null;
-            }
         } catch (Exception e) {
         }
         return klientJPK;
@@ -677,13 +656,7 @@ private static Klienci ustawkontrahenta(InterpaperXLS interpaperXLS, List<Klienc
         this.listafk = listafk;
     }
 
-    public String getWybortransakcji() {
-        return wybortransakcji;
-    }
-
-    public void setWybortransakcji(String wybortransakcji) {
-        this.wybortransakcji = wybortransakcji;
-    }
+  
 
 
     
@@ -721,9 +694,6 @@ private static Klienci ustawkontrahenta(InterpaperXLS interpaperXLS, List<Klienc
                 klientJPK.setStawkavat(stawkavat);
                 String opodatkowanie = row.get("TAXABLE_JURISDICTION");
                 klientJPK.setJurysdykcja(opodatkowanie);
-                if (opodatkowanie.equals("POLAND")) {
-                    klientJPK.setEwidencja(pobierzewidencje(klientJPK));
-                }
                 String nip = row.get("BUYER_VAT_NUMBER");
                 klientJPK.setKodKrajuNadania(krajwysylki);
                 klientJPK.setKodKrajuDoreczenia(krajcdocelowy);

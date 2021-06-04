@@ -12,6 +12,7 @@ import embeddable.EVatwpisSuma;
 import embeddable.EwidencjaAddwiad;
 import embeddable.VatKorektaDok;
 import entity.EVatwpis1;
+import entity.EVatwpisKJPK;
 import entity.EVatwpisSuper;
 import entity.Evewidencja;
 import entityfk.EVatwpisFK;
@@ -22,10 +23,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.inject.Named;
-import view.EwidencjaVatView;
 import waluty.Z;
 
 /**
@@ -124,8 +122,10 @@ public class EwidencjaVATSporzadzanie {
         EVatwpisSuper duplikat = null;
         if (wiersz instanceof EVatwpis1) {
             duplikat = new EVatwpis1((EVatwpis1) wiersz);
-        } else {
+        } else if (wiersz instanceof EVatwpisFK) {
             duplikat = new EVatwpisFK((EVatwpisFK) wiersz);
+        } else {
+            duplikat = new EVatwpisKJPK((EVatwpisKJPK) wiersz);
         }
         //wpisuje pola zakupu
         duplikat.setNazwaewidencji(ewidencjazak);

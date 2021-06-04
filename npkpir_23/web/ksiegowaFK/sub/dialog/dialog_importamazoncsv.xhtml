@@ -37,7 +37,7 @@
                                                   style="height: 100px;">
                                     </p:fileUpload>
                                 </p:panelGrid>
-                                <p:panelGrid columns="2" style="margin-left: 30px;">
+<!--                                <p:panelGrid columns="2" style="margin-left: 30px;">
                                     <h:outputText value="wybierz rodzaj transakcji"/>
                                     <p:selectOneMenu value="#{importCSVView.wybortransakcji}">
                                         <f:selectItem itemValue="WSZYSTKIE" itemLabel="WSZYSTKIE"/>
@@ -46,7 +46,7 @@
                                         <f:selectItem itemValue="FC_TRANSFER" itemLabel="FC_TRANSFER"/>
                                         <p:ajax event="change" partialSubmit="true" global="false"/>
                                     </p:selectOneMenu>
-                                </p:panelGrid>
+                                </p:panelGrid>-->
                             </p:panelGrid>
                         </h:form>
                         <h:form id="importtabela">
@@ -139,7 +139,7 @@
                                                 </h:outputText>
                                             </p:column>
                                             <p:column id="SubColumn3" headerText="op/zw">  
-                                                <h:outputText value="#{subwpisama.estawka}" rendered="#{subwpisama.vat ne 0 ? true : subwpisama.netto ne 0 ? true : false}"/>
+                                                <h:outputText value="#{subwpisama.estawka}" rendered="#{subwpisama.vat ne 0 ? true : subwpisama.netto ne 0 ? true : false}" />
                                             </p:column>
                                             <p:column id="SubColumn4" headerText="okresy vat">  
                                                 <h:outputText value="#{wpisama.mc}/#{wpisama.rok}" style="float: right;" rendered="#{subwpisama.vat ne 0 ? true : subwpisama.netto ne 0 ? true : false}"/>
@@ -154,7 +154,7 @@
                             </p:dataTable> 
                             <p:growl life="3600"  id="messages2" ><p:autoUpdate/></p:growl>
                             <p:commandButton  icon="fa fa-print" style="margin-top: 20px; width: 120px;" actionListener="#{importCSVView.drukujfk()}"  rendered="#{importCSVView.listafk.size() gt 0}"/>
-                            <p:commandButton  value="zaksięguj WDT" style="margin-top: 20px; width: 120px;" actionListener="#{importCSVView.zaksiegujWDTjpk()}"  rendered="#{importCSVView.listafk.size() gt 0 and importCSVView.wybortransakcji eq 'FC_TRANSFER'}"/>
+<!--                            <p:commandButton  value="zaksięguj WDT" style="margin-top: 20px; width: 120px;" actionListener="#{importCSVView.zaksiegujWDTjpk()}"  rendered="#{importCSVView.listafk.size() gt 0 and importCSVView.wybortransakcji eq 'FC_TRANSFER'}"/>-->
 <!--                            <p:commandButton  value="CSV WDT" style="margin-top: 20px; width: 120px; margin-left: 40px;" actionListener="#{importCSVView.robcsv()}"  rendered="#{importCSVView.dokumenty.size() gt 0}"/>-->
                         </h:form>
 
