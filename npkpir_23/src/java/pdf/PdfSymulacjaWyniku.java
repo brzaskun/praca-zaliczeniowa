@@ -26,12 +26,12 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.faces.context.FacesContext;
 import msg.B;
-import msg.Msg;import plik.Plik;
-import view.WpisView;import viewfk.SymulacjaWynikuView;
+import msg.Msg;
+import plik.Plik;
+import view.WpisView;
+import viewfk.SymulacjaWynikuView;
 
 /**
  *
@@ -41,7 +41,8 @@ import view.WpisView;import viewfk.SymulacjaWynikuView;
 public class PdfSymulacjaWyniku {
     
     public static void drukuj(List<SaldoKonto> listakontaprzychody, List<SaldoKonto> listakontakoszty, List<PozycjeSymulacjiNowe> listapozycjisymulacji, 
-            List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeObliczeniaPodatku, WpisView wpisView, int rodzajdruku, List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeDoWyplaty, double sumaprzychody, double sumavatprzychody, double sumakoszty, double sumavatkoszty) {
+            List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeObliczeniaPodatku, WpisView wpisView, int rodzajdruku, List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeDoWyplaty, double sumaprzychody, double sumavatprzychody, double sumakoszty, 
+            double sumavatkoszty, String mcod, String mcdo) {
         try {
             String nazwapliku = null;
             if (rodzajdruku == 1) {
@@ -53,7 +54,7 @@ public class PdfSymulacjaWyniku {
             if (file.isFile()) {
                 file.delete();
             }
-            drukujcd(listakontaprzychody, listakontakoszty, listapozycjisymulacji, pozycjeObliczeniaPodatku, wpisView, rodzajdruku, pozycjeDoWyplaty, sumaprzychody, sumavatprzychody, sumakoszty, sumavatkoszty);
+            drukujcd(listakontaprzychody, listakontakoszty, listapozycjisymulacji, pozycjeObliczeniaPodatku, wpisView, rodzajdruku, pozycjeDoWyplaty, sumaprzychody, sumavatprzychody, sumakoszty, sumavatkoszty, mcod, mcdo);
             Msg.msg("Wydruk zestawienia symulacja wyniku");
         } catch (Exception e) {
             E.e(e);
@@ -61,7 +62,8 @@ public class PdfSymulacjaWyniku {
     }
 
     private static void drukujcd(List<SaldoKonto> listakontaprzychody, List<SaldoKonto> listakontakoszty, List<PozycjeSymulacjiNowe> listapozycjisymulacji,
-            List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeObliczeniaPodatku, WpisView wpisView, int rodzajdruku, List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeDoWyplaty, double sumaprzychody, double sumavatprzychody, double sumakoszty, double sumavatkoszty) throws DocumentException, FileNotFoundException, IOException {
+            List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeObliczeniaPodatku, WpisView wpisView, int rodzajdruku, List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeDoWyplaty, double sumaprzychody, double sumavatprzychody, double sumakoszty, 
+            double sumavatkoszty, String mcod, String mcdo) throws DocumentException, FileNotFoundException, IOException {
         Document document = new Document();
         try {
             if (rodzajdruku == 1) {
@@ -76,8 +78,8 @@ public class PdfSymulacjaWyniku {
             document.addCreator("Grzegorz Grzelczyk");
             document.open();
             document.setPageSize(PageSize.A4);
-            document.add(tablica(wpisView, listakontaprzychody, "p", rodzajdruku, sumaprzychody, sumavatprzychody));
-            document.add(tablica(wpisView, listakontakoszty, "k", rodzajdruku, sumakoszty, sumavatkoszty));
+            document.add(tablica(wpisView, listakontaprzychody, "p", rodzajdruku, sumaprzychody, sumavatprzychody, mcod, mcdo));
+            document.add(tablica(wpisView, listakontakoszty, "k", rodzajdruku, sumakoszty, sumavatkoszty, mcod, mcdo));
             document.add(tablica2(listapozycjisymulacji));
             //nie ma tego od momentu jak przebudowalem tabsy i zmienilem kolejnosc wyswietlania
 //        document.add(tablica3(pozycjeObliczeniaPodatku));
@@ -93,7 +95,7 @@ public class PdfSymulacjaWyniku {
         }
     }
 
-    private static PdfPTable tablica(WpisView wpisView, List<SaldoKonto> listakonta, String pk, int rodzajdruku, double razemnetto, double razemvat) throws DocumentException, IOException {
+    private static PdfPTable tablica(WpisView wpisView, List<SaldoKonto> listakonta, String pk, int rodzajdruku, double razemnetto, double razemvat, String mcod, String mcdo) throws DocumentException, IOException {
         PdfPTable table = new PdfPTable(9);
         table.setWidths(new int[]{1, 3, 6, 3, 3, 3, 3, 3, 4});
         table.setWidthPercentage(100);
@@ -101,9 +103,9 @@ public class PdfSymulacjaWyniku {
         try {
             table.addCell(ustawfraze(wpisView.getPodatnikObiekt().getNazwapelnaPDF(), 3, 0));
             if (pk.equals("p")) {
-                table.addCell(ustawfraze(B.b("zapisyprzychodowe") + ": " + wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisuSt(), 6, 0));
+                table.addCell(ustawfraze(B.b("zapisyprzychodowe") + " za okres: "+mcod+"-" + mcdo + "/" + wpisView.getRokWpisuSt(), 6, 0));
             } else {
-                table.addCell(ustawfraze(B.b("zapisykosztowe") + ": " + wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisuSt(), 6, 0));
+                table.addCell(ustawfraze(B.b("zapisykosztowe") + " za okres: "+mcod+"-" + mcdo + "/" + wpisView.getRokWpisuSt(), 6, 0));
             }
             table.addCell(ustawfraze(B.b("lp"), 0, 1));
             table.addCell(ustawfraze(B.b("numerkonta"), 0, 1));
@@ -114,7 +116,10 @@ public class PdfSymulacjaWyniku {
             table.addCell(ustawfraze(B.b("saldoMa"), 0, 1));
             table.addCell(ustawfraze(B.b("vat"), 0, 1));
             table.addCell(ustawfraze(B.b("kontosyntetyczne"), 0, 1));
-            String podsumowanie = "Razem netto: "+format.F.curr(razemnetto)+" vat: "+format.F.curr(razemvat);
+            String podsumowanie = "Razem koszty netto: "+format.F.curr(razemnetto)+" vat: "+format.F.curr(razemvat);
+            if (pk.equals("p")) {
+                podsumowanie = "Razem przychody netto: "+format.F.curr(razemnetto)+" vat: "+format.F.curr(razemvat);
+            }
             table.addCell(ustawfrazeSpanFont(podsumowanie, 9, 0, 8));
             table.addCell(ustawfrazeSpanFont("Biuro Rachunkowe Taxman - zestawienie symulacja wyniku finansowego", 9, 0, 6));
 
@@ -142,7 +147,7 @@ public class PdfSymulacjaWyniku {
             if (rodzajdruku==2) {
                 PdfPTable p = subtable(rs.getZapisy());
                 PdfPCell r = new PdfPCell(p);
-                r.setColspan(8);
+                r.setColspan(9);
                 table.addCell(r);
             }
         }
@@ -151,7 +156,7 @@ public class PdfSymulacjaWyniku {
 
     private static PdfPTable subtable(List<StronaWiersza> stronywiersza) throws DocumentException, IOException {
         PdfPTable table = new PdfPTable(8);
-        table.setWidths(new int[]{1, 2, 2, 2, 4, 3, 2, 2});
+        table.setWidths(new int[]{1, 2, 2, 3, 5, 6, 2, 2});
         table.setWidthPercentage(95);
         try {
             table.addCell(ustawfrazeSpanFont("", 0, 1, 7));

@@ -244,7 +244,8 @@
                         </p:column>
                         <p:column headerText="nr wl" width="120" styleClass="filter60"  style="text-align: center; font-size: x-small; word-break: break-all; word-wrap: break-word !important; white-space: pre-wrap;" sortBy="#{loop.dokfk.numerwlasnydokfk}"
                                   filterBy="#{loop.dokfk.numerwlasnydokfk}" filterMatchMode="contains">
-                            <h:outputText value="#{loop.dokfk.numerwlasnydokfk}" id="opisa"/>
+                            <h:outputText value="#{loop.dokfk.numerwlasnydokfk}" id="opisa" rendered="#{loop.dokfk.importowany eq false}"/>
+                            <h:outputText value="uwaga, niedokończony import!" rendered="#{loop.dokfk.importowany}" style="color:red;"/>
                             <p:tooltip value="#{loop.dokfk.numerwlasnydokfk}" for="tabelazzapisami:tabela:#{rowindex}:opisa" trackMouse="true"/>
                         </p:column>
                         <p:column headerText="#{mgs.kontrahent}" width="100" sortBy="##{loop.getKontrahetZapisy(WpisView.podatnikObiekt.nip)}" 

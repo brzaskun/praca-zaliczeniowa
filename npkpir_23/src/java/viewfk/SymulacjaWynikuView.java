@@ -445,7 +445,7 @@ public class SymulacjaWynikuView implements Serializable {
     }
     
     public void drukuj(int i) {
-        PdfSymulacjaWyniku.drukuj(listakontaprzychody, listakontakoszty, pozycjePodsumowaniaWynikuNowe, pozycjeObliczeniaPodatku, wpisView, i, pozycjeDoWyplaty, sumaprzychody, sumavatprzychody, sumakoszty, sumavatkoszty);
+        PdfSymulacjaWyniku.drukuj(listakontaprzychody, listakontakoszty, pozycjePodsumowaniaWynikuNowe, pozycjeObliczeniaPodatku, wpisView, i, pozycjeDoWyplaty, sumaprzychody, sumavatprzychody, sumakoszty, sumavatkoszty, mcod, mcdo);
     }
 
     private void pobierzzapisyzcechami() {
