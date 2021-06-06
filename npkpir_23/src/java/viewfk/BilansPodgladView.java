@@ -4,10 +4,9 @@
  */
 package viewfk;
 
-import comparator.KontoBOcomparatorByKwota;
-import dao.StronaWierszaDAO;
+import comparator.KontocomparatorByKwota;
 import dao.KontoDAOfk;
-import embeddablefk.KontoBO;
+import dao.StronaWierszaDAO;
 import embeddablefk.TreeNodeExtended;
 import entityfk.Konto;
 import error.E;
@@ -16,13 +15,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import javax.inject.Named;
-
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
-import msg.Msg;import org.primefaces.model.TreeNode;
+import javax.inject.Named;
+import msg.Msg;
+import org.primefaces.model.TreeNode;
 import pdffk.PdfBilansPodgladKonta;
-import view.WpisView;import waluty.Z;
+import view.WpisView;
+import waluty.Z;
 
 /**
  *
@@ -36,8 +36,8 @@ public class BilansPodgladView  implements Serializable{
     @Inject
     private StronaWierszaDAO stronaWierszaDAO;
     @Inject private KontoDAOfk kontoDAO;
-    private TreeNodeExtended<KontoBO> root;
-    private TreeNodeExtended<KontoBO> selectednode;
+    private TreeNodeExtended<Konto> root;
+    private TreeNodeExtended<Konto> selectednode;
     private TreeNode[] selectednodes;
     private double sumawn;
     private double sumama;
@@ -61,22 +61,21 @@ public class BilansPodgladView  implements Serializable{
         this.root = new TreeNodeExtended("root", null);
         List<Konto> listakont = kontoDAO.findWszystkieKontaPodatnikaPobierzRelacje(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         List<Konto> listakontRokPop = kontoDAO.findWszystkieKontaPodatnikaPobierzRelacje(wpisView.getPodatnikObiekt(), wpisView.getRokUprzedniSt());
-        List<KontoBO> listakontbo = Collections.synchronizedList(new ArrayList<>());
+        List<Konto> listakontbo = Collections.synchronizedList(new ArrayList<>());
         for (Iterator<Konto> it = listakont.iterator(); it.hasNext(); ) {
             Konto k = it.next();
-            KontoBO kontopo = new KontoBO(k);
             if (listakontRokPop != null) {
                 for (Iterator<Konto> ita = listakontRokPop.iterator(); ita.hasNext();) {
                     Konto kontoRokPop = ita.next();
                     if (kontoRokPop.getPelnynumer().equals(k.getPelnynumer())) {
-                        kontopo.setSaldorokpopWn(Z.z(kontoRokPop.getSaldoWnksiegi()));
-                        kontopo.setSaldorokpopMa(Z.z(kontoRokPop.getSaldoMaksiegi()));
+                        k.setSaldorokpopWn(Z.z(kontoRokPop.getSaldoWnksiegi()));
+                        k.setSaldorokpopMa(Z.z(kontoRokPop.getSaldoMaksiegi()));
                         ita.remove();
                         break;
                     }
                 }
             }
-            listakontbo.add(kontopo);
+            listakontbo.add(k);
         }
         level = root.ustaldepthDT(listakontbo)-1;
         //podsumujkonta(listakont, level);
@@ -90,10 +89,10 @@ public class BilansPodgladView  implements Serializable{
         this.root = new TreeNodeExtended("root", null);
         List<Konto> listakont = kontoDAO.findWszystkieKontaPodatnikaPobierzRelacje(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         List<Konto> listakontRokPop = kontoDAO.findWszystkieKontaPodatnikaPobierzRelacje(wpisView.getPodatnikObiekt(), wpisView.getRokUprzedniSt());
-        List<KontoBO> listakontbo = Collections.synchronizedList(new ArrayList<>());
+        List<Konto> listakontbo = Collections.synchronizedList(new ArrayList<>());
         for (Iterator<Konto> it = listakont.iterator(); it.hasNext(); ) {
             Konto k = it.next();
-            KontoBO kontopo = new KontoBO(k);
+            Konto kontopo = new Konto(k);
             if (listakontRokPop != null) {
                 for (Iterator<Konto> ita = listakontRokPop.iterator(); ita.hasNext();) {
                     Konto kontoRokPop = ita.next();
@@ -152,10 +151,10 @@ public class BilansPodgladView  implements Serializable{
         }
     }
     
-    private void sumakont(List<KontoBO> listakont) {
+    private void sumakont(List<Konto> listakont) {
          sumawn = 0.0;
             sumama = 0.0;
-            for (KontoBO r : listakont) {
+            for (Konto r : listakont) {
                 if (r.getLevel()==0) {
                     sumawn += r.getBoWn();
                     sumama += r.getBoMa();
@@ -165,18 +164,18 @@ public class BilansPodgladView  implements Serializable{
             sumama = Z.z(sumama);
     }
     
-    private void usunzerowe(List<KontoBO> listakont) {
-        for (Iterator<KontoBO> it = listakont.iterator(); it.hasNext();) {
-            KontoBO p = (KontoBO) it.next();
+    private void usunzerowe(List<Konto> listakont) {
+        for (Iterator<Konto> it = listakont.iterator(); it.hasNext();) {
+            Konto p = (Konto) it.next();
             if (p.getBoWn() == 0 && p.getBoMa() == 0) {
                 it.remove();
             }
         }
     }
     
-    private void usunzeroweroznicaBO(List<KontoBO> listakont) {
-        for (Iterator<KontoBO> it = listakont.iterator(); it.hasNext();) {
-            KontoBO p = (KontoBO) it.next();
+    private void usunzeroweroznicaBO(List<Konto> listakont) {
+        for (Iterator<Konto> it = listakont.iterator(); it.hasNext();) {
+            Konto p = (Konto) it.next();
             if (p.getBoWn() == 0 && p.getBoMa() == 0) {
                 it.remove();
             } else if (p.getRoznicaWn() == 0.0 && p.getRoznicaMa() == 0.0) {
@@ -197,11 +196,11 @@ public class BilansPodgladView  implements Serializable{
         
     public void drukuj() {
         if (selectednodes != null && selectednodes.length > 0) {
-            List<KontoBO> w = new ArrayList<KontoBO>();
+            List<Konto> w = new ArrayList<Konto>();
             for (TreeNode p : selectednodes) {
-                KontoBO k = (KontoBO) p.getData();
+                Konto k = (Konto) p.getData();
                 if (!w.contains(k)) {
-                    List<KontoBO> tmp = new ArrayList<KontoBO>();
+                    List<Konto> tmp = new ArrayList<Konto>();
                     ((TreeNodeExtended) p).getChildrenTree(new ArrayList<TreeNodeExtended>(), tmp);
                     w.add(k);
                     w.addAll(tmp);
@@ -213,7 +212,7 @@ public class BilansPodgladView  implements Serializable{
             dodajwierszsumyAll(w);
             PdfBilansPodgladKonta.drukujBilansPodgladKonta(w, wpisView);
         } else {
-            List<KontoBO> w = new ArrayList<KontoBO>();
+            List<Konto> w = new ArrayList<Konto>();
             root.getChildrenTree(new ArrayList<TreeNodeExtended>(), w);
             if (sortujwgwartosci) {
                 sortujliste(w);
@@ -227,11 +226,11 @@ public class BilansPodgladView  implements Serializable{
     
     public void drukujAnal(boolean analityka) {
         if (selectednodes != null && selectednodes.length > 0) {
-            List<KontoBO> w = new ArrayList<KontoBO>();
+            List<Konto> w = new ArrayList<Konto>();
             for (TreeNode p : selectednodes) {
-                KontoBO k = (KontoBO) p.getData();
+                Konto k = (Konto) p.getData();
                 if (!w.contains(k)) {
-                    List<KontoBO> tmp = new ArrayList<KontoBO>();
+                    List<Konto> tmp = new ArrayList<Konto>();
                     ((TreeNodeExtended) p).getChildrenTree(new ArrayList<TreeNodeExtended>(), tmp);
                     w.add(k);
                     w.addAll(tmp);
@@ -244,7 +243,7 @@ public class BilansPodgladView  implements Serializable{
             }
             PdfBilansPodgladKonta.drukujBilansPodgladKonta(w, wpisView);
         } else {
-            List<KontoBO> w = new ArrayList<KontoBO>();
+            List<Konto> w = new ArrayList<Konto>();
             root.getChildrenTree(new ArrayList<TreeNodeExtended>(), w);
             modyfikujlistedowydruku(analityka, w);
             dodajwierszsumy(w);
@@ -255,14 +254,14 @@ public class BilansPodgladView  implements Serializable{
         }
     }
     
-    private void dodajwierszsumyAll(List<KontoBO> w) {
+    private void dodajwierszsumyAll(List<Konto> w) {
         double wn = 0.0;
         double ma = 0.0;
         double wnrokpop = 0.0;
         double marokpop = 0.0;
         double roznicawn = 0.0;
         double roznicama = 0.0;
-        for (KontoBO p : w) {
+        for (Konto p : w) {
             if (p.getKontomacierzyste() == null) {
                 wn += p.getBoWn();
                 ma += p.getBoMa();
@@ -272,28 +271,28 @@ public class BilansPodgladView  implements Serializable{
                 roznicama += p.getRoznicaMa();
             }
         }
-        w.add(new KontoBO(new Konto("podsumowanie", Z.z(wn), Z.z(ma)), Z.z(wnrokpop), Z.z(marokpop), Z.z(roznicawn), Z.z(roznicama)));
+        w.add(new Konto("podsumowanie", Z.z(wn), Z.z(ma), Z.z(wnrokpop), Z.z(marokpop), Z.z(roznicawn), Z.z(roznicama)));
     }
      
-    private void dodajwierszsumy(List<KontoBO> w) {
+    private void dodajwierszsumy(List<Konto> w) {
         double wn = 0.0;
         double ma = 0.0;
-        for (KontoBO p : w) {
+        for (Konto p : w) {
             wn += p.getBoWn();
             ma += p.getBoMa();
         }
-        w.add(new KontoBO(new Konto("podsumowanie", Z.z(wn), Z.z(ma))));
+        w.add(new Konto("podsumowanie", Z.z(wn), Z.z(ma)));
     }
     
-    private void modyfikujlistedowydruku(boolean analityka, List<KontoBO> w) {
+    private void modyfikujlistedowydruku(boolean analityka, List<Konto> w) {
         if (analityka ==  true) {
-                for (Iterator<KontoBO> it = w.iterator(); it.hasNext();) {
+                for (Iterator<Konto> it = w.iterator(); it.hasNext();) {
                     if (it.next().isMapotomkow() == true) {
                         it.remove();
                     }
                 }
             } else {
-                for (Iterator<KontoBO> it = w.iterator(); it.hasNext();) {
+                for (Iterator<Konto> it = w.iterator(); it.hasNext();) {
                     if (it.next().getKontomacierzyste()!=null) {
                         it.remove();
                     }
@@ -302,15 +301,19 @@ public class BilansPodgladView  implements Serializable{
     }
     
     
-    private void sortujliste(List<KontoBO> w) {
-        Collections.sort(w, new KontoBOcomparatorByKwota());
+    
+       
+    
+    
+    private void sortujliste(List<Konto> w) {
+        Collections.sort(w, new KontocomparatorByKwota());
     }
      
-    public TreeNodeExtended<KontoBO> getSelectednode() {
+    public TreeNodeExtended<Konto> getSelectednode() {
         return selectednode;
     }
 
-    public void setSelectednode(TreeNodeExtended<KontoBO> selectednode) {
+    public void setSelectednode(TreeNodeExtended<Konto> selectednode) {
         this.selectednode = selectednode;
     }
 

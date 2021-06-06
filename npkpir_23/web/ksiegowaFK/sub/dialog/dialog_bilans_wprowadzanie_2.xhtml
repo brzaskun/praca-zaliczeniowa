@@ -277,7 +277,7 @@
             </p:contextMenu>
             <p:remoteCommand name="przeliczfilter" actionListener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.listaBOselected, bilansWprowadzanieView.listaBOsumy, bilansWprowadzanieView.listaBO)}" update=":formbilanswprowadzanie2:sum0" global="false"/>
             <p:dataTable value="#{bilansWprowadzanieView.listaBO}" var="item" binding="#{bilansWprowadzanieView.listaBOdatatable}" widgetVar="tab0prosta"
-                         style="overflow-y: scroll; height: 400px; width: 1100px; padding: 10px; margin-top: 5px;"
+                         style="overflow-y: scroll; height: 400px; width: 1300px; padding: 10px; margin-top: 5px;"
                          styleClass="gridtablicasyntetyczne" rowIndexVar="idx"  emptyMessage="nie ma zapisów w tej grupie"
                          rendered="#{bilansWprowadzanieView.nraktualnejlisty ne 1 and bilansWprowadzanieView.nraktualnejlisty ne 2}"
                          id="tab0" rowKey="#{item.hashCode()}" selection="#{bilansWprowadzanieView.listaBOselected}"
@@ -298,7 +298,7 @@
                     <f:facet name="header">
                         <h:outputText value="#{mgs.opis}"/>
                     </f:facet>
-                    <h:outputText value="#{item.opis}"/>
+                    <h:outputText value="#{item.opis}" style="#{item.roznicowy ? 'color:red;':null}"/>
                 </p:column>
                 <p:column style="text-align: center;" sortBy="#{item.kwotaWn}" width="90">
                     <f:facet name="header">
@@ -338,6 +338,14 @@
                     </f:facet>
                     <bcf:outputpl value="#{item.roznicaSald}" style="color: red;" rendered="#{item.kontostare ne null and item.roznicaSald ne 0.0 and bilansWprowadzanieView.nraktualnejlisty eq 9}"/>
                 </p:column>
+                <p:column style="text-align: left;" sortBy="#{item.dataK}" width="90">
+                    <f:facet name="header">
+                        <h:outputText value="data"/>
+                    </f:facet>
+                     <h:outputText value="#{item.dataK}">
+                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
                 <p:column style="text-align: center;" width="40">
                     <f:facet name="header">
                         <h:outputText value="usuń tym."/>
@@ -362,7 +370,7 @@
                             actionListener="#{bilansWprowadzanieView.przywrocwiele(bilansWprowadzanieView.listaBOs1)}" icon="ui-icon-disk" />
             </p:contextMenu>
             <p:dataTable value="#{bilansWprowadzanieView.listaBO}" var="item"
-                         style="overflow-y: scroll; height: 400px; width: 1400px; padding: 10px; margin-top: 5px;"  widgetVar="tab0zlozona"
+                         style="overflow-y: scroll; height: 400px; width: 1500px; padding: 10px; margin-top: 5px;"  widgetVar="tab0zlozona"
                          styleClass="gridtablicasyntetyczne" rowIndexVar="idx"  emptyMessage="nie ma zapisów w tej grupie"
                          rendered="#{bilansWprowadzanieView.nraktualnejlisty eq 1 or bilansWprowadzanieView.nraktualnejlisty eq 2}"
                          id="tab1" rowKey="#{item.hashCode()}" selection="#{bilansWprowadzanieView.listaBOs1}"
@@ -384,7 +392,7 @@
                     <f:facet name="header">
                         <h:outputText value="#{mgs.opis}"/>
                     </f:facet>
-                    <h:outputText value="#{item.opis}"/>
+                    <h:outputText value="#{item.opis}" style="#{item.roznicowy ? 'color:red;':null}"/>
                 </p:column>
                 <p:column width="45">
                     <f:facet name="header">
@@ -427,6 +435,14 @@
                         <h:outputText value="stan"/>
                     </f:facet>
                     <h:outputText value="#{item.nowy0edycja1usun2}" />
+                </p:column>
+                <p:column style="text-align: left;" sortBy="#{item.dataK}" width="90">
+                    <f:facet name="header">
+                        <h:outputText value="data"/>
+                    </f:facet>
+                     <h:outputText value="#{item.dataK}">
+                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                    </h:outputText>
                 </p:column>
                 <p:column style="text-align: center;" width="40" rendered="#{bilansWprowadzanieView.nraktualnejlisty eq 2}">
                     <f:facet name="header">

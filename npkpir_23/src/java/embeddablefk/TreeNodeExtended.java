@@ -5,7 +5,6 @@
 package embeddablefk;
 
 import abstractClasses.ToBeATreeNodeObject;
-import comparator.KontoBOcomparator;
 import comparator.Kontocomparator;
 import comparator.PozycjaBilanscomparator;
 import comparator.PozycjaRZiScomparator;
@@ -219,7 +218,7 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
             for (TreeNode o : children) {
                 oldnodes.add((TreeNodeExtended) o);
                 Object ob = ((TreeNodeExtended) o).getData();
-                KontoBO konto = (KontoBO) ob;
+                Konto konto = (Konto) ob;
                 if (konto.getRoznicaWn() != 0.0 || konto.getRoznicaMa() != 0.0) {
                     newnodes.add((TreeNodeExtended) o);
                 }
@@ -1189,9 +1188,6 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
             Object pobrany = biezaca.get(0);
             if (pobrany.getClass().getSimpleName().equals("Konto")) {
                 Collections.sort((List<Konto>) biezaca, new Kontocomparator());
-            }
-            if (pobrany.getClass().getSimpleName().equals("KontoBO")) {
-                Collections.sort((List<KontoBO>) biezaca, new KontoBOcomparator());
             }
         }
     }

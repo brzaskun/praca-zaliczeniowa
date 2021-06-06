@@ -32,6 +32,7 @@
                 <p:selectBooleanCheckbox value="#{bilansPodgladView.sortujwgwartosci}" itemLabel="wg wartości" style="margin-left: 10px;">
                     <p:ajax event="change" partialSubmit="true" global="false"/>
                 </p:selectBooleanCheckbox>
+                <p:commandButton value="doksięguj BO" actionListener="#{bilansWprowadzanieView.doksiegujroznice(bilansPodgladView.root)}" style="width: 120px; margin-left: 10px;" update="formbilans:dataList"/>
             </p:panelGrid>
             <p:panelGrid columns="2">
                 <p:treeTable id="dataList" value="#{bilansPodgladView.root}" var="loopbop"  selection="#{bilansPodgladView.selectednodes}" selectionMode="checkbox"

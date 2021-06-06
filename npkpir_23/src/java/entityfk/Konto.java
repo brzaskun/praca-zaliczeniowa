@@ -34,6 +34,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import language.LocaleInfo;
 import org.eclipse.persistence.annotations.Cache;
 import org.eclipse.persistence.annotations.CacheType;
+import waluty.Z;
 
 /**
  *
@@ -277,7 +278,15 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
     protected String syntetykaanalityka;
     @Column(name = "wynik0bilans1")
     protected boolean wynik0bilans1;
-    
+    //dawne KontoBO
+    @Transient
+    private double saldorokpopWn;
+    @Transient
+    private double saldorokpopMa;
+    @Transient
+    private double roznicaWn;
+    @Transient
+    private double roznicaMa;
     
     
 //    @OneToMany(mappedBy = "konto")
@@ -355,6 +364,16 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
         this.syntetycznenumer = syntetycznenumer;
     }   
 
+    public Konto(String podsumowanie, double wn, double ma, double z, double z0, double z1, double z2) {
+        this.nazwapelna = podsumowanie;
+        this.boWn = wn;
+        this.boMa = ma;
+        this.saldorokpopWn = z;
+        this.saldorokpopMa = z0;
+        this.roznicaWn = z1;
+        this.roznicaMa = z2;
+    }
+    
     public Konto(String podsumowanie, double wn, double ma) {
         this.nazwapelna = podsumowanie;
         this.boWn = wn;
@@ -784,7 +803,69 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
     public void setWynik0bilans1(boolean wynik0bilans1) {
         this.wynik0bilans1 = wynik0bilans1;
     }
-   
+
+    public double getSaldorokpopWn() {
+        return saldorokpopWn;
+    }
+
+    public void setSaldorokpopWn(double saldorokpopWn) {
+        this.saldorokpopWn = saldorokpopWn;
+    }
+
+    public double getSaldorokpopMa() {
+        return saldorokpopMa;
+    }
+
+    public void setSaldorokpopMa(double saldorokpopMa) {
+        this.saldorokpopMa = saldorokpopMa;
+    }
+
+    public double getRoznicaWn() {
+        return Z.z(this.getBoWn()-this.saldorokpopWn);
+    }
+
+    public double getRoznicaMa() {
+        return Z.z(this.getBoMa()-this.saldorokpopMa);
+    }
+    public void setRoznicaWn(double roznicaWn) {
+        this.roznicaWn = roznicaWn;
+    }
+
+    public void setRoznicaMa(double roznicaMa) {
+        this.roznicaMa = roznicaMa;
+    }
+    public boolean getRozBOWn() {
+        boolean zwrot = false;
+        if (Z.z(this.getBoWn()-this.saldorokpopWn) != 0.0) {
+            zwrot = true;
+        }
+        return zwrot;
+    }
+    
+    public boolean getRozBOMa() {
+        boolean zwrot = false;
+        if (Z.z(this.getBoMa()-this.saldorokpopMa) != 0.0) {
+            zwrot = true;
+        }
+        return zwrot;
+    }
+    
+    public double getRozBOWnKwota() {
+        double zwrot = 0.0;
+        if (Z.z(this.getBoWn()-this.saldorokpopWn) != 0.0) {
+            zwrot = Z.z(this.getBoWn()-this.saldorokpopWn);
+        }
+        return zwrot;
+    }
+    
+    public double getRozBOMaKwota() {
+        double zwrot = 0.0;
+        if (Z.z(this.getBoMa()-this.saldorokpopMa) != 0.0) {
+            zwrot = Z.z(this.getBoMa()-this.saldorokpopMa);
+        }
+        return zwrot;
+    }
+    
     
     
     @Override

@@ -37,7 +37,6 @@ import embeddable.SchemaEwidencjaSuma;
 import embeddable.ZestawienieRyczalt;
 import embeddablefk.ImportJPKSprzedaz;
 import embeddablefk.InterpaperXLS;
-import embeddablefk.KontoBO;
 import entity.DeklaracjaVatSchemaWierszSum;
 import entity.Dok;
 import entity.Faktura;
@@ -63,7 +62,6 @@ import entityfk.Transakcja;
 import entityfk.Wiersz;
 import entityfk.WierszBO;
 import error.E;
-import format.F;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -1397,19 +1395,6 @@ public class PdfMain {
                     col101[3] = 12;
                     return col101;
                 }
-            case "embeddablefk.KontoBO":
-                int[] col102 = new int[size];
-                    col102[0] = 1;
-                    col102[1] = 2;
-                    col102[2] = 5;
-                    col102[3] = 3;
-                    col102[4] = 3;
-                    col102[5] = 3;
-                    col102[6] = 3;
-                    col102[7] = 3;
-                    col102[8] = 3;
-                    col102[9] = 3;
-                    return col102;
             case "entityfk.Konto":
                 if (modyfikator==1) {
                     int[] col10 = new int[size];
@@ -2628,32 +2613,7 @@ public class PdfMain {
                     table.addCell(ustawfrazeAlign(p.getKontoPrzeciwstawneNumer(), "left", 7));
                 }
             }
-            if (nazwaklasy.equals("embeddablefk.KontoBO")) {
-                    KontoBO p = (KontoBO) it.next();
-                    table.addCell(ustawfrazeAlign(i++, "left", 8, 22f));
-                    table.addCell(ustawfrazeAlign(p.getPelnynumer(), "left", 8));
-                    table.addCell(ustawfrazeAlign(p.getNazwapelna(), "left", 8));
-                    table.addCell(ustawfrazeAlign(p.getZwyklerozrachszczegolne(), "center", 8));
-                    table.addCell(ustawfrazeAlign(F.numberS(p.getBoWn()), "right", 8));
-//                    double roznica = p.getBoWn() - p.getBoMa();
-//                    double kwota = roznica > 0.0 ? roznica: 0.0;
-//                    if (kwota != 0.0) {
-//                        table.addCell(ustawfrazeAlign(number.format(kwota), "right", 8));
-//                    } else {
-//                        table.addCell(ustawfrazeAlign("", "center", 8));
-//                    }
-                    table.addCell(ustawfrazeAlign(F.numberS(p.getSaldorokpopWn()), "right", 8));
-                    table.addCell(ustawfrazeAlign(F.numberS(p.getBoMa()), "right", 8));
-//                    kwota = roznica < 0 ? -roznica : 0.0;
-//                    if (kwota != 0.0) {
-//                        table.addCell(ustawfrazeAlign(number.format(kwota), "right", 8));
-//                    } else {
-//                        table.addCell(ustawfrazeAlign("", "center", 8));
-//                    }
-                    table.addCell(ustawfrazeAlign(F.numberS(p.getSaldorokpopMa()), "right", 8));
-                    table.addCell(ustawfrazeAlign(F.numberS(p.getRoznicaWn()), "right", 8));
-                    table.addCell(ustawfrazeAlign(F.numberS(p.getRoznicaMa()), "right", 8));
-            }
+            
             if (nazwaklasy.equals("entityfk.Konto")) {
                 if (modyfikator == 1) {
                     Konto p = (Konto) it.next();

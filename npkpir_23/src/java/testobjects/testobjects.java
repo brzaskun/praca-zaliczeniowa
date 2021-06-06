@@ -11,7 +11,6 @@ import embeddable.SchemaEwidencjaSuma;
 import embeddable.ZestawienieRyczalt;
 import embeddablefk.ImportJPKSprzedaz;
 import embeddablefk.InterpaperXLS;
-import embeddablefk.KontoBO;
 import embeddablefk.TreeNodeExtended;
 import entity.DeklaracjaVatSchemaWierszSum;
 import entity.Dok;
@@ -183,23 +182,7 @@ public class testobjects {
        return tabela;
    }
    
-   public static List[] getTabelaBOKonta(List<KontoBO> wiersze) {
-       List n = new ArrayList();
-       n.add("lp");
-       n.add("nr konta");
-       n.add("nazwa pełna");
-       n.add("typ konta");
-       n.add("saldo wn");
-       n.add("saldo wn rok pop.");
-       n.add("saldo ma");
-       n.add("saldo ma rok pop.");
-       n.add("różnica wn");
-       n.add("różnica ma");
-       List[] tabela = new List[2];
-       tabela[0] = n;
-       tabela[1] = wiersze;
-       return tabela;
-   }
+   
    
    public static List[] getTabelaCechyZapisowZest(List<Cechazapisu> wiersze) {
        List n = new ArrayList();

@@ -5,24 +5,24 @@
  */
 package viewfk;
 
-import static beansFK.DokFKVATBean.ustawvat;
-import static beansFK.DokFKVATBean.ustawvatodbrutto;
 import comparator.WierszBOcomparator;
 import comparator.WierszBOcomparatorKwota;
+import dao.DokDAOfk;
 import dao.KlienciDAO;
+import dao.KontoDAOfk;
 import dao.RodzajedokDAO;
 import dao.StronaWierszaDAO;
-import dao.DokDAOfk;
-import dao.KontoDAOfk;
 import dao.TabelanbpDAO;
 import dao.WalutyDAOfk;
 import dao.WierszBODAO;
 import dao.WierszDAO;
 import data.Data;
+import embeddablefk.TreeNodeExtended;
 import entity.Evewidencja;
 import entity.Klienci;
 import entity.Podatnik;
 import entity.Rodzajedok;
+import entity.Uz;
 import entityfk.Dokfk;
 import entityfk.EVatwpisFK;
 import entityfk.Konto;
@@ -43,13 +43,15 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-import javax.inject.Named;
-
+import java.util.stream.Collectors;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
-import msg.Msg;import org.primefaces.component.datatable.DataTable;
+import javax.inject.Named;
+import msg.Msg;
+import org.primefaces.PrimeFaces;
+import org.primefaces.component.datatable.DataTable;
 import pdffk.PdfWierszBO;
-import view.WpisView; import org.primefaces.PrimeFaces;
+ import view.WpisView;
 import waluty.Z;
 
 /**
@@ -1765,10 +1767,81 @@ public class BilansWprowadzanieView implements Serializable {
         return zwrot;
     }
 
+    public void doksiegujroznice(TreeNodeExtended<Konto> root) {
+        walutadomyslna = walutyDAOfk.findWalutaBySymbolWaluty("PLN");
+        List<Object> listazwrotnapozycji = new ArrayList<>();
+        root.getFinallChildrenData(new ArrayList<TreeNodeExtended>(), listazwrotnapozycji);
+        List<Object> kontozroznica = listazwrotnapozycji.stream().filter(((p)->(((Konto)p).getRozBOWn() || ((Konto)p).getRozBOMa()))).collect(Collectors.toList());
+        for (Object p : kontozroznica) {
+            Konto konto = (Konto) p;
+            double roznicaWn = konto.getRozBOWnKwota();
+            double roznicaMa = konto.getRozBOMaKwota();
+            List<WierszBO> wierszebodlakonta = wierszBODAO.findPodatnikRokKonto(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), konto);
+            double sumaWnPlusMaMinus = podsumujWierszBO(wierszebodlakonta);
+            double sumaWn = sumaWnPlusMaMinus>0.0?sumaWnPlusMaMinus:0.0;
+            double sumaMa = sumaWnPlusMaMinus<0.0?-sumaWnPlusMaMinus:0.0;
+            double dodoksiegownia = 0.0;
+            WierszBO wierszroznicowy = null;
+            if (roznicaWn>0.0 && sumaWnPlusMaMinus>0.0) {
+               dodoksiegownia = sumaWn+roznicaWn;
+               wierszroznicowy = new WierszBO(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), "01", konto, dodoksiegownia, 0.0, walutadomyslna, wpisView.getUzer());
+            } else if (roznicaMa>0.0 && sumaWnPlusMaMinus<0.0){
+                dodoksiegownia = sumaMa+roznicaMa;
+                wierszroznicowy = new WierszBO(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), "01", konto, 0.0, dodoksiegownia, walutadomyslna, wpisView.getUzer());
+            } else if (roznicaWn<0.0 && sumaWnPlusMaMinus<0.0) {
+                dodoksiegownia = Math.abs(roznicaWn+sumaWnPlusMaMinus);
+                wierszroznicowy = new WierszBO(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), "01", konto, dodoksiegownia, 0.0, walutadomyslna, wpisView.getUzer());
+            } else if (roznicaMa<0.0 && sumaWnPlusMaMinus>0.0){
+                dodoksiegownia = Math.abs(roznicaMa-sumaWnPlusMaMinus);
+                wierszroznicowy = new WierszBO(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), "01", konto, 0.0, dodoksiegownia, walutadomyslna, wpisView.getUzer());
+            }
+            if (wierszroznicowy!=null) {
+                wierszBODAO.create(wierszroznicowy);
+                Msg.msg("Zaksięgowano wiersz różnicowy dale konta "+konto.getPelnynumer());
+            }
+        }
+        System.out.println("");
+    }
+    
+    private double podsumujWierszBO(List<WierszBO> wierszebodlakonta) {
+        double zwrot = 0.0;
+        if (wierszebodlakonta!=null) {
+            for (WierszBO p : wierszebodlakonta) {
+                if (p.getKwotaWnPLN()!=0.0) {
+                    zwrot = zwrot +p.getKwotaWnPLN();
+                } else if (p.getKwotaMaPLN()!=0.0) {
+                    zwrot = zwrot -p.getKwotaMaPLN();
+                }
+            }
+        }
+        return zwrot;
+    }
+
+    
     public static void main(String[] args) {
-        String pierwszy = "Śmigieł";
-        String drugi = "śmig";
-        boolean s = pierwszy.toLowerCase().contains(drugi.toLowerCase());
+        double roznicaWn = 650.0;
+        double roznicaMa = -2150.0;
+        double sumaWnPlusMaMinus = 650;
+        double sumaWn = sumaWnPlusMaMinus>0.0?sumaWnPlusMaMinus:0.0;
+        double sumaMa = sumaWnPlusMaMinus<0.0?-sumaWnPlusMaMinus:0.0;
+        double dodoksiegownia = 0.0;
+        WierszBO wierszroznicowy = null;
+        if (roznicaWn>0.0 && roznicaMa==0.0 && sumaWnPlusMaMinus>0.0) {
+            dodoksiegownia = sumaWn+roznicaWn;
+            wierszroznicowy = new WierszBO(new Podatnik(), "2020", "01", new Konto(), dodoksiegownia, 0.0, new Waluty(), new Uz());
+        } else if (roznicaMa>0.0 && roznicaWn == 0.0 && sumaWnPlusMaMinus<0.0){
+            dodoksiegownia = sumaMa+roznicaMa;
+            wierszroznicowy = new WierszBO(new Podatnik(), "2020", "01", new Konto(), 0.0, dodoksiegownia, new Waluty(), new Uz());
+        } else if (roznicaWn<0.0 && sumaWnPlusMaMinus<0.0) {
+            dodoksiegownia = Math.abs(roznicaWn+sumaWnPlusMaMinus);
+            wierszroznicowy = new WierszBO(new Podatnik(), "2020", "01", new Konto(), dodoksiegownia, 0.0, new Waluty(), new Uz());
+        } else if (roznicaMa<0.0 && sumaWnPlusMaMinus>0.0){
+            dodoksiegownia = Math.abs(roznicaMa-sumaWnPlusMaMinus);
+            wierszroznicowy = new WierszBO(new Podatnik(), "2020", "01", new Konto(), 0.0, dodoksiegownia, new Waluty(), new Uz());
+        }
+        System.out.println("koniec");
+        System.out.println("Wn "+wierszroznicowy.getKwotaWnPLN());
+        System.out.println("Ma "+wierszroznicowy.getKwotaMaPLN());
     }
 
     public boolean isIsteniejeDokBOR() {
@@ -1811,6 +1884,8 @@ public class BilansWprowadzanieView implements Serializable {
         this.ewidencjaVATRKzapis0edycja1 = ewidencjaVATRKzapis0edycja1;
     }
 
+    
+    
     
 
     

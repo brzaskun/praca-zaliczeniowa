@@ -9,6 +9,7 @@ import embeddablefk.SaldoKonto;
 import entity.Podatnik;
 import entity.Uz;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Cacheable;
@@ -21,6 +22,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.Temporal;
 import javax.persistence.Transient;
 import waluty.Z;
 
@@ -80,6 +82,11 @@ public class WierszBO implements Serializable {
     private boolean roznicakursowastatystyczna;
     @JoinColumn(name = "evatwpisfk", referencedColumnName = "id")
     private EVatwpisFK eVatwpisFK;
+    @Column(name = "data_k", insertable=false, updatable=false, columnDefinition="timestamp default current_timestamp")
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    private Date dataK;
+    @Column(name="roznicowy")
+    private boolean roznicowy;
     
 
     public WierszBO() {
@@ -108,8 +115,6 @@ public class WierszBO implements Serializable {
         this.opis = p.getOpisdlabo() != null ? p.getOpisdlabo() : "zapis BO " + p.hashCode();
         this.podatnik = podatnik;
         this.konto = konto;
-        if (p.getKonto().getPelnynumer().equals("202-2-13")) {
-        }
         if (p.getSaldoWn() > p.getSaldoMa()) {
             this.kwotaWn = Z.z(p.getSaldoWn() - p.getSaldoMa());
             this.kwotaWnPLN = Z.z(p.getSaldoWnPLN() - p.getSaldoMaPLN());
@@ -127,6 +132,31 @@ public class WierszBO implements Serializable {
         this.wprowadzil = wprowadzil;
         this.nowy0edycja1usun2 = 0;
         this.roznicakursowastatystyczna = p.isRoznicakursowastatystyczna();
+    }
+    
+      public WierszBO(Podatnik podatnik, String rok, String mc, Konto konto, double roznicawn, double roznicama, Waluty waluta, Uz wprowadzil) {
+        this.rok = rok;
+        this.mc = mc;
+        this.opis = "wiersz rożnicowy BO " + konto.hashCode();
+        this.podatnik = podatnik;
+        this.konto = konto;
+        if (roznicawn != 0.0) {
+            this.kwotaWn = Z.z(roznicawn);
+            this.kwotaWnPLN = Z.z(roznicawn);
+            this.kwotaMa = 0.0;
+            this.kwotaMaPLN = 0.0;
+        } else if (roznicama != 0.0) {
+            this.kwotaWn = 0.0;
+            this.kwotaWnPLN = 0.0;
+            this.kwotaMa = Z.z(roznicama);
+            this.kwotaMaPLN = Z.z(roznicama);
+        }
+        this.kurs = 0.0;
+        this.waluta = waluta;
+        this.rozrachunek = false;
+        this.wprowadzil = wprowadzil;
+        this.nowy0edycja1usun2 = 0;
+        this.roznicowy = true;
     }
 
    
@@ -385,6 +415,22 @@ public class WierszBO implements Serializable {
 
     public void seteVatwpisFK(EVatwpisFK eVatwpisFK) {
         this.eVatwpisFK = eVatwpisFK;
+    }
+
+    public boolean isRoznicowy() {
+        return roznicowy;
+    }
+
+    public void setRoznicowy(boolean roznicowy) {
+        this.roznicowy = roznicowy;
+    }
+
+    public Date getDataK() {
+        return dataK;
+    }
+
+    public void setDataK(Date dataK) {
+        this.dataK = dataK;
     }
     
     
