@@ -32,12 +32,12 @@
                 <h:outputText value="m-c" style="margin-right: 10px;"/>
                 <p:column>
                     <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
-                        <p:ajax event="change" listener="#{guestFKDokumenty.pobierz()}" update="zestawieniedokumentow:dataList" oncomplete="PF('tablicadokumenty').clearFilters()"/>
+                        <p:ajax event="change" listener="#{guestFKDokumenty.pobierz()}" update="formtablicadokumenty:dataList" oncomplete="PF('tablicadokumenty').clearFilters()"/>
                         <f:selectItems value="#{mce.mceList}"/>
                     </p:selectOneMenu>
                 </p:column>
                 <p:column>
-                    <p:commandButton value="#{mgs.pobierz}" actionListener="#{guestFKDokumenty.pobierz()}" style="width: 120px; margin-left: 20px;" update="zestawieniedokumentow:dataList" oncomplete="PF('tablicadokumenty').clearFilters()"/>
+                    <p:commandButton value="#{mgs.pobierz}" actionListener="#{guestFKDokumenty.pobierz()}" style="width: 120px; margin-left: 20px;" update="formtablicadokumenty:dataList" oncomplete="PF('tablicadokumenty').clearFilters()"/>
                 </p:column>
                 
                     <h:outputText value="#{mgs.przetwarzanie}"/>
