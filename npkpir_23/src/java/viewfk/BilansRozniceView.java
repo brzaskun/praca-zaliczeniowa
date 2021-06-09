@@ -11,16 +11,14 @@ import entityfk.Dokfk;
 import entityfk.StronaWiersza;
 import entityfk.Wiersz;
 import entityfk.WierszBO;
-import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import javax.inject.Named;
-
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import view.WpisView;
 /**
  *
@@ -40,6 +38,8 @@ public class BilansRozniceView implements Serializable {
     List<StronaWiersza> wierszeDokroznice;
     private int liczbawierszyBO;
     private int liczbawierszyDok;
+    private String startmsg;
+    private String stopmsg;
     
     public void init() { //E.m(this);
         List<WierszBO> wierszeBO = wierszBODAO.listaRokMc(wpisView);
@@ -47,8 +47,11 @@ public class BilansRozniceView implements Serializable {
         List<Dokfk> dokfk = dokDAOfk.findDokfkPodatnikRokMcKategoria(wpisView, "BO");
         List<StronaWiersza> wierszeDok = pobierzstrony(dokfk);
         liczbawierszyDok = wierszeDok.size();
+        startmsg = "Rozpoczęto szukanie różnic";
+        stopmsg = "Wystąpił błąd podczas szukania różnic";
         wierszeBOroznice = zrobrozniceBO(new ArrayList<>(wierszeBO), new ArrayList<>(wierszeDok));
         wierszeDokroznice = zrobrozniceDok(new ArrayList<>(wierszeBO), new ArrayList<>(wierszeDok));
+        stopmsg = "Zakończono szukanie różnic";
     }
 
     private List<StronaWiersza> pobierzstrony(List<Dokfk> dokfk) {
@@ -135,6 +138,23 @@ public class BilansRozniceView implements Serializable {
         this.wierszeDokroznice = wierszeDokroznice;
     }
 
+    public String getStartmsg() {
+        return startmsg;
+    }
+
+    public void setStartmsg(String startmsg) {
+        this.startmsg = startmsg;
+    }
+
+    public String getStopmsg() {
+        return stopmsg;
+    }
+
+    public void setStopmsg(String stopmsg) {
+        this.stopmsg = stopmsg;
+    }
+
+   
     
 
    

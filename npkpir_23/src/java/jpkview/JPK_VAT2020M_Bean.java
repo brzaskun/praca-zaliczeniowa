@@ -82,8 +82,10 @@ public class JPK_VAT2020M_Bean {
             w.setNazwaKontrahenta(ev.getNazwaKontrahenta());
             w.setDowodSprzedazy(ev.getDowodSprzedazy());
             dodajkwotydowierszaSprzedazy(w,ev.getNetto(), ev.getVat(),sprzedazCtrl, jPKvatwersjaEvewidencja);
-            if (!ev.getWaluta().equals("PLN")) {
-                w.setSW(Byte.valueOf("1"));
+            if (ev.isWnt()==false&&ev.isWdt()==false) {
+                if (!ev.getWaluta().equals("PLN")) {
+                    w.setSW(Byte.valueOf("1"));
+                }
             }
         } catch (Exception ex) {
 

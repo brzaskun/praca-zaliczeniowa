@@ -1817,6 +1817,13 @@ public class BilansWprowadzanieView implements Serializable {
         return zwrot;
     }
 
+    public void oznaczjakonowy(WierszBO wierszBO) {
+        if (wierszBO!=null) {
+            wierszBO.setNowy0edycja1usun2(0);
+            wierszBODAO.edit(wierszBO);
+            Msg.msg("Oznaczono jako nowy");
+        }
+    }
     
     public static void main(String[] args) {
         double roznicaWn = 650.0;

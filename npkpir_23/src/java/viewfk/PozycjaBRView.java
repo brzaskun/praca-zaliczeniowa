@@ -9,14 +9,13 @@ import beansFK.PozycjaRZiSFKBean;
 import beansFK.StronaWierszaBean;
 import beansFK.UkladBRBean;
 import converter.RomNumb;
-import dao.StronaWierszaDAO;
 import dao.KontoDAOfk;
 import dao.KontopozycjaZapisDAO;
 import dao.PozycjaBilansDAO;
 import dao.PozycjaRZiSDAO;
+import dao.StronaWierszaDAO;
 import dao.UkladBRDAO;
 import data.Data;
-import embeddable.Mce;
 import embeddablefk.TreeNodeExtended;
 import entityfk.Konto;
 import entityfk.PozycjaBilans;
@@ -33,14 +32,15 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.PostConstruct;
-import javax.inject.Named;
-
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
-import msg.Msg;import org.primefaces.model.TreeNode;
+import javax.inject.Named;
+import msg.Msg;
+import org.primefaces.model.TreeNode;
 import pdffk.PdfBilans;
 import pdffk.PdfRZiS;
-import view.WpisView;import waluty.Z;
+import view.WpisView;
+import waluty.Z;
 
 /**
  *
@@ -938,6 +938,11 @@ public class PozycjaBRView implements Serializable {
     
     public void drukujRZiSPozycje() {
         PdfRZiS.drukujRZiSPozycje(rootProjektRZiS, wpisView);
+    }
+    
+    public void drukujBilansOba(double sumabilansowa) {
+        PdfBilans.drukujBilans(rootBilansAktywa, wpisView, "a", sumabilansowa);
+        PdfBilans.drukujBilans(rootBilansPasywa, wpisView, "p", sumabilansowa);
     }
     
     public void drukujBilans(String ap, double sumabilansowa) {
