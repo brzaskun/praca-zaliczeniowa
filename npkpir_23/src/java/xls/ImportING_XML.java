@@ -6,14 +6,10 @@
 package xls;
 
 import data.Data;
-import dedra.Dedraparser;
-import error.E;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
@@ -25,18 +21,14 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
 import msg.Msg;
 import org.apache.commons.text.WordUtils;
-
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 import waluty.Z;
-import xls.ing.Cdtr;
 import xls.ing.Document;
 import xls.ing.Id;
 import xls.ing.Ntry;
@@ -91,10 +83,15 @@ public class ImportING_XML implements Serializable {
                             if (rodzajoperacji.equals("DBIT")) {
                                 List<Object> content = a.getNtryDtls().getTxDtls().getRltdPties().getCdtrAcct().getId().getContent();
                                 if (content!=null && content.size()>0) {
-                                    xls.ing.Other o = (xls.ing.Other) content.get(1);
-                                    Id id1 = o.getId();
-                                    String iban = (String) id1.getContent().get(0);
-                                    x.setIBAN(iban);
+                                    if (content.get(1).getClass().getName().equals("javax.xml.bind.JAXBElement")) {
+                                        String iban = (String) ((javax.xml.bind.JAXBElement)content.get(1)).getValue();
+                                        x.setIBAN(iban);
+                                    } else {
+                                        xls.ing.Other o = (xls.ing.Other) content.get(1);
+                                        Id id1 = o.getId();
+                                        String iban = (String) id1.getContent().get(0);
+                                        x.setIBAN(iban);
+                                    }
                                 }
                                 x.setKontrahent(a.getNtryDtls().getTxDtls().getRltdPties().getCdtr().getNm());//??
                                 double kwota = Z.z(a.getAmt().getValue());
@@ -103,10 +100,15 @@ public class ImportING_XML implements Serializable {
                             } else {
                                 List<Object> content = a.getNtryDtls().getTxDtls().getRltdPties().getDbtrAcct().getId().getContent();
                                 if (content!=null && content.size()>0) {
-                                    xls.ing.Other o = (xls.ing.Other) content.get(1);
-                                    Id id1 = o.getId();
-                                    String iban = (String) id1.getContent().get(0);
-                                    x.setIBAN(iban);
+                                    if (content.get(1).getClass().getName().equals("javax.xml.bind.JAXBElement")) {
+                                        String iban = (String) ((javax.xml.bind.JAXBElement)content.get(1)).getValue();
+                                        x.setIBAN(iban);
+                                    } else {
+                                        xls.ing.Other o = (xls.ing.Other) content.get(1);
+                                        Id id1 = o.getId();
+                                        String iban = (String) id1.getContent().get(0);
+                                        x.setIBAN(iban);
+                                    }
                                 }
                                 x.setKontrahent(a.getNtryDtls().getTxDtls().getRltdPties().getDbtr().getNm());//??
                                 double kwota = Z.z(a.getAmt().getValue());
@@ -140,6 +142,11 @@ public class ImportING_XML implements Serializable {
         zwrot.add(lpwiersza);
         return zwrot;
     }
+    
+    
+    
+    
+    
     
      //typ transakcji
         //1 wpływ faktura 201,203

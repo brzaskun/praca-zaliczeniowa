@@ -615,11 +615,10 @@ public class BankImportView implements Serializable {
             } else {
                 if (!datakontrol.equals(p.getDatatransakcji())) {
                     datakontrol = p.getDatatransakcji();
-                    p.getNaglowek().setWyciagdatado(datakontrol);
-                    p.getNaglowek().setWyciagdataod(datakontrol);
                     break;
-                }
             }
+            p.getNaglowek().setWyciagdatado(datakontrol);
+            p.getNaglowek().setWyciagdataod(datakontrol);
             if (p.isJuzzaksiegowany()==false) {
                 wyciagdatado = p.getDatatransakcji();
                 Konto kontown = p.getWnma().equals("Wn") ? rodzajdok.getKontorozrachunkowe() : ustawkonto(p, zasady);
