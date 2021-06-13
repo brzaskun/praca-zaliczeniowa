@@ -6,11 +6,11 @@
 package beansFaktura;
 
 import beansFK.DFKWiersze;
-import dao.EvewidencjaDAO;
-import dao.RodzajedokDAO;
 import dao.DokDAOfk;
+import dao.EvewidencjaDAO;
 import dao.KliencifkDAO;
 import dao.KontoDAOfk;
+import dao.RodzajedokDAO;
 import dao.TabelanbpDAO;
 import dao.WalutyDAOfk;
 import embeddable.EVatwpis;
@@ -222,7 +222,7 @@ public class FDfkBean {
         StronaWiersza strma = new StronaWiersza(w, "Ma", Z.z(netto), null);
         Konto kontonetto = kontoDAOfk.findKonto("702-2", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
         try {
-            Kliencifk kliencifk = kliencifkDAO.znajdzkontofk(nd.getKontr().getNip(), wpisView.getPodatnikObiekt().getNip());
+            Kliencifk kliencifk = kliencifkDAO.znajdzkontofk(nd.getKontr().getNip(), wpisView.getPodatnikObiekt());
             String numerkonta = "201-2-"+kliencifk.getNrkonta();
             Konto kontorozrach = kontoDAOfk.findKonto(numerkonta, wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
             strwn.setKonto(kontorozrach);

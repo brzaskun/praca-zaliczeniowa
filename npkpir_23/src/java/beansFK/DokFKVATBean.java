@@ -268,7 +268,7 @@ public class DokFKVATBean {
         try {
             //to znajdujemy polaczenie konta z klientem nazwa tego polaczenia to Kliencifk
             if (!selected.getKontr().getNip().equals(wpisView.getPodatnikObiekt().getNip())) {
-                Kliencifk symbolSlownikowyKonta = kliencifkDAO.znajdzkontofk(selected.getKontr().getNip(), wpisView.getPodatnikObiekt().getNip());
+                Kliencifk symbolSlownikowyKonta = kliencifkDAO.znajdzkontofk(selected.getKontr().getNip(), wpisView.getPodatnikObiekt());
                 List<Konto> listakont = kontoDAOfk.findKontaNazwaPodatnik(symbolSlownikowyKonta.getNip(), wpisView);
                 if (listakont == null || listakont.size() == 0) {
                     throw new Exception();

@@ -23,11 +23,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.inject.Named;
-import javax.faces.view.ViewScoped;
 import javax.faces.event.ValueChangeEvent;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
-import msg.Msg;import view.WpisView; import org.primefaces.PrimeFaces;
+import javax.inject.Named;
+import msg.Msg;
+import org.primefaces.PrimeFaces;
+ import view.WpisView;
 
 /**
  *
@@ -84,7 +86,7 @@ public class KliencifkBOView implements Serializable {
     private void init() { //E.m(this);
         if (wpisView.isKsiegirachunkowe()) {
             listawszystkichklientow = klienciDAO.findAll();
-            listawszystkichklientowFk = kliencifkDAO.znajdzkontofkKlient(wpisView.getPodatnikObiekt().getNip());
+            listawszystkichklientowFk = kliencifkDAO.znajdzkontofkKlient(wpisView.getPodatnikObiekt());
         }
     }
 
@@ -124,8 +126,7 @@ public class KliencifkBOView implements Serializable {
         if (!wybranyklient.getNpelna().equals("dodaj klienta automatycznie") && !wybranyklient.getNpelna().equals("nowy klienta") && !wybranyklient.getNpelna().equals("nie znaleziono firmy w bazie Regon")) {
             klientBezKonta.setNazwa(wybranyklient.getNpelna());
             klientBezKonta.setNip(wybranyklient.getNip());
-            klientBezKonta.setPodatniknazwa(wpisView.getPodatnikWpisu());
-            klientBezKonta.setPodatniknip(wpisView.getPodatnikObiekt().getNip());
+            klientBezKonta.setPodatnik(wpisView.getPodatnikObiekt());
             klientBezKonta.setNrkonta(pobierznastepnynumer());
             przyporzadkujdokonta();
             resetujmakontoniemakonta();
@@ -137,15 +138,14 @@ public class KliencifkBOView implements Serializable {
     public int pobieraniekontaFK() {
         if (wybranyklient instanceof Klienci && !wybranyklient.getNpelna().equals("nowy klient") && !wybranyklient.getNpelna().equals("dodaj klienta automatycznie")) {
             try {
-                klientMaKonto = kliencifkDAO.znajdzkontofk(wybranyklient.getNip(), wpisView.getPodatnikObiekt().getNip());
+                klientMaKonto = kliencifkDAO.znajdzkontofk(wybranyklient.getNip(), wpisView.getPodatnikObiekt());
                 if (klientMaKonto != null) {
                     return 0;
                 } else {
                     klientBezKonta = new Kliencifk();
                     klientBezKonta.setNazwa(wybranyklient.getNpelna());
                     klientBezKonta.setNip(wybranyklient.getNip());
-                    klientBezKonta.setPodatniknazwa(wpisView.getPodatnikWpisu());
-                    klientBezKonta.setPodatniknip(wpisView.getPodatnikObiekt().getNip());
+                    klientBezKonta.setPodatnik(wpisView.getPodatnikObiekt());
                     klientBezKonta.setNrkonta(pobierznastepnynumer());
                     return 1;
                 }
@@ -170,7 +170,7 @@ public class KliencifkBOView implements Serializable {
             List<Konto> wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
             kliencifkDAO.create(klientBezKonta);
             PlanKontFKBean.aktualizujslownikKontrahenci(wykazkont, kliencifkDAO, klientBezKonta, kontoDAOfk, wpisView, kontopozycjaZapisDAO, ukladBRDAO);
-            listawszystkichklientowFk = kliencifkDAO.znajdzkontofkKlient(wpisView.getPodatnikObiekt().getNip());
+            listawszystkichklientowFk = kliencifkDAO.znajdzkontofkKlient(wpisView.getPodatnikObiekt());
             Msg.msg("Zaktualizowano konta słownikowe");
         } catch (Exception e) {
             E.e(e);
@@ -194,7 +194,7 @@ public class KliencifkBOView implements Serializable {
 
     private String pobierznastepnynumer() {
         try {
-            List<Kliencifk> przyporzadkowani = kliencifkDAO.znajdzkontofkKlient(wpisView.getPodatnikObiekt().getNip());
+            List<Kliencifk> przyporzadkowani = kliencifkDAO.znajdzkontofkKlient(wpisView.getPodatnikObiekt());
             Collections.sort(przyporzadkowani, new Kliencifkcomparator());
             return String.valueOf(Integer.parseInt(przyporzadkowani.get(przyporzadkowani.size() - 1).getNrkonta()) + 1);
         } catch (Exception e) {
@@ -219,7 +219,7 @@ public class KliencifkBOView implements Serializable {
             int wynik = PlanKontFKBean.aktualizujslownikKontrahenciRemove(klientkontodousuniecia, kontoDAOfk, wpisView);
             if (wynik == 0) {
                 kliencifkDAO.remove(klientkontodousuniecia);
-                listawszystkichklientowFk = kliencifkDAO.znajdzkontofkKlient(wpisView.getPodatnikObiekt().getNip());
+                listawszystkichklientowFk = kliencifkDAO.znajdzkontofkKlient(wpisView.getPodatnikObiekt());
                 Msg.msg("Usunięto konta słownikowe dla klienta " + klientkontodousuniecia.getNazwa());
             } else {
                 Msg.msg("e", "Istnieją zapisy na kontach tego kontrahenta, nie można usunąć go ze słownika");
@@ -246,7 +246,7 @@ public class KliencifkBOView implements Serializable {
         kliencifkDAO.edit(selected);
         SlownikiBean.aktualizujkontapoedycji(selected, 1, wpisView.getPodatnikObiekt(), wpisView.getRokWpisu(), kontoDAOfk);
         selected = new Kliencifk();
-        listawszystkichklientowFk = kliencifkDAO.znajdzkontofkKlient(wpisView.getPodatnikObiekt().getNip());
+        listawszystkichklientowFk = kliencifkDAO.znajdzkontofkKlient(wpisView.getPodatnikObiekt());
         zapisz0edytuj1 = false;
         Msg.msg("Naniesiono zmiany");
     }

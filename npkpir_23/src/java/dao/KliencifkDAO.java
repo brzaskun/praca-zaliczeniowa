@@ -6,6 +6,7 @@
 
 package dao;
 
+import entity.Podatnik;
 import entityfk.Kliencifk;
 import entityfk.Konto;
 import error.E;
@@ -49,21 +50,21 @@ public class KliencifkDAO extends DAO implements Serializable{
     }
    
     
-    public Kliencifk znajdzkontofk(String nip, String podatniknip) {
+    public Kliencifk znajdzkontofk(String nip, Podatnik podatnik) {
         try {
-            return (Kliencifk)  getEntityManager().createNamedQuery("Kliencifk.findByNipPodatniknip").setParameter("nip", nip).setParameter("podatniknip", podatniknip).getSingleResult();
+            return (Kliencifk)  getEntityManager().createNamedQuery("Kliencifk.findByNipPodatnik").setParameter("nip", nip).setParameter("podatnik", podatnik).getSingleResult();
         } catch (Exception e) {
             E.e(e);
             return null;
         }
     }
 
-    public List<Kliencifk> znajdzkontofkKlient(String podatniknip) {
-        return getEntityManager().createNamedQuery("Kliencifk.findByPodatniknip").setParameter("podatniknip", podatniknip).getResultList();
+    public List<Kliencifk> znajdzkontofkKlient(Podatnik podatnik) {
+        return getEntityManager().createNamedQuery("Kliencifk.findByPodatnik").setParameter("podatnik", podatnik).getResultList();
     }
  
     public Kliencifk znajdzkontofkByKonto(Konto konto) {
-        return (Kliencifk)  getEntityManager().createNamedQuery("Kliencifk.findByNrkonta").setParameter("nrkonta", konto.getNrkonta()).setParameter("podatniknip", konto.getPodatnik().getNip()).getSingleResult();
+        return (Kliencifk)  getEntityManager().createNamedQuery("Kliencifk.findByNrkonta").setParameter("nrkonta", konto.getNrkonta()).setParameter("podatnik", konto.getPodatnik()).getSingleResult();
     }
     
     

@@ -38,11 +38,10 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Kliencifk.findAll", query = "SELECT k FROM Kliencifk k"),
     @NamedQuery(name = "Kliencifk.findByLp", query = "SELECT k FROM Kliencifk k WHERE k.lp = :lp"),
     @NamedQuery(name = "Kliencifk.findByNip", query = "SELECT k FROM Kliencifk k WHERE k.nip = :nip"),
-    @NamedQuery(name = "Kliencifk.findByNipPodatniknip", query = "SELECT k FROM Kliencifk k WHERE k.nip = :nip AND k.podatniknip = :podatniknip"),
+    @NamedQuery(name = "Kliencifk.findByNipPodatnik", query = "SELECT k FROM Kliencifk k WHERE k.nip = :nip AND k.podatnik = :podatnik"),
     @NamedQuery(name = "Kliencifk.findByNazwa", query = "SELECT k FROM Kliencifk k WHERE k.nazwa = :nazwa"),
-    @NamedQuery(name = "Kliencifk.findByPodatniknip", query = "SELECT k FROM Kliencifk k WHERE k.podatniknip = :podatniknip"),
-    @NamedQuery(name = "Kliencifk.findByPodatniknazwa", query = "SELECT k FROM Kliencifk k WHERE k.podatniknazwa = :podatniknazwa"),
-    @NamedQuery(name = "Kliencifk.findByNrkonta", query = "SELECT k FROM Kliencifk k WHERE k.nrkonta = :nrkonta AND k.podatniknip = :podatniknip"),
+    @NamedQuery(name = "Kliencifk.findByPodatnik", query = "SELECT k FROM Kliencifk k WHERE k.podatnik = :podatnik"),
+    @NamedQuery(name = "Kliencifk.findByNrkonta", query = "SELECT k FROM Kliencifk k WHERE k.nrkonta = :nrkonta AND k.podatnik = :podatnik"),
     @NamedQuery(name = "Kliencifk.findByAktywny", query = "SELECT k FROM Kliencifk k WHERE k.aktywny = :aktywny")})
 @Cacheable
 public class Kliencifk implements Serializable {
@@ -64,16 +63,6 @@ public class Kliencifk implements Serializable {
     private String nazwa;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 255)
-    @Column(name = "podatniknip", nullable = false, length = 255)
-    private String podatniknip;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 255)
-    @Column(name = "podatniknazwa", nullable = false, length = 255)
-    private String podatniknazwa;
-    @Basic(optional = false)
-    @NotNull
     @Size(min = 1, max = 5)
     @Column(name = "nrkonta", nullable = false, length = 5)
     private String nrkonta;
@@ -92,12 +81,11 @@ public class Kliencifk implements Serializable {
         this.lp = lp;
     }
 
-    public Kliencifk(Integer lp, String nip, String nazwa, String podatniknip, String podatniknazwa, String nrkonta, boolean aktywny) {
+    public Kliencifk(Integer lp, String nip, String nazwa, Podatnik podatnik, String nrkonta, boolean aktywny) {
         this.lp = lp;
         this.nip = nip;
         this.nazwa = nazwa;
-        this.podatniknip = podatniknip;
-        this.podatniknazwa = podatniknazwa;
+        this.podatnik = podatnik;
         this.nrkonta = nrkonta;
         this.aktywny = aktywny;
     }
@@ -126,21 +114,6 @@ public class Kliencifk implements Serializable {
         this.nazwa = nazwa;
     }
 
-    public String getPodatniknip() {
-        return podatniknip;
-    }
-
-    public void setPodatniknip(String podatniknip) {
-        this.podatniknip = podatniknip;
-    }
-
-    public String getPodatniknazwa() {
-        return podatniknazwa;
-    }
-
-    public void setPodatniknazwa(String podatniknazwa) {
-        this.podatniknazwa = podatniknazwa;
-    }
 
     public String getNrkonta() {
         return nrkonta;
@@ -188,7 +161,7 @@ public class Kliencifk implements Serializable {
 
     @Override
     public String toString() {
-        return "Kliencifk{" + "nip=" + nip + ", nazwa=" + nazwa + ", podatniknip=" + podatniknip + ", podatniknazwa=" + podatniknazwa + ", nrkonta=" + nrkonta + '}';
+        return "Kliencifk{" + "nip=" + nip + ", nazwa=" + nazwa + ", podatniknip=" + podatnik.getNip() + ", podatniknazwa=" + podatnik.getPrintnazwa() + ", nrkonta=" + nrkonta + '}';
     }
 
    

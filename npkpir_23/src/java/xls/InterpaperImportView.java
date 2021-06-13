@@ -1212,13 +1212,12 @@ public class InterpaperImportView implements Serializable {
     
      private Konto pobierzkontoWn(Dokfk nd, InterpaperXLS interpaperXLS, Klienci klient) {
         Konto kontoRozrachunkowe = null;
-        Kliencifk klientMaKonto = kliencifkDAO.znajdzkontofk(klient.getNip(), wpisView.getPodatnikObiekt().getNip());
+        Kliencifk klientMaKonto = kliencifkDAO.znajdzkontofk(klient.getNip(), wpisView.getPodatnikObiekt());
         if (klientMaKonto == null) {
             klientMaKonto = new Kliencifk();
             klientMaKonto.setNazwa(klient.getNpelna());
             klientMaKonto.setNip(klient.getNip());
-            klientMaKonto.setPodatniknazwa(wpisView.getPodatnikWpisu());
-            klientMaKonto.setPodatniknip(wpisView.getPodatnikObiekt().getNip());
+            klientMaKonto.setPodatnik(wpisView.getPodatnikObiekt());
             klientMaKonto.setNrkonta(pobierznastepnynumer());
             kliencifkDAO.create(klientMaKonto);
             List<Konto> wykazkont = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
@@ -1240,13 +1239,12 @@ public class InterpaperImportView implements Serializable {
      
      private Konto pobierzkontoMa(Dokfk nd, InterpaperXLS interpaperXLS, Klienci klient) {
         Konto kontoRozrachunkowe = null;
-        Kliencifk klientMaKonto = kliencifkDAO.znajdzkontofk(klient.getNip(), wpisView.getPodatnikObiekt().getNip());
+        Kliencifk klientMaKonto = kliencifkDAO.znajdzkontofk(klient.getNip(), wpisView.getPodatnikObiekt());
         if (klientMaKonto == null) {
             klientMaKonto = new Kliencifk();
             klientMaKonto.setNazwa(klient.getNpelna());
             klientMaKonto.setNip(klient.getNip());
-            klientMaKonto.setPodatniknazwa(wpisView.getPodatnikWpisu());
-            klientMaKonto.setPodatniknip(wpisView.getPodatnikObiekt().getNip());
+            klientMaKonto.setPodatnik(wpisView.getPodatnikObiekt());
             klientMaKonto.setNrkonta(pobierznastepnynumer());
             kliencifkDAO.create(klientMaKonto);
             List<Konto> wykazkont = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
@@ -1268,7 +1266,7 @@ public class InterpaperImportView implements Serializable {
     
      private String pobierznastepnynumer() {
         try {
-            List<Kliencifk> przyporzadkowani = kliencifkDAO.znajdzkontofkKlient(wpisView.getPodatnikObiekt().getNip());
+            List<Kliencifk> przyporzadkowani = kliencifkDAO.znajdzkontofkKlient(wpisView.getPodatnikObiekt());
             Collections.sort(przyporzadkowani, new Kliencifkcomparator());
             return String.valueOf(Integer.parseInt(przyporzadkowani.get(przyporzadkowani.size() - 1).getNrkonta()) + 1);
         } catch (Exception e) {

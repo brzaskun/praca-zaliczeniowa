@@ -16,7 +16,6 @@ import dao.KontopozycjaZapisDAO;
 import dao.PodatnikDAO;
 import dao.UkladBRDAO;
 import entity.Klienci;
-import entity.Podatnik;
 import entityfk.Dokfk;
 import entityfk.Kliencifk;
 import entityfk.Konto;
@@ -24,9 +23,7 @@ import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.view.ViewScoped;
@@ -86,7 +83,7 @@ public class KliencifkView implements Serializable {
     private void init() { //E.m(this);
         if (wpisView.isKsiegirachunkowe()) {
             listawszystkichklientow = klienciDAO.findAll();
-            listawszystkichklientowFk = kliencifkDAO.znajdzkontofkKlient(wpisView.getPodatnikObiekt().getNip());
+            listawszystkichklientowFk = kliencifkDAO.znajdzkontofkKlient(wpisView.getPodatnikObiekt());
         }
     }
 
@@ -126,8 +123,7 @@ public class KliencifkView implements Serializable {
         if (!wybranyklient.getNpelna().equals("dodaj klienta automatycznie") && !wybranyklient.getNpelna().equals("nowy klienta") && !wybranyklient.getNpelna().equals("nie znaleziono firmy w bazie Regon")) {
             klientBezKonta.setNazwa(wybranyklient.getNpelna());
             klientBezKonta.setNip(wybranyklient.getNip());
-            klientBezKonta.setPodatniknazwa(wpisView.getPodatnikWpisu());
-            klientBezKonta.setPodatniknip(wpisView.getPodatnikObiekt().getNip());
+            klientBezKonta.setPodatnik(wpisView.getPodatnikObiekt());
             klientBezKonta.setNrkonta(pobierznastepnynumer());
             przyporzadkujdokonta();
             resetujmakontoniemakonta();
@@ -147,8 +143,7 @@ public class KliencifkView implements Serializable {
                     klientBezKonta = new Kliencifk();
                     klientBezKonta.setNazwa(wybranyklient.getNpelna());
                     klientBezKonta.setNip(wybranyklient.getNip());
-                    klientBezKonta.setPodatniknazwa(wpisView.getPodatnikWpisu());
-                    klientBezKonta.setPodatniknip(wpisView.getPodatnikObiekt().getNip());
+                    klientBezKonta.setPodatnik(wpisView.getPodatnikObiekt());
                     klientBezKonta.setNrkonta(pobierznastepnynumer());
                     return 1;
                 }
@@ -184,7 +179,7 @@ public class KliencifkView implements Serializable {
             List<Konto> wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
             kliencifkDAO.create(klientBezKonta);
             PlanKontFKBean.aktualizujslownikKontrahenci(wykazkont, kliencifkDAO, klientBezKonta, kontoDAOfk, wpisView, kontopozycjaZapisDAO, ukladBRDAO);
-            listawszystkichklientowFk = kliencifkDAO.znajdzkontofkKlient(wpisView.getPodatnikObiekt().getNip());
+            listawszystkichklientowFk = kliencifkDAO.znajdzkontofkKlient(wpisView.getPodatnikObiekt());
             Msg.msg("Zaktualizowano konta słownikowe");
         } catch (Exception e) {
             E.e(e);
@@ -202,7 +197,7 @@ public class KliencifkView implements Serializable {
 
     private String pobierznastepnynumer() {
         try {
-            List<Kliencifk> przyporzadkowani = kliencifkDAO.znajdzkontofkKlient(wpisView.getPodatnikObiekt().getNip());
+            List<Kliencifk> przyporzadkowani = kliencifkDAO.znajdzkontofkKlient(wpisView.getPodatnikObiekt());
             Collections.sort(przyporzadkowani, new Kliencifkcomparator());
             return String.valueOf(Integer.parseInt(przyporzadkowani.get(przyporzadkowani.size() - 1).getNrkonta()) + 1);
         } catch (Exception e) {
@@ -227,7 +222,7 @@ public class KliencifkView implements Serializable {
             int wynik = PlanKontFKBean.aktualizujslownikKontrahenciRemove(klientkontodousuniecia, kontoDAOfk, wpisView);
             if (wynik == 0) {
                 kliencifkDAO.remove(klientkontodousuniecia);
-                listawszystkichklientowFk = kliencifkDAO.znajdzkontofkKlient(wpisView.getPodatnikObiekt().getNip());
+                listawszystkichklientowFk = kliencifkDAO.znajdzkontofkKlient(wpisView.getPodatnikObiekt());
                 Msg.msg("Usunięto konta słownikowe dla klienta " + klientkontodousuniecia.getNazwa());
             } else {
                 Msg.msg("e", "Istnieją zapisy na kontach tego kontrahenta, nie można usunąć go ze słownika");
@@ -254,7 +249,7 @@ public class KliencifkView implements Serializable {
         kliencifkDAO.edit(selected);
         SlownikiBean.aktualizujkontapoedycji(selected, 1, wpisView.getPodatnikObiekt(), wpisView.getRokWpisu(), kontoDAOfk);
         selected = new Kliencifk();
-        listawszystkichklientowFk = kliencifkDAO.znajdzkontofkKlient(wpisView.getPodatnikObiekt().getNip());
+        listawszystkichklientowFk = kliencifkDAO.znajdzkontofkKlient(wpisView.getPodatnikObiekt());
         zapisz0edytuj1 = false;
         Msg.msg("Naniesiono zmiany");
     }
@@ -262,25 +257,25 @@ public class KliencifkView implements Serializable {
     @Inject
     private PodatnikDAO podatnikDAO;
     
-    public void kliencifkzmiana() {
-        List<Kliencifk> kliencifkAll = kliencifkDAO.findAll();
-        List<Podatnik> podatnicyAll  = podatnikDAO.findAll();
-        Map<String,Podatnik> nippodatnik = new HashMap<>();
-        System.out.println("poczatek");
-        for (Kliencifk k : kliencifkAll) {
-            String nip = k.getPodatniknip();
-            Podatnik podatnik = nippodatnik.get(nip);
-            if (podatnik==null) {
-                podatnik = podatnikDAO.findPodatnikByNIP(nip);
-                nippodatnik.put(nip, podatnik);
-            }
-            if (podatnik!=null) {
-                k.setPodatnik(podatnik);
-                kliencifkDAO.edit(k);
-            }
-        }
-        System.out.println("koniec");
-    }
+//    public void kliencifkzmiana() {
+//        List<Kliencifk> kliencifkAll = kliencifkDAO.findAll();
+//        List<Podatnik> podatnicyAll  = podatnikDAO.findAll();
+//        Map<String,Podatnik> nippodatnik = new HashMap<>();
+//        System.out.println("poczatek");
+//        for (Kliencifk k : kliencifkAll) {
+//            String nip = k.getPodatniknip();
+//            Podatnik podatnik = nippodatnik.get(nip);
+//            if (podatnik==null) {
+//                podatnik = podatnikDAO.findPodatnikByNIP(nip);
+//                nippodatnik.put(nip, podatnik);
+//            }
+//            if (podatnik!=null) {
+//                k.setPodatnik(podatnik);
+//                kliencifkDAO.edit(k);
+//            }
+//        }
+//        System.out.println("koniec");
+//    }
     
 //<editor-fold defaultstate="collapsed" desc="comment">
     public void setMakonto0niemakonta1(boolean makonto0niemakonta1) {

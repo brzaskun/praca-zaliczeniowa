@@ -159,13 +159,12 @@ public class ImportBean {
     public static Konto pobierzkontoWn(Klienci klient, KliencifkDAO kliencifkDAO, WpisView wpisView, KontoDAOfk kontoDAO, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBRDAO ukladBRDAO) {
         Konto kontoRozrachunkowe = null;
         if (klient.getId() != null) {
-            Kliencifk klientMaKonto = kliencifkDAO.znajdzkontofk(klient.getNip(), wpisView.getPodatnikObiekt().getNip());
+            Kliencifk klientMaKonto = kliencifkDAO.znajdzkontofk(klient.getNip(), wpisView.getPodatnikObiekt());
             if (klientMaKonto == null) {
                 klientMaKonto = new Kliencifk();
                 klientMaKonto.setNazwa(klient.getNpelna());
                 klientMaKonto.setNip(klient.getNip());
-                klientMaKonto.setPodatniknazwa(wpisView.getPodatnikWpisu());
-                klientMaKonto.setPodatniknip(wpisView.getPodatnikObiekt().getNip());
+                klientMaKonto.setPodatnik(wpisView.getPodatnikObiekt());
                 klientMaKonto.setNrkonta(pobierznastepnynumer(kliencifkDAO, wpisView.getPodatnikObiekt()));
                 kliencifkDAO.create(klientMaKonto);
                 List<Konto> wykazkont = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
@@ -188,13 +187,12 @@ public class ImportBean {
      
      public static Konto pobierzkontoMa(Klienci klient, KliencifkDAO kliencifkDAO, WpisView wpisView, KontoDAOfk kontoDAO, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBRDAO ukladBRDAO) {
         Konto kontoRozrachunkowe = null;
-        Kliencifk klientMaKonto = kliencifkDAO.znajdzkontofk(klient.getNip(), wpisView.getPodatnikObiekt().getNip());
+        Kliencifk klientMaKonto = kliencifkDAO.znajdzkontofk(klient.getNip(), wpisView.getPodatnikObiekt());
         if (klientMaKonto == null) {
             klientMaKonto = new Kliencifk();
             klientMaKonto.setNazwa(klient.getNpelna());
             klientMaKonto.setNip(klient.getNip());
-            klientMaKonto.setPodatniknazwa(wpisView.getPodatnikWpisu());
-            klientMaKonto.setPodatniknip(wpisView.getPodatnikObiekt().getNip());
+            klientMaKonto.setPodatnik(wpisView.getPodatnikObiekt());
             klientMaKonto.setNrkonta(pobierznastepnynumer(kliencifkDAO, wpisView.getPodatnikObiekt()));
             kliencifkDAO.create(klientMaKonto);
             List<Konto> wykazkont = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
@@ -216,7 +214,7 @@ public class ImportBean {
      
        private static String pobierznastepnynumer(KliencifkDAO kliencifkDAO, Podatnik podatnik) {
         try {
-            List<Kliencifk> przyporzadkowani = kliencifkDAO.znajdzkontofkKlient(podatnik.getNip());
+            List<Kliencifk> przyporzadkowani = kliencifkDAO.znajdzkontofkKlient(podatnik);
             Collections.sort(przyporzadkowani, new Kliencifkcomparator());
             return String.valueOf(Integer.parseInt(przyporzadkowani.get(przyporzadkowani.size() - 1).getNrkonta()) + 1);
         } catch (Exception e) {
