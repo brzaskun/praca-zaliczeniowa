@@ -31,7 +31,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @Table(uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"podatniknip", "nip"})
+    @UniqueConstraint(columnNames = {"podatnik", "nip"})
 })
 @XmlRootElement
 @NamedQueries({
@@ -41,6 +41,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Kliencifk.findByNipPodatnik", query = "SELECT k FROM Kliencifk k WHERE k.nip = :nip AND k.podatnik = :podatnik"),
     @NamedQuery(name = "Kliencifk.findByNazwa", query = "SELECT k FROM Kliencifk k WHERE k.nazwa = :nazwa"),
     @NamedQuery(name = "Kliencifk.findByPodatnik", query = "SELECT k FROM Kliencifk k WHERE k.podatnik = :podatnik"),
+    @NamedQuery(name = "Kliencifk.findByPodatnikBanksymbol", query = "SELECT k FROM Kliencifk k WHERE k.podatnik = :podatnik AND k.banksymbol IS NULL"),
     @NamedQuery(name = "Kliencifk.findByNrkonta", query = "SELECT k FROM Kliencifk k WHERE k.nrkonta = :nrkonta AND k.podatnik = :podatnik"),
     @NamedQuery(name = "Kliencifk.findByAktywny", query = "SELECT k FROM Kliencifk k WHERE k.aktywny = :aktywny")})
 @Cacheable
@@ -73,6 +74,9 @@ public class Kliencifk implements Serializable {
     @JoinColumn(name = "podatnik", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Podatnik podatnik;
+    @Size(min = 1, max = 90)
+    @Column(name = "banksymbol")
+    private String banksymbol;
 
     public Kliencifk() {
     }
@@ -81,13 +85,14 @@ public class Kliencifk implements Serializable {
         this.lp = lp;
     }
 
-    public Kliencifk(Integer lp, String nip, String nazwa, Podatnik podatnik, String nrkonta, boolean aktywny) {
+    public Kliencifk(Integer lp, String nip, String nazwa, Podatnik podatnik, String nrkonta, boolean aktywny, String banksymbol) {
         this.lp = lp;
         this.nip = nip;
         this.nazwa = nazwa;
         this.podatnik = podatnik;
         this.nrkonta = nrkonta;
         this.aktywny = aktywny;
+        this.banksymbol = banksymbol;
     }
 
     public Integer getLp() {
@@ -138,6 +143,15 @@ public class Kliencifk implements Serializable {
     public void setPodatnik(Podatnik podatnik) {
         this.podatnik = podatnik;
     }
+
+    public String getBanksymbol() {
+        return banksymbol;
+    }
+
+    public void setBanksymbol(String banksymbol) {
+        this.banksymbol = banksymbol;
+    }
+    
 
     @Override
     public int hashCode() {

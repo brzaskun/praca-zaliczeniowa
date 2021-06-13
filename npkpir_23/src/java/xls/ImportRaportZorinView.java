@@ -5,12 +5,15 @@
  */
 package xls;
 
+import dao.KliencifkDAO;
+import entityfk.Kliencifk;
 import error.E;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Serializable;
+import java.util.List;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
@@ -38,6 +41,8 @@ public class ImportRaportZorinView implements Serializable {
     private byte[] pobranyplik;
     @Inject
     private WpisView wpisView;
+    @Inject
+    private KliencifkDAO kliencifkDAO;
     
      public void zachowajplik(FileUploadEvent event) {
         try {
@@ -67,6 +72,9 @@ public class ImportRaportZorinView implements Serializable {
             if (tabela != null && tabela.getREJESTRYSPRZEDAZYVAT() != null && !tabela.getREJESTRYSPRZEDAZYVAT().getREJESTRSPRZEDAZYVAT().isEmpty()) {
                 zachowajRaportXLS(tabela.getREJESTRYSPRZEDAZYVAT());
             }
+            if (tabela != null && tabela.getKONTRAHENCI() != null && !tabela.getKONTRAHENCI().getKONTRAHENT().isEmpty()) {
+                pobierzoznaczeniakontrahentow(tabela.getKONTRAHENCI().getKONTRAHENT());
+            }
         } catch (Exception e) {
         }
     }
@@ -93,5 +101,28 @@ public class ImportRaportZorinView implements Serializable {
             // Logger.getLogger(XLSSuSaView.class.getName()).log(Level.SEVERE, null, ex);
             
         }
+    }
+
+    private void pobierzoznaczeniakontrahentow(List<ROOT.KONTRAHENCI.KONTRAHENT> kontrahent) {
+        List<Kliencifk> pobraneklienty = kliencifkDAO.znajdzkontofkKlientBanksymbol(wpisView.getPodatnikObiekt());
+        for (Kliencifk k : pobraneklienty) {
+            for (ROOT.KONTRAHENCI.KONTRAHENT p : kontrahent) {
+                if (!p.getIDZRODLA().equals("00000000-0009-0002-0001-000000000000")) {
+                    ROOT.KONTRAHENCI.KONTRAHENT.ADRESY.ADRES dane = p.getADRESY().getADRES();
+                    String nipskladany = null;
+                    if (dane.getNIPKRAJ()!=null) {
+                        nipskladany = dane.getNIPKRAJ()+dane.getNIP();
+                    } else {
+                        nipskladany = dane.getNIP();
+                    }
+                    if (nipskladany.equals(k.getNip())) {
+                        k.setBanksymbol(p.getIDZRODLA());
+                        kliencifkDAO.edit(k);
+                        break;
+                    }
+                }
+            }
+        }
+        
     }
 }
