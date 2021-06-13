@@ -616,6 +616,7 @@ public class BankImportView implements Serializable {
                 if (!datakontrol.equals(p.getDatatransakcji())) {
                     datakontrol = p.getDatatransakcji();
                     break;
+                }
             }
             p.getNaglowek().setWyciagdatado(datakontrol);
             p.getNaglowek().setWyciagdataod(datakontrol);
