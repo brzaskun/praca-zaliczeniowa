@@ -6,6 +6,7 @@
 
 package entityfk;
 
+import entity.Podatnik;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Cacheable;
@@ -14,6 +15,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -78,6 +81,9 @@ public class Kliencifk implements Serializable {
     @NotNull
     @Column(name = "aktywny", nullable = false)
     private boolean aktywny;
+    @JoinColumn(name = "podatnik", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Podatnik podatnik;
 
     public Kliencifk() {
     }
@@ -150,6 +156,14 @@ public class Kliencifk implements Serializable {
 
     public void setAktywny(boolean aktywny) {
         this.aktywny = aktywny;
+    }
+
+    public Podatnik getPodatnik() {
+        return podatnik;
+    }
+
+    public void setPodatnik(Podatnik podatnik) {
+        this.podatnik = podatnik;
     }
 
     @Override

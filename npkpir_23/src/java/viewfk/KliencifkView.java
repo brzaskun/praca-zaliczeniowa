@@ -13,8 +13,10 @@ import dao.KlienciDAO;
 import dao.KliencifkDAO;
 import dao.KontoDAOfk;
 import dao.KontopozycjaZapisDAO;
+import dao.PodatnikDAO;
 import dao.UkladBRDAO;
 import entity.Klienci;
+import entity.Podatnik;
 import entityfk.Dokfk;
 import entityfk.Kliencifk;
 import entityfk.Konto;
@@ -22,13 +24,17 @@ import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.annotation.PostConstruct;
-import javax.inject.Named;
-import javax.faces.view.ViewScoped;
 import javax.faces.event.ValueChangeEvent;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
-import msg.Msg;import view.WpisView; import org.primefaces.PrimeFaces;
+import javax.inject.Named;
+import msg.Msg;
+import org.primefaces.PrimeFaces;
+ import view.WpisView;
 
 /**
  *
@@ -253,6 +259,29 @@ public class KliencifkView implements Serializable {
         Msg.msg("Naniesiono zmiany");
     }
 
+    @Inject
+    private PodatnikDAO podatnikDAO;
+    
+    public void kliencifkzmiana() {
+        List<Kliencifk> kliencifkAll = kliencifkDAO.findAll();
+        List<Podatnik> podatnicyAll  = podatnikDAO.findAll();
+        Map<String,Podatnik> nippodatnik = new HashMap<>();
+        System.out.println("poczatek");
+        for (Kliencifk k : kliencifkAll) {
+            String nip = k.getPodatniknip();
+            Podatnik podatnik = nippodatnik.get(nip);
+            if (podatnik==null) {
+                podatnik = podatnikDAO.findPodatnikByNIP(nip);
+                nippodatnik.put(nip, podatnik);
+            }
+            if (podatnik!=null) {
+                k.setPodatnik(podatnik);
+                kliencifkDAO.edit(k);
+            }
+        }
+        System.out.println("koniec");
+    }
+    
 //<editor-fold defaultstate="collapsed" desc="comment">
     public void setMakonto0niemakonta1(boolean makonto0niemakonta1) {
         this.makonto0niemakonta1 = makonto0niemakonta1;
