@@ -42,6 +42,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Kliencifk.findByNazwa", query = "SELECT k FROM Kliencifk k WHERE k.nazwa = :nazwa"),
     @NamedQuery(name = "Kliencifk.findByPodatnik", query = "SELECT k FROM Kliencifk k WHERE k.podatnik = :podatnik"),
     @NamedQuery(name = "Kliencifk.findByPodatnikBanksymbol", query = "SELECT k FROM Kliencifk k WHERE k.podatnik = :podatnik AND k.banksymbol IS NULL"),
+    @NamedQuery(name = "Kliencifk.findByPodatnikBanksymbolnotnull", query = "SELECT k FROM Kliencifk k WHERE k.podatnik = :podatnik AND k.banksymbol IS NOT NULL"),
     @NamedQuery(name = "Kliencifk.findByNrkonta", query = "SELECT k FROM Kliencifk k WHERE k.nrkonta = :nrkonta AND k.podatnik = :podatnik"),
     @NamedQuery(name = "Kliencifk.findByAktywny", query = "SELECT k FROM Kliencifk k WHERE k.aktywny = :aktywny")})
 @Cacheable

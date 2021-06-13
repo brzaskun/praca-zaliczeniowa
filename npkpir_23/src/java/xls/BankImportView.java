@@ -23,6 +23,7 @@ import entity.Podatnik;
 import entity.Rodzajedok;
 import entityfk.BankImportWzory;
 import entityfk.Dokfk;
+import entityfk.Kliencifk;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
 import entityfk.Tabelanbp;
@@ -138,6 +139,8 @@ public class BankImportView implements Serializable {
     @Inject
     private BankImportWzoryDAO bankImportWzoryDAO;
     private String wybranawaluta;
+    private List<Kliencifk> kliencifk;
+    private Map<String,Kliencifk> kliencifkmapa;
  //typ transakcji
         //1 wpływ faktura 201,203
         //2 zapłata faktura 202,204
@@ -185,6 +188,8 @@ public class BankImportView implements Serializable {
             Msg.msg("e","Brakuje wszystkich dla importu wyciągu bankowego");
         }
         ibankonto = zrobibankonto();
+        kliencifk = kliencifkDAO.znajdzkontofkKlientBanksymbolNotNull(wpisView.getPodatnikObiekt());
+        kliencifkmapa = new HashMap<>();
     }
     
     private Map<String, Konto> zrobibankonto() {
@@ -258,7 +263,7 @@ public class BankImportView implements Serializable {
         try {
             UploadedFile uploadedFile = event.getFile();
             String extension = FilenameUtils.getExtension(uploadedFile.getFileName()).toLowerCase();
-            if (extension.equals("csv")||extension.equals("xml")||extension.equals("xls")||extension.equals("xlsx")) {
+            if (extension.equals("csv")||extension.equals("xml")||extension.equals("xls")||extension.equals("xlsx")||extension.equals("txt")) {
                 String filename = uploadedFile.getFileName();
                 pobraneplikibytes.add(uploadedFile.getContents());
                 //plikinterpaper = uploadedFile.getContents();
@@ -375,6 +380,10 @@ public class BankImportView implements Serializable {
                         case 10 :
                             numerwyciagu = 1;
                             zwrot = ImportNeoBank_CSV.importujdok(partia, wyciagdataod, numerwyciagu, lpwiersza, mc, wybranawaluta);
+                            break;
+                        case 11 :
+                            numerwyciagu = 1;
+                            zwrot = ImportZorinBank_CSV.importujdok(partia, wyciagdataod, numerwyciagu, lpwiersza, mc, wybranawaluta);
                             break;
                     }
                     if (zwrot.size()==5) {
@@ -513,7 +522,7 @@ public class BankImportView implements Serializable {
     }
      
       public Dokfk stworznowydokument(int i, Klienci kontr, int numerkolejny, WpisView wpisView, Waluty walutadokumentu, List<BankImportWzory> zasady, String mc) {
-        ImportowanyPlikNaglowek pn = pobranefaktury.get(0).getNaglowek();
+            ImportowanyPlikNaglowek pn = pobranefaktury.get(0).getNaglowek();
         if (Data.czyjestpo(Data.ostatniDzien(wpisView.getRokWpisuSt(), mc), pn.getWyciagdatado())) {
             pn.setWyciagdatado(Data.ostatniDzien(wpisView.getRokWpisuSt(), mc));
         }
@@ -649,11 +658,45 @@ public class BankImportView implements Serializable {
         //9 bank-bank
     private Konto ustawkonto(ImportBankWiersz p, List<BankImportWzory> zasady ) {
         Konto zwrot = null;
-        try {
-            zwrot = ibankonto.get(p.getIBAN());
-            p.setZnalezionokonto(true);
-        } catch (Exception e){}
-        
+        if (kliencifk!=null&&!kliencifk.isEmpty()) {
+            Kliencifk szukanyklient = kliencifkmapa.get(p.getIBAN().toUpperCase());
+            if (szukanyklient == null) {
+                for (Kliencifk r: kliencifk) {
+                    if (r.getBanksymbol().equals(p.getIBAN().toUpperCase())) {
+                        szukanyklient = r;
+                        kliencifkmapa.put(r.getBanksymbol(), r);
+                        break;
+                    }
+                }
+            }
+            if (szukanyklient != null) {
+                String przyrostek = null;
+                if (p.getWnma().equals("Wn")) {
+                    if (p.getWaluta().equals("PLN")) {
+                        przyrostek = "201-2";
+                    } else {
+                        przyrostek = "202-2";
+                    }
+                } else {
+                    if (p.getWaluta().equals("PLN")) {
+                        przyrostek = "203-2";
+                    } else {
+                        przyrostek = "204-2";
+                    }
+                }
+                if (przyrostek!=null) {
+                    String konto = przyrostek+"-"+szukanyklient.getNrkonta();
+                    zwrot = kontoDAO.findKonto(konto, wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
+                    p.setZnalezionokonto(true);
+                }
+            }
+        }
+        if (zwrot ==null) {
+            try {
+                zwrot = ibankonto.get(p.getIBAN());
+                p.setZnalezionokonto(true);
+            } catch (Exception e){}
+        }
         if (zwrot ==null) {
             p.setZnalezionokonto(false);
             int numer = p.getTyptransakcji();

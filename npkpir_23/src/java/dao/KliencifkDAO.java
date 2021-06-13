@@ -66,6 +66,10 @@ public class KliencifkDAO extends DAO implements Serializable{
     public List<Kliencifk> znajdzkontofkKlientBanksymbol(Podatnik podatnik) {
         return getEntityManager().createNamedQuery("Kliencifk.findByPodatnikBanksymbol").setParameter("podatnik", podatnik).getResultList();
     }
+    
+    public List<Kliencifk> znajdzkontofkKlientBanksymbolNotNull(Podatnik podatnik) {
+        return getEntityManager().createNamedQuery("Kliencifk.findByPodatnikBanksymbolnotnull").setParameter("podatnik", podatnik).getResultList();
+    }
  
     public Kliencifk znajdzkontofkByKonto(Konto konto) {
         return (Kliencifk)  getEntityManager().createNamedQuery("Kliencifk.findByNrkonta").setParameter("nrkonta", konto.getNrkonta()).setParameter("podatnik", konto.getPodatnik()).getSingleResult();

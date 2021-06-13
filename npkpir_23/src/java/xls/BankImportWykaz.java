@@ -24,7 +24,8 @@ public class BankImportWykaz {
         new ImportowanyPlik("ING xml","xml",7),
         new ImportowanyPlik("Bank iPKO BP biznes xls ;","xls",8),
         new ImportowanyPlik("Paypal csv ,","csv",9),
-        new ImportowanyPlik("NEO Bank csv ,","csv",10)
+        new ImportowanyPlik("NEO Bank csv ,","csv",10),
+        new ImportowanyPlik("Zorin Bank txt \t","txt",11)
     ));
 
     

@@ -76,7 +76,7 @@ public class F {
     
     public static double kwota(String f) {
         double zwrot = 0.0;
-        if (f!=null) {
+        if (f!=null&&!f.equals("")) {
             String f1 = f.trim();
             f1 = f1.replace(",", ".");
             f1 = f1.replaceAll("[^0-9.-]", "");
