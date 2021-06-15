@@ -176,7 +176,7 @@ public class PdfVAT {
                     pdf.add(table);
                     pdf.addAuthor("Biuro Rachunkowe Taxman");
                     pdf.close();
-pdffk.PdfMain.dodajQR(nazwapliku);
+                pdffk.PdfMain.dodajQR(nazwapliku);
                 
                 }
             }
