@@ -87,26 +87,28 @@ public class DokFKWalutyBean implements Serializable{
     
     public static void zmienkurswaluty(Dokfk selected) {
           //robimy w zlotowkach
-        double kurs = selected.getTabelanbp().getKurssredniPrzelicznik();
-        List<Wiersz> wiersze = selected.getListawierszy();
-        for (Wiersz p : wiersze) {
-            if (p.getTypWiersza() == 0 || p.getTypWiersza() == 1) {
-                if (p.getStronaWn().getKwota() != 0.0) {
-                    double kwotaPLN = Z.z(p.getStronaWn().getKwota()*kurs);
-                    p.getStronaWn().setKwotaPLN(kwotaPLN);
+        if (selected.getRodzajedok().getKategoriadokumentu()!=0) {
+            double kurs = selected.getTabelanbp().getKurssredniPrzelicznik();
+            List<Wiersz> wiersze = selected.getListawierszy();
+            for (Wiersz p : wiersze) {
+                if (p.getTypWiersza() == 0 || p.getTypWiersza() == 1) {
+                    if (p.getStronaWn().getKwota() != 0.0) {
+                        double kwotaPLN = Z.z(p.getStronaWn().getKwota()*kurs);
+                        p.getStronaWn().setKwotaPLN(kwotaPLN);
+                    }
+                }
+                if (p.getTypWiersza() == 0 || p.getTypWiersza() == 2) {
+                    if (p.getStronaMa().getKwota() != 0.0) {
+                        double kwotaPLN = Z.z(p.getStronaMa().getKwota()*kurs);
+                        p.getStronaMa().setKwotaPLN(kwotaPLN);
+                    }
                 }
             }
-            if (p.getTypWiersza() == 0 || p.getTypWiersza() == 2) {
-                if (p.getStronaMa().getKwota() != 0.0) {
-                    double kwotaPLN = Z.z(p.getStronaMa().getKwota()*kurs);
-                    p.getStronaMa().setKwotaPLN(kwotaPLN);
-                }
+            for (EVatwpisFK r : selected.getEwidencjaVAT()) {
+                r.setNetto(Z.z(r.getNettowwalucie()*kurs));
+                r.setVat(Z.z(r.getVatwwalucie()*kurs)); 
+                r.setBrutto(Z.z(r.getNetto()+r.getVat()));
             }
-        }
-        for (EVatwpisFK r : selected.getEwidencjaVAT()) {
-            r.setNetto(Z.z(r.getNettowwalucie()*kurs));
-            r.setVat(Z.z(r.getVatwwalucie()*kurs)); 
-            r.setBrutto(Z.z(r.getNetto()+r.getVat()));
         }
     }
     

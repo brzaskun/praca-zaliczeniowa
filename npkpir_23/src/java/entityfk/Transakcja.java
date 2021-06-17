@@ -11,7 +11,6 @@ import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Cacheable;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -92,7 +91,7 @@ public class Transakcja  implements Serializable {
    
    public String getOpisWiersza() {
        String zwrot = this.nowaTransakcja.getWiersz() != null ? this.nowaTransakcja.getWiersz().getOpisWiersza() : this.nowaTransakcja.getOpisBO();
-       return  zwrot.length() > 40 ? zwrot.substring(0, 39) : zwrot;
+       return  zwrot.length() > 30 ? zwrot.substring(0, 29) : zwrot;
    }
    
    public boolean czymoznaedytowac() {
