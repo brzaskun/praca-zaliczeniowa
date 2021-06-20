@@ -95,6 +95,10 @@ public class KlientJPK implements Serializable {
     private boolean wdt;
     @Column(name = "wnt")
     private boolean wnt;
+    @Column(name = "eksport")
+    private boolean eksport;
+    @Column(name = "importt")
+    private boolean importt;
 
     public KlientJPK() {
         this.ewidencjaVAT = new ArrayList<>();
@@ -323,6 +327,22 @@ public class KlientJPK implements Serializable {
 
     public void setEwidencjaVAT(List<EVatwpisKJPK> ewidencjaVAT) {
         this.ewidencjaVAT = ewidencjaVAT;
+    }
+
+    public boolean isEksport() {
+        return eksport;
+    }
+
+    public void setEksport(boolean eksport) {
+        this.eksport = eksport;
+    }
+
+    public boolean isImportt() {
+        return importt;
+    }
+
+    public void setImportt(boolean importt) {
+        this.importt = importt;
     }
     
     

@@ -2520,10 +2520,12 @@ public class PdfMain {
                             table.addCell(ustawfrazeAlign("", "center", 8));
                             table.addCell(ustawfrazeAlign("", "center", 8));
                         }
-                        if (p.getStawkavat()!=0.0) {
-                            table.addCell(ustawfrazeAlign(String.valueOf(percent.format(p.getStawkavat())), "right", 8));
-                        } else {
+                        if (p.isWdt()) {
                             table.addCell(ustawfrazeAlign("WDT", "center", 8));
+                        } else if (p.isEksport()) {
+                            table.addCell(ustawfrazeAlign("EXP", "center", 8));
+                        } else  {
+                            table.addCell(ustawfrazeAlign(String.valueOf(percent.format(p.getStawkavat())), "right", 8));
                         }
                         table.addCell(ustawfrazeAlign(p.getKodKrajuNadania(), "center", 8));
                         table.addCell(ustawfrazeAlign(p.getKodKrajuDoreczenia(), "center", 8));

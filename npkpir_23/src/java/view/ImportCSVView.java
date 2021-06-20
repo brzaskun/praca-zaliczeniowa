@@ -560,6 +560,11 @@ private static Klienci ustawkontrahenta(InterpaperXLS interpaperXLS, List<Klienc
                 if (klientJPK.getNrKontrahenta().length()>0&&Z.z(klientJPK.getVat())==0.0) {
                     klientJPK.setWdt(true);
                 }
+                if (klientJPK.getJurysdykcja().equals("UNITED KINGDOM")&&Z.z(klientJPK.getVat())==0.0) {
+                    klientJPK.setWdt(false);
+                    klientJPK.setEksport(true);
+                    
+                }
         } catch (Exception e) {
         }
         return klientJPK;

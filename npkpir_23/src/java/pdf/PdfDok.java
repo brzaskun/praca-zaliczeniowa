@@ -406,8 +406,9 @@ public class PdfDok extends Pdf implements Serializable {
             Set<String> kraje = pobierzkrajefk(lista);
             List tabelazbiorcza = new ArrayList<>();
             List tabelazbiorczawdt = new ArrayList<>();
-            List<KlientJPK> sprzedaz = lista.stream().filter((p)->p.isWdt()==false).collect(Collectors.toList());
-            for (String kraj : kraje) {
+            List tabelazbiorczaexport = new ArrayList<>();
+            List<KlientJPK> sprzedaz = lista.stream().filter((p)->p.isWdt()==false&&p.isEksport()==false).collect(Collectors.toList());
+                        for (String kraj : kraje) {
                 List<KlientJPK> sprzedazkraj = sprzedaz.stream().filter((p)->p.getJurysdykcja().equals(kraj)).collect(Collectors.toList());
                 for (String waluta : waluty) {
                     List<KlientJPK> sprzedazwaluty = sprzedazkraj.stream().filter((p)->p.getWaluta().equals(waluta)).collect(Collectors.toList());
@@ -431,6 +432,21 @@ public class PdfDok extends Pdf implements Serializable {
                 }
             }
             }
+            PdfMain.dodajLinieOpisu(document, "");
+            List<KlientJPK> export = lista.stream().filter((p)->p.isEksport()).collect(Collectors.toList());
+            if (export.isEmpty()) {
+                PdfMain.dodajLinieOpisuBezOdstepu(document, "BRAK SPRZEDAŻY EXPORT");
+            } else {
+                for (String kraj : kraje) {
+                List<KlientJPK> sprzedazkraj = export.stream().filter((p)->p.getJurysdykcja().equals(kraj)).collect(Collectors.toList());
+                for (String waluta : waluty) {
+                    List<KlientJPK> sprzedazwaluty = sprzedazkraj.stream().filter((p)->p.getWaluta().equals(waluta)).collect(Collectors.toList());
+                    if (!sprzedazwaluty.isEmpty()) {
+                        dodajtabeleExportfk(kraj, waluta, document, sprzedazwaluty, modyfikator, tabelazbiorczaexport);
+                    }
+                }
+            }
+            }
             document.newPage();
             PdfMain.dodajLinieOpisu(document, "SUMY SPRZEDAŻY DETALICZNEJ");
             String[] nag1 = new String[]{"lp","kraj","waluta","netto","vat","netto pln","vat pln", "stawka vat", "kurs"};
@@ -439,6 +455,9 @@ public class PdfDok extends Pdf implements Serializable {
             document.newPage();
             PdfMain.dodajLinieOpisu(document, "SUMY SPRZEDAŻY WDT");
             dodajTabele2(document, nag1, nag2, tabelazbiorczawdt, 70, modyfikator,"tabelaklientjpkfk");
+            document.newPage();
+            PdfMain.dodajLinieOpisu(document, "SUMY SPRZEDAŻY EXPORT");
+            dodajTabele2(document, nag1, nag2, tabelazbiorczaexport, 70, modyfikator,"tabelaklientjpkfk");
             finalizacjaDokumentuQR(document,nazwa);
             String f = "pokazwydruk('"+nazwa+"');";
             PrimeFaces.current().executeScript(f);
@@ -478,6 +497,12 @@ public class PdfDok extends Pdf implements Serializable {
     }
     private static void dodajtabeleWDTfk(String kraj, String waluta, Document document, List<KlientJPK> lista, int modyfikator,List tabelazbiorcza) {
         PdfMain.dodajLinieOpisuBezOdstepuKolor(document, "SPRZEDAŻ WDT "+kraj.toUpperCase()+" WALUTA "+waluta, BaseColor.BLUE);
+        dodajTabele(document, testobjects.testobjects.getListaDokJPK(lista),100,modyfikator);
+        dodajsumyfk(lista, document, waluta, tabelazbiorcza);
+    }
+    
+    private static void dodajtabeleExportfk(String kraj, String waluta, Document document, List<KlientJPK> lista, int modyfikator,List tabelazbiorcza) {
+        PdfMain.dodajLinieOpisuBezOdstepuKolor(document, "SPRZEDAŻ EXPORT "+kraj.toUpperCase()+" WALUTA "+waluta, BaseColor.BLUE);
         dodajTabele(document, testobjects.testobjects.getListaDokJPK(lista),100,modyfikator);
         dodajsumyfk(lista, document, waluta, tabelazbiorcza);
     }
