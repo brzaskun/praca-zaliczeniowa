@@ -6,7 +6,6 @@
 package view;
 
 import beansFK.TabelaNBPBean;
-import beansJPK.KlienciJPKBean;
 import beansRegon.SzukajDaneBean;
 import dao.DokDAO;
 import dao.EvewidencjaDAO;
@@ -155,12 +154,12 @@ public class ImportCSVView  implements Serializable {
         return zwrot;
     }
     
-     public void zaksiegujdokjpk() {
-        klientJPKDAO.deleteByPodRokMc(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
-        List<KlientJPK> lista = KlienciJPKBean.zaksiegujdokJPK(null, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
-        klientJPKDAO.createList(lista);
-        Msg.msg("Zaksięgowano dokumenty dla JPK");
-    }
+//     public void zaksiegujdokjpk() {
+//        klientJPKDAO.deleteByPodRokMc(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+//        List<KlientJPK> lista = KlienciJPKBean.zaksiegujdokJPK(null, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+//        klientJPKDAO.createList(lista);
+//        Msg.msg("Zaksięgowano dokumenty dla JPK");
+//    }
      
     
     

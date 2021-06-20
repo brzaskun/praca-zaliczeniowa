@@ -580,7 +580,7 @@ public class ReadXMLZorinOptimaFile {
        if (interpaperXLS.getNrfaktury().equals("G/FD 2/000739/02/21")) {
            System.out.println("");
        }
-       if (interpaperXLS.getNrfaktury().equals("G/FD 2/000796/02/21")) {
+       if (interpaperXLS.getNrfaktury().equals("G/FD 2/000299/05/21")) {
            System.out.println("");
        }
         try {

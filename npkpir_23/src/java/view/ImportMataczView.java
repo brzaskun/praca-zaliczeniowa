@@ -7,6 +7,7 @@ package view;
 
 import beansDok.ListaEwidencjiVat;
 import beansJPK.KlienciJPKBean;
+import dao.EVatwpisDedraDAO;
 import dao.KlientJPKDAO;
 import data.Data;
 import embeddablefk.InterpaperXLS;
@@ -57,6 +58,8 @@ public class ImportMataczView  implements Serializable {
     private ListaEwidencjiVat listaEwidencjiVat;
     private Evewidencja evewidencja23;
     private Evewidencja evewidencja8;
+    @Inject
+    private EVatwpisDedraDAO eVatwpisDedraDAO;
 
       
 //    private boolean fakturypolska;
