@@ -89,7 +89,7 @@ public class AmazonImportNazwy implements Serializable {
         try {
             String filename = uploadedFile.getFileName();
             InputStream is = uploadedFile.getInputstream();
-            Workbook workbook = WorkbookFactory.create(is);
+                    Workbook workbook = WorkbookFactory.create(is);
             Sheet sheet = workbook.getSheet("Template");
             Map<String,Integer> naglowki = pobierznaglowki(sheet);
             Iterator<Row> rowIterator = sheet.iterator();
@@ -129,6 +129,7 @@ public class AmazonImportNazwy implements Serializable {
    
     private KlientJPK tworzobiektAmazonNowy(Row row, Map<String,Integer> naglowki) {
         KlientJPK klientJPK = new KlientJPK();
+        String nipue = "PL"+wpisView.getPodatnikObiekt().getNip();
         String rodzajtransakcji = row.getCell(naglowki.get("TRANSACTION_TYPE")).getStringCellValue();
         String serial = row.getCell(naglowki.get("TRANSACTION_EVENT_ID")).getStringCellValue();
         try {
@@ -160,7 +161,7 @@ public class AmazonImportNazwy implements Serializable {
             String nipodbioru = row.getCell(naglowki.get("SELLER_ARRIVAL_COUNTRY_VAT_NUMBER")).getStringCellValue();
             String nipbuyer = row.getCell(naglowki.get("BUYER_VAT_NUMBER")).getStringCellValue();
 
-            if (nipwysylki.equals("PL8512820472")&&krajwysylki.equals("PL")) {
+            if (nipwysylki.equals(nipue)&&krajwysylki.equals("PL")) {
                 klientJPK.setWnt(false);
                 klientJPK.setWdt(true);
                 klientJPK.setStawkavat(0.0);
@@ -169,12 +170,12 @@ public class AmazonImportNazwy implements Serializable {
                 } else {
                     klientJPK.setNrKontrahenta(nipbuyer);
                 }
-            } else if (nipodbioru.equals("PL8512820472")) {
+            } else if (nipodbioru.equals(nipue)) {
                 klientJPK.setWnt(true);
                 klientJPK.setWdt(false);
                 klientJPK.setNrKontrahenta(nipwysylki);
             }
-            if (nipwysylki.equals("PL8512820472") || nipodbioru.equals("PL8512820472")) {
+            if (nipwysylki.equals(nipue) || nipodbioru.equals(nipue)) {
                 klientJPK.setKodKrajuNadania(krajwysylki);
                 klientJPK.setKodKrajuDoreczenia(krajcdocelowy);
                 if (rodzajtransakcji.equals("FC_TRANSFER")) {
