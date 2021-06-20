@@ -183,6 +183,7 @@
                                                  title="wpisz numer dnia, lub miesiąc i dzień"  styleClass="dataInput"
                                                  onfocus="zaznaczpoledaty(this)"
                                                  >
+                                        <p:ajax global="false" event="blur" partialSubmit="true"/>
                                         <p:ajax global="false" event="change" partialSubmit="true" listener="#{dokfkView.wygenerujokreswpisudokumentu}" />
                                     </p:inputText>
                                 </p:column>
