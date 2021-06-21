@@ -931,17 +931,21 @@ public class Jpk_VAT2View implements Serializable {
     private String marszajuldoplikuxml(Podatnik podatnik, JPKSuper jpk) {
         String sciezka = null;
         try {
-            JAXBContext context = JAXBContext.newInstance(jpk.getClass());
-            Marshaller marshaller = context.createMarshaller();
-            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-            marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
-            String mainfilename = "jpk"+podatnik.getNip()+"mcrok"+wpisView.getMiesiacWpisu()+wpisView.getRokWpisuSt()+".xml";
-            ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
-            String realPath = ctx.getRealPath("/")+"resources\\xml\\";
-            FileOutputStream fileStream = new FileOutputStream(new File(realPath+mainfilename));
-            OutputStreamWriter writer = new OutputStreamWriter(fileStream, "UTF-8");
-            marshaller.marshal(jpk, writer);
-            sciezka = mainfilename;
+            if (jpk!=null) {
+                JAXBContext context = JAXBContext.newInstance(jpk.getClass());
+                Marshaller marshaller = context.createMarshaller();
+                marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+                marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
+                String mainfilename = "jpk"+podatnik.getNip()+"mcrok"+wpisView.getMiesiacWpisu()+wpisView.getRokWpisuSt()+".xml";
+                ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+                String realPath = ctx.getRealPath("/")+"resources\\xml\\";
+                FileOutputStream fileStream = new FileOutputStream(new File(realPath+mainfilename));
+                OutputStreamWriter writer = new OutputStreamWriter(fileStream, "UTF-8");
+                marshaller.marshal(jpk, writer);
+                sciezka = mainfilename;
+            } else {
+                Msg.msg("e","Nie mozna zachowac danych jpk do pliku. Plik jpk pusty");
+            }
         } catch (Exception ex) {
             E.e(ex);
         }
