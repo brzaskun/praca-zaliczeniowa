@@ -200,7 +200,7 @@
              <p:contextMenu for="dokumentyLista_edit" style="width: 250px;">
                 <p:menuitem value="Drukuj" update=":form1:messages" actionListener="#{fakturaView.pdffaktura_edit()}" icon="ui-icon-print" />
                 <p:menuitem value="Faktura okresowa" update=":form1:messages" icon="ui-icon-arrowrefresh-1-s" actionListener="#{fakturaView.dodajfaktureokresowa(fakturaView.faktury_edit_select)}"/>
-                <p:menuitem value="Zaksięguj" update=":form1:messages, :akordeon:formarchiwum:dokumentyArchiwum, :akordeon:formsporzadzone_edit:dokumentyLista_edit" actionListener="#{fakturaView.zaksieguj(fakturaView.faktury_edit_select)}" icon="ui-icon-locked" />
+                <p:menuitem value="Zaakceptuj" update=":form1:messages, :akordeon:formsporzadzone:dokumentyLista, :akordeon:formsporzadzone_edit:dokumentyLista_edit" actionListener="#{fakturaView.zaakceptuj(fakturaView.faktury_edit_select)}" icon="ui-icon-locked" />
             </p:contextMenu>
         </h:form>
     </p:tab>

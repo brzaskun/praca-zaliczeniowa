@@ -1128,6 +1128,16 @@ public class FakturaView implements Serializable {
         }
     }
 
+    public void zaakceptuj(List<Faktura> lista)  {
+        if (lista != null)
+        for (Faktura p : lista) {
+            p.setRecznaedycja(false);
+        }
+        fakturaDAO.editList(lista);
+        Msg.msg("Zaakceptowano zbiorczo faktury");
+    }
+    
+    
     public void zaksieguj(List<Faktura> lista) throws Exception {
         boolean vatowiec = nievat0vat1(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
         if (wpisView.getPodatnikObiekt().getFirmafk() == 1) {
