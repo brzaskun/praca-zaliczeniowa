@@ -121,32 +121,33 @@ public class VATUEM5Bean {
     public static PozycjeSzczegolowe pozycjeszczegolowe(List<VatUe> lista) {
         PozycjeSzczegolowe poz = new PozycjeSzczegolowe();
         if (lista != null) {
-            for (VatUe p : lista) {
-                if (p.getKontrahent() != null) {
-                    switch (p.getTransakcja()) {
-                        case "WDT":
-                            poz.getGrupa1().add(grupa1(p));
-                            break;
-                        case "WNT":
-                            poz.getGrupa2().add(grupa2(p));
-                            break;
-                        default:
-                            poz.getGrupa3().add(grupa3(p));
-                            break;
+            for (VatUe p : lista) { 
+                if (p.getNetto()!=0.0||p.getNettowaluta()!=0.0) {
+                    if (p.getKontrahent() != null) {
+                        switch (p.getTransakcja()) {
+                            case "WDT":
+                                poz.getGrupa1().add(grupa1(p));
+                                break;
+                            case "WNT":
+                                poz.getGrupa2().add(grupa2(p));
+                                break;
+                            default:
+                                poz.getGrupa3().add(grupa3(p));
+                                break;
+                        }
+                    } else if (p.getKontrahentnip() !=null){
+                        switch (p.getTransakcja()) {
+                            case "WDT":
+                                poz.getGrupa1().add(grupa1(p));
+                                break;
+                            case "WNT":
+                                poz.getGrupa2().add(grupa2(p));
+                                break;
+                            default:
+                                poz.getGrupa3().add(grupa3(p));
+                                break;
+                        }
                     }
-                } else if (p.getKontrahentnip() !=null){
-                    switch (p.getTransakcja()) {
-                        case "WDT":
-                            poz.getGrupa1().add(grupa1(p));
-                            break;
-                        case "WNT":
-                            poz.getGrupa2().add(grupa2(p));
-                            break;
-                        default:
-                            poz.getGrupa3().add(grupa3(p));
-                            break;
-                    }
-                    
                 }
             }
         }

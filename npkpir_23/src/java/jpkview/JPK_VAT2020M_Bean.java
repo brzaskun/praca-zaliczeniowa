@@ -41,7 +41,7 @@ public class JPK_VAT2020M_Bean {
             w.setDataWystawienia(Data.dataStringToXMLGregorian(ev.getDok().getDataWyst()));
             w.setKodKrajuNadaniaTIN(kodkraju(ev.getDok().getKontr1()));
             w.setNrKontrahenta(przetworznip(ev.getDok().getKontr1().getNip()));
-            w.setNazwaKontrahenta(ev.getDok().getKontr1().getNpelna());
+            w.setNazwaKontrahenta(ev.getDok().getKontr1().getNpelna()!=null&&ev.getDok().getKontr1().getNpelna().length()>0?ev.getDok().getKontr1().getNpelna():"brak");
             w.setDowodSprzedazy(ev.getDok().getNrWlDk());
             dodajcechydowierszaSprzedaz(w,ev);
             dodajkwotydowierszaSprzedazy(w,ev.getNetto(), ev.getVat(),sprzedazCtrl, jPKvatwersjaEvewidencja);
@@ -59,7 +59,7 @@ public class JPK_VAT2020M_Bean {
             w.setDataSprzedazy(Data.dataStringToXMLGregorian(ev.getDataoperacji()));
             w.setDataWystawienia(Data.dataStringToXMLGregorian(ev.getDatadokumentu()));
             w.setNrKontrahenta("brak");
-            w.setNazwaKontrahenta(ev.getImienazwisko());
+            w.setNazwaKontrahenta(ev.getImienazwisko()!=null&&ev.getImienazwisko().length()>0?ev.getImienazwisko():"brak");
             w.setDowodSprzedazy(ev.getFaktura());
             dodajcechydowierszaSprzedaz(w,ev);
             dodajkwotydowierszaSprzedazy(w,ev.getNetto(), ev.getVat(),sprzedazCtrl, jPKvatwersjaEvewidencja);
@@ -79,7 +79,7 @@ public class JPK_VAT2020M_Bean {
             w.setDataSprzedazy(Data.dataStringToXMLGregorian(ev.getDataSprzedazy()));
             w.setDataWystawienia(Data.dataStringToXMLGregorian(ev.getDataWystawienia()));
             w.setNrKontrahenta(ev.getNrKontrahenta()!=null?ev.getNrKontrahenta():"brak");
-            w.setNazwaKontrahenta(ev.getNazwaKontrahenta());
+            w.setNazwaKontrahenta(ev.getNazwaKontrahenta()!=null&&ev.getNazwaKontrahenta().length()>0?ev.getNazwaKontrahenta():"brak");
             w.setDowodSprzedazy(ev.getDowodSprzedazy());
             dodajkwotydowierszaSprzedazy(w,ev.getNetto(), ev.getVat(),sprzedazCtrl, jPKvatwersjaEvewidencja);
             if (ev.isWnt()==false&&ev.isWdt()==false) {
@@ -105,7 +105,7 @@ public class JPK_VAT2020M_Bean {
                 w.setDataWystawienia(Data.dataStringToXMLGregorian(ev.getDatadokumentu()));
                 w.setKodKrajuNadaniaTIN(kodkraju(ev.getDokfk().getKontr()));
                 w.setNrKontrahenta(przetworznip(ev.getDokfk().getKontr().getNip()));
-                w.setNazwaKontrahenta(ev.getKlient().getNpelna());
+                w.setNazwaKontrahenta(ev.getKlient().getNpelna()!=null&&ev.getKlient().getNpelna().length()>0?ev.getKlient().getNpelna():"brak");
                 w.setDowodSprzedazy(ev.getNumerwlasnydokfk());
             } else {
                 w.setTypDokumentu(pobierztypdokumentu(ev));
@@ -113,7 +113,7 @@ public class JPK_VAT2020M_Bean {
                 w.setDataWystawienia(Data.dataStringToXMLGregorian(ev.getDokfk().getDatawystawienia()));
                 w.setKodKrajuNadaniaTIN(kodkraju(ev.getDokfk().getKontr()));
                 w.setNrKontrahenta(przetworznip(ev.getDokfk().getKontr().getNip()));
-                w.setNazwaKontrahenta(ev.getDokfk().getKontr().getNpelna());
+                w.setNazwaKontrahenta(ev.getDokfk().getKontr().getNpelna()!=null&&ev.getDokfk().getKontr().getNpelna().length()>0?ev.getDokfk().getKontr().getNpelna():"brak");
                 w.setDowodSprzedazy(ev.getDokfk().getNumerwlasnydokfk());
             }
             dodajkwotydowierszaSprzedazy(w,ev.getNetto(), ev.getVat(),sprzedazCtrl, jPKvatwersjaEvewidencja);

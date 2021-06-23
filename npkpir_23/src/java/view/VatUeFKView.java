@@ -626,7 +626,7 @@ public class VatUeFKView implements Serializable {
             Object[] walidacja = XMLValid.walidujCMLVATUE(deklaracja,dekl_object, 0);
             if (walidacja!=null && walidacja[0]==Boolean.TRUE) {
                 if (test0wysylka1==0) {
-                    String name = Plik.zapiszplik("vatue"+wpisView.getPodatnikObiekt().getNip(), "xml", deklaracja.getBytes());
+                    String name = Plik.zapiszplik("vatue"+wpisView.getPodatnikObiekt().getNip(), "xml", deklaracja.getBytes(java.nio.charset.Charset.forName("UTF-8")));
                     PrimeFaces.current().executeScript("pokazwydrukpdf('"+name+"')");
                     Msg.msg("Wygenerowano deklarację do podglądu");
                 } else {
@@ -648,6 +648,9 @@ public class VatUeFKView implements Serializable {
                     }
                 }
             } else {
+                String name = Plik.zapiszplik("vatue"+wpisView.getPodatnikObiekt().getNip(), "xml", deklaracja.getBytes(java.nio.charset.Charset.forName("UTF-8")));
+                PrimeFaces.current().executeScript("pokazwydrukpdf('"+name+"')");
+                Msg.msg("Wygenerowano deklarację dla sprawdzenia błędów");
                 Msg.msg("e", "Sprawdź oznaczenia krajów i NIP-y!");
                 Msg.msg("e", (String) walidacja[1]);
                 Msg.msg("e","Wystąpił błąd. Niesporządzono deklaracji VAT-UE. Sprawdź czy włożono kartę z podpisem! Sprawdź oznaczenia krajów i NIP-y");
@@ -667,7 +670,7 @@ public class VatUeFKView implements Serializable {
             Object[] walidacja = XMLValid.walidujCMLVATUE(deklaracja,dekl_object, 1);
             if (walidacja!=null && walidacja[0]==Boolean.TRUE) {
                 if (test0wysylka1==0) {
-                    String name = Plik.zapiszplik("vatuedekl"+wpisView.getPodatnikObiekt().getNip(), "xml", deklaracja.getBytes());
+                    String name = Plik.zapiszplik("vatuedekl"+wpisView.getPodatnikObiekt().getNip(), "xml", deklaracja.getBytes(java.nio.charset.Charset.forName("UTF-8")));
                     PrimeFaces.current().executeScript("pokazwydrukpdf('"+name+"')");
                     Msg.msg("Wygenerowano deklarację do podglądu");
 //                    FacesContext facesContext = FacesContext.getCurrentInstance();
@@ -700,7 +703,7 @@ public class VatUeFKView implements Serializable {
                     }
                 }
             } else {
-                String name = Plik.zapiszplik("vatuedekl"+wpisView.getPodatnikObiekt().getNip(), "xml", deklaracja.getBytes());
+                String name = Plik.zapiszplik("vatuedekl"+wpisView.getPodatnikObiekt().getNip(), "xml", deklaracja.getBytes(java.nio.charset.Charset.forName("UTF-8")));
                 PrimeFaces.current().executeScript("pokazwydrukpdf('"+name+"')");
                 Msg.msg("e", (String) walidacja[1]);
                 Msg.msg("e","Wystąpił błąd. Niesporządzono deklaracji VAT-UE. Sprawdź czy włożono kartę z podpisem! Sprawdź oznaczenia krajów i NIP-y");
