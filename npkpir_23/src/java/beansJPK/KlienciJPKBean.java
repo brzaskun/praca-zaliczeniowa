@@ -27,6 +27,7 @@ public class KlienciJPKBean {
         List<KlientJPK> zwrot = new ArrayList<>();
         for (Dok d : polskaprywatne) {
             KlientJPK a = new KlientJPK(d, podatnik, rok, mc);
+            a.setEwidencjaVAT(tworzewidencjeVAT(a, d));
             zwrot.add(a);
         }
         return zwrot;
@@ -47,6 +48,20 @@ public class KlienciJPKBean {
         EVatwpisKJPK nowa = new EVatwpisKJPK();
         nowa.setKlientJPK(tmpzwrot);
         nowa.setEwidencja(d.getEvewidencja());
+        nowa.setRokEw(tmpzwrot.getRok());
+        nowa.setMcEw(tmpzwrot.getMc());
+        nowa.setNetto(tmpzwrot.getNetto());
+        nowa.setVat(tmpzwrot.getVat());
+        nowa.setEstawka(String.valueOf(tmpzwrot.getStawkavat()));
+        zwrot.add(nowa);
+        return zwrot;
+    }
+
+    private static List<EVatwpisKJPK> tworzewidencjeVAT(KlientJPK tmpzwrot, Dok d) {
+        List<EVatwpisKJPK> zwrot = new ArrayList<>();
+        EVatwpisKJPK nowa = new EVatwpisKJPK();
+        nowa.setKlientJPK(tmpzwrot);
+        nowa.setEwidencja(d.getEwidencjaVAT1().get(0).getEwidencja());
         nowa.setRokEw(tmpzwrot.getRok());
         nowa.setMcEw(tmpzwrot.getMc());
         nowa.setNetto(tmpzwrot.getNetto());
