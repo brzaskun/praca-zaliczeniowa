@@ -383,7 +383,7 @@ public class BankImportView implements Serializable {
                             break;
                         case 11 :
                             numerwyciagu = 1;
-                            zwrot = ImportZorinBank_CSV.importujdok(partia, wyciagdataod, numerwyciagu, lpwiersza, mc, wybranawaluta);
+                            zwrot = ImportZorinBank_CSV.importujdokXLS(partia, wyciagdataod, numerwyciagu, lpwiersza, mc, wybranawaluta, kliencifk);
                             break;
                     }
                     if (zwrot.size()==5) {

@@ -19,6 +19,8 @@ public class X {
         Object zwrot = null;
         CellType celltype = cell.getCellType();
         switch (celltype) {
+            case BLANK:
+                break;
             case NUMERIC:
                 zwrot = cell.getNumericCellValue();
                 break;

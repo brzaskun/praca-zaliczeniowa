@@ -7,6 +7,7 @@ package xls;
 
 import comparator.ImportBankWierszcomparator;
 import data.Data;
+import entityfk.Kliencifk;
 import error.E;
 import format.F;
 import java.io.ByteArrayInputStream;
@@ -19,9 +20,15 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
@@ -34,6 +41,123 @@ import waluty.Z;
 
 public class ImportZorinBank_CSV implements Serializable {
     private static final long serialVersionUID = 1L;
+    
+    
+     public static List importujdokXLS(byte[] pobrane, String mcwpisu, int nrwyciagu, int lpwiersza, String mc, String wybranawaluta, List<Kliencifk> klienci) {
+        List zwrot = new ArrayList<Object>();
+        ImportowanyPlikNaglowek pn = new ImportowanyPlikNaglowek();
+        String numer = String.valueOf(nrwyciagu) + "mc";
+        List<ImportBankWiersz> listaswierszy = new ArrayList<>();
+        boolean blad = false;
+        try {
+            ByteArrayInputStream file = new ByteArrayInputStream(pobrane);
+            if (pobrane != null) {
+                //Iterable<CSVRecord> recordss = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(Files.newBufferedReader(pathToFile,Charset.forName("UTF-8")));
+                List<Row> recordss = new ArrayList<>();
+                if (pobrane!=null) {
+                    try {
+                        Workbook workbook = WorkbookFactory.create(file);
+                        Sheet sheet = workbook.getSheetAt(0);
+                        Iterator<Row> rowIterator = sheet.iterator();
+                        while (rowIterator.hasNext()) {
+                            Row row = rowIterator.next();
+                            recordss.add(row);
+                        }
+                        file.close();
+                    } catch (Exception ex) {
+                        file.close();
+                    }
+                }
+                int i = 0;
+                for (Row record : recordss) {
+                        if (i > -1) {
+                            String waluta = record.getCell(2).getStringCellValue();
+                            if (waluta.equals(wybranawaluta)) {
+                                ImportBankWiersz x = new ImportBankWiersz();
+                                x.setNr(lpwiersza++);
+                                String data = Data.data_yyyyMMdd(record.getCell(0).getDateCellValue());
+                                x.setDatatransakcji(data);
+                                x.setDatawaluty(data);
+                                String mcwiersz = data.split("-")[1];
+                                if (!mcwiersz.equals(mc)) {
+                                    blad = true;
+                                    break;
+                                }
+                                Object iban = X.x(record.getCell(4));
+                                String biban = null;
+                                if (iban!=null) {
+                                    if (iban.getClass().getSimpleName().equals("Double")) {
+                                        Integer siban = ((Double)iban).intValue();
+                                        biban = siban.toString();
+                                    } else {
+                                        biban = (String) iban;
+                                    }
+                                    if (biban.length()==1) {
+                                        biban = "0000"+biban;
+                                    } else if (biban.length()==2) {
+                                        biban = "000"+biban;
+                                    } else if (biban.length()==3) {
+                                        biban = "00"+biban;
+                                    } else if (biban.length()==4) {
+                                        biban = "0"+biban;
+                                    }
+                                }
+                                boolean czykontrahent = iban!=null&&!iban.equals("")&&!iban.equals("!INCYDENTALNY");
+                                x.setIBAN("");//??
+                                x.setKontrahent("brak");//??
+                                if (czykontrahent) {
+                                    final String szukane = biban;
+                                    Optional<Kliencifk> findFirst = klienci.stream().filter(p->p.getBanksymbol().equals(szukane)).findFirst();
+                                    if (findFirst.isPresent()) {
+                                        x.setKontrahent(findFirst.get().getNazwa());//??
+                                        x.setIBAN(biban);//??
+                                    }
+                                }
+                                x.setWaluta(wybranawaluta);
+                                double kwotaWn = record.getCell(7).getNumericCellValue();
+                                double kwotaMa = record.getCell(8).getNumericCellValue();
+                                double kwota = kwotaWn!=0.0?kwotaWn:kwotaMa;
+                                x.setKwota(kwota);
+                                if (kwotaWn > 0.0) {
+                                    x.setWnma("Wn");
+                                    pn.setWyciagobrotywn(pn.getWyciagobrotywn() + kwota);
+                                } else {
+                                    x.setWnma("Ma");
+                                    pn.setWyciagobrotyma(pn.getWyciagobrotyma() + Math.abs(kwota));
+                                }
+                                x.setNrtransakji(record.getCell(5).getStringCellValue());
+                                x.setOpistransakcji(record.getCell(5).getStringCellValue());
+                                x.setTyptransakcji(oblicztyptransakcji(x));
+                                pn.setWyciagdataod(data);
+                                pn.setWyciagdatado(data );
+                                pn.setWyciagwaluta(wybranawaluta);
+                                //pn.setWyciagbz(F.kwota(record.get("Saldo")));
+                                x.setNaglowek(pn);
+                                listaswierszy.add(x);
+                                i++;
+                            }
+                    } else {
+                        i++;
+                    }
+                }
+                Collections.sort(listaswierszy, new ImportBankWierszcomparator());
+                int j = 1;
+                for (ImportBankWiersz p : listaswierszy) {
+                    p.setNr(j++);
+                }
+            }
+        } catch (Exception e) {
+            E.e(e);
+        }
+        zwrot.add(pn);
+        zwrot.add(listaswierszy);
+        zwrot.add(nrwyciagu);
+        zwrot.add(lpwiersza);
+        if (blad) {
+            zwrot.add("dataerror");
+        }
+        return zwrot;
+    }
     
     
     public static List importujdok(byte[] pobrane, String mcwpisu, int nrwyciagu, int lpwiersza, String mc, String wybranawaluta) {

@@ -104,22 +104,27 @@ public class ImportRaportZorinView implements Serializable {
     }
 
     private void pobierzoznaczeniakontrahentow(List<ROOT.KONTRAHENCI.KONTRAHENT> kontrahent) {
-        List<Kliencifk> pobraneklienty = kliencifkDAO.znajdzkontofkKlientBanksymbol(wpisView.getPodatnikObiekt());
+        //List<Kliencifk> pobraneklienty = kliencifkDAO.znajdzkontofkKlientBanksymbol(wpisView.getPodatnikObiekt());
+        List<Kliencifk> pobraneklienty = kliencifkDAO.znajdzkontofkKlient(wpisView.getPodatnikObiekt());
         for (Kliencifk k : pobraneklienty) {
             for (ROOT.KONTRAHENCI.KONTRAHENT p : kontrahent) {
-                if (!p.getIDZRODLA().equals("00000000-0009-0002-0001-000000000000")) {
-                    ROOT.KONTRAHENCI.KONTRAHENT.ADRESY.ADRES dane = p.getADRESY().getADRES();
-                    String nipskladany = null;
-                    if (dane.getNIPKRAJ()!=null) {
-                        nipskladany = dane.getNIPKRAJ()+dane.getNIP();
-                    } else {
-                        nipskladany = dane.getNIP();
+                try {
+                    if (!p.getIDZRODLA().equals("00000000-0009-0002-0001-000000000000")) {
+                        ROOT.KONTRAHENCI.KONTRAHENT.ADRESY.ADRES dane = p.getADRESY().getADRES();
+                        String nipskladany = null;
+                        if (dane.getNIPKRAJ()!=null) {
+                            nipskladany = dane.getNIPKRAJ()+dane.getNIP();
+                        } else {
+                            nipskladany = dane.getNIP();
+                        }
+                        if (nipskladany.equals(k.getNip())) {
+                            k.setBanksymbol(dane.getAKRONIM());
+                            kliencifkDAO.edit(k);
+                            break;
+                        }
                     }
-                    if (nipskladany.equals(k.getNip())) {
-                        k.setBanksymbol(p.getIDZRODLA());
-                        kliencifkDAO.edit(k);
-                        break;
-                    }
+                } catch (Exception e){
+                    System.out.println("");
                 }
             }
         }
