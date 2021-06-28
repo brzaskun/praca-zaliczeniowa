@@ -479,12 +479,14 @@ public class EwidencjaVatView implements Serializable {
         List<EVatwpisFK> zwrot = new ArrayList<>();
         for (Transakcja p : lista) {
             try {
-                if (p.getNowaTransakcja().getDokfk().getEwidencjaVAT()!=null&&p.getNowaTransakcja().getDokfk().getEwidencjaVAT().size()>0&&p.getNowaTransakcja().getDokfk().memorailowo0kasowo1()) {
-                    List<EVatwpisFK> zwrotw = naniesPlatnoscRozl(p);
-                    if (zwrotw != null) {
-                        for (EVatwpisFK t : zwrotw) {
-                            if (!zwrot.contains(t)) {
-                                zwrot.add(t);
+                if (p.getNowaTransakcja()!=null) {
+                    if (p.getNowaTransakcja().getDokfk().getEwidencjaVAT()!=null&&p.getNowaTransakcja().getDokfk().getEwidencjaVAT().size()>0&&p.getNowaTransakcja().getDokfk().memorailowo0kasowo1()) {
+                        List<EVatwpisFK> zwrotw = naniesPlatnoscRozl(p);
+                        if (zwrotw != null) {
+                            for (EVatwpisFK t : zwrotw) {
+                                if (!zwrot.contains(t)) {
+                                    zwrot.add(t);
+                                }
                             }
                         }
                     }
