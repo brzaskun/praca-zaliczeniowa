@@ -478,15 +478,20 @@ public class EwidencjaVatView implements Serializable {
      private Collection<? extends EVatwpisSuper> stworzevatwpisRozl(List<Transakcja> lista) {
         List<EVatwpisFK> zwrot = new ArrayList<>();
         for (Transakcja p : lista) {
-            if (p.getNowaTransakcja().getDokfk().getEwidencjaVAT()!=null&&p.getNowaTransakcja().getDokfk().getEwidencjaVAT().size()>0&&p.getNowaTransakcja().getDokfk().memorailowo0kasowo1()) {
-                List<EVatwpisFK> zwrotw = naniesPlatnoscRozl(p);
-                if (zwrotw != null) {
-                    for (EVatwpisFK t : zwrotw) {
-                        if (!zwrot.contains(t)) {
-                            zwrot.add(t);
+            try {
+                if (p.getNowaTransakcja().getDokfk().getEwidencjaVAT()!=null&&p.getNowaTransakcja().getDokfk().getEwidencjaVAT().size()>0&&p.getNowaTransakcja().getDokfk().memorailowo0kasowo1()) {
+                    List<EVatwpisFK> zwrotw = naniesPlatnoscRozl(p);
+                    if (zwrotw != null) {
+                        for (EVatwpisFK t : zwrotw) {
+                            if (!zwrot.contains(t)) {
+                                zwrot.add(t);
+                            }
                         }
                     }
                 }
+            } catch (Exception e) {
+                Msg.msg("e","Błąd przay generowaniu ewidencji"+E.e(e));
+                System.out.println("");
             }
         }
         for (EVatwpisFK r : zwrot) {
