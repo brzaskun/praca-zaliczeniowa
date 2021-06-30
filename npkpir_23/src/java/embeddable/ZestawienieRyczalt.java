@@ -5,6 +5,8 @@
  */
 package embeddable;
 
+import java.util.List;
+
 /**
  *
  * @author Osito
@@ -17,7 +19,16 @@ public class ZestawienieRyczalt {
     private double s55;
     private double s30;
 
-    public ZestawienieRyczalt(int id, String okres, double s170, double s85, double s55, double s30) {
+    public ZestawienieRyczalt(int id, String okres, List<Double> mapa) {
+        this.id = id;
+        this.okres = okres;
+        this.s170 = mapa.get(0);
+        this.s85 = mapa.get(1);
+        this.s55 = mapa.get(2);
+        this.s30 = mapa.get(3);
+    }
+    
+     public ZestawienieRyczalt(int id, String okres, double s170, double s85, double s55, double s30) {
         this.id = id;
         this.okres = okres;
         this.s170 = s170;
