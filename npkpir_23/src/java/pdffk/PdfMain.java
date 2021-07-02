@@ -1290,6 +1290,8 @@ public class PdfMain {
                 col[3] = 3;
                 col[4] = 3;
                 col[5] = 3;
+                col[6] = 3;
+                col[7] = 3;
                 return col;
             case "testobjects.WierszDokfk":
                 int[] col5 = new int[size];
@@ -2901,6 +2903,21 @@ public class PdfMain {
                 table.addCell(ustawfrazeAlign(p.getOkres(), "left", 8));
                 if (p.getS170() != 0.0) {
                     table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getS170())), "right", 8));
+                } else {
+                    table.addCell(ustawfrazeAlign("", "left", 8));
+                }
+                if (p.getS150() != 0.0) {
+                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getS150())), "right", 8));
+                } else {
+                    table.addCell(ustawfrazeAlign("", "left", 8));
+                }
+                if (p.getS125() != 0.0) {
+                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getS125())), "right", 8));
+                } else {
+                    table.addCell(ustawfrazeAlign("", "left", 8));
+                }
+                if (p.getS100() != 0.0) {
+                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getS100())), "right", 8));
                 } else {
                     table.addCell(ustawfrazeAlign("", "left", 8));
                 }

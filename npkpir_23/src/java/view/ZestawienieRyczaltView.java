@@ -143,17 +143,29 @@ public class ZestawienieRyczaltView implements Serializable {
                                     temp = miesiace.get(miesiac).get(0) + kwota;
                                     miesiace.get(miesiac).set(0, temp);
                                     break;
-                                case "8.5%":
+                                case "15%":
                                     temp = miesiace.get(miesiac).get(1) + kwota;
                                     miesiace.get(miesiac).set(1, temp);
                                     break;
-                                case "5.5%":
+                                case "12.5%":
                                     temp = miesiace.get(miesiac).get(2) + kwota;
                                     miesiace.get(miesiac).set(2, temp);
                                     break;
-                               case "3%":
+                                case "10%":
                                     temp = miesiace.get(miesiac).get(3) + kwota;
                                     miesiace.get(miesiac).set(3, temp);
+                                    break;
+                                case "8.5%":
+                                    temp = miesiace.get(miesiac).get(4) + kwota;
+                                    miesiace.get(miesiac).set(4, temp);
+                                    break;
+                                case "5.5%":
+                                    temp = miesiace.get(miesiac).get(5) + kwota;
+                                    miesiace.get(miesiac).set(5, temp);
+                                    break;
+                               case "3%":
+                                    temp = miesiace.get(miesiac).get(6) + kwota;
+                                    miesiace.get(miesiac).set(6, temp);
                                     break;
                             }
                         }
@@ -161,25 +173,25 @@ public class ZestawienieRyczaltView implements Serializable {
                         E.e(e);
                     }
                 }
-                for (int i = 1; i < 12; i++) {
+                for (int i = 0; i < 12; i++) {
                     zebranieMcy.add(miesiace.get(i));
                 }
                 Ipolrocze = nowalista();
                 IIpolrocze = nowalista();
                 rok = new ArrayList<>();
-                for (int j = 0; j < 4; j++) {
+                for (int j = 0; j < 7; j++) {
                     for (int i = 0; i < 6; i++) {
                         double temp = Ipolrocze.get(j) + miesiace.get(i).get(j);
                         Ipolrocze.set(j, temp);
                     }
                 }
-                for (int j = 0; j < 4; j++) {
+                for (int j = 0; j < 7; j++) {
                     for (int i = 6; i < 12; i++) {
                         double temp = IIpolrocze.get(j) + miesiace.get(i).get(j);
                         IIpolrocze.set(j, temp);
                     }
                 }
-                for (int i = 0; i < 4; i++) {
+                for (int i = 0; i < 7; i++) {
                     rok.add(Ipolrocze.get(i) + IIpolrocze.get(i));
                 }
             }
@@ -187,8 +199,8 @@ public class ZestawienieRyczaltView implements Serializable {
     }
    
     private List<Double> nowalista() {
-        List<Double> zwrot = Arrays.asList(new Double[4]);
-         for (int i = 0; i < 4; i++) {
+        List<Double> zwrot = Arrays.asList(new Double[7]);
+         for (int i = 0; i < 7; i++) {
             zwrot.set(i, 0.0);
         }
         return zwrot;
@@ -383,9 +395,12 @@ public class ZestawienieRyczaltView implements Serializable {
         String selekcja = wpisView.getMiesiacWpisu();
         int miesiacint = Mce.getMiesiacToNumber().get(selekcja)-1  ;
         podatkibiezace.add(pobranieprzychodu("Przychody opodatkowane stawką 17%", 0.17, miesiacint, 0));
-        podatkibiezace.add(pobranieprzychodu("Przychody opodatkowane stawką 8,5%", 0.085, miesiacint, 1));
-        podatkibiezace.add(pobranieprzychodu("Przychody opodatkowane stawką 5,5%", 0.055, miesiacint, 2));
-        podatkibiezace.add(pobranieprzychodu("Przychody opodatkowane stawką 3%", 0.03, miesiacint, 3));
+        podatkibiezace.add(pobranieprzychodu("Przychody opodatkowane stawką 15%", 0.15, miesiacint, 1));
+        podatkibiezace.add(pobranieprzychodu("Przychody opodatkowane stawką 12,5%", 0.125, miesiacint, 2));
+        podatkibiezace.add(pobranieprzychodu("Przychody opodatkowane stawką 10%", 0.10, miesiacint, 3));
+        podatkibiezace.add(pobranieprzychodu("Przychody opodatkowane stawką 8,5%", 0.085, miesiacint, 4));
+        podatkibiezace.add(pobranieprzychodu("Przychody opodatkowane stawką 5,5%", 0.055, miesiacint, 5));
+        podatkibiezace.add(pobranieprzychodu("Przychody opodatkowane stawką 3%", 0.03, miesiacint, 6));
         biezacyPit.setListapodatkow(podatkibiezace);
     }
 
@@ -458,19 +473,21 @@ public class ZestawienieRyczaltView implements Serializable {
         }
     }
     
-    private void wyliczpodatek(){
+    private void wyliczpodatek() {
         BigDecimal podateksuma = new BigDecimal(BigInteger.ZERO);
         BigDecimal podstawasuma = new BigDecimal(BigInteger.ZERO);
-        for(RyczaltPodatek p : biezacyPit.getListapodatkow()){
-        BigDecimal wynik = (new BigDecimal(p.getPrzychod())).subtract(new BigDecimal(p.getZmniejszenie()));
-        wynik = wynik.setScale(0, RoundingMode.HALF_EVEN);
-        podstawasuma = podstawasuma.add(wynik);
-        p.setPodstawa(wynik.doubleValue());
-        BigDecimal podatek = wynik.multiply(new BigDecimal(p.getStawka()));
-        podatek = podatek.setScale(0, RoundingMode.HALF_EVEN);
-        podateksuma = podateksuma.add(podatek);
-        p.setPodatek(podatek.doubleValue());
-    }
+        for (RyczaltPodatek p : biezacyPit.getListapodatkow()) {
+            BigDecimal wynik = (new BigDecimal(p.getPrzychod())).subtract(new BigDecimal(p.getZmniejszenie()));
+            Double udzial = Double.valueOf(biezacyPit.getUdzial())/100;
+            wynik = wynik.multiply(new BigDecimal(udzial));
+            wynik = wynik.setScale(0, RoundingMode.HALF_EVEN);
+            podstawasuma = podstawasuma.add(wynik);
+            p.setPodstawa(wynik.doubleValue());
+            BigDecimal podatek = wynik.multiply(new BigDecimal(p.getStawka()));
+            podatek = podatek.setScale(0, RoundingMode.HALF_EVEN);
+            podateksuma = podateksuma.add(podatek);
+            p.setPodatek(podatek.doubleValue());
+        }
         biezacyPit.setPodstawa(podstawasuma);
         biezacyPit.setPodatek(podateksuma);
     }
@@ -522,15 +539,15 @@ public class ZestawienieRyczaltView implements Serializable {
         lista.add(new ZestawienieRyczalt(1, "kwiecień", miesiace.get(3)));
         lista.add(new ZestawienieRyczalt(1, "maj", miesiace.get(4)));
         lista.add(new ZestawienieRyczalt(1, "czerwiec", miesiace.get(5)));
-        lista.add(new ZestawienieRyczalt(1, "I półrocze", Ipolrocze.get(0), Ipolrocze.get(1), Ipolrocze.get(2), Ipolrocze.get(3)));
+        lista.add(new ZestawienieRyczalt(1, "I półrocze", Ipolrocze.get(0), Ipolrocze.get(1), Ipolrocze.get(2), Ipolrocze.get(3), Ipolrocze.get(4), Ipolrocze.get(5), Ipolrocze.get(6)));
         lista.add(new ZestawienieRyczalt(1, "lipiec", miesiace.get(6)));
         lista.add(new ZestawienieRyczalt(1, "sierpień", miesiace.get(7)));
         lista.add(new ZestawienieRyczalt(1, "wrzesień", miesiace.get(8)));
         lista.add(new ZestawienieRyczalt(1, "październik", miesiace.get(9)));
         lista.add(new ZestawienieRyczalt(1, "listopad", miesiace.get(10)));
         lista.add(new ZestawienieRyczalt(1, "grudzień", miesiace.get(11)));
-        lista.add(new ZestawienieRyczalt(1, "II półrocze", IIpolrocze.get(0), IIpolrocze.get(1), IIpolrocze.get(2), IIpolrocze.get(3)));
-        lista.add(new ZestawienieRyczalt(1, "rok", rok.get(0), rok.get(1), rok.get(2), rok.get(3)));
+        lista.add(new ZestawienieRyczalt(1, "II półrocze", IIpolrocze.get(0), IIpolrocze.get(1), IIpolrocze.get(2), IIpolrocze.get(3), IIpolrocze.get(4), IIpolrocze.get(5), IIpolrocze.get(6)));
+        lista.add(new ZestawienieRyczalt(1, "rok", rok.get(0), rok.get(1), rok.get(2), rok.get(3), rok.get(4), rok.get(5), rok.get(6)));
         return lista;
     }
     

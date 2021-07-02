@@ -41,7 +41,7 @@
                           rowKey="#{wpis.idDok}" selection="#{ewidencjaPrzychodowView.selDokument}" selectionMode="single" 
                           filteredValue="#{ewidencjaPrzychodowView.listaFiltered}"
                           emptyMessage="W danym miesiącu nie było żadnych zapisów"
-                          style="width: 1400px; height: 600px; overflow-y: scroll;" widgetVar="dokKsiega"  styleClass="grid" 
+                          style="width: 1600px; height: 600px; overflow-y: scroll;" widgetVar="dokKsiega"  styleClass="grid" 
                           > 
                 <f:facet name="header">  
                     <h:outputText value="Ewidencja przychodów" />
@@ -55,20 +55,21 @@
                         <p:column rowspan="2" headerText="Data zdarzenia gosp." width="50"/>  
                         <p:column rowspan="2" headerText="Nr dowodu księgowego" width="90"/>  
                         <p:column colspan="2" headerText="#{mgs.kontrahent}" width="250"/>  
-                        <p:column colspan="5" headerText="Przychody wg stawki" width="400"/>
-                        <p:column rowspan="2" headerText="Razem przychód (5+6+7+8+9)"  width="90"/>  
+                        <p:column colspan="7" headerText="Przychody wg stawki" width="600"/>
+                        <p:column rowspan="2" headerText="Razem przychód (6+7+8+9+10+11+12)"  width="90"/>  
                         <p:column rowspan="2" headerText="Uwagi" width="60"/>  
-                        <p:column colspan="1" headerText="Kwota przychodu wg stawki" width="60"/>
                     </p:row>  
                     <p:row>  
                         <p:column headerText="imię i nazwisko (firma)"  />  
                         <p:column headerText="adres"   />  
-                        <p:column headerText="20%"   />  
+<!--                        <p:column headerText="20%"   />  -->
                         <p:column headerText="17%"/>  
+                        <p:column headerText="15%"/>  
+                        <p:column headerText="12.5%"/>  
+                        <p:column headerText="10%"/>  
                         <p:column headerText="8.5%"   />  
                         <p:column headerText="5.5%"  />  
                         <p:column headerText="3%"  />  
-                        <p:column headerText="10%"  />  
                     </p:row>
                     <p:row>  
                         <p:column headerText="" />  
@@ -77,14 +78,17 @@
                         <p:column headerText="3" filterBy="#{wpis.nrWlDk}" filterMatchMode="contains"  sortBy="#{wpis.nrWlDk}" filterStyle="display: none;"/>  
                         <p:column headerText="4" filterBy="#{wpis.kontr.npelna}" filterMatchMode="contains" sortBy="#{wpis.kontr.npelna}" filterStyle="display: none;"/>  
                         <p:column headerText="5" filterBy="#{wpis.kontr.miejscowosc}" filterMatchMode="contains" sortBy="#{wpis.kontr.miejscowosc}" filterStyle="display: none;"/>  
-                        <p:column headerText="6" filterBy="#{wpis.kolumna5}" filterMatchMode="contains" sortBy="#{wpis.kolumna5}"  filterStyle="display: none;"/>  
-                        <p:column headerText="7" filterBy="#{wpis.kolumna6}" filterMatchMode="contains" sortBy="#{wpis.kolumna6}" filterStyle="display: none;"/>  
-                        <p:column headerText="8" filterBy="#{wpis.kolumna7}" filterMatchMode="contains" sortBy="#{wpis.kolumna7}"  filterStyle="display: none;"/>  
-                        <p:column headerText="9" filterBy="#{wpis.kolumna8}" filterMatchMode="contains" sortBy="#{wpis.kolumna8}" filterStyle="display: none;"/>  
-                        <p:column headerText="10" filterBy="#{wpis.kolumna9}" filterMatchMode="contains" sortBy="#{wpis.kolumna9}" filterStyle="display: none;"/>  
-                        <p:column headerText="11" filterBy="#{wpis.kolumna11}" filterMatchMode="contains" sortBy="#{wpis.kolumna11}" filterStyle="display: none;"/>  
-                        <p:column headerText="12"  filterBy="#{wpis.uwagi}" filterMatchMode="contains" sortBy="#{wpis.uwagi}"  filterStyle="display: none;"/>  
-                        <p:column headerText="13" filterBy="#{wpis.kolumna10}" filterMatchMode="contains" sortBy="#{wpis.kolumna10}" filterStyle="display: none;"/>
+<!--                        <p:column headerText="6" filterBy="#{wpis.kolumna5}" filterMatchMode="contains" sortBy="#{wpis.kolumna5}"  filterStyle="display: none;"/>  -->
+                        <p:column headerText="6" filterBy="#{wpis.kolumna6}" filterMatchMode="contains" sortBy="#{wpis.kolumna6}" filterStyle="display: none;"/>
+                        <p:column headerText="7" filterBy="#{wpis.kolumna12}" filterMatchMode="contains" sortBy="#{wpis.kolumna12}" filterStyle="display: none;"/>
+                        <p:column headerText="8" filterBy="#{wpis.kolumna13}" filterMatchMode="contains" sortBy="#{wpis.kolumna13}" filterStyle="display: none;"/>
+                        <p:column headerText="9" filterBy="#{wpis.kolumna10}" filterMatchMode="contains" sortBy="#{wpis.kolumna10}" filterStyle="display: none;"/>
+                        <p:column headerText="10" filterBy="#{wpis.kolumna7}" filterMatchMode="contains" sortBy="#{wpis.kolumna7}"  filterStyle="display: none;"/>  
+                        <p:column headerText="11" filterBy="#{wpis.kolumna8}" filterMatchMode="contains" sortBy="#{wpis.kolumna8}" filterStyle="display: none;"/>  
+                        <p:column headerText="12" filterBy="#{wpis.kolumna9}" filterMatchMode="contains" sortBy="#{wpis.kolumna9}" filterStyle="display: none;"/>  
+                        <p:column headerText="13" filterBy="#{wpis.kolumna11}" filterMatchMode="contains" sortBy="#{wpis.kolumna11}" filterStyle="display: none;"/>
+                        <p:column headerText="14"  filterBy="#{wpis.uwagi}" filterMatchMode="contains" sortBy="#{wpis.uwagi}"  filterStyle="display: none;"/>  
+                        
                         
                     </p:row>
                 </p:columnGroup>  
@@ -107,16 +111,25 @@
                     <h:outputText value="#{wpis.kontr.kodpocztowy} #{wpis.kontr.miejscowosc} #{wpis.kontr.ulica} #{wpis.kontr.dom} #{wpis.kontr.lokal}"   rendered="#{wpis.kontr.ulica ne 'dowód wewnętrzny'}"/>
                     <h:outputText value="podsumowanie"   rendered="#{wpis.kontr eq null ? false : true}"/>
                 </p:column>
-                <p:column id="pkpirKolColumn" headerText="kolumna" >  
+<!--                <p:column id="pkpirKolColumn" headerText="kolumna" >  
                     <h:outputText value="#{wpis.kolumna5 ne 0.0 ? wpis.kolumna5 : null}"  style="float: right;"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
-                </p:column>
+                </p:column>-->
                 <p:column id="pkpirKolColumn8" headerText="kolumna">  
                     <h:outputText value="#{wpis.kolumna6 ne 0.0 ? wpis.kolumna6 : null}"   style="float: right;"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
+                </p:column>
+                <p:column id="pkpirKolColumn15" headerText="kolumna">  
+                    <h:outputText value="#{wpis.kolumna12 ne 0.0 ? wpis.kolumna12 : null}"   style="float: right;"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
+                </p:column>
+                <p:column id="pkpirKolColumn125" headerText="kolumna">  
+                    <h:outputText value="#{wpis.kolumna13 ne 0.0 ? wpis.kolumna13 : null}"   style="float: right;"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
+                </p:column>
+                <p:column id="pkpirKolColumn10" headerText="kolumna">  
+                    <h:outputText value="#{wpis.kolumna10 ne 0.0 ? wpis.kolumna10 : null}"   style="float: right;"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
                 </p:column>
                 <p:column id="pkpirKolColumn9" headerText="kolumna">  
                     <h:outputText value="#{wpis.kolumna7 ne 0.0 ? wpis.kolumna7 : null}"   style="float: right;"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
                 </p:column>
-                <p:column id="pkpirKolColumn10" headerText="kolumna" >  
+                <p:column id="pkpirKolColumn85" headerText="kolumna" >  
                     <h:outputText value="#{wpis.kolumna8 ne 0.0 ? wpis.kolumna8 : null}"   style=" float: right;"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
                 </p:column>
                 <p:column id="pkpirKolColumn11" headerText="kolumna">  
@@ -128,9 +141,9 @@
                 <p:column id="uwagaColumn" headerText="uwagi">  
                     <h:outputText value="#{wpis.uwagi}" />
                 </p:column>
-                <p:column id="pkpirKolColumn12" headerText="kolumna" >  
+<!--                <p:column id="pkpirKolColumn12" headerText="kolumna" >  
                     <h:outputText value="#{wpis.kolumna10 ne 0.0 ? wpis.kolumna10 : null}"   style=" float: right;"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
-                </p:column>
+                </p:column>-->
                 
                 <p:rowExpansion>
                     <p:column id="ewidencjavat" headerText="ewidencjavat - netto - vat - op/zw" width="300" resizable="true">  

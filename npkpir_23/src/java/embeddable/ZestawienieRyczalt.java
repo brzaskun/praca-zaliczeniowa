@@ -15,6 +15,9 @@ public class ZestawienieRyczalt {
     private int id;
     private String okres;
     private double s170;
+    private double s150;
+    private double s125;
+    private double s100;
     private double s85;
     private double s55;
     private double s30;
@@ -23,19 +26,27 @@ public class ZestawienieRyczalt {
         this.id = id;
         this.okres = okres;
         this.s170 = mapa.get(0);
-        this.s85 = mapa.get(1);
-        this.s55 = mapa.get(2);
-        this.s30 = mapa.get(3);
+        this.s150 = mapa.get(1);
+        this.s125 = mapa.get(2);
+        this.s100 = mapa.get(3);
+        this.s85 = mapa.get(4);
+        this.s55 = mapa.get(5);
+        this.s30 = mapa.get(6);
     }
-    
-     public ZestawienieRyczalt(int id, String okres, double s170, double s85, double s55, double s30) {
+
+    public ZestawienieRyczalt(int id, String okres, double s170, double s150, double s125, double s100, double s85, double s55, double s30) {
         this.id = id;
         this.okres = okres;
         this.s170 = s170;
+        this.s150 = s150;
+        this.s125 = s125;
+        this.s100 = s100;
         this.s85 = s85;
         this.s55 = s55;
         this.s30 = s30;
     }
+    
+     
 
     public ZestawienieRyczalt() {
     }
@@ -62,6 +73,30 @@ public class ZestawienieRyczalt {
 
     public void setS170(double s170) {
         this.s170 = s170;
+    }
+
+    public double getS150() {
+        return s150;
+    }
+
+    public void setS150(double s150) {
+        this.s150 = s150;
+    }
+
+    public double getS125() {
+        return s125;
+    }
+
+    public void setS125(double s125) {
+        this.s125 = s125;
+    }
+
+    public double getS100() {
+        return s100;
+    }
+
+    public void setS100(double s100) {
+        this.s100 = s100;
     }
 
     public double getS85() {

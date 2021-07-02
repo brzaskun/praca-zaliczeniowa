@@ -28,7 +28,8 @@ import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import msg.Msg;import plik.Plik;
+import msg.Msg;
+import plik.Plik;
 import view.WpisView;
 /**
  *
@@ -78,6 +79,10 @@ public class PdfPIT28 {
             document.add(miziu1);
             miziu1 = new Paragraph(new Phrase("NIP: "+pod.getNip(),fontM));
             document.add(miziu1);
+            if (selected.getUdzialowiec()!=null) {
+                miziu1 = new Paragraph(new Phrase("udziałowiec: "+selected.getUdzialowiec(),fontM));
+                document.add(miziu1);    
+            }
             PdfPTable table = new PdfPTable(2);
             table.setWidths(new int[]{5, 5,});
             NumberFormat formatter = NumberFormat.getCurrencyInstance();
@@ -87,7 +92,7 @@ public class PdfPIT28 {
                 table.addCell(ustawfrazeAlign("razem przychody za miesiac","center",10));
                 table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getPrzychody())),"right",10));
                 for(RyczaltPodatek p : selected.getListapodatkow()){
-                    table.addCell(ustawfrazeAlign("z tego w stawce "+p.getStawka(),"center",10));
+                    table.addCell(ustawfrazeAlign("z tego w stawce "+p.getStawka()*100+"%","center",10));
                     table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getPrzychod())),"right",10));
                 }
                 table.addCell(ustawfrazeAlign("udział","center",10));

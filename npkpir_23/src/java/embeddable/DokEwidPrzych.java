@@ -36,6 +36,8 @@ public class DokEwidPrzych implements Serializable {
     private double kolumna9;
     private double kolumna10;
     private double kolumna11;
+    private double kolumna12;
+    private double kolumna13;
     private String uwagi;
     private String pkpirM;
     private String pkpirR;
@@ -193,6 +195,22 @@ public class DokEwidPrzych implements Serializable {
 
     public void setKolumna11(double kolumna11) {
         this.kolumna11 = kolumna11;
+    }
+
+    public double getKolumna12() {
+        return kolumna12;
+    }
+
+    public void setKolumna12(double kolumna12) {
+        this.kolumna12 = kolumna12;
+    }
+
+    public double getKolumna13() {
+        return kolumna13;
+    }
+
+    public void setKolumna13(double kolumna13) {
+        this.kolumna13 = kolumna13;
     }
 
 

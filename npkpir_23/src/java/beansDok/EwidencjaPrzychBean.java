@@ -25,13 +25,24 @@ public class EwidencjaPrzychBean extends KsiegaBean {
     public static DokEwidPrzych ustawpodsumowanieR() {
         DokEwidPrzych podsumowanie = new DokEwidPrzych();
         podsumowanie.setKontr(null);
+        //20%
         podsumowanie.setKolumna5(0.0);
+        //17%
         podsumowanie.setKolumna6(0.0);
+        //8.5
         podsumowanie.setKolumna7(0.0);
+        //5.5
         podsumowanie.setKolumna8(0.0);
+        //3
         podsumowanie.setKolumna9(0.0);
+        //10
         podsumowanie.setKolumna10(0.0);
+        //suma
         podsumowanie.setKolumna11(0.0);
+        //15
+        podsumowanie.setKolumna12(0.0);
+        //12.5
+        podsumowanie.setKolumna13(0.0);
         podsumowanie.setIdDok(new Long(1222));
         podsumowanie.setKontr(new Klienci());
         return podsumowanie;
@@ -56,6 +67,24 @@ public class EwidencjaPrzychBean extends KsiegaBean {
                     dk.setKolumna6(tmpX.getNetto());
                 }
                 podsumowanie.setKolumna6(podsumowanie.getKolumna6() + tmpX.getNetto());
+                break;
+            case "15%":
+                try {
+                    dk.setKolumna12(dk.getKolumna12() + tmpX.getNetto());
+                } catch (Exception e) {
+                    E.e(e);
+                    dk.setKolumna12(tmpX.getNetto());
+                }
+                podsumowanie.setKolumna12(podsumowanie.getKolumna12() + tmpX.getNetto());
+                break;
+            case "12.5%":
+                try {
+                    dk.setKolumna13(dk.getKolumna13() + tmpX.getNetto());
+                } catch (Exception e) {
+                    E.e(e);
+                    dk.setKolumna13(tmpX.getNetto());
+                }
+                podsumowanie.setKolumna13(podsumowanie.getKolumna13() + tmpX.getNetto());
                 break;
             case "8.5%":
                 try {
@@ -97,7 +126,7 @@ public class EwidencjaPrzychBean extends KsiegaBean {
     }
 
     public static void rozliczkolumnysumaryczneR(DokEwidPrzych dk, DokEwidPrzych podsumowanie) {
-        double suma = dk.getKolumna5()+dk.getKolumna6()+dk.getKolumna7()+dk.getKolumna8()+dk.getKolumna9();
+        double suma = dk.getKolumna5()+dk.getKolumna6()+dk.getKolumna7()+dk.getKolumna8()+dk.getKolumna9()+dk.getKolumna10()+dk.getKolumna12()+dk.getKolumna13();
         dk.setKolumna11(suma);
         podsumowanie.setKolumna11(podsumowanie.getKolumna11() + suma);
     }

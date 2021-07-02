@@ -729,10 +729,13 @@ public static List[] getKontoZapisy(List<StronaWiersza> wiersze) {
        List n = new ArrayList();
        n.add("lp");
        n.add("okres");
-       n.add("przych. wg 17%");
-       n.add("przych. wg 8,5%");
-       n.add("przych. wg 5,5%");
-       n.add("przych. wg 3%");
+       n.add("staw. 17%");
+       n.add("staw. 15%");
+       n.add("staw. 12.5%");
+       n.add("staw. 10%");
+       n.add("staw. 8,5%");
+       n.add("staw. 5,5%");
+       n.add("staw. 3%");
        List[] tabela = new List[2];
        tabela[0] = n;
        tabela[1] = wiersze;
