@@ -590,7 +590,7 @@ public class VatUeFKView implements Serializable {
             } else {
                 for (VatUe s : staralista) {
                     for (VatUe t : lista) {
-                        if (t.getKontrahent() != null && s.getKontrahent() != null && t.getKontrahent().equals(s.getKontrahent())) {
+                        if (t.getKontrahent() != null && s.getKontrahent() != null && t.getKontrahent().equals(s.getKontrahent()) && t.getTransakcja().equals(s.getTransakcja())) {
                             if (Z.z(t.getNetto()) != Z.z(s.getNetto()) || !t.getKontrahent().getNip().equals(s.getKontrahent().getNip())) {
                                 t.setKorekta(true);
                                 robickorekte = true;
@@ -802,7 +802,7 @@ public class VatUeFKView implements Serializable {
                 boolean niebylojeszcze = true;
                 for (VatUe s : staralista) {
                     if (s.getKontrahent()!=null) {
-                        if (p.getKontrahent().equals(s.getKontrahent())) {
+                        if (p.getKontrahent().equals(s.getKontrahent()) && p.getTransakcja().equals(s.getTransakcja())) {
                             if (Z.z(p.getNetto()) != Z.z(s.getNetto()) || (p.getPoprzedninip() !=null && !p.getPoprzedninip().equals(""))) {
                                 p.setNettoprzedkorekta(s.getNetto());
                                 lista.add(p);
