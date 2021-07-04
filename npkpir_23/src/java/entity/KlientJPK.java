@@ -137,6 +137,36 @@ public class KlientJPK implements Serializable {
         this.ewidencjaVAT = new ArrayList<>();
     }
 
+    public KlientJPK(KlientJPK a) {
+        this.serial = a.serial;
+        this.kodKrajuNadania = a.kodKrajuNadania;
+        this.kodKrajuDoreczenia = a.kodKrajuDoreczenia;
+        this.jurysdykcja = a.jurysdykcja;
+        this.nrKontrahenta = a.nrKontrahenta;
+        this.nazwaKontrahenta = a.nazwaKontrahenta;
+        this.dowodSprzedazy = a.dowodSprzedazy;
+        this.dataWystawienia = a.dataWystawienia;
+        this.dataSprzedazy = a.dataSprzedazy;
+        this.netto = a.netto;
+        this.vat = a.vat;
+        this.nettowaluta = a.nettowaluta;
+        this.vatwaluta = a.vatwaluta;
+        this.stawkavat = a.stawkavat;
+        this.kurs = a.kurs;
+        this.podatnik = a.podatnik;
+        this.rok = a.rok;
+        this.mc = a.mc;
+        this.ewidencja = a.ewidencja;
+        this.ewidencjaVAT = new ArrayList<>();
+        this.waluta = a.waluta;
+        this.wdt = a.wdt;
+        this.wnt = a.wnt;
+        this.eksport = a.eksport;
+        this.importt = a.importt;
+    }
+
+    
+
     public int getId() {
         return id;
     }

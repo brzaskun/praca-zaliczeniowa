@@ -205,6 +205,24 @@ public class JPK_VAT2020M_Bean {
         return w;
     }
     
+    public static JPK.Ewidencja.ZakupWiersz dodajwierszzakupu(KlientJPK ev, BigInteger lp, JPK.Ewidencja.ZakupCtrl zakupCtrl, JPKvatwersjaEvewidencja jPKvatwersjaEvewidencja) {
+        JPK.Ewidencja.ZakupWiersz w = new JPK.Ewidencja.ZakupWiersz();
+        try {
+            w.setLpZakupu(lp);
+            w.setDokumentZakupu(TDowoduZakupu.WEW);
+            w.setDataZakupu(Data.dataStringToXMLGregorian(ev.getDataSprzedazy()));
+            w.setDataWplywu(Data.dataStringToXMLGregorian(ev.getDataWystawienia()));
+            w.setNazwaDostawcy(ev.getNazwaKontrahenta());
+            w.setKodKrajuNadaniaTIN(ev.getKodKrajuDoreczenia());
+            w.setNrDostawcy(ev.getNrKontrahenta());
+            w.setDowodZakupu(ev.getDowodSprzedazy());
+            dodajkwotydowierszaZakupuJPK(w,ev, zakupCtrl, jPKvatwersjaEvewidencja);
+        } catch (Exception ex) {
+            
+        }
+        return w;
+    }
+    
     public static JPK.Ewidencja.ZakupWiersz dodajwierszzakupu(EVatwpisFK ev, BigInteger lp, JPK.Ewidencja.ZakupCtrl zakupCtrl, JPKvatwersjaEvewidencja jPKvatwersjaEvewidencja) {
         JPK.Ewidencja.ZakupWiersz w = new JPK.Ewidencja.ZakupWiersz();
         try {
@@ -235,6 +253,27 @@ public class JPK_VAT2020M_Bean {
     }
     
     private static void dodajkwotydowierszaZakupu(JPK.Ewidencja.ZakupWiersz w, EVatwpisSuper ev, JPK.Ewidencja.ZakupCtrl zakupCtrl, JPKvatwersjaEvewidencja jPKvatwersjaEvewidencja) {
+        try {
+            String netto = jPKvatwersjaEvewidencja.getPolejpk_netto_zakup().replace("_", "");
+            String vat = jPKvatwersjaEvewidencja.getPolejpk_vat_zakup() != null ? jPKvatwersjaEvewidencja.getPolejpk_vat_zakup().replace("_", "") : null;
+            if (netto != null) {
+                Method method = JPK.Ewidencja.ZakupWiersz.class.getMethod(zwrocpolejpk(netto),BigDecimal.class);
+                method.invoke(w, BigDecimal.valueOf(Z.z(ev.getNetto())).setScale(2, RoundingMode.HALF_EVEN));
+            }
+            if (vat != null) {
+                Method method = JPK.Ewidencja.ZakupWiersz.class.getMethod(zwrocpolejpk(vat),BigDecimal.class);
+                method.invoke(w, BigDecimal.valueOf(Z.z(ev.getVat())));
+                zakupCtrl.setPodatekNaliczony(zakupCtrl.getPodatekNaliczony().add(BigDecimal.valueOf(ev.getVat())).setScale(2, RoundingMode.HALF_EVEN));
+            }
+             if (ev.getNetto() != 0.0 || ev.getVat() != 0.0) {
+                zakupCtrl.setLiczbaWierszyZakupow(zakupCtrl.getLiczbaWierszyZakupow().add(BigInteger.ONE));
+            }
+        } catch (Exception e) {
+            E.e(e);
+        }
+    }
+    
+    private static void dodajkwotydowierszaZakupuJPK(JPK.Ewidencja.ZakupWiersz w, KlientJPK ev, JPK.Ewidencja.ZakupCtrl zakupCtrl, JPKvatwersjaEvewidencja jPKvatwersjaEvewidencja) {
         try {
             String netto = jPKvatwersjaEvewidencja.getPolejpk_netto_zakup().replace("_", "");
             String vat = jPKvatwersjaEvewidencja.getPolejpk_vat_zakup() != null ? jPKvatwersjaEvewidencja.getPolejpk_vat_zakup().replace("_", "") : null;
