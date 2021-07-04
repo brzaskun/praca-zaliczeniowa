@@ -30,13 +30,13 @@
             <p:commandButton value="rozwiń/zwiń" style="margin-left: 10px; margin-bottom: 1%; width: 120px;" onclick="jQuery('.ui-row-toggler').click()" global="false"/>
             <p:commandButton value="deklar. test" style="margin-left: 10px; margin-bottom: 1%; width: 120px;display:inline ;"
                              actionListener="#{vatUeFKView.tworzdeklaracje(vatUeFKView.klienciWDTWNT,0)}" rendered="#{!vatUeFKView.deklaracja0korekta1}"/>
-<!--            <p:commandButton value="deklaracja" style="margin-left: 10px; margin-bottom: 1%; width: 120px;display: none ;" id="deklbutton"
-                             actionListener="#{vatUeFKView.tworzdeklaracje(vatUeFKView.klienciWDTWNT,1)}" update="@(.upd3) @(.upd)" rendered="#{!vatUeFKView.deklaracja0korekta1}"/>-->
             <p:commandButton value="deklaracja" style="margin-left: 10px; margin-bottom: 1%; width: 120px;" id="deklbutton"
-                             actionListener="#{vatUeFKView.tworzdeklaracje(vatUeFKView.klienciWDTWNT,1)}" update="@(.upd3) @(.upd)"/>
+                             actionListener="#{vatUeFKView.tworzdeklaracje(vatUeFKView.klienciWDTWNT,1)}" update="@(.upd3) @(.upd)" rendered="#{!vatUeFKView.deklaracja0korekta1}"/>
+<!--            <p:commandButton value="deklaracja" style="margin-left: 10px; margin-bottom: 1%; width: 120px;" id="deklbutton"
+                             actionListener="#{vatUeFKView.tworzdeklaracje(vatUeFKView.klienciWDTWNT,1)}" update="@(.upd3) @(.upd)"/>-->
             <p:commandButton value="korekta test" style="margin-left: 10px; margin-bottom: 1%; width: 120px; display: inline;"  update="@(.upd3) @(.upd)"   styleClass="upd3"
                              actionListener="#{vatUeFKView.tworzdeklaracjekorekta(vatUeFKView.klienciWDTWNT, 0)}" rendered="#{vatUeFKView.deklaracja0korekta1}"/>
-            <p:commandButton value="korekta" style="margin-left: 10px; margin-bottom: 1%; width: 120px; display: none;"  update="@(.upd3) @(.upd)"   id="deklbutton2" styleClass="upd3"
+            <p:commandButton value="korekta" style="margin-left: 10px; margin-bottom: 1%; width: 120px;"  update="@(.upd3) @(.upd)"   id="deklbutton2" styleClass="upd3"
                              actionListener="#{vatUeFKView.tworzdeklaracjekorekta(vatUeFKView.klienciWDTWNT, 1)}" rendered="#{vatUeFKView.deklaracja0korekta1}"/>
             <p:commandButton value="VIES" style="margin-left: 10px; margin-bottom: 1%; width: 120px;" actionListener="#{vatUeFKView.sprawdzVIES}"
                              update="@(.upd1)" oncomplete="pokazbutony();"/>
