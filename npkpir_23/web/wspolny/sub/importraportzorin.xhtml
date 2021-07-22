@@ -24,14 +24,18 @@
                     </p:panelGrid>
             </p:panelGrid>
         </h:form>
-        <h:form>
-        <p:panelGrid columns="1">
-            <p:commandButton value="pobierz dane" actionListener="#{importRaportZorinView.raport()}" update="panelprzyciskow akordeon5" style="width: 120px;" ajax="false" onclick="concoff(9000)" />
-        </p:panelGrid>
+        <h:form id="transferxlszorin">
+            <p:outputPanel style="padding: 10px;" id="wiadomosci">
+                <p:outputLabel for="ilefaktur" value="ilość faktur w pliku:"/>
+                <h:outputText id="ilefaktur" value="#{importRaportZorinView.ilefaktur}" style="margin-left: 30px;"/>
+            </p:outputPanel>
+            <p:panelGrid columns="1">
+<!--                nie ma update bo jest ajax false!!!-->
+                <p:commandButton value="pobierz dane" actionListener="#{importRaportZorinView.raport()}" style="width: 120px;" ajax="false" onclick="concoff(9000);setTimeout(function(){ rj('transferxlszorin:buton2').click() }, 12000)"  />
+                <p:commandButton id="buton2" value="pobierz dane"  style="display: none" update="transferxlszorin:wiadomosci"/>
+            </p:panelGrid>
             
         </h:form>  
  
-            
-
 </ui:composition>   
 

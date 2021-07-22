@@ -589,6 +589,9 @@ public class WriteXLSFile {
         if (ob.getIDZRODLA().equals("45070899-0E3F-4499-AD4E-B7061E47809F")) {
             System.out.println("");
         }
+        if (ob.getOPIS().equals("Shipment no. CM330418465DE")){
+            System.out.println("");
+        }
         createTextCell(styletext, row, (short) columnIndex++, ob.getREJESTR());
         createDateCell(styledata, row, (short) columnIndex++, ob.getDATAWYSTAWIENIA().toGregorianCalendar().getTime());
         createDateCell(styledata, row, (short) columnIndex++, ob.getDATASPRZEDAZY().toGregorianCalendar().getTime());
@@ -656,41 +659,43 @@ public class WriteXLSFile {
                 zwrot[4] = vatpln;
                 zwrot[5] = Z.z(nettopln+vatpln);
             } else {
-                if (Z.z(Math.abs(sumapozycje))==Z.z(Math.abs(plt.getKWOTAPLAT()))) {
-                    double nettowaluta = pozycjenetto;
-                    double vatwaluta = pozycjevat;
-                    double stawkavat = vatwaluta/nettowaluta;
-                    double procentvat = stawkavat/(1.0+stawkavat);
-                    zwrot[3] = nettowaluta;
-                    zwrot[4] = vatwaluta;
-                    zwrot[5] = Z.z(nettowaluta+vatwaluta);
-                    vatpln = Z.z(plt.getKWOTAPLNPLAT()*procentvat);
-                    nettopln = Z.z(plt.getKWOTAPLNPLAT()-vatpln);
-                    if (nettowaluta<0.0) {
-                        nettopln = -nettopln;
-                        vatpln = -vatpln;
+                try {
+                    if (Z.z(Math.abs(sumapozycje))==Z.z(Math.abs(plt.getKWOTAPLAT()))) {
+                        double nettowaluta = pozycjenetto;
+                        double vatwaluta = pozycjevat;
+                        double stawkavat = vatwaluta/nettowaluta;
+                        double procentvat = stawkavat/(1.0+stawkavat);
+                        vatpln = Z.z(plt.getKWOTAPLNPLAT()*procentvat);
+                        nettopln = Z.z(plt.getKWOTAPLNPLAT()-vatpln);
+                        if (nettowaluta<0.0) {
+                            nettopln = -nettopln;
+                            vatpln = -vatpln;
+                        }
+                        zwrot[0] = nettopln;
+                        zwrot[1] = vatpln;
+                        zwrot[2] = Z.z(nettopln+vatpln);
+                        zwrot[3] = nettowaluta;
+                        zwrot[4] = vatwaluta;
+                        zwrot[5] = Z.z(nettowaluta+vatwaluta);
+                    } else {
+                        nettopln = pozycjenetto;
+                        vatpln = pozycjevat;
+                        double stawkavat = vatpln/nettopln;
+                        double procentvat = stawkavat/(1+stawkavat);
+                        double vatwaluta = Z.z(plt.getKWOTAPLAT()*procentvat);
+                        double nettowaluta = Z.z(plt.getKWOTAPLAT()-vatwaluta);
+                        if (nettopln<0.0) {
+                            nettowaluta = -nettowaluta;
+                            vatwaluta = -vatwaluta;
+                        }
+                        zwrot[0] = nettopln;
+                        zwrot[1] = vatpln;
+                        zwrot[2] = Z.z(nettopln+vatpln);
+                        zwrot[3] = nettowaluta;
+                        zwrot[4] = vatwaluta;
+                        zwrot[5] = Z.z(nettowaluta+vatwaluta);
                     }
-                    zwrot[0] = nettopln;
-                    zwrot[1] = vatpln;
-                    zwrot[2] = Z.z(nettopln+vatpln);
-                } else {
-                    nettopln = pozycjenetto;
-                    vatpln = pozycjevat;
-                    double stawkavat = vatpln/nettopln;
-                    double procentvat = stawkavat/(1+stawkavat);
-                    zwrot[0] = nettopln;
-                    zwrot[1] = vatpln;
-                    zwrot[2] = Z.z(nettopln+vatpln);
-                    double vatwaluta = Z.z(plt.getKWOTAPLAT()*procentvat);
-                    double nettowaluta = Z.z(plt.getKWOTAPLAT()-vatwaluta);
-                    if (nettopln<0.0) {
-                        nettowaluta = -nettowaluta;
-                        vatwaluta = -vatwaluta;
-                    }
-                    zwrot[3] = nettowaluta;
-                    zwrot[4] = vatwaluta;
-                    zwrot[5] = Z.z(nettowaluta+vatwaluta);
-                }
+                } catch (Exception e){}
             }
         }
         return zwrot;

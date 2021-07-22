@@ -43,6 +43,7 @@ public class ImportRaportZorinView implements Serializable {
     private WpisView wpisView;
     @Inject
     private KliencifkDAO kliencifkDAO;
+    private int ilefaktur;
     
      public void zachowajplik(FileUploadEvent event) {
         try {
@@ -71,10 +72,12 @@ public class ImportRaportZorinView implements Serializable {
             //Create Workbook instance holding reference to .xlsx file  TYLKO NOWE XLSX
             if (tabela != null && tabela.getREJESTRYSPRZEDAZYVAT() != null && !tabela.getREJESTRYSPRZEDAZYVAT().getREJESTRSPRZEDAZYVAT().isEmpty()) {
                 zachowajRaportXLS(tabela.getREJESTRYSPRZEDAZYVAT());
+                ilefaktur = tabela.getREJESTRYSPRZEDAZYVAT().getREJESTRSPRZEDAZYVAT().size();
             }
             if (tabela != null && tabela.getKONTRAHENCI() != null && !tabela.getKONTRAHENCI().getKONTRAHENT().isEmpty()) {
                 pobierzoznaczeniakontrahentow(tabela.getKONTRAHENCI().getKONTRAHENT());
             }
+
         } catch (Exception e) {
         }
     }
@@ -130,4 +133,14 @@ public class ImportRaportZorinView implements Serializable {
         }
         
     }
+
+    public int getIlefaktur() {
+        return ilefaktur;
+    }
+
+    public void setIlefaktur(int ilefaktur) {
+        this.ilefaktur = ilefaktur;
+    }
+    
+    
 }
