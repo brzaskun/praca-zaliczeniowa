@@ -156,15 +156,31 @@ public class FakturaDodPozycjaKontrahentView  implements Serializable {
             if (lista_tmp.isEmpty()) {
                 Msg.msg("e", "Brak pozycji stałych");
             } else {
-                lista_2 = new ArrayList<>();
+                if (lista_2==null) {
+                    lista_2 = new ArrayList<>();
+                }
                 for (FakturaDodPozycjaKontrahent p : lista_tmp) {
                     FakturaDodPozycjaKontrahent r = new FakturaDodPozycjaKontrahent(p, rok, mc);
-                    lista_2.add(r);
+                    dodajpozycje(r,lista_2);
                 }
                 Msg.msg("Pobrano stałe pozycje");
             }
         }
     }
+    
+    private void dodajpozycje(FakturaDodPozycjaKontrahent r, List<FakturaDodPozycjaKontrahent> lista_2) {
+        boolean dodac = true;
+        for (FakturaDodPozycjaKontrahent p : lista_2) {
+            if (r.getKontrahent().equals(p.getKontrahent())&&r.getFakturaDodatkowaPozycja().equals(r.getFakturaDodatkowaPozycja())) {
+                dodac = false;
+                break;
+            }
+        }
+        if (dodac) {
+            lista_2.add(r);
+        }
+    }
+    
     
     public void zachowajpermanentne() {
         if (lista_2!=null&& !lista_2.isEmpty()) {
@@ -254,6 +270,7 @@ public class FakturaDodPozycjaKontrahentView  implements Serializable {
     public void setButton1(CommandButton button1) {
         this.button1 = button1;
     }
+
     
     
 }
