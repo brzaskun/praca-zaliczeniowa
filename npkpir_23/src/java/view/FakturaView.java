@@ -239,7 +239,7 @@ public class FakturaView implements Serializable {
         fakturyokresoweFiltered = null;
         fakturyFiltered = null;
         aktywnytab = 1;
-        mailplussms = true;
+        mailplussms = false;
         fakturyokresowe = fakturywystokresoweDAO.findPodatnikBiezace(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
         Collections.sort(fakturyokresowe, new Fakturyokresowecomparator());
         List<Faktura> fakturytmp = fakturaDAO.findbyPodatnikRokMc(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());

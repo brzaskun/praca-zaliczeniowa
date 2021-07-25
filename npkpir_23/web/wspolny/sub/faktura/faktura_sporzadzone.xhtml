@@ -72,7 +72,7 @@
                 <p:selectBooleanCheckbox value="#{fakturaView.pokaztylkoniewyslane}" itemLabel="tylko niewysłane" style="margin-left: 100px;">
                     <p:ajax event="change" listener="#{fakturaView.init()}" partialSubmit="true" update=":akordeon:formsporzadzone akordeon:formsporzadzone:dokumentyLista"/>
                 </p:selectBooleanCheckbox>
-                <p:selectBooleanCheckbox value="#{fakturaView.mailplussms}" itemLabel="bez sms-ów" style="margin-left: 100px;">
+                <p:selectBooleanCheckbox value="#{fakturaView.mailplussms}" itemLabel="wyślij sms" style="margin-left: 100px;">
                     <p:ajax event="change" partialSubmit="true"/>
                 </p:selectBooleanCheckbox>
                 </p:panelGrid>
