@@ -14,7 +14,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import msg.Msg;
@@ -74,11 +73,11 @@ public class ImportiPKOBPbiz_XLS implements Serializable {
                 pn.setWyciagnrod(Data.getMc(pn.getWyciagdataod()));
                 pn.setWyciagnrdo(mc);
                 pn.setWyciagnr("1");
-                pn.setWyciagwaluta(prow.getCell(4).getStringCellValue());
+                pn.setWyciagwaluta((String) X.x(prow.getCell(5)));
                 pn.setWyciagobrotywn(sumujobroty(records,0));
                 pn.setWyciagobrotyma(sumujobroty(records,1));
-                pn.setWyciagbo(prow.getCell(5).getNumericCellValue()-prow.getCell(3).getNumericCellValue());
-                pn.setWyciagbz(lrow.getCell(5).getNumericCellValue()-lrow.getCell(3).getNumericCellValue());
+                pn.setWyciagbo(prow.getCell(6).getNumericCellValue()-prow.getCell(4).getNumericCellValue());
+                pn.setWyciagbz(lrow.getCell(6).getNumericCellValue()-lrow.getCell(4).getNumericCellValue());
                 pn.setWyciagdatado(Data.zmienkolejnosc(lrow.getCell(0).getStringCellValue()));
                 for (Iterator<Row> it = new ReverseIterator<>(records).iterator(); it.hasNext();) {
                     Row baza = it.next();
@@ -93,47 +92,23 @@ public class ImportiPKOBPbiz_XLS implements Serializable {
                         if (!mcwiersz.equals(mc)) {
                               
                         } else {
-                            String opis = baza.getCell(12)!=null? baza.getCell(12).getStringCellValue():baza.getCell(2).getStringCellValue();
-                            if (opis==null || opis.equals("")|| opis.contains("Tytuł:  Pobranie środków ")) {
-                                opis = baza.getCell(2).getStringCellValue();
-                            }
-                            if (opis.contains("Numer faktury VAT lub okres płatności zbiorczej:")||opis.contains("Tytuł:")) {
-                                opis = opis.replace("Numer faktury VAT lub okres płatności zbiorczej: ", "");
-                                opis = opis.replace("Tytuł: ", "");
-                            } else {
-                                opis = opis.toLowerCase(new Locale("pl", "PL"));
-                            }
-                            String rodzajtr  = baza.getCell(2).getStringCellValue();
-                            if (rodzajtr.equals("Płatność kartą")||rodzajtr.equals("Prowizja")) {
-                                opis = rodzajtr.toLowerCase(new Locale("pl","PL"))+" "+opis.toLowerCase(new Locale("pl","PL"));
-                            } else if (rodzajtr.equals("Opłata")) {
-                                opis = opis.toLowerCase(new Locale("pl","PL"));
-                            }
+                            String pobranyciag = baza.getCell(2)!=null? baza.getCell(2).getStringCellValue():"";
+                            String opis = pobierzciag(pobranyciag,"Tytuł: ");
                             x.setOpistransakcji(opis);
                             x.setNrwyciagu(pn.getWyciagnr());
-                            String rachunek = baza.getCell(6).getStringCellValue().length()>1 ?baza.getCell(6).getStringCellValue():baza.getCell(9).getStringCellValue();
-                            if (rachunek.contains("Nr rach. przeciwst.:")) {
-                                int rozm = rachunek.length();
-                                rachunek = rachunek.substring(rozm-32, rozm);
-                                rachunek = rachunek.replace(" ", "").trim();
-                            } else {
-                                rachunek = null;
-                            }
-                            x.setIBAN(rachunek);
-                            String nazw = baza.getCell(10)!=null? baza.getCell(10).getStringCellValue():null;
-                            if (nazw.contains("Dane adr. rach. przeciwst.:")) {
-                                nazw = nazw.replace("Dane adr. rach. przeciwst.: ", "");
-                            }
+                            String rachunek = pobierzciag(pobranyciag,"Rachunek kontrahenta: ");
+                            x.setIBAN(rachunek.replace(" ", ""));
+                            String nazw = pobierzciag(pobranyciag,"Nazwa i adres Kontrahenta: ");
                             x.setKontrahent(nazw);
                             x.setKontrahent(x.getKontrahent().replace("Spółka Z Ograniczoną Odpowiedzialnością", "sp. z o.o."));
                             x.setKontrahent(x.getKontrahent().replace("SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ", "sp. z o.o."));
                             x.setKontrahent(x.getKontrahent().replace("SPÓŁKA Z OGRANICZONĄ ODPOWI EDZIALNOŚCIĄ", "sp. z o.o."));
-                            double kwota = baza.getCell(3).getNumericCellValue();
+                            double kwota = (double) X.x(baza.getCell(4));
                             x.setWnma(kwota > 0.0 ? "Wn" : "Ma");
                             kwota = Math.abs(kwota);
                             x.setKwota(kwota);
                             x.setWaluta(pn.getWyciagwaluta());
-                            x.setNrtransakji(baza.getCell(2).getStringCellValue());
+                            x.setNrtransakji(baza.getCell(3).getStringCellValue());
                             x.setTyptransakcji(oblicztyptransakcji(x));
                             x.setNaglowek(pn);
                             pobranefaktury.add(x);
@@ -155,6 +130,19 @@ public class ImportiPKOBPbiz_XLS implements Serializable {
     }
     
     
+    private static String pobierzciag(String pobranyciag, String tytul) {
+        String zwrot = "";
+        int rozm = pobranyciag.length();
+        int gdzie = pobranyciag.indexOf(tytul);
+        int startpoz = tytul.length();
+        pobranyciag = pobranyciag.substring(gdzie+startpoz, rozm);
+        int gdzie2 = pobranyciag.indexOf("|");
+        pobranyciag = pobranyciag.substring(0, gdzie2);
+        zwrot = pobranyciag.trim();
+        return zwrot;
+    }
+    
+    
     private static double sumujobroty(List<Row> records, int i) {
         double zwrot = 0.0;
         int j = 0;
@@ -164,11 +152,11 @@ public class ImportiPKOBPbiz_XLS implements Serializable {
             if (j==rozmiar) {
 
             } else {
-                double kwota = p.getCell(3).getNumericCellValue();
+                double kwota = p.getCell(4).getNumericCellValue();
                 if (i==0 && kwota > 0.0) {
-                    zwrot = zwrot + p.getCell(3).getNumericCellValue();
+                    zwrot = zwrot + p.getCell(4).getNumericCellValue();
                 } else if (i==1 && kwota < 0.0){
-                    zwrot = zwrot - p.getCell(3).getNumericCellValue();
+                    zwrot = zwrot - p.getCell(4).getNumericCellValue();
                 }
             }
             j++;
@@ -336,13 +324,20 @@ public class ImportiPKOBPbiz_XLS implements Serializable {
 
     
 public static void main(String[] args) {
-    String rachunek = "Nr rach. przeciwst.:  66 1020 1026 0000 1002 0399 3136";
-    if (rachunek.contains("Nr rach. przeciwst.:")) {
+    String rachunek = "Rachunek kontrahenta: 73 1020 2821 0000 1502 0164 1745|Nazwa i adres Kontrahenta: UNIVERSAL EXPORTS MACIEJ DERĘGOWSKI|Tytuł: 4/06/2021   |Identyfikator transakcji: 16810501100297507|";
+    if (rachunek.contains("Tytuł:")) {
+        String tytul = "Identyfikator transakcji: ";
         int rozm = rachunek.length();
-        rachunek = rachunek.substring(rozm-32, rozm);
-        rachunek = rachunek.replace(" ", "").trim();
+        int gdzie = rachunek.indexOf(tytul);
+        int startpoz = tytul.length();
+        rachunek = rachunek.substring(gdzie+startpoz, rozm);
+        int gdzie2 = rachunek.indexOf("|");
+        rachunek = rachunek.substring(0, gdzie2);
+        rachunek = rachunek.trim();
+        System.out.println(rachunek);
     }
 }
+
     
 
    
