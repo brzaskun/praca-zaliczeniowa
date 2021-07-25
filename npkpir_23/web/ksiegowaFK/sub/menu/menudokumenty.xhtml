@@ -76,7 +76,7 @@
         </p:tab>
         <p:tab title="import faktur">
             <h:form id="dialog1menu4">
-                <p:menu id="d1m3" styleClass="d1m" style="width: 400px; text-align: center; height: 300px;">
+                <p:menu id="d1m3" styleClass="d1m" style="width: 400px; text-align: center; height: 340px;">
                     <p:menuitem value="importuj dokumenty z dostarczonych plików" oncomplete="PF('importinterpaper').show();" actionListener="#{dokfkView.odswiezzaksiegowaneimport}" ></p:menuitem>
                     <p:menuitem value="Zorim xml to xls/pobranie nr kontrahentów" oncomplete="PF('raportzorin').show();"  ></p:menuitem>
                     <p:menuitem value="importuj wyciągi bankowe" oncomplete="PF('importbank').show();" actionListener="#{dokfkView.odswiezzaksiegowaneimport}" ></p:menuitem>
@@ -86,6 +86,7 @@
                     <p:menuitem value="importuj plik Amazon - Intrastat" oncomplete="PF('importamazonintrastat').show();" ></p:menuitem>
                     <p:menuitem value="importuj plik JPK_VAT" oncomplete="PF('importjpkfa').show();" actionListener="#{dokfkView.odswiezzaksiegowaneimport}" ></p:menuitem>
                     <p:menuitem value="importuj plik JPK_FA" oncomplete="PF('importjpkfafa').show();" actionListener="#{dokfkView.odswiezzaksiegowaneimport}" ></p:menuitem>
+                    <p:menuitem value="importuj plik tylko dla JPK (FP)" oncomplete="PF('importjpkonly').show();" actionListener="#{dokfkView.odswiezzaksiegowaneimport}" ></p:menuitem>
                     <p:menuitem value="dokumenty importowane" oncomplete="PF('zestawieniezaksiegowanychimport').show();" actionListener="#{dokfkView.odswiezzaksiegowaneimport}" ></p:menuitem>
                     <p:separator/>
                     <p:menuitem value="ustawienia importu banki" oncomplete="PF('ustawieniabanki').show();" actionListener="#{bankImportWzoryView.init()}" update="ustawieniabankiimport ustawieniabankidodaj"></p:menuitem>

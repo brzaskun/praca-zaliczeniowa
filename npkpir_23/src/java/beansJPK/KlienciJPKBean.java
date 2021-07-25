@@ -34,7 +34,7 @@ public class KlienciJPKBean {
     }
 
     public static List<KlientJPK> zaksiegujdokJPK(List<InterpaperXLS> polskaprywatne, Podatnik podatnik, String rok, String mc) {
-         List<KlientJPK> zwrot = new ArrayList<>();
+        List<KlientJPK> zwrot = new ArrayList<>();
         for (InterpaperXLS d : polskaprywatne) {
             KlientJPK a = new KlientJPK(d, podatnik, rok, mc);
             a.setEwidencjaVAT(tworzewidencjeVAT(a, d));
@@ -53,6 +53,7 @@ public class KlienciJPKBean {
         nowa.setNetto(tmpzwrot.getNetto());
         nowa.setVat(tmpzwrot.getVat());
         nowa.setEstawka(String.valueOf(tmpzwrot.getStawkavat()));
+        nowa.setTylkodlajpk(true);
         zwrot.add(nowa);
         return zwrot;
     }

@@ -28,7 +28,7 @@ import javax.persistence.Transient;
     @NamedQuery(name = "EVatwpisKJPK.findByRokMc", query = "SELECT d FROM EVatwpisKJPK d WHERE d.rokEw = :pkpirR AND d.klientJPK.podatnik = :podatnik AND d.mcEw = :mc"),
     @NamedQuery(name = "EVatwpisKJPK.findByRok", query = "SELECT d FROM EVatwpisKJPK d WHERE d.rokEw = :rok"),
     @NamedQuery(name = "EVatwpisKJPK.findByMcRok", query = "SELECT d FROM EVatwpisKJPK d WHERE d.rokEw = :rok AND d.mcEw = :mc"),
-    @NamedQuery(name = "EVatwpisKJPK.findByPodatnikRokMc", query = "SELECT k FROM EVatwpisKJPK k WHERE k.klientJPK.podatnik = :podatnik AND k.rokEw = :rok AND k.mcEw = :mc"),
+    @NamedQuery(name = "EVatwpisKJPK.findByPodatnikRokMc", query = "SELECT k FROM EVatwpisKJPK k WHERE k.klientJPK.podatnik = :podatnik AND k.rokEw = :rok AND k.mcEw = :mc AND k.tylkodlajpk ='0'"),
     @NamedQuery(name = "EVatwpisKJPK.findByPodatnikRokMcSprzedaz", query = "SELECT k FROM EVatwpisKJPK k WHERE k.klientJPK.podatnik = :podatnik AND k.rokEw = :rok AND k.mcEw = :mc AND k.ewidencja.nazwa !=:nazwa"),
     @NamedQuery(name = "EVatwpisKJPK.findByPodatnikRokMcodMcdo", query = "SELECT k FROM EVatwpisKJPK k WHERE k.klientJPK.podatnik = :podatnik AND k.rokEw = :rok AND k.mcEw >= :mcod AND k.mcEw <= :mcdo"),
     @NamedQuery(name = "EVatwpisKJPK.findByPodatnikRokMcZakup", query = "SELECT k FROM EVatwpisKJPK k WHERE k.klientJPK.podatnik = :podatnik AND k.rokEw = :rok AND k.mcEw = :mc AND k.ewidencja.nazwa=:nazwa"),
@@ -236,24 +236,35 @@ public class EVatwpisKJPK extends EVatwpisSuper implements Serializable {
     
     @Override
     public String getNrWlDk() {
-      return this.getKlientJPK() != null ? this.getKlientJPK().getSerial() :"";
+      String zwrot = "brak";
+      if (this.getKlientJPK() != null) {
+          if (this.getKlientJPK().getSerial()!=null&&!this.getKlientJPK().getSerial().equals("")) {
+              zwrot = this.getKlientJPK().getSerial();
+          } else if (this.getKlientJPK().getDowodSprzedazy()!=null) {
+              zwrot = this.getKlientJPK().getDowodSprzedazy();
+          } 
+      }
+      return zwrot;
     }
    
   @Override
    public String getNrpozycji() {
+       String zwrot = "";
         if (!this.getOpis().equals("podsumowanie")) {
-            return this.getKlientJPK().getSerial();
-        } else if (this.getOpis().equals("podsumowanie")){
-            return "";
-        } else {
-            return "";
+            zwrot = this.getNrWlDk();
         }
+        return zwrot;
     }
     @Override
     public String getOpis() {
-      String zwrot = this.getKlientJPK() != null ? "WDT online" : "podsumowanie";
-      if (this.getKlientJPK()!=null&&this.getKlientJPK().isWnt()) {
-          zwrot = "WNT online";
+      String zwrot = "podsumowanie";
+      if (this.getKlientJPK()==null) {
+          zwrot = "podsumowanie";
+      } else {
+        zwrot = this.getKlientJPK().isWdt() ? "WDT online" : "sprzedaż FP";
+        zwrot = this.getKlientJPK().isWnt() ? "WNT online" : "sprzedaż FP";
+        zwrot = this.getKlientJPK().isEksport() ? "Eksport online" : "sprzedaż FP";
+        zwrot = this.getKlientJPK().isImportt() ? "Import online" : "sprzedaż FP";
       }
       return zwrot;
     }
