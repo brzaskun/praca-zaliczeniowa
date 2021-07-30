@@ -10,11 +10,9 @@ import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
-import session.SessionFacade;
 import view.WpisView;
 /**
  *
@@ -24,8 +22,7 @@ import view.WpisView;
 @Transactional
 public class WierszeDAO extends DAO implements Serializable{
     
-    @Inject private SessionFacade wierszeFacade;
-       @PersistenceContext(unitName = "npkpir_22PU")
+    @PersistenceContext(unitName = "npkpir_22PU")
     private EntityManager em;
     
     @PreDestroy
@@ -47,11 +44,9 @@ public class WierszeDAO extends DAO implements Serializable{
     }
 
     
- 
-    
     public List<Wiersz> findWierszeZapisy(String podatnik, String konto) {
          try {
-           return wierszeFacade.findWierszeZapisy(podatnik, konto);
+           return getEntityManager().createNamedQuery("Wiersz.findByZapisy").setParameter("podatnik", podatnik).setParameter("konto", konto).getResultList();
        } catch (Exception e ){
            return null;
        }
@@ -59,23 +54,33 @@ public class WierszeDAO extends DAO implements Serializable{
     
     public List<Wiersz> findWierszePodatnikMcRok(Podatnik podatnik, WpisView wpisView) {
          try {
-           return wierszeFacade.findWierszePodatnikMcRok(podatnik, wpisView);
+           return getEntityManager().createNamedQuery("Wiersz.findByPodatnikMcRok").setParameter("podatnik", podatnik).setParameter("rok", wpisView.getRokWpisuSt()).setParameter("mc", wpisView.getMiesiacWpisu()).getResultList();
        } catch (Exception e ){
            return null;
        }
     }
+    
     
     public List<Wiersz> findWierszePodatnikMcRokWNTWDT(Podatnik podatnik, WpisView wpisView, String wntwdt) {
          try {
-           return wierszeFacade.findWierszePodatnikMcRokWNTWDT(podatnik, wpisView, wntwdt);
+           return getEntityManager().createNamedQuery("Wiersz.findByPodatnikMcRokWNTWDT").setParameter("podatnik", podatnik).setParameter("rok", wpisView.getRokWpisuSt()).setParameter("mc", wpisView.getMiesiacWpisu()).setParameter("wntwdt", wntwdt).getResultList();
        } catch (Exception e ){
            return null;
        }
     }
     
+
     public List<Wiersz> findWierszePodatnikRok(Podatnik podatnik, WpisView wpisView) {
          try {
-           return wierszeFacade.findWierszePodatnikRok(podatnik, wpisView);
+           return getEntityManager().createNamedQuery("Wiersz.findByPodatnikRok").setParameter("podatnik", podatnik).setParameter("rok", wpisView.getRokWpisuSt()).getResultList();
+       } catch (Exception e ){
+           return null;
+       }
+    }
+    
+    public List<Wiersz> findWierszePodatnikRokMCDo(Podatnik podatnik, WpisView wpisView) {
+         try {
+           return getEntityManager().createNamedQuery("Wiersz.findByPodatnikRokMcDo").setParameter("podatnik", podatnik).setParameter("rok", wpisView.getRokWpisuSt()).setParameter("mcdo", wpisView.getMiesiacUprzedni()).getResultList();
        } catch (Exception e ){
            return null;
        }

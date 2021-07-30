@@ -375,21 +375,12 @@ public class SessionFacade<T> implements Serializable {
         return Collections.synchronizedList( getEntityManager().createNamedQuery("Wiersz.findByRozrachunki").setParameter("podatnik", podatnik).setParameter("konto", konto).setParameter("dokfk", dokfk).getResultList());
     }
 
-    public List<Wiersz> findWierszeZapisy(String podatnik, String konto) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("Wiersz.findByZapisy").setParameter("podatnik", podatnik).setParameter("konto", konto).getResultList());
-    }
+    
 
-    public List<Wiersz> findWierszePodatnikMcRok(Podatnik podatnik, WpisView wpisView) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("Wiersz.findByPodatnikMcRok").setParameter("podatnik", podatnik).setParameter("rok", wpisView.getRokWpisuSt()).setParameter("mc", wpisView.getMiesiacWpisu()).getResultList());
-    }
+    
+    
 
-    public List<Wiersz> findWierszePodatnikMcRokWNTWDT(Podatnik podatnik, WpisView wpisView, String wntwdt) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("Wiersz.findByPodatnikMcRokWNTWDT").setParameter("podatnik", podatnik).setParameter("rok", wpisView.getRokWpisuSt()).setParameter("mc", wpisView.getMiesiacWpisu()).setParameter("wntwdt", wntwdt).getResultList());
-    }
-
-    public List<Wiersz> findWierszePodatnikRok(Podatnik podatnik, WpisView wpisView) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("Wiersz.findByPodatnikRok").setParameter("podatnik", podatnik).setParameter("rok", wpisView.getRokWpisuSt()).getResultList());
-    }
+    
 
 //
 //    public List<Wiersze> findWierszefkRozrachunki(String podatnik, String kontonumer) {

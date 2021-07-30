@@ -15,7 +15,7 @@
         <p:dialog id="dialogczwarty" header="Zestawienie zapisów w dokumentach - #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="zapisywdokumentach" style="overflow-y: hidden;"
               resizable="false"  onShow="ustawdialog('dialogczwarty','menudokumenty', 1400, 750);" closeOnEscape="true" onHide="resetujdialog('dialogczwarty');" maximizable="true">
         <h:form id="zestawieniezapisownakontach">
-            <p:panelGrid columns="6" style="margin-left: 2%;" >
+            <p:panelGrid columns="7" style="margin-left: 2%;" >
                 <p:column>
                     <h:outputText value="miesiąc: "/>
                 </p:column>
@@ -32,6 +32,7 @@
                     <p:ajax event="change" global="false" partialSubmit="true" oncomplete="r('zestawieniezapisownakontach:butonpobierzwiersze').click()"/>
                 </p:selectBooleanCheckbox>
                 <p:commandButton value="#{mgs.drukuj}" icon="fa fa-print" actionListener="#{wierszeView.drukujWiersze()}"   style="width: 120px; margin-left: 30px;"/>
+                <p:commandButton value="nowe konta" actionListener="#{wierszeView.nowewiersze()}" update="zestawieniezapisownakontach:dataList"   style="width: 120px; margin-left: 30px;"/>
             </p:panelGrid>
             <p:contextMenu id="contextmenuwpis" for="zestawieniezapisownakontach:dataList">
                 <p:menuitem value="Pokazdokument" global="false" icon="ui-icon-circle-plus" onclick="zapisywierszywybordok();"/>

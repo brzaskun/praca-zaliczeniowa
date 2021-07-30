@@ -9,17 +9,18 @@ import entityfk.Dokfk;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
 import entityfk.Wiersz;
-import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import javax.inject.Named;
-
+import java.util.Set;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
-import msg.Msg;import pdffk.PdfWiersz;
+import javax.inject.Named;
+import msg.Msg;
+import pdffk.PdfWiersz;
 import view.WpisView;
 /**
  *
@@ -48,7 +49,23 @@ public class WierszeView implements Serializable {
          
     }
     
-    
+    public void nowewiersze() {
+        List<Wiersz> wierszedo = wierszeDAO.findWierszePodatnikRokMCDo(wpisView.getPodatnikObiekt(), wpisView);
+        if (!wiersze.isEmpty()&&!wpisView.getMiesiacWpisu().equals("01")) {
+            Set<Konto> kontastare = new HashSet<>();
+            wierszedo.stream().forEach(p -> {
+                kontastare.add(p.getKontoWn());
+                kontastare.add(p.getKontoMa());
+            });
+            for (Iterator<Wiersz> it = wiersze.iterator(); it.hasNext();) {
+                Wiersz w = it.next();
+                if (kontastare.contains(w.getKontoWn())&&kontastare.contains(w.getKontoMa())) {
+                    it.remove();
+                }
+            }
+            Msg.msg("Zakończono usuwanie starych kont");
+        }
+    }
     
     public void init() { //E.m(this);
         sumawn = 0.0;

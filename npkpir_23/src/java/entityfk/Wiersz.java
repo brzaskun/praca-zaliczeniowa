@@ -24,7 +24,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -45,6 +44,7 @@ import waluty.Z;
     @NamedQuery(name = "Wiersz.findByOpisWiersza", query = "SELECT w FROM Wiersz w WHERE w.opisWiersza = :opisWiersza"),
     @NamedQuery(name = "Wiersz.findByPodatnik", query = "SELECT w FROM Wiersz w WHERE w.dokfk.podatnikObj = :podatnik"),
     @NamedQuery(name = "Wiersz.findByPodatnikMcRok", query = "SELECT w FROM Wiersz w WHERE w.dokfk.podatnikObj = :podatnik AND w.dokfk.rok = :rok AND w.dokfk.miesiac = :mc"),
+    @NamedQuery(name = "Wiersz.findByPodatnikRokMcDo", query = "SELECT w FROM Wiersz w WHERE w.dokfk.podatnikObj = :podatnik AND w.dokfk.rok = :rok AND w.dokfk.miesiac <= :mcdo"),
     @NamedQuery(name = "Wiersz.findByPodatnikMcRokWNTWDT", query = "SELECT w FROM Wiersz w WHERE w.dokfk.podatnikObj = :podatnik AND w.dokfk.rok = :rok AND w.dokfk.miesiac = :mc AND w.dokfk.seriadokfk = :wntwdt"),
     @NamedQuery(name = "Wiersz.findByPodatnikRok", query = "SELECT w FROM Wiersz w WHERE w.dokfk.podatnikObj = :podatnik AND w.dokfk.rok = :rok"),
     @NamedQuery(name = "Wiersz.findByRok", query = "SELECT w FROM Wiersz w WHERE w.dokfk.rok = :rok"),
