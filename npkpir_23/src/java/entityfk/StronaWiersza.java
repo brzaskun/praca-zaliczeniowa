@@ -805,7 +805,7 @@ public class StronaWiersza implements Serializable {
 
     public String getSymbolWalutBOiSW() {
         String symbol = "PLN";
-        if (this.wiersz.getTabelanbp() != null) {
+        if (this.wiersz!=null&&this.wiersz.getTabelanbp() != null) {
             symbol = this.wiersz.getTabelanbp().getWaluta().getSymbolwaluty();
         } else if (this.symbolWalutyBO != null) {
             symbol = this.symbolWalutyBO;
@@ -829,7 +829,7 @@ public class StronaWiersza implements Serializable {
     
     public String getSkrotSymbolWalutBOiSW() {
         String symbol = "PLN";
-        if (this.wiersz.getTabelanbp() != null) {
+        if (this.wiersz!=null&&this.wiersz.getTabelanbp() != null) {
             symbol = this.wiersz.getTabelanbp().getWaluta().getSkrotsymbolu();
         } else if (this.symbolWalutyBO != null) {
             symbol = this.symbolWalutyBO;

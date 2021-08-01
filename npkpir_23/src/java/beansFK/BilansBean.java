@@ -14,6 +14,7 @@ import entity.Podatnik;
 import entityfk.Konto;
 import entityfk.PozycjaRZiS;
 import entityfk.PozycjaRZiSBilans;
+import entityfk.StronaWiersza;
 import entityfk.UkladBR;
 import error.E;
 import java.util.ArrayList;
@@ -21,8 +22,10 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.atomic.DoubleAccumulator;
 import msg.Msg;
 import view.WpisView;
+import waluty.Z;
 /**
  *
  * @author Osito
@@ -66,5 +69,36 @@ public class BilansBean {
             List<Konto> listakont = kontoDAO.findWszystkieKontaBilansowePodatnika(podatnik, rok);
             UkladBRBean.czyscPozycjeKont(kontoDAO, listakont);
         }
+    }
+    
+    public static double[] rozliczzapisy(List<StronaWiersza> strony) {
+        DoubleAccumulator obrotywn = new DoubleAccumulator(Double::sum, 0.d);
+        DoubleAccumulator obrotyma = new DoubleAccumulator(Double::sum, 0.d);
+        DoubleAccumulator obrotywnwaluta = new DoubleAccumulator(Double::sum, 0.d);
+        DoubleAccumulator obrotymawaluta = new DoubleAccumulator(Double::sum, 0.d);
+        strony.forEach(p -> {
+            if (p.isWn()) {
+                obrotywn.accumulate(Z.z(p.getKwotaPLN()));
+                if (!p.getSymbolWalutBOiSW().equals("PLN")) {
+                    obrotywnwaluta.accumulate(Z.z(p.getKwota()));
+                }
+            } else {
+                obrotyma.accumulate(Z.z(p.getKwotaPLN()));
+                if (!p.getSymbolWalutBOiSW().equals("PLN")) {
+                    obrotymawaluta.accumulate(Z.z(p.getKwota()));
+                }
+            }
+        });
+        double saldo = obrotywn.doubleValue() - obrotyma.doubleValue();
+        double saldowaluta = obrotywnwaluta.doubleValue() - obrotymawaluta.doubleValue();
+        double kurs = 0.0;
+        if (saldowaluta != 0.0) {
+            kurs = Math.abs(saldo / saldowaluta);
+        }
+        double[] sumy = new double[3];
+        sumy[0] = saldo;
+        sumy[1] = saldowaluta;
+        sumy[2] = kurs;
+        return sumy;
     }
 }

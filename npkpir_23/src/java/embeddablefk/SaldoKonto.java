@@ -80,15 +80,20 @@ public class SaldoKonto implements Serializable {
         this.konto = t.getKonto();
         this.kursdlaBO = t.getKursWalutyBOSW();
         boolean mniejszeodzera = t.getKwota() < 0.0;
+        double kwotawpln = t.getKwotaPLN();
+        double roznica = Math.abs(t.getPozostaloPLN()-kwotawpln);
+        if (roznica>0.02) {
+            kwotawpln = t.getPozostaloPLN();
+        }
         if (t.getWnma().equals("Wn")) {
             if (mniejszeodzera) {
                 this.saldoWn = -Z.z(t.getPozostalo());
-                this.saldoWnPLN = -Z.z(t.getPozostaloPLN());
+                this.saldoWnPLN = -Z.z(kwotawpln);
                 this.saldoMa = 0.0;
                 this.saldoMaPLN = 0.0;
             } else {
                 this.saldoWn = Z.z(t.getPozostalo());
-                this.saldoWnPLN = Z.z(t.getPozostaloPLN());
+                this.saldoWnPLN = Z.z(kwotawpln);
                 this.saldoMa = 0.0;
                 this.saldoMaPLN = 0.0;
             }
@@ -97,12 +102,12 @@ public class SaldoKonto implements Serializable {
                 this.saldoWn = 0.0;
                 this.saldoWnPLN = 0.0;
                 this.saldoMa = -Z.z(t.getPozostalo());
-                this.saldoMaPLN = -Z.z(t.getPozostaloPLN());
+                this.saldoMaPLN = -Z.z(kwotawpln);
             } else {
                 this.saldoWn = 0.0;
                 this.saldoWnPLN = 0.0;
                 this.saldoMa = Z.z(t.getPozostalo());
-                this.saldoMaPLN = Z.z(t.getPozostaloPLN());
+                this.saldoMaPLN = Z.z(kwotawpln);
             }
         }
         this.zapisy = Collections.synchronizedList(new ArrayList<>());
@@ -151,8 +156,8 @@ public class SaldoKonto implements Serializable {
     public SaldoKonto(Konto konto,Waluty wal, double kwota, double kwotapln) {
         this.konto = konto;
         this.kursdlaBO = 1.0;
-        boolean mniejszeodzera = kwota < 0.0;
-        if (mniejszeodzera) {
+        boolean wiekszeodzera = kwota > 0.0;
+        if (wiekszeodzera) {
             this.saldoWn = kwota;
             this.saldoWnPLN = kwotapln;
             this.saldoMa = 0.0;
@@ -160,8 +165,8 @@ public class SaldoKonto implements Serializable {
         } else {
             this.saldoWn = 0.0;
             this.saldoWnPLN = 0.0;
-            this.saldoMa = kwota;
-            this.saldoMaPLN = kwotapln;
+            this.saldoMa = -kwota;
+            this.saldoMaPLN = -kwotapln;
         }
         this.zapisy = Collections.synchronizedList(new ArrayList<>());
         this.walutadlabo = wal;
@@ -218,7 +223,7 @@ public class SaldoKonto implements Serializable {
         }
         this.zapisy = Collections.synchronizedList(new ArrayList<>());
         this.walutadlabo = walutapln;
-        this.opisdlabo = "konto: "+t.getKonto().getPelnynumer()+" nierozliczone różnice kursowe";
+        this.opisdlabo = "konto: "+t.getKonto().getPelnynumer()+" statystyczne różnice kursowe rok pop.";
     }
 
     public SaldoKonto(RoznicaSaldBO p, Waluty walutapln) {

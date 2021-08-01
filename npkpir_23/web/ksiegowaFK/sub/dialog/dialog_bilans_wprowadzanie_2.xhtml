@@ -298,7 +298,7 @@
                     <f:facet name="header">
                         <h:outputText value="#{mgs.opis}"/>
                     </f:facet>
-                    <h:outputText value="#{item.opis}" style="#{item.roznicowy ? 'color:red;':null}"/>
+                    <h:outputText value="#{item.opis.length() lt 40 ? item.opis : item.opis.substring(0,39)}" style="#{item.roznicowy ? 'color:red;':null}" />
                 </p:column>
                 <p:column style="text-align: center;" sortBy="#{item.kwotaWn}" width="90">
                     <f:facet name="header">
@@ -392,7 +392,7 @@
                     <f:facet name="header">
                         <h:outputText value="#{mgs.opis}"/>
                     </f:facet>
-                    <h:outputText value="#{item.opis}" style="#{item.roznicowy ? 'color:red;':null}"/>
+                    <h:outputText value="#{item.opis.length() lt 40 ? item.opis : item.opis.substring(0,39)}" style="#{item.roznicowy ? 'color:red;':null}" />
                 </p:column>
                 <p:column width="45">
                     <f:facet name="header">
