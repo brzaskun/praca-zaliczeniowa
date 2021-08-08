@@ -313,6 +313,14 @@ public class Data implements Serializable {
         return zwrot;
     }
     
+    
+     //chodzi o to czy okres data jest po jakiesc dacie
+    public static boolean czyjestprzed(String termingraniczny, String badanadata) {
+        boolean zwrot = false;
+        int wynik = compare(termingraniczny, badanadata);
+        return wynik == 1;
+    }
+    
     //chodzi o to czy okres MC, ROK jest po jakiesc dacie
     public static boolean czyjestpo(String termingraniczny, String rokbadanegookresu, String mcbadanegookresu) {
         boolean zwrot = false;

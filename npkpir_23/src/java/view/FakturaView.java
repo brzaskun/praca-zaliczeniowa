@@ -519,6 +519,9 @@ public class FakturaView implements Serializable {
                 selected.setMc(Data.getCzescDaty(selected.getDatawystawienia(), 1));
             }
             fakturaDAO.create(selected);
+            Klienci kontra = selected.getKontrahent();
+            kontra.setAktywnydlafaktrozrachunki(true);
+            klienciDAO.edit(kontra);
             init();
             Msg.msg("i", "Dodano fakturę.");
             pokazfakture = false;

@@ -17,14 +17,14 @@
 
     <p:dialog id="importamazoncsv" header="Amazon pobieranie danych" widgetVar="importamazoncsv" height="900" width="1450"
               resizable="false"  onShow="ustawdialog('importamazoncsv','menudokumenty',1450,900);" closeOnEscape="true" onHide="resetujdialog('importamazoncsv');" >
-        <p:ajax event="open" listener="#{importCSVView.init()}" update="panelplik"/>
+        <p:ajax event="open" listener="#{importCSVView.init()}" update="panelplik amazonload"/>
         <p:ajax event="close" listener="#{dokfkView.resetujzaksiegowaneimport}" update=":akordeon5:form_importinterpaper"/>
         <!--        <h:form>
                     <p:commandButton value="uzupełnij" actionListener="#{dokfkView.uzupelnijdokumentyodkontrahenta()}"/>
                 </h:form>-->
             <bcf:ajaxs/>
             <h:outputText value="import dokumentów z pliku CSV Amazon VAT Transactions Report"/>
-                        <h:form>
+                        <h:form id="amazonload">
                             <p:growl life="3600"  id="messages1"/>
                             <p:panelGrid columns="2">
                                 <p:panelGrid columns="1">
@@ -51,12 +51,12 @@
                         </h:form>
                         <h:form id="importtabela">
                             <p:dataTable  var="wpisama" value="#{importCSVView.listafk}" id="dokumentyLista" 
-                                          rowIndexVar="index" 
+                                          rowIndexVar="index" filteredValue="#{importCSVView.listafkfilter}"
                                           style="width: 1400px; margin-top: 10px;" rowKey="#{wpisama.id}" 
                                           paginator="true" paginatorAlwaysVisible="true" rows="12"
                                           paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
                                           rowsPerPageTemplate="12,48,96,182,364" 
-                                          widgetVar="dokTable" 
+                                          widgetVar="dokTable" sortBy="#{wpisama.dataSprzedazy}"
                                           rowStyleClass="#{wpisama.dowodSprzedazy eq 'REFUND' ? 'korekta' : null}" 
                                           emptyMessage="Nie pobrano jeszcze żadnych danych z pliku csv"
                                           styleClass="grid" 
@@ -79,7 +79,9 @@
                                     <h:outputText styleClass="lpwiersza" value="#{index+1}" />
                                 </p:column>
                                 <p:column id="dataColumn" headerText="data wyst" filterBy="#{wpisama.dataSprzedazy}"  filterMatchMode="contains" sortBy="#{wpisama.dataSprzedazy}"  style="width: 50px; min-width: 70px;">  
-                                    <h:outputText value="#{wpisama.dataSprzedazy}"/>
+                                    <h:outputText value="#{wpisama.dataSprzedazy.substring(0,10)}">
+                                        <f:convertDateTime type="date" dateStyle="medium" />
+                                    </h:outputText>
                                 </p:column>
                                 <p:column id="kontrColumn" headerText="#{mgs.kontrahent}" filterBy="#{wpisama.nazwaKontrahenta}" width="180"
                                           filterStyle="width:180px;" filterMatchMode="contains" sortBy="#{wpisama.nazwaKontrahenta}">  

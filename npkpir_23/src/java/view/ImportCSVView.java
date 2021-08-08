@@ -7,6 +7,7 @@ package view;
 
 import beansFK.TabelaNBPBean;
 import beansRegon.SzukajDaneBean;
+import comparator.Tabelanbpcomparator;
 import dao.DokDAO;
 import dao.EvewidencjaDAO;
 import dao.KlienciDAO;
@@ -24,10 +25,12 @@ import entity.EVatwpisKJPK;
 import entity.Evewidencja;
 import entity.Klienci;
 import entity.KlientJPK;
+import entity.Podatnik;
 import entity.Rodzajedok;
 import entityfk.Tabelanbp;
 import entityfk.Waluty;
 import error.E;
+import f.l;
 import gus.GUSView;
 import java.io.File;
 import java.io.FileInputStream;
@@ -39,13 +42,15 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import javax.annotation.PostConstruct;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import msg.Msg;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
+import org.apache.commons.io.FilenameUtils;
 import org.joda.time.DateTime;
 import org.primefaces.PrimeFaces;
 import org.primefaces.event.FileUploadEvent;
@@ -68,6 +73,7 @@ public class ImportCSVView  implements Serializable {
     
     private List<Dok> dokumenty;
     private List<KlientJPK> listafk;
+    private List<KlientJPK> listafkfilter;
     private List<Klienci> klienci;
     @Inject
     private WpisView wpisView;
@@ -94,8 +100,8 @@ public class ImportCSVView  implements Serializable {
     private Waluty walutapln;
     private double kursumst;
         
-    @PostConstruct
-    private void init() { //E.m(this);
+
+    public void init() { //E.m(this);
         dokSZ = rodzajedokDAO.find("SZ", wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         evewidencje = evewidencjaDAO.znajdzpotransakcji("sprzedaz");
         listaWalut = walutyDAOfk.findAll();
@@ -116,7 +122,9 @@ public class ImportCSVView  implements Serializable {
             String filename = uploadedFile.getFileName();
             listafk = pobierzJPK(uploadedFile);
             //dokumenty = stworzdokumenty(amazonCSV);
-            Msg.msg("Sukces. Plik " + filename + " został skutecznie załadowany");
+            if (!listafk.isEmpty()) {
+                Msg.msg("Sukces. Plik " + filename + " został skutecznie załadowany");
+            }
         } catch (Exception ex) {
             E.e(ex);
             Msg.msg("e","Wystąpił błąd. Nie udało się załadowanać pliku");
@@ -126,27 +134,56 @@ public class ImportCSVView  implements Serializable {
     
     private List<KlientJPK> pobierzJPK(UploadedFile uploadedFile) {
         List<KlientJPK> zwrot = Collections.synchronizedList(new ArrayList<>());
-        KlientJPK tmpzwrot = null;
         Evewidencja evewidencja = evewidencjaDAO.znajdzponazwie("rejestr WDT");
 //        String line = "";
 //        String cvsSplitBy = ",";
         try {
-            InputStream is = uploadedFile.getInputstream();
-            Iterable<CSVRecord> recordss = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(new InputStreamReader(is, Charset.forName("windows-1252")));
-            for (CSVRecord row : recordss) {
+            String extension = FilenameUtils.getExtension(uploadedFile.getFileName());
+            Iterable<CSVRecord> recordss = null;
+            if (extension.equals("csv")) {
+                InputStream is = uploadedFile.getInputstream();
+                recordss = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(new InputStreamReader(is, Charset.forName("windows-1252")));
+            } else {
+                InputStream is = uploadedFile.getInputstream();
+                recordss = CSVFormat.newFormat('\t').withFirstRecordAsHeader().parse(new InputStreamReader(is, Charset.forName("UTF-8")));
+            }
+            Stream<CSVRecord> stream = StreamSupport.stream(recordss.spliterator(), true);
+            String rok = wpisView.getRokWpisuSt();
+            String mc = wpisView.getMiesiacWpisu();
+            Podatnik podatnik = wpisView.getPodatnikObiekt();
+            List<Tabelanbp> tabelenbp = tabelanbpDAO.findByRokMc(rok,mc);
+            String[] poprzedniOkres = Data.poprzedniOkres(mc, rok);
+            tabelenbp.addAll(tabelanbpDAO.findByRokMc(poprzedniOkres[1],poprzedniOkres[0]));
+            Collections.sort(tabelenbp, new Tabelanbpcomparator());
+            stream.parallel().forEach(row -> {
                 String serial = row.get("TRANSACTION_EVENT_ID");
                 String rodzajtransakcji = row.get("TRANSACTION_TYPE");
-                if ((rodzajtransakcji.equals("SALE") || rodzajtransakcji.equals("REFUND"))&&!serial.equals("")) {
-                    tmpzwrot = tworzobiektAmazonNowy(row);
+                String data = row.get("TAX_CALCULATION_DATE");
+                if ((rodzajtransakcji.equals("SALE") || rodzajtransakcji.equals("REFUND"))&&!serial.equals("")&&!data.equals("")) {
+                    KlientJPK tmpzwrot = tworzobiektAmazonNowy(row, rok, mc, tabelenbp);
                     if (tmpzwrot!=null) {
                         if (tmpzwrot.isWdt() && tmpzwrot.getJurysdykcja().equals("POLAND")) {
-                            tmpzwrot.setPodatnik(wpisView.getPodatnikObiekt());
+                            tmpzwrot.setPodatnik(podatnik);
                             tmpzwrot.setEwidencjaVAT(tworzewidencjeVAT(evewidencja, tmpzwrot));
                         }
                         zwrot.add(tmpzwrot);
                     }
                 }
-            }
+            });
+//            for (CSVRecord row : recordss) {
+//                String serial = row.get("TRANSACTION_EVENT_ID");
+//                String rodzajtransakcji = row.get("TRANSACTION_TYPE");
+//                if ((rodzajtransakcji.equals("SALE") || rodzajtransakcji.equals("REFUND"))&&!serial.equals("")) {
+//                    KlientJPK tmpzwrot = tworzobiektAmazonNowy(row);
+//                    if (tmpzwrot!=null) {
+//                        if (tmpzwrot.isWdt() && tmpzwrot.getJurysdykcja().equals("POLAND")) {
+//                            tmpzwrot.setPodatnik(wpisView.getPodatnikObiekt());
+//                            tmpzwrot.setEwidencjaVAT(tworzewidencjeVAT(evewidencja, tmpzwrot));
+//                        }
+//                        zwrot.add(tmpzwrot);
+//                    }
+//                }
+//            }
         } catch (Exception ex) {
             E.e(ex);
             Msg.msg("e","Błąd w strukturze pliku");
@@ -327,7 +364,7 @@ public class ImportCSVView  implements Serializable {
     
     public void drukujfk() {
         try {
-            PdfDok.drukujDokAmazonfk(listafk, wpisView, 1);
+            PdfDok.drukujDokAmazonfk(l.l(listafk, listafkfilter, null), wpisView, 1);
             Msg.msg("Wydrukowano zestawienie zaimportowanych dokumentów");
         } catch (Exception e) {
             
@@ -478,7 +515,7 @@ private static Klienci ustawkontrahenta(InterpaperXLS interpaperXLS, List<Klienc
     }
     
     
-    private KlientJPK tworzobiektAmazonNowy(CSVRecord row) {
+    private KlientJPK tworzobiektAmazonNowy(CSVRecord row, String rok, String mc, List<Tabelanbp> tabelenbp) {
         KlientJPK klientJPK = new KlientJPK();
         String rodzajtransakcji = row.get("TRANSACTION_TYPE");
         String serial = row.get("TRANSACTION_EVENT_ID");
@@ -545,14 +582,14 @@ private static Klienci ustawkontrahenta(InterpaperXLS interpaperXLS, List<Klienc
                 klientJPK.setKodKrajuNadania(krajwysylki);
                 klientJPK.setKodKrajuDoreczenia(krajcdocelowy);
                 klientJPK.setNrKontrahenta(nip);
-                klientJPK.setRok(wpisView.getRokWpisuSt());
-                klientJPK.setMc(wpisView.getMiesiacWpisu());
+                klientJPK.setRok(rok);
+                klientJPK.setMc(mc);
                 String waluta = row.get("TRANSACTION_CURRENCY_CODE");
                 klientJPK.setWaluta(waluta);
                 double brutto = format.F.kwota(row.get("TOTAL_ACTIVITY_VALUE_AMT_VAT_INCL"));
                 klientJPK.setNettowaluta(format.F.kwota(row.get("TOTAL_ACTIVITY_VALUE_AMT_VAT_EXCL")));
                 klientJPK.setVatwaluta(Z.z(brutto -klientJPK.getNettowaluta()));
-                double kurs = pobierzkurs(klientJPK.getDataSprzedazy(), waluta);
+                double kurs = pobierzkurs(klientJPK.getDataSprzedazy(), waluta, tabelenbp);
                 klientJPK.setKurs(kurs);
                 klientJPK.setNetto(Z.z(klientJPK.getNettowaluta()*kurs));
                 klientJPK.setVat(Z.z(klientJPK.getVatwaluta()*kurs));
@@ -565,6 +602,7 @@ private static Klienci ustawkontrahenta(InterpaperXLS interpaperXLS, List<Klienc
                     
                 }
         } catch (Exception e) {
+            System.out.println("");
         }
         return klientJPK;
     }
@@ -660,6 +698,14 @@ private static Klienci ustawkontrahenta(InterpaperXLS interpaperXLS, List<Klienc
         this.listafk = listafk;
     }
 
+    public List<KlientJPK> getListafkfilter() {
+        return listafkfilter;
+    }
+
+    public void setListafkfilter(List<KlientJPK> listafkfilter) {
+        this.listafkfilter = listafkfilter;
+    }
+
   
 
 
@@ -728,5 +774,22 @@ private static Klienci ustawkontrahenta(InterpaperXLS interpaperXLS, List<Klienc
         zwrot = Z.z6(tabela.getKurssredniPrzelicznik());
         return zwrot;
     }    
+     
+     
+     private double pobierzkurs(String data, String waluta, List<Tabelanbp> tabelenbp) {
+        double zwrot = 0.0;
+        //tu sie dodaje tabele do dokumentu :)
+        for (Tabelanbp p : tabelenbp) {
+            if (p.getWaluta().getSymbolwaluty().equals(waluta)) {
+                if (Data.czyjestprzed(data, p.getDatatabeli())) {
+                    zwrot = Z.z6(p.getKurssredniPrzelicznik());
+                } else {
+                    break;
+                }
+            }
+        }
+        return zwrot;
+    }
+     
     
 }

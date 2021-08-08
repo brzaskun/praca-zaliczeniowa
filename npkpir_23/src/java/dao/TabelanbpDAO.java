@@ -141,5 +141,14 @@ public class TabelanbpDAO extends DAO implements Serializable {
         }
     }
 
+    public List<Tabelanbp> findByRokMc(String rok, String mc) {
+        try {
+            String okres = rok+"-"+mc+"%";
+            return  getEntityManager().createNamedQuery("Tabelanbp.findAllRok").setParameter("rok", okres).getResultList();
+        } catch (Exception e) { E.e(e); 
+            return null;
+        }
+    }
+
   
 }
