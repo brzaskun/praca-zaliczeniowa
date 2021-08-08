@@ -385,6 +385,9 @@ public class BankImportView implements Serializable {
                             numerwyciagu = 1;
                             zwrot = ImportZorinBank_CSV.importujdokXLS(partia, wyciagdataod, numerwyciagu, lpwiersza, mc, wybranawaluta, kliencifk);
                             break;
+                        case 12 :
+                            zwrot = ImportiPKOBPbizstandard_XLS.importujdok(partia, wyciagdataod, numerwyciagu, lpwiersza, mc);
+                            break;
                     }
                     if (zwrot.size()==5) {
                         Msg.msg("e", "Nie pobrano wszystkich plików. Wystąpił błąd");
