@@ -241,7 +241,7 @@ public class StowNaliczenieView  implements Serializable {
         String dataOd = p.getMiejsce().getPoczatek();
         String dataDo = p.getMiejsce().getKoniec();
         boolean jestpo = Data.czyjestpo(dataOd, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
-        boolean jestprzed = Data.czyjestprzed(dataDo, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+        boolean jestprzed = Data.czydatajestprzed(dataDo, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
         return jestpo && jestprzed;
     }
     

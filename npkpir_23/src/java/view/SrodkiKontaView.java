@@ -76,7 +76,7 @@ public class SrodkiKontaView implements Serializable {
             if (srodek.getTyp() != null && !srodek.getTyp().equals("wnip") && !srodek.getTyp().equals("wyposazenie")) {
                 if (srodek.getDatasprzedazy() == null || srodek.getDatasprzedazy().equals("")) {
                     String[] okres = Data.nastepnyOkres(wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
-                    if (Data.czyjestprzed(srodek.getDataprzek(), okres[0], okres[1])) {
+                    if (Data.czydatajestprzed(srodek.getDataprzek(), okres[0], okres[1])) {
                         posiadane.add(srodek);
                     }
                 }

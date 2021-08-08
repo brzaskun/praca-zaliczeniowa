@@ -299,7 +299,7 @@ public class Data implements Serializable {
     }
 
     public static boolean czyjestpomiedzy (String dataOd, String dataDo, String rok, String mc) {
-        return czyjestpo(dataOd, rok, mc) && czyjestprzed(dataDo, rok, mc);
+        return czyjestpo(dataOd, rok, mc) && czydatajestprzed(dataDo, rok, mc);
     }
     
     //chodzi o to czy okres data jest po jakiesc dacie
@@ -344,12 +344,22 @@ public class Data implements Serializable {
         return wynikporównania > -1;
     }
 
-    public static boolean czyjestprzed(String dataDo, String rok, String mc) {
+    public static boolean czydatajestprzed(String dataDo, String rok, String mc) {
         boolean zwrot = false;
         if (dataDo == null || dataDo.equals("")) {
             zwrot = true;
         } else {
             zwrot = czydatasiezawiera(dataDo, rok, mc, false);
+        }
+        return zwrot;
+    }
+    
+    public static boolean czyokresjestprzed(String dataDo, String rok, String mc) {
+        boolean zwrot = false;
+        if (dataDo == null || dataDo.equals("")) {
+            zwrot = true;
+        } else {
+            zwrot = czydatasiezawiera(dataDo, rok, mc, true);
         }
         return zwrot;
     }

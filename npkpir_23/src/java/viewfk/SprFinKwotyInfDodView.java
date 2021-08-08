@@ -334,8 +334,8 @@ public class SprFinKwotyInfDodView  implements Serializable{
         for (Iterator<PodatnikUdzialy> it = podatnikUdzialy.iterator();it.hasNext();) {
             PodatnikUdzialy p = it.next();
             if (p.getDatazakonczenia()!=null && !p.getDatazakonczenia().equals("")) {
-                String[] mc = Mce.zwiekszmiesiac(data.Data.getRok(sprFinKwotyInfDod.getDatasporzadzenia()), data.Data.getMc(sprFinKwotyInfDod.getDatasporzadzenia()));
-                if (data.Data.czyjestprzed(p.getDatazakonczenia(), mc[0], mc[1])) {
+                String[] okres = Mce.zwiekszmiesiac(data.Data.getRok(sprFinKwotyInfDod.getDatasporzadzenia()), data.Data.getMc(sprFinKwotyInfDod.getDatasporzadzenia()));
+                if (data.Data.czyokresjestprzed(p.getDatazakonczenia(), okres[0], okres[1])) {
                     it.remove();
                 }
             }
@@ -344,7 +344,10 @@ public class SprFinKwotyInfDodView  implements Serializable{
     }
 
     
-
+    public static void main(String[] args) {
+        boolean czyjestprzed = data.Data.czydatajestprzed("2019-05-01", "2020", "06");
+        System.out.println(czyjestprzed);
+    }
        
     
 }
