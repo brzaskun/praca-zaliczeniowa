@@ -43,7 +43,7 @@ public class PodatnikWyborView implements Serializable {
     
     @PostConstruct
     public void init() { //E.m(this);
-        listaPodatnikow = podatnikDAO.findAllRO();
+        listaPodatnikow = podatnikDAO.findAktywny();
         Collections.sort(listaPodatnikow, new Podatnikcomparator());
         for (Podatnik p : listaPodatnikow) {
             if (!p.isTylkodlaZUS()) {

@@ -61,7 +61,7 @@
         <p:commandButton value="zapisz podatnicy" style="width: 200px; margin: 10px;" actionListener="#{podatnikKsiegowaView.zapisz}"/>
         <p:dataTable value="#{podatnikKsiegowaView.listapodatnikow}" var="item" style="width: 800px;" rowIndexVar="index" rowStyleClass="#{item.ksiegowa.login.startsWith('mar') ? 'rmarta' : item.ksiegowa.login.startsWith('wda') ? 'rwioletta' : item.ksiegowa.login.startsWith('go') ? 'rmalgosia' : 'rrenata'}">
             <p:ajax event="filter" global="false"/>
-            <p:column headerText="podatnik" width="30">
+            <p:column headerText="lp" width="30">
                 <h:outputText value="#{index+1}"/>
             </p:column>
             <p:column headerText="podatnik" width="300">

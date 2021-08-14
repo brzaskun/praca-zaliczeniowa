@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:bcf="http://brzaskun.com/facelets">
+    <h:form id="formpodatnicy">
+        <p:outputPanel>
+            <p:commandButton value="zapisz podatnicy" style="width: 200px; margin: 10px;" actionListener="#{podatnikKsiegowaShortView.zapisz}"/>
+            <p:panelGrid columns="2" style="width: 800px;">
+
+                <p:column>
+                    <p:dataTable id="tabelapodatnicy" value="#{podatnikKsiegowaShortView.listapodatnikow}" var="item" style="width: 600px;height: 900px;overflow-y: scroll;" rowIndexVar="index" 
+                                 rowStyleClass="#{item.ksiegowa.login.startsWith('mar') ? 'rmarta' : item.ksiegowa.login.startsWith('wda') ? 'rwioletta' : item.ksiegowa.login.startsWith('go') ? 'rmalgosia' : 'rrenata'}">
+                        <p:ajax event="filter" global="false"/>
+                        <p:column headerText="lp" width="30">
+                            <h:outputText value="#{index+1}"/>
+                        </p:column>
+                        <p:column headerText="podatnik" width="300">
+                            <h:outputText value="#{item.printnazwa}"/>
+                        </p:column>
+                        <p:column headerText="księgowa" >
+                            <p:selectOneMenu value="#{item.ksiegowa}" style="width: 100px;text-align: center;" converter="#{uzConv}">
+                                <f:selectItems value="#{podatnikKsiegowaShortView.listaksiegowych}" var="loop" itemLabel="#{loop.login}" itemValue="#{loop}"/>
+                            </p:selectOneMenu>
+                        </p:column>
+                        <p:column headerText="aktywny" width="60" style="text-align: center;">
+                            <p:selectBooleanCheckbox value="#{item.podmiotaktywny}">
+                                <p:ajax event="change" listener="#{podatnikKsiegowaShortView.edytujpodatnika(item)}" />
+                            </p:selectBooleanCheckbox>
+                        </p:column>
+                    </p:dataTable>
+                </p:column>
+                <p:column>
+                    <p:outputLabel for="wybierzuzera" value="wybierz księgową"/>
+                    <p:selectOneMenu id="wybierzuzera" value="#{podatnikKsiegowaShortView.wybrany}" style="width: 70px; " converter="#{uzConv}">
+                        <f:selectItem itemLabel="wszyscy" noSelectionOption="true"/>
+                        <f:selectItems value="#{podatnikKsiegowaShortView.listaksiegowych}"  var="loopa" itemLabel="#{loopa.login}" itemValue="#{loopa}"/>
+                        <p:ajax event="change" partialSubmit="true" listener="#{podatnikKsiegowaShortView.init2}" update="formpodatnicy:tabelapodatnicy"/>
+                    </p:selectOneMenu>
+                </p:column>
+            </p:panelGrid>
+        </p:outputPanel>
+    </h:form>
+</ui:composition>   
+

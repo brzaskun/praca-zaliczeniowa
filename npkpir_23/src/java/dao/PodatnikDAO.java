@@ -2,6 +2,7 @@
 package dao;
 
 import entity.Podatnik;
+import entity.Uz;
 import error.E;
 import java.io.Serializable;
 import java.util.List;
@@ -46,12 +47,22 @@ public class PodatnikDAO extends DAO implements Serializable{
     public  List<Podatnik> findAllPrzyporzadkowany(){
         try {
             return getEntityManager().createNamedQuery("Podatnik.findByPodmiotaktywnyPrzyporzadkowany").setParameter("podmiotaktywny", true).getResultList();
-        } catch (Exception e) { E.e(e); 
+        } catch (Exception e) {
+            E.e(e); 
+            return null;
+        }
+    }
+    
+    public  List<Podatnik> findByKsiegowa(Uz ksiegowa){
+        try {
+            return getEntityManager().createNamedQuery("Podatnik.findByKsiegowa").setParameter("ksiegowa", ksiegowa).getResultList();
+        } catch (Exception e) { 
+            E.e(e); 
             return null;
         }
     }
 
-    public  List<Podatnik> findAllRO(){
+    public  List<Podatnik> findAktywny(){
         List<Podatnik>  zwrot = null;
         try {
             zwrot = getEntityManager().createNamedQuery("Podatnik.findByPodmiotaktywny").getResultList();

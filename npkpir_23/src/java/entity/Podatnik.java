@@ -75,6 +75,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Podatnik.findByZUS", query = "SELECT p FROM Podatnik p WHERE p.wysylkazusmail = 1 AND p.podmiotaktywny = true"),
     @NamedQuery(name = "Podatnik.findByPodmiotaktywny", query = "SELECT p FROM Podatnik p WHERE p.podmiotaktywny =true"),
     @NamedQuery(name = "Podatnik.findByPodmiotaktywnyPrzyporzadkowany", query = "SELECT p FROM Podatnik p WHERE p.podmiotaktywny = :podmiotaktywny AND p.ksiegowa IS NOT NULL"),
+    @NamedQuery(name = "Podatnik.findByKsiegowa", query = "SELECT p FROM Podatnik p WHERE p.ksiegowa = :ksiegowa"),
     @NamedQuery(name = "Podatnik.findByWojewodztwo", query = "SELECT p FROM Podatnik p WHERE p.wojewodztwo = :wojewodztwo")})
 public class Podatnik implements Serializable {
     private static final long serialVersionUID = 1L;
