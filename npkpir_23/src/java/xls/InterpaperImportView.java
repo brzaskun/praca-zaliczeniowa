@@ -441,7 +441,7 @@ public class InterpaperImportView implements Serializable {
                         String rodzajdk = "RACHSP";
                         Object[] r = ((List) p).toArray();
                         InterpaperXLS interpaperXLS = new InterpaperXLS(r, wpisView, klient, nrfaktury);
-                        String opis = "import sprzedaży "+r[0]+" w "+r[1];
+                        String opis = "pobrane z xml vat lokalny "+r[0]+" w "+r[1];
                         Konto kontonetto = listakont.get((String)r[0]);
                         if (kontonetto==null) {
                             kontonetto = kontoDAO.findKonto("702-2", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
@@ -467,7 +467,7 @@ public class InterpaperImportView implements Serializable {
                         } while (duplikat!=null);
                         String rodzajdk = "SZUE";
                         Object[] r = ((List) p).toArray();
-                        String opis = "import sprzedaży "+r[0]+" w "+r[1];
+                        String opis = "pobrane z xml sprzedaż bez vat "+r[0]+" w "+r[1];
                         Konto kontonetto = listakont.get((String)r[0]);
                         if (kontonetto==null) {
                             kontonetto = kontoDAO.findKonto("702-2", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
@@ -483,6 +483,7 @@ public class InterpaperImportView implements Serializable {
                Msg.msg("Zaksiegowano dokumenty");
                System.out.println("");
             } else {
+                //tu generujemy dokumenty dla firm
                 Konto kontovatzagr = kontoDAO.findKonto("223", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
                 Konto kontovatpol = kontoDAO.findKonto("221-1", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
                 if (selected !=null && selected.size()>0) {
@@ -593,13 +594,12 @@ public class InterpaperImportView implements Serializable {
                 if (PanstwaEUSymb.getWykazPanstwUE().contains(interpaperXLS.getKlient().getKrajkod())) {
                     if (interpaperXLS.getVatPLN()!=0.0) {
                         polska0unia1zagranica2 = 0;
-                    } else {
+                    } else if (interpaperXLS.getKlient().getKrajkod().equals("GB")){
+                        polska0unia1zagranica2 = 2;
+                    }  else {
                         polska0unia1zagranica2 = 1;
                     }
                 }
-            }
-             if (interpaperXLS.getNrfaktury().equals("G/KFV 2/000023/03/21")) {
-                error.E.s("");
             }
             String rodzajdk = "ZZ";
             Dokfk dokument = null;

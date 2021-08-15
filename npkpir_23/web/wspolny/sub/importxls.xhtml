@@ -58,7 +58,7 @@
                 <p:commandButton value="pobierz dane" actionListener="#{interpaperImportView.importujdok()}" update="panelprzyciskow akordeon5" style="width: 120px;" />
                 <p:commandButton value="generuj dok" actionListener="#{interpaperImportView.generuj()}" update="akordeon5" style="width: 120px;margin-left: 20px;" rendered="false" binding="#{interpaperImportView.generujbutton}"/>
                 <p:commandButton value="drukuj " actionListener="#{interpaperImportView.drukuj()}" update="akordeon5" style="width: 120px;margin-left: 20px;" rendered="false" binding="#{interpaperImportView.drkujfizbutton}"/>
-                <p:commandButton value="usuń duplikaty " actionListener="#{interpaperImportView.usunduplikatyInter()}" update="akordeon5:form_importinterpaper akordeon5:form_importinterpaper:dataListImport" style="width: 120px;margin-left: 20px;"/>
+                <p:commandButton value="usuń duplikaty " actionListener="#{interpaperImportView.usunduplikatyInter()}" update="akordeon5:form_importinterpaper:dataListImport" style="width: 120px;margin-left: 20px;"/>
                 <p:selectOneMenu id="wybierzkonto" value="#{interpaperImportView.kontodlanetto}" style="width: 250px;margin-left: 30px;" converter="#{kontoConv}" binding="#{interpaperImportView.kontobutton}"  rendered="false" >
                     <f:selectItem itemLabel="wybierz konto dla netto" itemValue="" />
                     <f:selectItems value="#{podatnikView.listakontoRZiS}" var="item" itemLabel="#{item.pelnynumer} #{item.nazwapelna}" itemValue="#{item}" itemDescription="#{item.kontomacierzyste.pelnynumer} #{item.kontomacierzyste.nazwapelna}"/>
