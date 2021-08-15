@@ -362,9 +362,6 @@ public class PdfMain {
                 case "OT":
                     opiswstepny = new Paragraph(new Phrase("Przyjęcie środka trwałego " + selected.getNumerwlasnydokfk(), ft[2]));
                     break;
-                case "RK":
-                    opiswstepny = new Paragraph(new Phrase("Raport kasowy " + selected.getNumerwlasnydokfk(), ft[2]));
-                    break;
                 case "IN":
                     opiswstepny = new Paragraph(new Phrase("Polecenie księgowania " + selected.getNumerwlasnydokfk(), ft[2]));
                     break;
@@ -384,6 +381,7 @@ public class PdfMain {
                     opiswstepny = new Paragraph(new Phrase("Zestawienie - kasa fiskalna " + selected.getNumerwlasnydokfk(), ft[2]));
                     break;
                 case "ZZ":
+                case "ZZP":
                 case "SZ":
                     opiswstepny = new Paragraph(new Phrase("Faktura VAT " + selected.getNumerwlasnydokfk(), ft[2]));
                     break;
@@ -393,19 +391,23 @@ public class PdfMain {
                 case "WNT":
                     opiswstepny = new Paragraph(new Phrase("Faktura WNT " + selected.getNumerwlasnydokfk(), ft[2]));
                     break;
-                case "WB":
-                    opiswstepny = new Paragraph(new Phrase("Wyciąg bankowy " + selected.getNumerwlasnydokfk(), ft[2]));
-                    break;
                 default:
                     opiswstepny = new Paragraph(new Phrase("Zaksięgowany dok. nr " + selected.getNumerwlasnydokfk(), ft[2]));
                     break;
             }
+            if (selected.getRodzajedok().getSkrot().startsWith("WB")) {
+                opiswstepny = new Paragraph(new Phrase("Wyciąg bankowy " + selected.getNumerwlasnydokfk(), ft[2]));
+            } else if (selected.getRodzajedok().getSkrot().startsWith("RK")) {
+                opiswstepny = new Paragraph(new Phrase("Raport kasowy " + selected.getNumerwlasnydokfk(), ft[2]));
+            } 
             opiswstepny.setAlignment(Element.ALIGN_CENTER);
             document.add(opiswstepny);
             document.add(Chunk.NEWLINE);
             opiswstepny = new Paragraph(new Phrase("symbol księgowy " + selected.getDokfkSN(), ft[1]));
             document.add(opiswstepny);
             opiswstepny = new Paragraph(new Phrase("okres rozliczeniowy " + selected.getMiesiac() + "/" + selected.getRok(), ft[1]));
+            document.add(opiswstepny);
+            opiswstepny = new Paragraph(new Phrase(selected.getOpisdokfk(), ft[1]));
             document.add(opiswstepny);
         } catch (DocumentException ex) {
             E.e(ex);
@@ -660,11 +662,9 @@ public class PdfMain {
     
     public static void informacjaoZaksiegowaniu(Document document, String lp) {
         try {
-            document.add(new Chunk("Biuro Rachunkowe Taxman"));
             Paragraph zaksiegowany = new Paragraph(new Phrase("dokument zaksięgowany pod lp: " + lp, ft[1]));
             zaksiegowany.setAlignment(Element.ALIGN_LEFT);
             document.add(zaksiegowany);
-            document.add(Chunk.NEWLINE);
             document.add(Chunk.NEWLINE);
         } catch (DocumentException ex) {
             E.e(ex);
@@ -1231,13 +1231,15 @@ public class PdfMain {
                 if (modyfikator == 0) {
                     int[] col2 = new int[size];
                     col2[0] = 1;
-                    col2[1] = 6;
+                    col2[1] = 5;
                     col2[2] = 3;
-                    col2[3] = 4;
-                    col2[4] = 3;
-                    col2[5] = 4;
-                    if (size > 6) {
-                        col2[6] = 1;
+                    col2[3] = 3;
+                    col2[4] = 4;
+                    col2[5] = 3;
+                    col2[6] = 3;
+                    col2[7] = 4;
+                    if (size > 7) {
+                        col2[8] = 1;
                     }
                     return col2;
                 } else {
@@ -1245,11 +1247,13 @@ public class PdfMain {
                     col2[0] = 1;
                     col2[1] = 5;
                     col2[2] = 2;
-                    col2[3] = 3;
-                    col2[4] = 2;
-                    col2[5] = 3;
-                    if (size > 6) {
-                        col2[6] = 2;
+                    col2[3] = 2;
+                    col2[4] = 3;
+                    col2[5] = 2;
+                    col2[6] = 2;
+                    col2[7] = 3;
+                    if (size > 7) {
+                        col2[8] = 2;
                     }
                     return col2;
                 }
@@ -2811,52 +2815,39 @@ public class PdfMain {
                     table.addCell(ustawfrazeAlign(String.valueOf(p.getLp()), "center", 8, 25f));
                     table.addCell(ustawfrazeAlign(p.getOpis(), "left", 8));
                         if (p.getKwotaWn() != 0.0) {
+                            table.addCell(ustawfrazeAlign(number.format(p.getKwotaWnPLN()), "right", 8));
                             table.addCell(ustawfrazeAlign(number.format(p.getKwotaWn()), "right", 8));
                         } else {
+                            table.addCell(ustawfrazeAlign("", "right", 8));
                             table.addCell(ustawfrazeAlign("", "right", 8));
                         }
                         table.addCell(ustawfrazeAlign(p.getOpiskontaWn(), "left", 8));
                         if (p.getKwotaMa() != 0.0) {
+                            table.addCell(ustawfrazeAlign(number.format(p.getKwotaMaPLN()), "right", 8));
                             table.addCell(ustawfrazeAlign(number.format(p.getKwotaMa()), "right", 8));
                         } else {
+                            table.addCell(ustawfrazeAlign("", "right", 8));
                             table.addCell(ustawfrazeAlign("", "right", 8));
                         }
                         table.addCell(ustawfrazeAlign(p.getOpiskontaMa(), "left", 8));
                         table.addCell(ustawfrazeAlign(p.getWaluta(), "center", 7));
-                        if (p.getWaluta() != null && !p.getWaluta().equals("PLN") && !p.getOpis().equals("podsumowanie")) {
-                            table.addCell(ustawfrazeAlign("", "center", 8, 25f));
-                            String opis = "brak wprowadzoej tabeli NBP";
-                            if (p.getTabela() != null) {
-                                opis = "wartość w pln "+p.getTabela().getNrtabeli()+" z "+p.getTabela().getDatatabeli()+" k.w. "+p.getKurs();
-                            }
-                            table.addCell(ustawfrazeAlign(opis, "left", 8));
-                            if (p.getKwotaWn() != 0.0) {
-                                table.addCell(ustawfrazeAlign(number.format(p.getKwotaWnPLN()), "right", 8));
-                            } else {
-                                table.addCell(ustawfrazeAlign("", "right", 8));
-                            }
-                            table.addCell(ustawfrazeAlign("", "left", 7));
-                            if (p.getKwotaMa() != 0.0) {
-                                table.addCell(ustawfrazeAlign(number.format(p.getKwotaMaPLN()), "right", 8));
-                            } else {
-                                table.addCell(ustawfrazeAlign("", "right", 8));
-                            }
-                            table.addCell(ustawfrazeAlign("", "left", 7));
-                            table.addCell(ustawfrazeAlign("PLN", "center", 7));
-                        }
                 } else {
                     WierszKonta p = (WierszKonta) it.next();
                     table.addCell(ustawfrazeAlign(String.valueOf(p.getLp()), "center", 8));
                     table.addCell(ustawfrazeAlign(p.getOpis(), "left", 8));
                         if (p.getKwotaWn() != 0.0) {
+                            table.addCell(ustawfrazeAlign(number.format(p.getKwotaWnPLN()), "right", 8));
                             table.addCell(ustawfrazeAlign(number.format(p.getKwotaWn()), "right", 8));
                         } else {
+                            table.addCell(ustawfrazeAlign("", "right", 8));
                             table.addCell(ustawfrazeAlign("", "right", 8));
                         }
                         table.addCell(ustawfrazeAlign(p.getOpiskontaWn(), "left", 8));
                         if (p.getKwotaMa() != 0.0) {
+                            table.addCell(ustawfrazeAlign(number.format(p.getKwotaMaPLN()), "right", 8));
                             table.addCell(ustawfrazeAlign(number.format(p.getKwotaMa()), "right", 8));
                         } else {
+                            table.addCell(ustawfrazeAlign("", "right", 8));
                             table.addCell(ustawfrazeAlign("", "right", 8));
                         }
                         table.addCell(ustawfrazeAlign(p.getOpiskontaMa(), "left", 8));

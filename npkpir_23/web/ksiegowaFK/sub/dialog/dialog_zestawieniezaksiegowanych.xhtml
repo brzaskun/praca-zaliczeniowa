@@ -102,8 +102,12 @@
                         </p:selectOneMenu>
                     </p:column>-->
                     <p:column>
-                        <p:commandButton id="drukujbutton" value="#{mgs.drukuj}" actionListener="#{pdfZaksiegowaneView.drukujzaksiegowanydokument(dokfkView.wykazZaksiegowanychDokumentow, dokfkView.selectedlist, dokfkView.filteredValue)}" styleClass="fkbutton"
-                                         action="#{sesjaView.dodajwydruk()}" style="margin-left: 15px; width: 120px;"  rendered="#{dokfkView.rodzajedokumentowPodatnika.size() ne 0}"/>
+                         <p:splitButton value="#{mgs.drukuj}" actionListener="#{pdfZaksiegowaneView.drukujzaksiegowanydokument(dokfkView.wykazZaksiegowanychDokumentow, dokfkView.selectedlist, dokfkView.filteredValue)}" styleClass="fkbutton"
+                                         action="#{sesjaView.dodajwydruk()}" style="margin-left: 15px; width: 120px;"  rendered="#{dokfkView.rodzajedokumentowPodatnika.size() ne 0}">
+                            <p:menuitem global="false" value="druk indyw." action="#{sesjaView.dodajwydruk()}" 
+                                        actionListener="#{pdfDokfkView.drukujzaksiegowanydokumentlista(dokfkView.wykazZaksiegowanychDokumentow, dokfkView.selectedlist, dokfkView.filteredValue)}" icon="fa fa-print"
+                                         oncomplete="wydrukzaksiegowane('#{WpisView.podatnikObiekt.nip}');"/>  
+                         </p:splitButton>
                     </p:column>
                     <p:column>
                         <p:commandButton id="wpisujbutton" value="wpisuj"  styleClass="fkbutton" 

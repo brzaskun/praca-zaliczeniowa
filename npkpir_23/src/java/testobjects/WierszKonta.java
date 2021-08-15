@@ -30,12 +30,14 @@ public class WierszKonta implements Serializable {
     public WierszKonta() {
     }
 
-    public WierszKonta(int lp, String opis, double kwotawn, String opiskontawn, double kwotama, String opiskontama, String waluta) {
+    public WierszKonta(int lp, String opis, double kwotawn, double kwotawnpln, String opiskontawn, double kwotama, double kwotamapln, String opiskontama, String waluta) {
         this.lp = lp;
         this.opis = opis;
         this.kwotaWn = kwotawn;
+        this.kwotaWnPLN = kwotawnpln;
         this.opiskontaWn = opiskontawn;
         this.kwotaMa = kwotama;
+        this.kwotaMaPLN = kwotamapln;
         this.opiskontaMa = opiskontama;
         this.waluta = waluta;
     }

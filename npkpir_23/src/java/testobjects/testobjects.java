@@ -127,9 +127,11 @@ public class testobjects {
        List n = new ArrayList();
        n.add("lp");
        n.add("opis");
-       n.add("kwota Wn");
+       n.add("kwota PLN");
+       n.add("kwota w wal.");
        n.add("konto Wn");
-       n.add("kwota Ma");
+       n.add("kwota PLN");
+       n.add("kwota w wal.");
        n.add("konto Ma");
        n.add("wal.");
        List t = getWierszeKonta(wiersze);
@@ -170,9 +172,11 @@ public class testobjects {
        List n = new ArrayList();
        n.add("lp");
        n.add("opis");
-       n.add("kwota Wn");
+       n.add("kwota PLN");
+       n.add("kwota w wal.");
        n.add("konto Wn");
-       n.add("kwota Ma");
+       n.add("kwota PLN");
+       n.add("kwota w wal.");
        n.add("konto Ma");
        n.add("saldo");
        List t = getWierszeKonta(wiersze);
@@ -1060,6 +1064,8 @@ public static List[] getKontoZapisy(List<StronaWiersza> wiersze) {
         List<WierszKonta> w = new ArrayList<WierszKonta>();
         double sumaWn = 0.0;
         double sumaMa = 0.0;
+        double sumaWnPLN = 0.0;
+        double sumaMaPLN = 0.0;
         int lp = 1;
         for (Wiersz p : wiersze) {
             lp++;
@@ -1073,18 +1079,20 @@ public static List[] getKontoZapisy(List<StronaWiersza> wiersze) {
                 r.setKwotaWnPLN(p.getKwotaWnPLN());
                 r.setOpiskontaWn(p.getStronaWn().getKonto().getPelnynumer() + " " + p.getStronaWn().getKonto().getNazwapelna());
                 sumaWn += p.getStronaWn().getKwota();
+                sumaWnPLN += p.getStronaWn().getKwotaPLN();
             }
             if (p.getStronaMa() != null) {
                 r.setKwotaMa(p.getStronaMa().getKwota());
                 r.setKwotaMaPLN(p.getKwotaMaPLN());
                 r.setOpiskontaMa(p.getStronaMa().getKonto().getPelnynumer() + " " + p.getStronaMa().getKonto().getNazwapelna());
                 sumaMa += p.getStronaMa().getKwota();
+                sumaMaPLN += p.getStronaMa().getKwotaPLN();
             }
             r.setSaldo(p.getSaldoWBRK());
             w.add(r);
         }
         if (wiersze.size() > 1) {
-            WierszKonta suma = new WierszKonta(lp, "podsumowanie", sumaWn, "", sumaMa, "","");
+            WierszKonta suma = new WierszKonta(lp, "podsumowanie", sumaWn, sumaWnPLN, "", sumaMa, sumaMaPLN, "","");
             w.add(suma);
         }
         return w;
