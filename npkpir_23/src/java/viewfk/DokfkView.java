@@ -350,6 +350,7 @@ public class DokfkView implements Serializable {
             sumadokbo = ObslugaWiersza.sumujwierszeBO(selected);
             PrimeFaces.current().ajax().update("formwpisdokument:panelwpisbutton");
         }
+
     }
     public void resetujDokument() {
         //pobieram dane ze starego dokumentu, jeżeli jest

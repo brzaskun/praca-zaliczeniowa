@@ -52,13 +52,15 @@ var pokazwierszoznaczony = function() {
             //var jest = rj("formwpiskonta:wyborkonta_input").value;
             if (lp !== "-1") {
                 var nazwa = "formwpisdokument:dataList:"+lp+":opisdokwpis";
-                r(nazwa).closest("td")[0].click();
                 var bliskietd = r(nazwa).closest("td")[0];
                 var tablicaid = $(bliskietd).closest(".walkingtable2")[0].id;
                 obliczwysokosc(tablicaid);
                 var przesun = isScrolledIntoView(bliskietd);
-                r(nazwa).select();
                 document.getElementById(tablicaid).scrollTop = document.getElementById(tablicaid).scrollTop + przesun;
+                $($(bliskietd).closest("tr")[0]).css("background-color", "blue");
+                $($(bliskietd).closest("tr")[0]).css("color", "blue");
+                r(nazwa).focus();
+                r(nazwa).select();
                 document.getElementById('zestawieniezapisownakontachpola1:wierszDoPodswietlenia').value = "-1";
             }
         }
