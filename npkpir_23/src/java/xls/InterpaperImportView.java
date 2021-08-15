@@ -141,6 +141,9 @@ public class InterpaperImportView implements Serializable {
     private Konto kontodlanetto;
     private List<Konto> listakontoRZiS;
     private String jakipobor;
+    private double nettopln;
+    private double vatpln;
+    private double bruttopln;
     
 
     public void init() { //E.m(this);
@@ -278,6 +281,7 @@ public class InterpaperImportView implements Serializable {
                     innyokres = (List<InterpaperXLS>) zwrot3[3];
                     break;
             }
+            sumujnadole(pobranefaktury);
             if (jakipobor!=null) {
 //                if (jakipobor.equals("wszystko")) {
 //                    
@@ -1638,6 +1642,43 @@ public class InterpaperImportView implements Serializable {
 
     public void setInnyokres(List<InterpaperXLS> innyokres) {
         this.innyokres = innyokres;
+    }
+
+    public double getNettopln() {
+        return nettopln;
+    }
+
+    public void setNettopln(double nettopln) {
+        this.nettopln = nettopln;
+    }
+
+    public double getVatpln() {
+        return vatpln;
+    }
+
+    public void setVatpln(double vatpln) {
+        this.vatpln = vatpln;
+    }
+
+    public double getBruttopln() {
+        return bruttopln;
+    }
+
+    public void setBruttopln(double bruttopln) {
+        this.bruttopln = bruttopln;
+    }
+
+    private void sumujnadole(List<InterpaperXLS> pobranefaktury) {
+        nettopln = 0.0;
+        vatpln = 0.0;
+        bruttopln = 0.0;
+        if (pobranefaktury!=null && pobranefaktury.size()>0) {
+            for (InterpaperXLS p : pobranefaktury) {
+                nettopln = Z.z(nettopln+p.getNettoPLN());
+                vatpln = Z.z(vatpln+p.getVatPLN());
+            }
+            bruttopln = Z.z(nettopln+vatpln);
+        }
     }
 
   
