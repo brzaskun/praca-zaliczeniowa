@@ -10,11 +10,13 @@ import dao.KalendarzmiesiacFacade;
 import dao.PracownikFacade;
 import dao.UrlopprezentacjaFacade;
 import data.Data;
-import embeddable.Mce;
+import entity.Dzien;
+import entity.EtatPrac;
 import entity.Kalendarzmiesiac;
 import entity.Urlopprezentacja;
+import entity.Urlopwykorzystanie;
 import java.io.Serializable;
-import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -24,7 +26,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import msg.Msg;
-import z.Z;
 
 /**
  *
@@ -41,7 +42,6 @@ public class PracownikUrlopView  implements Serializable {
     @Inject
     private WpisView wpisView;
     private Urlopprezentacja urlopprezentacja;
-    private Urlopprezentacja urlopprezentacja1;
     @Inject
     private KalendarzmiesiacFacade kalendarzmiesiacFacade;
     
@@ -74,30 +74,37 @@ public class PracownikUrlopView  implements Serializable {
     
     public void pobierz() {
         if (wpisView.getPracownik()!=null) {
-            urlopprezentacja = new Urlopprezentacja(wpisView.getPracownik(), wpisView.getRokWpisu());  
-            urlopprezentacja1 = new Urlopprezentacja(wpisView.getPracownik(), wpisView.getRokWpisu());  
+            urlopprezentacja = new Urlopprezentacja(wpisView.getUmowa(), wpisView.getRokWpisu());  
             List<Kalendarzmiesiac> kalendarze = kalendarzmiesiacFacade.findByRokUmowa(wpisView.getUmowa(), wpisView.getRokWpisu());
-            naniesdnizkodem(kalendarze, urlopprezentacja, "100");
-            naniesdnizkodem(kalendarze, urlopprezentacja1, "331");
+            urlopprezentacja.setUrlopwykorzystanieList(naniesdnizkodem(kalendarze, urlopprezentacja, "100"));
             Msg.msg("Pobrano dane");
         }
     }
     
-    private void naniesdnizkodem(List<Kalendarzmiesiac> kalendarze, Urlopprezentacja urlopprezentacja, String kod) {
-        double suma = 0.0;
+    private List<Urlopwykorzystanie> naniesdnizkodem(List<Kalendarzmiesiac> kalendarze, Urlopprezentacja urlopprezentacja, String kod) {
+        List<Urlopwykorzystanie> lista = new ArrayList<>();
         for (Kalendarzmiesiac p : kalendarze) {
-            double dniurlopu = Z.z(p.roboczenieob(kod)[0]/8.0);
-            suma = suma + dniurlopu;
-            try {
-                Class[] paramString = new Class[1];	
-                paramString[0] = Double.class;
-                Method met = Urlopprezentacja.class.getDeclaredMethod("setW"+Mce.getMiesiacToNumber().get(p.getMc()), paramString);
-                met.invoke(urlopprezentacja, dniurlopu);
-            } catch (Exception e){
-                System.out.println("");
+            for (Dzien r : p.getDzienList()) {
+                if (r.getNieobecnosc()!=null) {
+                    if (r.getNieobecnosc().getNieobecnosckodzus().getKod().equals("100")) {
+                        Urlopwykorzystanie wykorzystanie = new Urlopwykorzystanie();
+                        wykorzystanie.setMc(p.getMc());
+                        wykorzystanie.setData(Data.zrobdate(r.getNrdnia(), p.getMc(), p.getRok()));
+                        wykorzystanie.setDni(1);
+                        wykorzystanie.setNrdniawroku(r.getNrdniawroku());
+                        wykorzystanie.setGodziny(r.getUrlopPlatny());
+                        wykorzystanie.setUrlopprezentacja(urlopprezentacja);
+                        EtatPrac pobierzetat = p.getUmowa().pobierzetat(wykorzystanie.getData());
+                        wykorzystanie.setEtat1(pobierzetat.getEtat1());
+                        wykorzystanie.setEtat2(pobierzetat.getEtat2());
+                        if (r.getUrlopPlatny()>0) {
+                            lista.add(wykorzystanie);
+                        }
+                    }
+                }
             }
         }
-        urlopprezentacja.setW13(Z.z(suma));
+        return lista;
     }
 
 
@@ -107,14 +114,6 @@ public class PracownikUrlopView  implements Serializable {
 
     public void setUrlopprezentacja(Urlopprezentacja urlopprezentacja) {
         this.urlopprezentacja = urlopprezentacja;
-    }
-
-    public Urlopprezentacja getUrlopprezentacja1() {
-        return urlopprezentacja1;
-    }
-
-    public void setUrlopprezentacja1(Urlopprezentacja urlopprezentacja1) {
-        this.urlopprezentacja1 = urlopprezentacja1;
     }
 
     

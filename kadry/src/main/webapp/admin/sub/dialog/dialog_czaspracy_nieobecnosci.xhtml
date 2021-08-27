@@ -30,7 +30,7 @@
                                 <p:ajax event="change" partialSubmit="true" global="false" update="NieobecnoscCreateForm:kod"/>
                             </p:selectOneMenu>
                             <p:outputLabel value="kod" for="kod" />
-                            <p:inputText id="kod" value="#{nieobecnoscView.selected.nieobecnosckodzus.kod}" title="kod" required="true" readonly="true"/>
+                            <h:outputText id="kod" value="#{nieobecnoscView.selected.nieobecnosckodzus.kod}" title="kod"/>
                             <p:outputLabel value="uwagi" for="uwagi" />
                             <p:inputText id="uwagi" value="#{nieobecnoscView.selected.uzasadnienie}" title="uwagi" />
                             <p:outputLabel value="procent" for="procent" />

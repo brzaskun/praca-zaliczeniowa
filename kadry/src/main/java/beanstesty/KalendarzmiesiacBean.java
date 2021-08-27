@@ -71,10 +71,10 @@ public class KalendarzmiesiacBean {
     
     public static void create(Kalendarzmiesiac kalendarzmiesiac) {
             kalendarzmiesiac.setDzienList(new ArrayList<>());
-            kalendarzmiesiac.getDzienList().add(new Dzien(1, 0, 8, 8, 2, kalendarzmiesiac));
-            kalendarzmiesiac.getDzienList().add(new Dzien(2, 0, 8, 8, 2, kalendarzmiesiac));
-            kalendarzmiesiac.getDzienList().add(new Dzien(3, 0, 8, 8, 2, kalendarzmiesiac));
-            kalendarzmiesiac.getDzienList().add(new Dzien(4, 0, 8, 8, 2, kalendarzmiesiac));
+            kalendarzmiesiac.getDzienList().add(new Dzien(1, 0, 8, 8, kalendarzmiesiac));
+            kalendarzmiesiac.getDzienList().add(new Dzien(2, 0, 8, 8, kalendarzmiesiac));
+            kalendarzmiesiac.getDzienList().add(new Dzien(3, 0, 8, 8, kalendarzmiesiac));
+            kalendarzmiesiac.getDzienList().add(new Dzien(4, 0, 8, 8, kalendarzmiesiac));
             kalendarzmiesiac.getDzienList().add(new Dzien(5, 1, 0, 0, kalendarzmiesiac));
             kalendarzmiesiac.getDzienList().add(new Dzien(6, 2, 0, 0, kalendarzmiesiac));
             kalendarzmiesiac.getDzienList().add(new Dzien(7, 0, 8, 8, kalendarzmiesiac));
@@ -106,10 +106,10 @@ public class KalendarzmiesiacBean {
     
     public static void reset(Kalendarzmiesiac kalendarzmiesiac) {
             kalendarzmiesiac.setDzienList(new ArrayList<>());
-            kalendarzmiesiac.getDzienList().add(new Dzien(1, 0, 8, 8, 2, kalendarzmiesiac));
-            kalendarzmiesiac.getDzienList().add(new Dzien(2, 0, 8, 8, 2, kalendarzmiesiac));
-            kalendarzmiesiac.getDzienList().add(new Dzien(3, 0, 8, 8, 2, kalendarzmiesiac));
-            kalendarzmiesiac.getDzienList().add(new Dzien(4, 0, 8, 8, 2, kalendarzmiesiac));
+            kalendarzmiesiac.getDzienList().add(new Dzien(1, 0, 8, 8, kalendarzmiesiac));
+            kalendarzmiesiac.getDzienList().add(new Dzien(2, 0, 8, 8, kalendarzmiesiac));
+            kalendarzmiesiac.getDzienList().add(new Dzien(3, 0, 8, 8, kalendarzmiesiac));
+            kalendarzmiesiac.getDzienList().add(new Dzien(4, 0, 8, 8, kalendarzmiesiac));
             kalendarzmiesiac.getDzienList().add(new Dzien(5, 1, 0, 0, kalendarzmiesiac));
             kalendarzmiesiac.getDzienList().add(new Dzien(6, 2, 0, 0, kalendarzmiesiac));
             kalendarzmiesiac.getDzienList().add(new Dzien(7, 0, 8, 8, kalendarzmiesiac));

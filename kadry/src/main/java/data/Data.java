@@ -808,6 +808,15 @@ public class Data implements Serializable {
         return zwrot;
     }
 
+    public static String zrobdate(int nrdnia, String mc, String rok) {
+        String dzien = String.valueOf(nrdnia);
+        if (dzien.length()==1) {
+            dzien = "0"+dzien;
+        }
+        dzien = rok+"-"+mc+"-"+dzien;
+        return dzien;
+    }
+
     
 
     

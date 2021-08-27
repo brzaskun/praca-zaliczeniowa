@@ -14,77 +14,52 @@
                 
                   <p:panelGrid columns="4" rendered="#{pracownikUrlopView.urlopprezentacja != null}">
                         <p:outputLabel value="nazwisko i imię pracownika" for="urlopimie" />
-                        <p:inputText id="urlopimie" value="#{pracownikUrlopView.urlopprezentacja.pracownik.nazwiskoImie}" readonly="true"/>
+                        <p:inputText id="urlopimie" value="#{pracownikUrlopView.urlopprezentacja.umowa.angaz.pracownik.nazwiskoImie}" readonly="true"/>
                         <p:outputLabel value="rok rozliczeniowy" for="urloprok" />
                         <p:inputText id="urloprok" value="#{pracownikUrlopView.urlopprezentacja.rok}" readonly="true"/>
                         <p:outputLabel value="zaległy rok uprzedni" for="urloplp" />
-                        <p:inputNumber id="urloplp" value="#{pracownikUrlopView.urlopprezentacja.latapoprzednie}"  size="5"  maxlength="3" decimalPlaces="1" decimalSeparator="." inputStyle="text-align: right"/>
+                        <p:inputNumber id="urloplp" value="#{pracownikUrlopView.urlopprezentacja.okrespoprzedni}"  size="5"  maxlength="3" decimalPlaces="1" decimalSeparator="." inputStyle="text-align: right"/>
                         <p:outputLabel value="wymiar rok bieżący" for="urloplp1" />
-                        <p:inputNumber id="urloplp1" value="#{pracownikUrlopView.urlopprezentacja.wymiarrokbiezacy}"  size="5" maxlength="3" decimalPlaces="1" decimalSeparator="." inputStyle="text-align: right"/>
-                    </p:panelGrid>
-                <p:panel header="wykorzystanie urlopu rok biezacy" rendered="#{pracownikUrlopView.urlopprezentacja != null}">
-                    <p:panelGrid columns="13" >
-                        <h:outputText value="01"/>
-                        <h:outputText value="02"/>
-                        <h:outputText value="03"/>
-                        <h:outputText value="04"/>
-                        <h:outputText value="05"/>
-                        <h:outputText value="06"/>
-                        <h:outputText value="07"/>
-                        <h:outputText value="08"/>
-                        <h:outputText value="09"/>
-                        <h:outputText value="10"/>
-                        <h:outputText value="11"/>
-                        <h:outputText value="12"/>
-                        <h:outputText value="Razem"/>
-                        <p:inputNumber value="#{pracownikUrlopView.urlopprezentacja.w1}"  size="5" maxlength="3" decimalPlaces="1" decimalSeparator="." inputStyle="text-align: right"/>
-                        <p:inputNumber value="#{pracownikUrlopView.urlopprezentacja.w2}"  size="5" maxlength="3" decimalPlaces="1" decimalSeparator="." inputStyle="text-align: right"/>
-                        <p:inputNumber value="#{pracownikUrlopView.urlopprezentacja.w3}"  size="5" maxlength="3" decimalPlaces="1" decimalSeparator="." inputStyle="text-align: right"/>
-                        <p:inputNumber value="#{pracownikUrlopView.urlopprezentacja.w4}"  size="5" maxlength="3" decimalPlaces="1" decimalSeparator="." inputStyle="text-align: right"/>
-                        <p:inputNumber value="#{pracownikUrlopView.urlopprezentacja.w5}"  size="5" maxlength="3" decimalPlaces="1" decimalSeparator="." inputStyle="text-align: right"/>
-                        <p:inputNumber value="#{pracownikUrlopView.urlopprezentacja.w6}"  size="5" maxlength="3" decimalPlaces="1" decimalSeparator="." inputStyle="text-align: right"/>
-                        <p:inputNumber value="#{pracownikUrlopView.urlopprezentacja.w7}"  size="5" maxlength="3" decimalPlaces="1" decimalSeparator="." inputStyle="text-align: right"/>
-                        <p:inputNumber value="#{pracownikUrlopView.urlopprezentacja.w8}"  size="5" maxlength="3" decimalPlaces="1" decimalSeparator="." inputStyle="text-align: right"/>
-                        <p:inputNumber value="#{pracownikUrlopView.urlopprezentacja.w9}"  size="5" maxlength="3" decimalPlaces="1" decimalSeparator="." inputStyle="text-align: right"/>
-                        <p:inputNumber value="#{pracownikUrlopView.urlopprezentacja.w10}"  size="5" maxlength="3" decimalPlaces="1" decimalSeparator="." inputStyle="text-align: right"/>
-                        <p:inputNumber value="#{pracownikUrlopView.urlopprezentacja.w11}"  size="5" maxlength="3" decimalPlaces="1" decimalSeparator="." inputStyle="text-align: right"/>
-                        <p:inputNumber value="#{pracownikUrlopView.urlopprezentacja.w12}"  size="5" maxlength="3" decimalPlaces="1" decimalSeparator="." inputStyle="text-align: right"/>
-                        <p:inputNumber value="#{pracownikUrlopView.urlopprezentacja.w13}"  size="5" maxlength="3" decimalPlaces="1" decimalSeparator="." inputStyle="text-align: right"/>
-                    </p:panelGrid>
-                </p:panel>
-                 <p:panel header="chorobowe 331" rendered="#{pracownikUrlopView.urlopprezentacja1 != null}">
-                    <p:panelGrid columns="13" >
-                        <h:outputText value="01"/>
-                        <h:outputText value="02"/>
-                        <h:outputText value="03"/>
-                        <h:outputText value="04"/>
-                        <h:outputText value="05"/>
-                        <h:outputText value="06"/>
-                        <h:outputText value="07"/>
-                        <h:outputText value="08"/>
-                        <h:outputText value="09"/>
-                        <h:outputText value="10"/>
-                        <h:outputText value="11"/>
-                        <h:outputText value="12"/>
-                        <h:outputText value="Razem"/>
-                        <p:inputNumber value="#{pracownikUrlopView.urlopprezentacja1.w1}"  size="5" maxlength="3" decimalPlaces="1" decimalSeparator="." inputStyle="text-align: right"/>
-                        <p:inputNumber value="#{pracownikUrlopView.urlopprezentacja1.w2}"  size="5" maxlength="3" decimalPlaces="1" decimalSeparator="." inputStyle="text-align: right"/>
-                        <p:inputNumber value="#{pracownikUrlopView.urlopprezentacja1.w3}"  size="5" maxlength="3" decimalPlaces="1" decimalSeparator="." inputStyle="text-align: right"/>
-                        <p:inputNumber value="#{pracownikUrlopView.urlopprezentacja1.w4}"  size="5" maxlength="3" decimalPlaces="1" decimalSeparator="." inputStyle="text-align: right"/>
-                        <p:inputNumber value="#{pracownikUrlopView.urlopprezentacja1.w5}"  size="5" maxlength="3" decimalPlaces="1" decimalSeparator="." inputStyle="text-align: right"/>
-                        <p:inputNumber value="#{pracownikUrlopView.urlopprezentacja1.w6}"  size="5" maxlength="3" decimalPlaces="1" decimalSeparator="." inputStyle="text-align: right"/>
-                        <p:inputNumber value="#{pracownikUrlopView.urlopprezentacja1.w7}"  size="5" maxlength="3" decimalPlaces="1" decimalSeparator="." inputStyle="text-align: right"/>
-                        <p:inputNumber value="#{pracownikUrlopView.urlopprezentacja1.w8}"  size="5" maxlength="3" decimalPlaces="1" decimalSeparator="." inputStyle="text-align: right"/>
-                        <p:inputNumber value="#{pracownikUrlopView.urlopprezentacja1.w9}"  size="5" maxlength="3" decimalPlaces="1" decimalSeparator="." inputStyle="text-align: right"/>
-                        <p:inputNumber value="#{pracownikUrlopView.urlopprezentacja1.w10}"  size="5" maxlength="3" decimalPlaces="1" decimalSeparator="." inputStyle="text-align: right"/>
-                        <p:inputNumber value="#{pracownikUrlopView.urlopprezentacja1.w11}"  size="5" maxlength="3" decimalPlaces="1" decimalSeparator="." inputStyle="text-align: right"/>
-                        <p:inputNumber value="#{pracownikUrlopView.urlopprezentacja1.w12}"  size="5" maxlength="3" decimalPlaces="1" decimalSeparator="." inputStyle="text-align: right"/>
-                        <p:inputNumber value="#{pracownikUrlopView.urlopprezentacja1.w13}"  size="5" maxlength="3" decimalPlaces="1" decimalSeparator="." inputStyle="text-align: right"/>
-                    </p:panelGrid>
+                        <p:inputNumber id="urloplp1" value="#{pracownikUrlopView.urlopprezentacja.wymiarokresbiezacy}"  size="5" maxlength="3" decimalPlaces="1" decimalSeparator="." inputStyle="text-align: right"/>
+                    </p:panelGrid><!--
+-->                <p:panel header="wykorzystanie urlopu rok biezacy" rendered="#{pracownikUrlopView.urlopprezentacja != null}">
+                    <p:dataTable id="datalist" value="#{pracownikUrlopView.urlopprezentacja.urlopwykorzystanieList}" var="urlopwykorzystanie"
+                                 rowKey="#{urlopwykorzystanie.id}" emptyMessage="brak urlopu w roku bieżącym" rowIndexVar="indexurlop"
+                                 style="height: 250px;overflow-y: scroll; width: 450px; margin-left: 50px;" sortBy="#{urlopwykorzystanie.mc}"
+                                 >
+                            <p:column width="40" style="text-align: center;">
+                                <f:facet name="header">
+                                    <h:outputText value=""/>
+                                </f:facet>
+                                <h:outputText value="#{indexurlop+1}"/>
+                            </p:column>
+                            <p:column width="40" style="text-align: center;">
+                                <f:facet name="header">
+                                    <h:outputText value="mc"/>
+                                </f:facet>
+                                <h:outputText value="#{urlopwykorzystanie.mc}"/>
+                            </p:column>
+                            <p:column width="70" style="text-align: center;">
+                                <f:facet name="header">
+                                    <h:outputText value="data"/>
+                                </f:facet>
+                                <h:outputText value="#{urlopwykorzystanie.data}"/>
+                            </p:column>
+                            <p:column width="40" style="text-align: center;">
+                                <f:facet name="header">
+                                    <h:outputText value="godzin"/>
+                                </f:facet>
+                                <h:outputText value="#{urlopwykorzystanie.godziny}"/>
+                            </p:column>
+                            <p:column width="40" style="text-align: center;">
+                                <f:facet name="header">
+                                    <h:outputText value="etat"/>
+                                </f:facet>
+                                <h:outputText value="#{urlopwykorzystanie.etat1}/#{urlopwykorzystanie.etat2}"/>
+                            </p:column>
+                        </p:dataTable>
                 </p:panel>
                   <p:panelGrid columns="4" rendered="#{pracownikUrlopView.urlopprezentacja != null}">
-                        <p:outputLabel value="ekwiwalent" for="ekwiwalent" />
-                        <h:outputText id="ekwiwalent" value="#{pracownikUrlopView.urlopprezentacja.ekwiwalent}"/>
                         <p:outputLabel value="do przeniesienia" for="przeniesienia" />
                         <h:outputText id="przeniesienia" value="#{pracownikUrlopView.urlopprezentacja.doprzeniesienia}"/>
                     </p:panelGrid>

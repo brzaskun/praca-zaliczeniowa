@@ -54,7 +54,7 @@ public class UrlopprezentacjaFacade extends DAO{
             zwrot = (Urlopprezentacja) getEntityManager().createNamedQuery("Urlopprezentacja.findByPracownikRok").setParameter("pracownik", pracownik).setParameter("rok", rok).getSingleResult();
         } catch (Exception e) {}
         if (zwrot == null) {
-            zwrot = new Urlopprezentacja(pracownik,rok);
+            zwrot = new Urlopprezentacja(null,rok);
         }
         return zwrot;
     }

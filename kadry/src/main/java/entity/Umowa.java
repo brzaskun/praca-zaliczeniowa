@@ -62,25 +62,25 @@ import javax.xml.bind.annotation.XmlTransient;
 })
 public class Umowa implements Serializable {
 
-    @Size(max = 255)
+    @Size(max = 10)
     @Column(name = "datado")
     private String datado;
-    @Size(max = 255)
+    @Size(max = 10)
     @Column(name = "dataod")
     private String dataod;
-    @Size(max = 255)
+    @Size(max = 10)
     @Column(name = "datazawarcia")
     private String datazawarcia;
-    @Size(max = 255)
+    @Size(max = 10)
     @Column(name = "datanfz")
     private String datanfz;
-    @Size(max = 255)
+    @Size(max = 10)
     @Column(name = "dataspoleczne")
     private String dataspoleczne;
-    @Size(max = 255)
+    @Size(max = 10)
     @Column(name = "datazdrowotne")
     private String datazdrowotne;
-    @Size(max = 255)
+    @Size(max = 3)
     @Column(name = "nfz")
     private String nfz;
     @Size(max = 45)
@@ -165,6 +165,8 @@ public class Umowa implements Serializable {
     private String przyczynawypowiedzenia;
     @Column(name = "opiszawodu")
     private String opiszawodu;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "umowa")
+    private List<Urlopprezentacja> urlopprezentacjaList;
 
     public Umowa() {
         this.etatList = new ArrayList<>();
@@ -550,5 +552,27 @@ public class Umowa implements Serializable {
         this.stanowiskopracList = stanowiskopracList;
     }
     
+    @XmlTransient
+    public List<Urlopprezentacja> getUrlopprezentacjaList() {
+        return urlopprezentacjaList;
+    }
+
+    public void setUrlopprezentacjaList(List<Urlopprezentacja> urlopprezentacjaList) {
+        this.urlopprezentacjaList = urlopprezentacjaList;
+    }
+
+    public EtatPrac pobierzetat(String data) {
+       EtatPrac zwrot = null;
+        List<EtatPrac> etatList1 = this.etatList;
+        if (etatList1!=null) {
+            for (EtatPrac p : etatList1) {
+                String datagraniczna = p.getDataod();
+                if (Data.czyjestpo(datagraniczna, data)) {
+                    zwrot = p;
+                }
+            }
+        }
+        return zwrot;
+    }
     
 }

@@ -70,19 +70,25 @@
                             </f:facet>
                             <h:outputText value="#{itemkalendarz.nrdnia}"/>
                         </p:column>
-                        <p:column>
+                        <p:column width="50" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="nr kolejny w roku"/>
+                            </f:facet>
+                            <h:outputText value="#{itemkalendarz.nrdniawroku}"/>
+                        </p:column>
+                        <p:column style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="typ dnia"/>
                             </f:facet>
-                            <p:inputText value="#{itemkalendarz.typdnia}"/>
+                            <p:inputText value="#{itemkalendarz.typdnia}" size="6"/>
                         </p:column>
-                        <p:column>
+                        <p:column style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="norma godzin"/>
                             </f:facet>
                             <p:inputText value="#{itemkalendarz.normagodzin}" size="4" />
                         </p:column>
-                        <p:column>
+                        <p:column style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="kod"/>
                             </f:facet>

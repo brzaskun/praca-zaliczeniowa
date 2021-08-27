@@ -45,6 +45,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Pracownik.findByNazwisko", query = "SELECT p FROM Pracownik p WHERE p.nazwisko = :nazwisko")
 })
 public class Pracownik implements Serializable {
+    private static final long serialVersionUID = 1L;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 128)
@@ -137,9 +138,6 @@ public class Pracownik implements Serializable {
     @Size(max = 45)
     @Column(name = "telefon")
     private String telefon;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pracownik", orphanRemoval = true)
-    private List<Urlopprezentacja> urlopprezentacjaList;
-    private static final long serialVersionUID = 1L;
     @Column(name = "ipusera")
     private String ipusera;
     @Column(name = "datalogowania")
@@ -527,15 +525,7 @@ public class Pracownik implements Serializable {
         this.formawynagrodzenia = formawynagrodzenia;
     }
 
-    @XmlTransient
-    public List<Urlopprezentacja> getUrlopprezentacjaList() {
-        return urlopprezentacjaList;
-    }
-
-    public void setUrlopprezentacjaList(List<Urlopprezentacja> urlopprezentacjaList) {
-        this.urlopprezentacjaList = urlopprezentacjaList;
-    }
-
+    
     
    
 }

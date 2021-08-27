@@ -46,6 +46,8 @@ public class Dzien implements Serializable {
     private Integer id;
     @Column(name = "nrdnia")
     private int nrdnia;
+    @Column(name = "nrdniawroku")
+    private int nrdniawroku;
     @Column(name = "typdnia")
     private int typdnia;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
@@ -96,6 +98,7 @@ public class Dzien implements Serializable {
 
     public Dzien(int nrdnia, int rob1wolny0swieto2, double normagodzin, double przepracowano, Kalendarzmiesiac kalendarzmiesiac) {
         this.nrdnia = nrdnia;
+        this.nrdniawroku = nrdniawroku;
         this.typdnia = rob1wolny0swieto2;
         this.przepracowano = przepracowano;
         this.normagodzin = normagodzin;
@@ -104,6 +107,7 @@ public class Dzien implements Serializable {
     
     public Dzien(int nrdnia, int rob1wolny0swieto2, double normagodzin, double przepracowano, double piecdziesiatki, Kalendarzmiesiac kalendarzmiesiac) {
         this.nrdnia = nrdnia;
+        this.nrdniawroku = nrdniawroku;
         this.typdnia = rob1wolny0swieto2;
         this.normagodzin = normagodzin;
         this.przepracowano = przepracowano;
@@ -111,8 +115,9 @@ public class Dzien implements Serializable {
         this.piecdziesiatki = piecdziesiatki;
     }
     
-    public Dzien(int nrdnia, int rob1wolny0swieto2, double normagodzin, Kalendarzwzor kalendarzWzor) {
+    public Dzien(int nrdnia, int rob1wolny0swieto2, double normagodzin, Kalendarzwzor kalendarzWzor, int nrwroku) {
         this.nrdnia = nrdnia;
+        this.nrdniawroku = nrwroku;
         this.typdnia = rob1wolny0swieto2;
         this.normagodzin = normagodzin;
         this.kalendarzwzor = kalendarzWzor;
@@ -121,6 +126,7 @@ public class Dzien implements Serializable {
 
     public Dzien(Dzien dzienwzor, Kalendarzmiesiac kalendarzmiesiac) {
         this.nrdnia = dzienwzor.nrdnia;
+        this.nrdniawroku = dzienwzor.nrdniawroku;
         this.typdnia = dzienwzor.typdnia;
         this.normagodzin = dzienwzor.normagodzin;
         //tu nie ma bledu bo inczaej pracownik ma zero.za kladamy ze pracowal
@@ -139,6 +145,7 @@ public class Dzien implements Serializable {
     public Dzien(Dzien dzienwzor, Kalendarzwzor kalendarzwzor) {
         this.id = null;
         this.nrdnia = dzienwzor.nrdnia;
+        this.nrdniawroku = dzienwzor.nrdniawroku;
         this.typdnia = dzienwzor.typdnia;
         this.normagodzin = dzienwzor.normagodzin;
         //tu nie ma bledu bo inczaej pracownik ma zero.za kladamy ze pracowal
@@ -211,11 +218,18 @@ public class Dzien implements Serializable {
         return nrdnia;
     }
 
-
-
     public void setNrdnia(int nrdnia) {
         this.nrdnia = nrdnia;
     }
+
+    public int getNrdniawroku() {
+        return nrdniawroku;
+    }
+
+    public void setNrdniawroku(int nrdniawroku) {
+        this.nrdniawroku = nrdniawroku;
+    }
+    
 
     public int getTypdnia() {
         return typdnia;

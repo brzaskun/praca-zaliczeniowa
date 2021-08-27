@@ -131,7 +131,6 @@ public class NieobecnoscView  implements Serializable {
                                     kalendarzmiesiacFacade.edit(znaleziony);
                                 } else {
                                     Msg.msg("e", "Brak kalendarza pracownika za miesiąc rozliczeniowy. Nie można nanieść nieobecności!");
-                                    break;
                                 }
                             }
                         }

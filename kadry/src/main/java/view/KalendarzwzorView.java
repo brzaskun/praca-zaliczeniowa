@@ -114,7 +114,7 @@ public class KalendarzwzorView  implements Serializable {
                         selected = new Kalendarzwzor(firma, rok, mc);
                         String[] popokres = data.Data.poprzedniOkres(mc, rok);
                         Kalendarzwzor poprzedni = kalendarzwzorFacade.findByFirmaRokMc(selected.getFirma(), popokres[1], popokres[0]);
-                        KalendarzWzorBean.create(selected);
+                        KalendarzWzorBean.create(selected, Mce.getMiesiacToNumber().get(mc));
                         selected.zrobkolejnedni(poprzedni);
                         Msg.msg("Przygotowano kalendarz");
                     }
