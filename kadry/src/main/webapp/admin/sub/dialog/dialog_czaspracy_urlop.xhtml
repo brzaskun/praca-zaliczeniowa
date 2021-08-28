@@ -11,7 +11,10 @@
         <p:ajax event="open" listener="#{pracownikUrlopView.init()}" update="PracownikUrlopForm" global="false"/>
         <p:outputPanel>
              <h:form id="PracownikUrlopForm">
-                
+                  <p:panelGrid columns="4" rendered="#{pracownikUrlopView.urlopprezentacja != null}">
+                      <p:outputLabel value="stan na dzien" for="stannadzien" />
+                      <p:inputText id="stannadzien" value="#{pracownikUrlopView.stannadzien}" readonly="true" size="10"/>
+                  </p:panelGrid>
                   <p:panelGrid columns="4" rendered="#{pracownikUrlopView.urlopprezentacja != null}">
                         <p:outputLabel value="nazwisko i imię pracownika" for="urlopimie" />
                         <p:inputText id="urlopimie" value="#{pracownikUrlopView.urlopprezentacja.umowa.angaz.pracownik.nazwiskoImie}" readonly="true"/>
@@ -25,7 +28,7 @@
 -->                <p:panel header="wykorzystanie urlopu rok biezacy" rendered="#{pracownikUrlopView.urlopprezentacja != null}">
                     <p:dataTable id="datalist" value="#{pracownikUrlopView.urlopprezentacja.urlopwykorzystanieList}" var="urlopwykorzystanie"
                                  rowKey="#{urlopwykorzystanie.id}" emptyMessage="brak urlopu w roku bieżącym" rowIndexVar="indexurlop"
-                                 style="height: 250px;overflow-y: scroll; width: 450px; margin-left: 50px;" sortBy="#{urlopwykorzystanie.mc}"
+                                 style="height: 580px;overflow-y: scroll; width: 550px; margin-left: 50px;" sortBy="#{urlopwykorzystanie.mc}"
                                  >
                             <p:column width="40" style="text-align: center;">
                                 <f:facet name="header">
@@ -57,11 +60,17 @@
                                 </f:facet>
                                 <h:outputText value="#{urlopwykorzystanie.etat1}/#{urlopwykorzystanie.etat2}"/>
                             </p:column>
+                            <p:column width="40" style="text-align: center;">
+                                <f:facet name="header">
+                                    <h:outputText value="umowa"/>
+                                </f:facet>
+                                <h:outputText value="#{urlopwykorzystanie.urlopprezentacja.umowa.nrkolejny}"/>
+                            </p:column>
                         </p:dataTable>
                 </p:panel>
                   <p:panelGrid columns="4" rendered="#{pracownikUrlopView.urlopprezentacja != null}">
-                        <p:outputLabel value="do przeniesienia" for="przeniesienia" />
-                        <h:outputText id="przeniesienia" value="#{pracownikUrlopView.urlopprezentacja.doprzeniesienia}"/>
+                        <p:outputLabel value="do rozliczenia/wykorzystania:" for="przeniesienia" />
+                        <h:outputText id="przeniesienia" value="#{pracownikUrlopView.urlopprezentacja.doprzeniesienia}" style="color: green;"/>
                     </p:panelGrid>
             </h:form>
         </p:outputPanel>

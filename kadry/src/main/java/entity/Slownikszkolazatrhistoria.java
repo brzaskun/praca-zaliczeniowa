@@ -47,6 +47,8 @@ public class Slownikszkolazatrhistoria implements Serializable {
     private String opis;
     @Column(name = "praca0nauka1")
     private boolean praca0nauka1;
+    @Column(name = "dni")
+    private int dni;
 
     public Slownikszkolazatrhistoria() {
     }
@@ -86,6 +88,16 @@ public class Slownikszkolazatrhistoria implements Serializable {
     public void setPraca0nauka1(boolean praca0nauka1) {
         this.praca0nauka1 = praca0nauka1;
     }
+
+    public int getDni() {
+        return dni;
+    }
+
+    public void setDni(int dni) {
+        this.dni = dni;
+    }
+
+    
 
     @Override
     public int hashCode() {

@@ -38,17 +38,15 @@ public class Urlopprezentacja implements Serializable {
 
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "okrespoprzedni")
-    private Double okrespoprzedni;
+    private int okrespoprzedni;
     @Column(name = "wymiarokresbiezacy")
-    private Double wymiarokresbiezacy;
+    private int wymiarokresbiezacy;
     @Column(name = "doprzeniesienia")
-    private Double doprzeniesienia;
-    @Column(name = "okrespoprzednigodziny")
-    private Double okrespoprzednigodziny;
-    @Column(name = "wymiarbiezacygodziny")
-    private Double wymiarbiezacygodziny;
-    @Column(name = "doprzeniesieniagodziny")
-    private Double doprzeniesieniagodziny;
+    private int doprzeniesienia;
+    @Column(name = "wykorzystanierokbiezacy")
+    private int wykorzystanierokbiezacy;
+    @Column(name = "wykorzystanierokbiezacyekwiwalent")
+    private int wykorzystanierokbiezacyekwiwalent;
     @JoinColumn(name = "umowa", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Umowa umowa;
@@ -122,53 +120,46 @@ public class Urlopprezentacja implements Serializable {
         return "beans.Urlopprezentacja[ id=" + id + " ]";
     }
 
-    public Double getOkrespoprzedni() {
+    public int getOkrespoprzedni() {
         return okrespoprzedni;
     }
 
-    public void setOkrespoprzedni(Double okrespoprzedni) {
+    public void setOkrespoprzedni(int okrespoprzedni) {
         this.okrespoprzedni = okrespoprzedni;
     }
 
-    public Double getWymiarokresbiezacy() {
+    public int getWymiarokresbiezacy() {
         return wymiarokresbiezacy;
     }
 
-    public void setWymiarokresbiezacy(Double wymiarokresbiezacy) {
+    public void setWymiarokresbiezacy(int wymiarokresbiezacy) {
         this.wymiarokresbiezacy = wymiarokresbiezacy;
     }
 
-    public Double getDoprzeniesienia() {
+    public int getDoprzeniesienia() {
         return doprzeniesienia;
     }
 
-    public void setDoprzeniesienia(Double doprzeniesienia) {
+    public void setDoprzeniesienia(int doprzeniesienia) {
         this.doprzeniesienia = doprzeniesienia;
     }
 
-    public Double getOkrespoprzednigodziny() {
-        return okrespoprzednigodziny;
+    public int getWykorzystanierokbiezacy() {
+        return wykorzystanierokbiezacy;
     }
 
-    public void setOkrespoprzednigodziny(Double okrespoprzednigodziny) {
-        this.okrespoprzednigodziny = okrespoprzednigodziny;
+    public void setWykorzystanierokbiezacy(int wykorzystanierokbiezacy) {
+        this.wykorzystanierokbiezacy = wykorzystanierokbiezacy;
     }
 
-    public Double getWymiarbiezacygodziny() {
-        return wymiarbiezacygodziny;
+    public int getWykorzystanierokbiezacyekwiwalent() {
+        return wykorzystanierokbiezacyekwiwalent;
     }
 
-    public void setWymiarbiezacygodziny(Double wymiarbiezacygodziny) {
-        this.wymiarbiezacygodziny = wymiarbiezacygodziny;
+    public void setWykorzystanierokbiezacyekwiwalent(int wykorzystanierokbiezacyekwiwalent) {
+        this.wykorzystanierokbiezacyekwiwalent = wykorzystanierokbiezacyekwiwalent;
     }
 
-    public Double getDoprzeniesieniagodziny() {
-        return doprzeniesieniagodziny;
-    }
-
-    public void setDoprzeniesieniagodziny(Double doprzeniesieniagodziny) {
-        this.doprzeniesieniagodziny = doprzeniesieniagodziny;
-    }
 
     public Umowa getUmowa() {
         return umowa;

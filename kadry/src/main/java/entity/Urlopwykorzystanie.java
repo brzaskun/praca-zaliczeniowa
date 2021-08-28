@@ -49,7 +49,7 @@ public class Urlopwykorzystanie implements Serializable {
     @Column(name = "dni")
     private double dni;
     @Column(name = "godziny")
-    private double godziny;
+    private int godziny;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 2)
@@ -84,6 +84,11 @@ public class Urlopwykorzystanie implements Serializable {
         this.nrdniawroku = nrdniawroku;
     }
 
+    public Urlopwykorzystanie(String podsumowanie, int i) {
+        this.data = podsumowanie;
+        this.godziny = 0;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -100,11 +105,11 @@ public class Urlopwykorzystanie implements Serializable {
         this.dni = dni;
     }
 
-    public double getGodziny() {
+    public int getGodziny() {
         return godziny;
     }
 
-    public void setGodziny(double godziny) {
+    public void setGodziny(int godziny) {
         this.godziny = godziny;
     }
 
