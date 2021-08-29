@@ -5,9 +5,10 @@
  */
 package dao;
 
-import entity.Memory;
-import entity.Uz;
+import entity.Dzien;
+import entity.FirmaKadry;
 import java.io.Serializable;
+import java.util.List;
 import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -20,7 +21,7 @@ import javax.transaction.Transactional;
  */
 @Stateless
 @Transactional
-public class MemoryFacade extends DAO  implements Serializable {
+public class DzienFacade extends DAO  implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @PersistenceContext(unitName = "kadryPU")
@@ -39,22 +40,14 @@ public class MemoryFacade extends DAO  implements Serializable {
         return em;
     }
 
-    public MemoryFacade() {
-        super(Memory.class);
+   public DzienFacade() {
+        super(Dzien.class);
         super.em = em;
     }
+    
+    
 
-   
-
-    public Memory findByUzer(Uz uzer) {
-        Memory zwrot = null;
-        try {
-            zwrot = (Memory) getEntityManager().createNamedQuery("Memory.findByUzer").setParameter("uzer", uzer).getSingleResult();
-        } catch (Exception ex){
-            System.out.println("");
-        }
-        return zwrot;
+    public List<Dzien> findByNrwrokuByData(String dataod, String datado, FirmaKadry firmaKadry) {
+        return getEntityManager().createNamedQuery("Dzien.findByDatastring").setParameter("dataod", dataod).setParameter("datado", datado).setParameter("firma", firmaKadry).getResultList();
     }
-     
-   
 }

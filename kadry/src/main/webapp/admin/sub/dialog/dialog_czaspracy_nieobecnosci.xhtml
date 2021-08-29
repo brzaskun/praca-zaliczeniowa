@@ -6,11 +6,16 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
         
     xmlns:bcf="http://brzaskun.com/facelets">
+    <style>
+        .itemNieob .ui-datatable .ui-datatable-data tr{
+           height : 25px !important;
+        }
+    </style>
     <p:dialog id="dialogpracownikanieobecnosci" header="Wprowadzanie nieobecności" widgetVar="dialogpracownikanieobecnosci"  
               resizable="false"  onShow="ustawdialog('dialogpracownikanieobecnosci','centertile',1650,800);" closeOnEscape="true" onHide="resetujdialog('dialogpracownikanieobecnosci');" 
               fitViewport="true">
         <p:ajax event="open" listener="#{nieobecnoscView.init()}" update="NieobecnoscCreateForm NieobecnoscListForm" global="false"/>
-        <p:outputPanel style="height: 200px">
+        <p:outputPanel style="height: 180px">
             <p:panelGrid columns="2">
                 <h:form id="NieobecnoscCreateForm">
                     <h:panelGroup id="display">
@@ -56,11 +61,11 @@
                 </h:form>
             </p:panelGrid>
         </p:outputPanel>
-        <p:outputPanel>
+        <p:outputPanel styleClass="itemNieob">
              <h:form id="NieobecnoscListForm">
                 <p:panel header="Lista nieobecności">
-                    <p:dataTable id="datalist" value="#{nieobecnoscView.lista}" var="itemNieob"
-                                 selectionMode="single" selection="#{angazView.selectedlista}" rowIndexVar="indexn"
+                    <p:dataTable id="datalist" value="#{nieobecnoscView.lista}" var="itemNieob" 
+                                 selectionMode="single" selection="#{nieobecnoscView.selectedlista}" rowIndexVar="indexn"
                                  rowKey="#{itemNieob.id}" sortBy="#{itemNieob.dataod}" sortOrder="descending"
                                 style="height: 450px; overflow-y: scroll;"
                                  >
@@ -68,7 +73,7 @@
                             <f:facet name="header">
                                 <h:outputText value="id"/>
                             </f:facet>
-                            <h:outputText value="#{indexn+1}"/>
+                            <h:outputText value="#{indexn+1}" style="height: 20px;"/>
                         </p:column>
                         <p:column width="50" filterBy="#{itemNieob.nieobecnosckodzus.kod}" filterMatchMode="startsWith">
                             <f:facet name="header">
@@ -152,7 +157,7 @@
                             <f:facet name="header">
                                 <h:outputText value=""/>
                             </f:facet>
-                            <p:commandButton icon="fa fa-trash" actionListener="#{nieobecnoscView.usun(itemNieob)}" rendered="#{itemNieob.naniesiona eq false}" update="NieobecnoscListForm:datalist"/>
+                            <p:commandButton icon="fa fa-trash" actionListener="#{nieobecnoscView.usun(itemNieob)}"  update="NieobecnoscListForm:datalist"/>
                         </p:column>
                     </p:dataTable>
                     <p:commandButton styleClass="buttonnorm" actionListener="#{nieobecnoscView.nieniesnakalendarz()}" value="nanieś na kal." update="NieobecnoscListForm:datalist KalendarzmiesiacCreateForm KalendarzmiesiacListForm"/>

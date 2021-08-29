@@ -60,8 +60,6 @@ public class Urlopwykorzystanie implements Serializable {
     @Size(min = 1, max = 10)
     @Column(name = "data")
     private String data;
-    @Column(name = "nrdniawroku")
-    private int nrdniawroku;
     @Column(name = "etat1")
     private Integer etat1;
     @Column(name = "etat2")
@@ -77,11 +75,10 @@ public class Urlopwykorzystanie implements Serializable {
         this.id = id;
     }
 
-    public Urlopwykorzystanie(Integer id, String mc, String data, int nrdniawroku) {
+    public Urlopwykorzystanie(Integer id, String mc, String data) {
         this.id = id;
         this.mc = mc;
         this.data = data;
-        this.nrdniawroku = nrdniawroku;
     }
 
     public Urlopwykorzystanie(String podsumowanie, int i) {
@@ -129,15 +126,7 @@ public class Urlopwykorzystanie implements Serializable {
         this.data = data;
     }
 
-    public int getNrdniawroku() {
-        return nrdniawroku;
-    }
-
-    public void setNrdniawroku(int nrdniawroku) {
-        this.nrdniawroku = nrdniawroku;
-    }
-
-  
+   
     public Integer getEtat1() {
         return etat1;
     }

@@ -36,7 +36,7 @@ public class PasekwynagrodzenFacade extends DAO   implements Serializable {
         em.close();
         em.getEntityManagerFactory().close();
         em = null;
-        error.E.s("koniec jpa");
+        
     }
 
     protected EntityManager getEntityManager() {

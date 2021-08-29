@@ -101,7 +101,6 @@ public class PracownikUrlopView  implements Serializable {
                         wykorzystanie.setMc(p.getMc());
                         wykorzystanie.setData(Data.zrobdate(r.getNrdnia(), p.getMc(), p.getRok()));
                         wykorzystanie.setDni(1);
-                        wykorzystanie.setNrdniawroku(r.getNrdniawroku());
                         wykorzystanie.setGodziny((int) r.getUrlopPlatny());
                         wykorzystanie.setUrlopprezentacja(urlopprezentacja);
                         EtatPrac pobierzetat = p.getUmowa().pobierzetat(wykorzystanie.getData());

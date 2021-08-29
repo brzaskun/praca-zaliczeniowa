@@ -50,7 +50,7 @@ public class DefinicjalistaplacView  implements Serializable {
         lista  = definicjalistaplacFacade.findByFirmaRok(wpisView.getFirma(), wpisView.getRokWpisu());
         listafirm = firmaFacade.findAll();
         listarodzajlistyplac = rodzajlistyplacFacade.findAll();
-        selected.setOpis("lista główna");
+        selected.setOpis("wynagrodzenie kraj");
     }
 
     public void create() {
@@ -112,7 +112,7 @@ public class DefinicjalistaplacView  implements Serializable {
           try {
             definicjalistaplacFacade.edit(selected);
              selected = new Definicjalistaplac();
-             selected.setOpis("lista główna");
+             selected.setOpis("wynagrodzenie kraj");
              
             Msg.msg("Zachowano zmiany edycji definicji listy płac");
           } catch (Exception e) {
@@ -153,7 +153,7 @@ public class DefinicjalistaplacView  implements Serializable {
             definicjalistaplacFacade.remove(def);
             lista.remove(def);
             selected = new Definicjalistaplac();
-            selected.setOpis("lista główna");
+            selected.setOpis("wynagrodzenie kraj");
             Msg.msg("Usunieto definicje");
         } else {
             Msg.msg("e", "Nie wybrano definicji");

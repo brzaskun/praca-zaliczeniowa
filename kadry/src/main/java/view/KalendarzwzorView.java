@@ -6,6 +6,7 @@
 package view;
 
 import beanstesty.KalendarzWzorBean;
+import beanstesty.KalendarzmiesiacBean;
 import dao.FirmaFacade;
 import dao.KalendarzmiesiacFacade;
 import dao.KalendarzwzorFacade;
@@ -114,7 +115,7 @@ public class KalendarzwzorView  implements Serializable {
                         selected = new Kalendarzwzor(firma, rok, mc);
                         String[] popokres = data.Data.poprzedniOkres(mc, rok);
                         Kalendarzwzor poprzedni = kalendarzwzorFacade.findByFirmaRokMc(selected.getFirma(), popokres[1], popokres[0]);
-                        KalendarzWzorBean.create(selected, Mce.getMiesiacToNumber().get(mc));
+                        KalendarzWzorBean.create(selected);
                         selected.zrobkolejnedni(poprzedni);
                         Msg.msg("Przygotowano kalendarz");
                     }
@@ -211,7 +212,20 @@ public class KalendarzwzorView  implements Serializable {
         this.selectedlista = selectedlista;
     }
 
-      
+    
+    public void uzupelnijkalendarze() {
+        List<Kalendarzwzor> lista = kalendarzwzorFacade.findAll();
+        for (Kalendarzwzor p : lista) {
+            KalendarzWzorBean.create(p);
+            kalendarzwzorFacade.edit(p);
+        }
+        List<Kalendarzmiesiac> lista1 = kalendarzmiesiacFacade.findAll();
+        for (Kalendarzmiesiac p : lista1) {
+            KalendarzmiesiacBean.reset(p);
+            kalendarzwzorFacade.edit(p);
+        }
+    }
     
     
 }
+

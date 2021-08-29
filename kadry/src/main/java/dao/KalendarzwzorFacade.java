@@ -30,7 +30,7 @@ public class KalendarzwzorFacade extends DAO   {
         em.close();
         em.getEntityManagerFactory().close();
         em = null;
-        error.E.s("koniec jpa");
+        
     }
 
     protected EntityManager getEntityManager() {
@@ -55,4 +55,6 @@ public class KalendarzwzorFacade extends DAO   {
     public List<Kalendarzwzor> findByFirmaRok(FirmaKadry firma, String rok) {
        return getEntityManager().createNamedQuery("Kalendarzwzor.findByFirmaRok").setParameter("firma", firma).setParameter("rok", rok).getResultList();
     }
+
+   
 }

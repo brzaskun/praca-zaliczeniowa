@@ -6,6 +6,9 @@
 package entity;
 
 import java.io.Serializable;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -31,6 +34,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Dzien.findAll", query = "SELECT d FROM Dzien d"),
     @NamedQuery(name = "Dzien.findById", query = "SELECT d FROM Dzien d WHERE d.id = :id"),
     @NamedQuery(name = "Dzien.findByNrdnia", query = "SELECT d FROM Dzien d WHERE d.nrdnia = :nrdnia"),
+    @NamedQuery(name = "Dzien.findByDatastring", query = "SELECT d FROM Dzien d WHERE d.datastring >= :dataod AND d.datastring <= :datado AND d.kalendarzwzor.firma = :firma"),
     @NamedQuery(name = "Dzien.findByRob1wolny0swieto2", query = "SELECT d FROM Dzien d WHERE d.typdnia = :typdnia"),
     @NamedQuery(name = "Dzien.findByNormagodzin", query = "SELECT d FROM Dzien d WHERE d.normagodzin = :normagodzin"),
     @NamedQuery(name = "Dzien.findByPrzepracowano", query = "SELECT d FROM Dzien d WHERE d.przepracowano = :przepracowano"),
@@ -46,8 +50,8 @@ public class Dzien implements Serializable {
     private Integer id;
     @Column(name = "nrdnia")
     private int nrdnia;
-    @Column(name = "nrdniawroku")
-    private int nrdniawroku;
+    @Column(name = "datastring")
+    private String datastring;
     @Column(name = "typdnia")
     private int typdnia;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
@@ -96,37 +100,70 @@ public class Dzien implements Serializable {
         this.id = id;
     }
 
-    public Dzien(int nrdnia, int rob1wolny0swieto2, double normagodzin, double przepracowano, Kalendarzmiesiac kalendarzmiesiac) {
+    public Dzien(int nrdnia, String datastring, int rob1wolny0swieto2, double normagodzin, double przepracowano, Kalendarzmiesiac kalendarzmiesiac) {
         this.nrdnia = nrdnia;
-        this.nrdniawroku = nrdniawroku;
+        this.datastring = datastring;
         this.typdnia = rob1wolny0swieto2;
-        this.przepracowano = przepracowano;
         this.normagodzin = normagodzin;
+        try {
+            LocalDate data = LocalDate.parse(datastring);
+            DayOfWeek dayOfWeek = data.getDayOfWeek();
+            if (dayOfWeek == DayOfWeek.SATURDAY) {
+                this.typdnia = 1;
+                this.normagodzin = 0;
+            } else if (dayOfWeek == DayOfWeek.SUNDAY) {
+                this.typdnia = 2;
+                this.normagodzin = 0;
+            }
+        } catch (Exception e){}
+        this.przepracowano = przepracowano;
         this.kalendarzmiesiac = kalendarzmiesiac;
     }
     
-    public Dzien(int nrdnia, int rob1wolny0swieto2, double normagodzin, double przepracowano, double piecdziesiatki, Kalendarzmiesiac kalendarzmiesiac) {
+    public Dzien(int nrdnia, String datastring, int rob1wolny0swieto2, double normagodzin, double przepracowano, double piecdziesiatki, Kalendarzmiesiac kalendarzmiesiac) {
         this.nrdnia = nrdnia;
-        this.nrdniawroku = nrdniawroku;
+        this.datastring = datastring;
         this.typdnia = rob1wolny0swieto2;
         this.normagodzin = normagodzin;
+        try {
+            LocalDate data = LocalDate.parse(datastring);
+            DayOfWeek dayOfWeek = data.getDayOfWeek();
+            if (dayOfWeek == DayOfWeek.SATURDAY) {
+                this.typdnia = 1;
+                this.normagodzin = 0;
+            } else if (dayOfWeek == DayOfWeek.SUNDAY) {
+                this.typdnia = 2;
+                this.normagodzin = 0;
+            }
+        } catch (Exception e){}
         this.przepracowano = przepracowano;
         this.kalendarzmiesiac = kalendarzmiesiac;
         this.piecdziesiatki = piecdziesiatki;
     }
     
-    public Dzien(int nrdnia, int rob1wolny0swieto2, double normagodzin, Kalendarzwzor kalendarzWzor, int nrwroku) {
+    public Dzien(int nrdnia, String datastring, int rob1wolny0swieto2, double normagodzin, Kalendarzwzor kalendarzWzor) {
         this.nrdnia = nrdnia;
-        this.nrdniawroku = nrwroku;
+        this.datastring = datastring;
         this.typdnia = rob1wolny0swieto2;
         this.normagodzin = normagodzin;
+        try {
+            LocalDate data = LocalDate.parse(datastring);
+            DayOfWeek dayOfWeek = data.getDayOfWeek();
+            if (dayOfWeek == DayOfWeek.SATURDAY) {
+                this.typdnia = 1;
+                this.normagodzin = 0;
+            } else if (dayOfWeek == DayOfWeek.SUNDAY) {
+                this.typdnia = 2;
+                this.normagodzin = 0;
+            }
+        } catch (Exception e){}
         this.kalendarzwzor = kalendarzWzor;
     }
 
 
     public Dzien(Dzien dzienwzor, Kalendarzmiesiac kalendarzmiesiac) {
         this.nrdnia = dzienwzor.nrdnia;
-        this.nrdniawroku = dzienwzor.nrdniawroku;
+        this.datastring = dzienwzor.datastring;
         this.typdnia = dzienwzor.typdnia;
         this.normagodzin = dzienwzor.normagodzin;
         //tu nie ma bledu bo inczaej pracownik ma zero.za kladamy ze pracowal
@@ -145,7 +182,7 @@ public class Dzien implements Serializable {
     public Dzien(Dzien dzienwzor, Kalendarzwzor kalendarzwzor) {
         this.id = null;
         this.nrdnia = dzienwzor.nrdnia;
-        this.nrdniawroku = dzienwzor.nrdniawroku;
+        this.datastring = dzienwzor.datastring;
         this.typdnia = dzienwzor.typdnia;
         this.normagodzin = dzienwzor.normagodzin;
         //tu nie ma bledu bo inczaej pracownik ma zero.za kladamy ze pracowal
@@ -222,13 +259,15 @@ public class Dzien implements Serializable {
         this.nrdnia = nrdnia;
     }
 
-    public int getNrdniawroku() {
-        return nrdniawroku;
+    public String getDatastring() {
+        return datastring;
     }
 
-    public void setNrdniawroku(int nrdniawroku) {
-        this.nrdniawroku = nrdniawroku;
+    public void setDatastring(String datastring) {
+        this.datastring = datastring;
     }
+
+
     
 
     public int getTypdnia() {
@@ -362,12 +401,23 @@ public class Dzien implements Serializable {
 
     void nanies(Dzien dzienwzor) {
         this.nrdnia = dzienwzor.nrdnia;
+        this.datastring = dzienwzor.datastring;
         this.typdnia = dzienwzor.typdnia;
         this.przepracowano = dzienwzor.normagodzin;
         this.normagodzin = dzienwzor.normagodzin;
         this.piecdziesiatki = 0.0;
         this.setki = 0.0;
         this.poranocna = 0.0;
+        this.wynagrodzeniezachorobe = 0;
+        this.zasilek = 0;
+        this.urlopPlatny = 0.0;
+        this.urlopbezplatny = 0.0;
+        this.kod = null;
+    }
+    
+    void resetnieobecnosc(Dzien dzienwzor) {
+        this.przepracowano = dzienwzor.normagodzin;
+        this.normagodzin = dzienwzor.normagodzin;
         this.wynagrodzeniezachorobe = 0;
         this.zasilek = 0;
         this.urlopPlatny = 0.0;
@@ -382,6 +432,11 @@ public class Dzien implements Serializable {
         if (dzienwzor.getKod()!=null&&!dzienwzor.getKod().equals("")) {
             this.kod = dzienwzor.kod;
         }
+    }
+
+    public void nanieswzorcowe(List<Dzien> wzorcowe) {
+        Dzien wzorzec = wzorcowe.stream().filter(p->p.datastring.equals(this.datastring)).findFirst().get();
+        resetnieobecnosc(wzorzec);
     }
 
   

@@ -98,6 +98,7 @@ public class Nieobecnosc implements Serializable {
     private String mcdo;
     @OneToMany(mappedBy = "nieobecnosc")
     private List<Dzien> dzienList;
+   
     
 
    

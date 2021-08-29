@@ -29,7 +29,7 @@ public class RodzajlistyplacFacade extends DAO  {
         em.close();
         em.getEntityManagerFactory().close();
         em = null;
-        error.E.s("koniec jpa");
+        
     }
 
     protected EntityManager getEntityManager() {
