@@ -27,6 +27,7 @@ import entity.Slownikszkolazatrhistoria;
 import entity.Slownikwypowiedzenieumowy;
 import entity.Stanowiskoprac;
 import entity.Umowa;
+import entity.Umowakodzus;
 import entity.Zmiennawynagrodzenia;
 import java.util.ArrayList;
 import java.util.List;
@@ -81,7 +82,7 @@ public class OsobaBean {
         return pracownik;
     }
 
-    static List<Umowa> pobierzumowy(Osoba osoba, Angaz angaz, List<Slownikszkolazatrhistoria> rodzajezatr, List<Slownikwypowiedzenieumowy> rodzajewypowiedzenia) {
+    static List<Umowa> pobierzumowy(Osoba osoba, Angaz angaz, List<Slownikszkolazatrhistoria> rodzajezatr, List<Slownikwypowiedzenieumowy> rodzajewypowiedzenia, Umowakodzus umowakodzus) {
         List<Umowa> zwrot = new ArrayList<>();
         List<ZatrudHist> zatrudHist = osoba.getZatrudHistList();
         int nrumowy = 1;
@@ -97,6 +98,7 @@ public class OsobaBean {
                 nowa.setSlownikszkolazatrhistoria(slownikszkolazatrhistoria);
                 nowa.setSlownikwypowiedzenieumowy(slownikwypowiedzenieumowy);
                 nowa.setPrzyczynawypowiedzenia(r.getZahZwolUwagi());
+                nowa.setUmowakodzus(umowakodzus);
                 zwrot.add(nowa);
                 nrumowy++;
             } catch (Exception e){}

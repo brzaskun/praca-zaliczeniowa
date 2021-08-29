@@ -115,6 +115,7 @@ public class NieobecnoscView  implements Serializable {
     
     public void nieniesnakalendarz() {
         if (wpisView.getUmowa() != null) {
+            boolean czynaniesiono = false;
             for (Nieobecnosc p : lista) {
                 if (p.isNaniesiona()==false) {
                     try {
@@ -134,6 +135,7 @@ public class NieobecnoscView  implements Serializable {
                                         }
                                         nieobecnoscFacade.edit(p);
                                         kalendarzmiesiacFacade.edit(znaleziony);
+                                        czynaniesiono = true;
                                     } else {
                                         Msg.msg("e", "Brak kalendarza pracownika za miesiąc rozliczeniowy. Nie można nanieść nieobecności!");
                                     }
@@ -146,7 +148,11 @@ public class NieobecnoscView  implements Serializable {
                 }
             }
             kalendarzmiesiacView.init();
-            Msg.msg("Naniesiono nieobecnosci");
+            if (czynaniesiono) {
+                Msg.msg("Naniesiono nieobecnosci");
+            } else {
+                Msg.msg("e","Nie ma nieobecności do naniesienia");
+            }
         }
     }
 

@@ -47,6 +47,10 @@ public class Umowakodzus implements Serializable {
     @Size(min = 1, max = 512)
     @Column(name = "opis")
     private String opis;
+    @Column(name = "praca")
+    private boolean praca;
+    @Column(name = "zlecenie")
+    private boolean zlecenie;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -76,6 +80,22 @@ public class Umowakodzus implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public boolean isPraca() {
+        return praca;
+    }
+
+    public void setPraca(boolean praca) {
+        this.praca = praca;
+    }
+
+    public boolean isZlecenie() {
+        return zlecenie;
+    }
+
+    public void setZlecenie(boolean zlecenie) {
+        this.zlecenie = zlecenie;
     }
 
 

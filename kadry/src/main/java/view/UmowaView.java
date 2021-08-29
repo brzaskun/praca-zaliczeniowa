@@ -78,11 +78,18 @@ public class UmowaView  implements Serializable {
     private Integer etat2;
     private String datadzisiejsza;
     private String miejscowosc;
-    
+    private String rodzajumowy; 
     
     @PostConstruct
     public void init() {
-        lista  = umowaFacade.findByAngaz(wpisView.getAngaz());
+        if (rodzajumowy==null) {
+            rodzajumowy = "1";
+        }
+        if (rodzajumowy.equals("1")) {
+            lista  = umowaFacade.findByAngazPraca(wpisView.getAngaz());
+        } else {
+            lista  = umowaFacade.findByAngazZlecenie(wpisView.getAngaz());
+        }
         listaangaz = angazFacade.findByFirma(wpisView.getFirma());
         listaumowakodzus = rodzajumowyFacade.findAll();
         listakodyzawodow = kodyzawodowFacade.findAll();
@@ -407,6 +414,14 @@ public class UmowaView  implements Serializable {
 
     public void setMiejscowosc(String miejscowosc) {
         this.miejscowosc = miejscowosc;
+    }
+
+    public String getRodzajumowy() {
+        return rodzajumowy;
+    }
+
+    public void setRodzajumowy(String rodzajumowy) {
+        this.rodzajumowy = rodzajumowy;
     }
 
     

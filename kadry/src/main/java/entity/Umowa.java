@@ -58,10 +58,17 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Umowa.findByZdrowotne", query = "SELECT u FROM Umowa u WHERE u.zdrowotne = :zdrowotne"),
     @NamedQuery(name = "Umowa.findByPracownik", query = "SELECT u FROM Umowa u WHERE u.angaz.pracownik = :pracownik"),
     @NamedQuery(name = "Umowa.findByPracownikFirma", query = "SELECT u FROM Umowa u WHERE u.angaz.pracownik = :pracownik AND u.angaz.firma = :firma"),
-    @NamedQuery(name = "Umowa.findByAngaz", query = "SELECT u FROM Umowa u WHERE u.angaz = :angaz ORDER BY u.dataod ASC")
+    @NamedQuery(name = "Umowa.findByAngaz", query = "SELECT u FROM Umowa u WHERE u.angaz = :angaz ORDER BY u.dataod ASC"),
+    @NamedQuery(name = "Umowa.findByAngazPraca", query = "SELECT u FROM Umowa u WHERE u.angaz = :angaz AND u.umowakodzus.praca = TRUE ORDER BY u.dataod ASC"),
+    @NamedQuery(name = "Umowa.findByAngazZlecenie", query = "SELECT u FROM Umowa u WHERE u.angaz = :angaz AND u.umowakodzus.zlecenie = TRUE ORDER BY u.dataod ASC")
 })
 public class Umowa implements Serializable {
-
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id")
+    private Integer id;
     @Size(max = 10)
     @Column(name = "datado")
     private String datado;
@@ -124,12 +131,6 @@ public class Umowa implements Serializable {
     private Umowakodzus umowakodzus;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "umowa")
     private List<Nieobecnosc> nieobecnoscList;
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id")
-    private Integer id;
     @NotNull
     @JoinColumn(name = "angaz", referencedColumnName = "id")
     @ManyToOne()

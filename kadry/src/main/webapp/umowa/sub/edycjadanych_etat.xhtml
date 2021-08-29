@@ -5,7 +5,7 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:bcf="http://brzaskun.com/facelets">
-        <p:panelGrid columns="2">
+    <p:panelGrid columns="2" rendered="#{umowaView.rodzajumowy eq '1'}">
             <p:outputPanel style="height: 250px;" styleClass="panelzramka">
                 <h:form id="EtatCreateForm">
                     <p:panel header="Dodawanie/edycja etatu do umowy"/>

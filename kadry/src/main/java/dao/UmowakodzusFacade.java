@@ -40,5 +40,13 @@ public class UmowakodzusFacade extends DAO  {
         super(Umowakodzus.class);
         super.em = em;
     }
-    
+     public Umowakodzus findUmowakodzusByKod(String kod){
+         Umowakodzus zwrot = null;
+        try {
+            zwrot = (Umowakodzus) getEntityManager().createNamedQuery("Umowakodzus.findByKod").setParameter("kod", kod).getSingleResult();
+        } catch (Exception e) {
+            
+        }
+        return zwrot;
+     }
 }

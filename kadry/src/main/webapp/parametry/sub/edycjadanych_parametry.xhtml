@@ -8,6 +8,48 @@
     xmlns:bcf="http://brzaskun.com/facelets">
     <p:outputPanel>
         <p:tabView id="akordeon">
+            <p:tab title="Rodzaje umów">
+                <h:form id="RodzajUmowyForm">
+                    <p:dataTable id="datalist" value="#{rodzjaumowySetView.lista}" var="item111"
+                                 selectionMode="single" selection="#{rodzjaumowySetView.selectedlista}"
+                                 rowKey="#{item111.id}" rowIndexVar="indexumowa"
+                                 style="height: 400px; overflow-y: scroll; width: 1200px;"
+                                 >
+
+                        <p:column width="40" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value=""/>
+                            </f:facet>
+                            <h:outputText value="#{indexumowa+1}"/>
+                        </p:column>
+                        <p:column width="50" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="kod"/>
+                            </f:facet>
+                            <h:outputText value="#{item111.kod}"/>
+                        </p:column>
+                        <p:column width="800">
+                            <f:facet name="header">
+                                <h:outputText value="opis"/>
+                            </f:facet>
+                            <h:outputText value="#{item111.opis}"/>
+                        </p:column>
+                        <p:column style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="umowa o pracę"/>
+                            </f:facet>
+                            <p:selectBooleanCheckbox value="#{item111.praca}"/>
+                        </p:column>
+                        <p:column style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="umowa zlecenia"/>
+                            </f:facet>
+                            <p:selectBooleanCheckbox value="#{item111.zlecenie}"/>
+                        </p:column>
+                    </p:dataTable>
+                    <p:commandButton value="zachowaj" styleClass="buttonnorm" actionListener="#{rodzjaumowySetView.zachowaj}" update="@form"/>
+                </h:form>
+            </p:tab>
             <p:tab title="Rodzaje składników wynagrodzeń">
                 <h:form id="RodzajwynagrodzeniaForm">
                     <p:dataTable id="datalist" value="#{rodzjawynagrodzeniaSetView.lista}" var="item11"

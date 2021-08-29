@@ -20,6 +20,7 @@ import dao.SlownikszkolazatrhistoriaFacade;
 import dao.SlownikwypowiedzenieumowyFacade;
 import dao.StanowiskopracFacade;
 import dao.UmowaFacade;
+import dao.UmowakodzusFacade;
 import dao.ZmiennaWynagrodzeniaFacade;
 import data.Data;
 import entity.Angaz;
@@ -35,6 +36,7 @@ import entity.Slownikszkolazatrhistoria;
 import entity.Slownikwypowiedzenieumowy;
 import entity.Stanowiskoprac;
 import entity.Umowa;
+import entity.Umowakodzus;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -73,6 +75,8 @@ public class OsobaView implements Serializable {
     private AngazFacade angazFacade;
     @Inject
     private UmowaFacade umowaFacade;
+    @Inject
+    private UmowakodzusFacade umowakodzusFacade;
     @Inject
     private StanowiskopracFacade stanowiskopracFacade;
     @Inject
@@ -123,7 +127,8 @@ public class OsobaView implements Serializable {
                 wpisView.setAngaz(angaz);
                 List<Slownikszkolazatrhistoria> rodzajezatr = slownikszkolazatrhistoriaFacade.findAll();
                 List<Slownikwypowiedzenieumowy> rodzajewypowiedzenia = slownikwypowiedzenieumowyFacade.findAll();
-                List<Umowa> umowy = OsobaBean.pobierzumowy(osoba, angaz, rodzajezatr, rodzajewypowiedzenia);
+                Umowakodzus umowakodzus = umowakodzusFacade.findUmowakodzusByKod("0110");
+                List<Umowa> umowy = OsobaBean.pobierzumowy(osoba, angaz, rodzajezatr, rodzajewypowiedzenia, umowakodzus);
                 umowaFacade.createList(umowy);
                 Msg.msg("Zachowano umowy");
                 Umowa aktywna = umowy.stream().filter(p -> p.isAktywna()).findFirst().get();

@@ -143,9 +143,11 @@ public class FirmaView  implements Serializable {
                 Angaz angaz = firma.getAngazList().get(0);
                 wpisView.setPracownik(angaz.getPracownik());
                 wpisView.setAngaz(angaz);
-                List<Umowa> umowaList = angaz.getUmowaList();
-                if (!umowaList.isEmpty()) {
-                    wpisView.setUmowa(umowaList.get(0));
+                List<Umowa> umowy = angaz.getUmowaList();
+                if (umowy!=null && umowy.size()==1) {
+                    wpisView.setUmowa(umowy.get(0));
+                } else if (umowy!=null) {
+                    wpisView.setUmowa(umowy.stream().filter(p->p.isAktywna()).findFirst().get());
                 }
             }
             angazView.init();
