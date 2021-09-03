@@ -28,6 +28,7 @@ public class CzasTrwania implements Serializable{
         listaczastrwania.put(0,"czas próbny");
         listaczastrwania.put(1,"czas określony");
         listaczastrwania.put(2,"czas nieokreślony");
+        listaczastrwania.put(3,"umowa zlecenia");
     }
 
     public static Map<Integer, String> getListaczastrwania() {

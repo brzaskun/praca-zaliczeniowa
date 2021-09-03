@@ -6,6 +6,7 @@
 package viewsuperplace;
 
 import DAOsuperplace.OsobaFacade;
+import DAOsuperplace.OsobaZlecFacade;
 import dao.AngazFacade;
 import dao.DefinicjalistaplacFacade;
 import dao.EtatPracFacade;
@@ -49,6 +50,7 @@ import kadryiplace.Okres;
 import kadryiplace.Osoba;
 import kadryiplace.OsobaPrz;
 import kadryiplace.OsobaSkl;
+import kadryiplace.OsobaZlec;
 import kadryiplace.Rok;
 import msg.Msg;
 import view.WpisView;
@@ -97,6 +99,8 @@ public class OsobaView implements Serializable {
     private PasekwynagrodzenFacade pasekwynagrodzenFacade;
     @Inject
     private NieobecnosckodzusFacade nieobecnosckodzusFacade;
+    @Inject
+    private OsobaZlecFacade osobaZlecFacade;
     
     private String serial;
     
@@ -127,21 +131,35 @@ public class OsobaView implements Serializable {
                 wpisView.setAngaz(angaz);
                 List<Slownikszkolazatrhistoria> rodzajezatr = slownikszkolazatrhistoriaFacade.findAll();
                 List<Slownikwypowiedzenieumowy> rodzajewypowiedzenia = slownikwypowiedzenieumowyFacade.findAll();
-                Umowakodzus umowakodzus = umowakodzusFacade.findUmowakodzusByKod("0110");
-                List<Umowa> umowy = OsobaBean.pobierzumowy(osoba, angaz, rodzajezatr, rodzajewypowiedzenia, umowakodzus);
+                //tu pobieramy umowy o pracę
+                Umowakodzus umowakodzus = umowakodzusFacade.findUmowakodzusById(1);
+                List<Umowa> umowy = new ArrayList<>();
+                Umowa aktywna = null;
+                if (osoba.getOsoTyp().equals('P')) {
+                    umowy = OsobaBean.pobierzumowy(osoba, angaz, rodzajezatr, rodzajewypowiedzenia, umowakodzus);
+                    umowaFacade.createList(umowy);
+                    Msg.msg("Zachowano umowy");
+                    aktywna = umowy.stream().filter(p -> p.isAktywna()).findFirst().get();
+                    wpisView.setUmowa(aktywna);
+                    List<Stanowiskoprac> stanowiska = OsobaBean.pobierzstanowiska(osoba, aktywna);
+                    stanowiskopracFacade.createList(stanowiska);
+                    Short formawynagrodzenia = osoba.getOsoWynForma();
+                    List<EtatPrac> etaty = OsobaBean.pobierzetaty(osoba, aktywna);
+                    etatpracFacade.createList(etaty);
+                    List<OsobaSkl> skladniki  = osoba.getOsobaSklList();
+                    List<Rodzajwynagrodzenia> rodzajewynagrodzenia = rodzajwynagrodzeniaFacade.findAll();
+                    OsobaBean.pobierzskladnikwynagrodzenia(skladniki, rodzajewynagrodzenia, aktywna, skladnikWynagrodzeniaFacade, zmiennaWynagrodzeniaFacade);
+                    Msg.msg("Uzupełniono zmienne dotyczące wynagrodzeń");
+                }
+                umowakodzus = umowakodzusFacade.findUmowakodzusById(135);
+                List<OsobaZlec> listaumow = osobaZlecFacade.findByOzlOsoSerial(serial);
+                umowy = OsobaBean.pobierzumowyzlecenia(listaumow, angaz, umowakodzus);
                 umowaFacade.createList(umowy);
-                Msg.msg("Zachowano umowy");
-                Umowa aktywna = umowy.stream().filter(p -> p.isAktywna()).findFirst().get();
-                wpisView.setUmowa(aktywna);
-                List<Stanowiskoprac> stanowiska = OsobaBean.pobierzstanowiska(osoba, aktywna);
-                stanowiskopracFacade.createList(stanowiska);
-                Short formawynagrodzenia = osoba.getOsoWynForma();
-                List<EtatPrac> etaty = OsobaBean.pobierzetaty(osoba, aktywna);
-                etatpracFacade.createList(etaty);
-                List<OsobaSkl> skladniki  = osoba.getOsobaSklList();
-                List<Rodzajwynagrodzenia> rodzajewynagrodzenia = rodzajwynagrodzeniaFacade.findAll();
-                OsobaBean.pobierzskladnikwynagrodzenia(skladniki, rodzajewynagrodzenia, aktywna, skladnikWynagrodzeniaFacade, zmiennaWynagrodzeniaFacade);
-                Msg.msg("Uzupełniono zmienne dotyczące wynagrodzeń");
+                Msg.msg("Pobrano umowy zlecenia");
+                if (osoba.getOsoTyp().equals('O')) {
+                    aktywna = umowy.stream().filter(p -> p.isAktywna()).findFirst().get();
+                    wpisView.setUmowa(aktywna);
+                }
                 String rokdlakalendarza = "2020";
                  //paski rok 2020
                 List<Kalendarzmiesiac> generujKalendarzNowaUmowa = OsobaBean.generujKalendarzNowaUmowa(angaz, pracownik, aktywna, kalendarzmiesiacFacade, kalendarzwzorFacade, rokdlakalendarza);

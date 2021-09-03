@@ -8,7 +8,6 @@ package comparator;
 import entity.Umowa;
 import error.E;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Comparator;
 import java.util.Date;
@@ -31,14 +30,15 @@ public class Umowacomparator implements Comparator<Umowa> {
         Date datao2date = null;
         try {
              datao1date = formatter.parse(datao1);
-        } catch (ParseException ex) {
+        } catch (Exception ex) {
             E.e(ex);
         }
         try {
             datao2date = formatter.parse(datao2);
-        } catch (ParseException ex) {
+        } catch (Exception ex) {
             E.e(ex);
         }
+        
         return (datao1date.before(datao2date) ? -1 : (datao1date.equals(datao2date) ? 0 : 1));
     }
     

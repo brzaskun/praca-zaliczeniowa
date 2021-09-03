@@ -6,6 +6,7 @@
 package viewsuperplace;
 
 import beanstesty.UmowaBean;
+import comparator.Umowacomparator;
 import dao.KalendarzmiesiacFacade;
 import dao.KalendarzwzorFacade;
 import dao.SkladnikWynagrodzeniaFacade;
@@ -30,11 +31,13 @@ import entity.Umowa;
 import entity.Umowakodzus;
 import entity.Zmiennawynagrodzenia;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import kadryiplace.Okres;
 import kadryiplace.Osoba;
 import kadryiplace.OsobaPrz;
 import kadryiplace.OsobaSkl;
+import kadryiplace.OsobaZlec;
 import kadryiplace.Place;
 import kadryiplace.StSystOpis;
 import kadryiplace.StSystWart;
@@ -103,6 +106,23 @@ public class OsobaBean {
                 nrumowy++;
             } catch (Exception e){}
         }
+        return zwrot;
+    }
+    
+    static List<Umowa> pobierzumowyzlecenia(List<OsobaZlec> listaumow, Angaz angaz, Umowakodzus umowakodzus) {
+        List<Umowa> zwrot = new ArrayList<>();
+        int nrumowy = 1;
+        for (OsobaZlec r : listaumow) {
+            try {
+                Umowa nowa = UmowaBean.createzlecenie(nrumowy, angaz, r);
+                nowa.setAngaz(angaz);
+                nowa.setUmowakodzus(umowakodzus);
+                zwrot.add(nowa);
+                nrumowy++;
+            } catch (Exception e){}
+        }
+        Collections.sort(zwrot, new Umowacomparator());
+        zwrot.get(zwrot.size()-1).setAktywna(true);
         return zwrot;
     }
 

@@ -49,4 +49,26 @@ public class UmowakodzusFacade extends DAO  {
         }
         return zwrot;
      }
+     
+     public Umowakodzus findUmowakodzusByOpis(String opis){
+         Umowakodzus zwrot = null;
+        try {
+            zwrot = (Umowakodzus) getEntityManager().createNamedQuery("Umowakodzus.findByOpis").setParameter("opis", opis).getSingleResult();
+        } catch (Exception e) {
+            
+        }
+        return zwrot;
+     }
+     
+     public Umowakodzus findUmowakodzusById(int id){
+         Umowakodzus zwrot = null;
+        try {
+            zwrot = (Umowakodzus) getEntityManager().createNamedQuery("Umowakodzus.findById").setParameter("id", id).getSingleResult();
+        } catch (Exception e) {
+            
+        }
+        return zwrot;
+     }
+     
+     
 }

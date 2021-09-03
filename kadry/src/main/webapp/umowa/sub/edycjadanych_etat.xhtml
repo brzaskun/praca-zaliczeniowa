@@ -5,11 +5,11 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:bcf="http://brzaskun.com/facelets">
-    <p:panelGrid columns="2" rendered="#{umowaView.rodzajumowy eq '1'}">
+    <p:panelGrid columns="2">
             <p:outputPanel style="height: 250px;" styleClass="panelzramka">
                 <h:form id="EtatCreateForm">
-                    <p:panel header="Dodawanie/edycja etatu do umowy"/>
-                    <h:panelGroup id="display">
+                    <p:panel header="Dodawanie/edycja etatu do umowy"  rendered="#{umowaView.rodzajumowy eq '1'}"/>
+                    <h:panelGroup id="display"  rendered="#{umowaView.rodzajumowy eq '1'}">
                         <p:panelGrid columns="8" rendered="#{etatView.selected != null}" style="width: 300px">
                             <p:outputLabel value="data od" for="dataode" />
                             <p:inputText id="dataode" value="#{etatView.selected.dataod}" title="data od" placeholder="____-__-__"  required="true"/>
@@ -27,7 +27,7 @@
             </p:outputPanel>
              <p:outputPanel>
                 <h:form id="EtatListForm">
-                    <p:panel header="Wykaz historii etatów">
+                    <p:panel header="Wykaz historii etatów"  rendered="#{umowaView.rodzajumowy eq '1'}">
                         <p:dataTable id="datalist" value="#{etatView.lista}" var="itemetat"
                                      selectionMode="single" selection="#{etatView.selectedlista}"
                                      rowKey="#{itemetat.id}" emptyMessage="Składnik nie posiada zdefiniowanych zmiennych"

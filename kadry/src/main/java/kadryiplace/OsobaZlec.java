@@ -93,7 +93,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "OsobaZlec.findByOzlWspolczMax", query = "SELECT o FROM OsobaZlec o WHERE o.ozlWspolczMax = :ozlWspolczMax"),
     @NamedQuery(name = "OsobaZlec.findByOzlSsdSerialMax", query = "SELECT o FROM OsobaZlec o WHERE o.ozlSsdSerialMax = :ozlSsdSerialMax"),
     @NamedQuery(name = "OsobaZlec.findByOzlDodInt1", query = "SELECT o FROM OsobaZlec o WHERE o.ozlDodInt1 = :ozlDodInt1"),
-    @NamedQuery(name = "OsobaZlec.findByOzlDodInt2", query = "SELECT o FROM OsobaZlec o WHERE o.ozlDodInt2 = :ozlDodInt2")})
+    @NamedQuery(name = "OsobaZlec.findByOzlDodInt2", query = "SELECT o FROM OsobaZlec o WHERE o.ozlDodInt2 = :ozlDodInt2"),
+    @NamedQuery(name = "OsobaZlec.findByOzlOsoSerial", query = "SELECT o FROM OsobaZlec o WHERE o.ozlOsoSerial.osoSerial = :osoSerial")
+})
 public class OsobaZlec implements Serializable {
 
     private static final long serialVersionUID = 1L;

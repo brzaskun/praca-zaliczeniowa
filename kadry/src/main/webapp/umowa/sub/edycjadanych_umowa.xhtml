@@ -8,9 +8,9 @@
     xmlns:bcf="http://brzaskun.com/facelets">
     <p:outputPanel style="height: 360px" id="panelumowadane">
             <h:form id="UmowaCreateForm">
-                <p:panel header="Dodawanie/edycja umowy"/>
+                <p:panel header="Dodawanie/edycja umowy #{umowaView.rodzajumowy eq '1' ?'o pracę':'zlecenia i o dzieło'}"/>
                 <h:panelGroup id="display">
-                    <h:outputText value="Dodajesz nową umowę" style="color:green; margin-left: 50px; font-weight: bolder;" rendered="#{umowaView.selected.id eq null}"/>
+                    <h:outputText value="Dodajesz nową umowę #{umowaView.rodzajumowy eq '1' ?'o pracę':'zlecenia i o dzieło'}" style="color:green; margin-left: 50px; font-weight: bolder;" rendered="#{umowaView.selected.id eq null}"/>
                     <h:outputText value="Zmieniasz istniejącą umowę" style="color:blue; margin-left: 50px; font-weight: bolder;" rendered="#{umowaView.selected.id ne null}"/>
                     <p:panelGrid columns="4" rendered="#{umowaView.selected != null}">
                         <p:panelGrid columns="2">
@@ -148,7 +148,7 @@
         </p:outputPanel>
         <p:outputPanel>
             <h:form id="UmowaListForm">
-                <p:panel header="Wykaz umów">
+                <p:panel header="Wykaz umów #{umowaView.rodzajumowy eq '1' ?'o pracę':'zlecenia i o dzieło'}">
                     <p:dataTable id="datalist" value="#{umowaView.lista}" var="itemumowa" widgetVar="dataListumowa"
                                  selectionMode="single" selection="#{umowaView.selectedlista}"
                                  rowKey="#{itemumowa.id}" sortBy="#{itemumowa.dataod}" sortOrder="descending"
@@ -170,7 +170,8 @@
                             <f:facet name="header">
                                 <h:outputText value="umowa"/>
                             </f:facet>
-                        <h:outputText value="#{itemumowa.slownikszkolazatrhistoria.opis}" style="color: #{itemumowa.aktywna eq true ? 'green':'initial'}"/>
+                            <h:outputText value="#{itemumowa.slownikszkolazatrhistoria.opis}" style="color: #{itemumowa.aktywna eq true ? 'green':'initial'}" rendered="#{umowaView.rodzajumowy eq '1'}"/>
+                            <h:outputText value="#{itemumowa.czastrwania}" style="color: #{itemumowa.aktywna eq true ? 'green':'initial'}" rendered="#{umowaView.rodzajumowy eq '2'}"/>
                         </p:column>
                         <p:column width="200">
                             <f:facet name="header">

@@ -11,6 +11,7 @@ import entity.Slownikszkolazatrhistoria;
 import entity.Umowa;
 import java.util.ArrayList;
 import kadryiplace.Osoba;
+import kadryiplace.OsobaZlec;
 import kadryiplace.ZatrudHist;
 
 /**
@@ -94,4 +95,31 @@ public class UmowaBean {
             Umowa zwrot = create();
             System.out.println("");
         }
+
+    public static Umowa createzlecenie(int numerumowy, Angaz angaz, OsobaZlec r) {
+        Umowa umowa = new Umowa();
+        umowa.setAngaz(angaz);
+        umowa.setNrkolejny(String.valueOf(numerumowy)+"/"+String.valueOf(angaz.getId()));
+        umowa.setDatanfz(Data.data_yyyyMMddNull(r.getOzlDataOd()));
+        umowa.setDataod(Data.data_yyyyMMddNull(r.getOzlDataOd()));
+        umowa.setDatado(Data.data_yyyyMMddNull(r.getOzlDataDo()));
+        umowa.setDataspoleczne(Data.data_yyyyMMddNull(r.getOzlDataOd()));
+        umowa.setDatazawarcia(Data.data_yyyyMMddNull(r.getOzlDataOd()));
+        umowa.setDatazdrowotne(Data.data_yyyyMMddNull(r.getOzlDataOd()));
+        umowa.setLiczdourlopu(false);
+        umowa.setChorobowe(Boolean.TRUE);
+        umowa.setChorobowedobrowolne(Boolean.FALSE);
+        umowa.setEmerytalne(Boolean.TRUE);
+        umowa.setCzastrwania("umowa zlecenia");
+        umowa.setKosztyuzyskaniaprocent(r.getOzlKosztProc().doubleValue());
+        umowa.setNfz("16R");
+        umowa.setNieliczFGSP(Boolean.FALSE);
+        umowa.setNieliczFP(Boolean.FALSE);
+        umowa.setOdliczaculgepodatkowa(Boolean.TRUE);
+        umowa.setRentowe(Boolean.TRUE);
+        umowa.setWypadkowe(Boolean.TRUE);
+        umowa.setZdrowotne(Boolean.TRUE);
+        return umowa;
+    }
+
 }
