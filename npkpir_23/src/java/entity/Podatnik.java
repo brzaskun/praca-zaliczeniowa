@@ -294,6 +294,8 @@ public class Podatnik implements Serializable {
     private String kodPKD;
     @Column(name = "kartapesel")
     private String kartapesel;
+    @Column(name = "starekadry")
+    private boolean starekadry;
     
     @Transient
     private double cena;
@@ -350,6 +352,15 @@ public class Podatnik implements Serializable {
         return schematnumeracji;
     }
 
+    public boolean isStarekadry() {
+        return starekadry;
+    }
+
+    public void setStarekadry(boolean starekadry) {
+        this.starekadry = starekadry;
+    }
+
+   
     
     public String getKodPKD() {
         return kodPKD;

@@ -76,6 +76,7 @@ public class AdminMailView implements Serializable {
     private boolean tylkonievat;
     private boolean tylkododatkowe;
     private boolean tylkoaktywni;
+    private boolean starekadry;
     private boolean bezsms;
     private byte[] zalacznik;
     private String nazwazalacznik;
@@ -183,6 +184,15 @@ public class AdminMailView implements Serializable {
                     Klienci p = it.next();
                     Podatnik pod = podatnikDAO.findPodatnikByNIP(p.getNip());
                     if (pod == null || !pod.isPodmiotaktywny()) {
+                        it.remove();
+                    }
+                }
+            }
+            if (starekadry) {
+                for (Iterator<Klienci> it = klientListtemp.iterator();it.hasNext();) {
+                    Klienci p = it.next();
+                    Podatnik pod = podatnikDAO.findPodatnikByNIP(p.getNip());
+                    if (pod == null || !pod.isStarekadry()) {
                         it.remove();
                     }
                 }
@@ -469,6 +479,15 @@ public class AdminMailView implements Serializable {
         this.tylkoaktywni = tylkoaktywni;
     }
         
+    public boolean isStarekadry() {
+        return starekadry;
+    }
+
+    public void setStarekadry(boolean starekadry) {
+        this.starekadry = starekadry;
+    }
     //</editor-fold>    
+
+
 
 }

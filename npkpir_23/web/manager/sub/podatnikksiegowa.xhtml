@@ -12,7 +12,7 @@
             <p:panelGrid columns="2" style="width: 800px;">
 
                 <p:column>
-                    <p:dataTable id="tabelapodatnicy" value="#{podatnikKsiegowaShortView.listapodatnikow}" var="item" style="width: 600px;height: 900px;overflow-y: scroll;" rowIndexVar="index" 
+                    <p:dataTable id="tabelapodatnicy" value="#{podatnikKsiegowaShortView.listapodatnikow}" var="item" style="width: 700px;height: 900px;overflow-y: scroll;" rowIndexVar="index" 
                                  rowStyleClass="#{item.ksiegowa.login.startsWith('mar') ? 'rmarta' : item.ksiegowa.login.startsWith('wda') ? 'rwioletta' : item.ksiegowa.login.startsWith('go') ? 'rmalgosia' : 'rrenata'}">
                         <p:ajax event="filter" global="false"/>
                         <p:column headerText="lp" width="30">
@@ -23,11 +23,17 @@
                         </p:column>
                         <p:column headerText="księgowa" >
                             <p:selectOneMenu value="#{item.ksiegowa}" style="width: 100px;text-align: center;" converter="#{uzConv}">
+                                <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
                                 <f:selectItems value="#{podatnikKsiegowaShortView.listaksiegowych}" var="loop" itemLabel="#{loop.login}" itemValue="#{loop}"/>
                             </p:selectOneMenu>
                         </p:column>
                         <p:column headerText="aktywny" width="60" style="text-align: center;">
                             <p:selectBooleanCheckbox value="#{item.podmiotaktywny}">
+                                <p:ajax event="change" listener="#{podatnikKsiegowaShortView.edytujpodatnika(item)}" />
+                            </p:selectBooleanCheckbox>
+                        </p:column>
+                         <p:column headerText="stare kadry" width="60" style="text-align: center;">
+                             <p:selectBooleanCheckbox value="#{item.starekadry}">
                                 <p:ajax event="change" listener="#{podatnikKsiegowaShortView.edytujpodatnika(item)}" />
                             </p:selectBooleanCheckbox>
                         </p:column>
