@@ -556,26 +556,46 @@ public class BilansGenerowanieView implements Serializable {
                     double wynik = Z.z(roznicaSaldoWn+roznicaSaldoMa);
                     Konto k = nowekonto(p.getKonto(), kontaNowyRok);
                     boolean przetwarzaj = false;
+                    boolean przetwarzaj2 = false;
                     if (p.getSaldoWnPLN()!=0.0||p.getSaldoMaPLN()!=0.0) {
                         if (roznicaSaldoWnPLN!=0.0 || roznicaSaldoMaPLN!=0.0) {
                             przetwarzaj = true;
+                            przetwarzaj2 = false;
                         }
                     } else {
                         if (roznicaSaldoWn!=0.0 || roznicaSaldoMa!=0.0) {
-                            przetwarzaj = true;
+                            przetwarzaj = false;
+                            przetwarzaj2 = true;
                         }
                     }
-                    if (k != null && przetwarzaj) {
+                    if (k != null) {
                         double roznicaWn = Z.z(p.getSaldoWn()-sumaStarawn);
                         double roznicaMa = Z.z(p.getSaldoMa()-sumaStarama);
                         double roznicaWnPLN = Z.z(p.getSaldoWnPLN()-sumaStarawnPLN);
                         double roznicaMaPLN = Z.z(p.getSaldoMaPLN()-sumaStaramaPLN);
-                        WierszBO wierszBO = new WierszBO(wpisView.getPodatnikObiekt(), p, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(), k, p.getWalutadlabo(), wpisView.getUzer(), roznicaWn, roznicaMa, roznicaWnPLN, roznicaMaPLN);
-                        wierszBO.setRoznicowy(true);
-                        roznicowe.add(wierszBO);
+                        if (przetwarzaj) {
+                            WierszBO wierszBO = new WierszBO(wpisView.getPodatnikObiekt(), p, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(), k, p.getWalutadlabo(), wpisView.getUzer(), roznicaWnPLN, roznicaMaPLN, roznicaWnPLN, roznicaMaPLN);
+                            wierszBO.setRoznicowy(true);
+                            roznicowe.add(wierszBO);
+                        } else if (przetwarzaj2) {
+                            WierszBO wierszBO = new WierszBO(wpisView.getPodatnikObiekt(), p, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(), k, p.getWalutadlabo(), wpisView.getUzer(), roznicaWn, roznicaMa, roznicaWn, roznicaMa);
+                            wierszBO.setRoznicowy(true);
+                            roznicowe.add(wierszBO);
+                        }
                     }
                 }
             }
+            List<WierszBO> wierszekorekty = new ArrayList<>();
+            for (WierszBO t : wierszeBO) {
+                if (!rejestrkont.contains(t.getKonto())) {
+                    WierszBO wierszBO = new WierszBO(t);
+                    wierszBO.setNowy0edycja1usun2(0);
+                    wierszBO.setRoznicowy(true);
+                    wierszekorekty.add(wierszBO);
+                }
+            }
+            wierszBODAO.createList(wierszekorekty);
+            roznicowe.addAll(wierszekorekty);
         }
         return roznicowe;
     }

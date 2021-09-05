@@ -591,6 +591,21 @@ public class BilansWprowadzanieView implements Serializable {
         }
     }
 
+    public void usunnowe() {
+        List<WierszBO> listawstepna = Collections.synchronizedList(new ArrayList<>());
+        for (List<WierszBO> l : listazbiorcza.values()) {
+            listawstepna.addAll(l);
+        }
+        for (Iterator<WierszBO> it = listawstepna.iterator(); it.hasNext();) {
+            WierszBO wb = it.next();
+            if (wb.getNowy0edycja1usun2Int()==0) {
+                wierszBODAO.remove(wb);
+                it.remove();
+            }
+        }
+        init();
+        Msg.msg("Usunięto niezaksięgowane nowe pozycje");
+    }
     
     public List<WierszBO> zapiszBilansBOdoBazy() {
         List<WierszBO> zachowaneWiersze = Collections.synchronizedList(new ArrayList<>());

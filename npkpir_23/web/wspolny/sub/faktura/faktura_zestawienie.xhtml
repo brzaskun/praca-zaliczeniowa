@@ -15,10 +15,10 @@
                                     >
                     <f:selectItems value="#{fakturaZestView.klienci}"/>
                     <p:ajax event="change" global="false" listener="#{fakturaZestView.pobierzwszystkoKlienta()}" 
-                            update="formzestawienie:tabelazfakturamifirmy"/>
+                            update="formzestawienie:dokumentyZestawienie"/>
             </p:selectOneListbox>
             <p><p:commandButton value="wszystkie" actionListener="#{fakturaZestView.init()}" update="@form, :form1:messages" style="width: 120px;"  rendered="#{WpisView.biuroiszef eq true}"/></p>
-            <p:dataTable id="dokumentyZestawienie" id="tabelazfakturamifirmy" value="#{fakturaZestView.fakturyZestawienie}" var="item"  rowIndexVar="row" 
+            <p:dataTable id="dokumentyZestawienie"  value="#{fakturaZestView.fakturyZestawienie}" var="item"  rowIndexVar="row" 
                          rowKey="#{item.kontrahent.npelna}" style="width: 900px;height: 800px; overflow-y: scroll;" widgetVar="zestTable" sortBy="#{item.kontrahent.npelna}" sortOrder="DESCENDING"
                          rowSelectMode="add"  emptyMessage="nie pobrano wierszy" >
                 <p:column>

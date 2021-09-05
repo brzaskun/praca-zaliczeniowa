@@ -181,6 +181,27 @@ public class WierszBO implements Serializable {
         this.roznicowy = true;
     }
 
+    public WierszBO(WierszBO t) {
+        this.podatnik = t.podatnik;
+        this.konto = t.konto;
+        this.rok = t.rok;
+        this.mc = t.mc;
+        this.opis = t.opis;
+        this.kwotaWn = t.kwotaWn!=0.0?-t.kwotaWn:0.0;
+        this.kwotaMa = t.kwotaMa!=0.0?-t.kwotaMa:0.0;
+        this.rozrachunek = t.rozrachunek;
+        this.waluta = t.waluta;
+        this.kurs = t.kurs;
+        this.kwotaWnPLN = t.kwotaWnPLN!=0.0?-t.kwotaWnPLN:0.0;
+        this.kwotaMaPLN = t.kwotaMaPLN!=0.0?-t.kwotaMaPLN:0.0;
+        this.wprowadzil = t.wprowadzil;
+        this.kontostare = t.kontostare;
+        this.otwarcielikwidacji = t.otwarcielikwidacji;
+        this.dataK = t.dataK;
+        this.roznicowy = t.roznicowy;
+    }
+
+    
    
     @Override
     public String toString() {
