@@ -36,6 +36,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -83,15 +84,34 @@ public class BilansGenerowanieView implements Serializable {
     private boolean przeniestylkosalda;
     private boolean tojestbilanslikwidacyjny;
     private List<RoznicaSaldBO> kontainnesaldo;
+    private boolean tylkoroznicowy;
 
     public BilansGenerowanieView() {
         ////E.m(this);
         this.komunikatyok = Collections.synchronizedList(new ArrayList<>());
         this.komunikatyok.add("Nie rozpoczęto analizy");
+        this.komunikatyok.add("Nie rozpoczęto analizy");
         this.komunikatyerror = Collections.synchronizedList(new ArrayList<>());
         this.komunikatyerror2 = Collections.synchronizedList(new ArrayList<>());
         this.komunikatyerror3 = Collections.synchronizedList(new ArrayList<>());
         this.listawalut = new ConcurrentHashMap<>();
+    }
+    
+    @PostConstruct
+    private void init() { //E.m(this);
+        List<Waluty> waluty = walutyDAOfk.findAll();
+        for (Waluty p : waluty) {
+            listawalut.put(p.getSymbolwaluty(), p);
+        }
+        Dokfk dokbo = dokDAOfk.findDokfkLastofaTypeMc(wpisView.getPodatnikObiekt(), "BO", wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+        if (dokbo!=null) {
+            this.komunikatyok.add("Istnieje już bilans BO, można wygenerować jedynie BO różnicowy");
+            tylkoroznicowy = true;
+            przeniestylkosalda = true;
+        } else {
+            tylkoroznicowy = false;
+            przeniestylkosalda = false;
+        }
     }
     
     public void resetlikiwdacja() {
@@ -110,15 +130,18 @@ public class BilansGenerowanieView implements Serializable {
         for (Waluty p : waluty) {
             listawalut.put(p.getSymbolwaluty(), p);
         }
-    }
-    
-    @PostConstruct
-    private void init() { //E.m(this);
-        List<Waluty> waluty = walutyDAOfk.findAll();
-        for (Waluty p : waluty) {
-            listawalut.put(p.getSymbolwaluty(), p);
+        Dokfk dokbo = dokDAOfk.findDokfkLastofaTypeMc(wpisView.getPodatnikObiekt(), "BO", wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+        if (dokbo!=null) {
+            this.komunikatyok.add("Istnieje już bilans BO, można wygenerować jedynie BO różnicowy");
+            tylkoroznicowy = true;
+            przeniestylkosalda = true;
+        } else {
+            tylkoroznicowy = false;
+            przeniestylkosalda = false;
         }
     }
+    
+   
 
 
     public static void generujbilans() {
@@ -257,6 +280,7 @@ public class BilansGenerowanieView implements Serializable {
                 zapiszBOnaKontach(wierszeBO, kontaNowyRok);
                 obliczsaldoBOkonta(kontaNowyRok);
                 kontoDAO.editList(kontaNowyRok);
+                this.komunikatyerror3 = Collections.synchronizedList(new ArrayList<>());
                 kontainnesaldo = znajdzroznicesald(listaSaldoKontoRokPop, kontaNowyRok);
                 if (!kontainnesaldo.isEmpty()) {
                     komunikatyerror3.add("Po generacji jest różnica sald z BO. Sprawdź w poprzednim roku wiersze BO z dokumentem BO: ");
@@ -280,6 +304,69 @@ public class BilansGenerowanieView implements Serializable {
                 bilansWprowadzanieView.zapiszBilansBOdoBazy();
                 Msg.msg("Generuje bilans");
             }
+        } catch (Exception e) {
+            E.e(e);
+            Msg.msg("e","Wystąpił błąd podczas generowania bilansu otwarcia. Czy  nie naniesiono już jakiś rozrachunków? Trzeba usunąć dokumenty źródłowe "+e);
+        }
+    }
+    
+    public void generujBoRoznicowy() {
+        try {
+                this.komunikatyok = Collections.synchronizedList(new ArrayList<>());
+                this.komunikatyerror = Collections.synchronizedList(new ArrayList<>());
+                this.komunikatyerror2 = Collections.synchronizedList(new ArrayList<>());
+                this.komunikatyerror3 = Collections.synchronizedList(new ArrayList<>());
+                Dokfk dokbo = dokDAOfk.findDokfkLastofaTypeMc(wpisView.getPodatnikObiekt(), "BO", wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+                if (dokbo == null) {
+                    Msg.msg("w","Nie znaleziono dokumentu BO. Nie ma sensu generować BO różnicowego");
+                    return;
+                }
+                
+                Waluty walpln = walutyDAOfk.findWalutaBySymbolWaluty("PLN");
+                saldoAnalitykaView.initGenerowanieBO();
+                List<SaldoKonto> listaSaldoKontoRokPop = saldoAnalitykaView.getListaSaldoKonto();
+                Collections.sort(listaSaldoKontoRokPop, new SaldoKontocomparator());
+                List<Konto> kontaNowyRok = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+                resetujBOnaKonto(kontaNowyRok);
+                Konto kontowyniku = PlanKontFKBean.findKonto860(kontaNowyRok);
+                obliczkontawynikowe(kontowyniku, listaSaldoKontoRokPop, walpln);
+                //tutaj trzeba przerobic odpowiednio listaSaldo
+                List<SaldoKonto> listaSaldoKontoPrzetworzone = przetwarzajSaldoKontoBoRoznicowe(listaSaldoKontoRokPop);
+                List<WierszBO> wierszeBO = wierszBODAO.findPodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+                List<WierszBO> wierszeBOroznicowe = zrobwierszeBORoznicowy(wierszeBO, listaSaldoKontoPrzetworzone, kontaNowyRok);
+                if (wierszeBOroznicowe.isEmpty()) {
+                    komunikatyok.add("Brak roznic miedzy wygenerowanym a obecnym BO " + wpisView.getRokWpisuSt());
+                } else {
+                    komunikatyok.add("Wygenerowano BO różnicowy na rok " + wpisView.getRokWpisuSt());
+                    wierszBODAO.editList(wierszeBOroznicowe);
+                    zapiszBOnaKontach(wierszeBOroznicowe, kontaNowyRok);
+                    zapiszBOnaKontach(wierszeBO, kontaNowyRok);
+                    obliczsaldoBOkonta(kontaNowyRok);
+                    kontoDAO.editList(kontaNowyRok);
+                    kontainnesaldo = znajdzroznicesald(listaSaldoKontoRokPop, kontaNowyRok);
+                    if (!kontainnesaldo.isEmpty()) {
+                        komunikatyerror3.add("Po generacji jest różnica sald z BO. Sprawdź w poprzednim roku wiersze BO z dokumentem BO: ");
+                        for (RoznicaSaldBO p : kontainnesaldo) {
+                            StringBuilder sb = new StringBuilder();
+                            sb.append(p.getKonto().getPelnynumer() + " winno być ");
+                            sb.append(format.F.curr(p.getWinnobyc()) + " strona ");
+                            sb.append(p.getWinnobycStrona() + " jest ");
+                            sb.append(format.F.curr(p.getJest()) + " strona ");
+                            sb.append(p.getJestStrona() + " roznica ");
+                            sb.append(p.getKwotaroznicy());
+                            komunikatyerror3.add(sb.toString());
+                            if (p.getKonto().getPelnynumer().equals("860")) {
+                                sb = new StringBuilder();
+                                sb.append("Chyba w pop. roku nie przeksięgowano wyniku finansowego z 860 na 820");
+                                komunikatyerror3.add(sb.toString());
+                            }
+                        }
+                    }
+                    bilansWprowadzanieView.init();
+                    bilansWprowadzanieView.zapiszBilansBOdoBazy();
+                    Msg.msg("Generuje bilans");
+                }
+                
         } catch (Exception e) {
             E.e(e);
             Msg.msg("e","Wystąpił błąd podczas generowania bilansu otwarcia. Czy  nie naniesiono już jakiś rozrachunków? Trzeba usunąć dokumenty źródłowe "+e);
@@ -432,6 +519,66 @@ public class BilansGenerowanieView implements Serializable {
         Collections.sort(zwrot, new Kontocomparator());
         return zwrot;
     }
+    
+    private List<WierszBO> zrobwierszeBORoznicowy(List<WierszBO> wierszeBO, List<SaldoKonto> listaSaldoKonto, List<Konto> kontaNowyRok) {
+        List<WierszBO> roznicowe = new ArrayList<>();
+        if (!listaSaldoKonto.isEmpty()) {
+            //agreguj kwoty
+            List<Konto> rejestrkont = new ArrayList<>();
+            for (Iterator<SaldoKonto> ita = listaSaldoKonto.iterator();ita.hasNext();) {
+                SaldoKonto t = ita.next();
+                if (!rejestrkont.contains(t.getKonto())) {
+                    rejestrkont.add(t.getKonto());
+                    for (SaldoKonto s :listaSaldoKonto){
+                        if (t.getKonto().getPelnynumer().equals(s.getKonto().getPelnynumer()) && t.getId()!=s.getId()) {
+                            t.setSaldoWn(t.getSaldoWn()+s.getSaldoWn());
+                            t.setSaldoMa(t.getSaldoMa()+s.getSaldoMa());
+                            t.setSaldoWnPLN(t.getSaldoWnPLN()+s.getSaldoWnPLN());
+                            t.setSaldoMaPLN(t.getSaldoMaPLN()+s.getSaldoMaPLN());
+                        }
+                    }
+                } else {
+                    ita.remove();
+                }
+            }
+            for (SaldoKonto p : listaSaldoKonto) {
+                if (p.getKonto().getBilansowewynikowe().equals("bilansowe")) {
+                    List<WierszBO> wierszecojuzsa = wierszeBO.stream().filter(r->r.getKonto().getPelnynumer().equals(p.getKonto().getPelnynumer())).collect(Collectors.toList());
+                    double sumaStarawn = wierszecojuzsa.stream().map(x->x.getKwotaWn()).reduce(0.0, Double::sum);
+                    double sumaStarama = wierszecojuzsa.stream().map(x->x.getKwotaMa()).reduce(0.0, Double::sum);
+                    double sumaStarawnPLN = wierszecojuzsa.stream().map(x->x.getKwotaWnPLN()).reduce(0.0, Double::sum);
+                    double sumaStaramaPLN = wierszecojuzsa.stream().map(x->x.getKwotaMaPLN()).reduce(0.0, Double::sum);
+                    double roznicaSaldoWnPLN=Z.z(p.getSaldoWnPLN()-sumaStarawnPLN);
+                    double roznicaSaldoMaPLN=Z.z(p.getSaldoMaPLN()-sumaStaramaPLN);
+                    double wynikPLN = Z.z(roznicaSaldoWnPLN+roznicaSaldoMaPLN);
+                    double roznicaSaldoWn=Z.z(p.getSaldoWn()-sumaStarawn);
+                    double roznicaSaldoMa=Z.z(p.getSaldoMa()-sumaStarama);
+                    double wynik = Z.z(roznicaSaldoWn+roznicaSaldoMa);
+                    Konto k = nowekonto(p.getKonto(), kontaNowyRok);
+                    boolean przetwarzaj = false;
+                    if (p.getSaldoWnPLN()!=0.0||p.getSaldoMaPLN()!=0.0) {
+                        if (roznicaSaldoWnPLN!=0.0 || roznicaSaldoMaPLN!=0.0) {
+                            przetwarzaj = true;
+                        }
+                    } else {
+                        if (roznicaSaldoWn!=0.0 || roznicaSaldoMa!=0.0) {
+                            przetwarzaj = true;
+                        }
+                    }
+                    if (k != null && przetwarzaj) {
+                        double roznicaWn = Z.z(p.getSaldoWn()-sumaStarawn);
+                        double roznicaMa = Z.z(p.getSaldoMa()-sumaStarama);
+                        double roznicaWnPLN = Z.z(p.getSaldoWnPLN()-sumaStarawnPLN);
+                        double roznicaMaPLN = Z.z(p.getSaldoMaPLN()-sumaStaramaPLN);
+                        WierszBO wierszBO = new WierszBO(wpisView.getPodatnikObiekt(), p, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(), k, p.getWalutadlabo(), wpisView.getUzer(), roznicaWn, roznicaMa, roznicaWnPLN, roznicaMaPLN);
+                        wierszBO.setRoznicowy(true);
+                        roznicowe.add(wierszBO);
+                    }
+                }
+            }
+        }
+        return roznicowe;
+    }
 
     private Konto nowekonto(Konto konto, List<Konto> kontaNowyRok) {
         Konto zwrot = null;
@@ -481,6 +628,49 @@ public class BilansGenerowanieView implements Serializable {
             } else {
                 nowalista.add(p);
             }
+        }
+        return nowalista;
+    }
+    
+    private List<SaldoKonto> przetwarzajSaldoKontoBoRoznicowe(List<SaldoKonto> listaSaldoKonto) {
+        List<SaldoKonto> nowalista = Collections.synchronizedList(new ArrayList<>());
+        for (SaldoKonto p : listaSaldoKonto) {
+             if (p.getKonto().getPelnynumer().startsWith("149")) {
+                nowalista.addAll(przetworzPojedyncze(p));
+            } else if (p.getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe") && p.getKonto().getPelnynumer().startsWith("20") && przeniestylkosalda==true) {
+                Set<Waluty> waluty = pobierzWalutySaldoKonto(p, false);
+                waluty.add(listawalut.get("PLN"));
+                List<SaldoKonto> wierszeSumWalutaPLN = Collections.synchronizedList(new ArrayList<>());
+                for (Waluty wal : waluty) {
+                    SaldoKonto sal = sumujkwotyWalutaPln(p, wal); 
+                    if (sal != null) {
+                        wierszeSumWalutaPLN.add(sal);
+                    }
+                }
+                nowalista.addAll(wierszeSumWalutaPLN);
+                if (wierszeSumWalutaPLN.size() > 1 || (wierszeSumWalutaPLN.size() == 1 && !wierszeSumWalutaPLN.get(0).getWalutadlabo().getSymbolwaluty().equals("PLN"))) {
+                    SaldoKonto roznicekursowe = rozliczroznicekursowedwojki(p,wierszeSumWalutaPLN);
+                    if (roznicekursowe != null) {
+                        roznicekursowe.setRoznicakursowastatystyczna(true);
+                        nowalista.add(roznicekursowe);
+                    }
+                }
+            } else if (p.getKonto().getPelnynumer().startsWith("1")) {
+                List<Waluty> waluty = Collections.synchronizedList(new ArrayList<>());
+                waluty.addAll(pobierzWalutySaldoKonto(p, true));
+                if (waluty.isEmpty()) {
+                    waluty.add(listawalut.get("PLN"));
+                }
+                for (Waluty r : waluty) {
+                    nowalista.addAll(przetworzWBRK(p,r));
+                }
+            } else {
+                nowalista.add(p);
+            }
+        }
+        int i = 1;
+        for (SaldoKonto t : nowalista) {
+            t.setId(i++);
         }
         return nowalista;
     }
@@ -990,6 +1180,14 @@ public class BilansGenerowanieView implements Serializable {
 
     public void setWpisView(WpisView wpisView) {
         this.wpisView = wpisView;
+    }
+
+    public boolean isTylkoroznicowy() {
+        return tylkoroznicowy;
+    }
+
+    public void setTylkoroznicowy(boolean tylkoroznicowy) {
+        this.tylkoroznicowy = tylkoroznicowy;
     }
 
     public boolean isTojestbilanslikwidacyjny() {

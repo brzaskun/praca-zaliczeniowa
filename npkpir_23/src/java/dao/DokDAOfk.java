@@ -258,11 +258,13 @@ public class DokDAOfk extends DAO implements Serializable {
     }
     
     public Dokfk findDokfkLastofaTypeMc(Podatnik podatnik, String seriadokfk, String rok, String mc) {
+       Dokfk zwrot = null;
        try {
-           return sessionFacade.findDokfkLastofaTypeMc(podatnik,seriadokfk, rok, mc);
+           zwrot = sessionFacade.findDokfkLastofaTypeMc(podatnik,seriadokfk, rok, mc);
        } catch (Exception e ){
-           return null;
+           System.out.println("");
        }
+       return zwrot;
     }
 
     public Dokfk findDokfkLastofaTypeKontrahent(Podatnik podatnik, String seriadokfk, Klienci kontr, String rok, Set<Dokfk> listaostatnich) {

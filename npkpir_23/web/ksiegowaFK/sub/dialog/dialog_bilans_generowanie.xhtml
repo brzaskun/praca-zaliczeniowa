@@ -67,10 +67,12 @@
                 <p:selectBooleanCheckbox value="#{bilansGenerowanieView.przeniestylkosalda}" label="przenieś tylko salda"/>
                 <h:outputText value="przenieś tylko salda"/>
             </p:panelGrid>
+            <p:commandButton value="generuj BO różnicowy" actionListener="#{bilansGenerowanieView.generujBoRoznicowy()}" style="width: 120px;"
+                             update="form_dialog_bilans_generowanie formbilanswprowadzanie3:kwotysum" rendered="#{bilansGenerowanieView.tylkoroznicowy}"/>
             <p:commandButton value="generuj bilans" actionListener="#{bilansGenerowanieView.generuj()}" style="width: 120px;"
-                             update="form_dialog_bilans_generowanie formbilanswprowadzanie3:kwotysum"/>
+                             update="form_dialog_bilans_generowanie formbilanswprowadzanie3:kwotysum" rendered="#{!bilansGenerowanieView.tylkoroznicowy}"/>
             <p:commandButton value="nanieś różnice" actionListener="#{bilansGenerowanieView.naniesroznice()}" style="width: 120px; margin-left: 20px;"
-                             oncomplete="r('form_dialog_bilans_generowanie:buttonroznice').hide()"  id="buttonroznice"/>
+                             oncomplete="r('form_dialog_bilans_generowanie:buttonroznice').hide()"  id="buttonroznice" rendered="#{!bilansGenerowanieView.tylkoroznicowy}"/>
             <p:commandButton value="drukuj" style="margin-left: 20px; width: 120px;" actionListener="#{bilansGenerowanieView.drukuj()}"
                              action="#{sesjaView.dodajwydruk()}" global="false" oncomplete="pokazwydruk('bogenerr#{WpisView.getPodatnikObiekt().getNip()}')"
                              />

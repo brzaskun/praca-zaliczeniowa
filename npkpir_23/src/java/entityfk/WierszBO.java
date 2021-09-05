@@ -106,6 +106,7 @@ public class WierszBO implements Serializable {
         this.rozrachunek = false;
         this.nowy0edycja1usun2 = 0;
     }
+    
 
     public WierszBO(Podatnik podatnik, SaldoKonto p, String rok, String mc, Konto konto, Waluty waluta, Uz wprowadzil) {
         this.rok = rok;
@@ -127,6 +128,27 @@ public class WierszBO implements Serializable {
             this.kwotaMaPLN = Z.z(p.getSaldoMaPLN() - p.getSaldoWnPLN());
         }
         this.kurs = p.getKursdlaBO();
+        this.waluta = waluta;
+        this.rozrachunek = false;
+        this.wprowadzil = wprowadzil;
+        this.nowy0edycja1usun2 = 0;
+        this.roznicakursowastatystyczna = p.isRoznicakursowastatystyczna();
+    }
+    
+    public WierszBO(Podatnik podatnik, SaldoKonto p, String rok, String mc, Konto konto, Waluty waluta, Uz wprowadzil, double roznicaWn, double roznicaMa, double roznicaWnPLN, double roznicaMaPLN) {
+        this.rok = rok;
+        this.mc = mc;
+        this.opis = p.getOpisdlabo() != null ? "wiersz różnicowy "+p.getOpisdlabo() : "wiersz różnicowy zapis BO " + p.hashCode();
+        this.podatnik = podatnik;
+        this.konto = konto;
+        this.kwotaWn = Z.z(roznicaWn);
+        this.kwotaWnPLN = Z.z(roznicaWnPLN);
+        this.kwotaMa = Z.z(roznicaMa);
+        this.kwotaMaPLN = Z.z(roznicaMaPLN);
+        this.kurs =  kwotaWn != 0.0 ? Z.z4(kwotaWnPLN/kwotaWn) : 0.0;
+        if (kwotaMa!=0.0) {
+            this.kurs =  kwotaMa != 0.0 ? Z.z4(kwotaMaPLN/kwotaMa) : 0.0;
+        }
         this.waluta = waluta;
         this.rozrachunek = false;
         this.wprowadzil = wprowadzil;
@@ -163,7 +185,7 @@ public class WierszBO implements Serializable {
     @Override
     public String toString() {
         if (konto != null ) {
-            return "WierszBO{" + ", konto=" + konto.getPelnynumer() + ", opis=" + opis + ", kwotaWn=" + kwotaWn + ", kwotaMa=" + kwotaMa + '}';
+            return "WierszBO{" + ", konto=" + konto.getPelnynumer() + ", opis=" + opis + ", kwotaWn=" + kwotaWn + ", kwotaWnPLN=" + kwotaWnPLN + ", kwotaMa=" + kwotaMa + ", kwotaMaPLN=" + kwotaMaPLN + '}';
         } else {
             return "WierszBO{" + ", konto null, opis=" + opis + ", kwotaWn=" + kwotaWn + ", kwotaMa=" + kwotaMa + '}';
         }

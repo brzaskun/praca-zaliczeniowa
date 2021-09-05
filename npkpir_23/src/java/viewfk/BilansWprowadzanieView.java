@@ -872,6 +872,7 @@ public class BilansWprowadzanieView implements Serializable {
         List<WierszBO> zachowaneWiersze = zapiszBilansBOdoBazy();
 //        int nrkolejny = oblicznumerkolejny();
 //        if (nrkolejny > 1) {
+//        zachowajtransakcje(typ);
         usundokumentztegosamegomiesiaca(typ);
 //        }
         Dokfk dok = stworznowydokument(1, zachowaneWiersze, typ);
@@ -950,6 +951,19 @@ public class BilansWprowadzanieView implements Serializable {
 //        return poprzednidokumentvat == null ? 1 : poprzednidokumentvat.getNrkolejnywserii() + 1;
 //    }
 //
+//    private void zachowajtransakcje(String typ) {
+//        Dokfk popDokfk = dokDAOfk.findDokfofaType(wpisView.getPodatnikObiekt(), typ, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+//        Set<Transakcja> pobranetransakcje = new HashSet<>();
+//        for (StronaWiersza s : popDokfk.getStronyWierszy()) {
+//            pobranetransakcje.addAll(s.getNowetransakcje());
+//            pobranetransakcje.addAll(s.getPlatnosci());
+//        }
+//        List<TransakcjaAku> przchowalnia = new ArrayList<>();
+//        int lp = 0;
+//        for (Transakcja p: pobranetransakcje) {
+//            TransakcjaAku nowa = new TransakcjaAku(lp++,p);
+//        }
+//    }
     private void usundokumentztegosamegomiesiaca(String typ) {
         Dokfk popDokfk = dokDAOfk.findDokfofaType(wpisView.getPodatnikObiekt(), typ, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
         if (popDokfk != null) {
@@ -1890,6 +1904,8 @@ public class BilansWprowadzanieView implements Serializable {
     public void setEwidencjaVATRKzapis0edycja1(boolean ewidencjaVATRKzapis0edycja1) {
         this.ewidencjaVATRKzapis0edycja1 = ewidencjaVATRKzapis0edycja1;
     }
+
+  
 
     
     
