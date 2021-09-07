@@ -248,6 +248,16 @@ public class AmazonImportNazwy implements Serializable {
         this.lista = lista;
     }
    
+    public void usun(KlientJPK item) {
+        try {
+            if (item!=null) {
+                lista.remove(item);
+                Msg.msg("Usunięto pozycje");
+            }
+        } catch (Exception ex){}
+    }
+    
+    
     public static void main(String[] args) {
         HashMap<String, String> id_nazwa = new HashMap<>();
         try {

@@ -80,6 +80,9 @@
                 <p:column headerText="WNT" style="text-align: center;">
                     <h:outputText value="#{itemikjpk.wnt eq true ? '&#x2713;':''}" style="color: green;"/>
                 </p:column>
+                <p:column headerText="" style="text-align: center;">
+                    <p:commandButton icon="ui-icon-trash" actionListener="#{amazonImportNazwy.usun(itemikjpk)}" update="@parent:@parent"/>
+                </p:column>
             </p:dataTable>
 
         </h:form>

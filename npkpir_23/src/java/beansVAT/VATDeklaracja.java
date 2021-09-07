@@ -477,7 +477,7 @@ public class VATDeklaracja implements Serializable {
                 it.remove();
             } else {
                 for (EVatwpisSuma s : pobraneewidencje) {
-                    if (s.getEwidencja().equals(p.getEvewidencja())) {
+                    if (s.getEwidencja().equals(p.getEvewidencja()) || (s.getEwidencja().getNazwa().equals(p.getEvewidencja().getNazwa())&&s.getEwidencja().getNrpolanetto().equals(p.getEvewidencja().getNrpolanetto()))) {
                         lista.add(tworznowa(p, s));
                         if (p.getSchemamacierzysta() != null) {
                         }
