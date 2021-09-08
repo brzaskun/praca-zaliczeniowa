@@ -103,6 +103,23 @@ public class PdfDok extends Pdf implements Serializable {
         }
     }
 
+    private static void dodajsume(List tabelazbiorcza) {
+        double netto = 0.0;
+        double vat = 0.0;
+        double nettopln = 0.0;
+        double vatpln = 0.0;
+        for (Object p : tabelazbiorcza) {
+            List lysta = (List)p;
+            netto = netto + (double)lysta.get(2);
+            vat = vat + (double)lysta.get(3);
+            nettopln = nettopln + (double)lysta.get(4);
+            vatpln = vatpln + (double)lysta.get(5);
+        }
+        Object[] a = new Object[]{"", "razem", netto, vat, nettopln, vatpln, 0.0, 0.0};
+        tabelazbiorcza.add(Arrays.asList(a));
+               
+    }
+
     
     
     static class Sumawwalucie {
@@ -454,12 +471,15 @@ public class PdfDok extends Pdf implements Serializable {
             PdfMain.dodajLinieOpisu(document, "SUMY SPRZEDAŻY DETALICZNEJ");
             String[] nag1 = new String[]{"lp","kraj","waluta","netto","vat","netto pln","vat pln", "stawka vat", "kurs"};
             int[] nag2 = new int[]{2,3,3,3,3,3,3,3,3};
+            dodajsume(tabelazbiorcza);
             dodajTabele2(document, nag1, nag2, tabelazbiorcza, 70, modyfikator,"tabelaklientjpkfk");
             document.newPage();
             PdfMain.dodajLinieOpisu(document, "SUMY SPRZEDAŻY WDT");
+            dodajsume(tabelazbiorczawdt);
             dodajTabele2(document, nag1, nag2, tabelazbiorczawdt, 70, modyfikator,"tabelaklientjpkfk");
             document.newPage();
             PdfMain.dodajLinieOpisu(document, "SUMY SPRZEDAŻY EXPORT");
+            dodajsume(tabelazbiorczaexport);
             dodajTabele2(document, nag1, nag2, tabelazbiorczaexport, 70, modyfikator,"tabelaklientjpkfk");
             finalizacjaDokumentuQR(document,nazwa);
             String f = "pokazwydruk('"+nazwa+"');";
@@ -553,5 +573,14 @@ public class PdfDok extends Pdf implements Serializable {
         double kurs = nettowaluta!=0.0 ? Z.z6(netto/nettowaluta):0.0;
         Object[] a = new Object[]{jurys, waluta, nettowaluta, vatwaluta, netto, vat, vatstawka, kurs};
         tabelazbiorcza.add(Arrays.asList(a));
+    }
+    
+    public static void main(String[] args) {
+        Object[] a = new Object[]{"jeden", "dwa", 3};
+        List lista = Arrays.asList(a);
+        List zbiorcza = new ArrayList();
+        zbiorcza.add(lista);
+        Object get = zbiorcza.get(0);
+        //((List)get).get(0)
     }
 }
