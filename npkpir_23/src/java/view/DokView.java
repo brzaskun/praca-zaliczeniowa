@@ -32,7 +32,6 @@ import dao.WalutyDAOfk;
 import data.Data;
 import embeddable.Mce;
 import embeddable.PanstwaMap;
-import entity.Amodok;
 import entity.Dok;
 import entity.EVatwpis1;
 import entity.Evewidencja;
@@ -1026,28 +1025,29 @@ public class DokView implements Serializable {
         Dok znalezionyBiezacy = dokDAO.findDokMC("AMO", wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), Mce.getNumberToMiesiac().get(wpisView.getMiesiacWpisu()));
         if (znalezionyBiezacy == null) {
             String[] poprzedniOkres = Data.poprzedniOkres(wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
-            Amodok amodokPoprzedni = amoDokDAO.amodokBiezacy(wpisView.getPodatnikWpisu(), poprzedniOkres[0], Integer.parseInt(poprzedniOkres[1]));
+            //Amodok amodokPoprzedni = amoDokDAO.amodokBiezacy(wpisView.getPodatnikWpisu(), poprzedniOkres[0], Integer.parseInt(poprzedniOkres[1]));
             //wyliczam kwote umorzenia
             kwotaumorzenia = SrodkiTrwBean.sumujumorzenia(umorzenialist);
-            try {
-                if (amodokPoprzedni != null) {
-                    if (amodokPoprzedni.getZaksiegowane() != true && amodokPoprzedni.getUmorzenia().size() > 0) {
-                        //szukamy w dokumentach a nuz jest. jak jest to naprawiam ze nie naniesiono ze zaksiegowany
-                        Dok znaleziony = dokDAO.findDokMC("AMO", wpisView.getPodatnikObiekt(), String.valueOf(amodokPoprzedni.getAmodokPK().getRok()), Mce.getNumberToMiesiac().get(amodokPoprzedni.getAmodokPK().getMc()));
-                        double umorzeniepoprzedni = SrodkiTrwBean.sumujumorzenia(amodokPoprzedni.getPlanumorzen());
-                        if (znaleziony instanceof Dok && znaleziony.getNetto() == umorzeniepoprzedni) {
-                            amodokPoprzedni.setZaksiegowane(true);
-                            amoDokDAO.edit(amodokPoprzedni);
-                        } else {
-                            throw new Exception();
-                        }
-                    }
-                }
-            } catch (Exception e) {
-                E.e(e);
-                Msg.msg("e", "Wystąpił błąd. Nie ma zaksięgowanego odpisu w poprzednim miesiącu, a jest dokument umorzeniowy za ten okres!");
-                return;
-            }
+            //ponizsze raczej nie ma sensu
+//            try {
+//                if (amodokPoprzedni != null) {
+//                    if (amodokPoprzedni.getZaksiegowane() != true && amodokPoprzedni.getUmorzenia().size() > 0) {
+//                        //szukamy w dokumentach a nuz jest. jak jest to naprawiam ze nie naniesiono ze zaksiegowany
+//                        Dok znaleziony = dokDAO.findDokMC("AMO", wpisView.getPodatnikObiekt(), String.valueOf(amodokPoprzedni.getAmodokPK().getRok()), Mce.getNumberToMiesiac().get(amodokPoprzedni.getAmodokPK().getMc()));
+//                        double umorzeniepoprzedni = SrodkiTrwBean.sumujumorzenia(amodokPoprzedni.getPlanumorzen());
+//                        if (znaleziony instanceof Dok && znaleziony.getNetto() == umorzeniepoprzedni) {
+//                            amodokPoprzedni.setZaksiegowane(true);
+//                            amoDokDAO.edit(amodokPoprzedni);
+//                        } else {
+//                            throw new Exception();
+//                        }
+//                    }
+//                }
+//            } catch (Exception e) {
+//                E.e(e);
+//                Msg.msg("e", "Wystąpił błąd. Nie ma zaksięgowanego odpisu w poprzednim miesiącu, a jest dokument umorzeniowy za ten okres!");
+//                return;
+//            }
             try {
                 selDokument.setEwidencjaVAT1(null);
                 HttpServletRequest request;

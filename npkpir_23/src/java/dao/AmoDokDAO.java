@@ -96,7 +96,13 @@ public class AmoDokDAO extends DAO implements Serializable {
     }
 
     public Amodok amodokBiezacy(String podatnik, String mc, Integer rok){
-        return (Amodok)  getEntityManager().createNamedQuery("Amodok.findByPodatnikMcRok").setParameter("podatnik", podatnik).setParameter("mc", Mce.getMiesiacToNumber().get(mc)).setParameter("rok", rok).getSingleResult();
+        Amodok zwrot= null;
+        try {
+            zwrot = (Amodok)  getEntityManager().createNamedQuery("Amodok.findByPodatnikMcRok").setParameter("podatnik", podatnik).setParameter("mc", Mce.getMiesiacToNumber().get(mc)).setParameter("rok", rok).getSingleResult();
+        } catch (Exception e) {
+            
+        }
+        return zwrot;
     }
 }
 
