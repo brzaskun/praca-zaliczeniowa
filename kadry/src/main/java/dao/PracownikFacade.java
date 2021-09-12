@@ -45,7 +45,11 @@ public class PracownikFacade extends DAO  implements Serializable {
     
 
     public Pracownik findByPesel(String pesel) {
-        return (Pracownik) getEntityManager().createNamedQuery("Pracownik.findByPesel").setParameter("pesel", pesel).getSingleResult();
+        Pracownik zwrot = null;
+        try {
+            zwrot = (Pracownik) getEntityManager().createNamedQuery("Pracownik.findByPesel").setParameter("pesel", pesel).getSingleResult();
+        } catch (Exception e){}
+        return zwrot;
     }
 
     

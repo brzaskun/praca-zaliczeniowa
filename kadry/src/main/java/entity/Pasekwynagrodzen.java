@@ -25,7 +25,6 @@ import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import kadryiplace.Place;
-import kadryiplace.PlaceSkl;
 import z.Z;
 
 /**
@@ -178,28 +177,29 @@ public class Pasekwynagrodzen implements Serializable {
     }
 
     public Pasekwynagrodzen(Place r) {
-        List<PlaceSkl> placeSklList = r.getPlaceSklList();
-        if (placeSklList!=null && !placeSklList.isEmpty()) {
-            for (PlaceSkl p: placeSklList) {
-                String doch = String.valueOf(p.getSklWksSerial().getWksPodDoch());
-                String zus = String.valueOf(p.getSklWksSerial().getWksZus());
-                if (doch.equals("N")&&zus.equals("N")) {
-                    this.bruttobezzusbezpodatek = Z.z(this.bruttobezzusbezpodatek+p.getSklKwota().doubleValue());
-                } else if (zus.equals("N")) {
-                    this.bruttobezzus = Z.z(this.bruttobezzus+p.getSklKwota().doubleValue());
-                } else {
-                    this.bruttozus = Z.z(this.bruttozus+p.getSklKwota().doubleValue());
-                }
-            }
-        } else {
+//        List<PlaceSkl> placeSklList = r.getPlaceSklList();
+//        if (placeSklList!=null && !placeSklList.isEmpty()) {
+//            for (PlaceSkl p: placeSklList) {
+//                String doch = String.valueOf(p.getSklWksSerial().getWksPodDoch());
+//                String zus = String.valueOf(p.getSklWksSerial().getWksZus());
+//                if (doch.equals("N")&&zus.equals("N")) {
+//                    this.bruttobezzusbezpodatek = Z.z(this.bruttobezzusbezpodatek+p.getSklKwota().doubleValue());
+//                } else if (zus.equals("N")) {
+//                    this.bruttobezzus = Z.z(this.bruttobezzus+p.getSklKwota().doubleValue());
+//                } else {
+//                    this.bruttozus = Z.z(this.bruttozus+p.getSklKwota().doubleValue());
+//                }
+//            }
+//        } else {
             if (r.getLplZusEmer().equals('T')) {
                 this.bruttozus = Z.z(r.getLplPdstZus().doubleValue());
-            } else if (r.getLplPodDoch().equals('T')) {
-                this.bruttobezzus = Z.z(r.getLplPrzychOpod().doubleValue());
+            }
+            if (r.getLplPodDoch().equals('T')) {
+                this.bruttobezzus = Z.z(r.getLplNiezd().doubleValue());
             } else {
                 this.bruttobezzusbezpodatek =  Z.z(r.getLplPrzychOpod().doubleValue());
             }
-        }
+//        }
         this.brutto = this.bruttobezzus+this.bruttozus+this.bruttobezzusbezpodatek;
         this.fgsp = r.getLplFgspPrac().doubleValue();
         this.fp = r.getLplFpPrac().doubleValue();
@@ -294,8 +294,10 @@ public class Pasekwynagrodzen implements Serializable {
 
     @Override
     public String toString() {
-        return "Pasekwynagrodzen{" + "kalendarzmiesiac=" + kalendarzmiesiac.getNazwiskoImie() + '}';
+        return "Pasekwynagrodzen{" + "brutto=" + brutto + ", bruttobezzus=" + bruttobezzus + ", bruttozus=" + bruttozus + ", bruttobezzusbezpodatek=" + bruttobezzusbezpodatek + ", kosztyuzyskania=" + kosztyuzyskania + ", procentkosztow=" + procentkosztow + ", kwotawolna=" + kwotawolna + ", netto=" + netto + ", rok=" + rok + ", mc=" + mc + '}';
     }
+
+   
 
     
     

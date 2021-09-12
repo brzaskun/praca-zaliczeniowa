@@ -148,7 +148,7 @@
         </p:outputPanel>
         <p:outputPanel>
             <h:form id="UmowaListForm">
-                <p:panel header="Wykaz umów #{umowaView.rodzajumowy eq '1' ?'o pracę':'zlecenia i o dzieło'}">
+                <p:panel header="Wykaz umów #{umowaView.rodzajumowy eq '1' ?'o pracę':'zlecenia i o dzieło'} / Gdy jest pusta sprawdź w parametrach przyporządkowanie kodu do umowy">
                     <p:dataTable id="datalist" value="#{umowaView.lista}" var="itemumowa" widgetVar="dataListumowa"
                                  selectionMode="single" selection="#{umowaView.selectedlista}"
                                  rowKey="#{itemumowa.id}" sortBy="#{itemumowa.dataod}" sortOrder="descending"

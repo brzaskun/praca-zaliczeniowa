@@ -128,6 +128,8 @@ import javax.xml.bind.annotation.XmlTransient;
 public class OsobaPropTyp implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    //1 pracownik
+    //4 zleceniobiorca
     @Id
     @Basic(optional = false)
     @NotNull

@@ -12,7 +12,7 @@
                 <h:form id="RodzajUmowyForm">
                     <p:dataTable id="datalist" value="#{rodzjaumowySetView.lista}" var="item111"
                                  selectionMode="single" selection="#{rodzjaumowySetView.selectedlista}"
-                                 rowKey="#{item111.id}" rowIndexVar="indexumowa"
+                                 rowKey="#{item111.id}" rowIndexVar="indexumowa" sortBy="#{item111.kod}"
                                  style="height: 400px; overflow-y: scroll; width: 1200px;"
                                  >
 
