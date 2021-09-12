@@ -6,7 +6,6 @@
 package viewsuperplace;
 
 import DAOsuperplace.OsobaFacade;
-import DAOsuperplace.OsobaZlecFacade;
 import dao.AngazFacade;
 import dao.DefinicjalistaplacFacade;
 import dao.EtatPracFacade;
@@ -15,6 +14,7 @@ import dao.KalendarzwzorFacade;
 import dao.NieobecnosckodzusFacade;
 import dao.PasekwynagrodzenFacade;
 import dao.PracownikFacade;
+import dao.RachunekdoumowyzleceniaFacade;
 import dao.RodzajwynagrodzeniaFacade;
 import dao.SkladnikWynagrodzeniaFacade;
 import dao.SlownikszkolazatrhistoriaFacade;
@@ -32,6 +32,7 @@ import entity.Kalendarzmiesiac;
 import entity.Nieobecnosc;
 import entity.Pasekwynagrodzen;
 import entity.Pracownik;
+import entity.Rachunekdoumowyzlecenia;
 import entity.Rodzajwynagrodzenia;
 import entity.Slownikszkolazatrhistoria;
 import entity.Slownikwypowiedzenieumowy;
@@ -100,7 +101,8 @@ public class OsobaView implements Serializable {
     @Inject
     private NieobecnosckodzusFacade nieobecnosckodzusFacade;
     @Inject
-    private OsobaZlecFacade osobaZlecFacade;
+    private RachunekdoumowyzleceniaFacade rachunekdoumowyzleceniaFacade;
+    
     
     private String serial;
     
@@ -133,13 +135,12 @@ public class OsobaView implements Serializable {
                 List<Slownikwypowiedzenieumowy> rodzajewypowiedzenia = slownikwypowiedzenieumowyFacade.findAll();
                 //tu pobieramy umowy o pracę
                 Umowakodzus umowakodzus = umowakodzusFacade.findUmowakodzusById(1);
-                List<Umowa> umowy = new ArrayList<>();
                 Umowa aktywna = null;
                 if (osoba.getOsoTyp().equals('P')) {
-                    umowy = OsobaBean.pobierzumowy(osoba, angaz, rodzajezatr, rodzajewypowiedzenia, umowakodzus);
-                    umowaFacade.createList(umowy);
+                    List<Umowa> umowyoprace = OsobaBean.pobierzumowy(osoba, angaz, rodzajezatr, rodzajewypowiedzenia, umowakodzus);
+                    umowaFacade.createList(umowyoprace);
                     Msg.msg("Zachowano umowy");
-                    aktywna = umowy.stream().filter(p -> p.isAktywna()).findFirst().get();
+                    aktywna = umowyoprace.stream().filter(p -> p.isAktywna()).findFirst().get();
                     wpisView.setUmowa(aktywna);
                     List<Stanowiskoprac> stanowiska = OsobaBean.pobierzstanowiska(osoba, aktywna);
                     stanowiskopracFacade.createList(stanowiska);
@@ -151,42 +152,63 @@ public class OsobaView implements Serializable {
                     OsobaBean.pobierzskladnikwynagrodzenia(skladniki, rodzajewynagrodzenia, aktywna, skladnikWynagrodzeniaFacade, zmiennaWynagrodzeniaFacade);
                     Msg.msg("Uzupełniono zmienne dotyczące wynagrodzeń");
                 }
+                //pobieranie umow zlecenia
                 umowakodzus = umowakodzusFacade.findUmowakodzusById(135);
-                List<OsobaZlec> listaumow = osobaZlecFacade.findByOzlOsoSerial(serial);
-                umowy = OsobaBean.pobierzumowyzlecenia(listaumow, angaz, umowakodzus);
-                umowaFacade.createList(umowy);
+                List<OsobaZlec> listaumow = osoba.getOsobaZlecList();
+                List<Umowa> umowyzlecenia = OsobaBean.pobierzumowyzlecenia(listaumow, angaz, umowakodzus);
+                umowaFacade.createList(umowyzlecenia);
                 Msg.msg("Pobrano umowy zlecenia");
                 if (osoba.getOsoTyp().equals('O')) {
-                    aktywna = umowy.stream().filter(p -> p.isAktywna()).findFirst().get();
+                    aktywna = umowyzlecenia.stream().filter(p -> p.isAktywna()).findFirst().get();
                     wpisView.setUmowa(aktywna);
                 }
-                String rokdlakalendarza = "2020";
-                 //paski rok 2020
-                List<Kalendarzmiesiac> generujKalendarzNowaUmowa = OsobaBean.generujKalendarzNowaUmowa(angaz, pracownik, aktywna, kalendarzmiesiacFacade, kalendarzwzorFacade, rokdlakalendarza);
-                kalendarzmiesiacFacade.createList(generujKalendarzNowaUmowa);
-                List<Rok> rokList = osoba.getOsoFirSerial().getRokList();
-                Rok rok = pobierzrok(rokdlakalendarza, rokList);
-                List<Okres> okresList = pobierzokresy(1, rok.getOkresList());
-                List<Pasekwynagrodzen> paski = OsobaBean.zrobpaski(wpisView, osoba, okresList);
-                List<Definicjalistaplac> listyplac = definicjalistaplacFacade.findByFirmaRok(wpisView.getFirma(), rokdlakalendarza);
-                List<Kalendarzmiesiac> kalendarze = kalendarzmiesiacFacade.findByRokUmowa(aktywna, rokdlakalendarza);
-                List<Pasekwynagrodzen> paskigotowe = OsobaBean.przyporzadkuj(paski, listyplac, kalendarze);
-                pasekwynagrodzenFacade.createList(paskigotowe);
-                Msg.msg("Zrobiono kalendarz i paski za 2020");
-                //koniec paski 2021
-                rokdlakalendarza = "2021";
-                //paski rok 2021
-                generujKalendarzNowaUmowa = OsobaBean.generujKalendarzNowaUmowa(angaz, pracownik, aktywna, kalendarzmiesiacFacade, kalendarzwzorFacade, rokdlakalendarza);
-                kalendarzmiesiacFacade.createList(generujKalendarzNowaUmowa);
-                rok = pobierzrok(rokdlakalendarza, rokList);
-                okresList = pobierzokresy(1, rok.getOkresList());
-                paski = OsobaBean.zrobpaski(wpisView, osoba, okresList);
-                listyplac = definicjalistaplacFacade.findByFirmaRok(wpisView.getFirma(), rokdlakalendarza);
-                kalendarze = kalendarzmiesiacFacade.findByRokUmowa(aktywna, rokdlakalendarza);
-                paskigotowe = OsobaBean.przyporzadkuj(paski, listyplac, kalendarze);
-                pasekwynagrodzenFacade.createList(paskigotowe);
-                Msg.msg("Zrobiono kalendarz i paski za 2021");
-                //koniec paski 2021
+                if (osoba.getOsoTyp().equals('P')) {
+                    String rokdlakalendarza = "2020";
+                     //paski rok 2020 umowa o pracę
+                    List<Kalendarzmiesiac> generujKalendarzNowaUmowa = OsobaBean.generujKalendarzNowaUmowa(angaz, pracownik, aktywna, kalendarzmiesiacFacade, kalendarzwzorFacade, rokdlakalendarza);
+                    kalendarzmiesiacFacade.createList(generujKalendarzNowaUmowa);
+                    List<Rok> rokList = osoba.getOsoFirSerial().getRokList();
+                    Rok rok = pobierzrok(rokdlakalendarza, rokList);
+                    List<Okres> okresList = pobierzokresySuperplace(1, rok.getOkresList());
+                    List<Pasekwynagrodzen> paskiumowaoprace = OsobaBean.zrobpaskiimportUmowaopraceizlecenia(wpisView, osoba, okresList, false);
+                    List<Definicjalistaplac> listyumowaoprace = definicjalistaplacFacade.findByFirmaRokUmowaoprace(wpisView.getFirma(), rokdlakalendarza);
+                    List<Kalendarzmiesiac> kalendarze = kalendarzmiesiacFacade.findByRokUmowa(aktywna, rokdlakalendarza);
+                    List<Pasekwynagrodzen> paskigotowe = OsobaBean.dodajlisteikalendarzdopaska(paskiumowaoprace, listyumowaoprace, kalendarze);
+                    pasekwynagrodzenFacade.createList(paskigotowe);
+                    Msg.msg("Zrobiono kalendarz i paski za 2020 umowa o pracę");
+                    //koniec paski 2021 umowa o pracę
+                    rokdlakalendarza = "2021";
+                    //paski rok 2021 umowa o pracę
+                    generujKalendarzNowaUmowa = OsobaBean.generujKalendarzNowaUmowa(angaz, pracownik, aktywna, kalendarzmiesiacFacade, kalendarzwzorFacade, rokdlakalendarza);
+                    kalendarzmiesiacFacade.createList(generujKalendarzNowaUmowa);
+                    rok = pobierzrok(rokdlakalendarza, rokList);
+                    okresList = pobierzokresySuperplace(1, rok.getOkresList());
+                    paskiumowaoprace = OsobaBean.zrobpaskiimportUmowaopraceizlecenia(wpisView, osoba, okresList, false);
+                    listyumowaoprace = definicjalistaplacFacade.findByFirmaRokUmowaoprace(wpisView.getFirma(), rokdlakalendarza);
+                    kalendarze = kalendarzmiesiacFacade.findByRokUmowa(aktywna, rokdlakalendarza);
+                    paskigotowe = OsobaBean.dodajlisteikalendarzdopaska(paskiumowaoprace, listyumowaoprace, kalendarze);
+                    pasekwynagrodzenFacade.createList(paskigotowe);
+                    Msg.msg("Zrobiono kalendarz i paski za 2021 umowa o pracę");
+                    //koniec paski 2021 umowa o pracę
+                }
+                
+                    String rokdlakalendarza = "2020";
+                     //paski rok 2020 umowa zlecenia
+                    List<Kalendarzmiesiac> generujKalendarzNowaUmowa = OsobaBean.generujKalendarzNowaUmowa(angaz, pracownik, aktywna, kalendarzmiesiacFacade, kalendarzwzorFacade, rokdlakalendarza);
+                    kalendarzmiesiacFacade.createList(generujKalendarzNowaUmowa);
+                    List<Rok> rokList = osoba.getOsoFirSerial().getRokList();
+                    Rok rok = pobierzrok(rokdlakalendarza, rokList);
+                    List<Okres> okresList = pobierzokresySuperplace(1, rok.getOkresList());
+                    List<Rachunekdoumowyzlecenia> rachunki = OsobaBean.zrobrachunkidozlecenia(wpisView, osoba);
+                    rachunekdoumowyzleceniaFacade.createList(rachunki);
+                    Msg.msg("Zrobiono rachunki do zleceń za 2020");
+                    List<Pasekwynagrodzen> paskiumowazlecenia = OsobaBean.zrobpaskiimportUmowaopraceizlecenia(wpisView, osoba, okresList, true);
+                    List<Definicjalistaplac> listyumowazlecenia = definicjalistaplacFacade.findByFirmaRokUmowazlecenia(wpisView.getFirma(), rokdlakalendarza);
+                    List<Kalendarzmiesiac> kalendarze = kalendarzmiesiacFacade.findByRokUmowa(aktywna, rokdlakalendarza);
+                    List<Pasekwynagrodzen> paskigotowe = OsobaBean.dodajlisteikalendarzdopaska(paskiumowazlecenia, listyumowazlecenia, kalendarze);
+                    pasekwynagrodzenFacade.createList(paskigotowe);
+                    Msg.msg("Zrobiono kalendarz i paski za 2020 umowa zlecenia");
+                
                 List<Nieobecnosc> nieobecnosci = OsobaBean.pobierznieobecnosci(osoba, aktywna);
                 for (Nieobecnosc p : nieobecnosci) {
                     p.setImportowana(true);
@@ -197,7 +219,11 @@ public class OsobaView implements Serializable {
                     if (p.getKodzwolnienia().length() < 3) {
                         p.setNieobecnosckodzus(nieobecnosckodzusFacade.findByOpis(p.getOpis()));
                     } else {
-                        p.setNieobecnosckodzus(nieobecnosckodzusFacade.findByKod(p.getKodzwolnienia()));
+                        try {
+                            p.setNieobecnosckodzus(nieobecnosckodzusFacade.findByKod(p.getKodzwolnienia()));
+                        } catch (Exception e) {
+                            p.setNieobecnosckodzus(nieobecnosckodzusFacade.findByOpis(p.getOpis()));
+                        }
                     }
                 }
                 nieobecnosckodzusFacade.createList(nieobecnosci);
@@ -302,7 +328,7 @@ public class OsobaView implements Serializable {
         return zwrot;
     }
 
-    private List<Okres> pobierzokresy(int mcWpisu, List<Okres> okresList) {
+    private List<Okres> pobierzokresySuperplace(int mcWpisu, List<Okres> okresList) {
         List<Okres> zwrot = new ArrayList<>();
         for (Okres o : okresList) {
             if (o.getOkrMieNumer()>=mcWpisu) {

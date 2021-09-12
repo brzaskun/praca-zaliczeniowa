@@ -83,8 +83,8 @@ public class FirmaView  implements Serializable {
             Msg.msg("Dodano nowego użytkownika");
             globalnie("2020");
             globalnie("2021");
-            listyplac("2020");
-            listyplac("2021");
+            listywszystkie("2020");
+            listywszystkie("2021");
           } catch (Exception e) {
               System.out.println("");
               Msg.msg("e", "Błąd - nie dodano nowej firmy");
@@ -117,7 +117,7 @@ public class FirmaView  implements Serializable {
         }
     }
     
-    public void listyplac(String rok) {
+    public void listywszystkie(String rok) {
         if (rok!=null&&wpisView.getFirma()!=null) {
             FirmaKadry firmaglobalna = firmaFacade.findByNIP("8511005008");
             List<Definicjalistaplac> lista = definicjalistaplacFacade.findByFirmaRok(firmaglobalna, rok);

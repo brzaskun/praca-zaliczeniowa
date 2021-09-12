@@ -47,16 +47,25 @@
                     </p:panelGrid>
                     <p:commandButton styleClass="buttonnorm" actionListener="#{definicjalistaplacView.edytuj}" value="#{bundle.Edit}" update="display,:DefinicjalistaplacListForm:datalist DefinicjalistaplacgenerujForm" rendered="#{definicjalistaplacView.selected.id ne null}"/>
                     <p:commandButton styleClass="buttonnorm" actionListener="#{definicjalistaplacView.create}" value="#{bundle.Save}" update="display,:DefinicjalistaplacListForm:datalist DefinicjalistaplacgenerujForm" rendered="#{definicjalistaplacView.selected.id eq null}" />
+                    <p:commandButton styleClass="buttonnorm" actionListener="#{definicjalistaplacView.reset}" value="#{bundle.Reset}" style="margin-left: 20px;" update="display,:DefinicjalistaplacListForm:datalist DefinicjalistaplacgenerujForm" rendered="#{definicjalistaplacView.selected.id ne null}" />
                 </h:panelGroup>
             </h:form>
         </p:outputPanel>
-        <p:outputPanel style="height: 50px">
+        <p:outputPanel style="height: 30px">
             <h:form id="DefinicjalistaplacgenerujForm">
                 <p:commandButton styleClass="buttonnorm" actionListener="#{definicjalistaplacView.createrok}" value="generuj rok" update="display,:DefinicjalistaplacListForm:datalist" rendered="#{definicjalistaplacView.lista.size() gt 0}" />
             </h:form>
         </p:outputPanel>
         <p:outputPanel>
             <h:form id="DefinicjalistaplacListForm">
+                <p:selectOneMenu id="firma" value="#{definicjalistaplacView.wybranyrodzajlisty}" required="true" requiredMessage="Wybierz rodzaj listy płac"
+                                 style="margin-left: 700px;padding: 10px;" converter="#{rodzjalistyplacConverter}">
+                    <p:ajax event="change" listener="#{definicjalistaplacView.init()}" update="DefinicjalistaplacListForm:datalist" partialSubmit="true"/>
+                            <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
+                            <f:selectItems value="#{definicjalistaplacView.listarodzajlistyplac}"
+                                           var="firmalistaItem"
+                                           itemValue="#{firmalistaItem}" itemLabel="#{firmalistaItem.nazwa}"/>
+                </p:selectOneMenu>
                 <p:panel header="Definicje listy płac">
                     <p:dataTable id="datalist" value="#{definicjalistaplacView.lista}" var="itemdeflisty"
                                  selectionMode="single" selection="#{definicjalistaplacView.selectedlista}"

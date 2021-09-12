@@ -22,6 +22,7 @@ import entity.Kalendarzwzor;
 import entity.Nieobecnosc;
 import entity.Pasekwynagrodzen;
 import entity.Pracownik;
+import entity.Rachunekdoumowyzlecenia;
 import entity.Rodzajwynagrodzenia;
 import entity.Skladnikwynagrodzenia;
 import entity.Slownikszkolazatrhistoria;
@@ -39,6 +40,7 @@ import kadryiplace.OsobaPrz;
 import kadryiplace.OsobaSkl;
 import kadryiplace.OsobaZlec;
 import kadryiplace.Place;
+import kadryiplace.PlaceZlec;
 import kadryiplace.StSystOpis;
 import kadryiplace.StSystWart;
 import kadryiplace.StanHist;
@@ -312,26 +314,57 @@ public class OsobaBean {
         }
     }
 
-    static List<Pasekwynagrodzen> zrobpaski(WpisView wpisView, Osoba osoba, List<Okres> okresList) {
+    static List<Pasekwynagrodzen> zrobpaskiimportUmowaopraceizlecenia(WpisView wpisView, Osoba osoba, List<Okres> okresList, boolean umowaoprace0zlecenia1) {
         List<Pasekwynagrodzen> zwrot = new ArrayList<>();
         List<Place> placeList = osoba.getPlaceList();
         for (Place r : placeList) {
             try {
-                if (okresList.contains(r.getLplOkrSerial())) {
-                    Pasekwynagrodzen nowypasek = new Pasekwynagrodzen(r);
-                    String rok = String.valueOf(r.getLplOkrSerial().getOkrRokSerial().getRokNumer());
-                    String mc = Mce.getNumberToMiesiac().get(Integer.valueOf(r.getLplOkrSerial().getOkrMieNumer()));
-                    nowypasek.setRok(rok);
-                    nowypasek.setMc(mc);
-                    nowypasek.setImportowany(true);
-                    zwrot.add(nowypasek);
+                if (umowaoprace0zlecenia1) {
+                    if (okresList.contains(r.getLplOkrSerial())&&r.getLplKodTytU12().startsWith("04")) {
+                        Pasekwynagrodzen nowypasek = new Pasekwynagrodzen(r);
+                        String rok = String.valueOf(r.getLplOkrSerial().getOkrRokSerial().getRokNumer());
+                        String mc = Mce.getNumberToMiesiac().get(Integer.valueOf(r.getLplOkrSerial().getOkrMieNumer()));
+                        nowypasek.setRok(rok);
+                        nowypasek.setMc(mc);
+                        nowypasek.setImportowany(true);
+                        zwrot.add(nowypasek);
+                    }
+                } else {
+                    if (okresList.contains(r.getLplOkrSerial())&&!r.getLplKodTytU12().startsWith("04")) {
+                        Pasekwynagrodzen nowypasek = new Pasekwynagrodzen(r);
+                        String rok = String.valueOf(r.getLplOkrSerial().getOkrRokSerial().getRokNumer());
+                        String mc = Mce.getNumberToMiesiac().get(Integer.valueOf(r.getLplOkrSerial().getOkrMieNumer()));
+                        nowypasek.setRok(rok);
+                        nowypasek.setMc(mc);
+                        nowypasek.setImportowany(true);
+                        zwrot.add(nowypasek);
+                    }
                 }
             } catch (Exception e){}
         }
         return zwrot;
     }
+    
+     static List<Rachunekdoumowyzlecenia> zrobrachunkidozlecenia(WpisView wpisView, Osoba osoba) {
+        List<Rachunekdoumowyzlecenia> zwrot = new ArrayList<>();
+        List<PlaceZlec> placeList = osoba.getPlaceZlecList();
+        for (PlaceZlec r : placeList) {
+            try {
+                Rachunekdoumowyzlecenia nowypasek = new Rachunekdoumowyzlecenia(r);
+                nowypasek.setUmowa(wpisView.getUmowa());
+                String rok = String.valueOf(r.getPzlOkrSerial().getOkrRokSerial().getRokNumer());
+                String mc = Mce.getNumberToMiesiac().get(Integer.valueOf(r.getPzlOkrSerial().getOkrMieNumer()));
+                nowypasek.setRok(rok);
+                nowypasek.setMc(mc);
+                nowypasek.setImportowany(true);
+                zwrot.add(nowypasek);
+            } catch (Exception e){}
+        }
+        return zwrot;
+    }
+   
 
-    static List<Pasekwynagrodzen> przyporzadkuj(List<Pasekwynagrodzen> paski, List<Definicjalistaplac> listyplac, List<Kalendarzmiesiac> kalendarze) {
+    static List<Pasekwynagrodzen> dodajlisteikalendarzdopaska(List<Pasekwynagrodzen> paski, List<Definicjalistaplac> listyplac, List<Kalendarzmiesiac> kalendarze) {
         for (Pasekwynagrodzen p : paski) {
             for (Definicjalistaplac r : listyplac) {
                 if (r.getRok().equals(p.getRok())&&r.getMc().equals(p.getMc())) {
@@ -364,6 +397,8 @@ public class OsobaBean {
         }
         return zwrot;
     }
+
+  
 
     
     

@@ -44,10 +44,18 @@ public class DefinicjalistaplacView  implements Serializable {
     private FirmaFacade firmaFacade;
     @Inject
     private WpisView wpisView;
+    private Rodzajlistyplac wybranyrodzajlisty;
     
     @PostConstruct
     public void init() {
         lista  = definicjalistaplacFacade.findByFirmaRok(wpisView.getFirma(), wpisView.getRokWpisu());
+        if (wybranyrodzajlisty!=null) {
+            if (wybranyrodzajlisty.getTyp()==1) {
+                lista = definicjalistaplacFacade.findByFirmaRokUmowaoprace(wpisView.getFirma(), wpisView.getRokWpisu());
+            } else {
+                lista = definicjalistaplacFacade.findByFirmaRokUmowazlecenia(wpisView.getFirma(), wpisView.getRokWpisu());
+            }
+        }
         listafirm = firmaFacade.findAll();
         listarodzajlistyplac = rodzajlistyplacFacade.findAll();
         selected.setOpis("wynagrodzenie kraj");
@@ -67,6 +75,17 @@ public class DefinicjalistaplacView  implements Serializable {
       }
     }
     
+    public void reset() {
+      if (selected!=null) {
+          try {
+            selected = new Definicjalistaplac();
+            Msg.msg("Reset");
+          } catch (Exception e) {
+              Msg.msg("e", "Błąd resetu");
+          }
+      }
+    }
+    
     public void createrok() {
         if (lista!=null && lista.size()==1) {
             Definicjalistaplac sel = lista.get(0);
@@ -75,12 +94,12 @@ public class DefinicjalistaplacView  implements Serializable {
                     selected = new Definicjalistaplac();
                     String rok = Data.getRok(sel.getDatasporzadzenia());
                     String mc = Data.getMc(sel.getDatasporzadzenia());
-                    String dzien = Data.getDzien(sel.getDatasporzadzenia());
                     String[] zwiekszone = Mce.zwiekszmiesiac(rok, mc);
                     rok = zwiekszone[0];
                     mc = zwiekszone[1];
+                    String nowadata = Data.ostatniDzien(rok, mc);
                     String lewaczesc = rok+"-"+mc+"-";
-                    selected.setDatasporzadzenia(lewaczesc+dzien);
+                    selected.setDatasporzadzenia(nowadata);
                     zwiekszone = Mce.zwiekszmiesiac(rok, mc);
                     String rokN = zwiekszone[0];
                     String mcN = zwiekszone[1];
@@ -92,14 +111,30 @@ public class DefinicjalistaplacView  implements Serializable {
                     selected.setOpis(sel.getOpis());
                     selected.setRok(rok);
                     selected.setFirma(wpisView.getFirma());
-                    selected.setNrkolejny(rok+"/"+mc);
+                    if (wybranyrodzajlisty.getTyp()==1) {
+                        selected.setNrkolejny(rok+"/"+mc);
+                    } else if (wybranyrodzajlisty.getTyp()==2) {
+                        selected.setNrkolejny(rok+"/"+mc+"/ZL");
+                    } else if (wybranyrodzajlisty.getTyp()==3) {
+                        selected.setNrkolejny(rok+"/"+mc+"/DZ");
+                    } else if (wybranyrodzajlisty.getTyp()==4) {
+                        selected.setNrkolejny(rok+"/"+mc+"/ZAS");
+                    } else if (wybranyrodzajlisty.getTyp()==5) {
+                        selected.setNrkolejny(rok+"/"+mc+"/IN");
+                    }
                     selected.setId(null);
                     definicjalistaplacFacade.create(selected);
                     sel = selected;
                 } catch (Exception e) {}
                 
             }
-            lista  = definicjalistaplacFacade.findByFirmaRok(wpisView.getFirma(), wpisView.getRokWpisu());
+            if (wybranyrodzajlisty != null) {
+                if (wybranyrodzajlisty.getTyp() == 1) {
+                    lista = definicjalistaplacFacade.findByFirmaRokUmowaoprace(wpisView.getFirma(), wpisView.getRokWpisu());
+                } else {
+                    lista = definicjalistaplacFacade.findByFirmaRokUmowazlecenia(wpisView.getFirma(), wpisView.getRokWpisu());
+                }
+            }
             Msg.msg("Wygenerowano listy na cały rok");  
             
         } else {
@@ -198,6 +233,14 @@ public class DefinicjalistaplacView  implements Serializable {
 
     public void setListarodzajlistyplac(List<Rodzajlistyplac> listarodzajlistyplac) {
         this.listarodzajlistyplac = listarodzajlistyplac;
+    }
+
+    public Rodzajlistyplac getWybranyrodzajlisty() {
+        return wybranyrodzajlisty;
+    }
+
+    public void setWybranyrodzajlisty(Rodzajlistyplac wybranyrodzajlisty) {
+        this.wybranyrodzajlisty = wybranyrodzajlisty;
     }
 
       

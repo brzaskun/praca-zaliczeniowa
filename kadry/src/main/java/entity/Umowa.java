@@ -168,6 +168,8 @@ public class Umowa implements Serializable {
     private String opiszawodu;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "umowa")
     private List<Urlopprezentacja> urlopprezentacjaList;
+     @OneToMany(cascade = CascadeType.ALL, mappedBy = "umowa")
+    private List<Rachunekdoumowyzlecenia> rachunekdoumowyzleceniaList;
 
     public Umowa() {
         this.etatList = new ArrayList<>();

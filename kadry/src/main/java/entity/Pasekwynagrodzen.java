@@ -160,7 +160,10 @@ public class Pasekwynagrodzen implements Serializable {
     private boolean importowany;
     @Column(name="wynagrodzenieminimalne")
     private double wynagrodzenieminimalne;
+    @OneToMany(mappedBy = "pasekwynagrodzen")
+    private List<Rachunekdoumowyzlecenia> rachunekdoumowyzleceniaList;
 
+    
     public Pasekwynagrodzen() {
         this.naliczeniepotracenieList = new ArrayList<>();
         this.naliczenieskladnikawynagrodzeniaList = new ArrayList<>();
@@ -176,7 +179,7 @@ public class Pasekwynagrodzen implements Serializable {
 
     public Pasekwynagrodzen(Place r) {
         List<PlaceSkl> placeSklList = r.getPlaceSklList();
-        if (placeSklList!=null) {
+        if (placeSklList!=null && !placeSklList.isEmpty()) {
             for (PlaceSkl p: placeSklList) {
                 String doch = String.valueOf(p.getSklWksSerial().getWksPodDoch());
                 String zus = String.valueOf(p.getSklWksSerial().getWksZus());
@@ -187,6 +190,14 @@ public class Pasekwynagrodzen implements Serializable {
                 } else {
                     this.bruttozus = Z.z(this.bruttozus+p.getSklKwota().doubleValue());
                 }
+            }
+        } else {
+            if (r.getLplZusEmer().equals('T')) {
+                this.bruttozus = Z.z(r.getLplPdstZus().doubleValue());
+            } else if (r.getLplPodDoch().equals('T')) {
+                this.bruttobezzus = Z.z(r.getLplPrzychOpod().doubleValue());
+            } else {
+                this.bruttobezzusbezpodatek =  Z.z(r.getLplPrzychOpod().doubleValue());
             }
         }
         this.brutto = this.bruttobezzus+this.bruttozus+this.bruttobezzusbezpodatek;
@@ -641,7 +652,14 @@ public class Pasekwynagrodzen implements Serializable {
         this.wynagrodzenieminimalne = wynagrodzenieminimalne;
     }
 
-  
+  @XmlTransient
+    public List<Rachunekdoumowyzlecenia> getRachunekdoumowyzleceniaList() {
+        return rachunekdoumowyzleceniaList;
+    }
+
+    public void setRachunekdoumowyzleceniaList(List<Rachunekdoumowyzlecenia> rachunekdoumowyzleceniaList) {
+        this.rachunekdoumowyzleceniaList = rachunekdoumowyzleceniaList;
+    }
 
     public List<Pasekwynagrodzen.Skladnikwynlista> getPobierzskladniki(){
         List<Pasekwynagrodzen.Skladnikwynlista> zwrot = new ArrayList<>();
@@ -715,7 +733,8 @@ public class Pasekwynagrodzen implements Serializable {
         public void setKwota(double kwota) {
             this.kwota = kwota;
         }
-
+    
+        
         @Override
         public int hashCode() {
             int hash = 5;
