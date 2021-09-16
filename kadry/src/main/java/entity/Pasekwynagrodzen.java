@@ -176,7 +176,7 @@ public class Pasekwynagrodzen implements Serializable {
         this.naliczenienieobecnoscList = new ArrayList<>();
     }
 
-    public Pasekwynagrodzen(Place r) {
+    public Pasekwynagrodzen(Place r, boolean po26roku) {
 //        List<PlaceSkl> placeSklList = r.getPlaceSklList();
 //        if (placeSklList!=null && !placeSklList.isEmpty()) {
 //            for (PlaceSkl p: placeSklList) {
@@ -195,9 +195,11 @@ public class Pasekwynagrodzen implements Serializable {
                 this.bruttozus = Z.z(r.getLplPdstZus().doubleValue());
             }
             if (r.getLplPodDoch().equals('T')) {
-                this.bruttobezzus = Z.z(r.getLplNiezd().doubleValue());
-            } else {
-                this.bruttobezzusbezpodatek =  Z.z(r.getLplPrzychOpod().doubleValue());
+                if (po26roku) {
+                    this.bruttobezzus = Z.z(r.getLplNiezd().doubleValue());
+                } else {
+                    this.bruttobezzusbezpodatek =  Z.z(r.getLplPrzychOpod().doubleValue());
+                }
             }
 //        }
         this.brutto = this.bruttobezzus+this.bruttozus+this.bruttobezzusbezpodatek;

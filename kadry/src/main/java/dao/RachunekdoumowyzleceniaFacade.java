@@ -5,7 +5,6 @@
  */
 package dao;
 
-import entity.Podatki;
 import entity.Rachunekdoumowyzlecenia;
 import entity.Umowa;
 import java.util.List;
@@ -44,7 +43,7 @@ public class RachunekdoumowyzleceniaFacade extends DAO  {
         super.em = em;
     }
 
-    public List<Podatki> findByRokUmowa(String rokWpisu, Umowa umowa) {
+    public List<Rachunekdoumowyzlecenia> findByRokUmowa(String rokWpisu, Umowa umowa) {
         return  getEntityManager().createNamedQuery("Rachunekdoumowyzlecenia.findByRokUmowa").setParameter("rok", rokWpisu).setParameter("umowa", umowa).getResultList();
     }
     

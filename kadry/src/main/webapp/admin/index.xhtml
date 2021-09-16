@@ -34,6 +34,7 @@
                                 <p:menuitem icon="fa fa-stack-overflow" value="kalendarz wzorcowy" style="width: 150px" onclick="PF('dialogkalendarzwzor').show()" async="true"/>
                             </p:submenu>
                             <p:submenu label="listy płac" style="width: 150px">
+                                <p:menuitem icon="fa fa-stack-overflow" value="rach. do um. zleceń" style="width: 150px" onclick="PF('dialograchunekzlecenia').show()" async="true"/>
                                 <p:menuitem icon="fa fa-stack-overflow" value="definicja listy" style="width: 150px" onclick="PF('dialoglistadefinicja').show()" async="true"/>
                                 <p:menuitem icon="fa fa-stack-overflow" value="lista płac" style="width: 150px" onclick="PF('dialoglistaplac').show()" async="true"/>
                                 <p:menuitem icon="fa fa-stack-overflow" value="karta wynagrodzeń" style="width: 150px" onclick="PF('dialogkartawynagrodzen').show()" async="true"/>
@@ -54,6 +55,7 @@
                      <ui:include src="sub/dialog/dialog_lista_plac.xhtml"/>
                      <ui:include src="sub/dialog/dialog_dra.xhtml"/>
                      <ui:include src="sub/dialog/dialog_karta_wynagrodzen.xhtml"/>
+                     <ui:include src="sub/dialog/dialog_rachunek_zlecenia.xhtml"/>
                      <ui:include src="sub/dialog/dialog_komornik.xhtml"/>
                      <h:form>
 <!--                         <p:commandButton value="uzupelnij kalendarze" styleClass="buttonnorm" actionListener="#{kalendarzwzorView.uzupelnijkalendarze()}" />-->

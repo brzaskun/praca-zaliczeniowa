@@ -1,0 +1,93 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+
+    xmlns:bcf="http://brzaskun.com/facelets">
+    <script>
+        var zmienwyglad = function(){
+            $('.czekpole.ui-chkbox div').removeClass('ui-state-disabled');
+        };
+    </script>
+    <p:dialog id="dialograchunekzlecenia" header="Karta wynagrodzeń" widgetVar="dialograchunekzlecenia"  
+              resizable="false"  onShow="ustawdialog('dialograchunekzlecenia','centertile',1650,800);zmienwyglad()" closeOnEscape="true" onHide="resetujdialog('dialograchunekzlecenia');" 
+              fitViewport="true">
+
+        <p:outputPanel>
+            <h:form id="RazchunekZleceniaForm">
+                <p:panel header="Rachunki do umów zleceń za rok #{wpisView.rokWpisu}"/>
+                <p:dataTable id="datalist" value="#{rachunkidoZlecenView.rachunekdoumowyzlecenialist}" var="itemrachunek"
+                             rowKey="#{itemrachunek.id}" sortBy="#{itemrachunek.mc}" rowIndexVar="indexkb"
+                             style="height: 450px; overflow-y: scroll;"
+                             >
+                    <p:column width="40" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="id"/>
+                        </f:facet>
+                        <h:outputText value="#{indexkb+1}"/>
+                    </p:column>
+                    <p:column width="40" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="mc"/>
+                        </f:facet>
+                        <h:outputText value="#{itemrachunek.mc}"/>
+                    </p:column>
+                    <p:column width="60" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="data wystawienia"/>
+                        </f:facet>
+                        <h:outputText value="#{itemrachunek.datawystawienia}"/>
+                    </p:column>
+                    <p:column width="60">
+                        <f:facet name="header">
+                            <h:outputText value="brutto."/>
+                        </f:facet>
+                        <bcf:outputpl value="#{itemrachunek.kwota}"/>
+                    </p:column>
+                    <p:column width="60">
+                        <f:facet name="header">
+                            <h:outputText value="koszt uzyskania"/>
+                        </f:facet>
+                        <bcf:outputpl value="#{itemrachunek.koszt}"/>
+                    </p:column>
+                    <p:column width="50" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="społeczne"/>
+                        </f:facet>
+                        <p:selectBooleanCheckbox value="#{itemrachunek.spoleczne}" disabled="true" styleClass="czekpole"/>
+                    </p:column>
+                    <p:column width="50" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="chorobowa"/>
+                        </f:facet>
+                        <p:selectBooleanCheckbox value="#{itemrachunek.chorobowa}" disabled="true" styleClass="czekpole"/>
+                    </p:column>
+                    <p:column width="50" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="zdrowotna"/>
+                        </f:facet>
+                        <p:selectBooleanCheckbox value="#{itemrachunek.zdrowotna}" disabled="true" styleClass="czekpole"/>
+                    </p:column>
+                    <p:column width="50" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="podatek"/>
+                        </f:facet>
+                        <p:selectBooleanCheckbox value="#{itemrachunek.podatek}"  disabled="true" styleClass="czekpole"/>
+                    </p:column>
+                     <p:column width="50" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="rozliczony"/>
+                        </f:facet>
+                         <h:outputText value="&#x2714;" rendered="#{itemrachunek.pasekwynagrodzen ne null}"/>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+        </p:outputPanel>
+        <p:outputPanel>
+            <p:commandButton value="drukuj" style="width: 120px;" actionListener="#{rachunkidoZlecenView.drukuj}"/>
+        </p:outputPanel>
+    </p:dialog>
+</ui:composition>
+

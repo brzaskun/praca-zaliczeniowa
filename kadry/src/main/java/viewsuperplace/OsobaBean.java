@@ -31,6 +31,7 @@ import entity.Stanowiskoprac;
 import entity.Umowa;
 import entity.Umowakodzus;
 import entity.Zmiennawynagrodzenia;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -314,16 +315,17 @@ public class OsobaBean {
         }
     }
 
-    static List<Pasekwynagrodzen> zrobpaskiimportUmowaopraceizlecenia(WpisView wpisView, Osoba osoba, List<Okres> okresList, boolean umowaoprace0zlecenia1) {
+    static List<Pasekwynagrodzen> zrobpaskiimportUmowaopraceizlecenia(WpisView wpisView, Osoba osoba, List<Okres> okresList, boolean umowaoprace0zlecenia1, String datakonca26lat) {
         List<Pasekwynagrodzen> zwrot = new ArrayList<>();
         List<Place> placeList = osoba.getPlaceList();
         for (Place r : placeList) {
             try {
                 if (umowaoprace0zlecenia1) {
                     if (okresList.contains(r.getLplOkrSerial())&&r.getLplKodTytU12().startsWith("04")) {
-                        Pasekwynagrodzen nowypasek = new Pasekwynagrodzen(r);
                         String rok = String.valueOf(r.getLplOkrSerial().getOkrRokSerial().getRokNumer());
                         String mc = Mce.getNumberToMiesiac().get(Integer.valueOf(r.getLplOkrSerial().getOkrMieNumer()));
+                        boolean bezpodatku = Data.czyjestpo(datakonca26lat, rok, mc);
+                        Pasekwynagrodzen nowypasek = new Pasekwynagrodzen(r, bezpodatku);
                         nowypasek.setRok(rok);
                         nowypasek.setMc(mc);
                         nowypasek.setImportowany(true);
@@ -331,9 +333,10 @@ public class OsobaBean {
                     }
                 } else {
                     if (okresList.contains(r.getLplOkrSerial())&&!r.getLplKodTytU12().startsWith("04")) {
-                        Pasekwynagrodzen nowypasek = new Pasekwynagrodzen(r);
                         String rok = String.valueOf(r.getLplOkrSerial().getOkrRokSerial().getRokNumer());
                         String mc = Mce.getNumberToMiesiac().get(Integer.valueOf(r.getLplOkrSerial().getOkrMieNumer()));
+                        boolean bezpodatku = Data.czyjestpo(datakonca26lat, rok, mc);
+                        Pasekwynagrodzen nowypasek = new Pasekwynagrodzen(r, bezpodatku);
                         nowypasek.setRok(rok);
                         nowypasek.setMc(mc);
                         nowypasek.setImportowany(true);
@@ -399,8 +402,18 @@ public class OsobaBean {
     }
 
   
+    public static String obliczdata26(String dataurodzenia) {
+        LocalDate date = LocalDate.parse(dataurodzenia);
+        LocalDate plusYears = date.plusYears(26);
+        return plusYears.toString();
+    }
 
-    
+    public static void main(String[] arg) {
+        String data = "1970-05-11";
+        System.out.println(obliczdata26(data));
+    }
+
+   
     
     
 }
