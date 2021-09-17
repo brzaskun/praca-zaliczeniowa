@@ -158,7 +158,7 @@
                                 <h:outputText value="email"/>
                             </f:facet>
                             <p:inputText value="#{itemAngaz.pracownik.email}" size="30">
-                                <p:ajax event="blur" partialSubmit="true" global="false" listener="#{angazView.zapiszmail(itemAngaz.pracownik)}"/>
+                                <p:ajax event="blur" partialSubmit="true"  listener="#{angazView.zapiszmail(itemAngaz.pracownik)}"/>
                             </p:inputText>
                         </p:column>
                         <p:column  width="40" style="text-align: center;">

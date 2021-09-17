@@ -71,7 +71,7 @@ public class PracownikDane2View  implements Serializable {
         if (selectedangaz!=null) {
             selected = selectedangaz.getPracownik();
             wpisView.setPracownik(selected);
-            Msg.msg("Pobrano dane");
+            Msg.msg("Pobrano dane pracownika");
         }
     }
     public Pracownik getSelected() {

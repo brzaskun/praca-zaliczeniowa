@@ -127,7 +127,7 @@
                                 itemValue="#{pracownikItem}" itemLabel="#{pracownikItem.pracownik.nazwiskoImie}"/>
                     <p:ajax event="change" partialSubmit="true" listener="#{historiaView.pobierzhistorie}" global="false" update="@form"/>
                 </p:selectOneMenu>
-                <p:panel header="Historia wynagrodzeń przed angażem">
+                <p:panel header="Historia wynagrodzeń przed angażem wprowadzanie ręczne">
                     <p:dataTable id="datalist" value="#{historiaView.listawynagrodzenhistoria}" var="item1"
                                  selectionMode="single" selection="#{historiaView.selectedlista}"
                                  rowIndexVar="index"

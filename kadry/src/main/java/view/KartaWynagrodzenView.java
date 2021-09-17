@@ -53,7 +53,7 @@ public class KartaWynagrodzenView  implements Serializable {
         if (wpisView.getAngaz()!=null) {
             kartawynagrodzenlist = pobierzkartywynagrodzen(wpisView.getAngaz(), wpisView.getRokWpisu());
             aktualizujdane(kartawynagrodzenlist, wpisView.getRokWpisu(), wpisView.getAngaz());
-            Msg.msg("Pobrano dane");
+            Msg.msg("Pobrano dane wynagrodzeń");
         }
     }
     

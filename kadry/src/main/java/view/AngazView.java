@@ -219,9 +219,13 @@ public class AngazView  implements Serializable {
             pracownikFacade.edit(pracownik);
             Msg.msg("Zaktualizowano email pracownika");
             Uz uzer = uzFacade.findUzByPesel(pracownik.getPesel());
-            uzer.setLogin(pracownik.getEmail());
-            uzer.setEmail(pracownik.getEmail());
-            uzFacade.edit(uzer);
+            if (uzer==null) {
+                Msg.msg("e","Pracownik nie ma swojego konta, nie będzie mógł się zalogować");
+            } else {
+                uzer.setLogin(pracownik.getEmail());
+                uzer.setEmail(pracownik.getEmail());
+                uzFacade.edit(uzer);
+            }
         }
     }
     

@@ -42,7 +42,7 @@ public class RachunkidoZlecenView  implements Serializable {
     public void pobierzdane() {
         if (wpisView.getAngaz()!=null) {
             rachunekdoumowyzlecenialist = rachunekdoumowyzleceniaFacade.findByRokUmowa(wpisView.getRokWpisu(), wpisView.getUmowa());
-            Msg.msg("Pobrano dane");
+            Msg.msg("Pobrano dane - rachunki");
         }
     }
     

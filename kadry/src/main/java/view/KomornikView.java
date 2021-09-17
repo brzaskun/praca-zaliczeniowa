@@ -50,7 +50,7 @@ public class KomornikView  implements Serializable {
     public void pobierzdane() {
         if (selected!=null) {
             potracenialist = pobierzpotracenia(selected);
-            Msg.msg("Pobrano dane");
+            Msg.msg("Pobrano dane potrąceń");
         }
     }
     
