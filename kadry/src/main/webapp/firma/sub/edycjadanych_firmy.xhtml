@@ -108,16 +108,21 @@
                         <p:outputLabel value="nr lokalu" for="lokal" />
                         <p:inputText id="lokal" value="#{firmaView.selectedlista.lokal}" title="lokal"/>
                         <p:outputLabel value="kod pocztowy" for="kod" />
-                        <p:inputText id="kod" value="#{firmaView.selectedlista.miasto}" title="kod pocztowy" required="true" requiredMessage="Wpisz kod pocztowy"/>
+                        <p:inputText id="kod" value="#{firmaView.selectedlista.kod}" title="kod pocztowy" required="true" requiredMessage="Wpisz kod pocztowy"/>
                         <p:outputLabel value="poczta" for="poczta" />
                         <p:inputText id="poczta" value="#{firmaView.selectedlista.poczta}" title="miasto" required="true" requiredMessage="Wpisz nazwę poczty"/>
+                    </p:panelGrid>
+                    <p:panel header="reprezentant"/>
+                    <p:panelGrid columns="2">
+                        <p:outputLabel value="imię nazwisko" for="rep" />
+                        <p:inputText id="rep" value="#{firmaView.selectedlista.reprezentant}" title="reprezentant" required="true" requiredMessage="Wpisz imię i nazwisko reprezentanta" size="49"/>
                     </p:panelGrid>
                     <p:panel header="dane kontaktowe"/>
                     <p:panelGrid columns="4">
                         <p:outputLabel value="telefon" for="tel" />
                         <p:inputText id="tel" value="#{firmaView.selectedlista.telefon}" title="telefon" required="true" requiredMessage="Wpisz nr telefonu" size="32"/>
                         <p:outputLabel value="adres email" for="email" />
-                        <p:inputText id="email" value="#{firmaView.selectedlista.email}" title="telefon" required="true" requiredMessage="Wpisz adres email" size="32"/>
+                        <p:inputText id="email" value="#{firmaView.selectedlista.email}" title="email" required="true" requiredMessage="Wpisz adres email" size="32"/>
                     </p:panelGrid>
                     <p:panel header="bank"/>
                     <p:panelGrid columns="4">

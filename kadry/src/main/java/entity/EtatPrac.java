@@ -137,6 +137,9 @@ public class EtatPrac implements Serializable {
         this.umowa = umowa;
     }
 
+    public String getEtat() {
+        return this.etat1+"/"+this.etat2;
+    }
     
 
     @Override

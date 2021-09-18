@@ -72,6 +72,22 @@ public class KalendarzmiesiacFacade  extends DAO implements Serializable {
         } catch (Exception e) {}
         return zwrot;
     }
+    
+    public List<Kalendarzmiesiac> findByFirmaRokMcPraca(FirmaKadry firma, String rok, String mc) {
+        List<Kalendarzmiesiac> zwrot = new ArrayList<>();
+        try {
+            zwrot = getEntityManager().createNamedQuery("Kalendarzmiesiac.findByFirmaRokMcPraca").setParameter("rok", rok).setParameter("mc", mc).setParameter("firma", firma).getResultList();
+        } catch (Exception e) {}
+        return zwrot;
+    }
+    
+    public List<Kalendarzmiesiac> findByFirmaRokMcZlecenie(FirmaKadry firma, String rok, String mc) {
+        List<Kalendarzmiesiac> zwrot = new ArrayList<>();
+        try {
+            zwrot = getEntityManager().createNamedQuery("Kalendarzmiesiac.findByFirmaRokMcZlecenie").setParameter("rok", rok).setParameter("mc", mc).setParameter("firma", firma).getResultList();
+        } catch (Exception e) {}
+        return zwrot;
+    }
 
    
 }

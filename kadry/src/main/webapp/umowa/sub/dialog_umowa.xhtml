@@ -6,7 +6,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
 
     xmlns:bcf="http://brzaskun.com/facelets">
-    <p:dialog id="dialogumowatresc" header="Wyliczanie listy płac" widgetVar="dialogumowatresc"  appendTo="@(body)"
+    <p:dialog id="dialogumowatresc" header="Podgląd umowy o pracę" widgetVar="dialogumowatresc"  appendTo="@(body)"
               resizable="false"  onShow="ustawdialog('dialogumowatresc','centertile',1650,800);" closeOnEscape="true" onHide="resetujdialog('dialogumowatresc');" 
               >
         <style>
@@ -15,10 +15,15 @@
                 padding: 5px 5px !important;
             }
         </style>
-        <p:outputPanel style="height: 580px">
+        <p:outputPanel style="height: 650px">
             <h:form id="UmowaTextCreateForm">
                 <p:panel header="TREŚĆ UMOWY O PRACĘ"/>
                 <p:panelGrid style="margin-top:20px;width: 800px;" styleClass="umowatresc">
+                     <p:row>
+                        <p:column colspan="6">
+                            <h:outputText value="UMOWA O PRACĘ"/>
+                        </p:column>
+                    </p:row>
                     <p:row>
                         <p:column  colspan="2"  style="height: 100px;">
                             <h:outputText value="pieczęć nagłówkowa pracodawcy"/>
@@ -48,94 +53,103 @@
                             <p:inputText value="#{umowaView.selected.angaz.firma.adres}" style="width: 300px;"/>
                         </p:column>
                     </p:row>
-
                     <p:row>
-                        <p:column>Houston</p:column>
-                        <p:column>0</p:column>
-                    </p:row>
-
-                    <p:row>
-                        <p:column colspan="4" styleClass="ui-widget-header">
-                            <p:spacer height="0"/>
+                        <p:column colspan="6">
+                            <h:outputText value="reprezentowanym przez: "/>
+                            <p:inputText value="#{umowaView.selected.angaz.firma.reprezentant}"/>
                         </p:column>
                     </p:row>
-
-                    <p:row>
-                        <p:column style="font-weight: bold;">Utah</p:column>
-                        <p:column style="font-weight: bold;">4</p:column>
-
-                        <p:column rowspan="2">Utah</p:column>
-                        <p:column rowspan="2">3</p:column>
-                    </p:row>
-
-                    <p:row>
-                        <p:column>San Antonio</p:column>
-                        <p:column>2</p:column>
-                    </p:row>
-
-                    <p:row>
-                        <p:column colspan="6" styleClass="ui-widget-header">
-                            <p:spacer height="0"/>
+                     <p:row>
+                        <p:column colspan="3">
+                            <h:outputText value="a"/>
+                            <p:inputText value="#{umowaView.selected.angaz.pracownik.nazwiskoImie}" style="width: 300px;"/>
+                        </p:column>
+                        <p:column colspan="3">
+                            <h:outputText value="zamieszkały " rendered="#{umowaView.selected.angaz.pracownik.plec eq 'M'}"/>
+                            <h:outputText value="zamieszkała " rendered="#{umowaView.selected.angaz.pracownik.plec ne 'M'}"/>
+                            <p:inputText value="#{umowaView.selected.angaz.pracownik.adres}" style="width: 300px;"/>
                         </p:column>
                     </p:row>
-
                     <p:row>
-                        <p:column style="font-weight: bold;">Chicago</p:column>
-                        <p:column style="font-weight: bold;">4</p:column>
-
-                        <p:column rowspan="2" style="font-weight: bold;">Chicago</p:column>
-                        <p:column rowspan="2" style="font-weight: bold;">4</p:column>
-
-                        <p:column rowspan="5" style="font-weight: bold;">Chicago</p:column>
-                        <p:column rowspan="5" style="font-weight: bold;">4</p:column>
-                    </p:row>
-
-                    <p:row>
-                        <p:column>New York</p:column>
-                        <p:column>1</p:column>
-                    </p:row>
-
-                    <p:row>
-                        <p:column colspan="4" styleClass="ui-widget-header">
-                            <p:spacer height="0"/>
+                        <p:column  colspan="2">
+                            <h:outputText value="na "/>
+                            <p:inputText value="#{umowaView.selected.czastrwania}"/>
+                        </p:column>
+                        <p:column colspan="2">
+                            <h:outputText value="od "/>
+                            <p:inputText value="#{umowaView.selected.dataod}"/>
+                        </p:column>
+                        <p:column colspan="2">
+                            <h:outputText value="do " rendered="#{umowaView.selected.datado ne null}"/>
+                            <p:inputText value="#{umowaView.selected.datado}" rendered="#{umowaView.selected.datado ne null}"/>
                         </p:column>
                     </p:row>
-
                     <p:row>
-                        <p:column>Atlanta</p:column>
-                        <p:column>1</p:column>
-
-                        <p:column rowspan="2">Orlando</p:column>
-                        <p:column rowspan="2">0</p:column>
+                        <p:column colspan="6">
+                            <h:outputText value="1. Strony ustalają następujące warunki zatrudnienia: "/>
+                        </p:column>
                     </p:row>
-
                     <p:row>
-                        <p:column style="font-weight: bold;">Orlando</p:column>
-                        <p:column style="font-weight: bold;">4</p:column>
+                        <p:column colspan="6">
+                            <h:outputText value="1) rodzaj pracy: "/>
+                            <p:inputText value="#{umowaView.selected.stanowisko}"/>
+                        </p:column>
                     </p:row>
-
-
-                    <f:facet name="footer">
-                        <p:row>
-                            <p:column colspan="4" style="text-align: right">
-                                Finals MVP
-                            </p:column>
-                            <p:column colspan="3" rowspan="3">
-                                Michael Jordan (Chicago)
-                            </p:column>
-                        </p:row>
-
-                        <p:row>
-                            <p:column colspan="4" style="text-align: right">
-                                Season MVP
-                            </p:column>
-                        </p:row>
-                        <p:row>
-                            <p:column colspan="4" style="text-align: right">
-                                Top Scorer
-                            </p:column>
-                        </p:row>
-                    </f:facet>
+                    <p:row>
+                        <p:column colspan="6">
+                            <h:outputText value="2) miejsce wykonywania pracy: "/>
+                            <p:inputText value="#{umowaView.selected.stanowisko}"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column colspan="6">
+                            <h:outputText value="3) wymiar czasu pracy: "/>
+                            <p:inputText value="#{umowaView.selected.pobierzetat(umowaView.selected.datado).etat}"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column colspan="6">
+                            <h:outputText value="4) wynagrodzenie: "/>
+                            <p:inputText value="#{umowaView.selected.pobierzwynagrodzenie()}" size="128"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column colspan="6">
+                            <h:outputText value="5) inne warunki zatrudnienia: "/>
+                            <p:inputText value="#{umowaView.selected.innewarunkizatrudnienia}" size="128"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column colspan="6">
+                            <h:outputText value="6) termin rozpoczęcia pracy: "/>
+                            <p:inputText value="#{umowaView.selected.terminrozpoczeciapracy}" size="10"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column colspan="6">
+                            <h:outputText value="7) dopuszczalna liczba godzin, których przekroczenie uprawnia pracownika do dodatku z art. 151(1)§1 KP"/>
+                            <p:inputText value="#{umowaView.selected.terminrozpoczeciapracy}" size="10"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column colspan="6">
+                            <h:outputText value="2. Przyczyny uzasadniające zawarcie umowy o pracę na czas nieokreślony w celu, o którym mowa w art. 25(1)§4pkt.1-3,4: "/>
+                            <p:inputText value="#{umowaView.selected.przyczynaumowaokreslony}" size="128"/>
+                        </p:column>
+                    </p:row>
+                     <p:row>
+                        <p:column colspan="3">
+                            <h:outputText value="podpis pracownika"/>
+                            <p:inputText value="#{umowaView.selected.angaz.pracownik.nazwiskoImie}" size="50"/>
+                        </p:column>
+                        <p:column colspan="3">
+                            <h:outputText value="podpis pracodawcy/pełnomocnika"/>
+                            <p:inputText value="#{umowaView.selected.angaz.firma.reprezentant}" size="50"/>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+                <p:panelGrid columns="1" style="margin-top: 10px;">
+                    <p:commandButton value="drukuj" actionListener="#{umowaView.drukujumoweselected}"/>
                 </p:panelGrid>
             </h:form>
         </p:outputPanel>

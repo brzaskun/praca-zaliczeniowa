@@ -12,8 +12,15 @@
              <h:form id="DefinicjalistaplacdefCreateForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="8" rendered="#{definicjalistaplacView.selected != null}">
-                         <p:outputLabel value="okres rozliczeniowy" for="okresrozl" />
-                         <h:outputText id="okresrozl" value="#{wpisView.rokWpisu}/#{wpisView.miesiacWpisu}"/>
+                        <p:outputLabel value="okres rozliczeniowy" for="okresrozl" />
+                        <h:outputText id="okresrozl" value="#{wpisView.rokWpisu}/#{wpisView.miesiacWpisu}"/>
+                        <p:outputLabel value="rodzaj listy plac" for="rodzajlistyplac" />
+                        <p:selectOneMenu id="rodzajlistyplac" value="#{definicjalistaplacView.selected.rodzajlistyplac}" required="true" requiredMessage="wybierz rodzaj umowy" converter="#{rodzjalistyplacConverter}">
+                            <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
+                            <f:selectItems value="#{definicjalistaplacView.listarodzajlistyplac}"
+                                           var="rodzajlistyItem"
+                                           itemValue="#{rodzajlistyItem}" itemLabel="#{rodzajlistyItem.nazwa}"/>
+                        </p:selectOneMenu>
                         <p:outputLabel value="data sporzadzenia" for="datasporzadzenia" />
                         <p:inputText id="datasporzadzenia" value="#{definicjalistaplacView.selected.datasporzadzenia}" title="data sporzadzenia" >
                             <p:ajax event="change" partialSubmit="true" global="false" listener="#{definicjalistaplacView.uzupelnijdatylisty}" update="@(.datalistadef)"/>
@@ -22,17 +29,8 @@
                         <p:inputText id="datapodatek" value="#{definicjalistaplacView.selected.datapodatek}" title="data podatek" styleClass="datalistadef" required="true"/>
                         <p:outputLabel value="data zus" for="datazus" />
                         <p:inputText id="datazus" value="#{definicjalistaplacView.selected.datazus}" title="data zus"  styleClass="datalistadef" required="true"/>
-                        <p:outputLabel value="nr kolejny" for="nrkolejny" />
-                        <p:inputText id="nrkolejny" value="#{definicjalistaplacView.selected.nrkolejny}" title="nr kolejny"  styleClass="datalistadef" required="true"/>
                         <p:outputLabel value="opis" for="opis" />
                         <p:inputText id="opis" value="#{definicjalistaplacView.selected.opis}" title="opis}" />
-                        <p:outputLabel value="rodzaj listy plac" for="rodzajlistyplac" />
-                         <p:selectOneMenu id="rodzajlistyplac" value="#{definicjalistaplacView.selected.rodzajlistyplac}" required="true" requiredMessage="wybierz rodzaj umowy" converter="#{rodzjalistyplacConverter}">
-                            <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
-                            <f:selectItems value="#{definicjalistaplacView.listarodzajlistyplac}"
-                                           var="rodzajlistyItem"
-                                           itemValue="#{rodzajlistyItem}" itemLabel="#{rodzajlistyItem.nazwa}"/>
-                        </p:selectOneMenu>
                         <p:outputLabel value="rok" for="rok" />
                         <p:inputText id="rok" value="#{definicjalistaplacView.selected.rok}" title="rok"  required="true" styleClass="datalistadef"/>
                         <p:outputLabel value="mc" for="mc" />
@@ -58,8 +56,9 @@
         </p:outputPanel>
         <p:outputPanel>
             <h:form id="DefinicjalistaplacListForm">
+                <p:outputLabel value="wybierz wyświetlany rodzaj listy" style="margin-left: 700px;" />
                 <p:selectOneMenu id="firma" value="#{definicjalistaplacView.wybranyrodzajlisty}" required="true" requiredMessage="Wybierz rodzaj listy płac"
-                                 style="margin-left: 700px;padding: 10px;" converter="#{rodzjalistyplacConverter}">
+                                 style="margin-left: 20px;" converter="#{rodzjalistyplacConverter}">
                     <p:ajax event="change" listener="#{definicjalistaplacView.init()}" update="DefinicjalistaplacListForm:datalist" partialSubmit="true"/>
                             <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
                             <f:selectItems value="#{definicjalistaplacView.listarodzajlistyplac}"

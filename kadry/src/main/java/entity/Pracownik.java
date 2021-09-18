@@ -525,6 +525,13 @@ public class Pracownik implements Serializable {
         this.formawynagrodzenia = formawynagrodzenia;
     }
 
+     public String getAdres() {
+        String zwrot = this.kod+" "+this.miasto+", "+this.ulica+" "+this.dom+"/"+this.lokal;
+        if (this.lokal==null) {
+            zwrot = this.kod+" "+this.miasto+", "+this.ulica+" "+this.dom;
+        }
+        return zwrot;
+    }
     
     
    

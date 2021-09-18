@@ -64,16 +64,40 @@ public class DefinicjalistaplacView  implements Serializable {
     public void create() {
       if (selected!=null) {
           try {
-            definicjalistaplacFacade.create(selected);
-            lista.add(selected);
-            selected = new Definicjalistaplac();
-            Msg.msg("Dodano nową definicję listy płac");
+            if (selected.getRodzajlistyplac()!=null) {
+                generujkolejny(wpisView);
+                definicjalistaplacFacade.create(selected);
+                lista.add(selected);
+                selected = new Definicjalistaplac();
+                Msg.msg("Dodano nową definicję listy płac");
+            } else {
+                Msg.msg("e","Nie dodano definicji listy płac");
+            }
+            
           } catch (Exception e) {
               System.out.println("");
               Msg.msg("e", "Błąd - nie dodano nowej definicji listy płac");
           }
       }
     }
+    
+    private void generujkolejny(WpisView wpisView) {
+        String rok = wpisView.getRokWpisu();
+        String mc = wpisView.getMiesiacWpisu();
+        Rodzajlistyplac wybranyrodzajlisty = selected.getRodzajlistyplac();
+        if (wybranyrodzajlisty.getTyp()==1) {
+            selected.setNrkolejny(rok+"/"+mc);
+        } else if (wybranyrodzajlisty.getTyp()==2) {
+            selected.setNrkolejny(rok+"/"+mc+"/ZL");
+        } else if (wybranyrodzajlisty.getTyp()==3) {
+            selected.setNrkolejny(rok+"/"+mc+"/DZ");
+        } else if (wybranyrodzajlisty.getTyp()==4) {
+            selected.setNrkolejny(rok+"/"+mc+"/ZAS");
+        } else if (wybranyrodzajlisty.getTyp()==5) {
+            selected.setNrkolejny(rok+"/"+mc+"/IN");
+        }
+    }
+
     
     public void reset() {
       if (selected!=null) {
@@ -243,6 +267,7 @@ public class DefinicjalistaplacView  implements Serializable {
         this.wybranyrodzajlisty = wybranyrodzajlisty;
     }
 
+    
       
     
 }

@@ -320,6 +320,14 @@ public class UmowaView  implements Serializable {
         }
     }
     
+    public void drukujumoweselected() {
+        if (selected!=null) {
+            
+        } else {
+            Msg.msg("e","Nie wybrano umowy");
+        }
+    }
+    
     public Umowa getSelected() {
         return selected;
     }

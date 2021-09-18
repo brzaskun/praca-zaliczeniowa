@@ -168,8 +168,19 @@ public class Umowa implements Serializable {
     private String opiszawodu;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "umowa")
     private List<Urlopprezentacja> urlopprezentacjaList;
-     @OneToMany(cascade = CascadeType.ALL, mappedBy = "umowa")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "umowa")
     private List<Rachunekdoumowyzlecenia> rachunekdoumowyzleceniaList;
+    @Size(max = 256)
+    @Column(name = "innewarunkizatrudnienia")
+    private String innewarunkizatrudnienia;
+    @Column(name = "terminrozpoczeciapracy")
+    private String terminrozpoczeciapracy;
+    @Column(name = "dopuszczalnailoscgodzin")
+    private String dopuszczalnailoscgodzin;
+    @Size(max = 256)
+    @Column(name = "przyczynaumowaokreslony")
+    private String przyczynaumowaokreslony;
+    
 
     public Umowa() {
         this.etatList = new ArrayList<>();
@@ -554,6 +565,38 @@ public class Umowa implements Serializable {
     public void setStanowiskopracList(List<Stanowiskoprac> stanowiskopracList) {
         this.stanowiskopracList = stanowiskopracList;
     }
+
+    public String getInnewarunkizatrudnienia() {
+        return innewarunkizatrudnienia;
+    }
+
+    public void setInnewarunkizatrudnienia(String innewarunkizatrudnienia) {
+        this.innewarunkizatrudnienia = innewarunkizatrudnienia;
+    }
+
+    public String getTerminrozpoczeciapracy() {
+        return terminrozpoczeciapracy;
+    }
+
+    public void setTerminrozpoczeciapracy(String terminrozpoczeciapracy) {
+        this.terminrozpoczeciapracy = terminrozpoczeciapracy;
+    }
+
+    public String getDopuszczalnailoscgodzin() {
+        return dopuszczalnailoscgodzin;
+    }
+
+    public void setDopuszczalnailoscgodzin(String dopuszczalnailoscgodzin) {
+        this.dopuszczalnailoscgodzin = dopuszczalnailoscgodzin;
+    }
+
+    public String getPrzyczynaumowaokreslony() {
+        return przyczynaumowaokreslony;
+    }
+
+    public void setPrzyczynaumowaokreslony(String przyczynaumowaokreslony) {
+        this.przyczynaumowaokreslony = przyczynaumowaokreslony;
+    }
     
     @XmlTransient
     public List<Urlopprezentacja> getUrlopprezentacjaList() {
@@ -573,6 +616,28 @@ public class Umowa implements Serializable {
                 if (Data.czyjestpo(datagraniczna, data)) {
                     zwrot = p;
                 }
+            }
+        }
+        return zwrot;
+    }
+    
+    public String pobierzwynagrodzenie() {
+        String zwrot = "";
+        if (this.skladnikpotraceniaList!=null) {
+            for (Skladnikwynagrodzenia p : this.skladnikwynagrodzeniaList) {
+                zwrot = zwrot+p.getRodzajwynagrodzenia().getOpispelny()+" ";
+                zwrot = zwrot+pobierzkwote(p.getZmiennawynagrodzeniaList());
+            }
+        }
+        return zwrot;
+    }
+
+    private String pobierzkwote(List<Zmiennawynagrodzenia> zmiennawynagrodzeniaList) {
+        String zwrot = "";
+        if (zmiennawynagrodzeniaList!=null) {
+            for (Zmiennawynagrodzenia p : zmiennawynagrodzeniaList) {
+                zwrot = zwrot+p.getNazwa()+" ";
+                zwrot = zwrot+f.F.curr(p.getKwota());
             }
         }
         return zwrot;

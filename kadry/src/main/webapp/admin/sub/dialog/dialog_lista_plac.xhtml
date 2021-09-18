@@ -10,20 +10,40 @@
               resizable="false"  onShow="ustawdialog('dialoglistaplac','centertile',1650,800);" closeOnEscape="true" onHide="resetujdialog('dialoglistaplac');" 
               fitViewport="true">
         <p:outputPanel style="height: 280px">
-            <h:form id="DefinicjalistaplacCreateForm">
-                <h:panelGroup id="display">
-                    <p:panelGrid columns="2" rendered="#{pasekwynagrodzenView.listadefinicjalistaplac ne null}">
-                        <p:outputLabel value="wybrana lista płac" for="wybranalista" />
-                        <p:selectOneMenu id="wybranalista" value="#{pasekwynagrodzenView.wybranalistaplac}" required="true" requiredMessage="Wybierz firmę" converter="#{definicjalistaplacConverter}" >
-                            <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
-                            <f:selectItems value="#{pasekwynagrodzenView.listadefinicjalistaplac}" 
-                                           var="firmalistaItem"
-                                           itemValue="#{firmalistaItem}" itemLabel="#{firmalistaItem.opis} #{firmalistaItem.nrkolejny}"/>
-                            <p:ajax event="change" partialSubmit="true" global="false" listener="#{pasekwynagrodzenView.pobierzkalendarzezamc}" update="@(form)"/>
-                        </p:selectOneMenu>
-                        <p:outputLabel value="" for="wybranypracownik" />
-                        <p:pickList id="wybranypracownik" value="#{pasekwynagrodzenView.listakalendarzmiesiac}" var="kalendarzItem" itemLabel="#{kalendarzItem.umowa.angaz.pracownik.nazwiskoImie}" itemValue="#{kalendarzItem}" 
-                                    showCheckbox="true" converter="#{kalendarzmiesiacConverter}"/>
+           
+                <h:panelGroup >
+                    
+                    <p:panelGrid columns="4" rendered="#{pasekwynagrodzenView.listadefinicjalistaplac ne null}">
+                       <h:form id="DefinicjalistaplacCreateForm">
+                            <p:outputLabel value="rodzaj umowy" />
+                            <p:selectOneMenu id="rodzajumowy" value="#{pasekwynagrodzenView.rodzajumowy}"  autoWidth="false" style="width: 300px;" filter="true" filterMatchMode="contains" required="true">
+                                <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
+                                <f:selectItem itemLabel="umowa o pracę" itemValue="1"/>
+                                <f:selectItem itemLabel="umowa zlecenia i o dzieło" itemValue="2"/>
+                                <p:ajax event="change" partialSubmit="true" listener="#{pasekwynagrodzenView.init()}" global="false" update="PasekwynagrodzenListForm DefinicjalistaplacCreateForm1 DefinicjalistaplacCreateForm2"/>
+                            </p:selectOneMenu>
+                        </h:form>
+                        <h:form id="DefinicjalistaplacCreateForm1">
+                            <p:outputLabel value="wybrana lista płac" for="wybranalista" />
+                            <p:selectOneMenu id="wybranalista" value="#{pasekwynagrodzenView.wybranalistaplac}" required="true" requiredMessage="Wybierz firmę" converter="#{definicjalistaplacConverter}" >
+                                <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
+                                <f:selectItems value="#{pasekwynagrodzenView.listadefinicjalistaplac}" 
+                                               var="firmalistaItem"
+                                               itemValue="#{firmalistaItem}" itemLabel="#{firmalistaItem.opis} #{firmalistaItem.nrkolejny}"/>
+                                <p:ajax event="change" partialSubmit="true" global="false" listener="#{pasekwynagrodzenView.pobierzkalendarzezamc}" update="PasekwynagrodzenListForm DefinicjalistaplacCreateForm2"/>
+                            </p:selectOneMenu>
+                           
+                            
+                        </h:form>
+                        <h:form id="DefinicjalistaplacCreateForm2">
+                             <p:outputLabel value="" for="wybranypracownik" />
+                            <p:pickList id="wybranypracownik" value="#{pasekwynagrodzenView.listakalendarzmiesiac}" var="kalendarzItem" itemLabel="#{kalendarzItem.umowa.angaz.pracownik.nazwiskoImie}" itemValue="#{kalendarzItem}" 
+                                        showCheckbox="true" converter="#{kalendarzmiesiacConverter}"/>
+                            <p:commandButton styleClass="buttonnorm" actionListener="#{pasekwynagrodzenView.przelicz}" value="oblicz" update="PasekwynagrodzenListForm" />
+                            <p:commandButton styleClass="buttonnorm" actionListener="#{pasekwynagrodzenView.zapisz}" value="Save" update="PasekwynagrodzenListForm" />
+                            <p:commandButton styleClass="buttonnorm" actionListener="#{pasekwynagrodzenView.usun}" value="usuń" update="PasekwynagrodzenListForm" />
+                            <p:commandButton styleClass="buttonnorm" actionListener="#{pasekwynagrodzenView.drukujliste}" value="druk lista"/>
+                        </h:form>
 <!--                        <p:selectOneMenu id="wybranypracownik" value="#{pasekwynagrodzenView.wybranykalendarz}" required="true" requiredMessage="Wybierz pracownika" converter="#{kalendarzmiesiacConverter}">
                             <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
                             <f:selectItems value="#{pasekwynagrodzenView.listakalendarzmiesiac}"
@@ -32,12 +52,9 @@
                             <p:ajax event="change" listener="#{pasekwynagrodzenView.przelicz}" partialSubmit="true" global="false" update="@(form)"/>
                         </p:selectOneMenu>-->
                     </p:panelGrid>
-                    <p:commandButton styleClass="buttonnorm" actionListener="#{pasekwynagrodzenView.przelicz}" value="oblicz" update="PasekwynagrodzenListForm" />
-                    <p:commandButton styleClass="buttonnorm" actionListener="#{pasekwynagrodzenView.zapisz}" value="Save" update="PasekwynagrodzenListForm" />
-                    <p:commandButton styleClass="buttonnorm" actionListener="#{pasekwynagrodzenView.usun}" value="usuń" update="PasekwynagrodzenListForm" />
-                    <p:commandButton styleClass="buttonnorm" actionListener="#{pasekwynagrodzenView.drukujliste}" value="druk lista"/>
+                    
                 </h:panelGroup>
-            </h:form>
+            
         </p:outputPanel>
         <p:outputPanel>
             <h:form id="PasekwynagrodzenListForm">

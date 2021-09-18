@@ -102,6 +102,9 @@ public class FirmaKadry implements Serializable {
     @Size(max = 128)
     @Column(name = "bankkonto")
     private String bankkonto;
+    @Size(max = 128)
+    @Column(name = "reprezentant")
+    private String reprezentant;
 
     public FirmaKadry() {
     }
@@ -198,6 +201,14 @@ public class FirmaKadry implements Serializable {
 
     public void setWojewodztwo(String wojewodztwo) {
         this.wojewodztwo = wojewodztwo;
+    }
+
+    public String getReprezentant() {
+        return reprezentant;
+    }
+
+    public void setReprezentant(String reprezentant) {
+        this.reprezentant = reprezentant;
     }
 
 
@@ -316,7 +327,11 @@ public class FirmaKadry implements Serializable {
     }
     
     public String getAdres() {
-        return this.kod+" "+this.miasto+", "+this.ulica+" "+this.dom+"/"+this.lokal;
+        String zwrot = this.kod+" "+this.miasto+", "+this.ulica+" "+this.dom+"/"+this.lokal;
+        if (this.lokal==null) {
+            zwrot = this.kod+" "+this.miasto+", "+this.ulica+" "+this.dom;
+        }
+        return zwrot;
     }
     
 }
