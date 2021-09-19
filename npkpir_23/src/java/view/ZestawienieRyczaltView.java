@@ -231,27 +231,27 @@ public class ZestawienieRyczaltView implements Serializable {
                 Podatnik selected = wpisView.getPodatnikObiekt();
                 Iterator it;
                 it = selected.getZusparametr().iterator();
-                if(zus51zreki==false){
-                while (it.hasNext()) {
-                    Zusstawki tmpX = (Zusstawki) it.next();
-                    if (tmpX.getZusstawkiPK().getRok().equals(wpisView.getRokWpisu().toString())
-                            && tmpX.getZusstawkiPK().getMiesiac().equals(wpisView.getMiesiacWpisu())) {
-                        if (selected.isOdliczeniezus51() == true) {
-                            if (tmpX.getZus51ch() != null && tmpX.getZus51ch() > 0.0) {
-                                biezacyPit.setZus51(BigDecimal.valueOf(tmpX.getZus51ch()));
-                            } else {
-                                biezacyPit.setZus51(BigDecimal.valueOf(tmpX.getZus51bch()));
+                    if (zus51zreki == false) {
+                        while (it.hasNext()) {
+                            Zusstawki tmpX = (Zusstawki) it.next();
+                            if (tmpX.getZusstawkiPK().getRok().equals(wpisView.getRokWpisu().toString())
+                                    && tmpX.getZusstawkiPK().getMiesiac().equals(wpisView.getMiesiacWpisu())) {
+                                if (selected.isOdliczeniezus51() == true) {
+                                    if (tmpX.getZus51ch() != null && tmpX.getZus51ch() > 0.0) {
+                                        biezacyPit.setZus51(BigDecimal.valueOf(tmpX.getZus51ch()));
+                                    } else {
+                                        biezacyPit.setZus51(BigDecimal.valueOf(tmpX.getZus51bch()));
+                                    }
+                                } else {
+                                    biezacyPit.setZus51(new BigDecimal(0));
+                                }
+                                if (zus52zreki == false) {
+                                    biezacyPit.setZus52(BigDecimal.valueOf(tmpX.getZus52odl()));
+                                }
+                                break;
                             }
-                        } else {
-                            biezacyPit.setZus51(new BigDecimal(0));
                         }
-                        if(zus52zreki==false){
-                        biezacyPit.setZus52(BigDecimal.valueOf(tmpX.getZus52odl()));
-                        }
-                        break;
                     }
-                }
-                }
                 } catch (Exception e) { E.e(e); 
                     Msg.msg("e", "Brak wpisanych stawek ZUS-51,52 indywidualnych dla danego klienta. Jeżeli ZUS 51 nie ma być odliczany, sprawdź czy odpowiednia opcja jest wybrana w ustwieniach klienta");
                     biezacyPit = new Ryczpoz();
@@ -477,9 +477,10 @@ public class ZestawienieRyczaltView implements Serializable {
         BigDecimal podateksuma = new BigDecimal(BigInteger.ZERO);
         BigDecimal podstawasuma = new BigDecimal(BigInteger.ZERO);
         for (RyczaltPodatek p : biezacyPit.getListapodatkow()) {
-            BigDecimal wynik = (new BigDecimal(p.getPrzychod())).subtract(new BigDecimal(p.getZmniejszenie()));
+            BigDecimal wynik = (new BigDecimal(p.getPrzychod()));
             Double udzial = Double.valueOf(biezacyPit.getUdzial())/100;
             wynik = wynik.multiply(new BigDecimal(udzial));
+            wynik = wynik.subtract(new BigDecimal(p.getZmniejszenie()));
             wynik = wynik.setScale(0, RoundingMode.HALF_EVEN);
             podstawasuma = podstawasuma.add(wynik);
             p.setPodstawa(wynik.doubleValue());

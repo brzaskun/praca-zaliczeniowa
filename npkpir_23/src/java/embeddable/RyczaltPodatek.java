@@ -87,6 +87,11 @@ public class RyczaltPodatek implements Serializable{
     public void setPrzychod(Double przychod) {
         this.przychod = przychod;
     }
+
+    @Override
+    public String toString() {
+        return "RyczaltPodatek{" + "opis=" + opis + ", stawka=" + stawka + ", przychod=" + przychod + ", udzialprocentowy=" + udzialprocentowy + ", zmniejszenie=" + zmniejszenie + ", podstawa=" + podstawa + ", podatek=" + podatek + '}';
+    }
     
     
     
