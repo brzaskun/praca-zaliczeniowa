@@ -26,7 +26,7 @@
                             <h:outputText id="umowaod" value="#{nieobecnoscView.selected.umowa.dataod}">
                                 <f:convertDateTime dateStyle="medium" locale="pl"/>
                             </h:outputText>
-                            <p:outputLabel value="nazwa nieobecnosci" for="nieobkodzus" />
+                            <p:outputLabel value="nazwa nieobecności" for="nieobkodzus" />
                             <p:selectOneMenu id="nieobkodzus" value="#{nieobecnoscView.selected.nieobecnosckodzus}" required="true" requiredMessage="wybierz rodzaj nieobecnosci"  converter="#{nieobecnosckodzusConverter}" filter="true" filterMatchMode="contains">
                                 <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
                                 <f:selectItems value="#{nieobecnoscView.listanieobecnosckodzus}" 

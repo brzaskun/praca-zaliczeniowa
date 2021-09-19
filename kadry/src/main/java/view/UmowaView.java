@@ -5,7 +5,6 @@
  */
 package view;
 
-import beanstesty.KodzawoduBean;
 import dao.AngazFacade;
 import dao.EtatPracFacade;
 import dao.KalendarzmiesiacFacade;
@@ -23,6 +22,7 @@ import entity.EtatPrac;
 import entity.Kalendarzmiesiac;
 import entity.Kalendarzwzor;
 import entity.Kodyzawodow;
+import entity.Rodzajwynagrodzenia;
 import entity.Skladnikwynagrodzenia;
 import entity.Umowa;
 import entity.Umowakodzus;
@@ -73,7 +73,10 @@ public class UmowaView  implements Serializable {
     private SkladnikWynagrodzeniaView skladnikWynagrodzeniaView;
     @Inject
     private ZmiennaWynagrodzeniaView zmiennaWynagrodzeniaView;
-    private double wynagrodzemieskrot;
+    @Inject
+    private UpdateClassView updateClassView;
+    private double wynagrodzeniemiesieczne;
+    private double wynagrodzeniegodzinowe;
     private Integer etat1;
     private Integer etat2;
     private String datadzisiejsza;
@@ -91,15 +94,16 @@ public class UmowaView  implements Serializable {
             lista  = umowaFacade.findByAngazZlecenie(wpisView.getAngaz());
         }
         listaangaz = angazFacade.findByFirma(wpisView.getFirma());
-        listaumowakodzus = rodzajumowyFacade.findAll();
+        listaumowakodzus = rodzajumowyFacade.findUmowakodzusAktywne();
         listakodyzawodow = kodyzawodowFacade.findAll();
         if (listaangaz!=null && listaangaz.size()==1 && wpisView.getAngaz()==null) {
             wpisView.setAngaz(listaangaz.get(listaangaz.size()-1));
         }
        datadzisiejsza = Data.aktualnaData();
-       miejscowosc = "Szczecin";
+       miejscowosc = wpisView.getFirma().getMiasto();
     }
- 
+    
+     
     public void create() {
       if (selected!=null && wpisView.getAngaz()!=null) {
           try {
@@ -111,13 +115,19 @@ public class UmowaView  implements Serializable {
             umowaFacade.editList(lista);
             umowaFacade.create(selected);
             lista.add(selected);
-            EtatPrac etat = new EtatPrac(selected, etat1, etat2);
-            etatFacade.create(etat);
             wpisView.setUmowa(selected);
+            if (selected.getUmowakodzus().isPraca()) {
+                EtatPrac etat = new EtatPrac(selected, etat1, etat2);
+                etatFacade.create(etat);
+            }
             Msg.msg("Dodano nową umowę");
             generujKalendarzNowaUmowa();
-            if (wynagrodzemieskrot!=0.0){
-              Skladnikwynagrodzenia skladnikwynagrodzenia = dodajskladnikwynagrodzenia();
+            if (wynagrodzeniemiesieczne!=0.0 || wynagrodzeniegodzinowe!=0.0){
+              Rodzajwynagrodzenia rodzajwynagrodzenia = selected.getUmowakodzus().isPraca() ? rodzajwynagrodzeniaFacade.findZasadniczePraca(): rodzajwynagrodzeniaFacade.findZasadniczeZlecenie();
+              if (wynagrodzeniegodzinowe != 0.0) {
+                  rodzajwynagrodzenia = selected.getUmowakodzus().isPraca() ? rodzajwynagrodzeniaFacade.findGodzinowePraca(): rodzajwynagrodzeniaFacade.findGodzinoweZlecenie();
+              }
+              Skladnikwynagrodzenia skladnikwynagrodzenia = dodajskladnikwynagrodzenia(rodzajwynagrodzenia);
               Zmiennawynagrodzenia zmiennawynagrodzenie = dodajzmiennawynagrodzenie(skladnikwynagrodzenia);
               if (skladnikwynagrodzenia.getId()!=null && zmiennawynagrodzenie!=null){
                   Msg.msg("Dodano składniki wynagrodzania");
@@ -126,9 +136,10 @@ public class UmowaView  implements Serializable {
               zmiennaWynagrodzeniaView.init();
             }
             selected = new Umowa();
-            wynagrodzemieskrot = 0.0;
+            wynagrodzeniemiesieczne = 0.0;
             etat1 = null;
             etat2 = null;
+            updateClassView.updateUmowa();
           } catch (Exception e) {
               System.out.println("");
               Msg.msg("e", "Błąd - nie dodano nowej umowy. Sprawdź angaż");
@@ -201,41 +212,35 @@ public class UmowaView  implements Serializable {
     }
     
     public void ustawumowe() {
+        int numerkolejny = 1;
+        List<Umowa> umowaList = wpisView.getAngaz().getUmowaList();
+        if (umowaList!=null) {
+            numerkolejny = numerkolejny+umowaList.size();
+        }
         if (selected.getId() == null) {
-            if (selected.getUmowakodzus().getKod().equals("0110")) {
-                selected.setNrkolejny("UP/"+wpisView.getPracownik().getPesel()+"/"+wpisView.getRokWpisu()+"/"+wpisView.getMiesiacWpisu());
+            if (selected.getUmowakodzus().isPraca()) {
+                selected.setNrkolejny("UP/"+numerkolejny+"/"+wpisView.getRokWpisu()+"/"+wpisView.getMiesiacWpisu());
                 selected.setChorobowe(true);
                 selected.setRentowe(true);
                 selected.setEmerytalne(true);
                 selected.setWypadkowe(true);
                 selected.setZdrowotne(true);
-                selected.setCzastrwania("umowa na okres próbny");
-                selected.setDataod("2020-01-01");
-                selected.setDatanfz("2020-01-01");
-                selected.setDataspoleczne("2020-01-01");
-                selected.setDatazawarcia("2020-01-01");
-                selected.setDatazdrowotne("2020-01-01");
                 selected.setKosztyuzyskaniaprocent(100.0);
+                selected.setKwotawolnaprocent(100.0);
                 selected.setNfz("16");
-                selected.setKodzawodu(KodzawoduBean.create());
                 selected.setOdliczaculgepodatkowa(true);
-            } else if (selected.getUmowakodzus().getKod().equals("0410")) {
-                selected.setNrkolejny("UZ/"+wpisView.getPracownik().getPesel()+"/"+wpisView.getRokWpisu()+"/"+wpisView.getMiesiacWpisu());
+            } else if (selected.getUmowakodzus().isZlecenie()) {
+                selected.setNrkolejny("UC/"+numerkolejny+"/"+wpisView.getRokWpisu()+"/"+wpisView.getMiesiacWpisu());
                 selected.setChorobowe(false);
                 selected.setChorobowedobrowolne(true);
                 selected.setRentowe(true);
                 selected.setEmerytalne(true);
                 selected.setWypadkowe(true);
                 selected.setZdrowotne(true);
-                selected.setDataod("2020-04-01");
-                selected.setDatanfz("2020-04-01");
-                selected.setDataspoleczne("2020-04-01");
-                selected.setDatazawarcia("2020-04-01");
-                selected.setDatazdrowotne("2020-04-01");
-                selected.setKosztyuzyskaniaprocent(0.0);
+                selected.setKosztyuzyskaniaprocent(20.0);
+                selected.setKwotawolnaprocent(100.0);
                 selected.setNfz("16");
-                selected.setKodzawodu(KodzawoduBean.create());
-        }
+            }
         }
     }
     
@@ -273,6 +278,7 @@ public class UmowaView  implements Serializable {
             selected.setDataspoleczne(selected.getDataod());
             selected.setDatazdrowotne(selected.getDataod());
             selected.setDatazawarcia(selected.getDataod());
+            selected.setTerminrozpoczeciapracy(selected.getDataod());
         }
     }
     
@@ -283,10 +289,10 @@ public class UmowaView  implements Serializable {
     @Inject
     private ZmiennaWynagrodzeniaFacade zmiennaWynagrodzeniaFacade;
 
-    private Skladnikwynagrodzenia dodajskladnikwynagrodzenia() {
+    private Skladnikwynagrodzenia dodajskladnikwynagrodzenia(Rodzajwynagrodzenia rodzajwynagrodzenia) {
         Skladnikwynagrodzenia skladnikwynagrodzenia = new Skladnikwynagrodzenia();
         skladnikwynagrodzenia.setUmowa(selected);
-        skladnikwynagrodzenia.setRodzajwynagrodzenia(rodzajwynagrodzeniaFacade.findZasadnicze());
+        skladnikwynagrodzenia.setRodzajwynagrodzenia(rodzajwynagrodzenia);
         try {
             skladnikWynagrodzeniaFacade.create(skladnikwynagrodzenia);
         } catch (Exception e){}
@@ -298,8 +304,13 @@ public class UmowaView  implements Serializable {
         if (skladnikwynagrodzenia.getId()!=null) {
             zmiennawynagrodzenia.setSkladnikwynagrodzenia(skladnikwynagrodzenia);
             zmiennawynagrodzenia.setWaluta("PLN");
-            zmiennawynagrodzenia.setNazwa("zasadnicze");
-            zmiennawynagrodzenia.setKwota(wynagrodzemieskrot);
+            if (wynagrodzeniemiesieczne!=0.0) {
+                zmiennawynagrodzenia.setNazwa("miesięczne");
+                zmiennawynagrodzenia.setKwota(wynagrodzeniemiesieczne);
+            } else {
+                zmiennawynagrodzenia.setNazwa("godzinowe");
+                zmiennawynagrodzenia.setKwota(wynagrodzeniegodzinowe);
+            }
             zmiennawynagrodzenia.setDataod(selected.getDataod());
         }
         try {
@@ -384,12 +395,12 @@ public class UmowaView  implements Serializable {
         this.listakodyzawodow = listakodyzawodow;
     }
 
-    public double getWynagrodzemieskrot() {
-        return wynagrodzemieskrot;
+    public double getWynagrodzeniemiesieczne() {
+        return wynagrodzeniemiesieczne;
     }
 
-    public void setWynagrodzemieskrot(double wynagrodzemieskrot) {
-        this.wynagrodzemieskrot = wynagrodzemieskrot;
+    public void setWynagrodzeniemiesieczne(double wynagrodzeniemiesieczne) {
+        this.wynagrodzeniemiesieczne = wynagrodzeniemiesieczne;
     }
 
     public Integer getEtat1() {
@@ -430,6 +441,14 @@ public class UmowaView  implements Serializable {
 
     public void setRodzajumowy(String rodzajumowy) {
         this.rodzajumowy = rodzajumowy;
+    }
+
+    public double getWynagrodzeniegodzinowe() {
+        return wynagrodzeniegodzinowe;
+    }
+
+    public void setWynagrodzeniegodzinowe(double wynagrodzeniegodzinowe) {
+        this.wynagrodzeniegodzinowe = wynagrodzeniegodzinowe;
     }
 
     

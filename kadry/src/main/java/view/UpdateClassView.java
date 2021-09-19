@@ -35,6 +35,21 @@ public class UpdateClassView   implements Serializable {
     private PracownikUrlopView pracownikUrlopView;
     @Inject
     private KartaWynagrodzenView kartaWynagrodzenView;
+    @Inject
+    private UmowaView umowaView;
+    @Inject
+    private SkladnikWynagrodzeniaView skladnikWynagrodzeniaView;
+    @Inject
+    private ZmiennaWynagrodzeniaView zmiennaWynagrodzeniaView;
+    @Inject
+    private RachunkidoZlecenView rachunkidoZlecenView;
+    @Inject
+    private ZmiennaPotraceniaView zmiennaPotraceniaView;
+    @Inject
+    private EtatView etatView;
+    @Inject
+    private SkladnikPotraceniaView skladnikPotraceniaView;
+
 
     public void updateRok(){
         definicjalistaplacView.init();
@@ -45,6 +60,25 @@ public class UpdateClassView   implements Serializable {
         nieobecnoscView.init();
         pracownikUrlopView.init();
         kartaWynagrodzenView.init();
+    }
+    
+    public void updateUmowa(){
+        umowaView.init();
+        skladnikWynagrodzeniaView.init();
+        zmiennaWynagrodzeniaView.init();
+        kalendarzmiesiacView.init();
+        rachunkidoZlecenView.init();
+        zmiennaPotraceniaView.init();
+        etatView.init();
+        definicjalistaplacView.init();
+        kalendarzmiesiacView.init();
+        kalendarzwzorView.init();
+        pasekwynagrodzenView.init();
+        draView.init();
+        nieobecnoscView.init();
+        pracownikUrlopView.init();
+        kartaWynagrodzenView.init();
+        skladnikPotraceniaView.init();
     }
     
 }

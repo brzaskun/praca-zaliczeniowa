@@ -58,7 +58,7 @@ public class UmowaBean {
      public static Umowa create(int numerumowy, Osoba osoba, Angaz angaz, ZatrudHist r, Slownikszkolazatrhistoria s) {
             Umowa umowa = new Umowa();
             umowa.setAngaz(angaz);
-            umowa.setNrkolejny(String.valueOf(numerumowy)+"/"+String.valueOf(angaz.getId()));
+            umowa.setNrkolejny("UP/IMP/"+String.valueOf(numerumowy)+"/"+String.valueOf(angaz.getId()));
             umowa.setDatanfz(Data.data_yyyyMMddNull(r.getZahDataOd()));
             umowa.setDataod(Data.data_yyyyMMddNull(r.getZahDataOd()));
             umowa.setDatado(Data.data_yyyyMMddNull(r.getZahDataDo()));
@@ -99,7 +99,7 @@ public class UmowaBean {
     public static Umowa createzlecenie(int numerumowy, Angaz angaz, OsobaZlec r) {
         Umowa umowa = new Umowa();
         umowa.setAngaz(angaz);
-        umowa.setNrkolejny(String.valueOf(numerumowy)+"/"+String.valueOf(angaz.getId()));
+        umowa.setNrkolejny("UC/IMP/"+String.valueOf(numerumowy)+"/"+String.valueOf(angaz.getId()));
         umowa.setDatanfz(Data.data_yyyyMMddNull(r.getOzlDataOd()));
         umowa.setDataod(Data.data_yyyyMMddNull(r.getOzlDataOd()));
         umowa.setDatado(Data.data_yyyyMMddNull(r.getOzlDataDo()));

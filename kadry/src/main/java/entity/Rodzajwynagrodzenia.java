@@ -129,8 +129,10 @@ public class Rodzajwynagrodzenia implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Rodzajwynagrodzenia[ id=" + id + " ]";
+        return "Rodzajwynagrodzenia{" + "kod=" + kod + ", opispelny=" + opispelny + ", opisskrocony=" + opisskrocony + ", stale0zmienne1=" + stale0zmienne1 + ", godzinowe0miesieczne1=" + godzinowe0miesieczne1 + ", redukowany=" + redukowany + ", zus0bezzus1=" + zus0bezzus1 + ", podatek0bezpodatek1=" + podatek0bezpodatek1 + '}';
     }
+
+   
 
     public String getKod() {
         return kod;

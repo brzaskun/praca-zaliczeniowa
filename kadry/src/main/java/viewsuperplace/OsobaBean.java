@@ -105,6 +105,7 @@ public class OsobaBean {
                 nowa.setSlownikwypowiedzenieumowy(slownikwypowiedzenieumowy);
                 nowa.setPrzyczynawypowiedzenia(r.getZahZwolUwagi());
                 nowa.setUmowakodzus(umowakodzus);
+                nowa.setImportowana(true);
                 zwrot.add(nowa);
                 nrumowy++;
             } catch (Exception e){}

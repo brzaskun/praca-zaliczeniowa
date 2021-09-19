@@ -75,4 +75,13 @@ public class PasekwynagrodzenFacade extends DAO   implements Serializable {
         }
         return zwrot;
     }
+    public List<Pasekwynagrodzen> findByRokMcAngaz(String rok, String mc, Angaz p) {
+        List<Pasekwynagrodzen> zwrot = new ArrayList<>();
+        try {
+            return getEntityManager().createNamedQuery("Pasekwynagrodzen.findByRokMcAngaz").setParameter("rok", rok).setParameter("mc", mc).setParameter("angaz", p).getResultList();
+        } catch (Exception e) {
+            
+        }
+        return zwrot;
+    }
 }

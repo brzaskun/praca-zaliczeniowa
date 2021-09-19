@@ -22,13 +22,14 @@
                             </f:facet>
                             <h:outputText value="#{indexumowa+1}"/>
                         </p:column>
-                        <p:column width="50" style="text-align: center;">
+                        <p:column width="50" style="text-align: center;"
+                                  filterBy="#{item111.kod}" filterMatchMode="contains">
                             <f:facet name="header">
                                 <h:outputText value="kod"/>
                             </f:facet>
                             <h:outputText value="#{item111.kod}"/>
                         </p:column>
-                        <p:column width="800">
+                        <p:column width="800" filterBy="#{item111.opis}" filterMatchMode="contains">
                             <f:facet name="header">
                                 <h:outputText value="opis"/>
                             </f:facet>

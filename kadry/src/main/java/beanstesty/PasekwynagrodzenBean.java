@@ -28,6 +28,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import view.WpisView;
 import z.Z;
 
 /**
@@ -52,7 +53,7 @@ public class PasekwynagrodzenBean {
     
       
     public static Pasekwynagrodzen oblicz(Kalendarzmiesiac kalendarz, Definicjalistaplac definicjalistaplac, NieobecnosckodzusFacade nieobecnosckodzusFacade, List<Pasekwynagrodzen> paskidowyliczeniapodstawy, 
-            List<Wynagrodzeniahistoryczne> historiawynagrodzen, List<Podatki> stawkipodatkowe, double sumapoprzednich, double wynagrodzenieminimalne) {
+        List<Wynagrodzeniahistoryczne> historiawynagrodzen, List<Podatki> stawkipodatkowe, double sumapoprzednich, double wynagrodzenieminimalne, boolean czyodlicoznokwotewolna) {
         Pasekwynagrodzen pasek = new Pasekwynagrodzen();
         pasek.setWynagrodzenieminimalne(wynagrodzenieminimalne);
         double kurs = 4.4745;
@@ -93,7 +94,9 @@ public class PasekwynagrodzenBean {
         }
         PasekwynagrodzenBean.obliczpodstaweopodatkowania(pasek, stawkipodatkowe);
         PasekwynagrodzenBean.obliczpodatekwstepny(pasek, stawkipodatkowe, sumapoprzednich);
-        PasekwynagrodzenBean.ulgapodatkowa(pasek, stawkipodatkowe);
+        if (czyodlicoznokwotewolna==false) {
+            PasekwynagrodzenBean.ulgapodatkowa(pasek, stawkipodatkowe);
+        }
         PasekwynagrodzenBean.naliczzdrowota(pasek);
         PasekwynagrodzenBean.obliczpodatekdowplaty(pasek);
         PasekwynagrodzenBean.netto(pasek);
@@ -533,6 +536,19 @@ public class PasekwynagrodzenBean {
             suma = suma+r.getPodstawaopodatkowania();
         }
         return suma;
+    }
+
+    public static boolean czyodliczonokwotewolna(WpisView wpisView, PasekwynagrodzenFacade pasekwynagrodzenFacade) {
+        boolean zwrot = false;
+        List<Pasekwynagrodzen> innepaskiwtymmiesiacu = pasekwynagrodzenFacade.findByRokMcAngaz(wpisView.getRokWpisu(), wpisView.getMiesiacWpisu(), wpisView.getAngaz());
+        if (innepaskiwtymmiesiacu!=null) {
+            for (Pasekwynagrodzen p : innepaskiwtymmiesiacu) {
+                if (p.getKwotawolna()!=0.0) {
+                    zwrot = true;
+                }
+            }
+        }
+        return zwrot;
     }
 
     

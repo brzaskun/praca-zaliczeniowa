@@ -180,7 +180,8 @@ public class Umowa implements Serializable {
     @Size(max = 256)
     @Column(name = "przyczynaumowaokreslony")
     private String przyczynaumowaokreslony;
-    
+    @Column(name = "importowana")
+    private boolean importowana;
 
     public Umowa() {
         this.etatList = new ArrayList<>();
@@ -596,6 +597,14 @@ public class Umowa implements Serializable {
 
     public void setPrzyczynaumowaokreslony(String przyczynaumowaokreslony) {
         this.przyczynaumowaokreslony = przyczynaumowaokreslony;
+    }
+
+    public boolean isImportowana() {
+        return importowana;
+    }
+
+    public void setImportowana(boolean importowana) {
+        this.importowana = importowana;
     }
     
     @XmlTransient

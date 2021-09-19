@@ -6,6 +6,7 @@
 package dao;
 
 import entity.Umowakodzus;
+import java.util.List;
 import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -64,6 +65,16 @@ public class UmowakodzusFacade extends DAO  {
          Umowakodzus zwrot = null;
         try {
             zwrot = (Umowakodzus) getEntityManager().createNamedQuery("Umowakodzus.findById").setParameter("id", id).getSingleResult();
+        } catch (Exception e) {
+            
+        }
+        return zwrot;
+     }
+     
+     public List<Umowakodzus> findUmowakodzusAktywne(){
+         List<Umowakodzus> zwrot = null;
+        try {
+            zwrot = getEntityManager().createNamedQuery("Umowakodzus.findByAktywne").getResultList();
         } catch (Exception e) {
             
         }

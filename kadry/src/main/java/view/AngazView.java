@@ -60,25 +60,10 @@ public class AngazView  implements Serializable {
     @Inject
     private WpisView wpisView;
     @Inject
-    private UmowaView umowaView;
-    @Inject
-    private KalendarzmiesiacView kalendarzmiesiacView;
-    @Inject
-    private ZmiennaWynagrodzeniaView zmiennaWynagrodzeniaView;
-    @Inject
-    private SkladnikWynagrodzeniaView skladnikWynagrodzeniaView;
-    @Inject
-    private ZmiennaPotraceniaView zmiennaPotraceniaView;
-    @Inject
-    private SkladnikPotraceniaView skladnikPotraceniaView;
-    @Inject
     private PracownikView pracownikView;
     @Inject
-    private EtatView etatView;
-    @Inject
     private UpdateClassView updateClassView;
-    @Inject
-    private RachunkidoZlecenView rachunkidoZlecenView;
+
     
     @PostConstruct
     public void init() {
@@ -129,13 +114,7 @@ public class AngazView  implements Serializable {
             } else if (umowy!=null) {
                 wpisView.setUmowa(umowy.stream().filter(p->p.isAktywna()).findFirst().get());
             }
-            umowaView.init();
-            skladnikWynagrodzeniaView.init();
-            zmiennaWynagrodzeniaView.init();
-            kalendarzmiesiacView.init();
-            rachunkidoZlecenView.init();
-            etatView.init();
-            updateClassView.updateRok();
+            updateClassView.updateUmowa();
             Msg.msg("Aktywowano pracownika");
         }
     }
@@ -151,15 +130,7 @@ public class AngazView  implements Serializable {
             } else if (umowy!=null) {
                 wpisView.setUmowa(umowy.stream().filter(p->p.isAktywna()).findFirst().get());
             }
-            umowaView.init();
-            skladnikWynagrodzeniaView.init();
-            zmiennaWynagrodzeniaView.init();
-            skladnikPotraceniaView.init();
-            zmiennaPotraceniaView.init();
-            kalendarzmiesiacView.init();
-            rachunkidoZlecenView.init();
-            etatView.init();
-            updateClassView.updateRok();
+            updateClassView.updateUmowa();
             Msg.msg("Aktywowano pracownika");
         }
     }

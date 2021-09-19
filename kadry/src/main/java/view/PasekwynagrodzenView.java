@@ -130,7 +130,9 @@ public class PasekwynagrodzenView  implements Serializable {
                 }
                 double sumapoprzednich = PasekwynagrodzenBean.sumaprzychodowpoprzednich(pasekwynagrodzenFacade, p, stawkipodatkowe.get(1).getKwotawolnaod());
                 double wynagrodzenieminimalne = wynagrodzenieminimalneFacade.findByRok(wpisView.getRokWpisu()).getKwotabrutto();
-                Pasekwynagrodzen pasek = PasekwynagrodzenBean.oblicz(p, wybranalistaplac, nieobecnosckodzusFacade, paskidowyliczeniapodstawy, historiawynagrodzen, stawkipodatkowe, sumapoprzednich, wynagrodzenieminimalne);
+                //zeby nei odoliczyc kwoty wolnej dwa razy
+                boolean czyodlicoznokwotewolna = PasekwynagrodzenBean.czyodliczonokwotewolna(wpisView, pasekwynagrodzenFacade);
+                Pasekwynagrodzen pasek = PasekwynagrodzenBean.oblicz(p, wybranalistaplac, nieobecnosckodzusFacade, paskidowyliczeniapodstawy, historiawynagrodzen, stawkipodatkowe, sumapoprzednich, wynagrodzenieminimalne, czyodlicoznokwotewolna);
                 usunpasekjakzawiera(pasek);
                 lista.add(pasek);
             }
