@@ -20,11 +20,11 @@
             </p:panelGrid>
        <p:panelGrid columns="2" columnClasses="sixty-percent forty-percent"  binding="#{interpaperImportView.grid0}" >
                     <p:panelGrid columns="1" style="margin-top: 20px;">
-                        <h:outputText value="Akceptowana wersja pliku xls,xlsx, xml" style="font-weight: bold;"/>
+                        <h:outputText value="Akceptowana wersja pliku xls,xlsx, xml, epp" style="font-weight: bold;"/>
                         <p:fileUpload fileUploadListener="#{interpaperImportView.zachowajplik}" 
                                       mode="advanced" dragDropSupport="true" multiple="true" sequential="true" auto="true"
                                       update="messages2 panelprzyciskow akordeon5:form_importinterpaper panelplik:rodzajrach" 
-                                      invalidSizeMessage="Plik za duży" allowTypes="/(\.|\/)(csv|xls|xml|xlsx)$/" invalidFileMessage="Niewłaściwy format pliku: "
+                                      invalidSizeMessage="Plik za duży" allowTypes="/(\.|\/)(csv|xls|xml|xlsx|epp)$/" invalidFileMessage="Niewłaściwy format pliku: "
                                       uploadLabel="Wczytaj" label="Wybierz" cancelLabel="Rezygnuj" 
                                       style="height: 90px;"> 
                         </p:fileUpload>

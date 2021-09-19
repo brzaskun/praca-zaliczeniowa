@@ -7,10 +7,10 @@ package xls;
 
 import beansRegon.SzukajDaneBean;
 import dao.KlienciDAO;
-import dao.RodzajedokDAO;
 import dao.KontoDAOfk;
 import dao.PozycjaBilansDAO;
 import dao.PozycjaRZiSDAO;
+import dao.RodzajedokDAO;
 import data.Data;
 import embeddable.PanstwaMap;
 import embeddablefk.InterpaperXLS;
@@ -276,6 +276,10 @@ public class ReadXLSTomTechFile {
                     klient.setKrajnazwa("Polska");
                     klient.setKrajkod("PL");
                 }
+                klienciDAO.edit(klient);
+            }
+            if (klient.getKrajkod()==null && klient.getKrajnazwa()!=null) {
+                klient.setKrajkod(PanstwaMap.getWykazPanstwSX().get(klient.getKrajnazwa()));
                 klienciDAO.edit(klient);
             }
         } catch (Exception e) {

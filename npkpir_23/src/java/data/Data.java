@@ -606,6 +606,21 @@ public class Data implements Serializable {
         }
         return dobradata;
     }
+    public static String zmienkolejnoscEPP(String zladata) {
+        String dobradata = "";
+        if (zladata!=null && zladata.length()==14) {
+            StringBuilder sb = new StringBuilder();
+            sb.append(zladata.substring(0, 4));
+            sb.append("-");
+            sb.append(zladata.substring(4, 6));
+            sb.append("-");
+            sb.append(zladata.substring(6, 8));
+            dobradata = sb.toString();
+        } else {
+            dobradata = zladata;
+        }
+        return dobradata;
+    }
     
     public static String zmienkolejnosc8(String zladata) {
         String dobradata = "";

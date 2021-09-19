@@ -185,6 +185,7 @@ public class InterpaperImportView implements Serializable {
         zwrot.add(new ImportowanyPlik("Seven xml","xml","",8));
         zwrot.add(new ImportowanyPlik("K3F xml","xml","",9));
         zwrot.add(new ImportowanyPlik("Amazon taxraport csv","csv","",10));
+        zwrot.add(new ImportowanyPlik("Bud-Instal epp","epp","",11));
         return zwrot;
     }
     
@@ -192,7 +193,7 @@ public class InterpaperImportView implements Serializable {
         try {
             UploadedFile uploadedFile = event.getFile();
             String extension = FilenameUtils.getExtension(uploadedFile.getFileName());
-            if (extension.equals("csv")||extension.equals("xls")||extension.equals("xlsx")||extension.equals("xml")) {
+            if (extension.equals("csv")||extension.equals("xls")||extension.equals("xlsx")||extension.equals("xml")||extension.equals("epp")) {
                 String filename = uploadedFile.getFileName();
                 pobranyplik = uploadedFile.getContents();
                 pobraneplikibytes.add(uploadedFile.getContents());
@@ -279,6 +280,13 @@ public class InterpaperImportView implements Serializable {
                     przerwanyimport = (List<InterpaperXLS>) zwrot3[1];
                     importyzbrakami = (List<InterpaperXLS>) zwrot3[2];
                     innyokres = (List<InterpaperXLS>) zwrot3[3];
+                    break;
+                 case 11:
+                    Object[] zwrot4 = ReadBudInstalFile.getListafaktur(pobranyplik, k, klienciDAO, rodzajdok, jakipobor, wpisView.getMiesiacWpisu());
+                    pobranefaktury = (List<InterpaperXLS>) zwrot4[0];
+                    przerwanyimport = (List<InterpaperXLS>) zwrot4[1];
+                    importyzbrakami = (List<InterpaperXLS>) zwrot4[2];
+                    innyokres = (List<InterpaperXLS>) zwrot4[3];
                     break;
             }
             sumujnadole(pobranefaktury);
@@ -1381,6 +1389,8 @@ public class InterpaperImportView implements Serializable {
             case 7:
             case 8:
             case 9:
+            case 10:
+            case 11:
                 zwrot.add("sprzedaż");
                 break;
         }

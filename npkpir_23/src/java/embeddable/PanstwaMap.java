@@ -60,8 +60,10 @@ public PanstwaMap(){
         wykazPanstwXS.put(symbol, panstwo);
     }
 }
-
-
+    /**
+    * @param  podaj nazwe panstwa
+    * @return  zwraca symbol ponastwa
+    */
     public static  Map<String, String> getWykazPanstwSX() {
         return wykazPanstwSX;
     }
@@ -70,6 +72,10 @@ public PanstwaMap(){
         PanstwaMap.wykazPanstwSX = wykazPanstwSX;
     }
 
+    /**
+    * @param  podaj symbolp anstwa
+    * @return  zwraca nazwe ponastwa
+    */
     public static Map<String, String> getWykazPanstwXS() {
         return wykazPanstwXS;
     }

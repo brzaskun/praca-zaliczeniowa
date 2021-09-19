@@ -8,23 +8,24 @@ package xls;
 import beansRegon.SzukajDaneBean;
 import dao.KlienciDAO;
 import data.Data;
-import embeddable.AmazonCSV;
 import embeddable.PanstwaMap;
 import embeddablefk.InterpaperXLS;
 import entity.Klienci;
 import error.E;
 import importfaktury.k3f.Invoice;
+import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.StringReader;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.Unmarshaller;
+import java.util.stream.Collectors;
 import msg.Msg;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
@@ -35,7 +36,7 @@ import waluty.Z;
  * @author Osito
  */
 
-public class ReadCSVAmazonFile {
+public class ReadBudInstalFile {
     
     private static String filename = "c://temp//faktury2.xlsx";
     
@@ -97,40 +98,55 @@ public class ReadCSVAmazonFile {
      public static Object[] getListafaktur(byte[] plikinterpaper, List<Klienci> k, KlienciDAO klienciDAO, String rodzajdok, String jakipobor, String mc) {
         Object[] zwrot = new Object[4];
         List<InterpaperXLS> listafaktur = Collections.synchronizedList(new ArrayList<>());
-        List<Invoice.Item> innyokres = new ArrayList<>();
-        List<Invoice.Item> przerwanyimport = new ArrayList<>();
+        List<CSVRecord> innyokres = new ArrayList<>();
+        List<CSVRecord> przerwanyimport = new ArrayList<>();
         List<InterpaperXLS> importyzbrakami = Collections.synchronizedList(new ArrayList<>());
-        AmazonCSV tmpzwrot = null;
          try {
             InputStream file = new ByteArrayInputStream(plikinterpaper);
-            Iterable<CSVRecord> recordss = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(new InputStreamReader(file, Charset.forName("windows-1252")));
-            for (CSVRecord record : recordss) {
-                tmpzwrot = new AmazonCSV(record);
-                //zwrot.add(tmpzwrot);
+            List<String> list = new BufferedReader(new InputStreamReader(file, Charset.forName("cp1250"))).lines().collect(Collectors.toList());
+            List<String> listbezinfo = list.subList(3, list.size()-1);
+            List<String> rekordy = new ArrayList<>();
+            StringBuilder sb = null;
+            for (String p : listbezinfo) {
+                if (p.equals("[NAGLOWEK]")) {
+                    sb = new StringBuilder();
+                } else if (p.equals("")) {
+                    
+                } else if (p.equals("[ZAWARTOSC]")) {
+                    rekordy.add(sb.toString());
+                    sb = null;
+                } else if (p.equals("KONTRAHENCI")) {
+                    sb = null;
+                    break;
+                } else {
+                    if (sb!=null) {
+                        sb.append(p);
+                    }
+                }
             }
-            InputStreamReader reader = new InputStreamReader(file, "UTF-8");
-            JAXBContext jaxbContext = JAXBContext.newInstance(Invoice.class);
-            Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-            Invoice tabela =  (Invoice) jaxbUnmarshaller.unmarshal(reader);
+           List<String> listfaktury = rekordy.stream().filter(p->p.startsWith("\"FS\",")).collect(Collectors.toList());
+           List<String> listkorekty = rekordy.stream().filter(p->p.startsWith("\"KFS\",")).collect(Collectors.toList());
+           listfaktury.addAll(listkorekty);
+            //list2.forEach(System.out::println);
+            List<CSVRecord> recordss = new ArrayList<>();
+            for (String p : listfaktury) {
+                Reader targetReader = new StringReader(p);
+                Iterable<CSVRecord> records = CSVFormat.DEFAULT.parse(targetReader);
+                records.forEach(recordss::add);
+                System.out.println("");
+            }
              //Create Workbook instance holding reference to .xlsx file  TYLKO NOWE XLSX
-            if (tabela!=null && tabela.getItem()!=null && !tabela.getItem().isEmpty()) {
+            if (recordss!=null) {
                 int i =1;
                 Map<String, Klienci> znalezieni = new HashMap<>();
-                for (Invoice.Item row :tabela.getItem()) {
+                for (CSVRecord row :recordss) {
                     try {
                         InterpaperXLS interpaperXLS = new InterpaperXLS();
                         String nip = pobierznip(row);
-                        String mcdok = Data.getMc(Data.zmienkolejnosc(Data.calendarToString(row.getInvSellDate())));
+                        String mcdok = Data.getMc(Data.zmienkolejnoscEPP(row.get(21)));
                         if (mc.equals(mcdok)) {
-                            if (rodzajdok.contains("zakup")) {
-                                uzupelnijzakup(interpaperXLS, row, k, klienciDAO, znalezieni);
-                                if (interpaperXLS.getKontrahent()!=null && (interpaperXLS.getNettowaluta()!=0.0 || interpaperXLS.getVatwaluta()!=0.0)) {
-                                    interpaperXLS.setNr(i++);
-                                    listafaktur.add(interpaperXLS);
-                                }
-                            } else {
-                                Invoice.Item zlyrow = null;
-                                if (jakipobor.equals("firmy") && nip!=null && !nip.equals("") &&  nip.length()>7) {
+                                CSVRecord zlyrow = null;
+                                if (nip!=null && !nip.equals("") &&  nip.length()>7) {
                                     zlyrow = uzupelnijsprzedaz2(interpaperXLS, row, k, klienciDAO, znalezieni);
                                     if (zlyrow!=null) {
                                         przerwanyimport.add(zlyrow);
@@ -141,20 +157,7 @@ public class ReadCSVAmazonFile {
                                     } else {
                                         importyzbrakami.add(interpaperXLS);
                                     }
-                                } else if (jakipobor.equals("fiz") && (nip==null || nip.equals("") || nip.length()<8)) {
-                                    zlyrow = uzupelnijsprzedaz(interpaperXLS, row, k, klienciDAO, znalezieni);
-                                    if (zlyrow != null) {
-                                        przerwanyimport.add(zlyrow);
-                                    }
-                                    if (interpaperXLS.getKontrahent() != null && (interpaperXLS.getNettowaluta() != 0.0 || interpaperXLS.getVatwaluta() != 0.0)) {
-                                        interpaperXLS.setNr(i++);
-                                        listafaktur.add(interpaperXLS);
-                                    } else {
-                                        importyzbrakami.add(interpaperXLS);
-                                    }
                                 }
-                            }
-                                
                         } else {
                             innyokres.add(row);
                         }
@@ -175,7 +178,7 @@ public class ReadCSVAmazonFile {
         List<InterpaperXLS> zlefakturylista = new ArrayList<>();
         Map<String, Klienci> znalezieni = new HashMap<>();
         int i =1;
-        for (Invoice.Item row :przerwanyimport) {
+        for (CSVRecord row :przerwanyimport) {
             try {
                 InterpaperXLS interpaperXLS = new InterpaperXLS();
                 uzupelnijsprzedaz2(interpaperXLS, row, k, klienciDAO, znalezieni);
@@ -187,7 +190,7 @@ public class ReadCSVAmazonFile {
         List<InterpaperXLS> zlefakturylista2 = new ArrayList<>();
         Map<String, Klienci> znalezieni2 = new HashMap<>();
         i =1;
-        for (Invoice.Item row :innyokres) {
+        for (CSVRecord row :innyokres) {
             try {
                 InterpaperXLS interpaperXLS = new InterpaperXLS();
                 uzupelnijsprzedaz2(interpaperXLS, row, k, klienciDAO, znalezieni2);
@@ -199,34 +202,7 @@ public class ReadCSVAmazonFile {
         return zwrot;
     }
      
-   private static void uzupelnijzakup(InterpaperXLS interpaperXLS, Invoice.Item row, List<Klienci> k, KlienciDAO klienciDAO, Map<String, Klienci> znalezieni) {
-//        if (row.getCell(16).getStringCellValue().equals("Zakup")) {
-//            interpaperXLS.setNrfaktury(row.getCell(0).getStringCellValue());
-//            interpaperXLS.setDatawystawienia(row.getCell(10).getDateCellValue());
-//            interpaperXLS.setDatasprzedaży(row.getCell(8).getDateCellValue());
-//            interpaperXLS.setDataobvat(row.getCell(8).getDateCellValue());
-//            interpaperXLS.setKlientnazwa(row.getCell(3).getStringCellValue());
-//            interpaperXLS.setKlientpaństwo(row.getCell(4).getStringCellValue());
-//            interpaperXLS.setKlientkod(row.getCell(5).getStringCellValue());
-//            interpaperXLS.setKlientmiasto(row.getCell(6).getStringCellValue());
-//            interpaperXLS.setKlientulica(row.getCell(7).getStringCellValue());
-//            interpaperXLS.setKlientdom("");
-//            interpaperXLS.setKlientlokal("");
-//            String kontr = row.getCell(3).getStringCellValue()+" "+row.getCell(3).getStringCellValue()+" "+row.getCell(5).getStringCellValue()+" "+row.getCell(6).getStringCellValue();
-//            interpaperXLS.setKontrahent(kontr);
-//            interpaperXLS.setNip(row.getCell(2).getStringCellValue().replace("-", "").trim());
-//            interpaperXLS.setKlient(ustawkontrahenta(interpaperXLS, k, klienciDAO, znalezieni));
-//            interpaperXLS.setWalutaplatnosci(row.getCell(12).getStringCellValue());
-//            interpaperXLS.setSaldofaktury(row.getCell(17).getNumericCellValue()+row.getCell(18).getNumericCellValue());
-//            interpaperXLS.setTerminplatnosci(row.getCell(9).getDateCellValue());
-//            interpaperXLS.setNettowaluta(row.getCell(17).getNumericCellValue());
-//            interpaperXLS.setVatwaluta(row.getCell(18).getNumericCellValue());
-//            interpaperXLS.setBruttowaluta(row.getCell(17).getNumericCellValue()+row.getCell(18).getNumericCellValue());
-//            interpaperXLS.setNettoPLN(row.getCell(13).getNumericCellValue());
-//            interpaperXLS.setNettoPLNvat(row.getCell(13).getNumericCellValue());
-//            interpaperXLS.setVatPLN(row.getCell(14).getNumericCellValue());
-//        }
-   }
+   
    
 //FV i FV 2  Sprzedaz krajowa i traktowana zagranica jako krajowa z VAT
 //PAR i PAR 2  Sprzedaz fiskalna paragony
@@ -234,63 +210,33 @@ public class ReadCSVAmazonFile {
 //FE i FE 2  Sprzedaz eksportowa
 //FVPR i FVPR 2  Sprzedaz z przekroczeniem limitu gdzie stosowana ma być stawka danego kraju (DE  16% i FR 20%). 
 
-    private static Invoice.Item uzupelnijsprzedaz(InterpaperXLS interpaperXLS, Invoice.Item row, List<Klienci> k, KlienciDAO klienciDAO, Map<String, Klienci> znalezieni) {
-        Invoice.Item zlafaktura = null;
-            try {
-                String nip = pobierznip(row);
-                interpaperXLS.setNrfaktury(row.getInvNumberString());
-                interpaperXLS.setDatawystawienia(Data.stringToDate(Data.calendarToString(row.getInvDate())));
-                interpaperXLS.setDatasprzedaży(Data.stringToDate(Data.calendarToString(row.getInvSellDate())));
-                interpaperXLS.setDataobvat(Data.stringToDate(Data.calendarToString(row.getInvSellDate())));
-                interpaperXLS.setKlientnazwa(row.getInvBillCompany());
-                interpaperXLS.setKlientpaństwo(row.getInvBillCountry());
-                interpaperXLS.setKlientkod(row.getInvBillCode());
-                interpaperXLS.setKlientmiasto(row.getInvBillCity());
-                interpaperXLS.setKlientulica(row.getInvBillStreet());
-                String kontr = row.getInvBillCompany()+" "+row.getInvBillCountry()+" "+row.getInvBillCode()+" "+row.getInvBillCity();
-                interpaperXLS.setKontrahent(kontr);
-                interpaperXLS.setNip(pobierznip(row));
-                interpaperXLS.setWalutaplatnosci(pobierzwalute(row));
-                interpaperXLS.setSaldofaktury(row.getInvPrice());
-                interpaperXLS.setNettoPLN(Z.z(row.getInvPriceNet()));
-                interpaperXLS.setNettoPLNvat(Z.z(row.getInvPriceNet()));
-                interpaperXLS.setVatPLN(Z.z(row.getInvTax()));
-                interpaperXLS.setBruttoPLN(row.getInvPrice());
-                interpaperXLS.setNettowaluta(Z.z(row.getInvPriceNet()));
-                interpaperXLS.setVatwaluta(Z.z(row.getInvTax()));
-                interpaperXLS.setBruttowaluta(row.getInvPrice());
-            } catch (Exception e) {
-                zlafaktura = row;
-            }
-        return zlafaktura;
-    }
-    
-    private static Invoice.Item uzupelnijsprzedaz2(InterpaperXLS interpaperXLS, Invoice.Item row, List<Klienci> k, KlienciDAO klienciDAO, Map<String, Klienci> znalezieni) {
-        Invoice.Item zlafaktura = null;
+        
+    private static CSVRecord uzupelnijsprzedaz2(InterpaperXLS interpaperXLS, CSVRecord row, List<Klienci> k, KlienciDAO klienciDAO, Map<String, Klienci> znalezieni) {
+        CSVRecord zlafaktura = null;
         try {
                 String nip = pobierznip(row);
-                interpaperXLS.setNrfaktury(row.getInvNumberString());
-                interpaperXLS.setDatawystawienia(Data.stringToDate(Data.calendarToString(row.getInvDate())));
-                interpaperXLS.setDatasprzedaży(Data.stringToDate(Data.calendarToString(row.getInvSellDate())));
-                interpaperXLS.setDataobvat(Data.stringToDate(Data.calendarToString(row.getInvSellDate())));
-                interpaperXLS.setKlientnazwa(row.getInvBillCompany());
-                interpaperXLS.setKlientpaństwo(row.getInvBillCountry());
-                interpaperXLS.setKlientkod(row.getInvBillCode());
-                interpaperXLS.setKlientmiasto(row.getInvBillCity());
-                interpaperXLS.setKlientulica(row.getInvBillStreet());
-                String kontr = row.getInvBillCompany()+" "+row.getInvBillCountry()+" "+row.getInvBillCode()+" "+row.getInvBillCity();
+                interpaperXLS.setNrfaktury(row.get(6));
+                interpaperXLS.setDatawystawienia(Data.stringToDate(Data.zmienkolejnoscEPP(row.get(21))));
+                interpaperXLS.setDatasprzedaży(Data.stringToDate(Data.zmienkolejnoscEPP(row.get(21))));
+                interpaperXLS.setDataobvat(Data.stringToDate(Data.zmienkolejnoscEPP(row.get(21))));
+                interpaperXLS.setKlientnazwa(row.get(12));
+                interpaperXLS.setKlientpaństwo(row.get(60));
+                interpaperXLS.setKlientkod(row.get(15));
+                interpaperXLS.setKlientmiasto(row.get(14));
+                interpaperXLS.setKlientulica(row.get(16));
+                String kontr = interpaperXLS.getKlientnazwa()+" "+interpaperXLS.getKlientkod()+" "+interpaperXLS.getKlientmiasto()+" "+interpaperXLS.getKlientulica();
                 interpaperXLS.setKontrahent(kontr);
                 interpaperXLS.setNip(pobierznip(row));
                 interpaperXLS.setKlient(ustawkontrahenta(interpaperXLS, k, klienciDAO, znalezieni));
-                interpaperXLS.setWalutaplatnosci(pobierzwalute(row));
-                interpaperXLS.setSaldofaktury(row.getInvPrice());
-                interpaperXLS.setNettoPLN(Z.z(row.getInvPriceNet()));
-                interpaperXLS.setNettoPLNvat(Z.z(row.getInvPriceNet()));
-                interpaperXLS.setVatPLN(Z.z(row.getInvTax()));
-                interpaperXLS.setBruttoPLN(row.getInvPrice());
-                interpaperXLS.setNettowaluta(Z.z(row.getInvPriceNet()));
-                interpaperXLS.setVatwaluta(Z.z(row.getInvTax()));
-                interpaperXLS.setBruttowaluta(row.getInvPrice());
+                interpaperXLS.setWalutaplatnosci(row.get(46));
+                interpaperXLS.setSaldofaktury(Z.z(Double.parseDouble(row.get(29))));
+                interpaperXLS.setNettoPLN(Z.z(Double.parseDouble(row.get(27))));
+                interpaperXLS.setNettoPLNvat(Z.z(Double.parseDouble(row.get(27))));
+                interpaperXLS.setVatPLN(Z.z(Double.parseDouble(row.get(28))));
+                interpaperXLS.setBruttoPLN(Z.z(Double.parseDouble(row.get(29))));
+                interpaperXLS.setNettowaluta(Z.z(Double.parseDouble(row.get(27))));
+                interpaperXLS.setVatwaluta(Z.z(Double.parseDouble(row.get(28))));
+                interpaperXLS.setBruttowaluta(Z.z(Double.parseDouble(row.get(29))));
             } catch (Exception e) {
             zlafaktura = row;
         }
@@ -455,10 +401,13 @@ public class ReadCSVAmazonFile {
 //                            break;
 //                    }
 
-    private static String pobierznip(Invoice.Item row) {
+    private static String pobierznip(CSVRecord row) {
         String zwrot = null;
-        zwrot = row.getInvBillVat();
+        zwrot = row.get(17);
         zwrot = zwrot.replace("-","");
+        if (zwrot.startsWith("PL")){
+            zwrot = zwrot.substring(2);
+        }
         return zwrot;
     }
 
