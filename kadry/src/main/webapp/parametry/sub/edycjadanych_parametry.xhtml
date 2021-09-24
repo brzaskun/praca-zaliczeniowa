@@ -55,7 +55,7 @@
                 <h:form id="RodzajwynagrodzeniaForm">
                     <p:dataTable id="datalist" value="#{rodzjawynagrodzeniaSetView.lista}" var="item11"
                                  selectionMode="single" selection="#{rodzjawynagrodzeniaSetView.selectedlista}"
-                                 rowKey="#{item11.id}" 
+                                 rowKey="#{item11.id}" sortBy="#{item11.kod}"
                                  style="height: 400px; overflow-y: scroll; width: 1200px;"
                                  >
 
@@ -76,6 +76,12 @@
                                 <h:outputText value="opis"/>
                             </f:facet>
                             <h:outputText value="#{item11.opispelny}"/>
+                        </p:column>
+                        <p:column style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="składnik aktywny"/>
+                            </f:facet>
+                            <p:selectBooleanCheckbox value="#{item11.aktywne}"/>
                         </p:column>
                         <p:column style="text-align: center;">
                             <f:facet name="header">

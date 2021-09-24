@@ -227,8 +227,10 @@ public class Pracownik implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Pracownik[ id=" + id + " ]";
+        return "Pracownik{" + "nazwisko=" + nazwisko + ", imie=" + imie + ", dataurodzenia=" + dataurodzenia + ", pesel=" + pesel + ", email=" + email + ", miasto=" + miasto + ", kraj=" + kraj + ", datazatrudnienia=" + datazatrudnienia + ", plec=" + plec + ", obywatelstwo=" + obywatelstwo + ", angazList=" + angazList + '}';
     }
+
+ 
     public String getNazwiskoImie() {
         return nazwisko+" "+imie;
     }

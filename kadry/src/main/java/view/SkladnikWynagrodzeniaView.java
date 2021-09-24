@@ -51,7 +51,7 @@ public class SkladnikWynagrodzeniaView  implements Serializable {
             lista  = skladnikWynagrodzeniaFacade.findByUmowa(wpisView.getUmowa());
         }
         listaumow = umowaFacade.findPracownik(wpisView.getPracownik());
-        listarodzajwynagrodzenia = rodzajwynagrodzeniaFacade.findAll();
+        listarodzajwynagrodzenia = rodzajwynagrodzeniaFacade.findAktywne();
 
     }
     

@@ -14,13 +14,18 @@
                     <h:form id="KalendarzmiesiacCreateForm">
                         <p:panelGrid columns="2">
                             <p:outputLabel value="umowa" for="umowakalendarz" />
-                            <p:selectOneMenu id="umowakalendarz" value="#{kalendarzmiesiacView.selected.umowa}" converter="#{umowaConverter}">
+                            <h:outputText id="umowakalendarz" value="#{kalendarzmiesiacView.selected.umowa.nrkolejny}" style="color: green;"/>
+                            <p:outputLabel value="pracownik" for="umowakalendarz0" />
+                            <h:outputText id="umowakalendarz0" value="#{kalendarzmiesiacView.selected.umowa.imieNazwisko}" style="color: green;"/>
+                            <p:outputLabel value="rodzaj umowy" for="umowakalendarz1" />
+                            <h:outputText id="umowakalendarz1" value="#{kalendarzmiesiacView.selected.umowa.rodzajumowy}" style="color: green;"/>
+<!--                            <p:selectOneMenu id="umowakalendarz" value="#{kalendarzmiesiacView.selected.umowa}" converter="#{umowaConverter}">
                                 <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
                                 <f:selectItems value="#{kalendarzmiesiacView.listaumowa}"
                                                var="firmaKItem"
                                                itemValue="#{firmaKItem}" itemLabel="#{firmaKItem.angaz.pracownik.nazwiskoImie}"/> 
                                 <p:ajax event="change" partialSubmit="true" global="false"/>
-                            </p:selectOneMenu>
+                            </p:selectOneMenu>-->
                             <p:outputLabel value="rok" for="rok" />
                             <p:inputText id="rok" value="#{kalendarzmiesiacView.selected.rok}" title="rok" >
                                 <p:ajax event="blur" listener="#{kalendarzmiesiacView.pobierzkalendarzeprac}" partialSubmit="true" global="false" update=":KalendarzmiesiacListForm:datalist KalendarzmiesiacSaRokForm"/>

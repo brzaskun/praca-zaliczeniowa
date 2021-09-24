@@ -9,7 +9,7 @@
     <p:outputPanel style="height: 360px" id="panelumowadane">
             <h:form id="UmowaCreateForm">
                 <p:panel header="Dodawanie/edycja umowy #{umowaView.rodzajumowy eq '1' ?'o pracę':'zlecenia i o dzieło'}"/>
-                <h:panelGroup id="display">
+                <h:panelGroup id="display" >
                     <h:outputText value="Dodajesz nową umowę #{umowaView.rodzajumowy eq '1' ?'o pracę':'zlecenia i o dzieło'}" style="color:green; margin-left: 50px; font-weight: bolder;" rendered="#{umowaView.selected.id eq null}"/>
                     <h:outputText value="Zmieniasz istniejącą umowę" style="color:blue; margin-left: 50px; font-weight: bolder;" rendered="#{umowaView.selected.id ne null}"/>
                     <p:panelGrid columns="4" rendered="#{umowaView.selected != null}">

@@ -49,6 +49,7 @@ public class DefinicjalistaplacView  implements Serializable {
     @PostConstruct
     public void init() {
         lista  = definicjalistaplacFacade.findByFirmaRok(wpisView.getFirma(), wpisView.getRokWpisu());
+        lista = definicjalistaplacFacade.findByFirmaRokUmowaoprace(wpisView.getFirma(), wpisView.getRokWpisu());
         if (wybranyrodzajlisty!=null) {
             if (wybranyrodzajlisty.getTyp()==1) {
                 lista = definicjalistaplacFacade.findByFirmaRokUmowaoprace(wpisView.getFirma(), wpisView.getRokWpisu());

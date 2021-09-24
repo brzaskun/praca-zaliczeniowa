@@ -45,6 +45,7 @@ import z.Z;
     @NamedQuery(name = "Rachunekdoumowyzlecenia.findByWypadkowa", query = "SELECT r FROM Rachunekdoumowyzlecenia r WHERE r.wypadkowa = :wypadkowa"),
     @NamedQuery(name = "Rachunekdoumowyzlecenia.findByPodatek", query = "SELECT r FROM Rachunekdoumowyzlecenia r WHERE r.podatek = :podatek"),
     @NamedQuery(name = "Rachunekdoumowyzlecenia.findByRokUmowa", query = "SELECT r FROM Rachunekdoumowyzlecenia r WHERE r.rok = :rok and r.umowa = :umowa"),
+    @NamedQuery(name = "Rachunekdoumowyzlecenia.findByRokMcUmowa", query = "SELECT r FROM Rachunekdoumowyzlecenia r WHERE r.rok = :rok and r.mc = :mc and r.umowa = :umowa"),
     @NamedQuery(name = "Rachunekdoumowyzlecenia.findByProcentkosztowuzyskania", query = "SELECT r FROM Rachunekdoumowyzlecenia r WHERE r.procentkosztowuzyskania = :procentkosztowuzyskania")})
 public class Rachunekdoumowyzlecenia implements Serializable {
 
@@ -73,6 +74,12 @@ public class Rachunekdoumowyzlecenia implements Serializable {
     private String rok;
     @Column(name="mc")
     private String mc;
+    @Column(name="wynagrodzeniemiesieczne")
+    private double wynagrodzeniemiesieczne;
+    @Column(name="wynagrodzeniegodzinowe")
+    private double wynagrodzeniegodzinowe;
+    @Column(name="iloscgodzin")
+    private double iloscgodzin;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "kwota")
     private double kwota;
@@ -126,6 +133,16 @@ public class Rachunekdoumowyzlecenia implements Serializable {
         this.podatek = r.getPzlPodDoch().equals('T');;
         this.procentkosztowuzyskania = Z.z(r.getPzlKosztProc().doubleValue());
         this.importowany = true;
+    }
+    
+     public Rachunekdoumowyzlecenia(Umowa umowa) {
+        this.umowa = umowa;
+        this.datawystawienia = Data.aktualnaData();
+        this.spoleczne = umowa.isEmerytalne();
+        this.chorobowa = umowa.isChorobowe()||umowa.isChorobowedobrowolne();
+        this.zdrowotna = umowa.isZdrowotne();
+        this.wypadkowa = umowa.isWypadkowe();
+        this.procentkosztowuzyskania = Z.z(umowa.getKosztyuzyskaniaprocent());
     }
 
 
@@ -221,6 +238,10 @@ public class Rachunekdoumowyzlecenia implements Serializable {
     public double getProcentkosztowuzyskania() {
         return procentkosztowuzyskania;
     }
+    
+    public double getProcentkosztowuzyskaniaDisplay() {
+        return Z.z(procentkosztowuzyskania/100.0);
+    }
 
     public void setProcentkosztowuzyskania(double procentkosztowuzyskania) {
         this.procentkosztowuzyskania = procentkosztowuzyskania;
@@ -264,6 +285,30 @@ public class Rachunekdoumowyzlecenia implements Serializable {
 
     public void setImportowany(boolean importowany) {
         this.importowany = importowany;
+    }
+
+    public double getWynagrodzeniemiesieczne() {
+        return wynagrodzeniemiesieczne;
+    }
+
+    public void setWynagrodzeniemiesieczne(double wynagrodzeniemiesieczne) {
+        this.wynagrodzeniemiesieczne = wynagrodzeniemiesieczne;
+    }
+
+    public double getWynagrodzeniegodzinowe() {
+        return wynagrodzeniegodzinowe;
+    }
+
+    public void setWynagrodzeniegodzinowe(double wynagrodzeniegodzinowe) {
+        this.wynagrodzeniegodzinowe = wynagrodzeniegodzinowe;
+    }
+
+    public double getIloscgodzin() {
+        return iloscgodzin;
+    }
+
+    public void setIloscgodzin(double iloscgodzin) {
+        this.iloscgodzin = iloscgodzin;
     }
     
 

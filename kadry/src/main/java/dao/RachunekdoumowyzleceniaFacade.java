@@ -47,4 +47,8 @@ public class RachunekdoumowyzleceniaFacade extends DAO  {
         return  getEntityManager().createNamedQuery("Rachunekdoumowyzlecenia.findByRokUmowa").setParameter("rok", rokWpisu).setParameter("umowa", umowa).getResultList();
     }
     
+    public Rachunekdoumowyzlecenia findByRokMcUmowa(String rokWpisu, String mc, Umowa umowa) {
+        return  (Rachunekdoumowyzlecenia) getEntityManager().createNamedQuery("Rachunekdoumowyzlecenia.findByRokMcUmowa").setParameter("rok", rokWpisu).setParameter("mc", mc).setParameter("umowa", umowa).getSingleResult();
+    }
+    
 }

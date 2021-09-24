@@ -33,11 +33,17 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Rodzajwynagrodzenia.findAll", query = "SELECT r FROM Rodzajwynagrodzenia r"),
     @NamedQuery(name = "Rodzajwynagrodzenia.findById", query = "SELECT r FROM Rodzajwynagrodzenia r WHERE r.id = :id"),
+    @NamedQuery(name = "Rodzajwynagrodzenia.findAktywne", query = "SELECT r FROM Rodzajwynagrodzenia r WHERE r.aktywne = TRUE"),
     @NamedQuery(name = "Rodzajwynagrodzenia.findByKod", query = "SELECT r FROM Rodzajwynagrodzenia r WHERE r.kod = :kod"),
     @NamedQuery(name = "Rodzajwynagrodzenia.findByOpispelny", query = "SELECT r FROM Rodzajwynagrodzenia r WHERE r.opispelny = :opispelny"),
     @NamedQuery(name = "Rodzajwynagrodzenia.findByOpisskrocony", query = "SELECT r FROM Rodzajwynagrodzenia r WHERE r.opisskrocony = :opisskrocony")})
 public class Rodzajwynagrodzenia implements Serializable {
-
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id")
+    private Integer id;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 45)
@@ -63,14 +69,8 @@ public class Rodzajwynagrodzenia implements Serializable {
     private  boolean zus0bezzus1;
     @Column(name = "podatek0bezpodatek1")
     private  boolean podatek0bezpodatek1;
-  
-
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id")
-    private Integer id;
+    @Column(name = "aktywne")
+    private  boolean aktywne;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "rodzajwynagrodzenia")
     private List<Skladnikwynagrodzenia> skladnikwynagrodzeniaList;
 
@@ -196,6 +196,14 @@ public class Rodzajwynagrodzenia implements Serializable {
 
     public void setPodatek0bezpodatek1(boolean podatek0bezpodatek1) {
         this.podatek0bezpodatek1 = podatek0bezpodatek1;
+    }
+
+    public boolean isAktywne() {
+        return aktywne;
+    }
+
+    public void setAktywne(boolean aktywne) {
+        this.aktywne = aktywne;
     }
 
       

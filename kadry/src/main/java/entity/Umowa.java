@@ -313,30 +313,31 @@ public class Umowa implements Serializable {
         this.kosztyuzyskaniaprocent = kosztyuzyskaniaprocent;
     }
 
-    public  boolean getOdliczaculgepodatkowa() {
+    public boolean isOdliczaculgepodatkowa() {
         return odliczaculgepodatkowa;
     }
 
-    public void setOdliczaculgepodatkowa( boolean odliczaculgepodatkowa) {
+    public void setOdliczaculgepodatkowa(boolean odliczaculgepodatkowa) {
         this.odliczaculgepodatkowa = odliczaculgepodatkowa;
     }
 
-    public boolean getChorobowe() {
+    public boolean isChorobowe() {
         return chorobowe;
     }
 
     public void setChorobowe(boolean chorobowe) {
         this.chorobowe = chorobowe;
     }
-    public boolean getChorobowedobrowolne() {
+
+    public boolean isChorobowedobrowolne() {
         return chorobowedobrowolne;
     }
+
     public void setChorobowedobrowolne(boolean chorobowedobrowolne) {
         this.chorobowedobrowolne = chorobowedobrowolne;
     }
-   
 
-    public boolean getEmerytalne() {
+    public boolean isEmerytalne() {
         return emerytalne;
     }
 
@@ -344,8 +345,7 @@ public class Umowa implements Serializable {
         this.emerytalne = emerytalne;
     }
 
-
-    public boolean getNieliczFGSP() {
+    public boolean isNieliczFGSP() {
         return nieliczFGSP;
     }
 
@@ -353,7 +353,7 @@ public class Umowa implements Serializable {
         this.nieliczFGSP = nieliczFGSP;
     }
 
-    public boolean getNieliczFP() {
+    public boolean isNieliczFP() {
         return nieliczFP;
     }
 
@@ -361,7 +361,7 @@ public class Umowa implements Serializable {
         this.nieliczFP = nieliczFP;
     }
 
-      public boolean getRentowe() {
+    public boolean isRentowe() {
         return rentowe;
     }
 
@@ -369,7 +369,7 @@ public class Umowa implements Serializable {
         this.rentowe = rentowe;
     }
 
-    public boolean getWypadkowe() {
+    public boolean isWypadkowe() {
         return wypadkowe;
     }
 
@@ -377,13 +377,14 @@ public class Umowa implements Serializable {
         this.wypadkowe = wypadkowe;
     }
 
-    public boolean getZdrowotne() {
+    public boolean isZdrowotne() {
         return zdrowotne;
     }
 
     public void setZdrowotne(boolean zdrowotne) {
         this.zdrowotne = zdrowotne;
     }
+
 
     public String getDatado() {
         return datado;
@@ -607,6 +608,18 @@ public class Umowa implements Serializable {
         this.importowana = importowana;
     }
     
+    public String getImieNazwisko() {
+        return this.angaz.getPracownik().getImie()+" "+this.angaz.getPracownik().getNazwisko();
+    }
+    
+    public String getRodzajumowy() {
+        String zwrot = "umowa o pracę";
+        if (this.umowakodzus.isZlecenie()) {
+            zwrot = "umowa zlecenia";
+        }
+        return zwrot;
+    }
+    
     @XmlTransient
     public List<Urlopprezentacja> getUrlopprezentacjaList() {
         return urlopprezentacjaList;
@@ -630,18 +643,18 @@ public class Umowa implements Serializable {
         return zwrot;
     }
     
-    public String pobierzwynagrodzenie() {
+    public String pobierzwynagrodzenieString() {
         String zwrot = "";
-        if (this.skladnikpotraceniaList!=null) {
+        if (this.skladnikwynagrodzeniaList!=null) {
             for (Skladnikwynagrodzenia p : this.skladnikwynagrodzeniaList) {
                 zwrot = zwrot+p.getRodzajwynagrodzenia().getOpispelny()+" ";
-                zwrot = zwrot+pobierzkwote(p.getZmiennawynagrodzeniaList());
+                zwrot = zwrot+pobierzkwoteString(p.getZmiennawynagrodzeniaList());
             }
         }
         return zwrot;
     }
 
-    private String pobierzkwote(List<Zmiennawynagrodzenia> zmiennawynagrodzeniaList) {
+    private String pobierzkwoteString(List<Zmiennawynagrodzenia> zmiennawynagrodzeniaList) {
         String zwrot = "";
         if (zmiennawynagrodzeniaList!=null) {
             for (Zmiennawynagrodzenia p : zmiennawynagrodzeniaList) {
@@ -652,4 +665,37 @@ public class Umowa implements Serializable {
         return zwrot;
     }
     
+     public double pobierzwynagrodzenieKwota() {
+        double zwrot = 0.0;
+        if (this.skladnikwynagrodzeniaList!=null) {
+            for (Skladnikwynagrodzenia p : this.skladnikwynagrodzeniaList) {
+                zwrot = pobierzkwoteKwota(p.getZmiennawynagrodzeniaList());
+            }
+        }
+        return zwrot;
+    }   
+     
+    
+
+    private double pobierzkwoteKwota(List<Zmiennawynagrodzenia> zmiennawynagrodzeniaList) {
+        double zwrot = 0.0;
+        if (zmiennawynagrodzeniaList!=null) {
+            for (Zmiennawynagrodzenia p : zmiennawynagrodzeniaList) {
+                zwrot = p.getKwota();
+            }
+        }
+        return zwrot;
+    }
+    
+    public boolean czywynagrodzeniegodzinowe() {
+        boolean zwrot = false;
+        if (this.skladnikwynagrodzeniaList!=null) {
+            for (Skladnikwynagrodzenia p : this.skladnikwynagrodzeniaList) {
+                if (p.getRodzajwynagrodzenia().getKod().equals("11")||p.getRodzajwynagrodzenia().getKod().equals("50")) {
+                    zwrot = !p.getRodzajwynagrodzenia().getGodzinowe0miesieczne1();
+                }
+            }
+        }
+        return zwrot;
+    }
 }

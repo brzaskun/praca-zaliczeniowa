@@ -85,6 +85,13 @@ public class UmowaView  implements Serializable {
     
     @PostConstruct
     public void init() {
+        if (wpisView.getUmowa()!=null) {
+            if (wpisView.getUmowa().getUmowakodzus().isPraca()) {
+                rodzajumowy = "1";
+            } else {
+                rodzajumowy = "2";
+            }
+        }
         if (rodzajumowy==null) {
             rodzajumowy = "1";
         }
@@ -96,11 +103,33 @@ public class UmowaView  implements Serializable {
         listaangaz = angazFacade.findByFirma(wpisView.getFirma());
         listaumowakodzus = rodzajumowyFacade.findUmowakodzusAktywne();
         listakodyzawodow = kodyzawodowFacade.findAll();
-        if (listaangaz!=null && listaangaz.size()==1 && wpisView.getAngaz()==null) {
+        if (listaangaz!=null) {
             wpisView.setAngaz(listaangaz.get(listaangaz.size()-1));
+            wpisView.setUmowa(lista.get(lista.size()-1));
         }
        datadzisiejsza = Data.aktualnaData();
        miejscowosc = wpisView.getFirma().getMiasto();
+    }
+    
+    public void wyborinnejumowy() {
+        if (rodzajumowy==null) {
+            rodzajumowy = "1";
+        }
+        if (rodzajumowy.equals("1")) {
+            lista  = umowaFacade.findByAngazPraca(wpisView.getAngaz());
+        } else {
+            lista  = umowaFacade.findByAngazZlecenie(wpisView.getAngaz());
+        }
+        listaangaz = angazFacade.findByFirma(wpisView.getFirma());
+        listaumowakodzus = rodzajumowyFacade.findUmowakodzusAktywne();
+        listakodyzawodow = kodyzawodowFacade.findAll();
+        if (listaangaz!=null) {
+            wpisView.setAngaz(listaangaz.get(listaangaz.size()-1));
+            wpisView.setUmowa(lista.get(lista.size()-1));
+        }
+       datadzisiejsza = Data.aktualnaData();
+       miejscowosc = wpisView.getFirma().getMiasto();
+       updateClassView.updateUmowa();
     }
     
      
@@ -152,22 +181,22 @@ public class UmowaView  implements Serializable {
         if (wpisView.getAngaz()!=null && wpisView.getPracownik()!=null && wpisView.getUmowa()!=null) {
             Integer mcod = Integer.parseInt(Data.getMc(wpisView.getUmowa().getDataod()));
             Integer dzienod = Integer.parseInt(Data.getDzien(wpisView.getUmowa().getDataod()));
-            for (String mce: Mce.getMceListS()) {
-                Integer kolejnymc = Integer.parseInt(mce);
+            for (String mc: Mce.getMceListS()) {
+                Integer kolejnymc = Integer.parseInt(mc);
                 if (kolejnymc>=mcod) {
                     Kalendarzmiesiac kal = new Kalendarzmiesiac();
                     kal.setRok(wpisView.getRokWpisu());
-                    kal.setMc(mce);
+                    kal.setMc(mc);
                     kal.setUmowa(wpisView.getUmowa());
-                    Kalendarzmiesiac kalmiesiac = kalendarzmiesiacFacade.findByRokMcUmowa(wpisView.getUmowa(), wpisView.getRokWpisu(), mce);
+                    Kalendarzmiesiac kalmiesiac = kalendarzmiesiacFacade.findByRokMcUmowa(wpisView.getUmowa(), wpisView.getRokWpisu(), mc);
                     if (kalmiesiac==null) {
-                        Kalendarzwzor znaleziono = kalendarzwzorFacade.findByFirmaRokMc(kal.getUmowa().getAngaz().getFirma(), kal.getRok(), mce);
+                        Kalendarzwzor znaleziono = kalendarzwzorFacade.findByFirmaRokMc(kal.getUmowa().getAngaz().getFirma(), kal.getRok(), mc);
                         if (znaleziono!=null) {
                             kal.ganerujdnizwzrocowego(znaleziono, dzienod);
                             kalendarzmiesiacFacade.create(kal);
                             dzienod = null;
                         } else {
-                            Msg.msg("e","Brak kalendarza wzorcowego za "+mce);
+                            Msg.msg("e","Brak kalendarza wzorcowego za "+mc);
                         }
                     }
                 }

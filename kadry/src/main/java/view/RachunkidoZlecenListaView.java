@@ -21,7 +21,7 @@ import msg.Msg;
  */
 @Named
 @ViewScoped
-public class RachunkidoZlecenView  implements Serializable {
+public class RachunkidoZlecenListaView  implements Serializable {
     private static final long serialVersionUID = 1L;
     @Inject
     private RachunekdoumowyzleceniaFacade rachunekdoumowyzleceniaFacade;

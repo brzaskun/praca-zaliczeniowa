@@ -24,7 +24,7 @@
                                 <f:selectItem itemLabel="wybierz" noSelectionOption="true" />
                                 <f:selectItems value="#{skladnikWynagrodzeniaView.listarodzajwynagrodzenia}"
                                                var="rodzajwynItem"
-                                               itemValue="#{rodzajwynItem}" itemLabel="#{rodzajwynItem.opisskrocony}"/>
+                                               itemValue="#{rodzajwynItem}" itemLabel="#{rodzajwynItem.kod} #{rodzajwynItem.opisskrocony}"/>
                                 <p:ajax event="change" partialSubmit="true" global="false"  update="SkladnikwynagrodzeniaCreateForm:kod"/>
                             </p:selectOneMenu>
                              <p:outputLabel value="oddelegowanie" for="oddelegowniebox" />

@@ -288,7 +288,7 @@ public class PasekwynagrodzenBean {
     }
 
     private static void pracownikchorobowa(Pasekwynagrodzen pasek) {
-        boolean podlega = pasek.getKalendarzmiesiac().getUmowa().getChorobowe() || pasek.getKalendarzmiesiac().getUmowa().getChorobowedobrowolne();
+        boolean podlega = pasek.getKalendarzmiesiac().getUmowa().isChorobowe() || pasek.getKalendarzmiesiac().getUmowa().isChorobowedobrowolne();
         if (podlega) {
             pasek.setPracchorobowe(Z.z(pasek.getBruttozus()*0.0245));
         }
@@ -340,7 +340,7 @@ public class PasekwynagrodzenBean {
     }
 
     private static void ulgapodatkowa(Pasekwynagrodzen pasek,  List<Podatki> stawkipodatkowe) {
-        boolean ulga = pasek.getKalendarzmiesiac().getUmowa().getOdliczaculgepodatkowa();
+        boolean ulga = pasek.getKalendarzmiesiac().getUmowa().isOdliczaculgepodatkowa();
         if (ulga) {
             double kwotawolna = stawkipodatkowe.get(0).getWolnamc();
             pasek.setKwotawolna(kwotawolna);

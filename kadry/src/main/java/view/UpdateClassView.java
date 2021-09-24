@@ -42,7 +42,7 @@ public class UpdateClassView   implements Serializable {
     @Inject
     private ZmiennaWynagrodzeniaView zmiennaWynagrodzeniaView;
     @Inject
-    private RachunkidoZlecenView rachunkidoZlecenView;
+    private RachunkidoZlecenListaView rachunkidoZlecenView;
     @Inject
     private ZmiennaPotraceniaView zmiennaPotraceniaView;
     @Inject

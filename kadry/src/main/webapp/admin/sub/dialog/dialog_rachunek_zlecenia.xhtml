@@ -6,87 +6,74 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
 
     xmlns:bcf="http://brzaskun.com/facelets">
-    <script>
+     <script>
         var zmienwyglad = function(){
             $('.czekpole.ui-chkbox div').removeClass('ui-state-disabled');
         };
     </script>
-    <p:dialog id="dialograchunekzlecenia" header="Karta wynagrodzeń" widgetVar="dialograchunekzlecenia"  
+
+    <p:dialog id="dialograchunekzlecenia" header="Wystawianie rachunku do umowy zlecenia" widgetVar="dialograchunekzlecenia"  
               resizable="false"  onShow="ustawdialog('dialograchunekzlecenia','centertile',1650,800);zmienwyglad()" closeOnEscape="true" onHide="resetujdialog('dialograchunekzlecenia');" 
               fitViewport="true">
 
         <p:outputPanel>
-            <h:form id="RazchunekZleceniaForm">
-                <p:panel header="Rachunki do umów zleceń za rok #{wpisView.rokWpisu}"/>
-                <p:dataTable id="datalist" value="#{rachunkidoZlecenView.rachunekdoumowyzlecenialist}" var="itemrachunek"
-                             rowKey="#{itemrachunek.id}" sortBy="#{itemrachunek.mc}" rowIndexVar="indexkb"
-                             style="height: 450px; overflow-y: scroll;"
-                             >
-                    <p:column width="40" style="text-align: center;">
-                        <f:facet name="header">
-                            <h:outputText value="id"/>
-                        </f:facet>
-                        <h:outputText value="#{indexkb+1}"/>
-                    </p:column>
-                    <p:column width="40" style="text-align: center;">
-                        <f:facet name="header">
-                            <h:outputText value="mc"/>
-                        </f:facet>
-                        <h:outputText value="#{itemrachunek.mc}"/>
-                    </p:column>
-                    <p:column width="60" style="text-align: center;">
-                        <f:facet name="header">
-                            <h:outputText value="data wystawienia"/>
-                        </f:facet>
-                        <h:outputText value="#{itemrachunek.datawystawienia}"/>
-                    </p:column>
-                    <p:column width="60">
-                        <f:facet name="header">
-                            <h:outputText value="brutto."/>
-                        </f:facet>
-                        <bcf:outputpl value="#{itemrachunek.kwota}"/>
-                    </p:column>
-                    <p:column width="60">
-                        <f:facet name="header">
-                            <h:outputText value="koszt uzyskania"/>
-                        </f:facet>
-                        <bcf:outputpl value="#{itemrachunek.koszt}"/>
-                    </p:column>
-                    <p:column width="50" style="text-align: center;">
-                        <f:facet name="header">
-                            <h:outputText value="społeczne"/>
-                        </f:facet>
-                        <p:selectBooleanCheckbox value="#{itemrachunek.spoleczne}" disabled="true" styleClass="czekpole"/>
-                    </p:column>
-                    <p:column width="50" style="text-align: center;">
-                        <f:facet name="header">
-                            <h:outputText value="chorobowa"/>
-                        </f:facet>
-                        <p:selectBooleanCheckbox value="#{itemrachunek.chorobowa}" disabled="true" styleClass="czekpole"/>
-                    </p:column>
-                    <p:column width="50" style="text-align: center;">
-                        <f:facet name="header">
-                            <h:outputText value="zdrowotna"/>
-                        </f:facet>
-                        <p:selectBooleanCheckbox value="#{itemrachunek.zdrowotna}" disabled="true" styleClass="czekpole"/>
-                    </p:column>
-                    <p:column width="50" style="text-align: center;">
-                        <f:facet name="header">
-                            <h:outputText value="podatek"/>
-                        </f:facet>
-                        <p:selectBooleanCheckbox value="#{itemrachunek.podatek}"  disabled="true" styleClass="czekpole"/>
-                    </p:column>
-                     <p:column width="50" style="text-align: center;">
-                        <f:facet name="header">
-                            <h:outputText value="rozliczony"/>
-                        </f:facet>
-                         <h:outputText value="&#x2714;" rendered="#{itemrachunek.pasekwynagrodzen ne null}"/>
-                    </p:column>
-                </p:dataTable>
+            <h:form id="RachunekZleceniaForm">
+                <p:panel header="Miesięczne rozliczenie umowy zlecenia nr #{rachunekZlecenieView.umowabiezaca.nrkolejny}" style="width: 700px;"/>
+                <h:outputText value="Przygotowano nowy rachunek do zatwierdzenia" rendered="#{rachunekZlecenieView.rachunekdoumowyzlecenia.id eq null}"/>
+                <h:outputText value="Pobrano uprzednio przygotowany rachunek." rendered="#{rachunekZlecenieView.rachunekdoumowyzlecenia.id ne null and rachunekZlecenieView.rachunekdoumowyzlecenia.pasekwynagrodzen eq null}" style="color: blue;"/>
+                <h:outputText value="Pobrano uprzednio przygotowany rachunek. Rachunek rozliczono w liście płac" rendered="#{rachunekZlecenieView.rachunekdoumowyzlecenia.id ne null and rachunekZlecenieView.rachunekdoumowyzlecenia.pasekwynagrodzen ne null}"  style="color: red;"/>
+                <p:panelGrid columns="4" rendered="#{rachunekZlecenieView.umowabiezaca ne null}">
+                    <p:outputLabel value="data od:"/>
+                    <h:outputText value="#{rachunekZlecenieView.umowabiezaca.dataod}" styleClass="ww"/>
+                    <p:outputLabel value="data do:"/>
+                    <h:outputText value="#{rachunekZlecenieView.umowabiezaca.datado}" rendered="#{rachunekZlecenieView.umowabiezaca.datado ne ''}" styleClass="ww"/>
+                    <h:outputText value="czas nieokreślony" rendered="#{rachunekZlecenieView.umowabiezaca.datado eq null or rachunekZlecenieView.umowabiezaca.datado eq ''}"/>
+                    <p:outputLabel value="rodzaj wynagrodzenia:"/>
+                    <h:outputText value="#{rachunekZlecenieView.umowabiezaca.pobierzwynagrodzenieString()}" styleClass="ww"/>
+                </p:panelGrid>
+                <p:panelGrid style="margin-top: 10px;">
+                    <h:outputText value="Braku zawartej umowy zlecenia z " styleClass="ww" rendered="#{rachunekZlecenieView.umowabiezaca eq null}"/>
+                    <h:outputText value="Jest zawarta umowa, ale nie dotyczy bieżacego okresu" styleClass="ww" rendered="#{rachunekZlecenieView.trzebazrobicrachunek eq false}"/>
+                    <h:outputText value="Jest zawarta umowa. Nalezy rozliczyć bieżacy okres" styleClass="ww" rendered="#{rachunekZlecenieView.trzebazrobicrachunek eq true}"/>
+                </p:panelGrid>
+                <p:panelGrid columns="2">
+                    <p:outputLabel value="data sporządzenia rach:"/>
+                    <p:inputText value="#{rachunekZlecenieView.rachunekdoumowyzlecenia.datawystawienia}" size="10" placeholder="____-__-__"/>
+                    <p:outputLabel value="data od:"/>
+                    <h:outputText value="#{rachunekZlecenieView.rachunekdoumowyzlecenia.dataod}"/>
+                    <p:outputLabel value="data do:"/>
+                    <h:outputText value="#{rachunekZlecenieView.rachunekdoumowyzlecenia.datado}"/>
+                    <p:outputLabel value="wynagrodzenie miesięczne:"/>
+                    <bcf:outputpl value="#{rachunekZlecenieView.rachunekdoumowyzlecenia.wynagrodzeniemiesieczne}"/>
+                    <p:outputLabel value="wynagrodzenie godzinowe:"/>
+                    <bcf:outputpl value="#{rachunekZlecenieView.rachunekdoumowyzlecenia.wynagrodzeniegodzinowe}"/>
+                </p:panelGrid>
+                <p:panelGrid columns="2" style="margin-top: 10px;">
+                    <p:outputLabel value="ilośc godzin wg kalendarza:"/>
+                    <p:inputNumber value="#{rachunekZlecenieView.rachunekdoumowyzlecenia.iloscgodzin}" decimalSeparator="."   inputStyle="text-align: right;" decimalPlaces="2"/>
+                    <p:outputLabel value="kwota brutto:"/>
+                    <bcf:inputpl value="#{rachunekZlecenieView.rachunekdoumowyzlecenia.kwota}"/>
+                    <p:outputLabel value="koszt uzyskania procent:"/>
+                    <bcf:outputplprocent value="#{rachunekZlecenieView.rachunekdoumowyzlecenia.procentkosztowuzyskaniaDisplay}"/>
+                    <p:outputLabel value="koszt uzyskania kwota:"/>
+                    <p:inputNumber value="#{rachunekZlecenieView.rachunekdoumowyzlecenia.koszt}" decimalSeparator="."   inputStyle="text-align: right;" decimalPlaces="2"/>
+                </p:panelGrid>
+                <p:panelGrid columns="2" style="margin-top: 10px;">
+                    <p:outputLabel value="naliczać społeczne:"/>
+                    <p:selectBooleanCheckbox value="#{rachunekZlecenieView.rachunekdoumowyzlecenia.spoleczne}" disabled="true" styleClass="czekpole"/>
+                    <p:outputLabel value="naliczać chorobowe:"/>
+                    <p:selectBooleanCheckbox value="#{rachunekZlecenieView.rachunekdoumowyzlecenia.chorobowa}" disabled="true" styleClass="czekpole"/>
+                    <p:outputLabel value="naliczać zdrowotną:"/>
+                    <p:selectBooleanCheckbox value="#{rachunekZlecenieView.rachunekdoumowyzlecenia.zdrowotna}" disabled="true" styleClass="czekpole"/>
+                    <p:outputLabel value="naliczać podatek:"/>
+                    <p:selectBooleanCheckbox value="#{rachunekZlecenieView.rachunekdoumowyzlecenia.podatek}"  disabled="true" styleClass="czekpole"/>
+                </p:panelGrid>
+                <p:panelGrid>
+                    <p:commandButton value="zaksięguj" actionListener="#{rachunekZlecenieView.zaksieguj()}" update="@form" styleClass="buttonnorm" rendered="#{rachunekZlecenieView.rachunekdoumowyzlecenia.id eq null}"/>
+                    <p:commandButton value="usuń" actionListener="#{rachunekZlecenieView.usun()}" update="@form" styleClass="buttonnorm2" rendered="#{rachunekZlecenieView.rachunekdoumowyzlecenia.id ne null and rachunekZlecenieView.rachunekdoumowyzlecenia.pasekwynagrodzen eq null}"/>
+                    <h:outputText value="Rachunek ujęty na liście płac. Nie można usunąć rachunku." rendered="#{rachunekZlecenieView.rachunekdoumowyzlecenia.id ne null and rachunekZlecenieView.rachunekdoumowyzlecenia.pasekwynagrodzen ne null}"/>
+                </p:panelGrid>
             </h:form>
-        </p:outputPanel>
-        <p:outputPanel>
-            <p:commandButton value="drukuj" style="width: 120px;" actionListener="#{rachunkidoZlecenView.drukuj}"/>
         </p:outputPanel>
     </p:dialog>
 </ui:composition>
