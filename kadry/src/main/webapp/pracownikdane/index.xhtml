@@ -4,19 +4,21 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:bcf="http://brzaskun.com/facelets">
+      xmlns:bcf="http://brzaskun.com/facelets"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:pe="http://primefaces.org/ui/extensions">
     <ui:composition template="/template.xhtml">
         <ui:define name="title">
             <h:outputText value="Kadry i płace"></h:outputText>
         </ui:define>
         <ui:define name="body">
-            <f:view>
+            <f:view  contentType="text/html;charset=UTF-8" encoding="UTF-8">
                 <bcf:ajaxs/>
-                <p:layout fullPage="true" expandTitle="Wysuń" closeTitle="Zamknij" collapseTitle="Schowaj"> 
+                <pe:layout  > 
                     <ui:include src="sub/layout/north.xhtml" />  <!-- panel polnocny-->
                     <ui:include src="sub/layout/south.xhtml"/>   <!-- panel poludniowy-->
                     <ui:include src="sub/layout/west.xhtml"/> 
-                    <p:layoutUnit position="center" id="centertile" >
+                    <pe:layoutPane position="center" id="centertile" >
                         <p:outputPanel>
                             <h:form id="formmenu">
                                 <p:menubar autoDisplay="true">
@@ -29,13 +31,14 @@
                                     <p:menuitem icon="fa fa-institution" value="historia" style="width: 150px" action="Historia"/>
                                     <p:menuitem icon="fa fa-institution" value="umowy" style="width: 150px" action="Umowa"/>
                                     <p:menuitem icon="fa fa-institution" value="płace" style="width: 150px" action="Administrator"/>
+                                    <p:menuitem icon="fa fa-tasks" value="statystyka" style="width: 150px" action="Statystyka"/>
                                 </p:menubar>
                             </h:form>
                         </p:outputPanel>
                         <ui:include src="sub/menu_wiad.xhtml"/>   <!-- menu contextowe i pole wiadomosci growl-->
                         <ui:include src="sub/pracownik_dane.xhtml"/>
-                    </p:layoutUnit>
-                </p:layout>
+                    </pe:layoutPane>
+                </pe:layout>
             </f:view>
         </ui:define>
     </ui:composition>

@@ -32,11 +32,11 @@
                     <p:dataTable id="datalist" value="#{pracownikView.lista}" var="item2"
                                  selectionMode="single" selection="#{pracownikView.selectedlista}" 
                                  rowKey="#{item2.pesel}" filteredValue="#{pracownikView.listafiltered}"
-                                 style="height: 400px; overflow-y: scroll;"
+                                 style="height: 400px; overflow-y: scroll;" size="small"
                                  rowsPerPageTemplate="20,100,250,500" paginatorPosition="top" paginator="true" rows="20"
                                  >
 
-                        <p:column width="40" style="text-align: center;height: 30px;">
+                        <p:column width="40" style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="id"/>
                             </f:facet>

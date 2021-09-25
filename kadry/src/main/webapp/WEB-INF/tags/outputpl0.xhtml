@@ -8,7 +8,7 @@
       >
     <h:body>
        <ui:composition>
-           <f:view>
+           <f:view  contentType="text/html;charset=UTF-8" encoding="UTF-8">
                <h:outputText value="#{value}" style="#{style != null ? style : 'float: right;'}" rendered="#{rendered != null ? rendered : true}">
                         <f:convertNumber minFractionDigits="0" locale="PL"/>
                 </h:outputText>

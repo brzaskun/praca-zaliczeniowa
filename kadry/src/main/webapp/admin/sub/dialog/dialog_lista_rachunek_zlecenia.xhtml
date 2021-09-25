@@ -5,7 +5,8 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
 
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets"
+xmlns:pe="http://primefaces.org/ui/extensions">
     <script>
         var zmienwyglad = function(){
             $('.czekpole.ui-chkbox div').removeClass('ui-state-disabled');
@@ -28,6 +29,12 @@
                             <h:outputText value="id"/>
                         </f:facet>
                         <h:outputText value="#{indexkb+1}"/>
+                    </p:column>
+                    <p:column width="60" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="nr umowy"/>
+                        </f:facet>
+                        <h:outputText value="#{itemrachunek.umowa.nrkolejny}"/>
                     </p:column>
                     <p:column width="40" style="text-align: center;">
                         <f:facet name="header">

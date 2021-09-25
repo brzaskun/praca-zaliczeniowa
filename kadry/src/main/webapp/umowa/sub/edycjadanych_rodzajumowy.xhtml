@@ -5,7 +5,8 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
 
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets"
+xmlns:pe="http://primefaces.org/ui/extensions">
     <p:outputPanel style="height: 60px" id="panelumowadane0">
         <h:form id="UmowaWyborForm">
             <p:panelGrid columns="2" style="padding: 10px;">
@@ -14,7 +15,7 @@
                     <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
                     <f:selectItem itemLabel="umowa o pracę" itemValue="1"/>
                     <f:selectItem itemLabel="umowa zlecenia i o dzieło" itemValue="2"/>
-                    <p:ajax event="change" partialSubmit="true" listener="#{umowaView.wyborinnejumowy()}" global="false" update="@(form)"/>
+                    <p:ajax event="change" partialSubmit="true" listener="#{umowaView.wyborinnejumowy()}" global="false" update="@(form) UmowaCreateForm"/>
                 </p:selectOneMenu>
             </p:panelGrid>
         </h:form>

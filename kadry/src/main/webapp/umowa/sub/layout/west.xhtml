@@ -4,8 +4,10 @@
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
-    xmlns:ui="http://java.sun.com/jsf/facelets">
-    <p:layoutUnit position="west" size="175" collapsible="true">
+    xmlns:bcf="http://brzaskun.com/facelets"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:pe="http://primefaces.org/ui/extensions">
+    <pe:layoutPane position="west" size="175">
         <h:form>
             <p:panel header="Wykaz firm" style="margin-top: 80px;"> 
                 <p:dataTable id="datalist" value="#{firmaView.lista}" var="item1"
@@ -34,6 +36,6 @@
                 </p:dataTable>
             </p:panel>
          </h:form><!-- comment -->
-    </p:layoutUnit>
+    </pe:layoutPane>
 </ui:composition>   
 

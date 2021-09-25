@@ -117,6 +117,7 @@
             <url-pattern>/historia/*</url-pattern>
             <url-pattern>/portalpracownik/*</url-pattern>
             <url-pattern>/portalpracodawca/*</url-pattern>
+            <url-pattern>/statystyka/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>Administrator</role-name>
@@ -141,6 +142,7 @@
         <web-resource-collection>
             <web-resource-name>Pracodawca Area</web-resource-name>
             <url-pattern>/portalpracodawca/*</url-pattern>
+            <url-pattern>/statystyka/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>Pracodawca</role-name>

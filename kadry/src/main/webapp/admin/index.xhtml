@@ -4,19 +4,20 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:bcf="http://brzaskun.com/facelets">
+      xmlns:bcf="http://brzaskun.com/facelets"
+    xmlns:pe="http://primefaces.org/ui/extensions">
     <ui:composition template="/template.xhtml">
         <ui:define name="title">
             <h:outputText value="Kadry i płace"></h:outputText>
         </ui:define>
         <ui:define name="body">
-            <f:view>
+            <f:view  contentType="text/html;charset=UTF-8" encoding="UTF-8">
                 <bcf:ajaxs/>
-                <p:layout fullPage="true" expandTitle="Wysuń" closeTitle="Zamknij" collapseTitle="Schowaj"> 
+                <pe:layout   > 
                     <ui:include src="sub/layout/north.xhtml" />  <!-- panel polnocny-->
                     <ui:include src="sub/layout/south.xhtml"/>   <!-- panel poludniowy-->
                     <ui:include src="sub/layout/west.xhtml"/>   <!-- panel poludniowy-->
-                    <p:layoutUnit position="center" id="centertile" >
+                    <pe:layoutPane position="center" id="centertile" >
                         <h:form id="formmenu">
                          <p:menubar autoDisplay="true">
                              <p:menuitem icon="fa fa-exchange" value="parametry" style="width: 150px" action="Parametry"/>
@@ -42,7 +43,7 @@
                                 <p:menuitem icon="fa fa-stack-overflow" value="komornik" style="width: 150px" onclick="PF('dialogkomornik').show()" async="true"/>
                                 <p:menuitem icon="fa fa-stack-overflow" value="DRA" style="width: 150px" onclick="PF('dialogdra').show()" async="true"/>
                             </p:submenu>
-                            <p:menuitem icon="fa fa-tasks" value=""  style="width: 150px"/>
+                             <p:menuitem icon="fa fa-tasks" value="statystyka" style="width: 150px" action="Statystyka"/>
                             <p:menuitem icon="fa fa-pencil" value="PIT" style="width: 150px"/>
                             
                         </p:menubar>
@@ -81,8 +82,8 @@
                        <p:spacer height="50"/>
                        <p:commandButton value="zmien Wpis" actionListener="#{wpisView.zmienrok}" update="@form" global="false"/>
                        </h:form>-->
-                    </p:layoutUnit>
-                </p:layout>
+                    </pe:layoutPane>
+                </pe:layout>
             </f:view>
         </ui:define>
     </ui:composition>

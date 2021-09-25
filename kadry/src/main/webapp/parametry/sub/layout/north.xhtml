@@ -4,8 +4,10 @@
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
-    xmlns:ui="http://java.sun.com/jsf/facelets">
-    <p:layoutUnit position="north" resizable="true" closable="true" collapsible="true" size="63">
+    xmlns:bcf="http://brzaskun.com/facelets"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:pe="http://primefaces.org/ui/extensions">
+    <pe:layoutPane position="north" resizable="true" closable="true" size="63">
         <h:form id="north">
             <p:panelGrid columns="2" style="width: 100%;overflow-y: hidden;">
                 <p:panelGrid columns="3" style="width: 900px" columnClasses="fifty-percent, twofive-percent, twofive-percent" styleClass="tabelanorth">
@@ -27,6 +29,6 @@
                 </p:panelGrid>
             </p:panelGrid>
         </h:form>
-    </p:layoutUnit>
+    </pe:layoutPane>
 </ui:composition>   
 

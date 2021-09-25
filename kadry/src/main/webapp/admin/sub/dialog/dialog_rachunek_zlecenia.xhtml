@@ -5,7 +5,8 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
 
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets"
+xmlns:pe="http://primefaces.org/ui/extensions">
      <script>
         var zmienwyglad = function(){
             $('.czekpole.ui-chkbox div').removeClass('ui-state-disabled');
@@ -31,7 +32,7 @@
                     <p:outputLabel value="rodzaj wynagrodzenia:"/>
                     <h:outputText value="#{rachunekZlecenieView.umowabiezaca.pobierzwynagrodzenieString()}" styleClass="ww"/>
                 </p:panelGrid>
-                <p:panelGrid style="margin-top: 10px;">
+                <p:panelGrid columns="1" style="margin-top: 10px;">
                     <h:outputText value="Braku zawartej umowy zlecenia z " styleClass="ww" rendered="#{rachunekZlecenieView.umowabiezaca eq null}"/>
                     <h:outputText value="Jest zawarta umowa, ale nie dotyczy bieżacego okresu" styleClass="ww" rendered="#{rachunekZlecenieView.trzebazrobicrachunek eq false}"/>
                     <h:outputText value="Jest zawarta umowa. Nalezy rozliczyć bieżacy okres" styleClass="ww" rendered="#{rachunekZlecenieView.trzebazrobicrachunek eq true}"/>
@@ -68,7 +69,7 @@
                     <p:outputLabel value="naliczać podatek:"/>
                     <p:selectBooleanCheckbox value="#{rachunekZlecenieView.rachunekdoumowyzlecenia.podatek}"  disabled="true" styleClass="czekpole"/>
                 </p:panelGrid>
-                <p:panelGrid>
+                <p:panelGrid columns="1">
                     <p:commandButton value="zaksięguj" actionListener="#{rachunekZlecenieView.zaksieguj()}" update="@form" styleClass="buttonnorm" rendered="#{rachunekZlecenieView.rachunekdoumowyzlecenia.id eq null}"/>
                     <p:commandButton value="usuń" actionListener="#{rachunekZlecenieView.usun()}" update="@form" styleClass="buttonnorm2" rendered="#{rachunekZlecenieView.rachunekdoumowyzlecenia.id ne null and rachunekZlecenieView.rachunekdoumowyzlecenia.pasekwynagrodzen eq null}"/>
                     <h:outputText value="Rachunek ujęty na liście płac. Nie można usunąć rachunku." rendered="#{rachunekZlecenieView.rachunekdoumowyzlecenia.id ne null and rachunekZlecenieView.rachunekdoumowyzlecenia.pasekwynagrodzen ne null}"/>

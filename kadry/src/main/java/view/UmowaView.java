@@ -103,10 +103,6 @@ public class UmowaView  implements Serializable {
         listaangaz = angazFacade.findByFirma(wpisView.getFirma());
         listaumowakodzus = rodzajumowyFacade.findUmowakodzusAktywne();
         listakodyzawodow = kodyzawodowFacade.findAll();
-        if (listaangaz!=null) {
-            wpisView.setAngaz(listaangaz.get(listaangaz.size()-1));
-            wpisView.setUmowa(lista.get(lista.size()-1));
-        }
        datadzisiejsza = Data.aktualnaData();
        miejscowosc = wpisView.getFirma().getMiasto();
     }
@@ -123,10 +119,6 @@ public class UmowaView  implements Serializable {
         listaangaz = angazFacade.findByFirma(wpisView.getFirma());
         listaumowakodzus = rodzajumowyFacade.findUmowakodzusAktywne();
         listakodyzawodow = kodyzawodowFacade.findAll();
-        if (listaangaz!=null) {
-            wpisView.setAngaz(listaangaz.get(listaangaz.size()-1));
-            wpisView.setUmowa(lista.get(lista.size()-1));
-        }
        datadzisiejsza = Data.aktualnaData();
        miejscowosc = wpisView.getFirma().getMiasto();
        updateClassView.updateUmowa();

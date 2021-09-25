@@ -8,6 +8,7 @@ package entity;
 
 import data.Data;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
@@ -248,6 +249,34 @@ public class Pracownik implements Serializable {
             for (Angaz p : angazList) {
                 if (p.getUmowaList()!=null && !p.getUmowaList().isEmpty()) {
                     zwrot = "✔";
+                }
+            }
+        }
+        return zwrot;
+    }
+    
+    public List<Umowa> getUmowy(){
+        List<Umowa> zwrot = new ArrayList<>();
+        if (this.angazList!=null&& !this.angazList.isEmpty()) {
+            for (Angaz p : angazList) {
+                if (p.getUmowaList()!=null && !p.getUmowaList().isEmpty()) {
+                    zwrot.addAll(p.getUmowaList());
+                }
+            }
+        }
+        return zwrot;
+    }
+    
+    public List<Nieobecnosc> getNieobecnosci(){
+        List<Nieobecnosc> zwrot = new ArrayList<>();
+        if (this.angazList!=null&& !this.angazList.isEmpty()) {
+            for (Angaz p : angazList) {
+                if (p.getUmowaList()!=null && !p.getUmowaList().isEmpty()) {
+                    for (Umowa u : p.getUmowaList()) {
+                        if (u.getNieobecnoscList()!=null&&!u.getNieobecnoscList().isEmpty()) {
+                            zwrot.addAll(u.getNieobecnoscList());
+                        }
+                    }
                 }
             }
         }

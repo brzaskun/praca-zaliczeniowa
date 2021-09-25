@@ -623,7 +623,7 @@ public class Umowa implements Serializable {
     
     public String getRodzajumowy() {
         String zwrot = "umowa o pracę";
-        if (this.umowakodzus.isZlecenie()) {
+        if (this.umowakodzus!=null && this.umowakodzus.isZlecenie()) {
             zwrot = "umowa zlecenia";
         }
         return zwrot;

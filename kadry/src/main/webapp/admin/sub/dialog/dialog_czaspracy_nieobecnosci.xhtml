@@ -4,8 +4,8 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
-        
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets"
+    xmlns:pe="http://primefaces.org/ui/extensions">
     <style>
         .itemNieob .ui-datatable .ui-datatable-data tr{
            height : 25px !important;
@@ -66,7 +66,7 @@
                 <p:panel header="Lista nieobecności">
                     <p:dataTable id="datalist" value="#{nieobecnoscView.lista}" var="itemNieob" 
                                  selectionMode="single" selection="#{nieobecnoscView.selectedlista}" rowIndexVar="indexn"
-                                 rowKey="#{itemNieob.id}" sortBy="#{itemNieob.dataod}" sortOrder="descending"
+                                 rowKey="#{itemNieob.id}" sortBy="#{itemNieob.dataod}" 
                                 style="height: 450px; overflow-y: scroll;"
                                  >
                         <p:column width="40" style="text-align: center;">
@@ -87,7 +87,7 @@
                             </f:facet>
                             <h:outputText value="#{itemNieob.nieobecnosckodzus.opisskrocony}" style="#{itemNieob.rokod eq wpisView.rokWpisu ? 'color: green':''}"/>
                         </p:column> 
-                        <p:column width="50" filterBy="#{itemNieob.dataod}" filterMatchMode="startsWith">
+                        <p:column width="50" filterBy="#{itemNieob.dataod}" filterMatchMode="startsWith" sortOrder="descenduing">
                             <f:facet name="header">
                                 <h:outputText value="data od"/>
                             </f:facet>
