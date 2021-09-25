@@ -237,6 +237,15 @@ public class Umowa implements Serializable {
         this.skladnikwynagrodzeniaList = skladnikwynagrodzeniaList;
     }
 
+    @XmlTransient
+    public List<Rachunekdoumowyzlecenia> getRachunekdoumowyzleceniaList() {
+        return rachunekdoumowyzleceniaList;
+    }
+
+    public void setRachunekdoumowyzleceniaList(List<Rachunekdoumowyzlecenia> rachunekdoumowyzleceniaList) {
+        this.rachunekdoumowyzleceniaList = rachunekdoumowyzleceniaList;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -695,6 +704,15 @@ public class Umowa implements Serializable {
                     zwrot = !p.getRodzajwynagrodzenia().getGodzinowe0miesieczne1();
                 }
             }
+        }
+        return zwrot;
+    }
+    
+    public Rachunekdoumowyzlecenia pobierzRachunekzlecenie(String rok, String mc) {
+        Rachunekdoumowyzlecenia zwrot = null;
+        List<Rachunekdoumowyzlecenia> rachunekdoumowyzleceniaList = this.getRachunekdoumowyzleceniaList();
+        if (rachunekdoumowyzleceniaList!=null) {
+            zwrot = rachunekdoumowyzleceniaList.stream().filter(pa->pa.getMc().equals(mc)&&pa.getRok().equals(rok)).findAny().get();
         }
         return zwrot;
     }

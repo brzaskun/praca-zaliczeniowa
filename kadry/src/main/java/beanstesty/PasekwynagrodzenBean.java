@@ -21,6 +21,7 @@ import entity.Nieobecnosckodzus;
 import entity.Pasekwynagrodzen;
 import entity.Podatki;
 import entity.Pracownik;
+import entity.Rachunekdoumowyzlecenia;
 import entity.Umowa;
 import entity.Wynagrodzeniahistoryczne;
 import error.E;
@@ -52,8 +53,9 @@ public class PasekwynagrodzenBean {
     }
     
       
-    public static Pasekwynagrodzen oblicz(Kalendarzmiesiac kalendarz, Definicjalistaplac definicjalistaplac, NieobecnosckodzusFacade nieobecnosckodzusFacade, List<Pasekwynagrodzen> paskidowyliczeniapodstawy, 
+    public static Pasekwynagrodzen obliczWynagrodzenie(Kalendarzmiesiac kalendarz, Definicjalistaplac definicjalistaplac, NieobecnosckodzusFacade nieobecnosckodzusFacade, List<Pasekwynagrodzen> paskidowyliczeniapodstawy, 
         List<Wynagrodzeniahistoryczne> historiawynagrodzen, List<Podatki> stawkipodatkowe, double sumapoprzednich, double wynagrodzenieminimalne, boolean czyodlicoznokwotewolna) {
+        boolean umowaoprace = kalendarz.isPraca();
         Pasekwynagrodzen pasek = new Pasekwynagrodzen();
         pasek.setWynagrodzenieminimalne(wynagrodzenieminimalne);
         double kurs = 4.4745;
@@ -61,22 +63,27 @@ public class PasekwynagrodzenBean {
         double limitZUS = 5227.0;
         pasek.setDefinicjalistaplac(definicjalistaplac);
         pasek.setKalendarzmiesiac(kalendarz);
-        List<Nieobecnosc> nieobecnosci = pobierznieobecnosci(kalendarz);
-        Nieobecnosc zatrudnieniewtrakciemiesiaca = generuj(kalendarz.getUmowa(),nieobecnosckodzusFacade, kalendarz.getRok(), kalendarz.getMc());
-        Nieobecnosc choroba = pobierz(nieobecnosci,"331");
-        Nieobecnosc urlop = pobierz(nieobecnosci,"100");
-        Nieobecnosc urlopbezplatny = pobierz(nieobecnosci,"111");
-        Nieobecnosc oddelegowanie = pobierz(nieobecnosci,"777");
-        boolean jestoddelegowanie = KalendarzmiesiacBean.naliczskladnikiwynagrodzeniaDB(kalendarz, pasek, kurs);
-        KalendarzmiesiacBean.nalicznadgodziny50DB(kalendarz, pasek);
-        //KalendarzmiesiacBean.nalicznadgodziny100(kalendarz, pasek);
-        //najpierw musimy przyporzadkowac aktualne skladniki, aby potem prawidlowo obliczyc redukcje
-        KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, choroba, pasek);
-        KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, urlop, pasek);
-        KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, urlopbezplatny, pasek);
-        KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, zatrudnieniewtrakciemiesiaca, pasek);
-        KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, oddelegowanie, pasek);
-        KalendarzmiesiacBean.redukujskladnikistale(kalendarz, pasek);
+        boolean jestoddelegowanie = false;
+        if (umowaoprace) {
+            jestoddelegowanie = KalendarzmiesiacBean.naliczskladnikiwynagrodzeniaDB(kalendarz, pasek, kurs);
+            List<Nieobecnosc> nieobecnosci = pobierznieobecnosci(kalendarz);
+            Nieobecnosc zatrudnieniewtrakciemiesiaca = generuj(kalendarz.getUmowa(),nieobecnosckodzusFacade, kalendarz.getRok(), kalendarz.getMc());
+            Nieobecnosc choroba = pobierz(nieobecnosci,"331");
+            Nieobecnosc urlop = pobierz(nieobecnosci,"100");
+            Nieobecnosc urlopbezplatny = pobierz(nieobecnosci,"111");
+            Nieobecnosc oddelegowanie = pobierz(nieobecnosci,"777");
+            KalendarzmiesiacBean.nalicznadgodziny50DB(kalendarz, pasek);
+            //KalendarzmiesiacBean.nalicznadgodziny100(kalendarz, pasek);
+            //najpierw musimy przyporzadkowac aktualne skladniki, aby potem prawidlowo obliczyc redukcje
+            KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, choroba, pasek);
+            KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, urlop, pasek);
+            KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, urlopbezplatny, pasek);
+            KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, zatrudnieniewtrakciemiesiaca, pasek);
+            KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, oddelegowanie, pasek);
+            KalendarzmiesiacBean.redukujskladnikistale(kalendarz, pasek);
+        } else {
+            jestoddelegowanie = KalendarzmiesiacBean.naliczskladnikiwynagrodzeniaDBZlecenie(kalendarz, pasek, kurs);
+        }
         if (jestoddelegowanie) {
             PasekwynagrodzenBean.naniesdietekurslimit(pasek, dietastawka, kurs, limitZUS);
             PasekwynagrodzenBean.wyliczlimitZUS(kalendarz, pasek, kurs, dietastawka, limitZUS);
@@ -92,7 +99,11 @@ public class PasekwynagrodzenBean {
         if (jestoddelegowanie) {
             PasekwynagrodzenBean.obliczdietedoodliczenia(pasek, kalendarz);
         }
-        PasekwynagrodzenBean.obliczpodstaweopodatkowania(pasek, stawkipodatkowe);
+        if (umowaoprace) {
+            PasekwynagrodzenBean.obliczpodstaweopodatkowania(pasek, stawkipodatkowe);
+        } else {
+            PasekwynagrodzenBean.obliczpodstaweopodatkowaniaZlecenie(pasek, stawkipodatkowe);
+        }
         PasekwynagrodzenBean.obliczpodatekwstepny(pasek, stawkipodatkowe, sumapoprzednich);
         if (czyodlicoznokwotewolna==false) {
             PasekwynagrodzenBean.ulgapodatkowa(pasek, stawkipodatkowe);
@@ -183,6 +194,7 @@ public class PasekwynagrodzenBean {
         Definicjalistaplac definicjalistaplac = DefinicjalistaplacBean.create();
         
         pasek.setDefinicjalistaplac(definicjalistaplac);
+        
         PasekwynagrodzenBean.obliczbruttozus(pasek);
         PasekwynagrodzenBean.obliczbruttobezzus(pasek);
         PasekwynagrodzenBean.pracownikemerytalna(pasek);
@@ -315,6 +327,22 @@ public class PasekwynagrodzenBean {
         double bezzus = pasek.getBruttobezzus();
         double skladki = pasek.getRazemspolecznepracownik();
         double kosztyuzyskania = pasek.getKalendarzmiesiac().getUmowa().getKosztyuzyskaniaprocent()==100?pierwszyprog.getKup():pierwszyprog.getKuppodwyzszone();
+        double dieta30proc = pasek.getDietaodliczeniepodstawaop();
+        double podstawa = Z.z0(zzus+bezzus-skladki-kosztyuzyskania-dieta30proc) > 0.0 ? Z.z0(zzus+bezzus-skladki-kosztyuzyskania-dieta30proc) :0.0;
+        pasek.setPodstawaopodatkowania(podstawa);
+        pasek.setKosztyuzyskania(kosztyuzyskania);
+        pasek.setProcentkosztow(pasek.getKalendarzmiesiac().getUmowa().getKosztyuzyskaniaprocent());
+        
+    }
+    private static void obliczpodstaweopodatkowaniaZlecenie(Pasekwynagrodzen pasek, List<Podatki> stawkipodatkowe) {
+        Podatki pierwszyprog = stawkipodatkowe.get(0);
+        double zzus = pasek.getBruttozus();
+        double bezzus = pasek.getBruttobezzus();
+        double skladki = pasek.getRazemspolecznepracownik();
+        Rachunekdoumowyzlecenia rachunekdoumowyzlecenia = pasek.getKalendarzmiesiac().getUmowa().pobierzRachunekzlecenie(pasek.getKalendarzmiesiac().getRok(), pasek.getKalendarzmiesiac().getMc());
+        double procentkosztyuzyskania = rachunekdoumowyzlecenia.getProcentkosztowuzyskania();
+        double podstawadlakosztow = Z.z0(zzus+bezzus-skladki) > 0.0 ? Z.z0(zzus+bezzus-skladki) :0.0;
+        double kosztyuzyskania = Z.z(podstawadlakosztow*procentkosztyuzyskania/100);
         double dieta30proc = pasek.getDietaodliczeniepodstawaop();
         double podstawa = Z.z0(zzus+bezzus-skladki-kosztyuzyskania-dieta30proc) > 0.0 ? Z.z0(zzus+bezzus-skladki-kosztyuzyskania-dieta30proc) :0.0;
         pasek.setPodstawaopodatkowania(podstawa);

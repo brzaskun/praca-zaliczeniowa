@@ -21,6 +21,8 @@ import entity.Definicjalistaplac;
 import entity.Kalendarzmiesiac;
 import entity.Pasekwynagrodzen;
 import entity.Podatki;
+import entity.Rachunekdoumowyzlecenia;
+import entity.Umowa;
 import entity.Wynagrodzeniahistoryczne;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -132,7 +134,7 @@ public class PasekwynagrodzenView  implements Serializable {
                 double wynagrodzenieminimalne = wynagrodzenieminimalneFacade.findByRok(wpisView.getRokWpisu()).getKwotabrutto();
                 //zeby nei odoliczyc kwoty wolnej dwa razy
                 boolean czyodlicoznokwotewolna = PasekwynagrodzenBean.czyodliczonokwotewolna(wpisView, pasekwynagrodzenFacade);
-                Pasekwynagrodzen pasek = PasekwynagrodzenBean.oblicz(p, wybranalistaplac, nieobecnosckodzusFacade, paskidowyliczeniapodstawy, historiawynagrodzen, stawkipodatkowe, sumapoprzednich, wynagrodzenieminimalne, czyodlicoznokwotewolna);
+                Pasekwynagrodzen pasek = PasekwynagrodzenBean.obliczWynagrodzenie(p, wybranalistaplac, nieobecnosckodzusFacade, paskidowyliczeniapodstawy, historiawynagrodzen, stawkipodatkowe, sumapoprzednich, wynagrodzenieminimalne, czyodlicoznokwotewolna);
                 usunpasekjakzawiera(pasek);
                 lista.add(pasek);
             }
@@ -208,6 +210,14 @@ public class PasekwynagrodzenView  implements Serializable {
                 listakalendarzmiesiac = kalendarzmiesiacFacade.findByFirmaRokMcZlecenie(wybranalistaplac.getFirma(), wybranalistaplac.getRok(), wybranalistaplac.getMc());
             }
             Collections.sort(listakalendarzmiesiac, new Kalendarzmiesiaccomparator());
+            for (Iterator<Kalendarzmiesiac> it = listakalendarzmiesiac.iterator();it.hasNext();) {
+                Kalendarzmiesiac p = it.next();
+                Umowa u = p.getUmowa();
+                Rachunekdoumowyzlecenia znaleziony = u.pobierzRachunekzlecenie(wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
+                if (znaleziony==null) {
+                    it.remove();
+                }
+            }
             if (listakalendarzmiesiac!=null) {
                 this.listakalendarzmiesiac.setSource(listakalendarzmiesiac);
             }

@@ -8,6 +8,7 @@ package beanstesty;
 import entity.Dzien;
 import entity.Naliczenieskladnikawynagrodzenia;
 import entity.Pasekwynagrodzen;
+import entity.Rachunekdoumowyzlecenia;
 import entity.Skladnikwynagrodzenia;
 import entity.Zmiennawynagrodzenia;
 import java.util.List;
@@ -35,6 +36,23 @@ public class NaliczenieskladnikawynagrodzeniaBean {
             naliczenieskladnikawynagrodzenia.setSkladnikwynagrodzenia(SkladnikwynagrodzeniaBean.createWynagrodzenie());
         }
         return naliczenieskladnikawynagrodzenia;
+    }
+    
+    public static Naliczenieskladnikawynagrodzenia createWynagrodzenieDBZlecenie(Pasekwynagrodzen pasekwynagrodzen, Skladnikwynagrodzenia skladnikwynagrodzenia, List<Dzien> listadni, double kurs, Rachunekdoumowyzlecenia rachunekdoumowyzlecenia) {
+        Naliczenieskladnikawynagrodzenia zwrot = new Naliczenieskladnikawynagrodzenia();
+        double zmiennawynagrodzeniakwota = rachunekdoumowyzlecenia.getKwota();
+        zwrot.setPasekwynagrodzen(pasekwynagrodzen);
+        zwrot.setKwota(zmiennawynagrodzeniakwota);
+        if (rachunekdoumowyzlecenia.getSpoleczne()==true)  {
+            zwrot.setKwotazus(zmiennawynagrodzeniakwota);
+        } else if (rachunekdoumowyzlecenia.getPodatek()==false) {
+            zwrot.setKwotabezzusbezpodatek(zmiennawynagrodzeniakwota);
+        } else {
+            zwrot.setKwotabezzus(zmiennawynagrodzeniakwota);
+        }
+        zwrot.setKwotazredukowana(zmiennawynagrodzeniakwota);
+        zwrot.setSkladnikwynagrodzenia(skladnikwynagrodzenia);
+        return zwrot;
     }
     
     public static Naliczenieskladnikawynagrodzenia createWynagrodzenieDB(Pasekwynagrodzen pasekwynagrodzen, Skladnikwynagrodzenia skladnikwynagrodzenia, List<Dzien> listadni, double kurs) {

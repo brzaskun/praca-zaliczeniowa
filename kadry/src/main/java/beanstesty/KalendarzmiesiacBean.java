@@ -13,8 +13,10 @@ import entity.Naliczeniepotracenie;
 import entity.Naliczenieskladnikawynagrodzenia;
 import entity.Nieobecnosc;
 import entity.Pasekwynagrodzen;
+import entity.Rachunekdoumowyzlecenia;
 import entity.Skladnikpotracenia;
 import entity.Skladnikwynagrodzenia;
+import entity.Umowa;
 import java.util.ArrayList;
 import java.util.List;
 import z.Z;
@@ -226,6 +228,24 @@ public class KalendarzmiesiacBean {
                 Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = NaliczenieskladnikawynagrodzeniaBean.createBezZusPodatekDB(pasekwynagrodzen, p);
                 if (naliczenieskladnikawynagrodzenia.getKwota()!=0.0) {
                     pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().add(naliczenieskladnikawynagrodzenia);
+                }
+            }
+        }
+        return jestoddelegowanie;
+    }
+    
+    static boolean naliczskladnikiwynagrodzeniaDBZlecenie(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasekwynagrodzen, double kurs) {
+        boolean jestoddelegowanie = false;
+        for (Skladnikwynagrodzenia p : kalendarz.getUmowa().getSkladnikwynagrodzeniaList()) {
+            if (p.getRodzajwynagrodzenia().getKod().equals("11")||p.getRodzajwynagrodzenia().getKod().equals("50")) {
+                Umowa umowa = kalendarz.getUmowa();
+                Rachunekdoumowyzlecenia rachunekdoumowyzlecenia = umowa.pobierzRachunekzlecenie(kalendarz.getRok(), kalendarz.getMc());
+                Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = NaliczenieskladnikawynagrodzeniaBean.createWynagrodzenieDBZlecenie(pasekwynagrodzen, p, kalendarz.getDzienList(), kurs, rachunekdoumowyzlecenia);
+                if (naliczenieskladnikawynagrodzenia.getKwota()!=0.0) {
+                    pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().add(naliczenieskladnikawynagrodzenia);
+                    if (p.isOddelegowanie()) {
+                        jestoddelegowanie = true;
+                    }
                 }
             }
         }

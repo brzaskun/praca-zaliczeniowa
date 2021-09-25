@@ -254,7 +254,9 @@ private static final long serialVersionUID = 1L;
         return kod!=null&&!kod.equals("");
     }
 
-   
+   public boolean isPraca() {
+       return this.getUmowa().getUmowakodzus().isPraca();
+   }
 
     public List<Pasekwynagrodzen> getPasekwynagrodzenList() {
         return pasekwynagrodzenList;
