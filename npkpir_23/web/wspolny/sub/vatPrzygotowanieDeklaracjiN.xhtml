@@ -138,10 +138,10 @@
             <p:panelGrid columns="2"  style="width: 600px;" styleClass="vatramki"   rendered="#{vat7DKView.flaga ne 1}">
                 <h:outputText value="przeniesienie z pop.deklaracji"/>
                 <p:inputNumber styleClass="vatramki"   value="#{vat7DKView.przeniesieniezpoprzedniejdeklaracji}" decimalPlaces="0" inputStyle="text-align: right;" thousandSeparator="&#160;"/>
+                 <h:outputText value="kwota podatku należnego od wewnątrzwspólnotowego nabycia środków transportu, wykazanego w poz. 24"/>
+                <p:inputNumber  value="#{vat7DKView.wntsamochoddoodliczenia}" decimalPlaces="0" inputStyle="text-align: right;" />
                 <h:outputText value="kwota wydatkowana na zakup kasy rejestrującej"/>
                 <p:inputNumber  value="#{vat7DKView.kwotanakaserej}" decimalPlaces="0" inputStyle="text-align: right;" />
-                <h:outputText value="kwota podatku należnego od wewnątrzwspólnotowego nabycia środków transportu, wykazanego w poz. 24"/>
-                <p:inputNumber  value="#{vat7DKView.wntsamochoddoodliczenia}" decimalPlaces="0" inputStyle="text-align: right;" />
                 <h:outputText value="zwrot na rachunek w terminie 25 dni"/>
                 <p:inputNumber value="#{vat7DKView.zwrot25dni}" decimalPlaces="0" inputStyle="text-align: right;" />
                 <h:outputText value="zwrot na rachunek w terminie 60 dni"/>
