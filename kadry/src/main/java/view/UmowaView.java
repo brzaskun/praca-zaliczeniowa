@@ -85,7 +85,7 @@ public class UmowaView  implements Serializable {
     
     @PostConstruct
     public void init() {
-        if (wpisView.getUmowa()!=null) {
+        if (wpisView.getUmowa()!=null && rodzajumowy==null) {
             if (wpisView.getUmowa().getUmowakodzus().isPraca()) {
                 rodzajumowy = "1";
             } else {
@@ -103,8 +103,11 @@ public class UmowaView  implements Serializable {
         listaangaz = angazFacade.findByFirma(wpisView.getFirma());
         listaumowakodzus = rodzajumowyFacade.findUmowakodzusAktywne();
         listakodyzawodow = kodyzawodowFacade.findAll();
-       datadzisiejsza = Data.aktualnaData();
-       miejscowosc = wpisView.getFirma().getMiasto();
+        datadzisiejsza = Data.aktualnaData();
+        miejscowosc = wpisView.getFirma().getMiasto();
+        if (!lista.contains(wpisView.getUmowa())) {
+            wpisView.setUmowa(lista.get(lista.size()-1));
+        }
     }
     
     public void wyborinnejumowy() {

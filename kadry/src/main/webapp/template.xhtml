@@ -28,6 +28,10 @@
         <p>
             <ui:insert name="body">Default Body</ui:insert>
         </p>
+        <p:confirmPopup global="true">
+            <p:commandButton value="Nie" type="button" styleClass="ui-confirm-popup-no ui-button-flat"/>
+            <p:commandButton value="Tak" type="button" styleClass="ui-confirm-popup-yes" />
+        </p:confirmPopup>
     </h:body>
 
 </html>

@@ -56,11 +56,11 @@ public class RachunekZlecenieView  implements Serializable {
             }
             if (datado != null && !datado.equals("")) {
                 String rokdo = Data.getRok(datado);
-                String mcdo = Data.getRok(datado);
+                String mcdo = Data.getMc(datado);
                 if (Integer.parseInt(rokdo) < wpisView.getRokWpisuInt()) {
                     trzebazrobicrachunek = false;
                 } else if (Integer.parseInt(rokdo) == wpisView.getRokWpisuInt()) {
-                    if (Mce.getMiesiacToNumber().get(datado) < Integer.parseInt(wpisView.getMiesiacWpisu())) {
+                    if (Mce.getMiesiacToNumber().get(mcdo) < Integer.parseInt(wpisView.getMiesiacWpisu())) {
                         trzebazrobicrachunek = false;
                     }
                 }

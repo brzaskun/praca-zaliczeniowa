@@ -16,7 +16,7 @@
                              style="height: 50%;overflow-y: scroll;"
                              >
                     <p:ajax event="rowSelect" listener="#{firmaView.aktywuj(firmaView.selectedeast)}" partialSubmit="true" global="false" update="north,@(form)"/>
-                    <p:ajax event="rowSelect" listener="#{angazView.findByFirma(firmaView.selectedeast)}" partialSubmit="true" global="false" update="@(form)"/>
+                    <p:ajax event="rowSelect" listener="#{statystykaView.init()}" partialSubmit="true" global="false" update="@(form)"/>
                     <p:column>
                         <h:outputText value="#{item1.nazwa}"/>
                     </p:column>

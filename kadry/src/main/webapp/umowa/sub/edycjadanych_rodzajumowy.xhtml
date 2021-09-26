@@ -15,7 +15,7 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                     <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
                     <f:selectItem itemLabel="umowa o pracę" itemValue="1"/>
                     <f:selectItem itemLabel="umowa zlecenia i o dzieło" itemValue="2"/>
-                    <p:ajax event="change" partialSubmit="true" listener="#{umowaView.wyborinnejumowy()}" global="false" update="@(form) UmowaCreateForm"/>
+                    <p:ajax event="change" partialSubmit="true" listener="#{updateClassView.updateUmowa()}" global="false" update="@(form) UmowaCreateForm"/>
                 </p:selectOneMenu>
             </p:panelGrid>
         </h:form>
