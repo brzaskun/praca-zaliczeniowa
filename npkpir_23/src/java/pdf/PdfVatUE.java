@@ -369,17 +369,20 @@ public class PdfVatUE {
     private static void czyjestpodsumowanie(List<VatUe> listawybranych) {
         boolean czyjest = false;
         double suma = 0.0;
+        int iloscdok = 0;
         for (VatUe p : listawybranych) {
             if (p.getTransakcja().equals("podsum.")) {
                 czyjest = true;
             } else {
                 suma += p.getNetto();
+                iloscdok += p.getLiczbadok();
             }
         }
         if (czyjest == false) {
             VatUe v = new VatUe();
             v.setTransakcja("podsum.");
             v.setNetto(suma);
+            v.setLiczbadok(iloscdok);
             listawybranych.add(v);
         }
     }

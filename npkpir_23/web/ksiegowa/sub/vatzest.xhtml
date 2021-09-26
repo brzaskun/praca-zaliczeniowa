@@ -183,8 +183,11 @@
                 <p:column headerText="wartość vat" >
                     <bcf:outputpl value="#{itemikjpk.vat}"/>
                 </p:column>
-                 <p:column headerText="WDT" >
-                     <h:outputText value="#{itemikjpk.wdt}"/>
+                <p:column headerText="WDT" style="text-align: center;" width="30">
+                    <h:outputText value="&#x2713;" rendered="#{itemikjpk.wdt}" style="color: green;font-weight: bold"/>
+                </p:column>
+                <p:column headerText="WNT"  style="text-align: center;" width="30">
+                    <h:outputText value="&#x2713;" rendered="#{itemikjpk.wnt}" style="color: green;font-weight: bold"/>
                 </p:column>
             </p:dataTable>
         </p:tab>

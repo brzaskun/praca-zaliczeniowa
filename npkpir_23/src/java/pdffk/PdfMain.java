@@ -2342,7 +2342,7 @@ public class PdfMain {
                         table.addCell(ustawfrazeAlign("", "center", 8));
                         table.addCell(ustawfrazeAlign("podsumowanie", "center", 8));
                         table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getNetto())), "right", 8));
-                        table.addCell(ustawfrazeAlign("", "center", 8));
+                        table.addCell(ustawfrazeAlign(String.valueOf(p.getLiczbadok()), "center", 8));
                     } else {
                         table.addCell(ustawfrazeAlign(String.valueOf(i++), "center", 8));
                         table.addCell(ustawfrazeAlign(p.getTransakcja(), "center", 8));

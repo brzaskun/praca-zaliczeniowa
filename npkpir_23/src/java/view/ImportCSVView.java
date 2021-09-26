@@ -54,7 +54,7 @@ import org.apache.commons.io.FilenameUtils;
 import org.joda.time.DateTime;
 import org.primefaces.PrimeFaces;
 import org.primefaces.event.FileUploadEvent;
-import org.primefaces.model.UploadedFile;
+import org.primefaces.model.file.UploadedFile;   
 import pdf.PdfDok;
 import plik.Plik;
 import waluty.Z;
@@ -141,10 +141,10 @@ public class ImportCSVView  implements Serializable {
             String extension = FilenameUtils.getExtension(uploadedFile.getFileName());
             Iterable<CSVRecord> recordss = null;
             if (extension.equals("csv")) {
-                InputStream is = uploadedFile.getInputstream();
+                InputStream is = uploadedFile.getInputStream();
                 recordss = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(new InputStreamReader(is, Charset.forName("windows-1252")));
             } else {
-                InputStream is = uploadedFile.getInputstream();
+                InputStream is = uploadedFile.getInputStream();
                 recordss = CSVFormat.newFormat('\t').withFirstRecordAsHeader().parse(new InputStreamReader(is, Charset.forName("UTF-8")));
             }
             Stream<CSVRecord> stream = StreamSupport.stream(recordss.spliterator(), true);

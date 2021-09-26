@@ -41,7 +41,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.primefaces.event.FileUploadEvent;
-import org.primefaces.model.UploadedFile;
+import org.primefaces.model.file.UploadedFile;
 import waluty.Z;
 import xls.GenerujDok;
 
@@ -88,9 +88,9 @@ public class ImportMelkaView  implements Serializable {
             String extension = FilenameUtils.getExtension(uploadedFile.getFileName()).toLowerCase();
             if (extension.equals("xls")||extension.equals("xlsx")) {
                 String filename = uploadedFile.getFileName();
-                pobraneplikibytes = uploadedFile.getContents();
+                pobraneplikibytes = uploadedFile.getContent();
                 getListafaktur();
-                //plikinterpaper = uploadedFile.getContents();
+                //plikinterpaper = uploadedFile.getContent();
                 Msg.msg("Sukces. Plik xls " + filename + " został skutecznie załadowany");
             } else {
                 Msg.msg("e","Niewłaściwy typ pliku");

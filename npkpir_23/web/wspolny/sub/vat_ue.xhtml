@@ -48,7 +48,7 @@
             <p:outputPanel > 
 
                 <p:dataTable  var="wpis1" value="#{vatUeFKView.klienciWDTWNT}" id="dokumentyLista" 
-                              rowKey="#{wpis1.hashCode()}" selection="#{vatUeFKView.listawybranych}"
+                              rowKey="#{wpis1.id}" selection="#{vatUeFKView.listawybranych}"
                               emptyMessage="#{vatUeFKView.komunikat}"
                               sortBy="#{wpis1.kontrahent.npelna}" styleClass="upd1"
                               style="height: 400px;overflow-y: scroll;width: 1280px;" widgetVar="dokTable" 
@@ -67,7 +67,7 @@
                     <p:column style="width: 5%;">
                         <p:rowToggler rendered="#{wpis1.zawierafk.size() gt 0 or wpis1.zawiera.size() gt 0? true : false}"/>
                     </p:column>
-                    <p:column id="typdokColumn" headerText="transakcja" filterBy="#{wpis1.transakcja}" filterMatchMode="contains" sortBy="#{wpis1.transakcja}" style="width: 15%;" filterStyle="display : none;" >  
+                    <p:column id="typdokColumn" headerText="transakcja" filterBy="#{wpis1.transakcja}" filterMatchMode="contains" sortBy="#{wpis1.transakcja}" style="width: 15%;" >  
                         <h:outputText value="#{wpis1.transakcja}"/>
                     </p:column>
                     <p:column id="krajkodColumn" headerText="kraj" filterBy="#{wpis1.kontrahent.krajkod}" filterMatchMode="contains" sortBy="#{wpis1.kontrahent.krajkod}" 

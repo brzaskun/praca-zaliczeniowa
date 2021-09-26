@@ -413,6 +413,11 @@ public class KlientJPK implements Serializable {
         return true;
     }
 
+    @Override
+    public String toString() {
+        return "KlientJPK{" + "serial=" + serial + ", kodKrajuNadania=" + kodKrajuNadania + ", kodKrajuDoreczenia=" + kodKrajuDoreczenia + ", jurysdykcja=" + jurysdykcja + ", nrKontrahenta=" + nrKontrahenta + ", nazwaKontrahenta=" + nazwaKontrahenta + ", dowodSprzedazy=" + dowodSprzedazy + ", dataWystawienia=" + dataWystawienia + ", dataSprzedazy=" + dataSprzedazy + ", netto=" + netto + ", vat=" + vat + ", nettowaluta=" + nettowaluta + ", vatwaluta=" + vatwaluta + ", stawkavat=" + stawkavat + ", rok=" + rok + ", mc=" + mc + ", ewidencja=" + ewidencja + ", ewidencjaVAT=" + ewidencjaVAT + ", waluta=" + waluta + ", wdt=" + wdt + ", wnt=" + wnt + ", eksport=" + eksport + ", importt=" + importt + '}';
+    }
+
     
 
    

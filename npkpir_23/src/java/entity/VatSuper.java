@@ -285,7 +285,11 @@ public class VatSuper implements Serializable{
 
     @Override
     public String toString() {
-        return "VatUe{" + "transakcja=" + transakcja + ", kontrahent=" + kontrahent.getNpelna() + ", netto=" + netto + ", nettowaluta=" + nettowaluta + ", liczbadok=" + liczbadok + ", nazwawaluty=" + nazwawaluty + ", zawiera=" + zawiera + ", zawierafk=" + zawierafk + '}';
+        if (kontrahent!=null) {
+            return "VatUe{" + "transakcja=" + transakcja + ", kontrahent=" + kontrahent.getNpelna() + ", netto=" + netto + ", nettowaluta=" + nettowaluta + ", liczbadok=" + liczbadok + ", nazwawaluty=" + nazwawaluty + ", zawiera=" + zawiera + ", zawierafk=" + zawierafk + '}';
+        } else {
+            return "VatUe{" + "transakcja=" + transakcja + ", kontrahent=" + kontrahentnazwa + ", netto=" + netto + ", nettowaluta=" + nettowaluta + ", liczbadok=" + liczbadok + ", nazwawaluty=" + nazwawaluty + ", zawiera=" + zawiera + ", zawierafk=" + zawierafk + '}';
+        }
     }
 
   

@@ -49,12 +49,13 @@ public class DeklaracjavatUEDAO extends DAO implements Serializable{
 
 
     public List<DeklaracjavatUE> findbyPodatnikRok(WpisView wpisView) {
+        List<DeklaracjavatUE> zwrot = null;
         try {
-            return getEntityManager().createNamedQuery("DeklaracjavatUE.findByPodatnikRok").setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisuSt()).getResultList();
+            zwrot = getEntityManager().createNamedQuery("DeklaracjavatUE.findByPodatnikRok").setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisuSt()).getResultList();
         } catch (Exception e) { 
             E.e(e); 
-            return null;
         }
+        return zwrot;
     }
 
 

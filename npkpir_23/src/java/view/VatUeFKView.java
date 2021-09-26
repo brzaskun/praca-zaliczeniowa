@@ -189,24 +189,31 @@ public class VatUeFKView implements Serializable {
             List<KlientJPK> lista = klientJPKDAO.findbyKlientRokMc(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
             if (lista!=null) {
                  klienciWDTWNT.addAll(kontrahenciUEJPK(lista));
-                 for (KlientJPK p : lista) {
+                 for (Iterator<KlientJPK> it =lista.iterator();it.hasNext();) {
+                     KlientJPK p = it.next();
                     for (VatUe s : klienciWDTWNT) {
-                        if (p.getNrKontrahenta().equals("FR39508893922")) {
-                            System.out.println("");
-                        }
-                        if ((s.getTransakcja().equals("WDT")&&p.isWdt())||(s.getTransakcja().equals("WNT")&&p.isWnt())) {
-                            if (p.getNrKontrahenta().equals(s.getKontrahentwyborNIP())) {
-                                    double netto = p.getNetto();
-                                    double nettowaluta = p.getNettowaluta();
-                                    s.setNetto(netto + s.getNetto());
-                                    s.setNettowaluta(nettowaluta + s.getNettowaluta());
-                                    s.setLiczbadok(s.getLiczbadok() + 1);
-                                    s.setNazwawaluty(s.getNazwawaluty());
-                                    break;
-                                }
+                        try {
+                            if ((s.getTransakcja().equals("WDT")&&p.isWdt())||(s.getTransakcja().equals("WNT")&&p.isWnt())) {
+                                if (p.getNrKontrahenta().equals(s.getKontrahentwyborNIP())) {
+                                        double netto = p.getNetto();
+                                        double nettowaluta = p.getNettowaluta();
+                                        s.setNetto(Z.z(netto + s.getNetto()));
+                                        s.setNettowaluta(Z.z(nettowaluta + s.getNettowaluta()));
+                                        s.setLiczbadok(s.getLiczbadok() + 1);
+                                        s.setNazwawaluty(s.getNazwawaluty());
+                                        it.remove();
+                                        break;
+                                    }
+                            }
+                        } catch (Exception e){
+                            
                         }
                     }
                 }
+            }
+            int idnumer = 1;
+            for (VatUe v : klienciWDTWNT) {
+                v.setId(idnumer++);
             }
             try {
                 pobierzdeklaracjeUE();
@@ -392,7 +399,7 @@ public class VatUeFKView implements Serializable {
     public void pobierzdeklaracjeUE()  {
        deklaracjeUE_biezace = Collections.synchronizedList(new ArrayList<>());
        deklaracjeUE = deklaracjavatUEDAO.findbyPodatnikRok(wpisView);
-       if (deklaracjeUE == null) {
+       if (deklaracjeUE != null) {
            for (DeklaracjavatUE p : deklaracjeUE) {
                if (p.getStatus()==null || !p.getStatus().equals("200")) {
                    deklaracjeUE_biezace.add(p);
@@ -488,17 +495,11 @@ public class VatUeFKView implements Serializable {
     }
     
      private String pobierznip(String nip) {
-       //jezeli false to dobrze
-        int ile = 2;
-        String pr = nip.substring(0, 2);
-        if (pr.equals("ES")|| pr.equals("AT")) {
-            ile = 3;
-        }
-        String prefix = nip.substring(0, ile);
-        Pattern p = Pattern.compile("[0-9]");
-        boolean isnumber = p.matcher(prefix).find();
         String zwrot = nip;
-        if (!isnumber) {
+        String prefix = nip.substring(0, 2);
+        Pattern p = Pattern.compile("[A-Z]");
+        boolean isalfa = p.matcher(prefix).find();
+        if (isalfa) {
             zwrot = nip.substring(2);
         }
         return zwrot;
@@ -506,17 +507,12 @@ public class VatUeFKView implements Serializable {
      
      private String pobierzkraj(String nip) {
        //jezeli false to dobrze
-        int ile = 2;
-        String pr = nip.substring(0, 2);
-        if (pr.equals("ES")|| pr.equals("AT")) {
-            ile = 3;
-        }
-        String prefix = nip.substring(0, ile);
-        Pattern p = Pattern.compile("[0-9]");
-        boolean isnumber = p.matcher(prefix).find();
-        String zwrot = nip;
-        if (!isnumber) {
-            zwrot = nip.substring(0,2);
+        String zwrot = nip.substring(0,2);
+        String prefix = nip.substring(0, 2);
+        Pattern p = Pattern.compile("[A-Z]");
+        boolean isalfa = p.matcher(prefix).find();
+        if (!isalfa) {
+            zwrot = "brak";
         }
         return zwrot;
     }

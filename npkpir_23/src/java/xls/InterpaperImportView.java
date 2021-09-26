@@ -63,7 +63,7 @@ import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.component.panelgrid.PanelGrid;
 import org.primefaces.component.selectonemenu.SelectOneMenu;
 import org.primefaces.event.FileUploadEvent;
-import org.primefaces.model.UploadedFile;
+import org.primefaces.model.file.UploadedFile;
 import pdf.PdfXLSImport;
 import view.WpisView;
 import waluty.Z;
@@ -195,8 +195,8 @@ public class InterpaperImportView implements Serializable {
             String extension = FilenameUtils.getExtension(uploadedFile.getFileName());
             if (extension.equals("csv")||extension.equals("xls")||extension.equals("xlsx")||extension.equals("xml")||extension.equals("epp")) {
                 String filename = uploadedFile.getFileName();
-                pobranyplik = uploadedFile.getContents();
-                pobraneplikibytes.add(uploadedFile.getContents());
+                pobranyplik = uploadedFile.getContent();
+                pobraneplikibytes.add(uploadedFile.getContent());
                 PrimeFaces.current().ajax().update("panelplik");
                 grid1.setRendered(true);
                 grid2.setRendered(false);

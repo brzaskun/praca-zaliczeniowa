@@ -111,6 +111,7 @@ public class Vat7DKView implements Serializable {
     private Integer zwrot60dni;
     private Integer zwrot180dni;
     private Integer kwotanakaserej;
+    private Integer wntsamochoddoodliczenia;
     private DeklaracjaVatSchema pasujacaSchema;
     private HashMap<String, EVatwpisSuma> mapaewidencji;
     private boolean pokazinfovatzz;
@@ -338,6 +339,9 @@ public class Vat7DKView implements Serializable {
             if (kwotanakaserej != null) {
                 kasarejestrujaca(nż, nl, dowpłaty, nadwyzkanaliczonego);
             }
+            if (wntsamochoddoodliczenia != null) {
+                kasarejestrujaca(nż, nl, dowpłaty, nadwyzkanaliczonego);
+            }
             boolean nowyjpk2020 = wpisView.isJpk2020M()||wpisView.isJpk2020K();
             DeklaracjaVatSchemaWierszSum doprzeniesienia = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"Kwota do przeniesienia na następny okres rozliczeniowy");
             doprzeniesienia.getDeklaracjaVatWierszSumaryczny().setSumavat(nadwyzkanaliczonego.getDeklaracjaVatWierszSumaryczny().getSumavat());
@@ -413,6 +417,19 @@ public class Vat7DKView implements Serializable {
     }
     
     private void kasarejestrujaca(int nż, int nl, DeklaracjaVatSchemaWierszSum dowpłaty, DeklaracjaVatSchemaWierszSum nadwyzkanaliczonego) {
+        if (nż > nl) {
+            DeklaracjaVatSchemaWierszSum kasadoodliczenia = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"Kwota wydatkowana na kasy rej. do odliczenia");
+            kasadoodliczenia.getDeklaracjaVatWierszSumaryczny().setSumavat(kwotanakaserej);
+            dowpłaty.getDeklaracjaVatWierszSumaryczny().setSumavat((dowpłaty.getDeklaracjaVatWierszSumaryczny().getSumavat() - kwotanakaserej) > 0 ? (dowpłaty.getDeklaracjaVatWierszSumaryczny().getSumavat() - kwotanakaserej) : 0);
+        } else {
+            DeklaracjaVatSchemaWierszSum kasadozwrotu = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"Kwota wydatkowana na kasy rej. do zwrotu");
+            kasadozwrotu.getDeklaracjaVatWierszSumaryczny().setSumavat(kwotanakaserej);
+            nadwyzkanaliczonego.getDeklaracjaVatWierszSumaryczny().setSumavat(nadwyzkanaliczonego.getDeklaracjaVatWierszSumaryczny().getSumavat() + kwotanakaserej);
+        }
+        
+    }
+    
+     private void wntsamochod(int nż, int nl, DeklaracjaVatSchemaWierszSum dowpłaty, DeklaracjaVatSchemaWierszSum nadwyzkanaliczonego) {
         if (nż > nl) {
             DeklaracjaVatSchemaWierszSum kasadoodliczenia = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"Kwota wydatkowana na kasy rej. do odliczenia");
             kasadoodliczenia.getDeklaracjaVatWierszSumaryczny().setSumavat(kwotanakaserej);
@@ -1412,6 +1429,14 @@ public class Vat7DKView implements Serializable {
 
     public void setPozwolnazapis(boolean pozwolnazapis) {
         this.pozwolnazapis = pozwolnazapis;
+    }
+
+    public Integer getWntsamochoddoodliczenia() {
+        return wntsamochoddoodliczenia;
+    }
+
+    public void setWntsamochoddoodliczenia(Integer wntsamochoddoodliczenia) {
+        this.wntsamochoddoodliczenia = wntsamochoddoodliczenia;
     }
 
    
