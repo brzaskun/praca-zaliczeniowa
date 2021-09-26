@@ -60,7 +60,7 @@ xmlns:pe="http://primefaces.org/ui/extensions">
         <p:outputPanel>
             <h:form id="PasekwynagrodzenListForm">
                 <p:panel header="paski wynagrodzeń">
-                    <p:dataTable id="datalist" value="#{pasekwynagrodzenView.lista}" var="itempasek"
+                    <p:dataTable id="datalist" value="#{pasekwynagrodzenView.lista}" var="itempasek" emptyMessage="Brak listy za dany okres"
                                  selectionMode="single" selection="#{pasekwynagrodzenView.selectedlista}" rowIndexVar="indexpasek"
                                  rowKey="#{itempasek.kalendarzmiesiac.hashCode()}" sortBy="#{itempasek.kalendarzmiesiac.umowa.angaz.pracownik.nazwiskoImie}"
                                  style="height: 500px; overflow-y: scroll;"

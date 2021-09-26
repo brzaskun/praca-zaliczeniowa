@@ -7,6 +7,7 @@ package viewsuperplace;
 
 import beanstesty.UmowaBean;
 import comparator.Umowacomparator;
+import comparator.ZatrudHistComparator;
 import dao.KalendarzmiesiacFacade;
 import dao.KalendarzwzorFacade;
 import dao.SkladnikWynagrodzeniaFacade;
@@ -91,6 +92,7 @@ public class OsobaBean {
     static List<Umowa> pobierzumowy(Osoba osoba, Angaz angaz, List<Slownikszkolazatrhistoria> rodzajezatr, List<Slownikwypowiedzenieumowy> rodzajewypowiedzenia, Umowakodzus umowakodzus) {
         List<Umowa> zwrot = new ArrayList<>();
         List<ZatrudHist> zatrudHist = osoba.getZatrudHistList();
+        Collections.sort(zatrudHist, new ZatrudHistComparator());
         int nrumowy = 1;
         for (ZatrudHist r : zatrudHist) {
             try {

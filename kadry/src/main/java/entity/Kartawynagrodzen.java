@@ -17,6 +17,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -27,7 +28,9 @@ import z.Z;
  * @author Osito
  */
 @Entity
-@Table(name = "kartawynagrodzen")
+@Table(name = "kartawynagrodzen", uniqueConstraints = {
+    @UniqueConstraint(columnNames={"angaz","rok", "mc"})
+})
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Kartawynagrodzen.findAll", query = "SELECT k FROM Kartawynagrodzen k"),
@@ -130,12 +133,16 @@ public class Kartawynagrodzen implements Serializable {
     @JoinColumn(name = "angaz", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Angaz angaz;
+    @Column(name = "nrlisty")
+    private String nrlisty;
 
     public Kartawynagrodzen() {
+        this.nrlisty = "";
     }
 
     public Kartawynagrodzen(Integer id) {
         this.id = id;
+        this.nrlisty = "";
     }
 
     public Integer getId() {
@@ -382,6 +389,14 @@ public class Kartawynagrodzen implements Serializable {
     public double getBrutto() {
         return Z.z(this.bruttozus+this.bruttobezzus);
     }
+
+    public String getNrlisty() {
+        return nrlisty;
+    }
+
+    public void setNrlisty(String nrlisty) {
+        this.nrlisty = nrlisty;
+    }
     
     
     @Override
@@ -436,6 +451,7 @@ public class Kartawynagrodzen implements Serializable {
         this.potracenia = 0.0;
         this.razem53 = 0.0;
         this.kosztpracodawcy = 0.0;
+        this.nrlisty = null;
     }
 
 
@@ -466,6 +482,13 @@ public class Kartawynagrodzen implements Serializable {
         this.potracenia += pasek.getPotracenia();
         this.razem53 += pasek.getRazem53();
         this.kosztpracodawcy += pasek.getKosztpracodawcy();
+        if (pasek.getDefinicjalistaplac().getNrkolejny()!=null && !this.mc.equals("razem")) {
+            if (this.nrlisty==null) {
+                this.nrlisty = pasek.getDefinicjalistaplac().getNrkolejny()+";";
+            } else {
+                this.nrlisty = this.nrlisty+pasek.getDefinicjalistaplac().getNrkolejny()+";";
+            }
+        }
     }
     
 }

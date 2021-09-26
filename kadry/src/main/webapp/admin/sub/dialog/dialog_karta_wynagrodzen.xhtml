@@ -18,17 +18,23 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                                  rowKey="#{itemkarta.id}" sortBy="#{itemkarta.mc}" rowIndexVar="indexka"
                                 style="height: 450px; overflow-y: scroll;"
                                  >
-                        <p:column width="40" style="text-align: center;">
+                        <p:column width="20" style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="id"/>
                             </f:facet>
                             <h:outputText value="#{indexka+1}"/>
                         </p:column>
-                        <p:column width="40" style="text-align: center;">
+                        <p:column width="20" style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="mc"/>
                             </f:facet>
                             <h:outputText value="#{itemkarta.mc}"/>
+                        </p:column>
+                         <p:column width="100" style="text-align: center;word-break: true;">
+                            <f:facet name="header">
+                                <h:outputText value="nr listy"/>
+                            </f:facet>
+                            <h:outputText value="#{itemkarta.nrlisty}"/>
                         </p:column>
                         <p:column width="60">
                             <f:facet name="header">

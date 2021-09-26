@@ -43,57 +43,58 @@ public class RachunekZlecenieView  implements Serializable {
     @PostConstruct
     public void init() {
        umowabiezaca = wpisView.getUmowa();
-       String datado = umowabiezaca.getDatado();
-       trzebazrobicrachunek = false;
-       rachunekdoumowyzlecenia = rachunekdoumowyzleceniaFacade.findByRokMcUmowa(wpisView.getRokWpisu(), wpisView.getMiesiacWpisu(), umowabiezaca);
-        if (rachunekdoumowyzlecenia == null) {
-            if (Integer.parseInt(umowabiezaca.getRok()) < wpisView.getRokWpisuInt()) {
-                trzebazrobicrachunek = true;
-            } else if (Integer.parseInt(umowabiezaca.getRok()) == wpisView.getRokWpisuInt()) {
-                if (Mce.getMiesiacToNumber().get(umowabiezaca.getMc()) <= Integer.parseInt(wpisView.getMiesiacWpisu())) {
-                    trzebazrobicrachunek = true;
-                }
-            }
-            if (datado != null && !datado.equals("")) {
-                String rokdo = Data.getRok(datado);
-                String mcdo = Data.getMc(datado);
-                if (Integer.parseInt(rokdo) < wpisView.getRokWpisuInt()) {
-                    trzebazrobicrachunek = false;
-                } else if (Integer.parseInt(rokdo) == wpisView.getRokWpisuInt()) {
-                    if (Mce.getMiesiacToNumber().get(mcdo) < Integer.parseInt(wpisView.getMiesiacWpisu())) {
-                        trzebazrobicrachunek = false;
-                    }
-                }
-            }
-            if (trzebazrobicrachunek) {
-                rachunekdoumowyzlecenia = new Rachunekdoumowyzlecenia(wpisView.getUmowa());
-                rachunekdoumowyzlecenia.setDataod(Data.pierwszyDzien(wpisView));
-                rachunekdoumowyzlecenia.setDatado(Data.ostatniDzien(wpisView));
-                rachunekdoumowyzlecenia.setRok(wpisView.getRokWpisu());
-                rachunekdoumowyzlecenia.setMc(wpisView.getMiesiacWpisu());
-                if (datado != null && !datado.equals("")) {
-                    String mcdo = Data.getRok(datado);
-                    if (mcdo.equals(wpisView.getMiesiacWpisu())) {
-                        rachunekdoumowyzlecenia.setDatado(datado);
-                    }
-                }
-                double kwota = umowabiezaca.pobierzwynagrodzenieKwota();
-                double iloscgodzinzkalendarza = pobierzgodzinyzkalendarza();
-                rachunekdoumowyzlecenia.setIloscgodzin(iloscgodzinzkalendarza);
-                if (umowabiezaca.czywynagrodzeniegodzinowe()) {
-                    rachunekdoumowyzlecenia.setWynagrodzeniegodzinowe(kwota);
-                    rachunekdoumowyzlecenia.setKwota(Z.z(rachunekdoumowyzlecenia.getWynagrodzeniegodzinowe() * iloscgodzinzkalendarza));
-                } else {
-                    rachunekdoumowyzlecenia.setWynagrodzeniemiesieczne(kwota);
-                    rachunekdoumowyzlecenia.setKwota(Z.z(kwota));
-                }
-                rachunekdoumowyzlecenia.setProcentkosztowuzyskania(umowabiezaca.getKosztyuzyskaniaprocent());
-                rachunekdoumowyzlecenia.setKoszt(Z.z(rachunekdoumowyzlecenia.getKwota() * umowabiezaca.getKosztyuzyskaniaprocent() / 100.0));
-            }
-        } else {
-            Msg.msg("Pobrano zachowany rachunek");
-        }
-
+       if (umowabiezaca!=null) {
+        String datado = umowabiezaca.getDatado();
+        trzebazrobicrachunek = false;
+        rachunekdoumowyzlecenia = rachunekdoumowyzleceniaFacade.findByRokMcUmowa(wpisView.getRokWpisu(), wpisView.getMiesiacWpisu(), umowabiezaca);
+         if (rachunekdoumowyzlecenia == null) {
+             if (Integer.parseInt(umowabiezaca.getRok()) < wpisView.getRokWpisuInt()) {
+                 trzebazrobicrachunek = true;
+             } else if (Integer.parseInt(umowabiezaca.getRok()) == wpisView.getRokWpisuInt()) {
+                 if (Mce.getMiesiacToNumber().get(umowabiezaca.getMc()) <= Integer.parseInt(wpisView.getMiesiacWpisu())) {
+                     trzebazrobicrachunek = true;
+                 }
+             }
+             if (datado != null && !datado.equals("")) {
+                 String rokdo = Data.getRok(datado);
+                 String mcdo = Data.getMc(datado);
+                 if (Integer.parseInt(rokdo) < wpisView.getRokWpisuInt()) {
+                     trzebazrobicrachunek = false;
+                 } else if (Integer.parseInt(rokdo) == wpisView.getRokWpisuInt()) {
+                     if (Mce.getMiesiacToNumber().get(mcdo) < Integer.parseInt(wpisView.getMiesiacWpisu())) {
+                         trzebazrobicrachunek = false;
+                     }
+                 }
+             }
+             if (trzebazrobicrachunek) {
+                 rachunekdoumowyzlecenia = new Rachunekdoumowyzlecenia(wpisView.getUmowa());
+                 rachunekdoumowyzlecenia.setDataod(Data.pierwszyDzien(wpisView));
+                 rachunekdoumowyzlecenia.setDatado(Data.ostatniDzien(wpisView));
+                 rachunekdoumowyzlecenia.setRok(wpisView.getRokWpisu());
+                 rachunekdoumowyzlecenia.setMc(wpisView.getMiesiacWpisu());
+                 if (datado != null && !datado.equals("")) {
+                     String mcdo = Data.getRok(datado);
+                     if (mcdo.equals(wpisView.getMiesiacWpisu())) {
+                         rachunekdoumowyzlecenia.setDatado(datado);
+                     }
+                 }
+                 double kwota = umowabiezaca.pobierzwynagrodzenieKwota();
+                 double iloscgodzinzkalendarza = pobierzgodzinyzkalendarza();
+                 rachunekdoumowyzlecenia.setIloscgodzin(iloscgodzinzkalendarza);
+                 if (umowabiezaca.czywynagrodzeniegodzinowe()) {
+                     rachunekdoumowyzlecenia.setWynagrodzeniegodzinowe(kwota);
+                     rachunekdoumowyzlecenia.setKwota(Z.z(rachunekdoumowyzlecenia.getWynagrodzeniegodzinowe() * iloscgodzinzkalendarza));
+                 } else {
+                     rachunekdoumowyzlecenia.setWynagrodzeniemiesieczne(kwota);
+                     rachunekdoumowyzlecenia.setKwota(Z.z(kwota));
+                 }
+                 rachunekdoumowyzlecenia.setProcentkosztowuzyskania(umowabiezaca.getKosztyuzyskaniaprocent());
+                 rachunekdoumowyzlecenia.setKoszt(Z.z(rachunekdoumowyzlecenia.getKwota() * umowabiezaca.getKosztyuzyskaniaprocent() / 100.0));
+             }
+         } else {
+             Msg.msg("Pobrano zachowany rachunek");
+         }
+       }
     }
 
     private double pobierzgodzinyzkalendarza() {

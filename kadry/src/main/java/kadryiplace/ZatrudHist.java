@@ -314,7 +314,9 @@ public class ZatrudHist implements Serializable {
 
     @Override
     public String toString() {
-        return "kadryiplace.ZatrudHist[ zahSerial=" + zahSerial + " ]";
+        return "ZatrudHist{" + "zahSerial=" + zahSerial + ", zahDataOd=" + zahDataOd + ", zahDataDo=" + zahDataDo + ", zahZwol=" + zahZwol + ", zahZwolKod=" + zahZwolKod + ", zahZwolUwagi=" + zahZwolUwagi + ", zahStatus=" + zahStatus + ", zahTyp=" + zahTyp + ", zahOpis=" + zahOpis + ", zahUrlop=" + zahUrlop + ", zahDate1=" + zahDate1 + ", zahOsoSerial=" + zahOsoSerial + '}';
     }
+
+    
     
 }

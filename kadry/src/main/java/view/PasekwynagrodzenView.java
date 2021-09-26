@@ -210,12 +210,14 @@ public class PasekwynagrodzenView  implements Serializable {
                 listakalendarzmiesiac = kalendarzmiesiacFacade.findByFirmaRokMcZlecenie(wybranalistaplac.getFirma(), wybranalistaplac.getRok(), wybranalistaplac.getMc());
             }
             Collections.sort(listakalendarzmiesiac, new Kalendarzmiesiaccomparator());
-            for (Iterator<Kalendarzmiesiac> it = listakalendarzmiesiac.iterator();it.hasNext();) {
-                Kalendarzmiesiac p = it.next();
-                Umowa u = p.getUmowa();
-                Rachunekdoumowyzlecenia znaleziony = u.pobierzRachunekzlecenie(wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
-                if (znaleziony==null) {
-                    it.remove();
+            if (rodzajumowy.equals("2")) {
+                for (Iterator<Kalendarzmiesiac> it = listakalendarzmiesiac.iterator();it.hasNext();) {
+                    Kalendarzmiesiac p = it.next();
+                    Umowa u = p.getUmowa();
+                    Rachunekdoumowyzlecenia znaleziony = u.pobierzRachunekzlecenie(wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
+                    if (znaleziony==null) {
+                        it.remove();
+                    }
                 }
             }
             if (listakalendarzmiesiac!=null) {

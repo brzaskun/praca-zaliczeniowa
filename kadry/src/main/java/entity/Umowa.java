@@ -711,10 +711,12 @@ public class Umowa implements Serializable {
     
     public Rachunekdoumowyzlecenia pobierzRachunekzlecenie(String rok, String mc) {
         Rachunekdoumowyzlecenia zwrot = null;
-        List<Rachunekdoumowyzlecenia> rachunekdoumowyzleceniaList = this.getRachunekdoumowyzleceniaList();
-        if (rachunekdoumowyzleceniaList!=null) {
-            zwrot = rachunekdoumowyzleceniaList.stream().filter(pa->pa.getMc().equals(mc)&&pa.getRok().equals(rok)).findAny().get();
-        }
+        try {
+            List<Rachunekdoumowyzlecenia> rachunekdoumowyzleceniaList = this.getRachunekdoumowyzleceniaList();
+            if (rachunekdoumowyzleceniaList!=null) {
+                zwrot = rachunekdoumowyzleceniaList.stream().filter(pa->pa.getMc().equals(mc)&&pa.getRok().equals(rok)).findAny().get();
+            }
+        } catch (Exception e){}
         return zwrot;
     }
 }

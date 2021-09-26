@@ -98,12 +98,14 @@ public class KartaWynagrodzenView  implements Serializable {
             for (Iterator<Pasekwynagrodzen> it = paski.iterator(); it.hasNext();) {
                 Pasekwynagrodzen pasek = it.next();
                 if (pasek.getMc().equals(p.getMc())) {
+                    //tu sie dodaje paski do karty wynagrodzen
                     p.dodaj(pasek);
                     suma.dodaj(pasek);
                     it.remove();
                 }
             }
         }
+        kartaWynagrodzenFacade.editList(kartawynagrodzenlist);
         kartawynagrodzenlist.add(suma);
     }
     
