@@ -61,7 +61,7 @@
                         <p:selectBooleanCheckbox id="odliczaculgepodatkowa" value="#{angazView.selected.podatek.odliczaculgepodatkowa}" />
                         <p:outputLabel value="#{bundle.CreatePodatekLabel_kosztyuzyskania}" for="kosztyuzyskania" />
                         <p:inputNumber id="kosztyuzyskania" value="#{angazView.selected.podatek.kosztyuzyskania}" title="#{bundle.CreatePodatekTitle_kosztyuzyskania}" required="true" requiredMessage="#{bundle.CreatePodatekRequiredMessage_kosztyuzyskania}"
-                                       decimalPlaces="2" thousandSeparator="&#160;"  inputStyle="text-align: right;" symbol=" zł" symbolPosition="s" decimalSeparator="."/>
+                                       decimalPlaces="2" thousandSeparator="&#160;"  inputStyle="text-align: right;" symbol=" zł" symbolPosition="s" decimalSeparator=","/>
                     </p:panelGrid>
                     <p:panel header="ZUS"/>
                     <p:panelGrid columns="2" rendered="#{angazView.selected != null}">

@@ -13,7 +13,7 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                 <h:form id="RodzajUmowyForm">
                     <p:dataTable id="datalist" value="#{rodzjaumowySetView.lista}" var="item111"
                                  selectionMode="single" selection="#{rodzjaumowySetView.selectedlista}"
-                                 rowKey="#{item111.id}" rowIndexVar="indexumowa" sortBy="#{item111.kod}"
+                                 rowKey="#{item111.id}" rowIndexVar="indexumowa" 
                                  style="height: 400px; overflow-y: scroll; width: 1200px;"
                                  >
 
@@ -23,7 +23,7 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                             </f:facet>
                             <h:outputText value="#{indexumowa+1}"/>
                         </p:column>
-                        <p:column width="50" style="text-align: center;"
+                        <p:column width="50" style="text-align: center;" sortBy="#{item111.kod}" sortOrder="asc"
                                   filterBy="#{item111.kod}" filterMatchMode="contains">
                             <f:facet name="header">
                                 <h:outputText value="kod"/>
@@ -54,9 +54,9 @@ xmlns:pe="http://primefaces.org/ui/extensions">
             </p:tab>
             <p:tab title="Rodzaje składników wynagrodzeń">
                 <h:form id="RodzajwynagrodzeniaForm">
-                    <p:dataTable id="datalist" value="#{rodzjawynagrodzeniaSetView.lista}" var="item11"
+                    <p:dataTable id="datalistr" value="#{rodzjawynagrodzeniaSetView.lista}" var="item11"
                                  selectionMode="single" selection="#{rodzjawynagrodzeniaSetView.selectedlista}"
-                                 rowKey="#{item11.id}" sortBy="#{item11.kod}"
+                                 rowKey="#{item11.id}"
                                  style="height: 400px; overflow-y: scroll; width: 1200px;"
                                  >
 
@@ -66,7 +66,7 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                             </f:facet>
                             <h:outputText value="#{item11.id}"/>
                         </p:column>
-                        <p:column width="50" style="text-align: center;">
+                        <p:column width="50" style="text-align: center;" sortBy="#{item11.kod}"  sortOrder="asc">
                             <f:facet name="header">
                                 <h:outputText value="kod"/>
                             </f:facet>
@@ -112,9 +112,9 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                     <p:commandButton value="zachowaj" styleClass="buttonnorm" actionListener="#{rodzjawynagrodzeniaSetView.zachowaj}" update="@form"/>
                 </h:form>
             </p:tab>
-             <p:tab title="Rodzaje składników potrąceń">
+            <p:tab title="Rodzaje składników potrąceń">
                 <h:form id="SlownikPotracenForm">
-                    <p:dataTable id="datalist" value="#{slownikpotraceniaView.lista}" var="item12"
+                    <p:dataTable id="datalists" value="#{slownikpotraceniaView.lista}" var="item12"
                                  selectionMode="single" selection="#{slownikpotraceniaView.selectedlista}"
                                  rowKey="#{item12.id}" 
                                  style="height: 400px; overflow-y: scroll; width: 800px;"
@@ -147,6 +147,73 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                         
                     </p:dataTable>
                     <p:commandButton value="zachowaj" styleClass="buttonnorm" actionListener="#{slownikpotraceniaView.zachowaj}" update="@form"/>
+                </h:form>
+            </p:tab>
+             <p:tab title="Rodzaje nieobecności">
+                <h:form id="SlownikNieobecnosciForm">
+                    <p:dataTable id="datalistn" value="#{nieobecnosckodzusView.lista}" var="item13"
+                                 selectionMode="single" selection="#{nieobecnosckodzusView.selectedlista}"
+                                 rowKey="#{item13.id}"  
+                                 style="height: 400px; overflow-y: scroll; width: 1200px;"
+                                 >
+
+                        <p:column width="40" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="id"/>
+                            </f:facet>
+                            <h:outputText value="#{item13.id}"/>
+                        </p:column>
+                        <p:column width="50" style="text-align: center;"  sortOrder="asc" sortBy="#{item13.kod}" filterBy="#{item13.kod}" filterMatchMode="contains">
+                            <f:facet name="header">
+                                <h:outputText value="kod"/>
+                            </f:facet>
+                            <h:outputText value="#{item13.kod}"/>
+                        </p:column>
+                        <p:column width="450"  filterBy="#{item13.opis}" filterMatchMode="contains">
+                            <f:facet name="header">
+                                <h:outputText value="opis"/>
+                            </f:facet>
+                            <h:outputText value="#{item13.opis}"/>
+                        </p:column>
+                       <p:column style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="podatek"/>
+                            </f:facet>
+                           <p:selectBooleanCheckbox value="#{item13.podatek}"/>
+                        </p:column>
+                        <p:column style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="społeczne"/>
+                            </f:facet>
+                            <p:selectBooleanCheckbox value="#{item13.spoleczne}"/>
+                        </p:column>
+                        <p:column style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="zdrowotne"/>
+                            </f:facet>
+                            <p:selectBooleanCheckbox value="#{item13.zdrowotne}"/>
+                        </p:column>
+                        <p:column style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="świadczenie zus"/>
+                            </f:facet>
+                            <p:selectBooleanCheckbox value="#{item13.swiadczeniezus}"/>
+                        </p:column>
+                        <p:column style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="urlop"/>
+                            </f:facet>
+                            <p:selectBooleanCheckbox value="#{item13.urlop}"/>
+                        </p:column>
+                        <p:column style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="aktywne"/>
+                            </f:facet>
+                            <p:selectBooleanCheckbox value="#{item13.aktywne}"/>
+                        </p:column>
+                        
+                    </p:dataTable>
+                    <p:commandButton value="zachowaj" styleClass="buttonnorm" actionListener="#{nieobecnosckodzusView.zachowaj}" update="@form"/>
                 </h:form>
             </p:tab>
              <p:tab title="Zmienne podatkowe">

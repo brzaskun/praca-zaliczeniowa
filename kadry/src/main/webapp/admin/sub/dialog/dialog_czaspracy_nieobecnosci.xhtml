@@ -79,15 +79,15 @@
                             <f:facet name="header">
                                 <h:outputText value="kod"/>
                             </f:facet>
-                            <h:outputText value="#{itemNieob.nieobecnosckodzus.kod}" style="#{itemNieob.rokod eq wpisView.rokWpisu ? 'color: green':''}"/>
+                            <h:outputText value="#{itemNieob.nieobecnosckodzus.kod}" style="#{itemNieob.rokod eq wpisView.rokWpisu ? 'color: green':'initial'}"/>
                         </p:column>
                         <p:column width="300" filterBy="#{itemNieob.nieobecnosckodzus.opisskrocony}" filterMatchMode="contains">
                             <f:facet name="header">
                                 <h:outputText value="nazwa"/>
                             </f:facet>
-                            <h:outputText value="#{itemNieob.nieobecnosckodzus.opisskrocony}" style="#{itemNieob.rokod eq wpisView.rokWpisu ? 'color: green':''}"/>
+                            <h:outputText value="#{itemNieob.nieobecnosckodzus.opisskrocony}" style="#{itemNieob.rokod eq wpisView.rokWpisu ? 'color: green':'initial'}"/>
                         </p:column> 
-                        <p:column width="50" filterBy="#{itemNieob.dataod}" filterMatchMode="startsWith" sortOrder="descenduing">
+                        <p:column width="50" filterBy="#{itemNieob.dataod}" filterMatchMode="startsWith" sortBy="#{itemNieob.dataod}" sortOrder="desc">
                             <f:facet name="header">
                                 <h:outputText value="data od"/>
                             </f:facet>
@@ -157,7 +157,9 @@
                             <f:facet name="header">
                                 <h:outputText value=""/>
                             </f:facet>
-                            <p:commandButton icon="fa fa-trash" actionListener="#{nieobecnoscView.usun(itemNieob)}"  update="NieobecnoscListForm:datalist"/>
+                            <p:commandButton icon="fa fa-trash" actionListener="#{nieobecnoscView.usun(itemNieob)}"  update="NieobecnoscListForm:datalist">
+                                <p:confirm type="popup" header="Potwierdzenie" message="Usunąć nieobecność?" icon="pi pi-exclamation-triangle"/>
+                            </p:commandButton>
                         </p:column>
                     </p:dataTable>
                     <p:commandButton styleClass="buttonnorm" actionListener="#{nieobecnoscView.nieniesnakalendarz()}" value="nanieś na kal." update="NieobecnoscListForm:datalist KalendarzmiesiacCreateForm KalendarzmiesiacListForm"/>

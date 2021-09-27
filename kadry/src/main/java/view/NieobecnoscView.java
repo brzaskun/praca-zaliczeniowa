@@ -236,6 +236,8 @@ public class NieobecnoscView  implements Serializable {
         }
     }
     
+   
+    
     public Nieobecnosc getSelected() {
         return selected;
     }

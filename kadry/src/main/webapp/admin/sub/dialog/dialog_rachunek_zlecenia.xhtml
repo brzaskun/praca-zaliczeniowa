@@ -51,13 +51,13 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                 </p:panelGrid>
                 <p:panelGrid columns="2" style="margin-top: 10px;">
                     <p:outputLabel value="ilośc godzin wg kalendarza:"/>
-                    <p:inputNumber value="#{rachunekZlecenieView.rachunekdoumowyzlecenia.iloscgodzin}" decimalSeparator="."   inputStyle="text-align: right;" decimalPlaces="2"/>
+                    <p:inputNumber value="#{rachunekZlecenieView.rachunekdoumowyzlecenia.iloscgodzin}" decimalSeparator=","   inputStyle="text-align: right;" decimalPlaces="2"/>
                     <p:outputLabel value="kwota brutto:"/>
                     <bcf:inputpl value="#{rachunekZlecenieView.rachunekdoumowyzlecenia.kwota}"/>
                     <p:outputLabel value="koszt uzyskania procent:"/>
                     <bcf:outputplprocent value="#{rachunekZlecenieView.rachunekdoumowyzlecenia.procentkosztowuzyskaniaDisplay}"/>
                     <p:outputLabel value="koszt uzyskania kwota:"/>
-                    <p:inputNumber value="#{rachunekZlecenieView.rachunekdoumowyzlecenia.koszt}" decimalSeparator="."   inputStyle="text-align: right;" decimalPlaces="2"/>
+                    <p:inputNumber value="#{rachunekZlecenieView.rachunekdoumowyzlecenia.koszt}" decimalSeparator=","   inputStyle="text-align: right;" decimalPlaces="2"/>
                 </p:panelGrid>
                 <p:panelGrid columns="2" style="margin-top: 10px;">
                     <p:outputLabel value="naliczać społeczne:"/>

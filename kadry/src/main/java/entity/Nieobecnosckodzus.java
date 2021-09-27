@@ -40,7 +40,12 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Nieobecnosckodzus.findBySpoleczne", query = "SELECT n FROM Nieobecnosckodzus n WHERE n.spoleczne = :spoleczne"),
     @NamedQuery(name = "Nieobecnosckodzus.findByZdrowotne", query = "SELECT n FROM Nieobecnosckodzus n WHERE n.zdrowotne = :zdrowotne")})
 public class Nieobecnosckodzus implements Serializable {
-
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id")
+    private Integer id;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 3)
@@ -64,15 +69,10 @@ public class Nieobecnosckodzus implements Serializable {
     private boolean swiadczeniezus;
     @Column(name = "urlop")
     private boolean urlop;
-
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id")
-    private Integer id;
+    @Column(name = "aktywne")
+    private  boolean aktywne;
     @Column(name = "zdrowotne")
-    private Integer zdrowotne;
+    private boolean zdrowotne;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "nieobecnosckodzus")
     private List<Nieobecnosc> nieobecnoscList;
 
@@ -98,11 +98,11 @@ public class Nieobecnosckodzus implements Serializable {
     }
 
 
-    public Integer getZdrowotne() {
+    public boolean getZdrowotne() {
         return zdrowotne;
     }
 
-    public void setZdrowotne(Integer zdrowotne) {
+    public void setZdrowotne(boolean zdrowotne) {
         this.zdrowotne = zdrowotne;
     }
 
@@ -194,6 +194,14 @@ public class Nieobecnosckodzus implements Serializable {
 
     public void setUrlop(boolean urlop) {
         this.urlop = urlop;
+    }
+
+    public boolean isAktywne() {
+        return aktywne;
+    }
+
+    public void setAktywne(boolean aktywne) {
+        this.aktywne = aktywne;
     }
     
 }

@@ -21,9 +21,9 @@
                         <p:outputLabel value="rok rozliczeniowy" for="urloprok" />
                         <p:inputText id="urloprok" value="#{pracownikUrlopView.urlopprezentacja.rok}" readonly="true"/>
                         <p:outputLabel value="zaległy rok uprzedni" for="urloplp" />
-                        <p:inputNumber id="urloplp" value="#{pracownikUrlopView.urlopprezentacja.okrespoprzedni}"  size="5"  maxlength="3" decimalPlaces="1" decimalSeparator="." inputStyle="text-align: right"/>
+                        <p:inputNumber id="urloplp" value="#{pracownikUrlopView.urlopprezentacja.okrespoprzedni}"  size="5"  maxlength="3" decimalPlaces="1" decimalSeparator="," inputStyle="text-align: right"/>
                         <p:outputLabel value="wymiar rok bieżący" for="urloplp1" />
-                        <p:inputNumber id="urloplp1" value="#{pracownikUrlopView.urlopprezentacja.wymiarokresbiezacy}"  size="5" maxlength="3" decimalPlaces="1" decimalSeparator="." inputStyle="text-align: right"/>
+                        <p:inputNumber id="urloplp1" value="#{pracownikUrlopView.urlopprezentacja.wymiarokresbiezacy}"  size="5" maxlength="3" decimalPlaces="1" decimalSeparator="," inputStyle="text-align: right"/>
                     </p:panelGrid><!--
 -->                <p:panel header="wykorzystanie urlopu rok biezacy" rendered="#{pracownikUrlopView.urlopprezentacja != null}">
                     <p:dataTable id="datalist" value="#{pracownikUrlopView.urlopprezentacja.urlopwykorzystanieList}" var="urlopwykorzystanie"
