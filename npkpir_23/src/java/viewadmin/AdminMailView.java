@@ -42,7 +42,7 @@ import org.apache.commons.io.IOUtils;
 import org.joda.time.DateTime;
 import org.primefaces.PrimeFaces;
 import org.primefaces.event.FileUploadEvent;
-import org.primefaces.model.file.UploadedFile;
+import org.primefaces.model.UploadedFile;
  import view.ParametrView;
 import view.WpisView;
 /**
@@ -313,7 +313,7 @@ public class AdminMailView implements Serializable {
             String filename = uploadedFile.getFileName();
             String extension = FilenameUtils.getExtension(uploadedFile.getFileName());
             if (extension.equals("pdf")) {
-                zalacznik = IOUtils.toByteArray(uploadedFile.getInputStream());
+                zalacznik = IOUtils.toByteArray(uploadedFile.getInputstream());
                 nazwazalacznik = uploadedFile.getFileName();
                 Msg.msg("Sukces. Plik " + filename + " został skutecznie załadowany");
             } else {

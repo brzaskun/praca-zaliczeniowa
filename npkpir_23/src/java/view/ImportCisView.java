@@ -43,7 +43,7 @@ import msg.Msg;
 import org.joda.time.DateTime;
  import org.primefaces.PrimeFaces;
 import org.primefaces.event.FileUploadEvent;
-import org.primefaces.model.file.UploadedFile;
+import org.primefaces.model.UploadedFile;
 import pdf.PdfDok;
 import waluty.Z;
 import xls.ImportJsonCislowski;
@@ -123,7 +123,7 @@ public class ImportCisView  implements Serializable {
         try {
             UploadedFile uploadedFile = event.getFile();
             String filename = uploadedFile.getFileName();
-            InputStream is = uploadedFile.getInputStream();
+            InputStream is = uploadedFile.getInputstream();
             faktury = ImportJsonCislowski.pobierz(is);
             sumuj();
             Msg.msg("Sukces. Plik " + filename + " został skutecznie załadowany");

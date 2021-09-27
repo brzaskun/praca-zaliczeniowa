@@ -44,7 +44,7 @@ import org.apache.commons.csv.CSVRecord;
  import org.joda.time.DateTime;
 import org.primefaces.PrimeFaces;
 import org.primefaces.event.FileUploadEvent;
-import org.primefaces.model.file.UploadedFile;
+import org.primefaces.model.UploadedFile;
 import pdf.PdfDok;
 import plik.Plik;
 import waluty.Z;
@@ -119,7 +119,7 @@ public class ImportAmaCSVView  implements Serializable {
 //        String line = "";
 //        String cvsSplitBy = ",";
         try {
-            InputStream is = uploadedFile.getInputStream();
+            InputStream is = uploadedFile.getInputstream();
             Iterable<CSVRecord> recordss = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(new InputStreamReader(is, Charset.forName("windows-1252")));
             for (CSVRecord record : recordss) {
                 tmpzwrot = new AmazonCSV(record);

@@ -37,7 +37,7 @@ import jpkabstract.SprzedazWierszA;
 import msg.Msg;
  import org.primefaces.PrimeFaces;
 import org.primefaces.event.FileUploadEvent;
-import org.primefaces.model.file.UploadedFile;
+import org.primefaces.model.UploadedFile;
 import pdf.PdfDok;
 import waluty.Z;
 
@@ -112,19 +112,19 @@ public class ImportSprzedazyView  implements Serializable {
     private JPKSuper pobierzJPK(UploadedFile uploadedFile) {
        JPKSuper zwrot = null;
         try {
-           InputStream is = uploadedFile.getInputStream();
+           InputStream is = uploadedFile.getInputstream();
            JAXBContext context = JAXBContext.newInstance(pl.gov.crd.wzor._2020._05._08._9393.JPK.class);
            Unmarshaller unmarshaller = context.createUnmarshaller();
            zwrot = (pl.gov.crd.wzor._2020._05._08._9393.JPK) unmarshaller.unmarshal(is);
        } catch (Exception ex) {}
        try {
-           InputStream is = uploadedFile.getInputStream();
+           InputStream is = uploadedFile.getInputstream();
            JAXBContext context = JAXBContext.newInstance(jpk201701.JPK.class);
            Unmarshaller unmarshaller = context.createUnmarshaller();
            zwrot = (jpk201701.JPK) unmarshaller.unmarshal(is);
        } catch (Exception ex) {}
        try {
-           InputStream is = uploadedFile.getInputStream();
+           InputStream is = uploadedFile.getInputstream();
            JAXBContext context = JAXBContext.newInstance(jpk201801.JPK.class);
            Unmarshaller unmarshaller = context.createUnmarshaller();
            zwrot = (jpk201801.JPK) unmarshaller.unmarshal(is);

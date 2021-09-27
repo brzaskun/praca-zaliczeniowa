@@ -39,7 +39,7 @@ import javax.servlet.http.HttpServletRequest;
 import msg.Msg;import org.joda.time.DateTime;
  import org.primefaces.PrimeFaces;
 import org.primefaces.event.FileUploadEvent;
-import org.primefaces.model.file.UploadedFile;
+import org.primefaces.model.UploadedFile;
 import pdf.PdfDok;
 import pdf.PdfEbay;
 import waluty.Z;
@@ -115,7 +115,7 @@ public class ImportEbayView  implements Serializable {
         try {
             UploadedFile uploadedFile = event.getFile();
             String filename = uploadedFile.getFileName();
-            InputStream is = uploadedFile.getInputStream();
+            InputStream is = uploadedFile.getInputstream();
             faktury = ImportCSVEbay.pobierz(is);
             sumuj();
             Msg.msg("Sukces. Plik " + filename + " został skutecznie załadowany");
