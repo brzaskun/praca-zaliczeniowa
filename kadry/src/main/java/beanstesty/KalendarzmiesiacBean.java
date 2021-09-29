@@ -36,10 +36,10 @@ public class KalendarzmiesiacBean {
             kalendarzmiesiac.setRok("2020");
             kalendarzmiesiac.setMc("12");
             kalendarzmiesiac.setDzienList(new ArrayList<>());
-            kalendarzmiesiac.getDzienList().add(new Dzien(1, "2020-12-01", 0, 8, 8, 2, kalendarzmiesiac));
-            kalendarzmiesiac.getDzienList().add(new Dzien(2, "2020-12-02", 0, 8, 8, 2, kalendarzmiesiac));
-            kalendarzmiesiac.getDzienList().add(new Dzien(3, "2020-12-03", 0, 8, 8, 2, kalendarzmiesiac));
-            kalendarzmiesiac.getDzienList().add(new Dzien(4, "2020-12-04", 0, 8, 8, 2, kalendarzmiesiac));
+            kalendarzmiesiac.getDzienList().add(new Dzien(1, "2020-12-01", 0, 8, 8, kalendarzmiesiac));
+            kalendarzmiesiac.getDzienList().add(new Dzien(2, "2020-12-02", 0, 8, 8, kalendarzmiesiac));
+            kalendarzmiesiac.getDzienList().add(new Dzien(3, "2020-12-03", 0, 8, 8, kalendarzmiesiac));
+            kalendarzmiesiac.getDzienList().add(new Dzien(4, "2020-12-04", 0, 8, 8, kalendarzmiesiac));
             kalendarzmiesiac.getDzienList().add(new Dzien(5, "2020-12-05", 1, 0, 0, kalendarzmiesiac));
             kalendarzmiesiac.getDzienList().add(new Dzien(6, "2020-12-06", 2, 0, 0, kalendarzmiesiac));
             kalendarzmiesiac.getDzienList().add(new Dzien(7, "2020-12-07", 0, 8, 8, kalendarzmiesiac));
@@ -177,7 +177,10 @@ public class KalendarzmiesiacBean {
                     }
                 }
             }
-            if (nieobecnosc.getNieobecnosckodzus().getKod().equals("331")) {
+            if (nieobecnosc.getNieobecnosckodzus().getKod().equals("313")) {
+                //wynagrodzenie za czas niezdolnosci od pracy
+                naliczskladnikiwynagrodzeniazaChorobe(kalendarz, nieobecnosc, pasekwynagrodzen);
+            } else if (nieobecnosc.getNieobecnosckodzus().getKod().equals("331")) {
                 //wynagrodzenie za czas niezdolnosci od pracy
                 naliczskladnikiwynagrodzeniazaChorobe(kalendarz, nieobecnosc, pasekwynagrodzen);
             } else if (nieobecnosc.getNieobecnosckodzus().getKod().equals("100")) {
@@ -251,8 +254,13 @@ public class KalendarzmiesiacBean {
         }
         return jestoddelegowanie;
     }
-
-    static void naliczskladnikipotracenia(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasekwynagrodzen, double wolneodzajecia) {
+    static void naliczskladnikipotracenia(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasekwynagrodzen) {
+        for (Skladnikpotracenia p : kalendarz.getUmowa().getSkladnikpotraceniaList()) {
+            Naliczeniepotracenie naliczeniepotracenie = NaliczeniepotracenieBean.create();
+            pasekwynagrodzen.getNaliczeniepotracenieList().add(naliczeniepotracenie);
+        }
+    }
+    static void naliczskladnikipotraceniaDB(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasekwynagrodzen, double wolneodzajecia) {
         for (Skladnikpotracenia p : kalendarz.getUmowa().getSkladnikpotraceniaList()) {
             Naliczeniepotracenie naliczeniepotracenie = NaliczeniepotracenieBean.createPotracenieDB(pasekwynagrodzen, p, wolneodzajecia);
             if (naliczeniepotracenie.getKwota()>0.0) {
@@ -268,18 +276,9 @@ public class KalendarzmiesiacBean {
                 Skladnikwynagrodzenia skladnikwynagrodzenia = p.getSkladnikwynagrodzenia();
                 naliczenienieobecnosc.setSkladnikwynagrodzenia(skladnikwynagrodzenia);
                 naliczenienieobecnosc.setNieobecnosc(nieobecnosc);
-                double skladnik = 0.0;
-                //11 - zasadnicze 20-premia 30-nadgodziny
-                if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod().equals("11")) {
-                    skladnik = skladnikwynagrodzenia.getZmiennawynagrodzeniaList().get(0).getKwota();
-                if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod().equals("21")) {
-                    skladnik = Z.z(1800/3.0);
-                }
-                if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod().equals("12")||p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod().equals("31")) {
-                    skladnik = Z.z(210/3.0);
-                }
-                naliczenienieobecnosc.setJakiskladnikredukowalny(p.getSkladnikwynagrodzenia().getUwagi());               }
+                naliczenienieobecnosc.setJakiskladnikredukowalny(p.getSkladnikwynagrodzenia().getUwagi());
                 int dninieobecnosci = Data.iletodni(nieobecnosc.getDatado(), nieobecnosc.getDataod());
+                double skladnik = obliczsredniadopodstawy(kalendarz,p.getSkladnikwynagrodzenia(), nieobecnosc);
                 double skladnikistalenetto = skladnik-(skladnik*.1371);
                 double skladnikistaledoredukcji = skladnik;
                 naliczenienieobecnosc.setSkladnikistale(skladnikistalenetto);
@@ -296,8 +295,15 @@ public class KalendarzmiesiacBean {
                 naliczenienieobecnosc.setKwotaredukcji(kwotaredukcji);
                 naliczenienieobecnosc.setPasekwynagrodzen(pasekwynagrodzen);
                 pasekwynagrodzen.getNaliczenienieobecnoscList().add(naliczenienieobecnosc);
-            }
+                }
         }
+//        11 - zasadnicze 20-premia 30-nadgodziny
+//        if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod().equals("21")) {
+//            skladnik = Z.z(1800 / 3.0);
+//        }
+//        if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod().equals("12") || p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod().equals("31")) {
+//            skladnik = Z.z(210 / 3.0);
+//        }
     }
 
     static void naliczskladnikiwynagrodzeniazaUrlop(Kalendarzmiesiac kalendarz, Nieobecnosc nieobecnosc, Pasekwynagrodzen pasekwynagrodzen) {
@@ -516,6 +522,16 @@ public class KalendarzmiesiacBean {
             }
         }
         return zwrot;
+    }
+
+    private static double obliczsredniadopodstawy(Kalendarzmiesiac kalendarz, Skladnikwynagrodzenia skladnikwynagrodzenia, Nieobecnosc nieobecnosc) {
+        Umowa umowa = kalendarz.getUmowa();
+        String dataod = umowa.getDataod();
+        String rok = kalendarz.getRok();
+        String mc = kalendarz.getMc();
+        String dataodnieobecnoscdataod = nieobecnosc.getDataod();
+        //czy umowa rozlicza pierwszy miesiac
+        return 0;
     }
 
     

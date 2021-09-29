@@ -183,6 +183,10 @@ public class Umowa implements Serializable {
     private String przyczynaumowaokreslony;
     @Column(name = "importowana")
     private boolean importowana;
+    @Column(name = "pierwszydzienzasilku")
+    private String pierwszydzienzasilku;
+    @Column(name = "iloscdnitrwaniaumowy")
+    private int iloscdnitrwaniaumowy;
 
     public Umowa() {
         this.etatList = new ArrayList<>();
@@ -629,6 +633,25 @@ public class Umowa implements Serializable {
         }
         return zwrot;
     }
+
+    public String getPierwszydzienzasilku() {
+        return pierwszydzienzasilku;
+    }
+
+    public void setPierwszydzienzasilku(String pierwszydzienzasilku) {
+        this.pierwszydzienzasilku = pierwszydzienzasilku;
+    }
+
+    public int getIloscdnitrwaniaumowy() {
+        return iloscdnitrwaniaumowy;
+    }
+
+    public void setIloscdnitrwaniaumowy(int iloscdnitrwaniaumowy) {
+        this.iloscdnitrwaniaumowy = iloscdnitrwaniaumowy;
+    }
+
+    
+    
     
     @XmlTransient
     public List<Urlopprezentacja> getUrlopprezentacjaList() {

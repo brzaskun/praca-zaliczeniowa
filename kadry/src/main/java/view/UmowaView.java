@@ -5,6 +5,7 @@
  */
 package view;
 
+import beanstesty.UmowaBean;
 import dao.AngazFacade;
 import dao.EtatPracFacade;
 import dao.KalendarzmiesiacFacade;
@@ -135,6 +136,8 @@ public class UmowaView  implements Serializable {
             for (Umowa p : lista) {
                 p.setAktywna(false);
             }
+            String dataodkiedywyplatazasilku = UmowaBean.obliczdatepierwszegozasilku(wpisView.getAngaz().getUmowaList(), selected);
+            selected.setPierwszydzienzasilku(dataodkiedywyplatazasilku);
             selected.setAktywna(true);
             umowaFacade.editList(lista);
             umowaFacade.create(selected);

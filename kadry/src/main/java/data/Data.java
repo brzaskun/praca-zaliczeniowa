@@ -15,6 +15,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Year;
 import java.time.format.DateTimeFormatter;
+import static java.time.temporal.ChronoUnit.DAYS;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.logging.Level;
@@ -693,13 +694,17 @@ public class Data implements Serializable {
         }
         return zwrot;
     }
-   
-    public static int iletodni(String datado, String dataod) {
-        String dziendo = getDzien(datado);
-        String dzienod = getDzien(dataod);
-        int dziendoint = Integer.parseInt(dziendo);
-        int dzienodint = Integer.parseInt(dzienod);
-        return dziendoint-dzienodint+1;
+    /**
+     * Generowanie pary poprzedni rok-mc
+     * 
+     * @param dataod, dataod
+     * @param datado datado
+     */
+    public static int iletodni(String dataod, String datado) {
+        LocalDate dzienzakonczenia = LocalDate.parse(dataod);
+        LocalDate dzienrozpoczecia = LocalDate.parse(datado);
+        double between = DAYS.between(dzienzakonczenia, dzienrozpoczecia)+1;
+        return (int) between;
     }
     
     public static String pelnadata(Kalendarzmiesiac kal, int nrdnia) {

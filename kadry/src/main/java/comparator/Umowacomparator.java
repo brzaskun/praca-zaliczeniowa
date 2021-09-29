@@ -20,6 +20,7 @@ import javax.inject.Named;
 @Named
 public class Umowacomparator implements Comparator<Umowa> {
 
+    //najstarsza jest pierwsza
     @Override
     public int compare(Umowa o1, Umowa o2) {
         String datao1 = o1.getDataod();
@@ -39,7 +40,7 @@ public class Umowacomparator implements Comparator<Umowa> {
             E.e(ex);
         }
         
-        return (datao1date.before(datao2date) ? -1 : (datao1date.equals(datao2date) ? 0 : 1));
+        return (datao1date.before(datao2date) ? 1 : (datao1date.equals(datao2date) ? 0 : -1));
     }
     
 }

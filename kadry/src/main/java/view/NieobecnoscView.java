@@ -25,9 +25,12 @@ import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDate;
+import static java.time.temporal.ChronoUnit.DAYS;
 import java.util.Base64;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -77,6 +80,7 @@ public class NieobecnoscView  implements Serializable {
     private WpisView wpisView;
     @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/zuszla.wsdl")
     private zuszla.WsdlPlatnikRaportyZla wsdlPlatnikRaportyZla;
+    private  boolean pokazcalyrok;
     
     
     public void init() {
@@ -89,6 +93,9 @@ public class NieobecnoscView  implements Serializable {
             }
         }
         lista  = nieobecnoscFacade.findByUmowa(wpisView.getUmowa());
+        if (pokazcalyrok==false) {
+            lista = lista.stream().filter(p->p.getRokod().equals(wpisView.getRokWpisu())||p.getRokdo().equals(wpisView.getRokWpisu())).collect(Collectors.toList());
+        }
         listaumowa = umowaFacade.findPracownik(wpisView.getPracownik());
         listanieobecnosckodzus = nieobecnosckodzusFacade.findAll();
         selected.setUmowa(wpisView.getUmowa());
@@ -102,6 +109,10 @@ public class NieobecnoscView  implements Serializable {
             selected.setRokdo(Data.getRok(selected.getDatado()));
             selected.setMcod(Data.getMc(selected.getDataod()));
             selected.setMcdo(Data.getMc(selected.getDatado()));
+            LocalDate oddata = LocalDate.parse(selected.getDataod());
+            LocalDate dodata = LocalDate.parse(selected.getDatado());
+            double iloscdni = DAYS.between(oddata,dodata);
+            selected.setDnikalendarzowe(iloscdni+1.0);
             nieobecnoscFacade.create(selected);
             lista.add(selected);
             selected = new Nieobecnosc(wpisView.getUmowa());
@@ -276,6 +287,14 @@ public class NieobecnoscView  implements Serializable {
 
     public void setListanieobecnosckodzus(List<Nieobecnosckodzus> listanieobecnosckodzus) {
         this.listanieobecnosckodzus = listanieobecnosckodzus;
+    }
+
+    public boolean isPokazcalyrok() {
+        return pokazcalyrok;
+    }
+
+    public void setPokazcalyrok(boolean pokazcalyrok) {
+        this.pokazcalyrok = pokazcalyrok;
     }
 
    

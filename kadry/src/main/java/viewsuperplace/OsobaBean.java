@@ -128,7 +128,7 @@ public class OsobaBean {
             } catch (Exception e){}
         }
         Collections.sort(zwrot, new Umowacomparator());
-        zwrot.get(zwrot.size()-1).setAktywna(true);
+        zwrot.get(0).setAktywna(true);
         return zwrot;
     }
 

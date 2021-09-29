@@ -29,10 +29,10 @@ public class NaliczenieskladnikawynagrodzeniaBean {
         if (naliczenieskladnikawynagrodzenia == null) {
             naliczenieskladnikawynagrodzenia = new Naliczenieskladnikawynagrodzenia();
             naliczenieskladnikawynagrodzenia.setPasekwynagrodzen(PasekwynagrodzenBean.create());
-            naliczenieskladnikawynagrodzenia.setKwota(3500.0);
+            naliczenieskladnikawynagrodzenia.setKwota(2800.0);
             naliczenieskladnikawynagrodzenia.setKwotabezzus(0.0);
-            naliczenieskladnikawynagrodzenia.setKwotazus(3500.0);
-            naliczenieskladnikawynagrodzenia.setKwotazredukowana(3500.0);
+            naliczenieskladnikawynagrodzenia.setKwotazus(2800.0);
+            naliczenieskladnikawynagrodzenia.setKwotazredukowana(2800.0);
             naliczenieskladnikawynagrodzenia.setSkladnikwynagrodzenia(SkladnikwynagrodzeniaBean.createWynagrodzenie());
         }
         return naliczenieskladnikawynagrodzenia;

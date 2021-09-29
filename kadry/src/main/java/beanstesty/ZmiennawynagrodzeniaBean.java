@@ -17,14 +17,14 @@ public class ZmiennawynagrodzeniaBean {
     public static Zmiennawynagrodzenia zmiennawynagrodzenia;
     public static Zmiennawynagrodzenia zmiennapremia;
     
-    public static Zmiennawynagrodzenia createWynagrodzenie() {
+    public static Zmiennawynagrodzenia createWynagrodzenie(Skladnikwynagrodzenia skladnikwynagrodzenia) {
         if (zmiennawynagrodzenia==null) {
             zmiennawynagrodzenia = new Zmiennawynagrodzenia();
             zmiennawynagrodzenia.setDataod("2020-12-01");
             zmiennawynagrodzenia.setDatado("2020-12-31");
             zmiennawynagrodzenia.setNazwa("wynagrodzenie");
-            zmiennawynagrodzenia.setKwota(3500.0);
-            zmiennawynagrodzenia.setSkladnikwynagrodzenia(SkladnikwynagrodzeniaBean.createWynagrodzenie());
+            zmiennawynagrodzenia.setKwota(2800.0);
+            zmiennawynagrodzenia.setSkladnikwynagrodzenia(skladnikwynagrodzenia);
             ;
         }
         return zmiennawynagrodzenia;

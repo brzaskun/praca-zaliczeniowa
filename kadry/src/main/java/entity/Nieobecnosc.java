@@ -21,6 +21,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -44,9 +45,11 @@ import kadryiplace.OsobaPrz;
 public class Nieobecnosc implements Serializable {
 
     @Size(max = 45)
+    @NotNull
     @Column(name = "dataod")
     private String dataod;
     @Size(max = 45)
+    @NotNull
     @Column(name = "datado")
     private String datado;
     @Size(max = 45)
@@ -88,12 +91,16 @@ public class Nieobecnosc implements Serializable {
     private boolean importowana;
     @Column(name = "pobranazus")
     private boolean pobranaZUS;
+    @NotNull
     @Column(name = "rokod")
     private String rokod;
+    @NotNull
     @Column(name = "rokdo")
     private String rokdo;
+    @NotNull
     @Column(name = "mcod")
     private String mcod;
+    @NotNull
     @Column(name = "mcdo")
     private String mcdo;
     @OneToMany(mappedBy = "nieobecnosc")

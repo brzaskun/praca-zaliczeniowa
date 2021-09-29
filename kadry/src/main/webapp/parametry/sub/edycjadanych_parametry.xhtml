@@ -56,7 +56,7 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                 <h:form id="RodzajwynagrodzeniaForm">
                     <p:dataTable id="datalistr" value="#{rodzjawynagrodzeniaSetView.lista}" var="item11"
                                  selectionMode="single" selection="#{rodzjawynagrodzeniaSetView.selectedlista}"
-                                 rowKey="#{item11.id}"
+                                 rowKey="#{item11.id}" emptyMessage="Nie znaleziono takiego składnika"
                                  style="height: 400px; overflow-y: scroll; width: 1200px;"
                                  >
 
@@ -72,7 +72,7 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                             </f:facet>
                             <h:outputText value="#{item11.kod}"/>
                         </p:column>
-                        <p:column width="300">
+                        <p:column width="300" filterBy="#{item11.opispelny}" filterMatchMode="contains">
                             <f:facet name="header">
                                 <h:outputText value="opis"/>
                             </f:facet>
