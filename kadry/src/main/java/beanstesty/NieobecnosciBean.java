@@ -14,6 +14,7 @@ import entity.Nieobecnosc;
 public class NieobecnosciBean {
     
     public static Nieobecnosc choroba;
+    public static Nieobecnosc choroba2;
     public static Nieobecnosc urlop;
     public static Nieobecnosc urlopbezplatny;
     
@@ -27,11 +28,23 @@ public class NieobecnosciBean {
         return choroba;
     }
     
+    public static Nieobecnosc createChoroba2() {
+        if (choroba2==null) {
+           choroba2 = new Nieobecnosc();
+           choroba2.setDataod("2020-12-15");
+           choroba2.setDatado("2020-12-17");
+           choroba2.setNieobecnosckodzus(NieobecnosckodzusBean.createChoroba());
+        }
+        return choroba2;
+    }
+    
     public static Nieobecnosc createUrlop() {
         if (urlop==null) {
            urlop = new Nieobecnosc();
-           urlop.setDataod("2020-12-06");
-           urlop.setDatado("2020-12-11");
+           urlop.setDataod("2020-12-18");
+           urlop.setDatado("2020-12-22");
+           urlop.setDnikalendarzowe(4);
+           urlop.setDnirobocze(3);
            urlop.setNieobecnosckodzus(NieobecnosckodzusBean.createUrlop());
         }
         return urlop;

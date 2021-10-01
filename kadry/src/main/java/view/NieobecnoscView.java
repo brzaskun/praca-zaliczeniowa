@@ -84,21 +84,15 @@ public class NieobecnoscView  implements Serializable {
     
     
     public void init() {
-        if (wpisView.getUmowa()==null) {
-            List<Umowa> umowy = wpisView.getAngaz().getUmowaList();
-            if (umowy!=null && umowy.size()==1) {
-                wpisView.setUmowa(umowy.get(0));
-            } else if (umowy!=null) {
-                wpisView.setUmowa(umowy.stream().filter(p->p.isAktywna()).findFirst().get());
+        if (wpisView.getUmowa()!=null) {
+            lista  = nieobecnoscFacade.findByUmowa(wpisView.getUmowa());
+            selected.setUmowa(wpisView.getUmowa());
+            if (pokazcalyrok==false) {
+                lista = lista.stream().filter(p->p.getRokod().equals(wpisView.getRokWpisu())||p.getRokdo().equals(wpisView.getRokWpisu())).collect(Collectors.toList());
             }
-        }
-        lista  = nieobecnoscFacade.findByUmowa(wpisView.getUmowa());
-        if (pokazcalyrok==false) {
-            lista = lista.stream().filter(p->p.getRokod().equals(wpisView.getRokWpisu())||p.getRokdo().equals(wpisView.getRokWpisu())).collect(Collectors.toList());
         }
         listaumowa = umowaFacade.findPracownik(wpisView.getPracownik());
         listanieobecnosckodzus = nieobecnosckodzusFacade.findAll();
-        selected.setUmowa(wpisView.getUmowa());
         Collections.sort(listanieobecnosckodzus, new Nieobecnoscikodzuscomparator());
     }
 

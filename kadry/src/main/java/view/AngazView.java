@@ -5,10 +5,12 @@
  */
 package view;
 
+import comparator.Umowacomparator;
 import dao.AngazFacade;
 import dao.FirmaFacade;
 import dao.PracownikFacade;
 import dao.SMTPSettingsFacade;
+import dao.UmowaFacade;
 import dao.UprawnieniaFacade;
 import dao.UzFacade;
 import entity.Angaz;
@@ -20,7 +22,9 @@ import entity.Uprawnienia;
 import entity.Uz;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -53,6 +57,8 @@ public class AngazView  implements Serializable {
     private PracownikFacade pracownikFacade;
     @Inject
     private UzFacade uzFacade;
+    @Inject
+    private UmowaFacade umowaFacade;
     @Inject
     private UprawnieniaFacade uprawnieniaFacade;
     @Inject
@@ -111,8 +117,21 @@ public class AngazView  implements Serializable {
             List<Umowa> umowy = wpisView.getAngaz().getUmowaList();
             if (umowy!=null && umowy.size()==1) {
                 wpisView.setUmowa(umowy.get(0));
-            } else if (umowy!=null) {
-                wpisView.setUmowa(umowy.stream().filter(p->p.isAktywna()).findFirst().get());
+            } else if (umowy!=null&&!umowy.isEmpty()) {
+                Umowa umowaaktywna = null;
+                Optional badanie  = umowy.stream().filter(p->p.isAktywna()).findFirst();
+                if (badanie.isPresent()) {
+                    umowaaktywna = (Umowa) badanie.get();
+                }
+                if (umowaaktywna==null) {
+                    Collections.sort(umowy, new Umowacomparator());
+                    umowaaktywna = umowy.get(0);
+                    umowaaktywna.setAktywna(true);
+                    umowaFacade.edit(umowaaktywna);
+                }
+                wpisView.setUmowa(umowaaktywna);
+            } else {
+                wpisView.setUmowa(null);
             }
             updateClassView.updateUmowa();
             Msg.msg("Aktywowano pracownika");
@@ -127,8 +146,21 @@ public class AngazView  implements Serializable {
             List<Umowa> umowy = wpisView.getAngaz().getUmowaList();
             if (umowy!=null && umowy.size()==1) {
                 wpisView.setUmowa(umowy.get(0));
-            } else if (umowy!=null) {
-                wpisView.setUmowa(umowy.stream().filter(p->p.isAktywna()).findFirst().get());
+            } else if (umowy!=null&&!umowy.isEmpty()) {
+                Umowa umowaaktywna = null;
+                Optional badanie  = umowy.stream().filter(p->p.isAktywna()).findFirst();
+                if (badanie.isPresent()) {
+                    umowaaktywna = (Umowa) badanie.get();
+                }
+                if (umowaaktywna==null) {
+                    Collections.sort(umowy, new Umowacomparator());
+                    umowaaktywna = umowy.get(0);
+                    umowaaktywna.setAktywna(true);
+                    umowaFacade.edit(umowaaktywna);
+                }
+                wpisView.setUmowa(umowaaktywna);
+            } else {
+                wpisView.setUmowa(null);
             }
             updateClassView.updateUmowa();
             Msg.msg("Aktywowano pracownika");

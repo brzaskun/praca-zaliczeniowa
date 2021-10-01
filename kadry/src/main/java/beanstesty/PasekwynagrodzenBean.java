@@ -178,8 +178,9 @@ public class PasekwynagrodzenBean {
      public static void main (String[] args) {
         Kalendarzwzor kalendarzwzor = KalendarzWzorBean.create();
         Kalendarzmiesiac kalendarz = KalendarzmiesiacBean.create();
-        //Nieobecnosc choroba = NieobecnosciBean.createChoroba();
-        //Nieobecnosc urlop = NieobecnosciBean.createUrlop();
+        Nieobecnosc choroba = NieobecnosciBean.createChoroba();
+        Nieobecnosc choroba2 = NieobecnosciBean.createChoroba2();
+        Nieobecnosc urlop = NieobecnosciBean.createUrlop();
         //Nieobecnosc urlopbezplatny = NieobecnosciBean.createUrlopBezplatny();
         Pasekwynagrodzen pasek = create();
         pasek.setKalendarzmiesiac(kalendarz);
@@ -188,10 +189,11 @@ public class PasekwynagrodzenBean {
         //KalendarzmiesiacBean.nalicznadgodziny50(kalendarz, pasek);
         //KalendarzmiesiacBean.nalicznadgodziny100(kalendarz);
         //najpierw musimy przyporzadkowac aktualne skladniki, aby potem prawidlowo obliczyc redukcje
-        //KalendarzmiesiacBean.dodajnieobecnosc(kalendarz, choroba, pasek);
-        //KalendarzmiesiacBean.dodajnieobecnosc(kalendarz, urlop, pasek);
+        KalendarzmiesiacBean.dodajnieobecnosc(kalendarz, choroba, pasek);
+        KalendarzmiesiacBean.dodajnieobecnosc(kalendarz, choroba2, pasek);
+        KalendarzmiesiacBean.dodajnieobecnosc(kalendarz, urlop, pasek);
         //KalendarzmiesiacBean.dodajnieobecnosc(kalendarz, urlopbezplatny, pasek);
-        //KalendarzmiesiacBean.redukujskladnikistale(kalendarz, pasek);
+        KalendarzmiesiacBean.redukujskladnikistale(kalendarz, pasek);
         //KalendarzmiesiacBean.naliczskladnikipotracenia(kalendarz, pasek);
         Definicjalistaplac definicjalistaplac = DefinicjalistaplacBean.create();
         pasek.setDefinicjalistaplac(definicjalistaplac);
@@ -229,6 +231,8 @@ public class PasekwynagrodzenBean {
         System.out.println("brutto zus "+pasek.getBruttozus());
         System.out.println("brutto bezzus "+pasek.getBruttobezzus());
         double suma = pasek.getBruttozus()+pasek.getBruttobezzus();
+        System.out.println("brutto razem "+pasek.getBrutto());
+        System.out.println("redukcja "+pasek.getRedukcjeSuma());
         System.out.println("emerytalne: "+Z.z(pasek.getPracemerytalne()));
         System.out.println("podstawa: "+Z.z(pasek.getPodstawaopodatkowania()));
         System.out.println("zdrowotna: "+Z.z(pasek.getPraczdrowotne()));

@@ -59,7 +59,7 @@ public class KalendarzmiesiacBean {
             kalendarzmiesiac.getDzienList().add(new Dzien(21, "2020-12-21", 0, 8, 8, kalendarzmiesiac));
             kalendarzmiesiac.getDzienList().add(new Dzien(22, "2020-12-22", 0, 8, 8, kalendarzmiesiac));
             kalendarzmiesiac.getDzienList().add(new Dzien(23, "2020-12-23", 0, 8, 8, kalendarzmiesiac));
-            kalendarzmiesiac.getDzienList().add(new Dzien(24, "2020-12-24", 0, 8, 8, kalendarzmiesiac));
+            kalendarzmiesiac.getDzienList().add(new Dzien(24, "2020-12-24", 3, 0, 0, kalendarzmiesiac));
             kalendarzmiesiac.getDzienList().add(new Dzien(25, "2020-12-25", 3, 0, 0, kalendarzmiesiac));
             kalendarzmiesiac.getDzienList().add(new Dzien(26, "2020-12-26", 3, 0, 0, kalendarzmiesiac));
             kalendarzmiesiac.getDzienList().add(new Dzien(27, "2020-12-27", 2, 0, 0, kalendarzmiesiac));
@@ -98,7 +98,7 @@ public class KalendarzmiesiacBean {
             kalendarzmiesiac.getDzienList().add(new Dzien(21, data+licznik++, 0, 8, 8, kalendarzmiesiac));
             kalendarzmiesiac.getDzienList().add(new Dzien(22, data+licznik++, 0, 8, 8, kalendarzmiesiac));
             kalendarzmiesiac.getDzienList().add(new Dzien(23, data+licznik++, 0, 8, 8, kalendarzmiesiac));
-            kalendarzmiesiac.getDzienList().add(new Dzien(24, data+licznik++, 0, 8, 8, kalendarzmiesiac));
+            kalendarzmiesiac.getDzienList().add(new Dzien(24, data+licznik++, 3, 8, 8, kalendarzmiesiac));
             kalendarzmiesiac.getDzienList().add(new Dzien(25, data+licznik++, 3, 0, 0, kalendarzmiesiac));
             kalendarzmiesiac.getDzienList().add(new Dzien(26, data+licznik++, 3, 0, 0, kalendarzmiesiac));
             kalendarzmiesiac.getDzienList().add(new Dzien(27, data+licznik++, 2, 0, 0, kalendarzmiesiac));
@@ -152,6 +152,7 @@ public class KalendarzmiesiacBean {
         for (int i = dzienod;i<dziendo+1;i++) {
             for (Dzien p : kalendarz.getDzienList()) {
                 if (p.getNrdnia()==i) {
+                    p.setPrzepracowano(0.0);
                     p.setKod(nieobecnosc.getNieobecnosckodzus().getKod());
                 }
             }
@@ -277,7 +278,7 @@ public class KalendarzmiesiacBean {
                 naliczenienieobecnosc.setSkladnikwynagrodzenia(skladnikwynagrodzenia);
                 naliczenienieobecnosc.setNieobecnosc(nieobecnosc);
                 naliczenienieobecnosc.setJakiskladnikredukowalny(p.getSkladnikwynagrodzenia().getUwagi());
-                int dninieobecnosci = Data.iletodni(nieobecnosc.getDatado(), nieobecnosc.getDataod());
+                int dninieobecnosci = Data.iletodni(nieobecnosc.getDataod(), nieobecnosc.getDatado());
                 double skladnik = obliczsredniadopodstawy(kalendarz,p.getSkladnikwynagrodzenia(), nieobecnosc);
                 double skladnikistalenetto = skladnik-(skladnik*.1371);
                 double skladnikistaledoredukcji = skladnik;
@@ -310,7 +311,7 @@ public class KalendarzmiesiacBean {
         double dniroboczewmiesiacu = 0.0;
         double dninieobecnoscirobocze = 0.0;
         for (Dzien p : kalendarz.getDzienList()) {
-            if (p.getTypdnia()==0) {
+            if (p.getTypdnia()==0 && (p.getKod()==null||p.getKod().equals("100"))) {
                 dniroboczewmiesiacu++;
             }
             if (p.getTypdnia()==0 && p.getKod()!=null && p.getKod().equals("100")) {
@@ -322,17 +323,17 @@ public class KalendarzmiesiacBean {
                 naliczenienieobecnosc.setNieobecnosc(nieobecnosc);
                 Skladnikwynagrodzenia skladnikwynagrodzenia = p.getSkladnikwynagrodzenia();
                 naliczenienieobecnosc.setSkladnikwynagrodzenia(skladnikwynagrodzenia);
-                double skladnik = 0.0;
-                if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod().equals("11")) {
-                    skladnik = skladnikwynagrodzenia.getZmiennawynagrodzeniaList().get(0).getKwota();
-                }
-                if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod().equals("21")) {
-                    skladnik = Z.z(1800/3.0);
-                    dniroboczewmiesiacu = 64.0/3.0;
-                }
-                if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod().equals("12")||p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod().equals("31")) {
-                    skladnik = Z.z(210/3.0);
-                }
+                double skladnik = 2800-pasekwynagrodzen.getRedukcjeSuma();
+//                if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod().equals("11")) {
+//                    skladnik = obliczsredniadopodstawy(kalendarz,p.getSkladnikwynagrodzenia(), nieobecnosc);
+//                }
+//                if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod().equals("21")) {
+//                    skladnik = Z.z(1800/3.0);
+//                    dniroboczewmiesiacu = 64.0/3.0;
+//                }
+//                if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod().equals("12")||p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod().equals("31")) {
+//                    skladnik = Z.z(210/3.0);
+//                }
                 naliczenienieobecnosc.setJakiskladnikredukowalny(p.getSkladnikwynagrodzenia().getUwagi()); 
                 naliczenienieobecnosc.setSkladnikistale(skladnik);
                 double liczbagodzinroboczych = dniroboczewmiesiacu * 8.0;
@@ -531,7 +532,7 @@ public class KalendarzmiesiacBean {
         String mc = kalendarz.getMc();
         String dataodnieobecnoscdataod = nieobecnosc.getDataod();
         //czy umowa rozlicza pierwszy miesiac
-        return 0;
+        return 2800;
     }
 
     

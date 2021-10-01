@@ -127,7 +127,7 @@ public class UmowaBean {
     public static String obliczdatepierwszegozasilku(List<Umowa> umowaList, Umowa selected) {
         Collections.sort(umowaList, new Umowacomparator());
         String zwrot = selected.getDataod();
-        if (umowaList == null) {
+        if (umowaList == null || umowaList.isEmpty()) {
             zwrot = pokazXXdzien(selected.getDataod(), 30);
         } else {
             if (czyjestdziesieclatubezpieczenia(umowaList)) {

@@ -689,6 +689,16 @@ public class Pasekwynagrodzen implements Serializable {
         }
         return zwrot;
     }
+    
+    public double getRedukcjeSuma() {
+        double zwrot = 0.0;
+        if (this.getNaliczenienieobecnoscList()!=null) {
+            for (Naliczenienieobecnosc p : this.getNaliczenienieobecnoscList()) {
+                zwrot = zwrot + p.getKwotaredukcji();
+            }
+        }
+        return zwrot;
+    }
 
     public class Skladnikwynlista {
         int lp;

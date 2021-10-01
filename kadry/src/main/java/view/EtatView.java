@@ -35,8 +35,10 @@ public class EtatView implements Serializable {
     
     @PostConstruct
     public void init() {
-        selected.setUmowa(wpisView.getUmowa());
-        lista = etatFacade.findByUmowa(wpisView.getUmowa());
+        if (wpisView.getUmowa()!=null){
+            selected.setUmowa(wpisView.getUmowa());
+            lista = etatFacade.findByUmowa(wpisView.getUmowa());
+        }
     }
     
     public void create() {

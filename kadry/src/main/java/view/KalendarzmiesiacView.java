@@ -45,7 +45,10 @@ public class KalendarzmiesiacView  implements Serializable {
     
     @PostConstruct
     public void init() {
-        Kalendarzmiesiac szukany  = kalendarzmiesiacFacade.findByRokMcUmowa(wpisView.getUmowa(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
+        Kalendarzmiesiac szukany = null;
+        if (wpisView.getUmowa()!=null) {
+             szukany  = kalendarzmiesiacFacade.findByRokMcUmowa(wpisView.getUmowa(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
+        }
         if (szukany==null) {
             selected.setRok(wpisView.getRokWpisu());
             selected.setMc(wpisView.getMiesiacWpisu());
@@ -149,7 +152,7 @@ public class KalendarzmiesiacView  implements Serializable {
     }
     
     public void pobierzkalendarzeprac() {
-        if (wpisView.getAngaz()!=null && wpisView.getPracownik()!=null) {
+        if (wpisView.getAngaz()!=null && wpisView.getPracownik()!=null && wpisView.getUmowa()!=null) {
             listakalendarzeprac = kalendarzmiesiacFacade.findByRokUmowa(wpisView.getUmowa(), wpisView.getRokWpisu());
         } else {
             Msg.msg("e","Nie wybrano pracownika i umowy");

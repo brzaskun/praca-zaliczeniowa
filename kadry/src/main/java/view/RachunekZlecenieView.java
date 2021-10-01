@@ -66,7 +66,8 @@ public class RachunekZlecenieView  implements Serializable {
                      }
                  }
              }
-             if (trzebazrobicrachunek) {
+             Kalendarzmiesiac kalendarz = kalendarzmiesiacFacade.findByRokMcUmowa(wpisView.getUmowa(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
+             if (trzebazrobicrachunek && kalendarz!=null) {
                  rachunekdoumowyzlecenia = new Rachunekdoumowyzlecenia(wpisView.getUmowa());
                  rachunekdoumowyzlecenia.setDataod(Data.pierwszyDzien(wpisView));
                  rachunekdoumowyzlecenia.setDatado(Data.ostatniDzien(wpisView));

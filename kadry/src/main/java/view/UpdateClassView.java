@@ -71,7 +71,6 @@ public class UpdateClassView   implements Serializable {
         zmiennaPotraceniaView.init();
         etatView.init();
         definicjalistaplacView.init();
-        kalendarzmiesiacView.init();
         kalendarzwzorView.init();
         pasekwynagrodzenView.init();
         draView.init();

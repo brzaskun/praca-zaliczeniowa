@@ -29,6 +29,7 @@ import entity.Umowa;
 import entity.Umowakodzus;
 import entity.Zmiennawynagrodzenia;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
@@ -86,27 +87,31 @@ public class UmowaView  implements Serializable {
     
     @PostConstruct
     public void init() {
-        if (wpisView.getUmowa()!=null && rodzajumowy==null) {
+        if (wpisView.getUmowa()!=null) {
             if (wpisView.getUmowa().getUmowakodzus().isPraca()) {
                 rodzajumowy = "1";
             } else {
                 rodzajumowy = "2";
             }
-        }
-        if (rodzajumowy==null) {
-            rodzajumowy = "1";
-        }
-        if (rodzajumowy.equals("1")) {
-            lista  = umowaFacade.findByAngazPraca(wpisView.getAngaz());
+            if (rodzajumowy.equals("1")) {
+                lista  = umowaFacade.findByAngazPraca(wpisView.getAngaz());
+            } else {
+                lista  = umowaFacade.findByAngazZlecenie(wpisView.getAngaz());
+            }
         } else {
-            lista  = umowaFacade.findByAngazZlecenie(wpisView.getAngaz());
+            lista = new ArrayList<>();
         }
+        //to psuje zmiane pracownika jak ma tyylko umowy zlecenia
+//        if (rodzajumowy==null) {
+//            rodzajumowy = "1";
+//        }
+        
         listaangaz = angazFacade.findByFirma(wpisView.getFirma());
         listaumowakodzus = rodzajumowyFacade.findUmowakodzusAktywne();
         listakodyzawodow = kodyzawodowFacade.findAll();
         datadzisiejsza = Data.aktualnaData();
         miejscowosc = wpisView.getFirma().getMiasto();
-        if (!lista.contains(wpisView.getUmowa())) {
+        if (wpisView.getUmowa()!=null&&!lista.contains(wpisView.getUmowa())) {
             wpisView.setUmowa(lista.get(lista.size()-1));
         }
     }
