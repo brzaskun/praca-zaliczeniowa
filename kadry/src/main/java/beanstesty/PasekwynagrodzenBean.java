@@ -78,11 +78,11 @@ public class PasekwynagrodzenBean {
             //najpierw musimy przyporzadkowac aktualne skladniki, aby potem prawidlowo obliczyc redukcje
             KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, choroba, pasek);
             KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, zasilekchorobowy, pasek);
-            KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, urlop, pasek);
             KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, urlopbezplatny, pasek);
             KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, zatrudnieniewtrakciemiesiaca, pasek);
             KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, oddelegowanie, pasek);
             KalendarzmiesiacBean.redukujskladnikistale(kalendarz, pasek);
+            KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, urlop, pasek);
         } else {
             jestoddelegowanie = KalendarzmiesiacBean.naliczskladnikiwynagrodzeniaDBZlecenie(kalendarz, pasek, kurs);
         }
@@ -181,7 +181,7 @@ public class PasekwynagrodzenBean {
         Nieobecnosc choroba = NieobecnosciBean.createChoroba();
         Nieobecnosc choroba2 = NieobecnosciBean.createChoroba2();
         Nieobecnosc urlop = NieobecnosciBean.createUrlop();
-        //Nieobecnosc urlopbezplatny = NieobecnosciBean.createUrlopBezplatny();
+        Nieobecnosc urlopbezplatny = NieobecnosciBean.createUrlopBezplatny();
         Pasekwynagrodzen pasek = create();
         pasek.setKalendarzmiesiac(kalendarz);
         kalendarz.getPasekwynagrodzenList().add(pasek);
@@ -191,8 +191,8 @@ public class PasekwynagrodzenBean {
         //najpierw musimy przyporzadkowac aktualne skladniki, aby potem prawidlowo obliczyc redukcje
         KalendarzmiesiacBean.dodajnieobecnosc(kalendarz, choroba, pasek);
         KalendarzmiesiacBean.dodajnieobecnosc(kalendarz, choroba2, pasek);
+        KalendarzmiesiacBean.dodajnieobecnosc(kalendarz, urlopbezplatny, pasek);
         KalendarzmiesiacBean.dodajnieobecnosc(kalendarz, urlop, pasek);
-        //KalendarzmiesiacBean.dodajnieobecnosc(kalendarz, urlopbezplatny, pasek);
         KalendarzmiesiacBean.redukujskladnikistale(kalendarz, pasek);
         //KalendarzmiesiacBean.naliczskladnikipotracenia(kalendarz, pasek);
         Definicjalistaplac definicjalistaplac = DefinicjalistaplacBean.create();

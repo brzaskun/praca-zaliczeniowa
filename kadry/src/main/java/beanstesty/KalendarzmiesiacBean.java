@@ -325,7 +325,7 @@ public class KalendarzmiesiacBean {
                 naliczenienieobecnosc.setNieobecnosc(nieobecnosc);
                 Skladnikwynagrodzenia skladnikwynagrodzenia = p.getSkladnikwynagrodzenia();
                 naliczenienieobecnosc.setSkladnikwynagrodzenia(skladnikwynagrodzenia);
-                double skladnik = 2800-pasekwynagrodzen.getRedukcjeSuma();
+                double skladnik = p.getKwota()-pasekwynagrodzen.getRedukcjeSuma();
 //                if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod().equals("11")) {
 //                    skladnik = obliczsredniadopodstawy(kalendarz,p.getSkladnikwynagrodzenia(), nieobecnosc);
 //                }
@@ -354,33 +354,39 @@ public class KalendarzmiesiacBean {
     }
     
     static void naliczskladnikiwynagrodzeniazaOkresnieprzepracowany(Kalendarzmiesiac kalendarz, Nieobecnosc nieobecnosc, Pasekwynagrodzen pasekwynagrodzen, String kod) {
-        double godzinyroboczewmiesiacu = 0;
-        double godzinynieobecnoscirobocze = 0;
+        double dniroboczewmiesiacu = 0.0;
+        double dninieobecnoscirobocze = 0.0;
         for (Dzien p : kalendarz.getDzienList()) {
-            if (p.getTypdnia()>-1) {
-                godzinyroboczewmiesiacu = godzinyroboczewmiesiacu+p.getNormagodzin();
+            if (p.getTypdnia()==0) {
+                dniroboczewmiesiacu++;
             }
-            if (p.getTypdnia()==0 && p.getKod()!=null && p.getKod().equals(kod)) {
-                godzinynieobecnoscirobocze = godzinynieobecnoscirobocze+p.getNormagodzin();
+            if (p.getTypdnia()==0 && p.getKod()!=null && p.getKod().equals("111")) {
+                dninieobecnoscirobocze++;
             }
         }
+        double godzinyroboczewmiesiacu = dniroboczewmiesiacu*8.0;
+        double godzinynieobecnoscirobocze = dninieobecnoscirobocze*8.0;
+//        Rozkład czasu pracy pracownika nie ma znaczenia dla ustalenia wysokości przysługującego mu wynagrodzenia za pracę. 
+//        Istotna jest liczba godzin do przepracowania, która powinna być ustalona przy zastosowaniu art. 130 K.p. 
+//        W takim przypadku należy więc przyjmować nominalną, a nie rozkładową liczbę godzin pracy.
         for (Naliczenieskladnikawynagrodzenia p : pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList()) {
             if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getRedukowany() && p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getStale0zmienne1()==false) {
                 Naliczenienieobecnosc naliczenienieobecnosc = new Naliczenienieobecnosc();
                 Skladnikwynagrodzenia skladnikwynagrodzenia = p.getSkladnikwynagrodzenia();
                 naliczenienieobecnosc.setNieobecnosc(nieobecnosc);
                 naliczenienieobecnosc.setSkladnikwynagrodzenia(skladnikwynagrodzenia);
-                double skladnikistale = skladnikwynagrodzenia.getZmiennawynagrodzeniaList().get(0).getKwota();
+                double skladnikistale = p.getKwota();
                 naliczenienieobecnosc.setSkladnikistale(skladnikistale);
                 naliczenienieobecnosc.setLiczbagodzinroboczych(godzinyroboczewmiesiacu);
                 naliczenienieobecnosc.setLiczbagodzinurlopu(godzinynieobecnoscirobocze);
-                double stawkadzienna = Z.z4(skladnikistale / godzinyroboczewmiesiacu);
-                naliczenienieobecnosc.setStawkadzienna(Z.z(stawkadzienna));
-                double dowyplatyzaczasnieobecnosci = Z.z(stawkadzienna * godzinynieobecnoscirobocze);
-                naliczenienieobecnosc.setKwota(dowyplatyzaczasnieobecnosci);
-                naliczenienieobecnosc.setKwotazus(dowyplatyzaczasnieobecnosci);
-                naliczenienieobecnosc.setKwotastatystyczna(naliczenienieobecnosc.getKwota());
+                //!!takie zaokraglenie jest w superplacach
+                double stawkadzienna = Z.z(skladnikistale / godzinyroboczewmiesiacu);
+                naliczenienieobecnosc.setStawkadzienna(stawkadzienna);
+                double dowyplatyzaczasnieobecnosci = Z.z4(stawkadzienna * godzinynieobecnoscirobocze);
+                naliczenienieobecnosc.setKwota(0.0);
                 naliczenienieobecnosc.setKwotazus(0.0);
+                naliczenienieobecnosc.setKwotastatystyczna(Z.z(dowyplatyzaczasnieobecnosci));
+                naliczenienieobecnosc.setKwotaredukcji(Z.z(dowyplatyzaczasnieobecnosci));
                 naliczenienieobecnosc.setJakiskladnikredukowalny(p.getSkladnikwynagrodzenia().getUwagi()); 
                 naliczenienieobecnosc.setPasekwynagrodzen(pasekwynagrodzen);
                 pasekwynagrodzen.getNaliczenienieobecnoscList().add(naliczenienieobecnosc);
@@ -476,30 +482,33 @@ public class KalendarzmiesiacBean {
 
     static void redukujskladnikistale(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasekwynagrodzen) {
         if (pasekwynagrodzen.getNaliczenienieobecnoscList()!=null&&pasekwynagrodzen.getNaliczenienieobecnoscList().size()>0) {
-            double dowyplatyzaczaschoroby = 0.0;
-            double dowyplatyzaczasurlopu = 0.0;
-            double dowyplatyzaczasurlopubezplatnego = 0.0;
+            double redukcjazarchorobe = 0.0;
+            double redukcjazaurlop = 0.0;
+            double redukcjazabezplatny = 0.0;
             for (Naliczenienieobecnosc p : pasekwynagrodzen.getNaliczenienieobecnoscList()) {
                 if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getRedukowany()) {
                     switch (p.getNieobecnosc().getNieobecnosckodzus().getKod()) {
                         case "331":
-                            dowyplatyzaczaschoroby = dowyplatyzaczaschoroby+p.getKwotaredukcji();
+                            redukcjazarchorobe = redukcjazarchorobe+p.getKwotaredukcji();
                             break;
                         case "100":
-                            dowyplatyzaczasurlopu = dowyplatyzaczasurlopu+p.getKwotaredukcji();
+                            redukcjazaurlop = redukcjazaurlop+p.getKwotaredukcji();
+                            break;
                         case "111":
-                            dowyplatyzaczasurlopubezplatnego = dowyplatyzaczasurlopubezplatnego+p.getKwotastatystyczna();
+                            redukcjazabezplatny = redukcjazabezplatny+p.getKwotaredukcji();
+                            break;
                         case "200":
-                            dowyplatyzaczasurlopubezplatnego = dowyplatyzaczasurlopubezplatnego+p.getKwotastatystyczna();
+                            redukcjazabezplatny = redukcjazabezplatny+p.getKwotaredukcji();
+                            break;
                         case "777":
-                            dowyplatyzaczasurlopubezplatnego = dowyplatyzaczasurlopubezplatnego+p.getKwotastatystyczna();
-
+                            redukcjazabezplatny = redukcjazabezplatny+p.getKwotaredukcji();
+                            break;
                     }
                 }
             }
             for (Naliczenieskladnikawynagrodzenia p : pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList()) {
                 if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getRedukowany()) {
-                    p.setKwotazredukowana(p.getKwota()-dowyplatyzaczaschoroby-dowyplatyzaczasurlopu-dowyplatyzaczasurlopubezplatnego);
+                    p.setKwotazredukowana(p.getKwota()-redukcjazarchorobe-redukcjazaurlop-redukcjazabezplatny);
                 }
             }
         }

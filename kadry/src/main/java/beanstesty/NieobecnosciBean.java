@@ -53,7 +53,7 @@ public class NieobecnosciBean {
      public static Nieobecnosc createUrlopBezplatny() {
         if (urlopbezplatny==null) {
            urlopbezplatny = new Nieobecnosc();
-           urlopbezplatny.setDataod("2020-12-25");
+           urlopbezplatny.setDataod("2020-12-28");
            urlopbezplatny.setDatado("2020-12-31");
            urlopbezplatny.setNieobecnosckodzus(NieobecnosckodzusBean.createUrlopBezplatny());
         }
