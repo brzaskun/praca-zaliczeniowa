@@ -10,7 +10,7 @@ xmlns:pe="http://primefaces.org/ui/extensions">
     <p:dialog id="dialoglistaplac" header="Wyliczanie listy płac" widgetVar="dialoglistaplac"  
               resizable="false"  onShow="ustawdialog('dialoglistaplac','centertile',1650,800);" closeOnEscape="true" onHide="resetujdialog('dialoglistaplac');" 
               fitViewport="true">
-        <p:outputPanel style="height: 280px">
+        <p:outputPanel style="height: 250px">
            
                 <h:panelGroup >
                     
@@ -63,7 +63,7 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                     <p:dataTable id="datalist" value="#{pasekwynagrodzenView.lista}" var="itempasek" emptyMessage="Brak listy za dany okres"
                                  selectionMode="single" selection="#{pasekwynagrodzenView.selectedlista}" rowIndexVar="indexpasek"
                                  rowKey="#{itempasek.kalendarzmiesiac.hashCode()}" sortBy="#{itempasek.kalendarzmiesiac.umowa.angaz.pracownik.nazwiskoImie}"
-                                 style="height: 500px; overflow-y: scroll;"
+                                 style="height: 450px; overflow-y: scroll;"
                                  >
                         <p:column width="40" style="text-align: center;">
                             <p:rowToggler rendered="#{itempasek.pobierzskladniki.size() gt 0}"/>

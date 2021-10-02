@@ -138,14 +138,16 @@ public class UmowaView  implements Serializable {
       if (selected!=null && wpisView.getAngaz()!=null) {
           try {
             selected.setAngaz(wpisView.getAngaz());
-            for (Umowa p : lista) {
-                p.setAktywna(false);
-            }
             String dataodkiedywyplatazasilku = UmowaBean.obliczdatepierwszegozasilku(wpisView.getAngaz().getUmowaList(), selected);
             selected.setPierwszydzienzasilku(dataodkiedywyplatazasilku);
             selected.setAktywna(true);
-            umowaFacade.editList(lista);
             umowaFacade.create(selected);
+            if (lista!=null&&!lista.isEmpty()) {
+                for (Umowa p : lista) {
+                    p.setAktywna(false);
+                }
+                umowaFacade.editList(lista);
+            }
             lista.add(selected);
             wpisView.setUmowa(selected);
             if (selected.getUmowakodzus().isPraca()) {
@@ -182,19 +184,20 @@ public class UmowaView  implements Serializable {
     
     public void generujKalendarzNowaUmowa() {
         if (wpisView.getAngaz()!=null && wpisView.getPracownik()!=null && wpisView.getUmowa()!=null) {
+            String rok = Data.getRok(wpisView.getUmowa().getDataod());
             Integer mcod = Integer.parseInt(Data.getMc(wpisView.getUmowa().getDataod()));
             Integer dzienod = Integer.parseInt(Data.getDzien(wpisView.getUmowa().getDataod()));
             for (String mc: Mce.getMceListS()) {
                 Integer kolejnymc = Integer.parseInt(mc);
                 if (kolejnymc>=mcod) {
-                    Kalendarzmiesiac kal = new Kalendarzmiesiac();
-                    kal.setRok(wpisView.getRokWpisu());
-                    kal.setMc(mc);
-                    kal.setUmowa(wpisView.getUmowa());
-                    Kalendarzmiesiac kalmiesiac = kalendarzmiesiacFacade.findByRokMcUmowa(wpisView.getUmowa(), wpisView.getRokWpisu(), mc);
+                    Kalendarzmiesiac kalmiesiac = kalendarzmiesiacFacade.findByRokMcUmowa(wpisView.getUmowa(), rok, mc);
                     if (kalmiesiac==null) {
-                        Kalendarzwzor znaleziono = kalendarzwzorFacade.findByFirmaRokMc(kal.getUmowa().getAngaz().getFirma(), kal.getRok(), mc);
+                        Kalendarzwzor znaleziono = kalendarzwzorFacade.findByFirmaRokMc(wpisView.getUmowa().getAngaz().getFirma(), rok, mc);
                         if (znaleziono!=null) {
+                            Kalendarzmiesiac kal = new Kalendarzmiesiac();
+                            kal.setRok(rok);
+                            kal.setMc(mc);
+                            kal.setUmowa(wpisView.getUmowa());
                             kal.ganerujdnizwzrocowego(znaleziono, dzienod);
                             kalendarzmiesiacFacade.create(kal);
                             dzienod = null;
