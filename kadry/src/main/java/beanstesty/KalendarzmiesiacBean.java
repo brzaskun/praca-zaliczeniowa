@@ -152,8 +152,12 @@ public class KalendarzmiesiacBean {
         for (int i = dzienod;i<dziendo+1;i++) {
             for (Dzien p : kalendarz.getDzienList()) {
                 if (p.getNrdnia()==i) {
+                    if (nieobecnosc.getNieobecnosckodzus().getKod().equals("200")) {
+                        p.setNormagodzin(0.0);
+                    }
                     p.setPrzepracowano(0.0);
                     p.setKod(nieobecnosc.getNieobecnosckodzus().getKod());
+                    break;
                 }
             }
         }
@@ -163,9 +167,12 @@ public class KalendarzmiesiacBean {
             naliczskladnikiwynagrodzeniazaUrlop(kalendarz, nieobecnosc, pasekwynagrodzen);
         } else if (nieobecnosc.getNieobecnosckodzus().getKod().equals("111")) {
             naliczskladnikiwynagrodzeniazaOkresnieprzepracowany(kalendarz, nieobecnosc, pasekwynagrodzen,"111");
+        } else if (nieobecnosc.getNieobecnosckodzus().getKod().equals("200")) {
+            naliczskladnikiwynagrodzeniazaOkresnieprzepracowany(kalendarz, nieobecnosc, pasekwynagrodzen,"200");
         }
     }
     
+         
     static void dodajnieobecnoscDB(Kalendarzmiesiac kalendarz, List<Nieobecnosc> nieobecnosclista, Pasekwynagrodzen pasekwynagrodzen) {
         if (nieobecnosclista!=null && !nieobecnosclista.isEmpty()) {
             for (Nieobecnosc nieobecnosc : nieobecnosclista) {
@@ -312,11 +319,15 @@ public class KalendarzmiesiacBean {
     static void naliczskladnikiwynagrodzeniazaUrlop(Kalendarzmiesiac kalendarz, Nieobecnosc nieobecnosc, Pasekwynagrodzen pasekwynagrodzen) {
         double dniroboczewmiesiacu = 0.0;
         double dninieobecnoscirobocze = 0.0;
+        int dzienod = Data.getDzienI(nieobecnosc.getDataod());
+        int dziendo = Data.getDzienI(nieobecnosc.getDatado());
         for (Dzien p : kalendarz.getDzienList()) {
-            if (p.getTypdnia()==0 && (p.getKod()==null||p.getKod().equals("100"))) {
-                dniroboczewmiesiacu++;
+            if (p.getTypdnia()==0 && p.getNormagodzin()!=0.0) {
+                if (p.getKod()==null || p.getKod().equals("100")) {
+                    dniroboczewmiesiacu++;
+                }
             }
-            if (p.getTypdnia()==0 && p.getKod()!=null && p.getKod().equals("100")) {
+            if (p.getTypdnia()==0 && p.getNrdnia()>=dzienod &&p.getNrdnia()<=dziendo) {
                 dninieobecnoscirobocze++;
             }
         }
@@ -356,12 +367,25 @@ public class KalendarzmiesiacBean {
     static void naliczskladnikiwynagrodzeniazaOkresnieprzepracowany(Kalendarzmiesiac kalendarz, Nieobecnosc nieobecnosc, Pasekwynagrodzen pasekwynagrodzen, String kod) {
         double dniroboczewmiesiacu = 0.0;
         double dninieobecnoscirobocze = 0.0;
-        for (Dzien p : kalendarz.getDzienList()) {
-            if (p.getTypdnia()==0) {
-                dniroboczewmiesiacu++;
-            }
-            if (p.getTypdnia()==0 && p.getKod()!=null && p.getKod().equals("111")) {
-                dninieobecnoscirobocze++;
+        int dzienod = Data.getDzienI(nieobecnosc.getDataod());
+        int dziendo = Data.getDzienI(nieobecnosc.getDatado());
+        if (kod.equals("200")) {
+            for (Dzien p : kalendarz.getDzienList()) {
+                if (p.getTypdnia()==0) {
+                    dniroboczewmiesiacu++;
+                }
+                if (p.getTypdnia()==0 && p.getNrdnia()>=dzienod &&p.getNrdnia()<=dziendo) {
+                    dninieobecnoscirobocze++;
+                }
+           }
+        } else {
+            for (Dzien p : kalendarz.getDzienList()) {
+                if (p.getTypdnia()==0 && (p.getKod()==null || !p.getKod().equals("200"))) {
+                    dniroboczewmiesiacu++;
+                }
+                if (p.getTypdnia()==0 && p.getNrdnia()>=dzienod &&p.getNrdnia()<=dziendo) {
+                    dninieobecnoscirobocze++;
+                }
             }
         }
         double godzinyroboczewmiesiacu = dniroboczewmiesiacu*8.0;
@@ -393,6 +417,8 @@ public class KalendarzmiesiacBean {
             }
         }
     }
+    
+    
     
     static void nalicznadgodziny50(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasekwynagrodzen) {
         double godzinyrobocze = 0.0;
@@ -542,6 +568,7 @@ public class KalendarzmiesiacBean {
         String rok = kalendarz.getRok();
         String mc = kalendarz.getMc();
         String dataodnieobecnoscdataod = nieobecnosc.getDataod();
+        //double kwotazumowy = skladnikwynagrodzenia.getZmiennawynagrodzeniaList()
         //czy umowa rozlicza pierwszy miesiac
         return 2800;
     }

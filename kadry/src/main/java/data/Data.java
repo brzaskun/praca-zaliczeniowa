@@ -468,6 +468,14 @@ public class Data implements Serializable {
         return zwrot;
     }
     
+    public static Integer getDzienI(String data) {
+        String zwrot = "";
+        if (data != null) {
+            zwrot = getCzescDaty(data, 2);
+        }
+        return Integer.parseInt(zwrot);
+    }
+    
     public static String getCzescDaty(String data, int rok0mc1d2rokmc3) {
         String zwrot = "";
         switch (rok0mc1d2rokmc3) {

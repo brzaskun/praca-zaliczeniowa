@@ -14,6 +14,7 @@ import entity.Nieobecnosckodzus;
 public class NieobecnosckodzusBean {
     
     public static Nieobecnosckodzus choroba;
+    public static Nieobecnosckodzus korektakalendarza;
     public static Nieobecnosckodzus urlop;
     public static Nieobecnosckodzus urlopbezplatny;
     
@@ -45,5 +46,15 @@ public class NieobecnosckodzusBean {
            urlopbezplatny.setOpisskrocony("urlop bezplatny");
         }
         return urlopbezplatny;
+    }
+     
+     public static Nieobecnosckodzus createKorektakalendarza() {
+        if (korektakalendarza==null) {
+           korektakalendarza = new Nieobecnosckodzus();
+           korektakalendarza.setKod("200");
+           korektakalendarza.setOpis("korekta kalendarza");
+           korektakalendarza.setOpisskrocony("korekta kalendarza");
+        }
+        return korektakalendarza;
     }
 }
