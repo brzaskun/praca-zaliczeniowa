@@ -166,36 +166,38 @@ public class KalendarzmiesiacBean {
         }
     }
     
-    static void dodajnieobecnoscDB(Kalendarzmiesiac kalendarz, Nieobecnosc nieobecnosc, Pasekwynagrodzen pasekwynagrodzen) {
-        if (nieobecnosc!=null) {
-            int dzienod = Integer.parseInt(Data.getDzien(nieobecnosc.getDataod()));
-            int dziendo = Integer.parseInt(Data.getDzien(nieobecnosc.getDatado()));
-            for (int i = dzienod;i<dziendo+1;i++) {
-                for (Dzien p : kalendarz.getDzienList()) {
-                    if (p.getNrdnia()==i) {
-                        p.setKod(nieobecnosc.getNieobecnosckodzus().getKod());
-                        p.setNieobecnosc(nieobecnosc);
+    static void dodajnieobecnoscDB(Kalendarzmiesiac kalendarz, List<Nieobecnosc> nieobecnosclista, Pasekwynagrodzen pasekwynagrodzen) {
+        if (nieobecnosclista!=null && !nieobecnosclista.isEmpty()) {
+            for (Nieobecnosc nieobecnosc : nieobecnosclista) {
+                int dzienod = Integer.parseInt(Data.getDzien(nieobecnosc.getDataod()));
+                int dziendo = Integer.parseInt(Data.getDzien(nieobecnosc.getDatado()));
+                for (int i = dzienod;i<dziendo+1;i++) {
+                    for (Dzien p : kalendarz.getDzienList()) {
+                        if (p.getNrdnia()==i) {
+                            p.setKod(nieobecnosc.getNieobecnosckodzus().getKod());
+                            p.setNieobecnosc(nieobecnosc);
+                        }
                     }
                 }
-            }
-            if (nieobecnosc.getNieobecnosckodzus().getKod().equals("313")) {
-                //wynagrodzenie za czas niezdolnosci od pracy
-                naliczskladnikiwynagrodzeniazaChorobe(kalendarz, nieobecnosc, pasekwynagrodzen);
-            } else if (nieobecnosc.getNieobecnosckodzus().getKod().equals("331")) {
-                //wynagrodzenie za czas niezdolnosci od pracy
-                naliczskladnikiwynagrodzeniazaChorobe(kalendarz, nieobecnosc, pasekwynagrodzen);
-            } else if (nieobecnosc.getNieobecnosckodzus().getKod().equals("100")) {
-                //urlop wypoczynowy
-                naliczskladnikiwynagrodzeniazaUrlop(kalendarz, nieobecnosc, pasekwynagrodzen);
-            } else if (nieobecnosc.getNieobecnosckodzus().getKod().equals("111")) {
-                //urlopo bezpłatny
-                naliczskladnikiwynagrodzeniazaOkresnieprzepracowany(kalendarz, nieobecnosc, pasekwynagrodzen,"111");
-            } else if (nieobecnosc.getNieobecnosckodzus().getKod().equals("200")) {
-                //rozpoczęcie umowy w trakcie meisiąca
-                naliczskladnikiwynagrodzeniazaOkresnieprzepracowany(kalendarz, nieobecnosc, pasekwynagrodzen,"200");
-            } else if (nieobecnosc.getNieobecnosckodzus().getKod().equals("777")) {
-                //oddelegowanie
-                naliczskladnikiwynagrodzeniazaOkresnieprzepracowany(kalendarz, nieobecnosc, pasekwynagrodzen,"777");
+                if (nieobecnosc.getNieobecnosckodzus().getKod().equals("313")) {
+                    //wynagrodzenie za czas niezdolnosci od pracy
+                    naliczskladnikiwynagrodzeniazaChorobe(kalendarz, nieobecnosc, pasekwynagrodzen);
+                } else if (nieobecnosc.getNieobecnosckodzus().getKod().equals("331")) {
+                    //wynagrodzenie za czas niezdolnosci od pracy
+                    naliczskladnikiwynagrodzeniazaChorobe(kalendarz, nieobecnosc, pasekwynagrodzen);
+                } else if (nieobecnosc.getNieobecnosckodzus().getKod().equals("100")) {
+                    //urlop wypoczynowy
+                    naliczskladnikiwynagrodzeniazaUrlop(kalendarz, nieobecnosc, pasekwynagrodzen);
+                } else if (nieobecnosc.getNieobecnosckodzus().getKod().equals("111")) {
+                    //urlopo bezpłatny
+                    naliczskladnikiwynagrodzeniazaOkresnieprzepracowany(kalendarz, nieobecnosc, pasekwynagrodzen,"111");
+                } else if (nieobecnosc.getNieobecnosckodzus().getKod().equals("200")) {
+                    //rozpoczęcie umowy w trakcie meisiąca
+                    naliczskladnikiwynagrodzeniazaOkresnieprzepracowany(kalendarz, nieobecnosc, pasekwynagrodzen,"200");
+                } else if (nieobecnosc.getNieobecnosckodzus().getKod().equals("777")) {
+                    //oddelegowanie
+                    naliczskladnikiwynagrodzeniazaOkresnieprzepracowany(kalendarz, nieobecnosc, pasekwynagrodzen,"777");
+                }
             }
         }
     }

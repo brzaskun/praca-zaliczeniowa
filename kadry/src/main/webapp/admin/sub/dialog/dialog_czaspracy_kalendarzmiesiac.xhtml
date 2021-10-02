@@ -66,7 +66,8 @@
                 <p:panel header="Dni kalendarza pracownika #{kalendarzmiesiacView.selected.rok}/#{kalendarzmiesiacView.selected.mc}">
                     <p:dataTable id="datalist" value="#{kalendarzmiesiacView.selected.dzienList}" var="itemkalendarz"
                                  rowKey="#{itemkalendarz.id}"
-                                 style="height: 450px; overflow-y: scroll;" sortBy="#{itemkalendarz.nrdnia}"
+                                 style="height: 450px; overflow-y: scroll;" sortMode="single"
+                                 emptyMessage="Brak zapisów"
                                  >
 
 <!--                        <p:column>
@@ -81,7 +82,7 @@
                             </f:facet>
                             <h:outputText value="#{itemkalendarz.nrdnia}"/>
                         </p:column>
-                        <p:column>
+                        <p:column sortBy="#{itemkalendarz.datastring}" sortOrder="asc">
                             <f:facet name="header">
                                 <h:outputText value="typ dnia"/>
                             </f:facet>

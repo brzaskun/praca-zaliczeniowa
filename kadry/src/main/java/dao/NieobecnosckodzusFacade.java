@@ -6,6 +6,7 @@
 package dao;
 
 import entity.Nieobecnosckodzus;
+import java.util.List;
 import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -48,5 +49,9 @@ public class NieobecnosckodzusFacade extends DAO  {
     
     public Nieobecnosckodzus findByOpis(String opis) {
         return (Nieobecnosckodzus) getEntityManager().createNamedQuery("Nieobecnosckodzus.findByOpis").setParameter("opis", opis).getSingleResult();
+    }
+
+    public List<Nieobecnosckodzus> findAktywne() {
+        return getEntityManager().createNamedQuery("Nieobecnosckodzus.findByAktywne").getResultList();
     }
 }

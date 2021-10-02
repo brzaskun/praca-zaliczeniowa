@@ -92,7 +92,7 @@ public class NieobecnoscView  implements Serializable {
             }
         }
         listaumowa = umowaFacade.findPracownik(wpisView.getPracownik());
-        listanieobecnosckodzus = nieobecnosckodzusFacade.findAll();
+        listanieobecnosckodzus = nieobecnosckodzusFacade.findAktywne();
         Collections.sort(listanieobecnosckodzus, new Nieobecnoscikodzuscomparator());
     }
 

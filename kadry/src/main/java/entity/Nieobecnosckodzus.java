@@ -35,6 +35,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Nieobecnosckodzus.findById", query = "SELECT n FROM Nieobecnosckodzus n WHERE n.id = :id"),
     @NamedQuery(name = "Nieobecnosckodzus.findByKod", query = "SELECT n FROM Nieobecnosckodzus n WHERE n.kod = :kod"),
     @NamedQuery(name = "Nieobecnosckodzus.findByOpis", query = "SELECT n FROM Nieobecnosckodzus n WHERE n.opis = :opis"),
+    @NamedQuery(name = "Nieobecnosckodzus.findByAktywne", query = "SELECT n FROM Nieobecnosckodzus n WHERE n.aktywne = TRUE"),
     @NamedQuery(name = "Nieobecnosckodzus.findByOpisskrocony", query = "SELECT n FROM Nieobecnosckodzus n WHERE n.opisskrocony = :opisskrocony"),
     @NamedQuery(name = "Nieobecnosckodzus.findByPodatek", query = "SELECT n FROM Nieobecnosckodzus n WHERE n.podatek = :podatek"),
     @NamedQuery(name = "Nieobecnosckodzus.findBySpoleczne", query = "SELECT n FROM Nieobecnosckodzus n WHERE n.spoleczne = :spoleczne"),

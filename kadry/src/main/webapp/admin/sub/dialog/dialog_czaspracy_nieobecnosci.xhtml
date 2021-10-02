@@ -92,31 +92,37 @@
                             <f:facet name="header">
                                 <h:outputText value="kod"/>
                             </f:facet>
-                            <h:outputText value="#{itemNieob.nieobecnosckodzus.kod}" style="#{itemNieob.rokod eq wpisView.rokWpisu ? 'color: green':'initial'}"/>
+                            <h:outputText value="#{itemNieob.nieobecnosckodzus.kod}" style="#{itemNieob.rokod eq wpisView.rokWpisu ? itemNieob.naniesiona?'color: green':'color: red':'initial'}"/>
                         </p:column>
                         <p:column width="300" filterBy="#{itemNieob.nieobecnosckodzus.opisskrocony}" filterMatchMode="contains">
                             <f:facet name="header">
                                 <h:outputText value="nazwa"/>
                             </f:facet>
-                            <h:outputText value="#{itemNieob.nieobecnosckodzus.opisskrocony}" style="#{itemNieob.rokod eq wpisView.rokWpisu ? 'color: green':'initial'}"/>
+                            <h:outputText value="#{itemNieob.nieobecnosckodzus.opisskrocony}" style="#{itemNieob.rokod eq wpisView.rokWpisu ? itemNieob.naniesiona?'color: green':'color: red':'initial'}"/>
                         </p:column> 
                         <p:column width="50" filterBy="#{itemNieob.dataod}" filterMatchMode="startsWith" sortBy="#{itemNieob.dataod}" sortOrder="desc">
                             <f:facet name="header">
                                 <h:outputText value="data od"/>
                             </f:facet>
-                            <h:outputText value="#{itemNieob.dataod}" style="#{itemNieob.rokod eq wpisView.rokWpisu ? 'color: green':''}"/>
+                            <h:outputText value="#{itemNieob.dataod}" style="#{itemNieob.rokod eq wpisView.rokWpisu ? itemNieob.naniesiona?'color: green':'color: red':'initial'}"/>
                         </p:column>
                         <p:column width="50" filterBy="#{itemNieob.datado}" filterMatchMode="startsWith">
                             <f:facet name="header">
                                 <h:outputText value="data do"/>
                             </f:facet>
-                            <h:outputText value="#{itemNieob.datado}" style="#{itemNieob.rokod eq wpisView.rokWpisu ? 'color: green':''}"/>
+                            <h:outputText value="#{itemNieob.datado}" style="#{itemNieob.rokod eq wpisView.rokWpisu ? itemNieob.naniesiona?'color: green':'color: red':'initial'}"/>
                         </p:column>
                         <p:column style="text-align: center;" width="40">
                             <f:facet name="header">
                                 <h:outputText value="dni kal."/>
                             </f:facet>
-                            <h:outputText value="#{itemNieob.dnikalendarzowe}" style="#{itemNieob.rokod eq wpisView.rokWpisu ? 'color: green':''}"/>
+                            <h:outputText value="#{itemNieob.dnikalendarzowe}" style="#{itemNieob.rokod eq wpisView.rokWpisu ? itemNieob.naniesiona?'color: green':'color: red':'initial'}"/>
+                        </p:column>
+                        <p:column style="text-align: center;" width="40">
+                            <f:facet name="header">
+                                <h:outputText value="nan. na kal."/>
+                            </f:facet>
+                            <h:outputText value="&#x2714;" rendered="#{itemNieob.naniesiona}" style="color: green;font-weight: 900;"/>
                         </p:column>
                         <p:column style="#{itemNieob.rokod eq wpisView.rokWpisu ? 'color: green':''}">
                             <f:facet name="header">
@@ -154,12 +160,7 @@
                             </f:facet>
                             <h:outputText value="&#x2714;" rendered="#{itemNieob.nieobecnosckodzus.podatek}"/>
                         </p:column>
-                        <p:column style="text-align: center;" width="30">
-                            <f:facet name="header">
-                                <h:outputText value="nan."/>
-                            </f:facet>
-                            <h:outputText value="&#x2714;" rendered="#{itemNieob.naniesiona}"/>
-                        </p:column>
+                      
                         <p:column width="100">
                             <f:facet name="header">
                                 <h:outputText value="umowa"/>

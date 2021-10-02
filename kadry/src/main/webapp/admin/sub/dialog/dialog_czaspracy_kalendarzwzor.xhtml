@@ -54,8 +54,9 @@
             <h:form id="KalendarzwzorListForm">
                 <p:panel header="Dni kalendarza wzorcowego">
                     <p:dataTable id="datalist" value="#{kalendarzwzorView.selected.dzienList}" var="itemkalendarz"
-                                 rowKey="#{itemkalendarz.id}" sortBy="#{itemkalendarz.nrdnia}"
+                                 rowKey="#{itemkalendarz.id}"  sortMode="single"
                                  style="height: 450px; width: 600px; overflow-y: scroll;"
+                                 emptyMessage="Brak zapisów"
                                  >
 
 <!--                        <p:column>
@@ -70,7 +71,7 @@
                             </f:facet>
                             <h:outputText value="#{itemkalendarz.nrdnia}"/>
                         </p:column>
-                        <p:column width="50" style="text-align: center;">
+                        <p:column width="50" style="text-align: center;"  sortBy="#{itemkalendarz.datastring}" sortOrder="asc">
                             <f:facet name="header">
                                 <h:outputText value="nr kolejny w roku"/>
                             </f:facet>

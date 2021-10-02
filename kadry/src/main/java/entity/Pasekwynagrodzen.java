@@ -673,8 +673,9 @@ public class Pasekwynagrodzen implements Serializable {
             for (Naliczenieskladnikawynagrodzenia p : this.naliczenieskladnikawynagrodzeniaList) {
                 Skladnikwynlista wiersz = new Skladnikwynlista();
                 wiersz.lp = i++;
+                wiersz.kod = p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod();
                 wiersz.nazwa = p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getOpisskrocony();
-                wiersz.kwota = p.getKwota();
+                wiersz.kwota = p.getKwotazredukowana();
                 zwrot.add(wiersz);
             }
         }
@@ -682,6 +683,7 @@ public class Pasekwynagrodzen implements Serializable {
             for (Naliczenienieobecnosc p : this.naliczenienieobecnoscList) {
                 Skladnikwynlista wiersz = new Skladnikwynlista();
                 wiersz.lp = i++;
+                wiersz.kod = p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod();
                 wiersz.nazwa = p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getOpisskrocony();
                 wiersz.kwota = p.getKwota();
                 zwrot.add(wiersz);
@@ -705,6 +707,7 @@ public class Pasekwynagrodzen implements Serializable {
         String nazwa;
         String dataod;
         String datado;
+        String kod;
         double kwota;
         public Skladnikwynlista() {
         }
@@ -747,6 +750,14 @@ public class Pasekwynagrodzen implements Serializable {
 
         public void setKwota(double kwota) {
             this.kwota = kwota;
+        }
+
+        public String getKod() {
+            return kod;
+        }
+
+        public void setKod(String kod) {
+            this.kod = kod;
         }
     
         

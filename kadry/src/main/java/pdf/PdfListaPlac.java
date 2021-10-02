@@ -356,7 +356,7 @@ public class PdfListaPlac {
             table.addCell(ustawfrazeAlign(rs.getNieobecnosckodzus().getOpisskrocony(), "left",6));
             table.addCell(ustawfrazeAlign(rs.getDataod(), "right",6));
             table.addCell(ustawfrazeAlign(rs.getDatado(), "right",6));
-            table.addCell(ustawfrazeAlign(rs.getUmowa().getUmowakodzus()!=null?rs.getUmowa().getUmowakodzus().getOpis():"brak kodu w umowie", "left",6));
+            table.addCell(ustawfrazeAlign(rs.getUmowa().getUmowakodzus()!=null?rs.getUmowa().getUmowakodzus().getKod():"brak kodu w umowie", "left",6));
         }
     }
       public static String wierszeNieobecnosciString(List<Nieobecnosc> wykaznieob) {

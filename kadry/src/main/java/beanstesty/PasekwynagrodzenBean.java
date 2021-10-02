@@ -67,12 +67,12 @@ public class PasekwynagrodzenBean {
         if (umowaoprace) {
             jestoddelegowanie = KalendarzmiesiacBean.naliczskladnikiwynagrodzeniaDB(kalendarz, pasek, kurs);
             List<Nieobecnosc> nieobecnosci = pobierznieobecnosci(kalendarz);
-            Nieobecnosc zatrudnieniewtrakciemiesiaca = generuj(kalendarz.getUmowa(),nieobecnosckodzusFacade, kalendarz.getRok(), kalendarz.getMc());
-            Nieobecnosc choroba = pobierz(nieobecnosci,"331");
-            Nieobecnosc zasilekchorobowy = pobierz(nieobecnosci,"313");
-            Nieobecnosc urlop = pobierz(nieobecnosci,"100");
-            Nieobecnosc urlopbezplatny = pobierz(nieobecnosci,"111");
-            Nieobecnosc oddelegowanie = pobierz(nieobecnosci,"777");
+            List<Nieobecnosc> zatrudnieniewtrakciemiesiaca = generuj(kalendarz.getUmowa(),nieobecnosckodzusFacade, kalendarz.getRok(), kalendarz.getMc());
+            List<Nieobecnosc> choroba = pobierz(nieobecnosci,"331");
+            List<Nieobecnosc> zasilekchorobowy = pobierz(nieobecnosci,"313");
+            List<Nieobecnosc> urlop = pobierz(nieobecnosci,"100");
+            List<Nieobecnosc> urlopbezplatny = pobierz(nieobecnosci,"111");
+            List<Nieobecnosc> oddelegowanie = pobierz(nieobecnosci,"777");
             KalendarzmiesiacBean.nalicznadgodziny50DB(kalendarz, pasek);
             //KalendarzmiesiacBean.nalicznadgodziny100(kalendarz, pasek);
             //najpierw musimy przyporzadkowac aktualne skladniki, aby potem prawidlowo obliczyc redukcje
@@ -444,12 +444,11 @@ public class PasekwynagrodzenBean {
         pasek.setNetto(Z.z(pasek.getNetto()-pasek.getPotracenia()));
     }
 
-    private static Nieobecnosc pobierz(List<Nieobecnosc> nieobecnosci, String string) {
-        Nieobecnosc zwrot = null;
+    private static List<Nieobecnosc> pobierz(List<Nieobecnosc> nieobecnosci, String string) {
+        List<Nieobecnosc> zwrot = new ArrayList<>();
         for (Nieobecnosc p : nieobecnosci) {
             if (p.getNieobecnosckodzus().getKod().equals(string)) {
-                zwrot = p;
-                break;
+                zwrot.add(p);
             }
         }
         return zwrot;
@@ -482,8 +481,9 @@ public class PasekwynagrodzenBean {
         return zwrot;
     }
 
-    private static Nieobecnosc generuj(Umowa umowa, NieobecnosckodzusFacade nieobecnosckodzusFacade, String rok, String mc) {
-        Nieobecnosc zwrot =null;
+    private static List<Nieobecnosc> generuj(Umowa umowa, NieobecnosckodzusFacade nieobecnosckodzusFacade, String rok, String mc) {
+        List<Nieobecnosc> zwrotlist = new ArrayList<>();
+        Nieobecnosc zwrot = new Nieobecnosc();
         String rokumowa = Data.getRok(umowa.getDataod());
         String mcumowa = Data.getMc(umowa.getDataod());
         String dzienumowa = Data.getDzien(umowa.getDataod());
@@ -498,8 +498,9 @@ public class PasekwynagrodzenBean {
             String datado = yesterday.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
             zwrot.setDataod(dataod);
             zwrot.setDatado(datado);
+            zwrotlist.add(zwrot);
         }
-        return zwrot;
+        return zwrotlist;
     }
 
     public static Pasekwynagrodzen sumujpaski(List<Pasekwynagrodzen> lista) {
