@@ -124,7 +124,8 @@ public class VATUEKM5Bean {
         PozycjeSzczegolowe poz = new PozycjeSzczegolowe();
         if (lista != null) {
             for (VatUe p : lista) {
-                if (p.getKontrahent() != null) {
+                if (p.getKontrahent() != null||p.getKontrahentnip()!=null) {
+                    String aktualnynip = p.getKontrahent()!=null?p.getKontrahent().getNip():p.getKontrahentnip();
                     if (p.getNettoprzedkorekta()==null) {
                         p.setNettoprzedkorekta(0.0);
                     }
@@ -138,8 +139,8 @@ public class VATUEKM5Bean {
                          switch (p.getTransakcja()) {
                             case "WDT":
                                 p.setNettoprzedkorekta(nowykwotaprzed);
-                                poz.getGrupa1().add(grupa1przed(p, p.getKontrahent().getNip()));
-                                poz.getGrupa1().add(grupa1po(p, p.getKontrahent().getNip()));
+                                poz.getGrupa1().add(grupa1przed(p, aktualnynip));
+                                poz.getGrupa1().add(grupa1po(p, aktualnynip));
                                 p.setNetto(starykwotapo);
                                 p.setNettoprzedkorekta(starykwotaprzed);
                                 poz.getGrupa1().add(grupa1przed(p, p.getPoprzedninip()));
@@ -147,8 +148,8 @@ public class VATUEKM5Bean {
                                 break;
                             case "WNT":
                                 p.setNettoprzedkorekta(nowykwotaprzed);
-                                poz.getGrupa2().add(grupa2przed(p, p.getKontrahent().getNip()));
-                                poz.getGrupa2().add(grupa2po(p, p.getKontrahent().getNip()));
+                                poz.getGrupa2().add(grupa2przed(p, aktualnynip));
+                                poz.getGrupa2().add(grupa2po(p, aktualnynip));
                                 p.setNetto(starykwotapo);
                                 p.setNettoprzedkorekta(starykwotaprzed);
                                 poz.getGrupa2().add(grupa2przed(p, p.getPoprzedninip()));
@@ -156,8 +157,8 @@ public class VATUEKM5Bean {
                                 break;
                             default:
                                 p.setNettoprzedkorekta(nowykwotaprzed);
-                                poz.getGrupa3().add(grupa3przed(p, p.getKontrahent().getNip()));
-                                poz.getGrupa3().add(grupa3po(p, p.getKontrahent().getNip()));
+                                poz.getGrupa3().add(grupa3przed(p, aktualnynip));
+                                poz.getGrupa3().add(grupa3po(p, aktualnynip));
                                 p.setNetto(starykwotapo);
                                 p.setNettoprzedkorekta(starykwotaprzed);
                                 poz.getGrupa3().add(grupa3przed(p, p.getPoprzedninip()));
@@ -167,40 +168,40 @@ public class VATUEKM5Bean {
                     } else if (Z.z(p.getNetto()) != 0.0 && Z.z(p.getNettoprzedkorekta()) != 0.0) {
                         switch (p.getTransakcja()) {
                             case "WDT":
-                                poz.getGrupa1().add(grupa1przed(p, p.getKontrahent().getNip()));
-                                poz.getGrupa1().add(grupa1po(p, p.getKontrahent().getNip()));
+                                poz.getGrupa1().add(grupa1przed(p, aktualnynip));
+                                poz.getGrupa1().add(grupa1po(p, aktualnynip));
                                 break;
                             case "WNT":
-                                poz.getGrupa2().add(grupa2przed(p, p.getKontrahent().getNip()));
-                                poz.getGrupa2().add(grupa2po(p, p.getKontrahent().getNip()));
+                                poz.getGrupa2().add(grupa2przed(p, aktualnynip));
+                                poz.getGrupa2().add(grupa2po(p, aktualnynip));
                                 break;
                             default:
-                                poz.getGrupa3().add(grupa3przed(p, p.getKontrahent().getNip()));
-                                poz.getGrupa3().add(grupa3po(p, p.getKontrahent().getNip()));
+                                poz.getGrupa3().add(grupa3przed(p, aktualnynip));
+                                poz.getGrupa3().add(grupa3po(p, aktualnynip));
                                 break;
                         }
                     } else if (Z.z(p.getNetto()) == 0.0 && Z.z(p.getNettoprzedkorekta()) != 0.0) {
                         switch (p.getTransakcja()) {
                             case "WDT":
-                                poz.getGrupa1().add(grupa1przed(p, p.getKontrahent().getNip()));
+                                poz.getGrupa1().add(grupa1przed(p, aktualnynip));
                                 break;
                             case "WNT":
-                                poz.getGrupa2().add(grupa2przed(p, p.getKontrahent().getNip()));
+                                poz.getGrupa2().add(grupa2przed(p, aktualnynip));
                                 break;
                             default:
-                                poz.getGrupa3().add(grupa3przed(p, p.getKontrahent().getNip()));
+                                poz.getGrupa3().add(grupa3przed(p, aktualnynip));
                                 break;
                         }
                     } else if (Z.z(p.getNetto()) != 0.0 && Z.z(p.getNettoprzedkorekta()) == 0.0) {
                         switch (p.getTransakcja()) {
                             case "WDT":
-                                poz.getGrupa1().add(grupa1po(p, p.getKontrahent().getNip()));
+                                poz.getGrupa1().add(grupa1po(p, aktualnynip));
                                 break;
                             case "WNT":
-                                poz.getGrupa2().add(grupa2po(p, p.getKontrahent().getNip()));
+                                poz.getGrupa2().add(grupa2po(p, aktualnynip));
                                 break;
                             default:
-                                poz.getGrupa3().add(grupa3po(p, p.getKontrahent().getNip()));
+                                poz.getGrupa3().add(grupa3po(p, aktualnynip));
                                 break;
                         }
                     }
@@ -281,9 +282,18 @@ public class VATUEKM5Bean {
 
     private static TKodKrajuUE kodkraju(VatUe p) {
         TKodKrajuUE zwrot = null;
-        if (p.getKontrahent().getKrajkod() != null) {
+        if (p.getKontrahent()!=null && p.getKontrahent().getKrajkod() != null) {
             try {
                 String k = p.getKontrahent().getKrajkod();
+                if (k.equals("GR")) {
+                    k = "EL";
+                }
+                zwrot = TKodKrajuUE.fromValue(k);
+            } catch (Exception e) {
+            }
+        } else if (p.getKontrahentkraj()!=null){
+            try {
+                String k = p.getKontrahentkraj();
                 if (k.equals("GR")) {
                     k = "EL";
                 }

@@ -832,6 +832,46 @@ public class VatUeFKView implements Serializable {
                 }
             }
         }
+        //drugi for dla sprsedazy online jednorazowej
+        for (VatUe p : nowalista) {
+            if (p.getKontrahentnazwa()!=null) {
+                boolean niebylojeszcze = true;
+                for (VatUe s : staralista) {
+                    if (s.getKontrahentnazwa()!=null) {
+                        if (p.getKontrahentnazwa().equals(s.getKontrahentnazwa()) && p.getTransakcja().equals(s.getTransakcja())) {
+                            if (Z.z(p.getNetto()) != Z.z(s.getNetto()) || (p.getPoprzedninip() !=null && !p.getPoprzedninip().equals(""))) {
+                                p.setNettoprzedkorekta(s.getNetto());
+                                lista.add(p);
+                            }
+                            niebylojeszcze = false;
+                            break;
+                        }
+                    }
+                }
+                if (niebylojeszcze) {
+                    lista.add(p);
+                }
+            }
+        }
+        for (VatUe s : staralista) {
+            if (s.getKontrahentnazwa()!=null) {
+                boolean bylojuzaleniema = true;
+                for (VatUe p : nowalista) {
+                    if (p.getKontrahentnazwa()!=null) {
+                        if (p.getKontrahentnazwa().equals(s.getKontrahentnazwa())) {
+                            bylojuzaleniema = false;
+                            break;
+                        }
+                    }
+                }
+                if (bylojuzaleniema) {
+                    double wartoscprzedkorekta = s.getNetto();
+                    s.setNettoprzedkorekta(wartoscprzedkorekta);
+                    s.setNetto(0.0);
+                    lista.add(s);
+                }
+            }
+        }
         return lista;
     }
 
