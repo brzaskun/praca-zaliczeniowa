@@ -17,6 +17,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -33,31 +35,37 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Naliczenieskladnikawynagrodzenia.findByKwotabezzus", query = "SELECT n FROM Naliczenieskladnikawynagrodzenia n WHERE n.kwotabezzus = :kwotabezzus"),
     @NamedQuery(name = "Naliczenieskladnikawynagrodzenia.findByKwotazus", query = "SELECT n FROM Naliczenieskladnikawynagrodzenia n WHERE n.kwotazus = :kwotazus")})
 public class Naliczenieskladnikawynagrodzenia implements Serializable {
-
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Column(name = "kwota")
-    private double kwota;
-    @Column(name = "kwotabezzus")
-    private double kwotabezzus;
-    @Column(name = "kwotabezzusbezpodatek")
-    private double kwotabezzusbezpodatek;
-    @Column(name = "kwotazus")
-    private double kwotazus;
-    @Column(name = "kwotazredukowana")
-    private double kwotazredukowana;
-    @Column(name = "ilezredukowano")
-    private double ilezredukowano;
-    @JoinColumn(name = "pasekwynagrodzen", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private Pasekwynagrodzen pasekwynagrodzen;
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
+    @Size(max = 10)
+    @NotNull
+    @Column(name = "dataod")
+    private String dataod;
+    @Size(max = 10)
+    @NotNull
+    @Column(name = "datado")
+    private String datado;
+    @Column(name = "kwotaumownazacalymc")
+    private double kwotaumownazacalymc;
+    @Column(name = "kwotazredukowana")
+    private double kwotazredukowana;
+    @Column(name = "kwotyredukujacesuma")
+    private double kwotyredukujacesuma;
+    @Column(name = "kwotadolistyplac")
+    private double kwotadolistyplac;
+    @Column(name = "ilezredukowano")
+    private double ilezredukowano;
+    @Column(name = "dninalezne")
+    private double dninalezne;
+    @Column(name = "dnifaktyczne")
+    private double dnifaktyczne;
+    @JoinColumn(name = "pasekwynagrodzen", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Pasekwynagrodzen pasekwynagrodzen;
     @JoinColumn(name = "skladnikwynagrodzenia", referencedColumnName = "id")
     @ManyToOne
     private Skladnikwynagrodzenia skladnikwynagrodzenia;
@@ -78,7 +86,13 @@ public class Naliczenieskladnikawynagrodzenia implements Serializable {
         this.id = id;
     }
 
-
+    public  boolean isZus0bezzus1() {
+        return this.skladnikwynagrodzenia.getRodzajwynagrodzenia().isZus0bezzus1();
+    }
+    
+    public boolean isPodatek0bezpodatek1() {
+        return this.skladnikwynagrodzenia.getRodzajwynagrodzenia().isPodatek0bezpodatek1();
+    }
     public Skladnikwynagrodzenia getSkladnikwynagrodzenia() {
         return skladnikwynagrodzenia;
     }
@@ -109,40 +123,52 @@ public class Naliczenieskladnikawynagrodzenia implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Naliczenieskladnikawynagrodzenia[ id=" + id + " ]";
+        return "Naliczenieskladnikawynagrodzenia{" + "dataod=" + dataod + ", datado=" + datado + ", kwotaumownazacalymc=" + kwotaumownazacalymc + ", kwotazredukowana=" + kwotazredukowana + ", kwotyredukujacesuma=" + kwotyredukujacesuma + ", kwotadolistyplac=" + kwotadolistyplac + ", ilezredukowano=" + ilezredukowano  + ", skladnikwynagrodzenia=" + skladnikwynagrodzenia.getRodzajwynagrodzenia().getKod() + '}';
     }
 
-    public double getKwota() {
-        return kwota;
+    
+   
+
+    public double getKwotaumownazacalymc() {
+        return kwotaumownazacalymc;
     }
 
-    public void setKwota(double kwota) {
-        this.kwota = kwota;
+    public void setKwotaumownazacalymc(double kwotaumownazacalymc) {
+        this.kwotaumownazacalymc = kwotaumownazacalymc;
     }
 
-    public double getKwotabezzus() {
-        return kwotabezzus;
+    public String getDatado() {
+        return datado;
     }
 
-    public void setKwotabezzus(double kwotabezzus) {
-        this.kwotabezzus = kwotabezzus;
+    public void setDatado(String datado) {
+        this.datado = datado;
     }
 
-    public double getKwotabezzusbezpodatek() {
-        return kwotabezzusbezpodatek;
+    public String getDataod() {
+        return dataod;
     }
 
-    public void setKwotabezzusbezpodatek(double kwotabezzusbezpodatek) {
-        this.kwotabezzusbezpodatek = kwotabezzusbezpodatek;
+    public void setDataod(String dataod) {
+        this.dataod = dataod;
     }
 
-    public double getKwotazus() {
-        return kwotazus;
+    public double getKwotyredukujacesuma() {
+        return kwotyredukujacesuma;
     }
 
-    public void setKwotazus(double kwotazus) {
-        this.kwotazus = kwotazus;
+    public void setKwotyredukujacesuma(double kwotyredukujacesuma) {
+        this.kwotyredukujacesuma = kwotyredukujacesuma;
     }
+
+    public double getKwotadolistyplac() {
+        return kwotadolistyplac;
+    }
+
+    public void setKwotadolistyplac(double kwotadolistyplac) {
+        this.kwotadolistyplac = kwotadolistyplac;
+    }
+
 
     public double getKwotazredukowana() {
         return kwotazredukowana;
@@ -166,6 +192,22 @@ public class Naliczenieskladnikawynagrodzenia implements Serializable {
 
     public void setPasekwynagrodzen(Pasekwynagrodzen pasekwynagrodzen) {
         this.pasekwynagrodzen = pasekwynagrodzen;
+    }
+
+    public double getDninalezne() {
+        return dninalezne;
+    }
+
+    public void setDninalezne(double dninalezne) {
+        this.dninalezne = dninalezne;
+    }
+
+    public double getDnifaktyczne() {
+        return dnifaktyczne;
+    }
+
+    public void setDnifaktyczne(double dnifaktyczne) {
+        this.dnifaktyczne = dnifaktyczne;
     }
 
     

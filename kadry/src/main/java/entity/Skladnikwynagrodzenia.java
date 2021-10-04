@@ -81,7 +81,13 @@ public class Skladnikwynagrodzenia implements Serializable {
         this.id = id;
     }
 
-
+    public  boolean isZus0bezzus1() {
+        return this.rodzajwynagrodzenia.isZus0bezzus1();
+    }
+    
+     public boolean isPodatek0bezpodatek1() {
+        return this.rodzajwynagrodzenia.isPodatek0bezpodatek1();
+    }
 
     @XmlTransient
     public List<Naliczenieskladnikawynagrodzenia> getNaliczenieskladnikawynagrodzeniaList() {

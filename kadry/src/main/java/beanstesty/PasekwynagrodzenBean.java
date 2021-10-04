@@ -199,7 +199,7 @@ public class PasekwynagrodzenBean {
         //KalendarzmiesiacBean.dodajnieobecnosc(kalendarz, urlopbezplatny, pasek);
         //urlop musi byc na samym koncu
         KalendarzmiesiacBean.dodajnieobecnosc(kalendarz, urlop, pasek);
-        KalendarzmiesiacBean.redukujskladnikistale(kalendarz, pasek);
+        //KalendarzmiesiacBean.redukujskladnikistale(kalendarz, pasek);
         //KalendarzmiesiacBean.naliczskladnikipotracenia(kalendarz, pasek);
         Definicjalistaplac definicjalistaplac = DefinicjalistaplacBean.create();
         pasek.setDefinicjalistaplac(definicjalistaplac);
@@ -224,11 +224,17 @@ public class PasekwynagrodzenBean {
             if (r.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getRedukowany()) {
                 System.out.println(r.getSkladnikwynagrodzenia().getUwagi()+" kwota zredukowana: "+Z.z(r.getKwotazredukowana()));
             } else {
-                System.out.println(r.getSkladnikwynagrodzenia().getUwagi()+" nieredukowany "+Z.z(r.getKwota()));
+                System.out.println(r.getSkladnikwynagrodzenia().getUwagi()+" nieredukowany "+Z.z(r.getKwotaumownazacalymc()));
             }
+            System.out.println("dni nalezne "+r.getDninalezne()+" faktyczne "+Z.z(r.getDnifaktyczne()));
         }
         for (Naliczenienieobecnosc r : pasek.getNaliczenienieobecnoscList()) {
-            System.out.println(r.getNieobecnosc().getNieobecnosckodzus().getOpisskrocony()+" od "+r.getSkladnikwynagrodzenia().getUwagi()+" "+Z.z(r.getKwota()));
+            if (r.getKwota()!=0.0 && r.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getRedukowany()) {
+                System.out.println(r.getNieobecnosc().getNieobecnosckodzus().getOpisskrocony()+" od "+r.getSkladnikwynagrodzenia().getUwagi()+" "+Z.z(r.getKwota()));
+            }
+            if (r.getKwotastatystyczna()!=0.0 && r.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getRedukowany()) {
+                System.out.println(r.getSkladnikwynagrodzenia().getUwagi()+" statystyczna redukcja za "+r.getNieobecnosc().getNieobecnosckodzus().getOpisskrocony()+" kwota "+Z.z(r.getKwotastatystyczna()));
+            }
             if (r.getKwotaredukcji()!=0.0 && r.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getRedukowany()) {
                 System.out.println(r.getSkladnikwynagrodzenia().getUwagi()+" redukcja za "+r.getNieobecnosc().getNieobecnosckodzus().getOpisskrocony()+" kwota redukcji "+Z.z(r.getKwotaredukcji()));
             }
@@ -252,10 +258,8 @@ public class PasekwynagrodzenBean {
     private static void obliczbruttozus(Pasekwynagrodzen pasek) {
         double bruttozus = 0.0;
         for (Naliczenieskladnikawynagrodzenia p : pasek.getNaliczenieskladnikawynagrodzeniaList()) {
-            if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getRedukowany()) {
-                bruttozus = Z.z(bruttozus+p.getKwotazredukowana());
-            } else {
-                bruttozus = Z.z(bruttozus+p.getKwotazus());
+            if (p.isZus0bezzus1()==false) {
+                bruttozus = Z.z(bruttozus+p.getKwotadolistyplac());
             }
         }
         for (Naliczenienieobecnosc p : pasek.getNaliczenienieobecnoscList()) {
@@ -268,7 +272,9 @@ public class PasekwynagrodzenBean {
     private static void obliczbruttobezzus(Pasekwynagrodzen pasek) {
         double bruttobezzus = 0.0;
         for (Naliczenieskladnikawynagrodzenia p : pasek.getNaliczenieskladnikawynagrodzeniaList()) {
-            bruttobezzus = Z.z(bruttobezzus+p.getKwotabezzus());
+            if (p.isZus0bezzus1()==true) {
+                bruttobezzus = Z.z(bruttobezzus+p.getKwotadolistyplac());
+            }
         }
         for (Naliczenienieobecnosc p : pasek.getNaliczenienieobecnoscList()) {
             bruttobezzus = Z.z(bruttobezzus+p.getKwotabezzus());
@@ -280,7 +286,9 @@ public class PasekwynagrodzenBean {
     private static void obliczbruttobezzusbezpodatek(Pasekwynagrodzen pasek) {
         double bruttobezzusbezpodatek = 0.0;
         for (Naliczenieskladnikawynagrodzenia p : pasek.getNaliczenieskladnikawynagrodzeniaList()) {
-            bruttobezzusbezpodatek = Z.z(bruttobezzusbezpodatek+p.getKwotabezzusbezpodatek());
+            if (p.isPodatek0bezpodatek1()==true) {
+                bruttobezzusbezpodatek = Z.z(bruttobezzusbezpodatek+p.getKwotadolistyplac());
+            }
         }
         pasek.setBruttobezzusbezpodatek(bruttobezzusbezpodatek);
         pasek.setBrutto(Z.z(pasek.getBrutto()+bruttobezzusbezpodatek));
@@ -549,7 +557,7 @@ public class PasekwynagrodzenBean {
             if (p.getKwotazredukowana()!=0.0) {
                 suma = suma +p.getKwotazredukowana();
             } else {
-                suma = suma +p.getKwota();
+                suma = suma +p.getKwotaumownazacalymc();
             }
         }
         return suma;
@@ -559,9 +567,10 @@ public class PasekwynagrodzenBean {
         for (Naliczenieskladnikawynagrodzenia p : naliczenieskladnikawynagrodzeniaList) {
             //to trzeba bedzie zmienic!!!!! bo nie ma polksiego wyn
             if (p.getSkladnikwynagrodzenia().isOddelegowanie()) {
-                if (p.getKwota()>=kwotabezzzus) {
-                    p.setKwotazus(Z.z(p.getKwota()-kwotabezzzus));
-                    p.setKwotabezzus(kwotabezzzus);
+                if (p.getKwotaumownazacalymc()>=kwotabezzzus) {
+//                    p.setKwotazus(Z.z(p.getKwotaumownazacalymc()-kwotabezzzus));
+//                    p.setKwotabezzus(kwotabezzzus);
+                      p.setKwotadolistyplac(99999999);
                 }
             }
         }
@@ -594,7 +603,7 @@ public class PasekwynagrodzenBean {
     private static void doliczbezzusbezpodatek(Pasekwynagrodzen pasek) {
         double bruttobezzusbezpodatek = 0.0;
         for (Naliczenieskladnikawynagrodzenia p : pasek.getNaliczenieskladnikawynagrodzeniaList()) {
-            bruttobezzusbezpodatek = Z.z(bruttobezzusbezpodatek+p.getKwotabezzusbezpodatek());
+            //bruttobezzusbezpodatek = Z.z(bruttobezzusbezpodatek+p.getKwotabezzusbezpodatek());
         }
         pasek.setNetto(Z.z(pasek.getNetto())+bruttobezzusbezpodatek);
     }

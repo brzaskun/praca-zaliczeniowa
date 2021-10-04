@@ -29,7 +29,15 @@ public class NieobecnosciBean {
         }
         return choroba;
     }
-    
+     public static Nieobecnosc createChoroba2() {
+        if (choroba2==null) {
+           choroba2 = new Nieobecnosc();
+           choroba2.setDataod("2020-12-15");
+           choroba2.setDatado("2020-12-17");
+           choroba2.setNieobecnosckodzus(NieobecnosckodzusBean.createChoroba());
+        }
+        return choroba2;
+    }
     public static Nieobecnosc createKorektakalendarzaGora() {
         if (korektakalendarzagora==null) {
            korektakalendarzagora = new Nieobecnosc();
@@ -50,15 +58,7 @@ public class NieobecnosciBean {
         return korektakalendarzadol;
     }
     
-    public static Nieobecnosc createChoroba2() {
-        if (choroba2==null) {
-           choroba2 = new Nieobecnosc();
-           choroba2.setDataod("2020-12-15");
-           choroba2.setDatado("2020-12-17");
-           choroba2.setNieobecnosckodzus(NieobecnosckodzusBean.createChoroba());
-        }
-        return choroba2;
-    }
+   
     
     public static Nieobecnosc createUrlop() {
         if (urlop==null) {

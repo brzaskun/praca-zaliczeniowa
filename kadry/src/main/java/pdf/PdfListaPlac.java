@@ -233,8 +233,8 @@ public class PdfListaPlac {
             table.addCell(ustawfrazeAlign(String.valueOf(i++), "left",6,10f));
             table.addCell(ustawfrazeAlign(rs.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod(), "left",6));
             table.addCell(ustawfrazeAlign(rs.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getOpisskrocony(), "left",6));
-            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKwotazus()), "right",6));
-            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKwotabezzus()), "right",6));
+            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKwotadolistyplac()), "right",6));
+            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKwotaumownazacalymc()), "right",6));
             table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKwotazredukowana()), "left",6));
         }
         for (Naliczenienieobecnosc rs : wykaznieob) {
@@ -263,27 +263,27 @@ public class PdfListaPlac {
                     sb.append(rs.getSkladnikwynagrodzenia().getUwagi());
                     sb.append(" ");
                 }
-                if (Z.z(rs.getKwotazredukowana())!=0.0&&Z.z(rs.getKwotazredukowana())!=Z.z(rs.getKwota())) {
-                    sb.append(formatujWaluta(rs.getKwotazredukowana()));
-                    sb.append(";  ");
-                } else {
-                    if (Z.z(rs.getKwotazus())!=0.0) {
-                        sb.append("kwZus/ ");
-                        sb.append(formatujWaluta(rs.getKwotazus()));
-                        sb.append("; ");
-                    }
-                    if (Z.z(rs.getKwotabezzus())!=0.0) {
-                        sb.append("kwBezZus/ ");
-                        sb.append(formatujWaluta(rs.getKwotabezzus()));
-                        sb.append("; ");
-                    } 
-                    if (Z.z(rs.getKwotabezzusbezpodatek())!=0.0) {
-                        sb.append("kwBezZus/ ");
-                        sb.append(formatujWaluta(rs.getKwotabezzusbezpodatek()));
-                        sb.append("; ");
-                    } 
-
-                }
+//                if (Z.z(rs.getKwotazredukowana())!=0.0&&Z.z(rs.getKwotazredukowana())!=Z.z(rs.getKwotaumownazacalymc())) {
+//                    sb.append(formatujWaluta(rs.getKwotazredukowana()));
+//                    sb.append(";  ");
+//                } else {
+//                    if (Z.z(rs.getKwotazus())!=0.0) {
+//                        sb.append("kwZus/ ");
+//                        sb.append(formatujWaluta(rs.getKwotazus()));
+//                        sb.append("; ");
+//                    }
+//                    if (Z.z(rs.getKwotabezzus())!=0.0) {
+//                        sb.append("kwBezZus/ ");
+//                        sb.append(formatujWaluta(rs.getKwotabezzus()));
+//                        sb.append("; ");
+//                    } 
+//                    if (Z.z(rs.getKwotabezzusbezpodatek())!=0.0) {
+//                        sb.append("kwBezZus/ ");
+//                        sb.append(formatujWaluta(rs.getKwotabezzusbezpodatek()));
+//                        sb.append("; ");
+//                    } 
+//
+//                }
             }
         }
         for (Naliczenienieobecnosc rs : wykaznieob) {

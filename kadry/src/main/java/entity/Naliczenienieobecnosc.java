@@ -142,9 +142,11 @@ private double kwota;
 
     @Override
     public String toString() {
-        return "entity.Naliczenienieobecnosc[ id=" + id + " ]";
+        String dane = this.skladnikwynagrodzenia.getId()!=null?String.valueOf(this.skladnikwynagrodzenia.getId()):this.skladnikwynagrodzenia.getRodzajwynagrodzenia().getKod();
+        return "Naliczenienieobecnosc{" + "kwota=" + kwota + ", kwotastatystyczna=" + kwotastatystyczna + ", kwotabezzus=" + kwotabezzus + ", kwotazus=" + kwotazus + ", skladnikistale=" + skladnikistale + ", procentzazwolnienie=" + procentzazwolnienie + ", stawkadzienna=" + stawkadzienna + ", stawkadziennaredukcji=" + stawkadziennaredukcji + ", kwotaredukcji=" + kwotaredukcji + ", skladnikwynagrodzenia=" + dane + ", jakiskladnikredukowalny=" + jakiskladnikredukowalny + '}';
     }
 
+   
     public double getKwota() {
         return kwota;
     }

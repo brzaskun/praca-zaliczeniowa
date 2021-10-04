@@ -65,6 +65,7 @@ public class Rodzajwynagrodzenia implements Serializable {
     private  boolean godzinowe0miesieczne1;
     @Column(name = "redukowany")
     private  boolean redukowany;
+    //jest zus 0 bo to reguła, a z reguły boolean jest false
     @Column(name = "zus0bezzus1")
     private  boolean zus0bezzus1;
     @Column(name = "podatek0bezpodatek1")
@@ -182,7 +183,7 @@ public class Rodzajwynagrodzenia implements Serializable {
         this.redukowany = redukowany;
     }
 
-    public  boolean getZus0bezzus1() {
+    public  boolean isZus0bezzus1() {
         return zus0bezzus1;
     }
 

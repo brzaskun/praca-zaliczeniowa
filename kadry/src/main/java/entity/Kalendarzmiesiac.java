@@ -106,6 +106,22 @@ private static final long serialVersionUID = 1L;
         }
     }
     
+    public String getPierwszyDzien() {
+        String zwrot = null;
+        if (this.dzienList!=null) {
+            zwrot = this.dzienList.get(0).getDatastring();
+        }
+        return zwrot;
+    }
+    
+    public String getOstatniDzien() {
+        String zwrot = null;
+        if (this.dzienList!=null) {
+            zwrot = this.dzienList.get(this.dzienList.size()-1).getDatastring();
+        }
+        return zwrot;
+    }
+      
     public Integer getId() {
         return id;
     }

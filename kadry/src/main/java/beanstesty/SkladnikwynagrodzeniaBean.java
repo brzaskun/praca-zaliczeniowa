@@ -26,6 +26,7 @@ public class SkladnikwynagrodzeniaBean {
             skladnikwynagrodzenia.setUwagi("wynagrodzenie zasadnicze");
             skladnikwynagrodzenia.setUmowa(UmowaBean.create());
             skladnikwynagrodzenia.getZmiennawynagrodzeniaList().add(ZmiennawynagrodzeniaBean.createWynagrodzenie(skladnikwynagrodzenia));
+            skladnikwynagrodzenia.getZmiennawynagrodzeniaList().add(ZmiennawynagrodzeniaBean.createWynagrodzenie2(skladnikwynagrodzenia));
         }
         return skladnikwynagrodzenia;
     }

@@ -145,8 +145,8 @@ public class PdfKartaWynagrodzen {
             table.addCell(ustawfrazeAlign(String.valueOf(i++), "left",6,10f));
             table.addCell(ustawfrazeAlign(rs.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod(), "left",6));
             table.addCell(ustawfrazeAlign(rs.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getOpisskrocony(), "left",6));
-            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKwotazus()), "right",6));
-            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKwotabezzus()), "right",6));
+            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKwotadolistyplac()), "right",6));
+            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKwotaumownazacalymc()), "right",6));
             table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKwotazredukowana()), "left",6));
         }
         for (Naliczenienieobecnosc rs : wykaznieob) {
@@ -175,18 +175,18 @@ public class PdfKartaWynagrodzen {
                     sb.append(rs.getSkladnikwynagrodzenia().getUwagi());
                     sb.append(" ");
                 }
-                if (Z.z(rs.getKwotazredukowana())!=0.0&&Z.z(rs.getKwotazredukowana())!=Z.z(rs.getKwota())) {
-                    sb.append(formatujWaluta(rs.getKwotazredukowana()));
+                if (Z.z(rs.getKwotadolistyplac())!=0.0&&Z.z(rs.getKwotazredukowana())!=Z.z(rs.getKwotaumownazacalymc())) {
+                    sb.append(formatujWaluta(rs.getKwotadolistyplac()));
                     sb.append(";  ");
                 } else {
-                    if (Z.z(rs.getKwotazus())!=0.0) {
-                        sb.append("kwZus/ ");
-                        sb.append(formatujWaluta(rs.getKwotazus()));
+                    if (Z.z(rs.getKwotazredukowana())!=0.0) {
+                        sb.append("kwRed/ ");
+                        sb.append(formatujWaluta(rs.getKwotazredukowana()));
                         sb.append("; ");
                     }
-                    if (Z.z(rs.getKwotabezzus())!=0.0) {
-                        sb.append("kwBezZus/ ");
-                        sb.append(formatujWaluta(rs.getKwotabezzus()));
+                    if (Z.z(rs.getKwotaumownazacalymc())!=0.0) {
+                        sb.append("kwUmow/ ");
+                        sb.append(formatujWaluta(rs.getKwotaumownazacalymc()));
                         sb.append("; ");
                     } 
 

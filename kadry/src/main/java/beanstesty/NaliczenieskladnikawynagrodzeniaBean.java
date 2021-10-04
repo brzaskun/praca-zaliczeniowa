@@ -26,30 +26,34 @@ public class NaliczenieskladnikawynagrodzeniaBean {
     public static Naliczenieskladnikawynagrodzenia naliczenieskladnikanadgodziny100;
     
     public static Naliczenieskladnikawynagrodzenia createWynagrodzenie() {
-        if (naliczenieskladnikawynagrodzenia == null) {
+        //jak bedzie spawdzal czy null to zwroci to samo i beda dwie laczone przez referencje. zmiana kwoty jednej zmieni kwote drugiej
             naliczenieskladnikawynagrodzenia = new Naliczenieskladnikawynagrodzenia();
             naliczenieskladnikawynagrodzenia.setPasekwynagrodzen(PasekwynagrodzenBean.create());
-            naliczenieskladnikawynagrodzenia.setKwota(2800.0);
-            naliczenieskladnikawynagrodzenia.setKwotabezzus(0.0);
-            naliczenieskladnikawynagrodzenia.setKwotazus(2800.0);
-            naliczenieskladnikawynagrodzenia.setKwotazredukowana(2800.0);
+            naliczenieskladnikawynagrodzenia.setKwotaumownazacalymc(0.0);
+            naliczenieskladnikawynagrodzenia.setKwotadolistyplac(0.0);
+            naliczenieskladnikawynagrodzenia.setKwotazredukowana(0.0);
             naliczenieskladnikawynagrodzenia.setSkladnikwynagrodzenia(SkladnikwynagrodzeniaBean.createWynagrodzenie());
-        }
         return naliczenieskladnikawynagrodzenia;
+    }
+    
+//Przepisy o charakterze powszechnym nie regulują metody obliczania wynagrodzenia w omawianych okolicznościach. Ogólnie przyjęta praktyka odwołuje się w tym zakresie do przepisu § 12 rozporządzenia o wynagrodzeniu. 
+//Według powołanej regulacji w celu obliczenia wynagrodzenia, ustalonego w stawce miesięcznej w stałej wysokości, za przepracowaną część miesiąca, jeżeli pracownik nie przepracował pełnego miesiąca z uwagi na absencję "niezasiłkową":
+//a) miesięczną stawkę wynagrodzenia dzieli się przez liczbę godzin przypadających do przepracowania w danym miesiącu, następnie
+//b) otrzymaną kwotę mnoży się przez liczbę godzin nieprzepracowanych, dalej
+//obliczoną kwotę wynagrodzenia odejmuje się od wynagrodzenia przysługującego za cały miesiąc.
+//Niektórzy autorzy stosują powołany wyżej przepis w pełnym zakresie. Jednak większość praktyków poprzestaje na etapie ustalenia stawki godzinowej, aby następnie pomnożyć ją przez ilość godzin przepracowanych podczas obowiązywania tej stawki. 
+//Ten drugi sposób pośrednio popiera PIP (znak pisma: GPP-471-4560-24/09/PE/RP) w swojej opinii dotyczącej obliczania wynagrodzenia po zmianie wymiaru czasu pracy.
+    
+    private static double obliczproporcjekwoty(Zmiennawynagrodzenia p) {
+       return 0.0; 
     }
     
     public static Naliczenieskladnikawynagrodzenia createWynagrodzenieDBZlecenie(Pasekwynagrodzen pasekwynagrodzen, Skladnikwynagrodzenia skladnikwynagrodzenia, List<Dzien> listadni, double kurs, Rachunekdoumowyzlecenia rachunekdoumowyzlecenia) {
         Naliczenieskladnikawynagrodzenia zwrot = new Naliczenieskladnikawynagrodzenia();
         double zmiennawynagrodzeniakwota = rachunekdoumowyzlecenia.getKwota();
         zwrot.setPasekwynagrodzen(pasekwynagrodzen);
-        zwrot.setKwota(zmiennawynagrodzeniakwota);
-        if (rachunekdoumowyzlecenia.getSpoleczne()==true)  {
-            zwrot.setKwotazus(zmiennawynagrodzeniakwota);
-        } else if (rachunekdoumowyzlecenia.getPodatek()==false) {
-            zwrot.setKwotabezzusbezpodatek(zmiennawynagrodzeniakwota);
-        } else {
-            zwrot.setKwotabezzus(zmiennawynagrodzeniakwota);
-        }
+        zwrot.setKwotaumownazacalymc(zmiennawynagrodzeniakwota);
+        zwrot.setKwotadolistyplac(zmiennawynagrodzeniakwota);
         zwrot.setKwotazredukowana(zmiennawynagrodzeniakwota);
         zwrot.setSkladnikwynagrodzenia(skladnikwynagrodzenia);
         return zwrot;
@@ -80,10 +84,8 @@ public class NaliczenieskladnikawynagrodzeniaBean {
             }
         }
         zwrot.setPasekwynagrodzen(pasekwynagrodzen);
-        zwrot.setKwota(zmiennawynagrodzeniakwota);
-        zwrot.setKwotabezzus(0.0);
-        zwrot.setKwotabezzusbezpodatek(0.0);
-        zwrot.setKwotazus(zmiennawynagrodzeniakwota);
+        zwrot.setKwotaumownazacalymc(zmiennawynagrodzeniakwota);
+        zwrot.setKwotadolistyplac(zmiennawynagrodzeniakwota);
         zwrot.setKwotazredukowana(zmiennawynagrodzeniakwota);
         zwrot.setSkladnikwynagrodzenia(skladnikwynagrodzenia);
         return zwrot;
@@ -93,9 +95,8 @@ public class NaliczenieskladnikawynagrodzeniaBean {
         if (naliczenieskladnikapremia == null) {
             naliczenieskladnikapremia = new Naliczenieskladnikawynagrodzenia();
             naliczenieskladnikapremia.setPasekwynagrodzen(PasekwynagrodzenBean.create());
-            naliczenieskladnikapremia.setKwota(100.0);
-            naliczenieskladnikapremia.setKwotabezzus(0.0);
-            naliczenieskladnikapremia.setKwotazus(100.0);
+            naliczenieskladnikapremia.setKwotaumownazacalymc(100.0);
+            naliczenieskladnikapremia.setKwotadolistyplac(100.0);
             naliczenieskladnikapremia.setKwotazredukowana(100.0);
             naliczenieskladnikapremia.setSkladnikwynagrodzenia(SkladnikwynagrodzeniaBean.createPremiaUznaniowa());
         }
@@ -112,10 +113,8 @@ public class NaliczenieskladnikawynagrodzeniaBean {
                 }
             }
             zwrot.setPasekwynagrodzen(pasekwynagrodzen);
-            zwrot.setKwota(zmiennawynagrodzeniakwota);
-            zwrot.setKwotabezzus(0.0);
-            zwrot.setKwotabezzusbezpodatek(0.0);
-            zwrot.setKwotazus(zmiennawynagrodzeniakwota);
+            zwrot.setKwotaumownazacalymc(zmiennawynagrodzeniakwota);
+            zwrot.setKwotadolistyplac(0.0);
             zwrot.setKwotazredukowana(zmiennawynagrodzeniakwota);
             zwrot.setSkladnikwynagrodzenia(skladnikwynagrodzenia);
         return zwrot;
@@ -127,9 +126,8 @@ public class NaliczenieskladnikawynagrodzeniaBean {
         if (naliczenieskladnikanadgodziny50 == null) {
             naliczenieskladnikanadgodziny50 = new Naliczenieskladnikawynagrodzenia();
             naliczenieskladnikanadgodziny50.setPasekwynagrodzen(PasekwynagrodzenBean.create());
-            naliczenieskladnikanadgodziny50.setKwota(100.0);
-            naliczenieskladnikanadgodziny50.setKwotabezzus(0.0);
-            naliczenieskladnikanadgodziny50.setKwotazus(100.0);
+            naliczenieskladnikanadgodziny50.setKwotaumownazacalymc(100.0);
+            naliczenieskladnikanadgodziny50.setKwotadolistyplac(100.0);
             naliczenieskladnikanadgodziny50.setKwotazredukowana(100.0);
             naliczenieskladnikanadgodziny50.setSkladnikwynagrodzenia(SkladnikwynagrodzeniaBean.createNadgodziny50());
         }
@@ -140,9 +138,8 @@ public class NaliczenieskladnikawynagrodzeniaBean {
         if (naliczenieskladnikanadgodziny100 == null) {
             naliczenieskladnikanadgodziny100 = new Naliczenieskladnikawynagrodzenia();
             naliczenieskladnikanadgodziny100.setPasekwynagrodzen(PasekwynagrodzenBean.create());
-            naliczenieskladnikanadgodziny100.setKwota(100.0);
-            naliczenieskladnikanadgodziny100.setKwotabezzus(0.0);
-            naliczenieskladnikanadgodziny100.setKwotazus(100.0);
+            naliczenieskladnikanadgodziny100.setKwotaumownazacalymc(100.0);
+            naliczenieskladnikanadgodziny100.setKwotadolistyplac(100.0);
             naliczenieskladnikanadgodziny100.setKwotazredukowana(100.0);
             naliczenieskladnikanadgodziny100.setSkladnikwynagrodzenia(SkladnikwynagrodzeniaBean.createNadgodziny100());
         }
@@ -158,10 +155,8 @@ public class NaliczenieskladnikawynagrodzeniaBean {
                     if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod().equals("90")) {
                         zmiennawynagrodzeniakwota = p.getKwota();
                         zwrot.setPasekwynagrodzen(pasekwynagrodzen);
-                        zwrot.setKwota(zmiennawynagrodzeniakwota);
-                        zwrot.setKwotabezzus(0.0);
-                        zwrot.setKwotabezzusbezpodatek(zmiennawynagrodzeniakwota);
-                        zwrot.setKwotazus(0.0);
+                        zwrot.setKwotaumownazacalymc(zmiennawynagrodzeniakwota);
+                        zwrot.setKwotadolistyplac(zmiennawynagrodzeniakwota);
                         zwrot.setKwotazredukowana(zmiennawynagrodzeniakwota);
                         zwrot.setSkladnikwynagrodzenia(skladnikwynagrodzenia);
                     }
@@ -170,5 +165,7 @@ public class NaliczenieskladnikawynagrodzeniaBean {
             
         return zwrot;
     }
+
+    
     
 }
