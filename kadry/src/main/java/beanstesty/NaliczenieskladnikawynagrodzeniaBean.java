@@ -31,7 +31,7 @@ public class NaliczenieskladnikawynagrodzeniaBean {
             naliczenieskladnikawynagrodzenia.setPasekwynagrodzen(PasekwynagrodzenBean.create());
             naliczenieskladnikawynagrodzenia.setKwotaumownazacalymc(0.0);
             naliczenieskladnikawynagrodzenia.setKwotadolistyplac(0.0);
-            naliczenieskladnikawynagrodzenia.setKwotazredukowana(0.0);
+            naliczenieskladnikawynagrodzenia.setKwotyredukujacesuma(0.0);
             naliczenieskladnikawynagrodzenia.setSkladnikwynagrodzenia(SkladnikwynagrodzeniaBean.createWynagrodzenie());
         return naliczenieskladnikawynagrodzenia;
     }
@@ -54,7 +54,6 @@ public class NaliczenieskladnikawynagrodzeniaBean {
         zwrot.setPasekwynagrodzen(pasekwynagrodzen);
         zwrot.setKwotaumownazacalymc(zmiennawynagrodzeniakwota);
         zwrot.setKwotadolistyplac(zmiennawynagrodzeniakwota);
-        zwrot.setKwotazredukowana(zmiennawynagrodzeniakwota);
         zwrot.setSkladnikwynagrodzenia(skladnikwynagrodzenia);
         return zwrot;
     }
@@ -86,7 +85,6 @@ public class NaliczenieskladnikawynagrodzeniaBean {
         zwrot.setPasekwynagrodzen(pasekwynagrodzen);
         zwrot.setKwotaumownazacalymc(zmiennawynagrodzeniakwota);
         zwrot.setKwotadolistyplac(zmiennawynagrodzeniakwota);
-        zwrot.setKwotazredukowana(zmiennawynagrodzeniakwota);
         zwrot.setSkladnikwynagrodzenia(skladnikwynagrodzenia);
         return zwrot;
     }
@@ -97,7 +95,6 @@ public class NaliczenieskladnikawynagrodzeniaBean {
             naliczenieskladnikapremia.setPasekwynagrodzen(PasekwynagrodzenBean.create());
             naliczenieskladnikapremia.setKwotaumownazacalymc(100.0);
             naliczenieskladnikapremia.setKwotadolistyplac(100.0);
-            naliczenieskladnikapremia.setKwotazredukowana(100.0);
             naliczenieskladnikapremia.setSkladnikwynagrodzenia(SkladnikwynagrodzeniaBean.createPremiaUznaniowa());
         }
         return naliczenieskladnikapremia;
@@ -115,7 +112,6 @@ public class NaliczenieskladnikawynagrodzeniaBean {
             zwrot.setPasekwynagrodzen(pasekwynagrodzen);
             zwrot.setKwotaumownazacalymc(zmiennawynagrodzeniakwota);
             zwrot.setKwotadolistyplac(0.0);
-            zwrot.setKwotazredukowana(zmiennawynagrodzeniakwota);
             zwrot.setSkladnikwynagrodzenia(skladnikwynagrodzenia);
         return zwrot;
     }
@@ -128,7 +124,6 @@ public class NaliczenieskladnikawynagrodzeniaBean {
             naliczenieskladnikanadgodziny50.setPasekwynagrodzen(PasekwynagrodzenBean.create());
             naliczenieskladnikanadgodziny50.setKwotaumownazacalymc(100.0);
             naliczenieskladnikanadgodziny50.setKwotadolistyplac(100.0);
-            naliczenieskladnikanadgodziny50.setKwotazredukowana(100.0);
             naliczenieskladnikanadgodziny50.setSkladnikwynagrodzenia(SkladnikwynagrodzeniaBean.createNadgodziny50());
         }
         return naliczenieskladnikanadgodziny50;
@@ -140,7 +135,6 @@ public class NaliczenieskladnikawynagrodzeniaBean {
             naliczenieskladnikanadgodziny100.setPasekwynagrodzen(PasekwynagrodzenBean.create());
             naliczenieskladnikanadgodziny100.setKwotaumownazacalymc(100.0);
             naliczenieskladnikanadgodziny100.setKwotadolistyplac(100.0);
-            naliczenieskladnikanadgodziny100.setKwotazredukowana(100.0);
             naliczenieskladnikanadgodziny100.setSkladnikwynagrodzenia(SkladnikwynagrodzeniaBean.createNadgodziny100());
         }
         return naliczenieskladnikanadgodziny100;
@@ -157,7 +151,6 @@ public class NaliczenieskladnikawynagrodzeniaBean {
                         zwrot.setPasekwynagrodzen(pasekwynagrodzen);
                         zwrot.setKwotaumownazacalymc(zmiennawynagrodzeniakwota);
                         zwrot.setKwotadolistyplac(zmiennawynagrodzeniakwota);
-                        zwrot.setKwotazredukowana(zmiennawynagrodzeniakwota);
                         zwrot.setSkladnikwynagrodzenia(skladnikwynagrodzenia);
                     }
                 }

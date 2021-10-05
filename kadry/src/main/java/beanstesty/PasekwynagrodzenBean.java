@@ -178,12 +178,12 @@ public class PasekwynagrodzenBean {
      public static void main (String[] args) {
         Kalendarzwzor kalendarzwzor = KalendarzWzorBean.create();
         Kalendarzmiesiac kalendarz = KalendarzmiesiacBean.create();
-        Nieobecnosc korektakalendarzagora = NieobecnosciBean.createKorektakalendarzaGora();
+        //Nieobecnosc korektakalendarzagora = NieobecnosciBean.createKorektakalendarzaGora();
         Nieobecnosc korektakalendarzadol = NieobecnosciBean.createKorektakalendarzaDol();
         Nieobecnosc choroba = NieobecnosciBean.createChoroba();
         Nieobecnosc choroba2 = NieobecnosciBean.createChoroba2();
         Nieobecnosc urlop = NieobecnosciBean.createUrlop();
-        //Nieobecnosc urlopbezplatny = NieobecnosciBean.createUrlopBezplatny();
+        Nieobecnosc urlopbezplatny = NieobecnosciBean.createUrlopBezplatny();
         Pasekwynagrodzen pasek = create();
         pasek.setKalendarzmiesiac(kalendarz);
         kalendarz.getPasekwynagrodzenList().add(pasek);
@@ -192,14 +192,16 @@ public class PasekwynagrodzenBean {
         //KalendarzmiesiacBean.nalicznadgodziny100(kalendarz);
         //najpierw musimy przyporzadkowac aktualne skladniki, aby potem prawidlowo obliczyc redukcje
         //korekta kalendarza musi byc na poczatku
-        KalendarzmiesiacBean.dodajnieobecnosc(kalendarz, korektakalendarzagora, pasek);
+        //KalendarzmiesiacBean.dodajnieobecnosc(kalendarz, korektakalendarzagora, pasek);
         KalendarzmiesiacBean.dodajnieobecnosc(kalendarz, korektakalendarzadol, pasek);
         KalendarzmiesiacBean.dodajnieobecnosc(kalendarz, choroba, pasek);
         KalendarzmiesiacBean.dodajnieobecnosc(kalendarz, choroba2, pasek);
-        //KalendarzmiesiacBean.dodajnieobecnosc(kalendarz, urlopbezplatny, pasek);
+        KalendarzmiesiacBean.dodajnieobecnosc(kalendarz, urlopbezplatny, pasek);
         //urlop musi byc na samym koncu
+        
+        KalendarzmiesiacBean.redukujskladnikistale(kalendarz, pasek);
         KalendarzmiesiacBean.dodajnieobecnosc(kalendarz, urlop, pasek);
-        //KalendarzmiesiacBean.redukujskladnikistale(kalendarz, pasek);
+        KalendarzmiesiacBean.redukujskladnikistale2(kalendarz, pasek);
         //KalendarzmiesiacBean.naliczskladnikipotracenia(kalendarz, pasek);
         Definicjalistaplac definicjalistaplac = DefinicjalistaplacBean.create();
         pasek.setDefinicjalistaplac(definicjalistaplac);
@@ -222,7 +224,7 @@ public class PasekwynagrodzenBean {
         System.out.println("****************");
         for (Naliczenieskladnikawynagrodzenia r : pasek.getNaliczenieskladnikawynagrodzeniaList()) {
             if (r.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getRedukowany()) {
-                System.out.println(r.getSkladnikwynagrodzenia().getUwagi()+" kwota zredukowana: "+Z.z(r.getKwotazredukowana()));
+                System.out.println(r.getSkladnikwynagrodzenia().getUwagi()+" kwota do listy płac: "+Z.z(r.getKwotadolistyplac()));
             } else {
                 System.out.println(r.getSkladnikwynagrodzenia().getUwagi()+" nieredukowany "+Z.z(r.getKwotaumownazacalymc()));
             }
@@ -554,8 +556,8 @@ public class PasekwynagrodzenBean {
         double suma = 0.0;
         for (Naliczenieskladnikawynagrodzenia p : naliczenieskladnikawynagrodzeniaList) {
             //to trzeba bedzie zmienic!!!!! bo nie ma polksiego wyn
-            if (p.getKwotazredukowana()!=0.0) {
-                suma = suma +p.getKwotazredukowana();
+            if (p.getKwotadolistyplac()!=0.0) {
+                suma = suma +p.getKwotadolistyplac();
             } else {
                 suma = suma +p.getKwotaumownazacalymc();
             }

@@ -60,7 +60,7 @@ import z.Z;
     @NamedQuery(name = "Pasekwynagrodzen.findByRentowe", query = "SELECT p FROM Pasekwynagrodzen p WHERE p.rentowe = :rentowe"),
     @NamedQuery(name = "Pasekwynagrodzen.findByWypadkowe", query = "SELECT p FROM Pasekwynagrodzen p WHERE p.wypadkowe = :wypadkowe")})
 public class Pasekwynagrodzen implements Serializable {
-
+    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
@@ -139,13 +139,10 @@ public class Pasekwynagrodzen implements Serializable {
     private Integer dniobowiazku;
     @Column(name = "dniprzepracowane")
     private Integer dniprzepracowane;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pasekwynagrodzen", orphanRemoval = true)
-    private List<Naliczeniepotracenie> naliczeniepotracenieList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pasekwynagrodzen", orphanRemoval = true)
-    private List<Naliczenieskladnikawynagrodzenia> naliczenieskladnikawynagrodzeniaList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pasekwynagrodzen", orphanRemoval = true)
-    private List<Naliczenienieobecnosc> naliczenienieobecnoscList;
-    private static final long serialVersionUID = 1L;
+    @Column(name = "godzinyobowiazku")
+    private Integer godzinyobowiazku;
+    @Column(name = "godzinyprzepracowane")
+    private Integer godzinyprzepracowane;
     @JoinColumn(name = "definicjalistaplac", referencedColumnName = "id")
     @ManyToOne
     private Definicjalistaplac definicjalistaplac;
@@ -162,6 +159,12 @@ public class Pasekwynagrodzen implements Serializable {
     private double wynagrodzenieminimalne;
     @OneToMany(mappedBy = "pasekwynagrodzen")
     private List<Rachunekdoumowyzlecenia> rachunekdoumowyzleceniaList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pasekwynagrodzen", orphanRemoval = true)
+    private List<Naliczeniepotracenie> naliczeniepotracenieList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pasekwynagrodzen", orphanRemoval = true)
+    private List<Naliczenieskladnikawynagrodzenia> naliczenieskladnikawynagrodzeniaList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pasekwynagrodzen", orphanRemoval = true)
+    private List<Naliczenienieobecnosc> naliczenienieobecnoscList;
 
     
     public Pasekwynagrodzen() {
@@ -386,6 +389,22 @@ public class Pasekwynagrodzen implements Serializable {
 
     public double getKwotawolna() {
         return kwotawolna;
+    }
+
+    public Integer getGodzinyobowiazku() {
+        return godzinyobowiazku;
+    }
+
+    public void setGodzinyobowiazku(Integer godzinyobowiazku) {
+        this.godzinyobowiazku = godzinyobowiazku;
+    }
+
+    public Integer getGodzinyprzepracowane() {
+        return godzinyprzepracowane;
+    }
+
+    public void setGodzinyprzepracowane(Integer godzinyprzepracowane) {
+        this.godzinyprzepracowane = godzinyprzepracowane;
     }
 
     public void setKwotawolna(double kwotawolna) {
@@ -675,7 +694,7 @@ public class Pasekwynagrodzen implements Serializable {
                 wiersz.lp = i++;
                 wiersz.kod = p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod();
                 wiersz.nazwa = p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getOpisskrocony();
-                wiersz.kwota = p.getKwotazredukowana();
+                wiersz.kwota = p.getKwotadolistyplac();
                 zwrot.add(wiersz);
             }
         }
@@ -694,9 +713,9 @@ public class Pasekwynagrodzen implements Serializable {
     
     public double getRedukcjeSuma() {
         double zwrot = 0.0;
-        if (this.getNaliczenienieobecnoscList()!=null) {
-            for (Naliczenienieobecnosc p : this.getNaliczenienieobecnoscList()) {
-                zwrot = zwrot + p.getKwotaredukcji();
+        if (this.getNaliczenieskladnikawynagrodzeniaList()!=null) {
+            for (Naliczenieskladnikawynagrodzenia p : this.getNaliczenieskladnikawynagrodzeniaList()) {
+                zwrot = zwrot + p.getKwotyredukujacesuma();
             }
         }
         return zwrot;

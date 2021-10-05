@@ -22,7 +22,7 @@ public class ZmiennawynagrodzeniaBean {
         if (zmiennawynagrodzenia==null) {
             zmiennawynagrodzenia = new Zmiennawynagrodzenia();
             zmiennawynagrodzenia.setId(0);
-            zmiennawynagrodzenia.setDataod("2020-12-03");
+            zmiennawynagrodzenia.setDataod("2020-12-01");
             zmiennawynagrodzenia.setDatado("2020-12-11");
             zmiennawynagrodzenia.setNazwa("wynagrodzenie");
             zmiennawynagrodzenia.setKwota(2800.0);

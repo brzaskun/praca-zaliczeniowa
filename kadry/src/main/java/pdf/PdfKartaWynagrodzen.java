@@ -147,7 +147,7 @@ public class PdfKartaWynagrodzen {
             table.addCell(ustawfrazeAlign(rs.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getOpisskrocony(), "left",6));
             table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKwotadolistyplac()), "right",6));
             table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKwotaumownazacalymc()), "right",6));
-            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKwotazredukowana()), "left",6));
+            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKwotadolistyplac()), "left",6));
         }
         for (Naliczenienieobecnosc rs : wykaznieob) {
             table.addCell(ustawfrazeAlign(String.valueOf(i++), "left",6,10f));
@@ -175,13 +175,13 @@ public class PdfKartaWynagrodzen {
                     sb.append(rs.getSkladnikwynagrodzenia().getUwagi());
                     sb.append(" ");
                 }
-                if (Z.z(rs.getKwotadolistyplac())!=0.0&&Z.z(rs.getKwotazredukowana())!=Z.z(rs.getKwotaumownazacalymc())) {
+                if (Z.z(rs.getKwotadolistyplac())!=0.0&&Z.z(rs.getKwotadolistyplac())!=Z.z(rs.getKwotaumownazacalymc())) {
                     sb.append(formatujWaluta(rs.getKwotadolistyplac()));
                     sb.append(";  ");
                 } else {
-                    if (Z.z(rs.getKwotazredukowana())!=0.0) {
-                        sb.append("kwRed/ ");
-                        sb.append(formatujWaluta(rs.getKwotazredukowana()));
+                    if (Z.z(rs.getKwotadolistyplac())!=0.0) {
+                        sb.append("kwLP/ ");
+                        sb.append(formatujWaluta(rs.getKwotadolistyplac()));
                         sb.append("; ");
                     }
                     if (Z.z(rs.getKwotaumownazacalymc())!=0.0) {

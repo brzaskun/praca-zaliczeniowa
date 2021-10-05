@@ -35,11 +35,11 @@ public class UmowaBean {
             umowa.setChorobowe(Boolean.TRUE);
             umowa.setChorobowedobrowolne(Boolean.FALSE);
             umowa.setDatado("2020-12-29");
-            umowa.setDatanfz("2020-12-03");
-            umowa.setDataod("2020-12-03");
-            umowa.setDataspoleczne("2020-12-03");
-            umowa.setDatazawarcia("2020-12-03");
-            umowa.setDatazdrowotne("2020-12-03");
+            umowa.setDatanfz("2020-12-01");
+            umowa.setDataod("2020-12-01");
+            umowa.setDataspoleczne("2020-12-01");
+            umowa.setDatazawarcia("2020-12-01");
+            umowa.setDatazdrowotne("2020-12-01");
             umowa.setEmerytalne(Boolean.TRUE);
             umowa.setCzastrwania("umowa na okres próbny");
             umowa.setKodzawodu(KodzawoduBean.create());
