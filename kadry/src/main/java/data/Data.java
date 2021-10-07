@@ -320,6 +320,17 @@ public class Data implements Serializable {
         return zwrot;
     }
     
+    //chodzi o to czy okres data jest po jakiesc dacie
+    public static boolean czyjestprzed(String termingraniczny, String badanadata) {
+        boolean zwrot = false;
+        if (termingraniczny == null || termingraniczny.equals("")) {
+            zwrot = false;
+        } else {
+            zwrot = czydatasiezawiera(termingraniczny, badanadata, false);
+        }
+        return zwrot;
+    }
+    
     public static boolean czyjestpo(Date data, WpisView wpisView) {
         boolean zwrot = false;
         String rok = Data.getRok(Data.data_yyyyMMdd(data));
@@ -593,6 +604,10 @@ public class Data implements Serializable {
     
     public static String odejmijdni(String databiezaca, int iloscdni) {
         return LocalDate.parse(databiezaca).minusDays(iloscdni).toString();
+    }
+    
+    public static String dodajdni(String databiezaca, int iloscdni) {
+        return LocalDate.parse(databiezaca).plusDays(iloscdni).toString();
     }
     
     public static String odejmijdniDzis(int iloscdni) {

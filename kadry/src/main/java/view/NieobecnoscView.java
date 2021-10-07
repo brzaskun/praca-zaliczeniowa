@@ -121,24 +121,24 @@ public class NieobecnoscView  implements Serializable {
     public void nieniesnakalendarz() {
         if (wpisView.getUmowa() != null) {
             boolean czynaniesiono = false;
-            for (Nieobecnosc p : lista) {
-                if (p.isNaniesiona()==false) {
+            for (Nieobecnosc nieobecnosc : lista) {
+                if (nieobecnosc.isNaniesiona()==false) {
                     try {
-                        if (p.getRokod().equals(wpisView.getRokWpisu()) || p.getRokdo().equals(wpisView.getRokWpisu())) {
-                            String mcod = p.getMcod();
-                            if (p.getRokod().equals(wpisView.getRokUprzedni())) {
+                        if (nieobecnosc.getRokod().equals(wpisView.getRokWpisu()) || nieobecnosc.getRokdo().equals(wpisView.getRokWpisu())) {
+                            String mcod = nieobecnosc.getMcod();
+                            if (nieobecnosc.getRokod().equals(wpisView.getRokUprzedni())) {
                                 mcod = "01";
                             }
-                            String mcdo = p.getMcdo();
+                            String mcdo = nieobecnosc.getMcdo();
                             for (String mc : Mce.getMceListS()) {
                                 if (Data.jestrownywiekszy(mc, mcod) && Data.jestrownywiekszy(mcdo, mc)) {
                                     Kalendarzmiesiac znaleziony = kalendarzmiesiacFacade.findByRokMcUmowa(wpisView.getUmowa(), wpisView.getRokWpisu(), mc);
                                     if (znaleziony != null) {
-                                        if (p.getRokod().equals(wpisView.getRokWpisu()) || p.getRokdo().equals(wpisView.getRokWpisu())) {
-                                            znaleziony.naniesnieobecnosc(p);
-                                            p.setNaniesiona(true);
+                                        if (nieobecnosc.getRokod().equals(wpisView.getRokWpisu()) || nieobecnosc.getRokdo().equals(wpisView.getRokWpisu())) {
+                                            znaleziony.naniesnieobecnosc(nieobecnosc);
+                                            nieobecnosc.setNaniesiona(true);
                                         }
-                                        nieobecnoscFacade.edit(p);
+                                        nieobecnoscFacade.edit(nieobecnosc);
                                         kalendarzmiesiacFacade.edit(znaleziony);
                                         czynaniesiono = true;
                                     } else {
@@ -230,9 +230,14 @@ public class NieobecnoscView  implements Serializable {
         if (nieob!=null) {
             List<Dzien> wzorcowe = dzienFacade.findByNrwrokuByData(nieob.getDataod(), nieob.getDatado(), wpisView.getFirma());
             for (Dzien d : nieob.getDzienList()) {
-                d.nanieswzorcowe(wzorcowe);
+                try {
+                    d.nanieswzorcowe(wzorcowe);
+                } catch (Exception e){}
+                d.setNieobecnosc(null);
                 dzienFacade.edit(d);
             }
+            nieob.setDzienList(null);
+            nieobecnoscFacade.edit(nieob);
             nieobecnoscFacade.remove(nieob);
             lista.remove(nieob);
             Msg.msg("Usunięto nieobecność. Naniesiono zmiany w kalendarzu");

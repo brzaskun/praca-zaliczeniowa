@@ -83,6 +83,7 @@ public class PasekwynagrodzenBean {
             KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, oddelegowanie, pasek);
             KalendarzmiesiacBean.redukujskladnikistale(kalendarz, pasek);
             KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, urlop, pasek);
+            KalendarzmiesiacBean.redukujskladnikistale2(kalendarz, pasek);
         } else {
             jestoddelegowanie = KalendarzmiesiacBean.naliczskladnikiwynagrodzeniaDBZlecenie(kalendarz, pasek, kurs);
         }

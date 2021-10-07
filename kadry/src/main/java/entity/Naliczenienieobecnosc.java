@@ -45,7 +45,7 @@ public class Naliczenienieobecnosc implements Serializable {
 
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "kwota")
-private double kwota;
+    private double kwota;
     @Column(name = "kwotastatystyczna")
     private double kwotastatystyczna;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation

@@ -31,9 +31,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Naliczenieskladnikawynagrodzenia.findAll", query = "SELECT n FROM Naliczenieskladnikawynagrodzenia n"),
     @NamedQuery(name = "Naliczenieskladnikawynagrodzenia.findById", query = "SELECT n FROM Naliczenieskladnikawynagrodzenia n WHERE n.id = :id"),
-    @NamedQuery(name = "Naliczenieskladnikawynagrodzenia.findByKwota", query = "SELECT n FROM Naliczenieskladnikawynagrodzenia n WHERE n.kwota = :kwota"),
-    @NamedQuery(name = "Naliczenieskladnikawynagrodzenia.findByKwotabezzus", query = "SELECT n FROM Naliczenieskladnikawynagrodzenia n WHERE n.kwotabezzus = :kwotabezzus"),
-    @NamedQuery(name = "Naliczenieskladnikawynagrodzenia.findByKwotazus", query = "SELECT n FROM Naliczenieskladnikawynagrodzenia n WHERE n.kwotazus = :kwotazus")})
+    @NamedQuery(name = "Naliczenieskladnikawynagrodzenia.findByKwota", query = "SELECT n FROM Naliczenieskladnikawynagrodzenia n WHERE n.kwotadolistyplac = :kwota")
+})
 public class Naliczenieskladnikawynagrodzenia implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id

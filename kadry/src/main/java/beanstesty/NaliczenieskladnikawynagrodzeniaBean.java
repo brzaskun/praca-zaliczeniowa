@@ -5,7 +5,9 @@
  */
 package beanstesty;
 
+import data.Data;
 import entity.Dzien;
+import entity.Kalendarzmiesiac;
 import entity.Naliczenieskladnikawynagrodzenia;
 import entity.Pasekwynagrodzen;
 import entity.Rachunekdoumowyzlecenia;
@@ -58,35 +60,77 @@ public class NaliczenieskladnikawynagrodzeniaBean {
         return zwrot;
     }
     
-    public static Naliczenieskladnikawynagrodzenia createWynagrodzenieDB(Pasekwynagrodzen pasekwynagrodzen, Skladnikwynagrodzenia skladnikwynagrodzenia, List<Dzien> listadni, double kurs) {
-        Naliczenieskladnikawynagrodzenia zwrot = new Naliczenieskladnikawynagrodzenia();
-        double zmiennawynagrodzeniakwota = 0.0;
-        if (skladnikwynagrodzenia.getRodzajwynagrodzenia().getGodzinowe0miesieczne1()==true) {
-            List<Zmiennawynagrodzenia> zmiennawynagrodzeniaList = skladnikwynagrodzenia.getZmiennawynagrodzeniaList();
-            for (Zmiennawynagrodzenia p : zmiennawynagrodzeniaList) {
-                if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod().equals("11")) {
-                    zmiennawynagrodzeniakwota = p.getKwota();
-                }
-            }
-        } else {
-            double godzinyoddelegowanie = 0.0;
-            for (Dzien p : listadni) {
-                if (p.getTypdnia()>-1 && p.getKod().equals("777")) {
-                    godzinyoddelegowanie = godzinyoddelegowanie+p.getPrzepracowano() ;
-                }
-            }
-            List<Zmiennawynagrodzenia> zmiennawynagrodzeniaList = skladnikwynagrodzenia.getZmiennawynagrodzeniaList();
-            for (Zmiennawynagrodzenia p : zmiennawynagrodzeniaList) {
-                if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod().equals("11")) {
-                    zmiennawynagrodzeniakwota = Z.z(p.getKwota()*kurs*godzinyoddelegowanie);
-                }
+    public static Naliczenieskladnikawynagrodzenia createWynagrodzenieDB(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasekwynagrodzen, Skladnikwynagrodzenia skladnikwynagrodzenia, List<Dzien> listadni, double kurs) {
+        double dniroboczewmiesiacu = 0.0;
+        for (Dzien p : kalendarz.getDzienList()) {
+            if (p.getTypdnia() == 0) {
+                dniroboczewmiesiacu++;
             }
         }
-        zwrot.setPasekwynagrodzen(pasekwynagrodzen);
-        zwrot.setKwotaumownazacalymc(zmiennawynagrodzeniakwota);
-        zwrot.setKwotadolistyplac(zmiennawynagrodzeniakwota);
-        zwrot.setSkladnikwynagrodzenia(skladnikwynagrodzenia);
-        return zwrot;
+        double godzinyroboczewmiesiacu = dniroboczewmiesiacu * 8.0;
+        String datastart = kalendarz.getPierwszyDzien();
+        String dataend = kalendarz.getOstatniDzien();
+        Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = new Naliczenieskladnikawynagrodzenia();
+        if (skladnikwynagrodzenia.getRodzajwynagrodzenia().getKod().equals("11")) {
+            double skladnikistale = 0.0;
+            double dniroboczeprzepracowane = 0.0;
+            for (Zmiennawynagrodzenia r : skladnikwynagrodzenia.getZmiennawynagrodzeniaList()) {
+                int dzienodzmienna = Data.getDzienI(r.getDataod());
+                int dziendozmienna = r.getDatado()!=null ? Data.getDzienI(r.getDatado()) : Integer.parseInt(Data.getDzien(Data.ostatniDzien(kalendarz.getRok(), kalendarz.getMc())));
+                if (r.czysiemiesci(kalendarz)) {
+                    skladnikistale = r.getKwota();
+                    for (Dzien s : kalendarz.getDzienList()) {
+                        if (s.getTypdnia() == 0 && s.getNrdnia() >= dzienodzmienna && s.getNrdnia() <= dziendozmienna) {
+                            dniroboczeprzepracowane++;
+                        }
+                    }
+                }
+            }
+            double godzinyobecnoscirobocze = dniroboczeprzepracowane * 8.0;
+            double stawkadzienna = skladnikistale / godzinyroboczewmiesiacu;
+            double dowyplatyzaczasprzepracowany = Z.z(stawkadzienna * godzinyobecnoscirobocze);
+            naliczenieskladnikawynagrodzenia.setDataod(datastart);
+            naliczenieskladnikawynagrodzenia.setDatado(dataend);
+            naliczenieskladnikawynagrodzenia.setKwotaumownazacalymc(skladnikistale);
+            naliczenieskladnikawynagrodzenia.setKwotadolistyplac(dowyplatyzaczasprzepracowany);
+            naliczenieskladnikawynagrodzenia.setDninalezne(dniroboczewmiesiacu);
+            naliczenieskladnikawynagrodzenia.setDnifaktyczne(dniroboczeprzepracowane);
+            naliczenieskladnikawynagrodzenia.setGodzinynalezne(godzinyroboczewmiesiacu);
+            naliczenieskladnikawynagrodzenia.setGodzinyfaktyczne(godzinyobecnoscirobocze);
+            naliczenieskladnikawynagrodzenia.setSkladnikwynagrodzenia(skladnikwynagrodzenia);
+            naliczenieskladnikawynagrodzenia.setPasekwynagrodzen(pasekwynagrodzen);
+        } else if (skladnikwynagrodzenia.getRodzajwynagrodzenia().getKod().equals("21")) {
+            naliczenieskladnikawynagrodzenia = new Naliczenieskladnikawynagrodzenia();
+            pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().add(naliczenieskladnikawynagrodzenia);
+        }
+//        Naliczenieskladnikawynagrodzenia zwrot = new Naliczenieskladnikawynagrodzenia();
+//        double zmiennawynagrodzeniakwota = 0.0;
+//        if (skladnikwynagrodzenia.getRodzajwynagrodzenia().getGodzinowe0miesieczne1()==true) {
+//            List<Zmiennawynagrodzenia> zmiennawynagrodzeniaList = skladnikwynagrodzenia.getZmiennawynagrodzeniaList();
+//            for (Zmiennawynagrodzenia p : zmiennawynagrodzeniaList) {
+//                if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod().equals("11")) {
+//                    zmiennawynagrodzeniakwota = p.getKwota();
+//                }
+//            }
+//        } else {
+//            double godzinyoddelegowanie = 0.0;
+//            for (Dzien p : listadni) {
+//                if (p.getTypdnia()>-1 && p.getKod().equals("777")) {
+//                    godzinyoddelegowanie = godzinyoddelegowanie+p.getPrzepracowano() ;
+//                }
+//            }
+//            List<Zmiennawynagrodzenia> zmiennawynagrodzeniaList = skladnikwynagrodzenia.getZmiennawynagrodzeniaList();
+//            for (Zmiennawynagrodzenia p : zmiennawynagrodzeniaList) {
+//                if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod().equals("11")) {
+//                    zmiennawynagrodzeniakwota = Z.z(p.getKwota()*kurs*godzinyoddelegowanie);
+//                }
+//            }
+//        }
+//        zwrot.setPasekwynagrodzen(pasekwynagrodzen);
+//        zwrot.setKwotaumownazacalymc(zmiennawynagrodzeniakwota);
+//        zwrot.setKwotadolistyplac(zmiennawynagrodzeniakwota);
+//        zwrot.setSkladnikwynagrodzenia(skladnikwynagrodzenia);
+        return naliczenieskladnikawynagrodzenia;
     }
     
     public static Naliczenieskladnikawynagrodzenia createPremia() {

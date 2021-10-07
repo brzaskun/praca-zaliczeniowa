@@ -292,7 +292,15 @@ public class Nieobecnosc implements Serializable {
     }
 
     public double getDnirobocze() {
-        return dnirobocze;
+        int zwrot = 0;
+        if (this.getDzienList()!=null) {
+            for (Dzien r : this.dzienList) {
+                if (r.getTypdnia()==0) {
+                    zwrot = zwrot+1;
+                }
+            }
+        }
+        return zwrot;
     }
 
     public void setDnirobocze(double dnirobocze) {

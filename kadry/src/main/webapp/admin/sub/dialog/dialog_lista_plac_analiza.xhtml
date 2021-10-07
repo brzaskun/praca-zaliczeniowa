@@ -1,0 +1,193 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+
+    xmlns:bcf="http://brzaskun.com/facelets"
+xmlns:pe="http://primefaces.org/ui/extensions">
+    <p:dialog id="dialoglistaplacanaliza" header="Wyliczanie listy płac" widgetVar="dialoglistaplacanaliza"  
+              resizable="false"  onShow="ustawdialog('dialoglistaplacanaliza','centertile',1650,800);" closeOnEscape="true" onHide="resetujdialog('dialoglistaplacanaliza');" 
+              fitViewport="true">
+        <p:outputPanel style="height: 50px">
+           
+                <h:panelGroup >
+                    
+                    <p:panelGrid columns="4" rendered="#{pasekwynagrodzenView.listadefinicjalistaplac ne null}">
+                       <h:form id="DefinicjalistaplacAnalizaForm">
+                            <p:outputLabel value="rodzaj umowy" />
+                            <p:selectOneMenu id="rodzajumowy" value="#{pasekwynagrodzenView.rodzajumowy}"  autoWidth="false" style="width: 300px;" filter="true" filterMatchMode="contains" required="true">
+                                <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
+                                <f:selectItem itemLabel="umowa o pracę" itemValue="1"/>
+                                <f:selectItem itemLabel="umowa zlecenia i o dzieło" itemValue="2"/>
+                                <p:ajax event="change" partialSubmit="true" listener="#{pasekwynagrodzenView.init()}" global="false" update="PasekwynagrodzenAnalizaForm DefinicjalistaplacAnalizaForm1 DefinicjalistaplacAnalizaForm2"/>
+                            </p:selectOneMenu>
+                        </h:form>
+                        <h:form id="DefinicjalistaplacAnalizaForm1">
+                            <p:outputLabel value="wybrana lista płac" for="wybranalista" />
+                            <p:selectOneMenu id="wybranalista" value="#{pasekwynagrodzenView.wybranalistaplac2}" required="true" requiredMessage="Wybierz firmę" converter="#{definicjalistaplacConverter}" >
+                                <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
+                                <f:selectItems value="#{pasekwynagrodzenView.listadefinicjalistaplac}" 
+                                               var="firmalistaItem"
+                                               itemValue="#{firmalistaItem}" itemLabel="#{firmalistaItem.opis} #{firmalistaItem.nrkolejny}"/>
+                                <p:ajax event="change" partialSubmit="true" global="false" listener="#{pasekwynagrodzenView.pobierzkalendarzezamc}" update="PasekwynagrodzenAnalizaForm DefinicjalistaplacAnalizaForm2"/>
+                            </p:selectOneMenu>
+                           
+                            
+                        </h:form>
+                        <h:form id="DefinicjalistaplacAnalizaForm2">
+                             <p:outputLabel value="" for="wybranypracownik" />
+                             <p:selectOneMenu id="wybranypracownik" value="#{pasekwynagrodzenView.wybranykalendarz}" required="true" requiredMessage="Wybierz firmę" converter="#{kalendarzmiesiacConverter}" >
+                                <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
+                                <f:selectItems value="#{pasekwynagrodzenView.listakalendarzmiesiacdoanalizy2}" 
+                                               var="firmalistaItem"
+                                               itemValue="#{firmalistaItem}" itemLabel="#{firmalistaItem.nazwiskoImie}"/>
+                                <p:ajax event="change" partialSubmit="true" global="false" listener="#{pasekwynagrodzenView.pobierzpracownika}" update="PasekwynagrodzenAnalizaForm"/>
+                            </p:selectOneMenu>
+                        </h:form>
+<!--                        <p:selectOneMenu id="wybranypracownik" value="#{pasekwynagrodzenView.wybranykalendarz}" required="true" requiredMessage="Wybierz pracownika" converter="#{kalendarzmiesiacConverter}">
+                            <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
+                            <f:selectItems value="#{pasekwynagrodzenView.listakalendarzmiesiac}"
+                                           var="kalendarzItem"
+                                           itemValue="#{kalendarzItem}" itemLabel="#{kalendarzItem.umowa.angaz.pracownik.nazwiskoImie}"/>
+                            <p:ajax event="change" listener="#{pasekwynagrodzenView.przelicz}" partialSubmit="true" global="false" update="@(form)"/>
+                        </p:selectOneMenu>-->
+                    </p:panelGrid>
+                    
+                </h:panelGroup>
+            
+        </p:outputPanel>
+        <p:outputPanel  styleClass="panelzramka">
+            <h:form id="PasekwynagrodzenAnalizaForm">
+                <p:panel header="paski wynagrodzeń">
+                    <p:panelGrid columns="3">
+                        <h:outputText value="nazwisko i imię: "/>
+                        <h:outputText value="PESEL: "/>
+                        <h:outputText value="umowa: "/>
+                        <h:outputText value="#{pasekwynagrodzenView.wybranykalendarz.nazwiskoImie}" styleClass="wwb"/>
+                        <h:outputText value="#{pasekwynagrodzenView.wybranykalendarz.pesel}" styleClass="wwb"/>
+                        <h:outputText value="#{pasekwynagrodzenView.wybranykalendarz.umowa.umowakodzus.kod}" styleClass="wwb"/>
+                        <h:outputText value="kalendarz:"/>
+                        <h:outputText value=""/>
+                        <h:outputText value=""/>
+                        <p:panelGrid columns="4">
+                            <h:outputText value="dni rob. należne: "/>
+                            <h:outputText value="dni rob. wykonane: "/>
+                            <h:outputText value="godz. rob. należne: "/>
+                            <h:outputText value="godz. rob. wykonane: "/>
+                            <h:outputText value="#{pasekwynagrodzenView.wybranykalendarz.robocze()[0]}" styleClass="wwb"/>
+                            <h:outputText value="#{pasekwynagrodzenView.wybranykalendarz.robocze()[1]}" styleClass="wwb"/>
+                            <h:outputText value="#{pasekwynagrodzenView.wybranykalendarz.roboczegodz()[0]}" styleClass="wwb"/>
+                            <h:outputText value="#{pasekwynagrodzenView.wybranykalendarz.roboczegodz()[1]}" styleClass="wwb"/>
+                            <h:outputText value="dni urlop. wyp.: "/>
+                            <h:outputText value="godziny urlop. wyp.: "/>
+                            <h:outputText value="dni urlop. bezpł.: "/>
+                            <h:outputText value="godziny urlop. bezpł.: "/>
+                            <h:outputText value="#{pasekwynagrodzenView.wybranykalendarz.urlopdnigodz()[0]}" styleClass="wwb"/>
+                            <h:outputText value="#{pasekwynagrodzenView.wybranykalendarz.urlopdnigodz()[1]}" styleClass="wwb"/>
+                            <h:outputText value="#{pasekwynagrodzenView.wybranykalendarz.urlopbezplatnydnigodz()[0]}" styleClass="wwb"/>
+                            <h:outputText value="#{pasekwynagrodzenView.wybranykalendarz.urlopbezplatnydnigodz()[1]}" styleClass="wwb"/>
+                        </p:panelGrid>
+                        <h:outputText value=""/>
+                        <h:outputText value=""/>
+                        <h:outputText value="Składniki wynagrodzenia"/>
+                        <p:panelGrid columns="1" rendered="#{pasekwynagrodzenView.wybranykalendarz.pasekwynagrodzenList ne null}">
+                                <p:dataTable id="datalist" value="#{pasekwynagrodzenView.wybranykalendarz.skladnikiwynagrodzenialista()}" var="itempasekwyn"
+                                         rowIndexVar="indexpasekszcz" emptyMessage="Nie ma danych"
+                                 style="height: 150px; overflow-y: scroll;width: 1200px;"
+                                 >
+                                <p:column style="text-align: center;" headerText="lp" width="40">
+                                    <h:outputText value="#{indexpasekszcz+1}"/>
+                                 </p:column>
+                                <p:column headerText="kod" width="40">
+                                    <h:outputText value="#{itempasekwyn.skladnikwynagrodzenia.rodzajwynagrodzenia.kod}"/>
+                                 </p:column>
+                                <p:column headerText="składnik">
+                                    <h:outputText value="#{itempasekwyn.skladnikwynagrodzenia.rodzajwynagrodzenia.opispelny}"/>
+                                 </p:column>
+                                <p:column headerText="data od" width="80">
+                                    <h:outputText value="#{itempasekwyn.dataod}"/>
+                                 </p:column>
+                                 <p:column headerText="data do" width="80">
+                                     <h:outputText value="#{itempasekwyn.datado}"/>
+                                 </p:column>
+                                 <p:column headerText="dnia faktyczne" width="80">
+                                     <h:outputText value="#{itempasekwyn.dnifaktyczne}"/>
+                                 </p:column>
+                                 <p:column headerText="dni należne" width="80">
+                                     <h:outputText value="#{itempasekwyn.dninalezne}"/>
+                                 </p:column>
+                                <p:column headerText="godziny faktyczne" width="80">
+                                    <h:outputText value="#{itempasekwyn.godzinyfaktyczne}"/>
+                                 </p:column>
+                                 <p:column headerText="godziny należne" width="80">
+                                     <h:outputText value="#{itempasekwyn.godzinynalezne}"/>
+                                 </p:column>
+                                 <p:column headerText="kwota do listy płac" width="80">
+                                     <bcf:outputpl value="#{itempasekwyn.kwotadolistyplac}"/>
+                                 </p:column>
+                                <p:column headerText="kwota redukcji" width="80">
+                                    <bcf:outputpl value="#{itempasekwyn.kwotyredukujacesuma}"/>
+                                 </p:column>
+                                 <p:column headerText="kwota umowna" width="80">
+                                     <bcf:outputpl value="#{itempasekwyn.kwotaumownazacalymc}"/>
+                                 </p:column>
+                            </p:dataTable>
+                        </p:panelGrid>
+                        <h:outputText value=""/>
+                        <h:outputText value="Składniki nieobecności"/>
+                        <p:panelGrid columns="1" rendered="#{pasekwynagrodzenView.wybranykalendarz.pasekwynagrodzenList ne null}">
+                                <p:dataTable id="datalist2" value="#{pasekwynagrodzenView.wybranykalendarz.skladnikinieobecnosclista()}" var="itempasekpotr"
+                                         rowIndexVar="indexpasekszcz2" emptyMessage="Nie ma danych" 
+                                 style="height: 150px; overflow-y: scroll;width: 1200px;"
+                                 >
+                                <p:column style="text-align: center;" headerText="lp" width="40">
+                                    <h:outputText value="#{indexpasekszcz2+1}"/>
+                                 </p:column>
+                                <p:column headerText="kod" width="40">
+                                    <h:outputText value="#{itempasekpotr.nieobecnosc.nieobecnosckodzus.kod}"/>
+                                 </p:column>
+                                    <p:column headerText="składnik" width="120">
+                                    <h:outputText value="#{itempasekpotr.nieobecnosc.nieobecnosckodzus.opis}"/>
+                                 </p:column>
+                                <p:column headerText="data od" width="80">
+                                    <h:outputText value="#{itempasekpotr.nieobecnosc.dataod}"/>
+                                 </p:column>
+                                 <p:column headerText="data do" width="80">
+                                     <h:outputText value="#{itempasekpotr.nieobecnosc.datado}"/>
+                                 </p:column>
+                                 <p:column headerText="dnia kalen." width="60">
+                                     <h:outputText value="#{itempasekpotr.nieobecnosc.dnikalendarzowe}"/>
+                                 </p:column>
+                                 <p:column headerText="dni robocze" width="60">
+                                     <h:outputText value="#{itempasekpotr.nieobecnosc.dnirobocze}"/>
+                                 </p:column>
+                                <p:column headerText="godziny urlopu" width="60">
+                                    <h:outputText value="#{itempasekpotr.liczbagodzinurlopu}"/>
+                                 </p:column>
+                                 <p:column headerText="godziny robocze" width="60">
+                                     <h:outputText value="#{itempasekpotr.liczbagodzinroboczych}"/>
+                                 </p:column>
+                                 <p:column headerText="stawka dzienna" width="60">
+                                     <bcf:outputpl value="#{itempasekpotr.stawkadzienna}"/>
+                                 </p:column>
+                                 <p:column headerText="kwota do listy płac" width="80">
+                                     <bcf:outputpl value="#{itempasekpotr.kwota}"/>
+                                 </p:column>
+                                <p:column headerText="kwota redukcji" width="80">
+                                    <bcf:outputpl value="#{itempasekpotr.kwotaredukcji}"/>
+                                 </p:column>
+                                 <p:column headerText="kwota statystyczna" width="80">
+                                     <bcf:outputpl value="#{itempasekpotr.kwotastatystyczna}"/>
+                                 </p:column>
+                            </p:dataTable>
+                        </p:panelGrid>
+                        <h:outputText value=""/>
+                    </p:panelGrid>
+                </p:panel>
+            </h:form>
+        </p:outputPanel>
+    </p:dialog>
+</ui:composition>
+

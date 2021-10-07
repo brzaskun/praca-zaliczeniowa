@@ -207,6 +207,42 @@ private static final long serialVersionUID = 1L;
         return zwrot;
     }
     
+   
+    
+    public double[] urlopdnigodz() {
+        double[] zwrot = new double[2];
+        double urlopdni = 0;
+        double urlopgodziny = 0;
+        if (this.dzienList!=null) {
+            for (Dzien d : dzienList) {
+                if (d.getUrlopPlatny()>0.0) {
+                    urlopdni = urlopdni+1;
+                    urlopgodziny = urlopgodziny+d.getUrlopPlatny();
+                }
+            }
+        }
+        zwrot[0] = urlopdni;
+        zwrot[1] = urlopgodziny;
+        return zwrot;
+    }
+    
+     public double[] urlopbezplatnydnigodz() {
+        double[] zwrot = new double[2];
+        double urlopdni = 0;
+        double urlopgodziny = 0;
+        if (this.dzienList!=null) {
+            for (Dzien d : dzienList) {
+                if (d.getUrlopbezplatny()>0.0) {
+                    urlopdni = urlopdni+1;
+                    urlopgodziny = urlopgodziny+d.getUrlopbezplatny();
+                }
+            }
+        }
+        zwrot[0] = urlopdni;
+        zwrot[1] = urlopgodziny;
+        return zwrot;
+    }
+    
     public double[] roboczenieob(String kod) {
         double[] zwrot = new double[3];
         double roboczenalicz = 0;
@@ -273,6 +309,30 @@ private static final long serialVersionUID = 1L;
    public boolean isPraca() {
        return this.getUmowa().getUmowakodzus().isPraca();
    }
+   
+   public List<Naliczenieskladnikawynagrodzenia> skladnikiwynagrodzenialista() {
+       List<Naliczenieskladnikawynagrodzenia> zwrot = new ArrayList<>();
+       if (this.pasekwynagrodzenList!=null && !this.pasekwynagrodzenList.isEmpty()) {
+           for (Pasekwynagrodzen p : this.pasekwynagrodzenList) {
+               if (p.getNaliczenieskladnikawynagrodzeniaList()!=null) {
+                   zwrot.addAll(p.getNaliczenieskladnikawynagrodzeniaList());
+               }
+           }
+       }
+       return zwrot;
+   }
+   
+   public List<Naliczenienieobecnosc> skladnikinieobecnosclista() {
+       List<Naliczenienieobecnosc> zwrot = new ArrayList<>();
+       if (this.pasekwynagrodzenList!=null && !this.pasekwynagrodzenList.isEmpty()) {
+           for (Pasekwynagrodzen p : this.pasekwynagrodzenList) {
+               if (p.getNaliczenienieobecnoscList()!=null) {
+                   zwrot.addAll(p.getNaliczenienieobecnoscList());
+               }
+           }
+       }
+       return zwrot;
+   }
 
     public List<Pasekwynagrodzen> getPasekwynagrodzenList() {
         return pasekwynagrodzenList;
@@ -325,16 +385,29 @@ private static final long serialVersionUID = 1L;
     public String getNazwiskoImie() {
         return this.getUmowa().getAngaz().getPracownik().getNazwiskoImie();
     }
+    
+    public String getPesel() {
+        return this.getUmowa().getAngaz().getPracownik().getPesel();
+    }
+    
+    public String getNazwisko() {
+        return this.getUmowa().getAngaz().getPracownik().getNazwisko();
+    }
+    
+    public String getImie() {
+        return this.getUmowa().getAngaz().getPracownik().getImie();
+    }
 
     public void naniesnieobecnosc(Nieobecnosc p) {
-        int dzienod = Integer.parseInt(Data.getDzien(p.getDataod()))-1;
-        int dziendo = Integer.parseInt(Data.getDzien(p.getDatado()))-1;
+        int dzienod = Data.getDzienI(p.getDataod());
+        int dziendo = Data.getDzienI(p.getDatado());
         String mcod = Data.getMc(p.getDataod());
         String mcdo = Data.getMc(p.getDatado());
         dzienod = modyfikujod(mcod, dzienod);
         dziendo = modyfikujdo(mcdo, dziendo);
         for (int i = dzienod; i <= dziendo; i++) {
-            Dzien dzienaktualny = this.dzienList.get(i);
+            final int j = i;
+            Dzien dzienaktualny = this.dzienList.stream().filter(pa->pa.getNrdnia()==j).findFirst().get();
             dzienaktualny.setKod(p.getNieobecnosckodzus().getKod());
             if (p.getNieobecnosckodzus().getKod().equals("331")) {
                 dzienaktualny.setWynagrodzeniezachorobe(dzienaktualny.getNormagodzin());
@@ -370,7 +443,7 @@ private static final long serialVersionUID = 1L;
             int mckalendarzaint = Integer.parseInt(mckalendarza);
             int mcdoint = Integer.parseInt(mcoddo);
             if (mcdoint>mckalendarzaint) {
-                dziendo = Integer.parseInt(Data.getDzien(Data.ostatniDzien(this.rok, this.mc)))-1;
+                dziendo = Integer.parseInt(Data.getDzien(Data.ostatniDzien(this.rok, this.mc)));
             }
         }
         return dziendo;

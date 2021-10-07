@@ -50,9 +50,13 @@ public class PasekwynagrodzenView  implements Serializable {
     @Inject
     private Pasekwynagrodzen selectedlista;
     private Definicjalistaplac wybranalistaplac;
+    private Definicjalistaplac wybranalistaplac2;
+    private Kalendarzmiesiac wybranykalendarz;
     private List<Pasekwynagrodzen> lista;
     private List<Definicjalistaplac> listadefinicjalistaplac;
     private org.primefaces.model.DualListModel<Kalendarzmiesiac> listakalendarzmiesiac;
+    private List<Kalendarzmiesiac> listakalendarzmiesiacdoanalizy;
+    private List<Kalendarzmiesiac> listakalendarzmiesiacdoanalizy2;
     @Inject
     private DefinicjalistaplacFacade definicjalistaplacFacade;
     @Inject
@@ -91,6 +95,10 @@ public class PasekwynagrodzenView  implements Serializable {
         }
         Collections.sort(listadefinicjalistaplac, new Defnicjalistaplaccomparator());
         listakalendarzmiesiac = new org.primefaces.model.DualListModel<>();
+        try {
+            wybranalistaplac2 = listadefinicjalistaplac.stream().filter(p->p.getMc().equals(wpisView.getMiesiacWpisu())).findFirst().get();
+            listakalendarzmiesiacdoanalizy2 = kalendarzmiesiacFacade.findByFirmaRokMcPraca(wybranalistaplac2.getFirma(), wybranalistaplac2.getRok(), wybranalistaplac2.getMc());
+        } catch (Exception e){}
     }
 
     public void create() {
@@ -212,6 +220,7 @@ public class PasekwynagrodzenView  implements Serializable {
     }
     
     public void pobierzkalendarzezamc() {
+        Definicjalistaplac wybranalistaplac = this.wybranalistaplac!=null?this.wybranalistaplac:this.wybranalistaplac2;
         if (wybranalistaplac!=null) {
             if (rodzajumowy==null) {
                 rodzajumowy = "1";
@@ -233,10 +242,19 @@ public class PasekwynagrodzenView  implements Serializable {
             }
             if (listakalendarzmiesiac!=null) {
                 this.listakalendarzmiesiac.setSource(listakalendarzmiesiac);
+                this.listakalendarzmiesiacdoanalizy = listakalendarzmiesiac;
+                this.listakalendarzmiesiacdoanalizy2 = listakalendarzmiesiac;
             }
             lista = pasekwynagrodzenFacade.findByDef(wybranalistaplac);
         }
     }
+    
+    public void pobierzpracownika() {
+        if (wybranykalendarz!=null) {
+            Msg.msg("Pobrano pracownika");
+        }
+    }
+    
     
     public Pasekwynagrodzen getSelected() {
         return selected;
@@ -278,7 +296,14 @@ public class PasekwynagrodzenView  implements Serializable {
         this.listakalendarzmiesiac = listakalendarzmiesiac;
     }
 
-   
+    public Definicjalistaplac getWybranalistaplac2() {
+        return wybranalistaplac2;
+    }
+
+    public void setWybranalistaplac2(Definicjalistaplac wybranalistaplac2) {
+        this.wybranalistaplac2 = wybranalistaplac2;
+    }
+
 
     public Definicjalistaplac getWybranalistaplac() {
         return wybranalistaplac;
@@ -294,6 +319,30 @@ public class PasekwynagrodzenView  implements Serializable {
 
     public void setRodzajumowy(String rodzajumowy) {
         this.rodzajumowy = rodzajumowy;
+    }
+
+    public List<Kalendarzmiesiac> getListakalendarzmiesiacdoanalizy() {
+        return listakalendarzmiesiacdoanalizy;
+    }
+
+    public void setListakalendarzmiesiacdoanalizy(List<Kalendarzmiesiac> listakalendarzmiesiacdoanalizy) {
+        this.listakalendarzmiesiacdoanalizy = listakalendarzmiesiacdoanalizy;
+    }
+
+    public Kalendarzmiesiac getWybranykalendarz() {
+        return wybranykalendarz;
+    }
+
+    public void setWybranykalendarz(Kalendarzmiesiac wybranykalendarz) {
+        this.wybranykalendarz = wybranykalendarz;
+    }
+
+    public List<Kalendarzmiesiac> getListakalendarzmiesiacdoanalizy2() {
+        return listakalendarzmiesiacdoanalizy2;
+    }
+
+    public void setListakalendarzmiesiacdoanalizy2(List<Kalendarzmiesiac> listakalendarzmiesiacdoanalizy2) {
+        this.listakalendarzmiesiacdoanalizy2 = listakalendarzmiesiacdoanalizy2;
     }
 
     
