@@ -5,6 +5,7 @@
 package data;
 
 import embeddable.Mce;
+import entity.Dzien;
 import entity.Kalendarzmiesiac;
 import error.E;
 import java.io.Serializable;
@@ -18,6 +19,7 @@ import java.time.format.DateTimeFormatter;
 import static java.time.temporal.ChronoUnit.DAYS;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -723,11 +725,23 @@ public class Data implements Serializable {
      * @param dataod, dataod
      * @param datado datado
      */
-    public static int iletodni(String dataod, String datado) {
+    public static int iletodniKalendarzowych(String dataod, String datado) {
         LocalDate dzienzakonczenia = LocalDate.parse(dataod);
         LocalDate dzienrozpoczecia = LocalDate.parse(datado);
         double between = DAYS.between(dzienzakonczenia, dzienrozpoczecia)+1;
         return (int) between;
+    }
+    
+    public static int iletodniRoboczych(String dataod, String datado, List<Dzien> dnilista) {
+        int dzienod = Data.getDzienI(dataod);
+        int dziendo = Data.getDzienI(datado);
+        int dninieobecnoscirobocze = 0;
+        for (Dzien p : dnilista) {
+            if (p.getTypdnia()==0 && p.getNrdnia()>=dzienod &&p.getNrdnia()<=dziendo) {
+                dninieobecnoscirobocze++;
+            }
+        }
+        return dninieobecnoscirobocze;
     }
     
     public static String pelnadata(Kalendarzmiesiac kal, int nrdnia) {

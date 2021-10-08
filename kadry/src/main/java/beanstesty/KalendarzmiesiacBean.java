@@ -327,7 +327,7 @@ public class KalendarzmiesiacBean {
                 naliczenienieobecnosc.setNieobecnosc(nieobecnosc);
                 naliczenienieobecnosc.setJakiskladnikredukowalny(p.getSkladnikwynagrodzenia().getUwagi());
                 double skladnik = 2800;
-                double dniroboczenieobecnosc = Data.iletodni(nieobecnosc.getDataod(), nieobecnosc.getDatado());
+                double dniroboczenieobecnosc = Data.iletodniKalendarzowych(nieobecnosc.getDataod(), nieobecnosc.getDatado());
                 skladnik = p.getKwotaumownazacalymc();
                 //double skladnik = obliczsredniadopodstawy(kalendarz,p.getSkladnikwynagrodzenia(), nieobecnosc);
                 double skladnikistalenetto = skladnik-(skladnik*.1371);

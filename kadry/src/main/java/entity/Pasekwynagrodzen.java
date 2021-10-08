@@ -695,6 +695,9 @@ public class Pasekwynagrodzen implements Serializable {
                 wiersz.kod = p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod();
                 wiersz.nazwa = p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getOpisskrocony();
                 wiersz.kwota = p.getKwotadolistyplac();
+                wiersz.redukcja = p.getKwotyredukujacesuma();
+                wiersz.dataod = p.getDataod();
+                wiersz.datado = p.getDatado();
                 zwrot.add(wiersz);
             }
         }
@@ -702,9 +705,12 @@ public class Pasekwynagrodzen implements Serializable {
             for (Naliczenienieobecnosc p : this.naliczenienieobecnoscList) {
                 Skladnikwynlista wiersz = new Skladnikwynlista();
                 wiersz.lp = i++;
-                wiersz.kod = p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod();
-                wiersz.nazwa = p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getOpisskrocony();
+                wiersz.kod = p.getNieobecnosc().getNieobecnosckodzus().getKod();
+                wiersz.nazwa = p.getNieobecnosc().getNieobecnosckodzus().getOpis();
                 wiersz.kwota = p.getKwota();
+                wiersz.redukcja = p.getKwotastatystyczna();
+                wiersz.dataod = p.getNieobecnosc().getDataod();
+                wiersz.datado = p.getNieobecnosc().getDatado();
                 zwrot.add(wiersz);
             }
         }
@@ -728,6 +734,7 @@ public class Pasekwynagrodzen implements Serializable {
         String datado;
         String kod;
         double kwota;
+        double redukcja;
         public Skladnikwynlista() {
         }
 
@@ -778,6 +785,14 @@ public class Pasekwynagrodzen implements Serializable {
         public void setKod(String kod) {
             this.kod = kod;
         }
+
+        public double getRedukcja() {
+            return redukcja;
+        }
+
+        public void setRedukcja(double redukcja) {
+            this.redukcja = redukcja;
+        }
     
         
         @Override
@@ -811,6 +826,11 @@ public class Pasekwynagrodzen implements Serializable {
                 return false;
             }
             return true;
+        }
+
+        @Override
+        public String toString() {
+            return "Skladnikwynlista{" + "nazwa=" + nazwa + ", dataod=" + dataod + ", datado=" + datado + ", kod=" + kod + ", kwota=" + kwota + ", redukcja=" + redukcja + '}';
         }
         
         

@@ -50,4 +50,8 @@ public class NieobecnoscFacade extends DAO    implements Serializable {
     public List<Nieobecnosc> findByUmowa(Umowa umowa) {
         return getEntityManager().createNamedQuery("Nieobecnosc.findByUmowa").setParameter("umowa", umowa).getResultList();
     }
+    
+    public List<Nieobecnosc> findByUmowa200(Umowa umowa) {
+        return getEntityManager().createNamedQuery("Nieobecnosc.findByUmowa").setParameter("umowa", umowa).getResultList();
+    }
 }

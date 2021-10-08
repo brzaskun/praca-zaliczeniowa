@@ -67,7 +67,7 @@ public class PasekwynagrodzenBean {
         if (umowaoprace) {
             jestoddelegowanie = KalendarzmiesiacBean.naliczskladnikiwynagrodzeniaDB(kalendarz, pasek, kurs);
             List<Nieobecnosc> nieobecnosci = pobierznieobecnosci(kalendarz);
-            List<Nieobecnosc> zatrudnieniewtrakciemiesiaca = generuj(kalendarz.getUmowa(),nieobecnosckodzusFacade, kalendarz.getRok(), kalendarz.getMc());
+            List<Nieobecnosc> zatrudnieniewtrakciemiesiaca = pobierz(nieobecnosci,"200");
             List<Nieobecnosc> choroba = pobierz(nieobecnosci,"331");
             List<Nieobecnosc> zasilekchorobowy = pobierz(nieobecnosci,"313");
             List<Nieobecnosc> urlop = pobierz(nieobecnosci,"100");
@@ -76,10 +76,10 @@ public class PasekwynagrodzenBean {
             KalendarzmiesiacBean.nalicznadgodziny50DB(kalendarz, pasek);
             //KalendarzmiesiacBean.nalicznadgodziny100(kalendarz, pasek);
             //najpierw musimy przyporzadkowac aktualne skladniki, aby potem prawidlowo obliczyc redukcje
+            KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, zatrudnieniewtrakciemiesiaca, pasek);
             KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, choroba, pasek);
             KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, zasilekchorobowy, pasek);
             KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, urlopbezplatny, pasek);
-            KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, zatrudnieniewtrakciemiesiaca, pasek);
             KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, oddelegowanie, pasek);
             KalendarzmiesiacBean.redukujskladnikistale(kalendarz, pasek);
             KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, urlop, pasek);
@@ -194,10 +194,10 @@ public class PasekwynagrodzenBean {
         //najpierw musimy przyporzadkowac aktualne skladniki, aby potem prawidlowo obliczyc redukcje
         //korekta kalendarza musi byc na poczatku
         //KalendarzmiesiacBean.dodajnieobecnosc(kalendarz, korektakalendarzagora, pasek);
-        KalendarzmiesiacBean.dodajnieobecnosc(kalendarz, korektakalendarzadol, pasek);
-        KalendarzmiesiacBean.dodajnieobecnosc(kalendarz, choroba, pasek);
-        KalendarzmiesiacBean.dodajnieobecnosc(kalendarz, choroba2, pasek);
-        KalendarzmiesiacBean.dodajnieobecnosc(kalendarz, urlopbezplatny, pasek);
+        //KalendarzmiesiacBean.dodajnieobecnosc(kalendarz, korektakalendarzadol, pasek);
+        //KalendarzmiesiacBean.dodajnieobecnosc(kalendarz, choroba, pasek);
+        //KalendarzmiesiacBean.dodajnieobecnosc(kalendarz, choroba2, pasek);
+        //KalendarzmiesiacBean.dodajnieobecnosc(kalendarz, urlopbezplatny, pasek);
         //urlop musi byc na samym koncu
         
         KalendarzmiesiacBean.redukujskladnikistale(kalendarz, pasek);
@@ -498,7 +498,7 @@ public class PasekwynagrodzenBean {
         return zwrot;
     }
 
-    private static List<Nieobecnosc> generuj(Umowa umowa, NieobecnosckodzusFacade nieobecnosckodzusFacade, String rok, String mc) {
+    public static List<Nieobecnosc> generuj(Umowa umowa, NieobecnosckodzusFacade nieobecnosckodzusFacade, String rok, String mc, Kalendarzmiesiac kalendarzmiesiac) {
         List<Nieobecnosc> zwrotlist = new ArrayList<>();
         Nieobecnosc zwrot = new Nieobecnosc();
         String rokumowa = Data.getRok(umowa.getDataod());
@@ -509,13 +509,43 @@ public class PasekwynagrodzenBean {
             zwrot = new Nieobecnosc();
             zwrot.setUmowa(umowa);
             zwrot.setNieobecnosckodzus(nieobecnosckodzus);
-            String dataod = Data.pierwszyDzien(umowa.getDataod());
-            LocalDate today = LocalDate.parse(umowa.getDataod());
-            LocalDate yesterday = today.minusDays(1);  
-            String datado = yesterday.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-            zwrot.setDataod(dataod);
-            zwrot.setDatado(datado);
+            String pierwszydzienmca = Data.pierwszyDzien(umowa.getDataod());
+            LocalDate pierwszydzienumowy = LocalDate.parse(umowa.getDataod());
+            LocalDate yesterday = pierwszydzienumowy.minusDays(1);  
+            String dzienprzedumowa = yesterday.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            zwrot.setDataod(pierwszydzienmca);
+            zwrot.setDatado(dzienprzedumowa);
+            zwrot.setDnikalendarzowe(Data.iletodniKalendarzowych(zwrot.getDataod(), zwrot.getDatado()));
+            zwrot.setDnirobocze(Data.iletodniRoboczych(zwrot.getDataod(), zwrot.getDatado(), kalendarzmiesiac.getDzienList()));
+            zwrot.setRokod(Data.getRok(zwrot.getDataod()));
+            zwrot.setRokdo(Data.getRok(zwrot.getDatado()));
+            zwrot.setMcod(Data.getMc(zwrot.getDataod()));
+            zwrot.setMcdo(Data.getMc(zwrot.getDatado()));
             zwrotlist.add(zwrot);
+        }
+        if (umowa.getDatado()!=null) {
+            String rokumowado = Data.getRok(umowa.getDatado());
+            String mcumowado = Data.getMc(umowa.getDatado());
+            String dzienumowado = Data.getDzien(umowa.getDatado());
+            String ostatnidzienmca = Data.getDzien(Data.ostatniDzien(rokumowado, mcumowado));
+            if (rokumowado.equals(rok)&&mcumowado.equals(mc)&&!dzienumowado.equals(ostatnidzienmca)) {
+                Nieobecnosckodzus nieobecnosckodzus = nieobecnosckodzusFacade.findByKod("200");
+                zwrot = new Nieobecnosc();
+                zwrot.setUmowa(umowa);
+                zwrot.setNieobecnosckodzus(nieobecnosckodzus);
+                LocalDate ostatnidzienumowy = LocalDate.parse(umowa.getDatado());
+                LocalDate tomorrow = ostatnidzienumowy.plusDays(1);  
+                String dzienpoumowie = tomorrow.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                zwrot.setDataod(dzienpoumowie);
+                zwrot.setDatado(Data.ostatniDzien(rokumowado, mcumowado));
+                zwrot.setDnikalendarzowe(Data.iletodniKalendarzowych(zwrot.getDataod(), zwrot.getDatado()));
+                zwrot.setDnirobocze(Data.iletodniRoboczych(zwrot.getDataod(), zwrot.getDatado(), kalendarzmiesiac.getDzienList()));
+                zwrot.setRokod(Data.getRok(zwrot.getDataod()));
+                zwrot.setRokdo(Data.getRok(zwrot.getDatado()));
+                zwrot.setMcod(Data.getMc(zwrot.getDataod()));
+                zwrot.setMcdo(Data.getMc(zwrot.getDatado()));
+                zwrotlist.add(zwrot);
+            }
         }
         return zwrotlist;
     }

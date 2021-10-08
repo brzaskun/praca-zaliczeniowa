@@ -34,7 +34,7 @@ public class UmowaBean {
             umowa.setAngaz(AngazBean.create());
             umowa.setChorobowe(Boolean.TRUE);
             umowa.setChorobowedobrowolne(Boolean.FALSE);
-            umowa.setDatado("2020-12-29");
+            umowa.setDatado("2020-12-31");
             umowa.setDatanfz("2020-12-01");
             umowa.setDataod("2020-12-01");
             umowa.setDataspoleczne("2020-12-01");
@@ -134,7 +134,7 @@ public class UmowaBean {
                 zwrot = selected.getDataod();
             } else {
                 Umowa u = umowaList.get(0);
-                int iledni = Data.iletodni(u.getDatado(), selected.getDataod());
+                int iledni = Data.iletodniKalendarzowych(u.getDatado(), selected.getDataod());
                 if (u.getSlownikszkolazatrhistoria().getPraca0nauka1() && iledni < 90) {
                     zwrot = selected.getDataod();
                 } else {

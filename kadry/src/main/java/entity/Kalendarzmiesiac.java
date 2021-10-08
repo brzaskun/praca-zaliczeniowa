@@ -226,6 +226,54 @@ private static final long serialVersionUID = 1L;
         return zwrot;
     }
     
+    public double[] chorobadnigodz() {
+        double[] zwrot = new double[2];
+        double chorobadni = 0;
+        double chorobagodziny = 0;
+        String dataod = null;
+        String datado = null;
+        if (this.dzienList!=null) {
+            for (Dzien d : dzienList) {
+                if (d.getWynagrodzeniezachorobe()>0.0) {
+                    dataod = d.getNieobecnosc().getDataod();
+                    datado = d.getNieobecnosc().getDatado();
+                    chorobagodziny = chorobagodziny+d.getWynagrodzeniezachorobe();
+                }
+            }
+        }
+        if (dataod!=null&&datado!=null) {
+            zwrot[0] = Data.iletodniKalendarzowych(dataod, datado);
+        } else {
+            zwrot[0] = 0;
+        }
+        zwrot[1] = chorobagodziny;
+        return zwrot;
+    }
+    
+    public double[] zasilekdnigodz() {
+        double[] zwrot = new double[2];
+        double zasilekdni = 0;
+        double zasilekgodziny = 0;
+        String dataod = null;
+        String datado = null;
+        if (this.dzienList!=null) {
+            for (Dzien d : dzienList) {
+                if (d.getZasilek()>0.0) {
+                    dataod = d.getNieobecnosc().getDataod();
+                    datado = d.getNieobecnosc().getDatado();
+                    zasilekgodziny = zasilekgodziny+d.getZasilek();
+                }
+            }
+        }
+        if (dataod!=null&&datado!=null) {
+            zwrot[0] = Data.iletodniKalendarzowych(dataod, datado);
+        } else {
+            zwrot[0] = 0;
+        }
+        zwrot[1] = zasilekgodziny;
+        return zwrot;
+    }
+    
      public double[] urlopbezplatnydnigodz() {
         double[] zwrot = new double[2];
         double urlopdni = 0;
@@ -308,6 +356,16 @@ private static final long serialVersionUID = 1L;
 
    public boolean isPraca() {
        return this.getUmowa().getUmowakodzus().isPraca();
+   }
+   
+   public Pasekwynagrodzen getPasek() {
+       Pasekwynagrodzen zwrot = new Pasekwynagrodzen();
+         if (this.pasekwynagrodzenList!=null && this.pasekwynagrodzenList.size()==1) {
+           for (Pasekwynagrodzen p : this.pasekwynagrodzenList) {
+               zwrot = p;
+           }
+         }
+        return zwrot;
    }
    
    public List<Naliczenieskladnikawynagrodzenia> skladnikiwynagrodzenialista() {
@@ -461,3 +519,4 @@ private static final long serialVersionUID = 1L;
        
         
 }
+

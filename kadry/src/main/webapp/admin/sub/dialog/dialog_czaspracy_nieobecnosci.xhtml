@@ -81,6 +81,7 @@
                                  selectionMode="single" selection="#{nieobecnoscView.selectedlista}" rowIndexVar="indexn"
                                  rowKey="#{itemNieob.id}" sortBy="#{itemNieob.dataod}" 
                                  style="height: 450px; overflow-y: scroll;"
+                                 emptyMessage="Nie wpisano żadnych nieobecności"
                                  >
                         <p:column width="40" style="text-align: center;">
                             <f:facet name="header">
@@ -117,6 +118,12 @@
                                 <h:outputText value="dni kal."/>
                             </f:facet>
                             <h:outputText value="#{itemNieob.dnikalendarzowe}" style="#{itemNieob.rokod eq wpisView.rokWpisu ? itemNieob.naniesiona?'color: green':'color: red':'initial'}"/>
+                        </p:column>
+                         <p:column style="text-align: center;" width="40">
+                            <f:facet name="header">
+                                <h:outputText value="dni rob."/>
+                            </f:facet>
+                             <h:outputText value="#{itemNieob.dnirobocze}" style="#{itemNieob.rokod eq wpisView.rokWpisu ? itemNieob.naniesiona?'color: green':'color: red':'initial'}"/>
                         </p:column>
                         <p:column style="text-align: center;" width="40">
                             <f:facet name="header">

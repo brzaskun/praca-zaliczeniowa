@@ -59,6 +59,17 @@ public abstract class  DAO<T> {
     public void remove(T entity) {
         getEntityManager().remove(getEntityManager().merge(entity));
     }
+    
+     public void removeList(List<T> entityList) {
+        for (T p : entityList) {
+            try {
+                getEntityManager().remove(getEntityManager().merge(p));
+            } catch (Exception e) {
+                E.e(e);
+            }
+        }
+        
+    }
 
     public T find(Object id) {
         return getEntityManager().find(entityClass, id);

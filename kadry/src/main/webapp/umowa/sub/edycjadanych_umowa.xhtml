@@ -46,7 +46,9 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                                 <p:ajax event="change" listener="#{umowaView.naniesdatynaumowe}" partialSubmit="true" global="false" update="@(.dataUmowy)"/>
                             </p:inputText>
                             <p:outputLabel value="data do" for="datado" />
-                            <p:inputText id="datado" value="#{umowaView.selected.datado}" title="data do"  placeholder="____-__-__"  maxlength="10"/>
+                            <p:inputText id="datado" value="#{umowaView.selected.datado}" title="data do"  placeholder="____-__-__"  maxlength="10">
+                                <p:ajax event="change" listener="#{umowaView.sprawdzczyumowajestnaczas}" partialSubmit="true" global="false" />
+                            </p:inputText>
                             <p:outputLabel value="data zawarcia" for="datazawarcia" />
                             <p:inputText id="datazawarcia" value="#{umowaView.selected.datazawarcia}" title="data zawarcia"  placeholder="____-__-__"  required="true" styleClass="dataUmowy" maxlength="10"/>
 

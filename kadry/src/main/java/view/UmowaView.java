@@ -5,12 +5,15 @@
  */
 package view;
 
+import beanstesty.PasekwynagrodzenBean;
 import beanstesty.UmowaBean;
 import dao.AngazFacade;
 import dao.EtatPracFacade;
 import dao.KalendarzmiesiacFacade;
 import dao.KalendarzwzorFacade;
 import dao.KodyzawodowFacade;
+import dao.NieobecnoscFacade;
+import dao.NieobecnosckodzusFacade;
 import dao.RodzajwynagrodzeniaFacade;
 import dao.SkladnikWynagrodzeniaFacade;
 import dao.UmowaFacade;
@@ -23,6 +26,7 @@ import entity.EtatPrac;
 import entity.Kalendarzmiesiac;
 import entity.Kalendarzwzor;
 import entity.Kodyzawodow;
+import entity.Nieobecnosc;
 import entity.Rodzajwynagrodzenia;
 import entity.Skladnikwynagrodzenia;
 import entity.Umowa;
@@ -67,6 +71,10 @@ public class UmowaView  implements Serializable {
     private KalendarzmiesiacFacade kalendarzmiesiacFacade;
     @Inject
     private KalendarzwzorFacade kalendarzwzorFacade;
+    @Inject
+    private NieobecnosckodzusFacade nieobecnosckodzusFacade;
+    @Inject
+    private NieobecnoscFacade nieobecnoscFacade;
     @Inject
     private AngazFacade angazFacade;
     @Inject
@@ -155,7 +163,7 @@ public class UmowaView  implements Serializable {
                 etatFacade.create(etat);
             }
             Msg.msg("Dodano nową umowę");
-            generujKalendarzNowaUmowa();
+            Kalendarzmiesiac kalendarz = generujKalendarzNowaUmowa();
             if (wynagrodzeniemiesieczne!=0.0 || wynagrodzeniegodzinowe!=0.0){
               Rodzajwynagrodzenia rodzajwynagrodzenia = selected.getUmowakodzus().isPraca() ? rodzajwynagrodzeniaFacade.findZasadniczePraca(): rodzajwynagrodzeniaFacade.findZasadniczeZlecenie();
               if (wynagrodzeniegodzinowe != 0.0) {
@@ -168,6 +176,10 @@ public class UmowaView  implements Serializable {
               }
               skladnikWynagrodzeniaView.init();
               zmiennaWynagrodzeniaView.init();
+              List<Nieobecnosc> zatrudnieniewtrakciemiesiaca = PasekwynagrodzenBean.generuj(kalendarz.getUmowa(),nieobecnosckodzusFacade, kalendarz.getRok(), kalendarz.getMc(), kalendarz);
+              if (zatrudnieniewtrakciemiesiaca!=null) {
+                nieobecnoscFacade.createList(zatrudnieniewtrakciemiesiaca);
+              }
             }
             selected = new Umowa();
             wynagrodzeniemiesieczne = 0.0;
@@ -182,7 +194,8 @@ public class UmowaView  implements Serializable {
     }
     
     
-    public void generujKalendarzNowaUmowa() {
+    public Kalendarzmiesiac generujKalendarzNowaUmowa() {
+        Kalendarzmiesiac kal = null;
         if (wpisView.getAngaz()!=null && wpisView.getPracownik()!=null && wpisView.getUmowa()!=null) {
             String rok = Data.getRok(wpisView.getUmowa().getDataod());
             Integer mcod = Integer.parseInt(Data.getMc(wpisView.getUmowa().getDataod()));
@@ -190,11 +203,11 @@ public class UmowaView  implements Serializable {
             for (String mc: Mce.getMceListS()) {
                 Integer kolejnymc = Integer.parseInt(mc);
                 if (kolejnymc>=mcod) {
-                    Kalendarzmiesiac kalmiesiac = kalendarzmiesiacFacade.findByRokMcUmowa(wpisView.getUmowa(), rok, mc);
-                    if (kalmiesiac==null) {
+                    kal = kalendarzmiesiacFacade.findByRokMcUmowa(wpisView.getUmowa(), rok, mc);
+                    if (kal==null) {
                         Kalendarzwzor znaleziono = kalendarzwzorFacade.findByFirmaRokMc(wpisView.getUmowa().getAngaz().getFirma(), rok, mc);
                         if (znaleziono!=null) {
-                            Kalendarzmiesiac kal = new Kalendarzmiesiac();
+                            kal = new Kalendarzmiesiac();
                             kal.setRok(rok);
                             kal.setMc(mc);
                             kal.setUmowa(wpisView.getUmowa());
@@ -211,20 +224,42 @@ public class UmowaView  implements Serializable {
         } else {
             Msg.msg("e","Nie wybrano pracownika i umowy");
         }
+        return kal;
     }
     
     public void edit() {
       if (selected!=null && selected.getId()!=null) {
           try {
+            if (selected.getDatado()!=null) {
+                List<Nieobecnosc> zatrudnieniewtrakciemiesiaca = nieobecnoscFacade.findByUmowa200(selected);
+                if (zatrudnieniewtrakciemiesiaca!=null) {
+                    nieobecnoscFacade.removeList(zatrudnieniewtrakciemiesiaca);
+                    zatrudnieniewtrakciemiesiaca = null;
+                }
+                Kalendarzmiesiac kalendarz = selected.getKalendarzmiesiacList().stream().filter(p->p.getRok().equals(selected.getRok())&&p.getMc().equals(selected.getMc())).findFirst().get();
+                zatrudnieniewtrakciemiesiaca = PasekwynagrodzenBean.generuj(selected,nieobecnosckodzusFacade, selected.getRok(), selected.getMc(), kalendarz);
+                if (zatrudnieniewtrakciemiesiaca!=null) {
+                  nieobecnoscFacade.createList(zatrudnieniewtrakciemiesiaca);
+                }
+            }
             umowaFacade.edit(selected);
             wpisView.setUmowa(selected);
             selected = new Umowa();
             Msg.msg("Edycja umowy zakończona");
           } catch (Exception e) {
               System.out.println("");
-              Msg.msg("e", "Błąd - nie dodano nowej umowy. Sprawdź angaż");
+              Msg.msg("e", "Błąd - nie zmieniono danych nowej umowy. Sprawdź angaż.");
+              Msg.msg("e", "Czy istnieją już listy płac? Usuń je.");
           }
       }
+    }
+    
+    public void sprawdzczyumowajestnaczas() {
+        if (selected.getDatado()!=null) {
+            if (selected.getSlownikszkolazatrhistoria().getSymbol().equals("P")) {
+                Msg.msg("e","Wybrano umowę na czas nieokreślony a wprowadzono datę do!");
+            }
+        }
     }
     
     public void cancel() {
