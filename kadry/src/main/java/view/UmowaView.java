@@ -8,6 +8,7 @@ package view;
 import beanstesty.PasekwynagrodzenBean;
 import beanstesty.UmowaBean;
 import dao.AngazFacade;
+import dao.DzienFacade;
 import dao.EtatPracFacade;
 import dao.KalendarzmiesiacFacade;
 import dao.KalendarzwzorFacade;
@@ -16,21 +17,26 @@ import dao.NieobecnoscFacade;
 import dao.NieobecnosckodzusFacade;
 import dao.RodzajwynagrodzeniaFacade;
 import dao.SkladnikWynagrodzeniaFacade;
+import dao.StanowiskopracFacade;
 import dao.UmowaFacade;
 import dao.UmowakodzusFacade;
 import dao.ZmiennaWynagrodzeniaFacade;
 import data.Data;
 import embeddable.Mce;
 import entity.Angaz;
+import entity.Dzien;
 import entity.EtatPrac;
 import entity.Kalendarzmiesiac;
 import entity.Kalendarzwzor;
 import entity.Kodyzawodow;
 import entity.Nieobecnosc;
 import entity.Rodzajwynagrodzenia;
+import entity.Skladnikpotracenia;
 import entity.Skladnikwynagrodzenia;
+import entity.Stanowiskoprac;
 import entity.Umowa;
 import entity.Umowakodzus;
+import entity.Zmiennapotracenia;
 import entity.Zmiennawynagrodzenia;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -62,9 +68,13 @@ public class UmowaView  implements Serializable {
     @Inject
     private UmowaFacade umowaFacade;
     @Inject
+    private DzienFacade dzienFacade;
+    @Inject
     private KodyzawodowFacade kodyzawodowFacade;
     @Inject
     private EtatPracFacade etatFacade;
+    @Inject
+    private StanowiskopracFacade stanowiskopracFacade;
     @Inject
     private UmowakodzusFacade rodzajumowyFacade;
     @Inject
@@ -158,9 +168,15 @@ public class UmowaView  implements Serializable {
             }
             lista.add(selected);
             wpisView.setUmowa(selected);
-            if (selected.getUmowakodzus().isPraca()) {
+            if (selected.getUmowakodzus().isPraca() && etat1!=null && etat2!=null) {
                 EtatPrac etat = new EtatPrac(selected, etat1, etat2);
                 etatFacade.create(etat);
+                selected.getEtatList().add(etat);
+            }
+            if (selected.getUmowakodzus().isPraca() && selected.getKodzawodu()!=null) {
+                Stanowiskoprac stanowisko = new Stanowiskoprac(selected);
+                stanowiskopracFacade.create(stanowisko);
+                selected.getStanowiskopracList().add(stanowisko);
             }
             Msg.msg("Dodano nową umowę");
             Kalendarzmiesiac kalendarz = generujKalendarzNowaUmowa();
@@ -233,17 +249,57 @@ public class UmowaView  implements Serializable {
             if (selected.getDatado()!=null) {
                 List<Nieobecnosc> zatrudnieniewtrakciemiesiaca = nieobecnoscFacade.findByUmowa200(selected);
                 if (zatrudnieniewtrakciemiesiaca!=null) {
+                    for (Nieobecnosc p : zatrudnieniewtrakciemiesiaca) {
+                        List<Dzien> dzienList = p.getDzienList();
+                        List<Dzien> wzorcowe = dzienFacade.findByNrwrokuByData(p.getDataod(), p.getDatado(), wpisView.getFirma());
+                        for (Dzien d : dzienList) {
+                            d.setNieobecnosc(null);
+                            dzienFacade.edit(d);
+                            try {
+                                d.nanieswzorcowe(wzorcowe);
+                            } catch (Exception e){}
+                            dzienFacade.edit(d);
+                        }
+                        p.setDzienList(null);
+                        nieobecnoscFacade.edit(p);
+                    }
                     nieobecnoscFacade.removeList(zatrudnieniewtrakciemiesiaca);
                     zatrudnieniewtrakciemiesiaca = null;
                 }
-                Kalendarzmiesiac kalendarz = selected.getKalendarzmiesiacList().stream().filter(p->p.getRok().equals(selected.getRok())&&p.getMc().equals(selected.getMc())).findFirst().get();
-                zatrudnieniewtrakciemiesiaca = PasekwynagrodzenBean.generuj(selected,nieobecnosckodzusFacade, selected.getRok(), selected.getMc(), kalendarz);
+                String rok = Data.getRok(selected.getDatado());
+                String mc = Data.getMc(selected.getDatado());
+                Kalendarzmiesiac kalendarz = selected.getKalendarzmiesiacList().stream().filter(p->p.getRok().equals(rok)&&p.getMc().equals(mc)).findFirst().get();
+                zatrudnieniewtrakciemiesiaca = PasekwynagrodzenBean.generuj(selected,nieobecnosckodzusFacade, rok, mc, kalendarz);
                 if (zatrudnieniewtrakciemiesiaca!=null) {
                   nieobecnoscFacade.createList(zatrudnieniewtrakciemiesiaca);
                 }
             }
+            if (selected.getEtatList()!=null&&selected.getEtatList().size()==1) {
+                EtatPrac etat = selected.getEtatList().get(0);
+                etat.setDataod(selected.getDataod());
+                etat.setDatado(selected.getDatado());
+            }
+            if (selected.getSkladnikwynagrodzeniaList()!=null) {
+                for (Skladnikwynagrodzenia p : selected.getSkladnikwynagrodzeniaList()) {
+                    if (p.getZmiennawynagrodzeniaList()!=null&&p.getZmiennawynagrodzeniaList().size()==1) {
+                        Zmiennawynagrodzenia zmienna = p.getZmiennawynagrodzeniaList().get(0);
+                        zmienna.setDataod(selected.getDataod());
+                        zmienna.setDatado(selected.getDatado());
+                    }
+                }
+            }
+            if (selected.getSkladnikpotraceniaList()!=null) {
+                for (Skladnikpotracenia p : selected.getSkladnikpotraceniaList()) {
+                    if (p.getZmiennapotraceniaList()!=null&&p.getZmiennapotraceniaList().size()==1) {
+                        Zmiennapotracenia zmienna = p.getZmiennapotraceniaList().get(0);
+                        zmienna.setDataod(selected.getDataod());
+                        zmienna.setDatado(selected.getDatado());
+                    }
+                }
+            }
             umowaFacade.edit(selected);
             wpisView.setUmowa(selected);
+            generujKalendarzNowaUmowa();
             selected = new Umowa();
             Msg.msg("Edycja umowy zakończona");
           } catch (Exception e) {

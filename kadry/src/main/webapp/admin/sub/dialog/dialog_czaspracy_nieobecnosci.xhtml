@@ -178,7 +178,7 @@
                             <f:facet name="header">
                                 <h:outputText value=""/>
                             </f:facet>
-                            <p:commandButton icon="fa fa-trash" actionListener="#{nieobecnoscView.usun(itemNieob)}"  update="NieobecnoscListForm:datalist">
+                            <p:commandButton icon="fa fa-trash" actionListener="#{nieobecnoscView.usun(itemNieob)}"  update="NieobecnoscListForm:datalist" rendered="#{itemNieob.naliczenienieobecnoscList eq null or itemNieob.naliczenienieobecnoscList.size() eq 0}">
                                 <p:confirm type="popup" header="Potwierdzenie" message="Usunąć nieobecność?" icon="pi pi-exclamation-triangle"/>
                             </p:commandButton>
                         </p:column>

@@ -136,6 +136,7 @@ public class NieobecnoscView  implements Serializable {
                                     if (znaleziony != null) {
                                         if (nieobecnosc.getRokod().equals(wpisView.getRokWpisu()) || nieobecnosc.getRokdo().equals(wpisView.getRokWpisu())) {
                                             znaleziony.naniesnieobecnosc(nieobecnosc);
+                                            nieobecnosc.setDnirobocze(Data.iletodniRoboczych(nieobecnosc.getDataod(), nieobecnosc.getDatado(), znaleziony.getDzienList()));
                                             nieobecnosc.setNaniesiona(true);
                                         }
                                         nieobecnoscFacade.edit(nieobecnosc);
@@ -230,10 +231,11 @@ public class NieobecnoscView  implements Serializable {
         if (nieob!=null) {
             List<Dzien> wzorcowe = dzienFacade.findByNrwrokuByData(nieob.getDataod(), nieob.getDatado(), wpisView.getFirma());
             for (Dzien d : nieob.getDzienList()) {
+                d.setNieobecnosc(null);
+                dzienFacade.edit(d);
                 try {
                     d.nanieswzorcowe(wzorcowe);
                 } catch (Exception e){}
-                d.setNieobecnosc(null);
                 dzienFacade.edit(d);
             }
             nieob.setDzienList(null);

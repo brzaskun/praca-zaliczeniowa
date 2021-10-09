@@ -366,7 +366,7 @@ public class KalendarzmiesiacBean {
         int dziendo = Data.getDzienI(nieobecnosc.getDatado());
         for (Dzien p : kalendarz.getDzienList()) {
             if (p.getTypdnia()==0 && p.getNormagodzin()!=0.0) {
-                if (p.getKod()==null || p.getKod().equals("100")) {
+                if (p.getPrzepracowano()>0.0 || p.getKod().equals("100")) {
                     dniroboczewmiesiacu++;
                 }
             }
@@ -461,9 +461,9 @@ public class KalendarzmiesiacBean {
                 double dowyplatyzaczasnieobecnosci = Z.z4(stawkadzienna * godzinynieobecnoscirobocze);
                 naliczenienieobecnosc.setKwota(0.0);
                 naliczenienieobecnosc.setKwotazus(0.0);
-                naliczenienieobecnosc.setKwotastatystyczna(Z.z(dowyplatyzaczasnieobecnosci));
                 if (kod.equals("200")) {
                     naliczenienieobecnosc.setKwotaredukcji(0.0);
+                    naliczenienieobecnosc.setKwotastatystyczna(Z.z(dowyplatyzaczasnieobecnosci));
                     
                 } else {
                     naliczenienieobecnosc.setKwotaredukcji(Z.z(dowyplatyzaczasnieobecnosci));

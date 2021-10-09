@@ -116,10 +116,15 @@ private static final long serialVersionUID = 1L;
     
     public String getOstatniDzien() {
         String zwrot = null;
+        Dzien dzien = null;
+        int i = 1;
         if (this.dzienList!=null) {
-            zwrot = this.dzienList.get(this.dzienList.size()-1).getDatastring();
+            do {
+                dzien = this.dzienList.get(this.dzienList.size()-i);
+                i++;
+            } while(dzien.getTypdnia()==-1);
         }
-        return zwrot;
+        return dzien.getDatastring();
     }
       
     public Integer getId() {
@@ -478,6 +483,9 @@ private static final long serialVersionUID = 1L;
                 dzienaktualny.setPrzepracowano(0);
             } else if (p.getNieobecnosckodzus().getKod().equals("777")) {
                 
+            } else if (p.getNieobecnosckodzus().getKod().equals("200")) {
+                dzienaktualny.setNormagodzin(0);
+                dzienaktualny.setPrzepracowano(0);
             }
             dzienaktualny.setNieobecnosc(p);
         }

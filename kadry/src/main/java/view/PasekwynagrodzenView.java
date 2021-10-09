@@ -120,7 +120,13 @@ public class PasekwynagrodzenView  implements Serializable {
     
     public void zapisz() {
         if (lista!=null && lista.size()>0) {
-            pasekwynagrodzenFacade.editList(lista);
+            for (Pasekwynagrodzen p  : lista) {
+                if (p.getId()==null) {
+                    pasekwynagrodzenFacade.create(p);
+                } else {
+                    pasekwynagrodzenFacade.edit(p);
+                }
+            }
             Msg.msg("Zachowano listę płac");
         }
     }

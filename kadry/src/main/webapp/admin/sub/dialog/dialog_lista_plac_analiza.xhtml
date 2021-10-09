@@ -128,34 +128,34 @@
                             <p:column headerText="kod" width="40">
                                 <h:outputText value="#{itempasekwyn.skladnikwynagrodzenia.rodzajwynagrodzenia.kod}"/>
                             </p:column>
-                            <p:column headerText="składnik">
-                                <h:outputText value="#{itempasekwyn.skladnikwynagrodzenia.rodzajwynagrodzenia.opispelny}"/>
+                            <p:column headerText="składnik" width="180">
+                                <h:outputText value="#{itempasekwyn.skladnikwynagrodzenia.rodzajwynagrodzenia.opisskrocony}"/>
                             </p:column>
-                            <p:column headerText="data od" width="80">
+                            <p:column headerText="data od" width="60">
                                 <h:outputText value="#{itempasekwyn.dataod}"/>
                             </p:column>
-                            <p:column headerText="data do" width="80">
+                            <p:column headerText="data do" width="60">
                                 <h:outputText value="#{itempasekwyn.datado}"/>
                             </p:column>
-                            <p:column headerText="dnia faktyczne" width="80">
+                            <p:column headerText="dnia faktyczne" width="60" style="text-align: center;">
                                 <h:outputText value="#{itempasekwyn.dnifaktyczne}"/>
                             </p:column>
-                            <p:column headerText="dni należne" width="80">
+                            <p:column headerText="dni należne" width="60" style="text-align: center;">
                                 <h:outputText value="#{itempasekwyn.dninalezne}"/>
                             </p:column>
-                            <p:column headerText="godziny faktyczne" width="80">
+                            <p:column headerText="godziny faktyczne" width="60" style="text-align: center;">
                                 <h:outputText value="#{itempasekwyn.godzinyfaktyczne}"/>
                             </p:column>
-                            <p:column headerText="godziny należne" width="80">
+                            <p:column headerText="godziny należne" width="60" style="text-align: center;">
                                 <h:outputText value="#{itempasekwyn.godzinynalezne}"/>
                             </p:column>
-                            <p:column headerText="kwota do listy płac" width="80">
+                            <p:column headerText="kwota do listy płac" width="60">
                                 <bcf:outputpl value="#{itempasekwyn.kwotadolistyplac}"/>
                             </p:column>
-                            <p:column headerText="kwota redukcji" width="80">
+                            <p:column headerText="kwota redukcji" width="60">
                                 <bcf:outputpl value="#{itempasekwyn.kwotyredukujacesuma}"/>
                             </p:column>
-                            <p:column headerText="kwota umowna" width="80">
+                            <p:column headerText="kwota umowna" width="60">
                                 <bcf:outputpl value="#{itempasekwyn.kwotaumownazacalymc}"/>
                             </p:column>
                         </p:dataTable>
@@ -172,37 +172,37 @@
                             <p:column headerText="kod" width="40">
                                 <h:outputText value="#{itempasekpotr.nieobecnosc.nieobecnosckodzus.kod}"/>
                             </p:column>
-                            <p:column headerText="składnik" width="120">
-                                <h:outputText value="#{itempasekpotr.nieobecnosc.nieobecnosckodzus.opis}"/>
+                            <p:column headerText="składnik" width="180">
+                                <h:outputText value="#{itempasekpotr.nieobecnosc.nieobecnosckodzus.opisskrocony}"/>
                             </p:column>
-                            <p:column headerText="data od" width="80">
+                            <p:column headerText="data od" width="60">
                                 <h:outputText value="#{itempasekpotr.nieobecnosc.dataod}"/>
                             </p:column>
-                            <p:column headerText="data do" width="80">
+                            <p:column headerText="data do" width="60">
                                 <h:outputText value="#{itempasekpotr.nieobecnosc.datado}"/>
                             </p:column>
-                            <p:column headerText="dnia kalen." width="60">
+                            <p:column headerText="dnia kalen." width="60" style="text-align: center;">
                                 <h:outputText value="#{itempasekpotr.nieobecnosc.dnikalendarzowe}"/>
                             </p:column>
-                            <p:column headerText="dni robocze" width="60">
+                            <p:column headerText="dni robocze" width="60" style="text-align: center;">
                                 <h:outputText value="#{itempasekpotr.nieobecnosc.dnirobocze}"/>
                             </p:column>
-                            <p:column headerText="godziny urlopu" width="60">
+                            <p:column headerText="godziny urlopu" width="60" style="text-align: center;">
                                 <h:outputText value="#{itempasekpotr.liczbagodzinurlopu}"/>
                             </p:column>
-                            <p:column headerText="godziny robocze" width="60">
+                            <p:column headerText="godziny robocze" width="60" style="text-align: center;">
                                 <h:outputText value="#{itempasekpotr.liczbagodzinroboczych}"/>
                             </p:column>
                             <p:column headerText="stawka dzienna" width="60">
                                 <bcf:outputpl value="#{itempasekpotr.stawkadzienna}"/>
                             </p:column>
-                            <p:column headerText="kwota do listy płac" width="80">
+                            <p:column headerText="kwota do listy płac" width="60">
                                 <bcf:outputpl value="#{itempasekpotr.kwota}"/>
                             </p:column>
-                            <p:column headerText="kwota redukcji" width="80">
+                            <p:column headerText="kwota redukcji" width="60">
                                 <bcf:outputpl value="#{itempasekpotr.kwotaredukcji}"/>
                             </p:column>
-                            <p:column headerText="kwota statystyczna" width="80">
+                            <p:column headerText="kwota statystyczna" width="60">
                                 <bcf:outputpl value="#{itempasekpotr.kwotastatystyczna}"/>
                             </p:column>
                         </p:dataTable>

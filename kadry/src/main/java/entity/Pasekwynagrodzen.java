@@ -706,7 +706,7 @@ public class Pasekwynagrodzen implements Serializable {
                 Skladnikwynlista wiersz = new Skladnikwynlista();
                 wiersz.lp = i++;
                 wiersz.kod = p.getNieobecnosc().getNieobecnosckodzus().getKod();
-                wiersz.nazwa = p.getNieobecnosc().getNieobecnosckodzus().getOpis();
+                wiersz.nazwa = p.getNieobecnosc().getNieobecnosckodzus().getOpisskrocony();
                 wiersz.kwota = p.getKwota();
                 wiersz.redukcja = p.getKwotastatystyczna();
                 wiersz.dataod = p.getNieobecnosc().getDataod();

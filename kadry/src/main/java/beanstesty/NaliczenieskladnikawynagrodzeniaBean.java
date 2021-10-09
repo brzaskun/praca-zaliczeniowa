@@ -77,7 +77,11 @@ public class NaliczenieskladnikawynagrodzeniaBean {
             double dniroboczeprzepracowanestat = 0.0;
             for (Zmiennawynagrodzenia r : skladnikwynagrodzenia.getZmiennawynagrodzeniaList()) {
                 int dzienodzmienna = Data.getDzienI(r.getDataod());
-                int dziendozmienna = r.getDatado()!=null ? Data.getDzienI(r.getDatado()) : Integer.parseInt(Data.getDzien(Data.ostatniDzien(kalendarz.getRok(), kalendarz.getMc())));
+                String datado = Data.ostatniDzien(kalendarz.getRok(), kalendarz.getMc());
+                if (r.getDatado()!=null&&Data.getRok(r.getDatado()).equals(kalendarz.getRok())&&Data.getMc(r.getDatado()).equals(kalendarz.getMc())) {
+                    datado = r.getDatado();
+                }
+                int dziendozmienna = r.getDatado()!=null ? Data.getDzienI(datado) : Integer.parseInt(Data.getDzien(Data.ostatniDzien(kalendarz.getRok(), kalendarz.getMc())));
                 if (r.czysiemiesci(kalendarz)) {
                     skladnikistale = r.getKwota();
                     for (Dzien s : kalendarz.getDzienList()) {

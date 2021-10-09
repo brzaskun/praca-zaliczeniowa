@@ -190,11 +190,13 @@ public class Umowa implements Serializable {
 
     public Umowa() {
         this.etatList = new ArrayList<>();
+        this.stanowiskopracList = new ArrayList<>();
     }
 
     public Umowa(int id) {
         this.id = id;
         this.etatList = new ArrayList<>();
+        this.stanowiskopracList = new ArrayList<>();
     }
 
     public Integer getId() {
