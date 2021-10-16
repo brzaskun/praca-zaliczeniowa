@@ -5,7 +5,6 @@
  */
 package entity;
 
-import data.Data;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -82,17 +81,7 @@ public class Zmiennawynagrodzenia implements Serializable {
         this.netto0brutto1 = true;
     }
     
-    public boolean czysiemiesci(Kalendarzmiesiac kalendarz) {
-        boolean zwrot = false;
-        String poczatek = Data.odejmijdni(kalendarz.getPierwszyDzien(),1);
-        String koniec = Data.dodajdni(kalendarz.getOstatniDzien(),1);
-        //czy data poczatkowa zmiennej jest starsza od daty koncowej kalendarza
-        boolean czydatapocz = Data.czyjestprzed(koniec, this.dataod);
-        String datado = this.datado!=null ? this.datado : Data.getDzien(Data.ostatniDzien(kalendarz.getRok(), kalendarz.getMc()));
-        boolean czydatakonc = Data.czyjestpo(poczatek, datado);
-        zwrot = czydatapocz||czydatakonc;
-        return zwrot;
-    }
+    
 
     public Integer getId() {
         return id;
@@ -125,10 +114,10 @@ public class Zmiennawynagrodzenia implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Zmiennawynagrodzenia[ id=" + id + " ]";
+        return "Zmiennawynagrodzenia{" + "datado=" + datado + ", dataod=" + dataod + ", nazwa=" + nazwa + ", waluta=" + waluta + ", netto0brutto1=" + netto0brutto1 + ", skladnikwynagrodzenia=" + skladnikwynagrodzenia.getRodzajwynagrodzenia().getOpisskrocony() + ", kwota=" + kwota + ", aktywna=" + aktywna + '}';
     }
 
-
+  
 
     public double getKwota() {
         return kwota;

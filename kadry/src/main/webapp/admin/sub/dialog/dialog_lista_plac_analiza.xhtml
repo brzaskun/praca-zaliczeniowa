@@ -7,7 +7,7 @@
 
     xmlns:bcf="http://brzaskun.com/facelets"
     xmlns:pe="http://primefaces.org/ui/extensions">
-    <p:dialog id="dialoglistaplacanaliza" header="Wyliczanie listy płac" widgetVar="dialoglistaplacanaliza"  
+    <p:dialog id="dialoglistaplacanaliza" header="Analiza wynagrodzenia" widgetVar="dialoglistaplacanaliza"  
               resizable="false"  onShow="ustawdialog('dialoglistaplacanaliza','centertile',1650,800);" closeOnEscape="true" onHide="resetujdialog('dialoglistaplacanaliza');" 
               fitViewport="true">
         <p:outputPanel style="height: 50px">
@@ -31,7 +31,7 @@
                             <f:selectItems value="#{pasekwynagrodzenView.listadefinicjalistaplac}" 
                                            var="firmalistaItem"
                                            itemValue="#{firmalistaItem}" itemLabel="#{firmalistaItem.opis} #{firmalistaItem.nrkolejny}"/>
-                            <p:ajax event="change" partialSubmit="true" global="false" listener="#{pasekwynagrodzenView.pobierzkalendarzezamc}" update="PasekwynagrodzenAnalizaForm DefinicjalistaplacAnalizaForm2"/>
+                            <p:ajax event="change" partialSubmit="true" global="false" listener="#{pasekwynagrodzenView.pobierzkalendarzezamcanaliza}" update="PasekwynagrodzenAnalizaForm DefinicjalistaplacAnalizaForm2 PasekwynagrodzenAnalizaForm"/>
                         </p:selectOneMenu>
 
 
@@ -120,7 +120,7 @@
                     <p:panelGrid columns="1" rendered="#{pasekwynagrodzenView.wybranykalendarz.pasekwynagrodzenList ne null}" style="margin-bottom: 10px;">
                         <p:dataTable id="datalist" value="#{pasekwynagrodzenView.wybranykalendarz.skladnikiwynagrodzenialista()}" var="itempasekwyn"
                                      rowIndexVar="indexpasekszcz" emptyMessage="Nie ma danych"
-                                     style="height: 150px; overflow-y: scroll;width: 1200px;"
+                                     style="height: 150px; overflow-y: scroll;width: 1350px;"
                                      >
                             <p:column style="text-align: center;" headerText="lp" width="40">
                                 <h:outputText value="#{indexpasekszcz+1}"/>
@@ -128,8 +128,11 @@
                             <p:column headerText="kod" width="40">
                                 <h:outputText value="#{itempasekwyn.skladnikwynagrodzenia.rodzajwynagrodzenia.kod}"/>
                             </p:column>
-                            <p:column headerText="składnik" width="180">
+                            <p:column headerText="składnik" width="200">
                                 <h:outputText value="#{itempasekwyn.skladnikwynagrodzenia.rodzajwynagrodzenia.opisskrocony}"/>
+                            </p:column>
+                            <p:column headerText="stały" width="40" style="text-align: center;">
+                                <h:outputText value="&#x2714;"  rendered="#{itempasekwyn.skladnikwynagrodzenia.rodzajwynagrodzenia.stale0zmienne1 eq false}"  style="color: green;font-weight: 900;"/> 
                             </p:column>
                             <p:column headerText="data od" width="60">
                                 <h:outputText value="#{itempasekwyn.dataod}"/>
@@ -149,6 +152,9 @@
                             <p:column headerText="godziny należne" width="60" style="text-align: center;">
                                 <h:outputText value="#{itempasekwyn.godzinynalezne}"/>
                             </p:column>
+                            <p:column headerText="stawka dzienna" width="60">
+                                <bcf:outputpl value="#{itempasekwyn.stawkadzienna}"/>
+                            </p:column>
                             <p:column headerText="kwota do listy płac" width="60">
                                 <bcf:outputpl value="#{itempasekwyn.kwotadolistyplac}"/>
                             </p:column>
@@ -164,7 +170,7 @@
                     <p:panelGrid columns="1" rendered="#{pasekwynagrodzenView.wybranykalendarz.pasekwynagrodzenList ne null}">
                         <p:dataTable id="datalist2" value="#{pasekwynagrodzenView.wybranykalendarz.skladnikinieobecnosclista()}" var="itempasekpotr"
                                      rowIndexVar="indexpasekszcz2" emptyMessage="Nie ma danych" 
-                                     style="height: 150px; overflow-y: scroll;width: 1200px;"
+                                     style="height: 200px; overflow-y: scroll;width: 1350px;"
                                      >
                             <p:column style="text-align: center;" headerText="lp" width="40">
                                 <h:outputText value="#{indexpasekszcz2+1}"/>
@@ -172,8 +178,10 @@
                             <p:column headerText="kod" width="40">
                                 <h:outputText value="#{itempasekpotr.nieobecnosc.nieobecnosckodzus.kod}"/>
                             </p:column>
-                            <p:column headerText="składnik" width="180">
+                            <p:column headerText="składnik" width="250">
                                 <h:outputText value="#{itempasekpotr.nieobecnosc.nieobecnosckodzus.opisskrocony}"/>
+                                <h:outputText value="/"/>
+                                <h:outputText value="#{itempasekpotr.skladnikwynagrodzenia.rodzajwynagrodzenia.opisskrocony}"/>
                             </p:column>
                             <p:column headerText="data od" width="60">
                                 <h:outputText value="#{itempasekpotr.nieobecnosc.dataod}"/>

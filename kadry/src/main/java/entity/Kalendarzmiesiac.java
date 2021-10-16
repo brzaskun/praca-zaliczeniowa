@@ -160,10 +160,12 @@ private static final long serialVersionUID = 1L;
         }
         return true;
     }
+
     @Override
     public String toString() {
-        return "entity.Kalendarzmiesiac[ id=" + id + " ]";
+        return "Kalendarzmiesiac{" + "rok=" + rok + ", mc=" + mc + ", umowa=" + umowa.getImieNazwisko() + '}';
     }
+  
    
     @XmlTransient
     public List<Dzien> getDzienList() {
@@ -422,6 +424,10 @@ private static final long serialVersionUID = 1L;
         return mc;
     }
     
+    public String getRokMc() {
+        return rok+mc;
+    }
+    
 
     public void nanies(Kalendarzwzor kalendarzwzor) {
         int i = 0;
@@ -520,6 +526,20 @@ private static final long serialVersionUID = 1L;
         for (Dzien d : this.dzienList) {
             if (d.getKod()!=null&&!d.getKod().equals("777")) {
                 zwrot = true;
+            }
+        }
+        return zwrot;
+    }
+
+    public Naliczenieskladnikawynagrodzenia getNaliczonewynagrodzenie(Skladnikwynagrodzenia s) {
+        Naliczenieskladnikawynagrodzenia zwrot = null;
+        List<Naliczenieskladnikawynagrodzenia> lista = skladnikiwynagrodzenialista();
+        if (lista!=null) {
+            for (Naliczenieskladnikawynagrodzenia naliczenie : lista) {
+                if (naliczenie.getSkladnikwynagrodzenia().equals(s)) {
+                    zwrot = naliczenie;
+                    break;
+                }
             }
         }
         return zwrot;

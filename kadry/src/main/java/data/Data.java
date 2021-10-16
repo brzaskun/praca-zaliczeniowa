@@ -70,6 +70,11 @@ public class Data implements Serializable {
         String mc = getMc(data);
         return rok+"-"+mc+"-01";
     }
+    
+    public static String pierwszyDzien(String rok, String mc) {
+        return rok+"-"+mc+"-01";
+    }
+    
     public static String pierwszyDzien(WpisView wpisView) {
         String rok = wpisView.getRokWpisu();
         String mc = wpisView.getMiesiacWpisu();
@@ -357,12 +362,18 @@ public class Data implements Serializable {
      * @param rokgraniczny rokgraniczny
      * @param mcbadanegookresu mcbadanegookresu
      * @param rokbadanegookresu rokbadanegookresu
-     * 
+     * robi po i ten sam
      */
     public static boolean czyjestpomc(String mcgraniczny, String rokgraniczny, String mcbadanegookresu, String rokbadanegookresu) {
         int wynikporównania = -1;
         wynikporównania  = compare(rokbadanegookresu, mcbadanegookresu,rokbadanegookresu, mcgraniczny);
         return wynikporównania > -1;
+    }
+    
+    public static boolean czyjestpomcnaprawdepo(String mcgraniczny, String rokgraniczny, String mcbadanegookresu, String rokbadanegookresu) {
+        int wynikporównania = -1;
+        wynikporównania  = compare(rokbadanegookresu, mcbadanegookresu,rokbadanegookresu, mcgraniczny);
+        return wynikporównania > 0;
     }
 
     public static boolean czyjestprzed(String dataDo, String rok, String mc) {

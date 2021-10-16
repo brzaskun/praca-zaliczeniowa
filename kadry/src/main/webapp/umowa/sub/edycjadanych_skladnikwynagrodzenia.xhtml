@@ -136,7 +136,7 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                 <h:form id="ZmiennawynagrodzeniaListForm">
                     <p:panel header="Wykaz zmiennych składniki wynagrodzenia">
                         <p:dataTable id="datalist" value="#{zmiennaWynagrodzeniaView.lista}" var="itemzmiennawyn"
-                                     selectionMode="single" selection="#{pracownikView.selectedlista}"
+                                     selectionMode="single" selection="#{zmiennaWynagrodzeniaView.selectedlista}"
                                      rowKey="#{itemzmiennawyn.id}" emptyMessage="Składnik nie posiada zdefiniowanych zmiennych"
                                      style="height: 200px; overflow-y: scroll;"
                                      >
@@ -193,8 +193,13 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                                 </f:facet>
                                  <h:outputText value="&#x2714;" rendered="#{itemzmiennawyn.netto0brutto1 eq true}"/>
                             </p:column>
+                            <p:column width="40" style="text-align: center;">
+                                <p:commandButton icon="fa fa-edit"  actionListener="#{zmiennaWynagrodzeniaView.wybierzdoedycji(itemzmiennawyn)}" update="north, @(form) ZmiennawynagrodzeniaCreateForm"/>
+                            </p:column>
                             <p:column style="text-align: center;">
-                                <p:commandButton icon="fa fa-trash" actionListener="#{zmiennaWynagrodzeniaView.usunZmiennaWyn(itemzmiennawyn)}" update="north @(form)"/>
+                                <p:commandButton icon="fa fa-trash" actionListener="#{zmiennaWynagrodzeniaView.usunZmiennaWyn(itemzmiennawyn)}" update="north @(form)">
+                                    <p:confirm type="popup" header="Potwierdzenie" message="Usunąć daną zmienną?" icon="pi pi-exclamation-triangle"/>
+                                </p:commandButton>
                             </p:column>
                         </p:dataTable>
                     </p:panel>

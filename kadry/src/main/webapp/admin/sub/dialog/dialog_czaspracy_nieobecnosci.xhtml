@@ -174,7 +174,14 @@
                             </f:facet>
                             <h:outputText value="#{itemNieob.umowa.nrkolejny}"/>
                         </p:column>
-                        <p:column width="40">
+                        <p:column width="40" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value=""/>
+                            </f:facet>
+                            <p:commandButton icon="fa fa-thumbs-up" actionListener="#{nieobecnoscView.nanies(itemNieob)}"  update="NieobecnoscListForm:datalist" rendered="#{itemNieob.naliczenienieobecnoscList eq null or itemNieob.naliczenienieobecnoscList.size() eq 0}">
+                            </p:commandButton>
+                        </p:column>
+                        <p:column width="40" style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value=""/>
                             </f:facet>

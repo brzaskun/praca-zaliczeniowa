@@ -62,6 +62,8 @@ public class Naliczenieskladnikawynagrodzenia implements Serializable {
     private double godzinynalezne;
     @Column(name = "godzinyfaktyczne")
     private double godzinyfaktyczne;
+    @Column(name = "stawkadzienna")
+    private double stawkadzienna;
     @JoinColumn(name = "pasekwynagrodzen", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Pasekwynagrodzen pasekwynagrodzen;
@@ -208,6 +210,14 @@ public class Naliczenieskladnikawynagrodzenia implements Serializable {
 
     public void setGodzinyfaktyczne(double godzinyfaktyczne) {
         this.godzinyfaktyczne = godzinyfaktyczne;
+    }
+
+    public double getStawkadzienna() {
+        return stawkadzienna;
+    }
+
+    public void setStawkadzienna(double stawkadzienna) {
+        this.stawkadzienna = stawkadzienna;
     }
 
     

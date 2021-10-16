@@ -98,6 +98,7 @@ public class PasekwynagrodzenView  implements Serializable {
         try {
             wybranalistaplac = listadefinicjalistaplac.stream().filter(p->p.getMc().equals(wpisView.getMiesiacWpisu())).findFirst().get();
             pobierzkalendarzezamc();
+            pobierzkalendarzezamcanaliza();
             wybranalistaplac2 = listadefinicjalistaplac.stream().filter(p->p.getMc().equals(wpisView.getMiesiacWpisu())).findFirst().get();
             listakalendarzmiesiacdoanalizy2 = kalendarzmiesiacFacade.findByFirmaRokMcPraca(wybranalistaplac2.getFirma(), wybranalistaplac2.getRok(), wybranalistaplac2.getMc());
         } catch (Exception e){}
@@ -228,7 +229,7 @@ public class PasekwynagrodzenView  implements Serializable {
     }
     
     public void pobierzkalendarzezamc() {
-        Definicjalistaplac wybranalistaplac = this.wybranalistaplac!=null?this.wybranalistaplac:this.wybranalistaplac2;
+        Definicjalistaplac wybranalistaplac = this.wybranalistaplac;
         if (wybranalistaplac!=null) {
             if (rodzajumowy==null) {
                 rodzajumowy = "1";
@@ -250,10 +251,42 @@ public class PasekwynagrodzenView  implements Serializable {
             }
             if (listakalendarzmiesiac!=null) {
                 this.listakalendarzmiesiac.setSource(listakalendarzmiesiac);
-                this.listakalendarzmiesiacdoanalizy = listakalendarzmiesiac;
+            }
+            lista = pasekwynagrodzenFacade.findByDef(wybranalistaplac);
+        }
+    }
+    
+     public void pobierzkalendarzezamcanaliza() {
+        Definicjalistaplac wybranalistaplac = this.wybranalistaplac2;
+        if (wybranalistaplac!=null) {
+            if (rodzajumowy==null) {
+                rodzajumowy = "1";
+            }
+            List<Kalendarzmiesiac> listakalendarzmiesiac = kalendarzmiesiacFacade.findByFirmaRokMcPraca(wybranalistaplac.getFirma(), wybranalistaplac.getRok(), wybranalistaplac.getMc());
+            if (rodzajumowy.equals("2")) {
+                listakalendarzmiesiac = kalendarzmiesiacFacade.findByFirmaRokMcZlecenie(wybranalistaplac.getFirma(), wybranalistaplac.getRok(), wybranalistaplac.getMc());
+            }
+            Collections.sort(listakalendarzmiesiac, new Kalendarzmiesiaccomparator());
+            if (rodzajumowy.equals("2")) {
+                for (Iterator<Kalendarzmiesiac> it = listakalendarzmiesiac.iterator();it.hasNext();) {
+                    Kalendarzmiesiac p = it.next();
+                    Umowa u = p.getUmowa();
+                    Rachunekdoumowyzlecenia znaleziony = u.pobierzRachunekzlecenie(wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
+                    if (znaleziony==null) {
+                        it.remove();
+                    }
+                }
+            }
+            if (listakalendarzmiesiac!=null) {
+                this.listakalendarzmiesiac.setSource(listakalendarzmiesiac);
                 this.listakalendarzmiesiacdoanalizy2 = listakalendarzmiesiac;
             }
             lista = pasekwynagrodzenFacade.findByDef(wybranalistaplac);
+            if (wybranykalendarz!=null) {
+                try {
+                    wybranykalendarz = listakalendarzmiesiac.stream().filter(p->p.getPesel().equals(wybranykalendarz.getUmowa().getAngaz().getPracownik().getPesel())).findFirst().get();
+                } catch (Exception e){}
+            }
         }
     }
     

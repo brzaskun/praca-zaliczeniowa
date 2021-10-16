@@ -13,7 +13,6 @@ xmlns:pe="http://primefaces.org/ui/extensions">
 
         <p:outputPanel>
              <h:form id="KartyWynangrodzenListForm">
-                  <p:panel header="Karta wynagrodzeń"/>
                     <p:dataTable id="datalist" value="#{kartaWynagrodzenView.kartawynagrodzenlist}" var="itemkarta"
                                  rowKey="#{itemkarta.id}" sortBy="#{itemkarta.mc}" rowIndexVar="indexka"
                                 style="height: 450px; overflow-y: scroll;"
@@ -38,7 +37,7 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                         </p:column>
                         <p:column width="60">
                             <f:facet name="header">
-                                <h:outputText value="ubrutt."/>
+                                <h:outputText value="składki pracod."/>
                             </f:facet>
                             <bcf:outputpl value="#{itemkarta.kosztpracodawcy}"/>
                         </p:column>

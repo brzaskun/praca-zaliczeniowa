@@ -491,7 +491,7 @@ public class PasekwynagrodzenBean {
         for (Nieobecnosc p : kalendarz.getUmowa().getNieobecnoscList()) {
             jest = Data.czydatajestwmcu(p.getDataod(), rok, mc);
             jest = Data.czydatajestwmcu(p.getDatado(), rok, mc);
-            if (jest) {
+            if (jest && p.isNaniesiona()) {
                 zwrot.add(p);
             }
         }

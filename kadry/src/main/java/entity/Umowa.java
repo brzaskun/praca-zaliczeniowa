@@ -5,10 +5,12 @@
  */
 package entity;
 
+import comparator.KalendarzmiesiacLastcomparator;
 import data.Data;
 import embeddable.CzasTrwania;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -742,6 +744,25 @@ public class Umowa implements Serializable {
                 zwrot = rachunekdoumowyzleceniaList.stream().filter(pa->pa.getMc().equals(mc)&&pa.getRok().equals(rok)).findAny().get();
             }
         } catch (Exception e){}
+        return zwrot;
+    }
+
+    public List<Naliczenieskladnikawynagrodzenia> pobierzpaski(String rok, String mc, Skladnikwynagrodzenia s) {
+        List<Naliczenieskladnikawynagrodzenia> zwrot = new ArrayList<>();
+        List<Kalendarzmiesiac> kalendarzList = this.getKalendarzmiesiacList();
+        Collections.sort(kalendarzList, new KalendarzmiesiacLastcomparator());
+        int ilemamy = 0;
+        for (Kalendarzmiesiac  r : kalendarzList) {
+            if (Data.czyjestpomcnaprawdepo(r.getMc(), r.getRok(), mc, rok)) {
+                Naliczenieskladnikawynagrodzenia naliczonewynagrodzenie = r.getNaliczonewynagrodzenie(s);
+                zwrot.add(naliczonewynagrodzenie);
+                ilemamy++;
+            }
+            if (ilemamy==3) {
+                break;
+            }
+        }
+        
         return zwrot;
     }
 }
