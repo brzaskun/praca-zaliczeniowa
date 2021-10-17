@@ -29,7 +29,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import view.WpisView;
 import z.Z;
 
 /**
@@ -652,9 +651,9 @@ public class PasekwynagrodzenBean {
         return suma;
     }
 
-    public static boolean czyodliczonokwotewolna(WpisView wpisView, PasekwynagrodzenFacade pasekwynagrodzenFacade) {
+    public static boolean czyodliczonokwotewolna(String rok, String mc, Angaz angaz, PasekwynagrodzenFacade pasekwynagrodzenFacade) {
         boolean zwrot = false;
-        List<Pasekwynagrodzen> innepaskiwtymmiesiacu = pasekwynagrodzenFacade.findByRokMcAngaz(wpisView.getRokWpisu(), wpisView.getMiesiacWpisu(), wpisView.getAngaz());
+        List<Pasekwynagrodzen> innepaskiwtymmiesiacu = pasekwynagrodzenFacade.findByRokMcAngaz(rok, mc, angaz);
         if (innepaskiwtymmiesiacu!=null) {
             for (Pasekwynagrodzen p : innepaskiwtymmiesiacu) {
                 if (p.getKwotawolna()!=0.0) {

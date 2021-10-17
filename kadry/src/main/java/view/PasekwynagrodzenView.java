@@ -147,19 +147,19 @@ public class PasekwynagrodzenView  implements Serializable {
             int i = 1;
             List<Podatki> stawkipodatkowe = podatkiFacade.findByRokUmowa(wpisView.getRokWpisu(), "P");
             if (stawkipodatkowe!=null&&!stawkipodatkowe.isEmpty()) {
-                for (Kalendarzmiesiac p : listakalendarzmiesiac.getTarget()) {
-                    boolean czysainnekody = p.czysainnekody();
+                for (Kalendarzmiesiac pracownikmc : listakalendarzmiesiac.getTarget()) {
+                    boolean czysainnekody = pracownikmc.czysainnekody();
                     List<Pasekwynagrodzen> paskidowyliczeniapodstawy = new ArrayList<>();
                     List<Wynagrodzeniahistoryczne> historiawynagrodzen = new ArrayList<>();
                     if (czysainnekody) {
-                        paskidowyliczeniapodstawy = pobierzpaskidosredniej(p);
-                        historiawynagrodzen = wynagrodzeniahistoryczneFacade.findByAngaz(p.getUmowa().getAngaz());
+                        paskidowyliczeniapodstawy = pobierzpaskidosredniej(pracownikmc);
+                        historiawynagrodzen = wynagrodzeniahistoryczneFacade.findByAngaz(pracownikmc.getUmowa().getAngaz());
                     }
-                    double sumapoprzednich = PasekwynagrodzenBean.sumaprzychodowpoprzednich(pasekwynagrodzenFacade, p, stawkipodatkowe.get(1).getKwotawolnaod());
-                    double wynagrodzenieminimalne = wynagrodzenieminimalneFacade.findByRok(wpisView.getRokWpisu()).getKwotabrutto();
+                    double sumapoprzednich = PasekwynagrodzenBean.sumaprzychodowpoprzednich(pasekwynagrodzenFacade, pracownikmc, stawkipodatkowe.get(1).getKwotawolnaod());
+                    double wynagrodzenieminimalne = wynagrodzenieminimalneFacade.findByRok(pracownikmc.getRok()).getKwotabrutto();
                     //zeby nei odoliczyc kwoty wolnej dwa razy
-                    boolean czyodlicoznokwotewolna = PasekwynagrodzenBean.czyodliczonokwotewolna(wpisView, pasekwynagrodzenFacade);
-                    Pasekwynagrodzen pasek = PasekwynagrodzenBean.obliczWynagrodzenie(p, wybranalistaplac, nieobecnosckodzusFacade, paskidowyliczeniapodstawy, historiawynagrodzen, stawkipodatkowe, sumapoprzednich, wynagrodzenieminimalne, czyodlicoznokwotewolna);
+                    boolean czyodlicoznokwotewolna = PasekwynagrodzenBean.czyodliczonokwotewolna(pracownikmc.getRok(), pracownikmc.getMc(), pracownikmc.getUmowa().getAngaz(), pasekwynagrodzenFacade);
+                    Pasekwynagrodzen pasek = PasekwynagrodzenBean.obliczWynagrodzenie(pracownikmc, wybranalistaplac, nieobecnosckodzusFacade, paskidowyliczeniapodstawy, historiawynagrodzen, stawkipodatkowe, sumapoprzednich, wynagrodzenieminimalne, czyodlicoznokwotewolna);
                     usunpasekjakzawiera(pasek);
                     lista.add(pasek);
                 }
