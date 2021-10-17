@@ -27,12 +27,12 @@
                 <p:panelGrid columns="2" style="width: 200px;float: right;overflow-y: hidden; margin-right:500px" columnClasses="sixty-percent, forty-percent">
                     <p:column>
                        <p:inputText value="#{wpisView.rokWpisu}" style="font-weight: 900; font-size: x-large;" size="4">
-                           <p:ajax event="change" partialSubmit="true" global="false" update="@(form)" listener="#{updateClassView.updateRok}"/>
+                           <p:ajax event="change" partialSubmit="true" global="false" update="@(form)" listener="#{updateClassView.updateUmowa()}"/>
                         </p:inputText>
                     </p:column>
                     <p:column>
                         <p:inputText value="#{wpisView.miesiacWpisu}" style="font-weight: 900; font-size: x-large;" size="2">
-                            <p:ajax event="change" partialSubmit="true" global="false" update="@(form)"  listener="#{updateClassView.updateRok}"/>
+                            <p:ajax event="change" partialSubmit="true" global="false" update="@(form)"  listener="#{updateClassView.updateUmowa()}"/>
                         </p:inputText>
                     </p:column>
                 </p:panelGrid>

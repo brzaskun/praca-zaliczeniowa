@@ -271,6 +271,8 @@ public class PasekwynagrodzenBean {
         pasek.setBruttozus(bruttozus);
         pasek.setBrutto(Z.z(pasek.getBrutto()+bruttozus));
     }
+    
+    
 
     private static void obliczbruttobezzus(Pasekwynagrodzen pasek) {
         double bruttobezzus = 0.0;

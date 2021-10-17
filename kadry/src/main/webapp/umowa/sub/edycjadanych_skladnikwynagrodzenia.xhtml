@@ -138,7 +138,7 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                         <p:dataTable id="datalist" value="#{zmiennaWynagrodzeniaView.lista}" var="itemzmiennawyn"
                                      selectionMode="single" selection="#{zmiennaWynagrodzeniaView.selectedlista}"
                                      rowKey="#{itemzmiennawyn.id}" emptyMessage="Składnik nie posiada zdefiniowanych zmiennych"
-                                     style="height: 200px; overflow-y: scroll;"
+                                     style="height: 200px; overflow-y: scroll;" sortMode="single"
                                      >
 
                             <p:column width="40" style="text-align: center;">
@@ -153,7 +153,7 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                                 </f:facet>
                                 <h:outputText value="#{itemzmiennawyn.nazwa}"/>
                             </p:column>
-                            <p:column>
+                            <p:column sortBy="#{itemzmiennawyn.dataod}" sortOrder="desc">
                                 <f:facet name="header">
                                     <h:outputText value="data od"/>
                                 </f:facet>

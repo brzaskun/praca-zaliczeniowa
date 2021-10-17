@@ -119,16 +119,16 @@
                     <h:outputText value="Składniki wynagrodzenia"/>
                     <p:panelGrid columns="1" rendered="#{pasekwynagrodzenView.wybranykalendarz.pasekwynagrodzenList ne null}" style="margin-bottom: 10px;">
                         <p:dataTable id="datalist" value="#{pasekwynagrodzenView.wybranykalendarz.skladnikiwynagrodzenialista()}" var="itempasekwyn"
-                                     rowIndexVar="indexpasekszcz" emptyMessage="Nie ma danych"
-                                     style="height: 150px; overflow-y: scroll;width: 1350px;"
+                                     rowIndexVar="indexpasekszcz" emptyMessage="Nie ma danych" sortMode="single"
+                                     style="height: 150px; overflow-y: scroll;width: 1400px;"
                                      >
                             <p:column style="text-align: center;" headerText="lp" width="40">
                                 <h:outputText value="#{indexpasekszcz+1}"/>
                             </p:column>
-                            <p:column headerText="kod" width="40">
+                            <p:column headerText="kod" width="40" sortBy="#{itempasekwyn.skladnikwynagrodzenia.rodzajwynagrodzenia.kod}">
                                 <h:outputText value="#{itempasekwyn.skladnikwynagrodzenia.rodzajwynagrodzenia.kod}"/>
                             </p:column>
-                            <p:column headerText="składnik" width="200">
+                            <p:column headerText="składnik" width="300">
                                 <h:outputText value="#{itempasekwyn.skladnikwynagrodzenia.rodzajwynagrodzenia.opisskrocony}"/>
                             </p:column>
                             <p:column headerText="stały" width="40" style="text-align: center;">
@@ -140,19 +140,19 @@
                             <p:column headerText="data do" width="60">
                                 <h:outputText value="#{itempasekwyn.datado}"/>
                             </p:column>
-                            <p:column headerText="dnia faktyczne" width="60" style="text-align: center;">
+                            <p:column headerText="dnia faktyczne" width="40" style="text-align: center;">
                                 <h:outputText value="#{itempasekwyn.dnifaktyczne}"/>
                             </p:column>
-                            <p:column headerText="dni należne" width="60" style="text-align: center;">
+                            <p:column headerText="dni należne" width="40" style="text-align: center;">
                                 <h:outputText value="#{itempasekwyn.dninalezne}"/>
                             </p:column>
-                            <p:column headerText="godziny faktyczne" width="60" style="text-align: center;">
+                            <p:column headerText="godziny faktyczne" width="40" style="text-align: center;">
                                 <h:outputText value="#{itempasekwyn.godzinyfaktyczne}"/>
                             </p:column>
-                            <p:column headerText="godziny należne" width="60" style="text-align: center;">
+                            <p:column headerText="godziny należne" width="40" style="text-align: center;">
                                 <h:outputText value="#{itempasekwyn.godzinynalezne}"/>
                             </p:column>
-                            <p:column headerText="stawka dzienna" width="60">
+                            <p:column headerText="stawka dzienna" width="40">
                                 <bcf:outputpl value="#{itempasekwyn.stawkadzienna}"/>
                             </p:column>
                             <p:column headerText="kwota do listy płac" width="60">
@@ -170,15 +170,15 @@
                     <p:panelGrid columns="1" rendered="#{pasekwynagrodzenView.wybranykalendarz.pasekwynagrodzenList ne null}">
                         <p:dataTable id="datalist2" value="#{pasekwynagrodzenView.wybranykalendarz.skladnikinieobecnosclista()}" var="itempasekpotr"
                                      rowIndexVar="indexpasekszcz2" emptyMessage="Nie ma danych" 
-                                     style="height: 200px; overflow-y: scroll;width: 1350px;"
+                                     style="height: 200px; overflow-y: scroll;width: 1400px;"  sortMode="single"
                                      >
                             <p:column style="text-align: center;" headerText="lp" width="40">
                                 <h:outputText value="#{indexpasekszcz2+1}"/>
                             </p:column>
-                            <p:column headerText="kod" width="40">
+                            <p:column headerText="kod" width="40" sortBy="#{itempasekpotr.nieobecnosc.nieobecnosckodzus.kod}" sortOrder="asc">
                                 <h:outputText value="#{itempasekpotr.nieobecnosc.nieobecnosckodzus.kod}"/>
                             </p:column>
-                            <p:column headerText="składnik" width="250">
+                            <p:column headerText="składnik" width="300" >
                                 <h:outputText value="#{itempasekpotr.nieobecnosc.nieobecnosckodzus.opisskrocony}"/>
                                 <h:outputText value="/"/>
                                 <h:outputText value="#{itempasekpotr.skladnikwynagrodzenia.rodzajwynagrodzenia.opisskrocony}"/>
@@ -189,19 +189,22 @@
                             <p:column headerText="data do" width="60">
                                 <h:outputText value="#{itempasekpotr.nieobecnosc.datado}"/>
                             </p:column>
-                            <p:column headerText="dnia kalen." width="60" style="text-align: center;">
+                            <p:column headerText="dnia kalen." width="40" style="text-align: center;">
                                 <h:outputText value="#{itempasekpotr.nieobecnosc.dnikalendarzowe}"/>
                             </p:column>
-                            <p:column headerText="dni robocze" width="60" style="text-align: center;">
+                            <p:column headerText="dni robocze" width="40" style="text-align: center;">
                                 <h:outputText value="#{itempasekpotr.nieobecnosc.dnirobocze}"/>
                             </p:column>
-                            <p:column headerText="godziny urlopu" width="60" style="text-align: center;">
+                            <p:column headerText="godziny urlopu" width="40" style="text-align: center;">
                                 <h:outputText value="#{itempasekpotr.liczbagodzinurlopu}"/>
                             </p:column>
-                            <p:column headerText="godziny robocze" width="60" style="text-align: center;">
+                            <p:column headerText="godziny robocze" width="40" style="text-align: center;">
                                 <h:outputText value="#{itempasekpotr.liczbagodzinroboczych}"/>
                             </p:column>
-                            <p:column headerText="stawka dzienna" width="60">
+                            <p:column headerText="średnia" width="40">
+                                <bcf:outputpl value="#{itempasekpotr.skladnikistale}"/>
+                            </p:column>
+                            <p:column headerText="stawka dzienna" width="40">
                                 <bcf:outputpl value="#{itempasekpotr.stawkadzienna}"/>
                             </p:column>
                             <p:column headerText="kwota do listy płac" width="60">

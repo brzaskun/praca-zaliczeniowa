@@ -105,6 +105,10 @@ public class Skladnikwynagrodzenia implements Serializable {
     public void setUmowa(Umowa umowa) {
         this.umowa = umowa;
     }
+    
+    public String getKod() {
+        return this.rodzajwynagrodzenia.getKod();
+    }
 
     @XmlTransient
     public List<Naliczenienieobecnosc> getNaliczenienieobecnoscList() {

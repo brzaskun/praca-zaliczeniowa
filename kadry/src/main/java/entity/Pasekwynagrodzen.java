@@ -706,9 +706,9 @@ public class Pasekwynagrodzen implements Serializable {
                 Skladnikwynlista wiersz = new Skladnikwynlista();
                 wiersz.lp = i++;
                 wiersz.kod = p.getNieobecnosc().getNieobecnosckodzus().getKod();
-                wiersz.nazwa = p.getNieobecnosc().getNieobecnosckodzus().getOpisskrocony();
+                wiersz.nazwa = p.getNieobecnosc().getNieobecnosckodzus().getOpisskrocony()+"/"+p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getOpisskrocony();
                 wiersz.kwota = p.getKwota();
-                wiersz.redukcja = p.getKwotastatystyczna();
+                wiersz.redukcja = p.getKwotaredukcji()+p.getKwotastatystyczna();
                 wiersz.dataod = p.getNieobecnosc().getDataod();
                 wiersz.datado = p.getNieobecnosc().getDatado();
                 zwrot.add(wiersz);
@@ -722,6 +722,29 @@ public class Pasekwynagrodzen implements Serializable {
         if (this.getNaliczenieskladnikawynagrodzeniaList()!=null) {
             for (Naliczenieskladnikawynagrodzenia p : this.getNaliczenieskladnikawynagrodzeniaList()) {
                 zwrot = zwrot + p.getKwotyredukujacesuma();
+            }
+        }
+        return zwrot;
+    }
+
+    public double pobierznaliczeniadochorobowego(boolean waloryzowac1nie0, Skladnikwynagrodzenia skladnikwynagrodzenia) {
+        double zwrot = 0.0;
+        if (this.naliczenieskladnikawynagrodzeniaList!=null) {
+            for (Naliczenieskladnikawynagrodzenia p : this.naliczenieskladnikawynagrodzeniaList) {
+                if (p.getSkladnikwynagrodzenia().equals(skladnikwynagrodzenia)) {
+                    if (waloryzowac1nie0) {
+                        zwrot = zwrot + p.getKwotadolistyplac()+p.getKwotyredukujacesuma();
+                    } else {
+                        zwrot = zwrot + p.getKwotadolistyplac();
+                    }
+                }
+            }
+        }
+        if (this.naliczenienieobecnoscList!=null) {
+            for (Naliczenienieobecnosc r : this.naliczenienieobecnoscList) {
+                if (r.getSkladnikwynagrodzenia().equals(skladnikwynagrodzenia)) {
+                    zwrot = zwrot + r.getKwota();
+                }
             }
         }
         return zwrot;

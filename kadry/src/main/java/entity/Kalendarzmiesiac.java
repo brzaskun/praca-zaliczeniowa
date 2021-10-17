@@ -245,15 +245,69 @@ private static final long serialVersionUID = 1L;
                     dataod = d.getNieobecnosc().getDataod();
                     datado = d.getNieobecnosc().getDatado();
                     chorobagodziny = chorobagodziny+d.getWynagrodzeniezachorobe();
+                    zwrot[0] = Data.iletodniKalendarzowych(dataod, datado);
                 }
             }
         }
-        if (dataod!=null&&datado!=null) {
-            zwrot[0] = Data.iletodniKalendarzowych(dataod, datado);
-        } else {
-            zwrot[0] = 0;
-        }
         zwrot[1] = chorobagodziny;
+        return zwrot;
+    }
+    
+    public double[] chorobaczywaloryzacja() {
+        double[] zwrot = new double[3];
+        double godzinyobowiazku = 0;
+        double chorobagodziny = 0;
+        if (this.dzienList!=null) {
+            for (Dzien d : dzienList) {
+                if (d.getPrzepracowano()==0) {
+                    chorobagodziny = chorobagodziny+8;
+                }
+                if (d.getTypdnia()==0) {
+                    godzinyobowiazku = godzinyobowiazku+8;
+                }
+            }
+        }
+        double polowagodzinyobowiazku = godzinyobowiazku/2;
+        zwrot[0] = godzinyobowiazku;
+        zwrot[1] = chorobagodziny;
+        //jedynka to trzeba upgradowac
+        zwrot[2] = chorobagodziny>polowagodzinyobowiazku?1:0;
+        return zwrot;
+    }
+    
+    
+    
+    public boolean czyjestchoroba() {
+        boolean zwrot = false;
+        if (this.dzienList!=null) {
+            for (Dzien d : dzienList) {
+                if (d.getWynagrodzeniezachorobe()>0.0) {
+                    zwrot = true;
+                    break;
+                }
+            }
+        }
+        return zwrot;
+    }
+    
+    public boolean czyjestwiecejniepracy() {
+        boolean zwrot = false;
+        if (this.dzienList!=null) {
+            int dnirobocze = 0;
+            int dniprzepracowane = 0;
+            for (Dzien d : dzienList) {
+                if (d.getTypdnia()==0) {
+                    dnirobocze++;
+                }
+                if (d.getPrzepracowano()>0) {
+                    dniprzepracowane++;
+                }
+            }
+            int polowaroboczych = dnirobocze/2;
+            if (dniprzepracowane<polowaroboczych){
+                zwrot=true;
+            }
+        }
         return zwrot;
     }
     
@@ -543,6 +597,18 @@ private static final long serialVersionUID = 1L;
             }
         }
         return zwrot;
+    }
+
+    public double pobierzPodstaweNieobecnosc(Nieobecnosc nieobecnosc) {
+        double kwota = 0.0;
+        if (this.getPasek()!=null) {
+            for (Naliczenienieobecnosc p : this.getPasek().getNaliczenienieobecnoscList()) {
+                if (p.getNieobecnosc().equals(nieobecnosc)) {
+                    kwota = p.getPodstawadochoroby();
+                }
+            }
+        }
+        return kwota;
     }
        
         

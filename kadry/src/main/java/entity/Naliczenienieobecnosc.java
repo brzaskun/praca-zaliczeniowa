@@ -76,6 +76,8 @@ public class Naliczenienieobecnosc implements Serializable {
     private double stawkadziennaredukcji;
     @Column(name = "kwotaredukcji")
     private double kwotaredukcji;
+    @Column(name = "podstawadochoroby")
+    private double podstawadochoroby;
     @JoinColumn(name = "pasekwynagrodzen", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Pasekwynagrodzen pasekwynagrodzen;
@@ -118,6 +120,15 @@ public class Naliczenienieobecnosc implements Serializable {
     public void setSkladnikwynagrodzenia(Skladnikwynagrodzenia skladnikwynagrodzenia) {
         this.skladnikwynagrodzenia = skladnikwynagrodzenia;
     }
+
+    public double getPodstawadochoroby() {
+        return podstawadochoroby;
+    }
+
+    public void setPodstawadochoroby(double podstawadochoroby) {
+        this.podstawadochoroby = podstawadochoroby;
+    }
+    
 
     @Override
     public int hashCode() {

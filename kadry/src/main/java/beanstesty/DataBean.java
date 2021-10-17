@@ -15,18 +15,19 @@ import entity.Kalendarzmiesiac;
 public class DataBean {
     
     public static boolean czysiemiesci(Kalendarzmiesiac kalendarz, String zmiennadataod, String zmiennadatado) {
-        boolean zwrot = false;
-        String pierwszydzienmiesiaca = Data.odejmijdni(kalendarz.getPierwszyDzien(),1);
-        String ostatnidzienmiesiaca = Data.dodajdni(kalendarz.getOstatniDzien(),1);
-        //czy data poczatkowa zmiennej jest starsza od daty koncowej kalendarza
-        boolean zaczynasieprzedkoncem = Data.czyjestprzed(ostatnidzienmiesiaca, zmiennadataod);
+        boolean zwrot = true;
+        String pierwszydzienmiesiaca = kalendarz.getPierwszyDzien();
+        String ostatnidzienmiesiaca = kalendarz.getOstatniDzien();
         zmiennadatado = zmiennadatado!=null ? zmiennadatado : Data.getDzien(Data.ostatniDzien(kalendarz.getRok(), kalendarz.getMc()));
-        boolean konczysiepopopoczatku = Data.czyjestpo(pierwszydzienmiesiaca, zmiennadatado);
-        boolean konczysieprzedpoczatkiem = Data.czyjestpo(zmiennadatado, pierwszydzienmiesiaca);
-        zwrot = zaczynasieprzedkoncem||konczysiepopopoczatku;
-        if (konczysieprzedpoczatkiem) {
+        //czy data poczatkowa zmiennej jest starsza od daty koncowej kalendarza
+        boolean zaczynasieprzedpoczatkiem = Data.czyjestprzed(pierwszydzienmiesiaca, zmiennadataod);
+        boolean konczysieprzedpoczatkiem = Data.czyjestprzed(pierwszydzienmiesiaca, zmiennadatado);
+        boolean zaczynasiepokoncu = Data.czyjestpo(ostatnidzienmiesiaca, zmiennadataod);
+        boolean konczysiepokoncu = Data.czyjestpo(ostatnidzienmiesiaca, zmiennadatado);
+        if (zaczynasieprzedpoczatkiem&&konczysieprzedpoczatkiem) {
             zwrot = false;
-        } else if (konczysiepopopoczatku&&!zaczynasieprzedkoncem) {
+        }
+        if (zaczynasiepokoncu&&konczysiepokoncu) {
             zwrot = false;
         }
         return zwrot;
@@ -52,9 +53,25 @@ public class DataBean {
     
     public static void main(String[]args) {
         Kalendarzmiesiac kalendarz = KalendarzmiesiacBean.create();
-        String dataod = "2020-12-31";
-        String datado = "2021-12-31";
+        String dataod = "2020-11-01";
+        String datado = "2020-11-30";
         boolean czy = czysiemiesci(kalendarz, dataod, datado);
+        System.out.println("odpowiedz: "+czy);
+        dataod = "2020-11-01";
+        datado = "2020-12-31";
+        czy = czysiemiesci(kalendarz, dataod, datado);
+        System.out.println("odpowiedz: "+czy);
+        dataod = "2020-12-03";
+        datado = "2020-12-13";
+        czy = czysiemiesci(kalendarz, dataod, datado);
+        System.out.println("odpowiedz: "+czy);
+        dataod = "2020-12-05";
+        datado = "2021-01-13";
+        czy = czysiemiesci(kalendarz, dataod, datado);
+        System.out.println("odpowiedz: "+czy);
+        dataod = "2021-01-01";
+        datado = "2021-01-31";
+        czy = czysiemiesci(kalendarz, dataod, datado);
         System.out.println("odpowiedz: "+czy);
         
     }

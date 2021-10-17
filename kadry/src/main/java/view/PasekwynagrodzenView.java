@@ -97,10 +97,10 @@ public class PasekwynagrodzenView  implements Serializable {
         listakalendarzmiesiac = new org.primefaces.model.DualListModel<>();
         try {
             wybranalistaplac = listadefinicjalistaplac.stream().filter(p->p.getMc().equals(wpisView.getMiesiacWpisu())).findFirst().get();
-            pobierzkalendarzezamc();
-            pobierzkalendarzezamcanaliza();
             wybranalistaplac2 = listadefinicjalistaplac.stream().filter(p->p.getMc().equals(wpisView.getMiesiacWpisu())).findFirst().get();
             listakalendarzmiesiacdoanalizy2 = kalendarzmiesiacFacade.findByFirmaRokMcPraca(wybranalistaplac2.getFirma(), wybranalistaplac2.getRok(), wybranalistaplac2.getMc());
+            pobierzkalendarzezamc();
+            pobierzkalendarzezamcanaliza();
         } catch (Exception e){}
     }
 

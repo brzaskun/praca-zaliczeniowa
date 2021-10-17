@@ -102,6 +102,7 @@ public class Naliczenieskladnikawynagrodzenia implements Serializable {
         this.skladnikwynagrodzenia = skladnikwynagrodzenia;
     }
 
+  
     @Override
     public int hashCode() {
         int hash = 0;
