@@ -42,8 +42,14 @@ public class MailFaktRozrach implements Serializable{
             mbp1.setHeader("Content-Type", "text/html; charset=utf-8");
             mbp1.setContent("Witam"
                      + "<p>W załączeniu bieżące rozliczenie faktur i  płatności na rzecz naszego biura (plik pdf). Prosimy o niezwłoczne uregulowanie zaległości.</p>"
+                     + "<p>Przelewy księgowane są automatycznie przez nasz program po pobraniu wyciągów z banku. Jeśli robią państwo przelewy ekpresowe lub z nowego konta może dojśc do niewłaściwego przyporządkowania wpłaty.</p>"
+                     + "<p>W takich przypadkach prosimy o kontakt w celu weryfikacji salda.</p>"
+                     + "<p>Attached is the list of current invoices issued by us and payments to the bank account of our office (pdf file). Please settle any existing arrears as soon as possible.</p>"
+                     + "<p>Transfers are posted automatically by our program after downloading bank statements. If you make express transfers or transfers from a new account, the payment may be incorrectly allocated.</p>"
+                     + "<p>In such cases, please contact us to verify the balance.</p>"
+                     + "<p></p>"
                      + "<p>Firma "+szukanyklient.getNpelna()+"</p>"
-                     + "<p>Rozliczenia obejmują okres okres "+wpisView.getRokWpisuSt()+"/"+wpisView.getMiesiacWpisu()+"</p>"
+                     + "<p>Rozliczenia obejmują okres do "+wpisView.getRokWpisuSt()+"/"+wpisView.getMiesiacWpisu()+"</p>"
                      + "<p>Zaległa kwota do zapłaty w pln "+F.curr(saldo)+"</p>"
                      + "<p style='color:red'>"+tekstwiadomosci+"</p>"
                      + Mail.reklama
