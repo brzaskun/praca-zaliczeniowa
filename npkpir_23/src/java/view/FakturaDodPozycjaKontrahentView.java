@@ -50,6 +50,7 @@ public class FakturaDodPozycjaKontrahentView  implements Serializable {
     private List<FakturaDodPozycjaKontrahent> lista_wzor;
     private List<FakturaDodPozycjaKontrahent> lista_2;
     private List<FakturaDodPozycjaKontrahent> lista_2_filter;
+    private List<FakturaDodPozycjaKontrahent> lista_2_selected;
     @Inject
     private FakturaDodPozycjaKontrahent selected;
     private String rok;
@@ -229,6 +230,14 @@ public class FakturaDodPozycjaKontrahentView  implements Serializable {
 
     public void setPozycje(List<FakturaDodatkowaPozycja> pozycje) {
         this.pozycje = pozycje;
+    }
+
+    public List<FakturaDodPozycjaKontrahent> getLista_2_selected() {
+        return lista_2_selected;
+    }
+
+    public void setLista_2_selected(List<FakturaDodPozycjaKontrahent> lista_2_selected) {
+        this.lista_2_selected = lista_2_selected;
     }
 
     public List<FakturaDodPozycjaKontrahent> getLista_2() {
