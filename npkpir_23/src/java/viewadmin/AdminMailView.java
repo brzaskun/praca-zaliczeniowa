@@ -312,13 +312,10 @@ public class AdminMailView implements Serializable {
             UploadedFile uploadedFile = event.getFile();
             String filename = uploadedFile.getFileName();
             String extension = FilenameUtils.getExtension(uploadedFile.getFileName());
-            if (extension.equals("pdf")) {
+
                 zalacznik = IOUtils.toByteArray(uploadedFile.getInputstream());
                 nazwazalacznik = uploadedFile.getFileName();
                 Msg.msg("Sukces. Plik " + filename + " został skutecznie załadowany");
-            } else {
-                Msg.msg("e","Wystąppił błąd. Akceptuję tylko pliki pdf");
-            }
         } catch (Exception ex) {
             E.e(ex);
             Msg.msg("e","Wystąpił błąd. Nie udało się załadowanać pliku");
