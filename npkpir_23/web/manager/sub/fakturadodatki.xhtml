@@ -92,7 +92,7 @@
                 </p:column>
                     <p:column headerText="kwota" width="120" sortBy="#{zapis.kwotaindywid}">  
                     <bcf:inputpl80 value="#{zapis.kwotaindywid}">
-                        <p:ajax event="change" parent="true" partialSubmit="true" listener="#{fakturaDodPozycjaKontrahentView.edytuj(zapis)}" />
+                        <p:ajax event="change" partialSubmit="true" listener="#{fakturaDodPozycjaKontrahentView.edytuj(zapis)}" />
                     </bcf:inputpl80>
                 </p:column>
                 <p:column headerText="perm" width="50" style="text-align: center;"> 
