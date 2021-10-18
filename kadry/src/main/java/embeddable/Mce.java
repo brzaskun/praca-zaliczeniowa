@@ -330,7 +330,14 @@ public class Mce implements Serializable{
         String mcAkt = ewid.split("-")[1];
         return odlegloscMcy(mcOd, rokOd, mcAkt, rokAkt);
     }
-    
+   /**
+     * Generowanie pary poprzedni rok-mc
+     * 
+     * @param mcOd, mcstartowy starszy
+     * @param rokOd rokstartowy starszy
+     * @param mcAkt, mckoncowy młodszy
+     * @param rokAkt rokkoncowy młodszy
+     */
    public static int odlegloscMcy(String mcOd, String rokOd, String mcAkt, String rokAkt) {
         int mcod = Mce.miesiacToNumber.get(mcOd);
         int rokod = Integer.parseInt(rokOd);

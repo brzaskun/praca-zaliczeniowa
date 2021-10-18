@@ -60,7 +60,7 @@ import z.Z;
     @NamedQuery(name = "Pasekwynagrodzen.findByRentowe", query = "SELECT p FROM Pasekwynagrodzen p WHERE p.rentowe = :rentowe"),
     @NamedQuery(name = "Pasekwynagrodzen.findByWypadkowe", query = "SELECT p FROM Pasekwynagrodzen p WHERE p.wypadkowe = :wypadkowe")})
 public class Pasekwynagrodzen implements Serializable {
-
+    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
@@ -139,13 +139,10 @@ public class Pasekwynagrodzen implements Serializable {
     private Integer dniobowiazku;
     @Column(name = "dniprzepracowane")
     private Integer dniprzepracowane;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pasekwynagrodzen", orphanRemoval = true)
-    private List<Naliczeniepotracenie> naliczeniepotracenieList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pasekwynagrodzen", orphanRemoval = true)
-    private List<Naliczenieskladnikawynagrodzenia> naliczenieskladnikawynagrodzeniaList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pasekwynagrodzen", orphanRemoval = true)
-    private List<Naliczenienieobecnosc> naliczenienieobecnoscList;
-    private static final long serialVersionUID = 1L;
+    @Column(name = "godzinyobowiazku")
+    private Integer godzinyobowiazku;
+    @Column(name = "godzinyprzepracowane")
+    private Integer godzinyprzepracowane;
     @JoinColumn(name = "definicjalistaplac", referencedColumnName = "id")
     @ManyToOne
     private Definicjalistaplac definicjalistaplac;
@@ -162,6 +159,12 @@ public class Pasekwynagrodzen implements Serializable {
     private double wynagrodzenieminimalne;
     @OneToMany(mappedBy = "pasekwynagrodzen")
     private List<Rachunekdoumowyzlecenia> rachunekdoumowyzleceniaList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pasekwynagrodzen", orphanRemoval = true)
+    private List<Naliczeniepotracenie> naliczeniepotracenieList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pasekwynagrodzen", orphanRemoval = true)
+    private List<Naliczenieskladnikawynagrodzenia> naliczenieskladnikawynagrodzeniaList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pasekwynagrodzen", orphanRemoval = true)
+    private List<Naliczenienieobecnosc> naliczenienieobecnoscList;
 
     
     public Pasekwynagrodzen() {
@@ -386,6 +389,22 @@ public class Pasekwynagrodzen implements Serializable {
 
     public double getKwotawolna() {
         return kwotawolna;
+    }
+
+    public Integer getGodzinyobowiazku() {
+        return godzinyobowiazku;
+    }
+
+    public void setGodzinyobowiazku(Integer godzinyobowiazku) {
+        this.godzinyobowiazku = godzinyobowiazku;
+    }
+
+    public Integer getGodzinyprzepracowane() {
+        return godzinyprzepracowane;
+    }
+
+    public void setGodzinyprzepracowane(Integer godzinyprzepracowane) {
+        this.godzinyprzepracowane = godzinyprzepracowane;
     }
 
     public void setKwotawolna(double kwotawolna) {
@@ -675,7 +694,10 @@ public class Pasekwynagrodzen implements Serializable {
                 wiersz.lp = i++;
                 wiersz.kod = p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod();
                 wiersz.nazwa = p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getOpisskrocony();
-                wiersz.kwota = p.getKwotazredukowana();
+                wiersz.kwota = p.getKwotadolistyplac();
+                wiersz.redukcja = p.getKwotyredukujacesuma();
+                wiersz.dataod = p.getDataod();
+                wiersz.datado = p.getDatado();
                 zwrot.add(wiersz);
             }
         }
@@ -683,9 +705,12 @@ public class Pasekwynagrodzen implements Serializable {
             for (Naliczenienieobecnosc p : this.naliczenienieobecnoscList) {
                 Skladnikwynlista wiersz = new Skladnikwynlista();
                 wiersz.lp = i++;
-                wiersz.kod = p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod();
-                wiersz.nazwa = p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getOpisskrocony();
+                wiersz.kod = p.getNieobecnosc().getNieobecnosckodzus().getKod();
+                wiersz.nazwa = p.getNieobecnosc().getNieobecnosckodzus().getOpisskrocony()+"/"+p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getOpisskrocony();
                 wiersz.kwota = p.getKwota();
+                wiersz.redukcja = p.getKwotaredukcji()+p.getKwotastatystyczna();
+                wiersz.dataod = p.getNieobecnosc().getDataod();
+                wiersz.datado = p.getNieobecnosc().getDatado();
                 zwrot.add(wiersz);
             }
         }
@@ -694,9 +719,32 @@ public class Pasekwynagrodzen implements Serializable {
     
     public double getRedukcjeSuma() {
         double zwrot = 0.0;
-        if (this.getNaliczenienieobecnoscList()!=null) {
-            for (Naliczenienieobecnosc p : this.getNaliczenienieobecnoscList()) {
-                zwrot = zwrot + p.getKwotaredukcji();
+        if (this.getNaliczenieskladnikawynagrodzeniaList()!=null) {
+            for (Naliczenieskladnikawynagrodzenia p : this.getNaliczenieskladnikawynagrodzeniaList()) {
+                zwrot = zwrot + p.getKwotyredukujacesuma();
+            }
+        }
+        return zwrot;
+    }
+
+    public double pobierznaliczeniadochorobowego(boolean waloryzowac1nie0, Skladnikwynagrodzenia skladnikwynagrodzenia) {
+        double zwrot = 0.0;
+        if (this.naliczenieskladnikawynagrodzeniaList!=null) {
+            for (Naliczenieskladnikawynagrodzenia p : this.naliczenieskladnikawynagrodzeniaList) {
+                if (p.getSkladnikwynagrodzenia().equals(skladnikwynagrodzenia)) {
+                    if (waloryzowac1nie0) {
+                        zwrot = zwrot + p.getKwotadolistyplac()+p.getKwotyredukujacesuma();
+                    } else {
+                        zwrot = zwrot + p.getKwotadolistyplac();
+                    }
+                }
+            }
+        }
+        if (this.naliczenienieobecnoscList!=null) {
+            for (Naliczenienieobecnosc r : this.naliczenienieobecnoscList) {
+                if (r.getSkladnikwynagrodzenia().equals(skladnikwynagrodzenia)) {
+                    zwrot = zwrot + r.getKwota();
+                }
             }
         }
         return zwrot;
@@ -709,6 +757,7 @@ public class Pasekwynagrodzen implements Serializable {
         String datado;
         String kod;
         double kwota;
+        double redukcja;
         public Skladnikwynlista() {
         }
 
@@ -759,6 +808,14 @@ public class Pasekwynagrodzen implements Serializable {
         public void setKod(String kod) {
             this.kod = kod;
         }
+
+        public double getRedukcja() {
+            return redukcja;
+        }
+
+        public void setRedukcja(double redukcja) {
+            this.redukcja = redukcja;
+        }
     
         
         @Override
@@ -792,6 +849,11 @@ public class Pasekwynagrodzen implements Serializable {
                 return false;
             }
             return true;
+        }
+
+        @Override
+        public String toString() {
+            return "Skladnikwynlista{" + "nazwa=" + nazwa + ", dataod=" + dataod + ", datado=" + datado + ", kod=" + kod + ", kwota=" + kwota + ", redukcja=" + redukcja + '}';
         }
         
         

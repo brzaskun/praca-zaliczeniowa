@@ -8,14 +8,19 @@ package view;
 import beanstesty.KalendarzmiesiacBean;
 import dao.KalendarzmiesiacFacade;
 import dao.KalendarzwzorFacade;
+import dao.NieobecnoscFacade;
 import dao.UmowaFacade;
 import embeddable.Mce;
+import entity.Dzien;
 import entity.Kalendarzmiesiac;
 import entity.Kalendarzwzor;
+import entity.Nieobecnosc;
 import entity.Umowa;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -40,6 +45,8 @@ public class KalendarzmiesiacView  implements Serializable {
     private KalendarzwzorFacade kalendarzwzorFacade;
     @Inject
     private UmowaFacade umowaFacade;
+    @Inject
+    private NieobecnoscFacade nieobecnoscFacade;
     @Inject
     private WpisView wpisView;
     
@@ -90,6 +97,19 @@ public class KalendarzmiesiacView  implements Serializable {
           try {
             Kalendarzwzor kalendarzwzor = kalendarzwzorFacade.findByFirmaRokMc(selected.getUmowa().getAngaz().getFirma(), selected.getRok(), selected.getMc());
             if (kalendarzwzor!=null) {
+                Set<Nieobecnosc> nieobecnosci = new HashSet<>();
+                for (Dzien p : selected.getDzienList()) {
+                    Nieobecnosc nieobecnosc = p.getNieobecnosc();
+                    if (nieobecnosc!=null) {
+                        nieobecnosci.add(nieobecnosc);
+                        p.setNieobecnosc(null);
+                    }
+                }
+                for (Nieobecnosc s : nieobecnosci) {
+                    s.setNaniesiona(false);
+                    s.setDzienList(null);
+                    nieobecnoscFacade.edit(s);
+                }
                 selected.nanies(kalendarzwzor);
                 kalendarzmiesiacFacade.edit(selected);
                 Msg.msg("Zresetowano kalendarz dla pracownika do waartości domyślnych");

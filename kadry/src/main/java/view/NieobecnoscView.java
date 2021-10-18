@@ -121,36 +121,8 @@ public class NieobecnoscView  implements Serializable {
     public void nieniesnakalendarz() {
         if (wpisView.getUmowa() != null) {
             boolean czynaniesiono = false;
-            for (Nieobecnosc p : lista) {
-                if (p.isNaniesiona()==false) {
-                    try {
-                        if (p.getRokod().equals(wpisView.getRokWpisu()) || p.getRokdo().equals(wpisView.getRokWpisu())) {
-                            String mcod = p.getMcod();
-                            if (p.getRokod().equals(wpisView.getRokUprzedni())) {
-                                mcod = "01";
-                            }
-                            String mcdo = p.getMcdo();
-                            for (String mc : Mce.getMceListS()) {
-                                if (Data.jestrownywiekszy(mc, mcod) && Data.jestrownywiekszy(mcdo, mc)) {
-                                    Kalendarzmiesiac znaleziony = kalendarzmiesiacFacade.findByRokMcUmowa(wpisView.getUmowa(), wpisView.getRokWpisu(), mc);
-                                    if (znaleziony != null) {
-                                        if (p.getRokod().equals(wpisView.getRokWpisu()) || p.getRokdo().equals(wpisView.getRokWpisu())) {
-                                            znaleziony.naniesnieobecnosc(p);
-                                            p.setNaniesiona(true);
-                                        }
-                                        nieobecnoscFacade.edit(p);
-                                        kalendarzmiesiacFacade.edit(znaleziony);
-                                        czynaniesiono = true;
-                                    } else {
-                                        Msg.msg("e", "Brak kalendarza pracownika za miesiąc rozliczeniowy. Nie można nanieść nieobecności!");
-                                    }
-                                }
-                            }
-                        }
-                    } catch (Exception e) {
-                        Msg.msg("e", "Wystąpił błąd podczas nanoszenia nieobecności");
-                    }
-                }
+            for (Nieobecnosc nieobecnosc : lista) {
+                nanies(nieobecnosc);
             }
             kalendarzmiesiacView.init();
             if (czynaniesiono) {
@@ -159,6 +131,41 @@ public class NieobecnoscView  implements Serializable {
                 Msg.msg("e","Nie ma nieobecności do naniesienia");
             }
         }
+    }
+    
+    public boolean nanies(Nieobecnosc nieobecnosc) {
+        boolean czynaniesiono = false;
+        if (nieobecnosc.isNaniesiona() == false) {
+            try {
+                if (nieobecnosc.getRokod().equals(wpisView.getRokWpisu()) || nieobecnosc.getRokdo().equals(wpisView.getRokWpisu())) {
+                    String mcod = nieobecnosc.getMcod();
+                    if (nieobecnosc.getRokod().equals(wpisView.getRokUprzedni())) {
+                        mcod = "01";
+                    }
+                    String mcdo = nieobecnosc.getMcdo();
+                    for (String mc : Mce.getMceListS()) {
+                        if (Data.jestrownywiekszy(mc, mcod) && Data.jestrownywiekszy(mcdo, mc)) {
+                            Kalendarzmiesiac znaleziony = kalendarzmiesiacFacade.findByRokMcUmowa(wpisView.getUmowa(), wpisView.getRokWpisu(), mc);
+                            if (znaleziony != null) {
+                                if (nieobecnosc.getRokod().equals(wpisView.getRokWpisu()) || nieobecnosc.getRokdo().equals(wpisView.getRokWpisu())) {
+                                    znaleziony.naniesnieobecnosc(nieobecnosc);
+                                    nieobecnosc.setDnirobocze(Data.iletodniRoboczych(nieobecnosc.getDataod(), nieobecnosc.getDatado(), znaleziony.getDzienList()));
+                                    nieobecnosc.setNaniesiona(true);
+                                }
+                                nieobecnoscFacade.edit(nieobecnosc);
+                                kalendarzmiesiacFacade.edit(znaleziony);
+                                czynaniesiono = true;
+                            } else {
+                                Msg.msg("e", "Brak kalendarza pracownika za miesiąc rozliczeniowy. Nie można nanieść nieobecności!");
+                            }
+                        }
+                    }
+                }
+            } catch (Exception e) {
+                Msg.msg("e", "Wystąpił błąd podczas nanoszenia nieobecności");
+            }
+        }
+        return czynaniesiono;
     }
 
     public void pobierzzzus() {
@@ -230,9 +237,15 @@ public class NieobecnoscView  implements Serializable {
         if (nieob!=null) {
             List<Dzien> wzorcowe = dzienFacade.findByNrwrokuByData(nieob.getDataod(), nieob.getDatado(), wpisView.getFirma());
             for (Dzien d : nieob.getDzienList()) {
-                d.nanieswzorcowe(wzorcowe);
+                d.setNieobecnosc(null);
+                dzienFacade.edit(d);
+                try {
+                    d.nanieswzorcowe(wzorcowe);
+                } catch (Exception e){}
                 dzienFacade.edit(d);
             }
+            nieob.setDzienList(null);
+            nieobecnoscFacade.edit(nieob);
             nieobecnoscFacade.remove(nieob);
             lista.remove(nieob);
             Msg.msg("Usunięto nieobecność. Naniesiono zmiany w kalendarzu");

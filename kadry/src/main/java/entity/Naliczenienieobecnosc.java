@@ -42,10 +42,15 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Naliczenienieobecnosc.findByLiczbagodzinurlopu", query = "SELECT n FROM Naliczenienieobecnosc n WHERE n.liczbagodzinurlopu = :liczbagodzinurlopu"),
     @NamedQuery(name = "Naliczenienieobecnosc.findByStawkadziennaredukcji", query = "SELECT n FROM Naliczenienieobecnosc n WHERE n.stawkadziennaredukcji = :stawkadziennaredukcji")})
 public class Naliczenienieobecnosc implements Serializable {
-
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id")
+    private Integer id;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "kwota")
-private double kwota;
+    private double kwota;
     @Column(name = "kwotastatystyczna")
     private double kwotastatystyczna;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
@@ -71,15 +76,11 @@ private double kwota;
     private double stawkadziennaredukcji;
     @Column(name = "kwotaredukcji")
     private double kwotaredukcji;
+    @Column(name = "podstawadochoroby")
+    private double podstawadochoroby;
     @JoinColumn(name = "pasekwynagrodzen", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Pasekwynagrodzen pasekwynagrodzen;
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id")
-    private Integer id;
     @JoinColumn(name = "nieobecnosc", referencedColumnName = "id")
     @ManyToOne
     private Nieobecnosc nieobecnosc;
@@ -119,6 +120,15 @@ private double kwota;
     public void setSkladnikwynagrodzenia(Skladnikwynagrodzenia skladnikwynagrodzenia) {
         this.skladnikwynagrodzenia = skladnikwynagrodzenia;
     }
+
+    public double getPodstawadochoroby() {
+        return podstawadochoroby;
+    }
+
+    public void setPodstawadochoroby(double podstawadochoroby) {
+        this.podstawadochoroby = podstawadochoroby;
+    }
+    
 
     @Override
     public int hashCode() {

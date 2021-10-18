@@ -5,7 +5,9 @@
  */
 package beanstesty;
 
+import comparator.Umowacomparator;
 import data.Data;
+import embeddable.Mce;
 import entity.Dzien;
 import entity.Kalendarzmiesiac;
 import entity.Naliczenienieobecnosc;
@@ -19,6 +21,8 @@ import entity.Skladnikwynagrodzenia;
 import entity.Umowa;
 import entity.Zmiennawynagrodzenia;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import z.Z;
 
@@ -181,11 +185,15 @@ public class KalendarzmiesiacBean {
                 int dziendo = Integer.parseInt(Data.getDzien(nieobecnosc.getDatado()));
                 for (int i = dzienod;i<dziendo+1;i++) {
                     for (Dzien p : kalendarz.getDzienList()) {
-                        if (p.getNrdnia()==i) {
+                        if (p.getNrdnia() == i) {
+                            if (nieobecnosc.getNieobecnosckodzus().getKod().equals("200")) {
+                                p.setNormagodzin(0.0);
+                            }
+                            p.setPrzepracowano(0.0);
                             p.setKod(nieobecnosc.getNieobecnosckodzus().getKod());
-                            p.setNieobecnosc(nieobecnosc);
+                            break;
                         }
-                    }
+            }
                 }
                 if (nieobecnosc.getNieobecnosckodzus().getKod().equals("313")) {
                     //wynagrodzenie za czas niezdolnosci od pracy
@@ -213,11 +221,11 @@ public class KalendarzmiesiacBean {
     static void naliczskladnikiwynagrodzenia(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasekwynagrodzen) {
         double dniroboczewmiesiacu = 0.0;
         for (Dzien p : kalendarz.getDzienList()) {
-            if (p.getTypdnia()==0) {
+            if (p.getTypdnia() == 0) {
                 dniroboczewmiesiacu++;
             }
         }
-        double godzinyroboczewmiesiacu = dniroboczewmiesiacu*8.0;
+        double godzinyroboczewmiesiacu = dniroboczewmiesiacu * 8.0;
         String datastart = kalendarz.getPierwszyDzien();
         String dataend = kalendarz.getOstatniDzien();
         for (Skladnikwynagrodzenia p : kalendarz.getUmowa().getSkladnikwynagrodzeniaList()) {
@@ -227,37 +235,28 @@ public class KalendarzmiesiacBean {
                 double dniroboczeprzepracowane = 0.0;
                 for (Zmiennawynagrodzenia r : p.getZmiennawynagrodzeniaList()) {
                     int dzienodzmienna = Data.getDzienI(r.getDataod());
-//                    if (datastart==null) {
-//                        datastart = r.getDataod();
-//                    } else if (Data.czyjestpo(r.getDataod(), datastart)) {
-//                        datastart = r.getDataod();
-//                    }
                     int dziendozmienna = Data.getDzienI(r.getDatado());
-//                    if (dataend==null) {
-//                        dataend = r.getDatado();
-//                    } else if (Data.czyjestpo(dataend, r.getDatado())) {
-//                        dataend = r.getDatado();
-//                    }
                     skladnikistale = r.getKwota();
                     for (Dzien s : kalendarz.getDzienList()) {
-                        if (s.getTypdnia()==0 && s.getNrdnia()>=dzienodzmienna &&s.getNrdnia()<=dziendozmienna) {
+                        if (s.getTypdnia() == 0 && s.getNrdnia() >= dzienodzmienna && s.getNrdnia() <= dziendozmienna) {
                             dniroboczeprzepracowane++;
                         }
                     }
                 }
-                    double godzinyobecnoscirobocze = dniroboczeprzepracowane*8.0;
-                    double stawkadzienna = skladnikistale / godzinyroboczewmiesiacu;
-                    double dowyplatyzaczasnieobecnosci = Z.z(stawkadzienna * godzinyobecnoscirobocze);
-                    Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = NaliczenieskladnikawynagrodzeniaBean.createWynagrodzenie();
-                    naliczenieskladnikawynagrodzenia.setId(i++);
-                    naliczenieskladnikawynagrodzenia.setDataod(datastart);
-                    naliczenieskladnikawynagrodzenia.setDatado(dataend);
-                    naliczenieskladnikawynagrodzenia.setKwotaumownazacalymc(skladnikistale);
-                    naliczenieskladnikawynagrodzenia.setKwotadolistyplac(dowyplatyzaczasnieobecnosci);
-                    naliczenieskladnikawynagrodzenia.setKwotazredukowana(dowyplatyzaczasnieobecnosci);
-                    naliczenieskladnikawynagrodzenia.setDninalezne(dniroboczewmiesiacu);
-                    naliczenieskladnikawynagrodzenia.setDnifaktyczne(dniroboczeprzepracowane);
-                    pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().add(naliczenieskladnikawynagrodzenia);
+                double godzinyobecnoscirobocze = dniroboczeprzepracowane * 8.0;
+                double stawkadzienna = skladnikistale / godzinyroboczewmiesiacu;
+                double dowyplatyzaczasnieobecnosci = Z.z(stawkadzienna * godzinyobecnoscirobocze);
+                Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = NaliczenieskladnikawynagrodzeniaBean.createWynagrodzenie();
+                naliczenieskladnikawynagrodzenia.setId(i++);
+                naliczenieskladnikawynagrodzenia.setDataod(datastart);
+                naliczenieskladnikawynagrodzenia.setDatado(dataend);
+                naliczenieskladnikawynagrodzenia.setKwotaumownazacalymc(skladnikistale);
+                naliczenieskladnikawynagrodzenia.setKwotadolistyplac(dowyplatyzaczasnieobecnosci);
+                naliczenieskladnikawynagrodzenia.setDninalezne(dniroboczewmiesiacu);
+                naliczenieskladnikawynagrodzenia.setDnifaktyczne(dniroboczeprzepracowane);
+                naliczenieskladnikawynagrodzenia.setGodzinynalezne(godzinyroboczewmiesiacu);
+                naliczenieskladnikawynagrodzenia.setGodzinyfaktyczne(godzinyobecnoscirobocze);
+                pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().add(naliczenieskladnikawynagrodzenia);
             } else if (p.getRodzajwynagrodzenia().getKod().equals("21")) {
                 Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = NaliczenieskladnikawynagrodzeniaBean.createPremia();
                 pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().add(naliczenieskladnikawynagrodzenia);
@@ -269,7 +268,7 @@ public class KalendarzmiesiacBean {
         boolean jestoddelegowanie = false;
         for (Skladnikwynagrodzenia p : kalendarz.getUmowa().getSkladnikwynagrodzeniaList()) {
             if (p.getRodzajwynagrodzenia().getKod().equals("11")) {
-                Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = NaliczenieskladnikawynagrodzeniaBean.createWynagrodzenieDB(pasekwynagrodzen, p, kalendarz.getDzienList(), kurs);
+                Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = NaliczenieskladnikawynagrodzeniaBean.createWynagrodzenieDB(kalendarz, pasekwynagrodzen, p, kurs);
                 if (naliczenieskladnikawynagrodzenia.getKwotaumownazacalymc()!=0.0) {
                     pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().add(naliczenieskladnikawynagrodzenia);
                     if (p.isOddelegowanie()) {
@@ -277,12 +276,10 @@ public class KalendarzmiesiacBean {
                     }
                 }
             } else if (p.getRodzajwynagrodzenia().getKod().equals("21")) {
-                Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = NaliczenieskladnikawynagrodzeniaBean.createPremiaDB(pasekwynagrodzen, p);
-                if (naliczenieskladnikawynagrodzenia.getKwotaumownazacalymc()!=0.0) {
+                Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = NaliczenieskladnikawynagrodzeniaBean.createPremiaDB(kalendarz, pasekwynagrodzen, p);
                     pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().add(naliczenieskladnikawynagrodzenia);
-                }
             } else if (p.getRodzajwynagrodzenia().getKod().equals("90")) {
-                Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = NaliczenieskladnikawynagrodzeniaBean.createBezZusPodatekDB(pasekwynagrodzen, p);
+                Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = NaliczenieskladnikawynagrodzeniaBean.createBezZusPodatekDB(kalendarz, pasekwynagrodzen, p);
                 if (naliczenieskladnikawynagrodzenia.getKwotaumownazacalymc()!=0.0) {
                     pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().add(naliczenieskladnikawynagrodzenia);
                 }
@@ -324,19 +321,18 @@ public class KalendarzmiesiacBean {
     }
 
     static void naliczskladnikiwynagrodzeniazaChorobe(Kalendarzmiesiac kalendarz, Nieobecnosc nieobecnosc, Pasekwynagrodzen pasekwynagrodzen) {
-        for (Naliczenieskladnikawynagrodzenia p : pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList()) {
-            if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod().equals("11")) {
+        for (Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia : pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList()) {
                 Naliczenienieobecnosc naliczenienieobecnosc = new Naliczenienieobecnosc();
-                Skladnikwynagrodzenia skladnikwynagrodzenia = p.getSkladnikwynagrodzenia();
+                Skladnikwynagrodzenia skladnikwynagrodzenia = naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia();
                 naliczenienieobecnosc.setSkladnikwynagrodzenia(skladnikwynagrodzenia);
                 naliczenienieobecnosc.setNieobecnosc(nieobecnosc);
-                naliczenienieobecnosc.setJakiskladnikredukowalny(p.getSkladnikwynagrodzenia().getUwagi());
-                double skladnik = 2800;
-                double dniroboczenieobecnosc = Data.iletodni(nieobecnosc.getDataod(), nieobecnosc.getDatado());
-                skladnik = p.getKwotaumownazacalymc();
+                naliczenienieobecnosc.setJakiskladnikredukowalny(naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getUwagi());
+                double sredniadopodstawy = wyliczsredniachoroba(kalendarz, naliczenieskladnikawynagrodzenia, nieobecnosc);
+                naliczenienieobecnosc.setPodstawadochoroby(sredniadopodstawy);
+                double dniroboczenieobecnosc = Data.iletodniKalendarzowych(nieobecnosc.getDataod(), nieobecnosc.getDatado());
                 //double skladnik = obliczsredniadopodstawy(kalendarz,p.getSkladnikwynagrodzenia(), nieobecnosc);
-                double skladnikistalenetto = skladnik-(skladnik*.1371);
-                double skladnikistaledoredukcji = skladnik;
+                double skladnikistalenetto = sredniadopodstawy-(sredniadopodstawy*.1371);
+                double skladnikistaledoredukcji = sredniadopodstawy;
                 naliczenienieobecnosc.setSkladnikistale(skladnikistalenetto);
                 double procentzazwolnienie = 0.8;
                 naliczenienieobecnosc.setProcentzazwolnienie(procentzazwolnienie);
@@ -348,13 +344,13 @@ public class KalendarzmiesiacBean {
                 double stawkadziennaredukcji = Z.z(skladnikistaledoredukcji/30);
                 naliczenienieobecnosc.setStawkadziennaredukcji(stawkadziennaredukcji);
                 double kwotaredukcji = Z.z(stawkadziennaredukcji*dniroboczenieobecnosc);
-                naliczenienieobecnosc.setKwotaredukcji(kwotaredukcji);
+                if (naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getRedukowany()) {
+                    naliczenienieobecnosc.setKwotaredukcji(kwotaredukcji);
+                }
                 naliczenienieobecnosc.setPasekwynagrodzen(pasekwynagrodzen);
                 pasekwynagrodzen.getNaliczenienieobecnoscList().add(naliczenienieobecnosc);
-                p.setKwotyredukujacesuma(p.getKwotyredukujacesuma()+kwotaredukcji);
-                p.setKwotazredukowana(p.getKwotaumownazacalymc()-p.getKwotyredukujacesuma());
-                p.setKwotadolistyplac(p.getKwotazredukowana());
-                }
+//                p.setKwotyredukujacesuma(p.getKwotyredukujacesuma()+kwotaredukcji);
+//                p.setKwotadolistyplac(p.getKwotaumownazacalymc()-p.getKwotyredukujacesuma());
         }
 //        11 - zasadnicze 20-premia 30-nadgodziny
 //        if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod().equals("21")) {
@@ -364,6 +360,93 @@ public class KalendarzmiesiacBean {
 //            skladnik = Z.z(210 / 3.0);
 //        }
     }
+    
+    private static double wyliczsredniachoroba(Kalendarzmiesiac kalendarz, Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia, Nieobecnosc nieobecnosc) {
+        double zwrot = 0.0;
+        List<Umowa> listaumow = kalendarz.getUmowa().getAngaz().getUmowaList();
+        Collections.sort(listaumow, new Umowacomparator());
+        List<Kalendarzmiesiac> kalendarze = new ArrayList<>();
+        for (Umowa p : listaumow) {
+            for (Kalendarzmiesiac kal : p.getKalendarzmiesiacList()) {
+                kalendarze.add(kal);
+                if (kalendarze.size()>12) {
+                    break;
+                }
+            }
+        }
+        double dniroboczewmiesiacu = 0.0;
+        for (Dzien pa : kalendarz.getDzienList()) {
+            if (pa.getTypdnia() == 0) {
+                dniroboczewmiesiacu++;
+            }
+        }
+        double godzinyroboczewmiesiacu = dniroboczewmiesiacu * 8.0;
+        double dowyplatyzaczasprzepracowany = 0.0;
+        if (kalendarze.size()==1) {
+             //wyliczenie dla skladnika stalego ze zmiennymi
+            if (naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getGodzinowe0miesieczne1()&&naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getStale0zmienne1()==false) {
+                double skladnikistale = 0.0;
+                double dniroboczeprzepracowanestat = 0.0;
+                for (Zmiennawynagrodzenia r : naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getZmiennawynagrodzeniaList()) {
+                    double dniroboczeprzepracowanezm = 0.0;
+                    double godzinyobecnosciroboczezm = 0.0;
+                    int dzienodzmienna = DataBean.dataod(r.getDataod(), kalendarz.getRok(), kalendarz.getMc());
+                    int dziendozmienna = DataBean.datado(r.getDatado(), kalendarz.getRok(), kalendarz.getMc());
+                    if (DataBean.czysiemiesci(kalendarz, r.getDataod(), r.getDatado())) {
+                        skladnikistale = r.getKwota();
+                        for (Dzien s : kalendarz.getDzienList()) {
+                            //daje norma godzin a nie z uwzglednieniem zwolnien bo przeciez rewdukcja bedzie pozniej
+                            if (s.getTypdnia() == 0 && s.getNormagodzin()>0.0 && s.getNrdnia() >= dzienodzmienna && s.getNrdnia() <= dziendozmienna) {
+                                dniroboczeprzepracowanezm++;
+                            }
+                            if (s.getTypdnia() == 0 && s.getPrzepracowano()>0.0 && s.getNrdnia() >= dzienodzmienna && s.getNrdnia() <= dziendozmienna) {
+                                dniroboczeprzepracowanestat++;
+                            }
+                        }
+                    }
+                    godzinyobecnosciroboczezm = dniroboczeprzepracowanezm * 8.0;
+                    double stawkadziennazm = skladnikistale / godzinyroboczewmiesiacu;
+                    dowyplatyzaczasprzepracowany = dowyplatyzaczasprzepracowany + Z.z(stawkadziennazm * godzinyobecnosciroboczezm);
+                }
+            } else if (naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getStale0zmienne1()==true) {
+                  /* nie bedzie tego bo srednia ze zmiennych jest brana z poprzednich miesiecy, a tu ich nie ma*/
+            }
+        } else {
+            dowyplatyzaczasprzepracowany = 0.0;
+            for (Kalendarzmiesiac p : kalendarze) {
+                if (!p.equals(kalendarz)) {
+                    if (p.czyjestchoroba()) {
+                        int ilemcy = Mce.odlegloscMcy(p.getMc(), p.getRok(), kalendarz.getMc(), kalendarz.getRok());
+                        if (ilemcy <= 3) {
+                            dowyplatyzaczasprzepracowany = p.pobierzPodstaweNieobecnosc(nieobecnosc);
+                        }
+                    }
+                }
+            }
+            //idziemy dalej jak nie bylo choroby w ciagu ostatnich 3 mcy
+            if (dowyplatyzaczasprzepracowany==0.0) {
+                double i = 0.0;
+                for (Iterator<Kalendarzmiesiac> it = kalendarze.iterator();it.hasNext();) {
+                    Kalendarzmiesiac p = it.next();
+                    if (p.czyjestwiecejniepracy()||p.equals(kalendarz)) {
+                        it.remove();
+                    } else {
+                        double[] czywaloryzowac = p.chorobaczywaloryzacja();
+                        boolean waloryzowac = czywaloryzowac[2]==1;
+                        dowyplatyzaczasprzepracowany = dowyplatyzaczasprzepracowany+p.getPasek().pobierznaliczeniadochorobowego(waloryzowac, naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia());
+                        i++;
+                    }
+                }
+                if (i>0) {
+                    dowyplatyzaczasprzepracowany = Z.z(dowyplatyzaczasprzepracowany/i);
+                }
+            }
+        }
+        
+        /***************************/
+       
+        return dowyplatyzaczasprzepracowany;
+    }
 
     static void naliczskladnikiwynagrodzeniazaUrlop(Kalendarzmiesiac kalendarz, Nieobecnosc nieobecnosc, Pasekwynagrodzen pasekwynagrodzen) {
         double dniroboczewmiesiacu = 0.0;
@@ -372,7 +455,7 @@ public class KalendarzmiesiacBean {
         int dziendo = Data.getDzienI(nieobecnosc.getDatado());
         for (Dzien p : kalendarz.getDzienList()) {
             if (p.getTypdnia()==0 && p.getNormagodzin()!=0.0) {
-                if (p.getKod()==null || p.getKod().equals("100")) {
+                if (p.getPrzepracowano()>0.0 || p.getKod().equals("100")) {
                     dniroboczewmiesiacu++;
                 }
             }
@@ -380,29 +463,21 @@ public class KalendarzmiesiacBean {
                 dninieobecnoscirobocze++;
             }
         }
-        for (Naliczenieskladnikawynagrodzenia p : pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList()) {
+        for (Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia : pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList()) {
+            if (naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getGodzinowe0miesieczne1()&&naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getStale0zmienne1()==false) {
+                double skladnikistale = 0.0;
+                double liczbagodzinurlopu = dninieobecnoscirobocze * 8.0;
                 Naliczenienieobecnosc naliczenienieobecnosc = new Naliczenienieobecnosc();
                 naliczenienieobecnosc.setNieobecnosc(nieobecnosc);
-                Skladnikwynagrodzenia skladnikwynagrodzenia = p.getSkladnikwynagrodzenia();
+                Skladnikwynagrodzenia skladnikwynagrodzenia = naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia();
                 naliczenienieobecnosc.setSkladnikwynagrodzenia(skladnikwynagrodzenia);
-                double skladnik = p.getKwotazredukowana();
-//                if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod().equals("11")) {
-//                    skladnik = obliczsredniadopodstawy(kalendarz,p.getSkladnikwynagrodzenia(), nieobecnosc);
-//                }
-//                if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod().equals("21")) {
-//                    skladnik = Z.z(1800/3.0);
-//                    dniroboczewmiesiacu = 64.0/3.0;
-//                }
-//                if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod().equals("12")||p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod().equals("31")) {
-//                    skladnik = Z.z(210/3.0);
-//                }
-                naliczenienieobecnosc.setJakiskladnikredukowalny(p.getSkladnikwynagrodzenia().getUwagi()); 
-                naliczenienieobecnosc.setSkladnikistale(skladnik);
+                double sredniagodzinowa = wyliczsredniagodzinowa(kalendarz, naliczenieskladnikawynagrodzenia, liczbagodzinurlopu);
+                naliczenienieobecnosc.setJakiskladnikredukowalny(naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getUwagi()); 
+                naliczenienieobecnosc.setSkladnikistale(sredniagodzinowa);
                 double liczbagodzinroboczych = dniroboczewmiesiacu * 8.0;
                 naliczenienieobecnosc.setLiczbagodzinroboczych(liczbagodzinroboczych);
-                double liczbagodzinurlopu = dninieobecnoscirobocze * 8.0;
                 naliczenienieobecnosc.setLiczbagodzinurlopu(liczbagodzinurlopu);
-                double stawkadzienna = skladnik / liczbagodzinroboczych;
+                double stawkadzienna = sredniagodzinowa / liczbagodzinroboczych;
                 naliczenienieobecnosc.setStawkadzienna(stawkadzienna);
                 double dowyplatyzaczasnieobecnosci = Z.z(stawkadzienna * liczbagodzinurlopu);
                 naliczenienieobecnosc.setKwota(dowyplatyzaczasnieobecnosci);
@@ -410,7 +485,30 @@ public class KalendarzmiesiacBean {
                 naliczenienieobecnosc.setKwotaredukcji(dowyplatyzaczasnieobecnosci);
                 naliczenienieobecnosc.setPasekwynagrodzen(pasekwynagrodzen);
                 pasekwynagrodzen.getNaliczenienieobecnoscList().add(naliczenienieobecnosc);
-        }
+            } else if (naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getStale0zmienne1()==true) {
+                double skladnikistale = 0.0;
+                double liczbagodzinurlopu = dninieobecnoscirobocze * 8.0;
+                Naliczenienieobecnosc naliczenienieobecnosc = new Naliczenienieobecnosc();
+                naliczenienieobecnosc.setNieobecnosc(nieobecnosc);
+                Skladnikwynagrodzenia skladnikwynagrodzenia = naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia();
+                naliczenienieobecnosc.setSkladnikwynagrodzenia(skladnikwynagrodzenia);
+                double dowyplatyzaczasnieobecnosci = wyliczsredniagodzinowa(kalendarz, naliczenieskladnikawynagrodzenia, liczbagodzinurlopu);
+                naliczenienieobecnosc.setJakiskladnikredukowalny(naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getUwagi()); 
+                naliczenienieobecnosc.setSkladnikistale(dowyplatyzaczasnieobecnosci);
+                double liczbagodzinroboczych = dniroboczewmiesiacu * 8.0;
+                naliczenienieobecnosc.setLiczbagodzinroboczych(liczbagodzinroboczych);
+                naliczenienieobecnosc.setLiczbagodzinurlopu(liczbagodzinurlopu);
+                double stawkadzienna = dowyplatyzaczasnieobecnosci / liczbagodzinroboczych;
+                naliczenienieobecnosc.setStawkadzienna(stawkadzienna);
+                naliczenienieobecnosc.setKwota(dowyplatyzaczasnieobecnosci);
+                naliczenienieobecnosc.setKwotazus(dowyplatyzaczasnieobecnosci);
+                naliczenienieobecnosc.setKwotaredukcji(0.0);
+                naliczenienieobecnosc.setPasekwynagrodzen(pasekwynagrodzen);
+                pasekwynagrodzen.getNaliczenienieobecnoscList().add(naliczenienieobecnosc);
+            }
+            //p.setKwotadolistyplac(p.getKwotadolistyplac()-dowyplatyzaczasnieobecnosci);
+            //p.setKwotyredukujacesuma(p.getKwotaumownazacalymc()-p.getKwotadolistyplac());
+       }
     }
     
     static void naliczskladnikiwynagrodzeniazaOkresnieprzepracowany(Kalendarzmiesiac kalendarz, Nieobecnosc nieobecnosc, Pasekwynagrodzen pasekwynagrodzen, String kod) {
@@ -435,8 +533,8 @@ public class KalendarzmiesiacBean {
                 naliczenienieobecnosc.setNieobecnosc(nieobecnosc);
                 naliczenienieobecnosc.setSkladnikwynagrodzenia(skladnikwynagrodzenia);
                 double skladnikistale = 0.0;
-                int dzienodzmienna = Data.getDzienI(naliczenieskladnikawynagrodzenia.getDataod());
-                int dziendozmienna = Data.getDzienI(naliczenieskladnikawynagrodzenia.getDatado());
+                int dzienodzmienna = DataBean.dataod(naliczenieskladnikawynagrodzenia.getDataod(), kalendarz.getRok(), kalendarz.getMc());
+                int dziendozmienna = DataBean.datado(naliczenieskladnikawynagrodzenia.getDatado(), kalendarz.getRok(), kalendarz.getMc());
                 skladnikistale = naliczenieskladnikawynagrodzenia.getKwotaumownazacalymc();
                 if (kod.equals("200")) {
                     for (Dzien s : kalendarz.getDzienList()) {
@@ -465,9 +563,9 @@ public class KalendarzmiesiacBean {
                 double dowyplatyzaczasnieobecnosci = Z.z4(stawkadzienna * godzinynieobecnoscirobocze);
                 naliczenienieobecnosc.setKwota(0.0);
                 naliczenienieobecnosc.setKwotazus(0.0);
-                naliczenienieobecnosc.setKwotastatystyczna(Z.z(dowyplatyzaczasnieobecnosci));
                 if (kod.equals("200")) {
                     naliczenienieobecnosc.setKwotaredukcji(0.0);
+                    naliczenienieobecnosc.setKwotastatystyczna(Z.z(dowyplatyzaczasnieobecnosci));
                     
                 } else {
                     naliczenienieobecnosc.setKwotaredukcji(Z.z(dowyplatyzaczasnieobecnosci));
@@ -569,36 +667,70 @@ public class KalendarzmiesiacBean {
 
     static void redukujskladnikistale(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasekwynagrodzen) {
         if (pasekwynagrodzen.getNaliczenienieobecnoscList()!=null&&pasekwynagrodzen.getNaliczenienieobecnoscList().size()>0) {
-            double redukcjazarchorobe = 0.0;
-            double redukcjazaurlop = 0.0;
-            double redukcjazabezplatny = 0.0;
-            for (Naliczenienieobecnosc p : pasekwynagrodzen.getNaliczenienieobecnoscList()) {
-                if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getRedukowany()) {
-                    switch (p.getNieobecnosc().getNieobecnosckodzus().getKod()) {
-                        case "331":
-                            redukcjazarchorobe = redukcjazarchorobe+p.getKwotaredukcji();
-                            break;
-                        case "100":
-                            redukcjazaurlop = redukcjazaurlop+p.getKwotaredukcji();
-                            break;
-                        case "111":
-                            redukcjazabezplatny = redukcjazabezplatny+p.getKwotaredukcji();
-                            break;
-                        case "200":
-                            //tego nie roboimy bo to stattystyczne
-                            //redukcjazabezplatny = redukcjazabezplatny+p.getKwotaredukcji();
-                            break;
-                        case "777":
-                            redukcjazabezplatny = redukcjazabezplatny+p.getKwotaredukcji();
-                            break;
+            for (Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia : pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList()) {
+                double redukcjazarchorobe = 0.0;
+                double redukcjazaurlop = 0.0;
+                double redukcjazabezplatny = 0.0;
+                for (Naliczenienieobecnosc p : pasekwynagrodzen.getNaliczenienieobecnoscList()) {
+                    if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getRedukowany() && p.getSkladnikwynagrodzenia().equals(naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia())) {
+                        switch (p.getNieobecnosc().getNieobecnosckodzus().getKod()) {
+                            case "331":
+                                redukcjazarchorobe = redukcjazarchorobe+p.getKwotaredukcji();
+                                break;
+                            case "100":
+                                redukcjazaurlop = redukcjazaurlop+p.getKwotaredukcji();
+                                break;
+                            case "111":
+                                redukcjazabezplatny = redukcjazabezplatny+p.getKwotaredukcji();
+                                break;
+                            case "200":
+                                //tego nie roboimy bo to stattystyczne
+                                //redukcjazabezplatny = redukcjazabezplatny+p.getKwotastatystyczna();
+                                break;
+                            case "777":
+                                redukcjazabezplatny = redukcjazabezplatny+p.getKwotaredukcji();
+                                break;
+                        }
                     }
                 }
+                if (naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getRedukowany()) {
+                    naliczenieskladnikawynagrodzenia.setKwotyredukujacesuma(Z.z(redukcjazarchorobe+redukcjazaurlop+redukcjazabezplatny));
+                    naliczenieskladnikawynagrodzenia.setKwotadolistyplac(Z.z(naliczenieskladnikawynagrodzenia.getKwotadolistyplac()-naliczenieskladnikawynagrodzenia.getKwotyredukujacesuma()));
+                }
             }
-            for (Naliczenieskladnikawynagrodzenia p : pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList()) {
-                if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getRedukowany()) {
-                    p.setKwotyredukujacesuma(Z.z(redukcjazarchorobe+redukcjazaurlop+redukcjazabezplatny));
-                    p.setKwotazredukowana(Z.z(p.getKwotadolistyplac()-p.getKwotyredukujacesuma()));
-                    p.setKwotadolistyplac(p.getKwotazredukowana());
+        }
+    }
+    static void redukujskladnikistale2(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasekwynagrodzen) {
+        if (pasekwynagrodzen.getNaliczenienieobecnoscList()!=null&&pasekwynagrodzen.getNaliczenienieobecnoscList().size()>0) {
+            for (Naliczenieskladnikawynagrodzenia pa : pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList()) {
+                double redukcjazarchorobe = 0.0;
+                double redukcjazaurlop = 0.0;
+                double redukcjazabezplatny = 0.0;
+                for (Naliczenienieobecnosc p : pasekwynagrodzen.getNaliczenienieobecnoscList()) {
+                    if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getRedukowany() && p.getSkladnikwynagrodzenia().equals(pa.getSkladnikwynagrodzenia())) {
+                        switch (p.getNieobecnosc().getNieobecnosckodzus().getKod()) {
+                            case "331":
+                                //redukcjazarchorobe = redukcjazarchorobe+p.getKwotaredukcji();
+                                break;
+                            case "100":
+                                redukcjazaurlop = redukcjazaurlop+p.getKwotaredukcji();
+                                break;
+                            case "111":
+                                //redukcjazabezplatny = redukcjazabezplatny+p.getKwotaredukcji();
+                                break;
+                            case "200":
+                                redukcjazabezplatny = redukcjazabezplatny+p.getKwotastatystyczna();
+                                break;
+                            case "777":
+                                //redukcjazabezplatny = redukcjazabezplatny+p.getKwotaredukcji();
+                                break;
+                        }
+                    }
+                }
+                if (pa.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getRedukowany()) {
+                    double kwotyredukujace = pa.getKwotyredukujacesuma();
+                    pa.setKwotyredukujacesuma(Z.z(kwotyredukujace+redukcjazabezplatny+redukcjazaurlop));
+                    pa.setKwotadolistyplac(Z.z(pa.getKwotadolistyplac()-redukcjazaurlop));
                 }
             }
         }
@@ -635,6 +767,39 @@ public class KalendarzmiesiacBean {
         //double kwotazumowy = skladnikwynagrodzenia.getZmiennawynagrodzeniaList()
         //czy umowa rozlicza pierwszy miesiac
         return 2800;
+    }
+
+    private static double wyliczsredniagodzinowa(Kalendarzmiesiac kalendarz, Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia, double liczbagodzinieobecnosci) {
+        double dniroboczewmiesiacu = 0.0;
+        for (Dzien pa : kalendarz.getDzienList()) {
+            if (pa.getTypdnia() == 0) {
+                dniroboczewmiesiacu++;
+            }
+        }
+        double godzinyroboczewmiesiacu = dniroboczewmiesiacu * 8.0;
+        double dowyplatyzaczasprzepracowany = 0.0;
+        //wyliczenie dla skladnika stalego ze zmiennymi
+        if (naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getGodzinowe0miesieczne1()&&naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getStale0zmienne1()==false) {
+             dowyplatyzaczasprzepracowany = naliczenieskladnikawynagrodzenia.getKwotadolistyplac();
+        } else if (naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getStale0zmienne1()==true) {
+              Umowa umowa = kalendarz.getUmowa();
+                List<Naliczenieskladnikawynagrodzenia> naliczonyskladnikdosredniej = umowa.pobierzpaski(kalendarz.getRok(), kalendarz.getMc(), naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia());
+                double godzinynalezne = 0.0;
+                double kwotywyplacone = 0.0;
+                double stawkazagodzine = 0.0;
+                int liczba = 0;
+                for (Naliczenieskladnikawynagrodzenia pa : naliczonyskladnikdosredniej) {
+                    godzinynalezne = godzinynalezne+pa.getGodzinyfaktyczne();
+                    kwotywyplacone = kwotywyplacone+pa.getKwotadolistyplac();
+                    liczba++;
+                    if(liczba>3) {
+                        break;
+                    }
+                }
+                stawkazagodzine = Z.z(kwotywyplacone/godzinynalezne);
+                dowyplatyzaczasprzepracowany = dowyplatyzaczasprzepracowany + Z.z(stawkazagodzine * liczbagodzinieobecnosci);
+        }
+        return dowyplatyzaczasprzepracowany;
     }
 
     

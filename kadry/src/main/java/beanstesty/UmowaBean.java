@@ -34,12 +34,12 @@ public class UmowaBean {
             umowa.setAngaz(AngazBean.create());
             umowa.setChorobowe(Boolean.TRUE);
             umowa.setChorobowedobrowolne(Boolean.FALSE);
-            umowa.setDatado("2020-12-29");
-            umowa.setDatanfz("2020-12-03");
-            umowa.setDataod("2020-12-03");
-            umowa.setDataspoleczne("2020-12-03");
-            umowa.setDatazawarcia("2020-12-03");
-            umowa.setDatazdrowotne("2020-12-03");
+            umowa.setDatado("2020-12-31");
+            umowa.setDatanfz("2020-12-01");
+            umowa.setDataod("2020-12-01");
+            umowa.setDataspoleczne("2020-12-01");
+            umowa.setDatazawarcia("2020-12-01");
+            umowa.setDatazdrowotne("2020-12-01");
             umowa.setEmerytalne(Boolean.TRUE);
             umowa.setCzastrwania("umowa na okres próbny");
             umowa.setKodzawodu(KodzawoduBean.create());
@@ -134,7 +134,7 @@ public class UmowaBean {
                 zwrot = selected.getDataod();
             } else {
                 Umowa u = umowaList.get(0);
-                int iledni = Data.iletodni(u.getDatado(), selected.getDataod());
+                int iledni = Data.iletodniKalendarzowych(u.getDatado(), selected.getDataod());
                 if (u.getSlownikszkolazatrhistoria().getPraca0nauka1() && iledni < 90) {
                     zwrot = selected.getDataod();
                 } else {

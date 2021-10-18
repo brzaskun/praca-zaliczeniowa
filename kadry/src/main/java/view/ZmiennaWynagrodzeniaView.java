@@ -60,13 +60,19 @@ public class ZmiennaWynagrodzeniaView  implements Serializable {
     public void create() {
       if (selected!=null && selected.getSkladnikwynagrodzenia()!=null) {
           try {
-            if (lista!=null && lista.size()>0) {
-                zakonczokrespoprzedni(lista,selected);
+            if (selected.getId()!=null) {
+                zmiennaWynagrodzeniaFacade.edit(selected);
+                selected = new Zmiennawynagrodzenia();
+                Msg.msg("Udana edycja zmiennej wyn");
+            } else {
+                if (lista!=null && lista.size()>0) {
+                    zakonczokrespoprzedni(lista,selected);
+                }
+                zmiennaWynagrodzeniaFacade.create(selected);
+                lista.add(selected);
+                selected = new Zmiennawynagrodzenia();
+                Msg.msg("Dodano zmienną wyn");
             }
-            zmiennaWynagrodzeniaFacade.create(selected);
-            lista.add(selected);
-            selected = new Zmiennawynagrodzenia();
-            Msg.msg("Dodano zmienną wyn");
           } catch (Exception e) {
               System.out.println("");
               Msg.msg("e", "Błąd - nie dodano zmiennej wyn");
@@ -81,6 +87,19 @@ public class ZmiennaWynagrodzeniaView  implements Serializable {
           try {
             zmiennaWynagrodzeniaFacade.edit(selected);
             Msg.msg("Zmieniono zmienną wyn");
+          } catch (Exception e) {
+              Msg.msg("e", "Błąd edycji zmiennej wyn");
+          }
+      } else {
+          Msg.msg("e", "Nie wybrano składnika");
+      }
+    }
+     
+     public void wybierzdoedycji(Zmiennawynagrodzenia selected) {
+      if (selected!=null && selected.getSkladnikwynagrodzenia()!=null) {
+          try {
+            this.selected  = selected;
+            Msg.msg("Zmieniono zmienną do edycji");
           } catch (Exception e) {
               Msg.msg("e", "Błąd edycji zmiennej wyn");
           }

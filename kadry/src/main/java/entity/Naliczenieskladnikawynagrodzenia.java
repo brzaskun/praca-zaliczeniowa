@@ -31,9 +31,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Naliczenieskladnikawynagrodzenia.findAll", query = "SELECT n FROM Naliczenieskladnikawynagrodzenia n"),
     @NamedQuery(name = "Naliczenieskladnikawynagrodzenia.findById", query = "SELECT n FROM Naliczenieskladnikawynagrodzenia n WHERE n.id = :id"),
-    @NamedQuery(name = "Naliczenieskladnikawynagrodzenia.findByKwota", query = "SELECT n FROM Naliczenieskladnikawynagrodzenia n WHERE n.kwota = :kwota"),
-    @NamedQuery(name = "Naliczenieskladnikawynagrodzenia.findByKwotabezzus", query = "SELECT n FROM Naliczenieskladnikawynagrodzenia n WHERE n.kwotabezzus = :kwotabezzus"),
-    @NamedQuery(name = "Naliczenieskladnikawynagrodzenia.findByKwotazus", query = "SELECT n FROM Naliczenieskladnikawynagrodzenia n WHERE n.kwotazus = :kwotazus")})
+    @NamedQuery(name = "Naliczenieskladnikawynagrodzenia.findByKwota", query = "SELECT n FROM Naliczenieskladnikawynagrodzenia n WHERE n.kwotadolistyplac = :kwota")
+})
 public class Naliczenieskladnikawynagrodzenia implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -51,18 +50,20 @@ public class Naliczenieskladnikawynagrodzenia implements Serializable {
     private String datado;
     @Column(name = "kwotaumownazacalymc")
     private double kwotaumownazacalymc;
-    @Column(name = "kwotazredukowana")
-    private double kwotazredukowana;
     @Column(name = "kwotyredukujacesuma")
     private double kwotyredukujacesuma;
     @Column(name = "kwotadolistyplac")
     private double kwotadolistyplac;
-    @Column(name = "ilezredukowano")
-    private double ilezredukowano;
     @Column(name = "dninalezne")
     private double dninalezne;
     @Column(name = "dnifaktyczne")
     private double dnifaktyczne;
+    @Column(name = "godzinynalezne")
+    private double godzinynalezne;
+    @Column(name = "godzinyfaktyczne")
+    private double godzinyfaktyczne;
+    @Column(name = "stawkadzienna")
+    private double stawkadzienna;
     @JoinColumn(name = "pasekwynagrodzen", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Pasekwynagrodzen pasekwynagrodzen;
@@ -101,6 +102,7 @@ public class Naliczenieskladnikawynagrodzenia implements Serializable {
         this.skladnikwynagrodzenia = skladnikwynagrodzenia;
     }
 
+  
     @Override
     public int hashCode() {
         int hash = 0;
@@ -123,8 +125,9 @@ public class Naliczenieskladnikawynagrodzenia implements Serializable {
 
     @Override
     public String toString() {
-        return "Naliczenieskladnikawynagrodzenia{" + "dataod=" + dataod + ", datado=" + datado + ", kwotaumownazacalymc=" + kwotaumownazacalymc + ", kwotazredukowana=" + kwotazredukowana + ", kwotyredukujacesuma=" + kwotyredukujacesuma + ", kwotadolistyplac=" + kwotadolistyplac + ", ilezredukowano=" + ilezredukowano  + ", skladnikwynagrodzenia=" + skladnikwynagrodzenia.getRodzajwynagrodzenia().getKod() + '}';
+        return "Naliczenieskladnikawynagrodzenia{" + "dataod=" + dataod + ", datado=" + datado + ", kwotaumownazacalymc=" + kwotaumownazacalymc + ", kwotyredukujacesuma=" + kwotyredukujacesuma + ", kwotadolistyplac=" + kwotadolistyplac + ", skladnikwynagrodzenia=" + skladnikwynagrodzenia.getRodzajwynagrodzenia().getKod() + '}';
     }
+
 
     
    
@@ -170,22 +173,6 @@ public class Naliczenieskladnikawynagrodzenia implements Serializable {
     }
 
 
-    public double getKwotazredukowana() {
-        return kwotazredukowana;
-    }
-
-    public void setKwotazredukowana(double kwotazredukowana) {
-        this.kwotazredukowana = kwotazredukowana;
-    }
-
-    public double getIlezredukowano() {
-        return ilezredukowano;
-    }
-
-    public void setIlezredukowano(double ilezredukowano) {
-        this.ilezredukowano = ilezredukowano;
-    }
-
     public Pasekwynagrodzen getPasekwynagrodzen() {
         return pasekwynagrodzen;
     }
@@ -208,6 +195,30 @@ public class Naliczenieskladnikawynagrodzenia implements Serializable {
 
     public void setDnifaktyczne(double dnifaktyczne) {
         this.dnifaktyczne = dnifaktyczne;
+    }
+
+    public double getGodzinynalezne() {
+        return godzinynalezne;
+    }
+
+    public void setGodzinynalezne(double godzinynalezne) {
+        this.godzinynalezne = godzinynalezne;
+    }
+
+    public double getGodzinyfaktyczne() {
+        return godzinyfaktyczne;
+    }
+
+    public void setGodzinyfaktyczne(double godzinyfaktyczne) {
+        this.godzinyfaktyczne = godzinyfaktyczne;
+    }
+
+    public double getStawkadzienna() {
+        return stawkadzienna;
+    }
+
+    public void setStawkadzienna(double stawkadzienna) {
+        this.stawkadzienna = stawkadzienna;
     }
 
     

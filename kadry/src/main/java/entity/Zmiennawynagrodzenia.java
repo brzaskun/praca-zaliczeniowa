@@ -80,6 +80,8 @@ public class Zmiennawynagrodzenia implements Serializable {
         this.waluta = "PLN";
         this.netto0brutto1 = true;
     }
+    
+    
 
     public Integer getId() {
         return id;
@@ -112,10 +114,10 @@ public class Zmiennawynagrodzenia implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Zmiennawynagrodzenia[ id=" + id + " ]";
+        return "Zmiennawynagrodzenia{" + "datado=" + datado + ", dataod=" + dataod + ", nazwa=" + nazwa + ", waluta=" + waluta + ", netto0brutto1=" + netto0brutto1 + ", skladnikwynagrodzenia=" + skladnikwynagrodzenia.getRodzajwynagrodzenia().getOpisskrocony() + ", kwota=" + kwota + ", aktywna=" + aktywna + '}';
     }
 
-
+  
 
     public double getKwota() {
         return kwota;
@@ -180,6 +182,8 @@ public class Zmiennawynagrodzenia implements Serializable {
     public void setAktywna(boolean aktywna) {
         this.aktywna = aktywna;
     }
+
+    
 
     
 }

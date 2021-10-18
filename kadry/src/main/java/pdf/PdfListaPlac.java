@@ -235,7 +235,7 @@ public class PdfListaPlac {
             table.addCell(ustawfrazeAlign(rs.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getOpisskrocony(), "left",6));
             table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKwotadolistyplac()), "right",6));
             table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKwotaumownazacalymc()), "right",6));
-            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKwotazredukowana()), "left",6));
+            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKwotadolistyplac()), "left",6));
         }
         for (Naliczenienieobecnosc rs : wykaznieob) {
             table.addCell(ustawfrazeAlign(String.valueOf(i++), "left",6,10f));

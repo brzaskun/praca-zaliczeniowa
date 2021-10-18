@@ -57,7 +57,7 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                     <p:dataTable id="datalistr" value="#{rodzjawynagrodzeniaSetView.lista}" var="item11"
                                  selectionMode="single" selection="#{rodzjawynagrodzeniaSetView.selectedlista}"
                                  rowKey="#{item11.id}" emptyMessage="Nie znaleziono takiego składnika"
-                                 style="height: 400px; overflow-y: scroll; width: 1200px;"
+                                 style="height: 400px; overflow-y: scroll; width: 1200px;" stickyHeader="true" stickyTopAt=".layout-topbar"
                                  >
 
                         <p:column width="40" style="text-align: center;">

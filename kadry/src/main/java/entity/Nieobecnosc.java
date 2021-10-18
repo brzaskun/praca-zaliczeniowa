@@ -40,6 +40,7 @@ import kadryiplace.OsobaPrz;
     @NamedQuery(name = "Nieobecnosc.findByKod", query = "SELECT n FROM Nieobecnosc n WHERE n.nieobecnosckodzus.kod = :kod"),
     @NamedQuery(name = "Nieobecnosc.findByNazwa", query = "SELECT n FROM Nieobecnosc n WHERE n.nieobecnosckodzus.opis = :opis"),
     @NamedQuery(name = "Nieobecnosc.findByUmowa", query = "SELECT n FROM Nieobecnosc n WHERE n.umowa = :umowa"),
+    @NamedQuery(name = "Nieobecnosc.findByUmowa200", query = "SELECT n FROM Nieobecnosc n WHERE n.umowa = :umowa and n.nieobecnosckodzus.kod='200'"),
     @NamedQuery(name = "Nieobecnosc.findByDataod", query = "SELECT n FROM Nieobecnosc n WHERE n.dataod = :dataod"),
     @NamedQuery(name = "Nieobecnosc.findByDatado", query = "SELECT n FROM Nieobecnosc n WHERE n.datado = :datado")})
 public class Nieobecnosc implements Serializable {
@@ -294,6 +295,7 @@ public class Nieobecnosc implements Serializable {
     public double getDnirobocze() {
         return dnirobocze;
     }
+
 
     public void setDnirobocze(double dnirobocze) {
         this.dnirobocze = dnirobocze;

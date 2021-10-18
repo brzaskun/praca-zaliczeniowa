@@ -81,6 +81,7 @@
                                  selectionMode="single" selection="#{nieobecnoscView.selectedlista}" rowIndexVar="indexn"
                                  rowKey="#{itemNieob.id}" sortBy="#{itemNieob.dataod}" 
                                  style="height: 450px; overflow-y: scroll;"
+                                 emptyMessage="Nie wpisano żadnych nieobecności"
                                  >
                         <p:column width="40" style="text-align: center;">
                             <f:facet name="header">
@@ -117,6 +118,12 @@
                                 <h:outputText value="dni kal."/>
                             </f:facet>
                             <h:outputText value="#{itemNieob.dnikalendarzowe}" style="#{itemNieob.rokod eq wpisView.rokWpisu ? itemNieob.naniesiona?'color: green':'color: red':'initial'}"/>
+                        </p:column>
+                         <p:column style="text-align: center;" width="40">
+                            <f:facet name="header">
+                                <h:outputText value="dni rob."/>
+                            </f:facet>
+                             <h:outputText value="#{itemNieob.dnirobocze}" style="#{itemNieob.rokod eq wpisView.rokWpisu ? itemNieob.naniesiona?'color: green':'color: red':'initial'}"/>
                         </p:column>
                         <p:column style="text-align: center;" width="40">
                             <f:facet name="header">
@@ -167,11 +174,18 @@
                             </f:facet>
                             <h:outputText value="#{itemNieob.umowa.nrkolejny}"/>
                         </p:column>
-                        <p:column width="40">
+                        <p:column width="40" style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value=""/>
                             </f:facet>
-                            <p:commandButton icon="fa fa-trash" actionListener="#{nieobecnoscView.usun(itemNieob)}"  update="NieobecnoscListForm:datalist">
+                            <p:commandButton icon="fa fa-thumbs-up" actionListener="#{nieobecnoscView.nanies(itemNieob)}"  update="NieobecnoscListForm:datalist" rendered="#{itemNieob.naliczenienieobecnoscList eq null or itemNieob.naliczenienieobecnoscList.size() eq 0}">
+                            </p:commandButton>
+                        </p:column>
+                        <p:column width="40" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value=""/>
+                            </f:facet>
+                            <p:commandButton icon="fa fa-trash" actionListener="#{nieobecnoscView.usun(itemNieob)}"  update="NieobecnoscListForm:datalist" rendered="#{itemNieob.naliczenienieobecnoscList eq null or itemNieob.naliczenienieobecnoscList.size() eq 0}">
                                 <p:confirm type="popup" header="Potwierdzenie" message="Usunąć nieobecność?" icon="pi pi-exclamation-triangle"/>
                             </p:commandButton>
                         </p:column>

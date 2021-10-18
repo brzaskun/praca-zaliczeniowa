@@ -116,10 +116,15 @@ private static final long serialVersionUID = 1L;
     
     public String getOstatniDzien() {
         String zwrot = null;
+        Dzien dzien = null;
+        int i = 1;
         if (this.dzienList!=null) {
-            zwrot = this.dzienList.get(this.dzienList.size()-1).getDatastring();
+            do {
+                dzien = this.dzienList.get(this.dzienList.size()-i);
+                i++;
+            } while(dzien.getTypdnia()==-1);
         }
-        return zwrot;
+        return dzien.getDatastring();
     }
       
     public Integer getId() {
@@ -155,10 +160,12 @@ private static final long serialVersionUID = 1L;
         }
         return true;
     }
+
     @Override
     public String toString() {
-        return "entity.Kalendarzmiesiac[ id=" + id + " ]";
+        return "Kalendarzmiesiac{" + "rok=" + rok + ", mc=" + mc + ", umowa=" + umowa.getImieNazwisko() + '}';
     }
+  
    
     @XmlTransient
     public List<Dzien> getDzienList() {
@@ -204,6 +211,144 @@ private static final long serialVersionUID = 1L;
         }
         zwrot[0] = roboczenalicz;
         zwrot[1] = roboczenawyk;
+        return zwrot;
+    }
+    
+   
+    
+    public double[] urlopdnigodz() {
+        double[] zwrot = new double[2];
+        double urlopdni = 0;
+        double urlopgodziny = 0;
+        if (this.dzienList!=null) {
+            for (Dzien d : dzienList) {
+                if (d.getUrlopPlatny()>0.0) {
+                    urlopdni = urlopdni+1;
+                    urlopgodziny = urlopgodziny+d.getUrlopPlatny();
+                }
+            }
+        }
+        zwrot[0] = urlopdni;
+        zwrot[1] = urlopgodziny;
+        return zwrot;
+    }
+    
+    public double[] chorobadnigodz() {
+        double[] zwrot = new double[2];
+        double chorobadni = 0;
+        double chorobagodziny = 0;
+        String dataod = null;
+        String datado = null;
+        if (this.dzienList!=null) {
+            for (Dzien d : dzienList) {
+                if (d.getWynagrodzeniezachorobe()>0.0) {
+                    dataod = d.getNieobecnosc().getDataod();
+                    datado = d.getNieobecnosc().getDatado();
+                    chorobagodziny = chorobagodziny+d.getWynagrodzeniezachorobe();
+                    zwrot[0] = Data.iletodniKalendarzowych(dataod, datado);
+                }
+            }
+        }
+        zwrot[1] = chorobagodziny;
+        return zwrot;
+    }
+    
+    public double[] chorobaczywaloryzacja() {
+        double[] zwrot = new double[3];
+        double godzinyobowiazku = 0;
+        double chorobagodziny = 0;
+        if (this.dzienList!=null) {
+            for (Dzien d : dzienList) {
+                if (d.getPrzepracowano()==0) {
+                    chorobagodziny = chorobagodziny+8;
+                }
+                if (d.getTypdnia()==0) {
+                    godzinyobowiazku = godzinyobowiazku+8;
+                }
+            }
+        }
+        double polowagodzinyobowiazku = godzinyobowiazku/2;
+        zwrot[0] = godzinyobowiazku;
+        zwrot[1] = chorobagodziny;
+        //jedynka to trzeba upgradowac
+        zwrot[2] = chorobagodziny>polowagodzinyobowiazku?1:0;
+        return zwrot;
+    }
+    
+    
+    
+    public boolean czyjestchoroba() {
+        boolean zwrot = false;
+        if (this.dzienList!=null) {
+            for (Dzien d : dzienList) {
+                if (d.getWynagrodzeniezachorobe()>0.0) {
+                    zwrot = true;
+                    break;
+                }
+            }
+        }
+        return zwrot;
+    }
+    
+    public boolean czyjestwiecejniepracy() {
+        boolean zwrot = false;
+        if (this.dzienList!=null) {
+            int dnirobocze = 0;
+            int dniprzepracowane = 0;
+            for (Dzien d : dzienList) {
+                if (d.getTypdnia()==0) {
+                    dnirobocze++;
+                }
+                if (d.getPrzepracowano()>0) {
+                    dniprzepracowane++;
+                }
+            }
+            int polowaroboczych = dnirobocze/2;
+            if (dniprzepracowane<polowaroboczych){
+                zwrot=true;
+            }
+        }
+        return zwrot;
+    }
+    
+    public double[] zasilekdnigodz() {
+        double[] zwrot = new double[2];
+        double zasilekdni = 0;
+        double zasilekgodziny = 0;
+        String dataod = null;
+        String datado = null;
+        if (this.dzienList!=null) {
+            for (Dzien d : dzienList) {
+                if (d.getZasilek()>0.0) {
+                    dataod = d.getNieobecnosc().getDataod();
+                    datado = d.getNieobecnosc().getDatado();
+                    zasilekgodziny = zasilekgodziny+d.getZasilek();
+                }
+            }
+        }
+        if (dataod!=null&&datado!=null) {
+            zwrot[0] = Data.iletodniKalendarzowych(dataod, datado);
+        } else {
+            zwrot[0] = 0;
+        }
+        zwrot[1] = zasilekgodziny;
+        return zwrot;
+    }
+    
+     public double[] urlopbezplatnydnigodz() {
+        double[] zwrot = new double[2];
+        double urlopdni = 0;
+        double urlopgodziny = 0;
+        if (this.dzienList!=null) {
+            for (Dzien d : dzienList) {
+                if (d.getUrlopbezplatny()>0.0) {
+                    urlopdni = urlopdni+1;
+                    urlopgodziny = urlopgodziny+d.getUrlopbezplatny();
+                }
+            }
+        }
+        zwrot[0] = urlopdni;
+        zwrot[1] = urlopgodziny;
         return zwrot;
     }
     
@@ -273,6 +418,40 @@ private static final long serialVersionUID = 1L;
    public boolean isPraca() {
        return this.getUmowa().getUmowakodzus().isPraca();
    }
+   
+   public Pasekwynagrodzen getPasek() {
+       Pasekwynagrodzen zwrot = new Pasekwynagrodzen();
+         if (this.pasekwynagrodzenList!=null && this.pasekwynagrodzenList.size()==1) {
+           for (Pasekwynagrodzen p : this.pasekwynagrodzenList) {
+               zwrot = p;
+           }
+         }
+        return zwrot;
+   }
+   
+   public List<Naliczenieskladnikawynagrodzenia> skladnikiwynagrodzenialista() {
+       List<Naliczenieskladnikawynagrodzenia> zwrot = new ArrayList<>();
+       if (this.pasekwynagrodzenList!=null && !this.pasekwynagrodzenList.isEmpty()) {
+           for (Pasekwynagrodzen p : this.pasekwynagrodzenList) {
+               if (p.getNaliczenieskladnikawynagrodzeniaList()!=null) {
+                   zwrot.addAll(p.getNaliczenieskladnikawynagrodzeniaList());
+               }
+           }
+       }
+       return zwrot;
+   }
+   
+   public List<Naliczenienieobecnosc> skladnikinieobecnosclista() {
+       List<Naliczenienieobecnosc> zwrot = new ArrayList<>();
+       if (this.pasekwynagrodzenList!=null && !this.pasekwynagrodzenList.isEmpty()) {
+           for (Pasekwynagrodzen p : this.pasekwynagrodzenList) {
+               if (p.getNaliczenienieobecnoscList()!=null) {
+                   zwrot.addAll(p.getNaliczenienieobecnoscList());
+               }
+           }
+       }
+       return zwrot;
+   }
 
     public List<Pasekwynagrodzen> getPasekwynagrodzenList() {
         return pasekwynagrodzenList;
@@ -297,6 +476,10 @@ private static final long serialVersionUID = 1L;
 
     public String getMc() {
         return mc;
+    }
+    
+    public String getRokMc() {
+        return rok+mc;
     }
     
 
@@ -325,16 +508,29 @@ private static final long serialVersionUID = 1L;
     public String getNazwiskoImie() {
         return this.getUmowa().getAngaz().getPracownik().getNazwiskoImie();
     }
+    
+    public String getPesel() {
+        return this.getUmowa().getAngaz().getPracownik().getPesel();
+    }
+    
+    public String getNazwisko() {
+        return this.getUmowa().getAngaz().getPracownik().getNazwisko();
+    }
+    
+    public String getImie() {
+        return this.getUmowa().getAngaz().getPracownik().getImie();
+    }
 
     public void naniesnieobecnosc(Nieobecnosc p) {
-        int dzienod = Integer.parseInt(Data.getDzien(p.getDataod()))-1;
-        int dziendo = Integer.parseInt(Data.getDzien(p.getDatado()))-1;
+        int dzienod = Data.getDzienI(p.getDataod());
+        int dziendo = Data.getDzienI(p.getDatado());
         String mcod = Data.getMc(p.getDataod());
         String mcdo = Data.getMc(p.getDatado());
         dzienod = modyfikujod(mcod, dzienod);
         dziendo = modyfikujdo(mcdo, dziendo);
         for (int i = dzienod; i <= dziendo; i++) {
-            Dzien dzienaktualny = this.dzienList.get(i);
+            final int j = i;
+            Dzien dzienaktualny = this.dzienList.stream().filter(pa->pa.getNrdnia()==j).findFirst().get();
             dzienaktualny.setKod(p.getNieobecnosckodzus().getKod());
             if (p.getNieobecnosckodzus().getKod().equals("331")) {
                 dzienaktualny.setWynagrodzeniezachorobe(dzienaktualny.getNormagodzin());
@@ -347,6 +543,9 @@ private static final long serialVersionUID = 1L;
                 dzienaktualny.setPrzepracowano(0);
             } else if (p.getNieobecnosckodzus().getKod().equals("777")) {
                 
+            } else if (p.getNieobecnosckodzus().getKod().equals("200")) {
+                dzienaktualny.setNormagodzin(0);
+                dzienaktualny.setPrzepracowano(0);
             }
             dzienaktualny.setNieobecnosc(p);
         }
@@ -370,7 +569,7 @@ private static final long serialVersionUID = 1L;
             int mckalendarzaint = Integer.parseInt(mckalendarza);
             int mcdoint = Integer.parseInt(mcoddo);
             if (mcdoint>mckalendarzaint) {
-                dziendo = Integer.parseInt(Data.getDzien(Data.ostatniDzien(this.rok, this.mc)))-1;
+                dziendo = Integer.parseInt(Data.getDzien(Data.ostatniDzien(this.rok, this.mc)));
             }
         }
         return dziendo;
@@ -385,6 +584,33 @@ private static final long serialVersionUID = 1L;
         }
         return zwrot;
     }
+
+    public Naliczenieskladnikawynagrodzenia getNaliczonewynagrodzenie(Skladnikwynagrodzenia s) {
+        Naliczenieskladnikawynagrodzenia zwrot = null;
+        List<Naliczenieskladnikawynagrodzenia> lista = skladnikiwynagrodzenialista();
+        if (lista!=null) {
+            for (Naliczenieskladnikawynagrodzenia naliczenie : lista) {
+                if (naliczenie.getSkladnikwynagrodzenia().equals(s)) {
+                    zwrot = naliczenie;
+                    break;
+                }
+            }
+        }
+        return zwrot;
+    }
+
+    public double pobierzPodstaweNieobecnosc(Nieobecnosc nieobecnosc) {
+        double kwota = 0.0;
+        if (this.getPasek()!=null) {
+            for (Naliczenienieobecnosc p : this.getPasek().getNaliczenienieobecnoscList()) {
+                if (p.getNieobecnosc().equals(nieobecnosc)) {
+                    kwota = p.getPodstawadochoroby();
+                }
+            }
+        }
+        return kwota;
+    }
        
         
 }
+

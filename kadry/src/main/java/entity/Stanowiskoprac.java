@@ -80,6 +80,15 @@ public class Stanowiskoprac implements Serializable {
         this.uwagi = uwagi;
     }
 
+    public Stanowiskoprac(Umowa umowa) {
+        this.dataod = umowa.getDataod();
+        this.datado = umowa.getDatado();
+        this.opis = umowa.getKodzawodu().getNazwa();
+        this.umowa = umowa;
+    }
+
+    
+    
     public Integer getId() {
         return id;
     }

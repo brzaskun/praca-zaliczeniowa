@@ -46,7 +46,9 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                                 <p:ajax event="change" listener="#{umowaView.naniesdatynaumowe}" partialSubmit="true" global="false" update="@(.dataUmowy)"/>
                             </p:inputText>
                             <p:outputLabel value="data do" for="datado" />
-                            <p:inputText id="datado" value="#{umowaView.selected.datado}" title="data do"  placeholder="____-__-__"  maxlength="10"/>
+                            <p:inputText id="datado" value="#{umowaView.selected.datado}" title="data do"  placeholder="____-__-__"  maxlength="10">
+                                <p:ajax event="change" listener="#{umowaView.sprawdzczyumowajestnaczas}" partialSubmit="true" global="false" />
+                            </p:inputText>
                             <p:outputLabel value="data zawarcia" for="datazawarcia" />
                             <p:inputText id="datazawarcia" value="#{umowaView.selected.datazawarcia}" title="data zawarcia"  placeholder="____-__-__"  required="true" styleClass="dataUmowy" maxlength="10"/>
 
@@ -296,7 +298,9 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                             <p:commandButton icon="fa fa-file-text-o"  actionListener="#{umowaView.edytuj(itemumowa)}" onclick="PF('dialogumowatresc').show();" update="north, @(form)"/>
                         </p:column>
                         <p:column width="40" style="text-align: center;">
-                            <p:commandButton icon="fa fa-trash" actionListener="#{umowaView.usun(itemumowa)}" update="north, @(form)"/>
+                            <p:commandButton icon="fa fa-trash" actionListener="#{umowaView.usun(itemumowa)}" update="north, @(form)">
+                                <p:confirm type="popup" header="Potwierdzenie" message="Usunąć daną umowę?" icon="pi pi-exclamation-triangle"/>
+                            </p:commandButton>
                         </p:column>
                     </p:dataTable>
                 </p:panel>

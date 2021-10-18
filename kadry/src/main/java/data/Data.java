@@ -5,6 +5,7 @@
 package data;
 
 import embeddable.Mce;
+import entity.Dzien;
 import entity.Kalendarzmiesiac;
 import error.E;
 import java.io.Serializable;
@@ -18,6 +19,7 @@ import java.time.format.DateTimeFormatter;
 import static java.time.temporal.ChronoUnit.DAYS;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -68,6 +70,11 @@ public class Data implements Serializable {
         String mc = getMc(data);
         return rok+"-"+mc+"-01";
     }
+    
+    public static String pierwszyDzien(String rok, String mc) {
+        return rok+"-"+mc+"-01";
+    }
+    
     public static String pierwszyDzien(WpisView wpisView) {
         String rok = wpisView.getRokWpisu();
         String mc = wpisView.getMiesiacWpisu();
@@ -320,6 +327,17 @@ public class Data implements Serializable {
         return zwrot;
     }
     
+    //chodzi o to czy okres data jest po jakiesc dacie
+    public static boolean czyjestprzed(String termingraniczny, String badanadata) {
+        boolean zwrot = false;
+        if (termingraniczny == null || termingraniczny.equals("")) {
+            zwrot = false;
+        } else {
+            zwrot = czydatasiezawiera(termingraniczny, badanadata, false);
+        }
+        return zwrot;
+    }
+    
     public static boolean czyjestpo(Date data, WpisView wpisView) {
         boolean zwrot = false;
         String rok = Data.getRok(Data.data_yyyyMMdd(data));
@@ -344,12 +362,18 @@ public class Data implements Serializable {
      * @param rokgraniczny rokgraniczny
      * @param mcbadanegookresu mcbadanegookresu
      * @param rokbadanegookresu rokbadanegookresu
-     * 
+     * robi po i ten sam
      */
     public static boolean czyjestpomc(String mcgraniczny, String rokgraniczny, String mcbadanegookresu, String rokbadanegookresu) {
         int wynikporównania = -1;
         wynikporównania  = compare(rokbadanegookresu, mcbadanegookresu,rokbadanegookresu, mcgraniczny);
         return wynikporównania > -1;
+    }
+    
+    public static boolean czyjestpomcnaprawdepo(String mcgraniczny, String rokgraniczny, String mcbadanegookresu, String rokbadanegookresu) {
+        int wynikporównania = -1;
+        wynikporównania  = compare(rokbadanegookresu, mcbadanegookresu,rokbadanegookresu, mcgraniczny);
+        return wynikporównania > 0;
     }
 
     public static boolean czyjestprzed(String dataDo, String rok, String mc) {
@@ -595,6 +619,10 @@ public class Data implements Serializable {
         return LocalDate.parse(databiezaca).minusDays(iloscdni).toString();
     }
     
+    public static String dodajdni(String databiezaca, int iloscdni) {
+        return LocalDate.parse(databiezaca).plusDays(iloscdni).toString();
+    }
+    
     public static String odejmijdniDzis(int iloscdni) {
         return LocalDate.now().minusDays(iloscdni).toString();
     }
@@ -708,11 +736,23 @@ public class Data implements Serializable {
      * @param dataod, dataod
      * @param datado datado
      */
-    public static int iletodni(String dataod, String datado) {
+    public static int iletodniKalendarzowych(String dataod, String datado) {
         LocalDate dzienzakonczenia = LocalDate.parse(dataod);
         LocalDate dzienrozpoczecia = LocalDate.parse(datado);
         double between = DAYS.between(dzienzakonczenia, dzienrozpoczecia)+1;
         return (int) between;
+    }
+    
+    public static int iletodniRoboczych(String dataod, String datado, List<Dzien> dnilista) {
+        int dzienod = Data.getDzienI(dataod);
+        int dziendo = Data.getDzienI(datado);
+        int dninieobecnoscirobocze = 0;
+        for (Dzien p : dnilista) {
+            if (p.getTypdnia()==0 && p.getNrdnia()>=dzienod &&p.getNrdnia()<=dziendo) {
+                dninieobecnoscirobocze++;
+            }
+        }
+        return dninieobecnoscirobocze;
     }
     
     public static String pelnadata(Kalendarzmiesiac kal, int nrdnia) {
