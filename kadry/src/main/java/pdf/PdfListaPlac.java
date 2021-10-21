@@ -253,39 +253,33 @@ public class PdfListaPlac {
      
       public static String wierszeSkladnikiString(List<Naliczenieskladnikawynagrodzenia> wykaz,List<Naliczenienieobecnosc> wykaznieob) {
         StringBuilder sb = new StringBuilder();
-        for (Naliczenieskladnikawynagrodzenia rs : wykaz) {
-            if (!rs.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod().equals("777")) {
-                sb.append(rs.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod());
-                sb.append(" ");
-                sb.append(rs.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getOpisskrocony());
-                sb.append(" ");
-                if (rs.getSkladnikwynagrodzenia().getUwagi()!=null) {
-                    sb.append(rs.getSkladnikwynagrodzenia().getUwagi());
-                    sb.append(" ");
-                }
-//                if (Z.z(rs.getKwotazredukowana())!=0.0&&Z.z(rs.getKwotazredukowana())!=Z.z(rs.getKwotaumownazacalymc())) {
-//                    sb.append(formatujWaluta(rs.getKwotazredukowana()));
-//                    sb.append(";  ");
-//                } else {
-//                    if (Z.z(rs.getKwotazus())!=0.0) {
-//                        sb.append("kwZus/ ");
-//                        sb.append(formatujWaluta(rs.getKwotazus()));
-//                        sb.append("; ");
-//                    }
-//                    if (Z.z(rs.getKwotabezzus())!=0.0) {
-//                        sb.append("kwBezZus/ ");
-//                        sb.append(formatujWaluta(rs.getKwotabezzus()));
-//                        sb.append("; ");
-//                    } 
-//                    if (Z.z(rs.getKwotabezzusbezpodatek())!=0.0) {
-//                        sb.append("kwBezZus/ ");
-//                        sb.append(formatujWaluta(rs.getKwotabezzusbezpodatek()));
-//                        sb.append("; ");
-//                    } 
-//
-//                }
-            }
-        }
+          for (Naliczenieskladnikawynagrodzenia rs : wykaz) {
+              if (!rs.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod().equals("777")) {
+                  sb.append(rs.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod());
+                  sb.append(" ");
+                  sb.append(rs.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getOpisskrocony());
+                  sb.append(" ");
+                  if (rs.getSkladnikwynagrodzenia().getUwagi() != null) {
+                      sb.append(rs.getSkladnikwynagrodzenia().getUwagi());
+                      sb.append(" ");
+                  }
+                  if (!rs.isZus0bezzus1()) {
+                      sb.append("kwZus/ ");
+                      sb.append(formatujWaluta(rs.getKwotadolistyplac()));
+                      sb.append("; ");
+                  }
+                  if (rs.isZus0bezzus1()) {
+                      sb.append("kwBezZus/ ");
+                      sb.append(formatujWaluta(rs.getKwotadolistyplac()));
+                      sb.append("; ");
+                  }
+                  if (rs.isPodatek0bezpodatek1()) {
+                      sb.append("kwBezPod/ ");
+                      sb.append(formatujWaluta(rs.getKwotadolistyplac()));
+                      sb.append("; ");
+                  }
+              }
+          }
         for (Naliczenienieobecnosc rs : wykaznieob) {
             if (!rs.getNieobecnosc().getNieobecnosckodzus().getKod().equals("777")) {
                 sb.append(rs.getNieobecnosc().getNieobecnosckodzus().getKod());

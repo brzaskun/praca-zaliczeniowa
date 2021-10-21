@@ -129,7 +129,7 @@ public class UmowaView  implements Serializable {
         listakodyzawodow = kodyzawodowFacade.findAll();
         datadzisiejsza = Data.aktualnaData();
         miejscowosc = wpisView.getFirma().getMiasto();
-        if (wpisView.getUmowa()!=null&&!lista.contains(wpisView.getUmowa())) {
+        if (lista!=null&&lista.size()>0&&wpisView.getUmowa()!=null&&!lista.contains(wpisView.getUmowa())) {
             wpisView.setUmowa(lista.get(lista.size()-1));
         }
     }

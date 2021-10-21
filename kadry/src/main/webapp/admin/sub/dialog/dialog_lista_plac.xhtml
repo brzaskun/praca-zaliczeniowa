@@ -72,7 +72,8 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                             <p:panelGrid styleClass="pasekwync">
                                 <p:row>
                                     <p:column width="40" style="text-align: center;">
-                                        <h:outputText value=""/>
+                                        <h:outputText value="zapisane" rendered="#{itempasek.id ne null}" styleClass="wwb"/>
+                                        <h:outputText value="nowe" rendered="#{itempasek.id eq null}" styleClass="ww"/>
                                     </p:column>
                                     <p:column>
                                         <h:outputText value="skł. normalne"/>

@@ -69,7 +69,7 @@ public class KartaWynagrodzenView  implements Serializable {
                 nowa.setMc(mc);
                 kartypobranezbazy.add(nowa);
             }
-            kartaWynagrodzenFacade.createList(kartypobranezbazy);
+            kartaWynagrodzenFacade. createEditList(kartypobranezbazy);
         } else {
             for (Iterator<Kartawynagrodzen> it = kartypobranezbazy.iterator();it.hasNext();) {
                 Kartawynagrodzen k = it.next();

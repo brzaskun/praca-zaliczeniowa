@@ -166,7 +166,7 @@ xmlns:pe="http://primefaces.org/ui/extensions">
             <h:form id="UmowaListForm">
                 <p:panel header="Wykaz umów #{umowaView.rodzajumowy eq '1' ?'o pracę':'zlecenia i o dzieło'} / Gdy jest pusta sprawdź w parametrach przyporządkowanie kodu do umowy">
                     <p:dataTable id="datalist" value="#{umowaView.lista}" var="itemumowa" widgetVar="dataListumowa"
-                                 selectionMode="single" selection="#{umowaView.selectedlista}"
+                                 selectionMode="single" selection="#{umowaView.selectedlista}" emptyMessage="Brak zawartych umów"
                                  rowKey="#{itemumowa.id}" sortBy="#{itemumowa.dataod}" sortMode="single"
                                  style="height: 200px; overflow-y: scroll; width: 1800px;"
                                  >

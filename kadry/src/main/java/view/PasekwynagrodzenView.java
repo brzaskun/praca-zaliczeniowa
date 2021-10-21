@@ -19,6 +19,8 @@ import data.Data;
 import entity.Angaz;
 import entity.Definicjalistaplac;
 import entity.Kalendarzmiesiac;
+import entity.Naliczenienieobecnosc;
+import entity.Naliczenieskladnikawynagrodzenia;
 import entity.Pasekwynagrodzen;
 import entity.Podatki;
 import entity.Rachunekdoumowyzlecenia;
@@ -73,7 +75,9 @@ public class PasekwynagrodzenView  implements Serializable {
     private PodatkiFacade podatkiFacade;
     @Inject
     private WpisView wpisView;
-    private String rodzajumowy; 
+    private String rodzajumowy;
+    List<Naliczenieskladnikawynagrodzenia> listawynagrodzenpracownika;
+    List<Naliczenienieobecnosc> listanieobecnoscipracownika;
     
     @PostConstruct
     public void init() {
@@ -292,6 +296,8 @@ public class PasekwynagrodzenView  implements Serializable {
     
     public void pobierzpracownika() {
         if (wybranykalendarz!=null) {
+            listawynagrodzenpracownika = wybranykalendarz.skladnikiwynagrodzenialista();
+            listanieobecnoscipracownika = wybranykalendarz.skladnikinieobecnosclista();
             Msg.msg("Pobrano pracownika");
         }
     }
@@ -384,6 +390,22 @@ public class PasekwynagrodzenView  implements Serializable {
 
     public void setListakalendarzmiesiacdoanalizy2(List<Kalendarzmiesiac> listakalendarzmiesiacdoanalizy2) {
         this.listakalendarzmiesiacdoanalizy2 = listakalendarzmiesiacdoanalizy2;
+    }
+
+    public List<Naliczenieskladnikawynagrodzenia> getListawynagrodzenpracownika() {
+        return listawynagrodzenpracownika;
+    }
+
+    public void setListawynagrodzenpracownika(List<Naliczenieskladnikawynagrodzenia> listawynagrodzenpracownika) {
+        this.listawynagrodzenpracownika = listawynagrodzenpracownika;
+    }
+
+    public List<Naliczenienieobecnosc> getListanieobecnoscipracownika() {
+        return listanieobecnoscipracownika;
+    }
+
+    public void setListanieobecnoscipracownika(List<Naliczenienieobecnosc> listanieobecnoscipracownika) {
+        this.listanieobecnoscipracownika = listanieobecnoscipracownika;
     }
 
     

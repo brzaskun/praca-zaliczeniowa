@@ -64,7 +64,7 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                     <p:panel header="Wykaz składników potrącenia">
                         <p:dataTable id="datalist" value="#{skladnikPotraceniaView.lista}" var="itemskladnikpotracenia"
                                      selectionMode="single" selection="#{skladnikPotraceniaView.selectedlista}"
-                                     rowKey="#{itemskladnikpotracenia.id}"
+                                     rowKey="#{itemskladnikpotracenia.id}" emptyMessage="Brak ustalonych potrąceń"
                                      style="height: 200px; overflow-y: scroll;"
                                      >
                             <p:ajax event="rowSelect" listener="#{zmiennaPotraceniaView.init2(skladnikPotraceniaView.selectedlista)}" partialSubmit="true" global="false" update="SkladnikporaceniaListForm"/>

@@ -71,7 +71,7 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                     <p:panel header="Wykaz składników wynagrodzenia">
                         <p:dataTable id="datalist" value="#{skladnikWynagrodzeniaView.lista}" var="itemskladnikwyn"
                                      selectionMode="single" selection="#{skladnikWynagrodzeniaView.selectedlista}"
-                                     rowKey="#{itemskladnikwyn.id}"
+                                     rowKey="#{itemskladnikwyn.id}" emptyMessage="Brak ustalonych skłądnikó wynagrodzenia"
                                      style="height: 200px; overflow-y: scroll;"
                                      >
                             <p:ajax event="rowSelect" listener="#{zmiennaWynagrodzeniaView.init2(skladnikWynagrodzeniaView.selectedlista)}" partialSubmit="true" global="false" update="ZmiennawynagrodzeniaListForm"/>

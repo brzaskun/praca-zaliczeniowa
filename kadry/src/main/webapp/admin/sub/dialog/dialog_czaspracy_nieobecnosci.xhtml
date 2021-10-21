@@ -78,8 +78,8 @@
                 </p:panelGrid>
                 <p:panel header="Lista nieobecności">
                     <p:dataTable id="datalist" value="#{nieobecnoscView.lista}" var="itemNieob" 
-                                 selectionMode="single" selection="#{nieobecnoscView.selectedlista}" rowIndexVar="indexn"
-                                 rowKey="#{itemNieob.id}" sortBy="#{itemNieob.dataod}" 
+                                 selection="#{nieobecnoscView.selectedlista}" rowIndexVar="indexn" sortMode="multiple"
+                                 rowKey="#{itemNieob.id}" 
                                  style="height: 450px; overflow-y: scroll;"
                                  emptyMessage="Nie wpisano żadnych nieobecności"
                                  >
@@ -89,7 +89,7 @@
                             </f:facet>
                             <h:outputText value="#{indexn+1}" style="height: 20px;"/>
                         </p:column>
-                        <p:column width="50" filterBy="#{itemNieob.nieobecnosckodzus.kod}" filterMatchMode="startsWith">
+                        <p:column width="50" filterBy="#{itemNieob.nieobecnosckodzus.kod}" filterMatchMode="startsWith"  sortBy="#{itemNieob.nieobecnosckodzus.kod}" sortOrder="desc">
                             <f:facet name="header">
                                 <h:outputText value="kod"/>
                             </f:facet>
