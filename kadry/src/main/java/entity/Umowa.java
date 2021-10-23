@@ -170,7 +170,7 @@ public class Umowa implements Serializable {
     @Column(name = "opiszawodu")
     private String opiszawodu;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "umowa")
-    private List<Urlopprezentacja> urlopprezentacjaList;
+    private List<Nieobecnoscprezentacja> urlopprezentacjaList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "umowa")
     private List<Rachunekdoumowyzlecenia> rachunekdoumowyzleceniaList;
     @Size(max = 256)
@@ -658,11 +658,11 @@ public class Umowa implements Serializable {
     
     
     @XmlTransient
-    public List<Urlopprezentacja> getUrlopprezentacjaList() {
+    public List<Nieobecnoscprezentacja> getUrlopprezentacjaList() {
         return urlopprezentacjaList;
     }
 
-    public void setUrlopprezentacjaList(List<Urlopprezentacja> urlopprezentacjaList) {
+    public void setUrlopprezentacjaList(List<Nieobecnoscprezentacja> urlopprezentacjaList) {
         this.urlopprezentacjaList = urlopprezentacjaList;
     }
 

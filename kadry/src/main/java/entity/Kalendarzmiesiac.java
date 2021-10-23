@@ -290,26 +290,7 @@ private static final long serialVersionUID = 1L;
         return zwrot;
     }
     
-    public boolean czyjestwiecejniepracy() {
-        boolean zwrot = false;
-        if (this.dzienList!=null) {
-            int dnirobocze = 0;
-            int dniprzepracowane = 0;
-            for (Dzien d : dzienList) {
-                if (d.getTypdnia()==0) {
-                    dnirobocze++;
-                }
-                if (d.getPrzepracowano()>0) {
-                    dniprzepracowane++;
-                }
-            }
-            int polowaroboczych = dnirobocze/2;
-            if (dniprzepracowane<polowaroboczych){
-                zwrot=true;
-            }
-        }
-        return zwrot;
-    }
+
     
     public double[] zasilekdnigodz() {
         double[] zwrot = new double[2];

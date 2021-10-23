@@ -66,7 +66,7 @@ public class NieobecnosciBean {
            urlop.setDataod("2020-12-07");
            urlop.setDatado("2020-12-09");
            urlop.setDnikalendarzowe(3);
-           urlop.setDnirobocze(3);
+           urlop.setDniroboczenieobecnosci(3);
            urlop.setNieobecnosckodzus(NieobecnosckodzusBean.createUrlop());
         }
         return urlop;

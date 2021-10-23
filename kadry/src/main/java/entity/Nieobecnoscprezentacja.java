@@ -28,14 +28,21 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author Osito
  */
 @Entity
-@Table(name = "urlopprezentacja")
+@Table(name = "nieobecnoscprezentacja")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Urlopprezentacja.findAll", query = "SELECT u FROM Urlopprezentacja u"),
-    @NamedQuery(name = "Urlopprezentacja.findById", query = "SELECT u FROM Urlopprezentacja u WHERE u.id = :id"),
-    @NamedQuery(name = "Urlopprezentacja.findByDoprzeniesienia", query = "SELECT u FROM Urlopprezentacja u WHERE u.doprzeniesienia = :doprzeniesienia")})
-public class Urlopprezentacja implements Serializable {
-
+    @NamedQuery(name = "Nieobecnoscprezentacja.findAll", query = "SELECT u FROM Nieobecnoscprezentacja u"),
+    @NamedQuery(name = "Nieobecnoscprezentacja.findById", query = "SELECT u FROM Nieobecnoscprezentacja u WHERE u.id = :id"),
+    @NamedQuery(name = "Nieobecnoscprezentacja.findByDoprzeniesienia", query = "SELECT u FROM Nieobecnoscprezentacja u WHERE u.doprzeniesienia = :doprzeniesienia")})
+public class Nieobecnoscprezentacja implements Serializable {
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id")
+    private Integer id;
+    @Column(name = "rok", nullable = false)
+    private String rok;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "okrespoprzedni")
     private int okrespoprzedni;
@@ -51,25 +58,18 @@ public class Urlopprezentacja implements Serializable {
     @ManyToOne(optional = false)
     private Umowa umowa;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "urlopprezentacja")
-    private List<Urlopwykorzystanie> urlopwykorzystanieList;
+    private List<Nieobecnoscwykorzystanie> nieobecnoscwykorzystanieList;
 
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id")
-    private Integer id;
-    @Column(name = "rok", nullable = false)
-    private String rok;
+   
 
-    public Urlopprezentacja() {
+    public Nieobecnoscprezentacja() {
     }
 
-    public Urlopprezentacja(Integer id) {
+    public Nieobecnoscprezentacja(Integer id) {
         this.id = id;
     }
 
-    public Urlopprezentacja(Umowa umowa, String rok) {
+    public Nieobecnoscprezentacja(Umowa umowa, String rok) {
         this.umowa = umowa;
         this.rok = rok;
     }
@@ -105,10 +105,10 @@ public class Urlopprezentacja implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Urlopprezentacja)) {
+        if (!(object instanceof Nieobecnoscprezentacja)) {
             return false;
         }
-        Urlopprezentacja other = (Urlopprezentacja) object;
+        Nieobecnoscprezentacja other = (Nieobecnoscprezentacja) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -117,7 +117,7 @@ public class Urlopprezentacja implements Serializable {
 
     @Override
     public String toString() {
-        return "beans.Urlopprezentacja[ id=" + id + " ]";
+        return "beans.Nieobecnoscprezentacja[ id=" + id + " ]";
     }
 
     public int getOkrespoprzedni() {
@@ -160,7 +160,7 @@ public class Urlopprezentacja implements Serializable {
         this.wykorzystanierokbiezacyekwiwalent = wykorzystanierokbiezacyekwiwalent;
     }
 
-
+    
     public Umowa getUmowa() {
         return umowa;
     }
@@ -170,12 +170,12 @@ public class Urlopprezentacja implements Serializable {
     }
 
     @XmlTransient
-    public List<Urlopwykorzystanie> getUrlopwykorzystanieList() {
-        return urlopwykorzystanieList;
+    public List<Nieobecnoscwykorzystanie> getNieobecnoscwykorzystanieList() {
+        return nieobecnoscwykorzystanieList;
     }
 
-    public void setUrlopwykorzystanieList(List<Urlopwykorzystanie> urlopwykorzystanieList) {
-        this.urlopwykorzystanieList = urlopwykorzystanieList;
+    public void setNieobecnoscwykorzystanieList(List<Nieobecnoscwykorzystanie> nieobecnoscwykorzystanieList) {
+        this.nieobecnoscwykorzystanieList = nieobecnoscwykorzystanieList;
     }
     
 }

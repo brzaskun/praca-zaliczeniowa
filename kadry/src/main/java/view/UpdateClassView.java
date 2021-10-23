@@ -32,7 +32,7 @@ public class UpdateClassView   implements Serializable {
     @Inject
     private NieobecnoscView nieobecnoscView;
     @Inject
-    private PracownikUrlopView pracownikUrlopView;
+    private PracownikNieobecnoscView pracownikUrlopView;
     @Inject
     private KartaWynagrodzenView kartaWynagrodzenView;
     @Inject

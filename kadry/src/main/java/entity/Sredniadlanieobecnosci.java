@@ -94,29 +94,22 @@ public class Sredniadlanieobecnosci implements Serializable {
         this.id = id;
     }
     
-    public Sredniadlanieobecnosci(String rok, String mc, double sredniadopodstawy, boolean skladnikstaly, Naliczenienieobecnosc naliczenienieobecnosc, double liczbagodzinnieobecnosci) {
-        this.rok = rok;
-        this.mc = mc;
-        this.kwotawyplacona = sredniadopodstawy;
-        this.skladnikstaly = skladnikstaly;
-        this.naliczenienieobecnosc = naliczenienieobecnosc;
-        this.liczbagodzinnieobecnosci = liczbagodzinnieobecnosci;
-    }
-
     public Sredniadlanieobecnosci(String rok, String mc, double sredniadopodstawy, boolean skladnikstaly, Naliczenienieobecnosc naliczenienieobecnosc, double liczbagodzinnieobecnosci, double godzinyfaktyczne, double dnifaktyczne,
-            double godzinynalezne, double dninalezne, double stawkagodzinowa) {
+        double godzinynalezne, double dninalezne, double stawkagodzinowa) {
         this.rok = rok;
         this.mc = mc;
         this.kwotawyplacona = sredniadopodstawy;
         this.skladnikstaly = skladnikstaly;
         this.naliczenienieobecnosc = naliczenienieobecnosc;
         this.liczbagodzinnieobecnosci = liczbagodzinnieobecnosci;
-        this.godzinyfaktyczne = godzinyfaktyczne;
         this.dnifaktyczne = dnifaktyczne;
         this.dninalezne = dninalezne;
+        this.godzinyfaktyczne = godzinyfaktyczne;
         this.godzinynalezne = godzinynalezne;
         this.stawkagodzinowa = stawkagodzinowa;
     }
+
+
 
     public Sredniadlanieobecnosci(String rok, String mc, double dnifaktyczne, double godziny, double kwotawyplacona, double stawkagodzinowa, boolean pominiete, boolean waloryzowane, double kwotazwaloryzowana, double godzinazwaloryzowana, double liczbagodzinnieobecnosci,
             double podstawapoprzedniachoroba, Naliczenienieobecnosc naliczenienieobecnosc
@@ -136,6 +129,36 @@ public class Sredniadlanieobecnosci implements Serializable {
         this.dnifaktyczne = dnifaktyczne;
         this.dninalezne = dninalezne;
         this.godzinynalezne = godzinynalezne;
+    }
+
+    public Sredniadlanieobecnosci(String rok, String mc, double sredniadopodstawy, boolean skladnikstaly, Naliczenienieobecnosc naliczenienieobecnosc, boolean pominiety, double godzinyfaktyczne, double dnifaktyczne,
+        double godzinynalezne, double dninalezne) {
+        this.rok = rok;
+        this.mc = mc;
+        this.kwotawyplacona = sredniadopodstawy;
+        this.skladnikstaly = skladnikstaly;
+        this.naliczenienieobecnosc = naliczenienieobecnosc;
+        this.pominiete = pominiety;
+        this.dnifaktyczne = dnifaktyczne;
+        this.dninalezne = dninalezne;
+        this.godzinyfaktyczne = godzinyfaktyczne;
+        this.godzinynalezne = godzinynalezne;
+    }
+    
+    public Sredniadlanieobecnosci(String rok, String mc, double sredniadopodstawy, double kwotazwaloryzowana, boolean skladnikstaly, Naliczenienieobecnosc naliczenienieobecnosc, boolean pominiety, double godzinyfaktyczne, double dnifaktyczne,
+        double godzinynalezne, double dninalezne) {
+        this.rok = rok;
+        this.mc = mc;
+        this.kwotawyplacona = sredniadopodstawy;
+        this.kwotazwaloryzowana = kwotazwaloryzowana;
+        this.skladnikstaly = skladnikstaly;
+        this.naliczenienieobecnosc = naliczenienieobecnosc;
+        this.pominiete = pominiety;
+        this.dnifaktyczne = dnifaktyczne;
+        this.dninalezne = dninalezne;
+        this.godzinyfaktyczne = godzinyfaktyczne;
+        this.godzinynalezne = godzinynalezne;
+        this.stawkagodzinowa = (sredniadopodstawy+kwotazwaloryzowana)/this.godzinynalezne;
     }
 
     

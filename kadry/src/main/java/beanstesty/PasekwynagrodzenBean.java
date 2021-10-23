@@ -517,7 +517,7 @@ public class PasekwynagrodzenBean {
             zwrot.setDataod(pierwszydzienmca);
             zwrot.setDatado(dzienprzedumowa);
             zwrot.setDnikalendarzowe(Data.iletodniKalendarzowych(zwrot.getDataod(), zwrot.getDatado()));
-            zwrot.setDnirobocze(Data.iletodniRoboczych(zwrot.getDataod(), zwrot.getDatado(), kalendarzmiesiac.getDzienList()));
+            zwrot.setDniroboczenieobecnosci(Data.iletodniRoboczych(zwrot.getDataod(), zwrot.getDatado(), kalendarzmiesiac.getDzienList()));
             zwrot.setRokod(Data.getRok(zwrot.getDataod()));
             zwrot.setRokdo(Data.getRok(zwrot.getDatado()));
             zwrot.setMcod(Data.getMc(zwrot.getDataod()));
@@ -540,7 +540,7 @@ public class PasekwynagrodzenBean {
                 zwrot.setDataod(dzienpoumowie);
                 zwrot.setDatado(Data.ostatniDzien(rokumowado, mcumowado));
                 zwrot.setDnikalendarzowe(Data.iletodniKalendarzowych(zwrot.getDataod(), zwrot.getDatado()));
-                zwrot.setDnirobocze(Data.iletodniRoboczych(zwrot.getDataod(), zwrot.getDatado(), kalendarzmiesiac.getDzienList()));
+                zwrot.setDniroboczenieobecnosci(Data.iletodniRoboczych(zwrot.getDataod(), zwrot.getDatado(), kalendarzmiesiac.getDzienList()));
                 zwrot.setRokod(Data.getRok(zwrot.getDataod()));
                 zwrot.setRokdo(Data.getRok(zwrot.getDatado()));
                 zwrot.setMcod(Data.getMc(zwrot.getDataod()));

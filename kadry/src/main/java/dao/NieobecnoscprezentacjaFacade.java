@@ -7,7 +7,7 @@ package dao;
 
 import entity.Pracownik;
 import entity.Umowa;
-import entity.Urlopprezentacja;
+import entity.Nieobecnoscprezentacja;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PreDestroy;
@@ -22,7 +22,7 @@ import javax.transaction.Transactional;
  */
 @Stateless
 @Transactional
-public class UrlopprezentacjaFacade extends DAO{
+public class NieobecnoscprezentacjaFacade extends DAO{
 
     @PersistenceContext(unitName = "kadryPU")
     private EntityManager em;
@@ -42,25 +42,25 @@ public class UrlopprezentacjaFacade extends DAO{
         return em;
     }
 
-    public UrlopprezentacjaFacade() {
-        super(Urlopprezentacja.class);
+    public NieobecnoscprezentacjaFacade() {
+        super(Nieobecnoscprezentacja.class);
         super.em = em;
     }
     
 
-    public Urlopprezentacja findPracownik(Pracownik pracownik, String rok) {
-        Urlopprezentacja zwrot = null;
+    public Nieobecnoscprezentacja findPracownik(Pracownik pracownik, String rok) {
+        Nieobecnoscprezentacja zwrot = null;
         try {
-            zwrot = (Urlopprezentacja) getEntityManager().createNamedQuery("Urlopprezentacja.findByPracownikRok").setParameter("pracownik", pracownik).setParameter("rok", rok).getSingleResult();
+            zwrot = (Nieobecnoscprezentacja) getEntityManager().createNamedQuery("Urlopprezentacja.findByPracownikRok").setParameter("pracownik", pracownik).setParameter("rok", rok).getSingleResult();
         } catch (Exception e) {}
         if (zwrot == null) {
-            zwrot = new Urlopprezentacja(null,rok);
+            zwrot = new Nieobecnoscprezentacja(null,rok);
         }
         return zwrot;
     }
     
-    public List<Urlopprezentacja> findByUmowa(Umowa umowa) {
-        List<Urlopprezentacja> zwrot = new ArrayList<>();
+    public List<Nieobecnoscprezentacja> findByUmowa(Umowa umowa) {
+        List<Nieobecnoscprezentacja> zwrot = new ArrayList<>();
         zwrot = getEntityManager().createNamedQuery("Urlopprezentacja.findByUmowa").setParameter("umowa", umowa).getResultList();
         return zwrot;
     }

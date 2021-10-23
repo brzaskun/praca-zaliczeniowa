@@ -13,7 +13,6 @@
     <class>entity.Kodyzawodow</class>
     <class>entity.Wynagrodzeniahistoryczne</class>
     <class>entity.Uprawnienia</class>
-    <class>entity.Urlopprezentacja</class>
     <class>kadryiplace.SuperDep</class>
     <class>kadryiplace.Spisy</class>
     <class>kadryiplace.Miasto</class>
@@ -191,6 +190,7 @@
     <class>kadryiplace.TytulWkp</class>
     <class>kadryiplace.TmpSecDzialTmp</class>
     <class>entity.EtatPrac</class>
+    <class>entity.Nieobecnoscprezentacja</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <shared-cache-mode>NONE</shared-cache-mode>
     <validation-mode>NONE</validation-mode>
@@ -205,7 +205,7 @@
       <property name="eclipselink.logging.parameters" value="true"/>
     </properties>
   </persistence-unit>
-   <persistence-unit name="microsoft" transaction-type="JTA">
+  <persistence-unit name="microsoft" transaction-type="JTA">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <jta-data-source>microsoft</jta-data-source>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>

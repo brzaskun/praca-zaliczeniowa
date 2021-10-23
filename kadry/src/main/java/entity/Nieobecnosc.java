@@ -78,14 +78,15 @@ public class Nieobecnosc implements Serializable {
     @Size(max = 128)
     @Column(name = "uzasadnienie")
     private String uzasadnienie;
+    //chodzi o dni nieobecnosci
     @Column(name = "dnikalendarzowe")
     private double dnikalendarzowe;
     @Column(name = "zwolnienieprocent")
     private double zwolnienieprocent;
-    @Column(name = "dnirobocze")
-    private double dnirobocze;
-    @Column(name = "godzinyrobocze")
-    private double godzinyrobocze;
+    @Column(name = "dniroboczenieobecnosci")
+    private double dniroboczenieobecnosci;
+    @Column(name = "godzinyroboczenieobecnosc")
+    private double godzinyroboczenieobecnosc;
     @Column(name = "seriainrzwolnienia")
     private String seriainrzwolnienia;
     @Column(name = "importowana")
@@ -134,8 +135,8 @@ public class Nieobecnosc implements Serializable {
             this.uzasadnienie = r.getOspVchar1();
             this.dnikalendarzowe = r.getOspLiczba();
             this.zwolnienieprocent = r.getOspNum1()!=null?r.getOspNum1().doubleValue():0.0;
-            this.dnirobocze = r.getOspNum3()!=null?r.getOspNum3().doubleValue():0.0;
-            this.godzinyrobocze = r.getOspNum2().doubleValue();
+            this.dniroboczenieobecnosci = r.getOspNum3()!=null?r.getOspNum3().doubleValue():0.0;
+            this.godzinyroboczenieobecnosc = r.getOspNum2().doubleValue();
             this.seriainrzwolnienia = r.getOspVchar2()!=null?r.getOspVchar2().replaceAll("\\s+", ""):null;
             this.kodzwolnienia = r.getOspWkpSerial().getWkpKod();
             this.umowa = umowa;
@@ -145,7 +146,7 @@ public class Nieobecnosc implements Serializable {
             this.opis = r.getOspAbsSerial().getAbsOpis();
             this.uzasadnienie = r.getOspVchar1();
             this.dnikalendarzowe = r.getOspLiczba();
-            this.godzinyrobocze = r.getOspNum2().doubleValue();
+            this.godzinyroboczenieobecnosc = r.getOspNum2().doubleValue();
             this.kodzwolnienia = r.getOspAbsSerial().getAbsKod().toString();
             this.umowa = umowa;
         } else {
@@ -180,7 +181,7 @@ public class Nieobecnosc implements Serializable {
 
     @Override
     public String toString() {
-        return "Nieobecnosc{" + "dataod=" + dataod + ", datado=" + datado + ", nieobecnosckodzus=" + nieobecnosckodzus.getKod() + ", umowa=" + umowa.getAngaz().getPracownik().getNazwiskoImie() + ", opis=" + opis + ", uzasadnienie=" + uzasadnienie + ", dnirobocze=" + dnirobocze + ", importowana=" + importowana + ", pobranaZUS=" + pobranaZUS + ", rokod=" + rokod + ", rokdo=" + rokdo + ", mcod=" + mcod + ", mcdo=" + mcdo + '}';
+        return "Nieobecnosc{" + "dataod=" + dataod + ", datado=" + datado + ", nieobecnosckodzus=" + nieobecnosckodzus.getKod() + ", umowa=" + umowa.getAngaz().getPracownik().getNazwiskoImie() + ", opis=" + opis + ", uzasadnienie=" + uzasadnienie + ", dnirobocze=" + dniroboczenieobecnosci + ", importowana=" + importowana + ", pobranaZUS=" + pobranaZUS + ", rokod=" + rokod + ", rokdo=" + rokdo + ", mcod=" + mcod + ", mcdo=" + mcdo + '}';
     }
 
  
@@ -292,21 +293,21 @@ public class Nieobecnosc implements Serializable {
         this.zwolnienieprocent = zwolnienieprocent;
     }
 
-    public double getDnirobocze() {
-        return dnirobocze;
+    public double getDniroboczenieobecnosci() {
+        return dniroboczenieobecnosci;
     }
 
 
-    public void setDnirobocze(double dnirobocze) {
-        this.dnirobocze = dnirobocze;
+    public void setDniroboczenieobecnosci(double dniroboczenieobecnosci) {
+        this.dniroboczenieobecnosci = dniroboczenieobecnosci;
     }
 
-    public double getGodzinyrobocze() {
-        return godzinyrobocze;
+    public double getGodzinyroboczenieobecnosc() {
+        return godzinyroboczenieobecnosc;
     }
 
-    public void setGodzinyrobocze(double godzinyrobocze) {
-        this.godzinyrobocze = godzinyrobocze;
+    public void setGodzinyroboczenieobecnosc(double godzinyroboczenieobecnosc) {
+        this.godzinyroboczenieobecnosc = godzinyroboczenieobecnosc;
     }
 
     public String getSeriainrzwolnienia() {

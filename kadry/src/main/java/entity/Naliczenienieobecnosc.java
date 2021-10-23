@@ -43,7 +43,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Naliczenienieobecnosc.findBySredniazailemcy", query = "SELECT n FROM Naliczenienieobecnosc n WHERE n.sredniazailemcy = :sredniazailemcy"),
     @NamedQuery(name = "Naliczenienieobecnosc.findByProcentzazwolnienie", query = "SELECT n FROM Naliczenienieobecnosc n WHERE n.procentzazwolnienie = :procentzazwolnienie"),
     @NamedQuery(name = "Naliczenienieobecnosc.findByStawkadzienna", query = "SELECT n FROM Naliczenienieobecnosc n WHERE n.stawkadzienna = :stawkadzienna"),
-    @NamedQuery(name = "Naliczenienieobecnosc.findByLiczbagodzinroboczych", query = "SELECT n FROM Naliczenienieobecnosc n WHERE n.liczbagodzinroboczych = :liczbagodzinroboczych"),
+    @NamedQuery(name = "Naliczenienieobecnosc.findByLiczbagodzinobowiazku", query = "SELECT n FROM Naliczenienieobecnosc n WHERE n.liczbagodzinobowiazku = :liczbagodzinobowiazku"),
     @NamedQuery(name = "Naliczenienieobecnosc.findByLiczbagodzinurlopu", query = "SELECT n FROM Naliczenienieobecnosc n WHERE n.liczbagodzinurlopu = :liczbagodzinurlopu"),
     @NamedQuery(name = "Naliczenienieobecnosc.findByStawkadziennaredukcji", query = "SELECT n FROM Naliczenienieobecnosc n WHERE n.stawkadziennaredukcji = :stawkadziennaredukcji")})
 public class Naliczenienieobecnosc implements Serializable {
@@ -73,10 +73,20 @@ public class Naliczenienieobecnosc implements Serializable {
     private double procentzazwolnienie;
     @Column(name = "stawkadzienna")
     private double stawkadzienna;
-    @Column(name = "liczbagodzinroboczych")
-    private double liczbagodzinroboczych;
+    @Column(name = "stawkagodzinowa")
+    private double stawkagodzinowa;
+    @Column(name = "liczbagodzinobowiazku")
+    private double liczbagodzinobowiazku;
     @Column(name = "liczbagodzinurlopu")
     private double liczbagodzinurlopu;
+     @Column(name = "liczbadniobowiazku")
+    private double liczbadniobowiazku;
+    @Column(name = "liczbadniurlopu")
+    private double liczbadniurlopu;
+    @Column(name = "sumakwotdosredniej")
+    private double sumakwotdosredniej;
+    @Column(name = "sumagodzindosredniej")
+    private double sumagodzindosredniej;
     @Column(name = "stawkadziennaredukcji")
     private double stawkadziennaredukcji;
     @Column(name = "kwotaredukcji")
@@ -136,6 +146,38 @@ public class Naliczenienieobecnosc implements Serializable {
 
     public void setPodstawadochoroby(double podstawadochoroby) {
         this.podstawadochoroby = podstawadochoroby;
+    }
+
+    public double getLiczbadniobowiazku() {
+        return liczbadniobowiazku;
+    }
+
+    public void setLiczbadniobowiazku(double liczbadniobowiazku) {
+        this.liczbadniobowiazku = liczbadniobowiazku;
+    }
+
+    public double getLiczbadniurlopu() {
+        return liczbadniurlopu;
+    }
+
+    public void setLiczbadniurlopu(double liczbadniurlopu) {
+        this.liczbadniurlopu = liczbadniurlopu;
+    }
+
+    public double getSumakwotdosredniej() {
+        return sumakwotdosredniej;
+    }
+
+    public void setSumakwotdosredniej(double sumakwotdosredniej) {
+        this.sumakwotdosredniej = sumakwotdosredniej;
+    }
+
+    public double getSumagodzindosredniej() {
+        return sumagodzindosredniej;
+    }
+
+    public void setSumagodzindosredniej(double sumagodzindosredniej) {
+        this.sumagodzindosredniej = sumagodzindosredniej;
     }
     
 
@@ -238,12 +280,20 @@ public class Naliczenienieobecnosc implements Serializable {
         this.stawkadzienna = stawkadzienna;
     }
 
-    public double getLiczbagodzinroboczych() {
-        return liczbagodzinroboczych;
+    public double getStawkagodzinowa() {
+        return stawkagodzinowa;
     }
 
-    public void setLiczbagodzinroboczych(double liczbagodzinroboczych) {
-        this.liczbagodzinroboczych = liczbagodzinroboczych;
+    public void setStawkagodzinowa(double stawkagodzinowa) {
+        this.stawkagodzinowa = stawkagodzinowa;
+    }
+
+    public double getLiczbagodzinobowiazku() {
+        return liczbagodzinobowiazku;
+    }
+
+    public void setLiczbagodzinobowiazku(double liczbagodzinobowiazku) {
+        this.liczbagodzinobowiazku = liczbagodzinobowiazku;
     }
 
     public double getLiczbagodzinurlopu() {

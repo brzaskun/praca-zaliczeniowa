@@ -7,16 +7,17 @@ package view;
 
 import beanstesty.IPaddress;
 import dao.KalendarzmiesiacFacade;
+import dao.NieobecnoscprezentacjaFacade;
 import dao.PracownikFacade;
 import dao.UmowaFacade;
-import dao.UrlopprezentacjaFacade;
 import data.Data;
 import entity.Dzien;
 import entity.EtatPrac;
 import entity.Kalendarzmiesiac;
+import entity.Nieobecnoscprezentacja;
+import entity.Nieobecnoscwykorzystanie;
+import entity.Pracownik;
 import entity.Umowa;
-import entity.Urlopprezentacja;
-import entity.Urlopwykorzystanie;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -36,17 +37,18 @@ import msg.Msg;
  */
 @Named
 @ViewScoped
-public class PracownikUrlopView  implements Serializable {
+public class PracownikNieobecnoscView  implements Serializable {
     private static final long serialVersionUID = 1L;
     @Inject
     private PracownikFacade pracownikFacade;
     @Inject
     private UmowaFacade umowaFacade;
     @Inject
-    private UrlopprezentacjaFacade urlopprezentacjaFacade;
+    private NieobecnoscprezentacjaFacade nieobecnoscprezentacjaFacade;
     @Inject
     private WpisView wpisView;
-    private Urlopprezentacja urlopprezentacja;
+    private Nieobecnoscprezentacja urlopprezentacja;
+    private Nieobecnoscprezentacja chorobaprezentacja;
     @Inject
     private KalendarzmiesiacFacade kalendarzmiesiacFacade;
     private String stannadzien;
@@ -56,7 +58,8 @@ public class PracownikUrlopView  implements Serializable {
         try {
             if (wpisView.getPracownik()!=null) {
                 stannadzien = data.Data.ostatniDzien(wpisView);
-                pobierz();
+                pobierzurlop();
+                pobierzchoroba();
             }
         } catch (Exception e){}
     }
@@ -78,43 +81,68 @@ public class PracownikUrlopView  implements Serializable {
       }
     }
     
-    public void pobierz() {
+    public void pobierzurlop() {
         if (wpisView.getPracownik()!=null) {
-            urlopprezentacja = new Urlopprezentacja(wpisView.getUmowa(), wpisView.getRokWpisu());  
+            urlopprezentacja = new Nieobecnoscprezentacja(wpisView.getUmowa(), wpisView.getRokWpisu());  
             List<Kalendarzmiesiac> kalendarze = kalendarzmiesiacFacade.findByRokUmowa(wpisView.getUmowa(), wpisView.getRokWpisu());
-            urlopprezentacja.setUrlopwykorzystanieList(naniesdnizkodem(kalendarze, urlopprezentacja, "100"));
+            urlopprezentacja.setNieobecnoscwykorzystanieList(naniesdnizkodem(kalendarze, urlopprezentacja, "100"));
             List<Umowa> umowy = umowaFacade.findByAngaz(wpisView.getAngaz());
             urlopprezentacja.setWymiarokresbiezacy(obliczwymiarwgodzinach(umowy, wpisView.getUmowa().pobierzetat(stannadzien)));
             urlopprezentacja.setDoprzeniesienia(urlopprezentacja.getWymiarokresbiezacy()-urlopprezentacja.getWykorzystanierokbiezacy()-urlopprezentacja.getWykorzystanierokbiezacyekwiwalent());
-            Msg.msg("Pobrano dane");
+            Msg.msg("Pobrano dane urlopowe");
         }
     }
     
-    private List<Urlopwykorzystanie> naniesdnizkodem(List<Kalendarzmiesiac> kalendarze, Urlopprezentacja urlopprezentacja, String kod) {
-        List<Urlopwykorzystanie> lista = new ArrayList<>();
-        Urlopwykorzystanie wykorzystaniesuma = new Urlopwykorzystanie("podsumowanie",0);
+    public void pobierzchoroba() {
+        if (wpisView.getPracownik()!=null) {
+            chorobaprezentacja = new Nieobecnoscprezentacja(wpisView.getUmowa(), wpisView.getRokWpisu());  
+            List<Kalendarzmiesiac> kalendarze = kalendarzmiesiacFacade.findByRokUmowa(wpisView.getUmowa(), wpisView.getRokWpisu());
+            chorobaprezentacja.setNieobecnoscwykorzystanieList(naniesdnizkodem(kalendarze, chorobaprezentacja, "331"));
+            List<Umowa> umowy = umowaFacade.findByAngaz(wpisView.getAngaz());
+            chorobaprezentacja.setWymiarokresbiezacy(obliczwymiarwgodzinachchoroba(umowy, wpisView.getUmowa().pobierzetat(stannadzien)));
+            chorobaprezentacja.setDoprzeniesienia(chorobaprezentacja.getWymiarokresbiezacy()-chorobaprezentacja.getWykorzystanierokbiezacy()-chorobaprezentacja.getWykorzystanierokbiezacyekwiwalent());
+            Msg.msg("Pobrano dane chorobowe");
+        }
+    }
+    
+    private List<Nieobecnoscwykorzystanie> naniesdnizkodem(List<Kalendarzmiesiac> kalendarze, Nieobecnoscprezentacja urlopprezentacja, String kod) {
+        List<Nieobecnoscwykorzystanie> lista = new ArrayList<>();
+        Nieobecnoscwykorzystanie wykorzystaniesuma = new Nieobecnoscwykorzystanie("podsumowanie",0);
         for (Kalendarzmiesiac p : kalendarze) {
             for (Dzien r : p.getDzienList()) {
                 if (r.getNieobecnosc()!=null) {
-                    if (r.getNieobecnosc().getNieobecnosckodzus().getKod().equals("100")) {
-                        Urlopwykorzystanie wykorzystanie = new Urlopwykorzystanie();
+                    if (r.getNieobecnosc().getNieobecnosckodzus().getKod().equals(kod)) {
+                        Nieobecnoscwykorzystanie wykorzystanie = new Nieobecnoscwykorzystanie();
                         wykorzystanie.setMc(p.getMc());
                         wykorzystanie.setData(Data.zrobdate(r.getNrdnia(), p.getMc(), p.getRok()));
                         wykorzystanie.setDni(1);
-                        wykorzystanie.setGodziny((int) r.getUrlopPlatny());
+                        wykorzystanie.setOpis(r.getNieobecnosc().getNieobecnosckodzus().getOpisskrocony());
+                        wykorzystanie.setKod(r.getNieobecnosc().getNieobecnosckodzus().getKod());
+                        if (kod.equals("100")) {
+                            wykorzystanie.setGodziny((int) r.getUrlopPlatny());
+                        }
+                        if (kod.equals("331")) {
+                            wykorzystanie.setGodziny((int) r.getWynagrodzeniezachorobe());
+                        }
                         wykorzystanie.setUrlopprezentacja(urlopprezentacja);
                         EtatPrac pobierzetat = p.getUmowa().pobierzetat(wykorzystanie.getData());
                         wykorzystanie.setEtat1(pobierzetat.getEtat1());
                         wykorzystanie.setEtat2(pobierzetat.getEtat2());
-                        if (r.getUrlopPlatny()>0) {
+                        if (wykorzystanie.getGodziny()>0) {
                             wykorzystaniesuma.setGodziny(wykorzystaniesuma.getGodziny()+wykorzystanie.getGodziny());
+                            wykorzystaniesuma.setDni(wykorzystaniesuma.getDni()+wykorzystanie.getDni());
                             lista.add(wykorzystanie);
                         }
                     }
                 }
             }
         }
-        urlopprezentacja.setWykorzystanierokbiezacy(wykorzystaniesuma.getGodziny());
+        if (kod.equals("100")) {
+            urlopprezentacja.setWykorzystanierokbiezacy(wykorzystaniesuma.getGodziny());
+        }
+        if (kod.equals("331")) {
+            urlopprezentacja.setWykorzystanierokbiezacy((int) wykorzystaniesuma.getDni());
+        }
         lista.add(wykorzystaniesuma);
         return lista;
     }
@@ -148,13 +176,30 @@ public class PracownikUrlopView  implements Serializable {
         zwrot = (zwrot*8*etat.getEtat1())/etat.getEtat2();
         return zwrot;
     }
+    
+    private int obliczwymiarwgodzinachchoroba(List<Umowa> umowy, EtatPrac etat) {
+        int zwrot = 33;
+        double liczbadni = 0;
+        for (Umowa p : umowy) {
+            Pracownik pracownik = p.getAngaz().getPracownik();
+            String dataUrodzenia = pracownik.getDataurodzenia();
+            LocalDate dateBefore =  LocalDate.parse(dataUrodzenia);
+            LocalDate dateAfter = LocalDate.parse(stannadzien);
+            long daysBetween =  ChronoUnit.DAYS.between(dateBefore, dateAfter);
+            liczbadni = daysBetween;
+        }
+        if (liczbadni>=18260) {
+            zwrot = 15;
+        }
+        return zwrot;
+    }
 
 
-      public Urlopprezentacja getUrlopprezentacja() {
+      public Nieobecnoscprezentacja getUrlopprezentacja() {
         return urlopprezentacja;
     }
 
-    public void setUrlopprezentacja(Urlopprezentacja urlopprezentacja) {
+    public void setUrlopprezentacja(Nieobecnoscprezentacja urlopprezentacja) {
         this.urlopprezentacja = urlopprezentacja;
     }
 
@@ -164,6 +209,14 @@ public class PracownikUrlopView  implements Serializable {
 
     public void setStannadzien(String stannadzien) {
         this.stannadzien = stannadzien;
+    }
+
+    public Nieobecnoscprezentacja getChorobaprezentacja() {
+        return chorobaprezentacja;
+    }
+
+    public void setChorobaprezentacja(Nieobecnoscprezentacja chorobaprezentacja) {
+        this.chorobaprezentacja = chorobaprezentacja;
     }
 
    

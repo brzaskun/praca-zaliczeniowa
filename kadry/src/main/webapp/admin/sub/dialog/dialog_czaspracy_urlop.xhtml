@@ -8,28 +8,29 @@
     <p:dialog id="dialgoczaspracyurlop" header="Rozliczenie urlopu" widgetVar="dialgoczaspracyurlop"  
               resizable="false"  onShow="ustawdialog('dialgoczaspracyurlop','centertile',1650,800);" closeOnEscape="true" onHide="resetujdialog('dialgoczaspracyurlop');" 
               fitViewport="true">
-        <p:ajax event="open" listener="#{pracownikUrlopView.init()}" update="PracownikUrlopForm" global="false"/>
+        <p:ajax event="open" listener="#{pracownikNieobecnoscView.init()}" update="akordeon:PracownikUrlopForm akordeon:PracownikChorobaForm" global="false"/>
         <p:outputPanel>
-             <h:form id="PracownikUrlopForm">
-                  <p:panelGrid columns="4" rendered="#{pracownikUrlopView.urlopprezentacja != null}">
-                      <p:outputLabel value="stan na dzien" for="stannadzien" />
-                      <p:inputText id="stannadzien" value="#{pracownikUrlopView.stannadzien}" readonly="true" size="10"/>
-                  </p:panelGrid>
-                  <p:panelGrid columns="4" rendered="#{pracownikUrlopView.urlopprezentacja != null}">
-                        <p:outputLabel value="nazwisko i imię pracownika" for="urlopimie" />
-                        <p:inputText id="urlopimie" value="#{pracownikUrlopView.urlopprezentacja.umowa.angaz.pracownik.nazwiskoImie}" readonly="true"/>
-                        <p:outputLabel value="rok rozliczeniowy" for="urloprok" />
-                        <p:inputText id="urloprok" value="#{pracownikUrlopView.urlopprezentacja.rok}" readonly="true"/>
-                        <p:outputLabel value="zaległy rok uprzedni" for="urloplp" />
-                        <p:inputNumber id="urloplp" value="#{pracownikUrlopView.urlopprezentacja.okrespoprzedni}"  size="5"  maxlength="3" decimalPlaces="1" decimalSeparator="," inputStyle="text-align: right"/>
-                        <p:outputLabel value="wymiar rok bieżący" for="urloplp1" />
-                        <p:inputNumber id="urloplp1" value="#{pracownikUrlopView.urlopprezentacja.wymiarokresbiezacy}"  size="5" maxlength="3" decimalPlaces="1" decimalSeparator="," inputStyle="text-align: right"/>
-                    </p:panelGrid><!--
--->                <p:panel header="wykorzystanie urlopu rok biezacy" rendered="#{pracownikUrlopView.urlopprezentacja != null}">
-                    <p:dataTable id="datalist" value="#{pracownikUrlopView.urlopprezentacja.urlopwykorzystanieList}" var="urlopwykorzystanie"
-                                 rowKey="#{urlopwykorzystanie.id}" emptyMessage="brak urlopu w roku bieżącym" rowIndexVar="indexurlop"
-                                 style="height: 580px;overflow-y: scroll; width: 550px; margin-left: 50px;" sortBy="#{urlopwykorzystanie.mc}"
-                                 >
+            <p:tabView id="akordeon">
+                    <p:tab title="wykorzystanie urlopu rok biezacy">
+                        <h:form id="PracownikUrlopForm">
+                        <p:panelGrid columns="4" rendered="#{pracownikNieobecnoscView.urlopprezentacja != null}">
+                            <p:outputLabel value="stan na dzien" for="stannadzien" />
+                            <p:inputText id="stannadzien" value="#{pracownikNieobecnoscView.stannadzien}" readonly="true" size="10"/>
+                        </p:panelGrid>
+                        <p:panelGrid columns="4" rendered="#{pracownikNieobecnoscView.urlopprezentacja != null}">
+                            <p:outputLabel value="nazwisko i imię pracownika" for="urlopimie" />
+                            <p:inputText id="urlopimie" value="#{pracownikNieobecnoscView.urlopprezentacja.umowa.angaz.pracownik.nazwiskoImie}" readonly="true"/>
+                            <p:outputLabel value="rok rozliczeniowy" for="urloprok" />
+                            <p:inputText id="urloprok" value="#{pracownikNieobecnoscView.urlopprezentacja.rok}" readonly="true"/>
+                            <p:outputLabel value="zaległy rok uprzedni" for="urloplp" />
+                            <p:inputNumber id="urloplp" value="#{pracownikNieobecnoscView.urlopprezentacja.okrespoprzedni}"  size="5"  maxlength="3" decimalPlaces="1" decimalSeparator="," inputStyle="text-align: right"/>
+                            <p:outputLabel value="wymiar rok bieżący" for="urloplp1" />
+                            <p:inputNumber id="urloplp1" value="#{pracownikNieobecnoscView.urlopprezentacja.wymiarokresbiezacy}"  size="5" maxlength="3" decimalPlaces="1" decimalSeparator="," inputStyle="text-align: right"/>
+                        </p:panelGrid>
+                        <p:dataTable id="datalist" value="#{pracownikNieobecnoscView.urlopprezentacja.nieobecnoscwykorzystanieList}" var="urlopwykorzystanie"
+                                     rowKey="#{urlopwykorzystanie.id}" emptyMessage="brak urlopu w roku bieżącym" rowIndexVar="indexurlop"
+                                     style="height: 560px;overflow-y: scroll; width: 820px; margin-left: 50px;" sortBy="#{urlopwykorzystanie.data}"
+                                     >
                             <p:column width="40" style="text-align: center;">
                                 <f:facet name="header">
                                     <h:outputText value=""/>
@@ -42,11 +43,23 @@
                                 </f:facet>
                                 <h:outputText value="#{urlopwykorzystanie.mc}"/>
                             </p:column>
-                            <p:column width="70" style="text-align: center;">
+                            <p:column width="70" style="text-align: center;" sortBy="#{urlopwykorzystanie.data}" sortOrder="asc">
                                 <f:facet name="header">
                                     <h:outputText value="data"/>
                                 </f:facet>
                                 <h:outputText value="#{urlopwykorzystanie.data}"/>
+                            </p:column>
+                             <p:column width="260" style="text-align: center;">
+                                <f:facet name="header">
+                                    <h:outputText value="rodzaj"/>
+                                </f:facet>
+                                 <h:outputText value="#{urlopwykorzystanie.opis}"/>
+                            </p:column>
+                            <p:column width="40" style="text-align: center;">
+                                <f:facet name="header">
+                                    <h:outputText value="kod"/>
+                                </f:facet>
+                                <h:outputText value="#{urlopwykorzystanie.kod}"/>
                             </p:column>
                             <p:column width="40" style="text-align: center;">
                                 <f:facet name="header">
@@ -60,19 +73,96 @@
                                 </f:facet>
                                 <h:outputText value="#{urlopwykorzystanie.etat1}/#{urlopwykorzystanie.etat2}"/>
                             </p:column>
-                            <p:column width="40" style="text-align: center;">
+                            <p:column width="80" style="text-align: center;">
                                 <f:facet name="header">
                                     <h:outputText value="umowa"/>
                                 </f:facet>
                                 <h:outputText value="#{urlopwykorzystanie.urlopprezentacja.umowa.nrkolejny}"/>
                             </p:column>
                         </p:dataTable>
-                </p:panel>
-                  <p:panelGrid columns="4" rendered="#{pracownikUrlopView.urlopprezentacja != null}">
-                        <p:outputLabel value="do rozliczenia/wykorzystania:" for="przeniesienia" />
-                        <h:outputText id="przeniesienia" value="#{pracownikUrlopView.urlopprezentacja.doprzeniesienia}" style="color: green;"/>
-                    </p:panelGrid>
-            </h:form>
+                        <p:panelGrid columns="4" rendered="#{pracownikNieobecnoscView.urlopprezentacja != null}" style="margin-top: 20px;">
+                            <p:outputLabel value="do rozliczenia/wykorzystania:" for="przeniesienia" />
+                            <h:outputText id="przeniesienia" value="#{pracownikNieobecnoscView.urlopprezentacja.doprzeniesienia}" style="color: green;"/>
+                        </p:panelGrid>
+                       </h:form>
+                    </p:tab>
+                        <p:tab title="wykorzystanie choroby rok biezacy">
+                        <h:form id="PracownikChorobaForm">
+                        <p:panelGrid columns="4" rendered="#{pracownikNieobecnoscView.chorobaprezentacja != null}">
+                            <p:outputLabel value="stan na dzien" for="stannadzien" />
+                            <p:inputText id="stannadzien" value="#{pracownikNieobecnoscView.stannadzien}" readonly="true" size="10"/>
+                        </p:panelGrid>
+                        <p:panelGrid columns="4" rendered="#{pracownikNieobecnoscView.chorobaprezentacja != null}">
+                            <p:outputLabel value="nazwisko i imię pracownika" for="urlopimie" />
+                            <p:inputText id="urlopimie" value="#{pracownikNieobecnoscView.chorobaprezentacja.umowa.angaz.pracownik.nazwiskoImie}" readonly="true"/>
+                            <p:outputLabel value="rok rozliczeniowy" for="urloprok" />
+                            <p:inputText id="urloprok" value="#{pracownikNieobecnoscView.chorobaprezentacja.rok}" readonly="true"/>
+                            <p:outputLabel value="zaległy rok uprzedni" for="urloplp" />
+                            <p:inputNumber id="urloplp" value="#{pracownikNieobecnoscView.chorobaprezentacja.okrespoprzedni}"  size="5"  maxlength="3" decimalPlaces="1" decimalSeparator="," inputStyle="text-align: right"/>
+                            <p:outputLabel value="wymiar rok bieżący" for="urloplp1" />
+                            <p:inputNumber id="urloplp1" value="#{pracownikNieobecnoscView.chorobaprezentacja.wymiarokresbiezacy}"  size="5" maxlength="3" decimalPlaces="1" decimalSeparator="," inputStyle="text-align: right"/>
+                        </p:panelGrid>
+                        <p:dataTable id="datalist" value="#{pracownikNieobecnoscView.chorobaprezentacja.nieobecnoscwykorzystanieList}" var="chorobawykorzystanie"
+                                     rowKey="#{chorobawykorzystanie.id}" emptyMessage="brak choroby w roku bieżącym" rowIndexVar="indexchoroba"
+                                     style="height: 560px;overflow-y: scroll; width: 820px; margin-left: 50px;" sortBy="#{chorobawykorzystanie.data}"
+                                     >
+                            <p:column width="40" style="text-align: center;">
+                                <f:facet name="header">
+                                    <h:outputText value=""/>
+                                </f:facet>
+                                <h:outputText value="#{indexchoroba+1}"/>
+                            </p:column>
+                            <p:column width="40" style="text-align: center;">
+                                <f:facet name="header">
+                                    <h:outputText value="mc"/>
+                                </f:facet>
+                                <h:outputText value="#{chorobawykorzystanie.mc}"/>
+                            </p:column>
+                            <p:column width="70" style="text-align: center;" sortBy="#{chorobawykorzystanie.data}" sortOrder="asc">
+                                <f:facet name="header">
+                                    <h:outputText value="data"/>
+                                </f:facet>
+                                <h:outputText value="#{chorobawykorzystanie.data}"/>
+                            </p:column>
+                             <p:column width="260" style="text-align: center;">
+                                <f:facet name="header">
+                                    <h:outputText value="rodzaj"/>
+                                </f:facet>
+                                 <h:outputText value="#{chorobawykorzystanie.opis}"/>
+                            </p:column>
+                            <p:column width="40" style="text-align: center;">
+                                <f:facet name="header">
+                                    <h:outputText value="kod"/>
+                                </f:facet>
+                                <h:outputText value="#{chorobawykorzystanie.kod}"/>
+                            </p:column>
+                            <p:column width="40" style="text-align: center;">
+                                <f:facet name="header">
+                                    <h:outputText value="dni"/>
+                                </f:facet>
+                                <h:outputText value="#{chorobawykorzystanie.dni}"/>
+                            </p:column>
+                            <p:column width="40" style="text-align: center;">
+                                <f:facet name="header">
+                                    <h:outputText value="etat"/>
+                                </f:facet>
+                                <h:outputText value="#{chorobawykorzystanie.etat1}/#{chorobawykorzystanie.etat2}"/>
+                            </p:column>
+                            <p:column width="80" style="text-align: center;">
+                                <f:facet name="header">
+                                    <h:outputText value="umowa"/>
+                                </f:facet>
+                                <h:outputText value="#{chorobawykorzystanie.urlopprezentacja.umowa.nrkolejny}"/>
+                            </p:column>
+                        </p:dataTable>
+                        <p:panelGrid columns="4" rendered="#{pracownikNieobecnoscView.chorobaprezentacja != null}" style="margin-top: 20px;">
+                            <p:outputLabel value="do rozliczenia/wykorzystania:" for="przeniesienia" />
+                            <h:outputText id="przeniesienia" value="#{pracownikNieobecnoscView.chorobaprezentacja.doprzeniesienia}" style="color: green;"/>
+                        </p:panelGrid>
+                        </h:form>
+                    </p:tab>
+                </p:tabView>
+            
         </p:outputPanel>
     </p:dialog>
 </ui:composition>

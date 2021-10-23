@@ -26,18 +26,18 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Osito
  */
 @Entity
-@Table(name = "urlopwykorzystanie")
+@Table(name = "nieobecnoscwykorzystanie")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Urlopwykorzystanie.findAll", query = "SELECT u FROM Urlopwykorzystanie u"),
-    @NamedQuery(name = "Urlopwykorzystanie.findById", query = "SELECT u FROM Urlopwykorzystanie u WHERE u.id = :id"),
-    @NamedQuery(name = "Urlopwykorzystanie.findByDni", query = "SELECT u FROM Urlopwykorzystanie u WHERE u.dni = :dni"),
-    @NamedQuery(name = "Urlopwykorzystanie.findByGodziny", query = "SELECT u FROM Urlopwykorzystanie u WHERE u.godziny = :godziny"),
-    @NamedQuery(name = "Urlopwykorzystanie.findByMc", query = "SELECT u FROM Urlopwykorzystanie u WHERE u.mc = :mc"),
-    @NamedQuery(name = "Urlopwykorzystanie.findByData", query = "SELECT u FROM Urlopwykorzystanie u WHERE u.data = :data"),
-    @NamedQuery(name = "Urlopwykorzystanie.findByEtat1", query = "SELECT u FROM Urlopwykorzystanie u WHERE u.etat1 = :etat1"),
-    @NamedQuery(name = "Urlopwykorzystanie.findByEtat2", query = "SELECT u FROM Urlopwykorzystanie u WHERE u.etat2 = :etat2")})
-public class Urlopwykorzystanie implements Serializable {
+    @NamedQuery(name = "Nieobecnoscwykorzystanie.findAll", query = "SELECT u FROM Nieobecnoscwykorzystanie u"),
+    @NamedQuery(name = "Nieobecnoscwykorzystanie.findById", query = "SELECT u FROM Nieobecnoscwykorzystanie u WHERE u.id = :id"),
+    @NamedQuery(name = "Nieobecnoscwykorzystanie.findByDni", query = "SELECT u FROM Nieobecnoscwykorzystanie u WHERE u.dni = :dni"),
+    @NamedQuery(name = "Nieobecnoscwykorzystanie.findByGodziny", query = "SELECT u FROM Nieobecnoscwykorzystanie u WHERE u.godziny = :godziny"),
+    @NamedQuery(name = "Nieobecnoscwykorzystanie.findByMc", query = "SELECT u FROM Nieobecnoscwykorzystanie u WHERE u.mc = :mc"),
+    @NamedQuery(name = "Nieobecnoscwykorzystanie.findByData", query = "SELECT u FROM Nieobecnoscwykorzystanie u WHERE u.data = :data"),
+    @NamedQuery(name = "Nieobecnoscwykorzystanie.findByEtat1", query = "SELECT u FROM Nieobecnoscwykorzystanie u WHERE u.etat1 = :etat1"),
+    @NamedQuery(name = "Nieobecnoscwykorzystanie.findByEtat2", query = "SELECT u FROM Nieobecnoscwykorzystanie u WHERE u.etat2 = :etat2")})
+public class Nieobecnoscwykorzystanie implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -64,24 +64,28 @@ public class Urlopwykorzystanie implements Serializable {
     private Integer etat1;
     @Column(name = "etat2")
     private Integer etat2;
+    @Column(name = "opis")
+    private String opis;
+    @Column(name = "kod")
+    private String kod;
     @JoinColumn(name = "urlopprezentacja", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Urlopprezentacja urlopprezentacja;
+    private Nieobecnoscprezentacja urlopprezentacja;
 
-    public Urlopwykorzystanie() {
+    public Nieobecnoscwykorzystanie() {
     }
 
-    public Urlopwykorzystanie(Integer id) {
+    public Nieobecnoscwykorzystanie(Integer id) {
         this.id = id;
     }
 
-    public Urlopwykorzystanie(Integer id, String mc, String data) {
+    public Nieobecnoscwykorzystanie(Integer id, String mc, String data) {
         this.id = id;
         this.mc = mc;
         this.data = data;
     }
 
-    public Urlopwykorzystanie(String podsumowanie, int i) {
+    public Nieobecnoscwykorzystanie(String podsumowanie, int i) {
         this.data = podsumowanie;
         this.godziny = 0;
     }
@@ -143,12 +147,28 @@ public class Urlopwykorzystanie implements Serializable {
         this.etat2 = etat2;
     }
 
-    public Urlopprezentacja getUrlopprezentacja() {
+    public Nieobecnoscprezentacja getUrlopprezentacja() {
         return urlopprezentacja;
     }
 
-    public void setUrlopprezentacja(Urlopprezentacja urlopprezentacja) {
+    public void setUrlopprezentacja(Nieobecnoscprezentacja urlopprezentacja) {
         this.urlopprezentacja = urlopprezentacja;
+    }
+
+    public String getOpis() {
+        return opis;
+    }
+
+    public void setOpis(String opis) {
+        this.opis = opis;
+    }
+
+    public String getKod() {
+        return kod;
+    }
+
+    public void setKod(String kod) {
+        this.kod = kod;
     }
 
     @Override
@@ -161,10 +181,10 @@ public class Urlopwykorzystanie implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Urlopwykorzystanie)) {
+        if (!(object instanceof Nieobecnoscwykorzystanie)) {
             return false;
         }
-        Urlopwykorzystanie other = (Urlopwykorzystanie) object;
+        Nieobecnoscwykorzystanie other = (Nieobecnoscwykorzystanie) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -173,7 +193,7 @@ public class Urlopwykorzystanie implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Urlopwykorzystanie[ id=" + id + " ]";
+        return "entity.Nieobecnoscwykorzystanie[ id=" + id + " ]";
     }
     
 }

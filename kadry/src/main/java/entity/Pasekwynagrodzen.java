@@ -727,28 +727,7 @@ public class Pasekwynagrodzen implements Serializable {
         return zwrot;
     }
 
-    public double pobierznaliczeniadochorobowego(boolean waloryzowac1nie0, Skladnikwynagrodzenia skladnikwynagrodzenia) {
-        double zwrot = 0.0;
-        if (this.naliczenieskladnikawynagrodzeniaList!=null) {
-            for (Naliczenieskladnikawynagrodzenia p : this.naliczenieskladnikawynagrodzeniaList) {
-                if (p.getSkladnikwynagrodzenia().equals(skladnikwynagrodzenia)) {
-                    if (waloryzowac1nie0) {
-                        zwrot = zwrot + p.getKwotadolistyplac()+p.getKwotyredukujacesuma();
-                    } else {
-                        zwrot = zwrot + p.getKwotadolistyplac();
-                    }
-                }
-            }
-        }
-        if (this.naliczenienieobecnoscList!=null) {
-            for (Naliczenienieobecnosc r : this.naliczenienieobecnoscList) {
-                if (r.getSkladnikwynagrodzenia().equals(skladnikwynagrodzenia)) {
-                    zwrot = zwrot + r.getKwota();
-                }
-            }
-        }
-        return zwrot;
-    }
+    
 
     public class Skladnikwynlista {
         int lp;
