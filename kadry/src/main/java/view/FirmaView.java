@@ -11,6 +11,7 @@ import dao.KalendarzwzorFacade;
 import dao.UprawnieniaFacade;
 import dao.UzFacade;
 import embeddable.Mce;
+import embeddable.TKodUS;
 import entity.Angaz;
 import entity.Definicjalistaplac;
 import entity.FirmaKadry;
@@ -59,6 +60,8 @@ public class FirmaView  implements Serializable {
     private KalendarzwzorFacade kalendarzwzorFacade;
     @Inject
     private DefinicjalistaplacFacade definicjalistaplacFacade;
+    @Inject
+    private TKodUS tKodUS;
     
     @PostConstruct
     private void init() {
@@ -190,6 +193,8 @@ public class FirmaView  implements Serializable {
     
      public void edytuj() {
         if (selectedlista!=null && selectedlista.getEmail()!=null) {
+            String nazwaurzedu = selectedlista.getNazwaurzeduskarbowego();
+            selectedlista.setKodurzeduskarbowego(tKodUS.getMapaUrzadKod().get(nazwaurzedu));
             firmaFacade.edit(selectedlista);
             Uz uz = uzFacade.findUzByPesel(selectedlista.getNip());
             if (uz!=null) {

@@ -47,6 +47,11 @@ import javax.xml.bind.annotation.XmlTransient;
 })
 public class Pracownik implements Serializable {
     private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id")
+    private Integer id;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 128)
@@ -151,12 +156,8 @@ public class Pracownik implements Serializable {
     private String matka;
     @Column(name = "formawynagrodzenia")
     private int formawynagrodzenia;
-   
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id")
-    private Integer id;
+    @Column(name = "nierezydent")
+    private boolean nierezydent;
     @OneToMany(mappedBy = "pracownik", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Angaz> angazList;
 
@@ -194,6 +195,14 @@ public class Pracownik implements Serializable {
 
     public void setMatka(String matka) {
         this.matka = matka;
+    }
+
+    public boolean isNierezydent() {
+        return nierezydent;
+    }
+
+    public void setNierezydent(boolean nierezydent) {
+        this.nierezydent = nierezydent;
     }
 
 

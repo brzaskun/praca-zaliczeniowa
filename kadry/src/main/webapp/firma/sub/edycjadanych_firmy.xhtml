@@ -22,6 +22,8 @@
                     </p:inputText>
                     <p:outputLabel value="telefon" for="telefon" />
                     <p:inputText id="telefon" value="#{firmaView.selected.telefon}" title="telefon" required="true" requiredMessage="Wpisz telefon"/>
+                    <p:outputLabel value="osoba fizyczna" for="osobafizyczna" />
+                    <p:selectBooleanCheckbox value="#{firmaView.selected.osobafizyczna}" id="osobafizyczna" title="czy jest to osoba fizyczna"/> 
                 </p:panelGrid>
                 <p:commandButton styleClass="buttonnorm" actionListener="#{firmaView.create()}" value="#{bundle.Save}" update="@(form)"/>
                 <p:commandButton value="#{bundle.Cancel}"/>
@@ -49,7 +51,13 @@
                             </f:facet>
                             <h:outputText value="#{item1.nip}"/>
                         </p:column>
-                        <p:column>
+                        <p:column width="40" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="os.fiz."/>
+                            </f:facet>
+                              <h:outputText value="&#x2714;" styleClass="ww" rendered="#{item1.osobafizyczna}"/>
+                        </p:column>
+                        <p:column width="300">
                             <f:facet name="header">
                                 <h:outputText value="nazwa"/>
                             </f:facet>
@@ -89,6 +97,19 @@
     <p:panelGrid columns="2" columnClasses="thirty-percent, seventy-percent" style="height: 300px;width: 1500px;">
         <p:outputPanel>
             <h:form id="FirmaUzupelnijForm">
+                <p:panel header="nazwa frmy"/>
+                 <p:panelGrid columns="2">
+                       <p:outputLabel value="nazwa" for="nazwa" />
+                       <p:inputText id="nazwa" value="#{firmaView.selectedlista.nazwa}" title="nazwa firmy" required="true" requiredMessage="Nazwa firmy wymagana" size="70"/>
+                </p:panelGrid>
+                <p:panelGrid columns="4">
+                       <p:outputLabel value="imie" for="imie" />
+                       <p:inputText id="imie" value="#{firmaView.selectedlista.imie}" title="imię przedsiębiorcy" size="70"/>
+                       <p:outputLabel value="nazwisko" for="nazwisko" />
+                       <p:inputText id="nazwisko" value="#{firmaView.selectedlista.nazwisko}" title="nazwisko przedsiębiorcy" size="100"/>
+                       <p:outputLabel value="data urodzenia" for="dataurodzenia" />
+                       <p:inputText id="dataurodzenia" value="#{firmaView.selectedlista.dataurodzenia}" title="nazwisko przedsiębiorcy"   placeholder="____-__-__"  maxlength="10"/>
+                </p:panelGrid>
                 <p:panel header="adres siedziby firmy #{firmaView.selectedlista.nazwa}"/>
                     <p:panelGrid columns="8">
                         <p:outputLabel value="kraj" for="kraj" />
@@ -117,6 +138,11 @@
                         <p:outputLabel value="imię nazwisko" for="rep" />
                         <p:inputText id="rep" value="#{firmaView.selectedlista.reprezentant}" title="reprezentant" required="true" requiredMessage="Wpisz imię i nazwisko reprezentanta" size="49"/>
                     </p:panelGrid>
+                    <p:panel header="osoba fizyczna"/>
+                    <p:panelGrid columns="2">
+                        <p:outputLabel value="osoba fizyczna" for="osoba" />
+                        <p:selectBooleanCheckbox id="osoba" value="#{firmaView.selectedlista.osobafizyczna}" title="forma prawna"/>
+                    </p:panelGrid>
                     <p:panel header="dane kontaktowe"/>
                     <p:panelGrid columns="4">
                         <p:outputLabel value="telefon" for="tel" />
@@ -130,6 +156,22 @@
                         <p:inputText id="nzbaku" value="#{firmaView.selectedlista.banknazwa}" title="nazwa banku" size="32"/>
                         <p:outputLabel value="nr konta" for="nrkonta" />
                         <p:inputText id="nrkonta" value="#{firmaView.selectedlista.bankkonto}" title="telefon" maxlength="32" size="32"/>
+                    </p:panelGrid>
+                     <p:panel header="urząd skarbowy"/>
+                    <p:panelGrid columns="1">
+                        <p:autoComplete completeMethod="#{tKodUS.complete}" value="#{firmaView.selectedlista.nazwaurzeduskarbowego}"
+                                    forceSelection="true" maxResults="15" size="250"  minQueryLength="3" effect="clip" var="p"
+                                    itemLabel="#{p}" itemValue="#{p}" inputStyle="width:400px;">
+                        <f:facet name="itemtip">  
+                            <h:panelGrid  columns="2" cellpadding="5" width="400">  
+                                <f:facet name="header">  
+                                    <h:outputText value="Dane wybranego urzędu"/>
+                                </f:facet>  
+                                <h:outputText value="Nazwa: " />  
+                                <h:outputText id="npelna" value="#{p}" />  
+                            </h:panelGrid>
+                        </f:facet>
+                    </p:autoComplete>
                     </p:panelGrid>
                     <p:commandButton value="zachowaj" styleClass="buttonnorm" actionListener="#{firmaView.edytuj()}" update="@(form)"/>
                     </h:form>

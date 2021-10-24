@@ -327,8 +327,8 @@ public class OsobaBean {
                     if (okresList.contains(r.getLplOkrSerial())&&r.getLplKodTytU12().startsWith("04")) {
                         String rok = String.valueOf(r.getLplOkrSerial().getOkrRokSerial().getRokNumer());
                         String mc = Mce.getNumberToMiesiac().get(Integer.valueOf(r.getLplOkrSerial().getOkrMieNumer()));
-                        boolean bezpodatku = Data.czyjestpo(datakonca26lat, rok, mc);
-                        Pasekwynagrodzen nowypasek = new Pasekwynagrodzen(r, bezpodatku);
+                        boolean po26roku = Data.czyjestpo(datakonca26lat, rok, mc);
+                        Pasekwynagrodzen nowypasek = new Pasekwynagrodzen(r, po26roku);
                         nowypasek.setRok(rok);
                         nowypasek.setMc(mc);
                         nowypasek.setImportowany(true);
@@ -338,8 +338,8 @@ public class OsobaBean {
                     if (okresList.contains(r.getLplOkrSerial())&&!r.getLplKodTytU12().startsWith("04")) {
                         String rok = String.valueOf(r.getLplOkrSerial().getOkrRokSerial().getRokNumer());
                         String mc = Mce.getNumberToMiesiac().get(Integer.valueOf(r.getLplOkrSerial().getOkrMieNumer()));
-                        boolean bezpodatku = Data.czyjestpo(datakonca26lat, rok, mc);
-                        Pasekwynagrodzen nowypasek = new Pasekwynagrodzen(r, bezpodatku);
+                        boolean po26roku = Data.czyjestpo(datakonca26lat, rok, mc);
+                        Pasekwynagrodzen nowypasek = new Pasekwynagrodzen(r, po26roku);
                         nowypasek.setRok(rok);
                         nowypasek.setMc(mc);
                         nowypasek.setImportowany(true);

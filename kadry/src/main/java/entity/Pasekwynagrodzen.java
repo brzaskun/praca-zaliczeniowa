@@ -155,6 +155,8 @@ public class Pasekwynagrodzen implements Serializable {
     private String mc;
     @Column(name="importowany")
     private boolean importowany;
+    @Column(name="do26lat")
+    private boolean do26lat;
     @Column(name="wynagrodzenieminimalne")
     private double wynagrodzenieminimalne;
     @OneToMany(mappedBy = "pasekwynagrodzen")
@@ -201,8 +203,10 @@ public class Pasekwynagrodzen implements Serializable {
             if (r.getLplPodDoch().equals('T')) {
                 if (po26roku) {
                     this.bruttobezzus = Z.z(r.getLplNiezd().doubleValue());
+                    this.do26lat = false;
                 } else {
                     this.bruttobezzusbezpodatek =  Z.z(r.getLplPrzychOpod().doubleValue());
+                    this.do26lat = true;
                 }
             }
 //        }
@@ -303,8 +307,15 @@ public class Pasekwynagrodzen implements Serializable {
         return "Pasekwynagrodzen{" + "brutto=" + brutto + ", bruttobezzus=" + bruttobezzus + ", bruttozus=" + bruttozus + ", bruttobezzusbezpodatek=" + bruttobezzusbezpodatek + ", kosztyuzyskania=" + kosztyuzyskania + ", procentkosztow=" + procentkosztow + ", kwotawolna=" + kwotawolna + ", netto=" + netto + ", rok=" + rok + ", mc=" + mc + '}';
     }
 
-   
+//    id,nazwa,typ
+//    1,"umowa o pracę",1
+//    2,"umowa zlecenia i o dzieło",2
+//    3,"pełnienie obowiązków",3
+//    4,zasiłki,4
 
+    public int getRodzajWynagrodzenia() {
+        return this.definicjalistaplac.getRodzajlistyplac().getTyp();
+    }
     
     
     @XmlTransient
@@ -369,6 +380,14 @@ public class Pasekwynagrodzen implements Serializable {
 
     public void setFp(double fp) {
         this.fp = fp;
+    }
+
+    public boolean isDo26lat() {
+        return do26lat;
+    }
+
+    public void setDo26lat(boolean do26lat) {
+        this.do26lat = do26lat;
     }
 
     public double getKosztyuzyskania() {

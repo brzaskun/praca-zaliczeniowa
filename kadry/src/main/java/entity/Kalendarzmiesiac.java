@@ -494,6 +494,10 @@ private static final long serialVersionUID = 1L;
         return this.getUmowa().getAngaz().getPracownik().getPesel();
     }
     
+    public String getDataUrodzenia() {
+        return this.getUmowa().getAngaz().getPracownik().getDataurodzenia();
+    }
+    
     public String getNazwisko() {
         return this.getUmowa().getAngaz().getPracownik().getNazwisko();
     }

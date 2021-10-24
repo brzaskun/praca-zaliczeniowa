@@ -135,7 +135,11 @@ public class Kartawynagrodzen implements Serializable {
     private Angaz angaz;
     @Column(name = "nrlisty")
     private String nrlisty;
-
+    @Column(name = "kosztypodwyzszone")
+    private boolean kosztypodwyzszone;
+    @Column(name = "kosztywieleumow")
+    private boolean kosztywieleumow;
+    
     public Kartawynagrodzen() {
         this.nrlisty = "";
     }
@@ -397,6 +401,22 @@ public class Kartawynagrodzen implements Serializable {
     public void setNrlisty(String nrlisty) {
         this.nrlisty = nrlisty;
     }
+
+    public boolean isKosztypodwyzszone() {
+        return kosztypodwyzszone;
+    }
+
+    public void setKosztypodwyzszone(boolean kosztypodwyzszone) {
+        this.kosztypodwyzszone = kosztypodwyzszone;
+    }
+
+    public boolean isKosztywieleumow() {
+        return kosztywieleumow;
+    }
+
+    public void setKosztywieleumow(boolean kosztywieleumow) {
+        this.kosztywieleumow = kosztywieleumow;
+    }
     
     
     @Override
@@ -421,8 +441,10 @@ public class Kartawynagrodzen implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Kartawynagrodzen[ id=" + id + " ]";
+        return "Kartawynagrodzen{rok=" + rok + ", mc=" + mc  + "bruttobezzus=" + bruttobezzus + ", bruttozus=" + bruttozus + ", kosztyuzyskania=" + kosztyuzyskania + ", kwotawolna=" + kwotawolna + ", netto=" + netto + ", podatekdochodowy=" + podatekdochodowy + ", razemspolecznepracownik=" + razemspolecznepracownik + ", praczdrowotne=" + praczdrowotne + ", kosztypodwyzszone=" + kosztypodwyzszone + ", kosztywieleumow=" + kosztywieleumow + '}';
     }
+
+    
 
     public void zeruj() {
         this.bruttobezzus = 0.0;
@@ -482,7 +504,8 @@ public class Kartawynagrodzen implements Serializable {
         this.potracenia += pasek.getPotracenia();
         this.razem53 += pasek.getRazem53();
         this.kosztpracodawcy += pasek.getKosztpracodawcy();
-        if (pasek.getDefinicjalistaplac().getNrkolejny()!=null && !this.mc.equals("razem")) {
+        //this.mc!=null musi byc bo uzywamy tego tez do pit-11
+        if (pasek.getDefinicjalistaplac().getNrkolejny()!=null && this.mc!=null && !this.mc.equals("razem")) {
             if (this.nrlisty==null) {
                 this.nrlisty = pasek.getDefinicjalistaplac().getNrkolejny()+";";
             } else {
@@ -490,5 +513,7 @@ public class Kartawynagrodzen implements Serializable {
             }
         }
     }
+
+    
     
 }

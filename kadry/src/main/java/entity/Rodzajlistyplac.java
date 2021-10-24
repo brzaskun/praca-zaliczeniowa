@@ -42,6 +42,12 @@ public class Rodzajlistyplac implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
+//    id,nazwa,typ
+//    1,"umowa o pracę",1
+//    2,"umowa zlecenia i o dzieło",2
+//    3,"pełnienie obowiązków",3
+//    4,zasiłki,4
+
     @Column(name = "typ")
     private Integer typ;
     @Basic(optional = false)

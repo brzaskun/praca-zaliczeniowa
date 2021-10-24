@@ -38,7 +38,12 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "FirmaKadry.findByNazwa", query = "SELECT f FROM FirmaKadry f WHERE f.nazwa = :nazwa"),
     @NamedQuery(name = "FirmaKadry.findByNip", query = "SELECT f FROM FirmaKadry f WHERE f.nip = :nip")})
 public class FirmaKadry implements Serializable {
-
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id")
+    private Integer id;
     @Size(max = 255)
     @Column(name = "nazwa")
     private String nazwa;
@@ -49,13 +54,6 @@ public class FirmaKadry implements Serializable {
     private List<Uz> uzList;
     @OneToMany(mappedBy = "firma", cascade = CascadeType.ALL)
     private List<Definicjalistaplac> definicjalistaplacList;
-
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id")
-    private Integer id;
     @OneToMany(mappedBy = "firma", cascade = CascadeType.ALL)
     private List<Angaz> angazList;
     @OneToMany(mappedBy = "firma", cascade = CascadeType.ALL)
@@ -105,6 +103,18 @@ public class FirmaKadry implements Serializable {
     @Size(max = 128)
     @Column(name = "reprezentant")
     private String reprezentant;
+    @Column(name = "osobafizyczna")
+    private boolean osobafizyczna;
+    @Column(name = "kodurzeduskarbowego")
+    private String kodurzeduskarbowego;
+    @Column(name = "nazwaurzeduskarbowego")
+    private String nazwaurzeduskarbowego;
+    @Column(name = "imie")
+    private String imie;
+    @Column(name = "nazwisko")
+    private String nazwisko;
+    @Column(name = "dataurodzenia")
+    private String dataurodzenia;
 
     public FirmaKadry() {
     }
@@ -209,6 +219,54 @@ public class FirmaKadry implements Serializable {
 
     public void setReprezentant(String reprezentant) {
         this.reprezentant = reprezentant;
+    }
+
+    public boolean isOsobafizyczna() {
+        return osobafizyczna;
+    }
+
+    public void setOsobafizyczna(boolean osobafizyczna) {
+        this.osobafizyczna = osobafizyczna;
+    }
+
+    public String getKodurzeduskarbowego() {
+        return kodurzeduskarbowego;
+    }
+
+    public void setKodurzeduskarbowego(String kodurzeduskarbowego) {
+        this.kodurzeduskarbowego = kodurzeduskarbowego;
+    }
+
+    public String getNazwaurzeduskarbowego() {
+        return nazwaurzeduskarbowego;
+    }
+
+    public void setNazwaurzeduskarbowego(String nazwaurzeduskarbowego) {
+        this.nazwaurzeduskarbowego = nazwaurzeduskarbowego;
+    }
+
+    public String getImie() {
+        return imie;
+    }
+
+    public void setImie(String imie) {
+        this.imie = imie;
+    }
+
+    public String getNazwisko() {
+        return nazwisko;
+    }
+
+    public void setNazwisko(String nazwisko) {
+        this.nazwisko = nazwisko;
+    }
+
+    public String getDataurodzenia() {
+        return dataurodzenia;
+    }
+
+    public void setDataurodzenia(String dataurodzenia) {
+        this.dataurodzenia = dataurodzenia;
     }
 
 

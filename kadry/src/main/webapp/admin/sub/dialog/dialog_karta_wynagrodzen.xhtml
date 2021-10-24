@@ -101,11 +101,24 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                             </f:facet>
                             <bcf:outputpl value="#{itemkarta.netto}"/>
                         </p:column>
+                        <p:column width="30">
+                            <f:facet name="header">
+                                <h:outputText value="koszty pod."/>
+                            </f:facet>
+                            <h:outputText  value="&#x2714;" rendered="#{itemkarta.kosztypodwyzszone}" styleClass="ww"/>
+                        </p:column>
+                        <p:column width="30">
+                            <f:facet name="header">
+                                <h:outputText value="koszty wiele um."/>
+                            </f:facet>
+                            <h:outputText  value="&#x2714;" rendered="#{itemkarta.kosztywieleumow}" styleClass="ww"/>
+                        </p:column>
                     </p:dataTable>
             </h:form>
         </p:outputPanel>
         <p:outputPanel>
             <p:commandButton value="drukuj" style="width: 120px;" actionListener="#{kartaWynagrodzenView.drukuj}"/>
+            <p:commandButton value="PIT-11" style="width: 120px;" actionListener="#{kartaWynagrodzenView.pit11}"/>
         </p:outputPanel>
     </p:dialog>
 </ui:composition>

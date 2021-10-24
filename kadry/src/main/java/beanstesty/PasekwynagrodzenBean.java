@@ -29,6 +29,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import viewsuperplace.OsobaBean;
 import z.Z;
 
 /**
@@ -56,6 +57,13 @@ public class PasekwynagrodzenBean {
         List<Wynagrodzeniahistoryczne> historiawynagrodzen, List<Podatki> stawkipodatkowe, double sumapoprzednich, double wynagrodzenieminimalne, boolean czyodlicoznokwotewolna) {
         boolean umowaoprace = kalendarz.isPraca();
         Pasekwynagrodzen pasek = new Pasekwynagrodzen();
+        String datakonca26lat = OsobaBean.obliczdata26(kalendarz.getDataUrodzenia());
+        boolean po26roku = Data.czyjestpo(datakonca26lat, kalendarz.getRok(), kalendarz.getMc());
+        if (po26roku==false) {
+            pasek.setDo26lat(true);
+        } else {
+            pasek.setDo26lat(false);
+        }
         pasek.setWynagrodzenieminimalne(wynagrodzenieminimalne);
         double kurs = 4.4745;
         double dietastawka = 49.0;

@@ -34,6 +34,8 @@
                         <p:inputText id="du" value="#{pracownikDane2View.selected.dataurodzenia}" title="data urodzenia" required="true" requiredMessage="Wpisz datę urodzenia"/>
                         <p:outputLabel value="miejsce urodzenia" for="mu" />
                         <p:inputText id="mu" value="#{pracownikDane2View.selected.miejsceurodzenia}" title="miejsce urodzenia" required="true" requiredMessage="Wpisz miejsce urodzenia"/>
+                        <p:outputLabel value="nierezydent" for="rez" />
+                        <p:selectBooleanCheckbox id="rez" value="#{pracownikDane2View.selected.nierezydent}" title="czy pracownik jest nierezydentem"/>
                      </p:panelGrid>
                     <p:panel header="adres zamieszkania"/>
                     <p:panelGrid columns="8">
