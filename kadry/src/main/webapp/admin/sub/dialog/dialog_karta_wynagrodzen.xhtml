@@ -10,12 +10,12 @@ xmlns:pe="http://primefaces.org/ui/extensions">
     <p:dialog id="dialogkartawynagrodzen" header="Karta wynagrodzeń" widgetVar="dialogkartawynagrodzen"  
               resizable="false"  onShow="ustawdialog('dialogkartawynagrodzen','centertile',1650,800);" closeOnEscape="true" onHide="resetujdialog('dialogkartawynagrodzen');" 
               fitViewport="true">
-
+        <p:ajax event="open" listener="#{kartaWynagrodzenView.init()}" update="KartyWynangrodzenListForm" global="false"/>
         <p:outputPanel>
              <h:form id="KartyWynangrodzenListForm">
                     <p:dataTable id="datalist" value="#{kartaWynagrodzenView.kartawynagrodzenlist}" var="itemkarta"
                                  rowKey="#{itemkarta.id}" sortBy="#{itemkarta.mc}" rowIndexVar="indexka"
-                                style="height: 450px; overflow-y: scroll;"
+                                 style="height: 450px; overflow-y: scroll;" emptyMessage="Nie pobrano danych"
                                  >
                         <p:column width="20" style="text-align: center;">
                             <f:facet name="header">

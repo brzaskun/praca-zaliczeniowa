@@ -474,6 +474,8 @@ public class Kartawynagrodzen implements Serializable {
         this.razem53 = 0.0;
         this.kosztpracodawcy = 0.0;
         this.nrlisty = null;
+        this.kosztypodwyzszone = false;
+        this.kosztywieleumow = false;
     }
 
 

@@ -26,7 +26,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -70,7 +69,6 @@ public class KartaWynagrodzenView  implements Serializable {
 
     
     
-    @PostConstruct
     public void init() {
         pobierzdane();
     }
@@ -97,13 +95,15 @@ public class KartaWynagrodzenView  implements Serializable {
                 nowa.setMc(mc);
                 kartypobranezbazy.add(nowa);
             }
-            kartaWynagrodzenFacade. createEditList(kartypobranezbazy);
         } else {
-            for (Iterator<Kartawynagrodzen> it = kartypobranezbazy.iterator();it.hasNext();) {
-                Kartawynagrodzen k = it.next();
-                if (k.getId()==null) {
-                    it.remove();
-                }
+            kartaWynagrodzenFacade.removeList(kartypobranezbazy);
+            kartypobranezbazy = new ArrayList<>();
+            for (String mc : Mce.getMceListS()) {
+                Kartawynagrodzen nowa = new Kartawynagrodzen();
+                nowa.setAngaz(selectedangaz);
+                nowa.setRok(rok);
+                nowa.setMc(mc);
+                kartypobranezbazy.add(nowa);
             }
         }
         return kartypobranezbazy;
@@ -127,9 +127,6 @@ public class KartaWynagrodzenView  implements Serializable {
         Kartawynagrodzen suma = new Kartawynagrodzen();
         suma.setMc("razem");
         for (Kartawynagrodzen karta : kartawynagrodzenlist) {
-            if (karta.getId()!=null) {
-                karta.zeruj();
-            }
             List<Angaz> angazzpaskow = new ArrayList<>();
             for (Iterator<Pasekwynagrodzen> it = paski.iterator(); it.hasNext();) {
                 Pasekwynagrodzen pasek = it.next();
@@ -176,7 +173,7 @@ public class KartaWynagrodzenView  implements Serializable {
                 }
             }
         }
-        kartaWynagrodzenFacade.editList(kartawynagrodzenlist);
+        kartaWynagrodzenFacade.createEditList(kartawynagrodzenlist);
         kartawynagrodzenlist.add(suma);
     }
     
@@ -426,10 +423,12 @@ public class KartaWynagrodzenView  implements Serializable {
             poz.setP96((byte)2);
         }
         if (sumaUmowaoprace26.getBrutto()>0.0) {
+            poz.setP28(null);
             poz.setP75(BigDecimal.valueOf(Z.z(sumaUmowaoprace26.getRazemspolecznepracownik())));
             poz.setP78(BigDecimal.valueOf(Z.z(sumaUmowaoprace26.getPraczdrowotnedopotracenia())));
             poz.setP93(BigDecimal.valueOf(Z.z(sumaUmowaoprace26.getBrutto())));
             poz.setP92(BigDecimal.valueOf(Z.z(sumaUmowaoprace26.getBrutto())));
+            poz.setP96((byte)2);
         }
         return poz;
     }
