@@ -83,7 +83,7 @@ public class PasekwynagrodzenView  implements Serializable {
     public void init() {
         lista = new ArrayList<>();
         if (wpisView.getUmowa()!=null){
-            if (wpisView.getUmowa().getUmowakodzus().isPraca()) {
+            if (wpisView.getUmowa().getUmowakodzus()!=null&&wpisView.getUmowa().getUmowakodzus().isPraca()) {
                 rodzajumowy = "1";
             } else {
                 rodzajumowy = "2";

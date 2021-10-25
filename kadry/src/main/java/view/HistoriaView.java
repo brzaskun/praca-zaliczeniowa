@@ -71,9 +71,11 @@ public class HistoriaView  implements Serializable {
         osoby = osobaFacade.findByFirmaSerial(selectedfirma.getFirSerial());
         for (Osoba o : osoby) {
             for (Angaz a : listapracownikow) {
-                if (o.getOsoPesel().equals(a.getPracownik().getPesel())) {
-                    o.setOsoDodVchar3("tak");
-                    break;
+                if (a.getSerialsp()!=null) {
+                    if (o.getOsoSerial().equals(Integer.parseInt(a.getSerialsp()))) {
+                        o.setOsoDodVchar3("tak");
+                        break;
+                    }
                 }
             }
         }

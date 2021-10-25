@@ -42,18 +42,6 @@ import javax.xml.bind.annotation.XmlTransient;
 
 public class Angaz implements Serializable {
 
-    @Column(name = "ciagloscchorobowe")
-    private Boolean ciagloscchorobowe;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "angaz")
-    private List<Kartawynagrodzen> kartawynagrodzenList;
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "angaz")
-    private List<Wynagrodzeniahistoryczne> wynagrodzeniahistoryczneList;
-
-    @OneToMany(mappedBy = "angaz")
-    private List<Memory> memoryList;
-
-  
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -74,6 +62,14 @@ public class Angaz implements Serializable {
     private Integer rodzajwynagrodzenia;
     @Column(name = "serialsp")
     private String serialsp;
+    @Column(name = "ciagloscchorobowe")
+    private Boolean ciagloscchorobowe;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "angaz")
+    private List<Kartawynagrodzen> kartawynagrodzenList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "angaz")
+    private List<Wynagrodzeniahistoryczne> wynagrodzeniahistoryczneList;
+    @OneToMany(mappedBy = "angaz")
+    private List<Memory> memoryList;
 
 
     public Angaz() {
@@ -139,8 +135,10 @@ public class Angaz implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Angaz[ id=" + id + " ]";
+        return "Angaz{, firma=" + firma.getNazwa() + ", pracownik=" + pracownik.getNazwiskoImie() + ", rodzajwynagrodzenia=" + rodzajwynagrodzenia + ", serialsp=" + serialsp + '}';
     }
+
+   
 
     public Integer getRodzajwynagrodzenia() {
         return rodzajwynagrodzenia;

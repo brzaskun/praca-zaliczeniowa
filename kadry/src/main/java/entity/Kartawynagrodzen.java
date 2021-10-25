@@ -480,7 +480,7 @@ public class Kartawynagrodzen implements Serializable {
 
 
     public void dodaj(Pasekwynagrodzen pasek) {
-        this.bruttobezzus += pasek.getBruttobezzus();
+            this.bruttobezzus += pasek.getBruttobezzus();
         this.bruttozus += pasek.getBruttozus();
         this.fgsp += pasek.getFgsp();
         this.fp += pasek.getFp();

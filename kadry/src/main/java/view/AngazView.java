@@ -167,12 +167,12 @@ public class AngazView  implements Serializable {
         }
     }
     
-     public void usun(Angaz angaz) {
-        if (angaz!=null) {
-            if (wpisView.getAngaz()!=null && wpisView.getAngaz().equals(angaz)) {
+    public void usun(Angaz angaz) {
+        if (angaz != null) {
+            if (wpisView.getAngaz() != null && wpisView.getAngaz().equals(angaz)) {
                 wpisView.setAngaz(null);
                 wpisView.setUmowa(null);
-                wpisView.memorize();
+                wpisView.setPracownik(null);
             }
             Pracownik prac = angaz.getPracownik();
             angazFacade.remove(angaz);
@@ -182,9 +182,33 @@ public class AngazView  implements Serializable {
             try {
                 Uz uzer = uzFacade.findUzByLogin(prac.getEmail());
                 uzFacade.remove(uzer);
-            } catch (Exception ex){}
+            } catch (Exception ex) {
+            }
+            List<Angaz> angazList = angazFacade.findByFirma(wpisView.getFirma());
+            if (angazList != null && angazList.size() > 0) {
+                Angaz angaza = angazList.get(0);
+                wpisView.setAngaz(angaza);
+                List<Umowa> umowy = angaza.getUmowaList();
+                if (umowy != null && !umowy.isEmpty()) {
+                    Umowa umowaaktywna = null;
+                    Optional badanie = umowy.stream().filter(p -> p.isAktywna()).findFirst();
+                    if (badanie.isPresent()) {
+                        umowaaktywna = (Umowa) badanie.get();
+                    }
+                    if (umowaaktywna == null) {
+                        Collections.sort(umowy, new Umowacomparator());
+                        umowaaktywna = umowy.get(0);
+                        umowaaktywna.setAktywna(true);
+                        umowaFacade.edit(umowaaktywna);
+                    }
+                    wpisView.setUmowa(umowaaktywna);
+                    wpisView.setPracownik(angaza.getPracownik());
+                }
+                wpisView.memorize();
+                Msg.msg("Pobrano kolejny angaż");
+            }
         } else {
-            Msg.msg("e","Nie wybrano angażu");
+            Msg.msg("e", "Nie wybrano angażu");
         }
     }
     

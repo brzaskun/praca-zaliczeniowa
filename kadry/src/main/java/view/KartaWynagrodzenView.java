@@ -430,6 +430,14 @@ public class KartaWynagrodzenView  implements Serializable {
             poz.setP92(BigDecimal.valueOf(Z.z(sumaUmowaoprace26.getBrutto())));
             poz.setP96((byte)2);
         }
+        if (sumaUmowazlecenia26.getBrutto()>0.0) {
+            poz.setP28(null);
+            poz.setP75(BigDecimal.valueOf(Z.z(sumaUmowazlecenia26.getRazemspolecznepracownik())));
+            poz.setP78(BigDecimal.valueOf(Z.z(sumaUmowazlecenia26.getPraczdrowotnedopotracenia())));
+            poz.setP94(BigDecimal.valueOf(Z.z(sumaUmowazlecenia26.getBrutto())));
+            poz.setP92(BigDecimal.valueOf(Z.z(sumaUmowazlecenia26.getBrutto())));
+            poz.setP96((byte)2);
+        }
         return poz;
     }
 

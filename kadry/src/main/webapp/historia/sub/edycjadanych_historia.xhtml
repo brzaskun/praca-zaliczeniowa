@@ -47,6 +47,7 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                                  rowKey="#{osobylistdata.osoSerial}" emptyMessage="brak osób w firmie"
                                  selection="#{historiaView.selectedosoba}" selectionMode="single"
                                  style="height: 200px;overflow-y: scroll; width: 950px; " sortBy="#{osobylistdata.osoNazwisko}"
+                                
                                  >
                         <p:ajax event="rowSelect" partialSubmit="true" listener="#{historiaView.pobierzinfo()}"/>
                         <p:column width="50" style="text-align: center;">
@@ -114,7 +115,7 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                     <p:inputText value="#{osobaView.serial}"></p:inputText>
                     <h:outputText value="Program pobiera dane za rok 2020 i 2021. Bieżący rok i mc w programie nie ma znaczenia." style="color: darkorchid;margin-left: 30px;"/>
                 </p:panelGrid>
-                <p:commandButton style="width: 120px" value="pobierz dane" actionListener="#{osobaView.rob()}" styleClass="buttonnorm"/>
+                <p:commandButton style="width: 120px" value="pobierz dane" actionListener="#{osobaView.rob(historiaView.osoby)}" styleClass="buttonnorm" update="SuperFormFirma2"/>
             </h:form>
         </p:outputPanel>
 
@@ -132,7 +133,7 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                     <p:dataTable id="datalist" value="#{historiaView.listawynagrodzenhistoria}" var="item1"
                                  selectionMode="single" selection="#{historiaView.selectedlista}"
                                  rowIndexVar="index"
-                                 rowKey="index" 
+                                 rowKey="index" emptyMessage="Nic nie wprowadzono dla danego pracownika"
                                  style="height: 400px; overflow-y: scroll; width: 1200px;"
                                  >
 
