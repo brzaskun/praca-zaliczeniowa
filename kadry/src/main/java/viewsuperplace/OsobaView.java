@@ -57,6 +57,7 @@ import kadryiplace.OsobaZlec;
 import kadryiplace.Rok;
 import kadryiplace.WynKodTyt;
 import msg.Msg;
+import view.HistoriaView;
 import view.WpisView;
 
 /**
@@ -72,6 +73,8 @@ public class OsobaView implements Serializable {
     private OsobaFacade osobaFacade;
     @Inject
     private WpisView wpisView;
+    @Inject
+    private HistoriaView historiaView;
     @Inject
     private SlownikszkolazatrhistoriaFacade slownikszkolazatrhistoriaFacade;
     @Inject
@@ -109,11 +112,12 @@ public class OsobaView implements Serializable {
 
     private String serial;
 
-    public void rob(List<Osoba> osoby) {
+    public void rob() {
         //List<Osoba> podatnicy = osobaFacade.findAll();
         //Osoba osoba = osobaFacade.findByPesel("83020610048");
 //        Osoba osoba = osobaFacade.findBySerial("1609");
         if (serial != null) {
+            List<Osoba> osoby = historiaView.getOsoby();
             if (osobajuzpobrana(serial, osoby)) {
                 Msg.msg("e","Ten pracownik został już pobrany");
             } else {
@@ -287,22 +291,25 @@ public class OsobaView implements Serializable {
                     //        }
                     Msg.msg("Pracownik pobrany");
                 }
+                System.out.println("funkcja sprawdzanie sob ");
+                List<Angaz> listapracownikow = angazFacade.findByFirma(wpisView.getFirma());
                 for (Osoba o : osoby) {
-                    List<Angaz> listapracownikow = angazFacade.findByFirma(wpisView.getFirma());
                     for (Angaz a : listapracownikow) {
                         if (a.getSerialsp()!=null) {
                             if (o.getOsoSerial().equals(Integer.parseInt(a.getSerialsp()))) {
                                 o.setOsoDodVchar3("tak");
+                                System.out.println("osoba "+a.getSerialsp());
                                 break;
                             }
                         }
                     }
                 }
+                System.out.println("funkcja sprawdzanie sob koniec");
                 System.out.println("koniec");
             }
         } else {
             Msg.msg("e", "Brak numeru serial");
-            System.out.println("koniec");
+            System.out.println("koniec rob() brak serialu");
         }
     }
 

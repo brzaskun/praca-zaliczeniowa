@@ -115,7 +115,7 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                     <p:inputText value="#{osobaView.serial}"></p:inputText>
                     <h:outputText value="Program pobiera dane za rok 2020 i 2021. Bieżący rok i mc w programie nie ma znaczenia." style="color: darkorchid;margin-left: 30px;"/>
                 </p:panelGrid>
-                <p:commandButton style="width: 120px" value="pobierz dane" actionListener="#{osobaView.rob(historiaView.osoby)}" styleClass="buttonnorm" update="SuperFormFirma2"/>
+                <p:commandButton style="width: 120px" value="pobierz dane" actionListener="#{osobaView.rob()}" styleClass="buttonnorm" update="SuperFormFirma2"/>
             </h:form>
         </p:outputPanel>
 

@@ -47,6 +47,7 @@ public class HistoriaView  implements Serializable {
     @Inject
     private UmowaFacade umowaFacade;
     private Angaz selectedangaz;
+  
     @Inject
     private WpisView wpisView;
     private List<Firma> firmy;
