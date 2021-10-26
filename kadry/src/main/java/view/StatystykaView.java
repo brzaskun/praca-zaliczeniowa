@@ -83,7 +83,7 @@ public class StatystykaView implements Serializable {
                 // create an event with content, start / end dates, editable flag, group name and custom style class
                 String opis = nieobecnosc.getKodzwolnienia()!=null?nieobecnosc.getKodzwolnienia():"";
                 String data = nieobecnosc.getOpis()+" "+opis;
-                String stylklasa = nieobecnosc.getKodzwolnienia().equals("U")?"available":"maybe";
+                String stylklasa = nieobecnosc.getKodzwolnienia()!=null&&nieobecnosc.getKodzwolnienia().equals("U")?"available":"maybe";
                 TimelineEvent event = TimelineEvent.builder()
                         .data(data)
                         .startDate(start)

@@ -118,170 +118,170 @@
                     </p:panelGrid>
                     <p:tabView>
                         <p:tab title="Składniki wynagrodzenia">
-                        <p:panelGrid columns="1" rendered="#{pasekwynagrodzenView.wybranykalendarz.pasekwynagrodzenList ne null}" style="margin-bottom: 10px;">
-                            <p:dataTable id="datalist" value="#{pasekwynagrodzenView.listawynagrodzenpracownika}" var="itempasekwyn"
-                                         rowIndexVar="indexpasekszcz" emptyMessage="Nie ma danych" rowKey="#{itempasekwyn.id}"
-                                         style="height: 300px; overflow-y: scroll;width: 1550px;"
-                                         >
-                                <p:column style="text-align: center;" headerText="lp" width="40">
-                                    <h:outputText value="#{indexpasekszcz+1}"/>
-                                </p:column>
-                                <p:column headerText="kod" width="40" sortBy="#{itempasekwyn.skladnikwynagrodzenia.rodzajwynagrodzenia.kod}" sortOrder="asc" sortPriority="0">
-                                    <h:outputText value="#{itempasekwyn.skladnikwynagrodzenia.rodzajwynagrodzenia.kod}"/>
-                                </p:column>
-                                <p:column headerText="składnik" width="300">
-                                    <h:outputText value="#{itempasekwyn.skladnikwynagrodzenia.rodzajwynagrodzenia.opisskrocony}"/>
-                                </p:column>
-                                <p:column headerText="stały" width="40" style="text-align: center;">
-                                    <h:outputText value="&#x2714;"  rendered="#{itempasekwyn.skladnikwynagrodzenia.rodzajwynagrodzenia.stale0zmienne1 eq false}"  style="color: green;font-weight: 900;"/> 
-                                </p:column>
-                                <p:column headerText="data od" width="60" sortBy="#{itempasekwyn.dataod}" sortOrder="asc" sortPriority="1">
-                                    <h:outputText value="#{itempasekwyn.dataod}"/>
-                                </p:column>
-                                <p:column headerText="data do" width="60">
-                                    <h:outputText value="#{itempasekwyn.datado}"/>
-                                </p:column>
-                                <p:column headerText="dnia faktyczne" width="40" style="text-align: center;">
-                                    <h:outputText value="#{itempasekwyn.dnifaktyczne}"/>
-                                </p:column>
-                                <p:column headerText="dni należne" width="40" style="text-align: center;">
-                                    <h:outputText value="#{itempasekwyn.dninalezne}"/>
-                                </p:column>
-                                <p:column headerText="godziny faktyczne" width="40" style="text-align: center;">
-                                    <h:outputText value="#{itempasekwyn.godzinyfaktyczne}"/>
-                                </p:column>
-                                <p:column headerText="godziny należne" width="40" style="text-align: center;">
-                                    <h:outputText value="#{itempasekwyn.godzinynalezne}"/>
-                                </p:column>
-                                <p:column headerText="stawka dzienna" width="40">
-                                    <bcf:outputpl value="#{itempasekwyn.stawkadzienna}"/>
-                                </p:column>
-                                <p:column headerText="kwota do listy płac" width="60">
-                                    <bcf:outputpl value="#{itempasekwyn.kwotadolistyplac}"/>
-                                </p:column>
-                                <p:column headerText="kwota redukcji" width="60">
-                                    <bcf:outputpl value="#{itempasekwyn.kwotyredukujacesuma}"/>
-                                </p:column>
-                                <p:column headerText="kwota umowna" width="60">
-                                    <bcf:outputpl value="#{itempasekwyn.kwotaumownazacalymc}"/>
-                                </p:column>
-                            </p:dataTable>
-                        </p:panelGrid>
+                            <p:panelGrid columns="1" rendered="#{pasekwynagrodzenView.wybranykalendarz.pasekwynagrodzenList ne null}" style="margin-bottom: 10px;">
+                                <p:dataTable id="datalist" value="#{pasekwynagrodzenView.listawynagrodzenpracownika}" var="itempasekwyn"
+                                             rowIndexVar="indexpasekszcz" emptyMessage="Nie ma danych" rowKey="#{itempasekwyn.id}" sortBy="#{itempasekwyn.skladnikwynagrodzenia.rodzajwynagrodzenia.kod}"
+                                             style="height: 300px; overflow-y: scroll;width: 1550px;"
+                                             >
+                                    <p:column style="text-align: center;" headerText="lp" width="40">
+                                        <h:outputText value="#{indexpasekszcz+1}"/>
+                                    </p:column>
+                                    <p:column headerText="kod" width="40" sortBy="#{itempasekwyn.skladnikwynagrodzenia.rodzajwynagrodzenia.kod}" sortOrder="asc" sortPriority="0">
+                                        <h:outputText value="#{itempasekwyn.skladnikwynagrodzenia.rodzajwynagrodzenia.kod}"/>
+                                    </p:column>
+                                    <p:column headerText="składnik" width="300">
+                                        <h:outputText value="#{itempasekwyn.skladnikwynagrodzenia.rodzajwynagrodzenia.opisskrocony}"/>
+                                    </p:column>
+                                    <p:column headerText="stały" width="40" style="text-align: center;">
+                                        <h:outputText value="&#x2714;"  rendered="#{itempasekwyn.skladnikwynagrodzenia.rodzajwynagrodzenia.stale0zmienne1 eq false}"  style="color: green;font-weight: 900;"/> 
+                                    </p:column>
+                                    <p:column headerText="data od" width="60" sortBy="#{itempasekwyn.dataod}" sortOrder="asc" sortPriority="1">
+                                        <h:outputText value="#{itempasekwyn.dataod}"/>
+                                    </p:column>
+                                    <p:column headerText="data do" width="60">
+                                        <h:outputText value="#{itempasekwyn.datado}"/>
+                                    </p:column>
+                                    <p:column headerText="dnia faktyczne" width="40" style="text-align: center;">
+                                        <h:outputText value="#{itempasekwyn.dnifaktyczne}"/>
+                                    </p:column>
+                                    <p:column headerText="dni należne" width="40" style="text-align: center;">
+                                        <h:outputText value="#{itempasekwyn.dninalezne}"/>
+                                    </p:column>
+                                    <p:column headerText="godziny faktyczne" width="40" style="text-align: center;">
+                                        <h:outputText value="#{itempasekwyn.godzinyfaktyczne}"/>
+                                    </p:column>
+                                    <p:column headerText="godziny należne" width="40" style="text-align: center;">
+                                        <h:outputText value="#{itempasekwyn.godzinynalezne}"/>
+                                    </p:column>
+                                    <p:column headerText="stawka dzienna" width="40">
+                                        <bcf:outputpl value="#{itempasekwyn.stawkadzienna}"/>
+                                    </p:column>
+                                    <p:column headerText="kwota do listy płac" width="60">
+                                        <bcf:outputpl value="#{itempasekwyn.kwotadolistyplac}"/>
+                                    </p:column>
+                                    <p:column headerText="kwota redukcji" width="60">
+                                        <bcf:outputpl value="#{itempasekwyn.kwotyredukujacesuma}"/>
+                                    </p:column>
+                                    <p:column headerText="kwota umowna" width="60">
+                                        <bcf:outputpl value="#{itempasekwyn.kwotaumownazacalymc}"/>
+                                    </p:column>
+                                </p:dataTable>
+                            </p:panelGrid>
                         </p:tab>
                         <p:tab title="Składniki nieobecności">
-                        <p:panelGrid columns="1" rendered="#{pasekwynagrodzenView.wybranykalendarz.pasekwynagrodzenList ne null}">
-                            <p:dataTable id="datalist2" value="#{pasekwynagrodzenView.listanieobecnoscipracownika}" var="itempasekpotr"
-                                         rowIndexVar="indexpasekszcz2" emptyMessage="Nie ma danych"  rowKey="#{itempasekpotr.id}"
-                                         style="height: 400px; overflow-y: scroll;width: 1550px;" 
-                                         >
-                                <p:column width="20" style="text-align: center;">
-                                    <p:rowToggler rendered="#{itempasekpotr.sredniadlanieobecnosciList.size() gt 0}"/>
-                                </p:column>
-                                <p:column style="text-align: center;" headerText="lp" width="40">
-                                    <h:outputText value="#{indexpasekszcz2+1}"/>
-                                </p:column>
-                                <p:column headerText="kod" width="40" sortBy="#{itempasekpotr.nieobecnosc.nieobecnosckodzus.kod}" sortPriority="0" sortOrder="asc">
-                                    <h:outputText value="#{itempasekpotr.nieobecnosc.nieobecnosckodzus.kod}"/>
-                                </p:column>
-                                <p:column headerText="składnik" width="300" >
-                                    <h:outputText value="#{itempasekpotr.nieobecnosc.nieobecnosckodzus.opisskrocony}"/>
-                                    <h:outputText value="/"/>
-                                    <h:outputText value="#{itempasekpotr.skladnikwynagrodzenia.rodzajwynagrodzenia.opisskrocony}"/>
-                                </p:column>
-                                <p:column headerText="data od" width="60" sortBy="#{itempasekpotr.nieobecnosc.dataod}" sortOrder="asc" sortPriority="1">
-                                    <h:outputText value="#{itempasekpotr.nieobecnosc.dataod}"/>
-                                </p:column>
-                                <p:column headerText="data do" width="60">
-                                    <h:outputText value="#{itempasekpotr.nieobecnosc.datado}"/>
-                                </p:column>
-                                <p:column headerText="dnia kalen." width="40" style="text-align: center;">
-                                    <h:outputText value="#{itempasekpotr.nieobecnosc.dnikalendarzowe}"/>
-                                </p:column>
-                                <p:column headerText="dni robocze" width="40" style="text-align: center;">
-                                    <h:outputText value="#{itempasekpotr.nieobecnosc.dniroboczenieobecnosci}"/>
-                                </p:column>
-                                <p:column headerText="godziny urlopu" width="40" style="text-align: center;">
-                                    <h:outputText value="#{itempasekpotr.liczbagodzinurlopu}"/>
-                                </p:column>
-                                <p:column headerText="godziny robocze" width="40" style="text-align: center;">
-                                    <h:outputText value="#{itempasekpotr.liczbagodzinobowiazku}"/>
-                                </p:column>
-                                <p:column headerText="suma kwot do śr." width="40">
-                                    <bcf:outputpl value="#{itempasekpotr.sumakwotdosredniej}"/>
-                                </p:column>
-                                <p:column headerText="suma godz. do śr." width="40" style="text-align: right;">
-                                    <h:outputText value="#{itempasekpotr.sumagodzindosredniej}"/>
-                                </p:column>
-                                <p:column headerText="średnia" width="40">
-                                    <bcf:outputpl value="#{itempasekpotr.skladnikistale}"/>
-                                </p:column>
-                                <p:column headerText="stawka dzienna" width="40">
-                                    <bcf:outputpl value="#{itempasekpotr.stawkadzienna}"/>
-                                </p:column>
-                                <p:column headerText="stawka godzin." width="40">
-                                    <bcf:outputpl value="#{itempasekpotr.stawkagodzinowa}"/>
-                                </p:column>
-                                <p:column headerText="kwota do listy płac" width="60">
-                                    <bcf:outputpl value="#{itempasekpotr.kwota}"/>
-                                </p:column>
-                                <p:column headerText="kwota redukcji" width="60">
-                                    <bcf:outputpl value="#{itempasekpotr.kwotaredukcji}"/>
-                                </p:column>
-                                <p:column headerText="kwota statystyczna" width="60">
-                                    <bcf:outputpl value="#{itempasekpotr.kwotastatystyczna}"/>
-                                </p:column>
-                                <p:rowExpansion>
-                                    <p:dataTable id="datalistsrednia" value="#{itempasekpotr.sredniadlanieobecnosciList}" var="itempaseksrednia"
-                                                 rowIndexVar="itempaseksredniaid" rowKey="#{itempaseksrednia.id}"  sortBy="#{itempaseksrednia.mc}"
-                                                 style="height: 200px; overflow-y: scroll;width: 950px;"
-                                                 >
-                                        <p:column style="text-align: center;" headerText="lp" width="40">
-                                            <h:outputText value="#{itempaseksredniaid+1}"/>
-                                        </p:column>
-                                        <p:column headerText="rok" width="40" style="text-align: center;" sortBy="#{itempaseksrednia.rok}"  sortOrder="asc" sortPriority="0">
-                                            <h:outputText value="#{itempaseksrednia.rok}"/>
-                                        </p:column>
-                                        <p:column headerText="mc" width="40" style="text-align: center;" sortBy="#{itempaseksrednia.mc}" sortOrder="asc" sortPriority="1">
-                                            <h:outputText value="#{itempaseksrednia.mc}"/>
-                                        </p:column>
-                                        <p:column headerText="dni">
-                                            <h:outputText value="#{itempaseksrednia.dninalezne}"/>
-                                            <h:outputText value="/"/>
-                                            <h:outputText value="#{itempaseksrednia.dnifaktyczne}"/>
-                                        </p:column>
-                                        <p:column headerText="godziny">
-                                            <h:outputText value="#{itempaseksrednia.godzinynalezne}"/>
-                                            <h:outputText value="/"/>
-                                            <h:outputText value="#{itempaseksrednia.godzinyfaktyczne}"/>
-                                        </p:column>
-                                        <p:column headerText="pomin." width="50" style="text-align: center;">
-                                            <h:outputText value="&#x2714;"  rendered="#{itempaseksrednia.pominiete}" styleClass="ww"/>
-                                        </p:column>
-                                        <p:column headerText="waloryz." width="50" style="text-align: center;">
-                                            <h:outputText value="&#x2714;"  rendered="#{itempaseksrednia.waloryzowane}" styleClass="ww"/>
-                                        </p:column>
-                                        <p:column headerText="stałe" width="50" style="text-align: center;">
-                                            <h:outputText value="&#x2714;"  rendered="#{itempaseksrednia.skladnikstaly}" styleClass="ww"/>
-                                        </p:column>
-                                        <p:column headerText="kwota" width="80">
-                                            <bcf:outputpl value="#{itempaseksrednia.kwotawyplacona}"/>
-                                        </p:column>
-                                        <p:column headerText="stawka godzin." width="40">
-                                            <bcf:outputpl value="#{itempaseksrednia.stawkagodzinowa}"/>
-                                        </p:column>
-                                        <p:column headerText="kwota zwaloryz." width="50">
-                                            <bcf:outputpl value="#{itempaseksrednia.kwotazwaloryzowana}"/>
-                                        </p:column>
-                                        <p:column headerText="godzina zwaloryz." width="50">
-                                            <bcf:outputpl value="#{itempaseksrednia.godzinazwaloryzowana}"/>
-                                        </p:column>
-                                        <p:column headerText="podst. pop. choroba" width="60">
-                                            <bcf:outputpl value="#{itempaseksrednia.podstawapoprzedniachoroba}"/>
-                                        </p:column>
-                                    </p:dataTable>
-                                </p:rowExpansion>
-                            </p:dataTable>
-                        </p:panelGrid>
+                            <p:panelGrid columns="1" rendered="#{pasekwynagrodzenView.wybranykalendarz.pasekwynagrodzenList ne null}">
+                                <p:dataTable id="datalist2" value="#{pasekwynagrodzenView.listanieobecnoscipracownika}" var="itempasekpotr"
+                                             rowIndexVar="indexpasekszcz2" emptyMessage="Nie ma danych"  rowKey="#{itempasekpotr.id}"
+                                             style="height: 400px; overflow-y: scroll;width: 1550px;" 
+                                             >
+                                    <p:column width="20" style="text-align: center;">
+                                        <p:rowToggler rendered="#{itempasekpotr.sredniadlanieobecnosciList.size() gt 0}"/>
+                                    </p:column>
+                                    <p:column style="text-align: center;" headerText="lp" width="40">
+                                        <h:outputText value="#{indexpasekszcz2+1}"/>
+                                    </p:column>
+                                    <p:column headerText="kod" width="40" sortBy="#{itempasekpotr.nieobecnosc.nieobecnosckodzus.kod}" sortPriority="0" sortOrder="asc">
+                                        <h:outputText value="#{itempasekpotr.nieobecnosc.nieobecnosckodzus.kod}"/>
+                                    </p:column>
+                                    <p:column headerText="składnik" width="300" >
+                                        <h:outputText value="#{itempasekpotr.nieobecnosc.nieobecnosckodzus.opisskrocony}"/>
+                                        <h:outputText value="/"/>
+                                        <h:outputText value="#{itempasekpotr.skladnikwynagrodzenia.rodzajwynagrodzenia.opisskrocony}"/>
+                                    </p:column>
+                                    <p:column headerText="data od" width="60" sortBy="#{itempasekpotr.nieobecnosc.dataod}" sortOrder="asc" sortPriority="1">
+                                        <h:outputText value="#{itempasekpotr.nieobecnosc.dataod}"/>
+                                    </p:column>
+                                    <p:column headerText="data do" width="60">
+                                        <h:outputText value="#{itempasekpotr.nieobecnosc.datado}"/>
+                                    </p:column>
+                                    <p:column headerText="dnia kalen." width="40" style="text-align: center;">
+                                        <h:outputText value="#{itempasekpotr.nieobecnosc.dnikalendarzowe}"/>
+                                    </p:column>
+                                    <p:column headerText="dni robocze" width="40" style="text-align: center;">
+                                        <h:outputText value="#{itempasekpotr.nieobecnosc.dniroboczenieobecnosci}"/>
+                                    </p:column>
+                                    <p:column headerText="godziny urlopu" width="40" style="text-align: center;">
+                                        <h:outputText value="#{itempasekpotr.liczbagodzinurlopu}"/>
+                                    </p:column>
+                                    <p:column headerText="godziny robocze" width="40" style="text-align: center;">
+                                        <h:outputText value="#{itempasekpotr.liczbagodzinobowiazku}"/>
+                                    </p:column>
+                                    <p:column headerText="suma kwot do śr." width="40">
+                                        <bcf:outputpl value="#{itempasekpotr.sumakwotdosredniej}"/>
+                                    </p:column>
+                                    <p:column headerText="suma godz. do śr." width="40" style="text-align: right;">
+                                        <h:outputText value="#{itempasekpotr.sumagodzindosredniej}"/>
+                                    </p:column>
+                                    <p:column headerText="średnia" width="40">
+                                        <bcf:outputpl value="#{itempasekpotr.skladnikistale}"/>
+                                    </p:column>
+                                    <p:column headerText="stawka dzienna" width="40">
+                                        <bcf:outputpl value="#{itempasekpotr.stawkadzienna}"/>
+                                    </p:column>
+                                    <p:column headerText="stawka godzin." width="40">
+                                        <bcf:outputpl value="#{itempasekpotr.stawkagodzinowa}"/>
+                                    </p:column>
+                                    <p:column headerText="kwota do listy płac" width="60">
+                                        <bcf:outputpl value="#{itempasekpotr.kwota}"/>
+                                    </p:column>
+                                    <p:column headerText="kwota redukcji" width="60">
+                                        <bcf:outputpl value="#{itempasekpotr.kwotaredukcji}"/>
+                                    </p:column>
+                                    <p:column headerText="kwota statystyczna" width="60">
+                                        <bcf:outputpl value="#{itempasekpotr.kwotastatystyczna}"/>
+                                    </p:column>
+                                    <p:rowExpansion>
+                                        <p:dataTable id="datalistsrednia" value="#{itempasekpotr.sredniadlanieobecnosciList}" var="itempaseksrednia"
+                                                     rowIndexVar="itempaseksredniaid" rowKey="#{itempaseksrednia.id}"
+                                                     style="height: 200px; overflow-y: scroll;width: 950px;"
+                                                     >
+                                            <p:column style="text-align: center;" headerText="lp" width="40">
+                                                <h:outputText value="#{itempaseksredniaid+1}qqq"/>
+                                            </p:column>
+                                            <p:column headerText="rok" width="40" style="text-align: center;"  sortBy="#{itempaseksrednia.rok}" sortOrder="desc" sortPriority="0">
+                                                <h:outputText value="#{itempaseksrednia.rok}"/>
+                                            </p:column>
+                                            <p:column headerText="mc" width="40" style="text-align: center;" sortBy="#{itempaseksrednia.mc}" sortOrder="desc" sortPriority="1">
+                                                <h:outputText value="#{itempaseksrednia.mc}"/>
+                                            </p:column>
+                                            <p:column headerText="dni">
+                                                <h:outputText value="#{itempaseksrednia.dninalezne}"/>
+                                                <h:outputText value="/"/>
+                                                <h:outputText value="#{itempaseksrednia.dnifaktyczne}"/>
+                                            </p:column>
+                                            <p:column headerText="godziny">
+                                                <h:outputText value="#{itempaseksrednia.godzinynalezne}"/>
+                                                <h:outputText value="/"/>
+                                                <h:outputText value="#{itempaseksrednia.godzinyfaktyczne}"/>
+                                            </p:column>
+                                            <p:column headerText="pomin." width="50" style="text-align: center;">
+                                                <h:outputText value="&#x2714;"  rendered="#{itempaseksrednia.pominiete}" styleClass="ww"/>
+                                            </p:column>
+                                            <p:column headerText="waloryz." width="50" style="text-align: center;">
+                                                <h:outputText value="&#x2714;"  rendered="#{itempaseksrednia.waloryzowane}" styleClass="ww"/>
+                                            </p:column>
+                                            <p:column headerText="stałe" width="50" style="text-align: center;">
+                                                <h:outputText value="&#x2714;"  rendered="#{itempaseksrednia.skladnikstaly}" styleClass="ww"/>
+                                            </p:column>
+                                            <p:column headerText="kwota" width="80">
+                                                <bcf:outputpl value="#{itempaseksrednia.kwotawyplacona}"/>
+                                            </p:column>
+                                            <p:column headerText="stawka godzin." width="40">
+                                                <bcf:outputpl value="#{itempaseksrednia.stawkagodzinowa}"/>
+                                            </p:column>
+                                            <p:column headerText="kwota zwaloryz." width="50">
+                                                <bcf:outputpl value="#{itempaseksrednia.kwotazwaloryzowana}"/>
+                                            </p:column>
+                                            <p:column headerText="godzina zwaloryz." width="50">
+                                                <bcf:outputpl value="#{itempaseksrednia.godzinazwaloryzowana}"/>
+                                            </p:column>
+                                            <p:column headerText="podst. pop. choroba" width="60">
+                                                <bcf:outputpl value="#{itempaseksrednia.podstawapoprzedniachoroba}"/>
+                                            </p:column>
+                                        </p:dataTable>
+                                    </p:rowExpansion>
+                                </p:dataTable>
+                            </p:panelGrid>
                         </p:tab>
                     </p:tabView>
                 </p:panel>

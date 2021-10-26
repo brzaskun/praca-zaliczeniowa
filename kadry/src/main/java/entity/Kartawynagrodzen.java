@@ -6,6 +6,7 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.Map;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,6 +18,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -139,6 +141,10 @@ public class Kartawynagrodzen implements Serializable {
     private boolean kosztypodwyzszone;
     @Column(name = "kosztywieleumow")
     private boolean kosztywieleumow;
+    @Transient
+    private String nazwiskoiimie;
+    @Transient
+    private Map<String,Kartawynagrodzen> sumy;
     
     public Kartawynagrodzen() {
         this.nrlisty = "";
@@ -416,6 +422,22 @@ public class Kartawynagrodzen implements Serializable {
 
     public void setKosztywieleumow(boolean kosztywieleumow) {
         this.kosztywieleumow = kosztywieleumow;
+    }
+
+    public String getNazwiskoiimie() {
+        return nazwiskoiimie;
+    }
+
+    public void setNazwiskoiimie(String nazwiskoiimie) {
+        this.nazwiskoiimie = nazwiskoiimie;
+    }
+
+    public Map<String, Kartawynagrodzen> getSumy() {
+        return sumy;
+    }
+
+    public void setSumy(Map<String, Kartawynagrodzen> sumy) {
+        this.sumy = sumy;
     }
     
     

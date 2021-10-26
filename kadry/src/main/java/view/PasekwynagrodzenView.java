@@ -8,6 +8,7 @@ package view;
 import beanstesty.PasekwynagrodzenBean;
 import comparator.Defnicjalistaplaccomparator;
 import comparator.Kalendarzmiesiaccomparator;
+import comparator.Sredniadlanieobecnoscicomparator;
 import dao.DefinicjalistaplacFacade;
 import dao.KalendarzmiesiacFacade;
 import dao.NieobecnosckodzusFacade;
@@ -298,6 +299,9 @@ public class PasekwynagrodzenView  implements Serializable {
         if (wybranykalendarz!=null) {
             listawynagrodzenpracownika = wybranykalendarz.skladnikiwynagrodzenialista();
             listanieobecnoscipracownika = wybranykalendarz.skladnikinieobecnosclista();
+            for (Naliczenienieobecnosc p : listanieobecnoscipracownika) {
+                Collections.sort(p.getSredniadlanieobecnosciList(), new Sredniadlanieobecnoscicomparator());
+            }
             Msg.msg("Pobrano pracownika");
         }
     }

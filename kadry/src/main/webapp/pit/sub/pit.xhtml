@@ -1,0 +1,115 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:bcf="http://brzaskun.com/facelets"
+    >
+    <p:outputPanel>
+
+        <p:outputPanel style="margin: 10px;">
+            <h:form id="KartyWynangrodzenPITForm">
+                <p:dataTable id="datalist" value="#{pITView.sumypracownicy}" var="itemkarta"
+                             rowKey="#{itemkarta.id}" rowIndexVar="indexka"
+                             style="height: 450px; overflow-y: scroll;width: 1300px;" emptyMessage="Nie pobrano danych"
+                             sortBy="#{itemkarta.nazwiskoiimie}"
+                             >
+                    <f:facet name="header">
+                        <h:outputText value="Zestawienie pracowników za rok #{wpisView.rokWpisu}"/>
+                    </f:facet>
+                    <p:column width="20" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="id"/>
+                        </f:facet>
+                        <h:outputText value="#{indexka+1}"/>
+                    </p:column>
+                    <p:column width="100" style="text-align: left;" sortBy="#{itemkarta.nazwiskoiimie}" sortOrder="asc">
+                        <f:facet name="header">
+                            <h:outputText value="mc"/>
+                        </f:facet>
+                        <h:outputText value="#{itemkarta.nazwiskoiimie}" />
+                    </p:column>
+                    <p:column width="60">
+                        <f:facet name="header">
+                            <h:outputText value="składki pracod."/>
+                        </f:facet>
+                        <bcf:outputpl value="#{itemkarta.kosztpracodawcy}"/>
+                    </p:column>
+                    <p:column width="60">
+                        <f:facet name="header">
+                            <h:outputText value="brutto"/>
+                        </f:facet>
+                        <bcf:outputpl value="#{itemkarta.brutto}"/>
+                    </p:column>
+                    <p:column width="60">
+                        <f:facet name="header">
+                            <h:outputText value="wyn. z zus"/>
+                        </f:facet>
+                        <bcf:outputpl value="#{itemkarta.bruttozus}"/>
+                    </p:column>
+                    <p:column width="60">
+                        <f:facet name="header">
+                            <h:outputText value="wyn. bez zus"/>
+                        </f:facet>
+                        <bcf:outputpl value="#{itemkarta.bruttobezzus}"/>
+                    </p:column>
+                    <p:column width="60">
+                        <f:facet name="header">
+                            <h:outputText value="składki"/>
+                        </f:facet>
+                        <bcf:outputpl value="#{itemkarta.razemspolecznepracownik}"/>
+                    </p:column>
+                    <p:column width="60">
+                        <f:facet name="header">
+                            <h:outputText value="podstawa opod."/>
+                        </f:facet>
+                        <bcf:outputpl value="#{itemkarta.podstawaopodatkowania}"/>
+                    </p:column>
+                    <p:column width="60">
+                        <f:facet name="header">
+                            <h:outputText value="koszty uzysk."/>
+                        </f:facet>
+                        <bcf:outputpl value="#{itemkarta.kosztyuzyskania}"/>
+                    </p:column>
+                    <p:column width="60">
+                        <f:facet name="header">
+                            <h:outputText value="zdrowotne"/>
+                        </f:facet>
+                        <bcf:outputpl value="#{itemkarta.praczdrowotne}"/>
+                    </p:column>
+                    <p:column width="60">
+                        <f:facet name="header">
+                            <h:outputText value="zdrowotne odlicz."/>
+                        </f:facet>
+                        <bcf:outputpl value="#{itemkarta.praczdrowotnedopotracenia}"/>
+                    </p:column>
+                    <p:column width="60">
+                        <f:facet name="header">
+                            <h:outputText value="podatek"/>
+                        </f:facet>
+                        <bcf:outputpl value="#{itemkarta.podatekdochodowy}"/>
+                    </p:column>
+                    <p:column width="60">
+                        <f:facet name="header">
+                            <h:outputText value="wyn. netto"/>
+                        </f:facet>
+                        <bcf:outputpl value="#{itemkarta.netto}"/>
+                    </p:column>
+                    <p:column width="30">
+                        <f:facet name="header">
+                            <h:outputText value="koszty pod."/>
+                        </f:facet>
+                        <h:outputText  value="&#x2714;" rendered="#{itemkarta.kosztypodwyzszone}" styleClass="ww"/>
+                    </p:column>
+                    <p:column width="30">
+                        <f:facet name="header">
+                            <h:outputText value="koszty wiele um."/>
+                        </f:facet>
+                        <h:outputText  value="&#x2714;" rendered="#{itemkarta.kosztywieleumow}" styleClass="ww"/>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+        </p:outputPanel>
+    </p:outputPanel>
+</ui:composition>

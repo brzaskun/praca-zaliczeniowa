@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -34,41 +35,42 @@ import pdf.PdfKartaWynagrodzen;
  */
 @Named
 @ViewScoped
-public class KartaWynagrodzenView  implements Serializable {
+public class PITView  implements Serializable {
     private static final long serialVersionUID = 1L;
     @Inject
     private KartaWynagrodzenFacade kartaWynagrodzenFacade;
     @Inject
     private WpisView wpisView;
     private List<Kartawynagrodzen> kartawynagrodzenlist;
-    private Map<String,Kartawynagrodzen> sumy;
-    private Kartawynagrodzen sumaUmowaoprace;
-    private Kartawynagrodzen sumaUmowaopracekosztypodwyzszone;
-    private Kartawynagrodzen sumaUmowaoprace26;
-    private Kartawynagrodzen sumaUmowaopracekosztypodwyzszone26;
-    private Kartawynagrodzen sumaUmowapelnieniefunkcji;
-    private Kartawynagrodzen sumaUmowazlecenia;
-    private Kartawynagrodzen sumaUmowazlecenia26;
     @Inject
     private PasekwynagrodzenFacade pasekwynagrodzenFacade;
+    private List<Kartawynagrodzen> sumypracownicy;
 
     
-    
+    @PostConstruct
     public void init() {
-        sumy = new HashMap<>();
+        sumypracownicy = new ArrayList<>();
         pobierzdane();
     }
 
         
        
     public void pobierzdane() {
-        if (wpisView.getAngaz()!=null) {
-            kartawynagrodzenlist = pobierzkartywynagrodzen(wpisView.getAngaz(), wpisView.getRokWpisu());
-            aktualizujdane(kartawynagrodzenlist, wpisView.getRokWpisu(), wpisView.getAngaz());
-            Msg.msg("Pobrano dane wynagrodzeń");
+        List<Angaz> pracownicy = wpisView.getFirma().getAngazList();
+        for (Angaz p: pracownicy) {
+            if (p!=null) {
+               List<Kartawynagrodzen> kartawynagrodzenlist = pobierzkartywynagrodzen(p, wpisView.getRokWpisu());
+               List<Pasekwynagrodzen> paski = pasekwynagrodzenFacade.findByRokAngaz(wpisView.getRokWpisu(), p);
+                if (paski!=null && !paski.isEmpty()) {
+                    Map<String,Kartawynagrodzen> sumy = new HashMap<>();
+                    sumypracownicy.add(sumuj(kartawynagrodzenlist, paski, p.getPracownik().getNazwiskoImie(), sumy));
+                }
+               Msg.msg("Pobrano dane wynagrodzeń");
+           }
         }
     }
     
+ 
     private List<Kartawynagrodzen> pobierzkartywynagrodzen(Angaz selectedangaz, String rok) {
         List<Kartawynagrodzen> kartypobranezbazy = selectedangaz.getKartawynagrodzenList();
         Collections.sort(kartypobranezbazy, new Kartawynagrodzencomparator());
@@ -96,20 +98,18 @@ public class KartaWynagrodzenView  implements Serializable {
     }
     
     private void aktualizujdane(List<Kartawynagrodzen> kartawynagrodzenlist, String rok, Angaz angaz) {
-        List<Pasekwynagrodzen> paski = pasekwynagrodzenFacade.findByRokAngaz(rok, angaz);
-        if (paski!=null && !paski.isEmpty()) {
-            sumuj(kartawynagrodzenlist, paski);
-        }
+        Kartawynagrodzen zwrot = null;
+        
     }
 
-    private void sumuj(List<Kartawynagrodzen> kartawynagrodzenlist, List<Pasekwynagrodzen> paski) {
-        sumaUmowaoprace = new Kartawynagrodzen();
-        sumaUmowaoprace26 = new Kartawynagrodzen();
-        sumaUmowaopracekosztypodwyzszone = new Kartawynagrodzen();
-        sumaUmowaopracekosztypodwyzszone26 = new Kartawynagrodzen();
-        sumaUmowapelnieniefunkcji  = new Kartawynagrodzen();
-        sumaUmowazlecenia  = new Kartawynagrodzen();
-        sumaUmowazlecenia26  = new Kartawynagrodzen();
+    private Kartawynagrodzen sumuj(List<Kartawynagrodzen> kartawynagrodzenlist, List<Pasekwynagrodzen> paski, String nazwiskoiimie, Map<String,Kartawynagrodzen> sumy) {
+        Kartawynagrodzen sumaUmowaoprace = new Kartawynagrodzen();
+        Kartawynagrodzen sumaUmowaoprace26 = new Kartawynagrodzen();
+        Kartawynagrodzen sumaUmowaopracekosztypodwyzszone = new Kartawynagrodzen();
+        Kartawynagrodzen sumaUmowaopracekosztypodwyzszone26 = new Kartawynagrodzen();
+        Kartawynagrodzen sumaUmowapelnieniefunkcji  = new Kartawynagrodzen();
+        Kartawynagrodzen sumaUmowazlecenia  = new Kartawynagrodzen();
+        Kartawynagrodzen sumaUmowazlecenia26  = new Kartawynagrodzen();
         Kartawynagrodzen suma = new Kartawynagrodzen();
         suma.setMc("razem");
         for (Kartawynagrodzen karta : kartawynagrodzenlist) {
@@ -159,7 +159,8 @@ public class KartaWynagrodzenView  implements Serializable {
                 }
             }
         }
-        kartaWynagrodzenFacade.createEditList(kartawynagrodzenlist);
+        //kartaWynagrodzenFacade.createEditList(kartawynagrodzenlist);
+        suma.setNazwiskoiimie(nazwiskoiimie);
         kartawynagrodzenlist.add(suma);
         sumy.put("sumaUmowaoprace", sumaUmowaoprace);
         sumy.put("sumaUmowaoprace26", sumaUmowaoprace26);
@@ -168,6 +169,8 @@ public class KartaWynagrodzenView  implements Serializable {
         sumy.put("sumaUmowapelnieniefunkcji", sumaUmowapelnieniefunkcji);
         sumy.put("sumaUmowazlecenia", sumaUmowazlecenia);
         sumy.put("sumaUmowazlecenia26", sumaUmowazlecenia26);
+        suma.setSumy(sumy);
+        return suma;
     }
     
     public void drukuj() {
@@ -181,32 +184,31 @@ public class KartaWynagrodzenView  implements Serializable {
 
 
     public void pit11() {
-        if (kartawynagrodzenlist!=null && kartawynagrodzenlist.size()>0) {
-            Kartawynagrodzen kartawynagrodzen = kartawynagrodzenlist.get(0);
-            FirmaKadry firma = kartawynagrodzen.getAngaz().getFirma();
-            Pracownik pracownik = kartawynagrodzen.getAngaz().getPracownik();
-            String[] sciezka = beanstesty.PIT11_27Bean.generujXML(kartawynagrodzen, firma, pracownik, (byte)1, "3220", kartawynagrodzen.getRok(), sumy);
-            String polecenie = "wydrukXML(\""+sciezka[0]+"\")";
-            PrimeFaces.current().executeScript(polecenie);
+        if (sumypracownicy!=null && sumypracownicy.size()>0) {
+            for (Kartawynagrodzen kartawynagrodzen : sumypracownicy) {
+                FirmaKadry firma = kartawynagrodzen.getAngaz().getFirma();
+                Pracownik pracownik = kartawynagrodzen.getAngaz().getPracownik();
+                String[] sciezka = beanstesty.PIT11_27Bean.generujXML(kartawynagrodzen, firma, pracownik, (byte)1, "3220", kartawynagrodzen.getRok(), kartawynagrodzen.getSumy());
+                String polecenie = "wydrukXML(\""+sciezka[0]+"\")";
+                PrimeFaces.current().executeScript(polecenie);
+            }
             Msg.msg("Wydrukowano PIT-11");
         } else {
             Msg.msg("e","Błąd generowania PIT-11. Brak karty wynagrodzeń");
         }
     }
     
+      
    
+    public List<Kartawynagrodzen> getSumypracownicy() {
+        return sumypracownicy;
+    }
+
+    public void setSumypracownicy(List<Kartawynagrodzen> sumypracownicy) {
+        this.sumypracownicy = sumypracownicy;
+    }
+
     
-    public List<Kartawynagrodzen> getKartawynagrodzenlist() {
-        return kartawynagrodzenlist;
-    }
-
-    public void setKartawynagrodzenlist(List<Kartawynagrodzen> kartawynagrodzenlist) {
-        this.kartawynagrodzenlist = kartawynagrodzenlist;
-    }
-
-   
-
-   
 
    
    

@@ -86,6 +86,7 @@ public class Sredniadlanieobecnosci implements Serializable {
     @JoinColumn(name = "naliczenienieobecnosc", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Naliczenienieobecnosc naliczenienieobecnosc;
+    
 
     public Sredniadlanieobecnosci() {
     }
@@ -185,7 +186,9 @@ public class Sredniadlanieobecnosci implements Serializable {
     public void setMc(String mc) {
         this.mc = mc;
     }
-
+    public String getRokMc() {
+        return this.getRok()+this.getMc();
+    }
     public double getDninalezne() {
         return dninalezne;
     }

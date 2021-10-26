@@ -500,15 +500,21 @@ public class KalendarzmiesiacBean {
                         it.remove();
                     } else {
                         if (!kalendarzdosredniej.equals(kalendarz)) {
+                            dnirobocze = 0;
+                            dniprzepracowane = 0;
+                            double godzinyroboczezm = 0.0;
+                            double godzinyprzepracowanezm = 0.0;
                             if (kalendarzdosredniej.getDzienList() != null) {
                                 for (Dzien d : kalendarzdosredniej.getDzienList()) {
                                     if (d.getTypdnia() == 0) {
                                         dnirobocze++;
                                         godzinyrobocze = godzinyrobocze + d.getNormagodzin();
+                                        godzinyroboczezm = godzinyroboczezm + d.getNormagodzin();
                                     }
                                     if (d.getPrzepracowano() > 0) {
                                         dniprzepracowane++;
                                         godzinyprzepracowane = godzinyprzepracowane + d.getNormagodzin();
+                                        godzinyprzepracowanezm = godzinyprzepracowanezm + d.getNormagodzin();
                                     } else {
                                         dninieobecnosci++;
                                         godzinynieobecnosci = godzinynieobecnosci + d.getNormagodzin();
@@ -543,7 +549,9 @@ public class KalendarzmiesiacBean {
                                     }
                                 }
                             }
-                            Sredniadlanieobecnosci srednia = new Sredniadlanieobecnosci(kalendarzdosredniej.getRok(), kalendarzdosredniej.getMc(), zwrot2, zwrot2zwalor, skladnikstaly, naliczenienieobecnosc, pominiety, godzinyprzepracowane, dniprzepracowane, godzinyrobocze, dnirobocze);
+                            Sredniadlanieobecnosci srednia = new Sredniadlanieobecnosci(kalendarzdosredniej.getRok(), kalendarzdosredniej.getMc(), zwrot2, zwrot2zwalor, skladnikstaly, naliczenienieobecnosc, pominiety, 
+                                    godzinyprzepracowanezm, dniprzepracowane, godzinyroboczezm, dnirobocze);
+                            srednia.setWaloryzowane(waloryzowac);
                             naliczenienieobecnosc.getSredniadlanieobecnosciList().add(srednia);
                             sredniadopodstawy = sredniadopodstawy+zwrot2+zwrot2zwalor;
                             i++;

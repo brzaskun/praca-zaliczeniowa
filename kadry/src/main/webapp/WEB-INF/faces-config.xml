@@ -66,6 +66,10 @@
             <from-outcome>Statystyka</from-outcome>
             <to-view-id>/statystyka/index.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
+         <navigation-case>
+            <from-outcome>Pit</from-outcome>
+            <to-view-id>/pit/index.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
     </navigation-rule>
    <application>
         <locale-config>
