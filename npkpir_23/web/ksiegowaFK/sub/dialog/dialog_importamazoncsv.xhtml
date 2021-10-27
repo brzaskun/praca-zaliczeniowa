@@ -26,7 +26,7 @@
             <h:outputText value="import dokumentów z pliku CSV Amazon VAT Transactions Report"/>
                         <h:form id="amazonload">
                             <p:growl life="3600"  id="messages1"/>
-                            <p:panelGrid columns="2">
+                            <p:panelGrid columns="3">
                                 <p:panelGrid columns="1">
                                     <p:fileUpload fileUploadListener="#{importCSVView.importujsprzedaz}" 
                                                   mode="advanced" dragDropSupport="true" fileLimit="1"
@@ -37,6 +37,7 @@
                                                   style="height: 100px;">
                                     </p:fileUpload>
                                 </p:panelGrid>
+                                <p:outputLabel value="pobierz tylko dla OSS" style="margin-left: 20px;"/>
 <!--                                <p:panelGrid columns="2" style="margin-left: 30px;">
                                     <h:outputText value="wybierz rodzaj transakcji"/>
                                     <p:selectOneMenu value="#{importCSVView.wybortransakcji}">
@@ -46,7 +47,9 @@
                                         <f:selectItem itemValue="FC_TRANSFER" itemLabel="FC_TRANSFER"/>
                                         <p:ajax event="change" partialSubmit="true" global="false"/>
                                     </p:selectOneMenu>
-                                </p:panelGrid>-->
+</p:panelGrid>-->               <p:selectBooleanCheckbox value="#{importCSVView.tylkoOSS}" >
+                                <p:ajax event="change" partialSubmit="true" global="false"/>
+                            </p:selectBooleanCheckbox>
                             </p:panelGrid>
                         </h:form>
                         <h:form id="importtabela">

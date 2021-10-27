@@ -1,0 +1,120 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:ft="http://primefaces.prime.com.tr/facestrace"
+    xmlns:bcf="http://brzaskun.com/facelets">
+    <script>
+        var pokazbutony = function() {
+            try {
+                r('akordeon2:formVATUE:deklbutton').show();
+                r('akordeon2:formVATUE:deklbutton2').show();
+                r('akordeon2:formVATUE:drukviesbutton').show();
+            } catch(e){}
+            try {
+                r('akordeon:formVATUE:deklbutton').show();
+                r('akordeon:formVATUE:deklbutton2').show();
+                r('akordeon:formVATUE:drukviesbutton').show();
+            } catch(e){}
+            
+        }
+    </script>
+    
+    <p:panelGrid id="panelue" columns="9">
+            <p:commandButton value="deklar. test" style="margin-left: 10px; margin-bottom: 1%; width: 120px;display:inline ;"
+                             actionListener="#{vatOSSView.tworzdeklaracje(1)}"/>
+            <p:commandButton value="deklaracja" style="margin-left: 10px; margin-bottom: 1%; width: 120px;" id="deklbutton"
+                             actionListener="#{vatOSSView.tworzdeklaracje(1)}" update="@(.upd3) @(.upd)"/>
+        </p:panelGrid>
+        
+            <p:outputPanel > 
+
+                <p:dataTable  var="wpisoss" value="#{vatOSSView.lista}" id="dokumentyLista" 
+                              rowKey="#{wpisoss.id}" rowIndexVar="wpisossin"
+                              emptyMessage="Nie pobrano pozycji"
+                              sortBy="#{wpisoss.jurysdykcja}" styleClass="upd1"
+                              style="height: 400px;overflow-y: scroll;width: 680px;" widgetVar="dokTableoss" 
+                              > 
+                    <f:facet name="header">  
+                        <h:outputText value="- wyszukiwanie: " />  
+                        <p:inputText id="globalFilter" onkeyup="PF('dokTableoss').filter()" style="width:180px" placeholder="wyszukiwane wyrażenie" />  
+                    </f:facet>
+                    <p:column width="30">
+                        <h:outputText value="#{wpisossin+1}"/>
+                    </p:column>
+                    <p:column id="typdokColumn" headerText="jurysdykcja" filterBy="#{wpisoss.jurysdykcja}" filterMatchMode="contains" sortBy="#{wpisoss.jurysdykcja}" width="90" >  
+                        <h:outputText value="#{wpisoss.jurysdykcja}"/>
+                    </p:column>
+                  <p:column  headerText="rok" filterBy="#{wpisoss.rok}" filterMatchMode="contains" sortBy="#{wpisoss.rok}" width="30" >  
+                        <h:outputText value="#{wpisoss.rok}"/>
+                  </p:column>
+                    <p:column  headerText="mc" filterBy="#{wpisoss.mc}" filterMatchMode="contains" sortBy="#{wpisoss.mc}" width="30" >  
+                        <h:outputText value="#{wpisoss.mc}"/>
+                    </p:column>
+                    <p:column  headerText="netto eur" filterBy="#{wpisoss.nettowaluta}" filterMatchMode="contains" sortBy="#{wpisoss.nettowaluta}" width="50" filterStyle="display : none;" >  
+                        <h:outputText value="#{wpisoss.nettowaluta}" style="float: right;">
+                            <f:convertNumber minFractionDigits="2" locale="PL"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column  headerText="vat eur" filterBy="#{wpisoss.vatwaluta}" filterMatchMode="contains" sortBy="#{wpisoss.vatwaluta}" width="50" filterStyle="display : none;" >  
+                        <h:outputText value="#{wpisoss.vatwaluta}" style="float: right;">
+                            <f:convertNumber minFractionDigits="2" locale="PL"/>
+                        </h:outputText>
+                    </p:column>
+                     <p:column  headerText="stawka vat" filterBy="#{wpisoss.vatstawka}" filterMatchMode="contains" sortBy="#{wpisoss.vatstawka}" width="50" filterStyle="display : none;" >  
+                         <bcf:outputplprocent value="#{wpisoss.vatstawka}"/>
+                    </p:column>
+                </p:dataTable>
+                <p:separator/>
+<!--                <p:dataTable value="#{vatOSSView.deklaracjeOSS_biezace}" var="row" emptyMessage="brak błędnych lub niepotwierdzonych/niewysłanych deklaracji za okres" style="width: 1210px;" styleClass="upd3"
+                             selection="#{vatOSSView.deklossselected}" selectionMode="single" rowKey="#{row.hashCode()}">
+                    <p:column style="width: 3%;" >
+                        <p:rowToggler/>
+                    </p:column>
+                    <p:column headerText="data złożenia" style="text-align: center;" width="70">
+                        <h:outputText value="#{row.datazlozenia ne null ? row.datazlozenia : 'nie złożono'}">
+                            <f:convertDateTime type="date" locale="pl"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="korekta / testowa" style="text-align: center;" width="50">
+                        <h:outputText value="#{row.nrkolejny eq 0 ? '': 'korekta'}" />
+                        <h:outputText value=" testowa" rendered="#{row.testowa}"/>
+                    </p:column>
+                    <p:column headerText="nr" style="text-align: center;" width="30">
+                        <h:outputText value="#{row.nrkolejny}" />
+                    </p:column>
+                    <p:column headerText="mc" style="text-align: center;" width="30">
+                        <h:outputText value="#{row.miesiac}"/>
+                    </p:column>
+                    <p:column headerText="status" width="180">
+                        <h:outputText value="#{row.status}" />
+                    </p:column>
+                   
+                    <p:column style="text-align: center;" width="75">
+                        <p:commandButton value="wysyłka" actionListener="#{beanek.robUE(row, vatOSSView.listaDok,  vatOSSView.listaDokfk)}" update="@form" style="width: 80px;" rendered="#{row.status eq null}"/>
+                    </p:column>
+                    <p:column style="text-align: center;" width="75">
+                        <p:commandButton value="usuń" actionListener="#{vatOSSView.usundekl(row)}" update="@form @(.upd)" style="width: 80px;" rendered="#{row.identyfikator eq null or row.status.startsWith('4') or facesContext.externalContext.remoteUser eq 'szef'}"/>
+                        <p:commandButton value="sprawdź" actionListener="#{beanek.pobierzwyslaneUE(row)}" update="@form" style="width: 80px;" rendered="#{row.identyfikator ne null and !row.status.startsWith('4')}"/>
+                    </p:column>
+                    <p:column style="text-align: center;" width="75">
+                        <p:commandButton value="drukuj szczeg." actionListener="#{vatOSSView.drukuj(row)}" update="@form" style="width: 80px;"/>
+                    </p:column>
+                    <p:column style="text-align: center;" width="75">
+                        <p:commandButton value="drukuj uprosz." actionListener="#{vatOSSView.drukujUPR(row)}" update="@form" style="width: 80px;"/>
+                    </p:column>
+                    <p:rowExpansion>
+                        <p:panelGrid columns="3">
+                            <h:outputText value="#{row.opis}" rendered="#{row.upo eq null}"/>
+                            <h:outputText value="#{row.identyfikator}" rendered="#{row.upo ne null}"/>
+                            <h:outputText value="#{row.deklaracja}"/>
+                        </p:panelGrid>
+                    </p:rowExpansion>
+                </p:dataTable>-->
+            </p:outputPanel>
+
+        <h:outputText value="Uwaga! Sumowane są zapisy księgowe w danym dokumencie, jeżeli oprócz kwot bezposrednio z dokumentu dokonano księgowań równoległych sumy w tabeli nie będa prawidłowe"
+                      style="color: red;"/>
+</ui:composition>

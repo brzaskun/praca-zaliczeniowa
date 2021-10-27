@@ -12,6 +12,7 @@ import dao.DokDAO;
 import dao.EvewidencjaDAO;
 import dao.KlienciDAO;
 import dao.KlientJPKDAO;
+import dao.PodsumowanieAmazonOSSDAO;
 import dao.RodzajedokDAO;
 import dao.TabelanbpDAO;
 import dao.WalutyDAOfk;
@@ -26,6 +27,7 @@ import entity.Evewidencja;
 import entity.Klienci;
 import entity.KlientJPK;
 import entity.Podatnik;
+import entity.PodsumowanieAmazonOSS;
 import entity.Rodzajedok;
 import entityfk.Tabelanbp;
 import entityfk.Waluty;
@@ -84,6 +86,8 @@ public class ImportCSVView  implements Serializable {
     @Inject
     private DokDAO dokDAO;
     @Inject
+    private PodsumowanieAmazonOSSDAO podsumowanieAmazonOSSDAO;
+    @Inject
     private TabelanbpDAO tabelanbpDAO;
     private Rodzajedok dokSZ;
     private Rodzajedok dokWDT;
@@ -99,6 +103,7 @@ public class ImportCSVView  implements Serializable {
     private List<Waluty> listaWalut;
     private Waluty walutapln;
     private double kursumst;
+    private boolean tylkoOSS;
         
 
     public void init() { //E.m(this);
@@ -159,14 +164,27 @@ public class ImportCSVView  implements Serializable {
                 String serial = row.get("TRANSACTION_EVENT_ID");
                 String rodzajtransakcji = row.get("TRANSACTION_TYPE");
                 String data = row.get("TAX_CALCULATION_DATE");
-                if ((rodzajtransakcji.equals("SALE") || rodzajtransakcji.equals("REFUND"))&&!serial.equals("")&&!data.equals("")) {
-                    KlientJPK tmpzwrot = tworzobiektAmazonNowy(row, rok, mc, tabelenbp);
-                    if (tmpzwrot!=null) {
-                        if (tmpzwrot.isWdt() && tmpzwrot.getJurysdykcja().equals("POLAND")) {
-                            tmpzwrot.setPodatnik(podatnik);
-                            tmpzwrot.setEwidencjaVAT(tworzewidencjeVAT(evewidencja, tmpzwrot));
+                String oss = row.get("TAX_REPORTING_SCHEME");
+                boolean jestoss = oss.equals("UNION-OSS");
+                if (tylkoOSS&&jestoss) {
+                    if ((rodzajtransakcji.equals("SALE") || rodzajtransakcji.equals("REFUND"))&&!serial.equals("")&&!data.equals("")) {
+                        KlientJPK tmpzwrot = tworzobiektAmazonNowy(row, rok, mc, tabelenbp);
+                        if (tmpzwrot!=null) {
+                            if (tmpzwrot.isWdt()==false && tmpzwrot.isEksport()==false) {
+                                zwrot.add(tmpzwrot);
+                            }
                         }
-                        zwrot.add(tmpzwrot);
+                    }
+                } else if (tylkoOSS==false){
+                    if ((rodzajtransakcji.equals("SALE") || rodzajtransakcji.equals("REFUND"))&&!serial.equals("")&&!data.equals("")) {
+                        KlientJPK tmpzwrot = tworzobiektAmazonNowy(row, rok, mc, tabelenbp);
+                        if (tmpzwrot!=null) {
+                            if (tmpzwrot.isWdt() && tmpzwrot.getJurysdykcja().equals("POLAND")) {
+                                tmpzwrot.setPodatnik(podatnik);
+                                tmpzwrot.setEwidencjaVAT(tworzewidencjeVAT(evewidencja, tmpzwrot));
+                            }
+                            zwrot.add(tmpzwrot);
+                        }
                     }
                 }
             });
@@ -364,7 +382,12 @@ public class ImportCSVView  implements Serializable {
     
     public void drukujfk() {
         try {
-            PdfDok.drukujDokAmazonfk(l.l(listafk, listafkfilter, null), wpisView, 1);
+            podsumowanieAmazonOSSDAO.usunmiesiacrok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+            List<PodsumowanieAmazonOSS> sumy = PdfDok.drukujDokAmazonfk(l.l(listafk, listafkfilter, null), wpisView, 1);
+            if (!sumy.isEmpty()) {
+                podsumowanieAmazonOSSDAO.createList(sumy);
+                Msg.msg("Zaksięgowani sum zaimportowanych dokumentów");
+            }
             Msg.msg("Wydrukowano zestawienie zaimportowanych dokumentów");
         } catch (Exception e) {
             
@@ -655,6 +678,14 @@ private static Klienci ustawkontrahenta(InterpaperXLS interpaperXLS, List<Klienc
         }
 
            
+    }
+
+    public boolean isTylkoOSS() {
+        return tylkoOSS;
+    }
+
+    public void setTylkoOSS(boolean tylkoOSS) {
+        this.tylkoOSS = tylkoOSS;
     }
     
     

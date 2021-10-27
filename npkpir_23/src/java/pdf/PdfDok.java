@@ -11,6 +11,8 @@ import com.itextpdf.text.Document;
 import com.itextpdf.text.pdf.PdfWriter;
 import entity.Dok;
 import entity.KlientJPK;
+import entity.Podatnik;
+import entity.PodsumowanieAmazonOSS;
 import entityfk.Tabelanbp;
 import error.E;
 import format.F;
@@ -409,7 +411,8 @@ public class PdfDok extends Pdf implements Serializable {
     }
     
     
-     public static void drukujDokAmazonfk(List<KlientJPK> lista, WpisView wpisView, int modyfikator) {
+     public static List<PodsumowanieAmazonOSS> drukujDokAmazonfk(List<KlientJPK> lista, WpisView wpisView, int modyfikator) {
+        List<PodsumowanieAmazonOSS> sumy = new ArrayList<>();
         String nazwa = wpisView.getPodatnikObiekt().getNip()+"listadok";
         File file = Plik.plik(nazwa, true);
         if (file.isFile()) {
@@ -432,7 +435,10 @@ public class PdfDok extends Pdf implements Serializable {
                 for (String waluta : waluty) {
                     List<KlientJPK> sprzedazwaluty = sprzedazkraj.stream().filter((p) -> p.getWaluta().equals(waluta)).collect(Collectors.toList());
                     if (!sprzedazwaluty.isEmpty()) {
-                        dodajtabelekrajfk(kraj, waluta, document, sprzedazwaluty, modyfikator, tabelazbiorcza);
+                        PodsumowanieAmazonOSS zwrot = dodajtabelekrajfk(kraj, waluta, document, sprzedazwaluty, modyfikator, tabelazbiorcza, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+                        if (zwrot.getPodatnik()!=null) {
+                            sumy.add(zwrot);
+                        }
                     }
                 }
             }
@@ -489,6 +495,7 @@ public class PdfDok extends Pdf implements Serializable {
         } finally {
             finalizacjaDokumentuQR(document,nazwa);
         }
+        return sumy;
     }
     
      private static void sumujtabelazbiorcza(List tabelazbiorczaexport) {
@@ -523,23 +530,24 @@ public class PdfDok extends Pdf implements Serializable {
         return zwrot;
     }
     
-    private static void dodajtabelekrajfk(String kraj, String waluta, Document document, List<KlientJPK> lista, int modyfikator, List tabelazbiorcza) {
+    private static PodsumowanieAmazonOSS dodajtabelekrajfk(String kraj, String waluta, Document document, List<KlientJPK> lista, int modyfikator, List tabelazbiorcza, Podatnik podatnik, String rok, String mc) {
         PdfMain.dodajLinieOpisuBezOdstepuKolor(document, "SPRZEDAŻ OPODATKOWANA "+kraj.toUpperCase()+" WALUTA "+waluta, BaseColor.BLUE);
         dodajTabele(document, testobjects.testobjects.getListaDokJPK(lista),100,modyfikator);
-        dodajsumyfk(lista, document, waluta, tabelazbiorcza);
+        PodsumowanieAmazonOSS zwrot = dodajsumyfk(lista, document, waluta, tabelazbiorcza, podatnik, rok, mc);
+        return zwrot;
     }
     private static void dodajtabeleWDTfk(String kraj, String waluta, Document document, List<KlientJPK> lista, int modyfikator,List tabelazbiorcza) {
         PdfMain.dodajLinieOpisuBezOdstepuKolor(document, "SPRZEDAŻ WDT "+kraj.toUpperCase()+" WALUTA "+waluta, BaseColor.BLUE);
         dodajTabele(document, testobjects.testobjects.getListaDokJPK(lista),100,modyfikator);
-        dodajsumyfk(lista, document, waluta, tabelazbiorcza);
+        dodajsumyfk(lista, document, waluta, tabelazbiorcza, null, null, null);
     }
     
     private static void dodajtabeleExportfk(String kraj, String waluta, Document document, List<KlientJPK> lista, int modyfikator,List tabelazbiorcza) {
         PdfMain.dodajLinieOpisuBezOdstepuKolor(document, "SPRZEDAŻ EXPORT "+kraj.toUpperCase()+" WALUTA "+waluta, BaseColor.BLUE);
         dodajTabele(document, testobjects.testobjects.getListaDokJPK(lista),100,modyfikator);
-        dodajsumyfk(lista, document, waluta, tabelazbiorcza);
+        dodajsumyfk(lista, document, waluta, tabelazbiorcza, null, null, null);
     }
-    public static void dodajsumyfk(List<KlientJPK> lista, Document document, String waluta, List tabelazbiorcza) {
+    public static PodsumowanieAmazonOSS dodajsumyfk(List<KlientJPK> lista, Document document, String waluta, List tabelazbiorcza, Podatnik podatnik, String rok, String mc) {
         double netto = 0.0;
         double vat = 0.0;
         double nettowaluta = 0.0;
@@ -571,8 +579,10 @@ public class PdfDok extends Pdf implements Serializable {
         }
         PdfMain.dodajLinieOpisu(document, opis);
         double kurs = nettowaluta!=0.0 ? Z.z6(netto/nettowaluta):0.0;
+        PodsumowanieAmazonOSS podsumowanie = new PodsumowanieAmazonOSS(jurys, waluta, nettowaluta, vatwaluta, netto, vat, vatstawka, kurs, podatnik, rok, mc);
         Object[] a = new Object[]{jurys, waluta, nettowaluta, vatwaluta, netto, vat, vatstawka, kurs};
         tabelazbiorcza.add(Arrays.asList(a));
+        return podsumowanie;
     }
     
     public static void main(String[] args) {
