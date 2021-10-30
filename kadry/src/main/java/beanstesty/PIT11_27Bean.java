@@ -227,21 +227,13 @@ public class PIT11_27Bean {
             //rezydent
             poz.setP11((byte)1);
         }
-        //koszty uzyskania
-        poz.setP28((byte)1);
-        if (kartawynagrodzen.isKosztypodwyzszone()) {
-            poz.setP28((byte)2);
-        } else if (kartawynagrodzen.isKosztywieleumow()) {
-            poz.setP28((byte)3);
-        } else if (kartawynagrodzen.isKosztypodwyzszone()&&kartawynagrodzen.isKosztywieleumow()) {
-            poz.setP28((byte)4);
-        }
+        
         Kartawynagrodzen sumaUmowaoprace = sumy.get("sumaUmowaoprace");
         Kartawynagrodzen sumaUmowaopracekosztypodwyzszone = sumy.get("sumaUmowaopracekosztypodwyzszone");
-        Kartawynagrodzen sumaUmowaoprace26 = sumy.get("sumaUmowaoprace26");
+        Kartawynagrodzen sumaUmowaoprace26zwolnione = sumy.get("sumaUmowaoprace26zwolnione");
         Kartawynagrodzen sumaUmowapelnieniefunkcji = sumy.get("sumaUmowapelnieniefunkcji");
         Kartawynagrodzen sumaUmowazlecenia = sumy.get("sumaUmowazlecenia");
-        Kartawynagrodzen sumaUmowazlecenia26 = sumy.get("sumaUmowazlecenia26");
+        Kartawynagrodzen sumaUmowazlecenia26zwolnione = sumy.get("sumaUmowazlecenia26zwolnione");
         if (sumaUmowaoprace.getBrutto()>0.0) {
             poz.setP29(BigDecimal.valueOf(sumaUmowaoprace.getBrutto()));
             poz.setP30(BigDecimal.valueOf(sumaUmowaoprace.getKosztyuzyskania()));
@@ -324,45 +316,57 @@ public class PIT11_27Bean {
             //czy dodano PIT-R 1tak 2nie
             poz.setP96((byte)2);
         }
-        if (sumaUmowaoprace26.getBrutto()>0.0) {
+        if (sumaUmowaoprace26zwolnione.getBrutto()>0.0) {
             poz.setP28(null);
             if (poz.getP77()!=null) {
-                poz.setP77(poz.getP77().add(BigDecimal.valueOf(Z.z(sumaUmowaoprace26.getRazemspolecznepracownik()))));
+                poz.setP77(poz.getP77().add(BigDecimal.valueOf(Z.z(sumaUmowaoprace26zwolnione.getRazemspolecznepracownik()))));
             } else{
-                poz.setP77(BigDecimal.valueOf(Z.z(sumaUmowaoprace26.getRazemspolecznepracownik())));
+                poz.setP77(BigDecimal.valueOf(Z.z(sumaUmowaoprace26zwolnione.getRazemspolecznepracownik())));
             }
             if (poz.getP80()!=null) {
-                poz.setP80(poz.getP80().add(BigDecimal.valueOf(Z.z(sumaUmowaoprace26.getPraczdrowotnedopotracenia()))));
+                poz.setP80(poz.getP80().add(BigDecimal.valueOf(Z.z(sumaUmowaoprace26zwolnione.getPraczdrowotnedopotracenia()))));
             } else{
-                poz.setP80(BigDecimal.valueOf(Z.z(sumaUmowaoprace26.getPraczdrowotnedopotracenia())));
+                poz.setP80(BigDecimal.valueOf(Z.z(sumaUmowaoprace26zwolnione.getPraczdrowotnedopotracenia())));
             }
-            poz.setP93(BigDecimal.valueOf(Z.z(sumaUmowaoprace26.getBrutto())));
+            poz.setP93(BigDecimal.valueOf(Z.z(sumaUmowaoprace26zwolnione.getBrutto())));
             if (poz.getP92()!=null) {
-                poz.setP92(poz.getP92().add(BigDecimal.valueOf(Z.z(sumaUmowaoprace26.getBrutto()))));
+                poz.setP92(poz.getP92().add(BigDecimal.valueOf(Z.z(sumaUmowaoprace26zwolnione.getBrutto()))));
             } else{
-                poz.setP92(BigDecimal.valueOf(Z.z(sumaUmowaoprace26.getBrutto())));
+                poz.setP92(BigDecimal.valueOf(Z.z(sumaUmowaoprace26zwolnione.getBrutto())));
             }
             poz.setP96((byte)2);
         }
-        if (sumaUmowazlecenia26.getBrutto()>0.0) {
+        if (sumaUmowazlecenia26zwolnione.getBrutto()>0.0) {
             poz.setP28(null);
             if (poz.getP77()!=null) {
-                poz.setP77(poz.getP77().add(BigDecimal.valueOf(Z.z(sumaUmowazlecenia26.getRazemspolecznepracownik()))));
+                poz.setP77(poz.getP77().add(BigDecimal.valueOf(Z.z(sumaUmowazlecenia26zwolnione.getRazemspolecznepracownik()))));
             } else{
-                poz.setP77(BigDecimal.valueOf(Z.z(sumaUmowazlecenia26.getRazemspolecznepracownik())));
+                poz.setP77(BigDecimal.valueOf(Z.z(sumaUmowazlecenia26zwolnione.getRazemspolecznepracownik())));
             }
             if (poz.getP80()!=null) {
-                poz.setP80(poz.getP80().add(BigDecimal.valueOf(Z.z(sumaUmowazlecenia26.getPraczdrowotnedopotracenia()))));
+                poz.setP80(poz.getP80().add(BigDecimal.valueOf(Z.z(sumaUmowazlecenia26zwolnione.getPraczdrowotnedopotracenia()))));
             } else{
-                poz.setP80(BigDecimal.valueOf(Z.z(sumaUmowazlecenia26.getPraczdrowotnedopotracenia())));
+                poz.setP80(BigDecimal.valueOf(Z.z(sumaUmowazlecenia26zwolnione.getPraczdrowotnedopotracenia())));
             }
-            poz.setP94(BigDecimal.valueOf(Z.z(sumaUmowazlecenia26.getBrutto())));
+            poz.setP94(BigDecimal.valueOf(Z.z(sumaUmowazlecenia26zwolnione.getBrutto())));
             if (poz.getP92()!=null) {
-                poz.setP92(poz.getP92().add(BigDecimal.valueOf(Z.z(sumaUmowazlecenia26.getBrutto()))));
+                poz.setP92(poz.getP92().add(BigDecimal.valueOf(Z.z(sumaUmowazlecenia26zwolnione.getBrutto()))));
             } else{
-                poz.setP92(BigDecimal.valueOf(Z.z(sumaUmowazlecenia26.getBrutto())));
+                poz.setP92(BigDecimal.valueOf(Z.z(sumaUmowazlecenia26zwolnione.getBrutto())));
             }
             poz.setP96((byte)2);
+        }
+
+        if (poz.getP30()!=null||poz.getP35()!=null||poz.getP37()!=null||poz.getP42()!=null) {
+            //koszty uzyskania
+            poz.setP28((byte)1);
+            if (kartawynagrodzen.isKosztypodwyzszone()) {
+                poz.setP28((byte)2);
+            } else if (kartawynagrodzen.isKosztywieleumow()) {
+                poz.setP28((byte)3);
+            } else if (kartawynagrodzen.isKosztypodwyzszone()&&kartawynagrodzen.isKosztywieleumow()) {
+                poz.setP28((byte)4);
+            }
         }
         return poz;
     }

@@ -53,11 +53,11 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                         <p:column width="50" style="text-align: center;">
                             <h:outputText value="#{yndex+1}"/>
                         </p:column>
-                        <p:column width="100" style="text-align: left;">
+                        <p:column width="100" style="text-align: left;" sortBy="#{osobylistdata.osoNazwisko}" sortOrder="asc">
                             <f:facet name="header">
                                 <h:outputText value="nazwisko"/>
                             </f:facet>
-                            <h:outputText value="#{osobylistdata.osoNazwisko}" style="#{historiaView.zwrotkolor(osobylistdata)}"/>
+                            <h:outputText value="#{osobylistdata.osoNazwisko}" style="#{historiaView.zwrotkolor(osobylistdata)}" />
                         </p:column>
                         <p:column width="100" style="text-align: left;">
                             <f:facet name="header">

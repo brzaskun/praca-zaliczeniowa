@@ -508,22 +508,22 @@ public class Kartawynagrodzen implements Serializable {
 
 
     public void dodaj(Pasekwynagrodzen pasek) {
-            this.bruttobezzus += pasek.getBruttobezzus();
-        this.bruttozus += pasek.getBruttozus();
+        this.bruttobezzus = Z.z(this.bruttobezzus+pasek.getBruttobezzus());
+        this.bruttozus = Z.z(this.bruttozus+pasek.getBruttozus());
         this.fgsp += pasek.getFgsp();
         this.fp += pasek.getFp();
-        this.kosztyuzyskania += pasek.getKosztyuzyskania();
+        this.kosztyuzyskania = Z.z(this.kosztyuzyskania+pasek.getKosztyuzyskania());
         this.kwotawolna += pasek.getKwotawolna();
         this.netto += pasek.getNetto();
-        this.podatekdochodowy += pasek.getPodatekdochodowy();
+        this.podatekdochodowy = Z.z(this.podatekdochodowy+pasek.getPodatekdochodowy());
         this.podstawaopodatkowania += pasek.getPodstawaopodatkowania();
         this.pracchorobowe += pasek.getPracchorobowe();
         this.pracemerytalne += pasek.getPracemerytalne();
         this.pracrentowe += pasek.getPracrentowe();
-        this.razemspolecznepracownik += pasek.getRazemspolecznepracownik();
+        this.razemspolecznepracownik = Z.z(this.razemspolecznepracownik+pasek.getRazemspolecznepracownik());
         this.praczdrowotne += pasek.getPraczdrowotne();
         this.praczdrowotnedodoliczenia += pasek.getPraczdrowotnedodoliczenia();
-        this.praczdrowotnedopotracenia += pasek.getPraczdrowotnedopotracenia();
+        this.praczdrowotnedopotracenia = Z.z(this.praczdrowotnedopotracenia+pasek.getPraczdrowotnedopotracenia());
         this.praczdrowotnepomniejszone += pasek.getPraczdrowotnepomniejszone();
         this.emerytalne += pasek.getEmerytalne();
         this.rentowe += pasek.getRentowe();
