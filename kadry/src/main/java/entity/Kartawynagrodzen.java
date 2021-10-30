@@ -64,6 +64,7 @@ import z.Z;
     @NamedQuery(name = "Kartawynagrodzen.findByRazem53", query = "SELECT k FROM Kartawynagrodzen k WHERE k.razem53 = :razem53"),
     @NamedQuery(name = "Kartawynagrodzen.findByKosztpracodawcy", query = "SELECT k FROM Kartawynagrodzen k WHERE k.kosztpracodawcy = :kosztpracodawcy"),
     @NamedQuery(name = "Kartawynagrodzen.findByRok", query = "SELECT k FROM Kartawynagrodzen k WHERE k.rok = :rok"),
+    @NamedQuery(name = "Kartawynagrodzen.findByAngazRok", query = "SELECT k FROM Kartawynagrodzen k WHERE k.rok = :rok AND k.angaz = :angaz"),
     @NamedQuery(name = "Kartawynagrodzen.findByMc", query = "SELECT k FROM Kartawynagrodzen k WHERE k.mc = :mc")})
 public class Kartawynagrodzen implements Serializable {
 
@@ -227,6 +228,11 @@ public class Kartawynagrodzen implements Serializable {
         this.podatekdochodowy = podatekdochodowy;
     }
 
+    
+    public double getDochod() {
+        return this.getBrutto()-this.kosztyuzyskania;
+    }
+    
     public double getPodstawaopodatkowania() {
         return podstawaopodatkowania;
     }

@@ -5,8 +5,10 @@
  */
 package dao;
 
+import entity.Angaz;
 import entity.Kartawynagrodzen;
 import java.io.Serializable;
+import java.util.List;
 import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -41,6 +43,10 @@ public class KartaWynagrodzenFacade extends DAO  implements Serializable {
     public KartaWynagrodzenFacade() {
         super(Kartawynagrodzen.class);
         super.em = em;
+    }
+
+    public List<Kartawynagrodzen> findByAngazRok(Angaz selectedangaz, String rok) {
+        return getEntityManager().createNamedQuery("Kartawynagrodzen.findByAngazRok").setParameter("angaz", selectedangaz).setParameter("rok", rok).getResultList();
     }
 
    

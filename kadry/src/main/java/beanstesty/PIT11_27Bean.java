@@ -237,32 +237,131 @@ public class PIT11_27Bean {
             poz.setP28((byte)4);
         }
         Kartawynagrodzen sumaUmowaoprace = sumy.get("sumaUmowaoprace");
+        Kartawynagrodzen sumaUmowaopracekosztypodwyzszone = sumy.get("sumaUmowaopracekosztypodwyzszone");
         Kartawynagrodzen sumaUmowaoprace26 = sumy.get("sumaUmowaoprace26");
+        Kartawynagrodzen sumaUmowapelnieniefunkcji = sumy.get("sumaUmowapelnieniefunkcji");
+        Kartawynagrodzen sumaUmowazlecenia = sumy.get("sumaUmowazlecenia");
         Kartawynagrodzen sumaUmowazlecenia26 = sumy.get("sumaUmowazlecenia26");
         if (sumaUmowaoprace.getBrutto()>0.0) {
             poz.setP29(BigDecimal.valueOf(sumaUmowaoprace.getBrutto()));
             poz.setP30(BigDecimal.valueOf(sumaUmowaoprace.getKosztyuzyskania()));
-            poz.setP31(poz.getP29().subtract(poz.getP30()));
+            BigDecimal subtract = poz.getP29().subtract(poz.getP30());
+            if (poz.getP31()!=null) {
+                poz.setP31(poz.getP31().add(subtract));
+            } else{
+                poz.setP31(subtract);
+            }
             poz.setP33(BigInteger.valueOf(Z.zUD(sumaUmowaoprace.getPodatekdochodowy())));
-            poz.setP75(BigDecimal.valueOf(Z.z(sumaUmowaoprace.getRazemspolecznepracownik())));
-            poz.setP78(BigDecimal.valueOf(Z.z(sumaUmowaoprace.getPraczdrowotnedopotracenia())));
+            if (poz.getP75()!=null) {
+                poz.setP75(poz.getP75().add(BigDecimal.valueOf(Z.z(sumaUmowazlecenia.getRazemspolecznepracownik()))));
+            } else{
+                poz.setP75(BigDecimal.valueOf(Z.z(sumaUmowazlecenia.getRazemspolecznepracownik())));
+            }
+            if (poz.getP78()!=null) {
+                poz.setP78(poz.getP78().add(BigDecimal.valueOf(Z.z(sumaUmowazlecenia.getPraczdrowotnedopotracenia()))));
+            } else{
+                poz.setP78(BigDecimal.valueOf(Z.z(sumaUmowazlecenia.getPraczdrowotnedopotracenia())));
+            }
+            //czy dodano PIT-R 1tak 2nie
+            poz.setP96((byte)2);
+        }
+        if (sumaUmowaopracekosztypodwyzszone.getBrutto()>0.0) {
+            poz.setP34(BigDecimal.valueOf(sumaUmowaopracekosztypodwyzszone.getBrutto()));
+            poz.setP35(BigDecimal.valueOf(sumaUmowaopracekosztypodwyzszone.getKosztyuzyskania()));
+            BigDecimal subtract = poz.getP29().subtract(poz.getP30());
+            if (poz.getP31()!=null) {
+                poz.setP31(poz.getP31().add(subtract));
+            } else{
+                poz.setP31(subtract);
+            }
+            poz.setP33(BigInteger.valueOf(Z.zUD(sumaUmowaopracekosztypodwyzszone.getPodatekdochodowy())));
+            if (poz.getP75()!=null) {
+                poz.setP75(poz.getP75().add(BigDecimal.valueOf(Z.z(sumaUmowazlecenia.getRazemspolecznepracownik()))));
+            } else{
+                poz.setP75(BigDecimal.valueOf(Z.z(sumaUmowazlecenia.getRazemspolecznepracownik())));
+            }
+            if (poz.getP78()!=null) {
+                poz.setP78(poz.getP78().add(BigDecimal.valueOf(Z.z(sumaUmowazlecenia.getPraczdrowotnedopotracenia()))));
+            } else{
+                poz.setP78(BigDecimal.valueOf(Z.z(sumaUmowazlecenia.getPraczdrowotnedopotracenia())));
+            }
+            //czy dodano PIT-R 1tak 2nie
+            poz.setP96((byte)2);
+        }
+        if (sumaUmowapelnieniefunkcji.getBrutto()>0.0) {
+            poz.setP47(BigDecimal.valueOf(sumaUmowapelnieniefunkcji.getBrutto()));
+            poz.setP48(BigDecimal.valueOf(sumaUmowapelnieniefunkcji.getKosztyuzyskania()));
+            poz.setP49(poz.getP51().subtract(poz.getP52()));
+            poz.setP50(BigInteger.valueOf(Z.zUD(sumaUmowapelnieniefunkcji.getPodatekdochodowy())));
+            if (poz.getP75()!=null) {
+                poz.setP75(poz.getP75().add(BigDecimal.valueOf(Z.z(sumaUmowazlecenia.getRazemspolecznepracownik()))));
+            } else{
+                poz.setP75(BigDecimal.valueOf(Z.z(sumaUmowazlecenia.getRazemspolecznepracownik())));
+            }
+            if (poz.getP78()!=null) {
+                poz.setP78(poz.getP78().add(BigDecimal.valueOf(Z.z(sumaUmowazlecenia.getPraczdrowotnedopotracenia()))));
+            } else{
+                poz.setP78(BigDecimal.valueOf(Z.z(sumaUmowazlecenia.getPraczdrowotnedopotracenia())));
+            }
+            //czy dodano PIT-R 1tak 2nie
+            poz.setP96((byte)2);
+        }
+        if (sumaUmowazlecenia.getBrutto()>0.0) {
+            poz.setP51(BigDecimal.valueOf(sumaUmowazlecenia.getBrutto()));
+            poz.setP52(BigDecimal.valueOf(sumaUmowazlecenia.getKosztyuzyskania()));
+            poz.setP53(poz.getP51().subtract(poz.getP52()));
+            poz.setP54(BigInteger.valueOf(Z.zUD(sumaUmowazlecenia.getPodatekdochodowy())));
+            if (poz.getP75()!=null) {
+                poz.setP75(poz.getP75().add(BigDecimal.valueOf(Z.z(sumaUmowazlecenia.getRazemspolecznepracownik()))));
+            } else{
+                poz.setP75(BigDecimal.valueOf(Z.z(sumaUmowazlecenia.getRazemspolecznepracownik())));
+            }
+            if (poz.getP78()!=null) {
+                poz.setP78(poz.getP78().add(BigDecimal.valueOf(Z.z(sumaUmowazlecenia.getPraczdrowotnedopotracenia()))));
+            } else{
+                poz.setP78(BigDecimal.valueOf(Z.z(sumaUmowazlecenia.getPraczdrowotnedopotracenia())));
+            }
             //czy dodano PIT-R 1tak 2nie
             poz.setP96((byte)2);
         }
         if (sumaUmowaoprace26.getBrutto()>0.0) {
             poz.setP28(null);
-            poz.setP75(BigDecimal.valueOf(Z.z(sumaUmowaoprace26.getRazemspolecznepracownik())));
-            poz.setP78(BigDecimal.valueOf(Z.z(sumaUmowaoprace26.getPraczdrowotnedopotracenia())));
+            if (poz.getP77()!=null) {
+                poz.setP77(poz.getP77().add(BigDecimal.valueOf(Z.z(sumaUmowaoprace26.getRazemspolecznepracownik()))));
+            } else{
+                poz.setP77(BigDecimal.valueOf(Z.z(sumaUmowaoprace26.getRazemspolecznepracownik())));
+            }
+            if (poz.getP80()!=null) {
+                poz.setP80(poz.getP80().add(BigDecimal.valueOf(Z.z(sumaUmowaoprace26.getPraczdrowotnedopotracenia()))));
+            } else{
+                poz.setP80(BigDecimal.valueOf(Z.z(sumaUmowaoprace26.getPraczdrowotnedopotracenia())));
+            }
             poz.setP93(BigDecimal.valueOf(Z.z(sumaUmowaoprace26.getBrutto())));
-            poz.setP92(BigDecimal.valueOf(Z.z(sumaUmowaoprace26.getBrutto())));
+            if (poz.getP92()!=null) {
+                poz.setP92(poz.getP92().add(BigDecimal.valueOf(Z.z(sumaUmowaoprace26.getBrutto()))));
+            } else{
+                poz.setP92(BigDecimal.valueOf(Z.z(sumaUmowaoprace26.getBrutto())));
+            }
             poz.setP96((byte)2);
         }
         if (sumaUmowazlecenia26.getBrutto()>0.0) {
             poz.setP28(null);
-            poz.setP75(BigDecimal.valueOf(Z.z(sumaUmowazlecenia26.getRazemspolecznepracownik())));
-            poz.setP78(BigDecimal.valueOf(Z.z(sumaUmowazlecenia26.getPraczdrowotnedopotracenia())));
+            if (poz.getP77()!=null) {
+                poz.setP77(poz.getP77().add(BigDecimal.valueOf(Z.z(sumaUmowazlecenia26.getRazemspolecznepracownik()))));
+            } else{
+                poz.setP77(BigDecimal.valueOf(Z.z(sumaUmowazlecenia26.getRazemspolecznepracownik())));
+            }
+            if (poz.getP80()!=null) {
+                poz.setP80(poz.getP80().add(BigDecimal.valueOf(Z.z(sumaUmowazlecenia26.getPraczdrowotnedopotracenia()))));
+            } else{
+                poz.setP80(BigDecimal.valueOf(Z.z(sumaUmowazlecenia26.getPraczdrowotnedopotracenia())));
+            }
             poz.setP94(BigDecimal.valueOf(Z.z(sumaUmowazlecenia26.getBrutto())));
-            poz.setP92(BigDecimal.valueOf(Z.z(sumaUmowazlecenia26.getBrutto())));
+            if (poz.getP92()!=null) {
+                poz.setP92(poz.getP92().add(BigDecimal.valueOf(Z.z(sumaUmowazlecenia26.getBrutto()))));
+            } else{
+                poz.setP92(BigDecimal.valueOf(Z.z(sumaUmowazlecenia26.getBrutto())));
+            }
             poz.setP96((byte)2);
         }
         return poz;
