@@ -48,6 +48,8 @@ public class Umowakodzus implements Serializable {
     @Size(min = 1, max = 512)
     @Column(name = "opis")
     private String opis;
+    @Column(name = "opiswlasny", nullable = true)
+    private String opiswlasny;
     @Column(name = "praca")
     private boolean praca;
     @Column(name = "zlecenie")
@@ -97,6 +99,18 @@ public class Umowakodzus implements Serializable {
 
     public void setZlecenie(boolean zlecenie) {
         this.zlecenie = zlecenie;
+    }
+
+    public String getOpiswybor() {
+        return opiswlasny==null||opiswlasny.equals("")?opis:opiswlasny;
+    }
+
+    public String getOpiswlasny() {
+        return opiswlasny;
+    }
+
+    public void setOpiswlasny(String opiswlasny) {
+        this.opiswlasny = opiswlasny;
     }
 
 

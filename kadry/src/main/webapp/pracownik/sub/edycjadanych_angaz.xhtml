@@ -11,19 +11,6 @@
                 <h:panelGroup id="display">
                     <p:panel header="Wybór pracownika do angażu w firmie #{wpisView.firma.nazwa}"/>
                     <p:panelGrid columns="2" rendered="#{angazView.selected != null}">
-                        <p:outputLabel value="rodzaj wynagrodzenia" for="rodzajwynagrodzenia" />
-                        <p:selectOneMenu id="rodzajwynagrodzenia" value="#{angazView.selected.rodzajwynagrodzenia}" required="true" requiredMessage="rodzajwynagrodzenia}">
-                            <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
-                            <f:selectItem itemValue="0" itemLabel="godzinowe"/>
-                            <f:selectItem itemValue="1" itemLabel="stałe"/>
-                            <f:selectItem itemValue="2" itemLabel="akord"/>
-                        </p:selectOneMenu>
-                        <p:outputLabel value="ciągłość chorobowego" for="ciagloscchorobowego" />
-                        <p:selectBooleanCheckbox id="ciagloscchorobowego"  value="#{angazView.selected.ciagloscchorobowe}">
-                            <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
-                            <f:selectItem itemValue="true" itemLabel="jest ciągłość"/>
-                            <f:selectItem itemValue="false" itemLabel="brak ciągłości"/>
-                        </p:selectBooleanCheckbox>
                         <p:outputLabel value="pracownik" for="pracownik" />
                         <p:autoComplete id="pracownik" value="#{angazView.selected.pracownik}" required="true" requiredMessage="Wybierz pracownika" converter="#{pracownikConverter}"
                                         widgetVar="angazpracownik" completeMethod="#{angazView.complete}"

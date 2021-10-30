@@ -6,6 +6,7 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -20,6 +21,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -34,7 +37,6 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Angaz.findAll", query = "SELECT a FROM Angaz a"),
     @NamedQuery(name = "Angaz.findById", query = "SELECT a FROM Angaz a WHERE a.id = :id"),
-    @NamedQuery(name = "Angaz.findByRodzajwynagrodzenia", query = "SELECT a FROM Angaz a WHERE a.rodzajwynagrodzenia = :rodzajwynagrodzenia"),
     @NamedQuery(name = "Angaz.findByFirma", query = "SELECT a FROM Angaz a WHERE a.firma = :firma"),
     @NamedQuery(name = "Angaz.findByPeselFirma", query = "SELECT a FROM Angaz a WHERE a.pracownik.pesel = :pesel AND a.firma = :firma"),
     @NamedQuery(name = "Angaz.findPracownikByFirma", query = "SELECT a.pracownik FROM Angaz a WHERE a.firma = :firma")
@@ -58,18 +60,19 @@ public class Angaz implements Serializable {
     @NotNull
     @ManyToOne
     private Pracownik pracownik;
-    @Column(name = "rodzajwynagrodzenia")
-    private Integer rodzajwynagrodzenia;
     @Column(name = "serialsp")
     private String serialsp;
-    @Column(name = "ciagloscchorobowe")
-    private Boolean ciagloscchorobowe;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "angaz")
     private List<Kartawynagrodzen> kartawynagrodzenList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "angaz")
     private List<Wynagrodzeniahistoryczne> wynagrodzeniahistoryczneList;
     @OneToMany(mappedBy = "angaz")
     private List<Memory> memoryList;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "datadodania")
+    private Date datadodania;
+    @Column(name = "utworzyl")
+    private String utworzyl;
 
 
     public Angaz() {
@@ -87,6 +90,15 @@ public class Angaz implements Serializable {
         this.id = id;
     }
 
+    public String getUtworzyl() {
+        return utworzyl;
+    }
+
+    public void setUtworzyl(String utworzyl) {
+        this.utworzyl = utworzyl;
+    }
+
+    
 
     @XmlTransient
     public List<Umowa> getUmowaList() {
@@ -113,6 +125,16 @@ public class Angaz implements Serializable {
         this.pracownik = pracownik;
     }
 
+    public Date getDatadodania() {
+        return datadodania;
+    }
+
+    public void setDatadodania(Date datadodania) {
+        this.datadodania = datadodania;
+    }
+    
+    
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -135,19 +157,12 @@ public class Angaz implements Serializable {
 
     @Override
     public String toString() {
-        return "Angaz{, firma=" + firma.getNazwa() + ", pracownik=" + pracownik.getNazwiskoImie() + ", rodzajwynagrodzenia=" + rodzajwynagrodzenia + ", serialsp=" + serialsp + '}';
+        return "Angaz{, firma=" + firma.getNazwa() + ", pracownik=" + pracownik.getNazwiskoImie() + ", serialsp=" + serialsp + '}';
     }
 
    
 
-    public Integer getRodzajwynagrodzenia() {
-        return rodzajwynagrodzenia;
-    }
-
-    public void setRodzajwynagrodzenia(Integer rodzajwynagrodzenia) {
-        this.rodzajwynagrodzenia = rodzajwynagrodzenia;
-    }
-     public String getAngazString() {
+    public String getAngazString() {
         return this.getFirma().getNazwa()+" "+this.getPracownik().getNazwiskoImie();
     }
     public String getAngazStringPlik() {
@@ -170,14 +185,6 @@ public class Angaz implements Serializable {
 
     public void setWynagrodzeniahistoryczneList(List<Wynagrodzeniahistoryczne> wynagrodzeniahistoryczneList) {
         this.wynagrodzeniahistoryczneList = wynagrodzeniahistoryczneList;
-    }
-
-    public Boolean getCiagloscchorobowe() {
-        return ciagloscchorobowe;
-    }
-
-    public void setCiagloscchorobowe(Boolean ciagloscchorobowe) {
-        this.ciagloscchorobowe = ciagloscchorobowe;
     }
 
     public String getSerialsp() {

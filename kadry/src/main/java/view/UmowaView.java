@@ -140,8 +140,24 @@ public class UmowaView  implements Serializable {
         }
         if (rodzajumowy.equals("1")) {
             lista  = umowaFacade.findByAngazPraca(wpisView.getAngaz());
+            if (wpisView.getUmowa().getUmowakodzus().isZlecenie()&&lista!=null&&lista.size()>0) {
+                Umowa aktywna = lista.stream().filter(p->p.isAktywna()).findAny().orElse(lista.get(0));
+                if (aktywna.isAktywna()==false) {
+                    aktywna.setAktywna(true);
+                    umowaFacade.edit(aktywna);
+                }
+                wpisView.setUmowa(aktywna);
+            }
         } else {
             lista  = umowaFacade.findByAngazZlecenie(wpisView.getAngaz());
+            if (wpisView.getUmowa().getUmowakodzus().isPraca()&&lista!=null&&lista.size()>0) {
+                Umowa aktywna = lista.stream().filter(p->p.isAktywna()).findAny().orElse(lista.get(0));
+                if (aktywna.isAktywna()==false) {
+                    aktywna.setAktywna(true);
+                    umowaFacade.edit(aktywna);
+                }
+                wpisView.setUmowa(aktywna);
+            }
         }
         listaangaz = angazFacade.findByFirma(wpisView.getFirma());
         listaumowakodzus = rodzajumowyFacade.findUmowakodzusAktywne();

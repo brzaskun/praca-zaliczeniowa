@@ -6,6 +6,8 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -146,14 +148,18 @@ public class Kartawynagrodzen implements Serializable {
     private String nazwiskoiimie;
     @Transient
     private Map<String,Kartawynagrodzen> sumy;
+    @Transient
+    private List<Pasekwynagrodzen> paski;
     
     public Kartawynagrodzen() {
         this.nrlisty = "";
+        this.paski = new ArrayList<>();
     }
 
     public Kartawynagrodzen(Integer id) {
         this.id = id;
         this.nrlisty = "";
+        this.paski = new ArrayList<>();
     }
 
     public Integer getId() {
@@ -445,6 +451,14 @@ public class Kartawynagrodzen implements Serializable {
     public void setSumy(Map<String, Kartawynagrodzen> sumy) {
         this.sumy = sumy;
     }
+
+    public List<Pasekwynagrodzen> getPaski() {
+        return paski;
+    }
+
+    public void setPaski(List<Pasekwynagrodzen> paski) {
+        this.paski = paski;
+    }
     
     
     @Override
@@ -541,6 +555,9 @@ public class Kartawynagrodzen implements Serializable {
             } else {
                 this.nrlisty = this.nrlisty+pasek.getDefinicjalistaplac().getNrkolejny()+";";
             }
+        }
+        if (this.mc!=null&&!this.mc.equals("razem")) {
+            this.paski.add(pasek);
         }
     }
 

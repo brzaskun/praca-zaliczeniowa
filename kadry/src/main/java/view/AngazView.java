@@ -23,6 +23,7 @@ import entity.Uz;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import javax.annotation.PostConstruct;
@@ -92,6 +93,8 @@ public class AngazView  implements Serializable {
                 Msg.msg("e", "Pracownik nie posiada adresu email. Nie można stworzyć angażu. Email musi być unikalny");
             } else {
                 try {
+                    selected.setDatadodania(new Date());
+                    selected.setUtworzyl(wpisView.getUzer().getImieNazwisko());
                     selected.setFirma(wpisView.getFirma());
                     angazFacade.create(selected);
                     lista.add(selected);

@@ -4,117 +4,268 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
-        
+
     xmlns:bcf="http://brzaskun.com/facelets"
-xmlns:pe="http://primefaces.org/ui/extensions">
+    xmlns:pe="http://primefaces.org/ui/extensions">
     <p:dialog id="dialogkartawynagrodzen" header="Karta wynagrodzeń" widgetVar="dialogkartawynagrodzen"  
               resizable="false"  onShow="ustawdialog('dialogkartawynagrodzen','centertile',1650,800);" closeOnEscape="true" onHide="resetujdialog('dialogkartawynagrodzen');" 
               fitViewport="true">
         <p:ajax event="open" listener="#{kartaWynagrodzenView.init()}" update="KartyWynangrodzenListForm" global="false"/>
         <p:outputPanel>
-             <h:form id="KartyWynangrodzenListForm">
-                    <p:dataTable id="datalist" value="#{kartaWynagrodzenView.kartawynagrodzenlist}" var="itemkarta"
-                                 rowKey="#{itemkarta.id}" sortBy="#{itemkarta.mc}" rowIndexVar="indexka"
-                                 style="height: 450px; overflow-y: scroll;" emptyMessage="Nie pobrano danych"
-                                 >
-                        <p:column width="20" style="text-align: center;">
-                            <f:facet name="header">
-                                <h:outputText value="id"/>
-                            </f:facet>
-                            <h:outputText value="#{indexka+1}"/>
-                        </p:column>
-                        <p:column width="20" style="text-align: center;">
-                            <f:facet name="header">
-                                <h:outputText value="mc"/>
-                            </f:facet>
-                            <h:outputText value="#{itemkarta.mc}"/>
-                        </p:column>
-                         <p:column width="100" style="text-align: center;word-break: true;">
-                            <f:facet name="header">
-                                <h:outputText value="nr listy"/>
-                            </f:facet>
-                            <h:outputText value="#{itemkarta.nrlisty}"/>
-                        </p:column>
-                        <p:column width="60">
-                            <f:facet name="header">
-                                <h:outputText value="składki pracod."/>
-                            </f:facet>
-                            <bcf:outputpl value="#{itemkarta.kosztpracodawcy}"/>
-                        </p:column>
-                        <p:column width="60">
-                            <f:facet name="header">
-                                <h:outputText value="brutto"/>
-                            </f:facet>
-                            <bcf:outputpl value="#{itemkarta.brutto}"/>
-                        </p:column>
-                        <p:column width="60">
-                            <f:facet name="header">
-                                <h:outputText value="wyn. z zus"/>
-                            </f:facet>
-                            <bcf:outputpl value="#{itemkarta.bruttozus}"/>
-                        </p:column>
-                        <p:column width="60">
-                            <f:facet name="header">
-                                <h:outputText value="wyn. bez zus"/>
-                            </f:facet>
-                            <bcf:outputpl value="#{itemkarta.bruttobezzus}"/>
-                        </p:column>
-                        <p:column width="60">
-                            <f:facet name="header">
-                                <h:outputText value="składki"/>
-                            </f:facet>
-                            <bcf:outputpl value="#{itemkarta.razemspolecznepracownik}"/>
-                        </p:column>
-                        <p:column width="60">
-                            <f:facet name="header">
-                                <h:outputText value="podstawa opod."/>
-                            </f:facet>
-                            <bcf:outputpl value="#{itemkarta.podstawaopodatkowania}"/>
-                        </p:column>
-                        <p:column width="60">
-                            <f:facet name="header">
-                                <h:outputText value="koszty uzysk."/>
-                            </f:facet>
-                            <bcf:outputpl value="#{itemkarta.kosztyuzyskania}"/>
-                        </p:column>
-                        <p:column width="60">
-                            <f:facet name="header">
-                                <h:outputText value="zdrowotne"/>
-                            </f:facet>
-                            <bcf:outputpl value="#{itemkarta.praczdrowotne}"/>
-                        </p:column>
-                         <p:column width="60">
-                            <f:facet name="header">
-                                <h:outputText value="zdrowotne odlicz."/>
-                            </f:facet>
-                             <bcf:outputpl value="#{itemkarta.praczdrowotnedopotracenia}"/>
-                        </p:column>
-                        <p:column width="60">
-                            <f:facet name="header">
-                                <h:outputText value="podatek"/>
-                            </f:facet>
-                            <bcf:outputpl value="#{itemkarta.podatekdochodowy}"/>
-                        </p:column>
-                        <p:column width="60">
-                            <f:facet name="header">
-                                <h:outputText value="wyn. netto"/>
-                            </f:facet>
-                            <bcf:outputpl value="#{itemkarta.netto}"/>
-                        </p:column>
-                        <p:column width="30">
-                            <f:facet name="header">
-                                <h:outputText value="koszty pod."/>
-                            </f:facet>
-                            <h:outputText  value="&#x2714;" rendered="#{itemkarta.kosztypodwyzszone}" styleClass="ww"/>
-                        </p:column>
-                        <p:column width="30">
-                            <f:facet name="header">
-                                <h:outputText value="koszty wiele um."/>
-                            </f:facet>
-                            <h:outputText  value="&#x2714;" rendered="#{itemkarta.kosztywieleumow}" styleClass="ww"/>
-                        </p:column>
-                    </p:dataTable>
-                 <p:messages showDetail="true"/>
+            <h:form id="KartyWynangrodzenListForm">
+                <p:dataTable id="datalist" value="#{kartaWynagrodzenView.kartawynagrodzenlist}" var="itemkarta"
+                             rowKey="#{itemkarta.id}" sortBy="#{itemkarta.mc}" rowIndexVar="indexka"
+                             style="height: 450px; overflow-y: scroll;" emptyMessage="Nie pobrano danych"
+                             >
+                    <p:column width="40" style="text-align: center;">
+                        <p:rowToggler rendered="#{itemkarta.paski.size() gt 0}"/>
+                    </p:column>
+                    <p:column width="20" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="id"/>
+                        </f:facet>
+                        <h:outputText value="#{indexka+1}"/>
+                    </p:column>
+                    <p:column width="20" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="mc"/>
+                        </f:facet>
+                        <h:outputText value="#{itemkarta.mc}"/>
+                    </p:column>
+                    <p:column width="100" style="text-align: center;word-break: true;">
+                        <f:facet name="header">
+                            <h:outputText value="nr listy"/>
+                        </f:facet>
+                        <h:outputText value="#{itemkarta.nrlisty}"/>
+                    </p:column>
+                    <p:column width="60">
+                        <f:facet name="header">
+                            <h:outputText value="składki pracod."/>
+                        </f:facet>
+                        <bcf:outputpl value="#{itemkarta.kosztpracodawcy}"/>
+                    </p:column>
+                    <p:column width="60">
+                        <f:facet name="header">
+                            <h:outputText value="brutto"/>
+                        </f:facet>
+                        <bcf:outputpl value="#{itemkarta.brutto}"/>
+                    </p:column>
+                    <p:column width="60">
+                        <f:facet name="header">
+                            <h:outputText value="wyn. z zus"/>
+                        </f:facet>
+                        <bcf:outputpl value="#{itemkarta.bruttozus}"/>
+                    </p:column>
+                    <p:column width="60">
+                        <f:facet name="header">
+                            <h:outputText value="wyn. bez zus"/>
+                        </f:facet>
+                        <bcf:outputpl value="#{itemkarta.bruttobezzus}"/>
+                    </p:column>
+                    <p:column width="60">
+                        <f:facet name="header">
+                            <h:outputText value="składki"/>
+                        </f:facet>
+                        <bcf:outputpl value="#{itemkarta.razemspolecznepracownik}"/>
+                    </p:column>
+                    <p:column width="60">
+                        <f:facet name="header">
+                            <h:outputText value="podstawa opod."/>
+                        </f:facet>
+                        <bcf:outputpl value="#{itemkarta.podstawaopodatkowania}"/>
+                    </p:column>
+                    <p:column width="60">
+                        <f:facet name="header">
+                            <h:outputText value="koszty uzysk."/>
+                        </f:facet>
+                        <bcf:outputpl value="#{itemkarta.kosztyuzyskania}"/>
+                    </p:column>
+                    <p:column width="60">
+                        <f:facet name="header">
+                            <h:outputText value="zdrowotne"/>
+                        </f:facet>
+                        <bcf:outputpl value="#{itemkarta.praczdrowotne}"/>
+                    </p:column>
+                    <p:column width="60">
+                        <f:facet name="header">
+                            <h:outputText value="zdrowotne odlicz."/>
+                        </f:facet>
+                        <bcf:outputpl value="#{itemkarta.praczdrowotnedopotracenia}"/>
+                    </p:column>
+                    <p:column width="60">
+                        <f:facet name="header">
+                            <h:outputText value="podatek"/>
+                        </f:facet>
+                        <bcf:outputpl value="#{itemkarta.podatekdochodowy}"/>
+                    </p:column>
+                    <p:column width="60">
+                        <f:facet name="header">
+                            <h:outputText value="wyn. netto"/>
+                        </f:facet>
+                        <bcf:outputpl value="#{itemkarta.netto}"/>
+                    </p:column>
+                    <p:column width="30">
+                        <f:facet name="header">
+                            <h:outputText value="koszty pod."/>
+                        </f:facet>
+                        <h:outputText  value="&#x2714;" rendered="#{itemkarta.kosztypodwyzszone}" styleClass="ww"/>
+                    </p:column>
+                    <p:column width="30">
+                        <f:facet name="header">
+                            <h:outputText value="koszty wiele um."/>
+                        </f:facet>
+                        <h:outputText  value="&#x2714;" rendered="#{itemkarta.kosztywieleumow}" styleClass="ww"/>
+                    </p:column>
+                    <p:rowExpansion>
+                        <p:dataTable id="datalistpasek" value="#{itemkarta.paski}" var="itemkartapasek"
+                                     rowIndexVar="indexkartapasek"
+                                     style="height: 150px; overflow-y: scroll;" emptyMessage="Nie ma wynagrodzen"
+                                     >
+                            <p:column>
+                                <p:panelGrid styleClass="pasekwync">
+                                    <p:row>
+                                        <p:column width="40" style="text-align: center;">
+                                            <h:outputText value="zapisane" rendered="#{itemkartapasek.id ne null}" styleClass="wwb"/>
+                                            <h:outputText value="nowe" rendered="#{itemkartapasek.id eq null}" styleClass="ww"/>
+                                        </p:column>
+                                        <p:column>
+                                            <h:outputText value="skł. normalne"/>
+                                        </p:column>
+                                        <p:column>
+                                            <h:outputText value="skł. bez zus"/>
+                                        </p:column>
+                                        <p:column>
+                                            <h:outputText value="skł. bez zus i pod."/>
+                                        </p:column>
+                                        <p:column>
+                                            <h:outputText value="brutto"/>
+                                        </p:column>
+                                        <p:column>
+                                            <h:outputText value="prac chorobowe"/>
+                                        </p:column>
+                                        <p:column>
+                                            <h:outputText value="prac emerytalne"/>
+                                        </p:column>
+                                        <p:column>
+                                            <h:outputText value="prac rentowe"/>
+                                        </p:column>
+                                        <p:column>
+                                            <h:outputText value="razem spoleczne prac."/>
+                                        </p:column>
+                                        <p:column>
+                                            <h:outputText value=" "/>
+                                        </p:column>
+                                    </p:row>
+                                    <p:row>
+                                        <p:column width="40" style="text-align: center;">
+                                            <h:outputText value="#{indexkartapasek+1}"/>
+                                            <h:outputText value="/import" style="color:blue;" rendered="#{itemkartapasek.importowany eq true}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <bcf:outputpl value="#{itemkartapasek.bruttozus}" />
+                                        </p:column>
+                                        <p:column>
+                                            <bcf:outputpl value="#{itemkartapasek.bruttobezzus}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <bcf:outputpl value="#{itemkartapasek.bruttobezzusbezpodatek}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <bcf:outputpl value="#{itemkartapasek.brutto}"/>
+                                        </p:column>
+                                        <p:column >
+                                            <bcf:outputpl value="#{itemkartapasek.pracchorobowe}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <bcf:outputpl value="#{itemkartapasek.pracemerytalne}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <bcf:outputpl value="#{itemkartapasek.pracrentowe}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <bcf:outputpl value="#{itemkartapasek.razemspolecznepracownik}"/>
+                                        </p:column>
+
+                                        <p:column style="text-align: center;">
+                                            
+                                        </p:column>
+                                    </p:row>
+                                    <p:row>
+                                        <p:column>
+                                            <h:outputText value="#{itemkartapasek.rok}/#{itemkartapasek.mc}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <h:outputText value="podstawa opodatk."/>
+                                        </p:column>
+                                        <p:column>
+                                            <h:outputText value="koszty uzyskania"/>
+                                        </p:column>
+                                        <p:column>
+                                            <h:outputText value="kwota wolna"/>
+                                        </p:column>
+                                        <p:column>
+                                            <h:outputText value="pod. ubezp zdrow."/>
+                                        </p:column>
+                                        <p:column>
+                                            <h:outputText value="prac zdrowotne"/>
+                                        </p:column>
+                                        <p:column>
+                                            <h:outputText value="prac zdrow. do potrąc."/>
+                                        </p:column>
+                                        <p:column>
+                                            <h:outputText value="podatek dochodowy"/>
+                                        </p:column>
+                                        <p:column>
+                                            <h:outputText value="potracenia"/>
+                                        </p:column>
+                                        <p:column>
+                                            <h:outputText value="netto"/>
+                                        </p:column>
+                                        <p:column>
+                                            <h:outputText value=" "/>
+                                        </p:column>
+                                    </p:row>
+                                    <p:row>
+                                        <p:column>
+                                            <h:outputText value="#{itemkartapasek.nazwiskoImie}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <bcf:outputpl value="#{itemkartapasek.podstawaopodatkowania}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <bcf:outputpl value="#{itemkartapasek.kosztyuzyskania}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <bcf:outputpl value="#{itemkartapasek.kwotawolna}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <bcf:outputpl value="#{itemkartapasek.podstawaubezpzdrowotne}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <bcf:outputpl value="#{itemkartapasek.praczdrowotne}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <bcf:outputpl value="#{itemkartapasek.praczdrowotnedopotracenia}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <bcf:outputpl value="#{itemkartapasek.podatekdochodowy}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <bcf:outputpl value="#{itemkartapasek.potracenia}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <bcf:outputpl value="#{itemkartapasek.netto}"/>
+                                        </p:column>
+                                        <p:column style="text-align: center;">
+                                            
+                                        </p:column>
+                                    </p:row>
+                                </p:panelGrid>
+                            </p:column>
+                        </p:dataTable>
+                    </p:rowExpansion>
+                </p:dataTable>
+                <p:messages showDetail="true"/>
             </h:form>
         </p:outputPanel>
         <p:outputPanel>

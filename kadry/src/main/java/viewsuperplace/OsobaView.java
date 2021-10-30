@@ -293,13 +293,15 @@ public class OsobaView implements Serializable {
                 }
                 System.out.println("funkcja sprawdzanie sob ");
                 List<Angaz> listapracownikow = angazFacade.findByFirma(wpisView.getFirma());
-                for (Osoba o : osoby) {
-                    for (Angaz a : listapracownikow) {
-                        if (a.getSerialsp()!=null) {
-                            if (o.getOsoSerial().equals(Integer.parseInt(a.getSerialsp()))) {
-                                o.setOsoDodVchar3("tak");
-                                System.out.println("osoba "+a.getSerialsp());
-                                break;
+                if (osoby!=null) {
+                    for (Osoba o : osoby) {
+                        for (Angaz a : listapracownikow) {
+                            if (a.getSerialsp()!=null) {
+                                if (o.getOsoSerial().equals(Integer.parseInt(a.getSerialsp()))) {
+                                    o.setOsoDodVchar3("tak");
+                                    System.out.println("osoba "+a.getSerialsp());
+                                    break;
+                                }
                             }
                         }
                     }

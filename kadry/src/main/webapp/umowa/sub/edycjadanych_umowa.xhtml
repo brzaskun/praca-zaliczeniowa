@@ -171,11 +171,11 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                                  style="height: 200px; overflow-y: scroll; width: 1800px;"
                                  >
                         <p:ajax event="rowSelect" listener="#{umowaView.aktywuj}" partialSubmit="true" global="false" update="north, @(form)"/>
-                        <p:column width="40" style="text-align: center;">
+                        <p:column width="80" style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="nr"/>
                             </f:facet>
-                            <h:outputText value="#{itemumowa.nrkolejny}" style="line-break: auto; word-break: break-all;"/>
+                            <h:outputText value="#{itemumowa.nrkolejny}" style="line-break: auto; word-break: break-all;color: #{itemumowa.aktywna eq true ? 'green':'initial'}"/>
                         </p:column>
 <!--                         <p:column>
                             <f:facet name="header">
@@ -192,7 +192,7 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                             <f:facet name="header">
                                 <h:outputText value="rodzaj umowy ZUS"/>
                             </f:facet>
-                            <h:outputText value="#{itemumowa.umowakodzus.opis}" style="color: #{itemumowa.aktywna eq true ? 'green':'initial'}"/>
+                            <h:outputText value="#{itemumowa.umowakodzus.opiswybor}" style="color: #{itemumowa.aktywna eq true ? 'green':'initial'}"/>
                         </p:column>
                         <p:column style="text-align: center;">
                             <f:facet name="header">
@@ -248,13 +248,13 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                             </f:facet>
                             <h:outputText value="&#x2714;"  rendered="#{itemumowa.zdrowotne eq true}"/>
                         </p:column>
-                        <p:column style="text-align: center;" sortOrder="desc" sortBy="#{itemumowa.dataod}">
+                        <p:column style="text-align: center;color: #{itemumowa.aktywna eq true ? 'green':'initial'}" sortOrder="desc" sortBy="#{itemumowa.dataod}">
                             <f:facet name="header">
                                 <h:outputText value="data od"/>
                             </f:facet>
                             <h:outputText value="#{itemumowa.dataod}"/>
                         </p:column>
-                        <p:column style="text-align: center;">
+                        <p:column style="text-align: center;color: #{itemumowa.aktywna eq true ? 'green':'initial'}">
                             <f:facet name="header">
                                 <h:outputText value="data do"/>
                             </f:facet>

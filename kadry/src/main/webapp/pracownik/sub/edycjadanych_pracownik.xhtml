@@ -16,7 +16,7 @@
                         <p:outputLabel value="imię" for="imie" />
                         <p:inputText id="imie" value="#{pracownikView.selected.imie}" title="imię" required="true" requiredMessage="Wpisz imię"/>
                         <p:outputLabel value="pesel" for="pesel" />
-                        <p:inputText id="pesel" value="#{pracownikView.selected.pesel}" title="pesel" required="true" requiredMessage="Wpisz Pesel" maxlength="10"/>
+                        <p:inputText id="pesel" value="#{pracownikView.selected.pesel}" title="pesel" required="true" requiredMessage="Wpisz Pesel" maxlength="11"/>
                         <p:outputLabel value="email" for="email" />
                         <p:inputText id="email" value="#{pracownikView.selected.email}" title="email"/>
                         <p:outputLabel value="telefon" for="telefon" />
@@ -60,13 +60,13 @@
                             </f:facet>
                             <h:outputText value="#{item2.pesel}"/>
                         </p:column>
-                        <p:column>
+                        <p:column  filterBy="#{item2.firmypracownika}" filterMatchMode="contains">
                             <f:facet name="header">
                                 <h:outputText value="firmy"/>
                             </f:facet>
                             <h:outputText value="#{item2.firmypracownika}"/>
                         </p:column>
-                         <p:column width="150">
+                         <p:column width="150" filterBy="#{item2.email}" filterMatchMode="contains">
                             <f:facet name="header">
                                 <h:outputText value="email"/>
                             </f:facet>
@@ -74,7 +74,7 @@
                                 <p:ajax event="change" partialSubmit="true" global="false" listener="#{pracownikView.edytuj(item2)}"/>
                             </p:inputText>
                         </p:column>
-                        <p:column style="text-align: center;">
+                        <p:column style="text-align: center;" filterBy="#{item2.telefon}" filterMatchMode="contains">
                             <f:facet name="header">
                                 <h:outputText value="telefon"/>
                             </f:facet>

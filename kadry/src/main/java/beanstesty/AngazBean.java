@@ -20,7 +20,6 @@ public class AngazBean {
             angaz = new Angaz();
             angaz.setFirma(FirmaBean.create());
             angaz.setPracownik(PracownikBean.create());
-            angaz.setRodzajwynagrodzenia(0);
         }
         return angaz;
     }

@@ -136,8 +136,6 @@ public class OsobaBean {
         Angaz nowy = new Angaz();
         nowy.setFirma(firma);
         nowy.setPracownik(pracownik);
-        nowy.setRodzajwynagrodzenia(1);
-        nowy.setCiagloscchorobowe(true);
         return nowy;
     }
 
@@ -241,13 +239,21 @@ public class OsobaBean {
     
     static void pobierzskladnikwynagrodzenia(List<OsobaSkl> skladniki, List<Rodzajwynagrodzenia> rodzajewynagrodzenia, Umowa aktywna, SkladnikWynagrodzeniaFacade skladnikWynagrodzeniaFacade, ZmiennaWynagrodzeniaFacade zmiennaWynagrodzeniaFacade) {
         if (skladniki!=null) {
+            OsobaSkl wybrany = null;
             for (OsobaSkl s : skladniki) {
-                Skladnikwynagrodzenia skladnik = new Skladnikwynagrodzenia();
-                skladnik.setUmowa(aktywna);
-                skladnik.setRodzajwynagrodzenia(pobierzrodzajwynagrodzenia(s,rodzajewynagrodzenia));
-                skladnikWynagrodzeniaFacade.create(skladnik);
-                pobierzzmiennawynagrodzenia(aktywna, skladnik, s, zmiennaWynagrodzeniaFacade);
+                if (wybrany == null) {
+                    wybrany = s;
+                } else if (s.getOssSerial()>wybrany.getOssSerial()) {
+                    wybrany = s;
+                }
             }
+            if (wybrany!=null) {
+                   Skladnikwynagrodzenia skladnik = new Skladnikwynagrodzenia();
+                   skladnik.setUmowa(aktywna);
+                   skladnik.setRodzajwynagrodzenia(pobierzrodzajwynagrodzenia(wybrany,rodzajewynagrodzenia));
+                   skladnikWynagrodzeniaFacade.create(skladnik);
+                   pobierzzmiennawynagrodzenia(aktywna, skladnik, wybrany, zmiennaWynagrodzeniaFacade);
+               }
         }
     }
     

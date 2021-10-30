@@ -14,7 +14,8 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                     <p:dataTable id="datalist" value="#{rodzjaumowySetView.lista}" var="item111"
                                  selectionMode="single" selection="#{rodzjaumowySetView.selectedlista}"
                                  rowKey="#{item111.id}" rowIndexVar="indexumowa" 
-                                 style="height: 400px; overflow-y: scroll; width: 1200px;"
+                                 style="height: 400px; overflow-y: scroll; width: 1600px;"
+                                 emptyMessage="Nie pobrano elementów"
                                  >
 
                         <p:column width="40" style="text-align: center;">
@@ -35,6 +36,12 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                                 <h:outputText value="opis"/>
                             </f:facet>
                             <h:outputText value="#{item111.opis}"/>
+                        </p:column>
+                        <p:column width="400" filterBy="#{item111.opiswlasny}" filterMatchMode="contains">
+                            <f:facet name="header">
+                                <h:outputText value="opis własny/skrócony"/>
+                            </f:facet>
+                            <p:inputText value="#{item111.opiswlasny}" size="50" maxlength="125"/>
                         </p:column>
                         <p:column style="text-align: center;">
                             <f:facet name="header">
@@ -57,8 +64,7 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                     <p:dataTable id="datalistr" value="#{rodzjawynagrodzeniaSetView.lista}" var="item11"
                                  selectionMode="single" selection="#{rodzjawynagrodzeniaSetView.selectedlista}"
                                  rowKey="#{item11.id}" emptyMessage="Nie znaleziono takiego składnika"
-                                 style="height: 400px; overflow-y: scroll; width: 1200px;" stickyHeader="true" stickyTopAt=".layout-topbar"
-                                 >
+                                 style="height: 400px; overflow-y: scroll; width: 1200px;" >
 
                         <p:column width="40" style="text-align: center;">
                             <f:facet name="header">
