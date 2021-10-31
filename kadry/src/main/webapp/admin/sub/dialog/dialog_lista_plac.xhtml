@@ -65,43 +65,52 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                     <p:dataTable id="datalist" value="#{pasekwynagrodzenView.lista}" var="itempasek" emptyMessage="Brak listy za dany okres"
                                  selectionMode="single" selection="#{pasekwynagrodzenView.selectedlista}" rowIndexVar="indexpasek"
                                  rowKey="#{itempasek.kalendarzmiesiac.hashCode()}" sortBy="#{itempasek.kalendarzmiesiac.umowa.angaz.pracownik.nazwiskoImie}"
-                                 style="height: 450px; overflow-y: scroll;"
+                                 style="height: 450px; overflow-y: scroll;width: 1300px;"
                                  >
-                        <p:column width="40" style="text-align: center;">
+                        <p:column width="20" style="text-align: center;">
                             <p:rowToggler rendered="#{itempasek.pobierzskladniki.size() gt 0}"/>
                         </p:column>
                         <p:column>
                             <p:panelGrid styleClass="pasekwync">
                                 <p:row>
-                                    <p:column width="40" style="text-align: center;">
+                                    <p:column width="80" style="text-align: center;">
                                         <h:outputText value="zapisane" rendered="#{itempasek.id ne null}" styleClass="wwb"/>
                                         <h:outputText value="nowe" rendered="#{itempasek.id eq null}" styleClass="ww"/>
-                                    </p:column>
-                                    <p:column>
-                                        <h:outputText value="skł. normalne"/>
-                                    </p:column>
-                                    <p:column>
-                                        <h:outputText value="skł. bez zus"/>
-                                    </p:column>
-                                    <p:column>
-                                        <h:outputText value="skł. bez zus i pod."/>
                                     </p:column>
                                     <p:column>
                                         <h:outputText value="brutto"/>
                                     </p:column>
                                     <p:column>
-                                        <h:outputText value="prac chorobowe"/>
+                                        <h:outputText value="brutto bez zus"/>
                                     </p:column>
                                     <p:column>
-                                        <h:outputText value="prac emerytalne"/>
+                                        <h:outputText value="brutto bez zus i pod."/>
                                     </p:column>
                                     <p:column>
-                                        <h:outputText value="prac rentowe"/>
+                                        <h:outputText value="za oddeleg. w wal."/>
                                     </p:column>
                                     <p:column>
-                                        <h:outputText value="razem spoleczne prac."/>
+                                        <h:outputText value="za oddeleg. w pln"/>
                                     </p:column>
                                     <p:column>
+                                        <h:outputText value="razem brutto"/>
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="chorobowe"/>
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="emerytalne"/>
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="rentowe"/>
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="razem społ. prac."/>
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="brutto-zus"/>
+                                    </p:column>
+                                    <p:column width="20">
                                         <h:outputText value=" "/>
                                     </p:column>
                                 </p:row>
@@ -111,31 +120,40 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                                         <h:outputText value="/import" style="color:blue;" rendered="#{itempasek.importowany eq true}"/>
                                     </p:column>
                                     <p:column>
-                                        <bcf:inputpl value="#{itempasek.bruttozus}" />
+                                        <bcf:outputpl value="#{itempasek.bruttozus}" />
                                     </p:column>
                                     <p:column>
-                                        <bcf:inputpl value="#{itempasek.bruttobezzus}"/>
+                                        <bcf:outputpl value="#{itempasek.bruttobezzus}"/>
                                     </p:column>
                                     <p:column>
-                                        <bcf:inputpl value="#{itempasek.bruttobezzusbezpodatek}"/>
+                                        <bcf:outputpl value="#{itempasek.bruttobezzusbezpodatek}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <bcf:outputpl value="#{itempasek.oddelegowaniewaluta}"/>
+                                        <h:outputText value="#{itempasek.oddelegowaniewalutasymbol}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <bcf:outputpl value="#{itempasek.oddelegowaniewaluta}"/>
                                     </p:column>
                                     <p:column>
                                         <bcf:outputpl value="#{itempasek.brutto}"/>
                                     </p:column>
                                     <p:column >
-                                        <bcf:inputpl value="#{itempasek.pracchorobowe}"/>
+                                        <bcf:outputpl value="#{itempasek.pracchorobowe}"/>
                                     </p:column>
                                     <p:column>
-                                        <bcf:inputpl value="#{itempasek.pracemerytalne}"/>
+                                        <bcf:outputpl value="#{itempasek.pracemerytalne}"/>
                                     </p:column>
                                     <p:column>
-                                        <bcf:inputpl value="#{itempasek.pracrentowe}"/>
+                                        <bcf:outputpl value="#{itempasek.pracrentowe}"/>
                                     </p:column>
                                     <p:column>
-                                        <bcf:inputpl value="#{itempasek.razemspolecznepracownik}"/>
+                                        <bcf:outputpl value="#{itempasek.razemspolecznepracownik}"/>
                                     </p:column>
-                                    
-                                    <p:column style="text-align: center;">
+                                    <p:column>
+                                        <bcf:outputpl value="#{itempasek.bruttominusspoleczne}"/>
+                                    </p:column>
+                                    <p:column width="20" style="text-align: center;">
                                         <p:commandButton icon="fa fa-print" actionListener="#{pasekwynagrodzenView.drukuj(itempasek)}" global="false"/>
                                     </p:column>
                                 </p:row>
@@ -143,23 +161,26 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                                                             <f:facet name="header">
                                                                 <h:outputText value="fgsp"/>
                                                             </f:facet>
-                                                            <bcf:inputpl value="#{itempasek.fgsp}"/>
+                                                            <bcf:outputpl value="#{itempasek.fgsp}"/>
                                                         </p:column>
                                                         <p:column>
                                                             <f:facet name="header">
                                                                 <h:outputText value="fp"/>
                                                             </f:facet>
-                                                            <bcf:inputpl value="#{itempasek.fp}"/>
+                                                            <bcf:outputpl value="#{itempasek.fp}"/>
                                                         </p:column>-->
                                 <p:row>
                                     <p:column>
                                         <h:outputText value="#{itempasek.rok}/#{itempasek.mc}"/>
                                     </p:column>
+                                    <p:column>
+                                        <h:outputText value="koszty uzyskania"/>
+                                    </p:column>
                                      <p:column>
                                         <h:outputText value="podstawa opodatk."/>
                                     </p:column>
-                                    <p:column>
-                                        <h:outputText value="koszty uzyskania"/>
+                                     <p:column>
+                                        <h:outputText value="podatek"/>
                                     </p:column>
                                     <p:column>
                                         <h:outputText value="kwota wolna"/>
@@ -171,18 +192,24 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                                         <h:outputText value="prac zdrowotne"/>
                                     </p:column>
                                     <p:column>
+                                        <h:outputText value="prac zdrow. do odliczenia"/>
+                                    </p:column>
+                                     <p:column>
                                         <h:outputText value="prac zdrow. do potrąc."/>
                                     </p:column>
                                     <p:column>
                                         <h:outputText value="podatek dochodowy"/>
                                     </p:column>
                                     <p:column>
-                                        <h:outputText value="potracenia"/>
-                                    </p:column>
-                                    <p:column>
                                         <h:outputText value="netto"/>
                                     </p:column>
                                     <p:column>
+                                        <h:outputText value="potracenia"/>
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="do wypł."/>
+                                    </p:column>
+                                    <p:column width="20">
                                         <h:outputText value=" "/>
                                     </p:column>
                                 </p:row>
@@ -191,33 +218,42 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                                          <h:outputText value="#{itempasek.nazwiskoImie}"/>
                                     </p:column>
                                     <p:column>
-                                        <bcf:inputpl value="#{itempasek.podstawaopodatkowania}"/>
+                                        <bcf:outputpl value="#{itempasek.kosztyuzyskania}"/>
                                     </p:column>
                                     <p:column>
-                                        <bcf:inputpl value="#{itempasek.kosztyuzyskania}"/>
+                                        <bcf:outputpl value="#{itempasek.podstawaopodatkowania}"/>
                                     </p:column>
                                     <p:column>
-                                        <bcf:inputpl value="#{itempasek.kwotawolna}"/>
+                                        <bcf:outputpl value="#{itempasek.podatekwstepny}"/>
                                     </p:column>
                                     <p:column>
-                                        <bcf:inputpl value="#{itempasek.podstawaubezpzdrowotne}"/>
+                                        <bcf:outputpl value="#{itempasek.kwotawolna}"/>
                                     </p:column>
                                     <p:column>
-                                        <bcf:inputpl value="#{itempasek.praczdrowotne}"/>
+                                        <bcf:outputpl value="#{itempasek.podstawaubezpzdrowotne}"/>
                                     </p:column>
                                     <p:column>
-                                        <bcf:inputpl value="#{itempasek.praczdrowotnedopotracenia}"/>
+                                        <bcf:outputpl value="#{itempasek.praczdrowotne}"/>
                                     </p:column>
                                     <p:column>
-                                        <bcf:inputpl value="#{itempasek.podatekdochodowy}"/>
+                                        <bcf:outputpl value="#{itempasek.praczdrowotnedopotracenia}"/>
                                     </p:column>
                                     <p:column>
-                                        <bcf:inputpl value="#{itempasek.potracenia}"/>
+                                        <bcf:outputpl value="#{itempasek.praczdrowotnepomniejszone}"/>
                                     </p:column>
                                     <p:column>
-                                        <bcf:inputpl value="#{itempasek.netto}"/>
+                                        <bcf:outputpl value="#{itempasek.podatekdochodowy}"/>
                                     </p:column>
-                                   <p:column style="text-align: center;">
+                                    <p:column>
+                                        <bcf:outputpl value="#{itempasek.nettoprzedpotraceniami}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <bcf:outputpl value="#{itempasek.potracenia}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <bcf:outputpl value="#{itempasek.netto}"/>
+                                    </p:column>
+                                    <p:column width="20" style="text-align: center;">
                                         <p:commandButton icon="fa fa-trash" actionListener="#{pasekwynagrodzenView.usun(itempasek)}" global="false" update="@form"/>
                                     </p:column>
                                 </p:row>

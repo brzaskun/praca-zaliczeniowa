@@ -14,7 +14,7 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                     <p:dataTable id="datalist" value="#{rodzjaumowySetView.lista}" var="item111"
                                  selectionMode="single" selection="#{rodzjaumowySetView.selectedlista}"
                                  rowKey="#{item111.id}" rowIndexVar="indexumowa" 
-                                 style="height: 400px; overflow-y: scroll; width: 1600px;"
+                                 style="width: 1600px;"
                                  emptyMessage="Nie pobrano elementów"
                                  >
 
@@ -64,7 +64,7 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                     <p:dataTable id="datalistr" value="#{rodzjawynagrodzeniaSetView.lista}" var="item11"
                                  selectionMode="single" selection="#{rodzjawynagrodzeniaSetView.selectedlista}"
                                  rowKey="#{item11.id}" emptyMessage="Nie znaleziono takiego składnika"
-                                 style="height: 400px; overflow-y: scroll; width: 1200px;" >
+                                 style="width: 1200px;" >
 
                         <p:column width="40" style="text-align: center;">
                             <f:facet name="header">
@@ -123,7 +123,7 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                     <p:dataTable id="datalists" value="#{slownikpotraceniaView.lista}" var="item12"
                                  selectionMode="single" selection="#{slownikpotraceniaView.selectedlista}"
                                  rowKey="#{item12.id}" 
-                                 style="height: 400px; overflow-y: scroll; width: 800px;"
+                                 style="width: 800px;"
                                  >
 
                         <p:column width="40" style="text-align: center;">
@@ -159,8 +159,8 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                 <h:form id="SlownikNieobecnosciForm">
                     <p:dataTable id="datalistn" value="#{nieobecnosckodzusView.lista}" var="item13"
                                  selectionMode="single" selection="#{nieobecnosckodzusView.selectedlista}"
-                                 rowKey="#{item13.id}"  
-                                 style="height: 400px; overflow-y: scroll; width: 1200px;"
+                                 rowKey="#{item13.id}" 
+                                 style=" width: 1200px;"
                                  >
 
                         <p:column width="40" style="text-align: center;">
@@ -252,7 +252,7 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                 <h:form id="ZmiennepodatkoweFormLista">
                     <p:dataTable value="#{podatkiUstawieniaView.lista}" var="itempodatki" rowIndexVar="indexpod" rowKey="#{itempodatki.id}"
                                  selection="#{podatkiUstawieniaView.selected}" selectionMode="single"
-                                 style="height: 400px; overflow-y: scroll; width: 1200px;">
+                                 style="width: 1200px;">
                         <p:ajax event="rowSelect" partialSubmit="true" update="akordeon:ZmiennepodatkoweForm"/>
                         <p:column width="30" style="text-align: center;">
                             <f:facet name="header">

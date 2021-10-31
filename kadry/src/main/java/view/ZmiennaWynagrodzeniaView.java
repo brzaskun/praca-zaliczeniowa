@@ -14,7 +14,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.RequestScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import msg.Msg;
@@ -24,7 +24,8 @@ import msg.Msg;
  * @author Osito
  */
 @Named
-@RequestScoped
+@ViewScoped
+//musibyc viewscoped bo inaczej to odswieza i nie ma przyporzadkowanej zmiennej wyangrodzeni
 public class ZmiennaWynagrodzeniaView  implements Serializable {
     private static final long serialVersionUID = 1L;
     @Inject

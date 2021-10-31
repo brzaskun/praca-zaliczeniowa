@@ -10,7 +10,7 @@ import entity.Nieobecnosckodzus;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.SessionScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import msg.Msg;
@@ -20,7 +20,7 @@ import msg.Msg;
  * @author Osito
  */
 @Named
-@SessionScoped
+@ViewScoped
 public class NieobecnosckodzusView  implements Serializable {
     private static final long serialVersionUID = 1L;
     @Inject

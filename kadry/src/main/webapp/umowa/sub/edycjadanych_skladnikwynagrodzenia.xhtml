@@ -48,7 +48,7 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                             <p:outputLabel value="nazwa" for="nazwa" />
                             <p:inputText id="nazwa" value="#{zmiennaWynagrodzeniaView.selected.nazwa}" title="nazwa"  required="true"/>
                             <p:outputLabel value="kwota" />
-                            <bcf:innum  value="#{zmiennaWynagrodzeniaView.selected.kwota}" />
+                            <bcf:inputpl  value="#{zmiennaWynagrodzeniaView.selected.kwota}" />
                              <p:outputLabel value="umowa" for="umowaskladnik" />
                              <p:selectOneMenu id="umowaskladnik" value="#{zmiennaWynagrodzeniaView.selected.waluta}" required="true">
                                 <f:selectItem itemLabel="wybierz" noSelectionOption="true" />
@@ -71,10 +71,10 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                     <p:panel header="Wykaz składników wynagrodzenia">
                         <p:dataTable id="datalist" value="#{skladnikWynagrodzeniaView.lista}" var="itemskladnikwyn"
                                      selectionMode="single" selection="#{skladnikWynagrodzeniaView.selectedlista}"
-                                     rowKey="#{itemskladnikwyn.id}" emptyMessage="Brak ustalonych skłądnikó wynagrodzenia"
+                                     rowKey="#{itemskladnikwyn.id}" emptyMessage="Brak ustalonych skłądników wynagrodzenia"
                                      style="height: 200px; overflow-y: scroll;"
                                      >
-                            <p:ajax event="rowSelect" listener="#{zmiennaWynagrodzeniaView.init2(skladnikWynagrodzeniaView.selectedlista)}" partialSubmit="true" global="false" update="ZmiennawynagrodzeniaListForm"/>
+                            <p:ajax event="rowSelect" listener="#{zmiennaWynagrodzeniaView.init2(skladnikWynagrodzeniaView.selectedlista)}" partialSubmit="true" global="false" update="ZmiennawynagrodzeniaListForm:datalist"/>
                             <p:column width="40" style="text-align: center;">
                                 <f:facet name="header">
                                     <h:outputText value="id"/>

@@ -41,6 +41,7 @@ import entity.Umowa;
 import entity.Umowakodzus;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -142,6 +143,8 @@ public class OsobaView implements Serializable {
                     Angaz angaz = angazFacade.findByPeselFirma(pracownik.getPesel(), firma);
                     if (angaz ==null) {
                         angaz = OsobaBean.nowyangaz(pracownik, firma);
+                        angaz.setUtworzyl(wpisView.getUzer().getImieNazwisko());
+                        angaz.setDatadodania(new Date());
                         angaz.setSerialsp(serial);
                         angazFacade.create(angaz);
                         Msg.msg("Stworzono angaż");

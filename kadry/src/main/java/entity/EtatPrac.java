@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Osito
  */
 @Entity
-@Table(name = "etat", uniqueConstraints = {
+@Table(name = "etatprac", uniqueConstraints = {
     @UniqueConstraint(columnNames={"umowa","dataod"})
 })
 @XmlRootElement

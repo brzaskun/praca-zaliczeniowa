@@ -24,6 +24,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -73,6 +74,14 @@ public class Angaz implements Serializable {
     private Date datadodania;
     @Column(name = "utworzyl")
     private String utworzyl;
+    @NotNull
+    @Size(min = 1, max = 4)
+    @Column(name = "rok")
+    private String rok;
+    @NotNull
+    @Size(min = 2, max = 2)
+    @Column(name = "mc")
+    private String mc;
 
 
     public Angaz() {
@@ -96,6 +105,22 @@ public class Angaz implements Serializable {
 
     public void setUtworzyl(String utworzyl) {
         this.utworzyl = utworzyl;
+    }
+
+    public String getRok() {
+        return rok;
+    }
+
+    public void setRok(String rok) {
+        this.rok = rok;
+    }
+
+    public String getMc() {
+        return mc;
+    }
+
+    public void setMc(String mc) {
+        this.mc = mc;
     }
 
     

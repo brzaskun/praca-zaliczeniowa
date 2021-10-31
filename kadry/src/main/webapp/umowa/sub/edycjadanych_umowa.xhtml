@@ -156,9 +156,9 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                         </p:column>
                         </p:dataTable>
                     </p:panelGrid>-->
-                    <p:commandButton styleClass="buttonnorm" actionListener="#{umowaView.edit}" value="#{bundle.Edit}" update="north, @(form)" rendered="#{umowaView.selected.id ne null}"/>
-                    <p:commandButton styleClass="buttonnorm2" actionListener="#{umowaView.create}" value="#{bundle.Save}" update="north, @(form)"  rendered="#{umowaView.selected.id eq null}"/>
-                    <p:commandButton styleClass="buttonnorm2" value="#{bundle.Cancel}"  actionListener="#{umowaView.cancel}"  update="north, @(form)" process="@this"/>
+                    <p:commandButton styleClass="buttonnorm" actionListener="#{umowaView.edit}" value="Edytuj" update="north, @(form)" rendered="#{umowaView.selected.id ne null}"/>
+                    <p:commandButton styleClass="buttonnorm2" actionListener="#{umowaView.create}" value="Dodaj" update="north, @(form)"  rendered="#{umowaView.selected.id eq null}"/>
+                    <p:commandButton styleClass="buttonnorm2" value="Anuluj"  actionListener="#{umowaView.cancel}"  update="north, @(form)" process="@this"/>
                 </h:panelGroup>
             </h:form>
         </p:outputPanel>
@@ -168,7 +168,7 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                     <p:dataTable id="datalist" value="#{umowaView.lista}" var="itemumowa" widgetVar="dataListumowa"
                                  selectionMode="single" selection="#{umowaView.selectedlista}" emptyMessage="Brak zawartych umów"
                                  rowKey="#{itemumowa.id}" sortBy="#{itemumowa.dataod}" sortMode="single"
-                                 style="height: 200px; overflow-y: scroll; width: 1800px;"
+                                 style="height: 220px; overflow-y: scroll; width: 1800px;"
                                  >
                         <p:ajax event="rowSelect" listener="#{umowaView.aktywuj}" partialSubmit="true" global="false" update="north, @(form)"/>
                         <p:column width="80" style="text-align: center;">

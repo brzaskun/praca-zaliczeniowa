@@ -72,6 +72,12 @@ public class Pasekwynagrodzen implements Serializable {
     private double bruttobezzus;
     @Column(name = "bruttozus")
     private double bruttozus;
+    @Column(name = "oddelegowaniewaluta")
+    private double oddelegowaniewaluta;
+    @Column(name = "oddelegowaniepln")
+    private double oddelegowaniepln;
+    @Column(name = "oddelegowaniewalutasymbol")
+    private String oddelegowaniewalutasymbol;
     @Column(name = "bruttobezzusbezpodatek")
     private double bruttobezzusbezpodatek;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
@@ -85,6 +91,8 @@ public class Pasekwynagrodzen implements Serializable {
     private double procentkosztow;
     @Column(name = "kwotawolna")
     private double kwotawolna;
+    @Column(name = "nettoprzedpotraceniami")
+    private double nettoprzedpotraceniami;
     @Column(name = "netto")
     private double netto;
     @Column(name = "podatekdochodowy")
@@ -99,6 +107,8 @@ public class Pasekwynagrodzen implements Serializable {
     private double pracrentowe;
     @Column(name = "razemspolecznepracownik")
     private double razemspolecznepracownik;
+    @Column(name = "bruttominusspoleczne")
+    private double bruttominusspoleczne;
     @Column(name = "praczdrowotne")
     private double praczdrowotne;
     @Column(name = "praczdrowotnedodoliczenia")
@@ -216,6 +226,7 @@ public class Pasekwynagrodzen implements Serializable {
         this.kosztyuzyskania = r.getLplKoszty().doubleValue();
         this.kwotawolna = r.getLplZalWolna().doubleValue();
         this.netto = r.getLplKwotaDod2().doubleValue();
+        this.nettoprzedpotraceniami = r.getLplKwotaDod2().doubleValue()+r.getLplPotracenia().doubleValue();
         this.podatekdochodowy = r.getLplZalDoch().doubleValue();
         this.podstawaopodatkowania = r.getLplPdstPodDoch().doubleValue();
         this.pracchorobowe = r.getLplChorUbez().doubleValue();
@@ -247,10 +258,14 @@ public class Pasekwynagrodzen implements Serializable {
     public void dodajPasek(Pasekwynagrodzen p) {
         this.bruttobezzusbezpodatek = this.bruttobezzusbezpodatek +p.bruttobezzusbezpodatek;
         this.bruttozus = this.bruttozus + p.bruttozus;
+        this.bruttobezzus = this.bruttobezzus + p.bruttobezzus;
+        this.oddelegowaniewaluta = this.oddelegowaniewaluta + p.oddelegowaniewaluta;
+        this.oddelegowaniepln = this.oddelegowaniepln + p.oddelegowaniepln;
+        this.oddelegowaniewalutasymbol = p.oddelegowaniewalutasymbol;
         this.brutto = this.brutto + p.brutto;
         this.fgsp = this.fgsp + p.fgsp;
         this.fp = this.fp + p.fp;
-        this.bruttobezzus = this.bruttobezzus + p.bruttobezzus;
+        this.bruttominusspoleczne = this.bruttominusspoleczne + p.bruttominusspoleczne;
         this.podatekdochodowy = this.podatekdochodowy + p.podatekdochodowy;
         this.pracchorobowe = this.pracchorobowe + p.pracchorobowe;
         this.pracemerytalne = this.pracemerytalne + p.pracemerytalne;
@@ -366,6 +381,38 @@ public class Pasekwynagrodzen implements Serializable {
         this.bruttozus = bruttozus;
     }
 
+    public double getNettoprzedpotraceniami() {
+        return nettoprzedpotraceniami;
+    }
+
+    public void setNettoprzedpotraceniami(double nettoprzedpotraceniami) {
+        this.nettoprzedpotraceniami = nettoprzedpotraceniami;
+    }
+
+    public double getOddelegowaniewaluta() {
+        return oddelegowaniewaluta;
+    }
+
+    public void setOddelegowaniewaluta(double oddelegowaniewaluta) {
+        this.oddelegowaniewaluta = oddelegowaniewaluta;
+    }
+
+    public double getOddelegowaniepln() {
+        return oddelegowaniepln;
+    }
+
+    public void setOddelegowaniepln(double oddelegowaniepln) {
+        this.oddelegowaniepln = oddelegowaniepln;
+    }
+
+    public String getOddelegowaniewalutasymbol() {
+        return oddelegowaniewalutasymbol;
+    }
+
+    public void setOddelegowaniewalutasymbol(String oddelegowaniewalutasymbol) {
+        this.oddelegowaniewalutasymbol = oddelegowaniewalutasymbol;
+    }
+
     public double getFgsp() {
         return fgsp;
     }
@@ -380,6 +427,14 @@ public class Pasekwynagrodzen implements Serializable {
 
     public void setFp(double fp) {
         this.fp = fp;
+    }
+
+    public double getBruttominusspoleczne() {
+        return bruttominusspoleczne;
+    }
+
+    public void setBruttominusspoleczne(double bruttominusspoleczne) {
+        this.bruttominusspoleczne = bruttominusspoleczne;
     }
 
     public boolean isDo26lat() {

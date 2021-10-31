@@ -5,7 +5,7 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     >
-     <p:panelGrid columns="2" columnClasses="thirty-percent, seventy-percent" style="height: 300px;width: 1700px;">
+     <p:panelGrid columns="2" columnClasses="twenty-percent, eighty-percent" style="height: 300px;width: 1700px;">
         <p:outputPanel style="height: 300px">
             <h:form id="AngazCreateForm">
                 <h:panelGroup id="display">
@@ -34,12 +34,12 @@
                                 </h:panelGrid>
                             </f:facet>
                         </p:autoComplete>
-<!--                        <p:selectOneMenu id="pracownik" value="#{angazView.selected.pracownik}" required="true" requiredMessage="pracownik"  converter="#{pracownikConverter}">
-                            <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
-                            <f:selectItems value="#{angazView.listapracownikow}"
-                                           var="pracownikItem"
-                                           itemValue="#{pracownikItem}" itemLabel="#{pracownikItem.nazwisko} #{pracownikItem.imie}"/>
-                        </p:selectOneMenu>-->
+                         <p:outputLabel value="rok" for="rok" />
+                            <p:inputText id="rok" value="#{angazView.selected.rok}" title="rok" >
+                            </p:inputText>
+                            <p:outputLabel value="miesiąc" for="mc" />
+                            <p:inputText id="mc" value="#{angazView.selected.mc}" title="miesiąc" >
+                            </p:inputText>
                     </p:panelGrid>
           
   <!--                    <p:panel header="Podatki"/>
@@ -102,11 +102,19 @@
                             </f:facet>
                             <h:outputText value="#{itemAngaz.id}"/>
                         </p:column>
-                        <p:column width="40" style="text-align: center;">
+                        <p:column width="80">
                             <f:facet name="header">
-                                <h:outputText value="rodzaj wyn."/>
+                                <h:outputText value="dodał"/>
                             </f:facet>
-                            <h:outputText value="#{itemAngaz.rodzajwynagrodzenia}"/>
+                            <h:outputText value="#{itemAngaz.utworzyl}" />
+                        </p:column>
+                        <p:column width="60" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="data"/>
+                            </f:facet>
+                            <h:outputText value="#{itemAngaz.datadodania}">
+                                <f:convertDateTime locale="pl" />
+                            </h:outputText>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
@@ -134,11 +142,17 @@
                             </f:facet>
                             <h:outputText value="#{itemAngaz.pracownik.pesel}"/>
                         </p:column>
-                        <p:column width="40" style="text-align: center;">
+                        <p:column width="30">
                             <f:facet name="header">
-                                <h:outputText value="chor."/>
+                                <h:outputText value="rok"/>
                             </f:facet>
-                              <h:outputText value="&#x2714;" rendered="#{itemAngaz.ciagloscchorobowe eq true}"/>
+                            <h:outputText value="#{itemAngaz.rok}"/>
+                        </p:column>
+                         <p:column width="20">
+                            <f:facet name="header">
+                                <h:outputText value="mc"/>
+                            </f:facet>
+                            <h:outputText value="#{itemAngaz.mc}"/>
                         </p:column>
                         <p:column width="250">
                             <f:facet name="header">

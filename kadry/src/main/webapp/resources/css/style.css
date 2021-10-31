@@ -230,10 +230,14 @@ body {
     
 }
 
-.ui-datatable-scrollable-theadclone{
+.ui-panelgrid .ui-panelgrid-cell  {
+    border-width: 0px !important;
+}
+
+/*.ui-datatable-scrollable-theadclone{
     display: none !important;
     height: 0px !important;
-}
+}*/
 
 /*.tablicafk td {
     padding: 0px 0px 0px 0px !important;
@@ -248,3 +252,4 @@ body {
 .wwb {
     color: blue;
 }
+

@@ -8,6 +8,8 @@ package view;
 import comparator.Umowacomparator;
 import dao.AngazFacade;
 import dao.FirmaFacade;
+import dao.KalendarzmiesiacFacade;
+import dao.KalendarzwzorFacade;
 import dao.PracownikFacade;
 import dao.SMTPSettingsFacade;
 import dao.UmowaFacade;
@@ -70,6 +72,10 @@ public class AngazView  implements Serializable {
     private PracownikView pracownikView;
     @Inject
     private UpdateClassView updateClassView;
+    @Inject
+    private KalendarzmiesiacFacade kalendarzmiesiacFacade;
+    @Inject
+    private KalendarzwzorFacade kalendarzwzorFacade;
 
     
     @PostConstruct
@@ -99,11 +105,14 @@ public class AngazView  implements Serializable {
                     angazFacade.create(selected);
                     lista.add(selected);
                     wpisView.setAngaz(selected);
+                    wpisView.setUmowa(null);
                     Uprawnienia uprawnienia = uprawnieniaFacade.findByNazwa("Pracownik");
                     Uz uzer = new Uz(selected, uprawnienia);
                     selected = new Angaz();
                     Msg.msg("Dodano nowy angaż");
                     uzFacade.create(uzer);
+                    //nie moze tu byc bo nie ma umowy
+                    //generujkalendarze();
                     Msg.msg("Dodano nowego użytkownika");
                 } catch (Exception e) {
                     System.out.println("");
@@ -112,6 +121,32 @@ public class AngazView  implements Serializable {
             }
         }
     }
+    
+//    public void generujkalendarze() {
+//        if (selected!=null && selected.getRok()!=null && selected.getMc()!=null) {
+//            for (String mce: Mce.getMceListS()) {
+//                if (Integer.valueOf(mce)>=Integer.valueOf(selected.getMc())) {
+//                    Kalendarzmiesiac kal = new Kalendarzmiesiac();
+//                    kal.setRok(wpisView.getRokWpisu());
+//                    kal.setMc(mce);
+//                    kal.setUmowa(wpisView.getUmowa());
+//                    Kalendarzmiesiac kalmiesiac = kalendarzmiesiacFacade.findByRokMcUmowa(wpisView.getUmowa(), wpisView.getRokWpisu(), mce);
+//                    if (kalmiesiac==null) {
+//                        Kalendarzwzor znaleziono = kalendarzwzorFacade.findByFirmaRokMc(kal.getUmowa().getAngaz().getFirma(), kal.getRok(), mce);
+//                        if (znaleziono!=null) {
+//                            kal.ganerujdnizwzrocowego(znaleziono, null);
+//                            kalendarzmiesiacFacade.create(kal);
+//                        } else {
+//                            Msg.msg("e","Brak kalendarza wzorcowego za "+mce);
+//                        }
+//                    }
+//                }
+//            }
+//            Msg.msg("Pobrano dane z kalendarza wzorcowego z bazy danych i utworzono kalendarze pracownika");
+//        } else {
+//            Msg.msg("e","Nie wybrano pracownika i umowy");
+//        }
+//    }
    
    public void aktywuj() {
         if (selectedlista!=null) {

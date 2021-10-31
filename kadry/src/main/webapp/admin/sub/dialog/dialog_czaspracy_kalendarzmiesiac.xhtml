@@ -66,7 +66,7 @@
                 <p:panel header="Dni kalendarza pracownika #{kalendarzmiesiacView.selected.rok}/#{kalendarzmiesiacView.selected.mc}">
                     <p:dataTable id="datalist" value="#{kalendarzmiesiacView.selected.dzienList}" var="itemkalendarz"
                                  rowKey="#{itemkalendarz.id}"
-                                 style="height: 450px; overflow-y: scroll;" sortMode="single"
+                                 style="height: 450px; overflow-y: scroll; width: 1000px;" sortMode="single"
                                  emptyMessage="Brak zapisów"
                                  >
 
@@ -98,26 +98,9 @@
                             <f:facet name="header">
                                 <h:outputText value="przepracowano"/>
                             </f:facet>
-                            <h:inputText size="4" value="#{itemkalendarz.przepracowano}"/>
+                            <h:inputText size="4" value="#{itemkalendarz.przepracowano}" style="color: #{itemkalendarz.kod ne null and itemkalendarz.kod eq '777' and itemkalendarz.przepracowano ne 0.0 ?'#cc8100':'initial'};"/>
                         </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="pięćdziesiątki"/>
-                            </f:facet>
-                            <h:inputText size="4"  value="#{itemkalendarz.piecdziesiatki}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="setki"/>
-                            </f:facet>
-                            <h:inputText size="4"  value="#{itemkalendarz.setki}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="pora nocna"/>
-                            </f:facet>
-                            <h:inputText size="4"  value="#{itemkalendarz.poranocna}"/>
-                        </p:column>
+                        
                         <p:column>
                             <f:facet name="header">
                                 <h:outputText value="kod"/>
@@ -128,7 +111,7 @@
                             <f:facet name="header">
                                 <h:outputText value="url. platny"/>
                             </f:facet>
-                            <h:inputText size="4"  value="#{itemkalendarz.urlopPlatny}"/>
+                            <h:inputText size="4"  value="#{itemkalendarz.urlopPlatny}" />
                         </p:column>
                         <p:column>
                             <f:facet name="header">
@@ -148,7 +131,24 @@
                             </f:facet>
                             <h:inputText size="4"  value="#{itemkalendarz.zasilek}"/>
                         </p:column>
-
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="pięćdziesiątki"/>
+                            </f:facet>
+                            <h:inputText size="4"  value="#{itemkalendarz.piecdziesiatki}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="setki"/>
+                            </f:facet>
+                            <h:inputText size="4"  value="#{itemkalendarz.setki}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="pora nocna"/>
+                            </f:facet>
+                            <h:inputText size="4"  value="#{itemkalendarz.poranocna}"/>
+                        </p:column>
                     </p:dataTable>
                 </p:panel>
                 <p:outputPanel>
