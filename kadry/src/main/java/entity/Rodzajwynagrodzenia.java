@@ -74,6 +74,10 @@ public class Rodzajwynagrodzenia implements Serializable {
     private  boolean aktywne;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "rodzajwynagrodzenia")
     private List<Skladnikwynagrodzenia> skladnikwynagrodzeniaList;
+    @Column(name = "sredniaurlopowakraj")
+    private  boolean sredniaurlopowakraj;
+    @Column(name = "sredniaurlopowaoddelegowanie")
+    private  boolean sredniaurlopowaoddelegowanie;
 
     public Rodzajwynagrodzenia() {
         System.out.println("");
@@ -205,6 +209,22 @@ public class Rodzajwynagrodzenia implements Serializable {
 
     public void setAktywne(boolean aktywne) {
         this.aktywne = aktywne;
+    }
+
+    public boolean isSredniaurlopowakraj() {
+        return sredniaurlopowakraj;
+    }
+
+    public void setSredniaurlopowakraj(boolean sredniaurlopowakraj) {
+        this.sredniaurlopowakraj = sredniaurlopowakraj;
+    }
+
+    public boolean isSredniaurlopowaoddelegowanie() {
+        return sredniaurlopowaoddelegowanie;
+    }
+
+    public void setSredniaurlopowaoddelegowanie(boolean sredniaurlopowaoddelegowanie) {
+        this.sredniaurlopowaoddelegowanie = sredniaurlopowaoddelegowanie;
     }
 
       

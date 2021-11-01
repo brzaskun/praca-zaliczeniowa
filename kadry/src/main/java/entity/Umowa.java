@@ -755,7 +755,9 @@ public class Umowa implements Serializable {
         for (Kalendarzmiesiac  r : kalendarzList) {
             if (Data.czyjestpomcnaprawdepo(r.getMc(), r.getRok(), mc, rok)) {
                 Naliczenieskladnikawynagrodzenia naliczonewynagrodzenie = r.getNaliczonewynagrodzenie(s);
-                zwrot.add(naliczonewynagrodzenie);
+                if (naliczonewynagrodzenie!=null) {
+                    zwrot.add(naliczonewynagrodzenie);
+                }
                 ilemamy++;
             }
             if (ilemamy==3) {

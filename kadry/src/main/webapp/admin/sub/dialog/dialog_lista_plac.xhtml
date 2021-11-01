@@ -39,13 +39,19 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                             
                         </h:form>
                         <h:form id="DefinicjalistaplacCreateForm2">
-                             <p:outputLabel value="" for="wybranypracownik" />
+                            <p:outputLabel value="" for="wybranypracownik" />
                             <p:pickList id="wybranypracownik" value="#{pasekwynagrodzenView.listakalendarzmiesiac}" var="kalendarzItem" itemLabel="#{kalendarzItem.umowa.angaz.pracownik.nazwiskoImie}" itemValue="#{kalendarzItem}" 
                                         showCheckbox="true" converter="#{kalendarzmiesiacConverter}"/>
                             <p:commandButton styleClass="buttonnorm" actionListener="#{pasekwynagrodzenView.przelicz}" value="oblicz" update="PasekwynagrodzenListForm" />
                             <p:commandButton styleClass="buttonnorm" actionListener="#{pasekwynagrodzenView.zapisz}" value="Save" update="PasekwynagrodzenListForm" />
                             <p:commandButton styleClass="buttonnorm" actionListener="#{pasekwynagrodzenView.usun}" value="usuń" update="PasekwynagrodzenListForm" />
                             <p:commandButton styleClass="buttonnorm" actionListener="#{pasekwynagrodzenView.drukujliste}" value="druk lista"/>
+                        </h:form>
+                        <h:form>
+                            <h:outputLabel for="kurspole" value="kurs przelicz."/>
+                            <bcf:inputpl value="#{pasekwynagrodzenView.kursdlalisty}" id="kurspole">
+                                <p:ajax event="change" partialSubmit="true" global="false"/>
+                            </bcf:inputpl>
                         </h:form>
 <!--                        <p:selectOneMenu id="wybranypracownik" value="#{pasekwynagrodzenView.wybranykalendarz}" required="true" requiredMessage="Wybierz pracownika" converter="#{kalendarzmiesiacConverter}">
                             <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
@@ -65,7 +71,7 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                     <p:dataTable id="datalist" value="#{pasekwynagrodzenView.lista}" var="itempasek" emptyMessage="Brak listy za dany okres"
                                  selectionMode="single" selection="#{pasekwynagrodzenView.selectedlista}" rowIndexVar="indexpasek"
                                  rowKey="#{itempasek.kalendarzmiesiac.hashCode()}" sortBy="#{itempasek.kalendarzmiesiac.umowa.angaz.pracownik.nazwiskoImie}"
-                                 style="height: 450px; overflow-y: scroll;width: 1300px;"
+                                 style="height: 450px; overflow-y: scroll;width: 1400px;"
                                  >
                         <p:column width="20" style="text-align: center;">
                             <p:rowToggler rendered="#{itempasek.pobierzskladniki.size() gt 0}"/>
@@ -78,7 +84,7 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                                         <h:outputText value="nowe" rendered="#{itempasek.id eq null}" styleClass="ww"/>
                                     </p:column>
                                     <p:column>
-                                        <h:outputText value="brutto"/>
+                                        <h:outputText value="brutto zus kraj"/>
                                     </p:column>
                                     <p:column>
                                         <h:outputText value="brutto bez zus"/>
@@ -96,6 +102,15 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                                         <h:outputText value="razem brutto"/>
                                     </p:column>
                                     <p:column>
+                                        <h:outputText value="dieta"/>
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="limit bez zus"/>
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="podst.społ."/>
+                                    </p:column>
+                                    <p:column>
                                         <h:outputText value="chorobowe"/>
                                     </p:column>
                                     <p:column>
@@ -107,9 +122,6 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                                     <p:column>
                                         <h:outputText value="razem społ. prac."/>
                                     </p:column>
-                                    <p:column>
-                                        <h:outputText value="brutto-zus"/>
-                                    </p:column>
                                     <p:column width="20">
                                         <h:outputText value=" "/>
                                     </p:column>
@@ -120,7 +132,7 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                                         <h:outputText value="/import" style="color:blue;" rendered="#{itempasek.importowany eq true}"/>
                                     </p:column>
                                     <p:column>
-                                        <bcf:outputpl value="#{itempasek.bruttozus}" />
+                                        <bcf:outputpl value="#{itempasek.bruttozuskraj}" />
                                     </p:column>
                                     <p:column>
                                         <bcf:outputpl value="#{itempasek.bruttobezzus}"/>
@@ -133,10 +145,19 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                                         <h:outputText value="#{itempasek.oddelegowaniewalutasymbol}"/>
                                     </p:column>
                                     <p:column>
-                                        <bcf:outputpl value="#{itempasek.oddelegowaniewaluta}"/>
+                                        <bcf:outputpl value="#{itempasek.oddelegowaniepln}"/>
                                     </p:column>
                                     <p:column>
                                         <bcf:outputpl value="#{itempasek.brutto}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <bcf:outputpl value="#{itempasek.dieta}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <bcf:outputpl value="#{itempasek.limitzus}"/>
+                                    </p:column>
+                                    <p:column >
+                                        <bcf:outputpl value="#{itempasek.podstawaskladkizus}"/>
                                     </p:column>
                                     <p:column >
                                         <bcf:outputpl value="#{itempasek.pracchorobowe}"/>
@@ -149,9 +170,6 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                                     </p:column>
                                     <p:column>
                                         <bcf:outputpl value="#{itempasek.razemspolecznepracownik}"/>
-                                    </p:column>
-                                    <p:column>
-                                        <bcf:outputpl value="#{itempasek.bruttominusspoleczne}"/>
                                     </p:column>
                                     <p:column width="20" style="text-align: center;">
                                         <p:commandButton icon="fa fa-print" actionListener="#{pasekwynagrodzenView.drukuj(itempasek)}" global="false"/>
@@ -172,6 +190,12 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                                 <p:row>
                                     <p:column>
                                         <h:outputText value="#{itempasek.rok}/#{itempasek.mc}"/>
+                                    </p:column>
+                                     <p:column>
+                                        <h:outputText value="brutto-zus"/>
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="1/3 diet"/>
                                     </p:column>
                                     <p:column>
                                         <h:outputText value="koszty uzyskania"/>
@@ -210,12 +234,19 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                                         <h:outputText value="do wypł."/>
                                     </p:column>
                                     <p:column width="20">
-                                        <h:outputText value=" "/>
+                                        <h:outputText value="kurs"/>
+                                        <bcf:outputkurs value="#{itempasek.kurs}"/>
                                     </p:column>
                                 </p:row>
                                 <p:row>
                                      <p:column>
                                          <h:outputText value="#{itempasek.nazwiskoImie}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <bcf:outputpl value="#{itempasek.bruttominusspoleczne}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <bcf:outputpl value="#{itempasek.dietaodliczeniepodstawaop}"/>
                                     </p:column>
                                     <p:column>
                                         <bcf:outputpl value="#{itempasek.kosztyuzyskania}"/>
@@ -262,7 +293,7 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                         <p:rowExpansion>
                             <p:dataTable id="datalist" value="#{itempasek.pobierzskladniki}" var="itempasekszcz"
                                  rowIndexVar="indexpasekszcz"
-                                 style="height: 200px; overflow-y: scroll;width: 950px;"
+                                 style="height: 200px; overflow-y: scroll;width: 1050px;"
                                  >
                                 <p:column style="text-align: center;" headerText="lp" width="40">
                                     <h:outputText value="#{itempasekszcz.lp}"/>
@@ -270,13 +301,19 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                                 <p:column headerText="kod" width="40">
                                     <h:outputText value="#{itempasekszcz.kod}"/>
                                  </p:column>
-                                <p:column headerText="składnik" width="420">
+                                <p:column headerText="składnik" width="300">
                                     <h:outputText value="#{itempasekszcz.nazwa}"/>
                                  </p:column>
-                                 <p:column headerText="data od">
+                                <p:column headerText="dni" width="60">
+                                    <h:outputText value="#{itempasekszcz.dniobowiazku}/#{itempasekszcz.dniprzepracowane}"/>
+                                 </p:column>
+                                <p:column headerText="godziny" width="60">
+                                    <h:outputText value="#{itempasekszcz.godzinyobowiazku}/#{itempasekszcz.godzinyprzepracowane}"/>
+                                 </p:column>
+                                 <p:column headerText="data od" width="60">
                                     <h:outputText value="#{itempasekszcz.dataod}"/>
                                  </p:column>
-                                 <p:column headerText="data do">
+                                 <p:column headerText="data do" width="60">
                                     <h:outputText value="#{itempasekszcz.datado}"/>
                                  </p:column>
                                 <p:column headerText="kwota" width="80">

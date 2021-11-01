@@ -19,38 +19,52 @@
             <p:panelGrid columns="2">
                 <h:form id="NieobecnoscCreateForm">
                     <h:panelGroup id="display">
-                        <p:panelGrid columns="4" rendered="#{nieobecnoscView.selected != null}">
-                            <p:outputLabel value="umowa nr" for="umowa" />
-                            <h:outputText id="umowa" value="#{nieobecnoscView.selected.umowa.nrkolejny}"/>
-                            <p:outputLabel value="data od" for="umowaod" />
-                            <h:outputText id="umowaod" value="#{nieobecnoscView.selected.umowa.dataod}">
-                                <f:convertDateTime dateStyle="medium" locale="pl"/>
-                            </h:outputText>
-                            <p:outputLabel value="nazwa nieobecności" for="nieobkodzus" />
-                            <p:selectOneMenu id="nieobkodzus" value="#{nieobecnoscView.selected.nieobecnosckodzus}" required="true" requiredMessage="wybierz rodzaj nieobecnosci"  converter="#{nieobecnosckodzusConverter}" filter="true" filterMatchMode="contains">
-                                <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
-                                <f:selectItems value="#{nieobecnoscView.listanieobecnosckodzus}" 
-                                               var="kodzusItem"
-                                               itemValue="#{kodzusItem}" itemLabel="#{kodzusItem.kod} #{kodzusItem.opisskrocony}"/>
-                                <p:ajax event="change" partialSubmit="true" global="false" update="NieobecnoscCreateForm:kod"/>
-                            </p:selectOneMenu>
-                            <p:outputLabel value="kod" for="kod" />
-                            <h:outputText id="kod" value="#{nieobecnoscView.selected.nieobecnosckodzus.kod}" title="kod"/>
-                            <p:outputLabel value="data od" for="dataod" />
-                            <p:inputText id="dataod" value="#{nieobecnoscView.selected.dataod}" title="datac od"  placeholder="____-__-__" maxlength="10"/>
-                            <p:outputLabel value="data do" for="datado" />
-                            <p:inputText id="datado" value="#{nieobecnoscView.selected.datado}" title="data do"  placeholder="____-__-__" maxlength="10"/>
-                            <p:outputLabel value="przyczyna" for="przyczyna" />
-                            <p:inputText id="przyczyna" value="#{nieobecnoscView.selected.uzasadnienie}" title="przyczyna"/>
-                            <p:outputLabel value="seria i nr zw." for="seriainrzwolnienia" />
-                            <p:inputText id="seriainrzwolnienia" value="#{nieobecnoscView.selected.seriainrzwolnienia}" title="seria i nr zw."/>
-                            <p:outputLabel value="procent" for="procent" />
-                            <p:inputText id="procent" value="#{nieobecnoscView.selected.zwolnienieprocent}" title="procent zwolenienia" />
-                            <p:outputLabel value="uwagi" for="uwagi" />
-                            <p:inputText id="uwagi" value="#{nieobecnoscView.selected.uzasadnienie}" title="uwagi" />
-                            
-                            
-
+                        <p:panelGrid columns="3" rendered="#{nieobecnoscView.selected != null}">
+                            <p:panelGrid columns="2">
+                                <p:outputLabel value="umowa nr" for="umowa" />
+                                <h:outputText id="umowa" value="#{nieobecnoscView.selected.umowa.nrkolejny}"/>
+                                <p:outputLabel value="data od" for="umowaod" />
+                                <h:outputText id="umowaod" value="#{nieobecnoscView.selected.umowa.dataod}">
+                                    <f:convertDateTime dateStyle="medium" locale="pl"/>
+                                </h:outputText>
+                                <p:outputLabel value="nazwa nieobecności" for="nieobkodzus" />
+                                <p:selectOneMenu id="nieobkodzus" value="#{nieobecnoscView.selected.nieobecnosckodzus}" required="true" requiredMessage="wybierz rodzaj nieobecnosci"  converter="#{nieobecnosckodzusConverter}" filter="true" filterMatchMode="contains">
+                                    <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
+                                    <f:selectItems value="#{nieobecnoscView.listanieobecnosckodzus}" 
+                                                   var="kodzusItem"
+                                                   itemValue="#{kodzusItem}" itemLabel="#{kodzusItem.kod} #{kodzusItem.opisskrocony}"/>
+                                    <p:ajax event="change" partialSubmit="true" global="false" update="NieobecnoscCreateForm:kod"/>
+                                </p:selectOneMenu>
+                                <p:outputLabel value="kod" for="kod" />
+                                <h:outputText id="kod" value="#{nieobecnoscView.selected.nieobecnosckodzus.kod}" title="kod"/>
+                            </p:panelGrid>
+                            <p:panelGrid columns="2">
+                                <p:outputLabel value="data od" for="dataod" />
+                                <p:inputText id="dataod" value="#{nieobecnoscView.selected.dataod}" title="datac od"  placeholder="____-__-__" maxlength="10"/>
+                                <p:outputLabel value="data do" for="datado" />
+                                <p:inputText id="datado" value="#{nieobecnoscView.selected.datado}" title="data do"  placeholder="____-__-__" maxlength="10"/>
+                                <p:outputLabel value="przyczyna" for="przyczyna" />
+                                <p:inputText id="przyczyna" value="#{nieobecnoscView.selected.uzasadnienie}" title="przyczyna"/>
+                                <p:outputLabel value="seria i nr zw." for="seriainrzwolnienia" />
+                                <p:inputText id="seriainrzwolnienia" value="#{nieobecnoscView.selected.seriainrzwolnienia}" title="seria i nr zw."/>
+                                <p:outputLabel value="procent" for="procent" />
+                                <p:inputText id="procent" value="#{nieobecnoscView.selected.zwolnienieprocent}" title="procent zwolenienia" />
+                            </p:panelGrid>
+                            <p:panelGrid columns="2">
+                                <p:outputLabel value="kraj oddel." for="uwagi" />
+                                <p:inputText id="uwagi" value="#{nieobecnoscView.selected.krajoddelegowania}" title="kraj oddelegowania" />
+                                <p:outputLabel value="kwota diety"/>
+                                <bcf:inputpl value="#{nieobecnoscView.selected.dietaoddelegowanie}"/>
+                                <p:outputLabel value="waluta diety" for="waluta" />
+                                <p:selectOneMenu id="waluta"  value="#{nieobecnoscView.selected.walutadiety}" 
+                                                 style="width: 100px;"  >
+                                    <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true"/>
+                                    <f:selectItem itemLabel="PLN" itemValue="PLN"/>
+                                    <f:selectItem itemLabel="EUR" itemValue="EUR"/>
+                                    <f:selectItem itemLabel="GBP" itemValue="GBP"/>
+                                    <f:selectItem itemLabel="USD" itemValue="USD"/>
+                                </p:selectOneMenu>
+                            </p:panelGrid>
                         </p:panelGrid>
                         <p:commandButton styleClass="buttonnorm" actionListener="#{nieobecnoscView.create}" value="#{bundle.Save}" update="display,:NieobecnoscListForm:datalist"/>
                         <p:commandButton value="#{bundle.Cancel}" onclick="NieobecnoscCreateDialog.hide()"/>
@@ -95,7 +109,7 @@
                             </f:facet>
                             <h:outputText value="#{itemNieob.nieobecnosckodzus.kod}" style="#{itemNieob.rokod eq wpisView.rokWpisu ? itemNieob.naniesiona?'color: green':'color: red':'initial'}"/>
                         </p:column>
-                        <p:column width="300" filterBy="#{itemNieob.nieobecnosckodzus.opisskrocony}" filterMatchMode="contains">
+                        <p:column width="200" filterBy="#{itemNieob.nieobecnosckodzus.opisskrocony}" filterMatchMode="contains">
                             <f:facet name="header">
                                 <h:outputText value="nazwa"/>
                             </f:facet>
@@ -119,11 +133,11 @@
                             </f:facet>
                             <h:outputText value="#{itemNieob.dnikalendarzowe}" style="#{itemNieob.rokod eq wpisView.rokWpisu ? itemNieob.naniesiona?'color: green':'color: red':'initial'}"/>
                         </p:column>
-                         <p:column style="text-align: center;" width="40">
+                        <p:column style="text-align: center;" width="40">
                             <f:facet name="header">
                                 <h:outputText value="dni rob."/>
                             </f:facet>
-                             <h:outputText value="#{itemNieob.dniroboczenieobecnosci}" style="#{itemNieob.rokod eq wpisView.rokWpisu ? itemNieob.naniesiona?'color: green':'color: red':'initial'}"/>
+                            <h:outputText value="#{itemNieob.dniroboczenieobecnosci}" style="#{itemNieob.rokod eq wpisView.rokWpisu ? itemNieob.naniesiona?'color: green':'color: red':'initial'}"/>
                         </p:column>
                         <p:column style="text-align: center;" width="40">
                             <f:facet name="header">
@@ -131,11 +145,23 @@
                             </f:facet>
                             <h:outputText value="&#x2714;" rendered="#{itemNieob.naniesiona}" style="color: green;font-weight: 900;"/>
                         </p:column>
-                        <p:column style="#{itemNieob.rokod eq wpisView.rokWpisu ? 'color: green':''}">
+                         <p:column style="#{itemNieob.rokod eq wpisView.rokWpisu ? 'color: green':''}">
                             <f:facet name="header">
                                 <h:outputText value="przycz."/>
                             </f:facet>
                             <h:outputText value="#{itemNieob.uzasadnienie}"/>
+                        </p:column>
+                          <p:column style="#{itemNieob.rokod eq wpisView.rokWpisu ? 'color: green':''}">
+                            <f:facet name="header">
+                                <h:outputText value="kraj"/>
+                            </f:facet>
+                              <h:outputText value="#{itemNieob.krajoddelegowania}"/>
+                        </p:column>
+                        <p:column style="#{itemNieob.rokod eq wpisView.rokWpisu ? 'color: green':''}">
+                            <f:facet name="header">
+                                <h:outputText value="dieta."/>
+                            </f:facet>
+                            <bcf:outputwal value="#{itemNieob.dietaoddelegowanie}" symbolwaluty="#{itemNieob.walutadiety}"/>
                         </p:column>
                         <p:column width="30">
                             <f:facet name="header">
@@ -167,7 +193,7 @@
                             </f:facet>
                             <h:outputText value="&#x2714;" rendered="#{itemNieob.nieobecnosckodzus.podatek}"/>
                         </p:column>
-                      
+
                         <p:column width="100">
                             <f:facet name="header">
                                 <h:outputText value="umowa"/>

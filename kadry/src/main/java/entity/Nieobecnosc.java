@@ -107,6 +107,13 @@ public class Nieobecnosc implements Serializable {
     private String mcdo;
     @OneToMany(mappedBy = "nieobecnosc")
     private List<Dzien> dzienList;
+    @Column(name = "dietaoddelegowanie")
+    private double dietaoddelegowanie;
+    @Column(name = "walutadiety")
+    private String walutadiety;
+    @Column(name = "krajoddelegowania")
+    private String krajoddelegowania;
+    
    
     
 
@@ -210,11 +217,35 @@ public class Nieobecnosc implements Serializable {
         this.dzienList = dzienList;
     }
 
+    public String getKrajoddelegowania() {
+        return krajoddelegowania;
+    }
+
+    public void setKrajoddelegowania(String krajoddelegowania) {
+        this.krajoddelegowania = krajoddelegowania;
+    }
+
     public Umowa getUmowa() {
         return umowa;
     }
     public void setUmowa(Umowa umowa) {
         this.umowa = umowa;
+    }
+
+    public double getDietaoddelegowanie() {
+        return dietaoddelegowanie;
+    }
+
+    public void setDietaoddelegowanie(double dietaoddelegowanie) {
+        this.dietaoddelegowanie = dietaoddelegowanie;
+    }
+
+    public String getWalutadiety() {
+        return walutadiety;
+    }
+
+    public void setWalutadiety(String walutadiety) {
+        this.walutadiety = walutadiety;
     }
 
     public boolean isNaniesiona() {

@@ -79,6 +79,7 @@ public class PasekwynagrodzenView  implements Serializable {
     private String rodzajumowy;
     List<Naliczenieskladnikawynagrodzenia> listawynagrodzenpracownika;
     List<Naliczenienieobecnosc> listanieobecnoscipracownika;
+    private double kursdlalisty;
     
     @PostConstruct
     public void init() {
@@ -410,6 +411,14 @@ public class PasekwynagrodzenView  implements Serializable {
 
     public void setListanieobecnoscipracownika(List<Naliczenienieobecnosc> listanieobecnoscipracownika) {
         this.listanieobecnoscipracownika = listanieobecnoscipracownika;
+    }
+
+    public double getKursdlalisty() {
+        return kursdlalisty;
+    }
+
+    public void setKursdlalisty(double kursdlalisty) {
+        this.kursdlalisty = kursdlalisty;
     }
 
     

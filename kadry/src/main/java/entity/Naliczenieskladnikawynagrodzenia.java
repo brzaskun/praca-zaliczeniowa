@@ -54,6 +54,8 @@ public class Naliczenieskladnikawynagrodzenia implements Serializable {
     private double kwotyredukujacesuma;
     @Column(name = "kwotadolistyplac")
     private double kwotadolistyplac;
+    @Column(name = "kwotadolistyplacwaluta")
+    private double kwotadolistyplacwaluta;
     @Column(name = "dninalezne")
     private double dninalezne;
     @Column(name = "dnifaktyczne")
@@ -64,6 +66,12 @@ public class Naliczenieskladnikawynagrodzenia implements Serializable {
     private double godzinyfaktyczne;
     @Column(name = "stawkadzienna")
     private double stawkadzienna;
+    @Column(name = "stawkagodzinowa")
+    private double stawkagodzinowa;
+    @Column(name = "stawkadziennawaluta")
+    private double stawkadziennawaluta;
+    @Column(name = "stawkagodzinowawaluta")
+    private double stawkagodzinowawaluta;
     @JoinColumn(name = "pasekwynagrodzen", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Pasekwynagrodzen pasekwynagrodzen;
@@ -126,6 +134,30 @@ public class Naliczenieskladnikawynagrodzenia implements Serializable {
     @Override
     public String toString() {
         return "Naliczenieskladnikawynagrodzenia{" + "dataod=" + dataod + ", datado=" + datado + ", kwotaumownazacalymc=" + kwotaumownazacalymc + ", kwotyredukujacesuma=" + kwotyredukujacesuma + ", kwotadolistyplac=" + kwotadolistyplac + ", skladnikwynagrodzenia=" + skladnikwynagrodzenia.getRodzajwynagrodzenia().getKod() + '}';
+    }
+
+    public double getKwotadolistyplacwaluta() {
+        return kwotadolistyplacwaluta;
+    }
+
+    public void setKwotadolistyplacwaluta(double kwotadolistyplacwaluta) {
+        this.kwotadolistyplacwaluta = kwotadolistyplacwaluta;
+    }
+
+    public double getStawkadziennawaluta() {
+        return stawkadziennawaluta;
+    }
+
+    public void setStawkadziennawaluta(double stawkadziennawaluta) {
+        this.stawkadziennawaluta = stawkadziennawaluta;
+    }
+
+    public double getStawkagodzinowawaluta() {
+        return stawkagodzinowawaluta;
+    }
+
+    public void setStawkagodzinowawaluta(double stawkagodzinowawaluta) {
+        this.stawkagodzinowawaluta = stawkagodzinowawaluta;
     }
 
 
@@ -219,6 +251,14 @@ public class Naliczenieskladnikawynagrodzenia implements Serializable {
 
     public void setStawkadzienna(double stawkadzienna) {
         this.stawkadzienna = stawkadzienna;
+    }
+
+    public double getStawkagodzinowa() {
+        return stawkagodzinowa;
+    }
+
+    public void setStawkagodzinowa(double stawkagodzinowa) {
+        this.stawkagodzinowa = stawkagodzinowa;
     }
 
     

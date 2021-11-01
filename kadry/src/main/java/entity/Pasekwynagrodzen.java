@@ -72,6 +72,8 @@ public class Pasekwynagrodzen implements Serializable {
     private double bruttobezzus;
     @Column(name = "bruttozus")
     private double bruttozus;
+    @Column(name = "bruttozuskraj")
+    private double bruttozuskraj;
     @Column(name = "oddelegowaniewaluta")
     private double oddelegowaniewaluta;
     @Column(name = "oddelegowaniepln")
@@ -99,6 +101,8 @@ public class Pasekwynagrodzen implements Serializable {
     private double podatekdochodowy;
     @Column(name = "podstawaopodatkowania")
     private double podstawaopodatkowania;
+    @Column(name = "podstawaskladkizus")
+    private double podstawaskladkizus;
     @Column(name = "pracchorobowe")
     private double pracchorobowe;
     @Column(name = "pracemerytalne")
@@ -135,12 +139,12 @@ public class Pasekwynagrodzen implements Serializable {
     private double razem53;
     @Column(name = "kosztpracodawcy")
     private double kosztpracodawcy;
-     @Column(name = "dietastawka")
-    private double dietastawka;
     @Column(name = "dietaodliczeniepodstawaop")
     private double dietaodliczeniepodstawaop;
     @Column(name = "dieta")
     private double dieta;
+    @Column(name = "dietawaluta")
+    private double dietawaluta;
     @Column(name = "kurs")
     private double kurs;
     @Column(name = "limitzus")
@@ -246,7 +250,6 @@ public class Pasekwynagrodzen implements Serializable {
         this.potracenia = r.getLplPotracenia().doubleValue();
         this.razem53 = this.fp+this.fgsp;
         this.kosztpracodawcy = this.bruttozus+this.bruttobezzus+this.razemspolecznefirma;
-        this.dietastawka = 0.0;
         this.dietaodliczeniepodstawaop = 0.0;
         this.dieta = 0.0;
         this.kurs = 0.0;
@@ -258,6 +261,7 @@ public class Pasekwynagrodzen implements Serializable {
     public void dodajPasek(Pasekwynagrodzen p) {
         this.bruttobezzusbezpodatek = this.bruttobezzusbezpodatek +p.bruttobezzusbezpodatek;
         this.bruttozus = this.bruttozus + p.bruttozus;
+        this.bruttozuskraj = this.bruttozuskraj + p.bruttozuskraj;
         this.bruttobezzus = this.bruttobezzus + p.bruttobezzus;
         this.oddelegowaniewaluta = this.oddelegowaniewaluta + p.oddelegowaniewaluta;
         this.oddelegowaniepln = this.oddelegowaniepln + p.oddelegowaniepln;
@@ -266,6 +270,9 @@ public class Pasekwynagrodzen implements Serializable {
         this.fgsp = this.fgsp + p.fgsp;
         this.fp = this.fp + p.fp;
         this.bruttominusspoleczne = this.bruttominusspoleczne + p.bruttominusspoleczne;
+        this.dieta = this.dieta + p.dieta;
+        this.dietaodliczeniepodstawaop = this.dietaodliczeniepodstawaop + p.dietaodliczeniepodstawaop;
+        this.podstawaskladkizus = this.podstawaskladkizus + p.podstawaskladkizus;
         this.podatekdochodowy = this.podatekdochodowy + p.podatekdochodowy;
         this.pracchorobowe = this.pracchorobowe + p.pracchorobowe;
         this.pracemerytalne = this.pracemerytalne + p.pracemerytalne;
@@ -331,6 +338,14 @@ public class Pasekwynagrodzen implements Serializable {
     public int getRodzajWynagrodzenia() {
         return this.definicjalistaplac.getRodzajlistyplac().getTyp();
     }
+
+    public double getBruttozuskraj() {
+        return bruttozuskraj;
+    }
+
+    public void setBruttozuskraj(double bruttozuskraj) {
+        this.bruttozuskraj = bruttozuskraj;
+    }
     
     
     @XmlTransient
@@ -373,6 +388,14 @@ public class Pasekwynagrodzen implements Serializable {
         this.bruttobezzus = bruttobezzus;
     }
 
+    public double getPodstawaskladkizus() {
+        return podstawaskladkizus;
+    }
+
+    public void setPodstawaskladkizus(double podstawaskladkizus) {
+        this.podstawaskladkizus = podstawaskladkizus;
+    }
+
     public double getBruttozus() {
         return bruttozus;
     }
@@ -387,6 +410,14 @@ public class Pasekwynagrodzen implements Serializable {
 
     public void setNettoprzedpotraceniami(double nettoprzedpotraceniami) {
         this.nettoprzedpotraceniami = nettoprzedpotraceniami;
+    }
+
+    public double getDietawaluta() {
+        return dietawaluta;
+    }
+
+    public void setDietawaluta(double dietawaluta) {
+        this.dietawaluta = dietawaluta;
     }
 
     public double getOddelegowaniewaluta() {
@@ -654,14 +685,6 @@ public class Pasekwynagrodzen implements Serializable {
         this.dietaodliczeniepodstawaop = dietaodliczeniepodstawaop;
     }
 
-    public double getDietastawka() {
-        return dietastawka;
-    }
-
-    public void setDietastawka(double dietastawka) {
-        this.dietastawka = dietastawka;
-    }
-
     public double getDieta() {
         return dieta;
     }
@@ -772,6 +795,10 @@ public class Pasekwynagrodzen implements Serializable {
                 wiersz.redukcja = p.getKwotyredukujacesuma();
                 wiersz.dataod = p.getDataod();
                 wiersz.datado = p.getDatado();
+                wiersz.dniobowiazku = p.getDninalezne();
+                wiersz.dniprzepracowane = p.getDnifaktyczne();
+                wiersz.godzinyobowiazku = p.getGodzinynalezne();
+                wiersz.godzinyprzepracowane = p.getGodzinyfaktyczne();
                 zwrot.add(wiersz);
             }
         }
@@ -785,6 +812,10 @@ public class Pasekwynagrodzen implements Serializable {
                 wiersz.redukcja = p.getKwotaredukcji()+p.getKwotastatystyczna();
                 wiersz.dataod = p.getNieobecnosc().getDataod();
                 wiersz.datado = p.getNieobecnosc().getDatado();
+                wiersz.dniobowiazku = p.getLiczbadniobowiazku();
+                wiersz.dniprzepracowane = p.getLiczbadniurlopu();
+                wiersz.godzinyobowiazku = p.getLiczbagodzinobowiazku();
+                wiersz.godzinyprzepracowane = p.getLiczbagodzinurlopu();
                 zwrot.add(wiersz);
             }
         }
@@ -811,6 +842,10 @@ public class Pasekwynagrodzen implements Serializable {
         String kod;
         double kwota;
         double redukcja;
+        double dniobowiazku;
+        double dniprzepracowane;
+        double godzinyobowiazku;
+        double godzinyprzepracowane;
         public Skladnikwynlista() {
         }
 
@@ -868,6 +903,38 @@ public class Pasekwynagrodzen implements Serializable {
 
         public void setRedukcja(double redukcja) {
             this.redukcja = redukcja;
+        }
+
+        public double getDniobowiazku() {
+            return dniobowiazku;
+        }
+
+        public void setDniobowiazku(double dniobowiazku) {
+            this.dniobowiazku = dniobowiazku;
+        }
+
+        public double getDniprzepracowane() {
+            return dniprzepracowane;
+        }
+
+        public void setDniprzepracowane(double dniprzepracowane) {
+            this.dniprzepracowane = dniprzepracowane;
+        }
+
+        public double getGodzinyobowiazku() {
+            return godzinyobowiazku;
+        }
+
+        public void setGodzinyobowiazku(double godzinyobowiazku) {
+            this.godzinyobowiazku = godzinyobowiazku;
+        }
+
+        public double getGodzinyprzepracowane() {
+            return godzinyprzepracowane;
+        }
+
+        public void setGodzinyprzepracowane(double godzinyprzepracowane) {
+            this.godzinyprzepracowane = godzinyprzepracowane;
         }
     
         
