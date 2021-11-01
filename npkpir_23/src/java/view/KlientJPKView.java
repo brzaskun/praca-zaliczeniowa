@@ -13,6 +13,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import msg.Msg;
 import waluty.Z;
 
 /**
@@ -42,6 +43,11 @@ public class KlientJPKView implements Serializable {
        } catch (Exception e){}
    }
 
+   public void handleSave(KlientJPK klient) {
+       klientJPKDAO.edit(klient);
+       Msg.msg("Naniesiono zmiany");
+   }
+   
     public List<KlientJPK> getLista() {
         return lista;
     }

@@ -181,7 +181,11 @@ public class AmazonImportNazwy implements Serializable {
                 if (rodzajtransakcji.equals("FC_TRANSFER")) {
                     klientJPK.setNazwaKontrahenta(wpisView.getPrintNazwa());
                 } else {
-                    klientJPK.setNazwaKontrahenta(row.getCell(naglowki.get("BUYER_NAME")).getStringCellValue());
+                    if (row.getCell(naglowki.get("BUYER_NAME")).getStringCellValue()==null||row.getCell(naglowki.get("BUYER_NAME")).getStringCellValue().equals("")) {
+                        klientJPK.setNazwaKontrahenta("brakk");
+                    } else {
+                        klientJPK.setNazwaKontrahenta(row.getCell(naglowki.get("BUYER_NAME")).getStringCellValue());
+                    }
                 }
                 klientJPK.setRok(wpisView.getRokWpisuSt());
                 klientJPK.setMc(wpisView.getMiesiacWpisu());

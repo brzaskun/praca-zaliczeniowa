@@ -18,6 +18,7 @@ import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.*;
 import org.apache.commons.io.IOUtils;
 import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
 /**
  *
  * @author Osito
@@ -421,14 +422,32 @@ public class XMLValid {
     }
     
     private static String obsluzblad(SAXException e) {
-        String zwrot ="Bląd walidacji: ";
+        String kolumna = "";
+        String wiersz = "";
+        String ostrzezenie ="Bląd walidacji: ";
         String wiadomosc = rodzajbledu(e.getMessage());
-        return zwrot+wiadomosc;
+        String zwrot = ostrzezenie+wiadomosc;
+        if (e.getClass().getName().equals("org.xml.sax.SAXParseException")) {
+            kolumna = "kol. "+((SAXParseException)e).getColumnNumber()+";";
+            wiersz = "wiersz "+((SAXParseException)e).getLineNumber()+";";
+            zwrot = kolumna+wiersz+wiadomosc;
+            
+        }
+        return zwrot;
     }
     private static String obsluzblad2(SAXException e) {
-        String zwrot ="Bląd walidacji: ";
+        String kolumna = "";
+        String wiersz = "";
+        String ostrzezenie ="Bląd walidacji: ";
         String wiadomosc = rodzajbledu2(e.getMessage());
-        return zwrot+wiadomosc;
+        String zwrot = ostrzezenie+wiadomosc;
+        if (e.getClass().getName().equals("org.xml.sax.SAXParseException")) {
+            kolumna = "kol. "+((SAXParseException)e).getColumnNumber()+";";
+            wiersz = "wiersz "+((SAXParseException)e).getLineNumber()+";";
+            zwrot = kolumna+wiersz+wiadomosc;
+            
+        }
+        return zwrot;
     }
      private static String rodzajbledu2(String message) {
         String zwrot = message;
@@ -442,6 +461,7 @@ public class XMLValid {
         } else if (message.contains("Invalid content was found starting with element 'P_")) {
             message = message.replace("cvc-complex-type.2.4.a: Invalid content was found starting with element ", "");
             message = message.replace("http://crd.gov.pl/wzor/2020/05/08/9393/", "");
+            message = message.replace("cvc-minLength-valid: Value '' with length = '0' is not facet-valid with respect to minLength '1' for type","Puste pole, trzeba wpisać wartość");
             message = message.replace("One of", "Brakuje pól");
             message = message.replace("is expected", "");
             zwrot = "Deklaracja. Błąd od pola "+message;

@@ -27,7 +27,10 @@
                     <h:outputText value="#{itemikjpk.dataSprzedazy}"/>
                 </p:column>
                 <p:column headerText="nazwa" width="350" sortBy="#{itemikjpk.nazwaKontrahenta}" filterBy="#{itemikjpk.nazwaKontrahenta}" filterMatchMode="contains">
-                    <h:outputText value="#{itemikjpk.nazwaKontrahenta}"/>
+                    <p:inplace editor="true" >
+                        <p:inputText value="#{itemikjpk.nazwaKontrahenta}"/>
+                        <p:ajax event="save" listener="#{klientJPKView.handleSave(itemikjpk)}"/>
+                    </p:inplace>
                 </p:column>
                 <p:column headerText="nr kontr" sortBy="#{itemikjpk.nrKontrahenta}">
                     <h:outputText value="#{itemikjpk.nrKontrahenta}"/>

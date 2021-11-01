@@ -1844,15 +1844,25 @@ public class KontoZapisFKView implements Serializable{
     
     public void usunwielokrotneSW() {
         try {
+            List<Wiersz> usuniete = new ArrayList<>();
             for (Iterator<StronaWiersza> it=kontozapisy.iterator();it.hasNext();) {
                 StronaWiersza p = it.next();
                 Wiersz wiersz = p.getWiersz();
+                Dokfk dok = p.getDokfk();
                 boolean brak = true;
-                if (wiersz.getStronaWn().getId()==p.getId()||wiersz.getStronaMa().getId()==p.getId()) {
-                    brak = false;
+                for (Wiersz w : dok.getListawierszy()) {
+                    if (wiersz.getIdwiersza()==w.getIdwiersza()) {
+                        brak=false;
+                        break;
+                    }
                 }
-                if (brak) {
-                    stronaWierszaDAO.remove(p);
+//                if (wiersz.getStronaWn().getId()==p.getId()||wiersz.getStronaMa().getId()==p.getId()) {
+//                    brak = false;
+//                }
+                if (brak&&!usuniete.contains(p.getWiersz())) {
+                    wierszDAO.remove(p.getWiersz());
+                    usuniete.add(p.getWiersz());
+//                    stronaWierszaDAO.remove(p);
                     it.remove();
                 }
 
