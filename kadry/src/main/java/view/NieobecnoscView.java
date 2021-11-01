@@ -133,6 +133,14 @@ public class NieobecnoscView  implements Serializable {
         }
     }
     
+    public void procentynieobecnosc() {
+        if (selected.getNieobecnosckodzus()!=null) {
+            if (selected.getNieobecnosckodzus().getKod().equals("331")) {
+                selected.setZwolnienieprocent(80.0);
+            }
+        }
+    }
+    
     public boolean nanies(Nieobecnosc nieobecnosc) {
         boolean czynaniesiono = false;
         if (nieobecnosc.isNaniesiona() == false) {
@@ -155,6 +163,7 @@ public class NieobecnoscView  implements Serializable {
                                 nieobecnoscFacade.edit(nieobecnosc);
                                 kalendarzmiesiacFacade.edit(znaleziony);
                                 czynaniesiono = true;
+                                kalendarzmiesiacView.init();
                             } else {
                                 Msg.msg("e", "Brak kalendarza pracownika za miesiąc rozliczeniowy. Nie można nanieść nieobecności!");
                             }
@@ -233,6 +242,30 @@ public class NieobecnoscView  implements Serializable {
         }
     }
     
+    
+    public void zdejmijzkalendarza(Nieobecnosc nieob) {
+        if (nieob!=null) {
+            List<Dzien> wzorcowe = dzienFacade.findByNrwrokuByData(nieob.getDataod(), nieob.getDatado(), wpisView.getFirma());
+            for (Dzien d : nieob.getDzienList()) {
+                d.setNieobecnosc(null);
+                dzienFacade.edit(d);
+                try {
+                    d.nanieswzorcowe(wzorcowe);
+                } catch (Exception e){}
+                dzienFacade.edit(d);
+            }
+            nieob.setDzienList(null);
+            nieob.setNaniesiona(false);
+            nieobecnoscFacade.edit(nieob);
+            kalendarzmiesiacView.init();
+            Msg.msg("Zdjęto nieobecnośćz kalendarza.");
+        } else {
+            Msg.msg("e","Nie można usunąc nieobecnosci");
+        }
+    }
+            
+            
+            
     public void usun(Nieobecnosc nieob) {
         if (nieob!=null) {
             List<Dzien> wzorcowe = dzienFacade.findByNrwrokuByData(nieob.getDataod(), nieob.getDatado(), wpisView.getFirma());
@@ -248,6 +281,7 @@ public class NieobecnoscView  implements Serializable {
             nieobecnoscFacade.edit(nieob);
             nieobecnoscFacade.remove(nieob);
             lista.remove(nieob);
+            kalendarzmiesiacView.init();
             Msg.msg("Usunięto nieobecność. Naniesiono zmiany w kalendarzu");
         } else {
             Msg.msg("e","Nie można usunąc nieobecnosci");

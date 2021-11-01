@@ -7,7 +7,6 @@ package dao;
 
 import entity.FirmaKadry;
 import java.io.Serializable;
-import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -25,14 +24,14 @@ public class FirmaFacade extends DAO  implements Serializable {
     @PersistenceContext(unitName = "kadryPU")
     private EntityManager em;
     
-    @PreDestroy
-    private void preDestroy() {
-        em.clear();
-        em.close();
-        em.getEntityManagerFactory().close();
-        em = null;
-        
-    }
+//    @PreDestroy
+//    private void preDestroy() {
+//        em.clear();
+//        em.close();
+//        em.getEntityManagerFactory().close();
+//        em = null;
+//        
+//    }
 
     protected EntityManager getEntityManager() {
         return em;

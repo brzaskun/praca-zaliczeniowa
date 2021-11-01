@@ -513,6 +513,9 @@ private static final long serialVersionUID = 1L;
         String mcdo = Data.getMc(p.getDatado());
         dzienod = modyfikujod(mcod, dzienod);
         dziendo = modyfikujdo(mcdo, dziendo);
+        if (p.getDzienList()==null) {
+            p.setDzienList(new ArrayList<>());
+        }
         for (int i = dzienod; i <= dziendo; i++) {
             final int j = i;
             Dzien dzienaktualny = this.dzienList.stream().filter(pa->pa.getNrdnia()==j).findFirst().get();
@@ -533,6 +536,7 @@ private static final long serialVersionUID = 1L;
                 dzienaktualny.setPrzepracowano(0);
             }
             dzienaktualny.setNieobecnosc(p);
+            p.getDzienList().add(dzienaktualny);
         }
     }
 
