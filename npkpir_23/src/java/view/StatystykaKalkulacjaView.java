@@ -5,15 +5,16 @@
  */
 package view;
 
-import beanStatystyka.StatystykaBean;
-import beanStatystyka.StatystykaBeanFK;
 import dao.DokDAO;
+import dao.DokDAOfk;
 import dao.FakturaDAO;
 import dao.PodatnikDAO;
 import dao.StatystykaDAO;
-import dao.DokDAOfk;
+import entity.Dok;
+import entity.Faktura;
 import entity.Podatnik;
 import entity.Statystyka;
+import entityfk.Dokfk;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -23,10 +24,11 @@ import java.util.Collections;
 import java.util.List;
 import static java.util.stream.Collectors.collectingAndThen;
 import static java.util.stream.Collectors.toList;
-import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
-import msg.Msg;import org.apache.commons.math3.stat.descriptive.rank.Median;
+import javax.inject.Named;
+import msg.Msg;
+import org.apache.commons.math3.stat.descriptive.rank.Median;
 import pdffk.PdfKlienciKalkulacja;
 
 /**
@@ -90,8 +92,43 @@ public class StatystykaKalkulacjaView  implements Serializable {
         List<Statystyka> zwrot = Collections.synchronizedList(new ArrayList<Statystyka>());
         int lp = 1;
         for (Podatnik p : podatnicy) {
-            StatystykaBean sb = new StatystykaBean(zwrot, p, lp, rok, dokDAO, fakturaDAO);
-            sb.run();
+            List<Dok> dokumenty = dokDAO.zwrocBiezacegoKlientaRok(p, rok);
+            Podatnik podatnik = podatnikDAO.findPodatnikByNIP("8511005008");
+            List<Faktura> faktury = fakturaDAO.findbyKontrahentNipRok(p.getNip(), podatnik, rok);
+            Statystyka sb = new Statystyka(lp++, p, rok, iloscdok(dokumenty), obroty(dokumenty), iloscfaktur(faktury), kwotafaktur(faktury));
+            if (sb.getIloscdokumentow() > 0 && sb.getIloscfaktur() > 0) {
+                zwrot.add(sb);
+            }
+        }
+        return zwrot;
+    }
+    
+     private double obroty(List<Dok> dokumenty) {
+        double zwrot = 0.0;
+        zwrot = dokumenty.stream().filter((p) -> p.getRodzajedok().getKategoriadokumentu()==2|| p.getRodzajedok().getKategoriadokumentu()==4).map((p) -> p.getBrutto()).reduce(zwrot, (accumulator, _item) -> accumulator + _item);
+        return zwrot;
+    }
+    
+     private int iloscfaktur(List<Faktura> faktury) {
+        int zwrot = 0;
+        if (!faktury.isEmpty()) {
+            zwrot = faktury.size();
+        }
+        return zwrot;
+    }
+
+    private double kwotafaktur(List<Faktura> faktury) {
+        double zwrot = 0.0;
+        for (Faktura p : faktury) {
+            zwrot += p.getNetto();
+        }
+        return zwrot;
+    }
+
+    private int iloscdok(List dokumenty) {
+        int zwrot = 0;
+        if (!dokumenty.isEmpty()) {
+            zwrot = dokumenty.size();
         }
         return zwrot;
     }
@@ -100,12 +137,34 @@ public class StatystykaKalkulacjaView  implements Serializable {
         List<Statystyka> zwrot = Collections.synchronizedList(new ArrayList<Statystyka>());
         int lp = 1;
         for (Podatnik p : podatnicy) {
-            StatystykaBeanFK sb = new StatystykaBeanFK(zwrot, p, lp, rok, dokDAOfk, fakturaDAO);
-            sb.run();
+            List<Dokfk> dokumenty = dokDAOfk.findDokfkPodatnikRok(p, rok);
+            Podatnik podatnik = podatnikDAO.findPodatnikByNIP("8511005008");
+            List<Faktura> faktury = fakturaDAO.findbyKontrahentNipRok(p.getNip(), podatnik, rok);
+            Statystyka sb = new Statystyka(lp++, p, rok, iloscdok(dokumenty), obrotyfk(dokumenty), iloscfaktur(faktury), kwotafaktur(faktury));
+            if (sb.getIloscdokumentow() > 0 || sb.getIloscfaktur() > 0) {
+                zwrot.add(sb);
+            }
         }
         return zwrot;
     }
-
+    
+    private double obrotyfk(List<Dokfk> dokumenty) {
+           double zwrot = 0.0;
+           if (dokumenty != null && dokumenty.size() > 0) {
+               for (Dokfk p : dokumenty) {
+                  try {
+                       if (p.getRodzajedok().getKategoriadokumentu()==2|| p.getRodzajedok().getKategoriadokumentu()==4) {
+                           if (p.getTabelanbp().getWaluta().getSymbolwaluty().equals("PLN")) {
+                               zwrot += p.getWartoscdokumentu();
+                           } else {
+                               zwrot += p.getWartoscdokumentuPLN();
+                           }
+                       }
+                  } catch (Exception e){}
+               }
+           }
+           return zwrot;
+       }
     private Statystyka dodajsume(List<Statystyka> zwrot) {
         Statystyka s = new Statystyka();
         int sumadok = 0;

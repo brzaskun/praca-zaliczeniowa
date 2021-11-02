@@ -18,7 +18,7 @@
         <p:commandButton value="pobierz" actionListener="#{statystykaKalkulacjaView.pobierz}" update="form:datatable" style="width: 120px; margin-left: 10px;"/>
         <p:commandButton value="drukuj" actionListener="#{statystykaKalkulacjaView.drukuj}" style="width: 120px; margin-left: 20px;"/>
     </p:panelGrid>
-    <p:dataTable value="#{statystykaKalkulacjaView.podatnikroklista}" var="item" id="datatable" style="width: 1200px; padding: 10px;"
+    <p:dataTable value="#{statystykaKalkulacjaView.podatnikroklista}" var="item" id="datatable" style="width: 1250px; padding: 10px;"
                  sortBy="#{item.ranking}" sortOrder="descending" rowIndexVar="index"
                  emptyMessage="Nie pobrano danych">
         <p:column style="width: 20px;">
@@ -51,7 +51,7 @@
             </f:facet>
             <h:outputText value="#{item.iloscdokumentow}"/>
         </p:column>
-        <p:column sortBy="#{item.obroty}" style="width: 90px;">
+        <p:column sortBy="#{item.obroty}" style="width: 120px;">
             <f:facet name="header">
                 <h:outputText value="obroty"/>
             </f:facet>

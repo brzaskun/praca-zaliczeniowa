@@ -93,8 +93,12 @@ public class Statystyka  implements Serializable {
         this.obroty = obroty;
         this.iloscfaktur = iloscfaktur;
         this.kwotafaktur = kwotafaktur;
-        this.fakturaNaObroty = Z.z4(this.kwotafaktur/this.obroty)*100 > 12 ? 12 : Z.z4(this.kwotafaktur/this.obroty)*100;
-        this.fakturaNaDokumenty = Z.z4(this.kwotafaktur/this.iloscdokumentow)/10 > 12 ? 12 : Z.z4(this.kwotafaktur/this.iloscdokumentow)/10;
+        if (obroty>0) {
+            this.fakturaNaObroty = Z.z4(this.kwotafaktur/this.obroty)*100 > 12 ? 12 : Z.z4(this.kwotafaktur/this.obroty)*100;
+        }
+        if (iloscdokumentow>0) {
+            this.fakturaNaDokumenty = Z.z4(this.kwotafaktur/this.iloscdokumentow)/10 > 12 ? 12 : Z.z4(this.kwotafaktur/this.iloscdokumentow)/10;
+        }
         this.ranking = this.fakturaNaDokumenty+this.fakturaNaObroty;
     }
 

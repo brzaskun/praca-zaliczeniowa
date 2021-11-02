@@ -12,19 +12,26 @@ import entity.Dok;
 import entity.Faktura;
 import entity.Podatnik;
 import entity.Statystyka;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.DoubleSummaryStatistics;
 import java.util.List;
 import java.util.stream.Collectors;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 
 /**
  *
  * @author Osito
  */
-public class StatystykaBean implements Runnable {
+@Named
+@ViewScoped
+public class StatystykaBean  implements Serializable {
+
+    private static final long serialVersionUID = 1L;
     
     private List<Statystyka> zwrot;
     private Podatnik p;
@@ -48,10 +55,10 @@ public class StatystykaBean implements Runnable {
     
     
 
-    @Override
+    
     public void run() {
         List<Dok> dokumenty = dokDAO.zwrocBiezacegoKlientaRok(p, rok);
-        Podatnik podatnik = podatnikDAO.findByNazwaPelna("8511005008");
+        Podatnik podatnik = podatnikDAO.findPodatnikByNIP("8511005008");
         List<Faktura> faktury = fakturaDAO.findbyKontrahentNipRok(p.getNip(), podatnik, rok);
         Statystyka sb = new Statystyka(lp++, p, rok, iloscdok(dokumenty), obroty(dokumenty), iloscfaktur(faktury), kwotafaktur(faktury));
         if (sb.getIloscdokumentow() > 0 && sb.getIloscfaktur() > 0) {
