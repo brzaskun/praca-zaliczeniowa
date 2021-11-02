@@ -44,7 +44,12 @@ import kadryiplace.OsobaPrz;
     @NamedQuery(name = "Nieobecnosc.findByDataod", query = "SELECT n FROM Nieobecnosc n WHERE n.dataod = :dataod"),
     @NamedQuery(name = "Nieobecnosc.findByDatado", query = "SELECT n FROM Nieobecnosc n WHERE n.datado = :datado")})
 public class Nieobecnosc implements Serializable {
-
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id")
+    private Integer id;
     @Size(max = 45)
     @NotNull
     @Column(name = "dataod")
@@ -64,12 +69,6 @@ public class Nieobecnosc implements Serializable {
     @JoinColumn(name = "umowa", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Umowa umowa;
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id")
-    private Integer id;
     @OneToMany(mappedBy = "nieobecnosc")
     private List<Naliczenienieobecnosc> naliczenienieobecnoscList;
     @Size(max = 256)
