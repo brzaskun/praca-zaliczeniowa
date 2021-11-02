@@ -567,6 +567,9 @@ public class FakturaView implements Serializable {
             if (selected.isRecznaedycja()) {
                 selected.setRecznaedycja(false);
             }
+            Klienci kontra = selected.getKontrahent();
+            kontra.setAktywnydlafaktrozrachunki(true);
+            klienciDAO.edit(kontra);
             if (selected.getIdfakturaokresowa()!=null && selected.isTylkodlaokresowej()) {
                 String nowynumer = String.valueOf(new DateTime().getMillis());
                 selected.setNumerkolejny(nowynumer);
@@ -1828,6 +1831,9 @@ public class FakturaView implements Serializable {
                 FakturaBean.wielekont(nowa, fakturaWalutaKontoView.getListakontaktywne(), fakturaStopkaNiemieckaDAO, wpisView.getPodatnikObiekt());
                 try {
                     fakturaDAO.create(nowa);
+                    Klienci kontra = selected.getKontrahent();
+                    kontra.setAktywnydlafaktrozrachunki(true);
+                    klienciDAO.edit(kontra);
                     if (nowa.isRecznaedycja()) {
                         faktury_edit.add(nowa);
                     } else {

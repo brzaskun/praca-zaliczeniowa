@@ -7,17 +7,17 @@ package view;
 
 import dao.FakturaDAO;
 import dao.KlienciDAO;
+import dao.PodatnikDAO;
 import entity.Faktura;
 import entity.Klienci;
+import entity.Podatnik;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
-import javax.inject.Named;
-
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import msg.Msg;
 /**
  *
@@ -31,18 +31,19 @@ public class FakturaWeryfikujView implements Serializable {
     @Inject
     private FakturaDAO fakturaDAO;
     @Inject
+    private PodatnikDAO podatnikDAO;
+    @Inject
     private KlienciDAO klienciDAO;
     @Inject
     private WpisView wpisView;
     
     public void sprawdzmc() {
-        Collection p = fakturaDAO.findKontrahentFaktury(wpisView.getPodatnikObiekt());
-        for (Iterator<Klienci> it = p.iterator(); it.hasNext();) {
-            Klienci k = it.next();
-            if (k == null) {
-                it.remove();
-            } else if (k.isAktywnydlafaktrozrachunki() == false) {
-                it.remove();
+        List<Podatnik> podatnicy  = podatnikDAO.findAktywny();
+        List<Klienci> p = new ArrayList<>();
+        for (Podatnik po : podatnicy) {
+            Klienci findKlientByNip = klienciDAO.findKlientByNip(po.getNip());
+            if (findKlientByNip!=null) {
+                p.add(findKlientByNip);
             }
         }
         List<Faktura> faktury = new ArrayList<>();

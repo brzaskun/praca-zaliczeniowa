@@ -183,7 +183,9 @@ function ustawDateFK(rok,mc, koncowkaadresu, zapisz0edytuj1){
                     dataWyst.value = "b\u0142ędna data";
                 } else if (testw==="2023-02-29") {
                     dataWyst.value = "b\u0142ędna data";
-                } else {
+                }  else if (testw==="2024-02-29") {
+                    dataWyst.value = "b\u0142ędna data";
+                }  else {
         //         var dataplatnosc = document.getElementById("formwpisdokument:dataTPole");
         //         var datasprzedazy = document.getElementById("formwpisdokument:dataSPole");
         //         var rozliczony = document.getElementById("formwpisdokument:rozliczony");

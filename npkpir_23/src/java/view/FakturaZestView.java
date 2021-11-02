@@ -7,8 +7,10 @@
 package view;
 
 import comparator.FakturaZestawieniecomparator;
+import comparator.Kliencicomparator;
 import dao.FakturaDAO;
 import dao.PodatnikDAO;
+import embeddable.FZTresc;
 import embeddable.FakturaZestawienie;
 import entity.Faktura;
 import entity.Klienci;
@@ -49,6 +51,8 @@ public class FakturaZestView implements Serializable {
     private List<Podatnik> podatnicyWProgramie;
     private List<Klienci> klienci;
     private Klienci szukanyklient;
+    private List<FZTresc> filtertresc;
+    private boolean pobierzwszystkielataKlienta;
 
     public FakturaZestView() {
         fakturyWystawione = Collections.synchronizedList(new ArrayList<>());
@@ -60,6 +64,7 @@ public class FakturaZestView implements Serializable {
         podatnicyWProgramie = podatnikDAO.findAll();
         klienci = new ArrayList<>();
         klienci.addAll(pobierzkontrahentow());
+        Collections.sort(klienci, new Kliencicomparator());
     }
     
     private Collection<? extends Klienci> pobierzkontrahentow() {
@@ -76,33 +81,58 @@ public class FakturaZestView implements Serializable {
     }
     
     public void pobierzwszystkoKlienta() {
-        init();
-        Msg.msg("Pobrano dane");
+        if (pobierzwszystkielataKlienta==true) {
+            if (szukanyklient!=null) {
+                init(1);
+                Msg.msg("Pobrano dane");
+            } else {
+                fakturyZestawienie = new ArrayList<>();
+                Msg.msg("e","Nie wybrano klienta");
+            }
+        } else {
+            init(0);
+            Msg.msg("Pobrano dane");
+        }
     }
     
-    public List<Faktura> pobierzfaktury() {
+    
+    public List<Faktura> pobierzfaktury(int o) {
         List<Faktura> zwrot = new ArrayList<>();
         if (szukanyklient!=null) {
-            zwrot = fakturaDAO.findbyKontrahentNipRok(szukanyklient.getNip(), wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+            if (o==0) {
+                zwrot = fakturaDAO.findbyKontrahentNipRok(szukanyklient.getNip(), wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+            } else {
+                for (int i = wpisView.getRokWpisu();i>2015;i--) {
+                    try {
+                        zwrot.addAll(fakturaDAO.findbyKontrahentNipRok(szukanyklient.getNip(), wpisView.getPodatnikObiekt(), String.valueOf(i)));
+                    } catch (Exception e){}
+                }
+            }
         } else {
             zwrot = fakturaDAO.findFakturyByRokPodatnik(wpisView.getRokWpisuSt(), wpisView.getPodatnikObiekt());
         }
         return zwrot;
     }
     
-    public void init() { //E.m(this);
+    public void wszyscypodatnicy() {
+        szukanyklient = null;
+        init(0);
+    }
+    
+    
+    public void init(int o) { //E.m(this);
         fakturyZestawienie = Collections.synchronizedList(new ArrayList<>());
-        fakturyWystawione = pobierzfaktury();
+        fakturyWystawione = pobierzfaktury(o);
         //List<Podatnik> podatnicy = podatnikDAO.findAll();
         Map<String,FakturaZestawienie> odnalezione = new ConcurrentHashMap<>();
         if (fakturyWystawione != null) {
             fakturyWystawione.stream().forEach((p)->{
                 if (p.isTylkodlaokresowej()==false) {
-                    String n = p.getKontrahent().getNip();
-                    FakturaZestawienie f = new FakturaZestawienie();
-                    if (odnalezione.keySet().contains(n)) {
-                        f = odnalezione.get(n);
-                        FakturaZestawienie.FZTresc ft = f.new FZTresc();
+                    String nipkontrahenta = p.getKontrahent().getNip();
+                    FakturaZestawienie fakturazestawienie = new FakturaZestawienie();
+                    if (odnalezione.keySet().contains(nipkontrahenta)) {
+                        fakturazestawienie = odnalezione.get(nipkontrahenta);
+                        FZTresc ft = new FZTresc();
                         ft.setMc(p.getMc());
                         ft.setNrfakt(p.getNumerkolejny());
                         if (p.getPozycjepokorekcie()!=null&&p.getPozycjepokorekcie().size()>0) {
@@ -116,17 +146,19 @@ public class FakturaZestView implements Serializable {
                             ft.setBrutto(p.getBrutto());
                             ft.setOpis(p.getPozycjenafakturze().get(0).getNazwa());
                         }
+                        ft.setIloscwierszy(p.getPozycjenafakturze().size());
                         ft.setData(p.getDatawystawienia());
                         ft.setFaktura(p);
-                        f.getTrescfaktury().add(ft);
+                        ft.setWaluta(p.getWalutafaktury());
+                        fakturazestawienie.getTrescfaktury().add(ft);
                     } else {
                         Podatnik odnalezionyPodatnik = null;
                         try {
-                            odnalezionyPodatnik = znajdzpodattniknip(n);
+                            odnalezionyPodatnik = znajdzpodattniknip(nipkontrahenta);
                         } catch (Exception e) { E.e(e); }
-                        FakturaZestawienie.FZTresc ft = f.new FZTresc();
+                        FZTresc ft = new FZTresc();
                         if (odnalezionyPodatnik != null) {
-                            f.setPodatnik(odnalezionyPodatnik);
+                            fakturazestawienie.setPodatnik(odnalezionyPodatnik);
                             ft.setMc(p.getMc());
                             ft.setNrfakt(p.getNumerkolejny());
                             if (p.getPozycjepokorekcie()!=null&&p.getPozycjepokorekcie().size()>0) {
@@ -140,11 +172,13 @@ public class FakturaZestView implements Serializable {
                                 ft.setBrutto(p.getBrutto());
                                 ft.setOpis(p.getPozycjenafakturze().get(0).getNazwa());
                             }
+                            ft.setIloscwierszy(p.getPozycjenafakturze().size());
                             ft.setData(p.getDatawystawienia());
                             ft.setFaktura(p);
-                            f.getTrescfaktury().add(ft);
+                            ft.setWaluta(p.getWalutafaktury());
+                            fakturazestawienie.getTrescfaktury().add(ft);
                         } else {
-                            f.setKontrahent(p.getKontrahent());
+                            fakturazestawienie.setKontrahent(p.getKontrahent());
                             ft.setMc(p.getMc());
                             ft.setNrfakt(p.getNumerkolejny());
                             if (p.getPozycjepokorekcie()!=null&&p.getPozycjepokorekcie().size()>0) {
@@ -158,11 +192,13 @@ public class FakturaZestView implements Serializable {
                                 ft.setBrutto(p.getBrutto());
                                 ft.setOpis(p.getPozycjenafakturze().get(0).getNazwa());
                             }
+                            ft.setIloscwierszy(p.getPozycjenafakturze().size());
                             ft.setData(p.getDatawystawienia());
                             ft.setFaktura(p);
-                            f.getTrescfaktury().add(ft);
+                            ft.setWaluta(p.getWalutafaktury());
+                            fakturazestawienie.getTrescfaktury().add(ft);
                         }
-                        odnalezione.put(n,f);
+                        odnalezione.put(nipkontrahenta,fakturazestawienie);
                     }
                 }
             });
@@ -221,6 +257,22 @@ public class FakturaZestView implements Serializable {
 
     public void setSzukanyklient(Klienci szukanyklient) {
         this.szukanyklient = szukanyklient;
+    }
+
+    public List<FZTresc> getFiltertresc() {
+        return filtertresc;
+    }
+
+    public void setFiltertresc(List<FZTresc> filtertresc) {
+        this.filtertresc = filtertresc;
+    }
+
+    public boolean isPobierzwszystkielataKlienta() {
+        return pobierzwszystkielataKlienta;
+    }
+
+    public void setPobierzwszystkielataKlienta(boolean pobierzwszystkielataKlienta) {
+        this.pobierzwszystkielataKlienta = pobierzwszystkielataKlienta;
     }
 
     
