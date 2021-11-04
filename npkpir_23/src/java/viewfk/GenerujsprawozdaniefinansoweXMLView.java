@@ -17,14 +17,16 @@ import java.io.OutputStreamWriter;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
-import javax.inject.Named;
-import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.servlet.ServletContext;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
-import msg.Msg;import pdffk.PdfZaksiegowaneView;
+import msg.Msg;
+import org.primefaces.PrimeFaces;
+import pdffk.PdfZaksiegowaneView;
 import sprawozdania.rok2018.JednostkaInna;
 import sprawozdania.rok2018.SprawozdanieFin2018Bean;
 import sprawozdania.rok2018.SprawozdanieFin2018BilansBean;
@@ -34,7 +36,7 @@ import sprawozdania.rok2018.SprawozdanieFinOP2018Bean;
 import sprawozdania.rok2018.SprawozdanieFinOP2018BilansBean;
 import sprawozdania.rok2018.SprawozdanieFinOP2018DodInfoBean;
 import sprawozdania.rok2018.SprawozdanieFinOP2018RZiSBean;
-import view.WpisView; import org.primefaces.PrimeFaces;
+ import view.WpisView;
 
 /**
  *
@@ -96,12 +98,12 @@ public class GenerujsprawozdaniefinansoweXMLView  implements Serializable {
                 planKontView.init();
                 PodatnikOpodatkowanieD rokbiezacy = podatnikOpodatkowanieDAO.findOpodatkowaniePodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
                 PodatnikOpodatkowanieD rokuprzedni = podatnikOpodatkowanieDAO.findOpodatkowaniePodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokUprzedniSt());
-                if (rokuprzedni==null || rokbiezacy.getDolaczonydoroku()==null || rokbiezacy.getDolaczonydoroku().equals("")) {
+                if (rokuprzedni==null || rokuprzedni.getDolaczonydoroku()==null || rokuprzedni.getDolaczonydoroku().equals("")) {
                     Map<String, List<PozycjaRZiSBilans>> bilans = pozycjaBRView.obliczBilansOtwarciaBilansDataXML();
                     List<PozycjaRZiSBilans> rzis = pozycjaBRZestawienieView.obliczRZiSOtwarciaRZiSDataXML();
                     generuj(bilans, rzis);
                 } else {
-                    if (rokuprzedni!=null && rokbiezacy.getDolaczonydoroku().equals(wpisView.getRokUprzedniSt())) {
+                    if (rokuprzedni!=null && rokuprzedni.getDolaczonydoroku().equals(wpisView.getRokWpisuSt())) {
                         pozycjaBRView.setLaczlata(true);
                         pozycjaBRView.setBilansoddnia(rokuprzedni.getDatarozpoczecia());
                         Map<String, List<PozycjaRZiSBilans>> bilans = pozycjaBRView.obliczBilansOtwarciaBilansDataXML();
