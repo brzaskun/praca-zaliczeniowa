@@ -7,7 +7,6 @@ package view;
 
 import dao.FakturaWalutaKontoDAO;
 import entity.FakturaWalutaKonto;
-import error.E;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;

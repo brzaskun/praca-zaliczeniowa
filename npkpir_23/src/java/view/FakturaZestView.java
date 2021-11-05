@@ -9,10 +9,12 @@ package view;
 import comparator.FakturaZestawieniecomparator;
 import comparator.Kliencicomparator;
 import dao.FakturaDAO;
+import dao.FakturaWaloryzacjaDAO;
 import dao.PodatnikDAO;
 import embeddable.FZTresc;
 import embeddable.FakturaZestawienie;
 import entity.Faktura;
+import entity.FakturaWaloryzacja;
 import entity.Klienci;
 import entity.Podatnik;
 import error.E;
@@ -43,6 +45,8 @@ public class FakturaZestView implements Serializable {
     private PodatnikDAO podatnikDAO;
     @Inject
     private FakturaDAO fakturaDAO;
+    @Inject
+    private FakturaWaloryzacjaDAO fakturaWaloryzacjaDAO;
     //faktury z bazy danych
     private List<Faktura> fakturyWystawione;
     //listaprzetworzona
@@ -53,6 +57,8 @@ public class FakturaZestView implements Serializable {
     private Klienci szukanyklient;
     private List<FZTresc> filtertresc;
     private boolean pobierzwszystkielataKlienta;
+    @Inject
+    private FakturaWaloryzacja fakturaWaloryzacja;
 
     public FakturaZestView() {
         fakturyWystawione = Collections.synchronizedList(new ArrayList<>());
@@ -84,6 +90,7 @@ public class FakturaZestView implements Serializable {
         if (pobierzwszystkielataKlienta==true) {
             if (szukanyklient!=null) {
                 init(1);
+                fakturaWaloryzacja = pobierzwaloryzacje(wpisView.getPodatnikObiekt(), szukanyklient, wpisView.getRokWpisuSt());
                 Msg.msg("Pobrano dane");
             } else {
                 fakturyZestawienie = new ArrayList<>();
@@ -91,11 +98,28 @@ public class FakturaZestView implements Serializable {
             }
         } else {
             init(0);
+            fakturaWaloryzacja = pobierzwaloryzacje(wpisView.getPodatnikObiekt(), szukanyklient, wpisView.getRokWpisuSt());
             Msg.msg("Pobrano dane");
         }
     }
     
+    public void zapiszwaloryzacje() {
+        if (fakturaWaloryzacja!=null) {
+            fakturaWaloryzacjaDAO.edit(fakturaWaloryzacja);
+            Msg.msg("Zapisano zmiany waloryzacji");
+        } else {
+            Msg.msg("e","Błąd. Nie wybrano waloryzacji");
+        }
+    }
     
+    private FakturaWaloryzacja pobierzwaloryzacje(Podatnik podatnikObiekt, Klienci szukanyklient, String rokWpisuSt) {
+        FakturaWaloryzacja zwrot = fakturaWaloryzacjaDAO.findByPodatnikKontrahentRok(podatnikObiekt, szukanyklient, rokWpisuSt);
+        if (zwrot==null) {
+            zwrot = new FakturaWaloryzacja(podatnikObiekt, szukanyklient, rokWpisuSt);
+            fakturaWaloryzacjaDAO.create(zwrot);
+        }
+        return  zwrot;
+    }
     public List<Faktura> pobierzfaktury(int o) {
         List<Faktura> zwrot = new ArrayList<>();
         if (szukanyklient!=null) {
@@ -274,6 +298,16 @@ public class FakturaZestView implements Serializable {
     public void setPobierzwszystkielataKlienta(boolean pobierzwszystkielataKlienta) {
         this.pobierzwszystkielataKlienta = pobierzwszystkielataKlienta;
     }
+
+    public FakturaWaloryzacja getFakturaWaloryzacja() {
+        return fakturaWaloryzacja;
+    }
+
+    public void setFakturaWaloryzacja(FakturaWaloryzacja fakturaWaloryzacja) {
+        this.fakturaWaloryzacja = fakturaWaloryzacja;
+    }
+
+    
 
     
     
