@@ -74,6 +74,8 @@ public class FakturaWaloryzacja  implements Serializable{
     private String datamaila;
     @Column(name = "klientzaakceptowal")
     private String klientzaakceptowal;
+    @Column(name = "procentzmian")
+    private double procentzmian;
 
     public FakturaWaloryzacja() {
     }
@@ -238,6 +240,17 @@ public class FakturaWaloryzacja  implements Serializable{
         this.klientzaakceptowal = klientzaakceptowal;
     }
 
+    public double getProcentzmian() {
+        return procentzmian;
+    }
+
+    public void setProcentzmian(double procentzmian) {
+        this.procentzmian = procentzmian;
+    }
+
+   
+
+    
     @Override
     public int hashCode() {
         int hash = 7;

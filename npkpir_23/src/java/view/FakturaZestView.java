@@ -59,6 +59,7 @@ public class FakturaZestView implements Serializable {
     private boolean pobierzwszystkielataKlienta;
     @Inject
     private FakturaWaloryzacja fakturaWaloryzacja;
+    private Podatnik podatnik;
 
     public FakturaZestView() {
         fakturyWystawione = Collections.synchronizedList(new ArrayList<>());
@@ -103,6 +104,21 @@ public class FakturaZestView implements Serializable {
         }
     }
     
+    public void przelicz() {
+        if (fakturaWaloryzacja!=null) {
+            if (fakturaWaloryzacja.getProcentzmian()>0.0) {
+                double procentzmian = 1+Z.z4(fakturaWaloryzacja.getProcentzmian()/100);
+                fakturaWaloryzacja.setKwotabiezacanettoN(Z.z0(fakturaWaloryzacja.getKwotabiezacanetto()*procentzmian));
+                fakturaWaloryzacja.setUmowaopraceN(Z.z0(fakturaWaloryzacja.getUmowaoprace()*procentzmian));
+                fakturaWaloryzacja.setUmowazlecenieN(Z.z0(fakturaWaloryzacja.getUmowazlecenie()*procentzmian));
+                fakturaWaloryzacja.setSprawozdanieroczneN(Z.z0(fakturaWaloryzacja.getSprawozdanieroczne()*procentzmian));
+                fakturaWaloryzacja.setObsluganiemcyN(Z.z0(fakturaWaloryzacja.getObsluganiemcy()*procentzmian));
+                fakturaWaloryzacja.setOddelegowanieN(Z.z0(fakturaWaloryzacja.getOddelegowanie()*procentzmian));
+                Msg.msg("Przeliczono kwoty");
+            }
+        }
+    }
+    
     public void zapiszwaloryzacje() {
         if (fakturaWaloryzacja!=null) {
             fakturaWaloryzacjaDAO.edit(fakturaWaloryzacja);
@@ -118,6 +134,7 @@ public class FakturaZestView implements Serializable {
             zwrot = new FakturaWaloryzacja(podatnikObiekt, szukanyklient, rokWpisuSt);
             fakturaWaloryzacjaDAO.create(zwrot);
         }
+        podatnik = podatnikDAO.findPodatnikByNIP(szukanyklient.getNip());
         return  zwrot;
     }
     public List<Faktura> pobierzfaktury(int o) {
@@ -305,6 +322,14 @@ public class FakturaZestView implements Serializable {
 
     public void setFakturaWaloryzacja(FakturaWaloryzacja fakturaWaloryzacja) {
         this.fakturaWaloryzacja = fakturaWaloryzacja;
+    }
+
+    public Podatnik getPodatnik() {
+        return podatnik;
+    }
+
+    public void setPodatnik(Podatnik podatnik) {
+        this.podatnik = podatnik;
     }
 
     
