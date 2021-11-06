@@ -45,7 +45,7 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                 <h:form id="SuperFormFirma2">
                     <p:dataTable id="datalist" value="#{historiaView.osoby}" var="osobylistdata" rowIndexVar="yndex"
                                  rowKey="#{osobylistdata.osoSerial}" emptyMessage="brak osób w firmie"
-                                 selection="#{historiaView.selectedosoba}" selectionMode="single"
+                                 selection="#{historiaView.selectedosoby}" rowSelectMode="add"
                                  style="height: 200px;overflow-y: scroll; width: 950px; " sortBy="#{osobylistdata.osoNazwisko}"
                                 
                                  >
@@ -53,6 +53,7 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                         <p:column width="50" style="text-align: center;">
                             <h:outputText value="#{yndex+1}"/>
                         </p:column>
+                        <p:column selectionMode="multiple" selectRow="true" />
                         <p:column width="100" style="text-align: left;" sortBy="#{osobylistdata.osoNazwisko}" sortOrder="asc">
                             <f:facet name="header">
                                 <h:outputText value="nazwisko"/>
@@ -109,14 +110,22 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                 </h:form>
             </p:panelGrid>
             <p:panel header="Pobranie danych wybranej osoby z programu SuperPłace" style="margin-top: 10px;"/>
+            <h:outputText value="Program pobiera dane za rok 2020 i 2021. Bieżący rok i mc w programie nie ma znaczenia." style="color: darkorchid;margin-left: 30px;"/>
+            <p:panelGrid columns="2">
             <h:form id="SuperForm" style="margin-top: 10px;">
                 <p:panelGrid columns="3">
                     <h:outputText value="serial osoby"/>
                     <p:inputText value="#{osobaView.serial}"></p:inputText>
-                    <h:outputText value="Program pobiera dane za rok 2020 i 2021. Bieżący rok i mc w programie nie ma znaczenia." style="color: darkorchid;margin-left: 30px;"/>
                 </p:panelGrid>
                 <p:commandButton style="width: 120px" value="pobierz dane" actionListener="#{osobaView.rob()}" styleClass="buttonnorm" update="SuperFormFirma2"/>
             </h:form>
+            <h:form id="SuperGroupForm" style="margin-top: 10px;margin-left: 100px;">
+                <p:panelGrid columns="3">
+                    <h:outputText value="zbiorcze pobieranie wybranych osób"/>
+                </p:panelGrid>
+                <p:commandButton style="width: 120px" value="pobierz grupę" actionListener="#{osobaView.robgrupa(historiaView.selectedosoby)}" styleClass="buttonnorm" update="SuperFormFirma2"/>
+            </h:form>
+            </p:panelGrid>
         </p:outputPanel>
 
         <p:outputPanel>

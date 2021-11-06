@@ -112,6 +112,7 @@
             <url-pattern>/firma/*</url-pattern>
             <url-pattern>/pracownik/*</url-pattern>
             <url-pattern>/pracownikdane/*</url-pattern>
+            <url-pattern>/pracownikalerty/*</url-pattern>
             <url-pattern>/parametry/*</url-pattern>
             <url-pattern>/umowa/*</url-pattern>
             <url-pattern>/historia/*</url-pattern>
@@ -143,6 +144,7 @@
         <web-resource-collection>
             <web-resource-name>Pracodawca Area</web-resource-name>
             <url-pattern>/portalpracodawca/*</url-pattern>
+            <url-pattern>/pracownikalerty/*</url-pattern>
             <url-pattern>/statystyka/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>

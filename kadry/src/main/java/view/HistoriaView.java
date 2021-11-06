@@ -52,7 +52,7 @@ public class HistoriaView  implements Serializable {
     private WpisView wpisView;
     private List<Firma> firmy;
     private List<Osoba> osoby;
-    private Osoba selectedosoba;
+    private List<Osoba> selectedosoby;
     private Firma selectedfirma;
     @Inject
     private OsobaFacade osobaFacade;
@@ -110,7 +110,7 @@ public class HistoriaView  implements Serializable {
     }
     
      public void pobierzinfo() {
-        if (selectedosoba!=null) {
+        if (selectedosoby!=null) {
             Msg.msg("Pobrano pracownika do edycji");
         }
     }
@@ -158,13 +158,15 @@ public class HistoriaView  implements Serializable {
         this.osoby = osoby;
     }
 
-    public Osoba getSelectedosoba() {
-        return selectedosoba;
+    public List<Osoba> getSelectedosoby() {
+        return selectedosoby;
     }
 
-    public void setSelectedosoba(Osoba selectedosoba) {
-        this.selectedosoba = selectedosoba;
+    public void setSelectedosoby(List<Osoba> selectedosoby) {
+        this.selectedosoby = selectedosoby;
     }
+
+   
 
     public List<Firma> getFirmy() {
         return firmy;

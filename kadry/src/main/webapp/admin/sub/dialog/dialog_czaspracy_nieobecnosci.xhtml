@@ -145,6 +145,12 @@
                             </f:facet>
                             <h:outputText value="&#x2714;" rendered="#{itemNieob.naniesiona}" style="color: green;font-weight: 900;"/>
                         </p:column>
+                         <p:column style="text-align: center;" width="40">
+                            <f:facet name="header">
+                                <h:outputText value="jest lista płac"/>
+                            </f:facet>
+                             <h:outputText value="!!!" rendered="#{itemNieob.naliczenienieobecnoscList ne null and itemNieob.naliczenienieobecnoscList.size() gt 0}" style="color: red;font-weight: 900;"/>
+                        </p:column>
                          <p:column style="#{itemNieob.rokod eq wpisView.rokWpisu ? 'color: green':''}">
                             <f:facet name="header">
                                 <h:outputText value="przycz."/>
@@ -157,7 +163,7 @@
                             </f:facet>
                               <h:outputText value="#{itemNieob.krajoddelegowania}"/>
                         </p:column>
-                        <p:column style="#{itemNieob.rokod eq wpisView.rokWpisu ? 'color: green':''}">
+                        <p:column width="30" style="#{itemNieob.rokod eq wpisView.rokWpisu ? 'color: green':''}">
                             <f:facet name="header">
                                 <h:outputText value="dieta."/>
                             </f:facet>
@@ -187,27 +193,22 @@
                             </f:facet>
                             <h:outputText value="&#x2714;" rendered="#{itemNieob.nieobecnosckodzus.spoleczne}"/>
                         </p:column>
-                        <p:column style="text-align: center;" width="30">
-                            <f:facet name="header">
-                                <h:outputText value="podatek"/>
-                            </f:facet>
-                            <h:outputText value="&#x2714;" rendered="#{itemNieob.nieobecnosckodzus.podatek}"/>
-                        </p:column>
-
+                     
                         <p:column width="100">
                             <f:facet name="header">
                                 <h:outputText value="umowa"/>
                             </f:facet>
                             <h:outputText value="#{itemNieob.umowa.nrkolejny}"/>
                         </p:column>
-                        <p:column width="40" style="text-align: center;">
+                        <p:column width="20" style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value=""/>
                             </f:facet>
-                            <p:commandButton icon="fa fa-thumbs-up" actionListener="#{nieobecnoscView.nanies(itemNieob)}"  update="NieobecnoscListForm:datalist KalendarzmiesiacListForm:datalist KalendarzmiesiacCreateForm KalendarzmiesiacCreateRokForm" rendered="#{itemNieob.naliczenienieobecnoscList eq null or itemNieob.naliczenienieobecnoscList.size() eq 0}">
+                            <p:commandButton icon="fa fa-thumbs-up" actionListener="#{nieobecnoscView.nanies(itemNieob)}"  update="NieobecnoscListForm:datalist KalendarzmiesiacListForm:datalist KalendarzmiesiacCreateForm KalendarzmiesiacCreateRokForm"
+                                             rendered="#{itemNieob.naliczenienieobecnoscList eq null or itemNieob.naliczenienieobecnoscList.size() eq 0}">
                             </p:commandButton>
                         </p:column>
-                         <p:column width="40" style="text-align: center;">
+                         <p:column width="20" style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value=""/>
                             </f:facet>
@@ -215,11 +216,12 @@
                                              rendered="#{itemNieob.naliczenienieobecnoscList eq null or itemNieob.naliczenienieobecnoscList.size() eq 0}">
                             </p:commandButton>
                         </p:column>
-                        <p:column width="40" style="text-align: center;">
+                        <p:column width="20" style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value=""/>
                             </f:facet>
-                            <p:commandButton icon="fa fa-trash" actionListener="#{nieobecnoscView.usun(itemNieob)}"  update="NieobecnoscListForm:datalist KalendarzmiesiacListForm:datalist KalendarzmiesiacCreateForm KalendarzmiesiacCreateRokForm" rendered="#{itemNieob.naliczenienieobecnoscList eq null or itemNieob.naliczenienieobecnoscList.size() eq 0}">
+                            <p:commandButton icon="fa fa-trash" actionListener="#{nieobecnoscView.usun(itemNieob)}"  update="NieobecnoscListForm:datalist KalendarzmiesiacListForm:datalist KalendarzmiesiacCreateForm KalendarzmiesiacCreateRokForm"
+                                             rendered="#{itemNieob.naliczenienieobecnoscList eq null or itemNieob.naliczenienieobecnoscList.size() eq 0}">
                                 <p:confirm type="popup" header="Potwierdzenie" message="Usunąć nieobecność?" icon="pi pi-exclamation-triangle"/>
                             </p:commandButton>
                         </p:column>

@@ -179,6 +179,30 @@ public class KalendarzmiesiacView  implements Serializable {
         }
     }
     
+    public void pobierzkalendarz(String mc) {
+        if (listakalendarzeprac!=null) {
+            for (Kalendarzmiesiac p : listakalendarzeprac) {
+                if (p.getMc().equals(mc)) {
+                    this.selected = p;
+                    Msg.msg("Pobrano kalendarz");
+                    break;
+                }
+            }
+        }
+    }
+    
+    public boolean czyjestkalendarz(String mc) {
+        boolean zwrot = false;
+        if (listakalendarzeprac!=null) {
+            for (Kalendarzmiesiac p : listakalendarzeprac) {
+                if (p.getMc().equals(mc)) {
+                    zwrot = true;
+                    break;
+                }
+            }
+        }
+        return zwrot;
+    }
    
     public Kalendarzmiesiac getSelected() {
         return selected;

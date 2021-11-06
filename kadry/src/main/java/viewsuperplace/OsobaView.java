@@ -112,6 +112,19 @@ public class OsobaView implements Serializable {
     private RachunekdoumowyzleceniaFacade rachunekdoumowyzleceniaFacade;
 
     private String serial;
+    
+    public void robgrupa(List<Osoba> wybraneosoby) {
+        if (wybraneosoby!=null) {
+            for (Osoba osoba : wybraneosoby) {
+                serial = String.valueOf(osoba.getOsoSerial());
+                rob();
+            }
+            wybraneosoby = null;
+            Msg.msg("e","Pobrano grupę osób");
+        } else {
+            Msg.msg("e","Nie wybrano osoób");
+        }
+    }
 
     public void rob() {
         //List<Osoba> podatnicy = osobaFacade.findAll();
@@ -146,6 +159,8 @@ public class OsobaView implements Serializable {
                         angaz.setUtworzyl(wpisView.getUzer().getImieNazwisko());
                         angaz.setDatadodania(new Date());
                         angaz.setSerialsp(serial);
+                        angaz.setRok(wpisView.getRokWpisu());
+                        angaz.setMc(wpisView.getMiesiacWpisu());
                         angazFacade.create(angaz);
                         Msg.msg("Stworzono angaż");
                     }

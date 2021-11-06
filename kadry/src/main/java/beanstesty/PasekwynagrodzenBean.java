@@ -576,7 +576,7 @@ public class PasekwynagrodzenBean {
             zwrot.setMcdo(Data.getMc(zwrot.getDatado()));
             zwrotlist.add(zwrot);
         }
-        if (umowa.getDatado()!=null) {
+        if (umowa.getDatado()!=null&&!umowa.getDatado().equals("")) {
             String rokumowado = Data.getRok(umowa.getDatado());
             String mcumowado = Data.getMc(umowa.getDatado());
             String dzienumowado = Data.getDzien(umowa.getDatado());

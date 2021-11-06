@@ -262,7 +262,7 @@ public class UmowaView  implements Serializable {
     public void edit() {
       if (selected!=null && selected.getId()!=null) {
           try {
-            if (selected.getDatado()!=null) {
+            if (selected.getDataod()!=null) {
                 List<Nieobecnosc> zatrudnieniewtrakciemiesiaca = nieobecnoscFacade.findByUmowa200(selected);
                 if (zatrudnieniewtrakciemiesiaca!=null) {
                     for (Nieobecnosc p : zatrudnieniewtrakciemiesiaca) {
@@ -281,13 +281,6 @@ public class UmowaView  implements Serializable {
                     }
                     nieobecnoscFacade.removeList(zatrudnieniewtrakciemiesiaca);
                     zatrudnieniewtrakciemiesiaca = null;
-                }
-                String rok = Data.getRok(selected.getDatado());
-                String mc = Data.getMc(selected.getDatado());
-                Kalendarzmiesiac kalendarz = selected.getKalendarzmiesiacList().stream().filter(p->p.getRok().equals(rok)&&p.getMc().equals(mc)).findFirst().get();
-                zatrudnieniewtrakciemiesiaca = PasekwynagrodzenBean.generuj(selected,nieobecnosckodzusFacade, rok, mc, kalendarz);
-                if (zatrudnieniewtrakciemiesiaca!=null) {
-                  nieobecnoscFacade.createList(zatrudnieniewtrakciemiesiaca);
                 }
             }
             if (selected.getEtatList()!=null&&selected.getEtatList().size()==1) {
@@ -316,6 +309,13 @@ public class UmowaView  implements Serializable {
             umowaFacade.edit(selected);
             wpisView.setUmowa(selected);
             generujKalendarzNowaUmowa();
+            String rok = Data.getRok(selected.getDataod());
+            String mc = Data.getMc(selected.getDataod());
+            Kalendarzmiesiac kalendarz = selected.getKalendarzmiesiacList().stream().filter(p->p.getRok().equals(rok)&&p.getMc().equals(mc)).findFirst().get();
+            List<Nieobecnosc> zatrudnieniewtrakciemiesiaca = PasekwynagrodzenBean.generuj(selected,nieobecnosckodzusFacade, rok, mc, kalendarz);
+            if (zatrudnieniewtrakciemiesiaca!=null) {
+              nieobecnoscFacade.createList(zatrudnieniewtrakciemiesiaca);
+            }
             selected = new Umowa();
             Msg.msg("Edycja umowy zakończona");
           } catch (Exception e) {

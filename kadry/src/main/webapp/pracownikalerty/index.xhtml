@@ -16,21 +16,20 @@
                 <pe:layout  > 
                     <ui:include src="sub/layout/north.xhtml" />  <!-- panel polnocny-->
                     <ui:include src="sub/layout/south.xhtml"/>   <!-- panel poludniowy-->
-                    <ui:include src="sub/layout/west.xhtml"/>   <!-- panel poludniowy-->
+                    <ui:include src="sub/layout/west.xhtml"/> 
                     <pe:layoutPane position="center" id="centertile" >
                         <p:outputPanel>
                             <h:form id="formmenu">
                                 <p:menubar autoDisplay="true">
                                     <p:menuitem icon="fa fa-exchange" value="parametry" style="width: 150px" action="Parametry"/>
                                     <p:menuitem icon="fa fa-institution" value="firmy" style="width: 150px" action="Firma"/>
-                                     <p:submenu icon="fa fa-institution" label="pracownicy" style="width: 150px" >
+                                     <p:submenu icon="fa fa-institution" label="pracownicy" style="width: 150px">
                                          <p:menuitem icon="fa fa-institution" value="pracownicy angaże" style="width: 150px" action="Pracownik"/>
                                          <p:menuitem icon="fa fa-institution" value="pracownicy dane" style="width: 150px" action="Pracownikdane"/>
                                          <p:menuitem icon="fa fa-institution" value="pracownicy alerty" style="width: 150px" action="Pracownikalerty"/>
                                     </p:submenu>
-                                    <p:menuitem icon="fa fa-institution" value="umowy" style="width: 150px" action="Umowa"/>
                                     <p:menuitem icon="fa fa-institution" value="historia" style="width: 150px" action="Historia"/>
-                                    
+                                    <p:menuitem icon="fa fa-institution" value="umowy" style="width: 150px" action="Umowa"/>
                                     <p:menuitem icon="fa fa-institution" value="płace" style="width: 150px" action="Administrator"/>
                                     <p:menuitem icon="fa fa-pencil" value="PIT" style="width: 150px" action="Pit"/>
                                     <p:menuitem icon="fa fa-tasks" value="statystyka" style="width: 150px" action="Statystyka"/>
@@ -38,10 +37,7 @@
                             </h:form>
                         </p:outputPanel>
                         <ui:include src="sub/menu_wiad.xhtml"/>   <!-- menu contextowe i pole wiadomosci growl-->
-                        <ui:include src="sub/edycjadanych_pracownik.xhtml"/>
-                        <ui:include src="sub/edycjadanych_angaz.xhtml"/>
-                        
-                        
+                        <ui:include src="sub/pracownik_alerty.xhtml"/>
                     </pe:layoutPane>
                 </pe:layout>
             </f:view>

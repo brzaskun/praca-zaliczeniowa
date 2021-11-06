@@ -42,6 +42,10 @@
             <from-outcome>Pracownikdane</from-outcome>
             <to-view-id>/pracownikdane/index.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
+         <navigation-case>
+            <from-outcome>Pracownikalerty</from-outcome>
+            <to-view-id>/pracownikalerty/index.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
         <navigation-case>
             <from-outcome>PortalPracownik</from-outcome>
             <to-view-id>/portalpracownik/index.xhtml?faces-redirect=true</to-view-id>

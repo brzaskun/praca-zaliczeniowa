@@ -8,11 +8,11 @@
     <p:dialog id="dialogkalendarzmiesiac" header="Kalendarz pracownika" widgetVar="dialogkalendarzmiesiac"  
               resizable="false"  onShow="ustawdialog('dialogkalendarzmiesiac','centertile',1650,800);" closeOnEscape="true" onHide="resetujdialog('dialogkalendarzmiesiac');" 
               fitViewport="true">
-        <p:outputPanel style="height: 200px">
+        <p:outputPanel style="height: 90px">
             <h:panelGroup id="display">
                 <p:panelGrid columns="3">
                     <h:form id="KalendarzmiesiacCreateForm">
-                        <p:panelGrid columns="2">
+                        <p:panelGrid columns="6">
                             <p:outputLabel value="umowa" for="umowakalendarz" />
                             <h:outputText id="umowakalendarz" value="#{kalendarzmiesiacView.selected.umowa.nrkolejny}" style="color: green;"/>
                             <p:outputLabel value="pracownik" for="umowakalendarz0" />
@@ -37,14 +37,9 @@
 
                         </p:panelGrid>
                     </h:form>
-                    <h:form id="KalendarzmiesiacCreateRokForm">
-                        <p:panelGrid columns="2">
-                            <p:outputLabel value="generuj kalendarz za rok" for="rokkal" />
-                            <p:commandButton id="rokkal" value="generuj" styleClass="buttonnorm" actionListener="#{kalendarzmiesiacView.generujrok()}" update="KalendarzmiesiacSaRokForm"/>
-                        </p:panelGrid>
-                    </h:form>
+                    
                     <h:form id="KalendarzmiesiacSaRokForm">
-                        <p:dataTable id="datalist" value="#{kalendarzmiesiacView.listakalendarzeprac}" var="itemkalendarzjest"
+<!--                        <p:dataTable id="datalist" value="#{kalendarzmiesiacView.listakalendarzeprac}" var="itemkalendarzjest"
                                      rowKey="#{itemkalendarzjest.id}" emptyMessage="brak kalendarzy prac"
                                      selection="#{kalendarzmiesiacView.selected}" selectionMode="single"
                                  style="height: 150px;overflow-y: scroll; width: 150px; margin-left: 50px;" sortBy="#{itemkalendarzjest.mc}"
@@ -56,7 +51,55 @@
                                 </f:facet>
                                 <h:outputText value="#{itemkalendarzjest.mc}"/>
                             </p:column>
-                        </p:dataTable>
+</p:dataTable>-->       <p:panelGrid columns="1" style="margin-left: 100xp;">
+                        <p:panelGrid columns="1">
+                            <p:panel header="Wybierz z istniejących kalendarzy"/>
+                        </p:panelGrid>
+                        <p:panelGrid columns="13">
+                            <p:commandButton value="01" rendered="#{kalendarzmiesiacView.czyjestkalendarz('01')}">
+                                <p:ajax event="click" listener="#{kalendarzmiesiacView.pobierzkalendarz('01')}" update="KalendarzmiesiacListForm KalendarzmiesiacCreateForm"/>
+                            </p:commandButton>
+                            <p:commandButton value="02" rendered="#{kalendarzmiesiacView.czyjestkalendarz('02')}">
+                                <p:ajax event="click" listener="#{kalendarzmiesiacView.pobierzkalendarz('02')}" update="KalendarzmiesiacListForm KalendarzmiesiacCreateForm"/>
+                            </p:commandButton>
+                            <p:commandButton value="03" rendered="#{kalendarzmiesiacView.czyjestkalendarz('03')}">
+                                <p:ajax event="click" listener="#{kalendarzmiesiacView.pobierzkalendarz('03')}" update="KalendarzmiesiacListForm KalendarzmiesiacCreateForm"/>
+                            </p:commandButton>
+                            <p:commandButton value="04" rendered="#{kalendarzmiesiacView.czyjestkalendarz('04')}">
+                                <p:ajax event="click" listener="#{kalendarzmiesiacView.pobierzkalendarz('04')}" update="KalendarzmiesiacListForm KalendarzmiesiacCreateForm"/>
+                            </p:commandButton>
+                            <p:commandButton value="05" rendered="#{kalendarzmiesiacView.czyjestkalendarz('05')}">
+                                <p:ajax event="click" listener="#{kalendarzmiesiacView.pobierzkalendarz('05')}" update="KalendarzmiesiacListForm KalendarzmiesiacCreateForm"/>
+                            </p:commandButton>
+                            <p:commandButton value="06" rendered="#{kalendarzmiesiacView.czyjestkalendarz('06')}">
+                                <p:ajax event="click" listener="#{kalendarzmiesiacView.pobierzkalendarz('06')}" update="KalendarzmiesiacListForm KalendarzmiesiacCreateForm"/>
+                            </p:commandButton>
+                            <p:commandButton value="07" rendered="#{kalendarzmiesiacView.czyjestkalendarz('07')}">
+                                <p:ajax event="click" listener="#{kalendarzmiesiacView.pobierzkalendarz('07')}" update="KalendarzmiesiacListForm KalendarzmiesiacCreateForm"/>
+                            </p:commandButton>
+                            <p:commandButton value="08" rendered="#{kalendarzmiesiacView.czyjestkalendarz('08')}">
+                                <p:ajax event="click" listener="#{kalendarzmiesiacView.pobierzkalendarz('08')}" update="KalendarzmiesiacListForm KalendarzmiesiacCreateForm"/>
+                            </p:commandButton>
+                            <p:commandButton value="09" rendered="#{kalendarzmiesiacView.czyjestkalendarz('09')}">
+                                <p:ajax event="click" listener="#{kalendarzmiesiacView.pobierzkalendarz('09')}" update="KalendarzmiesiacListForm KalendarzmiesiacCreateForm"/>
+                            </p:commandButton>
+                            <p:commandButton value="10" rendered="#{kalendarzmiesiacView.czyjestkalendarz('10')}">
+                                <p:ajax event="click" listener="#{kalendarzmiesiacView.pobierzkalendarz('10')}" update="KalendarzmiesiacListForm KalendarzmiesiacCreateForm"/>
+                            </p:commandButton>
+                            <p:commandButton value="11" rendered="#{kalendarzmiesiacView.czyjestkalendarz('11')}">
+                                <p:ajax event="click" listener="#{kalendarzmiesiacView.pobierzkalendarz('11')}" update="KalendarzmiesiacListForm KalendarzmiesiacCreateForm"/>
+                            </p:commandButton>
+                            <p:commandButton value="12" rendered="#{kalendarzmiesiacView.czyjestkalendarz('12')}">
+                                <p:ajax event="click" listener="#{kalendarzmiesiacView.pobierzkalendarz('12')}" update="KalendarzmiesiacListForm KalendarzmiesiacCreateForm"/>
+                            </p:commandButton>
+                        </p:panelGrid>
+                            </p:panelGrid>
+                    </h:form>
+                    <h:form id="KalendarzmiesiacCreateRokForm">
+                        <p:panelGrid columns="2">
+                            <p:outputLabel value="generuj kalendarz za rok" for="rokkal" />
+                            <p:commandButton id="rokkal" value="generuj" styleClass="buttonnorm" actionListener="#{kalendarzmiesiacView.generujrok()}" update="KalendarzmiesiacSaRokForm"/>
+                        </p:panelGrid>
                     </h:form>
                 </p:panelGrid>
             </h:panelGroup>
@@ -66,7 +109,7 @@
                 <p:panel header="Dni kalendarza pracownika #{kalendarzmiesiacView.selected.rok}/#{kalendarzmiesiacView.selected.mc}">
                     <p:dataTable id="datalist" value="#{kalendarzmiesiacView.selected.dzienList}" var="itemkalendarz"
                                  rowKey="#{itemkalendarz.id}"
-                                 style="height: 450px; overflow-y: scroll; width: 1000px;" sortMode="single"
+                                 style="height: 560px; overflow-y: scroll; width: 1000px;" sortMode="single"
                                  emptyMessage="Brak zapisów"
                                  >
 
@@ -154,7 +197,6 @@
                 <p:outputPanel>
                     <p:commandButton styleClass="buttonnorm" actionListener="#{kalendarzmiesiacView.create}" value="zachowaj" update="north KalendarzmiesiacCreateForm KalendarzmiesiacListForm:datalist KalendarzmiesiacSaRokForm"/>
                     <p:commandButton styleClass="buttonnorm" actionListener="#{kalendarzmiesiacView.reset}" value="resetuj" update="north KalendarzmiesiacCreateForm :KalendarzmiesiacListForm:datalist KalendarzmiesiacSaRokForm"/>
-                    <p:commandButton value="Rezygnuj" />
                 </p:outputPanel>
 
             </h:form>
