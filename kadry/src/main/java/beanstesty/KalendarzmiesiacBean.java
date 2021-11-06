@@ -261,11 +261,11 @@ public class KalendarzmiesiacBean {
                 }
             } else if (p.getRodzajwynagrodzenia().getKod().equals("13")) {
                 Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = NaliczenieskladnikawynagrodzeniaBean.createWynagrodzenieDB(kalendarz, pasekwynagrodzen, p, kurs);
+                if (p.isOddelegowanie()) {
+                        jestoddelegowanie = true;
+                }
                 if (naliczenieskladnikawynagrodzenia.getKwotaumownazacalymc()!=0.0) {
                     pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().add(naliczenieskladnikawynagrodzenia);
-                    if (p.isOddelegowanie()) {
-                        jestoddelegowanie = true;
-                    }
                 }
             } else if (p.getRodzajwynagrodzenia().getKod().equals("21")) {
                 Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = NaliczenieskladnikawynagrodzeniaBean.createPremiaDB(kalendarz, pasekwynagrodzen, p);

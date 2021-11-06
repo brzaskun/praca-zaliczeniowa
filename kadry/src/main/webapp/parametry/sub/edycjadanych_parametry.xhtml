@@ -331,6 +331,42 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                 </h:form>
                 </p:outputPanel>
              </p:tab>
+            <p:tab title="Delegowanie">
+                <h:form id="Delegowanie">
+                     <p:panelGrid columns="4">
+                        <p:outputLabel value="rok"/>
+                        <p:inputText value="#{oddelegowanieZUSLimitView.selected.rok}"/>
+                        <p:outputLabel value="minimalna podstawa składek"/>
+                        <bcf:inputplid id="pstawka1" value="#{oddelegowanieZUSLimitView.selected.kwota}"/>
+                        <p:panelGrid columns="1">
+                            <p:commandButton value="dodaj" styleClass="buttonnorm" actionListener="#{oddelegowanieZUSLimitView.dodajrok()}" update="akordeon:Delegowanie" />
+                        </p:panelGrid>
+                     </p:panelGrid>
+                          <p:dataTable value="#{oddelegowanieZUSLimitView.lista}" var="itemzusdel" rowIndexVar="indexzusdel" rowKey="#{itemzusdel.id}"
+                                 selection="#{oddelegowanieZUSLimitView.selected}" selectionMode="single"  sortBy="#{itemzusdel.rok}"
+                                 style="width: 400px;margin-top: 30px;" emptyMessage="Nie wprowadzono wartości">
+                            <p:ajax event="rowSelect" partialSubmit="true"/>
+                            <p:column width="30" style="text-align: center;">
+                                <f:facet name="header">
+                                    <h:outputText value=""/>
+                                </f:facet>
+                                <h:outputText value="#{indexzusdel+1}"/>
+                            </p:column>
+                            <p:column width="50" style="text-align: center;" sortBy="#{itemzusdel.rok}">
+                                <f:facet name="header">
+                                    <h:outputText value="rok"/>
+                                </f:facet>
+                                <h:outputText value="#{itemzusdel.rok}"/>
+                            </p:column>
+                            <p:column width="50" style="text-align: center;">
+                                <f:facet name="header">
+                                    <h:outputText value="kwota"/>
+                                </f:facet>
+                                <bcf:outputpl value="#{itemzusdel.kwota}"/>
+                            </p:column>
+                        </p:dataTable>`
+                </h:form>
+            </p:tab>
         </p:tabView>
     </p:outputPanel>
 </ui:composition>

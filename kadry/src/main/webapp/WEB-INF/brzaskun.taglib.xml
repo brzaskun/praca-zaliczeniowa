@@ -19,6 +19,9 @@
         <attribute>
             <name>stylePlus</name>
         </attribute>
+         <attribute>
+            <name>decimalPlaces</name>
+        </attribute>
     </tag>
     <tag>
         <tag-name>inputplid</tag-name>
@@ -38,6 +41,7 @@
         <attribute>
             <name>stylePlus</name>
         </attribute>
+        
     </tag>
     <tag>
         <tag-name>outputpl</tag-name>

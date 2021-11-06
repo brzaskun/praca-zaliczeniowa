@@ -29,6 +29,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import msg.Msg;
 import viewsuperplace.OsobaBean;
 import z.Z;
 
@@ -54,7 +55,7 @@ public class PasekwynagrodzenBean {
     
       
     public static Pasekwynagrodzen obliczWynagrodzenie(Kalendarzmiesiac kalendarz, Definicjalistaplac definicjalistaplac, NieobecnosckodzusFacade nieobecnosckodzusFacade, List<Pasekwynagrodzen> paskidowyliczeniapodstawy, 
-        List<Wynagrodzeniahistoryczne> historiawynagrodzen, List<Podatki> stawkipodatkowe, double sumapoprzednich, double wynagrodzenieminimalne, boolean czyodlicoznokwotewolna) {
+        List<Wynagrodzeniahistoryczne> historiawynagrodzen, List<Podatki> stawkipodatkowe, double sumapoprzednich, double wynagrodzenieminimalne, boolean czyodlicoznokwotewolna, double kurs,double limitZUS) {
         boolean umowaoprace = kalendarz.isPraca();
         Pasekwynagrodzen pasek = new Pasekwynagrodzen();
         String datakonca26lat = OsobaBean.obliczdata26(kalendarz.getDataUrodzenia());
@@ -65,8 +66,6 @@ public class PasekwynagrodzenBean {
             pasek.setDo26lat(false);
         }
         pasek.setWynagrodzenieminimalne(wynagrodzenieminimalne);
-        double kurs = 4.4745;
-        double limitZUS = 5227.0;
         pasek.setDefinicjalistaplac(definicjalistaplac);
         pasek.setKalendarzmiesiac(kalendarz);
         boolean jestoddelegowanie = false;
@@ -98,6 +97,9 @@ public class PasekwynagrodzenBean {
         PasekwynagrodzenBean.obliczbruttobezzus(pasek);
         PasekwynagrodzenBean.obliczbruttobezzusbezpodatek(pasek);
         if (jestoddelegowanie) {
+            if (jestoddelegowanie&&kurs==0.0) {
+                Msg.msg("e","Jest oddelegowanie, a brak kursu!");
+            }
             pasek.setKurs(kurs);
             PasekwynagrodzenBean.obliczdietedoodliczenia(pasek, kalendarz);
             PasekwynagrodzenBean.wyliczlimitZUS(kalendarz, pasek, kurs, limitZUS);
@@ -626,6 +628,7 @@ public class PasekwynagrodzenBean {
             }
         }
         pasek.setLimitzus(limitZUS);
+        pasek.setLimitzuspoza(kwotabezzus);
         pasek.setPodstawaskladkizus(pasek.getBruttozus()-kwotabezzus);
     }
 

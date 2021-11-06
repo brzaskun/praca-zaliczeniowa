@@ -49,9 +49,9 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                         </h:form>
                         <h:form>
                             <h:outputLabel for="kurspole" value="kurs przelicz."/>
-                            <bcf:inputpl value="#{pasekwynagrodzenView.kursdlalisty}" id="kurspole">
-                                <p:ajax event="change" partialSubmit="true" global="false"/>
-                            </bcf:inputpl>
+                            <p:inputNumber value="#{pasekwynagrodzenView.kursdlalisty}" id="kurspole" decimalPlaces="4" style="text-align: right;">
+                                <p:ajax event="blur" partialSubmit="true" global="false"/>
+                            </p:inputNumber>
                         </h:form>
 <!--                        <p:selectOneMenu id="wybranypracownik" value="#{pasekwynagrodzenView.wybranykalendarz}" required="true" requiredMessage="Wybierz pracownika" converter="#{kalendarzmiesiacConverter}">
                             <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
@@ -108,6 +108,9 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                                         <h:outputText value="limit bez zus"/>
                                     </p:column>
                                     <p:column>
+                                        <h:outputText value="kwota ponad limit"/>
+                                    </p:column>
+                                    <p:column>
                                         <h:outputText value="podst.społ."/>
                                     </p:column>
                                     <p:column>
@@ -155,6 +158,9 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                                     </p:column>
                                     <p:column>
                                         <bcf:outputpl value="#{itempasek.limitzus}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <bcf:outputpl value="#{itempasek.limitzuspoza}"/>
                                     </p:column>
                                     <p:column >
                                         <bcf:outputpl value="#{itempasek.podstawaskladkizus}"/>

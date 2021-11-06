@@ -149,6 +149,8 @@ public class Pasekwynagrodzen implements Serializable {
     private double kurs;
     @Column(name = "limitzus")
     private double limitzus;
+    @Column(name = "limitzuspoza")
+    private double limitzuspoza;
     @Column(name = "dniobowiazku")
     private Integer dniobowiazku;
     @Column(name = "dniprzepracowane")
@@ -707,6 +709,14 @@ public class Pasekwynagrodzen implements Serializable {
 
     public void setLimitzus(double limitzus) {
         this.limitzus = limitzus;
+    }
+
+    public double getLimitzuspoza() {
+        return limitzuspoza;
+    }
+
+    public void setLimitzuspoza(double limitzuspoza) {
+        this.limitzuspoza = limitzuspoza;
     }
 
     public Integer getDniobowiazku() {

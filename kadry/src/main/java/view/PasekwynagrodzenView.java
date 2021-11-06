@@ -12,6 +12,7 @@ import comparator.Sredniadlanieobecnoscicomparator;
 import dao.DefinicjalistaplacFacade;
 import dao.KalendarzmiesiacFacade;
 import dao.NieobecnosckodzusFacade;
+import dao.OddelegowanieZUSLimitFacade;
 import dao.PasekwynagrodzenFacade;
 import dao.PodatkiFacade;
 import dao.WynagrodzeniahistoryczneFacade;
@@ -22,6 +23,7 @@ import entity.Definicjalistaplac;
 import entity.Kalendarzmiesiac;
 import entity.Naliczenienieobecnosc;
 import entity.Naliczenieskladnikawynagrodzenia;
+import entity.OddelegowanieZUSLimit;
 import entity.Pasekwynagrodzen;
 import entity.Podatki;
 import entity.Rachunekdoumowyzlecenia;
@@ -72,6 +74,8 @@ public class PasekwynagrodzenView  implements Serializable {
     private WynagrodzeniahistoryczneFacade wynagrodzeniahistoryczneFacade;
     @Inject
     private WynagrodzenieminimalneFacade wynagrodzenieminimalneFacade;
+    @Inject
+    private OddelegowanieZUSLimitFacade oddelegowanieZUSLimitFacade;
     @Inject
     private PodatkiFacade podatkiFacade;
     @Inject
@@ -165,7 +169,13 @@ public class PasekwynagrodzenView  implements Serializable {
                     double wynagrodzenieminimalne = wynagrodzenieminimalneFacade.findByRok(pracownikmc.getRok()).getKwotabrutto();
                     //zeby nei odoliczyc kwoty wolnej dwa razy
                     boolean czyodlicoznokwotewolna = PasekwynagrodzenBean.czyodliczonokwotewolna(pracownikmc.getRok(), pracownikmc.getMc(), pracownikmc.getUmowa().getAngaz(), pasekwynagrodzenFacade);
-                    Pasekwynagrodzen pasek = PasekwynagrodzenBean.obliczWynagrodzenie(pracownikmc, wybranalistaplac, nieobecnosckodzusFacade, paskidowyliczeniapodstawy, historiawynagrodzen, stawkipodatkowe, sumapoprzednich, wynagrodzenieminimalne, czyodlicoznokwotewolna);
+                    double limitzus = 0.0;
+                    OddelegowanieZUSLimit oddelegowanieZUSLimit = oddelegowanieZUSLimitFacade.findbyRok(wpisView.getRokWpisu());
+                    if (oddelegowanieZUSLimit!=null) {
+                        limitzus = oddelegowanieZUSLimit.getKwota();
+                    }
+                    Pasekwynagrodzen pasek = PasekwynagrodzenBean.obliczWynagrodzenie(pracownikmc, wybranalistaplac, nieobecnosckodzusFacade, paskidowyliczeniapodstawy, historiawynagrodzen, stawkipodatkowe, sumapoprzednich, wynagrodzenieminimalne, czyodlicoznokwotewolna, 
+                            kursdlalisty, limitzus);
                     usunpasekjakzawiera(pasek);
                     lista.add(pasek);
                 }
