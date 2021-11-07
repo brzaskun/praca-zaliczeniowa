@@ -13,8 +13,8 @@
     <p:outputPanel style="margin: 10px;">
         <h:form id="KartyWynangrodzenPITForm">
             <p:dataTable id="datalist" value="#{kartaWynagrodzenView.sumypracownicy}" var="itemkarta"
-                         rowKey="#{itemkarta.id}" rowIndexVar="indexka"
-                         style="height: 450px; overflow-y: scroll;width: 1000px;" emptyMessage="Nie pobrano danych"
+                         rowKey="#{itemkarta.id}" rowIndexVar="indexka" 
+                         style="height: 350px; overflow-y: scroll;width: 1000px;" emptyMessage="Nie pobrano danych"
                          sortBy="#{itemkarta.nazwiskoiimie}" selection="#{kartaWynagrodzenView.wybranakarta}" selectionMode="single"
                          >
                 <f:facet name="header">
@@ -100,12 +100,7 @@
                     <p:panelGrid style="margin-top:20px" styleClass="pasekwync" columnClasses="no-border no-border">
                         <f:facet name="header">
                             <p:row>
-                                <p:column colspan="2">rok</p:column>
-                                <p:column colspan="5">nazwisko i imię</p:column>
-                            </p:row>
-                            <p:row>
-                                <p:column colspan="2"><h:outputText value="#{itempit.rok}"/></p:column>
-                                <p:column colspan="5"><h:outputText value="#{itempit.pracownik.nazwiskoImie}"/></p:column>
+                                <p:column colspan="7"><h:outputText value="#{itempit.pracownik.nazwiskoImie}"/></p:column>
                             </p:row>
 
                         </f:facet>

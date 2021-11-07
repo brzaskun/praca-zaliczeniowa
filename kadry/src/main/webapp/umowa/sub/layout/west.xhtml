@@ -25,12 +25,12 @@
          <h:form id="EastPracownicy">
             <p:panel header="Pracownicy">
                 <p:dataTable id="datalist" value="#{angazView.listaeast}" var="item2"
-                             selectionMode="single" selection="#{angazView.selectedeast}"
+                             selectionMode="single" selection="#{angazView.selectedeast}" sortBy="#{item2.pracownik.nazwiskoImie}"
                              rowKey="#{item2.id}" emptyMessage="Firma nie ma pracowników"
                              style="height: 50%;overflow-y: scroll;"
                              >
                     <p:ajax event="rowSelect" listener="#{angazView.aktywuj(angazView.selectedeast)}" partialSubmit="true" global="false" update="north,@(form)"/>
-                    <p:column>
+                    <p:column sortBy="#{item2.pracownik.nazwiskoImie}">
                         <h:outputText value="#{item2.pracownik.nazwiskoImie}"/>
                     </p:column>
                 </p:dataTable>

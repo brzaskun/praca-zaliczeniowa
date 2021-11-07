@@ -189,6 +189,10 @@ public class Umowa implements Serializable {
     private String pierwszydzienzasilku;
     @Column(name = "iloscdnitrwaniaumowy")
     private int iloscdnitrwaniaumowy;
+    @Column(name = "dataprzypomnienia")
+    private String  dataprzypomnienia;
+    @Column(name = "dataprzypomnieniamail")
+    private String  dataprzypomnieniamail;
 
     public Umowa() {
         this.etatList = new ArrayList<>();
@@ -236,6 +240,24 @@ public class Umowa implements Serializable {
     public void setSkladnikpotraceniaList(List<Skladnikpotracenia> skladnikpotraceniaList) {
         this.skladnikpotraceniaList = skladnikpotraceniaList;
     }
+
+    public String getDataprzypomnienia() {
+        return dataprzypomnienia;
+    }
+
+    public void setDataprzypomnienia(String dataprzypomnienia) {
+        this.dataprzypomnienia = dataprzypomnienia;
+    }
+
+    public String getDataprzypomnieniamail() {
+        return dataprzypomnieniamail;
+    }
+
+    public void setDataprzypomnieniamail(String dataprzypomnieniamail) {
+        this.dataprzypomnieniamail = dataprzypomnieniamail;
+    }
+    
+    
 
     @XmlTransient
     public List<Skladnikwynagrodzenia> getSkladnikwynagrodzeniaList() {

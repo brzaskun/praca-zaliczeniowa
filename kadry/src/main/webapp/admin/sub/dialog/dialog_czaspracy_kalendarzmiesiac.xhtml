@@ -55,7 +55,7 @@
                         <p:panelGrid columns="1">
                             <p:panel header="Wybierz z istniejących kalendarzy"/>
                         </p:panelGrid>
-                        <p:panelGrid columns="13">
+                        <p:panelGrid columns="13" id="wykazistniejacychkal">
                             <p:commandButton value="01" rendered="#{kalendarzmiesiacView.czyjestkalendarz('01')}">
                                 <p:ajax event="click" listener="#{kalendarzmiesiacView.pobierzkalendarz('01')}" update="KalendarzmiesiacListForm KalendarzmiesiacCreateForm"/>
                             </p:commandButton>
@@ -196,7 +196,10 @@
                 </p:panel>
                 <p:outputPanel>
                     <p:commandButton styleClass="buttonnorm" actionListener="#{kalendarzmiesiacView.create}" value="zachowaj" update="north KalendarzmiesiacCreateForm KalendarzmiesiacListForm:datalist KalendarzmiesiacSaRokForm"/>
-                    <p:commandButton styleClass="buttonnorm" actionListener="#{kalendarzmiesiacView.reset}" value="resetuj" update="north KalendarzmiesiacCreateForm :KalendarzmiesiacListForm:datalist KalendarzmiesiacSaRokForm"/>
+                    <p:commandButton styleClass="buttonnorm2" actionListener="#{kalendarzmiesiacView.reset}" value="resetuj" update="north KalendarzmiesiacCreateForm :KalendarzmiesiacListForm:datalist KalendarzmiesiacSaRokForm"/>
+                    <p:commandButton styleClass="buttonnorm2" actionListener="#{kalendarzmiesiacView.usun}" value="usun" update="north KalendarzmiesiacCreateForm KalendarzmiesiacListForm:datalist KalendarzmiesiacSaRokForm:wykazistniejacychkal">
+                        <p:confirm type="popup" header="Potwierdzenie" message="Usunąć bieżący kalendarz?" icon="pi pi-exclamation-triangle"/>
+                    </p:commandButton>
                 </p:outputPanel>
 
             </h:form>
