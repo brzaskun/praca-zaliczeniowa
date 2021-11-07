@@ -5,52 +5,122 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     >
-    <p:dataTable id="datalist" value="#{pracownikAlertyView.listaumowy}" var="itemUmowa" rowIndexVar="yndex"
-                                 selectionMode="single" selection="#{angazView.selectedlista}"
-                                 rowKey="#{itemUmowa.id}"  sortBy="#{itemUmowa.datado}"
-                                style="height: 550px; overflow-y: scroll;width: 700px;"
-                                rowsPerPageTemplate="20,100,250,500" paginatorPosition="top" paginator="true" rows="20"
-                                 >
-         <f:facet name="header">
-                <h:outputText value="Czas trwania umów na czas określony"/>
-         </f:facet>
-        <p:ajax event="rowSelect" listener="#{angazView.aktywuj}" partialSubmit="true" global="false" update="north"/>
-        <p:column width="20" style="text-align: center;">
-            <f:facet name="header">
-                <h:outputText value="id"/>
-            </f:facet>
-            <h:outputText value="#{yndex+1}"/>
-        </p:column>
-        <p:column width="200" >
-            <f:facet name="header">
-                <h:outputText value="id"/>
-            </f:facet>
-            <h:outputText value="#{itemUmowa.imieNazwisko}"/>
-        </p:column>
-         <p:column width="100" >
-            <f:facet name="header">
-                <h:outputText value="rodzaj umowy"/>
-            </f:facet>
-             <h:outputText value="umowa o pracę" rendered="#{itemUmowa.umowakodzus.praca}"/>
-             <h:outputText value="umowa zlecenia" rendered="#{itemUmowa.umowakodzus.zlecenie}"/>
-        </p:column>
-        <p:column width="60" style="text-align: center;" sortBy="#{itemUmowa.datado}" sortOrder="desc">
-            <f:facet name="header">
-                <h:outputText value="data do"/>
-            </f:facet>
-            <h:outputText value="#{itemUmowa.datado}"/>
-        </p:column>
-         <p:column width="60" style="text-align: center;">
-            <f:facet name="header">
-                <h:outputText value="data przypomnienia"/>
-            </f:facet>
-             <h:outputText value="#{itemUmowa.dataprzypomnienia}"/>
-        </p:column>
-        <p:column width="60" style="text-align: center;">
-            <f:facet name="header">
-                <h:outputText value="data mail"/>
-            </f:facet>
-            <h:outputText value="#{itemUmowa.dataprzypomnieniamail}"/>
-        </p:column>
-    </p:dataTable>
+    <p:tabView id="akordeon">
+        <p:tab title="czas trwania umowy">
+            <p:dataTable id="datalist" value="#{pracownikAlertyView.listaumowy}" var="itemUmowa" rowIndexVar="yndex"
+                         selectionMode="single" 
+                         rowKey="#{itemUmowa.id}"  sortBy="#{itemUmowa.datado}"
+                         style="height: 550px; overflow-y: scroll;width: 700px;"
+                         rowsPerPageTemplate="20,100,250,500" paginatorPosition="top" paginator="true" rows="20"
+                         emptyMessage="Nie pobrano listy"
+                         >
+                <f:facet name="header">
+                    <h:outputText value="Czas trwania umów na czas określony"/>
+                </f:facet>
+                <p:column width="20" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="id"/>
+                    </f:facet>
+                    <h:outputText value="#{yndex+1}"/>
+                </p:column>
+                <p:column width="200" sortBy="#{itemUmowa.nazwiskoImie}">
+                    <f:facet name="header">
+                        <h:outputText value="nazwisko i imię"/>
+                    </f:facet>
+                    <h:outputText value="#{itemUmowa.nazwiskoImie}"/>
+                </p:column>
+                <p:column width="100" >
+                    <f:facet name="header">
+                        <h:outputText value="rodzaj umowy"/>
+                    </f:facet>
+                    <h:outputText value="umowa o pracę" rendered="#{itemUmowa.umowakodzus.praca}"/>
+                    <h:outputText value="umowa zlecenia" rendered="#{itemUmowa.umowakodzus.zlecenie}"/>
+                </p:column>
+                <p:column width="60" style="text-align: center;" sortBy="#{itemUmowa.datado}" sortOrder="desc">
+                    <f:facet name="header">
+                        <h:outputText value="data do"/>
+                    </f:facet>
+                    <h:outputText value="#{itemUmowa.datado}"/>
+                </p:column>
+                <p:column width="60" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="data przypomnienia"/>
+                    </f:facet>
+                    <h:outputText value="#{itemUmowa.dataprzypomnienia}"/>
+                </p:column>
+                <p:column width="60" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="data mail"/>
+                    </f:facet>
+                    <h:outputText value="#{itemUmowa.dataprzypomnieniamail}"/>
+                </p:column>
+            </p:dataTable>
+        </p:tab>
+        <p:tab title="szkolenia BHP"> 
+            <h:form id="formbhp">
+            <h:outputText value="Wprowadzamy daty ukończenia ostatniego szkolenia" style="color: blue;margin-top: 40px;"/>
+            <p:dataTable id="datalist1" value="#{pracownikAlertyView.listaszkoleniabhp}" var="itemBHP" rowIndexVar="yndex1"
+                         selectionMode="single" 
+                         rowKey="#{itemBHP.id}"   sortBy="#{itemBHP.nazwiskoImie}"
+                         style="height: 550px; overflow-y: scroll;width: 900px; margin-top: 10px"
+                         rowsPerPageTemplate="20,100,250,500" paginatorPosition="top" paginator="true" rows="20"
+                         emptyMessage="Nie pobrano listy"
+                         >
+                <f:facet name="header">
+                    <h:outputText value="Daty szkoleń BHP"/>
+                </f:facet>
+                <p:column width="20" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="id"/>
+                    </f:facet>
+                    <h:outputText value="#{yndex1+1}"/>
+                </p:column>
+                <p:column width="200"  sortBy="#{itemBHP.nazwiskoImie}" sortOrder="asc" sortPriority="1">
+                    <f:facet name="header">
+                        <h:outputText value="nazwisko i imię"/>
+                    </f:facet>
+                    <h:outputText value="#{itemBHP.nazwiskoImie}"/>
+                </p:column>
+                <p:column width="100" >
+                    <f:facet name="header">
+                        <h:outputText value="rodzaj umowy"/>
+                    </f:facet>
+                    <h:outputText value="umowa o pracę" rendered="#{itemBHP.umowakodzus.praca}"/>
+                    <h:outputText value="umowa zlecenia" rendered="#{itemBHP.umowakodzus.zlecenie}"/>
+                </p:column>
+                <p:column width="60" style="text-align: center;" sortBy="#{itemBHP.dataszkolenierok}" sortOrder="desc">
+                    <f:facet name="header">
+                        <h:outputText value="szkolenie coroczne"/>
+                    </f:facet>
+                    <p:inputText value="#{itemBHP.dataszkolenierok}" title="datac od"  placeholder="____-__-__" maxlength="10"/>
+                </p:column>
+                <p:column width="60" style="text-align: center;" sortBy="#{itemBHP.dataszkolenie3lata}" sortOrder="desc">
+                    <f:facet name="header">
+                        <h:outputText value="szkolenie co 3 lata"/>
+                    </f:facet>
+                    <p:inputText value="#{itemBHP.dataszkolenie3lata}" title="datac od"  placeholder="____-__-__" maxlength="10"/>
+                </p:column>
+                <p:column width="60" style="text-align: center;" sortBy="#{itemBHP.dataszkolenie5lat}" sortOrder="desc">
+                    <f:facet name="header">
+                        <h:outputText value="szkolenie co 5 lat"/>
+                    </f:facet>
+                    <p:inputText value="#{itemBHP.dataszkolenie5lat}" title="datac od"  placeholder="____-__-__" maxlength="10"/>
+                </p:column>
+                <p:column width="60" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="data przypomnienia"/>
+                    </f:facet>
+                    <h:outputText value="#{itemBHP.dataprzypomnieniaszkolenie}"/>
+                </p:column>
+                <p:column width="60" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="data mail"/>
+                    </f:facet>
+                    <h:outputText value="#{itemBHP.dataprzypomnieniamailszkolenie}"/>
+                </p:column>
+            </p:dataTable>
+                <p:commandButton value="zapisz" styleClass="buttonnorm" actionListener="#{pracownikAlertyView.zapiszzmianybhp()}" />
+            </h:form>
+        </p:tab>
+    </p:tabView>
 </ui:composition>

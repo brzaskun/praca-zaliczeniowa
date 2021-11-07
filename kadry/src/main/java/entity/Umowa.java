@@ -193,6 +193,16 @@ public class Umowa implements Serializable {
     private String  dataprzypomnienia;
     @Column(name = "dataprzypomnieniamail")
     private String  dataprzypomnieniamail;
+    @Column(name = "dataszkolenierok")
+    private String  dataszkolenierok;
+    @Column(name = "dataszkolenie3lata")
+    private String  dataszkolenie3lata;
+    @Column(name = "dataszkolenie5lat")
+    private String  dataszkolenie5lat;
+    @Column(name = "dataprzypomnieniaszkolenie")
+    private String  dataprzypomnieniaszkolenie;
+    @Column(name = "dataprzypomnieniamailszkolenie")
+    private String  dataprzypomnieniamailszkolenie;
 
     public Umowa() {
         this.etatList = new ArrayList<>();
@@ -275,6 +285,46 @@ public class Umowa implements Serializable {
 
     public void setRachunekdoumowyzleceniaList(List<Rachunekdoumowyzlecenia> rachunekdoumowyzleceniaList) {
         this.rachunekdoumowyzleceniaList = rachunekdoumowyzleceniaList;
+    }
+
+    public String getDataszkolenierok() {
+        return dataszkolenierok;
+    }
+
+    public void setDataszkolenierok(String dataszkolenierok) {
+        this.dataszkolenierok = dataszkolenierok;
+    }
+
+    public String getDataszkolenie3lata() {
+        return dataszkolenie3lata;
+    }
+
+    public void setDataszkolenie3lata(String dataszkolenie3lata) {
+        this.dataszkolenie3lata = dataszkolenie3lata;
+    }
+
+    public String getDataszkolenie5lat() {
+        return dataszkolenie5lat;
+    }
+
+    public void setDataszkolenie5lat(String dataszkolenie5lat) {
+        this.dataszkolenie5lat = dataszkolenie5lat;
+    }
+
+    public String getDataprzypomnieniaszkolenie() {
+        return dataprzypomnieniaszkolenie;
+    }
+
+    public void setDataprzypomnieniaszkolenie(String dataprzypomnieniaszkolenie) {
+        this.dataprzypomnieniaszkolenie = dataprzypomnieniaszkolenie;
+    }
+
+    public String getDataprzypomnieniamailszkolenie() {
+        return dataprzypomnieniamailszkolenie;
+    }
+
+    public void setDataprzypomnieniamailszkolenie(String dataprzypomnieniamailszkolenie) {
+        this.dataprzypomnieniamailszkolenie = dataprzypomnieniamailszkolenie;
     }
 
     @Override
@@ -650,6 +700,10 @@ public class Umowa implements Serializable {
     
     public String getImieNazwisko() {
         return this.angaz.getPracownik().getImie()+" "+this.angaz.getPracownik().getNazwisko();
+    }
+    
+    public String getNazwiskoImie() {
+        return this.angaz.getPracownik().getNazwisko()+" "+this.angaz.getPracownik().getImie();
     }
     
     public String getRodzajumowy() {
