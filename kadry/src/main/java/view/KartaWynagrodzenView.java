@@ -7,10 +7,13 @@ package view;
 
 import comparator.Kartawynagrodzencomparator;
 import comparator.PITPolacomparator;
+import dao.DeklaracjaSchowekFacade;
 import dao.KartaWynagrodzenFacade;
 import dao.PasekwynagrodzenFacade;
 import embeddable.Mce;
+import embeddable.TKodUS;
 import entity.Angaz;
+import entity.DeklaracjaSchowek;
 import entity.FirmaKadry;
 import entity.Kartawynagrodzen;
 import entity.PITPola;
@@ -41,6 +44,8 @@ public class KartaWynagrodzenView  implements Serializable {
     private static final long serialVersionUID = 1L;
     @Inject
     private KartaWynagrodzenFacade kartaWynagrodzenFacade;
+    @Inject
+    private DeklaracjaSchowekFacade deklaracjaSchowekFacade;
     @Inject
     private WpisView wpisView;
     private List<Kartawynagrodzen> kartawynagrodzenlist;
@@ -217,13 +222,19 @@ public class KartaWynagrodzenView  implements Serializable {
             Kartawynagrodzen kartawynagrodzen = kartawynagrodzenlist.get(12);
             FirmaKadry firma = kartawynagrodzen.getAngaz().getFirma();
             Pracownik pracownik = kartawynagrodzen.getAngaz().getPracownik();
+            String urzad = TKodUS.getNazwaUrzedu(firma.getKodurzeduskarbowego());
             Object[] sciezka = beanstesty.PIT11_27Bean.generujXML(kartawynagrodzen, firma, pracownik, (byte)1, "3220", kartawynagrodzen.getRok(), kartawynagrodzen.getSumy());
-            String polecenie = "wydrukXML(\""+(String)sciezka[0]+"\")";
-            PrimeFaces.current().executeScript(polecenie);
-            PdfPIT11.drukuj((pl.gov.crd.wzor._2021._03._04._10477.Deklaracja)sciezka[2]);
-            polecenie = "wydrukPDF(\""+PdfPIT11.OUTPUTFILE+"\")";
-            PrimeFaces.current().executeScript(polecenie);
-            Msg.msg("Wydrukowano PIT-11");
+            pl.gov.crd.wzor._2021._03._04._10477.Deklaracja deklaracja = (pl.gov.crd.wzor._2021._03._04._10477.Deklaracja)sciezka[2];
+            if (deklaracja!=null) {
+                String polecenie = "wydrukXML(\""+(String)sciezka[0]+"\")";
+                PrimeFaces.current().executeScript(polecenie);
+                String nazwapliku = PdfPIT11.drukuj(deklaracja);
+                DeklaracjaSchowek schowek = new DeklaracjaSchowek(deklaracja, pracownik, wpisView.getRokWpisu(),"PIT11");
+                deklaracjaSchowekFacade.create(schowek);
+                polecenie = "wydrukPDF(\""+nazwapliku+"\")";
+                PrimeFaces.current().executeScript(polecenie);
+                Msg.msg("Wydrukowano PIT-11");
+            }
         } else {
             Msg.msg("e","Błąd generowania PIT-11. Brak karty wynagrodzeń");
         }
@@ -236,12 +247,15 @@ public class KartaWynagrodzenView  implements Serializable {
                 FirmaKadry firma = kartawynagrodzen.getAngaz().getFirma();
                 Pracownik pracownik = kartawynagrodzen.getAngaz().getPracownik();
                 Object[] sciezka = beanstesty.PIT11_27Bean.generujXML(kartawynagrodzen, firma, pracownik, (byte)1, "3220", kartawynagrodzen.getRok(), kartawynagrodzen.getSumy());
-                String polecenie = "wydrukXML(\""+(String)sciezka[0]+"\")";
-                PrimeFaces.current().executeScript(polecenie);
-                PdfPIT11.drukuj((pl.gov.crd.wzor._2021._03._04._10477.Deklaracja)sciezka[2]);
-                polecenie = "wydrukPDF(\""+PdfPIT11.OUTPUTFILE+"\")";
-                PrimeFaces.current().executeScript(polecenie);
-                Msg.msg("Wydrukowano PIT-11");
+                pl.gov.crd.wzor._2021._03._04._10477.Deklaracja deklaracja = (pl.gov.crd.wzor._2021._03._04._10477.Deklaracja)sciezka[2];
+                if (deklaracja!=null) {
+                    String polecenie = "wydrukXML(\""+(String)sciezka[0]+"\")";
+                    PrimeFaces.current().executeScript(polecenie);
+                    String nazwapliku = PdfPIT11.drukuj(deklaracja);
+                    polecenie = "wydrukPDF(\""+nazwapliku+"\")";
+                    PrimeFaces.current().executeScript(polecenie);
+                    Msg.msg("Wydrukowano PIT-11");
+                }
             }
         } else {
             Msg.msg("e","Błąd generowania PIT-11. Brak karty wynagrodzeń");

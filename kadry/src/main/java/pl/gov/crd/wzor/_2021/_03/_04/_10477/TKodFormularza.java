@@ -8,6 +8,7 @@
 
 package pl.gov.crd.wzor._2021._03._04._10477;
 
+import java.io.Serializable;
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
 import javax.xml.bind.annotation.XmlType;
@@ -29,7 +30,8 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlType(name = "TKodFormularza")
 @XmlEnum
-public enum TKodFormularza {
+public enum TKodFormularza  implements Serializable {
+    
 
     @XmlEnumValue("PIT-11")
     PIT_11("PIT-11");

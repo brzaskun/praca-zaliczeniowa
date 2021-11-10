@@ -48,7 +48,7 @@ public class XMLValid_PIT11_27 {
             SchemaFactory schemaFactory = SchemaFactory
                     .newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
             try {
-                Schema schema = schemaFactory.newSchema(schemaFile);
+                    Schema schema = schemaFactory.newSchema(schemaFile);
                 Validator validator = schema.newValidator();
                 validator.validate(xmlFile);
                 zwrot[0] = Boolean.TRUE;

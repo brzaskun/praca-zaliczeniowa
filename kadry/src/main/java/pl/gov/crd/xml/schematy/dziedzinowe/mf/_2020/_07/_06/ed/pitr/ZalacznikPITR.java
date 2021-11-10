@@ -8,6 +8,7 @@
 
 package pl.gov.crd.xml.schematy.dziedzinowe.mf._2020._07._06.ed.pitr;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -124,7 +125,8 @@ import javax.xml.bind.annotation.XmlType;
     "pozycjeSzczegolowe"
 })
 @XmlRootElement(name = "Zalacznik_PIT-R")
-public class ZalacznikPITR {
+public class ZalacznikPITR  implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     @XmlElement(name = "Naglowek", required = true)
     protected TNaglowekPITR naglowek;

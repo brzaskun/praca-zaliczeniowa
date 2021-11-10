@@ -44,6 +44,10 @@ public class PIT11_27Bean {
             zwrot[1] = "ok";
             String mainfilename = "pit11_27"+deklaracja.getPodmiot2().getOsobaFizyczna().getPESEL()+"rok"+deklaracja.getNaglowek().getRok()+deklaracja.getNaglowek().getKodFormularza().getWersjaSchemy()+".xml";
                 Object[] walidacja = xml.XMLValid_PIT11_27.walidujPIT1127(mainfilename);
+                zwrot[0] = sciezka;
+                zwrot[1] = "ok";
+                zwrot[2] = deklaracja;
+                Msg.msg("zrob walidacje");
                 if (walidacja!=null && walidacja[0]==Boolean.TRUE) {
                     zwrot[0] = sciezka;
                     zwrot[1] = "ok";

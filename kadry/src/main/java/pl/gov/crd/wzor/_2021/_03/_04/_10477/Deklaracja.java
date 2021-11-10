@@ -9,6 +9,7 @@
 package pl.gov.crd.wzor._2021._03._04._10477;
 
 import entity.FirmaKadry;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -350,7 +351,8 @@ import pl.gov.crd.xml.schematy.dziedzinowe.mf._2020._07._06.ed.pitr.ZalacznikPIT
     "zalaczniki"
 })
 @XmlRootElement(name = "Deklaracja")
-public class Deklaracja {
+public class Deklaracja  implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     @XmlElement(name = "Naglowek", required = true)
     protected TNaglowek naglowek;
@@ -531,7 +533,8 @@ public class Deklaracja {
     @XmlType(name = "")
     public static class Podmiot1
         extends TPodmiotDowolnyBezAdresu1
-    {
+     implements Serializable {
+    private static final long serialVersionUID = 1L;
 
         @XmlAttribute(name = "rola", required = true)
         protected String rola;
@@ -700,12 +703,13 @@ public class Deklaracja {
         "osobaFizyczna",
         "adresZamieszkania"
     })
-    public static class Podmiot2 {
+    public static class Podmiot2  implements Serializable {
+    private static final long serialVersionUID = 1L;
 
         @XmlElement(name = "OsobaFizyczna", required = true)
-        protected Deklaracja.Podmiot2 .OsobaFizyczna osobaFizyczna;
+        protected Deklaracja.Podmiot2.OsobaFizyczna osobaFizyczna;
         @XmlElement(name = "AdresZamieszkania")
-        protected Deklaracja.Podmiot2 .AdresZamieszkania adresZamieszkania;
+        protected Deklaracja.Podmiot2.AdresZamieszkania adresZamieszkania;
         @XmlAttribute(name = "rola", required = true)
         protected String rola;
 
@@ -876,7 +880,8 @@ public class Deklaracja {
             "miejscowosc",
             "kodPocztowy"
         })
-        public static class AdresZamieszkania {
+        public static class AdresZamieszkania implements Serializable {
+     private static final long serialVersionUID = 1L;
 
             @XmlElement(name = "KodKraju", required = true)
             protected Deklaracja.Podmiot2 .AdresZamieszkania.KodKraju kodKraju;
@@ -1171,7 +1176,8 @@ public class Deklaracja {
             @XmlType(name = "", propOrder = {
                 "value"
             })
-            public static class KodKraju {
+            public static class KodKraju implements Serializable {
+    private static final long serialVersionUID = 1L;
 
                 @XmlValue
                 protected TKodKraju value;
@@ -1254,7 +1260,8 @@ public class Deklaracja {
             @XmlType(name = "", propOrder = {
                 "value"
             })
-            public static class KodPocztowy {
+            public static class KodPocztowy implements Serializable {
+    private static final long serialVersionUID = 1L;
 
                 @XmlValue
                 @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
@@ -1338,7 +1345,8 @@ public class Deklaracja {
             @XmlType(name = "", propOrder = {
                 "value"
             })
-            public static class Miejscowosc {
+            public static class Miejscowosc implements Serializable {
+    private static final long serialVersionUID = 1L;
 
                 @XmlValue
                 @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
@@ -1422,7 +1430,8 @@ public class Deklaracja {
             @XmlType(name = "", propOrder = {
                 "value"
             })
-            public static class NrDomu {
+            public static class NrDomu implements Serializable {
+    private static final long serialVersionUID = 1L;
 
                 @XmlValue
                 @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
@@ -1506,7 +1515,8 @@ public class Deklaracja {
             @XmlType(name = "", propOrder = {
                 "value"
             })
-            public static class NrLokalu {
+            public static class NrLokalu implements Serializable {
+    private static final long serialVersionUID = 1L;
 
                 @XmlValue
                 @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
@@ -1590,7 +1600,8 @@ public class Deklaracja {
             @XmlType(name = "", propOrder = {
                 "value"
             })
-            public static class Ulica {
+            public static class Ulica implements Serializable {
+    private static final long serialVersionUID = 1L;
 
                 @XmlValue
                 @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
@@ -1708,7 +1719,8 @@ public class Deklaracja {
         })
         public static class OsobaFizyczna
             extends TIdentyfikatorOsobyFizycznej1
-        {
+         implements Serializable {
+    private static final long serialVersionUID = 1L;
 
             @XmlElement(name = "NrId")
             protected Deklaracja.Podmiot2 .OsobaFizyczna.NrId nrId;
@@ -1811,7 +1823,8 @@ public class Deklaracja {
             @XmlType(name = "", propOrder = {
                 "value"
             })
-            public static class KodKrajuWydania {
+            public static class KodKrajuWydania implements Serializable {
+    private static final long serialVersionUID = 1L;
 
                 @XmlValue
                 protected TKodKraju value;
@@ -1894,7 +1907,8 @@ public class Deklaracja {
             @XmlType(name = "", propOrder = {
                 "value"
             })
-            public static class NrId {
+            public static class NrId implements Serializable {
+    private static final long serialVersionUID = 1L;
 
                 @XmlValue
                 protected String value;
@@ -1977,7 +1991,8 @@ public class Deklaracja {
             @XmlType(name = "", propOrder = {
                 "value"
             })
-            public static class RodzajNrId {
+            public static class RodzajNrId implements Serializable {
+    private static final long serialVersionUID = 1L;
 
                 @XmlValue
                 protected byte value;
@@ -2265,7 +2280,8 @@ public class Deklaracja {
         "p95",
         "p96"
     })
-    public static class PozycjeSzczegolowe {
+    public static class PozycjeSzczegolowe  implements Serializable {
+    private static final long serialVersionUID = 1L;
 
         @XmlElement(name = "P_5")
         protected Integer p5;
@@ -4132,7 +4148,8 @@ public class Deklaracja {
         "zalacznikPITR",
         "zalacznikORDZU"
     })
-    public static class Zalaczniki {
+    public static class Zalaczniki  implements Serializable {
+    private static final long serialVersionUID = 1L;
 
         @XmlElement(name = "Zalacznik_PIT-R", namespace = "http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2020/07/06/eD/PITR/")
         protected ZalacznikPITR zalacznikPITR;

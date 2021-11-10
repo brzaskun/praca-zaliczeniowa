@@ -16,6 +16,7 @@ import com.itextpdf.text.pdf.PdfStamper;
 import com.itextpdf.text.pdf.PdfWriter;
 import embeddable.TKodUS;
 import f.F;
+import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -36,16 +37,17 @@ import pl.gov.crd.xml.schematy.dziedzinowe.mf._2020._07._06.ed.definicjetypy.TId
  */
 public class PdfPIT11 {
 
-    private static final String INPUTFILE = "pit-11.pdf";
     public static final String OUTPUTFILE = "pit-11F.pdf";
 
-    public static void drukuj(pl.gov.crd.wzor._2021._03._04._10477.Deklaracja deklaracja) {
+    public static String drukuj(pl.gov.crd.wzor._2021._03._04._10477.Deklaracja deklaracja) {
+        String nazwapliku = null;
         if (deklaracja != null) {
             try {
                 ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
                 String realPath = ctx.getRealPath("/")+"resources\\pdf\\";
                 Document document = new Document();
-                PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(realPath+INPUTFILE));
+                ByteArrayOutputStream pdfSM = new ByteArrayOutputStream();
+                PdfWriter writer = PdfWriter.getInstance(document, pdfSM);
                 document.addTitle("PIT11 V27");
                 document.addAuthor("Biuro Rachunkowe Taxman Grzegorz Grzelczyk");
                 document.addSubject("Wydruk deklaracji pracowniczej PIT-11");
@@ -82,16 +84,18 @@ public class PdfPIT11 {
                 } else if (pse.getP11()==(byte)2) {
                     absText(writer, "X", 351, 326);
                 }
-                
                 Deklaracja.Podmiot2 prac = deklaracja.getPodmiot2();
                 Deklaracja.Podmiot2.OsobaFizyczna osobaFizyczna = prac.getOsobaFizyczna();
                 if (osobaFizyczna.getPESEL()!=null) {
                     absText(writer, osobaFizyczna.getPESEL(), 100, 292);
+                    nazwapliku = osobaFizyczna.getPESEL();
                 } else {
                     absText(writer, osobaFizyczna.getNIP(), 100, 292);
+                    nazwapliku = osobaFizyczna.getNIP();
                 }
                 if (osobaFizyczna.getNrId()!=null) {
                     absText(writer, osobaFizyczna.getNrId().getValue(), 350, 292);
+                    nazwapliku = osobaFizyczna.getNrId().getValue();
 //			<xsd:enumeration value="1">
 //                        <xsd:documentation>numer identyfikacyjny TIN</xsd:documentation>
 //			<xsd:enumeration value="2">
@@ -117,6 +121,7 @@ public class PdfPIT11 {
                     } else if (osobaFizyczna.getRodzajNrId().getValue()==(byte)9) {
                         absText(writer, "inny dokument potwierdzający tożsamość", 100, 266);
                     }
+                    absText(writer, "Zagraniczny numer", 350, 292);
                     absText(writer, osobaFizyczna.getKodKrajuWydania().getValue().name(), 370, 266);
                 }
                 absText(writer, osobaFizyczna.getNazwisko(), 100, 240);
@@ -233,9 +238,11 @@ public class PdfPIT11 {
                 absText(writer, " ", 80, 166);
                 document.close();
                 writer.close();
-                PdfReader reader = new PdfReader(realPath+INPUTFILE);
+                byte[] pdfoutput = pdfSM.toByteArray();
+                PdfReader reader = new PdfReader(pdfoutput);
                 reader.removeUsageRights();
-                PdfStamper pdfStamper = new PdfStamper(reader, new FileOutputStream(realPath+OUTPUTFILE));
+                nazwapliku = nazwapliku+"R"+naglowek.getRok().toString()+"_PIT11";
+                PdfStamper pdfStamper = new PdfStamper(reader, new FileOutputStream(realPath+nazwapliku));
                 PdfContentByte underContent = pdfStamper.getUnderContent(1);
                 Image image = Image.getInstance(realPath+"PIT-111.png");
                 image.scaleToFit(610, 850);
@@ -266,11 +273,14 @@ public class PdfPIT11 {
         } else {
             Msg.msg("e", "Brak deklaracji");
         }
+        return nazwapliku;
     }
 
     public static void main(String[] args) throws IOException, DocumentException {
+        String ynputfile = "C:\\Users\\Osito\\Downloads\\pit-11.pdf";
+        String alputfile = "C:\\Users\\Osito\\Downloads\\pit-11a.pdf";
         Document document = new Document();
-        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(INPUTFILE));
+        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(ynputfile));
         document.addTitle("Polecenie księgowania");
         document.addAuthor("Biuro Rachunkowe Taxman Grzegorz Grzelczyk");
         document.addSubject("Wydruk danych z PKPiR");
@@ -397,9 +407,9 @@ public class PdfPIT11 {
         absText(writer, " ", 80, 166);
         document.close();
         writer.close();
-        PdfReader reader = new PdfReader(INPUTFILE);
+        PdfReader reader = new PdfReader(ynputfile);
         reader.removeUsageRights();
-        PdfStamper pdfStamper = new PdfStamper(reader, new FileOutputStream(OUTPUTFILE));
+        PdfStamper pdfStamper = new PdfStamper(reader, new FileOutputStream(alputfile));
         PdfContentByte underContent = pdfStamper.getUnderContent(1);
         Image image = Image.getInstance("C:\\Users\\Osito\\Downloads\\pit11\\PIT-111.png");
         image.scaleToFit(610, 850);

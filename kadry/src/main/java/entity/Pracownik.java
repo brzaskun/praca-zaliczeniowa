@@ -160,6 +160,8 @@ public class Pracownik implements Serializable {
     private boolean nierezydent;
     @OneToMany(mappedBy = "pracownik", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Angaz> angazList;
+    @OneToMany(mappedBy = "pracownik", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<DeklaracjaSchowek> deklaracjaList;
 
     public Pracownik() {
     }
@@ -214,6 +216,17 @@ public class Pracownik implements Serializable {
     public void setAngazList(List<Angaz> angazList) {
         this.angazList = angazList;
     }
+
+    @XmlTransient
+    public List<DeklaracjaSchowek> getDeklaracjaList() {
+        return deklaracjaList;
+    }
+
+    public void setDeklaracjaList(List<DeklaracjaSchowek> deklaracjaList) {
+        this.deklaracjaList = deklaracjaList;
+    }
+    
+    
 
     @Override
     public int hashCode() {
