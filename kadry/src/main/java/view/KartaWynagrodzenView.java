@@ -29,6 +29,7 @@ import javax.inject.Named;
 import msg.Msg;
 import org.primefaces.PrimeFaces;
 import pdf.PdfKartaWynagrodzen;
+import pdf.PdfPIT11;
 
 /**
  *
@@ -216,8 +217,11 @@ public class KartaWynagrodzenView  implements Serializable {
             Kartawynagrodzen kartawynagrodzen = kartawynagrodzenlist.get(12);
             FirmaKadry firma = kartawynagrodzen.getAngaz().getFirma();
             Pracownik pracownik = kartawynagrodzen.getAngaz().getPracownik();
-            String[] sciezka = beanstesty.PIT11_27Bean.generujXML(kartawynagrodzen, firma, pracownik, (byte)1, "3220", kartawynagrodzen.getRok(), kartawynagrodzen.getSumy());
-            String polecenie = "wydrukXML(\""+sciezka[0]+"\")";
+            Object[] sciezka = beanstesty.PIT11_27Bean.generujXML(kartawynagrodzen, firma, pracownik, (byte)1, "3220", kartawynagrodzen.getRok(), kartawynagrodzen.getSumy());
+            String polecenie = "wydrukXML(\""+(String)sciezka[0]+"\")";
+            PrimeFaces.current().executeScript(polecenie);
+            PdfPIT11.drukuj((pl.gov.crd.wzor._2021._03._04._10477.Deklaracja)sciezka[2]);
+            polecenie = "wydrukPDF(\""+PdfPIT11.OUTPUTFILE+"\")";
             PrimeFaces.current().executeScript(polecenie);
             Msg.msg("Wydrukowano PIT-11");
         } else {
@@ -231,8 +235,11 @@ public class KartaWynagrodzenView  implements Serializable {
                 Kartawynagrodzen kartawynagrodzen = karta;
                 FirmaKadry firma = kartawynagrodzen.getAngaz().getFirma();
                 Pracownik pracownik = kartawynagrodzen.getAngaz().getPracownik();
-                String[] sciezka = beanstesty.PIT11_27Bean.generujXML(kartawynagrodzen, firma, pracownik, (byte)1, "3220", kartawynagrodzen.getRok(), kartawynagrodzen.getSumy());
-                String polecenie = "wydrukXML(\""+sciezka[0]+"\")";
+                Object[] sciezka = beanstesty.PIT11_27Bean.generujXML(kartawynagrodzen, firma, pracownik, (byte)1, "3220", kartawynagrodzen.getRok(), kartawynagrodzen.getSumy());
+                String polecenie = "wydrukXML(\""+(String)sciezka[0]+"\")";
+                PrimeFaces.current().executeScript(polecenie);
+                PdfPIT11.drukuj((pl.gov.crd.wzor._2021._03._04._10477.Deklaracja)sciezka[2]);
+                polecenie = "wydrukPDF(\""+PdfPIT11.OUTPUTFILE+"\")";
                 PrimeFaces.current().executeScript(polecenie);
                 Msg.msg("Wydrukowano PIT-11");
             }

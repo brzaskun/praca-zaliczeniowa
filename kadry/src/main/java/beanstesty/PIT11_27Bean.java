@@ -34,8 +34,8 @@ import z.Z;
  * @author Osito
  */
 public class PIT11_27Bean {
-     public static String[] generujXML(Kartawynagrodzen kartawynagrodzen, FirmaKadry firma, Pracownik pracownik, byte normalna1korekta2, String kodurzedu, String rok, Map<String,Kartawynagrodzen> sumy) {
-        String[] zwrot = new String[2];
+     public static Object[] generujXML(Kartawynagrodzen kartawynagrodzen, FirmaKadry firma, Pracownik pracownik, byte normalna1korekta2, String kodurzedu, String rok, Map<String,Kartawynagrodzen> sumy) {
+        Object[] zwrot = new Object[3];
         pl.gov.crd.wzor._2021._03._04._10477.Deklaracja deklaracja = genPIT1127(kartawynagrodzen, firma, pracownik, normalna1korekta2, kodurzedu, rok, sumy);
         String sciezka = null;
         try {
@@ -47,10 +47,12 @@ public class PIT11_27Bean {
                 if (walidacja!=null && walidacja[0]==Boolean.TRUE) {
                     zwrot[0] = sciezka;
                     zwrot[1] = "ok";
+                    zwrot[2] = deklaracja;
                     Msg.msg("Walidacja JPK pomyślna");
                 } else if (walidacja!=null && walidacja[0]==Boolean.FALSE){
                     zwrot[0] = sciezka;
                     zwrot[1] = null;
+                    zwrot[2] = null;
                     Msg.msg("e", (String) walidacja[1]);
                 }
             Msg.msg("Wygenerowano plik JPK");
@@ -245,14 +247,14 @@ public class PIT11_27Bean {
             }
             poz.setP33(BigInteger.valueOf(Z.zUD(sumaUmowaoprace.getPodatekdochodowy())));
             if (poz.getP75()!=null) {
-                poz.setP75(poz.getP75().add(BigDecimal.valueOf(Z.z(sumaUmowazlecenia.getRazemspolecznepracownik()))));
+                poz.setP75(poz.getP75().add(BigDecimal.valueOf(Z.z(sumaUmowaoprace.getRazemspolecznepracownik()))));
             } else{
-                poz.setP75(BigDecimal.valueOf(Z.z(sumaUmowazlecenia.getRazemspolecznepracownik())));
+                poz.setP75(BigDecimal.valueOf(Z.z(sumaUmowaoprace.getRazemspolecznepracownik())));
             }
             if (poz.getP78()!=null) {
-                poz.setP78(poz.getP78().add(BigDecimal.valueOf(Z.z(sumaUmowazlecenia.getPraczdrowotnedopotracenia()))));
+                poz.setP78(poz.getP78().add(BigDecimal.valueOf(Z.z(sumaUmowaoprace.getPraczdrowotnedopotracenia()))));
             } else{
-                poz.setP78(BigDecimal.valueOf(Z.z(sumaUmowazlecenia.getPraczdrowotnedopotracenia())));
+                poz.setP78(BigDecimal.valueOf(Z.z(sumaUmowaoprace.getPraczdrowotnedopotracenia())));
             }
             //czy dodano PIT-R 1tak 2nie
             poz.setP96((byte)2);
@@ -268,14 +270,14 @@ public class PIT11_27Bean {
             }
             poz.setP33(BigInteger.valueOf(Z.zUD(sumaUmowaopracekosztypodwyzszone.getPodatekdochodowy())));
             if (poz.getP75()!=null) {
-                poz.setP75(poz.getP75().add(BigDecimal.valueOf(Z.z(sumaUmowazlecenia.getRazemspolecznepracownik()))));
+                poz.setP75(poz.getP75().add(BigDecimal.valueOf(Z.z(sumaUmowaopracekosztypodwyzszone.getRazemspolecznepracownik()))));
             } else{
-                poz.setP75(BigDecimal.valueOf(Z.z(sumaUmowazlecenia.getRazemspolecznepracownik())));
+                poz.setP75(BigDecimal.valueOf(Z.z(sumaUmowaopracekosztypodwyzszone.getRazemspolecznepracownik())));
             }
             if (poz.getP78()!=null) {
-                poz.setP78(poz.getP78().add(BigDecimal.valueOf(Z.z(sumaUmowazlecenia.getPraczdrowotnedopotracenia()))));
+                poz.setP78(poz.getP78().add(BigDecimal.valueOf(Z.z(sumaUmowaopracekosztypodwyzszone.getPraczdrowotnedopotracenia()))));
             } else{
-                poz.setP78(BigDecimal.valueOf(Z.z(sumaUmowazlecenia.getPraczdrowotnedopotracenia())));
+                poz.setP78(BigDecimal.valueOf(Z.z(sumaUmowaopracekosztypodwyzszone.getPraczdrowotnedopotracenia())));
             }
             //czy dodano PIT-R 1tak 2nie
             poz.setP96((byte)2);
@@ -286,14 +288,14 @@ public class PIT11_27Bean {
             poz.setP49(poz.getP51().subtract(poz.getP52()));
             poz.setP50(BigInteger.valueOf(Z.zUD(sumaUmowapelnieniefunkcji.getPodatekdochodowy())));
             if (poz.getP75()!=null) {
-                poz.setP75(poz.getP75().add(BigDecimal.valueOf(Z.z(sumaUmowazlecenia.getRazemspolecznepracownik()))));
+                poz.setP75(poz.getP75().add(BigDecimal.valueOf(Z.z(sumaUmowapelnieniefunkcji.getRazemspolecznepracownik()))));
             } else{
-                poz.setP75(BigDecimal.valueOf(Z.z(sumaUmowazlecenia.getRazemspolecznepracownik())));
+                poz.setP75(BigDecimal.valueOf(Z.z(sumaUmowapelnieniefunkcji.getRazemspolecznepracownik())));
             }
             if (poz.getP78()!=null) {
-                poz.setP78(poz.getP78().add(BigDecimal.valueOf(Z.z(sumaUmowazlecenia.getPraczdrowotnedopotracenia()))));
+                poz.setP78(poz.getP78().add(BigDecimal.valueOf(Z.z(sumaUmowapelnieniefunkcji.getPraczdrowotnedopotracenia()))));
             } else{
-                poz.setP78(BigDecimal.valueOf(Z.z(sumaUmowazlecenia.getPraczdrowotnedopotracenia())));
+                poz.setP78(BigDecimal.valueOf(Z.z(sumaUmowapelnieniefunkcji.getPraczdrowotnedopotracenia())));
             }
             //czy dodano PIT-R 1tak 2nie
             poz.setP96((byte)2);

@@ -19,3 +19,7 @@ var pokazwydruk = function(ktoco){
 var wydrukXML = function(nazwa){
     window.open('resources/xml/'+nazwa,'','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
 };
+
+var wydrukPDF = function(nazwa){
+    window.open('resources/pdf/'+nazwa,'','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
+};
