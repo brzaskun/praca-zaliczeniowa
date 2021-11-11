@@ -51,6 +51,8 @@ public class KartaWynagrodzenView  implements Serializable {
     private List<Kartawynagrodzen> kartawynagrodzenlist;
     @Inject
     private PasekwynagrodzenFacade pasekwynagrodzenFacade;
+    @Inject
+    private DeklaracjaPIT11SchowekFacade deklaracjaPIT11SchowekFacade;
     private List<Kartawynagrodzen> sumypracownicy;
     private Kartawynagrodzen wybranakarta;
     private PITPola wybranypitpola;
@@ -85,6 +87,7 @@ public class KartaWynagrodzenView  implements Serializable {
                 if (paski!=null && !paski.isEmpty()) {
                     Map<String,Kartawynagrodzen> sumy = new HashMap<>();
                     Kartawynagrodzen suma = sumuj(kartawynagrodzenlist, paski, p.getPracownik().getNazwiskoImie(), sumy, p);
+                    suma.setJestPIT11(pobierzpotwierdzenie(p.getPracownik(), wpisView.getRokWpisu()));
                     sumypracownicy.add(suma);
                     pitpola.add(naniesnapola(suma, p.getPracownik()));
                     duzasuma.dodajkarta(suma);
@@ -246,18 +249,20 @@ public class KartaWynagrodzenView  implements Serializable {
     public void pit11All() {
         if (sumypracownicy!=null && sumypracownicy.size()>0) {
             for (Kartawynagrodzen karta : sumypracownicy) {
-                Kartawynagrodzen kartawynagrodzen = karta;
-                FirmaKadry firma = kartawynagrodzen.getAngaz().getFirma();
-                Pracownik pracownik = kartawynagrodzen.getAngaz().getPracownik();
-                Object[] sciezka = beanstesty.PIT11_27Bean.generujXML(kartawynagrodzen, firma, pracownik, (byte)1, "3220", kartawynagrodzen.getRok(), kartawynagrodzen.getSumy());
-                pl.gov.crd.wzor._2021._03._04._10477.Deklaracja deklaracja = (pl.gov.crd.wzor._2021._03._04._10477.Deklaracja)sciezka[2];
-                if (deklaracja!=null) {
-                    String polecenie = "wydrukXML(\""+(String)sciezka[0]+"\")";
-                    PrimeFaces.current().executeScript(polecenie);
-                    String nazwapliku = PdfPIT11.drukuj(deklaracja, wpisView.getUzer().getImieNazwiskoTelefon());
-                    polecenie = "wydrukPDF(\""+nazwapliku+"\")";
-                    PrimeFaces.current().executeScript(polecenie);
-                    Msg.msg("Wydrukowano PIT-11");
+                if (karta.isJestPIT11()==false) {
+                    Kartawynagrodzen kartawynagrodzen = karta;
+                    FirmaKadry firma = kartawynagrodzen.getAngaz().getFirma();
+                    Pracownik pracownik = kartawynagrodzen.getAngaz().getPracownik();
+                    Object[] sciezka = beanstesty.PIT11_27Bean.generujXML(kartawynagrodzen, firma, pracownik, (byte)1, "3220", kartawynagrodzen.getRok(), kartawynagrodzen.getSumy());
+                    pl.gov.crd.wzor._2021._03._04._10477.Deklaracja deklaracja = (pl.gov.crd.wzor._2021._03._04._10477.Deklaracja)sciezka[2];
+                    if (deklaracja!=null) {
+                        String polecenie = "wydrukXML(\""+(String)sciezka[0]+"\")";
+                        PrimeFaces.current().executeScript(polecenie);
+                        String nazwapliku = PdfPIT11.drukuj(deklaracja, wpisView.getUzer().getImieNazwiskoTelefon());
+                        polecenie = "wydrukPDF(\""+nazwapliku+"\")";
+                        PrimeFaces.current().executeScript(polecenie);
+                        Msg.msg("Wydrukowano PIT-11");
+                    }
                 }
             }
         } else {
@@ -265,7 +270,16 @@ public class KartaWynagrodzenView  implements Serializable {
         }
     }
     
-   
+   private boolean pobierzpotwierdzenie(Pracownik pracownik, String rokWpisu) {
+       boolean zwrot = false;
+        if (pracownik!=null) {
+           List<DeklaracjaPIT11Schowek> findByRokPracownik = deklaracjaPIT11SchowekFacade.findByRokPracownik(rokWpisu, pracownik);
+           if (findByRokPracownik!=null&&findByRokPracownik.size()>0) {
+               zwrot = true;
+           }
+        }
+        return zwrot;
+    }
     
     public List<Kartawynagrodzen> getKartawynagrodzenlist() {
         return kartawynagrodzenlist;
@@ -307,6 +321,8 @@ public class KartaWynagrodzenView  implements Serializable {
     public void setPitpola(List<PITPola> pitpola) {
         this.pitpola = pitpola;
     }
+
+    
 
    
 

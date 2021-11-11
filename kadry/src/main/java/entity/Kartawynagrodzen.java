@@ -154,6 +154,8 @@ public class Kartawynagrodzen implements Serializable {
     private List<Pasekwynagrodzen> paski;
     @Transient
     private Set<String> pesele;
+    @Transient
+    private boolean jestPIT11;
     
     public Kartawynagrodzen() {
         this.nrlisty = "";
@@ -472,6 +474,14 @@ public class Kartawynagrodzen implements Serializable {
 
     public void setPesele(Set<String> pesele) {
         this.pesele = pesele;
+    }
+
+    public boolean isJestPIT11() {
+        return jestPIT11;
+    }
+
+    public void setJestPIT11(boolean jestPIT11) {
+        this.jestPIT11 = jestPIT11;
     }
     
     

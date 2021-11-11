@@ -16,7 +16,7 @@
         <h:form id="KartyWynangrodzenPITForm">
             <p:dataTable id="datalist" value="#{kartaWynagrodzenView.sumypracownicy}" var="itemkarta"
                          rowKey="#{itemkarta.id}" rowIndexVar="indexka" 
-                         style="height: 350px; overflow-y: scroll;width: 1000px;" emptyMessage="Nie pobrano danych"
+                         style="height: 350px; overflow-y: scroll;width: 1050px;" emptyMessage="Nie pobrano danych"
                          sortBy="#{itemkarta.nazwiskoiimie}" selection="#{kartaWynagrodzenView.wybranakarta}" selectionMode="single"
                          >
                 <f:facet name="header">
@@ -89,10 +89,16 @@
                     </f:facet>
                     <h:outputText  value="&#x2714;" rendered="#{itemkarta.kosztywieleumow}" styleClass="ww"/>
                 </p:column>
+                 <p:column width="30" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="PIT-11"/>
+                    </f:facet>
+                     <h:outputText  value="&#x2714;" rendered="#{itemkarta.jestPIT11}" styleClass="ww"/>
+                </p:column>
             </p:dataTable>
             <p:dataTable id="datalistpit" value="#{kartaWynagrodzenView.pitpola}" var="itempit"
                          rowKey="#{itempit.id}" rowIndexVar="indexpit"
-                         style="height: 450px; overflow-y: scroll;width: 1000px;" emptyMessage="Nie pobrano danych"
+                         style="height: 450px; overflow-y: scroll;width: 1050px;" emptyMessage="Nie pobrano danych"
                          sortBy="#{itempit.pracownik.nazwiskoImie}"  selection="#{kartaWynagrodzenView.wybranypitpola}" selectionMode="single"
                          >
                 <f:facet name="header">
