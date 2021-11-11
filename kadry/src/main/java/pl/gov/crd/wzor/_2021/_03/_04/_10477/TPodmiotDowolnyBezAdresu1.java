@@ -8,6 +8,7 @@
 
 package pl.gov.crd.wzor._2021._03._04._10477;
 
+import java.io.Serializable;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -46,7 +47,8 @@ import pl.gov.crd.xml.schematy.dziedzinowe.mf._2020._07._06.ed.definicjetypy.TId
 @XmlSeeAlso({
     pl.gov.crd.wzor._2021._03._04._10477.Deklaracja.Podmiot1 .class
 })
-public class TPodmiotDowolnyBezAdresu1 {
+public class TPodmiotDowolnyBezAdresu1  implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     @XmlElement(name = "OsobaFizyczna")
     protected TIdentyfikatorOsobyFizycznej1 osobaFizyczna;

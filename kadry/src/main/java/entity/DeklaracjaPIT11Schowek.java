@@ -35,7 +35,9 @@ import pl.gov.crd.wzor._2021._03._04._10477.Deklaracja;
 @Entity
 @Table(name = "deklaracjapit11schowek")
 @NamedQueries({
-   @NamedQuery(name = "DeklaracjaPIT11Schowek.findByRokPracownik", query = "SELECT r FROM DeklaracjaPIT11Schowek r WHERE r.rok = :rok AND r.pracownik = :pracownik")})
+    @NamedQuery(name = "DeklaracjaPIT11Schowek.findByRokPracownik", query = "SELECT r FROM DeklaracjaPIT11Schowek r WHERE r.rok = :rok AND r.pracownik = :pracownik"),
+    @NamedQuery(name = "DeklaracjaPIT11Schowek.findByRokFirma", query = "SELECT r FROM DeklaracjaPIT11Schowek r WHERE r.rok = :rok AND r.firma = :firma")
+})
 public class DeklaracjaPIT11Schowek implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -51,6 +53,10 @@ public class DeklaracjaPIT11Schowek implements Serializable {
     @Size(min = 1, max = 4)
     @Column(name = "rok")
     private String rok;
+    @JoinColumn(name = "firma", referencedColumnName = "id")
+    @NotNull
+    @ManyToOne
+    private FirmaKadry firma;
     @JoinColumn(name = "pracownik", referencedColumnName = "id")
     @NotNull
     @ManyToOne
@@ -89,7 +95,7 @@ public class DeklaracjaPIT11Schowek implements Serializable {
 //        return is.readObject();
 //    }
     
-    public DeklaracjaPIT11Schowek(Deklaracja deklaracja, Pracownik pracownik, String rokWpisu, String nazwa) {
+    public DeklaracjaPIT11Schowek(Deklaracja deklaracja, FirmaKadry firma, Pracownik pracownik, String rokWpisu, String nazwa) {
         ByteArrayOutputStream boas = new ByteArrayOutputStream();
         try (ObjectOutputStream ois = new ObjectOutputStream(boas)) {
             ois.writeObject(deklaracja);
@@ -97,6 +103,7 @@ public class DeklaracjaPIT11Schowek implements Serializable {
             ioe.printStackTrace();
         }
         this.deklaracja = boas.toByteArray();
+        this.firma = firma;
         this.rok = rokWpisu;
         this.pracownik = pracownik;
         this.datawysylki = new Date();
@@ -144,6 +151,14 @@ public class DeklaracjaPIT11Schowek implements Serializable {
 
     public void setRok(String rok) {
         this.rok = rok;
+    }
+
+    public FirmaKadry getFirma() {
+        return firma;
+    }
+
+    public void setFirma(FirmaKadry firma) {
+        this.firma = firma;
     }
 
     public Pracownik getPracownik() {

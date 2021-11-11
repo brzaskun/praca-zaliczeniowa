@@ -6,6 +6,8 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:bcf="http://brzaskun.com/facelets"
     >
+    <p:tabView id="akordeon">
+        <p:tab title="zestawienie do PIT-11">
     <p:outputPanel>
 <!--        <p:commandButton value="pobierz" styleClass="buttonnorm" actionListener="#{kartaWynagrodzenView.pobierzdaneAll()}" update="KartyWynangrodzenPITForm"/>-->
         <p:commandButton value="PIT-y 11" styleClass="buttonnorm2" actionListener="#{kartaWynagrodzenView.pit11All()}"/>
@@ -170,4 +172,86 @@
             </p:dataTable>
         </h:form>
     </p:outputPanel>
+    </p:tab>
+        <p:tab title="wystawione PIT-11">
+             <p:outputPanel>
+        <h:form>
+            <p:dataTable id="datalistwa" value="#{pit11View.lista}" var="itempity11"
+                         rowKey="#{itempity11.id}" rowIndexVar="indexpity11" 
+                         style="height: 350px; width: 1150px;" emptyMessage="Nie pobrano danych"
+                         >
+                <f:facet name="header">
+                    <h:outputText value="Wynegerowane deklaracje"/>
+                </f:facet>
+                <p:column width="20" style="text-align: center;">
+                    <h:outputText value="#{indexpity11+1}"/>
+                </p:column>
+                <p:column width="50" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="rok"/>
+                    </f:facet>
+                    <h:outputText value="#{itempity11.rok}"/>
+                </p:column>
+                <p:column width="70" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="nazwa"/>
+                    </f:facet>
+                    <h:outputText value="#{itempity11.nazwa}"/>
+                </p:column>
+                <p:column width="120" style="text-align: left;">
+                    <f:facet name="header">
+                        <h:outputText value="pracownik"/>
+                    </f:facet>
+                    <h:outputText value="#{itempity11.pracownik.nazwiskoImie}"/>
+                </p:column>
+                <p:column width="100" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="wysyłka"/>
+                    </f:facet>
+                    <h:outputText value="#{itempity11.datawysylki}">
+                        <f:convertDateTime timeStyle="short" type="both"/>
+                    </h:outputText>
+                </p:column>
+                <p:column width="100" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="upo"/>
+                    </f:facet>
+                    <h:outputText value="#{itempity11.dataupo}">
+                        <f:convertDateTime locale="pl"/>
+                    </h:outputText>
+                </p:column>
+                <p:column width="350">
+                    <f:facet name="header">
+                        <h:outputText value="wersja"/>
+                    </f:facet>
+                    <h:outputText value="#{itempity11.klasa}"/>
+                </p:column>
+                 <p:column width="30" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value=""/>
+                    </f:facet>
+                    <p:commandButton icon="pi pi-file-pdf" actionListener="#{pit11View.pokazpdf(itempity11)}">
+                    </p:commandButton>
+                </p:column>
+                 <p:column width="30" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="xml"/>
+                    </f:facet>
+                    <p:commandButton icon="pi pi-print" actionListener="#{pit11View.pokaz(itempity11)}">
+                    </p:commandButton>
+                </p:column>
+                <p:column width="30" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value=""/>
+                    </f:facet>
+                    <p:commandButton icon="pi pi-trash" actionListener="#{pit11View.usun(itempity11)}" update="@(form)">
+                        <p:confirm type="popup" header="Potwierdzenie" message="Usunąć deklaracje?" icon="pi pi-exclamation-triangle"/>
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </p:outputPanel>
+        </p:tab>
+    </p:tabView>
 </ui:composition>
+

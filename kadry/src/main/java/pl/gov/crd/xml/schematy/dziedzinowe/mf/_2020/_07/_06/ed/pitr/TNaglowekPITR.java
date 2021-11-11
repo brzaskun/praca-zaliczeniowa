@@ -8,6 +8,7 @@
 
 package pl.gov.crd.xml.schematy.dziedzinowe.mf._2020._07._06.ed.pitr;
 
+import java.io.Serializable;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -58,7 +59,8 @@ import javax.xml.bind.annotation.XmlValue;
     "kodFormularza",
     "wariantFormularza"
 })
-public class TNaglowekPITR {
+public class TNaglowekPITR  implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     @XmlElement(name = "KodFormularza", required = true)
     protected TNaglowekPITR.KodFormularza kodFormularza;
@@ -128,7 +130,8 @@ public class TNaglowekPITR {
     @XmlType(name = "", propOrder = {
         "value"
     })
-    public static class KodFormularza {
+    public static class KodFormularza  implements Serializable {
+    private static final long serialVersionUID = 1L;
 
         @XmlValue
         protected TKodFormularza value;

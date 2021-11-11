@@ -6,6 +6,7 @@
 package dao;
 
 import entity.DeklaracjaPIT11Schowek;
+import entity.FirmaKadry;
 import entity.Pracownik;
 import java.io.Serializable;
 import java.util.List;
@@ -49,5 +50,9 @@ public class DeklaracjaPIT11SchowekFacade extends DAO  implements Serializable {
 
     public List<DeklaracjaPIT11Schowek> findByRokPracownik(String rok, Pracownik pracownik) {
         return getEntityManager().createNamedQuery("DeklaracjaPIT11Schowek.findByRokPracownik").setParameter("rok", rok).setParameter("pracownik", pracownik).getResultList();
+    }
+    
+     public List<DeklaracjaPIT11Schowek> findByRokFirma(String rok, FirmaKadry firma) {
+        return getEntityManager().createNamedQuery("DeklaracjaPIT11Schowek.findByRokFirma").setParameter("rok", rok).setParameter("firma", firma).getResultList();
     }
 }

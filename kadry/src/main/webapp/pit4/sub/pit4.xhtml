@@ -87,7 +87,7 @@
         <h:form>
             <p:dataTable id="datalistwa" value="#{pit4RView.lista}" var="itempity"
                          rowKey="#{itempity.id}" rowIndexVar="indexpity" 
-                         style="height: 350px; width: 850px;" emptyMessage="Nie pobrano danych"
+                         style="height: 350px; width: 1000px;" emptyMessage="Nie pobrano danych"
                          >
                 <f:facet name="header">
                     <h:outputText value="Wynegerowane deklaracje"/>
@@ -115,7 +115,7 @@
                         <f:convertDateTime timeStyle="short" type="both"/>
                     </h:outputText>
                 </p:column>
-                <p:column style="text-align: center;">
+                <p:column width="100" style="text-align: center;">
                     <f:facet name="header">
                         <h:outputText value="upo"/>
                     </f:facet>

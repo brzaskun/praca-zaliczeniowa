@@ -39,7 +39,7 @@ public class PdfPIT11 {
 
     public static final String OUTPUTFILE = "pit-11F.pdf";
 
-    public static String drukuj(pl.gov.crd.wzor._2021._03._04._10477.Deklaracja deklaracja) {
+    public static String drukuj(pl.gov.crd.wzor._2021._03._04._10477.Deklaracja deklaracja, String sporzadzajacy) {
         String nazwapliku = null;
         if (deklaracja != null) {
             try {
@@ -232,8 +232,8 @@ public class PdfPIT11 {
                     absText(writer, "X", 342, 502);
                 }
                 
-                absText(writer, "97 Imie nazwisko podpis", 100, 440);
-                absText(writer, "98 Imie nazwisko podpis", 100, 370);
+                absText(writer, "Grzegorz Grzelczyk", 100, 440);
+                absText(writer, sporzadzajacy, 100, 370);
                 document.newPage();
                 absText(writer, " ", 80, 166);
                 document.close();

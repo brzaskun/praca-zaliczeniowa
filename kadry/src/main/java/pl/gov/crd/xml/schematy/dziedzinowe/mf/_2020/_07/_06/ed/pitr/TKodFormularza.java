@@ -8,6 +8,7 @@
 
 package pl.gov.crd.xml.schematy.dziedzinowe.mf._2020._07._06.ed.pitr;
 
+import java.io.Serializable;
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
 import javax.xml.bind.annotation.XmlType;
@@ -29,7 +30,8 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlType(name = "TKodFormularza")
 @XmlEnum
-public enum TKodFormularza {
+public enum TKodFormularza  implements Serializable {
+    
 
     @XmlEnumValue("PIT-R")
     PIT_R("PIT-R");

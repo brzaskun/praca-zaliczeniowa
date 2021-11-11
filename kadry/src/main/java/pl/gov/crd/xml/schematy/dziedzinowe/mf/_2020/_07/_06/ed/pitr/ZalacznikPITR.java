@@ -325,7 +325,8 @@ public class ZalacznikPITR  implements Serializable {
         "p59",
         "p60"
     })
-    public static class PozycjeSzczegolowe {
+    public static class PozycjeSzczegolowe  implements Serializable {
+    private static final long serialVersionUID = 1L;
 
         @XmlElement(name = "P_12")
         protected BigDecimal p12;

@@ -231,8 +231,8 @@ public class KartaWynagrodzenView  implements Serializable {
             if (deklaracja!=null) {
                 String polecenie = "wydrukXML(\""+(String)sciezka[0]+"\")";
                 PrimeFaces.current().executeScript(polecenie);
-                String nazwapliku = PdfPIT11.drukuj(deklaracja);
-                DeklaracjaPIT11Schowek schowek = new DeklaracjaPIT11Schowek(deklaracja, pracownik, wpisView.getRokWpisu(),"PIT11");
+                String nazwapliku = PdfPIT11.drukuj(deklaracja, wpisView.getUzer().getImieNazwiskoTelefon());
+                DeklaracjaPIT11Schowek schowek = new DeklaracjaPIT11Schowek(deklaracja, firma, pracownik, wpisView.getRokWpisu(),"PIT11");
                 deklaracjaSchowekFacade.create(schowek);
                 polecenie = "wydrukPDF(\""+nazwapliku+"\")";
                 PrimeFaces.current().executeScript(polecenie);
@@ -254,7 +254,7 @@ public class KartaWynagrodzenView  implements Serializable {
                 if (deklaracja!=null) {
                     String polecenie = "wydrukXML(\""+(String)sciezka[0]+"\")";
                     PrimeFaces.current().executeScript(polecenie);
-                    String nazwapliku = PdfPIT11.drukuj(deklaracja);
+                    String nazwapliku = PdfPIT11.drukuj(deklaracja, wpisView.getUzer().getImieNazwiskoTelefon());
                     polecenie = "wydrukPDF(\""+nazwapliku+"\")";
                     PrimeFaces.current().executeScript(polecenie);
                     Msg.msg("Wydrukowano PIT-11");

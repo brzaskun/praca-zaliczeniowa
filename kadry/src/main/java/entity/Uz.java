@@ -159,6 +159,14 @@ public class Uz implements Serializable {
     public String getImieNazwisko() {
         return this.getImie()+" "+this.getNazwisko();
     }
+    
+    public String getImieNazwiskoTelefon() {
+        String zwrot = this.getImie()+" "+this.getNazwisko();
+        if (this.nrtelefonu!=null&&!this.nrtelefonu.equals("")) {
+            zwrot = zwrot+" tel.:"+this.nrtelefonu;
+        }
+        return zwrot;
+    }
 
     @Override
     public int hashCode() {

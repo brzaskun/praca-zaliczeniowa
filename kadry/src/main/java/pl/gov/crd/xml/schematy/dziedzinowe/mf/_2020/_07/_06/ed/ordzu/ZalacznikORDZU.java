@@ -147,7 +147,8 @@ public class ZalacznikORDZU  implements Serializable {
     @XmlType(name = "", propOrder = {
         "p13"
     })
-    public static class PozycjeSzczegolowe {
+    public static class PozycjeSzczegolowe  implements Serializable {
+    private static final long serialVersionUID = 1L;
 
         @XmlElement(name = "P_13", required = true)
         protected ZalacznikORDZU.PozycjeSzczegolowe.P13 p13;
