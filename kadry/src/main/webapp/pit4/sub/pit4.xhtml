@@ -7,7 +7,7 @@
     xmlns:bcf="http://brzaskun.com/facelets"
     >
     <p:outputPanel>
-        <p:commandButton value="PIT-4" styleClass="buttonnorm" actionListener="#{kartaWynagrodzenPIT4View.pit4}"/>
+        <p:commandButton value="PIT-4" styleClass="buttonnorm" actionListener="#{kartaWynagrodzenPIT4View.pit4}" update="@(form)"/>
     </p:outputPanel>
     <p:outputPanel>
         <p:panelGrid columns="1" style="padding: 20px;">
@@ -24,8 +24,8 @@
                 <p:column>
                     <bcf:outputpl value="#{itemmc}"/>
                 </p:column>
-        </p:dataTable>
-        <p:dataTable id="datalist1" value="#{kartaWynagrodzenPIT4View.sumaUmowaoprace.values()}" var="itempraca"
+            </p:dataTable>
+            <p:dataTable id="datalist1" value="#{kartaWynagrodzenPIT4View.sumaUmowaoprace.values()}" var="itempraca"
                          rowKey="#{itempraca.id}"  
                          style="height: 350px; width: 100px;" emptyMessage="Nie pobrano danych"
                          >
@@ -38,8 +38,8 @@
                 <p:column>
                     <bcf:outputpl value="#{itempraca.podatekdochodowy}"/>
                 </p:column>
-        </p:dataTable>
-        <p:dataTable id="datalist11" value="#{kartaWynagrodzenPIT4View.sumaUmowaopracekosztypodwyzszone.values()}" var="itempracak"
+            </p:dataTable>
+            <p:dataTable id="datalist11" value="#{kartaWynagrodzenPIT4View.sumaUmowaopracekosztypodwyzszone.values()}" var="itempracak"
                          rowKey="#{itempracak.id}"
                          style="height: 350px; width: 100px;" emptyMessage="Nie pobrano danych"
                          >
@@ -52,8 +52,8 @@
                 <p:column>
                     <bcf:outputpl value="#{itempracak.podatekdochodowy}"/>
                 </p:column>
-        </p:dataTable>
-        <p:dataTable id="datalist2" value="#{kartaWynagrodzenPIT4View.sumaUmowazlecenia.values()}" var="itemzlec"
+            </p:dataTable>
+            <p:dataTable id="datalist2" value="#{kartaWynagrodzenPIT4View.sumaUmowazlecenia.values()}" var="itemzlec"
                          rowKey="#{itemzlec.id}" 
                          style="height: 350px; width: 100px;" emptyMessage="Nie pobrano danych"
                          >
@@ -66,8 +66,8 @@
                 <p:column>
                     <bcf:outputpl value="#{itemzlec.podatekdochodowy}"/>
                 </p:column>
-        </p:dataTable>
-        <p:dataTable id="datalist22" value="#{kartaWynagrodzenPIT4View.sumaUmowapelnieniefunkcji.values()}" var="itemfun"
+            </p:dataTable>
+            <p:dataTable id="datalist22" value="#{kartaWynagrodzenPIT4View.sumaUmowapelnieniefunkcji.values()}" var="itemfun"
                          rowKey="#{itemfun.id}" 
                          style="height: 350px; width: 100px;" emptyMessage="Nie pobrano danych"
                          >
@@ -80,7 +80,71 @@
                 <p:column>
                     <bcf:outputpl value="#{itemfun.podatekdochodowy}"/>
                 </p:column>
-        </p:dataTable>
+            </p:dataTable>
         </p:panelGrid>
+    </p:outputPanel>
+    <p:outputPanel>
+        <h:form>
+            <p:dataTable id="datalistwa" value="#{pit4RView.lista}" var="itempity"
+                         rowKey="#{itempity.id}" rowIndexVar="indexpity" 
+                         style="height: 350px; width: 850px;" emptyMessage="Nie pobrano danych"
+                         >
+                <f:facet name="header">
+                    <h:outputText value="Wynegerowane deklaracje"/>
+                </f:facet>
+                <p:column width="20" style="text-align: center;">
+                    <h:outputText value="#{indexpity+1}"/>
+                </p:column>
+                <p:column width="50" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="rok"/>
+                    </f:facet>
+                    <h:outputText value="#{itempity.rok}"/>
+                </p:column>
+                <p:column width="70" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="nazwa"/>
+                    </f:facet>
+                    <h:outputText value="#{itempity.nazwa}"/>
+                </p:column>
+                <p:column width="100" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="wysyłka"/>
+                    </f:facet>
+                    <h:outputText value="#{itempity.datawysylki}">
+                        <f:convertDateTime timeStyle="short" type="both"/>
+                    </h:outputText>
+                </p:column>
+                <p:column style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="upo"/>
+                    </f:facet>
+                    <h:outputText value="#{itempity.dataupo}">
+                        <f:convertDateTime locale="pl"/>
+                    </h:outputText>
+                </p:column>
+                <p:column width="350">
+                    <f:facet name="header">
+                        <h:outputText value="wersja"/>
+                    </f:facet>
+                    <h:outputText value="#{itempity.klasa}"/>
+                </p:column>
+                 <p:column width="30" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value=""/>
+                    </f:facet>
+                    <p:commandButton icon="pi pi-print" actionListener="#{pit4RView.pokaz(itempity)}">
+                    </p:commandButton>
+                </p:column>
+                <p:column width="30" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value=""/>
+                    </f:facet>
+                    <p:commandButton icon="pi pi-trash" actionListener="#{pit4RView.usun(itempity)}" update="@(form)">
+                        <p:confirm type="popup" header="Potwierdzenie" message="Usunąć deklaracje?" icon="pi pi-exclamation-triangle"/>
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+        </h:form>
     </p:outputPanel>
 </ui:composition>

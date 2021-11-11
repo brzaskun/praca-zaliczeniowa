@@ -53,6 +53,8 @@ public class KartaWynagrodzenPIT4View  implements Serializable {
     private Map<String, Kartawynagrodzen> sumaUmowazlecenia26zwolnione;
     private Kartawynagrodzen wybranakarta;
     private double podatekrazem;
+    @Inject
+    private Pit4RView pit4RView;
 
     
     @PostConstruct
@@ -193,6 +195,7 @@ public class KartaWynagrodzenPIT4View  implements Serializable {
 //                String nazwapliku = PdfPIT11.drukuj(deklaracja);
                 DeklaracjaPIT4Schowek schowek = new DeklaracjaPIT4Schowek(deklaracja, wpisView.getFirma(), wpisView.getRokWpisu(),"PIT4R");
                 deklaracjaPIT4SchowekFacade.create(schowek);
+                pit4RView.init();
 //                polecenie = "wydrukPDF(\""+nazwapliku+"\")";
 //                PrimeFaces.current().executeScript(polecenie);
                 Msg.msg("Wydrukowano PIT-4R");

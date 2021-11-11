@@ -8,6 +8,7 @@
 
 package pl.gov.crd.wzor._2021._04._02._10568;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -346,7 +347,8 @@ import pl.gov.crd.xml.schematy.dziedzinowe.mf._2020._03._25.ed.ordzu.ZalacznikOR
     "zalaczniki"
 })
 @XmlRootElement(name = "Deklaracja")
-public class Deklaracja {
+public class Deklaracja  implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     @XmlElement(name = "Naglowek", required = true)
     protected TNaglowek naglowek;
@@ -501,7 +503,8 @@ public class Deklaracja {
     @XmlType(name = "")
     public static class Podmiot1
         extends TPodmiotDowolnyBezAdresu1
-    {
+     implements Serializable {
+    private static final long serialVersionUID = 1L;
 
         @XmlAttribute(name = "rola", required = true)
         protected String rola;
@@ -980,7 +983,8 @@ public class Deklaracja {
         "p169",
         "p170"
     })
-    public static class PozycjeSzczegolowe {
+    public static class PozycjeSzczegolowe  implements Serializable {
+    private static final long serialVersionUID = 1L;
 
         @XmlElement(name = "P_7")
         protected Byte p7;
