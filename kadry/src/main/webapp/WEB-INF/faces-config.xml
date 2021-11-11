@@ -74,6 +74,10 @@
             <from-outcome>Pit</from-outcome>
             <to-view-id>/pit/index.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
+         <navigation-case>
+            <from-outcome>Pit4</from-outcome>
+            <to-view-id>/pit4/index.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
     </navigation-rule>
    <application>
         <locale-config>

@@ -120,6 +120,7 @@
             <url-pattern>/portalpracodawca/*</url-pattern>
             <url-pattern>/statystyka/*</url-pattern>
             <url-pattern>/pit/*</url-pattern>
+            <url-pattern>/pit4/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>Administrator</role-name>

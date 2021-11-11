@@ -86,9 +86,9 @@ public class KartaWynagrodzenView  implements Serializable {
                     sumypracownicy.add(suma);
                     pitpola.add(naniesnapola(suma, p.getPracownik()));
                 }
-               Msg.msg("Pobrano dane wynagrodzeń");
            }
         }
+        Msg.msg("Pobrano dane wszystkich wynagrodzeń");
         if (pitpola!=null) {
             Collections.sort(pitpola, new PITPolacomparator());
         }
