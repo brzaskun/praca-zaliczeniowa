@@ -26,17 +26,16 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import pl.gov.crd.wzor._2021._03._04._10477.Deklaracja;
 
 /**
  *
  * @author Osito
  */
 @Entity
-@Table(name = "deklaracjaschowek")
+@Table(name = "deklaracjapit4schowek")
 @NamedQueries({
-   @NamedQuery(name = "DeklaracjaSchowek.findByRokPracownik", query = "SELECT r FROM DeklaracjaSchowek r WHERE r.rok = :rok AND r.pracownik = :pracownik")})
-public class DeklaracjaSchowek implements Serializable {
+   @NamedQuery(name = "DeklaracjaPIT4Schowek.findByRokFirma", query = "SELECT r FROM DeklaracjaPIT4Schowek r WHERE r.rok = :rok AND r.firma = :firma")})
+public class DeklaracjaPIT4Schowek implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -51,10 +50,10 @@ public class DeklaracjaSchowek implements Serializable {
     @Size(min = 1, max = 4)
     @Column(name = "rok")
     private String rok;
-    @JoinColumn(name = "pracownik", referencedColumnName = "id")
+    @JoinColumn(name = "firma", referencedColumnName = "id")
     @NotNull
     @ManyToOne
-    private Pracownik pracownik;
+    private FirmaKadry firma;
     @NotNull
     @Lob
     @Size(max = 1024000000)
@@ -72,7 +71,7 @@ public class DeklaracjaSchowek implements Serializable {
     @Column(name = "dataupo")
     private Date dataupo;
 
-    public DeklaracjaSchowek() {
+    public DeklaracjaPIT4Schowek() {
     }
 
     
@@ -89,7 +88,7 @@ public class DeklaracjaSchowek implements Serializable {
 //        return is.readObject();
 //    }
     
-    public DeklaracjaSchowek(Deklaracja deklaracja, Pracownik pracownik, String rokWpisu, String nazwa) {
+    public DeklaracjaPIT4Schowek(pl.gov.crd.wzor._2021._04._02._10568.Deklaracja deklaracja, FirmaKadry firma, String rokWpisu, String nazwa) {
         ByteArrayOutputStream boas = new ByteArrayOutputStream();
         try (ObjectOutputStream ois = new ObjectOutputStream(boas)) {
             ois.writeObject(deklaracja);
@@ -98,7 +97,7 @@ public class DeklaracjaSchowek implements Serializable {
         }
         this.deklaracja = boas.toByteArray();
         this.rok = rokWpisu;
-        this.pracownik = pracownik;
+        this.firma = firma;
         this.datawysylki = new Date();
         this.klasa = deklaracja.getClass().getCanonicalName();
         this.nazwa = nazwa;
@@ -110,7 +109,7 @@ public class DeklaracjaSchowek implements Serializable {
 //            Deklaracja deklaracja2 = (Deklaracja) readObject;
 //            System.out.println("");
 //        } catch (Exception ex) {
-//            Logger.getLogger(DeklaracjaSchowek.class.getName()).log(Level.SEVERE, null, ex);
+//            Logger.getLogger(DeklaracjaPIT11Schowek.class.getName()).log(Level.SEVERE, null, ex);
 //        }
     }
 
@@ -146,13 +145,14 @@ public class DeklaracjaSchowek implements Serializable {
         this.rok = rok;
     }
 
-    public Pracownik getPracownik() {
-        return pracownik;
+    public FirmaKadry getFirma() {
+        return firma;
     }
 
-    public void setPracownik(Pracownik pracownik) {
-        this.pracownik = pracownik;
+    public void setFirma(FirmaKadry firma) {
+        this.firma = firma;
     }
+
 
     public byte[] getDeklaracja() {
         return deklaracja;
@@ -193,7 +193,7 @@ public class DeklaracjaSchowek implements Serializable {
         int hash = 7;
         hash = 13 * hash + this.id;
         hash = 13 * hash + Objects.hashCode(this.rok);
-        hash = 13 * hash + Objects.hashCode(this.pracownik);
+        hash = 13 * hash + Objects.hashCode(this.firma);
         return hash;
     }
 
@@ -208,14 +208,14 @@ public class DeklaracjaSchowek implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final DeklaracjaSchowek other = (DeklaracjaSchowek) obj;
+        final DeklaracjaPIT4Schowek other = (DeklaracjaPIT4Schowek) obj;
         if (this.id != other.id) {
             return false;
         }
         if (!Objects.equals(this.rok, other.rok)) {
             return false;
         }
-        if (!Objects.equals(this.pracownik, other.pracownik)) {
+        if (!Objects.equals(this.firma, other.firma)) {
             return false;
         }
         return true;

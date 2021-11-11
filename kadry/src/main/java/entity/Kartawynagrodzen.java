@@ -7,8 +7,10 @@ package entity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -150,16 +152,20 @@ public class Kartawynagrodzen implements Serializable {
     private Map<String,Kartawynagrodzen> sumy;
     @Transient
     private List<Pasekwynagrodzen> paski;
+    @Transient
+    private Set<String> pesele;
     
     public Kartawynagrodzen() {
         this.nrlisty = "";
         this.paski = new ArrayList<>();
+        this.pesele = new HashSet<>();
     }
 
     public Kartawynagrodzen(Integer id) {
         this.id = id;
         this.nrlisty = "";
         this.paski = new ArrayList<>();
+        this.pesele = new HashSet<>();
     }
 
     public Integer getId() {
@@ -459,6 +465,14 @@ public class Kartawynagrodzen implements Serializable {
     public void setPaski(List<Pasekwynagrodzen> paski) {
         this.paski = paski;
     }
+
+    public Set<String> getPesele() {
+        return pesele;
+    }
+
+    public void setPesele(Set<String> pesele) {
+        this.pesele = pesele;
+    }
     
     
     @Override
@@ -559,7 +573,36 @@ public class Kartawynagrodzen implements Serializable {
         if (this.mc!=null&&!this.mc.equals("razem")) {
             this.paski.add(pasek);
         }
+        this.pesele.add(pasek.getPesel());
     }
+    
+     public void dodajkarta(Kartawynagrodzen pasek) {
+        this.bruttobezzus = Z.z(this.bruttobezzus+pasek.getBruttobezzus());
+        this.bruttozus = Z.z(this.bruttozus+pasek.getBruttozus());
+        this.kosztyuzyskania = Z.z(this.kosztyuzyskania+pasek.getKosztyuzyskania());
+        this.kwotawolna += pasek.getKwotawolna();
+        this.netto += pasek.getNetto();
+        this.podatekdochodowy = Z.z(this.podatekdochodowy+pasek.getPodatekdochodowy());
+        this.podstawaopodatkowania += pasek.getPodstawaopodatkowania();
+        this.pracchorobowe += pasek.getPracchorobowe();
+        this.pracemerytalne += pasek.getPracemerytalne();
+        this.pracrentowe += pasek.getPracrentowe();
+        this.razemspolecznepracownik = Z.z(this.razemspolecznepracownik+pasek.getRazemspolecznepracownik());
+        this.praczdrowotne += pasek.getPraczdrowotne();
+        this.praczdrowotnedodoliczenia += pasek.getPraczdrowotnedodoliczenia();
+        this.praczdrowotnedopotracenia = Z.z(this.praczdrowotnedopotracenia+pasek.getPraczdrowotnedopotracenia());
+        this.praczdrowotnepomniejszone += pasek.getPraczdrowotnepomniejszone();
+        this.emerytalne += pasek.getEmerytalne();
+        this.rentowe += pasek.getRentowe();
+        this.wypadkowe += pasek.getWypadkowe();
+        this.razemspolecznefirma += pasek.getRazemspolecznefirma();
+        this.podatekwstepny += pasek.getPodatekwstepny();
+        this.podstawaubezpzdrowotne += pasek.getPodstawaubezpzdrowotne();
+        this.potracenia += pasek.getPotracenia();
+        this.razem53 += pasek.getRazem53();
+             //this.mc!=null musi byc bo uzywamy tego tez do pit-11
+     
+     }
 
     
     

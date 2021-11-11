@@ -7,13 +7,12 @@ package view;
 
 import comparator.Kartawynagrodzencomparator;
 import comparator.PITPolacomparator;
-import dao.DeklaracjaSchowekFacade;
+import dao.DeklaracjaPIT11SchowekFacade;
 import dao.KartaWynagrodzenFacade;
 import dao.PasekwynagrodzenFacade;
 import embeddable.Mce;
-import embeddable.TKodUS;
 import entity.Angaz;
-import entity.DeklaracjaSchowek;
+import entity.DeklaracjaPIT11Schowek;
 import entity.FirmaKadry;
 import entity.Kartawynagrodzen;
 import entity.PITPola;
@@ -26,6 +25,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -45,7 +45,7 @@ public class KartaWynagrodzenView  implements Serializable {
     @Inject
     private KartaWynagrodzenFacade kartaWynagrodzenFacade;
     @Inject
-    private DeklaracjaSchowekFacade deklaracjaSchowekFacade;
+    private DeklaracjaPIT11SchowekFacade deklaracjaSchowekFacade;
     @Inject
     private WpisView wpisView;
     private List<Kartawynagrodzen> kartawynagrodzenlist;
@@ -57,9 +57,10 @@ public class KartaWynagrodzenView  implements Serializable {
     private List<PITPola> pitpola;
 
     
-    
+    @PostConstruct
     public void init() {
         pobierzdane();
+        pobierzdaneAll();
     }
 
         
@@ -76,6 +77,7 @@ public class KartaWynagrodzenView  implements Serializable {
         sumypracownicy = new ArrayList<>();
         pitpola  = new ArrayList<>();
         List<Angaz> pracownicy = wpisView.getFirma().getAngazList();
+        Kartawynagrodzen duzasuma = new Kartawynagrodzen();
         for (Angaz p: pracownicy) {
             if (p!=null) {
                List<Kartawynagrodzen> kartawynagrodzenlist = pobierzkartywynagrodzen(p, wpisView.getRokWpisu());
@@ -85,6 +87,7 @@ public class KartaWynagrodzenView  implements Serializable {
                     Kartawynagrodzen suma = sumuj(kartawynagrodzenlist, paski, p.getPracownik().getNazwiskoImie(), sumy, p);
                     sumypracownicy.add(suma);
                     pitpola.add(naniesnapola(suma, p.getPracownik()));
+                    duzasuma.dodajkarta(suma);
                 }
            }
         }
@@ -92,6 +95,7 @@ public class KartaWynagrodzenView  implements Serializable {
         if (pitpola!=null) {
             Collections.sort(pitpola, new PITPolacomparator());
         }
+        sumypracownicy.add(duzasuma);
     }
      private PITPola naniesnapola(Kartawynagrodzen suma, Pracownik pracownik) {
         PITPola pITPola = new PITPola(pracownik, suma.getRok());
@@ -222,14 +226,13 @@ public class KartaWynagrodzenView  implements Serializable {
             Kartawynagrodzen kartawynagrodzen = kartawynagrodzenlist.get(12);
             FirmaKadry firma = kartawynagrodzen.getAngaz().getFirma();
             Pracownik pracownik = kartawynagrodzen.getAngaz().getPracownik();
-            String urzad = TKodUS.getNazwaUrzedu(firma.getKodurzeduskarbowego());
-            Object[] sciezka = beanstesty.PIT11_27Bean.generujXML(kartawynagrodzen, firma, pracownik, (byte)1, "3220", kartawynagrodzen.getRok(), kartawynagrodzen.getSumy());
+            Object[] sciezka = beanstesty.PIT11_27Bean.generujXML(kartawynagrodzen, firma, pracownik, (byte)1, firma.getKodurzeduskarbowego(), kartawynagrodzen.getRok(), kartawynagrodzen.getSumy());
             pl.gov.crd.wzor._2021._03._04._10477.Deklaracja deklaracja = (pl.gov.crd.wzor._2021._03._04._10477.Deklaracja)sciezka[2];
             if (deklaracja!=null) {
                 String polecenie = "wydrukXML(\""+(String)sciezka[0]+"\")";
                 PrimeFaces.current().executeScript(polecenie);
                 String nazwapliku = PdfPIT11.drukuj(deklaracja);
-                DeklaracjaSchowek schowek = new DeklaracjaSchowek(deklaracja, pracownik, wpisView.getRokWpisu(),"PIT11");
+                DeklaracjaPIT11Schowek schowek = new DeklaracjaPIT11Schowek(deklaracja, pracownik, wpisView.getRokWpisu(),"PIT11");
                 deklaracjaSchowekFacade.create(schowek);
                 polecenie = "wydrukPDF(\""+nazwapliku+"\")";
                 PrimeFaces.current().executeScript(polecenie);

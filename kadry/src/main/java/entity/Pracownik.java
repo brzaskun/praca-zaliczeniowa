@@ -161,7 +161,7 @@ public class Pracownik implements Serializable {
     @OneToMany(mappedBy = "pracownik", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Angaz> angazList;
     @OneToMany(mappedBy = "pracownik", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<DeklaracjaSchowek> deklaracjaList;
+    private List<DeklaracjaPIT11Schowek> deklaracjaList;
 
     public Pracownik() {
     }
@@ -218,11 +218,11 @@ public class Pracownik implements Serializable {
     }
 
     @XmlTransient
-    public List<DeklaracjaSchowek> getDeklaracjaList() {
+    public List<DeklaracjaPIT11Schowek> getDeklaracjaList() {
         return deklaracjaList;
     }
 
-    public void setDeklaracjaList(List<DeklaracjaSchowek> deklaracjaList) {
+    public void setDeklaracjaList(List<DeklaracjaPIT11Schowek> deklaracjaList) {
         this.deklaracjaList = deklaracjaList;
     }
     

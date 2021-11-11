@@ -5,8 +5,9 @@
  */
 package dao;
 
-import entity.DeklaracjaSchowek;
-import entity.Pracownik;
+import entity.DeklaracjaPIT11Schowek;
+import entity.DeklaracjaPIT4Schowek;
+import entity.FirmaKadry;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PreDestroy;
@@ -21,7 +22,7 @@ import javax.transaction.Transactional;
  */
 @Stateless
 @Transactional
-public class DeklaracjaSchowekFacade extends DAO  implements Serializable {
+public class DeklaracjaPIT4SchowekFacade extends DAO  implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @PersistenceContext(unitName = "kadryPU")
@@ -40,14 +41,14 @@ public class DeklaracjaSchowekFacade extends DAO  implements Serializable {
         return em;
     }
 
-   public DeklaracjaSchowekFacade() {
-        super(DeklaracjaSchowek.class);
+   public DeklaracjaPIT4SchowekFacade() {
+        super(DeklaracjaPIT4Schowek.class);
         super.em = em;
     }
     
     
 
-    public List<DeklaracjaSchowek> findByNrwrokuByData(String rok, Pracownik pracownik) {
-        return getEntityManager().createNamedQuery("DeklaracjaSchowek.findByRokPracownik").setParameter("rok", rok).setParameter("pracownik", pracownik).getResultList();
+    public List<DeklaracjaPIT11Schowek> findByRokPracownik(String rok, FirmaKadry firma) {
+        return getEntityManager().createNamedQuery("DeklaracjaPIT4Schowek.findByRokFirma").setParameter("rok", rok).setParameter("firma", firma).getResultList();
     }
 }

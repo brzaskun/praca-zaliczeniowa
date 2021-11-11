@@ -381,6 +381,10 @@ public class Pasekwynagrodzen implements Serializable {
     public String getNazwiskoImie() {
         return this.kalendarzmiesiac.getUmowa().getAngaz().getPracownik().getNazwiskoImie();
     }
+    
+    public String getPesel() {
+        return this.kalendarzmiesiac.getUmowa().getAngaz().getPracownik().getPesel();
+    }
 
     public double getBruttobezzus() {
         return bruttobezzus;

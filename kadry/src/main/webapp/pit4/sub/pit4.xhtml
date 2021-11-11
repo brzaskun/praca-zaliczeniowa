@@ -1,0 +1,86 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:bcf="http://brzaskun.com/facelets"
+    >
+    <p:outputPanel>
+        <p:commandButton value="PIT-4" styleClass="buttonnorm" actionListener="#{kartaWynagrodzenPIT4View.pit4}"/>
+    </p:outputPanel>
+    <p:outputPanel>
+        <p:panelGrid columns="1" style="padding: 20px;">
+            <bcf:outputpl value="#{kartaWynagrodzenPIT4View.podatekrazem}"/>
+        </p:panelGrid>
+        <p:panelGrid columns="6" style="padding: 20px;">
+            <p:dataTable id="datalist" value="#{mce.mceList}" var="itemmc"
+                         rowKey="#{itemmc.id}" rowIndexVar="indexmc" 
+                         style="height: 350px; width: 40px;" emptyMessage="Nie pobrano danych"
+                         >
+                <f:facet name="header">
+                    <h:outputText value="mc"/>
+                </f:facet>
+                <p:column>
+                    <bcf:outputpl value="#{itemmc}"/>
+                </p:column>
+        </p:dataTable>
+        <p:dataTable id="datalist1" value="#{kartaWynagrodzenPIT4View.sumaUmowaoprace.values()}" var="itempraca"
+                         rowKey="#{itempraca.id}"  
+                         style="height: 350px; width: 100px;" emptyMessage="Nie pobrano danych"
+                         >
+                <f:facet name="header">
+                    <h:outputText value="praca"/>
+                </f:facet>
+                <p:column>
+                    <h:outputText value="#{itempraca.pesele.size()}"/>
+                </p:column>
+                <p:column>
+                    <bcf:outputpl value="#{itempraca.podatekdochodowy}"/>
+                </p:column>
+        </p:dataTable>
+        <p:dataTable id="datalist11" value="#{kartaWynagrodzenPIT4View.sumaUmowaopracekosztypodwyzszone.values()}" var="itempracak"
+                         rowKey="#{itempracak.id}"
+                         style="height: 350px; width: 100px;" emptyMessage="Nie pobrano danych"
+                         >
+                <f:facet name="header">
+                    <h:outputText value="prac.koszt+"/>
+                </f:facet>
+                <p:column>
+                    <h:outputText value="#{itempracak.pesele.size()}"/>
+                </p:column>
+                <p:column>
+                    <bcf:outputpl value="#{itempracak.podatekdochodowy}"/>
+                </p:column>
+        </p:dataTable>
+        <p:dataTable id="datalist2" value="#{kartaWynagrodzenPIT4View.sumaUmowazlecenia.values()}" var="itemzlec"
+                         rowKey="#{itemzlec.id}" 
+                         style="height: 350px; width: 100px;" emptyMessage="Nie pobrano danych"
+                         >
+                <f:facet name="header">
+                    <h:outputText value="zlec."/>
+                </f:facet>
+                <p:column>
+                    <h:outputText value="#{itemzlec.pesele.size()}"/>
+                </p:column>
+                <p:column>
+                    <bcf:outputpl value="#{itemzlec.podatekdochodowy}"/>
+                </p:column>
+        </p:dataTable>
+        <p:dataTable id="datalist22" value="#{kartaWynagrodzenPIT4View.sumaUmowapelnieniefunkcji.values()}" var="itemfun"
+                         rowKey="#{itemfun.id}" 
+                         style="height: 350px; width: 100px;" emptyMessage="Nie pobrano danych"
+                         >
+                <f:facet name="header">
+                    <h:outputText value="funkcja"/>
+                </f:facet>
+                <p:column>
+                    <h:outputText value="#{itemfun.pesele.size()}"/>
+                </p:column>
+                <p:column>
+                    <bcf:outputpl value="#{itemfun.podatekdochodowy}"/>
+                </p:column>
+        </p:dataTable>
+        </p:panelGrid>
+    </p:outputPanel>
+</ui:composition>
