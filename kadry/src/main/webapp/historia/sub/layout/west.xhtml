@@ -16,7 +16,7 @@
                              style="height: 50%;overflow-y: scroll;"
                              >
                     <p:ajax event="rowSelect" listener="#{historiaView.aktywuj(firmaView.selectedeast)}" partialSubmit="true" global="false" update="north,@(form)"/>
-                    <p:column>
+                    <p:column sortBy="#{item1.nazwa}" sortOrder="asc" filterBy="#{item1.nazwa}" filterMatchMode="contains">
                         <h:outputText value="#{item1.nazwa}"/>
                     </p:column>
                 </p:dataTable>

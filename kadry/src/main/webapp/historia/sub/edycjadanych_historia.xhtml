@@ -13,32 +13,40 @@ xmlns:pe="http://primefaces.org/ui/extensions">
             <h:outputText value="Należy najpierw wyszukać firmę, a potem serial pracownika. Pracownicy zwolnieni są oznaczeni na szaro." style="color: darkorchid;margin-left: 30px;"/>
             <p:panelGrid columns="2">
                 <h:form id="SuperFormFirma1">
-                    <p:dataTable id="datalist" value="#{historiaView.firmy}" var="firmylistdata" rowIndexVar="yndex1"
+                    <p:dataTable id="datalist" value="#{historiaView.firmysuperplace}" var="firmylistdata" rowIndexVar="yndex1"
                                  rowKey="#{firmylistdata.firSerial}" emptyMessage="brak osób w firmie"
                                  selection="#{historiaView.selectedfirma}" selectionMode="single"
-                                 style="height: 200px;overflow-y: scroll; width: 770px; " sortBy="#{firmylistdata.firNazwaPel}"
+                                 style="height: 200px;overflow-y: scroll; width: 850px; " sortBy="#{firmylistdata.firNazwaPel}"
                                  >
                         <p:ajax event="rowSelect" listener="#{historiaView.pobierzosoby}" partialSubmit="true" global="false" update="SuperFormFirma2"/>
                         <p:column width="50" style="text-align: center;">
                             <h:outputText value="#{yndex1+1}"/>
                         </p:column>
-                        <p:column width="400" style="text-align: left;" filterBy="#{firmylistdata.firNazwaPel}" filterMatchMode="contains">
+                        <p:column width="400" style="text-align: left;" filterBy="#{firmylistdata.firNazwaPel}" filterMatchMode="contains" sortBy="#{firmylistdata.firNazwaPel}" sortOrder="asc">
                             <f:facet name="header">
                                 <h:outputText value="nazwa pełna"/>
                             </f:facet>
                             <h:outputText value="#{firmylistdata.firNazwaPel}"/>
                         </p:column>
-                        <p:column width="100" style="text-align: center;">
+                        <p:column width="100" style="text-align: center;" filterBy="#{firmylistdata.firNip}">
                             <f:facet name="header">
                                 <h:outputText value="nip"/>
                             </f:facet>
                             <h:outputText value="#{firmylistdata.firNip}"/>
                         </p:column>
-                        <p:column width="100" style="text-align: center;">
+                        <p:column width="50" style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="serial"/>
                             </f:facet>
                             <h:outputText value="#{firmylistdata.firSerial}"/>
+                        </p:column>
+                        <p:column width="40" style="text-align: center;" filterBy="#{firmylistdata.zaimportowana}" >
+                            <f:facet name="header">
+                                <h:outputText value="imp"/>
+                            </f:facet>
+                            <p:selectBooleanCheckbox value="#{firmylistdata.zaimportowana}">
+                                <p:ajax event="change" partialSubmit="true" global="false" listener="#{historiaView.naniesimport(firmylistdata)}"/>
+                            </p:selectBooleanCheckbox>
                         </p:column>
                     </p:dataTable>
                 </h:form>

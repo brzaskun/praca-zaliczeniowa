@@ -115,6 +115,8 @@ public class FirmaKadry implements Serializable {
     private String nazwisko;
     @Column(name = "dataurodzenia")
     private String dataurodzenia;
+    @Column(name = "zaimportowana")
+    private boolean zaimportowana;
 
     public FirmaKadry() {
     }
@@ -267,6 +269,14 @@ public class FirmaKadry implements Serializable {
 
     public void setDataurodzenia(String dataurodzenia) {
         this.dataurodzenia = dataurodzenia;
+    }
+
+    public boolean isZaimportowana() {
+        return zaimportowana;
+    }
+
+    public void setZaimportowana(boolean zaimportowana) {
+        this.zaimportowana = zaimportowana;
     }
 
 

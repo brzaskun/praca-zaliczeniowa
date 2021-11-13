@@ -45,6 +45,10 @@ public class FirmaFacade extends DAO  implements Serializable {
     
 
     public FirmaKadry findByNIP(String nip) {
-        return (FirmaKadry) getEntityManager().createNamedQuery("FirmaKadry.findByNip").setParameter("nip", nip).getSingleResult();
+        FirmaKadry zwrot = null;
+        try {
+            zwrot = (FirmaKadry) getEntityManager().createNamedQuery("FirmaKadry.findByNip").setParameter("nip", nip).getSingleResult();
+        } catch (Exception e){}
+        return zwrot;
     }
 }

@@ -50,22 +50,41 @@ public class HistoriaView  implements Serializable {
   
     @Inject
     private WpisView wpisView;
-    private List<Firma> firmy;
+    private List<Firma> firmysuperplace;
     private List<Osoba> osoby;
     private List<Osoba> selectedosoby;
     private Firma selectedfirma;
     @Inject
     private OsobaFacade osobaFacade;
-     @Inject
+    @Inject
     private FirmaFacade firmaFacade;
+    @Inject
+    private dao.FirmaFacade firmaKadryFacade;
     
     @PostConstruct
     public void init() {
-        firmy = firmaFacade.findAll();
+        firmysuperplace = firmaFacade.findAll();
+        List<FirmaKadry> nowefirmy = firmaKadryFacade.findAll();
+        if (firmysuperplace!=null&&nowefirmy!=null) {
+            for (FirmaKadry f : nowefirmy) {
+                Firma odnaleziona = firmysuperplace.stream().filter(p->ladnynip(p.getFirNip()).equals(f.getNip())).findFirst().orElse(null);
+                if (odnaleziona!=null) {
+                    odnaleziona.setZaimportowana(f.isZaimportowana());
+                }
+            }
+        }
         listapracownikow = angazFacade.findByFirma(wpisView.getFirma());
         if (selectedangaz!=null) {
             listawynagrodzenhistoria = wynagrodzeniahistoryczneFacade.findByAngaz(selectedangaz);
         }
+    }
+    
+    private String ladnynip(String firNip) {
+        String zwrot = firNip;
+        if (zwrot!=null) {
+            zwrot = firNip.replace("-","");
+        }
+        return zwrot;
     }
     
     public void pobierzosoby() {
@@ -126,6 +145,17 @@ public class HistoriaView  implements Serializable {
         return zwrot;
     }
 
+    public void naniesimport(kadryiplace.Firma firmasp) {
+        if (firmasp!=null) {
+            entity.FirmaKadry firmakadry = firmaKadryFacade.findByNIP(ladnynip(firmasp.getFirNip()));
+            if (firmakadry!=null) {
+                firmakadry.setZaimportowana(firmasp.isZaimportowana());
+                firmaKadryFacade.edit(firmakadry);
+            }
+            Msg.msg("Naniesiono zmiany");
+        }
+    }
+    
     public List<Angaz> getListapracownikow() {
         return listapracownikow;
     }
@@ -168,12 +198,12 @@ public class HistoriaView  implements Serializable {
 
    
 
-    public List<Firma> getFirmy() {
-        return firmy;
+    public List<Firma> getFirmysuperplace() {
+        return firmysuperplace;
     }
 
-    public void setFirmy(List<Firma> firmy) {
-        this.firmy = firmy;
+    public void setFirmysuperplace(List<Firma> firmysuperplace) {
+        this.firmysuperplace = firmysuperplace;
     }
 
     public Firma getSelectedfirma() {
@@ -224,6 +254,8 @@ public class HistoriaView  implements Serializable {
     public void setSelectedlista(Wynagrodzeniahistoryczne selectedlista) {
         this.selectedlista = selectedlista;
     }
+
+    
 
     
 

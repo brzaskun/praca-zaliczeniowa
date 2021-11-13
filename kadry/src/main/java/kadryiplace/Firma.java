@@ -23,6 +23,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -989,6 +990,8 @@ public class Firma implements Serializable {
     private List<Trasy> trasyList;
     @OneToMany(mappedBy = "nmrFirSerial")
     private List<Numer> numerList;
+    @Transient
+    private boolean zaimportowana;
 
     public Firma() {
     }
@@ -3307,6 +3310,14 @@ public class Firma implements Serializable {
         this.numerList = numerList;
     }
 
+    public boolean isZaimportowana() {
+        return zaimportowana;
+    }
+
+    public void setZaimportowana(boolean zaimportowana) {
+        this.zaimportowana = zaimportowana;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -3329,7 +3340,8 @@ public class Firma implements Serializable {
 
     @Override
     public String toString() {
-        return "kadryiplace.Firma[ firSerial=" + firSerial + " ]";
+        return "Firma{" + "firNazwaSkr=" + firNazwaSkr + ", firNazwaPel=" + firNazwaPel + ", firNip=" + firNip + '}';
     }
+
     
 }
