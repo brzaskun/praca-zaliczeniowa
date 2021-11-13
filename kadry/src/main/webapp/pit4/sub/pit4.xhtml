@@ -87,10 +87,10 @@
         <h:form>
             <p:dataTable id="datalistwa" value="#{pit4RView.lista}" var="itempity"
                          rowKey="#{itempity.id}" rowIndexVar="indexpity" 
-                         style="height: 350px; width: 1000px;" emptyMessage="Nie pobrano danych"
+                         style="height: 350px; width: 1150px;" emptyMessage="Nie pobrano danych"
                          >
                 <f:facet name="header">
-                    <h:outputText value="Wynegerowane deklaracje"/>
+                    <h:outputText value="Wygenerowane deklaracje PIT-4"/>
                 </f:facet>
                 <p:column width="20" style="text-align: center;">
                     <h:outputText value="#{indexpity+1}"/>
@@ -128,6 +128,13 @@
                         <h:outputText value="wersja"/>
                     </f:facet>
                     <h:outputText value="#{itempity.klasa}"/>
+                </p:column>
+                 <p:column width="30" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value=""/>
+                    </f:facet>
+                    <p:commandButton icon="pi pi-file-pdf" actionListener="#{pit4RView.pokazpdf(itempity)}">
+                    </p:commandButton>
                 </p:column>
                  <p:column width="30" style="text-align: center;">
                     <f:facet name="header">

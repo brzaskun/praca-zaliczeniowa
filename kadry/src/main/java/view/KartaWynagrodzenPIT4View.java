@@ -28,6 +28,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import msg.Msg;
 import org.primefaces.PrimeFaces;
+import pdf.PdfPIT4;
 
 /**
  *
@@ -192,12 +193,12 @@ public class KartaWynagrodzenPIT4View  implements Serializable {
             if (deklaracja!=null) {
                 String polecenie = "wydrukXML(\""+(String)sciezka[0]+"\")";
                 PrimeFaces.current().executeScript(polecenie);
-//                String nazwapliku = PdfPIT11.drukuj(deklaracja);
+                String nazwapliku = PdfPIT4.drukuj(deklaracja);
                 DeklaracjaPIT4Schowek schowek = new DeklaracjaPIT4Schowek(deklaracja, wpisView.getFirma(), wpisView.getRokWpisu(),"PIT4R");
                 deklaracjaPIT4SchowekFacade.create(schowek);
                 pit4RView.init();
-//                polecenie = "wydrukPDF(\""+nazwapliku+"\")";
-//                PrimeFaces.current().executeScript(polecenie);
+                polecenie = "wydrukPDF(\""+nazwapliku+"\")";
+                PrimeFaces.current().executeScript(polecenie);
                 Msg.msg("Wydrukowano PIT-4R");
             }
         } else {

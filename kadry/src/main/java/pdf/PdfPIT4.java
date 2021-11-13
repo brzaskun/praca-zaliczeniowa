@@ -26,10 +26,9 @@ import java.util.logging.Logger;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
 import msg.Msg;
-import pl.gov.crd.wzor._2021._03._04._10477.Deklaracja;
-import pl.gov.crd.wzor._2021._03._04._10477.TIdentyfikatorOsobyNiefizycznej;
-import pl.gov.crd.wzor._2021._03._04._10477.TNaglowek;
-import pl.gov.crd.xml.schematy.dziedzinowe.mf._2020._07._06.ed.definicjetypy.TIdentyfikatorOsobyFizycznej1;
+import pl.gov.crd.wzor._2021._04._02._10568.Deklaracja;
+import pl.gov.crd.wzor._2021._04._02._10568.TNaglowek;
+import pl.gov.crd.xml.schematy.dziedzinowe.mf._2020._03._11.ed.definicjetypy.TIdentyfikatorOsobyFizycznej2;
 
 /**
  *
@@ -39,7 +38,7 @@ public class PdfPIT4 {
 
     public static final String OUTPUTFILE = "pit-4F.pdf";
 
-    public static String drukuj(pl.gov.crd.wzor._2021._03._04._10477.Deklaracja deklaracja, String sporzadzajacy) {
+    public static String drukuj(pl.gov.crd.wzor._2021._04._02._10568.Deklaracja deklaracja) {
         String nazwapliku = null;
         if (deklaracja != null) {
             try {
@@ -48,9 +47,9 @@ public class PdfPIT4 {
                 Document document = new Document();
                 ByteArrayOutputStream pdfSM = new ByteArrayOutputStream();
                 PdfWriter writer = PdfWriter.getInstance(document, pdfSM);
-                document.addTitle("PIT11 V27");
+                document.addTitle("PIT4 12");
                 document.addAuthor("Biuro Rachunkowe Taxman Grzegorz Grzelczyk");
-                document.addSubject("Wydruk deklaracji pracowniczej PIT-11");
+                document.addSubject("Wydruk deklaracji PIT4R");
                 document.addKeywords("PDF");
                 document.addCreator("Grzegorz Grzelczyk");
                 document.open();
@@ -60,213 +59,139 @@ public class PdfPIT4 {
                 TNaglowek naglowek = deklaracja.getNaglowek();
                 Deklaracja.Podmiot1 podmiot1 = deklaracja.getPodmiot1();
                 if (podmiot1.getOsobaNiefizyczna() !=null) {
-                    TIdentyfikatorOsobyNiefizycznej osobaNiefizyczna = podmiot1.getOsobaNiefizyczna();
+                    pl.gov.crd.wzor._2021._04._02._10568.TIdentyfikatorOsobyNiefizycznej osobaNiefizyczna = podmiot1.getOsobaNiefizyczna();
                     absText(writer, osobaNiefizyczna.getNIP(), 150, 790);
-                    absText(writer, "X", 133, 431);
+                    absText(writer, "X", 133, 432);
                     absText(writer, osobaNiefizyczna.getPelnaNazwa(), 133, 407);
                 } else if (podmiot1.getOsobaFizyczna() !=null) {
-                    TIdentyfikatorOsobyFizycznej1 osobaFizyczna = podmiot1.getOsobaFizyczna();
+                    TIdentyfikatorOsobyFizycznej2 osobaFizyczna = podmiot1.getOsobaFizyczna();
                     absText(writer, osobaFizyczna.getNIP(), 150, 790);
-                    absText(writer, "X", 389, 431);
+                    absText(writer, "X", 388, 432);
                     absText(writer, osobaFizyczna.getNazwisko()+" "+osobaFizyczna.getImiePierwsze()+" "+osobaFizyczna.getDataUrodzenia().toString(), 133, 377);
                 }
                 absText(writer, naglowek.getRok().toString(), 300, 705);
-                absText(writer, TKodUS.getNazwaUrzedu(naglowek.getKodUrzedu()), 120, 505);
+                absText(writer, TKodUS.getNazwaUrzedu(naglowek.getKodUrzedu()), 120, 545);
                 if (naglowek.getCelZlozenia().getValue()==(byte)1) {
-                    absText(writer, "X", 214, 483);
+                    absText(writer, "X", 215, 519);
                 } else if (naglowek.getCelZlozenia().getValue()==(byte)2) {
-                    absText(writer, "X", 328, 483);
-                }
-                //tutaj podatnik pole P_11 jest w szczegolowych
-                Deklaracja.PozycjeSzczegolowe pse = deklaracja.getPozycjeSzczegolowe();
-                if (pse.getP11()==(byte)1) {
-                    absText(writer, "X", 990, 326);
-                } else if (pse.getP11()==(byte)2) {
-                    absText(writer, "X", 351, 326);
-                }
-                Deklaracja.Podmiot2 prac = deklaracja.getPodmiot2();
-                Deklaracja.Podmiot2.OsobaFizyczna osobaFizyczna = prac.getOsobaFizyczna();
-                if (osobaFizyczna.getPESEL()!=null) {
-                    absText(writer, osobaFizyczna.getPESEL(), 100, 292);
-                    nazwapliku = osobaFizyczna.getPESEL();
-                } else {
-                    absText(writer, osobaFizyczna.getNIP(), 100, 292);
-                    nazwapliku = osobaFizyczna.getNIP();
-                }
-                if (osobaFizyczna.getNrId()!=null) {
-                    absText(writer, osobaFizyczna.getNrId().getValue(), 350, 292);
-                    nazwapliku = osobaFizyczna.getNrId().getValue();
-//			<xsd:enumeration value="1">
-//                        <xsd:documentation>numer identyfikacyjny TIN</xsd:documentation>
-//			<xsd:enumeration value="2">
-//                        <xsd:documentation>numer ubezpieczeniowy</xsd:documentation>
-//			<xsd:enumeration value="3">
-//                        <xsd:documentation>paszport</xsd:documentation>
-//			<xsd:enumeration value="4">
-//                        <xsd:documentation>urzędowy dokument stwierdzający tożsamość</xsd:documentation>
-//			<xsd:enumeration value="8">
-//                        <xsd:documentation>inny rodzaj identyfikacji podatkowej</xsd:documentation>
-//			<xsd:enumeration value="9">
-//                        <xsd:documentation>inny dokument potwierdzający tożsamość</xsd:documentation>
-                    if (osobaFizyczna.getRodzajNrId().getValue()==(byte)1) {
-                        absText(writer, "numer identyfikacyjny TIN", 100, 266);
-                    } else if (osobaFizyczna.getRodzajNrId().getValue()==(byte)2) {
-                        absText(writer, "numer ubezpieczeniowy", 100, 266);
-                    } else if (osobaFizyczna.getRodzajNrId().getValue()==(byte)3) {
-                        absText(writer, "paszport", 100, 266);
-                    } else if (osobaFizyczna.getRodzajNrId().getValue()==(byte)4) {
-                        absText(writer, "urzędowy dokument stwierdzający tożsamość", 100, 266);
-                    } else if (osobaFizyczna.getRodzajNrId().getValue()==(byte)8) {
-                        absText(writer, "inny rodzaj identyfikacji podatkowej", 100, 266);
-                    } else if (osobaFizyczna.getRodzajNrId().getValue()==(byte)9) {
-                        absText(writer, "inny dokument potwierdzający tożsamość", 100, 266);
-                    }
-                    absText(writer, "Zagraniczny numer", 350, 292);
-                    absText(writer, osobaFizyczna.getKodKrajuWydania().getValue().name(), 370, 266);
-                }
-                absText(writer, osobaFizyczna.getNazwisko(), 100, 240);
-                absText(writer, osobaFizyczna.getImiePierwsze(), 370, 240);
-                absText(writer, osobaFizyczna.getDataUrodzenia().toString(), 70, 216);
-                Deklaracja.Podmiot2.AdresZamieszkania adresZamieszkania = prac.getAdresZamieszkania();
-                absText(writer, adresZamieszkania.getKodKraju().getValue().name(), 250, 216);
-                absText(writer, adresZamieszkania.getWojewodztwo(), 430, 216);
-                absText(writer, adresZamieszkania.getPowiat(), 100, 192);
-                absText(writer, adresZamieszkania.getGmina(), 410, 192);
-                absText(writer, adresZamieszkania.getUlica().getValue(), 100, 168);
-                absText(writer, adresZamieszkania.getNrDomu().getValue(), 470, 168);
-                absText(writer, adresZamieszkania.getNrLokalu().getValue(), 535, 168);
-                absText(writer, adresZamieszkania.getMiejscowosc().getValue(), 100, 144);
-                absText(writer, adresZamieszkania.getKodPocztowy().getValue(), 470, 144);
-                Deklaracja.PozycjeSzczegolowe ps = deklaracja.getPozycjeSzczegolowe();
-                if (ps.getP28()!=null) {
-                    if (ps.getP28()==(byte)1) {
-                        absText(writer, "X", 56, 85);
-                    } else if (ps.getP28()==(byte)2) {
-                        absText(writer, "X", 329, 85);
-                    } else if (ps.getP28()==(byte)3) {
-                        absText(writer, "X", 56, 69);
-                    } else if (ps.getP28()==(byte)3) {
-                        absText(writer, "X", 329, 68);
-                    }
+                    absText(writer, "X", 329, 519);
+                    absText(writer, "X", 65, 492);
+                    //absText(writer, "X", 299, 492);
                 }
                 absText(writer, "Data potwierdzebia", 490, 780, 6);
                 absText(writer, "2013-05-05 124885", 490, 770, 6);
                 absText(writer, "Opis", 490, 760, 6);
                 absText(writer, "Nr potwierdzenia:", 460, 750, 6);
                 absText(writer, "ijijiiijiiji", 460, 740, 6);
+                Deklaracja.PozycjeSzczegolowe ps = deklaracja.getPozycjeSzczegolowe();
+                absText(writer, pobierzI(ps.getP10()), 180, 340);
+                absText(writer, pobierzI(ps.getP11()), 250, 340);
+                absText(writer, pobierzI(ps.getP12()), 320, 340);
+                absText(writer, pobierzI(ps.getP13()), 390, 340);
+                absText(writer, pobierzI(ps.getP14()), 458, 340);
+                absText(writer, pobierzI(ps.getP15()), 528, 340);
+                absText(writer, pobierzI(ps.getP16()), 180, 313);
+                absText(writer, pobierzI(ps.getP17()), 250, 313);
+                absText(writer, pobierzI(ps.getP18()), 320, 313);
+                absText(writer, pobierzI(ps.getP19()), 390, 313);
+                absText(writer, pobierzI(ps.getP20()), 458, 313);
+                absText(writer, pobierzI(ps.getP21()), 528, 313);
+
+                absText(writer, pobierzI(ps.getP22()), 180, 280);
+                absText(writer, pobierzI(ps.getP23()), 250, 280);
+                absText(writer, pobierzI(ps.getP24()), 320, 280);
+                absText(writer, pobierzI(ps.getP25()), 390, 280);
+                absText(writer, pobierzI(ps.getP26()), 458, 280);
+                absText(writer, pobierzI(ps.getP27()), 528, 280);
+                absText(writer, pobierzI(ps.getP28()), 180, 253);
+                absText(writer, pobierzI(ps.getP29()), 250, 253);
+                absText(writer, pobierzI(ps.getP30()), 320, 253);
+                absText(writer, pobierzI(ps.getP30()), 390, 253);
+                absText(writer, pobierzI(ps.getP32()), 458, 253);
+                absText(writer, pobierzI(ps.getP33()), 528, 253);
+
+                absText(writer, pobierzI(ps.getP46()), 180, 142);
+                absText(writer, pobierzI(ps.getP47()), 250, 142);
+                absText(writer, pobierzI(ps.getP48()), 320, 142);
+                absText(writer, pobierzI(ps.getP49()), 390, 142);
+                absText(writer, pobierzI(ps.getP50()), 458, 142);
+                absText(writer, pobierzI(ps.getP51()), 528, 142);
+                absText(writer, pobierzI(ps.getP52()), 180, 108);
+                absText(writer, pobierzI(ps.getP53()), 250, 108);
+                absText(writer, pobierzI(ps.getP54()), 320, 108);
+                absText(writer, pobierzI(ps.getP55()), 390, 108);
+                absText(writer, pobierzI(ps.getP56()), 458, 108);
+                absText(writer, pobierzI(ps.getP57()), 528, 108);
+
                 document.newPage();
-                absTextW(writer, pobierz(ps.getP29()), 245, 700);
-                absTextW(writer, pobierz(ps.getP30()), 315, 700);
-                absTextW(writer, pobierz(ps.getP31()), 380, 690);
-                absTextW(writer, pobierz(ps.getP32()), 450, 690);
-                absTextW(writer, pobierzI(ps.getP33()), 520, 690);
-                absTextW(writer, pobierz(ps.getP34()), 245, 660);
-                absTextW(writer, pobierz(ps.getP35()), 315, 660);
-                absTextW(writer, pobierz(ps.getP36()), 245, 635);
-                absTextW(writer, pobierz(ps.getP37()), 315, 635);
-                absTextW(writer, pobierz(ps.getP38()), 380, 610);
-                absTextW(writer, pobierz(ps.getP39()), 450, 610);
-                absTextW(writer, pobierzI(ps.getP40()), 520, 610);
-                absTextW(writer, pobierz(ps.getP41()), 245, 610);
-                absTextW(writer, pobierz(ps.getP42()), 315, 610);
-                absTextW(writer, pobierz(ps.getP43()), 245, 580);
-                absTextW(writer, pobierz(ps.getP44()), 380, 580);
-                absTextW(writer, pobierz(ps.getP45()), 450, 580);
-                absTextW(writer, pobierzI(ps.getP46()), 520, 580);
-                
-                absTextW(writer, pobierz(ps.getP47()), 245, 540);
-                absTextW(writer, pobierz(ps.getP48()), 315, 540);
-                absTextW(writer, pobierz(ps.getP49()), 380, 540);
-                absTextW(writer, pobierzI(ps.getP50()), 520, 540);
-                absTextW(writer, pobierz(ps.getP51()), 245, 500);
-                absTextW(writer, pobierz(ps.getP52()), 315, 500);
-                absTextW(writer, pobierz(ps.getP53()), 380, 500);
-                absTextW(writer, pobierzI(ps.getP54()), 520, 500);
-                absTextW(writer, pobierz(ps.getP55()), 245, 460);
-                absTextW(writer, pobierz(ps.getP56()), 315, 460);
-                absTextW(writer, pobierz(ps.getP57()), 380, 460);
-                absTextW(writer, pobierzI(ps.getP58()), 520, 460);
-                
-                absTextW(writer, pobierz(ps.getP59()), 245, 430);
-                absTextW(writer, pobierz(ps.getP60()), 380, 420);
-                absTextW(writer, pobierzI(ps.getP61()), 520, 420);
-                absTextW(writer, pobierz(ps.getP62()), 245, 408);
-                absTextW(writer, pobierz(ps.getP63()), 315, 408);
-                absTextW(writer, pobierz(ps.getP64()), 245, 383);
-                absTextW(writer, pobierz(ps.getP65()), 380, 383);
-                absTextW(writer, pobierzI(ps.getP66()), 520, 383);
-                absTextW(writer, pobierz(ps.getP67()), 245, 358);
-                absTextW(writer, pobierz(ps.getP68()), 380, 358);
-                absTextW(writer, pobierzI(ps.getP69()), 520, 358);
-                absTextW(writer, pobierz(ps.getP70()), 245, 332);
-                absTextW(writer, pobierz(ps.getP71()), 315, 332);
-                absTextW(writer, pobierz(ps.getP72()), 380, 332);
-                absTextW(writer, pobierz(ps.getP73()), 450, 332);
-                absTextW(writer, pobierzI(ps.getP74()), 520, 332);
-                absTextW(writer, pobierz(ps.getP75()), 520, 305);
-                absTextW(writer, pobierz(ps.getP76()), 520, 278);
-                absTextW(writer, pobierz(ps.getP77()), 520, 251);
-                absTextW(writer, pobierz(ps.getP78()), 520, 226);
-                absTextW(writer, pobierz(ps.getP79()), 520, 198);
-                absTextW(writer, pobierz(ps.getP80()), 520, 168);
-                absTextW(writer, pobierz(ps.getP81()), 520, 90);
-                absText(writer, ps.getP82(), 120, 65);
-                absTextW(writer, pobierz(ps.getP83()), 520, 65);
-                
+                absText(writer, pobierzI(ps.getP70()), 180, 705);
+                absText(writer, pobierzI(ps.getP71()), 250, 705);
+                absText(writer, pobierzI(ps.getP72()), 320, 705);
+                absText(writer, pobierzI(ps.getP73()), 390, 705);
+                absText(writer, pobierzI(ps.getP74()), 458, 705);
+                absText(writer, pobierzI(ps.getP75()), 528, 705);
+                absText(writer, pobierzI(ps.getP76()), 180, 670);
+                absText(writer, pobierzI(ps.getP77()), 250, 670);
+                absText(writer, pobierzI(ps.getP78()), 320, 670);
+                absText(writer, pobierzI(ps.getP79()), 390, 670);
+                absText(writer, pobierzI(ps.getP80()), 458, 670);
+                absText(writer, pobierzI(ps.getP81()), 528, 670);
+
+                absText(writer, pobierzI(ps.getP122()), 180, 340);
+                absText(writer, pobierzI(ps.getP123()), 250, 340);
+                absText(writer, pobierzI(ps.getP124()), 320, 340);
+                absText(writer, pobierzI(ps.getP125()), 390, 340);
+                absText(writer, pobierzI(ps.getP126()), 458, 340);
+                absText(writer, pobierzI(ps.getP127()), 528, 340);
+                absText(writer, pobierzI(ps.getP128()), 180, 305);
+                absText(writer, pobierzI(ps.getP129()), 250, 305);
+                absText(writer, pobierzI(ps.getP130()), 320, 305);
+                absText(writer, pobierzI(ps.getP131()), 390, 305);
+                absText(writer, pobierzI(ps.getP132()), 458, 305);
+                absText(writer, pobierzI(ps.getP133()), 528, 305);
+
+                absText(writer, pobierzI(ps.getP146()), 180, 192);
+                absText(writer, pobierzI(ps.getP147()), 250, 192);
+                absText(writer, pobierzI(ps.getP148()), 320, 192);
+                absText(writer, pobierzI(ps.getP149()), 390, 192);
+                absText(writer, pobierzI(ps.getP150()), 458, 192);
+                absText(writer, pobierzI(ps.getP151()), 528, 192);
+                absText(writer, pobierzI(ps.getP152()), 180, 156);
+                absText(writer, pobierzI(ps.getP153()), 250, 156);
+                absText(writer, pobierzI(ps.getP154()), 320, 156);
+                absText(writer, pobierzI(ps.getP155()), 390, 156);
+                absText(writer, pobierzI(ps.getP156()), 458, 156);
+                absText(writer, pobierzI(ps.getP157()), 528, 156);
+
                 document.newPage();
-                absText(writer, ps.getP84(), 120, 790);
-                absTextW(writer, pobierz(ps.getP85()), 520, 790);
-                absText(writer, ps.getP86(), 120, 767);
-                absTextW(writer, pobierz(ps.getP87()), 520, 767);
-                absTextW(writer, pobierz(ps.getP88()), 520, 740);
-                absTextW(writer, pobierz(ps.getP89()), 520, 683);
-                absTextW(writer, pobierz(ps.getP90()), 520, 658);
-                absTextW(writer, pobierz(ps.getP91()), 520, 632);
-                absTextW(writer, pobierz(ps.getP92()), 520, 608);
-                absTextW(writer, pobierz(ps.getP93()), 520, 583);
-                absTextW(writer, pobierz(ps.getP94()), 520, 558);
-                absTextW(writer, pobierz(ps.getP95()), 520, 532);
-                if (ps.getP96()==(byte)1) {
-                    absText(writer, "X", 251, 502);
-                } else if (ps.getP96()==(byte)2) {
-                    absText(writer, "X", 342, 502);
-                }
-                
-                absText(writer, "Grzegorz Grzelczyk", 100, 440);
-                absText(writer, sporzadzajacy, 100, 370);
-                document.newPage();
-                absText(writer, " ", 80, 166);
+                absText(writer, "158 wyjaśnienie różmnic", 70, 720);
+                absText(writer, "Grzegorz Grzelczyk", 100, 455);
                 document.close();
                 writer.close();
                 byte[] pdfoutput = pdfSM.toByteArray();
                 PdfReader reader = new PdfReader(pdfoutput);
                 reader.removeUsageRights();
-                nazwapliku = nazwapliku+"R"+naglowek.getRok().toString()+"_PIT11";
+                nazwapliku = nazwapliku+"R"+naglowek.getRok().toString()+"_PIT4R";
                 PdfStamper pdfStamper = new PdfStamper(reader, new FileOutputStream(realPath+nazwapliku));
                 PdfContentByte underContent = pdfStamper.getUnderContent(1);
-                Image image = Image.getInstance(realPath+"PIT-111.png");
+                Image image = Image.getInstance(realPath+"PIT-41.png");
                 image.scaleToFit(610, 850);
                 image.setAbsolutePosition(0f, 0f);
                 underContent.addImage(image);
                 underContent = pdfStamper.getUnderContent(2);
-                image = Image.getInstance(realPath+"PIT-112.png");
+                image =  Image.getInstance(realPath+"PIT-42.png");
                 image.scaleToFit(610, 850);
                 image.setAbsolutePosition(0f, 0f);
                 underContent.addImage(image);
                 underContent = pdfStamper.getUnderContent(3);
-                image = Image.getInstance(realPath+"PIT-113.png");
-                image.scaleToFit(610, 850);
-                image.setAbsolutePosition(0f, 0f);
-                underContent.addImage(image);
-                underContent = pdfStamper.getUnderContent(4);
-                image = Image.getInstance(realPath+"PIT-114.png");
+                image =  Image.getInstance(realPath+"PIT-43.png");
                 image.scaleToFit(610, 850);
                 image.setAbsolutePosition(0f, 0f);
                 underContent.addImage(image);
                 underContent.closePath();
                 pdfStamper.close();
                 reader.close();
-                Msg.msg("Wydrukowano deklaracje");
+                System.out.println("koniec");
             } catch (Exception ex) {
                 Logger.getLogger(PdfPIT4.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -300,7 +225,7 @@ public class PdfPIT4 {
         absText(writer, "X", 133, 432);
         absText(writer, "X", 388, 432);
         absText(writer, "Nazwa pełna", 133, 407);
-        
+
         absText(writer, "10/000", 180, 340);
         absText(writer, "11/000", 250, 340);
         absText(writer, "12/000", 320, 340);
@@ -313,7 +238,7 @@ public class PdfPIT4 {
         absText(writer, "29/000", 390, 313);
         absText(writer, "20/000", 458, 313);
         absText(writer, "21/000", 528, 313);
-        
+
         absText(writer, "22/000", 180, 280);
         absText(writer, "23/000", 250, 280);
         absText(writer, "24/000", 320, 280);
@@ -326,7 +251,7 @@ public class PdfPIT4 {
         absText(writer, "31/000", 390, 253);
         absText(writer, "32/000", 458, 253);
         absText(writer, "33/000", 528, 253);
-        
+
         absText(writer, "46/000", 180, 142);
         absText(writer, "47/000", 250, 142);
         absText(writer, "48/000", 320, 142);
@@ -339,8 +264,7 @@ public class PdfPIT4 {
         absText(writer, "55/000", 390, 108);
         absText(writer, "56/000", 458, 108);
         absText(writer, "57/000", 528, 108);
-        
-        
+
         document.newPage();
         absText(writer, "70/000", 180, 705);
         absText(writer, "71/000", 250, 705);
@@ -354,7 +278,7 @@ public class PdfPIT4 {
         absText(writer, "79/000", 390, 670);
         absText(writer, "80/000", 458, 670);
         absText(writer, "81/000", 528, 670);
-        
+
         absText(writer, "122/000", 180, 340);
         absText(writer, "123/000", 250, 340);
         absText(writer, "124/000", 320, 340);
@@ -367,7 +291,7 @@ public class PdfPIT4 {
         absText(writer, "131/000", 390, 305);
         absText(writer, "132/000", 458, 305);
         absText(writer, "133/000", 528, 305);
-        
+
         absText(writer, "146/000", 180, 192);
         absText(writer, "147/000", 250, 192);
         absText(writer, "148/000", 320, 192);
@@ -425,7 +349,6 @@ public class PdfPIT4 {
         }
     }
 
-    
     protected static void absTextW(PdfWriter writer, String text, int x, int y) {
         try {
             PdfContentByte cb = writer.getDirectContent();
@@ -434,18 +357,17 @@ public class PdfPIT4 {
             cb.beginText();
             cb.moveText(x, y);
             cb.setFontAndSize(bf, 12);
-            if (text!=null&&!text.equals("")) {
-               cb.showText(F.number(Double.valueOf(text)));
+            if (text != null && !text.equals("")) {
+                cb.showText(F.number(Double.valueOf(text)));
             } else {
-               cb.showText(text); 
+                cb.showText(text);
             }
             cb.endText();
             cb.restoreState();
         } catch (DocumentException | IOException e) {
         }
     }
-    
-    
+
     protected static void absText(PdfWriter writer, String text, int x, int y, String f) {
         try {
             PdfContentByte cb = writer.getDirectContent();
@@ -491,7 +413,7 @@ public class PdfPIT4 {
 
     private static String pobierz(BigDecimal p) {
         String zwrot = "";
-        if (p!=null) {
+        if (p != null) {
             zwrot = p.toString();
         }
         return zwrot;
@@ -499,7 +421,7 @@ public class PdfPIT4 {
 
     private static String pobierzI(BigInteger p) {
         String zwrot = "";
-        if (p!=null) {
+        if (p != null) {
             zwrot = p.toString();
         }
         return zwrot;

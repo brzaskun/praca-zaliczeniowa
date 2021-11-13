@@ -19,6 +19,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import msg.Msg;
 import org.primefaces.PrimeFaces;
+import pdf.PdfPIT4;
 
 /**
  *
@@ -68,6 +69,31 @@ public class Pit4RView  implements Serializable {
                 pl.gov.crd.wzor._2021._04._02._10568.Deklaracja dekl = (pl.gov.crd.wzor._2021._04._02._10568.Deklaracja) is.readObject();
                 String sciezka = PIT4R_12Bean.marszajuldoplikuxml(dekl);
                 String polecenie = "wydrukXML(\""+sciezka+"\")";
+                PrimeFaces.current().executeScript(polecenie);
+                Msg.msg("Pobrano deklaracje");
+            } catch (Exception ex) {
+                System.out.println("");
+            } finally {
+                try {
+                    is.close();
+                } catch (IOException ex) {
+                }
+            }
+        } else {
+            Msg.msg("e", "Błąd, nie pobrano dekalracji");
+        }
+    }
+    
+     public void pokazpdf(DeklaracjaPIT4Schowek deklaracjaPIT4Schowek) {
+        if (deklaracjaPIT4Schowek != null) {
+            ObjectInputStream is = null;
+            try {
+                byte[] deklaracja = deklaracjaPIT4Schowek.getDeklaracja();//        ByteArrayInputStream in = new ByteArrayInputStream(this.deklaracja);
+                ByteArrayInputStream in = new ByteArrayInputStream(deklaracja);
+                is = new ObjectInputStream(in);
+                pl.gov.crd.wzor._2021._04._02._10568.Deklaracja dekl = (pl.gov.crd.wzor._2021._04._02._10568.Deklaracja) is.readObject();
+                String nazwapliku = PdfPIT4.drukuj(dekl);
+                String polecenie = "wydrukPDF(\""+nazwapliku+"\")";
                 PrimeFaces.current().executeScript(polecenie);
                 Msg.msg("Pobrano deklaracje");
             } catch (Exception ex) {
