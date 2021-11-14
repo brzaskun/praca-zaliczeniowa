@@ -68,7 +68,7 @@ public class PasekwynagrodzenBean {
         } else {
             pasek.setDo26lat(false);
         }
-        pasek.setNierezydent(obliczczyrezydent(kalendarz.getUmowa(), datawyplaty));
+        pasek.setNierezydent(obliczczynierezydent(kalendarz.getUmowa(), datawyplaty));
         pasek.setWynagrodzenieminimalne(wynagrodzenieminimalne);
         pasek.setDefinicjalistaplac(definicjalistaplac);
         pasek.setKalendarzmiesiac(kalendarz);
@@ -466,8 +466,10 @@ public class PasekwynagrodzenBean {
             double razemzbiezacym = sumapoprzednich+pasek.getPodstawaopodatkowania();
             if (razemzbiezacym>drugiprog) {
                 double podatekdol = Z.z(Z.z0(drugiprog-sumapoprzednich)*stawkipodatkowe.get(0).getStawka());
-                double podatekgora = Z.z(Z.z0(razemzbiezacym-drugiprog)*stawkipodatkowe.get(0).getStawka());
+                double podatekgora = Z.z(Z.z0(razemzbiezacym-drugiprog)*stawkipodatkowe.get(1).getStawka());
                 podatek = podatekdol+podatekgora;
+            } else {
+                podatek = Z.z(Z.z0(pasek.getPodstawaopodatkowania())*stawkipodatkowe.get(0).getStawka());
             }
         }
         pasek.setPodatekwstepny(podatek);
@@ -724,20 +726,22 @@ public class PasekwynagrodzenBean {
         pasek.setPodstawaskladkizus(pasek.getBruttozus());
     }
 
-    private static boolean obliczczyrezydent(Umowa umowa, String termwyplaty) {
+    private static boolean obliczczynierezydent(Umowa umowa, String termwyplaty) {
         boolean zwrot = false;
-        String dataprzyjazdu = umowa.getDataprzyjazdudopolski();
-        LocalDate dataprzyj = LocalDate.parse(dataprzyjazdu);
-        LocalDate datawypl = LocalDate.parse(termwyplaty);
-        String rok = Data.getRok(termwyplaty);
-        String pierwszydzienroku = rok+"-01-01";
-        LocalDate datapoczrok = LocalDate.parse(pierwszydzienroku);
-        if (dataprzyj.isBefore(datapoczrok)) {
-            dataprzyj = datapoczrok;
-        }
-        long dni = ChronoUnit.DAYS.between(dataprzyj, datawypl);
-        if (dni<183) {
-            zwrot = true;
+        if (umowa.getDataprzyjazdudopolski()!=null) {
+            String dataprzyjazdu = umowa.getDataprzyjazdudopolski();
+            LocalDate dataprzyj = LocalDate.parse(dataprzyjazdu);
+            LocalDate datawypl = LocalDate.parse(termwyplaty);
+            String rok = Data.getRok(termwyplaty);
+            String pierwszydzienroku = rok+"-01-01";
+            LocalDate datapoczrok = LocalDate.parse(pierwszydzienroku);
+            if (dataprzyj.isBefore(datapoczrok)) {
+                dataprzyj = datapoczrok;
+            }
+            long dni = ChronoUnit.DAYS.between(dataprzyj, datawypl);
+            if (dni<183) {
+                zwrot = true;
+            }
         }
         return zwrot;
     }
