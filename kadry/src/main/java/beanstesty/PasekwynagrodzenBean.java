@@ -27,6 +27,7 @@ import entity.Wynagrodzeniahistoryczne;
 import error.E;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import msg.Msg;
@@ -55,9 +56,11 @@ public class PasekwynagrodzenBean {
     
       
     public static Pasekwynagrodzen obliczWynagrodzenie(Kalendarzmiesiac kalendarz, Definicjalistaplac definicjalistaplac, NieobecnosckodzusFacade nieobecnosckodzusFacade, List<Pasekwynagrodzen> paskidowyliczeniapodstawy, 
-        List<Wynagrodzeniahistoryczne> historiawynagrodzen, List<Podatki> stawkipodatkowe, double sumapoprzednich, double wynagrodzenieminimalne, boolean czyodlicoznokwotewolna, double kurs,double limitZUS) {
+        List<Wynagrodzeniahistoryczne> historiawynagrodzen, List<Podatki> stawkipodatkowe, double sumapoprzednich, double wynagrodzenieminimalne, boolean czyodlicoznokwotewolna, double kurs,double limitZUS, String datawyplaty) {
         boolean umowaoprace = kalendarz.isPraca();
         Pasekwynagrodzen pasek = new Pasekwynagrodzen();
+        pasek.setDatawyplaty(datawyplaty);
+        obliczwiek(kalendarz, pasek);
         String datakonca26lat = OsobaBean.obliczdata26(kalendarz.getDataUrodzenia());
         boolean po26roku = Data.czyjestpo(datakonca26lat, kalendarz.getRok(), kalendarz.getMc());
         if (po26roku==false) {
@@ -65,6 +68,7 @@ public class PasekwynagrodzenBean {
         } else {
             pasek.setDo26lat(false);
         }
+        pasek.setNierezydent(obliczczyrezydent(kalendarz.getUmowa(), datawyplaty));
         pasek.setWynagrodzenieminimalne(wynagrodzenieminimalne);
         pasek.setDefinicjalistaplac(definicjalistaplac);
         pasek.setKalendarzmiesiac(kalendarz);
@@ -160,6 +164,22 @@ public class PasekwynagrodzenBean {
 //        System.out.println(pasek.getNetto());
 //        System.out.println("");
         return pasek;
+    }
+    
+    
+     public static void obliczwiek(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasek) {
+        if (kalendarz!=null) {
+            String dataurodzenia = kalendarz.getUmowa().getAngaz().getPracownik().getDataurodzenia();
+            LocalDate dataur = LocalDate.parse(dataurodzenia);
+            LocalDate dataumowy = LocalDate.parse(pasek.getDatawyplaty());
+            String rok = Data.getRok(pasek.getDatawyplaty());
+            String pierwszydzienroku = rok+"-01-01";
+            LocalDate dataroku = LocalDate.parse(pierwszydzienroku);
+            long lata = ChronoUnit.YEARS.between(dataur, dataumowy);
+            long dni = ChronoUnit.DAYS.between(dataroku, dataumowy);
+            pasek.setLata((int) lata);
+            pasek.setDni((int) dni);
+        }
     }
     
       public static double obliczminimalna(Kalendarzmiesiac kalendarz, Definicjalistaplac definicjalistaplac, NieobecnosckodzusFacade nieobecnosckodzusFacade, List<Pasekwynagrodzen> paskidowyliczeniapodstawy, 
@@ -702,6 +722,24 @@ public class PasekwynagrodzenBean {
 
     private static void wyliczpodstaweZUS(Pasekwynagrodzen pasek) {
         pasek.setPodstawaskladkizus(pasek.getBruttozus());
+    }
+
+    private static boolean obliczczyrezydent(Umowa umowa, String termwyplaty) {
+        boolean zwrot = false;
+        String dataprzyjazdu = umowa.getDataprzyjazdudopolski();
+        LocalDate dataprzyj = LocalDate.parse(dataprzyjazdu);
+        LocalDate datawypl = LocalDate.parse(termwyplaty);
+        String rok = Data.getRok(termwyplaty);
+        String pierwszydzienroku = rok+"-01-01";
+        LocalDate datapoczrok = LocalDate.parse(pierwszydzienroku);
+        if (dataprzyj.isBefore(datapoczrok)) {
+            dataprzyj = datapoczrok;
+        }
+        long dni = ChronoUnit.DAYS.between(dataprzyj, datawypl);
+        if (dni<183) {
+            zwrot = true;
+        }
+        return zwrot;
     }
 
     

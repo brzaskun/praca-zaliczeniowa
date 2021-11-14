@@ -84,6 +84,7 @@ public class PasekwynagrodzenView  implements Serializable {
     List<Naliczenieskladnikawynagrodzenia> listawynagrodzenpracownika;
     List<Naliczenienieobecnosc> listanieobecnoscipracownika;
     private double kursdlalisty;
+    private String datawyplaty;
     
     @PostConstruct
     public void init() {
@@ -108,6 +109,7 @@ public class PasekwynagrodzenView  implements Serializable {
         try {
             wybranalistaplac = listadefinicjalistaplac.stream().filter(p->p.getMc().equals(wpisView.getMiesiacWpisu())).findFirst().get();
             wybranalistaplac2 = listadefinicjalistaplac.stream().filter(p->p.getMc().equals(wpisView.getMiesiacWpisu())).findFirst().get();
+            datawyplaty = zrobdatawyplaty();
             listakalendarzmiesiacdoanalizy2 = kalendarzmiesiacFacade.findByFirmaRokMcPraca(wybranalistaplac2.getFirma(), wybranalistaplac2.getRok(), wybranalistaplac2.getMc());
             pobierzkalendarzezamc();
             pobierzkalendarzezamcanaliza();
@@ -155,8 +157,10 @@ public class PasekwynagrodzenView  implements Serializable {
         public void przelicz() {
         if (wybranalistaplac!=null && !listakalendarzmiesiac.getTarget().isEmpty()) {
             int i = 1;
-            List<Podatki> stawkipodatkowe = podatkiFacade.findByRokUmowa(wpisView.getRokWpisu(), "P");
-            if (stawkipodatkowe!=null&&!stawkipodatkowe.isEmpty()) {
+            List<Podatki> stawkipodatkowe = podatkiFacade.findByRokUmowa(Data.getRok(datawyplaty), "P");
+            if (datawyplaty==null) {
+                Msg.msg("e","Brak daty wypłaty");
+            } else if (stawkipodatkowe!=null&&!stawkipodatkowe.isEmpty()) {
                 for (Kalendarzmiesiac pracownikmc : listakalendarzmiesiac.getTarget()) {
                     boolean czysainnekody = pracownikmc.czysainnekody();
                     List<Pasekwynagrodzen> paskidowyliczeniapodstawy = new ArrayList<>();
@@ -166,16 +170,16 @@ public class PasekwynagrodzenView  implements Serializable {
                         historiawynagrodzen = wynagrodzeniahistoryczneFacade.findByAngaz(pracownikmc.getUmowa().getAngaz());
                     }
                     double sumapoprzednich = PasekwynagrodzenBean.sumaprzychodowpoprzednich(pasekwynagrodzenFacade, pracownikmc, stawkipodatkowe.get(1).getKwotawolnaod());
-                    double wynagrodzenieminimalne = wynagrodzenieminimalneFacade.findByRok(pracownikmc.getRok()).getKwotabrutto();
+                    double wynagrodzenieminimalne = wynagrodzenieminimalneFacade.findByRok(Data.getRok(datawyplaty)).getKwotabrutto();
                     //zeby nei odoliczyc kwoty wolnej dwa razy
                     boolean czyodlicoznokwotewolna = PasekwynagrodzenBean.czyodliczonokwotewolna(pracownikmc.getRok(), pracownikmc.getMc(), pracownikmc.getUmowa().getAngaz(), pasekwynagrodzenFacade);
                     double limitzus = 0.0;
-                    OddelegowanieZUSLimit oddelegowanieZUSLimit = oddelegowanieZUSLimitFacade.findbyRok(wpisView.getRokWpisu());
+                    OddelegowanieZUSLimit oddelegowanieZUSLimit = oddelegowanieZUSLimitFacade.findbyRok(Data.getRok(datawyplaty));
                     if (oddelegowanieZUSLimit!=null) {
                         limitzus = oddelegowanieZUSLimit.getKwota();
                     }
                     Pasekwynagrodzen pasek = PasekwynagrodzenBean.obliczWynagrodzenie(pracownikmc, wybranalistaplac, nieobecnosckodzusFacade, paskidowyliczeniapodstawy, historiawynagrodzen, stawkipodatkowe, sumapoprzednich, wynagrodzenieminimalne, czyodlicoznokwotewolna, 
-                            kursdlalisty, limitzus);
+                            kursdlalisty, limitzus, datawyplaty);
                     usunpasekjakzawiera(pasek);
                     lista.add(pasek);
                 }
@@ -187,7 +191,10 @@ public class PasekwynagrodzenView  implements Serializable {
             Msg.msg("e","Nie wybrano listy lub pracownika");
         }
     }
-    
+   
+      
+        
+        
     private List<Pasekwynagrodzen> pobierzpaskidosredniej(Kalendarzmiesiac p) {
         String[] okrespoprzedni = Data.poprzedniOkres(p);
         List<Pasekwynagrodzen> paskiporzednie = pasekwynagrodzenFacade.findByRokAngaz(okrespoprzedni[1],p);
@@ -317,6 +324,13 @@ public class PasekwynagrodzenView  implements Serializable {
         }
     }
     
+    private String zrobdatawyplaty() {
+        String zwrot;
+        String[] nastepnyOkres = Data.nastepnyOkres(wpisView.getMiesiacWpisu(), wpisView.getRokWpisu()); 
+        zwrot = nastepnyOkres[1]+"-"+nastepnyOkres[0]+"-10";
+        return zwrot;
+    }
+    
     
     public Pasekwynagrodzen getSelected() {
         return selected;
@@ -430,6 +444,16 @@ public class PasekwynagrodzenView  implements Serializable {
     public void setKursdlalisty(double kursdlalisty) {
         this.kursdlalisty = kursdlalisty;
     }
+
+    public String getDatawyplaty() {
+        return datawyplaty;
+    }
+
+    public void setDatawyplaty(String datawyplaty) {
+        this.datawyplaty = datawyplaty;
+    }
+
+    
 
     
     

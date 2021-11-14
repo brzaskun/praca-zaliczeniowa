@@ -48,10 +48,16 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                             <p:commandButton styleClass="buttonnorm" actionListener="#{pasekwynagrodzenView.drukujliste}" value="druk lista"/>
                         </h:form>
                         <h:form>
+                            <p:panelGrid columns="2" >
                             <h:outputLabel for="kurspole" value="kurs przelicz."/>
                             <p:inputNumber value="#{pasekwynagrodzenView.kursdlalisty}" id="kurspole" decimalPlaces="4" style="text-align: right;">
                                 <p:ajax event="blur" partialSubmit="true" global="false"/>
                             </p:inputNumber>
+                            <h:outputLabel for="datawyplatypole" value="data wypłaty"/>
+                            <p:inputText id="dataod" value="#{pasekwynagrodzenView.datawyplaty}" title="data od"  placeholder="____-__-__"  required="true" styleClass="dataUmowy" maxlength="10">
+                                <p:ajax event="blur" partialSubmit="true" global="false"/>
+                            </p:inputText>
+                            </p:panelGrid>
                         </h:form>
 <!--                        <p:selectOneMenu id="wybranypracownik" value="#{pasekwynagrodzenView.wybranykalendarz}" required="true" requiredMessage="Wybierz pracownika" converter="#{kalendarzmiesiacConverter}">
                             <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
@@ -82,6 +88,9 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                                     <p:column width="80" style="text-align: center;">
                                         <h:outputText value="zapisane" rendered="#{itempasek.id ne null}" styleClass="wwb"/>
                                         <h:outputText value="nowe" rendered="#{itempasek.id eq null}" styleClass="ww"/>
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="#{itempasek.wiekpasek}" style="color: green;"/>
                                     </p:column>
                                     <p:column>
                                         <h:outputText value="brutto zus kraj"/>
@@ -133,6 +142,9 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                                     <p:column width="40" style="text-align: center;">
                                         <h:outputText value="#{indexpasek+1}"/>
                                         <h:outputText value="/import" style="color:blue;" rendered="#{itempasek.importowany eq true}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="nierezydent" rendered="#{itempasek.nierezydent}" style="color: green;"/>
                                     </p:column>
                                     <p:column>
                                         <bcf:outputpl value="#{itempasek.bruttozuskraj}" />

@@ -22,6 +22,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import kadryiplace.Place;
@@ -169,12 +170,21 @@ public class Pasekwynagrodzen implements Serializable {
     private String rok;
     @Column(name="mc")
     private String mc;
+    @Size(max = 10)
+    @Column(name="datawyplaty")
+    private String datawyplaty;
     @Column(name="importowany")
     private boolean importowany;
+    @Column(name = "lata")
+    private int lata;
+    @Column(name = "dni")
+    private int dni;
     @Column(name="do26lat")
     private boolean do26lat;
     @Column(name="wynagrodzenieminimalne")
     private double wynagrodzenieminimalne;
+    @Column(name = "nierezydent")
+    private boolean nierezydent;
     @OneToMany(mappedBy = "pasekwynagrodzen")
     private List<Rachunekdoumowyzlecenia> rachunekdoumowyzleceniaList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "pasekwynagrodzen", orphanRemoval = true)
@@ -378,6 +388,14 @@ public class Pasekwynagrodzen implements Serializable {
         this.kalendarzmiesiac = kalendarzmiesiac;
     }
 
+    public boolean isNierezydent() {
+        return nierezydent;
+    }
+
+    public void setNierezydent(boolean nierezydent) {
+        this.nierezydent = nierezydent;
+    }
+
     public String getNazwiskoImie() {
         return this.kalendarzmiesiac.getUmowa().getAngaz().getPracownik().getNazwiskoImie();
     }
@@ -400,6 +418,14 @@ public class Pasekwynagrodzen implements Serializable {
 
     public void setPodstawaskladkizus(double podstawaskladkizus) {
         this.podstawaskladkizus = podstawaskladkizus;
+    }
+
+    public String getDatawyplaty() {
+        return datawyplaty;
+    }
+
+    public void setDatawyplaty(String datawyplaty) {
+        this.datawyplaty = datawyplaty;
     }
 
     public double getBruttozus() {
@@ -440,6 +466,22 @@ public class Pasekwynagrodzen implements Serializable {
 
     public void setOddelegowaniepln(double oddelegowaniepln) {
         this.oddelegowaniepln = oddelegowaniepln;
+    }
+
+    public int getLata() {
+        return lata;
+    }
+
+    public void setLata(int lata) {
+        this.lata = lata;
+    }
+
+    public int getDni() {
+        return dni;
+    }
+
+    public void setDni(int dni) {
+        this.dni = dni;
     }
 
     public String getOddelegowaniewalutasymbol() {
@@ -796,6 +838,14 @@ public class Pasekwynagrodzen implements Serializable {
         this.rachunekdoumowyzleceniaList = rachunekdoumowyzleceniaList;
     }
 
+    public String getWiekpasek() {
+        String zwrot = "";
+        if (this.datawyplaty!=null) {
+            zwrot = "lat: "+this.lata+" dni: "+this.dni;
+        }
+        return zwrot;
+    }
+    
     public List<Pasekwynagrodzen.Skladnikwynlista> getPobierzskladniki(){
         List<Pasekwynagrodzen.Skladnikwynlista> zwrot = new ArrayList<>();
         int i = 1;
