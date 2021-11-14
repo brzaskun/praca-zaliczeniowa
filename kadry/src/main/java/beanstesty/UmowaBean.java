@@ -35,7 +35,6 @@ public class UmowaBean {
             umowa.setChorobowe(Boolean.TRUE);
             umowa.setChorobowedobrowolne(Boolean.FALSE);
             umowa.setDatado("2020-12-31");
-            umowa.setDatanfz("2020-12-01");
             umowa.setDataod("2020-12-01");
             umowa.setDataspoleczne("2020-12-01");
             umowa.setDatazawarcia("2020-12-01");
@@ -65,7 +64,6 @@ public class UmowaBean {
             Umowa umowa = new Umowa();
             umowa.setAngaz(angaz);
             umowa.setNrkolejny("UP/IMP/"+String.valueOf(numerumowy)+"/"+String.valueOf(angaz.getId()));
-            umowa.setDatanfz(Data.data_yyyyMMddNull(r.getZahDataOd()));
             umowa.setDataod(Data.data_yyyyMMddNull(r.getZahDataOd()));
             umowa.setDatado(Data.data_yyyyMMddNull(r.getZahDataDo()));
             umowa.setDataspoleczne(Data.data_yyyyMMddNull(r.getZahDataOd()));
@@ -102,7 +100,6 @@ public class UmowaBean {
         Umowa umowa = new Umowa();
         umowa.setAngaz(angaz);
         umowa.setNrkolejny("UC/IMP/"+String.valueOf(numerumowy)+"/"+String.valueOf(angaz.getId()));
-        umowa.setDatanfz(Data.data_yyyyMMddNull(r.getOzlDataOd()));
         umowa.setDataod(Data.data_yyyyMMddNull(r.getOzlDataOd()));
         umowa.setDatado(Data.data_yyyyMMddNull(r.getOzlDataDo()));
         umowa.setDataspoleczne(Data.data_yyyyMMddNull(r.getOzlDataOd()));

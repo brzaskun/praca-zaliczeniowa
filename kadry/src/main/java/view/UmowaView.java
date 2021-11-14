@@ -40,6 +40,7 @@ import entity.Zmiennapotracenia;
 import entity.Zmiennawynagrodzenia;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
@@ -140,23 +141,27 @@ public class UmowaView  implements Serializable {
         }
         if (rodzajumowy.equals("1")) {
             lista  = umowaFacade.findByAngazPraca(wpisView.getAngaz());
-            if (wpisView.getUmowa().getUmowakodzus().isZlecenie()&&lista!=null&&lista.size()>0) {
+            if (lista!=null&&lista.size()>0) {
                 Umowa aktywna = lista.stream().filter(p->p.isAktywna()).findAny().orElse(lista.get(0));
                 if (aktywna.isAktywna()==false) {
                     aktywna.setAktywna(true);
                     umowaFacade.edit(aktywna);
                 }
                 wpisView.setUmowa(aktywna);
+            } else {
+                wpisView.setUmowa(null);
             }
         } else {
             lista  = umowaFacade.findByAngazZlecenie(wpisView.getAngaz());
-            if (wpisView.getUmowa().getUmowakodzus().isPraca()&&lista!=null&&lista.size()>0) {
+            if (lista!=null&&lista.size()>0) {
                 Umowa aktywna = lista.stream().filter(p->p.isAktywna()).findAny().orElse(lista.get(0));
                 if (aktywna.isAktywna()==false) {
                     aktywna.setAktywna(true);
                     umowaFacade.edit(aktywna);
                 }
                 wpisView.setUmowa(aktywna);
+            } else {
+                wpisView.setUmowa(null);
             }
         }
         listaangaz = angazFacade.findByFirma(wpisView.getFirma());
@@ -175,6 +180,7 @@ public class UmowaView  implements Serializable {
             String dataodkiedywyplatazasilku = UmowaBean.obliczdatepierwszegozasilku(wpisView.getAngaz().getUmowaList(), selected);
             selected.setPierwszydzienzasilku(dataodkiedywyplatazasilku);
             selected.setAktywna(true);
+            selected.setDatasystem(new Date());
             umowaFacade.create(selected);
             if (lista!=null&&!lista.isEmpty()) {
                 for (Umowa p : lista) {
@@ -306,6 +312,7 @@ public class UmowaView  implements Serializable {
                     }
                 }
             }
+            selected.setDatasystem(new Date());
             umowaFacade.edit(selected);
             wpisView.setUmowa(selected);
             generujKalendarzNowaUmowa();
@@ -330,6 +337,16 @@ public class UmowaView  implements Serializable {
         if (selected.getDatado()!=null) {
             if (selected.getSlownikszkolazatrhistoria().getSymbol().equals("P")) {
                 Msg.msg("e","Wybrano umowę na czas nieokreślony a wprowadzono datę do!");
+            }
+        }
+    }
+    
+    public void nanieskosztynaumowe() {
+        if (selected!=null) {
+            if (selected.isKosztyuzyskania0podwyzszone1()) {
+                selected.setKosztyuzyskaniaprocent(100);
+            } else {
+                selected.setKosztyuzyskaniaprocent(120);
             }
         }
     }
@@ -415,12 +432,11 @@ public class UmowaView  implements Serializable {
     }
     
     public void naniesdatynaumowe() {
-        if (selected!=null && selected.getDataod()!=null) {
-            selected.setDatanfz(selected.getDataod());
-            selected.setDataspoleczne(selected.getDataod());
-            selected.setDatazdrowotne(selected.getDataod());
-            selected.setDatazawarcia(selected.getDataod());
-            selected.setTerminrozpoczeciapracy(selected.getDataod());
+        if (selected!=null && selected.getDatazawarcia()!=null) {
+            selected.setDataspoleczne(selected.getDatazawarcia());
+            selected.setDatazdrowotne(selected.getDatazawarcia());
+            selected.setDataod(selected.getDatazawarcia());
+            selected.setTerminrozpoczeciapracy(selected.getDatazawarcia());
         }
     }
     

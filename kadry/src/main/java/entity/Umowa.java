@@ -11,6 +11,7 @@ import embeddable.CzasTrwania;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -25,6 +26,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -47,7 +50,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Umowa.findByOdliczaculgepodatkowa", query = "SELECT u FROM Umowa u WHERE u.odliczaculgepodatkowa = :odliczaculgepodatkowa"),
     @NamedQuery(name = "Umowa.findByChorobowe", query = "SELECT u FROM Umowa u WHERE u.chorobowe = :chorobowe"),
     @NamedQuery(name = "Umowa.findByChorobowedobrowolne", query = "SELECT u FROM Umowa u WHERE u.chorobowedobrowolne = :chorobowedobrowolne"),
-    @NamedQuery(name = "Umowa.findByDatanfz", query = "SELECT u FROM Umowa u WHERE u.datanfz = :datanfz"),
     @NamedQuery(name = "Umowa.findByDataspoleczne", query = "SELECT u FROM Umowa u WHERE u.dataspoleczne = :dataspoleczne"),
     @NamedQuery(name = "Umowa.findByDatazdrowotne", query = "SELECT u FROM Umowa u WHERE u.datazdrowotne = :datazdrowotne"),
     @NamedQuery(name = "Umowa.findByEmerytalne", query = "SELECT u FROM Umowa u WHERE u.emerytalne = :emerytalne"),
@@ -82,9 +84,6 @@ public class Umowa implements Serializable {
     @Column(name = "datazawarcia")
     private String datazawarcia;
     @Size(max = 10)
-    @Column(name = "datanfz")
-    private String datanfz;
-    @Size(max = 10)
     @Column(name = "dataspoleczne")
     private String dataspoleczne;
     @Size(max = 10)
@@ -102,7 +101,14 @@ public class Umowa implements Serializable {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "kosztyuzyskaniaprocent")
     private double kosztyuzyskaniaprocent;
-     @Column(name = "kwotawolnaprocent")
+    @Column(name = "kosztyuzyskania0podwyzszone1")
+    private boolean kosztyuzyskania0podwyzszone1;
+    @Column(name = "nierezydent")
+    private boolean nierezydent;
+    @Size(max = 10)
+    @Column(name = "dataprzyjazdudopolski")
+    private String dataprzyjazdudopolski;
+    @Column(name = "kwotawolnaprocent")
     private double kwotawolnaprocent;
     @Column(name = "odliczaculgepodatkowa")
     private boolean odliczaculgepodatkowa;
@@ -148,9 +154,9 @@ public class Umowa implements Serializable {
     private List<Stanowiskoprac> stanowiskopracList;
     @Column(name = "aktywna")
     private  boolean aktywna;
-    @Size(max = 10)
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "datasystem")
-    private String datasystem;
+    private Date datasystem;
     @JoinColumn(name = "slownikszkolazatrhistoria", referencedColumnName = "id")
     @ManyToOne
     private  Slownikszkolazatrhistoria slownikszkolazatrhistoria;
@@ -259,6 +265,14 @@ public class Umowa implements Serializable {
         this.dataprzypomnienia = dataprzypomnienia;
     }
 
+    public boolean isKosztyuzyskania0podwyzszone1() {
+        return kosztyuzyskania0podwyzszone1;
+    }
+
+    public void setKosztyuzyskania0podwyzszone1(boolean kosztyuzyskania0podwyzszone1) {
+        this.kosztyuzyskania0podwyzszone1 = kosztyuzyskania0podwyzszone1;
+    }
+
     public String getDataprzypomnieniamail() {
         return dataprzypomnieniamail;
     }
@@ -266,7 +280,30 @@ public class Umowa implements Serializable {
     public void setDataprzypomnieniamail(String dataprzypomnieniamail) {
         this.dataprzypomnieniamail = dataprzypomnieniamail;
     }
-    
+
+    public Date getDatasystem() {
+        return datasystem;
+    }
+
+    public void setDatasystem(Date datasystem) {
+        this.datasystem = datasystem;
+    }
+
+    public boolean isNierezydent() {
+        return nierezydent;
+    }
+
+    public void setNierezydent(boolean nierezydent) {
+        this.nierezydent = nierezydent;
+    }
+
+    public String getDataprzyjazdudopolski() {
+        return dataprzyjazdudopolski;
+    }
+
+    public void setDataprzyjazdudopolski(String dataprzyjazdudopolski) {
+        this.dataprzyjazdudopolski = dataprzyjazdudopolski;
+    }
     
 
     @XmlTransient
@@ -500,14 +537,6 @@ public class Umowa implements Serializable {
         this.datazawarcia = datazawarcia;
     }
 
-    public String getDatanfz() {
-        return datanfz;
-    }
-
-    public void setDatanfz(String datanfz) {
-        this.datanfz = datanfz;
-    }
-
     public String getDataspoleczne() {
         return dataspoleczne;
     }
@@ -570,13 +599,7 @@ public class Umowa implements Serializable {
         return zwrot;
     }
 
-    public String getDatasystem() {
-        return datasystem;
-    }
 
-    public void setDatasystem(String datasystem) {
-        this.datasystem = datasystem;
-    }
 
     public Slownikszkolazatrhistoria getSlownikszkolazatrhistoria() {
         return slownikszkolazatrhistoria;

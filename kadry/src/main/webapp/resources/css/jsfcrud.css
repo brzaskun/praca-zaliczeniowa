@@ -39,6 +39,12 @@ table {
 .ui-chkbox-box {
     border: 1px solid #79b7e7 !Important;
 }
+
+body .ui-layout-resizer {
+    background-color: white !important;
+}
+
+
 /*.ui-button.ui-widget {
        margin-top: 15px;
        margin-bottom: 15px;

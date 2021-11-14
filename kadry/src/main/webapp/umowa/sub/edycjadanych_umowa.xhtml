@@ -4,83 +4,186 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
-        
-    xmlns:bcf="http://brzaskun.com/facelets"
-xmlns:pe="http://primefaces.org/ui/extensions">
-    <p:outputPanel style="height: 360px" id="panelumowadane">
-            <h:form id="UmowaCreateForm">
-                <p:panel header="Dodawanie/edycja umowy #{umowaView.rodzajumowy eq '1' ?'o pracę':'zlecenia i o dzieło'}"/>
-                <h:panelGroup id="display" >
-                    <h:outputText value="Dodajesz nową umowę #{umowaView.rodzajumowy eq '1' ?'o pracę':'zlecenia i o dzieło'}" style="color:green; margin-left: 50px; font-weight: bolder;" rendered="#{umowaView.selected.id eq null}"/>
-                    <h:outputText value="Zmieniasz istniejącą umowę" style="color:blue; margin-left: 50px; font-weight: bolder;" rendered="#{umowaView.selected.id ne null}"/>
-                    <p:panelGrid columns="4" rendered="#{umowaView.selected != null}">
-                        <p:panelGrid columns="2">
-                            <p:outputLabel value="angaz" for="angaz" />
-                            <h:outputText id="angaz" value="#{wpisView.angaz.pracownik.nazwiskoImie}"/>
-                            <p:outputLabel value="rodzaj umowy" for="rodzajumowy" />
-                            <p:selectOneMenu id="rodzajumowy" value="#{umowaView.selected.umowakodzus}" converter="#{umowakodzusConverter}" autoWidth="false" style="width: 300px;" filter="true" filterMatchMode="contains" required="true">
-                                <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
-                                <f:selectItems value="#{umowaView.listaumowakodzus}"
-                                               var="umowakodzusItem"
-                                               itemValue="#{umowakodzusItem}" itemLabel="#{umowakodzusItem.kod} #{umowakodzusItem.opis}"/>
-                                <p:ajax event="change" listener="#{umowaView.ustawumowe}" partialSubmit="true" global="false" update="@(form) UmowaCreateForm:nrumowy"/>
-                            </p:selectOneMenu>
-                            <p:outputLabel value="kod ZUS" for="kodumowy" />
-                            <p:inputText id="kodumowy" value="#{umowaView.selected.umowakodzus.kod}" title="kod" readonly="true"/>
-                             <p:outputLabel value="nr umowy" for="nrumowy" />
-                             <h:outputText id="nrumowy" value="#{umowaView.selected.nrkolejny}" title="data od" style="width: 200px;"/>
-                             <p:outputLabel value="czas trwania" for="czasumowy" />
-                             <p:selectOneMenu id="czasumowy" value="#{umowaView.selected.slownikszkolazatrhistoria}" autoWidth="false" style="width: 300px;" required="true" 
-                                              converter="#{slownikszkolazatrhistoriaConverter}">
-                                <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
-                                <f:selectItems value="#{slownikszkolazatrhistoriaView.listapraca}"
-                                               var="czastrwaniaItem" 
-                                               itemValue="#{czastrwaniaItem}" itemLabel="#{czastrwaniaItem.opis}"/>
-                            </p:selectOneMenu>
-                              <p:outputLabel value="opis stanowiska" for="stanowisko" />
-                                <p:inputText id="stanowisko" value="#{umowaView.selected.stanowisko}" title="stanowisko" style="width: 200px;"/>
-                           </p:panelGrid>
-                        <p:panelGrid columns="2">
-                            <p:outputLabel value="data od" for="dataod" />
-                            <p:inputText id="dataod" value="#{umowaView.selected.dataod}" title="data od"  placeholder="____-__-__"  required="true" styleClass="dataUmowy" maxlength="10">
-                                <p:ajax event="change" listener="#{umowaView.naniesdatynaumowe}" partialSubmit="true" global="false" update="@(.dataUmowy)"/>
-                            </p:inputText>
-                            <p:outputLabel value="data do" for="datado" />
-                            <p:inputText id="datado" value="#{umowaView.selected.datado}" title="data do"  placeholder="____-__-__"  maxlength="10">
-                                <p:ajax event="change" listener="#{umowaView.sprawdzczyumowajestnaczas}" partialSubmit="true" global="false" />
-                            </p:inputText>
-                            <p:outputLabel value="data zawarcia" for="datazawarcia" />
-                            <p:inputText id="datazawarcia" value="#{umowaView.selected.datazawarcia}" title="data zawarcia"  placeholder="____-__-__"  required="true" styleClass="dataUmowy" maxlength="10"/>
 
-                            <p:outputLabel value="chorobowe" for="chorobowe" />
-                            <p:selectBooleanCheckbox id="chorobowe" value="#{umowaView.selected.chorobowe}" />
-                            <p:outputLabel value="chorobowe dobrowolne" for="chorobowedobrowolne" />
-                            <p:selectBooleanCheckbox id="chorobowedobrowolne" value="#{umowaView.selected.chorobowedobrowolne}" />
-                            <p:outputLabel value="emerytalne" for="emerytalne" />
-                            <p:selectBooleanCheckbox id="emerytalne" value="#{umowaView.selected.emerytalne}" />
-                            
-                            <p:outputLabel value="rentowe" for="rentowe" />
-                            <p:selectBooleanCheckbox id="rentowe" value="#{umowaView.selected.rentowe}" />
-                            <p:outputLabel value="wypadkowe" for="wypadkowe" />
-                            <p:selectBooleanCheckbox id="wypadkowe" value="#{umowaView.selected.wypadkowe}" />
-                            <p:outputLabel value="zdrowotne" for="zdrowotne" />
-                            <p:selectBooleanCheckbox id="zdrowotne" value="#{umowaView.selected.zdrowotne}" />
-                        </p:panelGrid>
+    xmlns:bcf="http://brzaskun.com/facelets"
+    xmlns:pe="http://primefaces.org/ui/extensions">
+    <p:outputPanel style="height: 360px" id="panelumowadane">
+        <h:form id="UmowaCreateForm">
+            <p:panel header="Dodawanie/edycja umowy #{umowaView.rodzajumowy eq '1' ?'o pracę':'zlecenia i o dzieło'}"/>
+            <h:panelGroup id="displaypraca" rendered="#{umowaView.rodzajumowy eq '1'}">
+                <h:outputText value="Dodajesz nową umowę o pracę" style="color:green; margin-left: 50px; font-weight: bolder;" rendered="#{umowaView.selected.id eq null}"/>
+                <h:outputText value="Zmieniasz istniejącą umowę" style="color:blue; margin-left: 50px; font-weight: bolder;" rendered="#{umowaView.selected.id ne null}"/>
+                <p:panelGrid columns="4" rendered="#{umowaView.selected != null}">
+                    <p:panelGrid columns="2">
+                        <p:outputLabel value="angaz" for="angaz1" />
+                        <h:outputText id="angaz1" value="#{wpisView.angaz.pracownik.nazwiskoImie}"/>
+                        <p:outputLabel value="rodzaj umowy" for="rodzajumowy1" />
+                        <p:selectOneMenu id="rodzajumowy1" value="#{umowaView.selected.umowakodzus}" converter="#{umowakodzusConverter}" autoWidth="false" style="width: 300px;" filter="true" filterMatchMode="contains" required="true">
+                            <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
+                            <f:selectItems value="#{umowaView.listaumowakodzus}"
+                                           var="umowakodzusItem"
+                                           itemValue="#{umowakodzusItem}" itemLabel="#{umowakodzusItem.kod} #{umowakodzusItem.opis}"/>
+                            <p:ajax event="change" listener="#{umowaView.ustawumowe}" partialSubmit="true" global="false" update="@(form) UmowaCreateForm:nrumowy"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="kod ZUS" for="kodumowy1" />
+                        <p:inputText id="kodumowy1" value="#{umowaView.selected.umowakodzus.kod}" title="kod" readonly="true"/>
+                        <p:outputLabel value="nr umowy" for="nrumowy1" />
+                        <h:outputText id="nrumowy1" value="#{umowaView.selected.nrkolejny}" title="data od" style="width: 200px;"/>
+                        <p:outputLabel value="czas trwania" for="czasumowy1" />
+                        <p:selectOneMenu id="czasumowy1" value="#{umowaView.selected.slownikszkolazatrhistoria}" autoWidth="false" style="width: 300px;" required="true" 
+                                         converter="#{slownikszkolazatrhistoriaConverter}">
+                            <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
+                            <f:selectItems value="#{slownikszkolazatrhistoriaView.listapraca}"
+                                           var="czastrwaniaItem" 
+                                           itemValue="#{czastrwaniaItem}" itemLabel="#{czastrwaniaItem.opis}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="opis stanowiska" for="stanowisko1" />
+                        <p:inputText id="stanowisko1" value="#{umowaView.selected.stanowisko}" title="stanowisko" style="width: 200px;"/>
+                        <p:outputLabel value="data zawarcia" for="datazawarcia1" />
+                        <p:inputText id="datazawarcia1" value="#{umowaView.selected.datazawarcia}" title="data zawarcia"  placeholder="____-__-__"  required="true" styleClass="dataUmowy" maxlength="10">
+                            <p:ajax event="change" listener="#{umowaView.naniesdatynaumowe}" partialSubmit="true" global="false" update="@(.dataUmowy)"/>
+                        </p:inputText>
+                    </p:panelGrid>
+                    <p:panelGrid columns="2">
+                        <p:outputLabel value="data od" for="dataod1" />
+                        <p:inputText id="dataod1" value="#{umowaView.selected.dataod}" title="data od"  placeholder="____-__-__"  required="true" styleClass="dataUmowy" maxlength="10"/>
+                        <p:outputLabel value="data do" for="datado1" />
+                        <p:inputText id="datado1" value="#{umowaView.selected.datado}" title="data do"  placeholder="____-__-__"  maxlength="10">
+                            <p:ajax event="change" listener="#{umowaView.sprawdzczyumowajestnaczas}" partialSubmit="true" global="false" />
+                        </p:inputText>
+                        <p:outputLabel value="termin rozpoczecia pracy" for="datarozp1" />
+                        <p:inputText id="datarozp1" value="#{umowaView.selected.terminrozpoczeciapracy}" title="termin rozpoczecia pracy" styleClass="dataUmowy"  placeholder="____-__-__"  maxlength="10"/>
+
+                        <!--                        <p:outputLabel value="data spoleczne" for="dataspoleczne1" />
+                                                <p:inputText id="dataspoleczne1" value="#{umowaView.selected.dataspoleczne}" title="data spoleczne"  placeholder="____-__-__"  styleClass="dataUmowy"/>
+                                                <p:outputLabel value="data zdrowotne" for="datazdrowotne1" />
+                                                <p:inputText id="datazdrowotne1" value="#{umowaView.selected.datazdrowotne}" title="data zdrowotne"  placeholder="____-__-__"  styleClass="dataUmowy"/>-->
+                        <p:outputLabel value="nierezydent" for="nierezydent1" style="color: #97B0F8;"/>
+                        <p:selectBooleanCheckbox id="nierezydent1" value="#{umowaView.selected.nierezydent}">
+                        </p:selectBooleanCheckbox>
+                        <p:outputLabel value="data przyjazdu do Polski" for="datapolska1"  style="color: #97B0F8;"/>
+                        <p:inputText id="datapolska1" value="#{umowaView.selected.dataprzyjazdudopolski}" title="termin rozpoczecia pracy" styleClass="dataUmowy"  placeholder="____-__-__"  maxlength="10"/>
+                    </p:panelGrid>
+                    <p:panelGrid columns="2">
+
+                        <p:outputLabel value="odliczac ulge podatkowa" for="odliczaculgepodatkowa1" />
+                        <p:selectBooleanCheckbox id="odliczaculgepodatkowa1" value="#{umowaView.selected.odliczaculgepodatkowa}" />
+
+                        <p:outputLabel value="podwyższone koszty uzyskania" for="kosztyuzyskania1" />
+                        <p:selectBooleanCheckbox id="kosztyuzyskania1" value="#{umowaView.selected.kosztyuzyskania0podwyzszone1}">
+                            <p:ajax event="change" partialSubmit="true" listener="#{umowaView.nanieskosztynaumowe()}" />
+                        </p:selectBooleanCheckbox>
+<!--                        <p:inputText id="kosztyuzyskania1" value="#{umowaView.selected.kosztyuzyskaniaprocent}" title="koszty uzyskania procent" />-->
+
+                        <!--                        <p:outputLabel value="kwota wolna proc" for="kwotawolna1" />
+                                                <p:inputText id="kwotawolna1" value="#{umowaView.selected.kwotawolnaprocent}" title="kwota wolna procent" />-->
+
+                        <p:outputLabel value="kod zawodu" for="kodzawodu1" />
+                        <p:autoComplete id="kodzawodu1" value="#{umowaView.selected.kodzawodu}" converter="#{kodyzawodowConverter}" style="width: 300px;" cache="true" cacheTimeout="2000"
+                                        minQueryLength="3" maxResults="15" maxlength="25" itemtipMyPosition="rightbottom" queryDelay="10" size="50"
+                                        completeMethod="#{kodyzawodowConverter.complete}" var="kodzawoduItem"  required="true"
+                                        itemLabel="#{kodzawoduItem.nazwa}" itemValue="#{kodzawoduItem}" 
+                                        >
+                            <p:ajax event="query" global="false"/>
+                        </p:autoComplete>
+                        <p:outputLabel value="nfz" for="nfz1" />
+                        <p:inputText id="nfz1" value="#{umowaView.selected.nfz}" title="nfz}"  required="true"/>
+                        <p:outputLabel value="nie licz FGSP" for="nieliczFGSP1" />
+                        <p:selectBooleanCheckbox id="nieliczFGSP1" value="#{umowaView.selected.nieliczFGSP}" />
+                        <p:outputLabel value="nie licz FP" for="nieliczFP1" />
+                        <p:selectBooleanCheckbox id="nieliczFP1" value="#{umowaView.selected.nieliczFP}" />
+                    </p:panelGrid>
+                    <p:panelGrid columns="2">
+
+                        <p:outputLabel value="wynagrodzenie miesięczne" />
+                        <bcf:innum value="#{umowaView.wynagrodzeniemiesieczne}"/>
+                        <p:outputLabel value="wynagrodzenie godzinowe" />
+                        <bcf:innum value="#{umowaView.wynagrodzeniegodzinowe}"/>
+                        <!--                        <p:outputLabel value="data wprowadzenia do systemu" for="datasystem1" />
+                                                <p:inputText id="datasystem1" value="#{umowaView.selected.datasystem}" title="data wprowadzenia do systemu"  placeholder="____-__-__"  styleClass="dataUmowy"/>-->
+                        <h:outputText value="etat"/>
                         <p:panelGrid columns="2">
-                       
+                            <p:inputNumber id="etat11" value="#{umowaView.etat1}" size="2" maxValue="9" maxlength="1" decimalPlaces="0" />
+                            <p:inputNumber id="etat21" value="#{umowaView.etat2}" size="2" maxValue="9" maxlength="1" decimalPlaces="0" />
+                        </p:panelGrid>
+                        <p:outputLabel value="inne warunki zatr." />
+                        <p:inputText id="dodatkowe1" value="#{umowaView.selected.innewarunkizatrudnienia}" title="inne warunki zatrudnienia"  styleClass="dataUmowy" size="50"/>
+                        <p:outputLabel value="dopuszczalna ilośc nadgodzin" />
+                        <p:inputText id="dopuszczalna1" value="#{umowaView.selected.dopuszczalnailoscgodzin}" title="dopuszczalna ilość nagdodzin"  styleClass="dataUmowy" size="5"/>
+                        <p:outputLabel value="przyczyna umowy na czas określony - zastępstwo" />
+                        <p:inputText id="przyczyna1" value="#{umowaView.selected.przyczynaumowaokreslony}" title="przyczyna umowy"  styleClass="dataUmowy" size="50"/>
+                    </p:panelGrid>
+                </p:panelGrid>
+                <p:commandButton styleClass="buttonnorm" actionListener="#{umowaView.edit}" value="Edytuj" update="north, @(form)" rendered="#{umowaView.selected.id ne null}"/>
+                <p:commandButton styleClass="buttonnorm2" actionListener="#{umowaView.create}" value="Dodaj" update="north, @(form)"  rendered="#{umowaView.selected.id eq null}"/>
+                <p:commandButton styleClass="buttonnorm2" value="Anuluj"  actionListener="#{umowaView.cancel}"  update="north, @(form)" process="@this"/>
+            </h:panelGroup>
+            <h:panelGroup id="displayzlecenie" rendered="#{umowaView.rodzajumowy eq '2'}">
+                <h:outputText value="Dodajesz nową umowę zlecenia i o dzieło" style="color:green; margin-left: 50px; font-weight: bolder;" rendered="#{umowaView.selected.id eq null}"/>
+                <h:outputText value="Zmieniasz istniejącą umowę" style="color:blue; margin-left: 50px; font-weight: bolder;" rendered="#{umowaView.selected.id ne null}"/>
+                <p:panelGrid columns="4" rendered="#{umowaView.selected != null}">
+                    <p:panelGrid columns="2">
+                        <p:outputLabel value="angaz" for="angaz" />
+                        <h:outputText id="angaz" value="#{wpisView.angaz.pracownik.nazwiskoImie}"/>
+                        <p:outputLabel value="rodzaj umowy" for="rodzajumowy" />
+                        <p:selectOneMenu id="rodzajumowy" value="#{umowaView.selected.umowakodzus}" converter="#{umowakodzusConverter}" autoWidth="false" style="width: 300px;" filter="true" filterMatchMode="contains" required="true">
+                            <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
+                            <f:selectItems value="#{umowaView.listaumowakodzus}"
+                                           var="umowakodzusItem"
+                                           itemValue="#{umowakodzusItem}" itemLabel="#{umowakodzusItem.kod} #{umowakodzusItem.opis}"/>
+                            <p:ajax event="change" listener="#{umowaView.ustawumowe}" partialSubmit="true" global="false" update="@(form) UmowaCreateForm:nrumowy"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="kod ZUS" for="kodumowy" />
+                        <p:inputText id="kodumowy" value="#{umowaView.selected.umowakodzus.kod}" title="kod" readonly="true"/>
+                        <p:outputLabel value="nr umowy" for="nrumowy" />
+                        <h:outputText id="nrumowy" value="#{umowaView.selected.nrkolejny}" title="data od" style="width: 200px;"/>
+                        <p:outputLabel value="czas trwania" for="czasumowy" />
+                        <p:selectOneMenu id="czasumowy" value="#{umowaView.selected.slownikszkolazatrhistoria}" autoWidth="false" style="width: 300px;" required="true" 
+                                         converter="#{slownikszkolazatrhistoriaConverter}">
+                            <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
+                            <f:selectItems value="#{slownikszkolazatrhistoriaView.listapraca}"
+                                           var="czastrwaniaItem" 
+                                           itemValue="#{czastrwaniaItem}" itemLabel="#{czastrwaniaItem.opis}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="opis stanowiska" for="stanowisko" />
+                        <p:inputText id="stanowisko" value="#{umowaView.selected.stanowisko}" title="stanowisko" style="width: 200px;"/>
+                    </p:panelGrid>
+                    <p:panelGrid columns="2">
+                        <p:outputLabel value="data zawarcia" for="datazawarcia" />
+                        <p:inputText id="datazawarcia" value="#{umowaView.selected.datazawarcia}" title="data zawarcia"  placeholder="____-__-__"  required="true" styleClass="dataUmowy" maxlength="10">
+                            <p:ajax event="change" listener="#{umowaView.naniesdatynaumowe}" partialSubmit="true" global="false" update="@(.dataUmowy)"/>
+                        </p:inputText>
+                        <p:outputLabel value="data od" for="dataod" />
+                        <p:inputText id="dataod" value="#{umowaView.selected.dataod}" title="data od"  placeholder="____-__-__"  required="true" styleClass="dataUmowy" maxlength="10"/>
+                        <p:outputLabel value="data do" for="datado" />
+                        <p:inputText id="datado" value="#{umowaView.selected.datado}" title="data do"  placeholder="____-__-__"  maxlength="10">
+                            <p:ajax event="change" listener="#{umowaView.sprawdzczyumowajestnaczas}" partialSubmit="true" global="false" />
+                        </p:inputText>
+                        <p:outputLabel value="termin rozpoczecia pracy" for="datarozp" />
+                        <p:inputText id="datarozp" value="#{umowaView.selected.terminrozpoczeciapracy}" title="termin rozpoczecia pracy" styleClass="dataUmowy"  placeholder="____-__-__"  maxlength="10"/>
+
+                        <!--                        <p:outputLabel value="data spoleczne" for="dataspoleczne1" />
+                                                <p:inputText id="dataspoleczne1" value="#{umowaView.selected.dataspoleczne}" title="data spoleczne"  placeholder="____-__-__"  styleClass="dataUmowy"/>
+                                                <p:outputLabel value="data zdrowotne" for="datazdrowotne1" />
+                                                <p:inputText id="datazdrowotne1" value="#{umowaView.selected.datazdrowotne}" title="data zdrowotne"  placeholder="____-__-__"  styleClass="dataUmowy"/>-->
+                        <p:outputLabel value="nierezydent" for="nierezydent" style="color: #97B0F8;"/>
+                        <p:selectBooleanCheckbox id="nierezydent" value="#{umowaView.selected.nierezydent}">
+                        </p:selectBooleanCheckbox>
+                        <p:outputLabel value="data przyjazdu do Polski" for="datapolska"  style="color: #97B0F8;"/>
+                        <p:inputText id="datapolska" value="#{umowaView.selected.dataprzyjazdudopolski}" title="termin rozpoczecia pracy" styleClass="dataUmowy"  placeholder="____-__-__"  maxlength="10"/>
+
+
+                    </p:panelGrid>
+                    <p:panelGrid columns="2">
+
                         <p:outputLabel value="odliczac ulge podatkowa" for="odliczaculgepodatkowa" />
                         <p:selectBooleanCheckbox id="odliczaculgepodatkowa" value="#{umowaView.selected.odliczaculgepodatkowa}" />
-                       
+
                         <p:outputLabel value="koszty uzyskania proc" for="kosztyuzyskania" />
                         <p:inputText id="kosztyuzyskania" value="#{umowaView.selected.kosztyuzyskaniaprocent}" title="koszty uzyskania procent" />
                         <p:outputLabel value="kwota wolna proc" for="kwotawolna" />
                         <p:inputText id="kwotawolna" value="#{umowaView.selected.kwotawolnaprocent}" title="kwota wolna procent" />
-                        <p:outputLabel value="data nfz" for="datanfz" />
-                        <p:inputText id="datanfz" value="#{umowaView.selected.datanfz}" title="data nfz"  placeholder="____-__-__"  styleClass="dataUmowy"/>
-                        <p:outputLabel value="data spoleczne" for="dataspoleczne" />
-                        <p:inputText id="dataspoleczne" value="#{umowaView.selected.dataspoleczne}" title="data spoleczne"  placeholder="____-__-__"  styleClass="dataUmowy"/>
-                        <p:outputLabel value="data zdrowotne" for="datazdrowotne" />
-                        <p:inputText id="datazdrowotne" value="#{umowaView.selected.datazdrowotne}" title="data zdrowotne"  placeholder="____-__-__"  styleClass="dataUmowy"/>
+
                         <p:outputLabel value="kod zawodu" for="kodzawodu" />
                         <p:autoComplete id="kodzawodu" value="#{umowaView.selected.kodzawodu}" converter="#{kodyzawodowConverter}" style="width: 300px;" cache="true" cacheTimeout="2000"
                                         minQueryLength="3" maxResults="15" maxlength="25" itemtipMyPosition="rightbottom" queryDelay="10" size="50"
@@ -92,221 +195,183 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                         <p:outputLabel value="nfz" for="nfz" />
                         <p:inputText id="nfz" value="#{umowaView.selected.nfz}" title="nfz}"  required="true"/>
                         <p:outputLabel value="nie licz FGSP" for="nieliczFGSP" />
-                            <p:selectBooleanCheckbox id="nieliczFGSP" value="#{umowaView.selected.nieliczFGSP}" />
-                            <p:outputLabel value="nie licz FP" for="nieliczFP" />
-                            <p:selectBooleanCheckbox id="nieliczFP" value="#{umowaView.selected.nieliczFP}" />
-                        </p:panelGrid>
-                        <p:panelGrid columns="2">
-                            <p:outputLabel value="termin rozpoczecia pracy" for="datarozp" />
-                            <p:inputText id="datarozp" value="#{umowaView.selected.terminrozpoczeciapracy}" title="termin rozpoczecia pracy" styleClass="dataUmowy"  placeholder="____-__-__"  maxlength="10"/>
-                            <p:outputLabel value="wynagrodzenie miesięczne" />
-                             <bcf:innum value="#{umowaView.wynagrodzeniemiesieczne}"/>
-                             <p:outputLabel value="wynagrodzenie godzinowe" />
-                             <bcf:innum value="#{umowaView.wynagrodzeniegodzinowe}"/>
-                            <p:outputLabel value="data wprowadzenia do systemu" for="datasystem" />
-                            <p:inputText id="datasystem" value="#{umowaView.selected.datasystem}" title="data wprowadzenia do systemu"  placeholder="____-__-__"  styleClass="dataUmowy"/>
-                            <h:outputText value="etat"/>
-                            <p:panelGrid columns="2">
-                                <p:inputNumber id="etat1" value="#{umowaView.etat1}" size="2" maxValue="9" maxlength="1" decimalPlaces="0" />
-                                <p:inputNumber id="etat2" value="#{umowaView.etat2}" size="2" maxValue="9" maxlength="1" decimalPlaces="0" />
-                            </p:panelGrid>
-                            <p:outputLabel value="inne warunki zatr." />
-                            <p:inputText id="dodatkowe" value="#{umowaView.selected.innewarunkizatrudnienia}" title="inne warunki zatrudnienia"  styleClass="dataUmowy" size="50"/>
-                            <p:outputLabel value="dopuszczalna ilośc nadgodzin" />
-                            <p:inputText id="dopuszczalna" value="#{umowaView.selected.dopuszczalnailoscgodzin}" title="dopuszczalna ilość nagdodzin"  styleClass="dataUmowy" size="5"/>
-                             <p:outputLabel value="przyczyna umowy na czas określony - zastępstwo" />
-                             <p:inputText id="przyczyna" value="#{umowaView.selected.przyczynaumowaokreslony}" title="przyczyna umowy"  styleClass="dataUmowy" size="50"/>
-                        </p:panelGrid>
+                        <p:selectBooleanCheckbox id="nieliczFGSP" value="#{umowaView.selected.nieliczFGSP}" />
+                        <p:outputLabel value="nie licz FP" for="nieliczFP" />
+                        <p:selectBooleanCheckbox id="nieliczFP" value="#{umowaView.selected.nieliczFP}" />
                     </p:panelGrid>
-<!--                    <p:panelGrid columns="1" id="paneldodawaniaetatu" rendered="#{umowaView.selected.id != null}">
-                        <p:panelGrid columns="8">
-                            <p:outputLabel value="data od" for="dataodetat" />
-                            <p:inputText id="dataodetat" value="#{umowaView.etat.dataod}" title="data od"  placeholder="____-__-__" />
-                            <p:outputLabel value="data do" for="datadoetat" />
-                            <p:inputText id="datadoetat" value="#{umowaView.etat.datado}" title="data od"  placeholder="____-__-__" />
-                            <p:outputLabel value=" " for="etat1" />
-                            <p:inputText id="etat1" value="#{umowaView.etat.etat1}" title="etat1"  size="1"/>
-                            <p:outputLabel value=" " for="etat2" />
-                            <p:inputText id="etat2" value="#{umowaView.etat.etat2}" title="etat2"  size="1"/>
-                            <p:commandButton styleClass="buttonnorm" actionListener="#{umowaView.dodatetat}" value="#{bundle.Save}" update="north, @(form)" />
-                        </p:panelGrid>
-                        <p:dataTable value="#{umowaView.selected.etatList}" 
-                                     var="itemetatlist"
-                                     rowKey="#{itemetatlist.id}"
-                                     style="height: 200px; overflow-y: scroll;">
-                        <p:column width="40" style="text-align: center;">
-                            <f:facet name="header">
-                                <h:outputText value="od"/>
-                            </f:facet>
-                                <h:outputText value="#{itemetatlist.dataod}"/>
-                        </p:column>
-                        <p:column width="40" style="text-align: center;">
-                            <f:facet name="header">
-                                <h:outputText value="do"/>
-                            </f:facet>
-                            <h:outputText value="#{itemetatlist.datado}"/>
-                        </p:column>
-                        <p:column width="40" style="text-align: center;">
-                            <f:facet name="header">
-                                <h:outputText value="/"/>
-                            </f:facet>
-                            <h:outputText value="#{itemetatlist.etat1}"/>
-                            <h:outputText value="/"/>
-                            <h:outputText value="#{itemetatlist.etat2}"/>
-                        </p:column>
-                        </p:dataTable>
-                    </p:panelGrid>-->
-                    <p:commandButton styleClass="buttonnorm" actionListener="#{umowaView.edit}" value="Edytuj" update="north, @(form)" rendered="#{umowaView.selected.id ne null}"/>
-                    <p:commandButton styleClass="buttonnorm2" actionListener="#{umowaView.create}" value="Dodaj" update="north, @(form)"  rendered="#{umowaView.selected.id eq null}"/>
-                    <p:commandButton styleClass="buttonnorm2" value="Anuluj"  actionListener="#{umowaView.cancel}"  update="north, @(form)" process="@this"/>
-                </h:panelGroup>
-            </h:form>
-        </p:outputPanel>
-    <p:outputPanel style="margin-top: 10px;">
-            <h:form id="UmowaListForm">
-                <p:panel header="Wykaz umów #{umowaView.rodzajumowy eq '1' ?'o pracę':'zlecenia i o dzieło'} / Gdy jest pusta sprawdź w parametrach przyporządkowanie kodu do umowy">
-                    <p:dataTable id="datalist" value="#{umowaView.lista}" var="itemumowa" widgetVar="dataListumowa"
-                                 selectionMode="single" selection="#{umowaView.selectedlista}" emptyMessage="Brak zawartych umów"
-                                 rowKey="#{itemumowa.id}" sortBy="#{itemumowa.dataod}" sortMode="single"
-                                 style="height: 220px; overflow-y: scroll; width: 1800px;"
-                                 >
-                        <p:ajax event="rowSelect" listener="#{umowaView.aktywuj}" partialSubmit="true" global="false" update="north, @(form)"/>
-                        <p:column width="80" style="text-align: center;">
-                            <f:facet name="header">
-                                <h:outputText value="nr"/>
-                            </f:facet>
-                            <h:outputText value="#{itemumowa.nrkolejny}" style="line-break: auto; word-break: break-all;color: #{itemumowa.aktywna eq true ? 'green':'initial'}"/>
-                        </p:column>
-<!--                         <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="angaz"/>
-                            </f:facet>
-                             <h:outputText value="#{itemumowa.angaz.pracownik.nazwiskoImie}" style="color: #{itemumowa.aktywna eq true ? 'green':'initial'}"/>
-                        </p:column>-->            <p:column width="100">
-                            <f:facet name="header">
-                                <h:outputText value="umowa"/>
-                            </f:facet>
-                            <h:outputText value="#{itemumowa.slownikszkolazatrhistoria.opis}" style="color: #{itemumowa.aktywna eq true ? 'green':'initial'}"/>
-                        </p:column>
-                        <p:column width="200">
-                            <f:facet name="header">
-                                <h:outputText value="rodzaj umowy ZUS"/>
-                            </f:facet>
-                            <h:outputText value="#{itemumowa.umowakodzus.opiswybor}" style="color: #{itemumowa.aktywna eq true ? 'green':'initial'}"/>
-                        </p:column>
-                        <p:column style="text-align: center;">
-                            <f:facet name="header">
-                                <h:outputText value="odliczac ulge pod."/>
-                            </f:facet>
-                            <h:outputText value="&#x2714;" rendered="#{itemumowa.odliczaculgepodatkowa eq true}" style="color: #{itemumowa.aktywna eq true ? 'green':'initial'}"/>
-                        </p:column>
-                        <p:column style="text-align: center;">
-                            <f:facet name="header">
-                                <h:outputText value="chor."/>
-                            </f:facet>
-                            <h:outputText value="&#x2714;"  rendered="#{itemumowa.chorobowe eq true}"/>
-                        </p:column>
-                        <p:column style="text-align: center;">
-                            <f:facet name="header">
-                                <h:outputText value="chor. dobr."/>
-                            </f:facet>
-                            <h:outputText value="&#x2714;"  rendered="#{itemumowa.chorobowedobrowolne eq true}"/>
-                        </p:column>
-                        <p:column style="text-align: center;">
-                            <f:facet name="header">
-                                <h:outputText value="emeryt."/>
-                            </f:facet>
-                            <h:outputText value="&#x2714;"  rendered="#{itemumowa.emerytalne eq true}"/>
-                        </p:column>
-                        <p:column style="text-align: center;">
-                            <f:facet name="header">
-                                <h:outputText value="bez FGSP"/>
-                            </f:facet>
-                            <h:outputText value="&#x2714;"  rendered="#{itemumowa.nieliczFGSP eq true}"/>
-                        </p:column>
-                        <p:column style="text-align: center;">
-                            <f:facet name="header">
-                                <h:outputText value="bez FP"/>
-                            </f:facet>
-                            <h:outputText value="&#x2714;"  rendered="#{itemumowa.nieliczFP eq true}"/>
-                        </p:column>
-                        <p:column style="text-align: center;">
-                            <f:facet name="header">
-                                <h:outputText value="rent."/>
-                            </f:facet>
-                            <h:outputText value="&#x2714;"  rendered="#{itemumowa.rentowe eq true}"/>
-                        </p:column>
-                        <p:column style="text-align: center;">
-                            <f:facet name="header">
-                                <h:outputText value="wypad."/>
-                            </f:facet>
-                            <h:outputText value="&#x2714;"  rendered="#{itemumowa.wypadkowe eq true}"/>
-                        </p:column>
-                        <p:column style="text-align: center;">
-                            <f:facet name="header">
-                                <h:outputText value="zdrow."/>
-                            </f:facet>
-                            <h:outputText value="&#x2714;"  rendered="#{itemumowa.zdrowotne eq true}"/>
-                        </p:column>
-                        <p:column style="text-align: center;color: #{itemumowa.aktywna eq true ? 'green':'initial'}" sortOrder="desc" sortBy="#{itemumowa.dataod}">
-                            <f:facet name="header">
-                                <h:outputText value="data od"/>
-                            </f:facet>
-                            <h:outputText value="#{itemumowa.dataod}"/>
-                        </p:column>
-                        <p:column style="text-align: center;color: #{itemumowa.aktywna eq true ? 'green':'initial'}">
-                            <f:facet name="header">
-                                <h:outputText value="data do"/>
-                            </f:facet>
-                            <h:outputText value="#{itemumowa.datado}"/>
-                        </p:column>
+                    <p:panelGrid columns="2">
+                        <p:outputLabel value="wynagrodzenie miesięczne" />
+                        <bcf:innum value="#{umowaView.wynagrodzeniemiesieczne}"/>
+                        <p:outputLabel value="wynagrodzenie godzinowe" />
+                        <bcf:innum value="#{umowaView.wynagrodzeniegodzinowe}"/>
+                        <p:outputLabel value="chorobowe" for="chorobowe" />
+                        <p:selectBooleanCheckbox id="chorobowe" value="#{umowaView.selected.chorobowe}" />
+                        <p:outputLabel value="chorobowe dobrowolne" for="chorobowedobrowolne" />
+                        <p:selectBooleanCheckbox id="chorobowedobrowolne" value="#{umowaView.selected.chorobowedobrowolne}" />
+                        <p:outputLabel value="emerytalne" for="emerytalne" />
+                        <p:selectBooleanCheckbox id="emerytalne" value="#{umowaView.selected.emerytalne}" />
 
-                        <p:column style="text-align: center;">
-                            <f:facet name="header">
-                                <h:outputText value="zas. chor. od "/>
-                            </f:facet>
-                            <h:outputText value="#{itemumowa.pierwszydzienzasilku}"/>
-                        </p:column>
-                        <p:column style="text-align: center;">
-                            <f:facet name="header">
-                                <h:outputText value="koszty uzyskania"/>
-                            </f:facet>
-                            <h:outputText value="#{itemumowa.kosztyuzyskaniaprocent}"/>
-                        </p:column>
-                        <p:column style="text-align: center;">
-                            <f:facet name="header">
-                                <h:outputText value="kod ubezpieczenia"/>
-                            </f:facet>
-                            <h:outputText value="#{itemumowa.umowakodzus.kod}"/>
-                        </p:column>
-                        <p:column style="text-align: center;">
-                            <f:facet name="header">
-                                <h:outputText value="kod zawodu"/>
-                            </f:facet>
-                            <h:outputText value="#{itemumowa.kodzawodu.symbolkzis}"/>
-                        </p:column>
-                        <p:column style="text-align: center;">
-                            <f:facet name="header">
-                                <h:outputText value="nfz"/>
-                            </f:facet>
-                            <h:outputText value="#{itemumowa.nfz}"/>
-                        </p:column>
-                        <p:column width="40" style="text-align: center;">
-                            <p:commandButton icon="fa fa-edit" actionListener="#{umowaView.edytuj(itemumowa)}" update="north, @(form)"/>
-                        </p:column>
-                        <p:column width="40" style="text-align: center;">
-                            <p:commandButton icon="fa fa-file-text-o"  actionListener="#{umowaView.edytuj(itemumowa)}" onclick="PF('dialogumowatresc').show();" update="north, @(form)"/>
-                        </p:column>
-                        <p:column width="40" style="text-align: center;">
-                            <p:commandButton icon="fa fa-trash" actionListener="#{umowaView.usun(itemumowa)}" update="north, @(form)">
-                                <p:confirm type="popup" header="Potwierdzenie" message="Usunąć daną umowę?" icon="pi pi-exclamation-triangle"/>
-                            </p:commandButton>
-                        </p:column>
-                    </p:dataTable>
-                </p:panel>
-                  <p:contextMenu for="datalist" style="width: 200px;">
-                        <p:menuitem value="oznacz jako aktywną" icon="fa fa-star" actionListener="#{umowaView.oznaczjakoaktywna()}" update="@form"/>
-                  </p:contextMenu>
-            </h:form>
-        </p:outputPanel>
+                        <p:outputLabel value="rentowe" for="rentowe" />
+                        <p:selectBooleanCheckbox id="rentowe" value="#{umowaView.selected.rentowe}" />
+                        <p:outputLabel value="wypadkowe" for="wypadkowe" />
+                        <p:selectBooleanCheckbox id="wypadkowe" value="#{umowaView.selected.wypadkowe}" />
+                        <p:outputLabel value="zdrowotne" for="zdrowotne" />
+                        <p:selectBooleanCheckbox id="zdrowotne" value="#{umowaView.selected.zdrowotne}" />
+                        <p:outputLabel value="inne warunki zatr." />
+                        <p:inputText id="dodatkowe" value="#{umowaView.selected.innewarunkizatrudnienia}" title="inne warunki zatrudnienia"  styleClass="dataUmowy" size="50"/>
+                    </p:panelGrid>
+                </p:panelGrid>
+                <p:commandButton styleClass="buttonnorm" actionListener="#{umowaView.edit}" value="Edytuj" update="north, @(form)" rendered="#{umowaView.selected.id ne null}"/>
+                <p:commandButton styleClass="buttonnorm2" actionListener="#{umowaView.create}" value="Dodaj" update="north, @(form)"  rendered="#{umowaView.selected.id eq null}"/>
+                <p:commandButton styleClass="buttonnorm2" value="Anuluj"  actionListener="#{umowaView.cancel}"  update="north, @(form)" process="@this"/>
+            </h:panelGroup>
+        </h:form>
+    </p:outputPanel>
+    <p:outputPanel style="margin-top: 10px;">
+        <h:form id="UmowaListForm">
+            <p:panel header="Wykaz umów #{umowaView.rodzajumowy eq '1' ?'o pracę':'zlecenia i o dzieło'} / Gdy jest pusta sprawdź w parametrach przyporządkowanie kodu do umowy">
+                <p:dataTable id="datalist" value="#{umowaView.lista}" var="itemumowa" widgetVar="dataListumowa"
+                             selectionMode="single" selection="#{umowaView.selectedlista}" emptyMessage="Brak zawartych umów"
+                             rowKey="#{itemumowa.id}" sortBy="#{itemumowa.dataod}" sortMode="single"
+                             style="height: 220px; overflow-y: scroll; width: 1800px;"
+                             >
+                    <p:ajax event="rowSelect" listener="#{umowaView.aktywuj}" partialSubmit="true" global="false" update="north, @(form)"/>
+                    <p:column width="80" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="nr"/>
+                        </f:facet>
+                        <h:outputText value="#{itemumowa.nrkolejny}" style="line-break: auto; word-break: break-all;color: #{itemumowa.aktywna eq true ? 'green':'initial'}"/>
+                    </p:column>
+                    <!--                         <p:column>
+                                                <f:facet name="header">
+                                                    <h:outputText value="angaz"/>
+                                                </f:facet>
+                                                 <h:outputText value="#{itemumowa.angaz.pracownik.nazwiskoImie}" style="color: #{itemumowa.aktywna eq true ? 'green':'initial'}"/>
+                                            </p:column>-->            <p:column width="100">
+                        <f:facet name="header">
+                            <h:outputText value="umowa"/>
+                        </f:facet>
+                        <h:outputText value="#{itemumowa.slownikszkolazatrhistoria.opis}" style="color: #{itemumowa.aktywna eq true ? 'green':'initial'}"/>
+                    </p:column>
+                    <p:column width="200">
+                        <f:facet name="header">
+                            <h:outputText value="rodzaj umowy ZUS"/>
+                        </f:facet>
+                        <h:outputText value="#{itemumowa.umowakodzus.opiswybor}" style="color: #{itemumowa.aktywna eq true ? 'green':'initial'}"/>
+                    </p:column>
+                    <p:column style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="odliczac ulge pod."/>
+                        </f:facet>
+                        <h:outputText value="&#x2714;" rendered="#{itemumowa.odliczaculgepodatkowa eq true}" style="color: #{itemumowa.aktywna eq true ? 'green':'initial'}"/>
+                    </p:column>
+                    <p:column style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="chor."/>
+                        </f:facet>
+                        <h:outputText value="&#x2714;"  rendered="#{itemumowa.chorobowe eq true}"/>
+                    </p:column>
+                    <p:column style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="chor. dobr."/>
+                        </f:facet>
+                        <h:outputText value="&#x2714;"  rendered="#{itemumowa.chorobowedobrowolne eq true}"/>
+                    </p:column>
+                    <p:column style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="emeryt."/>
+                        </f:facet>
+                        <h:outputText value="&#x2714;"  rendered="#{itemumowa.emerytalne eq true}"/>
+                    </p:column>
+                    <p:column style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="bez FGSP"/>
+                        </f:facet>
+                        <h:outputText value="&#x2714;"  rendered="#{itemumowa.nieliczFGSP eq true}"/>
+                    </p:column>
+                    <p:column style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="bez FP"/>
+                        </f:facet>
+                        <h:outputText value="&#x2714;"  rendered="#{itemumowa.nieliczFP eq true}"/>
+                    </p:column>
+                    <p:column style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="rent."/>
+                        </f:facet>
+                        <h:outputText value="&#x2714;"  rendered="#{itemumowa.rentowe eq true}"/>
+                    </p:column>
+                    <p:column style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="wypad."/>
+                        </f:facet>
+                        <h:outputText value="&#x2714;"  rendered="#{itemumowa.wypadkowe eq true}"/>
+                    </p:column>
+                    <p:column style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="zdrow."/>
+                        </f:facet>
+                        <h:outputText value="&#x2714;"  rendered="#{itemumowa.zdrowotne eq true}"/>
+                    </p:column>
+                    <p:column style="text-align: center;color: #{itemumowa.aktywna eq true ? 'green':'initial'}" sortOrder="desc" sortBy="#{itemumowa.dataod}">
+                        <f:facet name="header">
+                            <h:outputText value="data od"/>
+                        </f:facet>
+                        <h:outputText value="#{itemumowa.dataod}"/>
+                    </p:column>
+                    <p:column style="text-align: center;color: #{itemumowa.aktywna eq true ? 'green':'initial'}">
+                        <f:facet name="header">
+                            <h:outputText value="data do"/>
+                        </f:facet>
+                        <h:outputText value="#{itemumowa.datado}"/>
+                    </p:column>
+
+                    <p:column style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="zas. chor. od "/>
+                        </f:facet>
+                        <h:outputText value="#{itemumowa.pierwszydzienzasilku}"/>
+                    </p:column>
+                    <p:column style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="koszty uzyskania"/>
+                        </f:facet>
+                        <h:outputText value="#{itemumowa.kosztyuzyskaniaprocent}"/>
+                    </p:column>
+                    <p:column style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="kod ubezpieczenia"/>
+                        </f:facet>
+                        <h:outputText value="#{itemumowa.umowakodzus.kod}"/>
+                    </p:column>
+                    <p:column style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="kod zawodu"/>
+                        </f:facet>
+                        <h:outputText value="#{itemumowa.kodzawodu.symbolkzis}"/>
+                    </p:column>
+                    <p:column style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="nfz"/>
+                        </f:facet>
+                        <h:outputText value="#{itemumowa.nfz}"/>
+                    </p:column>
+                    <p:column width="40" style="text-align: center;">
+                        <p:commandButton icon="fa fa-edit" actionListener="#{umowaView.edytuj(itemumowa)}" update="north, @(form)"/>
+                    </p:column>
+                    <p:column width="40" style="text-align: center;">
+                        <p:commandButton icon="fa fa-file-text-o"  actionListener="#{umowaView.edytuj(itemumowa)}" onclick="PF('dialogumowatresc').show();" update="north, @(form)"/>
+                    </p:column>
+                    <p:column width="40" style="text-align: center;">
+                        <p:commandButton icon="fa fa-trash" actionListener="#{umowaView.usun(itemumowa)}" update="north, @(form)">
+                            <p:confirm type="popup" header="Potwierdzenie" message="Usunąć daną umowę?" icon="pi pi-exclamation-triangle"/>
+                        </p:commandButton>
+                    </p:column>
+                </p:dataTable>
+            </p:panel>
+            <p:contextMenu for="datalist" style="width: 200px;">
+                <p:menuitem value="oznacz jako aktywną" icon="fa fa-star" actionListener="#{umowaView.oznaczjakoaktywna()}" update="@form"/>
+            </p:contextMenu>
+        </h:form>
+    </p:outputPanel>
 </ui:composition>
