@@ -209,6 +209,11 @@ public class Umowa implements Serializable {
     private String  dataprzypomnieniaszkolenie;
     @Column(name = "dataprzypomnieniamailszkolenie")
     private String  dataprzypomnieniamailszkolenie;
+    @Column(name = "lata")
+    private int lata;
+    @Column(name = "dni")
+    private int dni;
+    
 
     public Umowa() {
         this.etatList = new ArrayList<>();
@@ -303,6 +308,22 @@ public class Umowa implements Serializable {
 
     public void setDataprzyjazdudopolski(String dataprzyjazdudopolski) {
         this.dataprzyjazdudopolski = dataprzyjazdudopolski;
+    }
+
+    public int getLata() {
+        return lata;
+    }
+
+    public void setLata(int lata) {
+        this.lata = lata;
+    }
+
+    public int getDni() {
+        return dni;
+    }
+
+    public void setDni(int dni) {
+        this.dni = dni;
     }
     
 
@@ -765,6 +786,14 @@ public class Umowa implements Serializable {
         this.urlopprezentacjaList = urlopprezentacjaList;
     }
 
+    public String getWiekumowa() {
+        String zwrot = "";
+        if (this.dataod!=null) {
+            zwrot = "lat: "+this.lata+" dni: "+this.dni;
+        }
+        return zwrot;
+    }
+    
     public EtatPrac pobierzetat(String data) {
        EtatPrac zwrot = null;
         List<EtatPrac> etatList1 = this.etatList;

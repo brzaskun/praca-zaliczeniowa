@@ -53,6 +53,8 @@
                         </p:inputText>
                         <p:outputLabel value="termin rozpoczecia pracy" for="datarozp1" />
                         <p:inputText id="datarozp1" value="#{umowaView.selected.terminrozpoczeciapracy}" title="termin rozpoczecia pracy" styleClass="dataUmowy"  placeholder="____-__-__"  maxlength="10"/>
+                         <p:outputLabel value="wiek" for="wiek1" />
+                         <h:outputText id="wiek1" value="#{umowaView.selected.wiekumowa}" styleClass="dataUmowy"/>
 
                         <!--                        <p:outputLabel value="data spoleczne" for="dataspoleczne1" />
                                                 <p:inputText id="dataspoleczne1" value="#{umowaView.selected.dataspoleczne}" title="data spoleczne"  placeholder="____-__-__"  styleClass="dataUmowy"/>
@@ -159,6 +161,8 @@
                         <p:inputText id="datado" value="#{umowaView.selected.datado}" title="data do"  placeholder="____-__-__"  maxlength="10">
                             <p:ajax event="change" listener="#{umowaView.sprawdzczyumowajestnaczas}" partialSubmit="true" global="false" />
                         </p:inputText>
+                         <p:outputLabel value="wiek" for="wiek" />
+                         <h:outputText id="wiek" value="#{umowaView.selected.wiekumowa}" styleClass="dataUmowy"/>
                         <p:outputLabel value="termin rozpoczecia pracy" for="datarozp" />
                         <p:inputText id="datarozp" value="#{umowaView.selected.terminrozpoczeciapracy}" title="termin rozpoczecia pracy" styleClass="dataUmowy"  placeholder="____-__-__"  maxlength="10"/>
 

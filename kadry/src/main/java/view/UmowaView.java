@@ -39,6 +39,8 @@ import entity.Umowakodzus;
 import entity.Zmiennapotracenia;
 import entity.Zmiennawynagrodzenia;
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -102,7 +104,7 @@ public class UmowaView  implements Serializable {
     private Integer etat2;
     private String datadzisiejsza;
     private String miejscowosc;
-    private String rodzajumowy; 
+    private String rodzajumowy;
     
     @PostConstruct
     public void init() {
@@ -333,6 +335,24 @@ public class UmowaView  implements Serializable {
       }
     }
     
+    public void obliczwiek() {
+        String zwrot = "";
+        if (selected!=null&&selected.getDataod()!=null) {
+            String dataurodzenia = wpisView.getAngaz().getPracownik().getDataurodzenia();
+            LocalDate dataur = LocalDate.parse(dataurodzenia);
+            LocalDate dataumowy = LocalDate.parse(selected.getDataod());
+            String rok = Data.getRok(selected.getDataod());
+            String pierwszydzienroku = rok+"-01-01";
+            LocalDate dataroku = LocalDate.parse(pierwszydzienroku);
+            long lata = ChronoUnit.YEARS.between(dataur, dataumowy);
+            long dni = ChronoUnit.DAYS.between(dataroku, dataumowy);
+            selected.setLata((int) lata);
+            selected.setDni((int) dni);
+        }
+    }
+    
+    
+    
     public void sprawdzczyumowajestnaczas() {
         if (selected.getDatado()!=null) {
             if (selected.getSlownikszkolazatrhistoria().getSymbol().equals("P")) {
@@ -437,6 +457,7 @@ public class UmowaView  implements Serializable {
             selected.setDatazdrowotne(selected.getDatazawarcia());
             selected.setDataod(selected.getDatazawarcia());
             selected.setTerminrozpoczeciapracy(selected.getDatazawarcia());
+            obliczwiek();
         }
     }
     
@@ -610,7 +631,17 @@ public class UmowaView  implements Serializable {
     }
 
     
-    
+    public static void main(String[] args) {
+        String dataurodzenia = "1970-05-28";
+        LocalDate dataur = LocalDate.parse(dataurodzenia);
+        LocalDate dataumowy = LocalDate.parse("2021-11-14");
+        String rok = Data.getRok("2021-11-14");
+        String pierwszydzienroku = rok+"-01-01";
+        LocalDate dataroku = LocalDate.parse(pierwszydzienroku);
+        long lata = ChronoUnit.YEARS.between(dataur, dataumowy);
+        long dni = ChronoUnit.DAYS.between(dataroku, dataumowy);
+        System.out.println("");
+    }
 
 
    
