@@ -47,13 +47,19 @@ public class KlientJPKDAO  extends DAO implements Serializable {
     private String test;
    
 
-    
     public void deleteByPodRokMc (Podatnik podatnik, String rok, String mc) {
         getEntityManager().createNamedQuery("KlientJPK.deletePodRokMc").setParameter("podatnik", podatnik).setParameter("rok", rok).setParameter("mc", mc).executeUpdate();
+    }
+    public void deleteByPodRokMcAmazon (Podatnik podatnik, String rok, String mc, int amazontax0additional1) {
+        getEntityManager().createNamedQuery("KlientJPK.deletePodRokMcAmazon").setParameter("podatnik", podatnik).setParameter("rok", rok).setParameter("mc", mc).setParameter("amazontax0additional1", amazontax0additional1).executeUpdate();
     }
 
     public List<KlientJPK> findbyKlientRokMc(Podatnik podatnikObiekt, String rokWpisuSt, String miesiacWpisu) {
         return getEntityManager().createNamedQuery("KlientJPK.findByPodRokMc").setParameter("podatnik", podatnikObiekt).setParameter("rok", rokWpisuSt).setParameter("mc", miesiacWpisu).getResultList();
+    }
+    
+    public List<KlientJPK> findbyKlientRokMcAmazon(Podatnik podatnikObiekt, String rokWpisuSt, String miesiacWpisu, int amazontax0additional1) {
+        return getEntityManager().createNamedQuery("KlientJPK.findByPodRokMcAmazon").setParameter("podatnik", podatnikObiekt).setParameter("rok", rokWpisuSt).setParameter("mc", miesiacWpisu).setParameter("amazontax0additional1", amazontax0additional1).getResultList();
     }
     
     

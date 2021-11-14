@@ -36,7 +36,9 @@ import javax.validation.constraints.Size;
 @Table(name = "klientJPK")
 @NamedQueries({
     @NamedQuery(name = "KlientJPK.deletePodRokMc", query = "DELETE FROM KlientJPK a WHERE a.podatnik = :podatnik AND a.rok = :rok AND a.mc = :mc"),
-    @NamedQuery(name = "KlientJPK.findByPodRokMc", query = "SELECT a FROM KlientJPK a WHERE a.podatnik = :podatnik AND a.rok = :rok AND a.mc = :mc")
+    @NamedQuery(name = "KlientJPK.deletePodRokMcAmazon", query = "DELETE FROM KlientJPK a WHERE a.podatnik = :podatnik AND a.rok = :rok AND a.mc = :mc AND a.amazontax0additional1 = :amazontax0additional1"),
+    @NamedQuery(name = "KlientJPK.findByPodRokMc", query = "SELECT a FROM KlientJPK a WHERE a.podatnik = :podatnik AND a.rok = :rok AND a.mc = :mc"),
+    @NamedQuery(name = "KlientJPK.findByPodRokMcAmazon", query = "SELECT a FROM KlientJPK a WHERE a.podatnik = :podatnik AND a.rok = :rok AND a.mc = :mc AND a.amazontax0additional1 = :amazontax0additional1")
 })
 public class KlientJPK implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -99,6 +101,8 @@ public class KlientJPK implements Serializable {
     private boolean eksport;
     @Column(name = "importt")
     private boolean importt;
+    @Column(name = "amazontax0additional1")
+    private int amazontax0additional1;
 
     public KlientJPK() {
         this.ewidencjaVAT = new ArrayList<>();
@@ -213,6 +217,14 @@ public class KlientJPK implements Serializable {
 
     public void setNazwaKontrahenta(String nazwaKontrahenta) {
         this.nazwaKontrahenta = nazwaKontrahenta;
+    }
+
+    public int getAmazontax0additional1() {
+        return amazontax0additional1;
+    }
+
+    public void setAmazontax0additional1(int amazontax0additional1) {
+        this.amazontax0additional1 = amazontax0additional1;
     }
 
     public String getDowodSprzedazy() {

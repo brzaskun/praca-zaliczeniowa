@@ -44,6 +44,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 import javax.faces.view.ViewScoped;
@@ -168,7 +169,7 @@ public class ImportCSVView  implements Serializable {
                 boolean jestoss = oss.equals("UNION-OSS");
                 if (tylkoOSS&&jestoss) {
                     if ((rodzajtransakcji.equals("SALE") || rodzajtransakcji.equals("REFUND"))&&!serial.equals("")&&!data.equals("")) {
-                        KlientJPK tmpzwrot = tworzobiektAmazonNowy(row, rok, mc, tabelenbp);
+                        KlientJPK tmpzwrot = tworzobiektAmazonNowy(row, rok, mc, tabelenbp, 0);
                         if (tmpzwrot!=null) {
                             if (tmpzwrot.isWdt()==false && tmpzwrot.isEksport()==false) {
                                 zwrot.add(tmpzwrot);
@@ -177,7 +178,7 @@ public class ImportCSVView  implements Serializable {
                     }
                 } else if (tylkoOSS==false){
                     if ((rodzajtransakcji.equals("SALE") || rodzajtransakcji.equals("REFUND"))&&!serial.equals("")&&!data.equals("")) {
-                        KlientJPK tmpzwrot = tworzobiektAmazonNowy(row, rok, mc, tabelenbp);
+                        KlientJPK tmpzwrot = tworzobiektAmazonNowy(row, rok, mc, tabelenbp, 0);
                         if (tmpzwrot!=null) {
                             if (tmpzwrot.isWdt() && tmpzwrot.getJurysdykcja().equals("POLAND")) {
                                 tmpzwrot.setPodatnik(podatnik);
@@ -216,7 +217,18 @@ public class ImportCSVView  implements Serializable {
 //        Msg.msg("Zaksięgowano dokumenty dla JPK");
 //    }
      
+     public void zaksiegujWDTjpk() {
+        klientJPKDAO.deleteByPodRokMcAmazon(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(), 0);
+        List<KlientJPK> lista = listafk.stream().filter(p->p.isWdt()||p.isWnt()).collect(Collectors.toList());
+        System.out.println("");
+        klientJPKDAO.createList(lista);
+        Msg.msg("Zaksięgowano dokumenty dla JPK");
+    }
     
+     public void usunmiesiac() {
+         klientJPKDAO.deleteByPodRokMc(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+         Msg.msg("Usunięto dokumenty dla JPK z miesiąca");
+     }
     
     private List<Dok> stworzdokumenty(List<AmazonCSV> lista) {
         List<Dok> dokumenty = Collections.synchronizedList(new ArrayList<>());
@@ -538,7 +550,7 @@ private static Klienci ustawkontrahenta(InterpaperXLS interpaperXLS, List<Klienc
     }
     
     
-    private KlientJPK tworzobiektAmazonNowy(CSVRecord row, String rok, String mc, List<Tabelanbp> tabelenbp) {
+    private KlientJPK tworzobiektAmazonNowy(CSVRecord row, String rok, String mc, List<Tabelanbp> tabelenbp, int amazontax0additional1) {
         KlientJPK klientJPK = new KlientJPK();
         String rodzajtransakcji = row.get("TRANSACTION_TYPE");
         String serial = row.get("TRANSACTION_EVENT_ID");
@@ -607,6 +619,7 @@ private static Klienci ustawkontrahenta(InterpaperXLS interpaperXLS, List<Klienc
                 klientJPK.setNrKontrahenta(nip);
                 klientJPK.setRok(rok);
                 klientJPK.setMc(mc);
+                klientJPK.setAmazontax0additional1(amazontax0additional1);
                 String waluta = row.get("TRANSACTION_CURRENCY_CODE");
                 klientJPK.setWaluta(waluta);
                 double brutto = format.F.kwota(row.get("TOTAL_ACTIVITY_VALUE_AMT_VAT_INCL"));

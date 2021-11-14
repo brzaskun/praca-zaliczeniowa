@@ -189,6 +189,7 @@ public class AmazonImportNazwy implements Serializable {
                 }
                 klientJPK.setRok(wpisView.getRokWpisuSt());
                 klientJPK.setMc(wpisView.getMiesiacWpisu());
+                klientJPK.setAmazontax0additional1(1);
                 String waluta = row.getCell(naglowki.get("TRANSACTION_CURRENCY_CODE")).getStringCellValue();
                 klientJPK.setWaluta(waluta);
                 double brutto = format.F.kwota(row.getCell(naglowki.get("TOTAL_PRICE_OF_ITEMS_VAT_INCL")).getStringCellValue());
@@ -239,9 +240,30 @@ public class AmazonImportNazwy implements Serializable {
    
    
     public void zaksiegujWDTjpk() {
-        klientJPKDAO.deleteByPodRokMc(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
-        klientJPKDAO.createList(lista);
-        Msg.msg("Zaksięgowano dokumenty dla JPK");
+        klientJPKDAO.deleteByPodRokMcAmazon(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(),1);
+        List<KlientJPK> amazontaxreport = klientJPKDAO.findbyKlientRokMcAmazon(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(),0);
+        int duplikaty = 0;
+        if (amazontaxreport==null || amazontaxreport.isEmpty()) {
+            Msg.msg("e","Nalezy wcześniej zaksięgować pozycje z Amazon Tax Report!");
+        } else {
+            for (KlientJPK p : amazontaxreport) {
+                for (Iterator it = lista.iterator();it.hasNext();) {
+                    KlientJPK r =(KlientJPK) it.next();
+                    if (r.getSerial().contains(p.getSerial())) {
+                        duplikaty++;
+                        it.remove();
+                        break;
+                    }
+                }
+            }
+            if (!lista.isEmpty()) {
+                klientJPKDAO.createList(lista);
+                Msg.msg("Zaksięgowano dokumenty dla JPK");
+            }
+            if (duplikaty>0) {
+                Msg.msg("Znaleziono duplikaty w ilości: "+duplikaty);
+            }
+        }
     }
    
     public List<KlientJPK> getLista() {

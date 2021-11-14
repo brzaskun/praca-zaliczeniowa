@@ -187,7 +187,7 @@
                 <bcf:outputpl value="#{klientJPKView.suma}"/>
             </p:panelGrid>
             <p:dataTable value="#{klientJPKView.lista}" var="itemikjpk" rowIndexVar="indexjpk"
-                         style="width: 1100px;"
+                         style="width: 1200px;"
                          >
                 <p:column style="width: 50px;">
                     <h:outputText value="#{indexjpk+1}"/>
@@ -215,6 +215,12 @@
                 </p:column>
                 <p:column headerText="WNT"  style="text-align: center;" width="30">
                     <h:outputText value="&#x2713;" rendered="#{itemikjpk.wnt}" style="color: green;font-weight: bold"/>
+                </p:column>
+                <p:column headerText="TaxRep"  style="text-align: center;" width="30">
+                    <h:outputText value="&#x2713;" rendered="#{itemikjpk.amazontax0additional1 eq 0}" style="color: green;font-weight: bold"/>
+                </p:column>
+                <p:column headerText="Aditional"  style="text-align: center;" width="30">
+                    <h:outputText value="&#x2713;" rendered="#{itemikjpk.amazontax0additional1 eq 1}" style="color: green;font-weight: bold"/>
                 </p:column>
             </p:dataTable>
         </p:tab>

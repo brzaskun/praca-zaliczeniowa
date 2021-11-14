@@ -7,14 +7,14 @@
 
     xmlns:c="http://java.sun.com/jsp/jstl/core"
     xmlns:bcf="http://brzaskun.com/facelets">
-     <p:tab title="pobrane FP">
+     <p:tab title="pobrane dla JPK">
             <p:panel header="Lista fiskalizowanych/WDT incydentalnych pobranych za miesiąc bieżący"/>
              <p:panelGrid columns="2">
                 <h:outputText value="suma"/>
                 <bcf:outputpl value="#{klientJPKView.suma}"/>
             </p:panelGrid>
             <p:dataTable value="#{klientJPKView.lista}" var="itemikjpk" rowIndexVar="indexjpk"
-                         style="width: 1100px; height: 550px; overflow-y: scroll;" 
+                         style="width: 1200px; height: 550px; overflow-y: scroll;" 
                          rowsPerPageTemplate="30,50,300,400" paginatorPosition="top" paginator="#{klientJPKView.lista.size() gt 30 ? 'true':'false'}" rows="30"
                          >
                 <p:column style="width: 50px;">
@@ -46,6 +46,12 @@
                 </p:column>
                 <p:column headerText="WNT"  style="text-align: center;" width="30">
                     <h:outputText value="&#x2713;" rendered="#{itemikjpk.wnt}" style="color: green;font-weight: bold"/>
+                </p:column>
+                <p:column headerText="TaxRep"  style="text-align: center;" width="30">
+                    <h:outputText value="&#x2713;" rendered="#{itemikjpk.amazontax0additional1 eq 0}" style="color: green;font-weight: bold"/>
+                </p:column>
+                <p:column headerText="Additional"  style="text-align: center;" width="30">
+                    <h:outputText value="&#x2713;" rendered="#{itemikjpk.amazontax0additional1 eq 1}" style="color: green;font-weight: bold"/>
                 </p:column>
             </p:dataTable>
         </p:tab>
