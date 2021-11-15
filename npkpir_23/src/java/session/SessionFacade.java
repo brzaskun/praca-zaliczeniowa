@@ -481,12 +481,19 @@ public class SessionFacade<T> implements Serializable {
     public List<PozycjaRZiS> findUkladBR(String uklad, String podatnik, String rok) {
         return Collections.synchronizedList( getEntityManager().createNamedQuery("PozycjaRZiS.findByUkladPodRok").setParameter("uklad", uklad).setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList());
     }
+    public List<PozycjaRZiS> findUkladBRAll(String uklad, String podatnik) {
+        return Collections.synchronizedList( getEntityManager().createNamedQuery("PozycjaRZiS.findByUkladPod").setParameter("uklad", uklad).setParameter("podatnik", podatnik).getResultList());
+    }
     
     public List<PozycjaRZiSBilans> findRZiSPozString(String pozycjaString, String rokWpisuSt, String uklad) {
         return Collections.synchronizedList( getEntityManager().createNamedQuery("PozycjaRZiS.findBilansPozString").setParameter("pozycjaString", pozycjaString).setParameter("rok", rokWpisuSt).setParameter("uklad", uklad).getResultList());
     }
 
 
+    public List<PozycjaRZiS> findUkladBRBilansAll(String uklad, String podatnik) {
+        return Collections.synchronizedList( getEntityManager().createNamedQuery("PozycjaBilans.findByUkladPod").setParameter("uklad", uklad).setParameter("podatnik", podatnik).getResultList());
+    }
+    
     public List<PozycjaRZiS> findUkladBRBilans(String uklad, String podatnik, String rok) {
         return Collections.synchronizedList( getEntityManager().createNamedQuery("PozycjaBilans.findByUkladPodRok").setParameter("uklad", uklad).setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList());
     }

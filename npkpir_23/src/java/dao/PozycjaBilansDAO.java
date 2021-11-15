@@ -25,14 +25,15 @@ import session.SessionFacade;
 @Stateless
 @Transactional
 
-public class PozycjaBilansDAO extends DAO implements Serializable{
+public class PozycjaBilansDAO extends DAO implements Serializable {
+
     private static final long serialVersionUID = 1L;
-    
+
     @Inject
     private SessionFacade sessionFacade;
- @PersistenceContext(unitName = "npkpir_22PU")
+    @PersistenceContext(unitName = "npkpir_22PU")
     private EntityManager em;
-    
+
     @PreDestroy
     private void preDestroy() {
         em.clear();
@@ -50,70 +51,87 @@ public class PozycjaBilansDAO extends DAO implements Serializable{
         super(PozycjaBilans.class);
         super.em = this.em;
     }
-  
+
     public PozycjaBilansDAO(Class entityClass) {
         super(entityClass);
     }
-    
- 
-     public  List<PozycjaBilans> findBilansukladAktywa(UkladBR bilansuklad){
+
+    public List<PozycjaBilans> findBilansukladAktywa(UkladBR bilansuklad) {
         try {
             return sessionFacade.findBilansukladAktywa(bilansuklad);
-        } catch (Exception e) { E.e(e); 
+        } catch (Exception e) {
+            E.e(e);
             return null;
         }
-   }
-      public  List<PozycjaBilans> findBilansuklad(String uklad, String podatnik, String rok){
+    }
+
+    public List<PozycjaBilans> findBilansuklad(String uklad, String podatnik, String rok) {
         try {
             return sessionFacade.findUkladBRBilans(uklad, podatnik, rok);
-        } catch (Exception e) { E.e(e); 
+        } catch (Exception e) {
+            E.e(e);
             return null;
         }
-   }
-     
-    public  List<PozycjaBilans> findBilansukladPasywa(UkladBR bilansuklad){
+    }
+    
+    public List<PozycjaBilans> findBilansukladAll(String uklad, String podatnik) {
+        try {
+            return sessionFacade.findUkladBRBilansAll(uklad, podatnik);
+        } catch (Exception e) {
+            E.e(e);
+            return null;
+        }
+    }
+
+    public List<PozycjaBilans> findBilansukladPasywa(UkladBR bilansuklad) {
         try {
             return sessionFacade.findBilansukladPasywa(bilansuklad);
-        } catch (Exception e) { E.e(e); 
+        } catch (Exception e) {
+            E.e(e);
             return null;
         }
-   }
-     
-    public  List<PozycjaBilans> findBilansukladAktywaPasywa(UkladBR bilansuklad){
+    }
+
+    public List<PozycjaBilans> findBilansukladAktywaPasywa(UkladBR bilansuklad) {
         try {
             return sessionFacade.findBilansukladAktywaPasywa(bilansuklad);
-        } catch (Exception e) { E.e(e); 
+        } catch (Exception e) {
+            E.e(e);
             return null;
         }
-   }
+    }
 
-    
     public void findRemoveBilansuklad(UkladBR ukladBR) {
         try {
             sessionFacade.findRemoveBilansuklad(ukladBR.getUklad(), ukladBR.getPodatnik().getNazwapelna(), ukladBR.getRok());
-        } catch (Exception e) { E.e(e); 
+        } catch (Exception e) {
+            E.e(e);
         }
     }
+
     public Integer findMaxLevelPodatnikAktywa(UkladBR ukladBR) {
         try {
             return sessionFacade.findMaxLevelBilansukladAktywa(ukladBR.getUklad(), ukladBR.getPodatnik().getNazwapelna(), ukladBR.getRok());
-        } catch (Exception e) { E.e(e); 
+        } catch (Exception e) {
+            E.e(e);
         }
         return null;
     }
-    
+
     public Integer findMaxLevelPodatnikPasywa(UkladBR ukladBR) {
         try {
             return sessionFacade.findMaxLevelBilansukladPasywa(ukladBR.getUklad(), ukladBR.getPodatnik().getNazwapelna(), ukladBR.getRok());
-        } catch (Exception e) { E.e(e); 
+        } catch (Exception e) {
+            E.e(e);
         }
         return null;
     }
 
     public PozycjaBilans findBilansLP(int lp) {
-         try {
+        try {
             return sessionFacade.findPozycjaBilansLP(lp);
-        } catch (Exception e) { E.e(e); 
+        } catch (Exception e) {
+            E.e(e);
             return null;
         }
     }
@@ -121,6 +139,5 @@ public class PozycjaBilansDAO extends DAO implements Serializable{
     public List<PozycjaRZiSBilans> findBilansPozString(String pozycjaString, String rokWpisuSt, String uklad) {
         return sessionFacade.findBilansPozString(pozycjaString, rokWpisuSt, uklad);
     }
-    
-    
+
 }

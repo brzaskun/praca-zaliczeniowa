@@ -14,9 +14,9 @@ import entityfk.UkladBR;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import msg.Msg;
 /**
  *
@@ -70,5 +70,59 @@ public class PozycjaBRImplView  implements Serializable {
         pozycjaRZiSDAO.editList(pozycjedocelowy);
         Msg.msg("Zaimplementowano wzorcowy Bilans");
     }
+    
+    public void kopiujdoinnychlatBilans(TreeNodeExtended root, UkladBR uklad) {
+        String nazwa = uklad.getUklad();
+        String rok = uklad.getRok();
+        List<PozycjaBilans> pozycjezmieniane = pozycjaBilansDAO.findBilansukladAll(nazwa, uklad.getPodatnik().getNazwapelna());
+        List pozycjezrodlowe = new ArrayList();
+        root.getFinallChildren(pozycjezrodlowe);
+        root.getChildrenTree(new ArrayList<TreeNodeExtended>(), pozycjezrodlowe);
+        for (Object o : pozycjezrodlowe) {
+            PozycjaBilans p = null;
+            if (o.getClass().getCanonicalName().equals("embeddablefk.TreeNodeExtended")) {
+                p = (PozycjaBilans) ((TreeNodeExtended) o).getData();
+            } else {
+                p = (PozycjaBilans) o;
+            }
+            for (PozycjaBilans s : pozycjezmieniane) {
+                if (!s.getRok().equals(p.getRok())) {
+                    if (s.getNazwa().equals(p.getNazwa())) {
+                        s.setDe(p.getDe());
+                    }
+                }
+            }
+        }
+        pozycjaRZiSDAO.editList(pozycjezmieniane);
+        Msg.msg("Zaimplementowano wzorcowy Bilans");
+    }
+    
+     public void kopiujdoinnychlatRZiS(TreeNodeExtended root, UkladBR uklad) {
+        String nazwa = uklad.getUklad();
+        String rok = uklad.getRok();
+        List<PozycjaRZiS> pozycjezmieniane = pozycjaRZiSDAO.findRzisukladAll(nazwa,  uklad.getPodatnik().getNazwapelna());
+        List pozycjezrodlowe = new ArrayList();
+        root.getFinallChildren(pozycjezrodlowe);
+        root.getChildrenTree(new ArrayList<TreeNodeExtended>(), pozycjezrodlowe);
+        for (Object o : pozycjezrodlowe) {
+            PozycjaRZiS p = null;
+            if (o.getClass().getCanonicalName().equals("embeddablefk.TreeNodeExtended")) {
+                p = (PozycjaRZiS) ((TreeNodeExtended) o).getData();
+            } else {
+                p = (PozycjaRZiS) o;
+            }
+            for (PozycjaRZiS s : pozycjezmieniane) {
+                if (!s.getRok().equals(p.getRok())) {
+                    if (s.getNazwa().equals(p.getNazwa())) {
+                        s.setDe(p.getDe());
+                    }
+                }
+            }
+        }
+        pozycjaRZiSDAO.editList(pozycjezmieniane);
+        Msg.msg("Zaimplementowano wzorcowy Bilans");
+    }
+    
+    
     
 }

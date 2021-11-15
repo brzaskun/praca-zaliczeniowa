@@ -15,6 +15,7 @@
                 <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{pozycjaBRView.zwin(pozycjaBRView.rootProjektRZiS)}" update=":form_dialog_bilans_projekt_inter:dataList" style="float: left;" />-->
                 <p:commandButton id="zachowaj" value="zachowaj" actionListener="#{pozycjaBRView.zachowajTlumaczenie(pozycjaBRView.rootProjektRZiS)}" update=":form_dialog_bilans_projekt_inter:dataList" style="float: left; margin-left: 100px; width: 120px;" />
                 <p:commandButton id="implementuj" value="implementuj" actionListener="#{pozycjaBRImplView.implementujBilans(pozycjaBRView.rootProjektRZiS, pozycjaBRView.uklad)}" update=":form_dialog_bilans_projekt_inter:dataList" style="float: left; margin-left: 10px; width: 120px;" />
+                <p:commandButton id="kopiuj" value="kopiuj do innych lat" actionListener="#{pozycjaBRImplView.kopiujdoinnychlatBilans(pozycjaBRView.rootProjektRZiS, pozycjaBRView.uklad)}" update=":form_dialog_bilans_projekt_inter:dataList" style="float: left; margin-left: 10px; width: 120px;" />
             </p:panelGrid>
             <p:panelGrid columns="3" style="width: 1020px;">
                 <p:treeTable id="dataList" value="#{pozycjaBRView.rootProjektRZiS}" var="loop" selectionMode="single" selection="#{pozycjaBRView.wybranynodekonta}" 
