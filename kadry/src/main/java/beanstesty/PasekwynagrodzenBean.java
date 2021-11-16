@@ -117,17 +117,18 @@ public class PasekwynagrodzenBean {
         PasekwynagrodzenBean.obliczbruttominusspoleczneDB(pasek);
         if (umowaoprace) {
             PasekwynagrodzenBean.obliczpodstaweopodatkowaniaDB(pasek, stawkipodatkowe);
+            PasekwynagrodzenBean.obliczpodatekwstepnyDB(pasek, stawkipodatkowe, sumapoprzednich);
         } else {
-            PasekwynagrodzenBean.obliczpodstaweopodatkowaniaZlecenie(pasek, stawkipodatkowe);
+            PasekwynagrodzenBean.obliczpodstaweopodatkowaniaZlecenie(pasek, stawkipodatkowe, pasek.isNierezydent());
+            PasekwynagrodzenBean.obliczpodatekwstepnyZlecenieDB(pasek, stawkipodatkowe, pasek.isNierezydent());
         }
-        PasekwynagrodzenBean.obliczpodatekwstepnyDB(pasek, stawkipodatkowe, sumapoprzednich);
         if (czyodlicoznokwotewolna==false) {
             PasekwynagrodzenBean.ulgapodatkowaDB(pasek, stawkipodatkowe);
         }
-        PasekwynagrodzenBean.naliczzdrowota(pasek);
+        PasekwynagrodzenBean.naliczzdrowota(pasek, pasek.isNierezydent());
         PasekwynagrodzenBean.obliczpodatekdowplaty(pasek);
         PasekwynagrodzenBean.netto(pasek);
-        double wolneodzajecia = obliczminimalna(kalendarz, definicjalistaplac, nieobecnosckodzusFacade, paskidowyliczeniapodstawy, historiawynagrodzen, stawkipodatkowe, sumapoprzednich, wynagrodzenieminimalne);
+        double wolneodzajecia = obliczminimalna(kalendarz, definicjalistaplac, stawkipodatkowe, sumapoprzednich, wynagrodzenieminimalne);
         KalendarzmiesiacBean.naliczskladnikipotraceniaDB(kalendarz, pasek, wolneodzajecia);
         PasekwynagrodzenBean.potracenia(pasek);
         PasekwynagrodzenBean.dowyplaty(pasek);
@@ -182,11 +183,10 @@ public class PasekwynagrodzenBean {
         }
     }
     
-      public static double obliczminimalna(Kalendarzmiesiac kalendarz, Definicjalistaplac definicjalistaplac, NieobecnosckodzusFacade nieobecnosckodzusFacade, List<Pasekwynagrodzen> paskidowyliczeniapodstawy, 
-            List<Wynagrodzeniahistoryczne> historiawynagrodzen, List<Podatki> stawkipodatkowe, double sumapoprzednich, double wynagrodzenieminimalne) {
+      public static double obliczminimalna(Kalendarzmiesiac kalendarz, Definicjalistaplac definicjalistaplac, 
+            List<Podatki> stawkipodatkowe, double sumapoprzednich, double wynagrodzenieminimalne) {
         Pasekwynagrodzen pasek = new Pasekwynagrodzen();
         pasek.setWynagrodzenieminimalne(wynagrodzenieminimalne);
-        double kurs = 4.4745;
         pasek.setDefinicjalistaplac(definicjalistaplac);
         pasek.setKalendarzmiesiac(kalendarz);
         pasek.setBruttozus(wynagrodzenieminimalne);
@@ -199,7 +199,7 @@ public class PasekwynagrodzenBean {
         PasekwynagrodzenBean.obliczpodstaweopodatkowaniaDB(pasek, stawkipodatkowe);
         PasekwynagrodzenBean.obliczpodatekwstepnyDB(pasek, stawkipodatkowe, sumapoprzednich);
         PasekwynagrodzenBean.ulgapodatkowaDB(pasek, stawkipodatkowe);
-        PasekwynagrodzenBean.naliczzdrowota(pasek);
+        PasekwynagrodzenBean.naliczzdrowota(pasek, pasek.isNierezydent());
         PasekwynagrodzenBean.obliczpodatekdowplaty(pasek);
         PasekwynagrodzenBean.netto(pasek);
         return pasek.getNetto();
@@ -247,7 +247,7 @@ public class PasekwynagrodzenBean {
         PasekwynagrodzenBean.obliczpodstaweopodatkowania(pasek);
         PasekwynagrodzenBean.obliczpodatekwstepny(pasek);
         PasekwynagrodzenBean.ulgapodatkowa(pasek);
-        PasekwynagrodzenBean.naliczzdrowota(pasek);
+        PasekwynagrodzenBean.naliczzdrowota(pasek, pasek.isNierezydent());
         PasekwynagrodzenBean.obliczpodatekdowplaty(pasek);
         PasekwynagrodzenBean.potracenia(pasek);
         PasekwynagrodzenBean.netto(pasek);
@@ -437,7 +437,7 @@ public class PasekwynagrodzenBean {
         pasek.setKosztyuzyskania(kosztyuzyskania);
         pasek.setProcentkosztow(pasek.getKalendarzmiesiac().getUmowa().getKosztyuzyskaniaprocent());
     }
-    private static void obliczpodstaweopodatkowaniaZlecenie(Pasekwynagrodzen pasek, List<Podatki> stawkipodatkowe) {
+    private static void obliczpodstaweopodatkowaniaZlecenie(Pasekwynagrodzen pasek, List<Podatki> stawkipodatkowe, boolean nierezydent) {
         Podatki pierwszyprog = stawkipodatkowe.get(0);
         double bruttominusspoleczne = pasek.getBruttominusspoleczne();
         Rachunekdoumowyzlecenia rachunekdoumowyzlecenia = pasek.getKalendarzmiesiac().getUmowa().pobierzRachunekzlecenie(pasek.getKalendarzmiesiac().getRok(), pasek.getKalendarzmiesiac().getMc());
@@ -447,7 +447,11 @@ public class PasekwynagrodzenBean {
         double dieta30proc = pasek.getDietaodliczeniepodstawaop();
         double podstawa = Z.z0(bruttominusspoleczne-kosztyuzyskania-dieta30proc) > 0.0 ? Z.z0(bruttominusspoleczne-kosztyuzyskania-dieta30proc) :0.0;
         pasek.setPodstawaopodatkowania(podstawa);
-        pasek.setKosztyuzyskania(kosztyuzyskania);
+        if (nierezydent) {
+            pasek.setKosztyuzyskania(0.0);
+        } else {
+            pasek.setKosztyuzyskania(kosztyuzyskania);
+        }
         pasek.setProcentkosztow(pasek.getKalendarzmiesiac().getUmowa().getKosztyuzyskaniaprocent());
         
     }
@@ -474,6 +478,15 @@ public class PasekwynagrodzenBean {
         }
         pasek.setPodatekwstepny(podatek);
     }
+    
+    private static void obliczpodatekwstepnyZlecenieDB(Pasekwynagrodzen pasek, List<Podatki> stawkipodatkowe, boolean nierezydent) {
+        double podatek = Z.z(Z.z0(pasek.getPodstawaopodatkowania())*stawkipodatkowe.get(0).getStawka());
+        if (nierezydent) {
+            podatek = Z.z(Z.z0(pasek.getBrutto())*0.2);
+        }
+        pasek.setPodatekwstepny(podatek);
+    }
+    
     
     private static void ulgapodatkowa(Pasekwynagrodzen pasek) {
         boolean ulga = pasek.getKalendarzmiesiac().getUmowa().isOdliczaculgepodatkowa();
@@ -502,7 +515,7 @@ public class PasekwynagrodzenBean {
         }
     }
 
-    private static void naliczzdrowota(Pasekwynagrodzen pasek) {
+    private static void naliczzdrowota(Pasekwynagrodzen pasek, boolean nierezydent) {
         double spolecznepodstawa = pasek.getPodstawaskladkizus();
         double skladki = pasek.getRazemspolecznepracownik();
         double podstawazdrowotna = Z.z(spolecznepodstawa-skladki) > 0.0 ? Z.z(spolecznepodstawa-skladki) :0.0;
@@ -510,15 +523,21 @@ public class PasekwynagrodzenBean {
         double zdrowotne = Z.z(podstawazdrowotna*0.09);
         pasek.setPraczdrowotne(zdrowotne);
         double zdrowotneodliczane = Z.z(podstawazdrowotna*0.0775);
-        pasek.setPraczdrowotnepomniejszone(zdrowotne-zdrowotneodliczane);
-        pasek.setPraczdrowotnedopotracenia(zdrowotneodliczane);
+        if (nierezydent) {
+            pasek.setPraczdrowotnepomniejszone(zdrowotne);
+            pasek.setPraczdrowotnedopotracenia(0.0);
+        } else {
+            pasek.setPraczdrowotnepomniejszone(zdrowotne-zdrowotneodliczane);
+            pasek.setPraczdrowotnedopotracenia(zdrowotneodliczane);
+        }
         //trzeba zrobic tez inne opcje
     }
 
     private static void obliczpodatekdowplaty(Pasekwynagrodzen pasek) {
         pasek.setPodatekdochodowy(Z.z0(pasek.getPodatekwstepny()-pasek.getPraczdrowotnedopotracenia()-pasek.getKwotawolna()));
     }
-
+    
+   
     private static void potracenia(Pasekwynagrodzen pasek) {
         double potracenia = 0.0;
         for (Naliczeniepotracenie p : pasek.getNaliczeniepotracenieList()) {

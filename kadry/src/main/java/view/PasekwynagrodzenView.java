@@ -115,6 +115,28 @@ public class PasekwynagrodzenView  implements Serializable {
             pobierzkalendarzezamcanaliza();
         } catch (Exception e){}
     }
+    
+    public void wyborinnejumowy() {
+        lista = new ArrayList<>();
+        if (rodzajumowy==null) {
+            rodzajumowy = "1";
+        }
+        if (rodzajumowy.equals("1")) {
+            listadefinicjalistaplac  = definicjalistaplacFacade.findByFirmaRokUmowaoprace(wpisView.getFirma(), wpisView.getRokWpisu());
+        } else {
+            listadefinicjalistaplac  = definicjalistaplacFacade.findByFirmaRokUmowazlecenia(wpisView.getFirma(), wpisView.getRokWpisu());
+        }
+        Collections.sort(listadefinicjalistaplac, new Defnicjalistaplaccomparator());
+        listakalendarzmiesiac = new org.primefaces.model.DualListModel<>();
+        try {
+            wybranalistaplac = listadefinicjalistaplac.stream().filter(p->p.getMc().equals(wpisView.getMiesiacWpisu())).findFirst().get();
+            wybranalistaplac2 = listadefinicjalistaplac.stream().filter(p->p.getMc().equals(wpisView.getMiesiacWpisu())).findFirst().get();
+            datawyplaty = zrobdatawyplaty();
+            listakalendarzmiesiacdoanalizy2 = kalendarzmiesiacFacade.findByFirmaRokMcPraca(wybranalistaplac2.getFirma(), wybranalistaplac2.getRok(), wybranalistaplac2.getMc());
+            pobierzkalendarzezamc();
+            pobierzkalendarzezamcanaliza();
+        } catch (Exception e){}
+    }
 
     public void create() {
       if (selected!=null) {

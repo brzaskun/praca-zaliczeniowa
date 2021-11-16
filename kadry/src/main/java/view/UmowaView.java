@@ -116,8 +116,10 @@ public class UmowaView  implements Serializable {
             }
             if (rodzajumowy.equals("1")) {
                 lista  = umowaFacade.findByAngazPraca(wpisView.getAngaz());
+                listaumowakodzus = rodzajumowyFacade.findUmowakodzusAktywnePraca();
             } else {
                 lista  = umowaFacade.findByAngazZlecenie(wpisView.getAngaz());
+                listaumowakodzus = rodzajumowyFacade.findUmowakodzusAktywneZlecenie();
             }
         } else {
             lista = new ArrayList<>();
@@ -128,7 +130,7 @@ public class UmowaView  implements Serializable {
 //        }
         
         listaangaz = angazFacade.findByFirma(wpisView.getFirma());
-        listaumowakodzus = rodzajumowyFacade.findUmowakodzusAktywne();
+        
         listakodyzawodow = kodyzawodowFacade.findAll();
         datadzisiejsza = Data.aktualnaData();
         miejscowosc = wpisView.getFirma().getMiasto();
@@ -180,8 +182,10 @@ public class UmowaView  implements Serializable {
       if (selected!=null && wpisView.getAngaz()!=null) {
           try {
             selected.setAngaz(wpisView.getAngaz());
-            String dataodkiedywyplatazasilku = UmowaBean.obliczdatepierwszegozasilku(wpisView.getAngaz().getUmowaList(), selected);
-            selected.setPierwszydzienzasilku(dataodkiedywyplatazasilku);
+            if (selected.getUmowakodzus().isPraca()) {
+                String dataodkiedywyplatazasilku = UmowaBean.obliczdatepierwszegozasilku(wpisView.getAngaz().getUmowaList(), selected);
+                selected.setPierwszydzienzasilku(dataodkiedywyplatazasilku);
+            }
             selected.setAktywna(true);
             selected.setDatasystem(new Date());
             umowaFacade.create(selected);
