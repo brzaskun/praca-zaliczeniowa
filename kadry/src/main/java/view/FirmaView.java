@@ -5,11 +5,15 @@
  */
 package view;
 
+import DAOsuperplace.FirmaFacade;
+import DAOsuperplace.MiastoFacade;
+import DAOsuperplace.UrzadFacade;
 import dao.DefinicjalistaplacFacade;
-import dao.FirmaFacade;
+import dao.FirmaKadryFacade;
 import dao.KalendarzwzorFacade;
 import dao.UprawnieniaFacade;
 import dao.UzFacade;
+import data.Data;
 import embeddable.Mce;
 import embeddable.TKodUS;
 import entity.Angaz;
@@ -26,7 +30,10 @@ import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import kadryiplace.Firma;
+import kadryiplace.Urzad;
 import msg.Msg;
+import org.apache.commons.lang3.StringUtils;
 import org.primefaces.PrimeFaces;
 
 /**
@@ -43,11 +50,17 @@ public class FirmaView  implements Serializable {
     private FirmaKadry selectedeast;
     private List<FirmaKadry> lista;
     @Inject
+    private FirmaKadryFacade firmaKadryFacade;
+    @Inject
     private FirmaFacade firmaFacade;
+    @Inject
+    private MiastoFacade miastoFacade;
     @Inject
     private UprawnieniaFacade uprawnieniaFacade;
     @Inject
     private UzFacade uzFacade;
+    @Inject
+    private UrzadFacade urzadFacade;
     @Inject
     private WpisView wpisView;
     @Inject
@@ -65,7 +78,7 @@ public class FirmaView  implements Serializable {
     
     @PostConstruct
     private void init() {
-        lista  = firmaFacade.findAll();
+        lista  = firmaKadryFacade.findAll();
         if (wpisView.getFirma()!=null) {
             selectedeast = wpisView.getFirma();
         }
@@ -74,7 +87,7 @@ public class FirmaView  implements Serializable {
     public void create() {
       if (selected!=null) {
           try {
-            firmaFacade.create(selected);
+            firmaKadryFacade.create(selected);
             lista.add(selected);
             wpisView.setFirma(selected);
             Msg.msg("Dodano nową firmę");
@@ -97,7 +110,7 @@ public class FirmaView  implements Serializable {
     
     public void globalnie(String rok) {
         if (wpisView.getFirma()!=null) {
-            FirmaKadry firmaglobalna = firmaFacade.findByNIP("8511005008");
+            FirmaKadry firmaglobalna = firmaKadryFacade.findByNIP("8511005008");
             for (String mce: Mce.getMceListS()) {
                 Kalendarzwzor kal = new Kalendarzwzor();
                 kal.setRok(rok);
@@ -122,7 +135,7 @@ public class FirmaView  implements Serializable {
     
     public void listywszystkie(String rok) {
         if (rok!=null&&wpisView.getFirma()!=null) {
-            FirmaKadry firmaglobalna = firmaFacade.findByNIP("8511005008");
+            FirmaKadry firmaglobalna = firmaKadryFacade.findByNIP("8511005008");
             List<Definicjalistaplac> lista = definicjalistaplacFacade.findByFirmaRok(firmaglobalna, rok);
             List<Definicjalistaplac> zwrot = new ArrayList<>();
             for (Definicjalistaplac p : lista) {
@@ -164,7 +177,7 @@ public class FirmaView  implements Serializable {
             if (wpisView.getFirma()!=null && wpisView.getFirma().equals(firma)) {
                 wpisView.setFirma(null);
             }
-            firmaFacade.remove(firma);
+            firmaKadryFacade.remove(firma);
             lista.remove(firma);
             Msg.msg("Usunięto firmę");
         } else {
@@ -174,7 +187,7 @@ public class FirmaView  implements Serializable {
     
     public void edytuj(FirmaKadry firma) {
         if (firma!=null && firma.getEmail()!=null) {
-            firmaFacade.edit(firma);
+            firmaKadryFacade.edit(firma);
             Uz uz = uzFacade.findUzByPesel(firma.getNip());
             if (uz!=null) {
                 uz.setEmail(firma.getEmail());
@@ -195,7 +208,7 @@ public class FirmaView  implements Serializable {
         if (selectedlista!=null && selectedlista.getEmail()!=null) {
             String nazwaurzedu = selectedlista.getNazwaurzeduskarbowego();
             selectedlista.setKodurzeduskarbowego(tKodUS.getMapaUrzadKod().get(nazwaurzedu));
-            firmaFacade.edit(selectedlista);
+            firmaKadryFacade.edit(selectedlista);
             Uz uz = uzFacade.findUzByPesel(selectedlista.getNip());
             if (uz!=null) {
                 uz.setEmail(selectedlista.getEmail());
@@ -211,6 +224,59 @@ public class FirmaView  implements Serializable {
             Msg.msg("e","Nie wybrano firmy");
         }
     }
+     
+     public void uzuspelnijsuperplace(FirmaKadry nowa) {
+         if (nowa!=null) {
+            List<Firma> firmysuperplace = firmaFacade.findAll();
+            Firma odnaleziona = firmysuperplace.stream().filter(p->ladnynip(p.getFirNip()).equals(nowa.getNip())).findFirst().orElse(null);
+                if (odnaleziona!=null) {
+                    nowa.setNazwa(odnaleziona.getFirNazwaSkr());
+                    String firNazwisko = odnaleziona.getFirNazwisko();
+                    if (firNazwisko!=null&&!firNazwisko.equals("")) {
+                        nowa.setNazwisko(StringUtils.capitalize(firNazwisko.toLowerCase()));
+                    }
+                    String firImie = odnaleziona.getFirImie1();
+                    if (firImie!=null&&!firImie.equals("")) {
+                        nowa.setImie(StringUtils.capitalize(firImie.toLowerCase()));
+                        nowa.setReprezentant(nowa.getImie()+" "+nowa.getNazwisko());
+                    }
+                    nowa.setKraj("Polska");
+                    nowa.setWojewodztwo(odnaleziona.getFirWojewodztwo());
+                    nowa.setPowiat(odnaleziona.getFirPowiat());
+                    nowa.setGmina(odnaleziona.getFirGmina());
+                    nowa.setMiasto(odnaleziona.getFirMiaSerial().getMiaNazwa());
+                    nowa.setUlica(odnaleziona.getFirUlica());
+                    nowa.setDom(odnaleziona.getFirDom());
+                    nowa.setLokal(odnaleziona.getFirMieszkanie());
+                    nowa.setKod(odnaleziona.getFirKod());
+                    nowa.setPoczta(odnaleziona.getFirPoczta());
+                    nowa.setDataurodzenia(Data.data_yyyyMMdd(odnaleziona.getFirDataUrodz()));
+                    Urzad urzad = urzadFacade.findByUrzSerial(odnaleziona.getFirUrzSerial());
+                    if (urzad!=null) {
+                        nowa.setKodurzeduskarbowego(String.valueOf(urzad.getUrzVchar1()));
+                        nowa.setNazwaurzeduskarbowego(TKodUS.getNazwaUrzedu(nowa.getKodurzeduskarbowego()));
+                    }
+                    if (odnaleziona.getFirPesel()!=null&&!odnaleziona.getFirPesel().equals("")) {
+                        nowa.setOsobafizyczna(true);
+                    }
+                    nowa.setRegon(odnaleziona.getFirRegon());
+                    Msg.msg("Pobrano dane z Super Płac. Zweryfikuj i zachowaj");
+                } else {
+                    Msg.msg("e","Nie odnaleziono firmy w Super Płace");
+                }
+         } else {
+             Msg.msg("e","Nie wybrano firmy do edycji");
+         }
+     }
+
+    private String ladnynip(String firNip) {
+        String zwrot = firNip;
+        if (zwrot!=null) {
+            zwrot = firNip.replace("-","");
+        }
+        return zwrot;
+    }
+             
     
     public void pobierzinfo() {
         if (selectedlista!=null) {
@@ -231,11 +297,13 @@ public class FirmaView  implements Serializable {
     
     public void sprawdznip() {
         if (selected.getNip()!=null) {
-            FirmaKadry firma = firmaFacade.findByNIP(selected.getNip());
+            FirmaKadry firma = firmaKadryFacade.findByNIP(selected.getNip());
             if (firma!=null) {
                 Msg.msg("e","NIP musi być unikalny! Jest już taki NIP firmy w programie");
                 selected.setNip(null);
                 PrimeFaces.current().ajax().update("FirmaCreateForm:nip");
+            } else {
+                uzuspelnijsuperplace(selected);
             }
         }
     }

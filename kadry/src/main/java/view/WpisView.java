@@ -4,7 +4,7 @@
  */
 package view;
 
-import dao.FirmaFacade;
+import dao.FirmaKadryFacade;
 import dao.MemoryFacade;
 import dao.PracownikFacade;
 import data.Data;
@@ -31,7 +31,7 @@ public class WpisView implements Serializable {
     @Inject
     private MemoryFacade memoryFacade;
     @Inject
-    private FirmaFacade firmaFacade;
+    private FirmaKadryFacade firmaFacade;
     @Inject
     private PracownikFacade pracownikFacade;
     private Memory memory;

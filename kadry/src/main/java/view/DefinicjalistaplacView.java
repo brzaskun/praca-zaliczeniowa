@@ -6,7 +6,7 @@
 package view;
 
 import dao.DefinicjalistaplacFacade;
-import dao.FirmaFacade;
+import dao.FirmaKadryFacade;
 import dao.RodzajlistyplacFacade;
 import data.Data;
 import embeddable.Mce;
@@ -41,7 +41,7 @@ public class DefinicjalistaplacView  implements Serializable {
     @Inject
     private RodzajlistyplacFacade rodzajlistyplacFacade;
     @Inject
-    private FirmaFacade firmaFacade;
+    private FirmaKadryFacade firmaFacade;
     @Inject
     private WpisView wpisView;
     private Rodzajlistyplac wybranyrodzajlisty;

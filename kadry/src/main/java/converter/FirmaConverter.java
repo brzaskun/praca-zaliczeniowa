@@ -5,7 +5,7 @@
  */
 package converter;
 
-import dao.FirmaFacade;
+import dao.FirmaKadryFacade;
 import entity.FirmaKadry;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -23,7 +23,7 @@ public class FirmaConverter implements javax.faces.convert.Converter {
     
     private List<FirmaKadry> lista;
     @Inject
-    private FirmaFacade firmaFacade;
+    private FirmaKadryFacade firmaFacade;
     
     @PostConstruct
     private void init() {

@@ -25,6 +25,8 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import kadryiplace.Firma;
 import kadryiplace.Osoba;
+import kadryiplace.OsobaDet;
+import kadryiplace.OsobaPropTyp;
 import msg.Msg;
 
 /**
@@ -59,7 +61,7 @@ public class HistoriaView  implements Serializable {
     @Inject
     private FirmaFacade firmaFacade;
     @Inject
-    private dao.FirmaFacade firmaKadryFacade;
+    private dao.FirmaKadryFacade firmaKadryFacade;
     
     @PostConstruct
     public void init() {
@@ -214,7 +216,17 @@ public class HistoriaView  implements Serializable {
         this.selectedfirma = selectedfirma;
     }
 
-    
+    public String historycznykodumowy(Osoba osoba) {
+        String zwrot = null;
+        List<OsobaDet> osobaDetList = osoba.getOsobaDetList();
+        if (!osobaDetList.isEmpty()) {
+            for (OsobaDet p : osobaDetList) {
+                OsobaPropTyp osdOptSerial = p.getOsdOptSerial();
+                zwrot = p.getOsdWktSerial().getWktKod();
+            }
+        }
+        return zwrot;
+    }
     
     
     private void generujlistawynhist() {

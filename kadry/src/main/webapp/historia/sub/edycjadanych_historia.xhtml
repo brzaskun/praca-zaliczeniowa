@@ -10,7 +10,7 @@ xmlns:pe="http://primefaces.org/ui/extensions">
     <p:panelGrid columns="1" columnClasses="thirty-percent, seventy-percent" style="height: 600px;width: 1800px;">
         <p:outputPanel style="padding: 10px;">
             <p:panel header="Pobranie danych firmy z programu SuperPłace"/>
-            <h:outputText value="Należy najpierw wyszukać firmę, a potem serial pracownika. Pracownicy zwolnieni są oznaczeni na szaro." style="color: darkorchid;margin-left: 30px;"/>
+            <h:outputText value="Należy najpierw wyszukać firmę, a potem serial pracownika. Pracownicy zwolnieni są oznaczeni na szaro. Proszę sprawdzić kod ubezpieczenia pracownika i go zaktualizować w razie potrzeby!" style="color: darkorchid;margin-left: 30px;"/>
             <p:panelGrid columns="2">
                 <h:form id="SuperFormFirma1">
                     <p:dataTable id="datalist" value="#{historiaView.firmysuperplace}" var="firmylistdata" rowIndexVar="yndex1"
@@ -57,18 +57,20 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                                  style="height: 200px;overflow-y: scroll; width: 950px; " sortBy="#{osobylistdata.osoNazwisko}"
                                 
                                  >
-                        <p:ajax event="rowSelect" partialSubmit="true" listener="#{historiaView.pobierzinfo()}"/>
+                        <p:ajax event="rowSelect" partialSubmit="true" listener="#{historiaView.pobierzinfo()}" update="SuperGroupForm"/>
+                        <p:ajax event="rowSelectCheckbox"  partialSubmit="true" listener="#{historiaView.pobierzinfo()}" update="SuperGroupForm"/>
+                        <p:ajax event="rowUnselectCheckbox" partialSubmit="true" listener="#{historiaView.pobierzinfo()}" update="SuperGroupForm"/>
                         <p:column width="50" style="text-align: center;">
                             <h:outputText value="#{yndex+1}"/>
                         </p:column>
-                        <p:column selectionMode="multiple" selectRow="true" />
-                        <p:column width="100" style="text-align: left;" sortBy="#{osobylistdata.osoNazwisko}" sortOrder="asc">
+                        <p:column width="40" selectionMode="multiple" selectRow="true" />
+                        <p:column width="120" style="text-align: left;" sortBy="#{osobylistdata.osoNazwisko}" sortOrder="asc">
                             <f:facet name="header">
                                 <h:outputText value="nazwisko"/>
                             </f:facet>
                             <h:outputText value="#{osobylistdata.osoNazwisko}" style="#{historiaView.zwrotkolor(osobylistdata)}" />
                         </p:column>
-                        <p:column width="100" style="text-align: left;">
+                        <p:column width="80" style="text-align: left;">
                             <f:facet name="header">
                                 <h:outputText value="imię"/>
                             </f:facet>
@@ -80,19 +82,25 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                             </f:facet>
                             <h:outputText value="#{osobylistdata.osoPesel}" style="#{historiaView.zwrotkolor(osobylistdata)}"/>
                         </p:column>
-                         <p:column width="80" style="text-align: center;">
+                         <p:column width="50" style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="prac/zlec"/>
                             </f:facet>
                             <h:outputText value="#{osobylistdata.osoSerial}" style="#{historiaView.zwrotkolor(osobylistdata)}"/>
                         </p:column>
-                        <p:column width="80" style="text-align: center;">
+                        <p:column width="50" style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="serial"/>
                             </f:facet>
                             <h:outputText value="#{osobylistdata.osoTyp eq 'P'?'Prac':'Zlec'}" style="#{historiaView.zwrotkolor(osobylistdata)}"/>
                         </p:column>
-                        <p:column width="60" style="text-align: center;">
+                         <p:column width="50" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="kod"/>
+                            </f:facet>
+                             <h:outputText value="#{historiaView.historycznykodumowy(osobylistdata)}" style="#{historiaView.zwrotkolor(osobylistdata)}"/>
+                        </p:column>
+                        <p:column width="70" style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="zatr."/>
                             </f:facet>
@@ -129,7 +137,7 @@ xmlns:pe="http://primefaces.org/ui/extensions">
             </h:form>
             <h:form id="SuperGroupForm" style="margin-top: 10px;margin-left: 100px;">
                 <p:panelGrid columns="3">
-                    <h:outputText value="zbiorcze pobieranie wybranych osób"/>
+                    <h:outputText value="zbiorcze pobieranie #{historiaView.selectedosoby.size()} wybranych osób"/>
                 </p:panelGrid>
                 <p:commandButton style="width: 120px" value="pobierz grupę" actionListener="#{osobaView.robgrupa(historiaView.selectedosoby)}" styleClass="buttonnorm" update="SuperFormFirma2"/>
             </h:form>

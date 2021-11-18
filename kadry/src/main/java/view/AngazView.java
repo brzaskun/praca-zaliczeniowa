@@ -7,7 +7,7 @@ package view;
 
 import comparator.Umowacomparator;
 import dao.AngazFacade;
-import dao.FirmaFacade;
+import dao.FirmaKadryFacade;
 import dao.KalendarzmiesiacFacade;
 import dao.KalendarzwzorFacade;
 import dao.PracownikFacade;
@@ -55,7 +55,7 @@ public class AngazView  implements Serializable {
     @Inject
     private AngazFacade angazFacade;
     @Inject
-    private FirmaFacade firmaFacade;
+    private FirmaKadryFacade firmaFacade;
     @Inject
     private PracownikFacade pracownikFacade;
     @Inject

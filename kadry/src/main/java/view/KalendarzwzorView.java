@@ -7,7 +7,7 @@ package view;
 
 import beanstesty.KalendarzWzorBean;
 import beanstesty.KalendarzmiesiacBean;
-import dao.FirmaFacade;
+import dao.FirmaKadryFacade;
 import dao.KalendarzmiesiacFacade;
 import dao.KalendarzwzorFacade;
 import dao.UmowaFacade;
@@ -42,7 +42,7 @@ public class KalendarzwzorView  implements Serializable {
     @Inject
     private KalendarzmiesiacFacade kalendarzmiesiacFacade;
     @Inject
-    private FirmaFacade firmaFacade;
+    private FirmaKadryFacade firmaFacade;
     @Inject
     private UmowaFacade umowaFacade;
     @Inject

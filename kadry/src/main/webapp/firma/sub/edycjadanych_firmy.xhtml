@@ -12,7 +12,7 @@
                 <p:panelGrid columns="2" rendered="#{firmaView.selected != null}" >
                     <p:outputLabel value="nip" for="nip" />
                     <p:inputText id="nip" value="#{firmaView.selected.nip}" title="nip" required="true" requiredMessage="NIP wymagany}">
-                        <p:ajax event="blur" listener="#{firmaView.sprawdznip}" partialSubmit="true"/>
+                        <p:ajax event="change" listener="#{firmaView.sprawdznip}" partialSubmit="true" global="true" update="@form"/>
                     </p:inputText>
                     <p:outputLabel value="nazwa" for="nazwa" />
                     <p:inputText id="nazwa" value="#{firmaView.selected.nazwa}" title="nazwa" required="true" requiredMessage="Wpisz nazwę"/>
@@ -87,7 +87,9 @@
                         </p:column>
 
                         <p:column width="40" style="text-align: center;">
-                            <p:commandButton icon="fa fa-trash" actionListener="#{firmaView.usun(item1)}" update="north @(form)" />
+                            <p:commandButton icon="fa fa-trash" actionListener="#{firmaView.usun(item1)}" update="north @(form)" >
+                                <p:confirm type="popup" header="Potwierdzenie" message="Usunąć wyszystkie dane firmy?" icon="pi pi-exclamation-triangle"/>
+                            </p:commandButton>
                         </p:column>
                     </p:dataTable>
                 </p:panel>
@@ -109,6 +111,8 @@
                        <p:inputText id="nazwisko" value="#{firmaView.selectedlista.nazwisko}" title="nazwisko przedsiębiorcy" size="100"/>
                        <p:outputLabel value="data urodzenia" for="dataurodzenia" />
                        <p:inputText id="dataurodzenia" value="#{firmaView.selectedlista.dataurodzenia}" title="nazwisko przedsiębiorcy"   placeholder="____-__-__"  maxlength="10"/>
+                       <p:outputLabel value="Regon" for="regon" />
+                       <p:inputText id="regon" value="#{firmaView.selectedlista.regon}" title="Regon" />
                 </p:panelGrid>
                 <p:panel header="adres siedziby firmy #{firmaView.selectedlista.nazwa}"/>
                     <p:panelGrid columns="8">
@@ -173,7 +177,10 @@
                         </f:facet>
                     </p:autoComplete>
                     </p:panelGrid>
-                    <p:commandButton value="zachowaj" styleClass="buttonnorm" actionListener="#{firmaView.edytuj()}" update="@(form)"/>
+                     <p:panelGrid columns="2">
+                        <p:commandButton value="zachowaj" styleClass="buttonnorm" actionListener="#{firmaView.edytuj()}" update="@(form)"/>
+                        
+                    </p:panelGrid>
                     </h:form>
         </p:outputPanel>
     </p:panelGrid>

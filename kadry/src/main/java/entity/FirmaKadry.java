@@ -50,6 +50,9 @@ public class FirmaKadry implements Serializable {
     @Size(max = 255)
     @Column(name = "nip",nullable = false)
     private String nip;
+    @Size(max = 255)
+    @Column(name = "regon")
+    private String regon;
     @OneToMany(mappedBy = "firma", cascade = CascadeType.ALL)
     private List<Uz> uzList;
     @OneToMany(mappedBy = "firma", cascade = CascadeType.ALL)
@@ -221,6 +224,14 @@ public class FirmaKadry implements Serializable {
 
     public void setReprezentant(String reprezentant) {
         this.reprezentant = reprezentant;
+    }
+
+    public String getRegon() {
+        return regon;
+    }
+
+    public void setRegon(String regon) {
+        this.regon = regon;
     }
 
     public boolean isOsobafizyczna() {
