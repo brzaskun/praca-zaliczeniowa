@@ -176,6 +176,8 @@ public class FirmaView  implements Serializable {
         if (firma!=null) {
             if (wpisView.getFirma()!=null && wpisView.getFirma().equals(firma)) {
                 wpisView.setFirma(null);
+                wpisView.setAngaz(null);
+                wpisView.setUmowa(null);
             }
             firmaKadryFacade.remove(firma);
             lista.remove(firma);
