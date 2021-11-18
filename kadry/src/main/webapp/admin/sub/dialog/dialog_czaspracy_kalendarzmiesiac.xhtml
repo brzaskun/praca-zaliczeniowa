@@ -10,6 +10,7 @@
               fitViewport="true">
         <p:outputPanel style="height: 90px">
             <h:panelGroup id="display">
+                <h:outputText value="W przypadku nierównych godzin mimo całego miesiąca proszę sprawdzić kalendarz wzorcowy"/>
                 <p:panelGrid columns="3">
                     <h:form id="KalendarzmiesiacCreateForm">
                         <p:panelGrid columns="6">
@@ -196,7 +197,7 @@
                 </p:panel>
                 <p:outputPanel>
                     <p:commandButton styleClass="buttonnorm" actionListener="#{kalendarzmiesiacView.create}" value="zachowaj" update="north KalendarzmiesiacCreateForm KalendarzmiesiacListForm:datalist KalendarzmiesiacSaRokForm"/>
-                    <p:commandButton styleClass="buttonnorm2" actionListener="#{kalendarzmiesiacView.reset}" value="resetuj" update="north KalendarzmiesiacCreateForm :KalendarzmiesiacListForm:datalist KalendarzmiesiacSaRokForm"/>
+                    <p:commandButton styleClass="buttonnorm2" actionListener="#{kalendarzmiesiacView.reset}" value="resetuj" update="north KalendarzmiesiacCreateForm KalendarzmiesiacListForm:datalist KalendarzmiesiacSaRokForm"/>
                     <p:commandButton styleClass="buttonnorm2" actionListener="#{kalendarzmiesiacView.usun}" value="usun" update="north KalendarzmiesiacCreateForm KalendarzmiesiacListForm:datalist KalendarzmiesiacSaRokForm:wykazistniejacychkal">
                         <p:confirm type="popup" header="Potwierdzenie" message="Usunąć bieżący kalendarz?" icon="pi pi-exclamation-triangle"/>
                     </p:commandButton>
