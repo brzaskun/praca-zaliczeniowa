@@ -85,6 +85,7 @@ public class PasekwynagrodzenView  implements Serializable {
     List<Naliczenienieobecnosc> listanieobecnoscipracownika;
     private double kursdlalisty;
     private String datawyplaty;
+    private String ileszczegolow;
     
     @PostConstruct
     public void init() {
@@ -114,6 +115,7 @@ public class PasekwynagrodzenView  implements Serializable {
             pobierzkalendarzezamc();
             pobierzkalendarzezamcanaliza();
         } catch (Exception e){}
+        ileszczegolow = "prosta";
     }
     
     public void wyborinnejumowy() {
@@ -474,6 +476,14 @@ public class PasekwynagrodzenView  implements Serializable {
 
     public void setDatawyplaty(String datawyplaty) {
         this.datawyplaty = datawyplaty;
+    }
+
+    public String getIleszczegolow() {
+        return ileszczegolow;
+    }
+
+    public void setIleszczegolow(String ileszczegolow) {
+        this.ileszczegolow = ileszczegolow;
     }
 
     
