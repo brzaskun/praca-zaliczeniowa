@@ -73,7 +73,7 @@ public class PasekwynagrodzenBean {
         if (umowaoprace) {
             jestoddelegowanie = KalendarzmiesiacBean.naliczskladnikiwynagrodzeniaDBsymulacja(kalendarz, pasek, kwotabrutto);
         } else {
-            jestoddelegowanie = KalendarzmiesiacBean.naliczskladnikiwynagrodzeniaDBZlecenie(kalendarz, pasek, 1.0);
+            jestoddelegowanie = KalendarzmiesiacBean.naliczskladnikiwynagrodzeniaDBZlecenieSymulacja(kalendarz, pasek, 1.0);
         }
 //        KalendarzmiesiacBean.naliczskladnikipotraceniaDB(kalendarz, pasek);
         PasekwynagrodzenBean.obliczbruttozus(pasek);
@@ -89,7 +89,7 @@ public class PasekwynagrodzenBean {
             PasekwynagrodzenBean.obliczpodstaweopodatkowaniaDB(pasek, stawkipodatkowe);
             PasekwynagrodzenBean.obliczpodatekwstepnyDB(pasek, stawkipodatkowe, 0.0);
         } else {
-            PasekwynagrodzenBean.obliczpodstaweopodatkowaniaZlecenie(pasek, stawkipodatkowe, pasek.isNierezydent());
+            PasekwynagrodzenBean.obliczpodstaweopodatkowaniaZlecenieSymulacja(pasek, stawkipodatkowe, pasek.isNierezydent());
             PasekwynagrodzenBean.obliczpodatekwstepnyZlecenieDB(pasek, stawkipodatkowe, pasek.isNierezydent());
         }
         PasekwynagrodzenBean.ulgapodatkowaDB(pasek, stawkipodatkowe);
@@ -497,6 +497,24 @@ public class PasekwynagrodzenBean {
         double bruttominusspoleczne = pasek.getBruttominusspoleczne();
         Rachunekdoumowyzlecenia rachunekdoumowyzlecenia = pasek.getKalendarzmiesiac().getUmowa().pobierzRachunekzlecenie(pasek.getKalendarzmiesiac().getRok(), pasek.getKalendarzmiesiac().getMc());
         double procentkosztyuzyskania = rachunekdoumowyzlecenia.getProcentkosztowuzyskania();
+        double podstawadlakosztow = Z.z0(bruttominusspoleczne) > 0.0 ? Z.z0(bruttominusspoleczne) :0.0;
+        double kosztyuzyskania = Z.z(podstawadlakosztow*procentkosztyuzyskania/100);
+        double dieta30proc = pasek.getDietaodliczeniepodstawaop();
+        double podstawa = Z.z0(bruttominusspoleczne-kosztyuzyskania-dieta30proc) > 0.0 ? Z.z0(bruttominusspoleczne-kosztyuzyskania-dieta30proc) :0.0;
+        pasek.setPodstawaopodatkowania(podstawa);
+        if (nierezydent) {
+            pasek.setKosztyuzyskania(0.0);
+        } else {
+            pasek.setKosztyuzyskania(kosztyuzyskania);
+        }
+        pasek.setProcentkosztow(pasek.getKalendarzmiesiac().getUmowa().getKosztyuzyskaniaprocent());
+        
+    }
+    
+    private static void obliczpodstaweopodatkowaniaZlecenieSymulacja(Pasekwynagrodzen pasek, List<Podatki> stawkipodatkowe, boolean nierezydent) {
+        Podatki pierwszyprog = stawkipodatkowe.get(0);
+        double bruttominusspoleczne = pasek.getBruttominusspoleczne();
+        double procentkosztyuzyskania = 20.0;
         double podstawadlakosztow = Z.z0(bruttominusspoleczne) > 0.0 ? Z.z0(bruttominusspoleczne) :0.0;
         double kosztyuzyskania = Z.z(podstawadlakosztow*procentkosztyuzyskania/100);
         double dieta30proc = pasek.getDietaodliczeniepodstawaop();

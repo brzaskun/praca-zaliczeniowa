@@ -10,10 +10,29 @@
             <h:form id="FirmaCreateForm">
                 <p:panel header="dodaj nową firmę"/>
                 <p:panelGrid columns="2" rendered="#{firmaView.selected != null}" >
+                    <p:outputLabel value="importuj" for="nazwaimport" />
+                    <p:autoComplete id="nazwaimport" value="#{firmaView.firmaSPimport}" converter="#{firmaSPConverter}"
+                                        widgetVar="firmaimport" completeMethod="#{firmaView.complete}"
+                                        var="firma" itemLabel="#{firma.firNazwaPel}" itemValue="#{firma}"  title="nazwa firmy"
+                                        minQueryLength="3" maxResults="12" maxlength="20" converterMessage="Nieudana konwersja firmy" queryDelay="0"
+                                        forceSelection="true" styleClass="wpisywaniekontrfk" moreText="jest więcej pasujących pozycji"
+                                        >
+                            <p:ajax event="query" global="false"/>
+                            <p:ajax event="itemSelect" partialSubmit="true" global="false" listener="#{firmaView.sprawdznip}" update="@form"/>
+                            <f:facet name="itemtip">  
+                                <h:panelGrid  columns="2" cellpadding="5" width="400">  
+                                    <f:facet name="header">  
+                                        <h:outputText value="Dane firmy"/>
+                                    </f:facet>  
+                                    <h:outputText value="nazwa: " />  
+                                    <h:outputText value="#{firma.firNazwaPel}" />  
+                                    <h:outputText value="nip: " />  
+                                    <h:outputText value="#{firma.firNip}" />  
+                                </h:panelGrid>
+                            </f:facet>
+                        </p:autoComplete>
                     <p:outputLabel value="nip" for="nip" />
-                    <p:inputText id="nip" value="#{firmaView.selected.nip}" title="nip" required="true" requiredMessage="NIP wymagany}">
-                        <p:ajax event="change" listener="#{firmaView.sprawdznip}" partialSubmit="true" global="true" update="@form"/>
-                    </p:inputText>
+                    <p:inputText id="nip" value="#{firmaView.selected.nip}" title="nip" required="true" requiredMessage="NIP wymagany"/>
                     <p:outputLabel value="nazwa" for="nazwa" />
                     <p:inputText id="nazwa" value="#{firmaView.selected.nazwa}" title="nazwa" required="true" requiredMessage="Wpisz nazwę"/>
                     <p:outputLabel value="email" for="email" />

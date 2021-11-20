@@ -263,7 +263,19 @@ public class KalendarzmiesiacBean {
         pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().add(naliczenieskladnikawynagrodzenia);
         return false;
     }
-    
+    static boolean naliczskladnikiwynagrodzeniaDBZlecenieSymulacja(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasekwynagrodzen, double kwota) {
+        Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = new Naliczenieskladnikawynagrodzenia();
+        double zmiennawynagrodzeniakwota = kwota;
+        naliczenieskladnikawynagrodzenia.setPasekwynagrodzen(pasekwynagrodzen);
+        naliczenieskladnikawynagrodzenia.setKwotaumownazacalymc(zmiennawynagrodzeniakwota);
+        naliczenieskladnikawynagrodzenia.setKwotadolistyplac(zmiennawynagrodzeniakwota);
+        Skladnikwynagrodzenia skladnikwynagrodzenia = new Skladnikwynagrodzenia();
+        Rodzajwynagrodzenia rodzajwynagrodzenia = new Rodzajwynagrodzenia();
+        skladnikwynagrodzenia.setRodzajwynagrodzenia(rodzajwynagrodzenia);
+        naliczenieskladnikawynagrodzenia.setSkladnikwynagrodzenia(skladnikwynagrodzenia);
+        pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().add(naliczenieskladnikawynagrodzenia);
+        return false;
+    }
     static boolean naliczskladnikiwynagrodzeniaDB(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasekwynagrodzen, double kurs) {
         boolean jestoddelegowanie = false;
         for (Skladnikwynagrodzenia p : kalendarz.getUmowa().getSkladnikwynagrodzeniaList()) {
@@ -292,6 +304,8 @@ public class KalendarzmiesiacBean {
         }
         return jestoddelegowanie;
     }
+    
+    
     
     static boolean naliczskladnikiwynagrodzeniaDBZlecenie(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasekwynagrodzen, double kurs) {
         boolean jestoddelegowanie = false;

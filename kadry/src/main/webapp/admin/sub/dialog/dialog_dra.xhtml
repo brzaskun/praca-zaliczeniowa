@@ -46,7 +46,7 @@ xmlns:pe="http://primefaces.org/ui/extensions">
         <p:outputPanel>
             <h:form id="DRAListForm">
                 <p:panel header="paski wynagrodzeń">
-                    <p:dataTable id="datalist" value="#{draView.lista}" var="itemdra"
+                    <p:dataTable id="datalist" value="#{draView.paskiwynagrodzen}" var="itemdra"
                                  selectionMode="single" selection="#{draView.selectedlista}" rowIndexVar="indexdra"
                                  rowKey="#{itemdra.kalendarzmiesiac.hashCode()}" sortBy="#{itemdra.kalendarzmiesiac.umowa.angaz.pracownik.nazwiskoImie}"
                                  style="height: 500px; overflow-y: scroll;"

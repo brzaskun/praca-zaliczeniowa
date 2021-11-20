@@ -46,6 +46,7 @@ public class FirmaView  implements Serializable {
     private static final long serialVersionUID = 1L;
     @Inject
     private FirmaKadry selected;
+    private Firma firmaSPimport;
     private FirmaKadry selectedlista;
     private FirmaKadry selectedeast;
     private List<FirmaKadry> lista;
@@ -75,6 +76,7 @@ public class FirmaView  implements Serializable {
     private DefinicjalistaplacFacade definicjalistaplacFacade;
     @Inject
     private TKodUS tKodUS;
+    private List<Firma> firmysuperplace;
     
     @PostConstruct
     private void init() {
@@ -82,6 +84,7 @@ public class FirmaView  implements Serializable {
         if (wpisView.getFirma()!=null) {
             selectedeast = wpisView.getFirma();
         }
+        firmysuperplace = firmaFacade.findAll();
     }
 
     public void create() {
@@ -227,45 +230,40 @@ public class FirmaView  implements Serializable {
         }
     }
      
-     public void uzuspelnijsuperplace(FirmaKadry nowa) {
-         if (nowa!=null) {
-            List<Firma> firmysuperplace = firmaFacade.findAll();
-            Firma odnaleziona = firmysuperplace.stream().filter(p->ladnynip(p.getFirNip()).equals(nowa.getNip())).findFirst().orElse(null);
-                if (odnaleziona!=null) {
-                    nowa.setNazwa(odnaleziona.getFirNazwaSkr());
-                    String firNazwisko = odnaleziona.getFirNazwisko();
-                    if (firNazwisko!=null&&!firNazwisko.equals("")) {
-                        nowa.setNazwisko(StringUtils.capitalize(firNazwisko.toLowerCase()));
-                    }
-                    String firImie = odnaleziona.getFirImie1();
-                    if (firImie!=null&&!firImie.equals("")) {
-                        nowa.setImie(StringUtils.capitalize(firImie.toLowerCase()));
-                        nowa.setReprezentant(nowa.getImie()+" "+nowa.getNazwisko());
-                    }
-                    nowa.setKraj("Polska");
-                    nowa.setWojewodztwo(odnaleziona.getFirWojewodztwo());
-                    nowa.setPowiat(odnaleziona.getFirPowiat());
-                    nowa.setGmina(odnaleziona.getFirGmina());
-                    nowa.setMiasto(odnaleziona.getFirMiaSerial().getMiaNazwa());
-                    nowa.setUlica(odnaleziona.getFirUlica());
-                    nowa.setDom(odnaleziona.getFirDom());
-                    nowa.setLokal(odnaleziona.getFirMieszkanie());
-                    nowa.setKod(odnaleziona.getFirKod());
-                    nowa.setPoczta(odnaleziona.getFirPoczta());
-                    nowa.setDataurodzenia(Data.data_yyyyMMdd(odnaleziona.getFirDataUrodz()));
-                    Urzad urzad = urzadFacade.findByUrzSerial(odnaleziona.getFirUrzSerial());
-                    if (urzad!=null) {
-                        nowa.setKodurzeduskarbowego(String.valueOf(urzad.getUrzVchar1()));
-                        nowa.setNazwaurzeduskarbowego(TKodUS.getNazwaUrzedu(nowa.getKodurzeduskarbowego()));
-                    }
-                    if (odnaleziona.getFirPesel()!=null&&!odnaleziona.getFirPesel().equals("")) {
-                        nowa.setOsobafizyczna(true);
-                    }
-                    nowa.setRegon(odnaleziona.getFirRegon());
-                    Msg.msg("Pobrano dane z Super Płac. Zweryfikuj i zachowaj");
-                } else {
-                    Msg.msg("e","Nie odnaleziono firmy w Super Płace");
-                }
+     public void uzuspelnijsuperplace(Firma odnaleziona) {
+        if (odnaleziona!=null) {
+            selected.setNazwa(odnaleziona.getFirNazwaSkr());
+            String firNazwisko = odnaleziona.getFirNazwisko();
+            if (firNazwisko!=null&&!firNazwisko.equals("")) {
+                selected.setNazwisko(StringUtils.capitalize(firNazwisko.toLowerCase()));
+            }
+            String firImie = odnaleziona.getFirImie1();
+            if (firImie!=null&&!firImie.equals("")) {
+                selected.setImie(StringUtils.capitalize(firImie.toLowerCase()));
+                selected.setReprezentant(selected.getImie()+" "+selected.getNazwisko());
+            }
+            selected.setKraj("Polska");
+            selected.setNip(ladnynip(odnaleziona.getFirNip()));
+            selected.setWojewodztwo(odnaleziona.getFirWojewodztwo());
+            selected.setPowiat(odnaleziona.getFirPowiat());
+            selected.setGmina(odnaleziona.getFirGmina());
+            selected.setMiasto(odnaleziona.getFirMiaSerial().getMiaNazwa());
+            selected.setUlica(odnaleziona.getFirUlica());
+            selected.setDom(odnaleziona.getFirDom());
+            selected.setLokal(odnaleziona.getFirMieszkanie());
+            selected.setKod(odnaleziona.getFirKod());
+            selected.setPoczta(odnaleziona.getFirPoczta());
+            selected.setDataurodzenia(Data.data_yyyyMMdd(odnaleziona.getFirDataUrodz()));
+            Urzad urzad = urzadFacade.findByUrzSerial(odnaleziona.getFirUrzSerial());
+            if (urzad!=null) {
+                selected.setKodurzeduskarbowego(String.valueOf(urzad.getUrzVchar1()));
+                selected.setNazwaurzeduskarbowego(TKodUS.getNazwaUrzedu(selected.getKodurzeduskarbowego()));
+            }
+            if (odnaleziona.getFirPesel()!=null&&!odnaleziona.getFirPesel().equals("")) {
+                selected.setOsobafizyczna(true);
+            }
+            selected.setRegon(odnaleziona.getFirRegon());
+            Msg.msg("Pobrano dane z Super Płac. Zweryfikuj i zachowaj");
          } else {
              Msg.msg("e","Nie wybrano firmy do edycji");
          }
@@ -285,7 +283,25 @@ public class FirmaView  implements Serializable {
             Msg.msg("Pobrano firmę do edycji");
         }
     }
-    
+    public List<Firma> complete(String query) {
+        List<Firma> results = new ArrayList<>();
+        try {
+            String q = query.substring(0, 1);
+            int i = Integer.parseInt(q);
+            for (Firma p : firmysuperplace) {
+                if (ladnynip(p.getFirNip()).startsWith(query)) {
+                    results.add(p);
+                }
+            }
+        } catch (NumberFormatException e) {
+            for (Firma p : firmysuperplace) {
+                if (p.getFirNazwaPel().toLowerCase().contains(query.toLowerCase())) {
+                    results.add(p);
+                }
+            }
+        }
+        return results;
+    }
     public void sprawdzmail() {
         if (selected.getEmail()!=null) {
             Uz uzer = uzFacade.findUzByLogin(selected.getEmail());
@@ -298,14 +314,15 @@ public class FirmaView  implements Serializable {
     }
     
     public void sprawdznip() {
-        if (selected.getNip()!=null) {
-            FirmaKadry firma = firmaKadryFacade.findByNIP(selected.getNip());
+        if (firmaSPimport.getFirNip()!=null) {
+            String nip = ladnynip(firmaSPimport.getFirNip());
+            FirmaKadry firma = firmaKadryFacade.findByNIP(nip);
             if (firma!=null) {
                 Msg.msg("e","NIP musi być unikalny! Jest już taki NIP firmy w programie");
                 selected.setNip(null);
                 PrimeFaces.current().ajax().update("FirmaCreateForm:nip");
             } else {
-                uzuspelnijsuperplace(selected);
+                uzuspelnijsuperplace(firmaSPimport);
             }
         }
     }
@@ -340,6 +357,14 @@ public class FirmaView  implements Serializable {
 
     public void setSelectedeast(FirmaKadry selectedeast) {
         this.selectedeast = selectedeast;
+    }
+
+    public Firma getFirmaSPimport() {
+        return firmaSPimport;
+    }
+
+    public void setFirmaSPimport(Firma firmaSPimport) {
+        this.firmaSPimport = firmaSPimport;
     }
     
     

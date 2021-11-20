@@ -19,7 +19,7 @@ import javax.inject.Named;
  * @author Osito
  */
 @Named
-public class FirmaConverter implements javax.faces.convert.Converter {
+public class FirmaKadryConverter implements javax.faces.convert.Converter {
     
     private List<FirmaKadry> lista;
     @Inject

@@ -36,7 +36,7 @@
                         <p:outputLabel value="mc" for="mc" />
                         <p:inputText id="mc" value="#{definicjalistaplacView.selected.mc}" title="mc"  required="true" styleClass="datalistadef"/>
                         <p:outputLabel value="firma" for="firma" />
-                        <p:selectOneMenu id="firma" value="#{definicjalistaplacView.selected.firma}" required="true" requiredMessage="Wybierz firmę" converter="#{firmaConverter}" styleClass="datalistadef">
+                        <p:selectOneMenu id="firma" value="#{definicjalistaplacView.selected.firma}" required="true" requiredMessage="Wybierz firmę" converter="#{firmaKadryConverter}" styleClass="datalistadef">
                             <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
                             <f:selectItems value="#{definicjalistaplacView.listafirm}"
                                            var="firmalistaItem"
