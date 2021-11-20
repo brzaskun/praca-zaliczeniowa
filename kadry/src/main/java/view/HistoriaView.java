@@ -18,6 +18,7 @@ import entity.Umowa;
 import entity.Wynagrodzeniahistoryczne;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
@@ -62,6 +63,7 @@ public class HistoriaView  implements Serializable {
     private FirmaFacade firmaFacade;
     @Inject
     private dao.FirmaKadryFacade firmaKadryFacade;
+    private boolean pokazwszystkie;
     
     @PostConstruct
     public void init() {
@@ -91,6 +93,17 @@ public class HistoriaView  implements Serializable {
     
     public void pobierzosoby() {
         osoby = osobaFacade.findByFirmaSerial(selectedfirma.getFirSerial());
+        if (pokazwszystkie==false) {
+            for (Iterator<Osoba> it = osoby.iterator();it.hasNext();) {
+                Osoba o = it.next();
+                if (o.getOsoDataZwol()!=null) {
+                    boolean czyjestpozniej = Data.czyjestpo(o.getOsoDataZwol(), "2020", "01");
+                    if (czyjestpozniej==false) {
+                       it.remove();
+                    }
+                }
+            }
+        }
         for (Osoba o : osoby) {
             for (Angaz a : listapracownikow) {
                 if (a.getSerialsp()!=null) {
@@ -139,7 +152,7 @@ public class HistoriaView  implements Serializable {
     public String zwrotkolor(Osoba osoba) {
         String zwrot = "color: initial";
         if (osoba.getOsoDataZwol()!=null) {
-            boolean czyjestpozniej = Data.czyjestpo(osoba.getOsoDataZwol(), wpisView);
+            boolean czyjestpozniej = Data.czyjestpo(osoba.getOsoDataZwol(), "2020", "01");
             if (czyjestpozniej==false) {
                 zwrot = "color: grey";
             }
@@ -214,6 +227,14 @@ public class HistoriaView  implements Serializable {
 
     public void setSelectedfirma(Firma selectedfirma) {
         this.selectedfirma = selectedfirma;
+    }
+
+    public boolean isPokazwszystkie() {
+        return pokazwszystkie;
+    }
+
+    public void setPokazwszystkie(boolean pokazwszystkie) {
+        this.pokazwszystkie = pokazwszystkie;
     }
 
     public String historycznykodumowy(Osoba osoba) {

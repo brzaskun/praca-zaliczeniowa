@@ -85,6 +85,8 @@ public class Data implements Serializable {
        return ostatniDzien(wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
     }
     
+   
+    
     /**
      * Porównywanie dwóch rokow i mce. Przyjmuje integer
      * 
@@ -338,11 +340,11 @@ public class Data implements Serializable {
         return zwrot;
     }
     
-    public static boolean czyjestpo(Date data, WpisView wpisView) {
+    public static boolean czyjestpo(Date data, String rokl, String mcl) {
         boolean zwrot = false;
         String rok = Data.getRok(Data.data_yyyyMMdd(data));
         String mc = Data.getMc(Data.data_yyyyMMdd(data));
-        String ostatnidzien = ostatniDzien(wpisView);
+        String ostatnidzien = ostatniDzien(rokl, mcl);
         zwrot = czyjestpo(ostatnidzien, rok,mc);
         return zwrot;
     }

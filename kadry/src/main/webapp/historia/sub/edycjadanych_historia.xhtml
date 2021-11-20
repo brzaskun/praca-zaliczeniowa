@@ -123,6 +123,12 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                             <h:outputText value="&#x2714;"  style="color: green;" rendered="#{osobylistdata.osoDodVchar3 eq 'tak'}"/>
                         </p:column>
                     </p:dataTable>
+                    <p:panelGrid columns="2" style="margin-top: 5px;">
+                        <p:outputLabel value="pokaż wszystkich" for="pokaz"/>
+                        <p:selectBooleanCheckbox id="pokaz" value="#{historiaView.pokazwszystkie}" title="pokaz wszystkich">
+                            <p:ajax event="change" global="false" partialSubmit="true" listener="#{historiaView.pobierzosoby()}" update="@form"/>
+                        </p:selectBooleanCheckbox>
+                    </p:panelGrid>
                 </h:form>
             </p:panelGrid>
             <p:panel header="Pobranie danych wybranej osoby z programu SuperPłace" style="margin-top: 10px;"/>
