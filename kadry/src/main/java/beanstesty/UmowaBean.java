@@ -65,6 +65,7 @@ public class UmowaBean {
             umowa.setAngaz(angaz);
             umowa.setNrkolejny("UP/IMP/"+String.valueOf(numerumowy)+"/"+String.valueOf(angaz.getId()));
             umowa.setDataod(Data.data_yyyyMMddNull(r.getZahDataOd()));
+            umowa.setTerminrozpoczeciapracy(Data.data_yyyyMMddNull(r.getZahDataOd()));
             umowa.setDatado(Data.data_yyyyMMddNull(r.getZahDataDo()));
             umowa.setDataspoleczne(Data.data_yyyyMMddNull(r.getZahDataOd()));
             umowa.setDatazawarcia(Data.data_yyyyMMddNull(r.getZahDataOd()));
@@ -76,10 +77,10 @@ public class UmowaBean {
                 umowa.setChorobowe(Boolean.TRUE);
                 umowa.setChorobowedobrowolne(Boolean.FALSE);
                 umowa.setEmerytalne(Boolean.TRUE);
-                umowa.setCzastrwania("umowa na okres próbny");
+                umowa.setCzastrwania("umowa importowana");
                 umowa.setKosztyuzyskaniaprocent(osoba.getOsoWynKosztyProc().doubleValue());
                 umowa.setKwotawolnaprocent(osoba.getOsoPodWolnaProc().doubleValue());
-                umowa.setNfz("16R");
+                umowa.setNfz(osoba.getOsoKasaKod());
                 umowa.setNieliczFGSP(Boolean.FALSE);
                 umowa.setNieliczFP(Boolean.FALSE);
                 umowa.setOdliczaculgepodatkowa(Boolean.TRUE);
@@ -109,9 +110,10 @@ public class UmowaBean {
         umowa.setChorobowe(Boolean.TRUE);
         umowa.setChorobowedobrowolne(Boolean.FALSE);
         umowa.setEmerytalne(Boolean.TRUE);
-        umowa.setCzastrwania("umowa zlecenia");
+        umowa.setCzastrwania("umowa zlecenia import");
         umowa.setKosztyuzyskaniaprocent(r.getOzlKosztProc().doubleValue());
-        umowa.setNfz("16R");
+        umowa.setNfz(null);
+        umowa.setOpiszawodu(r.getOzlPraca1());
         umowa.setNieliczFGSP(Boolean.FALSE);
         umowa.setNieliczFP(Boolean.FALSE);
         umowa.setOdliczaculgepodatkowa(Boolean.TRUE);

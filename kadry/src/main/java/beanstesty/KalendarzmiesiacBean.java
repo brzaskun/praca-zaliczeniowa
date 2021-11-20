@@ -16,6 +16,7 @@ import entity.Naliczenieskladnikawynagrodzenia;
 import entity.Nieobecnosc;
 import entity.Pasekwynagrodzen;
 import entity.Rachunekdoumowyzlecenia;
+import entity.Rodzajwynagrodzenia;
 import entity.Skladnikpotracenia;
 import entity.Skladnikwynagrodzenia;
 import entity.Sredniadlanieobecnosci;
@@ -249,6 +250,18 @@ public class KalendarzmiesiacBean {
                 pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().add(naliczenieskladnikawynagrodzenia);
             }
         }
+    }
+    
+    static boolean naliczskladnikiwynagrodzeniaDBsymulacja(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasekwynagrodzen, double kwota) {
+        Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = new Naliczenieskladnikawynagrodzenia();
+        naliczenieskladnikawynagrodzenia.setKwotaumownazacalymc(kwota);
+        naliczenieskladnikawynagrodzenia.setKwotadolistyplac(kwota);
+        Skladnikwynagrodzenia skladnikwynagrodzenia = new Skladnikwynagrodzenia();
+        Rodzajwynagrodzenia rodzajwynagrodzenia = new Rodzajwynagrodzenia();
+        skladnikwynagrodzenia.setRodzajwynagrodzenia(rodzajwynagrodzenia);
+        naliczenieskladnikawynagrodzenia.setSkladnikwynagrodzenia(skladnikwynagrodzenia);
+        pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().add(naliczenieskladnikawynagrodzenia);
+        return false;
     }
     
     static boolean naliczskladnikiwynagrodzeniaDB(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasekwynagrodzen, double kurs) {

@@ -185,6 +185,9 @@ public class OsobaView implements Serializable {
                                 umowakodzuspraca = umowakodzusFacade.findUmowakodzusByKod(wktKod);
                             }
                             if (p.getOsdTytul().equals('Z')) {
+                               if (wktKod.equals("0410")) {
+                                   wktKod = "0411";
+                               }
                                umowakodzuszlecenie = umowakodzusFacade.findUmowakodzusByKod(wktKod);
                             }
                         }

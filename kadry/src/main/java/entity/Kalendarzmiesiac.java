@@ -98,6 +98,10 @@ private static final long serialVersionUID = 1L;
         this.dzienList = selected.dzienList;
     }
 
+    public Kalendarzmiesiac(Kalendarzwzor findByFirmaRokMc) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
       public void edytujdnizglobalnego(Kalendarzwzor kalendarzwzor) {
         for (int i = 0; i < kalendarzwzor.getDzienList().size(); i++) {
             Dzien dzien = this.getDzienList().get(i);

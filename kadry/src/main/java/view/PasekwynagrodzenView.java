@@ -11,6 +11,7 @@ import comparator.Kalendarzmiesiaccomparator;
 import comparator.Sredniadlanieobecnoscicomparator;
 import dao.DefinicjalistaplacFacade;
 import dao.KalendarzmiesiacFacade;
+import dao.KalendarzwzorFacade;
 import dao.NieobecnosckodzusFacade;
 import dao.OddelegowanieZUSLimitFacade;
 import dao.PasekwynagrodzenFacade;
@@ -21,6 +22,7 @@ import data.Data;
 import entity.Angaz;
 import entity.Definicjalistaplac;
 import entity.Kalendarzmiesiac;
+import entity.Kalendarzwzor;
 import entity.Naliczenienieobecnosc;
 import entity.Naliczenieskladnikawynagrodzenia;
 import entity.OddelegowanieZUSLimit;
@@ -41,6 +43,7 @@ import javax.inject.Named;
 import msg.Msg;
 import org.primefaces.model.DualListModel;
 import pdf.PdfListaPlac;
+import z.Z;
 
 /**
  *
@@ -86,6 +89,9 @@ public class PasekwynagrodzenView  implements Serializable {
     private double kursdlalisty;
     private String datawyplaty;
     private String ileszczegolow;
+    private double symulacjabrrutto;
+    private double symulacjanetto;
+    private double symulacjatotalcost;
     
     @PostConstruct
     public void init() {
@@ -116,6 +122,8 @@ public class PasekwynagrodzenView  implements Serializable {
             pobierzkalendarzezamcanaliza();
         } catch (Exception e){}
         ileszczegolow = "prosta";
+        symulacjabrrutto = 2810;
+        symulacjaoblicz();
     }
     
     public void wyborinnejumowy() {
@@ -215,8 +223,30 @@ public class PasekwynagrodzenView  implements Serializable {
             Msg.msg("e","Nie wybrano listy lub pracownika");
         }
     }
-   
-      
+    @Inject
+    private KalendarzwzorFacade kalendarzwzorFacade;
+    public void symulacjaoblicz() {
+        if (symulacjabrrutto>0.0) {
+            int i = 1;
+            List<Podatki> stawkipodatkowe = podatkiFacade.findByRokUmowa(wpisView.getRokWpisu(), "P");
+            if (stawkipodatkowe!=null&&!stawkipodatkowe.isEmpty()) {
+                Kalendarzwzor kalendarzwzor = kalendarzwzorFacade.findByFirmaRokMc(wpisView.getFirma(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
+                Kalendarzmiesiac kalendarz = new Kalendarzmiesiac();
+                kalendarz.setRok(wpisView.getRokWpisu());
+                kalendarz.setMc(wpisView.getMiesiacWpisu());
+                kalendarz.nanies(kalendarzwzor);
+                boolean zlecenie0praca1 = rodzajumowy.equals("1")?true:false;
+                Umowa umowa = new Umowa();
+                umowa.setOdliczaculgepodatkowa(true);
+                umowa.setKosztyuzyskaniaprocent(100.0);
+                umowa.setChorobowe(true);
+                kalendarz.setUmowa(umowa);
+                Pasekwynagrodzen pasek = PasekwynagrodzenBean.obliczWynagrodzeniesymulacja(kalendarz, wybranalistaplac, nieobecnosckodzusFacade, stawkipodatkowe, zlecenie0praca1, symulacjabrrutto);
+                symulacjanetto = pasek.getNetto();
+                symulacjatotalcost = Z.z(pasek.getBrutto()+pasek.getKosztpracodawcy());
+            }
+        }
+    }
         
         
     private List<Pasekwynagrodzen> pobierzpaskidosredniej(Kalendarzmiesiac p) {
@@ -484,6 +514,30 @@ public class PasekwynagrodzenView  implements Serializable {
 
     public void setIleszczegolow(String ileszczegolow) {
         this.ileszczegolow = ileszczegolow;
+    }
+
+    public double getSymulacjabrrutto() {
+        return symulacjabrrutto;
+    }
+
+    public void setSymulacjabrrutto(double symulacjabrrutto) {
+        this.symulacjabrrutto = symulacjabrrutto;
+    }
+
+    public double getSymulacjanetto() {
+        return symulacjanetto;
+    }
+
+    public void setSymulacjanetto(double symulacjanetto) {
+        this.symulacjanetto = symulacjanetto;
+    }
+
+    public double getSymulacjatotalcost() {
+        return symulacjatotalcost;
+    }
+
+    public void setSymulacjatotalcost(double symulacjatotalcost) {
+        this.symulacjatotalcost = symulacjatotalcost;
     }
 
     

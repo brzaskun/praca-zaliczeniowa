@@ -523,6 +523,8 @@ public class UmowaView  implements Serializable {
         }
     }
     
+    
+    
     public Umowa getSelected() {
         return selected;
     }

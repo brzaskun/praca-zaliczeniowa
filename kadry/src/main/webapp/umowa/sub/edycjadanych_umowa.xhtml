@@ -7,7 +7,7 @@
 
     xmlns:bcf="http://brzaskun.com/facelets"
     xmlns:pe="http://primefaces.org/ui/extensions">
-    <p:outputPanel style="height: 360px" id="panelumowadane">
+    <p:outputPanel style="height: 300px" id="panelumowadane">
         <h:form id="UmowaCreateForm">
             <p:panel header="Dodawanie/edycja umowy #{umowaView.rodzajumowy eq '1' ?'o pracę':'zlecenia i o dzieło'}"/>
             <h:panelGroup id="displaypraca" rendered="#{umowaView.rodzajumowy eq '1'}">
@@ -53,6 +53,8 @@
                         </p:inputText>
                         <p:outputLabel value="termin rozpoczecia pracy" for="datarozp1" />
                         <p:inputText id="datarozp1" value="#{umowaView.selected.terminrozpoczeciapracy}" title="termin rozpoczecia pracy" styleClass="dataUmowy"  placeholder="____-__-__"  maxlength="10"/>
+                        <p:outputLabel value="miejsce pracy" for="miejscepracy" />
+                        <p:inputText id="miejscepracy" value="#{umowaView.selected.miejscepracy}" title="miejsce pracy" />
                          <p:outputLabel value="wiek" for="wiek1" />
                          <h:outputText id="wiek1" value="#{umowaView.selected.wiekumowa}" styleClass="dataUmowy"/>
 
@@ -229,6 +231,23 @@
                 <p:commandButton styleClass="buttonnorm2" actionListener="#{umowaView.create}" value="Dodaj" update="north, @(form)"  rendered="#{umowaView.selected.id eq null}"/>
                 <p:commandButton styleClass="buttonnorm2" value="Anuluj"  actionListener="#{umowaView.cancel}"  update="north, @(form)" process="@this"/>
             </h:panelGroup>
+        </h:form>
+    </p:outputPanel>
+    <p:outputPanel id="panelsymulacji" style="margin-top: 5px;width: 700px;">
+        <h:outputText value="symulacja wynagrodzenia"/>
+        <h:form id="symulacjaform">
+        <p:panelGrid columns="7" style="width: 700px;">
+            <p:outputLabel for="spinner1" value="brutto"/>
+            <p:spinner id="spinner1" value="#{pasekwynagrodzenView.symulacjabrrutto}" min="50" max="10000" stepFactor="10"
+                       suffix=" pln" >
+                <p:ajax event="change" global="false" partialSubmit="true" update="symulacjaform:symnetto symulacjaform:symtotal" listener="#{pasekwynagrodzenView.symulacjaoblicz()}"/>
+            </p:spinner>
+            <p:slider for="spinner1" minValue="50" maxValue="10000" step="10" />
+            <p:outputLabel for="symnetto" value="do wypłaty"/>
+            <p:inputNumber id="symnetto" value="#{pasekwynagrodzenView.symulacjanetto}"  decimalPlaces="2" decimalSeparator="," inputStyle="text-align: right" readonly="true"/>
+            <p:outputLabel for="symtotal" value="całkowity koszt"/>
+            <p:inputNumber id="symtotal" value="#{pasekwynagrodzenView.symulacjatotalcost}"  decimalPlaces="2" decimalSeparator="," inputStyle="text-align: right" readonly="true"/>
+        </p:panelGrid>
         </h:form>
     </p:outputPanel>
     <p:outputPanel style="margin-top: 10px;">

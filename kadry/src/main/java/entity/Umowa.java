@@ -98,6 +98,9 @@ public class Umowa implements Serializable {
     @Size(max = 128)
     @Column(name = "stanowisko")
     private String stanowisko;
+    @Size(max = 128)
+    @Column(name = "miejscepracy")
+    private String miejscepracy;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "kosztyuzyskaniaprocent")
     private double kosztyuzyskaniaprocent;
@@ -268,6 +271,14 @@ public class Umowa implements Serializable {
 
     public void setDataprzypomnienia(String dataprzypomnienia) {
         this.dataprzypomnienia = dataprzypomnienia;
+    }
+
+    public String getMiejscepracy() {
+        return miejscepracy;
+    }
+
+    public void setMiejscepracy(String miejscepracy) {
+        this.miejscepracy = miejscepracy;
     }
 
     public boolean isKosztyuzyskania0podwyzszone1() {

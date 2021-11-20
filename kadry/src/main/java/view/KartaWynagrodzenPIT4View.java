@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -46,12 +47,12 @@ public class KartaWynagrodzenPIT4View  implements Serializable {
     private WpisView wpisView;
     @Inject
     private PasekwynagrodzenFacade pasekwynagrodzenFacade;
-    private Map<String, Kartawynagrodzen> sumaUmowaoprace;
-    private Map<String, Kartawynagrodzen> sumaUmowaoprace26zwolnione;
-    private Map<String, Kartawynagrodzen> sumaUmowaopracekosztypodwyzszone;
-    private Map<String, Kartawynagrodzen> sumaUmowapelnieniefunkcji;
-    private Map<String, Kartawynagrodzen> sumaUmowazlecenia;
-    private Map<String, Kartawynagrodzen> sumaUmowazlecenia26zwolnione;
+    private TreeMap<String, Kartawynagrodzen> sumaUmowaoprace;
+    private TreeMap<String, Kartawynagrodzen> sumaUmowaoprace26zwolnione;
+    private TreeMap<String, Kartawynagrodzen> sumaUmowaopracekosztypodwyzszone;
+    private TreeMap<String, Kartawynagrodzen> sumaUmowapelnieniefunkcji;
+    private TreeMap<String, Kartawynagrodzen> sumaUmowazlecenia;
+    private TreeMap<String, Kartawynagrodzen> sumaUmowazlecenia26zwolnione;
     private Kartawynagrodzen wybranakarta;
     private double podatekrazem;
     @Inject
@@ -60,12 +61,12 @@ public class KartaWynagrodzenPIT4View  implements Serializable {
     
     @PostConstruct
     public void init() {
-        sumaUmowaoprace = new HashMap<>();
-        sumaUmowaoprace26zwolnione = new HashMap<>();
-        sumaUmowaopracekosztypodwyzszone = new HashMap<>();
-        sumaUmowapelnieniefunkcji = new HashMap<>();
-        sumaUmowazlecenia = new HashMap<>();
-        sumaUmowazlecenia26zwolnione = new HashMap<>();
+        sumaUmowaoprace = new TreeMap<>();
+        sumaUmowaoprace26zwolnione = new TreeMap<>();
+        sumaUmowaopracekosztypodwyzszone = new TreeMap<>();
+        sumaUmowapelnieniefunkcji = new TreeMap<>();
+        sumaUmowazlecenia = new TreeMap<>();
+        sumaUmowazlecenia26zwolnione = new TreeMap<>();
         for (String mc : Mce.getMceListS()) {
             sumaUmowaoprace.put(mc, new Kartawynagrodzen());
             sumaUmowaoprace26zwolnione.put(mc, new Kartawynagrodzen());
@@ -214,53 +215,56 @@ public class KartaWynagrodzenPIT4View  implements Serializable {
         this.wybranakarta = wybranakarta;
     }
 
-    public Map<String, Kartawynagrodzen> getSumaUmowaoprace() {
+    public TreeMap<String, Kartawynagrodzen> getSumaUmowaoprace() {
         return sumaUmowaoprace;
     }
 
-    public void setSumaUmowaoprace(Map<String, Kartawynagrodzen> sumaUmowaoprace) {
+    public void setSumaUmowaoprace(TreeMap<String, Kartawynagrodzen> sumaUmowaoprace) {
         this.sumaUmowaoprace = sumaUmowaoprace;
     }
 
-    public Map<String, Kartawynagrodzen> getSumaUmowaoprace26zwolnione() {
+    public TreeMap<String, Kartawynagrodzen> getSumaUmowaoprace26zwolnione() {
         return sumaUmowaoprace26zwolnione;
     }
 
-    public void setSumaUmowaoprace26zwolnione(Map<String, Kartawynagrodzen> sumaUmowaoprace26zwolnione) {
+    public void setSumaUmowaoprace26zwolnione(TreeMap<String, Kartawynagrodzen> sumaUmowaoprace26zwolnione) {
         this.sumaUmowaoprace26zwolnione = sumaUmowaoprace26zwolnione;
     }
 
-    public Map<String, Kartawynagrodzen> getSumaUmowaopracekosztypodwyzszone() {
+    public TreeMap<String, Kartawynagrodzen> getSumaUmowaopracekosztypodwyzszone() {
         return sumaUmowaopracekosztypodwyzszone;
     }
 
-    public void setSumaUmowaopracekosztypodwyzszone(Map<String, Kartawynagrodzen> sumaUmowaopracekosztypodwyzszone) {
+    public void setSumaUmowaopracekosztypodwyzszone(TreeMap<String, Kartawynagrodzen> sumaUmowaopracekosztypodwyzszone) {
         this.sumaUmowaopracekosztypodwyzszone = sumaUmowaopracekosztypodwyzszone;
     }
 
-    public Map<String, Kartawynagrodzen> getSumaUmowapelnieniefunkcji() {
+    public TreeMap<String, Kartawynagrodzen> getSumaUmowapelnieniefunkcji() {
         return sumaUmowapelnieniefunkcji;
     }
 
-    public void setSumaUmowapelnieniefunkcji(Map<String, Kartawynagrodzen> sumaUmowapelnieniefunkcji) {
+    public void setSumaUmowapelnieniefunkcji(TreeMap<String, Kartawynagrodzen> sumaUmowapelnieniefunkcji) {
         this.sumaUmowapelnieniefunkcji = sumaUmowapelnieniefunkcji;
     }
 
-    public Map<String, Kartawynagrodzen> getSumaUmowazlecenia() {
+    public TreeMap<String, Kartawynagrodzen> getSumaUmowazlecenia() {
         return sumaUmowazlecenia;
     }
 
-    public void setSumaUmowazlecenia(Map<String, Kartawynagrodzen> sumaUmowazlecenia) {
+    public void setSumaUmowazlecenia(TreeMap<String, Kartawynagrodzen> sumaUmowazlecenia) {
         this.sumaUmowazlecenia = sumaUmowazlecenia;
     }
 
-    public Map<String, Kartawynagrodzen> getSumaUmowazlecenia26zwolnione() {
+    public TreeMap<String, Kartawynagrodzen> getSumaUmowazlecenia26zwolnione() {
         return sumaUmowazlecenia26zwolnione;
     }
 
-    public void setSumaUmowazlecenia26zwolnione(Map<String, Kartawynagrodzen> sumaUmowazlecenia26zwolnione) {
+    public void setSumaUmowazlecenia26zwolnione(TreeMap<String, Kartawynagrodzen> sumaUmowazlecenia26zwolnione) {
         this.sumaUmowazlecenia26zwolnione = sumaUmowazlecenia26zwolnione;
     }
+
+   
+   
 
     public double getPodatekrazem() {
         return podatekrazem;

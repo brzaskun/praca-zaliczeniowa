@@ -53,7 +53,62 @@ public class PasekwynagrodzenBean {
         }
         return pasekwynagrodzen;
     }
-    
+    public static Pasekwynagrodzen obliczWynagrodzeniesymulacja(Kalendarzmiesiac kalendarz, Definicjalistaplac wybranalistaplac, NieobecnosckodzusFacade nieobecnosckodzusFacade, List<Podatki> stawkipodatkowe, boolean zlecenie0praca1, double kwotabrutto) {
+        boolean umowaoprace = zlecenie0praca1;
+        Pasekwynagrodzen pasek = new Pasekwynagrodzen();
+        String datawyplaty = Data.ostatniDzien(kalendarz.getRok(), kalendarz.getMc());
+        pasek.setDatawyplaty(datawyplaty);
+//        obliczwiek(kalendarz, pasek);
+//        String datakonca26lat = OsobaBean.obliczdata26(kalendarz.getDataUrodzenia());
+//        boolean po26roku = Data.czyjestpo(datakonca26lat, kalendarz.getRok(), kalendarz.getMc());
+//        if (po26roku==false) {
+//            pasek.setDo26lat(true);
+//        } else {
+//            pasek.setDo26lat(false);
+//        }
+        boolean po26roku = true;
+        pasek.setNierezydent(false);
+        pasek.setKalendarzmiesiac(kalendarz);
+        boolean jestoddelegowanie = false;
+        if (umowaoprace) {
+            jestoddelegowanie = KalendarzmiesiacBean.naliczskladnikiwynagrodzeniaDBsymulacja(kalendarz, pasek, kwotabrutto);
+        } else {
+            jestoddelegowanie = KalendarzmiesiacBean.naliczskladnikiwynagrodzeniaDBZlecenie(kalendarz, pasek, 1.0);
+        }
+//        KalendarzmiesiacBean.naliczskladnikipotraceniaDB(kalendarz, pasek);
+        PasekwynagrodzenBean.obliczbruttozus(pasek);
+        PasekwynagrodzenBean.wyliczpodstaweZUS(pasek);
+        PasekwynagrodzenBean.obliczbruttobezzus(pasek);
+        PasekwynagrodzenBean.obliczbruttobezzusbezpodatek(pasek);
+        PasekwynagrodzenBean.pracownikemerytalna(pasek);
+        PasekwynagrodzenBean.pracownikrentowa(pasek);
+        PasekwynagrodzenBean.pracownikchorobowa(pasek);
+        PasekwynagrodzenBean.razemspolecznepracownik(pasek);
+        PasekwynagrodzenBean.obliczbruttominusspoleczneDB(pasek);        
+        if (umowaoprace) {
+            PasekwynagrodzenBean.obliczpodstaweopodatkowaniaDB(pasek, stawkipodatkowe);
+            PasekwynagrodzenBean.obliczpodatekwstepnyDB(pasek, stawkipodatkowe, 0.0);
+        } else {
+            PasekwynagrodzenBean.obliczpodstaweopodatkowaniaZlecenie(pasek, stawkipodatkowe, pasek.isNierezydent());
+            PasekwynagrodzenBean.obliczpodatekwstepnyZlecenieDB(pasek, stawkipodatkowe, pasek.isNierezydent());
+        }
+        PasekwynagrodzenBean.ulgapodatkowaDB(pasek, stawkipodatkowe);
+        PasekwynagrodzenBean.naliczzdrowota(pasek, pasek.isNierezydent());
+        PasekwynagrodzenBean.obliczpodatekdowplaty(pasek);
+        PasekwynagrodzenBean.netto(pasek);
+        PasekwynagrodzenBean.potracenia(pasek);
+        PasekwynagrodzenBean.dowyplaty(pasek);
+        PasekwynagrodzenBean.emerytalna(pasek);
+        PasekwynagrodzenBean.rentowa(pasek);
+        PasekwynagrodzenBean.wypadkowa(pasek);
+        PasekwynagrodzenBean.razemspolecznefirma(pasek);
+        PasekwynagrodzenBean.fp(pasek);
+        PasekwynagrodzenBean.fgsp(pasek);
+        PasekwynagrodzenBean.razem53(pasek);
+        PasekwynagrodzenBean.razemkosztpracodawcy(pasek);
+        PasekwynagrodzenBean.naniesrobocze(pasek,kalendarz);
+        return pasek;
+    }
       
     public static Pasekwynagrodzen obliczWynagrodzenie(Kalendarzmiesiac kalendarz, Definicjalistaplac definicjalistaplac, NieobecnosckodzusFacade nieobecnosckodzusFacade, List<Pasekwynagrodzen> paskidowyliczeniapodstawy, 
         List<Wynagrodzeniahistoryczne> historiawynagrodzen, List<Podatki> stawkipodatkowe, double sumapoprzednich, double wynagrodzenieminimalne, boolean czyodlicoznokwotewolna, double kurs,double limitZUS, String datawyplaty) {
@@ -391,7 +446,7 @@ public class PasekwynagrodzenBean {
     }
 
      private static void razemkosztpracodawcy(Pasekwynagrodzen pasek) {
-         pasek.setKosztpracodawcy(Z.z(pasek.getRazemspolecznefirma()+pasek.getFgsp()+pasek.getFgsp()));
+         pasek.setKosztpracodawcy(Z.z(pasek.getRazemspolecznefirma()+pasek.getFp()+pasek.getFgsp()));
     }
      private static void obliczbruttominusspoleczne(Pasekwynagrodzen pasek) {
         double zzus = pasek.getBruttozus();
@@ -764,6 +819,8 @@ public class PasekwynagrodzenBean {
         }
         return zwrot;
     }
+
+    
 
     
    

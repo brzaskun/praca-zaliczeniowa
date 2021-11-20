@@ -217,8 +217,8 @@ public class PdfListaPlac {
             table.addCell(ustawfraze("", 0, 0, 10f));
             table.addCell(ustawfraze("kod", 0, 0));
             table.addCell(ustawfraze("nazwa", 0, 0));
-            table.addCell(ustawfraze("zus", 0, 0));
-            table.addCell(ustawfraze("bez zus", 0, 0));
+            table.addCell(ustawfraze("kwota do listy", 0, 0));
+            table.addCell(ustawfraze("kwota umowa", 0, 0));
             table.addCell(ustawfraze("redukcja", 0, 0));
             table.setHeaderRows(1);
         } catch (DocumentException ex) {
@@ -235,7 +235,7 @@ public class PdfListaPlac {
             table.addCell(ustawfrazeAlign(rs.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getOpisskrocony(), "left",6));
             table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKwotadolistyplac()), "right",6));
             table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKwotaumownazacalymc()), "right",6));
-            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKwotadolistyplac()), "left",6));
+            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKwotyredukujacesuma()), "left",6));
         }
         for (Naliczenienieobecnosc rs : wykaznieob) {
             table.addCell(ustawfrazeAlign(String.valueOf(i++), "left",6,10f));
