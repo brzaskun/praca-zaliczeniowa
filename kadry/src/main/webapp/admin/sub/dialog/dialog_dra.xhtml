@@ -90,31 +90,31 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                                         <h:outputText value="#{indexdra+1}"/>
                                     </p:column>
                                     <p:column>
-                                        <bcf:inputpl value="#{itemdra.bruttozus}" />
+                                        <bcf:outputpl value="#{itemdra.bruttozus}" />
                                     </p:column>
                                     <p:column>
-                                        <bcf:inputpl value="#{itemdra.pracemerytalne}"/>
+                                        <bcf:outputpl value="#{itemdra.pracemerytalne}"/>
                                     </p:column>
                                     <p:column>
-                                        <bcf:inputpl value="#{itemdra.pracrentowe}"/>
+                                        <bcf:outputpl value="#{itemdra.pracrentowe}"/>
                                     </p:column>
                                     <p:column>
-                                        <bcf:inputpl value="#{itemdra.pracchorobowe}"/>
+                                        <bcf:outputpl value="#{itemdra.pracchorobowe}"/>
                                     </p:column>
                                     <p:column>
-                                        <bcf:inputpl value="#{itemdra.razemspolecznepracownik}"/>
+                                        <bcf:outputpl value="#{itemdra.razemspolecznepracownik}"/>
                                     </p:column>
                                     <p:column>
-                                        <bcf:inputpl value="#{itemdra.emerytalne}"/>
+                                        <bcf:outputpl value="#{itemdra.emerytalne}"/>
                                     </p:column>
                                     <p:column>
-                                        <bcf:inputpl value="#{itemdra.rentowe}"/>
+                                        <bcf:outputpl value="#{itemdra.rentowe}"/>
                                     </p:column>
                                     <p:column>
-                                        <bcf:inputpl value="#{itemdra.wypadkowe}"/>
+                                        <bcf:outputpl value="#{itemdra.wypadkowe}"/>
                                     </p:column>
                                      <p:column>
-                                         <bcf:inputpl value="#{itemdra.razemspolecznefirma}"/>
+                                         <bcf:outputpl value="#{itemdra.razemspolecznefirma}"/>
                                     </p:column>
                                    
                                 </p:row>
@@ -122,13 +122,13 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                                                             <f:facet name="header">
                                                                 <h:outputText value="fgsp"/>
                                                             </f:facet>
-                                                            <bcf:inputpl value="#{itemdra.fgsp}"/>
+                                                            <bcf:outputpl value="#{itemdra.fgsp}"/>
                                                         </p:column>
                                                         <p:column>
                                                             <f:facet name="header">
                                                                 <h:outputText value="fp"/>
                                                             </f:facet>
-                                                            <bcf:inputpl value="#{itemdra.fp}"/>
+                                                            <bcf:outputpl value="#{itemdra.fp}"/>
                                                         </p:column>-->
                                 <p:row>
                                     <p:column>
@@ -161,45 +161,39 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                                     <p:column>
                                         <h:outputText value=" "/>
                                     </p:column>
-                                    <p:column>
-                                        <h:outputText value=" "/>
-                                    </p:column>
                                 </p:row>
                                 <p:row>
                                      <p:column>
                                          <h:outputText value="#{itemdra.nazwiskoImie}"/>
                                     </p:column>
                                     <p:column>
-                                        <bcf:inputpl value="#{itemdra.praczdrowotne}"/>
+                                        <bcf:outputpl value="#{itemdra.praczdrowotne}"/>
                                     </p:column>
                                     <p:column>
-                                        <bcf:inputpl value="#{itemdra.praczdrowotnedopotracenia}"/>
+                                        <bcf:outputpl value="#{itemdra.praczdrowotnedopotracenia}"/>
                                     </p:column>
                                     <p:column>
-                                        <bcf:inputpl value="#{itemdra.fp}"/>
+                                        <bcf:outputpl value="#{itemdra.fp}"/>
                                     </p:column><!-- <p:column>
-                                        <bcf:inputpl value="#{itemdra.podatekdochodowy}"/>
+                                        <bcf:outputpl value="#{itemdra.podatekdochodowy}"/>
                                     </p:column> -->
                                     <p:column>
-                                        <bcf:inputpl value="#{itemdra.fgsp}"/>
+                                        <bcf:outputpl value="#{itemdra.fgsp}"/>
                                     </p:column>
                                     <p:column>
-                                        <bcf:inputpl value="#{itemdra.razem53}"/>
+                                        <bcf:outputpl value="#{itemdra.razem53}"/>
                                     </p:column>
                                     <p:column>
-                                        <bcf:inputpl value="#{itemdra.podstawaopodatkowania}"/>
+                                        <bcf:outputpl value="#{itemdra.podstawaopodatkowania}"/>
                                     </p:column>
                                     <p:column>
-                                        <bcf:inputpl value="#{itemdra.kosztyuzyskania}"/>
+                                        <bcf:outputpl value="#{itemdra.kosztyuzyskania}"/>
                                     </p:column>
                                     <p:column>
-                                        <bcf:inputpl value="#{itemdra.podatekdochodowy}"/>
+                                        <bcf:outputpl value="#{itemdra.podatekdochodowy}"/>
                                     </p:column>
                                      <p:column style="text-align: center;">
                                         <p:commandButton icon="fa fa-print" actionListener="#{draView.drukuj(itemdra)}" global="false"/>
-                                    </p:column>
-                                    <p:column style="text-align: center;">
-                                        <p:commandButton icon="fa fa-save" actionListener="#{draView.zachowaj(itemdra)}" global="false" />
                                     </p:column>
                                 </p:row>
                             </p:panelGrid>

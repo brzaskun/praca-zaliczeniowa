@@ -11,6 +11,7 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import javax.xml.XMLConstants;
 import javax.xml.bind.JAXBElement;
@@ -21,15 +22,23 @@ import javax.xml.validation.*;
 import jaxb.Makexml;
 import org.apache.commons.io.IOUtils;
 import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
 import pl.zus._2020.kedu_5_2.TDADRA;
 import pl.zus._2020.kedu_5_2.TDIPL;
 import pl.zus._2020.kedu_5_2.TDRA;
 import pl.zus._2020.kedu_5_2.TDanePLId;
+import pl.zus._2020.kedu_5_2.TINNI;
 import pl.zus._2020.kedu_5_2.TIdentyfikatorDeklRap8;
 import pl.zus._2020.kedu_5_2.TKEDU;
 import pl.zus._2020.kedu_5_2.TNaglowekKEDU;
+import pl.zus._2020.kedu_5_2.TOPLS;
 import pl.zus._2020.kedu_5_2.TProgram;
+import pl.zus._2020.kedu_5_2.TRIXDRA;
 import pl.zus._2020.kedu_5_2.TStatusIdentyfikacji;
+import pl.zus._2020.kedu_5_2.TZDRAV;
+import pl.zus._2020.kedu_5_2.TZSDRA;
+import pl.zus._2020.kedu_5_2.TZSDRAI;
+import pl.zus._2020.kedu_5_2.TZWDRA;
 import pl.zus._2020.kedu_5_2.TZestaw;
 
 
@@ -45,7 +54,7 @@ public class KeduView {
         kedu.setWersjaSchematu(kedu.getWersjaSchematu());
         kedu.setNaglowekKEDU(kedu_naglowek());
         kedu.getZUSDRAOrZUSRCAOrZUSRSA().add(zrob_DRA());
-        Makexml.marszal(new JAXBElement<TKEDU>(_KEDU_QNAME, TKEDU.class, null, kedu), pl.zus._2020.kedu_5_2.TKEDU.class);
+        String marszal = Makexml.marszal(new JAXBElement<TKEDU>(_KEDU_QNAME, TKEDU.class, null, kedu), pl.zus._2020.kedu_5_2.TKEDU.class);
         walidujkedu();
     }
 
@@ -72,6 +81,19 @@ public class KeduView {
         dra.setIdentyfikacjaPL(dra_identyfikacja());
         dra.setI(dra_tdadra());
         dra.setII(dra_tdipl());
+        dra.setIII(dra_tinni());
+        //spoleczne
+        dra.setIV(dra_tzsdrai());
+        //wyplacone swiadczenia
+        dra.setV(dra_tzwdra());
+        //zdrowotna
+        dra.setVI(dra_tzsdra());
+        //FP
+        dra.setVII(dra_tzdrav());
+        //kwota do wplaty
+        dra.setIX(dra_trixdra(dra));
+        //data
+        dra.setXI(dra_topls());
         QName qName = new QName("http://www.zus.pl/2020/KEDU_5_2", "ZUSDRA");
         return new JAXBElement<TDRA>(qName, TDRA.class, TZestaw.class, dra);
     }
@@ -108,6 +130,116 @@ public class KeduView {
         t.setP9(Data.dataoddo("1970-05-28"));
         return t;
     }
+    
+    private static TINNI dra_tinni() {
+        TINNI t = new TINNI();
+        t.setP1(BigInteger.ONE);//liczba osób
+        t.setP3(BigDecimal.valueOf(1.51).setScale(2));//stopa wypadkowa
+        return t;
+    }
+    
+     private static TZSDRAI dra_tzsdrai() {
+        TZSDRAI t = new TZSDRAI();
+        //sumaemeryt
+        t.setP1(BigDecimal.valueOf(1.00).setScale(2));
+        //sumarentowe
+        t.setP2(BigDecimal.valueOf(1.00).setScale(2));
+        t.setP3(t.getP1().add(t.getP2()));
+        
+        //emerytalne finansowane przez
+        //ubezpieczonych
+        t.setP4(BigDecimal.valueOf(1.00).setScale(2));
+        //planika
+        t.setP7(BigDecimal.valueOf(1.00).setScale(2));
+        //rentowe finansowane przez
+        //ubezpieczonych
+        t.setP5(BigDecimal.valueOf(1.00).setScale(2));
+        //planika
+        t.setP8(BigDecimal.valueOf(1.00).setScale(2));
+        t.setP6(t.getP4().add(t.getP5()));
+        t.setP9(t.getP7().add(t.getP8()));
+        
+        //sumachorobowe
+        t.setP19(BigDecimal.valueOf(1.00).setScale(2));
+        //sumawypadkowe
+        t.setP20(BigDecimal.valueOf(1.00).setScale(2));
+        t.setP21(t.getP19().add(t.getP20()));
+        
+        //chorobowe finansowane przez
+        //ubezpieczonych
+        t.setP22(BigDecimal.valueOf(1.00).setScale(2));
+        //planika
+        t.setP25(BigDecimal.valueOf(1.00).setScale(2));
+        
+        //wypadkowe finansowane przez
+        //ubezpieczonych
+        t.setP23(BigDecimal.valueOf(1.00).setScale(2));
+        //planika
+        t.setP26(BigDecimal.valueOf(1.00).setScale(2));
+        t.setP24(t.getP22().add(t.getP23()));
+        t.setP27(t.getP25().add(t.getP26()));
+        
+        //zus51
+        t.setP37(t.getP6().add(t.getP9()).add(t.getP24()).add(t.getP27()));
+        return t;
+    }
+
+     
+    private static TZWDRA dra_tzwdra() {
+       TZWDRA t = new TZWDRA();
+       //wyplacone zasilki chorobowe
+       t.setP1(BigDecimal.valueOf(1.00).setScale(2));
+       //wynagrodzenie
+       t.setP2(BigDecimal.valueOf(1.00).setScale(2));
+       //wyplacone zasilki wypadkowe
+       t.setP3(BigDecimal.valueOf(1.00).setScale(2));
+       //wynagrodzenie
+       t.setP4(BigDecimal.valueOf(1.00).setScale(2));
+       t.setP5(t.getP1().add(t.getP2()).add(t.getP3()).add(t.getP4()));
+       return t;
+    }
+    
+    private static TZSDRA dra_tzsdra() {
+        TZSDRA t = new TZSDRA();
+        //kwota finansowana przez platnika
+        t.setP1(BigDecimal.valueOf(1.00).setScale(2));
+        //kwota finansowana przez ubezpieczonych
+        t.setP2(BigDecimal.valueOf(1.00).setScale(2));
+        t.setP5(t.getP1().add(t.getP2()));
+        //wynagrodzenie dla platynika
+        t.setP6(BigDecimal.valueOf(1.00).setScale(2));
+        t.setP7(t.getP5().add(t.getP6()));
+        return t;
+    }
+
+    private static TZDRAV dra_tzdrav() {
+        TZDRAV t = new TZDRAV();
+        //FP
+        t.setP1(BigDecimal.valueOf(1.00).setScale(2));
+        //FGSP
+        t.setP2(BigDecimal.valueOf(1.00).setScale(2));
+        t.setP3(t.getP1().add(t.getP2()));
+        return t;
+    }
+    
+    private static TRIXDRA dra_trixdra(TDRA dra) {
+        TRIXDRA t = new TRIXDRA();
+        BigDecimal wynik = dra.getIV().getP37().add(dra.getVI().getP7()).add(dra.getVII().getP3()).subtract(dra.getV().getP5());
+        if (wynik.compareTo(BigDecimal.ZERO)== 1) {
+            t.setP2(wynik);
+        } else {
+            t.setP1(wynik);
+        }
+        return t;
+    }
+    
+    private static TOPLS dra_topls() {
+        TOPLS t = new TOPLS();
+        t.setP1(Data.databiezaca());
+        return t;
+    }
+    
+    
 
     public static Object[] walidujkedu() {
         Object[] zwrot = new Object[2];
@@ -151,8 +283,31 @@ public class KeduView {
     }
     
      private static String obsluzblad(SAXException e) {
-        String zwrot ="Bląd walidacji: ";
+        String kolumna = "";
+        String wiersz = "";
+        String ostrzezenie ="Bląd walidacji: ";
         String wiadomosc = e.getMessage();
-        return zwrot+wiadomosc;
+        String zwrot = ostrzezenie+wiadomosc;
+        if (e.getClass().getName().equals("org.xml.sax.SAXParseException")) {
+            kolumna = "kol. "+((SAXParseException)e).getColumnNumber()+";";
+            wiersz = "wiersz "+((SAXParseException)e).getLineNumber()+";";
+            zwrot = kolumna+wiersz+wiadomosc;
+            
+        }
+        return zwrot;
     }
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+   
+    
 }

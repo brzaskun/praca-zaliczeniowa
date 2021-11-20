@@ -61,11 +61,11 @@ public class Mail {
                     InternetAddress.parse("brzaskun@gmail.com"));
             message.setSubject("Wprowadzenie/aktualizacja danych pracownika");
             message.setContent("Dzień dobry,"
-                    + "<p>Twój pracodawca prosi o uzupełnienie niezbędnych danych"
+                    + "<p>Pana/Pani pracodawca prosi o uzupełnienie niezbędnych danych osobowych"
                     + "w naszym serwisie kadrowo-płacowym</p>"
                     + "<p>Dane są niezbędne do rozliczeń kadrowych i płac.</p>"
-                    + "<p>Teraz powinieneś zalogować się do naszego serwisu <a href=\"https://taxman.pl:8181//kadry\">https://taxman.pl:8181//kadry</a><br/>"
-                    + "używając jako loginu: "+adres+" a jako hasła swojego numeru Pesel</p>"
+                    + "<p>Prosze zalogować się teraz do naszego serwisu <a href=\"https://taxman.pl:8181//kadry\">https://taxman.pl:8181//kadry</a><br/>"
+                    + "używając jako loginu swojego adresu mailowego: "+adres+" a jako hasła swojego numeru Pesel</p>"
                     + stopka,  "text/html; charset=utf-8");
             message.setHeader("Content-Type", "text/html; charset=utf-8");
             Transport.send(message);
