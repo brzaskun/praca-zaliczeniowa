@@ -16,6 +16,7 @@ import dao.NieobecnosckodzusFacade;
 import dao.OddelegowanieZUSLimitFacade;
 import dao.PasekwynagrodzenFacade;
 import dao.PodatkiFacade;
+import dao.SMTPSettingsFacade;
 import dao.WynagrodzeniahistoryczneFacade;
 import dao.WynagrodzenieminimalneFacade;
 import data.Data;
@@ -29,8 +30,10 @@ import entity.OddelegowanieZUSLimit;
 import entity.Pasekwynagrodzen;
 import entity.Podatki;
 import entity.Rachunekdoumowyzlecenia;
+import entity.SMTPSettings;
 import entity.Umowa;
 import entity.Wynagrodzeniahistoryczne;
+import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -51,7 +54,8 @@ import z.Z;
  */
 @Named
 @ViewScoped
-public class PasekwynagrodzenView  implements Serializable {
+public class PasekwynagrodzenView implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Inject
     private Pasekwynagrodzen selected;
@@ -86,87 +90,91 @@ public class PasekwynagrodzenView  implements Serializable {
     private String rodzajumowy;
     List<Naliczenieskladnikawynagrodzenia> listawynagrodzenpracownika;
     List<Naliczenienieobecnosc> listanieobecnoscipracownika;
+    @Inject
+    private SMTPSettingsFacade sMTPSettingsFacade;
     private double kursdlalisty;
     private String datawyplaty;
     private String ileszczegolow;
     private double symulacjabrrutto;
     private double symulacjanetto;
     private double symulacjatotalcost;
-    
+
     @PostConstruct
     public void init() {
         lista = new ArrayList<>();
-        if (wpisView.getUmowa()!=null){
-            if (wpisView.getUmowa().getUmowakodzus()!=null&&wpisView.getUmowa().getUmowakodzus().isPraca()) {
+        if (wpisView.getUmowa() != null) {
+            if (wpisView.getUmowa().getUmowakodzus() != null && wpisView.getUmowa().getUmowakodzus().isPraca()) {
                 rodzajumowy = "1";
             } else {
                 rodzajumowy = "2";
             }
         }
-        if (rodzajumowy==null) {
+        if (rodzajumowy == null) {
             rodzajumowy = "1";
         }
         if (rodzajumowy.equals("1")) {
-            listadefinicjalistaplac  = definicjalistaplacFacade.findByFirmaRokUmowaoprace(wpisView.getFirma(), wpisView.getRokWpisu());
+            listadefinicjalistaplac = definicjalistaplacFacade.findByFirmaRokUmowaoprace(wpisView.getFirma(), wpisView.getRokWpisu());
         } else {
-            listadefinicjalistaplac  = definicjalistaplacFacade.findByFirmaRokUmowazlecenia(wpisView.getFirma(), wpisView.getRokWpisu());
+            listadefinicjalistaplac = definicjalistaplacFacade.findByFirmaRokUmowazlecenia(wpisView.getFirma(), wpisView.getRokWpisu());
         }
         Collections.sort(listadefinicjalistaplac, new Defnicjalistaplaccomparator());
         listakalendarzmiesiac = new org.primefaces.model.DualListModel<>();
         try {
-            wybranalistaplac = listadefinicjalistaplac.stream().filter(p->p.getMc().equals(wpisView.getMiesiacWpisu())).findFirst().get();
-            wybranalistaplac2 = listadefinicjalistaplac.stream().filter(p->p.getMc().equals(wpisView.getMiesiacWpisu())).findFirst().get();
+            wybranalistaplac = listadefinicjalistaplac.stream().filter(p -> p.getMc().equals(wpisView.getMiesiacWpisu())).findFirst().get();
+            wybranalistaplac2 = listadefinicjalistaplac.stream().filter(p -> p.getMc().equals(wpisView.getMiesiacWpisu())).findFirst().get();
             datawyplaty = zrobdatawyplaty();
             listakalendarzmiesiacdoanalizy2 = kalendarzmiesiacFacade.findByFirmaRokMcPraca(wybranalistaplac2.getFirma(), wybranalistaplac2.getRok(), wybranalistaplac2.getMc());
             pobierzkalendarzezamc();
             pobierzkalendarzezamcanaliza();
-        } catch (Exception e){}
+        } catch (Exception e) {
+        }
         ileszczegolow = "prosta";
         symulacjabrrutto = 2810;
         symulacjaoblicz();
     }
-    
+
     public void wyborinnejumowy() {
         lista = new ArrayList<>();
-        if (rodzajumowy==null) {
+        if (rodzajumowy == null) {
             rodzajumowy = "1";
         }
         if (rodzajumowy.equals("1")) {
-            listadefinicjalistaplac  = definicjalistaplacFacade.findByFirmaRokUmowaoprace(wpisView.getFirma(), wpisView.getRokWpisu());
+            listadefinicjalistaplac = definicjalistaplacFacade.findByFirmaRokUmowaoprace(wpisView.getFirma(), wpisView.getRokWpisu());
         } else {
-            listadefinicjalistaplac  = definicjalistaplacFacade.findByFirmaRokUmowazlecenia(wpisView.getFirma(), wpisView.getRokWpisu());
+            listadefinicjalistaplac = definicjalistaplacFacade.findByFirmaRokUmowazlecenia(wpisView.getFirma(), wpisView.getRokWpisu());
         }
         Collections.sort(listadefinicjalistaplac, new Defnicjalistaplaccomparator());
         listakalendarzmiesiac = new org.primefaces.model.DualListModel<>();
         try {
-            wybranalistaplac = listadefinicjalistaplac.stream().filter(p->p.getMc().equals(wpisView.getMiesiacWpisu())).findFirst().get();
-            wybranalistaplac2 = listadefinicjalistaplac.stream().filter(p->p.getMc().equals(wpisView.getMiesiacWpisu())).findFirst().get();
+            wybranalistaplac = listadefinicjalistaplac.stream().filter(p -> p.getMc().equals(wpisView.getMiesiacWpisu())).findFirst().get();
+            wybranalistaplac2 = listadefinicjalistaplac.stream().filter(p -> p.getMc().equals(wpisView.getMiesiacWpisu())).findFirst().get();
             datawyplaty = zrobdatawyplaty();
             listakalendarzmiesiacdoanalizy2 = kalendarzmiesiacFacade.findByFirmaRokMcPraca(wybranalistaplac2.getFirma(), wybranalistaplac2.getRok(), wybranalistaplac2.getMc());
             pobierzkalendarzezamc();
             pobierzkalendarzezamcanaliza();
-        } catch (Exception e){}
+        } catch (Exception e) {
+        }
     }
 
     public void create() {
-      if (selected!=null) {
-          try {
-            PasekwynagrodzenBean.usunpasekjeslijest(selected, pasekwynagrodzenFacade);
-            pasekwynagrodzenFacade.create(selected);
-            lista.add(selected);
-            selected = new Pasekwynagrodzen();
-            Msg.msg("Dodano pasek wynagrodzen");
-          } catch (Exception e) {
-              System.out.println("");
-              Msg.msg("e", "Błąd - nie dodano paska wynagrodzen");
-          }
-      }
+        if (selected != null) {
+            try {
+                PasekwynagrodzenBean.usunpasekjeslijest(selected, pasekwynagrodzenFacade);
+                pasekwynagrodzenFacade.create(selected);
+                lista.add(selected);
+                selected = new Pasekwynagrodzen();
+                Msg.msg("Dodano pasek wynagrodzen");
+            } catch (Exception e) {
+                System.out.println("");
+                Msg.msg("e", "Błąd - nie dodano paska wynagrodzen");
+            }
+        }
     }
-    
+
     public void zapisz() {
-        if (lista!=null && lista.size()>0) {
-            for (Pasekwynagrodzen p  : lista) {
-                if (p.getId()==null) {
+        if (lista != null && lista.size() > 0) {
+            for (Pasekwynagrodzen p : lista) {
+                if (p.getId() == null) {
                     pasekwynagrodzenFacade.create(p);
                 } else {
                     pasekwynagrodzenFacade.edit(p);
@@ -175,9 +183,9 @@ public class PasekwynagrodzenView  implements Serializable {
             Msg.msg("Zachowano listę płac");
         }
     }
-    
+
     public void usun() {
-        if (lista!=null && lista.size()>0) {
+        if (lista != null && lista.size() > 0) {
             for (Pasekwynagrodzen p : lista) {
                 pasekwynagrodzenFacade.remove(p);
                 lista.remove(p);
@@ -185,14 +193,14 @@ public class PasekwynagrodzenView  implements Serializable {
             Msg.msg("Usunięto listę płac");
         }
     }
-    
-        public void przelicz() {
-        if (wybranalistaplac!=null && !listakalendarzmiesiac.getTarget().isEmpty()) {
+
+    public void przelicz() {
+        if (wybranalistaplac != null && !listakalendarzmiesiac.getTarget().isEmpty()) {
             int i = 1;
             List<Podatki> stawkipodatkowe = podatkiFacade.findByRokUmowa(Data.getRok(datawyplaty), "P");
-            if (datawyplaty==null) {
-                Msg.msg("e","Brak daty wypłaty");
-            } else if (stawkipodatkowe!=null&&!stawkipodatkowe.isEmpty()) {
+            if (datawyplaty == null) {
+                Msg.msg("e", "Brak daty wypłaty");
+            } else if (stawkipodatkowe != null && !stawkipodatkowe.isEmpty()) {
                 for (Kalendarzmiesiac pracownikmc : listakalendarzmiesiac.getTarget()) {
                     boolean czysainnekody = pracownikmc.czysainnekody();
                     List<Pasekwynagrodzen> paskidowyliczeniapodstawy = new ArrayList<>();
@@ -207,35 +215,37 @@ public class PasekwynagrodzenView  implements Serializable {
                     boolean czyodlicoznokwotewolna = PasekwynagrodzenBean.czyodliczonokwotewolna(pracownikmc.getRok(), pracownikmc.getMc(), pracownikmc.getUmowa().getAngaz(), pasekwynagrodzenFacade);
                     double limitzus = 0.0;
                     OddelegowanieZUSLimit oddelegowanieZUSLimit = oddelegowanieZUSLimitFacade.findbyRok(Data.getRok(datawyplaty));
-                    if (oddelegowanieZUSLimit!=null) {
+                    if (oddelegowanieZUSLimit != null) {
                         limitzus = oddelegowanieZUSLimit.getKwota();
                     }
-                    Pasekwynagrodzen pasek = PasekwynagrodzenBean.obliczWynagrodzenie(pracownikmc, wybranalistaplac, nieobecnosckodzusFacade, paskidowyliczeniapodstawy, historiawynagrodzen, stawkipodatkowe, sumapoprzednich, wynagrodzenieminimalne, czyodlicoznokwotewolna, 
+                    Pasekwynagrodzen pasek = PasekwynagrodzenBean.obliczWynagrodzenie(pracownikmc, wybranalistaplac, nieobecnosckodzusFacade, paskidowyliczeniapodstawy, historiawynagrodzen, stawkipodatkowe, sumapoprzednich, wynagrodzenieminimalne, czyodlicoznokwotewolna,
                             kursdlalisty, limitzus, datawyplaty);
                     usunpasekjakzawiera(pasek);
                     lista.add(pasek);
                 }
                 Msg.msg("Sporządzono listę płac");
+                zapisz();
             } else {
                 Msg.msg("e", "Brak stawek podatkowych za bieżący rok");
             }
         } else {
-            Msg.msg("e","Nie wybrano listy lub pracownika");
+            Msg.msg("e", "Nie wybrano listy lub pracownika");
         }
     }
     @Inject
     private KalendarzwzorFacade kalendarzwzorFacade;
+
     public void symulacjaoblicz() {
-        if (symulacjabrrutto>0.0) {
+        if (symulacjabrrutto > 0.0) {
             int i = 1;
             List<Podatki> stawkipodatkowe = podatkiFacade.findByRokUmowa(wpisView.getRokWpisu(), "P");
-            if (stawkipodatkowe!=null&&!stawkipodatkowe.isEmpty()) {
+            if (stawkipodatkowe != null && !stawkipodatkowe.isEmpty()) {
                 Kalendarzwzor kalendarzwzor = kalendarzwzorFacade.findByFirmaRokMc(wpisView.getFirma(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
                 Kalendarzmiesiac kalendarz = new Kalendarzmiesiac();
                 kalendarz.setRok(wpisView.getRokWpisu());
                 kalendarz.setMc(wpisView.getMiesiacWpisu());
                 kalendarz.nanies(kalendarzwzor);
-                boolean zlecenie0praca1 = rodzajumowy.equals("1")?true:false;
+                boolean zlecenie0praca1 = rodzajumowy.equals("1") ? true : false;
                 Umowa umowa = new Umowa();
                 umowa.setOdliczaculgepodatkowa(true);
                 umowa.setKosztyuzyskaniaprocent(100.0);
@@ -243,50 +253,63 @@ public class PasekwynagrodzenView  implements Serializable {
                 kalendarz.setUmowa(umowa);
                 Pasekwynagrodzen pasek = PasekwynagrodzenBean.obliczWynagrodzeniesymulacja(kalendarz, wybranalistaplac, nieobecnosckodzusFacade, stawkipodatkowe, zlecenie0praca1, symulacjabrrutto);
                 symulacjanetto = pasek.getNetto();
-                symulacjatotalcost = Z.z(pasek.getBrutto()+pasek.getKosztpracodawcy());
+                symulacjatotalcost = Z.z(pasek.getBrutto() + pasek.getKosztpracodawcy());
             }
         }
     }
-        
-        
+
     private List<Pasekwynagrodzen> pobierzpaskidosredniej(Kalendarzmiesiac p) {
         String[] okrespoprzedni = Data.poprzedniOkres(p);
-        List<Pasekwynagrodzen> paskiporzednie = pasekwynagrodzenFacade.findByRokAngaz(okrespoprzedni[1],p);
-        String rokpoprzedni = String.valueOf(Integer.parseInt(okrespoprzedni[1])-1);
-        paskiporzednie.addAll(pasekwynagrodzenFacade.findByRokAngaz(rokpoprzedni,p));
+        List<Pasekwynagrodzen> paskiporzednie = pasekwynagrodzenFacade.findByRokAngaz(okrespoprzedni[1], p);
+        String rokpoprzedni = String.valueOf(Integer.parseInt(okrespoprzedni[1]) - 1);
+        paskiporzednie.addAll(pasekwynagrodzenFacade.findByRokAngaz(rokpoprzedni, p));
         return paskiporzednie;
     }
 
-    
     private void usunpasekjakzawiera(Pasekwynagrodzen pasek) {
-        for (Iterator<Pasekwynagrodzen> it = lista.iterator(); it.hasNext(); ) {
+        for (Iterator<Pasekwynagrodzen> it = lista.iterator(); it.hasNext();) {
             Pasekwynagrodzen pa = it.next();
             if (pa.getKalendarzmiesiac().equals(pasek.getKalendarzmiesiac())) {
                 it.remove();
             }
         }
     }
-    
-    public void drukuj(Pasekwynagrodzen p ) {
-        if (p!=null) {
+
+    public void drukuj(Pasekwynagrodzen p) {
+        if (p != null) {
             PdfListaPlac.drukuj(p, nieobecnosckodzusFacade);
             Msg.msg("Wydrukowano pwsek wynagrodzeń");
         } else {
-            Msg.msg("e","Błąd drukowania. Pasek null");
+            Msg.msg("e", "Błąd drukowania. Pasek null");
         }
     }
-    public void drukujliste () {
-        if (lista!=null && lista.size()>0) {
+
+    public void drukujliste() {
+        if (lista != null && lista.size() > 0) {
             PdfListaPlac.drukujListaPodstawowa(lista, wybranalistaplac, nieobecnosckodzusFacade);
             Msg.msg("Wydrukowano listę płac");
         } else {
-            Msg.msg("e","Błąd drukowania. Brak pasków");
+            Msg.msg("e", "Błąd drukowania. Brak pasków");
+        }
+    }
+
+    public void mailListaPlac() {
+        if (lista != null && lista.size() > 0) {
+            ByteArrayOutputStream drukujmail = PdfListaPlac.drukujmail(lista, wybranalistaplac, nieobecnosckodzusFacade);
+            Pasekwynagrodzen pasek = lista.get(0);
+            SMTPSettings findSprawaByDef = sMTPSettingsFacade.findSprawaByDef();
+            String nrpoprawny = wybranalistaplac.getNrkolejny().replaceAll("[^A-Za-z0-9]", "");
+            String nazwa = wybranalistaplac.getFirma().getNip() + "_" + nrpoprawny + "_" + "lp.pdf";
+            mail.Mail.mailListaPlac(wpisView.getFirma(), pasek.getRok(), pasek.getMc(), wpisView.getFirma().getEmail(), null, findSprawaByDef, drukujmail.toByteArray(), nazwa);
+            Msg.msg("Wysłano listę płac do pracodawcy");
+        } else {
+            Msg.msg("e", "Błąd drukowania. Brak pasków");
         }
     }
     
-    public void usun(Pasekwynagrodzen p ) {
-        if (p!=null) {
-            if (p.getId()!=null) {
+    public void usun(Pasekwynagrodzen p) {
+        if (p != null) {
+            if (p.getId() != null) {
                 pasekwynagrodzenFacade.remove(p);
                 lista.remove(p);
             } else {
@@ -294,21 +317,21 @@ public class PasekwynagrodzenView  implements Serializable {
             }
             Msg.msg("Usunięto wiersz listy płac");
         } else {
-            Msg.msg("e","Błąd usuwania. Pasek null");
+            Msg.msg("e", "Błąd usuwania. Pasek null");
         }
     }
-    
+
     public void aktywuj(Angaz angaz) {
-        if (angaz!=null) {
+        if (angaz != null) {
             wpisView.setAngaz(angaz);
             Msg.msg("Aktywowano firmę");
         }
     }
-    
+
     public void pobierzkalendarzezamc() {
         Definicjalistaplac wybranalistaplac = this.wybranalistaplac;
-        if (wybranalistaplac!=null) {
-            if (rodzajumowy==null) {
+        if (wybranalistaplac != null) {
+            if (rodzajumowy == null) {
                 rodzajumowy = "1";
             }
             List<Kalendarzmiesiac> listakalendarzmiesiac = kalendarzmiesiacFacade.findByFirmaRokMcPraca(wybranalistaplac.getFirma(), wybranalistaplac.getRok(), wybranalistaplac.getMc());
@@ -317,27 +340,27 @@ public class PasekwynagrodzenView  implements Serializable {
             }
             Collections.sort(listakalendarzmiesiac, new Kalendarzmiesiaccomparator());
             if (rodzajumowy.equals("2")) {
-                for (Iterator<Kalendarzmiesiac> it = listakalendarzmiesiac.iterator();it.hasNext();) {
+                for (Iterator<Kalendarzmiesiac> it = listakalendarzmiesiac.iterator(); it.hasNext();) {
                     Kalendarzmiesiac p = it.next();
                     Umowa u = p.getUmowa();
                     Rachunekdoumowyzlecenia znaleziony = u.pobierzRachunekzlecenie(wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
-                    if (znaleziony==null) {
+                    if (znaleziony == null) {
                         it.remove();
                     }
                 }
             }
-            if (listakalendarzmiesiac!=null) {
+            if (listakalendarzmiesiac != null) {
                 this.listakalendarzmiesiac.setSource(listakalendarzmiesiac);
             }
             lista = pasekwynagrodzenFacade.findByDef(wybranalistaplac);
             datawyplaty = zrobdatawyplaty();
         }
     }
-    
-     public void pobierzkalendarzezamcanaliza() {
+
+    public void pobierzkalendarzezamcanaliza() {
         Definicjalistaplac wybranalistaplac = this.wybranalistaplac2;
-        if (wybranalistaplac!=null) {
-            if (rodzajumowy==null) {
+        if (wybranalistaplac != null) {
+            if (rodzajumowy == null) {
                 rodzajumowy = "1";
             }
             List<Kalendarzmiesiac> listakalendarzmiesiac = kalendarzmiesiacFacade.findByFirmaRokMcPraca(wybranalistaplac.getFirma(), wybranalistaplac.getRok(), wybranalistaplac.getMc());
@@ -346,30 +369,31 @@ public class PasekwynagrodzenView  implements Serializable {
             }
             Collections.sort(listakalendarzmiesiac, new Kalendarzmiesiaccomparator());
             if (rodzajumowy.equals("2")) {
-                for (Iterator<Kalendarzmiesiac> it = listakalendarzmiesiac.iterator();it.hasNext();) {
+                for (Iterator<Kalendarzmiesiac> it = listakalendarzmiesiac.iterator(); it.hasNext();) {
                     Kalendarzmiesiac p = it.next();
                     Umowa u = p.getUmowa();
                     Rachunekdoumowyzlecenia znaleziony = u.pobierzRachunekzlecenie(wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
-                    if (znaleziony==null) {
+                    if (znaleziony == null) {
                         it.remove();
                     }
                 }
             }
-            if (listakalendarzmiesiac!=null) {
+            if (listakalendarzmiesiac != null) {
                 this.listakalendarzmiesiac.setSource(listakalendarzmiesiac);
                 this.listakalendarzmiesiacdoanalizy2 = listakalendarzmiesiac;
             }
             lista = pasekwynagrodzenFacade.findByDef(wybranalistaplac);
-            if (wybranykalendarz!=null) {
+            if (wybranykalendarz != null) {
                 try {
-                    wybranykalendarz = listakalendarzmiesiac.stream().filter(p->p.getPesel().equals(wybranykalendarz.getUmowa().getAngaz().getPracownik().getPesel())).findFirst().get();
-                } catch (Exception e){}
+                    wybranykalendarz = listakalendarzmiesiac.stream().filter(p -> p.getPesel().equals(wybranykalendarz.getUmowa().getAngaz().getPracownik().getPesel())).findFirst().get();
+                } catch (Exception e) {
+                }
             }
         }
     }
-    
+
     public void pobierzpracownika() {
-        if (wybranykalendarz!=null) {
+        if (wybranykalendarz != null) {
             listawynagrodzenpracownika = wybranykalendarz.skladnikiwynagrodzenialista();
             listanieobecnoscipracownika = wybranykalendarz.skladnikinieobecnosclista();
             for (Naliczenienieobecnosc p : listanieobecnoscipracownika) {
@@ -378,15 +402,14 @@ public class PasekwynagrodzenView  implements Serializable {
             Msg.msg("Pobrano pracownika");
         }
     }
-    
+
     private String zrobdatawyplaty() {
         String zwrot;
-        String[] nastepnyOkres = Data.nastepnyOkres(wpisView.getMiesiacWpisu(), wpisView.getRokWpisu()); 
-        zwrot = nastepnyOkres[1]+"-"+nastepnyOkres[0]+"-10";
+        String[] nastepnyOkres = Data.nastepnyOkres(wpisView.getMiesiacWpisu(), wpisView.getRokWpisu());
+        zwrot = nastepnyOkres[1] + "-" + nastepnyOkres[0] + "-10";
         return zwrot;
     }
-    
-    
+
     public Pasekwynagrodzen getSelected() {
         return selected;
     }
@@ -434,7 +457,6 @@ public class PasekwynagrodzenView  implements Serializable {
     public void setWybranalistaplac2(Definicjalistaplac wybranalistaplac2) {
         this.wybranalistaplac2 = wybranalistaplac2;
     }
-
 
     public Definicjalistaplac getWybranalistaplac() {
         return wybranalistaplac;
@@ -540,11 +562,4 @@ public class PasekwynagrodzenView  implements Serializable {
         this.symulacjatotalcost = symulacjatotalcost;
     }
 
-    
-
-    
-    
-
-   
-    
 }

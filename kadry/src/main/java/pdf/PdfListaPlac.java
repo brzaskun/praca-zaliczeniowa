@@ -20,6 +20,7 @@ import entity.Naliczenieskladnikawynagrodzenia;
 import entity.Nieobecnosc;
 import entity.Pasekwynagrodzen;
 import error.E;
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -38,6 +39,43 @@ import z.Z;
  * @author Osito
  */
 public class PdfListaPlac {
+    
+    public static ByteArrayOutputStream drukujmail(List<Pasekwynagrodzen> lista, Definicjalistaplac def, NieobecnosckodzusFacade nieobecnosckodzus) {
+        ByteArrayOutputStream out = new ByteArrayOutputStream();            
+        try {
+            String nrpoprawny = def.getNrkolejny().replaceAll("[^A-Za-z0-9]", "");
+            String nazwa = def.getFirma().getNip() + "_" + nrpoprawny + "_" + "lp.pdf";
+            if (lista != null) {
+                Document document = PdfMain.inicjacjaA4Landscape();
+                PdfWriter writer = PdfWriter.getInstance(document, out);
+                writer.setInitialLeading(16);
+                writer.setViewerPreferences(PdfWriter.PageLayoutSinglePage);
+                naglowekStopkaL(writer);
+                otwarcieDokumentu(document, nazwa);
+                PdfMain.dodajOpisWstepny(document, def, "Lista płac");
+                String[] opisy = {"Razem przychód", "Podst. wymiaru składek ubezp. społecznych", "Ubezp. Emerytalne", "Ubezp. rentowe", "Ubezp. chorobowe", "Razem składki na ub. Społ.", "Podst. wymiaru składek ubezp. zdrowotnego",
+                    "Koszty uzyskania przychodu", "Podstawa opodatkowania", "Potrącona zaliczka na podatek dochodowy", "Potrącona", "Odliczona od podatku", "Należna zaliczka na podatek dochodowy", "Do wypłaty"};
+                for (Pasekwynagrodzen p : lista) {
+                    dodajtabeleglowna(p, document);
+                    StringBuilder sb = new StringBuilder();
+                    sb.append(generujpasekskladniki(p, document));
+                    document.add(ustawparagrafSmall(sb.toString()));
+                    sb = new StringBuilder();
+                    sb.append(generujpasekobecnosci(p, document, nieobecnosckodzus));
+                    document.add(ustawparagrafSmall(sb.toString()));
+                    document.add(Chunk.NEWLINE);
+                }
+                finalizacjaDokumentuQR(document, nazwa);
+                Msg.msg("Udane wysłanie maila z listą płac)");
+            } else {
+                Msg.msg("w", "Nie ma Paska do wydruku");
+            }
+        } catch (Exception e) {
+            E.e(e);
+        }
+        return out;
+    }
+    
     public static void drukuj(Pasekwynagrodzen p, NieobecnosckodzusFacade nieobecnosckodzus) {
         try {
             Angaz a = p.getKalendarzmiesiac().getUmowa().getAngaz();

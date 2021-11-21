@@ -12,11 +12,19 @@ import entity.FirmaKadry;
 import entity.Pracownik;
 import entity.SMTPSettings;
 import error.E;
+import java.io.UnsupportedEncodingException;
+import javax.activation.DataHandler;
 import javax.inject.Named;
 import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Multipart;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
+import javax.mail.internet.MimeUtility;
+import javax.mail.util.ByteArrayDataSource;
 
 @Named
 
@@ -123,7 +131,8 @@ public class Mail {
                     InternetAddress.parse("a.barczyk@taxman.biz.pl"));
             message.setRecipients(Message.RecipientType.BCC,
                     InternetAddress.parse("k.koszarek@taxman.biz.pl"));
-            message.setSubject("Nowy pracownik w "+firma.getNazwa());
+            String temat = "Nowy pracownik w "+firma.getNazwa();
+            message.setSubject(MimeUtility.encodeText(temat, "UTF-8", "Q"));
             message.setContent("Dzień dobry"
                     + "<p>Firma "+firma.getNazwa()+" NIP "+firma.getNip()
                     + "dodała nowego pracownika</p>"
@@ -137,5 +146,51 @@ public class Mail {
         }
     }
     
+    public static void mailListaPlac(FirmaKadry firma, String rok, String mc, String adres, SMTPSettings settings,SMTPSettings ogolne, byte[] zalacznik, String nazwapliku)  {
+        try {
+            MimeMessage message = new MimeMessage(MailSetUp.otworzsesje(settings, ogolne));
+            message.setFrom(new InternetAddress(SMTPBean.adresFrom(settings, ogolne), SMTPBean.nazwaFirmyFrom(settings, ogolne)));
+            message.setRecipients(Message.RecipientType.TO,
+                    InternetAddress.parse(adres));
+            message.setRecipients(Message.RecipientType.BCC,
+                    InternetAddress.parse("a.barczyk@taxman.biz.pl"));
+            message.setRecipients(Message.RecipientType.BCC,
+                    InternetAddress.parse("k.koszarek@taxman.biz.pl"));
+            MimeBodyPart mbp1 = new MimeBodyPart();
+            String temat = "Lista płac "+firma.getNazwa()+" za "+rok+"/"+"mc";
+            message.setSubject(MimeUtility.encodeText(temat, "UTF-8", "Q"));
+            String tresc = "Dzień dobry"
+                    + "<p>W załączeniu lista płac dla firmy "+firma.getNazwa()+" NIP "+firma.getNip()
+                    + "za okres</p>"
+                    + "<p> "+rok+"/"+mc+"</p>"
+                    + stopka;
+            mbp1.setContent(tresc, "text/html; charset=utf-8");
+            mbp1.setHeader("Content-Type", "text/html; charset=utf-8");
+            Multipart mp = new MimeMultipart();
+            mp.addBodyPart(mbp1);
+            dolaczplik(zalacznik, mp, nazwapliku);
+            message.setContent(mp);
+            Transport.send(message);
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        } catch (UnsupportedEncodingException ex) {
+            // Logger.getLogger(MailAdmin.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private static void dolaczplik(byte[] is, Multipart mimeMultipart, String nazwapliku) {
+        if (is != null && is instanceof byte[]) {
+            try {
+                // create the second message part with the attachment from a OutputStrean
+                MimeBodyPart attachment= new MimeBodyPart();
+                ByteArrayDataSource ds = new ByteArrayDataSource(is, "application/pdf");
+                attachment.setDataHandler(new DataHandler(ds));
+                attachment.setFileName(nazwapliku);
+                mimeMultipart.addBodyPart(attachment);
+            } catch (Exception ex) {
+                // Logger.getLogger(MailAdmin.class.getName()).log(Level.SEVERE, null, ex);
+            }
+    }
+    }
     
 }

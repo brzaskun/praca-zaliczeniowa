@@ -15,7 +15,7 @@ xmlns:pe="http://primefaces.org/ui/extensions">
             
                 <h:panelGroup >
                     
-                    <p:panelGrid columns="4" rendered="#{pasekwynagrodzenView.listadefinicjalistaplac ne null}">
+                    <p:panelGrid columns="6" rendered="#{pasekwynagrodzenView.listadefinicjalistaplac ne null}">
                        <h:form id="DefinicjalistaplacCreateForm">
                             <p:outputLabel value="rodzaj umowy" />
                             <p:selectOneMenu id="rodzajumowy" value="#{pasekwynagrodzenView.rodzajumowy}"  autoWidth="false" style="width: 300px;" filter="true" filterMatchMode="contains" required="true">
@@ -39,15 +39,6 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                            
                             
                         </h:form>
-                        <h:form id="DefinicjalistaplacCreateForm2">
-                            <p:outputLabel value="" for="wybranypracownik" />
-                            <p:pickList id="wybranypracownik" value="#{pasekwynagrodzenView.listakalendarzmiesiac}" var="kalendarzItem" itemLabel="#{kalendarzItem.umowa.angaz.pracownik.nazwiskoImie}" itemValue="#{kalendarzItem}" 
-                                        showCheckbox="true" converter="#{kalendarzmiesiacConverter}"/>
-                            <p:commandButton styleClass="buttonnorm" actionListener="#{pasekwynagrodzenView.przelicz}" value="oblicz" update="PasekwynagrodzenListForm" />
-                            <p:commandButton styleClass="buttonnorm" actionListener="#{pasekwynagrodzenView.zapisz}" value="Save" update="PasekwynagrodzenListForm" />
-                            <p:commandButton styleClass="buttonnorm" actionListener="#{pasekwynagrodzenView.usun}" value="usuń" update="PasekwynagrodzenListForm" />
-                            <p:commandButton styleClass="buttonnorm" actionListener="#{pasekwynagrodzenView.drukujliste}" value="druk lista"/>
-                        </h:form>
                         <h:form id="KursDataLPForm">
                             <p:panelGrid columns="2" >
                             <h:outputLabel for="kurspole" value="kurs przelicz."/>
@@ -65,6 +56,18 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                                 <f:selectItem itemLabel="oddelegowanie" itemValue="oddelegowanie"/>
                                 <p:ajax event="change" partialSubmit="true" global="false" update="PasekwynagrodzenListForm"/>
                             </p:selectOneMenu>
+                            </p:panelGrid>
+                        </h:form>
+                         <h:form id="DefinicjalistaplacCreateForm2">
+                            <p:outputLabel value="" for="wybranypracownik" />
+                            <p:pickList id="wybranypracownik" value="#{pasekwynagrodzenView.listakalendarzmiesiac}" var="kalendarzItem" itemLabel="#{kalendarzItem.umowa.angaz.pracownik.nazwiskoImie}" itemValue="#{kalendarzItem}" 
+                                        showCheckbox="true" converter="#{kalendarzmiesiacConverter}"/>
+                            <p:panelGrid columns="5" >
+                            <p:commandButton styleClass="buttonnorm" actionListener="#{pasekwynagrodzenView.przelicz}" value="oblicz" update="PasekwynagrodzenListForm" />
+                            <p:commandButton styleClass="buttonnorm2" actionListener="#{pasekwynagrodzenView.mailListaPlac}" value="mail" update="PasekwynagrodzenListForm" />
+                            <p:commandButton styleClass="buttonnorm2" actionListener="#{pasekwynagrodzenView.usun()}" value="usuń" update="PasekwynagrodzenListForm" />
+                            <p:commandButton styleClass="buttonnorm2" actionListener="#{pasekwynagrodzenView.drukujliste}" value="druk lista"/>
+                            <p:commandButton styleClass="buttonnorm2" actionListener="#{pasekwynagrodzenView.zapisz}" value="Save" update="PasekwynagrodzenListForm" />
                             </p:panelGrid>
                         </h:form>
 <!--                        <p:selectOneMenu id="wybranypracownik" value="#{pasekwynagrodzenView.wybranykalendarz}" required="true" requiredMessage="Wybierz pracownika" converter="#{kalendarzmiesiacConverter}">
