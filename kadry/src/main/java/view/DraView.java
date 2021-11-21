@@ -34,7 +34,7 @@ public class DraView  implements Serializable {
     @Inject
     private Pasekwynagrodzen selectedlista;
     private Definicjalistaplac wybranalistaplac;
-    private List<Pasekwynagrodzen> lista;
+    private List<Pasekwynagrodzen> paskiwynagrodzen;
     private List<Definicjalistaplac> listadefinicjalistaplac;
     @Inject
     private DefinicjalistaplacFacade definicjalistaplacFacade;
@@ -57,8 +57,8 @@ public class DraView  implements Serializable {
     }
 
     public void drukujliste () {
-        if (lista!=null && lista.size()>0) {
-            PdfDRA.drukujListaPodstawowa(lista, wybranalistaplac);
+        if (paskiwynagrodzen!=null && paskiwynagrodzen.size()>0) {
+            PdfDRA.drukujListaPodstawowa(paskiwynagrodzen, wybranalistaplac);
             Msg.msg("Wydrukowano listę płac");
         } else {
             Msg.msg("e","Błąd drukowania. Brak pasków");
@@ -73,8 +73,8 @@ public class DraView  implements Serializable {
             zus53 = 0.0;
             pit4 = 0.0;
             zus = 0.0;
-            lista = pasekwynagrodzenFacade.findByDef(wybranalistaplac);
-            for (Pasekwynagrodzen p : lista) {
+            paskiwynagrodzen = pasekwynagrodzenFacade.findByDef(wybranalistaplac);
+            for (Pasekwynagrodzen p : paskiwynagrodzen) {
                 zus51 = Z.z(zus51+p.getRazemspolecznepracownik()+p.getRazemspolecznefirma());
                 zus52 = Z.z(zus52+p.getPraczdrowotne());
                 zus53 = Z.z(zus53+p.getRazem53());
@@ -86,14 +86,7 @@ public class DraView  implements Serializable {
             Msg.msg("e","Błąd pobierania pasków");
         }
     }
-    
-    public void zachowaj(Pasekwynagrodzen pasek) {
-        if (pasek!=null) {
-            pasekwynagrodzenFacade.edit(pasek);
-            Msg.msg("Zachowano zmiany paska wynagrodzeń");
-        }
-    }
-  
+
     
     public Pasekwynagrodzen getSelected() {
         return selected;
@@ -103,12 +96,12 @@ public class DraView  implements Serializable {
         this.selected = selected;
     }
 
-    public List<Pasekwynagrodzen> getLista() {
-        return lista;
+    public List<Pasekwynagrodzen> getPaskiwynagrodzen() {
+        return paskiwynagrodzen;
     }
 
-    public void setLista(List<Pasekwynagrodzen> lista) {
-        this.lista = lista;
+    public void setPaskiwynagrodzen(List<Pasekwynagrodzen> paskiwynagrodzen) {
+        this.paskiwynagrodzen = paskiwynagrodzen;
     }
 
     public List<Definicjalistaplac> getListadefinicjalistaplac() {
