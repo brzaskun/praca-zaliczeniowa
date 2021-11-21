@@ -811,6 +811,10 @@ public class Data implements Serializable {
      public static void main(String[] args) {
          String zwrot = aktualnaDataCzas();
          System.out.println(zwrot);
+         String zwrot2=data_yyyyMMdd(new Date());
+         System.out.println(zwrot2);
+         LocalDate date = LocalDate.parse("2018-05-05");
+         System.out.println(date.toString());
      }
     
 //   public static void main(String[] args) {

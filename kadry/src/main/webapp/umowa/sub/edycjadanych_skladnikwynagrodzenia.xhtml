@@ -125,8 +125,13 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                                 </f:facet>
                                  <h:outputText value="&#x2714;" rendered="#{itemskladnikwyn.oddelegowanie eq true}"/>
                             </p:column>
-                            <p:column style="text-align: center; width: 30px;">
-                                <p:commandButton icon="fa fa-trash" actionListener="#{skladnikWynagrodzeniaView.usunSkladnikWyn(itemskladnikwyn)}" update="north, @(form)"/>
+                            <p:column width="30" style="text-align: center;">
+                                <p:commandButton icon="fa fa-edit"  actionListener="#{skladnikWynagrodzeniaView.wybierzdoedycji(itemskladnikwyn)}" update="north, @(form) SkladnikwynagrodzeniaCreateForm"/>
+                            </p:column>
+                            <p:column style="text-align: center;" width="30">
+                                <p:commandButton icon="fa fa-trash" actionListener="#{skladnikWynagrodzeniaView.usunSkladnikWyn(itemskladnikwyn)}" update="north, @(form)">
+                                    <p:confirm type="popup" header="Potwierdzenie" message="Usunąć składnik?" icon="pi pi-exclamation-triangle"/>
+                                </p:commandButton>
                             </p:column>
                         </p:dataTable>
                     </p:panel>
@@ -147,7 +152,7 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                                 </f:facet>
                                 <h:outputText value="#{itemzmiennawyn.id}"/>
                             </p:column>
-                            <p:column>
+                            <p:column width="200">
                                 <f:facet name="header">
                                     <h:outputText value="nazwa"/>
                                 </f:facet>
@@ -193,10 +198,10 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                                 </f:facet>
                                  <h:outputText value="&#x2714;" rendered="#{itemzmiennawyn.netto0brutto1 eq true}"/>
                             </p:column>
-                            <p:column width="40" style="text-align: center;">
+                            <p:column width="30" style="text-align: center;">
                                 <p:commandButton icon="fa fa-edit"  actionListener="#{zmiennaWynagrodzeniaView.wybierzdoedycji(itemzmiennawyn)}" update="north, @(form) ZmiennawynagrodzeniaCreateForm"/>
                             </p:column>
-                            <p:column style="text-align: center;">
+                            <p:column width="30" style="text-align: center;">
                                 <p:commandButton icon="fa fa-trash" actionListener="#{zmiennaWynagrodzeniaView.usunZmiennaWyn(itemzmiennawyn)}" update="north @(form)">
                                     <p:confirm type="popup" header="Potwierdzenie" message="Usunąć daną zmienną?" icon="pi pi-exclamation-triangle"/>
                                 </p:commandButton>

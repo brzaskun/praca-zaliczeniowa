@@ -293,9 +293,17 @@ public class OsobaBean {
                                 wiersz.setAktywna(true);
                             }
                         } else {
-                            String dataod = t.getSsoRokOd()+"-"+t.getSsoMiesiacOd()+"-01";
+                            String mcod = String.valueOf(t.getSsoMiesiacOd());
+                            if (mcod.length()==1) {
+                                mcod="0"+mcod;
+                            }
+                            String dataod = t.getSsoRokOd()+"-"+mcod+"-01";
                             wiersz.setDataod(dataod);
-                            String datado = Data.ostatniDzien(String.valueOf(t.getSsoRokDo()),String.valueOf(t.getSsoMiesiacDo()));
+                            String mcdo = String.valueOf(t.getSsoMiesiacDo());
+                            if (mcdo.length()==1) {
+                                mcdo="0"+mcdo;
+                            }
+                            String datado = Data.ostatniDzien(String.valueOf(t.getSsoRokDo()),mcdo);
                             wiersz.setDatado(datado);
                         }
                         wiersz.setKwota(Z.z(t.getSsoNumeric().doubleValue()));

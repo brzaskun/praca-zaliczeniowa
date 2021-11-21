@@ -14,7 +14,7 @@ import entity.Umowa;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.RequestScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import msg.Msg;
@@ -24,7 +24,7 @@ import msg.Msg;
  * @author Osito
  */
 @Named
-@RequestScoped
+@ViewScoped
 public class SkladnikWynagrodzeniaView  implements Serializable {
     private static final long serialVersionUID = 1L;
     @Inject
@@ -59,10 +59,16 @@ public class SkladnikWynagrodzeniaView  implements Serializable {
     public void create() {
       if (selected!=null && selected.getUmowa()!=null) {
           try {
-            skladnikWynagrodzeniaFacade.create(selected);
-            lista.add(selected);
-            selected = new Skladnikwynagrodzenia();
-            Msg.msg("Dodano nowy składnik wynagrodzenia");
+            if (selected.getId()!=null) {
+                skladnikWynagrodzeniaFacade.edit(selected);
+                selected = new Skladnikwynagrodzenia();
+                Msg.msg("Udana edycja składnika wyn");
+            } else {
+                skladnikWynagrodzeniaFacade.create(selected);
+                lista.add(selected);
+                selected = new Skladnikwynagrodzenia();
+                Msg.msg("Dodano nowy składnik wynagrodzenia");
+            }
           } catch (Exception e) {
               System.out.println("");
               Msg.msg("e", "Błąd - nie dodano nowego składnika wynagrodzenai");
@@ -80,6 +86,19 @@ public class SkladnikWynagrodzeniaView  implements Serializable {
         } else {
             Msg.msg("e","Nie wybrano składnika wynagrodzenia");
         }
+    }
+    
+    public void wybierzdoedycji(Skladnikwynagrodzenia selected) {
+      if (selected!=null) {
+          try {
+            this.selected  = selected;
+            Msg.msg("Zmieniono składnik do edycji");
+          } catch (Exception e) {
+              Msg.msg("e", "Błąd edycji składnika wyn");
+          }
+      } else {
+          Msg.msg("e", "Nie wybrano składnika");
+      }
     }
     public Skladnikwynagrodzenia getSelected() {
         return selected;

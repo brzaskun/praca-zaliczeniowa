@@ -108,7 +108,7 @@ public class ZmiennaWynagrodzeniaView  implements Serializable {
               Msg.msg("e", "Błąd edycji zmiennej wyn");
           }
       } else {
-          Msg.msg("e", "Nie wybrano składnika");
+          Msg.msg("e", "Nie wybrano zmiennej wyn");
       }
     }
     

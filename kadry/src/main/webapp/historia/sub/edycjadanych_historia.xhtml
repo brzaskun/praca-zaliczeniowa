@@ -18,7 +18,7 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                                  selection="#{historiaView.selectedfirma}" selectionMode="single"
                                  style="height: 200px;overflow-y: scroll; width: 850px; " sortBy="#{firmylistdata.firNazwaPel}"
                                  >
-                        <p:ajax event="rowSelect" listener="#{historiaView.pobierzosoby}" partialSubmit="true" global="false" update="SuperFormFirma2"/>
+                        <p:ajax event="rowSelect" listener="#{historiaView.pobierzosoby}" partialSubmit="true" global="true" update="SuperFormFirma2"/>
                         <p:column width="50" style="text-align: center;">
                             <h:outputText value="#{yndex1+1}"/>
                         </p:column>
