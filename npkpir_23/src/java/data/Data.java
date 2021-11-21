@@ -588,6 +588,9 @@ public class Data implements Serializable {
     
     public static String zmienkolejnosc(String zladata) {
         String dobradata = "";
+        if (zladata!=null && zladata.length()==20 && zladata.contains(":")) {
+            zladata = zladata.substring(0,9);
+        }
         if (zladata!=null && zladata.length()==10 && !dataodprawejdolewej(zladata)) {
             zladata = zladata.replace("/", "-");
             zladata = zladata.replace(".", "-");
