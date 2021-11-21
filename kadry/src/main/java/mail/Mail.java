@@ -157,7 +157,7 @@ public class Mail {
             message.setRecipients(Message.RecipientType.BCC,
                     InternetAddress.parse("k.koszarek@taxman.biz.pl"));
             MimeBodyPart mbp1 = new MimeBodyPart();
-            String temat = "Lista płac "+firma.getNazwa()+" za "+rok+"/"+"mc";
+            String temat = "Lista płac "+firma.getNazwa()+" za "+rok+"/"+mc;
             message.setSubject(MimeUtility.encodeText(temat, "UTF-8", "Q"));
             String tresc = "Dzień dobry"
                     + "<p>W załączeniu lista płac dla firmy "+firma.getNazwa()+" NIP "+firma.getNip()

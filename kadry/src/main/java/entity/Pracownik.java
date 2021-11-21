@@ -158,6 +158,8 @@ public class Pracownik implements Serializable {
     private int formawynagrodzenia;
     @Column(name = "nierezydent")
     private boolean nierezydent;
+    @Column(name = "zaliczkiwinnymkraju")
+    private boolean zaliczkiwinnymkraju;
     @OneToMany(mappedBy = "pracownik", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Angaz> angazList;
     @OneToMany(mappedBy = "pracownik", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -576,6 +578,14 @@ public class Pracownik implements Serializable {
 
     public void setFormawynagrodzenia(int formawynagrodzenia) {
         this.formawynagrodzenia = formawynagrodzenia;
+    }
+
+    public boolean isZaliczkiwinnymkraju() {
+        return zaliczkiwinnymkraju;
+    }
+
+    public void setZaliczkiwinnymkraju(boolean zaliczkiwinnymkraju) {
+        this.zaliczkiwinnymkraju = zaliczkiwinnymkraju;
     }
 
      public String getAdres() {

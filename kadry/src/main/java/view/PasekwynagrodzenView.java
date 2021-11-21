@@ -129,7 +129,7 @@ public class PasekwynagrodzenView implements Serializable {
         } catch (Exception e) {
         }
         ileszczegolow = "prosta";
-        symulacjabrrutto = 2810;
+        symulacjabrrutto = wpisView.getRokWpisuInt()<2022?2800:3010;
         symulacjaoblicz();
     }
 

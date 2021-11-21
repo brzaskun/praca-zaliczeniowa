@@ -10,7 +10,7 @@
         <p:tab title="zestawienie do PIT-11">
     <p:outputPanel>
 <!--        <p:commandButton value="pobierz" styleClass="buttonnorm" actionListener="#{kartaWynagrodzenView.pobierzdaneAll()}" update="KartyWynangrodzenPITForm"/>-->
-        <p:commandButton value="PIT-y 11" styleClass="buttonnorm2" actionListener="#{kartaWynagrodzenView.pit11All()}"/>
+        <p:commandButton value="PIT-y 11" styleClass="buttonnorm2" actionListener="#{kartaWynagrodzenView.pit11All()}" update="KartyWynangrodzenPITForm wystawionepit11"/>
     </p:outputPanel>
     <p:outputPanel style="margin: 10px;">
         <h:form id="KartyWynangrodzenPITForm">
@@ -181,8 +181,8 @@
     </p:tab>
         <p:tab title="wystawione PIT-11">
              <p:outputPanel>
-        <h:form>
-            <p:dataTable id="datalistwa" value="#{pit11View.lista}" var="itempity11"
+            <h:form id="wystawionepit11">
+            <p:dataTable id="datalistwa" value="#{kartaWynagrodzenView.listaPIT11}" var="itempity11"
                          rowKey="#{itempity11.id}" rowIndexVar="indexpity11" 
                          style="height: 350px; width: 1150px;" emptyMessage="Nie pobrano danych"
                          >
@@ -236,21 +236,21 @@
                     <f:facet name="header">
                         <h:outputText value=""/>
                     </f:facet>
-                    <p:commandButton icon="pi pi-file-pdf" actionListener="#{pit11View.pokazpdf(itempity11)}">
+                    <p:commandButton icon="pi pi-file-pdf" actionListener="#{kartaWynagrodzenView.pokazpdf(itempity11)}">
                     </p:commandButton>
                 </p:column>
                  <p:column width="30" style="text-align: center;">
                     <f:facet name="header">
                         <h:outputText value="xml"/>
                     </f:facet>
-                    <p:commandButton icon="pi pi-print" actionListener="#{pit11View.pokaz(itempity11)}">
+                    <p:commandButton icon="pi pi-print" actionListener="#{kartaWynagrodzenView.pokazPIT11(itempity11)}">
                     </p:commandButton>
                 </p:column>
                 <p:column width="30" style="text-align: center;">
                     <f:facet name="header">
                         <h:outputText value=""/>
                     </f:facet>
-                    <p:commandButton icon="pi pi-trash" actionListener="#{pit11View.usun(itempity11)}" update="@(form)">
+                    <p:commandButton icon="pi pi-trash" actionListener="#{kartaWynagrodzenView.usunPIT11(itempity11)}" update="@(form)">
                         <p:confirm type="popup" header="Potwierdzenie" message="Usunąć deklaracje?" icon="pi pi-exclamation-triangle"/>
                     </p:commandButton>
                 </p:column>

@@ -6,6 +6,7 @@
 package view;
 
 import comparator.Kartawynagrodzencomparator;
+import dao.AngazFacade;
 import dao.DeklaracjaPIT4SchowekFacade;
 import dao.KartaWynagrodzenFacade;
 import dao.PasekwynagrodzenFacade;
@@ -57,6 +58,10 @@ public class KartaWynagrodzenPIT4View  implements Serializable {
     private double podatekrazem;
     @Inject
     private Pit4RView pit4RView;
+    @Inject
+    private AngazFacade angazFacade;
+    
+   
 
     
     @PostConstruct
@@ -76,12 +81,13 @@ public class KartaWynagrodzenPIT4View  implements Serializable {
             sumaUmowazlecenia26zwolnione.put(mc, new Kartawynagrodzen());
         }
         pobierzdaneAll();
+        
     }
 
   
     
      public void pobierzdaneAll() {
-        List<Angaz> pracownicy = wpisView.getFirma().getAngazList();
+        List<Angaz> pracownicy = angazFacade.findByFirma(wpisView.getFirma());
         podatekrazem = 0.0;
         for (Angaz p: pracownicy) {
             if (p!=null) {

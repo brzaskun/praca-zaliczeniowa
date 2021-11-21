@@ -5,8 +5,10 @@
  */
 package view;
 
+import beanstesty.PIT11_27Bean;
 import comparator.Kartawynagrodzencomparator;
 import comparator.PITPolacomparator;
+import dao.AngazFacade;
 import dao.DeklaracjaPIT11SchowekFacade;
 import dao.KartaWynagrodzenFacade;
 import dao.PasekwynagrodzenFacade;
@@ -18,6 +20,9 @@ import entity.Kartawynagrodzen;
 import entity.PITPola;
 import entity.Pasekwynagrodzen;
 import entity.Pracownik;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -33,6 +38,7 @@ import msg.Msg;
 import org.primefaces.PrimeFaces;
 import pdf.PdfKartaWynagrodzen;
 import pdf.PdfPIT11;
+import pl.gov.crd.wzor._2021._03._04._10477.Deklaracja;
 
 /**
  *
@@ -57,12 +63,17 @@ public class KartaWynagrodzenView  implements Serializable {
     private Kartawynagrodzen wybranakarta;
     private PITPola wybranypitpola;
     private List<PITPola> pitpola;
+    @Inject
+    private AngazFacade angazFacade;
+    private List<DeklaracjaPIT11Schowek> listaPIT11;
+     
 
     
     @PostConstruct
     public void init() {
         pobierzdane();
         pobierzdaneAll();
+        listaPIT11 = deklaracjaPIT11SchowekFacade.findByRokFirma(wpisView.getRokWpisu(), wpisView.getFirma());
     }
 
         
@@ -78,7 +89,7 @@ public class KartaWynagrodzenView  implements Serializable {
      public void pobierzdaneAll() {
         sumypracownicy = new ArrayList<>();
         pitpola  = new ArrayList<>();
-        List<Angaz> pracownicy = wpisView.getFirma().getAngazList();
+        List<Angaz> pracownicy = angazFacade.findByFirma(wpisView.getFirma());
         Kartawynagrodzen duzasuma = new Kartawynagrodzen();
         for (Angaz p: pracownicy) {
             if (p!=null) {
@@ -249,7 +260,7 @@ public class KartaWynagrodzenView  implements Serializable {
     public void pit11All() {
         if (sumypracownicy!=null && sumypracownicy.size()>0) {
             for (Kartawynagrodzen karta : sumypracownicy) {
-                if (karta.isJestPIT11()==false) {
+                if (karta.isJestPIT11()==false && karta.getAngaz()!=null) {
                     Kartawynagrodzen kartawynagrodzen = karta;
                     FirmaKadry firma = kartawynagrodzen.getAngaz().getFirma();
                     Pracownik pracownik = kartawynagrodzen.getAngaz().getPracownik();
@@ -259,12 +270,17 @@ public class KartaWynagrodzenView  implements Serializable {
                         String polecenie = "wydrukXML(\""+(String)sciezka[0]+"\")";
                         PrimeFaces.current().executeScript(polecenie);
                         String nazwapliku = PdfPIT11.drukuj(deklaracja, wpisView.getUzer().getImieNazwiskoTelefon());
+                        DeklaracjaPIT11Schowek schowek = new DeklaracjaPIT11Schowek(deklaracja, firma, pracownik, wpisView.getRokWpisu(),"PIT11");
+                        karta.setJestPIT11(true);
+                        deklaracjaSchowekFacade.create(schowek);
+                        listaPIT11.add(schowek);
                         polecenie = "wydrukPDF(\""+nazwapliku+"\")";
                         PrimeFaces.current().executeScript(polecenie);
                         Msg.msg("Wydrukowano PIT-11");
                     }
                 }
             }
+            init();
         } else {
             Msg.msg("e","Błąd generowania PIT-11. Brak karty wynagrodzeń");
         }
@@ -281,7 +297,76 @@ public class KartaWynagrodzenView  implements Serializable {
         return zwrot;
     }
     
-    public List<Kartawynagrodzen> getKartawynagrodzenlist() {
+   
+
+    public void pokazpdf(DeklaracjaPIT11Schowek deklaracjaPIT11Schowek) {
+        if (deklaracjaPIT11Schowek != null) {
+            ObjectInputStream is = null;
+            try {
+                byte[] deklaracja = deklaracjaPIT11Schowek.getDeklaracja(); //        ByteArrayInputStream in = new ByteArrayInputStream(this.deklaracja);
+                ByteArrayInputStream in = new ByteArrayInputStream(deklaracja);
+                is = new ObjectInputStream(in);
+                Deklaracja dekl = (Deklaracja) is.readObject();
+                String nazwapliku = PdfPIT11.drukuj(dekl, wpisView.getUzer().getImieNazwiskoTelefon());
+                String polecenie = "wydrukPDF(\"" + nazwapliku + "\")";
+                PrimeFaces.current().executeScript(polecenie);
+                Msg.msg("Pobrano deklaracje");
+            } catch (Exception ex) {
+                System.out.println("");
+            } finally {
+                try {
+                    is.close();
+                } catch (IOException ex) {
+                }
+            }
+        } else {
+            Msg.msg("e", "B\u0142\u0105d, nie pobrano dekalracji");
+        }
+    }
+
+  
+    public void usunPIT11(DeklaracjaPIT11Schowek deklaracjaPIT11Schowek) {
+        if (deklaracjaPIT11Schowek != null) {
+            deklaracjaPIT11SchowekFacade.remove(deklaracjaPIT11Schowek);
+            listaPIT11.remove(deklaracjaPIT11Schowek);
+            for (Kartawynagrodzen p : sumypracownicy) {
+                if (p.getAngaz()!=null&&deklaracjaPIT11Schowek.getPracownik().equals(p.getAngaz().getPracownik())) {
+                    p.setJestPIT11(false);
+                }
+            }
+            Msg.msg("Usuni\u0119to dekalracje");
+        } else {
+            Msg.msg("e", "B\u0142\u0105d, nie usuni\u0119to dekalracji");
+        }
+    }
+
+    public void pokazPIT11(DeklaracjaPIT11Schowek deklaracjaPIT11Schowek) {
+        if (deklaracjaPIT11Schowek != null) {
+            ObjectInputStream is = null;
+            try {
+                byte[] deklaracja = deklaracjaPIT11Schowek.getDeklaracja(); //        ByteArrayInputStream in = new ByteArrayInputStream(this.deklaracja);
+                ByteArrayInputStream in = new ByteArrayInputStream(deklaracja);
+                is = new ObjectInputStream(in);
+                Deklaracja dekl = (Deklaracja) is.readObject();
+                String sciezka = PIT11_27Bean.marszajuldoplikuxml(dekl);
+                String polecenie = "wydrukXML(\"" + sciezka + "\")";
+                PrimeFaces.current().executeScript(polecenie);
+                Msg.msg("Pobrano deklaracje");
+            } catch (Exception ex) {
+                System.out.println("");
+            } finally {
+                try {
+                    is.close();
+                } catch (IOException ex) {
+                }
+            }
+        } else {
+            Msg.msg("e", "B\u0142\u0105d, nie pobrano dekalracji");
+        }
+    }
+
+    
+ public List<Kartawynagrodzen> getKartawynagrodzenlist() {
         return kartawynagrodzenlist;
     }
 
@@ -322,8 +407,13 @@ public class KartaWynagrodzenView  implements Serializable {
         this.pitpola = pitpola;
     }
 
-    
+    public List<DeklaracjaPIT11Schowek> getListaPIT11() {
+        return listaPIT11;
+    }
 
+    public void setListaPIT11(List<DeklaracjaPIT11Schowek> listaPIT11) {
+        this.listaPIT11 = listaPIT11;
+    }
    
 
    

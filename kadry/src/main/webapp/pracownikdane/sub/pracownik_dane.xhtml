@@ -8,13 +8,12 @@
     <p:panelGrid columns="2" columnClasses="thirty-percent, seventy-percent" style="width: 1500px;">
             <p:outputPanel style="height: 200px">
                 <h:form id="AngazCreateForm">
-                    <p:selectOneMenu id="pracownik" value="#{pracownikDane2View.selectedangaz}" required="true" requiredMessage="pracownik"  converter="#{angazConverter}" style="width: 300px;" filter="true" filterMatchMode="contains">
-                        <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
+                    <p:selectOneListbox id="pracownik" value="#{pracownikDane2View.selectedangaz}" required="true" requiredMessage="pracownik"  converter="#{angazConverter}" style="width: 200px;height: 300px;" filter="true" filterMatchMode="contains">
                         <f:selectItems value="#{pracownikDane2View.listapracownikow}"
                                        var="pracownikItem"
                                        itemValue="#{pracownikItem}" itemLabel="#{pracownikItem.pracownik.nazwiskoImie}"/>
                         <p:ajax event="change" partialSubmit="true" listener="#{pracownikDane2View.pobierzdane}" global="false" update="PracownikCreateForm"/>
-                    </p:selectOneMenu>
+                    </p:selectOneListbox>
                 </h:form>
             </p:outputPanel>
         <p:outputPanel style="height: 200px">
@@ -85,7 +84,11 @@
                         <p:outputLabel value="nazwisko rodowe" for="nazrod" />
                         <p:inputText id="nazrod" value="#{pracownikDane2View.selected.nazwiskorodowe}" title="kraj"/>
                     </p:panelGrid>
-
+                    <p:panel header="ustawienia podatkowe"/>
+                    <p:panelGrid columns="2">
+                        <p:outputLabel value="zaliczki napodatek w innym kraju" for="innykraj" />
+                        <p:selectBooleanCheckbox id="innykraj" value="#{pracownikDane2View.selected.zaliczkiwinnymkraju}" title="płaci zaliczki w innym kraju"/>
+                    </p:panelGrid>
                 </p:outputPanel>
                 <p:outputPanel style="margin-top: 50px;">
                     <p:commandButton styleClass="buttonnorm" actionListener="#{pracownikDane2View.edit}" value="#{bundle.Save}" update="@form" />
