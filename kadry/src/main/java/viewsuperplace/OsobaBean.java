@@ -20,6 +20,7 @@ import entity.EtatPrac;
 import entity.FirmaKadry;
 import entity.Kalendarzmiesiac;
 import entity.Kalendarzwzor;
+import entity.Naliczenieskladnikawynagrodzenia;
 import entity.Nieobecnosc;
 import entity.Pasekwynagrodzen;
 import entity.Pracownik;
@@ -42,6 +43,7 @@ import kadryiplace.OsobaPrz;
 import kadryiplace.OsobaSkl;
 import kadryiplace.OsobaZlec;
 import kadryiplace.Place;
+import kadryiplace.PlaceSkl;
 import kadryiplace.PlaceZlec;
 import kadryiplace.StSystOpis;
 import kadryiplace.StSystWart;
@@ -237,24 +239,34 @@ public class OsobaBean {
     }
     
     
-    static void pobierzskladnikwynagrodzenia(List<OsobaSkl> skladniki, List<Rodzajwynagrodzenia> rodzajewynagrodzenia, Umowa aktywna, SkladnikWynagrodzeniaFacade skladnikWynagrodzeniaFacade, ZmiennaWynagrodzeniaFacade zmiennaWynagrodzeniaFacade) {
+    static List<Skladnikwynagrodzenia> pobierzskladnikwynagrodzenia(List<OsobaSkl> skladniki, List<Rodzajwynagrodzenia> rodzajewynagrodzenia, Umowa aktywna, SkladnikWynagrodzeniaFacade skladnikWynagrodzeniaFacade, ZmiennaWynagrodzeniaFacade zmiennaWynagrodzeniaFacade) {
+        List<Skladnikwynagrodzenia> zwrot = new ArrayList<>();
         if (skladniki!=null) {
             OsobaSkl wybrany = null;
             for (OsobaSkl s : skladniki) {
                 if (wybrany == null) {
                     wybrany = s;
+                    Skladnikwynagrodzenia generujskladnik = generujskladnik(wybrany, rodzajewynagrodzenia, aktywna, skladnikWynagrodzeniaFacade, zmiennaWynagrodzeniaFacade);
+                    generujskladnik.setWks_serial(s.getOssWksSerial().getWksSerial());
+                    zwrot.add(generujskladnik);
                 } else if (s.getOssSerial()>wybrany.getOssSerial()) {
                     wybrany = s;
+                    Skladnikwynagrodzenia generujskladnik = generujskladnik(wybrany, rodzajewynagrodzenia, aktywna, skladnikWynagrodzeniaFacade, zmiennaWynagrodzeniaFacade);
+                    generujskladnik.setWks_serial(s.getOssWksSerial().getWksSerial());
+                    zwrot.add(generujskladnik);
                 }
             }
-            if (wybrany!=null) {
-                   Skladnikwynagrodzenia skladnik = new Skladnikwynagrodzenia();
-                   skladnik.setUmowa(aktywna);
-                   skladnik.setRodzajwynagrodzenia(pobierzrodzajwynagrodzenia(wybrany,rodzajewynagrodzenia));
-                   skladnikWynagrodzeniaFacade.create(skladnik);
-                   pobierzzmiennawynagrodzenia(aktywna, skladnik, wybrany, zmiennaWynagrodzeniaFacade);
-               }
         }
+        return zwrot;
+    }
+    
+    private static Skladnikwynagrodzenia generujskladnik(OsobaSkl wybrany, List<Rodzajwynagrodzenia> rodzajewynagrodzenia, Umowa aktywna, SkladnikWynagrodzeniaFacade skladnikWynagrodzeniaFacade, ZmiennaWynagrodzeniaFacade zmiennaWynagrodzeniaFacade) {
+        Skladnikwynagrodzenia skladnik = new Skladnikwynagrodzenia();
+        skladnik.setUmowa(aktywna);
+        skladnik.setRodzajwynagrodzenia(pobierzrodzajwynagrodzenia(wybrany,rodzajewynagrodzenia));
+        skladnikWynagrodzeniaFacade.create(skladnik);
+        pobierzzmiennawynagrodzenia(aktywna, skladnik, wybrany, zmiennaWynagrodzeniaFacade);
+        return skladnik;
     }
     
     private static Rodzajwynagrodzenia pobierzrodzajwynagrodzenia(OsobaSkl s, List<Rodzajwynagrodzenia> rodzajewynagrodzenia) {
@@ -332,7 +344,7 @@ public class OsobaBean {
         }
     }
 
-    static List<Pasekwynagrodzen> zrobpaskiimportUmowaopraceizlecenia(WpisView wpisView, Osoba osoba, List<Okres> okresList, boolean umowaoprace0zlecenia1, String datakonca26lat) {
+    static List<Pasekwynagrodzen> zrobpaskiimportUmowaopraceizlecenia(WpisView wpisView, Osoba osoba, List<Okres> okresList, boolean umowaoprace0zlecenia1, String datakonca26lat,List<Skladnikwynagrodzenia> skladnikwynagrodzenia) {
         List<Pasekwynagrodzen> zwrot = new ArrayList<>();
         List<Place> placeList = osoba.getPlaceList();
         for (Place r : placeList) {
@@ -357,6 +369,8 @@ public class OsobaBean {
                         nowypasek.setRok(rok);
                         nowypasek.setMc(mc);
                         nowypasek.setImportowany(true);
+                        List<PlaceSkl> placeSklList = r.getPlaceSklList();
+                        historycznenaliczeniewynagrodzenia(placeSklList, nowypasek, skladnikwynagrodzenia);
                         zwrot.add(nowypasek);
                     }
                 }
@@ -365,6 +379,30 @@ public class OsobaBean {
         return zwrot;
     }
     
+    static void historycznenaliczeniewynagrodzenia(List<PlaceSkl> placeSklList, Pasekwynagrodzen pasekwynagrodzen, List<Skladnikwynagrodzenia> skladnikwynagrodzenia) {
+        for (PlaceSkl p : placeSklList) {
+            Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = new Naliczenieskladnikawynagrodzenia();
+            naliczenieskladnikawynagrodzenia.setDataod(Data.data_yyyyMMddNull(p.getSklDataOd()));
+            naliczenieskladnikawynagrodzenia.setDatado(Data.data_yyyyMMddNull(p.getSklDataDo()));
+            naliczenieskladnikawynagrodzenia.setKwotadolistyplac(p.getSklKwota().doubleValue());
+            naliczenieskladnikawynagrodzenia.setSkladnikwynagrodzenia(histporiapobierzskladnikwynagrodzenia(p, skladnikwynagrodzenia));
+            naliczenieskladnikawynagrodzenia.setPasekwynagrodzen(pasekwynagrodzen);
+            pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().add(naliczenieskladnikawynagrodzenia);
+        }
+    }
+     private static Skladnikwynagrodzenia histporiapobierzskladnikwynagrodzenia(PlaceSkl s, List<Skladnikwynagrodzenia> skladnikwynagrodzenia) {
+        Skladnikwynagrodzenia zwrot = null;
+        if (skladnikwynagrodzenia!=null) {
+            for (Skladnikwynagrodzenia p : skladnikwynagrodzenia) {
+                if (p.getWks_serial().equals(s.getSklWksSerial().getWksSerial())) {
+                    zwrot = p;
+                    break;
+                }
+            }
+        }
+        return zwrot;
+    }
+
      static List<Rachunekdoumowyzlecenia> zrobrachunkidozlecenia(WpisView wpisView, Osoba osoba) {
         List<Rachunekdoumowyzlecenia> zwrot = new ArrayList<>();
         List<PlaceZlec> placeList = osoba.getPlaceZlecList();

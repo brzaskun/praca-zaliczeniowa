@@ -744,7 +744,9 @@ public class OsobaSkl implements Serializable {
 
     @Override
     public String toString() {
-        return "kadryiplace.OsobaSkl[ ossSerial=" + ossSerial + " ]";
+        return "OsobaSkl{" + "ossSerial=" + ossSerial + ", ossDataOd=" + ossDataOd + ", ossDataDo=" + ossDataDo + ", ossKwota=" + ossKwota + ", ossStatus=" + ossStatus + ", ossTyp=" + ossTyp + ", ossAktywna=" + ossAktywna + ", ossDod1=" + ossDod1 + ", ossRodzaj=" + ossRodzaj + ", ossTyp3=" + ossTyp3 + '}';
     }
+
+   
     
 }

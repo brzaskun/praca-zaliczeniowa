@@ -224,7 +224,7 @@ public class Pasekwynagrodzen implements Serializable {
 //            }
 //        } else {
             if (r.getLplZusEmer().equals('T')) {
-                this.bruttozus = Z.z(r.getLplPdstZus().doubleValue());
+                this.bruttozus = Z.z(r.getLplPodst().doubleValue());
             }
             if (r.getLplPodDoch().equals('T')) {
                 if (po26roku) {
@@ -268,6 +268,9 @@ public class Pasekwynagrodzen implements Serializable {
         this.limitzus = 0.0;
         this.dniobowiazku = r.getLplDniObow().intValue();
         this.dniprzepracowane = r.getLplDniPrzepr().intValue();
+        this.naliczeniepotracenieList = new ArrayList<>();
+        this.naliczenieskladnikawynagrodzeniaList = new ArrayList<>();
+        this.naliczenienieobecnoscList = new ArrayList<>();
     }
     
     public void dodajPasek(Pasekwynagrodzen p) {

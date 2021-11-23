@@ -45,6 +45,8 @@ public class Skladnikwynagrodzenia implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
+    @Column(name = "wks_serial")
+    private Integer wks_serial;
     @JoinColumn(name = "rodzajwynagrodzenia", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Rodzajwynagrodzenia rodzajwynagrodzenia;
@@ -79,6 +81,14 @@ public class Skladnikwynagrodzenia implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getWks_serial() {
+        return wks_serial;
+    }
+
+    public void setWks_serial(Integer wks_serial) {
+        this.wks_serial = wks_serial;
     }
 
     public  boolean isZus0bezzus1() {
