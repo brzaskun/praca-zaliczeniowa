@@ -61,6 +61,10 @@ public class FirmaKadry implements Serializable {
     private List<Angaz> angazList;
     @OneToMany(mappedBy = "firma", cascade = CascadeType.ALL)
     private List<Kalendarzwzor> kalendarzWzorList;
+    @OneToMany(mappedBy = "firma", cascade = CascadeType.ALL)
+    private List<DeklaracjaPIT11Schowek> deklaracjaPIT11Schowek;
+    @OneToMany(mappedBy = "firma", cascade = CascadeType.ALL)
+    private List<DeklaracjaPIT4Schowek> deklaracjaPIT4Schowek;
     @Size(max = 128)
     @Column(name = "email")
     private String email;
@@ -345,6 +349,22 @@ public class FirmaKadry implements Serializable {
 
     public void setDefinicjalistaplacList(List<Definicjalistaplac> definicjalistaplacList) {
         this.definicjalistaplacList = definicjalistaplacList;
+    }
+    @XmlTransient
+    public List<DeklaracjaPIT11Schowek> getDeklaracjaPIT11Schowek() {
+        return deklaracjaPIT11Schowek;
+    }
+
+    public void setDeklaracjaPIT11Schowek(List<DeklaracjaPIT11Schowek> deklaracjaPIT11Schowek) {
+        this.deklaracjaPIT11Schowek = deklaracjaPIT11Schowek;
+    }
+    @XmlTransient
+    public List<DeklaracjaPIT4Schowek> getDeklaracjaPIT4Schowek() {
+        return deklaracjaPIT4Schowek;
+    }
+
+    public void setDeklaracjaPIT4Schowek(List<DeklaracjaPIT4Schowek> deklaracjaPIT4Schowek) {
+        this.deklaracjaPIT4Schowek = deklaracjaPIT4Schowek;
     }
 
 
