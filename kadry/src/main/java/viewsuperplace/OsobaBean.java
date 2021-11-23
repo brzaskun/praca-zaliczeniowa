@@ -274,8 +274,10 @@ public class OsobaBean {
         if (rodzajewynagrodzenia!=null) {
             for (Rodzajwynagrodzenia p : rodzajewynagrodzenia) {
                 if (p.getKod().equals(s.getOssWksSerial().getWksKod())) {
-                    zwrot = p;
-                    break;
+                    if (p.getOpispelny().equals(s.getOssWksSerial().getWksOpis())){
+                        zwrot = p;
+                        break;
+                    }
                 }
             }
         }
