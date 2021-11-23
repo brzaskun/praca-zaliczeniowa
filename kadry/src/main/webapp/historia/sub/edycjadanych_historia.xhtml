@@ -57,6 +57,7 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                                  style="height: 200px;overflow-y: scroll; width: 950px; " sortBy="#{osobylistdata.osoNazwisko}"
                                 
                                  >
+                        <p:ajax event="toggleSelect" partialSubmit="true" listener="#{historiaView.pobierzinfo()}" update="SuperGroupForm"/>
                         <p:ajax event="rowSelect" partialSubmit="true" listener="#{historiaView.pobierzinfo()}" update="SuperGroupForm"/>
                         <p:ajax event="rowSelectCheckbox"  partialSubmit="true" listener="#{historiaView.pobierzinfo()}" update="SuperGroupForm"/>
                         <p:ajax event="rowUnselectCheckbox" partialSubmit="true" listener="#{historiaView.pobierzinfo()}" update="SuperGroupForm"/>

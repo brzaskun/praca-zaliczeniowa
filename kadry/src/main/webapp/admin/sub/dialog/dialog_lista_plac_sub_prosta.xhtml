@@ -130,7 +130,8 @@
                             <bcf:outputpl value="#{itempasek.praczdrowotnedopotracenia}"/>
                         </p:column>
                         <p:column>
-                            <bcf:outputpl value="#{itempasek.podatekdochodowy}"/>
+                            <bcf:outputpl value="#{itempasek.podatekdochodowy}" rendered="#{!itempasek.do26lat}"/>
+                            <h:outputText value="pon. 26lat" rendered="#{itempasek.do26lat}" style="color: blue;"/>
                         </p:column>
                         <p:column>
                             <bcf:outputpl value="#{itempasek.netto}"/>
@@ -152,8 +153,11 @@
                     <p:column headerText="kod" width="40">
                         <h:outputText value="#{itempasekszcz.kod}"/>
                     </p:column>
-                    <p:column headerText="składnik" width="300">
+                    <p:column headerText="składnik" width="260">
                         <h:outputText value="#{itempasekszcz.nazwa}"/>
+                    </p:column>
+                    <p:column headerText="imp.urlop" width="60" style="text-align: center;">
+                        <h:outputText value="za urlop" rendered="#{itempasekszcz.urlopSP}"/>
                     </p:column>
                     <p:column headerText="dni" width="60">
                         <h:outputText value="#{itempasekszcz.dniobowiazku}/#{itempasekszcz.dniprzepracowane}"/>

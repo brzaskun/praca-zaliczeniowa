@@ -355,8 +355,7 @@ public class OsobaBean {
                     if (okresList.contains(r.getLplOkrSerial())&&r.getLplKodTytU12().startsWith("04")) {
                         String rok = String.valueOf(r.getLplOkrSerial().getOkrRokSerial().getRokNumer());
                         String mc = Mce.getNumberToMiesiac().get(Integer.valueOf(r.getLplOkrSerial().getOkrMieNumer()));
-                        boolean po26roku = Data.czyjestpo(datakonca26lat, rok, mc);
-                        Pasekwynagrodzen nowypasek = new Pasekwynagrodzen(r, po26roku);
+                        Pasekwynagrodzen nowypasek = new Pasekwynagrodzen(r);
                         nowypasek.setRok(rok);
                         nowypasek.setMc(mc);
                         nowypasek.setImportowany(true);
@@ -366,13 +365,13 @@ public class OsobaBean {
                     if (okresList.contains(r.getLplOkrSerial())&&!r.getLplKodTytU12().startsWith("04")) {
                         String rok = String.valueOf(r.getLplOkrSerial().getOkrRokSerial().getRokNumer());
                         String mc = Mce.getNumberToMiesiac().get(Integer.valueOf(r.getLplOkrSerial().getOkrMieNumer()));
-                        boolean po26roku = Data.czyjestpo(datakonca26lat, rok, mc);
-                        Pasekwynagrodzen nowypasek = new Pasekwynagrodzen(r, po26roku);
+                        Pasekwynagrodzen nowypasek = new Pasekwynagrodzen(r);
                         nowypasek.setRok(rok);
                         nowypasek.setMc(mc);
                         nowypasek.setImportowany(true);
                         List<PlaceSkl> placeSklList = r.getPlaceSklList();
                         historycznenaliczeniewynagrodzenia(placeSklList, nowypasek, skladnikwynagrodzenia);
+                        
                         zwrot.add(nowypasek);
                     }
                 }
@@ -388,6 +387,15 @@ public class OsobaBean {
             naliczenieskladnikawynagrodzenia.setDatado(Data.data_yyyyMMddNull(p.getSklDataDo()));
             naliczenieskladnikawynagrodzenia.setKwotadolistyplac(p.getSklKwota().doubleValue());
             naliczenieskladnikawynagrodzenia.setSkladnikwynagrodzenia(histporiapobierzskladnikwynagrodzenia(p, skladnikwynagrodzenia));
+            naliczenieskladnikawynagrodzenia.setSkl_dod_1(p.getSklDod1());
+            if (p.getSklZus().equals('T')) {
+                pasekwynagrodzen.setBruttozus(Z.z(p.getSklKwota().doubleValue()));
+            } else if (p.getSklPodDoch().equals('T')) {
+                    pasekwynagrodzen.setBruttobezzus(Z.z(p.getSklKwota().doubleValue()));
+            } else {
+                pasekwynagrodzen.setBruttobezzusbezpodatek(Z.z(p.getSklKwota().doubleValue()));
+            }
+            pasekwynagrodzen.setBrutto(pasekwynagrodzen.getBrutto()+pasekwynagrodzen.getBruttobezzus() + pasekwynagrodzen.getBruttozus() + pasekwynagrodzen.getBruttobezzusbezpodatek());
             naliczenieskladnikawynagrodzenia.setPasekwynagrodzen(pasekwynagrodzen);
             pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().add(naliczenieskladnikawynagrodzenia);
         }

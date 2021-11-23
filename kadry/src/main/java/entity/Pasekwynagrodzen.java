@@ -26,7 +26,6 @@ import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import kadryiplace.Place;
-import z.Z;
 
 /**
  *
@@ -208,7 +207,7 @@ public class Pasekwynagrodzen implements Serializable {
         this.naliczenienieobecnoscList = new ArrayList<>();
     }
 
-    public Pasekwynagrodzen(Place r, boolean po26roku) {
+    public Pasekwynagrodzen(Place r) {
 //        List<PlaceSkl> placeSklList = r.getPlaceSklList();
 //        if (placeSklList!=null && !placeSklList.isEmpty()) {
 //            for (PlaceSkl p: placeSklList) {
@@ -223,20 +222,14 @@ public class Pasekwynagrodzen implements Serializable {
 //                }
 //            }
 //        } else {
-            if (r.getLplZusEmer().equals('T')) {
-                this.bruttozus = Z.z(r.getLplPodst().doubleValue());
-            }
-            if (r.getLplPodDoch().equals('T')) {
-                if (po26roku) {
-                    this.bruttobezzus = Z.z(r.getLplNiezd().doubleValue());
-                    this.do26lat = false;
-                } else {
-                    this.bruttobezzusbezpodatek =  Z.z(r.getLplPrzychOpod().doubleValue());
-                    this.do26lat = true;
-                }
-            }
+         
 //        }
-        this.brutto = this.bruttobezzus+this.bruttozus+this.bruttobezzusbezpodatek;
+        if (r.getLplChar10()!=null&&r.getLplChar10().equals('Y')) {
+            this.do26lat = true;
+        } else {
+            this.do26lat = false;
+        }
+        this.podstawaskladkizus = r.getLplPdstChor().doubleValue();
         this.fgsp = r.getLplFgspPrac().doubleValue();
         this.fp = r.getLplFpPrac().doubleValue();
         this.kosztyuzyskania = r.getLplKoszty().doubleValue();
@@ -866,6 +859,7 @@ public class Pasekwynagrodzen implements Serializable {
                 wiersz.dniprzepracowane = p.getDnifaktyczne();
                 wiersz.godzinyobowiazku = p.getGodzinynalezne();
                 wiersz.godzinyprzepracowane = p.getGodzinyfaktyczne();
+                wiersz.setUrlopSP(p.getSkl_dod_1()!=null&&p.getSkl_dod_1().equals('T'));
                 zwrot.add(wiersz);
             }
         }
@@ -907,6 +901,7 @@ public class Pasekwynagrodzen implements Serializable {
         String dataod;
         String datado;
         String kod;
+        boolean urlopSP;
         double kwota;
         double redukcja;
         double dniobowiazku;
@@ -946,6 +941,14 @@ public class Pasekwynagrodzen implements Serializable {
 
         public void setDatado(String datado) {
             this.datado = datado;
+        }
+
+        public boolean isUrlopSP() {
+            return urlopSP;
+        }
+
+        public void setUrlopSP(boolean urlopSP) {
+            this.urlopSP = urlopSP;
         }
 
         public double getKwota() {

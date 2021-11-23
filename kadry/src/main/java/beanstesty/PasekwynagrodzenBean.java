@@ -351,7 +351,7 @@ public class PasekwynagrodzenBean {
         double bruttozusoddelegowanie = 0.0;
         double bruttozusoddelegowaniewaluta = 0.0;
         for (Naliczenieskladnikawynagrodzenia p : pasek.getNaliczenieskladnikawynagrodzeniaList()) {
-            if (p.isZus0bezzus1()==false) {
+            if (p.isZus0bezzus1()==false&&p.isPodatek0bezpodatek1()==false) {
                 if (p.getSkladnikwynagrodzenia().isOddelegowanie()) {
                     bruttozusoddelegowanie = Z.z(bruttozusoddelegowanie+p.getKwotadolistyplac());
                     bruttozusoddelegowaniewaluta = Z.z(bruttozusoddelegowaniewaluta+p.getKwotadolistyplacwaluta());
@@ -376,7 +376,7 @@ public class PasekwynagrodzenBean {
     private static void obliczbruttobezzus(Pasekwynagrodzen pasek) {
         double bruttobezzus = 0.0;
         for (Naliczenieskladnikawynagrodzenia p : pasek.getNaliczenieskladnikawynagrodzeniaList()) {
-            if (p.isZus0bezzus1()==true) {
+            if (p.isZus0bezzus1()==true&&p.isPodatek0bezpodatek1()==false) {
                 bruttobezzus = Z.z(bruttobezzus+p.getKwotadolistyplac());
             }
         }
@@ -390,7 +390,7 @@ public class PasekwynagrodzenBean {
     private static void obliczbruttobezzusbezpodatek(Pasekwynagrodzen pasek) {
         double bruttobezzusbezpodatek = 0.0;
         for (Naliczenieskladnikawynagrodzenia p : pasek.getNaliczenieskladnikawynagrodzeniaList()) {
-            if (p.isPodatek0bezpodatek1()==true) {
+            if (p.isPodatek0bezpodatek1()==true&&p.isPodatek0bezpodatek1()==true) {
                 bruttobezzusbezpodatek = Z.z(bruttobezzusbezpodatek+p.getKwotadolistyplac());
             }
         }
@@ -620,7 +620,7 @@ public class PasekwynagrodzenBean {
     }
 
     private static void netto(Pasekwynagrodzen pasek) {
-        double wyliczenie = Z.z(pasek.getBrutto()-pasek.getRazemspolecznepracownik()+pasek.getBruttobezzusbezpodatek()-pasek.getPraczdrowotne()-pasek.getPodatekdochodowy());
+        double wyliczenie = Z.z(pasek.getBrutto()-pasek.getRazemspolecznepracownik()-pasek.getPraczdrowotne()-pasek.getPodatekdochodowy());
         pasek.setNettoprzedpotraceniami(wyliczenie <0.0?0.0:wyliczenie);
     }
     

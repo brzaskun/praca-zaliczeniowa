@@ -64,7 +64,7 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                     <p:dataTable id="datalistr" value="#{rodzjawynagrodzeniaSetView.lista}" var="item11"
                                  selectionMode="single" selection="#{rodzjawynagrodzeniaSetView.selectedlista}"
                                  rowKey="#{item11.id}" emptyMessage="Nie znaleziono takiego składnika"
-                                 style="width: 1100px;" >
+                                 style="width: 1200px;" >
 
                         <p:column width="40" style="text-align: center;">
                             <f:facet name="header">
@@ -107,6 +107,12 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                                 <h:outputText value="stale0 zmienne1"/>
                             </f:facet>
                             <p:selectBooleanCheckbox value="#{item11.stale0zmienne1}"/>
+                        </p:column>
+                         <p:column style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="podatek0 bezpodatek1"/>
+                            </f:facet>
+                            <p:selectBooleanCheckbox value="#{item11.podatek0bezpodatek1}"/>
                         </p:column>
                         <p:column style="text-align: center;">
                             <f:facet name="header">
