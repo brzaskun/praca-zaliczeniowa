@@ -81,6 +81,8 @@ public class Naliczenieskladnikawynagrodzenia implements Serializable {
     //kontrola czy nie wynagrodzenie za urlop
     @Column(name = "skl_dod_1")
     private Character skl_dod_1;
+    @Column(name = "skl_rodzaj")
+    private Character skl_rodzaj;
    
 
     public Naliczenieskladnikawynagrodzenia() {
@@ -119,6 +121,14 @@ public class Naliczenieskladnikawynagrodzenia implements Serializable {
 
     public void setSkl_dod_1(Character skl_dod_1) {
         this.skl_dod_1 = skl_dod_1;
+    }
+
+    public Character getSkl_rodzaj() {
+        return skl_rodzaj;
+    }
+
+    public void setSkl_rodzaj(Character skl_rodzaj) {
+        this.skl_rodzaj = skl_rodzaj;
     }
 
   

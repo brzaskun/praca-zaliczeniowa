@@ -5,7 +5,7 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     >
-    <p:dialog id="dialgoczaspracyurlop" header="Rozliczenie urlopu" widgetVar="dialgoczaspracyurlop"  
+    <p:dialog id="dialgoczaspracyurlop" header="Zestawienie urlopu i nieobecności" widgetVar="dialgoczaspracyurlop"  
               resizable="false"  onShow="ustawdialog('dialgoczaspracyurlop','centertile',1650,800);" closeOnEscape="true" onHide="resetujdialog('dialgoczaspracyurlop');" 
               fitViewport="true">
         <p:ajax event="open" listener="#{pracownikNieobecnoscView.init()}" update="akordeon:PracownikUrlopForm akordeon:PracownikChorobaForm" global="false"/>

@@ -860,6 +860,7 @@ public class Pasekwynagrodzen implements Serializable {
                 wiersz.godzinyobowiazku = p.getGodzinynalezne();
                 wiersz.godzinyprzepracowane = p.getGodzinyfaktyczne();
                 wiersz.setUrlopSP(p.getSkl_dod_1()!=null&&p.getSkl_dod_1().equals('T'));
+                wiersz.setRedukcjaSP(p.getSkl_rodzaj()!=null&&p.getSkl_rodzaj().equals('U'));
                 zwrot.add(wiersz);
             }
         }
@@ -868,7 +869,11 @@ public class Pasekwynagrodzen implements Serializable {
                 Skladnikwynlista wiersz = new Skladnikwynlista();
                 wiersz.lp = i++;
                 wiersz.kod = p.getNieobecnosc().getSwiadczeniekodzus().getKod();
-                wiersz.nazwa = p.getNieobecnosc().getSwiadczeniekodzus().getOpisskrocony()+"/"+p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getOpisskrocony();
+                if (p.getSkladnikwynagrodzenia()!=null) {
+                    wiersz.nazwa = p.getNieobecnosc().getSwiadczeniekodzus().getOpisskrocony()+"/"+p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getOpisskrocony();
+                } else {
+                    wiersz.nazwa = p.getNieobecnosc().getSwiadczeniekodzus().getOpisskrocony();
+                }
                 wiersz.kwota = p.getKwota();
                 wiersz.redukcja = p.getKwotaredukcji()+p.getKwotastatystyczna();
                 wiersz.dataod = p.getNieobecnosc().getDataod();
@@ -902,6 +907,7 @@ public class Pasekwynagrodzen implements Serializable {
         String datado;
         String kod;
         boolean urlopSP;
+        boolean redukcjaSP;
         double kwota;
         double redukcja;
         double dniobowiazku;
@@ -949,6 +955,14 @@ public class Pasekwynagrodzen implements Serializable {
 
         public void setUrlopSP(boolean urlopSP) {
             this.urlopSP = urlopSP;
+        }
+
+        public boolean isRedukcjaSP() {
+            return redukcjaSP;
+        }
+
+        public void setRedukcjaSP(boolean redukcjaSP) {
+            this.redukcjaSP = redukcjaSP;
         }
 
         public double getKwota() {

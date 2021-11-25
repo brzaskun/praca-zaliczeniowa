@@ -27,7 +27,7 @@
                             <h:outputText value="#{itempasek.wiekpasek}" style="color: green;"/>
                         </p:column>
                         <p:column>
-                            <h:outputText value="brutto zus kraj"/>
+                            <h:outputText value="brutto z zus"/>
                         </p:column>
                         <p:column>
                             <h:outputText value="brutto bez zus"/>
@@ -69,7 +69,7 @@
                             <h:outputText value="nierezydent" rendered="#{itempasek.nierezydent}" style="color: green;"/>
                         </p:column>
                         <p:column>
-                            <bcf:outputpl value="#{itempasek.bruttozuskraj}" />
+                            <bcf:outputpl value="#{itempasek.bruttozus}" />
                         </p:column>
                         <p:column>
                             <bcf:outputpl value="#{itempasek.bruttobezzus}"/>
@@ -212,6 +212,7 @@
                     </p:column>
                      <p:column headerText="imp.urlop" width="60" style="text-align: center;">
                         <h:outputText value="za urlop" rendered="#{itempasekszcz.urlopSP}"/>
+                        <h:outputText value="redukcja" rendered="#{itempasekszcz.redukcjaSP}"/>
                     </p:column>
                     <p:column headerText="dni" width="60">
                         <h:outputText value="#{itempasekszcz.dniobowiazku}/#{itempasekszcz.dniprzepracowane}"/>

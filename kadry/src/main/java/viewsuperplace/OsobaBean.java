@@ -10,6 +10,7 @@ import comparator.Umowacomparator;
 import comparator.ZatrudHistComparator;
 import dao.KalendarzmiesiacFacade;
 import dao.KalendarzwzorFacade;
+import dao.NieobecnoscFacade;
 import dao.SkladnikWynagrodzeniaFacade;
 import dao.ZmiennaWynagrodzeniaFacade;
 import data.Data;
@@ -26,11 +27,13 @@ import entity.Nieobecnosc;
 import entity.Pasekwynagrodzen;
 import entity.Pracownik;
 import entity.Rachunekdoumowyzlecenia;
+import entity.Rodzajnieobecnosci;
 import entity.Rodzajwynagrodzenia;
 import entity.Skladnikwynagrodzenia;
 import entity.Slownikszkolazatrhistoria;
 import entity.Slownikwypowiedzenieumowy;
 import entity.Stanowiskoprac;
+import entity.Swiadczeniekodzus;
 import entity.Umowa;
 import entity.Umowakodzus;
 import entity.Zmiennawynagrodzenia;
@@ -346,7 +349,8 @@ public class OsobaBean {
         }
     }
 
-    static List<Pasekwynagrodzen> zrobpaskiimportUmowaopraceizlecenia(WpisView wpisView, Osoba osoba, List<Okres> okresList, boolean umowaoprace0zlecenia1, String datakonca26lat,List<Skladnikwynagrodzenia> skladnikwynagrodzenia) {
+    static List<Pasekwynagrodzen> zrobpaskiimportUmowaopraceizlecenia(WpisView wpisView, Osoba osoba, List<Okres> okresList, boolean umowaoprace0zlecenia1, String datakonca26lat,
+        List<Skladnikwynagrodzenia> skladnikwynagrodzenia, List<Rodzajnieobecnosci> rodzajnieobecnoscilist, NieobecnoscFacade nieobecnoscFacade, Umowa umowa, List<Swiadczeniekodzus> swiadczeniekodzuslist) {
         List<Pasekwynagrodzen> zwrot = new ArrayList<>();
         List<Place> placeList = osoba.getPlaceList();
         for (Place r : placeList) {
@@ -372,6 +376,8 @@ public class OsobaBean {
                         List<PlaceSkl> placeSklList = r.getPlaceSklList();
                         historycznenaliczeniewynagrodzenia(placeSklList, nowypasek, skladnikwynagrodzenia);
                         List<PlacePrz>  placePrzList = r.getPlacePrzList();
+                        historycznenaliczenienieobecnosc(placePrzList, nowypasek, rodzajnieobecnoscilist, nieobecnoscFacade, umowa, swiadczeniekodzuslist);
+                        nowypasek.setBrutto(nowypasek.getBrutto()+nowypasek.getBruttobezzus() + nowypasek.getBruttozus() + nowypasek.getBruttobezzusbezpodatek());
                         zwrot.add(nowypasek);
                     }
                 }
@@ -382,73 +388,96 @@ public class OsobaBean {
     Naliczenienieobecnosc naliczenienieobecnosc = new Naliczenienieobecnosc();
     static void historycznenaliczeniewynagrodzenia(List<PlaceSkl> placeSklList, Pasekwynagrodzen pasekwynagrodzen, List<Skladnikwynagrodzenia> skladnikwynagrodzenia) {
         for (PlaceSkl p : placeSklList) {
-            Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = new Naliczenieskladnikawynagrodzenia();
-            naliczenieskladnikawynagrodzenia.setDataod(Data.data_yyyyMMddNull(p.getSklDataOd()));
-            naliczenieskladnikawynagrodzenia.setDatado(Data.data_yyyyMMddNull(p.getSklDataDo()));
-            naliczenieskladnikawynagrodzenia.setKwotadolistyplac(p.getSklKwota().doubleValue());
-            naliczenieskladnikawynagrodzenia.setSkladnikwynagrodzenia(histporiapobierzskladnikwynagrodzenia(p, skladnikwynagrodzenia));
-            naliczenieskladnikawynagrodzenia.setSkl_dod_1(p.getSklDod1());
             if (!p.getSklRodzaj().equals('U')) {//U to sa redukcje wynagrodzenia
+                Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = new Naliczenieskladnikawynagrodzenia();
+                naliczenieskladnikawynagrodzenia.setDataod(Data.data_yyyyMMddNull(p.getSklDataOd()));
+                naliczenieskladnikawynagrodzenia.setDatado(Data.data_yyyyMMddNull(p.getSklDataDo()));
+                naliczenieskladnikawynagrodzenia.setKwotadolistyplac(p.getSklKwota().doubleValue());
+                naliczenieskladnikawynagrodzenia.setSkladnikwynagrodzenia(histporiapobierzskladnikwynagrodzenia(p, skladnikwynagrodzenia));
+                naliczenieskladnikawynagrodzenia.setSkl_dod_1(p.getSklDod1());
                 if (p.getSklZus().equals('T')) {
-                    pasekwynagrodzen.setBruttozus(Z.z(p.getSklKwota().doubleValue()));
+                    pasekwynagrodzen.setBruttozus(Z.z(pasekwynagrodzen.getBruttozus()+p.getSklKwota().doubleValue()));
                 } else if (p.getSklPodDoch().equals('T')) {
-                        pasekwynagrodzen.setBruttobezzus(Z.z(p.getSklKwota().doubleValue()));
+                        pasekwynagrodzen.setBruttobezzus(Z.z(pasekwynagrodzen.getBruttobezzus()+p.getSklKwota().doubleValue()));
                 } else {
-                    pasekwynagrodzen.setBruttobezzusbezpodatek(Z.z(p.getSklKwota().doubleValue()));
+                    pasekwynagrodzen.setBruttobezzusbezpodatek(Z.z(pasekwynagrodzen.getBruttobezzusbezpodatek()+p.getSklKwota().doubleValue()));
                 }
+                naliczenieskladnikawynagrodzenia.setPasekwynagrodzen(pasekwynagrodzen);
+                pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().add(naliczenieskladnikawynagrodzenia);
+            } else {
+                Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = new Naliczenieskladnikawynagrodzenia();
+                naliczenieskladnikawynagrodzenia.setDataod(Data.data_yyyyMMddNull(p.getSklDataOd()));
+                naliczenieskladnikawynagrodzenia.setDatado(Data.data_yyyyMMddNull(p.getSklDataDo()));
+                naliczenieskladnikawynagrodzenia.setKwotyredukujacesuma(p.getSklKwota().doubleValue());
+                naliczenieskladnikawynagrodzenia.setSkladnikwynagrodzenia(histporiapobierzskladnikwynagrodzenia(p, skladnikwynagrodzenia));
+                naliczenieskladnikawynagrodzenia.setSkl_rodzaj(p.getSklRodzaj());
+                naliczenieskladnikawynagrodzenia.setPasekwynagrodzen(pasekwynagrodzen);
+                pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().add(naliczenieskladnikawynagrodzenia);
             }
-            pasekwynagrodzen.setBrutto(pasekwynagrodzen.getBrutto()+pasekwynagrodzen.getBruttobezzus() + pasekwynagrodzen.getBruttozus() + pasekwynagrodzen.getBruttobezzusbezpodatek());
-            naliczenieskladnikawynagrodzenia.setPasekwynagrodzen(pasekwynagrodzen);
-            pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().add(naliczenieskladnikawynagrodzenia);
         }
     }
     
-//    static void historycznenaliczeniechoroba(List<PlacePrz> placePrzList, Pasekwynagrodzen pasekwynagrodzen, List<Skladnikwynagrodzenia> skladnikwynagrodzenia) {
-//        for (PlaceSkl p : placeSklList) {
-//            Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = new Naliczenieskladnikawynagrodzenia();
-//            naliczenieskladnikawynagrodzenia.setDataod(Data.data_yyyyMMddNull(p.getSklDataOd()));
-//            naliczenieskladnikawynagrodzenia.setDatado(Data.data_yyyyMMddNull(p.getSklDataDo()));
-//            naliczenieskladnikawynagrodzenia.setKwotadolistyplac(p.getSklKwota().doubleValue());
-//            naliczenieskladnikawynagrodzenia.setSkladnikwynagrodzenia(histporiapobierzskladnikwynagrodzenia(p, skladnikwynagrodzenia));
-//            naliczenieskladnikawynagrodzenia.setSkl_dod_1(p.getSklDod1());
-//            if (!p.getSklRodzaj().equals('U')) {//U to sa redukcje wynagrodzenia
-//                if (p.getSklZus().equals('T')) {
-//                    pasekwynagrodzen.setBruttozus(Z.z(p.getSklKwota().doubleValue()));
-//                } else if (p.getSklPodDoch().equals('T')) {
-//                        pasekwynagrodzen.setBruttobezzus(Z.z(p.getSklKwota().doubleValue()));
-//                } else {
-//                    pasekwynagrodzen.setBruttobezzusbezpodatek(Z.z(p.getSklKwota().doubleValue()));
-//                }
-//            }
-//            pasekwynagrodzen.setBrutto(pasekwynagrodzen.getBrutto()+pasekwynagrodzen.getBruttobezzus() + pasekwynagrodzen.getBruttozus() + pasekwynagrodzen.getBruttobezzusbezpodatek());
-//            naliczenieskladnikawynagrodzenia.setPasekwynagrodzen(pasekwynagrodzen);
-//            pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().add(naliczenieskladnikawynagrodzenia);
-//            
-//            Naliczenienieobecnosc naliczenienieobecnosc = new Naliczenienieobecnosc();
-//                naliczenienieobecnosc.setLiczbadniobowiazku(30);
-//                naliczenienieobecnosc.setLiczbadniurlopu(dniroboczenieobecnosc);
-//                naliczenienieobecnosc.setLiczbagodzinobowiazku(liczbagodzinobowiazku);
-//                naliczenienieobecnosc.setLiczbagodzinurlopu(liczbagodzinchoroby);
-//                Skladnikwynagrodzenia skladnikwynagrodzenia = naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia();
-//                naliczenienieobecnosc.setSkladnikwynagrodzenia(skladnikwynagrodzenia);
-//                naliczenienieobecnosc.setNieobecnosc(nieobecnosc);
-//                naliczenienieobecnosc.setJakiskladnikredukowalny(naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getUwagi());
-//                naliczenienieobecnosc.setPodstawadochoroby(sredniadopodstawy);
-//                naliczenienieobecnosc.setSkladnikistale(skladnikistalenetto);
-//                naliczenienieobecnosc.setProcentzazwolnienie(procentzazwolnienie);
-//                naliczenienieobecnosc.setStawkadzienna(stawkadzienna);
-//                naliczenienieobecnosc.setKwota(dowyplatyzaczasnieobecnosci);
-//                naliczenienieobecnosc.setKwotabezzus(dowyplatyzaczasnieobecnosci);
-//                naliczenienieobecnosc.setStawkadziennaredukcji(stawkadziennaredukcji);
-//                naliczenienieobecnosc.setPasekwynagrodzen(pasekwynagrodzen);
-//                pasekwynagrodzen.getNaliczenienieobecnoscList().add(naliczenienieobecnosc);
-//        }
-//    }
+    static void historycznenaliczenienieobecnosc(List<PlacePrz> placePrzList, Pasekwynagrodzen pasekwynagrodzen, List<Rodzajnieobecnosci> rodzajnieobecnoscilist, NieobecnoscFacade nieobecnoscFacade, Umowa umowa, List<Swiadczeniekodzus> swiadczeniekodzuslist) {
+        for (PlacePrz p : placePrzList) {
+            Nieobecnosc nieobecnosc = new Nieobecnosc();
+            nieobecnosc.setDataod(Data.data_yyyyMMddNull(p.getPrzDataOd()));
+            nieobecnosc.setDatado(Data.data_yyyyMMddNull(p.getPrzDataDo()));
+            nieobecnosc.setUmowa(umowa);
+            nieobecnosc.setRokod(pasekwynagrodzen.getRok());
+            nieobecnosc.setRokdo(pasekwynagrodzen.getRok());
+            nieobecnosc.setMcod(pasekwynagrodzen.getMc());
+            nieobecnosc.setMcdo(pasekwynagrodzen.getMc());
+            nieobecnosc.setRodzajnieobecnosci(histporiapobierzrodzajnieobescnosci(p, rodzajnieobecnoscilist));
+            if (p.getPrzWkpSerial()!=null) {
+                nieobecnosc.setSwiadczeniekodzus(histporiapobierzswiadczeniekodzus(p, swiadczeniekodzuslist));
+            }
+            nieobecnoscFacade.create(nieobecnosc);
+            Naliczenienieobecnosc naliczenienieobecnosc = new Naliczenienieobecnosc();
+            naliczenienieobecnosc.setNieobecnosc(nieobecnosc);
+            naliczenienieobecnosc.setLiczbadniobowiazku(30);
+            naliczenienieobecnosc.setLiczbadniurlopu(p.getPrzLiczba());
+            naliczenienieobecnosc.setPodstawadochoroby(p.getPrzPodstawa().doubleValue());
+            naliczenienieobecnosc.setStawkadzienna(p.getPrzKwota1().doubleValue());
+            naliczenienieobecnosc.setKwota(p.getPrzKwota().doubleValue());
+            naliczenienieobecnosc.setKwotabezzus(p.getPrzKwota().doubleValue());
+            naliczenienieobecnosc.setPasekwynagrodzen(pasekwynagrodzen);
+            pasekwynagrodzen.setBruttobezzus(Z.z(pasekwynagrodzen.getBruttobezzus()+p.getPrzKwota().doubleValue()));
+            pasekwynagrodzen.getNaliczenienieobecnoscList().add(naliczenienieobecnosc);
+        }
+    }
+    
+    
      private static Skladnikwynagrodzenia histporiapobierzskladnikwynagrodzenia(PlaceSkl s, List<Skladnikwynagrodzenia> skladnikwynagrodzenia) {
         Skladnikwynagrodzenia zwrot = null;
         if (skladnikwynagrodzenia!=null) {
             for (Skladnikwynagrodzenia p : skladnikwynagrodzenia) {
                 if (p.getRodzajwynagrodzenia().getWks_serial().equals(s.getSklWksSerial().getWksSerial())) {
+                    zwrot = p;
+                    break;
+                }
+            }
+        }
+        return zwrot;
+    }
+     
+     private static Rodzajnieobecnosci histporiapobierzrodzajnieobescnosci(PlacePrz s, List<Rodzajnieobecnosci> rodzajnieobecnoscilist) {
+        Rodzajnieobecnosci zwrot = null;
+        if (rodzajnieobecnoscilist!=null) {
+            for (Rodzajnieobecnosci p : rodzajnieobecnoscilist) {
+                if (p.getAbsSerial().equals(s.getPrzWkpSerial().getWkpAbsSerial())) {
+                    zwrot = p;
+                    break;
+                }
+            }
+        }
+        return zwrot;
+    }
+     
+      private static Swiadczeniekodzus histporiapobierzswiadczeniekodzus(PlacePrz s, List<Swiadczeniekodzus> swiadczeniekodzuslist) {
+        Swiadczeniekodzus zwrot = null;
+        if (swiadczeniekodzuslist!=null) {
+            for (Swiadczeniekodzus p : swiadczeniekodzuslist) {
+                if (p.getWkp_serial().equals(s.getPrzWkpSerial().getWkpSerial())) {
                     zwrot = p;
                     break;
                 }
