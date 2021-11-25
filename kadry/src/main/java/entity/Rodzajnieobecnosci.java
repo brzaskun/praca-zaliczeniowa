@@ -59,6 +59,8 @@ public class Rodzajnieobecnosci implements Serializable {
     @Column(name = "redukcjawyn")
     private Character redukcjawyn;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "rodzajnieobecnosci")
+    private List<Swiadczeniekodzus> swiadczeniekodzusList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "rodzajnieobecnosci")
     private List<Nieobecnosc> nieobecnoscList;
 
     public Rodzajnieobecnosci() {
@@ -115,6 +117,15 @@ public class Rodzajnieobecnosci implements Serializable {
 
    
     @XmlTransient
+    public List<Swiadczeniekodzus> getSwiadczeniekodzusList() {
+        return swiadczeniekodzusList;
+    }
+
+    public void setSwiadczeniekodzusList(List<Swiadczeniekodzus> nieobecnoscList) {
+        this.swiadczeniekodzusList = nieobecnoscList;
+    }
+
+    @XmlTransient
     public List<Nieobecnosc> getNieobecnoscList() {
         return nieobecnoscList;
     }
@@ -123,6 +134,8 @@ public class Rodzajnieobecnosci implements Serializable {
         this.nieobecnoscList = nieobecnoscList;
     }
 
+    
+    
     @Override
     public int hashCode() {
         int hash = 0;

@@ -63,12 +63,12 @@ public class Nieobecnosc implements Serializable {
     private String kodzwolnienia;
     @Column(name = "naniesiona")
     private boolean naniesiona;
-    @JoinColumn(name = "swiadczeniekodzus", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private Swiadczeniekodzus swiadczeniekodzus;
     @JoinColumn(name = "rodzajnieobecnosci", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Rodzajnieobecnosci rodzajnieobecnosci;
+    @JoinColumn(name = "swiadczeniekodzus", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Swiadczeniekodzus swiadczeniekodzus;
     @JoinColumn(name = "umowa", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Umowa umowa;
@@ -219,6 +219,13 @@ public class Nieobecnosc implements Serializable {
         this.dzienList = dzienList;
     }
 
+    public Rodzajnieobecnosci getRodzajnieobecnosci() {
+        return rodzajnieobecnosci;
+    }
+
+    public void setRodzajnieobecnosci(Rodzajnieobecnosci rodzajnieobecnosci) {
+        this.rodzajnieobecnosci = rodzajnieobecnosci;
+    }
     public String getKrajoddelegowania() {
         return krajoddelegowania;
     }
@@ -264,14 +271,6 @@ public class Nieobecnosc implements Serializable {
 
     public void setSwiadczeniekodzus(Swiadczeniekodzus swiadczeniekodzus) {
         this.swiadczeniekodzus = swiadczeniekodzus;
-    }
-
-    public Rodzajnieobecnosci getRodzajnieobecnosci() {
-        return rodzajnieobecnosci;
-    }
-
-    public void setRodzajnieobecnosci(Rodzajnieobecnosci rodzajnieobecnosci) {
-        this.rodzajnieobecnosci = rodzajnieobecnosci;
     }
 
     public String getDataod() {

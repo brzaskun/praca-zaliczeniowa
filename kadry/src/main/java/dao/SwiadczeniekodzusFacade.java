@@ -5,7 +5,9 @@
  */
 package dao;
 
+import entity.Rodzajnieobecnosci;
 import entity.Swiadczeniekodzus;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
@@ -45,6 +47,14 @@ public class SwiadczeniekodzusFacade extends DAO  {
    
     public Swiadczeniekodzus findByKod(String string) {
         return (Swiadczeniekodzus) getEntityManager().createNamedQuery("Swiadczeniekodzus.findByKod").setParameter("kod", string).getSingleResult();
+    }
+    
+    public List<Swiadczeniekodzus> findByRodzajnieobecnosci(Rodzajnieobecnosci rodzajnieobecnosci) {
+        List<Swiadczeniekodzus> zwrot = new ArrayList<>();
+        try {
+            zwrot = getEntityManager().createNamedQuery("Swiadczeniekodzus.findByRodzajnieobecnosci").setParameter("rodzajnieobecnosci", rodzajnieobecnosci).getResultList();
+        } catch (Exception e) {}
+        return zwrot;
     }
     
     public Swiadczeniekodzus findByOpis(String opis) {

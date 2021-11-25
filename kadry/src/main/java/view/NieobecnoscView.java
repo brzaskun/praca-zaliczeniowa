@@ -18,6 +18,7 @@ import entity.Dzien;
 import entity.Kalendarzmiesiac;
 import entity.Nieobecnosc;
 import entity.Rodzajnieobecnosci;
+import entity.Swiadczeniekodzus;
 import entity.Umowa;
 import generated.RaportEzla;
 import java.io.InputStream;
@@ -61,8 +62,11 @@ public class NieobecnoscView  implements Serializable {
     private List<Nieobecnosc> lista;
     private List<Rodzajnieobecnosci> listaabsencji;
     private List<Umowa> listaumowa;
+    private List<Swiadczeniekodzus> swiadczeniekodzusLista;
     @Inject
     private NieobecnoscFacade nieobecnoscFacade;
+    @Inject
+    private SwiadczeniekodzusFacade swiadczeniekodzusFacade;
     @Inject
     private RodzajnieobecnosciFacade rodzajnieobecnosciFacade;
     @Inject
@@ -134,8 +138,15 @@ public class NieobecnoscView  implements Serializable {
         }
     }
     
-    public void procentynieobecnosc() {
-        if (selected.getSwiadczeniekodzus()!=null) {
+    public void naniesrodzajnieobecnosci() {
+        if (selected.getRodzajnieobecnosci()!=null) {
+            swiadczeniekodzusLista = swiadczeniekodzusFacade.findByRodzajnieobecnosci(selected.getRodzajnieobecnosci());
+            Msg.msg("Pobrano świadczenia");
+        }
+    }
+    
+    public void naniesprocent() {
+         if (selected.getSwiadczeniekodzus()!=null) {
             if (selected.getSwiadczeniekodzus().getKod().equals("331")) {
                 selected.setZwolnienieprocent(80.0);
             }
@@ -288,9 +299,8 @@ public class NieobecnoscView  implements Serializable {
             Msg.msg("e","Nie można usunąc nieobecnosci");
         }
     }
-    
-   
-    
+
+      
     public Nieobecnosc getSelected() {
         return selected;
     }
@@ -321,6 +331,14 @@ public class NieobecnoscView  implements Serializable {
 
     public void setListaumowa(List<Umowa> listaumowa) {
         this.listaumowa = listaumowa;
+    }
+
+    public List<Swiadczeniekodzus> getSwiadczeniekodzusLista() {
+        return swiadczeniekodzusLista;
+    }
+
+    public void setSwiadczeniekodzusLista(List<Swiadczeniekodzus> swiadczeniekodzusLista) {
+        this.swiadczeniekodzusLista = swiadczeniekodzusLista;
     }
 
     public List<Rodzajnieobecnosci> getListaabsencji() {

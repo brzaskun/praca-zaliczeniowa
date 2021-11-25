@@ -14,6 +14,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -36,6 +38,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Swiadczeniekodzus.findByKod", query = "SELECT n FROM Swiadczeniekodzus n WHERE n.kod = :kod"),
     @NamedQuery(name = "Swiadczeniekodzus.findByOpis", query = "SELECT n FROM Swiadczeniekodzus n WHERE n.opis = :opis"),
     @NamedQuery(name = "Swiadczeniekodzus.findByAktywne", query = "SELECT n FROM Swiadczeniekodzus n WHERE n.aktywne = TRUE"),
+    @NamedQuery(name = "Swiadczeniekodzus.findByRodzajnieobecnosci", query = "SELECT n FROM Swiadczeniekodzus n WHERE n.rodzajnieobecnosci = :rodzajnieobecnosci"),
     @NamedQuery(name = "Swiadczeniekodzus.findByOpisskrocony", query = "SELECT n FROM Swiadczeniekodzus n WHERE n.opisskrocony = :opisskrocony"),
     @NamedQuery(name = "Swiadczeniekodzus.findByPodatek", query = "SELECT n FROM Swiadczeniekodzus n WHERE n.podatek = :podatek"),
     @NamedQuery(name = "Swiadczeniekodzus.findBySpoleczne", query = "SELECT n FROM Swiadczeniekodzus n WHERE n.spoleczne = :spoleczne"),
@@ -47,6 +50,13 @@ public class Swiadczeniekodzus implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
+    @Column(name = "wkp_serial")
+    private Integer wkp_serial;
+    @Column(name = "wkp_abs_serial")
+    private Integer wkp_abs_serial;
+    @JoinColumn(name = "rodzajnieobecnosci", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Rodzajnieobecnosci rodzajnieobecnosci;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 3)
@@ -66,10 +76,10 @@ public class Swiadczeniekodzus implements Serializable {
     private boolean podatek;
     @Column(name = "spoleczne")
     private boolean spoleczne;
-    @Column(name = "swiadczeniezus")
-    private boolean swiadczeniezus;
-    @Column(name = "urlop")
-    private boolean urlop;
+    @Column(name = "zrodlofinansowania")
+    private Character zrodlofinansowania;
+    @Column(name = "przerwa")
+    private boolean przerwa;
     @Column(name = "aktywne")
     private  boolean aktywne;
     @Column(name = "zdrowotne")
@@ -96,6 +106,14 @@ public class Swiadczeniekodzus implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getWkp_serial() {
+        return wkp_serial;
+    }
+
+    public void setWkp_serial(Integer wkp_serial) {
+        this.wkp_serial = wkp_serial;
     }
 
 
@@ -181,21 +199,38 @@ public class Swiadczeniekodzus implements Serializable {
         this.spoleczne = spoleczne;
     }
 
-    public boolean getSwiadczeniezus() {
-        return swiadczeniezus;
+    public Integer getWkp_abs_serial() {
+        return wkp_abs_serial;
     }
 
-    public void setSwiadczeniezus(boolean swiadczeniezus) {
-        this.swiadczeniezus = swiadczeniezus;
+    public void setWkp_abs_serial(Integer wkp_abs_serial) {
+        this.wkp_abs_serial = wkp_abs_serial;
     }
 
-    public boolean getUrlop() {
-        return urlop;
+    public Rodzajnieobecnosci getRodzajnieobecnosci() {
+        return rodzajnieobecnosci;
     }
 
-    public void setUrlop(boolean urlop) {
-        this.urlop = urlop;
+    public void setRodzajnieobecnosci(Rodzajnieobecnosci rodzajnieobecnosci) {
+        this.rodzajnieobecnosci = rodzajnieobecnosci;
     }
+
+    public Character getZrodlofinansowania() {
+        return zrodlofinansowania;
+    }
+
+    public void setZrodlofinansowania(Character zrodlofinansowania) {
+        this.zrodlofinansowania = zrodlofinansowania;
+    }
+
+    public boolean isPrzerwa() {
+        return przerwa;
+    }
+
+    public void setPrzerwa(boolean przerwa) {
+        this.przerwa = przerwa;
+    }
+
 
     public boolean isAktywne() {
         return aktywne;

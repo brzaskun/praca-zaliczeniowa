@@ -5,8 +5,8 @@
  */
 package converter;
 
-import dao.RodzajnieobecnosciFacade;
-import entity.Rodzajnieobecnosci;
+import dao.SwiadczeniekodzusFacade;
+import entity.Swiadczeniekodzus;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -22,22 +22,22 @@ import javax.inject.Named;
  */
 @Named
 @SessionScoped
-public class RodzajnieobecnosciConverter implements javax.faces.convert.Converter, Serializable{
+public class SwiadczeniekodzusConverter implements javax.faces.convert.Converter, Serializable{
     
-    private List<Rodzajnieobecnosci> lista;
+    private List<Swiadczeniekodzus> lista;
     @Inject
-    private RodzajnieobecnosciFacade rodzajnieobecnosciFacade;
+    private SwiadczeniekodzusFacade swiadczeniekodzusFacade;
     
     @PostConstruct
     private void init() {
-        lista = rodzajnieobecnosciFacade.findAll();
+        lista = swiadczeniekodzusFacade.findAll();
     }
     
     @Override
     public Object getAsObject(FacesContext facesContext, UIComponent component, String sub) {
         try {
             int submittedValue = Integer.parseInt(sub);
-            for (Rodzajnieobecnosci p : lista) {
+            for (Swiadczeniekodzus p : lista) {
                 if (p.getId()==submittedValue) {
                     return p;
                 }
@@ -53,7 +53,7 @@ public class RodzajnieobecnosciConverter implements javax.faces.convert.Converte
         if (value == null || value.equals("")) {
             return "";
         } else {
-            return String.valueOf(((Rodzajnieobecnosci) value).getId());
+            return String.valueOf(((Swiadczeniekodzus) value).getId());
         }
     }
 }
