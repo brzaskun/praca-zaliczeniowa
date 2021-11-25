@@ -5,7 +5,7 @@
  */
 package dao;
 
-import entity.Nieobecnosckodzus;
+import entity.Swiadczeniekodzus;
 import java.util.List;
 import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
@@ -19,7 +19,7 @@ import javax.transaction.Transactional;
  */
 @Stateless
 @Transactional
-public class NieobecnosckodzusFacade extends DAO  {
+public class SwiadczeniekodzusFacade extends DAO  {
 
     @PersistenceContext(unitName = "kadryPU")
     private EntityManager em;
@@ -37,21 +37,21 @@ public class NieobecnosckodzusFacade extends DAO  {
         return em;
     }
 
-    public NieobecnosckodzusFacade() {
-        super(Nieobecnosckodzus.class);
+    public SwiadczeniekodzusFacade() {
+        super(Swiadczeniekodzus.class);
         super.em = em;
     }
     
    
-    public Nieobecnosckodzus findByKod(String string) {
-        return (Nieobecnosckodzus) getEntityManager().createNamedQuery("Nieobecnosckodzus.findByKod").setParameter("kod", string).getSingleResult();
+    public Swiadczeniekodzus findByKod(String string) {
+        return (Swiadczeniekodzus) getEntityManager().createNamedQuery("Swiadczeniekodzus.findByKod").setParameter("kod", string).getSingleResult();
     }
     
-    public Nieobecnosckodzus findByOpis(String opis) {
-        return (Nieobecnosckodzus) getEntityManager().createNamedQuery("Nieobecnosckodzus.findByOpis").setParameter("opis", opis).getSingleResult();
+    public Swiadczeniekodzus findByOpis(String opis) {
+        return (Swiadczeniekodzus) getEntityManager().createNamedQuery("Swiadczeniekodzus.findByOpis").setParameter("opis", opis).getSingleResult();
     }
 
-    public List<Nieobecnosckodzus> findAktywne() {
-        return getEntityManager().createNamedQuery("Nieobecnosckodzus.findByAktywne").getResultList();
+    public List<Swiadczeniekodzus> findAktywne() {
+        return getEntityManager().createNamedQuery("Swiadczeniekodzus.findByAktywne").getResultList();
     }
 }

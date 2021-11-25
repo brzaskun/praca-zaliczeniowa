@@ -10,7 +10,7 @@ import beanstesty.PasekwynagrodzenBean;
 import dao.KalendarzmiesiacFacade;
 import dao.KalendarzwzorFacade;
 import dao.NieobecnoscFacade;
-import dao.NieobecnosckodzusFacade;
+import dao.SwiadczeniekodzusFacade;
 import dao.UmowaFacade;
 import data.Data;
 import embeddable.Mce;
@@ -51,7 +51,7 @@ public class KalendarzmiesiacView  implements Serializable {
     @Inject
     private NieobecnoscFacade nieobecnoscFacade;
     @Inject
-    private NieobecnosckodzusFacade nieobecnosckodzusFacade;
+    private SwiadczeniekodzusFacade nieobecnosckodzusFacade;
     @Inject
     private WpisView wpisView;
     

@@ -5,8 +5,8 @@
  */
 package converter;
 
-import dao.NieobecnosckodzusFacade;
-import entity.Nieobecnosckodzus;
+import dao.RodzajnieobecnosciFacade;
+import entity.Rodzajnieobecnosci;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.component.UIComponent;
@@ -19,22 +19,22 @@ import javax.inject.Named;
  * @author Osito
  */
 @Named
-public class NieobecnosckodzusConverter implements javax.faces.convert.Converter {
+public class RodzajnieobecnosciConverter implements javax.faces.convert.Converter {
     
-    private List<Nieobecnosckodzus> lista;
+    private List<Rodzajnieobecnosci> lista;
     @Inject
-    private NieobecnosckodzusFacade nieobecnosckodzusFacade;
+    private RodzajnieobecnosciFacade rodzajnieobecnosciFacade;
     
     @PostConstruct
     private void init() {
-        lista = nieobecnosckodzusFacade.findAll();
+        lista = rodzajnieobecnosciFacade.findAll();
     }
     
     @Override
     public Object getAsObject(FacesContext facesContext, UIComponent component, String sub) {
         try {
             int submittedValue = Integer.parseInt(sub);
-            for (Nieobecnosckodzus p : lista) {
+            for (Rodzajnieobecnosci p : lista) {
                 if (p.getId()==submittedValue) {
                     return p;
                 }
@@ -50,7 +50,7 @@ public class NieobecnosckodzusConverter implements javax.faces.convert.Converter
         if (value == null || value.equals("")) {
             return "";
         } else {
-            return String.valueOf(((Nieobecnosckodzus) value).getId());
+            return String.valueOf(((Rodzajnieobecnosci) value).getId());
         }
     }
 }

@@ -9,7 +9,6 @@
     <class>dao.Rodzajwynagrodzenia</class>
     <class>entity.Rodzajwynagrodzenia</class>
     <class>entity.Umowakodzus</class>
-    <class>entity.Nieobecnosckodzus</class>
     <class>entity.Kodyzawodow</class>
     <class>entity.Wynagrodzeniahistoryczne</class>
     <class>entity.Uprawnienia</class>
@@ -191,6 +190,7 @@
     <class>kadryiplace.TmpSecDzialTmp</class>
     <class>entity.EtatPrac</class>
     <class>entity.Nieobecnoscprezentacja</class>
+    <class>entity.Swiadczeniekodzus</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <shared-cache-mode>NONE</shared-cache-mode>
     <validation-mode>NONE</validation-mode>

@@ -28,15 +28,15 @@
                                     <f:convertDateTime dateStyle="medium" locale="pl"/>
                                 </h:outputText>
                                 <p:outputLabel value="nazwa nieobecności" for="nieobkodzus" />
-                                <p:selectOneMenu id="nieobkodzus" value="#{nieobecnoscView.selected.nieobecnosckodzus}" required="true" requiredMessage="wybierz rodzaj nieobecnosci"  converter="#{nieobecnosckodzusConverter}" filter="true" filterMatchMode="contains">
+                                <p:selectOneMenu id="nieobkodzus" value="#{nieobecnoscView.selected.rodzajnieobecnosci}" required="true" requiredMessage="wybierz rodzaj nieobecnosci"  converter="#{rodzajnieobecnosciConverter}" filter="true" filterMatchMode="contains">
                                     <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
-                                    <f:selectItems value="#{nieobecnoscView.listanieobecnosckodzus}" 
+                                    <f:selectItems value="#{nieobecnoscView.listaabsencji}" 
                                                    var="kodzusItem"
-                                                   itemValue="#{kodzusItem}" itemLabel="#{kodzusItem.kod} #{kodzusItem.opisskrocony}"/>
+                                                   itemValue="#{kodzusItem}" itemLabel="#{kodzusItem.kod} #{kodzusItem.opis}"/>
                                     <p:ajax event="change" partialSubmit="true" global="false" update="NieobecnoscCreateForm:kod NieobecnoscCreateForm:procent" listener="#{nieobecnoscView.procentynieobecnosc()}"/>
                                 </p:selectOneMenu>
                                 <p:outputLabel value="kod" for="kod" />
-                                <h:outputText id="kod" value="#{nieobecnoscView.selected.nieobecnosckodzus.kod}" title="kod"/>
+                                <h:outputText id="kod" value="#{nieobecnoscView.selected.swiadczeniekodzus.kod}" title="kod"/>
                             </p:panelGrid>
                             <p:panelGrid columns="2">
                                 <p:outputLabel value="data od" for="dataod" />
@@ -103,17 +103,17 @@
                             </f:facet>
                             <h:outputText value="#{indexn+1}" style="height: 20px;"/>
                         </p:column>
-                        <p:column width="50" filterBy="#{itemNieob.nieobecnosckodzus.kod}" filterMatchMode="startsWith"  sortBy="#{itemNieob.nieobecnosckodzus.kod}" sortOrder="desc">
+                        <p:column width="50" filterBy="#{itemNieob.swiadczeniekodzus.kod}" filterMatchMode="startsWith"  sortBy="#{itemNieob.swiadczeniekodzus.kod}" sortOrder="desc">
                             <f:facet name="header">
                                 <h:outputText value="kod"/>
                             </f:facet>
-                            <h:outputText value="#{itemNieob.nieobecnosckodzus.kod}" style="#{itemNieob.rokod eq wpisView.rokWpisu ? itemNieob.naniesiona?'color: green':'color: red':'initial'}"/>
+                            <h:outputText value="#{itemNieob.swiadczeniekodzus.kod}" style="#{itemNieob.rokod eq wpisView.rokWpisu ? itemNieob.naniesiona?'color: green':'color: red':'initial'}"/>
                         </p:column>
-                        <p:column width="200" filterBy="#{itemNieob.nieobecnosckodzus.opisskrocony}" filterMatchMode="contains">
+                        <p:column width="200" filterBy="#{itemNieob.swiadczeniekodzus.opisskrocony}" filterMatchMode="contains">
                             <f:facet name="header">
                                 <h:outputText value="nazwa"/>
                             </f:facet>
-                            <h:outputText value="#{itemNieob.nieobecnosckodzus.opisskrocony}" style="#{itemNieob.rokod eq wpisView.rokWpisu ? itemNieob.naniesiona?'color: green':'color: red':'initial'}"/>
+                            <h:outputText value="#{itemNieob.swiadczeniekodzus.opisskrocony}" style="#{itemNieob.rokod eq wpisView.rokWpisu ? itemNieob.naniesiona?'color: green':'color: red':'initial'}"/>
                         </p:column> 
                         <p:column width="50" filterBy="#{itemNieob.dataod}" filterMatchMode="startsWith" sortBy="#{itemNieob.dataod}" sortOrder="desc">
                             <f:facet name="header">
@@ -191,7 +191,7 @@
                             <f:facet name="header">
                                 <h:outputText value="zus"/>
                             </f:facet>
-                            <h:outputText value="&#x2714;" rendered="#{itemNieob.nieobecnosckodzus.spoleczne}"/>
+                            <h:outputText value="&#x2714;" rendered="#{itemNieob.swiadczeniekodzus.spoleczne}"/>
                         </p:column>
                      
                         <p:column width="100">

@@ -78,6 +78,7 @@ public class Naliczenieskladnikawynagrodzenia implements Serializable {
     @JoinColumn(name = "skladnikwynagrodzenia", referencedColumnName = "id")
     @ManyToOne
     private Skladnikwynagrodzenia skladnikwynagrodzenia;
+    //kontrola czy nie wynagrodzenie za urlop
     @Column(name = "skl_dod_1")
     private Character skl_dod_1;
    

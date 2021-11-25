@@ -28,19 +28,19 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author Osito
  */
 @Entity
-@Table(name = "nieobecnosckodzus")
+@Table(name = "swiadczeniekodzus")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Nieobecnosckodzus.findAll", query = "SELECT n FROM Nieobecnosckodzus n"),
-    @NamedQuery(name = "Nieobecnosckodzus.findById", query = "SELECT n FROM Nieobecnosckodzus n WHERE n.id = :id"),
-    @NamedQuery(name = "Nieobecnosckodzus.findByKod", query = "SELECT n FROM Nieobecnosckodzus n WHERE n.kod = :kod"),
-    @NamedQuery(name = "Nieobecnosckodzus.findByOpis", query = "SELECT n FROM Nieobecnosckodzus n WHERE n.opis = :opis"),
-    @NamedQuery(name = "Nieobecnosckodzus.findByAktywne", query = "SELECT n FROM Nieobecnosckodzus n WHERE n.aktywne = TRUE"),
-    @NamedQuery(name = "Nieobecnosckodzus.findByOpisskrocony", query = "SELECT n FROM Nieobecnosckodzus n WHERE n.opisskrocony = :opisskrocony"),
-    @NamedQuery(name = "Nieobecnosckodzus.findByPodatek", query = "SELECT n FROM Nieobecnosckodzus n WHERE n.podatek = :podatek"),
-    @NamedQuery(name = "Nieobecnosckodzus.findBySpoleczne", query = "SELECT n FROM Nieobecnosckodzus n WHERE n.spoleczne = :spoleczne"),
-    @NamedQuery(name = "Nieobecnosckodzus.findByZdrowotne", query = "SELECT n FROM Nieobecnosckodzus n WHERE n.zdrowotne = :zdrowotne")})
-public class Nieobecnosckodzus implements Serializable {
+    @NamedQuery(name = "Swiadczeniekodzus.findAll", query = "SELECT n FROM Swiadczeniekodzus n"),
+    @NamedQuery(name = "Swiadczeniekodzus.findById", query = "SELECT n FROM Swiadczeniekodzus n WHERE n.id = :id"),
+    @NamedQuery(name = "Swiadczeniekodzus.findByKod", query = "SELECT n FROM Swiadczeniekodzus n WHERE n.kod = :kod"),
+    @NamedQuery(name = "Swiadczeniekodzus.findByOpis", query = "SELECT n FROM Swiadczeniekodzus n WHERE n.opis = :opis"),
+    @NamedQuery(name = "Swiadczeniekodzus.findByAktywne", query = "SELECT n FROM Swiadczeniekodzus n WHERE n.aktywne = TRUE"),
+    @NamedQuery(name = "Swiadczeniekodzus.findByOpisskrocony", query = "SELECT n FROM Swiadczeniekodzus n WHERE n.opisskrocony = :opisskrocony"),
+    @NamedQuery(name = "Swiadczeniekodzus.findByPodatek", query = "SELECT n FROM Swiadczeniekodzus n WHERE n.podatek = :podatek"),
+    @NamedQuery(name = "Swiadczeniekodzus.findBySpoleczne", query = "SELECT n FROM Swiadczeniekodzus n WHERE n.spoleczne = :spoleczne"),
+    @NamedQuery(name = "Swiadczeniekodzus.findByZdrowotne", query = "SELECT n FROM Swiadczeniekodzus n WHERE n.zdrowotne = :zdrowotne")})
+public class Swiadczeniekodzus implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -74,17 +74,17 @@ public class Nieobecnosckodzus implements Serializable {
     private  boolean aktywne;
     @Column(name = "zdrowotne")
     private boolean zdrowotne;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "nieobecnosckodzus")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "swiadczeniekodzus")
     private List<Nieobecnosc> nieobecnoscList;
 
-    public Nieobecnosckodzus() {
+    public Swiadczeniekodzus() {
     }
 
-    public Nieobecnosckodzus(Integer id) {
+    public Swiadczeniekodzus(Integer id) {
         this.id = id;
     }
 
-    public Nieobecnosckodzus(Integer id, String opis, String opisskrocony) {
+    public Swiadczeniekodzus(Integer id, String opis, String opisskrocony) {
         this.id = id;
         this.opis = opis;
         this.opisskrocony = opisskrocony;
@@ -126,10 +126,10 @@ public class Nieobecnosckodzus implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Nieobecnosckodzus)) {
+        if (!(object instanceof Swiadczeniekodzus)) {
             return false;
         }
-        Nieobecnosckodzus other = (Nieobecnosckodzus) object;
+        Swiadczeniekodzus other = (Swiadczeniekodzus) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -138,7 +138,7 @@ public class Nieobecnosckodzus implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Nieobecnosckodzus[ id=" + id + " ]";
+        return "entity.Swiadczeniekodzus[ id=" + id + " ]";
     }
 
     public String getKod() {

@@ -5,7 +5,7 @@
  */
 package beanstesty;
 
-import dao.NieobecnosckodzusFacade;
+import dao.SwiadczeniekodzusFacade;
 import dao.PasekwynagrodzenFacade;
 import data.Data;
 import entity.Angaz;
@@ -17,7 +17,7 @@ import entity.Naliczenienieobecnosc;
 import entity.Naliczeniepotracenie;
 import entity.Naliczenieskladnikawynagrodzenia;
 import entity.Nieobecnosc;
-import entity.Nieobecnosckodzus;
+import entity.Swiadczeniekodzus;
 import entity.Pasekwynagrodzen;
 import entity.Podatki;
 import entity.Pracownik;
@@ -53,7 +53,7 @@ public class PasekwynagrodzenBean {
         }
         return pasekwynagrodzen;
     }
-    public static Pasekwynagrodzen obliczWynagrodzeniesymulacja(Kalendarzmiesiac kalendarz, Definicjalistaplac wybranalistaplac, NieobecnosckodzusFacade nieobecnosckodzusFacade, List<Podatki> stawkipodatkowe, boolean zlecenie0praca1, double kwotabrutto) {
+    public static Pasekwynagrodzen obliczWynagrodzeniesymulacja(Kalendarzmiesiac kalendarz, Definicjalistaplac wybranalistaplac, SwiadczeniekodzusFacade nieobecnosckodzusFacade, List<Podatki> stawkipodatkowe, boolean zlecenie0praca1, double kwotabrutto) {
         boolean umowaoprace = zlecenie0praca1;
         Pasekwynagrodzen pasek = new Pasekwynagrodzen();
         String datawyplaty = Data.ostatniDzien(kalendarz.getRok(), kalendarz.getMc());
@@ -110,7 +110,7 @@ public class PasekwynagrodzenBean {
         return pasek;
     }
       
-    public static Pasekwynagrodzen obliczWynagrodzenie(Kalendarzmiesiac kalendarz, Definicjalistaplac definicjalistaplac, NieobecnosckodzusFacade nieobecnosckodzusFacade, List<Pasekwynagrodzen> paskidowyliczeniapodstawy, 
+    public static Pasekwynagrodzen obliczWynagrodzenie(Kalendarzmiesiac kalendarz, Definicjalistaplac definicjalistaplac, SwiadczeniekodzusFacade nieobecnosckodzusFacade, List<Pasekwynagrodzen> paskidowyliczeniapodstawy, 
         List<Wynagrodzeniahistoryczne> historiawynagrodzen, List<Podatki> stawkipodatkowe, double sumapoprzednich, double wynagrodzenieminimalne, boolean czyodlicoznokwotewolna, double kurs,double limitZUS, String datawyplaty) {
         boolean umowaoprace = kalendarz.isPraca();
         Pasekwynagrodzen pasek = new Pasekwynagrodzen();
@@ -320,13 +320,13 @@ public class PasekwynagrodzenBean {
         }
         for (Naliczenienieobecnosc r : pasek.getNaliczenienieobecnoscList()) {
             if (r.getKwota()!=0.0 && r.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getRedukowany()) {
-                System.out.println(r.getNieobecnosc().getNieobecnosckodzus().getOpisskrocony()+" od "+r.getSkladnikwynagrodzenia().getUwagi()+" "+Z.z(r.getKwota()));
+                System.out.println(r.getNieobecnosc().getSwiadczeniekodzus().getOpisskrocony()+" od "+r.getSkladnikwynagrodzenia().getUwagi()+" "+Z.z(r.getKwota()));
             }
             if (r.getKwotastatystyczna()!=0.0 && r.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getRedukowany()) {
-                System.out.println(r.getSkladnikwynagrodzenia().getUwagi()+" statystyczna redukcja za "+r.getNieobecnosc().getNieobecnosckodzus().getOpisskrocony()+" kwota "+Z.z(r.getKwotastatystyczna()));
+                System.out.println(r.getSkladnikwynagrodzenia().getUwagi()+" statystyczna redukcja za "+r.getNieobecnosc().getSwiadczeniekodzus().getOpisskrocony()+" kwota "+Z.z(r.getKwotastatystyczna()));
             }
             if (r.getKwotaredukcji()!=0.0 && r.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getRedukowany()) {
-                System.out.println(r.getSkladnikwynagrodzenia().getUwagi()+" redukcja za "+r.getNieobecnosc().getNieobecnosckodzus().getOpisskrocony()+" kwota redukcji "+Z.z(r.getKwotaredukcji()));
+                System.out.println(r.getSkladnikwynagrodzenia().getUwagi()+" redukcja za "+r.getNieobecnosc().getSwiadczeniekodzus().getOpisskrocony()+" kwota redukcji "+Z.z(r.getKwotaredukcji()));
             }
         }
         System.out.println("****************");
@@ -631,7 +631,7 @@ public class PasekwynagrodzenBean {
     private static List<Nieobecnosc> pobierz(List<Nieobecnosc> nieobecnosci, String string) {
         List<Nieobecnosc> zwrot = new ArrayList<>();
         for (Nieobecnosc p : nieobecnosci) {
-            if (p.getNieobecnosckodzus().getKod().equals(string)) {
+            if (p.getSwiadczeniekodzus().getKod().equals(string)) {
                 zwrot.add(p);
             }
         }
@@ -665,17 +665,17 @@ public class PasekwynagrodzenBean {
         return zwrot;
     }
 
-    public static List<Nieobecnosc> generuj(Umowa umowa, NieobecnosckodzusFacade nieobecnosckodzusFacade, String rok, String mc, Kalendarzmiesiac kalendarzmiesiac) {
+    public static List<Nieobecnosc> generuj(Umowa umowa, SwiadczeniekodzusFacade nieobecnosckodzusFacade, String rok, String mc, Kalendarzmiesiac kalendarzmiesiac) {
         List<Nieobecnosc> zwrotlist = new ArrayList<>();
         Nieobecnosc zwrot = new Nieobecnosc();
         String rokumowa = Data.getRok(umowa.getDataod());
         String mcumowa = Data.getMc(umowa.getDataod());
         String dzienumowa = Data.getDzien(umowa.getDataod());
         if (rokumowa.equals(rok)&&mcumowa.equals(mc)&&!dzienumowa.equals("01")) {
-            Nieobecnosckodzus nieobecnosckodzus = nieobecnosckodzusFacade.findByKod("200");
+            Swiadczeniekodzus nieobecnosckodzus = nieobecnosckodzusFacade.findByKod("200");
             zwrot = new Nieobecnosc();
             zwrot.setUmowa(umowa);
-            zwrot.setNieobecnosckodzus(nieobecnosckodzus);
+            zwrot.setSwiadczeniekodzus(nieobecnosckodzus);
             String pierwszydzienmca = Data.pierwszyDzien(umowa.getDataod());
             LocalDate pierwszydzienumowy = LocalDate.parse(umowa.getDataod());
             LocalDate yesterday = pierwszydzienumowy.minusDays(1);  
@@ -696,10 +696,10 @@ public class PasekwynagrodzenBean {
             String dzienumowado = Data.getDzien(umowa.getDatado());
             String ostatnidzienmca = Data.getDzien(Data.ostatniDzien(rokumowado, mcumowado));
             if (rokumowado.equals(rok)&&mcumowado.equals(mc)&&!dzienumowado.equals(ostatnidzienmca)) {
-                Nieobecnosckodzus nieobecnosckodzus = nieobecnosckodzusFacade.findByKod("200");
+                Swiadczeniekodzus nieobecnosckodzus = nieobecnosckodzusFacade.findByKod("200");
                 zwrot = new Nieobecnosc();
                 zwrot.setUmowa(umowa);
-                zwrot.setNieobecnosckodzus(nieobecnosckodzus);
+                zwrot.setSwiadczeniekodzus(nieobecnosckodzus);
                 LocalDate ostatnidzienumowy = LocalDate.parse(umowa.getDatado());
                 LocalDate tomorrow = ostatnidzienumowy.plusDays(1);  
                 String dzienpoumowie = tomorrow.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));

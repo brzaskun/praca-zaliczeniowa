@@ -12,7 +12,7 @@ import comparator.Sredniadlanieobecnoscicomparator;
 import dao.DefinicjalistaplacFacade;
 import dao.KalendarzmiesiacFacade;
 import dao.KalendarzwzorFacade;
-import dao.NieobecnosckodzusFacade;
+import dao.SwiadczeniekodzusFacade;
 import dao.OddelegowanieZUSLimitFacade;
 import dao.PasekwynagrodzenFacade;
 import dao.PodatkiFacade;
@@ -76,7 +76,7 @@ public class PasekwynagrodzenView implements Serializable {
     @Inject
     private PasekwynagrodzenFacade pasekwynagrodzenFacade;
     @Inject
-    private NieobecnosckodzusFacade nieobecnosckodzusFacade;
+    private SwiadczeniekodzusFacade nieobecnosckodzusFacade;
     @Inject
     private WynagrodzeniahistoryczneFacade wynagrodzeniahistoryczneFacade;
     @Inject

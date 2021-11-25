@@ -44,6 +44,9 @@ public class Rodzajwynagrodzenia implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
+       //skladnik wybagrodzenia
+    @Column(name = "wks_serial")
+    private Integer wks_serial;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 45)
@@ -78,6 +81,8 @@ public class Rodzajwynagrodzenia implements Serializable {
     private  boolean sredniaurlopowakraj;
     @Column(name = "sredniaurlopowaoddelegowanie")
     private  boolean sredniaurlopowaoddelegowanie;
+    @Column(name = "podstzasilekchorobowy")
+    private  boolean podstzasilekchorobowy;
 
     public Rodzajwynagrodzenia() {
         System.out.println("");
@@ -137,7 +142,14 @@ public class Rodzajwynagrodzenia implements Serializable {
         return "Rodzajwynagrodzenia{" + "kod=" + kod + ", opispelny=" + opispelny + ", opisskrocony=" + opisskrocony + ", stale0zmienne1=" + stale0zmienne1 + ", godzinowe0miesieczne1=" + godzinowe0miesieczne1 + ", redukowany=" + redukowany + ", zus0bezzus1=" + zus0bezzus1 + ", podatek0bezpodatek1=" + podatek0bezpodatek1 + '}';
     }
 
-   
+    public Integer getWks_serial() {
+        return wks_serial;
+    }
+
+    public void setWks_serial(Integer wks_serial) {
+        this.wks_serial = wks_serial;
+    }
+
 
     public String getKod() {
         return kod;
@@ -225,6 +237,14 @@ public class Rodzajwynagrodzenia implements Serializable {
 
     public void setSredniaurlopowaoddelegowanie(boolean sredniaurlopowaoddelegowanie) {
         this.sredniaurlopowaoddelegowanie = sredniaurlopowaoddelegowanie;
+    }
+
+    public boolean isPodstzasilekchorobowy() {
+        return podstzasilekchorobowy;
+    }
+
+    public void setPodstzasilekchorobowy(boolean podstzasilekchorobowy) {
+        this.podstzasilekchorobowy = podstzasilekchorobowy;
     }
 
       

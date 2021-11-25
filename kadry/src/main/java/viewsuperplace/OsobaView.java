@@ -11,7 +11,7 @@ import dao.DefinicjalistaplacFacade;
 import dao.EtatPracFacade;
 import dao.KalendarzmiesiacFacade;
 import dao.KalendarzwzorFacade;
-import dao.NieobecnosckodzusFacade;
+import dao.SwiadczeniekodzusFacade;
 import dao.PasekwynagrodzenFacade;
 import dao.PracownikFacade;
 import dao.RachunekdoumowyzleceniaFacade;
@@ -57,7 +57,6 @@ import kadryiplace.OsobaPrz;
 import kadryiplace.OsobaSkl;
 import kadryiplace.OsobaZlec;
 import kadryiplace.Rok;
-import kadryiplace.WynKodTyt;
 import msg.Msg;
 import view.HistoriaView;
 import view.WpisView;
@@ -108,7 +107,7 @@ public class OsobaView implements Serializable {
     @Inject
     private PasekwynagrodzenFacade pasekwynagrodzenFacade;
     @Inject
-    private NieobecnosckodzusFacade nieobecnosckodzusFacade;
+    private SwiadczeniekodzusFacade nieobecnosckodzusFacade;
     @Inject
     private RachunekdoumowyzleceniaFacade rachunekdoumowyzleceniaFacade;
 
@@ -180,16 +179,12 @@ public class OsobaView implements Serializable {
                     if (!osobaDetList.isEmpty()) {
                         for (OsobaDet p : osobaDetList) {
                             OsobaPropTyp osdOptSerial = p.getOsdOptSerial();
-                            WynKodTyt osdWktSerial = p.getOsdWktSerial();
-                            String wktKod = osdWktSerial.getWktKod();
-                            if (p.getOsdTytul().equals('W')) {
-                                umowakodzuspraca = umowakodzusFacade.findUmowakodzusByKod(wktKod);
+                            Integer wktSerial = p.getOsdWktSerial().getWktSerial();
+                            if (p.getOsdWktSerial().getWktUmZlec().equals('N')) {
+                                umowakodzuspraca = umowakodzusFacade.findUmowakodzusByWktSerial(wktSerial);
                             }
-                            if (p.getOsdTytul().equals('Z')) {
-                               if (wktKod.equals("0410")) {
-                                   wktKod = "0411";
-                               }
-                               umowakodzuszlecenie = umowakodzusFacade.findUmowakodzusByKod(wktKod);
+                            if (p.getOsdWktSerial().getWktUmZlec().equals('T')) {
+                               umowakodzuszlecenie = umowakodzusFacade.findUmowakodzusByWktSerial(wktSerial);
                             }
                         }
                     }
@@ -291,12 +286,12 @@ public class OsobaView implements Serializable {
                             p.setMcod(Data.getMc(p.getDataod()));
                             p.setMcdo(Data.getMc(p.getDatado()));
                             if (p.getKodzwolnienia().length() < 3) {
-                                p.setNieobecnosckodzus(nieobecnosckodzusFacade.findByOpis(p.getOpis()));
+                                p.setSwiadczeniekodzus(nieobecnosckodzusFacade.findByOpis(p.getOpis()));
                             } else {
                                 try {
-                                    p.setNieobecnosckodzus(nieobecnosckodzusFacade.findByKod(p.getKodzwolnienia()));
+                                    p.setSwiadczeniekodzus(nieobecnosckodzusFacade.findByKod(p.getKodzwolnienia()));
                                 } catch (Exception e) {
-                                    p.setNieobecnosckodzus(nieobecnosckodzusFacade.findByOpis(p.getOpis()));
+                                    p.setSwiadczeniekodzus(nieobecnosckodzusFacade.findByOpis(p.getOpis()));
                                 }
                             }
                         }

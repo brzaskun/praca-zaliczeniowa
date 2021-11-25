@@ -51,6 +51,16 @@ public class UmowakodzusFacade extends DAO  {
         return zwrot;
      }
      
+     public Umowakodzus findUmowakodzusByWktSerial(Integer wktserial){
+         Umowakodzus zwrot = null;
+        try {
+            zwrot = (Umowakodzus) getEntityManager().createNamedQuery("Umowakodzus.findByWktSerial").setParameter("wktserial", wktserial).getSingleResult();
+        } catch (Exception e) {
+            
+        }
+        return zwrot;
+     }
+     
      public Umowakodzus findUmowakodzusByOpis(String opis){
          Umowakodzus zwrot = null;
         try {

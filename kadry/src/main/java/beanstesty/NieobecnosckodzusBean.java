@@ -5,7 +5,7 @@
  */
 package beanstesty;
 
-import entity.Nieobecnosckodzus;
+import entity.Swiadczeniekodzus;
 
 /**
  *
@@ -13,14 +13,14 @@ import entity.Nieobecnosckodzus;
  */
 public class NieobecnosckodzusBean {
     
-    public static Nieobecnosckodzus choroba;
-    public static Nieobecnosckodzus korektakalendarza;
-    public static Nieobecnosckodzus urlop;
-    public static Nieobecnosckodzus urlopbezplatny;
+    public static Swiadczeniekodzus choroba;
+    public static Swiadczeniekodzus korektakalendarza;
+    public static Swiadczeniekodzus urlop;
+    public static Swiadczeniekodzus urlopbezplatny;
     
-    public static Nieobecnosckodzus createChoroba() {
+    public static Swiadczeniekodzus createChoroba() {
         if (choroba==null) {
-           choroba = new Nieobecnosckodzus();
+           choroba = new Swiadczeniekodzus();
            choroba.setKod("331");
            choroba.setOpis("choroba");
            choroba.setOpisskrocony("choroba");
@@ -28,9 +28,9 @@ public class NieobecnosckodzusBean {
         return choroba;
     }
     
-    public static Nieobecnosckodzus createUrlop() {
+    public static Swiadczeniekodzus createUrlop() {
         if (urlop==null) {
-           urlop = new Nieobecnosckodzus();
+           urlop = new Swiadczeniekodzus();
            urlop.setKod("100");
            urlop.setOpis("urlop wypoczynkowy");
            urlop.setOpisskrocony("urlop wypoczynkowy");
@@ -38,9 +38,9 @@ public class NieobecnosckodzusBean {
         return urlop;
     }
     
-     public static Nieobecnosckodzus createUrlopBezplatny() {
+     public static Swiadczeniekodzus createUrlopBezplatny() {
         if (urlopbezplatny==null) {
-           urlopbezplatny = new Nieobecnosckodzus();
+           urlopbezplatny = new Swiadczeniekodzus();
            urlopbezplatny.setKod("111");
            urlopbezplatny.setOpis("urlop bezplatny");
            urlopbezplatny.setOpisskrocony("urlop bezplatny");
@@ -48,9 +48,9 @@ public class NieobecnosckodzusBean {
         return urlopbezplatny;
     }
      
-     public static Nieobecnosckodzus createKorektakalendarza() {
+     public static Swiadczeniekodzus createKorektakalendarza() {
         if (korektakalendarza==null) {
-           korektakalendarza = new Nieobecnosckodzus();
+           korektakalendarza = new Swiadczeniekodzus();
            korektakalendarza.setKod("200");
            korektakalendarza.setOpis("korekta kalendarza");
            korektakalendarza.setOpisskrocony("korekta kalendarza");

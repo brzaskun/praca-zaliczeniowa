@@ -5,19 +5,19 @@
  */
 package view;
 
-import comparator.Nieobecnoscikodzuscomparator;
 import dao.DzienFacade;
 import dao.KalendarzmiesiacFacade;
 import dao.KalendarzwzorFacade;
 import dao.NieobecnoscFacade;
-import dao.NieobecnosckodzusFacade;
+import dao.RodzajnieobecnosciFacade;
+import dao.SwiadczeniekodzusFacade;
 import dao.UmowaFacade;
 import data.Data;
 import embeddable.Mce;
 import entity.Dzien;
 import entity.Kalendarzmiesiac;
 import entity.Nieobecnosc;
-import entity.Nieobecnosckodzus;
+import entity.Rodzajnieobecnosci;
 import entity.Umowa;
 import generated.RaportEzla;
 import java.io.InputStream;
@@ -28,7 +28,6 @@ import java.nio.file.Paths;
 import java.time.LocalDate;
 import static java.time.temporal.ChronoUnit.DAYS;
 import java.util.Base64;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.faces.context.FacesContext;
@@ -60,12 +59,14 @@ public class NieobecnoscView  implements Serializable {
     @Inject
     private Nieobecnosc selectedlista;
     private List<Nieobecnosc> lista;
-    private List<Nieobecnosckodzus> listanieobecnosckodzus;
+    private List<Rodzajnieobecnosci> listaabsencji;
     private List<Umowa> listaumowa;
     @Inject
     private NieobecnoscFacade nieobecnoscFacade;
     @Inject
-    private NieobecnosckodzusFacade nieobecnosckodzusFacade;
+    private RodzajnieobecnosciFacade rodzajnieobecnosciFacade;
+    @Inject
+    private SwiadczeniekodzusFacade nieobecnosckodzusFacade;
     @Inject
     private KalendarzmiesiacFacade kalendarzmiesiacFacade;
     @Inject
@@ -92,8 +93,8 @@ public class NieobecnoscView  implements Serializable {
             }
         }
         listaumowa = umowaFacade.findPracownik(wpisView.getPracownik());
-        listanieobecnosckodzus = nieobecnosckodzusFacade.findAktywne();
-        Collections.sort(listanieobecnosckodzus, new Nieobecnoscikodzuscomparator());
+        listaabsencji = rodzajnieobecnosciFacade.findAll();
+        //Collections.sort(listaabsencji, new Nieobecnoscikodzuscomparator());
     }
 
     public void create() {
@@ -134,8 +135,8 @@ public class NieobecnoscView  implements Serializable {
     }
     
     public void procentynieobecnosc() {
-        if (selected.getNieobecnosckodzus()!=null) {
-            if (selected.getNieobecnosckodzus().getKod().equals("331")) {
+        if (selected.getSwiadczeniekodzus()!=null) {
+            if (selected.getSwiadczeniekodzus().getKod().equals("331")) {
                 selected.setZwolnienieprocent(80.0);
             }
         }
@@ -230,7 +231,7 @@ public class NieobecnoscView  implements Serializable {
             System.out.println("");
             if (zwrot != null) {
                 Nieobecnosc nieob = new Nieobecnosc(zwrot, wpisView.getUmowa());
-                nieob.setNieobecnosckodzus(nieobecnosckodzusFacade.findByKod("331"));
+                nieob.setSwiadczeniekodzus(nieobecnosckodzusFacade.findByKod("331"));
                 nieob.setId(999);
                 nieob.setPobranaZUS(true);
                 nieob.setRokod(Data.getRok(selected.getDataod()));
@@ -322,12 +323,12 @@ public class NieobecnoscView  implements Serializable {
         this.listaumowa = listaumowa;
     }
 
-    public List<Nieobecnosckodzus> getListanieobecnosckodzus() {
-        return listanieobecnosckodzus;
+    public List<Rodzajnieobecnosci> getListaabsencji() {
+        return listaabsencji;
     }
 
-    public void setListanieobecnosckodzus(List<Nieobecnosckodzus> listanieobecnosckodzus) {
-        this.listanieobecnosckodzus = listanieobecnosckodzus;
+    public void setListaabsencji(List<Rodzajnieobecnosci> listaabsencji) {
+        this.listaabsencji = listaabsencji;
     }
 
     public boolean isPokazcalyrok() {

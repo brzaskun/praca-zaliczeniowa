@@ -11,7 +11,7 @@ import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
-import dao.NieobecnosckodzusFacade;
+import dao.SwiadczeniekodzusFacade;
 import entity.Angaz;
 import entity.Definicjalistaplac;
 import entity.Kalendarzmiesiac;
@@ -40,7 +40,7 @@ import z.Z;
  */
 public class PdfListaPlac {
     
-    public static ByteArrayOutputStream drukujmail(List<Pasekwynagrodzen> lista, Definicjalistaplac def, NieobecnosckodzusFacade nieobecnosckodzus) {
+    public static ByteArrayOutputStream drukujmail(List<Pasekwynagrodzen> lista, Definicjalistaplac def, SwiadczeniekodzusFacade nieobecnosckodzus) {
         ByteArrayOutputStream out = new ByteArrayOutputStream();            
         try {
             String nrpoprawny = def.getNrkolejny().replaceAll("[^A-Za-z0-9]", "");
@@ -76,7 +76,7 @@ public class PdfListaPlac {
         return out;
     }
     
-    public static void drukuj(Pasekwynagrodzen p, NieobecnosckodzusFacade nieobecnosckodzus) {
+    public static void drukuj(Pasekwynagrodzen p, SwiadczeniekodzusFacade nieobecnosckodzus) {
         try {
             Angaz a = p.getKalendarzmiesiac().getUmowa().getAngaz();
             String nazwa = a.getAngazStringPlik()+"lp.pdf";
@@ -277,8 +277,8 @@ public class PdfListaPlac {
         }
         for (Naliczenienieobecnosc rs : wykaznieob) {
             table.addCell(ustawfrazeAlign(String.valueOf(i++), "left",6,10f));
-            table.addCell(ustawfrazeAlign(rs.getNieobecnosc().getNieobecnosckodzus().getKod(), "left",6));
-            table.addCell(ustawfrazeAlign(rs.getNieobecnosc().getNieobecnosckodzus().getOpisskrocony()+" "+rs.getJakiskladnikredukowalny(), "left",6));
+            table.addCell(ustawfrazeAlign(rs.getNieobecnosc().getSwiadczeniekodzus().getKod(), "left",6));
+            table.addCell(ustawfrazeAlign(rs.getNieobecnosc().getSwiadczeniekodzus().getOpisskrocony()+" "+rs.getJakiskladnikredukowalny(), "left",6));
             table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKwotazus()), "right",6));
             table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKwotabezzus()), "right",6));
             if (rs.getKwotastatystyczna()!=0.0) {
@@ -319,10 +319,10 @@ public class PdfListaPlac {
               }
           }
         for (Naliczenienieobecnosc rs : wykaznieob) {
-            if (!rs.getNieobecnosc().getNieobecnosckodzus().getKod().equals("777")) {
-                sb.append(rs.getNieobecnosc().getNieobecnosckodzus().getKod());
+            if (!rs.getNieobecnosc().getSwiadczeniekodzus().getKod().equals("777")) {
+                sb.append(rs.getNieobecnosc().getSwiadczeniekodzus().getKod());
                 sb.append(" ");
-                sb.append(rs.getNieobecnosc().getNieobecnosckodzus().getOpisskrocony());
+                sb.append(rs.getNieobecnosc().getSwiadczeniekodzus().getOpisskrocony());
                 sb.append(" ");
                 if (rs.getKwotazus()!=0.0) {
                     sb.append(formatujWaluta(rs.getKwotazus()));
@@ -339,7 +339,7 @@ public class PdfListaPlac {
         return sb.toString();
     }
      
-      private static PdfPTable dodajtabelenieobecnosci(Pasekwynagrodzen p, Document document, NieobecnosckodzusFacade nieobecnosckodzus) {
+      private static PdfPTable dodajtabelenieobecnosci(Pasekwynagrodzen p, Document document, SwiadczeniekodzusFacade nieobecnosckodzus) {
         PdfPTable table = null;
         try {
             List<Nieobecnosc> lista = p.getKalendarzmiesiac().nieobecnoscipdf(nieobecnosckodzus);
@@ -351,7 +351,7 @@ public class PdfListaPlac {
         return table;
     }
       
-    private static String generujpasekobecnosci(Pasekwynagrodzen p, Document document, NieobecnosckodzusFacade nieobecnosckodzus) {
+    private static String generujpasekobecnosci(Pasekwynagrodzen p, Document document, SwiadczeniekodzusFacade nieobecnosckodzus) {
          String wierszeString = "";
         try {
             List<Nieobecnosc> lista = p.getKalendarzmiesiac().nieobecnoscipdf(nieobecnosckodzus);
@@ -384,8 +384,8 @@ public class PdfListaPlac {
         int i = 1;
         for (Nieobecnosc rs : wykaz) {
             table.addCell(ustawfrazeAlign(String.valueOf(i++), "left",6,10f));
-            table.addCell(ustawfrazeAlign(rs.getNieobecnosckodzus().getKod(), "left",6));
-            table.addCell(ustawfrazeAlign(rs.getNieobecnosckodzus().getOpisskrocony(), "left",6));
+            table.addCell(ustawfrazeAlign(rs.getSwiadczeniekodzus().getKod(), "left",6));
+            table.addCell(ustawfrazeAlign(rs.getSwiadczeniekodzus().getOpisskrocony(), "left",6));
             table.addCell(ustawfrazeAlign(rs.getDataod(), "right",6));
             table.addCell(ustawfrazeAlign(rs.getDatado(), "right",6));
             table.addCell(ustawfrazeAlign(rs.getUmowa().getUmowakodzus()!=null?rs.getUmowa().getUmowakodzus().getKod():"brak kodu w umowie", "left",6));
@@ -394,9 +394,9 @@ public class PdfListaPlac {
       public static String wierszeNieobecnosciString(List<Nieobecnosc> wykaznieob) {
         StringBuilder sb = new StringBuilder();
         for (Nieobecnosc rs : wykaznieob) {
-            sb.append(rs.getNieobecnosckodzus().getKod());
+            sb.append(rs.getSwiadczeniekodzus().getKod());
             sb.append(" ");
-            sb.append(rs.getNieobecnosckodzus().getOpisskrocony());
+            sb.append(rs.getSwiadczeniekodzus().getOpisskrocony());
             sb.append(" ");
             sb.append(rs.getDataod().replace("-", "."));
             sb.append("-");
@@ -466,7 +466,7 @@ public class PdfListaPlac {
         table.addCell(ustawfrazeAlign(roboczenieob[1], "left",6));
     }
 
-    public static void drukujListaPodstawowa(List<Pasekwynagrodzen> lista, Definicjalistaplac def, NieobecnosckodzusFacade nieobecnosckodzus) {
+    public static void drukujListaPodstawowa(List<Pasekwynagrodzen> lista, Definicjalistaplac def, SwiadczeniekodzusFacade nieobecnosckodzus) {
         try {
             String nrpoprawny = def.getNrkolejny().replaceAll("[^A-Za-z0-9]", "");
             String nazwa = def.getFirma().getNip() + "_" + nrpoprawny + "_" + "lp.pdf";

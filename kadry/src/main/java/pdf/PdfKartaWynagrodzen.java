@@ -151,8 +151,8 @@ public class PdfKartaWynagrodzen {
         }
         for (Naliczenienieobecnosc rs : wykaznieob) {
             table.addCell(ustawfrazeAlign(String.valueOf(i++), "left",6,10f));
-            table.addCell(ustawfrazeAlign(rs.getNieobecnosc().getNieobecnosckodzus().getKod(), "left",6));
-            table.addCell(ustawfrazeAlign(rs.getNieobecnosc().getNieobecnosckodzus().getOpisskrocony()+" "+rs.getJakiskladnikredukowalny(), "left",6));
+            table.addCell(ustawfrazeAlign(rs.getNieobecnosc().getSwiadczeniekodzus().getKod(), "left",6));
+            table.addCell(ustawfrazeAlign(rs.getNieobecnosc().getSwiadczeniekodzus().getOpisskrocony()+" "+rs.getJakiskladnikredukowalny(), "left",6));
             table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKwotazus()), "right",6));
             table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKwotabezzus()), "right",6));
             if (rs.getKwotastatystyczna()!=0.0) {
@@ -194,10 +194,10 @@ public class PdfKartaWynagrodzen {
             }
         }
         for (Naliczenienieobecnosc rs : wykaznieob) {
-            if (!rs.getNieobecnosc().getNieobecnosckodzus().getKod().equals("777")) {
-                sb.append(rs.getNieobecnosc().getNieobecnosckodzus().getKod());
+            if (!rs.getNieobecnosc().getSwiadczeniekodzus().getKod().equals("777")) {
+                sb.append(rs.getNieobecnosc().getSwiadczeniekodzus().getKod());
                 sb.append(" ");
-                sb.append(rs.getNieobecnosc().getNieobecnosckodzus().getOpisskrocony());
+                sb.append(rs.getNieobecnosc().getSwiadczeniekodzus().getOpisskrocony());
                 sb.append(" ");
                 if (rs.getKwotazus()!=0.0) {
                     sb.append(formatujWaluta(rs.getKwotazus()));

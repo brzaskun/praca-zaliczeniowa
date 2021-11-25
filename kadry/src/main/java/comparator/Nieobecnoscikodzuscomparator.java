@@ -5,7 +5,7 @@
  */
 package comparator;
 
-import entity.Nieobecnosckodzus;
+import entity.Swiadczeniekodzus;
 import java.text.Collator;
 import java.util.Comparator;
 import java.util.Locale;
@@ -16,10 +16,10 @@ import javax.inject.Named;
  * @author Osito
  */
 @Named
-public class Nieobecnoscikodzuscomparator implements Comparator<Nieobecnosckodzus> {
+public class Nieobecnoscikodzuscomparator implements Comparator<Swiadczeniekodzus> {
 
     @Override
-    public int compare(Nieobecnosckodzus o1, Nieobecnosckodzus o2) {
+    public int compare(Swiadczeniekodzus o1, Swiadczeniekodzus o2) {
         String datao1 = o1.getOpisskrocony().toLowerCase(new Locale("pl", "PL"));
         String datao2 = o2.getOpisskrocony().toLowerCase(new Locale("pl", "PL"));
         Collator collator = Collator.getInstance(new Locale("pl", "PL"));

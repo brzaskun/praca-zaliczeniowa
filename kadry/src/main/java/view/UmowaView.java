@@ -5,6 +5,7 @@
  */
 package view;
 
+import DAOsuperplace.WynKodTytFacade;
 import beanstesty.PasekwynagrodzenBean;
 import beanstesty.UmowaBean;
 import dao.AngazFacade;
@@ -14,7 +15,7 @@ import dao.KalendarzmiesiacFacade;
 import dao.KalendarzwzorFacade;
 import dao.KodyzawodowFacade;
 import dao.NieobecnoscFacade;
-import dao.NieobecnosckodzusFacade;
+import dao.SwiadczeniekodzusFacade;
 import dao.RodzajwynagrodzeniaFacade;
 import dao.SkladnikWynagrodzeniaFacade;
 import dao.StanowiskopracFacade;
@@ -48,6 +49,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import kadryiplace.WynKodTyt;
 import msg.Msg;
 
 /**
@@ -85,7 +87,7 @@ public class UmowaView  implements Serializable {
     @Inject
     private KalendarzwzorFacade kalendarzwzorFacade;
     @Inject
-    private NieobecnosckodzusFacade nieobecnosckodzusFacade;
+    private SwiadczeniekodzusFacade nieobecnosckodzusFacade;
     @Inject
     private NieobecnoscFacade nieobecnoscFacade;
     @Inject
@@ -651,7 +653,24 @@ public class UmowaView  implements Serializable {
     }
 
 
-   
+    @Inject
+    private WynKodTytFacade wynKodTytFacade;
+    @Inject
+    private UmowakodzusFacade umowakodzusFacade;
+    public void generujtabele() {
+        Msg.msg("Start");
+        List<WynKodTyt> findAll = wynKodTytFacade.findAll();
+        for (WynKodTyt p : findAll) {
+            Umowakodzus s  = new Umowakodzus();
+            s.setKod(p.getWktKod());
+            s.setOpis(p.getWktOpis());
+            s.setWkt_serial(p.getWktSerial());
+            s.setPraca(p.getWktUmZlec().equals('N'));
+            s.setZlecenie(p.getWktUmZlec().equals('T'));
+            umowakodzusFacade.create(s);
+        }
+        Msg.dP();
+    }
       
     
     

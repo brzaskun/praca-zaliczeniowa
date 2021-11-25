@@ -176,8 +176,8 @@ xmlns:pe="http://primefaces.org/ui/extensions">
             </p:tab>
              <p:tab title="Rodzaje nieobecności">
                 <h:form id="SlownikNieobecnosciForm">
-                    <p:dataTable id="datalistn" value="#{nieobecnosckodzusView.lista}" var="item13"
-                                 selectionMode="single" selection="#{nieobecnosckodzusView.selectedlista}"
+                    <p:dataTable id="datalistn" value="#{swiadczeniekodzusView.lista}" var="item13"
+                                 selectionMode="single" selection="#{swiadczeniekodzusView.selectedlista}"
                                  rowKey="#{item13.id}" 
                                  style=" width: 1200px;"
                                  >
@@ -238,7 +238,7 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                         </p:column>
                         
                     </p:dataTable>
-                    <p:commandButton value="zachowaj" styleClass="buttonnorm" actionListener="#{nieobecnosckodzusView.zachowaj}" update="@form"/>
+                    <p:commandButton value="zachowaj" styleClass="buttonnorm" actionListener="#{swiadczeniekodzusView.zachowaj}" update="@form"/>
                 </h:form>
             </p:tab>
              <p:tab title="Zmienne podatkowe">

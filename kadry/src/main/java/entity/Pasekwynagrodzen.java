@@ -867,8 +867,8 @@ public class Pasekwynagrodzen implements Serializable {
             for (Naliczenienieobecnosc p : this.naliczenienieobecnoscList) {
                 Skladnikwynlista wiersz = new Skladnikwynlista();
                 wiersz.lp = i++;
-                wiersz.kod = p.getNieobecnosc().getNieobecnosckodzus().getKod();
-                wiersz.nazwa = p.getNieobecnosc().getNieobecnosckodzus().getOpisskrocony()+"/"+p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getOpisskrocony();
+                wiersz.kod = p.getNieobecnosc().getSwiadczeniekodzus().getKod();
+                wiersz.nazwa = p.getNieobecnosc().getSwiadczeniekodzus().getOpisskrocony()+"/"+p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getOpisskrocony();
                 wiersz.kwota = p.getKwota();
                 wiersz.redukcja = p.getKwotaredukcji()+p.getKwotastatystyczna();
                 wiersz.dataod = p.getNieobecnosc().getDataod();

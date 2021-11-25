@@ -25,7 +25,7 @@ public class NieobecnosciBean {
            choroba = new Nieobecnosc();
            choroba.setDataod("2020-12-03");
            choroba.setDatado("2020-12-05");
-           choroba.setNieobecnosckodzus(NieobecnosckodzusBean.createChoroba());
+           choroba.setSwiadczeniekodzus(NieobecnosckodzusBean.createChoroba());
         }
         return choroba;
     }
@@ -34,7 +34,7 @@ public class NieobecnosciBean {
            choroba2 = new Nieobecnosc();
            choroba2.setDataod("2020-12-15");
            choroba2.setDatado("2020-12-17");
-           choroba2.setNieobecnosckodzus(NieobecnosckodzusBean.createChoroba());
+           choroba2.setSwiadczeniekodzus(NieobecnosckodzusBean.createChoroba());
         }
         return choroba2;
     }
@@ -43,7 +43,7 @@ public class NieobecnosciBean {
            korektakalendarzagora = new Nieobecnosc();
            korektakalendarzagora.setDataod("2020-12-01");
            korektakalendarzagora.setDatado("2020-12-02");
-           korektakalendarzagora.setNieobecnosckodzus(NieobecnosckodzusBean.createKorektakalendarza());
+           korektakalendarzagora.setSwiadczeniekodzus(NieobecnosckodzusBean.createKorektakalendarza());
         }
         return korektakalendarzagora;
     }
@@ -53,7 +53,7 @@ public class NieobecnosciBean {
            korektakalendarzadol = new Nieobecnosc();
            korektakalendarzadol.setDataod("2020-12-30");
            korektakalendarzadol.setDatado("2020-12-31");
-           korektakalendarzadol.setNieobecnosckodzus(NieobecnosckodzusBean.createKorektakalendarza());
+           korektakalendarzadol.setSwiadczeniekodzus(NieobecnosckodzusBean.createKorektakalendarza());
         }
         return korektakalendarzadol;
     }
@@ -67,7 +67,7 @@ public class NieobecnosciBean {
            urlop.setDatado("2020-12-09");
            urlop.setDnikalendarzowe(3);
            urlop.setDniroboczenieobecnosci(3);
-           urlop.setNieobecnosckodzus(NieobecnosckodzusBean.createUrlop());
+           urlop.setSwiadczeniekodzus(NieobecnosckodzusBean.createUrlop());
         }
         return urlop;
     }
@@ -77,7 +77,7 @@ public class NieobecnosciBean {
            urlopbezplatny = new Nieobecnosc();
            urlopbezplatny.setDataod("2020-12-28");
            urlopbezplatny.setDatado("2020-12-29");
-           urlopbezplatny.setNieobecnosckodzus(NieobecnosckodzusBean.createUrlopBezplatny());
+           urlopbezplatny.setSwiadczeniekodzus(NieobecnosckodzusBean.createUrlopBezplatny());
         }
         return urlopbezplatny;
     }

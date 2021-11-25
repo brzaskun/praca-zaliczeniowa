@@ -5,7 +5,7 @@
  */
 package entity;
 
-import dao.NieobecnosckodzusFacade;
+import dao.SwiadczeniekodzusFacade;
 import data.Data;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -356,7 +356,7 @@ private static final long serialVersionUID = 1L;
         return zwrot;
     }
     
-    public List nieobecnoscipdf(NieobecnosckodzusFacade nieobecnosckodzusFacade) {
+    public List nieobecnoscipdf(SwiadczeniekodzusFacade nieobecnosckodzusFacade) {
         List<Nieobecnosc> wykaz = new ArrayList<>();
         if (this.dzienList!=null) {
             Nieobecnosc biezaca = null;
@@ -364,23 +364,23 @@ private static final long serialVersionUID = 1L;
             for (Dzien d : dzienList) {
                 if (cosjest(d.getKod())&&biezaca==null) {
                     //nowykod
-                    Nieobecnosckodzus nieobecnosckodzus = nieobecnosckodzusFacade.findByKod(d.getKod());
+                    Swiadczeniekodzus nieobecnosckodzus = nieobecnosckodzusFacade.findByKod(d.getKod());
                     biezaca = new Nieobecnosc(this.getUmowa());
                     biezaca.setKodzwolnienia(d.getKod());
                     biezaca.setDataod(Data.pelnadata(this,d.getNrdnia()));
                     biezaca.setDatado(Data.pelnadata(this,d.getNrdnia()));
-                    biezaca.setNieobecnosckodzus(nieobecnosckodzus);
+                    biezaca.setSwiadczeniekodzus(nieobecnosckodzus);
                 } else if (cosjest(d.getKod())&&biezaca!=null) {
                     if (d.getKod().equals(biezaca.getKodzwolnienia())) {
                         biezaca.setDatado(Data.pelnadata(this,d.getNrdnia()));
                     } else {
                         wykaz.add(biezaca);
-                        Nieobecnosckodzus nieobecnosckodzus = nieobecnosckodzusFacade.findByKod(d.getKod());
+                        Swiadczeniekodzus nieobecnosckodzus = nieobecnosckodzusFacade.findByKod(d.getKod());
                         biezaca = new Nieobecnosc(this.getUmowa());
                         biezaca.setKodzwolnienia(d.getKod());
                         biezaca.setDataod(Data.pelnadata(this,d.getNrdnia()));
                         biezaca.setDatado(Data.pelnadata(this,d.getNrdnia()));
-                        biezaca.setNieobecnosckodzus(nieobecnosckodzus);
+                        biezaca.setSwiadczeniekodzus(nieobecnosckodzus);
                     }
                 } else if (!cosjest(d.getKod())&&biezaca!=null) {
                         wykaz.add(biezaca);
@@ -523,19 +523,19 @@ private static final long serialVersionUID = 1L;
         for (int i = dzienod; i <= dziendo; i++) {
             final int j = i;
             Dzien dzienaktualny = this.dzienList.stream().filter(pa->pa.getNrdnia()==j).findFirst().get();
-            dzienaktualny.setKod(p.getNieobecnosckodzus().getKod());
-            if (p.getNieobecnosckodzus().getKod().equals("331")) {
+            dzienaktualny.setKod(p.getSwiadczeniekodzus().getKod());
+            if (p.getSwiadczeniekodzus().getKod().equals("331")) {
                 dzienaktualny.setWynagrodzeniezachorobe(dzienaktualny.getNormagodzin());
                 dzienaktualny.setPrzepracowano(0);
-            } else if (p.getNieobecnosckodzus().getKod().equals("100")) {
+            } else if (p.getSwiadczeniekodzus().getKod().equals("100")) {
                 dzienaktualny.setUrlopPlatny(dzienaktualny.getNormagodzin());
                 dzienaktualny.setPrzepracowano(0);
-            } else if (p.getNieobecnosckodzus().getKod().equals("111")) {
+            } else if (p.getSwiadczeniekodzus().getKod().equals("111")) {
                 dzienaktualny.setUrlopbezplatny(dzienaktualny.getNormagodzin());
                 dzienaktualny.setPrzepracowano(0);
-            } else if (p.getNieobecnosckodzus().getKod().equals("777")) {
+            } else if (p.getSwiadczeniekodzus().getKod().equals("777")) {
                 
-            } else if (p.getNieobecnosckodzus().getKod().equals("200")) {
+            } else if (p.getSwiadczeniekodzus().getKod().equals("200")) {
                 dzienaktualny.setNormagodzin(0);
                 dzienaktualny.setPrzepracowano(0);
             }

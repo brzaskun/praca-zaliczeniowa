@@ -37,9 +37,18 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Umowakodzus.findByAktywneZlecenie", query = "SELECT u FROM Umowakodzus u WHERE u.zlecenie = TRUE ORDER BY u.kod"),
     @NamedQuery(name = "Umowakodzus.findByAktywnePraca", query = "SELECT u FROM Umowakodzus u WHERE u.praca = TRUE ORDER BY u.kod"),
     @NamedQuery(name = "Umowakodzus.findByKod", query = "SELECT u FROM Umowakodzus u WHERE u.kod = :kod"),
+    @NamedQuery(name = "Umowakodzus.findByWktSerial", query = "SELECT u FROM Umowakodzus u WHERE u.wkt_serial = :wktserial"),
     @NamedQuery(name = "Umowakodzus.findByOpis", query = "SELECT u FROM Umowakodzus u WHERE u.opis = :opis")})
 public class Umowakodzus implements Serializable {
-
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id")
+    private Integer id;
+    //skladnik wybagrodzenia
+    @Column(name = "wkt_serial")
+    private Integer wkt_serial;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 4)
@@ -56,13 +65,6 @@ public class Umowakodzus implements Serializable {
     private boolean praca;
     @Column(name = "zlecenie")
     private boolean zlecenie;
-
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id")
-    private Integer id;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "umowakodzus")
     private List<Umowa> umowaList;
 
@@ -113,6 +115,14 @@ public class Umowakodzus implements Serializable {
 
     public void setOpiswlasny(String opiswlasny) {
         this.opiswlasny = opiswlasny;
+    }
+
+    public Integer getWkt_serial() {
+        return wkt_serial;
+    }
+
+    public void setWkt_serial(Integer wkt_serial) {
+        this.wkt_serial = wkt_serial;
     }
 
 

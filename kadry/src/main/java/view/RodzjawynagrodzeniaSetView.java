@@ -5,6 +5,7 @@
  */
 package view;
 
+import DAOsuperplace.WynKodSklFacade;
 import dao.RodzajwynagrodzeniaFacade;
 import entity.Rodzajwynagrodzenia;
 import java.io.Serializable;
@@ -13,6 +14,7 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import kadryiplace.WynKodSkl;
 import msg.Msg;
 
 /**
@@ -28,6 +30,7 @@ public class RodzjawynagrodzeniaSetView  implements Serializable {
     private Rodzajwynagrodzenia selectedlista;
     private List<Rodzajwynagrodzenia> lista;
     
+    
     @PostConstruct
     private void init() {
         lista = rodzajwynagrodzeniaFacade.findAll();
@@ -36,6 +39,26 @@ public class RodzjawynagrodzeniaSetView  implements Serializable {
     public void zachowaj() {
         rodzajwynagrodzeniaFacade.editList(lista);
         Msg.msg("Zmiany zachowane");
+    }
+    
+    @Inject
+    private WynKodSklFacade wynKodSklFacade;
+    public void generujtabele() {
+        Msg.msg("Start");
+        List<WynKodSkl> findAll = wynKodSklFacade.findAll();
+        for (WynKodSkl p : findAll) {
+            Rodzajwynagrodzenia s  = new Rodzajwynagrodzenia();
+            s.setKod(p.getWksKod());
+            s.setOpispelny(p.getWksOpis());
+            s.setOpisskrocony(p.getWksOpisSkr());
+            s.setWks_serial(p.getWksSerial());
+            s.setPodatek0bezpodatek1(p.getWksPodDoch().equals('T')==true);
+            s.setZus0bezzus1(p.getWksZus().equals('N')==false);
+            s.setSredniaurlopowakraj(p.getWksPdstUrlop().equals('N')==false);
+            s.setPodstzasilekchorobowy(p.getWksPdstZasChor().equals('T')==true);
+            rodzajwynagrodzeniaFacade.create(s);
+        }
+        Msg.dP();
     }
     
     public List<Rodzajwynagrodzenia> getLista() {

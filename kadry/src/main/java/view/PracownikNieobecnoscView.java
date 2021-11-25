@@ -111,13 +111,13 @@ public class PracownikNieobecnoscView  implements Serializable {
         for (Kalendarzmiesiac p : kalendarze) {
             for (Dzien r : p.getDzienList()) {
                 if (r.getNieobecnosc()!=null) {
-                    if (r.getNieobecnosc().getNieobecnosckodzus().getKod().equals(kod)) {
+                    if (r.getNieobecnosc().getSwiadczeniekodzus().getKod().equals(kod)) {
                         Nieobecnoscwykorzystanie wykorzystanie = new Nieobecnoscwykorzystanie();
                         wykorzystanie.setMc(p.getMc());
                         wykorzystanie.setData(Data.zrobdate(r.getNrdnia(), p.getMc(), p.getRok()));
                         wykorzystanie.setDni(1);
-                        wykorzystanie.setOpis(r.getNieobecnosc().getNieobecnosckodzus().getOpisskrocony());
-                        wykorzystanie.setKod(r.getNieobecnosc().getNieobecnosckodzus().getKod());
+                        wykorzystanie.setOpis(r.getNieobecnosc().getSwiadczeniekodzus().getOpisskrocony());
+                        wykorzystanie.setKod(r.getNieobecnosc().getSwiadczeniekodzus().getKod());
                         if (kod.equals("100")) {
                             wykorzystanie.setGodziny((int) r.getUrlopPlatny());
                         }
