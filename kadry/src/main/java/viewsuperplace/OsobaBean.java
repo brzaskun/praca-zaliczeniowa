@@ -262,6 +262,25 @@ public class OsobaBean {
         return zwrot;
     }
     
+    static List<Skladnikwynagrodzenia> pobierzskladnikzlecenie(List<OsobaZlec> skladniki, List<Rodzajwynagrodzenia> rodzajewynagrodzenia, List<Umowa> umowyzlecenia, SkladnikWynagrodzeniaFacade skladnikWynagrodzeniaFacade, ZmiennaWynagrodzeniaFacade zmiennaWynagrodzeniaFacade) {
+        List<Skladnikwynagrodzenia> zwrot = new ArrayList<>();
+        if (skladniki!=null) {
+            OsobaZlec wybrany = null;
+            for (OsobaZlec s : skladniki) {
+                if (wybrany == null) {
+                    wybrany = s;
+                    Skladnikwynagrodzenia generujskladnik = generujskladnikzlecenie(wybrany, rodzajewynagrodzenia, umowyzlecenia, skladnikWynagrodzeniaFacade, zmiennaWynagrodzeniaFacade);
+                    zwrot.add(generujskladnik);
+                } else if (s.getOzlSerial()>wybrany.getOzlSerial()) {
+                    wybrany = s;
+                    Skladnikwynagrodzenia generujskladnik = generujskladnikzlecenie(wybrany, rodzajewynagrodzenia, umowyzlecenia, skladnikWynagrodzeniaFacade, zmiennaWynagrodzeniaFacade);
+                    zwrot.add(generujskladnik);
+                }
+            }
+        }
+        return zwrot;
+    }
+    
     private static Skladnikwynagrodzenia generujskladnik(OsobaSkl wybrany, List<Rodzajwynagrodzenia> rodzajewynagrodzenia, Umowa aktywna, SkladnikWynagrodzeniaFacade skladnikWynagrodzeniaFacade, ZmiennaWynagrodzeniaFacade zmiennaWynagrodzeniaFacade) {
         Skladnikwynagrodzenia skladnik = new Skladnikwynagrodzenia();
         skladnik.setUmowa(aktywna);
@@ -271,12 +290,45 @@ public class OsobaBean {
         return skladnik;
     }
     
+     private static Skladnikwynagrodzenia generujskladnikzlecenie(OsobaZlec wybrany, List<Rodzajwynagrodzenia> rodzajewynagrodzenia, List<Umowa> umowyzlecenia, SkladnikWynagrodzeniaFacade skladnikWynagrodzeniaFacade, ZmiennaWynagrodzeniaFacade zmiennaWynagrodzeniaFacade) {
+        Skladnikwynagrodzenia skladnik = new Skladnikwynagrodzenia();
+        Umowa aktywna = pobierzumowezlecenia(wybrany, umowyzlecenia);
+        skladnik.setUmowa(aktywna);
+        skladnik.setRodzajwynagrodzenia(pobierzrodzajwynagrodzeniazlecenie(wybrany,rodzajewynagrodzenia));
+        skladnikWynagrodzeniaFacade.create(skladnik);
+        pobierzzmiennawynagrodzeniazlecenie(aktywna, skladnik, wybrany, zmiennaWynagrodzeniaFacade);
+        return skladnik;
+    }
+    private static Umowa pobierzumowezlecenia(OsobaZlec wybrany, List<Umowa> umowyzlecenia) {
+        Umowa zwrot = null;
+        for (Umowa u: umowyzlecenia) {
+            if (u.getNrkolejny().equals(wybrany.getOzlNrUmowy())) {
+                zwrot = u;
+            }
+        }
+        return zwrot;
+    }
     private static Rodzajwynagrodzenia pobierzrodzajwynagrodzenia(OsobaSkl s, List<Rodzajwynagrodzenia> rodzajewynagrodzenia) {
         Rodzajwynagrodzenia zwrot = null;
         if (rodzajewynagrodzenia!=null) {
             for (Rodzajwynagrodzenia p : rodzajewynagrodzenia) {
                 if (p.getKod().equals(s.getOssWksSerial().getWksKod())) {
                     if (p.getOpispelny().equals(s.getOssWksSerial().getWksOpis())){
+                        zwrot = p;
+                        break;
+                    }
+                }
+            }
+        }
+        return zwrot;
+    }
+    
+     private static Rodzajwynagrodzenia pobierzrodzajwynagrodzeniazlecenie(OsobaZlec s, List<Rodzajwynagrodzenia> rodzajewynagrodzenia) {
+        Rodzajwynagrodzenia zwrot = null;
+        if (rodzajewynagrodzenia!=null) {
+            for (Rodzajwynagrodzenia p : rodzajewynagrodzenia) {
+                if (p.getKod().equals(s.getOzlWksSerial().getWksKod())) {
+                    if (p.getOpispelny().equals(s.getOzlWksSerial().getWksOpis())){
                         zwrot = p;
                         break;
                     }
@@ -347,6 +399,26 @@ public class OsobaBean {
             }
         }
     }
+    
+    static void pobierzzmiennawynagrodzeniazlecenie(Umowa aktywna, Skladnikwynagrodzenia skladnikwynagrodzenia, OsobaZlec s, ZmiennaWynagrodzeniaFacade zmiennaWynagrodzeniaFacade) {
+        if (skladnikwynagrodzenia!=null) {
+            Zmiennawynagrodzenia wiersz = new Zmiennawynagrodzenia();
+            wiersz.setSkladnikwynagrodzenia(skladnikwynagrodzenia);
+            wiersz.setNazwa(s.getOzlWksSerial().getWksOpisSkr());
+            wiersz.setNetto0brutto1(true);
+            wiersz.setWaluta("PLN");
+            wiersz.setDataod(Data.data_yyyyMMdd(s.getOzlDataOd()));
+            if (s.getOzlDataDo()!=null) {
+                wiersz.setDatado(Data.data_yyyyMMdd(s.getOzlDataDo()));
+            } else {
+                wiersz.setAktywna(true);
+            }
+            wiersz.setKwota(Z.z(s.getOzlKwota().doubleValue()));
+            if (wiersz.getKwota()!=0.0) {
+                zmiennaWynagrodzeniaFacade.create(wiersz);
+            }
+        }
+    }
 
 //     static public void naniesnieobecnosc(Nieobecnosc nieobecnosc) {
 //        if (nieobecnosc.isNaniesiona() == false) {
@@ -398,6 +470,9 @@ public class OsobaBean {
                         nowypasek.setRok(rok);
                         nowypasek.setMc(mc);
                         nowypasek.setImportowany(true);
+                        List<PlaceZlec> placeZlecList = r.getPlaceZlecList();
+                        historycznenaliczeniezlecenie(placeZlecList, nowypasek, skladnikwynagrodzenia);
+                        nowypasek.setBrutto(nowypasek.getBrutto()+nowypasek.getBruttobezzus() + nowypasek.getBruttozus() + nowypasek.getBruttobezzusbezpodatek());
                         zwrot.add(nowypasek);
                     }
                 } else {
@@ -422,6 +497,25 @@ public class OsobaBean {
     }
 
     
+        static void historycznenaliczeniezlecenie(List<PlaceZlec> placeZlecList, Pasekwynagrodzen pasekwynagrodzen, List<Skladnikwynagrodzenia> skladnikwynagrodzenia) {
+        for (PlaceZlec p : placeZlecList) {
+            Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = new Naliczenieskladnikawynagrodzenia();
+            naliczenieskladnikawynagrodzenia.setDataod(Data.data_yyyyMMddNull(p.getPzlDataOd()));
+            naliczenieskladnikawynagrodzenia.setDatado(Data.data_yyyyMMddNull(p.getPzlDataDo()));
+            naliczenieskladnikawynagrodzenia.setKwotadolistyplac(p.getPzlKwota().doubleValue());
+            naliczenieskladnikawynagrodzenia.setSkladnikwynagrodzenia(histporiapobierzskladnikzlecenie(p, skladnikwynagrodzenia));
+            naliczenieskladnikawynagrodzenia.setSkl_dod_1(p.getPzlDod1());
+            if (p.getPzlZus().equals('T')) {
+                pasekwynagrodzen.setBruttozus(Z.z(pasekwynagrodzen.getBruttozus()+p.getPzlKwota().doubleValue()));
+            } else if (p.getPzlPodDoch().equals('T')) {
+                    pasekwynagrodzen.setBruttobezzus(Z.z(pasekwynagrodzen.getBruttobezzus()+p.getPzlKwota().doubleValue()));
+            } else {
+                pasekwynagrodzen.setBruttobezzusbezpodatek(Z.z(pasekwynagrodzen.getBruttobezzusbezpodatek()+p.getPzlKwota().doubleValue()));
+            }
+            naliczenieskladnikawynagrodzenia.setPasekwynagrodzen(pasekwynagrodzen);
+            pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().add(naliczenieskladnikawynagrodzenia);
+        }
+    }
         static void historycznenaliczeniewynagrodzenia(List<PlaceSkl> placeSklList, Pasekwynagrodzen pasekwynagrodzen, List<Skladnikwynagrodzenia> skladnikwynagrodzenia) {
         for (PlaceSkl p : placeSklList) {
             if (!p.getSklRodzaj().equals('U')) {//U to sa redukcje wynagrodzenia
@@ -489,6 +583,19 @@ public class OsobaBean {
         if (skladnikwynagrodzenia!=null) {
             for (Skladnikwynagrodzenia p : skladnikwynagrodzenia) {
                 if (p.getRodzajwynagrodzenia().getWks_serial().equals(s.getSklWksSerial().getWksSerial())) {
+                    zwrot = p;
+                    break;
+                }
+            }
+        }
+        return zwrot;
+    }
+     
+     private static Skladnikwynagrodzenia histporiapobierzskladnikzlecenie(PlaceZlec s, List<Skladnikwynagrodzenia> skladnikwynagrodzenia) {
+        Skladnikwynagrodzenia zwrot = null;
+        if (skladnikwynagrodzenia!=null) {
+            for (Skladnikwynagrodzenia p : skladnikwynagrodzenia) {
+                if (p.getUmowa().getNrkolejny().equals(s.getPzlLplSerial().getLplPotrInne1Opis())) {
                     zwrot = p;
                     break;
                 }
@@ -591,6 +698,8 @@ public class OsobaBean {
         String data = "1970-05-11";
         System.out.println(obliczdata26(data));
     }
+
+    
 
    
     

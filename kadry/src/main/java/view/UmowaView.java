@@ -15,10 +15,10 @@ import dao.KalendarzmiesiacFacade;
 import dao.KalendarzwzorFacade;
 import dao.KodyzawodowFacade;
 import dao.NieobecnoscFacade;
-import dao.SwiadczeniekodzusFacade;
 import dao.RodzajwynagrodzeniaFacade;
 import dao.SkladnikWynagrodzeniaFacade;
 import dao.StanowiskopracFacade;
+import dao.SwiadczeniekodzusFacade;
 import dao.UmowaFacade;
 import dao.UmowakodzusFacade;
 import dao.ZmiennaWynagrodzeniaFacade;
@@ -393,6 +393,7 @@ public class UmowaView  implements Serializable {
             wpisView.setUmowa(selectedlista);
             wpisView.setFirma(selectedlista.getAngaz().getFirma());
             wpisView.setPracownik(selectedlista.getAngaz().getPracownik());
+            updateClassView.updateUmowa();
             Msg.msg("Aktywowano umowę");
         }
     }

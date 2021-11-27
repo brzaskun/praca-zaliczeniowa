@@ -100,7 +100,7 @@ public class UmowaBean {
     public static Umowa createzlecenie(int numerumowy, Angaz angaz, OsobaZlec r) {
         Umowa umowa = new Umowa();
         umowa.setAngaz(angaz);
-        umowa.setNrkolejny("UC/IMP/"+String.valueOf(numerumowy)+"/"+String.valueOf(angaz.getId()));
+        umowa.setNrkolejny(r.getOzlNrUmowy());
         umowa.setDataod(Data.data_yyyyMMddNull(r.getOzlDataOd()));
         umowa.setDatado(Data.data_yyyyMMddNull(r.getOzlDataDo()));
         umowa.setDataspoleczne(Data.data_yyyyMMddNull(r.getOzlDataOd()));

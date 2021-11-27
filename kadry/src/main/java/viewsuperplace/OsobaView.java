@@ -276,13 +276,18 @@ public class OsobaView implements Serializable {
                                 List<Okres> okresList = pobierzokresySuperplace(1, rok.getOkresList());
                                 List<Rachunekdoumowyzlecenia> rachunki = OsobaBean.zrobrachunkidozlecenia(wpisView, osoba);
                                 rachunekdoumowyzleceniaFacade.createList(rachunki);
-                                Msg.msg("Zrobiono rachunki do zleceń za 2020");
-                                List<Pasekwynagrodzen> paskiumowazlecenia = OsobaBean.zrobpaskiimportUmowaopraceizlecenia(wpisView, osoba, okresList, true, datakonca26lat, null, null);
-                                List<Definicjalistaplac> listyumowazlecenia = definicjalistaplacFacade.findByFirmaRokUmowazlecenia(wpisView.getFirma(), rokdlakalendarza);
-                                List<Kalendarzmiesiac> kalendarze = kalendarzmiesiacFacade.findByRokUmowa(aktywna, rokdlakalendarza);
-                                List<Pasekwynagrodzen> paskigotowe = OsobaBean.dodajlisteikalendarzdopaska(paskiumowazlecenia, listyumowazlecenia, kalendarze);
-                                pasekwynagrodzenFacade.createList(paskigotowe);
-                                Msg.msg("Zrobiono kalendarz i paski za 2020 umowa zlecenia");
+                                Msg.msg("Zrobiono rachunki do zleceń");
+                                List<OsobaZlec> skladniki = osoba.getOsobaZlecList();
+                                List<Rodzajwynagrodzenia> rodzajewynagrodzenia = rodzajwynagrodzeniaFacade.findAll();
+                                List<Skladnikwynagrodzenia> skladnikwynagrodzenia = OsobaBean.pobierzskladnikzlecenie(skladniki, rodzajewynagrodzenia, umowyzlecenia, skladnikWynagrodzeniaFacade, zmiennaWynagrodzeniaFacade);
+                                List<Pasekwynagrodzen> paskiumowazlecenia = OsobaBean.zrobpaskiimportUmowaopraceizlecenia(wpisView, osoba, okresList, true, datakonca26lat, skladnikwynagrodzenia, null);
+                                if (paskiumowazlecenia.size()>0) {
+                                    List<Definicjalistaplac> listyumowazlecenia = definicjalistaplacFacade.findByFirmaRokUmowazlecenia(wpisView.getFirma(), rokdlakalendarza);
+                                    List<Kalendarzmiesiac> kalendarze = kalendarzmiesiacFacade.findByRokUmowa(aktywna, rokdlakalendarza);
+                                    List<Pasekwynagrodzen> paskigotowe = OsobaBean.dodajlisteikalendarzdopaska(paskiumowazlecenia, listyumowazlecenia, kalendarze);
+                                    pasekwynagrodzenFacade.createList(paskigotowe);
+                                    Msg.msg("Zrobiono kalendarz i paski za 2020 umowa zlecenia");
+                                }
                                 //koniec paski 2020 umowa zlecenia
                                 rokdlakalendarza = "2021";
                                 //paski rok 2021 umowa zlecenia
@@ -290,12 +295,14 @@ public class OsobaView implements Serializable {
                                 kalendarzmiesiacFacade.createList(generujKalendarzNowaUmowa);
                                 rok = pobierzrok(rokdlakalendarza, rokList);
                                 okresList = pobierzokresySuperplace(1, rok.getOkresList());
-                                paskiumowazlecenia = OsobaBean.zrobpaskiimportUmowaopraceizlecenia(wpisView, osoba, okresList, false, datakonca26lat, null, null);
-                                listyumowazlecenia = definicjalistaplacFacade.findByFirmaRokUmowaoprace(wpisView.getFirma(), rokdlakalendarza);
-                                kalendarze = kalendarzmiesiacFacade.findByRokUmowa(aktywna, rokdlakalendarza);
-                                paskigotowe = OsobaBean.dodajlisteikalendarzdopaska(paskiumowazlecenia, listyumowazlecenia, kalendarze);
-                                pasekwynagrodzenFacade.createList(paskigotowe);
-                                Msg.msg("Zrobiono kalendarz i paski za 2021 umowa zlecenia");
+                                paskiumowazlecenia = OsobaBean.zrobpaskiimportUmowaopraceizlecenia(wpisView, osoba, okresList, true, datakonca26lat, skladnikwynagrodzenia, null);
+                                if (paskiumowazlecenia.size()>0) {
+                                    List<Definicjalistaplac> listyumowazlecenia = definicjalistaplacFacade.findByFirmaRokUmowazlecenia(wpisView.getFirma(), rokdlakalendarza);
+                                    List<Kalendarzmiesiac> kalendarze = kalendarzmiesiacFacade.findByRokUmowa(aktywna, rokdlakalendarza);
+                                    List<Pasekwynagrodzen> paskigotowe = OsobaBean.dodajlisteikalendarzdopaska(paskiumowazlecenia, listyumowazlecenia, kalendarze);
+                                    pasekwynagrodzenFacade.createList(paskigotowe);
+                                    Msg.msg("Zrobiono kalendarz i paski za 2021 umowa zlecenia");
+                                }
                                 //koniec paski 2021 umowa zlecenia
                             } catch (Exception e) {
                             }

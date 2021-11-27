@@ -849,8 +849,8 @@ public class Pasekwynagrodzen implements Serializable {
             for (Naliczenieskladnikawynagrodzenia p : this.naliczenieskladnikawynagrodzeniaList) {
                 Skladnikwynlista wiersz = new Skladnikwynlista();
                 wiersz.lp = i++;
-                wiersz.kod = p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod();
-                wiersz.nazwa = p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getOpisskrocony();
+                wiersz.kod = p.getSkladnikwynagrodzenia()!=null?p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod():"";
+                wiersz.nazwa = p.getSkladnikwynagrodzenia()!=null?p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getOpisskrocony():"";
                 wiersz.kwota = p.getKwotadolistyplac();
                 wiersz.redukcja = p.getKwotyredukujacesuma();
                 wiersz.dataod = p.getDataod();
@@ -859,8 +859,10 @@ public class Pasekwynagrodzen implements Serializable {
                 wiersz.dniprzepracowane = p.getDnifaktyczne();
                 wiersz.godzinyobowiazku = p.getGodzinynalezne();
                 wiersz.godzinyprzepracowane = p.getGodzinyfaktyczne();
-                wiersz.setUrlopSP(p.getSkl_dod_1()!=null&&p.getSkl_dod_1().equals('T'));
-                wiersz.setRedukcjaSP(p.getSkl_rodzaj()!=null&&p.getSkl_rodzaj().equals('U'));
+                if (p.getPasekwynagrodzen().getKalendarzmiesiac().getUmowa().getUmowakodzus().isPraca()) {
+                    wiersz.setUrlopSP(p.getSkl_dod_1()!=null&&p.getSkl_dod_1().equals('T'));
+                    wiersz.setRedukcjaSP(p.getSkl_rodzaj()!=null&&p.getSkl_rodzaj().equals('U'));
+                }
                 zwrot.add(wiersz);
             }
         }
