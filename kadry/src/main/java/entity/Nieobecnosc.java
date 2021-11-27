@@ -154,7 +154,8 @@ public class Nieobecnosc implements Serializable {
             this.datado = Data.data_yyyyMMdd(r.getOspDataDo());
             this.opis = r.getOspAbsSerial().getAbsOpis();
             this.uzasadnienie = r.getOspVchar1();
-            this.dnikalendarzowe = r.getOspLiczba();
+            this.dnikalendarzowe = Data.iletodniKalendarzowych(this.dataod, this.datado);
+            this.dniroboczenieobecnosci = r.getOspLiczba();
             this.godzinyroboczenieobecnosc = r.getOspNum2().doubleValue();
             this.kodzwolnienia = r.getOspAbsSerial().getAbsKod().toString();
             this.umowa = umowa;

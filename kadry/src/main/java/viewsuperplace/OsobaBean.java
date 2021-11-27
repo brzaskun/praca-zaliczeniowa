@@ -10,7 +10,6 @@ import comparator.Umowacomparator;
 import comparator.ZatrudHistComparator;
 import dao.KalendarzmiesiacFacade;
 import dao.KalendarzwzorFacade;
-import dao.NieobecnoscFacade;
 import dao.SkladnikWynagrodzeniaFacade;
 import dao.ZmiennaWynagrodzeniaFacade;
 import data.Data;
@@ -349,8 +348,44 @@ public class OsobaBean {
         }
     }
 
+//     static public void naniesnieobecnosc(Nieobecnosc nieobecnosc) {
+//        if (nieobecnosc.isNaniesiona() == false) {
+//            try {
+//                if (nieobecnosc.getRokod().equals() || nieobecnosc.getRokdo().equals(wpisView.getRokWpisu())) {
+//                    String mcod = nieobecnosc.getMcod();
+//                    if (nieobecnosc.getRokod().equals(wpisView.getRokUprzedni())) {
+//                        mcod = "01";
+//                    }
+//                    String mcdo = nieobecnosc.getMcdo();
+//                    for (String mc : Mce.getMceListS()) {
+//                        if (Data.jestrownywiekszy(mc, mcod) && Data.jestrownywiekszy(mcdo, mc)) {
+//                            Kalendarzmiesiac znaleziony = kalendarzmiesiacFacade.findByRokMcUmowa(wpisView.getUmowa(), wpisView.getRokWpisu(), mc);
+//                            if (znaleziony != null) {
+//                                if (nieobecnosc.getRokod().equals(wpisView.getRokWpisu()) || nieobecnosc.getRokdo().equals(wpisView.getRokWpisu())) {
+//                                    znaleziony.naniesnieobecnosc(nieobecnosc);
+//                                    nieobecnosc.setDniroboczenieobecnosci(nieobecnosc.getDniroboczenieobecnosci()+Data.iletodniRoboczych(nieobecnosc.getDataod(), nieobecnosc.getDatado(), znaleziony.getDzienList()));
+//                                    nieobecnosc.setNaniesiona(true);
+//                                }
+//                                nieobecnoscFacade.edit(nieobecnosc);
+//                                kalendarzmiesiacFacade.edit(znaleziony);
+//                                czynaniesiono = true;
+//                                kalendarzmiesiacView.init();
+//                            } else {
+//                                Msg.msg("e", "Brak kalendarza pracownika za miesiąc rozliczeniowy. Nie można nanieść nieobecności!");
+//                            }
+//                        }
+//                    }
+//                }
+//            } catch (Exception e) {
+//                Msg.msg("e", "Wystąpił błąd podczas nanoszenia nieobecności");
+//            }
+//        }
+//    }
+//    
+    
+    
     static List<Pasekwynagrodzen> zrobpaskiimportUmowaopraceizlecenia(WpisView wpisView, Osoba osoba, List<Okres> okresList, boolean umowaoprace0zlecenia1, String datakonca26lat,
-        List<Skladnikwynagrodzenia> skladnikwynagrodzenia, List<Rodzajnieobecnosci> rodzajnieobecnoscilist, NieobecnoscFacade nieobecnoscFacade, Umowa umowa, List<Swiadczeniekodzus> swiadczeniekodzuslist) {
+        List<Skladnikwynagrodzenia> skladnikwynagrodzenia, List<Nieobecnosc> nieobecnoscilista) {
         List<Pasekwynagrodzen> zwrot = new ArrayList<>();
         List<Place> placeList = osoba.getPlaceList();
         for (Place r : placeList) {
@@ -376,7 +411,7 @@ public class OsobaBean {
                         List<PlaceSkl> placeSklList = r.getPlaceSklList();
                         historycznenaliczeniewynagrodzenia(placeSklList, nowypasek, skladnikwynagrodzenia);
                         List<PlacePrz>  placePrzList = r.getPlacePrzList();
-                        historycznenaliczenienieobecnosc(placePrzList, nowypasek, rodzajnieobecnoscilist, nieobecnoscFacade, umowa, swiadczeniekodzuslist);
+                        historycznenaliczenienieobecnosc(placePrzList, nowypasek, nieobecnoscilista);
                         nowypasek.setBrutto(nowypasek.getBrutto()+nowypasek.getBruttobezzus() + nowypasek.getBruttozus() + nowypasek.getBruttobezzusbezpodatek());
                         zwrot.add(nowypasek);
                     }
@@ -385,8 +420,9 @@ public class OsobaBean {
         }
         return zwrot;
     }
-    Naliczenienieobecnosc naliczenienieobecnosc = new Naliczenienieobecnosc();
-    static void historycznenaliczeniewynagrodzenia(List<PlaceSkl> placeSklList, Pasekwynagrodzen pasekwynagrodzen, List<Skladnikwynagrodzenia> skladnikwynagrodzenia) {
+
+    
+        static void historycznenaliczeniewynagrodzenia(List<PlaceSkl> placeSklList, Pasekwynagrodzen pasekwynagrodzen, List<Skladnikwynagrodzenia> skladnikwynagrodzenia) {
         for (PlaceSkl p : placeSklList) {
             if (!p.getSklRodzaj().equals('U')) {//U to sa redukcje wynagrodzenia
                 Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = new Naliczenieskladnikawynagrodzenia();
@@ -417,23 +453,10 @@ public class OsobaBean {
         }
     }
     
-    static void historycznenaliczenienieobecnosc(List<PlacePrz> placePrzList, Pasekwynagrodzen pasekwynagrodzen, List<Rodzajnieobecnosci> rodzajnieobecnoscilist, NieobecnoscFacade nieobecnoscFacade, Umowa umowa, List<Swiadczeniekodzus> swiadczeniekodzuslist) {
+    static void historycznenaliczenienieobecnosc(List<PlacePrz> placePrzList, Pasekwynagrodzen pasekwynagrodzen, List<Nieobecnosc> nieobecnoscilista) {
         for (PlacePrz p : placePrzList) {
-            Nieobecnosc nieobecnosc = new Nieobecnosc();
-            nieobecnosc.setDataod(Data.data_yyyyMMddNull(p.getPrzDataOd()));
-            nieobecnosc.setDatado(Data.data_yyyyMMddNull(p.getPrzDataDo()));
-            nieobecnosc.setUmowa(umowa);
-            nieobecnosc.setRokod(pasekwynagrodzen.getRok());
-            nieobecnosc.setRokdo(pasekwynagrodzen.getRok());
-            nieobecnosc.setMcod(pasekwynagrodzen.getMc());
-            nieobecnosc.setMcdo(pasekwynagrodzen.getMc());
-            nieobecnosc.setRodzajnieobecnosci(histporiapobierzrodzajnieobescnosci(p, rodzajnieobecnoscilist));
-            if (p.getPrzWkpSerial()!=null) {
-                nieobecnosc.setSwiadczeniekodzus(histporiapobierzswiadczeniekodzus(p, swiadczeniekodzuslist));
-            }
-            nieobecnoscFacade.create(nieobecnosc);
             Naliczenienieobecnosc naliczenienieobecnosc = new Naliczenienieobecnosc();
-            naliczenienieobecnosc.setNieobecnosc(nieobecnosc);
+            naliczenienieobecnosc.setNieobecnosc(historiawyszukajnieobecnosci(p, nieobecnoscilista));
             naliczenienieobecnosc.setLiczbadniobowiazku(30);
             naliczenienieobecnosc.setLiczbadniurlopu(p.getPrzLiczba());
             naliczenienieobecnosc.setPodstawadochoroby(p.getPrzPodstawa().doubleValue());
@@ -446,6 +469,20 @@ public class OsobaBean {
         }
     }
     
+    private static Nieobecnosc historiawyszukajnieobecnosci(PlacePrz p, List<Nieobecnosc> nieobecnoscilista) {
+        Nieobecnosc zwrot = null;
+        for (Nieobecnosc n : nieobecnoscilista) {
+            String przerwaod = Data.data_yyyyMMddNull(p.getPrzDataOd());
+            String przerwado = Data.data_yyyyMMddNull(p.getPrzDataDo());
+            boolean czyjestpo = Data.czyjestpo(n.getDataod(), przerwaod);
+            boolean czyjestprzed = Data.czyjestprzed(n.getDatado(), przerwado);
+            if (czyjestpo&&czyjestprzed) {
+                zwrot = n;
+                break;
+            }
+        }
+        return zwrot;
+    }
     
      private static Skladnikwynagrodzenia histporiapobierzskladnikwynagrodzenia(PlaceSkl s, List<Skladnikwynagrodzenia> skladnikwynagrodzenia) {
         Skladnikwynagrodzenia zwrot = null;
@@ -460,32 +497,7 @@ public class OsobaBean {
         return zwrot;
     }
      
-     private static Rodzajnieobecnosci histporiapobierzrodzajnieobescnosci(PlacePrz s, List<Rodzajnieobecnosci> rodzajnieobecnoscilist) {
-        Rodzajnieobecnosci zwrot = null;
-        if (rodzajnieobecnoscilist!=null) {
-            for (Rodzajnieobecnosci p : rodzajnieobecnoscilist) {
-                if (p.getAbsSerial().equals(s.getPrzWkpSerial().getWkpAbsSerial())) {
-                    zwrot = p;
-                    break;
-                }
-            }
-        }
-        return zwrot;
-    }
-     
-      private static Swiadczeniekodzus histporiapobierzswiadczeniekodzus(PlacePrz s, List<Swiadczeniekodzus> swiadczeniekodzuslist) {
-        Swiadczeniekodzus zwrot = null;
-        if (swiadczeniekodzuslist!=null) {
-            for (Swiadczeniekodzus p : swiadczeniekodzuslist) {
-                if (p.getWkp_serial().equals(s.getPrzWkpSerial().getWkpSerial())) {
-                    zwrot = p;
-                    break;
-                }
-            }
-        }
-        return zwrot;
-    }
-
+   
      static List<Rachunekdoumowyzlecenia> zrobrachunkidozlecenia(WpisView wpisView, Osoba osoba) {
         List<Rachunekdoumowyzlecenia> zwrot = new ArrayList<>();
         List<PlaceZlec> placeList = osoba.getPlaceZlecList();
@@ -523,17 +535,46 @@ public class OsobaBean {
         return paski;
     }
 
-    static List<Nieobecnosc> pobierznieobecnosci(Osoba osoba, Umowa umowa) {
+    static List<Nieobecnosc> pobierznieobecnosci(Osoba osoba, Umowa umowa, List<Rodzajnieobecnosci> rodzajnieobecnoscilist, List<Swiadczeniekodzus> swiadczeniekodzuslist) {
         List<Nieobecnosc> zwrot = new ArrayList<>();
         List<OsobaPrz> osobaPrzList = osoba.getOsobaPrzList();
         for (OsobaPrz r : osobaPrzList) {
             try {
                 Nieobecnosc n = new Nieobecnosc(r, umowa);
+                n.setRodzajnieobecnosci(histporiapobierzrodzajnieobescnosci(r, rodzajnieobecnoscilist));
+                n.setSwiadczeniekodzus(histporiapobierzswiadczeniekodzus(r, swiadczeniekodzuslist));
                 if (n.getUmowa()!=null) {
                     zwrot.add(n);
                 }
             } catch (Exception e){
                 System.out.println("");
+            }
+        }
+        return zwrot;
+    }
+
+    
+      private static Rodzajnieobecnosci histporiapobierzrodzajnieobescnosci(OsobaPrz s, List<Rodzajnieobecnosci> rodzajnieobecnoscilist) {
+        Rodzajnieobecnosci zwrot = null;
+        if (rodzajnieobecnoscilist!=null) {
+            for (Rodzajnieobecnosci p : rodzajnieobecnoscilist) {
+                if (p.getAbsSerial().equals(s.getOspAbsSerial().getAbsSerial())) {
+                    zwrot = p;
+                    break;
+                }
+            }
+        }
+        return zwrot;
+    }
+     
+      private static Swiadczeniekodzus histporiapobierzswiadczeniekodzus(OsobaPrz s, List<Swiadczeniekodzus> swiadczeniekodzuslist) {
+        Swiadczeniekodzus zwrot = null;
+        if (swiadczeniekodzuslist!=null && s.getOspWkpSerial()!=null) {
+            for (Swiadczeniekodzus p : swiadczeniekodzuslist) {
+                if (p.getWkp_serial().equals(s.getOspWkpSerial().getWkpSerial())) {
+                    zwrot = p;
+                    break;
+                }
             }
         }
         return zwrot;

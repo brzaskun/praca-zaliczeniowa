@@ -100,7 +100,7 @@
                 <p:panel header="Lista nieobecności">
                     <p:dataTable id="datalist" value="#{nieobecnoscView.lista}" var="itemNieob" 
                                  selection="#{nieobecnoscView.selectedlista}" rowIndexVar="indexn" sortMode="multiple"
-                                 rowKey="#{itemNieob.id}" 
+                                 rowKey="#{itemNieob.id}"  sortBy="#{itemNieob.dataod}"
                                  style="height: 450px; overflow-y: scroll;"
                                  emptyMessage="Nie wpisano żadnych nieobecności"
                                  >
@@ -110,41 +110,41 @@
                             </f:facet>
                             <h:outputText value="#{indexn+1}" style="height: 20px;"/>
                         </p:column>
-                        <p:column width="50" filterBy="#{itemNieob.swiadczeniekodzus.kod}" filterMatchMode="startsWith"  sortBy="#{itemNieob.swiadczeniekodzus.kod}" sortOrder="desc">
+                        <p:column width="50" filterBy="#{itemNieob.rodzajnieobecnosci.kod}" filterMatchMode="startsWith"  sortBy="#{itemNieob.rodzajnieobecnosci.kod}" sortOrder="desc">
                             <f:facet name="header">
                                 <h:outputText value="kod"/>
                             </f:facet>
-                            <h:outputText value="#{itemNieob.swiadczeniekodzus.kod}" style="#{itemNieob.rokod eq wpisView.rokWpisu ? itemNieob.naniesiona?'color: green':'color: red':'initial'}"/>
+                            <h:outputText value="#{itemNieob.rodzajnieobecnosci.kod}" style="color: #{nieobecnoscView.kolornieobecnosci(itemNieob)};"/>
                         </p:column>
-                        <p:column width="200" filterBy="#{itemNieob.swiadczeniekodzus.opisskrocony}" filterMatchMode="contains">
+                        <p:column width="200" filterBy="#{itemNieob.rodzajnieobecnosci.opis}" filterMatchMode="contains">
                             <f:facet name="header">
                                 <h:outputText value="nazwa"/>
                             </f:facet>
-                            <h:outputText value="#{itemNieob.swiadczeniekodzus.opisskrocony}" style="#{itemNieob.rokod eq wpisView.rokWpisu ? itemNieob.naniesiona?'color: green':'color: red':'initial'}"/>
+                            <h:outputText value="#{itemNieob.rodzajnieobecnosci.opis}" style="color: #{nieobecnoscView.kolornieobecnosci(itemNieob)};"/>
                         </p:column> 
-                        <p:column width="50" filterBy="#{itemNieob.dataod}" filterMatchMode="startsWith" sortBy="#{itemNieob.dataod}" sortOrder="desc">
+                        <p:column width="50" filterBy="#{itemNieob.dataod}" filterMatchMode="startsWith" sortBy="#{itemNieob.dataod}" sortOrder="desc" sortPriority="1">
                             <f:facet name="header">
                                 <h:outputText value="data od"/>
                             </f:facet>
-                            <h:outputText value="#{itemNieob.dataod}" style="#{itemNieob.rokod eq wpisView.rokWpisu ? itemNieob.naniesiona?'color: green':'color: red':'initial'}"/>
+                            <h:outputText value="#{itemNieob.dataod}" style="color: #{nieobecnoscView.kolornieobecnosci(itemNieob)};"/>
                         </p:column>
                         <p:column width="50" filterBy="#{itemNieob.datado}" filterMatchMode="startsWith">
                             <f:facet name="header">
                                 <h:outputText value="data do"/>
                             </f:facet>
-                            <h:outputText value="#{itemNieob.datado}" style="#{itemNieob.rokod eq wpisView.rokWpisu ? itemNieob.naniesiona?'color: green':'color: red':'initial'}"/>
+                            <h:outputText value="#{itemNieob.datado}" style="color: #{nieobecnoscView.kolornieobecnosci(itemNieob)};"/>
                         </p:column>
                         <p:column style="text-align: center;" width="40">
                             <f:facet name="header">
                                 <h:outputText value="dni kal."/>
                             </f:facet>
-                            <h:outputText value="#{itemNieob.dnikalendarzowe}" style="#{itemNieob.rokod eq wpisView.rokWpisu ? itemNieob.naniesiona?'color: green':'color: red':'initial'}"/>
+                            <h:outputText value="#{itemNieob.dnikalendarzowe}" style="color: #{nieobecnoscView.kolornieobecnosci(itemNieob)};"/>
                         </p:column>
                         <p:column style="text-align: center;" width="40">
                             <f:facet name="header">
                                 <h:outputText value="dni rob."/>
                             </f:facet>
-                            <h:outputText value="#{itemNieob.dniroboczenieobecnosci}" style="#{itemNieob.rokod eq wpisView.rokWpisu ? itemNieob.naniesiona?'color: green':'color: red':'initial'}"/>
+                            <h:outputText value="#{itemNieob.dniroboczenieobecnosci}" style="color: #{nieobecnoscView.kolornieobecnosci(itemNieob)};"/>
                         </p:column>
                         <p:column style="text-align: center;" width="40">
                             <f:facet name="header">

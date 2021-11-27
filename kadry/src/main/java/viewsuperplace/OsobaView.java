@@ -31,6 +31,7 @@ import entity.Definicjalistaplac;
 import entity.EtatPrac;
 import entity.FirmaKadry;
 import entity.Kalendarzmiesiac;
+import entity.Nieobecnosc;
 import entity.Pasekwynagrodzen;
 import entity.Pracownik;
 import entity.Rachunekdoumowyzlecenia;
@@ -213,18 +214,30 @@ public class OsobaView implements Serializable {
                             etatpracFacade.createList(etaty);
                             List<OsobaSkl> skladniki = osoba.getOsobaSklList();
                             List<Rodzajwynagrodzenia> rodzajewynagrodzenia = rodzajwynagrodzeniaFacade.findAll();
-                            List<Skladnikwynagrodzenia> skladnikwynagrodzenia = OsobaBean.pobierzskladnikwynagrodzenia(skladniki, rodzajewynagrodzenia, aktywna, skladnikWynagrodzeniaFacade, zmiennaWynagrodzeniaFacade);
                             Msg.msg("Uzupełniono zmienne dotyczące wynagrodzeń");
                             String rokdlakalendarza = "2020";
                             //paski rok 2020 umowa o pracę
                             List<Kalendarzmiesiac> generujKalendarzNowaUmowa = OsobaBean.generujKalendarzNowaUmowa(angaz, pracownik, aktywna, kalendarzmiesiacFacade, kalendarzwzorFacade, rokdlakalendarza);
                             kalendarzmiesiacFacade.createList(generujKalendarzNowaUmowa);
+                            List<Rodzajnieobecnosci> rodzajnieobscnoscilist = rodzajnieobecnosciFacade.findAll();
+                            List<Swiadczeniekodzus> swiadczeniekodzuslist = swiadczeniekodzusFacade.findAll();
+                            List<Nieobecnosc> nieobecnosci = OsobaBean.pobierznieobecnosci(osoba, aktywna, rodzajnieobscnoscilist, swiadczeniekodzuslist);
+                            for (Nieobecnosc p : nieobecnosci) {
+                                p.setImportowana(true);
+                                p.setRokod(Data.getRok(p.getDataod()));
+                                p.setRokdo(Data.getRok(p.getDatado()));
+                                p.setMcod(Data.getMc(p.getDataod()));
+                                p.setMcdo(Data.getMc(p.getDatado()));
+                            }
+                            nieobecnoscFacade.createList(nieobecnosci);
+//                            for (Nieobecnosc nieobecnosc : nieobecnosci) {
+//                                OsobaBean.naniesnieobecnosc(nieobecnosc);
+//                            }
                             List<Rok> rokList = osoba.getOsoFirSerial().getRokList();
                             Rok rok = pobierzrok(rokdlakalendarza, rokList);
                             List<Okres> okresList = pobierzokresySuperplace(1, rok.getOkresList());
-                            List<Rodzajnieobecnosci> rodzajnieobscnoscilist = rodzajnieobecnosciFacade.findAll();
-                            List<Swiadczeniekodzus> swiadczeniekodzuslist = swiadczeniekodzusFacade.findAll();
-                            List<Pasekwynagrodzen> paskiumowaoprace = OsobaBean.zrobpaskiimportUmowaopraceizlecenia(wpisView, osoba, okresList, false, datakonca26lat, skladnikwynagrodzenia, rodzajnieobscnoscilist, nieobecnoscFacade, aktywna, swiadczeniekodzuslist);
+                            List<Skladnikwynagrodzenia> skladnikwynagrodzenia = OsobaBean.pobierzskladnikwynagrodzenia(skladniki, rodzajewynagrodzenia, aktywna, skladnikWynagrodzeniaFacade, zmiennaWynagrodzeniaFacade);
+                            List<Pasekwynagrodzen> paskiumowaoprace = OsobaBean.zrobpaskiimportUmowaopraceizlecenia(wpisView, osoba, okresList, false, datakonca26lat, skladnikwynagrodzenia, nieobecnosci);
                             List<Definicjalistaplac> listyumowaoprace = definicjalistaplacFacade.findByFirmaRokUmowaoprace(wpisView.getFirma(), rokdlakalendarza);
                             List<Kalendarzmiesiac> kalendarze = kalendarzmiesiacFacade.findByRokUmowa(aktywna, rokdlakalendarza);
                             List<Pasekwynagrodzen> paskigotowe = OsobaBean.dodajlisteikalendarzdopaska(paskiumowaoprace, listyumowaoprace, kalendarze);
@@ -237,7 +250,7 @@ public class OsobaView implements Serializable {
                             kalendarzmiesiacFacade.createList(generujKalendarzNowaUmowa);
                             rok = pobierzrok(rokdlakalendarza, rokList);
                             okresList = pobierzokresySuperplace(1, rok.getOkresList());
-                            paskiumowaoprace = OsobaBean.zrobpaskiimportUmowaopraceizlecenia(wpisView, osoba, okresList, false, datakonca26lat, skladnikwynagrodzenia,rodzajnieobscnoscilist, nieobecnoscFacade, aktywna, swiadczeniekodzuslist);
+                            paskiumowaoprace = OsobaBean.zrobpaskiimportUmowaopraceizlecenia(wpisView, osoba, okresList, false, datakonca26lat, skladnikwynagrodzenia, nieobecnosci);
                             listyumowaoprace = definicjalistaplacFacade.findByFirmaRokUmowaoprace(wpisView.getFirma(), rokdlakalendarza);
                             kalendarze = kalendarzmiesiacFacade.findByRokUmowa(aktywna, rokdlakalendarza);
                             paskigotowe = OsobaBean.dodajlisteikalendarzdopaska(paskiumowaoprace, listyumowaoprace, kalendarze);
@@ -264,7 +277,7 @@ public class OsobaView implements Serializable {
                                 List<Rachunekdoumowyzlecenia> rachunki = OsobaBean.zrobrachunkidozlecenia(wpisView, osoba);
                                 rachunekdoumowyzleceniaFacade.createList(rachunki);
                                 Msg.msg("Zrobiono rachunki do zleceń za 2020");
-                                List<Pasekwynagrodzen> paskiumowazlecenia = OsobaBean.zrobpaskiimportUmowaopraceizlecenia(wpisView, osoba, okresList, true, datakonca26lat, null, null, nieobecnoscFacade, null, null);
+                                List<Pasekwynagrodzen> paskiumowazlecenia = OsobaBean.zrobpaskiimportUmowaopraceizlecenia(wpisView, osoba, okresList, true, datakonca26lat, null, null);
                                 List<Definicjalistaplac> listyumowazlecenia = definicjalistaplacFacade.findByFirmaRokUmowazlecenia(wpisView.getFirma(), rokdlakalendarza);
                                 List<Kalendarzmiesiac> kalendarze = kalendarzmiesiacFacade.findByRokUmowa(aktywna, rokdlakalendarza);
                                 List<Pasekwynagrodzen> paskigotowe = OsobaBean.dodajlisteikalendarzdopaska(paskiumowazlecenia, listyumowazlecenia, kalendarze);
@@ -277,7 +290,7 @@ public class OsobaView implements Serializable {
                                 kalendarzmiesiacFacade.createList(generujKalendarzNowaUmowa);
                                 rok = pobierzrok(rokdlakalendarza, rokList);
                                 okresList = pobierzokresySuperplace(1, rok.getOkresList());
-                                paskiumowazlecenia = OsobaBean.zrobpaskiimportUmowaopraceizlecenia(wpisView, osoba, okresList, false, datakonca26lat, null, null, nieobecnoscFacade, null, null);
+                                paskiumowazlecenia = OsobaBean.zrobpaskiimportUmowaopraceizlecenia(wpisView, osoba, okresList, false, datakonca26lat, null, null);
                                 listyumowazlecenia = definicjalistaplacFacade.findByFirmaRokUmowaoprace(wpisView.getFirma(), rokdlakalendarza);
                                 kalendarze = kalendarzmiesiacFacade.findByRokUmowa(aktywna, rokdlakalendarza);
                                 paskigotowe = OsobaBean.dodajlisteikalendarzdopaska(paskiumowazlecenia, listyumowazlecenia, kalendarze);
@@ -287,24 +300,7 @@ public class OsobaView implements Serializable {
                             } catch (Exception e) {
                             }
                         }
-//                        List<Nieobecnosc> nieobecnosci = OsobaBean.pobierznieobecnosci(osoba, aktywna);
-//                        for (Nieobecnosc p : nieobecnosci) {
-//                            p.setImportowana(true);
-//                            p.setRokod(Data.getRok(p.getDataod()));
-//                            p.setRokdo(Data.getRok(p.getDatado()));
-//                            p.setMcod(Data.getMc(p.getDataod()));
-//                            p.setMcdo(Data.getMc(p.getDatado()));
-//                            if (p.getKodzwolnienia().length() < 3) {
-//                                p.setSwiadczeniekodzus(swiadczeniekodzusFacade.findByOpis(p.getOpis()));
-//                            } else {
-//                                try {
-//                                    p.setSwiadczeniekodzus(swiadczeniekodzusFacade.findByKod(p.getKodzwolnienia()));
-//                                } catch (Exception e) {
-//                                    p.setSwiadczeniekodzus(swiadczeniekodzusFacade.findByOpis(p.getOpis()));
-//                                }
-//                            }
-//                        }
-//                        swiadczeniekodzusFacade.createList(nieobecnosci);
+
                         Msg.msg("Przeniesiono nieobecności");
                         //        //ubezpieczenia u danej osoby
                         //        List<OsobaDet> osobaDet = osoba.getOsobaDetList();

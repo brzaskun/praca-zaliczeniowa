@@ -153,6 +153,21 @@ public class NieobecnoscView  implements Serializable {
         }
     }
     
+    public String kolornieobecnosci(Nieobecnosc nieobecnosc) {
+        String zwrot = "initial";
+        if (nieobecnosc.getRokod().equals(wpisView.getRokWpisu())) {
+            if (nieobecnosc.isNaniesiona()) {
+                zwrot = "green";
+            } else {
+                zwrot = "red";
+            }
+        }
+        if (nieobecnosc.isImportowana()) {
+            zwrot = "blue";
+        }
+        return zwrot;
+    }
+    
     public boolean nanies(Nieobecnosc nieobecnosc) {
         boolean czynaniesiono = false;
         if (nieobecnosc.isNaniesiona() == false) {
