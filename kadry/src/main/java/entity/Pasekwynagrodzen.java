@@ -5,6 +5,7 @@
  */
 package entity;
 
+import data.Data;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +27,7 @@ import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import kadryiplace.Place;
+import z.Z;
 
 /**
  *
@@ -38,8 +40,10 @@ import kadryiplace.Place;
     @NamedQuery(name = "Pasekwynagrodzen.findAll", query = "SELECT p FROM Pasekwynagrodzen p"),
     @NamedQuery(name = "Pasekwynagrodzen.findByDefKal", query = "SELECT p FROM Pasekwynagrodzen p WHERE p.definicjalistaplac = :definicjalistaplac AND p.kalendarzmiesiac = :kalendarzmiesiac"),
     @NamedQuery(name = "Pasekwynagrodzen.findByDef", query = "SELECT p FROM Pasekwynagrodzen p WHERE p.definicjalistaplac = :definicjalistaplac"),
-    @NamedQuery(name = "Pasekwynagrodzen.findByRokAngaz", query = "SELECT p FROM Pasekwynagrodzen p WHERE p.kalendarzmiesiac.rok = :rok AND p.kalendarzmiesiac.umowa.angaz = :angaz"),
-    @NamedQuery(name = "Pasekwynagrodzen.findByRokMcAngaz", query = "SELECT p FROM Pasekwynagrodzen p WHERE p.kalendarzmiesiac.rok = :rok AND p.kalendarzmiesiac.mc = :mc AND p.kalendarzmiesiac.umowa.angaz = :angaz"),
+    @NamedQuery(name = "Pasekwynagrodzen.findByRokAngaz", query = "SELECT p FROM Pasekwynagrodzen p WHERE p.rok = :rok AND p.kalendarzmiesiac.umowa.angaz = :angaz"),
+    @NamedQuery(name = "Pasekwynagrodzen.findByRokWyplAngaz", query = "SELECT p FROM Pasekwynagrodzen p WHERE p.rokwypl = :rok AND p.kalendarzmiesiac.umowa.angaz = :angaz"),
+    @NamedQuery(name = "Pasekwynagrodzen.findByRokMcAngaz", query = "SELECT p FROM Pasekwynagrodzen p WHERE p.rok = :rok AND p.mc = :mc AND p.kalendarzmiesiac.umowa.angaz = :angaz"),
+    @NamedQuery(name = "Pasekwynagrodzen.findByRokMcWyplAngaz", query = "SELECT p FROM Pasekwynagrodzen p WHERE p.rokwypl = :rok AND p.mcwypl = :mc AND p.kalendarzmiesiac.umowa.angaz = :angaz"),
     @NamedQuery(name = "Pasekwynagrodzen.findById", query = "SELECT p FROM Pasekwynagrodzen p WHERE p.id = :id"),
     @NamedQuery(name = "Pasekwynagrodzen.findByBruttobezzus", query = "SELECT p FROM Pasekwynagrodzen p WHERE p.bruttobezzus = :bruttobezzus"),
     @NamedQuery(name = "Pasekwynagrodzen.findByBruttozus", query = "SELECT p FROM Pasekwynagrodzen p WHERE p.bruttozus = :bruttozus"),
@@ -169,6 +173,10 @@ public class Pasekwynagrodzen implements Serializable {
     private String rok;
     @Column(name="mc")
     private String mc;
+    @Column(name="rokwypl")
+    private String rokwypl;
+    @Column(name="mcwypl")
+    private String mcwypl;
     @Size(max = 10)
     @Column(name="datawyplaty")
     private String datawyplaty;
@@ -224,41 +232,51 @@ public class Pasekwynagrodzen implements Serializable {
 //        } else {
          
 //        }
-        if (r.getLplChar10()!=null&&r.getLplChar10().equals('Y')) {
-            this.do26lat = true;
+        if (r.getLplChar10()!=null) {
+            if (r.getLplChar10().equals('Y')) {
+                this.do26lat = true;
+            } else {
+                this.do26lat = false;
+            }
         } else {
-            this.do26lat = false;
+            double kwotapoda = Z.z(r.getLplKwotaDod1().doubleValue());
+            if (kwotapoda==0.0) {
+                this.do26lat = true;
+            } else {
+                this.do26lat = false;
+            }
         }
-        this.podstawaskladkizus = r.getLplPdstChor().doubleValue();
-        this.fgsp = r.getLplFgspPrac().doubleValue();
-        this.fp = r.getLplFpPrac().doubleValue();
-        this.kosztyuzyskania = r.getLplKoszty().doubleValue();
-        this.kwotawolna = r.getLplZalWolna().doubleValue();
-        this.netto = r.getLplKwotaDod2().doubleValue();
-        this.nettoprzedpotraceniami = r.getLplKwotaDod2().doubleValue()+r.getLplPotracenia().doubleValue();
-        this.podatekdochodowy = r.getLplZalDoch().doubleValue();
-        this.podstawaopodatkowania = r.getLplPdstPodDoch().doubleValue();
-        this.pracchorobowe = r.getLplChorUbez().doubleValue();
-        this.pracemerytalne = r.getLplEmerUbez().doubleValue();
-        this.pracrentowe = r.getLplRentUbez().doubleValue();
-        this.razemspolecznepracownik = r.getLplPodZusKw().doubleValue();
-        this.praczdrowotne = r.getLplZdroUbez().doubleValue();
+        this.podstawaskladkizus = Z.z(r.getLplPdstChor().doubleValue());
+        this.fgsp = Z.z(r.getLplFgspPrac().doubleValue());
+        this.fp = Z.z(r.getLplFpPrac().doubleValue());
+        this.kosztyuzyskania = Z.z(r.getLplKoszty().doubleValue());
+        this.kwotawolna = Z.z(r.getLplZalWolna().doubleValue());
+        this.netto = Z.z(r.getLplKwotaDod2().doubleValue());
+        this.nettoprzedpotraceniami = Z.z(r.getLplKwotaDod2().doubleValue()+r.getLplPotracenia().doubleValue());
+        this.podatekdochodowy = Z.z(r.getLplZalDoch().doubleValue());
+        this.podstawaopodatkowania = Z.z(r.getLplPdstPodDoch().doubleValue());
+        this.pracchorobowe = Z.z(r.getLplChorUbez().doubleValue());
+        this.pracemerytalne = Z.z(r.getLplEmerUbez().doubleValue());
+        this.pracrentowe = Z.z(r.getLplRentUbez().doubleValue());
+        this.razemspolecznepracownik = Z.z(r.getLplPodZusKw().doubleValue());
+        this.praczdrowotne = Z.z(r.getLplZdroUbez().doubleValue());
         this.praczdrowotnedodoliczenia = 0.0;
-        this.praczdrowotnedopotracenia = r.getLplPodZdroKw().doubleValue();
-        this.praczdrowotnepomniejszone = this.praczdrowotne-this.praczdrowotnedopotracenia;
-        this.emerytalne = r.getLplEmerPrac().doubleValue();
-        this.rentowe = r.getLplRentPrac().doubleValue();
-        this.wypadkowe = r.getLplWypPrac().doubleValue();
-        this.razemspolecznefirma = this.emerytalne+this.rentowe+this.wypadkowe;
-        this.podatekwstepny = r.getLplKwotaDod6().doubleValue();
-        this.podstawaubezpzdrowotne = r.getLplPdstZdrowotne().doubleValue();
-        this.potracenia = r.getLplPotracenia().doubleValue();
-        this.razem53 = this.fp+this.fgsp;
-        this.kosztpracodawcy = this.bruttozus+this.bruttobezzus+this.razemspolecznefirma;
+        this.praczdrowotnedopotracenia = Z.z(r.getLplPodZdroKw().doubleValue());
+        this.praczdrowotnepomniejszone = Z.z(this.praczdrowotne-this.praczdrowotnedopotracenia);
+        this.emerytalne = Z.z(r.getLplEmerPrac().doubleValue());
+        this.rentowe = Z.z(r.getLplRentPrac().doubleValue());
+        this.wypadkowe = Z.z(r.getLplWypPrac().doubleValue());
+        this.razemspolecznefirma = Z.z(this.emerytalne+this.rentowe+this.wypadkowe);
+        this.podatekwstepny = Z.z(r.getLplKwotaDod6().doubleValue());
+        this.podstawaubezpzdrowotne = Z.z(r.getLplPdstZdrowotne().doubleValue());
+        this.potracenia = Z.z(r.getLplPotracenia().doubleValue());
+        this.razem53 = Z.z(this.fp+this.fgsp);
+        this.kosztpracodawcy = Z.z(this.bruttozus+this.bruttobezzus+this.razemspolecznefirma);
         this.dietaodliczeniepodstawaop = 0.0;
         this.dieta = 0.0;
         this.kurs = 0.0;
         this.limitzus = 0.0;
+        this.setDatawyplaty(Data.data_yyyyMMddNull(r.getLplDataWyplaty()));
         this.dniobowiazku = r.getLplDniObow().intValue();
         this.dniprzepracowane = r.getLplDniPrzepr().intValue();
         this.naliczeniepotracenieList = new ArrayList<>();
@@ -267,33 +285,33 @@ public class Pasekwynagrodzen implements Serializable {
     }
     
     public void dodajPasek(Pasekwynagrodzen p) {
-        this.bruttobezzusbezpodatek = this.bruttobezzusbezpodatek +p.bruttobezzusbezpodatek;
-        this.bruttozus = this.bruttozus + p.bruttozus;
-        this.bruttozuskraj = this.bruttozuskraj + p.bruttozuskraj;
-        this.bruttobezzus = this.bruttobezzus + p.bruttobezzus;
-        this.oddelegowaniewaluta = this.oddelegowaniewaluta + p.oddelegowaniewaluta;
-        this.oddelegowaniepln = this.oddelegowaniepln + p.oddelegowaniepln;
+        this.bruttobezzusbezpodatek = Z.z(this.bruttobezzusbezpodatek +p.bruttobezzusbezpodatek);
+        this.bruttozus = Z.z(this.bruttozus + p.bruttozus);
+        this.bruttozuskraj = Z.z(this.bruttozuskraj + p.bruttozuskraj);
+        this.bruttobezzus = Z.z(this.bruttobezzus + p.bruttobezzus);
+        this.oddelegowaniewaluta = Z.z(this.oddelegowaniewaluta + p.oddelegowaniewaluta);
+        this.oddelegowaniepln = Z.z(this.oddelegowaniepln + p.oddelegowaniepln);
         this.oddelegowaniewalutasymbol = p.oddelegowaniewalutasymbol;
-        this.brutto = this.brutto + p.brutto;
-        this.fgsp = this.fgsp + p.fgsp;
-        this.fp = this.fp + p.fp;
-        this.bruttominusspoleczne = this.bruttominusspoleczne + p.bruttominusspoleczne;
-        this.dieta = this.dieta + p.dieta;
-        this.dietaodliczeniepodstawaop = this.dietaodliczeniepodstawaop + p.dietaodliczeniepodstawaop;
-        this.podstawaskladkizus = this.podstawaskladkizus + p.podstawaskladkizus;
-        this.podatekdochodowy = this.podatekdochodowy + p.podatekdochodowy;
-        this.pracchorobowe = this.pracchorobowe + p.pracchorobowe;
-        this.pracemerytalne = this.pracemerytalne + p.pracemerytalne;
-        this.pracrentowe = this.pracrentowe + p.pracrentowe;
-        this.praczdrowotne = this.praczdrowotne + p.praczdrowotne;
-        this.emerytalne = this.emerytalne + p.emerytalne;
-        this.rentowe = this.rentowe + p.rentowe;
-        this.wypadkowe = this.wypadkowe + p.wypadkowe;
-        this.razemspolecznepracownik = this.razemspolecznepracownik + p.razemspolecznepracownik;
-        this.razemspolecznefirma = this.razemspolecznefirma + p.razemspolecznefirma;
-        this.podstawaubezpzdrowotne = this.podstawaubezpzdrowotne + p.podstawaubezpzdrowotne;
-        this.razem53 = this.razem53 + p.razem53;
-        this.kosztpracodawcy = this.kosztpracodawcy + p.kosztpracodawcy;
+        this.brutto = Z.z(this.brutto + p.brutto);
+        this.fgsp = Z.z(this.fgsp + p.fgsp);
+        this.fp = Z.z(this.fp + p.fp);
+        this.bruttominusspoleczne = Z.z(this.bruttominusspoleczne + p.bruttominusspoleczne);
+        this.dieta = Z.z(this.dieta + p.dieta);
+        this.dietaodliczeniepodstawaop = Z.z(this.dietaodliczeniepodstawaop + p.dietaodliczeniepodstawaop);
+        this.podstawaskladkizus = Z.z(this.podstawaskladkizus + p.podstawaskladkizus);
+        this.podatekdochodowy = Z.z(this.podatekdochodowy + p.podatekdochodowy);
+        this.pracchorobowe = Z.z(this.pracchorobowe + p.pracchorobowe);
+        this.pracemerytalne = Z.z(this.pracemerytalne + p.pracemerytalne);
+        this.pracrentowe = Z.z(this.pracrentowe + p.pracrentowe);
+        this.praczdrowotne = Z.z(this.praczdrowotne + p.praczdrowotne);
+        this.emerytalne = Z.z(this.emerytalne + p.emerytalne);
+        this.rentowe = Z.z(this.rentowe + p.rentowe);
+        this.wypadkowe = Z.z(this.wypadkowe + p.wypadkowe);
+        this.razemspolecznepracownik = Z.z(this.razemspolecznepracownik + p.razemspolecznepracownik);
+        this.razemspolecznefirma = Z.z(this.razemspolecznefirma + p.razemspolecznefirma);
+        this.podstawaubezpzdrowotne = Z.z(this.podstawaubezpzdrowotne + p.podstawaubezpzdrowotne);
+        this.razem53 = Z.z(this.razem53 + p.razem53);
+        this.kosztpracodawcy = Z.z(this.kosztpracodawcy + p.kosztpracodawcy);
     }
 
     public Integer getId() {
@@ -422,6 +440,10 @@ public class Pasekwynagrodzen implements Serializable {
 
     public void setDatawyplaty(String datawyplaty) {
         this.datawyplaty = datawyplaty;
+        if (datawyplaty!=null&&datawyplaty.length()==10) {
+            this.rokwypl = Data.getRok(datawyplaty);
+            this.mcwypl = Data.getMc(datawyplaty);
+        }
     }
 
     public double getBruttozus() {
@@ -793,6 +815,15 @@ public class Pasekwynagrodzen implements Serializable {
         this.mc = mc;
     }
 
+    public String getRokwypl() {
+        return rokwypl;
+    }
+
+    public String getMcwypl() {
+        return mcwypl;
+    }
+
+    
     public boolean isImportowany() {
         return importowany;
     }
