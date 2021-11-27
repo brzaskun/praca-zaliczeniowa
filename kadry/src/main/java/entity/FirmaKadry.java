@@ -124,6 +124,8 @@ public class FirmaKadry implements Serializable {
     private String dataurodzenia;
     @Column(name = "zaimportowana")
     private boolean zaimportowana;
+    @Column(name = "fir_serial")
+    private String fir_serial;
 
     public FirmaKadry() {
     }
@@ -140,6 +142,14 @@ public class FirmaKadry implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getFir_serial() {
+        return fir_serial;
+    }
+
+    public void setFir_serial(String fir_serial) {
+        this.fir_serial = fir_serial;
     }
 
     public String getMiasto() {

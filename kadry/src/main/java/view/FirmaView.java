@@ -263,6 +263,7 @@ public class FirmaView  implements Serializable {
                 selected.setOsobafizyczna(true);
             }
             selected.setRegon(odnaleziona.getFirRegon());
+            selected.setFir_serial(String.valueOf(odnaleziona.getFirSerial()));
             Msg.msg("Pobrano dane z Super Płac. Zweryfikuj i zachowaj");
          } else {
              Msg.msg("e","Nie wybrano firmy do edycji");

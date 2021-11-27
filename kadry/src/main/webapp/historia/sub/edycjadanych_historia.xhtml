@@ -10,9 +10,9 @@ xmlns:pe="http://primefaces.org/ui/extensions">
     <p:panelGrid columns="1" columnClasses="thirty-percent, seventy-percent" style="height: 600px;width: 1800px;">
         <p:outputPanel style="padding: 10px;">
             <p:panel header="Pobranie danych firmy z programu SuperPłace"/>
-            <h:outputText value="Należy najpierw wyszukać firmę, a potem serial pracownika. Pracownicy zwolnieni są oznaczeni na szaro. Proszę sprawdzić kod ubezpieczenia pracownika i go zaktualizować w razie potrzeby!" style="color: darkorchid;margin-left: 30px;"/>
+            <h:outputText value="Pracownicy są pobierani wyłącznie z aktualnej firmy. Pobierać można pojedyńczo lub grupami. Pracownicy zwolnieni są oznaczeni na szaro. Proszę sprawdzić kod ubezpieczenia pracownika i go zaktualizować w razie potrzeby!" style="color: darkorchid;margin-left: 30px;"/>
             <p:panelGrid columns="2">
-                <h:form id="SuperFormFirma1">
+<!--                <h:form id="SuperFormFirma1">
                     <p:dataTable id="datalist" value="#{historiaView.firmysuperplace}" var="firmylistdata" rowIndexVar="yndex1"
                                  rowKey="#{firmylistdata.firSerial}" emptyMessage="brak osób w firmie"
                                  selection="#{historiaView.selectedfirma}" selectionMode="single"
@@ -49,8 +49,9 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                             </p:selectBooleanCheckbox>
                         </p:column>
                     </p:dataTable>
-                </h:form>
+                </h:form>-->
                 <h:form id="SuperFormFirma2">
+                    <h:outputText value="pobranie pracowników z firmy #{wpisView.firma.nazwa}"/>
                     <p:dataTable id="datalist" value="#{historiaView.osoby}" var="osobylistdata" rowIndexVar="yndex"
                                  rowKey="#{osobylistdata.osoSerial}" emptyMessage="brak osób w firmie"
                                  selection="#{historiaView.selectedosoby}" rowSelectMode="add"
@@ -134,19 +135,19 @@ xmlns:pe="http://primefaces.org/ui/extensions">
             </p:panelGrid>
             <p:panel header="Pobranie danych wybranej osoby z programu SuperPłace" style="margin-top: 10px;"/>
             <h:outputText value="Program pobiera dane za rok 2020 i 2021. Bieżący rok i mc w programie nie ma znaczenia." style="color: darkorchid;margin-left: 30px;"/>
-            <p:panelGrid columns="2">
-            <h:form id="SuperForm" style="margin-top: 10px;">
+           <p:panelGrid columns="2">
+<!--            <h:form id="SuperForm" style="margin-top: 10px;">
                 <p:panelGrid columns="3">
                     <h:outputText value="serial osoby"/>
                     <p:inputText value="#{osobaView.serial}"></p:inputText>
                 </p:panelGrid>
                 <p:commandButton style="width: 120px" value="pobierz dane" actionListener="#{osobaView.rob()}" styleClass="buttonnorm" update="SuperFormFirma2"/>
-            </h:form>
+            </h:form>-->
             <h:form id="SuperGroupForm" style="margin-top: 10px;margin-left: 100px;">
                 <p:panelGrid columns="3">
                     <h:outputText value="zbiorcze pobieranie #{historiaView.selectedosoby.size()} wybranych osób"/>
                 </p:panelGrid>
-                <p:commandButton style="width: 120px" value="pobierz grupę" actionListener="#{osobaView.robgrupa(historiaView.selectedosoby)}" styleClass="buttonnorm" update="SuperFormFirma2"/>
+                <p:commandButton style="width: 120px" value="pobierz" actionListener="#{osobaView.robgrupa(historiaView.selectedosoby)}" styleClass="buttonnorm" update="SuperFormFirma2"/>
             </h:form>
             </p:panelGrid>
         </p:outputPanel>

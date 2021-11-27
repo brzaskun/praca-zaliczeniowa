@@ -81,6 +81,10 @@ public class HistoriaView  implements Serializable {
         if (selectedangaz!=null) {
             listawynagrodzenhistoria = wynagrodzeniahistoryczneFacade.findByAngaz(selectedangaz);
         }
+        if (wpisView.getFirma()!=null) {
+            selectedfirma = firmaFacade.findBySerial(wpisView.getFirma().getFir_serial());
+            pobierzosoby();
+        }
     }
     
     private String ladnynip(String firNip) {
