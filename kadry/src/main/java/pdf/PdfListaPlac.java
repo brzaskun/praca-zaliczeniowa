@@ -214,8 +214,8 @@ public class PdfListaPlac {
             table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getKosztyuzyskania())), "right",6));
             table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPodstawaopodatkowania())), "right",6));
             table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPodatekwstepny())), "right",6));
-            table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPraczdrowotnepomniejszone())), "right",6));
             table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPraczdrowotnedopotracenia())), "right",6));
+            table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPraczdrowotnedoodliczenia())), "right",6));
             table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getKwotawolna())), "right",6));
             table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPodatekdochodowy())), "right",6));
             table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getNetto())), "right",6));

@@ -58,9 +58,8 @@ import z.Z;
     @NamedQuery(name = "Pasekwynagrodzen.findByPracemerytalne", query = "SELECT p FROM Pasekwynagrodzen p WHERE p.pracemerytalne = :pracemerytalne"),
     @NamedQuery(name = "Pasekwynagrodzen.findByPracrentowe", query = "SELECT p FROM Pasekwynagrodzen p WHERE p.pracrentowe = :pracrentowe"),
     @NamedQuery(name = "Pasekwynagrodzen.findByPraczdrowotne", query = "SELECT p FROM Pasekwynagrodzen p WHERE p.praczdrowotne = :praczdrowotne"),
-    @NamedQuery(name = "Pasekwynagrodzen.findByPraczdrowotnedodoliczenia", query = "SELECT p FROM Pasekwynagrodzen p WHERE p.praczdrowotnedodoliczenia = :praczdrowotnedodoliczenia"),
+    @NamedQuery(name = "Pasekwynagrodzen.findByPraczdrowotnedoodliczenia", query = "SELECT p FROM Pasekwynagrodzen p WHERE p.praczdrowotnedoodliczenia = :praczdrowotnedoodliczenia"),
     @NamedQuery(name = "Pasekwynagrodzen.findByPraczdrowotnedopotracenia", query = "SELECT p FROM Pasekwynagrodzen p WHERE p.praczdrowotnedopotracenia = :praczdrowotnedopotracenia"),
-    @NamedQuery(name = "Pasekwynagrodzen.findByPraczdrowotnepomniejszone", query = "SELECT p FROM Pasekwynagrodzen p WHERE p.praczdrowotnepomniejszone = :praczdrowotnepomniejszone"),
     @NamedQuery(name = "Pasekwynagrodzen.findByRentowe", query = "SELECT p FROM Pasekwynagrodzen p WHERE p.rentowe = :rentowe"),
     @NamedQuery(name = "Pasekwynagrodzen.findByWypadkowe", query = "SELECT p FROM Pasekwynagrodzen p WHERE p.wypadkowe = :wypadkowe")})
 public class Pasekwynagrodzen implements Serializable {
@@ -93,10 +92,14 @@ public class Pasekwynagrodzen implements Serializable {
     private double fp;
     @Column(name = "kosztyuzyskania")
     private double kosztyuzyskania;
+    @Column(name = "kosztyuzyskaniahipotetyczne")
+    private double kosztyuzyskaniahipotetyczne;
     @Column(name = "procentkosztow")
     private double procentkosztow;
     @Column(name = "kwotawolna")
     private double kwotawolna;
+    @Column(name = "kwotawolnahipotetyczna")
+    private double kwotawolnahipotetyczna;
     @Column(name = "nettoprzedpotraceniami")
     private double nettoprzedpotraceniami;
     @Column(name = "netto")
@@ -105,6 +108,8 @@ public class Pasekwynagrodzen implements Serializable {
     private double podatekdochodowy;
     @Column(name = "podstawaopodatkowania")
     private double podstawaopodatkowania;
+    @Column(name = "podstawaopodatkowaniahipotetyczna")
+    private double podstawaopodatkowaniahipotetyczna;
     @Column(name = "podstawaskladkizus")
     private double podstawaskladkizus;
     @Column(name = "pracchorobowe")
@@ -119,12 +124,12 @@ public class Pasekwynagrodzen implements Serializable {
     private double bruttominusspoleczne;
     @Column(name = "praczdrowotne")
     private double praczdrowotne;
-    @Column(name = "praczdrowotnedodoliczenia")
-    private double praczdrowotnedodoliczenia;
+    @Column(name = "praczdrowotnedoodliczenia")
+    private double praczdrowotnedoodliczenia;
     @Column(name = "praczdrowotnedopotracenia")
     private double praczdrowotnedopotracenia;
-    @Column(name = "praczdrowotnepomniejszone")
-    private double praczdrowotnepomniejszone;
+//    @Column(name = "praczdrowotnepomniejszone")
+//    private double praczdrowotnepomniejszone;
     @Column(name = "emerytalne")
     private double emerytalne;
     @Column(name = "rentowe")
@@ -135,6 +140,8 @@ public class Pasekwynagrodzen implements Serializable {
     private double razemspolecznefirma;
     @Column(name = "podatekwstepny")
     private double podatekwstepny;
+    @Column(name = "podatekwstepnyhipotetyczny")
+    private double podatekwstepnyhipotetyczny;
     @Column(name = "podstawaubezpzdrowotne")
     private double podstawaubezpzdrowotne;
     @Column(name = "potracenia")
@@ -188,6 +195,8 @@ public class Pasekwynagrodzen implements Serializable {
     private int dni;
     @Column(name="do26lat")
     private boolean do26lat;
+    @Column(name="drugiprog")
+    private boolean drugiprog;
     @Column(name="wynagrodzenieminimalne")
     private double wynagrodzenieminimalne;
     @Column(name = "nierezydent")
@@ -260,9 +269,8 @@ public class Pasekwynagrodzen implements Serializable {
         this.pracrentowe = Z.z(r.getLplRentUbez().doubleValue());
         this.razemspolecznepracownik = Z.z(r.getLplPodZusKw().doubleValue());
         this.praczdrowotne = Z.z(r.getLplZdroUbez().doubleValue());
-        this.praczdrowotnedodoliczenia = 0.0;
+        this.praczdrowotnedoodliczenia = 0.0;
         this.praczdrowotnedopotracenia = Z.z(r.getLplPodZdroKw().doubleValue());
-        this.praczdrowotnepomniejszone = Z.z(this.praczdrowotne-this.praczdrowotnedopotracenia);
         this.emerytalne = Z.z(r.getLplEmerPrac().doubleValue());
         this.rentowe = Z.z(r.getLplRentPrac().doubleValue());
         this.wypadkowe = Z.z(r.getLplWypPrac().doubleValue());
@@ -271,6 +279,7 @@ public class Pasekwynagrodzen implements Serializable {
         this.podstawaubezpzdrowotne = Z.z(r.getLplPdstZdrowotne().doubleValue());
         this.potracenia = Z.z(r.getLplPotracenia().doubleValue());
         this.razem53 = Z.z(this.fp+this.fgsp);
+        this.bruttominusspoleczne = Z.z(this.brutto-this.razemspolecznepracownik);
         this.kosztpracodawcy = Z.z(this.bruttozus+this.bruttobezzus+this.razemspolecznefirma);
         this.dietaodliczeniepodstawaop = 0.0;
         this.dieta = 0.0;
@@ -402,12 +411,44 @@ public class Pasekwynagrodzen implements Serializable {
         this.kalendarzmiesiac = kalendarzmiesiac;
     }
 
+    public double getKosztyuzyskaniahipotetyczne() {
+        return kosztyuzyskaniahipotetyczne;
+    }
+
+    public void setKosztyuzyskaniahipotetyczne(double kosztyuzyskaniahipotetyczne) {
+        this.kosztyuzyskaniahipotetyczne = kosztyuzyskaniahipotetyczne;
+    }
+
+    public double getKwotawolnahipotetyczna() {
+        return kwotawolnahipotetyczna;
+    }
+
+    public void setKwotawolnahipotetyczna(double kwotawolnahipotetyczna) {
+        this.kwotawolnahipotetyczna = kwotawolnahipotetyczna;
+    }
+
     public boolean isNierezydent() {
         return nierezydent;
     }
 
     public void setNierezydent(boolean nierezydent) {
         this.nierezydent = nierezydent;
+    }
+
+    public double getPodstawaopodatkowaniahipotetyczna() {
+        return podstawaopodatkowaniahipotetyczna;
+    }
+
+    public void setPodstawaopodatkowaniahipotetyczna(double podstawaopodatkowaniahipotetyczna) {
+        this.podstawaopodatkowaniahipotetyczna = podstawaopodatkowaniahipotetyczna;
+    }
+
+    public double getPodatekwstepnyhipotetyczny() {
+        return podatekwstepnyhipotetyczny;
+    }
+
+    public void setPodatekwstepnyhipotetyczny(double podatekwstepnyhipotetyczny) {
+        this.podatekwstepnyhipotetyczny = podatekwstepnyhipotetyczny;
     }
 
     public String getNazwiskoImie() {
@@ -557,6 +598,10 @@ public class Pasekwynagrodzen implements Serializable {
     public void setProcentkosztow(double procentkosztow) {
         this.procentkosztow = procentkosztow;
     }
+    
+    public void setKwotawolna(double kwotawolna) {
+        this.kwotawolna = kwotawolna;
+    }
 
     public double getKwotawolna() {
         return kwotawolna;
@@ -578,10 +623,7 @@ public class Pasekwynagrodzen implements Serializable {
         this.godzinyprzepracowane = godzinyprzepracowane;
     }
 
-    public void setKwotawolna(double kwotawolna) {
-        this.kwotawolna = kwotawolna;
-    }
-
+ 
     public double getNetto() {
         return netto;
     }
@@ -646,12 +688,12 @@ public class Pasekwynagrodzen implements Serializable {
         this.praczdrowotne = praczdrowotne;
     }
 
-    public double getPraczdrowotnedodoliczenia() {
-        return praczdrowotnedodoliczenia;
+    public double getPraczdrowotnedoodliczenia() {
+        return praczdrowotnedoodliczenia;
     }
 
-    public void setPraczdrowotnedodoliczenia(double praczdrowotnedodoliczenia) {
-        this.praczdrowotnedodoliczenia = praczdrowotnedodoliczenia;
+    public void setPraczdrowotnedoodliczenia(double praczdrowotnedoodliczenia) {
+        this.praczdrowotnedoodliczenia = praczdrowotnedoodliczenia;
     }
 
     public double getPraczdrowotnedopotracenia() {
@@ -662,13 +704,6 @@ public class Pasekwynagrodzen implements Serializable {
         this.praczdrowotnedopotracenia = praczdrowotnedopotracenia;
     }
 
-    public double getPraczdrowotnepomniejszone() {
-        return praczdrowotnepomniejszone;
-    }
-
-    public void setPraczdrowotnepomniejszone(double praczdrowotnepomniejszone) {
-        this.praczdrowotnepomniejszone = praczdrowotnepomniejszone;
-    }
 
     public double getEmerytalne() {
         return emerytalne;
@@ -855,6 +890,16 @@ public class Pasekwynagrodzen implements Serializable {
     public void setWynagrodzenieminimalne(double wynagrodzenieminimalne) {
         this.wynagrodzenieminimalne = wynagrodzenieminimalne;
     }
+
+    public boolean isDrugiprog() {
+        return drugiprog;
+    }
+
+    public void setDrugiprog(boolean drugiprog) {
+        this.drugiprog = drugiprog;
+    }
+    
+    
 
   @XmlTransient
     public List<Rachunekdoumowyzlecenia> getRachunekdoumowyzleceniaList() {
@@ -1054,6 +1099,7 @@ public class Pasekwynagrodzen implements Serializable {
             this.godzinyprzepracowane = godzinyprzepracowane;
         }
     
+
         
         @Override
         public int hashCode() {

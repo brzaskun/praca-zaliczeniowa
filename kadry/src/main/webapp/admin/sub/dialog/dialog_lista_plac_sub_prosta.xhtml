@@ -41,6 +41,9 @@
                         <p:column>
                             <h:outputText value="razem społ. prac."/>
                         </p:column>
+                        <p:column>
+                            <h:outputText value="brutto-zus"/>
+                        </p:column>
                         <p:column width="20">
                             <h:outputText value=" "/>
                         </p:column>
@@ -68,6 +71,9 @@
                         <p:column>
                             <bcf:outputpl value="#{itempasek.razemspolecznepracownik}"/>
                         </p:column>
+                        <p:column>
+                            <bcf:outputpl value="#{itempasek.bruttominusspoleczne}"/>
+                        </p:column>
                         <p:column width="20" style="text-align: center;">
                             <p:commandButton icon="fa fa-print" actionListener="#{pasekwynagrodzenView.drukuj(itempasek)}" global="false"/>
                         </p:column>
@@ -88,9 +94,7 @@
                         <p:column>
                             <h:outputText value="#{itempasek.rok}/#{itempasek.mc}"/>
                         </p:column>
-                        <p:column>
-                            <h:outputText value="brutto-zus"/>
-                        </p:column>
+                      
                         <p:column>
                             <h:outputText value="koszty uzyskania"/>
                         </p:column>
@@ -103,6 +107,9 @@
                         <p:column>
                             <h:outputText value="prac zdrow. do odliczenia"/>
                         </p:column>
+                         <p:column>
+                            <h:outputText value="prac zdrow. do potrącenia"/>
+                        </p:column>
                         <p:column>
                             <h:outputText value="podatek dochodowy"/>
                         </p:column>
@@ -114,9 +121,7 @@
                         <p:column>
                             <h:outputText value="#{itempasek.nazwiskoImie}"/>
                         </p:column>
-                        <p:column>
-                            <bcf:outputpl value="#{itempasek.bruttominusspoleczne}"/>
-                        </p:column>
+
                         <p:column>
                             <bcf:outputpl value="#{itempasek.kosztyuzyskania}"/>
                         </p:column>
@@ -125,6 +130,9 @@
                         </p:column>
                         <p:column>
                             <bcf:outputpl value="#{itempasek.kwotawolna}"/>
+                        </p:column>
+                        <p:column>
+                            <bcf:outputpl value="#{itempasek.praczdrowotnedoodliczenia}"/>
                         </p:column>
                         <p:column>
                             <bcf:outputpl value="#{itempasek.praczdrowotnedopotracenia}"/>

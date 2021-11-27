@@ -52,8 +52,8 @@ public class RodzjawynagrodzeniaSetView  implements Serializable {
             s.setOpispelny(p.getWksOpis());
             s.setOpisskrocony(p.getWksOpisSkr());
             s.setWks_serial(p.getWksSerial());
-            s.setPodatek0bezpodatek1(p.getWksPodDoch().equals('T')==true);
-            s.setZus0bezzus1(p.getWksZus().equals('N')==false);
+            s.setPodatek0bezpodatek1(p.getWksPodDoch().equals('T')==false);
+            s.setZus0bezzus1(p.getWksZus().equals('N')==true);
             s.setSredniaurlopowakraj(p.getWksPdstUrlop().equals('N')==false);
             s.setPodstzasilekchorobowy(p.getWksPdstZasChor().equals('T')==true);
             rodzajwynagrodzeniaFacade.create(s);

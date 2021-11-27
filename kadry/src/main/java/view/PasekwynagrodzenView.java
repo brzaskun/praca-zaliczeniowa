@@ -12,11 +12,11 @@ import comparator.Sredniadlanieobecnoscicomparator;
 import dao.DefinicjalistaplacFacade;
 import dao.KalendarzmiesiacFacade;
 import dao.KalendarzwzorFacade;
-import dao.SwiadczeniekodzusFacade;
 import dao.OddelegowanieZUSLimitFacade;
 import dao.PasekwynagrodzenFacade;
 import dao.PodatkiFacade;
 import dao.SMTPSettingsFacade;
+import dao.SwiadczeniekodzusFacade;
 import dao.WynagrodzeniahistoryczneFacade;
 import dao.WynagrodzenieminimalneFacade;
 import data.Data;
@@ -122,7 +122,7 @@ public class PasekwynagrodzenView implements Serializable {
         try {
             wybranalistaplac = listadefinicjalistaplac.stream().filter(p -> p.getMc().equals(wpisView.getMiesiacWpisu())).findFirst().get();
             wybranalistaplac2 = listadefinicjalistaplac.stream().filter(p -> p.getMc().equals(wpisView.getMiesiacWpisu())).findFirst().get();
-            datawyplaty = zrobdatawyplaty();
+            datawyplaty = zrobdatawyplaty(wpisView.getMiesiacWpisu(), wpisView.getRokWpisu());
             listakalendarzmiesiacdoanalizy2 = kalendarzmiesiacFacade.findByFirmaRokMcPraca(wybranalistaplac2.getFirma(), wybranalistaplac2.getRok(), wybranalistaplac2.getMc());
             pobierzkalendarzezamc();
             pobierzkalendarzezamcanaliza();
@@ -148,7 +148,7 @@ public class PasekwynagrodzenView implements Serializable {
         try {
             wybranalistaplac = listadefinicjalistaplac.stream().filter(p -> p.getMc().equals(wpisView.getMiesiacWpisu())).findFirst().get();
             wybranalistaplac2 = listadefinicjalistaplac.stream().filter(p -> p.getMc().equals(wpisView.getMiesiacWpisu())).findFirst().get();
-            datawyplaty = zrobdatawyplaty();
+            datawyplaty = zrobdatawyplaty(wpisView.getMiesiacWpisu(), wpisView.getRokWpisu());
             listakalendarzmiesiacdoanalizy2 = kalendarzmiesiacFacade.findByFirmaRokMcPraca(wybranalistaplac2.getFirma(), wybranalistaplac2.getRok(), wybranalistaplac2.getMc());
             pobierzkalendarzezamc();
             pobierzkalendarzezamcanaliza();
@@ -353,7 +353,7 @@ public class PasekwynagrodzenView implements Serializable {
                 this.listakalendarzmiesiac.setSource(listakalendarzmiesiac);
             }
             lista = pasekwynagrodzenFacade.findByDef(wybranalistaplac);
-            datawyplaty = zrobdatawyplaty();
+            datawyplaty = zrobdatawyplaty(wybranalistaplac.getMc(), wybranalistaplac.getRok());
         }
     }
 
@@ -403,9 +403,9 @@ public class PasekwynagrodzenView implements Serializable {
         }
     }
 
-    private String zrobdatawyplaty() {
+    private String zrobdatawyplaty(String mc, String rok) {
         String zwrot;
-        String[] nastepnyOkres = Data.nastepnyOkres(wpisView.getMiesiacWpisu(), wpisView.getRokWpisu());
+        String[] nastepnyOkres = Data.nastepnyOkres(mc,rok);
         zwrot = nastepnyOkres[1] + "-" + nastepnyOkres[0] + "-10";
         return zwrot;
     }

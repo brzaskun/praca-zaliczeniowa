@@ -560,9 +560,8 @@ public class Kartawynagrodzen implements Serializable {
         this.pracrentowe += pasek.getPracrentowe();
         this.razemspolecznepracownik = Z.z(this.razemspolecznepracownik+pasek.getRazemspolecznepracownik());
         this.praczdrowotne += pasek.getPraczdrowotne();
-        this.praczdrowotnedodoliczenia += pasek.getPraczdrowotnedodoliczenia();
+        this.praczdrowotnedodoliczenia += pasek.getPraczdrowotnedoodliczenia();
         this.praczdrowotnedopotracenia = Z.z(this.praczdrowotnedopotracenia+pasek.getPraczdrowotnedopotracenia());
-        this.praczdrowotnepomniejszone += pasek.getPraczdrowotnepomniejszone();
         this.emerytalne += pasek.getEmerytalne();
         this.rentowe += pasek.getRentowe();
         this.wypadkowe += pasek.getWypadkowe();
