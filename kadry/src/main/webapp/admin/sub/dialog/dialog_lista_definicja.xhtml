@@ -69,29 +69,29 @@
                     <p:dataTable id="datalist" value="#{definicjalistaplacView.lista}" var="itemdeflisty"
                                  selectionMode="single" selection="#{definicjalistaplacView.selectedlista}"
                                  rowKey="#{itemdeflisty.id}" sortBy="#{itemdeflisty.datasporzadzenia}"
-                                 rowIndexVar="indexdeflp"
+                                 rowIndexVar="indexdeflp" emptyMessage="Brak definicji list płac dla danej firmy"
                                  style="height: 500px; overflow-y: scroll;width: 1300px;"
                                  >
                         <p:ajax event="rowSelect" partialSubmit="true" global="false" listener="#{definicjalistaplacView.wybierzdoedycji}" update="DefinicjalistaplacdefCreateForm"/>
-                        <p:column width="40" style="text-align: center;">
+                        <p:column width="30" style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="id"/>
                             </f:facet>
                             <h:outputText value="#{indexdeflp+1}"/>
                         </p:column>
-                        <p:column>
+                        <p:column width="70">
                             <f:facet name="header">
                                 <h:outputText value="data sporzadzenia"/>
                             </f:facet>
                             <h:outputText value="#{itemdeflisty.datasporzadzenia}"/>
                         </p:column>
-                        <p:column>
+                        <p:column width="70">
                             <f:facet name="header">
                                 <h:outputText value="data podatek"/>
                             </f:facet>
                             <h:outputText value="#{itemdeflisty.datapodatek}"/>
                         </p:column>
-                        <p:column>
+                        <p:column width="70">
                             <f:facet name="header">
                                 <h:outputText value="data zus"/>
                             </f:facet>
@@ -103,13 +103,13 @@
                             </f:facet>
                             <h:outputText value="#{itemdeflisty.nrkolejny}"/>
                         </p:column>
-                        <p:column>
+                        <p:column width="100">
                             <f:facet name="header">
                                 <h:outputText value="opis"/>
                             </f:facet>
                             <h:outputText value="#{itemdeflisty.opis}"/>
                         </p:column>
-                        <p:column>
+                        <p:column width="300">
                             <f:facet name="header">
                                 <h:outputText value="rodzaj listy plac"/>
                             </f:facet>

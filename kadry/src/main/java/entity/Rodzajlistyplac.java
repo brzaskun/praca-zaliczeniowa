@@ -55,6 +55,12 @@ public class Rodzajlistyplac implements Serializable {
     @Size(min = 1, max = 45)
     @Column(name = "nazwa")
     private String nazwa;
+    @Column(name = "tyt_serial")
+    private Integer tyt_serial;
+    @Column(name = "tyt_kolejnosc")
+    private Short tyt_kolejnosc;
+    @Column(name = "tyt_okres")
+    private Character tyt_okres;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "rodzajlistyplac")
     private List<Definicjalistaplac> definicjalistaplacList;
 
@@ -88,6 +94,33 @@ public class Rodzajlistyplac implements Serializable {
     public void setTyp(Integer typ) {
         this.typ = typ;
     }
+
+    public Integer getTyt_serial() {
+        return tyt_serial;
+    }
+
+    public void setTyt_serial(Integer tyt_serial) {
+        this.tyt_serial = tyt_serial;
+    }
+
+    public Short getTyt_kolejnosc() {
+        return tyt_kolejnosc;
+    }
+
+    public void setTyt_kolejnosc(Short tyt_kolejnosc) {
+        this.tyt_kolejnosc = tyt_kolejnosc;
+    }
+
+
+    public Character getTyt_okres() {
+        return tyt_okres;
+    }
+
+    public void setTyt_okres(Character tyt_okres) {
+        this.tyt_okres = tyt_okres;
+    }
+
+   
 
     @Override
     public int hashCode() {

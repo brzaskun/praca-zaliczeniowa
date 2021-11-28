@@ -7,6 +7,7 @@ package dao;
 
 import entity.Definicjalistaplac;
 import entity.FirmaKadry;
+import entity.Rodzajlistyplac;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PreDestroy;
@@ -51,9 +52,13 @@ public class DefinicjalistaplacFacade extends DAO implements Serializable {
     }
     
     public List<Definicjalistaplac> findByFirmaRokUmowaoprace(FirmaKadry firma, String rok) {
-        return getEntityManager().createNamedQuery("Definicjalistaplac.findByFirmaRokRodzaj").setParameter("firma", firma).setParameter("rok", rok).setParameter("rodzajlistplac", 1).getResultList();
+        return getEntityManager().createNamedQuery("Definicjalistaplac.findByFirmaRokRodzajTyp").setParameter("firma", firma).setParameter("rok", rok).setParameter("rodzajlistplac", 1).getResultList();
     }
     public List<Definicjalistaplac> findByFirmaRokUmowazlecenia(FirmaKadry firma, String rok) {
-        return getEntityManager().createNamedQuery("Definicjalistaplac.findByFirmaRokRodzaj").setParameter("firma", firma).setParameter("rok", rok).setParameter("rodzajlistplac", 2).getResultList();
+        return getEntityManager().createNamedQuery("Definicjalistaplac.findByFirmaRokRodzajTyp").setParameter("firma", firma).setParameter("rok", rok).setParameter("rodzajlistplac", 2).getResultList();
+    }
+    
+    public List<Definicjalistaplac> findByFirmaRokRodzaj(FirmaKadry firma, String rok, Rodzajlistyplac rodzajlistyplac) {
+        return getEntityManager().createNamedQuery("Definicjalistaplac.findByFirmaRokRodzaj").setParameter("firma", firma).setParameter("rok", rok).setParameter("rodzajlistplac", rodzajlistyplac).getResultList();
     }
 }

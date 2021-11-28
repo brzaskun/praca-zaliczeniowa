@@ -5,6 +5,7 @@
  */
 package view;
 
+import DAOsuperplace.TytulFacade;
 import dao.DefinicjalistaplacFacade;
 import dao.FirmaKadryFacade;
 import dao.RodzajlistyplacFacade;
@@ -19,6 +20,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import kadryiplace.Tytul;
 import msg.Msg;
 
 /**
@@ -51,15 +53,10 @@ public class DefinicjalistaplacView  implements Serializable {
         lista  = definicjalistaplacFacade.findByFirmaRok(wpisView.getFirma(), wpisView.getRokWpisu());
         lista = definicjalistaplacFacade.findByFirmaRokUmowaoprace(wpisView.getFirma(), wpisView.getRokWpisu());
         if (wybranyrodzajlisty!=null) {
-            if (wybranyrodzajlisty.getTyp()==1) {
-                lista = definicjalistaplacFacade.findByFirmaRokUmowaoprace(wpisView.getFirma(), wpisView.getRokWpisu());
-            } else {
-                lista = definicjalistaplacFacade.findByFirmaRokUmowazlecenia(wpisView.getFirma(), wpisView.getRokWpisu());
-            }
+            lista = definicjalistaplacFacade.findByFirmaRokRodzaj(wpisView.getFirma(), wpisView.getRokWpisu(), wybranyrodzajlisty);
         }
         listafirm = firmaFacade.findAll();
         listarodzajlistyplac = rodzajlistyplacFacade.findAll();
-        selected.setOpis("wynagrodzenie kraj");
     }
 
     public void create() {
@@ -268,7 +265,20 @@ public class DefinicjalistaplacView  implements Serializable {
         this.wybranyrodzajlisty = wybranyrodzajlisty;
     }
 
-    
-      
+    @Inject
+    private TytulFacade tytulFacade;
+       public void generujtabele() {
+        Msg.msg("Start");
+        List<Tytul> findAll = tytulFacade.findAll();
+        for (Tytul p : findAll) {
+            Rodzajlistyplac s  = new Rodzajlistyplac();
+            s.setNazwa(p.getTytOpis());
+            s.setTyt_kolejnosc(p.getTytKolejnosc());
+            s.setTyt_okres(p.getTytOkres());
+            s.setTyt_serial(p.getTytSerial());
+            rodzajlistyplacFacade.create(s);
+        }
+        Msg.dP();
+    }
     
 }
