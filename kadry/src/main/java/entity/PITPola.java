@@ -92,14 +92,14 @@ public class PITPola {
         this.praca31dochod = this.praca31dochod+this.praca29przychod-this.praca30koszt;
         this.praca33zaliczka = this.praca33zaliczka+karta.getPodatekdochodowy();
         this.zus51pole75 = this.zus51pole75+karta.getRazemspolecznepracownik();
-        this.zus52pole78 = this.zus52pole78+karta.getPraczdrowotnedopotracenia();
+        this.zus52pole78 = this.zus52pole78+karta.getPraczdrowotnedoodliczenia();
     }
 
     public void dodajprace26zwolnione(Kartawynagrodzen karta) {
         this.praca93do26lat = karta.getBrutto();
         this.przychody92sumado26lat= this.przychody92sumado26lat+karta.getBrutto();
         this.zus51pole77 = this.zus51pole77+karta.getRazemspolecznepracownik();
-        this.zus52pole80 = this.zus52pole80+karta.getPraczdrowotnedopotracenia();
+        this.zus52pole80 = this.zus52pole80+karta.getPraczdrowotnedoodliczenia();
     }
 
     public void dodajpracekosztywysokie(Kartawynagrodzen karta) {
@@ -108,7 +108,7 @@ public class PITPola {
         this.praca31dochod = this.praca31dochod+this.praca34przychodwyzszekoszty-this.praca35wyzszekoszty;
         this.praca33zaliczka = this.praca33zaliczka+karta.getPodatekdochodowy();
         this.zus51pole75 = this.zus51pole75+karta.getRazemspolecznepracownik();
-        this.zus52pole78 = this.zus52pole78+karta.getPraczdrowotnedopotracenia();
+        this.zus52pole78 = this.zus52pole78+karta.getPraczdrowotnedoodliczenia();
     }
 
     public void dodajpelnieniefunkcji(Kartawynagrodzen karta) {
@@ -117,7 +117,7 @@ public class PITPola {
         this.funkcja49dochod = this.funkcja47przychod-this.funkcja48koszt;
         this.funkcja50zaliczka = karta.getPodatekdochodowy();
         this.zus51pole75 = this.zus51pole75+karta.getRazemspolecznepracownik();
-        this.zus52pole78 = this.zus52pole78+karta.getPraczdrowotnedopotracenia();
+        this.zus52pole78 = this.zus52pole78+karta.getPraczdrowotnedoodliczenia();
     }
 
     public void dodajzlecenie(Kartawynagrodzen karta) {
@@ -126,14 +126,14 @@ public class PITPola {
         this.zlecenie53dochod = this.zlecenie51przychod-this.zlecenie52koszt;
         this.zlecenie54zaliczka = karta.getPodatekdochodowy();
         this.zus51pole75 = this.zus51pole75+karta.getRazemspolecznepracownik();
-        this.zus52pole78 = this.zus52pole78+karta.getPraczdrowotnedopotracenia();
+        this.zus52pole78 = this.zus52pole78+karta.getPraczdrowotnedoodliczenia();
     }
 
     public void dodajzlecenie26zwolnione(Kartawynagrodzen karta) {
         this.zlecenie94do26lat = karta.getBrutto();
         this.przychody92sumado26lat= this.przychody92sumado26lat+karta.getBrutto();
         this.zus51pole77 = this.zus51pole77+karta.getRazemspolecznepracownik();
-        this.zus52pole80 = this.zus52pole80+karta.getPraczdrowotnedopotracenia();
+        this.zus52pole80 = this.zus52pole80+karta.getPraczdrowotnedoodliczenia();
     }
 
     

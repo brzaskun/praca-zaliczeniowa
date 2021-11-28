@@ -47,7 +47,7 @@ public class FirmaFacade extends DAO implements Serializable {
     }
 
     public Firma findBySerial(String firSerial) {
-        return (Firma) getEntityManager().createNamedQuery("Firma.findByFirSerial").setParameter("firSerial", Integer.valueOf(firSerial)).getSingleResult();
+            return (Firma) getEntityManager().createNamedQuery("Firma.findByFirSerial").setParameter("firSerial", Integer.valueOf(firSerial)).getSingleResult();
     }
 
    

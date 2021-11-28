@@ -174,6 +174,42 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                     <p:commandButton value="zachowaj" styleClass="buttonnorm" actionListener="#{slownikpotraceniaView.zachowaj}" update="@form"/>
                 </h:form>
             </p:tab>
+             <p:tab title="Rodzaje list płac">
+                <h:form id="ListaPlacForm">
+                    <p:dataTable id="datalistsa" value="#{rodzajlistyplacView.lista}" var="item17"
+                                 selectionMode="single" selection="#{rodzajlistyplacView.selectedlista}"
+                                 rowKey="#{item17.id}" 
+                                 style="width: 800px;"
+                                 >
+
+                        <p:column width="40" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="id"/>
+                            </f:facet>
+                            <h:outputText value="#{item17.id}"/>
+                        </p:column>
+                        <p:column width="250">
+                            <f:facet name="header">
+                                <h:outputText value="nazwa"/>
+                            </f:facet>
+                            <h:outputText value="#{item17.nazwa}"/>
+                        </p:column>
+                        <p:column width="70">
+                            <f:facet name="header">
+                                <h:outputText value="kolejność"/>
+                            </f:facet>
+                            <p:inputText value="#{item17.tyt_kolejnosc}"/>
+                        </p:column>
+                        <p:column width="70" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="aktywna"/>
+                            </f:facet>
+                            <p:selectBooleanCheckbox value="#{item17.aktywna}"/>
+                        </p:column>
+                    </p:dataTable>
+                    <p:commandButton value="zachowaj" styleClass="buttonnorm" actionListener="#{rodzajlistyplacView.zachowaj}" update="@form"/>
+                </h:form>
+            </p:tab>
              <p:tab title="Rodzaje nieobecności">
                 <h:form id="SlownikNieobecnosciForm">
                     <p:dataTable id="datalistn" value="#{swiadczeniekodzusView.lista}" var="item13"

@@ -191,7 +191,7 @@ public class KartaWynagrodzenView  implements Serializable {
 //                    3,"pełnienie obowiązków",3
 //                    4,zasiłki,4
 
-                    if (pasek.getRodzajWynagrodzenia()==1&&pasek.isDo26lat()==false) {
+                    if ((pasek.getRodzajWynagrodzenia()==1||pasek.getRodzajWynagrodzenia()==4)&&pasek.isDo26lat()==false) {
                         if (pasek.getProcentkosztow()>100.0) {
                             sumaUmowaopracekosztypodwyzszone.dodaj(pasek);
                         } else {

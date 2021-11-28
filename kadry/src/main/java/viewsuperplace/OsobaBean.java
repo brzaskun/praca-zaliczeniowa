@@ -473,6 +473,7 @@ public class OsobaBean {
                         List<PlaceZlec> placeZlecList = r.getPlaceZlecList();
                         historycznenaliczeniezlecenie(placeZlecList, nowypasek, skladnikwynagrodzenia);
                         nowypasek.setBrutto(nowypasek.getBrutto()+nowypasek.getBruttobezzus() + nowypasek.getBruttozus() + nowypasek.getBruttobezzusbezpodatek());
+                        nowypasek.setBruttominusspoleczne(Z.z(nowypasek.getBrutto()-nowypasek.getRazemspolecznepracownik()));
                         zwrot.add(nowypasek);
                     }
                 } else {
@@ -488,6 +489,7 @@ public class OsobaBean {
                         List<PlacePrz>  placePrzList = r.getPlacePrzList();
                         historycznenaliczenienieobecnosc(placePrzList, nowypasek, nieobecnoscilista);
                         nowypasek.setBrutto(nowypasek.getBrutto()+nowypasek.getBruttobezzus() + nowypasek.getBruttozus() + nowypasek.getBruttobezzusbezpodatek());
+                        nowypasek.setBruttominusspoleczne(Z.z(nowypasek.getBrutto()-nowypasek.getRazemspolecznepracownik()));
                         zwrot.add(nowypasek);
                     }
                 }
@@ -627,9 +629,11 @@ public class OsobaBean {
     static List<Pasekwynagrodzen> dodajlisteikalendarzdopaska(List<Pasekwynagrodzen> paski, List<Definicjalistaplac> listyplac, List<Kalendarzmiesiac> kalendarze) {
         for (Pasekwynagrodzen p : paski) {
             for (Definicjalistaplac r : listyplac) {
-                if (r.getRok().equals(p.getRok())&&r.getMc().equals(p.getMc())) {
-                    p.setDefinicjalistaplac(r);
-                    break;
+                if (r.getRodzajlistyplac().getTyt_serial().equals(p.getLis_tyt_serial())) {
+                    if (r.getRok().equals(p.getRok())&&r.getMc().equals(p.getMc())) {
+                        p.setDefinicjalistaplac(r);
+                        break;
+                    }
                 }
             }
             for (Kalendarzmiesiac r : kalendarze) {

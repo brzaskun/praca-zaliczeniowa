@@ -32,6 +32,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Rodzajlistyplac.findAll", query = "SELECT r FROM Rodzajlistyplac r"),
+    @NamedQuery(name = "Rodzajlistyplac.findAktywne", query = "SELECT r FROM Rodzajlistyplac r WHERE r.aktywna = TRUE"),
     @NamedQuery(name = "Rodzajlistyplac.findById", query = "SELECT r FROM Rodzajlistyplac r WHERE r.id = :id"),
     @NamedQuery(name = "Rodzajlistyplac.findByNazwa", query = "SELECT r FROM Rodzajlistyplac r WHERE r.nazwa = :nazwa"),
     @NamedQuery(name = "Rodzajlistyplac.findByTyp", query = "SELECT r FROM Rodzajlistyplac r WHERE r.typ = :typ")})
@@ -61,6 +62,8 @@ public class Rodzajlistyplac implements Serializable {
     private Short tyt_kolejnosc;
     @Column(name = "tyt_okres")
     private Character tyt_okres;
+    @Column(name = "aktywna")
+    private boolean aktywna;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "rodzajlistyplac")
     private List<Definicjalistaplac> definicjalistaplacList;
 
@@ -119,6 +122,16 @@ public class Rodzajlistyplac implements Serializable {
     public void setTyt_okres(Character tyt_okres) {
         this.tyt_okres = tyt_okres;
     }
+
+    public boolean isAktywna() {
+        return aktywna;
+    }
+
+    public void setAktywna(boolean aktywna) {
+        this.aktywna = aktywna;
+    }
+
+    
 
    
 

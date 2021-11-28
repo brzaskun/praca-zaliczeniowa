@@ -6,6 +6,7 @@
 package dao;
 
 import entity.Rodzajlistyplac;
+import java.util.List;
 import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -41,5 +42,9 @@ public class RodzajlistyplacFacade extends DAO  {
         super.em = em;
     }
     
-       
+     public List<Rodzajlistyplac> findAktywne() {
+        return getEntityManager().createNamedQuery("Rodzajlistyplac.findAktywne").getResultList();
+    }
+
+    
 }

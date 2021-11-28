@@ -201,6 +201,8 @@ public class Pasekwynagrodzen implements Serializable {
     private double wynagrodzenieminimalne;
     @Column(name = "nierezydent")
     private boolean nierezydent;
+    @Column(name = "lis_tyt_serial")
+    private Integer lis_tyt_serial;
     @OneToMany(mappedBy = "pasekwynagrodzen")
     private List<Rachunekdoumowyzlecenia> rachunekdoumowyzleceniaList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "pasekwynagrodzen", orphanRemoval = true)
@@ -247,13 +249,6 @@ public class Pasekwynagrodzen implements Serializable {
             } else {
                 this.do26lat = false;
             }
-        } else {
-            double kwotapoda = Z.z(r.getLplKwotaDod1().doubleValue());
-            if (kwotapoda==0.0) {
-                this.do26lat = true;
-            } else {
-                this.do26lat = false;
-            }
         }
         this.podstawaskladkizus = Z.z(r.getLplPdstChor().doubleValue());
         this.fgsp = Z.z(r.getLplFgspPrac().doubleValue());
@@ -267,10 +262,10 @@ public class Pasekwynagrodzen implements Serializable {
         this.pracchorobowe = Z.z(r.getLplChorUbez().doubleValue());
         this.pracemerytalne = Z.z(r.getLplEmerUbez().doubleValue());
         this.pracrentowe = Z.z(r.getLplRentUbez().doubleValue());
-        this.razemspolecznepracownik = Z.z(r.getLplPodZusKw().doubleValue());
+        this.razemspolecznepracownik = Z.z(this.pracemerytalne+this.pracrentowe+this.pracchorobowe);
         this.praczdrowotne = Z.z(r.getLplZdroUbez().doubleValue());
-        this.praczdrowotnedoodliczenia = 0.0;
-        this.praczdrowotnedopotracenia = Z.z(r.getLplPodZdroKw().doubleValue());
+        this.praczdrowotnedoodliczenia = Z.z(r.getLplPodZdroKw().doubleValue());
+        this.praczdrowotnedopotracenia = Z.z(this.praczdrowotne-this.praczdrowotnedoodliczenia);
         this.emerytalne = Z.z(r.getLplEmerPrac().doubleValue());
         this.rentowe = Z.z(r.getLplRentPrac().doubleValue());
         this.wypadkowe = Z.z(r.getLplWypPrac().doubleValue());
@@ -279,7 +274,6 @@ public class Pasekwynagrodzen implements Serializable {
         this.podstawaubezpzdrowotne = Z.z(r.getLplPdstZdrowotne().doubleValue());
         this.potracenia = Z.z(r.getLplPotracenia().doubleValue());
         this.razem53 = Z.z(this.fp+this.fgsp);
-        this.bruttominusspoleczne = Z.z(this.brutto-this.razemspolecznepracownik);
         this.kosztpracodawcy = Z.z(this.bruttozus+this.bruttobezzus+this.razemspolecznefirma);
         this.dietaodliczeniepodstawaop = 0.0;
         this.dieta = 0.0;
@@ -288,6 +282,7 @@ public class Pasekwynagrodzen implements Serializable {
         this.setDatawyplaty(Data.data_yyyyMMddNull(r.getLplDataWyplaty()));
         this.dniobowiazku = r.getLplDniObow().intValue();
         this.dniprzepracowane = r.getLplDniPrzepr().intValue();
+        this.lis_tyt_serial = r.getLplLisSerial().getLisTytSerial().getTytSerial();
         this.naliczeniepotracenieList = new ArrayList<>();
         this.naliczenieskladnikawynagrodzeniaList = new ArrayList<>();
         this.naliczenienieobecnoscList = new ArrayList<>();
@@ -380,6 +375,14 @@ public class Pasekwynagrodzen implements Serializable {
 
     public void setBruttozuskraj(double bruttozuskraj) {
         this.bruttozuskraj = bruttozuskraj;
+    }
+
+    public Integer getLis_tyt_serial() {
+        return lis_tyt_serial;
+    }
+
+    public void setLis_tyt_serial(Integer lis_tyt_serial) {
+        this.lis_tyt_serial = lis_tyt_serial;
     }
     
     

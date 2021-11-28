@@ -15,6 +15,7 @@ import entity.Definicjalistaplac;
 import entity.FirmaKadry;
 import entity.Rodzajlistyplac;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
@@ -50,13 +51,13 @@ public class DefinicjalistaplacView  implements Serializable {
     
     @PostConstruct
     public void init() {
-        lista  = definicjalistaplacFacade.findByFirmaRok(wpisView.getFirma(), wpisView.getRokWpisu());
-        lista = definicjalistaplacFacade.findByFirmaRokUmowaoprace(wpisView.getFirma(), wpisView.getRokWpisu());
         if (wybranyrodzajlisty!=null) {
             lista = definicjalistaplacFacade.findByFirmaRokRodzaj(wpisView.getFirma(), wpisView.getRokWpisu(), wybranyrodzajlisty);
+        } else {
+            lista = new ArrayList<>();
         }
         listafirm = firmaFacade.findAll();
-        listarodzajlistyplac = rodzajlistyplacFacade.findAll();
+        listarodzajlistyplac = rodzajlistyplacFacade.findAktywne();
     }
 
     public void create() {
@@ -151,14 +152,9 @@ public class DefinicjalistaplacView  implements Serializable {
                 
             }
             if (wybranyrodzajlisty != null) {
-                if (wybranyrodzajlisty.getTyp() == 1) {
-                    lista = definicjalistaplacFacade.findByFirmaRokUmowaoprace(wpisView.getFirma(), wpisView.getRokWpisu());
-                } else {
-                    lista = definicjalistaplacFacade.findByFirmaRokUmowazlecenia(wpisView.getFirma(), wpisView.getRokWpisu());
-                }
+                 lista = definicjalistaplacFacade.findByFirmaRokRodzaj(wpisView.getFirma(), wpisView.getRokWpisu(), wybranyrodzajlisty);
             }
             Msg.msg("Wygenerowano listy na cały rok");  
-            
         } else {
             Msg.msg("e","Lista jest pusta lub ma wiecej pozycji niż jedna");
         }

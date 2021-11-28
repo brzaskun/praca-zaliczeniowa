@@ -256,9 +256,9 @@ public class PIT11_27Bean {
                 poz.setP75(BigDecimal.valueOf(Z.z(sumaUmowaoprace.getRazemspolecznepracownik())));
             }
             if (poz.getP78()!=null) {
-                poz.setP78(poz.getP78().add(BigDecimal.valueOf(Z.z(sumaUmowaoprace.getPraczdrowotnedopotracenia()))));
+                poz.setP78(poz.getP78().add(BigDecimal.valueOf(Z.z(sumaUmowaoprace.getPraczdrowotnedoodliczenia()))));
             } else{
-                poz.setP78(BigDecimal.valueOf(Z.z(sumaUmowaoprace.getPraczdrowotnedopotracenia())));
+                poz.setP78(BigDecimal.valueOf(Z.z(sumaUmowaoprace.getPraczdrowotnedoodliczenia())));
             }
             //czy dodano PIT-R 1tak 2nie
             poz.setP96((byte)2);
@@ -279,9 +279,9 @@ public class PIT11_27Bean {
                 poz.setP75(BigDecimal.valueOf(Z.z(sumaUmowaopracekosztypodwyzszone.getRazemspolecznepracownik())));
             }
             if (poz.getP78()!=null) {
-                poz.setP78(poz.getP78().add(BigDecimal.valueOf(Z.z(sumaUmowaopracekosztypodwyzszone.getPraczdrowotnedopotracenia()))));
+                poz.setP78(poz.getP78().add(BigDecimal.valueOf(Z.z(sumaUmowaopracekosztypodwyzszone.getPraczdrowotnedoodliczenia()))));
             } else{
-                poz.setP78(BigDecimal.valueOf(Z.z(sumaUmowaopracekosztypodwyzszone.getPraczdrowotnedopotracenia())));
+                poz.setP78(BigDecimal.valueOf(Z.z(sumaUmowaopracekosztypodwyzszone.getPraczdrowotnedoodliczenia())));
             }
             //czy dodano PIT-R 1tak 2nie
             poz.setP96((byte)2);
@@ -297,9 +297,9 @@ public class PIT11_27Bean {
                 poz.setP75(BigDecimal.valueOf(Z.z(sumaUmowapelnieniefunkcji.getRazemspolecznepracownik())));
             }
             if (poz.getP78()!=null) {
-                poz.setP78(poz.getP78().add(BigDecimal.valueOf(Z.z(sumaUmowapelnieniefunkcji.getPraczdrowotnedopotracenia()))));
+                poz.setP78(poz.getP78().add(BigDecimal.valueOf(Z.z(sumaUmowapelnieniefunkcji.getPraczdrowotnedoodliczenia()))));
             } else{
-                poz.setP78(BigDecimal.valueOf(Z.z(sumaUmowapelnieniefunkcji.getPraczdrowotnedopotracenia())));
+                poz.setP78(BigDecimal.valueOf(Z.z(sumaUmowapelnieniefunkcji.getPraczdrowotnedoodliczenia())));
             }
             //czy dodano PIT-R 1tak 2nie
             poz.setP96((byte)2);
@@ -315,9 +315,9 @@ public class PIT11_27Bean {
                 poz.setP75(BigDecimal.valueOf(Z.z(sumaUmowazlecenia.getRazemspolecznepracownik())));
             }
             if (poz.getP78()!=null) {
-                poz.setP78(poz.getP78().add(BigDecimal.valueOf(Z.z(sumaUmowazlecenia.getPraczdrowotnedopotracenia()))));
+                poz.setP78(poz.getP78().add(BigDecimal.valueOf(Z.z(sumaUmowazlecenia.getPraczdrowotnedoodliczenia()))));
             } else{
-                poz.setP78(BigDecimal.valueOf(Z.z(sumaUmowazlecenia.getPraczdrowotnedopotracenia())));
+                poz.setP78(BigDecimal.valueOf(Z.z(sumaUmowazlecenia.getPraczdrowotnedoodliczenia())));
             }
             //czy dodano PIT-R 1tak 2nie
             poz.setP96((byte)2);
@@ -330,9 +330,9 @@ public class PIT11_27Bean {
                 poz.setP77(BigDecimal.valueOf(Z.z(sumaUmowaoprace26zwolnione.getRazemspolecznepracownik())));
             }
             if (poz.getP80()!=null) {
-                poz.setP80(poz.getP80().add(BigDecimal.valueOf(Z.z(sumaUmowaoprace26zwolnione.getPraczdrowotnedopotracenia()))));
+                poz.setP80(poz.getP80().add(BigDecimal.valueOf(Z.z(sumaUmowaoprace26zwolnione.getPraczdrowotnedoodliczenia()))));
             } else{
-                poz.setP80(BigDecimal.valueOf(Z.z(sumaUmowaoprace26zwolnione.getPraczdrowotnedopotracenia())));
+                poz.setP80(BigDecimal.valueOf(Z.z(sumaUmowaoprace26zwolnione.getPraczdrowotnedoodliczenia())));
             }
             poz.setP93(BigDecimal.valueOf(Z.z(sumaUmowaoprace26zwolnione.getBrutto())));
             if (poz.getP92()!=null) {
@@ -350,9 +350,9 @@ public class PIT11_27Bean {
                 poz.setP77(BigDecimal.valueOf(Z.z(sumaUmowazlecenia26zwolnione.getRazemspolecznepracownik())));
             }
             if (poz.getP80()!=null) {
-                poz.setP80(poz.getP80().add(BigDecimal.valueOf(Z.z(sumaUmowazlecenia26zwolnione.getPraczdrowotnedopotracenia()))));
+                poz.setP80(poz.getP80().add(BigDecimal.valueOf(Z.z(sumaUmowazlecenia26zwolnione.getPraczdrowotnedoodliczenia()))));
             } else{
-                poz.setP80(BigDecimal.valueOf(Z.z(sumaUmowazlecenia26zwolnione.getPraczdrowotnedopotracenia())));
+                poz.setP80(BigDecimal.valueOf(Z.z(sumaUmowazlecenia26zwolnione.getPraczdrowotnedoodliczenia())));
             }
             poz.setP94(BigDecimal.valueOf(Z.z(sumaUmowazlecenia26zwolnione.getBrutto())));
             if (poz.getP92()!=null) {

@@ -55,7 +55,7 @@ import z.Z;
     @NamedQuery(name = "Kartawynagrodzen.findByPracrentowe", query = "SELECT k FROM Kartawynagrodzen k WHERE k.pracrentowe = :pracrentowe"),
     @NamedQuery(name = "Kartawynagrodzen.findByRazemspolecznepracownik", query = "SELECT k FROM Kartawynagrodzen k WHERE k.razemspolecznepracownik = :razemspolecznepracownik"),
     @NamedQuery(name = "Kartawynagrodzen.findByPraczdrowotne", query = "SELECT k FROM Kartawynagrodzen k WHERE k.praczdrowotne = :praczdrowotne"),
-    @NamedQuery(name = "Kartawynagrodzen.findByPraczdrowotnedodoliczenia", query = "SELECT k FROM Kartawynagrodzen k WHERE k.praczdrowotnedodoliczenia = :praczdrowotnedodoliczenia"),
+    @NamedQuery(name = "Kartawynagrodzen.findByPraczdrowotnedodoliczenia", query = "SELECT k FROM Kartawynagrodzen k WHERE k.praczdrowotnedoodliczenia = :praczdrowotnedoodliczenia"),
     @NamedQuery(name = "Kartawynagrodzen.findByPraczdrowotnedopotracenia", query = "SELECT k FROM Kartawynagrodzen k WHERE k.praczdrowotnedopotracenia = :praczdrowotnedopotracenia"),
     @NamedQuery(name = "Kartawynagrodzen.findByPraczdrowotnepomniejszone", query = "SELECT k FROM Kartawynagrodzen k WHERE k.praczdrowotnepomniejszone = :praczdrowotnepomniejszone"),
     @NamedQuery(name = "Kartawynagrodzen.findByEmerytalne", query = "SELECT k FROM Kartawynagrodzen k WHERE k.emerytalne = :emerytalne"),
@@ -107,8 +107,8 @@ public class Kartawynagrodzen implements Serializable {
     private double razemspolecznepracownik;
     @Column(name = "praczdrowotne")
     private double praczdrowotne;
-    @Column(name = "praczdrowotnedodoliczenia")
-    private double praczdrowotnedodoliczenia;
+    @Column(name = "praczdrowotnedoodliczenia")
+    private double praczdrowotnedoodliczenia;
     @Column(name = "praczdrowotnedopotracenia")
     private double praczdrowotnedopotracenia;
     @Column(name = "praczdrowotnepomniejszone")
@@ -295,12 +295,12 @@ public class Kartawynagrodzen implements Serializable {
         this.praczdrowotne = praczdrowotne;
     }
 
-    public double getPraczdrowotnedodoliczenia() {
-        return praczdrowotnedodoliczenia;
+    public double getPraczdrowotnedoodliczenia() {
+        return praczdrowotnedoodliczenia;
     }
 
-    public void setPraczdrowotnedodoliczenia(double praczdrowotnedodoliczenia) {
-        this.praczdrowotnedodoliczenia = praczdrowotnedodoliczenia;
+    public void setPraczdrowotnedoodliczenia(double praczdrowotnedoodliczenia) {
+        this.praczdrowotnedoodliczenia = praczdrowotnedoodliczenia;
     }
 
     public double getPraczdrowotnedopotracenia() {
@@ -527,7 +527,7 @@ public class Kartawynagrodzen implements Serializable {
         this.pracrentowe = 0.0;
         this.razemspolecznepracownik = 0.0;
         this.praczdrowotne = 0.0;
-        this.praczdrowotnedodoliczenia = 0.0;
+        this.praczdrowotnedoodliczenia = 0.0;
         this.praczdrowotnedopotracenia = 0.0;
         this.praczdrowotnepomniejszone = 0.0;
         this.emerytalne = 0.0;
@@ -560,7 +560,7 @@ public class Kartawynagrodzen implements Serializable {
         this.pracrentowe += pasek.getPracrentowe();
         this.razemspolecznepracownik = Z.z(this.razemspolecznepracownik+pasek.getRazemspolecznepracownik());
         this.praczdrowotne += pasek.getPraczdrowotne();
-        this.praczdrowotnedodoliczenia += pasek.getPraczdrowotnedoodliczenia();
+        this.praczdrowotnedoodliczenia = Z.z(this.praczdrowotnedoodliczenia+pasek.getPraczdrowotnedoodliczenia());
         this.praczdrowotnedopotracenia = Z.z(this.praczdrowotnedopotracenia+pasek.getPraczdrowotnedopotracenia());
         this.emerytalne += pasek.getEmerytalne();
         this.rentowe += pasek.getRentowe();
@@ -598,7 +598,7 @@ public class Kartawynagrodzen implements Serializable {
         this.pracrentowe += pasek.getPracrentowe();
         this.razemspolecznepracownik = Z.z(this.razemspolecznepracownik+pasek.getRazemspolecznepracownik());
         this.praczdrowotne += pasek.getPraczdrowotne();
-        this.praczdrowotnedodoliczenia += pasek.getPraczdrowotnedodoliczenia();
+        this.praczdrowotnedoodliczenia += pasek.getPraczdrowotnedoodliczenia();
         this.praczdrowotnedopotracenia = Z.z(this.praczdrowotnedopotracenia+pasek.getPraczdrowotnedopotracenia());
         this.praczdrowotnepomniejszone += pasek.getPraczdrowotnepomniejszone();
         this.emerytalne += pasek.getEmerytalne();

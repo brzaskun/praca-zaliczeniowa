@@ -111,13 +111,12 @@ public class PasekwynagrodzenView implements Serializable {
         }
         if (rodzajumowy == null) {
             rodzajumowy = "1";
-        }
-        if (rodzajumowy.equals("1")) {
-            listadefinicjalistaplac = definicjalistaplacFacade.findByFirmaRokUmowaoprace(wpisView.getFirma(), wpisView.getRokWpisu());
         } else {
-            listadefinicjalistaplac = definicjalistaplacFacade.findByFirmaRokUmowazlecenia(wpisView.getFirma(), wpisView.getRokWpisu());
+            listadefinicjalistaplac = definicjalistaplacFacade.findByFirmaRokTyp(wpisView.getFirma(), wpisView.getRokWpisu(), Integer.parseInt(rodzajumowy));
         }
-        Collections.sort(listadefinicjalistaplac, new Defnicjalistaplaccomparator());
+        if (listadefinicjalistaplac!=null) {
+            Collections.sort(listadefinicjalistaplac, new Defnicjalistaplaccomparator());
+        }
         listakalendarzmiesiac = new org.primefaces.model.DualListModel<>();
         try {
             wybranalistaplac = listadefinicjalistaplac.stream().filter(p -> p.getMc().equals(wpisView.getMiesiacWpisu())).findFirst().get();
@@ -137,11 +136,8 @@ public class PasekwynagrodzenView implements Serializable {
         lista = new ArrayList<>();
         if (rodzajumowy == null) {
             rodzajumowy = "1";
-        }
-        if (rodzajumowy.equals("1")) {
-            listadefinicjalistaplac = definicjalistaplacFacade.findByFirmaRokUmowaoprace(wpisView.getFirma(), wpisView.getRokWpisu());
         } else {
-            listadefinicjalistaplac = definicjalistaplacFacade.findByFirmaRokUmowazlecenia(wpisView.getFirma(), wpisView.getRokWpisu());
+            listadefinicjalistaplac = definicjalistaplacFacade.findByFirmaRokTyp(wpisView.getFirma(), wpisView.getRokWpisu(), Integer.parseInt(rodzajumowy));
         }
         Collections.sort(listadefinicjalistaplac, new Defnicjalistaplaccomparator());
         listakalendarzmiesiac = new org.primefaces.model.DualListModel<>();

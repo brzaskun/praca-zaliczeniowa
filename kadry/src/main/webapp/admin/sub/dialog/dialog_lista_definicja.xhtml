@@ -8,7 +8,7 @@
     <p:dialog id="dialoglistadefinicja" header="Definicja listy płaca" widgetVar="dialoglistadefinicja"  
               resizable="false"  onShow="ustawdialog('dialoglistadefinicja','centertile',1650,800);" closeOnEscape="true" onHide="resetujdialog('dialoglistadefinicja');" 
               fitViewport="true">
-        <p:outputPanel style="height: 200px">
+        <p:outputPanel style="height: 150px">
              <h:form id="DefinicjalistaplacdefCreateForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="8" rendered="#{definicjalistaplacView.selected != null}">
@@ -59,7 +59,7 @@
                 <p:outputLabel value="wybierz wyświetlany rodzaj listy" style="margin-left: 700px;" />
                 <p:selectOneMenu id="firma" value="#{definicjalistaplacView.wybranyrodzajlisty}" required="true" requiredMessage="Wybierz rodzaj listy płac"
                                  style="margin-left: 20px;" converter="#{rodzjalistyplacConverter}">
-                    <p:ajax event="change" listener="#{definicjalistaplacView.init()}" update="DefinicjalistaplacListForm:datalist" partialSubmit="true"/>
+                    <p:ajax event="change" listener="#{definicjalistaplacView.init()}" update="DefinicjalistaplacListForm:datalist DefinicjalistaplacgenerujForm" partialSubmit="true"/>
                             <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
                             <f:selectItems value="#{definicjalistaplacView.listarodzajlistyplac}"
                                            var="firmalistaItem"
@@ -79,7 +79,7 @@
                             </f:facet>
                             <h:outputText value="#{indexdeflp+1}"/>
                         </p:column>
-                        <p:column width="70">
+                        <p:column width="70" sortBy="#{itemdeflisty.datasporzadzenia}">
                             <f:facet name="header">
                                 <h:outputText value="data sporzadzenia"/>
                             </f:facet>
@@ -103,7 +103,7 @@
                             </f:facet>
                             <h:outputText value="#{itemdeflisty.nrkolejny}"/>
                         </p:column>
-                        <p:column width="100">
+                        <p:column width="150">
                             <f:facet name="header">
                                 <h:outputText value="opis"/>
                             </f:facet>
