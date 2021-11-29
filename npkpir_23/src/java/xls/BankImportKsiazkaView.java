@@ -395,7 +395,13 @@ public class BankImportKsiazkaView implements Serializable {
         for (FakturaRozrachunki r : wierszezmiesiaca) {
             if (r.getIban()!=null && r.getIban().equals(p.getIBAN())) {
                 if (r.getData().equals(p.getDatatransakcji())){
-                    if (r.getKwotapln()==p.getKwota()) {
+                    if (r.getKurs()>0.0) {
+                        if (r.getKwotawwalucie()==p.getKwota()) {
+                            if (r.getKwotaidentyfikujaca()==p.getSaldopooperacji()) {
+                                zwrot = true;
+                            }
+                        }
+                    } else if (r.getKwotapln()==p.getKwota()) {
                         if (r.getKwotaidentyfikujaca()==p.getSaldopooperacji()) {
                             zwrot = true;
                         }
