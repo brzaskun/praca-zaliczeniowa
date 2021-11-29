@@ -35,6 +35,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Rodzajlistyplac.findAktywne", query = "SELECT r FROM Rodzajlistyplac r WHERE r.aktywna = TRUE"),
     @NamedQuery(name = "Rodzajlistyplac.findById", query = "SELECT r FROM Rodzajlistyplac r WHERE r.id = :id"),
     @NamedQuery(name = "Rodzajlistyplac.findByNazwa", query = "SELECT r FROM Rodzajlistyplac r WHERE r.nazwa = :nazwa"),
+    @NamedQuery(name = "Rodzajlistyplac.findByTyt_serial", query = "SELECT r FROM Rodzajlistyplac r WHERE r.tyt_serial = :tyt_serial"),
+    @NamedQuery(name = "Rodzajlistyplac.findByUmowaoPrace", query = "SELECT r FROM Rodzajlistyplac r WHERE r.tyt_serial = 1"),
+    @NamedQuery(name = "Rodzajlistyplac.findByUmowaZlecenia", query = "SELECT r FROM Rodzajlistyplac r WHERE r.tyt_serial = 2"),
     @NamedQuery(name = "Rodzajlistyplac.findByTyp", query = "SELECT r FROM Rodzajlistyplac r WHERE r.typ = :typ")})
 public class Rodzajlistyplac implements Serializable {
  private static final long serialVersionUID = 1L;
@@ -56,6 +59,9 @@ public class Rodzajlistyplac implements Serializable {
     @Size(min = 1, max = 45)
     @Column(name = "nazwa")
     private String nazwa;
+    @Size(max = 2)
+    @Column(name = "symbol")
+    private String symbol;
     @Column(name = "tyt_serial")
     private Integer tyt_serial;
     @Column(name = "tyt_kolejnosc")
@@ -96,6 +102,14 @@ public class Rodzajlistyplac implements Serializable {
 
     public void setTyp(Integer typ) {
         this.typ = typ;
+    }
+
+    public String getSymbol() {
+        return symbol;
+    }
+
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
     }
 
     public Integer getTyt_serial() {

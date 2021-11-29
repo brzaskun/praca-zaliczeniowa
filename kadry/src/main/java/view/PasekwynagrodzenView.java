@@ -15,6 +15,7 @@ import dao.KalendarzwzorFacade;
 import dao.OddelegowanieZUSLimitFacade;
 import dao.PasekwynagrodzenFacade;
 import dao.PodatkiFacade;
+import dao.RodzajlistyplacFacade;
 import dao.SMTPSettingsFacade;
 import dao.SwiadczeniekodzusFacade;
 import dao.WynagrodzeniahistoryczneFacade;
@@ -30,6 +31,7 @@ import entity.OddelegowanieZUSLimit;
 import entity.Pasekwynagrodzen;
 import entity.Podatki;
 import entity.Rachunekdoumowyzlecenia;
+import entity.Rodzajlistyplac;
 import entity.SMTPSettings;
 import entity.Umowa;
 import entity.Wynagrodzeniahistoryczne;
@@ -84,10 +86,12 @@ public class PasekwynagrodzenView implements Serializable {
     @Inject
     private OddelegowanieZUSLimitFacade oddelegowanieZUSLimitFacade;
     @Inject
+    private RodzajlistyplacFacade rodzajlistyplacFacade;
+    @Inject
     private PodatkiFacade podatkiFacade;
     @Inject
     private WpisView wpisView;
-    private String rodzajumowy;
+    private Rodzajlistyplac rodzajlistyplac;
     List<Naliczenieskladnikawynagrodzenia> listawynagrodzenpracownika;
     List<Naliczenienieobecnosc> listanieobecnoscipracownika;
     @Inject
@@ -104,15 +108,15 @@ public class PasekwynagrodzenView implements Serializable {
         lista = new ArrayList<>();
         if (wpisView.getUmowa() != null) {
             if (wpisView.getUmowa().getUmowakodzus() != null && wpisView.getUmowa().getUmowakodzus().isPraca()) {
-                rodzajumowy = "1";
+                rodzajlistyplac = rodzajlistyplacFacade.findUmowaoPrace();
             } else {
-                rodzajumowy = "2";
+                rodzajlistyplac = rodzajlistyplacFacade.findUmowaZlecenia();
             }
         }
-        if (rodzajumowy == null) {
-            rodzajumowy = "1";
+        if (rodzajlistyplac == null) {
+            rodzajlistyplac = rodzajlistyplacFacade.findUmowaoPrace();
         } else {
-            listadefinicjalistaplac = definicjalistaplacFacade.findByFirmaRokTyp(wpisView.getFirma(), wpisView.getRokWpisu(), Integer.parseInt(rodzajumowy));
+            listadefinicjalistaplac = definicjalistaplacFacade.findByFirmaRokRodzaj(wpisView.getFirma(), wpisView.getRokWpisu(), rodzajlistyplac);
         }
         if (listadefinicjalistaplac!=null) {
             Collections.sort(listadefinicjalistaplac, new Defnicjalistaplaccomparator());
@@ -134,10 +138,10 @@ public class PasekwynagrodzenView implements Serializable {
 
     public void wyborinnejumowy() {
         lista = new ArrayList<>();
-        if (rodzajumowy == null) {
-            rodzajumowy = "1";
+        if (rodzajlistyplac == null) {
+            rodzajlistyplac = rodzajlistyplacFacade.findUmowaoPrace();
         } else {
-            listadefinicjalistaplac = definicjalistaplacFacade.findByFirmaRokTyp(wpisView.getFirma(), wpisView.getRokWpisu(), Integer.parseInt(rodzajumowy));
+            listadefinicjalistaplac = definicjalistaplacFacade.findByFirmaRokRodzaj(wpisView.getFirma(), wpisView.getRokWpisu(), rodzajlistyplac);
         }
         Collections.sort(listadefinicjalistaplac, new Defnicjalistaplaccomparator());
         listakalendarzmiesiac = new org.primefaces.model.DualListModel<>();
@@ -241,7 +245,7 @@ public class PasekwynagrodzenView implements Serializable {
                 kalendarz.setRok(wpisView.getRokWpisu());
                 kalendarz.setMc(wpisView.getMiesiacWpisu());
                 kalendarz.nanies(kalendarzwzor);
-                boolean zlecenie0praca1 = rodzajumowy.equals("1") ? true : false;
+                boolean zlecenie0praca1 = rodzajlistyplac.equals("1") ? true : false;
                 Umowa umowa = new Umowa();
                 umowa.setOdliczaculgepodatkowa(true);
                 umowa.setKosztyuzyskaniaprocent(100.0);
@@ -327,15 +331,15 @@ public class PasekwynagrodzenView implements Serializable {
     public void pobierzkalendarzezamc() {
         Definicjalistaplac wybranalistaplac = this.wybranalistaplac;
         if (wybranalistaplac != null) {
-            if (rodzajumowy == null) {
-                rodzajumowy = "1";
+            if (rodzajlistyplac == null) {
+                rodzajlistyplac = rodzajlistyplacFacade.findUmowaoPrace();
             }
             List<Kalendarzmiesiac> listakalendarzmiesiac = kalendarzmiesiacFacade.findByFirmaRokMcPraca(wybranalistaplac.getFirma(), wybranalistaplac.getRok(), wybranalistaplac.getMc());
-            if (rodzajumowy.equals("2")) {
+            if (rodzajlistyplac.equals("2")) {
                 listakalendarzmiesiac = kalendarzmiesiacFacade.findByFirmaRokMcZlecenie(wybranalistaplac.getFirma(), wybranalistaplac.getRok(), wybranalistaplac.getMc());
             }
             Collections.sort(listakalendarzmiesiac, new Kalendarzmiesiaccomparator());
-            if (rodzajumowy.equals("2")) {
+            if (rodzajlistyplac.equals("2")) {
                 for (Iterator<Kalendarzmiesiac> it = listakalendarzmiesiac.iterator(); it.hasNext();) {
                     Kalendarzmiesiac p = it.next();
                     Umowa u = p.getUmowa();
@@ -356,15 +360,15 @@ public class PasekwynagrodzenView implements Serializable {
     public void pobierzkalendarzezamcanaliza() {
         Definicjalistaplac wybranalistaplac = this.wybranalistaplac2;
         if (wybranalistaplac != null) {
-            if (rodzajumowy == null) {
-                rodzajumowy = "1";
+            if (rodzajlistyplac == null) {
+                rodzajlistyplac = rodzajlistyplacFacade.findUmowaoPrace();
             }
             List<Kalendarzmiesiac> listakalendarzmiesiac = kalendarzmiesiacFacade.findByFirmaRokMcPraca(wybranalistaplac.getFirma(), wybranalistaplac.getRok(), wybranalistaplac.getMc());
-            if (rodzajumowy.equals("2")) {
+            if (rodzajlistyplac.equals("2")) {
                 listakalendarzmiesiac = kalendarzmiesiacFacade.findByFirmaRokMcZlecenie(wybranalistaplac.getFirma(), wybranalistaplac.getRok(), wybranalistaplac.getMc());
             }
             Collections.sort(listakalendarzmiesiac, new Kalendarzmiesiaccomparator());
-            if (rodzajumowy.equals("2")) {
+            if (rodzajlistyplac.equals("2")) {
                 for (Iterator<Kalendarzmiesiac> it = listakalendarzmiesiac.iterator(); it.hasNext();) {
                     Kalendarzmiesiac p = it.next();
                     Umowa u = p.getUmowa();
@@ -462,13 +466,14 @@ public class PasekwynagrodzenView implements Serializable {
         this.wybranalistaplac = wybranalistaplac;
     }
 
-    public String getRodzajumowy() {
-        return rodzajumowy;
+    public Rodzajlistyplac getRodzajlistyplac() {
+        return rodzajlistyplac;
     }
 
-    public void setRodzajumowy(String rodzajumowy) {
-        this.rodzajumowy = rodzajumowy;
+    public void setRodzajlistyplac(Rodzajlistyplac rodzajlistyplac) {
+        this.rodzajlistyplac = rodzajlistyplac;
     }
+
 
     public List<Kalendarzmiesiac> getListakalendarzmiesiacdoanalizy() {
         return listakalendarzmiesiacdoanalizy;

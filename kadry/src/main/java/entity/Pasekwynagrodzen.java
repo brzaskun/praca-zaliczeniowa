@@ -366,7 +366,7 @@ public class Pasekwynagrodzen implements Serializable {
 //    4,zasiłki,4
 
     public int getRodzajWynagrodzenia() {
-        return this.definicjalistaplac.getRodzajlistyplac().getTyp();
+        return this.definicjalistaplac.getRodzajlistyplac().getTyt_serial();
     }
 
     public double getBruttozuskraj() {

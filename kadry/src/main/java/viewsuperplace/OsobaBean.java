@@ -8,8 +8,10 @@ package viewsuperplace;
 import beanstesty.UmowaBean;
 import comparator.Umowacomparator;
 import comparator.ZatrudHistComparator;
+import dao.DefinicjalistaplacFacade;
 import dao.KalendarzmiesiacFacade;
 import dao.KalendarzwzorFacade;
+import dao.RodzajlistyplacFacade;
 import dao.SkladnikWynagrodzeniaFacade;
 import dao.ZmiennaWynagrodzeniaFacade;
 import data.Data;
@@ -26,6 +28,7 @@ import entity.Nieobecnosc;
 import entity.Pasekwynagrodzen;
 import entity.Pracownik;
 import entity.Rachunekdoumowyzlecenia;
+import entity.Rodzajlistyplac;
 import entity.Rodzajnieobecnosci;
 import entity.Rodzajwynagrodzenia;
 import entity.Skladnikwynagrodzenia;
@@ -698,6 +701,61 @@ public class OsobaBean {
         return plusYears.toString();
     }
 
+    public static List<Definicjalistaplac> generujlistyplac(List<Pasekwynagrodzen> paskiumowaoprace, FirmaKadry firma, DefinicjalistaplacFacade definicjalistaplacFacade, RodzajlistyplacFacade rodzajlistyplacFacade, String rok) {
+        List<Definicjalistaplac> listy = null;
+        if (paskiumowaoprace!=null && !paskiumowaoprace.isEmpty()) {
+            Pasekwynagrodzen pasekwzorcowy = paskiumowaoprace.get(0);
+            Integer lis_tyt_serial = pasekwzorcowy.getLis_tyt_serial();
+            Rodzajlistyplac rodzajlistyplac = rodzajlistyplacFacade.findByTyt_serial(lis_tyt_serial);
+            listy = definicjalistaplacFacade.findByFirmaRokRodzaj(firma, pasekwzorcowy.getRok(), rodzajlistyplac);
+            if (listy==null || listy.isEmpty()) {
+                rodzajlistyplac = rodzajlistyplacFacade.findByTyt_serial(lis_tyt_serial);
+                for(String mc : Mce.getMceListS()) {
+                    Definicjalistaplac definicjalistaplac = nowalista(rok, mc, rodzajlistyplac, firma);
+                    definicjalistaplacFacade.create(definicjalistaplac);
+                    listy.add(definicjalistaplac);
+                }
+            }
+        }
+        return listy;
+    }
+    
+    public static String generujRodzajLP(String rok, String mc, Rodzajlistyplac wybranyrodzajlisty) {
+        String zwrot = null;
+        if (wybranyrodzajlisty.getSymbol()!=null) {
+            zwrot = rok+"/"+mc+"/"+wybranyrodzajlisty.getSymbol();
+        }
+        return zwrot;
+    }
+    
+    
+    public static Definicjalistaplac nowalista(String rok, String mc, Rodzajlistyplac rodzajlistyplac, FirmaKadry firma) {
+        Definicjalistaplac selected = new Definicjalistaplac();
+         try {
+            String lewaczesc = rok+"-"+mc+"-";
+            String nowadata = Data.ostatniDzien(rok, mc);
+            selected.setDatasporzadzenia(nowadata);
+            String[] zwiekszone = Mce.zwiekszmiesiac(rok, mc);
+            String rokN = zwiekszone[0];
+            String mcN = zwiekszone[1];
+            lewaczesc = rokN+"-"+mcN+"-";
+            selected.setDatazus(lewaczesc+"15");
+            selected.setRodzajlistyplac(rodzajlistyplac);
+            selected.setDatapodatek(lewaczesc+"20");
+            selected.setMc(mc);
+            selected.setOpis("");
+            selected.setRok(rok);
+            selected.setFirma(firma);
+            String nazwalisty = OsobaBean.generujRodzajLP(rok, mc, rodzajlistyplac);
+            if (nazwalisty==null) {
+                selected = null;
+            } else {
+                selected.setNrkolejny(nazwalisty);
+            }
+        } catch (Exception e) {}
+         return selected;
+    }
+    
     public static void main(String[] arg) {
         String data = "1970-05-11";
         System.out.println(obliczdata26(data));

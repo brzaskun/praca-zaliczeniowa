@@ -42,9 +42,20 @@ public class RodzajlistyplacFacade extends DAO  {
         super.em = em;
     }
     
-     public List<Rodzajlistyplac> findAktywne() {
+    public List<Rodzajlistyplac> findAktywne() {
         return getEntityManager().createNamedQuery("Rodzajlistyplac.findAktywne").getResultList();
     }
-
     
+    public Rodzajlistyplac findUmowaoPrace() {
+        return (Rodzajlistyplac) getEntityManager().createNamedQuery("Rodzajlistyplac.findByUmowaoPrace").getSingleResult();
+    }
+    
+    public Rodzajlistyplac findUmowaZlecenia() {
+        return (Rodzajlistyplac) getEntityManager().createNamedQuery("Rodzajlistyplac.findByUmowaZlecenia").getSingleResult();
+    }
+     
+    public Rodzajlistyplac findByTyt_serial(Integer lis_tyt_serial) {
+        return (Rodzajlistyplac) getEntityManager().createNamedQuery("Rodzajlistyplac.findByTyt_serial").setParameter("tyt_serial", lis_tyt_serial).getSingleResult();
+    }
+
 }

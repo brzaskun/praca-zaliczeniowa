@@ -23,6 +23,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import kadryiplace.Tytul;
 import msg.Msg;
+import viewsuperplace.OsobaBean;
 
 /**
  *
@@ -64,11 +65,16 @@ public class DefinicjalistaplacView  implements Serializable {
       if (selected!=null) {
           try {
             if (selected.getRodzajlistyplac()!=null) {
-                generujkolejny(wpisView);
-                definicjalistaplacFacade.create(selected);
-                lista.add(selected);
-                selected = new Definicjalistaplac();
-                Msg.msg("Dodano nową definicję listy płac");
+                String nazwalisty = OsobaBean.generujRodzajLP(wpisView.getRokWpisu(), wpisView.getMiesiacWpisu(), selected.getRodzajlistyplac());
+                if (nazwalisty==null) {
+                    Msg.msg("e","Nie mozna wygenerować listy. Nie ma symbolu w ustawieniach!");
+                } else {
+                    selected.setNrkolejny(nazwalisty);
+                    definicjalistaplacFacade.create(selected);
+                    lista.add(selected);
+                    selected = new Definicjalistaplac();
+                    Msg.msg("Dodano nową definicję listy płac");
+               }
             } else {
                 Msg.msg("e","Nie dodano definicji listy płac");
             }
@@ -80,22 +86,7 @@ public class DefinicjalistaplacView  implements Serializable {
       }
     }
     
-    private void generujkolejny(WpisView wpisView) {
-        String rok = wpisView.getRokWpisu();
-        String mc = wpisView.getMiesiacWpisu();
-        Rodzajlistyplac wybranyrodzajlisty = selected.getRodzajlistyplac();
-        if (wybranyrodzajlisty.getTyp()==1) {
-            selected.setNrkolejny(rok+"/"+mc);
-        } else if (wybranyrodzajlisty.getTyp()==2) {
-            selected.setNrkolejny(rok+"/"+mc+"/ZL");
-        } else if (wybranyrodzajlisty.getTyp()==3) {
-            selected.setNrkolejny(rok+"/"+mc+"/DZ");
-        } else if (wybranyrodzajlisty.getTyp()==4) {
-            selected.setNrkolejny(rok+"/"+mc+"/ZAS");
-        } else if (wybranyrodzajlisty.getTyp()==5) {
-            selected.setNrkolejny(rok+"/"+mc+"/IN");
-        }
-    }
+    
 
     
     public void reset() {
@@ -134,20 +125,16 @@ public class DefinicjalistaplacView  implements Serializable {
                     selected.setOpis(sel.getOpis());
                     selected.setRok(rok);
                     selected.setFirma(wpisView.getFirma());
-                    if (wybranyrodzajlisty.getTyp()==1) {
-                        selected.setNrkolejny(rok+"/"+mc);
-                    } else if (wybranyrodzajlisty.getTyp()==2) {
-                        selected.setNrkolejny(rok+"/"+mc+"/ZL");
-                    } else if (wybranyrodzajlisty.getTyp()==3) {
-                        selected.setNrkolejny(rok+"/"+mc+"/DZ");
-                    } else if (wybranyrodzajlisty.getTyp()==4) {
-                        selected.setNrkolejny(rok+"/"+mc+"/ZAS");
-                    } else if (wybranyrodzajlisty.getTyp()==5) {
-                        selected.setNrkolejny(rok+"/"+mc+"/IN");
+                    String nazwalisty = OsobaBean.generujRodzajLP(wpisView.getRokWpisu(), wpisView.getMiesiacWpisu(), wybranyrodzajlisty);
+                    if (nazwalisty==null) {
+                        Msg.msg("e","Nie mozna wygenerować listy. Nie ma symbolu w ustawieniach!");
+                        break;
+                    } else {
+                       selected.setId(null);
+                       definicjalistaplacFacade.create(selected);
+                       sel = selected;
                     }
-                    selected.setId(null);
-                    definicjalistaplacFacade.create(selected);
-                    sel = selected;
+                    
                 } catch (Exception e) {}
                 
             }

@@ -17,16 +17,18 @@
                 <p:panelGrid columns="4" rendered="#{pasekwynagrodzenView.listadefinicjalistaplac ne null}">
                     <h:form id="DefinicjalistaplacAnalizaForm">
                         <p:outputLabel value="rodzaj umowy" />
-                        <p:selectOneMenu id="rodzajumowy" value="#{pasekwynagrodzenView.rodzajumowy}"  autoWidth="false" style="width: 300px;" filter="true" filterMatchMode="contains" required="true">
-                            <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
-                            <f:selectItem itemLabel="umowa o pracę" itemValue="1"/>
-                            <f:selectItem itemLabel="umowa zlecenia i o dzieło" itemValue="2"/>
-                            <p:ajax event="change" partialSubmit="true" listener="#{pasekwynagrodzenView.init()}" global="false" update="PasekwynagrodzenAnalizaForm DefinicjalistaplacAnalizaForm1 DefinicjalistaplacAnalizaForm2"/>
+                         <p:selectOneMenu id="rodzajumowy" value="#{pasekwynagrodzenView.rodzajlistyplac}" autoWidth="false" style="width: 280px;margin-left: 10px;" required="true" filter="true" filterMatchMode="contains" requiredMessage="Wybierz rodzaj listy płac"
+                                 converter="#{rodzjalistyplacConverter}">
+                                <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
+                                <f:selectItems value="#{definicjalistaplacView.listarodzajlistyplac}"
+                                               var="firmalistaItem"
+                                               itemValue="#{firmalistaItem}" itemLabel="#{firmalistaItem.nazwa}"/>
+                                <p:ajax event="change" partialSubmit="true" listener="#{pasekwynagrodzenView.wyborinnejumowy()}" global="false" update="PasekwynagrodzenAnalizaForm DefinicjalistaplacAnalizaForm1 DefinicjalistaplacAnalizaForm2"/>
                         </p:selectOneMenu>
                     </h:form>
                     <h:form id="DefinicjalistaplacAnalizaForm1">
                         <p:outputLabel value="wybrana lista płac" for="wybranalista" />
-                        <p:selectOneMenu id="wybranalista" value="#{pasekwynagrodzenView.wybranalistaplac2}" required="true" requiredMessage="Wybierz firmę" converter="#{definicjalistaplacConverter}" >
+                        <p:selectOneMenu id="wybranalista" value="#{pasekwynagrodzenView.wybranalistaplac2}" autoWidth="false" style="width: 280px;" required="true" requiredMessage="Wybierz firmę" converter="#{definicjalistaplacConverter}" >
                             <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
                             <f:selectItems value="#{pasekwynagrodzenView.listadefinicjalistaplac}" 
                                            var="firmalistaItem"

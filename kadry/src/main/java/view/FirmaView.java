@@ -11,6 +11,7 @@ import DAOsuperplace.UrzadFacade;
 import dao.DefinicjalistaplacFacade;
 import dao.FirmaKadryFacade;
 import dao.KalendarzwzorFacade;
+import dao.RodzajlistyplacFacade;
 import dao.UprawnieniaFacade;
 import dao.UzFacade;
 import data.Data;
@@ -20,6 +21,7 @@ import entity.Angaz;
 import entity.Definicjalistaplac;
 import entity.FirmaKadry;
 import entity.Kalendarzwzor;
+import entity.Rodzajlistyplac;
 import entity.Umowa;
 import entity.Uprawnienia;
 import entity.Uz;
@@ -35,6 +37,7 @@ import kadryiplace.Urzad;
 import msg.Msg;
 import org.apache.commons.lang3.StringUtils;
 import org.primefaces.PrimeFaces;
+import viewsuperplace.OsobaBean;
 
 /**
  *
@@ -74,6 +77,8 @@ public class FirmaView  implements Serializable {
     private KalendarzwzorFacade kalendarzwzorFacade;
     @Inject
     private DefinicjalistaplacFacade definicjalistaplacFacade;
+    @Inject
+    private RodzajlistyplacFacade rodzajlistyplacFacade;
     @Inject
     private TKodUS tKodUS;
     private List<Firma> firmysuperplace;
@@ -138,13 +143,20 @@ public class FirmaView  implements Serializable {
     
     public void listywszystkie(String rok) {
         if (rok!=null&&wpisView.getFirma()!=null) {
-            FirmaKadry firmaglobalna = firmaKadryFacade.findByNIP("8511005008");
-            List<Definicjalistaplac> lista = definicjalistaplacFacade.findByFirmaRok(firmaglobalna, rok);
-            List<Definicjalistaplac> zwrot = new ArrayList<>();
-            for (Definicjalistaplac p : lista) {
-                zwrot.add(new Definicjalistaplac(p, wpisView.getFirma()));
+            Rodzajlistyplac umowaoprace =  rodzajlistyplacFacade.findUmowaoPrace();
+            Rodzajlistyplac umowazlecenia =  rodzajlistyplacFacade.findUmowaZlecenia();
+            List<Definicjalistaplac> listy = new ArrayList<>();
+            for (String mc : Mce.getMceListS()) {
+                 Definicjalistaplac definicjalistaplac = OsobaBean.nowalista(rok, mc, umowaoprace, wpisView.getFirma());
+                 listy.add(definicjalistaplac);
             }
-            definicjalistaplacFacade.createList(zwrot);
+            definicjalistaplacFacade.createList(listy);
+            listy = new ArrayList<>();
+            for (String mc : Mce.getMceListS()) {
+                 Definicjalistaplac definicjalistaplac = OsobaBean.nowalista(rok, mc, umowazlecenia, wpisView.getFirma());
+                 listy.add(definicjalistaplac);
+            }
+            definicjalistaplacFacade.createList(listy);
             Msg.msg("Wygenerowano definicje list za rok "+rok);
         } else {
             Msg.msg("e","Nie wybrano firmy");
