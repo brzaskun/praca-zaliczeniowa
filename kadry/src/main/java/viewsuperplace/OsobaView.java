@@ -45,6 +45,7 @@ import entity.Stanowiskoprac;
 import entity.Swiadczeniekodzus;
 import entity.Umowa;
 import entity.Umowakodzus;
+import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -252,7 +253,7 @@ public class OsobaView implements Serializable {
                             rokdlakalendarza = "2021";
                             //paski rok 2021 umowa o pracę
                             generujKalendarzNowaUmowa = OsobaBean.generujKalendarzNowaUmowa(angaz, pracownik, aktywna, kalendarzmiesiacFacade, kalendarzwzorFacade, rokdlakalendarza);
-                            kalendarzmiesiacFacade.createList(generujKalendarzNowaUmowa);
+                            kalendarzmiesiacFacade.editList(generujKalendarzNowaUmowa);
                             rok = pobierzrok(rokdlakalendarza, rokList);
                             okresList = pobierzokresySuperplace(1, rok.getOkresList());
                             paskiumowaoprace = OsobaBean.zrobpaskiimportUmowaopraceizlecenia(wpisView, osoba, okresList, false, datakonca26lat, skladnikwynagrodzenia, nieobecnosci);
@@ -292,6 +293,7 @@ public class OsobaView implements Serializable {
                                     List<Definicjalistaplac> listyumowazlecenia = OsobaBean.generujlistyplac(paskiumowazlecenia, wpisView.getFirma(), definicjalistaplacFacade, rodzajlistyplacFacade, rokdlakalendarza);
                                     List<Kalendarzmiesiac> kalendarze = kalendarzmiesiacFacade.findByRokUmowa(aktywna, rokdlakalendarza);
                                     List<Pasekwynagrodzen> paskigotowe = OsobaBean.dodajlisteikalendarzdopaska(paskiumowazlecenia, listyumowazlecenia, kalendarze);
+                                    //bo definicje listyplac moga juz istniec
                                     pasekwynagrodzenFacade.createList(paskigotowe);
                                     Msg.msg("Zrobiono kalendarz i paski za 2020 umowa zlecenia");
                                 }
@@ -312,6 +314,8 @@ public class OsobaView implements Serializable {
                                 }
                                 //koniec paski 2021 umowa zlecenia
                             } catch (Exception e) {
+                                E.e(e);
+                                System.out.println("");
                             }
                         }
 

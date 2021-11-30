@@ -469,21 +469,20 @@ public class OsobaBean {
                     if (okresList.contains(r.getLplOkrSerial())&&r.getLplKodTytU12().startsWith("04")) {
                         String rok = String.valueOf(r.getLplOkrSerial().getOkrRokSerial().getRokNumer());
                         String mc = Mce.getNumberToMiesiac().get(Integer.valueOf(r.getLplOkrSerial().getOkrMieNumer()));
-                        Pasekwynagrodzen nowypasek = new Pasekwynagrodzen(r);
+                        Pasekwynagrodzen nowypasek = new Pasekwynagrodzen();
                         nowypasek.setRok(rok);
                         nowypasek.setMc(mc);
                         nowypasek.setImportowany(true);
                         List<PlaceZlec> placeZlecList = r.getPlaceZlecList();
                         historycznenaliczeniezlecenie(placeZlecList, nowypasek, skladnikwynagrodzenia);
-                        nowypasek.setBrutto(nowypasek.getBrutto()+nowypasek.getBruttobezzus() + nowypasek.getBruttozus() + nowypasek.getBruttobezzusbezpodatek());
-                        nowypasek.setBruttominusspoleczne(Z.z(nowypasek.getBrutto()-nowypasek.getRazemspolecznepracownik()));
+                        Pasekwynagrodzen.pasekuzupelnianie(nowypasek, r);
                         zwrot.add(nowypasek);
                     }
                 } else {
                     if (okresList.contains(r.getLplOkrSerial())&&!r.getLplKodTytU12().startsWith("04")) {
                         String rok = String.valueOf(r.getLplOkrSerial().getOkrRokSerial().getRokNumer());
                         String mc = Mce.getNumberToMiesiac().get(Integer.valueOf(r.getLplOkrSerial().getOkrMieNumer()));
-                        Pasekwynagrodzen nowypasek = new Pasekwynagrodzen(r);
+                        Pasekwynagrodzen nowypasek = new Pasekwynagrodzen();
                         nowypasek.setRok(rok);
                         nowypasek.setMc(mc);
                         nowypasek.setImportowany(true);
@@ -491,8 +490,7 @@ public class OsobaBean {
                         historycznenaliczeniewynagrodzenia(placeSklList, nowypasek, skladnikwynagrodzenia);
                         List<PlacePrz>  placePrzList = r.getPlacePrzList();
                         historycznenaliczenienieobecnosc(placePrzList, nowypasek, nieobecnoscilista);
-                        nowypasek.setBrutto(nowypasek.getBrutto()+nowypasek.getBruttobezzus() + nowypasek.getBruttozus() + nowypasek.getBruttobezzusbezpodatek());
-                        nowypasek.setBruttominusspoleczne(Z.z(nowypasek.getBrutto()-nowypasek.getRazemspolecznepracownik()));
+                        Pasekwynagrodzen.pasekuzupelnianie(nowypasek, r);
                         zwrot.add(nowypasek);
                     }
                 }
@@ -615,15 +613,20 @@ public class OsobaBean {
         List<PlaceZlec> placeList = osoba.getPlaceZlecList();
         for (PlaceZlec r : placeList) {
             try {
-                Rachunekdoumowyzlecenia nowypasek = new Rachunekdoumowyzlecenia(r);
-                nowypasek.setUmowa(wpisView.getUmowa());
-                String rok = String.valueOf(r.getPzlOkrSerial().getOkrRokSerial().getRokNumer());
-                String mc = Mce.getNumberToMiesiac().get(Integer.valueOf(r.getPzlOkrSerial().getOkrMieNumer()));
-                nowypasek.setRok(rok);
-                nowypasek.setMc(mc);
-                nowypasek.setImportowany(true);
-                zwrot.add(nowypasek);
-            } catch (Exception e){}
+                Short rokNumer = r.getPzlOkrSerial().getOkrRokSerial().getRokNumer();
+                if (rokNumer>2019) {
+                    Rachunekdoumowyzlecenia nowypasek = new Rachunekdoumowyzlecenia(r);
+                    nowypasek.setUmowa(wpisView.getUmowa());
+                    String rok = String.valueOf(rokNumer);
+                    String mc = Mce.getNumberToMiesiac().get(Integer.valueOf(r.getPzlOkrSerial().getOkrMieNumer()));
+                    nowypasek.setRok(rok);
+                    nowypasek.setMc(mc);
+                    nowypasek.setImportowany(true);
+                    zwrot.add(nowypasek);
+                }
+            } catch (Exception e){
+                
+            }
         }
         return zwrot;
     }
