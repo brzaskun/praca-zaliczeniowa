@@ -45,6 +45,7 @@ import entity.Stanowiskoprac;
 import entity.Swiadczeniekodzus;
 import entity.Umowa;
 import entity.Umowakodzus;
+import entity.Zmiennawynagrodzenia;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -287,7 +288,17 @@ public class OsobaView implements Serializable {
                                 Msg.msg("Zrobiono rachunki do zleceń");
                                 List<OsobaZlec> skladniki = osoba.getOsobaZlecList();
                                 List<Rodzajwynagrodzenia> rodzajewynagrodzenia = rodzajwynagrodzeniaFacade.findAll();
+                                Rodzajwynagrodzenia rodzajwynagrodzeniaNZ = rodzajwynagrodzeniaFacade.findNZ();
                                 List<Skladnikwynagrodzenia> skladnikwynagrodzenia = OsobaBean.pobierzskladnikzlecenie(skladniki, rodzajewynagrodzenia, umowyzlecenia, skladnikWynagrodzeniaFacade, zmiennaWynagrodzeniaFacade);
+                                if (skladnikwynagrodzenia!=null&&skladnikwynagrodzenia.size()==1&&pracownik.isNierezydent()) {
+                                    Skladnikwynagrodzenia sklw = skladnikwynagrodzenia.get(0);
+                                    sklw.setRodzajwynagrodzenia(rodzajwynagrodzeniaNZ);
+                                    skladnikWynagrodzeniaFacade.edit(sklw);
+                                    for (Zmiennawynagrodzenia z : sklw.getZmiennawynagrodzeniaList()) {
+                                        z.setSkladnikwynagrodzenia(sklw);
+                                        zmiennaWynagrodzeniaFacade.edit(z);
+                                    }
+                                }
                                 List<Pasekwynagrodzen> paskiumowazlecenia = OsobaBean.zrobpaskiimportUmowaopraceizlecenia(wpisView, osoba, okresList, true, datakonca26lat, skladnikwynagrodzenia, null);
                                 if (paskiumowazlecenia.size()>0) {
                                     List<Definicjalistaplac> listyumowazlecenia = OsobaBean.generujlistyplac(paskiumowazlecenia, wpisView.getFirma(), definicjalistaplacFacade, rodzajlistyplacFacade, rokdlakalendarza);

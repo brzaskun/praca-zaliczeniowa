@@ -42,7 +42,9 @@ import entity.Zmiennawynagrodzenia;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import kadryiplace.Okres;
 import kadryiplace.Osoba;
 import kadryiplace.OsobaPrz;
@@ -95,6 +97,7 @@ public class OsobaBean {
         pracownik.setLokal(p.getOsoDom());
         pracownik.setKod(p.getOsoKod());
         pracownik.setPoczta(p.getOsoPoczta());
+        pracownik.setNierezydent(p.getOsoDod11()!=null);
         return pracownik;
     }
 
@@ -293,15 +296,18 @@ public class OsobaBean {
         return skladnik;
     }
     
-     private static Skladnikwynagrodzenia generujskladnikzlecenie(OsobaZlec wybrany, List<Rodzajwynagrodzenia> rodzajewynagrodzenia, List<Umowa> umowyzlecenia, SkladnikWynagrodzeniaFacade skladnikWynagrodzeniaFacade, ZmiennaWynagrodzeniaFacade zmiennaWynagrodzeniaFacade) {
+     public static Skladnikwynagrodzenia generujskladnikzlecenie(OsobaZlec wybrany, List<Rodzajwynagrodzenia> rodzajewynagrodzenia, List<Umowa> umowyzlecenia, SkladnikWynagrodzeniaFacade skladnikWynagrodzeniaFacade, ZmiennaWynagrodzeniaFacade zmiennaWynagrodzeniaFacade) {
         Skladnikwynagrodzenia skladnik = new Skladnikwynagrodzenia();
         Umowa aktywna = pobierzumowezlecenia(wybrany, umowyzlecenia);
         skladnik.setUmowa(aktywna);
         skladnik.setRodzajwynagrodzenia(pobierzrodzajwynagrodzeniazlecenie(wybrany,rodzajewynagrodzenia));
         skladnikWynagrodzeniaFacade.create(skladnik);
-        pobierzzmiennawynagrodzeniazlecenie(aktywna, skladnik, wybrany, zmiennaWynagrodzeniaFacade);
+        Zmiennawynagrodzenia zmiennawynagrodzenia = pobierzzmiennawynagrodzeniazlecenie(aktywna, skladnik, wybrany, zmiennaWynagrodzeniaFacade);
+        skladnik.getZmiennawynagrodzeniaList().add(zmiennawynagrodzenia);
         return skladnik;
     }
+
+     
     private static Umowa pobierzumowezlecenia(OsobaZlec wybrany, List<Umowa> umowyzlecenia) {
         Umowa zwrot = null;
         for (Umowa u: umowyzlecenia) {
@@ -403,9 +409,10 @@ public class OsobaBean {
         }
     }
     
-    static void pobierzzmiennawynagrodzeniazlecenie(Umowa aktywna, Skladnikwynagrodzenia skladnikwynagrodzenia, OsobaZlec s, ZmiennaWynagrodzeniaFacade zmiennaWynagrodzeniaFacade) {
+    static Zmiennawynagrodzenia pobierzzmiennawynagrodzeniazlecenie(Umowa aktywna, Skladnikwynagrodzenia skladnikwynagrodzenia, OsobaZlec s, ZmiennaWynagrodzeniaFacade zmiennaWynagrodzeniaFacade) {
+        Zmiennawynagrodzenia wiersz = null;
         if (skladnikwynagrodzenia!=null) {
-            Zmiennawynagrodzenia wiersz = new Zmiennawynagrodzenia();
+            wiersz = new Zmiennawynagrodzenia();
             wiersz.setSkladnikwynagrodzenia(skladnikwynagrodzenia);
             wiersz.setNazwa(s.getOzlWksSerial().getWksOpisSkr());
             wiersz.setNetto0brutto1(true);
@@ -421,6 +428,7 @@ public class OsobaBean {
                 zmiennaWynagrodzeniaFacade.create(wiersz);
             }
         }
+        return wiersz;
     }
 
 //     static public void naniesnieobecnosc(Nieobecnosc nieobecnosc) {
@@ -598,7 +606,7 @@ public class OsobaBean {
         Skladnikwynagrodzenia zwrot = null;
         if (skladnikwynagrodzenia!=null) {
             for (Skladnikwynagrodzenia p : skladnikwynagrodzenia) {
-                if (p.getUmowa().getNrkolejny().equals(s.getPzlLplSerial().getLplPotrInne1Opis())) {
+                if (p.getRodzajwynagrodzenia().getWks_serial().equals(s.getPzlWksSerial().getWksSerial())) {
                     zwrot = p;
                     break;
                 }
@@ -705,22 +713,29 @@ public class OsobaBean {
     }
 
     public static List<Definicjalistaplac> generujlistyplac(List<Pasekwynagrodzen> paskiumowaoprace, FirmaKadry firma, DefinicjalistaplacFacade definicjalistaplacFacade, RodzajlistyplacFacade rodzajlistyplacFacade, String rok) {
-        List<Definicjalistaplac> listy = null;
+        List<Definicjalistaplac> zwrot = new ArrayList<>();
         if (paskiumowaoprace!=null && !paskiumowaoprace.isEmpty()) {
-            Pasekwynagrodzen pasekwzorcowy = paskiumowaoprace.get(0);
-            Integer lis_tyt_serial = pasekwzorcowy.getLis_tyt_serial();
-            Rodzajlistyplac rodzajlistyplac = rodzajlistyplacFacade.findByTyt_serial(lis_tyt_serial);
-            listy = definicjalistaplacFacade.findByFirmaRokRodzaj(firma, pasekwzorcowy.getRok(), rodzajlistyplac);
-            if (listy==null || listy.isEmpty()) {
-                rodzajlistyplac = rodzajlistyplacFacade.findByTyt_serial(lis_tyt_serial);
-                for(String mc : Mce.getMceListS()) {
-                    Definicjalistaplac definicjalistaplac = nowalista(rok, mc, rodzajlistyplac, firma);
-                    definicjalistaplacFacade.create(definicjalistaplac);
-                    listy.add(definicjalistaplac);
+            Set<Integer> lis_tyt_serial_List = new HashSet<>();
+            for (Pasekwynagrodzen p : paskiumowaoprace) {
+                lis_tyt_serial_List.add(p.getLis_tyt_serial());
+            }
+            for (Integer r : lis_tyt_serial_List) {
+                Rodzajlistyplac rodzajlistyplac = rodzajlistyplacFacade.findByTyt_serial(r);
+                List<Definicjalistaplac> listy = definicjalistaplacFacade.findByFirmaRokRodzaj(firma, rok, rodzajlistyplac);
+                if (listy==null || listy.isEmpty()) {
+                    rodzajlistyplac = rodzajlistyplacFacade.findByTyt_serial(r);
+                    for(String mc : Mce.getMceListS()) {
+                        Definicjalistaplac definicjalistaplac = nowalista(rok, mc, rodzajlistyplac, firma);
+                        definicjalistaplacFacade.create(definicjalistaplac);
+                        listy.add(definicjalistaplac);
+                    }
+                }
+                if (listy!=null && listy.size()>0) {
+                    zwrot.addAll(listy);
                 }
             }
         }
-        return listy;
+        return zwrot;
     }
     
     public static String generujRodzajLP(String rok, String mc, Rodzajlistyplac wybranyrodzajlisty) {
