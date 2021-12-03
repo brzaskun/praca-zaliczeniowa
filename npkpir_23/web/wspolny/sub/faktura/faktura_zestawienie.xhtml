@@ -65,10 +65,28 @@
                             <bcf:inputpl value="#{fakturaZestView.fakturaWaloryzacja.obsluganiemcyN}"/>
                         </p:panelGrid>
                         <p:panelGrid columns="2" >
+                            <h:outputText value="dawno nie zmieniane"/>
+                            <p:selectBooleanCheckbox value="#{fakturaZestView.fakturaWaloryzacja.dawnoniezmieniona}">
+                                <p:ajax event="change" global="false" partialSubmit="true" listener="#{fakturaZestView.zapiszwaloryzacje}"/>
+                            </p:selectBooleanCheckbox>
+                            <h:outputText value="zmiana opodatkowania"/>
+                            <p:selectBooleanCheckbox value="#{fakturaZestView.fakturaWaloryzacja.zmianaopodatkowania}">
+                                <p:ajax event="change" global="false" partialSubmit="true" listener="#{fakturaZestView.zapiszwaloryzacje}"/>
+                            </p:selectBooleanCheckbox>
+                            <h:outputText value="większa ilośc dokumentów"/>
+                            <p:selectBooleanCheckbox value="#{fakturaZestView.fakturaWaloryzacja.wiekszailosc}">
+                                <p:ajax event="change" global="false" partialSubmit="true" listener="#{fakturaZestView.zapiszwaloryzacje}"/>
+                            </p:selectBooleanCheckbox>
+                            <h:outputText value="wyrównanie do minimum"/>
+                            <p:selectBooleanCheckbox value="#{fakturaZestView.fakturaWaloryzacja.minimum}">
+                                <p:ajax event="change" global="false" partialSubmit="true" listener="#{fakturaZestView.zapiszwaloryzacje}"/>
+                            </p:selectBooleanCheckbox>
                             <h:outputText value="data maila"/>
                             <h:outputText value="#{fakturaZestView.fakturaWaloryzacja.datamaila}"/>
                             <h:outputText value="klient zaakceptowal"/>
-                            <p:selectBooleanCheckbox value="#{fakturaZestView.fakturaWaloryzacja.datamaila}" disabled="true"/>
+                            <p:selectBooleanCheckbox value="#{fakturaZestView.fakturaWaloryzacja.klientakceptacja}">
+                                <p:ajax event="change" global="false" partialSubmit="true" listener="#{fakturaZestView.zapiszwaloryzacje}"/>
+                            </p:selectBooleanCheckbox>
                         </p:panelGrid>
                     </p:panelGrid>
                     <p:commandButton value="zapisz" actionListener="#{fakturaZestView.zapiszwaloryzacje}"/>

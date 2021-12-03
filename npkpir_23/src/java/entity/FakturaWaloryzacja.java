@@ -76,6 +76,17 @@ public class FakturaWaloryzacja  implements Serializable{
     private String klientzaakceptowal;
     @Column(name = "procentzmian")
     private double procentzmian;
+    @Column(name = "dawnoniezmieniona")
+    private boolean  dawnoniezmieniona;
+    @Column(name = "zmianaopodatkowania")
+    private boolean  zmianaopodatkowania;
+    @Column(name = "wiekszailosc")
+    private boolean  wiekszailosc;
+    @Column(name = "minimum")
+    private boolean  minimum;
+    @Column(name = "klientakceptacja")
+    private boolean  klientakceptacja;
+    
 
     public FakturaWaloryzacja() {
     }
@@ -248,6 +259,46 @@ public class FakturaWaloryzacja  implements Serializable{
         this.procentzmian = procentzmian;
     }
 
+    public boolean isDawnoniezmieniona() {
+        return dawnoniezmieniona;
+    }
+
+    public void setDawnoniezmieniona(boolean dawnoniezmieniona) {
+        this.dawnoniezmieniona = dawnoniezmieniona;
+    }
+
+    public boolean isZmianaopodatkowania() {
+        return zmianaopodatkowania;
+    }
+
+    public void setZmianaopodatkowania(boolean zmianaopodatkowania) {
+        this.zmianaopodatkowania = zmianaopodatkowania;
+    }
+
+    public boolean isWiekszailosc() {
+        return wiekszailosc;
+    }
+
+    public void setWiekszailosc(boolean wiekszailosc) {
+        this.wiekszailosc = wiekszailosc;
+    }
+
+    public boolean isMinimum() {
+        return minimum;
+    }
+
+    public void setMinimum(boolean minimum) {
+        this.minimum = minimum;
+    }
+
+    public boolean isKlientakceptacja() {
+        return klientakceptacja;
+    }
+
+    public void setKlientakceptacja(boolean klientakceptacja) {
+        this.klientakceptacja = klientakceptacja;
+    }
+
    
 
     
@@ -297,3 +348,4 @@ public class FakturaWaloryzacja  implements Serializable{
     
     
 }
+
