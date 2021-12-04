@@ -37,10 +37,11 @@ public class FakturaWaloryzacjaView  implements Serializable{
         try {
             List<FakturaWaloryzacja> lista = fakturaWaloryzacjaDAO.findAll();
             for (FakturaWaloryzacja p : lista) {
-                Mail.nadajMailWaloryzacjaFaktury("info@taxman.biz.pl", p, sMTPSettingsDAO.findSprawaByDef());
-                p.setDatamaila(Data.aktualnaData());
-                fakturaWaloryzacjaDAO.edit(p);
-                break;
+                if (p!=null&&p.getKontrahent().getEmail()!=null) {
+                    Mail.nadajMailWaloryzacjaFaktury(p.getKontrahent().getEmail(), p.getKontrahent().getNpelna(), p.getKontrahent().getNip(), p, sMTPSettingsDAO.findSprawaByDef());
+                    p.setDatamaila(Data.aktualnaData());
+                    fakturaWaloryzacjaDAO.edit(p);
+                }
             }
             Msg.msg("Wysłano maile");
         } catch (Exception e) {

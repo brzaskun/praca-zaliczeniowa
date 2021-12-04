@@ -33,6 +33,7 @@ public class Mail {
     protected static final String wiekszailosc;
     protected static final String minimum;
     protected static final String tabela;
+    protected static final String odpowiedz;
 
    static {
        stopka = " <div>Z poważaniem</div>"
@@ -68,10 +69,11 @@ public class Mail {
             + " <tr> <td style=\"text-align: center;\"> 5</td><td>sprawozdanie roczne</td> <td style=\"text-align: right;\"> <span style=\"text-align: right;\">%.2f</span></td> <td style=\"text-align: right;\"> %.2f</td></tr>"
             + " <tr> <td style=\"text-align: center;\"> 6</td> <td>obsługa Niemcy</td> <td style=\"text-align: right;\"> <span style=\"text-align: right;\">%.2f</span></td><td style=\"text-align: right;\"> %.2f</td> </tr>"
             + "</tbody> </table><br/>";
+       odpowiedz = "<p style=\"color: blue\">Prosimy o potwierdzenie otrzymania maila przez wciśnięcie przycisku 'Odpowiedz' i wyslanie maila zwrotnego</p>";
    }
     
 
-     public static void nadajMailWaloryzacjaFaktury(String adres, FakturaWaloryzacja p, SMTPSettings ogolne) {
+     public static void nadajMailWaloryzacjaFaktury(String adres, String firma, String nip, FakturaWaloryzacja p, SMTPSettings ogolne) {
         try {
             MimeMessage message = new MimeMessage(MailSetUp.otworzsesje(null, ogolne));
             message.setFrom(new InternetAddress(SMTPBean.adresFrom(null, ogolne), SMTPBean.nazwaFirmyFrom(null, ogolne)));
@@ -79,8 +81,9 @@ public class Mail {
                     InternetAddress.parse(adres));
             message.setRecipients(Message.RecipientType.BCC,
                     InternetAddress.parse("info@taxman.biz.pl"));
-            message.setSubject("Taxman - informacja o nowych stawkach w roku 2022");
+            message.setSubject("Taxman - informacja o nowych stawkach w roku 2022 - NIP "+nip);
             message.setContent("Dzień dobry,"
+                    + " dot. firmy: "+firma
                     + "<p>Niniejszy mail dotyczny stawek naszego wynagrodzenia na rok 2022. Z góry przepraszam niekrówych klientów, którzy uważają, że o takich sprawach rozmawia się bezpośrednio. Proszę zrozumieć, że nie jestem w stanie zaprezentować poniższej treści "
                     + " w rozmowach telefonicznych z ponad dwustoma klientami, których obecnie obsługujemy. Z drugiej strony tylko niektórzy klienci będą zainteresowani taką rozmową. Tych klientów oczywiście zapraszam do kontaktu.</p>"
                     + "<p>Kończący się rok należy do jednych z bardziej burzliwych, jeśli chodzi o wydarzenia dotyczące przedsiębiorców</p>"
@@ -110,6 +113,7 @@ public class Mail {
                     + String.format(new Locale("pl"),tabela, p.getKwotabiezacanetto(), p.getKwotabiezacanettoN(), p.getUmowaoprace(), p.getUmowaopraceN(), p.getUmowazlecenie(), 
                             p.getUmowazlecenieN(), p.getOddelegowanie(), p.getOddelegowanieN(), p.getSprawozdanieroczne(), p.getSprawozdanieroczneN(), p.getObsluganiemcy(), p.getObsluganiemcyN())
                     + " <p> &nbsp;</p><p> &nbsp;</p><p> &nbsp;</p><p> &nbsp;</p><p> &nbsp;</p>"
+                    + odpowiedz
                     + stopka,  "text/html; charset=utf-8");
             Transport.send(message);
             message.setHeader("Content-Type", "text/html; charset=utf-8");
