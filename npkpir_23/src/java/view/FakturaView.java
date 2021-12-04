@@ -729,7 +729,7 @@ public class FakturaView implements Serializable {
     //to sa te automaty co mialy dodawac doatkowe wiersze z managera
     private void dodajwierszedodatkowe(Faktura faktura) {
         List<Pozycjenafakturzebazadanych> pozycje = faktura.getPozycjenafakturze();
-        int czyjestcosdodatkowego = dodajpozycje(pozycje, faktura.getKontrahent(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+        int czyjestcosdodatkowego = dodajpozycje(faktura.isLiczodwartoscibrutto(), pozycje, faktura.getKontrahent(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
         if (czyjestcosdodatkowego==1) {
             double netto = 0.0;
             double vat = 0.0;
@@ -784,7 +784,7 @@ public class FakturaView implements Serializable {
         }
     }
 
-    private int dodajpozycje(List<Pozycjenafakturzebazadanych> pozycje, Klienci kontrahent, String rok, String mc) {
+    private int dodajpozycje(boolean liczodbrutto, List<Pozycjenafakturzebazadanych> pozycje, Klienci kontrahent, String rok, String mc) {
         int zwrot = 0;
         List<FakturaDodPozycjaKontrahent> lista =  fakturaDodPozycjaKontrahentDAO.findKontrRokMc(kontrahent, rok, mc);
         if (lista!=null && lista.size()>0) {
@@ -793,13 +793,23 @@ public class FakturaView implements Serializable {
             for (FakturaDodPozycjaKontrahent p : lista) {
                 double ilosc = p.getIlosc();
                 double cena = p.getKwotaindywid()!=0.0 ?p.getKwotaindywid() : p.getFakturaDodatkowaPozycja().getKwota();
-                double netto = Z.z(ilosc*cena);
-                double podatek = 23.0;
-                double podatekkwota = Z.z(netto*podatek/100);
-                double brutto = Z.z(netto + podatekkwota);
-                Pozycjenafakturzebazadanych nowa = new Pozycjenafakturzebazadanych(++lp, p.getFakturaDodatkowaPozycja().getNazwa(), "", "szt.", ilosc, cena, netto, podatek, podatekkwota, brutto);
-                nowa.setDodatkowapozycja(p.getId());
-                pozycje.add(nowa);
+                if (liczodbrutto) {
+                    double brutto = Z.z(ilosc*cena);
+                    double podatek = 23.0;
+                    double podatekkwota = Z.z(brutto*podatek/(100.0+podatek));
+                    double netto = Z.z(brutto - podatekkwota);
+                    Pozycjenafakturzebazadanych nowa = new Pozycjenafakturzebazadanych(++lp, p.getFakturaDodatkowaPozycja().getNazwa(), "", "szt.", ilosc, cena, netto, podatek, podatekkwota, brutto);
+                    nowa.setDodatkowapozycja(p.getId());
+                    pozycje.add(nowa);
+                } else {
+                    double netto = Z.z(ilosc*cena);
+                    double podatek = 23.0;
+                    double podatekkwota = Z.z(netto*podatek/100);
+                    double brutto = Z.z(netto + podatekkwota);
+                    Pozycjenafakturzebazadanych nowa = new Pozycjenafakturzebazadanych(++lp, p.getFakturaDodatkowaPozycja().getNazwa(), "", "szt.", ilosc, cena, netto, podatek, podatekkwota, brutto);
+                    nowa.setDodatkowapozycja(p.getId());
+                    pozycje.add(nowa);
+                }
                 p.setRozliczone(true);
                 fakturaDodPozycjaKontrahentDAO.edit(p);
             }
