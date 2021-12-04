@@ -4,7 +4,6 @@
  */
 package dao;
 
-import entity.Evpozycja;
 import entity.FakturaWaloryzacja;
 import entity.Klienci;
 import entity.Podatnik;
@@ -40,7 +39,7 @@ public class FakturaWaloryzacjaDAO extends DAO implements Serializable {
     }
 
     public FakturaWaloryzacjaDAO() {
-        super(Evpozycja.class);
+        super(FakturaWaloryzacja.class);
         super.em = this.em;
     }
 

@@ -5,11 +5,18 @@
  */
 package view;
 
+import dao.FakturaWaloryzacjaDAO;
+import dao.SMTPSettingsDAO;
+import data.Data;
 import entity.FakturaWaloryzacja;
+import error.E;
 import java.io.Serializable;
+import java.util.List;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import mail.Mail;
+import msg.Msg;
 
 /**
  *
@@ -21,7 +28,27 @@ public class FakturaWaloryzacjaView  implements Serializable{
     private static final long serialVersionUID = 1L;
     @Inject
     private FakturaWaloryzacja selected;
+    @Inject
+    private SMTPSettingsDAO sMTPSettingsDAO;
+    @Inject
+    private FakturaWaloryzacjaDAO fakturaWaloryzacjaDAO;
 
+     public void mailpodwyzki() {
+        try {
+            List<FakturaWaloryzacja> lista = fakturaWaloryzacjaDAO.findAll();
+            for (FakturaWaloryzacja p : lista) {
+                Mail.nadajMailWaloryzacjaFaktury("info@taxman.biz.pl", p, sMTPSettingsDAO.findSprawaByDef());
+                p.setDatamaila(Data.aktualnaData());
+                fakturaWaloryzacjaDAO.edit(p);
+                break;
+            }
+            Msg.msg("Wysłano maile");
+        } catch (Exception e) {
+            E.e(e); 
+        }
+    }
+    
+    
     public FakturaWaloryzacja getSelected() {
         return selected;
     }

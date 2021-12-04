@@ -8,12 +8,9 @@ import data.Data;
 import entity.Pismoadmin;
 import entity.SMTPSettings;
 import entity.Uz;
-import java.io.InputStream;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.activation.DataHandler;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
@@ -100,7 +97,7 @@ public class MailAdmin implements Serializable {
      public static void zablokowanoIPinfoDlaadmina(String ip, SMTPSettings ogolne) {
         try {
              MailSetUp mailSetUp = new MailSetUp();
-             MimeMessage message = mailSetUp.logintoMailAdmin("brzaskun@gmail.com", null, ogolne);
+             MimeMessage message = mailSetUp.logintoMailAdmin("info@taxman.biz.pl", null, ogolne);
              message.setSubject("Zablokowano IP usera","UTF-8");
              // create and fill the first message part
              MimeBodyPart mbp1 = new MimeBodyPart();
