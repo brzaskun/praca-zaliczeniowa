@@ -62,6 +62,8 @@ public class Zmiennapotracenia implements Serializable {
     @JoinColumn(name = "skladnikpotracenia", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Skladnikpotracenia skladnikpotracenia;
+    @Column(name = "aktywna")
+    private  boolean aktywna;
 
 
     public Zmiennapotracenia() {
@@ -159,6 +161,14 @@ public class Zmiennapotracenia implements Serializable {
 
     public void setSkladnikpotracenia(Skladnikpotracenia skladnikpotracenia) {
         this.skladnikpotracenia = skladnikpotracenia;
+    }
+
+    public boolean isAktywna() {
+        return aktywna;
+    }
+
+    public void setAktywna(boolean aktywna) {
+        this.aktywna = aktywna;
     }
     
 }

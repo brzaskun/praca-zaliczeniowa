@@ -36,8 +36,8 @@ public class NaliczeniepotracenieBean {
     static Naliczeniepotracenie createPotracenieDB(Pasekwynagrodzen pasekwynagrodzen, Skladnikpotracenia skladnikpotracenia, double wolneodzajecia) {
         Naliczeniepotracenie zwrot = new Naliczeniepotracenie();
         List<Zmiennapotracenia> zmiennawynagrodzeniaList = skladnikpotracenia.getZmiennapotraceniaList();
-        if (skladnikpotracenia.getSlownikpotracenia().getLimitumowaoprace()!=0.0) {
-            wolneodzajecia = Z.z(wolneodzajecia*skladnikpotracenia.getSlownikpotracenia().getLimitumowaoprace()/100);
+        if (skladnikpotracenia.getRodzajpotracenia().getLimitumowaoprace()!=0.0) {
+            wolneodzajecia = Z.z(wolneodzajecia*skladnikpotracenia.getRodzajpotracenia().getLimitumowaoprace()/100);
         }
         for (Zmiennapotracenia p : zmiennawynagrodzeniaList) {
             double juzrozliczono = podsumuj(pasekwynagrodzen, skladnikpotracenia);

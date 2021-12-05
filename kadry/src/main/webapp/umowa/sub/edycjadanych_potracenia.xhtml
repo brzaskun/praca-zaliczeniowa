@@ -21,17 +21,17 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                                 <p:ajax event="change" partialSubmit="true" global="false"/>
                             </p:selectOneMenu>
                              <p:outputLabel value="nazwa" for="nazwa" />
-                             <p:selectOneMenu id="nazwa" value="#{skladnikPotraceniaView.selected.slownikpotracenia}" converter="#{slownikpotracenConverter}" filter="true" required="true">
+                             <p:selectOneMenu id="nazwa" value="#{skladnikPotraceniaView.selected.rodzajpotracenia}" converter="#{slownikpotracenConverter}" filter="true" required="true">
                                 <f:selectItem itemLabel="wybierz" noSelectionOption="true" />
                                 <f:selectItems value="#{skladnikPotraceniaView.listapotracen}"
                                                var="rodzajpotrItem"
-                                               itemValue="#{rodzajpotrItem}" itemLabel="#{rodzajpotrItem.nazwa}"/>
+                                               itemValue="#{rodzajpotrItem}" itemLabel="#{rodzajpotrItem.opis}"/>
                                 <p:ajax event="change" partialSubmit="true" global="false"  update="PotraceniaCreateForm:kod"/>
                             </p:selectOneMenu>
                             <p:outputLabel value="limit umowa o pracę" for="kod" />
-                            <h:outputText id="kod" value="#{skladnikPotraceniaView.selected.slownikpotracenia.limitumowaoprace}" title="limit umowa o pracę" />
+                            <h:outputText id="kod" value="#{skladnikPotraceniaView.selected.rodzajpotracenia.limitumowaoprace}" title="limit umowa o pracę" />
                             <p:outputLabel value="limit umowa zlecenia" for="uwagi" />
-                            <h:outputText id="uwagi" value="#{skladnikPotraceniaView.selected.slownikpotracenia.limitumowazlecenia}" title="limit umowa zlecenia"/>
+                            <h:outputText id="uwagi" value="#{skladnikPotraceniaView.selected.rodzajpotracenia.limitumowazlecenia}" title="limit umowa zlecenia"/>
                         </p:panelGrid>
                         <p:commandButton styleClass="buttonnorm" actionListener="#{skladnikPotraceniaView.create}" value="#{bundle.Save}" update="display,@(form)"/>
                         <p:commandButton value="#{bundle.Cancel}" onclick="SkladnikwynagrodzeniaCreateDialog.hide()"/>
@@ -78,7 +78,7 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                                 <f:facet name="header">
                                     <h:outputText value="nazwa"/>
                                 </f:facet>
-                                <h:outputText value="#{itemskladnikpotracenia.slownikpotracenia.nazwa}"/>
+                                <h:outputText value="#{itemskladnikpotracenia.rodzajpotracenia.opis}"/>
                             </p:column>
                             <p:column width="100">
                                 <f:facet name="header">
@@ -90,13 +90,13 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                                 <f:facet name="header">
                                     <h:outputText value="limit um. o pracę"/>
                                 </f:facet>
-                                <h:outputText value="#{itemskladnikpotracenia.slownikpotracenia.limitumowaoprace}"/>
+                                <h:outputText value="#{itemskladnikpotracenia.rodzajpotracenia.limitumowaoprace}"/>
                             </p:column>
                             <p:column style="text-align: center;" width="40">
                                 <f:facet name="header">
                                     <h:outputText value="limit um. zlecenia"/>
                                 </f:facet>
-                                <h:outputText value="#{itemskladnikpotracenia.slownikpotracenia.limitumowazlecenia}"/>
+                                <h:outputText value="#{itemskladnikpotracenia.rodzajpotracenia.limitumowazlecenia}"/>
                             </p:column>
                             <p:column style="text-align: center; width: 30px;">
                                 <p:commandButton icon="fa fa-trash" actionListener="#{skladnikPotraceniaView.usunSkladnikPotr(itemskladnikpotracenia)}" update="north, @(form)"/>

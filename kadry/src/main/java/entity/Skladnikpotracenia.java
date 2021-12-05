@@ -49,9 +49,9 @@ public class Skladnikpotracenia implements Serializable {
     @Size(max = 255)
     @Column(name = "nazwa")
     private String nazwa;
-    @JoinColumn(name = "slownikpotracenia", referencedColumnName = "id")
+    @JoinColumn(name = "rodzajpotracenia", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Slownikpotracenia slownikpotracenia;
+    private Rodzajpotracenia rodzajpotracenia;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "skladnikpotracenia")
     private List<Zmiennapotracenia> zmiennapotraceniaList;
     @OneToMany(mappedBy = "skladnikpotracenia")
@@ -140,12 +140,12 @@ public class Skladnikpotracenia implements Serializable {
         this.nazwa = nazwa;
     }
 
-    public Slownikpotracenia getSlownikpotracenia() {
-        return slownikpotracenia;
+    public Rodzajpotracenia getRodzajpotracenia() {
+        return rodzajpotracenia;
     }
 
-    public void setSlownikpotracenia(Slownikpotracenia slownikpotracenia) {
-        this.slownikpotracenia = slownikpotracenia;
+    public void setRodzajpotracenia(Rodzajpotracenia rodzajpotracenia) {
+        this.rodzajpotracenia = rodzajpotracenia;
     }
     
     public String getTytul() {

@@ -955,6 +955,19 @@ public class Pasekwynagrodzen implements Serializable {
                 zwrot.add(wiersz);
             }
         }
+        if (this.naliczeniepotracenieList!=null) {
+            for (Naliczeniepotracenie p : this.naliczeniepotracenieList) {
+                Skladnikwynlista wiersz = new Skladnikwynlista();
+                wiersz.lp = i++;
+                wiersz.kod = String.valueOf(p.getSkladnikpotracenia().getRodzajpotracenia().getNumer());
+                wiersz.nazwa = p.getSkladnikpotracenia().getRodzajpotracenia().getOpis();
+                wiersz.kwota = p.getKwota();
+                wiersz.dataod = p.getDataOd();
+                wiersz.datado = p.getDataDo();
+                wiersz.setPotracenie(true);
+                zwrot.add(wiersz);
+            }
+        }
         return zwrot;
     }
     
@@ -978,6 +991,7 @@ public class Pasekwynagrodzen implements Serializable {
         String kod;
         boolean urlopSP;
         boolean redukcjaSP;
+        boolean potracenie;
         double kwota;
         double redukcja;
         double dniobowiazku;
@@ -1033,6 +1047,14 @@ public class Pasekwynagrodzen implements Serializable {
 
         public void setRedukcjaSP(boolean redukcjaSP) {
             this.redukcjaSP = redukcjaSP;
+        }
+
+        public boolean isPotracenie() {
+            return potracenie;
+        }
+
+        public void setPotracenie(boolean potracenie) {
+            this.potracenie = potracenie;
         }
 
         public double getKwota() {

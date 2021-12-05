@@ -5,8 +5,8 @@
  */
 package converter;
 
-import dao.SlownikpotraceniaFacade;
-import entity.Slownikpotracenia;
+import dao.RodzajpotraceniaFacade;
+import entity.Rodzajpotracenia;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.component.UIComponent;
@@ -21,9 +21,9 @@ import javax.inject.Named;
 @Named
 public class SlownikpotracenConverter implements javax.faces.convert.Converter {
     
-    private List<Slownikpotracenia> lista;
+    private List<Rodzajpotracenia> lista;
     @Inject
-    private SlownikpotraceniaFacade slownikpotraceniaFacade;
+    private RodzajpotraceniaFacade slownikpotraceniaFacade;
     
     @PostConstruct
     private void init() {
@@ -34,7 +34,7 @@ public class SlownikpotracenConverter implements javax.faces.convert.Converter {
     public Object getAsObject(FacesContext facesContext, UIComponent component, String sub) {
         try {
             int submittedValue = Integer.parseInt(sub);
-            for (Slownikpotracenia p : lista) {
+            for (Rodzajpotracenia p : lista) {
                 if (p.getId()==submittedValue) {
                     return p;
                 }
@@ -50,7 +50,7 @@ public class SlownikpotracenConverter implements javax.faces.convert.Converter {
         if (value == null || value.equals("")) {
             return "";
         } else {
-            return String.valueOf(((Slownikpotracenia) value).getId());
+            return String.valueOf(((Rodzajpotracenia) value).getId());
         }
     }
 }

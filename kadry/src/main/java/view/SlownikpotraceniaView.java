@@ -5,8 +5,8 @@
  */
 package view;
 
-import dao.SlownikpotraceniaFacade;
-import entity.Slownikpotracenia;
+import dao.RodzajpotraceniaFacade;
+import entity.Rodzajpotracenia;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -24,9 +24,9 @@ import msg.Msg;
 public class SlownikpotraceniaView  implements Serializable {
     private static final long serialVersionUID = 1L;
     @Inject
-    private SlownikpotraceniaFacade slownikpotraceniaFacade;
-    private Slownikpotracenia selectedlista;
-    private List<Slownikpotracenia> lista;
+    private RodzajpotraceniaFacade slownikpotraceniaFacade;
+    private Rodzajpotracenia selectedlista;
+    private List<Rodzajpotracenia> lista;
     
     @PostConstruct
     private void init() {
@@ -38,19 +38,19 @@ public class SlownikpotraceniaView  implements Serializable {
         Msg.msg("Zmiany zachowane");
     }
 
-    public Slownikpotracenia getSelectedlista() {
+    public Rodzajpotracenia getSelectedlista() {
         return selectedlista;
     }
 
-    public void setSelectedlista(Slownikpotracenia selectedlista) {
+    public void setSelectedlista(Rodzajpotracenia selectedlista) {
         this.selectedlista = selectedlista;
     }
 
-    public List<Slownikpotracenia> getLista() {
+    public List<Rodzajpotracenia> getLista() {
         return lista;
     }
 
-    public void setLista(List<Slownikpotracenia> lista) {
+    public void setLista(List<Rodzajpotracenia> lista) {
         this.lista = lista;
     }
     

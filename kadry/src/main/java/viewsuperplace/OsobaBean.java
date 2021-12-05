@@ -12,7 +12,9 @@ import dao.DefinicjalistaplacFacade;
 import dao.KalendarzmiesiacFacade;
 import dao.KalendarzwzorFacade;
 import dao.RodzajlistyplacFacade;
+import dao.SkladnikPotraceniaFacade;
 import dao.SkladnikWynagrodzeniaFacade;
+import dao.ZmiennaPotraceniaFacade;
 import dao.ZmiennaWynagrodzeniaFacade;
 import data.Data;
 import embeddable.Mce;
@@ -23,6 +25,7 @@ import entity.FirmaKadry;
 import entity.Kalendarzmiesiac;
 import entity.Kalendarzwzor;
 import entity.Naliczenienieobecnosc;
+import entity.Naliczeniepotracenie;
 import entity.Naliczenieskladnikawynagrodzenia;
 import entity.Nieobecnosc;
 import entity.Pasekwynagrodzen;
@@ -30,7 +33,9 @@ import entity.Pracownik;
 import entity.Rachunekdoumowyzlecenia;
 import entity.Rodzajlistyplac;
 import entity.Rodzajnieobecnosci;
+import entity.Rodzajpotracenia;
 import entity.Rodzajwynagrodzenia;
+import entity.Skladnikpotracenia;
 import entity.Skladnikwynagrodzenia;
 import entity.Slownikszkolazatrhistoria;
 import entity.Slownikwypowiedzenieumowy;
@@ -38,6 +43,7 @@ import entity.Stanowiskoprac;
 import entity.Swiadczeniekodzus;
 import entity.Umowa;
 import entity.Umowakodzus;
+import entity.Zmiennapotracenia;
 import entity.Zmiennawynagrodzenia;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -47,10 +53,12 @@ import java.util.List;
 import java.util.Set;
 import kadryiplace.Okres;
 import kadryiplace.Osoba;
+import kadryiplace.OsobaPot;
 import kadryiplace.OsobaPrz;
 import kadryiplace.OsobaSkl;
 import kadryiplace.OsobaZlec;
 import kadryiplace.Place;
+import kadryiplace.PlacePot;
 import kadryiplace.PlacePrz;
 import kadryiplace.PlaceSkl;
 import kadryiplace.PlaceZlec;
@@ -248,6 +256,25 @@ public class OsobaBean {
         return zwrot;
     }
     
+    static List<Skladnikpotracenia> pobierzskladnipotracenia(List<OsobaPot> skladniki, List<Rodzajpotracenia> rodzajepotracen, Umowa aktywna, SkladnikPotraceniaFacade skladnikPotraceniaFacade, ZmiennaPotraceniaFacade zmiennaPotraceniaFacade) {
+        List<Skladnikpotracenia> zwrot = new ArrayList<>();
+        if (skladniki!=null) {
+            OsobaPot wybrany = null;
+            for (OsobaPot s : skladniki) {
+                if (wybrany == null) {
+                    wybrany = s;
+                    Skladnikpotracenia generujpotracenie = generujpotracenie(wybrany, rodzajepotracen, aktywna, skladnikPotraceniaFacade, zmiennaPotraceniaFacade);
+                    zwrot.add(generujpotracenie);
+                } else if (s.getOpoSerial()>wybrany.getOpoSerial()) {
+                    wybrany = s;
+                    Skladnikpotracenia generujpotracenie = generujpotracenie(wybrany, rodzajepotracen, aktywna, skladnikPotraceniaFacade, zmiennaPotraceniaFacade);
+                    zwrot.add(generujpotracenie);
+                }
+            }
+        }
+        return zwrot;
+    }
+
     
     static List<Skladnikwynagrodzenia> pobierzskladnikwynagrodzenia(List<OsobaSkl> skladniki, List<Rodzajwynagrodzenia> rodzajewynagrodzenia, Umowa aktywna, SkladnikWynagrodzeniaFacade skladnikWynagrodzeniaFacade, ZmiennaWynagrodzeniaFacade zmiennaWynagrodzeniaFacade) {
         List<Skladnikwynagrodzenia> zwrot = new ArrayList<>();
@@ -287,6 +314,14 @@ public class OsobaBean {
         return zwrot;
     }
     
+    private static Skladnikpotracenia generujpotracenie(OsobaPot wybrany, List<Rodzajpotracenia> rodzajpotracenia, Umowa aktywna, SkladnikPotraceniaFacade skladnikPotraceniaFacade, ZmiennaPotraceniaFacade zmiennaPotraceniaFacade) {
+        Skladnikpotracenia skladnik = new Skladnikpotracenia();
+        skladnik.setUmowa(aktywna);
+        skladnik.setRodzajpotracenia(pobierzrodzajpotracenia(wybrany,rodzajpotracenia));
+        skladnikPotraceniaFacade.create(skladnik);
+        pobierzzmiennapotracenia(aktywna, skladnik, wybrany, zmiennaPotraceniaFacade);
+        return skladnik;
+    }
     private static Skladnikwynagrodzenia generujskladnik(OsobaSkl wybrany, List<Rodzajwynagrodzenia> rodzajewynagrodzenia, Umowa aktywna, SkladnikWynagrodzeniaFacade skladnikWynagrodzeniaFacade, ZmiennaWynagrodzeniaFacade zmiennaWynagrodzeniaFacade) {
         Skladnikwynagrodzenia skladnik = new Skladnikwynagrodzenia();
         skladnik.setUmowa(aktywna);
@@ -317,6 +352,20 @@ public class OsobaBean {
         }
         return zwrot;
     }
+    
+    private static Rodzajpotracenia pobierzrodzajpotracenia(OsobaPot s, List<Rodzajpotracenia> rodzajpotracenia) {
+        Rodzajpotracenia zwrot = null;
+        if (rodzajpotracenia!=null) {
+            for (Rodzajpotracenia p : rodzajpotracenia) {
+                if (p.getOpis().equals(s.getOpoWpoSerial().getWpoOpis())) {
+                    zwrot = p;
+                    break;
+                }
+            }
+        }
+        return zwrot;
+    }
+    
     private static Rodzajwynagrodzenia pobierzrodzajwynagrodzenia(OsobaSkl s, List<Rodzajwynagrodzenia> rodzajewynagrodzenia) {
         Rodzajwynagrodzenia zwrot = null;
         if (rodzajewynagrodzenia!=null) {
@@ -347,6 +396,77 @@ public class OsobaBean {
         return zwrot;
     }
 
+     static void pobierzzmiennapotracenia(Umowa aktywna, Skladnikpotracenia skladnikpotracenia, OsobaPot s, ZmiennaPotraceniaFacade zmiennaPotraceniaFacade) {
+         if (skladnikpotracenia!=null) {
+            StSystOpis ossSsdSerial1 = s.getOpoSsdSerial1();
+            if (ossSsdSerial1!=null) {
+                List<StSystWart> osobaSklList = s.getOpoSsdSerial1().getStSystWartList();
+                if (osobaSklList!=null) {
+                    for (StSystWart t :osobaSklList) {
+                        Zmiennapotracenia wiersz = new Zmiennapotracenia();
+                        wiersz.setSkladnikpotracenia(skladnikpotracenia);
+                        wiersz.setNazwa(ossSsdSerial1.getSsdNazwa());
+                        if (t.getSsoDataOd()!=null) {
+                            wiersz.setDataod(Data.data_yyyyMMdd(t.getSsoDataOd()));
+                            if (t.getSsoDataDo()!=null) {
+                                wiersz.setDatado(Data.data_yyyyMMdd(t.getSsoDataDo()));
+                            }
+                            String ss = String.valueOf(t.getSsoStatus());
+                            if (ss.equals("A")) {
+                                wiersz.setAktywna(true);
+                            }
+                        } else {
+                            String mcod = String.valueOf(t.getSsoMiesiacOd());
+                            if (mcod.length()==1) {
+                                mcod="0"+mcod;
+                            }
+                            String dataod = t.getSsoRokOd()+"-"+mcod+"-01";
+                            wiersz.setDataod(dataod);
+                            String mcdo = String.valueOf(t.getSsoMiesiacDo());
+                            if (mcdo.length()==1) {
+                                mcdo="0"+mcdo;
+                            }
+                            String datado = Data.ostatniDzien(String.valueOf(t.getSsoRokDo()),mcdo);
+                            wiersz.setDatado(datado);
+                        }
+                        if (skladnikpotracenia.getRodzajpotracenia().getOpis().contains("Tytuł wykonawczy")) {
+                            wiersz.setKwotakomornicza(Z.z(t.getSsoNumeric().doubleValue()));
+                            if (wiersz.getKwotakomornicza()!=0.0) {
+                                zmiennaPotraceniaFacade.create(wiersz);
+                            }
+                        } else {
+                            wiersz.setKwotastala(Z.z(t.getSsoNumeric().doubleValue()));
+                            if (wiersz.getKwotastala()!=0.0) {
+                                zmiennaPotraceniaFacade.create(wiersz);
+                            }
+                        }
+                    }
+                }
+            } else {
+                Zmiennapotracenia wiersz = new Zmiennapotracenia();
+                wiersz.setSkladnikpotracenia(skladnikpotracenia);
+                wiersz.setNazwa(s.getOpoWpoSerial().getWpoOpis());
+                wiersz.setDataod(Data.data_yyyyMMdd(s.getOpoDataOd()));
+                if (s.getOpoDataDo()!=null) {
+                    wiersz.setDatado(Data.data_yyyyMMdd(s.getOpoDataDo()));
+                } else {
+                    wiersz.setAktywna(true);
+                }
+                 if (skladnikpotracenia.getRodzajpotracenia().getOpis().contains("Tytuł wykonawczy")) {
+                    wiersz.setKwotakomornicza(Z.z(s.getOpoKwota().doubleValue()));
+                    if (wiersz.getKwotakomornicza()!=0.0) {
+                        zmiennaPotraceniaFacade.create(wiersz);
+                    }
+                } else {
+                    wiersz.setKwotastala(Z.z(s.getOpoKwota().doubleValue()));
+                    if (wiersz.getKwotastala()!=0.0) {
+                        zmiennaPotraceniaFacade.create(wiersz);
+                    }
+                }
+            }
+        }
+     }
+     
 
     static void pobierzzmiennawynagrodzenia(Umowa aktywna, Skladnikwynagrodzenia skladnikwynagrodzenia, OsobaSkl s, ZmiennaWynagrodzeniaFacade zmiennaWynagrodzeniaFacade) {
         if (skladnikwynagrodzenia!=null) {
@@ -468,7 +588,7 @@ public class OsobaBean {
     
     
     static List<Pasekwynagrodzen> zrobpaskiimportUmowaopraceizlecenia(WpisView wpisView, Osoba osoba, List<Okres> okresList, boolean umowaoprace0zlecenia1, String datakonca26lat,
-        List<Skladnikwynagrodzenia> skladnikwynagrodzenia, List<Nieobecnosc> nieobecnoscilista) {
+        List<Skladnikwynagrodzenia> skladnikwynagrodzenia, List<Nieobecnosc> nieobecnoscilista, List<Skladnikpotracenia> skladnikpotracenia) {
         List<Pasekwynagrodzen> zwrot = new ArrayList<>();
         List<Place> placeList = osoba.getPlaceList();
         for (Place r : placeList) {
@@ -483,6 +603,8 @@ public class OsobaBean {
                         nowypasek.setImportowany(true);
                         List<PlaceZlec> placeZlecList = r.getPlaceZlecList();
                         historycznenaliczeniezlecenie(placeZlecList, nowypasek, skladnikwynagrodzenia);
+                        List<PlacePot>  placePotList = r.getPlacePotList();
+                        historycznenaliczeniepotracenie(placePotList, nowypasek, skladnikpotracenia);
                         Pasekwynagrodzen.pasekuzupelnianie(nowypasek, r);
                         zwrot.add(nowypasek);
                     }
@@ -495,9 +617,13 @@ public class OsobaBean {
                         nowypasek.setMc(mc);
                         nowypasek.setImportowany(true);
                         List<PlaceSkl> placeSklList = r.getPlaceSklList();
-                        historycznenaliczeniewynagrodzenia(placeSklList, nowypasek, skladnikwynagrodzenia);
+                        Short lplDniObow = r.getLplDniObow();
+                        Short lplDniPrzepr = r.getLplDniPrzepr();
+                        historycznenaliczeniewynagrodzenia(placeSklList, nowypasek, skladnikwynagrodzenia, lplDniObow, lplDniPrzepr);
                         List<PlacePrz>  placePrzList = r.getPlacePrzList();
                         historycznenaliczenienieobecnosc(placePrzList, nowypasek, nieobecnoscilista);
+                        List<PlacePot>  placePotList = r.getPlacePotList();
+                        historycznenaliczeniepotracenie(placePotList, nowypasek, skladnikpotracenia);
                         Pasekwynagrodzen.pasekuzupelnianie(nowypasek, r);
                         zwrot.add(nowypasek);
                     }
@@ -527,12 +653,14 @@ public class OsobaBean {
             pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().add(naliczenieskladnikawynagrodzenia);
         }
     }
-        static void historycznenaliczeniewynagrodzenia(List<PlaceSkl> placeSklList, Pasekwynagrodzen pasekwynagrodzen, List<Skladnikwynagrodzenia> skladnikwynagrodzenia) {
+        static void historycznenaliczeniewynagrodzenia(List<PlaceSkl> placeSklList, Pasekwynagrodzen pasekwynagrodzen, List<Skladnikwynagrodzenia> skladnikwynagrodzenia, Short lplDniObow,Short lplDniPrzepr) {
         for (PlaceSkl p : placeSklList) {
             if (!p.getSklRodzaj().equals('U')) {//U to sa redukcje wynagrodzenia
                 Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = new Naliczenieskladnikawynagrodzenia();
                 naliczenieskladnikawynagrodzenia.setDataod(Data.data_yyyyMMddNull(p.getSklDataOd()));
                 naliczenieskladnikawynagrodzenia.setDatado(Data.data_yyyyMMddNull(p.getSklDataDo()));
+                naliczenieskladnikawynagrodzenia.setDninalezne(lplDniObow);
+                naliczenieskladnikawynagrodzenia.setDnifaktyczne(lplDniPrzepr);
                 naliczenieskladnikawynagrodzenia.setKwotadolistyplac(p.getSklKwota().doubleValue());
                 naliczenieskladnikawynagrodzenia.setSkladnikwynagrodzenia(histporiapobierzskladnikwynagrodzenia(p, skladnikwynagrodzenia));
                 naliczenieskladnikawynagrodzenia.setSkl_dod_1(p.getSklDod1());
@@ -549,6 +677,8 @@ public class OsobaBean {
                 Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = new Naliczenieskladnikawynagrodzenia();
                 naliczenieskladnikawynagrodzenia.setDataod(Data.data_yyyyMMddNull(p.getSklDataOd()));
                 naliczenieskladnikawynagrodzenia.setDatado(Data.data_yyyyMMddNull(p.getSklDataDo()));
+                naliczenieskladnikawynagrodzenia.setDninalezne(lplDniObow);
+                naliczenieskladnikawynagrodzenia.setDnifaktyczne(lplDniPrzepr);
                 naliczenieskladnikawynagrodzenia.setKwotyredukujacesuma(p.getSklKwota().doubleValue());
                 naliczenieskladnikawynagrodzenia.setSkladnikwynagrodzenia(histporiapobierzskladnikwynagrodzenia(p, skladnikwynagrodzenia));
                 naliczenieskladnikawynagrodzenia.setSkl_rodzaj(p.getSklRodzaj());
@@ -574,6 +704,16 @@ public class OsobaBean {
         }
     }
     
+    static void historycznenaliczeniepotracenie(List<PlacePot> placePotList, Pasekwynagrodzen pasekwynagrodzen, List<Skladnikpotracenia> skladnikpotracenia) {
+        for (PlacePot p : placePotList) {
+            Naliczeniepotracenie naliczeniepotracenie = new Naliczeniepotracenie();
+            naliczeniepotracenie.setSkladnikpotracenia(histporiapobierzskladnikpopotracenia(p, skladnikpotracenia));
+            naliczeniepotracenie.setKwota(p.getPpoKwota().doubleValue());
+            naliczeniepotracenie.setPasekwynagrodzen(pasekwynagrodzen);
+            pasekwynagrodzen.getNaliczeniepotracenieList().add(naliczeniepotracenie);
+        }
+    }
+    
     private static Nieobecnosc historiawyszukajnieobecnosci(PlacePrz p, List<Nieobecnosc> nieobecnoscilista) {
         Nieobecnosc zwrot = null;
         for (Nieobecnosc n : nieobecnoscilista) {
@@ -584,6 +724,19 @@ public class OsobaBean {
             if (czyjestpo&&czyjestprzed) {
                 zwrot = n;
                 break;
+            }
+        }
+        return zwrot;
+    }
+    
+    private static Skladnikpotracenia histporiapobierzskladnikpopotracenia(PlacePot s, List<Skladnikpotracenia> skladnikpotracenia) {
+        Skladnikpotracenia zwrot = null;
+        if (skladnikpotracenia!=null) {
+            for (Skladnikpotracenia p : skladnikpotracenia) {
+                if (p.getRodzajpotracenia().getOpis().equals(s.getPpoWpoSerial().getWpoOpis())) {
+                    zwrot = p;
+                    break;
+                }
             }
         }
         return zwrot;
@@ -778,6 +931,9 @@ public class OsobaBean {
         String data = "1970-05-11";
         System.out.println(obliczdata26(data));
     }
+
+    
+    
 
     
 

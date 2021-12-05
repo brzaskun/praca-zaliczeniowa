@@ -3,11 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package dao;
+package DAOsuperplace;
 
-import entity.Slownikpotracenia;
 import java.io.Serializable;
-import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -19,30 +17,30 @@ import javax.transaction.Transactional;
  */
 @Stateless
 @Transactional
-public class SlownikpotraceniaFacade extends DAO    implements Serializable {
+public class WynPotraceniaFacade extends DAO  implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    @PersistenceContext(unitName = "kadryPU")
+    @PersistenceContext(unitName = "microsoft")
     private EntityManager em;
     
-    @PreDestroy
-    private void preDestroy() {
-        em.clear();
-        em.close();
-        em.getEntityManagerFactory().close();
-        em = null;
-        
-    }
+//    @PreDestroy
+//    private void preDestroy() {
+//        em.clear();
+//        em.close();
+//        em.getEntityManagerFactory().close();
+//        em = null;
+//        
+//    }
 
     protected EntityManager getEntityManager() {
         return em;
     }
 
-    public SlownikpotraceniaFacade() {
-        super(Slownikpotracenia.class);
+   public WynPotraceniaFacade() {
+        super(kadryiplace.WynPotracenia.class);
         super.em = em;
     }
     
-  
     
+
 }

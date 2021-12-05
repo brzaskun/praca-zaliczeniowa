@@ -5,11 +5,12 @@
  */
 package view;
 
+import DAOsuperplace.WynPotraceniaFacade;
+import dao.RodzajpotraceniaFacade;
 import dao.SkladnikPotraceniaFacade;
-import dao.SlownikpotraceniaFacade;
 import dao.UmowaFacade;
+import entity.Rodzajpotracenia;
 import entity.Skladnikpotracenia;
-import entity.Slownikpotracenia;
 import entity.Umowa;
 import java.io.Serializable;
 import java.util.List;
@@ -17,6 +18,7 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import kadryiplace.WynPotracenia;
 import msg.Msg;
 
 /**
@@ -32,14 +34,14 @@ public class SkladnikPotraceniaView  implements Serializable {
     @Inject
     private Skladnikpotracenia selectedlista;
     private List<Skladnikpotracenia> lista;
-    private List<Slownikpotracenia> listapotracen;
+    private List<Rodzajpotracenia> listapotracen;
     private List<Umowa> listaumow;
     @Inject
     private SkladnikPotraceniaFacade skladnikPotraceniaFacade;
     @Inject
     private UmowaFacade umowaFacade;
     @Inject
-    private SlownikpotraceniaFacade slownikpotraceniaFacade;
+    private RodzajpotraceniaFacade rodzajpotraceniaFacade;
     @Inject
     private WpisView wpisView;
     @Inject
@@ -51,7 +53,7 @@ public class SkladnikPotraceniaView  implements Serializable {
             lista  = skladnikPotraceniaFacade.findByPracownik(wpisView.getAngaz().getPracownik());
         }
         listaumow = umowaFacade.findPracownik(wpisView.getPracownik());
-        listapotracen = slownikpotraceniaFacade.findAll();
+        listapotracen = rodzajpotraceniaFacade.findAll();
 
     }
     
@@ -114,17 +116,33 @@ public class SkladnikPotraceniaView  implements Serializable {
     }
 
 
-    public List<Slownikpotracenia> getListapotracen() {
+    public List<Rodzajpotracenia> getListapotracen() {
         return listapotracen;
     }
 
-    public void setListapotracen(List<Slownikpotracenia> listapotracen) {
+    public void setListapotracen(List<Rodzajpotracenia> listapotracen) {
         this.listapotracen = listapotracen;
     }
 
     
 
-    
+     @Inject
+    private WynPotraceniaFacade wynPotraceniaFacade;
+    public void generujtabele() {
+        Msg.msg("Start");
+        List<WynPotracenia> findAll = wynPotraceniaFacade.findAll();
+        for (WynPotracenia p : findAll) {
+            Rodzajpotracenia s  = new Rodzajpotracenia();
+            s.setOpis(p.getWpoOpis());
+            s.setWpo_serial(p.getWpoSerial());
+            s.setPod_doch(p.getWpoPodDoch().equals('T'));
+            s.setZus(p.getWpoZus().equals('T'));
+            s.setZdrowotne(p.getWpoZdrowotne().equals('T'));
+            s.setNumer(p.getWpoNumer());
+            rodzajpotraceniaFacade.create(s);
+        }
+        Msg.dP();
+    }
     
     
 }

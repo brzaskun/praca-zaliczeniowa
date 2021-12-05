@@ -18,6 +18,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -27,15 +28,17 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author Osito
  */
 @Entity
-@Table(name = "slownikpotracenia")
+@Table(name = "rodzajpotracenia", uniqueConstraints = {
+    @UniqueConstraint(columnNames={"opis"})
+})
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Slownikpotracenia.findAll", query = "SELECT s FROM Slownikpotracenia s"),
-    @NamedQuery(name = "Slownikpotracenia.findById", query = "SELECT s FROM Slownikpotracenia s WHERE s.id = :id"),
-    @NamedQuery(name = "Slownikpotracenia.findByNazwa", query = "SELECT s FROM Slownikpotracenia s WHERE s.nazwa = :nazwa"),
-    @NamedQuery(name = "Slownikpotracenia.findByLimitumowaoprace", query = "SELECT s FROM Slownikpotracenia s WHERE s.limitumowaoprace = :limitumowaoprace"),
-    @NamedQuery(name = "Slownikpotracenia.findByLimitumowazlecenia", query = "SELECT s FROM Slownikpotracenia s WHERE s.limitumowazlecenia = :limitumowazlecenia")})
-public class Slownikpotracenia implements Serializable {
+    @NamedQuery(name = "Rodzajpotracenia.findAll", query = "SELECT s FROM Rodzajpotracenia s"),
+    @NamedQuery(name = "Rodzajpotracenia.findById", query = "SELECT s FROM Rodzajpotracenia s WHERE s.id = :id"),
+    @NamedQuery(name = "Rodzajpotracenia.findByOpis", query = "SELECT s FROM Rodzajpotracenia s WHERE s.opis = :opis"),
+    @NamedQuery(name = "Rodzajpotracenia.findByLimitumowaoprace", query = "SELECT s FROM Rodzajpotracenia s WHERE s.limitumowaoprace = :limitumowaoprace"),
+    @NamedQuery(name = "Rodzajpotracenia.findByLimitumowazlecenia", query = "SELECT s FROM Rodzajpotracenia s WHERE s.limitumowazlecenia = :limitumowazlecenia")})
+public class Rodzajpotracenia implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -44,20 +47,30 @@ public class Slownikpotracenia implements Serializable {
     @Column(name = "id")
     private Integer id;
     @Size(max = 256)
-    @Column(name = "nazwa")
-    private String nazwa;
+    @Column(name = "opis")
+    private String opis;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "limitumowaoprace")
     private double limitumowaoprace;
     @Column(name = "limitumowazlecenia")
     private double limitumowazlecenia;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "slownikpotracenia")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "rodzajpotracenia")
     private List<Skladnikpotracenia> skladnikpotraceniaList;
-
-    public Slownikpotracenia() {
+    @Column(name = "wpo_serial")
+    private Integer wpo_serial;
+    @Column(name = "pod_doch")
+    private boolean pod_doch;
+    @Column(name = "zus")
+    private boolean zus;
+    @Column(name = "zdrowotna")
+    private boolean zdrowotne;
+    @Column(name = "numer")
+    private int numer;
+    
+    public Rodzajpotracenia() {
     }
 
-    public Slownikpotracenia(Integer id) {
+    public Rodzajpotracenia(Integer id) {
         this.id = id;
     }
 
@@ -69,12 +82,12 @@ public class Slownikpotracenia implements Serializable {
         this.id = id;
     }
 
-    public String getNazwa() {
-        return nazwa;
+    public String getOpis() {
+        return opis;
     }
 
-    public void setNazwa(String nazwa) {
-        this.nazwa = nazwa;
+    public void setOpis(String opis) {
+        this.opis = opis;
     }
 
     public double getLimitumowaoprace() {
@@ -92,6 +105,50 @@ public class Slownikpotracenia implements Serializable {
     public void setLimitumowazlecenia(double limitumowazlecenia) {
         this.limitumowazlecenia = limitumowazlecenia;
     }
+
+    public Integer getWpo_serial() {
+        return wpo_serial;
+    }
+
+    public void setWpo_serial(Integer wpo_serial) {
+        this.wpo_serial = wpo_serial;
+    }
+
+ 
+
+    public boolean isPod_doch() {
+        return pod_doch;
+    }
+
+    public void setPod_doch(boolean pod_doch) {
+        this.pod_doch = pod_doch;
+    }
+
+    public boolean isZus() {
+        return zus;
+    }
+
+    public void setZus(boolean zus) {
+        this.zus = zus;
+    }
+
+    public boolean isZdrowotne() {
+        return zdrowotne;
+    }
+
+    public void setZdrowotne(boolean zdrowotne) {
+        this.zdrowotne = zdrowotne;
+    }
+
+    public int getNumer() {
+        return numer;
+    }
+
+    public void setNumer(int numer) {
+        this.numer = numer;
+    }
+    
+    
 
     @XmlTransient
     public List<Skladnikpotracenia> getSkladnikpotraceniaList() {
@@ -112,10 +169,10 @@ public class Slownikpotracenia implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Slownikpotracenia)) {
+        if (!(object instanceof Rodzajpotracenia)) {
             return false;
         }
-        Slownikpotracenia other = (Slownikpotracenia) object;
+        Rodzajpotracenia other = (Rodzajpotracenia) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -124,7 +181,7 @@ public class Slownikpotracenia implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Slownikpotracenia[ id=" + id + " ]";
+        return "entity.Rodzajpotracenia[ id=" + id + " ]";
     }
     
 }

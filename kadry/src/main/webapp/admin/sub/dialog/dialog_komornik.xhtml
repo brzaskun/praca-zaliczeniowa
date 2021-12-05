@@ -17,7 +17,7 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                     <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
                     <f:selectItems value="#{komornikView.skladnikpotracenialist}"
                                    var="potracenieItem"
-                                   itemValue="#{potracenieItem}" itemLabel="#{potracenieItem.slownikpotracenia.nazwa}"/> 
+                                   itemValue="#{potracenieItem}" itemLabel="#{potracenieItem.rodzajpotracenia.opis}"/> 
                     <p:ajax event="change" partialSubmit="true" global="false" update="KomornikListForm" listener="#{komornikView.pobierzdane()}"/>
                 </p:selectOneMenu>
              </h:form>

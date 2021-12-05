@@ -5,6 +5,7 @@
  */
 package entity;
 
+import data.Data;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -33,7 +34,12 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Naliczeniepotracenie.findByUmowa", query = "SELECT n FROM Naliczeniepotracenie n WHERE n.skladnikpotracenia.umowa = :umowa"),
     @NamedQuery(name = "Naliczeniepotracenie.findByKwota", query = "SELECT n FROM Naliczeniepotracenie n WHERE n.kwota = :kwota")})
 public class Naliczeniepotracenie implements Serializable {
-
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id")
+    private Integer id;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "kwota")
@@ -41,13 +47,6 @@ public class Naliczeniepotracenie implements Serializable {
     @JoinColumn(name = "pasekwynagrodzen", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Pasekwynagrodzen pasekwynagrodzen;
-
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id")
-    private Integer id;
     @JoinColumn(name = "skladnikpotracenia", referencedColumnName = "id")
     @ManyToOne
     private Skladnikpotracenia skladnikpotracenia;
@@ -130,4 +129,10 @@ public class Naliczeniepotracenie implements Serializable {
         this.kwotanarastajaco = kwotanarastajaco;
     }
     
+    public String getDataOd() {
+        return Data.pierwszyDzien(this.getPasekwynagrodzen().getRok(),this.getPasekwynagrodzen().getMc());
+    }
+    public String getDataDo() {
+        return Data.ostatniDzien(this.getPasekwynagrodzen().getRok(),this.getPasekwynagrodzen().getMc());
+    }
 }

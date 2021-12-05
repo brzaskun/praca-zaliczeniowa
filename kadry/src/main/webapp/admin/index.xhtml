@@ -66,12 +66,13 @@
                      <ui:include src="sub/dialog/dialog_rachunek_zlecenia.xhtml"/>
                      <ui:include src="sub/dialog/dialog_komornik.xhtml"/>
                      <h:form>
+                         <p:commandButton value="rodzaj" styleClass="buttonnorm" actionListener="#{skladnikPotraceniaView.generujtabele()}" />
 <!--                         <p:commandButton value="uzupelnij kalendarze" styleClass="buttonnorm" actionListener="#{kalendarzwzorView.uzupelnijkalendarze()}" />-->
 <!--                         <p:commandButton value="prac zmiany" styleClass="buttonnorm" actionListener="#{pracownikView.korektadat()}" />-->
 <!--                         <p:commandButton value="rodzaj" styleClass="buttonnorm" actionListener="#{rodzjawynagrodzeniaSetView.generujtabele()}" />-->
 <!--                         <p:commandButton value="umowa" styleClass="buttonnorm" actionListener="#{umowaView.generujtabele()}" />-->
 <!--                         <p:commandButton value="umowa" styleClass="buttonnorm" actionListener="#{swiadczeniekodzusView.generujtabele()}" />-->
-                         <p:commandButton value="rodzaj" styleClass="buttonnorm" actionListener="#{definicjalistaplacView.generujtabele()}" />
+<!--                         <p:commandButton value="rodzaj" styleClass="buttonnorm" actionListener="#{definicjalistaplacView.generujtabele()}" />-->
                      </h:form>
                      <p:panelGrid columns="1" style="padding: 20px;">
                      <h:outputText value="w celu sporządzenia listy płac:" style="color: green"/>

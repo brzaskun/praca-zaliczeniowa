@@ -17,7 +17,9 @@ import dao.PracownikFacade;
 import dao.RachunekdoumowyzleceniaFacade;
 import dao.RodzajlistyplacFacade;
 import dao.RodzajnieobecnosciFacade;
+import dao.RodzajpotraceniaFacade;
 import dao.RodzajwynagrodzeniaFacade;
+import dao.SkladnikPotraceniaFacade;
 import dao.SkladnikWynagrodzeniaFacade;
 import dao.SlownikszkolazatrhistoriaFacade;
 import dao.SlownikwypowiedzenieumowyFacade;
@@ -25,6 +27,7 @@ import dao.StanowiskopracFacade;
 import dao.SwiadczeniekodzusFacade;
 import dao.UmowaFacade;
 import dao.UmowakodzusFacade;
+import dao.ZmiennaPotraceniaFacade;
 import dao.ZmiennaWynagrodzeniaFacade;
 import data.Data;
 import entity.Angaz;
@@ -37,7 +40,9 @@ import entity.Pasekwynagrodzen;
 import entity.Pracownik;
 import entity.Rachunekdoumowyzlecenia;
 import entity.Rodzajnieobecnosci;
+import entity.Rodzajpotracenia;
 import entity.Rodzajwynagrodzenia;
+import entity.Skladnikpotracenia;
 import entity.Skladnikwynagrodzenia;
 import entity.Slownikszkolazatrhistoria;
 import entity.Slownikwypowiedzenieumowy;
@@ -59,6 +64,7 @@ import javax.persistence.EntityManagerFactory;
 import kadryiplace.Okres;
 import kadryiplace.Osoba;
 import kadryiplace.OsobaDet;
+import kadryiplace.OsobaPot;
 import kadryiplace.OsobaPropTyp;
 import kadryiplace.OsobaPrz;
 import kadryiplace.OsobaSkl;
@@ -104,6 +110,8 @@ public class OsobaView implements Serializable {
     @Inject
     private RodzajnieobecnosciFacade rodzajnieobecnosciFacade;
     @Inject
+    private RodzajpotraceniaFacade rodzajpotraceniaFacade;
+    @Inject
     private RodzajlistyplacFacade rodzajlistyplacFacade;
     @Inject
     private SkladnikWynagrodzeniaFacade skladnikWynagrodzeniaFacade;
@@ -123,6 +131,10 @@ public class OsobaView implements Serializable {
     private SwiadczeniekodzusFacade swiadczeniekodzusFacade;
     @Inject
     private RachunekdoumowyzleceniaFacade rachunekdoumowyzleceniaFacade;
+    @Inject
+    private SkladnikPotraceniaFacade skladnikPotraceniaFacade; 
+    @Inject
+    private ZmiennaPotraceniaFacade zmiennaPotraceniaFacade;
 
     private String serial;
     
@@ -238,11 +250,14 @@ public class OsobaView implements Serializable {
 //                            for (Nieobecnosc nieobecnosc : nieobecnosci) {
 //                                OsobaBean.naniesnieobecnosc(nieobecnosc);
 //                            }
+                            List<OsobaPot> osobaPotList = osoba.getOsobaPotList();
+                            List<Rodzajpotracenia> rodzajepotracen = rodzajpotraceniaFacade.findAll();
+                            List<Skladnikpotracenia> skladnikpotracenia = OsobaBean.pobierzskladnipotracenia(osobaPotList, rodzajepotracen, aktywna, skladnikPotraceniaFacade, zmiennaPotraceniaFacade);
                             List<Rok> rokList = osoba.getOsoFirSerial().getRokList();
                             Rok rok = pobierzrok(rokdlakalendarza, rokList);
                             List<Okres> okresList = pobierzokresySuperplace(1, rok.getOkresList());
                             List<Skladnikwynagrodzenia> skladnikwynagrodzenia = OsobaBean.pobierzskladnikwynagrodzenia(skladniki, rodzajewynagrodzenia, aktywna, skladnikWynagrodzeniaFacade, zmiennaWynagrodzeniaFacade);
-                            List<Pasekwynagrodzen> paskiumowaoprace = OsobaBean.zrobpaskiimportUmowaopraceizlecenia(wpisView, osoba, okresList, false, datakonca26lat, skladnikwynagrodzenia, nieobecnosci);
+                            List<Pasekwynagrodzen> paskiumowaoprace = OsobaBean.zrobpaskiimportUmowaopraceizlecenia(wpisView, osoba, okresList, false, datakonca26lat, skladnikwynagrodzenia, nieobecnosci, skladnikpotracenia);
                             if (paskiumowaoprace.size()>0) {
                                 List<Definicjalistaplac> listyaktywne = OsobaBean.generujlistyplac(paskiumowaoprace, wpisView.getFirma(), definicjalistaplacFacade, rodzajlistyplacFacade, rokdlakalendarza);
                                 List<Kalendarzmiesiac> kalendarze = kalendarzmiesiacFacade.findByRokUmowa(aktywna, rokdlakalendarza);
@@ -257,7 +272,7 @@ public class OsobaView implements Serializable {
                             kalendarzmiesiacFacade.editList(generujKalendarzNowaUmowa);
                             rok = pobierzrok(rokdlakalendarza, rokList);
                             okresList = pobierzokresySuperplace(1, rok.getOkresList());
-                            paskiumowaoprace = OsobaBean.zrobpaskiimportUmowaopraceizlecenia(wpisView, osoba, okresList, false, datakonca26lat, skladnikwynagrodzenia, nieobecnosci);
+                            paskiumowaoprace = OsobaBean.zrobpaskiimportUmowaopraceizlecenia(wpisView, osoba, okresList, false, datakonca26lat, skladnikwynagrodzenia, nieobecnosci, skladnikpotracenia);
                             if (paskiumowaoprace.size()>0) {
                                 List<Definicjalistaplac> listyaktywne = OsobaBean.generujlistyplac(paskiumowaoprace, wpisView.getFirma(), definicjalistaplacFacade, rodzajlistyplacFacade, rokdlakalendarza);
                                 List<Kalendarzmiesiac> kalendarze = kalendarzmiesiacFacade.findByRokUmowa(aktywna, rokdlakalendarza);
@@ -299,7 +314,10 @@ public class OsobaView implements Serializable {
                                         zmiennaWynagrodzeniaFacade.edit(z);
                                     }
                                 }
-                                List<Pasekwynagrodzen> paskiumowazlecenia = OsobaBean.zrobpaskiimportUmowaopraceizlecenia(wpisView, osoba, okresList, true, datakonca26lat, skladnikwynagrodzenia, null);
+                                List<OsobaPot> osobaPotList = osoba.getOsobaPotList();
+                                List<Rodzajpotracenia> rodzajepotracen = rodzajpotraceniaFacade.findAll();
+                                List<Skladnikpotracenia> skladnikpotracenia = OsobaBean.pobierzskladnipotracenia(osobaPotList, rodzajepotracen, aktywna, skladnikPotraceniaFacade, zmiennaPotraceniaFacade);
+                                List<Pasekwynagrodzen> paskiumowazlecenia = OsobaBean.zrobpaskiimportUmowaopraceizlecenia(wpisView, osoba, okresList, true, datakonca26lat, skladnikwynagrodzenia, null, skladnikpotracenia);
                                 if (paskiumowazlecenia.size()>0) {
                                     List<Definicjalistaplac> listyumowazlecenia = OsobaBean.generujlistyplac(paskiumowazlecenia, wpisView.getFirma(), definicjalistaplacFacade, rodzajlistyplacFacade, rokdlakalendarza);
                                     List<Kalendarzmiesiac> kalendarze = kalendarzmiesiacFacade.findByRokUmowa(aktywna, rokdlakalendarza);
@@ -315,7 +333,7 @@ public class OsobaView implements Serializable {
                                 kalendarzmiesiacFacade.createList(generujKalendarzNowaUmowa); 
                                rok = pobierzrok(rokdlakalendarza, rokList);
                                 okresList = pobierzokresySuperplace(1, rok.getOkresList());
-                                paskiumowazlecenia = OsobaBean.zrobpaskiimportUmowaopraceizlecenia(wpisView, osoba, okresList, true, datakonca26lat, skladnikwynagrodzenia, null);
+                                paskiumowazlecenia = OsobaBean.zrobpaskiimportUmowaopraceizlecenia(wpisView, osoba, okresList, true, datakonca26lat, skladnikwynagrodzenia, null, skladnikpotracenia);
                                 if (paskiumowazlecenia.size()>0) {
                                     List<Definicjalistaplac> listyumowazlecenia = OsobaBean.generujlistyplac(paskiumowazlecenia, wpisView.getFirma(),definicjalistaplacFacade, rodzajlistyplacFacade, rokdlakalendarza);
                                     List<Kalendarzmiesiac> kalendarze = kalendarzmiesiacFacade.findByRokUmowa(aktywna, rokdlakalendarza);
@@ -349,6 +367,7 @@ public class OsobaView implements Serializable {
                         //        }
                         Msg.msg("Pracownik pobrany");
                     }
+                   
                     System.out.println("funkcja sprawdzanie sob ");
                     List<Angaz> listapracownikow = angazFacade.findByFirma(wpisView.getFirma());
                     if (osoby!=null) {
