@@ -523,7 +523,7 @@ private static final long serialVersionUID = 1L;
         for (int i = dzienod; i <= dziendo; i++) {
             final int j = i;
             Dzien dzienaktualny = this.dzienList.stream().filter(pa->pa.getNrdnia()==j).findFirst().get();
-            String kod = p.getSwiadczeniekodzus()!=null?p.getSwiadczeniekodzus().getKod():String.valueOf(p.getRodzajnieobecnosci().getKod());
+            String kod = p.getKod();
             dzienaktualny.setKod(kod);
             if (kod.equals("331")) {
                 dzienaktualny.setWynagrodzeniezachorobe(dzienaktualny.getNormagodzin());

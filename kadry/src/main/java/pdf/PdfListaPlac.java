@@ -277,7 +277,7 @@ public class PdfListaPlac {
         }
         for (Naliczenienieobecnosc rs : wykaznieob) {
             table.addCell(ustawfrazeAlign(String.valueOf(i++), "left",6,10f));
-            table.addCell(ustawfrazeAlign(rs.getNieobecnosc().getSwiadczeniekodzus().getKod(), "left",6));
+            table.addCell(ustawfrazeAlign(rs.getNieobecnosc().getKod(), "left",6));
             table.addCell(ustawfrazeAlign(rs.getNieobecnosc().getSwiadczeniekodzus().getOpisskrocony()+" "+rs.getJakiskladnikredukowalny(), "left",6));
             table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKwotazus()), "right",6));
             table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKwotabezzus()), "right",6));
@@ -319,10 +319,10 @@ public class PdfListaPlac {
               }
           }
         for (Naliczenienieobecnosc rs : wykaznieob) {
-            if (!rs.getNieobecnosc().getSwiadczeniekodzus().getKod().equals("777")) {
-                sb.append(rs.getNieobecnosc().getSwiadczeniekodzus().getKod());
+            if (!rs.getNieobecnosc().getKod().equals("Z")) {
+                sb.append(rs.getNieobecnosc().getKod());
                 sb.append(" ");
-                sb.append(rs.getNieobecnosc().getSwiadczeniekodzus().getOpisskrocony());
+                sb.append(rs.getNieobecnosc().getRodzajnieobecnosci().getOpis());
                 sb.append(" ");
                 if (rs.getKwotazus()!=0.0) {
                     sb.append(formatujWaluta(rs.getKwotazus()));
@@ -384,7 +384,7 @@ public class PdfListaPlac {
         int i = 1;
         for (Nieobecnosc rs : wykaz) {
             table.addCell(ustawfrazeAlign(String.valueOf(i++), "left",6,10f));
-            table.addCell(ustawfrazeAlign(rs.getSwiadczeniekodzus().getKod(), "left",6));
+            table.addCell(ustawfrazeAlign(rs.getKod(), "left",6));
             table.addCell(ustawfrazeAlign(rs.getSwiadczeniekodzus().getOpisskrocony(), "left",6));
             table.addCell(ustawfrazeAlign(rs.getDataod(), "right",6));
             table.addCell(ustawfrazeAlign(rs.getDatado(), "right",6));
@@ -394,7 +394,7 @@ public class PdfListaPlac {
       public static String wierszeNieobecnosciString(List<Nieobecnosc> wykaznieob) {
         StringBuilder sb = new StringBuilder();
         for (Nieobecnosc rs : wykaznieob) {
-            sb.append(rs.getSwiadczeniekodzus().getKod());
+            sb.append(rs.getKod());
             sb.append(" ");
             sb.append(rs.getSwiadczeniekodzus().getOpisskrocony());
             sb.append(" ");

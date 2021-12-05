@@ -23,6 +23,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -211,6 +212,10 @@ public class Pasekwynagrodzen implements Serializable {
     private List<Naliczenieskladnikawynagrodzenia> naliczenieskladnikawynagrodzeniaList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "pasekwynagrodzen", orphanRemoval = true)
     private List<Naliczenienieobecnosc> naliczenienieobecnoscList;
+    @Transient
+    private int numerator;
+    @Transient
+    private boolean zmieniony;
 
     
     public Pasekwynagrodzen() {
@@ -303,6 +308,17 @@ public class Pasekwynagrodzen implements Serializable {
         this.podstawaubezpzdrowotne = Z.z(this.podstawaubezpzdrowotne + p.podstawaubezpzdrowotne);
         this.razem53 = Z.z(this.razem53 + p.razem53);
         this.kosztpracodawcy = Z.z(this.kosztpracodawcy + p.kosztpracodawcy);
+        this.kosztyuzyskania = Z.z(this.kosztyuzyskania+p.getKosztyuzyskania());
+        this.kwotawolna = Z.z(this.kwotawolna+p.getKwotawolna());
+        this.podatekdochodowy = Z.z(this.podatekdochodowy+p.getPodatekdochodowy());
+        this.podstawaopodatkowania = Z.z(this.podstawaopodatkowania+p.getPodstawaopodatkowania());
+        this.praczdrowotnedoodliczenia = Z.z(this.praczdrowotnedoodliczenia+p.getPraczdrowotnedoodliczenia());
+        this.praczdrowotnedopotracenia = Z.z(this.praczdrowotnedopotracenia+p.getPraczdrowotnedopotracenia());
+        this.podatekwstepny = Z.z(this.podatekwstepny+p.getPodatekwstepny());
+        this.potracenia = Z.z(this.potracenia+p.getPotracenia());
+        this.nettoprzedpotraceniami = Z.z(this.nettoprzedpotraceniami+p.getNettoprzedpotraceniami());
+        this.netto = Z.z(this.netto+p.getNetto());
+        this.limitzus = Z.z(this.limitzus+p.getLimitzus());
     }
 
     public Integer getId() {
@@ -372,6 +388,22 @@ public class Pasekwynagrodzen implements Serializable {
 
     public void setLis_tyt_serial(Integer lis_tyt_serial) {
         this.lis_tyt_serial = lis_tyt_serial;
+    }
+
+    public int getNumerator() {
+        return numerator;
+    }
+
+    public void setNumerator(int numerator) {
+        this.numerator = numerator;
+    }
+
+    public boolean isZmieniony() {
+        return zmieniony;
+    }
+
+    public void setZmieniony(boolean zmieniony) {
+        this.zmieniony = zmieniony;
     }
     
     
@@ -938,11 +970,11 @@ public class Pasekwynagrodzen implements Serializable {
             for (Naliczenienieobecnosc p : this.naliczenienieobecnoscList) {
                 Skladnikwynlista wiersz = new Skladnikwynlista();
                 wiersz.lp = i++;
-                wiersz.kod = p.getNieobecnosc().getSwiadczeniekodzus().getKod();
+                wiersz.kod = p.getNieobecnosc().getKod();
                 if (p.getSkladnikwynagrodzenia()!=null) {
-                    wiersz.nazwa = p.getNieobecnosc().getSwiadczeniekodzus().getOpisskrocony()+"/"+p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getOpisskrocony();
+                    wiersz.nazwa = p.getNieobecnosc().getOpis1()+"/"+p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getOpisskrocony();
                 } else {
-                    wiersz.nazwa = p.getNieobecnosc().getSwiadczeniekodzus().getOpisskrocony();
+                    wiersz.nazwa = p.getNieobecnosc().getOpis1();
                 }
                 wiersz.kwota = p.getKwota();
                 wiersz.redukcja = p.getKwotaredukcji()+p.getKwotastatystyczna();

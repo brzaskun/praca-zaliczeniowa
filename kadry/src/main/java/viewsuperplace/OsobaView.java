@@ -323,6 +323,7 @@ public class OsobaView implements Serializable {
                                     List<Definicjalistaplac> listyumowazlecenia = OsobaBean.generujlistyplac(paskiumowazlecenia, wpisView.getFirma(), definicjalistaplacFacade, rodzajlistyplacFacade, rokdlakalendarza);
                                     List<Kalendarzmiesiac> kalendarze = kalendarzmiesiacFacade.findByRokUmowa(aktywna, rokdlakalendarza);
                                     List<Pasekwynagrodzen> paskigotowe = OsobaBean.dodajlisteikalendarzdopaska(paskiumowazlecenia, listyumowazlecenia, kalendarze);
+                                    paskigotowe = OsobaBean.laczduplikaty(paskigotowe);
                                     //bo definicje listyplac moga juz istniec
                                     pasekwynagrodzenFacade.createList(paskigotowe);
                                     Msg.msg("Zrobiono kalendarz i paski za 2020 umowa zlecenia");
@@ -339,6 +340,7 @@ public class OsobaView implements Serializable {
                                     List<Definicjalistaplac> listyumowazlecenia = OsobaBean.generujlistyplac(paskiumowazlecenia, wpisView.getFirma(),definicjalistaplacFacade, rodzajlistyplacFacade, rokdlakalendarza);
                                     List<Kalendarzmiesiac> kalendarze = kalendarzmiesiacFacade.findByRokUmowa(aktywna, rokdlakalendarza);
                                     List<Pasekwynagrodzen> paskigotowe = OsobaBean.dodajlisteikalendarzdopaska(paskiumowazlecenia, listyumowazlecenia, kalendarze);
+                                    paskigotowe = OsobaBean.laczduplikaty(paskigotowe);
                                     pasekwynagrodzenFacade.createList(paskigotowe);
                                     Msg.msg("Zrobiono kalendarz i paski za 2021 umowa zlecenia");
                                 }

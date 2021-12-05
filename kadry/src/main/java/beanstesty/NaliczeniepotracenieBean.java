@@ -5,6 +5,7 @@
  */
 package beanstesty;
 
+import data.Data;
 import entity.Kalendarzmiesiac;
 import entity.Naliczeniepotracenie;
 import entity.Pasekwynagrodzen;
@@ -39,12 +40,14 @@ public class NaliczeniepotracenieBean {
         for (Zmiennapotracenia p : zmiennawynagrodzeniaList) {
             double juzrozliczono = podsumuj(pasekwynagrodzen, skladnikpotracenia);
             if (p.getKwotastala()!=0.0) {
-                if (p.getKwotastala()<pasekwynagrodzen.getNetto()) {
-                    zwrot.setKwota(p.getKwotastala());
-                    zwrot.setPasekwynagrodzen(pasekwynagrodzen);
-                } else {
-                    zwrot.setKwota(pasekwynagrodzen.getNetto());
-                    zwrot.setPasekwynagrodzen(pasekwynagrodzen);
+                if (p.getDatado()==null && Data.czyjestprzed(p.getDatado(), pasekwynagrodzen.getRok(), pasekwynagrodzen.getMc())) {
+                    if (p.getKwotastala()<pasekwynagrodzen.getNetto()) {
+                        zwrot.setKwota(p.getKwotastala());
+                        zwrot.setPasekwynagrodzen(pasekwynagrodzen);
+                    } else {
+                        zwrot.setKwota(pasekwynagrodzen.getNetto());
+                        zwrot.setPasekwynagrodzen(pasekwynagrodzen);
+                    }
                 }
             } else if (p.getKwotakomornicza()>0.0) {
                 if (p.getKwotakomornicza()>juzrozliczono) {

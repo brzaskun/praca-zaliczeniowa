@@ -49,6 +49,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import kadryiplace.Okres;
@@ -950,6 +951,27 @@ public class OsobaBean {
     public static void main(String[] arg) {
         String data = "1970-05-11";
         System.out.println(obliczdata26(data));
+    }
+
+    static List<Pasekwynagrodzen> laczduplikaty(List<Pasekwynagrodzen> paskigotowe) {
+        int i = 1;
+        for (Pasekwynagrodzen p : paskigotowe) {
+            p.setNumerator(i++);
+        }
+        List<Pasekwynagrodzen> paskigotowekopia = new ArrayList<>(paskigotowe);
+        for (Iterator<Pasekwynagrodzen> it = paskigotowe.iterator(); it.hasNext();) {
+            Pasekwynagrodzen  pierwszy  = it.next();
+            for (Pasekwynagrodzen drugi : paskigotowekopia) {
+                if (pierwszy.getKalendarzmiesiac().equals(drugi.getKalendarzmiesiac())) {
+                    if (pierwszy.getNumerator()!=drugi.getNumerator()&&!pierwszy.isZmieniony()) {
+                        drugi.dodajPasek(pierwszy);
+                        drugi.setZmieniony(true);
+                        it.remove();
+                    }
+                }
+            }
+        }
+        return paskigotowe;
     }
 
     

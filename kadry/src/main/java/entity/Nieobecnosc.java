@@ -411,6 +411,12 @@ public class Nieobecnosc implements Serializable {
         this.mcdo = mcdo;
     }
 
-   
+    public String getKod() {
+        return  this.getSwiadczeniekodzus()!=null?this.getSwiadczeniekodzus().getKod():String.valueOf(this.getRodzajnieobecnosci().getKod());
+    }
+    
+     public String getOpis1() {
+        return  this.getSwiadczeniekodzus()!=null?this.getSwiadczeniekodzus().getOpisskrocony():String.valueOf(this.getRodzajnieobecnosci().getOpis());
+    }
     
 }
