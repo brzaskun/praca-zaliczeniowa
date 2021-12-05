@@ -36,9 +36,6 @@ public class NaliczeniepotracenieBean {
     static Naliczeniepotracenie createPotracenieDB(Pasekwynagrodzen pasekwynagrodzen, Skladnikpotracenia skladnikpotracenia, double wolneodzajecia) {
         Naliczeniepotracenie zwrot = new Naliczeniepotracenie();
         List<Zmiennapotracenia> zmiennawynagrodzeniaList = skladnikpotracenia.getZmiennapotraceniaList();
-        if (skladnikpotracenia.getRodzajpotracenia().getLimitumowaoprace()!=0.0) {
-            wolneodzajecia = Z.z(wolneodzajecia*skladnikpotracenia.getRodzajpotracenia().getLimitumowaoprace()/100);
-        }
         for (Zmiennapotracenia p : zmiennawynagrodzeniaList) {
             double juzrozliczono = podsumuj(pasekwynagrodzen, skladnikpotracenia);
             if (p.getKwotastala()!=0.0) {
@@ -49,17 +46,44 @@ public class NaliczeniepotracenieBean {
                     zwrot.setKwota(pasekwynagrodzen.getNetto());
                     zwrot.setPasekwynagrodzen(pasekwynagrodzen);
                 }
-            } else {
+            } else if (p.getKwotakomornicza()>0.0) {
                 if (p.getKwotakomornicza()>juzrozliczono) {
-                    double potraceniebiezace = obliczkwotakomornicza(pasekwynagrodzen.getNetto(), wolneodzajecia, juzrozliczono, p.getKwotakomornicza());
-                    zwrot.setKwota(potraceniebiezace);
-                    p.setKwotakomorniczarozliczona(juzrozliczono+potraceniebiezace);
+                   double ilemozna = skladnikpotracenia.getRodzajpotracenia().getLimitumowaoprace();
+                    double potracenie = Z.z(pasekwynagrodzen.getNettoprzedpotraceniami()*(ilemozna/100.0));
+                    if (juzrozliczono+potracenie>p.getKwotakomornicza()) {
+                        potracenie = Z.z(p.getKwotakomornicza()-juzrozliczono);
+                    }
+                    double nowenetto = Z.z(pasekwynagrodzen.getNettoprzedpotraceniami()-potracenie);
+                    if (nowenetto>wolneodzajecia) {
+                        zwrot.setKwota(potracenie);
+                    } else {
+                        zwrot.setKwota(Z.z(pasekwynagrodzen.getNettoprzedpotraceniami()-wolneodzajecia));
+                    }
+                    p.setKwotakomorniczarozliczona(juzrozliczono+zwrot.getKwota());
                     zwrot.setPasekwynagrodzen(pasekwynagrodzen);
                 }
 
+            } else if (p.isMaxustawowy()) {
+                if (pasekwynagrodzen.getNettoprzedpotraceniami()>wolneodzajecia) {
+                    double ilemozna = skladnikpotracenia.getRodzajpotracenia().getLimitumowaoprace();
+                    double potracenie = Z.z(pasekwynagrodzen.getNettoprzedpotraceniami()*(ilemozna/100.0));
+                    double nowenetto = Z.z(pasekwynagrodzen.getNettoprzedpotraceniami()-potracenie);
+                    if (nowenetto>wolneodzajecia) {
+                        zwrot.setKwota(potracenie);
+                    } else {
+                        zwrot.setKwota(Z.z(pasekwynagrodzen.getNettoprzedpotraceniami()-wolneodzajecia));
+                    }
+                    p.setKwotakomorniczarozliczona(juzrozliczono+zwrot.getKwota());
+                    zwrot.setPasekwynagrodzen(pasekwynagrodzen);    
+                }
+                
             }
         }
-        zwrot.setSkladnikpotracenia(skladnikpotracenia);
+        if (zwrot.getPasekwynagrodzen()!=null) {
+            zwrot.setSkladnikpotracenia(skladnikpotracenia);
+        } else {
+            zwrot = null;
+        }
         return zwrot;
     }
 
@@ -88,21 +112,7 @@ public class NaliczeniepotracenieBean {
         return paski;
     }
 
-    private static double obliczkwotakomornicza(double dowyplaty, double wolneodzajecia, double juzrozliczono, double kwotakomornicza) {
-        double potracicteraz = 0.0;
-        if (kwotakomornicza>juzrozliczono) {
-            double pozostalodorozliczenia = kwotakomornicza-juzrozliczono;
-            if (dowyplaty>wolneodzajecia) {
-                double maxkomornik = Z.z(dowyplaty-wolneodzajecia);
-                if (maxkomornik>pozostalodorozliczenia) {
-                    potracicteraz = pozostalodorozliczenia;
-                } else {
-                    potracicteraz = maxkomornik;
-                }
-            }
-        }
-        return potracicteraz;
-    }
+    
 
    
 

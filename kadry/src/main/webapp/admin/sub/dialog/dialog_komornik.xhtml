@@ -50,7 +50,7 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                             </f:facet>
                             <h:outputText value="#{indexka+1}"/>
                         </p:column>
-                        <p:column width="40" style="text-align: center;">
+                      <p:column width="40" style="text-align: center;" sortBy="#{itempotraceniepoz.rokMc}" sortOrder="asc">
                             <f:facet name="header">
                                 <h:outputText value="okres"/>
                             </f:facet>
@@ -74,7 +74,7 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                             </f:facet>
                           <bcf:outputpl value="#{itempotraceniepoz.pasekwynagrodzen.definicjalistaplac.nrkolejny}"/>
                         </p:column>
-                      <p:column width="60">
+                      <p:column width="250">
                             <f:facet name="header">
                                 <h:outputText value="rodzaj"/>
                             </f:facet>

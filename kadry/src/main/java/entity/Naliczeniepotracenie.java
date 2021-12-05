@@ -118,7 +118,7 @@ public class Naliczeniepotracenie implements Serializable {
     }
     
     public String getRokMc() {
-        return this.getPasekwynagrodzen().getRok()+this.getPasekwynagrodzen().getMc();
+        return this.getPasekwynagrodzen().getRok()+"/"+this.getPasekwynagrodzen().getMc();
     }
 
     public double getKwotanarastajaco() {

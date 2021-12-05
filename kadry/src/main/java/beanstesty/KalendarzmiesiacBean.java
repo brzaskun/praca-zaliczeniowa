@@ -334,7 +334,7 @@ public class KalendarzmiesiacBean {
     static void naliczskladnikipotraceniaDB(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasekwynagrodzen, double wolneodzajecia) {
         for (Skladnikpotracenia p : kalendarz.getUmowa().getSkladnikpotraceniaList()) {
             Naliczeniepotracenie naliczeniepotracenie = NaliczeniepotracenieBean.createPotracenieDB(pasekwynagrodzen, p, wolneodzajecia);
-            if (naliczeniepotracenie.getKwota()>0.0) {
+            if (naliczeniepotracenie!=null) {
                 pasekwynagrodzen.getNaliczeniepotracenieList().add(naliczeniepotracenie);
             }
         }
