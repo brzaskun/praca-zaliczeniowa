@@ -44,7 +44,7 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                 <h:form id="ZmiennawynagrodzeniaCreateForm">
                     <p:panel header="Dodawanie/edycja zmiennych"/>
                     <h:panelGroup id="display">
-                        <p:panelGrid columns="6" rendered="#{zmiennaWynagrodzeniaView.selected != null}">
+                        <p:panelGrid columns="8" rendered="#{zmiennaWynagrodzeniaView.selected != null}">
                             <p:outputLabel value="nazwa" for="nazwa" />
                             <p:inputText id="nazwa" value="#{zmiennaWynagrodzeniaView.selected.nazwa}" title="nazwa"  required="true"/>
                             <p:outputLabel value="kwota" />
@@ -54,12 +54,16 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                                 <f:selectItem itemLabel="wybierz" noSelectionOption="true" />
                                 <f:selectItems value="#{waluty.listawalut}"/>
                             </p:selectOneMenu>
+                             <h:outputText value=" "/>
+                             <h:outputText value=" "/>
                             <p:outputLabel value="data od" for="dataod" />
                             <p:inputText id="dataod" value="#{zmiennaWynagrodzeniaView.selected.dataod}" title="data od" placeholder="____-__-__"  required="true"/>
                             <p:outputLabel value="data do" for="datado" />
                             <p:inputText id="datado" value="#{zmiennaWynagrodzeniaView.selected.datado}" title="data do" placeholder="____-__-__" />
                            <p:outputLabel value="brutto" for="bruttonetto" />
                            <p:selectBooleanCheckbox id="bruttonetto" value="#{zmiennaWynagrodzeniaView.selected.netto0brutto1}"/>
+                           <p:outputLabel value="min. ustaw." for="maxust" />
+                           <p:selectBooleanCheckbox id="maxust" value="#{zmiennaWynagrodzeniaView.selected.minimalneustatowe}"/>
                         </p:panelGrid>
                         <p:commandButton styleClass="buttonnorm" actionListener="#{zmiennaWynagrodzeniaView.create}" value="#{bundle.Save}" update="ZmiennawynagrodzeniaCreateForm :ZmiennawynagrodzeniaListForm:datalist"/>
                         <p:commandButton value="#{bundle.Cancel}"/>
@@ -197,6 +201,12 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                                     <h:outputText value="brutto"/>
                                 </f:facet>
                                  <h:outputText value="&#x2714;" rendered="#{itemzmiennawyn.netto0brutto1 eq true}"/>
+                            </p:column>
+                            <p:column width="20" style="text-align: center;">
+                                <f:facet name="header">
+                                    <h:outputText value="min. ust."/>
+                                </f:facet>
+                                 <p:selectBooleanCheckbox value="#{itemzmiennawyn.minimalneustatowe}"/>
                             </p:column>
                             <p:column width="30" style="text-align: center;">
                                 <p:commandButton icon="fa fa-edit"  actionListener="#{zmiennaWynagrodzeniaView.wybierzdoedycji(itemzmiennawyn)}" update="north, @(form) ZmiennawynagrodzeniaCreateForm"/>

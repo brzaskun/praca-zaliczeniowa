@@ -64,6 +64,8 @@ public class Zmiennapotracenia implements Serializable {
     private Skladnikpotracenia skladnikpotracenia;
     @Column(name = "aktywna")
     private  boolean aktywna;
+     @Column(name = "maxustawowy")
+    private  boolean maxustawowy;
 
 
     public Zmiennapotracenia() {
@@ -79,6 +81,14 @@ public class Zmiennapotracenia implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public boolean isMaxustawowy() {
+        return maxustawowy;
+    }
+
+    public void setMaxustawowy(boolean maxustawowy) {
+        this.maxustawowy = maxustawowy;
     }
 
 

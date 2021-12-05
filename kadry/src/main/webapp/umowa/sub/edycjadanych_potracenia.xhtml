@@ -53,6 +53,8 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                             <p:inputText id="dataod" value="#{zmiennaPotraceniaView.selected.dataod}" title="data od" placeholder="____-__-__"  required="true"/>
                             <p:outputLabel value="data do" for="datado" />
                             <p:inputText id="datado" value="#{zmiennaPotraceniaView.selected.datado}" title="data do" placeholder="____-__-__" />
+                            <p:outputLabel value="max ustaw." for="maxust" />
+                            <p:selectBooleanCheckbox id="maxust" value="#{zmiennaPotraceniaView.selected.maxustawowy}"/>
                         </p:panelGrid>
                         <p:commandButton styleClass="buttonnorm" actionListener="#{zmiennaPotraceniaView.create}" value="#{bundle.Save}" update="ZmiennapotraceniaCreateForm :SkladnikporaceniaListForm:datalist"/>
                         <p:commandButton value="#{bundle.Cancel}"/>
@@ -98,6 +100,12 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                                 </f:facet>
                                 <h:outputText value="#{itemskladnikpotracenia.rodzajpotracenia.limitumowazlecenia}"/>
                             </p:column>
+                            <p:column style="text-align: center;" width="30">
+                                <f:facet name="header">
+                                    <h:outputText value="#{itemskladnikpotracenia.rodzajpotracenia.limitumowazlecenia}" />
+                                </f:facet>
+                            </p:column>
+                            
                             <p:column style="text-align: center; width: 30px;">
                                 <p:commandButton icon="fa fa-trash" actionListener="#{skladnikPotraceniaView.usunSkladnikPotr(itemskladnikpotracenia)}" update="north, @(form)"/>
                             </p:column>
@@ -114,13 +122,13 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                                      style="height: 200px; overflow-y: scroll;"
                                      >
 
-                            <p:column width="40" style="text-align: center;">
+                            <p:column width="30" style="text-align: center;">
                                 <f:facet name="header">
                                     <h:outputText value="id"/>
                                 </f:facet>
                                 <h:outputText value="#{itemzmiennapotr.id}"/>
                             </p:column>
-                            <p:column>
+                            <p:column width="100">
                                 <f:facet name="header">
                                     <h:outputText value="nazwa"/>
                                 </f:facet>
@@ -138,7 +146,6 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                                 </f:facet>
                                 <h:outputText value="#{itemzmiennapotr.datado}"/>
                             </p:column>
-
                             <p:column>
                                 <f:facet name="header">
                                     <h:outputText value="kwota"/>
@@ -156,6 +163,12 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                                     <h:outputText value="rozliczono"/>
                                 </f:facet>
                                 <bcf:outputpl value="#{itemzmiennapotr.kwotakomorniczarozliczona}"/>
+                            </p:column>
+                            <p:column width="20" style="text-align: center;">
+                                <f:facet name="header">
+                                    <h:outputText value="max ust."/>
+                                </f:facet>
+                                <p:selectBooleanCheckbox value="#{itemzmiennapotr.maxustawowy}"/>
                             </p:column>
                             <p:column style="text-align: center;">
                                 <p:commandButton icon="fa fa-trash" actionListener="#{zmiennaPotraceniaView.usunZmiennaPotr(itemzmiennapotr)}" update="north @(form)"/>

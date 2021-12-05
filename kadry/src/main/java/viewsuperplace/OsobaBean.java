@@ -284,11 +284,15 @@ public class OsobaBean {
                 if (wybrany == null) {
                     wybrany = s;
                     Skladnikwynagrodzenia generujskladnik = generujskladnik(wybrany, rodzajewynagrodzenia, aktywna, skladnikWynagrodzeniaFacade, zmiennaWynagrodzeniaFacade);
-                    zwrot.add(generujskladnik);
+                    if (generujskladnik!=null) {
+                        zwrot.add(generujskladnik);
+                    }
                 } else if (s.getOssSerial()>wybrany.getOssSerial()) {
                     wybrany = s;
                     Skladnikwynagrodzenia generujskladnik = generujskladnik(wybrany, rodzajewynagrodzenia, aktywna, skladnikWynagrodzeniaFacade, zmiennaWynagrodzeniaFacade);
-                    zwrot.add(generujskladnik);
+                    if (generujskladnik!=null) {
+                        zwrot.add(generujskladnik);
+                    }
                 }
             }
         }
@@ -326,8 +330,12 @@ public class OsobaBean {
         Skladnikwynagrodzenia skladnik = new Skladnikwynagrodzenia();
         skladnik.setUmowa(aktywna);
         skladnik.setRodzajwynagrodzenia(pobierzrodzajwynagrodzenia(wybrany,rodzajewynagrodzenia));
-        skladnikWynagrodzeniaFacade.create(skladnik);
         pobierzzmiennawynagrodzenia(aktywna, skladnik, wybrany, zmiennaWynagrodzeniaFacade);
+        if (skladnik.getZmiennawynagrodzeniaList()!=null&&!skladnik.getZmiennawynagrodzeniaList().isEmpty()) {
+            skladnikWynagrodzeniaFacade.create(skladnik);
+        } else {
+            skladnik = null;
+        }
         return skladnik;
     }
     
@@ -433,6 +441,9 @@ public class OsobaBean {
                             wiersz.setKwotakomornicza(Z.z(t.getSsoNumeric().doubleValue()));
                             if (wiersz.getKwotakomornicza()!=0.0) {
                                 zmiennaPotraceniaFacade.create(wiersz);
+                            } else {
+                                wiersz.setMaxustawowy(true);
+                                zmiennaPotraceniaFacade.create(wiersz);
                             }
                         } else {
                             wiersz.setKwotastala(Z.z(t.getSsoNumeric().doubleValue()));
@@ -456,6 +467,9 @@ public class OsobaBean {
                     wiersz.setKwotakomornicza(Z.z(s.getOpoKwota().doubleValue()));
                     if (wiersz.getKwotakomornicza()!=0.0) {
                         zmiennaPotraceniaFacade.create(wiersz);
+                    } else {
+                        wiersz.setMaxustawowy(true);
+                        zmiennaPotraceniaFacade.create(wiersz);
                     }
                 } else {
                     wiersz.setKwotastala(Z.z(s.getOpoKwota().doubleValue()));
@@ -468,11 +482,11 @@ public class OsobaBean {
      }
      
 
-    static void pobierzzmiennawynagrodzenia(Umowa aktywna, Skladnikwynagrodzenia skladnikwynagrodzenia, OsobaSkl s, ZmiennaWynagrodzeniaFacade zmiennaWynagrodzeniaFacade) {
+    static void pobierzzmiennawynagrodzenia(Umowa aktywna, Skladnikwynagrodzenia skladnikwynagrodzenia, OsobaSkl osobaSkl, ZmiennaWynagrodzeniaFacade zmiennaWynagrodzeniaFacade) {
         if (skladnikwynagrodzenia!=null) {
-            StSystOpis ossSsdSerial1 = s.getOssSsdSerial1();
+            StSystOpis ossSsdSerial1 = osobaSkl.getOssSsdSerial1();
             if (ossSsdSerial1!=null) {
-                List<StSystWart> osobaSklList = s.getOssSsdSerial1().getStSystWartList();
+                List<StSystWart> osobaSklList = osobaSkl.getOssSsdSerial1().getStSystWartList();
                 if (osobaSklList!=null) {
                     for (StSystWart t :osobaSklList) {
                         Zmiennawynagrodzenia wiersz = new Zmiennawynagrodzenia();
@@ -505,25 +519,31 @@ public class OsobaBean {
                         }
                         wiersz.setKwota(Z.z(t.getSsoNumeric().doubleValue()));
                         if (wiersz.getKwota()!=0.0) {
-                            zmiennaWynagrodzeniaFacade.create(wiersz);
+                            skladnikwynagrodzenia.getZmiennawynagrodzeniaList().add(wiersz);
+                        } else if (osobaSkl.getOssSsdSerial1()!=null) {
+                            wiersz.setMinimalneustatowe(true);
+                            skladnikwynagrodzenia.getZmiennawynagrodzeniaList().add(wiersz);
                         }
                     }
                 }
             } else {
                 Zmiennawynagrodzenia wiersz = new Zmiennawynagrodzenia();
                 wiersz.setSkladnikwynagrodzenia(skladnikwynagrodzenia);
-                wiersz.setNazwa(s.getOssWksSerial().getWksOpisSkr());
+                wiersz.setNazwa(osobaSkl.getOssWksSerial().getWksOpisSkr());
                 wiersz.setNetto0brutto1(true);
                 wiersz.setWaluta("PLN");
-                wiersz.setDataod(Data.data_yyyyMMdd(s.getOssDataOd()));
-                if (s.getOssDataDo()!=null) {
-                    wiersz.setDatado(Data.data_yyyyMMdd(s.getOssDataDo()));
+                wiersz.setDataod(Data.data_yyyyMMdd(osobaSkl.getOssDataOd()));
+                if (osobaSkl.getOssDataDo()!=null) {
+                    wiersz.setDatado(Data.data_yyyyMMdd(osobaSkl.getOssDataDo()));
                 } else {
                     wiersz.setAktywna(true);
                 }
-                wiersz.setKwota(Z.z(s.getOssKwota().doubleValue()));
+                wiersz.setKwota(Z.z(osobaSkl.getOssKwota().doubleValue()));
                 if (wiersz.getKwota()!=0.0) {
-                    zmiennaWynagrodzeniaFacade.create(wiersz);
+                    skladnikwynagrodzenia.getZmiennawynagrodzeniaList().add(wiersz);
+                } else if (osobaSkl.getOssSsdSerial1()!=null) {
+                    wiersz.setMinimalneustatowe(true);
+                    skladnikwynagrodzenia.getZmiennawynagrodzeniaList().add(wiersz);
                 }
             }
         }
