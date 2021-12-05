@@ -184,8 +184,9 @@ public class NieobecnoscView  implements Serializable {
                             if (znaleziony != null) {
                                 if (nieobecnosc.getRokod().equals(wpisView.getRokWpisu()) || nieobecnosc.getRokdo().equals(wpisView.getRokWpisu())) {
                                     znaleziony.naniesnieobecnosc(nieobecnosc);
-                                    nieobecnosc.setDniroboczenieobecnosci(nieobecnosc.getDniroboczenieobecnosci()+Data.iletodniRoboczych(nieobecnosc.getDataod(), nieobecnosc.getDatado(), znaleziony.getDzienList()));
-                                    nieobecnosc.setNaniesiona(true);
+                                    if (!nieobecnosc.isImportowana()) {
+                                        nieobecnosc.setDniroboczenieobecnosci(nieobecnosc.getDniroboczenieobecnosci()+Data.iletodniRoboczych(nieobecnosc.getDataod(), nieobecnosc.getDatado(), znaleziony.getDzienList()));
+                                    }
                                 }
                                 nieobecnoscFacade.edit(nieobecnosc);
                                 kalendarzmiesiacFacade.edit(znaleziony);

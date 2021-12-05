@@ -133,18 +133,20 @@ public class NaliczenieskladnikawynagrodzeniaBean {
                     liczbazmiennych++;
                 }
             }
-            stawkadzienna = Z.z(stawkadzienna / liczbazmiennych);
-            naliczenieskladnikawynagrodzenia.setDataod(datastart);
-            naliczenieskladnikawynagrodzenia.setDatado(dataend);
-            naliczenieskladnikawynagrodzenia.setStawkadzienna(stawkadzienna);
-            naliczenieskladnikawynagrodzenia.setKwotaumownazacalymc(skladnikistale);
-            naliczenieskladnikawynagrodzenia.setKwotadolistyplac(dowyplatyzaczasprzepracowany);
-            naliczenieskladnikawynagrodzenia.setDninalezne(dniroboczewmiesiacu);
-            naliczenieskladnikawynagrodzenia.setDnifaktyczne(dniroboczeprzepracowanestat);
-            naliczenieskladnikawynagrodzenia.setGodzinynalezne(godzinyroboczewmiesiacu);
-            naliczenieskladnikawynagrodzenia.setGodzinyfaktyczne(godzinyobecnosciroboczestat);
-            naliczenieskladnikawynagrodzenia.setSkladnikwynagrodzenia(skladnikwynagrodzenia);
-            naliczenieskladnikawynagrodzenia.setPasekwynagrodzen(pasekwynagrodzen);
+            if (liczbazmiennych>0) {
+                stawkadzienna = Z.z(stawkadzienna / liczbazmiennych);
+                naliczenieskladnikawynagrodzenia.setDataod(datastart);
+                naliczenieskladnikawynagrodzenia.setDatado(dataend);
+                naliczenieskladnikawynagrodzenia.setStawkadzienna(stawkadzienna);
+                naliczenieskladnikawynagrodzenia.setKwotaumownazacalymc(skladnikistale);
+                naliczenieskladnikawynagrodzenia.setKwotadolistyplac(dowyplatyzaczasprzepracowany);
+                naliczenieskladnikawynagrodzenia.setDninalezne(dniroboczewmiesiacu);
+                naliczenieskladnikawynagrodzenia.setDnifaktyczne(dniroboczeprzepracowanestat);
+                naliczenieskladnikawynagrodzenia.setGodzinynalezne(godzinyroboczewmiesiacu);
+                naliczenieskladnikawynagrodzenia.setGodzinyfaktyczne(godzinyobecnosciroboczestat);
+                naliczenieskladnikawynagrodzenia.setSkladnikwynagrodzenia(skladnikwynagrodzenia);
+                naliczenieskladnikawynagrodzenia.setPasekwynagrodzen(pasekwynagrodzen);
+            }
         } else if (skladnikwynagrodzenia.getRodzajwynagrodzenia().getKod().equals("13")) {
             double dniroboczeprzepracowane = 0.0;
             double dniroboczeprzepracowanestat = 0.0;
@@ -185,22 +187,24 @@ public class NaliczenieskladnikawynagrodzeniaBean {
                     liczbazmiennych++;
                 }
             }
-            stawkagodzinowa = Z.z(stawkagodzinowa / liczbazmiennych);
-            stawkagodzinowawaluta = Z.z(stawkagodzinowawaluta / liczbazmiennych);
-            naliczenieskladnikawynagrodzenia.setDataod(datastart);
-            naliczenieskladnikawynagrodzenia.setDatado(dataend);
-            naliczenieskladnikawynagrodzenia.setStawkadzienna(0.0);
-            naliczenieskladnikawynagrodzenia.setStawkagodzinowa(stawkagodzinowa);
-            naliczenieskladnikawynagrodzenia.setStawkagodzinowawaluta(stawkagodzinowawaluta);
-            naliczenieskladnikawynagrodzenia.setKwotaumownazacalymc(dowyplatyzaczasprzepracowany);
-            naliczenieskladnikawynagrodzenia.setKwotadolistyplac(dowyplatyzaczasprzepracowany);
-            naliczenieskladnikawynagrodzenia.setKwotadolistyplacwaluta(dowyplatyzaczasprzepracowanywaluta);
-            naliczenieskladnikawynagrodzenia.setDninalezne(dniroboczewmiesiacu);
-            naliczenieskladnikawynagrodzenia.setDnifaktyczne(dniroboczeprzepracowanestat);
-            naliczenieskladnikawynagrodzenia.setGodzinynalezne(godzinyroboczewmiesiacu);
-            naliczenieskladnikawynagrodzenia.setGodzinyfaktyczne(godzinyobecnosciroboczestat);
-            naliczenieskladnikawynagrodzenia.setSkladnikwynagrodzenia(skladnikwynagrodzenia);
-            naliczenieskladnikawynagrodzenia.setPasekwynagrodzen(pasekwynagrodzen);
+            if (liczbazmiennych>0) {
+                stawkagodzinowa = Z.z(stawkagodzinowa / liczbazmiennych);
+                stawkagodzinowawaluta = Z.z(stawkagodzinowawaluta / liczbazmiennych);
+                naliczenieskladnikawynagrodzenia.setDataod(datastart);
+                naliczenieskladnikawynagrodzenia.setDatado(dataend);
+                naliczenieskladnikawynagrodzenia.setStawkadzienna(0.0);
+                naliczenieskladnikawynagrodzenia.setStawkagodzinowa(stawkagodzinowa);
+                naliczenieskladnikawynagrodzenia.setStawkagodzinowawaluta(stawkagodzinowawaluta);
+                naliczenieskladnikawynagrodzenia.setKwotaumownazacalymc(dowyplatyzaczasprzepracowany);
+                naliczenieskladnikawynagrodzenia.setKwotadolistyplac(dowyplatyzaczasprzepracowany);
+                naliczenieskladnikawynagrodzenia.setKwotadolistyplacwaluta(dowyplatyzaczasprzepracowanywaluta);
+                naliczenieskladnikawynagrodzenia.setDninalezne(dniroboczewmiesiacu);
+                naliczenieskladnikawynagrodzenia.setDnifaktyczne(dniroboczeprzepracowanestat);
+                naliczenieskladnikawynagrodzenia.setGodzinynalezne(godzinyroboczewmiesiacu);
+                naliczenieskladnikawynagrodzenia.setGodzinyfaktyczne(godzinyobecnosciroboczestat);
+                naliczenieskladnikawynagrodzenia.setSkladnikwynagrodzenia(skladnikwynagrodzenia);
+                naliczenieskladnikawynagrodzenia.setPasekwynagrodzen(pasekwynagrodzen);
+            }
         } else if (skladnikwynagrodzenia.getRodzajwynagrodzenia().getKod().equals("21")) {
             naliczenieskladnikawynagrodzenia = new Naliczenieskladnikawynagrodzenia();
             pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().add(naliczenieskladnikawynagrodzenia);

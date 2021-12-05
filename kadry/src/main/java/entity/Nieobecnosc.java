@@ -138,6 +138,7 @@ public class Nieobecnosc implements Serializable {
 
     public Nieobecnosc(OsobaPrz r, Umowa umowa) {
         if (r.getOspWkpSerial()!=null) {
+            //zwolnienie
             this.dataod = Data.data_yyyyMMdd(r.getOspDataOd());
             this.datado = Data.data_yyyyMMdd(r.getOspDataDo());
             this.opis = r.getOspWkpSerial().getWkpOpis();
@@ -149,7 +150,9 @@ public class Nieobecnosc implements Serializable {
             this.seriainrzwolnienia = r.getOspVchar2()!=null?r.getOspVchar2().replaceAll("\\s+", ""):null;
             this.kodzwolnienia = r.getOspWkpSerial().getWkpKod();
             this.umowa = umowa;
+            this.importowana = true;
         } else if (r.getOspAbsSerial()!=null) {
+            //urlop
             this.dataod = Data.data_yyyyMMdd(r.getOspDataOd());
             this.datado = Data.data_yyyyMMdd(r.getOspDataDo());
             this.opis = r.getOspAbsSerial().getAbsOpis();
@@ -159,6 +162,7 @@ public class Nieobecnosc implements Serializable {
             this.godzinyroboczenieobecnosc = r.getOspNum2().doubleValue();
             this.kodzwolnienia = r.getOspAbsSerial().getAbsKod().toString();
             this.umowa = umowa;
+            this.importowana = true;
         } else {
             System.out.println("");
         }

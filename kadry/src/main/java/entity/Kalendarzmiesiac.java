@@ -523,21 +523,26 @@ private static final long serialVersionUID = 1L;
         for (int i = dzienod; i <= dziendo; i++) {
             final int j = i;
             Dzien dzienaktualny = this.dzienList.stream().filter(pa->pa.getNrdnia()==j).findFirst().get();
-            dzienaktualny.setKod(p.getSwiadczeniekodzus().getKod());
-            if (p.getSwiadczeniekodzus().getKod().equals("331")) {
+            String kod = p.getSwiadczeniekodzus()!=null?p.getSwiadczeniekodzus().getKod():String.valueOf(p.getRodzajnieobecnosci().getKod());
+            dzienaktualny.setKod(kod);
+            if (kod.equals("331")) {
                 dzienaktualny.setWynagrodzeniezachorobe(dzienaktualny.getNormagodzin());
                 dzienaktualny.setPrzepracowano(0);
-            } else if (p.getSwiadczeniekodzus().getKod().equals("100")) {
+                p.setNaniesiona(true);
+            } else if (kod.equals("U")) {
                 dzienaktualny.setUrlopPlatny(dzienaktualny.getNormagodzin());
                 dzienaktualny.setPrzepracowano(0);
-            } else if (p.getSwiadczeniekodzus().getKod().equals("111")) {
+                p.setNaniesiona(true);
+            } else if (kod.equals("X")) {
                 dzienaktualny.setUrlopbezplatny(dzienaktualny.getNormagodzin());
                 dzienaktualny.setPrzepracowano(0);
-            } else if (p.getSwiadczeniekodzus().getKod().equals("777")) {
-                
-            } else if (p.getSwiadczeniekodzus().getKod().equals("200")) {
+                p.setNaniesiona(true);
+            } else if (kod.equals("Z")) {
+                p.setNaniesiona(true);
+            } else if (kod.equals("200")) {
                 dzienaktualny.setNormagodzin(0);
                 dzienaktualny.setPrzepracowano(0);
+                p.setNaniesiona(true);
             }
             dzienaktualny.setNieobecnosc(p);
             p.getDzienList().add(dzienaktualny);
@@ -550,7 +555,7 @@ private static final long serialVersionUID = 1L;
             int mckalendarzaint = Integer.parseInt(mckalendarza);
             int mcodint = Integer.parseInt(mcod);
             if (mcodint<mckalendarzaint) {
-                dzienod = 0;
+                dzienod = 1;
             }
         }
         return dzienod;

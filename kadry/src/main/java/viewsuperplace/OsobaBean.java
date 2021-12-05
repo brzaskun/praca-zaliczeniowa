@@ -399,9 +399,9 @@ public class OsobaBean {
      static void pobierzzmiennapotracenia(Umowa aktywna, Skladnikpotracenia skladnikpotracenia, OsobaPot s, ZmiennaPotraceniaFacade zmiennaPotraceniaFacade) {
          if (skladnikpotracenia!=null) {
             StSystOpis ossSsdSerial1 = s.getOpoSsdSerial1();
-            if (ossSsdSerial1!=null) {
+            if (ossSsdSerial1!=null && s.getOpoSsdSerial1().getStSystWartList()!=null && !s.getOpoSsdSerial1().getStSystWartList().isEmpty()) {
                 List<StSystWart> osobaSklList = s.getOpoSsdSerial1().getStSystWartList();
-                if (osobaSklList!=null) {
+                if (osobaSklList!=null&&!osobaSklList.isEmpty()) {
                     for (StSystWart t :osobaSklList) {
                         Zmiennapotracenia wiersz = new Zmiennapotracenia();
                         wiersz.setSkladnikpotracenia(skladnikpotracenia);

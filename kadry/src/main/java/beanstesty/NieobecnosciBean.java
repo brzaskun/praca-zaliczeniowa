@@ -5,7 +5,15 @@
  */
 package beanstesty;
 
+import dao.KalendarzmiesiacFacade;
+import dao.NieobecnoscFacade;
+import data.Data;
+import embeddable.Mce;
+import entity.Kalendarzmiesiac;
 import entity.Nieobecnosc;
+import entity.Umowa;
+import error.E;
+import msg.Msg;
 
 /**
  *
@@ -80,5 +88,40 @@ public class NieobecnosciBean {
            urlopbezplatny.setSwiadczeniekodzus(NieobecnosckodzusBean.createUrlopBezplatny());
         }
         return urlopbezplatny;
+    }
+     
+     public static boolean nanies(Nieobecnosc nieobecnosc, Umowa umowa, NieobecnoscFacade nieobecnoscFacade, KalendarzmiesiacFacade kalendarzmiesiacFacade) {
+        boolean czynaniesiono = false;
+        if (nieobecnosc.isNaniesiona() == false) {
+            try {
+                //bo nanosimy tylko na 2021
+                if (nieobecnosc.getRokod().equals("2021") || nieobecnosc.getRokdo().equals("2021")) {
+                    String mcod = nieobecnosc.getMcod();
+                    if (nieobecnosc.getRokod().equals("2020")) {
+                        mcod = "01";
+                    }
+                    String mcdo = nieobecnosc.getMcdo();
+                    for (String mc : Mce.getMceListS()) {
+                        if (Data.jestrownywiekszy(mc, mcod) && Data.jestrownywiekszy(mcdo, mc)) {
+                            Kalendarzmiesiac znaleziony = kalendarzmiesiacFacade.findByRokMcUmowa(umowa, "2021", mc);
+                            if (znaleziony != null) {
+                                if (nieobecnosc.getRokod().equals("2021") || nieobecnosc.getRokdo().equals("2021")) {
+                                    znaleziony.naniesnieobecnosc(nieobecnosc);
+                                }
+                                nieobecnoscFacade.edit(nieobecnosc);
+                                kalendarzmiesiacFacade.edit(znaleziony);
+                                czynaniesiono = true;
+                            } else {
+                                Msg.msg("e", "Brak kalendarza pracownika za miesiąc rozliczeniowy. Nie można nanieść nieobecności!");
+                            }
+                        }
+                    }
+                }
+            } catch (Exception e) {
+                E.e(e);
+                Msg.msg("e", "Wystąpił błąd podczas nanoszenia nieobecności");
+            }
+        }
+        return czynaniesiono;
     }
 }

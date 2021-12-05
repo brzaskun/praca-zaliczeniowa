@@ -183,24 +183,25 @@ public class KalendarzmiesiacBean {
     static void dodajnieobecnoscDB(Kalendarzmiesiac kalendarz, List<Nieobecnosc> nieobecnosclista, Pasekwynagrodzen pasekwynagrodzen) {
         if (nieobecnosclista!=null && !nieobecnosclista.isEmpty()) {
             for (Nieobecnosc nieobecnosc : nieobecnosclista) {
-               if (nieobecnosc.getSwiadczeniekodzus().getKod().equals("313")) {
+               String kod = nieobecnosc.getSwiadczeniekodzus()!=null?nieobecnosc.getSwiadczeniekodzus().getKod():String.valueOf(nieobecnosc.getRodzajnieobecnosci().getKod());
+               if (kod.equals("313")) {
                     //wynagrodzenie za czas niezdolnosci od pracy
                     naliczskladnikiwynagrodzeniazaChorobe(kalendarz, nieobecnosc, pasekwynagrodzen);
-                } else if (nieobecnosc.getSwiadczeniekodzus().getKod().equals("331")) {
+                } else if (kod.equals("331")) {
                     //wynagrodzenie za czas niezdolnosci od pracy
                     naliczskladnikiwynagrodzeniazaChorobe(kalendarz, nieobecnosc, pasekwynagrodzen);
-                } else if (nieobecnosc.getSwiadczeniekodzus().getKod().equals("100")) {
+                } else if (kod.equals("U")) {
                     //urlop wypoczynowy
                     naliczskladnikiwynagrodzeniazaUrlop(kalendarz, nieobecnosc, pasekwynagrodzen);
-                } else if (nieobecnosc.getSwiadczeniekodzus().getKod().equals("111")) {
+                } else if (kod.equals("X")) {
                     //urlopo bezpłatny
-                    naliczskladnikiwynagrodzeniazaOkresnieprzepracowany(kalendarz, nieobecnosc, pasekwynagrodzen,"111");
-                } else if (nieobecnosc.getSwiadczeniekodzus().getKod().equals("200")) {
+                    naliczskladnikiwynagrodzeniazaOkresnieprzepracowany(kalendarz, nieobecnosc, pasekwynagrodzen,"X");
+                } else if (kod.equals("200")) {
                     //rozpoczęcie umowy w trakcie meisiąca
                     naliczskladnikiwynagrodzeniazaOkresnieprzepracowany(kalendarz, nieobecnosc, pasekwynagrodzen,"200");
-                } else if (nieobecnosc.getSwiadczeniekodzus().getKod().equals("777")) {
+                } else if (kod.equals("Z")) {
                     //oddelegowanie
-                    naliczskladnikiwynagrodzeniazaOkresnieprzepracowany(kalendarz, nieobecnosc, pasekwynagrodzen,"777");
+                    naliczskladnikiwynagrodzeniazaOkresnieprzepracowany(kalendarz, nieobecnosc, pasekwynagrodzen,"Z");
                 }
             }
         }
@@ -605,7 +606,7 @@ public class KalendarzmiesiacBean {
         int dziendo = Data.getDzienI(nieobecnosc.getDatado());
         for (Dzien p : kalendarz.getDzienList()) {
             if (p.getTypdnia()==0 && p.getNormagodzin()!=0.0) {
-                if (p.getPrzepracowano()>0.0 || p.getKod().equals("100")) {
+                if (p.getPrzepracowano()>0.0 || p.getKod().equals("U")) {
                     liczbadniobowiazku = liczbadniobowiazku+1;
                     liczbagodzinobowiazku = liczbagodzinobowiazku+p.getNormagodzin();
                 }
@@ -882,17 +883,17 @@ public class KalendarzmiesiacBean {
                             case "331":
                                 redukcjazarchorobe = redukcjazarchorobe+p.getKwotaredukcji();
                                 break;
-                            case "100":
+                            case "U":
                                 redukcjazaurlop = redukcjazaurlop+p.getKwotaredukcji();
                                 break;
-                            case "111":
+                            case "X":
                                 redukcjazabezplatny = redukcjazabezplatny+p.getKwotaredukcji();
                                 break;
                             case "200":
                                 //tego nie roboimy bo to stattystyczne
                                 //redukcjazabezplatny = redukcjazabezplatny+p.getKwotastatystyczna();
                                 break;
-                            case "777":
+                            case "Z":
                                 redukcjazabezplatny = redukcjazabezplatny+p.getKwotaredukcji();
                                 break;
                         }
@@ -920,16 +921,16 @@ public class KalendarzmiesiacBean {
                             case "331":
                                 //redukcjazarchorobe = redukcjazarchorobe+p.getKwotaredukcji();
                                 break;
-                            case "100":
+                            case "U":
                                 redukcjazaurlop = redukcjazaurlop+p.getKwotaredukcji();
                                 break;
-                            case "111":
+                            case "X":
                                 //redukcjazabezplatny = redukcjazabezplatny+p.getKwotaredukcji();
                                 break;
                             case "200":
                                 redukcjazabezplatny = redukcjazabezplatny+p.getKwotastatystyczna();
                                 break;
-                            case "777":
+                            case "Z":
                                 //redukcjazabezplatny = redukcjazabezplatny+p.getKwotaredukcji();
                                 break;
                         }

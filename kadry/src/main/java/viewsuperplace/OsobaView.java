@@ -6,6 +6,7 @@
 package viewsuperplace;
 
 import DAOsuperplace.OsobaFacade;
+import beanstesty.NieobecnosciBean;
 import dao.AngazFacade;
 import dao.DefinicjalistaplacFacade;
 import dao.EtatPracFacade;
@@ -247,9 +248,6 @@ public class OsobaView implements Serializable {
                                 p.setMcdo(Data.getMc(p.getDatado()));
                             }
                             nieobecnoscFacade.createList(nieobecnosci);
-//                            for (Nieobecnosc nieobecnosc : nieobecnosci) {
-//                                OsobaBean.naniesnieobecnosc(nieobecnosc);
-//                            }
                             List<OsobaPot> osobaPotList = osoba.getOsobaPotList();
                             List<Rodzajpotracenia> rodzajepotracen = rodzajpotraceniaFacade.findAll();
                             List<Skladnikpotracenia> skladnikpotracenia = OsobaBean.pobierzskladnipotracenia(osobaPotList, rodzajepotracen, aktywna, skladnikPotraceniaFacade, zmiennaPotraceniaFacade);
@@ -279,6 +277,9 @@ public class OsobaView implements Serializable {
                                 List<Pasekwynagrodzen> paskigotowe = OsobaBean.dodajlisteikalendarzdopaska(paskiumowaoprace, listyaktywne, kalendarze);
                                 pasekwynagrodzenFacade.createList(paskigotowe);
                                 Msg.msg("Zrobiono kalendarz i paski za 2021 umowa o pracę");
+                            }
+                            for (Nieobecnosc p : nieobecnosci) {
+                                NieobecnosciBean.nanies(p, aktywna, nieobecnoscFacade, kalendarzmiesiacFacade);
                             }
                             //koniec paski 2021 umowa o pracę
                         }

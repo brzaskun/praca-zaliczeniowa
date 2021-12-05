@@ -134,9 +134,9 @@ public class PasekwynagrodzenBean {
             List<Nieobecnosc> zatrudnieniewtrakciemiesiaca = pobierz(nieobecnosci,"200");
             List<Nieobecnosc> choroba = pobierz(nieobecnosci,"331");
             List<Nieobecnosc> zasilekchorobowy = pobierz(nieobecnosci,"313");
-            List<Nieobecnosc> urlop = pobierz(nieobecnosci,"100");
-            List<Nieobecnosc> urlopbezplatny = pobierz(nieobecnosci,"111");
-            List<Nieobecnosc> oddelegowanie = pobierz(nieobecnosci,"777");
+            List<Nieobecnosc> urlop = pobierz(nieobecnosci,"U");
+            List<Nieobecnosc> urlopbezplatny = pobierz(nieobecnosci,"X");
+            List<Nieobecnosc> oddelegowanie = pobierz(nieobecnosci,"Z");
             KalendarzmiesiacBean.nalicznadgodziny50DB(kalendarz, pasek);
             //KalendarzmiesiacBean.nalicznadgodziny100(kalendarz, pasek);
             //najpierw musimy przyporzadkowac aktualne skladniki, aby potem prawidlowo obliczyc redukcje
@@ -677,7 +677,9 @@ public class PasekwynagrodzenBean {
     private static List<Nieobecnosc> pobierz(List<Nieobecnosc> nieobecnosci, String string) {
         List<Nieobecnosc> zwrot = new ArrayList<>();
         for (Nieobecnosc p : nieobecnosci) {
-            if (p.getSwiadczeniekodzus().getKod().equals(string)) {
+            if (p.getSwiadczeniekodzus()!=null&&p.getSwiadczeniekodzus().getKod().equals(string)) {
+                zwrot.add(p);
+            } else if (String.valueOf(p.getRodzajnieobecnosci().getKod()).equals(string)) {
                 zwrot.add(p);
             }
         }
