@@ -95,21 +95,21 @@ public class Mail {
                     + " miały, oprócz stale aktualizowanej wiedzy podatkowej i kadrowej, odpowiednie podejście do spraw każdego klienta.</p>"
                     + "<span>Jako przedsiębiorcy zdają sobie państwo doskonale sprawę, jak trudno jest w obecnych czasach znaleźć takie osoby na płytkim obecnie rynku pracy</span>"
                     + "<span>Musimy więc dbać o to, aby nie doszło do niepożądanej rotacji pracowniczej w naszym biurze.</span>"
-                    + "<p>Rok 2022 to rok przygotowań do raportowania podatkowych ksiąg przychodów i rozchodów oraz ksiąg rachunkowych do urządu skarbowego.</p>"
-                    + "<span>Oznacza to, że będziemy musieli, we współpracy z państwem, na bieżąco analizowac sytuację w firmie. Wszystkie ewentualne korekty, wycofywanie środków trwałych, zmiany w kosztach będą widoczne i analizowane przez urząd skarbowy.</span>"
-                    + "<span>Prawdę mówiąc bedziemy pracować w klimacie ciągłej kontroli.</span>"
-                    + "<span>Kolejną rewolucją będą faktury elektroniczne rejestrowane centralnie przez ministerstwo finansów. Nie będzie można wystawiać faktur ręcznie, bądź w Excelu. Trzeba będzie używac aplikacji (np. naszej) i wysyłać fakturę po wystawieniu do ministerstwa.</span>"
-                    + "<span>Wycofywanie faktur będzię więc praktycznie niemożliwe. Trzeba będzie częściej stosowac proformy.</span>"
-                    + "<p>Ostatnio okazało się, że niektorzy nasi klienci nie wiedzą, że potrafimy pomagać w zatrudnieniu i rozliczaniu obcokrajowców. Robimy to od wielu lat załatwiając sprawy w urzedzi epowiatowym i wojewódzkim</p>"
+                    + "<p style=\"color: green;\">Rok 2022 to rok przygotowań do raportowania podatkowych ksiąg przychodów i rozchodów oraz ksiąg rachunkowych do urządu skarbowego.</p>"
+                    + "<span style=\"color: green;\">Oznacza to, że będziemy musieli, we współpracy z państwem, na bieżąco analizowac sytuację w firmie. Wszystkie ewentualne korekty, wycofywanie środków trwałych, zmiany w kosztach będą widoczne i analizowane przez urząd skarbowy.</span>"
+                    + "<span style=\"color: green;\">Prawdę mówiąc bedziemy pracować w klimacie ciągłej kontroli.</span>"
+                    + "<span style=\"color: green;\">Kolejną rewolucją będą faktury elektroniczne rejestrowane centralnie przez ministerstwo finansów. Nie będzie można wystawiać faktur ręcznie, bądź w Excelu. Trzeba będzie używac aplikacji (np. naszej) i wysyłać fakturę po wystawieniu do ministerstwa.</span>"
+                    + "<span style=\"color: green;\">Wycofywanie faktur będzię więc praktycznie niemożliwe. Trzeba będzie częściej stosowac proformy.</span>"
+                    + "<p style=\"color: green;\">Ostatnio okazało się podczas rozmów na temat rozliczeń, że niektorzy nasi klienci nie wiedzą, że potrafimy pomagać w zatrudnieniu i rozliczaniu obcokrajowców. Robimy to od wielu lat załatwiając sprawy w urzedzie powiatowym i wojewódzkim</p>"
                     + "<p>Chyba po raz pierwszy w historii naszego biura stopa procentowa waloryzacji jest dwucyfrowa. Proszę jednak pamiętać, że 3/4 z tego jest wymuszona inflacją i niekorzystnymi zmianami nowego ładu. </p>"
-                    + "<span>My ze swej strony staramy się to skompensować nowymi usługami jakie będziemy świadczyć po przeprowadzce oraz uruchomieniem nowego programu kadrowego, znacznie ułatwiającego obsługę kadrowo-płacową. </span>"
+                    + "<span>My ze swej strony staramy się to skompensować nowymi usługami jakie będziemy świadczyć po przeprowadzce (wyszukiwaniem dotacji i dofinansowań) oraz uruchomieniem nowego programu kadrowego, znacznie ułatwiającego obsługę kadrowo-płacową. </span>"
                     + "<span>Dodatkowo staramy się jak najszybciej wdrożyć w ten obszerne jak nigdy zmiany podatkowe od 2022, aby móc jak najlepiej zoptymalizować państwa firmy.</span>"
                     + "<p>Tak jak pisaliśmy wcześniej jedna ze zmian dotyczy rozbicia opłaty na część księgową i kadrową u niektórych firm. Firmy z najdłuższym u nas stażem płaciły do tej pory za usługi jedną kwotę. Zmieniamy to od stycznia 2022 dzieląc opłatę na księgowość oraz kadry i płace. Kwota więc będzie się zmieniać w zależności od ilosci pracowników/zleceniobiorców. Taki system obowiązuje wszystkich naszych nowych klientów.</p>"
                     + pobiezzmienna(p.isDawnoniezmieniona(), dawnoniezmieniona)
                     + pobiezzmienna(p.isZmianaopodatkowania(), zmianaopodatkowania)
                     + pobiezzmienna(p.isWiekszailosc(), wiekszailosc)
                     + pobiezzmienna(p.isMinimum(), minimum)
-                    + "<p>Niniejszy mail został wygenerowany automatycznie. Jest naszą propozycją na rok 2022. Jesteśmy oczywiście gotowi na rozmowy z klientami, którzy uważają, że z jakiegośc powodu zaproponowane nowe kwoty sa nieadekwatne."
+                    + "<p style=\"color: green;\">Niniejszy mail został wygenerowany automatycznie. Jest naszą propozycją na rok 2022. Jesteśmy oczywiście gotowi na rozmowy z klientami, którzy uważają, że z jakiegośc powodu zaproponowane nowe kwoty sa nieadekwatne.</p>"
                     + String.format(new Locale("pl"),tabela, p.getKwotabiezacanetto(), p.getKwotabiezacanettoN(), p.getUmowaoprace(), p.getUmowaopraceN(), p.getUmowazlecenie(), 
                             p.getUmowazlecenieN(), p.getOddelegowanie(), p.getOddelegowanieN(), p.getSprawozdanieroczne(), p.getSprawozdanieroczneN(), p.getObsluganiemcy(), p.getObsluganiemcyN())
                     + " <p> &nbsp;</p><p> &nbsp;</p><p> &nbsp;</p><p> &nbsp;</p><p> &nbsp;</p>"
@@ -123,7 +123,7 @@ public class Mail {
     }
      
     private static String pobiezzmienna(boolean warunek,String zmienna) {
-        String zwrot = zmienna;
+        String zwrot = "";
         if (warunek) {
             zwrot = zmienna;
         }
