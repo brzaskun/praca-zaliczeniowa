@@ -86,6 +86,8 @@ public class FakturaWaloryzacja  implements Serializable{
     private boolean  minimum;
     @Column(name = "klientakceptacja")
     private boolean  klientakceptacja;
+    @Column(name = "niewysylac")
+    private boolean  niewysylac;
     
 
     public FakturaWaloryzacja() {
@@ -128,6 +130,14 @@ public class FakturaWaloryzacja  implements Serializable{
 
     public void setRok(String rok) {
         this.rok = rok;
+    }
+
+    public boolean isNiewysylac() {
+        return niewysylac;
+    }
+
+    public void setNiewysylac(boolean niewysylac) {
+        this.niewysylac = niewysylac;
     }
 
     public String getMc() {

@@ -87,12 +87,19 @@
                             <p:selectBooleanCheckbox value="#{fakturaZestView.fakturaWaloryzacja.klientakceptacja}">
                                 <p:ajax event="change" global="false" partialSubmit="true" listener="#{fakturaZestView.zapiszwaloryzacje}"/>
                             </p:selectBooleanCheckbox>
+                            <h:outputText value="nie wysyłać"/>
+                            <p:selectBooleanCheckbox value="#{fakturaZestView.fakturaWaloryzacja.niewysylac}">
+                                <p:ajax event="change" global="false" partialSubmit="true" listener="#{fakturaZestView.zapiszwaloryzacje}"/>
+                            </p:selectBooleanCheckbox>
                         </p:panelGrid>
                     </p:panelGrid>
                     <p:commandButton value="zapisz" actionListener="#{fakturaZestView.zapiszwaloryzacje}"/>
                     </p:fragment>
                 </p:panelGrid>
-            </p:panelGrid>        
+            </p:panelGrid>
+<!--            <p:panelGrid>
+                <h:outputText value="#{fakturaZestView.fakturaWaloryzacja.kontrahent.email}" style=color:blue;"/>
+            </p:panelGrid>-->
             <p:dataTable id="dokumentyZestawienie"  value="#{fakturaZestView.fakturyZestawienie}" var="item"  rowIndexVar="row" 
                          rowKey="#{item.kontrahent.npelna}" style="width: 1050px;height: 800px; overflow-y: scroll;" widgetVar="zestTable" sortBy="#{item.kontrahent.npelna}" sortOrder="descending"
                          rowSelectMode="add"  emptyMessage="nie pobrano wierszy" >

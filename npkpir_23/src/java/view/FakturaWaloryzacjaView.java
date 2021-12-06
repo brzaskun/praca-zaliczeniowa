@@ -36,14 +36,18 @@ public class FakturaWaloryzacjaView  implements Serializable{
      public void mailpodwyzki() {
         try {
             List<FakturaWaloryzacja> lista = fakturaWaloryzacjaDAO.findAll();
+            int i = 1;
             for (FakturaWaloryzacja p : lista) {
-                if (p!=null&&p.getKontrahent().getEmail()!=null) {
-                    Mail.nadajMailWaloryzacjaFaktury(p.getKontrahent().getEmail(), p.getKontrahent().getNpelna(), p.getKontrahent().getNip(), p, sMTPSettingsDAO.findSprawaByDef());
-                    p.setDatamaila(Data.aktualnaData());
-                    fakturaWaloryzacjaDAO.edit(p);
+                if (p!=null&&p.getKontrahent().getEmail()!=null&&p.isNiewysylac()==false) {
+                    if (p.getKwotabiezacanettoN()>0.0||p.getUmowaopraceN()>0.0) {
+                        Mail.nadajMailWaloryzacjaFaktury(p.getKontrahent().getEmail(), p.getKontrahent().getNpelna(), p.getKontrahent().getNip(), p, sMTPSettingsDAO.findSprawaByDef());
+                        p.setDatamaila(Data.aktualnaData());
+                        i++;
+                        fakturaWaloryzacjaDAO.edit(p);
+                    }
                 }
             }
-            Msg.msg("Wysłano maile");
+            Msg.msg("Wysłano maile "+i);
         } catch (Exception e) {
             E.e(e); 
         }
