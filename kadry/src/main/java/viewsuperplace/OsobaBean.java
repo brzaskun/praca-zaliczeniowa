@@ -106,7 +106,7 @@ public class OsobaBean {
         pracownik.setLokal(p.getOsoDom());
         pracownik.setKod(p.getOsoKod());
         pracownik.setPoczta(p.getOsoPoczta());
-        pracownik.setNierezydent(p.getOsoDod11()!=null);
+        pracownik.setNierezydent(p.getOsoDod11()!=null&&p.getOsoDod11().equals('T'));
         return pracownik;
     }
 

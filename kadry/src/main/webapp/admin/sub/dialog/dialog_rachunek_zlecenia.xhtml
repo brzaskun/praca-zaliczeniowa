@@ -16,7 +16,7 @@ xmlns:pe="http://primefaces.org/ui/extensions">
     <p:dialog id="dialograchunekzlecenia" header="Wystawianie rachunku do umowy zlecenia" widgetVar="dialograchunekzlecenia"  
               resizable="false"  onShow="ustawdialog('dialograchunekzlecenia','centertile',1650,800);zmienwyglad()" closeOnEscape="true" onHide="resetujdialog('dialograchunekzlecenia');" 
               fitViewport="true">
-
+        <p:ajax event="open" listener="#{rachunekZlecenieView.init()}" update="RachunekZleceniaForm" global="false"/>
         <p:outputPanel>
             <h:form id="RachunekZleceniaForm">
                 <p:panel header="Miesięczne rozliczenie umowy zlecenia nr #{rachunekZlecenieView.umowabiezaca.nrkolejny}" style="width: 700px;"/>
@@ -24,9 +24,9 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                 <h:outputText value="Pobrano uprzednio przygotowany rachunek." rendered="#{rachunekZlecenieView.rachunekdoumowyzlecenia.id ne null and rachunekZlecenieView.rachunekdoumowyzlecenia.pasekwynagrodzen eq null}" style="color: blue;"/>
                 <h:outputText value="Pobrano uprzednio przygotowany rachunek. Rachunek rozliczono w liście płac" rendered="#{rachunekZlecenieView.rachunekdoumowyzlecenia.id ne null and rachunekZlecenieView.rachunekdoumowyzlecenia.pasekwynagrodzen ne null}"  style="color: red;"/>
                 <p:panelGrid columns="4" rendered="#{rachunekZlecenieView.umowabiezaca ne null}">
-                    <p:outputLabel value="data od:"/>
+                    <p:outputLabel value="data umowy od:"/>
                     <h:outputText value="#{rachunekZlecenieView.umowabiezaca.dataod}" styleClass="ww"/>
-                    <p:outputLabel value="data do:"/>
+                    <p:outputLabel value="data umowy do:"/>
                     <h:outputText value="#{rachunekZlecenieView.umowabiezaca.datado}" rendered="#{rachunekZlecenieView.umowabiezaca.datado ne ''}" styleClass="ww"/>
                     <h:outputText value="czas nieokreślony" rendered="#{rachunekZlecenieView.umowabiezaca.datado eq null or rachunekZlecenieView.umowabiezaca.datado eq ''}"/>
                     <p:outputLabel value="rodzaj wynagrodzenia:"/>
@@ -63,13 +63,14 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                 </p:panelGrid>
                 <p:panelGrid columns="2" style="margin-top: 10px;">
                     <p:outputLabel value="naliczać społeczne:"/>
-                    <p:selectBooleanCheckbox value="#{rachunekZlecenieView.rachunekdoumowyzlecenia.spoleczne}" disabled="true" styleClass="czekpole"/>
+                    <p:selectBooleanCheckbox value="#{rachunekZlecenieView.rachunekdoumowyzlecenia.spoleczne}" styleClass="czekpole"/>
                     <p:outputLabel value="naliczać chorobowe:"/>
-                    <p:selectBooleanCheckbox value="#{rachunekZlecenieView.rachunekdoumowyzlecenia.chorobowa}" disabled="true" styleClass="czekpole"/>
+                    <p:selectBooleanCheckbox value="#{rachunekZlecenieView.rachunekdoumowyzlecenia.chorobowa}" styleClass="czekpole"/>
                     <p:outputLabel value="naliczać zdrowotną:"/>
-                    <p:selectBooleanCheckbox value="#{rachunekZlecenieView.rachunekdoumowyzlecenia.zdrowotna}" disabled="true" styleClass="czekpole"/>
+                    <p:selectBooleanCheckbox value="#{rachunekZlecenieView.rachunekdoumowyzlecenia.zdrowotna}" styleClass="czekpole"/>
                     <p:outputLabel value="naliczać podatek:"/>
-                    <p:selectBooleanCheckbox value="#{rachunekZlecenieView.rachunekdoumowyzlecenia.podatek}"  disabled="true" styleClass="czekpole"/>
+                    <h:outputText value="podatek zryczałtowany - nierezydent" rendered="#{rachunekZlecenieView.rachunekdoumowyzlecenia.umowa.nierezydent eq true}"/>
+                    <h:outputText value="podatek wg skali" rendered="#{rachunekZlecenieView.rachunekdoumowyzlecenia.umowa.nierezydent eq false}"/>
                 </p:panelGrid>
                 <p:panelGrid columns="1">
                     <p:commandButton value="zaksięguj" actionListener="#{rachunekZlecenieView.zaksieguj()}" update="@form" styleClass="buttonnorm" rendered="#{rachunekZlecenieView.rachunekdoumowyzlecenia.id eq null}"/>

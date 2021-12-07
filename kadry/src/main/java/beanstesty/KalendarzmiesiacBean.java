@@ -311,7 +311,7 @@ public class KalendarzmiesiacBean {
     static boolean naliczskladnikiwynagrodzeniaDBZlecenie(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasekwynagrodzen, double kurs) {
         boolean jestoddelegowanie = false;
         for (Skladnikwynagrodzenia p : kalendarz.getUmowa().getSkladnikwynagrodzeniaList()) {
-            if (p.getRodzajwynagrodzenia().getKod().equals("11")||p.getRodzajwynagrodzenia().getKod().equals("50")) {
+            if (p.getRodzajwynagrodzenia().getKod().equals("11")||p.getRodzajwynagrodzenia().getKod().equals("50")||p.getRodzajwynagrodzenia().getKod().equals("NZ")) {
                 Umowa umowa = kalendarz.getUmowa();
                 Rachunekdoumowyzlecenia rachunekdoumowyzlecenia = umowa.pobierzRachunekzlecenie(kalendarz.getRok(), kalendarz.getMc());
                 Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = NaliczenieskladnikawynagrodzeniaBean.createWynagrodzenieDBZlecenie(pasekwynagrodzen, p, kalendarz.getDzienList(), kurs, rachunekdoumowyzlecenia);

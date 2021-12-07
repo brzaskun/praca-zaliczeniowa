@@ -13,7 +13,6 @@ import entity.Kalendarzmiesiac;
 import entity.Rachunekdoumowyzlecenia;
 import entity.Umowa;
 import java.io.Serializable;
-import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -40,7 +39,7 @@ public class RachunekZlecenieView  implements Serializable {
     private RachunekdoumowyzleceniaFacade rachunekdoumowyzleceniaFacade;
     
     
-    @PostConstruct
+
     public void init() {
        umowabiezaca = wpisView.getUmowa();
        if (umowabiezaca!=null) {

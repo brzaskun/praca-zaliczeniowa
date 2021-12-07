@@ -123,7 +123,7 @@ public class PasekwynagrodzenBean {
         } else {
             pasek.setDo26lat(false);
         }
-        pasek.setNierezydent(obliczczynierezydent(kalendarz.getUmowa(), datawyplaty));
+        pasek.setNierezydent(obliczczynierezydent(kalendarz.getUmowa(), datawyplaty)||kalendarz.isNierezydent());
         pasek.setWynagrodzenieminimalne(wynagrodzenieminimalne);
         pasek.setDefinicjalistaplac(definicjalistaplac);
         pasek.setKalendarzmiesiac(kalendarz);
@@ -149,6 +149,9 @@ public class PasekwynagrodzenBean {
             KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, urlop, pasek);
             KalendarzmiesiacBean.redukujskladnikistale2(kalendarz, pasek);
         } else {
+            if (pasek.isNierezydent()) {
+                pasek.setDo26lat(false);
+            }
             jestoddelegowanie = KalendarzmiesiacBean.naliczskladnikiwynagrodzeniaDBZlecenie(kalendarz, pasek, kurs);
         }
 //        KalendarzmiesiacBean.naliczskladnikipotraceniaDB(kalendarz, pasek);
@@ -603,8 +606,12 @@ public class PasekwynagrodzenBean {
         double kwotawolna = stawkipodatkowe.get(0).getWolnamc();
         if (pasek.isDrugiprog()) {
             kwotawolna = 0.0;
+            pasek.setKwotawolna(kwotawolna);
         }
-        if (ulga && pasek.isDo26lat()==false) {
+        if (pasek.isNierezydent()&&!pasek.getKalendarzmiesiac().isPraca()) {
+            kwotawolna = 0.0;
+            pasek.setKwotawolna(kwotawolna);
+        } else if (ulga && pasek.isDo26lat()==false) {
             double podatek = pasek.getPodatekwstepny();
             if (kwotawolna>podatek) {
                 pasek.setKwotawolna(podatek);
@@ -868,7 +875,7 @@ public class PasekwynagrodzenBean {
 
     private static boolean obliczczynierezydent(Umowa umowa, String termwyplaty) {
         boolean zwrot = false;
-        if (umowa.getDataprzyjazdudopolski()!=null) {
+        if (umowa.getDataprzyjazdudopolski()!=null&&!umowa.getDataprzyjazdudopolski().equals("")) {
             String dataprzyjazdu = umowa.getDataprzyjazdudopolski();
             LocalDate dataprzyj = LocalDate.parse(dataprzyjazdu);
             LocalDate datawypl = LocalDate.parse(termwyplaty);

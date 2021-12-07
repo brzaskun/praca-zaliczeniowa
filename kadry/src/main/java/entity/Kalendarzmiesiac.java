@@ -608,6 +608,10 @@ private static final long serialVersionUID = 1L;
         }
         return kwota;
     }
+
+    public boolean isNierezydent() {
+        return this.getUmowa().getAngaz().getPracownik().isNierezydent();
+    }
        
         
 }

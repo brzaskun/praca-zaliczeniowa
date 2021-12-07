@@ -245,7 +245,7 @@ public class PasekwynagrodzenView implements Serializable {
                 kalendarz.setRok(wpisView.getRokWpisu());
                 kalendarz.setMc(wpisView.getMiesiacWpisu());
                 kalendarz.nanies(kalendarzwzor);
-                boolean zlecenie0praca1 = rodzajlistyplac.equals("1") ? true : false;
+                boolean zlecenie0praca1 = rodzajlistyplac.getSymbol().equals("WZ") ? true : false;
                 Umowa umowa = new Umowa();
                 umowa.setOdliczaculgepodatkowa(true);
                 umowa.setKosztyuzyskaniaprocent(100.0);
@@ -335,11 +335,11 @@ public class PasekwynagrodzenView implements Serializable {
                 rodzajlistyplac = rodzajlistyplacFacade.findUmowaoPrace();
             }
             List<Kalendarzmiesiac> listakalendarzmiesiac = kalendarzmiesiacFacade.findByFirmaRokMcPraca(wybranalistaplac.getFirma(), wybranalistaplac.getRok(), wybranalistaplac.getMc());
-            if (rodzajlistyplac.equals("2")) {
+            if (!rodzajlistyplac.getSymbol().equals("WZ")) {
                 listakalendarzmiesiac = kalendarzmiesiacFacade.findByFirmaRokMcZlecenie(wybranalistaplac.getFirma(), wybranalistaplac.getRok(), wybranalistaplac.getMc());
             }
             Collections.sort(listakalendarzmiesiac, new Kalendarzmiesiaccomparator());
-            if (rodzajlistyplac.equals("2")) {
+            if (!rodzajlistyplac.getSymbol().equals("WZ")) {
                 for (Iterator<Kalendarzmiesiac> it = listakalendarzmiesiac.iterator(); it.hasNext();) {
                     Kalendarzmiesiac p = it.next();
                     Umowa u = p.getUmowa();
@@ -364,11 +364,11 @@ public class PasekwynagrodzenView implements Serializable {
                 rodzajlistyplac = rodzajlistyplacFacade.findUmowaoPrace();
             }
             List<Kalendarzmiesiac> listakalendarzmiesiac = kalendarzmiesiacFacade.findByFirmaRokMcPraca(wybranalistaplac.getFirma(), wybranalistaplac.getRok(), wybranalistaplac.getMc());
-            if (rodzajlistyplac.equals("2")) {
+            if (!rodzajlistyplac.getSymbol().equals("WZ")) {
                 listakalendarzmiesiac = kalendarzmiesiacFacade.findByFirmaRokMcZlecenie(wybranalistaplac.getFirma(), wybranalistaplac.getRok(), wybranalistaplac.getMc());
             }
             Collections.sort(listakalendarzmiesiac, new Kalendarzmiesiaccomparator());
-            if (rodzajlistyplac.equals("2")) {
+            if (!rodzajlistyplac.getSymbol().equals("WZ")) {
                 for (Iterator<Kalendarzmiesiac> it = listakalendarzmiesiac.iterator(); it.hasNext();) {
                     Kalendarzmiesiac p = it.next();
                     Umowa u = p.getUmowa();
