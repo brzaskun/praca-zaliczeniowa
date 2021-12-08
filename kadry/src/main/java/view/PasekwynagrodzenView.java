@@ -351,7 +351,7 @@ public class PasekwynagrodzenView implements Serializable {
             }
             if (listakalendarzmiesiac != null) {
                 this.listakalendarzmiesiac.setSource(listakalendarzmiesiac);
-                this.listakalendarzmiesiac.setTarget(null);
+                this.listakalendarzmiesiac.setTarget(new ArrayList<>());
             }
             lista = pasekwynagrodzenFacade.findByDef(wybranalistaplac);
             datawyplaty = zrobdatawyplaty(wybranalistaplac.getMc(), wybranalistaplac.getRok());
