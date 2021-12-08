@@ -85,7 +85,7 @@ public class PracownikNieobecnoscView  implements Serializable {
         if (wpisView.getPracownik()!=null) {
             urlopprezentacja = new Nieobecnoscprezentacja(wpisView.getUmowa(), wpisView.getRokWpisu());  
             List<Kalendarzmiesiac> kalendarze = kalendarzmiesiacFacade.findByRokUmowa(wpisView.getUmowa(), wpisView.getRokWpisu());
-            urlopprezentacja.setNieobecnoscwykorzystanieList(naniesdnizkodem(kalendarze, urlopprezentacja, "100"));
+            urlopprezentacja.setNieobecnoscwykorzystanieList(naniesdnizkodem(kalendarze, urlopprezentacja, "U"));
             List<Umowa> umowy = umowaFacade.findByAngaz(wpisView.getAngaz());
             urlopprezentacja.setWymiarokresbiezacy(obliczwymiarwgodzinach(umowy, wpisView.getUmowa().pobierzetat(stannadzien)));
             urlopprezentacja.setDoprzeniesienia(urlopprezentacja.getWymiarokresbiezacy()-urlopprezentacja.getWykorzystanierokbiezacy()-urlopprezentacja.getWykorzystanierokbiezacyekwiwalent());
@@ -116,9 +116,9 @@ public class PracownikNieobecnoscView  implements Serializable {
                         wykorzystanie.setMc(p.getMc());
                         wykorzystanie.setData(Data.zrobdate(r.getNrdnia(), p.getMc(), p.getRok()));
                         wykorzystanie.setDni(1);
-                        wykorzystanie.setOpis(r.getNieobecnosc().getSwiadczeniekodzus().getOpisskrocony());
+                        wykorzystanie.setOpis(r.getNieobecnosc().getOpisRodzajSwiadczenie());
                         wykorzystanie.setKod(r.getNieobecnosc().getKod());
-                        if (kod.equals("100")) {
+                        if (kod.equals("U")) {
                             wykorzystanie.setGodziny((int) r.getUrlopPlatny());
                         }
                         if (kod.equals("331")) {
@@ -137,7 +137,7 @@ public class PracownikNieobecnoscView  implements Serializable {
                 }
             }
         }
-        if (kod.equals("100")) {
+        if (kod.equals("U")) {
             urlopprezentacja.setWykorzystanierokbiezacy(wykorzystaniesuma.getGodziny());
         }
         if (kod.equals("331")) {

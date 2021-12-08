@@ -278,7 +278,7 @@ public class PdfListaPlac {
         for (Naliczenienieobecnosc rs : wykaznieob) {
             table.addCell(ustawfrazeAlign(String.valueOf(i++), "left",6,10f));
             table.addCell(ustawfrazeAlign(rs.getNieobecnosc().getKod(), "left",6));
-            table.addCell(ustawfrazeAlign(rs.getNieobecnosc().getSwiadczeniekodzus().getOpisskrocony()+" "+rs.getJakiskladnikredukowalny(), "left",6));
+            table.addCell(ustawfrazeAlign(rs.getNieobecnosc().getOpisRodzajSwiadczenie()+" "+rs.getJakiskladnikredukowalny(), "left",6));
             table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKwotazus()), "right",6));
             table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKwotabezzus()), "right",6));
             if (rs.getKwotastatystyczna()!=0.0) {
@@ -385,7 +385,7 @@ public class PdfListaPlac {
         for (Nieobecnosc rs : wykaz) {
             table.addCell(ustawfrazeAlign(String.valueOf(i++), "left",6,10f));
             table.addCell(ustawfrazeAlign(rs.getKod(), "left",6));
-            table.addCell(ustawfrazeAlign(rs.getSwiadczeniekodzus().getOpisskrocony(), "left",6));
+            table.addCell(ustawfrazeAlign(rs.getOpisRodzajSwiadczenie(), "left",6));
             table.addCell(ustawfrazeAlign(rs.getDataod(), "right",6));
             table.addCell(ustawfrazeAlign(rs.getDatado(), "right",6));
             table.addCell(ustawfrazeAlign(rs.getUmowa().getUmowakodzus()!=null?rs.getUmowa().getUmowakodzus().getKod():"brak kodu w umowie", "left",6));
@@ -396,7 +396,7 @@ public class PdfListaPlac {
         for (Nieobecnosc rs : wykaznieob) {
             sb.append(rs.getKod());
             sb.append(" ");
-            sb.append(rs.getSwiadczeniekodzus().getOpisskrocony());
+            sb.append(rs.getOpisRodzajSwiadczenie());
             sb.append(" ");
             sb.append(rs.getDataod().replace("-", "."));
             sb.append("-");

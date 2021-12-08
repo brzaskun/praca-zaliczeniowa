@@ -152,7 +152,7 @@ public class PdfKartaWynagrodzen {
         for (Naliczenienieobecnosc rs : wykaznieob) {
             table.addCell(ustawfrazeAlign(String.valueOf(i++), "left",6,10f));
             table.addCell(ustawfrazeAlign(rs.getNieobecnosc().getKod(), "left",6));
-            table.addCell(ustawfrazeAlign(rs.getNieobecnosc().getSwiadczeniekodzus().getOpisskrocony()+" "+rs.getJakiskladnikredukowalny(), "left",6));
+            table.addCell(ustawfrazeAlign(rs.getNieobecnosc().getOpisRodzajSwiadczenie()+" "+rs.getJakiskladnikredukowalny(), "left",6));
             table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKwotazus()), "right",6));
             table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKwotabezzus()), "right",6));
             if (rs.getKwotastatystyczna()!=0.0) {

@@ -972,9 +972,9 @@ public class Pasekwynagrodzen implements Serializable {
                 wiersz.lp = i++;
                 wiersz.kod = p.getNieobecnosc().getKod();
                 if (p.getSkladnikwynagrodzenia()!=null) {
-                    wiersz.nazwa = p.getNieobecnosc().getOpis1()+"/"+p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getOpisskrocony();
+                    wiersz.nazwa = p.getNieobecnosc().getOpisRodzajSwiadczenie()+"/"+p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getOpisskrocony();
                 } else {
-                    wiersz.nazwa = p.getNieobecnosc().getOpis1();
+                    wiersz.nazwa = p.getNieobecnosc().getOpisRodzajSwiadczenie();
                 }
                 wiersz.kwota = p.getKwota();
                 wiersz.redukcja = p.getKwotaredukcji()+p.getKwotastatystyczna();

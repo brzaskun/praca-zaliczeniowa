@@ -325,7 +325,7 @@ public class Sredniadlanieobecnosci implements Serializable {
 
     @Override
     public String toString() {
-        return "Sredniadlanieobecnosci{" + "rok=" + rok + ", mc=" + mc + ", dni=" + dnifaktyczne + ", godziny=" + godzinyfaktyczne + ", kwotawyplacona=" + kwotawyplacona + ", stawkagodzinowa=" + stawkagodzinowa + ", pominiete=" + pominiete + ", waloryzowane=" + waloryzowane + ", kwotazwaloryzowana=" + kwotazwaloryzowana + ", godzinazwaloryzowana=" + godzinazwaloryzowana + ", liczbagodzinnieobecnosci=" + liczbagodzinnieobecnosci + ", podstawapoprzedniachoroba=" + podstawapoprzedniachoroba + ", naliczenienieobecnosc=" + naliczenienieobecnosc.getNieobecnosc().getSwiadczeniekodzus().getOpisskrocony() + '}';
+        return "Sredniadlanieobecnosci{" + "rok=" + rok + ", mc=" + mc + ", dni=" + dnifaktyczne + ", godziny=" + godzinyfaktyczne + ", kwotawyplacona=" + kwotawyplacona + ", stawkagodzinowa=" + stawkagodzinowa + ", pominiete=" + pominiete + ", waloryzowane=" + waloryzowane + ", kwotazwaloryzowana=" + kwotazwaloryzowana + ", godzinazwaloryzowana=" + godzinazwaloryzowana + ", liczbagodzinnieobecnosci=" + liczbagodzinnieobecnosci + ", podstawapoprzedniachoroba=" + podstawapoprzedniachoroba + ", naliczenienieobecnosc=" + naliczenienieobecnosc.getNieobecnosc().getOpisRodzajSwiadczenie() + '}';
     }
 
    

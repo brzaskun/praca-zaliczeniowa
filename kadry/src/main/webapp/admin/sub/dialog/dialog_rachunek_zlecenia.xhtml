@@ -17,8 +17,11 @@ xmlns:pe="http://primefaces.org/ui/extensions">
               resizable="false"  onShow="ustawdialog('dialograchunekzlecenia','centertile',1650,800);zmienwyglad()" closeOnEscape="true" onHide="resetujdialog('dialograchunekzlecenia');" 
               fitViewport="true">
         <p:ajax event="open" listener="#{rachunekZlecenieView.init()}" update="RachunekZleceniaForm" global="false"/>
-        <p:outputPanel>
             <h:form id="RachunekZleceniaForm">
+                <p:outputPanel rendered="#{wpisView.umowa.umowakodzus.praca}">
+                    <h:outputText value="Bieżąca umowa to umowa o pracę. Nie można wygenerować rachunku" style="color: green;"/>
+                </p:outputPanel>
+                <p:outputPanel rendered="#{wpisView.umowa.umowakodzus.zlecenie}">
                 <p:panel header="Miesięczne rozliczenie umowy zlecenia nr #{rachunekZlecenieView.umowabiezaca.nrkolejny}" style="width: 700px;"/>
                 <h:outputText value="Przygotowano nowy rachunek do zatwierdzenia" rendered="#{rachunekZlecenieView.rachunekdoumowyzlecenia.id eq null}"/>
                 <h:outputText value="Pobrano uprzednio przygotowany rachunek." rendered="#{rachunekZlecenieView.rachunekdoumowyzlecenia.id ne null and rachunekZlecenieView.rachunekdoumowyzlecenia.pasekwynagrodzen eq null}" style="color: blue;"/>
@@ -77,8 +80,9 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                     <p:commandButton value="usuń" actionListener="#{rachunekZlecenieView.usun()}" update="@form" styleClass="buttonnorm2" rendered="#{rachunekZlecenieView.rachunekdoumowyzlecenia.id ne null and rachunekZlecenieView.rachunekdoumowyzlecenia.pasekwynagrodzen eq null}"/>
                     <h:outputText value="Rachunek ujęty na liście płac. Nie można usunąć rachunku." rendered="#{rachunekZlecenieView.rachunekdoumowyzlecenia.id ne null and rachunekZlecenieView.rachunekdoumowyzlecenia.pasekwynagrodzen ne null}"/>
                 </p:panelGrid>
+                </p:outputPanel>
             </h:form>
-        </p:outputPanel>
+        
     </p:dialog>
 </ui:composition>
 
