@@ -101,6 +101,8 @@ public class Pasekwynagrodzen implements Serializable {
     private double kwotawolna;
     @Column(name = "kwotawolnahipotetyczna")
     private double kwotawolnahipotetyczna;
+    @Column(name = "kwotawolnadlazdrowotnej")
+    private double kwotawolnadlazdrowotnej;
     @Column(name = "nettoprzedpotraceniami")
     private double nettoprzedpotraceniami;
     @Column(name = "netto")
@@ -310,6 +312,8 @@ public class Pasekwynagrodzen implements Serializable {
         this.kosztpracodawcy = Z.z(this.kosztpracodawcy + p.kosztpracodawcy);
         this.kosztyuzyskania = Z.z(this.kosztyuzyskania+p.getKosztyuzyskania());
         this.kwotawolna = Z.z(this.kwotawolna+p.getKwotawolna());
+        this.kwotawolnadlazdrowotnej = Z.z(this.kwotawolnadlazdrowotnej+p.getKwotawolnadlazdrowotnej());
+        this.kwotawolnahipotetyczna = Z.z(this.kwotawolnahipotetyczna+p.getKwotawolnahipotetyczna());
         this.podatekdochodowy = Z.z(this.podatekdochodowy+p.getPodatekdochodowy());
         this.podstawaopodatkowania = Z.z(this.podstawaopodatkowania+p.getPodstawaopodatkowania());
         this.praczdrowotnedoodliczenia = Z.z(this.praczdrowotnedoodliczenia+p.getPraczdrowotnedoodliczenia());
@@ -441,6 +445,14 @@ public class Pasekwynagrodzen implements Serializable {
 
     public void setKosztyuzyskaniahipotetyczne(double kosztyuzyskaniahipotetyczne) {
         this.kosztyuzyskaniahipotetyczne = kosztyuzyskaniahipotetyczne;
+    }
+
+    public double getKwotawolnadlazdrowotnej() {
+        return kwotawolnadlazdrowotnej;
+    }
+
+    public void setKwotawolnadlazdrowotnej(double kwotawolnadlazdrowotnej) {
+        this.kwotawolnadlazdrowotnej = kwotawolnadlazdrowotnej;
     }
 
     public double getKwotawolnahipotetyczna() {

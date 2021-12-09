@@ -285,7 +285,7 @@ xmlns:pe="http://primefaces.org/ui/extensions">
             </p:tab>
              <p:tab title="Zmienne podatkowe">
                 <h:form id="ZmiennepodatkoweForm">
-                    <p:panelGrid columns="8">
+                    <p:panelGrid columns="10">
                         <p:outputLabel for="prok" value="rok"/>
                         <p:inputText id="prok" value="#{podatkiUstawieniaView.selected.rok}"/>
                         <p:outputLabel for="pstawka1" value="stawka"/>
@@ -298,6 +298,8 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                         <bcf:inputplid id="pwolanrok" value="#{podatkiUstawieniaView.selected.wolnarok}"/>
                         <p:outputLabel for="pwolanmc" value="kwota wolna/mc"/>
                         <bcf:inputplid id="pwolanmc" value="#{podatkiUstawieniaView.selected.wolnamc}"/>
+                        <p:outputLabel for="pwolnazdrow" value="kwota dla zdrowotnej"/>
+                        <bcf:inputplid id="pwolnazdrow" value="#{podatkiUstawieniaView.selected.wolnadlazdrowotnej}"/>
                         <p:outputLabel for="pkup" value="kup"/>
                         <bcf:inputplid id="pkup" value="#{podatkiUstawieniaView.selected.kup}"/>
                         <p:outputLabel for="pkupp" value="kup podwyż."/>
@@ -356,6 +358,12 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                                 <h:outputText value="wolna mc"/>
                             </f:facet>
                             <bcf:outputpl value="#{itempodatki.wolnamc}"/>
+                        </p:column>
+                         <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="wolna dla zdrow."/>
+                            </f:facet>
+                             <bcf:outputpl value="#{itempodatki.wolnadlazdrowotnej}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">

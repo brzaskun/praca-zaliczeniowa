@@ -58,6 +58,7 @@ public class PasekwynagrodzenBean {
         Pasekwynagrodzen pasek = new Pasekwynagrodzen();
         String datawyplaty = Data.ostatniDzien(kalendarz.getRok(), kalendarz.getMc());
         pasek.setDatawyplaty(datawyplaty);
+        pasek.setRok(kalendarz.getRok());
 //        obliczwiek(kalendarz, pasek);
 //        String datakonca26lat = OsobaBean.obliczdata26(kalendarz.getDataUrodzenia());
 //        boolean po26roku = Data.czyjestpo(datakonca26lat, kalendarz.getRok(), kalendarz.getMc());
@@ -127,6 +128,8 @@ public class PasekwynagrodzenBean {
         pasek.setWynagrodzenieminimalne(wynagrodzenieminimalne);
         pasek.setDefinicjalistaplac(definicjalistaplac);
         pasek.setKalendarzmiesiac(kalendarz);
+        pasek.setRok(definicjalistaplac.getRok());
+        pasek.setMc(definicjalistaplac.getMc());
         boolean jestoddelegowanie = false;
         if (umowaoprace) {
             jestoddelegowanie = KalendarzmiesiacBean.naliczskladnikiwynagrodzeniaDB(kalendarz, pasek, kurs);
@@ -186,7 +189,7 @@ public class PasekwynagrodzenBean {
         PasekwynagrodzenBean.naliczzdrowota(pasek, pasek.isNierezydent());
         PasekwynagrodzenBean.obliczpodatekdowplaty(pasek);
         PasekwynagrodzenBean.netto(pasek);
-        double wolneodzajecia = obliczminimalna(kalendarz, definicjalistaplac, stawkipodatkowe, sumapoprzednich, wynagrodzenieminimalne);
+        double wolneodzajecia = obliczminimalna(kalendarz, definicjalistaplac, stawkipodatkowe, sumapoprzednich, wynagrodzenieminimalne, pasek.getDatawyplaty());
         KalendarzmiesiacBean.naliczskladnikipotraceniaDB(kalendarz, pasek, wolneodzajecia);
         PasekwynagrodzenBean.potracenia(pasek);
         PasekwynagrodzenBean.dowyplaty(pasek);
@@ -199,8 +202,7 @@ public class PasekwynagrodzenBean {
         PasekwynagrodzenBean.razem53(pasek);
         PasekwynagrodzenBean.razemkosztpracodawcy(pasek);
         PasekwynagrodzenBean.naniesrobocze(pasek,kalendarz);
-        pasek.setRok(definicjalistaplac.getRok());
-        pasek.setMc(definicjalistaplac.getMc());
+        
 //        System.out.println("****************");
 //        for (Naliczenieskladnikawynagrodzenia r : pasek.getNaliczenieskladnikawynagrodzeniaList()) {
 //            if (r.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getRedukowany()) {
@@ -242,9 +244,9 @@ public class PasekwynagrodzenBean {
     }
     
       public static double obliczminimalna(Kalendarzmiesiac kalendarz, Definicjalistaplac definicjalistaplac, 
-        List<Podatki> stawkipodatkowe, double sumapoprzednich, double wynagrodzenieminimalne) {
+        List<Podatki> stawkipodatkowe, double sumapoprzednich, double wynagrodzenieminimalne, String datawyplaty) {
         Pasekwynagrodzen pasek = new Pasekwynagrodzen();
-        pasek.setWynagrodzenieminimalne(wynagrodzenieminimalne);
+        pasek.setDatawyplaty(datawyplaty);
         pasek.setDefinicjalistaplac(definicjalistaplac);
         pasek.setKalendarzmiesiac(kalendarz);
         pasek.setBruttozus(wynagrodzenieminimalne);
@@ -604,6 +606,7 @@ public class PasekwynagrodzenBean {
     private static void ulgapodatkowaDB(Pasekwynagrodzen pasek,  List<Podatki> stawkipodatkowe) {
         boolean ulga = pasek.getKalendarzmiesiac().getUmowa().isOdliczaculgepodatkowa();
         double kwotawolna = stawkipodatkowe.get(0).getWolnamc();
+        double kwotawolnadlazdrowotnej = stawkipodatkowe.get(0).getWolnadlazdrowotnej();
         if (pasek.isDrugiprog()) {
             kwotawolna = 0.0;
             pasek.setKwotawolna(kwotawolna);
@@ -622,6 +625,7 @@ public class PasekwynagrodzenBean {
             pasek.setKwotawolnahipotetyczna(kwotawolna);
             pasek.setKwotawolna(0.0);
         }
+        pasek.setKwotawolnadlazdrowotnej(kwotawolnadlazdrowotnej);
     }
 
     private static void naliczzdrowota(Pasekwynagrodzen pasek, boolean nierezydent) {
@@ -643,15 +647,26 @@ public class PasekwynagrodzenBean {
                 pasek.setPraczdrowotnedoodliczenia(0.0);
                 pasek.setPraczdrowotnedopotracenia(zdrowotne);
             } else {
-                double podatekwstepny = pasek.getPodatekwstepny();
-                if (zdrowotne>podatekwstepny) {
-                    zdrowotneodliczane = zdrowotneodliczane<podatekwstepny?Z.z(podatekwstepny):zdrowotneodliczane;
-                    pasek.setPraczdrowotnedoodliczenia(zdrowotneodliczane);
-                    pasek.setPraczdrowotnedopotracenia(0.0);
+                if (Integer.parseInt(pasek.getRokwypl())<2022) {
+                    double podatekwstepny = Z.z(pasek.getPodatekwstepny()-pasek.getKwotawolna());
+                    if (zdrowotneodliczane>podatekwstepny) {
+                        pasek.setPraczdrowotne(podatekwstepny);
+                        pasek.setPraczdrowotnedoodliczenia(podatekwstepny);
+                        pasek.setPraczdrowotnedopotracenia(0.0);
+                    } else {
+                        pasek.setPraczdrowotnedoodliczenia(zdrowotneodliczane);
+                        pasek.setPraczdrowotnedopotracenia(Z.z(zdrowotne-zdrowotneodliczane));
+                    }
                 } else {
-                    pasek.setPraczdrowotne(zdrowotne);
-                    pasek.setPraczdrowotnedoodliczenia(zdrowotneodliczane);
-                    pasek.setPraczdrowotnedopotracenia(Z.z(zdrowotne-zdrowotneodliczane));
+                    double podatekwstepny = Z.z(pasek.getPodatekwstepny()-pasek.getKwotawolnadlazdrowotnej());
+                    if (zdrowotneodliczane>podatekwstepny) {
+                        pasek.setPraczdrowotne(podatekwstepny);
+                        pasek.setPraczdrowotnedoodliczenia(podatekwstepny);
+                        pasek.setPraczdrowotnedopotracenia(0.0);
+                    } else {
+                        pasek.setPraczdrowotnedoodliczenia(zdrowotneodliczane);
+                        pasek.setPraczdrowotnedopotracenia(Z.z(zdrowotne-zdrowotneodliczane));
+                    }
                 }
             }
         }

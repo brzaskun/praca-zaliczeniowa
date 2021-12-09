@@ -60,6 +60,8 @@ public class Podatki implements Serializable {
     private double wolnarok;
     @Column(name = "wolnamc")
     private double wolnamc;
+    @Column(name = "wolnadlazdrowotnej")
+    private double wolnadlazdrowotnej;
     @Column(name = "kup")
     private double kup;
     @Column(name = "kuppodwyzszone")
@@ -129,6 +131,14 @@ public class Podatki implements Serializable {
 
     public void setWolnamc(double wolnamc) {
         this.wolnamc = wolnamc;
+    }
+
+    public double getWolnadlazdrowotnej() {
+        return wolnadlazdrowotnej;
+    }
+
+    public void setWolnadlazdrowotnej(double wolnadlazdrowotnej) {
+        this.wolnadlazdrowotnej = wolnadlazdrowotnej;
     }
 
     public double getKup() {
