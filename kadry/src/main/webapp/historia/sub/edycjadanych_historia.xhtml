@@ -148,7 +148,7 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                 <p:panelGrid columns="3">
                     <h:outputText value="zbiorcze pobieranie #{historiaView.selectedosoby.size()} wybranych osób"/>
                 </p:panelGrid>
-                <p:commandButton style="width: 120px" value="pobierz" actionListener="#{osobaView.robgrupa(historiaView.selectedosoby)}" styleClass="buttonnorm" update="SuperFormFirma2"/>
+                <p:commandButton style="width: 120px" value="pobierz" actionListener="#{osobaView.robgrupa(historiaView.selectedosoby)}" styleClass="buttonnorm" update="SuperFormFirma2" ajax="false"/>
             </h:form>
             </p:panelGrid>
         </p:outputPanel>

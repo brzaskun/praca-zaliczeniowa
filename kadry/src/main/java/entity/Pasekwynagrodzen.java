@@ -297,7 +297,6 @@ public class Pasekwynagrodzen implements Serializable {
         this.dieta = Z.z(this.dieta + p.dieta);
         this.dietaodliczeniepodstawaop = Z.z(this.dietaodliczeniepodstawaop + p.dietaodliczeniepodstawaop);
         this.podstawaskladkizus = Z.z(this.podstawaskladkizus + p.podstawaskladkizus);
-        this.podatekdochodowy = Z.z(this.podatekdochodowy + p.podatekdochodowy);
         this.pracchorobowe = Z.z(this.pracchorobowe + p.pracchorobowe);
         this.pracemerytalne = Z.z(this.pracemerytalne + p.pracemerytalne);
         this.pracrentowe = Z.z(this.pracrentowe + p.pracrentowe);

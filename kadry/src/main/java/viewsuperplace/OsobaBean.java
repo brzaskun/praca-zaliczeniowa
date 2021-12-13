@@ -973,6 +973,29 @@ public class OsobaBean {
         }
         return paskigotowe;
     }
+    
+    static List<Pasekwynagrodzen> laczduplikatyumowaoprace(List<Pasekwynagrodzen> paskigotowe) {
+        int i = 1;
+        for (Pasekwynagrodzen p : paskigotowe) {
+            p.setNumerator(i++);
+        }
+        List<Pasekwynagrodzen> paskigotowekopia = new ArrayList<>(paskigotowe);
+        for (Iterator<Pasekwynagrodzen> it = paskigotowe.iterator(); it.hasNext();) {
+            Pasekwynagrodzen  pierwszy  = it.next();
+            for (Pasekwynagrodzen drugi : paskigotowekopia) {
+                if (pierwszy.getKalendarzmiesiac().equals(drugi.getKalendarzmiesiac())) {
+                    if (pierwszy.getDefinicjalistaplac().equals(drugi.getDefinicjalistaplac())) {
+                        if (pierwszy.getNumerator()!=drugi.getNumerator()&&!pierwszy.isZmieniony()) {
+                            drugi.dodajPasek(pierwszy);
+                            drugi.setZmieniony(true);
+                            it.remove();
+                        }
+                    }
+                }
+            }
+        }
+        return paskigotowe;
+    }
 
     
     
