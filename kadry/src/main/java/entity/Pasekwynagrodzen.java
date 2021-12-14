@@ -236,12 +236,21 @@ public class Pasekwynagrodzen implements Serializable {
     }
 
    
-    public static Pasekwynagrodzen pasekuzupelnianie(Pasekwynagrodzen nowy, Place r) {
-        if (r.getLplChar10()!=null) {
-            if (r.getLplChar10().equals('Y')) {
+    public static Pasekwynagrodzen pasekuzupelnianie(Pasekwynagrodzen nowy, Place r, String datakonca26lat) {
+        if (nowy.getRok().equals("2020")) {
+            boolean po26roku = Data.czyjestpo(datakonca26lat, nowy.getRok(), nowy.getMc());
+            if (po26roku==false) {
                 nowy.do26lat = true;
             } else {
                 nowy.do26lat = false;
+            }
+        } else {
+            if (r.getLplChar10()!=null) {
+                if (r.getLplChar10().equals('Y')) {
+                    nowy.do26lat = true;
+                } else {
+                    nowy.do26lat = false;
+                }
             }
         }
         nowy.podstawaskladkizus = Z.z(r.getLplPdstChor().doubleValue());

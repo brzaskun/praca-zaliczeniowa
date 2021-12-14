@@ -6,6 +6,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:bcf="http://brzaskun.com/facelets"
     >
+    <f:event type="preRenderView" listener="#{kartaWynagrodzenView.init()}"/>
     <p:tabView id="akordeon">
         <p:tab title="zestawienie do PIT-11">
     <p:outputPanel>

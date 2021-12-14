@@ -30,7 +30,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -69,7 +68,6 @@ public class KartaWynagrodzenView  implements Serializable {
      
 
     
-    @PostConstruct
     public void init() {
         pobierzdane();
         pobierzdaneAll();
@@ -191,13 +189,13 @@ public class KartaWynagrodzenView  implements Serializable {
 //                    3,"pełnienie obowiązków",3
 //                    4,zasiłki,4
 
-                    if ((pasek.getRodzajWynagrodzenia()==1||pasek.getRodzajWynagrodzenia()==4)&&pasek.isDo26lat()==false) {
+                    if ((pasek.getRodzajWynagrodzenia()==1||pasek.getRodzajWynagrodzenia()==4||pasek.getRodzajWynagrodzenia()==1006)&&pasek.isDo26lat()==false) {
                         if (pasek.getProcentkosztow()>100.0) {
                             sumaUmowaopracekosztypodwyzszone.dodaj(pasek);
                         } else {
                             sumaUmowaoprace.dodaj(pasek);
                         }
-                    } else if (pasek.getRodzajWynagrodzenia()==1&&pasek.isDo26lat()==true) {
+                    } else if ((pasek.getRodzajWynagrodzenia()==1||pasek.getRodzajWynagrodzenia()==1006)&&pasek.isDo26lat()==true) {
                             sumaUmowaoprace26zwolnione.dodaj(pasek);
                     } else if (pasek.getRodzajWynagrodzenia()==2&&pasek.isDo26lat()==false) {
                         sumaUmowazlecenia.dodaj(pasek);

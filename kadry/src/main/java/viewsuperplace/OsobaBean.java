@@ -626,7 +626,7 @@ public class OsobaBean {
                         historycznenaliczeniezlecenie(placeZlecList, nowypasek, skladnikwynagrodzenia);
                         List<PlacePot>  placePotList = r.getPlacePotList();
                         historycznenaliczeniepotracenie(placePotList, nowypasek, skladnikpotracenia);
-                        Pasekwynagrodzen.pasekuzupelnianie(nowypasek, r);
+                        Pasekwynagrodzen.pasekuzupelnianie(nowypasek, r, datakonca26lat);
                         zwrot.add(nowypasek);
                     }
                 } else {
@@ -645,7 +645,7 @@ public class OsobaBean {
                         historycznenaliczenienieobecnosc(placePrzList, nowypasek, nieobecnoscilista);
                         List<PlacePot>  placePotList = r.getPlacePotList();
                         historycznenaliczeniepotracenie(placePotList, nowypasek, skladnikpotracenia);
-                        Pasekwynagrodzen.pasekuzupelnianie(nowypasek, r);
+                        Pasekwynagrodzen.pasekuzupelnianie(nowypasek, r, datakonca26lat);
                         zwrot.add(nowypasek);
                     }
                 }
