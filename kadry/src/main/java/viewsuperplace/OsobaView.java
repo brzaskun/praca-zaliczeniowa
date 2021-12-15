@@ -181,13 +181,13 @@ public class OsobaView implements Serializable {
             baos.writeTo(out);
             // Inform JSF that response is completed and it thus doesn't have to navigate.
             facesContext.responseComplete();
-        } catch (IOException ex) {
-            Logger.getLogger(OsobaView.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            E.e(ex);
         } finally {
             try {
                 out.close();
             } catch (IOException ex) {
-                Logger.getLogger(OsobaView.class.getName()).log(Level.SEVERE, null, ex);
+                E.e(ex);
             }
         }
         
@@ -315,7 +315,7 @@ public class OsobaView implements Serializable {
                                 List<Definicjalistaplac> listyaktywne = OsobaBean.generujlistyplac(paskiumowaoprace, wpisView.getFirma(), definicjalistaplacFacade, rodzajlistyplacFacade, rokdlakalendarza);
                                 List<Kalendarzmiesiac> kalendarze = kalendarzmiesiacFacade.findByRokUmowa(aktywna, rokdlakalendarza);
                                 List<Pasekwynagrodzen> paskigotowe = OsobaBean.dodajlisteikalendarzdopaska(paskiumowaoprace, listyaktywne, kalendarze);
-                                paskigotowe = OsobaBean.laczduplikatyumowaoprace(paskigotowe);
+                                //paskigotowe = OsobaBean.laczduplikatyumowaoprace(paskigotowe);
                                 pasekwynagrodzenFacade.createList(paskigotowe);
                                 log.add("Udane zachowanie paskow wynagrodzen za 2020");
                                 Msg.msg("Zrobiono kalendarz i paski za 2020 umowa o pracę");
@@ -333,7 +333,7 @@ public class OsobaView implements Serializable {
                                 List<Definicjalistaplac> listyaktywne = OsobaBean.generujlistyplac(paskiumowaoprace, wpisView.getFirma(), definicjalistaplacFacade, rodzajlistyplacFacade, rokdlakalendarza);
                                 List<Kalendarzmiesiac> kalendarze = kalendarzmiesiacFacade.findByRokUmowa(aktywna, rokdlakalendarza);
                                 List<Pasekwynagrodzen> paskigotowe = OsobaBean.dodajlisteikalendarzdopaska(paskiumowaoprace, listyaktywne, kalendarze);
-                                paskigotowe = OsobaBean.laczduplikatyumowaoprace(paskigotowe);
+                                //paskigotowe = OsobaBean.laczduplikatyumowaoprace(paskigotowe);
                                 pasekwynagrodzenFacade.createList(paskigotowe);
                                 log.add("Udane zachowanie paskow wynagrodzen za 2021");
                                 Msg.msg("Zrobiono kalendarz i paski za 2021 umowa o pracę");
@@ -389,7 +389,7 @@ public class OsobaView implements Serializable {
                                     List<Definicjalistaplac> listyumowazlecenia = OsobaBean.generujlistyplac(paskiumowazlecenia, wpisView.getFirma(), definicjalistaplacFacade, rodzajlistyplacFacade, rokdlakalendarza);
                                     List<Kalendarzmiesiac> kalendarze = kalendarzmiesiacFacade.findByRokUmowa(aktywna, rokdlakalendarza);
                                     List<Pasekwynagrodzen> paskigotowe = OsobaBean.dodajlisteikalendarzdopaska(paskiumowazlecenia, listyumowazlecenia, kalendarze);
-                                    paskigotowe = OsobaBean.laczduplikaty(paskigotowe);
+                                    //paskigotowe = OsobaBean.laczduplikaty(paskigotowe);
                                     //bo definicje listyplac moga juz istniec
                                     pasekwynagrodzenFacade.createList(paskigotowe);
                                     log.add("Udane zachowanie pasków za 2020 do umowy zlecenia");
@@ -408,7 +408,7 @@ public class OsobaView implements Serializable {
                                     List<Definicjalistaplac> listyumowazlecenia = OsobaBean.generujlistyplac(paskiumowazlecenia, wpisView.getFirma(),definicjalistaplacFacade, rodzajlistyplacFacade, rokdlakalendarza);
                                     List<Kalendarzmiesiac> kalendarze = kalendarzmiesiacFacade.findByRokUmowa(aktywna, rokdlakalendarza);
                                     List<Pasekwynagrodzen> paskigotowe = OsobaBean.dodajlisteikalendarzdopaska(paskiumowazlecenia, listyumowazlecenia, kalendarze);
-                                    paskigotowe = OsobaBean.laczduplikaty(paskigotowe);
+                                    //paskigotowe = OsobaBean.laczduplikaty(paskigotowe);
                                     pasekwynagrodzenFacade.createList(paskigotowe);
                                     log.add("Udane zachowanie pasków za 2021 do umowy zlecenia");
                                     Msg.msg("Zrobiono kalendarz i paski za 2021 umowa zlecenia");

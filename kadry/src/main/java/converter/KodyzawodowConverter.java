@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import javax.annotation.PostConstruct;
+import javax.enterprise.context.ApplicationScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -21,6 +22,7 @@ import javax.inject.Named;
  * @author Osito
  */
 @Named
+@ApplicationScoped
 public class KodyzawodowConverter implements javax.faces.convert.Converter {
     
     private List<Kodyzawodow> lista;

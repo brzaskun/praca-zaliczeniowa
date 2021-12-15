@@ -7,8 +7,10 @@ package converter;
 
 import dao.RodzajlistyplacFacade;
 import entity.Rodzajlistyplac;
+import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -19,7 +21,8 @@ import javax.inject.Named;
  * @author Osito
  */
 @Named
-public class RodzjalistyplacConverter implements javax.faces.convert.Converter {
+@SessionScoped
+public class RodzjalistyplacConverter implements javax.faces.convert.Converter, Serializable {
     
     private List<Rodzajlistyplac> lista;
     @Inject

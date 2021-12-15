@@ -7,8 +7,10 @@ package converter;
 
 import dao.RodzajpotraceniaFacade;
 import entity.Rodzajpotracenia;
+import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -19,7 +21,8 @@ import javax.inject.Named;
  * @author Osito
  */
 @Named
-public class SlownikpotracenConverter implements javax.faces.convert.Converter {
+@SessionScoped
+public class SlownikpotracenConverter implements javax.faces.convert.Converter, Serializable {
     
     private List<Rodzajpotracenia> lista;
     @Inject

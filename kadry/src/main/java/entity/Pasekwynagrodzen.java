@@ -24,6 +24,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -35,7 +36,9 @@ import z.Z;
  * @author Osito
  */
 @Entity
-@Table(name = "pasekwynagrodzen")
+@Table(name = "pasekwynagrodzen", uniqueConstraints = {
+    @UniqueConstraint(columnNames={"kalendarzmiesiac", "definicjalistaplac", "lpl_serial"})
+})
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Pasekwynagrodzen.findAll", query = "SELECT p FROM Pasekwynagrodzen p"),
@@ -206,6 +209,8 @@ public class Pasekwynagrodzen implements Serializable {
     private boolean nierezydent;
     @Column(name = "lis_tyt_serial")
     private Integer lis_tyt_serial;
+    @Column(name = "lpl_serial")
+    private Integer lpl_serial;
     @OneToMany(mappedBy = "pasekwynagrodzen")
     private List<Rachunekdoumowyzlecenia> rachunekdoumowyzleceniaList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "pasekwynagrodzen", orphanRemoval = true)
@@ -288,6 +293,7 @@ public class Pasekwynagrodzen implements Serializable {
         nowy.dniobowiazku = r.getLplDniObow().intValue();
         nowy.dniprzepracowane = r.getLplDniPrzepr().intValue();
         nowy.lis_tyt_serial = r.getLplLisSerial().getLisTytSerial().getTytSerial();
+        nowy.lpl_serial = r.getLplSerial();
         return nowy;
     }
     
@@ -400,6 +406,14 @@ public class Pasekwynagrodzen implements Serializable {
 
     public void setLis_tyt_serial(Integer lis_tyt_serial) {
         this.lis_tyt_serial = lis_tyt_serial;
+    }
+
+    public Integer getLpl_serial() {
+        return lpl_serial;
+    }
+
+    public void setLpl_serial(Integer lpl_serial) {
+        this.lpl_serial = lpl_serial;
     }
 
     public int getNumerator() {

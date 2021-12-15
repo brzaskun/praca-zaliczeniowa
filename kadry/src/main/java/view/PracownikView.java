@@ -31,7 +31,7 @@ public class PracownikView  implements Serializable {
     private static final long serialVersionUID = 1L;
     @Inject
     private Pracownik selected;
-    private Pracownik selectedlista;
+    private List<Pracownik> selectedlista;
     private Pracownik selectedeast;
     private List<Pracownik> lista;
     private List<Pracownik> listafiltered;
@@ -152,13 +152,14 @@ public class PracownikView  implements Serializable {
         this.lista = lista;
     }
 
-    public Pracownik getSelectedlista() {
+    public List<Pracownik> getSelectedlista() {
         return selectedlista;
     }
 
-    public void setSelectedlista(Pracownik selectedlista) {
+    public void setSelectedlista(List<Pracownik> selectedlista) {
         this.selectedlista = selectedlista;
     }
+
 
     public Pracownik getSelectedeast() {
         return selectedeast;

@@ -30,13 +30,13 @@
             <h:form id="PracownikListForm">
                 <p:panel header="Wykaz pracowników u wszystkich pracodawców">
                     <p:dataTable id="datalist" value="#{pracownikView.lista}" var="item2"
-                                 selectionMode="single" selection="#{pracownikView.selectedlista}" 
+                                 selectionMode="multiple" rowSelectMode="add" selection="#{pracownikView.selectedlista}" 
                                  rowKey="#{item2.pesel}" filteredValue="#{pracownikView.listafiltered}"
                                  style="height: 400px; overflow-y: scroll;" size="small"
                                  rowsPerPageTemplate="20,100,250,500" paginatorPosition="top" paginator="true" rows="20"
                                  emptyMessage="Nie wprowadzono ani jednego pracownika"
                                  >
-
+                        <p:column width="40" selectionMode="multiple" selectRow="true" />
                         <p:column width="40" style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="id"/>
@@ -83,13 +83,13 @@
                                 <p:ajax event="change" partialSubmit="true" global="false" listener="#{pracownikView.edytuj(item2)}"/>
                             </p:inputText>
                         </p:column>
-                        <p:column width="50" style="text-align: center;">
+                        <p:column width="50" style="text-align: center;" sortBy="#{item2.czyjestangaz}">
                             <f:facet name="header">
                                 <h:outputText value=" jest angaż"/>
                             </f:facet>
                              <h:outputText value="#{item2.czyjestangaz}"/>
                         </p:column>
-                        <p:column width="50" style="text-align: center;">
+                        <p:column width="50" style="text-align: center;" sortBy="#{item2.czyjestumowa}">
                             <f:facet name="header">
                                 <h:outputText value="jest umowa"/>
                             </f:facet>
