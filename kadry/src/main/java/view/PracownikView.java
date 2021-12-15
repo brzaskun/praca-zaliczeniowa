@@ -73,6 +73,35 @@ public class PracownikView  implements Serializable {
         }
     }
     
+    public void usunwybrane() {
+        if (selectedlista!=null) {
+            for (Pracownik pracownik : selectedlista) {
+                try {
+                if (wpisView.getPracownik() != null && wpisView.getPracownik().equals(pracownik)) {
+                    wpisView.setPracownik(null);
+                }
+                if (wpisView.getAngaz() != null && wpisView.getAngaz().getPracownik().equals(pracownik)) {
+                    if (angazView.getLista()!=null) {
+                        angazView.getLista().remove(wpisView.getAngaz());
+                    }
+                    wpisView.setAngaz(null);
+                }
+                if (wpisView.getUmowa() != null && wpisView.getUmowa().getAngaz().getPracownik().equals(pracownik)) {
+                    wpisView.setUmowa(null);
+                }
+                pracownikFacade.remove(pracownik);
+                lista.remove(pracownik);
+            } catch (Exception e) {
+                Msg.msg("e", "Nie można usunąć pracownika. "+pracownik.getNazwiskoImie());
+            }
+            }
+            selectedlista = null;
+            listafiltered = null;
+            Msg.msg("Usunięto pracowników");
+        }
+    }
+    
+    
     public void usun(Pracownik pracownik) {
         if (pracownik != null) {
             try {

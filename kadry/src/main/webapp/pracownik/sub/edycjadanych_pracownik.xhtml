@@ -29,14 +29,14 @@
         <p:outputPanel>
             <h:form id="PracownikListForm">
                 <p:panel header="Wykaz pracowników u wszystkich pracodawców">
-                    <p:dataTable id="datalist" value="#{pracownikView.lista}" var="item2"
-                                 selectionMode="multiple" rowSelectMode="add" selection="#{pracownikView.selectedlista}" 
+                    <p:dataTable id="datalist" value="#{pracownikView.lista}" var="item2" widgetVar="listapracownikow"
+                                 rowSelectMode="add" selection="#{pracownikView.selectedlista}" 
                                  rowKey="#{item2.pesel}" filteredValue="#{pracownikView.listafiltered}"
                                  style="height: 400px; overflow-y: scroll;" size="small"
                                  rowsPerPageTemplate="20,100,250,500" paginatorPosition="top" paginator="true" rows="20"
                                  emptyMessage="Nie wprowadzono ani jednego pracownika"
                                  >
-                        <p:column width="40" selectionMode="multiple" selectRow="true" />
+                        <p:column width="40" selectionMode="multiple" selectRow="true" style="text-align: center;"/>
                         <p:column width="40" style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="id"/>
@@ -102,6 +102,9 @@
                         </p:column>
                     </p:dataTable>
                 </p:panel>
+                 <p:contextMenu for="PracownikListForm:datalist" style="width: 200px;">
+                        <p:menuitem icon="fa fa-trash" value="usuń wybrane" actionListener="#{pracownikView.usunwybrane()}" global="false" update="north PracownikListForm:datalist AngazListForm"/>
+                </p:contextMenu>
             </h:form>
         </p:outputPanel>
 </p:panelGrid>    
