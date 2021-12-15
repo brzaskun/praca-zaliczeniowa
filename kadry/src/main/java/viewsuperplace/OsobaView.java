@@ -53,10 +53,7 @@ import entity.Umowa;
 import entity.Umowakodzus;
 import entity.Zmiennawynagrodzenia;
 import error.E;
-import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -64,8 +61,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.faces.context.ExternalContext;
-import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -78,6 +73,7 @@ import kadryiplace.OsobaSkl;
 import kadryiplace.OsobaZlec;
 import kadryiplace.Rok;
 import msg.Msg;
+import pdf.PdfHistoriaImp;
 import view.HistoriaView;
 import view.WpisView;
 
@@ -146,7 +142,7 @@ public class OsobaView implements Serializable {
     private String serial;
     
     public void robgrupa(List<Osoba> wybraneosoby) {
-        OutputStream out = null;
+        //OutputStream out = null;
         try {
             List<String> log = new ArrayList<>();
             log.add("Rozpoczęto import pracowników firmy "+wpisView.getFirma());
@@ -159,37 +155,39 @@ public class OsobaView implements Serializable {
                 wybraneosoby = null;
                 Msg.msg("Pobrano grupę osób");
             } else {
-                log.add("Błąd. Brak wybranych pracowników. Przerwano import pracowników firmy "+wpisView.getFirma());
+                log.add("BŁĄD. Brak wybranych pracowników. Przerwano import pracowników firmy "+wpisView.getFirma());
                 Msg.msg("e","Nie wybrano osoób");
             }   log.add("Zakończono import pracowników firmy "+wpisView.getFirma());
-            FacesContext facesContext = FacesContext.getCurrentInstance();
-            ExternalContext externalContext = facesContext.getExternalContext();
-            externalContext.setResponseContentType("text/plain");
-            String filename = "raport"+wpisView.getMiesiacWpisu()+wpisView.getRokWpisu()+".txt";
-            externalContext.setResponseHeader("Content-Disposition", "attachment; filename=\"" + filename + "\"");
-            // Write file to response body.
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            StringBuilder sb = new StringBuilder();
-            for (String s : log) {
-                sb.append(s);
-                sb.append("\n");
-            }
-            byte[] array = sb.toString().getBytes();
-            // Writes data to the output stream
-            baos.write(array);
-            out = externalContext.getResponseOutputStream();
-            baos.writeTo(out);
-            // Inform JSF that response is completed and it thus doesn't have to navigate.
-            facesContext.responseComplete();
+//            FacesContext facesContext = FacesContext.getCurrentInstance();
+//            ExternalContext externalContext = facesContext.getExternalContext();
+//            externalContext.setResponseContentType("text/plain");
+//            String filename = "raport"+wpisView.getMiesiacWpisu()+wpisView.getRokWpisu()+".txt";
+//            externalContext.setResponseHeader("Content-Disposition", "attachment; filename=\"" + filename + "\"");
+//            // Write file to response body.
+//            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//            StringBuilder sb = new StringBuilder();
+//            for (String s : log) {
+//                sb.append(s);
+//                sb.append("\n");
+//            }
+//            byte[] array = sb.toString().getBytes();
+//            // Writes data to the output stream
+//            baos.write(array);
+//            out = externalContext.getResponseOutputStream();
+//            baos.writeTo(out);
+//            // Inform JSF that response is completed and it thus doesn't have to navigate.
+//            facesContext.responseComplete();
+              PdfHistoriaImp.drukuj(log, wpisView.getFirma().getNazwa(), wpisView.getFirma().getNip());
         } catch (Exception ex) {
             E.e(ex);
-        } finally {
-            try {
-                out.close();
-            } catch (IOException ex) {
-                E.e(ex);
-            }
         }
+//        } finally {
+//            try {
+//                out.close();
+//            } catch (IOException ex) {
+//                E.e(ex);
+//            }
+//        }
         
     }
 

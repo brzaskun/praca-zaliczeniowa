@@ -379,10 +379,10 @@ public class PdfMain {
     }
 
     
-    public static void dodajLinieOpisu(Document document, String opis, int al, int fontsize) {
+    public static void dodajLinieOpisu(Document document, String opis, int alignment, int fontsize) {
         try {
             Paragraph opiswstepny = new Paragraph(new Phrase(opis, ft[fontsize]));
-            opiswstepny.setAlignment(al);
+            opiswstepny.setAlignment(alignment);
             opiswstepny.setLeading(20, 0);
             document.add(opiswstepny);
             document.add(Chunk.NEWLINE);
