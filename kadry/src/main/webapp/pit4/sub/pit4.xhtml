@@ -13,7 +13,7 @@
         <p:panelGrid columns="1" style="padding: 20px;">
             <bcf:outputpl value="#{kartaWynagrodzenPIT4View.podatekrazem}"/>
         </p:panelGrid>
-        <p:panelGrid columns="6" style="padding: 20px;">
+        <p:panelGrid columns="7" style="padding: 20px;">
             <p:dataTable id="datalist" value="#{mce.mceList}" var="itemmc"
                          rowKey="#{itemmc.id}" rowIndexVar="indexmc" 
                          style="height: 350px; width: 40px;" emptyMessage="Nie pobrano danych"
@@ -27,26 +27,40 @@
             </p:dataTable>
             <p:dataTable id="datalist1" value="#{kartaWynagrodzenPIT4View.sumaUmowaoprace.values()}" var="itempraca"
                          rowKey="#{itempraca.id}"  
-                         style="height: 350px; width: 100px;" emptyMessage="Nie pobrano danych"
+                         style="height: 350px; width: 120px;" emptyMessage="Nie pobrano danych"
                          >
                 <f:facet name="header">
                     <h:outputText value="praca"/>
                 </f:facet>
-                <p:column>
+                <p:column width="25">
                     <h:outputText value="#{itempraca.pesele.size()}"/>
                 </p:column>
                 <p:column>
                     <bcf:outputpl value="#{itempraca.podatekdochodowy}"/>
                 </p:column>
             </p:dataTable>
-            <p:dataTable id="datalist11" value="#{kartaWynagrodzenPIT4View.sumaUmowaopracekosztypodwyzszone.values()}" var="itempracak"
+            <p:dataTable id="datalist15" value="#{kartaWynagrodzenPIT4View.sumaUmowaoprace26zwolnione.values()}" var="itempracak26"
+                         rowKey="#{itempracak26.id}"
+                         style="height: 350px; width: 120px;" emptyMessage="Nie pobrano danych"
+                         >
+                <f:facet name="header">
+                    <h:outputText value="prac. do 26l."/>
+                </f:facet>
+                <p:column width="25">
+                    <h:outputText value="#{itempracak26.pesele.size()}"/>
+                </p:column>
+                <p:column>
+                    <bcf:outputpl value="#{itempracak26.podatekdochodowy}"/>
+                </p:column>
+            </p:dataTable>
+             <p:dataTable id="datalist11" value="#{kartaWynagrodzenPIT4View.sumaUmowaopracekosztypodwyzszone.values()}" var="itempracak"
                          rowKey="#{itempracak.id}"
-                         style="height: 350px; width: 100px;" emptyMessage="Nie pobrano danych"
+                         style="height: 350px; width: 120px;" emptyMessage="Nie pobrano danych"
                          >
                 <f:facet name="header">
                     <h:outputText value="prac.koszt+"/>
                 </f:facet>
-                <p:column>
+                <p:column width="25">
                     <h:outputText value="#{itempracak.pesele.size()}"/>
                 </p:column>
                 <p:column>
@@ -55,26 +69,40 @@
             </p:dataTable>
             <p:dataTable id="datalist2" value="#{kartaWynagrodzenPIT4View.sumaUmowazlecenia.values()}" var="itemzlec"
                          rowKey="#{itemzlec.id}" 
-                         style="height: 350px; width: 100px;" emptyMessage="Nie pobrano danych"
+                         style="height: 350px; width: 120px;" emptyMessage="Nie pobrano danych"
                          >
                 <f:facet name="header">
                     <h:outputText value="zlec."/>
                 </f:facet>
-                <p:column>
+                <p:column width="25">
                     <h:outputText value="#{itemzlec.pesele.size()}"/>
                 </p:column>
                 <p:column>
                     <bcf:outputpl value="#{itemzlec.podatekdochodowy}"/>
                 </p:column>
             </p:dataTable>
+             <p:dataTable id="datalist2z" value="#{kartaWynagrodzenPIT4View.sumaUmowazlecenia26zwolnione.values()}" var="itemzlec26"
+                         rowKey="#{itemzlec26.id}" 
+                         style="height: 350px; width: 120px;" emptyMessage="Nie pobrano danych"
+                         >
+                <f:facet name="header">
+                    <h:outputText value="zlec. do 26"/>
+                </f:facet>
+                <p:column width="25">
+                    <h:outputText value="#{itemzlec26.pesele.size()}"/>
+                </p:column>
+                <p:column>
+                    <bcf:outputpl value="#{itemzlec26.podatekdochodowy}"/>
+                </p:column>
+            </p:dataTable>
             <p:dataTable id="datalist22" value="#{kartaWynagrodzenPIT4View.sumaUmowapelnieniefunkcji.values()}" var="itemfun"
                          rowKey="#{itemfun.id}" 
-                         style="height: 350px; width: 100px;" emptyMessage="Nie pobrano danych"
+                         style="height: 350px; width: 120px;" emptyMessage="Nie pobrano danych"
                          >
                 <f:facet name="header">
                     <h:outputText value="funkcja"/>
                 </f:facet>
-                <p:column>
+                <p:column width="25">
                     <h:outputText value="#{itemfun.pesele.size()}"/>
                 </p:column>
                 <p:column>
@@ -87,7 +115,7 @@
         <h:form>
             <p:dataTable id="datalistwa" value="#{pit4RView.lista}" var="itempity"
                          rowKey="#{itempity.id}" rowIndexVar="indexpity" 
-                         style="height: 350px; width: 1150px;" emptyMessage="Nie pobrano danych"
+                         style="height: 350px; width: 1120px;" emptyMessage="Nie pobrano danych"
                          >
                 <f:facet name="header">
                     <h:outputText value="Wygenerowane deklaracje PIT-4"/>

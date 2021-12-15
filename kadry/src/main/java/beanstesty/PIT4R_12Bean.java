@@ -29,10 +29,10 @@ import z.Z;
  * @author Osito
  */
 public class PIT4R_12Bean {
-     public static Object[] generujXML(Map<String, Kartawynagrodzen> sumaUmowaoprace, Map<String, Kartawynagrodzen> sumaUmowaopracekosztypodwyzszone, Map<String, Kartawynagrodzen> sumaUmowazlecenia, Map<String, Kartawynagrodzen> sumaUmowapelnieniefunkcji
+     public static Object[] generujXML(Map<String, Kartawynagrodzen> sumaUmowaoprace, Map<String, Kartawynagrodzen> sumaUmowaopracekosztypodwyzszone, Map<String, Kartawynagrodzen> sumaUmowaoprace26zwolnione, Map<String, Kartawynagrodzen> sumaUmowazlecenia, Map<String, Kartawynagrodzen> sumaUmowapelnieniefunkcji
              , FirmaKadry firma, byte normalna1korekta2, String kodurzedu, String rok) {
         Object[] zwrot = new Object[3];
-        pl.gov.crd.wzor._2021._04._02._10568.Deklaracja deklaracja = genPIT4R12(sumaUmowaoprace, sumaUmowaopracekosztypodwyzszone, sumaUmowazlecenia, sumaUmowapelnieniefunkcji, firma, normalna1korekta2, kodurzedu, rok);
+        pl.gov.crd.wzor._2021._04._02._10568.Deklaracja deklaracja = genPIT4R12(sumaUmowaoprace, sumaUmowaopracekosztypodwyzszone, sumaUmowaoprace26zwolnione, sumaUmowazlecenia, sumaUmowapelnieniefunkcji, firma, normalna1korekta2, kodurzedu, rok);
         String sciezka = null;
         try {
             sciezka = marszajuldoplikuxml(deklaracja);
@@ -91,13 +91,13 @@ public class PIT4R_12Bean {
         return sciezka;
     }
     
-     private static pl.gov.crd.wzor._2021._04._02._10568.Deklaracja genPIT4R12(Map<String, Kartawynagrodzen> sumaUmowaoprace, Map<String, Kartawynagrodzen> sumaUmowaopracekosztypodwyzszone, Map<String, Kartawynagrodzen> sumaUmowazlecenia, Map<String, Kartawynagrodzen> sumaUmowapelnieniefunkcji, FirmaKadry firma, byte normalna1korekta2, String kodurzedu, String rok) {
+     private static pl.gov.crd.wzor._2021._04._02._10568.Deklaracja genPIT4R12(Map<String, Kartawynagrodzen> sumaUmowaoprace, Map<String, Kartawynagrodzen> sumaUmowaopracekosztypodwyzszone, Map<String, Kartawynagrodzen> sumaUmowaoprace26zwolnione, Map<String, Kartawynagrodzen> sumaUmowazlecenia, Map<String, Kartawynagrodzen> sumaUmowapelnieniefunkcji, FirmaKadry firma, byte normalna1korekta2, String kodurzedu, String rok) {
         pl.gov.crd.wzor._2021._04._02._10568.ObjectFactory of = new pl.gov.crd.wzor._2021._04._02._10568.ObjectFactory();
         pl.gov.crd.wzor._2021._04._02._10568.Deklaracja deklaracja = of.createDeklaracja();
         deklaracja.setNaglowek(of.createTNaglowek());
         deklaracja.setNaglowek(naglowek(normalna1korekta2, kodurzedu, rok));
         deklaracja.setPodmiot1(pracodawca(firma));
-        deklaracja.setPozycjeSzczegolowe(pozycjeszczegolowe(sumaUmowaoprace, sumaUmowaopracekosztypodwyzszone, sumaUmowazlecenia, sumaUmowapelnieniefunkcji, normalna1korekta2));
+        deklaracja.setPozycjeSzczegolowe(pozycjeszczegolowe(sumaUmowaoprace, sumaUmowaopracekosztypodwyzszone, sumaUmowaoprace26zwolnione, sumaUmowazlecenia, sumaUmowapelnieniefunkcji, normalna1korekta2));
         deklaracja.setPouczenia(BigDecimal.ONE);
         return deklaracja;
     }
@@ -153,7 +153,7 @@ public class PIT4R_12Bean {
    
 
     
-    private static pl.gov.crd.wzor._2021._04._02._10568.Deklaracja.PozycjeSzczegolowe pozycjeszczegolowe(Map<String, Kartawynagrodzen> sumaUmowaoprace, Map<String, Kartawynagrodzen> sumaUmowaopracekosztypodwyzszone,
+    private static pl.gov.crd.wzor._2021._04._02._10568.Deklaracja.PozycjeSzczegolowe pozycjeszczegolowe(Map<String, Kartawynagrodzen> sumaUmowaoprace, Map<String, Kartawynagrodzen> sumaUmowaopracekosztypodwyzszone, Map<String, Kartawynagrodzen> sumaUmowaoprace26zwolnione,
             Map<String, Kartawynagrodzen> sumaUmowazlecenia, Map<String, Kartawynagrodzen> sumaUmowapelnieniefunkcji, byte normalna1korekta2) {
         pl.gov.crd.wzor._2021._04._02._10568.Deklaracja.PozycjeSzczegolowe poz = new pl.gov.crd.wzor._2021._04._02._10568.Deklaracja.PozycjeSzczegolowe();
         if (normalna1korekta2 == (byte) 2) {
@@ -165,7 +165,8 @@ public class PIT4R_12Bean {
             int sumakwot = Z.zUD(kwota1 + kwota2);
             int liczba1 = sumaUmowaoprace.get(mc).getPesele().size();
             int liczba2 = sumaUmowaopracekosztypodwyzszone.get(mc).getPesele().size();
-            int sumaliczba = liczba1 + liczba2;
+            int liczba3 = sumaUmowaoprace26zwolnione.get(mc).getPesele().size();
+            int sumaliczba = liczba1 + liczba2 + liczba3;
             switch (mc) {
                 case "01":
                     poz.setP10(BigInteger.valueOf(sumaliczba));

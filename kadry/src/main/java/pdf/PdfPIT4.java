@@ -106,7 +106,7 @@ public class PdfPIT4 {
                 absText(writer, pobierzI(ps.getP28()), 180, 253);
                 absText(writer, pobierzI(ps.getP29()), 250, 253);
                 absText(writer, pobierzI(ps.getP30()), 320, 253);
-                absText(writer, pobierzI(ps.getP30()), 390, 253);
+                absText(writer, pobierzI(ps.getP31()), 390, 253);
                 absText(writer, pobierzI(ps.getP32()), 458, 253);
                 absText(writer, pobierzI(ps.getP33()), 528, 253);
 

@@ -7,10 +7,12 @@ package converter;
 
 import dao.AngazFacade;
 import entity.Angaz;
+import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -19,7 +21,8 @@ import javax.inject.Named;
  * @author Osito
  */
 @Named
-public class AngazConverter implements javax.faces.convert.Converter {
+@ViewScoped
+public class AngazConverter implements javax.faces.convert.Converter, Serializable {
     
     private List<Angaz> lista;
     @Inject

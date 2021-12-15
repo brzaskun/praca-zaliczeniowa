@@ -139,7 +139,7 @@ public class KartaWynagrodzenPIT4View  implements Serializable {
             List<Angaz> angazzpaskow = new ArrayList<>();
             for (Iterator<Pasekwynagrodzen> it = paski.iterator(); it.hasNext();) {
                 Pasekwynagrodzen pasek = it.next();
-                if (pasek.getMcwypl().equals(karta.getMc())) {
+                if (pasek.getMcwypl().equals(karta.getMc()) && (pasek.getBrutto()>0.0)) {
                     //tu sie dodaje paski do karty wynagrodzen
                     if (!angazzpaskow.contains(pasek.getKalendarzmiesiac().getUmowa().getAngaz())) {
                         angazzpaskow.add(pasek.getKalendarzmiesiac().getUmowa().getAngaz());
@@ -158,13 +158,13 @@ public class KartaWynagrodzenPIT4View  implements Serializable {
 //                    3,"pełnienie obowiązków",3
 //                    4,zasiłki,4
 
-                    if (pasek.getRodzajWynagrodzenia()==1&&pasek.isDo26lat()==false) {
+                    if ((pasek.getRodzajWynagrodzenia()==1||pasek.getRodzajWynagrodzenia()==4||pasek.getRodzajWynagrodzenia()==1006)&&pasek.isDo26lat()==false) {
                         if (pasek.getProcentkosztow()>100.0) {
                             sumaUmowaopracekosztypodwyzszone.get(karta.getMc()).dodaj(pasek);
                         } else {
                             sumaUmowaoprace.get(karta.getMc()).dodaj(pasek);
                         }
-                    } else if (pasek.getRodzajWynagrodzenia()==1&&pasek.isDo26lat()==true) {
+                    } else if ((pasek.getRodzajWynagrodzenia()==1||pasek.getRodzajWynagrodzenia()==1006)&&pasek.isDo26lat()==true) {
                             sumaUmowaoprace26zwolnione.get(karta.getMc()).dodaj(pasek);
                     } else if (pasek.getRodzajWynagrodzenia()==2&&pasek.isDo26lat()==false) {
                         sumaUmowazlecenia.get(karta.getMc()).dodaj(pasek);
@@ -195,7 +195,7 @@ public class KartaWynagrodzenPIT4View  implements Serializable {
     public void pit4() {
         if (sumaUmowaoprace!=null && sumaUmowaopracekosztypodwyzszone!=null) {
             FirmaKadry firma = wpisView.getAngaz().getFirma();
-            Object[] sciezka = beanstesty.PIT4R_12Bean.generujXML(sumaUmowaoprace, sumaUmowaopracekosztypodwyzszone, sumaUmowazlecenia, sumaUmowapelnieniefunkcji, firma, (byte)1, firma.getKodurzeduskarbowego(), wpisView.getRokWpisu());
+            Object[] sciezka = beanstesty.PIT4R_12Bean.generujXML(sumaUmowaoprace, sumaUmowaopracekosztypodwyzszone, sumaUmowaoprace26zwolnione, sumaUmowazlecenia, sumaUmowapelnieniefunkcji, firma, (byte)1, firma.getKodurzeduskarbowego(), wpisView.getRokWpisu());
             pl.gov.crd.wzor._2021._04._02._10568.Deklaracja deklaracja = (pl.gov.crd.wzor._2021._04._02._10568.Deklaracja)sciezka[2];
             if (deklaracja!=null) {
                 String polecenie = "wydrukXML(\""+(String)sciezka[0]+"\")";

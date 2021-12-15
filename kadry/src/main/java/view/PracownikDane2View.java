@@ -70,7 +70,7 @@ public class PracownikDane2View  implements Serializable {
     public void pobierzdane() {
         if (selectedangaz!=null) {
             selected = selectedangaz.getPracownik();
-            wpisView.setPracownik(selected);
+            //wpisView.setPracownik(selected);
             Msg.msg("Pobrano dane pracownika");
         }
     }
