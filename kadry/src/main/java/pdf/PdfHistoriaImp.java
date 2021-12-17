@@ -15,7 +15,7 @@ import msg.Msg;
 import org.primefaces.PrimeFaces;
 import static pdf.PdfMain.finalizacjaDokumentuQR;
 import static pdf.PdfMain.inicjacjaWritera;
-import static pdf.PdfMain.naglowekStopkaL;
+import static pdf.PdfMain.naglowekStopkaP;
 import static pdf.PdfMain.otwarcieDokumentu;
 
 /**
@@ -29,7 +29,7 @@ public class PdfHistoriaImp {
             if (log != null) {
                 Document document = PdfMain.inicjacjaA4Portrait();
                 PdfWriter writer = inicjacjaWritera(document, nazwa);
-                naglowekStopkaL(writer);
+                naglowekStopkaP(writer);
                 otwarcieDokumentu(document, nazwa);
                 PdfMain.dodajLinieOpisu(document, "Raport z importu", Element.ALIGN_CENTER, 2);
                 PdfMain.dodajLinieOpisu(document, firma, Element.ALIGN_CENTER, 2);

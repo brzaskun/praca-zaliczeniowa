@@ -15,7 +15,9 @@ import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
 import javax.xml.bind.JAXBContext;
@@ -162,11 +164,14 @@ public class PIT4R_12Bean {
         for (String mc : Mce.getMceListS()) {
             double kwota1 = sumaUmowaoprace.get(mc).getPodatekdochodowy();
             double kwota2 = sumaUmowaopracekosztypodwyzszone.get(mc).getPodatekdochodowy();
-            int sumakwot = Z.zUD(kwota1 + kwota2);
-            int liczba1 = sumaUmowaoprace.get(mc).getPesele().size();
-            int liczba2 = sumaUmowaopracekosztypodwyzszone.get(mc).getPesele().size();
-            int liczba3 = sumaUmowaoprace26zwolnione.get(mc).getPesele().size();
-            int sumaliczba = liczba1 + liczba2 + liczba3;
+            //ta linijka jest dla podatku od zasiłków
+            double kwota3 = sumaUmowaoprace26zwolnione.get(mc).getPodatekdochodowy();
+            int sumakwot = Z.zUD(kwota1 + kwota2 + kwota3);
+            Set<String> sumapeseli = new HashSet<>();
+            sumapeseli.addAll(sumaUmowaoprace.get(mc).getPesele());
+            sumapeseli.addAll(sumaUmowaopracekosztypodwyzszone.get(mc).getPesele());
+            sumapeseli.addAll(sumaUmowaoprace26zwolnione.get(mc).getPesele());
+            int sumaliczba = sumapeseli.size();
             switch (mc) {
                 case "01":
                     poz.setP10(BigInteger.valueOf(sumaliczba));

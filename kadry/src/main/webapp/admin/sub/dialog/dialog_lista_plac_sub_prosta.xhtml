@@ -138,8 +138,8 @@
                             <bcf:outputpl value="#{itempasek.praczdrowotnedopotracenia}"/>
                         </p:column>
                         <p:column>
-                            <bcf:outputpl value="#{itempasek.podatekdochodowy}" rendered="#{!itempasek.do26lat}"/>
-                            <h:outputText value="pon. 26lat" rendered="#{itempasek.do26lat}" style="color: blue;"/>
+                            <bcf:outputpl value="#{itempasek.podatekdochodowy}" rendered="#{itempasek.do26lat eq false or itempasek.podatekdochodowy gt 0.0}"/>
+                            <h:outputText value="pon. 26lat" rendered="#{itempasek.do26lat and itempasek.podatekdochodowy eq 0.0}" style="color: blue;"/>
                         </p:column>
                         <p:column>
                             <bcf:outputpl value="#{itempasek.netto}"/>
