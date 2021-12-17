@@ -335,11 +335,21 @@ public class PasekwynagrodzenView implements Serializable {
                 rodzajlistyplac = rodzajlistyplacFacade.findUmowaoPrace();
             }
             List<Kalendarzmiesiac> listakalendarzmiesiac = kalendarzmiesiacFacade.findByFirmaRokMcPraca(wybranalistaplac.getFirma(), wybranalistaplac.getRok(), wybranalistaplac.getMc());
-            if (!rodzajlistyplac.getSymbol().equals("WZ")) {
+            if (rodzajlistyplac.getSymbol().equals("ZA")) {
+                if (listakalendarzmiesiac!=null) {
+                    for (Iterator<Kalendarzmiesiac> it = listakalendarzmiesiac.iterator();it.hasNext();) {
+                        Kalendarzmiesiac kal = it.next();
+                        if (!kal.czyjestzasilek()) {
+                            it.remove();
+                        }
+                    }
+                }
+            }
+            if (rodzajlistyplac.getSymbol().equals("ZL")) {
                 listakalendarzmiesiac = kalendarzmiesiacFacade.findByFirmaRokMcZlecenie(wybranalistaplac.getFirma(), wybranalistaplac.getRok(), wybranalistaplac.getMc());
             }
             Collections.sort(listakalendarzmiesiac, new Kalendarzmiesiaccomparator());
-            if (!rodzajlistyplac.getSymbol().equals("WZ")) {
+            if (rodzajlistyplac.getSymbol().equals("ZL")) {
                 for (Iterator<Kalendarzmiesiac> it = listakalendarzmiesiac.iterator(); it.hasNext();) {
                     Kalendarzmiesiac p = it.next();
                     Umowa u = p.getUmowa();
@@ -365,11 +375,21 @@ public class PasekwynagrodzenView implements Serializable {
                 rodzajlistyplac = rodzajlistyplacFacade.findUmowaoPrace();
             }
             List<Kalendarzmiesiac> listakalendarzmiesiac = kalendarzmiesiacFacade.findByFirmaRokMcPraca(wybranalistaplac.getFirma(), wybranalistaplac.getRok(), wybranalistaplac.getMc());
-            if (!rodzajlistyplac.getSymbol().equals("WZ")) {
+            if (rodzajlistyplac.getSymbol().equals("ZA")) {
+                if (listakalendarzmiesiac!=null) {
+                    for (Iterator<Kalendarzmiesiac> it = listakalendarzmiesiac.iterator();it.hasNext();) {
+                        Kalendarzmiesiac kal = it.next();
+                        if (!kal.czyjestzasilek()) {
+                            it.remove();
+                        }
+                    }
+                }
+            }
+            if (rodzajlistyplac.getSymbol().equals("ZL")) {
                 listakalendarzmiesiac = kalendarzmiesiacFacade.findByFirmaRokMcZlecenie(wybranalistaplac.getFirma(), wybranalistaplac.getRok(), wybranalistaplac.getMc());
             }
             Collections.sort(listakalendarzmiesiac, new Kalendarzmiesiaccomparator());
-            if (!rodzajlistyplac.getSymbol().equals("WZ")) {
+            if (rodzajlistyplac.getSymbol().equals("ZL")) {
                 for (Iterator<Kalendarzmiesiac> it = listakalendarzmiesiac.iterator(); it.hasNext();) {
                     Kalendarzmiesiac p = it.next();
                     Umowa u = p.getUmowa();

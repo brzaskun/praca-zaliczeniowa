@@ -67,7 +67,7 @@ public class PdfPIT4 {
                     TIdentyfikatorOsobyFizycznej2 osobaFizyczna = podmiot1.getOsobaFizyczna();
                     absText(writer, osobaFizyczna.getNIP(), 150, 790);
                     absText(writer, "X", 388, 432);
-                    absText(writer, osobaFizyczna.getNazwisko()+" "+osobaFizyczna.getImiePierwsze()+" "+osobaFizyczna.getDataUrodzenia().toString(), 133, 377);
+                    absText(writer, osobaFizyczna.getNazwisko()+" "+osobaFizyczna.getImiePierwsze()+" "+osobaFizyczna.getDataUrodzenia().toString(), 133, 407);
                 }
                 absText(writer, naglowek.getRok().toString(), 300, 705);
                 absText(writer, TKodUS.getNazwaUrzedu(naglowek.getKodUrzedu()), 120, 545);

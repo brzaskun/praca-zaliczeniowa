@@ -293,6 +293,18 @@ private static final long serialVersionUID = 1L;
         }
         return zwrot;
     }
+    public boolean czyjestzasilek() {
+        boolean zwrot = false;
+        if (this.dzienList!=null) {
+            for (Dzien d : dzienList) {
+                if (d.getZasilek()>0.0) {
+                    zwrot = true;
+                    break;
+                }
+            }
+        }
+        return zwrot;
+    }
     
 
     
@@ -527,6 +539,10 @@ private static final long serialVersionUID = 1L;
             dzienaktualny.setKod(kod);
             if (kod.equals("331")) {
                 dzienaktualny.setWynagrodzeniezachorobe(dzienaktualny.getNormagodzin());
+                dzienaktualny.setPrzepracowano(0);
+                p.setNaniesiona(true);
+            } else if (kod.equals("313")) {
+                dzienaktualny.setZasilek(dzienaktualny.getNormagodzin());
                 dzienaktualny.setPrzepracowano(0);
                 p.setNaniesiona(true);
             } else if (kod.equals("U")) {
