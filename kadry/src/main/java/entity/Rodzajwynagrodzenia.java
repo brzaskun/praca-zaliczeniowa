@@ -83,6 +83,10 @@ public class Rodzajwynagrodzenia implements Serializable {
     private  boolean sredniaurlopowaoddelegowanie;
     @Column(name = "podstzasilekchorobowy")
     private  boolean podstzasilekchorobowy;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "rodzajwynagrodzenia")
+    private List<RodzajlistyplacRodzajwynagrodzenia> rodzajllistyplacRodzajwynagrodzeniaList;
+
+;     
 
     public Rodzajwynagrodzenia() {
         System.out.println("");
@@ -247,5 +251,12 @@ public class Rodzajwynagrodzenia implements Serializable {
         this.podstzasilekchorobowy = podstzasilekchorobowy;
     }
 
-      
+    @XmlTransient
+    public List<RodzajlistyplacRodzajwynagrodzenia> getDefinicjalistaplacRodzajwynagrodzeniaList() {
+        return rodzajllistyplacRodzajwynagrodzeniaList;
+    }
+
+    public void setDefinicjalistaplacRodzajwynagrodzeniaList(List<RodzajlistyplacRodzajwynagrodzenia> definicjalistaplacRodzajwynagrodzeniaList) {
+        this.rodzajllistyplacRodzajwynagrodzeniaList = definicjalistaplacRodzajwynagrodzeniaList;
+    }  
 }

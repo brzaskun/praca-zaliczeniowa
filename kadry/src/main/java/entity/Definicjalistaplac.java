@@ -54,7 +54,7 @@ public class Definicjalistaplac implements Serializable {
     private Integer id;
     @Size(max = 255)
     @Column(name = "datapodatek")
-    private String datapodatek;
+     private String datapodatek;
     @Size(max = 255)
     @Column(name = "datasporzadzenia")
     private String datasporzadzenia;
@@ -161,6 +161,12 @@ public class Definicjalistaplac implements Serializable {
     public void setFirma(FirmaKadry firma) {
         this.firma = firma;
     }
+    public Rodzajlistyplac getRodzajlistyplac() {
+        return rodzajlistyplac;
+    }
+    public void setRodzajlistyplac(Rodzajlistyplac rodzajlistyplac) {
+        this.rodzajlistyplac = rodzajlistyplac;
+    }
 
     public String getDatapodatek() {
         return datapodatek;
@@ -218,12 +224,6 @@ public class Definicjalistaplac implements Serializable {
         this.mc = mc;
     }
 
-    public Rodzajlistyplac getRodzajlistyplac() {
-        return rodzajlistyplac;
-    }
-
-    public void setRodzajlistyplac(Rodzajlistyplac rodzajlistyplac) {
-        this.rodzajlistyplac = rodzajlistyplac;
-    }
+    
     
 }

@@ -5,11 +5,10 @@
  */
 package converter;
 
-import dao.RodzajwynagrodzeniaFacade;
-import entity.Rodzajwynagrodzenia;
+import dao.RodzajlistyplacRodzajwynagrodzeniaFacade;
+import entity.RodzajlistyplacRodzajwynagrodzenia;
 import java.io.Serializable;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
@@ -22,22 +21,18 @@ import javax.inject.Named;
  */
 @Named
 @ViewScoped
-public class RodzajwynagrodzeniaConverter implements javax.faces.convert.Converter, Serializable {
+public class RodzajlistyplacRodzajwynagrodzeniaConverter implements javax.faces.convert.Converter, Serializable {
     
-    private List<Rodzajwynagrodzenia> lista;
+    private List<RodzajlistyplacRodzajwynagrodzenia> lista;
     @Inject
-    private RodzajwynagrodzeniaFacade rodzajwynagrodzeniaFacade;
+    private RodzajlistyplacRodzajwynagrodzeniaFacade rodzajlistyplacRodzajwynagrodzeniaFacade;
     
-    @PostConstruct
-    private void init() {
-        lista = rodzajwynagrodzeniaFacade.findAll();
-    }
     
     @Override
     public Object getAsObject(FacesContext facesContext, UIComponent component, String sub) {
         try {
             int submittedValue = Integer.parseInt(sub);
-            for (Rodzajwynagrodzenia p : lista) {
+            for (RodzajlistyplacRodzajwynagrodzenia p : lista) {
                 if (p.getId()==submittedValue) {
                     return p;
                 }
@@ -53,7 +48,7 @@ public class RodzajwynagrodzeniaConverter implements javax.faces.convert.Convert
         if (value == null || value.equals("")) {
             return "";
         } else {
-            return String.valueOf(((Rodzajwynagrodzenia) value).getId());
+            return String.valueOf(((RodzajlistyplacRodzajwynagrodzenia) value).getId());
         }
     }
 }

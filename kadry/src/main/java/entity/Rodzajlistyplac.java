@@ -72,6 +72,8 @@ public class Rodzajlistyplac implements Serializable {
     private boolean aktywna;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "rodzajlistyplac")
     private List<Definicjalistaplac> definicjalistaplacList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "rodzajlistyplac")
+    private List<RodzajlistyplacRodzajwynagrodzenia> rodzajlistyplacRodzajwynagrodzeniaList;
 
    
 
@@ -171,8 +173,10 @@ public class Rodzajlistyplac implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Rodzajelistplac[ id=" + id + " ]";
+        return "Rodzajlistyplac{" + "typ=" + typ + ", nazwa=" + nazwa + ", symbol=" + symbol + ", aktywna=" + aktywna + '}';
     }
+
+   
 
     public String getNazwa() {
         return nazwa;
@@ -191,4 +195,12 @@ public class Rodzajlistyplac implements Serializable {
         this.definicjalistaplacList = definicjalistaplacList;
     }
     
+    @XmlTransient
+    public List<RodzajlistyplacRodzajwynagrodzenia> getDefinicjalistaplacRodzajwynagrodzeniaList() {
+        return rodzajlistyplacRodzajwynagrodzeniaList;
+    }
+
+    public void setDefinicjalistaplacRodzajwynagrodzeniaList(List<RodzajlistyplacRodzajwynagrodzenia> rodzajlistyplacRodzajwynagrodzeniaList) {
+        this.rodzajlistyplacRodzajwynagrodzeniaList = rodzajlistyplacRodzajwynagrodzeniaList;
+    }
 }

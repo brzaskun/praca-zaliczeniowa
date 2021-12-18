@@ -381,16 +381,7 @@ public class KalendarzmiesiacBean {
                 }
                 naliczenienieobecnosc.setPasekwynagrodzen(pasekwynagrodzen);
                 pasekwynagrodzen.getNaliczenienieobecnoscList().add(naliczenienieobecnosc);
-//                p.setKwotyredukujacesuma(p.getKwotyredukujacesuma()+kwotaredukcji);
-//                p.setKwotadolistyplac(p.getKwotaumownazacalymc()-p.getKwotyredukujacesuma());
         }
-//        11 - zasadnicze 20-premia 30-nadgodziny
-//        if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod().equals("21")) {
-//            skladnik = Z.z(1800 / 3.0);
-//        }
-//        if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod().equals("12") || p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod().equals("31")) {
-//            skladnik = Z.z(210 / 3.0);
-//        }
     }
     
     private static double wyliczsredniachoroba(Kalendarzmiesiac kalendarz, Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia, Nieobecnosc nieobecnosc, Naliczenienieobecnosc naliczenienieobecnosc) {
@@ -443,7 +434,8 @@ public class KalendarzmiesiacBean {
                     double stawkadziennazm = skladnikistale / godzinyroboczewmiesiacu;
                     sredniadopodstawy = sredniadopodstawy + Z.z(stawkadziennazm * godzinyobecnosciroboczezm);
                     boolean skladnikstaly = true;
-                    Sredniadlanieobecnosci srednia = new Sredniadlanieobecnosci(kalendarz.getRok(), kalendarz.getMc(), sredniadopodstawy, skladnikstaly, naliczenienieobecnosc, godzinyobecnosciroboczezm,naliczenieskladnikawynagrodzenia.getGodzinyfaktyczne(), naliczenieskladnikawynagrodzenia.getDnifaktyczne(), naliczenieskladnikawynagrodzenia.getGodzinynalezne(), naliczenieskladnikawynagrodzenia.getDninalezne(), 0.0);
+                    Sredniadlanieobecnosci srednia = new Sredniadlanieobecnosci(kalendarz.getRok(), kalendarz.getMc(), sredniadopodstawy, skladnikstaly, naliczenienieobecnosc, godzinyobecnosciroboczezm,
+                            naliczenieskladnikawynagrodzenia.getGodzinyfaktyczne(), naliczenieskladnikawynagrodzenia.getDnifaktyczne(), naliczenieskladnikawynagrodzenia.getGodzinynalezne(), naliczenieskladnikawynagrodzenia.getDninalezne(), 0.0);
                     naliczenienieobecnosc.getSredniadlanieobecnosciList().add(srednia);
                 }
                 
@@ -478,7 +470,8 @@ public class KalendarzmiesiacBean {
                         }
                     }
                     boolean skladnikstaly = false;
-                    Sredniadlanieobecnosci srednia = new Sredniadlanieobecnosci(kalendarz.getRok(), kalendarz.getMc(), sredniadopodstawy, skladnikstaly, naliczenienieobecnosc, godzinyobecnosciroboczezm,naliczenieskladnikawynagrodzenia.getGodzinyfaktyczne(), naliczenieskladnikawynagrodzenia.getDnifaktyczne(), naliczenieskladnikawynagrodzenia.getGodzinynalezne(), naliczenieskladnikawynagrodzenia.getDninalezne(), 0.0);
+                    Sredniadlanieobecnosci srednia = new Sredniadlanieobecnosci(kalendarz.getRok(), kalendarz.getMc(), sredniadopodstawy, skladnikstaly, naliczenienieobecnosc, godzinyobecnosciroboczezm,
+                            naliczenieskladnikawynagrodzenia.getGodzinyfaktyczne(), naliczenieskladnikawynagrodzenia.getDnifaktyczne(), naliczenieskladnikawynagrodzenia.getGodzinynalezne(), naliczenieskladnikawynagrodzenia.getDninalezne(), 0.0);
                     naliczenienieobecnosc.getSredniadlanieobecnosciList().add(srednia);
                 }
             }

@@ -23,6 +23,7 @@ import dao.WynagrodzenieminimalneFacade;
 import data.Data;
 import entity.Angaz;
 import entity.Definicjalistaplac;
+import entity.FirmaKadry;
 import entity.Kalendarzmiesiac;
 import entity.Kalendarzwzor;
 import entity.Naliczenienieobecnosc;
@@ -125,7 +126,7 @@ public class PasekwynagrodzenView implements Serializable {
         try {
             wybranalistaplac = listadefinicjalistaplac.stream().filter(p -> p.getMc().equals(wpisView.getMiesiacWpisu())).findFirst().get();
             wybranalistaplac2 = listadefinicjalistaplac.stream().filter(p -> p.getMc().equals(wpisView.getMiesiacWpisu())).findFirst().get();
-            datawyplaty = zrobdatawyplaty(wpisView.getMiesiacWpisu(), wpisView.getRokWpisu());
+            datawyplaty = zrobdatawyplaty(wpisView.getMiesiacWpisu(), wpisView.getRokWpisu(), wpisView.getFirma());
             listakalendarzmiesiacdoanalizy2 = kalendarzmiesiacFacade.findByFirmaRokMcPraca(wybranalistaplac2.getFirma(), wybranalistaplac2.getRok(), wybranalistaplac2.getMc());
             pobierzkalendarzezamc();
             pobierzkalendarzezamcanaliza();
@@ -148,7 +149,7 @@ public class PasekwynagrodzenView implements Serializable {
         try {
             wybranalistaplac = listadefinicjalistaplac.stream().filter(p -> p.getMc().equals(wpisView.getMiesiacWpisu())).findFirst().get();
             wybranalistaplac2 = listadefinicjalistaplac.stream().filter(p -> p.getMc().equals(wpisView.getMiesiacWpisu())).findFirst().get();
-            datawyplaty = zrobdatawyplaty(wpisView.getMiesiacWpisu(), wpisView.getRokWpisu());
+            datawyplaty = zrobdatawyplaty(wpisView.getMiesiacWpisu(), wpisView.getRokWpisu(), wpisView.getFirma());
             listakalendarzmiesiacdoanalizy2 = kalendarzmiesiacFacade.findByFirmaRokMcPraca(wybranalistaplac2.getFirma(), wybranalistaplac2.getRok(), wybranalistaplac2.getMc());
             pobierzkalendarzezamc();
             pobierzkalendarzezamcanaliza();
@@ -364,7 +365,7 @@ public class PasekwynagrodzenView implements Serializable {
                 this.listakalendarzmiesiac.setTarget(new ArrayList<>());
             }
             lista = pasekwynagrodzenFacade.findByDef(wybranalistaplac);
-            datawyplaty = zrobdatawyplaty(wybranalistaplac.getMc(), wybranalistaplac.getRok());
+            datawyplaty = zrobdatawyplaty(wybranalistaplac.getMc(), wybranalistaplac.getRok(), wpisView.getFirma());
         }
     }
 
@@ -424,10 +425,14 @@ public class PasekwynagrodzenView implements Serializable {
         }
     }
 
-    private String zrobdatawyplaty(String mc, String rok) {
+    private String zrobdatawyplaty(String mc, String rok, FirmaKadry firma) {
         String zwrot;
-        String[] nastepnyOkres = Data.nastepnyOkres(mc,rok);
-        zwrot = nastepnyOkres[1] + "-" + nastepnyOkres[0] + "-10";
+        if (firma.getDzienlp()==null) {
+            zwrot = Data.ostatniDzien(rok, mc);
+        } else {
+            String[] nastepnyOkres = Data.nastepnyOkres(mc,rok);
+            zwrot = nastepnyOkres[1] + "-" + nastepnyOkres[0] + "-"+firma.getDzienlp();
+        }
         return zwrot;
     }
 

@@ -216,6 +216,21 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                     <p:commandButton value="zachowaj" styleClass="buttonnorm" actionListener="#{rodzajlistyplacView.zachowaj}" update="@form"/>
                 </h:form>
             </p:tab>
+            <p:tab title="Przyporządkowanie składników do listy płac">
+                <h:form id="ListaPlacPrzypForm">
+                    <p:selectOneMenu value="#{rodzajlistyplacRodzajwynagrodzeniaView.rodzajlistyplacselected}" converter="#{rodzjalistyplacConverter}" autoWidth="false" style="width: 280px;margin-left: 10px;" filter="true" filterMatchMode="contains" requiredMessage="Wybierz rodzaj listy płac">
+                        <f:selectItem itemLabel="wybierz" noSelectionOption="true" />
+                        <f:selectItems value="#{rodzajlistyplacRodzajwynagrodzeniaView.rodzajlistyplaclist}" var="elem" itemLabel="#{elem.nazwa}" itemValue="#{elem}"/>
+                        <p:ajax event="itemSelect" listener="#{rodzajlistyplacRodzajwynagrodzeniaView.pobierzpary}" update="ListaPlacPrzypForm:datalistra" partialSubmit="true"/>
+                    </p:selectOneMenu>
+                    <p:outputPanel>
+                        <p:pickList id="datalistra" value="#{rodzajlistyplacRodzajwynagrodzeniaView.picklista}" var="rodzajitem" itemLabel="#{rodzajitem.opisskrocony}" itemValue="#{rodzajitem}" style="margin-left: 10px;margin-top: 10px;"
+                                    showCheckbox="true" converter="#{rodzajwynagrodzeniaConverter}">
+                            <p:ajax event="transfer" listener="#{rodzajlistyplacRodzajwynagrodzeniaView.onTransfer}"/>
+                        </p:pickList>
+                    </p:outputPanel>
+                </h:form>
+            </p:tab>
              <p:tab title="Rodzaje nieobecności">
                 <h:form id="SlownikNieobecnosciForm">
                     <p:dataTable id="datalistn" value="#{swiadczeniekodzusView.lista}" var="item13"
