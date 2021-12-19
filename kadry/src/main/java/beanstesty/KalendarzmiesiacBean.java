@@ -170,7 +170,7 @@ public class KalendarzmiesiacBean {
         }
         if (nieobecnosc.getKod().equals("331")) {
             naliczskladnikiwynagrodzeniazaChorobe(kalendarz, nieobecnosc, pasekwynagrodzen);
-        } else if (nieobecnosc.getKod().equals("U")) {
+        }  else if (nieobecnosc.getKod().equals("U")) {
             naliczskladnikiwynagrodzeniazaUrlop(kalendarz, nieobecnosc, pasekwynagrodzen);
         } else if (nieobecnosc.getKod().equals("X")) {
             naliczskladnikiwynagrodzeniazaOkresnieprzepracowany(kalendarz, nieobecnosc, pasekwynagrodzen,"X");
