@@ -145,15 +145,33 @@ public class FirmaView  implements Serializable {
         if (rok!=null&&wpisView.getFirma()!=null) {
             Rodzajlistyplac umowaoprace =  rodzajlistyplacFacade.findUmowaoPrace();
             Rodzajlistyplac umowazlecenia =  rodzajlistyplacFacade.findUmowaZlecenia();
+            Rodzajlistyplac udzialworganach =  rodzajlistyplacFacade.findByTyt_serial(15);
+            Rodzajlistyplac zasilki =  rodzajlistyplacFacade.findByTyt_serial(1006);
             List<Definicjalistaplac> listy = new ArrayList<>();
             for (String mc : Mce.getMceListS()) {
-                 Definicjalistaplac definicjalistaplac = OsobaBean.nowalista(rok, mc, umowaoprace, wpisView.getFirma());
+                 String datawyplaty = OsobaBean.zrobdatawyplaty(mc, rok, wpisView.getFirma());
+                 Definicjalistaplac definicjalistaplac = OsobaBean.nowalista(rok, mc, umowaoprace, wpisView.getFirma(), datawyplaty);
                  listy.add(definicjalistaplac);
             }
             definicjalistaplacFacade.createList(listy);
             listy = new ArrayList<>();
             for (String mc : Mce.getMceListS()) {
-                 Definicjalistaplac definicjalistaplac = OsobaBean.nowalista(rok, mc, umowazlecenia, wpisView.getFirma());
+                String datawyplaty = OsobaBean.zrobdatawyplaty(mc, rok, wpisView.getFirma());
+                 Definicjalistaplac definicjalistaplac = OsobaBean.nowalista(rok, mc, umowazlecenia, wpisView.getFirma(), datawyplaty);
+                 listy.add(definicjalistaplac);
+            }
+            definicjalistaplacFacade.createList(listy);
+            listy = new ArrayList<>();
+            for (String mc : Mce.getMceListS()) {
+                String datawyplaty = OsobaBean.zrobdatawyplaty(mc, rok, wpisView.getFirma());
+                 Definicjalistaplac definicjalistaplac = OsobaBean.nowalista(rok, mc, udzialworganach, wpisView.getFirma(), datawyplaty);
+                 listy.add(definicjalistaplac);
+            }
+            definicjalistaplacFacade.createList(listy);
+            listy = new ArrayList<>();
+            for (String mc : Mce.getMceListS()) {
+                String datawyplaty = OsobaBean.zrobdatawyplaty(mc, rok, wpisView.getFirma());
+                 Definicjalistaplac definicjalistaplac = OsobaBean.nowalista(rok, mc, zasilki, wpisView.getFirma(), datawyplaty);
                  listy.add(definicjalistaplac);
             }
             definicjalistaplacFacade.createList(listy);
@@ -162,6 +180,8 @@ public class FirmaView  implements Serializable {
             Msg.msg("e","Nie wybrano firmy");
         }
     }
+    
+  
     
     public void aktywuj(FirmaKadry firma) {
         if (firma!=null) {

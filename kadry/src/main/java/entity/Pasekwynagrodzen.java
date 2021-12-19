@@ -223,6 +223,10 @@ public class Pasekwynagrodzen implements Serializable {
     private int numerator;
     @Transient
     private boolean zmieniony;
+    @Column(name = "ulgadlaklasysredniejI")
+    private double ulgadlaklasysredniejI;
+    @Column(name = "ulgadlaklasysredniejII")
+    private double ulgadlaklasysredniejII;
 
     
     public Pasekwynagrodzen() {
@@ -337,6 +341,8 @@ public class Pasekwynagrodzen implements Serializable {
         this.nettoprzedpotraceniami = Z.z(this.nettoprzedpotraceniami+p.getNettoprzedpotraceniami());
         this.netto = Z.z(this.netto+p.getNetto());
         this.limitzus = Z.z(this.limitzus+p.getLimitzus());
+        this.ulgadlaklasysredniejI = Z.z(this.ulgadlaklasysredniejI+p.getUlgadlaklasysredniejI());
+        this.ulgadlaklasysredniejII = Z.z(this.ulgadlaklasysredniejII+p.getUlgadlaklasysredniejII());
     }
 
     public Integer getId() {
@@ -412,6 +418,27 @@ public class Pasekwynagrodzen implements Serializable {
         return lpl_serial;
     }
 
+    public double getUlgadlaklasysredniejI() {
+        return ulgadlaklasysredniejI;
+    }
+
+    public void setUlgadlaklasysredniejI(double ulgadlaklasysredniejI) {
+        this.ulgadlaklasysredniejI = ulgadlaklasysredniejI;
+    }
+
+    public double getUlgadlaklasysredniejII() {
+        return ulgadlaklasysredniejII;
+    }
+
+    public void setUlgadlaklasysredniejII(double ulgadlaklasysredniejII) {
+        this.ulgadlaklasysredniejII = ulgadlaklasysredniejII;
+    }
+
+    public double getUlgadlaklasysredniejSuma() {
+        return this.ulgadlaklasysredniejI+this.ulgadlaklasysredniejII;
+    }
+    
+    
     public void setLpl_serial(Integer lpl_serial) {
         this.lpl_serial = lpl_serial;
     }
@@ -916,6 +943,14 @@ public class Pasekwynagrodzen implements Serializable {
         return mcwypl;
     }
 
+    public boolean isUlgadlaKlasySredniej () {
+        boolean zwrot = false;
+        if (this.kalendarzmiesiac!=null && this.kalendarzmiesiac.getUmowa()!=null && this.kalendarzmiesiac.getUmowa().getAngaz()!=null) {
+            zwrot = this.kalendarzmiesiac.getUmowa().getAngaz().getPracownik().isUlgadlaklasysredniej();
+        }
+        return zwrot;
+    }
+    
     
     public boolean isImportowany() {
         return importowany;

@@ -873,6 +873,9 @@ public class KalendarzmiesiacBean {
                 for (Naliczenienieobecnosc p : pasekwynagrodzen.getNaliczenienieobecnoscList()) {
                     if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getRedukowany() && p.getSkladnikwynagrodzenia().equals(naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia())) {
                         switch (p.getNieobecnosc().getKod()) {
+                            case "313":
+                                redukcjazarchorobe = redukcjazarchorobe+p.getKwotaredukcji();
+                                break;
                             case "331":
                                 redukcjazarchorobe = redukcjazarchorobe+p.getKwotaredukcji();
                                 break;

@@ -152,9 +152,13 @@
                         <p:column>
                             <h:outputText value="koszty uzyskania"/>
                         </p:column>
+                         <p:column>
+                            <h:outputText value="ulga dla kl.sr"/>
+                        </p:column>
                         <p:column>
                             <h:outputText value="podstawa opodatk."/>
                         </p:column>
+                         
                         <p:column>
                             <h:outputText value="podatek"/>
                         </p:column>
@@ -203,9 +207,13 @@
                         <p:column>
                             <bcf:outputpl value="#{itempasek.kosztyuzyskania}"/>
                         </p:column>
+                         <p:column>
+                            <bcf:outputpl value="#{itempasek.ulgadlaklasysredniejSuma}"/>
+                        </p:column>
                         <p:column>
                             <bcf:outputpl value="#{itempasek.podstawaopodatkowania}"/>
                         </p:column>
+                       
                         <p:column>
                             <bcf:outputpl value="#{itempasek.podatekwstepny}"/>
                         </p:column>

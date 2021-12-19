@@ -465,6 +465,14 @@ private static final long serialVersionUID = 1L;
     public void setRok(String rok) {
         this.rok = rok;
     }
+    
+    public Integer getRokI() {
+        Integer zwrot = 0;
+        if (this.rok!=null) {
+            zwrot = Integer.parseInt(this.rok);
+        }
+        return zwrot;
+    }
 
   
     public void setMc(String mc) {

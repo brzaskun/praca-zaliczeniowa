@@ -87,13 +87,8 @@ public class PasekwynagrodzenBean {
         PasekwynagrodzenBean.razemspolecznepracownik(pasek);
         PasekwynagrodzenBean.obliczbruttominusspoleczneDB(pasek);        
         if (umowaoprace) {
-            if (wybranalistaplac.getRodzajlistyplac().getSymbol().equals("ZA")) {
-                PasekwynagrodzenBean.obliczpodstaweopodatkowaniaZasilekDB(pasek, stawkipodatkowe);
-                PasekwynagrodzenBean.obliczpodatekwstepnyDB(pasek, stawkipodatkowe, 0.0, true);
-            } else {
-                PasekwynagrodzenBean.obliczpodstaweopodatkowaniaDB(pasek, stawkipodatkowe);
-                PasekwynagrodzenBean.obliczpodatekwstepnyDB(pasek, stawkipodatkowe, 0.0, false);
-            }
+            PasekwynagrodzenBean.obliczpodstaweopodatkowaniaDB(pasek, stawkipodatkowe);
+            PasekwynagrodzenBean.obliczpodatekwstepnyDB(pasek, stawkipodatkowe, 0.0, false);
         } else {
             PasekwynagrodzenBean.obliczpodstaweopodatkowaniaZlecenieSymulacja(pasek, stawkipodatkowe, pasek.isNierezydent());
             PasekwynagrodzenBean.obliczpodatekwstepnyZlecenieDB(pasek, stawkipodatkowe, pasek.isNierezydent());
@@ -179,6 +174,9 @@ public class PasekwynagrodzenBean {
             PasekwynagrodzenBean.wyliczlimitZUS(kalendarz, pasek, kurs, limitZUS);
         } else {
             PasekwynagrodzenBean.wyliczpodstaweZUS(pasek);
+        }
+        if (pasek.isUlgadlaKlasySredniej()&&kalendarz.getRokI()>2021) {
+            PasekwynagrodzenBean.uwzglednijulgeklasasrednia(pasek);
         }
         PasekwynagrodzenBean.pracownikemerytalna(pasek);
         PasekwynagrodzenBean.pracownikrentowa(pasek);
@@ -528,25 +526,27 @@ public class PasekwynagrodzenBean {
         double bruttominusspoleczne = pasek.getBruttominusspoleczne();
         double kosztyuzyskania = pasek.getKalendarzmiesiac().getUmowa().getKosztyuzyskaniaprocent()==100?pierwszyprog.getKup():pierwszyprog.getKuppodwyzszone();
         double dieta30proc = pasek.getDietaodliczeniepodstawaop();
-        double podstawapopomniejszeniu = Z.z0(bruttominusspoleczne-dieta30proc);
+        double ulgadlaklasysredniej = pasek.isUlgadlaKlasySredniej()?pasek.getUlgadlaklasysredniejI()+pasek.getUlgadlaklasysredniejII():0.0;
+        double podstawapopomniejszeniu = Z.z0(bruttominusspoleczne-dieta30proc-ulgadlaklasysredniej);
         if (podstawapopomniejszeniu<0) {
             kosztyuzyskania = 0.0;
         } else if (podstawapopomniejszeniu<kosztyuzyskania) {
             kosztyuzyskania = podstawapopomniejszeniu;
         }
-        double podstawa = Z.z0(bruttominusspoleczne-kosztyuzyskania-dieta30proc) > 0.0 ? Z.z0(bruttominusspoleczne-kosztyuzyskania-dieta30proc) :0.0;
+        double podstawa = Z.z0(bruttominusspoleczne-kosztyuzyskania-dieta30proc-ulgadlaklasysredniej) > 0.0 ? Z.z0(bruttominusspoleczne-kosztyuzyskania-dieta30proc-ulgadlaklasysredniej) :0.0;
         if (pasek.isDo26lat()) {
             pasek.setKosztyuzyskaniahipotetyczne(kosztyuzyskania);
             pasek.setPodstawaopodatkowaniahipotetyczna(podstawa);
-            kosztyuzyskania = 0.0;
-            podstawa = Z.z0(bruttominusspoleczne) > 0.0 ? Z.z0(bruttominusspoleczne) :0.0;
+            //kosztyuzyskania = 0.0;
+            podstawa = Z.z0(bruttominusspoleczne-kosztyuzyskania-ulgadlaklasysredniej) > 0.0 ? Z.z0(bruttominusspoleczne-kosztyuzyskania-ulgadlaklasysredniej) :0.0;
             pasek.setPodstawaopodatkowania(podstawa);
             pasek.setKosztyuzyskania(kosztyuzyskania);
         } else {
             pasek.setPodstawaopodatkowania(podstawa);
             pasek.setKosztyuzyskania(kosztyuzyskania);
+            pasek.setProcentkosztow(pasek.getKalendarzmiesiac().getUmowa().getKosztyuzyskaniaprocent());
         }
-        pasek.setProcentkosztow(pasek.getKalendarzmiesiac().getUmowa().getKosztyuzyskaniaprocent());
+        
     }
     private static void obliczpodstaweopodatkowaniaZlecenie(Pasekwynagrodzen pasek, List<Podatki> stawkipodatkowe, boolean nierezydent) {
         Podatki pierwszyprog = stawkipodatkowe.get(0);
@@ -681,7 +681,7 @@ public class PasekwynagrodzenBean {
             pasek.setPraczdrowotnedopotracenia(zdrowotne);
         } else {
             if (pasek.isDo26lat()) {
-                double podatekwstepny = pasek.getPodatekwstepnyhipotetyczny()-pasek.getKwotawolnahipotetyczna()>0.0?pasek.getPodatekwstepnyhipotetyczny()-pasek.getKwotawolnahipotetyczna():0.0;
+                double podatekwstepny = Z.z(pasek.getPodatekwstepnyhipotetyczny()-pasek.getKwotawolnadlazdrowotnej()>0.0?pasek.getPodatekwstepnyhipotetyczny()-pasek.getKwotawolnadlazdrowotnej():0.0);
                 zdrowotne = zdrowotne>podatekwstepny?Z.z(podatekwstepny):zdrowotne;
                 pasek.setPraczdrowotne(zdrowotne);
                 pasek.setPraczdrowotnedoodliczenia(0.0);
@@ -699,13 +699,13 @@ public class PasekwynagrodzenBean {
                     }
                 } else {
                     double podatekwstepny = Z.z(pasek.getPodatekwstepny()-pasek.getKwotawolnadlazdrowotnej());
-                    if (zdrowotneodliczane>podatekwstepny) {
+                    if (zdrowotne>podatekwstepny) {
                         pasek.setPraczdrowotne(podatekwstepny);
                         pasek.setPraczdrowotnedoodliczenia(podatekwstepny);
                         pasek.setPraczdrowotnedopotracenia(0.0);
                     } else {
-                        pasek.setPraczdrowotnedoodliczenia(zdrowotneodliczane);
-                        pasek.setPraczdrowotnedopotracenia(Z.z(zdrowotne-zdrowotneodliczane));
+                        pasek.setPraczdrowotnedoodliczenia(0.0);
+                        pasek.setPraczdrowotnedopotracenia(Z.z(zdrowotne));
                     }
                 }
             }
@@ -946,6 +946,24 @@ public class PasekwynagrodzenBean {
             }
         }
         return zwrot;
+    }
+
+//    Za miesiące, w których podatnik uzyskał przychody w wysokości wynoszącej od 5 701 zł do 11 141 zł miesięcznie, 
+//    które podlegają opodatkowaniu według skali, pomniejsza się dochód o kwotę ulgi dla 
+//    pracowników w każdym miesiącu w wysokości obliczonej według wzoru:
+//    (A x 6,68% – 380,50 zł) ÷ 0,17, dla A wynoszącego co najmniej 5 701 zł i nieprzekraczającego kwoty 8 549 zł,
+//    (A x (-7,35%) + 819,08 zł) ÷ 0,17, dla A wyższego od 8 549 zł i nieprzekraczającego kwoty 11 141 zł.
+    
+    private static void uwzglednijulgeklasasrednia(Pasekwynagrodzen pasek) {
+        double kwotaprzychodu = Z.z(pasek.getBrutto());
+        double kwotaulgi = 0.0;
+        if (kwotaprzychodu>=5701.0&&kwotaprzychodu<=8549.0) {
+            kwotaulgi = Z.z((Z.z(kwotaprzychodu*0.0668)-380.50)/0.17);
+            pasek.setUlgadlaklasysredniejI(kwotaulgi);
+        } else if (kwotaprzychodu>8549.0&&kwotaprzychodu<=11141) {
+            kwotaulgi = Z.z((Z.z(kwotaprzychodu*(-0.0735))+819.08)/0.17);
+            pasek.setUlgadlaklasysredniejII(kwotaulgi);
+        }
     }
 
     

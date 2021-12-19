@@ -899,7 +899,8 @@ public class OsobaBean {
                 if (listy==null || listy.isEmpty()) {
                     rodzajlistyplac = rodzajlistyplacFacade.findByTyt_serial(r);
                     for(String mc : Mce.getMceListS()) {
-                        Definicjalistaplac definicjalistaplac = nowalista(rok, mc, rodzajlistyplac, firma);
+                        String datawyplaty = OsobaBean.zrobdatawyplaty(mc, rok, firma);
+                        Definicjalistaplac definicjalistaplac = nowalista(rok, mc, rodzajlistyplac, firma, datawyplaty);
                         definicjalistaplacFacade.create(definicjalistaplac);
                         listy.add(definicjalistaplac);
                     }
@@ -908,6 +909,17 @@ public class OsobaBean {
                     zwrot.addAll(listy);
                 }
             }
+        }
+        return zwrot;
+    }
+    
+      public static String zrobdatawyplaty(String mc, String rok, FirmaKadry firma) {
+        String zwrot;
+        if (firma.getDzienlp()==null) {
+            zwrot = Data.ostatniDzien(rok, mc);
+        } else {
+            String[] nastepnyOkres = Data.nastepnyOkres(mc,rok);
+            zwrot = nastepnyOkres[1] + "-" + nastepnyOkres[0] + "-"+firma.getDzienlp();
         }
         return zwrot;
     }
@@ -921,16 +933,14 @@ public class OsobaBean {
     }
     
     
-    public static Definicjalistaplac nowalista(String rok, String mc, Rodzajlistyplac rodzajlistyplac, FirmaKadry firma) {
+    public static Definicjalistaplac nowalista(String rok, String mc, Rodzajlistyplac rodzajlistyplac, FirmaKadry firma, String datawyplaty) {
         Definicjalistaplac selected = new Definicjalistaplac();
          try {
-            String lewaczesc = rok+"-"+mc+"-";
-            String nowadata = Data.ostatniDzien(rok, mc);
-            selected.setDatasporzadzenia(nowadata);
-            String[] zwiekszone = Mce.zwiekszmiesiac(rok, mc);
+            selected.setDatasporzadzenia(datawyplaty);
+            String[] zwiekszone = Mce.zwiekszmiesiac(Data.getRok(datawyplaty), Data.getMc(datawyplaty));
             String rokN = zwiekszone[0];
             String mcN = zwiekszone[1];
-            lewaczesc = rokN+"-"+mcN+"-";
+            String lewaczesc = rokN+"-"+mcN+"-";
             selected.setDatazus(lewaczesc+"15");
             selected.setRodzajlistyplac(rodzajlistyplac);
             selected.setDatapodatek(lewaczesc+"20");

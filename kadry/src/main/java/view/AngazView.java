@@ -279,6 +279,13 @@ public class AngazView  implements Serializable {
         return results;
     }
     
+    public void zapisz(Pracownik pracownik) {
+        if (pracownik!=null) {
+            pracownikFacade.edit(pracownik);
+            Msg.msg("Zaktualizowano danepracownika");
+        }
+    }
+    
     public void zapiszmail(Pracownik pracownik) {
         if (pracownik!=null) {
             pracownikFacade.edit(pracownik);

@@ -56,6 +56,9 @@
                         <p:column>
                             <h:outputText value="brutto-zus"/>
                         </p:column>
+                        <p:column>
+                            <h:outputText value="koszty uzyskania"/>
+                        </p:column>
                         <p:column width="20">
                             <h:outputText value=" "/>
                         </p:column>
@@ -98,6 +101,9 @@
                         <p:column>
                             <bcf:outputpl value="#{itempasek.bruttominusspoleczne}"/>
                         </p:column>
+                        <p:column>
+                            <bcf:outputpl value="#{itempasek.kosztyuzyskania}"/>
+                        </p:column>
                         <p:column width="20" style="text-align: center;">
                             <p:commandButton icon="fa fa-print" actionListener="#{pasekwynagrodzenView.drukuj(itempasek)}" global="false"/>
                         </p:column>
@@ -119,7 +125,7 @@
                             <h:outputText value="#{itempasek.rok}/#{itempasek.mc}"/>
                         </p:column>
                         <p:column>
-                            <h:outputText value="koszty uzyskania"/>
+                            <h:outputText value="ulga dla kl.sr"/>
                         </p:column>
                         <p:column>
                             <h:outputText value="podstawa opodatk."/>
@@ -160,12 +166,14 @@
                         <p:column>
                             <h:outputText value="#{itempasek.nazwiskoImie}"/>
                         </p:column>
+                        
                         <p:column>
-                            <bcf:outputpl value="#{itempasek.kosztyuzyskania}"/>
+                            <bcf:outputpl value="#{itempasek.ulgadlaklasysredniejSuma}"/>
                         </p:column>
                         <p:column>
                             <bcf:outputpl value="#{itempasek.podstawaopodatkowania}"/>
                         </p:column>
+                        
                         <p:column>
                             <bcf:outputpl value="#{itempasek.podatekwstepny}"/>
                         </p:column>

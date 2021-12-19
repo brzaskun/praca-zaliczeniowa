@@ -148,6 +148,9 @@ public class KalendarzmiesiacView  implements Serializable {
     }
     
     public void zrobkalendarzumowa() {
+        if (selected.getUmowa()==null) {
+            selected.setUmowa(wpisView.getUmowa());
+        }
         if (selected!=null && selected.getUmowa()!=null) {
             if (selected.getRok()!=null&&selected.getMc()!=null) {
                 Kalendarzmiesiac szukany = kalendarzmiesiacFacade.findByRokMcUmowa(selected.getUmowa(), selected.getRok(), selected.getMc());

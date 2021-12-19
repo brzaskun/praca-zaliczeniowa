@@ -164,6 +164,8 @@ public class Pracownik implements Serializable {
     private List<Angaz> angazList;
     @OneToMany(mappedBy = "pracownik", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<DeklaracjaPIT11Schowek> deklaracjaList;
+    @Column(name = "ulgadlaklasysredniej")
+    private boolean ulgadlaklasysredniej;
 
     public Pracownik() {
     }
@@ -207,6 +209,14 @@ public class Pracownik implements Serializable {
 
     public void setNierezydent(boolean nierezydent) {
         this.nierezydent = nierezydent;
+    }
+
+    public boolean isUlgadlaklasysredniej() {
+        return ulgadlaklasysredniej;
+    }
+
+    public void setUlgadlaklasysredniej(boolean ulgadlaklasysredniej) {
+        this.ulgadlaklasysredniej = ulgadlaklasysredniej;
     }
 
 

@@ -155,13 +155,13 @@
                             </f:facet>
                             <h:outputText value="#{itemAngaz.mc}"/>
                         </p:column>
-                        <p:column width="250">
+                        <p:column width="50" sortBy="#{itemAngaz.pracownik.ulgadlaklasysredniej}" style="text-align: center;">
                             <f:facet name="header">
-                                <h:outputText value="email"/>
+                                <h:outputText value="ulga dla klasy śr."/>
                             </f:facet>
-                            <p:inputText value="#{itemAngaz.pracownik.email}" size="30">
-                                <p:ajax event="blur" partialSubmit="true"  listener="#{angazView.zapiszmail(itemAngaz.pracownik)}"/>
-                            </p:inputText>
+                            <p:selectBooleanCheckbox value="#{itemAngaz.pracownik.ulgadlaklasysredniej}">
+                                <p:ajax event="change" partialSubmit="true" global="false" listener="#{angazView.zapisz(itemAngaz.pracownik)}"/>
+                            </p:selectBooleanCheckbox>
                         </p:column>
                         <p:column headerText="mail"  width="40" style="text-align: center;">
                             <p:commandButton icon="fa fa-file-text" actionListener="#{angazView.mail(itemAngaz.pracownik)}"/>
