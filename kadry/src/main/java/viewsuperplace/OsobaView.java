@@ -340,6 +340,11 @@ public class OsobaView implements Serializable {
                                 NieobecnosciBean.nanies(p, aktywna, nieobecnoscFacade, kalendarzmiesiacFacade);
                             }
                             log.add("Naniesiono nieobecnosci na kalendarz");
+                            rokdlakalendarza = "2022";
+                            //paski rok 2022 umowa o pracę
+                            generujKalendarzNowaUmowa = OsobaBean.generujKalendarzNowaUmowa(angaz, pracownik, aktywna, kalendarzmiesiacFacade, kalendarzwzorFacade, rokdlakalendarza);
+                            kalendarzmiesiacFacade.editList(generujKalendarzNowaUmowa);
+                            log.add("Udane zachowanie wygenerowanych kalendarzy za 2022");
                             //koniec paski 2021 umowa o pracę
                         }
                         //pobieranie umow zlecenia
@@ -411,6 +416,11 @@ public class OsobaView implements Serializable {
                                     log.add("Udane zachowanie pasków za 2021 do umowy zlecenia");
                                     Msg.msg("Zrobiono kalendarz i paski za 2021 umowa zlecenia");
                                 }
+                                rokdlakalendarza = "2022";
+                                //kalendarz rok 2022 umowa o zlecenie
+                                generujKalendarzNowaUmowa = OsobaBean.generujKalendarzNowaUmowa(angaz, pracownik, aktywna, kalendarzmiesiacFacade, kalendarzwzorFacade, rokdlakalendarza);
+                                kalendarzmiesiacFacade.editList(generujKalendarzNowaUmowa);
+                                log.add("Udane zachowanie wygenerowanych kalendarzy za 2022");
                                 //koniec paski 2021 umowa zlecenia
                             } catch (Exception e) {
                                 E.e(e);
