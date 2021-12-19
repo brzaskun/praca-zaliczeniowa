@@ -117,7 +117,6 @@ public class NieobecnoscView  implements Serializable {
             selected = new Nieobecnosc(wpisView.getUmowa());
             Msg.msg("Dodano nieobecnośc");
           } catch (Exception e) {
-              System.out.println("");
               Msg.msg("e", "Błąd - nie dodano nowej nieobecnosci");
           }
       }
@@ -255,7 +254,6 @@ public class NieobecnoscView  implements Serializable {
             } catch (Exception ex) {
                 error.E.s("");
             }
-            System.out.println("");
             if (zwrot != null) {
                 Nieobecnosc nieob = new Nieobecnosc(zwrot, wpisView.getUmowa());
                 nieob.setSwiadczeniekodzus(nieobecnosckodzusFacade.findByKod("331"));
@@ -266,7 +264,6 @@ public class NieobecnoscView  implements Serializable {
                 lista.add(nieob);
             }
         } catch (Exception e) {
-            System.out.println("");
         }
     }
     

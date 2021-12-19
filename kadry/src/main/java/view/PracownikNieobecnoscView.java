@@ -77,7 +77,6 @@ public class PracownikNieobecnoscView  implements Serializable {
             pracownikFacade.edit(wpisView.getPracownik());
             Msg.msg("Uaktualniono dane");
           } catch (Exception e) {
-              System.out.println("");
               Msg.msg("e", "Błąd - nie zmieniono danych");
           }
       }
@@ -215,7 +214,7 @@ public class PracownikNieobecnoscView  implements Serializable {
     }
     
     private int obliczwymiarwgodzinachzasilek(List<Umowa> umowy, EtatPrac etat) {
-        int zwrot = 180;
+        int zwrot = 182;
         double liczbadni = 0;
 //        for (Umowa p : umowy) {
 //            Pracownik pracownik = p.getAngaz().getPracownik();

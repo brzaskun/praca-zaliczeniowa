@@ -73,7 +73,6 @@ public class Loging implements Serializable {
                 wpisView.init();
             }
             //Msg.msg("Zweryfikowano hasło");
-            System.out.println("zweryfikowano haslo");
             return navto;
         } catch (Exception exp) {
             E.e(exp);

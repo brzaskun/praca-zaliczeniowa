@@ -110,7 +110,6 @@ public class FirmaView  implements Serializable {
             listywszystkie("2020");
             listywszystkie("2021");
           } catch (Exception e) {
-              System.out.println("");
               Msg.msg("e", "Błąd - nie dodano nowej firmy");
           }
       }

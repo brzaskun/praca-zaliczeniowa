@@ -66,7 +66,6 @@ public class SkladnikPotraceniaView  implements Serializable {
             selected = new Skladnikpotracenia();
             Msg.msg("Dodano nowy składnik potrąceń");
           } catch (Exception e) {
-              System.out.println("");
               Msg.msg("e", "Błąd - nie dodano nowego składnika potrąceń");
           }
       } else {

@@ -86,7 +86,6 @@ public class PdfDRA {
             table.addCell(ustawfrazeAlign("18", "center",6));
             table.setHeaderRows(2);
         } catch (DocumentException ex) {
-            System.out.println("");
         }
         return table;
     }

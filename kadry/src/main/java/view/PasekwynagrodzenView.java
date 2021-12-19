@@ -166,7 +166,6 @@ public class PasekwynagrodzenView implements Serializable {
                 selected = new Pasekwynagrodzen();
                 Msg.msg("Dodano pasek wynagrodzen");
             } catch (Exception e) {
-                System.out.println("");
                 Msg.msg("e", "Błąd - nie dodano paska wynagrodzen");
             }
         }

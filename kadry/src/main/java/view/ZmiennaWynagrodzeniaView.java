@@ -78,7 +78,6 @@ public class ZmiennaWynagrodzeniaView  implements Serializable {
                 Msg.msg("Dodano zmienną wyn");
             }
           } catch (Exception e) {
-              System.out.println("");
               Msg.msg("e", "Błąd - nie dodano zmiennej wyn");
           }
       } else {

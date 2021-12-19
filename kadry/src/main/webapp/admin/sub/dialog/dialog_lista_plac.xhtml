@@ -10,6 +10,7 @@ xmlns:pe="http://primefaces.org/ui/extensions">
     <p:dialog id="dialoglistaplac" header="Wyliczanie listy płac" widgetVar="dialoglistaplac"  
               resizable="false"  onShow="ustawdialog('dialoglistaplac','centertile',1650,800);" closeOnEscape="true" onHide="resetujdialog('dialoglistaplac');" 
               fitViewport="true">
+        <p:ajax event="open" listener="#{pasekwynagrodzenView.init()}" update="DefinicjalistaplacCreateForm DefinicjalistaplacCreateForm1 KursDataLPForm DefinicjalistaplacCreateForm2 PasekwynagrodzenListForm" global="false"/>
         <h:outputText value="W przypadku braku osoby na zleceniu na liście proszę sprawdzić, czy wystawiono rachunek." style="color: #136e13;margin-top: 10px;"/>
         <p:outputPanel style="height: 245px">
             

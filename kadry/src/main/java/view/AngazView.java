@@ -115,7 +115,6 @@ public class AngazView  implements Serializable {
                     //generujkalendarze();
                     Msg.msg("Dodano nowego użytkownika");
                 } catch (Exception e) {
-                    System.out.println("");
                     Msg.msg("e", "Błąd - nie dodano nowego angażu");
                 }
             }

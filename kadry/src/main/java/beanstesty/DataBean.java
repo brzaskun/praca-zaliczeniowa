@@ -72,7 +72,6 @@ public class DataBean {
         dataod = "2021-01-01";
         datado = "2021-01-31";
         czy = czysiemiesci(kalendarz, dataod, datado);
-        System.out.println("odpowiedz: "+czy);
         
     }
 }

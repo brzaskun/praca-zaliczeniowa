@@ -191,7 +191,6 @@ public class PdfPIT4 {
                 underContent.closePath();
                 pdfStamper.close();
                 reader.close();
-                System.out.println("koniec");
             } catch (Exception ex) {
                 Logger.getLogger(PdfPIT4.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -331,7 +330,6 @@ public class PdfPIT4 {
         underContent.closePath();
         pdfStamper.close();
         reader.close();
-        System.out.println("koniec");
     }
 
     protected static void absText(PdfWriter writer, String text, int x, int y) {

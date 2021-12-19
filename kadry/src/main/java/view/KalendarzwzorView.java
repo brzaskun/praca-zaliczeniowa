@@ -67,7 +67,6 @@ public class KalendarzwzorView  implements Serializable {
             selected = new Kalendarzwzor(selected.getFirma(), selected.getRok());
             Msg.msg("Dodano nowy kalendarz");
           } catch (Exception e) {
-              System.out.println("");
               Msg.msg("e", "Błąd - nie dodano nowej firmy");
           }
       }
@@ -79,7 +78,6 @@ public class KalendarzwzorView  implements Serializable {
             kalendarzwzorFacade.edit(selected);
             Msg.msg("Edytowano kalendarz");
           } catch (Exception e) {
-              System.out.println("");
               Msg.msg("e", "Błąd - nie zachowano zmian kalendarza");
           }
       }
@@ -94,7 +92,6 @@ public class KalendarzwzorView  implements Serializable {
             kalendarzwzorFacade.edit(selected);
             Msg.msg("Zresetowano kalendarz");
           } catch (Exception e) {
-              System.out.println("");
               Msg.msg("e", "Błąd - nie zachowano zmian kalendarza");
           }
       }

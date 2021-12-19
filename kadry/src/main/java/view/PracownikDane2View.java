@@ -61,7 +61,6 @@ public class PracownikDane2View  implements Serializable {
             pracownikFacade.edit(selected);
             Msg.msg("Uaktualniono dane pracownika");
           } catch (Exception e) {
-              System.out.println("");
               Msg.msg("e", "Błąd - nie zmieniono danych");
           }
       }

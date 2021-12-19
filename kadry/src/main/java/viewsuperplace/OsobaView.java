@@ -426,7 +426,6 @@ public class OsobaView implements Serializable {
                                 E.e(e);
                                 log.add("BŁĄD. Przerywam import umowa zlecenia");
                                 log.add(E.e(e));
-                                System.out.println("");
                             }
                             log.add("Zakończono import pracownika");
                         }
@@ -459,7 +458,6 @@ public class OsobaView implements Serializable {
                                 if (a.getSerialsp()!=null) {
                                     if (o.getOsoSerial().equals(Integer.parseInt(a.getSerialsp()))) {
                                         o.setOsoDodVchar3("tak");
-                                        System.out.println("osoba "+a.getSerialsp());
                                         break;
                                     }
                                 }
@@ -467,12 +465,10 @@ public class OsobaView implements Serializable {
                         }
                     }
                     System.out.println("funkcja sprawdzanie sob koniec");
-                    System.out.println("koniec");
                 }
             }
         } else {
             Msg.msg("e", "Brak numeru serial");
-            System.out.println("koniec rob() brak serialu");
         }
     }
     

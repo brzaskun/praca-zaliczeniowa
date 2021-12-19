@@ -433,7 +433,6 @@ public class PdfPIT11 {
         underContent.closePath();
         pdfStamper.close();
         reader.close();
-        System.out.println("koniec");
     }
 
     protected static void absText(PdfWriter writer, String text, int x, int y) {

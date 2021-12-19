@@ -89,7 +89,6 @@ public class Rodzajwynagrodzenia implements Serializable {
 ;     
 
     public Rodzajwynagrodzenia() {
-        System.out.println("");
     }
 
     public Rodzajwynagrodzenia(Integer id) {

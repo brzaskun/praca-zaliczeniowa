@@ -234,7 +234,6 @@ public class UmowaView  implements Serializable {
             etat2 = null;
             updateClassView.updateUmowa();
           } catch (Exception e) {
-              System.out.println("");
               Msg.msg("e", "Błąd - nie dodano nowej umowy. Sprawdź angaż");
           }
       }
@@ -335,7 +334,6 @@ public class UmowaView  implements Serializable {
             selected = new Umowa();
             Msg.msg("Edycja umowy zakończona");
           } catch (Exception e) {
-              System.out.println("");
               Msg.msg("e", "Błąd - nie zmieniono danych nowej umowy. Sprawdź angaż.");
               Msg.msg("e", "Czy istnieją już listy płac? Usuń je.");
           }
@@ -650,7 +648,6 @@ public class UmowaView  implements Serializable {
         LocalDate dataroku = LocalDate.parse(pierwszydzienroku);
         long lata = ChronoUnit.YEARS.between(dataur, dataumowy);
         long dni = ChronoUnit.DAYS.between(dataroku, dataumowy);
-        System.out.println("");
     }
 
 

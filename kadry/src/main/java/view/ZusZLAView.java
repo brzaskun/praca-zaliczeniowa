@@ -82,9 +82,7 @@ public class ZusZLAView  implements Serializable {
        }
 //        File targetFile = new File(realPath+"resources/zla/raport_raport.xml");
 //        FileUtils.copyInputStreamToFile(inputStream, targetFile);
-        System.out.println("");
        } catch (Exception e) {
-           System.out.println("");
        }
    }
 }

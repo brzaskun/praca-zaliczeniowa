@@ -192,7 +192,6 @@ public class PdfListaPlac {
             table.addCell(ustawfrazeAlign("19", "center",6));
             table.setHeaderRows(4);
         } catch (DocumentException ex) {
-            System.out.println("");
         }
         return table;
     }
@@ -260,7 +259,6 @@ public class PdfListaPlac {
             table.addCell(ustawfraze("redukcja", 0, 0));
             table.setHeaderRows(1);
         } catch (DocumentException ex) {
-            System.out.println("");
         }
         return table;
     }
@@ -375,7 +373,6 @@ public class PdfListaPlac {
             table.addCell(ustawfraze("umowa", 0, 0));
             table.setHeaderRows(1);
         } catch (DocumentException ex) {
-            System.out.println("");
         }
         return table;
     }
@@ -432,7 +429,6 @@ public class PdfListaPlac {
             table.addCell(ustawfraze("wyk", 0, 0));
             table.setHeaderRows(1);
         } catch (DocumentException ex) {
-            System.out.println("");
         }
         return table;
     }

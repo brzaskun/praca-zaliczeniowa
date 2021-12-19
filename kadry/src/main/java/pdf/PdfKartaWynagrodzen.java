@@ -110,7 +110,6 @@ public class PdfKartaWynagrodzen {
             table.addCell(ustawfrazeAlign("17", "center",6));
             table.setHeaderRows(4);
         } catch (DocumentException ex) {
-            System.out.println("");
         }
         return table;
     }

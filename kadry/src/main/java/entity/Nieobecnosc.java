@@ -164,7 +164,6 @@ public class Nieobecnosc implements Serializable {
             this.umowa = umowa;
             this.importowana = true;
         } else {
-            System.out.println("");
         }
     }
 

@@ -72,7 +72,6 @@ public class Pit4RView  implements Serializable {
                 PrimeFaces.current().executeScript(polecenie);
                 Msg.msg("Pobrano deklaracje");
             } catch (Exception ex) {
-                System.out.println("");
             } finally {
                 try {
                     is.close();
@@ -97,7 +96,6 @@ public class Pit4RView  implements Serializable {
                 PrimeFaces.current().executeScript(polecenie);
                 Msg.msg("Pobrano deklaracje");
             } catch (Exception ex) {
-                System.out.println("");
             } finally {
                 try {
                     is.close();

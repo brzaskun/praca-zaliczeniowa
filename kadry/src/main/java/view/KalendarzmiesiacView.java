@@ -91,7 +91,6 @@ public class KalendarzmiesiacView  implements Serializable {
             wpisView.setRokWpisu(selected.getRok());
             wpisView.setMiesiacWpisu(selected.getMc());
           } catch (Exception e) {
-              System.out.println("");
               Msg.msg("e", "Błąd - nie dodano kalendarza dla pracownika");
           }
       }
@@ -108,7 +107,6 @@ public class KalendarzmiesiacView  implements Serializable {
                 listakalendarzeprac = kalendarzmiesiacFacade.findByRokUmowa(wpisView.getUmowa(), wpisView.getRokWpisu());
                 Msg.msg("Usunięto kalendarz");
             } catch (Exception e) {
-                System.out.println("");
             }
           }
       } else {
@@ -141,7 +139,6 @@ public class KalendarzmiesiacView  implements Serializable {
                 Msg.msg("e", "Brak kalendarza wzorcowego za dany okres");
             }
           } catch (Exception e) {
-              System.out.println("");
               Msg.msg("e", "Błąd - nieudany reset kalendarza dla pracownika");
           }
       }

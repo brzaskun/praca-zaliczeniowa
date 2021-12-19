@@ -60,7 +60,6 @@ public class PracownikView  implements Serializable {
             selected = new Pracownik();
             Msg.msg("Dodano nowego pracownika");
           } catch (Exception e) {
-              System.out.println("");
               Msg.msg("e", "Błąd - nie dodano nowego pracownika");
           }
       }
@@ -159,7 +158,6 @@ public class PracownikView  implements Serializable {
             wpisView.setPracownik(pracownik);
             Msg.msg("Zachowano zmienione dane pracownika");
           } catch (Exception e) {
-              System.out.println("");
               Msg.msg("e", "Błąd - nie zachowano zmian pracownika");
           }
       }

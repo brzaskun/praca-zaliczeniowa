@@ -846,7 +846,6 @@ public class OsobaBean {
                     zwrot.add(n);
                 }
             } catch (Exception e){
-                System.out.println("");
             }
         }
         return zwrot;

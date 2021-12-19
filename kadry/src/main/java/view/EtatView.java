@@ -50,7 +50,6 @@ public class EtatView implements Serializable {
             selected = new EtatPrac();
             Msg.msg("Dodano etat");
           } catch (Exception e) {
-              System.out.println("");
               Msg.msg("e", "Błąd - nie dodano etatu");
           }
       } else {

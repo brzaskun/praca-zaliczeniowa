@@ -80,7 +80,6 @@ public class DefinicjalistaplacView  implements Serializable {
             }
             
           } catch (Exception e) {
-              System.out.println("");
               Msg.msg("e", "Błąd - nie dodano nowej definicji listy płac");
           }
       }
@@ -156,7 +155,6 @@ public class DefinicjalistaplacView  implements Serializable {
              
             Msg.msg("Zachowano zmiany edycji definicji listy płac");
           } catch (Exception e) {
-              System.out.println("");
               Msg.msg("e", "Błąd - nie zachowano zmian definicji listy płac");
           }
       }

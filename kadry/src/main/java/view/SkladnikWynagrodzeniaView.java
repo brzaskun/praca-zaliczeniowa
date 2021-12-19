@@ -70,7 +70,6 @@ public class SkladnikWynagrodzeniaView  implements Serializable {
                 Msg.msg("Dodano nowy składnik wynagrodzenia");
             }
           } catch (Exception e) {
-              System.out.println("");
               Msg.msg("e", "Błąd - nie dodano nowego składnika wynagrodzenai");
           }
       } else {

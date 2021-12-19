@@ -48,7 +48,6 @@ public class StanowiskoPracView implements Serializable {
             selected = new Stanowiskoprac();
             Msg.msg("Dodano etat");
           } catch (Exception e) {
-              System.out.println("");
               Msg.msg("e", "Błąd - nie dodano etatu");
           }
       } else {
