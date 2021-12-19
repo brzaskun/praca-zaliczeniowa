@@ -39,7 +39,7 @@
             </p:contextMenu>
             <p:dataTable id="dataList" value="#{wierszeView.wiersze}" var="loop" rowIndexVar="row" style="width: 1350px; height: 640px; overflow-y: scroll;" 
                          widgetVar="dokwpisTable" emptyMessage="Nie pobrano wierszy" styleClass="tabelawierszy"
-                         filteredValue="#{wierszeView.wierszefiltered}"
+                         filteredValue="#{wierszeView.wierszefiltered}" 
                          rowKey="#{loop.idwiersza}" editable="true" selection="#{dokfkView.wiersz}" selectionMode="single" sortBy="#{loop.dokfk.datadokumentu}"
                          rowsPerPageTemplate="100,200,300,400" paginatorPosition="top" paginator="#{wierszeView.wiersze.size() gt 100 ? 'true':'false'}" rows="100"
                          >
@@ -51,6 +51,9 @@
 <!--                    <h:outputText value="- wyszukiwanie: " />  
                     <p:inputText id="globalFilter" onkeyup="PF('dokwpisTable').filter()" style="width:150px" />  -->
                 </f:facet>
+                 <p:column headerText="#{mgs.numerkolejny}" width="30">
+                    <h:outputText value="#{row+1}" />
+                </p:column>
                 <p:column headerText="import" width="30" filterBy="#{loop.dokfk.importowany}" sortBy="#{loop.dokfk.importowany}" style="text-align: center;">
                     <h:outputText value="#{loop.dokfk.importowany ? 'tak':null}" style="color: red"/>
                 </p:column>

@@ -172,7 +172,7 @@ public class FakturaDodPozycjaKontrahentView  implements Serializable {
     private void dodajpozycje(FakturaDodPozycjaKontrahent r, List<FakturaDodPozycjaKontrahent> lista_2) {
         boolean dodac = true;
         for (FakturaDodPozycjaKontrahent p : lista_2) {
-            if (r.getKontrahent().equals(p.getKontrahent())&&r.getFakturaDodatkowaPozycja().equals(r.getFakturaDodatkowaPozycja())) {
+            if (r.getKontrahent().equals(p.getKontrahent())&&r.getFakturaDodatkowaPozycja().equals(p.getFakturaDodatkowaPozycja())) {
                 dodac = false;
                 break;
             }
