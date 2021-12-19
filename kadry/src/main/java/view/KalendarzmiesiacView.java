@@ -24,7 +24,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -55,7 +54,7 @@ public class KalendarzmiesiacView  implements Serializable {
     @Inject
     private WpisView wpisView;
     
-    @PostConstruct
+    
     public void init() {
         Kalendarzmiesiac szukany = null;
         if (wpisView.getUmowa()!=null) {

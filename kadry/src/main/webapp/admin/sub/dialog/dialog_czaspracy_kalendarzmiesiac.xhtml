@@ -8,6 +8,7 @@
     <p:dialog id="dialogkalendarzmiesiac" header="Kalendarz pracownika" widgetVar="dialogkalendarzmiesiac"  
               resizable="false"  onShow="ustawdialog('dialogkalendarzmiesiac','centertile',1650,800);" closeOnEscape="true" onHide="resetujdialog('dialogkalendarzmiesiac');" 
               fitViewport="true">
+        <p:ajax event="open" listener="#{kalendarzmiesiacView.init()}" update="KalendarzmiesiacCreateForm KalendarzmiesiacSaRokForm KalendarzmiesiacCreateRokForm KalendarzmiesiacListForm" global="false"/>
         <p:outputPanel style="height: 90px">
             <h:panelGroup id="display">
                 <h:outputText value="W przypadku nierównych godzin mimo całego miesiąca proszę sprawdzić kalendarz wzorcowy"/>
@@ -195,10 +196,11 @@
                         </p:column>
                     </p:dataTable>
                 </p:panel>
-                <p:outputPanel>
-                    <p:commandButton styleClass="buttonnorm" actionListener="#{kalendarzmiesiacView.create}" value="zachowaj" update="north KalendarzmiesiacCreateForm KalendarzmiesiacListForm:datalist KalendarzmiesiacSaRokForm"/>
-                    <p:commandButton styleClass="buttonnorm2" actionListener="#{kalendarzmiesiacView.reset}" value="resetuj" update="north KalendarzmiesiacCreateForm KalendarzmiesiacListForm:datalist KalendarzmiesiacSaRokForm"/>
-                    <p:commandButton styleClass="buttonnorm2" actionListener="#{kalendarzmiesiacView.usun}" value="usun" update="north KalendarzmiesiacCreateForm KalendarzmiesiacListForm:datalist KalendarzmiesiacSaRokForm:wykazistniejacychkal">
+                <p:outputPanel style="margin-top: 5px;">
+                    <h:outputText value="Na podstawie kalendarza sporządzono listę płac. Nie można dokonywać zmian"  rendered="#{kalendarzmiesiacView.selected.pasek.id ne null}"/>
+                    <p:commandButton styleClass="buttonnorm" actionListener="#{kalendarzmiesiacView.create}" value="zachowaj" update="north KalendarzmiesiacCreateForm KalendarzmiesiacListForm:datalist KalendarzmiesiacSaRokForm" rendered="##{kalendarzmiesiacView.selected.pasek.id eq null}"/>
+                    <p:commandButton styleClass="buttonnorm2" actionListener="#{kalendarzmiesiacView.reset}" value="resetuj" update="north KalendarzmiesiacCreateForm KalendarzmiesiacListForm:datalist KalendarzmiesiacSaRokForm" rendered="##{kalendarzmiesiacView.selected.pasek.id eq null}"/>
+                    <p:commandButton styleClass="buttonnorm2" actionListener="#{kalendarzmiesiacView.usun}" value="usun" update="north KalendarzmiesiacCreateForm KalendarzmiesiacListForm:datalist KalendarzmiesiacSaRokForm:wykazistniejacychkal"  rendered="##{kalendarzmiesiacView.selected.pasek.id eq null}">
                         <p:confirm type="popup" header="Potwierdzenie" message="Usunąć bieżący kalendarz?" icon="pi pi-exclamation-triangle"/>
                     </p:commandButton>
                 </p:outputPanel>
