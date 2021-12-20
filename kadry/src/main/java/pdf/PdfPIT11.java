@@ -71,7 +71,7 @@ public class PdfPIT11 {
                     absText(writer, osobaFizyczna.getNazwisko()+" "+osobaFizyczna.getImiePierwsze()+" "+osobaFizyczna.getDataUrodzenia().toString(), 133, 377);
                 }
                 absText(writer, naglowek.getRok().toString(), 300, 705);
-                absText(writer, TKodUS.getNazwaUrzedu(naglowek.getKodUrzedu()), 120, 505);
+                absText(writer, TKodUS.getNazwaUrzedu(TKodUS.getNazwaUrzedu(naglowek.getKodUrzedu())), 120, 505);
                 if (naglowek.getCelZlozenia().getValue()==(byte)1) {
                     absText(writer, "X", 214, 483);
                 } else if (naglowek.getCelZlozenia().getValue()==(byte)2) {

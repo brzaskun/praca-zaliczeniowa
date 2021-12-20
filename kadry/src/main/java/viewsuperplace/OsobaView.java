@@ -6,6 +6,7 @@
 package viewsuperplace;
 
 import DAOsuperplace.OsobaFacade;
+import DAOsuperplace.UrzadFacade;
 import beanstesty.NieobecnosciBean;
 import dao.AngazFacade;
 import dao.DefinicjalistaplacFacade;
@@ -31,6 +32,7 @@ import dao.UmowakodzusFacade;
 import dao.ZmiennaPotraceniaFacade;
 import dao.ZmiennaWynagrodzeniaFacade;
 import data.Data;
+import embeddable.TKodUS;
 import entity.Angaz;
 import entity.Definicjalistaplac;
 import entity.EtatPrac;
@@ -72,6 +74,7 @@ import kadryiplace.OsobaPropTyp;
 import kadryiplace.OsobaSkl;
 import kadryiplace.OsobaZlec;
 import kadryiplace.Rok;
+import kadryiplace.Urzad;
 import msg.Msg;
 import pdf.PdfHistoriaImp;
 import view.HistoriaView;
@@ -104,6 +107,8 @@ public class OsobaView implements Serializable {
     private UmowaFacade umowaFacade;
     @Inject
     private UmowakodzusFacade umowakodzusFacade;
+    @Inject
+    private UrzadFacade urzadFacade;
     @Inject
     private StanowiskopracFacade stanowiskopracFacade;
     @Inject
@@ -205,7 +210,21 @@ public class OsobaView implements Serializable {
                 Pracownik pracownik = pracownikFacade.findByPesel(osoba.getOsoPesel());
                 if (pracownik == null) {
                     try {
-                        pracownik = OsobaBean.pobierzOsobaBasic(osoba);
+                        String kodurzedu = null;
+                        String nazwaurzedu = null;
+                        Integer osoUrzSerial = osoba.getOsoUrzSerial();
+                        if (osoUrzSerial!=null) {
+                            Urzad urzad = urzadFacade.findByUrzSerial(osoUrzSerial);
+                            kodurzedu = urzad.getUrzVchar1();
+                            nazwaurzedu = urzad.getUrzNazwa();
+                            if (kodurzedu==null) {
+                                kodurzedu = TKodUS.getKodUrzedu(urzad.getUrzNazwa());
+                            }
+                            if (kodurzedu==null) {
+                                log.add("BŁĄD. Brak kodu urzedu skarbowego pracownika "+osoba.getOsoNazwisko()+" "+osoba.getOsoImie1());
+                            }
+                        }
+                        pracownik = OsobaBean.pobierzOsobaBasic(osoba, kodurzedu, nazwaurzedu);
                         pracownikFacade.create(pracownik);
                         moznadalej = true;
                         log.add("Utworzono pracownika "+pracownik.getNazwiskoImie());

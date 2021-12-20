@@ -107,8 +107,10 @@ public class FirmaView  implements Serializable {
             Msg.msg("Dodano nowego użytkownika");
             globalnie("2020");
             globalnie("2021");
+            globalnie("2022");
             listywszystkie("2020");
             listywszystkie("2021");
+            listywszystkie("2022");
           } catch (Exception e) {
               Msg.msg("e", "Błąd - nie dodano nowej firmy");
           }
@@ -282,6 +284,9 @@ public class FirmaView  implements Serializable {
             selected.setUlica(odnaleziona.getFirUlica());
             selected.setDom(odnaleziona.getFirDom());
             selected.setLokal(odnaleziona.getFirMieszkanie());
+            if (selected.getLokal()==null) {
+                selected.setLokal("-");
+            }
             selected.setKod(odnaleziona.getFirKod());
             selected.setPoczta(odnaleziona.getFirPoczta());
             selected.setDataurodzenia(Data.data_yyyyMMdd(odnaleziona.getFirDataUrodz()));

@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import javax.inject.Named;
 import javax.persistence.Embeddable;
 
@@ -467,6 +468,16 @@ public class TKodUS implements Serializable {
         String zwrot = "nie znaleziono";
         for (String p : mapaUrzadKod.keySet()) {
             if (mapaUrzadKod.get(p).equals(kodurzedu)) {
+                zwrot = p;
+            }
+        }
+        return zwrot;
+    }
+    
+    public static String getKodUrzedu(String nazwaurzedu) {
+        String zwrot = "nie znaleziono";
+        for (String p : nazwyurzedow) {
+            if (p.toLowerCase(new Locale("pl", "PL")).equals(nazwaurzedu.toLowerCase(new Locale("pl","PL")))) {
                 zwrot = p;
             }
         }

@@ -166,6 +166,10 @@ public class Pracownik implements Serializable {
     private List<DeklaracjaPIT11Schowek> deklaracjaList;
     @Column(name = "ulgadlaklasysredniej")
     private boolean ulgadlaklasysredniej;
+    @Column(name = "kodurzeduskarbowego")
+    private String kodurzeduskarbowego;
+    @Column(name = "nazwaurzeduskarbowego")
+    private String nazwaurzeduskarbowego;
 
     public Pracownik() {
     }
@@ -228,6 +232,24 @@ public class Pracownik implements Serializable {
     public void setAngazList(List<Angaz> angazList) {
         this.angazList = angazList;
     }
+
+    public String getKodurzeduskarbowego() {
+        return kodurzeduskarbowego;
+    }
+
+    public void setKodurzeduskarbowego(String kodurzeduskarbowego) {
+        this.kodurzeduskarbowego = kodurzeduskarbowego;
+    }
+
+    public String getNazwaurzeduskarbowego() {
+        return nazwaurzeduskarbowego;
+    }
+
+    public void setNazwaurzeduskarbowego(String nazwaurzeduskarbowego) {
+        this.nazwaurzeduskarbowego = nazwaurzeduskarbowego;
+    }
+    
+    
 
     @XmlTransient
     public List<DeklaracjaPIT11Schowek> getDeklaracjaList() {

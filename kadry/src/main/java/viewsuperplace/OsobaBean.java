@@ -78,7 +78,7 @@ import z.Z;
  */
 public class OsobaBean {
     
-    public static Pracownik pobierzOsobaBasic(Osoba p) {
+    public static Pracownik pobierzOsobaBasic(Osoba p, String kodurzedu, String nazwaurzedu) {
         Pracownik pracownik = new Pracownik();
         pracownik.setImie(p.getOsoImie1());
         pracownik.setDrugieimie(p.getOsoImie2());
@@ -107,6 +107,8 @@ public class OsobaBean {
         pracownik.setKod(p.getOsoKod());
         pracownik.setPoczta(p.getOsoPoczta());
         pracownik.setNierezydent(p.getOsoDod11()!=null&&p.getOsoDod11().equals('T'));
+        pracownik.setKodurzeduskarbowego(kodurzedu);
+        pracownik.setNazwaurzeduskarbowego(nazwaurzedu);
         return pracownik;
     }
 
