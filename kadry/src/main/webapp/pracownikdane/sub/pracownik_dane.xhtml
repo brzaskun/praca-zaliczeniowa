@@ -85,9 +85,14 @@
                         <p:inputText id="nazrod" value="#{pracownikDane2View.selected.nazwiskorodowe}" title="kraj"/>
                     </p:panelGrid>
                     <p:panel header="ustawienia podatkowe"/>
-                    <p:panelGrid columns="2">
+                    <p:panelGrid columns="4">
+                        <p:outputLabel value="urząd skarbowy" for="usnazwa" />
+                        <p:inputText id="usnazwa" value="#{pracownikDane2View.selected.nazwaurzeduskarbowego}" title="nazwa urzędu skarbowego" readonly="true" size="40"/>
+                        <p:outputLabel value="kod urzędu" for="usnazwakod" />
+                        <p:inputText id="usnazwakod" value="#{pracownikDane2View.selected.kodurzeduskarbowego}" title="kod urzędu skarbowego" readonly="true"/>
                         <p:outputLabel value="zaliczki na podatek w innym kraju" for="innykraj" />
                         <p:selectBooleanCheckbox id="innykraj" value="#{pracownikDane2View.selected.zaliczkiwinnymkraju}" title="płaci zaliczki w innym kraju"/>
+                        
                     </p:panelGrid>
                 </p:outputPanel>
                 <p:outputPanel style="margin-top: 50px;">

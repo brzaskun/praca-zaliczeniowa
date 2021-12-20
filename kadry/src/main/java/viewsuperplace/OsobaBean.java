@@ -101,7 +101,11 @@ public class OsobaBean {
         pracownik.setPowiat(p.getOsoPowiat());
         pracownik.setGmina(p.getOsoGmina());
         pracownik.setMiasto(p.getOsoMiaSerial()!=null?p.getOsoMiaSerial().getMiaNazwa():"brak");
-        pracownik.setUlica(p.getOsoUlica());
+        String osoUlica = p.getOsoUlica();
+        if (osoUlica==null||osoUlica.equals("")) {
+            osoUlica="-";
+        }
+        pracownik.setUlica(osoUlica);
         pracownik.setDom(p.getOsoDom());
         pracownik.setLokal(p.getOsoDom());
         pracownik.setKod(p.getOsoKod());

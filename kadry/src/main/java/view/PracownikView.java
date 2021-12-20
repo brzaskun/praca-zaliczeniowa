@@ -118,10 +118,13 @@ public class PracownikView  implements Serializable {
                 }
                 pracownikFacade.remove(pracownik);
                 lista.remove(pracownik);
-                Msg.msg("Usunięto pracownika");
-                if (listafiltered != null && !listafiltered.isEmpty()) {
+                if (listafiltered != null && listafiltered.contains(pracownik)) {
                     listafiltered.remove(pracownik);
                 }
+                 if (selectedlista != null && selectedlista.contains(pracownik)) {
+                    selectedlista.remove(pracownik);
+                }
+                Msg.msg("Usunięto pracownika");
             } catch (Exception e) {
                 Msg.msg("e", "Nie można usunąć pracownika. Istnieją angaże");
             }
