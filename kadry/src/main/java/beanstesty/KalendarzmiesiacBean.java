@@ -5,6 +5,7 @@
  */
 package beanstesty;
 
+import comparator.KalendarzmiesiacRMcomparator;
 import comparator.Umowacomparator;
 import data.Data;
 import embeddable.Mce;
@@ -389,10 +390,22 @@ public class KalendarzmiesiacBean {
         List<Umowa> listaumow = kalendarz.getUmowa().getAngaz().getUmowaList();
         Collections.sort(listaumow, new Umowacomparator());
         List<Kalendarzmiesiac> kalendarze = new ArrayList<>();
+        String rok = kalendarz.getRok();
+        String mc = kalendarz.getMc();
+        String[] poprzedniOkres = Data.poprzedniOkres(mc, rok);
+        mc = poprzedniOkres[0];
+        rok = poprzedniOkres[1];
         for (Umowa p : listaumow) {
-            for (Kalendarzmiesiac kal : p.getKalendarzmiesiacList()) {
-                kalendarze.add(kal);
-                if (kalendarze.size()>12) {
+            List<Kalendarzmiesiac> kalendarzmiesiacList = p.getKalendarzmiesiacList();
+            Collections.sort(kalendarzmiesiacList, new KalendarzmiesiacRMcomparator());
+            for (Kalendarzmiesiac kal : kalendarzmiesiacList) {
+                if (kal.getRok().equals(rok)&&kal.getMc().equals(mc)) {
+                    kalendarze.add(kal);
+                    poprzedniOkres = Data.poprzedniOkres(mc, rok);
+                    mc = poprzedniOkres[0];
+                    rok = poprzedniOkres[1];
+                }
+                if (kalendarze.size()==12) {
                     break;
                 }
             }
@@ -569,8 +582,11 @@ public class KalendarzmiesiacBean {
                                     godzinyprzepracowanezm, dniprzepracowane, godzinyroboczezm, dnirobocze);
                             srednia.setWaloryzowane(waloryzowac);
                             naliczenienieobecnosc.getSredniadlanieobecnosciList().add(srednia);
-                            sredniadopodstawy = sredniadopodstawy+zwrot2+zwrot2zwalor;
-                            i++;
+                            double suma = zwrot2+zwrot2zwalor;
+                            if (suma>0.0) {
+                                sredniadopodstawy = Z.z(sredniadopodstawy+zwrot2+zwrot2zwalor);
+                                i++;
+                            }
                         }
                     }
                 }
