@@ -71,11 +71,11 @@
                         <h:outputText value="#{wpis1.transakcja}"/>
                     </p:column>
                     <p:column id="krajkodColumn" headerText="kraj" filterBy="#{wpis1.kontrahent.krajkod}" filterMatchMode="contains" sortBy="#{wpis1.kontrahent.krajkod}" 
-                              style="width: 20px; text-align: center;" filterStyle="display : none;" >  
+                              style="width: 20px; text-align: center;" >  
                         <h:outputText value="#{wpis1.kontrahent.krajkod}" style="color: #{wpis1.kontrahent.krajkod eq 'PL'?'red':'initial'}"/>
                     </p:column>
                     <p:column id="nipColumn" headerText="nip" filterBy="#{wpis1.kontrahentwyborNIP}" 
-                              filterMatchMode="contains" sortBy="#{wpis1.kontrahentwyborNIP}" style="width: 20%;" filterStyle="display : none;" >  
+                              filterMatchMode="contains" sortBy="#{wpis1.kontrahentwyborNIP}" style="width: 20%;" >  
                         <h:outputText value="#{wpis1.kontrahentwyborNIP}" />
                     </p:column>
                     <p:column id="nipColumnold" headerText="pop. nip" filterBy="#{wpis1.poprzedninip}" 
@@ -83,7 +83,7 @@
                         <p:inputText value="#{wpis1.poprzedninip}" size="15"/>
                     </p:column>
                     <p:column id="kontrColumn" headerText="#{mgs.kontrahent}" filterBy="#{wpis1.kontrahentwyborNazwa}" filterMatchMode="contains" 
-                              sortBy="#{wpis1.kontrahentwyborNazwa}" filterStyle="display : none;" width="320">  
+                              sortBy="#{wpis1.kontrahentwyborNazwa}" width="320">  
                         <h:outputText value="#{wpis1.kontrahentwyborNazwa}"  />
                     </p:column>
                     <p:column id="nettoColumn" headerText="#{mgs.netto} pln" filterBy="#{wpis1.netto}" filterMatchMode="contains" sortBy="#{wpis1.netto}" style="width: 15%;" filterStyle="display : none;" >  

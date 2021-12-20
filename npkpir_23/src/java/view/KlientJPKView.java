@@ -29,6 +29,8 @@ public class KlientJPKView implements Serializable {
     @Inject
     private KlientJPKDAO klientJPKDAO;
     private List<KlientJPK> lista;
+    private List<KlientJPK> listafilter;
+    private KlientJPK selected;
     private double suma;
     
     
@@ -48,6 +50,17 @@ public class KlientJPKView implements Serializable {
        Msg.msg("Naniesiono zmiany");
    }
    
+   public void usun(KlientJPK klient) {
+       if (klient!=null) {
+           klientJPKDAO.remove(klient);
+           lista.remove(klient);
+           if (listafilter!=null&&listafilter.contains(klient)) {
+               listafilter.remove(klient);
+           }
+           Msg.msg("Usunięto wiersz");
+       }
+   }
+   
     public List<KlientJPK> getLista() {
         return lista;
     }
@@ -63,6 +76,23 @@ public class KlientJPKView implements Serializable {
     public void setSuma(double suma) {
         this.suma = suma;
     }
+
+    public KlientJPK getSelected() {
+        return selected;
+    }
+
+    public void setSelected(KlientJPK selected) {
+        this.selected = selected;
+    }
+
+    public List<KlientJPK> getListafilter() {
+        return listafilter;
+    }
+
+    public void setListafilter(List<KlientJPK> listafilter) {
+        this.listafilter = listafilter;
+    }
    
+    
    
 }

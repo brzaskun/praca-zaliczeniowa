@@ -14,16 +14,17 @@
                 <bcf:outputpl value="#{klientJPKView.suma}"/>
             </p:panelGrid>
             <p:dataTable value="#{klientJPKView.lista}" var="itemikjpk" rowIndexVar="indexjpk"
-                         style="width: 1200px; height: 550px; overflow-y: scroll;" 
+                         style="width: 1200px; height: 550px; overflow-y: scroll;" rowKey="#{itemikjpk.id}"
+                         selection="#{klientJPKView.selected}" selectionMode="single" filteredValue="#{klientJPKView.listafilter}"
                          rowsPerPageTemplate="30,50,300,400" paginatorPosition="top" paginator="#{klientJPKView.lista.size() gt 30 ? 'true':'false'}" rows="30"
                          >
                 <p:column style="width: 50px;">
                     <h:outputText value="#{indexjpk+1}"/>
                 </p:column>
-                <p:column headerText="data wystawienia">
+                <p:column headerText="data wystawienia" filterBy="#{itemikjpk.dataWystawienia}">
                     <h:outputText value="#{itemikjpk.dataWystawienia}"/>
                 </p:column>
-                <p:column headerText="data sprzedaży">
+                <p:column headerText="data sprzedaży" filterBy="#{itemikjpk.dataSprzedazy}">
                     <h:outputText value="#{itemikjpk.dataSprzedazy}"/>
                 </p:column>
                 <p:column headerText="nazwa" width="350" sortBy="#{itemikjpk.nazwaKontrahenta}" filterBy="#{itemikjpk.nazwaKontrahenta}" filterMatchMode="contains">
@@ -32,7 +33,7 @@
                         <p:ajax event="save" listener="#{klientJPKView.handleSave(itemikjpk)}"/>
                     </p:inplace>
                 </p:column>
-                <p:column headerText="nr kontr" sortBy="#{itemikjpk.nrKontrahenta}">
+                <p:column headerText="nr kontr" sortBy="#{itemikjpk.nrKontrahenta}" filterBy="#{itemikjpk.nrKontrahenta}" filterMatchMode="contains">
                     <h:outputText value="#{itemikjpk.nrKontrahenta}"/>
                 </p:column>
                 <p:column headerText="wartość netto"  sortBy="#{itemikjpk.netto}">
@@ -52,6 +53,11 @@
                 </p:column>
                 <p:column headerText="Additional"  style="text-align: center;" width="30">
                     <h:outputText value="&#x2713;" rendered="#{itemikjpk.amazontax0additional1 eq 1}" style="color: green;font-weight: bold"/>
+                </p:column>
+                <p:column style="text-align: center;" width="40">
+                    <p:commandButton icon="fa fa-trash" style="width: 30px;" global="false"  actionListener="#{klientJPKView.usun(itemikjpk)}"
+                                     update="@form"
+                                     />
                 </p:column>
             </p:dataTable>
         </p:tab>
