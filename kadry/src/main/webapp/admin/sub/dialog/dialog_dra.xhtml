@@ -18,8 +18,8 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                         <p:selectOneMenu id="wybranalista" value="#{draView.wybranalistaplac}" required="true" requiredMessage="Wybierz firmę" converter="#{definicjalistaplacConverter}" >
                             <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
                             <f:selectItems value="#{draView.listadefinicjalistaplac}" 
-                                           var="firmalistaItem"
-                                           itemValue="#{firmalistaItem}" itemLabel="#{firmalistaItem.opis} #{firmalistaItem.nrkolejny}"/>
+                                           var="dralistaItem"
+                                           itemValue="#{dralistaItem}" itemLabel="#{dralistaItem.opis} #{dralistaItem.nrkolejny}"/>
                             <p:ajax event="change" partialSubmit="true" global="false" listener="#{draView.pobierzpaski}" update="DRAListForm DRASumaForm"/>
                         </p:selectOneMenu>
                     <p:commandButton styleClass="buttonnorm" actionListener="#{draView.drukujliste}" value="druk lista"/>
@@ -50,6 +50,7 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                                  selectionMode="single" selection="#{draView.selectedlista}" rowIndexVar="indexdra"
                                  rowKey="#{itemdra.kalendarzmiesiac.hashCode()}" sortBy="#{itemdra.kalendarzmiesiac.umowa.angaz.pracownik.nazwiskoImie}"
                                  style="height: 500px; overflow-y: scroll;"
+                                 emptyMessage="nie pobrano danych"
                                  >
                         <p:column>
                             <p:panelGrid styleClass="pasekwyn">
@@ -192,9 +193,9 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                                     <p:column>
                                         <bcf:outputpl value="#{itemdra.podatekdochodowy}"/>
                                     </p:column>
-                                     <p:column style="text-align: center;">
+<!--                                     <p:column style="text-align: center;">
                                         <p:commandButton icon="fa fa-print" actionListener="#{draView.drukuj(itemdra)}" global="false"/>
-                                    </p:column>
+                                    </p:column>-->
                                 </p:row>
                             </p:panelGrid>
                         </p:column>

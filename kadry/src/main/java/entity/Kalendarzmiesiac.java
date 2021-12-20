@@ -353,12 +353,14 @@ private static final long serialVersionUID = 1L;
         double[] zwrot = new double[3];
         double roboczenalicz = 0;
         double roboczenawyk = 0;
-        if (this.dzienList!=null) {
+        if (this.dzienList!=null && kod!=null) {
             for (Dzien d : dzienList) {
-                if (d.getKod().equals(kod)) {
-                    roboczenalicz = roboczenalicz+d.getNormagodzin();
-                    if (d.getPrzepracowano()>0) {
-                        roboczenawyk = roboczenawyk+d.getPrzepracowano();
+                if (cosjest(d.getKod())) {
+                    if (d.getKod().equals(kod)) {
+                        roboczenalicz = roboczenalicz+d.getNormagodzin();
+                        if (d.getPrzepracowano()>0) {
+                            roboczenawyk = roboczenawyk+d.getPrzepracowano();
+                        }
                     }
                 }
             }

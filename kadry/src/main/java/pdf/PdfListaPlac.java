@@ -129,7 +129,7 @@ public class PdfListaPlac {
     private static void dodajtabeleglowna(Pasekwynagrodzen p, Document document) {
         try {
             Angaz a = p.getKalendarzmiesiac().getUmowa().getAngaz();
-            PdfPTable table = generujTabele(a.getFirma().getNazwa(),a.getPracownik().getNazwiskoImie(), "70052809810", p.getKalendarzmiesiac().getRok(),p.getKalendarzmiesiac().getMc(), p.getDefinicjalistaplac().getNrkolejny());
+            PdfPTable table = generujTabele(a.getFirma().getNazwa(),a.getPracownik().getNazwiskoImie(), a.getPracownik().getPesel(), p.getKalendarzmiesiac().getRok(),p.getKalendarzmiesiac().getMc(), p.getDefinicjalistaplac().getNrkolejny());
             List<Pasekwynagrodzen> wykaz = new ArrayList<>();
             wykaz.add(p);
             dodajwiersze(wykaz, table);
