@@ -5,10 +5,12 @@
  */
 package entity;
 
+import comparator.Dziencomparator;
 import dao.SwiadczeniekodzusFacade;
 import data.Data;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -103,9 +105,11 @@ private static final long serialVersionUID = 1L;
     }
 
       public void edytujdnizglobalnego(Kalendarzwzor kalendarzwzor) {
-        for (int i = 0; i < kalendarzwzor.getDzienList().size(); i++) {
+        List<Dzien> dzienListwzor = kalendarzwzor.getDzienList();
+        Collections.sort(dzienListwzor, new Dziencomparator());
+        for (int i = 0; i < dzienListwzor.size(); i++) {
             Dzien dzien = this.getDzienList().get(i);
-            Dzien dzienwzor = kalendarzwzor.getDzienList().get(i);
+            Dzien dzienwzor = dzienListwzor.get(i);
             dzien.nanieswzor(dzienwzor);
         }
     }

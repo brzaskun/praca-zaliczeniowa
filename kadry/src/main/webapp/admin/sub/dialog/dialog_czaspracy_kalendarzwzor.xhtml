@@ -133,7 +133,8 @@
                     <p:commandButton styleClass="buttonnorm2" actionListener="#{kalendarzwzorView.reset}" value="Resetuj"  update="KalendarzwzorCreateForm:mc :KalendarzwzorListForm:datalist KalendarzwzormiesiacSaRokForm:datalist" rendered="#{kalendarzwzorView.selected.id ne null}"/>
                     <p:commandButton styleClass="buttonnorm2" actionListener="#{kalendarzwzorView.create}" value="#{bundle.Save}"  update="KalendarzwzorCreateForm:mc :KalendarzwzorListForm:datalist KalendarzwzormiesiacSaRokForm:datalist" rendered="#{kalendarzwzorView.selected.id eq null}"/>
                     <p:commandButton styleClass="buttonnorm2" actionListener="#{kalendarzwzorView.nanieszmiany}" value="nanieś pracow."  update="KalendarzwzorCreateForm:mc :KalendarzwzorListForm:datalist KalendarzwzormiesiacSaRokForm:datalist" rendered="#{kalendarzwzorView.selected.id ne null}"/>
-                    <p:commandButton styleClass="buttonnorm2" actionListener="#{kalendarzwzorView.implementuj}" value="implementuj wszyscy"  update="KalendarzwzorCreateForm:mc :KalendarzwzorListForm:datalist KalendarzwzormiesiacSaRokForm:datalist" rendered="#{kalendarzwzorView.selected.id ne null}"/>
+                    <p:commandButton styleClass="buttonnorm2" actionListener="#{kalendarzwzorView.implementuj}" value="implementuj wszyscy"  
+                                     update="KalendarzwzorCreateForm:mc :KalendarzwzorListForm:datalist KalendarzwzormiesiacSaRokForm:datalist" rendered="#{kalendarzwzorView.selected.id ne null}"/>
                 </p:outputPanel>
            </h:form>
                 <p:outputPanel>

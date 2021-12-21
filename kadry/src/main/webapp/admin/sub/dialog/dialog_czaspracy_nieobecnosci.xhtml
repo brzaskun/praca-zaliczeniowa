@@ -36,7 +36,7 @@
                                     <p:ajax event="change" partialSubmit="true" global="false" update="NieobecnoscCreateForm:swiadczenie" listener="#{nieobecnoscView.naniesrodzajnieobecnosci()}"/>
                                 </p:selectOneMenu>
                                 <p:outputLabel value="świadczenie" for="swiadczenie" />
-                                <p:selectOneMenu id="swiadczenie" value="#{nieobecnoscView.selected.swiadczeniekodzus}" required="true" requiredMessage="wybierz rodzaj nieobecnosci"  converter="#{swiadczeniekodzusConverter}" filter="true" filterMatchMode="contains"
+                                <p:selectOneMenu id="swiadczenie" value="#{nieobecnoscView.selected.swiadczeniekodzus}"  converter="#{swiadczeniekodzusConverter}" filter="true" filterMatchMode="contains"
                                                  style="width: 300px;">
                                     <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
                                     <f:selectItems value="#{nieobecnoscView.swiadczeniekodzusLista}" 

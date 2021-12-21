@@ -417,7 +417,7 @@ public class PasekwynagrodzenBean {
             if (p.getNieobecnosc().getSwiadczeniekodzus()==null) {
                 bruttobezzus = Z.z(bruttobezzus+p.getKwotabezzus());
             } else
-            if (p.getNieobecnosc().getSwiadczeniekodzus()!=null&&!p.getNieobecnosc().getSwiadczeniekodzus().getZrodlofinansowania().equals('P')&&!p.getNieobecnosc().getSwiadczeniekodzus().getZrodlofinansowania().equals('B')) {
+            if (p.getNieobecnosc().getSwiadczeniekodzus()!=null&&(p.getNieobecnosc().getSwiadczeniekodzus().getZrodlofinansowania().equals('P')||p.getNieobecnosc().getSwiadczeniekodzus().getZrodlofinansowania().equals('B'))) {
                 bruttobezzus = Z.z(bruttobezzus+p.getKwotabezzus());
             }
         }
@@ -669,9 +669,8 @@ public class PasekwynagrodzenBean {
     }
 
     private static void naliczzdrowota(Pasekwynagrodzen pasek, boolean nierezydent) {
-        double spolecznepodstawa = pasek.getPodstawaskladkizus();
-        double skladki = pasek.getRazemspolecznepracownik();
-        double podstawazdrowotna = Z.z(spolecznepodstawa-skladki) > 0.0 ? Z.z(spolecznepodstawa-skladki) :0.0;
+        double spolecznepodstawa = pasek.getBruttominusspoleczne();
+        double podstawazdrowotna = Z.z(spolecznepodstawa) > 0.0 ? Z.z(spolecznepodstawa) :0.0;
         pasek.setPodstawaubezpzdrowotne(podstawazdrowotna);
         double zdrowotne = Z.z(podstawazdrowotna*0.09);
         pasek.setPraczdrowotne(zdrowotne);

@@ -156,8 +156,10 @@ public class Swiadczeniekodzus implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Swiadczeniekodzus[ id=" + id + " ]";
+        return "Swiadczeniekodzus{" + "wkp_serial=" + wkp_serial + ", wkp_abs_serial=" + wkp_abs_serial + ", rodzajnieobecnosci=" + rodzajnieobecnosci.getKod() + ", kod=" + kod + ", opis=" + opis + ", opisskrocony=" + opisskrocony + ", aktywne=" + aktywne + '}';
     }
+
+  
 
     public String getKod() {
         return kod;

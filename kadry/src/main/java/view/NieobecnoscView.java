@@ -281,6 +281,7 @@ public class NieobecnoscView  implements Serializable {
             }
             nieob.setDzienList(null);
             nieob.setNaniesiona(false);
+            nieob.setDniroboczenieobecnosci(0.0);
             nieobecnoscFacade.edit(nieob);
             kalendarzmiesiacView.init();
             Msg.msg("Zdjęto nieobecnośćz kalendarza.");

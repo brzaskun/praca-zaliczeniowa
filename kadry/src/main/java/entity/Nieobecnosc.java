@@ -67,7 +67,7 @@ public class Nieobecnosc implements Serializable {
     @ManyToOne(optional = false)
     private Rodzajnieobecnosci rodzajnieobecnosci;
     @JoinColumn(name = "swiadczeniekodzus", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = true)
     private Swiadczeniekodzus swiadczeniekodzus;
     @JoinColumn(name = "umowa", referencedColumnName = "id")
     @ManyToOne(optional = false)
