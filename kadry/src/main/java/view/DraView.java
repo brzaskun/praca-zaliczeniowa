@@ -53,7 +53,6 @@ public class DraView  implements Serializable {
     public void init() {
         listadefinicjalistaplac = definicjalistaplacFacade.findByFirmaRok(wpisView.getFirma(), wpisView.getRokWpisu());
         Collections.sort(listadefinicjalistaplac, new Defnicjalistaplaccomparator());
-        System.out.println("");
     }
 
     public void drukujliste () {
