@@ -892,15 +892,17 @@ public class Umowa implements Serializable {
         Collections.sort(kalendarzList, new KalendarzmiesiacLastcomparator());
         int ilemamy = 0;
         for (Kalendarzmiesiac  r : kalendarzList) {
-            if (Data.czyjestpomcnaprawdepo(r.getMc(), r.getRok(), mc, rok)) {
-                Naliczenieskladnikawynagrodzenia naliczonewynagrodzenie = r.getNaliczonewynagrodzenie(s);
-                if (naliczonewynagrodzenie!=null) {
-                    zwrot.add(naliczonewynagrodzenie);
+            if (r.getRokI()<=Integer.parseInt(rok)) {
+                if (Data.czyjestpomcnaprawdepo(r.getMc(), r.getRok(), mc, rok)) {
+                    Naliczenieskladnikawynagrodzenia naliczonewynagrodzenie = r.getNaliczonewynagrodzenie(s);
+                    if (naliczonewynagrodzenie!=null) {
+                        zwrot.add(naliczonewynagrodzenie);
+                    }
+                    ilemamy++;
                 }
-                ilemamy++;
-            }
-            if (ilemamy==3) {
-                break;
+                if (ilemamy==3) {
+                    break;
+                }
             }
         }
         

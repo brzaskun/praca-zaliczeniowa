@@ -8,6 +8,7 @@ package entity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -124,23 +125,37 @@ public class Skladnikwynagrodzenia implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        int hash = 7;
+        hash = 41 * hash + Objects.hashCode(this.id);
+        hash = 41 * hash + Objects.hashCode(this.rodzajwynagrodzenia);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Skladnikwynagrodzenia)) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
             return false;
         }
-        Skladnikwynagrodzenia other = (Skladnikwynagrodzenia) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if (getClass() != obj.getClass()) {
             return false;
+        }
+        final Skladnikwynagrodzenia other = (Skladnikwynagrodzenia) obj;
+        if (this.id!=null&&other.id!=null) {
+            if (!Objects.equals(this.id, other.id)) {
+                return false;
+            }
+        } else {
+            if (!Objects.equals(this.rodzajwynagrodzenia, other.rodzajwynagrodzenia)) {
+                return false;
+            }
         }
         return true;
     }
+
+   
 
     @Override
     public String toString() {

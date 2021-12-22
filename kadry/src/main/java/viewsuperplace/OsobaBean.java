@@ -303,6 +303,24 @@ public class OsobaBean {
                 }
             }
         }
+        if (!zwrot.isEmpty()) {
+            List<Skladnikwynagrodzenia> single = new ArrayList<>();
+            for (Skladnikwynagrodzenia s : zwrot) {
+                if (!single.contains(s)) {
+                    single.add(s);
+                    skladnikWynagrodzeniaFacade.create(s);
+                } else {
+                    Skladnikwynagrodzenia pobrany = single.get(single.indexOf(s));
+                    List<Zmiennawynagrodzenia> nowezmienne = s.getZmiennawynagrodzeniaList();
+                    for (Zmiennawynagrodzenia r : nowezmienne) {
+                        r.setSkladnikwynagrodzenia(pobrany);
+                    }
+                    pobrany.getZmiennawynagrodzeniaList().addAll(nowezmienne);
+                    skladnikWynagrodzeniaFacade.edit(pobrany);
+                }
+            }
+            zwrot = single;
+        }
         return zwrot;
     }
     
@@ -338,9 +356,7 @@ public class OsobaBean {
         skladnik.setUmowa(aktywna);
         skladnik.setRodzajwynagrodzenia(pobierzrodzajwynagrodzenia(wybrany,rodzajewynagrodzenia));
         pobierzzmiennawynagrodzenia(aktywna, skladnik, wybrany, zmiennaWynagrodzeniaFacade);
-        if (skladnik.getZmiennawynagrodzeniaList()!=null&&!skladnik.getZmiennawynagrodzeniaList().isEmpty()) {
-            skladnikWynagrodzeniaFacade.create(skladnik);
-        } else {
+        if (skladnik.getZmiennawynagrodzeniaList()==null||skladnik.getZmiennawynagrodzeniaList().isEmpty()) {
             skladnik = null;
         }
         return skladnik;
@@ -688,6 +704,8 @@ public class OsobaBean {
                 naliczenieskladnikawynagrodzenia.setDatado(Data.data_yyyyMMddNull(p.getSklDataDo()));
                 naliczenieskladnikawynagrodzenia.setDninalezne(lplDniObow);
                 naliczenieskladnikawynagrodzenia.setDnifaktyczne(lplDniPrzepr);
+                naliczenieskladnikawynagrodzenia.setGodzinynalezne(lplDniObow*8.0);
+                naliczenieskladnikawynagrodzenia.setGodzinyfaktyczne(lplDniPrzepr*8.0);
                 naliczenieskladnikawynagrodzenia.setKwotadolistyplac(p.getSklKwota().doubleValue());
                 naliczenieskladnikawynagrodzenia.setSkladnikwynagrodzenia(histporiapobierzskladnikwynagrodzenia(p, skladnikwynagrodzenia));
                 naliczenieskladnikawynagrodzenia.setSkl_dod_1(p.getSklDod1());
@@ -706,6 +724,8 @@ public class OsobaBean {
                 naliczenieskladnikawynagrodzenia.setDatado(Data.data_yyyyMMddNull(p.getSklDataDo()));
                 naliczenieskladnikawynagrodzenia.setDninalezne(lplDniObow);
                 naliczenieskladnikawynagrodzenia.setDnifaktyczne(lplDniPrzepr);
+                naliczenieskladnikawynagrodzenia.setGodzinynalezne(lplDniObow*8.0);
+                naliczenieskladnikawynagrodzenia.setGodzinyfaktyczne(lplDniPrzepr*8.0);
                 naliczenieskladnikawynagrodzenia.setKwotyredukujacesuma(p.getSklKwota().doubleValue());
                 naliczenieskladnikawynagrodzenia.setSkladnikwynagrodzenia(histporiapobierzskladnikwynagrodzenia(p, skladnikwynagrodzenia));
                 naliczenieskladnikawynagrodzenia.setSkl_rodzaj(p.getSklRodzaj());
