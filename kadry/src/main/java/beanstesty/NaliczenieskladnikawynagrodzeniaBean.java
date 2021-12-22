@@ -252,12 +252,13 @@ public class NaliczenieskladnikawynagrodzeniaBean {
 
     public static Naliczenieskladnikawynagrodzenia createPremiaDB(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasekwynagrodzen, Skladnikwynagrodzenia skladnikwynagrodzenia) {
         double dniroboczewmiesiacu = 0.0;
+        double godzinyroboczewmiesiacu = 0.0;
         for (Dzien p : kalendarz.getDzienList()) {
             if (p.getTypdnia() == 0) {
                 dniroboczewmiesiacu++;
+                godzinyroboczewmiesiacu = godzinyroboczewmiesiacu + p.getNormagodzin();
             }
         }
-        double godzinyroboczewmiesiacu = dniroboczewmiesiacu * 8.0;
         Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = new Naliczenieskladnikawynagrodzenia();
         double zmiennawynagrodzeniakwota = 0.0;
         double dniroboczeprzepracowane = 0.0;

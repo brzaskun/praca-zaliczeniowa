@@ -18,7 +18,6 @@ public class DataBean {
         boolean zwrot = true;
         String pierwszydzienmiesiaca = kalendarz.getPierwszyDzien();
         String ostatnidzienmiesiaca = kalendarz.getOstatniDzien();
-        zmiennadatado = zmiennadatado!=null ? zmiennadatado : Data.getDzien(Data.ostatniDzien(kalendarz.getRok(), kalendarz.getMc()));
         //czy data poczatkowa zmiennej jest starsza od daty koncowej kalendarza
         boolean zaczynasieprzedpoczatkiem = Data.czyjestprzed(pierwszydzienmiesiaca, zmiennadataod);
         boolean konczysieprzedpoczatkiem = Data.czyjestprzed(pierwszydzienmiesiaca, zmiennadatado);

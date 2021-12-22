@@ -321,21 +321,29 @@ public class Data implements Serializable {
     //chodzi o to czy okres data jest po jakiesc dacie
     public static boolean czyjestpo(String termingraniczny, String badanadata) {
         boolean zwrot = false;
-        if (termingraniczny == null || termingraniczny.equals("")) {
-            zwrot = false;
+        if (badanadata==null) {
+            zwrot = true;
         } else {
-            zwrot = czydatasiezawiera(termingraniczny, badanadata, true);
-        }
+            if (termingraniczny == null || termingraniczny.equals("")) {
+                zwrot = false;
+            } else {
+                zwrot = czydatasiezawiera(termingraniczny, badanadata, true);
+            }
+         }
         return zwrot;
     }
     
     //chodzi o to czy okres data jest po jakiesc dacie
     public static boolean czyjestprzed(String termingraniczny, String badanadata) {
         boolean zwrot = false;
-        if (termingraniczny == null || termingraniczny.equals("")) {
-            zwrot = false;
+        if (badanadata==null) {
+            zwrot = true;
         } else {
-            zwrot = czydatasiezawiera(termingraniczny, badanadata, false);
+            if (termingraniczny == null || termingraniczny.equals("")) {
+                zwrot = false;
+            } else {
+                zwrot = czydatasiezawiera(termingraniczny, badanadata, false);
+            }
         }
         return zwrot;
     }
