@@ -113,6 +113,7 @@ public class RachunekZlecenieView  implements Serializable {
                 rachunekdoumowyzlecenia.setKwota(rachunekdoumowyzlecenia.getWynagrodzeniemiesieczne());
             } else {
                 rachunekdoumowyzlecenia.setKwota(Z.z(rachunekdoumowyzlecenia.getWynagrodzeniegodzinowe()*rachunekdoumowyzlecenia.getIloscgodzin()));
+                rachunekdoumowyzlecenia.setKoszt(Z.z(rachunekdoumowyzlecenia.getKwota()*rachunekdoumowyzlecenia.getProcentkosztowuzyskania()/100.0));
             }
             Msg.msg("Przeliczono kwotę rachunku");
         }

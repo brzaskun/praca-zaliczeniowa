@@ -55,14 +55,14 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                 <p:panelGrid columns="2" style="margin-top: 10px;">
                     <p:outputLabel value="ilośc godzin wg kalendarza:"/>
                     <p:inputNumber value="#{rachunekZlecenieView.rachunekdoumowyzlecenia.iloscgodzin}" decimalSeparator=","   inputStyle="text-align: right;" decimalPlaces="2">
-                        <p:ajax event="change" partialSubmit="true" listener="#{rachunekZlecenieView.przeliczrachunek()}" update="RachunekZleceniaForm:lolo"/>
+                        <p:ajax event="change" partialSubmit="true" listener="#{rachunekZlecenieView.przeliczrachunek()}" update="RachunekZleceniaForm:lolo RachunekZleceniaForm:lolo1"/>
                     </p:inputNumber>
+                     <p:outputLabel value="kwota brutto:"/>
+                    <p:inputNumber value="#{rachunekZlecenieView.rachunekdoumowyzlecenia.kwota}" id="lolo1"  decimalPlaces="1" decimalSeparator="," inputStyle="text-align: right"/>
                     <p:outputLabel value="koszt uzyskania procent:"/>
                     <bcf:outputplprocent value="#{rachunekZlecenieView.rachunekdoumowyzlecenia.procentkosztowuzyskaniaDisplay}"/>
                     <p:outputLabel value="koszt uzyskania kwota:"/>
-                    <p:inputNumber value="#{rachunekZlecenieView.rachunekdoumowyzlecenia.koszt}" decimalSeparator=","   inputStyle="text-align: right;" decimalPlaces="2"/>
-                    <p:outputLabel value="kwota brutto:"/>
-                    <p:inputNumber value="#{rachunekZlecenieView.rachunekdoumowyzlecenia.kwota}" id="lolo"  decimalPlaces="1" decimalSeparator="," inputStyle="text-align: right"/>
+                    <p:inputNumber value="#{rachunekZlecenieView.rachunekdoumowyzlecenia.koszt}" id="lolo" decimalSeparator=","   inputStyle="text-align: right;" decimalPlaces="2"/>
                 </p:panelGrid>
                 <p:panelGrid columns="2" style="margin-top: 10px;">
                     <p:outputLabel value="naliczać społeczne:"/>

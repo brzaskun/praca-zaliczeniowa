@@ -284,11 +284,11 @@ public class Pasekwynagrodzen implements Serializable {
         nowy.podstawaubezpzdrowotne = Z.z(r.getLplPdstZdrowotne().doubleValue());
         nowy.potracenia = Z.z(r.getLplPotracenia().doubleValue());
         nowy.razem53 = Z.z(nowy.fp+nowy.fgsp);
-        nowy.kosztpracodawcy = Z.z(nowy.bruttozus+nowy.bruttobezzus+nowy.razemspolecznefirma);
         nowy.brutto = nowy.brutto+nowy.bruttobezzus + nowy.bruttozus + nowy.bruttobezzusbezpodatek;
         nowy.bruttominusspoleczne = Z.z(nowy.brutto-nowy.razemspolecznepracownik);
         nowy.nettoprzedpotraceniami = Z.z(nowy.brutto-nowy.razemspolecznepracownik-nowy.praczdrowotnedoodliczenia-nowy.praczdrowotnedopotracenia-nowy.podatekdochodowy);
         nowy.netto = Z.z(nowy.nettoprzedpotraceniami-r.getLplPotracenia().doubleValue());
+        nowy.kosztpracodawcy = Z.z(nowy.brutto+nowy.razemspolecznefirma);
         nowy.dietaodliczeniepodstawaop = 0.0;
         nowy.dieta = 0.0;
         nowy.kurs = 0.0;

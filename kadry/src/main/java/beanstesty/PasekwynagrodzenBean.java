@@ -484,7 +484,7 @@ public class PasekwynagrodzenBean {
     }
 
      private static void razemkosztpracodawcy(Pasekwynagrodzen pasek) {
-         pasek.setKosztpracodawcy(Z.z(pasek.getRazemspolecznefirma()+pasek.getFp()+pasek.getFgsp()));
+         pasek.setKosztpracodawcy(Z.z(pasek.getBrutto()+pasek.getRazemspolecznefirma()+pasek.getFp()+pasek.getFgsp()));
     }
      private static void obliczbruttominusspoleczne(Pasekwynagrodzen pasek) {
         double zzus = pasek.getBruttozus();
@@ -682,8 +682,9 @@ public class PasekwynagrodzenBean {
             if (pasek.isDo26lat()) {
                 double podatekwstepny = Z.z(pasek.getPodatekwstepnyhipotetyczny()-pasek.getKwotawolnadlazdrowotnej()>0.0?pasek.getPodatekwstepnyhipotetyczny()-pasek.getKwotawolnadlazdrowotnej():0.0);
                 zdrowotne = zdrowotne>podatekwstepny?Z.z(podatekwstepny):zdrowotne;
+                zdrowotneodliczane = zdrowotneodliczane>podatekwstepny?Z.z(podatekwstepny):zdrowotneodliczane;
                 pasek.setPraczdrowotne(zdrowotne);
-                pasek.setPraczdrowotnedoodliczenia(0.0);
+                pasek.setPraczdrowotnedoodliczenia(zdrowotneodliczane);
                 pasek.setPraczdrowotnedopotracenia(zdrowotne);
             } else {
                 if (Integer.parseInt(pasek.getRokwypl())<2022) {
