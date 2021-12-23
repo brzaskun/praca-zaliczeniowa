@@ -358,11 +358,17 @@ public class KalendarzmiesiacBean {
                 liczbagodzinchoroby = liczbagodzinchoroby+p.getWynagrodzeniezachorobe()+p.getZasilek();
             }
         }
-        double dniroboczenieobecnosc = Data.iletodniKalendarzowych(nieobecnosc.getDataod(), nieobecnosc.getDatado());
+        String pierwszydzienmiesiaca = Data.pierwszyDzienKalendarz(kalendarz);
+        String ostatnidzienmiesiaca = Data.ostatniDzienKalendarz(kalendarz);
+        String dataod = Data.czyjestpo(pierwszydzienmiesiaca, nieobecnosc.getDataod())?nieobecnosc.getDataod():pierwszydzienmiesiaca;
+        String datado = Data.czyjestprzed(ostatnidzienmiesiaca, nieobecnosc.getDatado())?nieobecnosc.getDatado():ostatnidzienmiesiaca;
+        double dnikalendarzoweniechoroby = Data.iletodniKalendarzowych(dataod, datado);
         for (Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia : pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList()) {
                 Naliczenienieobecnosc naliczenienieobecnosc = new Naliczenienieobecnosc();
+                naliczenienieobecnosc.setDataod(dataod);
+                naliczenienieobecnosc.setDatado(datado);
                 naliczenienieobecnosc.setLiczbadniobowiazku(30);
-                naliczenienieobecnosc.setLiczbadniurlopu(dniroboczenieobecnosc);
+                naliczenienieobecnosc.setLiczbadniurlopu(dnikalendarzoweniechoroby);
                 naliczenienieobecnosc.setLiczbagodzinobowiazku(liczbagodzinobowiazku);
                 naliczenienieobecnosc.setLiczbagodzinurlopu(liczbagodzinchoroby);
                 Skladnikwynagrodzenia skladnikwynagrodzenia = naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia();
@@ -378,12 +384,12 @@ public class KalendarzmiesiacBean {
                 naliczenienieobecnosc.setProcentzazwolnienie(procentzazwolnienie);
                 double stawkadzienna = Z.z(skladnikistalenetto/30)*procentzazwolnienie;
                 naliczenienieobecnosc.setStawkadzienna(stawkadzienna);
-                double dowyplatyzaczasnieobecnosci = Z.z(stawkadzienna*dniroboczenieobecnosc);
+                double dowyplatyzaczasnieobecnosci = Z.z(stawkadzienna*dnikalendarzoweniechoroby);
                 naliczenienieobecnosc.setKwota(dowyplatyzaczasnieobecnosci);
                 naliczenienieobecnosc.setKwotabezzus(dowyplatyzaczasnieobecnosci);
                 double stawkadziennaredukcji = Z.z(skladnikistaledoredukcji/30);
                 naliczenienieobecnosc.setStawkadziennaredukcji(stawkadziennaredukcji);
-                double kwotaredukcji = Z.z(stawkadziennaredukcji*dniroboczenieobecnosc);
+                double kwotaredukcji = Z.z(stawkadziennaredukcji*dnikalendarzoweniechoroby);
                 if (naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getRedukowany()) {
                     naliczenienieobecnosc.setKwotaredukcji(kwotaredukcji);
                 }
@@ -618,8 +624,12 @@ public class KalendarzmiesiacBean {
         double liczbadniurlopu = 0.0;
         double liczbagodzinurlopu = 0.0;
         double liczbagodzinobowiazku = 0.0;
-        int dzienod = Data.getDzienI(nieobecnosc.getDataod());
-        int dziendo = Data.getDzienI(nieobecnosc.getDatado());
+        String pierwszydzienmiesiaca = Data.pierwszyDzienKalendarz(kalendarz);
+        String ostatnidzienmiesiaca = Data.ostatniDzienKalendarz(kalendarz);
+        String dataod = Data.czyjestpo(pierwszydzienmiesiaca, nieobecnosc.getDataod())?nieobecnosc.getDataod():pierwszydzienmiesiaca;
+        String datado = Data.czyjestprzed(ostatnidzienmiesiaca, nieobecnosc.getDatado())?nieobecnosc.getDatado():ostatnidzienmiesiaca;
+        int dzienod = Data.getDzienI(dataod);
+        int dziendo = Data.getDzienI(datado);
         for (Dzien p : kalendarz.getDzienList()) {
             if (p.getTypdnia()==0 && p.getNormagodzin()!=0.0) {
                 if (p.getPrzepracowano()>0.0 || p.getKod().equals("U")) {
@@ -637,6 +647,8 @@ public class KalendarzmiesiacBean {
                     &&naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().isSredniaurlopowakraj()==true) {
                 double skladnikistale = 0.0;
                 Naliczenienieobecnosc naliczenienieobecnosc = new Naliczenienieobecnosc();
+                naliczenienieobecnosc.setDataod(dataod);
+                naliczenienieobecnosc.setDatado(datado);
                 naliczenienieobecnosc.setNieobecnosc(nieobecnosc);
                 Skladnikwynagrodzenia skladnikwynagrodzenia = naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia();
                 naliczenienieobecnosc.setSkladnikwynagrodzenia(skladnikwynagrodzenia);
@@ -661,6 +673,8 @@ public class KalendarzmiesiacBean {
         for (Skladnikwynagrodzenia skladnikwynagrodzenia : listaskladnikowzmiennych) {
             if (skladnikwynagrodzenia.getRodzajwynagrodzenia().getStale0zmienne1() == true&&skladnikwynagrodzenia.getRodzajwynagrodzenia().isSredniaurlopowakraj()==true) {
                 Naliczenienieobecnosc naliczenienieobecnosc = new Naliczenienieobecnosc();
+                naliczenienieobecnosc.setDataod(dataod);
+                naliczenienieobecnosc.setDatado(datado);
                 naliczenienieobecnosc.setNieobecnosc(nieobecnosc);
                 naliczenienieobecnosc.setSkladnikwynagrodzenia(skladnikwynagrodzenia);
                 double dowyplatyzaczasnieobecnosci = wyliczsredniagodzinowaZmienne(kalendarz, skladnikwynagrodzenia, liczbagodzinurlopu, liczbagodzinobowiazku, naliczenienieobecnosc);
@@ -735,8 +749,12 @@ public class KalendarzmiesiacBean {
     
     static void naliczskladnikiwynagrodzeniazaOkresnieprzepracowany(Kalendarzmiesiac kalendarz, Nieobecnosc nieobecnosc, Pasekwynagrodzen pasekwynagrodzen, String kod) {
         double dniroboczewmiesiacu = 0.0;
-        int dzienod = Data.getDzienI(nieobecnosc.getDataod());
-        int dziendo = Data.getDzienI(nieobecnosc.getDatado());
+        String pierwszydzienmiesiaca = Data.pierwszyDzienKalendarz(kalendarz);
+        String ostatnidzienmiesiaca = Data.ostatniDzienKalendarz(kalendarz);
+        String dataod = Data.czyjestpo(pierwszydzienmiesiaca, nieobecnosc.getDataod())?nieobecnosc.getDataod():pierwszydzienmiesiaca;
+        String datado = Data.czyjestprzed(ostatnidzienmiesiaca, nieobecnosc.getDatado())?nieobecnosc.getDatado():ostatnidzienmiesiaca;
+        int dzienod = Data.getDzienI(dataod);
+        int dziendo = Data.getDzienI(datado);
         for (Dzien p : kalendarz.getDzienList()) {
             if (p.getTypdnia()==0) {
                 dniroboczewmiesiacu++;
@@ -751,6 +769,8 @@ public class KalendarzmiesiacBean {
             if (naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getRedukowany() && naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getStale0zmienne1()==false) {
                 double dninieobecnoscirobocze = 0.0;
                 Naliczenienieobecnosc naliczenienieobecnosc = new Naliczenienieobecnosc();
+                naliczenienieobecnosc.setDataod(dataod);
+                naliczenienieobecnosc.setDatado(datado);
                 Skladnikwynagrodzenia skladnikwynagrodzenia = naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia();
                 naliczenienieobecnosc.setNieobecnosc(nieobecnosc);
                 naliczenienieobecnosc.setSkladnikwynagrodzenia(skladnikwynagrodzenia);

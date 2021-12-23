@@ -65,6 +65,11 @@ public class Data implements Serializable {
         }
     }
     
+    public static String ostatniDzienKalendarz(Kalendarzmiesiac kalendarz) {
+        return ostatniDzien(kalendarz.getRok(), kalendarz.getMc());
+    }
+    
+    
     public static String pierwszyDzien(String data) {
         String rok = getRok(data);
         String mc = getMc(data);
@@ -73,6 +78,10 @@ public class Data implements Serializable {
     
     public static String pierwszyDzien(String rok, String mc) {
         return rok+"-"+mc+"-01";
+    }
+    
+    public static String pierwszyDzienKalendarz(Kalendarzmiesiac kalendarz) {
+        return kalendarz.getRok()+"-"+kalendarz.getMc()+"-01";
     }
     
     public static String pierwszyDzien(WpisView wpisView) {
@@ -321,29 +330,21 @@ public class Data implements Serializable {
     //chodzi o to czy okres data jest po jakiesc dacie
     public static boolean czyjestpo(String termingraniczny, String badanadata) {
         boolean zwrot = false;
-        if (badanadata==null) {
-            zwrot = true;
+        if (termingraniczny == null || termingraniczny.equals("")) {
+            zwrot = false;
         } else {
-            if (termingraniczny == null || termingraniczny.equals("")) {
-                zwrot = false;
-            } else {
-                zwrot = czydatasiezawiera(termingraniczny, badanadata, true);
-            }
-         }
+            zwrot = czydatasiezawiera(termingraniczny, badanadata, true);
+        }
         return zwrot;
     }
     
     //chodzi o to czy okres data jest po jakiesc dacie
     public static boolean czyjestprzed(String termingraniczny, String badanadata) {
         boolean zwrot = false;
-        if (badanadata==null) {
-            zwrot = true;
+        if (termingraniczny == null || termingraniczny.equals("")) {
+            zwrot = false;
         } else {
-            if (termingraniczny == null || termingraniczny.equals("")) {
-                zwrot = false;
-            } else {
-                zwrot = czydatasiezawiera(termingraniczny, badanadata, false);
-            }
+            zwrot = czydatasiezawiera(termingraniczny, badanadata, false);
         }
         return zwrot;
     }

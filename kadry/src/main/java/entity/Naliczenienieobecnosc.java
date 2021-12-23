@@ -106,6 +106,10 @@ public class Naliczenienieobecnosc implements Serializable {
     private String jakiskladnikredukowalny;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "naliczenienieobecnosc")
     private List<Sredniadlanieobecnosci> sredniadlanieobecnosciList;
+    @Column(name = "dataod")
+    private String dataod;
+    @Column(name = "datado")
+    private String datado;
 
     public Naliczenienieobecnosc() {
         this.sredniadlanieobecnosciList = new ArrayList<>();
@@ -178,6 +182,22 @@ public class Naliczenienieobecnosc implements Serializable {
 
     public void setSumagodzindosredniej(double sumagodzindosredniej) {
         this.sumagodzindosredniej = sumagodzindosredniej;
+    }
+
+    public String getDataod() {
+        return dataod;
+    }
+
+    public void setDataod(String dataod) {
+        this.dataod = dataod;
+    }
+
+    public String getDatado() {
+        return datado;
+    }
+
+    public void setDatado(String datado) {
+        this.datado = datado;
     }
     
 

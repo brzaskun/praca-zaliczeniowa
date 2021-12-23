@@ -23,6 +23,10 @@ public class DataBean {
         boolean konczysieprzedpoczatkiem = Data.czyjestprzed(pierwszydzienmiesiaca, zmiennadatado);
         boolean zaczynasiepokoncu = Data.czyjestpo(ostatnidzienmiesiaca, zmiennadataod);
         boolean konczysiepokoncu = Data.czyjestpo(ostatnidzienmiesiaca, zmiennadatado);
+        if (zmiennadatado==null) {
+            konczysieprzedpoczatkiem = false;
+            konczysiepokoncu = true;
+        }
         if (zaczynasieprzedpoczatkiem&&konczysieprzedpoczatkiem) {
             zwrot = false;
         }

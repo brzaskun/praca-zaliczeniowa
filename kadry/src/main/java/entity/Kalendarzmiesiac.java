@@ -250,8 +250,10 @@ private static final long serialVersionUID = 1L;
         if (this.dzienList!=null) {
             for (Dzien d : dzienList) {
                 if (d.getWynagrodzeniezachorobe()>0.0) {
-                    dataod = d.getNieobecnosc().getDataod();
-                    datado = d.getNieobecnosc().getDatado();
+                    String pierwszydzienmiesiaca = Data.pierwszyDzienKalendarz(this);
+                    String ostatnidzienmiesiaca = Data.ostatniDzienKalendarz(this);
+                    dataod = Data.czyjestpo(pierwszydzienmiesiaca, d.getNieobecnosc().getDataod())?d.getNieobecnosc().getDataod():pierwszydzienmiesiaca;
+                    datado = Data.czyjestprzed(ostatnidzienmiesiaca, d.getNieobecnosc().getDatado())?d.getNieobecnosc().getDatado():ostatnidzienmiesiaca;
                     chorobagodziny = chorobagodziny+d.getWynagrodzeniezachorobe();
                     zwrot[0] = Data.iletodniKalendarzowych(dataod, datado);
                 }
@@ -536,13 +538,14 @@ private static final long serialVersionUID = 1L;
         return this.getUmowa().getAngaz().getPracownik().getImie();
     }
 
-    public void naniesnieobecnosc(Nieobecnosc p) {
+    public int naniesnieobecnosc(Nieobecnosc p) {
         int dzienod = Data.getDzienI(p.getDataod());
         int dziendo = Data.getDzienI(p.getDatado());
         String mcod = Data.getMc(p.getDataod());
         String mcdo = Data.getMc(p.getDatado());
         dzienod = modyfikujod(mcod, dzienod);
         dziendo = modyfikujdo(mcdo, dziendo);
+        int dnirobocze = 0;
         if (p.getDzienList()==null) {
             p.setDzienList(new ArrayList<>());
         }
@@ -555,6 +558,7 @@ private static final long serialVersionUID = 1L;
                 dzienaktualny.setWynagrodzeniezachorobe(dzienaktualny.getNormagodzin());
                 dzienaktualny.setPrzepracowano(0);
                 p.setNaniesiona(true);
+                
             } else if (kod.equals("313")) {
                 dzienaktualny.setZasilek(dzienaktualny.getNormagodzin());
                 dzienaktualny.setPrzepracowano(0);
@@ -575,8 +579,12 @@ private static final long serialVersionUID = 1L;
                 p.setNaniesiona(true);
             }
             dzienaktualny.setNieobecnosc(p);
+            if (dzienaktualny.getTypdnia()==0) {
+                dnirobocze++;
+            }
             p.getDzienList().add(dzienaktualny);
         }
+        return dnirobocze;
     }
 
     private int modyfikujod(String mcod, int dzienod) {
