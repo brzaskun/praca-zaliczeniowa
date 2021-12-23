@@ -378,7 +378,7 @@ public class KalendarzmiesiacBean {
                 double sredniadopodstawy = wyliczsredniachoroba(kalendarz, naliczenieskladnikawynagrodzenia, nieobecnosc, naliczenienieobecnosc);
                 naliczenienieobecnosc.setPodstawadochoroby(sredniadopodstawy);
                 double skladnikistalenetto = sredniadopodstawy-(sredniadopodstawy*.1371);
-                double skladnikistaledoredukcji = sredniadopodstawy;
+                double skladnikistaledoredukcji = naliczenieskladnikawynagrodzenia.getKwotadolistyplac();
                 naliczenienieobecnosc.setSkladnikistale(skladnikistalenetto);
                 double procentzazwolnienie = Z.z(nieobecnosc.getZwolnienieprocent()/100);
                 naliczenienieobecnosc.setProcentzazwolnienie(procentzazwolnienie);

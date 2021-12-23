@@ -391,7 +391,7 @@ public class OsobaView implements Serializable {
                                 List<OsobaZlec> skladniki = osoba.getOsobaZlecList();
                                 List<Rodzajwynagrodzenia> rodzajewynagrodzenia = rodzajwynagrodzeniaFacade.findAll();
                                 Rodzajwynagrodzenia rodzajwynagrodzeniaNZ = rodzajwynagrodzeniaFacade.findNZ();
-                                List<Skladnikwynagrodzenia> skladnikwynagrodzenia = OsobaBean.pobierzskladnikzlecenie(skladniki, rodzajewynagrodzenia, umowyzlecenia, skladnikWynagrodzeniaFacade, zmiennaWynagrodzeniaFacade);
+                                List<Skladnikwynagrodzenia> skladnikwynagrodzenia = OsobaBean.pobierzskladnikzlecenie(skladniki, rodzajewynagrodzenia, aktywna, skladnikWynagrodzeniaFacade, zmiennaWynagrodzeniaFacade);
                                 if (skladnikwynagrodzenia!=null&&skladnikwynagrodzenia.size()==1&&pracownik.isNierezydent()) {
                                     Skladnikwynagrodzenia sklw = skladnikwynagrodzenia.get(0);
                                     sklw.setRodzajwynagrodzenia(rodzajwynagrodzeniaNZ);

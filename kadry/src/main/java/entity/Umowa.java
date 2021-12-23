@@ -32,6 +32,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import view.WpisView;
 
 /**
  *
@@ -819,33 +820,40 @@ public class Umowa implements Serializable {
         return zwrot;
     }
     
-    public String pobierzwynagrodzenieString() {
+    public String pobierzwynagrodzenieString(WpisView wpisView) {
         String zwrot = "";
         if (this.skladnikwynagrodzeniaList!=null) {
             for (Skladnikwynagrodzenia p : this.skladnikwynagrodzeniaList) {
                 zwrot = zwrot+p.getRodzajwynagrodzenia().getOpispelny()+" ";
-                zwrot = zwrot+pobierzkwoteString(p.getZmiennawynagrodzeniaList());
+                zwrot = zwrot+pobierzkwoteString(p.getZmiennawynagrodzeniaList(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
             }
         }
         return zwrot;
     }
 
-    private String pobierzkwoteString(List<Zmiennawynagrodzenia> zmiennawynagrodzeniaList) {
+    private String pobierzkwoteString(List<Zmiennawynagrodzenia> zmiennawynagrodzeniaList, String rok, String mc) {
         String zwrot = "";
         if (zmiennawynagrodzeniaList!=null) {
             for (Zmiennawynagrodzenia p : zmiennawynagrodzeniaList) {
-                zwrot = zwrot+p.getNazwa()+" ";
-                zwrot = zwrot+f.F.curr(p.getKwota());
+                String dataod1 = p.getDataod();
+                String datado1 = p.getDatado();
+                boolean czydataodjestwmcu = Data.czydatajestwmcu(dataod1, rok, mc);
+                boolean czydatadojestwmcu = Data.czydatajestwmcu(datado1, rok, mc);
+                if (czydatadojestwmcu&&czydataodjestwmcu || datado1==null) {
+                    zwrot = zwrot+p.getNazwa()+" ";
+                    zwrot = zwrot+f.F.curr(p.getKwota());
+                    break;
+                }
             }
         }
         return zwrot;
     }
     
-     public double pobierzwynagrodzenieKwota() {
+     public double pobierzwynagrodzenieKwota(String rok, String mc) {
         double zwrot = 0.0;
         if (this.skladnikwynagrodzeniaList!=null) {
             for (Skladnikwynagrodzenia p : this.skladnikwynagrodzeniaList) {
-                zwrot = pobierzkwoteKwota(p.getZmiennawynagrodzeniaList());
+                zwrot = pobierzkwoteKwota(p.getZmiennawynagrodzeniaList(), rok, mc);
             }
         }
         return zwrot;
@@ -853,11 +861,18 @@ public class Umowa implements Serializable {
      
     
 
-    private double pobierzkwoteKwota(List<Zmiennawynagrodzenia> zmiennawynagrodzeniaList) {
+    private double pobierzkwoteKwota(List<Zmiennawynagrodzenia> zmiennawynagrodzeniaList, String rok, String mc) {
         double zwrot = 0.0;
         if (zmiennawynagrodzeniaList!=null) {
             for (Zmiennawynagrodzenia p : zmiennawynagrodzeniaList) {
-                zwrot = p.getKwota();
+                String dataod1 = p.getDataod();
+                String datado1 = p.getDatado();
+                boolean czydataodjestwmcu = Data.czydatajestwmcu(dataod1, rok, mc);
+                boolean czydatadojestwmcu = Data.czydatajestwmcu(datado1, rok, mc);
+                if (czydatadojestwmcu&&czydataodjestwmcu || datado1==null) {
+                    zwrot = p.getKwota();
+                    break;
+                }
             }
         }
         return zwrot;

@@ -78,7 +78,7 @@ public class RachunekZlecenieView  implements Serializable {
                          rachunekdoumowyzlecenia.setDatado(datado);
                      }
                  }
-                 double kwota = umowabiezaca.pobierzwynagrodzenieKwota();
+                 double kwota = umowabiezaca.pobierzwynagrodzenieKwota(wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
                  double iloscgodzinzkalendarza = pobierzgodzinyzkalendarza();
                  rachunekdoumowyzlecenia.setIloscgodzin(iloscgodzinzkalendarza);
                  if (umowabiezaca.czywynagrodzeniegodzinowe()) {
@@ -129,6 +129,7 @@ public class RachunekZlecenieView  implements Serializable {
     public void usun() {
         if (rachunekdoumowyzlecenia!=null) {
             rachunekdoumowyzleceniaFacade.remove(rachunekdoumowyzlecenia);
+            init();
             Msg.msg("Usunięto rachunek");
         }
     }

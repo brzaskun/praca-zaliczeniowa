@@ -10,6 +10,7 @@
     <p:dialog id="dialoglistaplacanaliza" header="Analiza wynagrodzenia" widgetVar="dialoglistaplacanaliza"  
               resizable="false"  onShow="ustawdialog('dialoglistaplacanaliza','centertile',1650,800);" closeOnEscape="true" onHide="resetujdialog('dialoglistaplacanaliza');" 
               fitViewport="true">
+        <p:ajax event="open" listener="#{pasekwynagrodzenView.initanaliza()}" update="DefinicjalistaplacAnalizaForm DefinicjalistaplacAnalizaForm1 DefinicjalistaplacAnalizaForm2 PasekwynagrodzenAnalizaForm" global="false"/>
         <p:outputPanel style="height: 50px">
 
             <h:panelGroup >
@@ -40,7 +41,7 @@
                     </h:form>
                     <h:form id="DefinicjalistaplacAnalizaForm2">
                         <p:outputLabel value="" for="wybranypracownik" />
-                        <p:selectOneMenu id="wybranypracownik" value="#{pasekwynagrodzenView.wybranykalendarz}" required="true" requiredMessage="Wybierz firmę" converter="#{kalendarzmiesiacConverter}" >
+                        <p:selectOneMenu id="wybranypracownik" value="#{pasekwynagrodzenView.wybranykalendarz}" required="true" requiredMessage="Wybierz osobę" converter="#{kalendarzmiesiacConverter}" >
                             <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
                             <f:selectItems value="#{pasekwynagrodzenView.listakalendarzmiesiacdoanalizy2}" 
                                            var="firmalistaItem"

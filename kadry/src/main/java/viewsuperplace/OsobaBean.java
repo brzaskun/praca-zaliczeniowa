@@ -324,21 +324,39 @@ public class OsobaBean {
         return zwrot;
     }
     
-    static List<Skladnikwynagrodzenia> pobierzskladnikzlecenie(List<OsobaZlec> skladniki, List<Rodzajwynagrodzenia> rodzajewynagrodzenia, List<Umowa> umowyzlecenia, SkladnikWynagrodzeniaFacade skladnikWynagrodzeniaFacade, ZmiennaWynagrodzeniaFacade zmiennaWynagrodzeniaFacade) {
+    static List<Skladnikwynagrodzenia> pobierzskladnikzlecenie(List<OsobaZlec> skladniki, List<Rodzajwynagrodzenia> rodzajewynagrodzenia, Umowa aktywna, SkladnikWynagrodzeniaFacade skladnikWynagrodzeniaFacade, ZmiennaWynagrodzeniaFacade zmiennaWynagrodzeniaFacade) {
         List<Skladnikwynagrodzenia> zwrot = new ArrayList<>();
         if (skladniki!=null) {
             OsobaZlec wybrany = null;
             for (OsobaZlec s : skladniki) {
                 if (wybrany == null) {
                     wybrany = s;
-                    Skladnikwynagrodzenia generujskladnik = generujskladnikzlecenie(wybrany, rodzajewynagrodzenia, umowyzlecenia, skladnikWynagrodzeniaFacade, zmiennaWynagrodzeniaFacade);
+                    Skladnikwynagrodzenia generujskladnik = generujskladnikzlecenie(wybrany, rodzajewynagrodzenia, aktywna, skladnikWynagrodzeniaFacade, zmiennaWynagrodzeniaFacade);
                     zwrot.add(generujskladnik);
                 } else if (s.getOzlSerial()>wybrany.getOzlSerial()) {
                     wybrany = s;
-                    Skladnikwynagrodzenia generujskladnik = generujskladnikzlecenie(wybrany, rodzajewynagrodzenia, umowyzlecenia, skladnikWynagrodzeniaFacade, zmiennaWynagrodzeniaFacade);
+                    Skladnikwynagrodzenia generujskladnik = generujskladnikzlecenie(wybrany, rodzajewynagrodzenia, aktywna, skladnikWynagrodzeniaFacade, zmiennaWynagrodzeniaFacade);
                     zwrot.add(generujskladnik);
                 }
             }
+        }
+         if (!zwrot.isEmpty()) {
+            List<Skladnikwynagrodzenia> single = new ArrayList<>();
+            for (Skladnikwynagrodzenia s : zwrot) {
+                if (!single.contains(s)) {
+                    single.add(s);
+                    skladnikWynagrodzeniaFacade.create(s);
+                } else {
+                    Skladnikwynagrodzenia pobrany = single.get(single.indexOf(s));
+                    List<Zmiennawynagrodzenia> nowezmienne = s.getZmiennawynagrodzeniaList();
+                    for (Zmiennawynagrodzenia r : nowezmienne) {
+                        r.setSkladnikwynagrodzenia(pobrany);
+                    }
+                    pobrany.getZmiennawynagrodzeniaList().addAll(nowezmienne);
+                    skladnikWynagrodzeniaFacade.edit(pobrany);
+                }
+            }
+            zwrot = single;
         }
         return zwrot;
     }
@@ -362,12 +380,10 @@ public class OsobaBean {
         return skladnik;
     }
     
-     public static Skladnikwynagrodzenia generujskladnikzlecenie(OsobaZlec wybrany, List<Rodzajwynagrodzenia> rodzajewynagrodzenia, List<Umowa> umowyzlecenia, SkladnikWynagrodzeniaFacade skladnikWynagrodzeniaFacade, ZmiennaWynagrodzeniaFacade zmiennaWynagrodzeniaFacade) {
+     public static Skladnikwynagrodzenia generujskladnikzlecenie(OsobaZlec wybrany, List<Rodzajwynagrodzenia> rodzajewynagrodzenia, Umowa aktywna, SkladnikWynagrodzeniaFacade skladnikWynagrodzeniaFacade, ZmiennaWynagrodzeniaFacade zmiennaWynagrodzeniaFacade) {
         Skladnikwynagrodzenia skladnik = new Skladnikwynagrodzenia();
-        Umowa aktywna = pobierzumowezlecenia(wybrany, umowyzlecenia);
         skladnik.setUmowa(aktywna);
         skladnik.setRodzajwynagrodzenia(pobierzrodzajwynagrodzeniazlecenie(wybrany,rodzajewynagrodzenia));
-        skladnikWynagrodzeniaFacade.create(skladnik);
         Zmiennawynagrodzenia zmiennawynagrodzenia = pobierzzmiennawynagrodzeniazlecenie(aktywna, skladnik, wybrany, zmiennaWynagrodzeniaFacade);
         skladnik.getZmiennawynagrodzeniaList().add(zmiennawynagrodzenia);
         return skladnik;
@@ -592,7 +608,7 @@ public class OsobaBean {
             }
             wiersz.setKwota(Z.z(s.getOzlKwota().doubleValue()));
             if (wiersz.getKwota()!=0.0) {
-                zmiennaWynagrodzeniaFacade.create(wiersz);
+                skladnikwynagrodzenia.getZmiennawynagrodzeniaList().add(wiersz);
             }
         }
         return wiersz;

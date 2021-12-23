@@ -33,7 +33,7 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                     <h:outputText value="#{rachunekZlecenieView.umowabiezaca.datado}" rendered="#{rachunekZlecenieView.umowabiezaca.datado ne ''}" styleClass="ww"/>
                     <h:outputText value="czas nieokreślony" rendered="#{rachunekZlecenieView.umowabiezaca.datado eq null or rachunekZlecenieView.umowabiezaca.datado eq ''}"/>
                     <p:outputLabel value="rodzaj wynagrodzenia:"/>
-                    <h:outputText value="#{rachunekZlecenieView.umowabiezaca.pobierzwynagrodzenieString()}" styleClass="ww"/>
+                    <h:outputText value="#{rachunekZlecenieView.umowabiezaca.pobierzwynagrodzenieString(wpisView)}" styleClass="ww"/>
                 </p:panelGrid>
                 <p:panelGrid columns="1" style="margin-top: 10px;">
                     <h:outputText value="Braku zawartej umowy zlecenia z " styleClass="ww" rendered="#{rachunekZlecenieView.umowabiezaca eq null}"/>
@@ -76,8 +76,9 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                     <h:outputText value="podatek wg skali" rendered="#{rachunekZlecenieView.rachunekdoumowyzlecenia.umowa.nierezydent eq false}"/>
                 </p:panelGrid>
                 <p:panelGrid columns="1">
-                    <p:commandButton value="zaksięguj" actionListener="#{rachunekZlecenieView.zaksieguj()}" update="@form" styleClass="buttonnorm" rendered="#{rachunekZlecenieView.rachunekdoumowyzlecenia.id eq null}"/>
-                    <p:commandButton value="usuń" actionListener="#{rachunekZlecenieView.usun()}" update="@form" styleClass="buttonnorm2" rendered="#{rachunekZlecenieView.rachunekdoumowyzlecenia.id ne null and rachunekZlecenieView.rachunekdoumowyzlecenia.pasekwynagrodzen eq null}"/>
+                    <p:commandButton value="zaksięguj" actionListener="#{rachunekZlecenieView.zaksieguj()}" update="RachunekZleceniaForm" styleClass="buttonnorm" rendered="#{rachunekZlecenieView.rachunekdoumowyzlecenia.id eq null}"/>
+                    <p:commandButton value="usuń" actionListener="#{rachunekZlecenieView.usun()}" update="RachunekZleceniaForm" styleClass="buttonnorm2" 
+                                     rendered="#{rachunekZlecenieView.rachunekdoumowyzlecenia.id ne null and rachunekZlecenieView.rachunekdoumowyzlecenia.pasekwynagrodzen eq null}"/>
                     <h:outputText value="Rachunek ujęty na liście płac. Nie można usunąć rachunku." rendered="#{rachunekZlecenieView.rachunekdoumowyzlecenia.id ne null and rachunekZlecenieView.rachunekdoumowyzlecenia.pasekwynagrodzen ne null}"/>
                 </p:panelGrid>
                 </p:outputPanel>
