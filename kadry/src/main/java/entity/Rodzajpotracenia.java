@@ -181,7 +181,9 @@ public class Rodzajpotracenia implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Rodzajpotracenia[ id=" + id + " ]";
+        return "Rodzajpotracenia{" + "opis=" + opis + ", limitumowaoprace=" + limitumowaoprace + ", limitumowazlecenia=" + limitumowazlecenia + ", wpo_serial=" + wpo_serial + ", pod_doch=" + pod_doch + ", zus=" + zus + ", zdrowotne=" + zdrowotne + ", numer=" + numer + '}';
     }
+
+    
     
 }

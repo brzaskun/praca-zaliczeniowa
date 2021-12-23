@@ -35,51 +35,56 @@ public class NaliczeniepotracenieBean {
     }
 
     static Naliczeniepotracenie createPotracenieDB(Pasekwynagrodzen pasekwynagrodzen, Skladnikpotracenia skladnikpotracenia, double wolneodzajecia) {
+        Kalendarzmiesiac kalendarz = pasekwynagrodzen.getKalendarzmiesiac();
         Naliczeniepotracenie zwrot = new Naliczeniepotracenie();
         List<Zmiennapotracenia> zmiennawynagrodzeniaList = skladnikpotracenia.getZmiennapotraceniaList();
         for (Zmiennapotracenia p : zmiennawynagrodzeniaList) {
-            double juzrozliczono = podsumuj(pasekwynagrodzen, skladnikpotracenia);
-            if (p.getKwotastala()!=0.0) {
-                if (p.getDatado()==null && Data.czyjestprzed(p.getDatado(), pasekwynagrodzen.getRok(), pasekwynagrodzen.getMc())) {
-                    if (p.getKwotastala()<pasekwynagrodzen.getNetto()) {
-                        zwrot.setKwota(p.getKwotastala());
+            int dzienodzmienna = DataBean.dataod(p.getDataod(), kalendarz.getRok(), kalendarz.getMc());
+            int dziendozmienna = DataBean.datado(p.getDatado(), kalendarz.getRok(), kalendarz.getMc());
+            if (DataBean.czysiemiesci(kalendarz, p.getDataod(), p.getDatado())) {
+                double juzrozliczono = podsumuj(pasekwynagrodzen, skladnikpotracenia);
+                if (p.getKwotastala()!=0.0) {
+                    if (p.getDatado()==null && Data.czyjestprzed(p.getDatado(), pasekwynagrodzen.getRok(), pasekwynagrodzen.getMc())) {
+                        if (p.getKwotastala()<pasekwynagrodzen.getNettoprzedpotraceniami()) {
+                            zwrot.setKwota(p.getKwotastala());
+                            zwrot.setPasekwynagrodzen(pasekwynagrodzen);
+                        } else {
+                            zwrot.setKwota(pasekwynagrodzen.getNettoprzedpotraceniami());
+                            zwrot.setPasekwynagrodzen(pasekwynagrodzen);
+                        }
+                    }
+                } else if (p.getKwotakomornicza()>0.0) {
+                    if (p.getKwotakomornicza()>juzrozliczono) {
+                       double ilemozna = skladnikpotracenia.getRodzajpotracenia().getLimitumowaoprace();
+                        double potracenie = Z.z(pasekwynagrodzen.getNettoprzedpotraceniami()*(ilemozna/100.0));
+                        if (juzrozliczono+potracenie>p.getKwotakomornicza()) {
+                            potracenie = Z.z(p.getKwotakomornicza()-juzrozliczono);
+                        }
+                        double nowenetto = Z.z(pasekwynagrodzen.getNettoprzedpotraceniami()-potracenie);
+                        if (nowenetto>wolneodzajecia) {
+                            zwrot.setKwota(potracenie);
+                        } else {
+                            zwrot.setKwota(Z.z(pasekwynagrodzen.getNettoprzedpotraceniami()-wolneodzajecia));
+                        }
+                        p.setKwotakomorniczarozliczona(juzrozliczono+zwrot.getKwota());
                         zwrot.setPasekwynagrodzen(pasekwynagrodzen);
-                    } else {
-                        zwrot.setKwota(pasekwynagrodzen.getNetto());
-                        zwrot.setPasekwynagrodzen(pasekwynagrodzen);
                     }
-                }
-            } else if (p.getKwotakomornicza()>0.0) {
-                if (p.getKwotakomornicza()>juzrozliczono) {
-                   double ilemozna = skladnikpotracenia.getRodzajpotracenia().getLimitumowaoprace();
-                    double potracenie = Z.z(pasekwynagrodzen.getNettoprzedpotraceniami()*(ilemozna/100.0));
-                    if (juzrozliczono+potracenie>p.getKwotakomornicza()) {
-                        potracenie = Z.z(p.getKwotakomornicza()-juzrozliczono);
-                    }
-                    double nowenetto = Z.z(pasekwynagrodzen.getNettoprzedpotraceniami()-potracenie);
-                    if (nowenetto>wolneodzajecia) {
-                        zwrot.setKwota(potracenie);
-                    } else {
-                        zwrot.setKwota(Z.z(pasekwynagrodzen.getNettoprzedpotraceniami()-wolneodzajecia));
-                    }
-                    p.setKwotakomorniczarozliczona(juzrozliczono+zwrot.getKwota());
-                    zwrot.setPasekwynagrodzen(pasekwynagrodzen);
-                }
 
-            } else if (p.isMaxustawowy()) {
-                if (pasekwynagrodzen.getNettoprzedpotraceniami()>wolneodzajecia) {
-                    double ilemozna = skladnikpotracenia.getRodzajpotracenia().getLimitumowaoprace();
-                    double potracenie = Z.z(pasekwynagrodzen.getNettoprzedpotraceniami()*(ilemozna/100.0));
-                    double nowenetto = Z.z(pasekwynagrodzen.getNettoprzedpotraceniami()-potracenie);
-                    if (nowenetto>wolneodzajecia) {
-                        zwrot.setKwota(potracenie);
-                    } else {
-                        zwrot.setKwota(Z.z(pasekwynagrodzen.getNettoprzedpotraceniami()-wolneodzajecia));
+                } else if (p.isMaxustawowy()) {
+                    if (pasekwynagrodzen.getNettoprzedpotraceniami()>wolneodzajecia) {
+                        double ilemozna = skladnikpotracenia.getRodzajpotracenia().getLimitumowaoprace();
+                        double potracenie = Z.z(pasekwynagrodzen.getNettoprzedpotraceniami()*(ilemozna/100.0));
+                        double nowenetto = Z.z(pasekwynagrodzen.getNettoprzedpotraceniami()-potracenie);
+                        if (nowenetto>wolneodzajecia) {
+                            zwrot.setKwota(potracenie);
+                        } else {
+                            zwrot.setKwota(Z.z(pasekwynagrodzen.getNettoprzedpotraceniami()-wolneodzajecia));
+                        }
+                        p.setKwotakomorniczarozliczona(juzrozliczono+zwrot.getKwota());
+                        zwrot.setPasekwynagrodzen(pasekwynagrodzen);    
                     }
-                    p.setKwotakomorniczarozliczona(juzrozliczono+zwrot.getKwota());
-                    zwrot.setPasekwynagrodzen(pasekwynagrodzen);    
+
                 }
-                
             }
         }
         if (zwrot.getPasekwynagrodzen()!=null) {

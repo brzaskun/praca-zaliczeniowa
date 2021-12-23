@@ -457,8 +457,10 @@ public class OsobaBean {
                             if (mcdo.length()==1) {
                                 mcdo="0"+mcdo;
                             }
-                            String datado = Data.ostatniDzien(String.valueOf(t.getSsoRokDo()),mcdo);
-                            wiersz.setDatado(datado);
+                            if (t.getSsoRokDo()!=null) {
+                                String datado = Data.ostatniDzien(String.valueOf(t.getSsoRokDo()),mcdo);
+                                wiersz.setDatado(datado);
+                            }
                         }
                         if (skladnikpotracenia.getRodzajpotracenia().getOpis().contains("Tytuł wykonawczy")) {
                             wiersz.setKwotakomornicza(Z.z(t.getSsoNumeric().doubleValue()));
@@ -537,8 +539,10 @@ public class OsobaBean {
                             if (mcdo.length()==1) {
                                 mcdo="0"+mcdo;
                             }
-                            String datado = Data.ostatniDzien(String.valueOf(t.getSsoRokDo()),mcdo);
-                            wiersz.setDatado(datado);
+                            if (t.getSsoRokDo()!=null) {
+                                String datado = Data.ostatniDzien(String.valueOf(t.getSsoRokDo()),mcdo);
+                                wiersz.setDatado(datado);
+                            }
                         }
                         wiersz.setKwota(Z.z(t.getSsoNumeric().doubleValue()));
                         if (wiersz.getKwota()!=0.0) {
