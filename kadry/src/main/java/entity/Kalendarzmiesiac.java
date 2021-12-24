@@ -47,7 +47,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Kalendarzmiesiac.findByRokUmowa", query = "SELECT k FROM Kalendarzmiesiac k WHERE k.rok = :rok AND k.umowa=:umowa"),
     @NamedQuery(name = "Kalendarzmiesiac.findByFirmaRokMc", query = "SELECT k FROM Kalendarzmiesiac k WHERE k.mc = :mc AND k.rok = :rok AND k.umowa.angaz.firma=:firma"),
     @NamedQuery(name = "Kalendarzmiesiac.findByFirmaRokMcPraca", query = "SELECT k FROM Kalendarzmiesiac k WHERE k.mc = :mc AND k.rok = :rok AND k.umowa.angaz.firma=:firma AND k.umowa.umowakodzus.praca = TRUE"),
-    @NamedQuery(name = "Kalendarzmiesiac.findByFirmaRokMcZlecenie", query = "SELECT k FROM Kalendarzmiesiac k WHERE k.mc = :mc AND k.rok = :rok AND k.umowa.angaz.firma=:firma AND k.umowa.umowakodzus.zlecenie = TRUE")
+    @NamedQuery(name = "Kalendarzmiesiac.findByFirmaRokMcZlecenie", query = "SELECT k FROM Kalendarzmiesiac k WHERE k.mc = :mc AND k.rok = :rok AND k.umowa.angaz.firma=:firma AND k.umowa.umowakodzus.zlecenie = TRUE"),
+    @NamedQuery(name = "Kalendarzmiesiac.findByFirmaRokMcFunkcja", query = "SELECT k FROM Kalendarzmiesiac k WHERE k.mc = :mc AND k.rok = :rok AND k.umowa.angaz.firma=:firma AND k.umowa.umowakodzus.funkcja = TRUE")
    })
 public class Kalendarzmiesiac implements Serializable {
 private static final long serialVersionUID = 1L;
@@ -442,6 +443,13 @@ private static final long serialVersionUID = 1L;
 
    public boolean isPraca() {
        return this.getUmowa().getUmowakodzus().isPraca();
+   }
+   
+   public boolean isZlecenie() {
+       return this.getUmowa().getUmowakodzus().isZlecenie();
+   }
+   public boolean isFunkcja() {
+       return this.getUmowa().getUmowakodzus().isFunkcja();
    }
    
    public Pasekwynagrodzen getPasek() {

@@ -117,8 +117,10 @@ public class PasekwynagrodzenView implements Serializable {
         if (wpisView.getUmowa() != null) {
             if (wpisView.getUmowa().getUmowakodzus() != null && wpisView.getUmowa().getUmowakodzus().isPraca()) {
                 rodzajlistyplac = rodzajlistyplacFacade.findUmowaoPrace();
-            } else {
+            } else if  (wpisView.getUmowa().getUmowakodzus().isZlecenie()){
                 rodzajlistyplac = rodzajlistyplacFacade.findUmowaZlecenia();
+            } else {
+                rodzajlistyplac = rodzajlistyplacFacade.findUmowaFunkcja();
             }
         }
         if (rodzajlistyplac == null) {
@@ -136,7 +138,7 @@ public class PasekwynagrodzenView implements Serializable {
             datawyplaty = zrobdatawyplaty(wpisView.getMiesiacWpisu(), wpisView.getRokWpisu(), wpisView.getFirma());
             listakalendarzmiesiacdoanalizy2 = kalendarzmiesiacFacade.findByFirmaRokMcPraca(wybranalistaplac2.getFirma(), wybranalistaplac2.getRok(), wybranalistaplac2.getMc());
             pobierzkalendarzezamc();
-            pobierzkalendarzezamcanaliza();
+            //pobierzkalendarzezamcanaliza();
         } catch (Exception e) {
         }
         ileszczegolow = "prosta";
@@ -149,8 +151,10 @@ public class PasekwynagrodzenView implements Serializable {
         if (wpisView.getUmowa() != null) {
             if (wpisView.getUmowa().getUmowakodzus() != null && wpisView.getUmowa().getUmowakodzus().isPraca()) {
                 rodzajlistyplac = rodzajlistyplacFacade.findUmowaoPrace();
-            } else {
+            } else if  (wpisView.getUmowa().getUmowakodzus().isZlecenie()){
                 rodzajlistyplac = rodzajlistyplacFacade.findUmowaZlecenia();
+            } else {
+                rodzajlistyplac = rodzajlistyplacFacade.findUmowaFunkcja();
             }
         }
         if (rodzajlistyplac == null) {
@@ -167,7 +171,7 @@ public class PasekwynagrodzenView implements Serializable {
             wybranalistaplac2 = listadefinicjalistaplac.stream().filter(p -> p.getMc().equals(wpisView.getMiesiacWpisu())).findFirst().get();
             datawyplaty = zrobdatawyplaty(wpisView.getMiesiacWpisu(), wpisView.getRokWpisu(), wpisView.getFirma());
             listakalendarzmiesiacdoanalizy2 = kalendarzmiesiacFacade.findByFirmaRokMcPraca(wybranalistaplac2.getFirma(), wybranalistaplac2.getRok(), wybranalistaplac2.getMc());
-            pobierzkalendarzezamc();
+            //pobierzkalendarzezamc();
             pobierzkalendarzezamcanaliza();
         } catch (Exception e) {
         }
@@ -398,12 +402,16 @@ public class PasekwynagrodzenView implements Serializable {
                     }
                 }
             }
+            if (rodzajlistyplac.getSymbol().equals("OS")) {
+                listakalendarzmiesiac = kalendarzmiesiacFacade.findByFirmaRokMcFunkcja(wybranalistaplac.getFirma(), wybranalistaplac.getRok(), wybranalistaplac.getMc());
+            }
             if (listakalendarzmiesiac != null) {
                 this.listakalendarzmiesiac.setSource(listakalendarzmiesiac);
                 this.listakalendarzmiesiac.setTarget(new ArrayList<>());
             }
             lista = pasekwynagrodzenFacade.findByDef(wybranalistaplac);
             datawyplaty = zrobdatawyplaty(wybranalistaplac.getMc(), wybranalistaplac.getRok(), wpisView.getFirma());
+            Collections.sort(listakalendarzmiesiac, new Kalendarzmiesiaccomparator());
         }
     }
 
@@ -437,6 +445,9 @@ public class PasekwynagrodzenView implements Serializable {
                         it.remove();
                     }
                 }
+            }
+             if (rodzajlistyplac.getSymbol().equals("OS")) {
+                listakalendarzmiesiac = kalendarzmiesiacFacade.findByFirmaRokMcFunkcja(wybranalistaplac.getFirma(), wybranalistaplac.getRok(), wybranalistaplac.getMc());
             }
             if (listakalendarzmiesiac != null) {
                 this.listakalendarzmiesiac.setSource(listakalendarzmiesiac);

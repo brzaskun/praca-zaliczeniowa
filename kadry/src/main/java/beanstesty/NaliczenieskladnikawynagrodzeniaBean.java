@@ -57,6 +57,21 @@ public class NaliczenieskladnikawynagrodzeniaBean {
         zwrot.setSkladnikwynagrodzenia(skladnikwynagrodzenia);
         return zwrot;
     }
+    
+    public static Naliczenieskladnikawynagrodzenia createWynagrodzenieDBFunkcja(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasekwynagrodzen, Skladnikwynagrodzenia skladnikwynagrodzenia, double kurs) {
+        Naliczenieskladnikawynagrodzenia zwrot = new Naliczenieskladnikawynagrodzenia();
+        double zmiennawynagrodzeniakwota = 0.0;
+        for (Zmiennawynagrodzenia r : skladnikwynagrodzenia.getZmiennawynagrodzeniaList()) {
+            if (DataBean.czysiemiesci(kalendarz, r.getDataod(), r.getDatado())) {
+                zmiennawynagrodzeniakwota = Z.z(zmiennawynagrodzeniakwota+r.getKwota());
+            }
+        }
+        zwrot.setPasekwynagrodzen(pasekwynagrodzen);
+        zwrot.setKwotaumownazacalymc(zmiennawynagrodzeniakwota);
+        zwrot.setKwotadolistyplac(zmiennawynagrodzeniakwota);
+        zwrot.setSkladnikwynagrodzenia(skladnikwynagrodzenia);
+        return zwrot;
+    }
 
     public static Naliczenieskladnikawynagrodzenia createBezZusPodatekDB(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasekwynagrodzen, Skladnikwynagrodzenia skladnikwynagrodzenia) {
         double dniroboczewmiesiacu = 0.0;

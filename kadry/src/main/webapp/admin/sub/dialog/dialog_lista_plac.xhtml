@@ -19,24 +19,25 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                     <p:panelGrid columns="6" rendered="#{pasekwynagrodzenView.listadefinicjalistaplac ne null}">
                        <h:form id="DefinicjalistaplacCreateForm">
                             <p:outputLabel value="rodzaj umowy" />
-                            <p:selectOneMenu id="rodzajumowy" value="#{pasekwynagrodzenView.rodzajlistyplac}" autoWidth="false" style="width: 280px;margin-left: 10px;" required="true" filter="true" filterMatchMode="contains" requiredMessage="Wybierz rodzaj listy płac"
+                            <p:selectOneListbox id="rodzajumowy" value="#{pasekwynagrodzenView.rodzajlistyplac}" scrollHeight="120" style="width: 280px;margin-left: 10px;" required="true" 
+                                                 requiredMessage="Wybierz rodzaj listy płac"
                                  converter="#{rodzjalistyplacConverter}">
                                         <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
                                         <f:selectItems value="#{definicjalistaplacView.listarodzajlistyplac}"
                                                        var="firmalistaItem"
                                                        itemValue="#{firmalistaItem}" itemLabel="#{firmalistaItem.nazwa}"/>
                                         <p:ajax event="change" partialSubmit="true" listener="#{pasekwynagrodzenView.wyborinnejumowy()}" global="false" update="PasekwynagrodzenListForm DefinicjalistaplacCreateForm1 DefinicjalistaplacCreateForm2 KursDataLPForm"/>
-                            </p:selectOneMenu>
+                            </p:selectOneListbox>
                         </h:form>
                         <h:form id="DefinicjalistaplacCreateForm1">
                             <p:outputLabel value="wybrana lista płac" for="wybranalista" />
-                            <p:selectOneMenu id="wybranalista" value="#{pasekwynagrodzenView.wybranalistaplac}" required="true" autoWidth="false" style="width: 280px;" requiredMessage="Wybierz firmę" converter="#{definicjalistaplacConverter}" >
+                            <p:selectOneListbox id="wybranalista" value="#{pasekwynagrodzenView.wybranalistaplac}" scrollHeight="120" required="true" style="width: 280px;" requiredMessage="Wybierz firmę" converter="#{definicjalistaplacConverter}" >
                                 <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
                                 <f:selectItems value="#{pasekwynagrodzenView.listadefinicjalistaplac}" 
                                                var="firmalistaItem"
                                                itemValue="#{firmalistaItem}" itemLabel="#{firmalistaItem.opis} #{firmalistaItem.nrkolejny}"/>
                                 <p:ajax event="change" partialSubmit="true" global="false" listener="#{pasekwynagrodzenView.pobierzkalendarzezamc}" update="PasekwynagrodzenListForm DefinicjalistaplacCreateForm2 KursDataLPForm"/>
-                            </p:selectOneMenu>
+                            </p:selectOneListbox>
                            
                             
                         </h:form>

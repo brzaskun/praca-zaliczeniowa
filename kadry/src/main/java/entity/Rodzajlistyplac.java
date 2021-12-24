@@ -38,6 +38,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Rodzajlistyplac.findByTyt_serial", query = "SELECT r FROM Rodzajlistyplac r WHERE r.tyt_serial = :tyt_serial"),
     @NamedQuery(name = "Rodzajlistyplac.findByUmowaoPrace", query = "SELECT r FROM Rodzajlistyplac r WHERE r.tyt_serial = 1"),
     @NamedQuery(name = "Rodzajlistyplac.findByUmowaZlecenia", query = "SELECT r FROM Rodzajlistyplac r WHERE r.tyt_serial = 2"),
+    @NamedQuery(name = "Rodzajlistyplac.findByUmowaFunkcja", query = "SELECT r FROM Rodzajlistyplac r WHERE r.tyt_serial = 15"),
     @NamedQuery(name = "Rodzajlistyplac.findByTyp", query = "SELECT r FROM Rodzajlistyplac r WHERE r.typ = :typ")})
 public class Rodzajlistyplac implements Serializable {
  private static final long serialVersionUID = 1L;
