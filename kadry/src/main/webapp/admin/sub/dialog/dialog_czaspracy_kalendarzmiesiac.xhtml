@@ -111,7 +111,7 @@
                 <p:panel header="Dni kalendarza pracownika #{kalendarzmiesiacView.selected.rok}/#{kalendarzmiesiacView.selected.mc}">
                     <p:dataTable id="datalist" value="#{kalendarzmiesiacView.selected.dzienList}" var="itemkalendarz"
                                  rowKey="#{itemkalendarz.id}"
-                                 style="height: 560px; overflow-y: scroll; width: 1000px;" sortMode="single"
+                                 style="height: 520px; overflow-y: scroll; width: 1000px;" sortMode="single"
                                  emptyMessage="Brak zapisów"
                                  >
 
@@ -195,14 +195,28 @@
                             <h:inputText size="4"  value="#{itemkalendarz.poranocna}"/>
                         </p:column>
                     </p:dataTable>
+                    <p:panelGrid columns="6" style="width: 500px;align-content: center; margin-top: 10px;">
+                        <h:outputText value="norma godzin"/>
+                        <h:outputText value="przepracowane"/>
+                        <h:outputText value="urlop płatny"/>
+                        <h:outputText value="urlop bezpłat."/>
+                        <h:outputText value="wyn. choroba"/>
+                        <h:outputText value="zasiłek"/>
+                        <h:outputText value="#{kalendarzmiesiacView.selected.norma}"/>
+                        <h:outputText value="#{kalendarzmiesiacView.selected.przepracowane}"/>
+                         <h:outputText value="#{kalendarzmiesiacView.selected.urlop}"/>
+                         <h:outputText value="#{kalendarzmiesiacView.selected.urlopbezplatny}"/>
+                         <h:outputText value="#{kalendarzmiesiacView.selected.choroba}"/>
+                         <h:outputText value="#{kalendarzmiesiacView.selected.zasilek}"/>
+                    </p:panelGrid>
                 </p:panel>
                 <p:outputPanel style="margin-top: 5px;">
                     <h:outputText value="Na podstawie kalendarza sporządzono listę płac. Nie można dokonywać zmian"  rendered="#{kalendarzmiesiacView.selected.pasek.id ne null}"/>
-                    <p:commandButton styleClass="buttonnorm" actionListener="#{kalendarzmiesiacView.create}" value="zachowaj" update="north KalendarzmiesiacCreateForm KalendarzmiesiacListForm:datalist KalendarzmiesiacSaRokForm" 
+                    <p:commandButton styleClass="buttonnorm" actionListener="#{kalendarzmiesiacView.create}" value="zachowaj" update="north KalendarzmiesiacCreateForm KalendarzmiesiacListForm KalendarzmiesiacSaRokForm" 
                                      rendered="#{kalendarzmiesiacView.selected.pasek.id eq null}"/>
-                    <p:commandButton styleClass="buttonnorm2" actionListener="#{kalendarzmiesiacView.reset}" value="resetuj" update="north KalendarzmiesiacCreateForm KalendarzmiesiacListForm:datalist KalendarzmiesiacSaRokForm"
+                    <p:commandButton styleClass="buttonnorm2" actionListener="#{kalendarzmiesiacView.reset}" value="resetuj" update="north KalendarzmiesiacCreateForm KalendarzmiesiacListForm KalendarzmiesiacSaRokForm"
                                      rendered="#{kalendarzmiesiacView.selected.pasek.id eq null}"/>
-                    <p:commandButton styleClass="buttonnorm2" actionListener="#{kalendarzmiesiacView.usun}" value="usun" update="north KalendarzmiesiacCreateForm KalendarzmiesiacListForm:datalist KalendarzmiesiacSaRokForm:wykazistniejacychkal"
+                    <p:commandButton styleClass="buttonnorm2" actionListener="#{kalendarzmiesiacView.usun}" value="usun" update="north KalendarzmiesiacCreateForm KalendarzmiesiacListForm KalendarzmiesiacSaRokForm:wykazistniejacychkal"
                                      rendered="#{kalendarzmiesiacView.selected.pasek.id eq null}">
                         <p:confirm type="popup" header="Potwierdzenie" message="Usunąć bieżący kalendarz?" icon="pi pi-exclamation-triangle"/>
                     </p:commandButton>

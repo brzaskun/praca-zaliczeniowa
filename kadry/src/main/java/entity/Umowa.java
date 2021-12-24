@@ -65,7 +65,8 @@ import view.WpisView;
     @NamedQuery(name = "Umowa.findByPracownikFirma", query = "SELECT u FROM Umowa u WHERE u.angaz.pracownik = :pracownik AND u.angaz.firma = :firma"),
     @NamedQuery(name = "Umowa.findByAngaz", query = "SELECT u FROM Umowa u WHERE u.angaz = :angaz ORDER BY u.dataod ASC"),
     @NamedQuery(name = "Umowa.findByAngazPraca", query = "SELECT u FROM Umowa u WHERE u.angaz = :angaz AND u.umowakodzus.praca = TRUE ORDER BY u.dataod ASC"),
-    @NamedQuery(name = "Umowa.findByAngazZlecenie", query = "SELECT u FROM Umowa u WHERE u.angaz = :angaz AND u.umowakodzus.zlecenie = TRUE ORDER BY u.dataod ASC")
+    @NamedQuery(name = "Umowa.findByAngazZlecenie", query = "SELECT u FROM Umowa u WHERE u.angaz = :angaz AND u.umowakodzus.zlecenie = TRUE ORDER BY u.dataod ASC"),
+    @NamedQuery(name = "Umowa.findByAngazFunkcja", query = "SELECT u FROM Umowa u WHERE u.angaz = :angaz AND u.umowakodzus.funkcja = TRUE ORDER BY u.dataod ASC")
         
 })
 public class Umowa implements Serializable {
@@ -766,6 +767,8 @@ public class Umowa implements Serializable {
         String zwrot = "umowa o pracę";
         if (this.umowakodzus!=null && this.umowakodzus.isZlecenie()) {
             zwrot = "umowa zlecenia";
+        } else if (this.umowakodzus!=null && this.umowakodzus.isFunkcja()) {
+            zwrot = "pełnienie funkcji";
         }
         return zwrot;
     }

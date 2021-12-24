@@ -128,7 +128,7 @@ public class OsobaBean {
                 if (r.getZahZwolKod()!=null) {
                     slownikwypowiedzenieumowy = pobierzrodzajwypowiedzenia(r, rodzajewypowiedzenia);
                 }
-                Umowa nowa = UmowaBean.create(nrumowy, osoba, angaz, r, slownikszkolazatrhistoria);
+                Umowa nowa = UmowaBean.create(nrumowy, osoba, angaz, r, slownikszkolazatrhistoria, umowakodzus);
                 nowa.setAngaz(angaz);
                 nowa.setSlownikszkolazatrhistoria(slownikszkolazatrhistoria);
                 nowa.setSlownikwypowiedzenieumowy(slownikwypowiedzenieumowy);
@@ -155,7 +155,9 @@ public class OsobaBean {
             } catch (Exception e){}
         }
         Collections.sort(zwrot, new Umowacomparator());
-        zwrot.get(0).setAktywna(true);
+        if (!zwrot.isEmpty()) {
+            zwrot.get(0).setAktywna(true);
+        }
         return zwrot;
     }
 

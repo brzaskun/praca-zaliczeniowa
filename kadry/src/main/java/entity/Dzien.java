@@ -93,6 +93,8 @@ public class Dzien implements Serializable {
     @ManyToOne
     private Nieobecnosc nieobecnosc;
 
+    
+    
     public Dzien() {
     }
 

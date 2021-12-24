@@ -289,7 +289,7 @@ public class PIT11_27Bean {
         if (sumaUmowapelnieniefunkcji.getBrutto()>0.0) {
             poz.setP47(BigDecimal.valueOf(sumaUmowapelnieniefunkcji.getBrutto()));
             poz.setP48(BigDecimal.valueOf(sumaUmowapelnieniefunkcji.getKosztyuzyskania()));
-            poz.setP49(poz.getP51().subtract(poz.getP52()));
+            poz.setP49(poz.getP47().subtract(poz.getP48()));
             poz.setP50(BigInteger.valueOf(Z.zUD(sumaUmowapelnieniefunkcji.getPodatekdochodowy())));
             if (poz.getP75()!=null) {
                 poz.setP75(poz.getP75().add(BigDecimal.valueOf(Z.z(sumaUmowapelnieniefunkcji.getRazemspolecznepracownik()))));

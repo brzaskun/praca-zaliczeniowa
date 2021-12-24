@@ -35,6 +35,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Umowakodzus.findById", query = "SELECT u FROM Umowakodzus u WHERE u.id = :id"),
     @NamedQuery(name = "Umowakodzus.findByAktywne", query = "SELECT u FROM Umowakodzus u WHERE u.praca = TRUE OR u.zlecenie = TRUE ORDER BY u.kod"),
     @NamedQuery(name = "Umowakodzus.findByAktywneZlecenie", query = "SELECT u FROM Umowakodzus u WHERE u.zlecenie = TRUE ORDER BY u.kod"),
+    @NamedQuery(name = "Umowakodzus.findByAktywneFunkcja", query = "SELECT u FROM Umowakodzus u WHERE u.funkcja = TRUE ORDER BY u.kod"),
     @NamedQuery(name = "Umowakodzus.findByAktywnePraca", query = "SELECT u FROM Umowakodzus u WHERE u.praca = TRUE ORDER BY u.kod"),
     @NamedQuery(name = "Umowakodzus.findByKod", query = "SELECT u FROM Umowakodzus u WHERE u.kod = :kod"),
     @NamedQuery(name = "Umowakodzus.findByWktSerial", query = "SELECT u FROM Umowakodzus u WHERE u.wkt_serial = :wktserial"),
@@ -65,6 +66,8 @@ public class Umowakodzus implements Serializable {
     private boolean praca;
     @Column(name = "zlecenie")
     private boolean zlecenie;
+    @Column(name = "funkcja")
+    private boolean funkcja;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "umowakodzus")
     private List<Umowa> umowaList;
 
@@ -103,6 +106,14 @@ public class Umowakodzus implements Serializable {
 
     public void setZlecenie(boolean zlecenie) {
         this.zlecenie = zlecenie;
+    }
+
+    public boolean isFunkcja() {
+        return funkcja;
+    }
+
+    public void setFunkcja(boolean funkcja) {
+        this.funkcja = funkcja;
     }
 
     public String getOpiswybor() {

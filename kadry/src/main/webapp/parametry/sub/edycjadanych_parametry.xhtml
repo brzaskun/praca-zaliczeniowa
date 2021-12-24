@@ -55,6 +55,12 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                             </f:facet>
                             <p:selectBooleanCheckbox value="#{item111.zlecenie}"/>
                         </p:column>
+                         <p:column style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="pełnienie funkcji"/>
+                            </f:facet>
+                            <p:selectBooleanCheckbox value="#{item111.funkcja}"/>
+                        </p:column>
                     </p:dataTable>
                     <p:commandButton value="zachowaj" styleClass="buttonnorm" actionListener="#{rodzjaumowySetView.zachowaj}" update="@form"/>
                 </h:form>

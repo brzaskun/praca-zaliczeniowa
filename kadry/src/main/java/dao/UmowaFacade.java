@@ -85,5 +85,11 @@ public class UmowaFacade extends DAO  implements Serializable {
         zwrot = getEntityManager().createNamedQuery("Umowa.findByAngazZlecenie").setParameter("angaz", angaz).getResultList();
         return zwrot;
     }
+    
+    public List<Umowa> findByAngazFunkcja(Angaz angaz) {
+        List<Umowa> zwrot = new ArrayList<>();
+        zwrot = getEntityManager().createNamedQuery("Umowa.findByAngazFunkcja").setParameter("angaz", angaz).getResultList();
+        return zwrot;
+    }
 
 }

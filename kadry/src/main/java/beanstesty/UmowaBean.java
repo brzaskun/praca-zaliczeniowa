@@ -11,6 +11,7 @@ import static data.Data.getDzien;
 import entity.Angaz;
 import entity.Slownikszkolazatrhistoria;
 import entity.Umowa;
+import entity.Umowakodzus;
 import java.time.LocalDate;
 import static java.time.temporal.ChronoUnit.DAYS;
 import java.util.ArrayList;
@@ -60,10 +61,14 @@ public class UmowaBean {
         return umowa;
     }
     
-     public static Umowa create(int numerumowy, Osoba osoba, Angaz angaz, ZatrudHist r, Slownikszkolazatrhistoria s) {
+     public static Umowa create(int numerumowy, Osoba osoba, Angaz angaz, ZatrudHist r, Slownikszkolazatrhistoria s, Umowakodzus umowakodzus) {
             Umowa umowa = new Umowa();
             umowa.setAngaz(angaz);
-            umowa.setNrkolejny("UP/IMP/"+String.valueOf(numerumowy)+"/"+String.valueOf(angaz.getId()));
+            if (umowakodzus.isPraca()) {
+                umowa.setNrkolejny("UP/IMP/"+String.valueOf(numerumowy)+"/"+String.valueOf(angaz.getId()));
+            } else if (umowakodzus.isFunkcja()) {
+                umowa.setNrkolejny("PF/IMP/"+String.valueOf(numerumowy)+"/"+String.valueOf(angaz.getId()));
+            }
             umowa.setDataod(Data.data_yyyyMMddNull(r.getZahDataOd()));
             umowa.setTerminrozpoczeciapracy(Data.data_yyyyMMddNull(r.getZahDataOd()));
             umowa.setDatado(Data.data_yyyyMMddNull(r.getZahDataDo()));

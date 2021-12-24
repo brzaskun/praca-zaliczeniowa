@@ -113,15 +113,20 @@ public class UmowaView  implements Serializable {
         if (wpisView.getUmowa()!=null) {
             if (wpisView.getUmowa().getUmowakodzus().isPraca()) {
                 rodzajumowy = "1";
-            } else {
+            } else if (wpisView.getUmowa().getUmowakodzus().isZlecenie()) {
                 rodzajumowy = "2";
+            } else {
+                rodzajumowy = "3";
             }
             if (rodzajumowy.equals("1")) {
                 lista  = umowaFacade.findByAngazPraca(wpisView.getAngaz());
                 listaumowakodzus = rodzajumowyFacade.findUmowakodzusAktywnePraca();
-            } else {
+            } else if (rodzajumowy.equals("2")) {
                 lista  = umowaFacade.findByAngazZlecenie(wpisView.getAngaz());
                 listaumowakodzus = rodzajumowyFacade.findUmowakodzusAktywneZlecenie();
+            } else {
+                lista  = umowaFacade.findByAngazFunkcja(wpisView.getAngaz());
+                listaumowakodzus = rodzajumowyFacade.findUmowakodzusAktywneFunkcja();
             }
         } else {
             lista = new ArrayList<>();
@@ -158,8 +163,20 @@ public class UmowaView  implements Serializable {
             } else {
                 wpisView.setUmowa(null);
             }
-        } else {
+        } else if (rodzajumowy.equals("2")) {
             lista  = umowaFacade.findByAngazZlecenie(wpisView.getAngaz());
+            if (lista!=null&&lista.size()>0) {
+                Umowa aktywna = lista.stream().filter(p->p.isAktywna()).findAny().orElse(lista.get(0));
+                if (aktywna.isAktywna()==false) {
+                    aktywna.setAktywna(true);
+                    umowaFacade.edit(aktywna);
+                }
+                wpisView.setUmowa(aktywna);
+            } else {
+                wpisView.setUmowa(null);
+            }
+        } else  {
+            lista  = umowaFacade.findByAngazFunkcja(wpisView.getAngaz());
             if (lista!=null&&lista.size()>0) {
                 Umowa aktywna = lista.stream().filter(p->p.isAktywna()).findAny().orElse(lista.get(0));
                 if (aktywna.isAktywna()==false) {

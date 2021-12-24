@@ -54,7 +54,7 @@
                 <p:panel header="Wykaz firm do edycji danych">
                     <p:dataTable id="datalist" value="#{firmaView.lista}" var="item1"
                                  selectionMode="single" selection="#{firmaView.selectedlista}"
-                                 rowKey="#{item1.id}" 
+                                 rowKey="#{item1.id}"  sortBy="#{item1.nazwa}"
                                  style="height: 300px; overflow-y: scroll;"
                                  > 
                         <p:ajax event="rowSelect" update="FirmaUzupelnijForm" listener="#{firmaView.pobierzinfo}"/>
@@ -76,7 +76,7 @@
                             </f:facet>
                               <h:outputText value="&#x2714;" styleClass="ww" rendered="#{item1.osobafizyczna}"/>
                         </p:column>
-                        <p:column width="300">
+                        <p:column width="300" sortBy="#{item1.nazwa}" sortOrder="asc"> 
                             <f:facet name="header">
                                 <h:outputText value="nazwa"/>
                             </f:facet>

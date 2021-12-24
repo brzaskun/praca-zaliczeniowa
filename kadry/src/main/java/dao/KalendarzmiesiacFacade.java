@@ -5,6 +5,7 @@
  */
 package dao;
 
+import entity.Dzien;
 import entity.FirmaKadry;
 import entity.Kalendarzmiesiac;
 import entity.Umowa;
@@ -48,6 +49,53 @@ public class KalendarzmiesiacFacade  extends DAO implements Serializable {
     }
 
    
+   public void edit(Kalendarzmiesiac entity) {
+        entity.setNorma(0.0);
+        entity.setPrzepracowane(0.0);
+        entity.setUrlop(0.0);
+        entity.setUrlopbezplatny(0.0);
+        entity.setChoroba(0.0);
+        entity.setZasilek(0.0);
+        entity.setPiecdziesiatka(0.0);
+        entity.setSetka(0.0);
+        entity.setPoranocna(0.0);
+        for (Dzien p : entity.getDzienList()) {
+            entity.setNorma(entity.getNorma()+p.getNormagodzin());
+            entity.setPrzepracowane(entity.getPrzepracowane()+p.getPrzepracowano());
+            entity.setUrlop(entity.getUrlop()+p.getUrlopPlatny());
+            entity.setUrlopbezplatny(entity.getUrlopbezplatny()+p.getUrlopbezplatny());
+            entity.setChoroba(entity.getChoroba()+p.getWynagrodzeniezachorobe());
+            entity.setZasilek(entity.getZasilek()+p.getZasilek());
+            entity.setPiecdziesiatka(entity.getPiecdziesiatka()+p.getPiecdziesiatki());
+            entity.setSetka(entity.getSetka()+p.getSetki());
+            entity.setPoranocna(entity.getPoranocna()+p.getPoranocna());
+        }
+        super.edit(entity);
+    }
+   
+   public void create(Kalendarzmiesiac entity) {
+        entity.setNorma(0.0);
+        entity.setPrzepracowane(0.0);
+        entity.setUrlop(0.0);
+        entity.setUrlopbezplatny(0.0);
+        entity.setChoroba(0.0);
+        entity.setZasilek(0.0);
+        entity.setPiecdziesiatka(0.0);
+        entity.setSetka(0.0);
+        entity.setPoranocna(0.0);
+        for (Dzien p : entity.getDzienList()) {
+            entity.setNorma(entity.getNorma()+p.getNormagodzin());
+            entity.setPrzepracowane(entity.getPrzepracowane()+p.getPrzepracowano());
+            entity.setUrlop(entity.getUrlop()+p.getUrlopPlatny());
+            entity.setUrlopbezplatny(entity.getUrlopbezplatny()+p.getUrlopbezplatny());
+            entity.setChoroba(entity.getChoroba()+p.getWynagrodzeniezachorobe());
+            entity.setZasilek(entity.getZasilek()+p.getZasilek());
+            entity.setPiecdziesiatka(entity.getPiecdziesiatka()+p.getPiecdziesiatki());
+            entity.setSetka(entity.getSetka()+p.getSetki());
+            entity.setPoranocna(entity.getPoranocna()+p.getPoranocna());
+        }
+        super.create(entity);
+    }
    
     public Kalendarzmiesiac findByRokMcUmowa(Umowa umowa, String rok, String mc) {
         Kalendarzmiesiac zwrot = null;

@@ -97,7 +97,7 @@
                     <h:outputText value="wynagrodzenie za czas choroby płatne od dnia:" style="margin-left: 20px;"/>
                     <h:outputText value="#{wpisView.umowa.pierwszydzienzasilku}" style="color: green;"/>
                 </p:panelGrid>
-                <p:panel header="Lista nieobecności">
+                <p:panel header="Lista nieobecności #{wpisView.pracownik.nazwiskoImie}">
                     <p:dataTable id="datalist" value="#{nieobecnoscView.lista}" var="itemNieob" 
                                  selection="#{nieobecnoscView.selectedlista}" rowIndexVar="indexn" sortMode="multiple"
                                  rowKey="#{itemNieob.id}"  sortBy="#{itemNieob.dataod}"

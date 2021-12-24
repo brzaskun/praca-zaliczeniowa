@@ -111,5 +111,15 @@ public class UmowakodzusFacade extends DAO  {
         return zwrot;
      }
      
+     public List<Umowakodzus> findUmowakodzusAktywneFunkcja(){
+         List<Umowakodzus> zwrot = null;
+        try {
+            zwrot = getEntityManager().createNamedQuery("Umowakodzus.findByAktywneFunkcja").getResultList();
+        } catch (Exception e) {
+            
+        }
+        return zwrot;
+     }
+     
      
 }

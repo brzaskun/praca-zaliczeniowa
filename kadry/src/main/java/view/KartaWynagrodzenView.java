@@ -201,7 +201,7 @@ public class KartaWynagrodzenView  implements Serializable {
                         sumaUmowazlecenia.dodaj(pasek);
                     } else if (pasek.getRodzajWynagrodzenia()==2&&pasek.isDo26lat()==true) {
                         sumaUmowazlecenia26zwolnione.dodaj(pasek);
-                    } else if (pasek.getRodzajWynagrodzenia()==3&&pasek.isDo26lat()==false) {
+                    } else if (pasek.getRodzajWynagrodzenia()==15) {
                         sumaUmowapelnieniefunkcji.dodaj(pasek);
                     }
                     karta.dodaj(pasek);

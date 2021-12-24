@@ -74,8 +74,27 @@ private static final long serialVersionUID = 1L;
     private List<Pasekwynagrodzen> pasekwynagrodzenList;
     @OneToMany(mappedBy = "kalendarzmiesiac", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Dzien> dzienList;
+    @Column(name="norma")
+    private double norma;
+    @Column(name="przepracowane")
+    private double przepracowane;
+    @Column(name="urlop")
+    private double urlop;
+    @Column(name="urlopbezplatny")
+    private double urlopbezplatny;
+    @Column(name="choroba")
+    private double choroba;
+    @Column(name="zasilek")
+    private double zasilek;
+    @Column(name="piecdziesiatka")
+    private double piecdziesiatka;
+    @Column(name="setka")
+    private double setka;
+    @Column(name="poranocna")
+    private double poranocna;
     
     
+
 
     public Kalendarzmiesiac() {
         this.dzienList = new ArrayList<>();
@@ -539,6 +558,80 @@ private static final long serialVersionUID = 1L;
         return this.getUmowa().getAngaz().getPracownik().getImie();
     }
 
+    public double getNorma() {
+        return norma;
+    }
+
+    public void setNorma(double norma) {
+        this.norma = norma;
+    }
+
+    public double getPrzepracowane() {
+        return przepracowane;
+    }
+
+    public void setPrzepracowane(double przepracowane) {
+        this.przepracowane = przepracowane;
+    }
+
+    public double getUrlop() {
+        return urlop;
+    }
+
+    public void setUrlop(double urlop) {
+        this.urlop = urlop;
+    }
+
+    public double getUrlopbezplatny() {
+        return urlopbezplatny;
+    }
+
+    public void setUrlopbezplatny(double urlopbezplatny) {
+        this.urlopbezplatny = urlopbezplatny;
+    }
+
+    public double getChoroba() {
+        return choroba;
+    }
+
+    public void setChoroba(double choroba) {
+        this.choroba = choroba;
+    }
+
+    public double getZasilek() {
+        return zasilek;
+    }
+
+    public void setZasilek(double zasilek) {
+        this.zasilek = zasilek;
+    }
+
+    public double getPiecdziesiatka() {
+        return piecdziesiatka;
+    }
+
+    public void setPiecdziesiatka(double piecdziesiatka) {
+        this.piecdziesiatka = piecdziesiatka;
+    }
+
+    public double getSetka() {
+        return setka;
+    }
+
+    public void setSetka(double setka) {
+        this.setka = setka;
+    }
+
+    public double getPoranocna() {
+        return poranocna;
+    }
+
+    public void setPoranocna(double poranocna) {
+        this.poranocna = poranocna;
+    }
+
+    
+    
     public int naniesnieobecnosc(Nieobecnosc p) {
         int dzienod = Data.getDzienI(p.getDataod());
         int dziendo = Data.getDzienI(p.getDatado());
