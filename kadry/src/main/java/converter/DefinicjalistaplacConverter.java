@@ -10,9 +10,9 @@ import entity.Definicjalistaplac;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -21,16 +21,16 @@ import javax.inject.Named;
  * @author Osito
  */
 @Named
-@SessionScoped
+@ViewScoped
 public class DefinicjalistaplacConverter implements javax.faces.convert.Converter, Serializable {
     
     private List<Definicjalistaplac> lista;
     @Inject
-    private DefinicjalistaplacFacade angazFacade;
+    private DefinicjalistaplacFacade definicjalistaplacFacade;
     
     @PostConstruct
     private void init() {
-        lista = angazFacade.findAll();
+        lista = definicjalistaplacFacade.findAll();
     }
     
     @Override

@@ -5,6 +5,7 @@
  */
 package entity;
 
+import beanstesty.DataBean;
 import comparator.KalendarzmiesiacLastcomparator;
 import data.Data;
 import embeddable.CzasTrwania;
@@ -852,11 +853,11 @@ public class Umowa implements Serializable {
         return zwrot;
     }
     
-     public double pobierzwynagrodzenieKwota(String rok, String mc) {
+     public double pobierzwynagrodzenieKwota(String rok, String mc, Kalendarzmiesiac kalendarz) {
         double zwrot = 0.0;
         if (this.skladnikwynagrodzeniaList!=null) {
             for (Skladnikwynagrodzenia p : this.skladnikwynagrodzeniaList) {
-                zwrot = pobierzkwoteKwota(p.getZmiennawynagrodzeniaList(), rok, mc);
+                zwrot = pobierzkwoteKwota(p.getZmiennawynagrodzeniaList(), rok, mc, kalendarz);
             }
         }
         return zwrot;
@@ -864,15 +865,13 @@ public class Umowa implements Serializable {
      
     
 
-    private double pobierzkwoteKwota(List<Zmiennawynagrodzenia> zmiennawynagrodzeniaList, String rok, String mc) {
+    private double pobierzkwoteKwota(List<Zmiennawynagrodzenia> zmiennawynagrodzeniaList, String rok, String mc, Kalendarzmiesiac kalendarz) {
         double zwrot = 0.0;
         if (zmiennawynagrodzeniaList!=null) {
             for (Zmiennawynagrodzenia p : zmiennawynagrodzeniaList) {
                 String dataod1 = p.getDataod();
                 String datado1 = p.getDatado();
-                boolean czydataodjestwmcu = Data.czydatajestwmcu(dataod1, rok, mc);
-                boolean czydatadojestwmcu = Data.czydatajestwmcu(datado1, rok, mc);
-                if (czydatadojestwmcu&&czydataodjestwmcu || datado1==null) {
+                if (DataBean.czysiemiesci(kalendarz, dataod1, datado1)) {
                     zwrot = p.getKwota();
                     break;
                 }

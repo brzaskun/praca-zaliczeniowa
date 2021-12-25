@@ -31,7 +31,7 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                         </h:form>
                         <h:form id="DefinicjalistaplacCreateForm1">
                             <p:outputLabel value="wybrana lista płac" for="wybranalista" />
-                            <p:selectOneListbox id="wybranalista" value="#{pasekwynagrodzenView.wybranalistaplac}" scrollHeight="120" required="true" style="width: 280px;" requiredMessage="Wybierz firmę" converter="#{definicjalistaplacConverter}" >
+                            <p:selectOneListbox id="wybranalista" value="#{pasekwynagrodzenView.wybranalistaplac}" scrollHeight="120" required="true" style="width: 280px;" requiredMessage="Wybierz listę płac" converter="#{definicjalistaplacConverter}" >
                                 <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
                                 <f:selectItems value="#{pasekwynagrodzenView.listadefinicjalistaplac}" 
                                                var="firmalistaItem"

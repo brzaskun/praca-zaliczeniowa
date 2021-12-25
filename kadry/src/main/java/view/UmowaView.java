@@ -290,6 +290,15 @@ public class UmowaView  implements Serializable {
         return kal;
     }
     
+    public void edytujumowe(Umowa umowa) {
+        try {
+            if (umowa.getId()!=null) {
+                umowaFacade.edit(umowa);
+                Msg.msg("Naniesiono zmiany");
+            }
+        } catch (Exception e){}
+    }
+    
     public void edit() {
       if (selected!=null && selected.getId()!=null) {
           try {

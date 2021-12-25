@@ -144,6 +144,14 @@ public class KalendarzmiesiacFacade  extends DAO implements Serializable {
         } catch (Exception e) {}
         return zwrot;
     }
+    
+    public List<Kalendarzmiesiac> findByFirmaRokMcNierezydent(FirmaKadry firma, String rok, String mc) {
+        List<Kalendarzmiesiac> zwrot = new ArrayList<>();
+        try {
+            zwrot = getEntityManager().createNamedQuery("Kalendarzmiesiac.findByFirmaRokMcNierezydent").setParameter("rok", rok).setParameter("mc", mc).setParameter("firma", firma).getResultList();
+        } catch (Exception e) {}
+        return zwrot;
+    }
 
    
 }

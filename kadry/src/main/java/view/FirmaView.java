@@ -148,6 +148,8 @@ public class FirmaView  implements Serializable {
             Rodzajlistyplac umowazlecenia =  rodzajlistyplacFacade.findUmowaZlecenia();
             Rodzajlistyplac udzialworganach =  rodzajlistyplacFacade.findByTyt_serial(15);
             Rodzajlistyplac zasilki =  rodzajlistyplacFacade.findByTyt_serial(1006);
+            Rodzajlistyplac zagraniczneryczaly =  rodzajlistyplacFacade.findByTyt_serial(1032);
+            Rodzajlistyplac umowaodzielo =  rodzajlistyplacFacade.findByTyt_serial(10);
             List<Definicjalistaplac> listy = new ArrayList<>();
             for (String mc : Mce.getMceListS()) {
                  String datawyplaty = OsobaBean.zrobdatawyplaty(mc, rok, wpisView.getFirma());
@@ -173,6 +175,20 @@ public class FirmaView  implements Serializable {
             for (String mc : Mce.getMceListS()) {
                 String datawyplaty = OsobaBean.zrobdatawyplaty(mc, rok, wpisView.getFirma());
                  Definicjalistaplac definicjalistaplac = OsobaBean.nowalista(rok, mc, zasilki, wpisView.getFirma(), datawyplaty);
+                 listy.add(definicjalistaplac);
+            }
+            definicjalistaplacFacade.createList(listy);
+            listy = new ArrayList<>();
+            for (String mc : Mce.getMceListS()) {
+                String datawyplaty = OsobaBean.zrobdatawyplaty(mc, rok, wpisView.getFirma());
+                 Definicjalistaplac definicjalistaplac = OsobaBean.nowalista(rok, mc, zagraniczneryczaly, wpisView.getFirma(), datawyplaty);
+                 listy.add(definicjalistaplac);
+            }
+            definicjalistaplacFacade.createList(listy);
+            listy = new ArrayList<>();
+            for (String mc : Mce.getMceListS()) {
+                String datawyplaty = OsobaBean.zrobdatawyplaty(mc, rok, wpisView.getFirma());
+                 Definicjalistaplac definicjalistaplac = OsobaBean.nowalista(rok, mc, umowaodzielo, wpisView.getFirma(), datawyplaty);
                  listy.add(definicjalistaplac);
             }
             definicjalistaplacFacade.createList(listy);

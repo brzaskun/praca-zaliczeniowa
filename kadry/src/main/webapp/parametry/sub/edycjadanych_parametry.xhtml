@@ -200,7 +200,7 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                             </f:facet>
                             <h:outputText value="#{item17.nazwa}"/>
                         </p:column>
-                         <p:column width="70" style="text-align: center;">
+                         <p:column width="60" style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="kolejność"/>
                             </f:facet>
@@ -211,6 +211,12 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                                 <h:outputText value="symbol"/>
                             </f:facet>
                             <p:inputText value="#{item17.symbol}" size="3" maxlength="3"/>
+                        </p:column>
+                        <p:column width="60" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="Tyt_serial"/>
+                            </f:facet>
+                            <p:inputText value="#{item17.tyt_serial}" size="4"/>
                         </p:column>
                         <p:column width="40" style="text-align: center;">
                             <f:facet name="header">

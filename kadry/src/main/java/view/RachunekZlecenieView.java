@@ -78,7 +78,7 @@ public class RachunekZlecenieView  implements Serializable {
                          rachunekdoumowyzlecenia.setDatado(datado);
                      }
                  }
-                 double kwota = umowabiezaca.pobierzwynagrodzenieKwota(wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
+                 double kwota = umowabiezaca.pobierzwynagrodzenieKwota(wpisView.getRokWpisu(), wpisView.getMiesiacWpisu(), kalendarz);
                  double iloscgodzinzkalendarza = pobierzgodzinyzkalendarza();
                  rachunekdoumowyzlecenia.setIloscgodzin(iloscgodzinzkalendarza);
                  if (umowabiezaca.czywynagrodzeniegodzinowe()) {

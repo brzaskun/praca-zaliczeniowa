@@ -114,7 +114,8 @@ public class PasekwynagrodzenBean {
     public static Pasekwynagrodzen obliczWynagrodzenie(Kalendarzmiesiac kalendarz, Definicjalistaplac definicjalistaplac, SwiadczeniekodzusFacade nieobecnosckodzusFacade, List<Pasekwynagrodzen> paskidowyliczeniapodstawy, 
         List<Wynagrodzeniahistoryczne> historiawynagrodzen, List<Podatki> stawkipodatkowe, double sumapoprzednich, double wynagrodzenieminimalne, boolean czyodlicoznokwotewolna, double kurs,double limitZUS, String datawyplaty) {
         boolean umowaoprace = kalendarz.isPraca();
-        boolean umowazlecenia = kalendarz.isPraca();
+        boolean umowazlecenia = kalendarz.isZlecenie();
+        boolean umowazlecenianierezydent = kalendarz.isZlecenie()&&(kalendarz.getUmowa().isNierezydent()||kalendarz.isNierezydent());
         boolean umowafunkcja = kalendarz.isFunkcja();
         Pasekwynagrodzen pasek = new Pasekwynagrodzen();
         pasek.setDatawyplaty(datawyplaty);
@@ -153,13 +154,15 @@ public class PasekwynagrodzenBean {
             KalendarzmiesiacBean.redukujskladnikistale(kalendarz, pasek);
             KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, urlop, pasek);
             KalendarzmiesiacBean.redukujskladnikistale2(kalendarz, pasek);
-        } else if (umowazlecenia) {
+        } else if (umowazlecenia&&umowazlecenianierezydent==false) {
             if (pasek.isNierezydent()) {
                 pasek.setDo26lat(false);
             }
             jestoddelegowanie = KalendarzmiesiacBean.naliczskladnikiwynagrodzeniaDBZlecenie(kalendarz, pasek, kurs);
-        } else {
+        } else if (umowafunkcja) {
             jestoddelegowanie = KalendarzmiesiacBean.naliczskladnikiwynagrodzeniaDBFunkcja(kalendarz, pasek, kurs);
+        } else {
+            jestoddelegowanie = KalendarzmiesiacBean.naliczskladnikiwynagrodzeniaDBNierezydent(kalendarz, pasek, kurs);
         }
 //        KalendarzmiesiacBean.naliczskladnikipotraceniaDB(kalendarz, pasek);
         if (definicjalistaplac.getRodzajlistyplac().getSymbol().equals("ZA")) {
@@ -195,10 +198,10 @@ public class PasekwynagrodzenBean {
                 PasekwynagrodzenBean.obliczpodstaweopodatkowaniaDB(pasek, stawkipodatkowe);
                 PasekwynagrodzenBean.obliczpodatekwstepnyDB(pasek, stawkipodatkowe, sumapoprzednich, false);
             }
-        } else if (umowazlecenia) {
+        } else if (umowazlecenia||umowazlecenianierezydent) {
             PasekwynagrodzenBean.obliczpodstaweopodatkowaniaZlecenie(pasek, stawkipodatkowe, pasek.isNierezydent());
             PasekwynagrodzenBean.obliczpodatekwstepnyZlecenieDB(pasek, stawkipodatkowe, pasek.isNierezydent());
-        } else {
+        } else  if (umowafunkcja) {
             PasekwynagrodzenBean.obliczpodstaweopodatkowaniaFunkcja(pasek, stawkipodatkowe, pasek.isNierezydent());
             PasekwynagrodzenBean.obliczpodatekwstepnyZlecenieDB(pasek, stawkipodatkowe, pasek.isNierezydent());
         }
@@ -696,7 +699,7 @@ public class PasekwynagrodzenBean {
         double zdrowotneodliczane = Z.z(podstawazdrowotna*0.0775);
         if (nierezydent) {
             pasek.setPraczdrowotnedoodliczenia(0.0);
-            pasek.setPraczdrowotnedopotracenia(zdrowotne);
+            pasek.setPraczdrowotnedopotracenia(zdrowotneodliczane);
         } else {
             if (pasek.isDo26lat()) {
                 double podatekwstepny = Z.z(pasek.getPodatekwstepnyhipotetyczny()-pasek.getKwotawolnadlazdrowotnej()>0.0?pasek.getPodatekwstepnyhipotetyczny()-pasek.getKwotawolnadlazdrowotnej():0.0);

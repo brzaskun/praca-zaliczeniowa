@@ -57,6 +57,7 @@ public class RodzajlistyplacFacade extends DAO  {
     public Rodzajlistyplac findUmowaFunkcja() {
         return (Rodzajlistyplac) getEntityManager().createNamedQuery("Rodzajlistyplac.findByUmowaFunkcja").getSingleResult();
     }
+    
      
     public Rodzajlistyplac findByTyt_serial(Integer lis_tyt_serial) {
         return (Rodzajlistyplac) getEntityManager().createNamedQuery("Rodzajlistyplac.findByTyt_serial").setParameter("tyt_serial", lis_tyt_serial).getSingleResult();

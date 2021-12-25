@@ -211,18 +211,29 @@
                         <p:outputLabel value="wynagrodzenie godzinowe" />
                         <bcf:innum value="#{umowaView.wynagrodzeniegodzinowe}"/>
                         <p:outputLabel value="chorobowe" for="chorobowe" />
-                        <p:selectBooleanCheckbox id="chorobowe" value="#{umowaView.selected.chorobowe}" />
+                        <p:selectBooleanCheckbox id="chorobowe" value="#{umowaView.selected.chorobowe}" >
+                            <p:ajax event="change" listener="#{umowaView.edytujumowe(selected)}" global="false"/>
+                        </p:selectBooleanCheckbox>
                         <p:outputLabel value="chorobowe dobrowolne" for="chorobowedobrowolne" />
-                        <p:selectBooleanCheckbox id="chorobowedobrowolne" value="#{umowaView.selected.chorobowedobrowolne}" />
+                        <p:selectBooleanCheckbox id="chorobowedobrowolne" value="#{umowaView.selected.chorobowedobrowolne}" >
+                            <p:ajax event="change" listener="#{umowaView.edytujumowe(selected)}" global="false"/>
+                        </p:selectBooleanCheckbox>
                         <p:outputLabel value="emerytalne" for="emerytalne" />
-                        <p:selectBooleanCheckbox id="emerytalne" value="#{umowaView.selected.emerytalne}" />
-
+                        <p:selectBooleanCheckbox id="emerytalne" value="#{umowaView.selected.emerytalne}" >
+                            <p:ajax event="change" listener="#{umowaView.edytujumowe(selected)}" global="false"/>
+                        </p:selectBooleanCheckbox>
                         <p:outputLabel value="rentowe" for="rentowe" />
-                        <p:selectBooleanCheckbox id="rentowe" value="#{umowaView.selected.rentowe}" />
+                        <p:selectBooleanCheckbox id="rentowe" value="#{umowaView.selected.rentowe}" >
+                            <p:ajax event="change" listener="#{umowaView.edytujumowe(selected)}" global="false"/>
+                        </p:selectBooleanCheckbox>
                         <p:outputLabel value="wypadkowe" for="wypadkowe" />
-                        <p:selectBooleanCheckbox id="wypadkowe" value="#{umowaView.selected.wypadkowe}" />
+                        <p:selectBooleanCheckbox id="wypadkowe" value="#{umowaView.selected.wypadkowe}" >
+                            <p:ajax event="change" listener="#{umowaView.edytujumowe(selected)}" global="false"/>
+                        </p:selectBooleanCheckbox>
                         <p:outputLabel value="zdrowotne" for="zdrowotne" />
-                        <p:selectBooleanCheckbox id="zdrowotne" value="#{umowaView.selected.zdrowotne}" />
+                        <p:selectBooleanCheckbox id="zdrowotne" value="#{umowaView.selected.zdrowotne}" >
+                            <p:ajax event="change" listener="#{umowaView.edytujumowe(selected)}" global="false"/>
+                        </p:selectBooleanCheckbox>
                         <p:outputLabel value="inne warunki zatr." />
                         <p:inputText id="dodatkowe" value="#{umowaView.selected.innewarunkizatrudnienia}" title="inne warunki zatrudnienia"  styleClass="dataUmowy" size="50"/>
                     </p:panelGrid>
