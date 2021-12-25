@@ -104,18 +104,32 @@ public class NieobecnoscView  implements Serializable {
     public void create() {
       if (selected!=null) {
           try {
-            selected.setRokod(Data.getRok(selected.getDataod()));
-            selected.setRokdo(Data.getRok(selected.getDatado()));
-            selected.setMcod(Data.getMc(selected.getDataod()));
-            selected.setMcdo(Data.getMc(selected.getDatado()));
-            LocalDate oddata = LocalDate.parse(selected.getDataod());
-            LocalDate dodata = LocalDate.parse(selected.getDatado());
-            double iloscdni = DAYS.between(oddata,dodata);
-            selected.setDnikalendarzowe(iloscdni+1.0);
-            nieobecnoscFacade.create(selected);
-            lista.add(selected);
-            selected = new Nieobecnosc(wpisView.getUmowa());
-            Msg.msg("Dodano nieobecnośc");
+            if (selected.getId()==null) {
+                selected.setRokod(Data.getRok(selected.getDataod()));
+                selected.setRokdo(Data.getRok(selected.getDatado()));
+                selected.setMcod(Data.getMc(selected.getDataod()));
+                selected.setMcdo(Data.getMc(selected.getDatado()));
+                LocalDate oddata = LocalDate.parse(selected.getDataod());
+                LocalDate dodata = LocalDate.parse(selected.getDatado());
+                double iloscdni = DAYS.between(oddata,dodata);
+                selected.setDnikalendarzowe(iloscdni+1.0);
+                nieobecnoscFacade.create(selected);
+                lista.add(selected);
+                selected = new Nieobecnosc(wpisView.getUmowa());
+                Msg.msg("Dodano nieobecność");
+            } else {
+                selected.setRokod(Data.getRok(selected.getDataod()));
+                selected.setRokdo(Data.getRok(selected.getDatado()));
+                selected.setMcod(Data.getMc(selected.getDataod()));
+                selected.setMcdo(Data.getMc(selected.getDatado()));
+                LocalDate oddata = LocalDate.parse(selected.getDataod());
+                LocalDate dodata = LocalDate.parse(selected.getDatado());
+                double iloscdni = DAYS.between(oddata,dodata);
+                selected.setDnikalendarzowe(iloscdni+1.0);
+                nieobecnoscFacade.edit(selected);
+                selected = new Nieobecnosc(wpisView.getUmowa());
+                Msg.msg("Edytowano nieobecność");
+            }
           } catch (Exception e) {
               Msg.msg("e", "Błąd - nie dodano nowej nieobecnosci");
           }
@@ -290,8 +304,15 @@ public class NieobecnoscView  implements Serializable {
         }
     }
             
-            
-            
+    public void edytuj(Nieobecnosc nieob) {
+        if (nieob!=null) {
+            selected = nieob;
+            naniesrodzajnieobecnosci();
+            Msg.msg("Wybrano do edycji");
+        } else {
+            Msg.msg("e","Nie można edytować nieobecności");
+        }
+    }
     public void usun(Nieobecnosc nieob) {
         if (nieob!=null) {
             List<Dzien> wzorcowe = dzienFacade.findByNrwrokuByData(nieob.getDataod(), nieob.getDatado(), wpisView.getFirma());
@@ -310,7 +331,7 @@ public class NieobecnoscView  implements Serializable {
             kalendarzmiesiacView.init();
             Msg.msg("Usunięto nieobecność. Naniesiono zmiany w kalendarzu");
         } else {
-            Msg.msg("e","Nie można usunąc nieobecnosci");
+            Msg.msg("e","Nie można usunąc nieobecności");
         }
     }
 
