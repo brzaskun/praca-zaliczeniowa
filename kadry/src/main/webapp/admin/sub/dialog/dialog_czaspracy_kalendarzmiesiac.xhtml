@@ -133,62 +133,70 @@
                             </f:facet>
                             <h:outputText value="#{itemkalendarz.typdniaString}" style="color: #{itemkalendarz.typdniaCol}"/>
                         </p:column>
-                        <p:column>
+                        <p:column style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="norma godzin"/>
                             </f:facet>
                             <h:outputText value="#{itemkalendarz.normagodzin}"/>
                         </p:column>
-                        <p:column>
+                        <p:column width="30" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="etat"/>
+                            </f:facet>
+                            <h:outputText value="#{itemkalendarz.etat1}"/>
+                            <h:outputText value="/"/>
+                            <h:outputText value="#{itemkalendarz.etat2}"/>
+                        </p:column>
+                        <p:column style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="przepracowano"/>
                             </f:facet>
                             <h:inputText size="4" value="#{itemkalendarz.przepracowano}" style="color: #{itemkalendarz.kod ne null and itemkalendarz.kod eq '777' and itemkalendarz.przepracowano ne 0.0 ?'#cc8100':'initial'};"/>
                         </p:column>
                         
-                        <p:column>
+                        <p:column style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="kod"/>
                             </f:facet>
                             <h:inputText size="3"  value="#{itemkalendarz.kod}"/>
                         </p:column>
-                        <p:column>
+                        <p:column style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="url. platny"/>
                             </f:facet>
                             <h:inputText size="4"  value="#{itemkalendarz.urlopPlatny}" />
                         </p:column>
-                        <p:column>
+                        <p:column style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="url. bezplatny"/>
                             </f:facet>
                             <h:inputText size="4"  value="#{itemkalendarz.urlopbezplatny}"/>
                         </p:column>
-                        <p:column>
+                        <p:column style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="choroba"/>
                             </f:facet>
                             <h:inputText size="4"  value="#{itemkalendarz.wynagrodzeniezachorobe}"/>
                         </p:column>
-                        <p:column>
+                        <p:column style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="zasiłek"/>
                             </f:facet>
                             <h:inputText size="4"  value="#{itemkalendarz.zasilek}"/>
                         </p:column>
-                        <p:column>
+                        <p:column style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="pięćdziesiątki"/>
                             </f:facet>
                             <h:inputText size="4"  value="#{itemkalendarz.piecdziesiatki}"/>
                         </p:column>
-                        <p:column>
+                        <p:column style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="setki"/>
                             </f:facet>
                             <h:inputText size="4"  value="#{itemkalendarz.setki}"/>
                         </p:column>
-                        <p:column>
+                        <p:column style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="pora nocna"/>
                             </f:facet>

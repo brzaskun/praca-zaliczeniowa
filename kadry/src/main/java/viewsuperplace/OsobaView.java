@@ -309,7 +309,7 @@ public class OsobaView implements Serializable {
                             Msg.msg("Uzupełniono zmienne dotyczące wynagrodzeń");
                             String rokdlakalendarza = "2020";
                             //paski rok 2020 umowa o pracę
-                            List<Kalendarzmiesiac> generujKalendarzNowaUmowa = OsobaBean.generujKalendarzNowaUmowa(angaz, pracownik, aktywna, kalendarzmiesiacFacade, kalendarzwzorFacade, rokdlakalendarza);
+                            List<Kalendarzmiesiac> generujKalendarzNowaUmowa = OsobaBean.generujKalendarzNowaUmowa(angaz, pracownik, aktywna, kalendarzmiesiacFacade, kalendarzwzorFacade, rokdlakalendarza, etaty);
                             kalendarzmiesiacFacade.createList(generujKalendarzNowaUmowa);
                             log.add("Udane zachowanie wygenerowanych kalendarzy za 2020");
                             List<Rodzajnieobecnosci> rodzajnieobscnoscilist = rodzajnieobecnosciFacade.findAll();
@@ -345,7 +345,7 @@ public class OsobaView implements Serializable {
                             //koniec paski 2020 umowa o pracę
                             rokdlakalendarza = "2021";
                             //paski rok 2021 umowa o pracę
-                            generujKalendarzNowaUmowa = OsobaBean.generujKalendarzNowaUmowa(angaz, pracownik, aktywna, kalendarzmiesiacFacade, kalendarzwzorFacade, rokdlakalendarza);
+                            generujKalendarzNowaUmowa = OsobaBean.generujKalendarzNowaUmowa(angaz, pracownik, aktywna, kalendarzmiesiacFacade, kalendarzwzorFacade, rokdlakalendarza, etaty);
                             kalendarzmiesiacFacade.editList(generujKalendarzNowaUmowa);
                             log.add("Udane zachowanie wygenerowanych kalendarzy za 2021");
                             rok = pobierzrok(rokdlakalendarza, rokList);
@@ -366,7 +366,7 @@ public class OsobaView implements Serializable {
                             log.add("Naniesiono nieobecnosci na kalendarz");
                             rokdlakalendarza = "2022";
                             //paski rok 2022 umowa o pracę
-                            generujKalendarzNowaUmowa = OsobaBean.generujKalendarzNowaUmowa(angaz, pracownik, aktywna, kalendarzmiesiacFacade, kalendarzwzorFacade, rokdlakalendarza);
+                            generujKalendarzNowaUmowa = OsobaBean.generujKalendarzNowaUmowa(angaz, pracownik, aktywna, kalendarzmiesiacFacade, kalendarzwzorFacade, rokdlakalendarza, etaty);
                             kalendarzmiesiacFacade.editList(generujKalendarzNowaUmowa);
                             log.add("Udane zachowanie wygenerowanych kalendarzy za 2022");
                             //koniec paski 2021 umowa o pracę
@@ -391,7 +391,7 @@ public class OsobaView implements Serializable {
                             Msg.msg("Uzupełniono zmienne dotyczące wynagrodzeń pełnienie funkcji");
                             String rokdlakalendarza = "2020";
                             //paski rok 2020 umowa o pracę
-                            List<Kalendarzmiesiac> generujKalendarzNowaUmowa = OsobaBean.generujKalendarzNowaUmowa(angaz, pracownik, aktywna, kalendarzmiesiacFacade, kalendarzwzorFacade, rokdlakalendarza);
+                            List<Kalendarzmiesiac> generujKalendarzNowaUmowa = OsobaBean.generujKalendarzNowaUmowa(angaz, pracownik, aktywna, kalendarzmiesiacFacade, kalendarzwzorFacade, rokdlakalendarza, etaty);
                             kalendarzmiesiacFacade.createList(generujKalendarzNowaUmowa);
                             log.add("Udane zachowanie wygenerowanych kalendarzy za 2020 pełnienie funkcji");
                             List<Rodzajnieobecnosci> rodzajnieobscnoscilist = rodzajnieobecnosciFacade.findAll();
@@ -427,7 +427,7 @@ public class OsobaView implements Serializable {
                             //koniec paski 2020 umowa o pracę
                             rokdlakalendarza = "2021";
                             //paski rok 2021 umowa o pracę
-                            generujKalendarzNowaUmowa = OsobaBean.generujKalendarzNowaUmowa(angaz, pracownik, aktywna, kalendarzmiesiacFacade, kalendarzwzorFacade, rokdlakalendarza);
+                            generujKalendarzNowaUmowa = OsobaBean.generujKalendarzNowaUmowa(angaz, pracownik, aktywna, kalendarzmiesiacFacade, kalendarzwzorFacade, rokdlakalendarza, etaty);
                             kalendarzmiesiacFacade.editList(generujKalendarzNowaUmowa);
                             log.add("Udane zachowanie wygenerowanych kalendarzy za 2021 pełnienie funkcji");
                             rok = pobierzrok(rokdlakalendarza, rokList);
@@ -448,7 +448,7 @@ public class OsobaView implements Serializable {
                             log.add("Naniesiono nieobecnosci na kalendarz");
                             rokdlakalendarza = "2022";
                             //paski rok 2022 umowa o pracę
-                            generujKalendarzNowaUmowa = OsobaBean.generujKalendarzNowaUmowa(angaz, pracownik, aktywna, kalendarzmiesiacFacade, kalendarzwzorFacade, rokdlakalendarza);
+                            generujKalendarzNowaUmowa = OsobaBean.generujKalendarzNowaUmowa(angaz, pracownik, aktywna, kalendarzmiesiacFacade, kalendarzwzorFacade, rokdlakalendarza, etaty);
                             kalendarzmiesiacFacade.editList(generujKalendarzNowaUmowa);
                             log.add("Udane zachowanie wygenerowanych kalendarzy za 2022 pełnienie funkcji");
                             //koniec paski 2021 umowa o pracę
@@ -465,7 +465,7 @@ public class OsobaView implements Serializable {
                                 Msg.msg("Pobrano umowy zlecenia");
                                 String rokdlakalendarza = "2020";
                                 //paski rok 2020 umowa zlecenia
-                                List<Kalendarzmiesiac> generujKalendarzNowaUmowa = OsobaBean.generujKalendarzNowaUmowa(angaz, pracownik, aktywna, kalendarzmiesiacFacade, kalendarzwzorFacade, rokdlakalendarza);
+                                List<Kalendarzmiesiac> generujKalendarzNowaUmowa = OsobaBean.generujKalendarzNowaUmowa(angaz, pracownik, aktywna, kalendarzmiesiacFacade, kalendarzwzorFacade, rokdlakalendarza, null);
                                 kalendarzmiesiacFacade.createList(generujKalendarzNowaUmowa);
                                 log.add("Udane zachowanie wygenerowanych kalendarzy za 2020 umowa zlecenia");
                                 List<Rok> rokList = osoba.getOsoFirSerial().getRokList();
@@ -507,7 +507,7 @@ public class OsobaView implements Serializable {
                                 //koniec paski 2020 umowa zlecenia
                                 rokdlakalendarza = "2021";
                                 //paski rok 2021 umowa zlecenia
-                                generujKalendarzNowaUmowa = OsobaBean.generujKalendarzNowaUmowa(angaz, pracownik, aktywna, kalendarzmiesiacFacade, kalendarzwzorFacade, rokdlakalendarza);
+                                generujKalendarzNowaUmowa = OsobaBean.generujKalendarzNowaUmowa(angaz, pracownik, aktywna, kalendarzmiesiacFacade, kalendarzwzorFacade, rokdlakalendarza, null);
                                 kalendarzmiesiacFacade.createList(generujKalendarzNowaUmowa); 
                                 log.add("Udane zachowanie wygenerowanych kalendarzy za 2021 umowa zlecenia");
                                rok = pobierzrok(rokdlakalendarza, rokList);
@@ -524,7 +524,7 @@ public class OsobaView implements Serializable {
                                 }
                                 rokdlakalendarza = "2022";
                                 //kalendarz rok 2022 umowa o zlecenie
-                                generujKalendarzNowaUmowa = OsobaBean.generujKalendarzNowaUmowa(angaz, pracownik, aktywna, kalendarzmiesiacFacade, kalendarzwzorFacade, rokdlakalendarza);
+                                generujKalendarzNowaUmowa = OsobaBean.generujKalendarzNowaUmowa(angaz, pracownik, aktywna, kalendarzmiesiacFacade, kalendarzwzorFacade, rokdlakalendarza, null);
                                 kalendarzmiesiacFacade.editList(generujKalendarzNowaUmowa);
                                 log.add("Udane zachowanie wygenerowanych kalendarzy za 2022");
                                 //koniec paski 2021 umowa zlecenia

@@ -274,7 +274,7 @@ public class UmowaView  implements Serializable {
                             kal.setRok(rok);
                             kal.setMc(mc);
                             kal.setUmowa(wpisView.getUmowa());
-                            kal.ganerujdnizwzrocowego(znaleziono, dzienod);
+                            kal.ganerujdnizwzrocowego(znaleziono, dzienod, wpisView.getUmowa().getEtatList());
                             kalendarzmiesiacFacade.create(kal);
                             dzienod = null;
                         } else {

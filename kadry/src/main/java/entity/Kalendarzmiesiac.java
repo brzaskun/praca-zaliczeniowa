@@ -5,6 +5,7 @@
  */
 package entity;
 
+import beanstesty.DataBean;
 import comparator.Dziencomparator;
 import dao.SwiadczeniekodzusFacade;
 import data.Data;
@@ -45,6 +46,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Kalendarzmiesiac.findByMc", query = "SELECT k FROM Kalendarzmiesiac k WHERE k.mc = :mc"),
     @NamedQuery(name = "Kalendarzmiesiac.findByRokMcUmowa", query = "SELECT k FROM Kalendarzmiesiac k WHERE k.mc = :mc AND k.rok = :rok AND k.umowa=:umowa"),
     @NamedQuery(name = "Kalendarzmiesiac.findByRokUmowa", query = "SELECT k FROM Kalendarzmiesiac k WHERE k.rok = :rok AND k.umowa=:umowa"),
+    @NamedQuery(name = "Kalendarzmiesiac.findByUmowa", query = "SELECT k FROM Kalendarzmiesiac k WHERE k.umowa=:umowa"),
     @NamedQuery(name = "Kalendarzmiesiac.findByFirmaRokMc", query = "SELECT k FROM Kalendarzmiesiac k WHERE k.mc = :mc AND k.rok = :rok AND k.umowa.angaz.firma=:firma"),
     @NamedQuery(name = "Kalendarzmiesiac.findByFirmaRokMcPraca", query = "SELECT k FROM Kalendarzmiesiac k WHERE k.mc = :mc AND k.rok = :rok AND k.umowa.angaz.firma=:firma AND k.umowa.umowakodzus.praca = TRUE"),
     @NamedQuery(name = "Kalendarzmiesiac.findByFirmaRokMcZlecenie", query = "SELECT k FROM Kalendarzmiesiac k WHERE k.mc = :mc AND k.rok = :rok AND k.umowa.angaz.firma=:firma AND k.umowa.umowakodzus.zlecenie = TRUE  AND k.umowa.angaz.pracownik.nierezydent = FALSE"),
@@ -533,18 +535,34 @@ private static final long serialVersionUID = 1L;
         }
     }
     
-    public void ganerujdnizwzrocowego(Kalendarzwzor kalendarzwzor, Integer dzienstart) {
+    public void ganerujdnizwzrocowego(Kalendarzwzor kalendarzwzor, Integer dzienstart, List<EtatPrac> etaty) {
         int start = dzienstart!=null? dzienstart:0;
         List<Dzien> nowedni = new ArrayList<>();
         for (int i = 0; i < kalendarzwzor.getDzienList().size(); i++) {
             Dzien dzienwzor = kalendarzwzor.getDzienList().get(i);
-            Dzien dzien = new Dzien(dzienwzor, this);
+            EtatPrac etat = pobierzetat(etaty, dzienwzor);
+            Dzien dzien = new Dzien(dzienwzor, this, etat);
             if (dzien.getNrdnia()<start) {
                 dzien.setPrzepracowano(0);
             }
             nowedni.add(dzien);
         }
         this.dzienList = nowedni;
+    }
+    
+    private EtatPrac pobierzetat(List<EtatPrac> etaty, Dzien dzienwzor) {
+        String datadnia = dzienwzor.getDatastring();
+        EtatPrac zwrot = null;
+        if (etaty!=null) {
+            for (EtatPrac e : etaty) {
+                boolean czysiemiesci = DataBean.czysiemiescidzien(datadnia, e.getDataod(), e.getDatado());
+                if (czysiemiesci) {
+                    zwrot = e;
+                    break;
+                }
+            }
+        }
+        return zwrot;
     }
 
     public String getNazwiskoImie() {
@@ -753,6 +771,8 @@ private static final long serialVersionUID = 1L;
     public boolean isNierezydent() {
         return this.getUmowa().getAngaz().getPracownik().isNierezydent();
     }
+
+    
        
         
 }

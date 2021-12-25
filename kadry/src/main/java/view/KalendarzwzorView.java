@@ -176,7 +176,7 @@ public class KalendarzwzorView  implements Serializable {
                         kalendarzmiesiac.setRok(selected.getRok());
                         kalendarzmiesiac.setMc(selected.getMc());
                         kalendarzmiesiac.setUmowa(u);
-                        kalendarzmiesiac.ganerujdnizwzrocowego(znaleziono, null);
+                        kalendarzmiesiac.ganerujdnizwzrocowego(znaleziono, null, u.getEtatList());
                     } 
                 }
             }

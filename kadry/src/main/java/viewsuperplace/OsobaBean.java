@@ -222,7 +222,7 @@ public class OsobaBean {
         return zwrot;
     }
     
-    static List<Kalendarzmiesiac> generujKalendarzNowaUmowa(Angaz angaz, Pracownik pracownik, Umowa umowa, KalendarzmiesiacFacade kalendarzmiesiacFacade, KalendarzwzorFacade kalendarzwzorFacade, String rok) {
+    static List<Kalendarzmiesiac> generujKalendarzNowaUmowa(Angaz angaz, Pracownik pracownik, Umowa umowa, KalendarzmiesiacFacade kalendarzmiesiacFacade, KalendarzwzorFacade kalendarzwzorFacade, String rok, List<EtatPrac> etaty) {
         List<Kalendarzmiesiac> zwrot = new ArrayList<>();
         if (angaz!=null && pracownik!=null && umowa!=null) {
             //Integer rokodumowy = Integer.parseInt(Data.getRok(umowa.getDataod()));
@@ -247,7 +247,7 @@ public class OsobaBean {
                     if (kalmiesiac==null) {
                         Kalendarzwzor pobranywzorcowy = kalendarzwzorFacade.findByFirmaRokMc(kal.getUmowa().getAngaz().getFirma(), kal.getRok(), mce);
                         if (pobranywzorcowy!=null) {
-                            kal.ganerujdnizwzrocowego(pobranywzorcowy, dzienod);
+                            kal.ganerujdnizwzrocowego(pobranywzorcowy, dzienod, etaty);
                             zwrot.add(kal);
                             dzienod = 1;
                         } else {

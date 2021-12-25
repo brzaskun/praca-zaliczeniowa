@@ -36,6 +36,24 @@ public class DataBean {
         return zwrot;
     }
     
+    public static boolean czysiemiescidzien(String databadana, String datagranicznaod, String datagranicznado) {
+        boolean zwrot = false;
+        //czy data poczatkowa zmiennej jest starsza od daty koncowej kalendarza
+        if (datagranicznado==null) {
+            boolean czyjestpopoczatku = Data.czyjestpo(datagranicznaod, databadana);
+            if (czyjestpopoczatku) {
+                zwrot = true;
+            }
+        } else {
+            boolean czyjestprzedkoncem = Data.czyjestprzed(datagranicznado, databadana);
+            boolean czyjestpopoczatku = Data.czyjestpo(datagranicznaod, databadana);
+            if (czyjestprzedkoncem&&czyjestpopoczatku) {
+                zwrot = true;
+            }
+        }
+        return zwrot;
+    }
+    
     public static int dataod(String data, String rok, String mc) {
         String dataod = Data.pierwszyDzien(rok, mc);
         if (data!=null&&!data.equals("")&&Data.getRok(data).equals(rok)&&Data.getMc(data).equals(mc)) {

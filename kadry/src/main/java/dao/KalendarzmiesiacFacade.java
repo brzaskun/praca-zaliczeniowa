@@ -17,6 +17,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
+import z.Z;
 
 /**
  *
@@ -60,15 +61,15 @@ public class KalendarzmiesiacFacade  extends DAO implements Serializable {
         entity.setSetka(0.0);
         entity.setPoranocna(0.0);
         for (Dzien p : entity.getDzienList()) {
-            entity.setNorma(entity.getNorma()+p.getNormagodzin());
-            entity.setPrzepracowane(entity.getPrzepracowane()+p.getPrzepracowano());
-            entity.setUrlop(entity.getUrlop()+p.getUrlopPlatny());
-            entity.setUrlopbezplatny(entity.getUrlopbezplatny()+p.getUrlopbezplatny());
-            entity.setChoroba(entity.getChoroba()+p.getWynagrodzeniezachorobe());
-            entity.setZasilek(entity.getZasilek()+p.getZasilek());
-            entity.setPiecdziesiatka(entity.getPiecdziesiatka()+p.getPiecdziesiatki());
-            entity.setSetka(entity.getSetka()+p.getSetki());
-            entity.setPoranocna(entity.getPoranocna()+p.getPoranocna());
+            entity.setNorma(Z.z(entity.getNorma()+p.getNormagodzin()));
+            entity.setPrzepracowane(Z.z(entity.getPrzepracowane()+p.getPrzepracowano()));
+            entity.setUrlop(Z.z(entity.getUrlop()+p.getUrlopPlatny()));
+            entity.setUrlopbezplatny(Z.z(entity.getUrlopbezplatny()+p.getUrlopbezplatny()));
+            entity.setChoroba(Z.z(entity.getChoroba()+p.getWynagrodzeniezachorobe()));
+            entity.setZasilek(Z.z(entity.getZasilek()+p.getZasilek()));
+            entity.setPiecdziesiatka(Z.z(entity.getPiecdziesiatka()+p.getPiecdziesiatki()));
+            entity.setSetka(Z.z(entity.getSetka()+p.getSetki()));
+            entity.setPoranocna(Z.z(entity.getPoranocna()+p.getPoranocna()));
         }
         super.edit(entity);
     }
@@ -84,15 +85,15 @@ public class KalendarzmiesiacFacade  extends DAO implements Serializable {
         entity.setSetka(0.0);
         entity.setPoranocna(0.0);
         for (Dzien p : entity.getDzienList()) {
-            entity.setNorma(entity.getNorma()+p.getNormagodzin());
-            entity.setPrzepracowane(entity.getPrzepracowane()+p.getPrzepracowano());
-            entity.setUrlop(entity.getUrlop()+p.getUrlopPlatny());
-            entity.setUrlopbezplatny(entity.getUrlopbezplatny()+p.getUrlopbezplatny());
-            entity.setChoroba(entity.getChoroba()+p.getWynagrodzeniezachorobe());
-            entity.setZasilek(entity.getZasilek()+p.getZasilek());
-            entity.setPiecdziesiatka(entity.getPiecdziesiatka()+p.getPiecdziesiatki());
-            entity.setSetka(entity.getSetka()+p.getSetki());
-            entity.setPoranocna(entity.getPoranocna()+p.getPoranocna());
+            entity.setNorma(Z.z(entity.getNorma()+p.getNormagodzin()));
+            entity.setPrzepracowane(Z.z(entity.getPrzepracowane()+p.getPrzepracowano()));
+            entity.setUrlop(Z.z(entity.getUrlop()+p.getUrlopPlatny()));
+            entity.setUrlopbezplatny(Z.z(entity.getUrlopbezplatny()+p.getUrlopbezplatny()));
+            entity.setChoroba(Z.z(entity.getChoroba()+p.getWynagrodzeniezachorobe()));
+            entity.setZasilek(Z.z(entity.getZasilek()+p.getZasilek()));
+            entity.setPiecdziesiatka(Z.z(entity.getPiecdziesiatka()+p.getPiecdziesiatki()));
+            entity.setSetka(Z.z(entity.getSetka()+p.getSetki()));
+            entity.setPoranocna(Z.z(entity.getPoranocna()+p.getPoranocna()));
         }
         super.create(entity);
     }
@@ -109,6 +110,14 @@ public class KalendarzmiesiacFacade  extends DAO implements Serializable {
         List<Kalendarzmiesiac> zwrot = new ArrayList<>();
         try {
             zwrot = getEntityManager().createNamedQuery("Kalendarzmiesiac.findByRokUmowa").setParameter("rok", rok).setParameter("umowa", umowa).getResultList();
+        } catch (Exception e) {}
+        return zwrot;
+    }
+    
+    public List<Kalendarzmiesiac> findByUmowa(Umowa umowa) {
+        List<Kalendarzmiesiac> zwrot = new ArrayList<>();
+        try {
+            zwrot = getEntityManager().createNamedQuery("Kalendarzmiesiac.findByUmowa").setParameter("umowa", umowa).getResultList();
         } catch (Exception e) {}
         return zwrot;
     }

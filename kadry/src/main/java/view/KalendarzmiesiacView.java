@@ -156,7 +156,7 @@ public class KalendarzmiesiacView  implements Serializable {
                 } else {
                     Kalendarzwzor znaleziono = kalendarzwzorFacade.findByFirmaRokMc(selected.getUmowa().getAngaz().getFirma(), selected.getRok(), selected.getMc());
                     if (znaleziono!=null) {
-                        selected.ganerujdnizwzrocowego(znaleziono, null);
+                        selected.ganerujdnizwzrocowego(znaleziono, null, selected.getUmowa().getEtatList());
                         Msg.msg("Pobrano dane z kalendarza wzorcowego z bazy danych");
                     } else {
                         KalendarzmiesiacBean.create(selected);
@@ -187,7 +187,7 @@ public class KalendarzmiesiacView  implements Serializable {
                     if (kalmiesiac==null) {
                         Kalendarzwzor znaleziono = kalendarzwzorFacade.findByFirmaRokMc(kal.getUmowa().getAngaz().getFirma(), kal.getRok(), mc);
                         if (znaleziono!=null) {
-                            kal.ganerujdnizwzrocowego(znaleziono, dzienod);
+                            kal.ganerujdnizwzrocowego(znaleziono, dzienod, selected.getUmowa().getEtatList());
                             kalendarzmiesiacFacade.create(kal);
                             dzienod = null;
                             kalendarze.add(kal);

@@ -30,7 +30,7 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                 <h:form id="EtatListForm">
                     <p:panel header="Wykaz historii etatów"  rendered="#{umowaView.rodzajumowy eq '1'}">
                         <p:dataTable id="datalist" value="#{etatView.lista}" var="itemetat"
-                                     selectionMode="single" selection="#{etatView.selectedlista}"
+                                     selectionMode="single" selection="#{etatView.selectedlista}" sortBy="#{itemetat.dataod}"
                                      rowKey="#{itemetat.id}" emptyMessage="Składnik nie posiada zdefiniowanych zmiennych"
                                      style="height: 200px; overflow-y: scroll;width: 800px;"
                                      >
@@ -47,7 +47,7 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                                 </f:facet>
                                 <h:outputText value="#{itemetat.umowa.nrkolejny}"/>
                             </p:column>
-                            <p:column>
+                            <p:column sortBy="#{itemetat.dataod}" sortOrder="desc">
                                 <f:facet name="header">
                                     <h:outputText value="data od"/>
                                 </f:facet>

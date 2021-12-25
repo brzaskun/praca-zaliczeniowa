@@ -20,8 +20,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import z.Z;
 
 /**
  *
@@ -57,6 +59,8 @@ public class Dzien implements Serializable {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "normagodzin")
     private double normagodzin;
+    @Column(name = "normagodzinwzorcowa")
+    private double normagodzinwzorcowa;
     @Column(name = "przepracowano")
     private double przepracowano;
     @Column(name = "piecdziesiatki")
@@ -71,6 +75,14 @@ public class Dzien implements Serializable {
     //4ekwiwalentzaswieto
     @Column(name = "poranocna")
     private double poranocna;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "etat1")
+    private int etat1;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "etat2")
+    private int etat2;
     @Size(max = 5)
     @Column(name = "kod")
     private String kod;
@@ -163,11 +175,19 @@ public class Dzien implements Serializable {
     }
 
 
-    public Dzien(Dzien dzienwzor, Kalendarzmiesiac kalendarzmiesiac) {
+    public Dzien(Dzien dzienwzor, Kalendarzmiesiac kalendarzmiesiac, EtatPrac etat) {
         this.nrdnia = dzienwzor.nrdnia;
         this.datastring = dzienwzor.datastring;
         this.typdnia = dzienwzor.typdnia;
         this.normagodzin = dzienwzor.normagodzin;
+        this.normagodzinwzorcowa = dzienwzor.normagodzin;
+        this.etat1 = 1;
+        this.etat2 = 1;
+        if (etat!=null) {
+            this.etat1 = etat.getEtat1();
+            this.etat2 = etat.getEtat2();
+            this.normagodzin = Z.z(this.normagodzinwzorcowa*this.etat1/this.etat2);
+        }
         //tu nie ma bledu bo inczaej pracownik ma zero.za kladamy ze pracowal
         this.przepracowano = dzienwzor.normagodzin;
         this.piecdziesiatki = dzienwzor.piecdziesiatki;
@@ -267,6 +287,30 @@ public class Dzien implements Serializable {
 
     public void setDatastring(String datastring) {
         this.datastring = datastring;
+    }
+
+    public double getNormagodzinwzorcowa() {
+        return normagodzinwzorcowa;
+    }
+
+    public void setNormagodzinwzorcowa(double normagodzinwzorcowa) {
+        this.normagodzinwzorcowa = normagodzinwzorcowa;
+    }
+
+    public int getEtat1() {
+        return etat1;
+    }
+
+    public void setEtat1(int etat1) {
+        this.etat1 = etat1;
+    }
+
+    public int getEtat2() {
+        return etat2;
+    }
+
+    public void setEtat2(int etat2) {
+        this.etat2 = etat2;
     }
 
 

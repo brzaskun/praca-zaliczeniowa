@@ -6,6 +6,7 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -140,31 +141,51 @@ public class EtatPrac implements Serializable {
     public String getEtat() {
         return this.etat1+"/"+this.etat2;
     }
-    
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        int hash = 3;
+        hash = 71 * hash + Objects.hashCode(this.id);
+        hash = 71 * hash + Objects.hashCode(this.dataod);
+        hash = 71 * hash + Objects.hashCode(this.datado);
+        hash = 71 * hash + Objects.hashCode(this.umowa);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof EtatPrac)) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
             return false;
         }
-        EtatPrac other = (EtatPrac) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final EtatPrac other = (EtatPrac) obj;
+        if (!Objects.equals(this.dataod, other.dataod)) {
+            return false;
+        }
+        if (!Objects.equals(this.datado, other.datado)) {
+            return false;
+        }
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        if (!Objects.equals(this.umowa, other.umowa)) {
             return false;
         }
         return true;
     }
 
+   
+
     @Override
     public String toString() {
-        return "entity.EtatPrac[ id=" + id + " ]";
+        return "EtatPrac{" + "dataod=" + dataod + ", datado=" + datado + ", etat1=" + etat1 + ", etat2=" + etat2 + ", umowa=" + umowa.getNrkolejny() + '}';
     }
     
+
+   
 }
