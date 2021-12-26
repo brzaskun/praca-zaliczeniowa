@@ -103,7 +103,7 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                             </f:facet>
                              <h:outputText value="#{historiaView.historycznykodumowy(osobylistdata)}" style="#{historiaView.zwrotkolor(osobylistdata)}"/>
                         </p:column>
-                        <p:column width="70" style="text-align: center;">
+                        <p:column width="70" style="text-align: center;" sortBy="#{osobylistdata.osoDataZatr}">
                             <f:facet name="header">
                                 <h:outputText value="zatr."/>
                             </f:facet>

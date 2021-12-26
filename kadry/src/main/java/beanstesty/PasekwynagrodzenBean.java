@@ -208,7 +208,7 @@ public class PasekwynagrodzenBean {
         if (czyodlicoznokwotewolna==false) {
              if (definicjalistaplac.getRodzajlistyplac().getSymbol().equals("ZA")) {
                 PasekwynagrodzenBean.ulgapodatkowaDB(pasek, stawkipodatkowe, true);
-             } else if (definicjalistaplac.getRodzajlistyplac().getSymbol().equals("UZ")) {
+             } else if (definicjalistaplac.getRodzajlistyplac().getSymbol().equals("UZ")||definicjalistaplac.getRodzajlistyplac().getSymbol().equals("WZ")||definicjalistaplac.getRodzajlistyplac().getSymbol().equals("UD")) {
                  PasekwynagrodzenBean.ulgapodatkowaDB(pasek, stawkipodatkowe, false);
              }
         }

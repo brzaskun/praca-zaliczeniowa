@@ -51,6 +51,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import kadryiplace.WynKodTyt;
 import msg.Msg;
+import pdf.PdfUmowaoPrace;
 
 /**
  *
@@ -544,7 +545,7 @@ public class UmowaView  implements Serializable {
     
     public void drukujumoweselected() {
         if (selected!=null) {
-            
+            PdfUmowaoPrace.drukuj(selected);
         } else {
             Msg.msg("e","Nie wybrano umowy");
         }

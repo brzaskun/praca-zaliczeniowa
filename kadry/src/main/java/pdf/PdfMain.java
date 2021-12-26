@@ -245,6 +245,19 @@ public class PdfMain {
         }
    }
     
+    public static void dodajElementListy(Document document, String opis, String tresc, Font font) {
+        try {
+            Paragraph paragraph = new Paragraph(new Phrase(opis, font));
+            paragraph.setFirstLineIndent(20);
+            document.add(paragraph);
+            paragraph = new Paragraph(new Phrase(tresc, font));
+            paragraph.setFirstLineIndent(30);
+            document.add(paragraph);
+        } catch (DocumentException ex) {
+            E.e(ex);
+        }
+    }
+    
 //    public static void main(String[] args) {
 //        try {
 //             ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();

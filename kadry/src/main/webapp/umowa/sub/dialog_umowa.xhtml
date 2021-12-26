@@ -129,7 +129,7 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                     <p:row>
                         <p:column colspan="6">
                             <h:outputText value="7) dopuszczalna liczba godzin, których przekroczenie uprawnia pracownika do dodatku z art. 151(1)§1 KP"/>
-                            <p:inputText value="#{umowaView.selected.terminrozpoczeciapracy}" size="10"/>
+                            <p:inputText value="#{umowaView.selected.dopuszczalnailoscgodzin}" size="10"/>
                         </p:column>
                     </p:row>
                     <p:row>
@@ -149,8 +149,10 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                         </p:column>
                     </p:row>
                 </p:panelGrid>
-                <p:panelGrid columns="1" style="margin-top: 10px;">
-                    <p:commandButton value="drukuj" actionListener="#{umowaView.drukujumoweselected}"/>
+            </h:form>
+            <h:form>
+                 <p:panelGrid columns="1" style="margin-top: 10px;">
+                    <p:commandButton value="drukuj" actionListener="#{umowaView.drukujumoweselected()}"/>
                 </p:panelGrid>
             </h:form>
         </p:outputPanel>

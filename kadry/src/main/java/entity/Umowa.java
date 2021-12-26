@@ -245,6 +245,10 @@ public class Umowa implements Serializable {
     public Angaz getAngaz() {
         return angaz;
     }
+    
+    public Pracownik getPracownik() {
+        return this.angaz.getPracownik();
+    }
 
     public void setAngaz(Angaz angaz) {
         this.angaz = angaz;
@@ -834,6 +838,17 @@ public class Umowa implements Serializable {
         }
         return zwrot;
     }
+    
+    public String pobierzwynagrodzenieString() {
+        String zwrot = "";
+        if (this.skladnikwynagrodzeniaList!=null) {
+            for (Skladnikwynagrodzenia p : this.skladnikwynagrodzeniaList) {
+                zwrot = zwrot+p.getRodzajwynagrodzenia().getOpispelny()+" ";
+                zwrot = zwrot+pobierzkwoteString(p.getZmiennawynagrodzeniaList());
+            }
+        }
+        return zwrot;
+    }
 
     private String pobierzkwoteString(List<Zmiennawynagrodzenia> zmiennawynagrodzeniaList, String rok, String mc) {
         String zwrot = "";
@@ -848,6 +863,20 @@ public class Umowa implements Serializable {
                     zwrot = zwrot+f.F.curr(p.getKwota());
                     break;
                 }
+            }
+        }
+        return zwrot;
+    }
+    
+    private String pobierzkwoteString(List<Zmiennawynagrodzenia> zmiennawynagrodzeniaList) {
+        String zwrot = "";
+        if (zmiennawynagrodzeniaList!=null) {
+            for (Zmiennawynagrodzenia p : zmiennawynagrodzeniaList) {
+                String dataod1 = p.getDataod();
+                String datado1 = p.getDatado();
+                zwrot = zwrot+p.getNazwa()+" ";
+                zwrot = zwrot+f.F.curr(p.getKwota());
+                break;
             }
         }
         return zwrot;
@@ -923,6 +952,22 @@ public class Umowa implements Serializable {
             }
         }
         
+        return zwrot;
+    }
+
+    public String getEtat() {
+        String zwrot = "pełny etat";
+        if (this.etatList!=null&&this.etatList.size()>0) {
+            EtatPrac e = etatList.get(0);
+            switch (e.getEtat()){
+                case "1/1":
+                    zwrot = "pełny etat";
+                    break;
+                default:
+                    zwrot = e.getEtat()+" etatu";
+                    break;
+            }
+        }
         return zwrot;
     }
 }
