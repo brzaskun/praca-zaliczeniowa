@@ -194,7 +194,11 @@ public class Nieobecnosc implements Serializable {
 
     @Override
     public String toString() {
-        return "Nieobecnosc{" + "dataod=" + dataod + ", datado=" + datado + ", swiadczeniekodzus=" + swiadczeniekodzus.getKod() + ", umowa=" + umowa.getAngaz().getPracownik().getNazwiskoImie() + ", opis=" + opis + ", uzasadnienie=" + uzasadnienie + ", dnirobocze=" + dniroboczenieobecnosci + ", importowana=" + importowana + ", pobranaZUS=" + pobranaZUS + ", rokod=" + rokod + ", rokdo=" + rokdo + ", mcod=" + mcod + ", mcdo=" + mcdo + '}';
+        if (swiadczeniekodzus!=null) {
+            return "Nieobecnosc{" + "dataod=" + dataod + ", datado=" + datado + ", swiadczeniekodzus=" + swiadczeniekodzus.getKod() + ", umowa=" + umowa.getAngaz().getPracownik().getNazwiskoImie() + ", opis=" + opis + ", dnirobocze=" + dniroboczenieobecnosci + ", importowana=" + importowana + ", pobranaZUS=" + pobranaZUS + ", rokod=" + rokod + ", rokdo=" + rokdo + ", mcod=" + mcod + ", mcdo=" + mcdo + '}';
+        } else {
+            return "Nieobecnosc{" + "dataod=" + dataod + ", datado=" + datado + ", umowa=" + umowa.getAngaz().getPracownik().getNazwiskoImie() + ", opis=" + opis + ", dnirobocze=" + dniroboczenieobecnosci + ", importowana=" + importowana + ", pobranaZUS=" + pobranaZUS + ", rokod=" + rokod + ", rokdo=" + rokdo + ", mcod=" + mcod + ", mcdo=" + mcdo + '}';
+        }
     }
 
  

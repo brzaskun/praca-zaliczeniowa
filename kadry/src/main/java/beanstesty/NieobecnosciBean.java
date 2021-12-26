@@ -95,17 +95,38 @@ public class NieobecnosciBean {
         if (nieobecnosc.isNaniesiona() == false) {
             try {
                 //bo nanosimy tylko na 2021
-                if (nieobecnosc.getRokod().equals("2021") || nieobecnosc.getRokdo().equals("2021")) {
+                String rokbiezacy = "2020";
+                if (nieobecnosc.getRokod().equals(rokbiezacy) || nieobecnosc.getRokdo().equals(rokbiezacy)) {
                     String mcod = nieobecnosc.getMcod();
-                    if (nieobecnosc.getRokod().equals("2020")) {
+                    if (nieobecnosc.getRokod().equals("2019")) {
                         mcod = "01";
                     }
                     String mcdo = nieobecnosc.getMcdo();
                     for (String mc : Mce.getMceListS()) {
                         if (Data.jestrownywiekszy(mc, mcod) && Data.jestrownywiekszy(mcdo, mc)) {
-                            Kalendarzmiesiac znaleziony = kalendarzmiesiacFacade.findByRokMcUmowa(umowa, "2021", mc);
+                            Kalendarzmiesiac znaleziony = kalendarzmiesiacFacade.findByRokMcUmowa(umowa, rokbiezacy, mc);
                             if (znaleziony != null) {
-                                if (nieobecnosc.getRokod().equals("2021") || nieobecnosc.getRokdo().equals("2021")) {
+                                if (nieobecnosc.getRokod().equals(rokbiezacy) || nieobecnosc.getRokdo().equals(rokbiezacy)) {
+                                    znaleziony.naniesnieobecnosc(nieobecnosc);
+                                }
+                                nieobecnoscFacade.edit(nieobecnosc);
+                                kalendarzmiesiacFacade.edit(znaleziony);
+                                czynaniesiono = true;
+                            } else {
+                                Msg.msg("e", "Brak kalendarza pracownika za miesiąc rozliczeniowy. Nie można nanieść nieobecności!");
+                            }
+                        }
+                    }
+                }
+                rokbiezacy = "2021";
+                if (nieobecnosc.getRokod().equals(rokbiezacy)) {
+                    String mcod = nieobecnosc.getMcod();
+                    String mcdo = nieobecnosc.getMcdo();
+                    for (String mc : Mce.getMceListS()) {
+                        if (Data.jestrownywiekszy(mc, mcod) && Data.jestrownywiekszy(mcdo, mc)) {
+                            Kalendarzmiesiac znaleziony = kalendarzmiesiacFacade.findByRokMcUmowa(umowa, rokbiezacy, mc);
+                            if (znaleziony != null) {
+                                if (nieobecnosc.getRokod().equals(rokbiezacy) || nieobecnosc.getRokdo().equals(rokbiezacy)) {
                                     znaleziony.naniesnieobecnosc(nieobecnosc);
                                 }
                                 nieobecnoscFacade.edit(nieobecnosc);

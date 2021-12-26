@@ -47,8 +47,8 @@ public class Skladnikwynagrodzenia implements Serializable {
     @Column(name = "id")
     private Integer id;
      //skladnik chorobowy
-    @Column(name = "wkp_serial")
-    private Integer wkp_serial;
+    @Column(name = "wks_serial")
+    private Integer wks_serial;
     @JoinColumn(name = "rodzajwynagrodzenia", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Rodzajwynagrodzenia rodzajwynagrodzenia;
@@ -100,6 +100,14 @@ public class Skladnikwynagrodzenia implements Serializable {
 
     public void setNaliczenieskladnikawynagrodzeniaList(List<Naliczenieskladnikawynagrodzenia> naliczenieskladnikawynagrodzeniaList) {
         this.naliczenieskladnikawynagrodzeniaList = naliczenieskladnikawynagrodzeniaList;
+    }
+
+    public Integer getWks_serial() {
+        return wks_serial;
+    }
+
+    public void setWks_serial(Integer wks_serial) {
+        this.wks_serial = wks_serial;
     }
 
     public Umowa getUmowa() {

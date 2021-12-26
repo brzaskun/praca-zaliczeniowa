@@ -143,7 +143,6 @@ public class PasekwynagrodzenView implements Serializable {
         }
         ileszczegolow = "prosta";
         symulacjabrrutto = wpisView.getRokWpisuInt()<2022?2800:3010;
-        symulacjaoblicz();
     }
     
      public void initanaliza() {
@@ -177,7 +176,6 @@ public class PasekwynagrodzenView implements Serializable {
         }
         ileszczegolow = "prosta";
         symulacjabrrutto = wpisView.getRokWpisuInt()<2022?2800:3010;
-        symulacjaoblicz();
     }
 
     public void wyborinnejumowy() {
@@ -278,7 +276,7 @@ public class PasekwynagrodzenView implements Serializable {
     @Inject
     private KalendarzwzorFacade kalendarzwzorFacade;
 
-    public void symulacjaoblicz() {
+    public void symulacjaoblicz(String rodzajumowy) {
         if (symulacjabrrutto > 0.0) {
             int i = 1;
             List<Podatki> stawkipodatkowe = podatkiFacade.findByRokUmowa(wpisView.getRokWpisu(), "P");
@@ -288,15 +286,15 @@ public class PasekwynagrodzenView implements Serializable {
                 kalendarz.setRok(wpisView.getRokWpisu());
                 kalendarz.setMc(wpisView.getMiesiacWpisu());
                 kalendarz.nanies(kalendarzwzor);
-                boolean zlecenie0praca1 = rodzajlistyplac.getSymbol().equals("WZ") ? true : false;
+                boolean zlecenie0praca1 = rodzajumowy.equals("1");
                 Umowa umowa = new Umowa();
                 umowa.setOdliczaculgepodatkowa(true);
                 umowa.setKosztyuzyskaniaprocent(100.0);
                 umowa.setChorobowe(true);
                 kalendarz.setUmowa(umowa);
-                Pasekwynagrodzen pasek = PasekwynagrodzenBean.obliczWynagrodzeniesymulacja(kalendarz, wybranalistaplac, nieobecnosckodzusFacade, stawkipodatkowe, zlecenie0praca1, symulacjabrrutto);
+                Pasekwynagrodzen pasek = PasekwynagrodzenBean.obliczWynagrodzeniesymulacja(kalendarz, stawkipodatkowe, zlecenie0praca1, symulacjabrrutto);
                 symulacjanetto = pasek.getNetto();
-                symulacjatotalcost = Z.z(pasek.getBrutto() + pasek.getKosztpracodawcy());
+                symulacjatotalcost = Z.z(pasek.getKosztpracodawcy());
             }
         }
     }

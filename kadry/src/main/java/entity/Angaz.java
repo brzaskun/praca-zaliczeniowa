@@ -5,7 +5,10 @@
  */
 package entity;
 
+import comparator.Kalendarzmiesiaccomparator;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
@@ -227,6 +230,18 @@ public class Angaz implements Serializable {
 
     public void setKartawynagrodzenList(List<Kartawynagrodzen> kartawynagrodzenList) {
         this.kartawynagrodzenList = kartawynagrodzenList;
+    }
+
+    public List<Kalendarzmiesiac> getKalendarze() {
+        List<Kalendarzmiesiac> lista = new ArrayList<>();
+        List<Umowa> umowy = this.getUmowaList();
+        if (umowy != null) {
+            for (Umowa u : umowy) {
+                lista.addAll(u.getKalendarzmiesiacList());
+            }
+        }
+        Collections.sort(lista, new Kalendarzmiesiaccomparator());
+        return lista;
     }
     
     

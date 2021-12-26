@@ -1,0 +1,204 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+
+    xmlns:bcf="http://brzaskun.com/facelets"
+xmlns:pe="http://primefaces.org/ui/extensions">
+    <p:dialog id="dialogoddelegowanie" header="Rozliczenie oddelegowania" widgetVar="dialogoddelegowanie"  style="overflow-y: scroll;"
+              resizable="false"  onShow="ustawdialog('dialogoddelegowanie','centertile',1650,800);" closeOnEscape="true" onHide="resetujdialog('dialogoddelegowanie');" 
+              fitViewport="true">
+        <p:ajax event="open" listener="#{oddelegowanieView.init()}" update="OddelegowanieForm OddelegowanieForm1 OddelegowanieForm2" global="false"/>
+        <h:form id="OddelegowanieForm">
+            <p:commandButton value="XLS" >
+                <p:dataExporter type="xls" target="OddelegowanieForm:datalist" fileName="lista"/>
+            </p:commandButton>
+            <p:dataTable id="datalist" value="#{oddelegowanieView.tabela}" var="itemodd" widgetVar="datalistodd"
+                                 selectionMode="single" selection="#{oddelegowanieView.selected}" rowIndexVar="indexodd"
+                                 rowKey="#{itemodd.hashCode()}" sortBy="#{itemodd.pracownik.nazwiskoImie}"
+                                 style="height: 300px; overflow-y: scroll; width: 1400px; margin-top: 10px; margin-left: 10px;"
+                                 emptyMessage="nie pobrano danych"
+                                 >
+                <p:column headerText="pracownik" width="150" sortBy="#{itemodd.pracownik.nazwiskoImie}" sortOrder="asc" sortPriority="1">
+                    <h:outputText value="#{itemodd.pracownik.nazwiskoImie}"/>
+                </p:column>
+                <p:column headerText="rok" width="50" style="text-align: center;" sortBy="#{itemodd.rok}" sortOrder="asc" sortPriority="2">
+                    <h:outputText value="#{itemodd.rok}"/>
+                </p:column>
+                <p:column headerText="01" style="text-align: center;">
+                    <h:outputText value="#{itemodd.o_01.liczbadni}" rendered="#{itemodd.o_01 ne null and itemodd.o_01.liczbadni gt 0}"/>
+                </p:column>
+                <p:column headerText="02" style="text-align: center;">
+                    <h:outputText value="#{itemodd.o_02.liczbadni}" rendered="#{itemodd.o_02 ne null and itemodd.o_02.liczbadni gt 0}"/>
+                </p:column>
+                <p:column headerText="03" style="text-align: center;">
+                    <h:outputText value="#{itemodd.o_03.liczbadni}" rendered="#{itemodd.o_03 ne null and itemodd.o_03.liczbadni gt 0}"/>
+                </p:column>
+                <p:column headerText="04" style="text-align: center;">
+                    <h:outputText value="#{itemodd.o_04.liczbadni}" rendered="#{itemodd.o_04 ne null and itemodd.o_04.liczbadni gt 0}"/>
+                </p:column>
+                <p:column headerText="05" style="text-align: center;">
+                    <h:outputText value="#{itemodd.o_05.liczbadni}" rendered="#{itemodd.o_05 ne null and itemodd.o_05.liczbadni gt 0}"/>
+                </p:column>
+                <p:column headerText="06" style="text-align: center;">
+                    <h:outputText value="#{itemodd.o_06.liczbadni}" rendered="#{itemodd.o_06 ne null and itemodd.o_06.liczbadni gt 0}"/>
+                </p:column>
+                <p:column headerText="07" style="text-align: center;">
+                    <h:outputText value="#{itemodd.o_07.liczbadni}" rendered="#{itemodd.o_07 ne null and itemodd.o_07.liczbadni gt 0}"/>
+                </p:column>
+                <p:column headerText="08" style="text-align: center;">
+                    <h:outputText value="#{itemodd.o_08.liczbadni}" rendered="#{itemodd.o_08 ne null and itemodd.o_08.liczbadni gt 0}"/>
+                </p:column>
+                <p:column headerText="09" style="text-align: center;">
+                    <h:outputText value="#{itemodd.o_09.liczbadni}" rendered="#{itemodd.o_09 ne null and itemodd.o_09.liczbadni gt 0}"/>
+                </p:column>
+                <p:column headerText="10" style="text-align: center;">
+                    <h:outputText value="#{itemodd.o_10.liczbadni}" rendered="#{itemodd.o_10 ne null and itemodd.o_10.liczbadni gt 0}"/>
+                </p:column>
+                <p:column headerText="11" style="text-align: center;">
+                    <h:outputText value="#{itemodd.o_11.liczbadni}" rendered="#{itemodd.o_11 ne null and itemodd.o_11.liczbadni gt 0}"/>
+                </p:column>
+                <p:column headerText="12" style="text-align: center;">
+                    <h:outputText value="#{itemodd.o_12.liczbadni}" rendered="#{itemodd.o_12 ne null and itemodd.o_12.liczbadni gt 0}"/>
+                </p:column>
+                <p:column headerText="suma" style="margin-left: 10px;">
+                    <h:outputText value="#{itemodd.suma}" style="color: #{itemodd.suma gt 182?'red':'initial'}"/>
+                </p:column>
+                <p:column headerText="przekr." width="50">
+                    <h:outputText value="#{itemodd.rokmcprzekroczenia}" rendered="#{itemodd.rokmcprzekroczenia ne null}"/>
+                </p:column>
+                <p:column headerText="pracownik" width="150">
+                    <h:outputText value="#{itemodd.pracownik.nazwiskoImie}"/>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+         <h:form id="OddelegowanieForm1">
+            <p:commandButton value="XLS" >
+                <p:dataExporter type="xls" target="OddelegowanieForm1:datalist1" fileName="lista"/>
+            </p:commandButton>
+            <p:dataTable id="datalist1" value="#{oddelegowanieView.tabela}" var="itemodd" widgetVar="datalistodd1"
+                                 selectionMode="single" selection="#{oddelegowanieView.selected1}" rowIndexVar="indexodd"
+                                 rowKey="#{itemodd.hashCode()}" sortBy="#{itemodd.pracownik.nazwiskoImie}"
+                                 style="height: 300px; overflow-y: scroll; width: 1400px; margin-top: 10px; margin-left: 10px;"
+                                 emptyMessage="nie pobrano danych"
+                                 >
+                <p:column headerText="pracownik" width="150" sortBy="#{itemodd.pracownik.nazwiskoImie}" sortOrder="asc" sortPriority="1">
+                    <h:outputText value="#{itemodd.pracownik.nazwiskoImie}"/>
+                </p:column>
+                <p:column headerText="rok" width="50" style="text-align: center;" sortBy="#{itemodd.rok}" sortOrder="asc" sortPriority="2">
+                    <h:outputText value="#{itemodd.rok}"/>
+                </p:column>
+                <p:column headerText="01" style="text-align: center;">
+                    <h:outputText value="#{itemodd.o_01.różnica}" rendered="#{itemodd.o_01 ne null and itemodd.o_01.liczbadni gt 0}"/>
+                </p:column>
+                <p:column headerText="02" style="text-align: center;">
+                    <h:outputText value="#{itemodd.o_02.różnica}" rendered="#{itemodd.o_02 ne null and itemodd.o_02.liczbadni gt 0}"/>
+                </p:column>
+                <p:column headerText="03" style="text-align: center;">
+                    <h:outputText value="#{itemodd.o_03.różnica}" rendered="#{itemodd.o_03 ne null and itemodd.o_03.liczbadni gt 0}"/>
+                </p:column>
+                <p:column headerText="04" style="text-align: center;">
+                    <h:outputText value="#{itemodd.o_04.różnica}" rendered="#{itemodd.o_04 ne null and itemodd.o_04.liczbadni gt 0}"/>
+                </p:column>
+                <p:column headerText="05" style="text-align: center;">
+                    <h:outputText value="#{itemodd.o_05.różnica}" rendered="#{itemodd.o_05 ne null and itemodd.o_05.liczbadni gt 0}"/>
+                </p:column>
+                <p:column headerText="06" style="text-align: center;">
+                    <h:outputText value="#{itemodd.o_06.różnica}" rendered="#{itemodd.o_06 ne null and itemodd.o_06.liczbadni gt 0}"/>
+                </p:column>
+                <p:column headerText="07" style="text-align: center;">
+                    <h:outputText value="#{itemodd.o_07.różnica}" rendered="#{itemodd.o_07 ne null and itemodd.o_07.liczbadni gt 0}"/>
+                </p:column>
+                <p:column headerText="08" style="text-align: center;">
+                    <h:outputText value="#{itemodd.o_08.różnica}" rendered="#{itemodd.o_08 ne null and itemodd.o_08.liczbadni gt 0}"/>
+                </p:column>
+                <p:column headerText="09" style="text-align: center;">
+                    <h:outputText value="#{itemodd.o_09.różnica}" rendered="#{itemodd.o_09 ne null and itemodd.o_09.liczbadni gt 0}"/>
+                </p:column>
+                <p:column headerText="10" style="text-align: center;">
+                    <h:outputText value="#{itemodd.o_10.różnica}" rendered="#{itemodd.o_10 ne null and itemodd.o_10.liczbadni gt 0}"/>
+                </p:column>
+                <p:column headerText="11" style="text-align: center;">
+                    <h:outputText value="#{itemodd.o_11.różnica}" rendered="#{itemodd.o_11 ne null and itemodd.o_11.liczbadni gt 0}"/>
+                </p:column>
+                <p:column headerText="12" style="text-align: center;">
+                    <h:outputText value="#{itemodd.o_12.różnica}" rendered="#{itemodd.o_12 ne null and itemodd.o_12.liczbadni gt 0}"/>
+                </p:column>
+                <p:column headerText="suma" style="margin-left: 10px;">
+                    <h:outputText value="#{itemodd.suma}" style="color: #{itemodd.suma gt 182?'red':'initial'}"/>
+                </p:column>
+                <p:column headerText="przekr." width="50">
+                    <h:outputText value="#{itemodd.rokmcprzekroczenia}" rendered="#{itemodd.rokmcprzekroczenia ne null}"/>
+                </p:column>
+                <p:column headerText="pracownik" width="150">
+                    <h:outputText value="#{itemodd.pracownik.nazwiskoImie}"/>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+         <h:form id="OddelegowanieForm2">
+            <p:commandButton value="XLS" >
+                <p:dataExporter type="xls" target="OddelegowanieForm2:datalist2" fileName="lista"/>
+            </p:commandButton>
+             <p:dataTable id="datalist2" value="#{oddelegowanieView.tabela2001}" var="itemodd" widgetVar="datalistodd2"
+                                 selectionMode="single" selection="#{oddelegowanieView.selected2}" rowIndexVar="indexodd"
+                                 rowKey="#{itemodd.hashCode()}" sortBy="#{itemodd.pracownik.nazwiskoImie}"
+                                 style="height: 300px; overflow-y: scroll; width: 1400px; margin-top: 10px; margin-left: 10px;"
+                                 emptyMessage="nie pobrano danych"
+                                 >
+                <p:column headerText="pracownik" width="150" sortBy="#{itemodd.pracownik.nazwiskoImie}" sortOrder="asc" sortPriority="1">
+                    <h:outputText value="#{itemodd.pracownik.nazwiskoImie}"/>
+                </p:column>
+                <p:column headerText="rok" width="50" style="text-align: center;" sortBy="#{itemodd.rok}" sortOrder="asc" sortPriority="2">
+                    <h:outputText value="#{itemodd.rok}"/>
+                </p:column>
+                <p:column headerText="01" style="text-align: center;">
+                    <h:outputText value="#{itemodd.o_01.różnica}" rendered="#{itemodd.o_01 ne null and itemodd.o_01.liczbadni gt 0}"/>
+                </p:column>
+                <p:column headerText="02" style="text-align: center;">
+                    <h:outputText value="#{itemodd.o_02.różnica}" rendered="#{itemodd.o_02 ne null and itemodd.o_02.liczbadni gt 0}"/>
+                </p:column>
+                <p:column headerText="03" style="text-align: center;">
+                    <h:outputText value="#{itemodd.o_03.różnica}" rendered="#{itemodd.o_03 ne null and itemodd.o_03.liczbadni gt 0}"/>
+                </p:column>
+                <p:column headerText="04" style="text-align: center;">
+                    <h:outputText value="#{itemodd.o_04.różnica}" rendered="#{itemodd.o_04 ne null and itemodd.o_04.liczbadni gt 0}"/>
+                </p:column>
+                <p:column headerText="05" style="text-align: center;">
+                    <h:outputText value="#{itemodd.o_05.różnica}" rendered="#{itemodd.o_05 ne null and itemodd.o_05.liczbadni gt 0}"/>
+                </p:column>
+                <p:column headerText="06" style="text-align: center;">
+                    <h:outputText value="#{itemodd.o_06.różnica}" rendered="#{itemodd.o_06 ne null and itemodd.o_06.liczbadni gt 0}"/>
+                </p:column>
+                <p:column headerText="07" style="text-align: center;">
+                    <h:outputText value="#{itemodd.o_07.różnica}" rendered="#{itemodd.o_07 ne null and itemodd.o_07.liczbadni gt 0}"/>
+                </p:column>
+                <p:column headerText="08" style="text-align: center;">
+                    <h:outputText value="#{itemodd.o_08.różnica}" rendered="#{itemodd.o_08 ne null and itemodd.o_08.liczbadni gt 0}"/>
+                </p:column>
+                <p:column headerText="09" style="text-align: center;">
+                    <h:outputText value="#{itemodd.o_09.różnica}" rendered="#{itemodd.o_09 ne null and itemodd.o_09.liczbadni gt 0}"/>
+                </p:column>
+                <p:column headerText="10" style="text-align: center;">
+                    <h:outputText value="#{itemodd.o_10.różnica}" rendered="#{itemodd.o_10 ne null and itemodd.o_10.liczbadni gt 0}"/>
+                </p:column>
+                <p:column headerText="11" style="text-align: center;">
+                    <h:outputText value="#{itemodd.o_11.różnica}" rendered="#{itemodd.o_11 ne null and itemodd.o_11.liczbadni gt 0}"/>
+                </p:column>
+                <p:column headerText="12" style="text-align: center;">
+                    <h:outputText value="#{itemodd.o_12.różnica}" rendered="#{itemodd.o_12 ne null and itemodd.o_12.liczbadni gt 0}"/>
+                </p:column>
+                <p:column headerText="suma" style="margin-left: 10px;">
+                    <h:outputText value="#{itemodd.suma}" style="color: #{itemodd.suma gt 182?'red':'initial'}"/>
+                </p:column>
+                <p:column headerText="przekr." width="50">
+                    <h:outputText value="#{itemodd.rokmcprzekroczenia}" rendered="#{itemodd.rokmcprzekroczenia ne null}"/>
+                </p:column>
+                <p:column headerText="pracownik" width="150">
+                    <h:outputText value="#{itemodd.pracownik.nazwiskoImie}"/>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </p:dialog>
+</ui:composition>

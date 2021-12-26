@@ -87,13 +87,13 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                         </p:column>
                          <p:column width="50" style="text-align: center;">
                             <f:facet name="header">
-                                <h:outputText value="prac/zlec"/>
+                                <h:outputText value="serial"/>
                             </f:facet>
                             <h:outputText value="#{osobylistdata.osoSerial}" style="#{historiaView.zwrotkolor(osobylistdata)}"/>
                         </p:column>
                         <p:column width="50" style="text-align: center;">
                             <f:facet name="header">
-                                <h:outputText value="serial"/>
+                                <h:outputText value="prac/zlec"/>
                             </f:facet>
                             <h:outputText value="#{osobylistdata.osoTyp eq 'P'?'Prac':'Zlec'}" style="#{historiaView.zwrotkolor(osobylistdata)}"/>
                         </p:column>

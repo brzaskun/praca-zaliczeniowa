@@ -78,6 +78,8 @@ private static final long serialVersionUID = 1L;
     private List<Pasekwynagrodzen> pasekwynagrodzenList;
     @OneToMany(mappedBy = "kalendarzmiesiac", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Dzien> dzienList;
+    @Column(name="dnioddelegowania")
+    private double dnioddelegowania;
     @Column(name="norma")
     private double norma;
     @Column(name="przepracowane")
@@ -525,6 +527,7 @@ private static final long serialVersionUID = 1L;
     public String getRokMc() {
         return rok+mc;
     }
+
     
 
     public void nanies(Kalendarzwzor kalendarzwzor) {
@@ -585,6 +588,14 @@ private static final long serialVersionUID = 1L;
         return this.getUmowa().getAngaz().getPracownik().getImie();
     }
 
+    public double getDnioddelegowania() {
+        return dnioddelegowania;
+    }
+
+    public void setDnioddelegowania(double dnioddelegowania) {
+        this.dnioddelegowania = dnioddelegowania;
+    }
+    
     public double getNorma() {
         return norma;
     }

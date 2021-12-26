@@ -7,6 +7,7 @@ package viewsuperplace;
 
 import DAOsuperplace.OsobaFacade;
 import DAOsuperplace.UrzadFacade;
+import DAOsuperplace.WynKodSklFacade;
 import beanstesty.NieobecnosciBean;
 import dao.AngazFacade;
 import dao.DefinicjalistaplacFacade;
@@ -143,6 +144,8 @@ public class OsobaView implements Serializable {
     private SkladnikPotraceniaFacade skladnikPotraceniaFacade; 
     @Inject
     private ZmiennaPotraceniaFacade zmiennaPotraceniaFacade;
+    @Inject
+    private WynKodSklFacade wynKodSklFacade;
 
     private String serial;
     

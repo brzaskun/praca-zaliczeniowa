@@ -53,7 +53,7 @@ public class PasekwynagrodzenBean {
         }
         return pasekwynagrodzen;
     }
-    public static Pasekwynagrodzen obliczWynagrodzeniesymulacja(Kalendarzmiesiac kalendarz, Definicjalistaplac wybranalistaplac, SwiadczeniekodzusFacade nieobecnosckodzusFacade, List<Podatki> stawkipodatkowe, boolean zlecenie0praca1, double kwotabrutto) {
+    public static Pasekwynagrodzen obliczWynagrodzeniesymulacja(Kalendarzmiesiac kalendarz, List<Podatki> stawkipodatkowe, boolean zlecenie0praca1, double kwotabrutto) {
         boolean umowaoprace = zlecenie0praca1;
         Pasekwynagrodzen pasek = new Pasekwynagrodzen();
         String datawyplaty = Data.ostatniDzien(kalendarz.getRok(), kalendarz.getMc());

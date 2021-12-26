@@ -251,7 +251,7 @@
             <p:outputLabel for="spinner1" value="brutto"/>
             <p:spinner id="spinner1" value="#{pasekwynagrodzenView.symulacjabrrutto}" min="50" max="10000" stepFactor="10"
                        suffix=" pln" >
-                <p:ajax event="change" global="false" partialSubmit="true" update="symulacjaform:symnetto symulacjaform:symtotal" listener="#{pasekwynagrodzenView.symulacjaoblicz()}"/>
+                <p:ajax event="change" global="false" partialSubmit="true" update="symulacjaform:symnetto symulacjaform:symtotal" listener="#{pasekwynagrodzenView.symulacjaoblicz(umowaView.rodzajumowy)}"/>
             </p:spinner>
             <p:slider for="spinner1" minValue="50" maxValue="10000" step="10" />
             <p:outputLabel for="symnetto" value="do wypłaty"/>

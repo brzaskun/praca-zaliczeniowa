@@ -374,6 +374,7 @@ public class OsobaBean {
     private static Skladnikwynagrodzenia generujskladnik(OsobaSkl wybrany, List<Rodzajwynagrodzenia> rodzajewynagrodzenia, Umowa aktywna, SkladnikWynagrodzeniaFacade skladnikWynagrodzeniaFacade, ZmiennaWynagrodzeniaFacade zmiennaWynagrodzeniaFacade) {
         Skladnikwynagrodzenia skladnik = new Skladnikwynagrodzenia();
         skladnik.setUmowa(aktywna);
+        skladnik.setWks_serial(wybrany.getOssWksSerial().getWksSerial());
         skladnik.setRodzajwynagrodzenia(pobierzrodzajwynagrodzenia(wybrany,rodzajewynagrodzenia));
         pobierzzmiennawynagrodzenia(aktywna, skladnik, wybrany, zmiennaWynagrodzeniaFacade);
         if (skladnik.getZmiennawynagrodzeniaList()==null||skladnik.getZmiennawynagrodzeniaList().isEmpty()) {
@@ -385,6 +386,7 @@ public class OsobaBean {
      public static Skladnikwynagrodzenia generujskladnikzlecenie(OsobaZlec wybrany, List<Rodzajwynagrodzenia> rodzajewynagrodzenia, Umowa aktywna, SkladnikWynagrodzeniaFacade skladnikWynagrodzeniaFacade, ZmiennaWynagrodzeniaFacade zmiennaWynagrodzeniaFacade) {
         Skladnikwynagrodzenia skladnik = new Skladnikwynagrodzenia();
         skladnik.setUmowa(aktywna);
+        skladnik.setWks_serial(wybrany.getOzlWksSerial().getWksSerial());
         skladnik.setRodzajwynagrodzenia(pobierzrodzajwynagrodzeniazlecenie(wybrany,rodzajewynagrodzenia));
         Zmiennawynagrodzenia zmiennawynagrodzenia = pobierzzmiennawynagrodzeniazlecenie(aktywna, skladnik, wybrany, zmiennaWynagrodzeniaFacade);
         skladnik.getZmiennawynagrodzeniaList().add(zmiennawynagrodzenia);
@@ -894,6 +896,7 @@ public class OsobaBean {
                     zwrot.add(n);
                 }
             } catch (Exception e){
+                System.out.println("");
             }
         }
         return zwrot;

@@ -60,6 +60,7 @@ public class KalendarzmiesiacFacade  extends DAO implements Serializable {
         entity.setPiecdziesiatka(0.0);
         entity.setSetka(0.0);
         entity.setPoranocna(0.0);
+        entity.setDnioddelegowania(0.0);
         for (Dzien p : entity.getDzienList()) {
             entity.setNorma(Z.z(entity.getNorma()+p.getNormagodzin()));
             entity.setPrzepracowane(Z.z(entity.getPrzepracowane()+p.getPrzepracowano()));
@@ -70,6 +71,9 @@ public class KalendarzmiesiacFacade  extends DAO implements Serializable {
             entity.setPiecdziesiatka(Z.z(entity.getPiecdziesiatka()+p.getPiecdziesiatki()));
             entity.setSetka(Z.z(entity.getSetka()+p.getSetki()));
             entity.setPoranocna(Z.z(entity.getPoranocna()+p.getPoranocna()));
+            if (p.getKod()!=null&&p.getKod().equals("Z")) {
+                entity.setDnioddelegowania(Z.z(entity.getDnioddelegowania()+1));
+            }
         }
         super.edit(entity);
     }
@@ -84,6 +88,7 @@ public class KalendarzmiesiacFacade  extends DAO implements Serializable {
         entity.setPiecdziesiatka(0.0);
         entity.setSetka(0.0);
         entity.setPoranocna(0.0);
+        entity.setDnioddelegowania(0.0);
         for (Dzien p : entity.getDzienList()) {
             entity.setNorma(Z.z(entity.getNorma()+p.getNormagodzin()));
             entity.setPrzepracowane(Z.z(entity.getPrzepracowane()+p.getPrzepracowano()));
@@ -94,6 +99,9 @@ public class KalendarzmiesiacFacade  extends DAO implements Serializable {
             entity.setPiecdziesiatka(Z.z(entity.getPiecdziesiatka()+p.getPiecdziesiatki()));
             entity.setSetka(Z.z(entity.getSetka()+p.getSetki()));
             entity.setPoranocna(Z.z(entity.getPoranocna()+p.getPoranocna()));
+            if (p.getKod()!=null&&p.getKod().equals("Z")) {
+                entity.setDnioddelegowania(Z.z(entity.getDnioddelegowania()+1));
+            }
         }
         super.create(entity);
     }

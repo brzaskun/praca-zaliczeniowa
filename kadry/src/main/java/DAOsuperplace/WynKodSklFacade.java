@@ -10,6 +10,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
+import kadryiplace.WynKodSkl;
 
 /**
  *
@@ -39,6 +40,15 @@ public class WynKodSklFacade extends DAO  implements Serializable {
    public WynKodSklFacade() {
         super(kadryiplace.WynKodSkl.class);
         super.em = em;
+    }
+
+    public WynKodSkl findById(int serial) {
+         WynKodSkl zwrot = null;
+        try {
+            zwrot = (WynKodSkl) getEntityManager().createNamedQuery("WynKodSkl.findByWksSerial").setParameter("wksSerial", serial).getSingleResult();
+        } catch (Exception e){}
+        return zwrot;
+        
     }
     
     
