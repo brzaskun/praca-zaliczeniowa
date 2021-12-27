@@ -28,6 +28,7 @@ public class FakturaCis {
     private String buyer_country;
     private String buyer_iso_kod;
     private String buyer_nip;
+    private String oss_procedure;
     private double stawka_vat;
     private String waluta;
     private double kurs_waluty;
@@ -55,6 +56,14 @@ public class FakturaCis {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getOss_procedure() {
+        return oss_procedure;
+    }
+
+    public void setOss_procedure(String oss_procedure) {
+        this.oss_procedure = oss_procedure;
     }
 
     public double getPodatek_vat_waluta_kontrola() {

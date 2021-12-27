@@ -296,7 +296,7 @@ public class ImportCisView  implements Serializable {
     public List<EVatwpis1> dodajewidencje(Dok dok, FakturaCis wiersz, Tabelanbp innatabela, String miesiac, String rok) {
         List<EVatwpis1> ewidencjaTransformowana = null;
         dok.setDokumentProsty(true);
-        if (wiersz.getStawka_vat()!=19.00) {
+        if (wiersz.getStawka_vat()!=19.00&&wiersz.getStawka_vat()!=20.00) {
             ewidencjaTransformowana = Collections.synchronizedList(new ArrayList<>());
             EVatwpis1 eVatwpis1 = new EVatwpis1(pobierzewidencje(wiersz,evewidencje), przeliczpln(wiersz.getCena_total_netto_waluta(), innatabela), przeliczpln(wiersz.getPodatek_vat_waluta(), innatabela), "sprz.op", miesiac, rok);
             eVatwpis1.setDok(dok);

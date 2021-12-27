@@ -35,7 +35,7 @@ public class JPK_VAT2020M_Bean {
     public static JPK.Ewidencja.SprzedazWiersz dodajwierszsprzedazy(EVatwpis1 ev, BigInteger lp, JPK.Ewidencja.SprzedazCtrl sprzedazCtrl, JPKvatwersjaEvewidencja jPKvatwersjaEvewidencja) {
         JPK.Ewidencja.SprzedazWiersz w = new JPK.Ewidencja.SprzedazWiersz();
         try {
-            w.setTypDokumentu(pobierztypdokumentu(ev));
+             w.setTypDokumentu(pobierztypdokumentu(ev));
             w.setLpSprzedazy(lp);
             w.setDataSprzedazy(Data.dataStringToXMLGregorian(ev.getDok().getDataSprz()));
             w.setDataWystawienia(Data.dataStringToXMLGregorian(ev.getDok().getDataWyst()));
@@ -46,7 +46,7 @@ public class JPK_VAT2020M_Bean {
             dodajcechydowierszaSprzedaz(w,ev);
             dodajkwotydowierszaSprzedazy(w,ev.getNetto(), ev.getVat(),sprzedazCtrl, jPKvatwersjaEvewidencja);
         } catch (Exception ex) {
-
+            System.out.println(ex);
         }
         return w;
     }
