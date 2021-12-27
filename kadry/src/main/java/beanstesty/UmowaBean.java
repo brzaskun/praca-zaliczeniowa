@@ -112,19 +112,19 @@ public class UmowaBean {
         umowa.setDatazawarcia(Data.data_yyyyMMddNull(r.getOzlDataOd()));
         umowa.setDatazdrowotne(Data.data_yyyyMMddNull(r.getOzlDataOd()));
         umowa.setLiczdourlopu(false);
-        umowa.setChorobowe(Boolean.TRUE);
-        umowa.setChorobowedobrowolne(Boolean.FALSE);
-        umowa.setEmerytalne(Boolean.TRUE);
+        umowa.setChorobowe(Boolean.FALSE);
+        umowa.setChorobowedobrowolne(r.getOzlOptSerial().getOptZusChor().equals('T'));
+        umowa.setEmerytalne(r.getOzlOptSerial().getOptZusEmer().equals('T'));
         umowa.setCzastrwania("umowa zlecenia import");
         umowa.setKosztyuzyskaniaprocent(r.getOzlKosztProc().doubleValue());
         umowa.setNfz(null);
         umowa.setOpiszawodu(r.getOzlPraca1());
-        umowa.setNieliczFGSP(Boolean.FALSE);
-        umowa.setNieliczFP(Boolean.FALSE);
-        umowa.setOdliczaculgepodatkowa(Boolean.TRUE);
-        umowa.setRentowe(Boolean.TRUE);
-        umowa.setWypadkowe(Boolean.TRUE);
-        umowa.setZdrowotne(Boolean.TRUE);
+        umowa.setNieliczFGSP(r.getOzlOptSerial().getOptZusFgsp().equals('N'));
+        umowa.setNieliczFP(r.getOzlOptSerial().getOptZusFp().equals('N'));
+        umowa.setOdliczaculgepodatkowa(Boolean.FALSE);
+        umowa.setRentowe(r.getOzlOptSerial().getOptZusRent().equals('T'));
+        umowa.setWypadkowe(r.getOzlOptSerial().getOptZusWyp().equals('T'));
+        umowa.setZdrowotne(r.getOzlOptSerial().getOptZusZdro().equals('T'));
         return umowa;
     }
 

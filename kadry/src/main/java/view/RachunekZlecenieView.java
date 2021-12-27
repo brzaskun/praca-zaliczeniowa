@@ -7,6 +7,7 @@ package view;
 
 import dao.KalendarzmiesiacFacade;
 import dao.RachunekdoumowyzleceniaFacade;
+import dao.UmowaFacade;
 import data.Data;
 import embeddable.Mce;
 import entity.Kalendarzmiesiac;
@@ -37,12 +38,15 @@ public class RachunekZlecenieView  implements Serializable {
     private KalendarzmiesiacFacade kalendarzmiesiacFacade;
     @Inject
     private RachunekdoumowyzleceniaFacade rachunekdoumowyzleceniaFacade;
+    @Inject
+    private UmowaFacade umowaFacade;
     
     
 
     public void init() {
        umowabiezaca = wpisView.getUmowa();
        if (umowabiezaca!=null && umowabiezaca.getUmowakodzus().isZlecenie()) {
+        umowabiezaca = umowaFacade.findById(umowabiezaca.getId());
         String datado = umowabiezaca.getDatado();
         trzebazrobicrachunek = false;
         rachunekdoumowyzlecenia = rachunekdoumowyzleceniaFacade.findByRokMcUmowa(wpisView.getRokWpisu(), wpisView.getMiesiacWpisu(), umowabiezaca);

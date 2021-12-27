@@ -449,31 +449,45 @@ public class PasekwynagrodzenBean {
     }
 
     private static void pracownikemerytalna(Pasekwynagrodzen pasek) {
-        pasek.setPracemerytalne(Z.z(pasek.getPodstawaskladkizus()*0.0976));
+        if (pasek.getKalendarzmiesiac().getUmowa().isEmerytalne()) {
+            pasek.setPracemerytalne(Z.z(pasek.getPodstawaskladkizus()*0.0976));
+        }
     }
     
     private static void emerytalna(Pasekwynagrodzen pasek) {
-        pasek.setEmerytalne(Z.z(pasek.getPodstawaskladkizus()*0.0976));
+        if (pasek.getKalendarzmiesiac().getUmowa().isEmerytalne()) {
+            pasek.setEmerytalne(Z.z(pasek.getPodstawaskladkizus()*0.0976));
+        }
     }
 
     private static void pracownikrentowa(Pasekwynagrodzen pasek) {
-        pasek.setPracrentowe(Z.z(pasek.getPodstawaskladkizus()*0.015));
+        if (pasek.getKalendarzmiesiac().getUmowa().isRentowe()) {
+            pasek.setPracrentowe(Z.z(pasek.getPodstawaskladkizus()*0.015));
+        }
     }
     
     private static void rentowa(Pasekwynagrodzen pasek) {
-        pasek.setRentowe(Z.z(pasek.getPodstawaskladkizus()*0.065));
+        if (pasek.getKalendarzmiesiac().getUmowa().isRentowe()) {
+            pasek.setRentowe(Z.z(pasek.getPodstawaskladkizus()*0.065));
+        }
     }
     
     private static void wypadkowa(Pasekwynagrodzen pasek) {
-        pasek.setWypadkowe(Z.z(pasek.getPodstawaskladkizus()*0.0167));
+        if (pasek.getKalendarzmiesiac().getUmowa().isWypadkowe()) {
+            pasek.setWypadkowe(Z.z(pasek.getPodstawaskladkizus()*0.0167));
+        }
     }
     
     private static void fp(Pasekwynagrodzen pasek) {
-        pasek.setFp(Z.z(pasek.getPodstawaskladkizus()*0.0245));
+        if (!pasek.getKalendarzmiesiac().getUmowa().isNieliczFP()) {
+            pasek.setFp(Z.z(pasek.getPodstawaskladkizus()*0.0245));
+        }
     }
     
     private static void fgsp(Pasekwynagrodzen pasek) {
-        pasek.setFgsp(Z.z(pasek.getPodstawaskladkizus()*0.001));
+        if (!pasek.getKalendarzmiesiac().getUmowa().isNieliczFGSP()) {
+            pasek.setFgsp(Z.z(pasek.getPodstawaskladkizus()*0.001));
+        }
     }
 
     private static void pracownikchorobowa(Pasekwynagrodzen pasek) {
