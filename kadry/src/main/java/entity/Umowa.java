@@ -219,6 +219,9 @@ public class Umowa implements Serializable {
     private int lata;
     @Column(name = "dni")
     private int dni;
+    @JoinColumn(name = "kombinacjaubezpieczen", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Kombinacjaubezpieczen kombinacjaubezpieczen;
     
 
     public Umowa() {
