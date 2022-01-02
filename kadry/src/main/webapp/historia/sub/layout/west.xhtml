@@ -13,7 +13,7 @@
                 <p:dataTable id="datalist" value="#{firmaView.lista}" var="item1"
                              selectionMode="single" selection="#{firmaView.selectedeast}"
                              rowKey="#{item1.id}" 
-                             style="height: 50%;overflow-y: scroll;"
+                             style="height: 350px;overflow-y: scroll;"
                              >
                     <p:ajax event="rowSelect" listener="#{historiaView.aktywuj(firmaView.selectedeast)}" partialSubmit="true" global="false" update="north,@(form)"/>
                     <p:column sortBy="#{item1.nazwa}" sortOrder="asc" filterBy="#{item1.nazwa}" filterMatchMode="contains">

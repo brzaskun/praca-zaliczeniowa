@@ -143,6 +143,14 @@
                             </f:facet>
                             <h:outputText value="#{itemAngaz.pracownik.pesel}"/>
                         </p:column>
+                         <p:column width="30" sortBy="#{itemAngaz.pracownik.aktywny}" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="akt."/>
+                            </f:facet>
+                             <p:selectBooleanCheckbox value="#{itemAngaz.pracownik.aktywny}">
+                                 <p:ajax event="change" partialSubmit="true" global="false" listener="#{angazView.zapisz(itemAngaz.pracownik)}"/>
+                             </p:selectBooleanCheckbox>
+                        </p:column>
                         <p:column width="30">
                             <f:facet name="header">
                                 <h:outputText value="rok"/>

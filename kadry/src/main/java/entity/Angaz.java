@@ -41,7 +41,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Angaz.findAll", query = "SELECT a FROM Angaz a"),
     @NamedQuery(name = "Angaz.findById", query = "SELECT a FROM Angaz a WHERE a.id = :id"),
-    @NamedQuery(name = "Angaz.findByFirma", query = "SELECT a FROM Angaz a WHERE a.firma = :firma"),
+    @NamedQuery(name = "Angaz.findByFirma", query = "SELECT a FROM Angaz a WHERE a.firma = :firma ORDER BY a.pracownik.nazwisko"),
+    @NamedQuery(name = "Angaz.findByFirmaAktywni", query = "SELECT a FROM Angaz a WHERE a.firma = :firma AND a.pracownik.aktywny = TRUE ORDER BY a.pracownik.nazwisko"),
     @NamedQuery(name = "Angaz.findByPeselFirma", query = "SELECT a FROM Angaz a WHERE a.pracownik.pesel = :pesel AND a.firma = :firma"),
     @NamedQuery(name = "Angaz.findPracownikByFirma", query = "SELECT a.pracownik FROM Angaz a WHERE a.firma = :firma")
 })

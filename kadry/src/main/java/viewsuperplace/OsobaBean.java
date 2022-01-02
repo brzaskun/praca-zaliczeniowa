@@ -389,7 +389,10 @@ public class OsobaBean {
         skladnik.setWks_serial(wybrany.getOzlWksSerial().getWksSerial());
         skladnik.setRodzajwynagrodzenia(pobierzrodzajwynagrodzeniazlecenie(wybrany,rodzajewynagrodzenia));
         Zmiennawynagrodzenia zmiennawynagrodzenia = pobierzzmiennawynagrodzeniazlecenie(aktywna, skladnik, wybrany, zmiennaWynagrodzeniaFacade);
-        skladnik.getZmiennawynagrodzeniaList().add(zmiennawynagrodzenia);
+        String rokod = Data.getRok(zmiennawynagrodzenia.getDataod());
+        if (zmiennawynagrodzenia.getDatado()==null||(Integer.parseInt(rokod)>2020&&zmiennawynagrodzenia.getKwota()!=0.0)) {
+            skladnik.getZmiennawynagrodzeniaList().add(zmiennawynagrodzenia);
+        }
         return skladnik;
     }
 
@@ -611,9 +614,6 @@ public class OsobaBean {
                 wiersz.setAktywna(true);
             }
             wiersz.setKwota(Z.z(s.getOzlKwota().doubleValue()));
-            if (wiersz.getKwota()!=0.0) {
-                skladnikwynagrodzenia.getZmiennawynagrodzeniaList().add(wiersz);
-            }
         }
         return wiersz;
     }

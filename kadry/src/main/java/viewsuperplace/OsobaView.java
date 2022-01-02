@@ -461,9 +461,10 @@ public class OsobaView implements Serializable {
                             try {
                                 List<OsobaZlec> listaumow = osoba.getOsobaZlecList();
                                 List<Umowa> umowyzlecenia = OsobaBean.pobierzumowyzlecenia(listaumow, angaz, umowakodzuszlecenie);
-                                umowaFacade.createList(umowyzlecenia);
                                 log.add("Udane zachowanie umowy zlecenia");
                                 aktywna = umowyzlecenia.stream().filter(p -> p.isAktywna()).findFirst().get();
+                                aktywna.setDatado(null);
+                                umowaFacade.create(aktywna);
                                 wpisView.setUmowa(aktywna);
                                 Msg.msg("Pobrano umowy zlecenia");
                                 String rokdlakalendarza = "2020";

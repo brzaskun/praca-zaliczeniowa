@@ -1,0 +1,59 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+
+    xmlns:bcf="http://brzaskun.com/facelets"
+xmlns:pe="http://primefaces.org/ui/extensions">
+`
+
+    <p:dialog id="dialogzbiorczerachunekzlecenia" header="Wystawianie rachunku do umowy zlecenia" widgetVar="dialogzbiorczerachunekzlecenia"  
+              resizable="false"  onShow="ustawdialog('dialogzbiorczerachunekzlecenia','centertile',1650,800);zmienwyglad()" closeOnEscape="true" onHide="resetujdialog('dialogzbiorczerachunekzlecenia');" 
+              fitViewport="true">
+        <p:ajax event="open" listener="#{rachunekZlecenieView.initzbiorcze()}" update="RachunekZleceniaZbiorczeForm" global="false"/>
+            <h:form id="RachunekZleceniaZbiorczeForm">
+                <p:dataTable id="datalist" value="#{rachunekZlecenieView.lista}" var="itempasekzlec" emptyMessage="Brak umów zlecenia za dany okres"
+                     selectionMode="single" selection="#{pasekwynagrodzenView.selectedlista}" rowIndexVar="indexpasekzlec"
+                     rowKey="#{itempasekzlec.hashCode()}" sortBy="#{itempasekzlec.pasekwynagrodzen.nazwiskoImie}"
+                     style="height: 450px; overflow-y: scroll;width: 1400px;"
+                     >
+                    <p:column width="20">
+                        <h:outputText value="#{indexpasekzlec+1}"/>
+                    </p:column>
+                    <p:column width="100" headerText="nazwisko i imię">
+                        <h:outputText value="#{itempasekzlec.umowa.nazwiskoImie}"/>
+                    </p:column>
+                    <p:column width="40" style="text-align: center;" headerText="data umowy od">
+                        <h:outputText value="#{itempasekzlec.umowa.dataod}" styleClass="ww"/>
+                    </p:column>
+                    <p:column width="40" style="text-align: center;" headerText="data umowy do">
+                        <h:outputText value="#{itempasekzlec.umowa.datado}" rendered="#{itempasekzlec.umowa.datado ne ''}" styleClass="ww"/>
+                    </p:column>
+                    <p:column width="50" style="text-align: center;" headerText="wyn. miesięczne">
+                        <bcf:outputpl value="#{itempasekzlec.wynagrodzeniemiesieczne}" stylePlus="width: 60px;"/>
+                    </p:column>
+                    <p:column width="50" style="text-align: center;" headerText="wyn. godzinowe">
+                        <bcf:outputpl value="#{itempasekzlec.wynagrodzeniegodzinowe}" stylePlus="width: 60px;"/>
+                    </p:column>
+                    <p:column width="70" style="text-align: center;" headerText="ilość godzin">
+                         <p:inputNumber value="#{itempasekzlec.iloscgodzin}" decimalSeparator=","   inputStyle="text-align: right;" decimalPlaces="2">
+                        <p:ajax event="change" partialSubmit="true" listener="#{rachunekZlecenieView.przeliczrachuneklista(itempasekzlec)}" update="RachunekZleceniaZbiorczeForm"/>
+                    </p:inputNumber>
+                    </p:column>
+                    <p:column width="70"  headerText="kwota brutto">
+                        <p:inputNumber value="#{itempasekzlec.kwota}" id="lolo1"  decimalPlaces="1" decimalSeparator="," inputStyle="text-align: right"/>
+                    </p:column>
+                    <p:column width="30" headerText="koszt uzysk. %">
+                         <bcf:outputplprocent value="#{itempasekzlec.procentkosztowuzyskaniaDisplay}"/>
+                    </p:column>
+                    <p:column width="70"  headerText="koszt.uzysk. kwota">
+                        <p:inputNumber value="#{itempasekzlec.koszt}" id="lolo" decimalSeparator=","   inputStyle="text-align: right;" decimalPlaces="2"/>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+        
+    </p:dialog>
+</ui:composition>
+
