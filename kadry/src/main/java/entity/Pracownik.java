@@ -170,12 +170,16 @@ public class Pracownik implements Serializable {
     private String kodurzeduskarbowego;
     @Column(name = "nazwaurzeduskarbowego")
     private String nazwaurzeduskarbowego;
+    @Column(name = "aktywny")
+    private boolean aktywny;
 
     public Pracownik() {
+       this.aktywny = true;
     }
 
     public Pracownik(int id) {
         this.id = id;
+        this.aktywny = true;
     }
 
     public Pracownik(String podsumowanie, String a) {
@@ -259,6 +263,15 @@ public class Pracownik implements Serializable {
     public void setDeklaracjaList(List<DeklaracjaPIT11Schowek> deklaracjaList) {
         this.deklaracjaList = deklaracjaList;
     }
+
+    public boolean isAktywny() {
+        return aktywny;
+    }
+
+    public void setAktywny(boolean aktywny) {
+        this.aktywny = aktywny;
+    }
+    
     
     
 

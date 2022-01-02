@@ -76,6 +76,7 @@ public class AngazView  implements Serializable {
     private KalendarzmiesiacFacade kalendarzmiesiacFacade;
     @Inject
     private KalendarzwzorFacade kalendarzwzorFacade;
+    private boolean pokazwszystkich;
 
     
     @PostConstruct
@@ -85,13 +86,20 @@ public class AngazView  implements Serializable {
         listapracownikow = pracownikFacade.findAll();
         if (wpisView.getFirma()!=null) {
             lista = angazFacade.findByFirma(wpisView.getFirma());
-            listaeast = angazFacade.findByFirma(wpisView.getFirma());
+            listaeast = angazFacade.findByFirmaAktywni(wpisView.getFirma());
         }
          if (wpisView.getAngaz()!=null) {
             selectedeast = wpisView.getAngaz();
         }
     }
     
+    public void pobierzpracownikow() {
+        if (pokazwszystkich) {
+            listaeast = angazFacade.findByFirma(wpisView.getFirma());
+        } else {
+            listaeast = angazFacade.findByFirmaAktywni(wpisView.getFirma());
+        }
+    }
 
     public void create() {
         if (selected != null && wpisView.getFirma() != null) {
@@ -360,6 +368,14 @@ public class AngazView  implements Serializable {
 
     public void setSelectedeast(Angaz selectedeast) {
         this.selectedeast = selectedeast;
+    }
+
+    public boolean isPokazwszystkich() {
+        return pokazwszystkich;
+    }
+
+    public void setPokazwszystkich(boolean pokazwszystkich) {
+        this.pokazwszystkich = pokazwszystkich;
     }
 
    

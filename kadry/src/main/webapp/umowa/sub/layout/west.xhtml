@@ -13,7 +13,7 @@
                 <p:dataTable id="datalist" value="#{firmaView.lista}" var="item1"
                              selectionMode="single" selection="#{firmaView.selectedeast}"
                              rowKey="#{item1.id}" 
-                             style="height: 50%;overflow-y: scroll;"
+                             style="height: 350px;overflow-y: scroll;"
                              >
                     <p:ajax event="rowSelect" listener="#{firmaView.aktywuj(firmaView.selectedeast)}" partialSubmit="true" global="false" update="north,@(form)"/>
                     <p:column sortBy="#{item1.nazwa}" sortOrder="asc" filterBy="#{item1.nazwa}" filterMatchMode="contains">
@@ -24,10 +24,14 @@
         </h:form>
          <h:form id="EastPracownicy">
             <p:panel header="Pracownicy">
+                <p:selectBooleanCheckbox id="wyboropcji" value="#{angazView.pokazwszystkich}">
+                    <p:ajax event="change" listener="#{angazView.pobierzpracownikow}" update="@form" global="false"/>
+                </p:selectBooleanCheckbox>
+                <p:outputLabel for="wyboropcji" value="pobierz wszystkich"/>
                 <p:dataTable id="datalist" value="#{angazView.listaeast}" var="item2"
                              selectionMode="single" selection="#{angazView.selectedeast}" sortBy="#{item2.pracownik.nazwiskoImie}"
                              rowKey="#{item2.id}" emptyMessage="Firma nie ma pracowników"
-                             style="height: 50%;overflow-y: scroll;"
+                             style="height: 350px;overflow-y: scroll;"
                              >
                     <p:ajax event="rowSelect" listener="#{angazView.aktywuj(angazView.selectedeast)}" partialSubmit="true" global="false" update="north,@(form)"/>
                     <p:column sortBy="#{item2.pracownik.nazwiskoImie}">

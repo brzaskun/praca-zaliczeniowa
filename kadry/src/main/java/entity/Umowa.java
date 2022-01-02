@@ -67,6 +67,8 @@ import view.WpisView;
     @NamedQuery(name = "Umowa.findByAngaz", query = "SELECT u FROM Umowa u WHERE u.angaz = :angaz ORDER BY u.dataod ASC"),
     @NamedQuery(name = "Umowa.findByAngazPraca", query = "SELECT u FROM Umowa u WHERE u.angaz = :angaz AND u.umowakodzus.praca = TRUE ORDER BY u.dataod ASC"),
     @NamedQuery(name = "Umowa.findByAngazZlecenie", query = "SELECT u FROM Umowa u WHERE u.angaz = :angaz AND u.umowakodzus.zlecenie = TRUE ORDER BY u.dataod ASC"),
+    @NamedQuery(name = "Umowa.findByFirmaZlecenie", query = "SELECT u FROM Umowa u WHERE u.angaz.firma = :firma AND u.umowakodzus.zlecenie = TRUE ORDER BY u.dataod ASC"),
+    @NamedQuery(name = "Umowa.findByFirmaZlecenieAktywne", query = "SELECT u FROM Umowa u WHERE u.angaz.firma = :firma AND u.umowakodzus.zlecenie = TRUE AND u.aktywna = TRUE ORDER BY u.dataod ASC"),
     @NamedQuery(name = "Umowa.findByAngazFunkcja", query = "SELECT u FROM Umowa u WHERE u.angaz = :angaz AND u.umowakodzus.funkcja = TRUE ORDER BY u.dataod ASC")
         
 })

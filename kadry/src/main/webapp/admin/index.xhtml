@@ -32,6 +32,7 @@
                             <p:submenu label="czas pracy" style="width: 150px">
                                 <p:menuitem icon="pi pi-ellipsis-v" value="nieobecności" style="width: 150px" onclick="PF('dialogpracownikanieobecnosci').show()" async="true"/>
                                 <p:menuitem icon="pi pi-ellipsis-v" value="urlop/choroba" style="width: 150px" onclick="PF('dialgoczaspracyurlop').show()" async="true"/>
+                                <p:menuitem icon="pi pi-ellipsis-v" value="zbiorcze rach. do zlec." style="width: 150px" onclick="PF('dialogzbiorczerachunekzlecenia').show()" async="true"/>
                                 <p:menuitem icon="pi pi-ellipsis-v" value="wystaw. rach. do zlec." style="width: 150px" onclick="PF('dialograchunekzlecenia').show()" async="true"/>
                                 <p:menuitem icon="pi pi-ellipsis-v" value="kalendarz pracownika" style="width: 150px" onclick="PF('dialogkalendarzmiesiac').show()" async="true"/>
                                 <p:menuitem icon="pi pi-ellipsis-v" value="oddelegowanie" style="width: 150px" onclick="PF('dialogoddelegowanie').show()" async="true"/>
@@ -66,6 +67,7 @@
                      <ui:include src="sub/dialog/dialog_karta_wynagrodzen.xhtml"/>
                      <ui:include src="sub/dialog/dialog_lista_rachunek_zlecenia.xhtml"/>
                      <ui:include src="sub/dialog/dialog_rachunek_zlecenia.xhtml"/>
+                     <ui:include src="sub/dialog/dialog_zbiorcze_rachunek_zlecenia.xhtml"/>
                      <ui:include src="sub/dialog/dialog_komornik.xhtml"/>
                      <h:form>
 <!--                         <p:commandButton value="rodzaj" styleClass="buttonnorm" actionListener="#{skladnikPotraceniaView.generujtabele()}" />-->
