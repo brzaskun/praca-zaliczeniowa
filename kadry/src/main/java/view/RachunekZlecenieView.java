@@ -7,12 +7,15 @@ package view;
 
 import dao.KalendarzmiesiacFacade;
 import dao.RachunekdoumowyzleceniaFacade;
+import dao.SkladnikWynagrodzeniaFacade;
 import dao.UmowaFacade;
 import data.Data;
 import embeddable.Mce;
 import entity.Kalendarzmiesiac;
 import entity.Rachunekdoumowyzlecenia;
+import entity.Skladnikwynagrodzenia;
 import entity.Umowa;
+import entity.Zmiennawynagrodzenia;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +45,8 @@ public class RachunekZlecenieView  implements Serializable {
     private KalendarzmiesiacFacade kalendarzmiesiacFacade;
     @Inject
     private RachunekdoumowyzleceniaFacade rachunekdoumowyzleceniaFacade;
+    @Inject
+    private SkladnikWynagrodzeniaFacade skladnikWynagrodzeniaFacade;
     @Inject
     private UmowaFacade umowaFacade;
     
@@ -146,6 +151,7 @@ public class RachunekZlecenieView  implements Serializable {
         if (rach!=null) {
             if (rach.getWynagrodzeniemiesieczne()>0.0) {
                 rach.setKwota(rach.getWynagrodzeniemiesieczne());
+                rach.setKoszt(Z.z(rach.getKwota()*rach.getProcentkosztowuzyskania()/100.0));
             } else {
                 rach.setKwota(Z.z(rach.getWynagrodzeniegodzinowe()*rach.getIloscgodzin()));
                 rach.setKoszt(Z.z(rach.getKwota()*rach.getProcentkosztowuzyskania()/100.0));
@@ -153,6 +159,22 @@ public class RachunekZlecenieView  implements Serializable {
             Msg.msg("Przeliczono kwotę rachunku");
         }
     }
+    
+    public void zachowajrachunki() {
+        for (Rachunekdoumowyzlecenia p : lista) {
+            if (p.getId()==null) {
+                Skladnikwynagrodzenia skladnik = p.getUmowa().pobierzskladnikzlecenie();
+                skladnik.getZmiennawynagrodzeniaList().add(new Zmiennawynagrodzenia(p, skladnik));
+                rachunekdoumowyzleceniaFacade.create(p);
+                skladnikWynagrodzeniaFacade.edit(skladnik);
+            } else {
+                rachunekdoumowyzleceniaFacade.edit(p);
+            }
+        }
+        Msg.msg("Zachowano rachunki");
+    }
+    
+    
     public void zaksieguj() {
         if (rachunekdoumowyzlecenia!=null) {
             rachunekdoumowyzleceniaFacade.create(rachunekdoumowyzlecenia);

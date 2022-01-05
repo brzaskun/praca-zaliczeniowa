@@ -7,6 +7,7 @@ package entity;
 
 import data.Data;
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -310,27 +311,38 @@ public class Rachunekdoumowyzlecenia implements Serializable {
     public void setIloscgodzin(double iloscgodzin) {
         this.iloscgodzin = iloscgodzin;
     }
-    
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        int hash = 7;
+        hash = 67 * hash + Objects.hashCode(this.id);
+        hash = 67 * hash + Objects.hashCode(this.pasekwynagrodzen);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Rachunekdoumowyzlecenia)) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
             return false;
         }
-        Rachunekdoumowyzlecenia other = (Rachunekdoumowyzlecenia) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Rachunekdoumowyzlecenia other = (Rachunekdoumowyzlecenia) obj;
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        if (!Objects.equals(this.pasekwynagrodzen, other.pasekwynagrodzen)) {
             return false;
         }
         return true;
     }
+    
+
+    
 
     @Override
     public String toString() {
