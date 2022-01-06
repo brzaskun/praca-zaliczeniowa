@@ -314,9 +314,12 @@ public class Rachunekdoumowyzlecenia implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 67 * hash + Objects.hashCode(this.id);
-        hash = 67 * hash + Objects.hashCode(this.pasekwynagrodzen);
+        int hash = 5;
+        hash = 37 * hash + Objects.hashCode(this.id);
+        hash = 37 * hash + Objects.hashCode(this.dataod);
+        hash = 37 * hash + Objects.hashCode(this.datado);
+        hash = 37 * hash + Objects.hashCode(this.pasekwynagrodzen);
+        hash = 37 * hash + Objects.hashCode(this.umowa);
         return hash;
     }
 
@@ -332,14 +335,24 @@ public class Rachunekdoumowyzlecenia implements Serializable {
             return false;
         }
         final Rachunekdoumowyzlecenia other = (Rachunekdoumowyzlecenia) obj;
+        if (!Objects.equals(this.dataod, other.dataod)) {
+            return false;
+        }
+        if (!Objects.equals(this.datado, other.datado)) {
+            return false;
+        }
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }
         if (!Objects.equals(this.pasekwynagrodzen, other.pasekwynagrodzen)) {
             return false;
         }
+        if (!Objects.equals(this.umowa, other.umowa)) {
+            return false;
+        }
         return true;
     }
+
     
 
     

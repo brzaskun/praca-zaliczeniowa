@@ -203,6 +203,18 @@ public class Skladnikwynagrodzenia implements Serializable {
         this.oddelegowanie = oddelegowanie;
     }
 
+    public Zmiennawynagrodzenia pobierzzmienna(Rachunekdoumowyzlecenia p) {
+        Zmiennawynagrodzenia zwrot = null;
+        if (this.zmiennawynagrodzeniaList!=null) {
+            for (Zmiennawynagrodzenia r : this.zmiennawynagrodzeniaList) {
+                if (r.getDataod().equals(p.getDataod())) {
+                    zwrot = r;
+                }
+            }
+        }
+        return zwrot;
+    }
+
 
     
     

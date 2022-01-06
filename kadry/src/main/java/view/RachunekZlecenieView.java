@@ -9,6 +9,7 @@ import dao.KalendarzmiesiacFacade;
 import dao.RachunekdoumowyzleceniaFacade;
 import dao.SkladnikWynagrodzeniaFacade;
 import dao.UmowaFacade;
+import dao.ZmiennaWynagrodzeniaFacade;
 import data.Data;
 import embeddable.Mce;
 import entity.Kalendarzmiesiac;
@@ -47,6 +48,8 @@ public class RachunekZlecenieView  implements Serializable {
     private RachunekdoumowyzleceniaFacade rachunekdoumowyzleceniaFacade;
     @Inject
     private SkladnikWynagrodzeniaFacade skladnikWynagrodzeniaFacade;
+    @Inject
+    private ZmiennaWynagrodzeniaFacade zmiennaWynagrodzeniaFacade;
     @Inject
     private UmowaFacade umowaFacade;
     
@@ -163,11 +166,17 @@ public class RachunekZlecenieView  implements Serializable {
     public void zachowajrachunki() {
         for (Rachunekdoumowyzlecenia p : lista) {
             if (p.getId()==null) {
-                Skladnikwynagrodzenia skladnik = p.getUmowa().pobierzskladnikzlecenie();
-                skladnik.getZmiennawynagrodzeniaList().add(new Zmiennawynagrodzenia(p, skladnik));
-                rachunekdoumowyzleceniaFacade.create(p);
-                skladnikWynagrodzeniaFacade.edit(skladnik);
+                if (p.getKwota()>0.0) {
+                    Skladnikwynagrodzenia skladnik = p.getUmowa().pobierzskladnikzlecenie();
+                    skladnik.getZmiennawynagrodzeniaList().add(new Zmiennawynagrodzenia(p, skladnik));
+                    rachunekdoumowyzleceniaFacade.create(p);
+                    skladnikWynagrodzeniaFacade.edit(skladnik);
+                }
             } else {
+                Skladnikwynagrodzenia skladnik = p.getUmowa().pobierzskladnikzlecenie();
+                Zmiennawynagrodzenia zmienna = skladnik.pobierzzmienna(p);
+                zmienna.setKwota(p.getKwota());
+                zmiennaWynagrodzeniaFacade.edit(zmienna);
                 rachunekdoumowyzleceniaFacade.edit(p);
             }
         }

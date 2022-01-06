@@ -6,19 +6,20 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
 
     xmlns:bcf="http://brzaskun.com/facelets"
-xmlns:pe="http://primefaces.org/ui/extensions">
-`
+    xmlns:pe="http://primefaces.org/ui/extensions">
+    `
 
     <p:dialog id="dialogzbiorczerachunekzlecenia" header="Wystawianie rachunku do umowy zlecenia" widgetVar="dialogzbiorczerachunekzlecenia"  
               resizable="false"  onShow="ustawdialog('dialogzbiorczerachunekzlecenia','centertile',1650,800);zmienwyglad()" closeOnEscape="true" onHide="resetujdialog('dialogzbiorczerachunekzlecenia');" 
               fitViewport="true">
         <p:ajax event="open" listener="#{rachunekZlecenieView.initzbiorcze()}" update="RachunekZleceniaZbiorczeForm" global="false"/>
+        <p:outputPanel>
             <h:form id="RachunekZleceniaZbiorczeForm">
                 <p:dataTable id="datalist" value="#{rachunekZlecenieView.lista}" var="itempasekzlec" emptyMessage="Brak umów zlecenia za dany okres"
-                     selectionMode="single" selection="#{pasekwynagrodzenView.selectedlista}" rowIndexVar="indexpasekzlec"
-                     rowKey="#{itempasekzlec.hashCode()}" sortBy="#{itempasekzlec.pasekwynagrodzen.nazwiskoImie}"
-                     style="height: 450px; overflow-y: scroll;width: 1400px;"
-                     >
+                             selectionMode="single" selection="#{rachunekZlecenieView.selectedlista}" rowIndexVar="indexpasekzlec"
+                             rowKey="#{itempasekzlec.hashCode()}" sortBy="#{itempasekzlec.pasekwynagrodzen.nazwiskoImie}"
+                             style="height: 550px; overflow-y: scroll;width: 1400px; margin-top: 10px;"
+                             >
                     <p:column width="20">
                         <h:outputText value="#{indexpasekzlec+1}"/>
                     </p:column>
@@ -50,20 +51,22 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                         <p:inputNumber value="#{itempasekzlec.kwota}" id="lolo1"  decimalPlaces="1" decimalSeparator="," inputStyle="text-align: right" size="15" styleClass="zbiorczyrach"/>
                     </p:column>
                     <p:column width="30" headerText="koszt uzysk. %">
-                         <bcf:outputplprocent value="#{itempasekzlec.procentkosztowuzyskaniaDisplay}"/>
+                        <bcf:outputplprocent value="#{itempasekzlec.procentkosztowuzyskaniaDisplay}"/>
                     </p:column>
                     <p:column width="70"  headerText="koszt.uzysk. kwota">
                         <p:inputNumber value="#{itempasekzlec.koszt}" id="lolo" decimalSeparator=","   inputStyle="text-align: right;" decimalPlaces="2" size="15" styleClass="zbiorczyrach"/>
                     </p:column>
-                    <p:column width="30"  headerText="zaks.">
-                         <h:outputText value="&#x2714;" rendered="#{itempasekzlec.if ne null}"/>
+                    <p:column width="30"  headerText="zaks." style="text-align: center">
+                        <h:outputText value="&#x2714;" rendered="#{itempasekzlec.id ne null}" style="color: green;"/>
                     </p:column>
                 </p:dataTable>
-                <p:outputPanel style="margin-top: 10px;">
-                    <p:commandButton value="zachowaj" actionListener="#{rachunekZlecenieView.zachowajrachunki()}" update="RachunekZleceniaZbiorczeForm:datalist" global="false"/>
+            </h:form>
+            <h:form>
+                <p:outputPanel >
+                    <p:commandButton value="zachowaj" styleClass="buttonnorm" actionListener="#{rachunekZlecenieView.zachowajrachunki()}" update="RachunekZleceniaZbiorczeForm:datalist" global="false"/>
                 </p:outputPanel>
             </h:form>
-        
+        </p:outputPanel>
     </p:dialog>
 </ui:composition>
 

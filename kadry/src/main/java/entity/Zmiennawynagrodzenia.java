@@ -90,6 +90,7 @@ public class Zmiennawynagrodzenia implements Serializable {
         this.netto0brutto1 = true;
         this.nazwa = "Umowa zlecenia";
         this.skladnikwynagrodzenia = skladnik;
+        this.waluta = "PLN";
     }
     
     
