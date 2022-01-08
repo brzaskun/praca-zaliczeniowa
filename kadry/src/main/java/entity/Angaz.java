@@ -67,7 +67,7 @@ public class Angaz implements Serializable {
     private Pracownik pracownik;
     @Column(name = "serialsp")
     private String serialsp;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "angaz")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "angaz", orphanRemoval = true)
     private List<Kartawynagrodzen> kartawynagrodzenList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "angaz")
     private List<Wynagrodzeniahistoryczne> wynagrodzeniahistoryczneList;
