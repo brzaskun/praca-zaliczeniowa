@@ -975,4 +975,17 @@ public class Umowa implements Serializable {
         }
         return zwrot;
     }
+
+    public Skladnikwynagrodzenia pobierzskladnikzlecenie() {
+        Skladnikwynagrodzenia zwrot = null;
+        if (this.skladnikwynagrodzeniaList!=null) {
+            for (Skladnikwynagrodzenia p : this.skladnikwynagrodzeniaList) {
+                zwrot = p;
+                break;
+            }
+        }
+        return zwrot;
+    }
+
+   
 }

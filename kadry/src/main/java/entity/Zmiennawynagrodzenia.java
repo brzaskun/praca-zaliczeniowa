@@ -82,6 +82,16 @@ public class Zmiennawynagrodzenia implements Serializable {
         this.waluta = "PLN";
         this.netto0brutto1 = true;
     }
+
+    public Zmiennawynagrodzenia(Rachunekdoumowyzlecenia p, Skladnikwynagrodzenia skladnik) {
+        this.dataod = p.getDataod();
+        this.datado = p.getDatado();
+        this.kwota = p.getKwota();
+        this.netto0brutto1 = true;
+        this.nazwa = "Umowa zlecenia";
+        this.skladnikwynagrodzenia = skladnik;
+        this.waluta = "PLN";
+    }
     
     
 

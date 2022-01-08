@@ -192,7 +192,7 @@
     <class>entity.Nieobecnoscprezentacja</class>
     <class>entity.Swiadczeniekodzus</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
-    <shared-cache-mode>NONE</shared-cache-mode>
+    <shared-cache-mode>ALL</shared-cache-mode>
     <validation-mode>NONE</validation-mode>
     <properties>
       <property name="eclipselink.ddl-generation" value="create-or-extend-tables"/>
@@ -209,13 +209,13 @@
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <jta-data-source>microsoft</jta-data-source>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
-    <shared-cache-mode>NONE</shared-cache-mode>
+    <shared-cache-mode>ALL</shared-cache-mode>
     <validation-mode>NONE</validation-mode>
     <properties>
       <property name="eclipselink.query-results-cache" value="true"/>
       <property name="eclipselink.cache-usage" value="CheckCacheThenDatabase"/>
-      <property name="eclipselink.logging.level.sql" value="info"/>
-      <property name="eclipselink.logging.parameters" value="true"/>
+      <!--      <property name="eclipselink.logging.level.sql" value="info"/>
+      <property name="eclipselink.logging.parameters" value="true"/>-->
     </properties>
   </persistence-unit>
   <persistence-unit name="WebApplication1PU" transaction-type="RESOURCE_LOCAL">

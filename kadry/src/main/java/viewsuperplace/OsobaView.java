@@ -330,6 +330,7 @@ public class OsobaView implements Serializable {
                             List<OsobaPot> osobaPotList = osoba.getOsobaPotList();
                             List<Rodzajpotracenia> rodzajepotracen = rodzajpotraceniaFacade.findAll();
                             List<Skladnikpotracenia> skladnikpotracenia = OsobaBean.pobierzskladnipotracenia(osobaPotList, rodzajepotracen, aktywna, skladnikPotraceniaFacade, zmiennaPotraceniaFacade);
+                            log.add("Udane zachowanie potrąceń");
                             List<Rok> rokList = osoba.getOsoFirSerial().getRokList();
                             Rok rok = pobierzrok(rokdlakalendarza, rokList);
                             List<Okres> okresList = pobierzokresySuperplace(1, rok.getOkresList());
@@ -412,6 +413,7 @@ public class OsobaView implements Serializable {
                             List<OsobaPot> osobaPotList = osoba.getOsobaPotList();
                             List<Rodzajpotracenia> rodzajepotracen = rodzajpotraceniaFacade.findAll();
                             List<Skladnikpotracenia> skladnikpotracenia = OsobaBean.pobierzskladnipotracenia(osobaPotList, rodzajepotracen, aktywna, skladnikPotraceniaFacade, zmiennaPotraceniaFacade);
+                            log.add("Udane zachowanie potrąceń");
                             List<Rok> rokList = osoba.getOsoFirSerial().getRokList();
                             Rok rok = pobierzrok(rokdlakalendarza, rokList);
                             List<Okres> okresList = pobierzokresySuperplace(1, rok.getOkresList());
@@ -497,6 +499,7 @@ public class OsobaView implements Serializable {
                                 List<OsobaPot> osobaPotList = osoba.getOsobaPotList();
                                 List<Rodzajpotracenia> rodzajepotracen = rodzajpotraceniaFacade.findAll();
                                 List<Skladnikpotracenia> skladnikpotracenia = OsobaBean.pobierzskladnipotracenia(osobaPotList, rodzajepotracen, aktywna, skladnikPotraceniaFacade, zmiennaPotraceniaFacade);
+                                log.add("Udane zachowanie potrąceń");
                                 List<Pasekwynagrodzen> paskiumowazlecenia = OsobaBean.zrobpaskiimportUmowaopraceizlecenia(wpisView, osoba, okresList, true, datakonca26lat, skladnikwynagrodzenia, null, skladnikpotracenia);
                                 if (paskiumowazlecenia.size()>0) {
                                     List<Definicjalistaplac> listyumowazlecenia = OsobaBean.generujlistyplac(paskiumowazlecenia, wpisView.getFirma(), definicjalistaplacFacade, rodzajlistyplacFacade, rokdlakalendarza);
