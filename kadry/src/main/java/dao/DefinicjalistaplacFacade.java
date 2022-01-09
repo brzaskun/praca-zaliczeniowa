@@ -51,6 +51,10 @@ public class DefinicjalistaplacFacade extends DAO implements Serializable {
         return getEntityManager().createNamedQuery("Definicjalistaplac.findByFirmaRok").setParameter("firma", firma).setParameter("rok", rok).getResultList();
     }
     
+    public List<Definicjalistaplac> findByFirmaRokMc(FirmaKadry firma, String rok, String mc) {
+        return getEntityManager().createNamedQuery("Definicjalistaplac.findByFirmaRokMc").setParameter("firma", firma).setParameter("rok", rok).setParameter("mc", mc).getResultList();
+    }
+    
     public List<Definicjalistaplac> findByFirmaRokRodzaj(FirmaKadry firma, String rok, Rodzajlistyplac rodzajlistyplac) {
         List<Definicjalistaplac> zwrot = null;
         try {

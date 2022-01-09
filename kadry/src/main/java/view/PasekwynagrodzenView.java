@@ -291,6 +291,9 @@ public class PasekwynagrodzenView implements Serializable {
                 umowa.setOdliczaculgepodatkowa(true);
                 umowa.setKosztyuzyskaniaprocent(100.0);
                 umowa.setChorobowe(true);
+                umowa.setEmerytalne(true);
+                umowa.setRentowe(true);
+                umowa.setWypadkowe(true);
                 kalendarz.setUmowa(umowa);
                 Pasekwynagrodzen pasek = PasekwynagrodzenBean.obliczWynagrodzeniesymulacja(kalendarz, stawkipodatkowe, zlecenie0praca1, symulacjabrrutto);
                 symulacjanetto = pasek.getNetto();
@@ -336,7 +339,9 @@ public class PasekwynagrodzenView implements Serializable {
 
     public void mailListaPlac() {
         if (lista != null && lista.size() > 0) {
-            ByteArrayOutputStream drukujmail = PdfListaPlac.drukujmail(lista, wybranalistaplac, nieobecnosckodzusFacade);
+            List<Definicjalistaplac> listadef = new ArrayList<>();
+            listadef.add(wybranalistaplac);
+            ByteArrayOutputStream drukujmail = PdfListaPlac.drukujmail(lista, listadef, nieobecnosckodzusFacade);
             Pasekwynagrodzen pasek = lista.get(0);
             SMTPSettings findSprawaByDef = sMTPSettingsFacade.findSprawaByDef();
             String nrpoprawny = wybranalistaplac.getNrkolejny().replaceAll("[^A-Za-z0-9]", "");

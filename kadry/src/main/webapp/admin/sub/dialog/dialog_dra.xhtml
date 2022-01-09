@@ -10,19 +10,32 @@ xmlns:pe="http://primefaces.org/ui/extensions">
     <p:dialog id="dialogdra" header="Wyliczanie DRA" widgetVar="dialogdra"  
               resizable="false"  onShow="ustawdialog('dialogdra','centertile',1650,800);" closeOnEscape="true" onHide="resetujdialog('dialogdra');" 
               fitViewport="true">
-        <p:outputPanel style="height: 150px">
+        <p:ajax event="open" listener="#{draView.init()}" update="DRACreateForm DRASumaForm DRAListForm" global="false"/>
+        <p:outputPanel style="height: 180px">
             <h:form id="DRACreateForm">
                 <h:panelGroup id="display">
-                    <p:panelGrid columns="2" rendered="#{draView.listadefinicjalistaplac ne null}">
-                        <p:outputLabel value="wybrana lista płac" for="wybranalista" />
-                        <p:selectOneMenu id="wybranalista" value="#{draView.wybranalistaplac}" required="true" requiredMessage="Wybierz firmę" converter="#{definicjalistaplacConverter}" >
-                            <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
-                            <f:selectItems value="#{draView.listadefinicjalistaplac}" 
-                                           var="dralistaItem"
-                                           itemValue="#{dralistaItem}" itemLabel="#{dralistaItem.opis} #{dralistaItem.nrkolejny}"/>
-                            <p:ajax event="change" partialSubmit="true" global="false" listener="#{draView.pobierzpaski}" update="DRAListForm DRASumaForm"/>
-                        </p:selectOneMenu>
-                    <p:commandButton styleClass="buttonnorm" actionListener="#{draView.drukujliste}" value="druk lista"/>
+                    <p:panelGrid columns="2">
+                        <p:panelGrid columns="2" rendered="#{draView.listadefinicjalistaplac ne null}">
+                            <p:outputLabel value="okres rozliczeniowy" for="okresdra" />
+                            <p:selectOneMenu id="okresdra" value="#{draView.mcdra}" required="true" requiredMessage="Wybierz miesiąc" >
+                                <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
+                                <f:selectItems value="#{mce.mceList}" 
+                                               var="dramcItem"
+                                               itemValue="#{dramcItem}" itemLabel="#{dramcItem}"/>
+                                <p:ajax event="change" partialSubmit="true" global="false" listener="#{draView.pobierzlisty}" update="DRAListForm DRASumaForm DRACreateForm:wybranalista"/>
+                            </p:selectOneMenu>
+                        </p:panelGrid>
+                        <p:panelGrid columns="2" rendered="#{draView.listadefinicjalistaplac ne null}">
+                            <p:outputLabel value="wybrana lista płac" for="wybranalista" />
+                            <p:selectManyMenu id="wybranalista" value="#{draView.listywybrane}" required="true" requiredMessage="Wybierz firmę" converter="#{definicjalistaplacConverter}" rendered="#{draView.listadefinicjalistaplac ne null}">
+                                <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
+                                <f:selectItems value="#{draView.listadefinicjalistaplac}" 
+                                               var="dralistaItem"
+                                               itemValue="#{dralistaItem}" itemLabel="#{dralistaItem.opis} #{dralistaItem.nrkolejny}"/>
+                                <p:ajax event="change" partialSubmit="true" global="false" listener="#{draView.pobierzpaski}" update="DRAListForm DRASumaForm"/>
+                            </p:selectManyMenu>
+                        </p:panelGrid>
+                        <p:commandButton styleClass="buttonnorm" actionListener="#{draView.drukujliste}" value="druk lista"/>
                     </p:panelGrid>
                 </h:panelGroup>
             </h:form>

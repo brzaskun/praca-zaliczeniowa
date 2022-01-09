@@ -644,7 +644,11 @@ public class InterpaperImportView implements Serializable {
             try {
                 if (dokument!=null) {
                     dokument.setImportowany(true);
-                    dokDAOfk.create(dokument);
+                    try {
+                        dokDAOfk.create(dokument);
+                    } catch (Exception ex) {
+                        Msg.msg("e", "Wystąpił błąd - nie zaksięgowano dokumentu "+dokument.getNumerwlasnydokfk());
+                    }
                     interpaperXLS.setSymbolzaksiegowanego(dokument.getDokfkSN());
                     ile = 1;
                 }
@@ -1118,7 +1122,7 @@ public class InterpaperImportView implements Serializable {
                                       }
                                     
                                     break;
-                                } else if (!PanstwaEUSymb.getWykazPanstwUE().contains(interpaperXLS.getKlient().getKrajkod()) && p.getNazwa().equals("eksport towarów")) {
+                                } else if (p.getNazwa().equals("eksport towarów")) {
                                     eVatwpisFK.setNettowwalucie(Z.z(interpaperXLS.getNettowaluta()));
                                     eVatwpisFK.setVatwwalucie(0.0);
                                     eVatwpisFK.setNetto(Z.z(nettopln));

@@ -1777,6 +1777,13 @@ public class FakturaView implements Serializable {
                 nowa.setId(null);
                 nowa.setDatawysylki(null);
                 nowa.setRecznaedycja(p.isRecznaedycja());
+                if (nowa.getPozycjenafakturze()!=null) {
+                    List<Pozycjenafakturzebazadanych> pozycjenafakturze = nowa.getPozycjenafakturze();
+                    Pozycjenafakturzebazadanych pozycje = pozycjenafakturze.get(0);
+                    if (pozycje.getNazwa().contains("#mc#")) {
+                        pozycje.setNazwa(pozycje.getNazwa().replace("#mc#", Mce.getStringToNazwamiesiaca().get(wpisView.getMiesiacWpisu())));
+                    }
+                }
                 if (wpisView.getPodatnikObiekt().getNip().equals("8511005008")) {
                     dodajwierszedodatkowe(nowa);
                 }
@@ -1841,7 +1848,7 @@ public class FakturaView implements Serializable {
                 FakturaBean.wielekont(nowa, fakturaWalutaKontoView.getListakontaktywne(), fakturaStopkaNiemieckaDAO, wpisView.getPodatnikObiekt());
                 try {
                     fakturaDAO.create(nowa);
-                    Klienci kontra = selected.getKontrahent();
+                    Klienci kontra = nowa.getKontrahent();
                     kontra.setAktywnydlafaktrozrachunki(true);
                     klienciDAO.edit(kontra);
                     if (nowa.isRecznaedycja()) {
@@ -2023,6 +2030,27 @@ public class FakturaView implements Serializable {
         fakturywystokresoweDAO.editList(gosciwybralokres);
         Msg.msg("Naniesiono oznaczenie - ręczna edycja dla wybranych faktur");
     }
+    
+    public void porzadekbiuro() {
+        if (gosciwybralokres.isEmpty()) {
+            Msg.msg("e", "Nie wybrano faktury do oznaczenia");
+            return;
+        }
+        for (Fakturywystokresowe p : gosciwybralokres) {
+            Faktura dokument = p.getDokument();
+            if (dokument!=null) {
+                List<Pozycjenafakturzebazadanych> pozycjenafakturze = dokument.getPozycjenafakturze();
+                Pozycjenafakturzebazadanych pierwszywiersz = pozycjenafakturze.get(0);
+                if (pierwszywiersz.getNazwa().trim().equals("usługi rachunkowe")) {
+                    pierwszywiersz.setNazwa("usługi rachunkowe #mc#");
+                }
+            }
+        }
+        fakturywystokresoweDAO.editList(gosciwybralokres);
+        Msg.msg("Naniesiono oznaczenie - ręczna edycja dla wybranych faktur");
+    }
+    
+    
 
     public void oznaczbiezacymiesiac() {
         if (gosciwybralokres.isEmpty()) {

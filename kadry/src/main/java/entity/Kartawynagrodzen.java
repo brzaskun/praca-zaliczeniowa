@@ -81,6 +81,8 @@ public class Kartawynagrodzen implements Serializable {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "bruttobezzus")
     private double bruttobezzus;
+    @Column(name = "bruttobezpodatku")
+    private double bruttobezpodatku;
     @Column(name = "bruttozus")
     private double bruttozus;
     @Column(name = "fgsp")
@@ -184,6 +186,14 @@ public class Kartawynagrodzen implements Serializable {
 
     public void setBruttobezzus(double bruttobezzus) {
         this.bruttobezzus = bruttobezzus;
+    }
+
+    public double getBruttobezpodatku() {
+        return bruttobezpodatku;
+    }
+
+    public void setBruttobezpodatku(double bruttobezpodatku) {
+        this.bruttobezpodatku = bruttobezpodatku;
     }
 
     public double getBruttozus() {
@@ -514,6 +524,7 @@ public class Kartawynagrodzen implements Serializable {
 
     public void zeruj() {
         this.bruttobezzus = 0.0;
+        this.bruttobezpodatku = 0.0;
         this.bruttozus = 0.0;
         this.fgsp = 0.0;
         this.fp = 0.0;
@@ -547,6 +558,7 @@ public class Kartawynagrodzen implements Serializable {
 
     public void dodaj(Pasekwynagrodzen pasek) {
         this.bruttobezzus = Z.z(this.bruttobezzus+pasek.getBruttobezzus());
+        this.bruttobezpodatku = Z.z(this.bruttobezpodatku+pasek.getBruttobezzusbezpodatek());
         this.bruttozus = Z.z(this.bruttozus+pasek.getBruttozus());
         this.fgsp += pasek.getFgsp();
         this.fp += pasek.getFp();
@@ -587,6 +599,7 @@ public class Kartawynagrodzen implements Serializable {
     
      public void dodajkarta(Kartawynagrodzen pasek) {
         this.bruttobezzus = Z.z(this.bruttobezzus+pasek.getBruttobezzus());
+        this.bruttobezpodatku = Z.z(this.bruttobezpodatku+pasek.getBruttobezpodatku());
         this.bruttozus = Z.z(this.bruttozus+pasek.getBruttozus());
         this.kosztyuzyskania = Z.z(this.kosztyuzyskania+pasek.getKosztyuzyskania());
         this.kwotawolna += pasek.getKwotawolna();
