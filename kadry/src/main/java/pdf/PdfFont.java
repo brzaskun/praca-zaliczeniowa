@@ -264,17 +264,19 @@ public class PdfFont {
         }
     }
 
-    public static String formatujWaluta(Double wsad) {
-        NumberFormat formatter = NumberFormat.getCurrencyInstance();
-        formatter.setMinimumFractionDigits(2);
-        formatter.setMaximumFractionDigits(2);
-        formatter.setGroupingUsed(true);
-        try {
-            String moneyString = formatter.format(wsad);
-            return moneyString;
-        } catch (Exception e) {
-            return "";
+    public static String formatujWaluta(double wsad) {
+        String zwrot = "";
+        if (wsad!=0.0) {
+            NumberFormat formatter = NumberFormat.getCurrencyInstance();
+            formatter.setMinimumFractionDigits(2);
+            formatter.setMaximumFractionDigits(2);
+            formatter.setGroupingUsed(true);
+            try {
+                zwrot = formatter.format(wsad);
+            } catch (Exception e) {
+            }
         }
+        return zwrot;
     }
 
     public static String formatujWalutaNoZero(Double wsad) {

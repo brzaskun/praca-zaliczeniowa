@@ -23,7 +23,6 @@ import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
 import com.itextpdf.text.pdf.PdfWriter;
 import entity.Angaz;
-import entity.Definicjalistaplac;
 import error.E;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -314,16 +313,16 @@ public class PdfMain {
     }
     
     
-    public static void dodajOpisWstepny(Document document, Definicjalistaplac def, String nazwadok) {
+    public static void dodajOpisWstepny(Document document, String nazwadok, String rok, String mc, String nazwafirmy, List<String> numerylist) {
         try {
-            String mc = def.getMc();
-            String rok = def.getRok();
             StringBuilder s = new StringBuilder();
             s.append(nazwadok);
             s.append(" ");
-            s.append(def.getFirma().getNazwa());
             s.append(" nr ");
-            s.append(def.getNrkolejny());
+            for (String d : numerylist) {
+                s.append(d);
+                s.append(";");
+            }
             Paragraph opiswstepny = new Paragraph(new Phrase(s.toString(), ft[2]));
             opiswstepny.setAlignment(Element.ALIGN_CENTER);
             opiswstepny = new Paragraph(new Phrase(s.toString(), ft[2]));

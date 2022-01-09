@@ -40,9 +40,10 @@ import z.Z;
  */
 public class PdfListaPlac {
     
-    public static ByteArrayOutputStream drukujmail(List<Pasekwynagrodzen> lista, Definicjalistaplac def, SwiadczeniekodzusFacade nieobecnosckodzus) {
+    public static ByteArrayOutputStream drukujmail(List<Pasekwynagrodzen> lista, List<Definicjalistaplac> deflista, SwiadczeniekodzusFacade nieobecnosckodzus) {
         ByteArrayOutputStream out = new ByteArrayOutputStream();            
         try {
+            Definicjalistaplac def = deflista.get(0);
             String nrpoprawny = def.getNrkolejny().replaceAll("[^A-Za-z0-9]", "");
             String nazwa = def.getFirma().getNip() + "_" + nrpoprawny + "_" + "lp.pdf";
             if (lista != null) {
@@ -52,7 +53,11 @@ public class PdfListaPlac {
                 writer.setViewerPreferences(PdfWriter.PageLayoutSinglePage);
                 naglowekStopkaL(writer);
                 otwarcieDokumentu(document, nazwa);
-                PdfMain.dodajOpisWstepny(document, def, "Lista płac");
+                List<String> nazwy = new ArrayList<>();
+                for (Definicjalistaplac r : deflista) {
+                    nazwy.add(r.getNrkolejny());
+                }
+                PdfMain.dodajOpisWstepny(document, "Lista płac", def.getRok(), def.getMc(), def.getFirma().getNip(), nazwy);
                 String[] opisy = {"Razem przychód", "Podst. wymiaru składek ubezp. społecznych", "Ubezp. Emerytalne", "Ubezp. rentowe", "Ubezp. chorobowe", "Razem składki na ub. Społ.", "Podst. wymiaru składek ubezp. zdrowotnego",
                     "Koszty uzyskania przychodu", "Podstawa opodatkowania", "Potrącona zaliczka na podatek dochodowy", "Potrącona", "Odliczona od podatku", "Należna zaliczka na podatek dochodowy", "Do wypłaty"};
                 for (Pasekwynagrodzen p : lista) {
@@ -79,13 +84,15 @@ public class PdfListaPlac {
     public static void drukuj(Pasekwynagrodzen p, SwiadczeniekodzusFacade nieobecnosckodzus) {
         try {
             Angaz a = p.getKalendarzmiesiac().getUmowa().getAngaz();
-            String nazwa = a.getAngazStringPlik()+"lp.pdf";
+            String nazwa = a.getFirma().getNip()+"lp.pdf";
             if (p != null) {
                 Document document = PdfMain.inicjacjaA4Landscape();
                 PdfWriter writer = inicjacjaWritera(document, nazwa);
                 naglowekStopkaL(writer);
                 otwarcieDokumentu(document, nazwa);
-                PdfMain.dodajOpisWstepny(document, p.getDefinicjalistaplac(), "Lista płac");
+                List<String> nazwy = new ArrayList<>();
+                nazwy.add(p.getDefinicjalistaplac().getNrkolejny());
+                PdfMain.dodajOpisWstepny(document, "Lista płac", p.getRok(), p.getMc(), p.getDefinicjalistaplac().getFirma().getNip(), nazwy);
                 String[] opisy = {"Razem przychód","Podst. wymiaru składek ubezp. społecznych","Ubezp. Emerytalne","Ubezp. rentowe","Ubezp. chorobowe","Razem składki na ub. Społ.","Podst. wymiaru składek ubezp. zdrowotnego",
                     "Koszty uzyskania przychodu","Podstawa opodatkowania","Potrącona zaliczka na podatek dochodowy","Potrącona","Odliczona od podatku","Należna zaliczka na podatek dochodowy","Do wypłaty"};
                 dodajtabeleglowna(p, document);
@@ -471,7 +478,9 @@ public class PdfListaPlac {
                 PdfWriter writer = inicjacjaWritera(document, nazwa);
                 naglowekStopkaL(writer);
                 otwarcieDokumentu(document, nazwa);
-                PdfMain.dodajOpisWstepny(document, def, "Lista płac");
+                List<String> nazwy = new ArrayList<>();
+                nazwy.add(def.getNrkolejny());
+                PdfMain.dodajOpisWstepny(document, "Lista płac", def.getRok(), def.getMc(), def.getFirma().getNip(), nazwy);
                 String[] opisy = {"Razem przychód", "Podst. wymiaru składek ubezp. społecznych", "Ubezp. Emerytalne", "Ubezp. rentowe", "Ubezp. chorobowe", "Razem składki na ub. Społ.", "Podst. wymiaru składek ubezp. zdrowotnego",
                     "Koszty uzyskania przychodu", "Podstawa opodatkowania", "Potrącona zaliczka na podatek dochodowy", "Potrącona", "Odliczona od podatku", "Należna zaliczka na podatek dochodowy", "Do wypłaty"};
                 for (Pasekwynagrodzen p : lista) {

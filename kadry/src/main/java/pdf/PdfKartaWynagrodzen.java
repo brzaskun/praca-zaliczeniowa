@@ -33,7 +33,7 @@ import z.Z;
 public class PdfKartaWynagrodzen {
     public static void drukuj(List<Kartawynagrodzen> lista, Angaz angaz, String rok) {
         try {
-            String nazwa = angaz.getAngazStringPlik()+"lp.pdf";
+            String nazwa = angaz.getPracownik().getPesel()+"lp.pdf";
             if (lista != null) {
                 Document document = PdfMain.inicjacjaA4Landscape();
                 PdfWriter writer = inicjacjaWritera(document, nazwa);

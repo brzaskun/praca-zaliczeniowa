@@ -14,6 +14,7 @@ import com.itextpdf.text.pdf.PdfWriter;
 import entity.Definicjalistaplac;
 import entity.Pasekwynagrodzen;
 import error.E;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -116,17 +117,20 @@ public class PdfDRA {
     
           
      
-    public static void drukujListaPodstawowa(List<Pasekwynagrodzen> lista, Definicjalistaplac def) {
+    public static void drukujListaPodstawowa(List<Pasekwynagrodzen> lista, List<Definicjalistaplac> def, String nip, String mc) {
         try {
-            String nrpoprawny = def.getNrkolejny().replaceAll("[^A-Za-z0-9]", "");
-            String nazwa = def.getFirma().getNip() + "_" + nrpoprawny + "_" + "DRA.pdf";
+            String nazwa = nip + "_" + mc + "_" + "DRA.pdf";
             if (lista != null) {
                 lista.add(PasekwynagrodzenBean.sumujpaski(lista));
                 Document document = PdfMain.inicjacjaA4Landscape();
                 PdfWriter writer = inicjacjaWritera(document, nazwa);
                 naglowekStopkaL(writer);
                 otwarcieDokumentu(document, nazwa);
-                PdfMain.dodajOpisWstepny(document, def, "Zestawienie DRA");
+                List<String> nazwy = new ArrayList<>();
+                for (Definicjalistaplac r : def) {
+                    nazwy.add(r.getNrkolejny());
+                }
+                PdfMain.dodajOpisWstepny(document, "Zestawienie DRA", def.get(0).getRok(), def.get(0).getMc(), def.get(0).getFirma().getNip(), nazwy);
                 String[] opisy = {"lp","Nazwisko i imię","Razem przychód", "Podst. wymiaru składek ubezp. społecznych", "Ubezp. Emerytalne ", "Ubezp. rentowe", "Ubezp. chorobowe", "Razem składki na ub. społ. prac.",
                     "Ubezp. Emerytalne ", "Ubezp. rentowe", "Ubezp. wypadkowe", "Razem składki na ub. społ. firma", "Podst. wymiaru składek ubezp. zdrowotnego","Składka zdrowotna",
                     "FP", "FGŚP", "Koszt pracodawcy", "Należna zaliczka na podatek dochodowy"};

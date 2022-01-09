@@ -109,6 +109,8 @@ public class UmowaView  implements Serializable {
     @Inject
     private ZmiennaWynagrodzeniaView zmiennaWynagrodzeniaView;
     @Inject
+    private PasekwynagrodzenView pasekwynagrodzenView;
+    @Inject
     private UpdateClassView updateClassView;
     private double wynagrodzeniemiesieczne;
     private double wynagrodzeniegodzinowe;
@@ -155,6 +157,8 @@ public class UmowaView  implements Serializable {
         if (lista!=null&&lista.size()>0&&wpisView.getUmowa()!=null&&!lista.contains(wpisView.getUmowa())) {
             wpisView.setUmowa(lista.get(lista.size()-1));
         }
+        pasekwynagrodzenView.setSymulacjabrrutto(wpisView.getRokWpisuInt()<2022?2800:3010);
+        pasekwynagrodzenView.symulacjaoblicz("1");
     }
     
     public void wyborinnejumowy() {

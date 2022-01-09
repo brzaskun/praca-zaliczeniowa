@@ -197,6 +197,10 @@ public class Angaz implements Serializable {
     public String getAngazStringPlik() {
         return this.getFirma().getNazwa();
     }
+    
+    public String getAngazFirmaNip() {
+        return this.getFirma().getNip();
+    }
 
     @XmlTransient
     public List<Memory> getMemoryList() {

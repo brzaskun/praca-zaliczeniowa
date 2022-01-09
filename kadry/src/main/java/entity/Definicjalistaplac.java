@@ -42,6 +42,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Definicjalistaplac.findByOpis", query = "SELECT d FROM Definicjalistaplac d WHERE d.opis = :opis"),
     @NamedQuery(name = "Definicjalistaplac.findByRodzajlistyplac", query = "SELECT d FROM Definicjalistaplac d WHERE d.rodzajlistyplac = :rodzajlistyplac"),
     @NamedQuery(name = "Definicjalistaplac.findByFirmaRok", query = "SELECT d FROM Definicjalistaplac d WHERE d.firma = :firma and d.rok = :rok"),
+    @NamedQuery(name = "Definicjalistaplac.findByFirmaRokMc", query = "SELECT d FROM Definicjalistaplac d WHERE d.firma = :firma and d.rok = :rok and d.mc = :mc"),
     @NamedQuery(name = "Definicjalistaplac.findByFirmaRokRodzaj", query = "SELECT d FROM Definicjalistaplac d WHERE d.firma = :firma and d.rok = :rok and d.rodzajlistyplac = :rodzajlistplac"),
     @NamedQuery(name = "Definicjalistaplac.findByRok", query = "SELECT d FROM Definicjalistaplac d WHERE d.rok = :rok"),
     @NamedQuery(name = "Definicjalistaplac.findByMc", query = "SELECT d FROM Definicjalistaplac d WHERE d.mc = :mc")})
