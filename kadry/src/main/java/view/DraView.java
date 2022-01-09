@@ -11,9 +11,10 @@ import dao.PasekwynagrodzenFacade;
 import entity.Definicjalistaplac;
 import entity.Pasekwynagrodzen;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -33,7 +34,7 @@ public class DraView  implements Serializable {
     private Pasekwynagrodzen selected;
     @Inject
     private Pasekwynagrodzen selectedlista;
-    private Definicjalistaplac wybranalistaplac;
+    private List<Definicjalistaplac> listywybrane;
     private List<Pasekwynagrodzen> paskiwynagrodzen;
     private List<Definicjalistaplac> listadefinicjalistaplac;
     @Inject
@@ -47,17 +48,32 @@ public class DraView  implements Serializable {
     private double zus53;
     private double zus;
     private double pit4;
+    private String mcdra;
      
     
-    @PostConstruct
     public void init() {
-        listadefinicjalistaplac = definicjalistaplacFacade.findByFirmaRok(wpisView.getFirma(), wpisView.getRokWpisu());
+        mcdra = wpisView.getMiesiacWpisu();
+        pobierzlisty();
         Collections.sort(listadefinicjalistaplac, new Defnicjalistaplaccomparator());
     }
 
+    public void pobierzlisty() {
+        if (mcdra != null) {
+            listadefinicjalistaplac = definicjalistaplacFacade.findByFirmaRokMc(wpisView.getFirma(), wpisView.getRokWpisu(), mcdra);
+            for (Iterator<Definicjalistaplac> it = listadefinicjalistaplac.iterator(); it.hasNext();) {
+                Definicjalistaplac d = it.next();
+                if (d.getPasekwynagrodzenList() == null ||d.getPasekwynagrodzenList().isEmpty()) {
+                    it.remove();
+                }
+            }
+            Collections.sort(listadefinicjalistaplac, new Defnicjalistaplaccomparator());
+            Msg.msg("Pobrnao listy");
+        }
+    }
+    
     public void drukujliste () {
         if (paskiwynagrodzen!=null && paskiwynagrodzen.size()>0) {
-            PdfDRA.drukujListaPodstawowa(paskiwynagrodzen, wybranalistaplac);
+            PdfDRA.drukujListaPodstawowa(paskiwynagrodzen, listywybrane, wpisView.getFirma().getNip(), mcdra);
             Msg.msg("Wydrukowano listę płac");
         } else {
             Msg.msg("e","Błąd drukowania. Brak pasków");
@@ -66,13 +82,19 @@ public class DraView  implements Serializable {
     
 
     public void pobierzpaski() {
-        if (wybranalistaplac!=null) {
+        if (listywybrane!=null) {
             zus51 = 0.0;
             zus52 = 0.0;
             zus53 = 0.0;
             pit4 = 0.0;
             zus = 0.0;
-            paskiwynagrodzen = pasekwynagrodzenFacade.findByDef(wybranalistaplac);
+            paskiwynagrodzen = new ArrayList<>();
+            for (Definicjalistaplac d : listywybrane) {
+                List<Pasekwynagrodzen> paski = pasekwynagrodzenFacade.findByDef(d);
+                if (paski!=null) {
+                    paskiwynagrodzen.addAll(paski);
+                }
+            }
             for (Pasekwynagrodzen p : paskiwynagrodzen) {
                 zus51 = Z.z(zus51+p.getRazemspolecznepracownik()+p.getRazemspolecznefirma());
                 zus52 = Z.z(zus52+p.getPraczdrowotne());
@@ -119,13 +141,15 @@ public class DraView  implements Serializable {
         this.selectedlista = selectedlista;
     }
 
-    public Definicjalistaplac getWybranalistaplac() {
-        return wybranalistaplac;
+    public List<Definicjalistaplac> getListywybrane() {
+        return listywybrane;
     }
 
-    public void setWybranalistaplac(Definicjalistaplac wybranalistaplac) {
-        this.wybranalistaplac = wybranalistaplac;
+    public void setListywybrane(List<Definicjalistaplac> listywybrane) {
+        this.listywybrane = listywybrane;
     }
+
+ 
 
     public double getZus51() {
         return zus51;
@@ -165,6 +189,14 @@ public class DraView  implements Serializable {
 
     public void setPit4(double pit4) {
         this.pit4 = pit4;
+    }
+
+    public String getMcdra() {
+        return mcdra;
+    }
+
+    public void setMcdra(String mcdra) {
+        this.mcdra = mcdra;
     }
 
     
