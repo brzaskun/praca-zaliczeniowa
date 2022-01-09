@@ -7,12 +7,16 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:bcf="http://brzaskun.com/facelets">
     <h:form id="formpodatnicy">
+      
         <p:outputPanel>
             <p:commandButton value="zapisz podatnicy" style="width: 200px; margin: 10px;" actionListener="#{podatnikKsiegowaShortView.zapisz}"/>
             <p:panelGrid columns="2" style="width: 1250px;">
 
                 <p:column>
-                    <p:dataTable id="tabelapodatnicy" value="#{podatnikKsiegowaShortView.listapodatnikow}" var="item" style="width: 1050px;height: 900px;overflow-y: scroll;" rowIndexVar="index" 
+<!--                      <p:commandButton value="XLS" >
+            <p:dataExporter type="xls" target="formpodatnicy:tabelapodatnicy" fileName="lista" />
+        </p:commandButton>-->
+                    <p:dataTable id="tabelapodatnicy" value="#{podatnikKsiegowaShortView.listapodatnikow}" var="item" style="width: 1150px;height: 900px;overflow-y: scroll;" rowIndexVar="index" 
                                  rowStyleClass="#{item.ksiegowa.login.startsWith('mar') ? 'rmarta' : item.ksiegowa.login.startsWith('wda') ? 'rwioletta' : item.ksiegowa.login.startsWith('go') ? 'rmalgosia' : 'rrenata'}">
                         <p:ajax event="filter" global="false"/>
                         <p:column headerText="lp" width="30">
@@ -39,6 +43,11 @@
                         </p:column>
                         <p:column headerText="email" width="300" style="text-align: center;">
                             <p:inputText value="#{item.email}" size="40">
+                                <p:ajax event="blur" listener="#{podatnikKsiegowaShortView.edytujpodatnika(item)}" />
+                            </p:inputText>
+                        </p:column>
+                        <p:column headerText="tel." width="150" style="text-align: center;">
+                            <p:inputText value="#{item.telefonkontaktowy}" size="40">
                                 <p:ajax event="blur" listener="#{podatnikKsiegowaShortView.edytujpodatnika(item)}" />
                             </p:inputText>
                         </p:column>
