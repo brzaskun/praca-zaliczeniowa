@@ -5,6 +5,7 @@
  */
 package beansFaktura;
 
+import comparator.FakturaNumercomparator;
 import dao.FakturaDAO;
 import entity.Faktura;
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ public class FakturaOkresowaGenNum {
     public static void wygenerujnumerfaktury(FakturaDAO fakturaDAO, Faktura selected, WpisView wpisView) {
         List<String> numerypobranych = Collections.synchronizedList(new ArrayList<>());
         List<Faktura> wykazfaktur = fakturaDAO.findbyKontrahentNipRok(selected.getKontrahent().getNip(), wpisView.getPodatnikObiekt(), String.valueOf(wpisView.getRokWpisu()));
+        Collections.sort(wykazfaktur, new FakturaNumercomparator());
         if (selected.isProforma()) {
             for (Iterator<Faktura> it = wykazfaktur.iterator(); it.hasNext(); ) {
                 Faktura fa = it.next();
