@@ -171,7 +171,7 @@ public class Fakturywystokresowe implements Serializable {
         this.wystawtylkoraz = stara.wystawtylkoraz;
         this.recznaedycja = stara.recznaedycja;
         this.biezaca0archiwalna1 = stara.biezaca0archiwalna1;
-        this.zawieszona = this.zawieszona;
+        this.zawieszona = stara.zawieszona;
         this.m1 = stara.m1;
         this.m2 = stara.m2;
         this.m3 = stara.m3;
