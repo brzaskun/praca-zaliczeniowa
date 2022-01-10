@@ -6,16 +6,15 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:bcf="http://brzaskun.com/facelets">
+    
     <h:form id="formpodatnicy">
-      
+
         <p:outputPanel>
             <p:commandButton value="zapisz podatnicy" style="width: 200px; margin: 10px;" actionListener="#{podatnikKsiegowaShortView.zapisz}"/>
             <p:panelGrid columns="2" style="width: 1250px;">
 
                 <p:column>
-<!--                      <p:commandButton value="XLS" >
-            <p:dataExporter type="xls" target="formpodatnicy:tabelapodatnicy" fileName="lista" />
-        </p:commandButton>-->
+
                     <p:dataTable id="tabelapodatnicy" value="#{podatnikKsiegowaShortView.listapodatnikow}" var="item" style="width: 1150px;height: 900px;overflow-y: scroll;" rowIndexVar="index" 
                                  rowStyleClass="#{item.ksiegowa.login.startsWith('mar') ? 'rmarta' : item.ksiegowa.login.startsWith('wda') ? 'rwioletta' : item.ksiegowa.login.startsWith('go') ? 'rmalgosia' : 'rrenata'}">
                         <p:ajax event="filter" global="false"/>
@@ -36,8 +35,8 @@
                                 <p:ajax event="change" listener="#{podatnikKsiegowaShortView.edytujpodatnika(item)}" />
                             </p:selectBooleanCheckbox>
                         </p:column>
-                         <p:column headerText="stare kadry" width="60" style="text-align: center;">
-                             <p:selectBooleanCheckbox value="#{item.starekadry}">
+                        <p:column headerText="stare kadry" width="60" style="text-align: center;">
+                            <p:selectBooleanCheckbox value="#{item.starekadry}">
                                 <p:ajax event="change" listener="#{podatnikKsiegowaShortView.edytujpodatnika(item)}" />
                             </p:selectBooleanCheckbox>
                         </p:column>
