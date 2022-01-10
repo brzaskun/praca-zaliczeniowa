@@ -1551,7 +1551,7 @@ public class FakturaView implements Serializable {
             for (Faktura p : gosciwybral) {
                 String podatnik = wpisView.getPodatnikWpisu();
                 Fakturywystokresowe nowafakturaokresowa = new Fakturywystokresowe();
-                nowafakturaokresowa.setDokument(new Faktura(p));
+                nowafakturaokresowa.setDokument(new Faktura(p, wpisView.getRokWpisuSt()));
                 nowafakturaokresowa.setPodatnik(podatnik);
                 naznaczmiesiacnafakturzeokresowej(nowafakturaokresowa, p);
                 nowafakturaokresowa.setBrutto(p.getBrutto());
@@ -2163,7 +2163,7 @@ public class FakturaView implements Serializable {
     
     public void skopiujdoNowegoroku() {
         for (Fakturywystokresowe stara : gosciwybralokres) {
-            Fakturywystokresowe p = new Fakturywystokresowe(stara);
+            Fakturywystokresowe p = new Fakturywystokresowe(stara, wpisView.getMiesiacWpisu());
             p.setId(null);
             p.setRok(wpisView.getRokNastepnySt());
             p.setM1(0);

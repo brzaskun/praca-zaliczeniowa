@@ -164,10 +164,10 @@ public class Fakturywystokresowe implements Serializable {
         this.m12 = m12;
     }
 
-    public Fakturywystokresowe(Fakturywystokresowe stara) {
+    public Fakturywystokresowe(Fakturywystokresowe stara, String rok) {
         this.podatnik = stara.podatnik;
         this.rok = stara.rok;
-        this.dokument = new Faktura(stara.dokument);
+        this.dokument = new Faktura(stara.dokument, rok);
         this.wystawtylkoraz = stara.wystawtylkoraz;
         this.recznaedycja = stara.recznaedycja;
         this.biezaca0archiwalna1 = stara.biezaca0archiwalna1;
