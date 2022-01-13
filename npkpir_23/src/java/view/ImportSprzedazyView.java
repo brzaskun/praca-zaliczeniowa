@@ -91,15 +91,19 @@ public class ImportSprzedazyView  implements Serializable {
             } else {
                 dokumenty = stworzdokumenty(jpk);
             }
-            netto = 0.0;
-            vat = 0.0;
-            brutto = 0.0;
-            for (Dok p : dokumenty) {
-                netto = netto+p.getNetto();
-                vat = vat+p.getVat();
+            if (dokumenty!=null&&!dokumenty.isEmpty()) {
+                netto = 0.0;
+                vat = 0.0;
+                brutto = 0.0;
+                for (Dok p : dokumenty) {
+                    netto = netto+p.getNetto();
+                    vat = vat+p.getVat();
+                }
+                brutto = Z.z(netto+vat);
+                Msg.msg("Sukces. Plik " + filename + " został skutecznie załadowany");
+            } else {
+                Msg.msg("e","Plik " + filename + " pusty lub wystąpił błąd podczas generowania.");
             }
-            brutto = Z.z(netto+vat);
-            Msg.msg("Sukces. Plik " + filename + " został skutecznie załadowany");
         } catch (Exception ex) {
             E.e(ex);
             Msg.msg("e","Wystąpił błąd. Nie udało się załadowanać pliku");
@@ -146,15 +150,21 @@ public class ImportSprzedazyView  implements Serializable {
                     }
                 });
             } else if (jpk instanceof pl.gov.crd.wzor._2020._05._08._9393.JPK) {
-                ((pl.gov.crd.wzor._2020._05._08._9393.JPK) jpk).getEwidencja().getSprzedazWiersz().forEach((p) -> {
-                    SprzedazWierszA wiersz = (SprzedazWierszA) p;
-                    if (wiersz.getNrKontrahenta() != null && wiersz.getNrKontrahenta().length()==10) {
-                        Dok dok = generujdok(p);
-                        if (dok!=null) {
-                            dokumenty.add(dok);
+                int miesiac = ((pl.gov.crd.wzor._2020._05._08._9393.JPK) jpk).getNaglowek().getMiesiac();
+                int mcpkpir = Integer.parseInt(wpisView.getMiesiacWpisu());
+                if (mcpkpir!=miesiac) {
+                    Msg.msg("e","Uwaga. Plik z innego miesiąca!");
+                } else {
+                    ((pl.gov.crd.wzor._2020._05._08._9393.JPK) jpk).getEwidencja().getSprzedazWiersz().forEach((p) -> {
+                        SprzedazWierszA wiersz = (SprzedazWierszA) p;
+                        if (wiersz.getNrKontrahenta() != null && wiersz.getNrKontrahenta().length()==10) {
+                            Dok dok = generujdok(p);
+                            if (dok!=null) {
+                                dokumenty.add(dok);
+                            }
                         }
-                    }
-                });
+                    });
+                }
             } else {
                 jpk.getSprzedazWiersz().forEach((p) -> {
                     SprzedazWierszA wiersz = (SprzedazWierszA) p;
