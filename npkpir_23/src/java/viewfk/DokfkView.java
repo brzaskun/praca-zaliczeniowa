@@ -1629,6 +1629,8 @@ public class DokfkView implements Serializable {
                         //to jest ok. skoro firma nie jest vat-owcem to juz w tym miejscu trzeba pobeirac konta
                         if(wpisView.getVatokres()==0) {
                             DokFKVATBean.pobierzkontaZpoprzedniegoDokumentu(poprzedniDokument, selected);
+                        } else if (wpisView.getVatokres()==1 && (selected.getRodzajedok().getKategoriadokumentu()==3||selected.getRodzajedok().getKategoriadokumentu()==4)) {
+                            DokFKVATBean.pobierzkontaZpoprzedniegoDokumentu(poprzedniDokument, selected);
                         }
                     } else {
                         kontoRozrachunkowe = null;
