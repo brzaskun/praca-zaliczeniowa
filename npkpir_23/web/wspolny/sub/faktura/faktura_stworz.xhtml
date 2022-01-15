@@ -155,7 +155,7 @@
                                             requiredMessage="Nie wybrany nabywca faktury" queryDelay="10" styleClass="wpisywaniekontrfk" 
                                             >
                                 <p:ajax event="blur" listener="#{fakturaView.wgenerujnumerfaktury}" partialSubmit="true" oncomplete="sprawdzczybrakklientafaktura();"  global="false"/>
-                                <p:ajax event="itemSelect" listener="#{fakturaView.faktItemSelect}" partialSubmit="true" global="false"/>
+                                <p:ajax event="itemSelect" listener="#{fakturaView.faktItemSelect}" partialSubmit="true" global="false" update="akordeon:formstworz:poleemailkontr"/>
                                 <p:ajax event="query"  global="false"/>
                                 <f:facet name="itemtip">  
                                     <h:panelGrid  columns="2" cellpadding="5" width="400">  
@@ -176,6 +176,18 @@
                             </p:autoComplete>
 
                             <p:commandButton value="aktualizuj z GUS" id="buton1taki" actionListener="#{KlView.znajdzdaneregonAutomat(fakturaView.selected.kontrahent)}" style="width: 140px; margin-left: 100px;" update="akordeon:formstworz:acForce"/>
+                </p:panelGrid>
+                <p:panelGrid columns="4" styleClass="polefaktury" columnClasses="tp tp tp tp" layout="grid" >
+                    <h:outputText value="email kontrahenta"/>
+                    <p:inplace editor="true" effect="slide" effectSpeed="fast" saveLabel="zachowaj" cancelLabel="rezygnuj" id="poleemailkontr">
+                        <p:ajax event="save" listener="#{fakturaView.edytujemail(fakturaView.selected.kontrahent)}" global="false" update="@parent"/>
+                        <f:facet name="output">
+                            <h:outputText value="#{fakturaView.selected.kontrahent.email ne null and fakturaView.selected.kontrahent.email ne '' ? fakturaView.selected.kontrahent.email : 'brak email'}"/>
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText value="#{fakturaView.selected.kontrahent.email}"  style="width: 180px;" />
+                        </f:facet>
+                    </p:inplace>
                 </p:panelGrid>
                 <p:panelGrid columns="2" styleClass="polefaktury" columnClasses="tp tp tp tp" layout="grid" rendered="#{fakturadodelementyView.czydodatkowyelementjestAktywny('Dane Odbiorcy')}">
                             <h:outputLabel id="daneodbiorcyout" value="dane odbiorcy: " />

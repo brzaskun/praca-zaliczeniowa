@@ -86,6 +86,7 @@ public class FakturaDodPozycjaKontrahentView  implements Serializable {
         Collections.sort(klienci,new Klienci1comparator());
         pozycje = fakturaDodatkowaPozycjaDAO.findAll();
         if (rok!=null&&mc!=null) {
+            lista_wzor = fakturaDodPozycjaKontrahentDAO.findByRok(rok);
             List<FakturaDodPozycjaKontrahent> lista_tmp = lista_wzor.stream().filter(p->p.getRok().equals(rok)&&p.getMc().equals(mc)).collect(Collectors.toList());
             lista_2 = new ArrayList<>();
             lista_2.addAll(lista_tmp);
@@ -150,22 +151,30 @@ public class FakturaDodPozycjaKontrahentView  implements Serializable {
     }
     
     public void generujpermanentne() {
-         lista_wzor = fakturaDodPozycjaKontrahentDAO.findByRok(Data.aktualnyRok());
-         if (rok!=null&&mc!=null) {
-            String[] okrespop = Data.poprzedniOkres(mc, rok);
-            List<FakturaDodPozycjaKontrahent> lista_tmp = lista_wzor.stream().filter(p->p.getRok().equals(okrespop[1])&&p.getMc().equals(okrespop[0])).collect(Collectors.toList());
-            if (lista_tmp.isEmpty()) {
-                Msg.msg("e", "Brak pozycji stałych");
-            } else {
-                if (lista_2==null) {
-                    lista_2 = new ArrayList<>();
-                }
-                for (FakturaDodPozycjaKontrahent p : lista_tmp) {
-                    FakturaDodPozycjaKontrahent r = new FakturaDodPozycjaKontrahent(p, rok, mc);
-                    dodajpozycje(r,lista_2);
-                }
-                Msg.msg("Pobrano stałe pozycje");
+        if (rok!=null) {
+            lista_wzor = fakturaDodPozycjaKontrahentDAO.findByRok(rok);
+            if (lista_wzor==null||lista_wzor.isEmpty()) {
+                String rokuprzedni = String.valueOf(Integer.parseInt(rok)-1);
+                lista_wzor = fakturaDodPozycjaKontrahentDAO.findByRok(rokuprzedni);
             }
+            if (rok!=null&&mc!=null) {
+               String[] okrespop = Data.poprzedniOkres(mc, rok);
+               List<FakturaDodPozycjaKontrahent> lista_tmp = lista_wzor.stream().filter(p->p.getRok().equals(okrespop[1])&&p.getMc().equals(okrespop[0])).collect(Collectors.toList());
+               if (lista_tmp.isEmpty()) {
+                   Msg.msg("e", "Brak pozycji stałych");
+               } else {
+                   if (lista_2==null) {
+                       lista_2 = new ArrayList<>();
+                   }
+                   for (FakturaDodPozycjaKontrahent p : lista_tmp) {
+                       FakturaDodPozycjaKontrahent r = new FakturaDodPozycjaKontrahent(p, rok, mc);
+                       dodajpozycje(r,lista_2);
+                   }
+                   Msg.msg("Pobrano stałe pozycje");
+               }
+           }
+        } else {
+            Msg.msg("e","Nie wybrano roku");
         }
     }
     
