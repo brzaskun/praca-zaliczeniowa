@@ -29,8 +29,11 @@
                             <h2>W celu zalogowania wpisz swój email</h2>
                         </div>
                         <div style="text-align: center;">
-                            <input type="text" id="email" name="mail" value="#{loging.uzytkownik}" style="color: rgb(74,26,15); padding-left: 10px;width: 390px;"  autocomplete="off"
-                                   title="Wpisz nazwę adresu email, na który został wysłana informacja o szkoleniu"/><br/>
+                            <p:inputText id="email" styleClass="email" value="#{loging.uzytkownik}" style="color: rgb(74,26,15); padding-left: 10px;width: 390px;" title="Wpisz nazwę adresu email, na który został wysłana informacja o szkoleniu">
+                            </p:inputText>
+<!--                            <input type="text" id="email" name="mail" value="#{loging.uzytkownik}" style="color: rgb(74,26,15); padding-left: 10px;width: 390px;"  autocomplete="off"
+                                   title="Wpisz nazwę adresu email, na który został wysłana informacja o szkoleniu"/>-->
+                            <br/>
                             <div class="margin1" style="height: 20px;">
                                 <span id="result" style="font-size: 80%;"></span>
                             </div>

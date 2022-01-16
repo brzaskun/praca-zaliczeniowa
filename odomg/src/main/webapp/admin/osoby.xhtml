@@ -34,7 +34,7 @@
                     </p:menubar>
                 </h:form>
             </p:outputPanel>
-            <p:outputPanel>
+            <p:outputPanel style="margin: 20px;">
                 <h:form>
                     <p:autoComplete id="firmaimport" value="#{osobyView.zakladpracy}" converter="#{zakladpracyConverter}"
                                     widgetVar="firmaimport" completeMethod="#{osobyView.complete}" size="100" style="width: 120px;"
@@ -56,6 +56,131 @@
                                 </h:panelGrid>
                             </f:facet>
                         </p:autoComplete>
+                            <p:dataTable value="#{osobyView.listaosoby}" var="item" style="overflow-y: scroll;width: 1700px;" size="small"
+                                 rowsPerPageTemplate="20,100,250,500" paginatorPosition="top" paginator="true" rows="20"
+                                 emptyMessage="Nie wprowadzono ani jednego pracownika">
+                                <p:column width="30">
+                                    <f:facet name="header">
+                                        <h:outputText value="Id"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.id}"/>
+                                </p:column>
+                                <p:column width="150">
+                                    <f:facet name="header">
+                                        <h:outputText value="Email"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.email}"/>
+                                </p:column>
+                                <p:column width="150">
+                                    <f:facet name="header">
+                                        <h:outputText value="Imienazwisko"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.imienazwisko}"/>
+                                </p:column>
+                                <p:column width="30" style="text-align: center;">
+                                    <f:facet name="header">
+                                        <h:outputText value="Plec"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.plec}"/>
+                                </p:column>
+                                <p:column width="100">
+                                    <f:facet name="header">
+                                        <h:outputText value="Nazwaszkolenia"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.nazwaszkolenia}"/>
+                                </p:column>
+                                <p:column width="100">
+                                    <f:facet name="header">
+                                        <h:outputText value="Nrupowaznienia"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.nrupowaznienia}"/>
+                                </p:column>
+                                <p:column width="60">
+                                    <f:facet name="header">
+                                        <h:outputText value="Datanadania"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.datanadania}"/>
+                                </p:column>
+                                <p:column width="60">
+                                    <f:facet name="header">
+                                        <h:outputText value="Dataustania"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.dataustania}"/>
+                                </p:column>
+                                <p:column width="30">
+                                    <f:facet name="header">
+                                        <h:outputText value="Wyslany mail upr"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.wyslanymailupr}"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Sessionstart"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.sessionstart}">
+                                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Sessionend"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.sessionend}">
+                                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column width="30">
+                                    <f:facet name="header">
+                                        <h:outputText value="Wyslany cert"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.wyslanycert}"/>
+                                </p:column>
+                                <p:column width="30">
+                                    <f:facet name="header">
+                                        <h:outputText value="Ilosc logowan"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.ilosclogowan}"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Wyslaneup"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.wyslaneup}"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Utworzony"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.utworzony}">
+                                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Zaswiadczeniedata"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.zaswiadczeniedata}">
+                                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Upowaznieniedata"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.upowaznieniedata}">
+                                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Wyslanymailuprdata"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.wyslanymailuprdata}">
+                                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                                    </h:outputText>
+                                </p:column>
+                               
+                            </p:dataTable>
                 </h:form>
             </p:outputPanel>
         </h:body>

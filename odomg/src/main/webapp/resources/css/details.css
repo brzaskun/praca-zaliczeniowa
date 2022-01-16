@@ -359,8 +359,28 @@
     text-align: right;
 }
 
-#email {
-    background-image: url("#{resource['css/pics/pole_adersu_e-kurs_screen_pp.png']}");
+.email {
+    background-image: url("#{resource['css/pics/pole_adersu_e-kurs_screen_pp.png']}") !important;
+    height: 30px;
+    padding-left: 5px !important;
+    font-size: large !important;
+    position: relative !important;
+    margin: auto !important;
+    vertical-align: middle !important;
+}
+
+.email:hover {
+    background-image: url("#{resource['css/pics/pole_adersu_e-kurs_screen_pp.png']}") !important;
+    height: 30px;
+    padding-left: 5px;
+    font-size: large;
+    position: relative;
+    margin: auto;
+    vertical-align: middle;
+}
+
+.email:active {
+    background-image: url("#{resource['css/pics/pole_adersu_e-kurs_screen_pp.png']}") !important;
     height: 30px;
     padding-left: 5px;
     font-size: large;

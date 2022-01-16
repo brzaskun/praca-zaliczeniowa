@@ -5,6 +5,7 @@
  */
 package view;
 
+import dao.UczestnicyFacade;
 import dao.ZakladpracyFacade;
 import entity.Uczestnicy;
 import entity.Zakladpracy;
@@ -31,6 +32,8 @@ public class OsobyView implements Serializable {
     private List<Uczestnicy> listaosoby;
     @Inject
     private ZakladpracyFacade zakladpracyFacade;
+    @Inject
+    private UczestnicyFacade uczestnicyFacade;
     
     @PostConstruct
     private void init() {
@@ -51,7 +54,8 @@ public class OsobyView implements Serializable {
     
     public void pobierzosoby() {
         if (zakladpracy!=null) {
-            
+            listaosoby  = uczestnicyFacade.findByFirmaId(zakladpracy.getId());
+            System.out.println("");
         }
     }
 

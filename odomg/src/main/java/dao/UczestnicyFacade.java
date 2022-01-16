@@ -52,6 +52,15 @@ public class UczestnicyFacade extends DAO  implements Serializable {
         }
         return zwrot;
     }
+    
+    public List<Uczestnicy> findByFirmaId(Integer firmaId) {
+        List<Uczestnicy> zwrot = null;
+        try {
+            zwrot = getEntityManager().createNamedQuery("Uczestnicy.findByFirmaId").setParameter("firmaId", firmaId).getResultList();
+        } catch (Exception ex){
+        }
+        return zwrot;
+    }
 
        
    
