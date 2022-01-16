@@ -1,9 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence version="2.2" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd">
   <!-- Define Persistence Unit -->
- <persistence-unit name="odomgPU" transaction-type="JTA">
+  <persistence-unit name="odomgPU" transaction-type="JTA">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <jta-data-source>odomgDB</jta-data-source>
+    <class>entity.Login</class>
+    <class>entity.Szkolenie</class>
+    <class>entity.Szkoleniewykaz</class>
+    <class>entity.Uczestnicy</class>
+    <class>entity.Testwykaz</class>
+    <class>entity.Haslo</class>
+    <class>entity.Test</class>
+    <class>entity.Grupyupowaznien</class>
+    <class>entity.Testpodglad</class>
+    <class>entity.X</class>
+    <class>entity.Uczestnikgrupy</class>
+    <class>entity.Uczestnicyarchiwum</class>
+    <class>entity.Szkoleniepodglad</class>
+    <class>entity.Alabpoczta</class>
+    <class>entity.Zakladpracy</class>
+    <class>entity.Szkolenietest</class>
+    <class>entity.Zaswiadczenia</class>
+    <class>entity.Szkolenieust</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <shared-cache-mode>ALL</shared-cache-mode>
     <validation-mode>NONE</validation-mode>

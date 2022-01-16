@@ -29,11 +29,11 @@
             const LOCAL_DOMAINS = ["localhost"];
             const LOCAL_DOMAINS_OFFICE = ["192.168.1.90"];
             var czylocal = function() {
-                var zwrot = "http://taxman.pl:8080/npkpir_23";
+                var zwrot = "http://taxman.pl:8080/odomg";
                 if (LOCAL_DOMAINS.includes(window.location.hostname)) {
-                  zwrot = "http://localhost:8080/npkpir_23";
+                  zwrot = "http://localhost:8080/odomg";
                 } else if (LOCAL_DOMAINS_OFFICE.includes(window.location.hostname)) {
-                  zwrot = "http://192.168.1.90:8080/npkpir_23";
+                  zwrot = "http://192.168.1.90:8080/odomg";
                 }
                 document.getElementById("actionform").action = zwrot;
             };

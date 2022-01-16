@@ -35,6 +35,10 @@
             <to-view-id>/admin/index.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
          <navigation-case>
+            <from-outcome>Osoby</from-outcome>
+            <to-view-id>/admin/osoby.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+         <navigation-case>
             <from-outcome>Uczen</from-outcome>
             <to-view-id>/uczen/index.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>

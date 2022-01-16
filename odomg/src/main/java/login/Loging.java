@@ -36,7 +36,7 @@ public class Loging implements Serializable {
     private void init() { //E.m(this);
         try {
             invalidatesession();
-            uzytkownik ="brzaskun@wp.pl";
+            uzytkownik ="brzaskun@o2.pl";
             haslo = "12";
         } catch (Exception e) {
             E.e(e);
@@ -55,7 +55,7 @@ public class Loging implements Serializable {
             } else {
                 request.login(uzytkownik, haslo);
                 request.setAttribute("user", uzytkownik);
-                String lo = request.getRemoteUser();
+                String uzer = request.getRemoteUser();
                 if (request.isUserInRole("Administrator")) {
                     navto = "Administrator";
                 } else if (request.isUserInRole("Uczen")) {
@@ -63,7 +63,7 @@ public class Loging implements Serializable {
                 } else if (request.isUserInRole("Pracodawca")) {
                     navto = "PortalPracodawca";
                 }
-                wpisView.init();
+                wpisView.init(uzer, navto);
             }
             //Msg.msg("Zweryfikowano hasło");
             return navto;

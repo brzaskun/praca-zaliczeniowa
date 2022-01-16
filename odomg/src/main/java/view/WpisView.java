@@ -18,12 +18,8 @@ import javax.inject.Named;
 public class WpisView implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private String rokWpisu;
-    private String rokUprzedni;
-    private String rokNastepny;
-    private String miesiacWpisu;
-    private String miesiacOd;
-    private String miesiacDo;
+    private String uzer;
+    private String rola;
  
     
 
@@ -33,9 +29,31 @@ public class WpisView implements Serializable {
 
     @PostConstruct
     public void init() { //E.m(this);
-        rokWpisu="2020";
-        miesiacWpisu="12";
+        
     }
+
+    public void init(String uzer, String navto) {
+        this.uzer = uzer;
+        this.rola = navto;
+    }
+
+    public String getUzer() {
+        return uzer;
+    }
+
+    public void setUzer(String uzer) {
+        this.uzer = uzer;
+    }
+
+    public String getRola() {
+        return rola;
+    }
+
+    public void setRola(String rola) {
+        this.rola = rola;
+    }
+    
+    
     
 
   }

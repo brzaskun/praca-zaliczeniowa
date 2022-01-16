@@ -34,6 +34,30 @@
                     </p:menubar>
                 </h:form>
             </p:outputPanel>
+            <p:outputPanel>
+                <h:form>
+                    <p:autoComplete id="firmaimport" value="#{osobyView.zakladpracy}" converter="#{zakladpracyConverter}"
+                                    widgetVar="firmaimport" completeMethod="#{osobyView.complete}" size="100" style="width: 120px;"
+                                        var="firma" itemLabel="#{firma.nazwazakladu}" itemValue="#{firma}"  title="nazwa firmy"
+                                        minQueryLength="3" maxResults="12" maxlength="40" converterMessage="Nieudana konwersja firmy" queryDelay="0"
+                                        forceSelection="true" styleClass="wpisywaniekontrfk" moreText="jest więcej pasujących pozycji"
+                                        >
+                            <p:ajax event="query" global="false"/>
+                            <p:ajax event="itemSelect" partialSubmit="true" global="false" listener="#{osobyView.pobierzosoby}" update="@form"/>
+                            <f:facet name="itemtip">  
+                                <h:panelGrid  columns="2" cellpadding="5" width="400">  
+                                    <f:facet name="header">  
+                                        <h:outputText value="Dane firmy"/>
+                                    </f:facet>  
+                                    <h:outputText value="nazwa: " />  
+                                    <h:outputText value="#{firma.nazwazakladu}" />  
+                                    <h:outputText value="email: " />  
+                                    <h:outputText value="#{firma.email}" />  
+                                </h:panelGrid>
+                            </f:facet>
+                        </p:autoComplete>
+                </h:form>
+            </p:outputPanel>
         </h:body>
     </f:view>
 </html>
