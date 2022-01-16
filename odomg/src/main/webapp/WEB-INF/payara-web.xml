@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE payara-web-app PUBLIC "-//Payara.fish//DTD Payara Server 4 Servlet 3.0//EN" "https://docs.payara.fish/schemas/payara-web-app_4.dtd">
+<payara-web-app error-url="">
+  <class-loader delegate="true"/>
+  <security-role-mapping>
+    <role-name>Administrator</role-name>
+    <principal-name>Administrator</principal-name>
+    <group-name>Administrator</group-name>
+  </security-role-mapping>
+  <security-role-mapping>
+    <role-name>Uczen</role-name>
+    <principal-name>Uczen</principal-name>
+    <group-name>Uczen</group-name>
+  </security-role-mapping>
+  <security-role-mapping>
+    <role-name>Pracodawca</role-name>
+    <principal-name>Pracodawca</principal-name>
+    <group-name>Pracodawca</group-name>
+  </security-role-mapping>
+  <context-root>/odomg</context-root>
+  <!-- Change the default character encoding from ISO-8859-1 to UTF-8 -->
+  <parameter-encoding default-charset="UTF-8"/>
+</payara-web-app>

@@ -12,44 +12,40 @@
             <meta http-equiv="Pragma" content="no-cache"/>
             <meta http-equiv="Expires" content="0" />
             <meta http-equiv="Cache-Control" content="no-cache,no-store,must-revalidate"/>
-            <link href="resources/css/style.css" rel="stylesheet" type="text/css"/>
-            <link rel="icon" type="image/png" sizes="32x32" href="/resources/css/images/ODOLogoVector.png"/>
+            <link rel="icon" type="image/png" sizes="32x32" href="#{resource['css/pics/ODOLogoVector.png']}"/>
+            <h:outputStylesheet name="cssa/main.css" />
+            <h:outputStylesheet name="cssa/style.css" />
+            <h:outputStylesheet name="cssa/details.css" />
             <title>Testy Dane Wrażliwe</title>
         </h:head>
         <h:body>
-
-            <p:panel style="text-align: center; min-height: 150px;">
-            </p:panel>
-            <p:panel style="margin-left: auto; margin-right: auto; width: 600px; border: none" >
-                <p:growl life="7200"  id="logowanie"  ><p:autoUpdate/></p:growl>
-            </p:panel>
             <h:form id="formlog1">
-                <style>
-                    .aktywny .ui-widget-header {
-                        color:red;
-                    }
-                </style> 
-                <p:panel style="margin-top: 2%; margin-left: auto; margin-right: auto; width: 380px"
-                         header="kadry"
-                         >
-                    <p:focus id="focus" context="logowaniepanel"/>
-                    <p:panelGrid id="logowaniepanel" columns="2" style="margin-left: auto; margin-right: auto; margin-top: 4%; width: 350px; text-align: center;">
-                        <h:outputText id="loginnazwa" value="login"/>
-                        <h:inputText value="#{loging.uzytkownik}" accesskey="s" required="true" style="width: 150px;" requiredMessage="Wpisz login!" 
-                                      >
-
-                        </h:inputText>
-                        <h:outputText id="loginhaslo" value="hasło"/>
-                        <h:inputSecret id="haslo" value="#{loging.haslo}" required="true" style="width: 150px;" requiredMessage="Wpisz hasło!" autocomplete="true" redisplay="true"/>
-                    </p:panelGrid>
-                    <br/>
-                    <p:panelGrid id="logowaniebutton" columns="2" style="margin-left: auto; margin-right: auto; width: 350px; text-align: center; border: none !important;">
-                        <p:defaultCommand target="zaloguj"/>
-                        <p:commandButton id="zaloguj" value="zaloguj" action="#{loging.login()}" ajax="false"
-                                       styleClass="loginbutton" style="width: 150px; text-align: center;">
-                        </p:commandButton>
-                    </p:panelGrid>
-                </p:panel>
+                <p:outputPanel styleClass="box">
+                    <p:outputPanel styleClass="slajd">
+                        <div id="loginnaglowek" style="font-family: 'bienvenuetp' !important;text-align: center;">
+                            <h2>E-szkolenia: Ochrona Danych Osobowych, Systemy Zarządzania Jakością, Bezpieczeństwo Informacji</h2> 
+                        </div>
+                        <div id="logininfo" style="font-family: 'bienvenuetp' !important;text-align: center;">
+                            <h2>W celu zalogowania wpisz swój email</h2>
+                        </div>
+                        <div style="text-align: center;">
+                            <input type="text" id="email" name="mail" value="#{loging.uzytkownik}" style="color: rgb(74,26,15); padding-left: 10px;width: 390px;"  autocomplete="off"
+                                   title="Wpisz nazwę adresu email, na który został wysłana informacja o szkoleniu"/><br/>
+                            <div class="margin1" style="height: 20px;">
+                                <span id="result" style="font-size: 80%;"></span>
+                            </div>
+                            <div id="polepin" style="display: none; margin-left: 25.8%;" >
+                                <label for="pin">podaj pin</label>
+                                <input id="pin" name="pin" type="text" onkeyup="sprawdzpin();" style="color: rgb(74,26,15);" />
+                            </div>
+                            <br/>
+                            <div style="text-align: center;">
+                                <p:commandButton id="zaloguj" value="zaloguj" action="#{loging.login()}" styleClass="buttonlogowanie" ajax="false">
+                                </p:commandButton>
+                            </div>
+                        </div>
+                    </p:outputPanel>
+                </p:outputPanel>
             </h:form>
         </h:body>
     </f:view>

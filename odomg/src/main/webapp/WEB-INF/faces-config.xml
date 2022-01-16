@@ -8,7 +8,7 @@
         <lifecycle-factory>org.primefaces.clientwindow.PrimeClientWindowLifecycleFactory</lifecycle-factory>
     </factory>
    <application>
-        <locale-config>
+<!--        <locale-config>
             <default-locale>pl</default-locale>
             <supported-locale>en</supported-locale>
             <supported-locale>de</supported-locale>
@@ -28,7 +28,17 @@
        <message-bundle>
             messagesbundle.Bundle
       </message-bundle>
-     
+     -->
+      <navigation-rule>
+        <navigation-case>
+            <from-outcome>Administrator</from-outcome>
+            <to-view-id>/admin/index.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+         <navigation-case>
+            <from-outcome>Uczen</from-outcome>
+            <to-view-id>/uczen/index.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+      </navigation-rule>
    </application>
     <application>
         <locale-config>

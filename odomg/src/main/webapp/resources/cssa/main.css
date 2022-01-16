@@ -1,0 +1,117 @@
+@font-face {
+    font-family: 'bienvenuetp';
+    src: url("#{resource['fonts/bienvenuetp.ttf']}") format("truetype");
+}
+@font-face {
+    font-family: 'bienvenuetp';
+    src: url("#{resource['fonts/bienvenuetp.eot']}");
+}
+
+@font-face {
+    font-family: 'bienvenuetp';
+    src: url("#{resource['fonts/bienvenuetp.otf']}");
+}
+/*@font-face {
+    font-family: bienvenuetp;
+    src: url("czcionki/bienvenuetp.ttf") format("truetype");
+}
+@font-face {
+    font-family: bienvenuetp;
+    src: url("czcionki/bienvenuetp.eot");
+}*/
+
+html { 
+/*    background: url("pics/e-kursscreen.jpg");
+    background-repeat: repeat-y;*/
+    background-color: #363030;
+    font-family: 'bienvenuetp' !important;
+    font-size: 0.75em; 
+    line-height: 2em;
+
+}
+
+
+body { 
+    font-size: 9pt !important;
+    font-family: 'bienvenuetp' !important;
+    font-weight: 500;
+    width: 99%;
+}
+
+.czekboxtext {
+  cursor: default;
+}
+.czekboxtext:hover{
+  cursor: pointer;
+}
+
+.czekbox {
+  cursor: default;
+}
+.czekbox:hover{
+  cursor: pointer;
+}
+
+.czekgrupy {
+  cursor: default;
+}
+.czekgrupy:hover{
+  cursor: pointer;
+}
+
+.czekedycja{
+  cursor: default;
+}
+.czekedycja:hover{
+  cursor: pointer;
+}
+
+
+body {
+    width: 100%;
+    color: rgb(74,26,15) !important;
+    margin-left: auto;
+    margin-right: auto;
+    
+    
+}
+
+.ui-dialog-titlebar-close {
+  visibility: hidden;
+}
+
+.ui-menuitem-link { 
+    width: 170px !important;
+}
+
+.ui-menu-child {
+    width: 170px !important;
+}
+
+.ui-menuitem-text {
+    font-size: 1.2em !important; 
+}
+
+#tabadmin {
+    width: 1100px !important;
+}
+
+#tabadmin_length {
+    margin-bottom: 10px;
+}
+
+#tabadmin_paginate{
+    margin-top: 5px !important;
+}
+
+ #tabadmin_info{
+    margin-top: 5px !important;
+}
+
+.fg-button {
+    margin-left: 10px !important;
+    margin-right: 10px !important;
+}
+.dataTables_paginate {
+    width: 1000px !important;
+}
