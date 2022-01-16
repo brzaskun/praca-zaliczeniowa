@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE resources PUBLIC "-//GlassFish.org//DTD GlassFish Application Server 3.1 Resource Definitions//EN" "http://glassfish.org/dtds/glassfish-resources_1_5.dtd">
+<resources>
+   <jdbc-connection-pool associate-with-thread="false"
+                          datasource-classname="com.mysql.cj.jdbc.MysqlDataSource"
+                         name="odomgPool"
+                          res-type="javax.sql.DataSource"   
+                         
+
+    >
+        <property name="serverName" value="localhost"/>
+        <property name="portNumber" value="3306"/>
+        <property name="databaseName" value="p6273_odomg"/>
+        <property name="User" value="brzaskun"/>
+        <property name="Password" value="pufikun"/>
+        <property name="PasswordCredential" value="pufikun"/>
+        <property name="URL" value="jdbc:mysql://localhost:3306/p6273_odomg?useUnicode=true&amp;characterEncoding=UTF-8&amp;useSSL=false&amp;allowPublicKeyRetrieval=true&amp;"/>
+        <property name="driverClass" value="com.mysql.jdbc.Driver"/>
+       
+    </jdbc-connection-pool>
+<jdbc-resource enabled="true" jndi-name="odomgDB" object-type="user" pool-name="odomgPool" >
+    <description/>
+  </jdbc-resource>
+</resources>

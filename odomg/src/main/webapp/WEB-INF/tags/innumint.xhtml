@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      
+          
+      xmlns:p="http://primefaces.org/ui">
+    <h:body>
+       <ui:composition>
+           <f:view  contentType="text/html;charset=UTF-8" encoding="UTF-8">
+               <p:inputNumber value="#{value}" required="true" requiredMessage="Brak kwoty - uzupełnij" style="width: 70px"
+                               inputStyle="text-align: right;" decimalPlaces="0" minValue="0" rendered="#{rendered != null ? rendered : true}"/>  
+               
+            </f:view>
+       </ui:composition>
+    </h:body>
+</html>

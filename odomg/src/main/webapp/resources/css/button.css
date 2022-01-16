@@ -1,0 +1,26 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 2021-04-25, 13:19:32
+    Author     : Osito
+*/
+
+.buttonnorm.ui-button {
+    width: 120px !important;
+    margin-top: 10px;
+    border-style: solid !important;
+    border-width: 1px !important;
+    border-color: #a6c9e2 !important;
+}
+
+.buttonnorm2.ui-button {
+    width: 120px !important;
+    margin-top: 10px;
+    margin-left: 30px;
+    border-style: solid !important;
+    border-width: 1px !important;
+    border-color: #a6c9e2 !important;
+}

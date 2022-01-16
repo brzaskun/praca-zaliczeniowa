@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- =========== FULL CONFIGURATION FILE ================================== -->
+   <faces-config version="2.3"
+          xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_3.xsd">
+    <factory>
+        <lifecycle-factory>org.primefaces.clientwindow.PrimeClientWindowLifecycleFactory</lifecycle-factory>
+    </factory>
+   <application>
+        <locale-config>
+            <default-locale>pl</default-locale>
+            <supported-locale>en</supported-locale>
+            <supported-locale>de</supported-locale>
+            <supported-locale>cs</supported-locale>
+        </locale-config>
+        <resource-bundle>
+            <base-name>messagesbundle.messages</base-name>
+            <var>mgs</var>
+        </resource-bundle>
+        <message-bundle>
+            messagesbundle.messages
+        </message-bundle>
+      <resource-bundle>
+         <base-name>messagesbundle.Bundle</base-name>
+         <var>bundle</var>
+      </resource-bundle>
+       <message-bundle>
+            messagesbundle.Bundle
+      </message-bundle>
+     
+   </application>
+    <application>
+        <locale-config>
+            <default-time-zone-id>Europe/Berlin</default-time-zone-id>
+        </locale-config>
+    </application>
+</faces-config>
+<!--  ff-->

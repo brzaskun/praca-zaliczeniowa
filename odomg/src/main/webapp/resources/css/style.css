@@ -1,0 +1,255 @@
+/* 
+    Document   : style.css
+    Created on : 2012-08-09, 16:49:54
+    Author     : Osito
+    Description:
+        Purpose of the stylesheet follows.
+*/
+.ui-menu .ui-menu-parent .ui-menu-child {
+    white-space: nowrap;
+    width: auto !important;
+    min-width: 200px !important;
+}
+
+.ui-datatable .ui-datatable-data tr{
+    height : 20px !important;
+}
+
+body { 
+    font-size: 9pt !important;
+    font-family: TimesNewRoman !important;
+    font-weight: 500;
+    width: 99%;
+}
+/*to chyba jest body*/
+.ui-layout-container {
+    width: 99% !important;
+/*    font-size: 0.8em !important;
+    font-weight: 600 !important;*/
+}
+.nb {
+    width: 120px;
+}
+.pe-inputNumber {
+    text-align: right;
+        }
+.rwioletta {
+    background: #d9b3ff !important;
+}
+
+.rrenata {
+    background: #c2f0c2 !important;
+}
+
+.rmalgosia {
+    background: #ffd9b3 !important;
+}
+.old{
+    background-image:none !important;
+    color: blue !important;
+}
+
+.odd{
+    background: #e4e3e3 !important;
+}
+
+.druga{
+    font-style: italic !important;
+    background-image:none !important;
+    
+}
+
+
+.ui-widget {
+    font-size: 100%;
+}
+
+#zestawienieroczne.td {
+    
+    border-width: 0px !important;
+    padding: 1px 0px !important;
+}
+
+.ui-panelgrid {
+    border-collapse: separate !important;
+}
+
+.ui-panelgrid td {
+    border-width: 0px !important;
+    padding: 0px 0px !important;
+}
+
+.ui-panelgrid tr {
+    border-width: 1px !important;
+    padding: 0px !important;
+}
+
+.ui-inputfield {
+    padding: 0px;
+}
+
+.ui-panel {
+    border-style: none !important;
+}
+
+.ui-layout-unit ui-widget ui-widget-content ui-corner-all ui-layout-west {
+    width: 300px;
+}
+
+
+
+.ui-datatable .ui-datatable-data td {
+    vertical-align : central;
+    word-break: normal;
+    padding: 0px;
+}
+.ui-datatable .ui-datatable-data tr {
+    word-break: normal !important;
+    padding: 0px;
+}
+
+
+
+.tablicaplankont tr :hover{
+    background-color: silver;
+}
+
+/*.ui-datatable thead th,.ui-datatable tbody td,.ui-datatable tfoot td{
+    padding: 4px 10px;
+    overflow: auto !important;
+    white-space: normal !important;
+    border-width: 0px;
+    border-style: solid;}*/
+
+
+/*@page {
+    size: landscape;
+    object-fit: scale-down;
+    width: 50%;
+}*/
+
+#popup {
+    width: 150px;
+    height: 150px;
+    overflow: no-display;
+}
+
+.ui-autocomplete input {
+    width:200px;
+}
+
+.parzyste {
+    background: #e4e3e3 !important;
+}
+
+.row1 {
+    background: aquamarine !important;
+}
+
+.row2 {
+    background: #ccffff !important;
+}
+
+.row3 {
+    background: paleturquoise !important;
+}
+
+.row4 {
+    background: lightskyblue !important;
+}
+
+.zerofaktur {
+    font-weight: normal;
+    color: red;
+    float: right;
+}
+.wiecejfaktur {
+    font-weight: bolder;
+    color: blue;
+    float: right;
+}
+
+.fifty-percent {
+     width: 50%;
+     vertical-align: top;
+}
+
+.fiftyfive-percent {
+     width: 55%;
+     vertical-align: top;
+}
+.threefive-percent {
+     width: 35%;
+     vertical-align: top;
+}
+.forty-percent {
+     width: 40%;
+     vertical-align: top;
+}
+.fortyfive-percent {
+     width: 45%;
+     vertical-align: top;
+}
+.sixty-percent {
+     width: 60%;
+     vertical-align: top;
+}
+
+.seventy-percent {
+     width: 70%;
+     vertical-align: top;
+}
+
+.onefive-percent {
+     width: 15%;
+     vertical-align: top;
+}
+
+.twenty-percent {
+     width: 20%;
+     vertical-align: top;
+}
+.thirty-percent {
+     width: 30%;
+     vertical-align: top;
+}
+
+.twofive-percent {
+     width: 25%;
+     vertical-align: top;
+}
+
+.kontaGrid1 {
+    width: 1000px;
+    text-align: left;
+    
+}
+.kontaGrid2 {
+    width: 250px;
+    text-align: right;
+    
+}
+
+.ui-panelgrid .ui-panelgrid-cell  {
+    border-width: 0px !important;
+}
+
+/*.ui-datatable-scrollable-theadclone{
+    display: none !important;
+    height: 0px !important;
+}*/
+
+/*.tablicafk td {
+    padding: 0px 0px 0px 0px !important;
+}*/
+
+/*wartość wyróżniona*/
+.ww {
+    color: green;
+}
+
+/*wartość wyróżniona niebieska*/
+.wwb {
+    color: blue;
+}
+
