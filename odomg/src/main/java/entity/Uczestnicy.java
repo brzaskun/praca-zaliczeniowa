@@ -145,7 +145,7 @@ private String email;
     @Column(name = "iloscodpowiedzi")
     private Integer iloscodpowiedzi;
     @Column(name = "wyslaneup")
-    private Boolean wyslaneup;
+    private boolean wyslaneup;
     @Column(name = "utworzony")
     @Temporal(TemporalType.TIMESTAMP)
     private Date utworzony;
@@ -168,9 +168,9 @@ private String email;
     @Temporal(TemporalType.TIMESTAMP)
     private Date wcisnietyklawisz;
     @Column(name = "stacjonarny")
-    private Boolean stacjonarny;
+    private boolean stacjonarny;
     @Column(name = "wyslaneupdanewrazliwe")
-    private Boolean wyslaneupdanewrazliwe;
+    private boolean wyslaneupdanewrazliwe;
     @Column(name = "upowaznieniedwdata")
     @Temporal(TemporalType.TIMESTAMP)
     private Date upowaznieniedwdata;
@@ -272,11 +272,11 @@ private String email;
     }
 
 
-    public Boolean getWyslaneup() {
+    public boolean getWyslaneup() {
         return wyslaneup;
     }
 
-    public void setWyslaneup(Boolean wyslaneup) {
+    public void setWyslaneup(boolean wyslaneup) {
         this.wyslaneup = wyslaneup;
     }
 
@@ -337,19 +337,19 @@ private String email;
         this.wcisnietyklawisz = wcisnietyklawisz;
     }
 
-    public Boolean getStacjonarny() {
+    public boolean getStacjonarny() {
         return stacjonarny;
     }
 
-    public void setStacjonarny(Boolean stacjonarny) {
+    public void setStacjonarny(boolean stacjonarny) {
         this.stacjonarny = stacjonarny;
     }
 
-    public Boolean getWyslaneupdanewrazliwe() {
+    public boolean getWyslaneupdanewrazliwe() {
         return wyslaneupdanewrazliwe;
     }
 
-    public void setWyslaneupdanewrazliwe(Boolean wyslaneupdanewrazliwe) {
+    public void setWyslaneupdanewrazliwe(boolean wyslaneupdanewrazliwe) {
         this.wyslaneupdanewrazliwe = wyslaneupdanewrazliwe;
     }
 

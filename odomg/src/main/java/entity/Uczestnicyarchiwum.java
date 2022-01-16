@@ -93,7 +93,7 @@ public class Uczestnicyarchiwum implements Serializable {
     @Column(name = "dataustania", length = 10)
     private String dataustania;
     @Column(name = "wyslaneup")
-    private Boolean wyslaneup;
+    private boolean wyslaneup;
     @Column(name = "data")
     @Temporal(TemporalType.TIMESTAMP)
     private Date data;
@@ -101,7 +101,7 @@ public class Uczestnicyarchiwum implements Serializable {
     @Column(name = "nazwaszkolenia", length = 50)
     private String nazwaszkolenia;
     @Column(name = "stacjonarny")
-    private Boolean stacjonarny;
+    private boolean stacjonarny;
     @JoinColumn(name = "id_uzytkownik", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false)
     private Uczestnicy idUzytkownik;
@@ -225,11 +225,11 @@ public class Uczestnicyarchiwum implements Serializable {
         this.dataustania = dataustania;
     }
 
-    public Boolean getWyslaneup() {
+    public boolean getWyslaneup() {
         return wyslaneup;
     }
 
-    public void setWyslaneup(Boolean wyslaneup) {
+    public void setWyslaneup(boolean wyslaneup) {
         this.wyslaneup = wyslaneup;
     }
 
@@ -249,11 +249,11 @@ public class Uczestnicyarchiwum implements Serializable {
         this.nazwaszkolenia = nazwaszkolenia;
     }
 
-    public Boolean getStacjonarny() {
+    public boolean getStacjonarny() {
         return stacjonarny;
     }
 
-    public void setStacjonarny(Boolean stacjonarny) {
+    public void setStacjonarny(boolean stacjonarny) {
         this.stacjonarny = stacjonarny;
     }
 

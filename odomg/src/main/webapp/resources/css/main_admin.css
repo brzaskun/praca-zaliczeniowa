@@ -15,7 +15,7 @@
 html { 
 /*    background: url("pics/e-kursscreen.jpg");
     background-repeat: repeat-y;*/
-    background-color: #363030;
+    background-color: silver;
     font-family: 'bienvenuetp' !important;
     font-size: 0.75em; 
     line-height: 2em;
@@ -58,15 +58,6 @@ body {
   cursor: pointer;
 }
 
-
-body {
-    width: 100%;
-    color: rgb(74,26,15) !important;
-    margin-left: auto;
-    margin-right: auto;
-    
-    
-}
 
 .ui-dialog-titlebar-close {
   visibility: hidden;
