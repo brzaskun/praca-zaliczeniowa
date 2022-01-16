@@ -6,22 +6,18 @@
     <principal-name>Administrator</principal-name>
     <group-name>Administrator</group-name>
   </security-role-mapping>
-  <class-loader delegate="false"/>
-  <context-root>/kadry</context-root>
   <security-role-mapping>
     <role-name>Pracownik</role-name>
     <principal-name>Pracownik</principal-name>
     <group-name>Pracownik</group-name>
   </security-role-mapping>
-  <class-loader delegate="false"/>
-  <context-root>/pracownikust</context-root>
  <security-role-mapping>
     <role-name>Pracodawca</role-name>
     <principal-name>Pracodawca</principal-name>
     <group-name>Pracodawca</group-name>
   </security-role-mapping>
   <class-loader delegate="false"/>
-  <context-root>/pracodawca</context-root>
+  <context-root>/kadry</context-root>
   <!-- Change the default character encoding from ISO-8859-1 to UTF-8 -->
   <parameter-encoding default-charset="UTF-8"/>
   </glassfish-web-app>
