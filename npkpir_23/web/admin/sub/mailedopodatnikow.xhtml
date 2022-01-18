@@ -69,7 +69,7 @@
                         <f:selectItem itemLabel="czeski" itemValue="cze"/>
                     </p:selectOneMenu>
                     <h:outputText value="bez sms"/>
-                    <p:selectBooleanCheckbox value="#{adminMailView.bezsms}">
+                    <p:selectBooleanCheckbox value="#{adminMailView.wyslijsms}">
                         <p:ajax event="change" partialSubmit="true" update="@form" listener="#{adminMailView.init}"/>
                     </p:selectBooleanCheckbox>
                 </p:panelGrid>

@@ -77,7 +77,7 @@ public class AdminMailView implements Serializable {
     private boolean tylkododatkowe;
     private boolean tylkoaktywni;
     private boolean starekadry;
-    private boolean bezsms;
+    private boolean wyslijsms;
     private byte[] zalacznik;
     private String nazwazalacznik;
     private String jezykmaila;
@@ -242,7 +242,7 @@ public class AdminMailView implements Serializable {
                 try {
                     if (p.getEmail() != null && p.getJezykwysylki()!=null) {
                         MailAdmin.mailAdmin(p.getEmail(), tematwiadomosci, zawartoscmaila, sMTPSettingsDAO.findSprawaByDef(), zalacznik, nazwazalacznik);
-                        if (bezsms==false) {
+                        if (wyslijsms==true) {
                             sms.SmsSend.wyslijSMSyMail(p, "Wysłano ważne informacje na adres firmy", podatnikDAO);
                         }
                         ilosc++;
@@ -266,7 +266,7 @@ public class AdminMailView implements Serializable {
             Klienci p = new Klienci();
             p.setNip("8511005008");
             p.setEmail("info@taxman.biz.pl");
-            if (bezsms==false) {
+            if (wyslijsms==true) {
                 sms.SmsSend.wyslijSMSyMail(p, "Wysłano ważne informacje na adres firmy", podatnikDAO);
             }
             Msg.msg("i", "Wyslano wiadomości testowa na adres info@taxman.biz.pl");
@@ -459,12 +459,12 @@ public class AdminMailView implements Serializable {
         this.tematwiadomosci = tematwiadomosci;
     }
 
-    public boolean isBezsms() {
-        return bezsms;
+    public boolean isWyslijsms() {
+        return wyslijsms;
     }
 
-    public void setBezsms(boolean bezsms) {
-        this.bezsms = bezsms;
+    public void setWyslijsms(boolean wyslijsms) {
+        this.wyslijsms = wyslijsms;
     }
     
 
