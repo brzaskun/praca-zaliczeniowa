@@ -20,6 +20,7 @@ import java.util.List;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import z.Z;
 
 /**
  *
@@ -225,9 +226,9 @@ public class OddelegowanieView  implements Serializable {
             doedycji.setSumadni(doedycji.getSumadni()+p.getLiczbadni());
             break;
         }
-        doedycji.setPodatekpolski(doedycji.getPodatekpolski()+p.getPodatekpolska());
-        doedycji.setPrzychodzagraniczny(doedycji.getPrzychodzagraniczny()+p.getPrzychodyzagranica());
-        doedycji.setPrzychodpolski(doedycji.getPrzychodpolski()+p.getPrzychodypolska());
+        doedycji.setPodatekpolski(Z.z(doedycji.getPodatekpolski()+p.getPodatekpolska()));
+        doedycji.setPrzychodzagraniczny(Z.z(doedycji.getPrzychodzagraniczny()+p.getPrzychodyzagranica()));
+        doedycji.setPrzychodpolski(Z.z(doedycji.getPrzychodpolski()+p.getPrzychodypolska()));
         if (doedycji.getSumadni()>182 && doedycji.getRokmcprzekroczenia()==null) {
             doedycji.setRokmcprzekroczenia(p.getRok()+"/"+p.getMc());
         } else {
