@@ -37,6 +37,7 @@ public class OddelegowanieView  implements Serializable {
     private OddelegowanieTabela selected;
     private OddelegowanieTabela selected1;
     private OddelegowanieTabela selected2;
+    private OddelegowanieTabela selected3;
     @Inject
     private AngazFacade angazFacade;
     @Inject
@@ -83,7 +84,7 @@ public class OddelegowanieView  implements Serializable {
                     Integer rrok = Integer.parseInt(r.getRok());
                     if (p.getPracownik().equals(r.getPracownik()) && rrok < prok) {
                         if (r.getRokmcprzekroczenia() == null) {
-                            double rsuma = r.getSuma();
+                            double rsuma = r.getSumadni();
                             double psuma = rsuma;
                             psuma = psuma + p.getO_01().getLiczbadni();
                             if (psuma > 182) {
@@ -154,7 +155,7 @@ public class OddelegowanieView  implements Serializable {
             if (tabela != null) {
                 tabela2001 = new ArrayList<>();
                 for (OddelegowanieTabela p : tabela) {
-                    if (p.getRok().equals("2021")) {
+                    if (p.getRok().equals("2021")&&p.getRokmcprzekroczenia()!=null) {
                         tabela2001.add(p);
                     }
                 }
@@ -177,54 +178,57 @@ public class OddelegowanieView  implements Serializable {
         switch (p.getMc()) {
             case "01":
             doedycji.setO_01(p);
-            doedycji.setSuma(doedycji.getSuma()+p.getLiczbadni());
+            doedycji.setSumadni(doedycji.getSumadni()+p.getLiczbadni());
             break;
             case "02":
             doedycji.setO_02(p);
-            doedycji.setSuma(doedycji.getSuma()+p.getLiczbadni());
+            doedycji.setSumadni(doedycji.getSumadni()+p.getLiczbadni());
             break;
             case "03":
             doedycji.setO_03(p);
-            doedycji.setSuma(doedycji.getSuma()+p.getLiczbadni());
+            doedycji.setSumadni(doedycji.getSumadni()+p.getLiczbadni());
             break;
             case "04":
             doedycji.setO_04(p);
-            doedycji.setSuma(doedycji.getSuma()+p.getLiczbadni());
+            doedycji.setSumadni(doedycji.getSumadni()+p.getLiczbadni());
             break;
             case "05":
             doedycji.setO_05(p);
-            doedycji.setSuma(doedycji.getSuma()+p.getLiczbadni());
+            doedycji.setSumadni(doedycji.getSumadni()+p.getLiczbadni());
             break;
             case "06":
             doedycji.setO_06(p);
-            doedycji.setSuma(doedycji.getSuma()+p.getLiczbadni());
+            doedycji.setSumadni(doedycji.getSumadni()+p.getLiczbadni());
             break;
             case "07":
             doedycji.setO_07(p);
-            doedycji.setSuma(doedycji.getSuma()+p.getLiczbadni());
+            doedycji.setSumadni(doedycji.getSumadni()+p.getLiczbadni());
             break;
             case "08":
             doedycji.setO_08(p);
-            doedycji.setSuma(doedycji.getSuma()+p.getLiczbadni());
+            doedycji.setSumadni(doedycji.getSumadni()+p.getLiczbadni());
             break;
             case "09":
             doedycji.setO_09(p);
-            doedycji.setSuma(doedycji.getSuma()+p.getLiczbadni());
+            doedycji.setSumadni(doedycji.getSumadni()+p.getLiczbadni());
             break;
             case "10":
             doedycji.setO_10(p);
-            doedycji.setSuma(doedycji.getSuma()+p.getLiczbadni());
+            doedycji.setSumadni(doedycji.getSumadni()+p.getLiczbadni());
             break;
             case "11":
             doedycji.setO_11(p);
-            doedycji.setSuma(doedycji.getSuma()+p.getLiczbadni());
+            doedycji.setSumadni(doedycji.getSumadni()+p.getLiczbadni());
             break;
             case "12":
             doedycji.setO_12(p);
-            doedycji.setSuma(doedycji.getSuma()+p.getLiczbadni());
+            doedycji.setSumadni(doedycji.getSumadni()+p.getLiczbadni());
             break;
         }
-        if (doedycji.getSuma()>182 && doedycji.getRokmcprzekroczenia()==null) {
+        doedycji.setPodatekpolski(doedycji.getPodatekpolski()+p.getPodatekpolska());
+        doedycji.setPrzychodzagraniczny(doedycji.getPrzychodzagraniczny()+p.getPrzychodyzagranica());
+        doedycji.setPrzychodpolski(doedycji.getPrzychodpolski()+p.getPrzychodypolska());
+        if (doedycji.getSumadni()>182 && doedycji.getRokmcprzekroczenia()==null) {
             doedycji.setRokmcprzekroczenia(p.getRok()+"/"+p.getMc());
         } else {
 //            System.out.println("prac "+p.getUmowa().getPracownik().getNazwiskoImie());
@@ -271,6 +275,14 @@ public class OddelegowanieView  implements Serializable {
 
     public void setSelected2(OddelegowanieTabela selected2) {
         this.selected2 = selected2;
+    }
+
+    public OddelegowanieTabela getSelected3() {
+        return selected3;
+    }
+
+    public void setSelected3(OddelegowanieTabela selected3) {
+        this.selected3 = selected3;
     }
     
     

@@ -27,7 +27,10 @@ public class OddelegowanieTabela {
     private Oddelegowanie o_10;
     private Oddelegowanie o_11;
     private Oddelegowanie o_12;
-    private double suma;
+    private double sumadni;
+    private double przychodpolski;
+    private double podatekpolski;
+    private double przychodzagraniczny;
     private String rokmcprzekroczenia;
 
     public OddelegowanieTabela(Oddelegowanie p) {
@@ -36,55 +39,95 @@ public class OddelegowanieTabela {
         switch (p.getMc()) {
             case "01":
             this.o_01 = p;
-            this.suma = this.suma+p.getLiczbadni();
+            this.sumadni = this.sumadni+p.getLiczbadni();
+            this.podatekpolski = this.podatekpolski+p.getPodatekpolska();
+            this.przychodzagraniczny = this.przychodzagraniczny+p.getPrzychodyzagranica();
+            this.przychodpolski = this.przychodpolski+p.getPrzychodypolska();
             break;
             case "02":
             this.o_02 = p;
-            this.suma = this.suma+p.getLiczbadni();
+            this.sumadni = this.sumadni+p.getLiczbadni();
+            this.podatekpolski = this.podatekpolski+p.getPodatekpolska();
+            this.przychodzagraniczny = this.przychodzagraniczny+p.getPrzychodyzagranica();
+            this.przychodpolski = this.przychodpolski+p.getPrzychodypolska();
             break;
             case "03":
             this.o_03 = p;
-            this.suma = this.suma+p.getLiczbadni();
+            this.sumadni = this.sumadni+p.getLiczbadni();
+            this.podatekpolski = this.podatekpolski+p.getPodatekpolska();
+            this.przychodzagraniczny = this.przychodzagraniczny+p.getPrzychodyzagranica();
+            this.przychodpolski = this.przychodpolski+p.getPrzychodypolska();
             break;
             case "04":
             this.o_04 = p;
-            this.suma = this.suma+p.getLiczbadni();
+            this.sumadni = this.sumadni+p.getLiczbadni();
+            this.podatekpolski = this.podatekpolski+p.getPodatekpolska();
+            this.przychodzagraniczny = this.przychodzagraniczny+p.getPrzychodyzagranica();
+            this.przychodpolski = this.przychodpolski+p.getPrzychodypolska();
             break;
             case "05":
             this.o_05 = p;
-            this.suma = this.suma+p.getLiczbadni();
+            this.sumadni = this.sumadni+p.getLiczbadni();
+            this.podatekpolski = this.podatekpolski+p.getPodatekpolska();
+            this.przychodzagraniczny = this.przychodzagraniczny+p.getPrzychodyzagranica();
+            this.przychodpolski = this.przychodpolski+p.getPrzychodypolska();
             break;
             case "06":
             this.o_06 = p;
-            this.suma = this.suma+p.getLiczbadni();
+            this.sumadni = this.sumadni+p.getLiczbadni();
+            this.podatekpolski = this.podatekpolski+p.getPodatekpolska();
+            this.przychodzagraniczny = this.przychodzagraniczny+p.getPrzychodyzagranica();
+            this.przychodpolski = this.przychodpolski+p.getPrzychodypolska();
             break;
             case "07":
             this.o_07 = p;
-            this.suma = this.suma+p.getLiczbadni();
+            this.sumadni = this.sumadni+p.getLiczbadni();
+            this.podatekpolski = this.podatekpolski+p.getPodatekpolska();
+            this.przychodzagraniczny = this.przychodzagraniczny+p.getPrzychodyzagranica();
+            this.przychodpolski = this.przychodpolski+p.getPrzychodypolska();
             break;
             case "08":
             this.o_08 = p;
-            this.suma = this.suma+p.getLiczbadni();
+            this.sumadni = this.sumadni+p.getLiczbadni();
+            this.podatekpolski = this.podatekpolski+p.getPodatekpolska();
+            this.przychodzagraniczny = this.przychodzagraniczny+p.getPrzychodyzagranica();
+            this.przychodpolski = this.przychodpolski+p.getPrzychodypolska();
             break;
             case "09":
             this.o_09 = p;
-            this.suma = this.suma+p.getLiczbadni();
+            this.sumadni = this.sumadni+p.getLiczbadni();
+            this.podatekpolski = this.podatekpolski+p.getPodatekpolska();
+            this.przychodzagraniczny = this.przychodzagraniczny+p.getPrzychodyzagranica();
+            this.przychodpolski = this.przychodpolski+p.getPrzychodypolska();
             break;
             case "10":
             this.o_10 = p;
-            this.suma = this.suma+p.getLiczbadni();
+            this.sumadni = this.sumadni+p.getLiczbadni();
+            this.podatekpolski = this.podatekpolski+p.getPodatekpolska();
+            this.przychodzagraniczny = this.przychodzagraniczny+p.getPrzychodyzagranica();
+            this.przychodpolski = this.przychodpolski+p.getPrzychodypolska();
             break;
             case "11":
             this.o_11 = p;
-            this.suma = this.suma+p.getLiczbadni();
+            this.sumadni = this.sumadni+p.getLiczbadni();
+            this.podatekpolski = this.podatekpolski+p.getPodatekpolska();
+            this.przychodzagraniczny = this.przychodzagraniczny+p.getPrzychodyzagranica();
+            this.przychodpolski = this.przychodpolski+p.getPrzychodypolska();
             break;
             case "12":
             this.o_12 = p;
-            this.suma = this.suma+p.getLiczbadni();
+            this.sumadni = this.sumadni+p.getLiczbadni();
+            this.podatekpolski = this.podatekpolski+p.getPodatekpolska();
+            this.przychodzagraniczny = this.przychodzagraniczny+p.getPrzychodyzagranica();
+            this.przychodpolski = this.przychodpolski+p.getPrzychodypolska();
             break;
         }
     }
 
+    public void sumujskladniki() {
+        
+    }
+    
     public Pracownik getPracownik() {
         return pracownik;
     }
@@ -199,12 +242,12 @@ public class OddelegowanieTabela {
 
     
 
-    public double getSuma() {
-        return suma;
+    public double getSumadni() {
+        return sumadni;
     }
 
-    public void setSuma(double suma) {
-        this.suma = suma;
+    public void setSumadni(double sumadni) {
+        this.sumadni = sumadni;
     }
 
     public String getRokmcprzekroczenia() {
@@ -215,12 +258,37 @@ public class OddelegowanieTabela {
         this.rokmcprzekroczenia = rokmcprzekroczenia;
     }
 
+    public double getPrzychodpolski() {
+        return przychodpolski;
+    }
+
+    public void setPrzychodpolski(double przychodpolski) {
+        this.przychodpolski = przychodpolski;
+    }
+
+    public double getPodatekpolski() {
+        return podatekpolski;
+    }
+
+    public void setPodatekpolski(double podatekpolski) {
+        this.podatekpolski = podatekpolski;
+    }
+
+    public double getPrzychodzagraniczny() {
+        return przychodzagraniczny;
+    }
+
+    public void setPrzychodzagraniczny(double przychodzagraniczny) {
+        this.przychodzagraniczny = przychodzagraniczny;
+    }
+    
+
     @Override
     public int hashCode() {
         int hash = 3;
         hash = 71 * hash + Objects.hashCode(this.pracownik);
         hash = 71 * hash + Objects.hashCode(this.rok);
-        hash = 71 * hash + (int) (Double.doubleToLongBits(this.suma) ^ (Double.doubleToLongBits(this.suma) >>> 32));
+        hash = 71 * hash + (int) (Double.doubleToLongBits(this.sumadni) ^ (Double.doubleToLongBits(this.sumadni) >>> 32));
         return hash;
     }
 
@@ -236,7 +304,7 @@ public class OddelegowanieTabela {
             return false;
         }
         final OddelegowanieTabela other = (OddelegowanieTabela) obj;
-        if (Double.doubleToLongBits(this.suma) != Double.doubleToLongBits(other.suma)) {
+        if (Double.doubleToLongBits(this.sumadni) != Double.doubleToLongBits(other.sumadni)) {
             return false;
         }
         if (!Objects.equals(this.rok, other.rok)) {
@@ -250,8 +318,10 @@ public class OddelegowanieTabela {
 
     @Override
     public String toString() {
-        return "OddelegowanieTabela{" + "pracownik=" + pracownik.getNazwiskoImie() + ", rok=" + rok + ", o_01=" + o_01 + ", o_02=" + o_02 + ", o_03=" + o_03 + ", o_04=" + o_04 + ", o_05=" + o_05 + ", o_06=" + o_06 + ", o_07=" + o_07 + ", o_08=" + o_08 + ", o_09=" + o_09 + ", o_10=" + o_10 + ", o_11=" + o_11 + ", o_12=" + o_12 + ", suma=" + suma + ", rokmcprzekroczenia=" + rokmcprzekroczenia + '}';
+        return "OddelegowanieTabela{" + "pracownik=" + pracownik.getNazwiskoImie() + ", rok=" + rok + ", o_01=" + o_01 + ", o_02=" + o_02 + ", o_03=" + o_03 + ", o_04=" + o_04 + ", o_05=" + o_05 + ", o_06=" + o_06 + ", o_07=" + o_07 + ", o_08=" + o_08 + ", o_09=" + o_09 + ", o_10=" + o_10 + ", o_11=" + o_11 + ", o_12=" + o_12 + ", suma=" + sumadni + ", rokmcprzekroczenia=" + rokmcprzekroczenia + '}';
     }
+
+  
     
     
     

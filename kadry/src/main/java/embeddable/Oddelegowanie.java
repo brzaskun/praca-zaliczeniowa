@@ -28,10 +28,11 @@ public class Oddelegowanie {
     private String mc;
     private int liczbadni;
     private double brutto;
-    private double polska;
+    private double przychodypolska;
+    private double przychodyzagranica;
     private double podatek;
     private double podatekpolska;
-    private double różnica;
+    private double podatekzagranica;
     private boolean chowaj;
 
     public Oddelegowanie(List<Kalendarzmiesiac> kalendarze, Angaz a, String rok, String mc, List<Podatki> stawkipodatkowe) {
@@ -42,10 +43,11 @@ public class Oddelegowanie {
         this.liczbadni = (int) kalendarz.getDnioddelegowania();
         this.brutto = Z.z(this.kalendarz.getPasek().getBrutto());
         double zagranica = pobierzzagranica(this.kalendarz.getPasek().getNaliczenieskladnikawynagrodzeniaList());
-        this.polska = Z.z(this.brutto-zagranica);
+        this.przychodyzagranica = Z.z(zagranica);
+        this.przychodypolska = Z.z(this.brutto-zagranica);
         this.podatek = Z.z(this.kalendarz.getPasek().getPodatekdochodowy());
-        this.podatekpolska = Z.z(symulacjaoblicz(kalendarz, polska, stawkipodatkowe));
-        this.różnica = Z.z(this.podatek-this.podatekpolska);
+        this.podatekpolska = Z.z(symulacjaoblicz(kalendarz, przychodypolska, stawkipodatkowe));
+        this.podatekzagranica = Z.z(this.podatek-this.podatekpolska)>0.0?Z.z(this.podatek-this.podatekpolska):0.0;
     }
     
      public double symulacjaoblicz(Kalendarzmiesiac kalendarz, double polska, List<Podatki> stawkipodatkowe) {
@@ -138,12 +140,12 @@ public class Oddelegowanie {
         this.brutto = brutto;
     }
 
-    public double getPolska() {
-        return polska;
+    public double getPrzychodypolska() {
+        return przychodypolska;
     }
 
-    public void setPolska(double polska) {
-        this.polska = polska;
+    public void setPrzychodypolska(double przychodypolska) {
+        this.przychodypolska = przychodypolska;
     }
 
     public double getPodatek() {
@@ -162,12 +164,12 @@ public class Oddelegowanie {
         this.podatekpolska = podatekpolska;
     }
 
-    public double getRóżnica() {
-        return różnica;
+    public double getPodatekzagranica() {
+        return podatekzagranica;
     }
 
-    public void setRóżnica(double różnica) {
-        this.różnica = różnica;
+    public void setPodatekzagranica(double podatekzagranica) {
+        this.podatekzagranica = podatekzagranica;
     }
 
     public boolean isChowaj() {
@@ -176,6 +178,14 @@ public class Oddelegowanie {
 
     public void setChowaj(boolean chowaj) {
         this.chowaj = chowaj;
+    }
+
+    public double getPrzychodyzagranica() {
+        return przychodyzagranica;
+    }
+
+    public void setPrzychodyzagranica(double przychodyzagranica) {
+        this.przychodyzagranica = przychodyzagranica;
     }
     
     
