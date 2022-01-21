@@ -6,6 +6,7 @@
 package view;
 
 import dao.AngazFacade;
+import dao.KalendarzmiesiacFacade;
 import dao.PodatkiFacade;
 import embeddable.Mce;
 import embeddable.Oddelegowanie;
@@ -43,6 +44,8 @@ public class OddelegowanieView  implements Serializable {
     private AngazFacade angazFacade;
     @Inject
     private PodatkiFacade podatkiFacade;
+    @Inject
+    private KalendarzmiesiacFacade kalendarzmiesiacFacade;
     
     public void init() {
         List<Angaz> angaze = angazFacade.findByFirma(wpisView.getFirma());
@@ -51,7 +54,10 @@ public class OddelegowanieView  implements Serializable {
         lata.add("2020");
         lata.add("2021");
         for (Angaz a : angaze) {
-            List<Kalendarzmiesiac> kalendarze = a.getKalendarze();
+            List<Kalendarzmiesiac> kalendarze = new ArrayList<>();
+            for (Umowa u : a.getUmowaList()) {
+                kalendarze.addAll(kalendarzmiesiacFacade.findByUmowa(u));
+            }
             for (String rok : lata) {
                 List<Podatki> stawkipodatkowe = podatkiFacade.findByRokUmowa(rok, "P");
                 if (Integer.parseInt(rok)>2019) {
