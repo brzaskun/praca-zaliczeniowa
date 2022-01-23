@@ -42,14 +42,15 @@
                 </p:row>
             </p:panelGrid>
             <p:panelGrid columns="9">
-                <h:outputText value="Procent waloryzacji 100=100%"/>
+<!--                <h:outputText value="Procent waloryzacji 100=100%"/>
                 <p:inputNumber  id="kwotawaloryzacji" value="#{fakturaView.waloryzajca}"  decimalPlaces="2"  inputStyle="text-align: right;" symbol=" %" symbolPosition="s" decimalSeparator="."  maxValue="100">
                     <p:ajax event="blur" partialSubmit="true" global="false"/>
-                </p:inputNumber>
+                </p:inputNumber>-->
                 <h:outputText value="Data wystawienia"/>
                 <p:inputText  id="datawystawienia" value="#{fakturaView.datawystawienia}" maxlength="10" placeholder="rrrr-mm-dd" onblur="weryfikujsporzadzfakture(this)"/>
                 <p:commandButton value="drukuj" actionListener="#{fakturaView.drukujokresowe}" global="false" style="width: 120px; margin-left: 10px;"/>
                 <p:commandButton value="drukuj zerowe" actionListener="#{fakturaView.drukujokresowezerowe}" global="false" style="width: 120px; margin-left: 10px;"/>
+                <p:commandButton value="nanieś waloryzacje" actionListener="#{fakturaView.nanieswaloryzacje}" global="true" style="width: 120px; margin-left: 10px;" update="formokresowe:dokumentyOkresowe"/>
                 <p:selectOneMenu value="#{fakturaView.jakapobrac}" style="margin-left: 10px;">
                     <f:selectItem itemLabel="wszystkie" itemValue="0"/>
                     <f:selectItem itemLabel="edycja" itemValue="1"/>
@@ -59,6 +60,7 @@
                     <f:selectItem itemLabel="niewaloryzowana" itemValue="5"/>
                     <p:ajax event="change" partialSubmit="true" global="false" listener="#{fakturaView.filtrujfaktury}" update="akordeon:formokresowe:dokumentyOkresowe"/>
                 </p:selectOneMenu>
+                <h:outputText value="filtruj wg wartości od-do"/>
                 <p:inputNumber  value="#{fakturaView.dolnylimit}" symbol=" zł" 
                                 style="width: 70px;" symbolPosition="s" decimalSeparator="."  thousandSeparator="&#160;"  inputStyle="text-align: right;" decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto">
                     <p:ajax event ="blur" partialSubmit="true"/>
@@ -93,13 +95,13 @@
                 </p:column>
                 <p:column selectionMode="multiple"   width="40" style="text-align: center;"/>
                 <p:column headerText="#{mgs.kontrahent}" sortBy="#{wpis.dokument.kontrahent.npelna}" filterBy="#{wpis.dokument.kontrahent.npelna}" 
-                          filterMatchMode="contains" filterStyle="display : none;" width="150">
+                          filterMatchMode="contains" width="150">
                     <h:outputText value="#{wpis.dokument.kontrahent}" style="#{wpis.getStyldaty(WpisView.miesiacWpisu)}"/>
                 </p:column>
                 <p:column headerText="data wystawienia" sortBy="#{wpis.getDatawystawieniaOld()}" filterBy="#{wpis.getDatawystawieniaOld()}" filterMatchMode="contains" filterStyle="display : none;" width="90">
                     <h:outputText value="#{wpis.getDatawystawieniaOld()}" style="#{wpis.getStyldaty(WpisView.miesiacWpisu)}"/>
                 </p:column>
-                <p:column headerText="#{mgs.opis}" sortBy="#{wpis.dokument.opisFaktury}" filterBy="#{wpis.dokument.opisFaktury}" filterMatchMode="contains" filterStyle="display : none;">
+                <p:column headerText="#{mgs.opis}" sortBy="#{wpis.dokument.opisFaktury}" filterBy="#{wpis.dokument.opisFaktury}" filterMatchMode="contains">
                     <h:outputText value="#{wpis.dokument.opisFaktury}"  style="#{wpis.getStyldaty(WpisView.miesiacWpisu)}"/>
                     <h:outputText value=" zawieszona" style="color: red; font-size: smaller;" rendered="#{wpis.zawieszona}"/>
                     <h:outputText value=" wielorazowa" style="color: blue; font-size: smaller;" rendered="#{!wpis.wystawtylkoraz}"/>
@@ -214,16 +216,16 @@
                 <p:menuitem value="#{mgs.drukuj}" update=":form1:messages" actionListener="#{fakturaView.drukujokresowa()}" icon="ui-icon-print" />
                 <p:menuitem value="Wygeneruj" update=":form1:messages, :akordeon:formzestawienie:dokumentyZestawienie " global="false" onclick="PF('confirmationFakturaOkresowe').show()" icon="ui-icon-lightbulb" />
                 <p:menuitem value="Wygeneruj do edycji" update=":form1:messages, :akordeon:formzestawienie:dokumentyZestawienie" global="false" onclick="PF('confirmationFakturaOkresowe2').show()" icon="ui-icon-lightbulb" />
-                <p:menuitem value="Wygeneruj z waloryzacją" update=":form1:messages" actionListener="#{fakturaView.wygenerujzokresowychwaloryzacja()}" icon="ui-icon-lightbulb" />
+                <p:menuitem value="Wygeneruj z waloryzacją" update=":form1:messages" actionListener="#{fakturaView.wygenerujzokresowychwaloryzacja()}" icon="ui-icon-lightbulb"  rendered="#{facesContext.externalContext.remoteUser eq 'szef'}"/>
                 <p:menuitem value="Usuń wybrane" update=":akordeon:formokresowe:dokumentyOkresowe" actionListener="#{fakturaView.usunfaktureokresowa()}" icon="ui-icon-trash" />
                 <p:separator/>
                 <p:menuitem value="Sprawdź bieżący m-c" update=":akordeon:formokresowe:dokumentyOkresowe" actionListener="#{fakturaView.sprawdzbiezacymiesiac()}" icon="fa fa-spinner" />
                 <p:menuitem value="Resetuj bieżący m-c" update=":akordeon:formokresowe:dokumentyOkresowe" actionListener="#{fakturaView.resetujbiezacymiesiac()}" icon="ui-icon-cancel" />
                 <p:menuitem value="Oznacz bieżący m-c" update=":akordeon:formokresowe:dokumentyOkresowe" actionListener="#{fakturaView.oznaczbiezacymiesiac()}" icon="ui-icon-plus" />
                 <p:menuitem value="Zawieś/odwieś fakturę" update="akordeon:formokresowe:dokumentyOkresowe" actionListener="#{fakturaView.zawiesfakture()}" icon="ui-icon-arrowthickstop-1-n" />
-                <p:menuitem value="Oznacz wielorazowa" update="akordeon:formokresowe:dokumentyOkresowe" actionListener="#{fakturaView.oznaczwielorazowa()}" icon="ui-icon-arrowthickstop-1-n" />
-                <p:menuitem value="Oznacz waloryzacja" update="akordeon:formokresowe:dokumentyOkresowe" actionListener="#{fakturaView.oznaczwaloryzacja()}" icon="ui-icon-arrowthickstop-1-n" />
-                <p:menuitem value="Oznacz ręczna edycja" update="akordeon:formokresowe:dokumentyOkresowe" actionListener="#{fakturaView.oznaczrecznaedycja()}" icon="ui-icon-arrowthickstop-1-n" />
+                <p:menuitem value="Oznacz wielorazowa" update="akordeon:formokresowe:dokumentyOkresowe" actionListener="#{fakturaView.oznaczwielorazowa()}" icon="ui-icon-arrowthickstop-1-n"  rendered="#{facesContext.externalContext.remoteUser eq 'szef'}"/>
+                <p:menuitem value="Oznacz waloryzacja" update="akordeon:formokresowe:dokumentyOkresowe" actionListener="#{fakturaView.oznaczwaloryzacja()}" icon="ui-icon-arrowthickstop-1-n"  rendered="#{facesContext.externalContext.remoteUser eq 'szef'}"/>
+                <p:menuitem value="Oznacz ręczna edycja" update="akordeon:formokresowe:dokumentyOkresowe" actionListener="#{fakturaView.oznaczrecznaedycja()}" icon="ui-icon-arrowthickstop-1-n"  rendered="#{facesContext.externalContext.remoteUser eq 'szef'}"/>
                 <p:menuitem value="Porzadek" update="akordeon:formokresowe:dokumentyOkresowe" actionListener="#{fakturaView.porzadekbiuro()}" icon="ui-icon-arrowthickstop-1-n" rendered="#{facesContext.externalContext.remoteUser eq 'szef'}"/>
                 <p:separator/>
                 <p:menuitem value="Skopiuj do nowego roku" update=":akordeon:formokresowe:dokumentyOkresowe" actionListener="#{fakturaView.skopiujdoNowegoroku()}" icon="ui-icon-star" />

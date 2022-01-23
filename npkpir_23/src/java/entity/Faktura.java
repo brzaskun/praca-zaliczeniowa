@@ -85,6 +85,7 @@ import waluty.Z;
     @NamedQuery(name = "Faktura.findBySchemat", query = "SELECT f FROM Faktura f WHERE f.schemat = :schemat"),
     @NamedQuery(name = "Faktura.findByNetto", query = "SELECT f FROM Faktura f WHERE f.netto = :netto"),
     @NamedQuery(name = "Faktura.findByVat", query = "SELECT f FROM Faktura f WHERE f.vat = :vat"),
+    @NamedQuery(name = "Faktura.findById", query = "SELECT f FROM Faktura f WHERE f.id = :id"),
     @NamedQuery(name = "Faktura.findByBrutto", query = "SELECT f FROM Faktura f WHERE f.brutto = :brutto")})
 public class Faktura implements Serializable {
     private static final long serialVersionUID = 1L;

@@ -19,6 +19,7 @@ import dao.EvewidencjaDAO;
 import dao.FakturaDAO;
 import dao.FakturaDodPozycjaKontrahentDAO;
 import dao.FakturaStopkaNiemieckaDAO;
+import dao.FakturaWaloryzacjaDAO;
 import dao.FakturaWalutaKontoDAO;
 import dao.FakturadodelementyDAO;
 import dao.FakturaelementygraficzneDAO;
@@ -43,6 +44,7 @@ import entity.EVatwpis1;
 import entity.Evewidencja;
 import entity.Faktura;
 import entity.FakturaDodPozycjaKontrahent;
+import entity.FakturaWaloryzacja;
 import entity.Fakturadodelementy;
 import entity.Fakturaelementygraficzne;
 import entity.Fakturywystokresowe;
@@ -146,6 +148,8 @@ public class FakturaView implements Serializable {
     private PodatnikOpodatkowanieDAO podatnikOpodatkowanieDDAO;
     @Inject
     private SMTPSettingsDAO sMTPSettingsDAO;
+    @Inject
+    private FakturaWaloryzacjaDAO fakturaWaloryzacjaDAO;
     //faktury stworzone
     private List<Faktura> faktury;
     //faktury stworzone do edycji
@@ -319,6 +323,86 @@ public class FakturaView implements Serializable {
 //        PrimeFaces.current().ajax().update("akordeon:proforma");
 //        PrimeFaces.current().ajax().update("akordeon:formarchiwum");
     }
+
+
+    public void nanieswaloryzacje() {
+        List<FakturaWaloryzacja> waloryzacja = fakturaWaloryzacjaDAO.findAll();
+        List<Fakturywystokresowe> okresowe = fakturywystokresoweDAO.findPodatnikBiezace(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+        if (waloryzacja!=null) {
+            for (FakturaWaloryzacja wal : waloryzacja) {
+                for (Fakturywystokresowe okresowa : okresowe) {
+                    if (tensamnip(wal,okresowa)) {
+                        boolean zmienionokwote = false;
+                        double staraksiegowosc = wal.getKwotabiezacanetto();
+                        double nowaksiegowosc = wal.getKwotabiezacanettoN();
+                        Faktura faktura = fakturaDAO.findByID(okresowa.getDokument().getId());
+                        List<Pozycjenafakturzebazadanych> wiersze = faktura.getPozycjenafakturze();
+                        if (staraksiegowosc!=nowaksiegowosc) {
+                            double wartosc = nowaksiegowosc>0.0?nowaksiegowosc:staraksiegowosc;
+                            Pozycjenafakturzebazadanych wiersz = wiersze.get(0);
+                            zrobwiersz(wiersz, wartosc);
+                            zmienionokwote = true;
+                        }
+                        if (wiersze.size()>1) {
+                            double stareniemcy = wal.getObsluganiemcy();
+                            double noweniemcy = wal.getObsluganiemcyN();
+                            double wartoscniemcy = noweniemcy>0.0?noweniemcy:stareniemcy;
+                            if (stareniemcy!=noweniemcy) {
+                                Pozycjenafakturzebazadanych wiersz = wiersze.get(1);
+                                zrobwiersz(wiersz, wartoscniemcy);
+                            }
+                            zmienionokwote = true;
+                        }
+                        if (zmienionokwote) {
+                            FakturaBean.ewidencjavat(faktura, evewidencjaDAO);
+                            faktura.setDatawaloryzacji(Data.aktualnaData());
+                            fakturaDAO.edit(faktura);
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    
+    private void zrobwiersz(Pozycjenafakturzebazadanych wiersz, double wartosc) {
+        if (wiersz!=null) {
+            if (wiersz.getNazwa().equals("usługi rachunkowe")) {
+                wiersz.setNazwa("usługi rachunkowe #mc#");
+            }
+            if (wiersz.getNazwa().equals("usługi rachunkowe Polska")) {
+                wiersz.setNazwa("usługi rachunkowe Polska #mc#");
+            }
+            if (wiersz.getNazwa().equals("usługi rachunkowe Niemcy")) {
+                wiersz.setNazwa("usługi rachunkowe Niemcy #mc#");
+            }
+            if (wiersz.getNazwa().contains("wirtualne biuro")) {
+                wiersz.setNazwa("wirtualne biuro #mc#");
+            }
+            wiersz.setCena(wartosc);
+            wiersz.setNetto(Z.z(wartosc*wiersz.getIlosc()));
+            wiersz.setPodatekkwota(Z.z(wartosc*wiersz.getPodatek()/100));
+            wiersz.setBrutto(Z.z(wiersz.getNetto()+wiersz.getPodatekkwota()));
+        }
+    }
+    
+    private boolean tensamnip(FakturaWaloryzacja wal, Fakturywystokresowe okresowa) {
+        boolean zwrot = false;
+        if (wal!=null&&okresowa!=null) {
+            if (wal.getKontrahent()!=null&&okresowa.getDokument()!=null&&okresowa.getDokument().getKontrahent()!=null) {
+                if (wal.getKontrahent().getNip().equals(okresowa.getDokument().getKontrahent().getNip())) {
+                    zwrot = true;
+                }
+            } else {
+                System.out.println("Brak jednego kontrahenta");
+            }
+        } else {
+            System.out.println("Jedna z dwóch pusta");
+        }
+        return zwrot;
+    }
+    
+
     
     public void pobierzczesciowe() {
         if (selected.isKoncowa()==true) {
@@ -2230,14 +2314,16 @@ public class FakturaView implements Serializable {
         if (gosciwybralokres.size() > 0) {
             iloscwybranych = gosciwybralokres.size();
             for (Fakturywystokresowe p : gosciwybralokres) {
-                if (p.getDokument().getTabelanbp()!=null) {
-                    podsumowaniewybranychnetto += p.getDokument().getNettopln();
-                    podsumowaniewybranychvat += p.getDokument().getVatpln();
-                    podsumowaniewybranychbrutto += p.getDokument().getBruttopln();
-                } else {
-                    podsumowaniewybranychnetto += p.getDokument().getNetto();
-                    podsumowaniewybranychvat += p.getDokument().getVat();
-                    podsumowaniewybranychbrutto += p.getDokument().getBrutto();
+                if (p.isZawieszona()==false) {
+                    if (p.getDokument().getTabelanbp()!=null) {
+                        podsumowaniewybranychnetto += p.getDokument().getNettopln();
+                        podsumowaniewybranychvat += p.getDokument().getVatpln();
+                        podsumowaniewybranychbrutto += p.getDokument().getBruttopln();
+                    } else {
+                        podsumowaniewybranychnetto += p.getDokument().getNetto();
+                        podsumowaniewybranychvat += p.getDokument().getVat();
+                        podsumowaniewybranychbrutto += p.getDokument().getBrutto();
+                    }
                 }
             }
         }
@@ -2959,6 +3045,9 @@ public class FakturaView implements Serializable {
         return zwrot;
     }
 
+    
+
+    
     
    
 
