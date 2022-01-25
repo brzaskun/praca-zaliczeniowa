@@ -343,6 +343,11 @@ public class Pasekwynagrodzen implements Serializable {
         this.limitzus = Z.z(this.limitzus+p.getLimitzus());
         this.ulgadlaklasysredniejI = Z.z(this.ulgadlaklasysredniejI+p.getUlgadlaklasysredniejI());
         this.ulgadlaklasysredniejII = Z.z(this.ulgadlaklasysredniejII+p.getUlgadlaklasysredniejII());
+        if (this.naliczenieskladnikawynagrodzeniaList == null) {
+            this.naliczenieskladnikawynagrodzeniaList = new ArrayList<>();
+        } else {
+            this.naliczenieskladnikawynagrodzeniaList.addAll(p.getNaliczenieskladnikawynagrodzeniaList());
+        }
     }
 
     public Integer getId() {

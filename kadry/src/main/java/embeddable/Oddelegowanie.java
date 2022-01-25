@@ -12,6 +12,7 @@ import entity.Naliczenieskladnikawynagrodzenia;
 import entity.Pasekwynagrodzen;
 import entity.Podatki;
 import entity.Umowa;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import z.Z;
@@ -95,14 +96,19 @@ public class Oddelegowanie {
  
     private Pasekwynagrodzen pobierzpasek(List<Kalendarzmiesiac> kalendarze, String rok, String mc) {
         Pasekwynagrodzen zwrot = null;
+        List<Pasekwynagrodzen> paski = new ArrayList<>();
         for (Kalendarzmiesiac k : kalendarze) {
             Pasekwynagrodzen pasek1 = k.getPasek();
             if (pasek1.getId()!=null&&pasek1.getRokwypl().equals(rok)&&pasek1.getMcwypl().equals(mc)) {
-                zwrot = pasek1;
-                break;
+                paski.add(pasek1);
             }
         }
-        return zwrot;
+        Pasekwynagrodzen paseksuma = new Pasekwynagrodzen();
+        paseksuma.setId(999);
+        for (Pasekwynagrodzen p : paski) {
+            paseksuma.dodajPasek(p);
+        }
+        return paseksuma;
     }
 
     
