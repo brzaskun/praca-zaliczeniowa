@@ -15,6 +15,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -55,7 +56,7 @@ public class Angaz implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @OneToMany(mappedBy = "angaz", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "angaz", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Umowa> umowaList;
     @JoinColumn(name = "firma", referencedColumnName = "id")
     @NotNull
