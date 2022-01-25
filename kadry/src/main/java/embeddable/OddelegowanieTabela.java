@@ -31,6 +31,7 @@ public class OddelegowanieTabela {
     private double przychodpolski;
     private double podatekpolski;
     private double przychodzagraniczny;
+    private double podatekzagraniczny;
     private String rokmcprzekroczenia;
 
     public OddelegowanieTabela(Oddelegowanie p) {
@@ -43,6 +44,7 @@ public class OddelegowanieTabela {
             this.podatekpolski = this.podatekpolski+p.getPodatekpolska();
             this.przychodzagraniczny = this.przychodzagraniczny+p.getPrzychodyzagranica();
             this.przychodpolski = this.przychodpolski+p.getPrzychodypolska();
+            this.podatekzagraniczny = this.podatekzagraniczny+p.getPodatekzagranica();
             break;
             case "02":
             this.o_02 = p;
@@ -50,6 +52,7 @@ public class OddelegowanieTabela {
             this.podatekpolski = this.podatekpolski+p.getPodatekpolska();
             this.przychodzagraniczny = this.przychodzagraniczny+p.getPrzychodyzagranica();
             this.przychodpolski = this.przychodpolski+p.getPrzychodypolska();
+            this.podatekzagraniczny = this.podatekzagraniczny+p.getPodatekzagranica();
             break;
             case "03":
             this.o_03 = p;
@@ -57,6 +60,7 @@ public class OddelegowanieTabela {
             this.podatekpolski = this.podatekpolski+p.getPodatekpolska();
             this.przychodzagraniczny = this.przychodzagraniczny+p.getPrzychodyzagranica();
             this.przychodpolski = this.przychodpolski+p.getPrzychodypolska();
+            this.podatekzagraniczny = this.podatekzagraniczny+p.getPodatekzagranica();
             break;
             case "04":
             this.o_04 = p;
@@ -64,6 +68,7 @@ public class OddelegowanieTabela {
             this.podatekpolski = this.podatekpolski+p.getPodatekpolska();
             this.przychodzagraniczny = this.przychodzagraniczny+p.getPrzychodyzagranica();
             this.przychodpolski = this.przychodpolski+p.getPrzychodypolska();
+            this.podatekzagraniczny = this.podatekzagraniczny+p.getPodatekzagranica();
             break;
             case "05":
             this.o_05 = p;
@@ -71,6 +76,7 @@ public class OddelegowanieTabela {
             this.podatekpolski = this.podatekpolski+p.getPodatekpolska();
             this.przychodzagraniczny = this.przychodzagraniczny+p.getPrzychodyzagranica();
             this.przychodpolski = this.przychodpolski+p.getPrzychodypolska();
+            this.podatekzagraniczny = this.podatekzagraniczny+p.getPodatekzagranica();
             break;
             case "06":
             this.o_06 = p;
@@ -78,6 +84,7 @@ public class OddelegowanieTabela {
             this.podatekpolski = this.podatekpolski+p.getPodatekpolska();
             this.przychodzagraniczny = this.przychodzagraniczny+p.getPrzychodyzagranica();
             this.przychodpolski = this.przychodpolski+p.getPrzychodypolska();
+            this.podatekzagraniczny = this.podatekzagraniczny+p.getPodatekzagranica();
             break;
             case "07":
             this.o_07 = p;
@@ -85,6 +92,7 @@ public class OddelegowanieTabela {
             this.podatekpolski = this.podatekpolski+p.getPodatekpolska();
             this.przychodzagraniczny = this.przychodzagraniczny+p.getPrzychodyzagranica();
             this.przychodpolski = this.przychodpolski+p.getPrzychodypolska();
+            this.podatekzagraniczny = this.podatekzagraniczny+p.getPodatekzagranica();
             break;
             case "08":
             this.o_08 = p;
@@ -92,6 +100,7 @@ public class OddelegowanieTabela {
             this.podatekpolski = this.podatekpolski+p.getPodatekpolska();
             this.przychodzagraniczny = this.przychodzagraniczny+p.getPrzychodyzagranica();
             this.przychodpolski = this.przychodpolski+p.getPrzychodypolska();
+            this.podatekzagraniczny = this.podatekzagraniczny+p.getPodatekzagranica();
             break;
             case "09":
             this.o_09 = p;
@@ -99,6 +108,7 @@ public class OddelegowanieTabela {
             this.podatekpolski = this.podatekpolski+p.getPodatekpolska();
             this.przychodzagraniczny = this.przychodzagraniczny+p.getPrzychodyzagranica();
             this.przychodpolski = this.przychodpolski+p.getPrzychodypolska();
+            this.podatekzagraniczny = this.podatekzagraniczny+p.getPodatekzagranica();
             break;
             case "10":
             this.o_10 = p;
@@ -106,6 +116,7 @@ public class OddelegowanieTabela {
             this.podatekpolski = this.podatekpolski+p.getPodatekpolska();
             this.przychodzagraniczny = this.przychodzagraniczny+p.getPrzychodyzagranica();
             this.przychodpolski = this.przychodpolski+p.getPrzychodypolska();
+            this.podatekzagraniczny = this.podatekzagraniczny+p.getPodatekzagranica();
             break;
             case "11":
             this.o_11 = p;
@@ -113,6 +124,7 @@ public class OddelegowanieTabela {
             this.podatekpolski = this.podatekpolski+p.getPodatekpolska();
             this.przychodzagraniczny = this.przychodzagraniczny+p.getPrzychodyzagranica();
             this.przychodpolski = this.przychodpolski+p.getPrzychodypolska();
+            this.podatekzagraniczny = this.podatekzagraniczny+p.getPodatekzagranica();
             break;
             case "12":
             this.o_12 = p;
@@ -120,6 +132,7 @@ public class OddelegowanieTabela {
             this.podatekpolski = this.podatekpolski+p.getPodatekpolska();
             this.przychodzagraniczny = this.przychodzagraniczny+p.getPrzychodyzagranica();
             this.przychodpolski = this.przychodpolski+p.getPrzychodypolska();
+            this.podatekzagraniczny = this.podatekzagraniczny+p.getPodatekzagranica();
             break;
         }
     }
@@ -281,6 +294,15 @@ public class OddelegowanieTabela {
     public void setPrzychodzagraniczny(double przychodzagraniczny) {
         this.przychodzagraniczny = przychodzagraniczny;
     }
+
+    public double getPodatekzagraniczny() {
+        return podatekzagraniczny;
+    }
+
+    public void setPodatekzagraniczny(double podatekzagraniczny) {
+        this.podatekzagraniczny = podatekzagraniczny;
+    }
+    
     
 
     @Override

@@ -24,6 +24,7 @@ public class Oddelegowanie {
     private int id;
     private Umowa umowa;
     private Kalendarzmiesiac kalendarz;
+    private Pasekwynagrodzen pasek;
     private String rok;
     private String mc;
     private int liczbadni;
@@ -37,17 +38,25 @@ public class Oddelegowanie {
 
     public Oddelegowanie(List<Kalendarzmiesiac> kalendarze, Angaz a, String rok, String mc, List<Podatki> stawkipodatkowe) {
         this.kalendarz = pobierzkalendarz(kalendarze, rok, mc);
+        this.pasek = pobierzpasek(kalendarze,rok,mc);
         this.umowa = kalendarz.getUmowa();
         this.rok = rok;
         this.mc = mc;
         this.liczbadni = (int) kalendarz.getDnioddelegowania();
-        this.brutto = Z.z(this.kalendarz.getPasek().getBrutto());
-        double zagranica = pobierzzagranica(this.kalendarz.getPasek().getNaliczenieskladnikawynagrodzeniaList());
+        double brutto = 0.0;
+        double zagranica = 0.0;
+        if (this.pasek!=null) {
+            zagranica = pobierzzagranica(this.pasek.getNaliczenieskladnikawynagrodzeniaList());
+            brutto = Z.z(this.pasek.getBrutto());
+        }
+        this.brutto = brutto;
         this.przychodyzagranica = Z.z(zagranica);
         this.przychodypolska = Z.z(this.brutto-zagranica);
-        this.podatek = Z.z(this.kalendarz.getPasek().getPodatekdochodowy());
-        this.podatekpolska = Z.z(symulacjaoblicz(kalendarz, przychodypolska, stawkipodatkowe));
-        this.podatekzagranica = Z.z(this.podatek-this.podatekpolska)>0.0?Z.z(this.podatek-this.podatekpolska):0.0;
+        this.podatek = this.pasek==null?0.0:Z.z(this.pasek.getPodatekdochodowy());
+        if (this.podatek>0.0) {
+            this.podatekpolska = Z.z(symulacjaoblicz(kalendarz, przychodypolska, stawkipodatkowe));
+            this.podatekzagranica = Z.z(this.podatek-this.podatekpolska)>0.0?Z.z(this.podatek-this.podatekpolska):0.0;
+        }
     }
     
      public double symulacjaoblicz(Kalendarzmiesiac kalendarz, double polska, List<Podatki> stawkipodatkowe) {
@@ -78,10 +87,25 @@ public class Oddelegowanie {
         for (Kalendarzmiesiac k : kalendarze) {
             if (k.getRok().equals(rok)&&k.getMc().equals(mc)) {
                 zwrot = k;
+                break;
             }
         }
         return zwrot;
     }
+ 
+    private Pasekwynagrodzen pobierzpasek(List<Kalendarzmiesiac> kalendarze, String rok, String mc) {
+        Pasekwynagrodzen zwrot = null;
+        for (Kalendarzmiesiac k : kalendarze) {
+            Pasekwynagrodzen pasek1 = k.getPasek();
+            if (pasek1.getId()!=null&&pasek1.getRokwypl().equals(rok)&&pasek1.getMcwypl().equals(mc)) {
+                zwrot = pasek1;
+                break;
+            }
+        }
+        return zwrot;
+    }
+
+    
 
 
     public int getId() {
@@ -228,8 +252,7 @@ public class Oddelegowanie {
         return "Oddelegowanie{" + "umowa=" + umowa.getNazwiskoImie() + ", kalendarz=" + kalendarz.getRokMc() + ", liczbadni=" + liczbadni + '}';
     }
 
-    
-
+   
    
     
     

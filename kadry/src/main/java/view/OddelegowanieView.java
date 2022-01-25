@@ -235,6 +235,7 @@ public class OddelegowanieView  implements Serializable {
         doedycji.setPodatekpolski(Z.z(doedycji.getPodatekpolski()+p.getPodatekpolska()));
         doedycji.setPrzychodzagraniczny(Z.z(doedycji.getPrzychodzagraniczny()+p.getPrzychodyzagranica()));
         doedycji.setPrzychodpolski(Z.z(doedycji.getPrzychodpolski()+p.getPrzychodypolska()));
+        doedycji.setPodatekzagraniczny(Z.z(doedycji.getPodatekzagraniczny()+p.getPodatekzagranica()));
         if (doedycji.getSumadni()>182 && doedycji.getRokmcprzekroczenia()==null) {
             doedycji.setRokmcprzekroczenia(p.getRok()+"/"+p.getMc());
         } else {

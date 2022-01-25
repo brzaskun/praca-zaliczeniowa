@@ -1,0 +1,36 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+
+    xmlns:bcf="http://brzaskun.com/facelets"
+    xmlns:pe="http://primefaces.org/ui/extensions">
+    `
+
+    <p:dialog id="dialogzbiorczezmienne" header="Zbiorcze wystawianie rachunków do umów zleceń" widgetVar="dialogzbiorczezmienne"  
+              resizable="false"  onShow="ustawdialog('dialogzbiorczezmienne','centertile',1650,800);zmienwyglad()" closeOnEscape="true" onHide="resetujdialog('dialogzbiorczezmienne');" 
+              fitViewport="true">
+        <p:ajax event="open" listener="#{zmienneZbiorczoView.init()}" update="ZbiorczeZmienneForm" global="false"/>
+        <p:outputPanel>
+            <h:form id="ZbiorczeZmienneForm">
+<!--
+                            <p:outputLabel value="rodzaj umowy" />
+                            <p:selectOneListbox id="rodzajumowy" value="#{pasekwynagrodzenView.rodzajlistyplac}" scrollHeight="120" style="width: 280px;margin-left: 10px;" required="true" 
+                                                 requiredMessage="Wybierz rodzaj listy płac"
+                                 converter="#{rodzjalistyplacConverter}">
+                                        <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
+                                        <f:selectItems value="#{definicjalistaplacView.listarodzajlistyplac}"
+                                                       var="firmalistaItem"
+                                                       itemValue="#{firmalistaItem}" itemLabel="#{firmalistaItem.nazwa}"/>
+                                        <p:ajax event="change" partialSubmit="true" listener="#{pasekwynagrodzenView.wyborinnejumowy()}" global="false" update="PasekwynagrodzenListForm DefinicjalistaplacCreateForm1 DefinicjalistaplacCreateForm2 KursDataLPForm"/>
+                            </p:selectOneListbox>
+                <p:outputPanel >
+                    <p:commandButton value="zachowaj" styleClass="buttonnorm" actionListener="#{rachunekZlecenieView.zachowajrachunki()}" update="ZbiorczeZmienneForm:datalist" global="false"/>
+                </p:outputPanel>-->
+            </h:form>
+        </p:outputPanel>
+    </p:dialog>
+</ui:composition>
+

@@ -9,7 +9,7 @@
     xmlns:pe="http://primefaces.org/ui/extensions">
     `
 
-    <p:dialog id="dialogzbiorczerachunekzlecenia" header="Wystawianie rachunku do umowy zlecenia" widgetVar="dialogzbiorczerachunekzlecenia"  
+    <p:dialog id="dialogzbiorczerachunekzlecenia" header="Zbiorcze wystawianie rachunków do umów zleceń" widgetVar="dialogzbiorczerachunekzlecenia"  
               resizable="false"  onShow="ustawdialog('dialogzbiorczerachunekzlecenia','centertile',1650,800);zmienwyglad()" closeOnEscape="true" onHide="resetujdialog('dialogzbiorczerachunekzlecenia');" 
               fitViewport="true">
         <p:ajax event="open" listener="#{rachunekZlecenieView.initzbiorcze()}" update="RachunekZleceniaZbiorczeForm" global="false"/>
