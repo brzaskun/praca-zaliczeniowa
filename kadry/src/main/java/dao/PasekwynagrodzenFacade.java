@@ -9,8 +9,10 @@ import entity.Angaz;
 import entity.Definicjalistaplac;
 import entity.Kalendarzmiesiac;
 import entity.Pasekwynagrodzen;
+import entity.Umowa;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
@@ -104,4 +106,16 @@ public class PasekwynagrodzenFacade extends DAO   implements Serializable {
         }
         return zwrot;
     }
+
+    public List<Pasekwynagrodzen> findByUmowa(Umowa umowa) {
+        List<Pasekwynagrodzen> zwrot = new ArrayList<>();
+        try {
+            return getEntityManager().createNamedQuery("Pasekwynagrodzen.findByUmowa").setParameter("umowa", umowa).getResultList();
+        } catch (Exception e) {
+            
+        }
+        return zwrot;
+    }
+
+    
 }

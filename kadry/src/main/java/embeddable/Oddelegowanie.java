@@ -37,9 +37,9 @@ public class Oddelegowanie {
     private double podatekzagranica;
     private boolean chowaj;
 
-    public Oddelegowanie(List<Kalendarzmiesiac> kalendarze, Angaz a, String rok, String mc, List<Podatki> stawkipodatkowe) {
+    public Oddelegowanie(List<Kalendarzmiesiac> kalendarze, List<Pasekwynagrodzen> paski, Angaz a, String rok, String mc, List<Podatki> stawkipodatkowe) {
         this.kalendarz = pobierzkalendarz(kalendarze, rok, mc);
-        this.pasek = pobierzpasek(kalendarze,rok,mc);
+        this.pasek = pobierzpasek(paski,rok,mc);
         this.umowa = kalendarz.getUmowa();
         this.rok = rok;
         this.mc = mc;
@@ -94,12 +94,14 @@ public class Oddelegowanie {
         return zwrot;
     }
  
-    private Pasekwynagrodzen pobierzpasek(List<Kalendarzmiesiac> kalendarze, String rok, String mc) {
+    private Pasekwynagrodzen pobierzpasek(List<Pasekwynagrodzen> paskizr, String rok, String mc) {
         Pasekwynagrodzen zwrot = null;
         List<Pasekwynagrodzen> paski = new ArrayList<>();
-        for (Kalendarzmiesiac k : kalendarze) {
-            Pasekwynagrodzen pasek1 = k.getPasek();
+        for (Pasekwynagrodzen pasek1 : paskizr) {
             if (pasek1.getId()!=null&&pasek1.getRokwypl().equals(rok)&&pasek1.getMcwypl().equals(mc)) {
+                if (pasek1.getPesel().equals("86113011412")) {
+                    System.out.println("");
+                }
                 paski.add(pasek1);
             }
         }
