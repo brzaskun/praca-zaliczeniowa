@@ -911,7 +911,7 @@ public class PasekwynagrodzenBean {
         double dnioddelegowanie = 0.0;
         double dietawaluta = 0.0;
         for (Dzien p : kalendarz.getDzienList()) {
-            if (p.getKod()!=null&&p.getKod().equals("777")) {
+            if (p.getKod()!=null&&p.getKod().equals("Z")) {
                 dnioddelegowanie++;
                 dietawaluta = dietawaluta+p.getNieobecnosc().getDietaoddelegowanie();
             }

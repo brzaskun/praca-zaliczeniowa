@@ -297,7 +297,7 @@ public class PdfListaPlac {
       public static String wierszeSkladnikiString(List<Naliczenieskladnikawynagrodzenia> wykaz,List<Naliczenienieobecnosc> wykaznieob) {
         StringBuilder sb = new StringBuilder();
           for (Naliczenieskladnikawynagrodzenia rs : wykaz) {
-              if (!rs.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod().equals("777")) {
+              if (!rs.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod().equals("Z")) {
                   sb.append(rs.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod());
                   sb.append(" ");
                   sb.append(rs.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getOpisskrocony());

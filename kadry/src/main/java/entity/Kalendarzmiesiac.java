@@ -746,7 +746,7 @@ private static final long serialVersionUID = 1L;
     public boolean czysainnekody() {
         boolean zwrot = false;
         for (Dzien d : this.dzienList) {
-            if (d.getKod()!=null&&!d.getKod().equals("777")) {
+            if (d.getKod()!=null&&!d.getKod().equals("Z")) {
                 zwrot = true;
             }
         }

@@ -107,7 +107,7 @@ public class NieobecnoscKatalog implements Serializable {
         lista.put("205", "Skrócenie okresu wypowiedzenia");
         lista.put("206", "Świadczenie z obecnością w pracy");
         lista.put("207", "Nieobecność nieusprawiedliwiona niepłatna");
-        lista.put("777", "Praca za granicą");
+        lista.put("Z", "Praca za granicą");
     }
 
     public static Map<String, String> getLista() {
