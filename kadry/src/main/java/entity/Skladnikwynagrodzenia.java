@@ -13,6 +13,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -61,11 +62,11 @@ public class Skladnikwynagrodzenia implements Serializable {
     @Size(max = 255)
     @Column(name = "uwagi")
     private String uwagi;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "skladnikwynagrodzenia", orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "skladnikwynagrodzenia", orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Naliczenienieobecnosc> naliczenienieobecnoscList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "skladnikwynagrodzenia", orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "skladnikwynagrodzenia", orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Zmiennawynagrodzenia> zmiennawynagrodzeniaList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "skladnikwynagrodzenia", orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "skladnikwynagrodzenia", orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Naliczenieskladnikawynagrodzenia> naliczenieskladnikawynagrodzeniaList;
     
 
