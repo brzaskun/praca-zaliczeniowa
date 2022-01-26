@@ -7,12 +7,14 @@ package view;
 
 import dao.AngazFacade;
 import dao.KalendarzmiesiacFacade;
+import dao.PasekwynagrodzenFacade;
 import dao.PodatkiFacade;
 import embeddable.Mce;
 import embeddable.Oddelegowanie;
 import embeddable.OddelegowanieTabela;
 import entity.Angaz;
 import entity.Kalendarzmiesiac;
+import entity.Pasekwynagrodzen;
 import entity.Podatki;
 import entity.Umowa;
 import java.io.Serializable;
@@ -46,6 +48,8 @@ public class OddelegowanieView  implements Serializable {
     private PodatkiFacade podatkiFacade;
     @Inject
     private KalendarzmiesiacFacade kalendarzmiesiacFacade;
+    @Inject
+    private PasekwynagrodzenFacade pasekwynagrodzenFacade;
     
     public void init() {
         List<Angaz> angaze = angazFacade.findByFirma(wpisView.getFirma());
@@ -58,11 +62,15 @@ public class OddelegowanieView  implements Serializable {
             for (Umowa u : a.getUmowaList()) {
                 kalendarze.addAll(kalendarzmiesiacFacade.findByUmowa(u));
             }
+            List<Pasekwynagrodzen> paski = new ArrayList<>();
+            for (Umowa u : a.getUmowaList()) {
+                paski.addAll(pasekwynagrodzenFacade.findByUmowa(u));
+            }
             for (String rok : lata) {
-                List<Podatki> stawkipodatkowe = podatkiFacade.findByRokUmowa(rok, "P");
+                 List<Podatki> stawkipodatkowe = podatkiFacade.findByRokUmowa(rok, "P");
                 if (Integer.parseInt(rok)>2019) {
                     for (String mc : Mce.getMceListS()) {
-                        Oddelegowanie oddelegowanie = new Oddelegowanie(kalendarze, a, rok, mc, stawkipodatkowe);
+                        Oddelegowanie oddelegowanie = new Oddelegowanie(kalendarze, paski, a, rok, mc, stawkipodatkowe);
                         lista.add(oddelegowanie);
                     }
                 }
