@@ -5,18 +5,22 @@
  */
 package view;
 
+import comparator.Pracownikcomparator;
 import dao.DzienFacade;
 import dao.KalendarzmiesiacFacade;
 import dao.KalendarzwzorFacade;
 import dao.NieobecnoscFacade;
+import dao.PracownikFacade;
 import dao.RodzajnieobecnosciFacade;
 import dao.SwiadczeniekodzusFacade;
 import dao.UmowaFacade;
 import data.Data;
 import embeddable.Mce;
+import entity.Angaz;
 import entity.Dzien;
 import entity.Kalendarzmiesiac;
 import entity.Nieobecnosc;
+import entity.Pracownik;
 import entity.Rodzajnieobecnosci;
 import entity.Swiadczeniekodzus;
 import entity.Umowa;
@@ -28,9 +32,14 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import static java.time.temporal.ChronoUnit.DAYS;
+import java.util.ArrayList;
 import java.util.Base64;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
+import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -43,6 +52,7 @@ import javax.xml.ws.WebServiceRef;
 import msg.Msg;
 import net.lingala.zip4j.ZipFile;
 import net.lingala.zip4j.model.FileHeader;
+import org.primefaces.model.DualListModel;
 import zuszla.PobierzRaporty;
 import zuszla.PobierzRaportyResponse;
 import zuszla.WsdlPlatnikRaportyZlaPortType;
@@ -66,6 +76,8 @@ public class NieobecnoscView  implements Serializable {
     @Inject
     private NieobecnoscFacade nieobecnoscFacade;
     @Inject
+    private PracownikFacade pracownikFacade;
+    @Inject
     private SwiadczeniekodzusFacade swiadczeniekodzusFacade;
     @Inject
     private RodzajnieobecnosciFacade rodzajnieobecnosciFacade;
@@ -86,7 +98,14 @@ public class NieobecnoscView  implements Serializable {
     @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/zuszla.wsdl")
     private zuszla.WsdlPlatnikRaportyZla wsdlPlatnikRaportyZla;
     private  boolean pokazcalyrok;
+    private org.primefaces.model.DualListModel<Pracownik> listapracownikow;
     
+    @PostConstruct
+    public void init0() {
+        listapracownikow = new org.primefaces.model.DualListModel<>();
+        listapracownikow.setSource(new ArrayList<>());
+        listapracownikow.setTarget(new ArrayList<>());
+    }
     
     public void init() {
         if (wpisView.getUmowa()!=null) {
@@ -100,7 +119,29 @@ public class NieobecnoscView  implements Serializable {
         listaabsencji = rodzajnieobecnosciFacade.findAll();
         //Collections.sort(listaabsencji, new Nieobecnoscikodzuscomparator());
     }
+    
+    public void initzbiorcze() {
+        listaabsencji = rodzajnieobecnosciFacade.findAll();
+        listapracownikow = new org.primefaces.model.DualListModel<>();
+        listapracownikow.setSource(new ArrayList<>());
+        listapracownikow.setTarget(new ArrayList<>());
+        List<Angaz> angazList = wpisView.getFirma().getAngazList();
+        List<Pracownik> listapracownikow = pobierzpracownikow (angazList);
+        Collections.sort(listapracownikow, new Pracownikcomparator());
+        if (listapracownikow != null) {
+            this.listapracownikow.setSource(listapracownikow);
+            this.listapracownikow.setTarget(new ArrayList<>());
+        }
+    }
 
+    private List<Pracownik> pobierzpracownikow(List<Angaz> angazList) {
+        Set<Pracownik> zwrot = new HashSet<>();
+        for (Angaz a : angazList) {
+            zwrot.add(a.getPracownik());
+        }
+        return new ArrayList<Pracownik>(zwrot);
+    }
+    
     public void create() {
       if (selected!=null) {
           try {
@@ -133,6 +174,41 @@ public class NieobecnoscView  implements Serializable {
           } catch (Exception e) {
               Msg.msg("e", "Błąd - nie dodano nowej nieobecnosci");
           }
+      }
+    }
+    
+    public void createzbiorczo() {
+      if (listapracownikow.getTarget()!=null) {
+          try {
+            for (Pracownik p : listapracownikow.getTarget()) {
+                Nieobecnosc nowa = new Nieobecnosc();
+                nowa.setUmowa(umowaFacade.findPracownikAktywna(p));
+                nowa.setDataod(selected.getDataod());
+                nowa.setDatado(selected.getDatado());
+                nowa.setRokod(Data.getRok(selected.getDataod()));
+                nowa.setRokdo(Data.getRok(selected.getDatado()));
+                nowa.setMcod(Data.getMc(selected.getDataod()));
+                nowa.setMcdo(Data.getMc(selected.getDatado()));
+                nowa.setRodzajnieobecnosci(selected.getRodzajnieobecnosci());
+                nowa.setKrajoddelegowania(selected.getKrajoddelegowania());
+                nowa.setWalutadiety(selected.getWalutadiety());
+                nowa.setDietaoddelegowanie(selected.getDietaoddelegowanie());
+                nowa.setSwiadczeniekodzus(selected.getSwiadczeniekodzus());
+                nowa.setKodzwolnienia(selected.getKodzwolnienia());
+                nowa.setUzasadnienie(selected.getUzasadnienie());
+                LocalDate oddata = LocalDate.parse(selected.getDataod());
+                LocalDate dodata = LocalDate.parse(selected.getDatado());
+                double iloscdni = DAYS.between(oddata,dodata);
+                nowa.setDnikalendarzowe(iloscdni+1.0);
+                nieobecnoscFacade.create(nowa);
+                nanieszbiorcze(nowa);
+            }
+            Msg.msg("Dodano nieobecności");
+          } catch (Exception e) {
+              Msg.msg("e", "Błąd - nie dodano nowej nieobecnosci");
+          }
+      } else {
+          Msg.msg("e","Nie wybrano pracowników");
       }
     }
     
@@ -180,6 +256,42 @@ public class NieobecnoscView  implements Serializable {
         }
         return zwrot;
     }
+
+    public boolean nanieszbiorcze(Nieobecnosc nieobecnosc) {
+            boolean czynaniesiono = false;
+            if (nieobecnosc.isNaniesiona() == false) {
+                try {
+                    if (nieobecnosc.getRokod().equals(wpisView.getRokWpisu()) || nieobecnosc.getRokdo().equals(wpisView.getRokWpisu())) {
+                        String mcod = nieobecnosc.getMcod();
+                        if (nieobecnosc.getRokod().equals(wpisView.getRokUprzedni())) {
+                            mcod = "01";
+                        }
+                        String mcdo = nieobecnosc.getMcdo();
+                        for (String mc : Mce.getMceListS()) {
+                            if (Data.jestrownywiekszy(mc, mcod) && Data.jestrownywiekszy(mcdo, mc)) {
+                                Kalendarzmiesiac znaleziony = kalendarzmiesiacFacade.findByRokMcUmowa(nieobecnosc.getUmowa(), wpisView.getRokWpisu(), mc);
+                                if (znaleziony != null) {
+                                    if (nieobecnosc.getRokod().equals(wpisView.getRokWpisu()) || nieobecnosc.getRokdo().equals(wpisView.getRokWpisu())) {
+                                        int dniroboczenieobecnosci = znaleziony.naniesnieobecnosc(nieobecnosc);
+                                        if (!nieobecnosc.isImportowana()) {
+                                            nieobecnosc.setDniroboczenieobecnosci(nieobecnosc.getDniroboczenieobecnosci()+dniroboczenieobecnosci);
+                                        }
+                                    }
+                                    nieobecnoscFacade.edit(nieobecnosc);
+                                    kalendarzmiesiacFacade.edit(znaleziony);
+                                    czynaniesiono = true;
+                                } else {
+                                    Msg.msg("e", "Brak kalendarza pracownika za miesiąc rozliczeniowy. Nie można nanieść nieobecności!");
+                                }
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+                    Msg.msg("e", "Wystąpił błąd podczas nanoszenia nieobecności");
+                }
+            }
+            return czynaniesiono;
+        }
     
     public boolean nanies(Nieobecnosc nieobecnosc) {
         boolean czynaniesiono = false;
@@ -193,7 +305,7 @@ public class NieobecnoscView  implements Serializable {
                     String mcdo = nieobecnosc.getMcdo();
                     for (String mc : Mce.getMceListS()) {
                         if (Data.jestrownywiekszy(mc, mcod) && Data.jestrownywiekszy(mcdo, mc)) {
-                            Kalendarzmiesiac znaleziony = kalendarzmiesiacFacade.findByRokMcUmowa(wpisView.getUmowa(), wpisView.getRokWpisu(), mc);
+                            Kalendarzmiesiac znaleziony = kalendarzmiesiacFacade.findByRokMcUmowa(nieobecnosc.getUmowa(), wpisView.getRokWpisu(), mc);
                             if (znaleziony != null) {
                                 if (nieobecnosc.getRokod().equals(wpisView.getRokWpisu()) || nieobecnosc.getRokdo().equals(wpisView.getRokWpisu())) {
                                     int dniroboczenieobecnosci = znaleziony.naniesnieobecnosc(nieobecnosc);
@@ -392,6 +504,17 @@ public class NieobecnoscView  implements Serializable {
         this.pokazcalyrok = pokazcalyrok;
     }
 
+    public DualListModel<Pracownik> getListapracownikow() {
+        return listapracownikow;
+    }
+
+    public void setListapracownikow(DualListModel<Pracownik> listapracownikow) {
+        this.listapracownikow = listapracownikow;
+    }
+
+    
+
+    
    
     
     

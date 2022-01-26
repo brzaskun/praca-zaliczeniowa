@@ -51,6 +51,8 @@ public class PracownikFacade extends DAO  implements Serializable {
         } catch (Exception e){}
         return zwrot;
     }
+    
+    
 
     
    

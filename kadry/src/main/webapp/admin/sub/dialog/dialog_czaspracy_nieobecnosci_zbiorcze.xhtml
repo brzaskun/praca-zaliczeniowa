@@ -1,0 +1,92 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:bcf="http://brzaskun.com/facelets"
+    xmlns:pe="http://primefaces.org/ui/extensions">
+    <style>
+        .itemNieob .ui-datatable .ui-datatable-data tr{
+            height : 25px !important;
+        }
+        .ui-picklist-list {
+            height: 600px  !important;
+        }
+    </style>
+    <p:dialog id="dialogpracownikanieobecnoscizbiorcze" header="Wprowadzanie nieobecności" widgetVar="dialogpracownikanieobecnoscizbiorcze"  
+              resizable="false"  onShow="ustawdialog('dialogpracownikanieobecnoscizbiorcze','centertile',1650,800);" closeOnEscape="true" onHide="resetujdialog('dialogpracownikanieobecnoscizbiorcze');" 
+              fitViewport="true">
+        <p:ajax event="open" listener="#{nieobecnoscView.initzbiorcze()}" update="NieobecnosczbiorczeCreateForm" global="false"/>
+        <p:outputPanel style="height: 680px">
+            <p:panelGrid columns="1">
+                <h:form id="NieobecnosczbiorczeCreateForm">
+                    <h:panelGroup id="display">
+                        <p:panelGrid columns="4" rendered="#{nieobecnoscView.selected != null}">
+                            <p:panelGrid columns="1">
+                            <p:outputPanel>
+                                <p:outputLabel value="" for="wybranypracownik" />
+                                <p:pickList id="wybranypracownik" value="#{nieobecnoscView.listapracownikow}" var="kalendarzItemz" itemLabel="#{kalendarzItemz.nazwiskoImie}" itemValue="#{kalendarzItemz}" 
+                                            showCheckbox="true" converter="#{pracownikConverter}" style="height: 600px;"/>
+                            </p:outputPanel>
+                            </p:panelGrid>
+                            <p:panelGrid columns="2">
+                                <p:outputLabel value="nazwa nieobecności" for="nieobkodzus" />
+                                <p:selectOneMenu id="nieobkodzus" value="#{nieobecnoscView.selected.rodzajnieobecnosci}" required="true" requiredMessage="wybierz rodzaj nieobecnosci"  converter="#{rodzajnieobecnosciConverter}" filter="true" filterMatchMode="contains">
+                                    <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
+                                    <f:selectItems value="#{nieobecnoscView.listaabsencji}" 
+                                                   var="kodzusItem"
+                                                   itemValue="#{kodzusItem}" itemLabel="#{kodzusItem.kod} #{kodzusItem.opis}"/>
+                                    <p:ajax event="change" partialSubmit="true" global="false" update="NieobecnosczbiorczeCreateForm:swiadczenie" listener="#{nieobecnoscView.naniesrodzajnieobecnosci()}"/>
+                                </p:selectOneMenu>
+                                <p:outputLabel value="świadczenie" for="swiadczenie" />
+                                <p:selectOneMenu id="swiadczenie" value="#{nieobecnoscView.selected.swiadczeniekodzus}"  converter="#{swiadczeniekodzusConverter}" filter="true" filterMatchMode="contains"
+                                                 style="width: 300px;">
+                                    <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
+                                    <f:selectItems value="#{nieobecnoscView.swiadczeniekodzusLista}" 
+                                                   var="kodzusItem"
+                                                   itemValue="#{kodzusItem}" itemLabel="#{kodzusItem.kod} #{kodzusItem.opis}"/>
+                                    <p:ajax event="change" partialSubmit="true" global="false" update="NieobecnosczbiorczeCreateForm:procent" listener="#{nieobecnoscView.naniesprocent()}"/>
+                                </p:selectOneMenu>
+                            </p:panelGrid>
+                            <p:panelGrid columns="2">
+                                <p:outputLabel value="data od" for="dataod" />
+                                <p:inputText id="dataod" value="#{nieobecnoscView.selected.dataod}" title="datac od"  placeholder="____-__-__" maxlength="10" required="true" requiredMessage="Wprowadź datę od"/>
+                                <p:outputLabel value="data do" for="datado" />
+                                <p:inputText id="datado" value="#{nieobecnoscView.selected.datado}" title="data do"  placeholder="____-__-__" maxlength="10" required="true" requiredMessage="Wprowadź datę do"/>
+                                <p:outputLabel value="przyczyna" for="przyczyna" />
+                                <p:inputText id="przyczyna" value="#{nieobecnoscView.selected.uzasadnienie}" title="przyczyna"/>
+                                <p:outputLabel value="seria i nr zw." for="seriainrzwolnienia" />
+                                <p:inputText id="seriainrzwolnienia" value="#{nieobecnoscView.selected.seriainrzwolnienia}" title="seria i nr zw."/>
+                                <p:outputLabel value="procent" for="procent" />
+                                <p:inputText  id="procent" value="#{nieobecnoscView.selected.zwolnienieprocent}" title="procent zwolenienia" />
+                            </p:panelGrid>
+                            <p:panelGrid columns="2">
+                                <p:outputLabel value="kraj oddel." for="uwagi" />
+                                <p:inputText id="uwagi" value="#{nieobecnoscView.selected.krajoddelegowania}" title="kraj oddelegowania" />
+                                <p:outputLabel value="kwota diety"/>
+                                <bcf:inputpl value="#{nieobecnoscView.selected.dietaoddelegowanie}"/>
+                                <p:outputLabel value="waluta diety" for="waluta" />
+                                <p:selectOneMenu id="waluta"  value="#{nieobecnoscView.selected.walutadiety}" 
+                                                 style="width: 100px;"  >
+                                    <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true"/>
+                                    <f:selectItem itemLabel="PLN" itemValue="PLN"/>
+                                    <f:selectItem itemLabel="EUR" itemValue="EUR"/>
+                                    <f:selectItem itemLabel="GBP" itemValue="GBP"/>
+                                    <f:selectItem itemLabel="USD" itemValue="USD"/>
+                                </p:selectOneMenu>
+                            </p:panelGrid>
+                        </p:panelGrid>
+                        <p:commandButton styleClass="buttonnorm" actionListener="#{nieobecnoscView.createzbiorczo}" value="#{bundle.Save}" update="display"/>
+                        <p:commandButton value="#{bundle.Cancel}" onclick="NieobecnoscCreateDialog.hide()"/>
+                    </h:panelGroup>
+                </h:form>
+
+            </p:panelGrid>
+        </p:outputPanel>
+        <p:outputPanel styleClass="itemNieob">
+           
+        </p:outputPanel>
+    </p:dialog>
+</ui:composition>
+

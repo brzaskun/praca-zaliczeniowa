@@ -31,6 +31,7 @@
                              <p:menuitem icon="pi pi-file" value="umowy" style="width: 150px" action="Umowa"/>
                             <p:submenu label="czas pracy" style="width: 150px">
                                 <p:menuitem icon="pi pi-ellipsis-v" value="nieobecności" style="width: 150px" onclick="PF('dialogpracownikanieobecnosci').show()" async="true"/>
+                                <p:menuitem icon="pi pi-ellipsis-v" value="nieobecności zbiorcze" style="width: 150px" onclick="PF('dialogpracownikanieobecnoscizbiorcze').show()" async="true"/>
                                 <p:menuitem icon="pi pi-ellipsis-v" value="urlop/choroba" style="width: 150px" onclick="PF('dialgoczaspracyurlop').show()" async="true"/>
                                 <p:menuitem icon="pi pi-ellipsis-v" value="zbiorcze rach. do zlec." style="width: 150px" onclick="PF('dialogzbiorczerachunekzlecenia').show()" async="true"/>
                                 <p:menuitem icon="pi pi-ellipsis-v" value="wystaw. rach. do zlec." style="width: 150px" onclick="PF('dialograchunekzlecenia').show()" async="true"/>
@@ -58,6 +59,7 @@
                      <ui:include src="sub/dialog/dialog_czaspracy_kalendarzwzor.xhtml"/>
                      <ui:include src="sub/dialog/dialog_czaspracy_kalendarzmiesiac.xhtml"/>
                      <ui:include src="sub/dialog/dialog_czaspracy_nieobecnosci.xhtml"/>
+                     <ui:include src="sub/dialog/dialog_czaspracy_nieobecnosci_zbiorcze.xhtml"/>
                      <ui:include src="sub/dialog/dialog_czaspracy_urlop.xhtml"/>
                      <ui:include src="sub/dialog/dialog_czaspracy_zagranica.xhtml"/>
                      <ui:include src="sub/dialog/dialog_lista_definicja.xhtml"/>
