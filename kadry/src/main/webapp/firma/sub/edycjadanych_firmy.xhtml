@@ -166,7 +166,7 @@
                         <p:outputLabel value="osoba fizyczna" for="osoba" />
                         <p:selectBooleanCheckbox id="osoba" value="#{firmaView.selectedlista.osobafizyczna}" title="forma prawna"/>
                         <p:outputLabel value="dzień naliczania lp: np. 01, 10" for="dzienlp" />
-                        <p:inputText id="dzienlp" value="#{firmaView.selectedlista.dzienlp}" title="dzień naliczania listy płac" size="4" maxlength="2" />
+                        <p:inputText id="dzienlp" value="#{firmaView.selectedlista.dzienlp}" title="dzień naliczania listy płac" size="4" maxlength="2" required="false"/>
                     </p:panelGrid>
                     <p:panel header="dane kontaktowe"/>
                     <p:panelGrid columns="4">

@@ -19,7 +19,6 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -127,7 +126,6 @@ public class FirmaKadry implements Serializable {
     private boolean zaimportowana;
     @Column(name = "fir_serial")
     private String fir_serial;
-    @Min(value = 2)
     @Column(name = "dzienlp")
     private String dzienlp;
 
@@ -315,6 +313,8 @@ public class FirmaKadry implements Serializable {
     public void setDzienlp(String dzienlp) {
         if (dzienlp.equals("")) {
             this.dzienlp = null;
+        }else if (dzienlp!=null&&dzienlp.length()==1) {
+            this.dzienlp = "0"+this.dzienlp;
         } else {
             this.dzienlp = dzienlp;
         }
