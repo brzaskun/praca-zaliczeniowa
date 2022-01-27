@@ -215,7 +215,7 @@ public class KalendarzmiesiacView  implements Serializable {
         if (wpisView.getAngaz()!=null && wpisView.getPracownik()!=null && wpisView.getUmowa()!=null) {
             listakalendarzeprac = kalendarzmiesiacFacade.findByRokUmowa(wpisView.getUmowa(), wpisView.getRokWpisu());
         } else {
-            Msg.msg("e","Nie wybrano pracownika i umowy");
+            Msg.msg("e","Nie mozna pobrac kalendarza. Nie wybrano pracownika i umowy");
         }
     }
     

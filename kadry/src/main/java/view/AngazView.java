@@ -189,6 +189,11 @@ public class AngazView  implements Serializable {
             wpisView.setAngaz(angaz);
             wpisView.setPracownik(angaz.getPracownik());
             List<Umowa> umowy = wpisView.getAngaz().getUmowaList();
+            if (umowy==null) {
+                try {
+                    umowy = umowaFacade.findByAngaz(angaz);
+                } catch (Exception ex){}
+            }
             if (umowy!=null && umowy.size()==1) {
                 wpisView.setUmowa(umowy.get(0));
             } else if (umowy!=null&&!umowy.isEmpty()) {
@@ -205,7 +210,9 @@ public class AngazView  implements Serializable {
                 }
                 wpisView.setUmowa(umowaaktywna);
             } else {
+                Msg.msg("e","Nie pobrano umów do angażu");
                 wpisView.setUmowa(null);
+                System.out.println("Nie pobrano umów do angażu");
             }
             updateClassView.updateUmowa();
             Msg.msg("Aktywowano pracownika");

@@ -129,7 +129,7 @@ public class PracownikView  implements Serializable {
                 Msg.msg("e", "Nie można usunąć pracownika. Istnieją angaże");
             }
         } else {
-            Msg.msg("e", "Nie wybrano pracownika");
+            Msg.msg("e", "Nie można usunąć. Nie wybrano pracownika");
         }
     }
     

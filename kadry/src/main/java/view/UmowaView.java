@@ -299,7 +299,7 @@ public class UmowaView  implements Serializable {
             }
             Msg.msg("Pobrano dane z kalendarza wzorcowego z bazy danych i utworzono kalendarze pracownika");
         } else {
-            Msg.msg("e","Nie wybrano pracownika i umowy");
+            Msg.msg("e","Nie można wygenerować. Nie wybrano pracownika i umowy");
         }
         return kal;
     }
