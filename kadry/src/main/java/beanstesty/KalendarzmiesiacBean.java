@@ -734,7 +734,7 @@ public class KalendarzmiesiacBean {
         double sredniadopodstawy = 0.0;
         //wyliczenie dla skladnika stalego ze zmiennymi
         if (naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getGodzinowe0miesieczne1()&&naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getStale0zmienne1()==false) {
-             sredniadopodstawy = naliczenieskladnikawynagrodzenia.getKwotadolistyplac();
+             sredniadopodstawy = naliczenieskladnikawynagrodzenia.getKwotaumownazacalymc();
              boolean skladnikstaly = true;
              Sredniadlanieobecnosci srednia = new Sredniadlanieobecnosci(kalendarz.getRok(), kalendarz.getMc(), sredniadopodstawy, skladnikstaly, naliczenienieobecnosc, liczbagodzinieobecnosci, naliczenieskladnikawynagrodzenia.getGodzinyfaktyczne(), naliczenieskladnikawynagrodzenia.getDnifaktyczne(), naliczenieskladnikawynagrodzenia.getGodzinynalezne(), naliczenieskladnikawynagrodzenia.getDninalezne(), 0.0);
 //             Sredniadlanieobecnosci srednia = new Sredniadlanieobecnosci(kalendarz.getRok(), kalendarz.getMc(), sredniadopodstawy, skladnikstaly, naliczenienieobecnosc, liczbagodzinieobecnosci, pa.getGodzinyfaktyczne(), pa.getDnifaktyczne(), pa.getGodzinynalezne(), pa.getDninalezne());
