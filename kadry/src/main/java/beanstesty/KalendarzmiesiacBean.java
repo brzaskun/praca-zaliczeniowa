@@ -771,13 +771,15 @@ public class KalendarzmiesiacBean {
                         break;
                     }
                 }
-                stawkazagodzine = Z.z(kwotywyplacone/godzinyfaktyczne);
-                sredniadopodstawy = sredniadopodstawy + Z.z(stawkazagodzine * liczbagodzinieobecnosci);
-                naliczenienieobecnosc.setSumakwotdosredniej(kwotywyplacone);
-                naliczenienieobecnosc.setSumagodzindosredniej(godzinyfaktyczne);
-                naliczenienieobecnosc.setSkladnikizmiennesrednia(sredniadopodstawy);
-                naliczenienieobecnosc.setStawkadzienna(Z.z(kwotywyplacone/dnifaktyczne));
-                naliczenienieobecnosc.setStawkagodzinowa(stawkazagodzine);
+                if (godzinyfaktyczne!=0.0&&dnifaktyczne!=0.0) {
+                    stawkazagodzine = Z.z(kwotywyplacone/godzinyfaktyczne);
+                    sredniadopodstawy = sredniadopodstawy + Z.z(stawkazagodzine * liczbagodzinieobecnosci);
+                    naliczenienieobecnosc.setSumakwotdosredniej(kwotywyplacone);
+                    naliczenienieobecnosc.setSumagodzindosredniej(godzinyfaktyczne);
+                    naliczenienieobecnosc.setSkladnikizmiennesrednia(sredniadopodstawy);
+                    naliczenienieobecnosc.setStawkadzienna(Z.z(kwotywyplacone/dnifaktyczne));
+                    naliczenienieobecnosc.setStawkagodzinowa(stawkazagodzine);
+                }
         }
         return sredniadopodstawy;
     }

@@ -176,6 +176,7 @@ public class PasekwynagrodzenView implements Serializable {
         }
         ileszczegolow = "prosta";
         symulacjabrrutto = wpisView.getRokWpisuInt()<2022?2800:3010;
+        Msg.msg("Pobrano dane do analizy");
     }
 
     public void wyborinnejumowy() {

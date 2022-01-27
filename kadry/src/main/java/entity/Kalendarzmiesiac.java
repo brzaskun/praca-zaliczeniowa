@@ -12,7 +12,9 @@ import data.Data;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -480,7 +482,7 @@ private static final long serialVersionUID = 1L;
    }
    
    public List<Naliczenienieobecnosc> skladnikinieobecnosclista() {
-       List<Naliczenienieobecnosc> zwrot = new ArrayList<>();
+       Set<Naliczenienieobecnosc> zwrot = new HashSet<>();
        if (this.pasekwynagrodzenList!=null && !this.pasekwynagrodzenList.isEmpty()) {
            for (Pasekwynagrodzen p : this.pasekwynagrodzenList) {
                if (p.getNaliczenienieobecnoscList()!=null) {
@@ -488,7 +490,7 @@ private static final long serialVersionUID = 1L;
                }
            }
        }
-       return zwrot;
+       return new ArrayList<>(zwrot);
    }
 
     public List<Pasekwynagrodzen> getPasekwynagrodzenList() {

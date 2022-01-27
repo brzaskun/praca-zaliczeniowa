@@ -88,7 +88,9 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                             <f:facet name="header">
                                 <h:outputText value="opis"/>
                             </f:facet>
-                            <h:outputText value="#{item11.opispelny}"/>
+                            <h:outputText value="#{item11.opispelny}"  rendered="#{item11.tylkosuperplace eq false and item11.aktywne eq false}"/>
+                            <h:outputText value="#{item11.opispelny}"  rendered="#{item11.aktywne eq true and item11.tylkosuperplace eq false}" style="color: #1AA11A"/>
+                            <h:outputText value="#{item11.opispelny}"  rendered="#{item11.tylkosuperplace eq true and item11.aktywne eq false}" style="color: darkorange"/>
                         </p:column>
                         <p:column style="text-align: center;">
                             <f:facet name="header">
@@ -96,6 +98,12 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                             </f:facet>
                             <p:selectBooleanCheckbox value="#{item11.aktywne}"/>
                         </p:column>
+                        <p:column style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="tylko SupPłac"/>
+                            </f:facet>
+                            <p:selectBooleanCheckbox value="#{item11.tylkosuperplace}"/>
+                        </p:column>1
                         <p:column style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="godzinowe0 miesieczne1"/>

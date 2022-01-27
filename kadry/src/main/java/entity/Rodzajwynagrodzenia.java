@@ -75,6 +75,8 @@ public class Rodzajwynagrodzenia implements Serializable {
     private  boolean podatek0bezpodatek1;
     @Column(name = "aktywne")
     private  boolean aktywne;
+    @Column(name = "tylkosuperplace")
+    private  boolean tylkosuperplace;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "rodzajwynagrodzenia")
     private List<Skladnikwynagrodzenia> skladnikwynagrodzeniaList;
     @Column(name = "sredniaurlopowakraj")
@@ -224,6 +226,14 @@ public class Rodzajwynagrodzenia implements Serializable {
 
     public void setAktywne(boolean aktywne) {
         this.aktywne = aktywne;
+    }
+
+    public boolean isTylkosuperplace() {
+        return tylkosuperplace;
+    }
+
+    public void setTylkosuperplace(boolean tylkosuperplace) {
+        this.tylkosuperplace = tylkosuperplace;
     }
 
     public boolean isSredniaurlopowakraj() {

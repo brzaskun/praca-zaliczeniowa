@@ -89,7 +89,8 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                                 <f:facet name="header">
                                     <h:outputText value="nazwa"/>
                                 </f:facet>
-                                <h:outputText value="#{itemskladnikwyn.rodzajwynagrodzenia.opispelny}"/>
+                                <h:outputText value="#{itemskladnikwyn.rodzajwynagrodzenia.opispelny}" rendered="#{itemskladnikwyn.rodzajwynagrodzenia.tylkosuperplace eq false}"/>
+                                <h:outputText value="#{itemskladnikwyn.rodzajwynagrodzenia.opispelny}" rendered="#{itemskladnikwyn.rodzajwynagrodzenia.tylkosuperplace eq true}" style="color: darkorange"/>
                             </p:column>
                             <p:column style="text-align: center;" width="40">
                                 <f:facet name="header">
