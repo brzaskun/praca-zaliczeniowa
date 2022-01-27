@@ -10,7 +10,7 @@
         .itemNieob .ui-datatable .ui-datatable-data tr{
             height : 25px !important;
         }
-        .ui-picklist-list {
+        .pickzbiorcze .ui-picklist-list {
             height: 600px  !important;
         }
     </style>
@@ -26,7 +26,7 @@
                             <p:panelGrid columns="1">
                             <p:outputPanel>
                                 <p:outputLabel value="" for="wybranypracownik" />
-                                <p:pickList id="wybranypracownik" value="#{nieobecnoscView.listapracownikow}" var="kalendarzItemz" itemLabel="#{kalendarzItemz.nazwiskoImie}" itemValue="#{kalendarzItemz}" 
+                                <p:pickList id="wybranypracownik" styleClass="pickzbiorcze" value="#{nieobecnoscView.listapracownikow}" var="kalendarzItemz" itemLabel="#{kalendarzItemz.nazwiskoImie}" itemValue="#{kalendarzItemz}" 
                                             showCheckbox="true" converter="#{pracownikConverter}" style="height: 600px;"/>
                             </p:outputPanel>
                             </p:panelGrid>
