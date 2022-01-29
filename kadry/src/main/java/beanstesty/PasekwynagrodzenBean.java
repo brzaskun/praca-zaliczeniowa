@@ -706,7 +706,7 @@ public class PasekwynagrodzenBean {
     }
 
     private static void naliczzdrowota(Pasekwynagrodzen pasek, boolean nierezydent) {
-        double spolecznepodstawa = pasek.getBruttominusspoleczne();
+        double spolecznepodstawa = Z.z(pasek.getPodstawaskladkizus()-pasek.getRazemspolecznepracownik());
         double podstawazdrowotna = Z.z(spolecznepodstawa) > 0.0 ? Z.z(spolecznepodstawa) :0.0;
         pasek.setPodstawaubezpzdrowotne(podstawazdrowotna);
         double zdrowotne = Z.z(podstawazdrowotna*0.09);

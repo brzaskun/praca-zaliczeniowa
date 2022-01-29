@@ -120,6 +120,7 @@ public class NaliczenieskladnikawynagrodzeniaBean {
             double godzinyobecnoscirobocze = 0.0;
             double godzinyobecnosciroboczestat = 0.0;
             double stawkadzienna = 0.0;
+            double stawkagodzinowa = 0.0;
             double dowyplatyzaczasprzepracowany = 0.0;
             double liczbazmiennych = 0.0;
             for (Zmiennawynagrodzenia r : skladnikwynagrodzenia.getZmiennawynagrodzeniaList()) {
@@ -131,27 +132,35 @@ public class NaliczenieskladnikawynagrodzeniaBean {
                     skladnikistale = r.getKwota();
                     for (Dzien s : kalendarz.getDzienList()) {
                             //daje norma godzin a nie z uwzglednieniem zwolnien bo przeciez rewdukcja bedzie pozniej
-                            if (s.getTypdnia() == 0 && s.getNormagodzin() > 0.0 && s.getNrdnia() >= dzienodzmienna && s.getNrdnia() <= dziendozmienna) {
-                                dniroboczeprzepracowanezm++;
-                                dniroboczeprzepracowane++;
-                                godzinyobecnoscirobocze = godzinyobecnoscirobocze + s.getNormagodzin();
-                                godzinyobecnosciroboczezm = godzinyobecnosciroboczezm + s.getNormagodzin();
-                            }
-                            if (s.getTypdnia() == 0 && s.getPrzepracowano() > 0.0 && s.getNrdnia() >= dzienodzmienna && s.getNrdnia() <= dziendozmienna) {
-                                dniroboczeprzepracowanestat++;
-                                godzinyobecnosciroboczestat = godzinyobecnosciroboczestat + s.getPrzepracowano();
+                            //zmienilem zdanie. redukcja bedzie statystyczna
+                            //tu musza byc faktycznie dni
+                            if (s.getKod() == null || s.getKod().equals("")) {
+                                if (s.getTypdnia() == 0 && s.getNormagodzin() > 0.0 && s.getNrdnia() >= dzienodzmienna && s.getNrdnia() <= dziendozmienna) {
+                                    dniroboczeprzepracowanezm = dniroboczeprzepracowanezm + 1;
+                                    dniroboczeprzepracowane = dniroboczeprzepracowane + 1;
+                                    godzinyobecnoscirobocze = godzinyobecnoscirobocze + s.getNormagodzin();
+                                    godzinyobecnosciroboczezm = godzinyobecnosciroboczezm + s.getNormagodzin();
+                                }
+                                if (s.getTypdnia() == 0 && s.getPrzepracowano() > 0.0 && s.getNrdnia() >= dzienodzmienna && s.getNrdnia() <= dziendozmienna) {
+                                    dniroboczeprzepracowanestat = dniroboczeprzepracowanestat + 1;
+                                    godzinyobecnosciroboczestat = godzinyobecnosciroboczestat + s.getPrzepracowano();
+                                }
                             }
                     }
-                    double stawkagodzinowazm = skladnikistale / godzinyroboczewmiesiacu;
-                    stawkadzienna = stawkadzienna + stawkagodzinowazm;
+                    double stawkadziennazm = Z.z(skladnikistale / dniroboczewmiesiacu);
+                    double stawkagodzinowazm = Z.z4(skladnikistale / godzinyroboczewmiesiacu);
+                    stawkadzienna = stawkadzienna + stawkadziennazm;
+                    stawkagodzinowa = stawkagodzinowa + stawkagodzinowazm;
                     dowyplatyzaczasprzepracowany = dowyplatyzaczasprzepracowany + Z.z(stawkagodzinowazm * godzinyobecnosciroboczezm);
                     liczbazmiennych++;
                 }
             }
             if (liczbazmiennych>0) {
                 stawkadzienna = Z.z(stawkadzienna / liczbazmiennych);
+                stawkagodzinowa = Z.z(stawkagodzinowa / liczbazmiennych);
                 naliczenieskladnikawynagrodzenia.setDataod(datastart);
                 naliczenieskladnikawynagrodzenia.setDatado(dataend);
+                naliczenieskladnikawynagrodzenia.setStawkagodzinowa(stawkagodzinowa);
                 naliczenieskladnikawynagrodzenia.setStawkadzienna(stawkadzienna);
                 naliczenieskladnikawynagrodzenia.setKwotaumownazacalymc(skladnikistale);
                 naliczenieskladnikawynagrodzenia.setKwotadolistyplac(dowyplatyzaczasprzepracowany);
