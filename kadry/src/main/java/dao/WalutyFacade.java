@@ -5,8 +5,7 @@
  */
 package dao;
 
-import entity.Tabelanbp;
-import error.E;
+import entity.Waluty;
 import java.io.Serializable;
 import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
@@ -40,15 +39,8 @@ public class WalutyFacade extends DAO  implements Serializable {
     }
 
     public WalutyFacade() {
-        super(Tabelanbp.class);
+        super(Waluty.class);
         super.em = em;
     }
   
-    public Tabelanbp findOstatniaTabela(String symbolwaluty) {
-        try {
-            return (Tabelanbp)  getEntityManager().createNamedQuery("Tabelanbp.findBySymbolWalutyOstatnia").setParameter("symbolwaluty", symbolwaluty).setMaxResults(1).getSingleResult();
-        } catch (Exception e) { E.e(e); 
-            return null;
-        }
-    }
 }

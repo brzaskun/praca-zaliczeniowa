@@ -49,7 +49,7 @@ public class WalutyFKBean {
     
     
     
-    @Schedule(hour = "14,20", persistent = false)
+    @Schedule(hour = "14,22", persistent = false)
     public void pobierzkursy() {
         String datawstepna;
         List<Waluty> pobranewaluty = walutyFacade.findAll();
