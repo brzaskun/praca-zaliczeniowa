@@ -891,7 +891,11 @@ public class Data implements Serializable {
     }
 
     
-
+     public static String dodajdzien(String data, int l) {
+        LocalDate datal = LocalDate.parse(data);
+        LocalDate tomorrow = datal.plusDays(l);  
+        return tomorrow.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+     }
     
 
     
