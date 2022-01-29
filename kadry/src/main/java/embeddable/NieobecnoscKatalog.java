@@ -95,7 +95,7 @@ public class NieobecnoscKatalog implements Serializable {
         lista.put("NN", "ieobecność nieusprawiedliwiona");
         lista.put("100", "Urlop wypoczynkowy");
         lista.put("101", "Urlop okolicznościowy");
-        lista.put("200", "Redukcja za czas nieprzepracowany");
+        lista.put("D", "Redukcja za czas nieprzepracowany");
         lista.put("104", "Urlop ojcowski");
         lista.put("105", "Urlop rodzicielski");
         lista.put("106", "Urlop na warunkach url. macierz.");

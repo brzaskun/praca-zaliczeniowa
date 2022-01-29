@@ -10,7 +10,7 @@ import beanstesty.PasekwynagrodzenBean;
 import dao.KalendarzmiesiacFacade;
 import dao.KalendarzwzorFacade;
 import dao.NieobecnoscFacade;
-import dao.SwiadczeniekodzusFacade;
+import dao.RodzajnieobecnosciFacade;
 import dao.UmowaFacade;
 import data.Data;
 import embeddable.Mce;
@@ -50,7 +50,7 @@ public class KalendarzmiesiacView  implements Serializable {
     @Inject
     private NieobecnoscFacade nieobecnoscFacade;
     @Inject
-    private SwiadczeniekodzusFacade nieobecnosckodzusFacade;
+    private RodzajnieobecnosciFacade rodzajnieobecnosciFacade;
     @Inject
     private WpisView wpisView;
     
@@ -200,7 +200,7 @@ public class KalendarzmiesiacView  implements Serializable {
                 }
             }
             Kalendarzmiesiac kalendarz = kalendarze.stream().filter(p->p.getRok().equals(rok)&&p.getMc().equals(mcu)).findFirst().get();
-            List<Nieobecnosc> zatrudnieniewtrakciemiesiaca = PasekwynagrodzenBean.generuj(wpisView.getUmowa(),nieobecnosckodzusFacade, rok, mcu, kalendarz);
+            List<Nieobecnosc> zatrudnieniewtrakciemiesiaca = PasekwynagrodzenBean.generuj(wpisView.getUmowa(),rodzajnieobecnosciFacade, rok, mcu, kalendarz);
             if (zatrudnieniewtrakciemiesiaca!=null) {
               nieobecnoscFacade.createList(zatrudnieniewtrakciemiesiaca);
             }

@@ -51,7 +51,7 @@ public class NieobecnosckodzusBean {
      public static Swiadczeniekodzus createKorektakalendarza() {
         if (korektakalendarza==null) {
            korektakalendarza = new Swiadczeniekodzus();
-           korektakalendarza.setKod("200");
+           korektakalendarza.setKod("D");
            korektakalendarza.setOpis("korekta kalendarza");
            korektakalendarza.setOpisskrocony("korekta kalendarza");
         }

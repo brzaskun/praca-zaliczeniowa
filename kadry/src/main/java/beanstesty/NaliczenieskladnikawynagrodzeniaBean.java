@@ -130,17 +130,17 @@ public class NaliczenieskladnikawynagrodzeniaBean {
                 if (DataBean.czysiemiesci(kalendarz, r.getDataod(), r.getDatado())) {
                     skladnikistale = r.getKwota();
                     for (Dzien s : kalendarz.getDzienList()) {
-                        //daje norma godzin a nie z uwzglednieniem zwolnien bo przeciez rewdukcja bedzie pozniej
-                        if (s.getTypdnia() == 0 && s.getNormagodzin() > 0.0 && s.getNrdnia() >= dzienodzmienna && s.getNrdnia() <= dziendozmienna) {
-                            dniroboczeprzepracowanezm++;
-                            dniroboczeprzepracowane++;
-                            godzinyobecnoscirobocze = godzinyobecnoscirobocze + s.getNormagodzin();
-                            godzinyobecnosciroboczezm = godzinyobecnosciroboczezm + s.getNormagodzin();
-                        }
-                        if (s.getTypdnia() == 0 && s.getPrzepracowano() > 0.0 && s.getNrdnia() >= dzienodzmienna && s.getNrdnia() <= dziendozmienna) {
-                            dniroboczeprzepracowanestat++;
-                            godzinyobecnosciroboczestat = godzinyobecnosciroboczestat + s.getPrzepracowano();
-                        }
+                            //daje norma godzin a nie z uwzglednieniem zwolnien bo przeciez rewdukcja bedzie pozniej
+                            if (s.getTypdnia() == 0 && s.getNormagodzin() > 0.0 && s.getNrdnia() >= dzienodzmienna && s.getNrdnia() <= dziendozmienna) {
+                                dniroboczeprzepracowanezm++;
+                                dniroboczeprzepracowane++;
+                                godzinyobecnoscirobocze = godzinyobecnoscirobocze + s.getNormagodzin();
+                                godzinyobecnosciroboczezm = godzinyobecnosciroboczezm + s.getNormagodzin();
+                            }
+                            if (s.getTypdnia() == 0 && s.getPrzepracowano() > 0.0 && s.getNrdnia() >= dzienodzmienna && s.getNrdnia() <= dziendozmienna) {
+                                dniroboczeprzepracowanestat++;
+                                godzinyobecnosciroboczestat = godzinyobecnosciroboczestat + s.getPrzepracowano();
+                            }
                     }
                     double stawkagodzinowazm = skladnikistale / godzinyroboczewmiesiacu;
                     stawkadzienna = stawkadzienna + stawkagodzinowazm;

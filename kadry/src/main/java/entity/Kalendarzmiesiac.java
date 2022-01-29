@@ -707,8 +707,7 @@ private static final long serialVersionUID = 1L;
                 p.setNaniesiona(true);
             } else if (kod.equals("Z")) {
                 p.setNaniesiona(true);
-            } else if (kod.equals("200")) {
-                dzienaktualny.setNormagodzin(0);
+            } else if (kod.equals("D")) {
                 dzienaktualny.setPrzepracowano(0);
                 p.setNaniesiona(true);
             }

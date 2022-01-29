@@ -6,6 +6,7 @@
 package beanstesty;
 
 import dao.PasekwynagrodzenFacade;
+import dao.RodzajnieobecnosciFacade;
 import dao.SwiadczeniekodzusFacade;
 import data.Data;
 import entity.Angaz;
@@ -21,7 +22,7 @@ import entity.Pasekwynagrodzen;
 import entity.Podatki;
 import entity.Pracownik;
 import entity.Rachunekdoumowyzlecenia;
-import entity.Swiadczeniekodzus;
+import entity.Rodzajnieobecnosci;
 import entity.Umowa;
 import entity.Wynagrodzeniahistoryczne;
 import error.E;
@@ -137,7 +138,7 @@ public class PasekwynagrodzenBean {
         if (umowaoprace) {
             jestoddelegowanie = KalendarzmiesiacBean.naliczskladnikiwynagrodzeniaDB(kalendarz, pasek, kurs);
             List<Nieobecnosc> nieobecnosci = pobierznieobecnosci(kalendarz);
-            List<Nieobecnosc> zatrudnieniewtrakciemiesiaca = pobierz(nieobecnosci,"200");
+            List<Nieobecnosc> zatrudnieniewtrakciemiesiaca = pobierz(nieobecnosci,"D");
             List<Nieobecnosc> choroba = pobierz(nieobecnosci,"331");
             List<Nieobecnosc> zasilekchorobowy = pobierz(nieobecnosci,"313");
             List<Nieobecnosc> urlop = pobierz(nieobecnosci,"U");
@@ -811,17 +812,17 @@ public class PasekwynagrodzenBean {
         return zwrot;
     }
 
-    public static List<Nieobecnosc> generuj(Umowa umowa, SwiadczeniekodzusFacade nieobecnosckodzusFacade, String rok, String mc, Kalendarzmiesiac kalendarzmiesiac) {
+    public static List<Nieobecnosc> generuj(Umowa umowa, RodzajnieobecnosciFacade rodzajnieobecnosciFacade, String rok, String mc, Kalendarzmiesiac kalendarzmiesiac) {
         List<Nieobecnosc> zwrotlist = new ArrayList<>();
         Nieobecnosc zwrot = new Nieobecnosc();
         String rokumowa = Data.getRok(umowa.getDataod());
         String mcumowa = Data.getMc(umowa.getDataod());
         String dzienumowa = Data.getDzien(umowa.getDataod());
         if (rokumowa.equals(rok)&&mcumowa.equals(mc)&&!dzienumowa.equals("01")) {
-            Swiadczeniekodzus nieobecnosckodzus = nieobecnosckodzusFacade.findByKod("200");
+            Rodzajnieobecnosci nieobecnosckodzus = rodzajnieobecnosciFacade.findByKod("D");
             zwrot = new Nieobecnosc();
             zwrot.setUmowa(umowa);
-            zwrot.setSwiadczeniekodzus(nieobecnosckodzus);
+            zwrot.setRodzajnieobecnosci(nieobecnosckodzus);
             String pierwszydzienmca = Data.pierwszyDzien(umowa.getDataod());
             LocalDate pierwszydzienumowy = LocalDate.parse(umowa.getDataod());
             LocalDate yesterday = pierwszydzienumowy.minusDays(1);  
@@ -842,10 +843,10 @@ public class PasekwynagrodzenBean {
             String dzienumowado = Data.getDzien(umowa.getDatado());
             String ostatnidzienmca = Data.getDzien(Data.ostatniDzien(rokumowado, mcumowado));
             if (rokumowado.equals(rok)&&mcumowado.equals(mc)&&!dzienumowado.equals(ostatnidzienmca)) {
-                Swiadczeniekodzus nieobecnosckodzus = nieobecnosckodzusFacade.findByKod("200");
+                Rodzajnieobecnosci nieobecnosckodzus = rodzajnieobecnosciFacade.findByKod("D");
                 zwrot = new Nieobecnosc();
                 zwrot.setUmowa(umowa);
-                zwrot.setSwiadczeniekodzus(nieobecnosckodzus);
+                zwrot.setRodzajnieobecnosci(nieobecnosckodzus);
                 LocalDate ostatnidzienumowy = LocalDate.parse(umowa.getDatado());
                 LocalDate tomorrow = ostatnidzienumowy.plusDays(1);  
                 String dzienpoumowie = tomorrow.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));

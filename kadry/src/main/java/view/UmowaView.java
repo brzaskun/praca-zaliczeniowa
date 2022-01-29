@@ -17,6 +17,7 @@ import dao.KalendarzwzorFacade;
 import dao.KodyzawodowFacade;
 import dao.KombinacjaubezpieczenFacade;
 import dao.NieobecnoscFacade;
+import dao.RodzajnieobecnosciFacade;
 import dao.RodzajwynagrodzeniaFacade;
 import dao.SkladnikWynagrodzeniaFacade;
 import dao.StanowiskopracFacade;
@@ -110,6 +111,8 @@ public class UmowaView  implements Serializable {
     private ZmiennaWynagrodzeniaView zmiennaWynagrodzeniaView;
     @Inject
     private PasekwynagrodzenView pasekwynagrodzenView;
+    @Inject
+    private RodzajnieobecnosciFacade rodzajnieobecnosciFacade;
     @Inject
     private UpdateClassView updateClassView;
     private double wynagrodzeniemiesieczne;
@@ -254,7 +257,7 @@ public class UmowaView  implements Serializable {
               }
               skladnikWynagrodzeniaView.init();
               zmiennaWynagrodzeniaView.init();
-              List<Nieobecnosc> zatrudnieniewtrakciemiesiaca = PasekwynagrodzenBean.generuj(kalendarz.getUmowa(),nieobecnosckodzusFacade, kalendarz.getRok(), kalendarz.getMc(), kalendarz);
+              List<Nieobecnosc> zatrudnieniewtrakciemiesiaca = PasekwynagrodzenBean.generuj(kalendarz.getUmowa(),rodzajnieobecnosciFacade, kalendarz.getRok(), kalendarz.getMc(), kalendarz);
               if (zatrudnieniewtrakciemiesiaca!=null) {
                 nieobecnoscFacade.createList(zatrudnieniewtrakciemiesiaca);
               }
@@ -367,7 +370,7 @@ public class UmowaView  implements Serializable {
             String rok = Data.getRok(selected.getDataod());
             String mc = Data.getMc(selected.getDataod());
             Kalendarzmiesiac kalendarz = selected.getKalendarzmiesiacList().stream().filter(p->p.getRok().equals(rok)&&p.getMc().equals(mc)).findFirst().get();
-            List<Nieobecnosc> zatrudnieniewtrakciemiesiaca = PasekwynagrodzenBean.generuj(selected,nieobecnosckodzusFacade, rok, mc, kalendarz);
+            List<Nieobecnosc> zatrudnieniewtrakciemiesiaca = PasekwynagrodzenBean.generuj(selected,rodzajnieobecnosciFacade, rok, mc, kalendarz);
             if (zatrudnieniewtrakciemiesiaca!=null) {
               nieobecnoscFacade.createList(zatrudnieniewtrakciemiesiaca);
             }
