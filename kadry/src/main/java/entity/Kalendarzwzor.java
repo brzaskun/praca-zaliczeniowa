@@ -45,6 +45,12 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Kalendarzwzor.findByFirmaRokMc", query = "SELECT k FROM Kalendarzwzor k WHERE k.firma=:firma AND k.rok=:rok AND k.mc = :mc")
 })
 public class Kalendarzwzor implements Serializable {
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id")
+    private Integer id;
     @NotNull
     @Size(max = 4)
     @Column(name = "rok")
@@ -53,13 +59,8 @@ public class Kalendarzwzor implements Serializable {
     @Size(max = 2)
     @Column(name = "mc")
     private String mc;
-
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id")
-    private Integer id;
+    @Column(name="norma")
+    private double norma;
     @OneToMany(mappedBy = "kalendarzwzor", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Dzien> dzienList;
     @NotNull
@@ -92,6 +93,16 @@ public class Kalendarzwzor implements Serializable {
     public void setId(Integer id) {
         this.id = id;
     }
+
+    public double getNorma() {
+        return norma;
+    }
+
+    public void setNorma(double norma) {
+        this.norma = norma;
+    }
+    
+    
     @Override
     public int hashCode() {
         int hash = 0;
