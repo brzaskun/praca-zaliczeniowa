@@ -7,7 +7,7 @@ package entity;
 
 import beanstesty.DataBean;
 import comparator.Dziencomparator;
-import dao.SwiadczeniekodzusFacade;
+import dao.RodzajnieobecnosciFacade;
 import data.Data;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -404,7 +404,7 @@ private static final long serialVersionUID = 1L;
         return zwrot;
     }
     
-    public List nieobecnoscipdf(SwiadczeniekodzusFacade nieobecnosckodzusFacade) {
+    public List nieobecnoscipdf(RodzajnieobecnosciFacade rodzajnieobecnosciFacade) {
         List<Nieobecnosc> wykaz = new ArrayList<>();
         if (this.dzienList!=null) {
             Nieobecnosc biezaca = null;
@@ -412,23 +412,23 @@ private static final long serialVersionUID = 1L;
             for (Dzien d : dzienList) {
                 if (cosjest(d.getKod())&&biezaca==null) {
                     //nowykod
-                    Swiadczeniekodzus nieobecnosckodzus = nieobecnosckodzusFacade.findByKod(d.getKod());
+                    Rodzajnieobecnosci nieobecnosckodzus = rodzajnieobecnosciFacade.findByKod(d.getKod());
                     biezaca = new Nieobecnosc(this.getUmowa());
                     biezaca.setKodzwolnienia(d.getKod());
                     biezaca.setDataod(Data.pelnadata(this,d.getNrdnia()));
                     biezaca.setDatado(Data.pelnadata(this,d.getNrdnia()));
-                    biezaca.setSwiadczeniekodzus(nieobecnosckodzus);
+                    biezaca.setRodzajnieobecnosci(nieobecnosckodzus);
                 } else if (cosjest(d.getKod())&&biezaca!=null) {
                     if (d.getKod().equals(biezaca.getKodzwolnienia())) {
                         biezaca.setDatado(Data.pelnadata(this,d.getNrdnia()));
                     } else {
                         wykaz.add(biezaca);
-                        Swiadczeniekodzus nieobecnosckodzus = nieobecnosckodzusFacade.findByKod(d.getKod());
+                        Rodzajnieobecnosci nieobecnosckodzus = rodzajnieobecnosciFacade.findByKod(d.getKod());
                         biezaca = new Nieobecnosc(this.getUmowa());
                         biezaca.setKodzwolnienia(d.getKod());
                         biezaca.setDataod(Data.pelnadata(this,d.getNrdnia()));
                         biezaca.setDatado(Data.pelnadata(this,d.getNrdnia()));
-                        biezaca.setSwiadczeniekodzus(nieobecnosckodzus);
+                        biezaca.setRodzajnieobecnosci(nieobecnosckodzus);
                     }
                 } else if (!cosjest(d.getKod())&&biezaca!=null) {
                         wykaz.add(biezaca);

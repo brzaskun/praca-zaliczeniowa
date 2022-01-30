@@ -23,7 +23,7 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                                                  requiredMessage="Wybierz rodzaj listy płac"
                                  converter="#{rodzjalistyplacConverter}">
                                         <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
-                                        <f:selectItems value="#{definicjalistaplacView.listarodzajlistyplac}"
+                                        <f:selectItems value="#{pasekwynagrodzenView.listarodzajlistyplac}"
                                                        var="firmalistaItem"
                                                        itemValue="#{firmalistaItem}" itemLabel="#{firmalistaItem.nazwa}"/>
                                         <p:ajax event="change" partialSubmit="true" listener="#{pasekwynagrodzenView.wyborinnejumowy()}" global="false" update="PasekwynagrodzenListForm DefinicjalistaplacCreateForm1 DefinicjalistaplacCreateForm2 KursDataLPForm"/>

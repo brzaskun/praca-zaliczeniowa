@@ -11,7 +11,7 @@ import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
-import dao.SwiadczeniekodzusFacade;
+import dao.RodzajnieobecnosciFacade;
 import entity.Angaz;
 import entity.Definicjalistaplac;
 import entity.Kalendarzmiesiac;
@@ -40,7 +40,7 @@ import z.Z;
  */
 public class PdfListaPlac {
     
-    public static ByteArrayOutputStream drukujmail(List<Pasekwynagrodzen> lista, List<Definicjalistaplac> deflista, SwiadczeniekodzusFacade nieobecnosckodzus) {
+    public static ByteArrayOutputStream drukujmail(List<Pasekwynagrodzen> lista, List<Definicjalistaplac> deflista, RodzajnieobecnosciFacade rodzajnieobecnosciFacade) {
         ByteArrayOutputStream out = new ByteArrayOutputStream();            
         try {
             Definicjalistaplac def = deflista.get(0);
@@ -66,7 +66,7 @@ public class PdfListaPlac {
                     sb.append(generujpasekskladniki(p, document));
                     document.add(ustawparagrafSmall(sb.toString()));
                     sb = new StringBuilder();
-                    sb.append(generujpasekobecnosci(p, document, nieobecnosckodzus));
+                    sb.append(generujpasekobecnosci(p, document, rodzajnieobecnosciFacade));
                     document.add(ustawparagrafSmall(sb.toString()));
                     document.add(Chunk.NEWLINE);
                 }
@@ -81,7 +81,7 @@ public class PdfListaPlac {
         return out;
     }
     
-    public static void drukuj(Pasekwynagrodzen p, SwiadczeniekodzusFacade nieobecnosckodzus) {
+    public static void drukuj(Pasekwynagrodzen p, RodzajnieobecnosciFacade rodzajnieobecnosciFacade) {
         try {
             Angaz a = p.getKalendarzmiesiac().getUmowa().getAngaz();
             String nazwa = a.getFirma().getNip()+"lp.pdf";
@@ -108,8 +108,8 @@ public class PdfListaPlac {
                         PdfPCell cell = new PdfPCell();
                         cell.addElement(tabelaskladniki);
                         tablazestawienia.addCell(cell);
-                        if (!p.getKalendarzmiesiac().nieobecnoscipdf(nieobecnosckodzus).isEmpty()) {
-                            PdfPTable tabelanieobecnosci = dodajtabelenieobecnosci(p, document, nieobecnosckodzus);
+                        if (!p.getKalendarzmiesiac().nieobecnoscipdf(rodzajnieobecnosciFacade).isEmpty()) {
+                            PdfPTable tabelanieobecnosci = dodajtabelenieobecnosci(p, document, rodzajnieobecnosciFacade);
                             cell = new PdfPCell();
                             cell.addElement(tabelanieobecnosci);
                             tablazestawienia.addCell(cell);
@@ -344,10 +344,10 @@ public class PdfListaPlac {
         return sb.toString();
     }
      
-      private static PdfPTable dodajtabelenieobecnosci(Pasekwynagrodzen p, Document document, SwiadczeniekodzusFacade nieobecnosckodzus) {
+      private static PdfPTable dodajtabelenieobecnosci(Pasekwynagrodzen p, Document document, RodzajnieobecnosciFacade rodzajnieobecnosciFacade) {
         PdfPTable table = null;
         try {
-            List<Nieobecnosc> lista = p.getKalendarzmiesiac().nieobecnoscipdf(nieobecnosckodzus);
+            List<Nieobecnosc> lista = p.getKalendarzmiesiac().nieobecnoscipdf(rodzajnieobecnosciFacade);
             table = generujTabeleNieobecnosci();
             dodajwierszeNieobecnosci(lista, table);
         } catch (Exception ex) {
@@ -356,10 +356,10 @@ public class PdfListaPlac {
         return table;
     }
       
-    private static String generujpasekobecnosci(Pasekwynagrodzen p, Document document, SwiadczeniekodzusFacade nieobecnosckodzus) {
+    private static String generujpasekobecnosci(Pasekwynagrodzen p, Document document, RodzajnieobecnosciFacade rodzajnieobecnosciFacade) {
          String wierszeString = "";
         try {
-            List<Nieobecnosc> lista = p.getKalendarzmiesiac().nieobecnoscipdf(nieobecnosckodzus);
+            List<Nieobecnosc> lista = p.getKalendarzmiesiac().nieobecnoscipdf(rodzajnieobecnosciFacade);
             wierszeString = wierszeNieobecnosciString(lista);
         } catch (Exception ex) {
             Logger.getLogger(PdfListaPlac.class.getName()).log(Level.SEVERE, null, ex);
@@ -469,7 +469,7 @@ public class PdfListaPlac {
         table.addCell(ustawfrazeAlign(roboczenieob[1], "left",6));
     }
 
-    public static void drukujListaPodstawowa(List<Pasekwynagrodzen> lista, Definicjalistaplac def, SwiadczeniekodzusFacade nieobecnosckodzus) {
+    public static void drukujListaPodstawowa(List<Pasekwynagrodzen> lista, Definicjalistaplac def, RodzajnieobecnosciFacade rodzajnieobecnosciFacade) {
         try {
             String nrpoprawny = def.getNrkolejny().replaceAll("[^A-Za-z0-9]", "");
             String nazwa = def.getFirma().getNip() + "_" + nrpoprawny + "_" + "lp.pdf";
@@ -489,7 +489,7 @@ public class PdfListaPlac {
                     sb.append(generujpasekskladniki(p, document));
                     document.add(ustawparagrafSmall(sb.toString()));
                     sb = new StringBuilder();
-                    sb.append(generujpasekobecnosci(p, document, nieobecnosckodzus));
+                    sb.append(generujpasekobecnosci(p, document, rodzajnieobecnosciFacade));
                     document.add(ustawparagrafSmall(sb.toString()));
                     document.add(Chunk.NEWLINE);
                 }

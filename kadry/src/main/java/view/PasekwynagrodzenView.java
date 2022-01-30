@@ -16,6 +16,7 @@ import dao.OddelegowanieZUSLimitFacade;
 import dao.PasekwynagrodzenFacade;
 import dao.PodatkiFacade;
 import dao.RodzajlistyplacFacade;
+import dao.RodzajnieobecnosciFacade;
 import dao.SMTPSettingsFacade;
 import dao.SwiadczeniekodzusFacade;
 import dao.TabelanbpFacade;
@@ -84,6 +85,8 @@ public class PasekwynagrodzenView implements Serializable {
     @Inject
     private SwiadczeniekodzusFacade nieobecnosckodzusFacade;
     @Inject
+    private RodzajnieobecnosciFacade rodzajnieobecnosciFacade;
+    @Inject
     private WynagrodzeniahistoryczneFacade wynagrodzeniahistoryczneFacade;
     @Inject
     private WynagrodzenieminimalneFacade wynagrodzenieminimalneFacade;
@@ -96,6 +99,7 @@ public class PasekwynagrodzenView implements Serializable {
     @Inject
     private WpisView wpisView;
     private Rodzajlistyplac rodzajlistyplac;
+    private List<Rodzajlistyplac> listarodzajlistyplac;
     List<Naliczenieskladnikawynagrodzenia> listawynagrodzenpracownika;
     List<Naliczenienieobecnosc> listanieobecnoscipracownika;
     @Inject
@@ -145,6 +149,7 @@ public class PasekwynagrodzenView implements Serializable {
             //pobierzkalendarzezamcanaliza();
         } catch (Exception e) {
         }
+        listarodzajlistyplac = rodzajlistyplacFacade.findAktywne();
         ileszczegolow = "prosta";
         symulacjabrrutto = wpisView.getRokWpisuInt()<2022?2800:3010;
     }
@@ -178,6 +183,7 @@ public class PasekwynagrodzenView implements Serializable {
             pobierzkalendarzezamcanaliza();
         } catch (Exception e) {
         }
+        listarodzajlistyplac = rodzajlistyplacFacade.findAktywne();
         ileszczegolow = "prosta";
         symulacjabrrutto = wpisView.getRokWpisuInt()<2022?2800:3010;
         Msg.msg("Pobrano dane do analizy");
@@ -326,7 +332,7 @@ public class PasekwynagrodzenView implements Serializable {
 
     public void drukuj(Pasekwynagrodzen p) {
         if (p != null) {
-            PdfListaPlac.drukuj(p, nieobecnosckodzusFacade);
+            PdfListaPlac.drukuj(p, rodzajnieobecnosciFacade);
             Msg.msg("Wydrukowano pwsek wynagrodzeń");
         } else {
             Msg.msg("e", "Błąd drukowania. Pasek null");
@@ -335,7 +341,7 @@ public class PasekwynagrodzenView implements Serializable {
 
     public void drukujliste() {
         if (lista != null && lista.size() > 0) {
-            PdfListaPlac.drukujListaPodstawowa(lista, wybranalistaplac, nieobecnosckodzusFacade);
+            PdfListaPlac.drukujListaPodstawowa(lista, wybranalistaplac, rodzajnieobecnosciFacade);
             Msg.msg("Wydrukowano listę płac");
         } else {
             Msg.msg("e", "Błąd drukowania. Brak pasków");
@@ -346,7 +352,7 @@ public class PasekwynagrodzenView implements Serializable {
         if (lista != null && lista.size() > 0) {
             List<Definicjalistaplac> listadef = new ArrayList<>();
             listadef.add(wybranalistaplac);
-            ByteArrayOutputStream drukujmail = PdfListaPlac.drukujmail(lista, listadef, nieobecnosckodzusFacade);
+            ByteArrayOutputStream drukujmail = PdfListaPlac.drukujmail(lista, listadef, rodzajnieobecnosciFacade);
             Pasekwynagrodzen pasek = lista.get(0);
             SMTPSettings findSprawaByDef = sMTPSettingsFacade.findSprawaByDef();
             String nrpoprawny = wybranalistaplac.getNrkolejny().replaceAll("[^A-Za-z0-9]", "");
@@ -691,6 +697,14 @@ public class PasekwynagrodzenView implements Serializable {
 
     public void setSymulacjatotalcost(double symulacjatotalcost) {
         this.symulacjatotalcost = symulacjatotalcost;
+    }
+
+    public List<Rodzajlistyplac> getListarodzajlistyplac() {
+        return listarodzajlistyplac;
+    }
+
+    public void setListarodzajlistyplac(List<Rodzajlistyplac> listarodzajlistyplac) {
+        this.listarodzajlistyplac = listarodzajlistyplac;
     }
 
 }
