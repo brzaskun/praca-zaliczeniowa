@@ -43,14 +43,15 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                         </h:form>
                         <h:form id="KursDataLPForm">
                             <p:panelGrid columns="2" >
+                            <h:outputLabel for="datawyplatypole" value="data wypłaty"/>
+                            <p:inputText id="datawyplatypole" value="#{pasekwynagrodzenView.datawyplaty}" title="data wypłaty"  placeholder="____-__-__"  required="true" styleClass="dataUmowy" maxlength="10">
+                                <p:ajax event="blur" onstart="ustawDateSprzedazy(#{wpisView.rokWpisu},#{wpisView.miesiacWpisu});" partialSubmit="true" global="false" listener="#{pasekwynagrodzenView.ustawtabelenbp()}" update="KursDataLPForm:kurspole"/>
+                            </p:inputText>
                             <h:outputLabel for="kurspole" value="kurs przelicz."/>
                             <p:inputNumber value="#{pasekwynagrodzenView.kursdlalisty}" id="kurspole" decimalPlaces="4" style="text-align: right;">
                                 <p:ajax event="blur" partialSubmit="true" global="false"/>
                             </p:inputNumber>
-                            <h:outputLabel for="datawyplatypole" value="data wypłaty"/>
-                            <p:inputText id="datawyplatypole" value="#{pasekwynagrodzenView.datawyplaty}" title="data wypłaty"  placeholder="____-__-__"  required="true" styleClass="dataUmowy" maxlength="10">
-                                <p:ajax event="blur" partialSubmit="true" global="false"/>
-                            </p:inputText>
+                           
                             <p:outputLabel value="forma listy płac" for="ileszczegolow" />
                             <p:selectOneMenu id="ileszczegolow" value="#{pasekwynagrodzenView.ileszczegolow}" requiredMessage="ile szczegółów"  >
                                 <f:selectItem itemLabel="prosta" itemValue="prosta"/>

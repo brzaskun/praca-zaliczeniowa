@@ -12,6 +12,7 @@ import dao.KalendarzmiesiacFacade;
 import dao.KalendarzwzorFacade;
 import dao.UmowaFacade;
 import embeddable.Mce;
+import entity.Dzien;
 import entity.FirmaKadry;
 import entity.Kalendarzmiesiac;
 import entity.Kalendarzwzor;
@@ -23,6 +24,7 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import msg.Msg;
+import z.Z;
 
 /**
  *
@@ -62,6 +64,10 @@ public class KalendarzwzorView  implements Serializable {
     public void create() {
       if (selected!=null) {
           try {
+            selected.setNorma(0.0);
+            for (Dzien p : selected.getDzienList()) {
+                selected.setNorma(Z.z(selected.getNorma()+p.getNormagodzin()));
+            }
             kalendarzwzorFacade.create(selected);
             lista.add(selected);
             selected = new Kalendarzwzor(selected.getFirma(), selected.getRok());
@@ -75,6 +81,10 @@ public class KalendarzwzorView  implements Serializable {
     public void edit() {
       if (selected!=null) {
           try {
+            selected.setNorma(0.0);
+            for (Dzien p : selected.getDzienList()) {
+                selected.setNorma(Z.z(selected.getNorma()+p.getNormagodzin()));
+            }
             kalendarzwzorFacade.edit(selected);
             Msg.msg("Edytowano kalendarz");
           } catch (Exception e) {
@@ -89,6 +99,10 @@ public class KalendarzwzorView  implements Serializable {
             String[] popokres = data.Data.poprzedniOkres(selected.getMc(), selected.getRok());
             Kalendarzwzor poprzedni = kalendarzwzorFacade.findByFirmaRokMc(selected.getFirma(), popokres[1], popokres[0]);
             selected.zrobkolejnedni(poprzedni);
+            selected.setNorma(0.0);
+            for (Dzien p : selected.getDzienList()) {
+                selected.setNorma(Z.z(selected.getNorma()+p.getNormagodzin()));
+            }
             kalendarzwzorFacade.edit(selected);
             Msg.msg("Zresetowano kalendarz");
           } catch (Exception e) {

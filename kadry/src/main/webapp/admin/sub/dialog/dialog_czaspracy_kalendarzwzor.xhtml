@@ -8,7 +8,7 @@
     <p:dialog id="dialogkalendarzwzor" header="Kalendarz wzorcowy" widgetVar="dialogkalendarzwzor"  
               resizable="false"  onShow="ustawdialog('dialogkalendarzwzor','centertile',1650,800);" closeOnEscape="true" onHide="resetujdialog('dialogkalendarzwzor');" 
               fitViewport="true">
-        <p:outputPanel style="height: 200px">
+        <p:outputPanel style="height: 180px">
             <p:panelGrid columns="3">
                 <h:form id="KalendarzwzorCreateForm">
                     <h:panelGroup id="display">
@@ -65,17 +65,24 @@
                             </f:facet>
                             <h:outputText value="#{itemkalendarz.id}"/>
                         </p:column>-->
+                        
                         <p:column width="50" style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="nr dnia"/>
                             </f:facet>
                             <h:outputText value="#{itemkalendarz.nrdnia}"/>
                         </p:column>
-                        <p:column width="50" style="text-align: center;"  sortBy="#{itemkalendarz.datastring}" sortOrder="asc">
+                        <p:column width="60" style="text-align: center;"  sortBy="#{itemkalendarz.datastring}" sortOrder="asc">
                             <f:facet name="header">
                                 <h:outputText value="nr kolejny w roku"/>
                             </f:facet>
                             <h:outputText value="#{itemkalendarz.datastring}"/>
+                        </p:column>
+                        <p:column sortBy="#{itemkalendarz.datastring}" sortOrder="asc">
+                            <f:facet name="header">
+                                <h:outputText value="typ dnia"/>
+                            </f:facet>
+                            <h:outputText value="#{itemkalendarz.typdniaString}" style="color: #{itemkalendarz.typdniaCol}"/>
                         </p:column>
                         <p:column style="text-align: center;">
                             <f:facet name="header">
@@ -127,6 +134,13 @@
                         </p:column>-->
 
                     </p:dataTable>
+                    <p:outputPanel style="margin-top: 10px">
+                        <p:fragment>
+                            <p:autoUpdate/>
+                            <h:outputText value="norma godzin "/>
+                            <h:outputText value="#{kalendarzwzorView.selected.norma}"/>
+                        </p:fragment>
+                    </p:outputPanel>
                 </p:panel>
                 <p:outputPanel>
                     <p:commandButton styleClass="buttonnorm" actionListener="#{kalendarzwzorView.edit}" value="#{bundle.Edit}"  update="KalendarzwzorCreateForm:mc :KalendarzwzorListForm:datalist KalendarzwzormiesiacSaRokForm:datalist" rendered="#{kalendarzwzorView.selected.id ne null}"/>

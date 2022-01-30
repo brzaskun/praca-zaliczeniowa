@@ -47,9 +47,13 @@
                             </p:panelGrid>
                             <p:panelGrid columns="2">
                                 <p:outputLabel value="data od" for="dataod" />
-                                <p:inputText id="dataod" value="#{nieobecnoscView.selected.dataod}" title="datac od"  placeholder="____-__-__" maxlength="10" required="true" requiredMessage="Wprowadź datę od"/>
+                                <p:inputText id="dataod" value="#{nieobecnoscView.selected.dataod}" title="datac od"  placeholder="____-__-__" maxlength="10" required="true" requiredMessage="Wprowadź datę od">
+                                    <p:ajax event="blur" onstart="ustawDateSprzedazy(#{wpisView.rokWpisu},#{wpisView.miesiacWpisu});" partialSubmit="true" global="false" />
+                                </p:inputText>
                                 <p:outputLabel value="data do" for="datado" />
-                                <p:inputText id="datado" value="#{nieobecnoscView.selected.datado}" title="data do"  placeholder="____-__-__" maxlength="10" required="true" requiredMessage="Wprowadź datę do"/>
+                                <p:inputText id="datado" value="#{nieobecnoscView.selected.datado}" title="data do"  placeholder="____-__-__" maxlength="10" required="true" requiredMessage="Wprowadź datę do">
+                                    <p:ajax event="blur" onstart="ustawDateSprzedazy(#{wpisView.rokWpisu},#{wpisView.miesiacWpisu});" partialSubmit="true" global="false" />
+                                </p:inputText>
                                 <p:outputLabel value="przyczyna" for="przyczyna" />
                                 <p:inputText id="przyczyna" value="#{nieobecnoscView.selected.uzasadnienie}" title="przyczyna"/>
                                 <p:outputLabel value="seria i nr zw." for="seriainrzwolnienia" />
@@ -57,21 +61,24 @@
                                 <p:outputLabel value="procent" for="procent" />
                                 <p:inputText  id="procent" value="#{nieobecnoscView.selected.zwolnienieprocent}" title="procent zwolenienia" />
                             </p:panelGrid>
-                            <p:panelGrid columns="2">
-                                <p:outputLabel value="kraj oddel." for="uwagi" />
-                                <p:inputText id="uwagi" value="#{nieobecnoscView.selected.krajoddelegowania}" title="kraj oddelegowania" />
-                                <p:outputLabel value="kwota diety"/>
-                                <bcf:inputpl value="#{nieobecnoscView.selected.dietaoddelegowanie}"/>
-                                <p:outputLabel value="waluta diety" for="waluta" />
-                                <p:selectOneMenu id="waluta"  value="#{nieobecnoscView.selected.walutadiety}" 
-                                                 style="width: 100px;"  >
-                                    <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true"/>
-                                    <f:selectItem itemLabel="PLN" itemValue="PLN"/>
-                                    <f:selectItem itemLabel="EUR" itemValue="EUR"/>
-                                    <f:selectItem itemLabel="GBP" itemValue="GBP"/>
-                                    <f:selectItem itemLabel="USD" itemValue="USD"/>
-                                </p:selectOneMenu>
-                            </p:panelGrid>
+                            <p:fragment>
+                                    <p:autoUpdate/>
+                                <p:panelGrid columns="2">
+                                    <p:outputLabel value="kraj oddel." for="uwagi" />
+                                    <p:inputText id="uwagi" value="#{nieobecnoscView.selected.krajoddelegowania}" title="kraj oddelegowania" />
+                                    <p:outputLabel value="kwota diety"/>
+                                    <bcf:inputpl value="#{nieobecnoscView.selected.dietaoddelegowanie}"/>
+                                    <p:outputLabel value="waluta diety" for="waluta" />
+                                    <p:selectOneMenu id="waluta"  value="#{nieobecnoscView.selected.walutadiety}" 
+                                                     style="width: 100px;"  >
+                                        <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true"/>
+                                        <f:selectItem itemLabel="PLN" itemValue="PLN"/>
+                                        <f:selectItem itemLabel="EUR" itemValue="EUR"/>
+                                        <f:selectItem itemLabel="GBP" itemValue="GBP"/>
+                                        <f:selectItem itemLabel="USD" itemValue="USD"/>
+                                    </p:selectOneMenu>
+                                </p:panelGrid>
+                            </p:fragment>
                         </p:panelGrid>
                         <p:commandButton styleClass="buttonnorm" actionListener="#{nieobecnoscView.create}" value="#{bundle.Save}" update="display,:NieobecnoscListForm:datalist"/>
                         <p:commandButton value="#{bundle.Cancel}" onclick="NieobecnoscCreateDialog.hide()"/>
@@ -170,7 +177,7 @@
                             </f:facet>
                               <h:outputText value="#{itemNieob.krajoddelegowania}"/>
                         </p:column>
-                        <p:column width="30" style="#{itemNieob.rokod eq wpisView.rokWpisu ? 'color: green':''}">
+                        <p:column width="50" style="#{itemNieob.rokod eq wpisView.rokWpisu ? 'color: green':''}">
                             <f:facet name="header">
                                 <h:outputText value="dieta."/>
                             </f:facet>

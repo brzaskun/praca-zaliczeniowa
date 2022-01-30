@@ -896,6 +896,12 @@ public class Data implements Serializable {
         LocalDate tomorrow = datal.plusDays(l);  
         return tomorrow.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
      }
+     
+     public static String odejmijdzien(String data, int l) {
+        LocalDate datal = LocalDate.parse(data);
+        LocalDate tomorrow = datal.minusDays(l);  
+        return tomorrow.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+     }
     
 
     

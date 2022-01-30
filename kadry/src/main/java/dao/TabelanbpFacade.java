@@ -51,4 +51,13 @@ public class TabelanbpFacade extends DAO  implements Serializable {
             return null;
         }
     }
+    
+    public Tabelanbp findByDateWaluta(String datatabeli, String nazwawaluty) {
+         try {
+            return (Tabelanbp)  getEntityManager().createNamedQuery("Tabelanbp.findByDatatabeliSymbolwaluty").setParameter("datatabeli", datatabeli).setParameter("symbolwaluty", nazwawaluty).getSingleResult();
+        } catch (Exception e) { 
+            E.e(e); 
+            return null;
+        }
+    }
 }

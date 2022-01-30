@@ -18,6 +18,7 @@ import dao.PodatkiFacade;
 import dao.RodzajlistyplacFacade;
 import dao.SMTPSettingsFacade;
 import dao.SwiadczeniekodzusFacade;
+import dao.TabelanbpFacade;
 import dao.WynagrodzeniahistoryczneFacade;
 import dao.WynagrodzenieminimalneFacade;
 import data.Data;
@@ -34,6 +35,7 @@ import entity.Podatki;
 import entity.Rachunekdoumowyzlecenia;
 import entity.Rodzajlistyplac;
 import entity.SMTPSettings;
+import entity.Tabelanbp;
 import entity.Umowa;
 import entity.Wynagrodzeniahistoryczne;
 import java.io.ByteArrayOutputStream;
@@ -77,6 +79,8 @@ public class PasekwynagrodzenView implements Serializable {
     private KalendarzmiesiacFacade kalendarzmiesiacFacade;
     @Inject
     private PasekwynagrodzenFacade pasekwynagrodzenFacade;
+    @Inject
+    private TabelanbpFacade tabelanbpFacade;
     @Inject
     private SwiadczeniekodzusFacade nieobecnosckodzusFacade;
     @Inject
@@ -505,6 +509,24 @@ public class PasekwynagrodzenView implements Serializable {
             Msg.msg("Pobrano pracownika");
         }
     }
+    
+    public void ustawtabelenbp() {
+            if (datawyplaty!=null && datawyplaty.length()==10) {
+                String data = datawyplaty;
+                boolean znaleziono = false;
+                int zabezpieczenie = 0;
+                while (!znaleziono && (zabezpieczenie < 365)) {
+                    data = Data.odejmijdni(data, 1);
+                    Tabelanbp tabelanbppobrana = tabelanbpFacade.findByDateWaluta(data, "EUR");
+                    if (tabelanbppobrana instanceof Tabelanbp) {
+                        znaleziono = true;
+                        kursdlalisty = tabelanbppobrana.getKurssredni();
+                        break;
+                    }
+                    zabezpieczenie++;
+                }
+            }
+    }
 
     private String zrobdatawyplaty(String mc, String rok, FirmaKadry firma) {
         String zwrot;
@@ -514,6 +536,7 @@ public class PasekwynagrodzenView implements Serializable {
             String[] nastepnyOkres = Data.nastepnyOkres(mc,rok);
             zwrot = nastepnyOkres[1] + "-" + nastepnyOkres[0] + "-"+firma.getDzienlp();
         }
+        ustawtabelenbp();
         return zwrot;
     }
 

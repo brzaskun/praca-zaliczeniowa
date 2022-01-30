@@ -230,6 +230,11 @@ public class NieobecnoscView  implements Serializable {
     public void naniesrodzajnieobecnosci() {
         if (selected.getRodzajnieobecnosci()!=null) {
             swiadczeniekodzusLista = swiadczeniekodzusFacade.findByRodzajnieobecnosci(selected.getRodzajnieobecnosci());
+            if (selected.getRodzajnieobecnosci().getKod().equals('Z')) {
+                selected.setKrajoddelegowania("Niemcy");
+                selected.setWalutadiety("EUR");
+                selected.setDietaoddelegowanie(49.0);
+            }
             Msg.msg("Pobrano świadczenia");
         }
     }
