@@ -218,6 +218,40 @@ public class AngazView  implements Serializable {
             Msg.msg("Aktywowano pracownika");
         }
     }
+   public void aktywujPlace(Angaz angaz) {
+        if (angaz!=null) {
+            wpisView.setAngaz(angaz);
+            wpisView.setPracownik(angaz.getPracownik());
+            List<Umowa> umowy = wpisView.getAngaz().getUmowaList();
+            if (umowy==null) {
+                try {
+                    umowy = umowaFacade.findByAngaz(angaz);
+                } catch (Exception ex){}
+            }
+            if (umowy!=null && umowy.size()==1) {
+                wpisView.setUmowa(umowy.get(0));
+            } else if (umowy!=null&&!umowy.isEmpty()) {
+                Umowa umowaaktywna = null;
+                Optional badanie  = umowy.stream().filter(p->p.isAktywna()).findFirst();
+                if (badanie.isPresent()) {
+                    umowaaktywna = (Umowa) badanie.get();
+                }
+                if (umowaaktywna==null) {
+                    Collections.sort(umowy, new Umowacomparator());
+                    umowaaktywna = umowy.get(0);
+                    umowaaktywna.setAktywna(true);
+                    umowaFacade.edit(umowaaktywna);
+                }
+                wpisView.setUmowa(umowaaktywna);
+            } else {
+                Msg.msg("e","Nie pobrano umów do angażu");
+                wpisView.setUmowa(null);
+                System.out.println("Nie pobrano umów do angażu");
+            }
+            updateClassView.updateUmowaPlace();
+            Msg.msg("Aktywowano pracownika");
+        }
+    }
     
     public void usun(Angaz angaz) {
         if (angaz != null) {

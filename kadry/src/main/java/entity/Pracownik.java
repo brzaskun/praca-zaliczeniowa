@@ -172,6 +172,14 @@ public class Pracownik implements Serializable {
     private String nazwaurzeduskarbowego;
     @Column(name = "aktywny")
     private boolean aktywny;
+    @Column(name = "wymiarurlopu")
+    private int wymiarurlopu;
+    @Column(name = "stazlata")
+    private int stazlata;
+    @Column(name = "stazmiesiace")
+    private int stazmiesiace;
+    @Column(name = "stazdni")
+    private int stazdni;
 
     public Pracownik() {
        this.aktywny = true;
@@ -225,6 +233,38 @@ public class Pracownik implements Serializable {
 
     public void setUlgadlaklasysredniej(boolean ulgadlaklasysredniej) {
         this.ulgadlaklasysredniej = ulgadlaklasysredniej;
+    }
+
+    public int getWymiarurlopu() {
+        return wymiarurlopu;
+    }
+
+    public void setWymiarurlopu(int wymiarurlopu) {
+        this.wymiarurlopu = wymiarurlopu;
+    }
+
+    public int getStazlata() {
+        return stazlata;
+    }
+
+    public void setStazlata(int stazlata) {
+        this.stazlata = stazlata;
+    }
+
+    public int getStazmiesiace() {
+        return stazmiesiace;
+    }
+
+    public void setStazmiesiace(int stazmiesiace) {
+        this.stazmiesiace = stazmiesiace;
+    }
+
+    public int getStazdni() {
+        return stazdni;
+    }
+
+    public void setStazdni(int stazdni) {
+        this.stazdni = stazdni;
     }
 
 

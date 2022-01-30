@@ -15,7 +15,7 @@ xmlns:pe="http://primefaces.org/ui/extensions">
     <p:dialog id="dialoglistarachunekzlecenia" header="Lista rachunków do umówy zlecenia" widgetVar="dialoglistarachunekzlecenia"  
               resizable="false"  onShow="ustawdialog('dialoglistarachunekzlecenia','centertile',1650,800);zmienwyglad()" closeOnEscape="true" onHide="resetujdialog('dialoglistarachunekzlecenia');" 
               fitViewport="true">
-
+        <p:ajax event="open" listener="#{rachunkidoZlecenListaView.init()}" update="ListaRachunekZleceniaForm" global="false"/>
         <p:outputPanel>
             <h:form id="ListaRachunekZleceniaForm">
                 <p:panel header="Rachunki do umów zleceń za rok #{wpisView.rokWpisu}"/>

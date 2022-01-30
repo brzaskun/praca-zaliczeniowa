@@ -56,10 +56,7 @@ public class UpdateClassView   implements Serializable {
         kalendarzmiesiacView.init();
         kalendarzwzorView.init();
         pasekwynagrodzenView.init();
-        draView.init();
         nieobecnoscView.init();
-        pracownikUrlopView.init();
-        kartaWynagrodzenView.init();
     }
     
     public void updateUmowa(){
@@ -67,17 +64,19 @@ public class UpdateClassView   implements Serializable {
         skladnikWynagrodzeniaView.init();
         zmiennaWynagrodzeniaView.init();
         kalendarzmiesiacView.init();
-        rachunkidoZlecenView.init();
         zmiennaPotraceniaView.init();
         etatView.init();
         definicjalistaplacView.init();
         kalendarzwzorView.init();
-        pasekwynagrodzenView.init();
-        draView.init();
-        nieobecnoscView.init();
-        pracownikUrlopView.init();
-        kartaWynagrodzenView.init();
         skladnikPotraceniaView.init();
+    }
+    
+    public void updateUmowaPlace(){
+        kalendarzmiesiacView.init();
+        definicjalistaplacView.init();
+        kalendarzwzorView.init();
+        pasekwynagrodzenView.init();
+        nieobecnoscView.init();
     }
     
 }

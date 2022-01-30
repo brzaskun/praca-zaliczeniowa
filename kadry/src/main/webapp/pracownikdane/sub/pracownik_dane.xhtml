@@ -62,9 +62,9 @@
                     <p:panel header="dane kontaktowe"/>
                     <p:panelGrid columns="4">
                         <p:outputLabel value="telefon" for="tel" />
-                        <p:inputText id="tel" value="#{pracownikDane2View.selected.telefon}" title="telefon" required="true" requiredMessage="Wpisz nr telefonu" size="32"/>
+                        <p:inputText id="tel" value="#{pracownikDane2View.selected.telefon}" title="telefon" required="false" requiredMessage="Wpisz nr telefonu" size="32"/>
                         <p:outputLabel value="adres email" for="email" />
-                        <p:inputText id="email" value="#{pracownikDane2View.selected.email}" title="telefon" required="true" requiredMessage="Wpisz adres email" size="32"/>
+                        <p:inputText id="email" value="#{pracownikDane2View.selected.email}" title="telefon" required="false" requiredMessage="Wpisz adres email" size="32"/>
                     </p:panelGrid>
                     <p:panel header="bank"/>
                     <p:panelGrid columns="4">
@@ -92,7 +92,17 @@
                         <p:inputText id="usnazwakod" value="#{pracownikDane2View.selected.kodurzeduskarbowego}" title="kod urzędu skarbowego" readonly="true"/>
                         <p:outputLabel value="zaliczki na podatek w innym kraju" for="innykraj" />
                         <p:selectBooleanCheckbox id="innykraj" value="#{pracownikDane2View.selected.zaliczkiwinnymkraju}" title="płaci zaliczki w innym kraju"/>
-                        
+                    </p:panelGrid>
+                    <p:panel header="dane do urlopu na dzień wprowadzenia do programu"/>
+                    <p:panelGrid columns="8">
+                        <p:outputLabel value="wymiar urlopu" for="urlop" />
+                        <p:inputText id="urlop" value="#{pracownikDane2View.selected.wymiarurlopu}" title="wymiar urlopu" size="10"/>
+                        <p:outputLabel value="staż lata" for="stlata" />
+                        <p:inputText id="stlata" value="#{pracownikDane2View.selected.stazlata}" title="staż w latach" size="10"/>
+                        <p:outputLabel value="staż miesiące" for="stmce" />
+                        <p:inputText id="stmce" value="#{pracownikDane2View.selected.stazmiesiace}" title="staż miesięcy" size="10"/>
+                        <p:outputLabel value="staż dni" for="stdni" />
+                        <p:inputText id="stdni" value="#{pracownikDane2View.selected.stazdni}" title="staż dni" size="10"/>
                     </p:panelGrid>
                 </p:outputPanel>
                 <p:outputPanel style="margin-top: 50px;">
