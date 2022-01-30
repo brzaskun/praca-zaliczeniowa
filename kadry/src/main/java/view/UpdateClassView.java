@@ -52,10 +52,7 @@ public class UpdateClassView   implements Serializable {
 
 
     public void updateRok(){
-        definicjalistaplacView.init();
         kalendarzmiesiacView.init();
-        kalendarzwzorView.init();
-        pasekwynagrodzenView.init();
         nieobecnoscView.init();
     }
     
@@ -66,16 +63,11 @@ public class UpdateClassView   implements Serializable {
         kalendarzmiesiacView.init();
         zmiennaPotraceniaView.init();
         etatView.init();
-        definicjalistaplacView.init();
-        kalendarzwzorView.init();
         skladnikPotraceniaView.init();
     }
     
     public void updateUmowaPlace(){
         kalendarzmiesiacView.init();
-        definicjalistaplacView.init();
-        kalendarzwzorView.init();
-        pasekwynagrodzenView.init();
         nieobecnoscView.init();
     }
     

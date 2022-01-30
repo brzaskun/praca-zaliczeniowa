@@ -17,7 +17,6 @@ import entity.Rodzajlistyplac;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -50,7 +49,6 @@ public class DefinicjalistaplacView  implements Serializable {
     private WpisView wpisView;
     private Rodzajlistyplac wybranyrodzajlisty;
     
-    @PostConstruct
     public void init() {
         if (wybranyrodzajlisty!=null) {
             lista = definicjalistaplacFacade.findByFirmaRokRodzaj(wpisView.getFirma(), wpisView.getRokWpisu(), wybranyrodzajlisty);

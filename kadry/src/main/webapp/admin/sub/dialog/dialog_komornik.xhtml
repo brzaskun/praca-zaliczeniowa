@@ -10,7 +10,7 @@ xmlns:pe="http://primefaces.org/ui/extensions">
     <p:dialog id="dialogkomornik" header="Potrącenia komornicze i inne" widgetVar="dialogkomornik"  
               resizable="false"  onShow="ustawdialog('dialogkomornik','centertile',1650,800);" closeOnEscape="true" onHide="resetujdialog('dialogkomornik');" 
               fitViewport="true">
-
+        <p:ajax event="open" listener="#{komornikView.init()}" update="KomornikWyborForm KomornikListForm" global="false"/>
         <p:outputPanel>
              <h:form id="KomornikWyborForm">
                  <p:selectOneMenu id="skladikpotracen" value="#{komornikView.selected}" converter="#{skladnikpotraceniaConverter}">

@@ -11,7 +11,6 @@ import entity.Naliczeniepotracenie;
 import entity.Skladnikpotracenia;
 import java.io.Serializable;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -36,8 +35,6 @@ public class KomornikView  implements Serializable {
     private Skladnikpotracenia selected;
 
     
-    
-    @PostConstruct
     public void init() {
         if (wpisView.getUmowa()!=null) {
             skladnikpotracenialist = skladnikPotraceniaFacade.findByUmowa(wpisView.getUmowa());

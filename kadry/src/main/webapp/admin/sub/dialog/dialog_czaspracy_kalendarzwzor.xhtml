@@ -8,6 +8,7 @@
     <p:dialog id="dialogkalendarzwzor" header="Kalendarz wzorcowy" widgetVar="dialogkalendarzwzor"  
               resizable="false"  onShow="ustawdialog('dialogkalendarzwzor','centertile',1650,800);" closeOnEscape="true" onHide="resetujdialog('dialogkalendarzwzor');" 
               fitViewport="true">
+        <p:ajax event="open" listener="#{kalendarzwzorView.init()}" update="KalendarzwzorCreateForm KalendarzwzormiesiacSaRokForm KalendarzwzorCopyForm KalendarzwzorListForm" global="false"/>
         <p:outputPanel style="height: 180px">
             <p:panelGrid columns="3">
                 <h:form id="KalendarzwzorCreateForm">

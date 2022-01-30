@@ -8,6 +8,7 @@
     <p:dialog id="dialoglistadefinicja" header="Definicja listy płaca" widgetVar="dialoglistadefinicja"  
               resizable="false"  onShow="ustawdialog('dialoglistadefinicja','centertile',1650,800);" closeOnEscape="true" onHide="resetujdialog('dialoglistadefinicja');" 
               fitViewport="true">
+        <p:ajax event="open" listener="#{definicjalistaplacView.init()}" update="DefinicjalistaplacdefCreateForm DefinicjalistaplacgenerujForm DefinicjalistaplacgenerujForm1 DefinicjalistaplacListForm" global="false"/>
         <p:outputPanel style="height: 150px">
              <h:form id="DefinicjalistaplacdefCreateForm">
                 <h:panelGroup id="display">

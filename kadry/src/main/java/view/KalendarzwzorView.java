@@ -19,7 +19,6 @@ import entity.Kalendarzwzor;
 import entity.Umowa;
 import java.io.Serializable;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -50,7 +49,7 @@ public class KalendarzwzorView  implements Serializable {
     @Inject
     private WpisView wpisView;
     
-    @PostConstruct
+    
     public void init() {
         selected.setFirma(wpisView.getFirma());
         selected.setRok(wpisView.getRokWpisu());
