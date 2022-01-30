@@ -54,6 +54,11 @@ public class Dzien implements Serializable {
     private int nrdnia;
     @Column(name = "datastring")
     private String datastring;
+    //0roboczy
+    //1sobota
+    //2niedziela
+    //3swieto
+    //4ekwiwalentzaswieto
     @Column(name = "typdnia")
     private int typdnia;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
@@ -68,11 +73,6 @@ public class Dzien implements Serializable {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "setki")
     private double setki;
-    //0roboczy
-    //1sobota
-    //2niedziela
-    //3swieto
-    //4ekwiwalentzaswieto
     @Column(name = "poranocna")
     private double poranocna;
     @Basic(optional = false)

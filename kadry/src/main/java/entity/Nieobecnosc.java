@@ -115,6 +115,8 @@ public class Nieobecnosc implements Serializable {
     private String walutadiety;
     @Column(name = "krajoddelegowania")
     private String krajoddelegowania;
+    @Column(name = "ponpiatek")
+    private boolean ponpiatek;
     
    
     
@@ -420,6 +422,14 @@ public class Nieobecnosc implements Serializable {
     
      public String getOpisRodzajSwiadczenie() {
         return  this.getSwiadczeniekodzus()!=null?this.getSwiadczeniekodzus().getOpisskrocony():String.valueOf(this.getRodzajnieobecnosci().getOpis());
+    }
+
+    public boolean isPonpiatek() {
+        return ponpiatek;
+    }
+
+    public void setPonpiatek(boolean ponpiatek) {
+        this.ponpiatek = ponpiatek;
     }
     
 }

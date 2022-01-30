@@ -687,27 +687,39 @@ private static final long serialVersionUID = 1L;
             final int j = i;
             Dzien dzienaktualny = this.dzienList.stream().filter(pa->pa.getNrdnia()==j).findFirst().get();
             String kod = p.getKod();
-            dzienaktualny.setKod(kod);
             if (kod.equals("331")) {
                 dzienaktualny.setWynagrodzeniezachorobe(dzienaktualny.getNormagodzin());
                 dzienaktualny.setPrzepracowano(0);
+                dzienaktualny.setKod(kod);
                 p.setNaniesiona(true);
                 
             } else if (kod.equals("313")) {
                 dzienaktualny.setZasilek(dzienaktualny.getNormagodzin());
                 dzienaktualny.setPrzepracowano(0);
+                dzienaktualny.setKod(kod);
                 p.setNaniesiona(true);
             } else if (kod.equals("U")) {
                 dzienaktualny.setUrlopPlatny(dzienaktualny.getNormagodzin());
                 dzienaktualny.setPrzepracowano(0);
+                dzienaktualny.setKod(kod);
                 p.setNaniesiona(true);
             } else if (kod.equals("X")) {
                 dzienaktualny.setUrlopbezplatny(dzienaktualny.getNormagodzin());
                 dzienaktualny.setPrzepracowano(0);
+                dzienaktualny.setKod(kod);
                 p.setNaniesiona(true);
             } else if (kod.equals("Z")) {
-                p.setNaniesiona(true);
+                if (p.isPonpiatek()) {
+                    if (dzienaktualny.getTypdnia()==0) {
+                        dzienaktualny.setKod(kod);
+                        p.setNaniesiona(true);
+                    }
+                } else {
+                    dzienaktualny.setKod(kod);
+                    p.setNaniesiona(true);
+                }
             } else if (kod.equals("D")) {
+                dzienaktualny.setKod(kod);
                 dzienaktualny.setPrzepracowano(0);
                 p.setNaniesiona(true);
             }

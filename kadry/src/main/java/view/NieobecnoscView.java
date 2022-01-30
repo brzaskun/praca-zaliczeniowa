@@ -99,12 +99,15 @@ public class NieobecnoscView  implements Serializable {
     private zuszla.WsdlPlatnikRaportyZla wsdlPlatnikRaportyZla;
     private  boolean pokazcalyrok;
     private org.primefaces.model.DualListModel<Pracownik> listapracownikow;
+    private boolean delegacja;
+
     
     @PostConstruct
     public void init0() {
         listapracownikow = new org.primefaces.model.DualListModel<>();
         listapracownikow.setSource(new ArrayList<>());
         listapracownikow.setTarget(new ArrayList<>());
+        delegacja = false;
     }
     
     public void init() {
@@ -117,6 +120,7 @@ public class NieobecnoscView  implements Serializable {
         }
         listaumowa = umowaFacade.findPracownik(wpisView.getPracownik());
         listaabsencji = rodzajnieobecnosciFacade.findAll();
+        delegacja = false;
         //Collections.sort(listaabsencji, new Nieobecnoscikodzuscomparator());
     }
     
@@ -132,6 +136,7 @@ public class NieobecnoscView  implements Serializable {
             this.listapracownikow.setSource(listapracownikow);
             this.listapracownikow.setTarget(new ArrayList<>());
         }
+        delegacja = false;
     }
 
     private List<Pracownik> pobierzpracownikow(List<Angaz> angazList) {
@@ -234,8 +239,11 @@ public class NieobecnoscView  implements Serializable {
                 selected.setKrajoddelegowania("Niemcy");
                 selected.setWalutadiety("EUR");
                 selected.setDietaoddelegowanie(49.0);
+                delegacja = true;
+            } else {
+                delegacja = false;
             }
-            Msg.msg("Pobrano świadczenia");
+            Msg.msg("Wybrano rodzaj nieobecności");
         }
     }
     
@@ -517,9 +525,15 @@ public class NieobecnoscView  implements Serializable {
         this.listapracownikow = listapracownikow;
     }
 
-    
+    public boolean isDelegacja() {
+        return delegacja;
+    }
 
-    
+    public void setDelegacja(boolean delegacja) {
+        this.delegacja = delegacja;
+    }
+
+      
    
     
     

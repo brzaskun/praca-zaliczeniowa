@@ -45,25 +45,28 @@
                                     <p:ajax event="change" partialSubmit="true" global="false" update="NieobecnoscCreateForm:procent" listener="#{nieobecnoscView.naniesprocent()}"/>
                                 </p:selectOneMenu>
                             </p:panelGrid>
-                            <p:panelGrid columns="2">
-                                <p:outputLabel value="data od" for="dataod" />
-                                <p:inputText id="dataod" value="#{nieobecnoscView.selected.dataod}" title="datac od"  placeholder="____-__-__" maxlength="10" required="true" requiredMessage="Wprowadź datę od">
-                                    <p:ajax event="blur" onstart="ustawDateSprzedazy(#{wpisView.rokWpisu},#{wpisView.miesiacWpisu});" partialSubmit="true" global="false" />
-                                </p:inputText>
-                                <p:outputLabel value="data do" for="datado" />
-                                <p:inputText id="datado" value="#{nieobecnoscView.selected.datado}" title="data do"  placeholder="____-__-__" maxlength="10" required="true" requiredMessage="Wprowadź datę do">
-                                    <p:ajax event="blur" onstart="ustawDateSprzedazy(#{wpisView.rokWpisu},#{wpisView.miesiacWpisu});" partialSubmit="true" global="false" />
-                                </p:inputText>
-                                <p:outputLabel value="przyczyna" for="przyczyna" />
-                                <p:inputText id="przyczyna" value="#{nieobecnoscView.selected.uzasadnienie}" title="przyczyna"/>
-                                <p:outputLabel value="seria i nr zw." for="seriainrzwolnienia" />
-                                <p:inputText id="seriainrzwolnienia" value="#{nieobecnoscView.selected.seriainrzwolnienia}" title="seria i nr zw."/>
-                                <p:outputLabel value="procent" for="procent" />
-                                <p:inputText  id="procent" value="#{nieobecnoscView.selected.zwolnienieprocent}" title="procent zwolenienia" />
-                            </p:panelGrid>
-                            <p:fragment>
-                                    <p:autoUpdate/>
                                 <p:panelGrid columns="2">
+                                    
+                                    <p:outputLabel value="data od" for="dataod" />
+                                    <p:inputText id="dataod" value="#{nieobecnoscView.selected.dataod}" title="datac od"  placeholder="____-__-__" maxlength="10" required="true" requiredMessage="Wprowadź datę od">
+                                        <p:ajax event="blur" onstart="ustawDateSprzedazy(#{wpisView.rokWpisu},#{wpisView.miesiacWpisu});" partialSubmit="true" global="false" />
+                                    </p:inputText>
+                                    <p:outputLabel value="data do" for="datado" />
+                                    <p:inputText id="datado" value="#{nieobecnoscView.selected.datado}" title="data do"  placeholder="____-__-__" maxlength="10" required="true" requiredMessage="Wprowadź datę do">
+                                        <p:ajax event="blur" onstart="ustawDateSprzedazy(#{wpisView.rokWpisu},#{wpisView.miesiacWpisu});" partialSubmit="true" global="false" />
+                                    </p:inputText>
+                                    <p:outputLabel value="przyczyna" for="przyczyna" />
+                                    <p:inputText id="przyczyna" value="#{nieobecnoscView.selected.uzasadnienie}" title="przyczyna"/>
+                                    <p:outputLabel value="seria i nr zw." for="seriainrzwolnienia" />
+                                    <p:inputText id="seriainrzwolnienia" value="#{nieobecnoscView.selected.seriainrzwolnienia}" title="seria i nr zw."/>
+                                    <p:outputLabel value="procent" for="procent" />
+                                    <p:inputText  id="procent" value="#{nieobecnoscView.selected.zwolnienieprocent}" title="procent zwolenienia" />
+                                </p:panelGrid>
+                            <p:fragment>
+                                <p:autoUpdate/>
+                                <p:panelGrid columns="2"  rendered="#{nieobecnoscView.delegacja}">
+                                    <p:outputLabel value="oznacz pon-pt" for="ponpiat"  rendered="#{nieobecnoscView.delegacja}"/>
+                                    <p:selectBooleanCheckbox id="ponpiat" value="#{nieobecnoscView.selected.ponpiatek}" rendered="#{nieobecnoscView.delegacja}"/>
                                     <p:outputLabel value="kraj oddel." for="uwagi" />
                                     <p:inputText id="uwagi" value="#{nieobecnoscView.selected.krajoddelegowania}" title="kraj oddelegowania" />
                                     <p:outputLabel value="kwota diety"/>
@@ -159,23 +162,23 @@
                             </f:facet>
                             <h:outputText value="&#x2714;" rendered="#{itemNieob.naniesiona}" style="color: green;font-weight: 900;"/>
                         </p:column>
-                         <p:column style="text-align: center;" width="40">
+                        <p:column style="text-align: center;" width="40">
                             <f:facet name="header">
                                 <h:outputText value="jest lista płac"/>
                             </f:facet>
-                             <h:outputText value="!!!" rendered="#{itemNieob.naliczenienieobecnoscList ne null and itemNieob.naliczenienieobecnoscList.size() gt 0}" style="color: red;font-weight: 900;"/>
+                            <h:outputText value="!!!" rendered="#{itemNieob.naliczenienieobecnoscList ne null and itemNieob.naliczenienieobecnoscList.size() gt 0}" style="color: red;font-weight: 900;"/>
                         </p:column>
-                         <p:column style="#{itemNieob.rokod eq wpisView.rokWpisu ? 'color: green':''}">
+                        <p:column style="#{itemNieob.rokod eq wpisView.rokWpisu ? 'color: green':''}">
                             <f:facet name="header">
                                 <h:outputText value="przycz."/>
                             </f:facet>
                             <h:outputText value="#{itemNieob.uzasadnienie}"/>
                         </p:column>
-                          <p:column style="#{itemNieob.rokod eq wpisView.rokWpisu ? 'color: green':''}">
+                        <p:column style="#{itemNieob.rokod eq wpisView.rokWpisu ? 'color: green':''}">
                             <f:facet name="header">
                                 <h:outputText value="kraj"/>
                             </f:facet>
-                              <h:outputText value="#{itemNieob.krajoddelegowania}"/>
+                            <h:outputText value="#{itemNieob.krajoddelegowania}"/>
                         </p:column>
                         <p:column width="50" style="#{itemNieob.rokod eq wpisView.rokWpisu ? 'color: green':''}">
                             <f:facet name="header">
@@ -207,7 +210,7 @@
                             </f:facet>
                             <h:outputText value="&#x2714;" rendered="#{itemNieob.swiadczeniekodzus.spoleczne}"/>
                         </p:column>
-                     
+
                         <p:column width="100">
                             <f:facet name="header">
                                 <h:outputText value="umowa"/>
