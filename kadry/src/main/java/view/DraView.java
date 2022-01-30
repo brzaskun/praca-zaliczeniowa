@@ -67,7 +67,7 @@ public class DraView  implements Serializable {
                 }
             }
             Collections.sort(listadefinicjalistaplac, new Defnicjalistaplaccomparator());
-            Msg.msg("Pobrnao listy");
+            Msg.msg("Pobrano listy płac");
         }
     }
     
