@@ -21,6 +21,8 @@
                     <h:panelGroup id="display">
                         <p:panelGrid columns="3" rendered="#{nieobecnoscView.selected != null}">
                             <p:panelGrid columns="2">
+                                <p:outputLabel value="pracownik" for="prac" />
+                                <h:outputText id="prac" value="#{nieobecnoscView.selected.umowa.nazwiskoImie}"/>
                                 <p:outputLabel value="umowa nr" for="umowa" />
                                 <h:outputText id="umowa" value="#{nieobecnoscView.selected.umowa.nrkolejny}"/>
                                 <p:outputLabel value="data od" for="umowaod" />
