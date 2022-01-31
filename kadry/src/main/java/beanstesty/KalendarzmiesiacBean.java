@@ -985,8 +985,8 @@ public class KalendarzmiesiacBean {
                     double wartoscskladnika = Z.z(naliczenieskladnikawynagrodzenia.getKwotadolistyplac());
                     double redukcjasuma = Z.z(redukcjazarchorobe+redukcjazaurlop+redukcjazabezplatny+redukcjazadnipozaumowa);
                     naliczenieskladnikawynagrodzenia.setKwotyredukujacesuma(redukcjasuma);
-                    //double kwotadolistyplac = Z.z(naliczenieskladnikawynagrodzenia.getKwotadolistyplac()-naliczenieskladnikawynagrodzenia.getKwotyredukujacesuma());
-                    //naliczenieskladnikawynagrodzenia.setKwotadolistyplac(kwotadolistyplac<0.0?0.0:kwotadolistyplac);
+                    double kwotadolistyplac = Z.z(naliczenieskladnikawynagrodzenia.getKwotadolistyplac()-naliczenieskladnikawynagrodzenia.getKwotyredukujacesuma());
+                    naliczenieskladnikawynagrodzenia.setKwotadolistyplac(kwotadolistyplac);
                 }
             }
         }
@@ -1022,7 +1022,7 @@ public class KalendarzmiesiacBean {
                 if (pa.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getRedukowany()) {
                     double kwotyredukujace = pa.getKwotyredukujacesuma();
                     pa.setKwotyredukujacesuma(Z.z(kwotyredukujace+redukcjazabezplatny+redukcjazaurlop+redukcjazadnipozaumowa));
-                    //pa.setKwotadolistyplac(Z.z(pa.getKwotadolistyplac()-redukcjazaurlop));
+                    pa.setKwotadolistyplac(Z.z(pa.getKwotadolistyplac()-redukcjazaurlop));
                 }
             }
         }

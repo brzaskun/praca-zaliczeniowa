@@ -151,7 +151,7 @@ public class NaliczenieskladnikawynagrodzeniaBean {
                     double stawkagodzinowazm = Z.z4(skladnikistale / godzinyroboczewmiesiacu);
                     stawkadzienna = stawkadzienna + stawkadziennazm;
                     stawkagodzinowa = stawkagodzinowa + stawkagodzinowazm;
-                    dowyplatyzaczasprzepracowany = dowyplatyzaczasprzepracowany + Z.z(stawkagodzinowazm * godzinyobecnosciroboczezm);
+                    dowyplatyzaczasprzepracowany = dowyplatyzaczasprzepracowany + Z.z(stawkagodzinowazm * godzinyroboczewmiesiacu);
                     liczbazmiennych++;
                 }
             }
