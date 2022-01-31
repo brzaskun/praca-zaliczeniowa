@@ -458,6 +458,42 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                         </p:dataTable>`
                 </h:form>
             </p:tab>
+            <p:tab title="Współczynnik ekwiwalentu">
+                <h:form id="Ekwiwalent">
+                     <p:panelGrid columns="4">
+                        <p:outputLabel value="rok"/>
+                        <p:inputText value="#{wspolczynnikEkwiwalentView.selected.rok}"/>
+                        <p:outputLabel value="współczynnik do wyliczenia ekwiwalentu za urlop"/>
+                        <bcf:inputplid id="pstawka1" value="#{wspolczynnikEkwiwalentView.selected.kwota}"/>
+                        <p:panelGrid columns="1">
+                            <p:commandButton value="dodaj" styleClass="buttonnorm" actionListener="#{wspolczynnikEkwiwalentView.dodajrok()}" update="akordeon:Ekwiwalent" />
+                        </p:panelGrid>
+                     </p:panelGrid>
+                          <p:dataTable value="#{wspolczynnikEkwiwalentView.lista}" var="itemekwiw" rowIndexVar="indexekwiw" rowKey="#{itemekwiw.id}"
+                                 selection="#{wspolczynnikEkwiwalentView.selected}" selectionMode="single"  sortBy="#{itemekwiw.rok}"
+                                 style="width: 400px;margin-top: 30px;" emptyMessage="Nie wprowadzono wartości">
+                            <p:ajax event="rowSelect" partialSubmit="true"/>
+                            <p:column width="30" style="text-align: center;">
+                                <f:facet name="header">
+                                    <h:outputText value=""/>
+                                </f:facet>
+                                <h:outputText value="#{indexekwiw+1}"/>
+                            </p:column>
+                            <p:column width="50" style="text-align: center;" sortBy="#{itemekwiw.rok}">
+                                <f:facet name="header">
+                                    <h:outputText value="rok"/>
+                                </f:facet>
+                                <h:outputText value="#{itemekwiw.rok}"/>
+                            </p:column>
+                            <p:column width="50" style="text-align: center;">
+                                <f:facet name="header">
+                                    <h:outputText value="kwota"/>
+                                </f:facet>
+                                <bcf:outputpl value="#{itemekwiw.kwota}"/>
+                            </p:column>
+                        </p:dataTable>`
+                </h:form>
+            </p:tab>
             <p:tab title="Uwagi do admina">
                 <p:outputPanel style="margin-left: auto; margin-right: auto; padding: 3%;">
         <h:form id="form">
