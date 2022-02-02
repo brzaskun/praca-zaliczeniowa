@@ -86,6 +86,16 @@
                         </p:panelGrid>
                        </h:form>
                     </p:tab>
+                 <p:tab title="naliczenie ekwiwalentu za urlop">
+                     <h:form id="EkwiwalentForm">
+                         <p:panelGrid columns="4">
+                             <h:outputText value="naliczenie na dzień"/>
+                             <p:inputText value="#{nieobecnoscView.selected.dataod}" title="naliczenie na dzien"  placeholder="____-__-__" maxlength="10" required="true" requiredMessage="Wprowadź datę naliczenia">
+                                        <p:ajax event="blur" onstart="ustawDateSprzedazy(#{wpisView.rokWpisu},#{wpisView.miesiacWpisu});" partialSubmit="true" global="false" />
+                            </p:inputText>
+                         </p:panelGrid>
+                     </h:form>
+                 </p:tab>
                     <p:tab title="wykorzystanie choroby rok biezacy">
                         <h:form id="PracownikChorobaForm">
                         <p:panelGrid columns="4" rendered="#{pracownikNieobecnoscView.chorobaprezentacja != null}">

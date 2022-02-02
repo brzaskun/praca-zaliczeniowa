@@ -22,6 +22,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
@@ -228,6 +229,9 @@ public class Pasekwynagrodzen implements Serializable {
     private double ulgadlaklasysredniejI;
     @Column(name = "ulgadlaklasysredniejII")
     private double ulgadlaklasysredniejII;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "ekwiwalentskladniki", referencedColumnName = "id")
+    private EkwiwalentSkladniki ekwiwalentSkladniki;
 
     
     public Pasekwynagrodzen() {
@@ -996,6 +1000,14 @@ public class Pasekwynagrodzen implements Serializable {
 
     public void setDrugiprog(boolean drugiprog) {
         this.drugiprog = drugiprog;
+    }
+
+    public EkwiwalentSkladniki getEkwiwalentSkladniki() {
+        return ekwiwalentSkladniki;
+    }
+
+    public void setEkwiwalentSkladniki(EkwiwalentSkladniki ekwiwalentSkladniki) {
+        this.ekwiwalentSkladniki = ekwiwalentSkladniki;
     }
     
     
