@@ -19,7 +19,6 @@ import entity.Inwestycje;
 import entity.Klienci;
 import entity.Logofaktura;
 import entity.MultiuserSettings;
-import entity.Pismoadmin;
 import entity.Pitpoz;
 import entity.PlatnoscWaluta;
 import entity.Platnosci;
@@ -547,13 +546,7 @@ public class SessionFacade<T> implements Serializable {
         return  getEntityManager().createNamedQuery("Vatuepodatnik.findByRokKlientSymbolokresu").setParameter("rok", rokWpisu).setParameter("klient", podatnikWpisu).setParameter("symbolokresu", symbolokresu).getSingleResult();
     }
 
-    public List<Pismoadmin> findPismoadminBiezace() {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("Pismoadmin.findByNOTStatus").setParameter("status", "archiwalna").getResultList());
-    }
-
-    public List<Pismoadmin> findPismoadminNowe() {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("Pismoadmin.findByStatus").setParameter("status", "wysłana").getResultList());
-    }
+    
 
   
     
@@ -1361,8 +1354,8 @@ public class SessionFacade<T> implements Serializable {
         return Collections.synchronizedList( getEntityManager().createNamedQuery("FakturaRozrachunki.findByPodatnikKontrahent").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("kontrahent", kontrahent).getResultList());
     }
 
-    public List<FakturaRozrachunki> findByPodatnikKontrahentRok(WpisView wpisView, Klienci kontrahent) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("FakturaRozrachunki.findByPodatnikKontrahentRok").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisuSt()).setParameter("kontrahent", kontrahent).getResultList());
+    public List<FakturaRozrachunki> findByPodatnikKontrahentRok(Podatnik podatnik, String rok, Klienci kontrahent) {
+        return Collections.synchronizedList( getEntityManager().createNamedQuery("FakturaRozrachunki.findByPodatnikKontrahentRok").setParameter("podatnik", podatnik).setParameter("rok", rok).setParameter("kontrahent", kontrahent).getResultList());
     }
     public int deleteWierszBOPodatnikRok(Podatnik podatnik, String rok) {
         return  getEntityManager().createNamedQuery("WierszBO.findByDeletePodatnikRok").setParameter("podatnik", podatnik).setParameter("rok", rok).executeUpdate();

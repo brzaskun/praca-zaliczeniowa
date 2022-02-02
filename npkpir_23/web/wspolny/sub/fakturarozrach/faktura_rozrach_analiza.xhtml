@@ -21,7 +21,7 @@
                                     styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" binding="#{fakturaRozrachunkiAnalizaView.selectOneUI}"
                                     filter="true" filterMatchMode="contains"
                                     >
-                    <f:selectItems value="#{fakturaRozrachunkiAnalizaView.klienci}"/>
+                    <f:selectItems value="#{fakturaRozrachunkiAnalizaView.klienci}" var="poz" itemLabel="#{poz.nazwapodatnika}"/>
                     <p:ajax event="change" global="false" listener="#{fakturaRozrachunkiAnalizaView.pobierzwszystkoKlienta()}" 
                             update=":akordeon:fakturaanaliza:tablicaanaliza :akordeon:fakturaanaliza:mailklientapanel"/>
                 </p:selectOneListbox>
@@ -31,6 +31,12 @@
                 <p:inputTextarea cols="90" rows="7" value="#{fakturaRozrachunkiAnalizaView.tekstwiadomosci}">
                     <p:ajax event="blur" partialSubmit="true" global="false"/>
                 </p:inputTextarea>
+                </p:panelGrid>
+                <p:panelGrid columns="2" style="margin-left: 15px;">
+                    <h:outputText value="dołącz rok poprzedni"/>
+                    <p:selectBooleanCheckbox value="#{fakturaRozrachunkiAnalizaView.dolaczrokpoprzedni}">
+                        <p:ajax event="change" partialSubmit="true"/>
+                    </p:selectBooleanCheckbox>
                 </p:panelGrid>
             </p:panelGrid>
             <style>
@@ -53,6 +59,19 @@
                             </f:facet>
                         </p:inplace>
                     </p:column>
+                    <p:column width="250">
+                        <h:outputText value="telefon: "/>
+                        <p:inplace editor="true" saveLabel="zachowaj wprowadzoną wartość" cancelLabel="wycofaj wprowadzone zmiany" emptyLabel="brak maila" >
+                            <f:facet name="output">
+                                <h:outputText value="#{fakturaRozrachunkiAnalizaView.szukanyklient.telefon}" rendered="#{fakturaRozrachunkiAnalizaView.szukanyklient.telefon ne null}"/>
+                                <h:outputText value="brak nr telefonu" rendered="#{fakturaRozrachunkiAnalizaView.szukanyklient.telefon eq null}"/>
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputMask value="#{fakturaRozrachunkiAnalizaView.szukanyklient.telefon}" mask="999-999-999"
+                                              label="text" style="font-weight: bolder;" valueChangeListener="#{fakturaRozrachunkiAnalizaView.zmienteleofnkontrahenta}"/>  
+                            </f:facet>
+                        </p:inplace>
+                    </p:column>
                 </p:panelGrid>
                 <p:panelGrid columns="2">
                  <p:column width="35" style="text-align: center;">
@@ -67,7 +86,7 @@
             </p:panelGrid>
             <p:dataTable id="tablicaanaliza" value="#{fakturaRozrachunkiAnalizaView.nowepozycje}" var="item" style="width: 1250px; margin-top: 20px;"
                          emptyMessage="niczego nie zaksięgowano dla firmy #{fakturaRozrachunkiAnalizaView.szukanyklient}" selection="#{fakturaRozrachunkiAnalizaView.selectedrozliczenia}" rowKey="#{item.lp}"
-                         rowIndexVar="row" editable="true"
+                         rowIndexVar="row" editable="true" styleClass="compact"
                          rowStyleClass="#{item.mc mod 2 eq 0 ? 'parzyste':null}"
                          >
                 <p:ajax event="rowEdit" listener="#{fakturaRozrachunkiView.onRowEditAnaliza}" />

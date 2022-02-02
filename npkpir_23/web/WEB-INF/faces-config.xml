@@ -806,6 +806,10 @@
             <from-outcome>gfakturaFakturaUstawienia</from-outcome>
             <to-view-id>/wspolny/wspolnyFakturaUstawienia.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
+         <navigation-case>
+            <from-outcome>gfakturaFakturaRozrachunki</from-outcome>
+            <to-view-id>/wspolny/wspolnyFakturaRozrachunki.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
         <navigation-case>
             <from-outcome>gfakturaFakturaPlatnosci</from-outcome>
             <to-view-id>/wspolny/wspolnyFakturaPlatnosci.xhtml?faces-redirect=true</to-view-id>

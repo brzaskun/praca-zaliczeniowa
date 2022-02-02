@@ -10,11 +10,9 @@ import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
-import session.SessionFacade;
 
 /**
  *
@@ -23,9 +21,7 @@ import session.SessionFacade;
 @Stateless
 @Transactional
 public class PismoadminDAO extends DAO implements Serializable{
-    @Inject
-    private SessionFacade sessionFacade;
-       @PersistenceContext(unitName = "npkpir_22PU")
+    @PersistenceContext(unitName = "npkpir_22PU")
     private EntityManager em;
     
     @PreDestroy
@@ -50,7 +46,7 @@ public class PismoadminDAO extends DAO implements Serializable{
     
     public  List<Pismoadmin> findBiezace(){
         try {
-            List<Pismoadmin> lista = sessionFacade.findPismoadminBiezace();
+            List<Pismoadmin> lista = getEntityManager().createNamedQuery("Pismoadmin.findByNOTStatus").setParameter("status", "archiwalna").getResultList();
             return lista;
         } catch (Exception e) { E.e(e); 
             return null;
@@ -59,7 +55,7 @@ public class PismoadminDAO extends DAO implements Serializable{
 
     public List<Pismoadmin> findNowe() {
         try {
-            List<Pismoadmin> lista = sessionFacade.findPismoadminNowe();
+            List<Pismoadmin> lista = getEntityManager().createNamedQuery("Pismoadmin.findByStatus").setParameter("status", "wysłana").getResultList();
             return lista;
         } catch (Exception e) { E.e(e); 
             return null;

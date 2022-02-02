@@ -7,7 +7,7 @@ package view;
 
 import beansMail.SMTPBean;
 import comparator.FakturaPodatnikRozliczeniecomparator;
-import comparator.Kliencicomparator;
+import comparator.KlienciNPcomparator;
 import dao.FakturaDAO;
 import dao.FakturaRozrachunkiDAO;
 import dao.FakturadodelementyDAO;
@@ -35,12 +35,11 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.annotation.PostConstruct;
-import javax.inject.Named;
-
-import javax.faces.view.ViewScoped;
 import javax.faces.component.UISelectOne;
 import javax.faces.event.ValueChangeEvent;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import mail.MailFaktRozrach;
 import msg.Msg;
 import pdf.PdfFaktRozrach;
@@ -86,6 +85,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
     private boolean pokaznadplaty;
     private boolean tylkoprzeterminowane;
     private String tekstwiadomosci;
+    private boolean dolaczrokpoprzedni;
     
     public FakturaRozrachunkiAnalizaView() {
         
@@ -98,8 +98,8 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
         archiwum = Collections.synchronizedList(new ArrayList<>());
         saldanierozliczone = Collections.synchronizedList(new ArrayList<>());
         klienci.addAll(pobierzkontrahentow());
-        Collections.sort(klienci, new Kliencicomparator());
-    }
+        Collections.sort(klienci, new KlienciNPcomparator());
+     }
     
     public void pobierzwszystkoKlienta() {
         String mc = wpisView.getMiesiacWpisu();
@@ -111,6 +111,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
         sortujsumuj(nowepozycje);
         sortujsumuj(archiwum);
         Msg.msg("Pobrano dane kontrahenta");
+
     }
     
     //tu zbiorczo
@@ -124,9 +125,23 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
     public List<FakturaPodatnikRozliczenie> pobierzelementy(String mc, boolean nowe0archiwum, Klienci klient) {
         List<FakturaPodatnikRozliczenie> pozycje = null;
         if (klient != null) {
-            List<FakturaRozrachunki> platnosci = fakturaRozrachunkiDAO.findByPodatnikKontrahentRok(wpisView, klient);
+            List<FakturaRozrachunki> platnosci = fakturaRozrachunkiDAO.findByPodatnikKontrahentRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), klient);
+            if (dolaczrokpoprzedni) {
+                platnosci = fakturaRozrachunkiDAO.findByPodatnikKontrahentRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), klient);
+                for (Iterator<FakturaRozrachunki> it =platnosci.iterator();it.hasNext();) {
+                    FakturaRozrachunki f = it.next();
+                    if (f.getNrdokumentu().contains("bo")) {
+                        it.remove();
+                    }
+                }
+                platnosci.addAll(fakturaRozrachunkiDAO.findByPodatnikKontrahentRok(wpisView.getPodatnikObiekt(), wpisView.getRokUprzedniSt(), klient));
+            }
             //problem jest zeby nie brac wczesniejszych niz 2016 wiec BO sie robi
             List<Faktura> faktury = fakturaDAO.findbyKontrahentNipRok(klient.getNip(), wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+            if (dolaczrokpoprzedni) {
+                faktury = fakturaDAO.findbyKontrahentNipRok(klient.getNip(), wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+                faktury.addAll(fakturaDAO.findbyKontrahentNipRok(klient.getNip(), wpisView.getPodatnikObiekt(), wpisView.getRokUprzedniSt()));
+            }
             pozycje = stworztabele(platnosci, faktury, nowe0archiwum);
             usuninnemiesiace(wpisView.getRokWpisuSt(), mc, pozycje);
             int i = 1;
@@ -141,12 +156,24 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
      
     private Collection<? extends Klienci> pobierzkontrahentow() {
         Collection p = fakturaDAO.findKontrahentFakturyRO(wpisView.getPodatnikObiekt());
+        List<Podatnik> podatnicy = podatnikDAO.findAll();
         for (Iterator<Klienci> it = p.iterator(); it.hasNext();) {
             Klienci k = it.next();
             if (k == null) {
                 it.remove();
             } else if (k.isAktywnydlafaktrozrachunki() == false) {
                 it.remove();
+            } else {
+                for (Podatnik po : podatnicy) {
+                    if (po.getNip().equals(k.getNip())) {
+                        k.setNazwapodatnika(po.getPrintnazwa());
+                        k.setTelefon(po.getTelefonkontaktowy());
+                        break;
+                    }
+                }
+                if (k.getNazwapodatnika()==null) {
+                    k.setNazwapodatnika(k.getNazwabezCudzy());
+                }
             }
         }
         return p;
@@ -587,7 +614,42 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
             Msg.msg("e", "Nie wybrano pozycji");
         }
     }
-    
+    private void usuninnemiesiace(String rokWpisuSt, String mc, List<FakturaPodatnikRozliczenie> pozycje) {
+        for (Iterator<FakturaPodatnikRozliczenie> it = pozycje.iterator();it.hasNext();) {
+            FakturaPodatnikRozliczenie f = it.next();
+            if (rokWpisuSt.equals(f.getRok())) {
+                int granica = Mce.getMiesiacToNumber().get(mc);
+                int mcpozycji = Mce.getMiesiacToNumber().get(f.getMc());
+                if (mcpozycji > granica) {
+                    it.remove();
+                }
+            }
+        }
+    }
+
+   public void zmienmailkontrahenta(ValueChangeEvent ex) {
+       try {
+           szukanyklient.setEmail((String)ex.getNewValue());
+           klienciDAO.edit(szukanyklient);
+           Msg.msg("Zmieniono adres mail klienta");
+       } catch (Exception e) {
+           Msg.msg("e","Wytstąpił błąd, nie zmieniono adres mail klienta");
+       }
+   }
+   
+   public void zmienteleofnkontrahenta(ValueChangeEvent ex) {
+       try {
+           szukanyklient.setTelefon((String)ex.getNewValue());
+           Podatnik podatnik = podatnikDAO.findPodatnikByNIP(szukanyklient.getNip());
+           if (podatnik!=null) {
+               podatnik.setTelefonkontaktowy(szukanyklient.getTelefon());
+               podatnikDAO.edit(podatnik);
+           }
+           Msg.msg("Zmieniono nr tel. klienta");
+       } catch (Exception e) {
+           Msg.msg("e","Wytstąpił błąd, nie zmieniono nr tel. klienta");
+       }
+   }
     
 //<editor-fold defaultstate="collapsed" desc="comment">
     public List<Klienci> getKlienci() {
@@ -596,6 +658,14 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
     
     public void setKlienci(List<Klienci> klienci) {
         this.klienci = klienci;
+    }
+
+    public boolean isDolaczrokpoprzedni() {
+        return dolaczrokpoprzedni;
+    }
+
+    public void setDolaczrokpoprzedni(boolean dolaczrokpoprzedni) {
+        this.dolaczrokpoprzedni = dolaczrokpoprzedni;
     }
 
     public String getTekstwiadomosci() {
@@ -716,27 +786,6 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
    
 //</editor-fold>
 
-    private void usuninnemiesiace(String rokWpisuSt, String mc, List<FakturaPodatnikRozliczenie> pozycje) {
-        for (Iterator<FakturaPodatnikRozliczenie> it = pozycje.iterator();it.hasNext();) {
-            FakturaPodatnikRozliczenie f = it.next();
-            if (rokWpisuSt.equals(f.getRok())) {
-                int granica = Mce.getMiesiacToNumber().get(mc);
-                int mcpozycji = Mce.getMiesiacToNumber().get(f.getMc());
-                if (mcpozycji > granica) {
-                    it.remove();
-                }
-            }
-        }
-    }
-
-   public void zmienmailkontrahenta(ValueChangeEvent ex) {
-       try {
-           szukanyklient.setEmail((String)ex.getNewValue());
-           klienciDAO.edit(szukanyklient);
-           Msg.msg("Zmieniono adres mail klienta");
-       } catch (Exception e) {
-           Msg.msg("e","Wytstąpił błąd, nie zmieniono adres mail klienta");
-       }
-   }
+    
     
 }

@@ -32,7 +32,7 @@
                 <f:selectItem itemValue="cz" itemLabel="cz"/>
             </p:selectOneMenu>
             <p:inputText  value="#{UzView.selUzytkownik.email}"/>
-            <p:selectOneMenu value="#{UzView.selUzytkownik.podatnik}" style="width: 300px;" converter="#{podatConv}">
+            <p:selectOneMenu value="#{UzView.selUzytkownik.podatnik}" style="width: 300px;" converter="#{podatConv}" filter="true" filterMatchMode="contains">
                 <f:selectItems value="#{podatnikWyborView.listaPodatnikow}" var="item" itemLabel="#{item.printnazwa}" itemValue="#{item}"/>
                 <p:ajax event="blur" listener="#{UzView.naniesfirme()}"/>
             </p:selectOneMenu>

@@ -85,6 +85,11 @@ public class Klienci extends KlienciSuper implements Serializable {
     private String adresincydentalny;
     @Transient
     private String jezykwysylki;
+    @Transient
+    private String nazwapodatnika;
+    @Transient
+    private String telefon;
+    
     
 
     public Klienci() {
@@ -326,6 +331,22 @@ public class Klienci extends KlienciSuper implements Serializable {
 
     public void setJezykwysylki(String jezykwysylki) {
         this.jezykwysylki = jezykwysylki;
+    }
+
+    public String getNazwapodatnika() {
+        return nazwapodatnika;
+    }
+
+    public void setNazwapodatnika(String nazwapodatnika) {
+        this.nazwapodatnika = nazwapodatnika;
+    }
+
+    public String getTelefon() {
+        return telefon;
+    }
+
+    public void setTelefon(String telefon) {
+        this.telefon = telefon;
     }
     
 //    @XmlTransient
