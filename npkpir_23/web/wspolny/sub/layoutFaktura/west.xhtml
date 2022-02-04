@@ -54,7 +54,8 @@
                         <p:menu style="width: 200px;">
                             <p:menuitem value="uwagi do programu"  outcome="gadmin" icon="ui-icon-circle-arrow-e"/>
                         </p:menu> 
-                        <p:commandButton id="wyloguj" value="#{mgs.wyloguj}" action="#{logowanie.logout()}" style="margin-left: 25%; margin-top: 10px;"/>
+                         <p:commandButton id="zmien" value="zmień firmę" action="/indexMulti.xhtml" ajax="false" style="width: 120px; margin-left: 20%"/>
+                        <p:commandButton id="wyloguj" value="#{mgs.wyloguj}" action="#{logowanie.logout()}" style="width: 120px; margin-left: 20%;"/>
                     </p:panelGrid>
                 </h:form>
             </p:panel>
