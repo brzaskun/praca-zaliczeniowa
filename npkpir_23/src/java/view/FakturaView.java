@@ -45,6 +45,7 @@ import entity.Evewidencja;
 import entity.Faktura;
 import entity.FakturaDodPozycjaKontrahent;
 import entity.FakturaWaloryzacja;
+import entity.FakturaWalutaKonto;
 import entity.Fakturadodelementy;
 import entity.Fakturaelementygraficzne;
 import entity.Fakturywystokresowe;
@@ -567,7 +568,10 @@ public class FakturaView implements Serializable {
         selected.setMiejscewystawienia(FakturaBean.pobierzmiejscewyst(podatnikobiekt));
         selected.setTerminzaplaty(FakturaBean.obliczterminzaplaty(podatnikobiekt, pelnadata));
         selected.setNrkontabankowego(FakturaBean.pobierznumerkonta(podatnikobiekt));
-        FakturaBean.wielekont(selected, fakturaWalutaKontoView.getListakontaktywne(), fakturaStopkaNiemieckaDAO, wpisView.getPodatnikObiekt());
+        List<FakturaWalutaKonto> listakontaktywne  = fakturaWalutaKontoDAO.findPodatnik(wpisView);
+        if (listakontaktywne!=null) {
+            FakturaBean.wielekont(selected, listakontaktywne, fakturaStopkaNiemieckaDAO, wpisView.getPodatnikObiekt());
+        }
         selected.setPodpis(FakturaBean.pobierzpodpis(wpisView));
         selected.setAutor(wpisView.getUzer().getLogin());
         setPokazfakture(true);
@@ -746,6 +750,13 @@ public class FakturaView implements Serializable {
             odbiorcastworz.findComponent(faktura.getOdbiorca().getNpelna());
         }
         listakontawwalucie = fakturaWalutaKontoDAO.findByWalutaString(wpisView.getPodatnikObiekt(),selected.getWalutafaktury());
+        if (selected.getNrkontabankowego()==null||selected.getNrkontabankowego().equals("")) {
+            selected.setNrkontabankowego(FakturaBean.pobierznumerkonta(wpisView.getPodatnikObiekt()));
+            List<FakturaWalutaKonto> listakontaktywne  = fakturaWalutaKontoDAO.findPodatnik(wpisView);
+            if (listakontaktywne!=null) {
+                FakturaBean.wielekont(selected, listakontaktywne, fakturaStopkaNiemieckaDAO, wpisView.getPodatnikObiekt());
+            }
+        }
 //        String funkcja = "PF('tworzenieklientapolenazwy').search('"+faktura.getKontrahent_nip()+"');";
 //        PrimeFaces.current().executeScript(funkcja);
 //        funkcja = "PF('tworzenieklientapolenazwy').activate();";

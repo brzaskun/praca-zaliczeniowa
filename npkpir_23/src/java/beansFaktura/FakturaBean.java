@@ -244,7 +244,7 @@ public class FakturaBean {
     public static String pobierznumerkonta(Podatnik podatnikobiekt) {
         try {
             String nrkonta = podatnikobiekt.getNrkontabankowego();
-            if (nrkonta != null) {
+            if (nrkonta != null && !nrkonta.equals("")) {
                 return nrkonta;
             } else {
                 return "brak numeru konta bankowego";
