@@ -335,7 +335,7 @@ public class JPK_VAT2020M2_Bean {
             cel.setValue(p);
             cel.setPoz(cel.getPoz());
             n.setCelZlozenia(cel);
-            byte warform = 1;
+            byte warform = 2;
             n.setWariantFormularza(warform);
             TNaglowek.KodFormularza k = new TNaglowek.KodFormularza();
             k.setValue(TKodFormularza.JPK_VAT);

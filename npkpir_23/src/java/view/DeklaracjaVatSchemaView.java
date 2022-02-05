@@ -205,7 +205,7 @@ public class DeklaracjaVatSchemaView implements Serializable {
                     nowaschemaewidencja.add(p);
                 }
                 if (!nowaschemaewidencja.isEmpty()) {
-                    schemaEwidencjaDAO.create(nowaschemaewidencja);
+                    schemaEwidencjaDAO.createList(nowaschemaewidencja);
                 }
                 List<DeklaracjaVatSchemaWierszSum> nowesumwiersze = Collections.synchronizedList(new ArrayList<>());
                 for (DeklaracjaVatSchemaWierszSum p : schemawierszlista) {

@@ -306,7 +306,7 @@ public class JPK_VAT2020K2_Bean {
             cel.setValue(p);
             cel.setPoz(cel.getPoz());
             n.setCelZlozenia(cel);
-            byte warform = 1;
+            byte warform = 2;
             n.setWariantFormularza(warform);
             pl.gov.crd.wzor._2021._12._27._11149.TNaglowek.KodFormularza k = new pl.gov.crd.wzor._2021._12._27._11149.TNaglowek.KodFormularza();
             k.setValue(pl.gov.crd.wzor._2021._12._27._11149.TKodFormularza.JPK_VAT);

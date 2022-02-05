@@ -14,7 +14,9 @@
             <p:panelGrid columns="2" style="width: 1250px;">
 
                 <p:column>
-
+                      <p:commandButton value="XLS" >
+            <p:dataExporter type="xls" target="formpodatnicy:tabelapodatnicy" fileName="lista" />
+        </p:commandButton>
                     <p:dataTable id="tabelapodatnicy" value="#{podatnikKsiegowaShortView.listapodatnikow}" var="item" style="width: 1150px;height: 900px;overflow-y: scroll;" rowIndexVar="index" 
                                  rowStyleClass="#{item.ksiegowa.login.startsWith('mar') ? 'rmarta' : item.ksiegowa.login.startsWith('wda') ? 'rwioletta' : item.ksiegowa.login.startsWith('go') ? 'rmalgosia' : 'rrenata'}">
                         <p:ajax event="filter" global="false"/>
@@ -25,30 +27,34 @@
                             <h:outputText value="#{item.printnazwa}"/>
                         </p:column>
                         <p:column headerText="księgowa" >
-                            <p:selectOneMenu value="#{item.ksiegowa}" style="width: 100px;text-align: center;" converter="#{uzConv}">
+                            <h:outputText value="#{item.ksiegowa.login}"/>
+<!--                            <p:selectOneMenu value="#{item.ksiegowa}" style="width: 100px;text-align: center;" converter="#{uzConv}">
                                 <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
                                 <f:selectItems value="#{podatnikKsiegowaShortView.listaksiegowych}" var="loop" itemLabel="#{loop.login}" itemValue="#{loop}"/>
-                            </p:selectOneMenu>
+                            </p:selectOneMenu>-->
                         </p:column>
                         <p:column headerText="aktywny" width="60" style="text-align: center;">
-                            <p:selectBooleanCheckbox value="#{item.podmiotaktywny}">
+                            <h:outputText value="tak" rendered="#{item.podmiotaktywny}"/>
+<!--                            <p:selectBooleanCheckbox value="#{item.podmiotaktywny}">
                                 <p:ajax event="change" listener="#{podatnikKsiegowaShortView.edytujpodatnika(item)}" />
-                            </p:selectBooleanCheckbox>
+                            </p:selectBooleanCheckbox>-->
                         </p:column>
-                        <p:column headerText="stare kadry" width="60" style="text-align: center;">
+<!--                        <p:column headerText="stare kadry" width="60" style="text-align: center;">
                             <p:selectBooleanCheckbox value="#{item.starekadry}">
                                 <p:ajax event="change" listener="#{podatnikKsiegowaShortView.edytujpodatnika(item)}" />
                             </p:selectBooleanCheckbox>
-                        </p:column>
-                        <p:column headerText="email" width="300" style="text-align: center;">
-                            <p:inputText value="#{item.email}" size="40">
+                        </p:column>-->
+                        <p:column headerText="email" width="300" style="text-align: left;">
+                            <h:outputText value="#{item.email}"/>
+<!--                            <p:inputText value="#{item.email}" size="40">
                                 <p:ajax event="blur" listener="#{podatnikKsiegowaShortView.edytujpodatnika(item)}" />
-                            </p:inputText>
+                            </p:inputText>-->
                         </p:column>
                         <p:column headerText="tel." width="150" style="text-align: center;">
-                            <p:inputText value="#{item.telefonkontaktowy}" size="40">
+                            <h:outputText value="#{item.telefonkontaktowy}"/>
+<!--                            <p:inputText value="#{item.telefonkontaktowy}" size="40">
                                 <p:ajax event="blur" listener="#{podatnikKsiegowaShortView.edytujpodatnika(item)}" />
-                            </p:inputText>
+                            </p:inputText>-->
                         </p:column>
                     </p:dataTable>
                 </p:column>
