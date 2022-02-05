@@ -156,6 +156,54 @@ public class XMLValid {
         return zwrot;
     }
     
+    public static Object[] walidujJPK2022View(String mainfilename, int coweryfikowac, String wersjaschemy) {
+            Object[] zwrot = new Object[2];
+            zwrot[0] = Boolean.FALSE;
+            error.E.s("start walidacji");
+            ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+            String realPath = ctx.getRealPath("/")+"resources\\xml\\JPK2022M.xsd";
+            if (wersjaschemy.equals("1-2E")) {
+                realPath = ctx.getRealPath("/")+"resources\\xml\\JPK2022M.xsd";
+                if (coweryfikowac==1) {
+                    realPath = ctx.getRealPath("/")+"resources\\xml\\JPK2022K.xsd";
+                }
+            }
+            try {
+            File schemaFile = null;
+            try {
+                schemaFile = new File(realPath);
+            } catch (Exception ex) {
+                // Logger.getLogger(XMLValid.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            String realPath2 = ctx.getRealPath("/")+"resources\\xml\\";
+            FileInputStream fis = new FileInputStream(realPath2+mainfilename);
+            String data = IOUtils.toString(fis, "UTF-8");
+            Source xmlFile = new StreamSource(new ByteArrayInputStream(data.getBytes(org.apache.commons.codec.CharEncoding.UTF_8)));
+            SchemaFactory schemaFactory = SchemaFactory
+                    .newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+            try {
+                Schema schema = schemaFactory.newSchema(schemaFile);
+                Validator validator = schema.newValidator();
+                validator.validate(xmlFile);
+                zwrot[0] = Boolean.TRUE;
+                zwrot[1] = "Plik prawidłowy";
+                error.E.s("Plik jest prawidłowy");
+                error.E.s("Koniec walidacji bezbledna");
+            } catch (SAXException e) {
+                zwrot[0] = Boolean.FALSE;
+                zwrot[1] = obsluzblad2(e);
+                error.E.s(obsluzblad2(e));
+            } catch (Exception e) {
+                zwrot[0] = Boolean.FALSE;
+                zwrot[1] = "Błąd walidacji pliku. Sprawdzanie przerwane";
+            }
+        } catch (Exception ex) {
+            E.e(ex);
+            error.E.s("Błąd ładowania plików do walidacji. Sprawdzanie przerwane");
+        }
+        return zwrot;
+    }
+    
     
      public static Object[] walidujJPKKR(String mainfilename) {
             Object[] zwrot = new Object[2];

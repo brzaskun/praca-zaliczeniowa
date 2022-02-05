@@ -81,6 +81,8 @@ public class WpisView implements Serializable {
     private boolean biuroiszef;
     private boolean jpk2020M;
     private boolean jpk2020K;
+    private boolean jpk2020M2;
+    private boolean jpk2020K2;
 
     public WpisView() {
         czegosbrakuje = false;
@@ -805,6 +807,22 @@ public class WpisView implements Serializable {
     public void setJpk2020K(boolean jpk2020K) {
         this.jpk2020K = jpk2020K;
     }
+
+    public boolean isJpk2020M2() {
+        return jpk2020M2;
+    }
+
+    public void setJpk2020M2(boolean jpk2020M2) {
+        this.jpk2020M2 = jpk2020M2;
+    }
+
+    public boolean isJpk2020K2() {
+        return jpk2020K2;
+    }
+
+    public void setJpk2020K2(boolean jpk2020K2) {
+        this.jpk2020K2 = jpk2020K2;
+    }
     
     
 //</editor-fold>
@@ -828,13 +846,22 @@ public class WpisView implements Serializable {
     private void jakitobedziejpk2020() {
         jpk2020M = false;
         jpk2020K = false;
+        jpk2020M2 = false;
+        jpk2020K2 = false;
         try {
             boolean dobryrok = rokWpisu>2020 || (rokWpisu==2020 && Integer.parseInt(miesiacWpisu)>9);
-            if (dobryrok) {
+            boolean dobryrok2 = rokWpisu>2022 || (rokWpisu==2022 && Integer.parseInt(miesiacWpisu)>0);
+            if (dobryrok && dobryrok2==false) {
                 if (vatokres==1) {
                     jpk2020M = true;
                 } else if (vatokres==2) {
                     jpk2020K = true;
+                }
+            } else if (dobryrok2) {
+                if (vatokres==1) {
+                    jpk2020M2 = true;
+                } else if (vatokres==2) {
+                    jpk2020K2 = true;
                 }
             }
         } catch (Exception e){}

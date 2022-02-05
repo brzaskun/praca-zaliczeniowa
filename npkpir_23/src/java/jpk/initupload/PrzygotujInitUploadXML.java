@@ -33,7 +33,15 @@ public class PrzygotujInitUploadXML {
             doc.setDocumentList(new ArrayOfDocumentType());
             ArrayOfDocumentType.Document adok = new ArrayOfDocumentType.Document();
             DocumentType.FormCode formkode = new DocumentType.FormCode();
-            if (wpisView.isJpk2020M()) {
+            if (wpisView.isJpk2020M2()) {
+                formkode.setSystemCode("JPK_V7M (2)");
+                formkode.setSchemaVersion("1-0E");
+                formkode.setValue("JPK_VAT");
+            } else if (wpisView.isJpk2020K2()) {
+                formkode.setSystemCode("JPK_V7K (2)");
+                formkode.setSchemaVersion("1-0E");
+                formkode.setValue("JPK_VAT");
+            } else if (wpisView.isJpk2020M()) {
                 formkode.setSystemCode("JPK_V7M (1)");
                 formkode.setSchemaVersion("1-2E");
                 formkode.setValue("JPK_VAT");

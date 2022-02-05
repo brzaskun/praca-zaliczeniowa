@@ -345,7 +345,7 @@ public class Vat7DKView implements Serializable {
             if (kwotanakaserej != null) {
                 kasarejestrujaca(nż, nl, dowpłaty, nadwyzkanaliczonego);
             }
-            boolean nowyjpk2020 = wpisView.isJpk2020M()||wpisView.isJpk2020K();
+            boolean nowyjpk2020 = wpisView.isJpk2020M()||wpisView.isJpk2020K()||wpisView.isJpk2020M2()||wpisView.isJpk2020K2();
             DeklaracjaVatSchemaWierszSum doprzeniesienia = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"Kwota do przeniesienia na następny okres rozliczeniowy");
             doprzeniesienia.getDeklaracjaVatWierszSumaryczny().setSumavat(nadwyzkanaliczonego.getDeklaracjaVatWierszSumaryczny().getSumavat());
             pokazinfovatzz =  false;
