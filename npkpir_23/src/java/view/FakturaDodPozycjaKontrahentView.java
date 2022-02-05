@@ -26,7 +26,6 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import msg.Msg;
-import org.primefaces.component.commandbutton.CommandButton;
 import waluty.Z;
 
 /**
@@ -56,40 +55,45 @@ public class FakturaDodPozycjaKontrahentView  implements Serializable {
     private String rok;
     private String mc;
     private double sumawybranych;
-    private CommandButton button;
-    private CommandButton button1;
+
     
     @PostConstruct
     private void init() {
         pozycje = fakturaDodatkowaPozycjaDAO.findAll();
         lista_wzor = fakturaDodPozycjaKontrahentDAO.findByRok(Data.aktualnyRok());
         lista_2 = new ArrayList<>();
-        lista_2.addAll(lista_wzor);
         rok = Data.aktualnyRok();
-    }
-    
-    public void pobierzklientow() {
         klienci = new ArrayList<>();
-        if (mc!=null && rok!=null) {
-            List<Fakturywystokresowe> wykazfaktur = fakturywystokresoweDAO.findPodatnikBiezace("GRZELCZYK", rok);
-            for (Fakturywystokresowe p : wykazfaktur) {
-                Podatnik pod = podatnikDAO.findPodatnikByNIP(p.getDokument().getKontrahent().getNip());
-                Klienci k = p.getDokument().getKontrahent();
-                if (pod != null) {
-                    k.setJezykwysylki(pod.getJezykmaila());
-                }
-                klienci.add(k);
+        List<Fakturywystokresowe> wykazfaktur = fakturywystokresoweDAO.findPodatnikBiezace("GRZELCZYK", rok);
+        for (Fakturywystokresowe p : wykazfaktur) {
+            Podatnik pod = podatnikDAO.findPodatnikByNIP(p.getDokument().getKontrahent().getNip());
+            Klienci k = p.getDokument().getKontrahent();
+            if (pod != null) {
+                k.setJezykwysylki(pod.getJezykmaila());
+                k.setNazwapodatnika(pod.getPrintnazwa());
+            } else {
+                k.setNazwapodatnika(k.getNazwabezCudzy());
             }
-            button.setRendered(true);
-            button1.setRendered(true);
+            klienci.add(k);
         }
-        Collections.sort(klienci,new Klienci1comparator());
-        pozycje = fakturaDodatkowaPozycjaDAO.findAll();
-        if (rok!=null&&mc!=null) {
-            lista_wzor = fakturaDodPozycjaKontrahentDAO.findByRok(rok);
-            List<FakturaDodPozycjaKontrahent> lista_tmp = lista_wzor.stream().filter(p->p.getRok().equals(rok)&&p.getMc().equals(mc)).collect(Collectors.toList());
-            lista_2 = new ArrayList<>();
-            lista_2.addAll(lista_tmp);
+        Collections.sort(klienci, new Klienci1comparator());
+    }
+
+    public void pobierzklientow() {
+        if (mc != null && rok != null) {
+            pozycje = fakturaDodatkowaPozycjaDAO.findAll();
+            if (rok != null && mc != null) {
+                lista_wzor = fakturaDodPozycjaKontrahentDAO.findByRok(rok);
+                List<FakturaDodPozycjaKontrahent> lista_tmp = lista_wzor.stream().filter(p -> p.getRok().equals(rok) && p.getMc().equals(mc)).collect(Collectors.toList());
+                for (FakturaDodPozycjaKontrahent p : lista_tmp) {
+                    Podatnik pod = podatnikDAO.findPodatnikByNIP(p.getKontrahent().getNip());
+                    if (pod != null) {
+                        p.getKontrahent().setNazwapodatnika(pod.getPrintnazwa());
+                    }
+                }
+                lista_2 = new ArrayList<>();
+                lista_2.addAll(lista_tmp);
+            }
         }
     }
     
@@ -273,22 +277,7 @@ public class FakturaDodPozycjaKontrahentView  implements Serializable {
         this.sumawybranych = sumawybranych;
     }
 
-    public CommandButton getButton() {
-        return button;
-    }
-
-    public void setButton(CommandButton button) {
-        this.button = button;
-    }
-
-    public CommandButton getButton1() {
-        return button1;
-    }
-
-    public void setButton1(CommandButton button1) {
-        this.button1 = button1;
-    }
-
+ 
     
     
 }

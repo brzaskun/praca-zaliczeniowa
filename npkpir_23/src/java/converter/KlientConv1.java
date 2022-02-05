@@ -7,8 +7,6 @@ package converter;
 import dao.KlienciDAO;
 import entity.Klienci;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
@@ -28,7 +26,6 @@ public class KlientConv1 implements javax.faces.convert.Converter, Serializable 
        
     @Override
     public Object getAsObject(FacesContext facesContext, UIComponent component, String sub) {
-        List<Klienci> listaKlientow = new ArrayList<>();
         Klienci znaleziony = null;
         try {
             znaleziony = klienciDAO.findAllReadOnlyID(sub);

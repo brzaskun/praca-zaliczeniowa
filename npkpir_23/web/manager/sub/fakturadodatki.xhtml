@@ -6,15 +6,9 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:bcf="http://brzaskun.com/facelets">
-    
+
     <p:tabView id="akordeon">
         <p:tab title="księgowanie pozycji">
-             <h:form id="form2a">
-                <p:panelGrid columns="2">
-                    <p:commandButton value="generuj permanentne" actionListener="#{fakturaDodPozycjaKontrahentView.generujpermanentne()}" style="width: 120px;" binding="#{fakturaDodPozycjaKontrahentView.button}" update="akordeon:listapozycji" rendered="false"/>
-                    <p:commandButton value="zachowaj wygenerowane" actionListener="#{fakturaDodPozycjaKontrahentView.zachowajpermanentne()}" style="width: 120px;margin-left: 20px;" binding="#{fakturaDodPozycjaKontrahentView.button1}" update="akordeon:listapozycji" rendered="false"/>
-                </p:panelGrid>
-             </h:form>
             <h:form id="form2">
                 <p:growl life="3600" showDetail="true"/>
                 <p:panelGrid columns="5">
@@ -29,7 +23,7 @@
                         <f:selectItems value="#{roki.rokiList}"/>
                     </p:selectOneMenu>
                     <p:selectOneMenu id="miesiacWpisu" value="#{fakturaDodPozycjaKontrahentView.mc}" style="width: 60px;">
-                        <p:ajax event="change" partialSubmit="true" listener="#{fakturaDodPozycjaKontrahentView.pobierzklientow()}" update="form2 akordeon:listapozycji:lista akordeon:form2a"/>
+                        <p:ajax event="change" partialSubmit="true" listener="#{fakturaDodPozycjaKontrahentView.pobierzklientow()}" update="form2 akordeon:listapozycji:lista"/>
                         <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true" />
                         <f:selectItems value="#{mce.mceList}"/>
                     </p:selectOneMenu>
@@ -43,7 +37,7 @@
                     <h:outputText value="kwota"/>
                     <p:selectOneMenu widgetVar="kontrpole" id="kontrpole" value="#{fakturaDodPozycjaKontrahentView.selected.kontrahent}" style="width: 400px;" converter="#{klientConv1}" filter="true" filterMatchMode="contains">
                         <f:selectItem itemLabel="wybierz"  noSelectionOption="true" />
-                        <f:selectItems value="#{fakturaDodPozycjaKontrahentView.klienci}" var="opipi" itemLabel="#{opipi.getNazwabezCudzy()}" itemValue="#{opipi}"/>
+                        <f:selectItems value="#{fakturaDodPozycjaKontrahentView.klienci}" var="opipi" itemLabel="#{opipi.nazwapodatnika}" itemValue="#{opipi}" />
                     </p:selectOneMenu>
                     <p:selectOneMenu id="kontrpole2" value="#{fakturaDodPozycjaKontrahentView.selected.fakturaDodatkowaPozycja}" style="width: 600px;" converter="#{fakturaDodatkowaPozycjaConv}" filter="true" filterMatchMode="contains">
                         <f:selectItem itemLabel="wybierz"  noSelectionOption="true" />
@@ -57,102 +51,105 @@
                 </p:panelGrid>
                 <p:focus for="kontrpole"  context="form2" />
             </h:form>
-             <p:separator/>
-             <h:form id="listapozycji">
+            <p:separator/>
+            <h:form id="listapozycji">
+                <p:panelGrid columns="2">
+                    <p:commandButton value="generuj permanentne" actionListener="#{fakturaDodPozycjaKontrahentView.generujpermanentne()}" style="width: 120px;" update="akordeon:listapozycji" />
+                    <p:commandButton value="zachowaj wygenerowane" actionListener="#{fakturaDodPozycjaKontrahentView.zachowajpermanentne()}" style="width: 120px;margin-left: 20px;" update="akordeon:listapozycji" />
+                </p:panelGrid>
                 <p:growl life="3600" showDetail="true"/>
                 <p:dataTable  var="zapis" value="#{fakturaDodPozycjaKontrahentView.lista_2}" id="lista" sortOrder="ascending" style="width: 1300px;" widgetVar="tabelazwynikami"
                               filteredValue="#{fakturaDodPozycjaKontrahentView.lista_2_filter}" selection="#{fakturaDodPozycjaKontrahentView.lista_2_selected}" selectionMode="single"
-                              paginator="true" paginatorAlwaysVisible="#{fakturaDodPozycjaKontrahentView.lista_2.size() gt 20 ? true : false}" rows="20" sortBy="#{zapis.kontrahent.getNazwabezCudzy()}"
-                          paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
-                          rowsPerPageTemplate="20,50,100" emptyMessage="Nie dodano pozycji w tym miesiącu"
-                          rowKey="#{zapis.id}"> 
-                <f:facet name="header">  
-                    <h:outputText value="Wykaz wprowadzonych wartości" />  
-                </f:facet>
-                <p:column headerText="nazwa" width="400" filterBy="#{zapis.kontrahent.getNazwabezCudzy()}" filterMatchMode="contains">  
-                    <h:outputText value="#{zapis.kontrahent.getNazwabezCudzy()}"/>
-                </p:column>
-                    <p:column headerText="pozycja" width="350" filterBy="#{zapis.fakturaDodatkowaPozycja.nazwa}" filterMatchMode="contains">  
-                    <h:outputText value="#{zapis.fakturaDodatkowaPozycja.nazwa}"/>
-                </p:column>
-                    <p:column headerText="ilość" width="50" style="text-align: center;" sortBy="#{zapis.ilosc}">  
-                    <p:inputNumber value="#{zapis.ilosc}" decimalPlaces="0" size="3">
-                        <p:ajax event="change"  partialSubmit="true" listener="#{fakturaDodPozycjaKontrahentView.edytuj(zapis)}" />
-                    </p:inputNumber>
-                </p:column>
-                <p:column headerText="rozl" width="50" style="text-align: center;" filterBy="#{zapis.rozliczone}">  
-                    <h:outputText value="#{zapis.rozliczone eq true ? 'tak':null}" />
-                    <f:facet name="filter">
-                        <p:selectOneMenu onchange="PF('tabelazwynikami').filter()" style="width: 30px;" autoWidth="false">
-                            <f:selectItem itemLabel="wyb" itemValue="#{null}" noSelectionOption="true"/>
-                            <f:selectItem itemValue="true" itemLabel="tak"/>
-                            <f:selectItem itemValue="false" itemLabel="nie"/>
-                        </p:selectOneMenu>
+                              paginator="true" paginatorAlwaysVisible="#{fakturaDodPozycjaKontrahentView.lista_2.size() gt 20 ? true : false}" rows="20" sortBy="#{zapis.kontrahent.nazwapodatnika}"
+                              paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
+                              rowsPerPageTemplate="20,50,100" emptyMessage="Nie dodano pozycji w tym miesiącu"
+                              rowKey="#{zapis.id}"> 
+                    <f:facet name="header">  
+                        <h:outputText value="Wykaz wprowadzonych wartości" />  
                     </f:facet>
-                </p:column>
+                    <p:column headerText="nazwa" width="400" filterBy="#{zapis.kontrahent.nazwapodatnika}" filterMatchMode="contains">  
+                        <h:outputText value="#{zapis.kontrahent.nazwapodatnika}"/>
+                    </p:column>
+                    <p:column headerText="pozycja" width="350" filterBy="#{zapis.fakturaDodatkowaPozycja.nazwa}" filterMatchMode="contains">  
+                        <h:outputText value="#{zapis.fakturaDodatkowaPozycja.nazwa}"/>
+                    </p:column>
+                    <p:column headerText="ilość" width="50" style="text-align: center;" sortBy="#{zapis.ilosc}">  
+                        <p:inputNumber value="#{zapis.ilosc}" decimalPlaces="0" size="3">
+                            <p:ajax event="change"  partialSubmit="true" listener="#{fakturaDodPozycjaKontrahentView.edytuj(zapis)}" />
+                        </p:inputNumber>
+                    </p:column>
+                    <p:column headerText="rozl" width="50" style="text-align: center;" filterBy="#{zapis.rozliczone}">  
+                        <h:outputText value="#{zapis.rozliczone eq true ? 'tak':null}" />
+                        <f:facet name="filter">
+                            <p:selectOneMenu onchange="PF('tabelazwynikami').filter()" style="width: 30px;" autoWidth="false">
+                                <f:selectItem itemLabel="wyb" itemValue="#{null}" noSelectionOption="true"/>
+                                <f:selectItem itemValue="true" itemLabel="tak"/>
+                                <f:selectItem itemValue="false" itemLabel="nie"/>
+                            </p:selectOneMenu>
+                        </f:facet>
+                    </p:column>
                     <p:column headerText="kwota" width="120" sortBy="#{zapis.kwotaindywid}">  
-                    <bcf:inputpl80 value="#{zapis.kwotaindywid}">
-                        <p:ajax event="change" partialSubmit="true" listener="#{fakturaDodPozycjaKontrahentView.edytuj(zapis)}" />
-                    </bcf:inputpl80>
-                </p:column>
-                <p:column headerText="perm" width="50" style="text-align: center;"> 
-                    <p:selectBooleanCheckbox value="#{zapis.permanentny}">
-                        <p:ajax event="change" partialSubmit="true" listener="#{fakturaDodPozycjaKontrahentView.edytuj(zapis)}" />
-                    </p:selectBooleanCheckbox>
-                </p:column>
-                <p:column headerText="" style="text-align: center;" width="50">  
-                    <p:commandButton icon="ui-icon-trash" actionListener="#{fakturaDodPozycjaKontrahentView.usun(zapis)}" update="@form" rendered="#{zapis.rozliczone eq false}"/>
-                </p:column>
-            </p:dataTable>
+                        <bcf:inputpl80 value="#{zapis.kwotaindywid}">
+                            <p:ajax event="change" partialSubmit="true" listener="#{fakturaDodPozycjaKontrahentView.edytuj(zapis)}" />
+                        </bcf:inputpl80>
+                    </p:column>
+                    <p:column headerText="perm" width="50" style="text-align: center;"> 
+                        <p:selectBooleanCheckbox value="#{zapis.permanentny}">
+                            <p:ajax event="change" partialSubmit="true" listener="#{fakturaDodPozycjaKontrahentView.edytuj(zapis)}" />
+                        </p:selectBooleanCheckbox>
+                    </p:column>
+                    <p:column headerText="" style="text-align: center;" width="50">  
+                        <p:commandButton icon="ui-icon-trash" actionListener="#{fakturaDodPozycjaKontrahentView.usun(zapis)}" update="@form" rendered="#{zapis.rozliczone eq false}"/>
+                    </p:column>
+                </p:dataTable>
             </h:form>
-             <h:form>
-                 <p:panelGrid columns="2">
-                     <p:commandButton value="sumuj" actionListener="#{fakturaDodPozycjaKontrahentView.sumujwybrane}" update="@form" style="width: 120px;"/>
-                     <bcf:outputpl value="#{fakturaDodPozycjaKontrahentView.sumawybranych}" stylePlus="margin-left: 50px;"/>
-                 </p:panelGrid>
-             </h:form>
+            <h:form>
+                <p:panelGrid columns="2">
+                    <p:commandButton value="sumuj" actionListener="#{fakturaDodPozycjaKontrahentView.sumujwybrane}" update="@form" style="width: 120px;"/>
+                    <bcf:outputpl value="#{fakturaDodPozycjaKontrahentView.sumawybranych}" stylePlus="margin-left: 50px;"/>
+                </p:panelGrid>
+            </h:form>
         </p:tab>
         <p:tab title="dodatki wprowadzanie">
             <h:form>
-            <p:growl life="3600" showDetail="true"/>
-            <p:panelGrid columns="3">
-                <h:outputText value="nazwa"/>
-                <h:outputText value="kwota"/>
-                <h:outputText value=""/>
-                <p:inputText value="#{fakturaDodatkowaPozycjaView.selected.nazwa}" size="100"/>
-                <p:inputNumber value="#{fakturaDodatkowaPozycjaView.selected.kwota}" decimalPlaces="2" decimalSeparator=" " minValue="0.0" size="9" inputStyle="text-align: right;"/>
-                <p:commandButton value="dodaj" actionListener="#{fakturaDodatkowaPozycjaView.dodaj()}" update="@(form)"/>
-            </p:panelGrid>
-            </h:form>
-            <p:separator/>
-          <h:form>
                 <p:growl life="3600" showDetail="true"/>
-                <p:dataTable  var="zapis" value="#{fakturaDodatkowaPozycjaView.lista}" id="lista" sortOrder="ascending" style="width: 770px;"
-                              paginator="true" paginatorAlwaysVisible="#{fakturaDodatkowaPozycjaView.lista.size() gt 20 ? true : false}" rows="20" sortBy="#{zapis.nazwa}"
-                          paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
-                          rowsPerPageTemplate="20,50,100" rowIndexVar="index"
-                          rowKey="#{zapis.id}"> 
-                <f:facet name="header">  
-                    <h:outputText value="Wykaz wprowadzonych wartości" />  
-                </f:facet>
-                    <p:column width="20">  
-                    <h:outputText value="#{index+1}"/>
-                </p:column>
-                <p:column headerText="nazwa" width="400">  
-                    <h:outputText value="#{zapis.nazwa}"/>
-                </p:column>
-                <p:column headerText="kwota" width="100">  
-                    <bcf:outputpl value="#{zapis.kwota}" />
-                </p:column>
-                    <p:column headerText="aktywny" width="80" style="text-align: center;">  
-                    <h:outputText value="#{zapis.aktywny eq true ? 'tak':'nie'}" />
-                </p:column>
-                <p:column headerText="" style="text-align: center;" width="50">  
-                    <p:commandButton icon="ui-icon-trash" actionListener="#{fakturaDodatkowaPozycjaView.usun(zapis)}" update="@form"/>
-                </p:column>
-            </p:dataTable>
+                <p:panelGrid columns="3">
+                    <h:outputText value="nazwa"/>
+                    <h:outputText value="kwota"/>
+                    <h:outputText value=""/>
+                    <p:inputText value="#{fakturaDodatkowaPozycjaView.selected.nazwa}" size="100"/>
+                    <p:inputNumber value="#{fakturaDodatkowaPozycjaView.selected.kwota}" decimalPlaces="2" decimalSeparator=" " minValue="0.0" size="9" inputStyle="text-align: right;"/>
+                    <p:commandButton value="dodaj" actionListener="#{fakturaDodatkowaPozycjaView.dodaj()}" update="@(form)"/>
+                </p:panelGrid>
+                <p:outputPanel>
+                    <p:growl life="3600" showDetail="true"/>
+                    <p:dataTable  var="zapis" value="#{fakturaDodatkowaPozycjaView.lista}" id="lista" sortOrder="ascending" style="width: 770px;"
+                                  paginator="true" paginatorAlwaysVisible="#{fakturaDodatkowaPozycjaView.lista.size() gt 20 ? true : false}" rows="20" sortBy="#{zapis.nazwa}"
+                                  paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
+                                  rowsPerPageTemplate="20,50,100" rowIndexVar="index"
+                                  rowKey="#{zapis.id}"> 
+                        <f:facet name="header">  
+                            <h:outputText value="Wykaz wprowadzonych wartości" />  
+                        </f:facet>
+                        <p:column width="20">  
+                            <h:outputText value="#{index+1}"/>
+                        </p:column>
+                        <p:column headerText="nazwa" width="400">  
+                            <h:outputText value="#{zapis.nazwa}"/>
+                        </p:column>
+                        <p:column headerText="kwota" width="100">  
+                            <bcf:outputpl value="#{zapis.kwota}" />
+                        </p:column>
+                        <p:column headerText="aktywny" width="80" style="text-align: center;">  
+                            <h:outputText value="#{zapis.aktywny eq true ? 'tak':'nie'}" />
+                        </p:column>
+                        <p:column headerText="" style="text-align: center;" width="50">  
+                            <p:commandButton icon="ui-icon-trash" actionListener="#{fakturaDodatkowaPozycjaView.usun(zapis)}" update="@form"/>
+                        </p:column>
+                    </p:dataTable>
+                </p:outputPanel>
             </h:form>
         </p:tab>
     </p:tabView>
- </ui:composition>
+</ui:composition>
 

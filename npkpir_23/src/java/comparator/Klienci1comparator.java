@@ -19,8 +19,8 @@ public class Klienci1comparator implements Comparator<Klienci> {
 
     @Override
     public int compare(Klienci o1, Klienci o2) {
-        String datao1 = o1.getNpelna().toLowerCase().replace("\"", "");
-        String datao2 = o2.getNpelna().toLowerCase().replace("\"", "");
+        String datao1 = o1.getNazwapodatnika().toLowerCase().replace("\"", "");
+        String datao2 = o2.getNazwapodatnika().toLowerCase().replace("\"", "");
         Collator collator = Collator.getInstance(new Locale("pl", "PL"));
         collator.setStrength(Collator.PRIMARY);
         return collator.compare(datao1, datao2);
