@@ -527,10 +527,10 @@ public class Jpk_VAT2View implements Serializable {
                     deklaracja.setPouczenia(BigDecimal.ONE);
                     jpk.setDeklaracja(deklaracja);
                 }
-                Object[] sprzedaz = utworzWierszeJpkSprzedaz2020M(kliencijpk, wiersze, mapa);
+                Object[] sprzedaz = utworzWierszeJpkSprzedaz2020M2(kliencijpk, wiersze, mapa);
                 List<pl.gov.crd.wzor._2021._12._27._11148.JPK.Ewidencja.SprzedazWiersz> listas = (List<pl.gov.crd.wzor._2021._12._27._11148.JPK.Ewidencja.SprzedazWiersz>) sprzedaz[0];
                 pl.gov.crd.wzor._2021._12._27._11148.JPK.Ewidencja.SprzedazCtrl sprzedazCtrl = (pl.gov.crd.wzor._2021._12._27._11148.JPK.Ewidencja.SprzedazCtrl) sprzedaz[1];
-                Object[] zakup = utworzwierszjpkZakup2020M(kliencijpk, wiersze, mapa);
+                Object[] zakup = utworzwierszjpkZakup2020M2(kliencijpk, wiersze, mapa);
                 List<pl.gov.crd.wzor._2021._12._27._11148.JPK.Ewidencja.ZakupWiersz> listaz = (List<pl.gov.crd.wzor._2021._12._27._11148.JPK.Ewidencja.ZakupWiersz>) zakup[0];
                 pl.gov.crd.wzor._2021._12._27._11148.JPK.Ewidencja.ZakupCtrl zakupCtrl = (pl.gov.crd.wzor._2021._12._27._11148.JPK.Ewidencja.ZakupCtrl) zakup[1];
                 String kodurzedu = tKodUS.getMapaUrzadKod().get(wpisView.getPodatnikObiekt().getUrzadskarbowy());
@@ -563,10 +563,10 @@ public class Jpk_VAT2View implements Serializable {
                     deklaracja.setPouczenia(BigDecimal.ONE);
                     jpk.setDeklaracja(deklaracja);
                 }
-                Object[] sprzedaz = utworzWierszeJpkSprzedaz2020K(kliencijpk, wiersze, mapa);
+                Object[] sprzedaz = utworzWierszeJpkSprzedaz2020K2(kliencijpk, wiersze, mapa);
                 List<pl.gov.crd.wzor._2021._12._27._11149.JPK.Ewidencja.SprzedazWiersz> listas = (List<pl.gov.crd.wzor._2021._12._27._11149.JPK.Ewidencja.SprzedazWiersz>) sprzedaz[0];
                 pl.gov.crd.wzor._2021._12._27._11149.JPK.Ewidencja.SprzedazCtrl sprzedazCtrl = (pl.gov.crd.wzor._2021._12._27._11149.JPK.Ewidencja.SprzedazCtrl) sprzedaz[1];
-                Object[] zakup = utworzwierszjpkZakup2020K(kliencijpk, wiersze, mapa);
+                Object[] zakup = utworzwierszjpkZakup2020K2(kliencijpk, wiersze, mapa);
                 List<pl.gov.crd.wzor._2021._12._27._11149.JPK.Ewidencja.ZakupWiersz> listaz = (List<pl.gov.crd.wzor._2021._12._27._11149.JPK.Ewidencja.ZakupWiersz>) zakup[0];
                 pl.gov.crd.wzor._2021._12._27._11149.JPK.Ewidencja.ZakupCtrl zakupCtrl = (pl.gov.crd.wzor._2021._12._27._11149.JPK.Ewidencja.ZakupCtrl) zakup[1];
                 String kodurzedu = tKodUS.getMapaUrzadKod().get(wpisView.getPodatnikObiekt().getUrzadskarbowy());
@@ -1336,6 +1336,61 @@ public class Jpk_VAT2View implements Serializable {
         return zwrot;
     }
     
+    private Object[] utworzWierszeJpkSprzedaz2020M2(List<KlientJPK> kliencijpk, List wiersze, Map<Evewidencja, JPKvatwersjaEvewidencja> mapa) {
+        Object[] zwrot = new Object[2];
+        zwrot[0] = Collections.synchronizedList(new ArrayList<>());
+        if (wiersze.size() >0) {
+            Class c = wiersze.get(0).getClass();
+            List<pl.gov.crd.wzor._2021._12._27._11148.JPK.Ewidencja.SprzedazWiersz> lista = Collections.synchronizedList(new ArrayList<>());
+            pl.gov.crd.wzor._2021._12._27._11148.JPK.Ewidencja.SprzedazCtrl sprzedazCtrl = new pl.gov.crd.wzor._2021._12._27._11148.JPK.Ewidencja.SprzedazCtrl();
+            sprzedazCtrl.setLiczbaWierszySprzedazy(BigInteger.ZERO);
+            sprzedazCtrl.setPodatekNalezny(BigDecimal.ZERO);
+            int lp = 1;
+            if (c.getName().equals("entity.EVatwpis1")) {
+                for (Object p : wiersze) {
+                    EVatwpis1 wiersz = (EVatwpis1) p;
+                    if (!wiersz.getEwidencja().getTypewidencji().equals("z") && (Z.z(wiersz.getNetto()) != 0.0 || Z.z(wiersz.getVat()) != 0.0)) {
+                        lista.add(JPK_VAT2020M2_Bean.dodajwierszsprzedazy(wiersz, BigInteger.valueOf(lp++),sprzedazCtrl, mapa.get(wiersz.getEwidencja())));
+                    }
+                }
+            } else if (c.getName().equals("entityfk.EVatwpisDedra")) {
+                for (Object p : wiersze) {
+                    EVatwpisDedra wiersz = (EVatwpisDedra) p;
+                    if (!wiersz.getEwidencja().getTypewidencji().equals("z") && (Z.z(wiersz.getNetto()) != 0.0 || Z.z(wiersz.getVat()) != 0.0)) {
+                        lista.add(JPK_VAT2020M2_Bean.dodajwierszsprzedazy(wiersz, BigInteger.valueOf(lp++),sprzedazCtrl, mapa.get(wiersz.getEwidencja())));
+                    }
+                }
+            } else {
+                for (Object p : wiersze) {
+                    EVatwpisFK wiersz = (EVatwpisFK) p;
+                    if (!wiersz.getEwidencja().getTypewidencji().equals("z") && (Z.z(wiersz.getNetto()) != 0.0 || Z.z(wiersz.getVat()) != 0.0)) {
+                        lista.add(JPK_VAT2020M2_Bean.dodajwierszsprzedazyFK(wiersz, BigInteger.valueOf(lp++),sprzedazCtrl, mapa.get(wiersz.getEwidencja())));
+                    }
+                }
+            }
+            if (kliencijpk!=null&& !kliencijpk.isEmpty()) {
+                for (KlientJPK p : kliencijpk) {
+                    if (p.getNetto()==6164.15) {
+                        System.out.println("");
+                    }
+                     if (!p.getEwidencjaVAT().get(0).getEwidencja().getTypewidencji().equals("z") && (Z.z(p.getNetto()) != 0.0 || Z.z(p.getVat()) != 0.0)) {
+                        lista.add(JPK_VAT2020M2_Bean.dodajwierszsprzedazy(p, BigInteger.valueOf(lp++),sprzedazCtrl, mapa.get(p.getEwidencjaVAT().get(0).getEwidencja())));
+                     } else {
+                         System.out.println("");
+                     }
+                }
+            }
+            zwrot[0] = lista;
+            zwrot[1] = sprzedazCtrl;
+        } else {
+            pl.gov.crd.wzor._2021._12._27._11148.JPK.Ewidencja.SprzedazCtrl sprzedazCtrl = new pl.gov.crd.wzor._2021._12._27._11148.JPK.Ewidencja.SprzedazCtrl();
+            sprzedazCtrl.setLiczbaWierszySprzedazy(BigInteger.ZERO);
+            sprzedazCtrl.setPodatekNalezny(BigDecimal.ZERO);
+            zwrot[1] = sprzedazCtrl;
+        }
+        return zwrot;
+    }
+    
     private Object[] utworzWierszeJpkSprzedaz2020K(List<KlientJPK> kliencikjpk, List wiersze, Map<Evewidencja, JPKvatwersjaEvewidencja> mapa) {
         Object[] zwrot = new Object[2];
         zwrot[0] = Collections.synchronizedList(new ArrayList<>());
@@ -1374,6 +1429,51 @@ public class Jpk_VAT2View implements Serializable {
             zwrot[1] = sprzedazCtrl;
         } else {
             pl.gov.crd.wzor._2020._05._08._9394.JPK.Ewidencja.SprzedazCtrl sprzedazCtrl = new pl.gov.crd.wzor._2020._05._08._9394.JPK.Ewidencja.SprzedazCtrl();
+            sprzedazCtrl.setLiczbaWierszySprzedazy(BigInteger.ZERO);
+            sprzedazCtrl.setPodatekNalezny(BigDecimal.ZERO);
+            zwrot[1] = sprzedazCtrl;
+        }
+        return zwrot;
+    }
+    
+    private Object[] utworzWierszeJpkSprzedaz2020K2(List<KlientJPK> kliencikjpk, List wiersze, Map<Evewidencja, JPKvatwersjaEvewidencja> mapa) {
+        Object[] zwrot = new Object[2];
+        zwrot[0] = Collections.synchronizedList(new ArrayList<>());
+        if (wiersze.size() >0) {
+            Class c = wiersze.get(0).getClass();
+            List<pl.gov.crd.wzor._2021._12._27._11149.JPK.Ewidencja.SprzedazWiersz> lista = Collections.synchronizedList(new ArrayList<>());
+            pl.gov.crd.wzor._2021._12._27._11149.JPK.Ewidencja.SprzedazCtrl sprzedazCtrl = new pl.gov.crd.wzor._2021._12._27._11149.JPK.Ewidencja.SprzedazCtrl();
+            sprzedazCtrl.setLiczbaWierszySprzedazy(BigInteger.ZERO);
+            sprzedazCtrl.setPodatekNalezny(BigDecimal.ZERO);
+            if (c.getName().equals("entity.EVatwpis1")) {
+                int lp = 1;
+                for (Object p : wiersze) {
+                    EVatwpis1 wiersz = (EVatwpis1) p;
+                    if (!wiersz.getEwidencja().getTypewidencji().equals("z") && (Z.z(wiersz.getNetto()) != 0.0 || Z.z(wiersz.getVat()) != 0.0)) {
+                        lista.add(JPK_VAT2020K2_Bean.dodajwierszsprzedazy(wiersz, BigInteger.valueOf(lp++),sprzedazCtrl, mapa.get(wiersz.getEwidencja())));
+                    }
+                }
+            } else if (c.getName().equals("entityfk.EVatwpisDedra")) {
+                int lp = 1;
+                for (Object p : wiersze) {
+                    EVatwpisDedra wiersz = (EVatwpisDedra) p;
+                    if (!wiersz.getEwidencja().getTypewidencji().equals("z") && (Z.z(wiersz.getNetto()) != 0.0 || Z.z(wiersz.getVat()) != 0.0)) {
+                        lista.add(JPK_VAT2020K2_Bean.dodajwierszsprzedazy(wiersz, BigInteger.valueOf(lp++),sprzedazCtrl, mapa.get(wiersz.getEwidencja())));
+                    }
+                }
+            } else {
+                int lp = 1;
+                for (Object p : wiersze) {
+                    EVatwpisFK wiersz = (EVatwpisFK) p;
+                    if (!wiersz.getEwidencja().getTypewidencji().equals("z") && (Z.z(wiersz.getNetto()) != 0.0 || Z.z(wiersz.getVat()) != 0.0)) {
+                        lista.add(JPK_VAT2020K2_Bean.dodajwierszsprzedazyFK(wiersz, BigInteger.valueOf(lp++),sprzedazCtrl, mapa.get(wiersz.getEwidencja())));
+                    }
+                }
+            }
+            zwrot[0] = lista;
+            zwrot[1] = sprzedazCtrl;
+        } else {
+            pl.gov.crd.wzor._2021._12._27._11149.JPK.Ewidencja.SprzedazCtrl sprzedazCtrl = new pl.gov.crd.wzor._2021._12._27._11149.JPK.Ewidencja.SprzedazCtrl();
             sprzedazCtrl.setLiczbaWierszySprzedazy(BigInteger.ZERO);
             sprzedazCtrl.setPodatekNalezny(BigDecimal.ZERO);
             zwrot[1] = sprzedazCtrl;
@@ -1510,6 +1610,61 @@ public class Jpk_VAT2View implements Serializable {
         return zwrot;
     }
     
+    private Object[] utworzwierszjpkZakup2020M2(List<KlientJPK> kliencijpk, List wiersze, Map<Evewidencja, JPKvatwersjaEvewidencja> mapa) {
+        Object[] zwrot = new Object[2];
+        zwrot[0] = Collections.synchronizedList(new ArrayList<>());
+        if (wiersze.size() >0) {
+            Class c = wiersze.get(0).getClass();
+            List<pl.gov.crd.wzor._2021._12._27._11148.JPK.Ewidencja.ZakupWiersz> lista = Collections.synchronizedList(new ArrayList<>());
+            pl.gov.crd.wzor._2021._12._27._11148.JPK.Ewidencja.ZakupCtrl zakupCtrl = new pl.gov.crd.wzor._2021._12._27._11148.JPK.Ewidencja.ZakupCtrl();
+            zakupCtrl.setLiczbaWierszyZakupow(BigInteger.ZERO);
+            zakupCtrl.setPodatekNaliczony(BigDecimal.ZERO);
+            int lp = 1;
+            if (c.getName().equals("entity.EVatwpis1")) {
+                for (Object p : wiersze) {
+                    EVatwpis1 wiersz = (EVatwpis1) p;
+                    if (!wiersz.getEwidencja().getTypewidencji().equals("s") && !wiersz.getEwidencja().getTypewidencji().equals("sz") && (Z.z(wiersz.getNetto()) != 0.0 || Z.z(wiersz.getVat()) != 0.0)) {
+                        lista.add(JPK_VAT2020M2_Bean.dodajwierszzakupu(wiersz, BigInteger.valueOf(lp++),zakupCtrl, mapa.get(wiersz.getEwidencja())));
+                    }
+                }
+            } else if (c.getName().equals("entityfk.EVatwpisDedra")) {
+                for (Object p : wiersze) {
+                    EVatwpisDedra wiersz = (EVatwpisDedra) p;
+                    if (!wiersz.getEwidencja().getTypewidencji().equals("s") && !wiersz.getEwidencja().getTypewidencji().equals("sz") && (Z.z(wiersz.getNetto()) != 0.0 || Z.z(wiersz.getVat()) != 0.0)) {
+                        lista.add(JPK_VAT2020M2_Bean.dodajwierszzakupu(wiersz, BigInteger.valueOf(lp++),zakupCtrl, mapa.get(wiersz.getEwidencja())));
+                    }
+                }
+            } else {
+                for (Object p : wiersze) {
+                    EVatwpisFK wiersz = (EVatwpisFK) p;
+                    if (!wiersz.getEwidencja().getTypewidencji().equals("s") && !wiersz.getEwidencja().getTypewidencji().equals("sz") && (Z.z(wiersz.getNetto()) != 0.0 || Z.z(wiersz.getVat()) != 0.0)) {
+                        lista.add(JPK_VAT2020M2_Bean.dodajwierszzakupu(wiersz, BigInteger.valueOf(lp++),zakupCtrl, mapa.get(wiersz.getEwidencja())));
+                    }
+                }
+            }
+            if (kliencijpk!=null&& !kliencijpk.isEmpty()) {
+                for (KlientJPK p : kliencijpk) {
+                    if (p.getNetto()==6164.15) {
+                        System.out.println("");
+                    }
+                     if (p.getEwidencjaVAT().get(0).getEwidencja().getTypewidencji().equals("z") && (Z.z(p.getNetto()) != 0.0 || Z.z(p.getVat()) != 0.0)) {
+                        lista.add(JPK_VAT2020M2_Bean.dodajwierszzakupu(p, BigInteger.valueOf(lp++),zakupCtrl, mapa.get(p.getEwidencjaVAT().get(0).getEwidencja())));
+                     } else {
+                         System.out.println("");
+                     }
+                }
+            }
+            zwrot[0] = lista;
+            zwrot[1] = zakupCtrl;
+        } else {
+            pl.gov.crd.wzor._2021._12._27._11148.JPK.Ewidencja.ZakupCtrl zakupCtrl = new pl.gov.crd.wzor._2021._12._27._11148.JPK.Ewidencja.ZakupCtrl();
+            zakupCtrl.setLiczbaWierszyZakupow(BigInteger.ZERO);
+            zakupCtrl.setPodatekNaliczony(BigDecimal.ZERO);
+            zwrot[1] = zakupCtrl;
+        }
+        return zwrot;
+    }
+    
     private Object[] utworzwierszjpkZakup2020K(List<KlientJPK> kliencijpk,List wiersze, Map<Evewidencja, JPKvatwersjaEvewidencja> mapa) {
         Object[] zwrot = new Object[2];
         zwrot[0] = Collections.synchronizedList(new ArrayList<>());
@@ -1558,6 +1713,61 @@ public class Jpk_VAT2View implements Serializable {
             zwrot[1] = zakupCtrl;
         } else {
             pl.gov.crd.wzor._2020._05._08._9394.JPK.Ewidencja.ZakupCtrl zakupCtrl = new pl.gov.crd.wzor._2020._05._08._9394.JPK.Ewidencja.ZakupCtrl();
+            zakupCtrl.setLiczbaWierszyZakupow(BigInteger.ZERO);
+            zakupCtrl.setPodatekNaliczony(BigDecimal.ZERO);
+            zwrot[1] = zakupCtrl;
+        }
+        return zwrot;
+    }
+    
+    private Object[] utworzwierszjpkZakup2020K2(List<KlientJPK> kliencijpk,List wiersze, Map<Evewidencja, JPKvatwersjaEvewidencja> mapa) {
+        Object[] zwrot = new Object[2];
+        zwrot[0] = Collections.synchronizedList(new ArrayList<>());
+        if (wiersze.size() >0) {
+            Class c = wiersze.get(0).getClass();
+            List<pl.gov.crd.wzor._2021._12._27._11149.JPK.Ewidencja.ZakupWiersz> lista = Collections.synchronizedList(new ArrayList<>());
+            pl.gov.crd.wzor._2021._12._27._11149.JPK.Ewidencja.ZakupCtrl zakupCtrl = new pl.gov.crd.wzor._2021._12._27._11149.JPK.Ewidencja.ZakupCtrl();
+            zakupCtrl.setLiczbaWierszyZakupow(BigInteger.ZERO);
+            zakupCtrl.setPodatekNaliczony(BigDecimal.ZERO);
+            int lp = 1;
+            if (c.getName().equals("entity.EVatwpis1")) {
+                for (Object p : wiersze) {
+                    EVatwpis1 wiersz = (EVatwpis1) p;
+                    if (!wiersz.getEwidencja().getTypewidencji().equals("s") && !wiersz.getEwidencja().getTypewidencji().equals("sz") && (Z.z(wiersz.getNetto()) != 0.0 || Z.z(wiersz.getVat()) != 0.0)) {
+                        lista.add(JPK_VAT2020K2_Bean.dodajwierszzakupu(wiersz, BigInteger.valueOf(lp++),zakupCtrl, mapa.get(wiersz.getEwidencja())));
+                    }
+                }
+            } else if (c.getName().equals("entityfk.EVatwpisDedra")) {
+                for (Object p : wiersze) {
+                    EVatwpisDedra wiersz = (EVatwpisDedra) p;
+                    if (!wiersz.getEwidencja().getTypewidencji().equals("s") && !wiersz.getEwidencja().getTypewidencji().equals("sz") && (Z.z(wiersz.getNetto()) != 0.0 || Z.z(wiersz.getVat()) != 0.0)) {
+                        lista.add(JPK_VAT2020K2_Bean.dodajwierszzakupu(wiersz, BigInteger.valueOf(lp++),zakupCtrl, mapa.get(wiersz.getEwidencja())));
+                    }
+                }
+            } else {
+                for (Object p : wiersze) {
+                    EVatwpisFK wiersz = (EVatwpisFK) p;
+                    if (!wiersz.getEwidencja().getTypewidencji().equals("s") && !wiersz.getEwidencja().getTypewidencji().equals("sz") && (Z.z(wiersz.getNetto()) != 0.0 || Z.z(wiersz.getVat()) != 0.0)) {
+                        lista.add(JPK_VAT2020K2_Bean.dodajwierszzakupu(wiersz, BigInteger.valueOf(lp++),zakupCtrl, mapa.get(wiersz.getEwidencja())));
+                    }
+                }
+            }
+            if (kliencijpk!=null&& !kliencijpk.isEmpty()) {
+                for (KlientJPK p : kliencijpk) {
+                    if (p.getNetto()==6164.15) {
+                        System.out.println("");
+                    }
+                     if (p.getEwidencjaVAT().get(0).getEwidencja().getTypewidencji().equals("z") && (Z.z(p.getNetto()) != 0.0 || Z.z(p.getVat()) != 0.0)) {
+                        lista.add(JPK_VAT2020K2_Bean.dodajwierszzakupu(p, BigInteger.valueOf(lp++),zakupCtrl, mapa.get(p.getEwidencjaVAT().get(0).getEwidencja())));
+                     } else {
+                         System.out.println("");
+                     }
+                }
+            }
+            zwrot[0] = lista;
+            zwrot[1] = zakupCtrl;
+        } else {
+            pl.gov.crd.wzor._2021._12._27._11149.JPK.Ewidencja.ZakupCtrl zakupCtrl = new pl.gov.crd.wzor._2021._12._27._11149.JPK.Ewidencja.ZakupCtrl();
             zakupCtrl.setLiczbaWierszyZakupow(BigInteger.ZERO);
             zakupCtrl.setPodatekNaliczony(BigDecimal.ZERO);
             zwrot[1] = zakupCtrl;
