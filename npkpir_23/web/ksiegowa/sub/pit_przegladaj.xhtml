@@ -11,7 +11,7 @@
             <p:panel header="wybierz rozliczenie wg cech: " style="width: 250px;" rendered="#{pitView.pobranecechypodatnik ne null and pitView.pobranecechypodatnik.size() gt 1}"/>
                         <p:selectOneMenu value="#{pitView.wybranacechadok}" style="width: 250px;"  rendered="#{pitView.pobranecechypodatnik ne null and pitView.pobranecechypodatnik.size() gt 1}" converter="#{cechaConv}">
                             <f:selectItem itemLabel="wybierz cechę" itemValue="" noSelectionOption="true"/>
-                            <f:selectItems value="#{ZestawienieView.pobranecechypodatnik}"  var="p" itemValue="#{p}" itemDescription="#{p.nazwacechy}" itemLabel="#{p.nazwacechy}"/>
+                            <f:selectItems value="#{zestawienieView.pobranecechypodatnik}"  var="p" itemValue="#{p}" itemDescription="#{p.nazwacechy}" itemLabel="#{p.nazwacechy}"/>
                             <p:ajax event="change" update="formpi" listener="#{pitView.obliczPitCecha()}" partialSubmit="true"/>
                         </p:selectOneMenu>
                 <p:growl life="3600"  id="messages" ><p:autoUpdate/></p:growl>
@@ -98,8 +98,8 @@
                     <h:outputText value="#{pitView.biezacyPit.dozaplaty}" style="padding-left: 20%; font-weight: 700; float: right;">
                         <f:convertNumber locale="PL"/></h:outputText>
                     <h:outputText value="termin płatności"/><h:outputText value="#{pitView.biezacyPit.terminwplaty}"/>
-                    <h:outputText value="zapłacono podatek"/><h:outputText value="#{ZestawienieView.biezacyPit.przelano eq 'true' ? 'tak' : 'nie'}"/>
-                    <h:outputText value="miesiąc zamknięty"/><h:outputText value="#{ZestawienieView.biezacyPit.zamkniety eq 'true' ? 'tak' : 'nie'}"/>
+                    <h:outputText value="zapłacono podatek"/><h:outputText value="#{zestawienieView.biezacyPit.przelano eq 'true' ? 'tak' : 'nie'}"/>
+                    <h:outputText value="miesiąc zamknięty"/><h:outputText value="#{zestawienieView.biezacyPit.zamkniety eq 'true' ? 'tak' : 'nie'}"/>
 
                 </p:panelGrid>
                 <p:panelGrid  columns="3" style="margin-left: 50px; width: 350px">

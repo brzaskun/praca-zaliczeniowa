@@ -10,7 +10,7 @@
                     <p:column>
                 <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}" style="margin-left: 5%; width: 150px;">
                     <f:selectItems value="#{roki.rokiList}"/>
-                    <p:ajax event="change" listener="#{ZestawienieView.aktualizujGuest('guestZestawienie.xhtml')}" update=":akordeon"/>
+                    <p:ajax event="change" listener="#{zestawienieView.aktualizujGuest('guestZestawienie.xhtml')}" update=":akordeon"/>
                 </p:selectOneMenu>
                   </p:column>
             </p:panelGrid>

@@ -12,7 +12,7 @@
             <h:outputText value="Uwaga podatnik rozlicza się kwartalnie!" style="font-weight: 900; color: red;" rendered="#{WpisView.mc0kw1}"/>
             <h:form id="formpit">
                 <p:growl life="3600"  id="messages" ><p:autoUpdate/></p:growl>
-                <h:outputText value="#{ZestawienieView.komunikatblad}" style="color: red;"/>
+                <h:outputText value="#{zestawienieView.komunikatblad}" style="color: red;"/>
                 <p:panelGrid id="danedopit" columns="3">
                     <p:panelGrid  columns="1" >
                         <p:panel header="pobieranie kwot ZUS: " style="width: 250px;"/>
@@ -27,96 +27,96 @@
                             <h:outputText value="remanent końcowy"/><bcf:outputpl value="#{remanentView.remanentKoniecRoku}"/>
                             <h:outputText value="różnica"/><bcf:outputpl value="#{remanentView.roznica}"/>
                         </p:panelGrid>
-                        <p:panel header="wybierz osobę: " style="width: 250px;" rendered="#{ZestawienieView.listawybranychudzialowcow.size() gt 1}"/>
-                        <p:selectOneMenu value="#{ZestawienieView.wybranyudzialowiec}" style="width: 250px;"  rendered="#{ZestawienieView.listawybranychudzialowcow.size() gt 1}">
+                        <p:panel header="wybierz osobę: " style="width: 250px;" rendered="#{zestawienieView.listawybranychudzialowcow.size() gt 1}"/>
+                        <p:selectOneMenu value="#{zestawienieView.wybranyudzialowiec}" style="width: 250px;"  rendered="#{zestawienieView.listawybranychudzialowcow.size() gt 1}">
                             <f:selectItem itemLabel="wybierz osobe" itemValue="wybierz osobe"/>
-                            <f:selectItems value="#{ZestawienieView.listawybranychudzialowcow}"/>
-                            <p:ajax event="change" update=":akordeon:formpit" listener="#{ZestawienieView.obliczPit()}" partialSubmit="true"/>
+                            <f:selectItems value="#{zestawienieView.listawybranychudzialowcow}"/>
+                            <p:ajax event="change" update=":akordeon:formpit" listener="#{zestawienieView.obliczPit()}" partialSubmit="true"/>
                         </p:selectOneMenu>
-                        <p:panel header="imię nazwisko przedsiębiorcy: " style="width: 250px;" rendered="#{ZestawienieView.listawybranychudzialowcow.size() eq 1}"/>
-                        <h:outputText value="#{ZestawienieView.wybranyudzialowiec}"/>
+                        <p:panel header="imię nazwisko przedsiębiorcy: " style="width: 250px;" rendered="#{zestawienieView.listawybranychudzialowcow.size() eq 1}"/>
+                        <h:outputText value="#{zestawienieView.wybranyudzialowiec}"/>
                         <p:panel header="opodatkowanie: "/>
                         <h:outputText value="#{WpisView.rodzajopodatkowania}"/>
                         <h:outputText value="#{WpisView.mc0kw1 ? ' rozliczenie kwartalne': null}"/>
-                        <h:outputText id="pole1" value="czy to jest pierwszy PIT w roku?" rendered="#{ZestawienieView.pierwszypitwrokuzaznacz}"/>
-                        <h:selectBooleanCheckbox id="pole2" value="#{ZestawienieView.pierwszypitwroku}"  rendered="#{ZestawienieView.pierwszypitwrokuzaznacz}">
+                        <h:outputText id="pole1" value="czy to jest pierwszy PIT w roku?" rendered="#{zestawienieView.pierwszypitwrokuzaznacz}"/>
+                        <h:selectBooleanCheckbox id="pole2" value="#{zestawienieView.pierwszypitwroku}"  rendered="#{zestawienieView.pierwszypitwrokuzaznacz}">
                             <p:ajax event="change" partialSubmit="true"  global="false"/>
                         </h:selectBooleanCheckbox>
-                        <p:panel header="wybierz rozliczenie wg cech: " style="width: 250px;" rendered="#{ZestawienieView.pobranecechypodatnik ne null and ZestawienieView.pobranecechypodatnik.size() gt 1}"/>
-                        <p:selectOneMenu value="#{ZestawienieView.wybranacechadok}" style="width: 250px;"  rendered="#{ZestawienieView.pobranecechypodatnik ne null and ZestawienieView.pobranecechypodatnik.size() gt 1}" converter="#{cechaConv}">
+                        <p:panel header="wybierz rozliczenie wg cech: " style="width: 250px;" rendered="#{zestawienieView.pobranecechypodatnik ne null and ZestawienieView.pobranecechypodatnik.size() gt 1}"/>
+                        <p:selectOneMenu value="#{zestawienieView.wybranacechadok}" style="width: 250px;"  rendered="#{zestawienieView.pobranecechypodatnik ne null and ZestawienieView.pobranecechypodatnik.size() gt 1}" converter="#{cechaConv}">
                             <f:selectItem itemLabel="wybierz cechę" itemValue="" noSelectionOption="true"/>
-                            <f:selectItems value="#{ZestawienieView.pobranecechypodatnik}"  var="p" itemValue="#{p}" itemDescription="#{p.nazwacechy}" itemLabel="#{p.nazwacechy}"/>
-                            <p:ajax event="change" update=":akordeon:formpit" listener="#{ZestawienieView.obliczPitCecha()}" partialSubmit="true"/>
+                            <f:selectItems value="#{zestawienieView.pobranecechypodatnik}"  var="p" itemValue="#{p}" itemDescription="#{p.nazwacechy}" itemLabel="#{p.nazwacechy}"/>
+                            <p:ajax event="change" update=":akordeon:formpit" listener="#{zestawienieView.obliczPitCecha()}" partialSubmit="true"/>
                         </p:selectOneMenu>
                     </p:panelGrid>
                     <p:panelGrid  columns="1" >
-                        <p:panel header="dane nowego PIT-u: #{ZestawienieView.wybranyudzialowiec} #{ZestawienieView.wybranyprocent}%" style="width: 450px;"/>
+                        <p:panel header="dane nowego PIT-u: #{zestawienieView.wybranyudzialowiec} #{zestawienieView.wybranyprocent}%" style="width: 450px;"/>
                         <p:panelGrid id="zestawieniepit1" columns="4" style="width: 450px;">
                             <h:outputText value="firma:"/><h:outputText value="#{WpisView.printNazwa}"/>
-                            <h:outputText value="podatnik:"/><h:outputText value="#{ZestawienieView.biezacyPit.udzialowiec}"/>
-                            <h:outputText value="rok"/><h:outputText value="#{ZestawienieView.biezacyPit.pkpirR}"/>
-                            <h:outputText value="#{mgs.miesiąc}"/><h:outputText value="#{ZestawienieView.biezacyPit.pkpirM}"/>
+                            <h:outputText value="podatnik:"/><h:outputText value="#{zestawienieView.biezacyPit.udzialowiec}"/>
+                            <h:outputText value="rok"/><h:outputText value="#{zestawienieView.biezacyPit.pkpirR}"/>
+                            <h:outputText value="#{mgs.miesiąc}"/><h:outputText value="#{zestawienieView.biezacyPit.pkpirM}"/>
                         </p:panelGrid>
                         <p:panelGrid id="zestawieniepit" columns="2" style="width: 350px;">
                             <p:separator/><p:separator/>
                             <h:outputText value="przychody narast."/>
-                            <bcf:outputpl value="#{ZestawienieView.biezacyPit.przychody}" stylePlus="color: blue; font-weight: 700;"/>
+                            <bcf:outputpl value="#{zestawienieView.biezacyPit.przychody}" stylePlus="color: blue; font-weight: 700;"/>
                             <h:outputText value="koszty narast."/>
-                            <bcf:outputpl value="#{ZestawienieView.biezacyPit.koszty}" stylePlus="color: red; font-weight: 700;"/>
+                            <bcf:outputpl value="#{zestawienieView.biezacyPit.koszty}" stylePlus="color: red; font-weight: 700;"/>
                             <h:outputText value="rozliczenie remanentów" rendered="#{WpisView.miesiacWpisu eq '12'}"/>
                             <bcf:outputpl value="#{remanentView.roznica}" stylePlus="color: green; font-weight: 700;" rendered="#{WpisView.miesiacWpisu eq '12'}"/>
-                            <h:outputText value="udział %" rendered="#{ZestawienieView.biezacyPit.udzial ne null and ZestawienieView.biezacyPit.udzial ne '100'}"/>
-                            <bcf:outputpl value="#{ZestawienieView.biezacyPit.udzial}" rendered="#{ZestawienieView.biezacyPit.udzial ne null and ZestawienieView.biezacyPit.udzial ne '100'}"/>
-                            <h:outputText value="przychody udział" rendered="#{ZestawienieView.biezacyPit.udzial ne null and ZestawienieView.biezacyPit.udzial ne '100'}"/>
-                            <bcf:outputpl value="#{ZestawienieView.biezacyPit.przychodyudzial}" stylePlus="color: blue; font-weight: 700;" rendered="#{ZestawienieView.biezacyPit.udzial ne null and ZestawienieView.biezacyPit.udzial ne '100'}"/>
-                            <h:outputText value="koszty udział" rendered="#{ZestawienieView.biezacyPit.udzial ne null and ZestawienieView.biezacyPit.udzial ne '100'}"/>
-                            <bcf:outputpl value="#{ZestawienieView.biezacyPit.kosztyudzial}" stylePlus="color: red; font-weight: 700;" rendered="#{ZestawienieView.biezacyPit.udzial ne null and ZestawienieView.biezacyPit.udzial ne '100'}"/>
+                            <h:outputText value="udział %" rendered="#{zestawienieView.biezacyPit.udzial ne null and ZestawienieView.biezacyPit.udzial ne '100'}"/>
+                            <bcf:outputpl value="#{zestawienieView.biezacyPit.udzial}" rendered="#{zestawienieView.biezacyPit.udzial ne null and ZestawienieView.biezacyPit.udzial ne '100'}"/>
+                            <h:outputText value="przychody udział" rendered="#{zestawienieView.biezacyPit.udzial ne null and ZestawienieView.biezacyPit.udzial ne '100'}"/>
+                            <bcf:outputpl value="#{zestawienieView.biezacyPit.przychodyudzial}" stylePlus="color: blue; font-weight: 700;" rendered="#{zestawienieView.biezacyPit.udzial ne null and ZestawienieView.biezacyPit.udzial ne '100'}"/>
+                            <h:outputText value="koszty udział" rendered="#{zestawienieView.biezacyPit.udzial ne null and ZestawienieView.biezacyPit.udzial ne '100'}"/>
+                            <bcf:outputpl value="#{zestawienieView.biezacyPit.kosztyudzial}" stylePlus="color: red; font-weight: 700;" rendered="#{zestawienieView.biezacyPit.udzial ne null and ZestawienieView.biezacyPit.udzial ne '100'}"/>
                             <p:separator/><p:separator/>
                             <h:outputText value="wynik od pocz. rok"/>
-                            <bcf:outputpl value="#{ZestawienieView.biezacyPit.wynik}" stylePlus="#{ZestawienieView.biezacyPit.wynik gt 0 ? 'font-weight: 700; float: right; text-align: right; color: blue;' : 'font-weight: 700; float: right; text-align: right; color: red;'}"/>
+                            <bcf:outputpl value="#{zestawienieView.biezacyPit.wynik}" stylePlus="#{zestawienieView.biezacyPit.wynik gt 0 ? 'font-weight: 700; float: right; text-align: right; color: blue;' : 'font-weight: 700; float: right; text-align: right; color: red;'}"/>
                             <h:outputText value="ZUS 51 (z ręki)"/>
                             <p:panelGrid columns="2" style="border: none;">
-                                <h:inputText id="kwotazus51" value="#{ZestawienieView.biezacyPit.zus51}" style=" font-weight: 700; float: right; text-align: right;"  >
+                                <h:inputText id="kwotazus51" value="#{zestawienieView.biezacyPit.zus51}" style=" font-weight: 700; float: right; text-align: right;"  >
                                     <f:convertNumber locale="PL" maxFractionDigits="2"/>
-                                    <p:ajax event="keyup" listener="#{ZestawienieView.zus51zrekiF}" partialSubmit="true" update=":akordeon:formpit:reka51"/>
-                                    <p:ajax event="blur" listener="#{ZestawienieView.obliczPit()}" global="false" update=":akordeon:formpit"/>
+                                    <p:ajax event="keyup" listener="#{zestawienieView.zus51zrekiF}" partialSubmit="true" update=":akordeon:formpit:reka51"/>
+                                    <p:ajax event="blur" listener="#{zestawienieView.obliczPit()}" global="false" update=":akordeon:formpit"/>
                                 </h:inputText>
-                                <h:selectBooleanCheckbox id="reka51" label="z ręki" value="#{ZestawienieView.zus51zreki}"/>
+                                <h:selectBooleanCheckbox id="reka51" label="z ręki" value="#{zestawienieView.zus51zreki}"/>
                             </p:panelGrid>
                             <h:outputText value="strata z lat ub"/>
-                            <bcf:outputpl value="#{ZestawienieView.biezacyPit.strata}" stylePlus="font-weight: 700;"/>
+                            <bcf:outputpl value="#{zestawienieView.biezacyPit.strata}" stylePlus="font-weight: 700;"/>
                             <p:separator/><p:separator/>
                             <h:outputText value="podstawa opod."/>
-                            <bcf:outputpl value="#{ZestawienieView.biezacyPit.podstawa}" stylePlus="font-weight: 700;"/>
+                            <bcf:outputpl value="#{zestawienieView.biezacyPit.podstawa}" stylePlus="font-weight: 700;"/>
                             <h:outputText value="podatek"/>
-                            <bcf:outputpl value="#{ZestawienieView.biezacyPit.podatek}" stylePlus="font-weight: 700;"/>
-                            <h:outputText value="ZUS 52 (z ręki)"/>
-                            <p:panelGrid columns="2">
-                                <h:inputText value="#{ZestawienieView.biezacyPit.zus52}" style=" font-weight: 700; float: right; text-align: right;" >
+                            <bcf:outputpl value="#{zestawienieView.biezacyPit.podatek}" stylePlus="font-weight: 700;"/>
+                            <h:outputText value="ZUS 52 (z ręki)" rendered="#{WpisView.rokWpisu lt 2022}"/>
+                            <p:panelGrid columns="2" rendered="#{WpisView.rokWpisu lt 2022}">
+                                <h:inputText value="#{zestawienieView.biezacyPit.zus52}" style=" font-weight: 700; float: right; text-align: right;" >
                                     <f:convertNumber locale="PL"/>
-                                    <p:ajax event="keyup" listener="#{ZestawienieView.setZus52zreki(true)}" update=":akordeon:formpit:reka52"/>
+                                    <p:ajax event="keyup" listener="#{zestawienieView.setZus52zreki(true)}" update=":akordeon:formpit:reka52"/>
                                 </h:inputText>
-                                <h:selectBooleanCheckbox id="reka52" label="z ręki" value="#{ZestawienieView.zus52zreki}"/>
+                                <h:selectBooleanCheckbox id="reka52" label="z ręki" value="#{zestawienieView.zus52zreki}"/>
                             </p:panelGrid>
                             <h:outputText value="podatek należny od pocz rok"/>
-                            <bcf:outputpl value="#{ZestawienieView.biezacyPit.pododpoczrok}" stylePlus="font-weight: 700;"/>
+                            <bcf:outputpl value="#{zestawienieView.biezacyPit.pododpoczrok}" stylePlus="font-weight: 700;"/>
                             <h:outputText value="zaliczki za pop.m-ce"/>
-                            <bcf:outputpl value="#{ZestawienieView.biezacyPit.nalzalodpoczrok}" stylePlus="font-weight: 700;"/>
+                            <bcf:outputpl value="#{zestawienieView.biezacyPit.nalzalodpoczrok}" stylePlus="font-weight: 700;"/>
                             <h:outputText value="należna zal. za m-c"/>
-                            <bcf:outputpl value="#{ZestawienieView.biezacyPit.naleznazal}" stylePlus="font-weight: 700;"/>
+                            <bcf:outputpl value="#{zestawienieView.biezacyPit.naleznazal}" stylePlus="font-weight: 700;"/>
                             <h:outputText value="do zapłaty"/>
-                            <bcf:outputpl value="#{ZestawienieView.biezacyPit.dozaplaty}" stylePlus="font-weight: 700;"/>
+                            <bcf:outputpl value="#{zestawienieView.biezacyPit.dozaplaty}" stylePlus="font-weight: 700;"/>
                             <p:separator/><p:separator/>
-                            <h:outputText value="termin płatności"/><h:outputText value="#{ZestawienieView.biezacyPit.terminwplaty}"/>
+                            <h:outputText value="termin płatności"/><h:outputText value="#{zestawienieView.biezacyPit.terminwplaty}"/>
 
                         </p:panelGrid>
                         <p:panelGrid  columns="3" style="margin-left: auto; margin-right: auto; width: 480px;">
-                            <p:commandButton  value="Pdf" actionListener="#{sesjaView.dodajwydruk()}" action="#{ZestawienieView.drukujbiezacypit()}" onsuccess="wydrukpit5('#{WpisView.podatnikWpisu}');" style="width: 120px;" rendered="#{zamkniecieView.sprawdzMiesiacRok()}">
+                            <p:commandButton  value="Pdf" actionListener="#{sesjaView.dodajwydruk()}" action="#{zestawienieView.drukujbiezacypit()}" onsuccess="wydrukpit5('#{WpisView.podatnikWpisu}');" style="width: 120px;" rendered="#{zamkniecieView.sprawdzMiesiacRok()}">
                             </p:commandButton>
 
-                            <p:commandButton value="przelicz"  action="#{ZestawienieView.obliczPit()}" update="formpit" type="submit" style="width: 140px"/>
-                            <p:splitButton value="zachowaj pit"  action="#{ZestawienieView.zachowajPit()}" update="formpit" type="submit" rendered="#{zamkniecieView.sprawdzMiesiacRok()}">
-                                <p:menuitem global="false" value="dodatkowy-13" actionListener="#{ZestawienieView.zachowajPit13()}" icon="ui-icon-arrowrefresh-1-w"/>  
+                            <p:commandButton value="przelicz"  action="#{zestawienieView.obliczPit()}" update="formpit" type="submit" style="width: 140px"/>
+                            <p:splitButton value="zachowaj pit"  action="#{zestawienieView.zachowajPit()}" update="formpit" type="submit" rendered="#{zamkniecieView.sprawdzMiesiacRok()}">
+                                <p:menuitem global="false" value="dodatkowy-13" actionListener="#{zestawienieView.zachowajPit13()}" icon="ui-icon-arrowrefresh-1-w"/>  
                             </p:splitButton>
                         </p:panelGrid>
                     </p:panelGrid>
@@ -161,27 +161,27 @@
                 <p:panelGrid  columns="3" >
                     <p:panelGrid  columns="1" >
                         <p:panel header="wybierz osobę: " style="width: 250px;"/>
-                        <p:selectOneMenu value="#{ZestawienieRyczaltView.wybranyudzialowiec}" style="width: 250px;">
+                        <p:selectOneMenu value="#{zestawienieRyczaltView.wybranyudzialowiec}" style="width: 250px;">
                             <f:selectItem itemLabel="wybierz osobe" itemValue="wybierz osobe"/>
-                            <f:selectItems value="#{ZestawienieRyczaltView.listawybranychudzialowcow}"/>
-                            <p:ajax event="change" update=":akordeon:formpit1" listener="#{ZestawienieRyczaltView.obliczPit()}"/>
+                            <f:selectItems value="#{zestawienieRyczaltView.listawybranychudzialowcow}"/>
+                            <p:ajax event="change" update=":akordeon:formpit1" listener="#{zestawienieRyczaltView.obliczPit()}"/>
                         </p:selectOneMenu>
                         <p:panel header="opodatkowanie: "/>
                         <h:outputText value="#{WpisView.rodzajopodatkowania}"/>
                         <h:outputText value="#{WpisView.mc0kw1 ? ' rozliczenie kwartalne': null}"/>
                     </p:panelGrid>
                     <p:panelGrid  columns="1" >
-                        <p:panel header="dane do ryczałtu: #{ZestawienieRyczaltView.wybranyudzialowiec} #{ZestawienieRyczaltView.wybranyprocent}%" style="width: 450px;"/>
+                        <p:panel header="dane do ryczałtu: #{zestawienieRyczaltView.wybranyudzialowiec} #{zestawienieRyczaltView.wybranyprocent}%" style="width: 450px;"/>
                         <p:panelGrid id="zestawieniepit1" columns="4" style="width: 450px;">
                             <h:outputText value="firma"/><h:inputText value="#{WpisView.podatnikObiekt.printnazwa}"/>
-                            <h:outputText value="podatnik"/><h:inputText value="#{ZestawienieRyczaltView.biezacyPit.udzialowiec}"/>
-                            <h:outputText value="rok"/><h:inputText value="#{ZestawienieRyczaltView.biezacyPit.pkpirR}"/>
-                            <h:outputText value="#{mgs.miesiąc}"/><h:inputText value="#{ZestawienieRyczaltView.biezacyPit.pkpirM}"/>
+                            <h:outputText value="podatnik"/><h:inputText value="#{zestawienieRyczaltView.biezacyPit.udzialowiec}"/>
+                            <h:outputText value="rok"/><h:inputText value="#{zestawienieRyczaltView.biezacyPit.pkpirR}"/>
+                            <h:outputText value="#{mgs.miesiąc}"/><h:inputText value="#{zestawienieRyczaltView.biezacyPit.pkpirM}"/>
                         </p:panelGrid>
                         <p:panelGrid id="zestawieniepit" columns="2" style="width: 450px;">
                             <p:separator/><p:separator/>
                             <h:outputText value="przychody za mc"/>
-                            <p:dataTable value="#{ZestawienieRyczaltView.biezacyPit.listapodatkow}" var="wpis" style="width: 300px;">
+                            <p:dataTable value="#{zestawienieRyczaltView.biezacyPit.listapodatkow}" var="wpis" style="width: 300px;">
                                 <p:column headerText="stawka">
                                     <h:outputText value="#{wpis.stawka *100}%" style="float: right; font-weight: 700;"/>
                                 </p:column>
@@ -190,58 +190,58 @@
                                 </p:column>
                             </p:dataTable>
                             <h:outputText value="udział"/>
-                            <h:inputText value="#{ZestawienieRyczaltView.biezacyPit.udzial}" style="font-weight: 700; float: right;  text-align: right;"/>
+                            <h:inputText value="#{zestawienieRyczaltView.biezacyPit.udzial}" style="font-weight: 700; float: right;  text-align: right;"/>
                             <h:outputText value="przychody udział"/>
-                            <h:inputText value="#{ZestawienieRyczaltView.biezacyPit.przychodyudzial}" style="font-weight: 700; float: right;  text-align: right;">
+                            <h:inputText value="#{zestawienieRyczaltView.biezacyPit.przychodyudzial}" style="font-weight: 700; float: right;  text-align: right;">
                                 <f:convertNumber locale="PL"/></h:inputText>
                             <p:separator/><p:separator/>
                             <h:outputText value="wynik od pocz. rok"/>
-                            <h:inputText value="#{ZestawienieRyczaltView.biezacyPit.wynik}" style=" font-weight: 700; float: right;  text-align: right;">
+                            <h:inputText value="#{zestawienieRyczaltView.biezacyPit.wynik}" style=" font-weight: 700; float: right;  text-align: right;">
                                 <f:convertNumber locale="PL"/></h:inputText>
                             <h:outputText value="ZUS 51 (z ręki)"/>
                             <p:panelGrid columns="2">
-                                <h:inputText value="#{ZestawienieRyczaltView.biezacyPit.zus51}" style=" font-weight: 700; float: right;  text-align: right;">
+                                <h:inputText value="#{zestawienieRyczaltView.biezacyPit.zus51}" style=" font-weight: 700; float: right;  text-align: right;">
                                     <f:convertNumber locale="PL"/>
-                                    <p:ajax event="keyup" listener="#{ZestawienieRyczaltView.setZus51zreki(true)}" update=":akordeon:formpit1:reka51"/>
+                                    <p:ajax event="keyup" listener="#{zestawienieRyczaltView.setZus51zreki(true)}" update=":akordeon:formpit1:reka51"/>
                                 </h:inputText>
-                                <h:selectBooleanCheckbox id="reka51" label="z ręki" value="#{ZestawienieRyczaltView.zus51zreki}"/>
+                                <h:selectBooleanCheckbox id="reka51" label="z ręki" value="#{zestawienieRyczaltView.zus51zreki}"/>
                             </p:panelGrid>
                             <h:outputText value="strata z lat ub"/>
-                            <h:inputText value="#{ZestawienieRyczaltView.biezacyPit.strata}" style=" font-weight: 700; float: right;  text-align: right;">
+                            <h:inputText value="#{zestawienieRyczaltView.biezacyPit.strata}" style=" font-weight: 700; float: right;  text-align: right;">
                                 <f:convertNumber locale="PL"/></h:inputText>
                             <p:separator/><p:separator/>
                             <h:outputText value="podstawa opod."/>
-                            <h:inputText value="#{ZestawienieRyczaltView.biezacyPit.podstawa}" style=" font-weight: 700; float: right;  text-align: right;">
+                            <h:inputText value="#{zestawienieRyczaltView.biezacyPit.podstawa}" style=" font-weight: 700; float: right;  text-align: right;">
                                 <f:convertNumber locale="PL"/></h:inputText>
                             <h:outputText value="podatek"/>
-                            <h:inputText value="#{ZestawienieRyczaltView.biezacyPit.podatek}" style=" font-weight: 700; float: right;  text-align: right;">
+                            <h:inputText value="#{zestawienieRyczaltView.biezacyPit.podatek}" style=" font-weight: 700; float: right;  text-align: right;">
                                 <f:convertNumber locale="PL"/></h:inputText>
                             <h:outputText value="ZUS 52 (z ręki)"/>
                             <p:panelGrid columns="2">
-                                <h:inputText value="#{ZestawienieRyczaltView.biezacyPit.zus52}" style=" font-weight: 700; float: right;  text-align: right;">
+                                <h:inputText value="#{zestawienieRyczaltView.biezacyPit.zus52}" style=" font-weight: 700; float: right;  text-align: right;">
                                     <f:convertNumber locale="PL"/>
-                                    <p:ajax event="keyup" listener="#{ZestawienieRyczaltView.setZus52zreki(true)}" update=":akordeon:formpit1:reka52"/>
+                                    <p:ajax event="keyup" listener="#{zestawienieRyczaltView.setZus52zreki(true)}" update=":akordeon:formpit1:reka52"/>
                                 </h:inputText>
-                                <h:selectBooleanCheckbox id="reka52" label="z ręki" value="#{ZestawienieRyczaltView.zus52zreki}"/>
+                                <h:selectBooleanCheckbox id="reka52" label="z ręki" value="#{zestawienieRyczaltView.zus52zreki}"/>
                             </p:panelGrid>
                             <h:outputText value="należna zal. za m-c"/>
-                            <h:inputText value="#{ZestawienieRyczaltView.biezacyPit.naleznazal}" style=" font-weight: 700; float: right;  text-align: right;">
+                            <h:inputText value="#{zestawienieRyczaltView.biezacyPit.naleznazal}" style=" font-weight: 700; float: right;  text-align: right;">
                                 <f:convertNumber locale="PL"/></h:inputText>
                             <h:outputText value="do zapłaty"/>
-                            <h:inputText value="#{ZestawienieRyczaltView.biezacyPit.dozaplaty}" style=" font-weight: 700; float: right;  text-align: right;">
+                            <h:inputText value="#{zestawienieRyczaltView.biezacyPit.dozaplaty}" style=" font-weight: 700; float: right;  text-align: right;">
                                 <f:convertNumber locale="PL"/></h:inputText>
                             <p:separator/><p:separator/>
-                            <h:outputText value="termin płatności"/><h:inputText value="#{ZestawienieRyczaltView.biezacyPit.terminwplaty}" style="text-align: right;"/>
-                            <h:outputText value="przelano"/><h:inputText value="#{ZestawienieRyczaltView.biezacyPit.przelano}"/>
-                            <h:outputText value="zamknięty"/><h:inputText value="#{ZestawienieRyczaltView.biezacyPit.zamkniety}"/>
+                            <h:outputText value="termin płatności"/><h:inputText value="#{zestawienieRyczaltView.biezacyPit.terminwplaty}" style="text-align: right;"/>
+                            <h:outputText value="przelano"/><h:inputText value="#{zestawienieRyczaltView.biezacyPit.przelano}"/>
+                            <h:outputText value="zamknięty"/><h:inputText value="#{zestawienieRyczaltView.biezacyPit.zamkniety}"/>
                         </p:panelGrid>
                         <p:panelGrid  columns="3">
-                            <p:commandButton  value="Pdf" actionListener="#{sesjaView.dodajwydruk()}" action="#{ZestawienieRyczaltView.drukujRyczalt()}" onsuccess="wydrukpit5('#{WpisView.podatnikWpisu}');" style="width: 140px;">
+                            <p:commandButton  value="Pdf" actionListener="#{sesjaView.dodajwydruk()}" action="#{zestawienieRyczaltView.drukujRyczalt()}" onsuccess="wydrukpit5('#{WpisView.podatnikWpisu}');" style="width: 140px;">
                             </p:commandButton>
 
-                            <p:commandButton value="przelicz"  action="#{ZestawienieRyczaltView.obliczPit()}" update="@form, :akordeon:formpit1:" type="submit" style="width: 140px"/>
-                            <p:splitButton value="zachowaj pit"  action="#{ZestawienieRyczaltView.zachowajPit()}" update="@form, :akordeon:formpit1:" type="submit" >
-                                <p:menuitem global="false" value="dodatkowy-13" actionListener="#{ZestawienieRyczaltView.zachowajPit13()}" icon="ui-icon-arrowrefresh-1-w"/>  
+                            <p:commandButton value="przelicz"  action="#{zestawienieRyczaltView.obliczPit()}" update="@form, :akordeon:formpit1:" type="submit" style="width: 140px"/>
+                            <p:splitButton value="zachowaj pit"  action="#{zestawienieRyczaltView.zachowajPit()}" update="@form, :akordeon:formpit1:" type="submit" >
+                                <p:menuitem global="false" value="dodatkowy-13" actionListener="#{zestawienieRyczaltView.zachowajPit13()}" icon="ui-icon-arrowrefresh-1-w"/>  
                             </p:splitButton>
                         </p:panelGrid>
                     </p:panelGrid>

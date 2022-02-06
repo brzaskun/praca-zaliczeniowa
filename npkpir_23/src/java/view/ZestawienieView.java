@@ -628,12 +628,20 @@ public class ZestawienieView implements Serializable {
                     biezacyPit.setZus52(pobierzZUS52());
                     biezacyPit.setZus52(biezacyPit.getZus52().add(sumapoprzednichmcy.getZus52()));
                 }
-                BigDecimal tmpX = podatek.subtract(biezacyPit.getZus52());
-                tmpX = tmpX.setScale(0, RoundingMode.HALF_EVEN);
-                if (tmpX.signum() == -1) {
-                    biezacyPit.setPododpoczrok(BigDecimal.ZERO);
+                if (wpisView.getRokWpisu()<2022) {
+                    BigDecimal tmpX = podatek.subtract(biezacyPit.getZus52());
+                    tmpX = tmpX.setScale(0, RoundingMode.HALF_EVEN);
+                    if (tmpX.signum() == -1) {
+                        biezacyPit.setPododpoczrok(BigDecimal.ZERO);
+                    } else {
+                        biezacyPit.setPododpoczrok(tmpX);
+                    }
                 } else {
-                    biezacyPit.setPododpoczrok(tmpX);
+                    if (podatek.signum() == 1) {
+                        biezacyPit.setPododpoczrok(podatek);
+                    } else {
+                        biezacyPit.setPododpoczrok(BigDecimal.ZERO);
+                    }
                 }
                 //wyliczenie podatku koniec
 
