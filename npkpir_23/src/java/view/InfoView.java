@@ -192,7 +192,7 @@ public class InfoView implements Serializable{
     
     private void sprawdzudzialy() {
         try {
-            List<PodatnikUdzialy> udzialy = podatnikUdzialyDAO.findUdzialyPodatnik(wpisView);
+            List<PodatnikUdzialy> udzialy = podatnikUdzialyDAO.findUdzialyPodatnik(wpisView.getPodatnikObiekt());
             if (!udzialy.isEmpty()) {
                 for (PodatnikUdzialy p : udzialy) {
                     try {

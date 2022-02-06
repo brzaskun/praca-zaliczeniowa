@@ -478,6 +478,10 @@
             <to-view-id>/manager/managerFakturaDodatki.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
         <navigation-case>
+            <from-outcome>dochoddladra</from-outcome>
+            <to-view-id>/manager/managerDochodDlaDRA.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+        <navigation-case>
             <from-outcome>terminy</from-outcome>
             <to-view-id>/manager/managerTerminy.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>

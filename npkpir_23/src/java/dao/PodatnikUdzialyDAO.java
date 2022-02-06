@@ -6,17 +6,16 @@
 package dao;
 
 import data.Data;
+import entity.Podatnik;
 import entity.PodatnikUdzialy;
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
-import session.SessionFacade;
 import view.WpisView;
 /**
  *
@@ -25,8 +24,7 @@ import view.WpisView;
 @Stateless
 @Transactional
 public class PodatnikUdzialyDAO extends DAO implements Serializable{
-    @Inject
-    private SessionFacade sessionFacade;
+    
    @PersistenceContext(unitName = "npkpir_22PU")
     private EntityManager em;
     
@@ -49,12 +47,13 @@ public class PodatnikUdzialyDAO extends DAO implements Serializable{
     }
 
 
-    public List<PodatnikUdzialy> findUdzialyPodatnik(WpisView wpisView) {
-        return sessionFacade.findUdzialyPodatnik(wpisView);
+    public List<PodatnikUdzialy> findUdzialyPodatnik(Podatnik podatnik) {
+        return getEntityManager().createNamedQuery("PodatnikUdzialy.findBypodatnik").setParameter("podatnik", podatnik).getResultList();
     }
     
+    
     public List<PodatnikUdzialy> findUdzialyPodatnikBiezace(WpisView wpisView) {
-        List<PodatnikUdzialy> udzialy = sessionFacade.findUdzialyPodatnik(wpisView);
+        List<PodatnikUdzialy> udzialy = getEntityManager().createNamedQuery("PodatnikUdzialy.findBypodatnik").setParameter("podatnik", wpisView.getPodatnikObiekt()).getResultList();
         for(Iterator it = udzialy.iterator();it.hasNext();) {
             PodatnikUdzialy p = (PodatnikUdzialy) it.next();
             if (p.getDatazakonczenia()!=null && !Data.czyjestpomiedzy(p.getDatarozpoczecia(), p.getDatazakonczenia(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu())) {

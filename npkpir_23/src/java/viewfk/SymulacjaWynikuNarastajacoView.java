@@ -213,7 +213,7 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
         }
         pozycjeObliczeniaPodatku = Collections.synchronizedList(new ArrayList<>());
         try {
-            List<PodatnikUdzialy> udzialy = podatnikUdzialyDAO.findUdzialyPodatnik(wpisView);
+            List<PodatnikUdzialy> udzialy = podatnikUdzialyDAO.findUdzialyPodatnik(wpisView.getPodatnikObiekt());
             int i = 1;
             for (PodatnikUdzialy p : udzialy) {
                 double udział = Z.z(Double.parseDouble(p.getUdzial())/100);
@@ -268,7 +268,7 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
         zaplaconepodatki = new ConcurrentHashMap<>();
         wyplaconedywidendy = new ConcurrentHashMap<>();
         List<WynikFKRokMc> poprzedniemce = wynikFKRokMcDAO.findWynikFKPodatnikRokUdzialowiec(wpisView);
-        List<PodatnikUdzialy> udzialy = podatnikUdzialyDAO.findUdzialyPodatnik(wpisView);
+        List<PodatnikUdzialy> udzialy = podatnikUdzialyDAO.findUdzialyPodatnik(wpisView.getPodatnikObiekt());
         for (PodatnikUdzialy p : udzialy) {
             double sumazaplaconegopodatku = 0.0;
             double sumawyplaconedywidendy = 0.0;
@@ -288,7 +288,7 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
     private void obliczkwotydowyplaty() {
         pozycjeDoWyplaty = Collections.synchronizedList(new ArrayList<>());
         try {
-            List<PodatnikUdzialy> udzialy = podatnikUdzialyDAO.findUdzialyPodatnik(wpisView);
+            List<PodatnikUdzialy> udzialy = podatnikUdzialyDAO.findUdzialyPodatnik(wpisView.getPodatnikObiekt());
             for (PodatnikUdzialy p : udzialy) {
                 double udział = Z.z(Double.parseDouble(p.getUdzial())/100);
                 pozycjeDoWyplaty.add(new SymulacjaWynikuView.PozycjeSymulacji(p.getNazwiskoimie(), udział));

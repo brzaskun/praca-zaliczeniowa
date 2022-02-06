@@ -12,8 +12,8 @@ import dao.PodatnikDAO;
 import dao.PodatnikOpodatkowanieDAO;
 import dao.PodatnikUdzialyDAO;
 import dao.StrataDAO;
-import dao.ZobowiazanieDAO;
 import dao.WynikFKRokMcDAO;
+import dao.ZobowiazanieDAO;
 import embeddable.Kwartaly;
 import embeddable.Mce;
 import entity.Dok;
@@ -37,11 +37,12 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.inject.Named;
-import javax.faces.view.ViewScoped;
 import javax.faces.event.AjaxBehaviorEvent;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
-import msg.Msg; import org.primefaces.PrimeFaces;
+import javax.inject.Named;
+import msg.Msg;
+ import org.primefaces.PrimeFaces;
 import pdf.PdfPIT5;
 import waluty.Z;
 
@@ -105,7 +106,7 @@ public class ZestawienieFKView implements Serializable {
         if (wpisView.getPodatnikWpisu() != null && wpisView.isKsiegaryczalt()) {
             listawybranychudzialowcow = Collections.synchronizedList(new ArrayList<>());
             try {
-                List<PodatnikUdzialy> udzialy = podatnikUdzialyDAO.findUdzialyPodatnik(wpisView);
+                List<PodatnikUdzialy> udzialy = podatnikUdzialyDAO.findUdzialyPodatnik(wpisView.getPodatnikObiekt());
                 for (PodatnikUdzialy p : udzialy) {
                     listawybranychudzialowcow.add(p.getNazwiskoimie());
                 }
@@ -137,7 +138,7 @@ public class ZestawienieFKView implements Serializable {
                 }
             }
             if (flaga == 0) {
-                List<PodatnikUdzialy> udzialy = podatnikUdzialyDAO.findUdzialyPodatnik(wpisView);
+                List<PodatnikUdzialy> udzialy = podatnikUdzialyDAO.findUdzialyPodatnik(wpisView.getPodatnikObiekt());
                 for (PodatnikUdzialy p : udzialy) {
                     if (p.getNazwiskoimie().equals(wybranyudzialowiec)) {
                         wybranyprocent = p.getUdzial();

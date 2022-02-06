@@ -194,7 +194,7 @@ public class PodatnikView implements Serializable {
         } catch (Exception e) { E.e(e); 
         }
         rodzajeDokumentowLista = rodzajedokDAO.findListaPodatnikEdycja(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
-        podatnikUdzialy = podatnikUdzialyDAO.findUdzialyPodatnik(wpisView);
+        podatnikUdzialy = podatnikUdzialyDAO.findUdzialyPodatnik(wpisView.getPodatnikObiekt());
         podatnikOpodatkowanie = podatnikOpodatkowanieDDAO.findOpodatkowaniePodatnik(wpisView);
         biezacadata = String.valueOf(new DateTime().getYear());
         formyprawne.add(FormaPrawna.SPOLKA_CYWILNA);

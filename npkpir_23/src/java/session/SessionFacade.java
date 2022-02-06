@@ -26,7 +26,6 @@ import entity.PlatnosciPK;
 import entity.Podatnik;
 import entity.PodatnikEwidencjaDok;
 import entity.PodatnikOpodatkowanieD;
-import entity.PodatnikUdzialy;
 import entity.Podstawki;
 import entity.Ryczpoz;
 import entity.SMTPSettings;
@@ -1283,9 +1282,7 @@ public class SessionFacade<T> implements Serializable {
     
     
 
-    public List<PodatnikUdzialy> findUdzialyPodatnik(WpisView wpisView) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("PodatnikUdzialy.findBypodatnik").setParameter("podatnik", wpisView.getPodatnikObiekt()).getResultList());
-    }
+    
 
     public List<PodatnikOpodatkowanieD> findOpodatkowaniePodatnik(WpisView wpisView) {
         return Collections.synchronizedList( getEntityManager().createNamedQuery("PodatnikOpodatkowanieD.findBypodatnik").setParameter("podatnik", wpisView.getPodatnikObiekt()).getResultList());

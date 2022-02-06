@@ -180,7 +180,7 @@ public class ZestawienieView implements Serializable {
             pobranecechypodatnik = cechazapisuDAOfk.findPodatnikOnlyAktywne(wpisView.getPodatnikObiekt());
             Podatnik pod = wpisView.getPodatnikObiekt();
             try {
-                List<PodatnikUdzialy> udzialy = podatnikUdzialyDAO.findUdzialyPodatnik(wpisView);
+                List<PodatnikUdzialy> udzialy = podatnikUdzialyDAO.findUdzialyPodatnik(wpisView.getPodatnikObiekt());
                 for (PodatnikUdzialy p : udzialy) {
                     listawybranychudzialowcow.add(p.getNazwiskoimie());
                 }
@@ -496,7 +496,7 @@ public class ZestawienieView implements Serializable {
             }
             sprawdzczyzaksiegowanoamortyzacje();
             if (flaga == 0) {
-                List<PodatnikUdzialy> udzialy = podatnikUdzialyDAO.findUdzialyPodatnik(wpisView);
+                List<PodatnikUdzialy> udzialy = podatnikUdzialyDAO.findUdzialyPodatnik(wpisView.getPodatnikObiekt());
                 for (PodatnikUdzialy p : udzialy) {
                     if (p.getNazwiskoimie().equals(wybranyudzialowiec)) {
                         wybranyprocent = p.getUdzial();

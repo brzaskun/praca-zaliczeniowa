@@ -330,7 +330,7 @@ public class SprFinKwotyInfDodView  implements Serializable{
     }
 
     private void pobierzudzialy() {
-        podatnikUdzialy = podatnikUdzialyDAO.findUdzialyPodatnik(wpisView);
+        podatnikUdzialy = podatnikUdzialyDAO.findUdzialyPodatnik(wpisView.getPodatnikObiekt());
         for (Iterator<PodatnikUdzialy> it = podatnikUdzialy.iterator();it.hasNext();) {
             PodatnikUdzialy p = it.next();
             if (p.getDatazakonczenia()!=null && !p.getDatazakonczenia().equals("")) {

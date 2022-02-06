@@ -144,7 +144,7 @@ public class ZestawienieRyczaltView implements Serializable {
             listapit = Collections.synchronizedList(new ArrayList<>());
             listawybranychudzialowcow = Collections.synchronizedList(new ArrayList<>());
             Podatnik pod = podatnikDAO.findByNazwaPelna(wpisView.getPodatnikWpisu());
-            List<PodatnikUdzialy> udzialy = podatnikUdzialyDAO.findUdzialyPodatnik(wpisView);
+            List<PodatnikUdzialy> udzialy = podatnikUdzialyDAO.findUdzialyPodatnik(wpisView.getPodatnikObiekt());
             try {
                 for (PodatnikUdzialy p : udzialy) {
                     listawybranychudzialowcow.add(p.getNazwiskoimie());
@@ -291,7 +291,7 @@ public class ZestawienieRyczaltView implements Serializable {
     public void obliczPit() {
         if (!wybranyudzialowiec.equals("wybierz osobe")) {
                 Podatnik tmpP = podatnikDAO.findByNazwaPelna(wpisView.getPodatnikWpisu());
-                List<PodatnikUdzialy> udzialy = podatnikUdzialyDAO.findUdzialyPodatnik(wpisView);
+                List<PodatnikUdzialy> udzialy = podatnikUdzialyDAO.findUdzialyPodatnik(wpisView.getPodatnikObiekt());
                 for (PodatnikUdzialy p : udzialy) {
                     if (p.getNazwiskoimie().equals(wybranyudzialowiec)) {
                         wybranyprocent = p.getUdzial();
