@@ -244,9 +244,15 @@ public class testobjects {
        n.add("okres rozliczeniowy");
        n.add("udziałowiec");
        n.add("17%");
+       n.add("15%");
+       n.add("14%");
+       n.add("12.5%");
+       n.add("12%");
+       n.add("10%");
        n.add("8,5%");
        n.add("5,5%");
        n.add("3%");
+       n.add("2%");
        n.add("przychody");
        n.add("udział");
        n.add("przychody wg udziału");

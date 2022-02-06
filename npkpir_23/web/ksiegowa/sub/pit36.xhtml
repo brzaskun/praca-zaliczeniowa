@@ -55,7 +55,7 @@
                     <p:printer target="dodrukupit" />  
                 </p:commandButton> 
        </p:panelGrid>
-    <p:panelGrid columns="1" style="width: 1400px" rendered="#{!WpisView.ksiegaryczalt}" >
+    <p:panelGrid columns="1" style="width: 1900px" rendered="#{!WpisView.ksiegaryczalt}" >
                 <p:panel header="zachowane PIT-y: " />
                 <p:commandButton value="drukuj" actionListener="#{pit36View.drukujryczalt}" global="false" style="width: 120px;"/>
                 <br/>
@@ -71,6 +71,21 @@
                     <p:column headerText="17%: ">
                         <bcf:outputpl value="#{loop.p17}" rendered="#{loop.p17 gt 0}"/>
                     </p:column>
+                    <p:column headerText="15%: ">
+                        <bcf:outputpl value="#{loop.p15}" rendered="#{loop.p15 gt 0}"/>
+                    </p:column>
+                    <p:column headerText="14%: ">
+                        <bcf:outputpl value="#{loop.p14}" rendered="#{loop.p14 gt 0}"/>
+                    </p:column>
+                    <p:column headerText="12.5%: ">
+                        <bcf:outputpl value="#{loop.p125}" rendered="#{loop.p125 gt 0}"/>
+                    </p:column>
+                    <p:column headerText="12%: ">
+                        <bcf:outputpl value="#{loop.p12}" rendered="#{loop.p12 gt 0}"/>
+                    </p:column>
+                    <p:column headerText="10%: ">
+                        <bcf:outputpl value="#{loop.p10}" rendered="#{loop.p10 gt 0}"/>
+                    </p:column>
                     <p:column headerText="8.5%: ">
                          <bcf:outputpl value="#{loop.p85}" rendered="#{loop.p85 gt 0}"/>
                     </p:column>
@@ -80,8 +95,8 @@
                     <p:column headerText="3%: ">
                          <bcf:outputpl value="#{loop.p30}" rendered="#{loop.p30 gt 0}"/>
                     </p:column>
-                    <p:column headerText="suma przychodów: ">
-                         <bcf:outputpl value="#{loop.przychody}"/>
+                    <p:column headerText="2%: ">
+                         <bcf:outputpl value="#{loop.p20}" rendered="#{loop.p20 gt 0}"/>
                     </p:column>
                     <p:column headerText="suma przychodów: ">
                          <bcf:outputpl value="#{loop.przychody}"/>
@@ -104,6 +119,21 @@
                     <p:column headerText="17%: ">
                         <bcf:outputpl value="#{loop.p17p}" rendered="#{loop.p17p gt 0}"/>
                     </p:column>
+                    <p:column headerText="15%: ">
+                        <bcf:outputpl value="#{loop.p15p}" rendered="#{loop.p15p gt 0}"/>
+                    </p:column>
+                    <p:column headerText="14%: ">
+                        <bcf:outputpl value="#{loop.p14p}" rendered="#{loop.p14p gt 0}"/>
+                    </p:column>
+                    <p:column headerText="12.5%: ">
+                        <bcf:outputpl value="#{loop.p125p}" rendered="#{loop.p125p gt 0}"/>
+                    </p:column>
+                    <p:column headerText="12%: ">
+                        <bcf:outputpl value="#{loop.p12p}" rendered="#{loop.p12p gt 0}"/>
+                    </p:column>
+                    <p:column headerText="10%: ">
+                        <bcf:outputpl value="#{loop.p10p}" rendered="#{loop.p10p gt 0}"/>
+                    </p:column>
                     <p:column headerText="8.5%: ">
                          <bcf:outputpl value="#{loop.p85p}" rendered="#{loop.p85p gt 0}"/>
                     </p:column>
@@ -112,6 +142,9 @@
                     </p:column>
                     <p:column headerText="3%: ">
                          <bcf:outputpl value="#{loop.p30p}" rendered="#{loop.p30p gt 0}"/>
+                    </p:column>
+                    <p:column headerText="2%: ">
+                         <bcf:outputpl value="#{loop.p20p}" rendered="#{loop.p20p gt 0}"/>
                     </p:column>
                 </p:dataTable>
        </p:panelGrid>

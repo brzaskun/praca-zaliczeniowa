@@ -124,6 +124,66 @@ public class Ryczpoz implements Serializable {
         return zwrot;
     }
     
+    public double getP15() {
+        double zwrot = 0.0;
+        if (listapodatkow!=null) {
+            for (RyczaltPodatek p : this.listapodatkow) {
+                if (p.getStawka()==0.15) {
+                    zwrot = p.getPrzychod();
+                }
+            }
+        }
+        return zwrot;
+    }
+    
+    public double getP14() {
+        double zwrot = 0.0;
+        if (listapodatkow!=null) {
+            for (RyczaltPodatek p : this.listapodatkow) {
+                if (p.getStawka()==0.14) {
+                    zwrot = p.getPrzychod();
+                }
+            }
+        }
+        return zwrot;
+    }
+    
+    public double getP125() {
+        double zwrot = 0.0;
+        if (listapodatkow!=null) {
+            for (RyczaltPodatek p : this.listapodatkow) {
+                if (p.getStawka()==0.125) {
+                    zwrot = p.getPrzychod();
+                }
+            }
+        }
+        return zwrot;
+    }
+    
+    public double getP12() {
+        double zwrot = 0.0;
+        if (listapodatkow!=null) {
+            for (RyczaltPodatek p : this.listapodatkow) {
+                if (p.getStawka()==0.12) {
+                    zwrot = p.getPrzychod();
+                }
+            }
+        }
+        return zwrot;
+    }
+    
+    public double getP10() {
+        double zwrot = 0.0;
+        if (listapodatkow!=null) {
+            for (RyczaltPodatek p : this.listapodatkow) {
+                if (p.getStawka()==0.10) {
+                    zwrot = p.getPrzychod();
+                }
+            }
+        }
+        return zwrot;
+    }
+    
     public double getP85() {
         double zwrot = 0.0;
         if (listapodatkow!=null) {
@@ -159,6 +219,18 @@ public class Ryczpoz implements Serializable {
         }
         return zwrot;
     }
+    
+    public double getP20() {
+        double zwrot = 0.0;
+        if (listapodatkow!=null) {
+            for (RyczaltPodatek p : this.listapodatkow) {
+                if (p.getStawka()==0.03) {
+                    zwrot = p.getPrzychod();
+                }
+            }
+        }
+        return zwrot;
+    }
     public double getP17p() {
         double zwrot = 0.0;
         if (listapodatkow!=null) {
@@ -171,6 +243,68 @@ public class Ryczpoz implements Serializable {
         return zwrot;
     }
     
+     
+      public double getP15p() {
+        double zwrot = 0.0;
+        if (listapodatkow!=null) {
+            for (RyczaltPodatek p : this.listapodatkow) {
+                if (p.getStawka()==0.15) {
+                    zwrot = p.getPodatek();
+                }
+            }
+        }
+        return zwrot;
+    }
+      
+     public double getP14p() {
+        double zwrot = 0.0;
+        if (listapodatkow!=null) {
+            for (RyczaltPodatek p : this.listapodatkow) {
+                if (p.getStawka()==0.14) {
+                    zwrot = p.getPodatek();
+                }
+            }
+        }
+        return zwrot;
+    }
+     
+     public double getP125p() {
+        double zwrot = 0.0;
+        if (listapodatkow!=null) {
+            for (RyczaltPodatek p : this.listapodatkow) {
+                if (p.getStawka()==0.125) {
+                    zwrot = p.getPodatek();
+                }
+            }
+        }
+        return zwrot;
+    }
+     public double getP12p() {
+        double zwrot = 0.0;
+        if (listapodatkow!=null) {
+            for (RyczaltPodatek p : this.listapodatkow) {
+                if (p.getStawka()==0.12) {
+                    zwrot = p.getPodatek();
+                }
+            }
+        }
+        return zwrot;
+    }
+     
+    public double getP10p() {
+        double zwrot = 0.0;
+        if (listapodatkow!=null) {
+            for (RyczaltPodatek p : this.listapodatkow) {
+                if (p.getStawka()==0.10) {
+                    zwrot = p.getPodatek();
+                }
+            }
+        }
+        return zwrot;
+    }
+    
+     
+     
     public double getP85p() {
         double zwrot = 0.0;
         if (listapodatkow!=null) {
@@ -200,6 +334,19 @@ public class Ryczpoz implements Serializable {
         if (listapodatkow!=null) {
             for (RyczaltPodatek p : this.listapodatkow) {
                 if (p.getStawka()==0.03) {
+                    zwrot = p.getPodatek();
+                }
+            }
+        }
+        return zwrot;
+    }
+    
+    
+    public double getP20p() {
+        double zwrot = 0.0;
+        if (listapodatkow!=null) {
+            for (RyczaltPodatek p : this.listapodatkow) {
+                if (p.getStawka()==0.02) {
                     zwrot = p.getPodatek();
                 }
             }
@@ -403,12 +550,19 @@ public class Ryczpoz implements Serializable {
         return "entity.Ryczpoz[ id=" + id + " ]";
     }
 
-    public void setSumowaniePrzych(double p17, double p85, double p55, double p30, double p17p, double p85p, double p55p, double p30p) {
+    public void setSumowaniePrzych(double p17, double p15, double p14, double p125, double p12, double p10, double p85, double p55, double p30, double p20,  
+            double p17p, double p15p, double p14p, double p125p, double p12p, double p10p, double p85p, double p55p, double p30p, double p20p) {
         List<RyczaltPodatek> l = new ArrayList<>();
         l.add(new RyczaltPodatek(0.17,p17,p17p));
+        l.add(new RyczaltPodatek(0.15,p15,p15p));
+        l.add(new RyczaltPodatek(0.14,p14,p14p));
+        l.add(new RyczaltPodatek(0.125,p125,p125p));
+        l.add(new RyczaltPodatek(0.12,p12,p12p));
+        l.add(new RyczaltPodatek(0.10,p10,p10p));
         l.add(new RyczaltPodatek(0.085,p85,p85p));
         l.add(new RyczaltPodatek(0.055,p55,p55p));
         l.add(new RyczaltPodatek(0.03,p30,p30p));
+        l.add(new RyczaltPodatek(0.02,p20,p20p));
         this.listapodatkow = l;
     }
 

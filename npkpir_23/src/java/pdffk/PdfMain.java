@@ -1149,11 +1149,17 @@ public class PdfMain {
                 col[5] = 3;
                 col[6] = 3;
                 col[7] = 3;
-                col[8] = 2;
+                col[8] = 3;
                 col[9] = 3;
                 col[10] = 3;
                 col[11] = 3;
                 col[12] = 3;
+                col[13] = 3;
+                col[14] = 2;
+                col[15] = 3;
+                col[16] = 3;
+                col[17] = 3;
+                col[18] = 3;
                 return col;
             case "entity.SrodekTrw":
                 if (modyfikator == 0) {
@@ -2292,9 +2298,15 @@ public class PdfMain {
                     table.addCell(ustawfrazeAlign("", "center", 8));
                     table.addCell(ustawfrazeAlign(p.getUdzialowiec(), "center", 8));
                     table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getP17())), "right", 8));
+                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getP15())), "right", 8));
+                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getP14())), "right", 8));
+                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getP125())), "right", 8));
+                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getP12())), "right", 8));
+                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getP10())), "right", 8));
                     table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getP85())), "right", 8));
                     table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getP55())), "right", 8));
                     table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getP30())), "right", 8));
+                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getP20())), "right", 8));
                     table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getPrzychody())), "right", 8));
                     table.addCell(ustawfrazeAlign("", "center", 8));
                     table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getPrzychodyudzial())), "right", 8));
@@ -2306,9 +2318,15 @@ public class PdfMain {
                     table.addCell(ustawfrazeAlign(p.getPkpirR()+"-"+p.getPkpirM(), "center", 8));
                     table.addCell(ustawfrazeAlign(p.getUdzialowiec(), "left", 8));
                     table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getP17())), "right", 8));
+                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getP15())), "right", 8));
+                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getP14())), "right", 8));
+                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getP125())), "right", 8));
+                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getP12())), "right", 8));
+                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getP10())), "right", 8));
                     table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getP85())), "right", 8));
                     table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getP55())), "right", 8));
                     table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getP30())), "right", 8));
+                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getP20())), "right", 8));
                     table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getPrzychody())), "right", 8));
                     table.addCell(ustawfrazeAlign(p.getUdzial(), "center", 8));
                     table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getPrzychodyudzial())), "right", 8));
