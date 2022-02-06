@@ -14,7 +14,7 @@ import dao.StrataDAO;
 import dao.ZobowiazanieDAO;
 import embeddable.Mce;
 import embeddable.RyczaltPodatek;
-import embeddable.ZestawienieRyczalt;
+import embeddable.WierszRyczalt;
 import entity.Dok;
 import entity.KwotaKolumna1;
 import entity.Pitpoz;
@@ -31,9 +31,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -48,18 +46,47 @@ import msg.Msg;
 import org.primefaces.PrimeFaces;
 import pdf.PdfPIT28;
 import pdf.PdfZestRok;
- import waluty.Z;
+import waluty.Z;
 
 /**
  *
  * @author Osito
  */
-@Named(value = "ZestawienieRyczaltView")
+@Named(value = "zestawienieRyczaltView")
 @ViewScoped
 public class ZestawienieRyczaltView implements Serializable {
     //dane niezbedne do wyliczania pit
+    private List<Double> wstyczen;
+    private List<Double> wluty;
+    private List<Double> wmarzec;
+    private List<Double> wkwiecien;
+    private List<Double> wmaj;
+    private List<Double> wczerwiec;
+    private List<Double> wlipiec;
+    private List<Double> wsierpien;
+    private List<Double> wwrzesien;
+    private List<Double> wpazdziernik;
+    private List<Double> wlistopad;
+    private List<Double> wgrudzien;
+    private List<Double> wIpolrocze;
+    private List<Double> wIIpolrocze;
+    private List<Double> wrok;
+    private WierszRyczalt styczen;
+    private WierszRyczalt luty;
+    private WierszRyczalt marzec;
+    private WierszRyczalt kwiecien;
+    private WierszRyczalt maj;
+    private WierszRyczalt czerwiec;
+    private WierszRyczalt lipiec;
+    private WierszRyczalt sierpien;
+    private WierszRyczalt wrzesien;
+    private WierszRyczalt pazdziernik;
+    private WierszRyczalt listopad;
+    private WierszRyczalt grudzien;
+    private WierszRyczalt Ipolrocze;
+    private WierszRyczalt IIpolrocze;
+    private WierszRyczalt rok;
     private String wybranyudzialowiec;
-
     @Inject
     private DokDAO dokDAO;
     @Inject
@@ -76,13 +103,9 @@ public class ZestawienieRyczaltView implements Serializable {
     private List<Ryczpoz> listapit;
     @Inject
     private WpisView wpisView;
-    Map<Integer,List<Double>> miesiace;
     private List<Dok> lista;
     private List<Ryczpoz> pobierzPity;
-    private List<List> zebranieMcy;
-    List<Double> Ipolrocze;
-    List<Double> IIpolrocze;
-    List<Double> rok;
+    private List<WierszRyczalt> zebranieMcy;
     @Inject private Ryczpoz biezacyPit;
     @Inject private PodStawkiDAO podstawkiDAO;
     @Inject private ZobowiazanieDAO zobowiazanieDAO;
@@ -95,7 +118,6 @@ public class ZestawienieRyczaltView implements Serializable {
     private PodatnikUdzialyDAO podatnikUdzialyDAO;
 
     public ZestawienieRyczaltView() {
-        miesiace = new HashMap<>();
         pobierzPity = Collections.synchronizedList(new ArrayList<>());
         zebranieMcy = Collections.synchronizedList(new ArrayList<>());
         listapit = Collections.synchronizedList(new ArrayList<>());
@@ -105,9 +127,18 @@ public class ZestawienieRyczaltView implements Serializable {
     @PostConstruct
     public void init() { //E.m(this);
         if (wpisView.getPodatnikWpisu() != null && !wpisView.isKsiegaryczalt()) {
-            for (int i = 0; i < 12; i++) {
-                miesiace.put(i, nowalista());
-            }
+            styczen = new WierszRyczalt(1, wpisView.getRokWpisuSt(), "01", "styczeń");
+            luty = new WierszRyczalt(2, wpisView.getRokWpisuSt(), "02", "luty");
+            marzec = new WierszRyczalt(3, wpisView.getRokWpisuSt(), "03", "marzec");
+            kwiecien = new WierszRyczalt(4, wpisView.getRokWpisuSt(), "04", "kwiecień");
+            maj = new WierszRyczalt(5, wpisView.getRokWpisuSt(), "05", "maj");
+            czerwiec = new WierszRyczalt(6, wpisView.getRokWpisuSt(), "06", "czerwiec");
+            lipiec = new WierszRyczalt(7, wpisView.getRokWpisuSt(), "07", "lipiec");
+            sierpien = new WierszRyczalt(8, wpisView.getRokWpisuSt(), "08", "sierpień");
+            wrzesien = new WierszRyczalt(9, wpisView.getRokWpisuSt(), "09", "wrzesień");
+            pazdziernik = new WierszRyczalt(10, wpisView.getRokWpisuSt(), "10", "październik");
+            listopad = new WierszRyczalt(11, wpisView.getRokWpisuSt(), "11", "listopad");
+            grudzien = new WierszRyczalt(12, wpisView.getRokWpisuSt(), "12", "grudzień");
             pobierzPity = Collections.synchronizedList(new ArrayList<>());
             zebranieMcy = Collections.synchronizedList(new ArrayList<>());
             listapit = Collections.synchronizedList(new ArrayList<>());
@@ -129,43 +160,67 @@ public class ZestawienieRyczaltView implements Serializable {
                 E.e(e);
             }
             if (lista != null) {
-               
+                zebranieMcy.add(styczen);
+                zebranieMcy.add(luty);
+                zebranieMcy.add(marzec);
+                zebranieMcy.add(kwiecien);
+                zebranieMcy.add(maj);
+                zebranieMcy.add(czerwiec);
+                zebranieMcy.add(lipiec);
+                zebranieMcy.add(sierpien);
+                zebranieMcy.add(wrzesien);
+                zebranieMcy.add(pazdziernik);
+                zebranieMcy.add(listopad);
+                zebranieMcy.add(grudzien);
                 for (Dok dokument : lista) {
                     try {
                         List<KwotaKolumna1> szczegol = dokument.getListakwot1();
                         for (KwotaKolumna1 tmp : szczegol) {
                             Integer miesiac = Mce.getMiesiacToNumber().get(dokument.getPkpirM())-1;
+                            WierszRyczalt miesiace = zebranieMcy.get(miesiac);
                             String nazwakolumny = tmp.getNazwakolumny();
                             Double kwota = tmp.getNetto();
                             Double temp = 0.0;
                             switch (nazwakolumny) {
                                 case "17%":
-                                    temp = miesiace.get(miesiac).get(0) + kwota;
-                                    miesiace.get(miesiac).set(0, temp);
+                                    temp = miesiace.getKolumna_17i0() + kwota;
+                                    miesiace.setKolumna_17i0(temp);
                                     break;
                                 case "15%":
-                                    temp = miesiace.get(miesiac).get(1) + kwota;
-                                    miesiace.get(miesiac).set(1, temp);
+                                    temp = miesiace.getKolumna_15i0() + kwota;
+                                    miesiace.setKolumna_15i0(temp);
+                                    break;
+                                case "14%":
+                                    temp = miesiace.getKolumna_14i0()+ kwota;
+                                    miesiace.setKolumna_14i0(temp);
                                     break;
                                 case "12.5%":
-                                    temp = miesiace.get(miesiac).get(2) + kwota;
-                                    miesiace.get(miesiac).set(2, temp);
+                                    temp = miesiace.getKolumna_12i5() + kwota;
+                                    miesiace.setKolumna_12i5(temp);
+                                    break;
+                                case "12%":
+                                    temp = miesiace.getKolumna_12i0() + kwota;
+                                    miesiace.setKolumna_12i0(temp);
                                     break;
                                 case "10%":
-                                    temp = miesiace.get(miesiac).get(3) + kwota;
-                                    miesiace.get(miesiac).set(3, temp);
+                                    temp = miesiace.getKolumna_10i0() + kwota;
+                                    miesiace.setKolumna_10i0(temp);
                                     break;
                                 case "8.5%":
-                                    temp = miesiace.get(miesiac).get(4) + kwota;
-                                    miesiace.get(miesiac).set(4, temp);
+                                    temp = miesiace.getKolumna_8i5() + kwota;
+                                    miesiace.setKolumna_8i5(temp);
                                     break;
                                 case "5.5%":
-                                    temp = miesiace.get(miesiac).get(5) + kwota;
-                                    miesiace.get(miesiac).set(5, temp);
+                                    temp = miesiace.getKolumna_5i5() + kwota;
+                                    miesiace.setKolumna_5i5(temp);
                                     break;
                                case "3%":
-                                    temp = miesiace.get(miesiac).get(6) + kwota;
-                                    miesiace.get(miesiac).set(6, temp);
+                                    temp = miesiace.getKolumna_3i0() + kwota;
+                                    miesiace.setKolumna_3i0(temp);
+                                    break;
+                                case "2%":
+                                    temp = miesiace.getKolumna_2i0() + kwota;
+                                    miesiace.setKolumna_2i0(temp);
                                     break;
                             }
                         }
@@ -173,37 +228,63 @@ public class ZestawienieRyczaltView implements Serializable {
                         E.e(e);
                     }
                 }
-                for (int i = 0; i < 12; i++) {
-                    zebranieMcy.add(miesiace.get(i));
-                }
-                Ipolrocze = nowalista();
-                IIpolrocze = nowalista();
-                rok = new ArrayList<>();
-                for (int j = 0; j < 7; j++) {
-                    for (int i = 0; i < 6; i++) {
-                        double temp = Ipolrocze.get(j) + miesiace.get(i).get(j);
-                        Ipolrocze.set(j, temp);
+                Ipolrocze = new WierszRyczalt(13, wpisView.getRokWpisuSt(), "13", "I półrocze");
+                IIpolrocze = new WierszRyczalt(14, wpisView.getRokWpisuSt(), "14", "II półrocze");
+                rok = new WierszRyczalt(15, wpisView.getRokWpisuSt(), "15", "rok");
+                for (WierszRyczalt p : zebranieMcy) {
+                    if (p.getId() < 7) {
+                        Ipolrocze.dodaj(p);
+                    } else {
+                        IIpolrocze.dodaj(p);
                     }
-                }
-                for (int j = 0; j < 7; j++) {
-                    for (int i = 6; i < 12; i++) {
-                        double temp = IIpolrocze.get(j) + miesiace.get(i).get(j);
-                        IIpolrocze.set(j, temp);
-                    }
-                }
-                for (int i = 0; i < 7; i++) {
-                    rok.add(Ipolrocze.get(i) + IIpolrocze.get(i));
+                    rok.dodaj(p);
                 }
             }
+        wstyczen = new ArrayList<>();
+        wluty = new ArrayList<>();
+        wmarzec = new ArrayList<>();
+        wkwiecien = new ArrayList<>();
+        wmaj = new ArrayList<>();
+        wczerwiec = new ArrayList<>();
+        wlipiec = new ArrayList<>();
+        wsierpien = new ArrayList<>();
+        wwrzesien = new ArrayList<>();
+        wpazdziernik = new ArrayList<>();
+        wlistopad = new ArrayList<>();
+        wgrudzien = new ArrayList<>();
+        wIpolrocze = new ArrayList<>();
+        wIIpolrocze = new ArrayList<>();
+        wrok = new ArrayList<>();
+        naniesnaliste(wstyczen, zebranieMcy.get(0));
+        naniesnaliste(wluty, zebranieMcy.get(1));
+        naniesnaliste(wmarzec, zebranieMcy.get(2));
+        naniesnaliste(wkwiecien, zebranieMcy.get(3));
+        naniesnaliste(wmaj, zebranieMcy.get(4));
+        naniesnaliste(wczerwiec, zebranieMcy.get(5));
+        naniesnaliste(wlipiec, zebranieMcy.get(6));
+        naniesnaliste(wsierpien, zebranieMcy.get(7));
+        naniesnaliste(wwrzesien, zebranieMcy.get(8));
+        naniesnaliste(wpazdziernik, zebranieMcy.get(9));
+        naniesnaliste(wlistopad, zebranieMcy.get(10));
+        naniesnaliste(wgrudzien, zebranieMcy.get(11));
+        naniesnaliste(wIpolrocze, Ipolrocze);
+        naniesnaliste(wIIpolrocze, IIpolrocze);
+        naniesnaliste(wrok, rok);
         }
     }
    
-    private List<Double> nowalista() {
-        List<Double> zwrot = Arrays.asList(new Double[7]);
-         for (int i = 0; i < 7; i++) {
-            zwrot.set(i, 0.0);
-        }
-        return zwrot;
+    private void naniesnaliste(List<Double> wstyczen, WierszRyczalt get) {
+        wstyczen.add(get.getKolumna_17i0());
+        wstyczen.add(get.getKolumna_15i0());
+        wstyczen.add(get.getKolumna_14i0());
+        wstyczen.add(get.getKolumna_12i5());
+        wstyczen.add(get.getKolumna_12i0());
+        wstyczen.add(get.getKolumna_10i0());
+        wstyczen.add(get.getKolumna_8i5());
+        wstyczen.add(get.getKolumna_5i5());
+        wstyczen.add(get.getKolumna_3i0());
+        wstyczen.add(get.getKolumna_2i0());
+        wstyczen.add(get.getRazem());
     }
     
     //oblicze pit ryczałtowca  i wkleja go do biezacego Pitu w celu wyswietlenia, nie zapisuje
@@ -396,11 +477,15 @@ public class ZestawienieRyczaltView implements Serializable {
         int miesiacint = Mce.getMiesiacToNumber().get(selekcja)-1  ;
         podatkibiezace.add(pobranieprzychodu("Przychody opodatkowane stawką 17%", 0.17, miesiacint, 0));
         podatkibiezace.add(pobranieprzychodu("Przychody opodatkowane stawką 15%", 0.15, miesiacint, 1));
-        podatkibiezace.add(pobranieprzychodu("Przychody opodatkowane stawką 12,5%", 0.125, miesiacint, 2));
-        podatkibiezace.add(pobranieprzychodu("Przychody opodatkowane stawką 10%", 0.10, miesiacint, 3));
-        podatkibiezace.add(pobranieprzychodu("Przychody opodatkowane stawką 8,5%", 0.085, miesiacint, 4));
-        podatkibiezace.add(pobranieprzychodu("Przychody opodatkowane stawką 5,5%", 0.055, miesiacint, 5));
-        podatkibiezace.add(pobranieprzychodu("Przychody opodatkowane stawką 3%", 0.03, miesiacint, 6));
+        podatkibiezace.add(pobranieprzychodu("Przychody opodatkowane stawką 14%", 0.14, miesiacint, 2));
+        podatkibiezace.add(pobranieprzychodu("Przychody opodatkowane stawką 12,5%", 0.125, miesiacint, 3));
+        podatkibiezace.add(pobranieprzychodu("Przychody opodatkowane stawką 12%", 0.12, miesiacint, 4));
+        podatkibiezace.add(pobranieprzychodu("Przychody opodatkowane stawką 10%", 0.10, miesiacint, 5));
+        podatkibiezace.add(pobranieprzychodu("Przychody opodatkowane stawką 8,5%", 0.085, miesiacint, 6));
+        podatkibiezace.add(pobranieprzychodu("Przychody opodatkowane stawką 5,5%", 0.055, miesiacint, 7));
+        podatkibiezace.add(pobranieprzychodu("Przychody opodatkowane stawką 3%", 0.03, miesiacint, 8));
+        podatkibiezace.add(pobranieprzychodu("Przychody opodatkowane stawką 2%", 0.03, miesiacint, 9));
+        podatkibiezace.add(pobranieprzychodu("Razem", 0.00, miesiacint, 10));
         biezacyPit.setListapodatkow(podatkibiezace);
     }
 
@@ -408,8 +493,53 @@ public class ZestawienieRyczaltView implements Serializable {
         BigDecimal suma = new BigDecimal(0);
         BigDecimal podatek = new BigDecimal(0);
         if (zebranieMcy!=null && zebranieMcy.size()>0) {
-            suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(miesiac).get(pozycja).toString())));
-            suma = suma.setScale(2, RoundingMode.HALF_EVEN);
+            switch (pozycja){
+                case 0:
+                    suma = suma.add(BigDecimal.valueOf(zebranieMcy.get(miesiac).getKolumna_17i0()));
+                    suma = suma.setScale(2, RoundingMode.HALF_EVEN);
+                    break;
+                case 1:
+                    suma = suma.add(BigDecimal.valueOf(zebranieMcy.get(miesiac).getKolumna_15i0()));
+                    suma = suma.setScale(2, RoundingMode.HALF_EVEN);
+                    break;
+                case 2:
+                    suma = suma.add(BigDecimal.valueOf(zebranieMcy.get(miesiac).getKolumna_14i0()));
+                    suma = suma.setScale(2, RoundingMode.HALF_EVEN);
+                    break;
+                case 3:
+                    suma = suma.add(BigDecimal.valueOf(zebranieMcy.get(miesiac).getKolumna_12i5()));
+                    suma = suma.setScale(2, RoundingMode.HALF_EVEN);
+                    break;
+                case 4:
+                    suma = suma.add(BigDecimal.valueOf(zebranieMcy.get(miesiac).getKolumna_12i0()));
+                    suma = suma.setScale(2, RoundingMode.HALF_EVEN);
+                    break;
+                case 5:
+                    suma = suma.add(BigDecimal.valueOf(zebranieMcy.get(miesiac).getKolumna_10i0()));
+                    suma = suma.setScale(2, RoundingMode.HALF_EVEN);
+                    break;
+                case 6:
+                    suma = suma.add(BigDecimal.valueOf(zebranieMcy.get(miesiac).getKolumna_8i5()));
+                    suma = suma.setScale(2, RoundingMode.HALF_EVEN);
+                    break;
+                case 7:
+                    suma = suma.add(BigDecimal.valueOf(zebranieMcy.get(miesiac).getKolumna_5i5()));
+                    suma = suma.setScale(2, RoundingMode.HALF_EVEN);
+                    break;
+                case 8:
+                    suma = suma.add(BigDecimal.valueOf(zebranieMcy.get(miesiac).getKolumna_3i0()));
+                    suma = suma.setScale(2, RoundingMode.HALF_EVEN);
+                    break;
+                case 9:
+                    suma = suma.add(BigDecimal.valueOf(zebranieMcy.get(miesiac).getKolumna_2i0()));
+                    suma = suma.setScale(2, RoundingMode.HALF_EVEN);
+                    break;
+                case 10:
+                    suma = suma.add(BigDecimal.valueOf(zebranieMcy.get(miesiac).getRazem()));
+                    suma = suma.setScale(2, RoundingMode.HALF_EVEN);
+                    break;
+                    
+            }
         }
         RyczaltPodatek podtk = new RyczaltPodatek();
         podtk.setOpis(opis);
@@ -525,32 +655,16 @@ public class ZestawienieRyczaltView implements Serializable {
    
     public void drukujPodsumowanieRoczne() {
         try {
-            List<ZestawienieRyczalt> lista = stworzliste();
-            PdfZestRok.drukujRyczalt(wpisView, lista);
+            zebranieMcy.add(Ipolrocze);
+            zebranieMcy.add(IIpolrocze);
+            zebranieMcy.add(rok);
+            PdfZestRok.drukujRyczalt(wpisView, zebranieMcy);
         } catch (Exception e) { E.e(e); 
             
         }
     }
     
-    private List<ZestawienieRyczalt> stworzliste() {
-        List<ZestawienieRyczalt> lista = Collections.synchronizedList(new ArrayList<>());
-        lista.add(new ZestawienieRyczalt(1, "styczeń", miesiace.get(0)));
-        lista.add(new ZestawienieRyczalt(1, "luty", miesiace.get(1)));
-        lista.add(new ZestawienieRyczalt(1, "marzec", miesiace.get(2)));
-        lista.add(new ZestawienieRyczalt(1, "kwiecień", miesiace.get(3)));
-        lista.add(new ZestawienieRyczalt(1, "maj", miesiace.get(4)));
-        lista.add(new ZestawienieRyczalt(1, "czerwiec", miesiace.get(5)));
-        lista.add(new ZestawienieRyczalt(1, "I półrocze", Ipolrocze.get(0), Ipolrocze.get(1), Ipolrocze.get(2), Ipolrocze.get(3), Ipolrocze.get(4), Ipolrocze.get(5), Ipolrocze.get(6)));
-        lista.add(new ZestawienieRyczalt(1, "lipiec", miesiace.get(6)));
-        lista.add(new ZestawienieRyczalt(1, "sierpień", miesiace.get(7)));
-        lista.add(new ZestawienieRyczalt(1, "wrzesień", miesiace.get(8)));
-        lista.add(new ZestawienieRyczalt(1, "październik", miesiace.get(9)));
-        lista.add(new ZestawienieRyczalt(1, "listopad", miesiace.get(10)));
-        lista.add(new ZestawienieRyczalt(1, "grudzień", miesiace.get(11)));
-        lista.add(new ZestawienieRyczalt(1, "II półrocze", IIpolrocze.get(0), IIpolrocze.get(1), IIpolrocze.get(2), IIpolrocze.get(3), IIpolrocze.get(4), IIpolrocze.get(5), IIpolrocze.get(6)));
-        lista.add(new ZestawienieRyczalt(1, "rok", rok.get(0), rok.get(1), rok.get(2), rok.get(3), rok.get(4), rok.get(5), rok.get(6)));
-        return lista;
-    }
+   
     
 
     public DokDAO getDokDAO() {
@@ -585,77 +699,135 @@ public class ZestawienieRyczaltView implements Serializable {
         this.lista = lista;
     }
 
-    public List<Double> getStyczen() {
-        return miesiace.get(0);
+    public List<Double> getWstyczen() {
+        return wstyczen;
     }
 
-    public List<Double> getLuty() {
-        return miesiace.get(1);
+    public void setWstyczen(List<Double> wstyczen) {
+        this.wstyczen = wstyczen;
     }
 
-    public List<Double> getMarzec() {
-        return miesiace.get(2);
+    public List<Double> getWluty() {
+        return wluty;
     }
 
-    public List<Double> getKwiecien() {
-        return miesiace.get(3);
+    public void setWluty(List<Double> wluty) {
+        this.wluty = wluty;
     }
 
-    public List<Double> getMaj() {
-        return miesiace.get(4);
+    public List<Double> getWmarzec() {
+        return wmarzec;
     }
 
-    public List<Double> getCzerwiec() {
-        return miesiace.get(5);
+    public void setWmarzec(List<Double> wmarzec) {
+        this.wmarzec = wmarzec;
     }
 
-    public List<Double> getLipiec() {
-        return miesiace.get(6);
+    public List<Double> getWkwiecien() {
+        return wkwiecien;
     }
 
-    public List<Double> getSierpien() {
-        return miesiace.get(7);
+    public void setWkwiecien(List<Double> wkwiecien) {
+        this.wkwiecien = wkwiecien;
     }
 
-    public List<Double> getWrzesien() {
-        return miesiace.get(8);
+    public List<Double> getWmaj() {
+        return wmaj;
     }
 
-    public List<Double> getPazdziernik() {
-        return miesiace.get(9);
+    public void setWmaj(List<Double> wmaj) {
+        this.wmaj = wmaj;
     }
 
-    public List<Double> getListopad() {
-        return miesiace.get(10);
+    public List<Double> getWczerwiec() {
+        return wczerwiec;
     }
 
-    public List<Double> getGrudzien() {
-        return miesiace.get(11);
+    public void setWczerwiec(List<Double> wczerwiec) {
+        this.wczerwiec = wczerwiec;
     }
 
-    public List<Double> getIpolrocze() {
-        return Ipolrocze;
+    public List<Double> getWlipiec() {
+        return wlipiec;
     }
 
-    public void setIpolrocze(List<Double> Ipolrocze) {
-        this.Ipolrocze = Ipolrocze;
+    public void setWlipiec(List<Double> wlipiec) {
+        this.wlipiec = wlipiec;
     }
 
-    public List<Double> getIIpolrocze() {
-        return IIpolrocze;
+    public List<Double> getWsierpien() {
+        return wsierpien;
     }
 
-    public void setIIpolrocze(List<Double> IIpolrocze) {
-        this.IIpolrocze = IIpolrocze;
+    public void setWsierpien(List<Double> wsierpien) {
+        this.wsierpien = wsierpien;
     }
 
-    public List<Double> getRok() {
-        return rok;
+    public List<Double> getWwrzesien() {
+        return wwrzesien;
     }
 
-    public void setRok(List<Double> rok) {
-        this.rok = rok;
+    public void setWwrzesien(List<Double> wwrzesien) {
+        this.wwrzesien = wwrzesien;
     }
+
+    public List<Double> getWpazdziernik() {
+        return wpazdziernik;
+    }
+
+    public void setWpazdziernik(List<Double> wpazdziernik) {
+        this.wpazdziernik = wpazdziernik;
+    }
+
+    public List<Double> getWlistopad() {
+        return wlistopad;
+    }
+
+    public void setWlistopad(List<Double> wlistopad) {
+        this.wlistopad = wlistopad;
+    }
+
+    public List<Double> getWgrudzien() {
+        return wgrudzien;
+    }
+
+    public void setWgrudzien(List<Double> wgrudzien) {
+        this.wgrudzien = wgrudzien;
+    }
+
+    public List<Double> getwIpolrocze() {
+        return wIpolrocze;
+    }
+
+    public void setwIpolrocze(List<Double> wIpolrocze) {
+        this.wIpolrocze = wIpolrocze;
+    }
+
+    public List<Double> getwIIpolrocze() {
+        return wIIpolrocze;
+    }
+
+    public void setwIIpolrocze(List<Double> wIIpolrocze) {
+        this.wIIpolrocze = wIIpolrocze;
+    }
+
+    public List<Double> getWrok() {
+        return wrok;
+    }
+
+    public void setWrok(List<Double> wrok) {
+        this.wrok = wrok;
+    }
+
+    public WierszRyczalt getWrzesien() {
+        return wrzesien;
+    }
+
+    public void setWrzesien(WierszRyczalt wrzesien) {
+        this.wrzesien = wrzesien;
+    }
+
+   
 
     public Ryczpoz getRyczpoz() {
         return pitpoz;
@@ -681,14 +853,7 @@ public class ZestawienieRyczaltView implements Serializable {
         this.pobierzPity = pobierzPity;
     }
 
-    public List<List> getZebranieMcy() {
-        return zebranieMcy;
-    }
-
-    public void setZebranieMcy(List<List> zebranieMcy) {
-        this.zebranieMcy = zebranieMcy;
-    }
-
+   
     public Ryczpoz getBiezacyPit() {
         return biezacyPit;
     }

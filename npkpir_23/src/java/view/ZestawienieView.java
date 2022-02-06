@@ -207,7 +207,6 @@ public class ZestawienieView implements Serializable {
             } catch (Exception e) {
                 E.e(e);
             }
-
             if (lista != null) {
                 zebranieMcy.add(styczen);
                 zebranieMcy.add(luty);
@@ -221,7 +220,6 @@ public class ZestawienieView implements Serializable {
                 zebranieMcy.add(pazdziernik);
                 zebranieMcy.add(listopad);
                 zebranieMcy.add(grudzien);
-
                 for (Dok dokument : lista) {
                     try {
                         if (dokument.getUsunpozornie() == false) {

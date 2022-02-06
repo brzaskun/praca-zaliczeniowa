@@ -34,7 +34,7 @@ import embeddable.FakturaEbay;
 import embeddable.FakturaPodatnikRozliczenie;
 import embeddable.Mce;
 import embeddable.SchemaEwidencjaSuma;
-import embeddable.ZestawienieRyczalt;
+import embeddable.WierszRyczalt;
 import embeddablefk.ImportJPKSprzedaz;
 import embeddablefk.InterpaperXLS;
 import entity.DeklaracjaVatSchemaWierszSum;
@@ -1286,7 +1286,7 @@ public class PdfMain {
                 col4[8] = 2;
                 col4[9] = 2;
                 return col4;
-            case "embeddable.ZestawienieRyczalt":
+            case "embeddable.WierszRyczalt":
                 col = new int[size];
                 col[0] = 1;
                 col[1] = 3;
@@ -1296,6 +1296,11 @@ public class PdfMain {
                 col[5] = 3;
                 col[6] = 3;
                 col[7] = 3;
+                col[8] = 3;
+                col[9] = 3;
+                col[10] = 3;
+                col[11] = 3;
+                col[12] = 3;
                 return col;
             case "testobjects.WierszDokfk":
                 int[] col5 = new int[size];
@@ -2888,42 +2893,62 @@ public class PdfMain {
                 table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getBrutto())), "right", 8));
                 table.addCell(ustawfrazeAlign(p.getTerminzaplaty(), "center", 8));
             }
-            if (nazwaklasy.equals("embeddable.ZestawienieRyczalt")) {
-                ZestawienieRyczalt p = (ZestawienieRyczalt) it.next();
+            if (nazwaklasy.equals("embeddable.WierszRyczalt")) {
+                WierszRyczalt p = (WierszRyczalt) it.next();
                 table.addCell(ustawfrazeAlign(String.valueOf(i++), "center", 8));
-                table.addCell(ustawfrazeAlign(p.getOkres(), "left", 8));
-                if (p.getS170() != 0.0) {
-                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getS170())), "right", 8));
+                table.addCell(ustawfrazeAlign(p.getMcnazwa(), "left", 8));
+                if (p.getKolumna_17i0() != 0.0) {
+                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKolumna_17i0())), "right", 8));
                 } else {
                     table.addCell(ustawfrazeAlign("", "left", 8));
                 }
-                if (p.getS150() != 0.0) {
-                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getS150())), "right", 8));
+                if (p.getKolumna_15i0()!= 0.0) {
+                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKolumna_15i0())), "right", 8));
                 } else {
                     table.addCell(ustawfrazeAlign("", "left", 8));
                 }
-                if (p.getS125() != 0.0) {
-                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getS125())), "right", 8));
+                if (p.getKolumna_14i0()!= 0.0) {
+                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKolumna_14i0())), "right", 8));
                 } else {
                     table.addCell(ustawfrazeAlign("", "left", 8));
                 }
-                if (p.getS100() != 0.0) {
-                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getS100())), "right", 8));
+                if (p.getKolumna_12i5() != 0.0) {
+                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKolumna_12i5())), "right", 8));
                 } else {
                     table.addCell(ustawfrazeAlign("", "left", 8));
                 }
-                if (p.getS85() != 0.0) {
-                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getS85())), "right", 8));
+                if (p.getKolumna_12i0() != 0.0) {
+                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKolumna_12i0())), "right", 8));
                 } else {
                     table.addCell(ustawfrazeAlign("", "left", 8));
                 }
-                if (p.getS55() != 0.0) {
-                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getS55())), "right", 8));
+                if (p.getKolumna_10i0() != 0.0) {
+                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKolumna_10i0())), "right", 8));
                 } else {
                     table.addCell(ustawfrazeAlign("", "left", 8));
                 }
-                if (p.getS30() != 0.0) {
-                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getS30())), "right", 8));
+                if (p.getKolumna_8i5()!= 0.0) {
+                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKolumna_8i5())), "right", 8));
+                } else {
+                    table.addCell(ustawfrazeAlign("", "left", 8));
+                }
+                if (p.getKolumna_5i5() != 0.0) {
+                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKolumna_5i5())), "right", 8));
+                } else {
+                    table.addCell(ustawfrazeAlign("", "left", 8));
+                }
+                if (p.getKolumna_3i0()!= 0.0) {
+                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKolumna_3i0())), "right", 8));
+                } else {
+                    table.addCell(ustawfrazeAlign("", "left", 8));
+                }
+                if (p.getKolumna_2i0() != 0.0) {
+                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKolumna_2i0())), "right", 8));
+                } else {
+                    table.addCell(ustawfrazeAlign("", "left", 8));
+                }
+                if (p.getRazem() != 0.0) {
+                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getRazem())), "right", 8));
                 } else {
                     table.addCell(ustawfrazeAlign("", "left", 8));
                 }

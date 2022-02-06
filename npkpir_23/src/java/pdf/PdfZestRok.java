@@ -17,7 +17,7 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import embeddable.Mce;
 import embeddable.WierszPkpir;
-import embeddable.ZestawienieRyczalt;
+import embeddable.WierszRyczalt;
 import entity.Uz;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -34,7 +34,6 @@ import pdffk.PdfMain;
 import static pdffk.PdfMain.dodajOpisWstepny;
 import static pdffk.PdfMain.dodajTabele;
 import static pdffk.PdfMain.finalizacjaDokumentuQR;
-import static pdffk.PdfMain.inicjacjaA4Portrait;
 import static pdffk.PdfMain.inicjacjaWritera;
 import static pdffk.PdfMain.naglowekStopkaP;
 import static pdffk.PdfMain.otwarcieDokumentu;
@@ -198,7 +197,7 @@ public class PdfZestRok{
         Msg.msg("i", "Wydrukowano zestawienie obrotów");
     }
     
-    public static void drukujRyczalt(WpisView wpisView, List<ZestawienieRyczalt> pobranetransakcje) throws DocumentException, FileNotFoundException, IOException {
+    public static void drukujRyczalt(WpisView wpisView, List<WierszRyczalt> pobranetransakcje) throws DocumentException, FileNotFoundException, IOException {
         String nazwa = "pkpir" + wpisView.getPodatnikWpisu().trim();
         File file = new File(nazwa);
         if (file.isFile()) {
@@ -206,7 +205,7 @@ public class PdfZestRok{
         }
         if (pobranetransakcje != null && pobranetransakcje.size() > 0) {
             Uz uz = wpisView.getUzer();
-            Document document = inicjacjaA4Portrait();
+            Document document = PdfMain.inicjacjaA4Landscape();
             PdfWriter writer = inicjacjaWritera(document, nazwa);
             naglowekStopkaP(writer);
             otwarcieDokumentu(document, nazwa);

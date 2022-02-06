@@ -77,11 +77,15 @@ public class Kolmn implements Serializable{
         kolumnRyczalt = Collections.synchronizedList(new ArrayList<>());
         kolumnRyczalt.add("17%");
         kolumnRyczalt.add("15%");
+        kolumnRyczalt.add("14%");
         kolumnRyczalt.add("12.5%");
+        kolumnRyczalt.add("12%");
         kolumnRyczalt.add("10%");
         kolumnRyczalt.add("8.5%");
         kolumnRyczalt.add("5.5%");
         kolumnRyczalt.add("3%");
+        kolumnRyczalt.add("2%");
+        kolumnRyczalt.add("razem");
     }
     
     public static List<String> zwrockolumny(String transakcjiRodzaj) {

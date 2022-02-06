@@ -8,7 +8,7 @@ package testobjects;
 import embeddable.FakturaPodatnikRozliczenie;
 import embeddable.Mce;
 import embeddable.SchemaEwidencjaSuma;
-import embeddable.ZestawienieRyczalt;
+import embeddable.WierszRyczalt;
 import embeddablefk.ImportJPKSprzedaz;
 import embeddablefk.InterpaperXLS;
 import embeddablefk.TreeNodeExtended;
@@ -729,17 +729,21 @@ public static List[] getKontoZapisy(List<StronaWiersza> wiersze) {
        return tabela;
    }
     
-    public static List[] getZestawienieRyczalt(List<ZestawienieRyczalt> wiersze) {
+    public static List[] getZestawienieRyczalt(List<WierszRyczalt> wiersze) {
        List n = new ArrayList();
        n.add("lp");
        n.add("okres");
        n.add("staw. 17%");
        n.add("staw. 15%");
+       n.add("staw. 14%");
        n.add("staw. 12.5%");
+       n.add("staw. 12%");
        n.add("staw. 10%");
        n.add("staw. 8,5%");
        n.add("staw. 5,5%");
        n.add("staw. 3%");
+       n.add("staw. 2%");
+       n.add("razem");
        List[] tabela = new List[2];
        tabela[0] = n;
        tabela[1] = wiersze;
