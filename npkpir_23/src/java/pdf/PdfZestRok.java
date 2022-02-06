@@ -16,6 +16,7 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import embeddable.Mce;
+import embeddable.WierszPkpir;
 import embeddable.ZestawienieRyczalt;
 import entity.Uz;
 import java.io.File;
@@ -25,11 +26,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.faces.context.FacesContext;
 import msg.B;
-import msg.Msg;import pdffk.PdfMain;
+import msg.Msg;
+import org.primefaces.PrimeFaces;
+import pdffk.PdfMain;
 import static pdffk.PdfMain.dodajOpisWstepny;
 import static pdffk.PdfMain.dodajTabele;
 import static pdffk.PdfMain.finalizacjaDokumentuQR;
@@ -38,9 +39,8 @@ import static pdffk.PdfMain.inicjacjaWritera;
 import static pdffk.PdfMain.naglowekStopkaP;
 import static pdffk.PdfMain.otwarcieDokumentu;
 import plik.Plik;
-import view.WpisView; import org.primefaces.PrimeFaces;
+import view.WpisView;
 import view.ZestawienieView;
-
 /**
  *
  * @author Osito
@@ -135,7 +135,7 @@ public class PdfZestRok{
         table.setHeaderRows(5);
         table.setFooterRows(1);
         
-        List<List <Double>> wykaz = Collections.synchronizedList(new ArrayList<>());
+        List<WierszPkpir> wykaz = Collections.synchronizedList(new ArrayList<>());
         wykaz.add(zestawienieView.getStyczen());
         wykaz.add(zestawienieView.getLuty());
         wykaz.add(zestawienieView.getMarzec());
@@ -154,7 +154,7 @@ public class PdfZestRok{
         int nr = 1;
         int nrmca = 1;
         Map<String,Integer> mapamcyCalendar = Mce.getMapamcyCalendar();
-        for (List<Double> rs : wykaz) {
+        for (WierszPkpir rs : wykaz) {
             table.addCell(ustawfrazeAlign(String.valueOf(nr), "center",7));
             if(nr==15){
                 table.addCell(ustawfrazeAlign(B.b("podsumowaniezarok"), "left",7));
@@ -176,18 +176,18 @@ public class PdfZestRok{
                     table.addCell(ustawfrazeAlign(Mce.getNumberToNazwamiesiaca().get(nrmca++), "left",7));
                 }
             }
-            table.addCell(ustawfrazeAlign(formatujWaluta(rs.get(7)), "right",7));
-            table.addCell(ustawfrazeAlign(formatujWaluta(rs.get(8)), "right",7));
-            table.addCell(ustawfrazeAlign(formatujWaluta(rs.get(9)), "right",7));
-            table.addCell(ustawfrazeAlign(formatujWalutaNoZero(rs.get(0)), "right",7));
-            table.addCell(ustawfrazeAlign(formatujWalutaNoZero(rs.get(1)), "right",7));
-            table.addCell(ustawfrazeAlign(formatujWalutaNoZero(rs.get(0)+rs.get(1)), "right",7));
-            table.addCell(ustawfrazeAlign(formatujWalutaNoZero(rs.get(2)), "right",7));
-            table.addCell(ustawfrazeAlign(formatujWalutaNoZero(rs.get(3)), "right",7));
-            table.addCell(ustawfrazeAlign(formatujWalutaNoZero(rs.get(4)), "right",7));
-            table.addCell(ustawfrazeAlign(formatujWalutaNoZero(rs.get(5)), "right",7));
-            table.addCell(ustawfrazeAlign(formatujWalutaNoZero(rs.get(4)+rs.get(5)), "right",7));
-            table.addCell(ustawfrazeAlign(formatujWalutaNoZero(rs.get(6)), "right",7));
+            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getRazemprzychody()), "right",7));
+            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getRazemkoszty()), "right",7));
+            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getRazemdochod()), "right",7));
+            table.addCell(ustawfrazeAlign(formatujWalutaNoZero(rs.getKolumna7()), "right",7));
+            table.addCell(ustawfrazeAlign(formatujWalutaNoZero(rs.getKolumna8()), "right",7));
+            table.addCell(ustawfrazeAlign(formatujWalutaNoZero(rs.getKolumna9()), "right",7));
+            table.addCell(ustawfrazeAlign(formatujWalutaNoZero(rs.getKolumna10()), "right",7));
+            table.addCell(ustawfrazeAlign(formatujWalutaNoZero(rs.getKolumna11()), "right",7));
+            table.addCell(ustawfrazeAlign(formatujWalutaNoZero(rs.getKolumna12()), "right",7));
+            table.addCell(ustawfrazeAlign(formatujWalutaNoZero(rs.getKolumna13()), "right",7));
+            table.addCell(ustawfrazeAlign(formatujWalutaNoZero(rs.getKolumna14()), "right",7));
+            table.addCell(ustawfrazeAlign(formatujWalutaNoZero(rs.getKolumna15()), "right",7));
             nr++;
         }
         pdf.setPageSize(PageSize.A4_LANDSCAPE.rotate());

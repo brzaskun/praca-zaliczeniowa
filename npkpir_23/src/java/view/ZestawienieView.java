@@ -18,6 +18,7 @@ import dao.StrataDAO;
 import dao.ZobowiazanieDAO;
 import embeddable.Kwartaly;
 import embeddable.Mce;
+import embeddable.WierszPkpir;
 import entity.Amodok;
 import entity.Dok;
 import entity.KwotaKolumna1;
@@ -37,7 +38,6 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
@@ -50,7 +50,7 @@ import javax.inject.Named;
 import msg.Msg;
 import org.apache.commons.collections4.CollectionUtils;
 import org.primefaces.PrimeFaces;
- import org.primefaces.model.chart.Axis;
+import org.primefaces.model.chart.Axis;
 import org.primefaces.model.chart.AxisType;
 import org.primefaces.model.chart.CategoryAxis;
 import org.primefaces.model.chart.LineChartModel;
@@ -63,27 +63,44 @@ import waluty.Z;
  *
  * @author Osito
  */
-@Named(value = "ZestawienieView")
+@Named(value = "zestawienieView")
 @ViewScoped
 public class ZestawienieView implements Serializable {
+
     private static final long serialVersionUID = 1L;
-    private static List<Double> styczen;
-    private static List<Double> luty;
-    private static List<Double> marzec;
-    private static List<Double> kwiecien;
-    private static List<Double> maj;
-    private static List<Double> czerwiec;
-    private static List<Double> lipiec;
-    private static List<Double> sierpien;
-    private static List<Double> wrzesien;
-    private static List<Double> pazdziernik;
-    private static List<Double> listopad;
-    private static List<Double> grudzien;
-    private static List<Double> Ipolrocze;
-    private static List<Double> IIpolrocze;
-    private static List<Double> rok;
+    private List<Double> wstyczen;
+    private List<Double> wluty;
+    private List<Double> wmarzec;
+    private List<Double> wkwiecien;
+    private List<Double> wmaj;
+    private List<Double> wczerwiec;
+    private List<Double> wlipiec;
+    private List<Double> wsierpien;
+    private List<Double> wwrzesien;
+    private List<Double> wpazdziernik;
+    private List<Double> wlistopad;
+    private List<Double> wgrudzien;
+    private List<Double> wIpolrocze;
+    private List<Double> wIIpolrocze;
+    private List<Double> wrok;
+    private WierszPkpir styczen;
+    private WierszPkpir luty;
+    private WierszPkpir marzec;
+    private WierszPkpir kwiecien;
+    private WierszPkpir maj;
+    private WierszPkpir czerwiec;
+    private WierszPkpir lipiec;
+    private WierszPkpir sierpien;
+    private WierszPkpir wrzesien;
+    private WierszPkpir pazdziernik;
+    private WierszPkpir listopad;
+    private WierszPkpir grudzien;
+    private WierszPkpir Ipolrocze;
+    private WierszPkpir IIpolrocze;
+    private WierszPkpir rok;
+    private List<WierszPkpir> zebranieMcy;
     //dane niezbedne do wyliczania pit
-    private static String wybranyudzialowiec;
+    private String wybranyudzialowiec;
     @Inject
     private DokDAO dokDAO;
     @Inject
@@ -108,7 +125,6 @@ public class ZestawienieView implements Serializable {
     private RemanentView remanentView;
     private List<Dok> lista;
     private List<Pitpoz> pobierzPity;
-    private List<List> zebranieMcy;
     @Inject
     private Pitpoz biezacyPit;
     @Inject
@@ -136,29 +152,30 @@ public class ZestawienieView implements Serializable {
     private LineChartModel linearModel;
 
     public ZestawienieView() {
-        styczen = Arrays.asList(new Double[10]);
-        luty = Arrays.asList(new Double[10]);
-        marzec = Arrays.asList(new Double[10]);
-        kwiecien = Arrays.asList(new Double[10]);
-        maj = Arrays.asList(new Double[10]);
-        czerwiec = Arrays.asList(new Double[10]);
-        lipiec = Arrays.asList(new Double[10]);
-        sierpien = Arrays.asList(new Double[10]);
-        wrzesien = Arrays.asList(new Double[10]);
-        pazdziernik = Arrays.asList(new Double[10]);
-        listopad = Arrays.asList(new Double[10]);
-        grudzien = Arrays.asList(new Double[10]);
-        pobierzPity = Collections.synchronizedList(new ArrayList<>());
-        zebranieMcy = Collections.synchronizedList(new ArrayList<>());
-        listapit = Collections.synchronizedList(new ArrayList<>());
-        listawybranychudzialowcow = Collections.synchronizedList(new ArrayList<>());
-        Ipolrocze = Collections.synchronizedList(new ArrayList<>());
-        IIpolrocze = Collections.synchronizedList(new ArrayList<>());
-        rok = Collections.synchronizedList(new ArrayList<>());
+
     }
 
     @PostConstruct
     public void init() { //E.m(this);
+        styczen = new WierszPkpir(1, wpisView.getRokWpisuSt(), "01", "styczeń");
+        luty = new WierszPkpir(2, wpisView.getRokWpisuSt(), "02", "luty");
+        marzec = new WierszPkpir(3, wpisView.getRokWpisuSt(), "03", "marzec");
+        kwiecien = new WierszPkpir(4, wpisView.getRokWpisuSt(), "04", "kwiecień");
+        maj = new WierszPkpir(5, wpisView.getRokWpisuSt(), "05", "maj");
+        czerwiec = new WierszPkpir(6, wpisView.getRokWpisuSt(), "06", "czerwiec");
+        lipiec = new WierszPkpir(7, wpisView.getRokWpisuSt(), "07", "lipiec");
+        sierpien = new WierszPkpir(8, wpisView.getRokWpisuSt(), "08", "sierpień");
+        wrzesien = new WierszPkpir(9, wpisView.getRokWpisuSt(), "09", "wrzesień");
+        pazdziernik = new WierszPkpir(10, wpisView.getRokWpisuSt(), "10", "październik");
+        listopad = new WierszPkpir(11, wpisView.getRokWpisuSt(), "11", "listopad");
+        grudzien = new WierszPkpir(12, wpisView.getRokWpisuSt(), "12", "grudzień");
+        pobierzPity = Collections.synchronizedList(new ArrayList<>());
+        zebranieMcy = Collections.synchronizedList(new ArrayList<>());
+        listapit = Collections.synchronizedList(new ArrayList<>());
+        listawybranychudzialowcow = Collections.synchronizedList(new ArrayList<>());
+        Ipolrocze = new WierszPkpir(13, wpisView.getRokWpisuSt(), "13", "I półrocze");
+        IIpolrocze = new WierszPkpir(14, wpisView.getRokWpisuSt(), "14", "II półrocze");
+        rok = new WierszPkpir(15, wpisView.getRokWpisuSt(), "15", "rok");
         if (wpisView.getPodatnikObiekt() != null && wpisView.isKsiegaryczalt()) {
             pobranecechypodatnik = cechazapisuDAOfk.findPodatnikOnlyAktywne(wpisView.getPodatnikObiekt());
             Podatnik pod = wpisView.getPodatnikObiekt();
@@ -172,16 +189,16 @@ public class ZestawienieView implements Serializable {
                 Msg.msg("e", "Nie uzupełnione parametry podatnika", "formpit:messages");
             }
             try {
-               lista= KsiegaBean.pobierzdokumentyRok(dokDAO, pod, wpisView.getRokWpisu(), wpisView.getMiesiacWpisu(), wpisView.getOdjakiegomcdok());
-               if (wybranacechadok!=null) {
+                lista = KsiegaBean.pobierzdokumentyRok(dokDAO, pod, wpisView.getRokWpisu(), wpisView.getMiesiacWpisu(), wpisView.getOdjakiegomcdok());
+                if (wybranacechadok != null) {
                     for (Iterator<Dok> it = lista.iterator(); it.hasNext();) {
                         Dok p = it.next();
-                        if (p.getListaCech()!=null && !p.getListaCech().contains(wybranacechadok.getNazwacechy())) {
+                        if (p.getListaCech() != null && !p.getListaCech().contains(wybranacechadok.getNazwacechy())) {
                             it.remove();
                         }
                     }
-               }
-               for (Iterator<Dok> it = lista.iterator(); it.hasNext();) {
+                }
+                for (Iterator<Dok> it = lista.iterator(); it.hasNext();) {
                     Dok tmpx = it.next();
                     if (tmpx.getRodzajedok().isTylkojpk()) {
                         it.remove();
@@ -190,25 +207,8 @@ public class ZestawienieView implements Serializable {
             } catch (Exception e) {
                 E.e(e);
             }
-            
+
             if (lista != null) {
-                for (int i = 0; i < 10; i++) {
-                    styczen.set(i, 0.0);
-                    luty.set(i, 0.0);
-                    marzec.set(i, 0.0);
-                    kwiecien.set(i, 0.0);
-                    maj.set(i, 0.0);
-                    czerwiec.set(i, 0.0);
-                    lipiec.set(i, 0.0);
-                    sierpien.set(i, 0.0);
-                    wrzesien.set(i, 0.0);
-                    pazdziernik.set(i, 0.0);
-                    listopad.set(i, 0.0);
-                    grudzien.set(i, 0.0);
-                    Ipolrocze.add(styczen.get(i) + luty.get(i) + marzec.get(i) + kwiecien.get(i) + maj.get(i) + czerwiec.get(i));
-                    IIpolrocze.add(lipiec.get(i) + sierpien.get(i) + wrzesien.get(i) + pazdziernik.get(i) + listopad.get(i) + grudzien.get(i));
-                    rok.add(Ipolrocze.get(i) + IIpolrocze.get(i));
-                }
                 zebranieMcy.add(styczen);
                 zebranieMcy.add(luty);
                 zebranieMcy.add(marzec);
@@ -229,105 +229,110 @@ public class ZestawienieView implements Serializable {
                             for (KwotaKolumna1 tmp : szczegol) {
                                 String selekcja = dokument.getPkpirM();
                                 String selekcja2 = tmp.getNazwakolumny();
-                                if (selekcja2==null) {
+                                if (selekcja2 == null) {
                                     error.E.s("");
                                 }
                                 Double kwota = tmp.getNetto();
                                 Double temp = 0.0;
-                                int mcint = Mce.getMiesiacToNumber().get(selekcja)-1;
-                                List<Double> listabiezaca = zebranieMcy.get(mcint);
+                                int mcint = Mce.getMiesiacToNumber().get(selekcja) - 1;
+                                WierszPkpir listabiezaca = zebranieMcy.get(mcint);
                                 switch (selekcja2) {
                                     case "przych. sprz":
-                                        temp = listabiezaca.get(0) + kwota;
-                                        listabiezaca.set(0, temp);
+                                        temp = listabiezaca.getKolumna7() + kwota;
+                                        listabiezaca.setKolumna7(temp);
                                         break;
                                     case "pozost. przych.":
-                                        temp = listabiezaca.get(1) + kwota;
-                                        listabiezaca.set(1, temp);
+                                        temp = listabiezaca.getKolumna8() + kwota;
+                                        listabiezaca.setKolumna8(temp);
                                         break;
                                     case "zakup tow. i mat.":
-                                        temp = listabiezaca.get(2) + kwota;
-                                        listabiezaca.set(2, temp);
+                                        temp = listabiezaca.getKolumna10() + kwota;
+                                        listabiezaca.setKolumna10(temp);
                                         break;
                                     case "koszty ub.zak.":
-                                        temp = listabiezaca.get(3) + kwota;
-                                        listabiezaca.set(3, temp);
+                                        temp = listabiezaca.getKolumna11() + kwota;
+                                        listabiezaca.setKolumna11(temp);
                                         break;
                                     case "wynagrodzenia":
-                                        temp = listabiezaca.get(4) + kwota;
-                                        listabiezaca.set(4, temp);
+                                        temp = listabiezaca.getKolumna12() + kwota;
+                                        listabiezaca.setKolumna12(temp);
                                         break;
                                     case "poz. koszty":
-                                        temp = listabiezaca.get(5) + kwota;
-                                        listabiezaca.set(5, temp);
+                                        temp = listabiezaca.getKolumna13() + kwota;
+                                        listabiezaca.setKolumna13(temp);
                                         break;
                                     case "inwestycje":
-                                        temp = listabiezaca.get(6) + kwota;
-                                        listabiezaca.set(6, temp);
+                                        temp = listabiezaca.getKolumna15() + kwota;
+                                        listabiezaca.setKolumna15(temp);
                                         break;
                                 }
                             }
-                            //obliczenie wyniku
-                            styczen.set(7, styczen.get(0) + styczen.get(1));
-                            styczen.set(8, styczen.get(2) + styczen.get(3) + styczen.get(4) + styczen.get(5));
-                            styczen.set(9, styczen.get(7) - styczen.get(8));
-                            luty.set(7, luty.get(0) + luty.get(1));
-                            luty.set(8, luty.get(2) + luty.get(3) + luty.get(4) + luty.get(5));
-                            luty.set(9, luty.get(7) - luty.get(8));
-                            marzec.set(7, marzec.get(0) + marzec.get(1));
-                            marzec.set(8, marzec.get(2) + marzec.get(3) + marzec.get(4) + marzec.get(5));
-                            marzec.set(9, marzec.get(7) - marzec.get(8));
-                            kwiecien.set(7, kwiecien.get(0) + kwiecien.get(1));
-                            kwiecien.set(8, kwiecien.get(2) + kwiecien.get(3) + kwiecien.get(4) + kwiecien.get(5));
-                            kwiecien.set(9, kwiecien.get(7) - kwiecien.get(8));
-                            maj.set(7, maj.get(0) + maj.get(1));
-                            maj.set(8, maj.get(2) + maj.get(3) + maj.get(4) + maj.get(5));
-                            maj.set(9, maj.get(7) - maj.get(8));
-                            czerwiec.set(7, czerwiec.get(0) + czerwiec.get(1));
-                            czerwiec.set(8, czerwiec.get(2) + czerwiec.get(3) + czerwiec.get(4) + czerwiec.get(5));
-                            czerwiec.set(9, czerwiec.get(7) - czerwiec.get(8));
-                            lipiec.set(7, lipiec.get(0) + lipiec.get(1));
-                            lipiec.set(8, lipiec.get(2) + lipiec.get(3) + lipiec.get(4) + lipiec.get(5));
-                            lipiec.set(9, lipiec.get(7) - lipiec.get(8));
-                            sierpien.set(7, sierpien.get(0) + sierpien.get(1));
-                            sierpien.set(8, sierpien.get(2) + sierpien.get(3) + sierpien.get(4) + sierpien.get(5));
-                            sierpien.set(9, sierpien.get(7) - sierpien.get(8));
-                            wrzesien.set(7, wrzesien.get(0) + wrzesien.get(1));
-                            wrzesien.set(8, wrzesien.get(2) + wrzesien.get(3) + wrzesien.get(4) + wrzesien.get(5));
-                            wrzesien.set(9, wrzesien.get(7) - wrzesien.get(8));
-                            pazdziernik.set(7, pazdziernik.get(0) + pazdziernik.get(1));
-                            pazdziernik.set(8, pazdziernik.get(2) + pazdziernik.get(3) + pazdziernik.get(4) + pazdziernik.get(5));
-                            pazdziernik.set(9, pazdziernik.get(7) - pazdziernik.get(8));
-                            listopad.set(7, listopad.get(0) + listopad.get(1));
-                            listopad.set(8, listopad.get(2) + listopad.get(3) + listopad.get(4) + listopad.get(5));
-                            listopad.set(9, listopad.get(7) - listopad.get(8));
-                            grudzien.set(7, grudzien.get(0) + grudzien.get(1));
-                            grudzien.set(8, grudzien.get(2) + grudzien.get(3) + grudzien.get(4) + grudzien.get(5));
-                            grudzien.set(9, grudzien.get(7) - grudzien.get(8));
                             //pobierzPity();
                         } else {
                         }
-                        Ipolrocze = Collections.synchronizedList(new ArrayList<>());
-                        IIpolrocze = Collections.synchronizedList(new ArrayList<>());
-                        rok = Collections.synchronizedList(new ArrayList<>());
-
-                        for (int i = 0; i < 10; i++) {
-                            Ipolrocze.add(styczen.get(i) + luty.get(i) + marzec.get(i) + kwiecien.get(i) + maj.get(i) + czerwiec.get(i));
-                            IIpolrocze.add(lipiec.get(i) + sierpien.get(i) + wrzesien.get(i) + pazdziernik.get(i) + listopad.get(i) + grudzien.get(i));
-                            rok.add(Ipolrocze.get(i) + IIpolrocze.get(i));
-                        }
-                    }catch (Exception e) {
+                    } catch (Exception e) {
                         E.e(e);
                     }
                 }
+                for (WierszPkpir p : zebranieMcy) {
+                    if (p.getId() < 7) {
+                        Ipolrocze.dodaj(p);
+                    } else {
+                        IIpolrocze.dodaj(p);
+                    }
+                    rok.dodaj(p);
                 }
-            
+            }
+
         }
         if (listawybranychudzialowcow.size() == 1 && CollectionUtils.isNotEmpty(lista)) {
             wybranyudzialowiec = listawybranychudzialowcow.get(0);
             obliczPit();
         }
         createLinearModel();
+        wstyczen = new ArrayList<>();
+        wluty = new ArrayList<>();
+        wmarzec = new ArrayList<>();
+        wkwiecien = new ArrayList<>();
+        wmaj = new ArrayList<>();
+        wczerwiec = new ArrayList<>();
+        wlipiec = new ArrayList<>();
+        wsierpien = new ArrayList<>();
+        wwrzesien = new ArrayList<>();
+        wpazdziernik = new ArrayList<>();
+        wlistopad = new ArrayList<>();
+        wgrudzien = new ArrayList<>();
+        wIpolrocze = new ArrayList<>();
+        wIIpolrocze = new ArrayList<>();
+        wrok = new ArrayList<>();
+        naniesnaliste(wstyczen, zebranieMcy.get(0));
+        naniesnaliste(wluty, zebranieMcy.get(1));
+        naniesnaliste(wmarzec, zebranieMcy.get(2));
+        naniesnaliste(wkwiecien, zebranieMcy.get(3));
+        naniesnaliste(wmaj, zebranieMcy.get(4));
+        naniesnaliste(wczerwiec, zebranieMcy.get(5));
+        naniesnaliste(wlipiec, zebranieMcy.get(6));
+        naniesnaliste(wsierpien, zebranieMcy.get(7));
+        naniesnaliste(wwrzesien, zebranieMcy.get(8));
+        naniesnaliste(wpazdziernik, zebranieMcy.get(9));
+        naniesnaliste(wlistopad, zebranieMcy.get(10));
+        naniesnaliste(wgrudzien, zebranieMcy.get(11));
+        naniesnaliste(wIpolrocze, Ipolrocze);
+        naniesnaliste(wIIpolrocze, IIpolrocze);
+        naniesnaliste(wrok, rok);
+    }
+
+    private void naniesnaliste(List<Double> wstyczen, WierszPkpir get) {
+        wstyczen.add(get.getKolumna7());
+        wstyczen.add(get.getKolumna8());
+        wstyczen.add(get.getKolumna10());
+        wstyczen.add(get.getKolumna11());
+        wstyczen.add(get.getKolumna12());
+        wstyczen.add(get.getKolumna13());
+        wstyczen.add(get.getKolumna15());
+        wstyczen.add(get.getRazemprzychody());
+        wstyczen.add(get.getRazemkoszty());
+        wstyczen.add(get.getRazemdochod());
     }
 
     public LineChartModel getLinearModel() {
@@ -345,52 +350,52 @@ public class ZestawienieView implements Serializable {
         series1.setLabel("przychody");
         series1.setMarkerStyle("circle");
 
-        series1.set("styczeń", styczen.get(7));
-        series1.set("luty", luty.get(7));
-        series1.set("marzec", marzec.get(7));
-        series1.set("kwiecień", kwiecien.get(7));
-        series1.set("maj", maj.get(7));
-        series1.set("czerwiec", czerwiec.get(7));
-        series1.set("lipiec", lipiec.get(7));
-        series1.set("sierpień", sierpien.get(7));
-        series1.set("wrzesień", wrzesien.get(7));
-        series1.set("październik", pazdziernik.get(7));
-        series1.set("listopad", listopad.get(7));
-        series1.set("grudzień", grudzien.get(7));
+        series1.set("styczeń", styczen.getRazemprzychody());
+        series1.set("luty", luty.getRazemprzychody());
+        series1.set("marzec", marzec.getRazemprzychody());
+        series1.set("kwiecień", kwiecien.getRazemprzychody());
+        series1.set("maj", maj.getRazemprzychody());
+        series1.set("czerwiec", czerwiec.getRazemprzychody());
+        series1.set("lipiec", lipiec.getRazemprzychody());
+        series1.set("sierpień", sierpien.getRazemprzychody());
+        series1.set("wrzesień", wrzesien.getRazemprzychody());
+        series1.set("październik", pazdziernik.getRazemprzychody());
+        series1.set("listopad", listopad.getRazemprzychody());
+        series1.set("grudzień", grudzien.getRazemprzychody());
 
         LineChartSeries series2 = new LineChartSeries();
         series2.setLabel("koszty");
         series2.setMarkerStyle("diamond");
 
-        series2.set("styczeń", styczen.get(8));
-        series2.set("luty", luty.get(8));
-        series2.set("marzec", marzec.get(8));
-        series2.set("kwiecień", kwiecien.get(8));
-        series2.set("maj", maj.get(8));
-        series2.set("czerwiec", czerwiec.get(8));
-        series2.set("lipiec", lipiec.get(8));
-        series2.set("sierpień", sierpien.get(8));
-        series2.set("wrzesień", wrzesien.get(8));
-        series2.set("październik", pazdziernik.get(8));
-        series2.set("listopad", listopad.get(8));
-        series2.set("grudzień", grudzien.get(8));
+        series2.set("styczeń", styczen.getRazemkoszty());
+        series2.set("luty", luty.getRazemkoszty());
+        series2.set("marzec", marzec.getRazemkoszty());
+        series2.set("kwiecień", kwiecien.getRazemkoszty());
+        series2.set("maj", maj.getRazemkoszty());
+        series2.set("czerwiec", czerwiec.getRazemkoszty());
+        series2.set("lipiec", lipiec.getRazemkoszty());
+        series2.set("sierpień", sierpien.getRazemkoszty());
+        series2.set("wrzesień", wrzesien.getRazemkoszty());
+        series2.set("październik", pazdziernik.getRazemkoszty());
+        series2.set("listopad", listopad.getRazemkoszty());
+        series2.set("grudzień", grudzien.getRazemkoszty());
 
         LineChartSeries series3 = new LineChartSeries();
         series3.setLabel("wynik");
         series3.setMarkerStyle("filledSquare");
 
-        series3.set("styczeń", styczen.get(9));
-        series3.set("luty", luty.get(9));
-        series3.set("marzec", marzec.get(9));
-        series3.set("kwiecień", kwiecien.get(9));
-        series3.set("maj", maj.get(9));
-        series3.set("czerwiec", czerwiec.get(9));
-        series3.set("lipiec", lipiec.get(9));
-        series3.set("sierpień", sierpien.get(9));
-        series3.set("wrzesień", wrzesien.get(9));
-        series3.set("październik", pazdziernik.get(9));
-        series3.set("listopad", listopad.get(9));
-        series3.set("grudzień", grudzien.get(9));
+        series3.set("styczeń", styczen.getRazemdochod());
+        series3.set("luty", luty.getRazemdochod());
+        series3.set("marzec", marzec.getRazemdochod());
+        series3.set("kwiecień", kwiecien.getRazemdochod());
+        series3.set("maj", maj.getRazemdochod());
+        series3.set("czerwiec", czerwiec.getRazemdochod());
+        series3.set("lipiec", lipiec.getRazemdochod());
+        series3.set("sierpień", sierpien.getRazemdochod());
+        series3.set("wrzesień", wrzesien.getRazemdochod());
+        series3.set("październik", pazdziernik.getRazemdochod());
+        series3.set("listopad", listopad.getRazemdochod());
+        series3.set("grudzień", grudzien.getRazemdochod());
 
         linearModel.addSeries(series1);
         linearModel.addSeries(series2);
@@ -414,42 +419,11 @@ public class ZestawienieView implements Serializable {
         double maxliczbadowykresu = 0;
         try {
             List<Double> lista = Collections.synchronizedList(new ArrayList<>());
-            lista.add(styczen.get(7));
-            lista.add(luty.get(7));
-            lista.add(marzec.get(7));
-            lista.add(kwiecien.get(7));
-            lista.add(maj.get(7));
-            lista.add(czerwiec.get(7));
-            lista.add(lipiec.get(7));
-            lista.add(sierpien.get(7));
-            lista.add(wrzesien.get(7));
-            lista.add(pazdziernik.get(7));
-            lista.add(listopad.get(7));
-            lista.add(grudzien.get(7));
-            lista.add(styczen.get(8));
-            lista.add(luty.get(8));
-            lista.add(marzec.get(8));
-            lista.add(kwiecien.get(8));
-            lista.add(maj.get(8));
-            lista.add(czerwiec.get(8));
-            lista.add(lipiec.get(8));
-            lista.add(sierpien.get(8));
-            lista.add(wrzesien.get(8));
-            lista.add(pazdziernik.get(8));
-            lista.add(listopad.get(8));
-            lista.add(grudzien.get(8));
-            lista.add(styczen.get(9));
-            lista.add(luty.get(9));
-            lista.add(marzec.get(9));
-            lista.add(kwiecien.get(9));
-            lista.add(maj.get(9));
-            lista.add(czerwiec.get(9));
-            lista.add(lipiec.get(9));
-            lista.add(sierpien.get(9));
-            lista.add(wrzesien.get(9));
-            lista.add(pazdziernik.get(9));
-            lista.add(listopad.get(9));
-            lista.add(grudzien.get(9));
+            for (WierszPkpir p : zebranieMcy) {
+                lista.add(p.getRazemprzychody());
+                lista.add(p.getRazemkoszty());
+                lista.add(p.getRazemdochod());
+            }
             for (Double p : lista) {
                 if (maxliczbadowykresu < p) {
                     maxliczbadowykresu = p;
@@ -466,7 +440,8 @@ public class ZestawienieView implements Serializable {
                 maxliczbadowykresu = Math.round(maxliczbadowykresu);
                 maxliczbadowykresu = maxliczbadowykresu * 10000;
             }
-        } catch (Exception ex){}
+        } catch (Exception ex) {
+        }
 
         return maxliczbadowykresu;
     }
@@ -475,42 +450,11 @@ public class ZestawienieView implements Serializable {
         double minliczbadowykresu = 0;
         try {
             List<Double> lista = Collections.synchronizedList(new ArrayList<>());
-            lista.add(styczen.get(7));
-            lista.add(luty.get(7));
-            lista.add(marzec.get(7));
-            lista.add(kwiecien.get(7));
-            lista.add(maj.get(7));
-            lista.add(czerwiec.get(7));
-            lista.add(lipiec.get(7));
-            lista.add(sierpien.get(7));
-            lista.add(wrzesien.get(7));
-            lista.add(pazdziernik.get(7));
-            lista.add(listopad.get(7));
-            lista.add(grudzien.get(7));
-            lista.add(styczen.get(8));
-            lista.add(luty.get(8));
-            lista.add(marzec.get(8));
-            lista.add(kwiecien.get(8));
-            lista.add(maj.get(8));
-            lista.add(czerwiec.get(8));
-            lista.add(lipiec.get(8));
-            lista.add(sierpien.get(8));
-            lista.add(wrzesien.get(8));
-            lista.add(pazdziernik.get(8));
-            lista.add(listopad.get(8));
-            lista.add(grudzien.get(8));
-            lista.add(styczen.get(9));
-            lista.add(luty.get(9));
-            lista.add(marzec.get(9));
-            lista.add(kwiecien.get(9));
-            lista.add(maj.get(9));
-            lista.add(czerwiec.get(9));
-            lista.add(lipiec.get(9));
-            lista.add(sierpien.get(9));
-            lista.add(wrzesien.get(9));
-            lista.add(pazdziernik.get(9));
-            lista.add(listopad.get(9));
-            lista.add(grudzien.get(9));
+            for (WierszPkpir p : zebranieMcy) {
+                lista.add(p.getRazemprzychody());
+                lista.add(p.getRazemkoszty());
+                lista.add(p.getRazemdochod());
+            }
             for (double p : lista) {
                 if (minliczbadowykresu > p) {
                     minliczbadowykresu = p;
@@ -527,7 +471,8 @@ public class ZestawienieView implements Serializable {
                 minliczbadowykresu = Math.round(minliczbadowykresu);
                 minliczbadowykresu = minliczbadowykresu * 10000;
             }
-        } catch (Exception ex){}
+        } catch (Exception ex) {
+        }
         return minliczbadowykresu;
     }
 
@@ -536,7 +481,7 @@ public class ZestawienieView implements Serializable {
         biezacyPit.setCechazapisu(wybranacechadok);
         obliczPit();
     }
-    
+
     //oblicze pit i wkleja go do biezacego Pitu w celu wyswietlenia, nie zapisuje
     public void obliczPit() {
         komunikatblad = null;
@@ -781,7 +726,8 @@ public class ZestawienieView implements Serializable {
                     }
                 }
             }
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
         return BigDecimal.valueOf(suma52);
     }
 
@@ -864,7 +810,7 @@ public class ZestawienieView implements Serializable {
         if (biezacyPit.getWynik() != null) {
             try {
                 Pitpoz find = pitDAO.find(biezacyPit.getPkpirR(), biezacyPit.getPkpirM(), biezacyPit.getPodatnik(), biezacyPit.getUdzialowiec(), wybranacechadok);
-                if (find!=null) {
+                if (find != null) {
                     pitDAO.remove(find);
                 }
                 pitDAO.create(biezacyPit);
@@ -880,7 +826,7 @@ public class ZestawienieView implements Serializable {
             Msg.msg("e", "Nie można zachować. PIT nie wypełniony");
         }
     }
-    
+
     public void zus51zrekiF() {
         zus51zreki = true;
     }
@@ -958,79 +904,11 @@ public class ZestawienieView implements Serializable {
         try {
             BigDecimal suma = new BigDecimal(0);
             String selekcja = wpisView.getMiesiacWpisu();
-            switch (selekcja) {
-                case "01":
-                    for (int i = 0; i < 1; i++) {
-                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(0).toString())));
-                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(1).toString())));
-                    }
-                    break;
-                case "02":
-                    for (int i = 0; i < 2; i++) {
-                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(0).toString())));
-                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(1).toString())));
-                    }
-                    break;
-                case "03":
-                    for (int i = 0; i < 3; i++) {
-                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(0).toString())));
-                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(1).toString())));
-                    }
-                    break;
-                case "04":
-                    for (int i = 0; i < 4; i++) {
-                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(0).toString())));
-                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(1).toString())));
-                    }
-                    break;
-                case "05":
-                    for (int i = 0; i < 5; i++) {
-                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(0).toString())));
-                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(1).toString())));
-                    }
-                    break;
-                case "06":
-                    for (int i = 0; i < 6; i++) {
-                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(0).toString())));
-                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(1).toString())));
-                    }
-                    break;
-                case "07":
-                    for (int i = 0; i < 7; i++) {
-                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(0).toString())));
-                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(1).toString())));
-                    }
-                    break;
-                case "08":
-                    for (int i = 0; i < 8; i++) {
-                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(0).toString())));
-                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(1).toString())));
-                    }
-                    break;
-                case "09":
-                    for (int i = 0; i < 9; i++) {
-                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(0).toString())));
-                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(1).toString())));
-                    }
-                    break;
-                case "10":
-                    for (int i = 0; i < 10; i++) {
-                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(0).toString())));
-                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(1).toString())));
-                    }
-                    break;
-                case "11":
-                    for (int i = 0; i < 11; i++) {
-                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(0).toString())));
-                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(1).toString())));
-                    }
-                    break;
-                case "12":
-                    for (int i = 0; i < 12; i++) {
-                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(0).toString())));
-                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(1).toString())));
-                    }
-                    break;
+            int granica = Mce.getMiesiacToNumber().get(selekcja);
+            for (WierszPkpir p : zebranieMcy) {
+                if (p.getId() <= granica) {
+                    suma = suma.add(BigDecimal.valueOf(p.getRazemprzychody()));
+                }
             }
             return suma;
         } catch (Exception e) {
@@ -1044,103 +922,11 @@ public class ZestawienieView implements Serializable {
         try {
             BigDecimal suma = new BigDecimal(0);
             String selekcja = wpisView.getMiesiacWpisu();
-            switch (selekcja) {
-                case "01":
-                    for (int i = 0; i < 1; i++) {
-                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(2).toString())));
-                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(3).toString())));
-                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(4).toString())));
-                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(5).toString())));
-                    }
-                    break;
-                case "02":
-                    for (int i = 0; i < 2; i++) {
-                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(2).toString())));
-                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(3).toString())));
-                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(4).toString())));
-                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(5).toString())));
-                    }
-                    break;
-                case "03":
-                    for (int i = 0; i < 3; i++) {
-                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(2).toString())));
-                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(3).toString())));
-                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(4).toString())));
-                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(5).toString())));
-                    }
-                    break;
-                case "04":
-                    for (int i = 0; i < 4; i++) {
-                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(2).toString())));
-                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(3).toString())));
-                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(4).toString())));
-                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(5).toString())));
-                    }
-                    break;
-                case "05":
-                    for (int i = 0; i < 5; i++) {
-                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(2).toString())));
-                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(3).toString())));
-                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(4).toString())));
-                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(5).toString())));
-                    }
-                    break;
-                case "06":
-                    for (int i = 0; i < 6; i++) {
-                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(2).toString())));
-                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(3).toString())));
-                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(4).toString())));
-                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(5).toString())));
-                    }
-                    break;
-                case "07":
-                    for (int i = 0; i < 7; i++) {
-                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(2).toString())));
-                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(3).toString())));
-                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(4).toString())));
-                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(5).toString())));
-                    }
-                    break;
-                case "08":
-                    for (int i = 0; i < 8; i++) {
-                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(2).toString())));
-                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(3).toString())));
-                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(4).toString())));
-                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(5).toString())));
-                    }
-                    break;
-                case "09":
-                    for (int i = 0; i < 9; i++) {
-                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(2).toString())));
-                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(3).toString())));
-                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(4).toString())));
-                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(5).toString())));
-                    }
-                    break;
-                case "10":
-                    for (int i = 0; i < 10; i++) {
-                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(2).toString())));
-                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(3).toString())));
-                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(4).toString())));
-                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(5).toString())));
-                    }
-                    break;
-                case "11":
-                    for (int i = 0; i < 11; i++) {
-                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(2).toString())));
-                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(3).toString())));
-                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(4).toString())));
-                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(5).toString())));
-                    }
-                    break;
-                case "12":
-                    for (int i = 0; i < 12; i++) {
-                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(2).toString())));
-                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(3).toString())));
-                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(4).toString())));
-                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(5).toString())));
-                    }
-                    break;
+            int granica = Mce.getMiesiacToNumber().get(selekcja);
+            for (WierszPkpir p : zebranieMcy) {
+                if (p.getId() <= granica) {
+                    suma = suma.add(BigDecimal.valueOf(p.getRazemkoszty()));
+                }
             }
             return suma;
         } catch (Exception e) {
@@ -1231,126 +1017,6 @@ public class ZestawienieView implements Serializable {
         this.lista = lista;
     }
 
-    public List<Double> getStyczen() {
-        return styczen;
-    }
-
-    public void setStyczen(List<Double> styczen) {
-        ZestawienieView.styczen = styczen;
-    }
-
-    public List<Double> getLuty() {
-        return luty;
-    }
-
-    public void setLuty(List<Double> luty) {
-        ZestawienieView.luty = luty;
-    }
-
-    public List<Double> getMarzec() {
-        return marzec;
-    }
-
-    public void setMarzec(List<Double> marzec) {
-        ZestawienieView.marzec = marzec;
-    }
-
-    public List<Double> getKwiecien() {
-        return kwiecien;
-    }
-
-    public void setKwiecien(List<Double> kwiecien) {
-        ZestawienieView.kwiecien = kwiecien;
-    }
-
-    public List<Double> getMaj() {
-        return maj;
-    }
-
-    public void setMaj(List<Double> maj) {
-        ZestawienieView.maj = maj;
-    }
-
-    public List<Double> getCzerwiec() {
-        return czerwiec;
-    }
-
-    public void setCzerwiec(List<Double> czerwiec) {
-        ZestawienieView.czerwiec = czerwiec;
-    }
-
-    public List<Double> getLipiec() {
-        return lipiec;
-    }
-
-    public void setLipiec(List<Double> lipiec) {
-        ZestawienieView.lipiec = lipiec;
-    }
-
-    public List<Double> getSierpien() {
-        return sierpien;
-    }
-
-    public void setSierpien(List<Double> sierpien) {
-        ZestawienieView.sierpien = sierpien;
-    }
-
-    public List<Double> getWrzesien() {
-        return wrzesien;
-    }
-
-    public void setWrzesien(List<Double> wrzesien) {
-        ZestawienieView.wrzesien = wrzesien;
-    }
-
-    public List<Double> getPazdziernik() {
-        return pazdziernik;
-    }
-
-    public void setPazdziernik(List<Double> pazdziernik) {
-        ZestawienieView.pazdziernik = pazdziernik;
-    }
-
-    public List<Double> getListopad() {
-        return listopad;
-    }
-
-    public void setListopad(List<Double> listopad) {
-        ZestawienieView.listopad = listopad;
-    }
-
-    public List<Double> getGrudzien() {
-        return grudzien;
-    }
-
-    public void setGrudzien(List<Double> grudzien) {
-        ZestawienieView.grudzien = grudzien;
-    }
-
-    public List<Double> getIpolrocze() {
-        return Ipolrocze;
-    }
-
-    public void setIpolrocze(List<Double> Ipolrocze) {
-        ZestawienieView.Ipolrocze = Ipolrocze;
-    }
-
-    public List<Double> getIIpolrocze() {
-        return IIpolrocze;
-    }
-
-    public void setIIpolrocze(List<Double> IIpolrocze) {
-        ZestawienieView.IIpolrocze = IIpolrocze;
-    }
-
-    public List<Double> getRok() {
-        return rok;
-    }
-
-    public void setRok(List<Double> rok) {
-        ZestawienieView.rok = rok;
-    }
-
     public Pitpoz getPitpoz() {
         return pitpoz;
     }
@@ -1373,14 +1039,6 @@ public class ZestawienieView implements Serializable {
 
     public void setPobierzPity(List<Pitpoz> pobierzPity) {
         this.pobierzPity = pobierzPity;
-    }
-
-    public List<List> getZebranieMcy() {
-        return zebranieMcy;
-    }
-
-    public void setZebranieMcy(List<List> zebranieMcy) {
-        this.zebranieMcy = zebranieMcy;
     }
 
     public Pitpoz getBiezacyPit() {
@@ -1415,12 +1073,140 @@ public class ZestawienieView implements Serializable {
         this.zobowiazanieDAO = zobowiazanieDAO;
     }
 
+    public List<Double> getWstyczen() {
+        return wstyczen;
+    }
+
+    public void setWstyczen(List<Double> wstyczen) {
+        this.wstyczen = wstyczen;
+    }
+
+    public List<Double> getWluty() {
+        return wluty;
+    }
+
+    public void setWluty(List<Double> wluty) {
+        this.wluty = wluty;
+    }
+
+    public List<Double> getWmarzec() {
+        return wmarzec;
+    }
+
+    public void setWmarzec(List<Double> wmarzec) {
+        this.wmarzec = wmarzec;
+    }
+
+    public List<Double> getWkwiecien() {
+        return wkwiecien;
+    }
+
+    public void setWkwiecien(List<Double> wkwiecien) {
+        this.wkwiecien = wkwiecien;
+    }
+
+    public List<Double> getWmaj() {
+        return wmaj;
+    }
+
+    public void setWmaj(List<Double> wmaj) {
+        this.wmaj = wmaj;
+    }
+
+    public List<Double> getWczerwiec() {
+        return wczerwiec;
+    }
+
+    public void setWczerwiec(List<Double> wczerwiec) {
+        this.wczerwiec = wczerwiec;
+    }
+
+    public List<Double> getWlipiec() {
+        return wlipiec;
+    }
+
+    public void setWlipiec(List<Double> wlipiec) {
+        this.wlipiec = wlipiec;
+    }
+
+    public List<Double> getWsierpien() {
+        return wsierpien;
+    }
+
+    public void setWsierpien(List<Double> wsierpien) {
+        this.wsierpien = wsierpien;
+    }
+
+    public List<Double> getWwrzesien() {
+        return wwrzesien;
+    }
+
+    public void setWwrzesien(List<Double> wwrzesien) {
+        this.wwrzesien = wwrzesien;
+    }
+
+    public List<Double> getWpazdziernik() {
+        return wpazdziernik;
+    }
+
+    public void setWpazdziernik(List<Double> wpazdziernik) {
+        this.wpazdziernik = wpazdziernik;
+    }
+
+    public List<Double> getWlistopad() {
+        return wlistopad;
+    }
+
+    public void setWlistopad(List<Double> wlistopad) {
+        this.wlistopad = wlistopad;
+    }
+
+    public List<Double> getWgrudzien() {
+        return wgrudzien;
+    }
+
+    public void setWgrudzien(List<Double> wgrudzien) {
+        this.wgrudzien = wgrudzien;
+    }
+
+    public List<Double> getwIpolrocze() {
+        return wIpolrocze;
+    }
+
+    public void setwIpolrocze(List<Double> wIpolrocze) {
+        this.wIpolrocze = wIpolrocze;
+    }
+
+    public List<Double> getwIIpolrocze() {
+        return wIIpolrocze;
+    }
+
+    public void setwIIpolrocze(List<Double> wIIpolrocze) {
+        this.wIIpolrocze = wIIpolrocze;
+    }
+
+    public List<Double> getWrok() {
+        return wrok;
+    }
+
+    public void setWrok(List<Double> wrok) {
+        this.wrok = wrok;
+    }
+
+    public WierszPkpir getWrzesien() {
+        return wrzesien;
+    }
+
+    public void setWrzesien(WierszPkpir wrzesien) {
+        this.wrzesien = wrzesien;
+    }
+
     public String getWybranyudzialowiec() {
         return wybranyudzialowiec;
     }
 
     public void setWybranyudzialowiec(String wybranyudzialowiec) {
-        ZestawienieView.wybranyudzialowiec = wybranyudzialowiec;
+        this.wybranyudzialowiec = wybranyudzialowiec;
     }
 
     public String getWybranyprocent() {
@@ -1547,5 +1333,116 @@ public class ZestawienieView implements Serializable {
         this.wybranacechadok = wybranacechadok;
     }
 
-    
+    public WierszPkpir getStyczen() {
+        return styczen;
+    }
+
+    public void setStyczen(WierszPkpir styczen) {
+        this.styczen = styczen;
+    }
+
+    public WierszPkpir getLuty() {
+        return luty;
+    }
+
+    public void setLuty(WierszPkpir luty) {
+        this.luty = luty;
+    }
+
+    public WierszPkpir getMarzec() {
+        return marzec;
+    }
+
+    public void setMarzec(WierszPkpir marzec) {
+        this.marzec = marzec;
+    }
+
+    public WierszPkpir getKwiecien() {
+        return kwiecien;
+    }
+
+    public void setKwiecien(WierszPkpir kwiecien) {
+        this.kwiecien = kwiecien;
+    }
+
+    public WierszPkpir getMaj() {
+        return maj;
+    }
+
+    public void setMaj(WierszPkpir maj) {
+        this.maj = maj;
+    }
+
+    public WierszPkpir getCzerwiec() {
+        return czerwiec;
+    }
+
+    public void setCzerwiec(WierszPkpir czerwiec) {
+        this.czerwiec = czerwiec;
+    }
+
+    public WierszPkpir getLipiec() {
+        return lipiec;
+    }
+
+    public void setLipiec(WierszPkpir lipiec) {
+        this.lipiec = lipiec;
+    }
+
+    public WierszPkpir getSierpien() {
+        return sierpien;
+    }
+
+    public void setSierpien(WierszPkpir sierpien) {
+        this.sierpien = sierpien;
+    }
+
+    public WierszPkpir getPazdziernik() {
+        return pazdziernik;
+    }
+
+    public void setPazdziernik(WierszPkpir pazdziernik) {
+        this.pazdziernik = pazdziernik;
+    }
+
+    public WierszPkpir getListopad() {
+        return listopad;
+    }
+
+    public void setListopad(WierszPkpir listopad) {
+        this.listopad = listopad;
+    }
+
+    public WierszPkpir getGrudzien() {
+        return grudzien;
+    }
+
+    public void setGrudzien(WierszPkpir grudzien) {
+        this.grudzien = grudzien;
+    }
+
+    public WierszPkpir getIpolrocze() {
+        return Ipolrocze;
+    }
+
+    public void setIpolrocze(WierszPkpir Ipolrocze) {
+        this.Ipolrocze = Ipolrocze;
+    }
+
+    public WierszPkpir getIIpolrocze() {
+        return IIpolrocze;
+    }
+
+    public void setIIpolrocze(WierszPkpir IIpolrocze) {
+        this.IIpolrocze = IIpolrocze;
+    }
+
+    public WierszPkpir getRok() {
+        return rok;
+    }
+
+    public void setRok(WierszPkpir rok) {
+        this.rok = rok;
+    }
+
 }

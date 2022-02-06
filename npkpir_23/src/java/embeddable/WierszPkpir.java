@@ -7,6 +7,7 @@ package embeddable;
 
 import java.io.Serializable;
 import java.util.Objects;
+import waluty.Z;
 
 /**
  *
@@ -41,6 +42,20 @@ public class WierszPkpir implements Serializable{
     private String kolumna160;
     //"koszt b+r"
     private double kolumna161;
+    private double razemprzychody;
+    private double razemkoszty;
+    private double razemdochod;
+
+    public WierszPkpir() {
+    }
+
+    
+    public WierszPkpir(int id, String rokWpisuSt, String mc, String mcnazwa) {
+        this.id = id;
+        this.rok = rokWpisuSt;
+        this.mc = mc;
+        this.mcnazwa = mcnazwa;
+    }
 
     public int getId() {
         return id;
@@ -91,12 +106,9 @@ public class WierszPkpir implements Serializable{
     }
 
     public double getKolumna9() {
-        return kolumna9;
+        return Z.z(kolumna7+kolumna8);
     }
 
-    public void setKolumna9(double kolumna9) {
-        this.kolumna9 = kolumna9;
-    }
 
     public double getKolumna10() {
         return kolumna10;
@@ -131,12 +143,9 @@ public class WierszPkpir implements Serializable{
     }
 
     public double getKolumna14() {
-        return kolumna14;
+        return Z.z(kolumna12+kolumna13);
     }
 
-    public void setKolumna14(double kolumna14) {
-        this.kolumna14 = kolumna14;
-    }
 
     public double getKolumna15() {
         return kolumna15;
@@ -160,6 +169,18 @@ public class WierszPkpir implements Serializable{
 
     public void setKolumna161(double kolumna161) {
         this.kolumna161 = kolumna161;
+    }
+
+    public double getRazemprzychody() {
+        return Z.z(this.getKolumna9());
+    }
+    
+    public double getRazemkoszty() {
+        return Z.z(this.getKolumna10()+this.getKolumna11()+this.getKolumna14());
+    }
+
+    public double getRazemdochod() {
+        return Z.z(this.getRazemprzychody()-this.getRazemkoszty());
     }
 
     
@@ -200,8 +221,26 @@ public class WierszPkpir implements Serializable{
         }
         return true;
     }
+
+    public void dodaj(WierszPkpir p) {
+        this.kolumna7 = this.kolumna7+p.kolumna7;
+        this.kolumna8 = this.kolumna8+p.kolumna8;
+        this.kolumna10 = this.kolumna10+p.kolumna10;
+        this.kolumna11 = this.kolumna11+p.kolumna11;
+        this.kolumna12 = this.kolumna12+p.kolumna12;
+        this.kolumna13 = this.kolumna13+p.kolumna13;
+        this.kolumna15 = this.kolumna15+p.kolumna15;
+        this.kolumna161 = this.kolumna161+p.kolumna161;
+    }
+
+    @Override
+    public String toString() {
+        return "WierszPkpir{" + "rok=" + rok + ", mc=" + mc + ", razemprzychody=" + razemprzychody + ", razemkoszty=" + razemkoszty + ", razemdochod=" + razemdochod + '}';
+    }
+
+    
     
                   
-                          
+                      
     
 }
