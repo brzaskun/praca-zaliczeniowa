@@ -1648,6 +1648,7 @@ public class FakturaView implements Serializable {
                 Fakturywystokresowe nowafakturaokresowa = new Fakturywystokresowe();
                 nowafakturaokresowa.setDokument(new Faktura(p, wpisView.getRokWpisuSt()));
                 nowafakturaokresowa.setPodatnik(podatnik);
+                nowafakturaokresowa.setWystawtylkoraz(true);
                 naznaczmiesiacnafakturzeokresowej(nowafakturaokresowa, p);
                 nowafakturaokresowa.setBrutto(p.getBrutto());
                 nowafakturaokresowa.setNipodbiorcy(p.getKontrahent_nip());
