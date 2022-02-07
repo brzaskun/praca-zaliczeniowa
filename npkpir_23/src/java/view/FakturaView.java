@@ -714,9 +714,9 @@ public class FakturaView implements Serializable {
         }
     }
 
-    public void wielekont() {
+    public void wielekontwtejsamejwalucie() {
         listakontawwalucie = fakturaWalutaKontoDAO.findByWalutaString(wpisView.getPodatnikObiekt(),selected.getWalutafaktury());
-        if (listakontawwalucie!=null&&listakontawwalucie.size()==1) {
+        if (listakontawwalucie!=null&&listakontawwalucie.size()>0){
             FakturaBean.wielekont(selected, fakturaWalutaKontoView.getListakontaktywne(), fakturaStopkaNiemieckaDAO, wpisView.getPodatnikObiekt());
             Msg.msg("Zmieniono konto");
         } else {

@@ -82,7 +82,7 @@
                                                              $(this).addClass('ui-state-default');" >
                                 <f:selectItem itemLabel="PLN" itemValue="PLN"/>
                                 <f:selectItem itemLabel="EUR" itemValue="EUR"/>
-                                <p:ajax event="change" global="false" listener="#{fakturaView.wielekont}" partialSubmit="true" update="akordeon:formstworz:kontobankowe akordeon:formstworz:polebankowe"/>
+                                <p:ajax event="change" global="false" listener="#{fakturaView.wielekontwtejsamejwalucie}" partialSubmit="true" update="akordeon:formstworz:kontobankowe akordeon:formstworz:polebankowe"/>
                             </h:selectOneMenu>
                     </p:panelGrid>
                 <p:panelGrid columns="6" styleClass="polefaktury" columnClasses="tp tp tp tp" layout="grid">
@@ -117,13 +117,13 @@
                         </p:inputText>
                         <h:outputLabel value="konto bankowe: " />
                         <p:outputPanel id="polebankowe">
-                            <p:outputPanel rendered="#{fakturaView.listakontawwalucie==null or fakturaView.listakontawwalucie.size() eq 0}">
+                            <p:outputPanel rendered="#{fakturaView.listakontawwalucie==null or fakturaView.listakontawwalucie.size() eq 1}">
                                 <p:inplace id="kontobankowe" editor="true" saveLabel="zachowaj wprowadzoną wartość" cancelLabel="wycofaj wprowadzone zmiany">  
                                     <p:inputText value="#{fakturaView.selected.nrkontabankowego}" maxlength="34"
                                                  label="text" style="font-weight: bolder;"/>  
                                 </p:inplace>
                             </p:outputPanel>
-                            <p:outputPanel rendered="#{fakturaView.listakontawwalucie!=null and fakturaView.listakontawwalucie.size() gt 0}">
+                            <p:outputPanel rendered="#{fakturaView.listakontawwalucie!=null and fakturaView.listakontawwalucie.size() gt 1}">
                                 <p:selectOneMenu value="#{fakturaView.selected.nrkontabankowego}" required="true" requiredMessage="Wprowadź nazwę konta bankowego" autoWidth="true">
                                     <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true"/>
                                     <f:selectItems value="#{fakturaView.listakontawwalucie}"  var="itenkonto" itemValue="#{itenkonto}" itemLabel="#{itenkonto}"/>
