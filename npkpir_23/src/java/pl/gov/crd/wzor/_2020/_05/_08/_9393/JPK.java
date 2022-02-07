@@ -5461,7 +5461,7 @@ public class JPK extends JPKSuper implements Serializable {
             @XmlElement(name = "ZakupVAT_Marza")
             protected BigDecimal zakupVATMarza;
 
-             private static final List ZAKUPWIERSZENETTO;
+            private static final List ZAKUPWIERSZENETTO;
         private static final List ZAKUPWIERSZEVAT;
         static {
             ZAKUPWIERSZENETTO = new ArrayList();

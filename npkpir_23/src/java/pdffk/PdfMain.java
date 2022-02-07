@@ -928,6 +928,8 @@ public class PdfMain {
             case "jpk201801.JPK$SprzedazWiersz":
             case "pl.gov.crd.wzor._2020._05._08._9393.JPK$Ewidencja$SprzedazWiersz":
             case "pl.gov.crd.wzor._2020._05._08._9394.JPK$Ewidencja$SprzedazWiersz":
+            case "pl.gov.crd.wzor._2021._12._27._11148.JPK$Ewidencja$SprzedazWiersz":
+            case "pl.gov.crd.wzor._2021._12._27._11149.JPK$Ewidencja$SprzedazWiersz":
                 col = new int[size];
                 col[0] = 1;
                 col[1] = 4;
@@ -944,6 +946,8 @@ public class PdfMain {
             case "jpk201801.JPK$ZakupWiersz":
             case "pl.gov.crd.wzor._2020._05._08._9393.JPK$Ewidencja$ZakupWiersz":
             case "pl.gov.crd.wzor._2020._05._08._9394.JPK$Ewidencja$ZakupWiersz":
+            case "pl.gov.crd.wzor._2021._12._27._11148.JPK$Ewidencja$ZakupWiersz":
+            case "pl.gov.crd.wzor._2021._12._27._11149.JPK$Ewidencja$ZakupWiersz":
                 col = new int[size];
                 col[0] = 1;
                 col[1] = 4;
@@ -1798,6 +1802,32 @@ public class PdfMain {
                 table.addCell(ustawfrazeAlign(p.getNettoPole()+" "+p.getVatPole(), "center", 7));
                 table.addCell(ustawfrazeAlign(pobierzoznaczeniaJPK2020K(p), "center", 7));
             }
+            if (nazwaklasy.equals("pl.gov.crd.wzor._2021._12._27._11148.JPK$Ewidencja$ZakupWiersz")) {
+                pl.gov.crd.wzor._2021._12._27._11148.JPK.Ewidencja.ZakupWiersz p =  (pl.gov.crd.wzor._2021._12._27._11148.JPK.Ewidencja.ZakupWiersz) it.next();
+                table.addCell(ustawfrazeAlign(i++, "center", 7));
+                table.addCell(ustawfrazeAlign(p.getNrDostawcy(), "left", 7, 22f));
+                table.addCell(ustawfrazeAlign(p.getNazwaDostawcyShort(), "left", 7));
+                table.addCell(ustawfrazeAlign(p.getDowodZakupu(), "left", 7));
+                table.addCell(ustawfrazeAlign(p.getDataWplywu(), "left", 7));
+                table.addCell(ustawfrazeAlign(p.getDataZakupu(), "left", 7));
+                table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getNetto())), "right", 8));
+                table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getVat())), "right", 8));
+                table.addCell(ustawfrazeAlign(p.getNettoPole()+" "+p.getVatPole(), "center", 7));
+                table.addCell(ustawfrazeAlign(pobierzoznaczeniaJPK2020M2(p), "center", 7));
+            }
+            if (nazwaklasy.equals("pl.gov.crd.wzor._2021._12._27._11149.JPK$Ewidencja$ZakupWiersz")) {
+                pl.gov.crd.wzor._2021._12._27._11149.JPK.Ewidencja.ZakupWiersz p =  (pl.gov.crd.wzor._2021._12._27._11149.JPK.Ewidencja.ZakupWiersz) it.next();
+                table.addCell(ustawfrazeAlign(i++, "center", 7));
+                table.addCell(ustawfrazeAlign(p.getNrDostawcy(), "left", 7, 22f));
+                table.addCell(ustawfrazeAlign(p.getNazwaDostawcyShort(), "left", 7));
+                table.addCell(ustawfrazeAlign(p.getDowodZakupu(), "left", 7));
+                table.addCell(ustawfrazeAlign(p.getDataWplywu(), "left", 7));
+                table.addCell(ustawfrazeAlign(p.getDataZakupu(), "left", 7));
+                table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getNetto())), "right", 8));
+                table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getVat())), "right", 8));
+                table.addCell(ustawfrazeAlign(p.getNettoPole()+" "+p.getVatPole(), "center", 7));
+                table.addCell(ustawfrazeAlign(pobierzoznaczeniaJPK2020K2(p), "center", 7));
+            }
             if (nazwaklasy.equals("jpk201701.JPK$SprzedazWiersz") || nazwaklasy.equals("jpk201801.JPK$SprzedazWiersz")) {
                 jpkabstract.SprzedazWierszA p = (jpkabstract.SprzedazWierszA) it.next();
                 table.addCell(ustawfrazeAlign(i++, "center", 7));
@@ -1826,6 +1856,32 @@ public class PdfMain {
             }
             if (nazwaklasy.equals("pl.gov.crd.wzor._2020._05._08._9394.JPK$Ewidencja$SprzedazWiersz")) {
                 pl.gov.crd.wzor._2020._05._08._9394.JPK.Ewidencja.SprzedazWiersz p = (pl.gov.crd.wzor._2020._05._08._9394.JPK.Ewidencja.SprzedazWiersz) it.next();
+                table.addCell(ustawfrazeAlign(i++, "center", 7));
+                table.addCell(ustawfrazeAlign(p.getNrKontrahenta(), "left", 7, 22f));
+                table.addCell(ustawfrazeAlign(p.getNazwaKontrahentaShort(), "left", 7));
+                table.addCell(ustawfrazeAlign(p.getDowodSprzedazy(), "left", 7));
+                table.addCell(ustawfrazeAlign(p.getDataWystawienia(), "left", 7));
+                table.addCell(ustawfrazeAlign(p.getDataSprzedazy(), "left", 7));
+                table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getNetto())), "right", 8));
+                table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getVat())), "right", 8));
+                table.addCell(ustawfrazeAlign(p.getNettoPole()+" "+p.getVatPole(), "center", 7));
+                table.addCell(ustawfrazeAlign(pobierzoznaczeniaJPK2020K(p), "center", 7));
+            }
+            if (nazwaklasy.equals("pl.gov.crd.wzor._2021._12._27._11148.JPK$Ewidencja$SprzedazWiersz")) {
+                pl.gov.crd.wzor._2021._12._27._11148.JPK.Ewidencja.SprzedazWiersz p = (pl.gov.crd.wzor._2021._12._27._11148.JPK.Ewidencja.SprzedazWiersz) it.next();
+                table.addCell(ustawfrazeAlign(i++, "center", 7));
+                table.addCell(ustawfrazeAlign(p.getNrKontrahenta(), "left", 7, 22f));
+                table.addCell(ustawfrazeAlign(p.getNazwaKontrahentaShort(), "left", 7));
+                table.addCell(ustawfrazeAlign(p.getDowodSprzedazy(), "left", 7));
+                table.addCell(ustawfrazeAlign(p.getDataWystawienia(), "left", 7));
+                table.addCell(ustawfrazeAlign(p.getDataSprzedazy(), "left", 7));
+                table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getNetto())), "right", 8));
+                table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getVat())), "right", 8));
+                table.addCell(ustawfrazeAlign(p.getNettoPole()+" "+p.getVatPole(), "center", 7));
+                table.addCell(ustawfrazeAlign(pobierzoznaczeniaJPK2020M(p), "center", 7));
+            }
+            if (nazwaklasy.equals("pl.gov.crd.wzor._2021._12._27._11149.JPK$Ewidencja$SprzedazWiersz")) {
+                pl.gov.crd.wzor._2021._12._27._11149.JPK.Ewidencja.SprzedazWiersz p = (pl.gov.crd.wzor._2021._12._27._11149.JPK.Ewidencja.SprzedazWiersz) it.next();
                 table.addCell(ustawfrazeAlign(i++, "center", 7));
                 table.addCell(ustawfrazeAlign(p.getNrKontrahenta(), "left", 7, 22f));
                 table.addCell(ustawfrazeAlign(p.getNazwaKontrahentaShort(), "left", 7));
@@ -3081,6 +3137,55 @@ public class PdfMain {
        return zwrot;
     }
     
+    private static String pobierzoznaczeniaJPK2020M2(Object p) {
+        String zwrot = "";
+        Method[] fields;
+        if (p instanceof pl.gov.crd.wzor._2021._12._27._11148.JPK.Ewidencja.SprzedazWiersz) {
+            fields = pl.gov.crd.wzor._2021._12._27._11148.JPK.Ewidencja.SprzedazWiersz.class.getMethods();
+        } else {
+            fields = pl.gov.crd.wzor._2021._12._27._11148.JPK.Ewidencja.ZakupWiersz.class.getMethods();
+        }
+        List<String> metodystring = new ArrayList<>();
+        for (Method m : fields) {
+            if (m.getReturnType().equals(Byte.class)) {
+                try {
+                    Byte wynik = (Byte) m.invoke(p, (Object[]) null);
+                    if (wynik != null && wynik==(byte)1) {
+                        metodystring.add(m.getName().replace("get", "").replace("()", ""));
+                    }
+                } catch (Exception ex) {
+                } 
+            } else if (m.getName().contains("DokumentZakupu")) {
+                try {
+                    pl.gov.crd.wzor._2021._12._27._11148.TDowoduZakupu wynik = (pl.gov.crd.wzor._2021._12._27._11148.TDowoduZakupu) m.invoke(p, (Object[]) null);
+                    if (wynik != null) {
+                        metodystring.add(wynik.value());
+                    }
+                } catch (Exception ex) {
+                
+                } 
+            } else if (m.getName().contains("TypDokumentu")) {
+                try {
+                    pl.gov.crd.wzor._2021._12._27._11148.TDowoduSprzedazy wynik = (pl.gov.crd.wzor._2021._12._27._11148.TDowoduSprzedazy) m.invoke(p, (Object[]) null);
+                    if (wynik != null) {
+                        metodystring.add(wynik.value());
+                    }
+                } catch (Exception ex) {
+                
+                } 
+            }
+        }
+        StringBuilder sb = new StringBuilder();
+        if (!metodystring.isEmpty()) {
+            for (String s : metodystring) {
+                sb.append(s);
+                sb.append(",");
+            }
+        }
+        zwrot = sb.toString();
+       return zwrot;
+    }
+    
      private static String pobierzoznaczeniaJPK2020K(Object p) {
         String zwrot = "";
         Method[] fields;
@@ -3129,7 +3234,54 @@ public class PdfMain {
         zwrot = sb.toString();
        return zwrot;
     }
-
+private static String pobierzoznaczeniaJPK2020K2(Object p) {
+        String zwrot = "";
+        Method[] fields;
+        if (p instanceof pl.gov.crd.wzor._2021._12._27._11149.JPK.Ewidencja.SprzedazWiersz) {
+            fields = pl.gov.crd.wzor._2021._12._27._11149.JPK.Ewidencja.SprzedazWiersz.class.getMethods();
+        } else {
+            fields = pl.gov.crd.wzor._2021._12._27._11149.JPK.Ewidencja.ZakupWiersz.class.getMethods();
+        }
+        List<String> metodystring = new ArrayList<>();
+        for (Method m : fields) {
+            if (m.getReturnType().equals(Byte.class)) {
+                try {
+                    Byte wynik = (Byte) m.invoke(p, (Object[]) null);
+                    if (wynik != null && wynik==(byte)1) {
+                        metodystring.add(m.getName().replace("get", "").replace("()", ""));
+                    }
+                } catch (Exception ex) {
+                } 
+            } else if (m.getName().contains("DokumentZakupu")) {
+                try {
+                    pl.gov.crd.wzor._2021._12._27._11149.TDowoduZakupu wynik = (pl.gov.crd.wzor._2021._12._27._11149.TDowoduZakupu) m.invoke(p, (Object[]) null);
+                    if (wynik != null) {
+                        metodystring.add(wynik.value());
+                    }
+                } catch (Exception ex) {
+                
+                } 
+            } else if (m.getName().contains("TypDokumentu")) {
+                try {
+                    pl.gov.crd.wzor._2021._12._27._11149.TDowoduSprzedazy wynik = (pl.gov.crd.wzor._2021._12._27._11149.TDowoduSprzedazy) m.invoke(p, (Object[]) null);
+                    if (wynik != null) {
+                        metodystring.add(wynik.value());
+                    }
+                } catch (Exception ex) {
+                
+                } 
+            }
+        }
+        StringBuilder sb = new StringBuilder();
+        if (!metodystring.isEmpty()) {
+            for (String s : metodystring) {
+                sb.append(s);
+                sb.append(",");
+            }
+        }
+        zwrot = sb.toString();
+       return zwrot;
+    }
     private static void tablicaWkomorce(PdfPTable table, Object p, String nazwaklasy, int modyfikator) {
         if (nazwaklasy.equals("entity.Dok")) {
             if (modyfikator == 0) {
