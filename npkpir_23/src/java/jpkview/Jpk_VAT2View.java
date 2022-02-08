@@ -957,7 +957,7 @@ public class Jpk_VAT2View implements Serializable {
     
     public void pobierzUPO(UPO selected) {
         try {
-            if (selected.getCode()!=200) {
+            if (true) {
                 String[] wiadomosc = SzachMatJPK.pobierzupo(selected.getReferenceNumber(), selected);
                 selected.setDataupo(new Date());
                 uPODAO.edit(selected);
@@ -971,8 +971,12 @@ public class Jpk_VAT2View implements Serializable {
                         deklaracja.setDatazlozenia(selected.getDatajpk());
                         if (selected.getJpk() instanceof pl.gov.crd.wzor._2020._05._08._9393.JPK) {
                             deklaracja.setDeklaracja(((pl.gov.crd.wzor._2020._05._08._9393.JPK)selected.getJpk()).getDeklaracja().toString());
-                        } else {
+                        } else if (selected.getJpk() instanceof pl.gov.crd.wzor._2020._05._08._9394.JPK) {
                             deklaracja.setDeklaracja(((pl.gov.crd.wzor._2020._05._08._9394.JPK)selected.getJpk()).getDeklaracja().toString());
+                        } else if (selected.getJpk() instanceof pl.gov.crd.wzor._2021._12._27._11148.JPK) {
+                            deklaracja.setDeklaracja(((pl.gov.crd.wzor._2021._12._27._11148.JPK)selected.getJpk()).getDeklaracja().toString());
+                        } else if (selected.getJpk() instanceof pl.gov.crd.wzor._2021._12._27._11149.JPK) {
+                            deklaracja.setDeklaracja(((pl.gov.crd.wzor._2021._12._27._11149.JPK)selected.getJpk()).getDeklaracja().toString());
                         }
                         deklaracjevatDAO.edit(deklaracja);
                     }
