@@ -8,7 +8,8 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:bcf="http://brzaskun.com/facelets">
     <bcf:ajaxs/>
-     <p:outputPanel style="margin-top: 50px;margin-left: 50px;">
+<!--    dezaktywanacja, generuje u wszystkich na nowy rok ale zapomina o kontach!!!-->
+<!--     <p:outputPanel style="margin-top: 50px;margin-left: 50px;">
         <h:form>
             <p:panelGrid columns="3">
                 <p:outputLabel value="wybierz rok do generowania"/>
@@ -16,7 +17,7 @@
                 <p:commandButton value="generuj nowy rok" actionListener="#{podatnikView.nowyrokdokumenty()}" />
             </p:panelGrid>
         </h:form>
-    </p:outputPanel>
+    </p:outputPanel>-->
     <h:form id="form" >
         <h:outputText value="Rodzaje dokumentów księgowych dla WSZYSTKICH naszych klientów" style="font-size: 15px"/>
         <p:growl life="3600"  id="messages" showDetail="true" ><p:autoUpdate/></p:growl>

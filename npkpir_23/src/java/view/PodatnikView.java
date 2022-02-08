@@ -1326,8 +1326,7 @@ private DokDAO dokDAO;
             }
             List<Rodzajedok> ogolnaListaDokumentow = rodzajedokView.getListaWspolnych();
             List<Konto> konta = kontoDAOfk.findWszystkieKontaPodatnika(selected, rokpoprzedni);
-        
-            if (konta!=null && konta.size()>0) {
+            if (konta!=null && konta.size()>10) {
                 if (dokumentyBiezacegoPodatnikaRokPoprzedni!=null && !dokumentyBiezacegoPodatnikaRokPoprzedni.isEmpty()) {
                     for (Rodzajedok tmp : dokumentyBiezacegoPodatnikaRokPoprzedni) {
                         try {
@@ -1363,35 +1362,15 @@ private DokDAO dokDAO;
                                 rodzajedokDAO.create(nowy);
                                 dokumentyBiezacegoPodatnika.add(nowy);
                             }
-                        } catch (Exception e){}
-                    }
-                }
-            } else {
-                    for (Rodzajedok tmp : dokumentyBiezacegoPodatnikaRokPoprzedni) {
-                        try {
-                            boolean odnaleziono = false;
-                            for (Rodzajedok r: dokumentyBiezacegoPodatnika) {
-                                if (r.getSkrot().equals(tmp.getSkrot())) {
-                                    odnaleziono = true;
-                                    r.setOznaczenie1(tmp.getOznaczenie1());
-                                    r.setOznaczenie2(tmp.getOznaczenie2());
-                                    rodzajedokDAO.edit(r);
-                                    break;
-                                }
-                            }
-                            if (odnaleziono == false) {
-                                Rodzajedok nowy  = serialclone.SerialClone.clone(tmp);
-                                nowy.setPodatnikObj(selected);
-                                nowy.setRok(rok);
-                                nowy.setKontoRZiS(null);
-                                nowy.setKontorozrachunkowe(null);
-                                nowy.setKontovat(null);
-                                rodzajedokDAO.create(nowy);
-                                dokumentyBiezacegoPodatnika.add(nowy);
-                            }
-                        } catch (Exception ex) {
+                        } catch (Exception e){
+                            Msg.msg("w","Wystąpił błąd podczas generowania dokumentów");
                         }
                     }
+                    rodzajeDokumentowLista = rodzajedokDAO.findListaPodatnikEdycja(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+                    Msg.msg("Wygenerowano dokumenty","akordeon:form6:messages");
+                }
+            } else {
+                Msg.msg("e","Brak planu kont, nie można wygenerować dokumentów","akordeon:form6:messages");
             }
         } catch (Exception ex) {
         }
