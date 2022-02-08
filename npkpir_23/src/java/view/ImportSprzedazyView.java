@@ -139,6 +139,33 @@ public class ImportSprzedazyView  implements Serializable {
     private List<Dok> stworzdokumenty(JPKSuper jpk) {
         List<Dok> dokumenty = Collections.synchronizedList(new ArrayList<>());
         if (jpk != null) {
+            if (jpk instanceof pl.gov.crd.wzor._2021._12._27._11149.JPK) {
+                ((pl.gov.crd.wzor._2021._12._27._11149.JPK) jpk).getEwidencja().getSprzedazWiersz().forEach((p) -> {
+                    SprzedazWierszA wiersz = (SprzedazWierszA) p;
+                    if (wiersz.getNrKontrahenta() != null && wiersz.getNrKontrahenta().length()==10) {
+                        Dok dok = generujdok(p);
+                        if (dok!=null) {
+                            dokumenty.add(dok);
+                        }
+                    }
+                });
+            } else if (jpk instanceof pl.gov.crd.wzor._2021._12._27._11148.JPK) {
+                int miesiac = ((pl.gov.crd.wzor._2021._12._27._11148.JPK) jpk).getNaglowek().getMiesiac();
+                int mcpkpir = Integer.parseInt(wpisView.getMiesiacWpisu());
+                if (mcpkpir!=miesiac) {
+                    Msg.msg("e","Uwaga. Plik z innego miesiąca!");
+                } else {
+                    ((pl.gov.crd.wzor._2021._12._27._11148.JPK) jpk).getEwidencja().getSprzedazWiersz().forEach((p) -> {
+                        SprzedazWierszA wiersz = (SprzedazWierszA) p;
+                        if (wiersz.getNrKontrahenta() != null && wiersz.getNrKontrahenta().length()==10) {
+                            Dok dok = generujdok(p);
+                            if (dok!=null) {
+                                dokumenty.add(dok);
+                            }
+                        }
+                    });
+                }
+            } else 
             if (jpk instanceof pl.gov.crd.wzor._2020._05._08._9394.JPK) {
                 ((pl.gov.crd.wzor._2020._05._08._9394.JPK) jpk).getEwidencja().getSprzedazWiersz().forEach((p) -> {
                     SprzedazWierszA wiersz = (SprzedazWierszA) p;

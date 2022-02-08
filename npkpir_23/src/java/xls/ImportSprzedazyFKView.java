@@ -6,12 +6,12 @@
 package xls;
 
 import beansDok.ListaEwidencjiVat;
-import dao.KlienciDAO;
-import dao.RodzajedokDAO;
 import dao.DokDAOfk;
+import dao.KlienciDAO;
 import dao.KliencifkDAO;
 import dao.KontoDAOfk;
 import dao.KontopozycjaZapisDAO;
+import dao.RodzajedokDAO;
 import dao.TabelanbpDAO;
 import dao.UkladBRDAO;
 import dao.WalutyDAOfk;
@@ -168,8 +168,18 @@ public class ImportSprzedazyFKView  implements Serializable {
         List<Klienci> k = klDAO.findAll();
         List<ImportJPKSprzedaz> zwrot = new ArrayList<>();
         List<SprzedazWierszA> wiersze = new ArrayList<>();
-        if (jpk instanceof pl.gov.crd.wzor._2020._05._08._9394.JPK) {
+        if (jpk instanceof pl.gov.crd.wzor._2021._12._27._11148.JPK) {
                 ((pl.gov.crd.wzor._2020._05._08._9393.JPK) jpk).getEwidencja().getSprzedazWiersz().forEach((p) -> {
+                    SprzedazWierszA wiersz = (SprzedazWierszA) p;
+                    wiersze.add(wiersz);
+                });
+            } else if (jpk instanceof pl.gov.crd.wzor._2021._12._27._11149.JPK) {
+                ((pl.gov.crd.wzor._2021._12._27._11148.JPK) jpk).getEwidencja().getSprzedazWiersz().forEach((p) -> {
+                   SprzedazWierszA wiersz = (SprzedazWierszA) p;
+                    wiersze.add(wiersz);
+                });
+            } else if (jpk instanceof pl.gov.crd.wzor._2020._05._08._9394.JPK) {
+                ((pl.gov.crd.wzor._2020._05._08._9394.JPK) jpk).getEwidencja().getSprzedazWiersz().forEach((p) -> {
                     SprzedazWierszA wiersz = (SprzedazWierszA) p;
                     wiersze.add(wiersz);
                 });
