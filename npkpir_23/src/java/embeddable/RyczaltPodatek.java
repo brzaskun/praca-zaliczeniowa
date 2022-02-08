@@ -6,6 +6,7 @@ package embeddable;
 
 import java.io.Serializable;
 import javax.persistence.Embeddable;
+import waluty.Z;
 
 /**
  *
@@ -16,6 +17,7 @@ public class RyczaltPodatek implements Serializable{
     private static final long serialVersionUID = -5151252292977634570l;
     private String opis;
     private Double stawka;
+    private String stawkaS;
     private Double przychod;
     private Double udzialprocentowy;
     private Double zmniejszenie;
@@ -46,6 +48,14 @@ public class RyczaltPodatek implements Serializable{
 
     public void setStawka(Double stawka) {
         this.stawka = stawka;
+    }
+
+    public String getStawkaS() {
+        return String.valueOf(Z.z(this.stawka*100));
+    }
+
+    public void setStawkaS(String stawkaS) {
+        this.stawkaS = stawkaS;
     }
 
     public Double getPodstawa() {

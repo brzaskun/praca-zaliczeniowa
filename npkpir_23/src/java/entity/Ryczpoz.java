@@ -224,7 +224,7 @@ public class Ryczpoz implements Serializable {
         double zwrot = 0.0;
         if (listapodatkow!=null) {
             for (RyczaltPodatek p : this.listapodatkow) {
-                if (p.getStawka()==0.03) {
+                if (p.getStawka()==0.02) {
                     zwrot = p.getPrzychod();
                 }
             }

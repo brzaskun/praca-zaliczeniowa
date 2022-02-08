@@ -92,7 +92,7 @@ public class PdfPIT28 {
                 table.addCell(ustawfrazeAlign("razem przychody za miesiac","center",10));
                 table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getPrzychody())),"right",10));
                 for(RyczaltPodatek p : selected.getListapodatkow()){
-                    table.addCell(ustawfrazeAlign("z tego w stawce "+p.getStawka()*100+"%","center",10));
+                    table.addCell(ustawfrazeAlign("z tego w stawce "+p.getStawkaS()+"%","center",10));
                     table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getPrzychod())),"right",10));
                 }
                 table.addCell(ustawfrazeAlign("udział","center",10));

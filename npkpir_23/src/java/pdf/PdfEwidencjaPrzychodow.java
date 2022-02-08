@@ -179,14 +179,14 @@ public class PdfEwidencjaPrzychodow {
                 table.addCell(ustawfrazeAlign("podsumowanie", "center",6));
             }
 //            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKolumna5() != 0.0 ? rs.getKolumna5() : null), "right",6));
-            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKolumna6() != 0.0 ? rs.getKolumna6() : null), "right",7));
-            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKolumna12() != 0.0 ? rs.getKolumna12() : null), "right",7));
-            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKolumna13() != 0.0 ? rs.getKolumna13() : null), "right",7));
-            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKolumna10() != 0.0 ? rs.getKolumna10() : null), "right",7));
-            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKolumna7() != 0.0 ? rs.getKolumna7() : null), "right",7));
-            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKolumna8() != 0.0 ? rs.getKolumna8() : null), "right",7));
-            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKolumna9() != 0.0 ? rs.getKolumna9() : null), "right",7));   
-            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKolumna11() != 0.0 ? rs.getKolumna11() : null), "right",7));
+            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKolumna_15() != 0.0 ? rs.getKolumna_15() : null), "right",7));
+            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKolumna_55() != 0.0 ? rs.getKolumna_55() : null), "right",7));
+            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKolumna_3() != 0.0 ? rs.getKolumna_3() : null), "right",7));
+            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKolumna_10() != 0.0 ? rs.getKolumna_10() : null), "right",7));
+            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKolumna_14() != 0.0 ? rs.getKolumna_14() : null), "right",7));
+            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKolumna_125() != 0.0 ? rs.getKolumna_125() : null), "right",7));
+            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKolumna_12() != 0.0 ? rs.getKolumna_12() : null), "right",7));   
+            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKolumna_85() != 0.0 ? rs.getKolumna_85() : null), "right",7));
             table.addCell(ustawfrazeAlign(rs.getUwagi(), "right",6));
             
         }

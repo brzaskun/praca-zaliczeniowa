@@ -183,7 +183,7 @@
                             <h:outputText value="przychody za mc"/>
                             <p:dataTable value="#{zestawienieRyczaltView.biezacyPit.listapodatkow}" var="wpis" style="width: 300px;">
                                 <p:column headerText="stawka">
-                                    <h:outputText value="#{wpis.stawka *100}%" style="float: right; font-weight: 700;"/>
+                                    <h:outputText value="#{wpis.stawkaS}%" style="float: right; font-weight: 700;"/>
                                 </p:column>
                                 <p:column headerText="#{mgs.przychód}">
                                     <h:outputText value="#{wpis.przychod}" style="float: right; font-weight: 700;"><f:convertNumber locale="PL"/></h:outputText>

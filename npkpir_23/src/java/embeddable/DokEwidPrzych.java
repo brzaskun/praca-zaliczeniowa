@@ -29,15 +29,17 @@ public class DokEwidPrzych implements Serializable {
     private String dataWyst;
     private String opis;
     private double kwota;
-    private double kolumna5;
-    private double kolumna6;
-    private double kolumna7;
-    private double kolumna8;
-    private double kolumna9;
-    private double kolumna10;
-    private double kolumna11;
-    private double kolumna12;
-    private double kolumna13;
+    private double kolumna_17;
+    private double kolumna_15;
+    private double kolumna_14;
+    private double kolumna_125;
+    private double kolumna_12;
+    private double kolumna_10;
+    private double kolumna_85;
+    private double kolumna_55;
+    private double kolumna_3;
+    private double kolumna_2;
+    private double razem;
     private String uwagi;
     private String pkpirM;
     private String pkpirR;
@@ -141,76 +143,84 @@ public class DokEwidPrzych implements Serializable {
         this.kwota = kwota;
     }
 
-    public double getKolumna5() {
-        return kolumna5;
+    public double getKolumna_17() {
+        return kolumna_17;
     }
 
-    public void setKolumna5(double kolumna5) {
-        this.kolumna5 = kolumna5;
+    public void setKolumna_17(double kolumna_17) {
+        this.kolumna_17 = kolumna_17;
     }
 
-    public double getKolumna6() {
-        return kolumna6;
+    public double getKolumna_15() {
+        return kolumna_15;
     }
 
-    public void setKolumna6(double kolumna6) {
-        this.kolumna6 = kolumna6;
+    public void setKolumna_15(double kolumna_15) {
+        this.kolumna_15 = kolumna_15;
     }
 
-    public double getKolumna7() {
-        return kolumna7;
+    public double getKolumna_14() {
+        return kolumna_14;
     }
 
-    public void setKolumna7(double kolumna7) {
-        this.kolumna7 = kolumna7;
+    public void setKolumna_14(double kolumna_14) {
+        this.kolumna_14 = kolumna_14;
     }
 
-    public double getKolumna8() {
-        return kolumna8;
+    public double getKolumna_125() {
+        return kolumna_125;
     }
 
-    public void setKolumna8(double kolumna8) {
-        this.kolumna8 = kolumna8;
+    public void setKolumna_125(double kolumna_125) {
+        this.kolumna_125 = kolumna_125;
     }
 
-    public double getKolumna9() {
-        return kolumna9;
+    public double getKolumna_12() {
+        return kolumna_12;
     }
 
-    public void setKolumna9(double kolumna9) {
-        this.kolumna9 = kolumna9;
+    public void setKolumna_12(double kolumna_12) {
+        this.kolumna_12 = kolumna_12;
     }
 
-    public double getKolumna10() {
-        return kolumna10;
+    public double getKolumna_10() {
+        return kolumna_10;
     }
 
-    public void setKolumna10(double kolumna10) {
-        this.kolumna10 = kolumna10;
+    public void setKolumna_10(double kolumna_10) {
+        this.kolumna_10 = kolumna_10;
     }
 
-    public double getKolumna11() {
-        return kolumna11;
+    public double getKolumna_85() {
+        return kolumna_85;
     }
 
-    public void setKolumna11(double kolumna11) {
-        this.kolumna11 = kolumna11;
+    public void setKolumna_85(double kolumna_85) {
+        this.kolumna_85 = kolumna_85;
     }
 
-    public double getKolumna12() {
-        return kolumna12;
+    public double getKolumna_55() {
+        return kolumna_55;
     }
 
-    public void setKolumna12(double kolumna12) {
-        this.kolumna12 = kolumna12;
+    public void setKolumna_55(double kolumna_55) {
+        this.kolumna_55 = kolumna_55;
     }
 
-    public double getKolumna13() {
-        return kolumna13;
+    public double getKolumna_3() {
+        return kolumna_3;
     }
 
-    public void setKolumna13(double kolumna13) {
-        this.kolumna13 = kolumna13;
+    public void setKolumna_3(double kolumna_3) {
+        this.kolumna_3 = kolumna_3;
+    }
+
+    public double getKolumna_2() {
+        return kolumna_2;
+    }
+
+    public void setKolumna_2(double kolumna_2) {
+        this.kolumna_2 = kolumna_2;
     }
 
 
@@ -276,6 +286,14 @@ public class DokEwidPrzych implements Serializable {
 
     public void setDokumentProsty(boolean dokumentProsty) {
         this.dokumentProsty = dokumentProsty;
+    }
+
+    public double getRazem() {
+        return razem;
+    }
+
+    public void setRazem(double razem) {
+        this.razem = razem;
     }
     
     

@@ -484,8 +484,7 @@ public class ZestawienieRyczaltView implements Serializable {
         podatkibiezace.add(pobranieprzychodu("Przychody opodatkowane stawką 8,5%", 0.085, miesiacint, 6));
         podatkibiezace.add(pobranieprzychodu("Przychody opodatkowane stawką 5,5%", 0.055, miesiacint, 7));
         podatkibiezace.add(pobranieprzychodu("Przychody opodatkowane stawką 3%", 0.03, miesiacint, 8));
-        podatkibiezace.add(pobranieprzychodu("Przychody opodatkowane stawką 2%", 0.03, miesiacint, 9));
-        podatkibiezace.add(pobranieprzychodu("Razem", 0.00, miesiacint, 10));
+        podatkibiezace.add(pobranieprzychodu("Przychody opodatkowane stawką 2%", 0.02, miesiacint, 9));
         biezacyPit.setListapodatkow(podatkibiezace);
     }
 
