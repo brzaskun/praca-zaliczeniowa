@@ -8,8 +8,8 @@ package jpkfa3;
 import beansDok.ListaEwidencjiVat;
 import beansRegon.SzukajDaneBean;
 import dao.DokDAO;
-import dao.KlienciDAO;
 import dao.DokDAOfk;
+import dao.KlienciDAO;
 import dao.KliencifkDAO;
 import dao.KontoDAOfk;
 import dao.KontopozycjaZapisDAO;
@@ -147,7 +147,7 @@ public class Beanjpk {
             nd.setRodzajedok(rodzajedok);
             nd.setEwidencjaVAT(null);
             nd.setImportowany(true);
-            Tabelanbp innatabela = beansDok.BeansJPK.pobierztabele(waldok, nd.getDatawystawienia(), tabelanbpDAO);
+            Tabelanbp innatabela = beansDok.BeansJPK.pobierztabele(waldok, datawystawienia, tabelanbpDAO);
             if (waldok.equals("PLN")) {
                 nd.setTabelanbp(tabeladomyslna);
                 nd.setWalutadokumentu(tabeladomyslna.getWaluta());
