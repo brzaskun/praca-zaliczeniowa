@@ -44,14 +44,12 @@ public class XMLValid {
         String realPath = ctx.getRealPath("/")+schemaVATUE4;
         if (deklaracja_object.getClass().equals(deklaracje.vatue.m4.Deklaracja.class)) {
             realPath = ctx.getRealPath("/")+schemaVATUE4;
-            if (podst0korekta1==1) {
+        } else if (deklaracja_object.getClass().equals(deklaracje.vatuek.m4.Deklaracja.class)) {
                 realPath = ctx.getRealPath("/")+schemaVATUEK4;
-            }
-        } else {
+        } else if (deklaracja_object.getClass().equals(pl.gov.crd.wzor._2020._07._03._9690.Deklaracja.class)) {
             realPath = ctx.getRealPath("/")+schemaVATUE5;
-            if (podst0korekta1==1) {
+         } else if (deklaracja_object.getClass().equals(pl.gov.crd.wzor._2020._07._03._9689.Deklaracja.class)) {
                 realPath = ctx.getRealPath("/")+schemaVATUEK5;
-            }
         }
         try {
             //URL schemaFile = null;
