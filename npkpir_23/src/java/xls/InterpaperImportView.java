@@ -1060,7 +1060,7 @@ public class InterpaperImportView implements Serializable {
                         Evewidencja ewidencjazakupu = eVDAO.znajdzponazwie("zakup");
                         int k = 0;
                         for (Evewidencja p : opisewidencji) {
-                            EVatwpisFK eVatwpisFK = new EVatwpisFK();
+                            EVatwpisFK eVatwpisFK = new EVatwpisFK(k++,p,nd);
                             przesuniecie(nd,eVatwpisFK);
                             eVatwpisFK.setLp(k++);
                             eVatwpisFK.setEwidencja(p);
