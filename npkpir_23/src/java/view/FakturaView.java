@@ -359,10 +359,17 @@ public class FakturaView implements Serializable {
                             faktura.setDatawaloryzacji(Data.aktualnaData());
                             fakturaDAO.edit(faktura);
                         }
+                        double zapracownika = wal.getUmowaopraceN();
+                        double zazleceniobiorce = wal.getUmowazlecenieN();
+                        if (zapracownika!=0||zazleceniobiorce!=0) {
+                            okresowa.setRecznaedycja(true);
+                            fakturywystokresoweDAO.edit(okresowa);
+                        }
                         break;
                     }
                 }
             }
+            fakturyokresowe = fakturywystokresoweDAO.findPodatnikBiezace(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
         }
     }
     
