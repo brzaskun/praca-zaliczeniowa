@@ -1,0 +1,138 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:bcf="http://brzaskun.com/facelets">
+
+    <h:form>
+        <p:outputPanel style="padding: 10px;margin-top: 30px;">
+            <f:view>
+
+
+                <h:form>
+                    <h1><h:outputText value="List"/></h1>
+                    <p:dataTable value="#{fakturaWaloryzacjaView.lista}" var="item" style="width: 1500px;">
+                        <p:column width="30">
+                            <f:facet name="header">
+                                <h:outputText value="Id"/>
+                            </f:facet>
+                            <h:outputText value="#{item.id}"/>
+                        </p:column>
+                        <p:column width="200">
+                            <f:facet name="header">
+                                <h:outputText value="Kontrahent"/>
+                            </f:facet>
+                            <h:outputText value="#{item.kontrahent.npelna}"/>
+                        </p:column>
+                        <p:column width="40">
+                            <f:facet name="header">
+                                <h:outputText value="Rok"/>
+                            </f:facet>
+                            <bcf:outputpl value="#{item.rok}" />
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Kwota biezaca netto"/>
+                            </f:facet>
+                            <bcf:outputpl value="#{item.kwotabiezacanetto}" rendered="#{item.kwotabiezacanetto ne 0.0}"/>
+                        </p:column>
+<!--                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Sprawozdanie roczne"/>
+                            </f:facet>
+                            <bcf:outputpl value="#{item.sprawozdanieroczne}" rendered="#{item.sprawozdanieroczne ne 0.0}"/>
+                        </p:column>-->
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Umowa o prace"/>
+                            </f:facet>
+                            <bcf:outputpl value="#{item.umowaoprace}" rendered="#{item.umowaoprace ne 0.0}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Umowa zlecenie"/>
+                            </f:facet>
+                            <bcf:outputpl value="#{item.umowazlecenie}" rendered="#{item.umowazlecenie ne 0.0}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Oddelegowanie"/>
+                            </f:facet>
+                            <bcf:outputpl value="#{item.oddelegowanie}" rendered="#{item.oddelegowanie ne 0.0}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Obsluga niemcy"/>
+                            </f:facet>
+                            <bcf:outputpl value="#{item.obsluganiemcy}" rendered="#{item.obsluganiemcy ne 0.0}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Kwota biezaca nettoN"/>
+                            </f:facet>
+                            <bcf:outputpl value="#{item.kwotabiezacanettoN}" rendered="#{item.kwotabiezacanettoN ne 0.0}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Umowa o praceN"/>
+                            </f:facet>
+                            <bcf:outputpl value="#{item.umowaopraceN}" rendered="#{item.umowaopraceN ne 0.0}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Umowa zlecenieN"/>
+                            </f:facet>
+                            <bcf:outputpl value="#{item.umowazlecenieN}" rendered="#{item.umowazlecenieN ne 0.0}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="OddelegowanieN"/>
+                            </f:facet>
+                            <bcf:outputpl value="#{item.oddelegowanieN}" rendered="#{item.oddelegowanieN ne 0.0}"/>
+                        </p:column>
+<!--                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Sprawozdanie roczneN"/>
+                            </f:facet>
+                            <bcf:outputpl value="#{item.sprawozdanieroczneN}" rendered="#{item.sprawozdanieroczneN ne 0.0}"/>
+                        </p:column>-->
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Obsluga niemcyN"/>
+                            </f:facet>
+                            <bcf:outputpl value="#{item.obsluganiemcyN}" rendered="#{item.obsluganiemcyN ne 0.0}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Data maila"/>
+                            </f:facet>
+                            <h:outputText value="#{item.datamaila}"/>
+                        </p:column>
+<!--                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Klient zaakceptowal"/>
+                            </f:facet>
+                            <h:outputText value="#{item.klientzaakceptowal}"/>
+                        </p:column>-->
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Procent zmian"/>
+                            </f:facet>
+                            <h:outputText value="#{item.procentzmian}"/>
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+            </f:view>
+
+
+        </p:outputPanel>
+    </h:form>
+
+</ui:composition>
+

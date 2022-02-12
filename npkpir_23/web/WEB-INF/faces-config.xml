@@ -493,6 +493,10 @@
             <from-outcome>dodpodatnika</from-outcome>
             <to-view-id>/manager/managerPodatnik.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
+         <navigation-case>
+            <from-outcome>waloryzacja</from-outcome>
+            <to-view-id>/manager/managerWaloryzacja.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
         <navigation-case>
             <from-outcome>dodpodatnikaSC</from-outcome>
             <to-view-id>/manager/managerPodatnikSC.xhtml?faces-redirect=true</to-view-id>
