@@ -316,6 +316,8 @@ public class Faktura implements Serializable {
     private String datawaloryzacji;
     @Column (name = "procentwaloryzacji")
     private double procentwaloryzacji;
+    @Column (name = "starakwota")
+    private double starakwota;
     @Column(name = "recznaedycja")
     private boolean recznaedycja;
     @Column(name = "poleuwagi")
@@ -718,7 +720,7 @@ public class Faktura implements Serializable {
         if (this.datawaloryzacji!=null) {
             String data = this.datawaloryzacji;
             if (rok.equals(Data.getRok(data))&&mc.equals(Data.getMc(data))) {
-                zwrot = "violet";
+                zwrot = "sienna";
             }
         }
         return zwrot;
@@ -1269,6 +1271,14 @@ public class Faktura implements Serializable {
 
     public void setDatawaloryzacji(String datawaloryzacji) {
         this.datawaloryzacji = datawaloryzacji;
+    }
+
+    public double getStarakwota() {
+        return starakwota;
+    }
+
+    public void setStarakwota(double starakwota) {
+        this.starakwota = starakwota;
     }
     
 

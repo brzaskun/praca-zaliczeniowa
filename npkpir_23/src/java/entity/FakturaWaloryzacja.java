@@ -88,6 +88,8 @@ public class FakturaWaloryzacja  implements Serializable{
     private boolean  klientakceptacja;
     @Column(name = "niewysylac")
     private boolean  niewysylac;
+    @Column(name = "naniesione")
+    private boolean  naniesione;
     
 
     public FakturaWaloryzacja() {
@@ -307,6 +309,14 @@ public class FakturaWaloryzacja  implements Serializable{
 
     public void setKlientakceptacja(boolean klientakceptacja) {
         this.klientakceptacja = klientakceptacja;
+    }
+
+    public boolean isNaniesione() {
+        return naniesione;
+    }
+
+    public void setNaniesione(boolean naniesione) {
+        this.naniesione = naniesione;
     }
 
    

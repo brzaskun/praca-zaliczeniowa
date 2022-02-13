@@ -114,12 +114,12 @@
                             </f:facet>
                             <h:outputText value="#{item.datamaila}"/>
                         </p:column>
-<!--                        <p:column>
+                        <p:column style="text-align: center;">
                             <f:facet name="header">
-                                <h:outputText value="Klient zaakceptowal"/>
+                                <h:outputText value="Naniesione"/>
                             </f:facet>
-                            <h:outputText value="#{item.klientzaakceptowal}"/>
-                        </p:column>-->
+                            <h:outputText value="&#x2713;" rendered="#{item.naniesione}"/>
+                        </p:column>
                         <p:column>
                             <f:facet name="header">
                                 <h:outputText value="Procent zmian"/>

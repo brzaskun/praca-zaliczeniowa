@@ -328,7 +328,8 @@ public class FakturaView implements Serializable {
 
     public void nanieswaloryzacje() {
         List<FakturaWaloryzacja> waloryzacja = fakturaWaloryzacjaDAO.findAll();
-        List<Fakturywystokresowe> okresowe = fakturywystokresoweDAO.findPodatnikBiezace(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+        //List<Fakturywystokresowe> okresowe = fakturywystokresoweDAO.findPodatnikBiezace(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+        List<Fakturywystokresowe> okresowe = gosciwybralokres;
         if (waloryzacja!=null) {
             for (FakturaWaloryzacja wal : waloryzacja) {
                 for (Fakturywystokresowe okresowa : okresowe) {
@@ -352,6 +353,7 @@ public class FakturaView implements Serializable {
                             double wartosc = nowaksiegowosc>0.0?nowaksiegowosc:staraksiegowosc;
                             Pozycjenafakturzebazadanych wiersz = wiersze.get(0);
                             zrobwiersz(wiersz, wartosc);
+                            faktura.setStarakwota(staraksiegowosc);
                             zmienionokwote = true;
                         }
                         if (wiersze.size()>1) {
@@ -369,6 +371,8 @@ public class FakturaView implements Serializable {
                             FakturaBean.ewidencjavat(faktura, evewidencjaDAO);
                             faktura.setDatawaloryzacji(Data.aktualnaData());
                             fakturaDAO.edit(faktura);
+                            wal.setNaniesione(true);
+                            fakturaWaloryzacjaDAO.edit(wal);
                         }
                         break;
                     }

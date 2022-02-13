@@ -72,7 +72,7 @@
             </p:panelGrid>
             
             <p:dataTable id="dokumentyOkresowe" value="#{fakturaView.fakturyokresowe}" var="wpis"  rowIndexVar="row"  filteredValue="#{fakturaView.fakturyokresoweFiltered}"  rendered="#{WpisView.biuroiszef eq true}"
-                         selection="#{fakturaView.gosciwybralokres}" rowKey="#{wpis.hashCode()}" style="max-width: 1500px;" widgetVar="okresTable" sortBy="#{wpis.dokument.kontrahent.nazwabezCudzy}" sortOrder="ascending"
+                         selection="#{fakturaView.gosciwybralokres}" rowKey="#{wpis.hashCode()}" style="max-width: 1530px;" widgetVar="okresTable" sortBy="#{wpis.dokument.kontrahent.nazwabezCudzy}" sortOrder="ascending"
                          rowSelectMode="add">
                 
                 <f:facet name="header">  
@@ -115,7 +115,7 @@
                     <bcf:outputpl value="#{wpis.dokument.bruttoFakturaView}"/>
                     <h:outputText value=" #{wpis.dokument.walutafaktury}" rendered="#{wpis.dokument.walutafaktury ne 'PLN'}"/>
                     <bcf:outputpl value="#{wpis.dokument.bruttoFakturaViewPLN}" rendered="#{wpis.dokument.walutafaktury ne 'PLN'}"/>
-                    <h:outputText value=" PLN" rendered="#{wpis.dokument.walutafaktury ne 'PLN'}"/>
+                    <h:outputText value=" PLN" rendered="#{wpis.dokument.walutafaktury ne 'PLN'}" style="color: "/>
                 </p:column>
                 <p:column headerText="01" width="20" sortBy="#{wpis.m1}">  
                     <h:outputText value="#{wpis.m1}" styleClass="#{wpis.m1 gt 0 ? 'wiecejfaktur' : 'zerofaktur'}"/>
@@ -153,7 +153,7 @@
                 <p:column headerText="12" width="20"  sortBy="#{wpis.m12}">  
                     <h:outputText value="#{wpis.m12}" styleClass="#{wpis.m12 gt 0 ? 'wiecejfaktur' : 'zerofaktur'}"/>
                 </p:column>
-                <p:column headerText="data" width="60"  sortBy="#{wpis.datautworzenia}">  
+                <p:column headerText="data" width="80"  sortBy="#{wpis.datautworzenia}">  
                     <h:outputText value="#{wpis.datautworzenia}">
                         <f:convertDateTime pattern="yyyy/MM/dd" />
                     </h:outputText>
@@ -166,7 +166,7 @@
                                       icon="ui-icon-script" oncomplete="aktywujpolewyboruklientanafakturze();" />
                 </p:column>
                 <p:rowExpansion>
-                     <p:panelGrid  columns="4"  style="width:1100px">
+                     <p:panelGrid  columns="4"  style="width:800px">
                         <h:outputText value="NIP kontrahenta"/>
                         <h:outputText value="#{wpis.dokument.kontrahent_nip}"/>
                         <h:outputText value="email kontrahenta"/>
@@ -182,8 +182,10 @@
                         <h:outputText value="#{wpis.dokument.datawaloryzacji}">
                             <f:convertDateTime pattern="yyyy-MM-dd" />
                         </h:outputText>
-                        <h:outputText value="procent waloryzacji %" />
-                        <bcf:outputpl value="#{wpis.dokument.procentwaloryzacji}" />
+                        <h:outputText value="procent waloryzacji %" rendered="#{wpis.dokument.procentwaloryzacji ne 0}"/>
+                        <bcf:outputpl value="#{wpis.dokument.procentwaloryzacji}"  rendered="#{wpis.dokument.procentwaloryzacji ne 0}"/>
+                        <h:outputText value="stara kwota" rendered="#{wpis.dokument.starakwota ne 0}"/>
+                        <bcf:outputpl value="#{wpis.dokument.starakwota}"  rendered="#{wpis.dokument.starakwota ne 0}"/>
                      </p:panelGrid>
                     <p:panelGrid  columns="1"  style="width:800px">
                         <p:column id="ewidencjavat" headerText="ewidencjavat - netto - vat - op/zw" >  
