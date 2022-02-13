@@ -7,6 +7,7 @@ package entity;
 import data.Data;
 import error.E;
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -19,6 +20,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -137,6 +139,9 @@ public class Fakturywystokresowe implements Serializable {
     private boolean wystawtylkoraz;
     @Column(name = "recznaedycja")
     private boolean recznaedycja;
+    @Column(name = "datautworzenia", insertable=true, updatable=true)
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date datautworzenia;
 
     public Fakturywystokresowe() {
     }
@@ -376,6 +381,14 @@ public class Fakturywystokresowe implements Serializable {
 
     public void setRecznaedycja(boolean recznaedycja) {
         this.recznaedycja = recznaedycja;
+    }
+
+    public Date getDatautworzenia() {
+        return datautworzenia;
+    }
+
+    public void setDatautworzenia(Date datautworzenia) {
+        this.datautworzenia = datautworzenia;
     }
     
     

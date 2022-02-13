@@ -16,18 +16,18 @@
 
                 <h:form>
                     <h1><h:outputText value="List"/></h1>
-                    <p:dataTable value="#{fakturaWaloryzacjaView.lista}" var="item" style="width: 1500px;">
+                    <p:dataTable value="#{fakturaWaloryzacjaView.lista}" var="item" style="width: 1500px;" rowKey="#{item.id}"  sortBy="#{item.kontrahent.nazwabezCudzy}" >
                         <p:column width="30">
                             <f:facet name="header">
                                 <h:outputText value="Id"/>
                             </f:facet>
                             <h:outputText value="#{item.id}"/>
                         </p:column>
-                        <p:column width="200">
+                        <p:column width="200" sortBy="#{item.kontrahent.nazwabezCudzy}" filterBy="#{item.kontrahent.nazwabezCudzy}" filterMatchMode="contains">
                             <f:facet name="header">
                                 <h:outputText value="Kontrahent"/>
                             </f:facet>
-                            <h:outputText value="#{item.kontrahent.npelna}"/>
+                            <h:outputText value="#{item.kontrahent.nazwabezCudzy}"/>
                         </p:column>
                         <p:column width="40">
                             <f:facet name="header">

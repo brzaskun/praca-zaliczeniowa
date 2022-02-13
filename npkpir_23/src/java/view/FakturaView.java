@@ -333,6 +333,16 @@ public class FakturaView implements Serializable {
             for (FakturaWaloryzacja wal : waloryzacja) {
                 for (Fakturywystokresowe okresowa : okresowe) {
                     if (tensamnip(wal,okresowa)) {
+                        double zapracownika = wal.getUmowaopraceN();
+                        double zazleceniobiorce = wal.getUmowazlecenieN();
+                        if (zapracownika!=0||zazleceniobiorce!=0) {
+                            okresowa.setRecznaedycja(true);
+                            fakturywystokresoweDAO.edit(okresowa);
+                        }
+                        if (okresowa.isWystawtylkoraz()==false) {
+                            okresowa.setWystawtylkoraz(true);
+                            fakturywystokresoweDAO.edit(okresowa);
+                        }
                         boolean zmienionokwote = false;
                         double staraksiegowosc = wal.getKwotabiezacanetto();
                         double nowaksiegowosc = wal.getKwotabiezacanettoN();
@@ -355,15 +365,10 @@ public class FakturaView implements Serializable {
                             zmienionokwote = true;
                         }
                         if (zmienionokwote) {
+                            faktura.setPozycjenafakturze(wiersze);
                             FakturaBean.ewidencjavat(faktura, evewidencjaDAO);
                             faktura.setDatawaloryzacji(Data.aktualnaData());
                             fakturaDAO.edit(faktura);
-                        }
-                        double zapracownika = wal.getUmowaopraceN();
-                        double zazleceniobiorce = wal.getUmowazlecenieN();
-                        if (zapracownika!=0||zazleceniobiorce!=0) {
-                            okresowa.setRecznaedycja(true);
-                            fakturywystokresoweDAO.edit(okresowa);
                         }
                         break;
                     }
@@ -1661,6 +1666,7 @@ public class FakturaView implements Serializable {
                 nowafakturaokresowa.setNipodbiorcy(p.getKontrahent_nip());
                 String rok = p.getDatasprzedazy().split("-")[0];
                 nowafakturaokresowa.setRok(rok);
+                nowafakturaokresowa.setDatautworzenia(new Date());
                 try {
                     fakturywystokresoweDAO.create(nowafakturaokresowa);
                     p.setIdfakturaokresowa(nowafakturaokresowa);

@@ -72,7 +72,7 @@
             </p:panelGrid>
             
             <p:dataTable id="dokumentyOkresowe" value="#{fakturaView.fakturyokresowe}" var="wpis"  rowIndexVar="row"  filteredValue="#{fakturaView.fakturyokresoweFiltered}"  rendered="#{WpisView.biuroiszef eq true}"
-                         selection="#{fakturaView.gosciwybralokres}" rowKey="#{wpis.hashCode()}" style="max-width: 1400px;" widgetVar="okresTable" sortBy="#{wpis.dokument.kontrahent.nskrocona}" sortOrder="ascending"
+                         selection="#{fakturaView.gosciwybralokres}" rowKey="#{wpis.hashCode()}" style="max-width: 1500px;" widgetVar="okresTable" sortBy="#{wpis.dokument.kontrahent.nazwabezCudzy}" sortOrder="ascending"
                          rowSelectMode="add">
                 
                 <f:facet name="header">  
@@ -96,12 +96,12 @@
                 <p:column selectionMode="multiple"   width="40" style="text-align: center;"/>
                 <p:column headerText="#{mgs.kontrahent}" sortBy="#{wpis.dokument.kontrahent.npelna}" filterBy="#{wpis.dokument.kontrahent.npelna}" 
                           filterMatchMode="contains" width="150">
-                    <h:outputText value="#{wpis.dokument.kontrahent}" style="#{wpis.getStyldaty(WpisView.miesiacWpisu)}"/>
+                    <h:outputText value="#{wpis.dokument.kontrahent.nazwabezCudzy}" style="#{wpis.getStyldaty(WpisView.miesiacWpisu)}"/>
                 </p:column>
                 <p:column headerText="data wystawienia" sortBy="#{wpis.getDatawystawieniaOld()}" filterBy="#{wpis.getDatawystawieniaOld()}" filterMatchMode="contains" filterStyle="display : none;" width="90">
                     <h:outputText value="#{wpis.getDatawystawieniaOld()}" style="#{wpis.getStyldaty(WpisView.miesiacWpisu)}"/>
                 </p:column>
-                <p:column headerText="#{mgs.opis}" sortBy="#{wpis.dokument.opisFaktury}" filterBy="#{wpis.dokument.opisFaktury}" filterMatchMode="contains">
+                <p:column width="100" headerText="#{mgs.opis}" sortBy="#{wpis.dokument.opisFaktury}" filterBy="#{wpis.dokument.opisFaktury}" filterMatchMode="contains">
                     <h:outputText value="#{wpis.dokument.opisFaktury}"  style="#{wpis.getStyldaty(WpisView.miesiacWpisu)}"/>
                     <h:outputText value=" zawieszona" style="color: red; font-size: smaller;" rendered="#{wpis.zawieszona}"/>
                     <h:outputText value=" wielorazowa" style="color: blue; font-size: smaller;" rendered="#{!wpis.wystawtylkoraz}"/>
@@ -152,6 +152,11 @@
                 </p:column>
                 <p:column headerText="12" width="20"  sortBy="#{wpis.m12}">  
                     <h:outputText value="#{wpis.m12}" styleClass="#{wpis.m12 gt 0 ? 'wiecejfaktur' : 'zerofaktur'}"/>
+                </p:column>
+                <p:column headerText="data" width="60"  sortBy="#{wpis.datautworzenia}">  
+                    <h:outputText value="#{wpis.datautworzenia}">
+                        <f:convertDateTime pattern="yyyy/MM/dd" />
+                    </h:outputText>
                 </p:column>
                 <p:column headerText="drukuj" style="text-align: center;" width="40">
                     <p:commandButton update=":form1:messages" actionListener="#{pdfFaktura.drukujokresowa(wpis, row, WpisView.podatnikObiekt)}" icon="ui-icon-print" />
