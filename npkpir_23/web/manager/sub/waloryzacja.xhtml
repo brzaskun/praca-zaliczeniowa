@@ -12,11 +12,11 @@
     <h:form>
         <p:outputPanel style="padding: 10px;margin-top: 30px;">
             <f:view>
-
-
-                <h:form>
+            <p:commandButton value="Export as Excel" ajax="false">
+                    <p:dataExporter type="xls" target="datalist" fileName="lista"/>
+                </p:commandButton>
                     <h1><h:outputText value="List"/></h1>
-                    <p:dataTable value="#{fakturaWaloryzacjaView.lista}" var="item" style="width: 1500px;" rowKey="#{item.id}"  sortBy="#{item.kontrahent.nazwabezCudzy}" >
+                    <p:dataTable id="datalist" value="#{fakturaWaloryzacjaView.lista}" var="item" style="width: 1500px;" rowKey="#{item.id}"  sortBy="#{item.kontrahent.nazwabezCudzy}" >
                         <p:column width="30">
                             <f:facet name="header">
                                 <h:outputText value="Id"/>
@@ -127,7 +127,6 @@
                             <h:outputText value="#{item.procentzmian}"/>
                         </p:column>
                     </p:dataTable>
-                </h:form>
             </f:view>
 
 

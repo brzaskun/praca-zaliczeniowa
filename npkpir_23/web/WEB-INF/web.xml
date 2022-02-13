@@ -308,18 +308,18 @@
         <error-code>404</error-code>
         <location>/NMTS.xhtml</location>
     </error-page>
-     <error-page>
+<!--     <error-page>
         <error-code>500</error-code>
         <location>/PropertyNotFoundException.xhtml</location>
-    </error-page>
-    <error-page>
+    </error-page>-->
+<!--    <error-page>
         <exception-type>javax.faces.application.PropertyNotFoundException</exception-type>
         <location>/PropertyNotFoundException.xhtml</location>
-    </error-page>
-    <error-page>
+    </error-page>-->
+<!--    <error-page>
         <exception-type>java.lang.IllegalStateException</exception-type>
         <location>/PropertyNotFoundException.xhtml</location>
-    </error-page>
+    </error-page>-->
     <error-page>
         <exception-type>javax.faces.application.ViewExpiredException</exception-type>
         <location>/SessionExpired.xhtml</location>
