@@ -115,7 +115,13 @@ public class ImportSprzedazyView  implements Serializable {
     
     private JPKSuper pobierzJPK(UploadedFile uploadedFile) {
        JPKSuper zwrot = null;
-        try {
+       try {
+           InputStream is = uploadedFile.getInputstream();
+           JAXBContext context = JAXBContext.newInstance(pl.gov.crd.wzor._2021._12._27._11148.JPK.class);
+           Unmarshaller unmarshaller = context.createUnmarshaller();
+           zwrot = (pl.gov.crd.wzor._2021._12._27._11148.JPK) unmarshaller.unmarshal(is);
+       } catch (Exception ex) {}
+       try {
            InputStream is = uploadedFile.getInputstream();
            JAXBContext context = JAXBContext.newInstance(pl.gov.crd.wzor._2020._05._08._9393.JPK.class);
            Unmarshaller unmarshaller = context.createUnmarshaller();
