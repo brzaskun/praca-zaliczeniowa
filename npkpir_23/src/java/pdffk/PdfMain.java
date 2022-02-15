@@ -1878,7 +1878,7 @@ public class PdfMain {
                 table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getNetto())), "right", 8));
                 table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getVat())), "right", 8));
                 table.addCell(ustawfrazeAlign(p.getNettoPole()+" "+p.getVatPole(), "center", 7));
-                table.addCell(ustawfrazeAlign(pobierzoznaczeniaJPK2020M(p), "center", 7));
+                table.addCell(ustawfrazeAlign(pobierzoznaczeniaJPK2020M2(p), "center", 7));
             }
             if (nazwaklasy.equals("pl.gov.crd.wzor._2021._12._27._11149.JPK$Ewidencja$SprzedazWiersz")) {
                 pl.gov.crd.wzor._2021._12._27._11149.JPK.Ewidencja.SprzedazWiersz p = (pl.gov.crd.wzor._2021._12._27._11149.JPK.Ewidencja.SprzedazWiersz) it.next();
@@ -1891,7 +1891,7 @@ public class PdfMain {
                 table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getNetto())), "right", 8));
                 table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getVat())), "right", 8));
                 table.addCell(ustawfrazeAlign(p.getNettoPole()+" "+p.getVatPole(), "center", 7));
-                table.addCell(ustawfrazeAlign(pobierzoznaczeniaJPK2020K(p), "center", 7));
+                table.addCell(ustawfrazeAlign(pobierzoznaczeniaJPK2020K2(p), "center", 7));
             }
             if (nazwaklasy.equals("vies.Vies")) {
                 Vies p = (Vies) it.next();
