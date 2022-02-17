@@ -193,11 +193,12 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
         pozycjePodsumowaniaWyniku.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("wynikpodatkowy"), wynikpodatkowy));
         wynikfinansowynetto = wynikpodatkowy;
         boolean formaprawna = true;
-        if (wpisView.getPodatnikObiekt().getFormaPrawna() == null) {
-            formaprawna = true;
-        } else if (wpisView.getPodatnikObiekt().getFormaPrawna().equals(FormaPrawna.SPOLKA_KOMANDYTOWA)) {
-            formaprawna = false;
-        }
+        //Usunalem rozroznienie
+//        if (wpisView.getPodatnikObiekt().getFormaPrawna() == null) {
+//            formaprawna = true;
+//        } else if (wpisView.getPodatnikObiekt().getFormaPrawna().equals(FormaPrawna.SPOLKA_KOMANDYTOWA)) {
+//            formaprawna = false;
+//        }
         if (formaprawna) {
             double podstawaopodatkowania = Z.z0(wynikpodatkowy);
             pdop = 0.0;
