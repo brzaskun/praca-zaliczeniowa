@@ -105,8 +105,8 @@
                          >
                 <f:facet name="header">
                     <h:outputText value="#{mgs.obliczeniewyniku}"/>
-                    <h:outputText value=" podatek stawka " rendered="#{WpisView.formaprawna.toString() eq 'SPOLKA_Z_O_O'}"/>
-                    <h:outputText value="#{WpisView.stawkapodatkuospr}" rendered="#{WpisView.formaprawna.toString() eq 'SPOLKA_Z_O_O'}">
+                    <h:outputText value=" podatek stawka " rendered="#{WpisView.formaprawna.toString() eq 'SPOLKA_Z_O_O'  or WpisView.formaprawna eq 'SPOLKA_KOMANDYTOWA'}"/>
+                    <h:outputText value="#{WpisView.stawkapodatkuospr}" rendered="#{WpisView.formaprawna.toString() eq 'SPOLKA_Z_O_O'  or WpisView.formaprawna eq 'SPOLKA_KOMANDYTOWA'}">
                         <f:convertNumber type="percent"/>
                     </h:outputText>
                 </f:facet>

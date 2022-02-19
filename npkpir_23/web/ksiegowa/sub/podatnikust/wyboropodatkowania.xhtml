@@ -32,7 +32,7 @@
                     <p:column headerText="mies./kwart.">
                         <h:outputText value="#{loop.mc0kw1 eq false ? 'miesięcznie' : 'kwartalnie'}" />
                     </p:column>
-                    <p:column headerText="stawka pod." rendered="#{WpisView.formaprawna eq 'SPOLKA_Z_O_O'}">
+                <p:column headerText="stawka pod." rendered="#{WpisView.formaprawna eq 'SPOLKA_Z_O_O' or WpisView.formaprawna eq 'SPOLKA_KOMANDYTOWA'}">
                         <h:outputText value="#{loop.stawkapodatkuospr}">
                             <f:convertNumber type="percent"/>
                         </h:outputText>
@@ -102,8 +102,8 @@
                     <f:selectItem itemLabel="miesięcznie" itemValue="false"/> 
                     <f:selectItem itemLabel="kwartalnie" itemValue="true"/>
                 </p:selectOneMenu>
-                <h:outputText value="stawka pod. (0,19)" rendered="#{WpisView.formaprawna eq 'SPOLKA_Z_O_O'}"/>
-                <p:inputNumber value="#{podatnikView.wybranyPodatnikOpodatkowanie.stawkapodatkuospr}" decimalPlaces="2" maxValue="1"  rendered="#{WpisView.formaprawna eq 'SPOLKA_Z_O_O'}"/>
+                <h:outputText value="stawka pod. (0,19)" rendered="#{WpisView.formaprawna eq 'SPOLKA_Z_O_O'  or WpisView.formaprawna eq 'SPOLKA_KOMANDYTOWA'}"/>
+                <p:inputNumber value="#{podatnikView.wybranyPodatnikOpodatkowanie.stawkapodatkuospr}" decimalPlaces="2" maxValue="1"  rendered="#{WpisView.formaprawna eq 'SPOLKA_Z_O_O'  or WpisView.formaprawna eq 'SPOLKA_KOMANDYTOWA'}"/>
             </p:panelGrid>
             <br/>
             <p:panelGrid columns="3" style="column-width: 350px; width: 500px">

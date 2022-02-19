@@ -377,7 +377,7 @@ public class WpisView implements Serializable {
             rokpoprzednizamkniety = zwrocrokpoprzednizamkniety();
             rodzajopodatkowania = opodatkowanie.getFormaopodatkowania();
             if (rodzajopodatkowania != null) {
-                if (this.podatnikObiekt.getFormaPrawna() != null && this.podatnikObiekt.getFormaPrawna().toString().equals("SPOLKA_Z_O_O")) {
+                if (this.podatnikObiekt.getFormaPrawna() != null) {
                     stawkapodatkuospr = stawkapodatkuospr();
                 }
                 String czyjestvat = sprawdzjakiokresvat();
