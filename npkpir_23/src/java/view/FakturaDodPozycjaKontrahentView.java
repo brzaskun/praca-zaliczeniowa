@@ -279,6 +279,14 @@ public class FakturaDodPozycjaKontrahentView  implements Serializable {
         this.sumawybranych = sumawybranych;
     }
 
+    public double getSumawybranych2() {
+        return sumawybranych2;
+    }
+
+    public void setSumawybranych2(double sumawybranych2) {
+        this.sumawybranych2 = sumawybranych2;
+    }
+
  
     
     
