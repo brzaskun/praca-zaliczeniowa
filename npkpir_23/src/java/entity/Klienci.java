@@ -14,6 +14,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import jpkabstract.SprzedazWierszA;
 import org.eclipse.persistence.annotations.Cache;
 import org.eclipse.persistence.annotations.CacheType;
 
@@ -155,6 +156,12 @@ public class Klienci extends KlienciSuper implements Serializable {
         this.dom = dom;
         this.lokal = lokal;
         this.krajkod = krajkod;
+    }
+
+    public Klienci(SprzedazWierszA p) {
+        this.nazwapodatnika = p.getNazwaKontrahenta();
+        this.npelna = p.getNazwaKontrahenta();
+        this.nskrocona = p.getNazwaKontrahentaShort();
     }
     
     

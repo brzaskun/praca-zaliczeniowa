@@ -3328,6 +3328,20 @@ public class DokfkView implements Serializable {
         }
     }
 
+
+    public void oznaczwybranefp() {
+        if (selectedlistimport==null) {
+            Msg.msg("e","Nie zaznaczono faktur do oznaczenia");
+        } else {
+            JPKoznaczenia oznaczenie = jPKOznaczeniaDAO.findBySymbol("FP");
+            for (Dokfk p : selectedlistimport) {
+                p.setOznaczenie1(oznaczenie);
+            }
+            dokDAOfk.editList(selectedlistimport);
+            Msg.msg("Oznaczono dokumenty symolem FP");
+        }
+    }
+    
     public void usunwszytskieimportowane() {
         if (filteredValueimport!=null && filteredValueimport.size()>0) {
             for (Dokfk p : filteredValueimport) {

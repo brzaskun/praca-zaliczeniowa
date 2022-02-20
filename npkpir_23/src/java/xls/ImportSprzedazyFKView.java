@@ -6,9 +6,12 @@
 package xls;
 
 import beansDok.ListaEwidencjiVat;
+import beansJPK.KlienciJPKBean;
 import dao.DokDAOfk;
+import dao.EvewidencjaDAO;
 import dao.KlienciDAO;
 import dao.KliencifkDAO;
+import dao.KlientJPKDAO;
 import dao.KontoDAOfk;
 import dao.KontopozycjaZapisDAO;
 import dao.RodzajedokDAO;
@@ -17,8 +20,10 @@ import dao.UkladBRDAO;
 import dao.WalutyDAOfk;
 import embeddable.PanstwaEUSymb;
 import embeddablefk.ImportJPKSprzedaz;
+import entity.Evewidencja;
 import entity.JPKSuper;
 import entity.Klienci;
+import entity.KlientJPK;
 import entityfk.Dokfk;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
@@ -89,6 +94,10 @@ public class ImportSprzedazyFKView  implements Serializable {
     @Inject
     private KlienciDAO klDAO;
     @Inject
+    private KlientJPKDAO klientJPKDAO;
+    @Inject
+    private EvewidencjaDAO evewidencjaDAO;
+    @Inject
     private ListaEwidencjiVat listaEwidencjiVat;
     private JPKSuper jpk;
     private String rodzajdok;
@@ -98,10 +107,11 @@ public class ImportSprzedazyFKView  implements Serializable {
     private PanelGrid grid3;
     private byte[] plikinterpaper;
     private CommandButton generujbutton;
+    private CommandButton generujbutton2;
     private CommandButton drukujbutton;
     private List<ImportJPKSprzedaz> listasprzedaz;
     private List<ImportJPKSprzedaz> listasprzedazselected;
-            private List<ImportJPKSprzedaz> listasprzedazfilter;
+    private List<ImportJPKSprzedaz> listasprzedazfilter;
     private Konto kontonetto;
     private Konto kontonettokoszt;
     private Konto kontovat;
@@ -152,8 +162,11 @@ public class ImportSprzedazyFKView  implements Serializable {
                     listasprzedaz = stworzlistesprzedaz(jpk, jpk1inne2);
                 }
                 grid3.setRendered(true);
-                if (jpk1inne2==1) {
+                if (jpk1inne2==2) {
                     generujbutton.setRendered(true);
+                }
+                if (jpk1inne2==1) {
+                    generujbutton2.setRendered(true);
                 }
                 drukujbutton.setRendered(true);
                 Msg.msg("Sukces. Dane z pliu  zostały skutecznie załadowane");
@@ -201,8 +214,8 @@ public class ImportSprzedazyFKView  implements Serializable {
                 String pobranadata = p.getDataSprzedazy()!=null ? p.getDataSprzedazy().toString() : p.getDataWystawienia().toString();
                 boolean czydobradata = data.Data.czydatajestwmcu(pobranadata, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
                 if (czydobradata) {
-                    Klienci klient = ImportBean.ustawkontrahentaImportJPK(p.getNrKontrahenta(), p.getNazwaKontrahenta(), k, klDAO);
-                    if (jpk1inne2==1) {
+                    if (jpk1inne2==2) {
+                        Klienci klient = ImportBean.ustawkontrahentaImportJPK(p.getNrKontrahenta(), p.getNazwaKontrahenta(), k, klDAO);
                         if (klient.getNip()!=null && klient.getNip().length()>8) {
                            s.setKlient(klient);
                            s.setId(i++);
@@ -227,9 +240,12 @@ public class ImportSprzedazyFKView  implements Serializable {
                            zwrot.add(s);
                        }
                     } else {
+                        Klienci klient = new Klienci(p);
                          if (klient.getNip()==null || klient.getNip().length()<8) {
                             s.setKlient(klient);
                             s.setId(i++);
+                            s.getSprzedazWiersz().getNetto();
+                            s.getSprzedazWiersz().getVat();
                             String rodzajdk = "SZ";
                             //int polska0unia1zagranica2 = 0;
                             if (!wpisView.isVatowiec()) {
@@ -280,14 +296,54 @@ public class ImportSprzedazyFKView  implements Serializable {
         PrimeFaces.current().executeScript("PF('dialogAjaxCzekaj').hide()");
     }
     
+     public void generujdlajpk() {
+         try {
+             if (listasprzedazselected==null||listasprzedazselected.isEmpty()) {
+                 Msg.msg("e","Nie wybrano dokumentów");
+             } else {
+                klientJPKDAO.deleteByPodRokMc(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+                List<Evewidencja> ewidencja = evewidencjaDAO.findAll();
+                List<KlientJPK> lista = KlienciJPKBean.zaksiegujdokJPKJPK(listasprzedazselected, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(), ewidencja);
+
+               if (lista.isEmpty()) {
+                   Msg.msg("w", "Nie wygenerowano żadnych dokumentów");
+               } else {
+                   klientJPKDAO.createList(lista);
+                   Msg.msg("Wygenerowano dokumenty w liczbie "+lista.size());
+               }
+             }
+        } catch (Exception ex) {
+            E.e(ex);
+            Msg.msg("e","Wystąpił błąd. Nie udało się wygenerować dokumentów");
+        }
+        PrimeFaces.current().executeScript("PF('dialogAjaxCzekaj').hide()");
+     }
+     
+     
+     
     private JPKSuper pobierzJPK() {
        JPKSuper zwrot = null;
        InputStream is = new ByteArrayInputStream(plikinterpaper);
-       try {
-           JAXBContext context = JAXBContext.newInstance(pl.gov.crd.wzor._2020._05._08._9394.JPK.class);
+        try {
+           JAXBContext context = JAXBContext.newInstance(pl.gov.crd.wzor._2021._12._27._11148.JPK.class);
            Unmarshaller unmarshaller = context.createUnmarshaller();
-           zwrot = (pl.gov.crd.wzor._2020._05._08._9394.JPK) unmarshaller.unmarshal(is);
+           zwrot = (pl.gov.crd.wzor._2021._12._27._11148.JPK) unmarshaller.unmarshal(is);
        } catch (Exception ex) {}
+       if (zwrot ==null) {
+            try {
+                is = new ByteArrayInputStream(plikinterpaper);
+                JAXBContext context = JAXBContext.newInstance(pl.gov.crd.wzor._2021._12._27._11149.JPK.class);
+                Unmarshaller unmarshaller = context.createUnmarshaller();
+                zwrot = (pl.gov.crd.wzor._2021._12._27._11149.JPK) unmarshaller.unmarshal(is);
+            } catch (Exception ex) {}
+       }
+       if (zwrot ==null) {
+            try {
+                JAXBContext context = JAXBContext.newInstance(pl.gov.crd.wzor._2020._05._08._9394.JPK.class);
+                Unmarshaller unmarshaller = context.createUnmarshaller();
+                zwrot = (pl.gov.crd.wzor._2020._05._08._9394.JPK) unmarshaller.unmarshal(is);
+            } catch (Exception ex) {}
+       }
        if (zwrot ==null) {
             try {
                 is = new ByteArrayInputStream(plikinterpaper);
@@ -650,6 +706,14 @@ public class ImportSprzedazyFKView  implements Serializable {
 
     public void setDrukujbutton(CommandButton drukujbutton) {
         this.drukujbutton = drukujbutton;
+    }
+
+    public CommandButton getGenerujbutton2() {
+        return generujbutton2;
+    }
+
+    public void setGenerujbutton2(CommandButton generujbutton2) {
+        this.generujbutton2 = generujbutton2;
     }
 
   

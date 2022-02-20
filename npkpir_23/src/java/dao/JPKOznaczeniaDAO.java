@@ -59,6 +59,10 @@ public class JPKOznaczeniaDAO extends DAO implements Serializable{
         }
         return zwrot;
     }
+
+    public JPKoznaczenia findBySymbol(String symbol) {
+        return (JPKoznaczenia) sessionFacade.getEntityManager().createNamedQuery("JPKoznaczenia.findyBySymbol").setParameter("symbol", symbol).getSingleResult();
+    }
     
     
 }

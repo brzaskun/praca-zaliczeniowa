@@ -258,6 +258,7 @@ public class Beanjpk {
         if (wybierzosobyfizyczne||deklaracjaniemiecka) {
            Klienci inc = new Klienci();
            inc.setNpelna(faktura.getP3A()!=null ? faktura.getP3A(): "brak nazwy indycentalnego");
+           inc.setNip(faktura.getP5B()!=null ? faktura.getP5B(): "brak nip indycentalnego");
            inc.setAdresincydentalny(faktura.getP3B()!=null ? faktura.getP3B(): "brak adresu indycentalnego");
            return inc;
         } else {

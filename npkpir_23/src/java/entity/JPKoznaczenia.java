@@ -27,7 +27,8 @@ import javax.persistence.UniqueConstraint;
     @UniqueConstraint(columnNames={"nazwa"})
 })
 @NamedQueries({
-    @NamedQuery(name = "JPKoznaczenia.findyByKlasa", query = "DELETE FROM JPKoznaczenia p WHERE p.klasa = :klasa")
+    @NamedQuery(name = "JPKoznaczenia.findyByKlasa", query = "DELETE FROM JPKoznaczenia p WHERE p.klasa = :klasa"),
+    @NamedQuery(name = "JPKoznaczenia.findyBySymbol", query = "DELETE FROM JPKoznaczenia p WHERE p.symbol = :symbol")
 })
 public class JPKoznaczenia implements Serializable {
    private static final long serialVersionUID = 1L;

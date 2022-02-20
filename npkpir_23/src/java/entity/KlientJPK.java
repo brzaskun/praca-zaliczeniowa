@@ -6,7 +6,9 @@
 package entity;
 
 import data.Data;
+import embeddablefk.ImportJPKSprzedaz;
 import embeddablefk.InterpaperXLS;
+import entityfk.Dokfk;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -124,6 +126,22 @@ public class KlientJPK implements Serializable {
         this.waluta = d.getSymbolWaluty();
         this.ewidencjaVAT = new ArrayList<>();
     }
+    
+    public KlientJPK(Dokfk d, Podatnik podatnik, String rok, String mc) {
+        this.dataSprzedazy = d.getDataoperacji();
+        this.dataWystawienia = d.getDatawystawienia();
+        this.dowodSprzedazy = d.getNumerwlasnydokfk();
+        this.nrKontrahenta = d.getKontr().getNip()==null||d.getKontr().getNip().equals("")?"brak":d.getKontr().getNip();
+        this.nazwaKontrahenta = d.getKontr().getNpelna()==null||d.getKontr().getNpelna().equals("")?"brak":d.getKontr().getNpelna();
+        this.podatnik = podatnik;
+        this.rok = rok;
+        this.mc = mc;
+        this.ewidencja = d.getEwidencjaVAT().get(0).getEwidencja();
+        this.netto = d.getNettoVAT();
+        this.vat = d.getVATVAT();
+        this.waluta = d.getWalutadokumentu().getSymbolwaluty();
+        this.ewidencjaVAT = new ArrayList<>();
+    }
 
     public KlientJPK(InterpaperXLS d, Podatnik podatnik, String rok, String mc) {
         this.dataSprzedazy = Data.data_yyyyMMdd(d.getDatasprzedaży());
@@ -169,7 +187,23 @@ public class KlientJPK implements Serializable {
         this.importt = a.importt;
     }
 
-    
+    public KlientJPK(ImportJPKSprzedaz d, Podatnik podatnik, String rok, String mc) {
+        this.dataSprzedazy = Data.calendarToString(d.getSprzedazWiersz().getDataSprzedazy());
+        this.dataWystawienia = Data.calendarToString(d.getSprzedazWiersz().getDataWystawienia());
+        this.dowodSprzedazy = d.getSprzedazWiersz().getDowodSprzedazy();
+        this.nrKontrahenta = "brak";
+        this.nazwaKontrahenta = d.getKlient()==null||d.getKlient().equals("")?"BRAK":d.getKlient().getNazwapodatnika();
+        this.podatnik = podatnik;
+        this.rok = rok;
+        this.mc = mc;
+        this.netto = d.getSprzedazWiersz().getNetto();
+        this.vat = d.getSprzedazWiersz().getVat();
+        this.waluta = "PLN";
+        this.ewidencjaVAT = new ArrayList<>();
+        this.stawkavat = (double) d.getSprzedazWiersz().getStawka();
+    }
+
+  
 
     public int getId() {
         return id;
@@ -429,6 +463,8 @@ public class KlientJPK implements Serializable {
     public String toString() {
         return "KlientJPK{" + "serial=" + serial + ", kodKrajuNadania=" + kodKrajuNadania + ", kodKrajuDoreczenia=" + kodKrajuDoreczenia + ", jurysdykcja=" + jurysdykcja + ", nrKontrahenta=" + nrKontrahenta + ", nazwaKontrahenta=" + nazwaKontrahenta + ", dowodSprzedazy=" + dowodSprzedazy + ", dataWystawienia=" + dataWystawienia + ", dataSprzedazy=" + dataSprzedazy + ", netto=" + netto + ", vat=" + vat + ", nettowaluta=" + nettowaluta + ", vatwaluta=" + vatwaluta + ", stawkavat=" + stawkavat + ", rok=" + rok + ", mc=" + mc + ", ewidencja=" + ewidencja .getNazwa() + ", waluta=" + waluta + ", wdt=" + wdt + ", wnt=" + wnt + ", eksport=" + eksport + ", importt=" + importt + '}';
     }
+
+    
 
     
 

@@ -26,6 +26,9 @@
         <h:form id="form1_jpkfafa">
             <p:panelGrid columns="4">
                 <h:outputText value="import dokumentów z pliku JPK_FA"/>
+                <p:selectBooleanCheckbox label="wybierz dla jpk" value="#{importFakturyView.wybierzdlajpk}" itemLabel="wybierz dla jpk" style="margin-left: 50px;">
+                    <p:ajax event="change" partialSubmit="true" update="importtabelafafa"/>
+                </p:selectBooleanCheckbox>
                 <p:selectBooleanCheckbox label="wybierz osoby fizyczne" value="#{importFakturyView.wybierzosobyfizyczne}" itemLabel="wybierz tylko osoby fizyczne">
                     <p:ajax event="change" partialSubmit="true" update="importtabelafafa"/>
                 </p:selectBooleanCheckbox>
@@ -53,7 +56,7 @@
             </p:panelGrid>
             <p:dataTable id="dokumentyLista" value="#{importFakturyView.dokumentyfk}" var="item" rowIndexVar="row" widgetVar="tablicadokumentyimport" 
                          rowKey="#{item.id}" 
-                         style="width: 1250px; height: 580px; overflow-y: scroll"
+                         style="width: 1450px; height: 580px; overflow-y: scroll"
                          emptyMessage="Brak importowanych dokumentów" styleClass="gridZaksiegowane walkingtable"
                          sortBy="#{item.id}" >
                 <!--                     <p:ajax event="rowSelect" oncomplete="pokazwierszedok();" update=":formwpisdokument, :dialogwiersze" />-->
@@ -64,10 +67,10 @@
                 <p:column headerText="#{mgs.datadok}" styleClass="zaksiegowanewaski" width="70" style="text-align: center;"  sortBy="#{item.datadokumentu}" filterBy="#{item.datadokumentu}" filterMatchMode="contains" >
                     <h:outputText value="#{item.datadokumentu}"/>
                 </p:column>
-                <p:column headerText="#{mgs.symbol}" styleClass="zaksiegowanewaski" width="70" sortBy="#{item.seriadokfk}" filterBy="#{item.seriadokfk}">
+                <p:column headerText="#{mgs.symbol}" styleClass="zaksiegowanewaski" width="90" sortBy="#{item.seriadokfk}" filterBy="#{item.seriadokfk}">
                     <h:outputText value="#{item.seriadokfk}/#{item.nrkolejnywserii}/#{item.rok}"/>
                 </p:column>
-                <p:column headerText="#{mgs.kontrahent}" width="140" sortBy="#{item.kontr.npelna}" filterBy="#{item.kontr.npelna}" >
+                <p:column headerText="#{mgs.kontrahent}" width="200" sortBy="#{item.kontr.npelna}" filterBy="#{item.kontr.npelna}" >
                     <h:outputText value="#{item.kontr.npelna}"/>
                 </p:column>
                 <p:column headerText="#{mgs.numer}" styleClass="zaksiegowanewaski" width="110" sortBy="#{item.numerwlasnydokfk}" filterBy="#{item.numerwlasnydokfk}" filterMatchMode="contains" >
@@ -75,6 +78,16 @@
                 </p:column>
                 <p:column headerText="#{mgs.opis}" width="120" sortBy="#{item.opisdokfk}" filterBy="#{item.opisdokfk}" filterMatchMode="contains" >
                     <h:outputText value="#{item.opisdokfk}"/>
+                </p:column>
+                <p:column headerText="netto" styleClass="zaksiegowanewaski" width="70" sortBy="#{item.nettoVAT}" filterBy="#{item.nettoVAT}" filterMatchMode="contains" >
+                    <h:outputText value="#{item.nettoVAT}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="vat" styleClass="zaksiegowanewaski" width="70" sortBy="#{item.VATVAT}" filterBy="#{item.VATVAT}" filterMatchMode="contains" >
+                    <h:outputText value="#{item.VATVAT}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
                 </p:column>
                 <p:column headerText="#{mgs.wartość}" styleClass="zaksiegowanewaski" width="70" sortBy="#{item.wartoscdokumentu}" filterBy="#{item.wartoscdokumentu}" filterMatchMode="contains" >
                     <h:outputText value="#{item.wartoscdokumentu}" style="float: right;">
@@ -100,9 +113,10 @@
                 </p:column>
             </p:dataTable>
             
-            <p:panelGrid columns="2">
+            <p:panelGrid columns="2" style="margin-top: 10px;">
                 <p:commandButton value="zaksięguj" actionListener="#{importFakturyView.zaksiegujfk}" id="ksiegujbutton"
-                                 style="margin-top: 20px; width: 120px;" update="@form" rendered="#{importFakturyView.dokumentyfk.size() gt 0 and !importFakturyView.wybierzosobyfizyczne and !importFakturyView.deklaracjaniemiecka}"/>
+                                 style="margin-top: 20px; width: 120px;" update="@form" rendered="#{importFakturyView.dokumentyfk.size() gt 0 and !importFakturyView.wybierzosobyfizyczne and !importFakturyView.deklaracjaniemiecka and !importFakturyView.wybierzdlajpk}"/>
+                <p:commandButton value="generuj dla jpk" actionListener="#{importFakturyView.generujdlajpk()}" update="form_importjpkfa" style="width: 120px;margin-left: 15px;"  rendered="#{importFakturyView.dokumentyfk.size() gt 0 and importFakturyView.wybierzdlajpk}" />            
 <!--                <p:commandButton  icon="fa fa-print" style="margin-top: 20px; width: 120px;" actionListener="#{importFakturyView.drukuj()}" global="false" rendered="#{importFakturyView.dokumenty.size() gt 0}"/>-->
             </p:panelGrid>
         </h:form>

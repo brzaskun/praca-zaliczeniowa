@@ -69,6 +69,7 @@
                 /* ]]> */
             </script>-->
             <p:contextMenu for="dataListImport" style="width: 200px;">
+                <p:menuitem value="oznacz FP" icon="ui-icon-comment" actionListener="#{dokfkView.oznaczwybranefp()}" update="zestawieniedokumentowimport"/>
                 <p:menuitem value="usuń wszystkie" icon="ui-icon-trash" actionListener="#{dokfkView.usunwszytskieimportowane()}" update="zestawieniedokumentowimport"/>
             </p:contextMenu>
 
