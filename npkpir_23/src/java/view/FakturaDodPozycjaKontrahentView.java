@@ -55,6 +55,7 @@ public class FakturaDodPozycjaKontrahentView  implements Serializable {
     private String rok;
     private String mc;
     private double sumawybranych;
+    private double sumawybranych2;
 
     
     @PostConstruct
@@ -150,6 +151,7 @@ public class FakturaDodPozycjaKontrahentView  implements Serializable {
             } else {
                 sumawybranych = Z.z(sumawybranych+p.getFakturaDodatkowaPozycja().getKwota()*p.getIlosc());
             }
+            sumawybranych2 = sumawybranych2+p.getIlosc();
         }
         Msg.msg("Podsumowano");
     }

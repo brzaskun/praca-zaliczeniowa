@@ -187,6 +187,10 @@ public class FakturaView implements Serializable {
     private Double podsumowaniewybranychnetto;
     private Double podsumowaniewybranychvat;
     private int iloscwybranych;
+    private Double podsumowaniewybranychbrutto2;
+    private Double podsumowaniewybranychnetto2;
+    private Double podsumowaniewybranychvat2;
+    private int iloscwybranych2;
     //do usuuwania faktur zaksiegowanych
     private double waloryzajca;
     private double kwotaprzedwaloryzacja;
@@ -2336,6 +2340,39 @@ public class FakturaView implements Serializable {
         }
     }
     
+    
+    public void sumawartosciwybranych2(List<Faktura> gosciwybral) {
+        podsumowaniewybranychbrutto2 = 0.0;
+        podsumowaniewybranychnetto2 = 0.0;
+        podsumowaniewybranychvat2 = 0.0;
+        if (gosciwybral.size() > 0) {
+            iloscwybranych2 = gosciwybral.size();
+            for (Faktura p : gosciwybral) {
+                if (p.getTabelanbp()!=null) {
+                    if (p.getPozycjepokorekcie() == null) {
+                        podsumowaniewybranychnetto2 += p.getNettopln();
+                        podsumowaniewybranychvat2 += p.getVatpln();
+                        podsumowaniewybranychbrutto2 += p.getBruttopln();
+                    } else {
+                        podsumowaniewybranychnetto2 += (p.getNettopkpln()-p.getNettopln());
+                        podsumowaniewybranychvat2 += (p.getVatpkpln()-p.getVatpln());
+                        podsumowaniewybranychbrutto2 += (p.getBruttopkpln()-p.getBruttopln());
+                    }
+                } else {
+                    if (p.getPozycjepokorekcie() == null) {
+                        podsumowaniewybranychnetto2 += p.getNetto();
+                        podsumowaniewybranychvat2 += p.getVat();
+                        podsumowaniewybranychbrutto2 += p.getBrutto();
+                    } else {
+                        podsumowaniewybranychnetto2 += (p.getNettopk()-p.getNetto());
+                        podsumowaniewybranychvat2 += (p.getVatpk()-p.getVat());
+                        podsumowaniewybranychbrutto2 += (p.getBruttopk()-p.getBrutto());
+                    }
+                }
+            }
+        }
+    }
+    
      public void sumawartosciwybranychokresowe() {
         podsumowaniewybranychbrutto = 0.0;
         podsumowaniewybranychnetto = 0.0;
@@ -3319,6 +3356,38 @@ public class FakturaView implements Serializable {
 
     public void setListakontawwalucie(List<String> listakontawwalucie) {
         this.listakontawwalucie = listakontawwalucie;
+    }
+
+    public Double getPodsumowaniewybranychbrutto2() {
+        return podsumowaniewybranychbrutto2;
+    }
+
+    public void setPodsumowaniewybranychbrutto2(Double podsumowaniewybranychbrutto2) {
+        this.podsumowaniewybranychbrutto2 = podsumowaniewybranychbrutto2;
+    }
+
+    public Double getPodsumowaniewybranychnetto2() {
+        return podsumowaniewybranychnetto2;
+    }
+
+    public void setPodsumowaniewybranychnetto2(Double podsumowaniewybranychnetto2) {
+        this.podsumowaniewybranychnetto2 = podsumowaniewybranychnetto2;
+    }
+
+    public Double getPodsumowaniewybranychvat2() {
+        return podsumowaniewybranychvat2;
+    }
+
+    public void setPodsumowaniewybranychvat2(Double podsumowaniewybranychvat2) {
+        this.podsumowaniewybranychvat2 = podsumowaniewybranychvat2;
+    }
+
+    public int getIloscwybranych2() {
+        return iloscwybranych2;
+    }
+
+    public void setIloscwybranych2(int iloscwybranych2) {
+        this.iloscwybranych2 = iloscwybranych2;
     }
 
    

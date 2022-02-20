@@ -25,6 +25,38 @@
             }
         </style>
         <h:form id="formsporzadzone_edit">
+            <p:panelGrid id="panelsum_edit" style="height: 40px;">
+                <f:facet name="header">
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="ilość"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="suma netto"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="suma vat"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="suma brutto"/>
+                        </p:column>
+                    </p:row>
+                </f:facet>
+                <p:row>
+                    <p:column style="text-align: center;">
+                        <h:outputText value="#{fakturaView.iloscwybranych2}" rendered="#{fakturaView.iloscwybranych2 gt 0}"/>
+                    </p:column>
+                    <p:column>
+                        <bcf:outputpl id="podsumowaniewybrnetto" value="#{fakturaView.podsumowaniewybranychnetto2}"/>
+                    </p:column>
+                    <p:column>
+                        <bcf:outputpl id="podsumowaniewybrvat" value="#{fakturaView.podsumowaniewybranychvat2}"/>
+                    </p:column>
+                    <p:column>
+                        <bcf:outputpl id="podsumowaniewybrbrutto" value="#{fakturaView.podsumowaniewybranychbrutto2}"/>
+                    </p:column>
+                </p:row>
+            </p:panelGrid>
             <p:panel id="panelwiadomosc_edit" >
                 <p:panelGrid columns="1">
                 <p:commandButton value="drukuj zestawienie" actionListener="#{fakturaView.drukujfakturysporzadzone}" style="width: 150px; margin-left: 30px;"/>
@@ -33,6 +65,11 @@
             <p:dataTable id="dokumentyLista_edit" value="#{fakturaView.faktury_edit}" var="wpis" filteredValue="#{fakturaView.faktury_edit_filter}" 
                          selection="#{fakturaView.faktury_edit_select}" rowKey="#{wpis.numerkolejny}" widgetVar="dokTableFakturyedit" rowSelectMode="add" style="max-width: 1400px;"
                          sortBy="#{wpis.numerkolejny}" sortFunction="#{fakturaView.sortZaksiegowaneFaktury}" emptyMessage="Nie sporządzono faktur w tym miesiącu">
+                <p:ajax event="rowSelectCheckbox" listener="#{fakturaView.sumawartosciwybranych2(fakturaView.faktury_edit_select)}" update="akordeon:formsporzadzone_edit:dokumentyLista_edit :akordeon:formsporzadzone_edit:panelsum_edit confirmDialog" global="false"/>
+                <p:ajax event="rowUnselectCheckbox" listener="#{fakturaView.sumawartosciwybranych2(fakturaView.faktury_edit_select)}" update="akordeon:formsporzadzone_edit:dokumentyLista_edit :akordeon:formsporzadzone_edit:panelsum_edit confirmDialog" global="false"/>
+                <p:ajax event="toggleSelect" listener="#{fakturaView.sumawartosciwybranych2(fakturaView.faktury_edit_select)}" update="akordeon:formsporzadzone_edit:dokumentyLista_edit :akordeon:formsporzadzone_edit:panelsum_edit confirmDialog" global="false"/>      
+                <p:ajax event="rowSelect" listener="#{fakturaView.sumawartosciwybranych2(fakturaView.faktury_edit_select)}" update="akordeon:formsporzadzone_edit:dokumentyLista_edit :akordeon:formsporzadzone_edit:panelsum_edit  confirmDialog" global="false"/>      
+                <p:ajax event="rowUnselect" listener="#{fakturaView.sumawartosciwybranych2(fakturaView.faktury_edit_select)}"  update="akordeon:formsporzadzone_edit:dokumentyLista_edit :akordeon:formsporzadzone_edit:panelsum_edit  confirmDialog" global="false"/>   
                 <f:facet name="header">  
                     <h:outputText value="Zestawienie wygenerowanych faktur w mc #{WpisView.miesiacWpisu} " />  
                     <!--                    <h:outputText value="- wyszukiwanie: " />  
