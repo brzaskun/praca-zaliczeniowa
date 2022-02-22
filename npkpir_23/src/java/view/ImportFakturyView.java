@@ -545,6 +545,19 @@ public class ImportFakturyView  implements Serializable {
         Msg.msg("Usunięto dokument z listy");
     }
     
+    
+    public void usundokumentimportjpkfa(Dokfk dok) {
+        try {
+            dokumentyfk.remove(dok);
+            Msg.msg("i", "Dokument importowy usunięty");
+            
+        } catch (Exception e) {
+            E.e(e);
+            Msg.msg("e", "Nie udało się usunąć dokumentu importowego"+E.e(e));
+        }
+    }
+    
+    
     public void zaksiegujdlajpk() {
         klientJPKDAO.deleteByPodRokMc(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
         List<KlientJPK> lista = KlienciJPKBean.zaksiegujdok(dokumenty, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());

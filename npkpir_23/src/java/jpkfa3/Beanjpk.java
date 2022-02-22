@@ -33,6 +33,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Pattern;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 import org.joda.time.DateTime;
@@ -262,6 +263,7 @@ public class Beanjpk {
            inc.setAdresincydentalny(faktura.getP3B()!=null ? faktura.getP3B(): "brak adresu indycentalnego");
            return inc;
         } else {
+            nrKontrahenta = pobierznip(nrKontrahenta);
             Klienci klientznaleziony = klDAO.findKlientByNipImport(nrKontrahenta);
             if (klientznaleziony==null) {
                 klientznaleziony = SzukajDaneBean.znajdzdaneregonAutomat(nrKontrahenta);
@@ -282,6 +284,17 @@ public class Beanjpk {
             }
             return klientznaleziony;
         }
+    }
+    
+     private static String pobierznip(String nip) {
+        String zwrot = nip;
+        String prefix = nip.substring(0, 2);
+        Pattern p = Pattern.compile("[A-Z]");
+        boolean isalfa = p.matcher(prefix).find();
+        if (isalfa) {
+            zwrot = nip.substring(2);
+        }
+        return zwrot;
     }
     
     private static String pobierzNIPkontrahenta(jpkfa3.JPK.Faktura faktura) {

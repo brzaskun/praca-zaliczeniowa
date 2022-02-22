@@ -1298,6 +1298,8 @@ public class DokfkView implements Serializable {
             Msg.msg("e", "Nie udało się usunąć dokumentu importowego"+E.e(e));
         }
     }
+     
+     
 
     
     //usuwa wiersze z dokumentu
