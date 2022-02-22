@@ -114,6 +114,7 @@ public class ImportFakturyView  implements Serializable {
             UploadedFile uploadedFile = event.getFile();
             String filename = uploadedFile.getFileName();
             jpkfa.JPK jpk = pobierzJPK(uploadedFile.getInputstream());
+            jpkfa2.JPK jpkfa2 = pobierzJPK2(uploadedFile.getInputstream());
             jpkfa3.JPK jpkfa3 = pobierzJPK3(uploadedFile.getInputstream());
             if (jpk != null) {
                 if (deklaracjaniemiecka) {
@@ -173,6 +174,22 @@ public class ImportFakturyView  implements Serializable {
                     Msg.msg("e", "Brak dokumentów w pliku jpk wg zadanych kruteriów");
                 }
             }
+            jpkfa2.JPK jpkfa2 = pobierzJPK2(uploadedFile.getInputstream());
+            if (jpkfa2 != null) {
+                if (wybierzdlajpk) {
+                    dokumentyfk = stworzdokumentyjpkfk(jpkfa2);
+                } else  if (deklaracjaniemiecka) {
+                    dokumentyfk = stworzdokumentydefk(jpkfa2);
+                } else if (wybierzosobyfizyczne) {
+                    dokumentyfk = stworzdokumentyfizfk(jpkfa2);
+                } else {
+                    dokumentyfk = stworzdokumentyfk(jpkfa2);
+                }
+                Msg.msg("Sukces. Plik " + filename + " został skutecznie załadowany");
+                if (dokumentyfk.size() == 0) {
+                    Msg.msg("e", "Brak dokumentów w pliku jpk wg zadanych kruteriów");
+                }
+            }
             
         } catch (Exception ex) {
             E.e(ex);
@@ -186,6 +203,17 @@ public class ImportFakturyView  implements Serializable {
            JAXBContext context = JAXBContext.newInstance(jpkfa.JPK.class);
            Unmarshaller unmarshaller = context.createUnmarshaller();
            zwrot = (jpkfa.JPK) unmarshaller.unmarshal(is);
+       } catch (Exception ex) {
+           error.E.s("");
+       }
+       return zwrot;
+    }
+    private jpkfa2.JPK pobierzJPK2(InputStream is) {
+       jpkfa2.JPK zwrot = null;
+       try {
+           JAXBContext context = JAXBContext.newInstance(jpkfa2.JPK.class);
+           Unmarshaller unmarshaller = context.createUnmarshaller();
+           zwrot = (jpkfa2.JPK) unmarshaller.unmarshal(is);
        } catch (Exception ex) {
            error.E.s("");
        }
@@ -235,6 +263,31 @@ public class ImportFakturyView  implements Serializable {
                     }
                 }
             });
+        }
+        return dokumenty;
+    }
+    private List<Dokfk> stworzdokumentyfk(jpkfa2.JPK jpk) {
+        List<Dokfk> dokumenty = Collections.synchronizedList(new ArrayList<>());
+        if (jpk != null) {
+            int numerkolejny = ImportBean.oblicznumerkolejny(sprzedazkraj.getSkrotNazwyDok(), dokDAOfk, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+            for (jpkfa2.JPK.Faktura wiersz : jpk.getFaktura()) {
+                pl.gov.crd.xml.schematy.dziedzinowe.mf._2013._05._23.ed.kodycechkrajow.CurrCodeType walutapliku = jpk.getNaglowek().getDomyslnyKodWaluty();
+                String waldok = walutapliku.toString();
+                if (wiersz.getP5B() != null && wiersz.getP5B().length()>=0) {
+                    Dokfk dok = null;
+                    if (wiersz.getP5A()!=null && !wiersz.getP5A().toString().equals("PL")) {    
+                        dok = jpkfa2.Beanjpk.generujdokfk(wiersz, waldok, evewidencje, tabelanbpDAO, tabeladomyslna, klienci, wybierzosobyfizyczne, deklaracjaniemiecka, klDAO, wpisView.getPodatnikObiekt(), dokDAOfk, sprzedazwdt, false, listaEwidencjiVat, kliencifkDAO, wpisView, kontoDAO, kontopozycjaZapisDAO, ukladBRDAO, numerkolejny, waldok);
+                    } else {
+                        dok = jpkfa2.Beanjpk.generujdokfk(wiersz, waldok, evewidencje, tabelanbpDAO, tabeladomyslna, klienci, wybierzosobyfizyczne, deklaracjaniemiecka, klDAO, wpisView.getPodatnikObiekt(), dokDAOfk, sprzedazkraj, false, listaEwidencjiVat, kliencifkDAO, wpisView, kontoDAO, kontopozycjaZapisDAO, ukladBRDAO, numerkolejny, waldok);
+                    }
+                    if (dok!=null) {
+                        netto += dok.getNettoVAT();
+                        vat += dok.getVATVAT();
+                        dokumenty.add(dok);
+                        numerkolejny++;
+                    }
+                }
+            };
         }
         return dokumenty;
     }
@@ -305,6 +358,26 @@ public class ImportFakturyView  implements Serializable {
         return dokumenty;
     }
     
+    private List<Dokfk> stworzdokumentyfizfk(jpkfa2.JPK jpk) {
+        List<Dokfk> dokumenty = Collections.synchronizedList(new ArrayList<>());
+        if (jpk != null) {
+            int numerkolejny = ImportBean.oblicznumerkolejny(sprzedazkraj.getSkrotNazwyDok(), dokDAOfk, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+            for (jpkfa2.JPK.Faktura wiersz : jpk.getFaktura()) {
+                pl.gov.crd.xml.schematy.dziedzinowe.mf._2013._05._23.ed.kodycechkrajow.CurrCodeType walutapliku = jpk.getNaglowek().getDomyslnyKodWaluty();
+                String waldok = walutapliku.toString();
+                if (wiersz.getP5B() == null || wiersz.getP5B().length()!=10) {
+                    Dokfk dok = jpkfa2.Beanjpk.generujdokfk(wiersz, waldok, evewidencje, tabelanbpDAO, tabeladomyslna, klienci, wybierzosobyfizyczne, deklaracjaniemiecka, klDAO, wpisView.getPodatnikObiekt(), dokDAOfk, sprzedazkraj, false, listaEwidencjiVat, kliencifkDAO, wpisView, kontoDAO, kontopozycjaZapisDAO, ukladBRDAO, numerkolejny, waldok);
+                    if (dok!=null) {
+                        netto += dok.getNettoVAT();
+                        vat += dok.getVATVAT();
+                        dokumenty.add(dok);
+                    }
+                }
+            };
+        }
+        return dokumenty;
+    }
+    
     private List<Dokfk> stworzdokumentyfizfk(jpkfa3.JPK jpk) {
         List<Dokfk> dokumenty = Collections.synchronizedList(new ArrayList<>());
         if (jpk != null) {
@@ -325,6 +398,24 @@ public class ImportFakturyView  implements Serializable {
         return dokumenty;
     }
     
+    
+    private List<Dokfk> stworzdokumentyjpkfk(jpkfa2.JPK jpk) {
+        List<Dokfk> dokumenty = Collections.synchronizedList(new ArrayList<>());
+        if (jpk != null) {
+            int numerkolejny = ImportBean.oblicznumerkolejny(sprzedazkraj.getSkrotNazwyDok(), dokDAOfk, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+            for (jpkfa2.JPK.Faktura wiersz : jpk.getFaktura()) {
+                pl.gov.crd.xml.schematy.dziedzinowe.mf._2013._05._23.ed.kodycechkrajow.CurrCodeType walutapliku = jpk.getNaglowek().getDomyslnyKodWaluty();
+                String waldok = walutapliku.toString();
+                Dokfk dok = jpkfa2.Beanjpk.generujdokfk(wiersz, waldok, evewidencje, tabelanbpDAO, tabeladomyslna, klienci, wybierzdlajpk, deklaracjaniemiecka, klDAO, wpisView.getPodatnikObiekt(), dokDAOfk, sprzedazkraj, false, listaEwidencjiVat, kliencifkDAO, wpisView, kontoDAO, kontopozycjaZapisDAO, ukladBRDAO, numerkolejny, jpk.getNaglowek().getDomyslnyKodWaluty().value());
+                if (dok!=null) {
+                    netto += dok.getNettoVAT();
+                    vat += dok.getVATVAT();
+                    dokumenty.add(dok);
+                }
+            };
+        }
+        return dokumenty;
+    }
     
     private List<Dokfk> stworzdokumentyjpkfk(jpkfa3.JPK jpk) {
         List<Dokfk> dokumenty = Collections.synchronizedList(new ArrayList<>());
@@ -364,6 +455,26 @@ public class ImportFakturyView  implements Serializable {
         return dokumenty;
     }
     
+    private List<Dok> stworzdokumentyde(jpkfa2.JPK jpk) {
+        List<Dok> dokumenty = Collections.synchronizedList(new ArrayList<>());
+        if (jpk != null) {
+            pl.gov.crd.xml.schematy.dziedzinowe.mf._2013._05._23.ed.kodycechkrajow.CurrCodeType walutapliku = jpk.getNaglowek().getDomyslnyKodWaluty();
+            String waldok = walutapliku.toString();
+            jpk.getFaktura().forEach((p) -> {
+                jpkfa2.JPK.Faktura wiersz = (jpkfa2.JPK.Faktura) p;
+                if (wiersz.getP5B() == null || wiersz.getP5B().length()!=10) {
+                    Dok dok =  jpkfa2.Beanjpk.generujdok(p, waldok, evewidencje, tabelanbpDAO, tabeladomyslna, klienci, wybierzosobyfizyczne, deklaracjaniemiecka, klDAO, wpisView.getPodatnikObiekt(), dokDAO, sprzedazkraj, true);
+                    if (dok!=null) {
+                        netto += dok.getNetto();
+                        vat += dok.getVat();
+                        dokumenty.add(dok);
+                    }
+                }
+            });
+        }
+        return dokumenty;
+    }
+    
     private List<Dok> stworzdokumentyde(jpkfa3.JPK jpk) {
         List<Dok> dokumenty = Collections.synchronizedList(new ArrayList<>());
         if (jpk != null) {
@@ -383,6 +494,27 @@ public class ImportFakturyView  implements Serializable {
         }
         return dokumenty;
     }
+    
+    private List<Dokfk> stworzdokumentydefk(jpkfa2.JPK jpk) {
+        List<Dokfk> dokumenty = Collections.synchronizedList(new ArrayList<>());
+        if (jpk != null) {
+            int numerkolejny = ImportBean.oblicznumerkolejny(sprzedazkraj.getSkrotNazwyDok(), dokDAOfk, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+            for (jpkfa2.JPK.Faktura wiersz : jpk.getFaktura()) {
+                String walutapliku = jpk.getNaglowek().getDomyslnyKodWaluty().value();
+                String waldok = walutapliku.toString();
+                if (wiersz.getP5B() == null || wiersz.getP5B().length()!=10) {
+                    Dokfk dok =  jpkfa2.Beanjpk.generujdokfk(wiersz, waldok, evewidencje, tabelanbpDAO, tabeladomyslna, klienci, wybierzosobyfizyczne, deklaracjaniemiecka, klDAO, wpisView.getPodatnikObiekt(), dokDAOfk, sprzedazkraj, true, listaEwidencjiVat, kliencifkDAO, wpisView, kontoDAO, kontopozycjaZapisDAO, ukladBRDAO, numerkolejny, waldok);
+                    if (dok!=null) {
+                        netto += dok.getNettoVAT();
+                        vat += dok.getVATVAT();
+                        dokumenty.add(dok);
+                    }
+                }
+            };
+        }
+        return dokumenty;
+    }
+    
     
     private List<Dokfk> stworzdokumentydefk(jpkfa3.JPK jpk) {
         List<Dokfk> dokumenty = Collections.synchronizedList(new ArrayList<>());
