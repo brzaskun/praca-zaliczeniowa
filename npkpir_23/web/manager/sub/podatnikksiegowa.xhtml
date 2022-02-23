@@ -27,17 +27,17 @@
                             <h:outputText value="#{item.printnazwa}"/>
                         </p:column>
                         <p:column headerText="księgowa" >
-                            <h:outputText value="#{item.ksiegowa.login}"/>
-<!--                            <p:selectOneMenu value="#{item.ksiegowa}" style="width: 100px;text-align: center;" converter="#{uzConv}">
+<!--                            <h:outputText value="#{item.ksiegowa.login}"/>-->
+                            <p:selectOneMenu value="#{item.ksiegowa}" style="width: 100px;text-align: center;" converter="#{uzConv}">
                                 <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
                                 <f:selectItems value="#{podatnikKsiegowaShortView.listaksiegowych}" var="loop" itemLabel="#{loop.login}" itemValue="#{loop}"/>
-                            </p:selectOneMenu>-->
+                            </p:selectOneMenu>
                         </p:column>
                         <p:column headerText="aktywny" width="60" style="text-align: center;">
-                            <h:outputText value="tak" rendered="#{item.podmiotaktywny}"/>
-<!--                            <p:selectBooleanCheckbox value="#{item.podmiotaktywny}">
+<!--                            <h:outputText value="tak" rendered="#{item.podmiotaktywny}"/>-->
+                            <p:selectBooleanCheckbox value="#{item.podmiotaktywny}">
                                 <p:ajax event="change" listener="#{podatnikKsiegowaShortView.edytujpodatnika(item)}" />
-                            </p:selectBooleanCheckbox>-->
+                            </p:selectBooleanCheckbox>
                         </p:column>
 <!--                        <p:column headerText="stare kadry" width="60" style="text-align: center;">
                             <p:selectBooleanCheckbox value="#{item.starekadry}">
@@ -45,16 +45,16 @@
                             </p:selectBooleanCheckbox>
                         </p:column>-->
                         <p:column headerText="email" width="300" style="text-align: left;">
-                            <h:outputText value="#{item.email}"/>
-<!--                            <p:inputText value="#{item.email}" size="40">
+<!--                            <h:outputText value="#{item.email}"/>-->
+                            <p:inputText value="#{item.email}" size="40">
                                 <p:ajax event="blur" listener="#{podatnikKsiegowaShortView.edytujpodatnika(item)}" />
-                            </p:inputText>-->
+                            </p:inputText>
                         </p:column>
                         <p:column headerText="tel." width="150" style="text-align: center;">
-                            <h:outputText value="#{item.telefonkontaktowy}"/>
-<!--                            <p:inputText value="#{item.telefonkontaktowy}" size="40">
+<!--                            <h:outputText value="#{item.telefonkontaktowy}"/>-->
+                            <p:inputText value="#{item.telefonkontaktowy}" size="40">
                                 <p:ajax event="blur" listener="#{podatnikKsiegowaShortView.edytujpodatnika(item)}" />
-                            </p:inputText>-->
+                            </p:inputText>
                         </p:column>
                     </p:dataTable>
                 </p:column>
