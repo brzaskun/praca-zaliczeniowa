@@ -167,13 +167,13 @@ public class Jpk_VAT2View implements Serializable {
             zwrot = true;
         } else if ((wpisView.isJpk2020M() && odnalezionodeklaracje)||wpisView.isJpk2020M2() && odnalezionodeklaracje) {
             zwrot = true;
-        } else if ((wpisView.isJpk2020K() && odnalezionodeklaracje)||(wpisView.isJpk2020K() && odnalezionodeklaracje)) {
+        } else if ((wpisView.isJpk2020K() && odnalezionodeklaracje)||(wpisView.isJpk2020K2() && odnalezionodeklaracje)) {
             if (!wpisView.getMiesiacWpisu().equals("03")&&!wpisView.getMiesiacWpisu().equals("06")&&!wpisView.getMiesiacWpisu().equals("09")&&!wpisView.getMiesiacWpisu().equals("12")) {
                 zwrot = false;
             } else {
                 zwrot = true;
             }
-        } else if (wpisView.isJpk2020K() && !odnalezionodeklaracje) {
+        } else if (wpisView.isJpk2020K() && !odnalezionodeklaracje || wpisView.isJpk2020K2() && !odnalezionodeklaracje) {
             if (!wpisView.getMiesiacWpisu().equals("03")&&!wpisView.getMiesiacWpisu().equals("06")&&!wpisView.getMiesiacWpisu().equals("09")&&!wpisView.getMiesiacWpisu().equals("12")) {
                 zwrot = true;
             } else {
