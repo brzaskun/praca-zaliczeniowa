@@ -160,7 +160,7 @@ public class XMLValid {
             error.E.s("start walidacji");
             ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
             String realPath = ctx.getRealPath("/")+"resources\\xml\\JPK2022M.xsd";
-            if (wersjaschemy.equals("1-2E")) {
+            if (wersjaschemy.equals("1-0E")) {
                 realPath = ctx.getRealPath("/")+"resources\\xml\\JPK2022M.xsd";
                 if (coweryfikowac==1) {
                     realPath = ctx.getRealPath("/")+"resources\\xml\\JPK2022K.xsd";
