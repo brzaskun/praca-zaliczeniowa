@@ -128,7 +128,7 @@ public class Beanjpk {
     
     public static Dokfk generujdokfk(Object p, String waldok, List<Evewidencja> evewidencje, TabelanbpDAO tabelanbpDAO, Tabelanbp tabeladomyslna, List<Klienci> klienci, boolean wybierzosobyfizyczne,
             boolean deklaracjaniemiecka, KlienciDAO klDAO, Podatnik podatnik, DokDAOfk dokDAOfk, Rodzajedok rodzajedok, boolean pol0de1,ListaEwidencjiVat listaEwidencjiVat,
-            KliencifkDAO kliencifkDAO, WpisView wpisView, KontoDAOfk kontoDAO, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBRDAO ukladBRDAO, int numerkolejny) {
+            KliencifkDAO kliencifkDAO, WpisView wpisView, KontoDAOfk kontoDAO, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBRDAO ukladBRDAO, int numerkolejny, Konto kontokasadlajpk) {
         jpkfa3.JPK.Faktura faktura = (jpkfa3.JPK.Faktura) p;
         Dokfk nd = null;
         try {
@@ -160,7 +160,7 @@ public class Beanjpk {
             if (juzjest != null) {
                 nd = null;
             } else {
-                ustawwiersze(nd, rodzajedok, faktura, tabeladomyslna, tabelanbpDAO, kliencifkDAO, wpisView, kontoDAO, kontopozycjaZapisDAO, ukladBRDAO);
+                ustawwiersze(nd, rodzajedok, faktura, tabeladomyslna, tabelanbpDAO, kliencifkDAO, wpisView, kontoDAO, kontopozycjaZapisDAO, ukladBRDAO, kontokasadlajpk);
                 if (nd.getListawierszy() != null && nd.getListawierszy().size() > 0) {
                     nd.setDatadokumentu(datawystawienia);
                     nd.setDataoperacji(datawystawienia);
@@ -185,10 +185,14 @@ public class Beanjpk {
         return nd;
     }
     
-    private static void ustawwiersze(Dokfk nd, Rodzajedok rodzajedok,jpkfa3.JPK.Faktura faktura, Tabelanbp tabelanbppl, TabelanbpDAO tabelanbpDAO, KliencifkDAO kliencifkDAO, WpisView wpisView, KontoDAOfk kontoDAO, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBRDAO ukladBRDAO) {
+    private static void ustawwiersze(Dokfk nd, Rodzajedok rodzajedok,jpkfa3.JPK.Faktura faktura, Tabelanbp tabelanbppl, TabelanbpDAO tabelanbpDAO, KliencifkDAO kliencifkDAO, WpisView wpisView, 
+            KontoDAOfk kontoDAO, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBRDAO ukladBRDAO, Konto kontokasadlajpk) {
         nd.setListawierszy(new ArrayList<Wiersz>());
         int lpwiersza = 1;
-        Konto kontown = ImportBean.pobierzkontoWn(nd.getKontr(), kliencifkDAO, wpisView, kontoDAO, kontopozycjaZapisDAO, ukladBRDAO);
+        Konto kontown = kontokasadlajpk;
+        if (kontown==null) {
+            kontown = ImportBean.pobierzkontoWn(nd.getKontr(), kliencifkDAO, wpisView, kontoDAO, kontopozycjaZapisDAO, ukladBRDAO);
+        }
         Konto kontoma = rodzajedok.getKontoRZiS();
         nd.getListawierszy().add(przygotujwierszNettoSprzedaz(lpwiersza, nd, faktura, kontown, kontoma, tabelanbppl, tabelanbpDAO));
         lpwiersza++;
@@ -199,7 +203,7 @@ public class Beanjpk {
     }
      private static Wiersz przygotujwierszNettoSprzedaz(int lpwiersza,Dokfk nd, jpkfa3.JPK.Faktura faktura, Konto kontown, Konto kontoma, Tabelanbp tabelanbppl, TabelanbpDAO tabelanbpDAO) {
         Wiersz w = new Wiersz(lpwiersza, nd, 0);
-        uzupelnijwiersz(w, nd, faktura, tabelanbppl, tabelanbpDAO);
+        uzupelnijwiersz(w, nd, faktura, tabelanbppl, tabelanbpDAO, 0);
         w.setOpisWiersza("przychody ze sprzedaży");
         StronaWiersza strwn = new StronaWiersza(w, "Wn", faktura.getBrutto(), kontown);
         StronaWiersza strma = new StronaWiersza(w, "Ma", faktura.getNetto(), kontoma);
@@ -213,7 +217,7 @@ public class Beanjpk {
     }
      private static Wiersz przygotujwierszVATNalezny(int lpwiersza,Dokfk nd, jpkfa3.JPK.Faktura faktura, Konto kontown, Konto kontoma, Tabelanbp tabelanbppl, TabelanbpDAO tabelanbpDAO) {
         Wiersz w = new Wiersz(lpwiersza, nd, 2);
-        uzupelnijwiersz(w, nd, faktura, tabelanbppl, tabelanbpDAO);
+        uzupelnijwiersz(w, nd, faktura, tabelanbppl, tabelanbpDAO, 1);
         w.setOpisWiersza("przychody ze sprzedaży - VAT");
         StronaWiersza strma = new StronaWiersza(w, "Ma", faktura.getVat(), kontoma);
         strma.setKwotaPLN(zrobpln(w,faktura.getVat()));
@@ -221,7 +225,7 @@ public class Beanjpk {
         return w;
     }
      
-     private static void uzupelnijwiersz(Wiersz w, Dokfk nd, jpkfa3.JPK.Faktura faktura, Tabelanbp tabelanbppl, TabelanbpDAO tabelanbpDAO) {
+     private static void uzupelnijwiersz(Wiersz w, Dokfk nd, jpkfa3.JPK.Faktura faktura, Tabelanbp tabelanbppl, TabelanbpDAO tabelanbpDAO, int lpmacierzystego) {
         if (faktura.getKodWaluty().value().equals("PLN")) {
             w.setTabelanbp(tabelanbppl);
         } else {
@@ -242,9 +246,11 @@ public class Beanjpk {
         }
         nd.setWalutadokumentu(w.getTabelanbp().getWaluta());
         w.setDokfk(nd);
-        w.setLpmacierzystego(0);
+        w.setLpmacierzystego(lpmacierzystego);
         w.setDataksiegowania(nd.getDatawplywu());
     }
+     
+   
      
     private static double zrobpln(Wiersz w, double kwota) {
         double zwrot = kwota;

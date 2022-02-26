@@ -15,8 +15,8 @@
         }
     </style>
 
-    <p:dialog id="importjpkfafa" header="Zestawienie pobranych dokumentów - #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="importjpkfafa" height="900" width="1450"
-              resizable="false"  onShow="ustawdialog('importjpkfafa','menudokumenty',1450,900);" closeOnEscape="true" onHide="resetujdialog('importjpkfafa');" >
+    <p:dialog id="importjpkfafa" header="Zestawienie pobranych dokumentów - #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="importjpkfafa" height="840" width="1450"
+              resizable="false"  onShow="ustawdialog('importjpkfafa','menudokumenty',1450,840);" closeOnEscape="true" onHide="resetujdialog('importjpkfafa');" >
         <p:ajax event="open" listener="#{importFakturyView.init()}" update="form1_jpkfafa importtabelafafa"/>
         <p:ajax event="close" listener="#{dokfkView.resetujzaksiegowaneimport}" update="zestawieniedokumentowimport"/>
         <!--        <h:form>
@@ -27,7 +27,7 @@
             <p:panelGrid columns="4">
                 <h:outputText value="import dokumentów z pliku JPK_FA2 i JPK_FA3"/>
                 <p:selectBooleanCheckbox label="wybierz dla jpk" value="#{importFakturyView.wybierzdlajpk}" itemLabel="wybierz dla jpk" style="margin-left: 50px;">
-                    <p:ajax event="change" partialSubmit="true" update="importtabelafafa"/>
+                    <p:ajax event="change" partialSubmit="true" update="form1_jpkfafa importtabelafafa"/>
                 </p:selectBooleanCheckbox>
                 <p:selectBooleanCheckbox label="wybierz osoby fizyczne" value="#{importFakturyView.wybierzosobyfizyczne}" itemLabel="wybierz tylko osoby fizyczne">
                     <p:ajax event="change" partialSubmit="true" update="importtabelafafa"/>
@@ -35,6 +35,11 @@
                 <p:selectBooleanCheckbox label="dla deklaracji niemieckiej" value="#{importFakturyView.deklaracjaniemiecka}" itemLabel="dla deklaracji niemieckiej">
                     <p:ajax event="change" partialSubmit="true" update="importtabelafafa"/>
                 </p:selectBooleanCheckbox>
+                <p:selectOneMenu value="#{importFakturyView.kontokasadlajpk}" style="width: 250px;height: 25px;" converter="#{kontoConv}" >
+                    <f:selectItem itemLabel="wybierz konto kasowe" itemValue="" />
+                    <f:selectItems value="#{importFakturyView.listaKontKasaBank}" var="item" itemLabel="#{item.pelnynumer} #{item.nazwapelna}" itemValue="#{item}" />
+                    <p:ajax event="itemSelect" partialSubmit="true" />
+                </p:selectOneMenu>
             </p:panelGrid>
             <p:fileUpload fileUploadListener="#{importFakturyView.importujsprzedazfk}" 
                           mode="advanced" dragDropSupport="true" fileLimit="1"
@@ -56,7 +61,7 @@
             </p:panelGrid>
             <p:dataTable id="dokumentyLista" value="#{importFakturyView.dokumentyfk}" var="item" rowIndexVar="row" widgetVar="tablicadokumentyimport" 
                          rowKey="#{item.id}" 
-                         style="width: 1450px; height: 580px; overflow-y: scroll"
+                         style="width: 1450px; height: 590px; overflow-y: scroll"
                          emptyMessage="Brak importowanych dokumentów" styleClass="gridZaksiegowane walkingtable"
                          sortBy="#{item.id}" >
                 <!--                     <p:ajax event="rowSelect" oncomplete="pokazwierszedok();" update=":formwpisdokument, :dialogwiersze" />-->
@@ -113,7 +118,7 @@
                 </p:column>
             </p:dataTable>
             
-            <p:panelGrid columns="2" style="margin-top: 10px;">
+            <p:panelGrid columns="2" style="margin-top: 7px;">
                 <p:commandButton value="zaksięguj" actionListener="#{importFakturyView.zaksiegujfk}" id="ksiegujbutton"
                                  style="margin-top: 20px; width: 120px;" update="@form" rendered="#{importFakturyView.dokumentyfk.size() gt 0 and !importFakturyView.wybierzosobyfizyczne and !importFakturyView.deklaracjaniemiecka and !importFakturyView.wybierzdlajpk}"/>
                 <p:commandButton value="generuj dla jpk" actionListener="#{importFakturyView.generujdlajpk()}" update="form_importjpkfa" style="width: 120px;margin-left: 15px;"  rendered="#{importFakturyView.dokumentyfk.size() gt 0 and importFakturyView.wybierzdlajpk}" />            

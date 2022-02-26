@@ -393,7 +393,8 @@ public class EwidencjaVatView implements Serializable {
                     }
                 }
             }
-            listadokvatprzetworzona.addAll(pobierzEVatIncydentalni(podatnik, vatokres, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu()));
+            //w uproszczonej tego nie ma
+            //listadokvatprzetworzona.addAll(pobierzEVatIncydentalni(podatnik, vatokres, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu()));
             przejrzyjEVatwpis1Lista();
             dodajwierszeVATZD(wniosekVATZDEntity);
             
@@ -412,7 +413,7 @@ public class EwidencjaVatView implements Serializable {
             pobierzmiesiacdlajpk = false;
             PrimeFaces.current().ajax().update("form");
             PrimeFaces.current().ajax().update("formEwidencjeGuest");
-            PrimeFaces.current().ajax().update("form_dialog_ewidencjevat_sprawdzanie");
+            //PrimeFaces.current().ajax().update("form_dialog_ewidencjevat_sprawdzanie");
         } catch (Exception e) { 
             E.e(e); 
         }

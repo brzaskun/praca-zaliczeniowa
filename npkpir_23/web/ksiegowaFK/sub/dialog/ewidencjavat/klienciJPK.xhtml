@@ -13,7 +13,7 @@
                 <h:outputText value="suma"/>
                 <bcf:outputpl value="#{klientJPKView.suma}"/>
             </p:panelGrid>
-            <p:dataTable value="#{klientJPKView.lista}" var="itemikjpk" rowIndexVar="indexjpk"
+            <p:dataTable value="#{klientJPKView.lista}" var="itemikjpk" rowIndexVar="indexjpk" id="tabelapozycjedlajpk"
                          style="width: 1200px; height: 550px; overflow-y: scroll;" rowKey="#{itemikjpk.id}"
                          selection="#{klientJPKView.selected}" selectionMode="single" filteredValue="#{klientJPKView.listafilter}"
                          rowsPerPageTemplate="30,50,300,400" paginatorPosition="top" paginator="#{klientJPKView.lista.size() gt 30 ? 'true':'false'}" rows="30"
@@ -60,5 +60,8 @@
                                      />
                 </p:column>
             </p:dataTable>
+             <p:contextMenu for="form:akordeon:tabelapozycjedlajpk" style="width: 200px;">
+                <p:menuitem value="usuń wszystkie" icon="ui-icon-trash" actionListener="#{klientJPKView.usunwszytskieimportowane()}" update="form:akordeon:tabelapozycjedlajpk"/>
+            </p:contextMenu>
         </p:tab>
 </ui:composition>

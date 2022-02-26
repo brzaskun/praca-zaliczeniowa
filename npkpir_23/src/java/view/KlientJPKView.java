@@ -8,6 +8,7 @@ package view;
 import dao.KlientJPKDAO;
 import entity.KlientJPK;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
@@ -58,6 +59,17 @@ public class KlientJPKView implements Serializable {
                listafilter.remove(klient);
            }
            Msg.msg("Usunięto wiersz");
+       }
+   }
+   
+   public void usunwszytskieimportowane() {
+       if (lista!=null) {
+           klientJPKDAO.removeList(lista);
+           lista = new ArrayList<>();
+           if (listafilter!=null) {
+               listafilter = new ArrayList<>();
+           }
+           Msg.msg("Usunięto wszytskie pozycje");
        }
    }
    

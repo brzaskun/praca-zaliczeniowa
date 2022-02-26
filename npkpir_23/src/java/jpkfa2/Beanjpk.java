@@ -281,7 +281,7 @@ public class Beanjpk {
     }
      private static Wiersz przygotujwierszNettoSprzedaz(int lpwiersza,Dokfk nd, jpkfa2.JPK.Faktura faktura, Konto kontown, Konto kontoma, Tabelanbp tabelanbppl, TabelanbpDAO tabelanbpDAO, String kodwaluty) {
         Wiersz w = new Wiersz(lpwiersza, nd, 0);
-        uzupelnijwiersz(w, nd, faktura, tabelanbppl, tabelanbpDAO, kodwaluty);
+        uzupelnijwiersz(w, nd, faktura, tabelanbppl, tabelanbpDAO, kodwaluty, 0);
         w.setOpisWiersza("przychody ze sprzedaży");
         StronaWiersza strwn = new StronaWiersza(w, "Wn", faktura.getBrutto(), kontown);
         StronaWiersza strma = new StronaWiersza(w, "Ma", faktura.getNetto(), kontoma);
@@ -295,7 +295,7 @@ public class Beanjpk {
     }
      private static Wiersz przygotujwierszVATNalezny(int lpwiersza,Dokfk nd, jpkfa2.JPK.Faktura faktura, Konto kontown, Konto kontoma, Tabelanbp tabelanbppl, TabelanbpDAO tabelanbpDAO, String kodwaluty) {
         Wiersz w = new Wiersz(lpwiersza, nd, 2);
-        uzupelnijwiersz(w, nd, faktura, tabelanbppl, tabelanbpDAO, kodwaluty);
+        uzupelnijwiersz(w, nd, faktura, tabelanbppl, tabelanbpDAO, kodwaluty, 1);
         w.setOpisWiersza("przychody ze sprzedaży - VAT");
         StronaWiersza strma = new StronaWiersza(w, "Ma", faktura.getVat(), kontoma);
         strma.setKwotaPLN(zrobpln(w,faktura.getVat()));
@@ -303,7 +303,7 @@ public class Beanjpk {
         return w;
     }
      
-     private static void uzupelnijwiersz(Wiersz w, Dokfk nd, jpkfa2.JPK.Faktura faktura, Tabelanbp tabelanbppl, TabelanbpDAO tabelanbpDAO, String kodwaluty) {
+     private static void uzupelnijwiersz(Wiersz w, Dokfk nd, jpkfa2.JPK.Faktura faktura, Tabelanbp tabelanbppl, TabelanbpDAO tabelanbpDAO, String kodwaluty, int lpmacierzystego) {
         if (kodwaluty.equals("PLN")) {
             w.setTabelanbp(tabelanbppl);
         } else {
@@ -324,7 +324,7 @@ public class Beanjpk {
         }
         nd.setWalutadokumentu(w.getTabelanbp().getWaluta());
         w.setDokfk(nd);
-        w.setLpmacierzystego(0);
+        w.setLpmacierzystego(lpmacierzystego);
         w.setDataksiegowania(nd.getDatawplywu());
     }
      
@@ -335,6 +335,13 @@ public class Beanjpk {
         }
         return zwrot;
     }
-
+        private static int znajdzmacierzysty(List<Wiersz> listawierszy, int wierszbiezacylp) {
+        for (int i = wierszbiezacylp; i > -1; i--) {
+            if (listawierszy.get(i).getTypWiersza()==0) {
+                return listawierszy.get(i).getIdporzadkowy();
+            }
+        }
+        return 0;
+    }
       
 }
