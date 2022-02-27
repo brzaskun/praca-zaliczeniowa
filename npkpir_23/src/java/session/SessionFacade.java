@@ -43,7 +43,6 @@ import entity.Zobowiazanie;
 import entity.Zusmail;
 import entity.Zusstawki;
 import entityfk.Cechazapisu;
-import entityfk.Delegacja;
 import entityfk.Dokfk;
 import entityfk.Konto;
 import entityfk.KontopozycjaZapis;
@@ -655,18 +654,6 @@ public class SessionFacade<T> implements Serializable {
     public List<Dok> znajdzOdDo(long odd, long dod) {
         return Collections.synchronizedList( getEntityManager().createNamedQuery("Dok.findByIdDokOdDo").setParameter("odd", odd).setParameter("dod", dod).getResultList());
     }
-
-    
-    
-   
-    
-    
-  
-    
-    
-    
-    
-
         
     public List<Dok> findByKontr(Klienci numer) {
         return   getEntityManager().createNamedQuery("Dok.findByKontr").setParameter("kontr", numer.getId()).getResultList();
@@ -679,269 +666,7 @@ public class SessionFacade<T> implements Serializable {
     public List<Dok> znajdzKontr1Null() {
         return Collections.synchronizedList( getEntityManager().createNamedQuery("Dok.findByKontr1Null").getResultList());
     }
-
-    public List<StronaWiersza> findStronaWierszaByKontoWnMaWaluta(Konto konto, String symbolwaluty, String wnma) {
-        try {
-            
-            return Collections.synchronizedList( getEntityManager().createNamedQuery("StronaWiersza.findByStronaWierszaKontoWaluta").setParameter("konto", konto).setParameter("symbolwaluty", symbolwaluty).setParameter("wnma", wnma).getResultList());
-        } catch (Exception e) {
-            E.e(e);
-            return null;
-        }
-    }
-
-    public List<StronaWiersza> findStronaWierszaByKontoWnMa(Konto konto, String wnma) {
-        try {
-            LoadGroup lg = new LoadGroup();
-            lg.addAttribute("nowetransakcje");
-            return  getEntityManager().createNamedQuery("StronaWiersza.findByStronaWierszaKonto").setParameter("konto", konto).setParameter("wnma", wnma)
-                    .setHint(QueryHints.LOAD_GROUP, lg).setHint(QueryHints.REFRESH, HintValues.TRUE).getResultList();
-        } catch (Exception e) {
-            E.e(e);
-            return null;
-        }
-    }
-    
-    public List<StronaWiersza> findStronaWierszaByKontoOnly(Konto konto) {
-        try {
-            return  getEntityManager().createNamedQuery("StronaWiersza.findByStronaWierszaKontoOnly").setParameter("konto", konto).getResultList();
-        } catch (Exception e) {
-            E.e(e);
-            return null;
-        }
-    }
-
-    public List<StronaWiersza> findStronaWierszaByKontoWnMaWalutaKorekta(Konto konto, String symbolwaluty, String wnma) {
-        try {
-            return Collections.synchronizedList( getEntityManager().createNamedQuery("StronaWiersza.findByStronaWierszaKontoWalutaKorekta").setParameter("konto", konto).setParameter("symbolwaluty", symbolwaluty).setParameter("wnma", wnma).setHint(QueryHints.REFRESH, HintValues.TRUE).getResultList());
-        } catch (Exception e) {
-            E.e(e);
-            return null;
-        }
-    }
-
-    public List<StronaWiersza> findStronaWierszaByKontoWnMaKorekta(Konto konto, String wnma) {
-        try {
-            LoadGroup lg = new LoadGroup();
-            lg.addAttribute("nowetransakcje");
-            return Collections.synchronizedList( getEntityManager().createNamedQuery("StronaWiersza.findByStronaWierszaKontoKorekta").setParameter("konto", konto).setParameter("wnma", wnma)
-                    .setHint(QueryHints.LOAD_GROUP, lg).setHint(QueryHints.REFRESH, HintValues.TRUE).getResultList());
-        } catch (Exception e) {
-            E.e(e);
-            return null;
-        }
-    }
-
-    public List<StronaWiersza> findStronaWierszaByKontoWnMaBO(Konto konto, String wnma) {
-        try {
-            return Collections.synchronizedList( getEntityManager().createNamedQuery("StronaWiersza.findByStronaWierszaKontoBO").setParameter("konto", konto).setParameter("wnma", wnma).getResultList());
-        } catch (Exception e) {
-            E.e(e);
-            return null;
-        }
-    }
-
-    public List<StronaWiersza> findStronaWierszaByKontoWnMaWalutaBO(Konto konto, String symbolwaluty, String wnma) {
-        try {
-             return Collections.synchronizedList( getEntityManager().createNamedQuery("StronaWiersza.findByStronaWierszaKontoWalutaBO").setParameter("konto", konto).setParameter("symbolwaluty", symbolwaluty).setParameter("wnma", wnma).getResultList());
-        } catch (Exception e) {
-            E.e(e);
-            return null;
-        }
-    }
-
-    
-
-    
-    
-    
-    
-
-    public List<StronaWiersza> findStronaByPodatnikKontoRokWaluta(Podatnik podatnik, Konto konto, String rok, String skrotWaluty) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("StronaWiersza.findByPodatnikKontoRokWaluta").setParameter("podatnikObj", podatnik).setParameter("konto", konto).setParameter("rok", rok).setParameter("symbolwaluty", skrotWaluty).getResultList());
-    }
-
-    public List<StronaWiersza> findStronaByPodatnikKontoMacierzysteRokWaluta(Podatnik podatnik, Konto konto, String rok, String skrotWaluty, MiejsceKosztow p) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("StronaWiersza.findByPodatnikKontoMacierzysteRokWaluta").setParameter("podatnikObj", podatnik).setParameter("konto", konto).setParameter("rok", rok).setParameter("symbolwaluty", skrotWaluty).setParameter("nazwapelna", p.getOpismiejsca()).getResultList());
-    }
-    
-    public List<StronaWiersza> findStronaByPodatnikKontoMacierzysteRok(Podatnik podatnik, Konto konto, String rok) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("StronaWiersza.findByPodatnikKontoMacierzysteRok").setParameter("podatnikObj", podatnik).setParameter("konto", konto).setParameter("rok", rok).getResultList());
-    }
-    
-    public List<StronaWiersza> findStronaByPodatnikKontoSyntetyczneRok(Podatnik podatnik, Konto konto, String rok) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("StronaWiersza.findByPodatnikKontoSyntetyczneRok").setParameter("podatnikObj", podatnik).setParameter("kontonumer", konto.getPelnynumer()).setParameter("konto", konto).setParameter("rok", rok).getResultList());
-    }
-
-    public List<StronaWiersza> findStronaByPodatnikKontoMacierzysteMcWaluta(Podatnik podatnik, Konto konto, String mc, String skrotWaluty, MiejsceKosztow p) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("StronaWiersza.findByPodatnikKontoMacierzysteMcWaluta").setParameter("podatnikObj", podatnik).setParameter("konto", konto).setParameter("mc", mc).setParameter("symbolwaluty", skrotWaluty).setParameter("nazwapelna", p.getOpismiejsca()).getResultList());
-    }
-
-    public List<StronaWiersza> findStronaByPodatnikKontoMacierzysteMcWalutaPojazdy(Podatnik podatnik, Konto konto, String mc, String skrotWaluty, Pojazdy p) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("StronaWiersza.findByPodatnikKontoMacierzysteMcWaluta").setParameter("podatnikObj", podatnik).setParameter("konto", konto.getPelnynumer()).setParameter("mc", mc).setParameter("symbolwaluty", skrotWaluty).setParameter("nazwapelna", p.getNrrejestracyjny()).getResultList());
-    }
-
-    public List<StronaWiersza> findStronaByPodatnikKontoMacierzysteMcWalutaDelegacja(Podatnik podatnik, Konto konto, String mc, String skrotWaluty, Delegacja p) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("StronaWiersza.findByPodatnikKontoMacierzysteMcWaluta").setParameter("podatnikObj", podatnik).setParameter("konto", konto.getPelnynumer()).setParameter("mc", mc).setParameter("symbolwaluty", skrotWaluty).setParameter("nazwapelna", p.getOpisdlugi()).getResultList());
-    }
-
-    public List<StronaWiersza> findStronaByPodatnikKontoBOWaluta(Podatnik podatnik, Konto konto, String rok, String skrotWaluty) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("StronaWiersza.findByPodatnikKontoBOWaluta").setParameter("podatnikObj", podatnik).setParameter("konto", konto).setParameter("rok", rok).setParameter("symbolwaluty", skrotWaluty).getResultList());
-    }
-
-    public List<StronaWiersza> findStronaByPodatnikKontoBOWalutaWszystkie(Podatnik podatnik, Konto konto, String rok) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("StronaWiersza.findByPodatnikKontoBOWalutaWszystkie").setParameter("podatnikObj", podatnik).setParameter("konto", konto).setParameter("rok", rok).getResultList());
-    }
-
-    public List<StronaWiersza> findStronaByPodatnikKontoRokWalutaWszystkie(Podatnik podatnik, Konto konto, String rok) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("StronaWiersza.findByPodatnikKontoRokWalutaWszystkie").setParameter("podatnikObj", podatnik).setParameter("konto", konto).setParameter("rok", rok).getResultList());
-    }
-
-    public List<StronaWiersza> findStronaByPodatnikKontoRokMcWalutaWszystkie(Podatnik podatnik, Konto konto, String rok, String mc) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("StronaWiersza.findByPodatnikKontoRokMcWalutaWszystkie").setParameter("podatnikObj", podatnik).setParameter("konto", konto).setParameter("rok", rok).setParameter("mc", mc).getResultList());
-    }
-
-    public List<StronaWiersza> findStronaByPodatnikKontoRokWszystkieNT(Podatnik podatnik, Konto konto, String rok) {
-        //List lista =  getEntityManager().createNamedQuery("StronaWiersza.findByPodatnikKontoRokWszystkieNT").setParameter("podatnikObj", podatnik).setParameter("konto", konto).setParameter("rok", rok).getResultList();
-        //this.refresh(lista);
-        LoadGroup lg = new LoadGroup();
-        lg.addAttribute("nowetransakcje");
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("StronaWiersza.findByPodatnikKontoRokWszystkieNT").setParameter("podatnikObj", podatnik).setParameter("konto", konto).setParameter("rok", rok)
-                .setHint(QueryHints.LOAD_GROUP, lg).setHint(QueryHints.REFRESH, HintValues.TRUE).getResultList());
-    }
-
-    public List<StronaWiersza> findStronaByPodatnikKontoRokWalutyWszystkieNT(Podatnik podatnik, String wybranaWalutaDlaKonta, Konto konto, String rok) {
-        //List lista =  getEntityManager().createNamedQuery("StronaWiersza.findByPodatnikKontoRokWalutyWszystkieNT").setParameter("podatnikObj", podatnik).setParameter("wybranaWalutaDlaKonta", wybranaWalutaDlaKonta).setParameter("konto", konto).setParameter("rok", rok).getResultList();
-        //this.refresh(lista);
-        LoadGroup lg = new LoadGroup();
-        lg.addAttribute("nowetransakcje");
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("StronaWiersza.findByPodatnikKontoRokWalutyWszystkieNT").setParameter("podatnikObj", podatnik).setParameter("wybranaWalutaDlaKonta", wybranaWalutaDlaKonta).setParameter("konto", konto).setParameter("rok", rok)
-                .setHint(QueryHints.LOAD_GROUP, lg).setHint(QueryHints.REFRESH, HintValues.TRUE).getResultList());
-    }
-
-    public List<StronaWiersza> findStronaByPodatnikKontoRokWszystkieR(Podatnik podatnik, Konto konto, String rok) {
-        //List lista =  getEntityManager().createNamedQuery("StronaWiersza.findByPodatnikKontoRokWszystkieR").setParameter("podatnikObj", podatnik).setParameter("konto", konto).setParameter("rok", rok).getResultList();
-        //this.refresh(lista);
-        LoadGroup lg = new LoadGroup();
-        lg.addAttribute("platnosci");
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("StronaWiersza.findByPodatnikKontoRokWszystkieR").setParameter("podatnikObj", podatnik).setParameter("konto", konto).setParameter("rok", rok)
-                .setHint(QueryHints.LOAD_GROUP, lg).setHint(QueryHints.REFRESH, HintValues.TRUE).getResultList());
-    }
-
-    public List<StronaWiersza> findStronaByPodatnikKontoRokWalutyWszystkieR(Podatnik podatnik, String wybranaWalutaDlaKonta, Konto konto, String rok) {
-        //List lista =  getEntityManager().createNamedQuery("StronaWiersza.findByPodatnikKontoRokWalutyWszystkieR").setParameter("podatnikObj", podatnik).setParameter("wybranaWalutaDlaKonta", wybranaWalutaDlaKonta).setParameter("konto", konto).setParameter("rok", rok).getResultList();
-        //this.refresh(lista);
-        LoadGroup lg = new LoadGroup();
-        lg.addAttribute("platnosci");
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("StronaWiersza.findByPodatnikKontoRokWalutyWszystkieR").setParameter("podatnikObj", podatnik).setParameter("wybranaWalutaDlaKonta", wybranaWalutaDlaKonta).setParameter("konto", konto).setParameter("rok", rok)
-                .setHint(QueryHints.LOAD_GROUP, lg).setHint(QueryHints.REFRESH, HintValues.TRUE).getResultList());
-    }
-
-    public List<StronaWiersza> findStronaByPodatnikRokWalutaWynik(Podatnik podatnik, String rok, String skrotWaluty) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("StronaWiersza.findByPodatnikRokWalutaWynik").setParameter("podatnikObj", podatnik).setParameter("rok", rok).setParameter("symbolwaluty", skrotWaluty).getResultList());
-    }
-
-    
-    public List<StronaWiersza> findStronaByPodatnikRokWynikBO(Podatnik podatnik, String rok) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("StronaWiersza.findByPodatnikRokWynikBO").setParameter("podatnikObj", podatnik).setParameter("rok", rok).getResultList());
-    }
-
-    public List<StronaWiersza> findStronaByPodatnikWynikCecha(Podatnik podatnik) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("StronaWiersza.findByPodatnikWynikCecha").setParameter("podatnikObj", podatnik).getResultList());
-    }
-    
-    public List<StronaWiersza> findStronaByPodatnikWynikCechaRokMc(Podatnik podatnik, String rok, String mc) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("StronaWiersza.findByPodatnikWynikCechaRokMc").setParameter("podatnikObj", podatnik).setParameter("rok", rok).setParameter("mc", mc).getResultList());
-    }
-
-    public List<StronaWiersza> findStronaByPodatnikRokMcWynik(Podatnik podatnik, String rok, String mc) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("StronaWiersza.findByPodatnikRokMcWynik").setParameter("podatnikObj", podatnik).setParameter("rok", rok).setParameter("mc", mc).getResultList());
-    }
-
-    public List<StronaWiersza> findStronaByPodatnikRokMcWynikSlownik(Podatnik podatnik, String rok, String mc) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("StronaWiersza.findByPodatnikRokMcWynikSlownik").setParameter("podatnikObj", podatnik).setParameter("rok", rok).setParameter("mc", mc).getResultList());
-    }
-    
-    public List<Konto> findStronaByPodatnikRokKontoDist(Podatnik podatnik, String rok) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("StronaWiersza.findStronaByPodatnikRokKontoDist").setParameter("podatnikObj", podatnik).setParameter("rok", rok).setParameter("rokK", Integer.parseInt(rok)).getResultList());
-    }
-    public List<StronaWiersza> findStronaByPodatnikRokMcodMcdo(Podatnik podatnik, String rok, String mcod, String mcdo) {
-        //return Collections.synchronizedList( getEntityManager().createNamedQuery("StronaWiersza.findByPodatnikRok").setParameter("podatnikObj", podatnik).setParameter("rok", rok).getResultList());
-        LoadGroup lg = new LoadGroup();
-        lg.addAttribute("wiersz.dokfk");
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("StronaWiersza.findByPodatnikRokMcodMcdo").setParameter("podatnikObj", podatnik).setParameter("rok", rok).setParameter("mcod", mcod).setParameter("mcdo", mcdo)
-                .setHint(QueryHints.READ_ONLY, HintValues.TRUE)
-                .setHint(QueryHints.QUERY_RESULTS_CACHE, HintValues.TRUE)
-                .setHint(QueryHints.REFRESH, HintValues.TRUE)
-                .setHint(QueryHints.LOAD_GROUP, lg).getResultList());
-    }
-    
-    public List<StronaWiersza> findStronaByPodatnikRokRO(Podatnik podatnik, String rok) {
-        //return Collections.synchronizedList( getEntityManager().createNamedQuery("StronaWiersza.findByPodatnikRok").setParameter("podatnikObj", podatnik).setParameter("rok", rok).getResultList());
-        LoadGroup lg = new LoadGroup();
-        lg.addAttribute("wiersz");
-        lg.addAttribute("wiersz.dokfk");
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("StronaWiersza.findByPodatnikRok").setParameter("podatnikObj", podatnik).setParameter("rok", rok)
-                .setHint(QueryHints.READ_ONLY, HintValues.TRUE)
-                .setHint(QueryHints.QUERY_RESULTS_CACHE, HintValues.TRUE)
-                .setHint(QueryHints.LOAD_GROUP, lg).getResultList());
-    }
-
-    public List<StronaWiersza> findStronaByPodatnikRokWalutaBilans(Podatnik podatnik, String rok, String skrotWaluty) {
-        //return Collections.synchronizedList( getEntityManager().createNamedQuery("StronaWiersza.findByPodatnikRokWalutaBilans").setParameter("podatnikObj", podatnik).setParameter("rok", rok).setParameter("symbolwaluty", skrotWaluty).getResultList());
-        LoadGroup lg = new LoadGroup();
-        lg.addAttribute("wiersz.dokfk");
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("StronaWiersza.findByPodatnikRokWalutaBilans").setParameter("podatnikObj", podatnik).setParameter("rok", rok).setParameter("symbolwaluty", skrotWaluty)
-                .setHint(QueryHints.READ_ONLY, HintValues.TRUE)
-                .setHint(QueryHints.QUERY_RESULTS_CACHE, HintValues.TRUE)
-                .setHint(QueryHints.REFRESH, HintValues.TRUE)
-                .setHint(QueryHints.LOAD_GROUP, lg).getResultList());
-    }
-
-    public List<StronaWiersza> findStronaByPodatnikRokWynik(Podatnik podatnik, String rok, String mc) {
-        //return Collections.synchronizedList( getEntityManager().createNamedQuery("StronaWiersza.findByPodatnikRokWynik").setParameter("podatnikObj", podatnik).setParameter("rok", rok).getResultList());
-        LoadGroup lg = new LoadGroup();
-        lg.addAttribute("wiersz.dokfk");
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("StronaWiersza.findByPodatnikRokWynik").setParameter("podatnikObj", podatnik).setParameter("rok", rok).setParameter("mc", mc)
-                .setHint(QueryHints.READ_ONLY, HintValues.TRUE)
-                .setHint(QueryHints.QUERY_RESULTS_CACHE, HintValues.TRUE)
-                
-                .setHint(QueryHints.LOAD_GROUP, lg).getResultList());
-    }
-    
-//    public List<StronaWiersza> findStronaByPodatnikRokWynikRO(Podatnik podatnik, String rok) {
-//        //return Collections.synchronizedList( getEntityManager().createNamedQuery("StronaWiersza.findByPodatnikRokWynik").setParameter("podatnikObj", podatnik).setParameter("rok", rok).getResultList());
-//        LoadGroup lg = new LoadGroup();
-//        lg.addAttribute("wiersz.dokfk");
-//        return Collections.synchronizedList( getEntityManager().createNamedQuery("StronaWiersza.findByPodatnikRokWynik").setParameter("podatnikObj", podatnik).setParameter("rok", rok)
-//                .setHint(QueryHints.READ_ONLY, HintValues.TRUE)
-//                .setHint(QueryHints.QUERY_RESULTS_CACHE, HintValues.TRUE)
-//                
-//                .setHint(QueryHints.LOAD_GROUP, lg).getResultList());
-//    }
-    
-    public List<StronaWiersza> findStronaByPodatnikRokBilans(Podatnik podatnik, String rok, String mc) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("StronaWiersza.findByPodatnikRokBilans").setParameter("podatnikObj", podatnik).setParameter("rok", rok).setParameter("mc", mc)
-                .setHint(QueryHints.QUERY_RESULTS_CACHE, HintValues.TRUE)
-                .setHint(QueryHints.REFRESH, HintValues.TRUE).setHint(QueryHints.READ_ONLY, HintValues.TRUE).getResultList());
-    }
-    
-//    public List<StronaWiersza> findStronaByPodatnikRokBilansRO(Podatnik podatnik, String rok, String mc) {
-//        return Collections.synchronizedList( getEntityManager().createNamedQuery("StronaWiersza.findByPodatnikRokBilans").setParameter("podatnikObj", podatnik).setParameter("rok", rok).setParameter("mc", mc)
-//                .setHint(QueryHints.QUERY_RESULTS_CACHE, HintValues.TRUE)
-//                
-//                .setHint(QueryHints.READ_ONLY, HintValues.TRUE).getResultList());
-//    }
-
-    
-
-    public List<StronaWiersza> findStronaByPodatnikRokWalutaBilansBO(Podatnik podatnik, String rok, String skrotWaluty) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("StronaWiersza.findByPodatnikRokWalutaBilansBO").setParameter("podatnikObj", podatnik).setParameter("rok", rok).setParameter("symbolwaluty", skrotWaluty).getResultList());
-    }
-
-    public List<StronaWiersza> findStronaByPodatnikRokBilansBO(Podatnik podatnik, String rok) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("StronaWiersza.findByPodatnikRokBilansBO").setParameter("podatnikObj", podatnik).setParameter("rok", rok).getResultList());
-    }
+  
 
     public List<WierszBO> findBOLista0(String grupa, WpisView wpisView) {
         return Collections.synchronizedList( getEntityManager().createNamedQuery("WierszBO.findByLista").setParameter("grupakonta", grupa).setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisuSt()).setParameter("mc", wpisView.getMiesiacWpisu()).getResultList());
@@ -980,47 +705,6 @@ public class SessionFacade<T> implements Serializable {
     }
 
     
-
-    
-
-    
-
-    
-
-    
-
-//    public List<Konto> findlistaKontGrupa1(WpisView wpisView) {
-//        return Collections.synchronizedList( getEntityManager().createNamedQuery("Konto.findlistaKontGrupa1").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList());
-//    }
-//
-//    public List<Konto> findlistaKontGrupa2(WpisView wpisView) {
-//        return Collections.synchronizedList( getEntityManager().createNamedQuery("Konto.findlistaKontGrupa2").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList());
-//    }
-//
-//    public List<Konto> findlistaKontGrupa3(WpisView wpisView) {
-//        return Collections.synchronizedList( getEntityManager().createNamedQuery("Konto.findlistaKontGrupa3").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList());
-//    }
-////moga
-//    public List<Konto> findlistaKontGrupa4(WpisView wpisView) {
-//        return Collections.synchronizedList( getEntityManager().createNamedQuery("Konto.findlistaKontGrupa4").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList());
-//    }
-//
-//    public List<Konto> findlistaKontGrupa5(WpisView wpisView) {
-//        return Collections.synchronizedList( getEntityManager().createNamedQuery("Konto.findlistaKontGrupa5").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList());
-//    }
-//
-//    public List<Konto> findlistaKontGrupa6(WpisView wpisView) {
-//        return Collections.synchronizedList( getEntityManager().createNamedQuery("Konto.findlistaKontGrupa6").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList());
-//    }
-//
-//    public List<Konto> findlistaKontGrupa7(WpisView wpisView) {
-//        return Collections.synchronizedList( getEntityManager().createNamedQuery("Konto.findlistaKontGrupa7").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList());
-//    }
-//
-//    public List<Konto> findlistaKontGrupa8(WpisView wpisView) {
-//        return Collections.synchronizedList( getEntityManager().createNamedQuery("Konto.findlistaKontGrupa8").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList());
-//    }
-
     public List<Transakcja> findByKonto(Konto wybraneKontoNode) {
         return Collections.synchronizedList( getEntityManager().createNamedQuery(("Transakcja.findByKonto")).setParameter("konto", wybraneKontoNode).getResultList());
     }
@@ -1056,54 +740,6 @@ public class SessionFacade<T> implements Serializable {
             E.e(e);
             return null;
         }
-    }
-
-    public List<StronaWiersza> findStronaByPodatnikKontoRokWalutyWszystkie(Podatnik podatnikObiekt, Konto konto, String rokWpisuSt) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("StronaWiersza.findByPodatnikKontoRokWalutyWszystkie").setParameter("podatnikObj", podatnikObiekt).setParameter("konto", konto).setParameter("rok", rokWpisuSt).getResultList());
-    }
-    
-    public List<StronaWiersza> findStronaByPodatnikKontoStartRokWalutyWszystkie(Podatnik podatnikObiekt, String konto, String rokWpisuSt, String mcod, String mcdo) {
-        //t.platnosci t.wiersz.dokfk t.wiersz.tabelanbp
-        LoadGroup lg = new LoadGroup();
-        lg.addAttribute("platnosci");
-        lg.addAttribute("konto");
-        lg.addAttribute("wiersz.dokfk");
-        lg.addAttribute("wiersz.tabelanbp");
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("StronaWiersza.findByPodatnikKontoStartRokWalutyWszystkie")
-                .setParameter("podatnikObj", podatnikObiekt)
-                .setParameter("konto", konto)
-                .setParameter("rok", rokWpisuSt)
-                .setParameter("mcod", mcod)
-                .setParameter("mcdo", mcdo)
-                .setHint(QueryHints.LOAD_GROUP, lg).getResultList());
-    }
-    
-    public List<StronaWiersza> findStronaByPodatnikKontoStartRokWalutyWszystkieOdswiez(Podatnik podatnikObiekt, String konto, String rokWpisuSt, String mcod, String mcdo) {
-        //t.platnosci t.wiersz.dokfk t.wiersz.tabelanbp
-        LoadGroup lg = new LoadGroup();
-        lg.addAttribute("platnosci");
-        lg.addAttribute("konto");
-        lg.addAttribute("wiersz.dokfk");
-        lg.addAttribute("wiersz.tabelanbp");
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("StronaWiersza.findByPodatnikKontoStartRokWalutyWszystkie")
-                .setParameter("podatnikObj", podatnikObiekt)
-                .setParameter("konto", konto)
-                .setParameter("rok", rokWpisuSt)
-                .setParameter("mcod", mcod)
-                .setParameter("mcdo", mcdo)
-                .setHint(QueryHints.LOAD_GROUP, lg).getResultList());
-    }
-
-    public List<StronaWiersza> findStronaByPodatnikKontoRokMcWalutyWszystkie(Podatnik podatnikObiekt, Konto konto, String rokWpisuSt, String mc) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("StronaWiersza.findByPodatnikKontoRokMcWalutyWszystkie").setParameter("podatnikObj", podatnikObiekt).setParameter("konto", konto).setParameter("rok", rokWpisuSt).setParameter("mc", mc).getResultList());
-    }
-
-    public List<StronaWiersza> findStronaByPodatnikKontoRokMcVAT(Podatnik podatnikObiekt, Konto konto, String rokWpisuSt, String mc) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("StronaWiersza.findByPodatnikKontoRokMcVAT").setParameter("podatnikObj", podatnikObiekt).setParameter("konto", konto).setParameter("rok", rokWpisuSt).setParameter("mc", mc).getResultList());
-    }
-
-    public List<StronaWiersza> findStronaByPodatnikKontoRokVAT(Podatnik podatnikObiekt, Konto konto, String rokWpisuSt) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("StronaWiersza.findByPodatnikKontoRokVAT").setParameter("podatnikObj", podatnikObiekt).setParameter("konto", konto).setParameter("rok", rokWpisuSt).getResultList());
     }
 
     public Dokfk findDokfofaTypeKontrahent(Podatnik podatnikWpisu, String vat, String rokWpisuSt, String mc) {
@@ -1517,11 +1153,6 @@ public class SessionFacade<T> implements Serializable {
         }
     }
 
-
-    public StronaWiersza findStronaWierszaById(StronaWiersza strona) {
-        return (StronaWiersza)  getEntityManager().createNamedQuery("StronaWiersza.findById").setParameter("id", strona.getId()).getSingleResult();
-    }
-
     public List<PodatnikEwidencjaDok> findPodatnikEwidencjaByPodatnik(Podatnik podatnik) {
         return  getEntityManager().createNamedQuery("PodatnikEwidencjaDok.findByPodatnik").setParameter("podatnik", podatnik).getResultList();
     }
@@ -1529,22 +1160,6 @@ public class SessionFacade<T> implements Serializable {
     public SrodekTrw findStrId(Integer id) {
         return (SrodekTrw)  getEntityManager().createNamedQuery("SrodekTrw.findById").setParameter("id", id).getSingleResult();
     }
-
     
-
-     
-
-       
-    
-    
-
-    
-
-    
-
-    
-
-    
-
     
 }
