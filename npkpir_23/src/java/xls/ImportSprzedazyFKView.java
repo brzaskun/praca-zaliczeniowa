@@ -182,12 +182,12 @@ public class ImportSprzedazyFKView  implements Serializable {
         List<ImportJPKSprzedaz> zwrot = new ArrayList<>();
         List<SprzedazWierszA> wiersze = new ArrayList<>();
         if (jpk instanceof pl.gov.crd.wzor._2021._12._27._11148.JPK) {
-                ((pl.gov.crd.wzor._2020._05._08._9393.JPK) jpk).getEwidencja().getSprzedazWiersz().forEach((p) -> {
+                ((pl.gov.crd.wzor._2021._12._27._11148.JPK) jpk).getEwidencja().getSprzedazWiersz().forEach((p) -> {
                     SprzedazWierszA wiersz = (SprzedazWierszA) p;
                     wiersze.add(wiersz);
                 });
             } else if (jpk instanceof pl.gov.crd.wzor._2021._12._27._11149.JPK) {
-                ((pl.gov.crd.wzor._2021._12._27._11148.JPK) jpk).getEwidencja().getSprzedazWiersz().forEach((p) -> {
+                ((pl.gov.crd.wzor._2021._12._27._11149.JPK) jpk).getEwidencja().getSprzedazWiersz().forEach((p) -> {
                    SprzedazWierszA wiersz = (SprzedazWierszA) p;
                     wiersze.add(wiersz);
                 });
