@@ -1036,18 +1036,22 @@ public class Jpk_VAT2View implements Serializable {
     }
     
     public void drukujUPO(UPO item) {
-        if (item.getJpk() instanceof pl.gov.crd.wzor._2021._12._27._11148.JPK) {
-            PdfUPO.drukujJPK2022M(item, wpisView);
-        } else if (item.getJpk() instanceof pl.gov.crd.wzor._2021._12._27._11149.JPK) {
-            PdfUPO.drukujJPK2022K(item, wpisView);
-        } else if (item.getJpk() instanceof pl.gov.crd.wzor._2020._05._08._9393.JPK) {
-            PdfUPO.drukujJPK2020M(item, wpisView);
-        } else if (item.getJpk() instanceof pl.gov.crd.wzor._2020._05._08._9394.JPK) {
-            PdfUPO.drukujJPK2020K(item, wpisView);
-        } else if (item.getJpk() instanceof jpk201801.JPK) {
-            PdfUPO.drukuj_JPK3(item, wpisView);
+        if (item.getJpk()!=null) {
+            if (item.getJpk() instanceof pl.gov.crd.wzor._2021._12._27._11148.JPK) {
+                PdfUPO.drukujJPK2022M(item, wpisView);
+            } else if (item.getJpk() instanceof pl.gov.crd.wzor._2021._12._27._11149.JPK) {
+                PdfUPO.drukujJPK2022K(item, wpisView);
+            } else if (item.getJpk() instanceof pl.gov.crd.wzor._2020._05._08._9393.JPK) {
+                PdfUPO.drukujJPK2020M(item, wpisView);
+            } else if (item.getJpk() instanceof pl.gov.crd.wzor._2020._05._08._9394.JPK) {
+                PdfUPO.drukujJPK2020K(item, wpisView);
+            } else if (item.getJpk() instanceof jpk201801.JPK) {
+                PdfUPO.drukuj_JPK3(item, wpisView);
+            } else {
+                PdfUPO.drukuj_JPK2(item, wpisView);
+            }
         } else {
-            PdfUPO.drukuj_JPK2(item, wpisView);
+            Msg.msg("e", "Wystąpił błąd i nei zachowano wysłanego JPK. Nie można wydrukować");
         }
     }
     
