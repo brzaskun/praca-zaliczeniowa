@@ -99,6 +99,7 @@ public class ImportFakturyView  implements Serializable {
     private ListaEwidencjiVat listaEwidencjiVat;
     private List<Konto> listaKontKasaBank;
     private Konto kontokasadlajpk;
+    private boolean usunaktualnewpisy;
         
     @PostConstruct
     public void init() { //E.m(this);
@@ -109,6 +110,7 @@ public class ImportFakturyView  implements Serializable {
         dokumentyfk = new ArrayList<>();
         listaKontKasaBank = kontoDAO.findlistaKontKasaBank(wpisView);
         Collections.sort(listaKontKasaBank, new Kontocomparator());
+        usunaktualnewpisy = false;
     }
     
     public void importujsprzedaz(FileUploadEvent event) {
@@ -571,6 +573,7 @@ public class ImportFakturyView  implements Serializable {
     
     
     public void zaksiegujdlajpk() {
+        
         klientJPKDAO.deleteByPodRokMc(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
         List<KlientJPK> lista = KlienciJPKBean.zaksiegujdok(dokumenty, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
         klientJPKDAO.createList(lista);
@@ -636,7 +639,10 @@ public class ImportFakturyView  implements Serializable {
              if (dokumentyfk==null||dokumentyfk.isEmpty()) {
                  Msg.msg("e","Nie wybrano dokumentów");
              } else {
-                klientJPKDAO.deleteByPodRokMc(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+                if (usunaktualnewpisy) {
+                    klientJPKDAO.deleteByPodRokMc(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+                    usunaktualnewpisy = false;
+                }
                 List<KlientJPK> lista = KlienciJPKBean.zaksiegujdokJPKJPKFA(dokumentyfk, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
                if (lista.isEmpty()) {
                    Msg.msg("w", "Nie wygenerowano żadnych dokumentów");
@@ -752,6 +758,14 @@ public class ImportFakturyView  implements Serializable {
 
     public void setKontokasadlajpk(Konto kontokasadlajpk) {
         this.kontokasadlajpk = kontokasadlajpk;
+    }
+
+    public boolean isUsunaktualnewpisy() {
+        return usunaktualnewpisy;
+    }
+
+    public void setUsunaktualnewpisy(boolean usunaktualnewpisy) {
+        this.usunaktualnewpisy = usunaktualnewpisy;
     }
 
     

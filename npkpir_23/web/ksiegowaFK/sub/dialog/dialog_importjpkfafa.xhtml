@@ -35,6 +35,7 @@
                 <p:selectBooleanCheckbox label="dla deklaracji niemieckiej" value="#{importFakturyView.deklaracjaniemiecka}" itemLabel="dla deklaracji niemieckiej">
                     <p:ajax event="change" partialSubmit="true" update="importtabelafafa"/>
                 </p:selectBooleanCheckbox>
+
                 <p:selectOneMenu value="#{importFakturyView.kontokasadlajpk}" style="width: 250px;height: 25px;" converter="#{kontoConv}" >
                     <f:selectItem itemLabel="wybierz konto kasowe" itemValue="" />
                     <f:selectItems value="#{importFakturyView.listaKontKasaBank}" var="item" itemLabel="#{item.pelnynumer} #{item.nazwapelna}" itemValue="#{item}" />
@@ -122,6 +123,9 @@
                 <p:commandButton value="zaksięguj" actionListener="#{importFakturyView.zaksiegujfk}" id="ksiegujbutton"
                                  style="margin-top: 20px; width: 120px;" update="@form" rendered="#{importFakturyView.dokumentyfk.size() gt 0 and !importFakturyView.wybierzosobyfizyczne and !importFakturyView.deklaracjaniemiecka and !importFakturyView.wybierzdlajpk}"/>
                 <p:commandButton value="generuj dla jpk" actionListener="#{importFakturyView.generujdlajpk()}" update="form_importjpkfa" style="width: 120px;margin-left: 15px;"  rendered="#{importFakturyView.dokumentyfk.size() gt 0 and importFakturyView.wybierzdlajpk}" />            
+                <p:selectBooleanCheckbox label="usuń aktualne wpisy" value="#{importFakturyView.usunaktualnewpisy}" style="margin-left: 15px;" itemLabel="usuń aktualne wpisy"  rendered="#{importFakturyView.dokumentyfk.size() gt 0 and importFakturyView.wybierzdlajpk}">
+                    <p:ajax event="change" partialSubmit="true" update="importtabelafafa"/>
+                </p:selectBooleanCheckbox>
 <!--                <p:commandButton  icon="fa fa-print" style="margin-top: 20px; width: 120px;" actionListener="#{importFakturyView.drukuj()}" global="false" rendered="#{importFakturyView.dokumenty.size() gt 0}"/>-->
             </p:panelGrid>
         </h:form>

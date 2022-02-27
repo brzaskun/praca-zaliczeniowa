@@ -840,8 +840,10 @@ public class VatUeFKView implements Serializable {
                     if (s.getKontrahentnazwa()!=null) {
                         if (p.getKontrahentnazwa().equals(s.getKontrahentnazwa()) && p.getTransakcja().equals(s.getTransakcja())) {
                             if (Z.z(p.getNetto()) != Z.z(s.getNetto()) || (p.getPoprzedninip() !=null && !p.getPoprzedninip().equals(""))) {
-                                p.setNettoprzedkorekta(s.getNetto());
-                                lista.add(p);
+                                if (p.getKontrahentnip().equals(s.getKontrahentnip())) {
+                                    p.setNettoprzedkorekta(s.getNetto());
+                                    lista.add(p);
+                                }
                             }
                             niebylojeszcze = false;
                             break;
@@ -857,8 +859,8 @@ public class VatUeFKView implements Serializable {
             if (s.getKontrahentnazwa()!=null) {
                 boolean bylojuzaleniema = true;
                 for (VatUe p : nowalista) {
-                    if (p.getKontrahentnazwa()!=null) {
-                        if (p.getKontrahentnazwa().equals(s.getKontrahentnazwa())) {
+                    if (p.getKontrahentnip()!=null) {
+                        if (p.getKontrahentnip().equals(s.getKontrahentnip())) {
                             bylojuzaleniema = false;
                             break;
                         }

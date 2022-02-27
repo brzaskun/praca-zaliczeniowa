@@ -191,6 +191,7 @@
                                      onfocus="$(this).addClass('ui-state-focus');" 
                                      onblur="$(this).removeClass('ui-state-focus');">
                         <f:selectItems value="#{wojewodztwa.wykazS}" />
+                        <p:ajax event="change" partialSubmit="true" global="false"/>
                     </h:selectOneMenu>
                     <h:outputLabel value="powiat"/>
                     <p:inputText id="powiat" value="#{podatnikView.selected.powiat}" required="true" requiredMessage="Powiat - jest wymagany, uzupełnij!"/>

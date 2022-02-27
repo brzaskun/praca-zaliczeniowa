@@ -210,7 +210,7 @@ public class SzachMatJPK {
                 E.e(ex);
             }
             return zwrot;
-        } else if (wpisView.isJpk2020K()) {
+        } else if (wpisView.isJpk2020K2()) {
             pl.gov.crd.wzor._2021._12._27._11149.JPK zwrot = null;
             try {
                 JAXBContext context = JAXBContext.newInstance(pl.gov.crd.wzor._2021._12._27._11149.JPK.class);

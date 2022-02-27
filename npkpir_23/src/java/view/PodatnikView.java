@@ -487,7 +487,7 @@ private DokDAO dokDAO;
     public void sformatuj(Podatnik s) throws Exception {
         try {
             String formatka = null;
-            s.setWojewodztwo(s.getWojewodztwo().substring(0, 1).toUpperCase() + s.getWojewodztwo().substring(1).toLowerCase());
+            s.setWojewodztwo(s.getWojewodztwo().toLowerCase());
             if (s.getKodPKD()!=null) {
                 s.setKodPKD(s.getKodPKD().toUpperCase());
             }
