@@ -2727,70 +2727,72 @@ public class DokfkView implements Serializable {
 //    //a to jest rodzial dotyczacy walut
 //
     public void pobierzkursNBP(ValueChangeEvent el) {
-        tabelenbp = Collections.synchronizedList(new ArrayList<>());
-        symbolwalutydowiersza = ((Waluty) el.getNewValue()).getSymbolwaluty();
-        String nazwawaluty = ((Waluty) el.getNewValue()).getSymbolwaluty();
-        Waluty stara = ((Waluty) el.getOldValue());
-        String staranazwa = null;
-        if (stara!=null) {
-            staranazwa = stara.getSymbolwaluty();
-        }
-        if (selected.isNieprzeliczaj()==true) {
-            Msg.msg("w", "Dokument z ręcznie wyliczonym kursem, nie można zmieniać waluty");
-        } else if (staranazwa!=null && !staranazwa.equals("PLN") && !nazwawaluty.equals("PLN") && selected.getListawierszy().get(0).getStronaWn().getKwota() != 0.0) {
-            Msg.msg("w", "Prosze przewalutowywać do PLN");
-        } else {
-            if (!nazwawaluty.equals("PLN")) {
-                String datadokumentu = selected.getDataoperacji();
-                DateTime dzienposzukiwany = new DateTime(datadokumentu);
-                //tu sie dodaje tabele do dokumentu :)
-                tabelenbp.add(TabelaNBPBean.pobierzTabeleNBP(dzienposzukiwany, tabelanbpDAO, nazwawaluty, selected));
-                tabelenbp.addAll(TabelaNBPBean.pobierzTabeleNieNBP(dzienposzukiwany, tabelanbpDAO, nazwawaluty));
-                if (rodzajBiezacegoDokumentu != 0) {
-                    pokazRzadWalutowy = true;
-                }
-                if (staranazwa != null && selected.getListawierszy().get(0).getStronaWn().getKwota() != 0.0) {
-                    DokFKWalutyBean.przewalutujzapisy(staranazwa, nazwawaluty, selected, walutyDAOfk);
-                    PrimeFaces.current().ajax().update("formwpisdokument:dataList");
-                    selected.setWalutadokumentu(walutyDAOfk.findWalutaBySymbolWaluty(nazwawaluty));
-                } else {
-                    Waluty waluta = walutyDAOfk.findWalutaBySymbolWaluty(nazwawaluty);
-                    selected.setWalutadokumentu(waluta);
-                    //wpisuje kurs bez przeliczania, to jest dla nowego dokumentu jak sie zmieni walute na euro
-                    wybranawaluta = waluta.getSymbolwaluty();
-                }
-                if (zapisz0edytuj1 == false) {
-                    symbolWalutyNettoVat = " " + selected.getTabelanbp().getWaluta().getSkrotsymbolu();
-                } else {
-                    symbolWalutyNettoVat = " zł";
-                }
-            } else {
-                //najpierw trzeba przewalutowac ze starym kursem, a potem wlepis polska tabele
-                if (staranazwa != null && selected.getListawierszy().get(0).getStronaWn().getKwota() != 0.0) {
-                    DokFKWalutyBean.przewalutujzapisy(staranazwa, nazwawaluty, selected, walutyDAOfk);
-                    PrimeFaces.current().ajax().update("formwpisdokument:dataList");
-                    selected.setWalutadokumentu(domyslnaTabelanbp.getWaluta());
-                } else {
-                    selected.setWalutadokumentu(domyslnaTabelanbp.getWaluta());
-                    //wpisuje kurs bez przeliczania, to jest dla nowego dokumentu jak sie zmieni walute na euro
-                    wybranawaluta = domyslnaTabelanbp.getWaluta().getSkrotsymbolu();
-                }
-                selected.setTabelanbp(domyslnaTabelanbp);
-                List<Wiersz> wiersze = selected.getListawierszy();
-                for (Wiersz p : wiersze) {
-                    p.setTabelanbp(domyslnaTabelanbp);
-                }
-                pokazRzadWalutowy = false;
-                if (zapisz0edytuj1 == false) {
-                    symbolWalutyNettoVat = " " + selected.getTabelanbp().getWaluta().getSkrotsymbolu();
-                } else {
-                    symbolWalutyNettoVat = " zł";
-                }
+        if (el!=null && el.getNewValue()!=null) {
+            tabelenbp = Collections.synchronizedList(new ArrayList<>());
+            symbolwalutydowiersza = ((Waluty) el.getNewValue()).getSymbolwaluty();
+            String nazwawaluty = ((Waluty) el.getNewValue()).getSymbolwaluty();
+            Waluty stara = ((Waluty) el.getOldValue());
+            String staranazwa = null;
+            if (stara!=null) {
+                staranazwa = stara.getSymbolwaluty();
             }
-            PrimeFaces.current().ajax().update("formwpisdokument:tablicavat");
-            PrimeFaces.current().ajax().update("formwpisdokument:panelTabelaNBP");
-            PrimeFaces.current().ajax().update("formwpisdokument:dataList");
-            PrimeFaces.current().executeScript("r('formwpisdokument:tablicavat:0:netto_input').select();");
+            if (selected.isNieprzeliczaj()==true) {
+                Msg.msg("w", "Dokument z ręcznie wyliczonym kursem, nie można zmieniać waluty");
+            } else if (staranazwa!=null && !staranazwa.equals("PLN") && !nazwawaluty.equals("PLN") && selected.getListawierszy().get(0).getStronaWn().getKwota() != 0.0) {
+                Msg.msg("w", "Prosze przewalutowywać do PLN");
+            } else {
+                if (!nazwawaluty.equals("PLN")) {
+                    String datadokumentu = selected.getDataoperacji();
+                    DateTime dzienposzukiwany = new DateTime(datadokumentu);
+                    //tu sie dodaje tabele do dokumentu :)
+                    tabelenbp.add(TabelaNBPBean.pobierzTabeleNBP(dzienposzukiwany, tabelanbpDAO, nazwawaluty, selected));
+                    tabelenbp.addAll(TabelaNBPBean.pobierzTabeleNieNBP(dzienposzukiwany, tabelanbpDAO, nazwawaluty));
+                    if (rodzajBiezacegoDokumentu != 0) {
+                        pokazRzadWalutowy = true;
+                    }
+                    if (staranazwa != null && selected.getListawierszy().get(0).getStronaWn().getKwota() != 0.0) {
+                        DokFKWalutyBean.przewalutujzapisy(staranazwa, nazwawaluty, selected, walutyDAOfk);
+                        PrimeFaces.current().ajax().update("formwpisdokument:dataList");
+                        selected.setWalutadokumentu(walutyDAOfk.findWalutaBySymbolWaluty(nazwawaluty));
+                    } else {
+                        Waluty waluta = walutyDAOfk.findWalutaBySymbolWaluty(nazwawaluty);
+                        selected.setWalutadokumentu(waluta);
+                        //wpisuje kurs bez przeliczania, to jest dla nowego dokumentu jak sie zmieni walute na euro
+                        wybranawaluta = waluta.getSymbolwaluty();
+                    }
+                    if (zapisz0edytuj1 == false) {
+                        symbolWalutyNettoVat = " " + selected.getTabelanbp().getWaluta().getSkrotsymbolu();
+                    } else {
+                        symbolWalutyNettoVat = " zł";
+                    }
+                } else {
+                    //najpierw trzeba przewalutowac ze starym kursem, a potem wlepis polska tabele
+                    if (staranazwa != null && selected.getListawierszy().get(0).getStronaWn().getKwota() != 0.0) {
+                        DokFKWalutyBean.przewalutujzapisy(staranazwa, nazwawaluty, selected, walutyDAOfk);
+                        PrimeFaces.current().ajax().update("formwpisdokument:dataList");
+                        selected.setWalutadokumentu(domyslnaTabelanbp.getWaluta());
+                    } else {
+                        selected.setWalutadokumentu(domyslnaTabelanbp.getWaluta());
+                        //wpisuje kurs bez przeliczania, to jest dla nowego dokumentu jak sie zmieni walute na euro
+                        wybranawaluta = domyslnaTabelanbp.getWaluta().getSkrotsymbolu();
+                    }
+                    selected.setTabelanbp(domyslnaTabelanbp);
+                    List<Wiersz> wiersze = selected.getListawierszy();
+                    for (Wiersz p : wiersze) {
+                        p.setTabelanbp(domyslnaTabelanbp);
+                    }
+                    pokazRzadWalutowy = false;
+                    if (zapisz0edytuj1 == false) {
+                        symbolWalutyNettoVat = " " + selected.getTabelanbp().getWaluta().getSkrotsymbolu();
+                    } else {
+                        symbolWalutyNettoVat = " zł";
+                    }
+                }
+                PrimeFaces.current().ajax().update("formwpisdokument:tablicavat");
+                PrimeFaces.current().ajax().update("formwpisdokument:panelTabelaNBP");
+                PrimeFaces.current().ajax().update("formwpisdokument:dataList");
+                PrimeFaces.current().executeScript("r('formwpisdokument:tablicavat:0:netto_input').select();");
+            }
         }
     }
     

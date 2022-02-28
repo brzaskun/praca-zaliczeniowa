@@ -169,7 +169,7 @@ public class ImportFakturyView  implements Serializable {
             jpkfa3.JPK jpkfa3 = pobierzJPK3(uploadedFile.getInputstream());
             if (jpkfa3 != null) {
                 if (wybierzdlajpk) {
-                        dokumentyfk = stworzdokumentyjpkfk(jpkfa3);
+                    dokumentyfk = stworzdokumentyjpkfk(jpkfa3);
                 } else  if (deklaracjaniemiecka) {
                     dokumentyfk = stworzdokumentydefk(jpkfa3);
                 } else if (wybierzosobyfizyczne) {
@@ -283,10 +283,13 @@ public class ImportFakturyView  implements Serializable {
                 String waldok = walutapliku.toString();
                 if (wiersz.getP5B() != null && wiersz.getP5B().length()>=0) {
                     Dokfk dok = null;
-                    if (wiersz.getP5A()!=null && !wiersz.getP5A().toString().equals("PL")) {    
-                        dok = jpkfa2.Beanjpk.generujdokfk(wiersz, waldok, evewidencje, tabelanbpDAO, tabeladomyslna, klienci, wybierzosobyfizyczne, deklaracjaniemiecka, klDAO, wpisView.getPodatnikObiekt(), dokDAOfk, sprzedazwdt, false, listaEwidencjiVat, kliencifkDAO, wpisView, kontoDAO, kontopozycjaZapisDAO, ukladBRDAO, numerkolejny, waldok);
+                    jpkfa2.JPK.Faktura faktura = (jpkfa2.JPK.Faktura) wiersz;
+                    if (wiersz.getP5A()!=null && !wiersz.getP5A().toString().equals("PL") && faktura.getVat()==0.0) {    
+                        dok = jpkfa2.Beanjpk.generujdokfk(wiersz, waldok, evewidencje, tabelanbpDAO, tabeladomyslna, klienci, wybierzosobyfizyczne, deklaracjaniemiecka, klDAO, wpisView.getPodatnikObiekt(), dokDAOfk, 
+                                sprzedazwdt, false, listaEwidencjiVat, kliencifkDAO, wpisView, kontoDAO, kontopozycjaZapisDAO, ukladBRDAO, numerkolejny, waldok);
                     } else {
-                        dok = jpkfa2.Beanjpk.generujdokfk(wiersz, waldok, evewidencje, tabelanbpDAO, tabeladomyslna, klienci, wybierzosobyfizyczne, deklaracjaniemiecka, klDAO, wpisView.getPodatnikObiekt(), dokDAOfk, sprzedazkraj, false, listaEwidencjiVat, kliencifkDAO, wpisView, kontoDAO, kontopozycjaZapisDAO, ukladBRDAO, numerkolejny, waldok);
+                        dok = jpkfa2.Beanjpk.generujdokfk(wiersz, waldok, evewidencje, tabelanbpDAO, tabeladomyslna, klienci, wybierzosobyfizyczne, deklaracjaniemiecka, klDAO, wpisView.getPodatnikObiekt(), dokDAOfk,
+                                sprzedazkraj, false, listaEwidencjiVat, kliencifkDAO, wpisView, kontoDAO, kontopozycjaZapisDAO, ukladBRDAO, numerkolejny, waldok);
                     }
                     if (dok!=null) {
                         netto += dok.getNettoVAT();

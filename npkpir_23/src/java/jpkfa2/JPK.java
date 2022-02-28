@@ -773,9 +773,19 @@ private static final List SPRZEDAZNIEMCY;
             SPRZEDAZWIERSZEVAT.add("getP144");
             SPRZEDAZWIERSZEVAT.add("getP145");
             SPRZEDAZNIEMCY = new ArrayList();
+            SPRZEDAZNIEMCY.add("getP131");
+            SPRZEDAZNIEMCY.add("getP132");
+            SPRZEDAZNIEMCY.add("getP133");
             SPRZEDAZNIEMCY.add("getP134");
+            SPRZEDAZNIEMCY.add("getP135");
+            SPRZEDAZNIEMCY.add("getP136");
+            SPRZEDAZNIEMCY.add("getP137");
             SPRZEDAZNIEMCYVAT = new ArrayList();
+            SPRZEDAZNIEMCYVAT.add("getP141");
+            SPRZEDAZNIEMCYVAT.add("getP142");
+            SPRZEDAZNIEMCYVAT.add("getP143");
             SPRZEDAZNIEMCYVAT.add("getP144");
+            SPRZEDAZNIEMCYVAT.add("getP145");
         };
         public double getBrutto() {
             return Z.z(this.getNetto()+this.getVat());
@@ -828,7 +838,7 @@ private static final List SPRZEDAZNIEMCY;
                             BigDecimal pole = (BigDecimal) p.invoke(this);
                             if(pole != null) {
                                 zwrot += pole.doubleValue();
-                                break;
+                                //nie moze byc break
                             }
                         }
                     }
@@ -847,7 +857,6 @@ private static final List SPRZEDAZNIEMCY;
                             BigDecimal pole = (BigDecimal) p.invoke(this);
                             if(pole != null) {
                                 zwrot += pole.doubleValue();
-                                break;
                             }
                         }
                     }
