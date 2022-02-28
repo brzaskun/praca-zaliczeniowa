@@ -13,6 +13,7 @@ import dao.KontoDAOfk;
 import dao.PodatnikUdzialyDAO;
 import dao.SprFinKwotyInfDodDAO;
 import dao.StronaWierszaDAO;
+import data.Data;
 import embeddable.Mce;
 import embeddablefk.SaldoKonto;
 import entity.PodatnikUdzialy;
@@ -67,6 +68,7 @@ public class SprFinKwotyInfDodView  implements Serializable{
         sprFinKwotyInfDod = sprFinKwotyInfDodDAO.findsprfinkwoty(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         if (sprFinKwotyInfDod==null) {
             sprFinKwotyInfDod = new SprFinKwotyInfDod(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+            sprFinKwotyInfDod.setDatasporzadzenia(Data.aktualnaData());
             SprFinKwotyInfDod rokpop = sprFinKwotyInfDodDAO.findsprfinkwoty(wpisView.getPodatnikObiekt(), wpisView.getRokUprzedniSt());
             if (rokpop!=null) {
                 skopiujdane(rokpop);
