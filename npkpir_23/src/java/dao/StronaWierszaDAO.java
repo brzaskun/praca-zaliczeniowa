@@ -385,7 +385,7 @@ public class StronaWierszaDAO extends DAO implements Serializable {
         lg.addAttribute("wiersz.tabelanbp");
         return getEntityManager().createNamedQuery("StronaWiersza.findByPodatnikKontoStartRokWalutyWszystkie")
                 .setParameter("podatnikObj", podatnikObiekt)
-                .setParameter("konto", konto)
+                .setParameter("konto", like)
                 .setParameter("rok", rokWpisuSt)
                 .setParameter("mcod", mcod)
                 .setParameter("mcdo", mcdo)
@@ -407,7 +407,7 @@ public class StronaWierszaDAO extends DAO implements Serializable {
         lg.addAttribute("wiersz.tabelanbp");
         return getEntityManager().createNamedQuery("StronaWiersza.findByPodatnikKontoStartRokWalutyWszystkie")
                 .setParameter("podatnikObj", podatnikObiekt)
-                .setParameter("konto", konto)
+                .setParameter("konto", like)
                 .setParameter("rok", rokWpisuSt)
                 .setParameter("mcod", mcod)
                 .setParameter("mcdo", mcdo)
