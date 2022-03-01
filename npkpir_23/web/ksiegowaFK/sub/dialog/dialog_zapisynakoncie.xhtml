@@ -204,7 +204,7 @@
                         height: 35px !important;
                     }
                     #centertree {
-                        width: 1200px !important;
+                        width: 1220px !important;
                     }
                     .lolo {
                         width: 20px;
@@ -242,7 +242,7 @@
                             <h:outputText value="#{loop.dokfkS}-#{loop.wiersz.idporzadkowy}" rendered="#{kontoZapisFKView.pokaztransakcje eq true}" 
                                           style="#{loop.dokfkS.startsWith('WB') or loop.dokfkS.startsWith('RK') ? 'color: blue': 'color: initial'}"/>
                         </p:column>
-                        <p:column headerText="nr wl" width="120" styleClass="filter60"  style="text-align: center; font-size: x-small; word-break: break-all; word-wrap: break-word !important; white-space: pre-wrap;" sortBy="#{loop.dokfk.numerwlasnydokfk}"
+                        <p:column headerText="nr wl" width="100" styleClass="filter60"  style="text-align: center; font-size: x-small; word-break: break-all; word-wrap: break-word !important; white-space: pre-wrap;" sortBy="#{loop.dokfk.numerwlasnydokfk}"
                                   filterBy="#{loop.dokfk.numerwlasnydokfk}" filterMatchMode="contains">
                             <h:outputText value="#{loop.dokfk.numerwlasnydokfk}" id="opisa" rendered="#{loop.dokfk.importowany eq false}"/>
                             <h:outputText value="uwaga, niedokończony import!" rendered="#{loop.dokfk.importowany}" style="color:red;"/>
@@ -252,7 +252,7 @@
                                   rendered="#{!kontoZapisFKView.wybranekonto.pelnynumer.startsWith('20')}">
                             <h:outputText value="#{loop.getKontrahetZapisy(WpisView.podatnikObiekt.nip)}" />
                         </p:column>
-                        <p:column headerText="#{mgs.opis}" width="100" sortBy="#{loop.wiersz.opisWiersza}" filterBy="#{loop.wiersz.opisWiersza}" filterMatchMode="contains" rendered="#{kontoZapisFKView.kolumnaopis}"
+                        <p:column headerText="#{mgs.opis}" width="150" sortBy="#{loop.wiersz.opisWiersza}" filterBy="#{loop.wiersz.opisWiersza}" filterMatchMode="contains" rendered="#{kontoZapisFKView.kolumnaopis}"
                                   style="word-break: break-all; word-wrap: break-word !important; white-space: pre-wrap;">
                             <h:outputText value="#{loop.wiersz.opisWiersza}" style="white-space: normal !important; word-break: break-all !important; word-wrap: break-word !important;" />
                         </p:column>
@@ -325,8 +325,8 @@
                                     oncomplete="PF('wpisywanie').show();" />
                         <p:menuitem value="rozlicz transakcje" icon="fa fa-tasks" actionListener="#{kontoZapisFKView.rozliczzaznaczone()}" update=":tabelazzapisami:tabela"/>
                         <p:menuitem value="usuń różnice kursowe" icon="fa fa-minus" actionListener="#{kontoZapisFKView.usunroznicekursowe()}" update=":tabelazzapisami:tabela"/>
-                        <p:menuitem value="rozlicz różnice statyst. (bilans)" icon="fa fa-book" actionListener="#{kontoZapisFKView.rozliczsaldostatystycznie()}" update=":tabelazzapisami:tabela :tabelazsumami:sumy"/>
                         <p:menuitem value="rozlicz konto bankowe (ARS)" icon="fa fa-book" actionListener="#{kontoZapisFKView.rozliczkontobankowe()}" update=":tabelazzapisami:tabela :tabelazsumami:sumy"/>
+                        <p:menuitem value="rozlicz różnice statyst. (ATR)" icon="fa fa-book" actionListener="#{kontoZapisFKView.rozliczsaldostatystycznie()}" update=":tabelazzapisami:tabela :tabelazsumami:sumy"/>
                         <p:menuitem value="usuń z listy" icon="ui-icon-circle-minus" actionListener="#{kontoZapisFKView.usunzListy()}" update=":tabelazzapisami:tabela"/>
                         <p:separator/>
                         <p:menuitem value="zeruj saldo walutowe" icon="fa fa-eye" actionListener="#{kontoZapisFKView.rozliczsaldo()}" update=":tabelazzapisami:tabela :tabelazsumami:sumy"/>

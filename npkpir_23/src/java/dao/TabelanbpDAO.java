@@ -88,6 +88,21 @@ public class TabelanbpDAO extends DAO implements Serializable {
         }
         return zwrot;
     }
+    
+    public Tabelanbp findLastWalutaMcNBP(String nazwawaluty, String rok, String mc){
+        Tabelanbp zwrot = null;
+        try {
+            String likedatatabeli = rok+"-"+mc+"-%";
+            List<Tabelanbp> lista = getEntityManager().createNamedQuery("Tabelanbp.findBySymbolWalutyRokMcNBP").setParameter("symbolwaluty", nazwawaluty).setParameter("likedatatabeli", likedatatabeli).getResultList();
+            if (lista!=null) {
+                Collections.sort(lista, new Tabelanbpcomparator());
+                zwrot = lista.get(lista.size()-1);
+            }
+        } catch (Exception e) { 
+            E.e(e); 
+        }
+        return zwrot;
+    }
 
     public Tabelanbp findByDateWaluta(String datatabeli, String nazwawaluty) {
          try {

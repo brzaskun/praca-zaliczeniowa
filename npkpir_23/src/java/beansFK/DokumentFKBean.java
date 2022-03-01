@@ -5,11 +5,11 @@
  */
 package beansFK;
 
-import dao.KlienciDAO;
-import dao.RodzajedokDAO;
 import dao.CechazapisuDAOfk;
 import dao.DokDAOfk;
+import dao.KlienciDAO;
 import dao.KontoDAOfk;
+import dao.RodzajedokDAO;
 import dao.TabelanbpDAO;
 import data.Data;
 import embeddablefk.ListaSum;
@@ -422,15 +422,15 @@ public class DokumentFKBean implements Serializable {
             uzupelnijwierszWaluta(w, nowydok, tabelanbpDAO.findByTabelaPLN());
             w.setOpisWiersza(opiswiersza2);
             if (roznicawn > 0.0) {
-                StronaWiersza strWn = new StronaWiersza(w, "Ma", roznicawn, ppo);
-                StronaWiersza strMa = new StronaWiersza(w, "Wn", roznicawn, kontodorozliczenia);
+                StronaWiersza strMa = new StronaWiersza(w, "Ma", roznicawn, kontodorozliczenia);
+                StronaWiersza strWn = new StronaWiersza(w, "Wn", roznicawn, pko);
                 strWn.setKwotaPLN(roznicawn);
                 strMa.setKwotaPLN(roznicawn);
                 w.setStronaWn(strWn);
                 w.setStronaMa(strMa);
             } else {
-                StronaWiersza strWn = new StronaWiersza(w, "Ma", roznicama, kontodorozliczenia);
-                StronaWiersza strMa = new StronaWiersza(w, "Wn", roznicama, pko);
+                StronaWiersza strMa = new StronaWiersza(w, "Ma", roznicama, pko);
+                StronaWiersza strWn = new StronaWiersza(w, "Wn", roznicama, kontodorozliczenia);
                 strWn.setKwotaPLN(roznicama);
                 strMa.setKwotaPLN(roznicama);
                 w.setStronaWn(strWn);

@@ -726,8 +726,43 @@ public class KontoZapisFKView implements Serializable{
         return zbiorcza;
     }
     
+    private double[] rozliczKontoRozniceATS(String nazwawaluty) {
+        Tabelanbp tabelanakoniecokresu = tabelanbpDAO.findLastWalutaMcNBP(nazwawaluty, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+        double kursnakoniecorkesu = tabelanakoniecokresu.getKurssredniPrzelicznik();
+        double saldowalutywn = listasum.get(0).getSaldoWn();
+        double saldowalutyma = listasum.get(0).getSaldoMa();
+        double saldoplnwn = listasum.get(0).getSaldoWnPLN();
+        double saldoplnma = listasum.get(0).getSaldoMaPLN();
+        String waluta = wybranaWalutaDlaKont;
+        double saldoplnwnwyliczone = Z.z(saldowalutywn*kursnakoniecorkesu);
+        double saldoplnmawyliczone = Z.z(saldowalutyma*kursnakoniecorkesu);        
+        double roznicawn = 0.0;
+        double roznicama = 0.0;
+        if (saldoplnwn>0.0) {
+            if (saldoplnwnwyliczone>saldoplnwn) {
+                roznicawn = Z.z(saldoplnwnwyliczone-saldoplnwn);
+            } else if (saldoplnwnwyliczone<saldoplnwn) {
+                roznicama = Z.z(saldoplnwnwyliczone-saldoplnwn);
+            }
+        } else if (saldoplnma>0.0) {
+            if (saldoplnmawyliczone>saldoplnma) {
+                roznicama = Z.z(saldoplnmawyliczone-saldoplnma);
+            } else if (saldoplnwnwyliczone<saldoplnwn) {
+                roznicawn = Z.z(saldoplnmawyliczone-saldoplnma);
+            }
+        } 
+        if (roznicawn < 0.0) {
+            roznicama = -roznicawn;
+            roznicawn = 0.0;
+        } else if (roznicama < 0.0) {
+            roznicawn = -roznicama;
+            roznicama = 0.0;
+        }
+        return new double[]{roznicawn, roznicama, kursnakoniecorkesu};
+    }
+    
     private double[] rozliczKontoRozrachunkowe(String nazwawaluty) {
-        Tabelanbp tabelanakoniecokresu = tabelanbpDAO.findLastWalutaMc(nazwawaluty, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+        Tabelanbp tabelanakoniecokresu = tabelanbpDAO.findLastWalutaMcNBP(nazwawaluty, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
         double kursnakoniecorkesu = tabelanakoniecokresu.getKurssredniPrzelicznik();
         double saldowalutywn = listasum.get(0).getSaldoWn();
         double saldowalutyma = listasum.get(0).getSaldoMa();
@@ -742,7 +777,7 @@ public class KontoZapisFKView implements Serializable{
         for (Iterator<StronaWiersza> it = new ReverseIterator<StronaWiersza>(kontozapisy).iterator(); it.hasNext();) {
             StronaWiersza p = it.next();
             if (!p.getSymbolWalutBOiSW().equals("PLN")) {
-                if (saldowalutywn > 0.0) {
+                    if (saldowalutywn > 0.0) {
                     if (p.isWn()) {
                         if (p.getKwota() < (sumagranica - sumazliczanie)) {
                             sumazliczanie += p.getKwota();
@@ -955,7 +990,7 @@ public class KontoZapisFKView implements Serializable{
                 double[] roznicawnroznicama = sumujzapisyKontobankowe();
                 if (roznicawnroznicama[0] > 0.0 || roznicawnroznicama[1] > 0.0) {
                     String opis = "automatyczne rozliczenie walut na koncie bankowym na koniec "+wpisView.getMiesiacWpisu()+"/"+wpisView.getRokWpisu();
-                    String opiswiersza = "różnice kursowe na środkach własnych: ";
+                    String opiswiersza = "zrealiz. róż. kursowe na środkach własnych: ";
                     Dokfk nowydok = DokumentFKBean.generujdokumentAutomSaldo(opiswiersza, wpisView, klienciDAO, "ARS", opis, rodzajedokDAO, tabelanbpDAO, kontoDAOfk, kontozapisy, roznicawnroznicama, dokDAOfk);
                     dokDAOfk.create(nowydok);
                     dodajzapisy(kontozapisy.get(0).getKonto(), nowydok);
@@ -993,10 +1028,10 @@ public class KontoZapisFKView implements Serializable{
                     return;
                 }
                 sumazapisowAll();
-                double[] roznicawnroznicama = rozliczKontoRozrachunkowe((String) (waluty.toArray())[0]);
+                double[] roznicawnroznicama = rozliczKontoRozniceATS((String) (waluty.toArray())[0]);
                 if (roznicawnroznicama[0] > 0.0 || roznicawnroznicama[1] > 0.0) {
-                    String opis = "automatyczne rozliczenie statystyczne walut na koncie rozrachunkowym na koniec "+wpisView.getMiesiacWpisu()+"/"+wpisView.getRokWpisu();
-                    String opiswiersza = "różnice kursowe statystyczne konto rozrachunkowe: ";
+                    String opis = "rozlicz. stat. walut na koncie na koniec "+wpisView.getMiesiacWpisu()+"/"+wpisView.getRokWpisu();
+                    String opiswiersza = "różn. kurs. (kurs "+Z.z4(roznicawnroznicama[2])+")statystyczne: ";
                     Dokfk nowydok = DokumentFKBean.generujdokumentAutomSaldo(opiswiersza, wpisView, klienciDAO, "ATR", opis, rodzajedokDAO, tabelanbpDAO, kontoDAOfk, kontozapisy, roznicawnroznicama, dokDAOfk);
                     Cechazapisu nkup = pobierzCeche("NKUP");
                     Cechazapisu npup = pobierzCeche("NPUP");
