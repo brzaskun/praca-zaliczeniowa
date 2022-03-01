@@ -69,6 +69,7 @@ public class SprFinKwotyInfDodView  implements Serializable{
         if (sprFinKwotyInfDod==null) {
             sprFinKwotyInfDod = new SprFinKwotyInfDod(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
             sprFinKwotyInfDod.setDatasporzadzenia(Data.aktualnaData());
+            sprFinKwotyInfDod.setDatauchwal(Data.aktualnaData());
             SprFinKwotyInfDod rokpop = sprFinKwotyInfDodDAO.findsprfinkwoty(wpisView.getPodatnikObiekt(), wpisView.getRokUprzedniSt());
             if (rokpop!=null) {
                 skopiujdane(rokpop);
@@ -121,7 +122,7 @@ public class SprFinKwotyInfDodView  implements Serializable{
     }
     
     private void ustawscheme() {
-        String datasporzadzenia = sprFinKwotyInfDod.getDatasporzadzenia();
+        String datasporzadzenia = sprFinKwotyInfDod.getDatauchwal();
         //error.E.s(""+datasporzadzenia);
         sprFinKwotyInfDod.setNrschemy("1-0");
         if (data.Data.czyjestpo("2019-09-01",datasporzadzenia)) {
