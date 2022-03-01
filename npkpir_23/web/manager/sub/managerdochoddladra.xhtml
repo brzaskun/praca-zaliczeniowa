@@ -10,13 +10,13 @@
     <p:outputPanel>
         <f:view>
             <h:form>
-                <h:outputText value="Rok:" style="text-shadow: #6374AB 1px -1px 1px"/>
+                <h:outputText value="rok deklaracji:" style="text-shadow: #6374AB 1px -1px 1px"/>
                 <p:selectOneMenu id="rokWpisu" value="#{dochodDlaDRAView.rok}" style="width: 70px;">
                     <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
                     <f:selectItems value="#{roki.rokiList}"/>
                     <p:ajax event="change" partialSubmit="true" update="@form"/>
                 </p:selectOneMenu>
-                <h:outputText value="Miesiąc:" style="text-shadow: #6374AB 1px -1px 1px"/>
+                <h:outputText value="miesiąc dekalracji:" style="text-shadow: #6374AB 1px -1px 1px"/>
                 <p:selectOneMenu id="miesiacWpisu" value="#{dochodDlaDRAView.mc}" style="width: 70px;">
                     <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
                     <f:selectItems value="#{mce.mceList}"/>
@@ -84,13 +84,19 @@
                         <f:facet name="header">
                             <h:outputText value="dochod"/>
                         </f:facet>
-                        <bcf:outputpl value="#{item.dochod}" rendered="#{!item.brakdokumentow}"/>
+                        <bcf:outputpl value="#{item.dochod}" rendered="#{!item.brakdokumentow and item.dochod gt 0.0}"/>
                     </p:column>
                     <p:column>
                         <f:facet name="header">
                             <h:outputText value="przychod"/>
                         </f:facet>
-                        <bcf:outputpl value="#{item.przychod}" rendered="#{!item.brakdokumentow}"/>
+                        <bcf:outputpl value="#{item.przychod}" rendered="#{!item.brakdokumentow and item.przychod gt 0.0}"/>
+                    </p:column>
+                    <p:column width="40" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="PIT"/>
+                        </f:facet>
+                        <bcf:outputpl value="&#x2713;" rendered="#{item.jestpit}" style="color: green;"/>
                     </p:column>
                 </p:dataTable>
             </h:form>

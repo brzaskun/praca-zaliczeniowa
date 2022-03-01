@@ -51,7 +51,11 @@ public class PitDAO extends DAO implements Serializable {
 
 
     public Pitpoz find(String rok, String mc, String pod) {
-        return pitpozFacade.findPitpoz(rok, mc, pod);
+        Pitpoz zwrot = null;
+        try {
+            zwrot = pitpozFacade.findPitpoz(rok, mc, pod);
+        } catch (Exception e){}
+        return zwrot;
     }
     
     public List<Pitpoz> findList(String rok, String mc, String pod) {

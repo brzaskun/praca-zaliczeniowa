@@ -25,6 +25,7 @@ public class WierszDRA  implements Serializable{
     private double dochod;
     private double przychod;
     private boolean brakdokumentow;
+    private boolean jestpit;
 
     public WierszDRA() {
     }
@@ -130,6 +131,14 @@ public class WierszDRA  implements Serializable{
 
     public void setPrzychod(double przychod) {
         this.przychod = przychod;
+    }
+
+    public boolean isJestpit() {
+        return jestpit;
+    }
+
+    public void setJestpit(boolean jestpit) {
+        this.jestpit = jestpit;
     }
     
     

@@ -8,6 +8,7 @@ package view;
 import beansDok.KsiegaBean;
 import comparator.Podatnikcomparator;
 import dao.DokDAO;
+import dao.PitDAO;
 import dao.PodatnikDAO;
 import dao.PodatnikOpodatkowanieDAO;
 import dao.PodatnikUdzialyDAO;
@@ -18,6 +19,7 @@ import embeddable.WierszPkpir;
 import embeddable.WierszRyczalt;
 import entity.Dok;
 import entity.KwotaKolumna1;
+import entity.Pitpoz;
 import entity.Podatnik;
 import entity.PodatnikOpodatkowanieD;
 import entity.PodatnikUdzialy;
@@ -51,6 +53,8 @@ public class DochodDlaDRAView implements Serializable {
     private PodatnikUdzialyDAO podatnikUdzialyDAO;
     @Inject
     private PodatnikOpodatkowanieDAO podatnikOpodatkowanieDDAO;
+    @Inject
+    private PitDAO pitDAO;
     private String rok;
     private String mc;
     private List<WierszDRA> wiersze;
@@ -64,6 +68,9 @@ public class DochodDlaDRAView implements Serializable {
     
     public void init() {
         if (rok!=null&&mc!=null) {
+            String[] poprzedniOkres = Data.poprzedniOkres(mc, rok);
+            String mcpkpir = poprzedniOkres[0];
+            String rokpkpir = poprzedniOkres[1];
             List<Podatnik> podatnicy = podatnikDAO.findPodatnikNieFK();
             Collections.sort(podatnicy, new Podatnikcomparator());
             double podatnikprocentudzial = 100.0;
@@ -87,16 +94,21 @@ public class DochodDlaDRAView implements Serializable {
                                     przychod = Z.z(przychod * podatnikprocentudzial / 100.0);
                                 }
                                 wiersz.setPrzychod(przychod);
+                                Pitpoz jestpit = pitDAO.find(rok, mc, p.getNazwapelna());
+                                wiersz.setJestpit(jestpit!=null);
                                 Msg.msg("Obliczono przychód za mc");
                             } else {
                                 //oblicz dochod
-                                double dochod = pobierzdochod(p, rok, mc, wiersz);
+                                double dochod = pobierzdochod(p, rokpkpir, mcpkpir, wiersz);
                                 if (podatnikprocentudzial != 100.0) {
                                     dochod = Z.z(dochod * podatnikprocentudzial / 100.0);
                                 }
                                 wiersz.setDochod(dochod);
+                                Pitpoz jestpit = pitDAO.find(rokpkpir, mcpkpir, p.getNazwapelna());
+                                wiersz.setJestpit(jestpit!=null);
                                 Msg.msg("Obliczono dochód za mc");
                             }
+                            
                             wiersze.add(wiersz);
                         }
                     } else {
@@ -108,11 +120,15 @@ public class DochodDlaDRAView implements Serializable {
                             //oblicz przychod
                             double przychod = pobierzprzychod(p, rok, mc, wiersz);
                             wiersz.setPrzychod(przychod);
+                            Pitpoz jestpit = pitDAO.find(rok, mc, p.getNazwapelna());
+                            wiersz.setJestpit(jestpit!=null);
                             Msg.msg("Obliczono przychód za mc");
                         } else {
                             //oblicz dochod
-                            double dochod = pobierzdochod(p, rok, mc, wiersz);
+                            double dochod = pobierzdochod(p, rokpkpir, mcpkpir, wiersz);
                             wiersz.setDochod(dochod);
+                            Pitpoz jestpit = pitDAO.find(rokpkpir, mcpkpir, p.getNazwapelna());
+                            wiersz.setJestpit(jestpit!=null);
                             Msg.msg("Obliczono dochód za mc");
                         }
                         wiersze.add(wiersz);
@@ -236,7 +252,7 @@ public class DochodDlaDRAView implements Serializable {
 
     private double pobierzprzychod(Podatnik podatnik, String rok, String mc, WierszDRA wiersz) {
         double przychod = 0.0;
-        List<Dok> lista = KsiegaBean.pobierzdokumentyRok(dokDAO, podatnik, Integer.parseInt(rok), mc, mc);
+        List<Dok> lista = KsiegaBean.pobierzdokumentyRok(dokDAO, podatnik, Integer.parseInt(rok), mc, "01");
         if (lista!=null&&!lista.isEmpty()) {
             for (Iterator<Dok> it = lista.iterator(); it.hasNext();) {
                 Dok tmpx = it.next();
