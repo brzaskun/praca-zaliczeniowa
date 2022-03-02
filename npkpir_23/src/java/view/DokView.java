@@ -509,7 +509,11 @@ public class DokView implements Serializable {
                         stawkaVATwPoprzednimDok = Z.z(stawkaVATwPoprzednimDok);
                         selDokument.getEwidencjaVAT1().get(0).setVat((selDokument.getEwidencjaVAT1().get(0).getNetto() * stawkaVATwPoprzednimDok));
                     } else {
-                        selDokument.getEwidencjaVAT1().get(0).setVat(Z.z(selDokument.getEwidencjaVAT1().get(0).getNetto() * 0.23));
+                        double stawkadoprzeliczenia = 0.23;
+                        if (selDokument.getRodzajedok().getStawkavat()>0.0) {
+                            stawkadoprzeliczenia = selDokument.getRodzajedok().getStawkavat()/100;
+                        }
+                        selDokument.getEwidencjaVAT1().get(0).setVat(Z.z(selDokument.getEwidencjaVAT1().get(0).getNetto() * stawkadoprzeliczenia));
                     }
                     selDokument.getEwidencjaVAT1().get(0).setBrutto(selDokument.getEwidencjaVAT1().get(0).getNetto() + selDokument.getEwidencjaVAT1().get(0).getVat());
                     sumbrutto = selDokument.getEwidencjaVAT1().get(0).getBrutto();
