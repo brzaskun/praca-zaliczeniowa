@@ -477,9 +477,13 @@ public class DokView implements Serializable {
                         || transakcjiRodzaj.equals("eksport towarów") || transakcjiRodzaj.equals("odwrotne obciążenie sprzedawca")) {
                     selDokument.getEwidencjaVAT1().get(0).setVat(0.0);
                 } else if (selDokument.getRodzajedok().getProcentvat() != 0.0) {
-                    selDokument.getEwidencjaVAT1().get(0).setVat(Z.z((selDokument.getEwidencjaVAT1().get(0).getNetto() * 0.23) / 2));
-                    selDokument.getEwidencjaVAT1().get(0).setBrutto(selDokument.getEwidencjaVAT1().get(0).getNetto() + Z.z(((selDokument.getEwidencjaVAT1().get(0).getNetto() * 0.23) / 2)));
-                    sumbrutto = selDokument.getEwidencjaVAT1().get(0).getNetto() + Z.z(selDokument.getEwidencjaVAT1().get(0).getNetto() * 0.23);
+                    double stawkadoprzeliczenia = 0.23;
+                    if (selDokument.getRodzajedok().getStawkavat()>0.0) {
+                        stawkadoprzeliczenia = selDokument.getRodzajedok().getStawkavat()/100;
+                    }
+                    selDokument.getEwidencjaVAT1().get(0).setVat(Z.z((selDokument.getEwidencjaVAT1().get(0).getNetto() * stawkadoprzeliczenia) / 2));
+                    selDokument.getEwidencjaVAT1().get(0).setBrutto(selDokument.getEwidencjaVAT1().get(0).getNetto() + Z.z(((selDokument.getEwidencjaVAT1().get(0).getNetto() * stawkadoprzeliczenia) / 2)));
+                    sumbrutto = selDokument.getEwidencjaVAT1().get(0).getNetto() + Z.z(selDokument.getEwidencjaVAT1().get(0).getNetto() * stawkadoprzeliczenia);
                 } else if (transakcjiRodzaj.equals("sprzedaz")) {
                     try {
                         String ne = nazwaEwidencjiwPoprzednimDok.getNazwa();
