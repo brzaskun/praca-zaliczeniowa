@@ -10,6 +10,7 @@ import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.pdf.PdfWriter;
 import data.Data;
 import entityfk.Kliencifk;
+import entityfk.Konto;
 import entityfk.StronaWiersza;
 import format.F;
 import java.io.File;
@@ -31,7 +32,7 @@ import view.WpisView;
 
 public class PDFRozrachunki {
     
-    public static void drukujRozrachunki(List<StronaWiersza> stronyWiersza, WpisView wpisView, Kliencifk k) {
+    public static void drukujRozrachunki(Konto wybranekonto, List<StronaWiersza> stronyWiersza, WpisView wpisView, Kliencifk k) {
         String nazwa = wpisView.getPodatnikObiekt().getNip()+"rozrachunki";
         File file = Plik.plik(nazwa, true);
         if (file.isFile()) {
@@ -62,9 +63,9 @@ public class PDFRozrachunki {
                 symbolwaluty = p.getSymbolWalutBOiSW();
                 skrótsymbolu = p.getSkrotSymbolWalutBOiSW();
                 try {
-                    kat = p.getDokfk().getRodzajedok().getKategoriadokumentu();
-                    String transakcja = kat == 2 || kat == 4 ? "należność dla nas" : "zobowiązanie względem kontrahenta";
-                    if (kat == 2 || kat == 4) {
+                    kat = wybranekonto.getPelnynumer().startsWith("201")||wybranekonto.getPelnynumer().startsWith("203")?0:1;
+                    String transakcja = kat == 0 ? "należność dla nas" : "zobowiązanie względem kontrahenta";
+                    if (kat == 0) {
                         naleznosci += p.getPozostalo();
                     } else {
                         zobowiazania += p.getPozostalo();
@@ -79,9 +80,10 @@ public class PDFRozrachunki {
             double wartosc = Math.abs(naleznosci-zobowiazania);
             dodajLinieOpisuBezOdstepu(document, "Symbol konta: "+stronyWiersza.get(0).getKonto().getPelnynumer());
             String transakcja1 = "Razem wartość nierozliczonych faktur na dobro";
-            String transakcja2 = kat == 2 || kat == 4 ? wpisView.getPrintNazwa()+" NIP: "+wpisView.getPodatnikObiekt().getNip()+": " : kontrahent+" NIP: "+k.getNip()+": ";
+            String transakcja2 = kat == 0 ? wpisView.getPrintNazwa()+" NIP: "+wpisView.getPodatnikObiekt().getNip()+": " : kontrahent+" NIP: "+k.getNip()+": ";
             dodajLinieOpisuBezOdstepu(document, transakcja1);
-            dodajLinieOpisuBezOdstepu(document, transakcja2+F.curr(wartosc,symbolwaluty));
+            dodajLinieOpisuBezOdstepu(document, transakcja2);
+            dodajLinieOpisuBezOdstepu(document, "kwota: "+F.curr(wartosc,symbolwaluty));
             dodajLinieOpisu(document, "Słownie: "+Slownie.slownie(String.valueOf(wartosc), skrótsymbolu));
             String sp = wpisView.getUzer().getImie()+" "+wpisView.getUzer().getNazw();
             dodajLinieOpisu(document, " ");

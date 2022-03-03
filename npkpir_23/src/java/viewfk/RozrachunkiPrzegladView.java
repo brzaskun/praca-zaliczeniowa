@@ -9,9 +9,9 @@ package viewfk;
 import beansFK.RozliczTransakcjeBean;
 import comparator.Kontocomparator;
 import comparator.StronaWierszacomparator;
-import dao.StronaWierszaDAO;
 import dao.KliencifkDAO;
 import dao.KontoDAOfk;
+import dao.StronaWierszaDAO;
 import dao.TransakcjaDAO;
 import embeddable.Mce;
 import embeddablefk.TreeNodeExtended;
@@ -27,10 +27,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import javax.annotation.PostConstruct;
-import javax.inject.Named;
-
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import msg.Msg;
 import org.primefaces.event.NodeUnselectEvent;
 import pdffk.PDFRozrachunki;
@@ -425,7 +424,7 @@ public class RozrachunkiPrzegladView implements Serializable{
     
     public void drukuj() {
         Kliencifk k = kliencifkDAO.znajdzkontofkByKonto(wybranekonto);
-        PDFRozrachunki.drukujRozrachunki(stronyWiersza, wpisView, k);
+        PDFRozrachunki.drukujRozrachunki(wybranekonto, stronyWiersza, wpisView, k);
     }
     
     public void pobierzZapisyNaKoncieNodeUnselect(NodeUnselectEvent event) {
