@@ -29,10 +29,10 @@
                 <f:selectItems value="#{roki.rokiList}"/>
             </p:selectOneMenu>
         </p:panelGrid>
-        <p:panelGrid columns="1" style="max-width: 1380px">
+        <p:panelGrid columns="1" style="max-width: 1450px">
             <h:outputText value="brak listy dokumentów domyślnych na ten rok" rendered="#{rodzajedokView.listaWspolnych.size() eq 0}" style="color: green;"/>
-            <p:commandButton value="generuj" actionListener="#{rodzajedokView.generujliste}" rendered="#{rodzajedokView.listaWspolnych.size() eq 0}" style="width: 120px;" update="@form"/>
-            <p:dataTable id="dokLista" value="#{rodzajedokView.listaWspolnych}"  var="loop"  paginatorAlwaysVisible="true" paginator="true" pageLinks="12" rows="12"
+            <p:commandButton value="generuj" actionListener="#{rodzajedokView.generujliste}" rendered="#{rodzajedokView.listaWspolnych.size() eq 0}" style="width: 120px;;" update="@form"/>
+            <p:dataTable id="dokLista" value="#{rodzajedokView.listaWspolnych}"  var="loop"  style="height: 500px;overflow-y: scroll" 
                          selection="#{rodzajedokView.selected}" rowKey="#{loop.skrotNazwyDok}" selectionMode="single" rendered="#{rodzajedokView.listaWspolnych.size() gt 0}">
                 <p:ajax event="rowSelect" listener="#{rodzajedokView.skopiujwierszdoedycji}"/>
                 <f:facet name="header">
@@ -57,17 +57,17 @@
                     <h:outputText value="#{loop.kategoriadokumentu eq 1 ? 'koszt z VAT' : (loop.kategoriadokumentu eq 2 ? 'przychód z VAT' : (loop.kategoriadokumentu eq 3 ? 'koszt bez VAT' : (loop.kategoriadokumentu eq 4 ? 'przychód bez VAT': (loop.kategoriadokumentu eq 5 ? 'dokument prosty':'płatność'))))}" />
                 </p:column>
                 <p:column headerText="% VAT" width="30" style="text-align: right;">
-                    <h:outputText value="#{loop.procentvat}">
+                    <h:outputText value="#{loop.procentvat}" rendered="#{loop.procentvat gt 0}">
                         <f:convertNumber integerOnly="true"/>
                     </h:outputText>
                 </p:column>
                 <p:column headerText="stawka VAT" width="30" style="text-align: right;">
-                    <h:outputText value="#{loop.stawkavat}">
+                    <h:outputText value="#{loop.stawkavat}" rendered="#{loop.stawkavat gt 0}">
                         <f:convertNumber integerOnly="true"/>
                     </h:outputText>
                 </p:column>
                 <p:column headerText="% kup" width="30" style="text-align: right;">
-                    <h:outputText value="#{loop.procentkup}">
+                    <h:outputText value="#{loop.procentkup}" rendered="#{loop.procentkup gt 0}">
                         <f:convertNumber integerOnly="true"/>
                     </h:outputText>
                 </p:column>
@@ -82,6 +82,9 @@
                 </p:column>
                 <p:column headerText="tylko jpk" style="text-align: center;">
                     <h:outputText value="#{loop.tylkojpk eq true ? 'tak' : null}" />
+                </p:column>
+                 <p:column headerText="tylko podatkowy" style="text-align: center;">
+                     <h:outputText value="#{loop.tylkopodatkowo eq true ? 'tak' : null}" />
                 </p:column>
                 <p:column headerText="jednostr." style="text-align: center;">
                     <h:outputText value="#{loop.jednostronny eq true ? 'tak' : null}" />
@@ -150,6 +153,8 @@
              <p:selectBooleanCheckbox value="#{rodzajedokView.wprowadzany.tylkovat}"/>
               <h:outputText value=" tylko jpk" />
               <p:selectBooleanCheckbox value="#{rodzajedokView.wprowadzany.tylkojpk}"/>
+              <h:outputText value=" tylko dla rozliczenia podatkowego" />
+              <p:selectBooleanCheckbox value="#{rodzajedokView.wprowadzany.tylkopodatkowo}"/>
              <h:outputText value=" jednostronny wiersz" />
              <p:selectBooleanCheckbox value="#{rodzajedokView.wprowadzany.jednostronny}"/>
              <h:outputText value=" jpk oznaczenie 1: " />

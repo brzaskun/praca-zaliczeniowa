@@ -244,6 +244,7 @@ public class Dokfk extends DokSuper implements Serializable {
     private boolean nieprzeliczaj;
     @OneToMany(mappedBy = "dokfk", orphanRemoval = false, fetch = FetchType.LAZY)
     private List<UmorzenieN> umorzenia;
+  
     
 
 
@@ -828,6 +829,8 @@ public class Dokfk extends DokSuper implements Serializable {
     public void setUmorzenia(List<UmorzenieN> umorzenia) {
         this.umorzenia = umorzenia;
     }
+
+   
     
    
     public void dodajKwotyWierszaDoSumyDokumentu(Wiersz biezacywiersz) {

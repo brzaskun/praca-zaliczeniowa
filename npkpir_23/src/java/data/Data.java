@@ -484,6 +484,22 @@ public class Data implements Serializable {
         }
         return zwrot;
     }
+    
+    public static String getCzescDaty8(String data, int rok0mc1d2) {
+        String zwrot = "";
+        switch (rok0mc1d2) {
+            case 0 :
+                zwrot = data.substring(0,4);
+                break;
+            case 1 :
+                zwrot = data.substring(4,6);
+                break;
+            case 2 :
+                zwrot = data.substring(6,8);
+                break;
+        }
+        return zwrot;
+    }
 
     public static String dzienpierwszy(WpisView wpisView) {
         StringBuilder sb = new StringBuilder();
@@ -584,6 +600,25 @@ public class Data implements Serializable {
             } catch (Exception e) {}
         }
         return zwrot;
+    }
+    
+     public static String zmien8na10(String zladata) {
+        String dobradata = "";
+        if (zladata!=null && zladata.length()==8) {
+            String rok = getCzescDaty8(zladata, 0);
+            String mc = getCzescDaty8(zladata, 1);
+            String dzien = getCzescDaty8(zladata, 2);
+            StringBuilder sb = new StringBuilder();
+            sb.append(rok);
+            sb.append("-");
+            sb.append(mc);
+            sb.append("-");
+            sb.append(dzien);
+            dobradata = sb.toString();
+        } else {
+            dobradata = zladata;
+        }
+        return dobradata;
     }
     
     public static String zmienkolejnosc(String zladata) {

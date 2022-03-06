@@ -1078,6 +1078,15 @@ public class DokfkView implements Serializable {
 //                    komunikatywpisdok = "Brak numeru własnego dokumentu. Nie można zapisać dokumentu.";
 //                    PrimeFaces.current().ajax().update("formwpisdokument:komunikatywpisdok");
 //                }
+                boolean tylkopodatkowo = selected.getRodzajedok().isTylkopodatkowo();
+                for (Wiersz p : selected.getListawierszy()) {
+                    if (p.getStronaWn()!=null) {
+                        p.getStronaWn().setTylkopodatkowo(tylkopodatkowo);
+                    }
+                    if (p.getStronaMa()!=null) {
+                        p.getStronaMa().setTylkopodatkowo(tylkopodatkowo);
+                    }
+                }
                 if (!selected.getRodzajedok().isTylkovat() && !selected.getRodzajedok().isTylkojpk()) {
                     for (Wiersz p : selected.getListawierszy()) {
                         ObslugaWiersza.przepiszWaluty(p);
@@ -1162,6 +1171,15 @@ public class DokfkView implements Serializable {
                 } else {
                     if (selected.getListawierszy().size()==1) {
                         selected.getListawierszy().remove(0);
+                    }
+                }
+                boolean tylkopodatkowo = selected.getRodzajedok().isTylkopodatkowo();
+                for (Wiersz p : selected.getListawierszy()) {
+                    if (p.getStronaWn()!=null) {
+                        p.getStronaWn().setTylkopodatkowo(tylkopodatkowo);
+                    }
+                    if (p.getStronaMa()!=null) {
+                        p.getStronaMa().setTylkopodatkowo(tylkopodatkowo);
                     }
                 }
                 zapisz0edytuj1 = false;

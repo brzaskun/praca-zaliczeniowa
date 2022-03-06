@@ -275,9 +275,9 @@ public class SymulacjaWynikuView implements Serializable {
         List<StronaWiersza> zapisywynikrokmc = new ArrayList<>();
         if (wpisView.getPodatnikObiekt().isMetodakasowapit()) {
             zapisywynikrokmc.addAll(przetworzRozliczenia(wpisView.getPodatnikObiekt(), "", wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu()));
-            zapisywynikrokmc.addAll(stronaWierszaDAO.findStronaByPodatnikRokMcWynik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu()).stream().filter(p->p.getDokfk().getRodzajedok().getKategoriadokumentu()==0||p.getDokfk().getRodzajedok().getKategoriadokumentu()==5).collect(Collectors.toList()));
+            zapisywynikrokmc.addAll(stronaWierszaDAO.findStronaByPodatnikRokMcWynikCIT(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu()).stream().filter(p->p.getDokfk().getRodzajedok().getKategoriadokumentu()==0||p.getDokfk().getRodzajedok().getKategoriadokumentu()==5).collect(Collectors.toList()));
         } else {
-            zapisywynikrokmc = stronaWierszaDAO.findStronaByPodatnikRokMcodMcdoWynik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), mcod, mcdo);
+            zapisywynikrokmc = stronaWierszaDAO.findStronaByPodatnikRokMcodMcdoWynikCIT(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), mcod, mcdo);
         }
         return zapisywynikrokmc;
     }

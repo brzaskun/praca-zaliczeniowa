@@ -111,6 +111,8 @@ public class Rodzajedok implements Serializable {
     private boolean tylkovat;
     @Column(name = "tylkojpk")
     private boolean tylkojpk;
+    @Column(name = "tylkopodatkowo")
+    private boolean tylkopodatkowo;
     @Column(name = "jednostronny")
     private boolean jednostronny;
     @Column(name = "rok")
@@ -343,6 +345,14 @@ public class Rodzajedok implements Serializable {
 
     public void setRok(String rok) {
         this.rok = rok;
+    }
+
+    public boolean isTylkopodatkowo() {
+        return tylkopodatkowo;
+    }
+
+    public void setTylkopodatkowo(boolean tylkopodatkowo) {
+        this.tylkopodatkowo = tylkopodatkowo;
     }
     
     public boolean isDokProsty() {

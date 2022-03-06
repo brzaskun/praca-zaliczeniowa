@@ -8,6 +8,7 @@ import comparator.Rodzajedokcomparator;
 import dao.JPKOznaczeniaDAO;
 import dao.PodatnikDAO;
 import dao.RodzajedokDAO;
+import data.Data;
 import entity.JPKoznaczenia;
 import entity.Podatnik;
 import entity.Rodzajedok;
@@ -62,6 +63,9 @@ public class RodzajedokView implements Serializable {
        // to samo jest w PodatnikViev
 //        try {
             rok = wpisView.getRokWpisuSt();
+            if (wpisView.getUzer().getUprawnienia().equals("Manager")) {
+                rok = Data.aktualnyRok();
+            }
             Podatnik podatnikwspolny = podatnikDAO.findPodatnikByNIP("0001005008");
             listaWspolnych = rodzajedokDAO.findListaPodatnik(podatnikwspolny, rok);
             jpkoznaczenia = jPKOznaczeniaDAO.findAll();

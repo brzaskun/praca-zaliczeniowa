@@ -275,6 +275,10 @@ public class StronaWierszaDAO extends DAO implements Serializable {
         return getEntityManager().createNamedQuery("StronaWiersza.findByPodatnikRokMcWynik").setParameter("podatnikObj", podatnik).setParameter("rok", rok).setParameter("mc", mc).getResultList();
     }
     
+    public List<StronaWiersza> findStronaByPodatnikRokMcWynikCIT(Podatnik podatnik, String rok, String mc) {
+        return getEntityManager().createNamedQuery("StronaWiersza.findByPodatnikRokMcWynikCIT").setParameter("podatnikObj", podatnik).setParameter("rok", rok).setParameter("mc", mc).getResultList();
+    }
+    
     public List<StronaWiersza> findStronaByPodatnikRokMcWynikSlownik(Podatnik podatnik, String rok, String mc) {
         return getEntityManager().createNamedQuery("StronaWiersza.findByPodatnikRokMcWynikSlownik").setParameter("podatnikObj", podatnik).setParameter("rok", rok).setParameter("mc", mc).getResultList();
     }
@@ -294,7 +298,7 @@ public class StronaWierszaDAO extends DAO implements Serializable {
                 .setHint(QueryHints.LOAD_GROUP, lg).getResultList();
     }
      
-     public List<StronaWiersza> findStronaByPodatnikRokMcodMcdoWynik(Podatnik podatnik, String rok, String mcod, String mcdo) {
+     public List<StronaWiersza> findStronaByPodatnikRokMcodMcdoWynikCIT(Podatnik podatnik, String rok, String mcod, String mcdo) {
         LoadGroup lg = new LoadGroup();
         lg.addAttribute("wiersz.dokfk");
         return getEntityManager().createNamedQuery("StronaWiersza.findByPodatnikRokMcodMcdoWynik").setParameter("podatnikObj", podatnik).setParameter("rok", rok).setParameter("mcod", mcod).setParameter("mcdo", mcdo)
