@@ -778,15 +778,21 @@ public class PlanKontView implements Serializable {
     }
 
     public void implementacjaJednegoKontaWzorcowego() {
-        if (selectednodekonto != null) {
+        if (selectednodekonto == null) {
+            Msg.msg("w", "Nie wybrano konta do powielenia.");
+        } else if (selectednodekonto.getPozycjaWn()==null||selectednodekonto.getPozycjaMa()==null) {
+            Msg.msg("w", "Konto bez przyporzadkowania");
+        } else if (wybranyukladwzorcowy==null) {
+            Msg.msg("w", "Nie wybrano domyślnego układu wzorcowego");
+        } else {
             try {
                 List<Podatnik> listapodatnikowfk = podatnikDAO.findPodatnikFK();
                 for (Podatnik p : listapodatnikowfk) {
                     Konto kontopodatnik = new Konto(selectednodekonto);
                     try {
                         kontopodatnik.setPodatnik(p);
-                        Konto macierzyste = kontoDAOfk.findKonto(kontopodatnik.getKontomacierzyste().getPelnynumer(), wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
                         if (kontopodatnik.getKontomacierzyste()!=null) {
+                            Konto macierzyste = kontoDAOfk.findKonto(kontopodatnik.getKontomacierzyste().getPelnynumer(), wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
                             kontopodatnik.setMacierzysty(macierzyste.getId());
                             kontopodatnik.setKontomacierzyste(macierzyste);
                             macierzyste.setMapotomkow(true);
@@ -797,6 +803,7 @@ public class PlanKontView implements Serializable {
                             kontopodatnik.setBlokada(false);
                         }
                         kontoDAOfk.create(kontopodatnik);
+                        //to chyba jest bez sensu
                         KontoPozycjaBean.duplikujpozycje(ukladBRDAO,wybranyukladwzorcowy.getUklad(), p, wpisView.getRokWpisuSt(), selectednodekonto, kontopodatnik, kontopozycjaZapisDAO);
                     } catch (RollbackException e) {
                         E.e(e);
@@ -810,9 +817,7 @@ public class PlanKontView implements Serializable {
             } catch (Exception e1) {
                 Msg.msg("e", "Próbujesz zaimplementować konto analityczne. Zaimplementuj najpierw jego konto macierzyste.");
             }
-        } else {
-            Msg.msg("w", "Coś poszło nie tak. Lista kont wzorcowych jest pusta.");
-        }
+        } 
     }
     
     public void implementacjaJednegoKontaWzorcowegoBiezacy() {
