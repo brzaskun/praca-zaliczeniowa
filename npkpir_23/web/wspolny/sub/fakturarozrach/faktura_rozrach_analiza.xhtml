@@ -19,7 +19,7 @@
             <p:panelGrid columns="3">
                 <p:selectOneListbox id="wyborklienta" value="#{fakturaRozrachunkiAnalizaView.szukanyklient}" required="true" style="width: 300px;"  converter="#{klientConv}"
                                     styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" binding="#{fakturaRozrachunkiAnalizaView.selectOneUI}"
-                                    filter="true" filterMatchMode="contains"
+                                    filter="true" filterMatchMode="contains" widgetVar="wybierzkontrahenta"
                                     >
                     <f:selectItems value="#{fakturaRozrachunkiAnalizaView.klienci}" var="poz" itemLabel="#{poz.nazwapodatnika}"/>
                     <p:ajax event="change" global="false" listener="#{fakturaRozrachunkiAnalizaView.pobierzwszystkoKlienta()}" 
@@ -35,7 +35,7 @@
                 <p:panelGrid columns="2" style="margin-left: 15px;">
                     <h:outputText value="dołącz rok poprzedni"/>
                     <p:selectBooleanCheckbox value="#{fakturaRozrachunkiAnalizaView.dolaczrokpoprzedni}">
-                        <p:ajax event="change" partialSubmit="true"/>
+                        <p:ajax event="change" partialSubmit="true" listener="#{fakturaRozrachunkiAnalizaView.pobierzwszystkoKlienta()}" update=":akordeon:fakturaanaliza:tablicaanaliza :akordeon:fakturaanaliza:mailklientapanel"/>
                     </p:selectBooleanCheckbox>
                 </p:panelGrid>
             </p:panelGrid>
