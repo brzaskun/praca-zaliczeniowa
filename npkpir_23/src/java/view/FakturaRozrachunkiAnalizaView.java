@@ -491,7 +491,8 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
     
     public void drukujKlienci() {
         try {
-            PdfFaktRozrach.drukujKlienci(szukanyklient, nowepozycje, archiwum, wpisView);
+            List<FakturaPodatnikRozliczenie> lista = selectedrozliczenia!=null&&!selectedrozliczenia.isEmpty()?selectedrozliczenia:nowepozycje;
+            PdfFaktRozrach.drukujKlienci(szukanyklient, lista, archiwum, wpisView);
         } catch (Exception e) {
             Msg.msg("e", "Wystąpił błąd. Wydruk nieudany");
             E.e(e);
