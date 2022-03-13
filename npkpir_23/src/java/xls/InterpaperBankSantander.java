@@ -5,7 +5,6 @@
  */
 package xls;
 
-import dedra.Dedraparser;
 import error.E;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -14,8 +13,6 @@ import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -68,7 +65,7 @@ public class InterpaperBankSantander implements Serializable {
                             ImportBankWiersz p = new ImportBankWiersz();
                             p.setNr(temp+1);
                             String iban = pE(nNode, "Id") == null ? "brak" : pTFC(nNode, "Id");
-                            p.setIBAN(iban);
+                            p.setIBAN(iban.replaceAll("\\s", ""));
                             String elt1 = pT(nNode, "Amt");
                             p.setKwota(Double.valueOf(elt1));
                             elt1 = pE(nNode, "Amt").getAttribute("Ccy");

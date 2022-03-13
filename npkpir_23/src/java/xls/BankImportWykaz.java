@@ -27,7 +27,9 @@ public class BankImportWykaz {
         new ImportowanyPlik("NEO Bank csv ,","csv",10),
         new ImportowanyPlik("Zorin Bank txt \t","txt",11),
         new ImportowanyPlik("Bank iPKO BP biznes standard xls ;","xls",12),
-        new ImportowanyPlik("Alior Bank csv ,","csv",13)
+        new ImportowanyPlik("Alior Bank csv ,","csv",13),
+        new ImportowanyPlik("Millenium Bank csv ,","csv",14),
+        new ImportowanyPlik("PKO BP SA xml","xml",15)
     ));
 
     

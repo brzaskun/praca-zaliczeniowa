@@ -87,6 +87,7 @@ public class DochodDlaDRAView implements Serializable {
                             wiersz.setOpodatkowanie(formaopodatkowania);
                             wiersz.setImienazwisko(u.getNazwiskoimie());
                             wiersz.setUdzial(Double.parseDouble(u.getUdzial()));
+                            podatnikprocentudzial = wiersz.getUdzial();
                             if (formaopodatkowania.contains("ryczałt")) {
                                 //oblicz przychod
                                 double przychod = pobierzprzychod(p, rok, mc, wiersz);

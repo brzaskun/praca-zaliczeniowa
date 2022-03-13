@@ -2290,15 +2290,23 @@ public class PdfMain {
                 DeklaracjaVatSchemaWierszSum p = (DeklaracjaVatSchemaWierszSum) it.next();
                 table.addCell(ustawfrazeAlign(String.valueOf(i++), "center", 7));
                 table.addCell(ustawfrazeAlign(p.getDeklaracjaVatWierszSumaryczny().getNazwapozycji(), "left", 8));
-                if (p.getDeklaracjaVatWierszSumaryczny().getSumanetto() > 0.0) {
+                if (p.getDeklaracjaVatWierszSumaryczny().getStringpole()!=null) {
+                    table.addCell(ustawfrazeAlign("", "center", 8));
+                    table.addCell(ustawfrazeAlign(p.getDeklaracjaVatWierszSumaryczny().getStringpole(), "center", 8));
+                } else if (p.getDeklaracjaVatWierszSumaryczny().getSumanetto() > 0.0) {
                     table.addCell(ustawfrazeAlign(p.getPolenetto(), "center", 8));
                     table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getDeklaracjaVatWierszSumaryczny().getSumanetto())), "right", 8));
                 } else {
                     table.addCell(ustawfrazeAlign("", "center", 8));
                     table.addCell(ustawfrazeAlign("", "center", 8));
                 }
-                table.addCell(ustawfrazeAlign(p.getPolevat(), "center", 8));
+                if (p.getDeklaracjaVatWierszSumaryczny().getStringpole()!=null) {
+                    table.addCell(ustawfrazeAlign("", "center", 8));
+                    table.addCell(ustawfrazeAlign("", "center", 8));
+                } else {
+                    table.addCell(ustawfrazeAlign(p.getPolevat(), "center", 8));
                     table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getDeklaracjaVatWierszSumaryczny().getSumavat())), "right", 8));
+                }
             }
              if (nazwaklasy.equals("entityfk.Wiersz")) {
                 Wiersz p = (Wiersz) it.next();

@@ -31,7 +31,7 @@ public class ImportPKO_XML1 implements Serializable {
     private static final long serialVersionUID = 1L;
     
     
-    public static List importujdok(byte[] pobrane, String mcwpisu, int nrwyciagu, int lpwiersza, String mc) {
+    public static List importujdok(byte[] pobrane, String mcwpisu, int nrwyciagu, int lpwiersza, String mc, String wybranawaluta) {
         Integer mcInt = Integer.parseInt(mcwpisu);
         List zwrot = new ArrayList<Object>();
         List<ImportBankWiersz> pobranefaktury = new ArrayList<>();
@@ -69,14 +69,14 @@ public class ImportPKO_XML1 implements Serializable {
                             String rodzajoperacji = a.getType();
                             x.setNrtransakji(rodzajoperacji);
                             double kwota = Z.z(a.getAmount().getValue().doubleValue());
-                            if (kwota<0.0) {
+                            if (kwota>0.0) {
                                 String opis = pobierz(split,"Tytuł:");
                                 if (opis.equals("brak")) {
                                     opis = pobierz(split,"Referencje własne zleceniodawcy:");
                                 }
                                 x.setOpistransakcji(rodzajoperacji+" "+opis);
-                                x.setIBAN(pobierz(split,"Rachunek odbiorcy:"));
-                                x.setKontrahent(pobierz(split,"Nazwa odbiorcy:"));//??
+                                x.setIBAN(pobierz(split,"Rachunek nadawcy:").replaceAll("\\s", ""));
+                                x.setKontrahent(pobierz(split,"Nazwa nadawcy:"));//??
                                 x.setKwota(kwota);
                                 x.setWnma("Wn");
                             } else {
@@ -85,9 +85,9 @@ public class ImportPKO_XML1 implements Serializable {
                                     opis = pobierz(split,"Dodatkowy opis:");
                                 }
                                 x.setOpistransakcji(rodzajoperacji+" "+opis);
-                                x.setIBAN(pobierz(split,"Rachunek nadawcy:"));
-                                x.setKontrahent(pobierz(split,"Nazwa nadawcy:"));//??
-                                x.setKwota(kwota);
+                                x.setIBAN(pobierz(split,"Rachunek odbiorcy:").replaceAll("\\s", ""));
+                                x.setKontrahent(pobierz(split,"Nazwa odbiorcy:"));//??
+                                x.setKwota(Math.abs(kwota));
                                 x.setWnma("Ma");
                             }
                             
@@ -132,9 +132,9 @@ public class ImportPKO_XML1 implements Serializable {
         //9 bank-bank - 149-2
     private static int oblicztyptransakcji(ImportBankWiersz p) {
         int zwrot = 0;
-        if (p.getOpistransakcji().contains("Przelew prow. na")) {
+        if (p.getOpistransakcji().contains("Prowizja")) {
             zwrot = 3;
-        } else if (p.getOpistransakcji().contains("OPŁATA ZA")) {
+        } else if (p.getOpistransakcji().contains("Opłata")) {
             zwrot = 3;
         } else if (p.getOpistransakcji().equals("PRZELEW ELIXIR - ONLINE")) {
             zwrot = 1;
@@ -146,9 +146,9 @@ public class ImportPKO_XML1 implements Serializable {
             zwrot = 8;
         } else if (p.getKontrahent().toLowerCase().contains("PRZELEW ELIXIR NA RACHUNEK ZUS - ONLINE")) {
             zwrot = 7;
-        } else if (p.getKontrahent().toLowerCase().contains("PRZELEW ELIXIR NA RACH. ORGANU PODATK. - ONLINE")) {
+        } else if (p.getKontrahent().toLowerCase().contains("Podatkowy")) {
             zwrot = 6;
-        } else if (p.getOpistransakcji().equals("WYPŁATA KARTĄ")) {
+        } else if (p.getOpistransakcji().contains("karty")) {
             zwrot = 4;
         } else if (p.getOpistransakcji().startsWith("/VAT/")) {
             p.setOpistransakcji(p.getOpistransakcji().substring(p.getOpistransakcji().indexOf("INV/")+4));

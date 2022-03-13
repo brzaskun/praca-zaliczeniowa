@@ -16,12 +16,12 @@
                     <p:selectBooleanCheckbox value="#{podatnikView.selected.wysylkazusmail}" label="wysyłać dane o wysokości ZUS i PIT-4"  valueChangeListener="#{podatnikView.zmianaWysylkaZus}">
                     </p:selectBooleanCheckbox>
                     <h:outputText value="wysyłać dane o składkach ZUS i PIT4 na mail: #{podatnikView.selected.email ne null ? podatnikView.selected.email : 'brak mail'}"/>
-                    <p:selectBooleanCheckbox value="#{podatnikView.selected.odliczeniezus51}" label="odliczać ZUS-51 w dekalracji PIT5"  valueChangeListener="#{podatnikView.zmianaZus51}">
+                    <p:selectBooleanCheckbox value="#{podatnikView.selected.odliczeniezus51}" label="odliczać ZUS-51 w deklaracji PIT5"  valueChangeListener="#{podatnikView.zmianaZus51}">
                     </p:selectBooleanCheckbox>
-                    <h:outputText value="odliczać ZUS-51 w dekalracji PIT5"/>
-                    <p:selectBooleanCheckbox value="#{podatnikView.selected.odliczeniezus52}" label="odliczać ZUS-52 w dekalracji PIT5"  valueChangeListener="#{podatnikView.zmianaZus52}">
+                    <h:outputText value="odliczać ZUS-51 w deklaracji PIT5"/>
+                    <p:selectBooleanCheckbox value="#{podatnikView.selected.odliczeniezus52}" label="odliczać ZUS-52 w deklaracji PIT5"  valueChangeListener="#{podatnikView.zmianaZus52}">
                     </p:selectBooleanCheckbox>
-                    <h:outputText value="odliczać ZUS-52 w dekalracji PIT5"/>
+                    <h:outputText value="odliczać ZUS-52 w deklaracji PIT5"/>
                     <p:inputMask value="#{podatnikView.selected.datamalyzus}" mask="9999-99-99" valueChangeListener="#{podatnikView.zmianaDatamalyzus}"/>
                     <h:outputText value="dzień pierwszego miesiąca, za który podatnik płaci 'mały' ZUS"/>
                     <p:selectOneMenu value="#{podatnikView.selectedDod.kodubezpieczeniaZUS}">

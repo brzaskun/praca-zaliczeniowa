@@ -10,6 +10,7 @@ import beansFK.UkladBRBean;
 import converter.RomNumb;
 import dao.KontoDAOfk;
 import dao.KontopozycjaZapisDAO;
+import dao.PodatnikOpodatkowanieDAO;
 import dao.PozycjaBilansDAO;
 import dao.PozycjaRZiSDAO;
 import dao.StronaWierszaDAO;
@@ -19,6 +20,7 @@ import data.Data;
 import embeddable.Mce;
 import embeddablefk.TreeNodeExtended;
 import entity.Podatnik;
+import entity.PodatnikOpodatkowanieD;
 import entityfk.Konto;
 import entityfk.PozycjaBilans;
 import entityfk.PozycjaRZiS;
@@ -86,6 +88,8 @@ public class PozycjaBRZestawienieView implements Serializable {
     private PozycjaRZiSDAO pozycjaRZiSDAO;
     @Inject
     private PozycjaBilansDAO pozycjaBilansDAO;
+    @Inject
+    private PodatnikOpodatkowanieDAO podatnikOpodatkowanieDDAO;
     @Inject
     private UkladBR uklad;
     @Inject
@@ -253,6 +257,8 @@ public class PozycjaBRZestawienieView implements Serializable {
         if (uklad.getUklad() == null) {
             uklad = ukladBRDAO.findukladBRPodatnikRokPodstawowy(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         }
+        PodatnikOpodatkowanieD opodatkowanie = podatnikOpodatkowanieDDAO.findOpodatkowaniePodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokUprzedniSt());
+         bilansoddnia = opodatkowanie.getDatarozpoczecia();
         List<PozycjaRZiSBilans> pozycje = Collections.synchronizedList(new ArrayList<>());
         pobierzPozycje(pozycje);
         rootProjektRZiS.getChildren().clear();

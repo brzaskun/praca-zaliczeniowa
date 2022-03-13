@@ -190,6 +190,7 @@ public class BankImportView implements Serializable {
         ibankonto = zrobibankonto();
         kliencifk = kliencifkDAO.znajdzkontofkKlientBanksymbolNotNull(wpisView.getPodatnikObiekt());
         kliencifkmapa = new HashMap<>();
+        wyciagdataod = wpisView.getMiesiacWpisu();
     }
     
     private Map<String, Konto> zrobibankonto() {
@@ -390,6 +391,12 @@ public class BankImportView implements Serializable {
                             break;
                         case 13 :
                             zwrot = ImportAlior_CSV.importujdok(partia, wyciagdataod, numerwyciagu, lpwiersza, mc, wybranawaluta);
+                            break;
+                        case 14 :
+                            zwrot = ImportMillenium_CSV.importujdok(partia, wyciagdataod, numerwyciagu, lpwiersza, mc, wybranawaluta);
+                            break;
+                        case 15 :
+                            zwrot = ImportPKO_XML1.importujdok(partia, wyciagdataod, numerwyciagu, lpwiersza, mc, wybranawaluta);
                             break;
                     }
                     if (zwrot.size()==5) {

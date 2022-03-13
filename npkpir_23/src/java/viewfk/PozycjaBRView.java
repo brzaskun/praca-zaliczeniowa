@@ -11,12 +11,14 @@ import beansFK.UkladBRBean;
 import converter.RomNumb;
 import dao.KontoDAOfk;
 import dao.KontopozycjaZapisDAO;
+import dao.PodatnikOpodatkowanieDAO;
 import dao.PozycjaBilansDAO;
 import dao.PozycjaRZiSDAO;
 import dao.StronaWierszaDAO;
 import dao.UkladBRDAO;
 import data.Data;
 import embeddablefk.TreeNodeExtended;
+import entity.PodatnikOpodatkowanieD;
 import entityfk.Konto;
 import entityfk.PozycjaBilans;
 import entityfk.PozycjaRZiS;
@@ -88,6 +90,8 @@ public class PozycjaBRView implements Serializable {
     private PozycjaBilansDAO pozycjaBilansDAO;
     @Inject
     private UkladBRDAO ukladBRDAO;
+    @Inject
+    private PodatnikOpodatkowanieDAO podatnikOpodatkowanieDDAO;
     @Inject
     private UkladBR uklad;
     @Inject
@@ -419,6 +423,8 @@ public class PozycjaBRView implements Serializable {
         //lista jest zerowa bo teraz zapisy bo sa nanoszone na bo, nie mozna dodawac zapisow z bo bo bedzie duplikat!
         List<StronaWiersza> zapisy = Collections.synchronizedList(new ArrayList<>());
         try {
+            PodatnikOpodatkowanieD opodatkowanie = podatnikOpodatkowanieDDAO.findOpodatkowaniePodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokUprzedniSt());
+            bilansoddnia = opodatkowanie.getDatarozpoczecia();
             List<Konto> plankontBO = kontoDAO.findKontaBilansowePodatnikaBezPotomkowRokPoprzedni(wpisView);
             List<Konto> plankont = kontoDAO.findKontaBilansowePodatnikaBezPotomkow(wpisView);
             PozycjaRZiSFKBean.sumujObrotyNaKontach(zapisy, plankontBO);

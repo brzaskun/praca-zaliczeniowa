@@ -786,7 +786,7 @@ public class Vat7DKView implements Serializable {
                 pozycjeSzczegoloweVAT.setPole47(deklaracja.getSelected().getPozycjeszczegolowe().getPole65());
                 pozycjeSzczegoloweVAT.setPoleI47(deklaracja.getSelected().getPozycjeszczegolowe().getPoleI65());
             } else {
-                Msg.msg("w", "Nie ma żadnej dekalracji, z której można by pobrać pole VAT do przeniesienia");
+                Msg.msg("w", "Nie ma żadnej deklaracji, z której można by pobrać pole VAT do przeniesienia");
             }
         }
     }
@@ -797,7 +797,7 @@ public class Vat7DKView implements Serializable {
            if (deklaracja != null){
                 kwotazprzeniesienia = deklaracja.getKwotadoprzeniesienia();
             } else {
-                Msg.msg("w", "Nie ma żadnej dekalracji, z której można by pobrać pole VAT do przeniesienia");
+                Msg.msg("w", "Nie ma żadnej deklaracji, z której można by pobrać pole VAT do przeniesienia");
             }
         }
         return kwotazprzeniesienia;
@@ -999,7 +999,7 @@ public class Vat7DKView implements Serializable {
                 nowadekl.setJestcertyfikat(true);
             } else {
                 VAT713 vat713 = new VAT713(pozycje, schema, false, vatzd, nrtelefonu, splitpayment);
-                //to jest wygenerowana dekalracjia w xml
+                //to jest wygenerowana deklaracjia w xml
                 wiersz = vat713.getWiersz();
                 nowadekl.setJestcertyfikat(false);
             }

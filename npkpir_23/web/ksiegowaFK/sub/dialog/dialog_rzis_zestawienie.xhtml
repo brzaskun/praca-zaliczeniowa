@@ -49,11 +49,11 @@
                 <p:commandButton id="rozwin" value="rozwiń poziom" actionListener="#{pozycjaBRZestawienieView.rozwin(pozycjaBRZestawienieView.rootProjektRZiS)}" update=":formdialogrziszestawienie:dataList" style="float: left;" />
                 <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{pozycjaBRZestawienieView.zwinwszystkie(pozycjaBRZestawienieView.rootProjektRZiS)}" update=":formdialogrziszestawienie:dataList" style="float: left;" />
                 <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{pozycjaBRZestawienieView.zwin(pozycjaBRZestawienieView.rootProjektRZiS)}" update=":formdialogrziszestawienie:dataList" style="float: left;" />-->
-                        <h:outputText value="bilans od dnia" style="margin-left: 5px;"/>
+                        <h:outputText value="rzis od dnia" style="margin-left: 5px;"/>
                      <p:inputText value="#{pozycjaBRZestawienieView.bilansoddnia}" maxlength="10" size="10"> 
                          <p:ajax event="blur" partialSubmit="true" global="false"/>
                      </p:inputText>
-                     <h:outputText value="bilans na dzień" style="margin-left: 5px;"/>
+                     <h:outputText value="rzis na dzień" style="margin-left: 5px;"/>
                      <p:inputText value="#{pozycjaBRZestawienieView.bilansnadzien}" maxlength="10" size="10"> 
                          <p:ajax event="blur" partialSubmit="true" global="false"/>
                      </p:inputText>

@@ -85,12 +85,12 @@ public class ImportING_XML implements Serializable {
                                 if (content!=null && content.size()>0) {
                                     if (content.get(1).getClass().getName().equals("javax.xml.bind.JAXBElement")) {
                                         String iban = (String) ((javax.xml.bind.JAXBElement)content.get(1)).getValue();
-                                        x.setIBAN(iban);
+                                        x.setIBAN(iban.replaceAll("\\s", ""));
                                     } else {
                                         xls.ing.Other o = (xls.ing.Other) content.get(1);
                                         Id id1 = o.getId();
                                         String iban = (String) id1.getContent().get(0);
-                                        x.setIBAN(iban);
+                                        x.setIBAN(iban.replaceAll("\\s", ""));
                                     }
                                 }
                                 x.setKontrahent(a.getNtryDtls().getTxDtls().getRltdPties().getCdtr().getNm());//??
@@ -102,12 +102,12 @@ public class ImportING_XML implements Serializable {
                                 if (content!=null && content.size()>0) {
                                     if (content.get(1).getClass().getName().equals("javax.xml.bind.JAXBElement")) {
                                         String iban = (String) ((javax.xml.bind.JAXBElement)content.get(1)).getValue();
-                                        x.setIBAN(iban);
+                                        x.setIBAN(iban.replaceAll("\\s", ""));
                                     } else {
                                         xls.ing.Other o = (xls.ing.Other) content.get(1);
                                         Id id1 = o.getId();
                                         String iban = (String) id1.getContent().get(0);
-                                        x.setIBAN(iban);
+                                        x.setIBAN(iban.replaceAll("\\s", ""));
                                     }
                                 }
                                 x.setKontrahent(a.getNtryDtls().getTxDtls().getRltdPties().getDbtr().getNm());//??

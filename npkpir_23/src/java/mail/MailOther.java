@@ -354,7 +354,7 @@ public class MailOther implements Serializable{
     public static void vat7(int row, WpisView wpisView, int stara0nowa1, SMTPSettings ogolne) {
         try {
             MimeMessage message = MailSetUp.logintoMail(wpisView, null, ogolne);
-            message.setSubject("Wydruk dekalracji VAT-7","UTF-8");
+            message.setSubject("Wydruk deklaracji VAT-7","UTF-8");
             // create and fill the first message part
             MimeBodyPart mbp1 = new MimeBodyPart();
             mbp1.setHeader("Content-Type", "text/html; charset=utf-8");
