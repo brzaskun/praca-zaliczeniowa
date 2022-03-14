@@ -1054,7 +1054,9 @@ public class DokfkView implements Serializable {
         if (selected.getNumerwlasnydokfk() == null || selected.getNumerwlasnydokfk().isEmpty()) {
             komunikatywpisdok = "Brak numeru własnego dokumentu. Nie można zapisać dokumentu.";
             PrimeFaces.current().ajax().update("formwpisdokument:komunikatywpisdok");
-        } else if (ObslugaWiersza.sprawdzSumyWierszy(selected)) {
+        } 
+        String wynik = ObslugaWiersza.sprawdzSumyWierszy(selected);
+        if (wynik==null) {
             if (selected.getRodzajedok().getKategoriadokumentu() == 0) {
                 int index = selected.getListawierszy().size() - 1;
                 rozliczsaldoWBRK(index);
@@ -1121,9 +1123,9 @@ public class DokfkView implements Serializable {
                 PrimeFaces.current().executeScript("powrotdopolaPoNaniesieniuRozrachunkow();");
             }
         } else {
-            komunikatywpisdok = "Uzupełnij wiersze o kwoty/konto. Sprawdź numery kont";
+            komunikatywpisdok = wynik;
             PrimeFaces.current().ajax().update("formwpisdokument:komunikatywpisdok");
-            Msg.msg("w", "Uzupełnij wiersze o kwoty/konto. Sprawdź numery kont");
+            Msg.msg("w", wynik);
         }
 
     }
@@ -1139,7 +1141,8 @@ public class DokfkView implements Serializable {
         if (selected.getListawierszy().size()>0 && selected.getListawierszy().get(selected.getListawierszy().size() - 1).getOpisWiersza().equals("")) {
             return;
         }
-        if (ObslugaWiersza.sprawdzSumyWierszy(selected)) {
+        String wynik = ObslugaWiersza.sprawdzSumyWierszy(selected);
+        if (wynik==null) {
 // funkcja wyzerowana
         //if (true) {
             if (selected.getRodzajedok().getKategoriadokumentu() == 0) {
@@ -1234,8 +1237,9 @@ public class DokfkView implements Serializable {
                 Msg.msg("e", "Nie udało się zmienić dokumentu " + e.toString());
             }
         } else {
-            komunikatywpisdok = "Uzupełnij wiersze o kwoty/konto!";
+            komunikatywpisdok = wynik;
             PrimeFaces.current().ajax().update("formwpisdokument:komunikatywpisdok");
+            Msg.msg("w", wynik);
         }
     }
 

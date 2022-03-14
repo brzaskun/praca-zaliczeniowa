@@ -35,12 +35,12 @@ import waluty.Z;
 public class ObslugaWiersza {
     
     //sluzy do sprawdzenia czy wprowadzono wszystkie kwoty
-    public static boolean sprawdzSumyWierszy(Dokfk dokfk) {
-            if (dokfk.getSeriadokfk().equals("BO")) {
-            return true;
+    public static String sprawdzSumyWierszy(Dokfk dokfk) {
+        if (dokfk.getSeriadokfk().equals("BO")) {
+            return null;
         }
         if (dokfk.getRodzajedok().isTylkovat() || dokfk.getRodzajedok().isTylkojpk()) {
-            return true;
+            return null;
         }
         double stronalewa = 0.0;
         double stronaprawa = 0.0;
@@ -59,37 +59,37 @@ public class ObslugaWiersza {
                 kontoMa = ostatniwiersz.getStronaMa().getKonto();
                 if (stronalewa == 0 || stronaprawa == 0) {
                     PrimeFaces.current().executeScript(f);
-                    return false;
+                    return "Strona Wn nie równa się Ma";
                 }
                 if (!(kontoWn instanceof Konto) || !(kontoMa instanceof Konto)) {
                     PrimeFaces.current().executeScript(f);
-                    return false;
+                    return "Brak wpisanego konta";
                 }
                 if (kontoWn instanceof Konto && kontoMa instanceof Konto && kontoWn.getPelnynumer().equals(kontoMa.getPelnynumer())) {
                     PrimeFaces.current().executeScript(f);
-                    return false;
+                    return "Takie samo konto po stronie Wn i Ma";
                 }
             } else if (ostatniwiersz.getTypWiersza()== 1 || ostatniwiersz.getTypWiersza() == 6) {
                 stronalewa += ostatniwiersz.getStronaWn().getKwota();
                 kontoWn = ostatniwiersz.getStronaWn().getKonto();
                 if (stronalewa == 0) {
                     PrimeFaces.current().executeScript(f);
-                    return false;
+                    return "Brak kwoty Wn";
                 }
                 if (!(kontoWn instanceof Konto)) {
                     PrimeFaces.current().executeScript(f);
-                    return false;
+                    return "Brak konta Wn";
                 }
             } else if (ostatniwiersz.getTypWiersza()== 2 || ostatniwiersz.getTypWiersza() == 7) {
                 stronaprawa += ostatniwiersz.getStronaMa().getKwota();
                 kontoMa = ostatniwiersz.getStronaMa().getKonto();
                 if (stronaprawa == 0) {
                     PrimeFaces.current().executeScript(f);
-                    return false;
+                    return "brak kwoty Ma";
                 }
                 if (!(kontoMa instanceof Konto)) {
                     PrimeFaces.current().executeScript(f);
-                    return false;
+                    return "Brak konta Ma";
                 }
             }
         stronalewa = 0.0;
@@ -111,7 +111,7 @@ public class ObslugaWiersza {
                 numergrupypoprzedniej = numergrupybiezacej;
                 if (Z.z(stronalewa) != Z.z(stronaprawa)) {
                     PrimeFaces.current().executeScript(f);
-                    return false;
+                    return "Strona Wn nie równa się stronie Ma";
                 } else {
                     stronalewa = 0.0;
                     stronaprawa = 0.0;
@@ -134,21 +134,29 @@ public class ObslugaWiersza {
             if (p.getTypWiersza() == 0 || p.getTypWiersza() == 5) {
                 if (p.getStronaWn().getKonto() == null || p.getStronaMa().getKonto() == null ) {
                     PrimeFaces.current().executeScript(f);
-                    return false;
+                    return "Brak wpisanego konta";
                 }
             } else if (p.getTypWiersza()== 1 || p.getTypWiersza() == 6) {
                 if (p.getStronaWn().getKonto() == null) {
                     PrimeFaces.current().executeScript(f);
-                    return false;
+                    return "Brak wpisanego konta Wn";
                 }
             } else if (p.getTypWiersza()== 2 || p.getTypWiersza() == 7) {
                 if (p.getStronaMa().getKonto() == null ) {
                     PrimeFaces.current().executeScript(f);
-                    return false;
+                    return "Brak wpisanego konta Ma";
                 }
             }
         }
-        return Z.z(stronalewa) == Z.z(stronaprawa);
+        boolean wynik = Z.z(stronalewa) == Z.z(stronaprawa);
+        if (!wynik) {
+            if (Z.z(stronalewa)>Z.z(stronaprawa)) {
+                return "Suma strony Wn jest większa od Ma";
+            } else {
+                return "Suma strony Ma jest większa od Wn";
+            }
+        }
+        return null;
     }
     
     public static double[] sumujwierszeBO(Dokfk dokfk) {
