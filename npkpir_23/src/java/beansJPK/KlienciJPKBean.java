@@ -127,6 +127,7 @@ public class KlienciJPKBean {
             nowa.setNetto(tmpzwrot.getNetto());
             nowa.setVat(tmpzwrot.getVat());
             nowa.setEstawka(String.valueOf(tmpzwrot.getStawkavat()));
+            nowa.setTylkodlajpk(true);
             zwrot.add(nowa);
         }
         return zwrot;

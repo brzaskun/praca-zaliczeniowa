@@ -370,7 +370,7 @@ public class EwidencjaVatView implements Serializable {
                 listadokvatprzetworzona = przetworzRozliczenia(podatnik, vatokres, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
                 Collections.sort(listadokvatprzetworzona,new EVatwpisFKcomparator());
             } else {
-                listadokvatprzetworzona.addAll(pobierzEVatRokFK(podatnik, vatokres, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu()));
+                listadokvatprzetworzona.addAll(pobierzEVatRokFK(podatnik, vatokres, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(), false));
                 Collections.sort(listadokvatprzetworzona,new EVatwpisFKcomparator());
                 listaprzesunietychKoszty = pobierzEVatRokFKNastepnyOkres(vatokres);
                 wyluskajzlisty(listaprzesunietychKoszty, "koszty");
@@ -394,7 +394,8 @@ public class EwidencjaVatView implements Serializable {
                 }
             }
             //w uproszczonej tego nie ma
-            //listadokvatprzetworzona.addAll(pobierzEVatIncydentalni(podatnik, vatokres, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu()));
+            //ale musi byc bo w fk sa faktury wdt wnt np vintis
+            listadokvatprzetworzona.addAll(pobierzEVatIncydentalni(podatnik, vatokres, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu()));
             przejrzyjEVatwpis1Lista();
             dodajwierszeVATZD(wniosekVATZDEntity);
             
@@ -433,7 +434,7 @@ public class EwidencjaVatView implements Serializable {
                 listadokvatprzetworzona = przetworzRozliczenia(podatnik, vatokres, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
                 Collections.sort(listadokvatprzetworzona,new EVatwpisFKcomparator());
             } else {
-                listadokvatprzetworzona.addAll(pobierzEVatRokFK(podatnik, vatokres, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu()));
+                listadokvatprzetworzona.addAll(pobierzEVatRokFK(podatnik, vatokres, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(), true));
                 Collections.sort(listadokvatprzetworzona,new EVatwpisFKcomparator());
                 listaprzesunietychKoszty = pobierzEVatRokFKNastepnyOkres(vatokres);
                 wyluskajzlisty(listaprzesunietychKoszty, "koszty");
@@ -768,22 +769,32 @@ public class EwidencjaVatView implements Serializable {
         }
     }
 
-    private List<EVatwpisFK> pobierzEVatRokFK(Podatnik podatnik, String vatokres, String rok, String mc) {
+    private List<EVatwpisFK> pobierzEVatRokFK(Podatnik podatnik, String vatokres, String rok, String mc, boolean tylkodlajpk) {
+        List<EVatwpisFK>  zwrot = null;
         try {
             switch (vatokres) {
                 case "blad":
                     Msg.msg("e", "Nie ma ustawionego parametru vat za dany okres. Nie można sporządzić ewidencji VAT.");
                     throw new Exception("Nie ma ustawionego parametru vat za dany okres");
                 case "miesięczne": 
-                    return eVatwpisFKDAO.findPodatnikMc(podatnik, rok, mc, mc);
+                    zwrot = eVatwpisFKDAO.findPodatnikMc(podatnik, rok, mc, mc);
                 default:
                     Integer kwartal = Integer.parseInt(Kwartaly.getMapanrkw().get(Integer.parseInt(mc)));
                     List<String> miesiacewkwartale = Kwartaly.getMapakwnr().get(kwartal);
-                    return eVatwpisFKDAO.findPodatnikMc(podatnik, rok, miesiacewkwartale.get(0), miesiacewkwartale.get(2));
+                    zwrot = eVatwpisFKDAO.findPodatnikMc(podatnik, rok, miesiacewkwartale.get(0), miesiacewkwartale.get(2));
             }
         } catch (Exception e) { E.e(e); 
-            return null;
+            
         }
+        if (zwrot!=null && tylkodlajpk) {
+            for (Iterator<EVatwpisFK> it = zwrot.iterator(); it.hasNext();) {
+                EVatwpisFK e = it.next();
+                if (e.isTylkodlajpk()) {
+                    it.remove();
+                }
+            }
+        }
+        return null;
     }
     
     private List<EVatwpisFK> pobierzEVatRokFKMiedzynarKasowa(Podatnik podatnik, String vatokres, String rok, String mc) {
@@ -1180,7 +1191,7 @@ public class EwidencjaVatView implements Serializable {
         ewidencjazakupu = evewidencjaDAO.znajdzponazwie("zakup");
         zerujListy();
         String vatokres = sprawdzjakiokresvat();
-        listadokvatprzetworzona.addAll(pobierzEVatRokFK(podatnik, vatokres, rok, mc));
+        listadokvatprzetworzona.addAll(pobierzEVatRokFK(podatnik, vatokres, rok, mc, false));
         Collections.sort(listadokvatprzetworzona,new EVatwpisFKcomparator());
         listaprzesunietychKoszty = pobierzEVatRokFKNastepnyOkres(vatokres);
         wyluskajzlisty(listaprzesunietychKoszty, "koszty");

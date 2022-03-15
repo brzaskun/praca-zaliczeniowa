@@ -150,6 +150,9 @@ public class ImportFakturyView  implements Serializable {
                     Msg.msg("e", "Brak dokumentów w pliku jpk wg zadanych kruteriów");
                 }
             }
+            if (jpkfa2==null&&jpkfa3==null) {
+                Msg.msg("e", "Pobrany plik to nie JPK_FA2(2) ani JPK_FA3(1)");
+            }
             
         } catch (Exception ex) {
             E.e(ex);
@@ -166,7 +169,8 @@ public class ImportFakturyView  implements Serializable {
             vat= 0.0;
             UploadedFile uploadedFile = event.getFile();
             String filename = uploadedFile.getFileName();
-            jpkfa3.JPK jpkfa3 = pobierzJPK3(uploadedFile.getInputstream());
+            InputStream inputstream = uploadedFile.getInputstream();
+            jpkfa3.JPK jpkfa3 = pobierzJPK3(inputstream);
             if (jpkfa3 != null) {
                 if (wybierzdlajpk) {
                     dokumentyfk = stworzdokumentyjpkfk(jpkfa3);
@@ -182,7 +186,7 @@ public class ImportFakturyView  implements Serializable {
                     Msg.msg("e", "Brak dokumentów w pliku jpk wg zadanych kruteriów");
                 }
             }
-            jpkfa2.JPK jpkfa2 = pobierzJPK2(uploadedFile.getInputstream());
+            jpkfa2.JPK jpkfa2 = pobierzJPK2(inputstream);
             if (jpkfa2 != null) {
                 if (wybierzdlajpk) {
                     dokumentyfk = stworzdokumentyjpkfk(jpkfa2);
