@@ -778,10 +778,12 @@ public class EwidencjaVatView implements Serializable {
                     throw new Exception("Nie ma ustawionego parametru vat za dany okres");
                 case "miesięczne": 
                     zwrot = eVatwpisFKDAO.findPodatnikMc(podatnik, rok, mc, mc);
+                    break;
                 default:
                     Integer kwartal = Integer.parseInt(Kwartaly.getMapanrkw().get(Integer.parseInt(mc)));
                     List<String> miesiacewkwartale = Kwartaly.getMapakwnr().get(kwartal);
                     zwrot = eVatwpisFKDAO.findPodatnikMc(podatnik, rok, miesiacewkwartale.get(0), miesiacewkwartale.get(2));
+                    break;
             }
         } catch (Exception e) { E.e(e); 
             
