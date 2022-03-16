@@ -794,7 +794,7 @@ public class EwidencjaVatView implements Serializable {
                 }
             }
         }
-        return null;
+        return zwrot;
     }
     
     private List<EVatwpisFK> pobierzEVatRokFKMiedzynarKasowa(Podatnik podatnik, String vatokres, String rok, String mc) {
