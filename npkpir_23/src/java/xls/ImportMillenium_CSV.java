@@ -5,7 +5,6 @@
  */
 package xls;
 
-import comparator.ImportBankWierszcomparator;
 import error.E;
 import format.F;
 import java.io.ByteArrayInputStream;
@@ -56,34 +55,36 @@ public class ImportMillenium_CSV implements Serializable {
                         x.setDatawaluty(record.get("Data rozliczenia"));
                         String mcwiersz = record.get("Data rozliczenia").split("-")[1];
                         if (!mcwiersz.equals(mc)) {
-                            blad = true;
-                            break;
-                        }
-                        x.setIBAN(record.get("Na rachunek/ Z rachunku").replaceAll("\\s",""));//??
-                        x.setWaluta(wybranawaluta);
-                        x.setKontrahent(record.get("Odbiorca / Nadawca"));//??
-                        double obciazenie = Math.abs(F.kwota(record.get("Obciążenie")));
-                        double uznanie = Math.abs(F.kwota(record.get("Uznanie")));
-                        if (uznanie != 0.0) {
-                            x.setKwota(uznanie);
-                            x.setWnma("Wn");
-                            pn.setWyciagobrotywn(pn.getWyciagobrotywn() + obciazenie);
+                            //blad = true;
+                            //break;
                         } else {
-                            x.setKwota(obciazenie);
-                            x.setWnma("Ma");
-                            pn.setWyciagobrotyma(pn.getWyciagobrotyma() + obciazenie);
+                            x.setIBAN(record.get("Na rachunek/ Z rachunku").replaceAll("\\s",""));//??
+                            x.setWaluta(wybranawaluta);
+                            x.setKontrahent(record.get("Odbiorca / Nadawca"));//??
+                            double obciazenie = Math.abs(F.kwota(record.get("Obciążenie")));
+                            double uznanie = Math.abs(F.kwota(record.get("Uznanie")));
+                            if (uznanie != 0.0) {
+                                x.setKwota(uznanie);
+                                x.setWnma("Wn");
+                                pn.setWyciagobrotywn(pn.getWyciagobrotywn() + obciazenie);
+                            } else {
+                                x.setKwota(obciazenie);
+                                x.setWnma("Ma");
+                                pn.setWyciagobrotyma(pn.getWyciagobrotyma() + obciazenie);
+                            }
+                            x.setNrtransakji(record.get("Rodzaj transakcji"));
+                            x.setOpistransakcji(record.get("Opis"));
+                            x.setTyptransakcji(oblicztyptransakcji(x));
+                            pn.setWyciagdatado(record.get("Data rozliczenia"));
+                            pn.setWyciagbz(F.kwota(record.get("Saldo")));
+                            pn.setWyciagnr(mc);
+                            x.setNaglowek(pn);
+                            listaswierszy.add(x);
+                            i++;
                         }
-                        x.setNrtransakji(record.get("Rodzaj transakcji"));
-                        x.setOpistransakcji(record.get("Opis"));
-                        x.setTyptransakcji(oblicztyptransakcji(x));
-                        pn.setWyciagdatado(record.get("Data rozliczenia"));
-                        pn.setWyciagbz(F.kwota(record.get("Saldo")));
-                        x.setNaglowek(pn);
-                        listaswierszy.add(x);
-                        i++;
                     }
                 }
-                Collections.sort(listaswierszy, new ImportBankWierszcomparator());
+                Collections.reverse(listaswierszy);
                 int j = 1;
                 for (ImportBankWiersz p : listaswierszy) {
                     p.setNr(j++);

@@ -541,7 +541,7 @@ public class BankImportView implements Serializable {
         }
         Dokfk nd = new Dokfk(numerkolejny, wpisView.getRokWpisuSt());
         nd.setKontr(kontr);
-        nd.setNumerwlasnydokfk("wyciag nr "+pn.getWyciagnr()+" "+mc+"/"+i);
+        nd.setNumerwlasnydokfk("wyciag nr "+mc+"/"+i);
         nd.setOpisdokfk("rozliczenie wyciągu za "+mc+"/"+wpisView.getRokWpisuSt());
         nd.setPodatnikObj(wpisView.getPodatnikObiekt());
         nd.setSeriadokfk(rodzajdok.getSkrot());
