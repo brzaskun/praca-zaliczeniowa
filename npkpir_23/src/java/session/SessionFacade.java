@@ -146,23 +146,6 @@ public class SessionFacade<T> implements Serializable {
         return Collections.synchronizedList(lista);
     }
 
-    public Ryczpoz findRycz(String rok, String mc, String pod) {
-        Ryczpoz tmp = (Ryczpoz)  getEntityManager().createQuery("SELECT p FROM Ryczpoz p WHERE p.pkpirR = :pkpirR AND p.pkpirM = :pkpirM AND p.podatnik = :podatnik").setParameter("pkpirR", rok).setParameter("pkpirM", mc).setParameter("podatnik", pod).getSingleResult();
-        return tmp;
-    }
-
-    public Ryczpoz findRycz(String rok, String mc, String pod, String udzialowiec) {
-        Ryczpoz tmp = (Ryczpoz)  getEntityManager().createQuery("SELECT p FROM Ryczpoz p WHERE p.pkpirR = :pkpirR AND p.pkpirM = :pkpirM AND p.podatnik = :podatnik AND p.udzialowiec = :udzialowiec").setParameter("pkpirR", rok).setParameter("pkpirM", mc).setParameter("podatnik", pod).setParameter("udzialowiec", udzialowiec).getSingleResult();
-        return tmp;
-    }
-
-    public List<Ryczpoz> findRyczpodatnik(String rok, String pod) {
-        List<Ryczpoz> tmp =  getEntityManager().createQuery("SELECT p FROM Ryczpoz p WHERE p.pkpirR = :pkpirR AND p.podatnik = :podatnik").setParameter("pkpirR", rok).setParameter("podatnik", pod).getResultList();
-        return Collections.synchronizedList(tmp);
-    }
-
-
-    
     
     public Podstawki findPodstawkiyear(Integer rok) {
         Podstawki tmp = (Podstawki)  getEntityManager().createNamedQuery("Podstawki.findByRok").setParameter("rok", rok).getSingleResult();

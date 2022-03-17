@@ -12,6 +12,7 @@ import dao.PitDAO;
 import dao.PodatnikDAO;
 import dao.PodatnikOpodatkowanieDAO;
 import dao.PodatnikUdzialyDAO;
+import dao.RyczDAO;
 import data.Data;
 import embeddable.Mce;
 import embeddable.WierszDRA;
@@ -23,6 +24,7 @@ import entity.Pitpoz;
 import entity.Podatnik;
 import entity.PodatnikOpodatkowanieD;
 import entity.PodatnikUdzialy;
+import entity.Ryczpoz;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -55,6 +57,8 @@ public class DochodDlaDRAView implements Serializable {
     private PodatnikOpodatkowanieDAO podatnikOpodatkowanieDDAO;
     @Inject
     private PitDAO pitDAO;
+    @Inject
+    private RyczDAO ryczDAO;
     private String rok;
     private String mc;
     private List<WierszDRA> wiersze;
@@ -95,7 +99,7 @@ public class DochodDlaDRAView implements Serializable {
                                     przychod = Z.z(przychod * podatnikprocentudzial / 100.0);
                                 }
                                 wiersz.setPrzychod(przychod);
-                                Pitpoz jestpit = pitDAO.find(rok, mc, p.getNazwapelna());
+                                Ryczpoz jestpit = ryczDAO.find(rok, mc, p.getNazwapelna());
                                 wiersz.setJestpit(jestpit!=null);
                                 Msg.msg("Obliczono przychód za mc");
                             } else {
@@ -121,7 +125,7 @@ public class DochodDlaDRAView implements Serializable {
                             //oblicz przychod
                             double przychod = pobierzprzychod(p, rok, mc, wiersz);
                             wiersz.setPrzychod(przychod);
-                            Pitpoz jestpit = pitDAO.find(rok, mc, p.getNazwapelna());
+                            Ryczpoz jestpit = ryczDAO.find(rok, mc, p.getNazwapelna());
                             wiersz.setJestpit(jestpit!=null);
                             Msg.msg("Obliczono przychód za mc");
                         } else {

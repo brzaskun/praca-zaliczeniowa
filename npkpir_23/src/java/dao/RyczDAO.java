@@ -8,11 +8,10 @@ import entity.Ryczpoz;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PreDestroy;
-import javax.inject.Inject;
-import javax.ejb.Stateless;import javax.transaction.Transactional;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import session.SessionFacade;
+import javax.transaction.Transactional;
 
 /**
  *
@@ -22,7 +21,6 @@ import session.SessionFacade;
 @Transactional
 public class RyczDAO extends DAO implements Serializable {
 
-    @Inject private SessionFacade ryczFacade;
    @PersistenceContext(unitName = "npkpir_22PU")
     private EntityManager em;
     
@@ -46,16 +44,29 @@ public class RyczDAO extends DAO implements Serializable {
 
 
     public Ryczpoz find(String rok, String mc, String pod) {
-        return ryczFacade.findRycz(rok, mc, pod);
+        Ryczpoz zwrot = null;
+        try {
+            zwrot = (Ryczpoz)  getEntityManager().createQuery("SELECT p FROM Ryczpoz p WHERE p.pkpirR = :pkpirR AND p.pkpirM = :pkpirM AND p.podatnik = :podatnik").setParameter("pkpirR", rok).setParameter("pkpirM", mc).setParameter("podatnik", pod).getSingleResult();
+        } catch (Exception e){}
+        return zwrot;
     }
     
     public Ryczpoz find(String rok, String mc, String pod, String udzialowiec) {
-        return ryczFacade.findRycz(rok, mc, pod, udzialowiec);
+        Ryczpoz zwrot = null;
+        try {
+            zwrot = (Ryczpoz)  getEntityManager().createQuery("SELECT p FROM Ryczpoz p WHERE p.pkpirR = :pkpirR AND p.pkpirM = :pkpirM AND p.podatnik = :podatnik AND p.udzialowiec = :udzialowiec").setParameter("pkpirR", rok).setParameter("pkpirM", mc).setParameter("podatnik", pod).setParameter("udzialowiec", udzialowiec).getSingleResult();
+        } catch (Exception e){}
+        return zwrot;
     }
     
     public List<Ryczpoz> findRyczPod(String rok, String pod) {
-        return ryczFacade.findRyczpodatnik(rok,pod);
+        List<Ryczpoz> zwrot = null;
+        try {
+            zwrot = getEntityManager().createQuery("SELECT p FROM Ryczpoz p WHERE p.pkpirR = :pkpirR AND p.podatnik = :podatnik").setParameter("pkpirR", rok).setParameter("podatnik", pod).getResultList();
+        } catch (Exception e){}
+        return zwrot;
     }
     
-   
+
+
 }
