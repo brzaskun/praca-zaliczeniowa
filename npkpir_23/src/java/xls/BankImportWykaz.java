@@ -29,7 +29,8 @@ public class BankImportWykaz {
         new ImportowanyPlik("Bank iPKO BP biznes standard xls ;","xls",12),
         new ImportowanyPlik("Alior Bank csv ,","csv",13),
         new ImportowanyPlik("Millenium Bank csv ,","csv",14),
-        new ImportowanyPlik("PKO BP SA xml","xml",15)
+        new ImportowanyPlik("PKO BP SA xml","xml",15),
+        new ImportowanyPlik("Pekao24 csv ;","csv",16)
     ));
 
     

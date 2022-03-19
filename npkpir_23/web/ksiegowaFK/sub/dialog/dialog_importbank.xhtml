@@ -139,8 +139,8 @@
                     <h:outputText value="#{itemimp.kontrahent}" rendered="#{itemimp.kontrahent ne 'NOTPROVIDED'}"/>
                     <h:outputText value="prowizja" rendered="#{itemimp.kontrahent eq 'NOTPROVIDED'}"/>
                 </p:column>
-                <p:column headerText="adres" width="140" sortBy="#{itemimp.kontrahentaadres}" filterBy="#{itemimp.kontrahentaadres}" filterMaxLength="3">
-                    <h:outputText value="#{itemimp.kontrahentaadres}" rendered="#{itemimp.kontrahent ne 'NOTPROVIDED'}"/>
+                <p:column headerText="iban" width="140" sortBy="#{itemimp.IBAN}" filterBy="#{itemimp.IBAN}" filterMaxLength="3">
+                    <h:outputText value="#{itemimp.IBAN}" rendered="#{itemimp.IBAN ne null}"/>
                 </p:column>
                 <p:column headerText="kraj" width="30" sortBy="#{itemimp.kontrahentakraj}" filterBy="#{itemimp.kontrahentakraj}" >
                     <h:outputText value="#{itemimp.kontrahentakraj}" rendered="#{itemimp.kontrahent ne 'NOTPROVIDED'}"/>

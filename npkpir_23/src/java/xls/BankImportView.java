@@ -398,6 +398,9 @@ public class BankImportView implements Serializable {
                         case 15 :
                             zwrot = ImportPKO_XML1.importujdok(partia, wyciagdataod, numerwyciagu, lpwiersza, mc, wybranawaluta);
                             break;
+                        case 16 :
+                            zwrot = ImportPekao24_CSV.importujdok(partia, wyciagdataod, numerwyciagu, lpwiersza, mc, wybranawaluta);
+                            break;
                     }
                     if (zwrot.size()==5) {
                         Msg.msg("e", "Nie pobrano wszystkich plików. Wystąpił błąd");
