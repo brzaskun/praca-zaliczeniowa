@@ -14,7 +14,7 @@
         <property name="User" value="brzaskun"/>
         <property name="Password" value="pufikun"/>
         <property name="PasswordCredential" value="pufikun"/>
-        <property name="URL" value="jdbc:mysql://localhost:3306/p6273_odomg?useUnicode=true&amp;characterEncoding=UTF-8&amp;useSSL=false&amp;allowPublicKeyRetrieval=true&amp;"/>
+        <property name="URL" value="jdbc:mysql://localhost:3306/p6273_odomg?useUnicode=true&amp;characterEncoding=UTF-8&amp;useSSL=false&amp;allowPublicKeyRetrieval=true&amp;zeroDateTimeBehavior=convertToNull&amp;"/>
         <property name="driverClass" value="com.mysql.jdbc.Driver"/>
        
     </jdbc-connection-pool>

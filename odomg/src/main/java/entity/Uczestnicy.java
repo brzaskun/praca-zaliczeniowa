@@ -15,6 +15,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -174,8 +175,8 @@ private String email;
     @Column(name = "upowaznieniedwdata")
     @Temporal(TemporalType.TIMESTAMP)
     private Date upowaznieniedwdata;
-    @Column(name = "firma_id")
-    private Integer firmaId;
+    @JoinColumn(name = "firma_id", referencedColumnName = "id")
+    private Zakladpracy firmaId;
     @Column(name = "wyslanymailuprdata")
     @Temporal(TemporalType.TIMESTAMP)
     private Date wyslanymailuprdata;
@@ -190,6 +191,17 @@ private String email;
         this.id = id;
     }
 
+    public Uczestnicy(Uczestnicy nowy) {
+        this.email = nowy.email;
+        this.imienazwisko = nowy.imienazwisko;
+        this.plec = nowy.plec;
+        this.nazwaszkolenia = nowy.nazwaszkolenia;
+        this.uprawnienia = nowy.uprawnienia;
+        this.firmaId = nowy.firmaId;
+    }
+
+    
+    
     public Integer getId() {
         return id;
     }
@@ -361,14 +373,14 @@ private String email;
         this.upowaznieniedwdata = upowaznieniedwdata;
     }
 
-
-    public Integer getFirmaId() {
+    public Zakladpracy getFirmaId() {
         return firmaId;
     }
 
-    public void setFirmaId(Integer firmaId) {
+    public void setFirmaId(Zakladpracy firmaId) {
         this.firmaId = firmaId;
     }
+
 
     public Date getWyslanymailuprdata() {
         return wyslanymailuprdata;

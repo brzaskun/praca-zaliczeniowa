@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:f="http://java.sun.com/jsf/core"
+      >
+    <f:view  contentType="text/html;charset=UTF-8" encoding="UTF-8">
+        <h:head>
+            <meta http-equiv="Accept-Encoding" content="gzip"/>
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+            <meta http-equiv="Pragma" content="no-cache"/>
+            <meta http-equiv="Expires" content="0" />
+            <meta http-equiv="Cache-Control" content="no-cache,no-store,must-revalidate"/>
+            <link rel="icon" type="image/png" sizes="32x32" href="#{resource['css/pics/ODOLogoVector.png']}"/>
+            <h:outputStylesheet name="css/main_admin.css" />
+            <h:outputStylesheet name="css/button.css" />
+            <h:outputStylesheet name="css/style.css" />
+            <h:outputStylesheet name="css/details.css" />
+            <h:outputStylesheet name="css/qlcore.css" />
+            <title>Testy Dane Wrażliwe</title>
+            <style>
+                .ui-autocomplete input {
+                    width: 400px;
+                }
+            </style>
+        </h:head>
+        <h:body>
+            <p:growl life="7200"><p:autoUpdate/></p:growl>
+            <p:outputPanel>
+                <h:form id="formmenu">
+                    <p:menubar autoDisplay="true">
+                        <p:menuitem icon="pi pi-users" value="użytkownicy" style="width: 150px" action="Osoby"/>
+                        <p:menuitem icon="pi pi-mobile" value="szkolenia" style="width: 150px" action="Szkolenia"/>
+                    </p:menubar>
+                </h:form>
+            </p:outputPanel>
+            <p:tabView activeIndex="0" id="akordeon">
+                <p:tab title="dodawanie">
+                    <p:panel header="dodawanie nowego slajdu"/>
+                    <p:outputPanel style="margin: 20px;">
+                        <h:form id="formdodawanie">
+                            <p:messages ><p:autoUpdate/></p:messages>
+                            <p:panelGrid columns="2" style="padding: 10px;">
+                                <h:outputText value="nazwa szkolenia:"/>
+                                <p:inputText value="#{szkolenieEditView.szkolenie.nazwaszkolenia}" required="true" >
+                                    <p:ajax event="keyup" partialSubmit="true" update="akordeon:formlog1"/>
+                                </p:inputText>
+                                <h:outputText value="nagłówek:"/>
+                                <p:inputText value="#{szkolenieEditView.szkolenie.naglowek}" required="true" >
+                                    <p:ajax event="keyup" partialSubmit="true" update="akordeon:formlog1"/>
+                                </p:inputText>
+                                <h:outputText value="treść:"/>
+                                <p:textEditor value="#{szkolenieEditView.szkolenie.tresc}" required="true" height="250" styleClass="slajd2">
+                                    <p:ajax event="keyup" partialSubmit="true" update="akordeon:formlog1"/>
+                                </p:textEditor>
+                            </p:panelGrid>
+                            <p:commandButton value="dodaj" actionListener="#{szkolenieEditView.dodaj}" update="@form akordeon:formlog1" styleClass="buttonnorm"/>
+                        </h:form>
+                    </p:outputPanel>
+                    <p:outputPanel style="margin: 20px; background-color: #363030;">
+                        <h:form id="formlog1">
+                            <p:outputPanel styleClass="box">
+                                <p:outputPanel styleClass="slajd">
+                                    <div id="gornawklejka" class="gornawklejka">
+                                        <span style="font-size: larger;">#{szkolenieEditView.szkolenie.nazwaszkolenia}</span> 
+                                    </div>
+                                    <div id="szkolenienaglowek" class="szkolenienaglowek">
+                                        <h2>#{szkolenieEditView.szkolenie.naglowek}</h2>
+
+                                    </div>
+
+                                    <div class="trescszkolenia" style="margin-top: 10px;">
+                                        <h:outputText  value="#{szkolenieEditView.szkolenie.tresc}" escape="false"/>
+                                    </div>
+                                    <div class="zakonczylesszkolenie">
+                                        <span id="koniecszkolenia" style="display: none; ">Koniec szkolenia</span>
+                                    </div>
+                                    <div class="dolneprzyciski" >
+                                        <p:commandButton value="następny"  style="float: right;" styleClass="buttonszkolenie" title="Przejście do kolejnej strony szkolenia" />
+                                        <p:commandButton value="poprzedni"  styleClass="buttonszkolenie" title="Powrót do poprzedniej strony szkolenia" />
+                                    </div>
+                                </p:outputPanel>
+                            </p:outputPanel>
+                        </h:form>
+                    </p:outputPanel>
+                </p:tab>
+                <p:tab title="szkolenia">
+                    <p:outputPanel style="margin: 20px;">
+                        <h:form id="szkoleniewykaz">
+                            <h:outputText value="wybierz szkolenie"/>
+                            <p:selectOneListbox value="#{szkolenieEditView.szkoleniewykaz}" converter="#{szkolenieWykazConverter}" style="width: 400px;">
+                                <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
+                                <f:selectItems value="#{szkolenieEditView.szkoleniewykazlista}" var="pozycja" itemLabel="#{pozycja.nazwa}" itemValue="#{pozycja}"/>
+                                <p:ajax event="change" partialSubmit="true" listener="#{szkolenieEditView.pobierzslajdy}" update="@form"/>
+                            </p:selectOneListbox>
+                            <p:dataTable id="dataList" value="#{szkolenieEditView.szkolenielista}" var="item" style="overflow-y: scroll;width: 1400px; margin-top: 15px;" size="small"
+                                         rowIndexVar="index" rowKey="#{item.id}" editable="true"
+                                         rowsPerPageTemplate="20,100,250,500" paginatorPosition="top" paginator="true" rows="20"
+                                         emptyMessage="Nie wprowadzono ani jednego slajdu" selectionMode="multiple" selection="#{szkolenieEditView.szkolenielistaselected}">
+                                <p:column width="30" style="text-align: center;">
+                                    <f:facet name="header">
+                                        <h:outputText value="lp"/>
+                                    </f:facet>
+                                    <h:outputText value="#{index+1}"/>
+                                </p:column>
+                                <p:column width="1000" style="text-align: center;">
+                                    <f:facet name="header">
+                                        <h:outputText value="treść"/>
+                                    </f:facet>
+                                    <p:outputPanel styleClass="box">
+                                        <p:outputPanel styleClass="slajd">
+                                            <div id="gornawklejka" class="gornawklejka">
+                                                <span style="font-size: larger;">#{item.nazwaszkolenia}</span> 
+                                            </div>
+                                            <div id="szkolenienaglowek" class="szkolenienaglowek">
+                                                <h2>#{item.naglowek}</h2>
+
+                                            </div>
+
+                                            <div class="trescszkolenia" style="margin-top: 10px;">
+                                                <h:outputText  value="#{item.tresc}" escape="false"/>
+                                            </div>
+                                            <div class="zakonczylesszkolenie">
+                                                <span id="koniecszkolenia" style="display: none; ">Koniec szkolenia</span>
+                                            </div>
+                                            <div class="dolneprzyciski" >
+                                                <p:commandButton value="następny"  style="float: right;" styleClass="buttonszkolenie" title="Przejście do kolejnej strony szkolenia" />
+                                                <p:commandButton value="poprzedni"  styleClass="buttonszkolenie" title="Powrót do poprzedniej strony szkolenia" />
+                                            </div>
+                                        </p:outputPanel>
+                                    </p:outputPanel>
+                                </p:column>
+                             </p:dataTable>
+                        </h:form>
+                    </p:outputPanel>
+                </p:tab>
+            </p:tabView>
+        </h:body>
+    </f:view>
+</html>

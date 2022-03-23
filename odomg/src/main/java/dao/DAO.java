@@ -19,6 +19,9 @@ public abstract class  DAO<T> {
     EntityManager em;
     Class<T> entityClass;
 
+    public DAO() {
+    }
+
     protected DAO(Class<T> entityClass) {
         this.entityClass = entityClass;
     }

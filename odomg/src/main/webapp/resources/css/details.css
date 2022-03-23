@@ -283,6 +283,11 @@
     box-shadow: 10px 10px 5px #888;
 }
 
+.slajd2  {
+    background:url("#{resource['css/pics/e-kurs_screen_pp0.png']}");
+    background-size: cover;
+}
+
 .trescszkolenia {
     width: 80%;
     padding: 1%;

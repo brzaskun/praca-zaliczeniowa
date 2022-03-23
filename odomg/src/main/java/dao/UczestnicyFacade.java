@@ -6,6 +6,7 @@
 package dao;
 
 import entity.Uczestnicy;
+import entity.Zakladpracy;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PreDestroy;
@@ -53,7 +54,7 @@ public class UczestnicyFacade extends DAO  implements Serializable {
         return zwrot;
     }
     
-    public List<Uczestnicy> findByFirmaId(Integer firmaId) {
+    public List<Uczestnicy> findByFirmaId(Zakladpracy firmaId) {
         List<Uczestnicy> zwrot = null;
         try {
             zwrot = getEntityManager().createNamedQuery("Uczestnicy.findByFirmaId").setParameter("firmaId", firmaId).getResultList();
