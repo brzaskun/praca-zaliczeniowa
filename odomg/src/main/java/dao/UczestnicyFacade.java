@@ -13,6 +13,7 @@ import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 
 /**
@@ -63,6 +64,13 @@ public class UczestnicyFacade extends DAO  implements Serializable {
         return zwrot;
     }
 
-       
+     public List<Uczestnicy> findAllLast() {
+        javax.persistence.criteria.CriteriaBuilder builder = em.getCriteriaBuilder();
+        javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
+        Root<Uczestnicy> order = cq.from(Uczestnicy.class);
+        cq.select(cq.from(Uczestnicy.class));
+        cq.orderBy(builder.desc(order.get("id")));
+        return getEntityManager().createQuery(cq).getResultList();
+    }
    
 }

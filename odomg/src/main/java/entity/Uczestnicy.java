@@ -6,6 +6,8 @@
 package entity;
 
 import java.io.Serializable;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
@@ -233,7 +235,15 @@ private String email;
     public Date getSessionend() {
         return sessionend;
     }
+    
+    public Instant getSessionend2() {
+        return dateToInsttant(sessionend);
+    }
 
+    public Instant dateToInsttant(Date date) {
+        Instant instant2 = date.toInstant();
+        return instant2.truncatedTo(ChronoUnit.DAYS);
+    }
     public void setSessionend(Date sessionend) {
         this.sessionend = sessionend;
     }

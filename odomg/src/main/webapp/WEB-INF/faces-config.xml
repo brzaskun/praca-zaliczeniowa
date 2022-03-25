@@ -43,6 +43,10 @@
                 <to-view-id>/admin/szkolenia.xhtml?faces-redirect=true</to-view-id>
             </navigation-case>
             <navigation-case>
+                <from-outcome>Statystyka</from-outcome>
+                <to-view-id>/admin/statystyka.xhtml?faces-redirect=true</to-view-id>
+            </navigation-case>
+            <navigation-case>
                 <from-outcome>Uczen</from-outcome>
                 <to-view-id>/uczen/index.xhtml?faces-redirect=true</to-view-id>
             </navigation-case>
