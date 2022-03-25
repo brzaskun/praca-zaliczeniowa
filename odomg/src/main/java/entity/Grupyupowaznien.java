@@ -122,7 +122,9 @@ public class Grupyupowaznien implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Grupyupowaznien[ id=" + id + " ]";
+        return "Grupyupowaznien{" + "firma=" + firma + ", nazwagrupy=" + nazwagrupy + ", firmaId=" + firmaId + '}';
     }
+
+    
     
 }

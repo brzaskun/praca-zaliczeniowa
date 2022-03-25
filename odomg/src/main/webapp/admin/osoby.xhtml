@@ -367,6 +367,123 @@
                         </h:form>
                     </p:outputPanel>
                 </p:tab>
+                <p:tab title="grupy">
+                    <p:outputPanel style="margin: 20px;">
+                        <h:form id="formgrupy">
+                            <h:outputText value="wybierz firmę1"/>
+                            <p:selectOneListbox value="#{upgrupyView.zakladpracy}" converter="#{zakladpracyConverter}" style="width: 400px;" filter="true" filterMatchMode="contains" >
+                                <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
+                                <f:selectItems value="#{upgrupyView.zakladpracylista}" var="pozycja" itemLabel="#{pozycja.nazwazakladu}" itemValue="#{pozycja}"/>
+                                <p:ajax event="change" partialSubmit="true" listener="#{upgrupyView.generujosoby}" update="akordeon:formgrupy:dataList"/>
+                            </p:selectOneListbox>
+                            <p:commandButton value="XLS" style="margin-left: 100px;">
+                                <p:dataExporter target="formgrupy:dataList" type="xls" fileName="osobytabela" />
+                            </p:commandButton>
+                            <p:dataTable id="dataList" value="#{upgrupyView.listaosoby}" var="item" style="overflow-y: scroll;width: 1600px; margin-top: 15px;" size="small"
+                                         rowIndexVar="index" rowKey="#{item.id}" editable="true"
+                                         rowsPerPageTemplate="20,100,250,500" paginatorPosition="top" paginator="true" rows="20"
+                                         emptyMessage="Nie wprowadzono ani jednego pracownika" selectionMode="multiple" selection="#{upgrupyView.listaosobyselected}">
+                                <p:ajax event="rowEdit" listener="#{osobyView.onRowEdit}" update="akordeon:formgrupy:dataList"/>
+                                <p:ajax event="rowEditCancel" listener="#{osobyView.onRowCancel}" update="akordeon:formgrupy:dataList"/>
+                                <p:column width="30" style="text-align: center;">
+                                    <f:facet name="header">
+                                        <h:outputText value="lp"/>
+                                    </f:facet>
+                                    <h:outputText value="#{index+1}"/>
+                                </p:column>
+                                <p:column width="30" style="text-align: center;">
+                                    <f:facet name="header">
+                                        <h:outputText value="id"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.id}"/>
+                                </p:column>
+                                <p:column width="250" filterBy="#{item.email}" filterMatchMode="contains" sortBy="#{item.email}" sortOrder="1">
+                                    <f:facet name="header">
+                                        <h:outputText value="Email"/>
+                                    </f:facet>
+                                    <p:cellEditor>
+                                        <f:facet name="output">
+                                            <h:outputText value="#{item.email}"/>
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <p:inputText value="#{item.email}"/>
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+                                <p:column width="200" filterBy="#{item.imienazwisko}" filterMatchMode="contains">
+                                    <f:facet name="header">
+                                        <h:outputText value="Imie nazwisko"/>
+                                    </f:facet>
+                                    <p:cellEditor>
+                                        <f:facet name="output">
+                                            <h:outputText value="#{item.imienazwisko}"/>
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <p:inputText value="#{item.imienazwisko}"/>
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+                                <p:column width="120" filterBy="#{item.nrupowaznienia}" filterMatchMode="contains">
+                                    <f:facet name="header">
+                                        <h:outputText value="Upoważnienie"/>
+                                    </f:facet>
+                                    <p:cellEditor>
+                                        <f:facet name="output">
+                                            <h:outputText value="#{item.nrupowaznienia}"/>
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <p:inputText value="#{item.nrupowaznienia}"/>
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+                                <p:column width="90" style="text-align: center;">
+                                    <f:facet name="header">
+                                        <h:outputText value="Nad."/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.datanadania}">
+                                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column width="90" style="text-align: center;">
+                                    <f:facet name="header">
+                                        <h:outputText value="Ust."/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.dataustania}">
+                                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column>
+                                    <p:repeat value="#{item.uczestnikgrupy}" var="columna">
+                                        <p:column>
+                                            <h:outputText value="#{columna.nazwa}" style="color: #{columna.jest?'initial':'gray'}"/>
+                                            <p:selectBooleanCheckbox value="#{columna.jest}">
+                                                <p:ajax event="change" partialSubmit="true" update="@parent"/>
+                                            </p:selectBooleanCheckbox>
+                                        </p:column>
+                                    </p:repeat>
+                                </p:column>
+                                <p:column style="width:2rem;text-align: center;" exportable="false">
+                                    <p:rowEditor editTitle="Edytuj" cancelTitle="Rezygnuj" saveTitle="Zachowaj" />
+                                </p:column>
+                            </p:dataTable>
+<!--                            <p:dataTable id="customers" var="customer" value="#{dtColumnsView.customers}" widgetVar="customersTable"
+                            filteredValue="#{dtColumnsView.filteredCustomers}">
+
+                            <p:columns value="#{dtColumnsView.columns}" var="column" headerText="#{column.header}" field="#{column.property}">
+                                <f:facet name="filter">
+                                    <p:datePicker selectionMode="range" onchange="PF('customersTable').filter()" rendered="#{column.type eq 'date'}"/>
+                                    <p:selectOneMenu onchange="PF('customersTable').filter()" rendered="#{column.type eq 'enum'}">
+                                        <f:selectItem itemValue="#{null}" itemLabel=""/>
+                                        <f:selectItems value="#{column.klazz.enumConstants}" />
+                                    </p:selectOneMenu>
+                                </f:facet>
+                            </p:columns>-->
+
+                            <!--                        </p:dataTable>-->
+
+                        </h:form>
+                    </p:outputPanel>
+                </p:tab>
             </p:tabView>
         </h:body>
     </f:view>

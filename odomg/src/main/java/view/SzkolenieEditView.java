@@ -16,6 +16,7 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import msg.Msg;
+import org.primefaces.event.ReorderEvent;
 
 /**
  *
@@ -62,6 +63,14 @@ public class SzkolenieEditView  implements Serializable {
             System.out.println("");
         }
      }
+     
+     public void onRowReorder(ReorderEvent event) {
+        int lp = 1;
+        for (Szkolenie p : szkolenielista) {
+            p.setId(lp++);
+        }
+        Msg.msg("Zmieniono kolejność slajdu");
+    }
      
     public Szkolenie getSzkolenie() {
         return szkolenie;

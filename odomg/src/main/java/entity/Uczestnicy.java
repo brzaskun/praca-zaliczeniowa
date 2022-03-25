@@ -22,6 +22,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -183,6 +184,8 @@ private String email;
     @Column(name = "wyslanymailuprdataprzyp")
     @Temporal(TemporalType.TIMESTAMP)
     private Date wyslanymailuprdataprzyp;
+    @Transient
+    private List<UczestnikGrupa> uczestnikgrupy;
 
     public Uczestnicy() {
     }
@@ -535,5 +538,15 @@ private String email;
     public void setUczestnicyarchiwumList(List<Uczestnicyarchiwum> uczestnicyarchiwumList) {
         this.uczestnicyarchiwumList = uczestnicyarchiwumList;
     }
+
+    public List<UczestnikGrupa> getUczestnikgrupy() {
+        return uczestnikgrupy;
+    }
+
+    public void setUczestnikgrupy(List<UczestnikGrupa> uczestnikgrupy) {
+        this.uczestnikgrupy = uczestnikgrupy;
+    }
+
+   
     
 }

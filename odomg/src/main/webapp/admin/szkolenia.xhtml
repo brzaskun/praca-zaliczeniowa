@@ -4,7 +4,8 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:c="http://java.sun.com/jsp/jstl/core"
       xmlns:f="http://java.sun.com/jsf/core"
-      >
+
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <f:view  contentType="text/html;charset=UTF-8" encoding="UTF-8">
         <h:head>
             <meta http-equiv="Accept-Encoding" content="gzip"/>
@@ -16,7 +17,7 @@
             <h:outputStylesheet name="css/main_admin.css" />
             <h:outputStylesheet name="css/button.css" />
             <h:outputStylesheet name="css/style.css" />
-            <h:outputStylesheet name="css/details.css" />
+            <h:outputStylesheet name="css/details_1.css" />
             <h:outputStylesheet name="css/qlcore.css" />
             <title>Testy Dane Wrażliwe</title>
             <style>
@@ -94,22 +95,23 @@
                                 <f:selectItems value="#{szkolenieEditView.szkoleniewykazlista}" var="pozycja" itemLabel="#{pozycja.nazwa}" itemValue="#{pozycja}"/>
                                 <p:ajax event="change" partialSubmit="true" listener="#{szkolenieEditView.pobierzslajdy}" update="@form"/>
                             </p:selectOneListbox>
-                            <p:dataTable id="dataList" value="#{szkolenieEditView.szkolenielista}" var="item" style="overflow-y: scroll;width: 1400px; margin-top: 15px;" size="small"
-                                         rowIndexVar="index" rowKey="#{item.id}" editable="true"
-                                         rowsPerPageTemplate="20,100,250,500" paginatorPosition="top" paginator="true" rows="20"
+                            <p:dataTable id="dataList" value="#{szkolenieEditView.szkolenielista}" var="item" style="overflow-y: scroll;max-width: 1000px; margin-top: 15px;" size="small"
+                                         rowIndexVar="index" rowKey="#{item.id}" editable="true" sortBy="#{item.id}"
+                                         rowsPerPageTemplate="20,100,250,500" paginatorPosition="top" paginator="true" rows="20" draggableRows="true"
                                          emptyMessage="Nie wprowadzono ani jednego slajdu" selectionMode="multiple" selection="#{szkolenieEditView.szkolenielistaselected}">
-                                <p:column width="30" style="text-align: center;">
+                                <p:ajax event="rowReorder" listener="#{szkolenieEditView.onRowReorder}" />
+                                <p:column width="30" style="text-align: center;" >
                                     <f:facet name="header">
                                         <h:outputText value="lp"/>
                                     </f:facet>
                                     <h:outputText value="#{index+1}"/>
                                 </p:column>
-                                <p:column width="1000" style="text-align: center;">
+                                <p:column width="700" style="text-align: center;background-color: #363030">
                                     <f:facet name="header">
                                         <h:outputText value="treść"/>
                                     </f:facet>
                                     <p:outputPanel styleClass="box">
-                                        <p:outputPanel styleClass="slajd">
+                                        <p:outputPanel styleClass="slajd" style="height: 250px important;">
                                             <div id="gornawklejka" class="gornawklejka">
                                                 <span style="font-size: larger;">#{item.nazwaszkolenia}</span> 
                                             </div>
@@ -131,10 +133,17 @@
                                         </p:outputPanel>
                                     </p:outputPanel>
                                 </p:column>
-                             </p:dataTable>
+                                <p:column width="30" style="text-align: center;" >
+                                    <f:facet name="header">
+                                        <h:outputText value="kol."/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.id}" style="color: red;"/>
+                                </p:column>
+                            </p:dataTable>
                         </h:form>
                     </p:outputPanel>
                 </p:tab>
+              
             </p:tabView>
         </h:body>
     </f:view>
