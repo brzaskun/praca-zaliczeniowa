@@ -99,7 +99,7 @@ public class FakturaDodPozycjaKontrahentView  implements Serializable {
     }
     
     public void dodaj() {
-        if (selected.getKontrahent()!=null && selected.getFakturaDodatkowaPozycja() !=null && selected.getIlosc()>0) {
+        if (selected.getKontrahent()!=null && selected.getFakturaDodatkowaPozycja() !=null) {
             try {
                 selected.setRok(rok);
                 selected.setMc(mc);
@@ -111,7 +111,7 @@ public class FakturaDodPozycjaKontrahentView  implements Serializable {
                 Msg.msg("e","Taka nazwa już istnieje");
             }
         } else {
-            Msg.msg("e","Nie wprowadzono kontrahenta/pozycji/ilości. Nie można zapisać");
+            Msg.msg("e","Nie wprowadzono kontrahenta/pozycji. Nie można zapisać");
         }
     }
     
