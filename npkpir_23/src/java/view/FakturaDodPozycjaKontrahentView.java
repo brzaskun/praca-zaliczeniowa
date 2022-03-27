@@ -95,8 +95,12 @@ public class FakturaDodPozycjaKontrahentView  implements Serializable {
                         p.getKontrahent().setNazwapodatnika(pod.getPrintnazwa());
                     }
                 }
+                if (pokazujtylkopuste) {
+                    lista_2 = lista_2.stream().filter(p->p.getIlosc()==0).collect(Collectors.toList());
+                }
                 lista_2 = new ArrayList<>();
                 lista_2.addAll(lista_tmp);
+                Msg.msg("Pobrano stałe pozycje");
             }
         }
     }
