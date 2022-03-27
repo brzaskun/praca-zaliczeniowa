@@ -175,6 +175,10 @@ public class FakturaDodPozycjaKontrahentView  implements Serializable {
                    for (FakturaDodPozycjaKontrahent p : lista_tmp) {
                        FakturaDodPozycjaKontrahent r = new FakturaDodPozycjaKontrahent(p, rok, mc);
                        dodajpozycje(r,lista_2);
+                       Podatnik pod = podatnikDAO.findPodatnikByNIP(r.getKontrahent().getNip());
+                        if (pod != null) {
+                            r.getKontrahent().setNazwapodatnika(pod.getPrintnazwa().replace("\"", ""));
+                        }
                    }
                    Msg.msg("Pobrano stałe pozycje");
                }
