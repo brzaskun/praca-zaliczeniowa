@@ -84,6 +84,8 @@ public class FakturaDodPozycjaKontrahentView  implements Serializable {
         if (mc != null && rok != null) {
             pozycje = fakturaDodatkowaPozycjaDAO.findAll();
             if (rok != null && mc != null) {
+                lista_2_filter = null;
+                lista_2_selected = null;
                 lista_wzor = fakturaDodPozycjaKontrahentDAO.findByRok(rok);
                 List<FakturaDodPozycjaKontrahent> lista_tmp = lista_wzor.stream().filter(p -> p.getRok().equals(rok) && p.getMc().equals(mc)).collect(Collectors.toList());
                 for (FakturaDodPozycjaKontrahent p : lista_tmp) {
@@ -105,6 +107,8 @@ public class FakturaDodPozycjaKontrahentView  implements Serializable {
                 selected.setMc(mc);
                 fakturaDodPozycjaKontrahentDAO.create(selected);
                 lista_2.add(selected);
+                lista_2_filter = null;
+                lista_2_selected = null;
                 selected = new FakturaDodPozycjaKontrahent();
                 Msg.msg("Zapisano nową pozycję");
             } catch (Exception e) {
