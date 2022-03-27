@@ -158,6 +158,8 @@ public class FakturaDodPozycjaKontrahentView  implements Serializable {
     
     public void generujpermanentne() {
         if (rok!=null) {
+            lista_2_filter = null;
+            lista_2_selected = null;
             lista_wzor = fakturaDodPozycjaKontrahentDAO.findByRok(rok);
             if (lista_wzor==null||lista_wzor.isEmpty()) {
                 String rokuprzedni = String.valueOf(Integer.parseInt(rok)-1);

@@ -59,7 +59,7 @@
                 </p:panelGrid>
                 <p:growl life="3600" showDetail="true"/>
                 <p:dataTable  var="zapis" value="#{fakturaDodPozycjaKontrahentView.lista_2}" id="lista" sortOrder="ascending" style="width: 1200px;" widgetVar="tabelazwynikami"
-                              filteredValue="#{fakturaDodPozycjaKontrahentView.lista_2_filter}" selection="#{fakturaDodPozycjaKontrahentView.lista_2_selected}" selectionMode="single"
+                              filteredValue="#{fakturaDodPozycjaKontrahentView.lista_2_filter}" selection="#{fakturaDodPozycjaKontrahentView.lista_2_selected}" selectionMode="multiple"
                               paginator="true" paginatorAlwaysVisible="#{fakturaDodPozycjaKontrahentView.lista_2.size() gt 20 ? true : false}" rows="20" sortBy="#{zapis.kontrahent.nazwapodatnika}"
                               paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
                               rowsPerPageTemplate="20,50,100" emptyMessage="Nie dodano pozycji w tym miesiącu"
