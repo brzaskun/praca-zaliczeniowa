@@ -43,7 +43,7 @@
                         <f:selectItem itemLabel="wybierz"  noSelectionOption="true" />
                         <f:selectItems value="#{fakturaDodPozycjaKontrahentView.pozycje}" var="papi" itemLabel="#{papi.nazwa}" itemValue="#{papi}"/>
                     </p:selectOneMenu>
-                    <p:inputNumber id="ilość" value="#{fakturaDodPozycjaKontrahentView.selected.ilosc}" decimalPlaces="0" minValue="1" maxValue="100" size="9" style="text-align: right;" required="true" requiredMessage="minimalna wartośc to 1"/>
+                    <p:inputNumber id="ilość" value="#{fakturaDodPozycjaKontrahentView.selected.ilosc}" decimalPlaces="0" minValue="0" maxValue="100" size="9" style="text-align: right;" required="true" requiredMessage="minimalna wartośc to 0"/>
                     <p:selectBooleanCheckbox value="#{fakturaDodPozycjaKontrahentView.selected.permanentny}"/>
                     <bcf:inputpl80 value="#{fakturaDodPozycjaKontrahentView.selected.kwotaindywid}"/>
                     <p:commandButton value="dodaj" actionListener="#{fakturaDodPozycjaKontrahentView.dodaj}" update="@(form)" style="width: 120px;"/>
