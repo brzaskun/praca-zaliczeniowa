@@ -53,10 +53,11 @@
             </h:form>
             <p:separator/>
             <h:form id="listapozycji">
-                <p:panelGrid columns="2">
+                <p:panelGrid columns="4">
                     <p:commandButton value="generuj permanentne" actionListener="#{fakturaDodPozycjaKontrahentView.generujpermanentne()}" style="width: 120px;" update="akordeon:listapozycji:lista" />
                     <p:commandButton value="zachowaj wygenerowane" actionListener="#{fakturaDodPozycjaKontrahentView.zachowajpermanentne()}" style="width: 120px;margin-left: 20px;" update="akordeon:listapozycji:lista" />
-                    <p:selectBooleanCheckbox value="#{fakturaDodPozycjaKontrahentView.pokazujtylkopuste}" >
+                    <p:outputLabel for="boxczywszystkie" value="pokaż tylko puste"/>
+                    <p:selectBooleanCheckbox id="boxczywszystkie" value="#{fakturaDodPozycjaKontrahentView.pokazujtylkopuste}" >
                         <p:ajax event="change" partialSubmit="true" listener="#{fakturaDodPozycjaKontrahentView.generujpermanentne()}" update="akordeon:listapozycji:lista"/>
                     </p:selectBooleanCheckbox>
                 </p:panelGrid>
