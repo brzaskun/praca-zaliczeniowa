@@ -56,6 +56,7 @@ public class FakturaDodPozycjaKontrahentView  implements Serializable {
     private String mc;
     private double sumawybranych;
     private double sumawybranych2;
+    private boolean pokazujtylkopuste;
 
     
     @PostConstruct
@@ -186,6 +187,9 @@ public class FakturaDodPozycjaKontrahentView  implements Serializable {
                             r.getKontrahent().setNazwapodatnika(pod.getPrintnazwa().replace("\"", ""));
                         }
                    }
+                   if (pokazujtylkopuste) {
+                       lista_2 = lista_2.stream().filter(p->p.getIlosc()==0).collect(Collectors.toList());
+                   }
                    Msg.msg("Pobrano stałe pozycje");
                }
            }
@@ -295,6 +299,14 @@ public class FakturaDodPozycjaKontrahentView  implements Serializable {
 
     public void setSumawybranych2(double sumawybranych2) {
         this.sumawybranych2 = sumawybranych2;
+    }
+
+    public boolean isPokazujtylkopuste() {
+        return pokazujtylkopuste;
+    }
+
+    public void setPokazujtylkopuste(boolean pokazujtylkopuste) {
+        this.pokazujtylkopuste = pokazujtylkopuste;
     }
 
  

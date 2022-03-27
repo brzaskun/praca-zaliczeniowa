@@ -56,6 +56,9 @@
                 <p:panelGrid columns="2">
                     <p:commandButton value="generuj permanentne" actionListener="#{fakturaDodPozycjaKontrahentView.generujpermanentne()}" style="width: 120px;" update="akordeon:listapozycji:lista" />
                     <p:commandButton value="zachowaj wygenerowane" actionListener="#{fakturaDodPozycjaKontrahentView.zachowajpermanentne()}" style="width: 120px;margin-left: 20px;" update="akordeon:listapozycji:lista" />
+                    <p:selectBooleanCheckbox value="#{fakturaDodPozycjaKontrahentView.pokazujtylkopuste}" >
+                        <p:ajax event="change" partialSubmit="true" listener="#{fakturaDodPozycjaKontrahentView.generujpermanentne()}" update="akordeon:listapozycji:lista"/>
+                    </p:selectBooleanCheckbox>
                 </p:panelGrid>
                 <p:growl life="3600" showDetail="true"/>
                 <p:dataTable  var="zapis" value="#{fakturaDodPozycjaKontrahentView.lista_2}" id="lista" sortOrder="ascending" style="width: 1200px;" widgetVar="tabelazwynikami"
@@ -68,7 +71,7 @@
                         <h:outputText value="Wykaz wprowadzonych wartości" />  
                     </f:facet>
                     <p:column headerText="nazwa" width="400" filterBy="#{zapis.kontrahent.nazwapodatnika}" filterMatchMode="contains">  
-                        <h:outputText value="#{zapis.kontrahent.nazwapodatnika}"/>
+                        <h:outputText value="#{zapis.kontrahent.nazwapodatnika}" style="color: #{zapis.ilosc==0? 'green':'initial'}"/>
                     </p:column>
                     <p:column headerText="pozycja" width="250" filterBy="#{zapis.fakturaDodatkowaPozycja.nazwa}" filterMatchMode="contains">  
                         <h:outputText value="#{zapis.fakturaDodatkowaPozycja.nazwa}"/>
