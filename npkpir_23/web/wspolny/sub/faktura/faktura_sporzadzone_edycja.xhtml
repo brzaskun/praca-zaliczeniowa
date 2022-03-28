@@ -137,7 +137,7 @@
                     <p:commandButton  update=":form1:messages" actionListener="#{pdfFaktura.drukuj(wpis, row, WpisView.podatnikObiekt)}" icon="ui-icon-print" />
                 </p:column>
                 <p:column   style="text-align: center;"  width="45">
-                    <p:commandButton  update="akordeon:formsporzadzone_edit, :akordeon" actionListener="#{fakturaView.usunfakture(wpis)}" 
+                    <p:commandButton  update="akordeon:formsporzadzone_edit, :akordeon:formokresowe" actionListener="#{fakturaView.usunfakture(wpis)}" 
                                       icon="fa fa-trash" />
                 </p:column>
                 <p:rowExpansion>

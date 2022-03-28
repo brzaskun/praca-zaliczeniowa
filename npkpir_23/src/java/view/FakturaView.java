@@ -842,9 +842,9 @@ public class FakturaView implements Serializable {
        }
     
     //to sa te automaty co mialy dodawac doatkowe wiersze z managera
-    private void dodajwierszedodatkowe(Faktura faktura) {
+    private void dodajwierszedodatkowe(Faktura faktura, Fakturywystokresowe okresowa) {
         List<Pozycjenafakturzebazadanych> pozycje = faktura.getPozycjenafakturze();
-        int czyjestcosdodatkowego = dodajpozycje(faktura.isLiczodwartoscibrutto(), pozycje, faktura.getKontrahent(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+        int czyjestcosdodatkowego = dodajpozycje(faktura.isLiczodwartoscibrutto(), pozycje, faktura.getKontrahent(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(), okresowa);
         if (czyjestcosdodatkowego==1) {
             double netto = 0.0;
             double vat = 0.0;
@@ -899,34 +899,42 @@ public class FakturaView implements Serializable {
         }
     }
 
-    private int dodajpozycje(boolean liczodbrutto, List<Pozycjenafakturzebazadanych> pozycje, Klienci kontrahent, String rok, String mc) {
+    private int dodajpozycje(boolean liczodbrutto, List<Pozycjenafakturzebazadanych> pozycje, Klienci kontrahent, String rok, String mc, Fakturywystokresowe okresowa) {
         int zwrot = 0;
         List<FakturaDodPozycjaKontrahent> lista =  fakturaDodPozycjaKontrahentDAO.findKontrRokMc(kontrahent, rok, mc);
         if (lista!=null && lista.size()>0) {
-            zwrot = 1;
-            int lp = pozycje.get(pozycje.size()-1).getLp();
+            int lp = 0;
+            int wystawiono = pobierzpe(okresowa, mc);
+            if (okresowa.isWystawtylkoraz()&&wystawiono==0) {
+                lp = pozycje.get(pozycje.size()-1).getLp();
+            } else if (okresowa.isWystawtylkoraz()&&wystawiono>0) {
+                pozycje.clear();
+            }
             for (FakturaDodPozycjaKontrahent p : lista) {
                 double ilosc = p.getIlosc();
                 double cena = p.getKwotaindywid()!=0.0 ?p.getKwotaindywid() : p.getFakturaDodatkowaPozycja().getKwota();
-                if (liczodbrutto) {
-                    double brutto = Z.z(ilosc*cena);
-                    double podatek = 23.0;
-                    double podatekkwota = Z.z(brutto*podatek/(100.0+podatek));
-                    double netto = Z.z(brutto - podatekkwota);
-                    Pozycjenafakturzebazadanych nowa = new Pozycjenafakturzebazadanych(++lp, p.getFakturaDodatkowaPozycja().getNazwa(), "", "szt.", ilosc, cena, netto, podatek, podatekkwota, brutto);
-                    nowa.setDodatkowapozycja(p.getId());
-                    pozycje.add(nowa);
-                } else {
-                    double netto = Z.z(ilosc*cena);
-                    double podatek = 23.0;
-                    double podatekkwota = Z.z(netto*podatek/100);
-                    double brutto = Z.z(netto + podatekkwota);
-                    Pozycjenafakturzebazadanych nowa = new Pozycjenafakturzebazadanych(++lp, p.getFakturaDodatkowaPozycja().getNazwa(), "", "szt.", ilosc, cena, netto, podatek, podatekkwota, brutto);
-                    nowa.setDodatkowapozycja(p.getId());
-                    pozycje.add(nowa);
+                if (ilosc>0&&cena>0.0&&p.isRozliczone()==false) {
+                    if (liczodbrutto) {
+                        double brutto = Z.z(ilosc*cena);
+                        double podatek = 23.0;
+                        double podatekkwota = Z.z(brutto*podatek/(100.0+podatek));
+                        double netto = Z.z(brutto - podatekkwota);
+                        Pozycjenafakturzebazadanych nowa = new Pozycjenafakturzebazadanych(++lp, p.getFakturaDodatkowaPozycja().getNazwa(), "", "osb.", ilosc, cena, netto, podatek, podatekkwota, brutto);
+                        nowa.setDodatkowapozycja(p.getId());
+                        pozycje.add(nowa);
+                    } else {
+                        double netto = Z.z(ilosc*cena);
+                        double podatek = 23.0;
+                        double podatekkwota = Z.z(netto*podatek/100);
+                        double brutto = Z.z(netto + podatekkwota);
+                        Pozycjenafakturzebazadanych nowa = new Pozycjenafakturzebazadanych(++lp, p.getFakturaDodatkowaPozycja().getNazwa(), "", "osb.", ilosc, cena, netto, podatek, podatekkwota, brutto);
+                        nowa.setDodatkowapozycja(p.getId());
+                        pozycje.add(nowa);
+                    }
+                    p.setRozliczone(true);
+                    fakturaDodPozycjaKontrahentDAO.edit(p);
+                    zwrot = 1;
                 }
-                p.setRozliczone(true);
-                fakturaDodPozycjaKontrahentDAO.edit(p);
             }
         }
         return zwrot;
@@ -1822,6 +1830,20 @@ public class FakturaView implements Serializable {
         }
     }
     
+    public void wygenerujzokresowychzaleglekadry() {
+        for (Iterator<Fakturywystokresowe> it = gosciwybralokres.iterator(); it.hasNext();) {
+            Fakturywystokresowe p = it.next();
+            if (p.isRecznaedycja()==false && sprawdzmiesiac(p)==false) {
+                it.remove();
+            }
+        }
+        if (gosciwybralokres.isEmpty()) {
+            Msg.msg("e", "Nie wybrano faktury ręcznych lub faktury ręczne nie zostały wystawione");
+        } else {
+            wygenerujzokresowychcd();
+        }
+    }
+    
     public void wygenerujzokresowych() {
         for (Iterator<Fakturywystokresowe> it = gosciwybralokres.iterator(); it.hasNext();) {
             Fakturywystokresowe p = it.next();
@@ -1902,7 +1924,7 @@ public class FakturaView implements Serializable {
                     }
                 }
                 if (wpisView.getPodatnikObiekt().getNip().equals("8511005008")) {
-                    dodajwierszedodatkowe(nowa);
+                    dodajwierszedodatkowe(nowa, p);
                 }
                 if (waloryzajca > 0) {
                     try {
@@ -2684,7 +2706,7 @@ public class FakturaView implements Serializable {
             List<Fakturywystokresowe> fakt = new ArrayList<>();
             if (gosciwybralokres != null && gosciwybralokres.size() > 0) {
                 for (Fakturywystokresowe p :gosciwybralokres) {
-                    int wynik = pobierzpe(p);
+                    int wynik = pobierzpe(p, wpisView.getMiesiacWpisu());
                     if (wynik==0) {
                         fakt.add(p);
                     }
@@ -2692,7 +2714,7 @@ public class FakturaView implements Serializable {
                 PdfFakturyOkresowe.drukuj(fakt, wpisView.getPodatnikObiekt().getNip());
             } else {
                 for (Fakturywystokresowe p :fakturyokresowe) {
-                    int wynik = pobierzpe(p);
+                    int wynik = pobierzpe(p, wpisView.getMiesiacWpisu());
                     if (wynik==0) {
                         fakt.add(p);
                     }
@@ -3039,9 +3061,9 @@ public class FakturaView implements Serializable {
     }
   }
 
-    private int pobierzpe(Fakturywystokresowe p) {
+    private int pobierzpe(Fakturywystokresowe p, String mc) {
         int wynik = 0;
-        switch (wpisView.getMiesiacWpisu()) {
+        switch (mc) {
             case "01":
                 wynik = p.getM1();
                 break;

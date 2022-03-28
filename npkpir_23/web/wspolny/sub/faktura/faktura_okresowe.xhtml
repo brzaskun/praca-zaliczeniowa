@@ -223,6 +223,7 @@
                 <p:menuitem value="#{mgs.drukuj}" update=":form1:messages" actionListener="#{fakturaView.drukujokresowa()}" icon="ui-icon-print" />
                 <p:menuitem value="Wygeneruj" update=":form1:messages, :akordeon:formzestawienie:dokumentyZestawienie " global="false" onclick="PF('confirmationFakturaOkresowe').show()" icon="ui-icon-lightbulb" />
                 <p:menuitem value="Wygeneruj do edycji" update=":form1:messages, :akordeon:formzestawienie:dokumentyZestawienie" global="false" onclick="PF('confirmationFakturaOkresowe2').show()" icon="ui-icon-lightbulb" />
+                <p:menuitem value="Wygeneruj zaległe kadry" update=":form1:messages, :akordeon:formzestawienie:dokumentyZestawienie" global="false" onclick="PF('confirmationFakturaOkresowe3').show()" icon="ui-icon-lightbulb"   rendered="#{facesContext.externalContext.remoteUser eq 'szef'}"/>
                 <p:menuitem value="Wygeneruj z waloryzacją" update=":form1:messages" actionListener="#{fakturaView.wygenerujzokresowychwaloryzacja()}" icon="ui-icon-lightbulb"  rendered="#{facesContext.externalContext.remoteUser eq 'szef'}"/>
                 <p:menuitem value="Usuń wybrane" update=":akordeon:formokresowe:dokumentyOkresowe" actionListener="#{fakturaView.usunfaktureokresowa()}" icon="ui-icon-trash" />
                 <p:separator/>
