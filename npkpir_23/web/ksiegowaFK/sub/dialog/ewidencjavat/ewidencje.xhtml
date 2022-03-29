@@ -17,7 +17,7 @@
                 <p:commandButton value="Wyślij" icon="ui-icon-mail-closed" onclick="PF('confirmation').show();" actionListener="#{sesjaView.dodajmail()}" onsuccess="wydrukewidencje('#{WpisView.getPodatnikObiekt().getNip()}','#{item[0].nazwaewidencji.nazwa}')"  style="width: 120px; margin-left: 2%;">
                     <f:ajax event="click" listener="#{ewidencjaVatView.ustawNazwaewidencji((item[0].nazwaewidencji))}"/>
                 </p:commandButton>
-                <p:commandButton value="Odśwież zap." icon="ui-icon-arrowreturnthick-1-n" actionListener="#{ewidencjaVatView.stworzenieEwidencjiZDokumentowFK(WpisView.getPodatnikObiekt(), null)}" 
+                <p:commandButton value="Odśwież zapisy" icon="ui-icon-arrowreturnthick-1-n" actionListener="#{ewidencjaVatView.stworzenieEwidencjiZDokumentowFK(WpisView.getPodatnikObiekt(), null)}" 
                                  update="form" style="width: 120px; margin-left: 200px;"/>
                 <!--                            <h:outputText value="suma netto "/>
                                             <bcf:outputpl value="#{ewidencjaVatView.podsumowanie(item,'n')}"/>
@@ -32,7 +32,6 @@
                     <p:menuitem></p:menuitem>
                     <p:menuitem value="edytuj dok" global="false" icon="fa fa-edit" 
                                 actionListener="#{dokfkView.przygotujDokumentEdycjaEFK(item,ewidencjaVatView.zachowanewybranewierszeewidencji, ewidencjaVatView.iTabPanel)}" 
-                                oncomplete="PF('wpisywanie').show();"
                                 />
                 </p:contextMenu>
                 <p:dataTable id="tabela" value="#{item}" var="itemik" style="width: 1250px; margin-bottom: 30px; height: 500px; overflow-y: scroll;"
@@ -42,7 +41,7 @@
                     <f:facet name="header">  
                         <h:outputText value="Ewidencja VAT  #{item[0].nazwaewidencji.nazwa}" />  
                     </f:facet>
-                    <p:ajax event="rowSelectCheckbox"  global="false" oncomplete="pokazmes();"/>
+                    <p:ajax event="rowSelectCheckbox"  global="false" oncomplete="pokazmes();" />
                     <p:ajax event="rowUnselectCheckbox" global="false"/>
                     <p:ajax event="toggleSelect" global="false"/>
                     <p:ajax event="filter" global="false"/>

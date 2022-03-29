@@ -1920,8 +1920,10 @@ public class DokfkView implements Serializable {
     }
 
     public void przygotujDokumentEdycjaEFK(List<EVatwpisFK> lista, List<EVatwpisSuper> wybranewierszeewidencji, org.primefaces.component.tabview.TabView iTabPanel) {
-         EVatwpisFK w = null;
-        if (wybranewierszeewidencji!= null && wybranewierszeewidencji.size()==1) {
+        EVatwpisFK w = null;
+        if (wybranewierszeewidencji==null) {
+            Msg.msg("e","Nie wybrnao dokumentu. Proszę klikać na kwadracik, a nie na wiersz");
+        } else if (wybranewierszeewidencji!= null && wybranewierszeewidencji.size()==1) {
             w = (EVatwpisFK) wybranewierszeewidencji.get(0);
         } else {
             w = (EVatwpisFK) wybranewierszeewidencji.get(wybranewierszeewidencji.size()-1);
@@ -1939,6 +1941,8 @@ public class DokfkView implements Serializable {
             }
             linijkaewidencjiupdate = "form:akordeon:akordeon2:"+iTabPanel.getActiveIndex()+":tabela:"+rowek+":polespr";
             przygotujDokumentEdycja(dokdk, 0);
+            PrimeFaces.current().executeScript("PF('wpisywanie').show()");
+            wybranewierszeewidencji = null;
         }
         
     }
