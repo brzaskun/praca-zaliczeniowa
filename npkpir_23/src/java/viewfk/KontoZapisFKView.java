@@ -1862,7 +1862,7 @@ public class KontoZapisFKView implements Serializable{
                 wybranekonto.setSprawdzono(Data.aktualnaData());
                 kontoDAOfk.edit(wybranekonto);
                 Msg.msg("Oznaczono konto jako sprawdzone");
-            } else if (sprawdz==1){
+            } else if (sprawdz==0){
                 wybranekonto.setSprawdzono(null);
                 kontoDAOfk.edit(wybranekonto);
                 Msg.msg("Oznaczono konto jako niesprawdzone");
