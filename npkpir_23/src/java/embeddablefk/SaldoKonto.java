@@ -113,7 +113,7 @@ public class SaldoKonto implements Serializable {
         this.zapisy = Collections.synchronizedList(new ArrayList<>());
         this.zapisy.add(t);
         this.walutadlabo = wal;
-        this.opisdlabo = t.getDokfkS()+" "+t.getDokfk().getNumerwlasnydokfk()+" "+t.getWiersz().getOpisWiersza()+" zapis BO";
+        this.opisdlabo = t.getDokfk().getNumerwlasnydokfk()+" "+t.getDokfkS()+" "+t.getWiersz().getOpisWiersza()+" zapis BO";
     }
     
         
@@ -204,7 +204,7 @@ public class SaldoKonto implements Serializable {
         this.zapisy = Collections.synchronizedList(new ArrayList<>());
         this.zapisy.add(t);
         this.walutadlabo = wal;
-        this.opisdlabo = t.getDokfkS()+" "+t.getDokfk().getNumerwlasnydokfk()+" "+t.getWiersz().getOpisWiersza()+ "/"+t.getWiersz().getIdporzadkowy()+" zapis BO";
+        this.opisdlabo = t.getDokfk().getNumerwlasnydokfk()+" "+t.getDokfkS()+" "+t.getWiersz().getOpisWiersza()+ "/"+t.getWiersz().getIdporzadkowy()+" zapis BO";
     }
 
     public SaldoKonto(SaldoKonto t, double kwota, Waluty walutapln, String wnma) {
