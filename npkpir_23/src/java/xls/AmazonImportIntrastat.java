@@ -92,7 +92,7 @@ public class AmazonImportIntrastat implements Serializable {
                         w.setOpistowaru(opis);
                         String kraj = row.getCell(39).getStringCellValue();
                         w.setKrajprzeznaczenia(kraj);
-                        String nip = row.getCell(46).getStringCellValue();
+                        String nip = row.getCell(46).getStringCellValue().equals("")?row.getCell(44).getStringCellValue():row.getCell(46).getStringCellValue();
                         w.setVatuekontrahenta(nip);
                         if(!kraj.equals("PL")) {
                             lista.add(w);
