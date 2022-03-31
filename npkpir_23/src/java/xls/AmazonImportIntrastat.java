@@ -206,7 +206,7 @@ public class AmazonImportIntrastat implements Serializable {
         ObjectFactory ob = new ObjectFactory();
         IST.Deklaracja.PodmiotZobowiazany pod = ob.createISTDeklaracjaPodmiotZobowiazany();
         Podatnik p = wpisView.getPodatnikObiekt();
-        pod.setNazwa(p.getNazwapelna());
+        pod.setNazwa(p.getPrintnazwa());
         pod.setMiejscowosc(p.getMiejscowosc());
         pod.setKodPocztowy(p.getKodpocztowy());
         pod.setNip(Long.parseLong(p.getNip()));
@@ -219,7 +219,7 @@ public class AmazonImportIntrastat implements Serializable {
         ObjectFactory ob = new ObjectFactory();
         IST.Deklaracja.Zglaszajacy pod = ob.createISTDeklaracjaZglaszajacy();
         Podatnik p = wpisView.getPodatnikObiekt();
-        pod.setNazwa(p.getNazwapelna());
+        pod.setNazwa(p.getPrintnazwa());
         pod.setMiejscowosc(p.getMiejscowosc());
         pod.setKodPocztowy(p.getKodpocztowy());
         pod.setNip(Long.parseLong(p.getNip()));
