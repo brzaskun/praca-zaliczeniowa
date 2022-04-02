@@ -412,8 +412,8 @@ public class DokumentFKBean implements Serializable {
         nowydok.setListawierszy(new ArrayList<Wiersz>());
         int idporzadkowy = 1;
         StronaWiersza sw = (StronaWiersza) stronywiersza.get(0);
-        Konto pko = kontoDAOfk.findKonto("764", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
-        Konto ppo = kontoDAOfk.findKonto("763", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
+        Konto przychody = kontoDAOfk.findKonto("763", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
+        Konto koszty = kontoDAOfk.findKonto("764", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
         Konto kontodorozliczenia = sw.getKonto();
         double roznicawn = roznicawnroznicama[0];
         double roznicama = roznicawnroznicama[1];
@@ -422,15 +422,15 @@ public class DokumentFKBean implements Serializable {
             uzupelnijwierszWaluta(w, nowydok, tabelanbpDAO.findByTabelaPLN());
             w.setOpisWiersza(opiswiersza2);
             if (roznicawn > 0.0) {
-                StronaWiersza strMa = new StronaWiersza(w, "Ma", roznicawn, kontodorozliczenia);
-                StronaWiersza strWn = new StronaWiersza(w, "Wn", roznicawn, pko);
+                StronaWiersza strMa = new StronaWiersza(w, "Ma", roznicawn, przychody);
+                StronaWiersza strWn = new StronaWiersza(w, "Wn", roznicawn, kontodorozliczenia);
                 strWn.setKwotaPLN(roznicawn);
                 strMa.setKwotaPLN(roznicawn);
                 w.setStronaWn(strWn);
                 w.setStronaMa(strMa);
             } else {
-                StronaWiersza strMa = new StronaWiersza(w, "Ma", roznicama, pko);
-                StronaWiersza strWn = new StronaWiersza(w, "Wn", roznicama, kontodorozliczenia);
+                StronaWiersza strMa = new StronaWiersza(w, "Ma", roznicama, kontodorozliczenia);
+                StronaWiersza strWn = new StronaWiersza(w, "Wn", roznicama, koszty);
                 strWn.setKwotaPLN(roznicama);
                 strMa.setKwotaPLN(roznicama);
                 w.setStronaWn(strWn);

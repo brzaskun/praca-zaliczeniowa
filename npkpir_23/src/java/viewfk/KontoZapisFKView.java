@@ -742,22 +742,22 @@ public class KontoZapisFKView implements Serializable{
             if (saldoplnwnwyliczone>saldoplnwn) {
                 roznicawn = Z.z(saldoplnwnwyliczone-saldoplnwn);
             } else if (saldoplnwnwyliczone<saldoplnwn) {
-                roznicama = Z.z(saldoplnwnwyliczone-saldoplnwn);
+                roznicama = Z.z(saldoplnwn-saldoplnwnwyliczone);
             }
         } else if (saldoplnma>0.0) {
             if (saldoplnmawyliczone>saldoplnma) {
                 roznicama = Z.z(saldoplnmawyliczone-saldoplnma);
-            } else if (saldoplnwnwyliczone<saldoplnwn) {
-                roznicawn = Z.z(saldoplnmawyliczone-saldoplnma);
+            } else if (saldoplnwnwyliczone<saldoplnma) {
+                roznicawn = Z.z(saldoplnma-saldoplnmawyliczone);
             }
         } 
-        if (roznicawn < 0.0) {
-            roznicama = -roznicawn;
-            roznicawn = 0.0;
-        } else if (roznicama < 0.0) {
-            roznicawn = -roznicama;
-            roznicama = 0.0;
-        }
+//        if (roznicawn < 0.0) {
+//            roznicama = -roznicawn;
+//            roznicawn = 0.0;
+//        } else if (roznicama < 0.0) {
+//            roznicawn = -roznicama;
+//            roznicama = 0.0;
+//        }
         return new double[]{roznicawn, roznicama, kursnakoniecorkesu};
     }
     
@@ -842,67 +842,81 @@ public class KontoZapisFKView implements Serializable{
     }
     
     private  double[] sumujzapisyKontobankowe() {
-        double saldowalutywn = listasum.get(0).getSaldoWn();
-        double saldowalutyma = listasum.get(0).getSaldoMa();
+        double saldowalutyWn = listasum.get(0).getSaldoWn();
+        double saldowalutyMa = listasum.get(0).getSaldoMa();
         String waluta = wybranaWalutaDlaKont;
         double sumazliczanie = 0.0;
-        double sumazliczaniePLN = 0.0;
-        double sumagranica = Z.z(saldowalutywn) > 0.0 ? Z.z(saldowalutywn) : Z.z(saldowalutyma);
-        double saldowalutywnpln = listasum.get(0).getSaldoWnPLN();
-        double saldowalutymapln = listasum.get(0).getSaldoMaPLN();
+        double saldoWnpoprawnepln = 0.0;
+        double saldoMapoprawnepln = 0.0;
+        double sumagranica = Z.z(saldowalutyWn) > 0.0 ? Z.z(saldowalutyWn) : Z.z(saldowalutyMa);
+        double saldoWnobecnepln = listasum.get(0).getSaldoWnPLN();
+        double saldoMaobecnepln=  listasum.get(0).getSaldoMaPLN();
         double roznicawn = 0.0;
         double roznicama = 0.0;
         for (Iterator<StronaWiersza> it = new ReverseIterator<StronaWiersza>(kontozapisy).iterator(); it.hasNext();) {
             StronaWiersza p = it.next();
             if (!p.getSymbolWalutBOiSW().equals("PLN")) {
-                if (saldowalutywn > 0.0) {
+                if (saldowalutyWn > 0.0) {
                     if (p.isWn()) {
                         if (p.getKwota() < (sumagranica-sumazliczanie)) {
                             sumazliczanie += p.getKwota();
-                            sumazliczaniePLN += p.getKwotaPLN();
+                            saldoWnpoprawnepln += p.getKwotaPLN();
                         } else {
                             double ilezostalo = (sumagranica-sumazliczanie);
                             double proporcja = ilezostalo/p.getKwota();
-                            sumazliczaniePLN += Z.z(p.getKwotaPLN()*proporcja);
-                            roznicawn = saldowalutywnpln > 0.0 ? Z.z(saldowalutywnpln-sumazliczaniePLN) : -Z.z(saldowalutymapln+sumazliczaniePLN);
+                            saldoWnpoprawnepln += Z.z(p.getKwotaPLN()*proporcja);
+                            //roznicawn = saldoWnobecnepln > 0.0 ? Z.z(saldoWnobecnepln-saldoWnpoprawnepln) : -Z.z(saldoMaobecnepln+saldoWnpoprawnepln);
                             break;
                         }
 
                     }
                 }
-                if (saldowalutyma > 0.0) {
+                if (saldowalutyMa > 0.0) {
                     if (!p.isWn()) {
                         if (p.getKwota() < (sumagranica-sumazliczanie)) {
                             sumazliczanie += p.getKwota();
-                            sumazliczaniePLN += p.getKwotaPLN();
+                            saldoMapoprawnepln += p.getKwotaPLN();
                         } else {
                             double ilezostalo = (sumagranica-sumazliczanie);
                             double proporcja = ilezostalo/p.getKwota();
-                            sumazliczaniePLN += Z.z(p.getKwotaPLN()*proporcja);
-                            roznicama = saldowalutymapln > 0.0 ? Z.z(saldowalutymapln-sumazliczaniePLN) : -Z.z(saldowalutywnpln+sumazliczaniePLN);
+                            saldoMapoprawnepln += Z.z(p.getKwotaPLN()*proporcja);
+                            //roznicama = saldoMaobecnepln > 0.0 ? Z.z(saldoMaobecnepln-saldoMapoprawnepln) : -Z.z(saldoWnobecnepln+saldoMapoprawnepln);
                             break;
                         }
 
-                    }
-                }
-                //gdy nie ma walut ale zostalo saldo w pln
-                if (saldowalutywn == 0.0 && saldowalutyma == 0.0 && (saldowalutywnpln > 0.0 || saldowalutymapln > 0.0)) {
-                    if (saldowalutywnpln > 0.0) {
-                        roznicawn = saldowalutywnpln;
-                    }
-                    if (saldowalutymapln > 0.0) {
-                        roznicama = saldowalutymapln;
                     }
                 }
             }
         }
-        if (roznicawn < 0.0) {
-            roznicama = -roznicawn;
-            roznicawn = 0.0;
-        } else if (roznicama < 0.0) {
-            roznicawn = -roznicama;
-            roznicama = 0.0;
+        //gdy nie ma walut ale zostalo saldo w pln
+        if (saldowalutyWn == 0.0 && saldowalutyMa == 0.0 && (saldoWnobecnepln > 0.0 || saldoMaobecnepln > 0.0)) {
+            if (saldoWnobecnepln > 0.0) {
+                roznicama = Z.z(saldoWnobecnepln);
+            }
+            if (saldoMaobecnepln > 0.0) {
+                roznicawn = Z.z(saldoMaobecnepln);
+            }
+        } else {
+            if (saldoWnobecnepln>0.0&&saldoWnpoprawnepln>0.0) {
+                if (saldoWnobecnepln>saldoWnpoprawnepln) {
+                    roznicama = Z.z(saldoWnobecnepln-saldoWnpoprawnepln);
+                } else {
+                    roznicawn = Z.z(saldoWnpoprawnepln-saldoWnobecnepln);
+                }
+            } else if (saldoMaobecnepln>0.0&&saldoMapoprawnepln>0.0) {
+                if (saldoMaobecnepln>saldoMapoprawnepln) {
+                    roznicawn = Z.z(saldoMaobecnepln-saldoMapoprawnepln);
+                } else {
+                    roznicama = Z.z(saldoMapoprawnepln-saldoMaobecnepln);
+                }
+            } else if (saldoWnobecnepln>0.0&&saldoMapoprawnepln>0.0) {
+                roznicama = Z.z(saldoMapoprawnepln+saldoWnobecnepln);
+            } else if (saldoMaobecnepln>0.0&&saldoWnpoprawnepln>0.0) {
+                roznicawn = Z.z(saldoWnpoprawnepln+saldoMaobecnepln);
+            }
+                
         }
+        
         return new double[]{roznicawn,roznicama};
     }
     
