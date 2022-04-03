@@ -7,10 +7,10 @@ package view;
 
 import comparator.Podatnikcomparator;
 import comparator.Uzcomparator;
-import dao.FakturywystokresoweDAO;
+import dao.FakturaDAO;
 import dao.PodatnikDAO;
 import dao.UzDAO;
-import entity.Fakturywystokresowe;
+import entity.Faktura;
 import entity.Podatnik;
 import entity.Uz;
 import error.E;
@@ -20,11 +20,11 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
-import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
-import msg.Msg;import waluty.Z;
-
+import javax.inject.Named;
+import msg.Msg;
+import waluty.Z;
 /**
  *
  * @author Osito
@@ -34,6 +34,7 @@ import msg.Msg;import waluty.Z;
 public class PodatnikKsiegowaView implements Serializable{
     private static final long serialVersionUID = 1L;
     private List<Podatnik> listapodatnikow;
+    private List<Podatnik> listapodatnikowfilter;
     private List<Uz> listaksiegowych;
     private List<Uz> listaksiegowychwybor;
     @Inject
@@ -41,32 +42,35 @@ public class PodatnikKsiegowaView implements Serializable{
     @Inject
     private UzDAO uzDAO;
     @Inject
-    private FakturywystokresoweDAO fakturywystokresoweDAO;
+    private FakturaDAO fakturaDAO;
     private String rok;
     private boolean bezzerowych;
     private boolean edycja;
     
 
     public void init() { //E.m(this);
-        listapodatnikow = podatnikDAO.findAll();
+        listapodatnikow = podatnikDAO.findAktywny();
         Collections.sort(listapodatnikow, new Podatnikcomparator());
         listaksiegowych = uzDAO.findByUprawnienia("Bookkeeper");
         listaksiegowych.addAll(uzDAO.findByUprawnienia("BookkeeperFK"));
         listaksiegowychwybor = new ArrayList<>(listaksiegowych);
+        Podatnik wystawca = podatnikDAO.findPodatnikByNIP("8511005008");
         Collections.sort(listaksiegowych, new Uzcomparator());
-        List<Fakturywystokresowe> okresowe = fakturywystokresoweDAO.findPodatnikBiezace("GRZELCZYK", rok);
+        List<Faktura> okresowe = fakturaDAO.findFakturyByRokPodatnik(rok, wystawca);
         for (Podatnik p : listapodatnikow) {
-            if (p.getNip().equals("9552524929")) {
-                error.E.s("");
-            }
-            List<Fakturywystokresowe> fakt = okresowe.stream().filter(r->r.getNipodbiorcy().equals(p.getNip())).collect(Collectors.toList());
-            double suma = 0.0;
-            if (!fakt.isEmpty()) {
-                for (Fakturywystokresowe s: fakt) {
-                    suma += s.getNetto();
+            if (p.isPodmiotaktywny()) {
+                if (p.getNip().equals("9552524929")) {
+                    error.E.s("");
                 }
+                List<Faktura> fakt = okresowe.stream().filter(r->r.getKontrahent().getNip().equals(p.getNip())).collect(Collectors.toList());
+                double suma = 0.0;
+                if (!fakt.isEmpty()) {
+                    for (Faktura s: fakt) {
+                        suma += s.getNetto();
+                    }
+                }
+                p.setCena(Z.z(suma));
             }
-            p.setCena(Z.z(suma));
         }
         if (bezzerowych) {
             for (Iterator<Podatnik> it=listapodatnikow.iterator(); it.hasNext();) {
@@ -157,12 +161,30 @@ public class PodatnikKsiegowaView implements Serializable{
         return zwrot;
     }
     
+    public double razem() {
+        double zwrot = 0.0;
+        if (listapodatnikowfilter!=null) {
+            for (Podatnik p : listapodatnikowfilter) {
+                zwrot = zwrot+p.getCena();
+            }
+        }
+        return zwrot;
+    }
+    
     public List<Podatnik> getListapodatnikow() {
         return listapodatnikow;
     }
 
     public void setListapodatnikow(List<Podatnik> listapodatnikow) {
         this.listapodatnikow = listapodatnikow;
+    }
+
+    public List<Podatnik> getListapodatnikowfilter() {
+        return listapodatnikowfilter;
+    }
+
+    public void setListapodatnikowfilter(List<Podatnik> listapodatnikowfilter) {
+        this.listapodatnikowfilter = listapodatnikowfilter;
     }
 
     public List<Uz> getListaksiegowych() {

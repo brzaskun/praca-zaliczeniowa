@@ -6,6 +6,7 @@ package dao;
 
 import entity.Uz;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
@@ -55,7 +56,7 @@ public class UzDAO extends DAO implements Serializable{
      }
 
     public List<Uz> findByUprawnienia(String uprawnienia) {
-        List<Uz> zwrot = null;
+        List<Uz> zwrot = new ArrayList<>();
         try {
             zwrot = getEntityManager().createNamedQuery("Uz.findByUprawnienia").setParameter("uprawnienia", uprawnienia).getResultList();
         } catch (Exception e) {
@@ -64,16 +65,6 @@ public class UzDAO extends DAO implements Serializable{
         return zwrot;
     }
    
-  
-    public List<String> findUzByUprawnienia(String uprawnienia){
-        List<String> zwrot = null;
-        try {
-            zwrot = getEntityManager().createNamedQuery("Uz.findByUzUprawnienia").setParameter("uprawnienia", uprawnienia).getResultList();
-        } catch (Exception e) {
-            
-        }
-        return zwrot;
-     }
-    
+      
 }
 

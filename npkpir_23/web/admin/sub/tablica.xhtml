@@ -101,6 +101,13 @@
                     </f:facet>
                 </p:cellEditor>
             </p:column>
+            <p:column id="grupa" headerText="grupa" filterBy="#{wpis.grupa}" filterMatchMode="contains" sortBy="#{wpis.grupa}" width="70"
+                      style="text-align: center;">  
+                <f:facet name="header">  
+                    <h:outputText value="grupa" />  
+                </f:facet> 
+                    <h:outputText value="#{wpis.grupa}" />
+            </p:column>
             <p:column id="editColumn" headerText="edytuj" style="text-align: center;" width="70">
                 <p:rowEditor />  
             </p:column>

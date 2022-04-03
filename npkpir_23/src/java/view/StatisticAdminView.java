@@ -5,14 +5,14 @@
 package view;
 
 import dao.DokDAO;
+import dao.DokDAOfk;
 import dao.SesjaDAO;
 import dao.UzDAO;
-import dao.DokDAOfk;
 import dao.WierszDAO;
 import entity.Dok;
 import entity.Sesja;
+import entity.Uz;
 import entityfk.Wiersz;
-import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -21,11 +21,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import javax.inject.Named;
-
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
-import msg.Msg;import org.joda.time.DateTime;
+import javax.inject.Named;
+import msg.Msg;
+import org.joda.time.DateTime;
 import org.joda.time.Duration;
 
 /**
@@ -53,13 +53,13 @@ public class StatisticAdminView implements Serializable {
         this.sesje = Collections.synchronizedList(new ArrayList<>());
         this.statystyka = Collections.synchronizedList(new ArrayList<>());
         this.obrabiani = Collections.synchronizedList(new ArrayList<>());
-        this.rok = "2020";
+        this.rok = "2022";
     }
 
     
     public void init() { //E.m(this);
-       List<String> pracownicy = uzDAO.findUzByUprawnienia("Bookkeeper");
-       pracownicy.addAll(uzDAO.findUzByUprawnienia("BookkeeperFK"));
+       List<Uz> pracownicy = uzDAO.findByUprawnienia("Bookkeeper");
+       pracownicy.addAll(uzDAO.findByUprawnienia("BookkeeperFK"));
        obliczstatystyki(pracownicy);
         error.E.s("statystyka inaczej");
         statystykiinaczej(pracownicy);
@@ -68,11 +68,13 @@ public class StatisticAdminView implements Serializable {
     }
     
     
-    private void obliczstatystyki(List<String> pracownicy) {
-        for (String r : pracownicy){
+    private void obliczstatystyki(List<Uz> pracownicy) {
+        for (Uz r : pracownicy){
             Statystyka stat = new Statystyka();
-            sesje = sesjaDAO.findUser(r);
-            stat.ksiegowa = r;
+            sesje = sesjaDAO.findUser(r.getLogin());
+            stat.ksiegowa = r.getLogin();
+            stat.nazwiskoimie = r.getImieNazwisko();
+            stat.grupa = r.getGrupa();
             stat.iloscsesji = sesje.size();
             long[] milis = {0};
             sesje.stream().forEach((p)->{
@@ -91,15 +93,15 @@ public class StatisticAdminView implements Serializable {
         }
     }
     
-    private void statystykiinaczej(List<String> pracownicy) {
+    private void statystykiinaczej(List<Uz> pracownicy) {
         List<Wiersz> wiersze = wierszDAO.findWierszeRok(rok);
         List<Dok> dok = dokDAO.zwrocRok(rok);
         error.E.s("pobrano dane");
-        for (String r : pracownicy){
+        for (Uz r : pracownicy){
             double ilosc = 0.0;
             for (Iterator<Wiersz> it = wiersze.iterator(); it.hasNext();) {
                 Wiersz w = it.next();
-                if (w.getDokfk()!=null && w.getDokfk().getWprowadzil()!=null && w.getDokfk().getWprowadzil().equals(r)) {
+                if (w.getDokfk()!=null && w.getDokfk().getWprowadzil()!=null && w.getDokfk().getWprowadzil().equals(r.getLogin())) {
                     if (w.getDokfk().getListawierszy().size()<3) {
                         ilosc= ilosc+0.5;
                     } else {
@@ -110,13 +112,13 @@ public class StatisticAdminView implements Serializable {
             }
             for (Iterator<Dok> it = dok.iterator(); it.hasNext();) {
                 Dok d = it.next();
-                if (d.getWprowadzil()!=null && d.getWprowadzil().equals(r)) {
+                if (d.getWprowadzil()!=null && d.getWprowadzil().equals(r.getLogin())) {
                     ilosc = ilosc+1.0;
                     //it.remove();
                 }
             }
             for (Statystyka s : statystyka) {
-                if (s.getKsiegowa().equals(r)) {
+                if (s.getKsiegowa().equals(r.getLogin())) {
                     s.setIloscdokumentow((int)ilosc);
                 }
             }
@@ -126,14 +128,15 @@ public class StatisticAdminView implements Serializable {
         
     }
     
-    private void obliczkontrahentow(List<String> pracownicy) {
+    private void obliczkontrahentow(List<Uz> pracownicy) {
         Map<String, String> klienci = new ConcurrentHashMap<>();
-        pracownicy.stream().forEach((s)->{
+        pracownicy.stream().forEach((s) -> {
             Obrabiani obrab = new Obrabiani();
-            if (s!=null) {
-                obrab.wprowadzajacy = s;
-                int liczba = dokDAO.znajdzDokumentPodatnikWpr(s).size();
-                liczba += dokDAOfk.znajdzDokumentPodatnikWprFK(s).size();
+            if (s != null) {
+                obrab.wprowadzajacy = s.getLogin();
+                obrab.grupa = s.getGrupa();
+                int liczba = dokDAO.znajdzDokumentPodatnikWpr(s.getLogin()).size();
+                liczba += dokDAOfk.znajdzDokumentPodatnikWprFK(s.getLogin()).size();
                 obrab.liczbaklientow = liczba;
                 obrabiani.add(obrab);
             }
@@ -177,6 +180,8 @@ public class StatisticAdminView implements Serializable {
 
     public static class Statystyka {
         private String ksiegowa;
+        private String nazwiskoimie;
+        private String grupa;
         private int iloscsesji;
         private int iloscdokumentow;
         private int iloscwydrukow;
@@ -193,6 +198,22 @@ public class StatisticAdminView implements Serializable {
 
         public void setKsiegowa(String ksiegowa) {
             this.ksiegowa = ksiegowa;
+        }
+
+        public String getNazwiskoimie() {
+            return nazwiskoimie;
+        }
+
+        public void setNazwiskoimie(String nazwiskoimie) {
+            this.nazwiskoimie = nazwiskoimie;
+        }
+
+        public String getGrupa() {
+            return grupa;
+        }
+
+        public void setGrupa(String grupa) {
+            this.grupa = grupa;
         }
         
         public int getIloscsesji() {
@@ -234,6 +255,7 @@ public class StatisticAdminView implements Serializable {
     public static class Obrabiani {
         private String wprowadzajacy;
         private int liczbaklientow;
+        private String grupa;
         
         public Obrabiani() {
         }
@@ -254,8 +276,16 @@ public class StatisticAdminView implements Serializable {
         public void setLiczbaklientow(int liczbaklientow) {
             this.liczbaklientow = liczbaklientow;
         }
-        
+        public String getGrupa() {
+            return grupa;
+        }
+
+        public void setGrupa(String grupa) {
+            this.grupa = grupa;
+        }
         
 //</editor-fold>
+
+        
     }
 }

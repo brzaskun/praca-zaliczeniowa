@@ -286,8 +286,8 @@ public class DokDAO extends DAO implements Serializable {
        return zwrot;
     }
 
-    public List<String> znajdzDokumentPodatnikWpr(String wpr) {
-        List<String> zwrot = null;
+    public List<Podatnik> znajdzDokumentPodatnikWpr(String wpr) {
+        List<Podatnik> zwrot = null;
         try {
             zwrot = getEntityManager().createNamedQuery("Dok.znajdzDokumentPodatnikWpr").setParameter("wprowadzil", wpr).getResultList();
         } catch (Exception e) {
