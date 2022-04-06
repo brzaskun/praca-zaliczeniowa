@@ -93,9 +93,9 @@ public class ImportMbankHist_CSV implements Serializable {
                         x.setDatatransakcji(Data.zmienkolejnosc(baza.get(0)));
                         x.setDatawaluty(Data.zmienkolejnosc(baza.get(1)));
                         String mcwiersz = x.getDatatransakcji().split("-")[1];
-                        if (!mcwiersz.equals(mc)) {
-                               
-                        } else {
+//                        if (!mcwiersz.equals(mc)) {
+//                               
+//                        } else {
                             String opis = baza.get(3) != null && !baza.get(3).equals("\"\"") ? baza.get(3).replace("\"", "").toLowerCase(new Locale("pl", "PL")) : baza.get(2).toLowerCase(new Locale("pl", "PL"));
                             x.setOpistransakcji(opis);
                             x.setNrwyciagu(pn.getWyciagnr());
@@ -114,7 +114,7 @@ public class ImportMbankHist_CSV implements Serializable {
                             double saldopooperacji = Double.parseDouble(baza.get(7).replaceAll("\\s+", "").replace(",", "."));
                             x.setSaldopooperacji(saldopooperacji);
                             pobranefaktury.add(x);
-                        }
+//                        }
                     }
                     if (i==rozmiar-3) {
                         String replaceco = pn.getWyciagwaluta();
