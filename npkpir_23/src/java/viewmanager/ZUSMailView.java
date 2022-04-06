@@ -14,7 +14,6 @@ import embeddable.Mce;
 import entity.Podatnik;
 import entity.Zusmail;
 import entity.Zusstawki;
-import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -25,16 +24,15 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import javax.annotation.PostConstruct;
-import javax.inject.Named;
-
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import mail.MaiManager;
 import msg.Msg;
 import org.joda.time.DateTime;
 import org.primefaces.event.SelectEvent;
-import view.WpisView;import waluty.Z;
-
+import view.WpisView;
+import waluty.Z;
 /**
  *
  * @author Osito
@@ -111,8 +109,8 @@ public class ZUSMailView implements Serializable {
             + " <p> &nbsp;</p> <p> &nbsp;</p> <p> &nbsp;</p> <p> &nbsp;</p> <p> &nbsp;</p><br/> "
             + "<p> Ważne! Przelew do ZUS od stycznia 2018 robimy jedną kwotą na JEDNO indywidualne konto wskazane przez ZUS.</p>"
             + "<p> Przypominamy o terminach płatności ZUS:</p>"
-            + " <p> do <span style=\"color:#008000;\">10-go</span> &nbsp;- dla os&oacute;b niezatrudniających pracownik&oacute;w</p>"
-            + " <p> do <span style=\"color:#008000;\">15-go</span> - dla firm z pracownikami</p>"
+            + " <p> do <span style=\"color:#008000;\">15-go</span> - dla firm z osobowością prawną (sp. z o.o.)</p>"
+            + " <p> do <span style=\"color:#008000;\">20-go</span> &nbsp;- dla pozostałych firm</p>"
             + " <p> Termin płatności podatku:</p>"
             + " <p> do <span style=\"color:#006400;\">20-go</span> - PIT-4/PIT-8 od wynagrodzeń pracownik&oacute;w</p>"
             + " <p> &nbsp;</p>";

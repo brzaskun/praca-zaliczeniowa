@@ -39,6 +39,10 @@
                     <p:column headerText="jpk ozn2" style="text-align: center;" width="30">
                         <h:outputText value="#{loop.oznaczenie2.symbol}" />
                     </p:column>
+                    <p:column headerText="CIT" width="30" style="text-align: right;">
+                        <h:outputText value="&#x2713;"  rendered="#{loop.tylkopodatkowo}" style="color: green;">
+                        </h:outputText>
+                    </p:column>
                     <p:column headerText="% VAT" width="30" style="text-align: right;">
                         <h:outputText value="#{loop.procentvat}"  rendered="#{loop.procentvat ne 0}">
                             <f:convertNumber integerOnly="true"/>
