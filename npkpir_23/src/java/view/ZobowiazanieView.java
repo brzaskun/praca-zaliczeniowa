@@ -17,8 +17,8 @@ import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.inject.Named;
 
-import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import org.joda.time.DateTime;
@@ -28,7 +28,7 @@ import org.joda.time.DateTime;
  * @author Osito
  */
 @Named
-@RequestScoped
+@ViewScoped
 public class ZobowiazanieView implements Serializable{
     @Inject
     private ZobowiazanieDAO zobowiazanieDAO;

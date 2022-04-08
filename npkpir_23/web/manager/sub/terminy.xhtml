@@ -15,7 +15,10 @@
                 <br/>
                 <h:form id="formzob" >
                 <p:panelGrid columns="1" style="width: 900px">
-                    <p:dataTable value="#{zobowiazanieView.listapobranychstawek}"  var="loop" paginatorAlwaysVisible="true" paginator="true" pageLinks="12" rows="12" sortBy="#{loop.zobowiazaniePK.rok}"
+                    <p:dataTable value="#{zobowiazanieView.listapobranychstawek}"  var="loop" paginatorAlwaysVisible="true" paginator="true" pageLinks="12" rows="12"
+                                 paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
+                                rowsPerPageTemplate="12,50,100" 
+                                 sortBy="#{loop.zobowiazaniePK.getRokMc()}"
                                  sortOrder="descending">
                          <f:facet name="header">
                     <h:outputText value="Lista wprowadzonych terminów płatności #{WpisView.rokWpisuSt} "/>
@@ -23,8 +26,8 @@
                         <p:column headerText="rok">
                             <h:outputText value="#{loop.zobowiazaniePK.rok}" style="#{loop.zobowiazaniePK.rok eq WpisView.rokWpisuSt ? 'font-weight: 900; color: green;' : ''}"/>
                         </p:column>
-                        <p:column headerText="miesiac" style="#{loop.zobowiazaniePK.rok eq WpisView.rokWpisuSt ? 'font-weight: 900; color: green;' : ''}">
-                        <h:outputText value="#{loop.zobowiazaniePK.mc}" />
+                        <p:column headerText="miesiac">
+                        <h:outputText value="#{loop.zobowiazaniePK.mc}"  style="#{loop.zobowiazaniePK.rok eq WpisView.rokWpisuSt ? 'font-weight: 900; color: green;' : ''}"/>
                         </p:column>
                         <p:column headerText="Termin PIT">
                         <h:outputText value="#{loop.pitday}" />

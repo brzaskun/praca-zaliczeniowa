@@ -51,6 +51,10 @@ public class ZobowiazaniePK implements Serializable {
     public void setRok(String rok) {
         this.rok = rok;
     }
+    
+    public String getRokMc() {
+        return this.rok+this.mc;
+    }
 
     @Override
     public int hashCode() {
