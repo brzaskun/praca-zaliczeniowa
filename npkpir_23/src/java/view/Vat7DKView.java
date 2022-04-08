@@ -284,129 +284,131 @@ public class Vat7DKView implements Serializable {
             korektanaliczonyzmniejszajaca = (int) wniosekVATZDEntity.getNaliczonyzmniejszenie();
             korektanaliczonyzwiekszajaca = (int) wniosekVATZDEntity.getNaliczonyzwiekszenie();
         }
-        wygenerujwierszesumaryczne(schemaewidencjalista, pobraneewidencje, schemawierszsumarycznylista);
-        //tutaj trzeba zrobic nowa deklaracje po nowemu.
-        pozycjeSzczegoloweNowe = VATDeklaracja.przyporzadkujPozycjeSzczegoloweNowe(schemaewidencjalista, pobraneewidencje, pozycjeSzczegoloweVAT, null, korektanaliczonyzmniejszajaca, korektanaliczonyzwiekszajaca);
-        sumaschemewidencjilista = VATDeklaracja.wyluskajiPrzyporzadkujSprzedaz(schemaewidencjalista, pobraneewidencje);
-        deklaracjakorygowana = czynieczekajuzcosdowyslania();
-        flaga = zbadajpobranadeklarajce(deklaracjakorygowana);
-        if (wymusozmnaczeniejakokorekte) {
-                nowadeklaracja.setNrkolejny(99);
-                pozycjeDeklaracjiVAT.setCelzlozenia("2");
-                Msg.msg("w", "Przygotowano do zachowania ręczną korekte deklaracji za okres  " + rok + "-" + mc);   
-        } else {
-            Deklaracjevat ostatniawyslana = cozostalowyslane();
-            flaga = zbadajpobranadeklarajce(ostatniawyslana);
-        }
-        if (flaga != 1) {
-            DeklaracjaVatSchemaWierszSum przeniesienie = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"Kwota nadwyżki z poprzedniej deklaracji");
-            DeklaracjaVatSchemaWierszSum należny = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"Razem (suma przychodów)");
-            DeklaracjaVatSchemaWierszSum naliczony = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"Razem kwota podatku naliczonego do odliczenia");
-            DeklaracjaVatSchemaWierszSum dowpłaty = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"Kwota podatku podlegająca wpłacie");    
-            DeklaracjaVatSchemaWierszSum nadwyzkanaliczonego = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"Nadwyżka podatku naliczonego nad należnym");    
-            try {
-                //niepotrzebne bo jest wyzej
-                //deklaracjakorygowana = bylajuzdeklaracjawtymmiesiacu(rok,mc);
-                int przeniesieniekwota = przeniesieniezpoprzedniejdeklaracji !=null ? przeniesieniezpoprzedniejdeklaracji:0;
-                if (!niesprawdzajpoprzednichdeklaracji && !wymusozmnaczeniejakokorekte) {
-                    Deklaracjevat deklaracjaPopMc = bylajuzdeklaracjawpoprzednimmiesiacu(rok,mc);
-                    if (deklaracjaPopMc != null) {
-                        //pobiera tylko wtedy jak nie ma z reki
-                        if (przeniesieniezpoprzedniejdeklaracji == null) {
-                            przeniesieniekwota = pobierz47zpoprzedniejN(deklaracjaPopMc);
-                        }
-                    } else {
-                        if (!wpisView.getPodatnikObiekt().getNip().equals("5263158333")) {
+        int jestschema0niema1 = wygenerujwierszesumaryczne(schemaewidencjalista, pobraneewidencje, schemawierszsumarycznylista);
+        if (jestschema0niema1 == 0) {
+            //tutaj trzeba zrobic nowa deklaracje po nowemu.
+            pozycjeSzczegoloweNowe = VATDeklaracja.przyporzadkujPozycjeSzczegoloweNowe(schemaewidencjalista, pobraneewidencje, pozycjeSzczegoloweVAT, null, korektanaliczonyzmniejszajaca, korektanaliczonyzwiekszajaca);
+            sumaschemewidencjilista = VATDeklaracja.wyluskajiPrzyporzadkujSprzedaz(schemaewidencjalista, pobraneewidencje);
+            deklaracjakorygowana = czynieczekajuzcosdowyslania();
+            flaga = zbadajpobranadeklarajce(deklaracjakorygowana);
+            if (wymusozmnaczeniejakokorekte) {
+                    nowadeklaracja.setNrkolejny(99);
+                    pozycjeDeklaracjiVAT.setCelzlozenia("2");
+                    Msg.msg("w", "Przygotowano do zachowania ręczną korekte deklaracji za okres  " + rok + "-" + mc);   
+            } else {
+                Deklaracjevat ostatniawyslana = cozostalowyslane();
+                flaga = zbadajpobranadeklarajce(ostatniawyslana);
+            }
+            if (flaga != 1) {
+                DeklaracjaVatSchemaWierszSum przeniesienie = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"Kwota nadwyżki z poprzedniej deklaracji");
+                DeklaracjaVatSchemaWierszSum należny = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"Razem (suma przychodów)");
+                DeklaracjaVatSchemaWierszSum naliczony = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"Razem kwota podatku naliczonego do odliczenia");
+                DeklaracjaVatSchemaWierszSum dowpłaty = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"Kwota podatku podlegająca wpłacie");    
+                DeklaracjaVatSchemaWierszSum nadwyzkanaliczonego = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"Nadwyżka podatku naliczonego nad należnym");    
+                try {
+                    //niepotrzebne bo jest wyzej
+                    //deklaracjakorygowana = bylajuzdeklaracjawtymmiesiacu(rok,mc);
+                    int przeniesieniekwota = przeniesieniezpoprzedniejdeklaracji !=null ? przeniesieniezpoprzedniejdeklaracji:0;
+                    if (!niesprawdzajpoprzednichdeklaracji && !wymusozmnaczeniejakokorekte) {
+                        Deklaracjevat deklaracjaPopMc = bylajuzdeklaracjawpoprzednimmiesiacu(rok,mc);
+                        if (deklaracjaPopMc != null) {
+                            //pobiera tylko wtedy jak nie ma z reki
                             if (przeniesieniezpoprzedniejdeklaracji == null) {
-                                przeniesieniekwota = pobierz47zustawienN();
-                                Msg.msg("i", "Pobrałem kwotę do przeniesienia z ustawień");
-                            } 
+                                przeniesieniekwota = pobierz47zpoprzedniejN(deklaracjaPopMc);
+                            }
+                        } else {
+                            if (!wpisView.getPodatnikObiekt().getNip().equals("5263158333")) {
+                                if (przeniesieniezpoprzedniejdeklaracji == null) {
+                                    przeniesieniekwota = pobierz47zustawienN();
+                                    Msg.msg("i", "Pobrałem kwotę do przeniesienia z ustawień");
+                                } 
+                            }
                         }
                     }
+                    przeniesienie.getDeklaracjaVatWierszSumaryczny().setSumavat(przeniesieniekwota);
+                    naliczony.getDeklaracjaVatWierszSumaryczny().setSumavat(naliczony.getDeklaracjaVatWierszSumaryczny().getSumavat()+przeniesieniekwota+korektanaliczonyzmniejszajaca+korektanaliczonyzwiekszajaca);
+                } catch (Exception ex) {
+                   E.e(ex);
                 }
-                przeniesienie.getDeklaracjaVatWierszSumaryczny().setSumavat(przeniesieniekwota);
-                naliczony.getDeklaracjaVatWierszSumaryczny().setSumavat(naliczony.getDeklaracjaVatWierszSumaryczny().getSumavat()+przeniesieniekwota+korektanaliczonyzmniejszajaca+korektanaliczonyzwiekszajaca);
-            } catch (Exception ex) {
-               E.e(ex);
-            }
-            int nż = należny.getDeklaracjaVatWierszSumaryczny().getSumavat();
-            if (wntsamochoddoodliczenia != null) {
-                DeklaracjaVatSchemaWierszSum naleznyWNTsamochod = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"Wysokość podatku należnego od wewnątrzwspólnotowego nabycia środków transportu");
-                naleznyWNTsamochod.getDeklaracjaVatWierszSumaryczny().setSumavat(wntsamochoddoodliczenia);
-                nż = nż - naleznyWNTsamochod.getDeklaracjaVatWierszSumaryczny().getSumavat();
-                należny.getDeklaracjaVatWierszSumaryczny().setSumavat(nż);
-            }
-            int nl = naliczony.getDeklaracjaVatWierszSumaryczny().getSumavat();
-            if (nż > nl) {
-                dowpłaty.getDeklaracjaVatWierszSumaryczny().setSumavat(nż - nl);
-            } else {
-                nadwyzkanaliczonego.getDeklaracjaVatWierszSumaryczny().setSumavat(nl-nż);
-            }
-            if (kwotanakaserej != null) {
-                kasarejestrujaca(nż, nl, dowpłaty, nadwyzkanaliczonego);
-            }
-            boolean nowyjpk2020 = wpisView.isJpk2020M()||wpisView.isJpk2020K()||wpisView.isJpk2020M2()||wpisView.isJpk2020K2();
-            DeklaracjaVatSchemaWierszSum doprzeniesienia = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"Kwota do przeniesienia na następny okres rozliczeniowy");
-            doprzeniesienia.getDeklaracjaVatWierszSumaryczny().setSumavat(nadwyzkanaliczonego.getDeklaracjaVatWierszSumaryczny().getSumavat());
-            pokazinfovatzz =  false;
-            int dozwrotujuznarachunek = 0;
-            if (zwrot25dni != null) {
-                flagazt = true;
-                pokazinfovatzz = true;
-                rozliczprzeniesienie(doprzeniesienia,nadwyzkanaliczonego, "Kwota do zwrotu na rachunek bankowy","do zwrotu w terminie 25 dni",zwrot25dni);
-                if (nowyjpk2020) {
-                    DeklaracjaVatSchemaWierszSum zmienna = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"do zwrotu w terminie 25 dni");
+                int nż = należny.getDeklaracjaVatWierszSumaryczny().getSumavat();
+                if (wntsamochoddoodliczenia != null) {
+                    DeklaracjaVatSchemaWierszSum naleznyWNTsamochod = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"Wysokość podatku należnego od wewnątrzwspólnotowego nabycia środków transportu");
+                    naleznyWNTsamochod.getDeklaracjaVatWierszSumaryczny().setSumavat(wntsamochoddoodliczenia);
+                    nż = nż - naleznyWNTsamochod.getDeklaracjaVatWierszSumaryczny().getSumavat();
+                    należny.getDeklaracjaVatWierszSumaryczny().setSumavat(nż);
+                }
+                int nl = naliczony.getDeklaracjaVatWierszSumaryczny().getSumavat();
+                if (nż > nl) {
+                    dowpłaty.getDeklaracjaVatWierszSumaryczny().setSumavat(nż - nl);
+                } else {
+                    nadwyzkanaliczonego.getDeklaracjaVatWierszSumaryczny().setSumavat(nl-nż);
+                }
+                if (kwotanakaserej != null) {
+                    kasarejestrujaca(nż, nl, dowpłaty, nadwyzkanaliczonego);
+                }
+                boolean nowyjpk2020 = wpisView.isJpk2020M()||wpisView.isJpk2020K()||wpisView.isJpk2020M2()||wpisView.isJpk2020K2();
+                DeklaracjaVatSchemaWierszSum doprzeniesienia = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"Kwota do przeniesienia na następny okres rozliczeniowy");
+                doprzeniesienia.getDeklaracjaVatWierszSumaryczny().setSumavat(nadwyzkanaliczonego.getDeklaracjaVatWierszSumaryczny().getSumavat());
+                pokazinfovatzz =  false;
+                int dozwrotujuznarachunek = 0;
+                if (zwrot25dni != null) {
+                    flagazt = true;
+                    pokazinfovatzz = true;
+                    rozliczprzeniesienie(doprzeniesienia,nadwyzkanaliczonego, "Kwota do zwrotu na rachunek bankowy","do zwrotu w terminie 25 dni",zwrot25dni);
+                    if (nowyjpk2020) {
+                        DeklaracjaVatSchemaWierszSum zmienna = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"do zwrotu w terminie 25 dni");
+                        zmienna.getDeklaracjaVatWierszSumaryczny().setCzekpole(true);
+                        dozwrotujuznarachunek = dozwrotujuznarachunek+zwrot25dni;
+                    }
+                }
+                if (zwrot60dni != null) {
+                    ustawflagazt(nż);
+                    rozliczprzeniesienie(doprzeniesienia,nadwyzkanaliczonego, "Kwota do zwrotu na rachunek bankowy","do zwrotu w terminie 60 dni",zwrot60dni);
+                    if (nowyjpk2020) {
+                        DeklaracjaVatSchemaWierszSum zmienna = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"do zwrotu w terminie 60 dni");
+                        zmienna.getDeklaracjaVatWierszSumaryczny().setCzekpole(true);
+                        dozwrotujuznarachunek = dozwrotujuznarachunek+zwrot60dni;
+                    }
+                }
+                if (zwrot180dni != null) {
+                    ustawflagazt(nż);
+                    rozliczprzeniesienie(doprzeniesienia,nadwyzkanaliczonego, "Kwota do zwrotu na rachunek bankowy","do zwrotu w terminie 180 dni",zwrot180dni);
+                    if (nowyjpk2020) {
+                        DeklaracjaVatSchemaWierszSum zmienna = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"do zwrotu w terminie 180 dni");
+                        zmienna.getDeklaracjaVatWierszSumaryczny().setCzekpole(true);
+                        dozwrotujuznarachunek = dozwrotujuznarachunek+zwrot180dni;
+                    }
+                }
+                if (zwrot25dni == null && zwrot60dni == null && zwrot180dni == null && nowyjpk2020) {
+                    VATDeklaracja.usunschemawiersz(schemawierszsumarycznylista,"Kwota do zwrotu na rachunek bankowy");
+                }
+                if (przelewnarachunekvat) {
+                    DeklaracjaVatSchemaWierszSum zmienna = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"Zwrot na rachunek VAT, o którym mowa w art. 87 ust. 6a ustawy");
                     zmienna.getDeklaracjaVatWierszSumaryczny().setCzekpole(true);
-                    dozwrotujuznarachunek = dozwrotujuznarachunek+zwrot25dni;
+                } else {
+                    VATDeklaracja.usunschemawiersz(schemawierszsumarycznylista,"Zwrot na rachunek VAT, o którym mowa w art. 87 ust. 6a ustawy");
                 }
-            }
-            if (zwrot60dni != null) {
-                ustawflagazt(nż);
-                rozliczprzeniesienie(doprzeniesienia,nadwyzkanaliczonego, "Kwota do zwrotu na rachunek bankowy","do zwrotu w terminie 60 dni",zwrot60dni);
-                if (nowyjpk2020) {
-                    DeklaracjaVatSchemaWierszSum zmienna = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"do zwrotu w terminie 60 dni");
+                if (zaliczenienapoczetzobowiazan) {
+                    DeklaracjaVatSchemaWierszSum zmienna = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"Zaliczenie zwrotu podatku na poczet przyszłych zobowiązań podatkowych");
                     zmienna.getDeklaracjaVatWierszSumaryczny().setCzekpole(true);
-                    dozwrotujuznarachunek = dozwrotujuznarachunek+zwrot60dni;
+                } else {
+                    VATDeklaracja.usunschemawiersz(schemawierszsumarycznylista,"Zaliczenie zwrotu podatku na poczet przyszłych zobowiązań podatkowych");
                 }
-            }
-            if (zwrot180dni != null) {
-                ustawflagazt(nż);
-                rozliczprzeniesienie(doprzeniesienia,nadwyzkanaliczonego, "Kwota do zwrotu na rachunek bankowy","do zwrotu w terminie 180 dni",zwrot180dni);
-                if (nowyjpk2020) {
-                    DeklaracjaVatSchemaWierszSum zmienna = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"do zwrotu w terminie 180 dni");
-                    zmienna.getDeklaracjaVatWierszSumaryczny().setCzekpole(true);
-                    dozwrotujuznarachunek = dozwrotujuznarachunek+zwrot180dni;
+                if (zaliczenienapoczetzobowiazankwota!=null&&zaliczenienapoczetzobowiazankwota>0) {
+                    DeklaracjaVatSchemaWierszSum zmienna = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"Wysokość zwrotu do zaliczenia na poczet przyszłych zobowiązań podatkowych");
+                    zmienna.getDeklaracjaVatWierszSumaryczny().setSumavat(zaliczenienapoczetzobowiazankwota);
+                    doprzeniesienia.getDeklaracjaVatWierszSumaryczny().setSumavat(nadwyzkanaliczonego.getDeklaracjaVatWierszSumaryczny().getSumavat()-dozwrotujuznarachunek);
+                } else {
+                    VATDeklaracja.usunschemawiersz(schemawierszsumarycznylista,"Wysokość zwrotu do zaliczenia na poczet przyszłych zobowiązań podatkowych");
                 }
+                if (rodzajzobowiazania!=null && !rodzajzobowiazania.isEmpty()) {
+                    DeklaracjaVatSchemaWierszSum zmienna = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"Rodzaj przyszłego zobowiązania podatkowego");
+                    zmienna.getDeklaracjaVatWierszSumaryczny().setStringpole(rodzajzobowiazania);
+                } else {
+                    VATDeklaracja.usunschemawiersz(schemawierszsumarycznylista,"Rodzaj przyszłego zobowiązania podatkowego");
+                }
+                VATDeklaracja.przyporzadkujPozycjeSzczegoloweSumaryczne(schemawierszsumarycznylista, pozycjeSzczegoloweVAT, null);
             }
-            if (zwrot25dni == null && zwrot60dni == null && zwrot180dni == null && nowyjpk2020) {
-                VATDeklaracja.usunschemawiersz(schemawierszsumarycznylista,"Kwota do zwrotu na rachunek bankowy");
-            }
-            if (przelewnarachunekvat) {
-                DeklaracjaVatSchemaWierszSum zmienna = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"Zwrot na rachunek VAT, o którym mowa w art. 87 ust. 6a ustawy");
-                zmienna.getDeklaracjaVatWierszSumaryczny().setCzekpole(true);
-            } else {
-                VATDeklaracja.usunschemawiersz(schemawierszsumarycznylista,"Zwrot na rachunek VAT, o którym mowa w art. 87 ust. 6a ustawy");
-            }
-            if (zaliczenienapoczetzobowiazan) {
-                DeklaracjaVatSchemaWierszSum zmienna = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"Zaliczenie zwrotu podatku na poczet przyszłych zobowiązań podatkowych");
-                zmienna.getDeklaracjaVatWierszSumaryczny().setCzekpole(true);
-            } else {
-                VATDeklaracja.usunschemawiersz(schemawierszsumarycznylista,"Zaliczenie zwrotu podatku na poczet przyszłych zobowiązań podatkowych");
-            }
-            if (zaliczenienapoczetzobowiazankwota!=null&&zaliczenienapoczetzobowiazankwota>0) {
-                DeklaracjaVatSchemaWierszSum zmienna = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"Wysokość zwrotu do zaliczenia na poczet przyszłych zobowiązań podatkowych");
-                zmienna.getDeklaracjaVatWierszSumaryczny().setSumavat(zaliczenienapoczetzobowiazankwota);
-                doprzeniesienia.getDeklaracjaVatWierszSumaryczny().setSumavat(nadwyzkanaliczonego.getDeklaracjaVatWierszSumaryczny().getSumavat()-dozwrotujuznarachunek);
-            } else {
-                VATDeklaracja.usunschemawiersz(schemawierszsumarycznylista,"Wysokość zwrotu do zaliczenia na poczet przyszłych zobowiązań podatkowych");
-            }
-            if (rodzajzobowiazania!=null && !rodzajzobowiazania.isEmpty()) {
-                DeklaracjaVatSchemaWierszSum zmienna = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"Rodzaj przyszłego zobowiązania podatkowego");
-                zmienna.getDeklaracjaVatWierszSumaryczny().setStringpole(rodzajzobowiazania);
-            } else {
-                VATDeklaracja.usunschemawiersz(schemawierszsumarycznylista,"Rodzaj przyszłego zobowiązania podatkowego");
-            }
-            VATDeklaracja.przyporzadkujPozycjeSzczegoloweSumaryczne(schemawierszsumarycznylista, pozycjeSzczegoloweVAT, null);
         }
     }
     
@@ -541,36 +543,44 @@ public class Vat7DKView implements Serializable {
         }
     }
     
-    private void wygenerujwierszesumaryczne(List<SchemaEwidencja> schemaewidencjalista, List<EVatwpisSuma> pobraneewidencje, List<DeklaracjaVatSchemaWierszSum> schemawierszsumzbazy) {
+    private int wygenerujwierszesumaryczne(List<SchemaEwidencja> schemaewidencjalista, List<EVatwpisSuma> pobraneewidencje, List<DeklaracjaVatSchemaWierszSum> schemawierszsumzbazy) {
+        int zwrot = 0;
         List<EVatwpisSuma> ewidencjenowe = Collections.synchronizedList(new ArrayList<>());
         if (schemaewidencjalista != null) {
             for (EVatwpisSuma r : pobraneewidencje) {
                 SchemaEwidencja se = szukaniewieszaSchemy(schemaewidencjalista, r.getEwidencja());
-                SchemaEwidencja sm = se.getSchemamacierzysta();
-                if (sm != null) {
-                    Evewidencja ewm = sm.getEvewidencja();
-                    r.setNiesumuj(true);
-                    boolean nieznaleziono = true;
-                    for (EVatwpisSuma r1 : pobraneewidencje) {
-                        if (r1.getEwidencja().equals(ewm)) {
-                            r1.setNetto(r1.getNetto().add(r.getNetto()));
-                            r1.setVat(r1.getVat().add(r.getVat()));
-                            nieznaleziono = false;
+                if (se==null) {
+                    Msg.msg("e","Brak zdefiniowanej schemy deklaracji w ustawieniach programu. Nie można wygenerować deklaracji");
+                    zwrot = 1;
+                } else {
+                    SchemaEwidencja sm = se.getSchemamacierzysta();
+                    if (sm != null) {
+                        Evewidencja ewm = sm.getEvewidencja();
+                        r.setNiesumuj(true);
+                        boolean nieznaleziono = true;
+                        for (EVatwpisSuma r1 : pobraneewidencje) {
+                            if (r1.getEwidencja().equals(ewm)) {
+                                r1.setNetto(r1.getNetto().add(r.getNetto()));
+                                r1.setVat(r1.getVat().add(r.getVat()));
+                                nieznaleziono = false;
+                            }
+                        }
+                        if (nieznaleziono) {
+                            ewidencjenowe.add(new EVatwpisSuma(ewm, r.getNetto(), r.getVat(), ""));
                         }
                     }
-                    if (nieznaleziono) {
-                        ewidencjenowe.add(new EVatwpisSuma(ewm, r.getNetto(), r.getVat(), ""));
+                    if(ewidencjenowe.size() > 0) {
+                        pobraneewidencje.addAll(ewidencjenowe);
+                    }
+                    for (DeklaracjaVatSchemaWierszSum p : schemawierszsumzbazy) {
+                        VATDeklaracja.podsumujewidencje(schemaewidencjalista, pobraneewidencje, p);
                     }
                 }
             }
-            if(ewidencjenowe.size() > 0) {
-                pobraneewidencje.addAll(ewidencjenowe);
-            }
         }
-        for (DeklaracjaVatSchemaWierszSum p : schemawierszsumzbazy) {
-            VATDeklaracja.podsumujewidencje(schemaewidencjalista, pobraneewidencje, p);
-        }
+        return zwrot;
     }
+    
     private static SchemaEwidencja szukaniewieszaSchemy(List<SchemaEwidencja> schemaewidencjalista, Evewidencja evewidencja) {
         SchemaEwidencja s = null;
         for (SchemaEwidencja p : schemaewidencjalista) {

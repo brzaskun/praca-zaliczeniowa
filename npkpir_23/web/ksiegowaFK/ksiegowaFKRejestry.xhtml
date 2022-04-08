@@ -19,9 +19,9 @@
                 <p:layoutUnit id="centralna" position="center" >
                     <div id="ramki">
                     </div>
-                    <h:form>
+<!--                    <h:form>
                         <p:growl life="3600"   ><p:autoUpdate/></p:growl>
-                    </h:form>
+                    </h:form>-->
                         <p:confirmDialog id="confirmDialog" message="Usunąć wybrany JPK?"  appendTo="@(body)"
                                              header="Usuwanie wybranego JPK" severity="alert" widgetVar="confirmation">  
                             <h:form>
@@ -33,7 +33,7 @@
                     <p:hotkey bind="down" global="false"  handler="idz('D');" ignoreAutoUpdate="true"/>
                     <p:hotkey bind="up" global="false" handler="idz('G');" ignoreAutoUpdate="true"/>
                     <ui:include src="sub/menu/menurejestry.xhtml"/>
-                    <p:growl widgetVar="grmes"/>
+                    <p:growl widgetVar="grmes" />
                     <ui:include src="sub/dialog/dialog_ewidencjevat.xhtml"/>
 <!--                    <ui:include src="sub/dialog/dialog_ewidencjevat_sprawdzanie.xhtml"/>chodzilo o edycje dok to juz jest w samych ewidencjach-->
                     <ui:include src="sub/dialog/dialog_ewvat_dedra.xhtml"/>
