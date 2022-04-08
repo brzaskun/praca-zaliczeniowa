@@ -855,7 +855,7 @@ public class Jpk_VAT2View implements Serializable {
         pl.gov.crd.wzor._2021._12._27._11149.JPK.Deklaracja.Naglowek zwrot = new pl.gov.crd.wzor._2021._12._27._11149.JPK.Deklaracja.Naglowek();
         pl.gov.crd.wzor._2021._12._27._11149.JPK.Deklaracja.Naglowek.KodFormularzaDekl kod = deklaracja_naglowek_kodK2();
         zwrot.setKodFormularzaDekl(kod);
-        zwrot.setWariantFormularzaDekl(Byte.parseByte("15"));
+        zwrot.setWariantFormularzaDekl(Byte.parseByte("16"));
         zwrot.setKwartal(Byte.valueOf(Kwartaly.getMapamckw().get(wpisView.getMiesiacWpisu())));
         return zwrot;
     }
