@@ -529,6 +529,7 @@ public class BankImportView implements Serializable {
                 }
             } catch (Exception e) {
                 Msg.msg("e", "Wystąpił błąd - nie zaksięgowano dokumentu "+rodzajdok);
+                Msg.msg("e",E.e(e));
             }
         } catch (Exception e) {
             E.e(e);

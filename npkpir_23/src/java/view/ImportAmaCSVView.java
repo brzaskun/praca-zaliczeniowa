@@ -209,10 +209,16 @@ public class ImportAmaCSVView  implements Serializable {
                 //error.E.s(selDokument.getAmazonCSV().getCurrency());
                 symbolwalt = selDokument.getAmazonCSV().getCurrency();
             }
-            Tabelanbp innatabela = pobierztabele(symbolwalt, selDokument.getDataWyst());
-            selDokument.setTabelanbp(innatabela);
-            Tabelanbp walutadok = pobierztabele(wiersz.getCurrency(), selDokument.getDataWyst());
-            selDokument.setWalutadokumentu(walutadok.getWaluta());
+            if (symbolwalt.equals("PLN")) {
+                Tabelanbp walutadok = tabelanbpDAO.findByTabelaPLN();
+                selDokument.setWalutadokumentu(walutadok.getWaluta());
+                selDokument.setTabelanbp(walutadok);
+            } else {
+                Tabelanbp innatabela = pobierztabele(symbolwalt, selDokument.getDataWyst());
+                selDokument.setTabelanbp(innatabela);
+                Tabelanbp walutadok = pobierztabele(wiersz.getCurrency(), selDokument.getDataWyst());
+                selDokument.setWalutadokumentu(walutadok.getWaluta());
+            }
             selDokument.setListakwot1(listaX);
             selDokument.setNetto(tmpX.getNetto());
             selDokument.setBrutto(tmpX.getBrutto());
@@ -226,7 +232,7 @@ public class ImportAmaCSVView  implements Serializable {
                 selDokument = null;
             }
         } catch (Exception e) {
-            E.e(e);
+                E.e(e);
         }
         return selDokument;
     }

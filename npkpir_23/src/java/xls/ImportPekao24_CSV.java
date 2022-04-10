@@ -60,7 +60,7 @@ public class ImportPekao24_CSV implements Serializable {
                         } else {
                             x.setWaluta(wybranawaluta);
                             double kwota = F.kwota(record.get("Kwota operacji"));
-                            double obciazenie = kwota < 0.0?kwota:0.0;
+                            double obciazenie = kwota < 0.0?-kwota:0.0;
                             double uznanie = kwota > 0.0?kwota:0.0;
                             if (uznanie != 0.0) {
                                 x.setIBAN(record.get("Rachunek źródłowy").replaceAll("\\s",""));//??
