@@ -63,28 +63,21 @@ public class Strata  implements Serializable {
     private double kwota;
     @Column(name = "polowakwoty")
     private double polowakwoty;
-    @Column(name = "wykorzystano")
-    private double wykorzystano;
-    @Column(name = "sumabiezace")
-    private double sumabiezace;
-    @Column(name = "zostalo")
-    private double zostalo;
+
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "strata", fetch = FetchType.EAGER)
-    private List<StrataWykorzystanie> nowewykorzystanie;
+    private List<StrataWykorzystanie> listawykorzystanie;
     
 
     public Strata() {
-        this.nowewykorzystanie = Collections.synchronizedList(new ArrayList<>());
+        this.listawykorzystanie = Collections.synchronizedList(new ArrayList<>());
     }
 
-    public Strata(Podatnik podatnik, int rok, double kwota, double polowakwoty, double wykorzystano, double zostalo) {
+    public Strata(Podatnik podatnik, int rok, double kwota, double polowakwoty) {
         this.podatnikObj = podatnik;
         this.rok = rok;
         this.kwota = kwota;
         this.polowakwoty = polowakwoty;
-        this.wykorzystano = wykorzystano;
-        this.zostalo = zostalo;
-        this.nowewykorzystanie = Collections.synchronizedList(new ArrayList<>());
+        this.listawykorzystanie = Collections.synchronizedList(new ArrayList<>());
     }
     
     public void obliczpolowe() {
@@ -124,7 +117,7 @@ public class Strata  implements Serializable {
 
     @Override
     public String toString() {
-        return "Strata{" + "podatnikObj=" + podatnikObj.getNazwapelna() + ", rok=" + rok + ", kwota=" + kwota + ", polowakwoty=" + polowakwoty + ", wykorzystano=" + wykorzystano + ", sumabiezace=" + sumabiezace + ", zostalo=" + zostalo + '}';
+        return "Strata{" + "podatnikObj=" + podatnikObj.getNazwapelna() + ", rok=" + rok + ", kwota=" + kwota + ", polowakwoty=" + polowakwoty + ", wykorzystano=" + getWykorzystano() + ", sumabiezace=" + getSumabiezace() + ", zostalo=" + getZostalo() + '}';
     }
 
     public Integer getId() {
@@ -169,41 +162,72 @@ public class Strata  implements Serializable {
     }
 
     public double getWykorzystano() {
-        return wykorzystano;
-    }
-
-    public void setWykorzystano(double wykorzystano) {
-        this.wykorzystano = wykorzystano;
-    }
-
-    public double getSumabiezace() {
-        return sumabiezace;
-    }
-
-    public void setSumabiezace(double sumabiezace) {
-        this.sumabiezace = sumabiezace;
-    }
-
-    public double getZostalo() {
-        return zostalo;
-    }
-
-    public void setZostalo(double zostalo) {
-        this.zostalo = zostalo;
-    }
-
-    public List<StrataWykorzystanie> getNowewykorzystanie() {
-        return nowewykorzystanie;
-    }
-
-    public void setNowewykorzystanie(List<StrataWykorzystanie> nowewykorzystanie) {
-        this.nowewykorzystanie = nowewykorzystanie;
+        double zwrot = 0.0;
+        if (this.listawykorzystanie!=null) {
+            for (StrataWykorzystanie p : this.listawykorzystanie) {
+                zwrot += p.getKwotawykorzystania();
+            }
+        }
+        return zwrot;
     }
     
-    public double getDoBiezacegoWykorzystania() {
-        return Z.z(this.kwota-this.wykorzystano);
+    public double getWykorzystano(String rok, String mc) {
+        int rokint = Integer.parseInt(rok);
+        int mcint = Integer.parseInt(mc);
+        double zwrot = 0.0;
+        if (this.listawykorzystanie!=null) {
+            for (StrataWykorzystanie p : this.listawykorzystanie) {
+                if (p.getRokInt()<rokint) {
+                    zwrot += p.getKwotawykorzystania();
+                } else if (p.getMcInt()<mcint) {
+                    zwrot += p.getKwotawykorzystania();
+                }
+            }
+        }
+        return zwrot;
     }
 
+  
+    public double getSumabiezace() {
+        double zwrot = 0.0;
+        if (this.listawykorzystanie!=null) {
+            for (StrataWykorzystanie p : this.listawykorzystanie) {
+                if (p.getRok().equals(this.rok)) {
+                    zwrot += p.getKwotawykorzystania();
+                }
+            }
+        }
+        return zwrot;
+    }
+
+  
+    public double getZostalo() {
+        return Z.z(this.kwota - this.getWykorzystano());
+    }
+
+    public List<StrataWykorzystanie> getListawykorzystanie() {
+        return listawykorzystanie;
+    }
+
+    public void setListawykorzystanie(List<StrataWykorzystanie> listawykorzystanie) {
+        this.listawykorzystanie = listawykorzystanie;
+    }
+    
+    public StrataWykorzystanie pobierzWykorzystanie(String rokWpisuSt, String miesiacWpisu) {
+        StrataWykorzystanie zwrot = new StrataWykorzystanie(this, rokWpisuSt, miesiacWpisu);
+        if (this.listawykorzystanie!=null && this.listawykorzystanie.size()>0) {
+            for (StrataWykorzystanie p : this.listawykorzystanie) {
+                if (p.getRok().equals(rokWpisuSt)&&p.getMc().equals(miesiacWpisu)) {
+                    zwrot = p;
+                }
+            }
+        } else {
+            this.listawykorzystanie = new ArrayList<>();
+            this.listawykorzystanie.add(zwrot);
+        }
+        return zwrot;
+    }
+    
     
     
     
@@ -216,13 +240,13 @@ public class Strata  implements Serializable {
                 for (Straty1 r : stratyzlatub1) {
                     System.out.print(r.getRok());
                     error.E.s(r.getKwota());
-                    Strata nowastrata = new Strata(p, Integer.parseInt(r.getRok()), Z.z(Double.parseDouble(r.getKwota())), Z.z(Double.parseDouble(r.getKwota())/2), Z.z(Double.parseDouble(r.getWykorzystano())), Z.z(Double.parseDouble(r.getZostalo())));
+                    Strata nowastrata = new Strata(p, Integer.parseInt(r.getRok()), Z.z(Double.parseDouble(r.getKwota())), Z.z(Double.parseDouble(r.getKwota())/2));
                     List<Straty1.Wykorzystanie> wykorzystanieBiezace = r.getWykorzystanieBiezace();
                     if (wykorzystanieBiezace != null && wykorzystanieBiezace.size() > 0) {
                         for (Straty1.Wykorzystanie s : wykorzystanieBiezace) {
                             System.out.print(s.getRokwykorzystania());
-                            StrataWykorzystanie stratawykorzystanie = new StrataWykorzystanie(nowastrata, s.getRokwykorzystania(), Z.z(s.getKwotawykorzystania()));
-                            nowastrata.getNowewykorzystanie().add(stratawykorzystanie);
+                            StrataWykorzystanie stratawykorzystanie = new StrataWykorzystanie(nowastrata, s.getRokwykorzystania(),"01", Z.z(s.getKwotawykorzystania()));
+                            nowastrata.getListawykorzystanie().add(stratawykorzystanie);
                         }
                     }
                     Em.save(em, nowastrata);
@@ -233,6 +257,8 @@ public class Strata  implements Serializable {
         for (Strata l : resultList) {
         }
     }
+
+    
    
     
     

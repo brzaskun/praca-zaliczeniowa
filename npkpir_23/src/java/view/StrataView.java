@@ -7,22 +7,16 @@ package view;
 
 import dao.PitDAO;
 import dao.StrataDAO;
-import entity.Pitpoz;
 import entity.Strata;
-import entity.StrataWykorzystanie;
 import error.E;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.inject.Named;
-
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
-import msg.Msg; import org.primefaces.PrimeFaces;
-import waluty.Z;
+import javax.inject.Named;
+import msg.Msg;
+ import org.primefaces.PrimeFaces;
 
 /**
  *
@@ -67,7 +61,6 @@ public class StrataView  implements Serializable{
                 Msg.msg("e", "Kwota wykorzystana większa od straty", "akordeon:form2:messages");
                 throw new Exception();
             }
-            selected.setZostalo(Z.z(selected.getKwota() - selected.getWykorzystano()));
             selected.obliczpolowe();
             selected.setPodatnikObj(wpisView.getPodatnikObiekt());
             if (stratypodatnika.contains(selected)) {
@@ -87,134 +80,132 @@ public class StrataView  implements Serializable{
     }
     
     public void naniesRozliczenieStrat() {
-        Msg.msg("i", "Rozpoczynam rozliczanie strat");
-        List<Pitpoz> pitpoz = pitDAO.findList(wpisView.getRokUprzedniSt(), "13", wpisView.getPodatnikWpisu());
-        if (pitpoz.isEmpty()) {
-            Msg.msg("e", "Nie sporządzono pitu za 13-mc poprzedniego roku. Przerywam nanoszenie strat");
-            return;
-        }
-        double strataRozliczonaWDanymRoku = 0.0;
-        double wynikzarok = 0.0;
-        for (Pitpoz p : pitpoz) {
-            strataRozliczonaWDanymRoku = Z.z(p.getStrata());
-            wynikzarok = Z.z(p.getWynik());
-        }
-        try {
-            //zerowanie strat w przypadku codniecia sie niezbedne
-            for (Strata r : stratypodatnika) {
-                Iterator<StrataWykorzystanie> it = r.getNowewykorzystanie().iterator();
-                while (it.hasNext()) {
-                    StrataWykorzystanie w = it.next();
-                    if (Integer.parseInt(w.getRokwykorzystania()) >= wpisView.getRokUprzedni()) {
-                        it.remove();
-                        strataDAO.edit(r);
-                    }
-                }
-            }
-        } catch (Exception e) { 
-            E.e(e); 
-        }
-        //dodawanie straty jak nie bylo zysku
-        if (wynikzarok < 0) {
-            Msg.msg("i", "W roku poprzednim była strata. Dopisuję stratę do listy");
-            Iterator it = stratypodatnika.iterator();
-            while (it.hasNext()) {
-                Strata y = (Strata) it.next();
-                if (y.getRok() == wpisView.getRokUprzedni()) {
-                    it.remove();
-                }
-            }
-            Strata nowastrata = new Strata(wpisView.getPodatnikObiekt(), wpisView.getRokUprzedni(), wynikzarok, Z.z(wynikzarok/2), 0, wynikzarok);
-            strataDAO.usuntensamrok(nowastrata);
-            strataDAO.create(nowastrata);
-            stratypodatnika.add(nowastrata);
-            //wczesniej usunieto zapisy z roku ale nie zaktualizowano podsumowan
-            for (Strata r : stratypodatnika) {
-                double sumabiezace = 0.0;
-                for (StrataWykorzystanie s : r.getNowewykorzystanie()) {
-                    sumabiezace += s.getKwotawykorzystania();
-                }
-                r.setSumabiezace(Z.z(sumabiezace));
-                r.setZostalo(Z.z(r.getKwota() - r.getWykorzystano() - r.getSumabiezace()));
-            }
-            return;
-        } else {
-            Msg.msg("i", "Poprzedni rok zakończył się zyskiem. Nie ma czego dopisać do listy.");
-        }
-        if (strataRozliczonaWDanymRoku > 0) {
-            //nanoszenie rozliczenia strat z lat poprzednich z zysku roku ubieglego
-            for (Strata r : stratypodatnika) {
-                double zostalo = wyliczStrataZostalo(r);
-                List<StrataWykorzystanie> wykorzystanie = r.getNowewykorzystanie();
-                if (zostalo <= 0) {
-                    //nic nie robi bo nie ma co rozliczac
-                } else if (wykorzystanie == null) {
-                    wykorzystanie = Collections.synchronizedList(new ArrayList<>());
-                    StrataWykorzystanie w = new StrataWykorzystanie(r, wpisView.getRokUprzedniSt());
-                    w.setKwotawykorzystania(zostalo >= strataRozliczonaWDanymRoku ? strataRozliczonaWDanymRoku : zostalo);
-                    wykorzystanie.add(w);
-                    strataRozliczonaWDanymRoku -= w.getKwotawykorzystania();
-                    r.setNowewykorzystanie(wykorzystanie);
-                } else if (wykorzystanie.isEmpty()) {
-                    wykorzystanie = Collections.synchronizedList(new ArrayList<>());
-                    StrataWykorzystanie w = new StrataWykorzystanie(r, wpisView.getRokUprzedniSt());
-                    w.setKwotawykorzystania(zostalo >= strataRozliczonaWDanymRoku ? strataRozliczonaWDanymRoku : zostalo);
-                    wykorzystanie.add(w);
-                    strataRozliczonaWDanymRoku -= w.getKwotawykorzystania();
-                    r.setNowewykorzystanie(wykorzystanie);
-                } else {
-                    List<StrataWykorzystanie> nowewykorzystania = Collections.synchronizedList(new ArrayList<>());
-                    for (Iterator<StrataWykorzystanie> it =  wykorzystanie.iterator(); it.hasNext(); ) {
-                        StrataWykorzystanie s = (StrataWykorzystanie) it.next();
-                        if (s.getRokwykorzystania().equals(wpisView.getRokUprzedniSt())) {
-                            s.setKwotawykorzystania(zostalo >= strataRozliczonaWDanymRoku ? strataRozliczonaWDanymRoku : zostalo);
-                            strataRozliczonaWDanymRoku -= s.getKwotawykorzystania();
-                            strataRozliczonaWDanymRoku = Math.round(strataRozliczonaWDanymRoku * 100.0) / 100.0;
-                            break;
-                        } else {
-                            StrataWykorzystanie w = new StrataWykorzystanie(r, wpisView.getRokUprzedniSt());
-                            w.setKwotawykorzystania(zostalo >= strataRozliczonaWDanymRoku ? strataRozliczonaWDanymRoku : zostalo);
-                            strataRozliczonaWDanymRoku -= w.getKwotawykorzystania();
-                            strataRozliczonaWDanymRoku = Z.z(strataRozliczonaWDanymRoku);
-                            nowewykorzystania.add(w);
-                        }
-                    }
-                    wykorzystanie.addAll(nowewykorzystania);
-                }
-                strataDAO.edit(r);
-            }
-        }
-        stratypodatnika = strataDAO.findPodatnik(wpisView.getPodatnikObiekt());
-        for (Strata r : stratypodatnika) {
-            double sumabiezace = 0.0;
-            try {
-                for (StrataWykorzystanie s : r.getNowewykorzystanie()) {
-                    sumabiezace += s.getKwotawykorzystania();
-                }
-            } catch (Exception e) { 
-                E.e(e); 
-            }
-            r.setSumabiezace(Z.z(sumabiezace));
-            r.setZostalo(Z.z(r.getKwota() - r.getWykorzystano() - r.getSumabiezace()));
-            strataDAO.edit(r);
-        }
-        Msg.msg("i", "Ukończyłem rozliczanie strat");
+        Msg.msg("e","Trzeba przerobic rozliczanie strat pkpir");
+//        Msg.msg("i", "Rozpoczynam rozliczanie strat");
+//        List<Pitpoz> pitpoz = pitDAO.findList(wpisView.getRokUprzedniSt(), "13", wpisView.getPodatnikWpisu());
+//        if (pitpoz.isEmpty()) {
+//            Msg.msg("e", "Nie sporządzono pitu za 13-mc poprzedniego roku. Przerywam nanoszenie strat");
+//            return;
+//        }
+//        double strataRozliczonaWDanymRoku = 0.0;
+//        double wynikzarok = 0.0;
+//        for (Pitpoz p : pitpoz) {
+//            strataRozliczonaWDanymRoku = Z.z(p.getStrata());
+//            wynikzarok = Z.z(p.getWynik());
+//        }
+//        try {
+//            //zerowanie strat w przypadku codniecia sie niezbedne
+//            for (Strata r : stratypodatnika) {
+//                Iterator<StrataWykorzystanie> it = r.getListawykorzystanie().iterator();
+//                while (it.hasNext()) {
+//                    StrataWykorzystanie w = it.next();
+//                    if (Integer.parseInt(w.getRok()) >= wpisView.getRokUprzedni()) {
+//                        it.remove();
+//                        strataDAO.edit(r);
+//                    }
+//                }
+//            }
+//        } catch (Exception e) { 
+//            E.e(e); 
+//        }
+//        //dodawanie straty jak nie bylo zysku
+//        if (wynikzarok < 0) {
+//            Msg.msg("i", "W roku poprzednim była strata. Dopisuję stratę do listy");
+//            Iterator it = stratypodatnika.iterator();
+//            while (it.hasNext()) {
+//                Strata y = (Strata) it.next();
+//                if (y.getRok() == wpisView.getRokUprzedni()) {
+//                    it.remove();
+//                }
+//            }
+//            Strata nowastrata = new Strata(wpisView.getPodatnikObiekt(), wpisView.getRokUprzedni(), wynikzarok, Z.z(wynikzarok/2));
+//            strataDAO.usuntensamrok(nowastrata);
+//            strataDAO.create(nowastrata);
+//            stratypodatnika.add(nowastrata);
+//            //wczesniej usunieto zapisy z roku ale nie zaktualizowano podsumowan
+//            for (Strata r : stratypodatnika) {
+//                double sumabiezace = 0.0;
+//                for (StrataWykorzystanie s : r.getListawykorzystanie()) {
+//                    sumabiezace += s.getKwotawykorzystania();
+//                }
+//            }
+//            return;
+//        } else {
+//            Msg.msg("i", "Poprzedni rok zakończył się zyskiem. Nie ma czego dopisać do listy.");
+//        }
+//        if (strataRozliczonaWDanymRoku > 0) {
+//            //nanoszenie rozliczenia strat z lat poprzednich z zysku roku ubieglego
+//            for (Strata r : stratypodatnika) {
+//                double zostalo = wyliczStrataZostalo(r);
+//                List<StrataWykorzystanie> wykorzystanie = r.getListawykorzystanie();
+//                if (zostalo <= 0) {
+//                    //nic nie robi bo nie ma co rozliczac
+//                } else if (wykorzystanie == null) {
+//                    wykorzystanie = Collections.synchronizedList(new ArrayList<>());
+//                    StrataWykorzystanie w = new StrataWykorzystanie(r, wpisView.getRokUprzedniSt(), wpisView.getMiesiacWpisu());
+//                    w.setKwotawykorzystania(zostalo >= strataRozliczonaWDanymRoku ? strataRozliczonaWDanymRoku : zostalo);
+//                    wykorzystanie.add(w);
+//                    strataRozliczonaWDanymRoku -= w.getKwotawykorzystania();
+//                    r.setListawykorzystanie(wykorzystanie);
+//                } else if (wykorzystanie.isEmpty()) {
+//                    wykorzystanie = Collections.synchronizedList(new ArrayList<>());
+//                    StrataWykorzystanie w = new StrataWykorzystanie(r, wpisView.getRokUprzedniSt(), wpisView.getMiesiacWpisu());
+//                    w.setKwotawykorzystania(zostalo >= strataRozliczonaWDanymRoku ? strataRozliczonaWDanymRoku : zostalo);
+//                    wykorzystanie.add(w);
+//                    strataRozliczonaWDanymRoku -= w.getKwotawykorzystania();
+//                    r.setListawykorzystanie(wykorzystanie);
+//                } else {
+//                    List<StrataWykorzystanie> nowewykorzystania = Collections.synchronizedList(new ArrayList<>());
+//                    for (Iterator<StrataWykorzystanie> it =  wykorzystanie.iterator(); it.hasNext(); ) {
+//                        StrataWykorzystanie s = (StrataWykorzystanie) it.next();
+//                        if (s.getRok().equals(wpisView.getRokUprzedniSt())) {
+//                            s.setKwotawykorzystania(zostalo >= strataRozliczonaWDanymRoku ? strataRozliczonaWDanymRoku : zostalo);
+//                            strataRozliczonaWDanymRoku -= s.getKwotawykorzystania();
+//                            strataRozliczonaWDanymRoku = Math.round(strataRozliczonaWDanymRoku * 100.0) / 100.0;
+//                            break;
+//                        } else {
+//                            StrataWykorzystanie w = new StrataWykorzystanie(r, wpisView.getRokUprzedniSt(), wpisView.getMiesiacWpisu());
+//                            w.setKwotawykorzystania(zostalo >= strataRozliczonaWDanymRoku ? strataRozliczonaWDanymRoku : zostalo);
+//                            strataRozliczonaWDanymRoku -= w.getKwotawykorzystania();
+//                            strataRozliczonaWDanymRoku = Z.z(strataRozliczonaWDanymRoku);
+//                            nowewykorzystania.add(w);
+//                        }
+//                    }
+//                    wykorzystanie.addAll(nowewykorzystania);
+//                }
+//                strataDAO.edit(r);
+//            }
+//        }
+//        stratypodatnika = strataDAO.findPodatnik(wpisView.getPodatnikObiekt());
+//        for (Strata r : stratypodatnika) {
+//            double sumabiezace = 0.0;
+//            try {
+//                for (StrataWykorzystanie s : r.getListawykorzystanie()) {
+//                    sumabiezace += s.getKwotawykorzystania();
+//                }
+//            } catch (Exception e) { 
+//                E.e(e); 
+//            }
+//            strataDAO.edit(r);
+//        }
+//        Msg.msg("i", "Ukończyłem rozliczanie strat");
     }
 
     //wyliczenie niezbedne przy wracaniu do historycznych pitow
     private double wyliczStrataZostalo(Strata tmp) {
         double zostalo = 0.0;
-        double sumabiezace = 0.0;
-        try {
-            for (StrataWykorzystanie s : tmp.getNowewykorzystanie()) {
-                if (Integer.parseInt(s.getRokwykorzystania()) < wpisView.getRokUprzedni()) {
-                    sumabiezace += s.getKwotawykorzystania();
-                    sumabiezace = Math.round(sumabiezace * 100.0) / 100.0;
-                }
-            }
-        } catch (Exception e) { E.e(e); 
-        }
-        zostalo += Z.z(tmp.getKwota() - tmp.getWykorzystano() - sumabiezace);
+        Msg.msg("e","Trzeba przerobic rozliczanie strat pkpir");
+//        double sumabiezace = 0.0;
+//        try {
+//            for (StrataWykorzystanie s : tmp.getListawykorzystanie()) {
+//                if (Integer.parseInt(s.getRok()) < wpisView.getRokUprzedni()) {
+//                    sumabiezace += s.getKwotawykorzystania();
+//                    sumabiezace = Math.round(sumabiezace * 100.0) / 100.0;
+//                }
+//            }
+//        } catch (Exception e) { E.e(e); 
+//        }
+//        zostalo += Z.z(tmp.getKwota() - tmp.getWykorzystano() - sumabiezace);
         return zostalo;
     }
 

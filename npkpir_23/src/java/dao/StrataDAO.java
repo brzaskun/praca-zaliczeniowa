@@ -10,16 +10,17 @@ import entity.Strata;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PreDestroy;
-import javax.inject.Inject;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import session.SessionFacade;
+import javax.transaction.Transactional;
 /**
  *
  * @author Osito
  */
+@Stateless
+@Transactional
 public class StrataDAO  extends DAO implements Serializable {
-    @Inject private SessionFacade sessionFacade;
    @PersistenceContext(unitName = "npkpir_22PU")
     private EntityManager em;
     
@@ -42,11 +43,11 @@ public class StrataDAO  extends DAO implements Serializable {
     }
 
     public List<Strata> findPodatnik(Podatnik podatnikObiekt) {
-        return sessionFacade.getEntityManager().createNamedQuery("Strata.findByPodatnik").setParameter("podatnik", podatnikObiekt).getResultList();
+        return getEntityManager().createNamedQuery("Strata.findByPodatnik").setParameter("podatnik", podatnikObiekt).getResultList();
     }
 
     public void usuntensamrok(Strata nowastrata) {
-        Strata strata = (Strata) sessionFacade.getEntityManager().createNamedQuery("Strata.findByPodatnikRok").setParameter("podatnik", nowastrata.getPodatnikObj()).setParameter("rok", nowastrata.getRok());
+        Strata strata = (Strata) getEntityManager().createNamedQuery("Strata.findByPodatnikRok").setParameter("podatnik", nowastrata.getPodatnikObj()).setParameter("rok", nowastrata.getRok());
         if (strata != null) {
             remove(strata);
         }

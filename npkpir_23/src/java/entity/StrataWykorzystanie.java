@@ -28,14 +28,14 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @Table(name = "stratawykorzystanie", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"strata", "rokwykorzystania"})
+    @UniqueConstraint(columnNames = {"strata", "rok", "mc"})
 })
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "StrataWykorzystanie.findAll", query = "SELECT a FROM StrataWykorzystanie a"),
     @NamedQuery(name = "StrataWykorzystanie.findById", query = "SELECT a FROM StrataWykorzystanie a WHERE a.id = :id"),
     @NamedQuery(name = "StrataWykorzystanie.findByStrata", query = "SELECT a FROM StrataWykorzystanie a WHERE a.strata = :strata"),
-    @NamedQuery(name = "StrataWykorzystanie.findByRok", query = "SELECT a FROM StrataWykorzystanie a WHERE a.rokwykorzystania = :rok"),
+    @NamedQuery(name = "StrataWykorzystanie.findByRok", query = "SELECT a FROM StrataWykorzystanie a WHERE a.rok = :rok"),
     })
 public class StrataWykorzystanie implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -47,22 +47,26 @@ public class StrataWykorzystanie implements Serializable {
     @JoinColumn(name = "strata", referencedColumnName = "id")
     @ManyToOne(cascade = CascadeType.ALL)
     private Strata strata;
-    @Column(name = "rokwykorzystania")
-    private String rokwykorzystania;
+    @Column(name = "rok")
+    private String rok;
+    @Column(name = "mc")
+    private String mc;
     @Column(name = "kwotawykorzystania")
     private double kwotawykorzystania;
 
     public StrataWykorzystanie() {
     }
 
-    public StrataWykorzystanie(Strata strata, String rokwykorzystania) {
+    public StrataWykorzystanie(Strata strata, String rokwykorzystania, String mc) {
         this.strata = strata;
-        this.rokwykorzystania = rokwykorzystania;
+        this.rok = rokwykorzystania;
+        this.mc = mc;
     }
     
-    public StrataWykorzystanie(Strata strata, String rokwykorzystania, double kwotawykorzystania) {
+    public StrataWykorzystanie(Strata strata, String rokwykorzystania, String mc, double kwotawykorzystania) {
         this.strata = strata;
-        this.rokwykorzystania = rokwykorzystania;
+        this.rok = rokwykorzystania;
+        this.mc = mc;
         this.kwotawykorzystania = kwotawykorzystania;
     }
 
@@ -97,7 +101,7 @@ public class StrataWykorzystanie implements Serializable {
 
     @Override
     public String toString() {
-        return "StrataWykorzystanie{" + "strata=" + strata.getPodatnikObj().getNazwapelna() + ", rokwykorzystania=" + rokwykorzystania + ", kwotawykorzystania=" + kwotawykorzystania + '}';
+        return "StrataWykorzystanie{" + "strata=" + strata.getPodatnikObj().getNazwapelna() + ", rokwykorzystania=" + rok + ", kwotawykorzystania=" + kwotawykorzystania + '}';
     }
 
     public Integer getId() {
@@ -116,12 +120,16 @@ public class StrataWykorzystanie implements Serializable {
         this.strata = strata;
     }
 
-    public String getRokwykorzystania() {
-        return rokwykorzystania;
+    public String getRok() {
+        return rok;
+    }
+    
+    public int getRokInt() {
+        return Integer.parseInt(rok);
     }
 
-    public void setRokwykorzystania(String rokwykorzystania) {
-        this.rokwykorzystania = rokwykorzystania;
+    public void setRok(String rok) {
+        this.rok = rok;
     }
 
     public double getKwotawykorzystania() {
@@ -131,6 +139,19 @@ public class StrataWykorzystanie implements Serializable {
     public void setKwotawykorzystania(double kwotawykorzystania) {
         this.kwotawykorzystania = kwotawykorzystania;
     }
+
+    public String getMc() {
+        return mc;
+    }
+    
+    public int getMcInt() {
+        return Integer.parseInt(mc);
+    }
+
+    public void setMc(String mc) {
+        this.mc = mc;
+    }
+    
     
     
     

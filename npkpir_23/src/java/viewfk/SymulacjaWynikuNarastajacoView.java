@@ -5,11 +5,15 @@
  */
 package viewfk;
 
+import comparator.Stratacomparator;
 import dao.PodatnikUdzialyDAO;
+import dao.StrataDAO;
 import dao.WynikFKRokMcDAO;
 import data.Data;
 import embeddable.Mce;
 import entity.PodatnikUdzialy;
+import entity.Strata;
+import entity.StrataWykorzystanie;
 import entityfk.WynikFKRokMc;
 import enumy.FormaPrawna;
 import error.E;
@@ -50,10 +54,13 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
     private List<WynikFKRokMc> pozycjeObliczeniaPodatkuTabela;
     private List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeDoWyplaty;
     private List<SymulacjaWynikuView.PozycjeSymulacjiTabela> pozycjeDoWyplatyTablica;
+    private List<Strata> straty;
     private Map<String, Double> zaplaconepodatki;
     private Map<String, Double> wyplaconedywidendy;
     @Inject
     private WynikFKRokMcDAO wynikFKRokMcDAO;
+    @Inject
+    private StrataDAO strataDAO;
     @Inject
     private WpisView wpisView;
     private double wynikfinansowy;
@@ -132,20 +139,27 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
         WynikFKRokMc w = new WynikFKRokMc();
         double przychod = 0;
         double koszt = 0;
+        double przychodPodatkowy = 0;
+        double kosztPodatkowy = 0;
         double npup = 0;
         double nkup = 0;
         for (WynikFKRokMc p : listamiesiecy) {
             przychod += p.getPrzychody();
             koszt += p.getKoszty();
+            przychodPodatkowy += p.getPrzychodyPodatkoweKonta();
+            kosztPodatkowy += p.getKosztyPodatkoweKonta();
             npup += p.getNpup();
             nkup += p.getNkup();
         }
         w.setPrzychody(Z.z(przychod));
         w.setKoszty(Z.z(koszt));
         w.setWynikfinansowy(Z.z(przychod-koszt));
+        w.setPrzychodyPodatkoweKonta(przychodPodatkowy);
+        w.setKosztyPodatkoweKonta(kosztPodatkowy);
+        w.setWynikPodatkowyWstepny(przychodPodatkowy-kosztPodatkowy);
         w.setNpup(npup);
         w.setNkup(nkup);
-        w.setWynikpodatkowy(Z.z(przychod-koszt+npup+nkup));
+        w.setWynikpodatkowy(Z.z(przychod-koszt+przychodPodatkowy-kosztPodatkowy+npup+nkup));
         return w;
     }
     
@@ -183,15 +197,33 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
         pozycjePodsumowaniaWyniku.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("koszty"), kosztynarastajaco));
         wynikfinansowy = Z.z(przychodynarastajaco - kosztynarastajaco);
         pozycjePodsumowaniaWyniku.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("wynikfinansowy"), wynikfinansowy));
+        wynikfinansowy = Z.z(przychodynarastajaco - kosztynarastajaco);
+        double przychodypodatkowenarastajaco = sumamiesiecy.getPrzychodyPodatkoweKonta();
+        pozycjePodsumowaniaWyniku.add(new SymulacjaWynikuView.PozycjeSymulacji("przych. pod. konta", przychodypodatkowenarastajaco));
         double npup = sumamiesiecy.getNpup();
         pozycjePodsumowaniaWyniku.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("npup"), npup));
-        pozycjePodsumowaniaWyniku.add(new SymulacjaWynikuView.PozycjeSymulacji("przychód podatkowy", Z.z(przychodynarastajaco+npup)));
+        pozycjePodsumowaniaWyniku.add(new SymulacjaWynikuView.PozycjeSymulacji("przychód podatkowy po kor.", Z.z(przychodynarastajaco+npup+przychodypodatkowenarastajaco)));
+        double kosztypodatkowenarastajaco = sumamiesiecy.getKosztyPodatkoweKonta();
+        pozycjePodsumowaniaWyniku.add(new SymulacjaWynikuView.PozycjeSymulacji("koszty pod. konta", kosztypodatkowenarastajaco));
         double nkup = sumamiesiecy.getNkup();
         pozycjePodsumowaniaWyniku.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("nkup"), nkup));
-         pozycjePodsumowaniaWyniku.add(new SymulacjaWynikuView.PozycjeSymulacji("koszt podatkowy", Z.z(kosztynarastajaco-nkup)));
-        wynikpodatkowy = Z.z(wynikfinansowy + npup + nkup);
+        pozycjePodsumowaniaWyniku.add(new SymulacjaWynikuView.PozycjeSymulacji("koszt podatkowy po kor.", Z.z(kosztynarastajaco-nkup+kosztypodatkowenarastajaco)));
+        double wynikpodatkowywstepny = Z.z(przychodypodatkowenarastajaco-kosztypodatkowenarastajaco);
+        wynikpodatkowy = Z.z(wynikfinansowy + wynikpodatkowywstepny + npup + nkup);
         pozycjePodsumowaniaWyniku.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("wynikpodatkowy"), wynikpodatkowy));
         wynikfinansowynetto = wynikpodatkowy;
+        straty = strataDAO.findPodatnik(wpisView.getPodatnikObiekt());
+        double pozostalodoodliczenia = sumujpozostale(straty, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+        double rozliczyc = pozostalodoodliczenia;
+        if (pozostalodoodliczenia>=wynikfinansowynetto) {
+            rozliczyc = wynikfinansowynetto;
+        }
+        double strata = 0.0;
+        if (rozliczyc>0) {
+            strata = naniesrozliczenia(straty,rozliczyc);
+            strataDAO.editList(straty);
+        }
+        pozycjePodsumowaniaWyniku.add(new SymulacjaWynikuView.PozycjeSymulacji("strata z lat ub. do rozliczenia", strata));
         boolean formaprawna = true;
         //Usunalem rozroznienie
 //        if (wpisView.getPodatnikObiekt().getFormaPrawna() == null) {
@@ -200,11 +232,12 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
 //            formaprawna = false;
 //        }
         if (formaprawna) {
-            double podstawaopodatkowania = Z.z0(wynikpodatkowy);
+            double podstawaopodatkowania = Z.z0(wynikpodatkowy-strata);
             pdop = 0.0;
             if (podstawaopodatkowania > 0) {
                 pdop = Z.z0(podstawaopodatkowania*wpisView.getStawkapodatkuospr());
             }
+            pozycjePodsumowaniaWyniku.add(new SymulacjaWynikuView.PozycjeSymulacji("podstawa opododatkowania", podstawaopodatkowania));
             pozycjePodsumowaniaWyniku.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("pdop"), pdop));
             pozycjePodsumowaniaWyniku.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("zapłacono"), zaplacono));
             wynikfinansowynetto = wynikfinansowy - pdop; 
@@ -263,6 +296,39 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
         } catch (Exception e) {  E.e(e);
             Msg.msg("e", "Nie określono udziałów w ustawieniach podatnika. Nie można obliczyć podatku");
         }
+    }
+    
+    private double naniesrozliczenia(List<Strata> straty, double rozliczyc) {
+        double naniesiono = 0.0;
+        Collections.sort(straty, new Stratacomparator());
+        for (Strata p : straty) {
+            double zostalo = Z.z(p.getKwota()-p.getWykorzystano(wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu()));
+            if (naniesiono<rozliczyc) {
+                StrataWykorzystanie wykorzystanie = p.pobierzWykorzystanie(wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+                if (zostalo>0.0) {
+                    if (zostalo>=rozliczyc) {
+                        wykorzystanie.setKwotawykorzystania(rozliczyc);
+                        naniesiono = Z.z(naniesiono+rozliczyc);
+                    } else {
+                        wykorzystanie.setKwotawykorzystania(zostalo);
+                        naniesiono = Z.z(naniesiono+zostalo);
+                    }
+                } else {
+                    p.getListawykorzystanie().remove(wykorzystanie);
+                    break;
+                }
+            }
+        }
+        return naniesiono;
+    }
+
+    
+    private double sumujpozostale(List<Strata> straty, String rok, String mc) {
+        double zwrot = 0.0;
+        for (Strata p : straty) {
+            zwrot = zwrot + (p.getPolowakwoty()-p.getWykorzystano(rok, mc));
+        }
+        return zwrot;
     }
     
      private void obliczsymulacjepoprzedniemce() {
@@ -542,6 +608,9 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
         this.sumapoprzednichmiesiecy = sumapoprzednichmiesiecy;
     }
 //</editor-fold>
+
+    
+    
 
    
     

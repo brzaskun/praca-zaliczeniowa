@@ -294,6 +294,14 @@ public class StronaWiersza implements Serializable {
         }
     }
 
+    public String getColor() {
+        String zwrot = "initial";
+        if (this.isTylkopodatkowo()) {
+            zwrot = "blue";
+        }
+        return zwrot;
+    }
+    
 
     
     public double getKursBO() {

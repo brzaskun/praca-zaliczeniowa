@@ -79,8 +79,16 @@ public class WynikFKRokMc implements Serializable {
     private String rok;
     @Column(precision = 22)
     private Double wynikfinansowy;
+    @Column(name = "przychodypodatkowekonta")
+    private double przychodyPodatkoweKonta;
+    @Column(name = "kosztypodatkowekonta")
+    private double kosztyPodatkoweKonta;
+    @Column(name = "wynikpodatkowywstepny")
+    private double wynikPodatkowyWstepny;
     @Column(name = "wynikfinansowynarastajaco",precision = 22)
     private Double wynikfinansowynarastajaco;
+    @Column(name = "wynikpodatkowywstepnynarastajaco")
+    private double wynikPodatkowyWstepnyNarastajaco;
     @Column(precision = 22)
     private Double wynikpodatkowy;
     @Column(precision = 22)
@@ -275,17 +283,25 @@ public class WynikFKRokMc implements Serializable {
     public void setData(Date data) {
         this.data = data;
     }
+
+    public double getWynikPodatkowyWstepnyNarastajaco() {
+        return wynikPodatkowyWstepnyNarastajaco;
+    }
+
+    public void setWynikPodatkowyWstepnyNarastajaco(double wynikPodatkowyWstepnyNarastajaco) {
+        this.wynikPodatkowyWstepnyNarastajaco = wynikPodatkowyWstepnyNarastajaco;
+    }
     
     public double getPrzychodyPodatkowe() {
         double p = this.przychody!=null ? this.przychody : 0.0;
         double k = this.npup !=null ? this.npup : 0.0;
-        return Z.z(p+k);
+        return Z.z(p+k+this.przychodyPodatkoweKonta);
     }
     
     public double getKosztyPodatkowe() {
         double p = this.koszty!=null ? this.koszty : 0.0;
         double k = this.nkup !=null ? this.nkup : 0.0;
-        return Z.z(p-k);
+        return Z.z(p-k+this.kosztyPodatkoweKonta);
     }
     
 //    public List<SaldoKonto> getListaprzychody() {
@@ -311,6 +327,30 @@ public class WynikFKRokMc implements Serializable {
     
     public void setPodatek(Double podatek) {
         this.podatek = podatek;
+    }
+
+    public double getWynikPodatkowyWstepny() {
+        return wynikPodatkowyWstepny;
+    }
+
+    public void setWynikPodatkowyWstepny(double wynikPodatkowyWstepny) {
+        this.wynikPodatkowyWstepny = wynikPodatkowyWstepny;
+    }
+
+    public double getPrzychodyPodatkoweKonta() {
+        return przychodyPodatkoweKonta;
+    }
+
+    public void setPrzychodyPodatkoweKonta(double przychodyPodatkoweKonta) {
+        this.przychodyPodatkoweKonta = przychodyPodatkoweKonta;
+    }
+
+    public double getKosztyPodatkoweKonta() {
+        return kosztyPodatkoweKonta;
+    }
+
+    public void setKosztyPodatkoweKonta(double kosztyPodatkoweKonta) {
+        this.kosztyPodatkoweKonta = kosztyPodatkoweKonta;
     }
     
     public Double getWynikfinansowynetto() {

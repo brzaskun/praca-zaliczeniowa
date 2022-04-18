@@ -189,10 +189,39 @@ public class SymulacjaWynikuView implements Serializable {
     private void naniesZapisyNaKontoR(SaldoKonto saldoKonto, Konto p, List<StronaWiersza> zapisyRok, int przychod0koszt1) {
         double sumaWn = 0.0;
         double sumaMa = 0.0;
+        double sumaWnPodatki = 0.0;
+        double sumaMaPodatki = 0.0;
         double vat = 0.0;
         for (StronaWiersza r : zapisyRok) {
             if (r.getKonto().equals(p)) {
-                if (wybranawaluta == null) {
+                double[] wyniksumowania = nanieszapisysuma(wybranawaluta, r, przychod0koszt1);
+                if (r.isTylkopodatkowo()) {
+                    sumaWnPodatki = sumaWn+wyniksumowania[0];
+                    sumaMaPodatki = sumaMa+wyniksumowania[1];
+                } else {
+                    sumaWn = sumaWn+wyniksumowania[0];
+                    sumaMa = sumaMa+wyniksumowania[1];
+                }
+                saldoKonto.getZapisy().add(r);
+                Dokfk dok = r.getDokfk();
+                if (!saldoKonto.getKonto().getPelnynumer().equals("404-2")&&!dokumentyzodliczonymvat.contains(dok)) {
+                    vat +=  dok.getVATVAT();
+                    dokumentyzodliczonymvat.add(dok);
+                }
+            }
+        }
+        saldoKonto.setVat(vat);
+        saldoKonto.setObrotyWn(sumaWn);
+        saldoKonto.setObrotyMa(sumaMa);
+        saldoKonto.setObrotyWnPodatki(sumaWnPodatki);
+        saldoKonto.setObrotyMaPodatki(sumaMaPodatki);
+    }
+    
+    private double[] nanieszapisysuma(String wybranawaluta,  StronaWiersza r, int przychod0koszt1) {
+        double[] zwrot = new double[2];
+        double sumaWn = 0.0;
+        double sumaMa = 0.0;
+        if (wybranawaluta == null) {
                     if (r.getKonto().getZwyklerozrachszczegolne().equals("szczególne")) {
                         if (r.getWnma().equals("Wn") && przychod0koszt1 == 1) {
                             sumaWn += r.getKwotaPLN();
@@ -210,7 +239,7 @@ public class SymulacjaWynikuView implements Serializable {
                             sumaMa += r.getKwotaPLN();
                         }
                     }
-                    saldoKonto.getZapisy().add(r);
+                    
                 } else {
                     if (r.getSymbolWalutBOiSW().equals(wybranawaluta)) {
                         if (r.getKonto().getZwyklerozrachszczegolne().equals("szczególne")) {
@@ -230,19 +259,11 @@ public class SymulacjaWynikuView implements Serializable {
                                 sumaMa += r.getKwota();
                             }
                         }
-                        saldoKonto.getZapisy().add(r);
                     }
                 }
-                Dokfk dok = r.getDokfk();
-                if (!saldoKonto.getKonto().getPelnynumer().equals("404-2")&&!dokumentyzodliczonymvat.contains(dok)) {
-                    vat +=  dok.getVATVAT();
-                    dokumentyzodliczonymvat.add(dok);
-                }
-            }
-        }
-        saldoKonto.setVat(vat);
-        saldoKonto.setObrotyWn(sumaWn);
-        saldoKonto.setObrotyMa(sumaMa);
+        zwrot[0] = sumaWn;
+        zwrot[1] = sumaMa;
+        return zwrot;
     }
     
     
@@ -331,16 +352,24 @@ public class SymulacjaWynikuView implements Serializable {
         }
     }
 
-    private double sumuj(List<SaldoKonto> listakonta, String przychodykoszty) {
+    private double sumuj(List<SaldoKonto> listakonta, String przychodykoszty, int podatki1finanse0razem3) {
         double suma = 0.0;
         if (przychodykoszty.equals("przychody")) {
             for (SaldoKonto p : listakonta) {
-                suma += (p.getSaldoMa() - p.getSaldoWn());
+                if (podatki1finanse0razem3==0) {
+                    suma += (p.getSaldoMa() - p.getSaldoWn());
+                } else {
+                    suma += (p.getSaldoMaPodatki() - p.getSaldoWnPodatki());
+                }
             }
         }
         if (przychodykoszty.equals("koszty")) {
             for (SaldoKonto p : listakonta) {
-                suma += (p.getSaldoWn() - p.getSaldoMa());
+                if (podatki1finanse0razem3==0) {
+                    suma += (p.getSaldoWn() - p.getSaldoMa());
+                } else {
+                    suma += (p.getSaldoWnPodatki() - p.getSaldoMaPodatki());
+                }
             }
         }
         return suma;
@@ -348,9 +377,11 @@ public class SymulacjaWynikuView implements Serializable {
 
     private void obliczsymulacje() {
         pozycjePodsumowaniaWyniku = Collections.synchronizedList(new ArrayList<>());
-        double przychody = Z.z(sumuj(listakontaprzychody, "przychody"));
+        double przychody = Z.z(sumuj(listakontaprzychody, "przychody",0));
+        przychody += Z.z(sumuj(listakontaprzychody, "przychody",1));
         pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji(B.b("przychodyrazem"), przychody));
-        double koszty = Z.z(sumuj(listakontakoszty, "koszty"));
+        double koszty = Z.z(sumuj(listakontakoszty, "koszty",0));
+        koszty += Z.z(sumuj(listakontakoszty, "koszty",1));
         pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji(B.b("kosztyrazem"), koszty));
         wynikfinansowy = Z.z(przychody - koszty);
         pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji(B.b("wynikfinansowy"), wynikfinansowy));
@@ -366,27 +397,33 @@ public class SymulacjaWynikuView implements Serializable {
     
     private void obliczsymulacjeNowa() {
         pozycjePodsumowaniaWynikuNowe = Collections.synchronizedList(new ArrayList<>());
-        double przychody = Z.z(sumuj(listakontaprzychody, "przychody"));
-        double koszty = Z.z(sumuj(listakontakoszty, "koszty"));
+        double przychody = Z.z(sumuj(listakontaprzychody, "przychody",0));
+        double koszty = Z.z(sumuj(listakontakoszty, "koszty",0));
         double wynik = Z.z(przychody - koszty);
-        double wynikpodatkowy = Z.z(wynikfinansowy + nkup + kupmn_mc + kupmn_mc_pop + npup + pmn_mc + pmn_mc_pop);
+        double przychodyPodatkowe = Z.z(sumuj(listakontaprzychody, "przychody",1));
+        double kosztyPodatkowe = Z.z(sumuj(listakontakoszty, "koszty",1));
+        double wynikPodatkowyWstepny = Z.z(przychodyPodatkowe - kosztyPodatkowe);
+        double wynikpodatkowy = Z.z(wynikfinansowy +wynikPodatkowyWstepny + nkup + kupmn_mc + kupmn_mc_pop + npup + pmn_mc + pmn_mc_pop);
         double udzial = 1;
         String kto = B.b("wszyscy");
         int id = 1;
-        pozycjePodsumowaniaWynikuNowe.add(obliczpojedyncza(id++, przychody, koszty, wynik, wynikpodatkowy, udzial, kto));
+        pozycjePodsumowaniaWynikuNowe.add(obliczpojedyncza(id++, przychody, koszty, wynik, przychodyPodatkowe, kosztyPodatkowe, wynikPodatkowyWstepny, wynikpodatkowy, udzial, kto));
         List<PodatnikUdzialy> udzialy = podatnikUdzialyDAO.findUdzialyPodatnikBiezace(wpisView);
         for (PodatnikUdzialy p : udzialy) {
             double udział = Z.z4(Double.parseDouble(p.getUdzial())/100);
-            pozycjePodsumowaniaWynikuNowe.add(obliczpojedyncza(id++, przychody, koszty, wynik, wynikpodatkowy, udział, p.getNazwiskoimie()));
+            pozycjePodsumowaniaWynikuNowe.add(obliczpojedyncza(id++, przychody, koszty, wynik, przychodyPodatkowe, kosztyPodatkowe, wynikPodatkowyWstepny,wynikpodatkowy, udział, p.getNazwiskoimie()));
         }
     }
     
-    private PozycjeSymulacjiNowe obliczpojedyncza(int id, double przychody, double koszty, double wynik, double wynikpodatkowy, double udzial, String kto) {
+    private PozycjeSymulacjiNowe obliczpojedyncza(int id, double przychody, double koszty, double wynik, double przychodyPodatkowe, double kosztyPodatkowe, double wynikPodatkowyWstepny, double wynikpodatkowy, double udzial, String kto) {
         PozycjeSymulacjiNowe p = new PozycjeSymulacjiNowe();
         p.setId(id);
         p.setPrzychody(Z.z(przychody*udzial));
         p.setKoszty(Z.z(koszty*udzial));
         p.setWynikfinansowy(Z.z(wynik*udzial));
+        p.setPrzychodyPodatkowe(Z.z(przychodyPodatkowe*udzial));
+        p.setKosztyPodatkowe(Z.z(kosztyPodatkowe*udzial));
+        p.setWynikPodatkowyWstępny(Z.z(wynikPodatkowyWstepny*udzial));
         p.setNkup(Z.z(nkup*udzial));
         p.setKupmn(Z.z(kupmn_mc*udzial));
         p.setKupmn_poprzedniemce(Z.z(kupmn_mc_pop*udzial));
@@ -504,25 +541,31 @@ public class SymulacjaWynikuView implements Serializable {
     public void zaksiegujwynik () {
         if (this.mcod.equals(this.mcdo)) {
             double wynikfinnarastajaco = 0.0;
+            double wynikpodatkowynarastajaco = 0.0;
             List<WynikFKRokMc> wynikpoprzedniemce = wynikFKRokMcDAO.findWynikFKPodatnikRokFirma(wpisView);
             for (WynikFKRokMc p : wynikpoprzedniemce) {
                 if (Mce.getMiesiacToNumber().get(p.getMc()) < Mce.getMiesiacToNumber().get(wpisView.getMiesiacWpisu())) {
                     wynikfinnarastajaco += p.getWynikfinansowy();
                 }
             }
-            List<PozycjeSymulacji> pozycje = new ArrayList<>(pozycjePodsumowaniaWyniku);
+            PozycjeSymulacjiNowe wszyscy = pozycjePodsumowaniaWynikuNowe.get(0);
             WynikFKRokMc wynikFKRokMc = new WynikFKRokMc();
             wynikFKRokMc.setPodatnikObj(wpisView.getPodatnikObiekt());
             wynikFKRokMc.setRok(wpisView.getRokWpisuSt());
             wynikFKRokMc.setMc(wpisView.getMiesiacWpisu());
-            wynikFKRokMc.setPrzychody(pozycje.get(0).getWartosc());
-            wynikFKRokMc.setKoszty(pozycje.get(1).getWartosc());
-            wynikFKRokMc.setWynikfinansowy(pozycje.get(2).getWartosc());
+            wynikFKRokMc.setPrzychody(wszyscy.getPrzychody());
+            wynikFKRokMc.setKoszty(wszyscy.getKoszty());
+            wynikFKRokMc.setWynikfinansowy(wszyscy.getWynikfinansowy());
+            wynikFKRokMc.setPrzychodyPodatkoweKonta(wszyscy.getPrzychodyPodatkowe());
+            wynikFKRokMc.setKosztyPodatkoweKonta(wszyscy.getKosztyPodatkowe());
+            wynikFKRokMc.setWynikPodatkowyWstepny(wszyscy.getWynikPodatkowyWstępny());
             wynikfinnarastajaco += wynikFKRokMc.getWynikfinansowy();
             wynikFKRokMc.setWynikfinansowynarastajaco(wynikfinnarastajaco);
-            wynikFKRokMc.setNkup(pozycje.get(3).getWartosc()+pozycje.get(4).getWartosc()+pozycje.get(5).getWartosc());
-            wynikFKRokMc.setNpup(pozycje.get(6).getWartosc()+pozycje.get(7).getWartosc()+pozycje.get(8).getWartosc());
-            wynikFKRokMc.setWynikpodatkowy(pozycje.get(9).getWartosc());
+            wynikFKRokMc.setNkup(wszyscy.getNkup()+wszyscy.getKupmn()+wszyscy.getKupmn_poprzedniemce());
+            wynikFKRokMc.setNpup(wszyscy.getNpup()+wszyscy.getPmn()+wszyscy.getPmn_poprzedniemce());
+            wynikFKRokMc.setWynikpodatkowy(wynikFKRokMc.getWynikfinansowy()+wynikFKRokMc.getWynikPodatkowyWstepny()+wynikFKRokMc.getNkup()+wynikFKRokMc.getNpup());
+            wynikpodatkowynarastajaco += wynikFKRokMc.getWynikpodatkowy();
+            wynikFKRokMc.setWynikPodatkowyWstepnyNarastajaco(wynikpodatkowynarastajaco);
             wynikFKRokMc.setUdzialowiec("firma");
     //        if (wpisView.getPodatnikObiekt().getFormaPrawna().equals(FormaPrawna.SPOLKA_Z_O_O)) {
     //            wynikFKRokMc.setPodatek(pozycje.get(6).getWartosc());

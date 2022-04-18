@@ -416,14 +416,14 @@ public class ZestawienieRyczaltView implements Serializable {
     private double wyliczStrataZostalo(Strata tmp) {
         double zostalo = 0.0;
         double sumabiezace = 0.0;
-        if (tmp.getNowewykorzystanie() != null) {
-            for (StrataWykorzystanie s : tmp.getNowewykorzystanie()) {
-                if (Integer.parseInt(s.getRokwykorzystania()) < wpisView.getRokWpisu()) {
+        if (tmp.getListawykorzystanie() != null) {
+            for (StrataWykorzystanie s : tmp.getListawykorzystanie()) {
+                if (Integer.parseInt(s.getRok()) < wpisView.getRokWpisu()) {
                     sumabiezace += s.getKwotawykorzystania();
                 }
             }
         } else {
-            tmp.setNowewykorzystanie(new ArrayList<StrataWykorzystanie>());
+            tmp.setListawykorzystanie(new ArrayList<StrataWykorzystanie>());
 
         }
         zostalo += Z.z(tmp.getKwota() - tmp.getWykorzystano() - Z.z(sumabiezace));

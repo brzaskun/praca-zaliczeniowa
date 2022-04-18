@@ -26,6 +26,9 @@ public class PozycjeSymulacjiNowe  implements Serializable{
     private double przychody;
     private double koszty;
     private double wynikfinansowy;
+    private double przychodyPodatkowe;
+    private double kosztyPodatkowe;
+    private double wynikPodatkowyWstępny;
     private double nkup;
     private double kupmn;
     private double kupmn_poprzedniemce;
@@ -138,6 +141,30 @@ public class PozycjeSymulacjiNowe  implements Serializable{
 
     public void setWynikfinansowy(double wynikfinansowy) {
         this.wynikfinansowy = wynikfinansowy;
+    }
+
+    public double getPrzychodyPodatkowe() {
+        return przychodyPodatkowe;
+    }
+
+    public void setPrzychodyPodatkowe(double przychodyPodatkowe) {
+        this.przychodyPodatkowe = przychodyPodatkowe;
+    }
+
+    public double getKosztyPodatkowe() {
+        return kosztyPodatkowe;
+    }
+
+    public void setKosztyPodatkowe(double kosztyPodatkowe) {
+        this.kosztyPodatkowe = kosztyPodatkowe;
+    }
+
+    public double getWynikPodatkowyWstępny() {
+        return wynikPodatkowyWstępny;
+    }
+
+    public void setWynikPodatkowyWstępny(double wynikPodatkowyWstępny) {
+        this.wynikPodatkowyWstępny = wynikPodatkowyWstępny;
     }
 
     public double getNkup() {

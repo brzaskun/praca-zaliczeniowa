@@ -1,0 +1,91 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:ft="http://primefaces.prime.com.tr/facestrace"
+    
+    xmlns:bcf="http://brzaskun.com/facelets">
+    <p:tab id="tab5" title="Straty z lat ubiegłych.">
+            <h:form id="form1">
+                <p:panel header="Nanoszenie strat możliwe jest jedynie po sporządzeniu PIT-ow za 12 mcy oraz po wybraniu miesiąca stycznia roku następnego"/>
+                <p:dataTable id="tabelastrat" value="#{strataView.stratypodatnika}" emptyMessage="Nie ma nic" var="loop"
+                             style="min-width: 500px; max-width: 900px;" expandedRow="true">
+                    <p:column style="width: 4%;">
+                        <p:rowToggler />
+                    </p:column>
+                    <p:column headerText="rok" width="40">
+                        <h:outputText value="#{loop.rok}" />
+                    </p:column>
+                    <p:column headerText="#{mgs.kwota}" width="90">
+                        <bcf:outputpl value="#{loop.kwota}"/>
+                    </p:column>
+                    <p:column headerText="50%" width="100">
+                        <bcf:outputpl value="#{loop.polowakwoty}"/>
+                    </p:column>
+                    <p:column headerText="wykorzyst. uprzednio" width="90">
+                        <bcf:outputpl value="#{loop.wykorzystano}"/>
+                    </p:column>
+                    <p:column headerText="wykorzyst. bieżące" width="90">
+                        <bcf:outputpl value="#{loop.sumabiezace}"/>
+                    </p:column>
+                    <p:column headerText="zostało" width="90">
+                        <bcf:outputpl value="#{loop.zostalo}"/>
+                    </p:column>
+                    <p:column headerText="usuń" width="50" style="text-align: center;">
+                        <p:commandButton icon="ui-icon-trash" actionListener="#{strataView.usunstrate(loop)}" update="akordeon:form1:tabelastrat"/>
+                    </p:column>
+                    <p:rowExpansion>
+                        <p:column id="wykorzystanie" headerText="wykorzystanie bieżące" width="300" resizable="true">  
+                            <p:dataTable var="subwpis" value="#{loop.listawykorzystanie}" emptyMessage="strata nie rozliczona"  resizableColumns="true" style="width: 250px;">
+                                <p:column id="SubColumn1" headerText="rok">  
+                                    <h:outputText value="#{subwpis.rok}" />
+                                </p:column>
+                                <p:column  headerText="mc">  
+                                    <h:outputText value="#{subwpis.mc}" />
+                                </p:column>
+                                <p:column id="SubColumn2" headerText="#{mgs.kwota}">  
+                                    <bcf:outputpl value="#{subwpis.kwotawykorzystania}"/>
+                                </p:column>
+                            </p:dataTable>
+                        </p:column>
+                    </p:rowExpansion>
+                </p:dataTable>
+            </h:form>
+            <h:form id="form2">
+                <p:focus for="panelstraty">
+                    <p:panelGrid id="panelstraty" style="margin-top: 10px;margin-bottom: 10px;">
+                        <f:facet name="header">
+                            <p:row>
+                                <p:column>
+                                    <h:outputText value="rok"/>
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="kwota"/>
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="wykorzystano"/>
+                                </p:column>
+                            </p:row>
+                        </f:facet>
+                        <p:row>
+                            <p:column>
+                                <p:inputText value="#{strataView.selected.rok}"/>
+                            </p:column>
+                            <p:column>
+                                <bcf:innum value="#{strataView.selected.kwota}"/>
+                            </p:column>
+                            <p:column>
+                                <bcf:innum value="#{strataView.selected.wykorzystano}"/>
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </p:focus>
+                <p:commandButton value="Dodaj kwotę straty ręcznie" actionListener="#{strataView.dodajstrate()}" update="akordeon:form1:tabelastrat"/>
+            </h:form>
+        </p:tab>
+</ui:composition>   
+
+

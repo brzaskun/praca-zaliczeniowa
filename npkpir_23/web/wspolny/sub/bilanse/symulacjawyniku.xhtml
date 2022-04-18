@@ -92,15 +92,7 @@
                          
                          >
                 <f:facet name="header">
-                    <h:outputText value="#{mgs.zapisyprzychodowe}: "/>
-                    <h:outputText value="#{symulacjaWynikuView.sumaprzychody}">
-                        <f:convertNumber minFractionDigits="2" locale="PL"/>
-                    </h:outputText>
-                    <p:spacer width="30"/>
-                    <h:outputText value="#{mgs.vat}: "/>
-                    <h:outputText value="#{symulacjaWynikuView.sumavatprzychody}">
-                        <f:convertNumber minFractionDigits="2" locale="PL"/>
-                    </h:outputText>
+                    <h:outputText value="zestawienia przychodów: "/>
                 </f:facet>
                 <p:ajax event="rowSelectCheckbox" update="akordeon:formsymulacja" listener="#{symulacjaWynikuView.sumazapisowPrzychody()}" global="false"/>
                 <p:ajax event="rowUnselectCheckbox" update="akordeon:formsymulacja"  listener="#{symulacjaWynikuView.sumazapisowPrzychody()}" global="false"/>
@@ -148,31 +140,50 @@
                 <p:column headerText="#{mgs.kontosyntetyczne}" width="110" >
                     <h:outputText value="#{loop.getTopKontoOpis()}" />
                 </p:column>
+                <f:facet name="footer">
+                    <p:panelGrid style="padding-right: 30px;">
+                    <p:column colspan="8">
+                        <h:outputText value="razem przychody, razem vat"/>
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="#{symulacjaWynikuView.sumaprzychody}">
+                            <f:convertNumber minFractionDigits="2" locale="PL"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="#{symulacjaWynikuView.sumavatprzychody}">
+                            <f:convertNumber minFractionDigits="2" locale="PL"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column></p:column>
+                    </p:panelGrid>
+                </f:facet>
                 <p:rowExpansion>
                     <p:dataTable value="#{loop.zapisy}" var="loopik" emptyMessage="nie ma rachunków na tym koncie">
-                        <p:column headerText="#{mgs.dokument}" width="60">
-                            <h:outputText value="#{loopik.dokfkS}"/>
+                        <p:column headerText="#{mgs.dokument}" width="60" style="text-align: right;">
+                            <h:outputText value="#{loopik.dokfkS}" style="color: #{loopik.color}"/>
                         </p:column>
                         <p:column headerText="#{mgs.data}" width="50">
-                            <h:outputText value="#{loopik.dokfk.datadokumentu}"/>
+                            <h:outputText value="#{loopik.dokfk.datadokumentu}" style="color: #{loopik.color}"/>
                         </p:column>
                         <p:column headerText="#{mgs.nr}" width="100">
-                            <h:outputText value="#{loopik.dokfk.numerwlasnydokfk}"/>
+                            <h:outputText value="#{loopik.dokfk.numerwlasnydokfk}" style="color: #{loopik.color}"/>
                         </p:column>
                         <p:column headerText="#{mgs.kontrahent}" width="150">
-                            <h:outputText value="#{loopik.wiersz.eVatwpisFK eq null ? loopik.dokfk.kontr.npelna : loopik.wiersz.eVatwpisFK.klient.npelna}"/>
+                            <h:outputText value="#{loopik.wiersz.eVatwpisFK eq null ? loopik.dokfk.kontr.npelna : loopik.wiersz.eVatwpisFK.klient.npelna}" style="color: #{loopik.color}"/>
                         </p:column>
                         <p:column headerText="wiersz" width="150">
-                            <h:outputText value="#{loopik.wiersz.opisWiersza}"/>
+                            <h:outputText value="#{loopik.wiersz.opisWiersza}" style="color: #{loopik.color}"/>
                         </p:column>
                         <p:column headerText="#{mgs.kwota}" width="60">
                             <bcf:outputpl value="#{loopik.wnma eq 'Ma' ? loopik.kwota : -loopik.kwota}"/>
                         </p:column>
                         <p:column width="10">
-                            <h:outputText value="#{loopik.wiersz.tabelanbp.waluta.skrotsymbolu}"/>
+                            <h:outputText value="#{loopik.wiersz.tabelanbp.waluta.skrotsymbolu}" style="color: #{loopik.color}"/>
                         </p:column>
                     </p:dataTable>
                 </p:rowExpansion>
+                
             </p:dataTable>
                 <p:panelGrid columns="1" style="width: 190px;">
                     <h:outputText value="brak dokumentu ARS - nie rozliczono różnic kursowych od środków własnych" rendered="#{zestawienieBrakiView.jestASR eq false}"/>
@@ -184,16 +195,9 @@
                          styleClass="gridtablicasyntetyczne"  style="margin-top: 10px; width: 1100px; height: 500px; overflow-y: scroll;" widgetVar="tablicasymulacjaK"
                          >
                 <f:facet name="header">
-                    <h:outputText value="#{mgs.zapisykosztowe}: "/>
-                    <h:outputText value="#{symulacjaWynikuView.sumakoszty}">
-                        <f:convertNumber minFractionDigits="2" locale="PL"/>
-                    </h:outputText>
-                    <p:spacer width="30"/>
-                    <h:outputText value="#{mgs.vat}: "/>
-                    <h:outputText value="#{symulacjaWynikuView.sumavatkoszty}">
-                        <f:convertNumber minFractionDigits="2" locale="PL"/>
-                    </h:outputText>
+                    <h:outputText value="zestawienia kosztów "/>
                 </f:facet>
+                
                 <p:ajax event="rowSelectCheckbox" update="akordeon:formsymulacja" listener="#{symulacjaWynikuView.sumazapisowKoszty()}" global="false"/>
                 <p:ajax event="rowUnselectCheckbox" update="akordeon:formsymulacja"  listener="#{symulacjaWynikuView.sumazapisowKoszty()}" global="false"/>
                 <p:ajax event="toggleSelect" update="akordeon:formsymulacja"  listener="#{symulacjaWynikuView.sumazapisowKoszty()}" global="false"/>
@@ -240,42 +244,61 @@
                 <p:column headerText="#{mgs.kontosyntetyczne}" width="110" >
                     <h:outputText value="#{loop.getTopKontoOpis()}" />
                 </p:column>
-              
+
+               <f:facet name="footer">
+                    <p:panelGrid style="padding-right: 30px;">
+                    <p:column colspan="8">
+                        <h:outputText value="razem koszty, razem vat"/>
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="#{symulacjaWynikuView.sumakoszty}">
+                            <f:convertNumber minFractionDigits="2" locale="PL"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="#{symulacjaWynikuView.sumavatkoszty}">
+                            <f:convertNumber minFractionDigits="2" locale="PL"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column></p:column>
+                    </p:panelGrid>
+               </f:facet>
+                
                 <p:rowExpansion>
                     <p:dataTable value="#{loop.zapisy}" var="loopik" emptyMessage="nie ma rachunków na tym koncie">
                         <p:column headerText="#{mgs.dokument}" width="60">
-                            <h:outputText value="#{loopik.dokfkS}"/>
+                            <h:outputText value="#{loopik.dokfkS}" style="color: #{loopik.color}"/>
                         </p:column>
                         <p:column headerText="#{mgs.data}" width="50">
-                            <h:outputText value="#{loopik.dokfk.datadokumentu}"/>
+                            <h:outputText value="#{loopik.dokfk.datadokumentu}" style="color: #{loopik.color}"/>
                         </p:column>
                         <p:column headerText="#{mgs.nr}" width="100">
-                            <h:outputText value="#{loopik.dokfk.numerwlasnydokfk}"/>
+                            <h:outputText value="#{loopik.dokfk.numerwlasnydokfk}" style="color: #{loopik.color}"/>
                         </p:column>
                         <p:column headerText="#{mgs.kontrahent}" width="150">
-                            <h:outputText value="#{loopik.wiersz.eVatwpisFK eq null ? loopik.dokfk.kontr.npelna : loopik.wiersz.eVatwpisFK.klient.npelna}"/>
+                            <h:outputText value="#{loopik.wiersz.eVatwpisFK eq null ? loopik.dokfk.kontr.npelna : loopik.wiersz.eVatwpisFK.klient.npelna}" style="color: #{loopik.color}"/>
                         </p:column>
                         <p:column headerText="wiersz" width="150">
-                            <h:outputText value="#{loopik.wiersz.opisWiersza}"/>
+                            <h:outputText value="#{loopik.wiersz.opisWiersza}" style="color: #{loopik.color}"/>
                         </p:column>
                         <p:column headerText="#{mgs.kwota}" width="60">
                             <bcf:outputpl value="#{loopik.wnma eq 'Wn' ? loopik.kwota : -loopik.kwota}"/>
                         </p:column>
                         <p:column width="10">
-                            <h:outputText value="#{loopik.wiersz.tabelanbp.waluta.skrotsymbolu}"/>
+                            <h:outputText value="#{loopik.wiersz.tabelanbp.waluta.skrotsymbolu}" style="color: #{loopik.color}"/>
                         </p:column>
                     </p:dataTable>
                 </p:rowExpansion>
             </p:dataTable>
             <p:dataTable id="tabelapodsumowanienowa" value="#{symulacjaWynikuView.pozycjePodsumowaniaWynikuNowe}" var="item2"
-                         style="width: 100%;margin-top: 20px;" rowIndexVar="index2">
+                         style="width: 80%;margin-top: 20px;" rowIndexVar="index2">
                 <p:column width="30" style="text-align: center;">
                     <h:outputText value="#{index2+1}"/>
                 </p:column>
-                <p:column width="150" headerText="#{mgs.udziałowiec}">
+                <p:column width="220" headerText="#{mgs.udziałowiec}">
                     <h:outputText value="#{item2.udzialowiec}"/>
                 </p:column>
-                <p:column  headerText="#{mgs.udział}">
+                <p:column  width="40" headerText="#{mgs.udział}">
                     <bcf:outputplprocent value="#{item2.udzial}"/>
                 </p:column>
                 <p:column  headerText="#{mgs.przychody}">
@@ -287,26 +310,47 @@
                  <p:column  headerText="#{mgs.wynikfinansowy}">
                      <bcf:outputpl value="#{item2.wynikfinansowy}"/>
                 </p:column>
+                <p:column  headerText="przych.podatk.">
+                    <bcf:outputpl value="#{item2.przychodyPodatkowe}"/>
+                </p:column>
+                <p:column  headerText="koszt. podat.">
+                    <bcf:outputpl value="#{item2.kosztyPodatkowe}"/>
+                </p:column>
+                <p:column  headerText="korekta wyniku fin.">
+                    <bcf:outputpl value="#{item2.wynikPodatkowyWstępny}"/>
+                </p:column>
+            </p:dataTable>
+            <p:dataTable id="tabelapodsumowanienowa2" value="#{symulacjaWynikuView.pozycjePodsumowaniaWynikuNowe}" var="item3"
+                         style="width: 80%;margin-top: 20px;" rowIndexVar="index3">
+                <p:column width="30" style="text-align: center;">
+                    <h:outputText value="#{index3+1}"/>
+                </p:column>
+                <p:column width="220" headerText="#{mgs.udziałowiec}">
+                    <h:outputText value="#{item3.udzialowiec}"/>
+                </p:column>
+                <p:column width="40" headerText="#{mgs.udział}">
+                    <bcf:outputplprocent value="#{item3.udzial}"/>
+                </p:column>
                 <p:column  headerText="#{mgs.nkup}">
-                    <bcf:outputpl value="#{item2.nkup}"/>
+                    <bcf:outputpl value="#{item3.nkup}"/>
                 </p:column>
                 <p:column  headerText="#{mgs.kupmn}">
-                    <bcf:outputpl value="#{item2.kupmn}"/>
+                    <bcf:outputpl value="#{item3.kupmn}"/>
                 </p:column>
                 <p:column  headerText="#{mgs.kupmnpopmce}">
-                    <bcf:outputpl value="#{item2.kupmn_poprzedniemce}"/>
+                    <bcf:outputpl value="#{item3.kupmn_poprzedniemce}"/>
                 </p:column>
                 <p:column  headerText="#{mgs.npup}">
-                    <bcf:outputpl value="#{item2.npup}"/>
+                    <bcf:outputpl value="#{item3.npup}"/>
                 </p:column>
                 <p:column  headerText="#{mgs.pmn}">
-                    <bcf:outputpl value="#{item2.pmn}"/>
+                    <bcf:outputpl value="#{item3.pmn}"/>
                 </p:column>
                 <p:column  headerText="#{mgs.pmnpopmce}">
-                    <bcf:outputpl value="#{item2.pmn_poprzedniemce}"/>
+                    <bcf:outputpl value="#{item3.pmn_poprzedniemce}"/>
                 </p:column>
                 <p:column  headerText="#{mgs.wynikpodatkowy}">
-                    <bcf:outputpl value="#{item2.wynikpodatkowy}"/>
+                    <bcf:outputpl value="#{item3.wynikpodatkowy}"/>
                 </p:column>
             </p:dataTable>
         </h:form>

@@ -31,12 +31,16 @@ public class SaldoKonto implements Serializable {
     private double obrotyMaMc;
     private double obrotyWn;
     private double obrotyMa;
+    private double obrotyWnPodatki;
+    private double obrotyMaPodatki;
     private double obrotyBoWn;
     private double obrotyBoMa;
     private double saldoWn;
     private double saldoMa;
-    private double saldoWnP;
-    private double saldoMaP;
+    private double saldoWnPodatki;
+    private double saldoMaPodatki;
+    private double saldoWnPersaldo;
+    private double saldoMaPersaldo;
     private String nrpelnymacierzystego;
     private List<StronaWiersza> zapisy;
     private Waluty walutadlabo;
@@ -299,12 +303,12 @@ public class SaldoKonto implements Serializable {
         this.id = id;
     }
 
-    public double getSaldoWnP() {
-        return saldoWnP;
+    public double getSaldoWnPersaldo() {
+        return saldoWnPersaldo;
     }
 
-    public void setSaldoWnP(double saldoWnP) {
-        this.saldoWnP = saldoWnP;
+    public void setSaldoWnPersaldo(double saldoWnPersaldo) {
+        this.saldoWnPersaldo = saldoWnPersaldo;
     }
 
     public double getVat() {
@@ -315,12 +319,28 @@ public class SaldoKonto implements Serializable {
         this.vat = vat;
     }
 
-    public double getSaldoMaP() {
-        return saldoMaP;
+    public double getSaldoMaPersaldo() {
+        return saldoMaPersaldo;
     }
 
-    public void setSaldoMaP(double saldoMaP) {
-        this.saldoMaP = saldoMaP;
+    public void setSaldoMaPersaldo(double saldoMaPersaldo) {
+        this.saldoMaPersaldo = saldoMaPersaldo;
+    }
+
+    public double getObrotyWnPodatki() {
+        return obrotyWnPodatki;
+    }
+
+    public void setObrotyWnPodatki(double obrotyWnPodatki) {
+        this.obrotyWnPodatki = obrotyWnPodatki;
+    }
+
+    public double getObrotyMaPodatki() {
+        return obrotyMaPodatki;
+    }
+
+    public void setObrotyMaPodatki(double obrotyMaPodatki) {
+        this.obrotyMaPodatki = obrotyMaPodatki;
     }
 
     public double getObrotyWnMc() {
@@ -489,6 +509,22 @@ public class SaldoKonto implements Serializable {
     public void setSaldoMaPLN(double saldoMaPLN) {
         this.saldoMaPLN = saldoMaPLN;
     }
+
+    public double getSaldoWnPodatki() {
+        return saldoWnPodatki;
+    }
+
+    public void setSaldoWnPodatki(double saldoWnPodatki) {
+        this.saldoWnPodatki = saldoWnPodatki;
+    }
+
+    public double getSaldoMaPodatki() {
+        return saldoMaPodatki;
+    }
+
+    public void setSaldoMaPodatki(double saldoMaPodatki) {
+        this.saldoMaPodatki = saldoMaPodatki;
+    }
     
     public String getNazwaObcieta(int ilepokazac) {
         String zwrot = this.konto.getNazwapelna();
@@ -510,6 +546,10 @@ public class SaldoKonto implements Serializable {
         double Ma_Wn = Z.z(this.obrotyBoMa - this.obrotyBoWn);
         this.saldoWn = this.obrotyBoWn > this.obrotyBoMa ? Wn_Ma : 0.0;
         this.saldoMa = this.obrotyBoMa > this.obrotyBoWn ? Ma_Wn : 0.0;
+        Wn_Ma = Z.z(this.obrotyWnPodatki - this.obrotyMaPodatki);
+        Ma_Wn = Z.z(this.obrotyMaPodatki - this.obrotyWnPodatki);
+        this.saldoWnPodatki = this.obrotyWnPodatki > this.obrotyMaPodatki ? Wn_Ma : 0.0;
+        this.saldoMaPodatki = this.obrotyMaPodatki > this.obrotyWnPodatki ? Ma_Wn : 0.0;
     }
     
     
