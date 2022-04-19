@@ -144,6 +144,8 @@ public class PodatnikView implements Serializable {
     private ParamDeklVatNadwyzka paramDeklVatNadwyzka;
     @Inject
     private DokDAOfk dokDAOfk;
+    @Inject
+    private DokDAO dokDAO;
     private double sumaudzialow;
     @Inject
     private KlienciDAO klDAO;
@@ -190,6 +192,9 @@ public class PodatnikView implements Serializable {
             weryfikujlisteDokumentowPodatnika(selected, wpisView.getRokWpisuSt(), wpisView.getRokUprzedniSt());
             zweryfikujBazeBiezacegoPodatnika();
             uzupelnijListyKont();
+            if (wpisView.getRokWpisu()==2022) {
+                korygujtelefon(selected);
+            }
             selectedStrata = podatnikDAO.findByNazwaPelna(wpisView.getPodatnikWpisu());
         } catch (Exception e) { E.e(e); 
         }
@@ -200,6 +205,7 @@ public class PodatnikView implements Serializable {
         formyprawne.add(FormaPrawna.SPOLKA_CYWILNA);
         formyprawne.add(FormaPrawna.SPOLKA_Z_O_O);
         formyprawne.add(FormaPrawna.SPOLKA_KOMANDYTOWA);
+        formyprawne.add(FormaPrawna.PROSTA_SPÓŁKA_AKCYJNA);
         formyprawne.add(FormaPrawna.STOWARZYSZENIE);
         formyprawne.add(FormaPrawna.FEDERACJA);
         formyprawne.add(FormaPrawna.FUNDACJA);
@@ -213,8 +219,20 @@ public class PodatnikView implements Serializable {
         sumaudzialow = sumujudzialy(podatnikUdzialy);
     }
     
-@Inject
-private DokDAO dokDAO;
+    private void korygujtelefon(Podatnik selected) {
+        String tel = selected.getTelefonkontaktowy();
+        if (tel.contains("-")) {
+            tel = tel.replace("-", "");
+            if (tel.length()==9&&!tel.contains("+")) {
+                tel = "+48"+tel;
+            }
+            selected.setTelefonkontaktowy(tel);
+            podatnikDAO.edit(selected);
+            Msg.msg("Skorygowano nr telefonu");
+        }
+    }
+    
+
     
     public void zrobdokumenty() {
         List<Podatnik> podatnicy = podatnikDAO.findAllManager();
@@ -1272,7 +1290,7 @@ private DokDAO dokDAO;
         try {
             List<Rodzajedok> dokumentyBiezacegoPodatnika = rodzajedokDAO.findListaPodatnik(selected, rok);
             List<Rodzajedok> ogolnaListaDokumentow = rodzajedokView.getListaWspolnych();
-                    for (Rodzajedok tmp : ogolnaListaDokumentow) {
+                for (Rodzajedok tmp : ogolnaListaDokumentow) {
                     try {
                         boolean odnaleziono = false;
                         for (Rodzajedok r: dokumentyBiezacegoPodatnika) {
@@ -1426,8 +1444,16 @@ private DokDAO dokDAO;
         try {
             List<Rodzajedok> dokumentyBiezacegoPodatnika = rodzajedokDAO.findListaPodatnik(selected, wpisView.getRokWpisuSt());
             for (Rodzajedok nowy : dokumentyBiezacegoPodatnika) {
-                KontaFKBean.nanieskonta(nowy, kontoDAOfk);
-                rodzajedokDAO.edit(nowy);
+                Konto konto1 = nowy.getKontoRZiS();
+                Konto konto2 = nowy.getKontorozrachunkowe();
+                Konto konto3 = nowy.getKontovat();
+                boolean konto1s = konto1!=null&&!konto1.getRokSt().equals(wpisView.getRokWpisuSt());
+                boolean konto2s = konto2!=null&&!konto2.getRokSt().equals(wpisView.getRokWpisuSt());
+                boolean konto3s = konto3!=null&&!konto3.getRokSt().equals(wpisView.getRokWpisuSt());
+                if (konto1s||konto2s||konto3s) {
+                    KontaFKBean.nanieskonta(nowy, kontoDAOfk);
+                    rodzajedokDAO.edit(nowy);
+                }
             }
         } catch (Exception e){}
         // to bylo nam potrzebne do transformacji teraz jest juz zbedne bo klineci maja przeniesione dokumenty
@@ -2068,5 +2094,7 @@ public void przygotujedycjeopodatkowanie() {
         }
         return zwrot;
     }
+
+    
 
 }

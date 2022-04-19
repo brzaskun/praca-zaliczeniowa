@@ -15,6 +15,7 @@ public enum FormaPrawna {
     SPOLKA_CYWILNA,
     SPOLKA_Z_O_O,
     SPOLKA_KOMANDYTOWA,
+    PROSTA_SPÓŁKA_AKCYJNA,
     STOWARZYSZENIE,
     FEDERACJA,
     FUNDACJA;
@@ -48,6 +49,10 @@ public enum FormaPrawna {
 
     public static FormaPrawna getFUNDACJA() {
         return FUNDACJA;
+    }
+
+    public static FormaPrawna getPROSTA_SPÓŁKA_AKCYJNA() {
+        return PROSTA_SPÓŁKA_AKCYJNA;
     }
     
     
