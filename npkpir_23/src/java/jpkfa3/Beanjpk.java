@@ -209,7 +209,9 @@ public class Beanjpk {
         StronaWiersza strma = new StronaWiersza(w, "Ma", faktura.getNetto(), kontoma);
         strwn.setKwotaPLN(zrobpln(w,faktura.getBrutto()));
         strma.setKwotaPLN(zrobpln(w,faktura.getNetto()));
-        strwn.setNowatransakcja(true);
+        if (kontown!=null&&kontown.getZwyklerozrachszczegolne().equals("rozrachunkowe")) {
+            strwn.setNowatransakcja(true);
+        }
         strwn.setTypStronaWiersza(1);
         w.setStronaWn(strwn);
         w.setStronaMa(strma);

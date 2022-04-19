@@ -79,7 +79,7 @@
                     </p:column>
                     <p:column headerText="ilość" width="50" style="text-align: center;" sortBy="#{zapis.ilosc}">  
                         <p:inputNumber value="#{zapis.ilosc}" decimalPlaces="0" size="3">
-                            <p:ajax event="change"  partialSubmit="true" listener="#{fakturaDodPozycjaKontrahentView.edytuj(zapis)}" />
+                            <p:ajax event="change"  partialSubmit="true" listener="#{fakturaDodPozycjaKontrahentView.edytuj(zapis,1)}" />
                         </p:inputNumber>
                     </p:column>
                     <p:column headerText="rozl" width="50" style="text-align: center;" filterBy="#{zapis.rozliczone}">  
@@ -96,12 +96,12 @@
                         <p:inputNumber  value="#{zapis.kwotaindywid}" size="10"
                             style="float: right; margin-right: 4px;"
                             symbolPosition="s" decimalSeparator="."   inputStyle="text-align: right;" decimalPlaces="2" minValue="-99999" maxValue="99999">
-                            <p:ajax event="change" partialSubmit="true" listener="#{fakturaDodPozycjaKontrahentView.edytuj(zapis)}" />
+                            <p:ajax event="change" partialSubmit="true" listener="#{fakturaDodPozycjaKontrahentView.edytuj(zapis,2)}" />
                         </p:inputNumber>
                     </p:column>
                     <p:column headerText="perm" width="50" style="text-align: center;"> 
                         <p:selectBooleanCheckbox value="#{zapis.permanentny}">
-                            <p:ajax event="change" partialSubmit="true" listener="#{fakturaDodPozycjaKontrahentView.edytuj(zapis)}" />
+                            <p:ajax event="change" partialSubmit="true" listener="#{fakturaDodPozycjaKontrahentView.edytuj(zapis,3)}" />
                         </p:selectBooleanCheckbox>
                     </p:column>
                     <p:column headerText="" style="text-align: center;" width="50">  

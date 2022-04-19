@@ -138,13 +138,19 @@ public class FakturaDodPozycjaKontrahentView  implements Serializable {
         }
     }
     
-    public void edytuj(FakturaDodPozycjaKontrahent sel) {
+    public void edytuj(FakturaDodPozycjaKontrahent sel, int co) {
         if (sel !=null) {
             try {
                 fakturaDodPozycjaKontrahentDAO.edit(sel);
-                Msg.msg("Zmieniono ilość");
+                if (co==1) {
+                    Msg.msg("Zmieniono ilość");
+                } else if (co==2) {
+                    Msg.msg("Zmieniono kwotę");
+                } else if (co==3) {
+                    Msg.msg("Zmieniono permanentne");
+                }
             } catch (Exception e) {
-                Msg.msg("e","Nieudana zmiana ilości");
+                Msg.msg("e","Nieudana zmiana danych");
             }
         } else {
             Msg.msg("e","Nie wybrano pozycji. Nie można wyedytować");
