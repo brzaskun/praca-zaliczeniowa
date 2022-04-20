@@ -228,7 +228,9 @@ public class Strata  implements Serializable {
         return zwrot;
     }
     
-    
+  public double getDoBiezacegoWykorzystania() {
+        return Z.z(this.kwota-this.wykorzystano);
+    }  
     
     
     public static void main(String[] args)  {

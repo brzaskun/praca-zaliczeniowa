@@ -569,13 +569,13 @@ public class Vat7DKView implements Serializable {
                             ewidencjenowe.add(new EVatwpisSuma(ewm, r.getNetto(), r.getVat(), ""));
                         }
                     }
-                    if(ewidencjenowe.size() > 0) {
-                        pobraneewidencje.addAll(ewidencjenowe);
-                    }
-                    for (DeklaracjaVatSchemaWierszSum p : schemawierszsumzbazy) {
-                        VATDeklaracja.podsumujewidencje(schemaewidencjalista, pobraneewidencje, p);
-                    }
                 }
+            }
+            if(ewidencjenowe.size() > 0) {
+                pobraneewidencje.addAll(ewidencjenowe);
+            }
+            for (DeklaracjaVatSchemaWierszSum p : schemawierszsumzbazy) {
+                VATDeklaracja.podsumujewidencje(schemaewidencjalista, pobraneewidencje, p);
             }
         }
         return zwrot;
