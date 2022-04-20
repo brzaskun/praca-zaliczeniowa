@@ -229,7 +229,7 @@ public class Strata  implements Serializable {
     }
     
   public double getDoBiezacegoWykorzystania() {
-        return Z.z(this.kwota-this.wykorzystano);
+        return Z.z(this.kwota-this.getWykorzystano());
     }  
     
     
