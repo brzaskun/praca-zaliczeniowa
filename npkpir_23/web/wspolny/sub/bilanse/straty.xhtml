@@ -11,28 +11,41 @@
     <p:tab id="tab5" title="Straty z lat ubiegłych.">
             <h:form id="form1">
                 <p:panel header="Nanoszenie strat możliwe jest jedynie po sporządzeniu PIT-ow za 12 mcy oraz po wybraniu miesiąca stycznia roku następnego"/>
-                <p:dataTable id="tabelastrat" value="#{strataView.stratypodatnika}" emptyMessage="Nie ma nic" var="loop"
+                <p:dataTable id="tabelastrat" value="#{strataView.stratypodatnika}" emptyMessage="Nie ma nic" var="loop"  editable="true"
                              style="min-width: 500px; max-width: 900px;" expandedRow="true">
+                    <p:ajax event="rowEdit" listener="#{strataView.onRowEdit}"/>
                     <p:column style="width: 4%;">
                         <p:rowToggler />
                     </p:column>
                     <p:column headerText="rok" width="40">
                         <h:outputText value="#{loop.rok}" />
                     </p:column>
-                    <p:column headerText="#{mgs.kwota}" width="90">
-                        <bcf:outputpl value="#{loop.kwota}"/>
+                    <p:column headerText="#{mgs.kwota}" width="100">
+                        <p:cellEditor>
+                        <f:facet name="output">  
+                            <bcf:outputpl value="#{loop.kwota}"/>
+                        </f:facet>
+                        <f:facet name="input">  
+                    <p:inputNumber value="#{loop.kwota}" symbolPosition="s" decimalSeparator="."   inputStyle="text-align: right;" decimalPlaces="2" size="12" >
+                                <p:ajax event="change"  partialSubmit="true" global="false" update="@parent:@parent"/>
+                            </p:inputNumber>
+                        </f:facet>
+                        </p:cellEditor>
                     </p:column>
                     <p:column headerText="50%" width="100">
                         <bcf:outputpl value="#{loop.polowakwoty}"/>
                     </p:column>
-                    <p:column headerText="wykorzyst. uprzednio" width="90">
+                    <p:column headerText="wykorzyst. całkowite" width="90">
                         <bcf:outputpl value="#{loop.wykorzystano}"/>
                     </p:column>
-                    <p:column headerText="wykorzyst. bieżące" width="90">
-                        <bcf:outputpl value="#{loop.sumabiezace}"/>
+                    <p:column headerText="wykorzyst. rok biez" width="90">
+                        <bcf:outputpl value="#{loop.getSumabiezace(WpisView.rokWpisuSt)}"/>
                     </p:column>
                     <p:column headerText="zostało" width="90">
                         <bcf:outputpl value="#{loop.zostalo}"/>
+                    </p:column>
+                    <p:column id="editColumn" style="text-align: center; width: 40px;">
+                        <p:rowEditor />
                     </p:column>
                     <p:column headerText="usuń" width="50" style="text-align: center;">
                         <p:commandButton icon="ui-icon-trash" actionListener="#{strataView.usunstrate(loop)}" update="akordeon:form1:tabelastrat"/>
@@ -61,6 +74,9 @@
                             <p:row>
                                 <p:column>
                                     <h:outputText value="rok"/>
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="mc"/>
                                 </p:column>
                                 <p:column>
                                     <h:outputText value="kwota"/>

@@ -93,7 +93,7 @@ public class WynikFKRokMc implements Serializable {
     private Double wynikpodatkowy;
     @Column(precision = 22)
     private Double podatek;
-     @Column(precision = 22)
+    @Column(precision = 22)
     private Double wynikfinansowynetto;
     @JoinColumn(name = "podid", referencedColumnName = "id")
     @ManyToOne
@@ -115,6 +115,8 @@ public class WynikFKRokMc implements Serializable {
     private double dywidendawyplacono;
     @Column(name = "dywidendadowyplaty")
     private double dywidendadowyplaty;
+    @Column(name = "strata")
+    private double strata;
    
 //    @Lob()
 //    @Column(name = "listaprzychody")
@@ -226,6 +228,14 @@ public class WynikFKRokMc implements Serializable {
     
     public void setNpup(Double npup) {
         this.npup = npup;
+    }
+
+    public double getStrata() {
+        return strata;
+    }
+
+    public void setStrata(double strata) {
+        this.strata = strata;
     }
     
     public Double getPrzychody() {

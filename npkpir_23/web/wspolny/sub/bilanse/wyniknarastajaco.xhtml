@@ -44,9 +44,10 @@
                     <p:menuitem value="XLS przychody szcz." actionListener="#{xLSSymulacjaView.zachowajSymulacjewXLS(1)}" global="false" ajax="false"/>
             </p:splitButton>
             </p:panelGrid>
+            
             <p:dataTable id="tablicasymulacjasumanar" value="#{symulacjaWynikuNarastajacoView.listamiesiecy}" var="loop_wyn" rowKey="#{loop_wyn.id}"
                          emptyMessage="#{mgs.niepobranosuma}" selectionMode="single" sortBy="#{loop_wyn.mc}"
-                         styleClass="gridtablicasyntetyczne"  style="margin-top: 10px; width: 1480px; padding: 10px;" widgetVar="tablicasymulacjasumanar"
+                         styleClass="gridtablicasyntetyczne"  style="margin-top: 10px; width: 1550px; padding: 10px;" widgetVar="tablicasymulacjasumanar"
                          >
                 <f:facet name="header">
                     <h:outputText value="#{mgs.pobraniewynikow}"/>
@@ -54,19 +55,19 @@
                 <p:column headerText="#{mgs.miesiąc}" width="40" style="text-align: center;">
                     <h:outputText value="#{loop_wyn.mc}"/>
                 </p:column>
-                <p:column headerText="#{mgs.przychód}" width="70" >
+                <p:column headerText="#{mgs.przychód}" width="90" >
                     <bcf:outputpl value="#{loop_wyn.przychody}"/>
                 </p:column>
-                <p:column headerText="#{mgs.koszt}" width="70" >
+                <p:column headerText="#{mgs.koszt}" width="90" >
                     <bcf:outputpl value="#{loop_wyn.koszty}"/>
                 </p:column>
                 <p:column headerText="#{mgs.wynikfinansowy}" width="70" >
                     <bcf:outputpl value="#{loop_wyn.wynikfinansowy}"/>
                 </p:column>
-                 <p:column headerText="wyn.fin. narastająco" width="70" >
+                 <p:column headerText="wyn.fin. narastająco" width="90" >
                     <bcf:outputpl value="#{loop_wyn.wynikfinansowynarastajaco}"/>
                 </p:column>
-                <p:column headerText="przych.pod." width="70" >
+                <p:column headerText="przych.pod." width="90" >
                     <bcf:outputpl value="#{loop_wyn.przychodyPodatkoweKonta}"/>
                 </p:column>
                 <p:column headerText="koszty pod." width="70" >
@@ -75,7 +76,7 @@
                 <p:column headerText="różnica pod." width="70" >
                     <bcf:outputpl value="#{loop_wyn.wynikPodatkowyWstepny}"/>
                 </p:column>
-                 <p:column headerText="róż. pod. narastająco" width="70" >
+                 <p:column headerText="róż. pod. narastająco" width="90" >
                      <bcf:outputpl value="#{loop_wyn.wynikPodatkowyWstepnyNarastajaco}"/>
                 </p:column>
                 <p:column headerText="#{mgs.npup}" width="70" >
@@ -84,14 +85,57 @@
                 <p:column headerText="#{mgs.nkup}" width="70" >
                     <bcf:outputpl value="#{loop_wyn.nkup}"/>
                 </p:column>
-                <p:column headerText="przychody podatkowe" width="70" >
+                <p:column headerText="przychody podatkowe" width="90" >
                     <bcf:outputpl value="#{loop_wyn.getPrzychodyPodatkowe()}"/>
                 </p:column>
-                <p:column headerText="koszty podatkowe" width="70" >
+                <p:column headerText="koszty podatkowe" width="90" >
                     <bcf:outputpl value="#{loop_wyn.getKosztyPodatkowe()}"/>
+                </p:column>
+                <p:column headerText="#{mgs.wynikpodatkowy}" width="90" >
+                    <bcf:outputpl value="#{loop_wyn.wynikpodatkowy}"/>
+                </p:column>
+<!--                <p:column headerText="#{mgs.pdop}" width="60">
+                    <bcf:outputpl value="#{loop_wyn.podatek}"/>
+                </p:column>
+                <p:column headerText="#{mgs.wynikfinansowynetto}" width="60">
+                    <bcf:outputpl value="#{loop_wyn.wynikfinansowynetto}"/>
+                </p:column>-->
+                
+                <p:column style="text-align: center;" width="30">
+                    <p:commandButton icon="ui-icon-trash" actionListener="#{symulacjaWynikuNarastajacoView.usun(loop_wyn)}" 
+                                     update="akordeon:formsymulacjanarastajaco:tablicasymulacjasumanar akordeon:formsymulacjanarastajaco:tablicasymulacjasumanar1 akordeon:form1" />
+                </p:column>
+            </p:dataTable>
+            <p:dataTable id="tablicasymulacjasumanar1" value="#{symulacjaWynikuNarastajacoView.listamiesiecy}" var="loop_wyn" rowKey="#{loop_wyn.id}"
+                         emptyMessage="#{mgs.niepobranosuma}" selectionMode="single" sortBy="#{loop_wyn.mc}"
+                         styleClass="gridtablicasyntetyczne"  style="margin-top: 10px; width: 950px; padding: 10px;" widgetVar="tablicasymulacjasumanar1"
+                         >
+                <f:facet name="header">
+                    <h:outputText value="#{mgs.pobraniewynikow} cd."/>
+                </f:facet>
+                <p:column headerText="#{mgs.miesiąc}" width="40" style="text-align: center;">
+                    <h:outputText value="#{loop_wyn.mc}"/>
                 </p:column>
                 <p:column headerText="#{mgs.wynikpodatkowy}" width="70" >
                     <bcf:outputpl value="#{loop_wyn.wynikpodatkowy}"/>
+                </p:column>
+                <p:column headerText="strata" width="70" >
+                    <bcf:outputpl value="#{loop_wyn.strata}"/>
+                </p:column>
+                <p:column headerText="podatek" width="70" >
+                     <bcf:outputpl value="#{loop_wyn.podatek}"/>
+                </p:column>
+                <p:column headerText="podatek pop.mce" width="70" >
+                    <bcf:outputpl value="#{loop_wyn.podatekzaplacono}"/>
+                </p:column>
+                <p:column headerText="do wpłaty" width="70" >
+                    <bcf:outputpl value="#{loop_wyn.podatekdowplaty}"/>
+                </p:column>
+                 <p:column headerText="#{mgs.wynikfinansowy}" width="90">
+                     <bcf:outputpl value="#{loop_wyn.wynikfinansowy}"/>
+                </p:column>
+                <p:column headerText="#{mgs.wynikfinansowynetto}" width="90">
+                    <bcf:outputpl value="#{loop_wyn.wynikfinansowynetto}"/>
                 </p:column>
 <!--                <p:column headerText="#{mgs.pdop}" width="60">
                     <bcf:outputpl value="#{loop_wyn.podatek}"/>
@@ -107,10 +151,9 @@
                         <f:convertDateTime pattern="yyyy/MM/dd" />
                     </h:outputText>
                 </p:column>
-                <p:column style="text-align: center;" width="30">
-                    <p:commandButton icon="ui-icon-trash" actionListener="#{symulacjaWynikuNarastajacoView.usun(loop_wyn)}" update="akordeon:formsymulacjanarastajaco:tablicasymulacjasumanar" />
-                </p:column>
             </p:dataTable>
+                
+            <p:panelGrid columns="2" >
               <p:dataTable id="tablicasymulacjasuma" value="#{symulacjaWynikuNarastajacoView.pozycjePodsumowaniaWyniku}" var="loop" rowKey="#{loop.nazwa}"
                          emptyMessage="#{mgs.niepobranosuma}" selectionMode="single" 
                          styleClass="gridtablicasyntetyczne"  style="margin-top: 10px; width: 400px; padding: 10px;" widgetVar="tablicasymulacjasuma"
@@ -129,6 +172,8 @@
                     <bcf:outputpl value="#{loop.wartosc}"/>
                 </p:column>
             </p:dataTable>
+                <h:outputText value="rozliczenie podatku dochodowego - #{WpisView.mc0kw1 eq false ? 'miesiecznie':'kwartalnie'}"/>
+            </p:panelGrid>
 <!--            <p:dataTable id="tablicasymulacjapodatekpopmce" value="#{symulacjaWynikuNarastajacoView.pozycjeObliczeniaPodatkuPoprzedniemiesiaceTabela}" var="loop2" rowKey="#{loop2.udzialowiec}"
                          emptyMessage="#{mgs.nieobliczonopodatku}" selectionMode="single" 
                          styleClass="gridtablicasyntetyczne"  style="margin-top: 5px; width: 700px; padding: 10px;" widgetVar="tablicasymulacjapodatekpopmce"
@@ -152,6 +197,7 @@
                     <bcf:outputpl value="#{loop2.podatekdochodowy}"/>
                 </p:column>
             </p:dataTable>-->
+            <p:panelGrid columns="1" rendered="#{WpisView.rokWpisu lt 2022}">
             <p:dataTable id="tablicasymulacjapodatek" value="#{symulacjaWynikuNarastajacoView.pozycjeObliczeniaPodatkuTabela}" var="loop1" rowKey="#{loop1.udzialowiec}"
                          emptyMessage="#{mgs.nieobliczonopodatku}" selectionMode="single" 
                          styleClass="gridtablicasyntetyczne"  style="margin-top: 5px; width: 1200px; padding: 10px;" widgetVar="tablicasymulacjapodatek"
@@ -211,9 +257,9 @@
                     <bcf:outputpl value="#{loop3.podatekdochodowy}"/>
                 </p:column>
             </p:dataTable>
-            <p:commandButton value="zapisz podatki" actionListener="#{symulacjaWynikuNarastajacoView.zapiszpodatki}" update="akordeon:formsymulacjanarastajaco:tablicasymulacjasumanar" global="false"
+            </p:panelGrid>
+            <p:commandButton value="zapisz podatki" actionListener="#{symulacjaWynikuNarastajacoView.zapiszpodatki}" update="akordeon:formsymulacjanarastajaco:tablicasymulacjasumanar akordeon:formsymulacjanarastajaco:tablicasymulacjasumanar1 akordeon:form1" global="false"
                              style="width: 120px;"/>
-
         </h:form>
     </p:tab>  
 </ui:composition> 

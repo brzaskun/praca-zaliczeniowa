@@ -17,6 +17,8 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import msg.Msg;
  import org.primefaces.PrimeFaces;
+import org.primefaces.event.RowEditEvent;
+import waluty.Z;
 
 /**
  *
@@ -207,6 +209,17 @@ public class StrataView  implements Serializable{
 //        }
 //        zostalo += Z.z(tmp.getKwota() - tmp.getWykorzystano() - sumabiezace);
         return zostalo;
+    }
+    
+    /**
+     *
+     * @param event
+     */
+    public void onRowEdit(RowEditEvent event) {
+        Strata stratazmiany = (Strata) event.getObject();
+        stratazmiany.setPolowakwoty(Z.z(stratazmiany.getKwota()/2.0));
+        strataDAO.edit(stratazmiany);
+        Msg.msg("Naniesiono zmiany");
     }
 
     //<editor-fold defaultstate="collapsed" desc="comment">

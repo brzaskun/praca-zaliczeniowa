@@ -52,5 +52,15 @@ public class StrataDAO  extends DAO implements Serializable {
             remove(strata);
         }
     }
+
+    public Strata findPodatnikRok(Podatnik podatnikObiekt, int rokWpisuSt) {
+        Strata zwrot = null;
+        try {
+            zwrot = (Strata) getEntityManager().createNamedQuery("Strata.findByPodatnikRok").setParameter("podatnik", podatnikObiekt).setParameter("rok", rokWpisuSt).getSingleResult();
+        } catch (Exception e) {}
+        return zwrot;
+    }
+
+ 
     
 }

@@ -196,8 +196,8 @@ public class SymulacjaWynikuView implements Serializable {
             if (r.getKonto().equals(p)) {
                 double[] wyniksumowania = nanieszapisysuma(wybranawaluta, r, przychod0koszt1);
                 if (r.isTylkopodatkowo()) {
-                    sumaWnPodatki = sumaWn+wyniksumowania[0];
-                    sumaMaPodatki = sumaMa+wyniksumowania[1];
+                    sumaWnPodatki = sumaWnPodatki+wyniksumowania[0];
+                    sumaMaPodatki = sumaMaPodatki+wyniksumowania[1];
                 } else {
                     sumaWn = sumaWn+wyniksumowania[0];
                     sumaMa = sumaMa+wyniksumowania[1];
@@ -543,9 +543,11 @@ public class SymulacjaWynikuView implements Serializable {
             double wynikfinnarastajaco = 0.0;
             double wynikpodatkowynarastajaco = 0.0;
             List<WynikFKRokMc> wynikpoprzedniemce = wynikFKRokMcDAO.findWynikFKPodatnikRokFirma(wpisView);
+            double podatekzaplacony = 0.0;
             for (WynikFKRokMc p : wynikpoprzedniemce) {
                 if (Mce.getMiesiacToNumber().get(p.getMc()) < Mce.getMiesiacToNumber().get(wpisView.getMiesiacWpisu())) {
                     wynikfinnarastajaco += p.getWynikfinansowy();
+                    podatekzaplacony += p.getPodatekdowplaty();
                 }
             }
             PozycjeSymulacjiNowe wszyscy = pozycjePodsumowaniaWynikuNowe.get(0);
@@ -564,12 +566,15 @@ public class SymulacjaWynikuView implements Serializable {
             wynikFKRokMc.setNkup(wszyscy.getNkup()+wszyscy.getKupmn()+wszyscy.getKupmn_poprzedniemce());
             wynikFKRokMc.setNpup(wszyscy.getNpup()+wszyscy.getPmn()+wszyscy.getPmn_poprzedniemce());
             wynikFKRokMc.setWynikpodatkowy(wynikFKRokMc.getWynikfinansowy()+wynikFKRokMc.getWynikPodatkowyWstepny()+wynikFKRokMc.getNkup()+wynikFKRokMc.getNpup());
-            wynikpodatkowynarastajaco += wynikFKRokMc.getWynikpodatkowy();
+            wynikpodatkowynarastajaco += wynikFKRokMc.getWynikPodatkowyWstepny();
             wynikFKRokMc.setWynikPodatkowyWstepnyNarastajaco(wynikpodatkowynarastajaco);
             wynikFKRokMc.setUdzialowiec("firma");
     //        if (wpisView.getPodatnikObiekt().getFormaPrawna().equals(FormaPrawna.SPOLKA_Z_O_O)) {
-    //            wynikFKRokMc.setPodatek(pozycje.get(6).getWartosc());
-    //            wynikFKRokMc.setWynikfinansowynetto(pozycje.get(7).getWartosc());
+                wynikFKRokMc.setPodatek(wszyscy.getPmn());
+                wynikFKRokMc.setWynikfinansowynetto(Z.z(wszyscy.getWynikfinansowy()-wszyscy.getPmn()));
+                wynikFKRokMc.setPodatekzaplacono(podatekzaplacony);
+                double dowplaty = wszyscy.getPmn()-podatekzaplacony >0.0?wszyscy.getPmn()-podatekzaplacony:0.0;
+                wynikFKRokMc.setPodatekdowplaty(dowplaty);
     //        }
             wynikFKRokMc.setWprowadzil(wpisView.getUzer().getLogin());
             wynikFKRokMc.setData(new Date());

@@ -45,7 +45,7 @@ import waluty.Z;
     @NamedQuery(name = "Strata.findById", query = "SELECT a FROM Strata a WHERE a.id = :id"),
     @NamedQuery(name = "Strata.findByRok", query = "SELECT a FROM Strata a WHERE a.rok = :rok"),
     @NamedQuery(name = "Strata.findByPodatnik", query = "SELECT a FROM Strata a WHERE a.podatnikObj = :podatnik"),
-    @NamedQuery(name = "Strata.findByPodatnikRok", query = "SELECT a FROM Strata a WHERE a.podatnikObj = :podatnik AND a.rok = :rok")
+    @NamedQuery(name = "Strata.findByPodatnikRok", query = "SELECT a FROM Strata a WHERE a.podatnikObj = :podatnik AND a.rok = :rok"),
     })
 public class Strata  implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -117,7 +117,7 @@ public class Strata  implements Serializable {
 
     @Override
     public String toString() {
-        return "Strata{" + "podatnikObj=" + podatnikObj.getNazwapelna() + ", rok=" + rok + ", kwota=" + kwota + ", polowakwoty=" + polowakwoty + ", wykorzystano=" + getWykorzystano() + ", sumabiezace=" + getSumabiezace() + ", zostalo=" + getZostalo() + '}';
+        return "Strata{" + "podatnikObj=" + podatnikObj.getNazwapelna() + ", rok=" + rok + ", kwota=" + kwota + ", polowakwoty=" + polowakwoty + ", wykorzystano=" + getWykorzystano() + ", zostalo=" + getZostalo() + '}';
     }
 
     public Integer getId() {
@@ -188,11 +188,11 @@ public class Strata  implements Serializable {
     }
 
   
-    public double getSumabiezace() {
+    public double getSumabiezace(String rokwykorzystania) {
         double zwrot = 0.0;
         if (this.listawykorzystanie!=null) {
             for (StrataWykorzystanie p : this.listawykorzystanie) {
-                if (p.getRok().equals(this.rok)) {
+                if (p.getRok().equals(rokwykorzystania)) {
                     zwrot += p.getKwotawykorzystania();
                 }
             }
@@ -216,10 +216,15 @@ public class Strata  implements Serializable {
     public StrataWykorzystanie pobierzWykorzystanie(String rokWpisuSt, String miesiacWpisu) {
         StrataWykorzystanie zwrot = new StrataWykorzystanie(this, rokWpisuSt, miesiacWpisu);
         if (this.listawykorzystanie!=null && this.listawykorzystanie.size()>0) {
+            boolean dodaj = true;
             for (StrataWykorzystanie p : this.listawykorzystanie) {
                 if (p.getRok().equals(rokWpisuSt)&&p.getMc().equals(miesiacWpisu)) {
                     zwrot = p;
+                    dodaj = false;
                 }
+            }
+            if (dodaj) {
+                this.listawykorzystanie.add(zwrot);
             }
         } else {
             this.listawykorzystanie = new ArrayList<>();
