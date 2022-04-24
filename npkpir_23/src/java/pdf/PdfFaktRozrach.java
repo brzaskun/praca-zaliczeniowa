@@ -18,10 +18,11 @@ import java.util.List;
 import java.util.Map;
 import msg.Msg;
 import org.apache.commons.lang3.RandomStringUtils;
-import static pdffk.PdfMain.*;
-import plik.Plik;
-import view.WpisView; import org.primefaces.PrimeFaces;
+import org.primefaces.PrimeFaces;
 import pdffk.PdfMain;
+import static pdffk.PdfMain.*;
+ import plik.Plik;
+import view.WpisView;
 
 /**
  *
@@ -66,7 +67,7 @@ public class PdfFaktRozrach {
         }
     }
     
-    public static String drukujKlienciSilent(Klienci szukanyklient, List<FakturaPodatnikRozliczenie> nowepozycje, List<FakturaPodatnikRozliczenie> archiwum, WpisView wpisView) {
+    public static String drukujKlienciSilent(Klienci szukanyklient, List<FakturaPodatnikRozliczenie> nowepozycje, WpisView wpisView, double saldo) {
         String nazwa = wpisView.getPodatnikObiekt().getNip()+"faktrozrach"+PdfMain.losowanazwa();
         File file = Plik.plik(nazwa, true);
         if (file.isFile()) {
@@ -81,15 +82,14 @@ public class PdfFaktRozrach {
             dodajOpisWstepnyFaktury(document, "Zadłużenie wobec/debt to/Schulden gegenüber  ",wpisView.getPodatnikObiekt().getNazwadlafaktury(), wpisView.getPodatnikObiekt().getNip(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
             dodajLinieOpisuBezOdstepu(document, "firma: "+szukanyklient.getNpelna());
             dodajLinieOpisu(document, "NIP: "+szukanyklient.getNip());
-            dodajTabele(document, testobjects.testobjects.getFakturaRozrachunki(nowepozycje, 0),90,0);
-            FakturaPodatnikRozliczenie n = nowepozycje.get(nowepozycje.size()-1);
-            if (n.getSaldopln() > 0) {
+            dodajTabele(document, testobjects.testobjects.getFakturaRozrachunki(nowepozycje, 0),60,0);
+            if (saldo > 0) {
                 dodajLinieOpisu(document, " ");
 //                if (n.getSaldo()!=0) {
 //                    dodajLinieOpisu(document, "total/insgesamt/kwota do zapłaty na dzień sporządzenia faktur w Euro : "+F.curr(n.getSaldo(),"EUR"));
 //                    dodajLinieOpisu(document, "total/insgesamt/kwota do zapłaty na dzień sporządzenia w przeliczeniu na PLN: "+F.curr(n.getSaldopln()));
 //                }
-                dodajLinieOpisu(document, "total/insgesamt/kwota do zapłaty na dzień sporządzenia w PLN: "+F.curr(n.getSaldopln()));
+                dodajLinieOpisu(document, "total/insgesamt/kwota do zapłaty na dzień sporządzenia: "+F.curr(saldo));
                 dodajLinieOpisu(document, " ");
                 dodajLinieOpisu(document, "proszę sprawdzić saldo i przelać je niezwłocznie na nr konta podany na fakturze");
                 dodajLinieOpisu(document, "dziękuję");

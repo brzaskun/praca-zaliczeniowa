@@ -10,7 +10,6 @@ import entity.Faktura;
 import entity.Klienci;
 import entity.Podatnik;
 import error.E;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -81,15 +80,17 @@ public class SmsSend {
     }
     
     
-    public static Map<String, String> wyslijSMSyFaktura(Faktura faktura, String text, PodatnikDAO podatnikDAO) {
+    public static Map<String, String> wyslijSMSyFaktura(String NIP, String email, String text, PodatnikDAO podatnikDAO) {
         Map<String, String> zwrot = new HashMap<>();
-        if (faktura!=null && text!=null) {
+        if (NIP!=null && text!=null) {
             Map<String, String> telefony = new HashMap<>();
-            if (faktura.getKontrahent().getNip()!=null) {
-                Podatnik podatnik = podatnikDAO.findPodatnikByNIP(faktura.getKontrahent().getNip());
-                if (podatnik!=null) {
-                    if (podatnik.getTelefonkontaktowy()!=null && podatnik.getTelefonkontaktowy().length()==11) {
-                        String var = faktura.getKontrahent().getEmail();
+            Podatnik podatnik = podatnikDAO.findPodatnikByNIP(NIP);
+            if (podatnik!=null) {
+                if (podatnik.getTelefonkontaktowy()!=null && podatnik.getTelefonkontaktowy().length()>9) {
+                    String var = email;
+                    if (podatnik.getTelefonkontaktowy().contains("+")) {
+                        telefony.put(podatnik.getTelefonkontaktowy().replace("-", ""), text+" "+var.replace("@", "(a)").replace(".", ","));
+                    } else {
                         telefony.put("+48"+podatnik.getTelefonkontaktowy().replace("-", ""), text+" "+var.replace("@", "(a)").replace(".", ","));
                     }
                 }
@@ -111,9 +112,13 @@ public class SmsSend {
                 if (p.getKontrahent().getNip()!=null) {
                     Podatnik podatnik = podatnikDAO.findPodatnikByNIP(p.getKontrahent().getNip());
                     if (podatnik!=null) {
-                        if (podatnik.getTelefonkontaktowy()!=null && podatnik.getTelefonkontaktowy().length()==11) {
-                            String var = p.getKontrahent().getEmail();
-                            telefony.put("+48"+podatnik.getTelefonkontaktowy().replace("-", ""), text+" "+var.replace("@", "(a)").replace(".", ","));
+                        if (podatnik.getTelefonkontaktowy()!=null && podatnik.getTelefonkontaktowy().length()>9) {
+                        String var = p.getKontrahent().getEmail();
+                            if (podatnik.getTelefonkontaktowy().contains("+")) {
+                               telefony.put(podatnik.getTelefonkontaktowy().replace("-", ""), text+" "+var.replace("@", "(a)").replace(".", ","));
+                           } else {
+                               telefony.put("+48"+podatnik.getTelefonkontaktowy().replace("-", ""), text+" "+var.replace("@", "(a)").replace(".", ","));
+                           }
                         }
                     }
                 }
@@ -134,10 +139,14 @@ public class SmsSend {
             if (p.getNip()!=null) {
                 Podatnik podatnik = podatnikDAO.findPodatnikByNIP(p.getNip());
                 if (podatnik!=null) {
-                    if (podatnik.getTelefonkontaktowy()!=null && podatnik.getTelefonkontaktowy().length()==11) {
+                     if (podatnik.getTelefonkontaktowy()!=null && podatnik.getTelefonkontaktowy().length()>9) {
                         String var = p.getEmail();
-                        telefony.put("+48"+podatnik.getTelefonkontaktowy().replace("-", ""), text+" "+var.replace("@", "(a)").replace(".", ","));
-                    }
+                            if (podatnik.getTelefonkontaktowy().contains("+")) {
+                               telefony.put(podatnik.getTelefonkontaktowy().replace("-", ""), text+" "+var.replace("@", "(a)").replace(".", ","));
+                           } else {
+                               telefony.put("+48"+podatnik.getTelefonkontaktowy().replace("-", ""), text+" "+var.replace("@", "(a)").replace(".", ","));
+                           }
+                        }
                 }
             }
             if (!telefony.isEmpty()) {

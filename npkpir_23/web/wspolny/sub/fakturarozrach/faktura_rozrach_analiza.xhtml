@@ -67,19 +67,23 @@
                                 <h:outputText value="brak nr telefonu" rendered="#{fakturaRozrachunkiAnalizaView.szukanyklient.telefon eq null}"/>
                             </f:facet>
                             <f:facet name="input">
-                                <p:inputMask value="#{fakturaRozrachunkiAnalizaView.szukanyklient.telefon}" mask="999-999-999"
+                                <p:inputText value="#{fakturaRozrachunkiAnalizaView.szukanyklient.telefon}" 
                                               label="text" style="font-weight: bolder;" valueChangeListener="#{fakturaRozrachunkiAnalizaView.zmienteleofnkontrahenta}"/>  
                             </f:facet>
                         </p:inplace>
                     </p:column>
                 </p:panelGrid>
-                <p:panelGrid columns="2">
+                <p:panelGrid columns="3">
                  <p:column width="35" style="text-align: center;">
                         <p:commandButton icon="fa fa-phone" actionListener="#{fakturaRozrachunkiAnalizaView.telefonKlienci()}" 
                                          update="akordeon:fakturaanaliza:tablicaanaliza" />
                 </p:column>
                 <p:column width="35" style="text-align: center;">
                         <p:commandButton icon="fa fa-paper-plane" actionListener="#{fakturaRozrachunkiAnalizaView.mailKlienci()}"
+                                         update=":akordeon:fakturaanaliza:tablicaanaliza"/>
+                </p:column>
+                <p:column width="35" style="text-align: center;">
+                        <p:commandButton icon="fa fa-bomb" actionListener="#{fakturaRozrachunkiAnalizaView.mailKliencitest()}"
                                          update=":akordeon:fakturaanaliza:tablicaanaliza"/>
                 </p:column>
                     </p:panelGrid>

@@ -5,15 +5,12 @@
 package mail;
 
 import beansMail.SMTPBean;
-import entity.Klienci;
 import entity.SMTPSettings;
 import error.E;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
@@ -56,7 +53,7 @@ public class MailSetUp implements Serializable{
         return message;
     }
     
-    public static MimeMessage logintoMailFakt(Klienci klient, WpisView wpisView, SMTPSettings settings, SMTPSettings ogolne)  {
+    public static MimeMessage logintoMailFakt(String email, WpisView wpisView, SMTPSettings settings, SMTPSettings ogolne)  {
         MimeMessage message = new MimeMessage(otworzsesje(settings, ogolne));
         try {
             message.setSentDate(new Date());
@@ -68,7 +65,7 @@ public class MailSetUp implements Serializable{
             // Logger.getLogger(MailSetUp.class.getName()).log(Level.SEVERE, null, ex);
         }
         try {
-            message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(klient.getEmail()));
+            message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(email));
         } catch (MessagingException ex) {
             // Logger.getLogger(MailSetUp.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -6,7 +6,6 @@
 package mail;
 
 import dao.FakturaDAO;
-import entity.Klienci;
 import entity.SMTPSettings;
 import format.F;
 import java.io.File;
@@ -30,12 +29,12 @@ import view.WpisView;
  */
 public class MailFaktRozrach implements Serializable{
     
-    public static void rozrachunek(Klienci szukanyklient, WpisView wpisView, FakturaDAO fakturaDAO, double saldo, String stopka, SMTPSettings settings, SMTPSettings ogolne, String nazwa, String tekstwiadomosci) {
+    public static void rozrachunek(String szukanyklient, String email, WpisView wpisView, FakturaDAO fakturaDAO, double saldo, String stopka, SMTPSettings settings, SMTPSettings ogolne, String nazwa, String tekstwiadomosci) {
         tekstwiadomosci = tekstwiadomosci==null ? "": tekstwiadomosci;
         Msg.msg("Rozpoczynam wysylanie maila z rozrachunkami. Czekaj na wiadomość końcową");
         int i = 0;
         try {
-            MimeMessage message = MailSetUp.logintoMailFakt(szukanyklient, wpisView, settings, ogolne);
+            MimeMessage message = MailSetUp.logintoMailFakt(email, wpisView, settings, ogolne);
             message.setSubject("Przypomnienie o zaległych płatnościach na rzecz Biura Rachunkowego Taxman","UTF-8");
             // create and fill the first message part
             MimeBodyPart mbp1 = new MimeBodyPart();
@@ -48,7 +47,7 @@ public class MailFaktRozrach implements Serializable{
                      + "<p>Transfers are posted automatically by our program after downloading bank statements. If you make express transfers or transfers from a new account, the payment may be incorrectly allocated.</p>"
                      + "<p>In such cases, please contact us to verify the balance.</p>"
                      + "<p></p>"
-                     + "<p>Firma "+szukanyklient.getNpelna()+"</p>"
+                     + "<p>Firma "+szukanyklient+"</p>"
                      + "<p>Rozliczenia obejmują okres do "+wpisView.getRokWpisuSt()+"/"+wpisView.getMiesiacWpisu()+"</p>"
                      + "<p>Zaległa kwota do zapłaty w pln "+F.curr(saldo)+"</p>"
                      + "<p style='color:red'>"+tekstwiadomosci+"</p>"
@@ -77,7 +76,7 @@ public class MailFaktRozrach implements Serializable{
             // add the Multipart to the message
             message.setContent(mp);
             Transport.send(message);
-            Msg.msg("i","Wysłano maila z rozrachunkami do klienta "+szukanyklient.getNpelna());
+            Msg.msg("i","Wysłano maila z rozrachunkami do klienta "+szukanyklient);
             try {
                file = Plik.plik(nazwa+".pdf", true);
                file.delete();

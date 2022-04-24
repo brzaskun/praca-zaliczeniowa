@@ -1036,9 +1036,6 @@ public class PdfMain {
                     col[1] = 3;
                     col[2] = 3;
                     col[3] = 3;
-                    col[4] = 3;
-                    col[5] = 3;
-                    col[7] = 3;
                     return col;
                 } else {
                     col = new int[size];
@@ -1684,13 +1681,10 @@ public class PdfMain {
                     if (p.getRodzajDok().equals("faktura")||p.getRodzajDok().startsWith("ka ")) {
                         table.addCell(ustawfrazeAlign(p.getNrDok(), "left", 8));
                         table.addCell(ustawfrazeAlign(p.getData(), "center", 8));
-                        table.addCell(ustawfrazeAlign("", "center", 8));
                     } else if (p.getRodzajDok().startsWith("bo")) {
                         table.addCell(ustawfrazeAlign("rok.pop/last year/letztes Jahr", "left", 8));
                         table.addCell(ustawfrazeAlign(p.getData(), "center", 8));
-                        table.addCell(ustawfrazeAlign("", "center", 8));
                     } else {
-                        table.addCell(ustawfrazeAlign("", "center", 8));
                         table.addCell(ustawfrazeAlign("", "center", 8));
                         table.addCell(ustawfrazeAlign(p.getData(), "center", 8));
                     }
@@ -1702,10 +1696,6 @@ public class PdfMain {
                         String fraza = String.valueOf(number.format(p.getKwota()))+" "+p.getWalutafaktury();
                         table.addCell(ustawfrazeAlign(fraza, "right", 8, BaseColor.BLUE));
                     }
-                    String fraza = String.valueOf(number.format(p.getSaldo()))+" "+p.getWalutafaktury();
-                    table.addCell(ustawfrazeAlign(fraza, "right", 8));
-                    table.addCell(ustawfrazeAlign(Data.data_yyyyMMdd(p.getDatatelefon()), "center", 8));
-                    table.addCell(ustawfrazeAlign(Data.data_yyyyMMdd(p.getDataupomnienia()), "center", 8));
                 } else {
                     FakturaPodatnikRozliczenie p = (FakturaPodatnikRozliczenie) it.next();
                     table.addCell(ustawfrazeAlign(String.valueOf(p.getLp()), "center", 8, 22f));

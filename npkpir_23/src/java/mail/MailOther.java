@@ -26,8 +26,9 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import javax.servlet.ServletContext;
 import msg.Msg;
+import org.primefaces.PrimeFaces;
 import plik.Plik;
-import view.WpisView; import org.primefaces.PrimeFaces;
+ import view.WpisView;
 
 /**
  *
@@ -90,7 +91,7 @@ public class MailOther implements Serializable{
                  Klienci klientf = faktura.getKontrahent();
                  if (klientf.getEmail()!=null && !klientf.getEmail().equals("")) {
                     String wiadomoscdowstawienia = wiadomoscdodatkowa != null? wiadomoscdodatkowa : "";
-                    MimeMessage message = MailSetUp.logintoMailFakt(klientf, wpisView, settings, ogolne);
+                    MimeMessage message = MailSetUp.logintoMailFakt(klientf.getEmail(), wpisView, settings, ogolne);
                     String nazwa = wpisView.getPodatnikObiekt().getNazwadlafaktury() != null ? wpisView.getPodatnikObiekt().getNazwadlafaktury() : wpisView.getPodatnikWpisu();
                     message.setSubject("Wydruk faktury VAT - "+SMTPBean.nazwaFirmyFrom(settings, ogolne),"UTF-8");
                     // create and fill the first message part
@@ -158,7 +159,7 @@ public class MailOther implements Serializable{
              try {
                  String wiadomoscdowstawienia = wiadomoscdodatkowa != null? wiadomoscdodatkowa : "";
                  Klienci klientf = faktura.getKontrahent();
-                 MimeMessage message = MailSetUp.logintoMailFakt(klientf, wpisView, settings, ogolne);
+                 MimeMessage message = MailSetUp.logintoMailFakt(klientf.getEmail(), wpisView, settings, ogolne);
                  message.setSubject("Wydruk faktury VAT - Biuro Rachunkowe Taxman","UTF-8");
                  // create and fill the first message part
                  MimeBodyPart mbp1 = new MimeBodyPart();

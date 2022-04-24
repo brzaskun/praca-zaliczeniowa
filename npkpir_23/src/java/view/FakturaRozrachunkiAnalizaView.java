@@ -500,17 +500,17 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
     }
     
     public void mailKlienci() {
-        if (szukanyklient != null && !nowepozycje.isEmpty()) {
-            FakturaPodatnikRozliczenie p = nowepozycje.get(nowepozycje.size()-1);
+        if (szukanyklient != null && !selectedrozliczenia.isEmpty()) {
+            FakturaPodatnikRozliczenie p = selectedrozliczenia.get(selectedrozliczenia.size()-1);
             FakturaRozrachunki r = p.getRozliczenie();
             Faktura f = p.getFaktura();
-            double saldo = Z.z(p.getSaldopln());
+            double saldo = sumujwybraneroz(selectedrozliczenia);
             if (saldo > 0) {
                 obetnijliste(p);
                 try {
-                    String nazwa = PdfFaktRozrach.drukujKlienciSilent(szukanyklient, nowepozycje, archiwum, wpisView);
+                    String nazwa = PdfFaktRozrach.drukujKlienciSilent(szukanyklient, selectedrozliczenia, wpisView, saldo);
                     Fakturadodelementy stopka = fakturadodelementyDAO.findFaktStopkaPodatnik(wpisView.getPodatnikWpisu());
-                    MailFaktRozrach.rozrachunek(szukanyklient, wpisView, fakturaDAO, saldo, stopka.getTrescelementu(), SMTPBean.pobierzSMTP(sMTPSettingsDAO, wpisView.getUzer()), sMTPSettingsDAO.findSprawaByDef(), nazwa, tekstwiadomosci);
+                    MailFaktRozrach.rozrachunek(szukanyklient.getNpelna(), szukanyklient.getEmail(), wpisView, fakturaDAO, saldo, stopka.getTrescelementu(), SMTPBean.pobierzSMTP(sMTPSettingsDAO, wpisView.getUzer()), sMTPSettingsDAO.findSprawaByDef(), nazwa, tekstwiadomosci);
                     if (r != null) {
                         r.setDataupomnienia(new Date());
                         p.setDataupomnienia(new Date());
@@ -521,7 +521,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
                         fakturaDAO.edit(f);
                     }
                     Msg.msg("Wysłano upomnienie do klienta");
-                    Map<String, String> zwrot = SmsSend.wyslijSMSyFaktura(f, "Na adres firmy wysłano wezwanie do zapłaty.", podatnikDAO);
+                    Map<String, String> zwrot = SmsSend.wyslijSMSyFaktura(f.getKontrahent().getNip(),f.getKontrahent().getEmail(), "Na adres firmy wysłano wezwanie do zapłaty.", podatnikDAO);
                     if (zwrot.size()>0) {
                         Msg.msg("e","Błąd podczas wysyłki wezwania do zapłaty "+zwrot.size());
                         for (String t : zwrot.keySet()) {
@@ -532,9 +532,57 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
             } else {
                 Msg.msg("e", "Saldo zerowe, nie ma po co wysyłac maila");
             }
+        } else {
+            Msg.msg("e", "Nie wybrano faktur do wysyłki");
         }
     }
     
+    public void mailKliencitest() {
+        if (szukanyklient != null && !selectedrozliczenia.isEmpty()) {
+            FakturaPodatnikRozliczenie p = selectedrozliczenia.get(selectedrozliczenia.size()-1);
+            FakturaRozrachunki r = p.getRozliczenie();
+            Faktura f = p.getFaktura();
+            double saldo = sumujwybraneroz(selectedrozliczenia);
+            if (saldo > 0) {
+                obetnijliste(p);
+                try {
+                    String nazwa = PdfFaktRozrach.drukujKlienciSilent(szukanyklient, selectedrozliczenia, wpisView, saldo);
+                    Fakturadodelementy stopka = fakturadodelementyDAO.findFaktStopkaPodatnik(wpisView.getPodatnikWpisu());
+                    MailFaktRozrach.rozrachunek(szukanyklient.getNpelna(),"info@taxman.biz.pl", wpisView, fakturaDAO, saldo, stopka.getTrescelementu(), SMTPBean.pobierzSMTP(sMTPSettingsDAO, wpisView.getUzer()), sMTPSettingsDAO.findSprawaByDef(), nazwa, tekstwiadomosci);
+                    if (r != null) {
+                        r.setDataupomnienia(new Date());
+                        p.setDataupomnienia(new Date());
+                        fakturaRozrachunkiDAO.edit(r);
+                    } else {
+                        f.setDataupomnienia(new Date());
+                        p.setDataupomnienia(new Date());
+                        fakturaDAO.edit(f);
+                    }
+                    Msg.msg("Wysłano upomnienie do klienta");
+                    Map<String, String> zwrot = SmsSend.wyslijSMSyFaktura("8511005008","info@taxman.biz.pl", "Na adres firmy wysłano wezwanie do zapłaty.", podatnikDAO);
+                    if (zwrot.size()>0) {
+                        Msg.msg("e","Błąd podczas wysyłki wezwania do zapłaty "+zwrot.size());
+                        for (String t : zwrot.keySet()) {
+                            error.E.s("nr "+t+" treść: "+zwrot.get(t));
+                        }
+                    }
+                } catch (Exception e){}
+            } else {
+                Msg.msg("e", "Saldo zerowe, nie ma po co wysyłac maila");
+            }
+        } else {
+            Msg.msg("e", "Nie wybrano faktur do wysyłki");
+        }
+    }
+    
+    
+    private double sumujwybraneroz(List<FakturaPodatnikRozliczenie> selectedrozliczenia) {
+        double zwrot = 0.0;
+        for (FakturaPodatnikRozliczenie p : selectedrozliczenia) {
+            zwrot += p.getKwota();
+        }
+        return zwrot;
+    }
     public void telefonKlienci() {
         if (szukanyklient != null && !nowepozycje.isEmpty()) {
             FakturaPodatnikRozliczenie p = nowepozycje.get(nowepozycje.size()-1);
@@ -786,6 +834,8 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
   
    
 //</editor-fold>
+
+    
 
     
     
