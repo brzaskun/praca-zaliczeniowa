@@ -17,7 +17,7 @@
         </style>
         <h:form id="fakturaanaliza">
             <p:panelGrid columns="3">
-                <p:selectOneListbox id="wyborklienta" value="#{fakturaRozrachunkiAnalizaView.szukanyklient}" required="true" style="width: 300px;"  converter="#{klientConv}"
+                <p:selectOneListbox id="wyborklienta" value="#{fakturaRozrachunkiAnalizaView.szukanyklient}" required="true" style="width: 300px;"  converter="#{klientConvNoRO}"
                                     styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" binding="#{fakturaRozrachunkiAnalizaView.selectOneUI}"
                                     filter="true" filterMatchMode="contains" widgetVar="wybierzkontrahenta"
                                     >
