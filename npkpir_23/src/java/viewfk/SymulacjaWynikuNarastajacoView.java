@@ -74,6 +74,7 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
     private double strata;
     @Inject
     private PodatnikUdzialyDAO podatnikUdzialyDAO;
+    private String dodatkoweinfo;
 
     public SymulacjaWynikuNarastajacoView() {
          ////E.m(this);
@@ -171,6 +172,7 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
     
        
     private void obliczsymulacje() {
+        dodatkoweinfo = "";
         podatnikkwotarazem = new ConcurrentHashMap<>();
         pozycjePodsumowaniaWyniku = Collections.synchronizedList(new ArrayList<>());
         double przychodynarastajaco = sumamiesiecy.getPrzychody();
@@ -227,19 +229,40 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
 //            formaprawna = false;
 //        }
         if (formaprawna) {
+            double wynikdokwietnia = 0.0;
             double podstawaopodatkowania = Z.z0(wynikpodatkowy-strata);
             pdop = 0.0;
             boolean robic = true;
-            if (wpisView.isMc0kw1()) {
+            if (wpisView.getRokWpisu()==2021&&Mce.getMiesiacToNumber().get(wpisView.getMiesiacWpisu())<5) {
+                robic = false;
+            } else if (wpisView.getRokWpisu()==2021) {
+                WynikFKRokMc styczen = wynikFKRokMcDAO.findWynikFKPodatnikRokUdzialowiec(wpisView.getPodatnikObiekt(), "2021", "01","firma"); 
+                WynikFKRokMc luty = wynikFKRokMcDAO.findWynikFKPodatnikRokUdzialowiec(wpisView.getPodatnikObiekt(), "2021", "02","firma"); 
+                WynikFKRokMc marzec = wynikFKRokMcDAO.findWynikFKPodatnikRokUdzialowiec(wpisView.getPodatnikObiekt(), "2021", "03","firma"); 
+                WynikFKRokMc kwiecien = wynikFKRokMcDAO.findWynikFKPodatnikRokUdzialowiec(wpisView.getPodatnikObiekt(), "2021", "04","firma"); 
+                double styczend  = styczen!=null?styczen.getWynikpodatkowy():0.0;
+                double lutyd  = luty!=null?luty.getWynikpodatkowy():0.0;
+                double marzecd  = marzec!=null?marzec.getWynikpodatkowy():0.0;
+                double kwieciend  = kwiecien!=null?kwiecien.getWynikpodatkowy():0.0;
+                wynikdokwietnia = styczend+lutyd+marzecd+kwieciend;
+            } else if (wpisView.isMc0kw1()) {
                 robic = false;
                 int nrmca = Mce.getMiesiacToNumber().get(wpisView.getMiesiacWpisu());
                 int reszta = nrmca % 3;
                 if (reszta==0) {
                     robic = true;
                 }
-            }
+            } 
             if (podstawaopodatkowania > 0 && robic) {
-                pdop = Z.z0(podstawaopodatkowania*wpisView.getStawkapodatkuospr());
+                if (wpisView.getRokWpisu()==2021 && wynikdokwietnia!=0.0) {
+                    pdop = Z.z0((podstawaopodatkowania-wynikdokwietnia)*wpisView.getStawkapodatkuospr());
+                    dodatkoweinfo = "Podstawę podatku obniżono o dochód podatkowy do 04/2021";
+                    if (pdop<0.0) {
+                        pdop = 0.0;
+                    }
+                } else {
+                    pdop = Z.z0(podstawaopodatkowania*wpisView.getStawkapodatkuospr());
+                }
             }
             pozycjePodsumowaniaWyniku.add(new SymulacjaWynikuView.PozycjeSymulacji("podstawa opododatkowania", podstawaopodatkowania));
             pozycjePodsumowaniaWyniku.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("pdop"), pdop));
@@ -555,6 +578,14 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
     
     public void setWpisView(WpisView wpisView) {
         this.wpisView = wpisView;
+    }
+
+    public String getDodatkoweinfo() {
+        return dodatkoweinfo;
+    }
+
+    public void setDodatkoweinfo(String dodatkoweinfo) {
+        this.dodatkoweinfo = dodatkoweinfo;
     }
     
     public List<WynikFKRokMc> getListamiesiecy() {

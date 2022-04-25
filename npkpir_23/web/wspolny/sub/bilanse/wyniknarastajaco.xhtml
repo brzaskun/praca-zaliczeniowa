@@ -172,7 +172,10 @@
                     <bcf:outputpl value="#{loop.wartosc}"/>
                 </p:column>
             </p:dataTable>
-                <h:outputText value="rozliczenie podatku dochodowego - #{WpisView.mc0kw1 eq false ? 'miesiecznie':'kwartalnie'}"/>
+                <p:panelGrid columns="1">
+                    <h:outputText value="rozliczenie podatku dochodowego - #{WpisView.mc0kw1 eq false ? 'miesiecznie':'kwartalnie'}"/>
+                    <h:outputText style="color: red;" value=" #{symulacjaWynikuNarastajacoView.dodatkoweinfo}"/>
+                </p:panelGrid>
             </p:panelGrid>
 <!--            <p:dataTable id="tablicasymulacjapodatekpopmce" value="#{symulacjaWynikuNarastajacoView.pozycjeObliczeniaPodatkuPoprzedniemiesiaceTabela}" var="loop2" rowKey="#{loop2.udzialowiec}"
                          emptyMessage="#{mgs.nieobliczonopodatku}" selectionMode="single" 
