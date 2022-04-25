@@ -37,6 +37,10 @@
                     <p:selectBooleanCheckbox value="#{fakturaRozrachunkiAnalizaView.dolaczrokpoprzedni}">
                         <p:ajax event="change" partialSubmit="true" listener="#{fakturaRozrachunkiAnalizaView.pobierzwszystkoKlienta()}" update=":akordeon:fakturaanaliza:tablicaanaliza :akordeon:fakturaanaliza:mailklientapanel"/>
                     </p:selectBooleanCheckbox>
+                    <h:outputText value="dodatkowy adres mailowy"/>
+                    <p:inputText value="#{fakturaRozrachunkiAnalizaView.dodatkowyadresmailowy}">
+                        <p:ajax event="blur" partialSubmit="true" />
+                    </p:inputText>
                 </p:panelGrid>
             </p:panelGrid>
             <style>

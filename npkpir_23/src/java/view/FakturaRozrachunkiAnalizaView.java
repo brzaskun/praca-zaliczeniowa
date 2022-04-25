@@ -86,6 +86,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
     private boolean tylkoprzeterminowane;
     private String tekstwiadomosci;
     private boolean dolaczrokpoprzedni;
+    private String dodatkowyadresmailowy;
     
     public FakturaRozrachunkiAnalizaView() {
         
@@ -98,6 +99,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
         archiwum = Collections.synchronizedList(new ArrayList<>());
         saldanierozliczone = Collections.synchronizedList(new ArrayList<>());
         klienci.addAll(pobierzkontrahentow());
+        dodatkowyadresmailowy="recepcja@taxman.biz.pl";
         Collections.sort(klienci, new KlienciNPcomparator());
      }
     
@@ -155,7 +157,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
    
      
     private Collection<? extends Klienci> pobierzkontrahentow() {
-        Collection p = fakturaDAO.findKontrahentFakturyRO(wpisView.getPodatnikObiekt());
+        Collection p = fakturaDAO.findKontrahentFaktury(wpisView.getPodatnikObiekt());
         List<Podatnik> podatnicy = podatnikDAO.findAll();
         for (Iterator<Klienci> it = p.iterator(); it.hasNext();) {
             Klienci k = it.next();
@@ -499,6 +501,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
         }
     }
     
+    
     public void mailKlienci() {
         if (szukanyklient != null && !selectedrozliczenia.isEmpty()) {
             FakturaPodatnikRozliczenie p = selectedrozliczenia.get(selectedrozliczenia.size()-1);
@@ -506,11 +509,11 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
             Faktura f = p.getFaktura();
             double saldo = sumujwybraneroz(selectedrozliczenia);
             if (saldo > 0) {
-                obetnijliste(p);
+                //obetnijliste(p);
                 try {
-                    String nazwa = PdfFaktRozrach.drukujKlienciSilent(szukanyklient, selectedrozliczenia, wpisView, saldo);
+                    //String nazwa = PdfFaktRozrach.drukujKlienciSilent(szukanyklient, selectedrozliczenia, wpisView, saldo);
                     Fakturadodelementy stopka = fakturadodelementyDAO.findFaktStopkaPodatnik(wpisView.getPodatnikWpisu());
-                    MailFaktRozrach.rozrachunek(szukanyklient.getNpelna(), szukanyklient.getEmail(), wpisView, fakturaDAO, saldo, stopka.getTrescelementu(), SMTPBean.pobierzSMTP(sMTPSettingsDAO, wpisView.getUzer()), sMTPSettingsDAO.findSprawaByDef(), nazwa, tekstwiadomosci);
+                    MailFaktRozrach.rozrachunek(szukanyklient.getNpelna(), szukanyklient.getEmail(), dodatkowyadresmailowy, szukanyklient.getTelefon(), selectedrozliczenia, wpisView, fakturaDAO, saldo, stopka.getTrescelementu(), SMTPBean.pobierzSMTP(sMTPSettingsDAO, wpisView.getUzer()), sMTPSettingsDAO.findSprawaByDef(), tekstwiadomosci);
                     if (r != null) {
                         r.setDataupomnienia(new Date());
                         p.setDataupomnienia(new Date());
@@ -544,11 +547,11 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
             Faktura f = p.getFaktura();
             double saldo = sumujwybraneroz(selectedrozliczenia);
             if (saldo > 0) {
-                obetnijliste(p);
+                //obetnijliste(p);
                 try {
-                    String nazwa = PdfFaktRozrach.drukujKlienciSilent(szukanyklient, selectedrozliczenia, wpisView, saldo);
+                    //String nazwa = PdfFaktRozrach.drukujKlienciSilent(szukanyklient, selectedrozliczenia, wpisView, saldo);
                     Fakturadodelementy stopka = fakturadodelementyDAO.findFaktStopkaPodatnik(wpisView.getPodatnikWpisu());
-                    MailFaktRozrach.rozrachunek(szukanyklient.getNpelna(),"info@taxman.biz.pl", wpisView, fakturaDAO, saldo, stopka.getTrescelementu(), SMTPBean.pobierzSMTP(sMTPSettingsDAO, wpisView.getUzer()), sMTPSettingsDAO.findSprawaByDef(), nazwa, tekstwiadomosci);
+                    MailFaktRozrach.rozrachunek(szukanyklient.getNpelna(),"info@taxman.biz.pl", dodatkowyadresmailowy, szukanyklient.getTelefon(), selectedrozliczenia, wpisView, fakturaDAO, saldo, stopka.getTrescelementu(), SMTPBean.pobierzSMTP(sMTPSettingsDAO, wpisView.getUzer()), sMTPSettingsDAO.findSprawaByDef(), tekstwiadomosci);
                     if (r != null) {
                         r.setDataupomnienia(new Date());
                         p.setDataupomnienia(new Date());
@@ -707,6 +710,14 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
     
     public void setKlienci(List<Klienci> klienci) {
         this.klienci = klienci;
+    }
+
+    public String getDodatkowyadresmailowy() {
+        return dodatkowyadresmailowy;
+    }
+
+    public void setDodatkowyadresmailowy(String dodatkowyadresmailowy) {
+        this.dodatkowyadresmailowy = dodatkowyadresmailowy;
     }
 
     public boolean isDolaczrokpoprzedni() {

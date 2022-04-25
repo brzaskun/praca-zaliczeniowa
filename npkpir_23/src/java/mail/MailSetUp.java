@@ -53,7 +53,7 @@ public class MailSetUp implements Serializable{
         return message;
     }
     
-    public static MimeMessage logintoMailFakt(String email, WpisView wpisView, SMTPSettings settings, SMTPSettings ogolne)  {
+    public static MimeMessage logintoMailFakt(String email, String udw, WpisView wpisView, SMTPSettings settings, SMTPSettings ogolne)  {
         MimeMessage message = new MimeMessage(otworzsesje(settings, ogolne));
         try {
             message.setSentDate(new Date());
@@ -71,7 +71,9 @@ public class MailSetUp implements Serializable{
         }
         if (!wpisView.getUzer().getUprawnienia().equals("Guest")){
         try {
-            message.setRecipients(Message.RecipientType.BCC,InternetAddress.parse(wpisView.getUzer().getEmail()));
+            if (udw!=null&&udw.contains("@")) {
+                message.setRecipients(Message.RecipientType.BCC,InternetAddress.parse(udw));
+            }
         } catch (Exception e){
             E.e(e);
             Msg.msg("e", "Nie masz ma wprowadzonego adresu mail. Wysyłka nieudana");
