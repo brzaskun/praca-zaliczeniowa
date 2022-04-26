@@ -186,8 +186,10 @@ public class Strata  implements Serializable {
         }
         return zwrot;
     }
-
-  
+    //do usunieci ajak zrobie strate w uproszczonej
+    public double getSumabiezace() {
+        return 0.0;
+    }
     public double getSumabiezace(String rokwykorzystania) {
         double zwrot = 0.0;
         if (this.listawykorzystanie!=null) {

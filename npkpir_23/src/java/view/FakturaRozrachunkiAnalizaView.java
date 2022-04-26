@@ -87,6 +87,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
     private String tekstwiadomosci;
     private boolean dolaczrokpoprzedni;
     private String dodatkowyadresmailowy;
+    List<Podatnik> podatnicy;
     
     public FakturaRozrachunkiAnalizaView() {
         
@@ -101,10 +102,17 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
         klienci.addAll(pobierzkontrahentow());
         dodatkowyadresmailowy="recepcja@taxman.biz.pl";
         Collections.sort(klienci, new KlienciNPcomparator());
+        podatnicy = podatnikDAO.findAll();
      }
     
     public void pobierzwszystkoKlienta() {
         String mc = wpisView.getMiesiacWpisu();
+        for (Podatnik po : podatnicy) {
+            if (po.getNip().equals(szukanyklient.getNip())) {
+                szukanyklient.setTelefon(po.getTelefonkontaktowy());
+                break;
+            }
+        }
         if (szukanyklient.getEmail()==null ||szukanyklient.getEmail().equals("")) {
             szukanyklient.setEmail("brakmaila!@taxman.biz.pl");
         }
