@@ -92,6 +92,15 @@ public class FakturaRozrachunkiDAO extends DAO implements Serializable {
             return null;
         }
     }
+     
+     public List<FakturaRozrachunki> findByPodatnikrok(WpisView wpisView) {
+        try {
+            return sessionFacade.getEntityManager().createNamedQuery("FakturaRozrachunki.findByPodatnikRokImport").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisuSt()).getResultList();
+        } catch (Exception e) {
+            E.e(e);
+            return null;
+        }
+    }
     
     public List<FakturaRozrachunki> findByPodatnikKontrahent(WpisView wpisView, Klienci kontrahent) {
         try {

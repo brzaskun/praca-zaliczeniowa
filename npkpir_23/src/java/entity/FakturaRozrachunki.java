@@ -38,6 +38,7 @@ import xls.ImportBankWiersz;
     @NamedQuery(name = "FakturaRozrachunki.findByPodatnik", query = "SELECT e FROM FakturaRozrachunki e WHERE e.wystawca = :podatnik"),
     @NamedQuery(name = "FakturaRozrachunki.findByPodatnikIBAN", query = "SELECT e FROM FakturaRozrachunki e WHERE e.wystawca = :podatnik AND e.iban IS NOT NULL"),
     @NamedQuery(name = "FakturaRozrachunki.findByPodatnikRokMc", query = "SELECT e FROM FakturaRozrachunki e WHERE e.wystawca = :podatnik AND e.rok = :rok AND e.mc = :mc"),
+    @NamedQuery(name = "FakturaRozrachunki.findByPodatnikRokImport", query = "SELECT e FROM FakturaRozrachunki e WHERE e.wystawca = :podatnik AND e.rok = :rok"),
     @NamedQuery(name = "FakturaRozrachunki.findByPodatnikKontrahent", query = "SELECT e FROM FakturaRozrachunki e WHERE e.wystawca = :podatnik AND e.kontrahent = :kontrahent"),
     @NamedQuery(name = "FakturaRozrachunki.findByPodatnikKontrahentID", query = "SELECT e FROM FakturaRozrachunki e WHERE e.kontrahent = :kontrahent"),
     @NamedQuery(name = "FakturaRozrachunki.findByPodatnikKontrahentRok", query = "SELECT e FROM FakturaRozrachunki e WHERE e.wystawca = :podatnik AND e.kontrahent = :kontrahent AND e.rok = :rok"),

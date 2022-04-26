@@ -250,7 +250,7 @@ public class BankImportKsiazkaView implements Serializable {
                 } else {
                     generujbutton.setRendered(true);
                 }
-                List<FakturaRozrachunki> wierszezmiesiaca = fakturaRozrachunkiDAO.findByPodatnikrokMc(wpisView);
+                List<FakturaRozrachunki> wierszezmiesiaca = fakturaRozrachunkiDAO.findByPodatnikrok(wpisView);
                 List<FakturaRozrachunki> wierszepoprzednie = fakturaRozrachunkiDAO.findByPodatnikIBAN(wpisView);
                 if (wierszezmiesiaca!=null && wierszezmiesiaca.size()>0) {
                     for (ImportBankWiersz p : pobranefaktury) {
