@@ -43,6 +43,7 @@ public class MailFaktRozrach implements Serializable{
         tekstwiadomosci = tekstwiadomosci==null ? "": tekstwiadomosci;
         Msg.msg("Rozpoczynam wysylanie maila z rozrachunkami. Czekaj na wiadomość końcową");
         int i = 0;
+        FakturaPodatnikRozliczenie f = faktury.get(0);
         try {
             MimeMessage message = MailSetUp.logintoMailFakt(email, udw, wpisView, settings, ogolne);
             message.setSubject("Przypomnienie o zaległych płatnościach na rzecz Biura Rachunkowego Taxman","UTF-8");
@@ -66,7 +67,7 @@ public class MailFaktRozrach implements Serializable{
                      + "<p>Firma "+szukanyklient+"</p>"
                      + "<p>tel "+telefon+"</p>"
                      + "<p>Rozliczenia obejmują okres do "+wpisView.getRokWpisuSt()+"/"+wpisView.getMiesiacWpisu()+"</p>"
-                     + "<p style='color:red;font-weight: bold;'>Zaległa kwota do zapłaty w pln "+F.curr(saldo)+"</p>"
+                     + "<p style='color:red;font-weight: bold;'>Zaległa kwota do zapłaty "+F.curr(saldo, f.getWalutafaktury())+"</p>"
                      + "<p style='color:red'>"+tekstwiadomosci+"</p>"
                      + Mail.reklama
                      + stopka,  "text/html; charset=utf-8");
@@ -111,7 +112,7 @@ public class MailFaktRozrach implements Serializable{
         String zwrot = "";
         int lp = 1;
         for (FakturaPodatnikRozliczenie p : faktury) {
-            zwrot += "<tr> <td style=\"text-align: center;\"> "+lp+"</td> <td> "+p.getData()+"</td><td> "+p.getNrDok()+"</td> <td style=\"text-align: right;\">"+F.curr(p.getKwota())+"</td> </tr> ";
+            zwrot += "<tr> <td style=\"text-align: center;\"> "+lp+"</td> <td> "+p.getData()+"</td><td> "+p.getNrDok()+"</td> <td style=\"text-align: right;\">"+F.curr(p.getKwota(),p.getWalutafaktury())+"</td> </tr> ";
             lp++;
         }
         return zwrot;
