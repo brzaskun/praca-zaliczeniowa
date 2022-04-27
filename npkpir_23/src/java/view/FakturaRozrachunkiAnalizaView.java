@@ -406,6 +406,16 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
         } else {
             szukanyklient = p.getFaktura().getKontrahent();
         }
+        for (Podatnik po : podatnicy) {
+            if (po.getNip().equals(szukanyklient.getNip())) {
+                szukanyklient.setNazwapodatnika(po.getPrintnazwa());
+                szukanyklient.setTelefon(po.getTelefonkontaktowy());
+                break;
+            }
+        }
+        if (szukanyklient.getNazwapodatnika()==null) {
+            szukanyklient.setNazwapodatnika(szukanyklient.getNazwabezCudzy());
+        }
         pobierzwszystko(wpisView.getMiesiacWpisu(), szukanyklient);
         selectOneUI.setValue(szukanyklient);
         aktywnytab = 3;
