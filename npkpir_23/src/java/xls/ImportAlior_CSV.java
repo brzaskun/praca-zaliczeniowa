@@ -65,7 +65,7 @@ public class ImportAlior_CSV implements Serializable {
                         x.setWaluta(wybranawaluta);
                         x.setKontrahent(record.get("Nazwa kontrahenta"));//??
                         double kwota = F.kwota(record.get("Kwota"));
-                        x.setKwota(kwota);
+                        x.setKwota(Math.abs(kwota));
                         if (kwota > 0.0) {
                             x.setWnma("Wn");
                             pn.setWyciagobrotywn(pn.getWyciagobrotywn() + kwota);

@@ -73,14 +73,20 @@ public class DochodDlaDRAView implements Serializable {
     public void init() {
         if (rok!=null&&mc!=null) {
             String[] poprzedniOkres = Data.poprzedniOkres(mc, rok);
-            String mcpkpir = poprzedniOkres[0];
+            String mcod = poprzedniOkres[0];
+            String mcdo = poprzedniOkres[0];
             String rokpkpir = poprzedniOkres[1];
+            if (!mc.equals("01")) {
+                mcod = "01";
+                rokpkpir = rok;
+            }
             List<Podatnik> podatnicy = podatnikDAO.findPodatnikNieFK();
             Collections.sort(podatnicy, new Podatnikcomparator());
             double podatnikprocentudzial = 100.0;
             wiersze = new ArrayList<>();
             int i = 1;
             for (Podatnik p : podatnicy) {
+                if (p.getNip().equals("8511005008")) {
                 PodatnikOpodatkowanieD opodatkowanie = zwrocFormaOpodatkowania(p, rok, mc);
                 if (opodatkowanie!=null) {
                     String formaopodatkowania = opodatkowanie.getFormaopodatkowania();
@@ -104,12 +110,12 @@ public class DochodDlaDRAView implements Serializable {
                                 Msg.msg("Obliczono przychód za mc");
                             } else {
                                 //oblicz dochod
-                                double dochod = pobierzdochod(p, rokpkpir, mcpkpir, wiersz);
+                                double dochod = pobierzdochod(p, rokpkpir, mcod, mcdo, wiersz);
                                 if (podatnikprocentudzial != 100.0) {
                                     dochod = Z.z(dochod * podatnikprocentudzial / 100.0);
                                 }
                                 wiersz.setDochod(dochod);
-                                Pitpoz jestpit = pitDAO.find(rokpkpir, mcpkpir, p.getNazwapelna());
+                                Pitpoz jestpit = pitDAO.find(rokpkpir, mcod, p.getNazwapelna());
                                 wiersz.setJestpit(jestpit!=null);
                                 Msg.msg("Obliczono dochód za mc");
                             }
@@ -130,9 +136,9 @@ public class DochodDlaDRAView implements Serializable {
                             Msg.msg("Obliczono przychód za mc");
                         } else {
                             //oblicz dochod
-                            double dochod = pobierzdochod(p, rokpkpir, mcpkpir, wiersz);
+                            double dochod = pobierzdochod(p, rokpkpir, mcod, mcdo, wiersz);
                             wiersz.setDochod(dochod);
-                            Pitpoz jestpit = pitDAO.find(rokpkpir, mcpkpir, p.getNazwapelna());
+                            Pitpoz jestpit = pitDAO.find(rokpkpir, mcod, p.getNazwapelna());
                             wiersz.setJestpit(jestpit!=null);
                             Msg.msg("Obliczono dochód za mc");
                         }
@@ -147,6 +153,7 @@ public class DochodDlaDRAView implements Serializable {
                     Msg.msg("e", "Brak opodatkowania");
                 }
                 i++;
+            }
             }
             Msg.msg("Pobrano dane");
         } else {
@@ -183,10 +190,10 @@ public class DochodDlaDRAView implements Serializable {
         return jedno;
     }
 
-    private double pobierzdochod(Podatnik podatnik, String rok, String mc, WierszDRA wiersz) {
+    private double pobierzdochod(Podatnik podatnik, String rok, String mcod, String mcdo, WierszDRA wiersz) {
         double dochod = 0.0;
         try {
-            List<Dok> lista = KsiegaBean.pobierzdokumentyRok(dokDAO, podatnik, Integer.parseInt(rok), mc, mc);
+            List<Dok> lista = KsiegaBean.pobierzdokumentyRok(dokDAO, podatnik, Integer.parseInt(rok), mcdo, mcod);
             if (lista!=null&&!lista.isEmpty()) {
                 for (Iterator<Dok> it = lista.iterator(); it.hasNext();) {
                     Dok tmpx = it.next();
