@@ -86,74 +86,74 @@ public class DochodDlaDRAView implements Serializable {
             wiersze = new ArrayList<>();
             int i = 1;
             for (Podatnik p : podatnicy) {
-                if (p.getNip().equals("8511005008")) {
-                PodatnikOpodatkowanieD opodatkowanie = zwrocFormaOpodatkowania(p, rok, mc);
-                if (opodatkowanie!=null) {
-                    String formaopodatkowania = opodatkowanie.getFormaopodatkowania();
-                    List<PodatnikUdzialy> udzialy = podatnikUdzialyDAO.findUdzialyPodatnik(p);
-                    if (udzialy != null && udzialy.size() > 0) {
-                        for (PodatnikUdzialy u : udzialy) {
+                //if (p.getNip().equals("8511005008")) {
+                    PodatnikOpodatkowanieD opodatkowanie = zwrocFormaOpodatkowania(p, rok, mc);
+                    if (opodatkowanie != null) {
+                        String formaopodatkowania = opodatkowanie.getFormaopodatkowania();
+                        List<PodatnikUdzialy> udzialy = podatnikUdzialyDAO.findUdzialyPodatnik(p);
+                        if (udzialy != null && udzialy.size() > 0) {
+                            for (PodatnikUdzialy u : udzialy) {
+                                WierszDRA wiersz = new WierszDRA(i, p, rok, mc, Mce.getStringToNazwamiesiaca().get(mc));
+                                wiersz.setOpodatkowanie(formaopodatkowania);
+                                wiersz.setImienazwisko(u.getNazwiskoimie());
+                                wiersz.setUdzial(Double.parseDouble(u.getUdzial()));
+                                podatnikprocentudzial = wiersz.getUdzial();
+                                if (formaopodatkowania.contains("ryczałt")) {
+                                    //oblicz przychod
+                                    double przychod = pobierzprzychod(p, rok, mc, wiersz);
+                                    if (podatnikprocentudzial != 100.0) {
+                                        przychod = Z.z(przychod * podatnikprocentudzial / 100.0);
+                                    }
+                                    wiersz.setPrzychod(przychod);
+                                    Ryczpoz jestpit = ryczDAO.find(rok, mc, p.getNazwapelna());
+                                    wiersz.setJestpit(jestpit != null);
+                                    Msg.msg("Obliczono przychód za mc");
+                                } else {
+                                    //oblicz dochod
+                                    double dochod = pobierzdochod(p, rokpkpir, mcod, mcdo, wiersz);
+                                    if (podatnikprocentudzial != 100.0) {
+                                        dochod = Z.z(dochod * podatnikprocentudzial / 100.0);
+                                    }
+                                    wiersz.setDochod(dochod);
+                                    Pitpoz jestpit = pitDAO.find(rokpkpir, mcod, p.getNazwapelna());
+                                    wiersz.setJestpit(jestpit != null);
+                                    Msg.msg("Obliczono dochód za mc");
+                                }
+
+                                wiersze.add(wiersz);
+                            }
+                        } else {
                             WierszDRA wiersz = new WierszDRA(i, p, rok, mc, Mce.getStringToNazwamiesiaca().get(mc));
                             wiersz.setOpodatkowanie(formaopodatkowania);
-                            wiersz.setImienazwisko(u.getNazwiskoimie());
-                            wiersz.setUdzial(Double.parseDouble(u.getUdzial()));
-                            podatnikprocentudzial = wiersz.getUdzial();
+                            wiersz.setImienazwisko(p.getNazwisko() + " " + p.getImie());
+                            wiersz.setUdzial(100);
                             if (formaopodatkowania.contains("ryczałt")) {
                                 //oblicz przychod
                                 double przychod = pobierzprzychod(p, rok, mc, wiersz);
-                                if (podatnikprocentudzial != 100.0) {
-                                    przychod = Z.z(przychod * podatnikprocentudzial / 100.0);
-                                }
                                 wiersz.setPrzychod(przychod);
                                 Ryczpoz jestpit = ryczDAO.find(rok, mc, p.getNazwapelna());
-                                wiersz.setJestpit(jestpit!=null);
+                                wiersz.setJestpit(jestpit != null);
                                 Msg.msg("Obliczono przychód za mc");
                             } else {
                                 //oblicz dochod
                                 double dochod = pobierzdochod(p, rokpkpir, mcod, mcdo, wiersz);
-                                if (podatnikprocentudzial != 100.0) {
-                                    dochod = Z.z(dochod * podatnikprocentudzial / 100.0);
-                                }
                                 wiersz.setDochod(dochod);
                                 Pitpoz jestpit = pitDAO.find(rokpkpir, mcod, p.getNazwapelna());
-                                wiersz.setJestpit(jestpit!=null);
+                                wiersz.setJestpit(jestpit != null);
                                 Msg.msg("Obliczono dochód za mc");
                             }
-                            
                             wiersze.add(wiersz);
                         }
                     } else {
                         WierszDRA wiersz = new WierszDRA(i, p, rok, mc, Mce.getStringToNazwamiesiaca().get(mc));
-                        wiersz.setOpodatkowanie(formaopodatkowania);
-                        wiersz.setImienazwisko(p.getNazwisko()+" "+p.getImie());
+                        wiersz.setOpodatkowanie("brak opodatkowania");
+                        wiersz.setImienazwisko(p.getNazwisko() + " " + p.getImie());
                         wiersz.setUdzial(100);
-                        if (formaopodatkowania.contains("ryczałt")) {
-                            //oblicz przychod
-                            double przychod = pobierzprzychod(p, rok, mc, wiersz);
-                            wiersz.setPrzychod(przychod);
-                            Ryczpoz jestpit = ryczDAO.find(rok, mc, p.getNazwapelna());
-                            wiersz.setJestpit(jestpit!=null);
-                            Msg.msg("Obliczono przychód za mc");
-                        } else {
-                            //oblicz dochod
-                            double dochod = pobierzdochod(p, rokpkpir, mcod, mcdo, wiersz);
-                            wiersz.setDochod(dochod);
-                            Pitpoz jestpit = pitDAO.find(rokpkpir, mcod, p.getNazwapelna());
-                            wiersz.setJestpit(jestpit!=null);
-                            Msg.msg("Obliczono dochód za mc");
-                        }
                         wiersze.add(wiersz);
+                        Msg.msg("e", "Brak opodatkowania");
                     }
-                } else {
-                    WierszDRA wiersz = new WierszDRA(i, p, rok, mc, Mce.getStringToNazwamiesiaca().get(mc));
-                    wiersz.setOpodatkowanie("brak opodatkowania");
-                    wiersz.setImienazwisko(p.getNazwisko()+" "+p.getImie());
-                    wiersz.setUdzial(100);
-                    wiersze.add(wiersz);
-                    Msg.msg("e", "Brak opodatkowania");
-                }
-                i++;
-            }
+                    i++;
+                //}
             }
             Msg.msg("Pobrano dane");
         } else {
