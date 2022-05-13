@@ -18,7 +18,6 @@ import entity.Inwestycje;
 import entity.Klienci;
 import entity.Logofaktura;
 import entity.MultiuserSettings;
-import entity.Pitpoz;
 import entity.PlatnoscWaluta;
 import entity.Platnosci;
 import entity.PlatnosciPK;
@@ -41,7 +40,6 @@ import entity.Zamknietemiesiace;
 import entity.Zobowiazanie;
 import entity.Zusmail;
 import entity.Zusstawki;
-import entityfk.Cechazapisu;
 import entityfk.Dokfk;
 import entityfk.Konto;
 import entityfk.KontopozycjaZapis;
@@ -107,39 +105,7 @@ public class SessionFacade<T> implements Serializable {
         return em;
     }
 
-   
-
-    
-
-   
-
-    public List<Pitpoz> findPitpozAll() {
-        List<Pitpoz> lista =  getEntityManager().createNamedQuery("Pitpoz.findAll").getResultList();
-        return Collections.synchronizedList(lista);
-    }
-    
-
-    public Pitpoz findPitpoz(String rok, String mc, String pod) {
-        Pitpoz tmp = (Pitpoz)  getEntityManager().createQuery("SELECT p FROM Pitpoz p WHERE p.pkpirR = :pkpirR AND p.pkpirM = :pkpirM AND p.podatnik = :podatnik").setParameter("pkpirR", rok).setParameter("pkpirM", mc).setParameter("podatnik", pod).getSingleResult();
-        return tmp;
-    }
-
-    public List<Pitpoz> findPitpozLista(String rok, String mc, String pod) {
-        List<Pitpoz> lista =  getEntityManager().createQuery("SELECT p FROM Pitpoz p WHERE p.pkpirR = :pkpirR AND p.pkpirM = :pkpirM AND p.podatnik = :podatnik").setParameter("pkpirR", rok).setParameter("pkpirM", mc).setParameter("podatnik", pod).getResultList();
-        return Collections.synchronizedList(lista);
-    }
-
-    public Pitpoz findPitpoz(String rok, String mc, String pod, String udzialowiec, Cechazapisu cecha) {
-        Pitpoz tmp;
-        if (cecha==null) {
-            tmp = (Pitpoz)  getEntityManager().createQuery("SELECT p FROM Pitpoz p WHERE p.pkpirR = :pkpirR AND p.pkpirM = :pkpirM AND p.podatnik = :podatnik AND p.udzialowiec = :udzialowiec AND p.cechazapisu IS NULL").setParameter("pkpirR", rok).setParameter("pkpirM", mc).setParameter("podatnik", pod).setParameter("udzialowiec", udzialowiec).getSingleResult();
-        } else {
-            tmp = (Pitpoz)  getEntityManager().createQuery("SELECT p FROM Pitpoz p WHERE p.pkpirR = :pkpirR AND p.pkpirM = :pkpirM AND p.podatnik = :podatnik AND p.udzialowiec = :udzialowiec AND p.cechazapisu = :cecha").setParameter("pkpirR", rok).setParameter("pkpirM", mc).setParameter("podatnik", pod).setParameter("udzialowiec", udzialowiec).setParameter("cecha", cecha).getSingleResult();
-        }
-        return tmp;
-    }
-
-    
+      
     public List<Ryczpoz> findRyczAll() {
         List<Ryczpoz> lista =  getEntityManager().createNamedQuery("Ryczpoz.findAll").getResultList();
         return Collections.synchronizedList(lista);

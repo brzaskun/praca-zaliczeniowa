@@ -436,7 +436,7 @@ public class ZestawienieRyczaltView implements Serializable {
         FacesContext facesCtx = FacesContext.getCurrentInstance();
         if (biezacyPit.getWynik() != null) {
             try {
-                Ryczpoz find = pitDAO.find(biezacyPit.getPkpirR(), biezacyPit.getPkpirM(), biezacyPit.getPodatnik(), biezacyPit.getUdzialowiec());
+                Ryczpoz find = pitDAO.findByUdzialowiec(biezacyPit.getPkpirR(), biezacyPit.getPkpirM(), biezacyPit.getPodatnik(), biezacyPit.getUdzialowiec());
                 pitDAO.remove(find);
                 pitDAO.create(biezacyPit);
                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Edytowano PIT " + biezacyPit.getUdzialowiec() + " za m-c:" + biezacyPit.getPkpirM(), null);

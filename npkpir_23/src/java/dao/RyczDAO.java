@@ -51,7 +51,7 @@ public class RyczDAO extends DAO implements Serializable {
         return zwrot;
     }
     
-    public Ryczpoz find(String rok, String mc, String pod, String udzialowiec) {
+    public Ryczpoz findByUdzialowiec(String rok, String mc, String pod, String udzialowiec) {
         Ryczpoz zwrot = null;
         try {
             zwrot = (Ryczpoz)  getEntityManager().createQuery("SELECT p FROM Ryczpoz p WHERE p.pkpirR = :pkpirR AND p.pkpirM = :pkpirM AND p.podatnik = :podatnik AND p.udzialowiec = :udzialowiec").setParameter("pkpirR", rok).setParameter("pkpirM", mc).setParameter("podatnik", pod).setParameter("udzialowiec", udzialowiec).getSingleResult();
