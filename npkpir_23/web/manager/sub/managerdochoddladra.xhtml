@@ -24,8 +24,8 @@
                 </p:selectOneMenu>
 
                 <p:dataTable value="#{dochodDlaDRAView.wiersze}" var="item" style="width: 1600px;padding: 20px;"
-                             emptyMessage="nie pobrano danych" id="wykazschem" rowKey="#{item.id}" rowIndexVar="yndex"
-                             selection="#{dochodDlaDRAView.selected}" selectionMode="single" sortBy="#{item.id}" sortOrder="ascending">
+                             emptyMessage="nie pobrano danych" id="wykazschem" rowKey="#{item.imienazwisko}" rowIndexVar="yndex"
+                             selection="#{dochodDlaDRAView.selected}" selectionMode="single" sortBy="#{item.imienazwisko}" sortOrder="ascending">
                     <p:column width="20">
                         <f:facet name="header">
                             <h:outputText value="id"/>
@@ -62,20 +62,20 @@
                         </f:facet>
                         <h:outputText value="#{item.imienazwisko}"/>
                     </p:column>
-                    <p:column width="140"  exportable="false">
+                    <p:column width="140">
                         <f:facet name="header">
                             <h:outputText value="opodatkowanie"/>
                         </f:facet>
                         <h:outputText value="#{item.opodatkowanie}" rendered="#{!item.opodatkowanie.equals('brak opodatkowania')}"/>
                         <h:outputText value="brak opodatkowania" rendered="#{item.opodatkowanie.equals('brak opodatkowania')}" style="color: darkviolet"/>
                     </p:column>
-                    <p:column width="60"  exportable="false" >
+                    <p:column width="60" >
                         <f:facet name="header">
                             <h:outputText value="udzial"/>
                         </f:facet>
                         <bcf:inputpl value="#{item.udzial}"/>
                     </p:column>
-                     <p:column width="60"  exportable="false">
+                     <p:column width="60">
                         <f:facet name="header">
                             <h:outputText value=""/>
                         </f:facet>
