@@ -22,34 +22,35 @@
                     <f:selectItems value="#{mce.mceList}"/>
                     <p:ajax event="change" partialSubmit="true" listener="#{dochodDlaDRAView.init()}" update="@form"/>
                 </p:selectOneMenu>
-                <p:dataTable value="#{dochodDlaDRAView.wiersze}" var="item" style="width: 1300px;padding: 20px;"
-                             emptyMessage="nie pobrano danych" id="wykazschem" rowKey="#{item.id}"
+
+                <p:dataTable value="#{dochodDlaDRAView.wiersze}" var="item" style="width: 1600px;padding: 20px;"
+                             emptyMessage="nie pobrano danych" id="wykazschem" rowKey="#{item.id}" rowIndexVar="yndex"
                              selection="#{dochodDlaDRAView.selected}" selectionMode="single" sortBy="#{item.id}" sortOrder="ascending">
                     <p:column width="20">
                         <f:facet name="header">
                             <h:outputText value="id"/>
                         </f:facet>
-                        <h:outputText value="#{item.id}"/>
+                        <h:outputText value="#{yndex+1}"/>
                     </p:column>
-                    <p:column width="200">
+                    <p:column width="200" exportable="false">
                         <f:facet name="header">
                             <h:outputText value="podatnik"/>
                         </f:facet>
                          <h:outputText value="#{item.podatnik.printnazwa}"/>
                     </p:column>
-                    <p:column width="80">
+                    <p:column width="80" exportable="false">
                         <f:facet name="header">
                             <h:outputText value="NIP"/>
                         </f:facet>
                         <h:outputText value="#{item.podatnik.nip}"/>
                     </p:column>
-                    <p:column width="30">
+                    <p:column width="30" exportable="false">
                         <f:facet name="header">
                             <h:outputText value="rok"/>
                         </f:facet>
                         <h:outputText value="#{item.rok}"/>
                     </p:column>
-                    <p:column width="30">
+                    <p:column width="30" exportable="false">
                         <f:facet name="header">
                             <h:outputText value="mc"/>
                         </f:facet>
@@ -61,20 +62,20 @@
                         </f:facet>
                         <h:outputText value="#{item.imienazwisko}"/>
                     </p:column>
-                    <p:column width="140">
+                    <p:column width="140"  exportable="false">
                         <f:facet name="header">
                             <h:outputText value="opodatkowanie"/>
                         </f:facet>
                         <h:outputText value="#{item.opodatkowanie}" rendered="#{!item.opodatkowanie.equals('brak opodatkowania')}"/>
                         <h:outputText value="brak opodatkowania" rendered="#{item.opodatkowanie.equals('brak opodatkowania')}" style="color: darkviolet"/>
                     </p:column>
-                    <p:column width="60">
+                    <p:column width="60"  exportable="false" >
                         <f:facet name="header">
                             <h:outputText value="udzial"/>
                         </f:facet>
                         <bcf:inputpl value="#{item.udzial}"/>
                     </p:column>
-                     <p:column width="60">
+                     <p:column width="60"  exportable="false">
                         <f:facet name="header">
                             <h:outputText value=""/>
                         </f:facet>
@@ -82,17 +83,45 @@
                     </p:column>
                     <p:column>
                         <f:facet name="header">
-                            <h:outputText value="dochod"/>
+                            <h:outputText value="dochód pod. mc"/>
                         </f:facet>
-                        <bcf:outputpl value="#{item.dochod}" rendered="#{!item.brakdokumentow and item.dochod gt 0.0}"/>
-                        <bcf:outputpl value="#{item.dochod}" rendered="#{!item.brakdokumentow and item.dochod lt 0.0}" stylePlus="color:red;"/>
+                        <bcf:outputpl value="#{item.wynikpodatkowymc}" rendered="#{!item.brakdokumentow and item.wynikpodatkowymc gt 0.0}"/>
+                        <bcf:outputpl value="#{item.wynikpodatkowymc}" rendered="#{!item.brakdokumentow and item.wynikpodatkowymc lt 0.0}" stylePlus="color:red;"/>
                     </p:column>
-                    <p:column>
+                     <p:column>
                         <f:facet name="header">
-                            <h:outputText value="przychod"/>
+                            <h:outputText value="dochód pod. nar."/>
+                        </f:facet>
+                         <bcf:outputpl value="#{item.wynikpodatkowynar}" rendered="#{!item.brakdokumentow and item.wynikpodatkowynar gt 0.0}"/>
+                        <bcf:outputpl value="#{item.wynikpodatkowynar}" rendered="#{!item.brakdokumentow and item.wynikpodatkowynar lt 0.0}" stylePlus="color:red;"/>
+                    </p:column>
+                     <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="przychod mc"/>
                         </f:facet>
                         <bcf:outputpl value="#{item.przychod}" rendered="#{!item.brakdokumentow and item.przychod gt 0.0}"/>
                     </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="przychod nar."/>
+                        </f:facet>
+                        <bcf:outputpl value="#{item.przychodnar}" rendered="#{!item.brakdokumentow and item.przychodnar gt 0.0}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="dochód zus mc"/>
+                        </f:facet>
+                          <bcf:outputpl value="#{item.dochodzus}" rendered="#{!item.brakdokumentow and item.dochodzus gt 0.01}" stylePlus="#{item.opodatkowanie.equals('ryczałt')?'color:gray':''}"/>
+                        <bcf:outputpl value="#{item.dochodzus}" rendered="#{!item.brakdokumentow and item.dochodzus lt 0.01}" stylePlus="color:red;"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="dochód zus nar."/>
+                        </f:facet>
+                        <bcf:outputpl value="#{item.dochodzusnar}" rendered="#{!item.brakdokumentow and item.dochodzusnar gt 0.01}" stylePlus="#{!item.opodatkowanie.equals('ryczałt')?'color:gray':''}"/>
+                        <bcf:outputpl value="#{item.dochodzusnar}" rendered="#{!item.brakdokumentow and item.dochodzusnar lt 0.01}" stylePlus="color:red;"/>
+                    </p:column>
+                   
                     <p:column width="40" style="text-align: center;">
                         <f:facet name="header">
                             <h:outputText value="PIT"/>

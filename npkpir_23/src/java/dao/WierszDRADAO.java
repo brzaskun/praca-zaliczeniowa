@@ -4,10 +4,9 @@
  */
 package dao;
 
-import entity.EVatOpis;
+import entity.WierszDRA;
 import java.io.Serializable;
-import java.util.Collection;
-import java.util.Iterator;
+import java.util.List;
 import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -21,8 +20,9 @@ import javax.transaction.Transactional;
 @Stateless
 @Transactional
 //pomaga przenosci opisy bo inaczej nie chca sie zachowac. scopy nie pasuja
-public class EVatOpisDAO extends DAO implements Serializable {
+public class WierszDRADAO extends DAO implements Serializable {
 
+    
     @PersistenceContext(unitName = "npkpir_22PU")
     private EntityManager em;
     
@@ -39,24 +39,17 @@ public class EVatOpisDAO extends DAO implements Serializable {
         return em;
     }
 
-    public EVatOpisDAO() {
-        super(EVatOpis.class);
+    public WierszDRADAO() {
+        super(WierszDRA.class);
         super.em = this.em;
     }
 
     
-    public void clear(){
-        Collection c = null;
-        c = findAll();
-        Iterator it;
-        it = c.iterator();
-        while(it.hasNext()){
-            EVatOpis x = (EVatOpis) it.next();
-            remove(x);
-        }
+    public List<WierszDRA> findByRok(String rok){
+        return getEntityManager().createNamedQuery("WierszDRA.findByRok").setParameter("rok", rok).getResultList();
     }
     
-     public EVatOpis findS(String name){
-        return (EVatOpis)  getEntityManager().createNamedQuery("EVatOpis.findByLogin").setParameter("login", name).getSingleResult();
-    }
+   
+    
+    
 }

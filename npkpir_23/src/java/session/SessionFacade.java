@@ -7,7 +7,6 @@ package session;
 import dao.VATZDDAO;
 import embeddable.Mce;
 import entity.Dok;
-import entity.EVatOpis;
 import entity.EVatwpis1;
 import entity.Faktura;
 import entity.FakturaRozrachunki;
@@ -248,9 +247,7 @@ public class SessionFacade<T> implements Serializable {
         return  getEntityManager().find(Srodkikst.class, srodek);
     }
 
-    public EVatOpis findEVatOpis(String name) {
-        return (EVatOpis)  getEntityManager().createNamedQuery("EVatOpis.findByLogin").setParameter("login", name).getSingleResult();
-    }
+    
 
 //    public List<Dok> findDokBKVAT(Podatnik pod, String rok) {
 //        return Collections.synchronizedList( getEntityManager().createNamedQuery("Dok.findByBKVAT").setParameter("podatnik", pod).setParameter("vatR", rok).getResultList());
