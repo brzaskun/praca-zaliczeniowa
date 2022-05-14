@@ -7,6 +7,7 @@ package view;
 
 import beansDok.KsiegaBean;
 import comparator.Podatnikcomparator;
+import comparator.WierszDRAcomparator;
 import dao.DokDAO;
 import dao.PitDAO;
 import dao.PodatnikDAO;
@@ -33,6 +34,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -64,7 +66,7 @@ public class DochodDlaDRAView implements Serializable {
     private String rok;
     private String mc;
     private List<WierszDRA> wiersze;
-    private Map<String, WierszDRA> mapa;
+    private List<List<WierszDRA>> mapa;
     private WierszDRA selected;
     @Inject
     private WierszDRADAO wierszDRADAO;
@@ -72,6 +74,7 @@ public class DochodDlaDRAView implements Serializable {
     @PostConstruct
     public void start() {
         rok = "2022";
+        mapa = new ArrayList<>();
     }
     
     
@@ -94,7 +97,7 @@ public class DochodDlaDRAView implements Serializable {
             this.wiersze = new ArrayList<>();
             int i = 1;
             for (Podatnik podatnik : podatnicy) {
-//                if (podatnik.getNip().equals("8511005008")||podatnik.getNip().equals("8511054159")||podatnik.getNip().equals("8792611113")||podatnik.getNip().equals("9551392851")) {
+                if (podatnik.getNip().equals("8511005008")||podatnik.getNip().equals("8511054159")||podatnik.getNip().equals("8792611113")||podatnik.getNip().equals("9551392851")) {
                     PodatnikOpodatkowanieD opodatkowanie = zwrocFormaOpodatkowania(podatnik, rok, mc);
                     if (opodatkowanie != null) {
                         String formaopodatkowania = opodatkowanie.getFormaopodatkowania();
@@ -173,7 +176,6 @@ public class DochodDlaDRAView implements Serializable {
                                 wiersz.setDochodzus(przychod);
                                 Ryczpoz jestpit = pobierzrycz(rok, mcod, podatnik.getNazwapelna(), imieinazwisko);
                                 wiersz.setJestpit(jestpit != null);
-                                Msg.msg("Obliczono przychód za mc");
                             } else {
                                 //oblicz dochod
                                 double dochod = pobierzdochod(podatnik, rokpkpir, mcdo, mcdo, wiersz);
@@ -181,7 +183,6 @@ public class DochodDlaDRAView implements Serializable {
                                 wiersz.setDochodzus(dochod>0.0?dochod:0.0);
                                 Pitpoz jestpit = pobierzpit(rokpkpir, mcod, podatnik.getNazwapelna(), imieinazwisko);
                                 wiersz.setJestpit(jestpit != null);
-                                Msg.msg("Obliczono dochód za mc");
                             }
                             this.wiersze.add(wiersz);
                         }
@@ -192,12 +193,29 @@ public class DochodDlaDRAView implements Serializable {
                         wiersz.setImienazwisko(imieinazwisko);
                         wiersz.setUdzial(100);
                         this.wiersze.add(wiersz);
-                        Msg.msg("e", "Brak opodatkowania");
                     }
                     i++;
                 }
-//            }
+            }
+            wierszebaza = wierszDRADAO.findByRok(rok);
+            Collections.sort(wierszebaza, new WierszDRAcomparator());
+            Map<String, List<WierszDRA>> kotek = new TreeMap<>();
+            for (WierszDRA p : wierszebaza) {
+                if (kotek.containsKey(p.getImienazwisko())) {
+                    kotek.get(p.getImienazwisko()).add(p);
+                } else {
+                    List<WierszDRA> nowalista = new ArrayList<>();
+                    nowalista.add(p);
+                    kotek.put(p.getImienazwisko(), nowalista);
+                }
+            }
+            
+            
+            for (List<WierszDRA> k : kotek.values()) {
+                mapa.add(k);
+            }
             Msg.msg("Pobrano dane");
+            
         } else {
             Msg.msg("e","Nie wybrano okresu");
         }
@@ -452,7 +470,15 @@ public class DochodDlaDRAView implements Serializable {
         this.mc = mc;
     }
 
-    
+    public List<List<WierszDRA>> getMapa() {
+        return mapa;
+    }
+
+    public void setMapa(List<List<WierszDRA>> mapa) {
+        this.mapa = mapa;
+    }
+
+   
 
     
 
