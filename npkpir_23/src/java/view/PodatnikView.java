@@ -35,7 +35,6 @@ import entity.PodatnikUdzialy;
 import entity.Rodzajedok;
 import entity.Uz;
 import entity.Zusstawki;
-import entity.ZusstawkiPK;
 import entityfk.Dokfk;
 import entityfk.Konto;
 import enumy.FormaPrawna;
@@ -45,7 +44,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.regex.Matcher;
@@ -101,8 +99,7 @@ public class PodatnikView implements Serializable {
     private List<String> listkakopia;
     private List<String> miesiacepoweryfikacji;
 
-    @Inject
-    private Zusstawki zusstawki;
+    
     @Inject
     private Zusstawki zusstawkiWybierz;
     @Inject
@@ -890,99 +887,96 @@ public class PodatnikView implements Serializable {
     }
 
 
-    public void dodajzus() {
-        try {
-            selected = wpisView.getPodatnikObiekt();
-            List<Zusstawki> tmp = Collections.synchronizedList(new ArrayList<>());
-            try {
-                tmp.addAll(selected.getZusparametr());
-            } catch (Exception e) { E.e(e); 
-            }
-            sprawdzzus(tmp);
-            tmp.add(zusstawki);
-            selected.setZusparametr(tmp);
-            zachowajZmiany(selected);
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Dodatno parametr ZUS do podatnika.", selected.getNazwapelna());
-            FacesContext.getCurrentInstance().addMessage(null, msg);
-        } catch (Exception e) { E.e(e); 
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Niedodatno parametru ZUS. Niedopasowane okresy.", selected.getPrintnazwa());
-            FacesContext.getCurrentInstance().addMessage(null, msg);
-        }
-    }
+//    public void dodajzus() {
+//        try {
+//            selected = wpisView.getPodatnikObiekt();
+//            List<Zusstawki> tmp = Collections.synchronizedList(new ArrayList<>());
+//            try {
+//                tmp.addAll(selected.getZusparametr());
+//            } catch (Exception e) { E.e(e); 
+//            }
+//            sprawdzzus(tmp);
+//            tmp.add(zusstawki);
+//            selected.setZusparametr(tmp);
+//            zachowajZmiany(selected);
+//            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Dodatno parametr ZUS do podatnika.", selected.getNazwapelna());
+//            FacesContext.getCurrentInstance().addMessage(null, msg);
+//        } catch (Exception e) { E.e(e); 
+//            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Niedodatno parametru ZUS. Niedopasowane okresy.", selected.getPrintnazwa());
+//            FacesContext.getCurrentInstance().addMessage(null, msg);
+//        }
+//    }
+//
+//  
+//    private void sprawdzzus(List tmp) throws Exception {
+//        Iterator it;
+//        it = tmp.iterator();
+//        while (it.hasNext()) {
+//            Zusstawki tmpx = (Zusstawki) it.next();
+//            if (tmpxequals(zusstawki.getZusstawkiPK())) {
+//                throw new Exception("Blad");
+//            }
+//        }
+//    }
+//    
+//     public void edytujzus() {
+//        try {
+//            selected = wpisView.getPodatnikObiekt();
+//            List<Zusstawki> tmp = Collections.synchronizedList(new ArrayList<>());
+//            try {
+//                tmp.addAll(selected.getZusparametr());
+//            } catch (Exception e) { E.e(e); 
+//            }
+//            if (tmp.contains(zusstawki)) {
+//                // to niby gupawe ale jest madre bo on rozpoznaje zus stawki po roku i miesiacu tylko
+//                tmp.remove(zusstawki);
+//                tmp.add(serialclone.SerialClone.clone(zusstawki));
+//                selected.setZusparametr(tmp);
+//                zachowajZmiany(selected);
+//                zusstawki =  new Zusstawki();
+//                Msg.msg("Udana edycja stawek ZUS");
+//            } else {
+//                Msg.msg("w", "Nie ma czego edytowac. Cos dziwnego sie stalo.Wolaj szefa (PodatnikView - edytujzus");
+//            }
+//        } catch (Exception e) { E.e(e); 
+//        }
+//    }
+//
+//    public void usunzus(Zusstawki loop) {
+//        selected = wpisView.getPodatnikObiekt();
+//        List<Zusstawki> tmp = Collections.synchronizedList(new ArrayList<>());
+//        tmp.addAll(selected.getZusparametr());
+//        tmp.remove(loop);
+//        selected.setZusparametr(tmp);
+//        zachowajZmiany(selected);
+//        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Usunięto parametr ZUS do podatnika.", selected.getNazwapelna());
+//        FacesContext.getCurrentInstance().addMessage(null, msg);
+//    }
 
-  
-    private void sprawdzzus(List tmp) throws Exception {
-        Iterator it;
-        it = tmp.iterator();
-        while (it.hasNext()) {
-            Zusstawki tmpx = (Zusstawki) it.next();
-            if (tmpx.getZusstawkiPK().equals(zusstawki.getZusstawkiPK())) {
-                throw new Exception("Blad");
-            }
-        }
-    }
-    
-     public void edytujzus() {
-        try {
-            selected = wpisView.getPodatnikObiekt();
-            List<Zusstawki> tmp = Collections.synchronizedList(new ArrayList<>());
-            try {
-                tmp.addAll(selected.getZusparametr());
-            } catch (Exception e) { E.e(e); 
-            }
-            if (tmp.contains(zusstawki)) {
-                // to niby gupawe ale jest madre bo on rozpoznaje zus stawki po roku i miesiacu tylko
-                tmp.remove(zusstawki);
-                tmp.add(serialclone.SerialClone.clone(zusstawki));
-                selected.setZusparametr(tmp);
-                zachowajZmiany(selected);
-                zusstawki =  new Zusstawki();
-                Msg.msg("Udana edycja stawek ZUS");
-            } else {
-                Msg.msg("w", "Nie ma czego edytowac. Cos dziwnego sie stalo.Wolaj szefa (PodatnikView - edytujzus");
-            }
-        } catch (Exception e) { E.e(e); 
-        }
-    }
-
-    public void usunzus(Zusstawki loop) {
-        selected = wpisView.getPodatnikObiekt();
-        List<Zusstawki> tmp = Collections.synchronizedList(new ArrayList<>());
-        tmp.addAll(selected.getZusparametr());
-        tmp.remove(loop);
-        selected.setZusparametr(tmp);
-        zachowajZmiany(selected);
-        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Usunięto parametr ZUS do podatnika.", selected.getNazwapelna());
-        FacesContext.getCurrentInstance().addMessage(null, msg);
-    }
-
-    public void wybranowiadomosc() {
-        zusstawki = serialclone.SerialClone.clone(zusstawkiWybierz);
-        Msg.msg("Wybrano stawki ZUS.");
-    }
-    
-
-    public void pobierzzus() {
-        String rokzus = (String) params.Params.paramsContains("rokzus");
-        String mczus = (String) params.Params.paramsContains("miesiaczus");
-        if (rokzus == null || mczus == null) {
-            Msg.msg("e", "Problem z pobieraniem okresu rozliczeniowego.");
-        }
-        List<Zusstawki> tmp = Collections.synchronizedList(new ArrayList<>());
-        tmp.addAll(zusDAO.findAll());
-        ZusstawkiPK key = new ZusstawkiPK();
-        key.setRok(rokzus);
-        key.setMiesiac(mczus);
-        Iterator it;
-        it = tmp.iterator();
-        while (it.hasNext()) {
-            Zusstawki tmpX = (Zusstawki) it.next();
-            if (tmpX.getZusstawkiPK().equals(key)) {
-                zusstawki = tmpX;
-                break;
-            }
-        }
-    }
+//    public void wybranowiadomosc() {
+//        zusstawki = serialclone.SerialClone.clone(zusstawkiWybierz);
+//        Msg.msg("Wybrano stawki ZUS.");
+//    }
+//    
+//
+//    public void pobierzzus() {
+//        String rokzus = (String) params.Params.paramsContains("rokzus");
+//        String mczus = (String) params.Params.paramsContains("miesiaczus");
+//        if (rokzus == null || mczus == null) {
+//            Msg.msg("e", "Problem z pobieraniem okresu rozliczeniowego.");
+//        }
+//        List<Zusstawki> tmp = Collections.synchronizedList(new ArrayList<>());
+//        tmp.addAll(zusDAO.findAll());
+//        Iterator it;
+//        it = tmp.iterator();
+//        while (it.hasNext()) {
+//            Zusstawki tmpX = (Zusstawki) it.next();
+//            if (tmpX.getRok().equals(selected.get)) {
+//                zusstawki = tmpX;
+//                break;
+//            }
+//        }
+//    }
 
    
 
@@ -1741,15 +1735,7 @@ public class PodatnikView implements Serializable {
         this.zusDAO = zusDAO;
     }
     
-    public Zusstawki getZusstawki() {
-        return zusstawki;
-    }
-    
-    public void setZusstawki(Zusstawki zusstawki) {
-        this.zusstawki = zusstawki;
-    }
-
-   
+  
     public Parametr getParametr() {
         return parametr;
     }

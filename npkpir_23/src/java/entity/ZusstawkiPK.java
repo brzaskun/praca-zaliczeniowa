@@ -96,5 +96,13 @@ public class ZusstawkiPK implements Serializable {
     public String toString() {
         return "entity.ZusstawkiPK[ rok=" + rok + ", miesiac=" + miesiac + " ]";
     }
+
+    public ZusstawkiPK(String rok, String miesiac, boolean malyzus) {
+        this.rok = rok;
+        this.miesiac = miesiac;
+        this.malyzus = malyzus;
+    }
+    
+    
     
 }

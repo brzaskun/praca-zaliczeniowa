@@ -171,7 +171,7 @@ public class InfoView implements Serializable{
             zusniezus = "Nie wprowadzono kwot ZUS! Program nie będzie funkcjonował poprawnie";
         } else {
             Zusstawki tmp = zus.get(zus.size()-1);
-            zusniezus = "Ostatni miesiąc z wprowadzonymi stawkami to: "+tmp.getZusstawkiPK().getRok()+"/"+tmp.getZusstawkiPK().getMiesiac();
+            zusniezus = "Ostatni miesiąc z wprowadzonymi stawkami to: "+tmp.getRok()+"/"+tmp.getMiesiac();
         }
         } catch (Exception e) { E.e(e); 
             zusniezus = "Wystąpił nieokreślony błąd. Program nie będzie funkcjonował poprawnie";

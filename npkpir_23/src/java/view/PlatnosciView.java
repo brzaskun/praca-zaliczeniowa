@@ -112,11 +112,11 @@ public class PlatnosciView implements Serializable {
             it = listapobrana.iterator();
             while (it.hasNext()) {
                 Zusstawki tmp = (Zusstawki) it.next();
-                if (tmp.getZusstawkiPK().getRok().equals(rok) && tmp.getZusstawkiPK().getMiesiac().equals(mc)) {
+                if (tmp.getRok().equals(rok) && tmp.getMiesiac().equals(mc)) {
                     zusstawki = tmp;
                 }
             }
-            Double zus51 = zusstawki.getZus51ch() != null ? zusstawki.getZus51ch() : zusstawki.getZus51bch();
+            double zus51 = zusstawki.getZus51ch() != 0.0 ? zusstawki.getZus51ch() : zusstawki.getZus51bch();
             selectedZob.setZus51(zus51);
             selectedZob.setZus52(zusstawki.getZus52());
             selectedZob.setZus53(zusstawki.getZus53());

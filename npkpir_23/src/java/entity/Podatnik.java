@@ -72,8 +72,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Podatnik.findByUrzadskarbowy", query = "SELECT p FROM Podatnik p WHERE p.urzadskarbowy = :urzadskarbowy"),
     @NamedQuery(name = "Podatnik.findByVatokres", query = "SELECT p FROM Podatnik p WHERE p.vatokres = :vatokres"),
     @NamedQuery(name = "Podatnik.findByFirmafk", query = "SELECT p FROM Podatnik p WHERE p.firmafk = :firmafk AND p.podmiotaktywny = true"),
-    @NamedQuery(name = "Podatnik.findByZUS", query = "SELECT p FROM Podatnik p WHERE p.wysylkazusmail = 1 AND p.podmiotaktywny = true"),
-    @NamedQuery(name = "Podatnik.findByPodmiotaktywny", query = "SELECT p FROM Podatnik p WHERE p.podmiotaktywny =true"),
+    @NamedQuery(name = "Podatnik.findByZUS", query = "SELECT p FROM Podatnik p WHERE p.wysylkazusmail = true AND p.podmiotaktywny = true"),
+    @NamedQuery(name = "Podatnik.findByPodmiotaktywny", query = "SELECT p FROM Podatnik p WHERE p.podmiotaktywny = true"),
     @NamedQuery(name = "Podatnik.findByPodmiotaktywnyPrzyporzadkowany", query = "SELECT p FROM Podatnik p WHERE p.podmiotaktywny = :podmiotaktywny AND p.ksiegowa IS NOT NULL"),
     @NamedQuery(name = "Podatnik.findByKsiegowa", query = "SELECT p FROM Podatnik p WHERE p.ksiegowa = :ksiegowa"),
     @NamedQuery(name = "Podatnik.findByWojewodztwo", query = "SELECT p FROM Podatnik p WHERE p.wojewodztwo = :wojewodztwo")})
@@ -159,9 +159,9 @@ public class Podatnik implements Serializable {
     @Size(max = 255)
     @Column(name = "WOJEWODZTWO")
     private String wojewodztwo;
-    @Lob
-    @Column(name = "zusparametr")
-    private List<Zusstawki> zusparametr;
+//    @Lob
+//    @Column(name = "zusparametr")
+//    private List<Zusstawki> zusparametr;
     @Lob
     @Column(name = "remanent")
     private List<Parametr> remanent;
@@ -234,6 +234,12 @@ public class Podatnik implements Serializable {
     @JoinColumn(name = "podatnik")
     @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY, orphanRemoval = true)
     private List<ParamCzworkiPiatki> paramCzworkiPiatki;
+    @JoinColumn(name = "podid")
+    @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY, orphanRemoval = true)
+    private List<PodatnikUdzialy> wykazudzialow;
+    @JoinColumn(name = "podatnik")
+    @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY, orphanRemoval = true)
+    private List<Zusstawkinew> zusstawkinowe;
     @OneToMany(mappedBy = "podatnikObj")
     private List<MiejsceKosztow> miejsceKosztowList;
     @Column(name = "formaprawna")
@@ -358,6 +364,22 @@ public class Podatnik implements Serializable {
 
     public void setStarekadry(boolean starekadry) {
         this.starekadry = starekadry;
+    }
+
+    public List<PodatnikUdzialy> getWykazudzialow() {
+        return wykazudzialow;
+    }
+
+    public void setWykazudzialow(List<PodatnikUdzialy> wykazudzialow) {
+        this.wykazudzialow = wykazudzialow;
+    }
+
+    public List<Zusstawkinew> getZusstawkinowe() {
+        return zusstawkinowe;
+    }
+
+    public void setZusstawkinowe(List<Zusstawkinew> zusstawkinowe) {
+        this.zusstawkinowe = zusstawkinowe;
     }
 
    
@@ -788,12 +810,12 @@ public class Podatnik implements Serializable {
     }
     
     public List<Zusstawki> getZusparametr() {
-        return zusparametr;
+        return null;
     }
     
-    public void setZusparametr(List<Zusstawki> zusparametr) {
-        this.zusparametr = zusparametr;
-    }
+//    public void setZusparametr(List<Zusstawki> zusparametr) {
+//        this.zusparametr = zusparametr;
+//    }
     
     public List<Parametr> getRemanent() {
         return remanent;

@@ -39,7 +39,6 @@ import entity.ZamkniecieRokuRozliczenie;
 import entity.Zamknietemiesiace;
 import entity.Zobowiazanie;
 import entity.Zusmail;
-import entity.Zusstawki;
 import entityfk.Dokfk;
 import entityfk.Konto;
 import entityfk.KontopozycjaZapis;
@@ -909,9 +908,7 @@ public class SessionFacade<T> implements Serializable {
         return (WynikFKRokMc)  getEntityManager().createNamedQuery("WynikFKRokMc.findPodatnikRokMcUdzialowiec").setParameter("podatnik", podatnik).setParameter("rok", rok).setParameter("mc", mc).setParameter("udzialowiec", udzialowiec).getSingleResult();
     }
 
-    public List<Zusstawki> findZUS(boolean duzy0maly1) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("Zusstawki.findZUS").setParameter("duzy0maly1", duzy0maly1).getResultList());
-    }
+    
 
     
     

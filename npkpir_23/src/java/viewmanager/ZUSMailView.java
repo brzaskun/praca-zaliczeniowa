@@ -87,7 +87,7 @@ public class ZUSMailView implements Serializable {
                 List<Zusstawki> zusstawki = p.getZusparametr();
                 if (zusstawki != null) {
                     for (Zusstawki r : zusstawki) {
-                        if (r.getZusstawkiPK().getRok().equals(rok) && r.getZusstawkiPK().getMiesiac().equals(mc)){
+                        if (r.getRok().equals(rok) && r.getMiesiac().equals(mc)){
                             stawkipodatnicy.put(p, r);
                         }
                     }
@@ -160,17 +160,17 @@ public class ZUSMailView implements Serializable {
         }
     }
      private boolean sprawdzczyniepuste(Zusstawki zusstawki) {
-        if (zusstawki.getZus51ch() != null && zusstawki.getZus51ch() != 0.0 ) {
+        if (zusstawki.getZus51ch() != 0.0 ) {
             return true;
-        } else if (zusstawki.getZus51bch() != null && zusstawki.getZus51bch() != 0.0) {
+        } else if (zusstawki.getZus51bch() != 0.0) {
             return true;
-        } else if (zusstawki.getZus52() != null && zusstawki.getZus52() != 0.0) {
+        } else if (zusstawki.getZus52() != 0.0) {
             return true;
-        } else if (zusstawki.getZus53() != null && zusstawki.getZus53() != 0.0) {
+        } else if (zusstawki.getZus53() != 0.0) {
             return true;
-        } else if (zusstawki.getPit4() != null && zusstawki.getPit4() != 0.0) {
+        } else if (zusstawki.getPit4() != 0.0) {
             return true;
-        } else if (zusstawki.getPit8() != null && zusstawki.getPit8() != 0.0) {
+        } else if (zusstawki.getPit8() != 0.0) {
             return true;
         }
         return false;

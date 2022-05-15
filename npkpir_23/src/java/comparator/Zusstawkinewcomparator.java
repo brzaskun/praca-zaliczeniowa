@@ -6,7 +6,7 @@
 
 package comparator;
 
-import entity.Zusstawki;
+import entity.Zusstawkinew;
 import java.util.Comparator;
 import javax.inject.Named;
 
@@ -15,9 +15,9 @@ import javax.inject.Named;
  * @author Osito
  */
 @Named
-public class Zusstawkicomparator  implements Comparator<Zusstawki> {
+public class Zusstawkinewcomparator  implements Comparator<Zusstawkinew> {
     @Override
-    public int compare(Zusstawki obP, Zusstawki obW)  {
+    public int compare(Zusstawkinew obP, Zusstawkinew obW)  {
         int rokO1 = Integer.parseInt(obP.getRok());
         int rokO2 = Integer.parseInt(obW.getRok());
         int mcO1 = Integer.parseInt(obP.getMiesiac());

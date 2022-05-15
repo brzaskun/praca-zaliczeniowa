@@ -59,7 +59,7 @@ public class PodatnikUdzialy implements Serializable{
     @JoinColumn(name = "podid", referencedColumnName = "id")
     @ManyToOne
     private Podatnik podatnikObj;
-     @Column(name = "datarozpoczecia")
+    @Column(name = "datarozpoczecia")
     private String datarozpoczecia;
     @Column(name = "datazakonczenia")
     private String datazakonczenia;

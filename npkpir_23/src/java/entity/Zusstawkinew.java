@@ -12,6 +12,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -25,17 +27,17 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Osito
  */
 @Entity
-@Table(name = "zusstawki",uniqueConstraints = {@UniqueConstraint(columnNames={"rok","miesiac","rodzajzus"})})
+@Table(name = "zusstawkinew",uniqueConstraints = {@UniqueConstraint(columnNames={"rok","miesiac","rodzajzus", "podatnik", "udzialowiec"})})
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Zusstawki.findAll", query = "SELECT z FROM Zusstawki z"),
-    @NamedQuery(name = "Zusstawki.findZUS", query = "SELECT z FROM Zusstawki z WHERE z.rodzajzus = :rodzajzus"),
-    @NamedQuery(name = "Zusstawki.findByRok", query = "SELECT z FROM Zusstawki z WHERE z.rok = :rok"),
-    @NamedQuery(name = "Zusstawki.findByMiesiac", query = "SELECT z FROM Zusstawki z WHERE z.miesiac = :miesiac"),
-    @NamedQuery(name = "Zusstawki.findByZus51", query = "SELECT z FROM Zusstawki z WHERE z.zus51ch = :zus51ch"),
-    @NamedQuery(name = "Zusstawki.findByZus52", query = "SELECT z FROM Zusstawki z WHERE z.zus52 = :zus52"),
-    @NamedQuery(name = "Zusstawki.findByZus53", query = "SELECT z FROM Zusstawki z WHERE z.zus53 = :zus53")})
-public class Zusstawki implements Serializable {
+    @NamedQuery(name = "Zusstawkinew.findAll", query = "SELECT z FROM Zusstawkinew z"),
+    @NamedQuery(name = "Zusstawkinew.findZUS", query = "SELECT z FROM Zusstawkinew z WHERE z.rodzajzus = :rodzajzus"),
+    @NamedQuery(name = "Zusstawkinew.findByRok", query = "SELECT z FROM Zusstawkinew z WHERE z.rok = :rok"),
+    @NamedQuery(name = "Zusstawkinew.findByMiesiac", query = "SELECT z FROM Zusstawkinew z WHERE z.miesiac = :miesiac"),
+    @NamedQuery(name = "Zusstawkinew.findByZus51", query = "SELECT z FROM Zusstawkinew z WHERE z.zus51ch = :zus51ch"),
+    @NamedQuery(name = "Zusstawkinew.findByZus52", query = "SELECT z FROM Zusstawkinew z WHERE z.zus52 = :zus52"),
+    @NamedQuery(name = "Zusstawkinew.findByZus53", query = "SELECT z FROM Zusstawkinew z WHERE z.zus53 = :zus53")})
+public class Zusstawkinew implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -54,7 +56,12 @@ public class Zusstawki implements Serializable {
     private String miesiac;
     @Column(name = "rodzajzus")
     private int rodzajzus;
-
+    @JoinColumn(name = "podatnik", referencedColumnName = "id")
+    @ManyToOne
+    private Podatnik podatnik;
+    @JoinColumn(name = "udzialowiec", referencedColumnName = "id")
+    @ManyToOne
+    private PodatnikUdzialy udzialowiec;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "zus51ch")
     private double zus51ch;
@@ -70,17 +77,32 @@ public class Zusstawki implements Serializable {
     private double pit4;
     @Column(name = "pit8")
     private double pit8;
+    @Column(name = "pracownicy")
+    private boolean pracownicy;
 
-
+    public Zusstawkinew() {
+    }
    
-
-    public Zusstawki() {
-        
+    
+    public Zusstawkinew(Zusstawki stary) {
+        this.rok = stary.getRok();
+        this.miesiac = stary.getMiesiac();
+        this.rodzajzus = stary.getRodzajzus();
+        this.zus51ch = stary.getZus51ch();
+        this.zus51bch = stary.getZus51bch();
+        this.zus52 = stary.getZus52();
+        this.zus52odl = stary.getZus52odl();
+        this.zus53 = stary.getZus53();
+        this.pit4 = stary.getPit4();
+        this.pit8 = stary.getPit8();
+        this.rodzajzus = stary.getRodzajzus();
     }
 
-    public Zusstawki(Zusstawki stary) {
+    public Zusstawkinew(Zusstawkinew stary) {
         this.rok = stary.rok;
         this.miesiac = stary.miesiac;
+        this.podatnik = stary.podatnik;
+        this.udzialowiec = stary.udzialowiec;
         this.rodzajzus = stary.rodzajzus;
         this.zus51ch = stary.zus51ch;
         this.zus51bch = stary.zus51bch;
@@ -88,23 +110,10 @@ public class Zusstawki implements Serializable {
         this.zus52odl = stary.zus52odl;
         this.zus53 = stary.zus53;
         this.pit4 = stary.pit4;
+        this.pit8 = stary.pit8;
     }
 
-    public Zusstawki(String rok, String miesiac, int rodzajzus, double zus51ch, double zus51bch, double zus52, double zus52odl, double zus53, double pit4, double pit8) {
-        this.rok = rok;
-        this.miesiac = miesiac;
-        this.rodzajzus = rodzajzus;
-        this.zus51ch = zus51ch;
-        this.zus51bch = zus51bch;
-        this.zus52 = zus52;
-        this.zus52odl = zus52odl;
-        this.zus53 = zus53;
-        this.pit4 = pit4;
-        this.pit8 = pit8;
-    }
-    
-    
-
+ 
     public double getZus51ch() {
         return zus51ch;
     }
@@ -172,6 +181,7 @@ public class Zusstawki implements Serializable {
         this.id = id;
     }
 
+   
     public String getRok() {
         return rok;
     }
@@ -195,16 +205,40 @@ public class Zusstawki implements Serializable {
     public void setRodzajzus(int rodzajzus) {
         this.rodzajzus = rodzajzus;
     }
-    
-    
+
+    public Podatnik getPodatnik() {
+        return podatnik;
+    }
+
+    public void setPodatnik(Podatnik podatnik) {
+        this.podatnik = podatnik;
+    }
+
+    public PodatnikUdzialy getUdzialowiec() {
+        return udzialowiec;
+    }
+
+    public void setUdzialowiec(PodatnikUdzialy udzialowiec) {
+        this.udzialowiec = udzialowiec;
+    }
+
+   
+    public boolean isPracownicy() {
+        return pracownicy;
+    }
+
+    public void setPracownicy(boolean pracownicy) {
+        this.pracownicy = pracownicy;
+    }
 
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 79 * hash + Objects.hashCode(this.id);
-        hash = 79 * hash + Objects.hashCode(this.rok);
-        hash = 79 * hash + Objects.hashCode(this.miesiac);
-        hash = 79 * hash + this.rodzajzus;
+        int hash = 7;
+        hash = 97 * hash + Objects.hashCode(this.id);
+        hash = 97 * hash + Objects.hashCode(this.rok);
+        hash = 97 * hash + Objects.hashCode(this.miesiac);
+        hash = 97 * hash + Objects.hashCode(this.podatnik);
+        hash = 97 * hash + Objects.hashCode(this.udzialowiec);
         return hash;
     }
 
@@ -219,10 +253,7 @@ public class Zusstawki implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Zusstawki other = (Zusstawki) obj;
-        if (this.rodzajzus != other.rodzajzus) {
-            return false;
-        }
+        final Zusstawkinew other = (Zusstawkinew) obj;
         if (!Objects.equals(this.rok, other.rok)) {
             return false;
         }
@@ -232,18 +263,27 @@ public class Zusstawki implements Serializable {
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }
+        if (!Objects.equals(this.podatnik, other.podatnik)) {
+            return false;
+        }
+        if (!Objects.equals(this.udzialowiec, other.udzialowiec)) {
+            return false;
+        }
         return true;
     }
 
+    
+
     @Override
     public String toString() {
-        return "Zusstawki{" + "rok=" + rok + ", miesiac=" + miesiac + ", rodzajzus=" + rodzajzus + ", zus51ch=" + zus51ch + ", zus52=" + zus52 + ", zus53=" + zus53 + ", pit4=" + pit4 + '}';
+        if (this.udzialowiec!=null) {
+            return "Zusstawkinew{" + "rok=" + rok + ", miesiac=" + miesiac + ", rodzajzus=" + rodzajzus + ", podatnik=" + podatnik.getPrintnazwa() + ", nazwiskoimie=" + udzialowiec.getNazwiskoimie() + '}';
+        } else {
+            return "Zusstawkinew{" + "rok=" + rok + ", miesiac=" + miesiac + ", rodzajzus=" + rodzajzus + ", podatnik=" + podatnik.getPrintnazwa() +'}';
+        }
     }
 
-
-    
-    
    
 
-    
+        
 }

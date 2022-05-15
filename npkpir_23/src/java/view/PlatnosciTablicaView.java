@@ -78,7 +78,7 @@ public class PlatnosciTablicaView implements Serializable {
             Iterator it = listapobrana.iterator();
             while (it.hasNext()) {
                 Zusstawki zusstawki = (Zusstawki) it.next();
-                if (zusstawki.getZusstawkiPK().getRok().equals(rok) && zusstawki.getZusstawkiPK().getMiesiac().equals(mc)) {
+                if (zusstawki.getRok().equals(rok) && zusstawki.getMiesiac().equals(mc)) {
                     platnosci.setZus51(zusstawki.getZus51ch());
                     platnosci.setZus52(zusstawki.getZus52());
                     platnosci.setZus53(zusstawki.getZus53());

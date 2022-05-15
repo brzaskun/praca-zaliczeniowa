@@ -684,10 +684,10 @@ public class ZestawienieView implements Serializable {
             Zusstawki tmpX = (Zusstawki) it.next();
             if (wpisView.isMc0kw1()) {
                 List<String> miesiaceWkwartale = Kwartaly.mctoMcewKw(wpisView.getMiesiacWpisu());
-                if (tmpX.getZusstawkiPK().getRok().equals(wpisView.getRokWpisuSt())
-                        && miesiaceWkwartale.contains(tmpX.getZusstawkiPK().getMiesiac())) {
+                if (tmpX.getRok().equals(wpisView.getRokWpisuSt())
+                        && miesiaceWkwartale.contains(tmpX.getMiesiac())) {
                     if (p.isOdliczeniezus51() == true) {
-                        if (tmpX.getZus51ch() != null) {
+                        if (tmpX.getZus51ch() != 0.0) {
                             suma51 += tmpX.getZus51ch();
                         } else {
                             suma51 += tmpX.getZus51bch();
@@ -695,8 +695,8 @@ public class ZestawienieView implements Serializable {
                     }
                 }
             } else {
-                if (tmpX.getZusstawkiPK().getRok().equals(wpisView.getRokWpisuSt())
-                        && tmpX.getZusstawkiPK().getMiesiac().equals(wpisView.getMiesiacWpisu())) {
+                if (tmpX.getRok().equals(wpisView.getRokWpisuSt())
+                        && tmpX.getMiesiac().equals(wpisView.getMiesiacWpisu())) {
                     if (p.isOdliczeniezus51() == true) {
                         if (tmpX.getZus51ch() != 0.0) {
                             suma51 += tmpX.getZus51ch();
@@ -721,13 +721,13 @@ public class ZestawienieView implements Serializable {
             while (it.hasNext()) {
                 Zusstawki tmpX = (Zusstawki) it.next();
                 if (wpisView.isMc0kw1()) {
-                    if (tmpX.getZusstawkiPK().getRok().equals(wpisView.getRokWpisuSt())
-                            && miesiaceWkwartale.contains(tmpX.getZusstawkiPK().getMiesiac())) {
+                    if (tmpX.getRok().equals(wpisView.getRokWpisuSt())
+                            && miesiaceWkwartale.contains(tmpX.getMiesiac())) {
                         suma52 += tmpX.getZus52odl();
                     }
                 } else {
-                    if (tmpX.getZusstawkiPK().getRok().equals(wpisView.getRokWpisuSt())
-                            && tmpX.getZusstawkiPK().getMiesiac().equals(wpisView.getMiesiacWpisu())) {
+                    if (tmpX.getRok().equals(wpisView.getRokWpisuSt())
+                            && tmpX.getMiesiac().equals(wpisView.getMiesiacWpisu())) {
                         suma52 += tmpX.getZus52odl();
                     }
                 }
