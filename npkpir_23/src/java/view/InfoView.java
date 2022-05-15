@@ -15,7 +15,7 @@ import entity.Dok;
 import entity.Pitpoz;
 import entity.Podatnik;
 import entity.PodatnikUdzialy;
-import entity.Zusstawki;
+import entity.Zusstawkinew;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -166,11 +166,11 @@ public class InfoView implements Serializable{
     
     private void sprawdzzus(){
         try{
-        List<Zusstawki> zus = pod.getZusparametr();
+        List<Zusstawkinew> zus = pod.getZusstawkinowe();
         if(zus.isEmpty()){
             zusniezus = "Nie wprowadzono kwot ZUS! Program nie będzie funkcjonował poprawnie";
         } else {
-            Zusstawki tmp = zus.get(zus.size()-1);
+            Zusstawkinew tmp = zus.get(zus.size()-1);
             zusniezus = "Ostatni miesiąc z wprowadzonymi stawkami to: "+tmp.getRok()+"/"+tmp.getMiesiac();
         }
         } catch (Exception e) { E.e(e); 

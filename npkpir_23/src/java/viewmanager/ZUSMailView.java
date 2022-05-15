@@ -13,7 +13,7 @@ import dao.ZusmailDAO;
 import embeddable.Mce;
 import entity.Podatnik;
 import entity.Zusmail;
-import entity.Zusstawki;
+import entity.Zusstawkinew;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -49,7 +49,7 @@ public class ZUSMailView implements Serializable {
     private List<Integer> numery;
     private List<Zusmail> wykazprzygotowanychmaili;
     private List<Zusmail> wybranemaile;
-    private Map<Podatnik, Zusstawki> stawkipodatnicy;
+    private Map<Podatnik, Zusstawkinew> stawkipodatnicy;
     @Inject
     private PodatnikDAO podatnikDAO;
     @Inject
@@ -84,9 +84,9 @@ public class ZUSMailView implements Serializable {
         Collections.sort(podatnicy, new Podatnikcomparator());
         for (Podatnik p : podatnicy) {
             if (p.isWysylkazusmail() == true) {
-                List<Zusstawki> zusstawki = p.getZusparametr();
+                List<Zusstawkinew> zusstawki = p.getZusstawkinowe();
                 if (zusstawki != null) {
-                    for (Zusstawki r : zusstawki) {
+                    for (Zusstawkinew r : zusstawki) {
                         if (r.getRok().equals(rok) && r.getMiesiac().equals(mc)){
                             stawkipodatnicy.put(p, r);
                         }
@@ -122,7 +122,7 @@ public class ZUSMailView implements Serializable {
             pobranipodatnicy.addAll(stawkipodatnicy.keySet());
             Collections.sort(pobranipodatnicy, new Podatnikcomparator());
             for (Podatnik p : pobranipodatnicy) {
-                Zusstawki zusstawki = stawkipodatnicy.get(p);
+                Zusstawkinew zusstawki = stawkipodatnicy.get(p);
                 if (sprawdzczyniepuste(zusstawki)) {
                     Zusmail zusmail = new Zusmail(p, rok, mc);
                     zusmail.setZus51ch(zusstawki.getZus51ch());
@@ -159,7 +159,7 @@ public class ZUSMailView implements Serializable {
             usunniezgodne();
         }
     }
-     private boolean sprawdzczyniepuste(Zusstawki zusstawki) {
+     private boolean sprawdzczyniepuste(Zusstawkinew zusstawki) {
         if (zusstawki.getZus51ch() != 0.0 ) {
             return true;
         } else if (zusstawki.getZus51bch() != 0.0) {

@@ -17,7 +17,7 @@ import entity.Platnosci;
 import entity.PlatnosciPK;
 import entity.Podatnik;
 import entity.Zobowiazanie;
-import entity.Zusstawki;
+import entity.Zusstawkinew;
 import error.E;
 import java.io.IOException;
 import java.io.Serializable;
@@ -105,13 +105,13 @@ public class PlatnosciView implements Serializable {
         String rok = selectedZob.getPlatnosciPK().getRok();
         String mc = selectedZob.getPlatnosciPK().getMiesiac();
         String podatnik = biezacyPodanik.getNazwapelna();
-        List<Zusstawki> listapobrana = biezacyPodanik.getZusparametr();
+        List<Zusstawkinew> listapobrana = biezacyPodanik.getZusstawkinowe();
         if (listapobrana != null) {
-            Zusstawki zusstawki = new Zusstawki();
+            Zusstawkinew zusstawki = new Zusstawkinew();
             Iterator it;
             it = listapobrana.iterator();
             while (it.hasNext()) {
-                Zusstawki tmp = (Zusstawki) it.next();
+                Zusstawkinew tmp = (Zusstawkinew) it.next();
                 if (tmp.getRok().equals(rok) && tmp.getMiesiac().equals(mc)) {
                     zusstawki = tmp;
                 }

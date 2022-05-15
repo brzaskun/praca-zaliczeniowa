@@ -24,7 +24,7 @@ import entity.Ryczpoz;
 import entity.Strata;
 import entity.StrataWykorzystanie;
 import entity.Zobowiazanie;
-import entity.Zusstawki;
+import entity.Zusstawkinew;
 import error.E;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -311,10 +311,10 @@ public class ZestawienieRyczaltView implements Serializable {
                 try {
                 Podatnik selected = wpisView.getPodatnikObiekt();
                 Iterator it;
-                it = selected.getZusparametr().iterator();
+                it = selected.getZusstawkinowe().iterator();
                     if (zus51zreki == false) {
                         while (it.hasNext()) {
-                            Zusstawki tmpX = (Zusstawki) it.next();
+                            Zusstawkinew tmpX = (Zusstawkinew) it.next();
                             if (tmpX.getRok().equals(wpisView.getRokWpisu().toString())
                                     && tmpX.getMiesiac().equals(wpisView.getMiesiacWpisu())) {
                                 if (selected.isOdliczeniezus51() == true) {

@@ -24,7 +24,7 @@ import entity.Podstawki;
 import entity.Strata;
 import entity.StrataWykorzystanie;
 import entity.Zobowiazanie;
-import entity.Zusstawki;
+import entity.Zusstawkinew;
 import entityfk.WynikFKRokMc;
 import error.E;
 import java.io.IOException;
@@ -42,8 +42,8 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import msg.Msg;
- import org.primefaces.PrimeFaces;
-import pdf.PdfPIT5;
+import org.primefaces.PrimeFaces;
+ import pdf.PdfPIT5;
 import waluty.Z;
 
 /**
@@ -313,10 +313,10 @@ public class ZestawienieFKView implements Serializable {
     private BigDecimal pobierzZUS51() {
         Podatnik p = wpisView.getPodatnikObiekt();
         Iterator it;
-        it = p.getZusparametr().iterator();
+        it = p.getZusstawkinowe().iterator();
         double suma51 = 0;
         while (it.hasNext()) {
-            Zusstawki tmpX = (Zusstawki) it.next();
+            Zusstawkinew tmpX = (Zusstawkinew) it.next();
             if (wpisView.isMc0kw1()) {
                 List<String> miesiaceWkwartale = Kwartaly.mctoMcewKw(wpisView.getMiesiacWpisu());
                 if (tmpX.getRok().equals(wpisView.getRokWpisuSt())
@@ -348,11 +348,11 @@ public class ZestawienieFKView implements Serializable {
     private BigDecimal pobierzZUS52() {
         Podatnik p = wpisView.getPodatnikObiekt();
         Iterator it;
-        it = p.getZusparametr().iterator();
+        it = p.getZusstawkinowe().iterator();
         double suma52 = 0;
         List<String> miesiaceWkwartale = Kwartaly.mctoMcewKw(wpisView.getMiesiacWpisu());
         while (it.hasNext()) {
-            Zusstawki tmpX = (Zusstawki) it.next();
+            Zusstawkinew tmpX = (Zusstawkinew) it.next();
             if (wpisView.isMc0kw1()) {
                 if (tmpX.getRok().equals(wpisView.getRokWpisuSt())
                         && miesiaceWkwartale.contains(tmpX.getMiesiac())) {

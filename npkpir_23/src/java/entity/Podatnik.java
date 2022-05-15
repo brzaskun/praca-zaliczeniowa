@@ -809,9 +809,9 @@ public class Podatnik implements Serializable {
         this.wojewodztwo = wojewodztwo;
     }
     
-    public List<Zusstawki> getZusparametr() {
-        return null;
-    }
+//    public List<Zusstawki> getZusparametr() {
+//        return null;
+//    }
     
 //    public void setZusparametr(List<Zusstawki> zusparametr) {
 //        this.zusparametr = zusparametr;

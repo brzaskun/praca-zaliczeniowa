@@ -6,6 +6,7 @@ package view;
 
 import beansDok.KsiegaBean;
 import beansPIT.WyliczPodatekZasadyOgolne;
+import comparator.Stratacomparator;
 import dao.AmoDokDAO;
 import dao.CechazapisuDAOfk;
 import dao.DokDAO;
@@ -29,7 +30,7 @@ import entity.Podstawki;
 import entity.Strata;
 import entity.StrataWykorzystanie;
 import entity.Zobowiazanie;
-import entity.Zusstawki;
+import entity.Zusstawkinew;
 import entityfk.Cechazapisu;
 import error.E;
 import java.io.IOException;
@@ -678,10 +679,10 @@ public class ZestawienieView implements Serializable {
     private BigDecimal pobierzZUS51() {
         Podatnik p = wpisView.getPodatnikObiekt();
         Iterator it;
-        it = p.getZusparametr().iterator();
+        it = p.getZusstawkinowe().iterator();
         double suma51 = 0;
         while (it.hasNext()) {
-            Zusstawki tmpX = (Zusstawki) it.next();
+            Zusstawkinew tmpX = (Zusstawkinew) it.next();
             if (wpisView.isMc0kw1()) {
                 List<String> miesiaceWkwartale = Kwartaly.mctoMcewKw(wpisView.getMiesiacWpisu());
                 if (tmpX.getRok().equals(wpisView.getRokWpisuSt())
@@ -715,11 +716,11 @@ public class ZestawienieView implements Serializable {
         try {
             Podatnik p = wpisView.getPodatnikObiekt();
             Iterator it;
-            it = p.getZusparametr().iterator();
+            it = p.getZusstawkinowe().iterator();
 
             List<String> miesiaceWkwartale = Kwartaly.mctoMcewKw(wpisView.getMiesiacWpisu());
             while (it.hasNext()) {
-                Zusstawki tmpX = (Zusstawki) it.next();
+                Zusstawkinew tmpX = (Zusstawkinew) it.next();
                 if (wpisView.isMc0kw1()) {
                     if (tmpX.getRok().equals(wpisView.getRokWpisuSt())
                             && miesiaceWkwartale.contains(tmpX.getMiesiac())) {
@@ -788,10 +789,52 @@ public class ZestawienieView implements Serializable {
             } else {
                 biezacyPit.setStrata(BigDecimal.ZERO);
             }
+        if (sumastrat>0) {
+            sumastrat = naniesrozliczenia(straty,sumastrat);
+            strataDAO.editList(straty);
+        } else {
+            List<Strata> stratypodatnika = strataDAO.findPodatnik(wpisView.getPodatnikObiekt());
+            if (stratypodatnika!=null) {
+                for (Strata s : stratypodatnika) {
+                    for (Iterator<StrataWykorzystanie> it = s.getListawykorzystanie().iterator();it.hasNext();) {
+                        StrataWykorzystanie st = it.next();
+                        if (st.getRok().equals(wpisView.getRokWpisuSt())&&st.getMc().equals(wpisView.getMiesiacWpisu())) {
+                            it.remove();
+                            strataDAO.edit(s);
+                        }
+                    }
+                    
+                }
+            }
+        }
         } catch (Exception e) {
             E.e(e);
             biezacyPit.setStrata(BigDecimal.ZERO);
         }
+    }
+    
+    private double naniesrozliczenia(List<Strata> straty, double rozliczyc) {
+        double naniesiono = 0.0;
+        Collections.sort(straty, new Stratacomparator());
+        for (Strata p : straty) {
+            double zostalo = Z.z(p.getKwota()-p.getWykorzystano(wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu()));
+            if (naniesiono<rozliczyc) {
+                StrataWykorzystanie wykorzystanie = p.pobierzWykorzystanie(wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+                if (zostalo>0.0) {
+                    if (zostalo>=rozliczyc) {
+                        wykorzystanie.setKwotawykorzystania(rozliczyc);
+                        naniesiono = Z.z(naniesiono+rozliczyc);
+                    } else {
+                        wykorzystanie.setKwotawykorzystania(zostalo);
+                        naniesiono = Z.z(naniesiono+zostalo);
+                    }
+                } else {
+                    p.getListawykorzystanie().remove(wykorzystanie);
+                    break;
+                }
+            }
+        }
+        return naniesiono;
     }
 
     //wyliczenie niezbedne przy wracaniu do historycznych pitow pojedynczo dla kazdego pitu

@@ -139,13 +139,13 @@ public class PodatekView implements Serializable{
             case "podatek liniowy" :
                 stawka = skalaPodatkowaZaDanyRok.getStawkaliniowy();
                 podatek = (dochód.multiply(BigDecimal.valueOf(stawka)));
-                podatek = podatek.subtract(BigDecimal.valueOf(selected.getZusparametr().get(selected.getZusparametr().size()-1).getZus52odl()));
+                podatek = podatek.subtract(BigDecimal.valueOf(selected.getZusstawkinowe().get(selected.getZusstawkinowe().size()-1).getZus52odl()));
                 podatek = podatek.setScale(0, RoundingMode.HALF_EVEN);
                 break;
             case "podatek liniowy bez VAT" :
                 stawka = skalaPodatkowaZaDanyRok.getStawkaliniowy();
                 podatek = (dochód.multiply(BigDecimal.valueOf(stawka)));
-                podatek = podatek.subtract(BigDecimal.valueOf(selected.getZusparametr().get(selected.getZusparametr().size()-1).getZus52odl()));
+                podatek = podatek.subtract(BigDecimal.valueOf(selected.getZusstawkinowe().get(selected.getZusstawkinowe().size()-1).getZus52odl()));
                 podatek = podatek.setScale(0, RoundingMode.HALF_EVEN);
                 break;
             case "ryczałt" :
@@ -153,7 +153,7 @@ public class PodatekView implements Serializable{
                 podatek = podatek.add(przychodyRyczalt.get("8.5%").multiply(BigDecimal.valueOf(skalaPodatkowaZaDanyRok.getStawkaryczalt3())));
                 podatek = podatek.add(przychodyRyczalt.get("5.5%").multiply(BigDecimal.valueOf(skalaPodatkowaZaDanyRok.getStawkaryczalt2())));
                 podatek = podatek.add(przychodyRyczalt.get("3%").multiply(BigDecimal.valueOf(skalaPodatkowaZaDanyRok.getStawkaryczalt1())));
-                podatek = podatek.subtract(BigDecimal.valueOf(selected.getZusparametr().get(selected.getZusparametr().size()-1).getZus52odl()));
+                podatek = podatek.subtract(BigDecimal.valueOf(selected.getZusstawkinowe().get(selected.getZusstawkinowe().size()-1).getZus52odl()));
                 podatek = podatek.setScale(0, RoundingMode.HALF_EVEN);
                 break;
             case "ryczałt bez VAT" :
@@ -161,7 +161,7 @@ public class PodatekView implements Serializable{
                 podatek = podatek.add(przychodyRyczalt.get("8.5%").multiply(BigDecimal.valueOf(skalaPodatkowaZaDanyRok.getStawkaryczalt3())));
                 podatek = podatek.add(przychodyRyczalt.get("5.5%").multiply(BigDecimal.valueOf(skalaPodatkowaZaDanyRok.getStawkaryczalt2())));
                 podatek = podatek.add(przychodyRyczalt.get("3%").multiply(BigDecimal.valueOf(skalaPodatkowaZaDanyRok.getStawkaryczalt1())));
-                podatek = podatek.subtract(BigDecimal.valueOf(selected.getZusparametr().get(selected.getZusparametr().size()-1).getZus52odl()));
+                podatek = podatek.subtract(BigDecimal.valueOf(selected.getZusstawkinowe().get(selected.getZusstawkinowe().size()-1).getZus52odl()));
                 podatek = podatek.setScale(0, RoundingMode.HALF_EVEN);
                 break;
         }} catch (Exception e) { E.e(e); 
