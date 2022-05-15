@@ -39,6 +39,29 @@ public class Filtrcsvbezsrednika {
         return zwrot;
     }
     
+     public static String usunprzecinek(String linia, char dzielnik, char cudzy) {
+        char[] array = linia.toCharArray();
+        boolean szukamy = false;
+        boolean jestcudzy = false;
+        for (int i = 0; i < array.length; i++) {
+            char ch = array[i];
+            if (!szukamy && ch==dzielnik) {
+                szukamy = true;
+            } else if (szukamy && !jestcudzy && ch==cudzy) {
+                jestcudzy = true;
+                array[i] =' ';
+            } else if (jestcudzy && ch==dzielnik) {
+                array[i] ='.';
+            } else if (szukamy && jestcudzy && ch==cudzy) {
+                szukamy= false;
+                jestcudzy = false;
+                array[i] =' ';
+            } 
+        }
+        String zwrot = new String(array);
+        return zwrot;
+    }
+    
 //    public static void main(String[] args) {
 //        char[] array = LINIA.toCharArray();
 //        System.out.println(LINIA);

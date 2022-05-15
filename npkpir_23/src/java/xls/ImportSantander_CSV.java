@@ -48,8 +48,13 @@ public class ImportSantander_CSV implements Serializable {
                     try (BufferedReader br =  new BufferedReader(new InputStreamReader(file, Charset.forName("UTF-8")))) {
                         String line;
                         while ((line = br.readLine()) != null) {
-                            line = Filtrcsvbezsrednika.usunsrednik(line, ';', '\"');
-                            String[] values = line.split(";");
+                            char delimiter = line.substring(8, 9).charAt(0);
+                            if (delimiter==';') {
+                                line = Filtrcsvbezsrednika.usunsrednik(line, ';', '\"');
+                            } else {
+                                line = Filtrcsvbezsrednika.usunprzecinek(line, ',', '\"');
+                            }
+                            String[] values = line.split(String.valueOf(delimiter));
                             List<String> wiersze = Arrays.asList(values);
                             ostatnidobrzeprzetworzony = wiersze.toString();
                             records.add(wiersze);
