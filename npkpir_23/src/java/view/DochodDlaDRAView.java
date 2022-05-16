@@ -6,6 +6,7 @@
 package view;
 
 import beansDok.KsiegaBean;
+import comparator.Dokcomparator;
 import comparator.Podatnikcomparator;
 import comparator.WierszDRAcomparator;
 import dao.DokDAO;
@@ -97,7 +98,7 @@ public class DochodDlaDRAView implements Serializable {
             this.wiersze = new ArrayList<>();
             int i = 1;
             for (Podatnik podatnik : podatnicy) {
-                //if (podatnik.getNip().equals("5991897412")) {
+                if (podatnik.getNip().equals("8522456855")) {
                 //if (podatnik.getNip().equals("8511005008")||podatnik.getNip().equals("8511054159")||podatnik.getNip().equals("8792611113")||podatnik.getNip().equals("9551392851")||podatnik.getNip().equals("9281839264")) {
                     PodatnikOpodatkowanieD opodatkowanie = zwrocFormaOpodatkowania(podatnik, rok, mc);
                     if (opodatkowanie != null) {
@@ -148,7 +149,7 @@ public class DochodDlaDRAView implements Serializable {
                                     wiersz.setDochodzusnettonar(dochod > 0.0 ? dochod : 0.0);
                                     Pitpoz jestpit = pobierzpit(rokpkpir, mcod, podatnik.getNazwapelna(), u.getNazwiskoimie());
                                     wiersz.setJestpit(jestpit != null);
-                                        Msg.msg("Obliczono dochód za mc");
+                                        //Msg.msg("Obliczono dochód za mc");
                                     if (Mce.getMiesiacToNumber().get(mc) > 2) {
                                         WierszDRA wierszmcpop = pobierzwierszmcpop(wierszebaza, podatnik, imieinazwisko, rok, mcod);
                                         if (wierszmcpop != null) {
@@ -200,7 +201,7 @@ public class DochodDlaDRAView implements Serializable {
                         this.wiersze.add(wiersz);
                     }
                     i++;
-                //}
+                }
             }
             wierszebaza = wierszDRADAO.findByRok(rok);
             Collections.sort(wierszebaza, new WierszDRAcomparator());
@@ -323,7 +324,13 @@ public class DochodDlaDRAView implements Serializable {
     private double pobierzdochod(Podatnik podatnik, String rok, String mcod, String mcdo, WierszDRA wiersz) {
         double dochod = 0.0;
         try {
-            List<Dok> lista = KsiegaBean.pobierzdokumentyRok(dokDAO, podatnik, Integer.parseInt(rok), mcdo, mcod);
+             List<Dok> lista = null;
+            try {
+                lista = dokDAO.zwrocBiezacegoKlientaRokOdMcaDoMca(podatnik, rok, mcdo, mcod);
+                Collections.sort(lista, new Dokcomparator());
+            } catch (Exception e) { 
+                E.e(e); 
+            }
             if (lista!=null&&!lista.isEmpty()) {
                 for (Iterator<Dok> it = lista.iterator(); it.hasNext();) {
                     Dok tmpx = it.next();
@@ -383,6 +390,7 @@ public class DochodDlaDRAView implements Serializable {
                     }
                 }
                 dochod = wierszPkpir.getRazemdochod();
+                wiersz.setBrakdokumentow(false);
             } else {
                 wiersz.setBrakdokumentow(true);
             }
