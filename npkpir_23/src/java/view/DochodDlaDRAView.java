@@ -97,7 +97,7 @@ public class DochodDlaDRAView implements Serializable {
             this.wiersze = new ArrayList<>();
             int i = 1;
             for (Podatnik podatnik : podatnicy) {
-                //if (podatnik.getNip().equals("8511005008")||podatnik.getNip().equals("8511054159")||podatnik.getNip().equals("8792611113")||podatnik.getNip().equals("9551392851")) {
+                if (podatnik.getNip().equals("8511005008")||podatnik.getNip().equals("8511054159")||podatnik.getNip().equals("8792611113")||podatnik.getNip().equals("9551392851")||podatnik.getNip().equals("9281839264")) {
                     PodatnikOpodatkowanieD opodatkowanie = zwrocFormaOpodatkowania(podatnik, rok, mc);
                     if (opodatkowanie != null) {
                         String formaopodatkowania = opodatkowanie.getFormaopodatkowania();
@@ -118,18 +118,19 @@ public class DochodDlaDRAView implements Serializable {
                                     }
                                     wiersz.setPrzychod(przychod);
                                     wiersz.setPrzychodnar(przychod);
-                                    wiersz.setDochodzus(przychod>0.0?przychod:0.0);
-                                    wiersz.setDochodzusnar(przychod>0.0?przychod:0.0);
+                                    wiersz.setDochodzus(przychod > 0.0 ? przychod : 0.0);
+                                    wiersz.setDochodzusnar(przychod > 0.0 ? przychod : 0.0);
+                                    wiersz.setDochodzusnettonar(przychod > 0.0 ? przychod : 0.0);
                                     Ryczpoz jestpit = pobierzrycz(rok, mcod, podatnik.getNazwapelna(), u.getNazwiskoimie());
                                     wiersz.setJestpit(jestpit != null);
                                     Msg.msg("Obliczono przychód za mc");
-                                    if (Mce.getMiesiacToNumber().get(mc)>2) {
+                                    if (Mce.getMiesiacToNumber().get(mc) > 2) {
                                         WierszDRA wierszmcpop = pobierzwierszmcpop(wierszebaza, podatnik, imieinazwisko, rok, mcod);
-                                        if (wierszmcpop!=null) {
-                                            wiersz.setPrzychodnar(Z.z(wierszmcpop.getPrzychodnar()+wiersz.getPrzychod()));
+                                        if (wierszmcpop != null) {
+                                            wiersz.setPrzychodnar(Z.z(wierszmcpop.getPrzychodnar() + wiersz.getPrzychod()));
                                             wiersz.setDochodzus(Z.z(wiersz.getPrzychod()));
                                             wiersz.setDochodzusnar(Z.z(wiersz.getPrzychodnar()));
-                                            wiersz.setDochodzusnettonar(Z.z(wierszmcpop.getDochodzusnettonar()+wiersz.getDochodzusnar()));
+                                            wiersz.setDochodzusnettonar(Z.z(wierszmcpop.getDochodzusnettonar() + wiersz.getDochodzusnar()));
                                         }
                                     }
                                 } else {
@@ -140,19 +141,22 @@ public class DochodDlaDRAView implements Serializable {
                                     }
                                     wiersz.setWynikpodatkowymc(dochod);
                                     wiersz.setWynikpodatkowynar(dochod);
-                                    wiersz.setDochodzus(dochod>0.0?dochod:0.0);
-                                    wiersz.setDochodzusnar(dochod>0.0?dochod:0.0);
+                                    wiersz.setDochodzus(dochod > 0.0 ? dochod : 0.0);
+                                    wiersz.setDochodzusnar(dochod > 0.0 ? dochod : 0.0);
+                                    wiersz.setDochodzusnetto(dochod > 0.0 ? dochod : 0.0);
+                                    wiersz.setDochodzusnettonar(dochod > 0.0 ? dochod : 0.0);
                                     Pitpoz jestpit = pobierzpit(rokpkpir, mcod, podatnik.getNazwapelna(), u.getNazwiskoimie());
                                     wiersz.setJestpit(jestpit != null);
-                                    Msg.msg("Obliczono dochód za mc");
-                                    if (Mce.getMiesiacToNumber().get(mc)>2) {
+                                        Msg.msg("Obliczono dochód za mc");
+                                    if (Mce.getMiesiacToNumber().get(mc) > 2) {
                                         WierszDRA wierszmcpop = pobierzwierszmcpop(wierszebaza, podatnik, imieinazwisko, rok, mcod);
-                                        if (wierszmcpop!=null) {
-                                            wiersz.setWynikpodatkowynar(Z.z(wierszmcpop.getWynikpodatkowynar()+wiersz.getWynikpodatkowymc()));
-                                            double dochodzus = Z.z(wiersz.getWynikpodatkowynar()-wierszmcpop.getDochodzusnettonar());
-                                            wiersz.setDochodzus(dochodzus>0.0?dochodzus:0.0);
-                                            wiersz.setDochodzusnar(Z.z(wiersz.getDochodzus()+wierszmcpop.getDochodzusnar()));
-                                            wiersz.setDochodzusnettonar(Z.z(wierszmcpop.getDochodzusnettonar()+wiersz.getDochodzusnar()));
+                                        if (wierszmcpop != null) {
+                                            wiersz.setWynikpodatkowynar(Z.z(wierszmcpop.getWynikpodatkowynar() + wiersz.getWynikpodatkowymc()));
+                                            double dochodzus = Z.z(wiersz.getWynikpodatkowynar() - wierszmcpop.getDochodzusnettonar());
+                                            wiersz.setDochodzus(dochodzus > 0.0 ? dochodzus : 0.0);
+                                            wiersz.setDochodzusnetto(dochodzus > 0.0 ? dochodzus : 0.0);
+                                            wiersz.setDochodzusnar(Z.z(wiersz.getDochodzus() + wierszmcpop.getDochodzusnar()));
+                                            wiersz.setDochodzusnettonar(Z.z(wierszmcpop.getDochodzusnettonar() + wiersz.getDochodzusnetto()));
                                         }
                                     }
                                 }
@@ -195,7 +199,7 @@ public class DochodDlaDRAView implements Serializable {
                         this.wiersze.add(wiersz);
                     }
                     i++;
-                //}
+                }
             }
             wierszebaza = wierszDRADAO.findByRok(rok);
             Collections.sort(wierszebaza, new WierszDRAcomparator());
@@ -214,11 +218,32 @@ public class DochodDlaDRAView implements Serializable {
             for (List<WierszDRA> k : kotek.values()) {
                 mapa.add(k);
             }
-            Msg.msg("Pobrano dane");
+            Msg.msg("Pobrano i przeliczono dane");
             
         } else {
             Msg.msg("e","Nie wybrano okresu");
         }
+    }
+    
+    public void pobierz() {
+        wiersze = wierszDRADAO.findByRok(rok);
+        Collections.sort(wiersze, new WierszDRAcomparator());
+            Map<String, List<WierszDRA>> kotek = new TreeMap<>();
+            for (WierszDRA p : wiersze) {
+                if (kotek.containsKey(p.getImienazwisko())) {
+                    kotek.get(p.getImienazwisko()).add(p);
+                } else {
+                    List<WierszDRA> nowalista = new ArrayList<>();
+                    nowalista.add(p);
+                    kotek.put(p.getImienazwisko(), nowalista);
+                }
+            }
+            for (List<WierszDRA> k : kotek.values()) {
+                mapa.add(k);
+            }
+        wiersze = wierszDRADAO.findByRokMc(rok, mc);
+        Collections.sort(wiersze, new WierszDRAcomparator());
+        Msg.msg("Pobrano dane");
     }
 
     private Pitpoz pobierzpit(String rokpkpir, String mcod, String nazwapelna, String udzialowiec) {

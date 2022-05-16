@@ -6,6 +6,7 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -18,6 +19,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
 import javax.persistence.UniqueConstraint;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -32,7 +34,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "WierszDRA.findAll", query = "SELECT f FROM WierszDRA f"),
-    @NamedQuery(name = "WierszDRA.findByRok", query = "SELECT f FROM WierszDRA f WHERE f.rok = :rok")
+    @NamedQuery(name = "WierszDRA.findByRok", query = "SELECT f FROM WierszDRA f WHERE f.rok = :rok"),
+    @NamedQuery(name = "WierszDRA.findByRokMc", query = "SELECT f FROM WierszDRA f WHERE f.rok = :rok AND f.mc = :mc")
 })
 public class WierszDRA  implements Serializable{
     private static final long serialVersionUID = 1L;
@@ -80,6 +83,9 @@ public class WierszDRA  implements Serializable{
     private boolean brakdokumentow;
     @Column (name = "jestpit")
     private boolean jestpit;
+    @Column(name = "data", insertable=false, updatable=false, columnDefinition="timestamp default current_timestamp")
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    private Date data;
 
     public WierszDRA() {
     }
@@ -253,6 +259,14 @@ public class WierszDRA  implements Serializable{
 
     public void setPrzychodnar(double przychodnar) {
         this.przychodnar = przychodnar;
+    }
+
+    public Date getData() {
+        return data;
+    }
+
+    public void setData(Date data) {
+        this.data = data;
     }
     
     
