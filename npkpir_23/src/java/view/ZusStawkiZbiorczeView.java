@@ -395,34 +395,34 @@ public class ZusStawkiZbiorczeView  implements Serializable{
 //    }
    
 public void nowestawki() {
-    List<Podatnik> podatnicy = podatnikDAO.findAll();
-    List<Zusstawkinew> nowewiersze = new ArrayList<>();
-    for (Podatnik p : podatnicy) {
-        boolean dodacudzial = p.getWykazudzialow()!=null&&p.getWykazudzialow().size()==1;
-        if (p.getZusparametr()!=null) {
-            for (Zusstawki s : p.getZusparametr()) {
-                Zusstawkinew n = new Zusstawkinew(s);
-                n.setPodatnik(p);
-                if (dodacudzial) {
-                    if (p.getId()!=5) {
-                        n.setUdzialowiec(p.getWykazudzialow().get(0));
-                    }
-                }
-                if (n!=null) {
-                    nowewiersze.add(n);
-                }
-            }
-        }
-    }
-    if (nowewiersze!=null) {
-        try {
-            zusstawkinewDAO.createList(nowewiersze);
-        } catch (Exception ew){
-            System.out.println(E.e(ew));
-        }
-    }
-    Msg.msg("Zrobiono");
-    System.out.println("koniec zus");
+//    List<Podatnik> podatnicy = podatnikDAO.findAll();
+//    List<Zusstawkinew> nowewiersze = new ArrayList<>();
+//    for (Podatnik p : podatnicy) {
+//        boolean dodacudzial = p.getWykazudzialow()!=null&&p.getWykazudzialow().size()==1;
+//        if (p.getZusstawkinowe()!=null) {
+//            for (Zusstawkinew s : p.getZusparametr()) {
+//                Zusstawkinew n = new Zusstawkinew(s);
+//                n.setPodatnik(p);
+//                if (dodacudzial) {
+//                    if (p.getId()!=5) {
+//                        n.setUdzialowiec(p.getWykazudzialow().get(0));
+//                    }
+//                }
+//                if (n!=null) {
+//                    nowewiersze.add(n);
+//                }
+//            }
+//        }
+//    }
+//    if (nowewiersze!=null) {
+//        try {
+//            zusstawkinewDAO.createList(nowewiersze);
+//        } catch (Exception ew){
+//            System.out.println(E.e(ew));
+//        }
+//    }
+//    Msg.msg("Zrobiono");
+//    System.out.println("koniec zus");
 }    
     
 }
