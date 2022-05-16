@@ -101,32 +101,35 @@ public class PdfEwidencjaPrzychodow {
     }
     
     private static PdfPTable generujTabele(WpisView wpisView, String mc) {
-        PdfPTable table = new PdfPTable(14);
+        PdfPTable table = new PdfPTable(17);
         table.setWidthPercentage(92);
         try {
-            table.setWidths(new int[]{1, 2, 2, 4, 4, 2, 2, 2, 2, 2, 2, 2, 2, 2});
+            table.setWidths(new int[]{1, 2, 2, 4, 4, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2});
             PdfPCell cell = new PdfPCell();
             table.addCell(ustawfraze("Biuro Rachunkowe Taxman", 3, 0));
             table.addCell(ustawfraze("wydruk ewidencji przychodów", 2, 0));
-            table.addCell(ustawfraze("firma: " + wpisView.getPrintNazwa(), 5, 0));
-            table.addCell(ustawfraze("NIP: " + wpisView.getPodatnikObiekt().getNip(), 2, 0));
-            table.addCell(ustawfraze("za okres: " + wpisView.getRokWpisu() + "/" + mc, 2, 0));
+            table.addCell(ustawfraze("firma: " + wpisView.getPrintNazwa(), 6, 0));
+            table.addCell(ustawfraze("NIP: " + wpisView.getPodatnikObiekt().getNip(), 3, 0));
+            table.addCell(ustawfraze("za okres: " + wpisView.getRokWpisu() + "/" + mc, 3, 0));
             table.addCell(ustawfraze("lp", 0, 2));
             table.addCell(ustawfraze("Data zdarzenia gosp.", 0, 2));
             table.addCell(ustawfraze("Nr dowodu księgowego", 0, 2));
             table.addCell(ustawfraze("Kontrahent", 2, 0));
-            table.addCell(ustawfraze("Przychody wg stawek", 7, 0));
-            table.addCell(ustawfraze("Razem przychód (6+7+8+9+10+11+12)", 0, 2));
+            table.addCell(ustawfraze("Przychody wg stawek", 10, 0));
+            table.addCell(ustawfraze("Razem przychód (6-15)", 0, 2));
             table.addCell(ustawfraze("Uwagi", 0, 2));
             table.addCell(ustawfrazeAlign("imię i nazwisko (firma)", "center", 7));
             table.addCell(ustawfrazeAlign("adres", "center", 7));
             table.addCell(ustawfrazeAlign("17%", "center", 7));
             table.addCell(ustawfrazeAlign("15%", "center", 7));
+            table.addCell(ustawfrazeAlign("14%", "center", 7));
             table.addCell(ustawfrazeAlign("12.5%", "center", 7));
+            table.addCell(ustawfrazeAlign("12%", "center", 7));
             table.addCell(ustawfrazeAlign("10%", "center", 7));
             table.addCell(ustawfrazeAlign("8.5%", "center", 7));
             table.addCell(ustawfrazeAlign("5.5%", "center", 7));
             table.addCell(ustawfrazeAlign("3%", "center", 7));
+            table.addCell(ustawfrazeAlign("2%", "center", 7));
             table.addCell(ustawfrazeAlign("1", "center", 6));
             table.addCell(ustawfrazeAlign("2", "center", 6));
             table.addCell(ustawfrazeAlign("3", "center", 6));
@@ -141,6 +144,9 @@ public class PdfEwidencjaPrzychodow {
             table.addCell(ustawfrazeAlign("12", "center", 6));
             table.addCell(ustawfrazeAlign("13", "center", 6));
             table.addCell(ustawfrazeAlign("14", "center", 6));
+            table.addCell(ustawfrazeAlign("15", "center", 6));
+            table.addCell(ustawfrazeAlign("16", "center", 6));
+            table.addCell(ustawfrazeAlign("17", "center", 6));
             table.addCell(ustawfrazeAlign("1", "center", 6));
             table.addCell(ustawfrazeAlign("2", "center", 6));
             table.addCell(ustawfrazeAlign("3", "center", 6));
@@ -155,6 +161,9 @@ public class PdfEwidencjaPrzychodow {
             table.addCell(ustawfrazeAlign("12", "center", 6));
             table.addCell(ustawfrazeAlign("13", "center", 6));
             table.addCell(ustawfrazeAlign("14", "center", 6));
+            table.addCell(ustawfrazeAlign("15", "center", 6));
+            table.addCell(ustawfrazeAlign("16", "center", 6));
+            table.addCell(ustawfrazeAlign("17", "center", 6));
             table.setHeaderRows(5);
             table.setFooterRows(1);
         } catch (DocumentException ex) {
@@ -179,14 +188,17 @@ public class PdfEwidencjaPrzychodow {
                 table.addCell(ustawfrazeAlign("podsumowanie", "center",6));
             }
 //            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKolumna5() != 0.0 ? rs.getKolumna5() : null), "right",6));
+            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKolumna_17() != 0.0 ? rs.getKolumna_17() : null), "right",7));
             table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKolumna_15() != 0.0 ? rs.getKolumna_15() : null), "right",7));
-            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKolumna_55() != 0.0 ? rs.getKolumna_55() : null), "right",7));
-            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKolumna_3() != 0.0 ? rs.getKolumna_3() : null), "right",7));
-            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKolumna_10() != 0.0 ? rs.getKolumna_10() : null), "right",7));
             table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKolumna_14() != 0.0 ? rs.getKolumna_14() : null), "right",7));
             table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKolumna_125() != 0.0 ? rs.getKolumna_125() : null), "right",7));
-            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKolumna_12() != 0.0 ? rs.getKolumna_12() : null), "right",7));   
+            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKolumna_12() != 0.0 ? rs.getKolumna_12() : null), "right",7));
+            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKolumna_10() != 0.0 ? rs.getKolumna_10() : null), "right",7));
             table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKolumna_85() != 0.0 ? rs.getKolumna_85() : null), "right",7));
+            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKolumna_55() != 0.0 ? rs.getKolumna_55() : null), "right",7));   
+            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKolumna_3() != 0.0 ? rs.getKolumna_3() : null), "right",7));   
+            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKolumna_2() != 0.0 ? rs.getKolumna_2() : null), "right",7));   
+            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getRazem() != 0.0 ? rs.getRazem() : null), "right",7));   
             table.addCell(ustawfrazeAlign(rs.getUwagi(), "right",6));
             
         }

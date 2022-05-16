@@ -65,7 +65,7 @@ public class Logowanie implements Serializable {
     @PostConstruct
     private void init() { //E.m(this);
         try {
-            ipusera = IPaddress.getIpAddr((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest());
+                ipusera = IPaddress.getIpAddr((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest());
             if (ipusera!=null) {
                 liczniklogowan = Liczniklogowan.pobierzIloscLogowan(ipusera, rejestrlogowanDAO);
             }
@@ -210,7 +210,7 @@ public class Logowanie implements Serializable {
             Calendar calendar = Calendar.getInstance();
             sesja.setZalogowanie(new Timestamp(calendar.getTime().getTime()));
             try {
-                sesjaDAO.edit(sesja);
+                sesjaDAO.create(sesja);
             } catch (Exception e) {
                 E.e(e);
             }
