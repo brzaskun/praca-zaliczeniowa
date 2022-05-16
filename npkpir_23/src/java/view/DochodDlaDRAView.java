@@ -97,7 +97,7 @@ public class DochodDlaDRAView implements Serializable {
             this.wiersze = new ArrayList<>();
             int i = 1;
             for (Podatnik podatnik : podatnicy) {
-                if (podatnik.getNip().equals("8511005008")||podatnik.getNip().equals("8511054159")||podatnik.getNip().equals("8792611113")||podatnik.getNip().equals("9551392851")) {
+                //if (podatnik.getNip().equals("8511005008")||podatnik.getNip().equals("8511054159")||podatnik.getNip().equals("8792611113")||podatnik.getNip().equals("9551392851")) {
                     PodatnikOpodatkowanieD opodatkowanie = zwrocFormaOpodatkowania(podatnik, rok, mc);
                     if (opodatkowanie != null) {
                         String formaopodatkowania = opodatkowanie.getFormaopodatkowania();
@@ -195,7 +195,7 @@ public class DochodDlaDRAView implements Serializable {
                         this.wiersze.add(wiersz);
                     }
                     i++;
-                }
+                //}
             }
             wierszebaza = wierszDRADAO.findByRok(rok);
             Collections.sort(wierszebaza, new WierszDRAcomparator());
