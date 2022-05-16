@@ -22,17 +22,16 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 import javax.annotation.PostConstruct;
-import javax.inject.Named;
-
-import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.AjaxBehaviorEvent;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import mail.MailOther;
-import pdf.PdfObroty;
 import org.primefaces.PrimeFaces;
+import pdf.PdfObroty;
 
 /**
  *
@@ -83,12 +82,12 @@ public class ObrotyView implements Serializable{
     
     public void init() { //E.m(this);
         //dokumenty podatnika za okres od-do
-        obiektDOKmrjsfSelX = Collections.synchronizedList(new ArrayList<>());
+        obiektDOKmrjsfSelX = new ArrayList<>();
         //dokumenty podatnika z roku
-        obiektDOKjsfSelRok = Collections.synchronizedList(new ArrayList<>());
-        dokumentypodatnika = Collections.synchronizedList(new ArrayList<>());
-        kontrahentypodatnika = Collections.synchronizedList(new ArrayList<>());
-        rodzajetransakcji = Collections.synchronizedList(new ArrayList<>());
+        obiektDOKjsfSelRok = new ArrayList<>();
+        dokumentypodatnika = new ArrayList<>();
+        kontrahentypodatnika = new ArrayList<>();
+        rodzajetransakcji = new ArrayList<>();
           if (wpisView.getMiesiacOd() != null) {
                obiektDOKjsfSelRok = dokDAO.zwrocBiezacegoKlientaRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu().toString());
                 obiektDOKmrjsfSelX.clear();
