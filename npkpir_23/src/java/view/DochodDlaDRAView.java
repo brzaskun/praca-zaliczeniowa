@@ -98,7 +98,7 @@ public class DochodDlaDRAView implements Serializable {
             this.wiersze = new ArrayList<>();
             int i = 1;
             for (Podatnik podatnik : podatnicy) {
-                if (podatnik.getNip().equals("8522456855")) {
+                if (podatnik.getNip().equals("8431472104")) {
                 //if (podatnik.getNip().equals("8511005008")||podatnik.getNip().equals("8511054159")||podatnik.getNip().equals("8792611113")||podatnik.getNip().equals("9551392851")||podatnik.getNip().equals("9281839264")) {
                     PodatnikOpodatkowanieD opodatkowanie = zwrocFormaOpodatkowania(podatnik, rok, mc);
                     if (opodatkowanie != null) {
@@ -114,25 +114,27 @@ public class DochodDlaDRAView implements Serializable {
                                 podatnikprocentudzial = wiersz.getUdzial();
                                 if (formaopodatkowania.contains("ryczałt")) {
                                     //oblicz przychod
-                                    double przychod = pobierzprzychod(podatnik, rok, mcdo, wiersz);
+                                    double przychod = pobierzprzychod(podatnik, rok, mc, wiersz);
                                     if (podatnikprocentudzial != 100.0) {
                                         przychod = Z.z(przychod * podatnikprocentudzial / 100.0);
                                     }
                                     wiersz.setPrzychod(przychod);
                                     wiersz.setPrzychodnar(przychod);
                                     wiersz.setDochodzus(przychod > 0.0 ? przychod : 0.0);
+                                    wiersz.setDochodzusnetto(przychod);
                                     wiersz.setDochodzusnar(przychod > 0.0 ? przychod : 0.0);
                                     wiersz.setDochodzusnettonar(przychod > 0.0 ? przychod : 0.0);
-                                    Ryczpoz jestpit = pobierzrycz(rok, mcod, podatnik.getNazwapelna(), u.getNazwiskoimie());
+                                    Ryczpoz jestpit = pobierzrycz(rok, mc, podatnik.getNazwapelna(), u.getNazwiskoimie());
                                     wiersz.setJestpit(jestpit != null);
-                                    Msg.msg("Obliczono przychód za mc");
-                                    if (Mce.getMiesiacToNumber().get(mc) > 2) {
+                                    //Msg.msg("Obliczono przychód za mc");
+                                    if (Mce.getMiesiacToNumber().get(mc) > 1) {
                                         WierszDRA wierszmcpop = pobierzwierszmcpop(wierszebaza, podatnik, imieinazwisko, rok, mcod);
                                         if (wierszmcpop != null) {
                                             wiersz.setPrzychodnar(Z.z(wierszmcpop.getPrzychodnar() + wiersz.getPrzychod()));
                                             wiersz.setDochodzus(Z.z(wiersz.getPrzychod()));
+                                            wiersz.setDochodzusnetto(Z.z(wiersz.getPrzychod()));
                                             wiersz.setDochodzusnar(Z.z(wiersz.getPrzychodnar()));
-                                            wiersz.setDochodzusnettonar(Z.z(wierszmcpop.getDochodzusnettonar() + wiersz.getDochodzusnar()));
+                                            wiersz.setDochodzusnettonar(Z.z(wierszmcpop.getDochodzusnettonar() + wiersz.getDochodzusnetto()));
                                         }
                                     }
                                 } else {
@@ -402,7 +404,7 @@ public class DochodDlaDRAView implements Serializable {
 
     private double pobierzprzychod(Podatnik podatnik, String rok, String mc, WierszDRA wiersz) {
         double przychod = 0.0;
-        List<Dok> lista = KsiegaBean.pobierzdokumentyRok(dokDAO, podatnik, Integer.parseInt(rok), mc, "01");
+        List<Dok> lista = KsiegaBean.pobierzdokumentyRok(dokDAO, podatnik, Integer.parseInt(rok), mc, mc);
         if (lista!=null&&!lista.isEmpty()) {
             for (Iterator<Dok> it = lista.iterator(); it.hasNext();) {
                 Dok tmpx = it.next();
