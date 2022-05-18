@@ -1938,13 +1938,13 @@ public class Jpk_VAT2View implements Serializable {
                     }
                 } else if (p.getJpk().getClass().getName().equals("pl.gov.crd.wzor._2020._05._08._9393.JPK")) {
                     int celzlozenia = (int) ((pl.gov.crd.wzor._2020._05._08._9393.JPK)p.getJpk()).getNaglowek().getCelZlozenia().getValue();
-                    if (p.getRok().equals(wpisView.getRokWpisuSt()) && p.getMiesiac().equals(wpisView.getMiesiacWpisu()) && celzlozenia > numer && p.getCode()==200) {
-                        numer = celzlozenia;
+                    if (p.getRok().equals(wpisView.getRokWpisuSt()) && p.getMiesiac().equals(wpisView.getMiesiacWpisu()) && celzlozenia == numer && (p.getCode()==200||p.getCode()>300)) {
+                        numer = 2;
                     }
                 } else if (p.getJpk().getClass().getName().equals("pl.gov.crd.wzor._2020._05._08._9394.JPK")) {
                     int celzlozenia = (int) ((pl.gov.crd.wzor._2020._05._08._9394.JPK)p.getJpk()).getNaglowek().getCelZlozenia().getValue();
-                    if (p.getRok().equals(wpisView.getRokWpisuSt()) && p.getMiesiac().equals(wpisView.getMiesiacWpisu()) && celzlozenia > numer && p.getCode()==200) {
-                        numer = celzlozenia;
+                    if (p.getRok().equals(wpisView.getRokWpisuSt()) && p.getMiesiac().equals(wpisView.getMiesiacWpisu()) && celzlozenia == numer && (p.getCode()==200||p.getCode()>300)) {
+                        numer = 2;
                     }
                 }
                 
