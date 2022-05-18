@@ -124,18 +124,21 @@ public class ZusStawkiZbiorczeView  implements Serializable{
     }
     
     private boolean czywprowadzonostawkiZUS52() {
-        if (selected.getZus52()!=0.0 && selected.getZus52odl()!=0.0) {
-            return true;
-        } else if (selected.getZus52()==0.0 && selected.getZus52odl()==0.0) {
-            return true;
-        } else if (selected.getZus52()==0.0 && selected.getZus52odl()!=0.0) {
-            Msg.msg("e","Nie wprowadzono dwóch stawek ZUS-52. Nie można zachować miesiąca");
-            return false;
-        } else if (selected.getZus52()!=0.0 && selected.getZus52odl()==0.0) {
+        boolean zwrot = true;
+//        if (selected.getZus52()!=0.0 && selected.getZus52odl()!=0.0) {
+//            return true;
+//        } else if (selected.getZus52()==0.0 && selected.getZus52odl()==0.0) {
+//            return true;
+//        } else 
+          if (selected.getZus52()==0.0 && selected.getZus52odl()!=0.0) {
             Msg.msg("e","Nie wprowadzono dwóch stawek ZUS-52. Nie można zachować miesiąca");
             return false;
         }
-        return false;
+//        } else if (selected.getZus52()!=0.0 && selected.getZus52odl()==0.0) {
+//            Msg.msg("e","Nie wprowadzono dwóch stawek ZUS-52. Nie można zachować miesiąca");
+//            return false;
+//        }
+        return zwrot;
     }
     
     public void edytujzusZbiorcze(Podatnik podatnik) {
