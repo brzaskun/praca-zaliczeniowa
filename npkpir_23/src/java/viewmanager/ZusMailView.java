@@ -145,7 +145,7 @@ public class ZusMailView implements Serializable {
                     zus52 = zusmail.getZus52() != null ? zusmail.getZus52() : 0;
                     zus53 = zusmail.getZus53() != null ? zusmail.getZus53() : 0;
                     pit4 = zusmail.getPit4()!= null ? zusmail.getPit4(): 0;
-                    pit8 = zusmail.getPit8()!= null ? zusmail.getPit8(): 0;
+                    pit8 = zusmail.getPit8()!= null ? zusmail.getPit8(): 0;//kom
                     zusmail.setTytul(String.format("Taxman - zestawienie kwot ZUS/PIT4 za %s/%s", rok, mc));
                     double sumazus = Z.z(zus51+zus52+zus53);
                     zusmail.setTresc(String.format(new Locale("pl"),trescmaila, p.getPrintnazwa(), p.getNip(),rok, mc, zus51, zus52, zus53, sumazus, pit4, pit8));
