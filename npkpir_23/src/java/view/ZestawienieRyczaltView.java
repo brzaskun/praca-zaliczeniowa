@@ -6,6 +6,7 @@ package view;
 
 import beansDok.KsiegaBean;
 import dao.DokDAO;
+import dao.FakturaDAO;
 import dao.PodStawkiDAO;
 import dao.PodatnikDAO;
 import dao.PodatnikUdzialyDAO;
@@ -16,6 +17,7 @@ import embeddable.Mce;
 import embeddable.RyczaltPodatek;
 import embeddable.WierszRyczalt;
 import entity.Dok;
+import entity.Faktura;
 import entity.KwotaKolumna1;
 import entity.Pitpoz;
 import entity.Podatnik;
@@ -30,6 +32,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -42,6 +45,7 @@ import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.http.HttpServletRequest;
 import msg.Msg;
 import org.primefaces.PrimeFaces;
 import pdf.PdfPIT28;
@@ -116,6 +120,9 @@ public class ZestawienieRyczaltView implements Serializable {
     private boolean zus52zreki;
     @Inject
     private PodatnikUdzialyDAO podatnikUdzialyDAO;
+    @Inject
+    private FakturaDAO fakturaDAO;
+    private Podatnik taxman;
 
     public ZestawienieRyczaltView() {
         pobierzPity = Collections.synchronizedList(new ArrayList<>());
@@ -126,6 +133,7 @@ public class ZestawienieRyczaltView implements Serializable {
 
     @PostConstruct
     public void init() { //E.m(this);
+        taxman = podatnikDAO.findPodatnikByNIP("8511005008");
         if (wpisView.getPodatnikWpisu() != null && !wpisView.isKsiegaryczalt()) {
             styczen = new WierszRyczalt(1, wpisView.getRokWpisuSt(), "01", "styczeń");
             luty = new WierszRyczalt(2, wpisView.getRokWpisuSt(), "02", "luty");
@@ -290,6 +298,16 @@ public class ZestawienieRyczaltView implements Serializable {
     //oblicze pit ryczałtowca  i wkleja go do biezacego Pitu w celu wyswietlenia, nie zapisuje
     public void obliczPit() {
         if (!wybranyudzialowiec.equals("wybierz osobe")) {
+            HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            Principal principal = request.getUserPrincipal();
+            String uzernazwa = principal.getName();
+            if (!uzernazwa.equals("szef")) {
+                List<Faktura> czywystawionofakture = fakturaDAO.findbyKontrahentNipRokMc(wpisView.getPodatnikObiekt().getNip(), taxman, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+                if (czywystawionofakture==null||czywystawionofakture.isEmpty()) {
+                    Msg.msg("e","Nie wystawiono faktury dla firmy. Nie można zakończyć miesiąca");
+                    return;
+                }
+            }
                 Podatnik tmpP = podatnikDAO.findByNazwaPelna(wpisView.getPodatnikWpisu());
                 List<PodatnikUdzialy> udzialy = podatnikUdzialyDAO.findUdzialyPodatnik(wpisView.getPodatnikObiekt());
                 for (PodatnikUdzialy p : udzialy) {

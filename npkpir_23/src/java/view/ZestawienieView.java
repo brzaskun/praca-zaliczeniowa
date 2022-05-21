@@ -10,6 +10,7 @@ import comparator.Stratacomparator;
 import dao.AmoDokDAO;
 import dao.CechazapisuDAOfk;
 import dao.DokDAO;
+import dao.FakturaDAO;
 import dao.PitDAO;
 import dao.PodStawkiDAO;
 import dao.PodatnikDAO;
@@ -22,6 +23,7 @@ import embeddable.Mce;
 import embeddable.WierszPkpir;
 import entity.Amodok;
 import entity.Dok;
+import entity.Faktura;
 import entity.KwotaKolumna1;
 import entity.Pitpoz;
 import entity.Podatnik;
@@ -38,16 +40,19 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.http.HttpServletRequest;
 import msg.Msg;
 import org.apache.commons.collections4.CollectionUtils;
 import org.primefaces.PrimeFaces;
@@ -146,6 +151,9 @@ public class ZestawienieView implements Serializable {
     private String komunikatblad;
     private List<Cechazapisu> pobranecechypodatnik;
     private Cechazapisu wybranacechadok;
+    @Inject
+    private FakturaDAO fakturaDAO;
+    private Podatnik taxman;
 
     private int flaga = 0;
 
@@ -158,6 +166,7 @@ public class ZestawienieView implements Serializable {
 
     @PostConstruct
     public void init() { //E.m(this);
+        taxman = podatnikDAO.findPodatnikByNIP("8511005008");
         styczen = new WierszPkpir(1, wpisView.getRokWpisuSt(), "01", "styczeń");
         luty = new WierszPkpir(2, wpisView.getRokWpisuSt(), "02", "luty");
         marzec = new WierszPkpir(3, wpisView.getRokWpisuSt(), "03", "marzec");
@@ -483,6 +492,16 @@ public class ZestawienieView implements Serializable {
 
     //oblicze pit i wkleja go do biezacego Pitu w celu wyswietlenia, nie zapisuje
     public void obliczPit() {
+        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        Principal principal = request.getUserPrincipal();
+        String uzernazwa = principal.getName();
+        if (!uzernazwa.equals("szef")) {
+            List<Faktura> czywystawionofakture = fakturaDAO.findbyKontrahentNipRokMc(wpisView.getPodatnikObiekt().getNip(), taxman, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+            if (czywystawionofakture==null||czywystawionofakture.isEmpty()) {
+                Msg.msg("e","Nie wystawiono faktury dla firmy. Nie można zakończyć miesiąca");
+                return;
+            }
+        }
         komunikatblad = null;
         if (listawybranychudzialowcow.size() == 1) {
             wybranyudzialowiec = listawybranychudzialowcow.get(0);

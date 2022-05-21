@@ -64,6 +64,7 @@ import waluty.Z;
     @NamedQuery(name = "Faktura.findByProjektnr", query = "SELECT f FROM Faktura f WHERE f.projektnumer = :projektnumer AND f.wystawca = :podatnik"),
     @NamedQuery(name = "Faktura.findByKontrahent", query = "SELECT f FROM Faktura f WHERE f.kontrahent_nip = :kontrahent_nip AND f.wystawca = :wystawcanazwa"),
     @NamedQuery(name = "Faktura.findByKontrahentRok", query = "SELECT f FROM Faktura f WHERE f.kontrahent.nip = :kontrahent_nip AND f.wystawca = :wystawcanazwa AND f.rok = :rok AND f.tylkodlaokresowej = '0' ORDER BY f.datawystawienia"),
+    @NamedQuery(name = "Faktura.findByKontrahentRokMc", query = "SELECT f FROM Faktura f WHERE f.kontrahent.nip = :kontrahent_nip AND f.wystawca = :wystawca AND f.rok = :rok AND f.mc = :=mc AND f.tylkodlaokresowej = '0' ORDER BY f.datawystawienia"),
     @NamedQuery(name = "Faktura.findByKontrahentRokPo2015", query = "SELECT f FROM Faktura f WHERE f.kontrahent_nip = :kontrahent_nip AND f.wystawca = :wystawcanazwa AND f.rok > 2015 ORDER BY f.datawystawienia"),
     @NamedQuery(name = "Faktura.findByRok", query = "SELECT f FROM Faktura f WHERE f.rok = :rok"),
     @NamedQuery(name = "Faktura.findByRokPodatnik", query = "SELECT f FROM Faktura f WHERE f.rok = :rok AND f.wystawca = :wystawcanazwa"),
