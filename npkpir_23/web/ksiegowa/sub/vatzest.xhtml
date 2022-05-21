@@ -17,6 +17,8 @@
     <p:growl ><p:autoUpdate/></p:growl>
     <f:event type="preRenderView" listener="#{ewidencjaVatView.stworzenieEwidencjiZDokumentow(WpisView.podatnikObiekt)}" rendered="#{!WpisView.ksiegirachunkowe}"/>
 <!--    <p:commandButton value="sporządź" actionListener="#{ewidencjaVatView.stworzenieEwidencjiZDokumentow(WpisView.podatnikObiekt)}" update="formVatZestKsiegowa" style="width: 120px; padding: 5px;"/>-->
+    <h:outputText value="Rozliczenia vat są miesięczne. Zebrano dane z miesiąca." rendered="#{WpisView.vatokres eq 1}"/>
+    <h:outputText value="Rozliczenia vat są kwartalne. Zebrano dane z całego kwartału." rendered="#{WpisView.vatokres eq 2}"/>
     <p:tabView id="akordeon">
         <p:tab id="ewid1" title="ewidencje">
             <p:tabView value="#{ewidencjaVatView.ewidencje}"  var="item" >

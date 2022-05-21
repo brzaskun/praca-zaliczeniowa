@@ -14,7 +14,11 @@
                 <h:outputText value="Rok:" style="text-shadow: #6374AB 1px -1px 1px"/>
                 <h:outputText value="#{WpisView.rokWpisu}"/>
                 <h:outputText value="Miesiac:" style="text-shadow: #6374AB 1px -1px 1px"/>
-                <h:outputText value="#{WpisView.miesiacWpisu}"/>
+                <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}" style="width: 70px;">
+                    <f:selectItems value="#{mce.mceList}"/>
+                    <p:ajax event="change" partialSubmit="true"
+                            update="@(form)"/>
+                </p:selectOneMenu>
             </p:panelGrid>
            <p:panel id="linki" header="linki">
          

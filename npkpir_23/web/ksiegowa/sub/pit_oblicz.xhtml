@@ -114,7 +114,7 @@
                             <p:commandButton  value="Pdf" actionListener="#{sesjaView.dodajwydruk()}" action="#{zestawienieView.drukujbiezacypit()}" onsuccess="wydrukpit5('#{WpisView.podatnikWpisu}');" style="width: 120px;" rendered="#{zamkniecieView.sprawdzMiesiacRok()}">
                             </p:commandButton>
 
-                            <p:commandButton value="przelicz"  action="#{zestawienieView.obliczPit()}" update="formpit" type="submit" style="width: 140px"/>
+                            <p:commandButton value="przelicz"  action="#{zestawienieView.obliczPit()}" update="formpit" type="submit" style="width: 140px" styleClass="klik"/>
                             <p:splitButton value="zachowaj pit"  action="#{zestawienieView.zachowajPit()}" update="formpit" type="submit" rendered="#{zamkniecieView.sprawdzMiesiacRok()}">
                                 <p:menuitem global="false" value="dodatkowy-13" actionListener="#{zestawienieView.zachowajPit13()}" icon="ui-icon-arrowrefresh-1-w"/>  
                             </p:splitButton>
@@ -239,7 +239,7 @@
                             <p:commandButton  value="Pdf" actionListener="#{sesjaView.dodajwydruk()}" action="#{zestawienieRyczaltView.drukujRyczalt()}" onsuccess="wydrukpit5('#{WpisView.podatnikWpisu}');" style="width: 140px;">
                             </p:commandButton>
 
-                            <p:commandButton value="przelicz"  action="#{zestawienieRyczaltView.obliczPit()}" update="@form, :akordeon:formpit1:" type="submit" style="width: 140px"/>
+                            <p:commandButton value="przelicz"  action="#{zestawienieRyczaltView.obliczPit()}" update="@form, :akordeon:formpit1:" type="submit" style="width: 140px" styleClass="klik"/>
                             <p:splitButton value="zachowaj pit"  action="#{zestawienieRyczaltView.zachowajPit()}" update="@form, :akordeon:formpit1:" type="submit" >
                                 <p:menuitem global="false" value="dodatkowy-13" actionListener="#{zestawienieRyczaltView.zachowajPit13()}" icon="ui-icon-arrowrefresh-1-w"/>  
                             </p:splitButton>
