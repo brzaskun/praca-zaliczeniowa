@@ -7,25 +7,24 @@ package view;
 
 import dao.DeklaracjevatDAO;
 import dao.EVatwpis1DAO;
+import dao.EVatwpisFKDAO;
+import dao.JpkblobDAO;
 import dao.PodatnikDAO;
 import dao.UPODAO;
-import dao.EVatwpisFKDAO;
 import embeddable.Parametr;
 import entity.Deklaracjevat;
+import entity.Jpkblob;
 import entity.Podatnik;
 import entity.UPO;
-import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.inject.Named;
-
 import javax.enterprise.context.RequestScoped;
-import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 
 /**
  *
@@ -158,8 +157,23 @@ public class JPKListaView  implements Serializable {
     }
 
     
-
-    
+    @Inject
+    private JpkblobDAO jpkblobDAO;
+    public void jpkblob() {
+        System.out.println("Start");
+        List<UPO> upolist = upodao.findAll();
+        for (UPO u : upolist) {
+            if (u.getJpk()!=null) {
+                Jpkblob jpkblob = new Jpkblob();
+                jpkblob.setJpk(u.getJpk());
+                jpkblob.setUpo(u);
+                jpkblobDAO.create(jpkblob);
+                u.setJpkblob(jpkblob);
+                upodao.edit(u);
+            }
+        }
+        System.out.println("KKoniec");
+    }
     
     
 }

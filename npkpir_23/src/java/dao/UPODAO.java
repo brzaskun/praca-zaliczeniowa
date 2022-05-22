@@ -4,20 +4,15 @@
  */
 package dao;
 
-import entity.Pismoadmin;
-import entity.Podatnik;
 import entity.UPO;
 import error.E;
 import java.io.Serializable;
-import java.util.Collections;
 import java.util.List;
 import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
-import session.SessionFacade;
 import view.WpisView;
 /**
  *
@@ -44,7 +39,7 @@ public class UPODAO extends DAO implements Serializable{
     }
 
     public UPODAO() {
-        super(Pismoadmin.class);
+        super(UPO.class);
         super.em = this.em;
     }
 

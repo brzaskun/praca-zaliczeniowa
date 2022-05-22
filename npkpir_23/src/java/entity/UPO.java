@@ -10,8 +10,10 @@ import java.io.Serializable;
 import java.io.StringWriter;
 import java.util.Date;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -20,6 +22,7 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -64,6 +67,9 @@ public class UPO  implements Serializable {
     @Lob
     @Column (name = "jpk")
     private JPKSuper jpk;
+    @JoinColumn(name = "jpkblob", referencedColumnName = "id")
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Jpkblob jpkblob;
     @JoinColumn(name = "deklaracja", referencedColumnName = "id")
     private Deklaracjevat deklaracja;
     @Column (name = "wersja")
@@ -318,6 +324,14 @@ public class UPO  implements Serializable {
 
     public void setDatajpk(Date datajpk) {
         this.datajpk = datajpk;
+    }
+
+    public Jpkblob getJpkblob() {
+        return jpkblob;
+    }
+
+    public void setJpkblob(Jpkblob jpkblob) {
+        this.jpkblob = jpkblob;
     }
 
     public Date getDataupo() {
