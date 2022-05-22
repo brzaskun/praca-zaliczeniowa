@@ -203,6 +203,12 @@ public class AmodokView implements Serializable {
     }
 
     public void ksiegujUmorzenieFK(List<UmorzenieN> umorzenia) {
+        for (UmorzenieN u : umorzenia) {
+            if (u.getKontonetto()==null||u.getKontoumorzenie()==null) {
+                Msg.msg("e","Brak kont dla środków trwałych nie można wygenerować umorzenia");
+                return;
+            }
+        }
         Dokfk znalezionyBiezacy = dokDAOfk.findDokfkLastofaTypeMc(wpisView.getPodatnikObiekt(), "AMO", wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
         Dokfk dokumentAMO = DokumentFKBean.generujdokument(wpisView, klienciDAO, "AMO", "zaksięgowanie umorzenia ", rodzajedokDAO, tabelanbpDAO, kontoDAOfk, umorzenia, dokDAOfk);
         String nrdokumentu = null;

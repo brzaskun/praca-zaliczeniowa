@@ -59,7 +59,7 @@
                 <p:column headerText="pkpir" style="text-align: center;width: 120px;" >  
                     <h:outputText value="#{subwpisX.dok.nrWlDk}" rendered="#{subwpisX.dok ne null}"/>
                 </p:column>
-            </p:dataTable>
+            </p:dataTable>  
              <p:column  headerText="zaksięguj" style="text-align: center; width: 120px; margin-left: 20px;" rendered="#{WpisView.ksiegirachunkowe}">
                 <p:commandButton value="zaksięguj" actionListener="#{amodokView.ksiegujUmorzenieFK(sTRTabView.umorzeniazamiesiaclista)}" update=":formSTRUmorzenie" />
             </p:column>

@@ -75,7 +75,7 @@ public class FakturaDAO extends DAO implements Serializable {
     
      public List<Faktura> findbyKontrahentNipRokMc(String kontrahentnip, Podatnik wystawca, String rok, String mc) {
          try {
-            return getEntityManager().createNamedQuery("Faktura.findByKontrahentRokMc").setParameter("kontrahent_nip", kontrahentnip).setParameter("wystawcanazwa", wystawca).setParameter("rok", rok).setParameter("mc", mc).getResultList();
+            return getEntityManager().createNamedQuery("Faktura.findByKontrahentRokMc").setParameter("kontrahent_nip", kontrahentnip).setParameter("wystawca", wystawca).setParameter("rok", rok).setParameter("mc", mc).getResultList();
         } catch (Exception e) { E.e(e); 
             return null;
         }
