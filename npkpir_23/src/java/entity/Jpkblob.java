@@ -50,6 +50,11 @@ public class Jpkblob implements Serializable {
         this.id = id;
     }
 
+    public Jpkblob(JPKSuper jpk, UPO upo) {
+        this.jpk = jpk;
+        this.upo = upo;
+    }
+
     public Integer getId() {
         return id;
     }

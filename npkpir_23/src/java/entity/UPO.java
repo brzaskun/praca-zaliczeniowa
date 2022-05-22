@@ -101,6 +101,7 @@ public class UPO  implements Serializable {
 
     
     public UPO(WpisView wpisView, JPK jpk) {
+        this.jpkblob = new Jpkblob(jpk,this);
         this.jpk = jpk;
         this.podatnik = wpisView.getPodatnikObiekt();
         this.miesiac = wpisView.getMiesiacWpisu();
@@ -116,70 +117,28 @@ public class UPO  implements Serializable {
         this.rok = rokpop;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public Podatnik getPodatnik() {
-        return podatnik;
-    }
-
-    public void setPodatnik(Podatnik podatnik) {
-        this.podatnik = podatnik;
-    }
-
-    public String getRok() {
-        return rok;
-    }
-
-    public void setRok(String rok) {
-        this.rok = rok;
-    }
-
-    public String getMiesiac() {
-        return miesiac;
-    }
-
-    public void setMiesiac(String miesiac) {
-        this.miesiac = miesiac;
-    }
-
-    public Potwierdzenie getPotwierdzenie() {
-        return potwierdzenie;
-    }
-
-    public void setPotwierdzenie(Potwierdzenie potwierdzenie) {
-        this.potwierdzenie = potwierdzenie;
-    }
-
-    public JPKSuper getJpk() {
-        return jpk;
-    }
-    
+  
     public String getJpkWersja() {
         String zwrot = "pierw.";
+        JPKSuper jpk = this.jpkblob.getJpk();
         if (jpk != null) {
-            if (this.jpk instanceof jpk201701.JPK) {
-                String cel = Byte.toString(((jpk201701.JPK)this.jpk).getNaglowek().getCelZlozenia());
+            if (jpk instanceof jpk201701.JPK) {
+                String cel = Byte.toString(((jpk201701.JPK)jpk).getNaglowek().getCelZlozenia());
                 if (cel.equals("2")) {
                     zwrot = "kor.";
                 }
-            } else if (this.jpk instanceof jpk201801.JPK) {
-                int cel = ((jpk201801.JPK)this.jpk).getNaglowek().getCelZlozenia();
+            } else if (jpk instanceof jpk201801.JPK) {
+                int cel = ((jpk201801.JPK)jpk).getNaglowek().getCelZlozenia();
                 if (cel > 0) {
                     zwrot = "kor.";
                 }
-            } else if (this.jpk instanceof pl.gov.crd.wzor._2020._05._08._9393.JPK) {
-                String cel = Byte.toString(((pl.gov.crd.wzor._2020._05._08._9393.JPK)this.jpk).getNaglowek().getCelZlozenia().getValue());
+            } else if (jpk instanceof pl.gov.crd.wzor._2020._05._08._9393.JPK) {
+                String cel = Byte.toString(((pl.gov.crd.wzor._2020._05._08._9393.JPK)jpk).getNaglowek().getCelZlozenia().getValue());
                 if (cel.equals("2")) {
                     zwrot = "kor.";
                 }
-            } else if (this.jpk instanceof pl.gov.crd.wzor._2020._05._08._9394.JPK) {
-                String cel = Byte.toString(((pl.gov.crd.wzor._2020._05._08._9394.JPK)this.jpk).getNaglowek().getCelZlozenia().getValue());
+            } else if (jpk instanceof pl.gov.crd.wzor._2020._05._08._9394.JPK) {
+                String cel = Byte.toString(((pl.gov.crd.wzor._2020._05._08._9394.JPK)jpk).getNaglowek().getCelZlozenia().getValue());
                 if (cel.equals("2")) {
                     zwrot = "kor.";
                 }
@@ -190,6 +149,7 @@ public class UPO  implements Serializable {
     
     public String getJpkNaglowek() {
         String zwrot = "nie pobrano";
+        JPKSuper jpk = this.jpkblob.getJpk();
         if (jpk != null) {
             try {
                 Class kl = jpk.getClass();
@@ -240,51 +200,117 @@ public class UPO  implements Serializable {
         return zwrot;
     }
     
-    public void setJpk(JPKSuper jpk) {
-        this.jpk = jpk;
+  
+    public void uzupelnij(Podatnik podatnik, WpisView wpisView, JPKSuper jpk) {
+        try {
+            this.jpkblob = new Jpkblob(jpk,this);
+            this.jpk = jpk;
+            this.podatnik = podatnik;
+            this.miesiac = wpisView.getMiesiacWpisu();
+            this.rok = wpisView.getRokWpisuSt();
+            if (jpk != null) {
+                if (jpk instanceof pl.gov.crd.wzor._2020._05._08._9393.JPK) {
+                    this.wersja = ((pl.gov.crd.wzor._2020._05._08._9393.JPK)jpk).getNaglowek().getKodFormularza().getWersjaSchemy();
+                } else if (jpk instanceof pl.gov.crd.wzor._2020._05._08._9394.JPK) {
+                    this.wersja = ((pl.gov.crd.wzor._2020._05._08._9394.JPK)jpk).getNaglowek().getKodFormularza().getWersjaSchemy();
+                } else if (jpk instanceof jpk201701.JPK) {
+                    this.wersja = ((jpk201701.JPK)jpk).getNaglowek().getKodFormularza().getWersjaSchemy();
+                } else {
+                    this.wersja = ((jpk201801.JPK)jpk).getNaglowek().getKodFormularza().getWersjaSchemy();
+                }
+            }
+        } catch (Exception e) {
+            
+        }
     }
-
+    //<editor-fold defaultstate="collapsed" desc="comment">
+    
+    public int getId() {
+        return id;
+    }
+    
+    public void setId(int id) {
+        this.id = id;
+    }
+    
+    public Podatnik getPodatnik() {
+        return podatnik;
+    }
+    
+    public void setPodatnik(Podatnik podatnik) {
+        this.podatnik = podatnik;
+    }
+    
+    public String getRok() {
+        return rok;
+    }
+    
+    public void setRok(String rok) {
+        this.rok = rok;
+    }
+    
+    public String getMiesiac() {
+        return miesiac;
+    }
+    
+    public void setMiesiac(String miesiac) {
+        this.miesiac = miesiac;
+    }
+    
+    public Potwierdzenie getPotwierdzenie() {
+        return potwierdzenie;
+    }
+    
+    public void setPotwierdzenie(Potwierdzenie potwierdzenie) {
+        this.potwierdzenie = potwierdzenie;
+    }
+    
+    public JPKSuper getJpk() {
+        return this.jpkblob.getJpk();
+    }
+    
+    
     public Deklaracjevat getDeklaracja() {
         return deklaracja;
     }
-
+    
     public void setDeklaracja(Deklaracjevat deklaracja) {
         this.deklaracja = deklaracja;
     }
-
-   
+    
+    
     public String getWersja() {
         return wersja;
     }
-
+    
     public void setWersja(String wersja) {
         this.wersja = wersja;
     }
-
+    
     public Integer getCode() {
         return code;
     }
-
+    
     public void setCode(Integer code) {
         this.code = code;
     }
-
+    
     public String getDescription() {
         return description;
     }
-
+    
     public void setDescription(String description) {
         this.description = description;
     }
-
+    
     public String getDetails() {
         return details;
     }
-
+    
     public void setDetails(String details) {
         this.details = details;
     }
-
+    
     public String getTimestamp() {
         return timestamp;
     }
@@ -297,59 +323,60 @@ public class UPO  implements Serializable {
         }
         return zwrot;
     }
-
+    
     public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
     }
-
+    
     public String getUpoString() {
         return upoString;
     }
-
+    
     public void setUpoString(String upoString) {
         this.upoString = upoString;
     }
-
+    
     public String getReferenceNumber() {
         return referenceNumber;
     }
-
+    
     public void setReferenceNumber(String referenceNumber) {
         this.referenceNumber = referenceNumber;
     }
-
+    
     public Date getDatajpk() {
         return datajpk;
     }
-
+    
     public void setDatajpk(Date datajpk) {
         this.datajpk = datajpk;
     }
-
+    
     public Jpkblob getJpkblob() {
         return jpkblob;
     }
-
+    
     public void setJpkblob(Jpkblob jpkblob) {
         this.jpkblob = jpkblob;
     }
-
+    
     public Date getDataupo() {
         return dataupo;
     }
-
+    
     public void setDataupo(Date dataupo) {
         this.dataupo = dataupo;
     }
-
+    
     public Uz getWprowadzil() {
         return wprowadzil;
     }
-
+    
     public void setWprowadzil(Uz wprowadzil) {
         this.wprowadzil = wprowadzil;
     }
     
+//</editor-fold>
     
     
 
@@ -381,31 +408,9 @@ public class UPO  implements Serializable {
     @Override
     public String toString() {
         String deklaracja = this.deklaracja!=null ? this.deklaracja.toString() : "";
-        return "UPO{" + "podatnik=" + podatnik.getPrintnazwa() + ", rok=" + rok + ", miesiac=" + miesiac + ", potwierdzenie=" + potwierdzenie.getKodFormularza() + ", jpk=" + jpk + ", deklaracja=" + deklaracja + ", wersja=" + wersja + '}';
+        return "UPO{" + "podatnik=" + podatnik.getPrintnazwa() + ", rok=" + rok + ", miesiac=" + miesiac + ", potwierdzenie=" + potwierdzenie.getKodFormularza() + ", jpk=" + jpkblob.getId() + ", deklaracja=" + deklaracja + ", wersja=" + wersja + '}';
     }
 
-    public void uzupelnij(Podatnik podatnik, WpisView wpisView, JPKSuper jpk) {
-        try {
-            this.jpk = jpk;
-            this.podatnik = podatnik;
-            this.miesiac = wpisView.getMiesiacWpisu();
-            this.rok = wpisView.getRokWpisuSt();
-            if (jpk != null) {
-                if (jpk instanceof pl.gov.crd.wzor._2020._05._08._9393.JPK) {
-                    this.wersja = ((pl.gov.crd.wzor._2020._05._08._9393.JPK)jpk).getNaglowek().getKodFormularza().getWersjaSchemy();
-                } else if (jpk instanceof pl.gov.crd.wzor._2020._05._08._9394.JPK) {
-                    this.wersja = ((pl.gov.crd.wzor._2020._05._08._9394.JPK)jpk).getNaglowek().getKodFormularza().getWersjaSchemy();
-                } else if (jpk instanceof jpk201701.JPK) {
-                    this.wersja = ((jpk201701.JPK)jpk).getNaglowek().getKodFormularza().getWersjaSchemy();
-                } else {
-                    this.wersja = ((jpk201801.JPK)jpk).getNaglowek().getKodFormularza().getWersjaSchemy();
-                }
-            }
-        } catch (Exception e) {
-            
-        }
-    }
-    
     
     
     
