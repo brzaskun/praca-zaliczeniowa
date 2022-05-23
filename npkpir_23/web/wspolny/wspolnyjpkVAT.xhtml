@@ -2,7 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:bcf="http://brzaskun.com/facelets">
     <h:form id="form_dialog_jpk_vat" >
         <p:outputPanel rendered="#{jpk_VAT2View.jpkrazemzdeklaracja}" style="padding: 5px;">
             <h:outputText value="#{jpk_VAT2View.wynikszukaniadeklaracji}" style="color: blue;"/>
@@ -20,7 +21,20 @@
             <p:commandButton value="podgląd jpk" actionListener="#{jpk_VAT2View.przygotujXMLPodglad()}" update="@form" style="width: 120px;" rendered="#{!jpk_VAT2View.pkpir0ksiegi1}"/>
             <p:commandButton value="pobierz jpkfk" actionListener="#{jpk_VAT2View.przygotujXMLFKDL()}" update="@form" style="width: 120px;" rendered="#{jpk_VAT2View.pkpir0ksiegi1}"/>
             <p:commandButton value="pobierz jpk" actionListener="#{jpk_VAT2View.przygotujXMLDL()}" update="@form" style="width: 120px;" rendered="#{!jpk_VAT2View.pkpir0ksiegi1}"/>
-            <h:outputText value="wersja jpk (1 - jpk pierwotne, 2 korekta)" style="margin-left: 200px;"/>
+            <p:dataTable value="#{jpk_VAT2View.deklaracjadlajpk.schemawierszsumarycznylista}" var="wiersz" rendered="#{jpk_VAT2View.deklaracjadlajpk ne null}" style="width: 700px; margin-left: 100px;">
+                <p:column width="350" rendered="#{wiersz.deklaracjaVatWierszSumaryczny.sumavat ne 0}">
+                    <h:outputText value="#{wiersz.deklaracjaVatWierszSumaryczny.nazwapozycji}"/>
+                </p:column>
+                <p:column width="50" rendered="#{wiersz.deklaracjaVatWierszSumaryczny.sumavat ne 0}" style="text-align: center;">
+                    <h:outputText value="#{wiersz.polevat}"/>
+                </p:column>
+                <p:column rendered="#{wiersz.deklaracjaVatWierszSumaryczny.sumavat ne 0}">
+                    <bcf:outputpl0 value="#{wiersz.deklaracjaVatWierszSumaryczny.sumavat}"/>
+                </p:column>
+            </p:dataTable>
+        </p:panelGrid>
+         <p:panelGrid>
+            <h:outputText value="wersja jpk (1 - jpk pierwotne, 2 korekta)"/>
             <p:selectOneMenu value="#{jpk_VAT2View.werjsajpkrecznie}" label="wersja jpk">
                 <f:selectItem itemValue="0" itemLabel="0"/>
                 <f:selectItem itemValue="1" itemLabel="1"/>

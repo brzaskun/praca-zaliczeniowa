@@ -100,7 +100,8 @@ import javax.xml.datatype.XMLGregorianCalendar;
 @XmlSeeAlso({
     pl.gov.crd.wzor._2021._12._27._11148.JPK.Naglowek.class
 })
-public class TNaglowek {
+public class TNaglowek implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     @XmlElement(name = "KodFormularza", required = true)
     protected TNaglowek.KodFormularza kodFormularza;

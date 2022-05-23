@@ -272,7 +272,11 @@ public class UPO  implements Serializable {
     }
     
     public JPKSuper getJpk() {
-        return this.jpkblob.getJpk();
+        JPKSuper zwrot = null;
+        if (this.jpkblob!=null) {
+            zwrot = this.jpkblob.getJpk();
+        }
+        return zwrot;
     }
     
     
