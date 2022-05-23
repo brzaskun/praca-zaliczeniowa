@@ -120,7 +120,10 @@ public class UPO  implements Serializable {
   
     public String getJpkWersja() {
         String zwrot = "pierw.";
-        JPKSuper jpk = this.jpkblob.getJpk();
+        JPKSuper jpk = null;
+        if (this.jpkblob!=null) {
+            jpk = this.jpkblob.getJpk();
+        }
         if (jpk != null) {
             if (jpk instanceof jpk201701.JPK) {
                 String cel = Byte.toString(((jpk201701.JPK)jpk).getNaglowek().getCelZlozenia());
@@ -149,7 +152,10 @@ public class UPO  implements Serializable {
     
     public String getJpkNaglowek() {
         String zwrot = "nie pobrano";
-        JPKSuper jpk = this.jpkblob.getJpk();
+        JPKSuper jpk = null;
+        if (this.jpkblob!=null) {
+            jpk = this.jpkblob.getJpk();
+        }
         if (jpk != null) {
             try {
                 Class kl = jpk.getClass();
