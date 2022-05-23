@@ -994,7 +994,11 @@ public class Jpk_VAT2View implements Serializable {
         String nazwa = "brak";
         try {
             if (selected.getJpk()!=null) {
-                JPKSuper jpk = selected.getJpk();
+                JPKSuper jpk = selected.getJpkblob()!=null?selected.getJpkblob().getJpk():null;
+                if (jpk==null) {
+                    Msg.msg("e","Z jakiegoś powodu nie zachował się xml z plikiem jpk");
+                    return "brak";
+                }
                 JAXBContext context = JAXBContext.newInstance(jpk.getClass());
                 Marshaller marshaller = context.createMarshaller();
                 marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
