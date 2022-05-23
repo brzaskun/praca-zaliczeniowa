@@ -202,6 +202,7 @@ public class STRTabView implements Serializable {
                 }
             }
             umorzeniazamiesiaclista = umorzenieNDAO.findByPodatnikRokMc(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
+            sprawdzkonta();
             /**
              * to co bylo w amodok
              */
@@ -971,6 +972,21 @@ public class STRTabView implements Serializable {
         umplan_wartoscnetto += srodek.getStrNettoPlan();
         umplan_odpisrok += srodek.getOdpisrok()==null ? 0.0 : srodek.getOdpisrok();
         umplan_odpismc += srodek.getOdpismc()==null ? 0.0 : srodek.getOdpismc();
+    }
+
+    private void sprawdzkonta() {
+        for (UmorzenieN u : umorzeniazamiesiaclista) {
+            boolean zachowaj = false;
+            if (u.getKontonetto()==null && u.getSrodekTrw().getKontonetto()!=null) {
+                u.setKontonetto(u.getSrodekTrw().getKontonetto().getPelnynumer());
+                zachowaj = true;
+            }
+            if (u.getKontoumorzenie()==null && u.getSrodekTrw().getKontoumorzenie()!=null) {
+                u.setKontoumorzenie(u.getSrodekTrw().getKontoumorzenie().getPelnynumer());
+                zachowaj = true;
+            }
+            umorzenieNDAO.edit(u);
+        }
     }
 
         
