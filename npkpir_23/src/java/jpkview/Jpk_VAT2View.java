@@ -1924,6 +1924,14 @@ public class Jpk_VAT2View implements Serializable {
         return jpkpkpirkorekta;
     }
 
+    public Deklaracjevat getDeklaracjadlajpk() {
+        return deklaracjadlajpk;
+    }
+
+    public void setDeklaracjadlajpk(Deklaracjevat deklaracjadlajpk) {
+        this.deklaracjadlajpk = deklaracjadlajpk;
+    }
+
     public void setJpkpkpirkorekta(boolean jpkpkpirkorekta) {
         this.jpkpkpirkorekta = jpkpkpirkorekta;
     }
@@ -1933,24 +1941,40 @@ public class Jpk_VAT2View implements Serializable {
         int numer = 1;
         for (UPO p : lista) {
             if (p.getJpk()!=null) {
-                if (p.getJpk().getClass().getName().equals("jpk201701.JPK")) {
-                    numer = 1;
-                } else if (p.getJpk().getClass().getName().equals("jpk201801.JPK")) {
-                    int celzlozenia = ((jpk201801.JPK)p.getJpk()).getNaglowek().getCelZlozenia();
-                    if (p.getRok().equals(wpisView.getRokWpisuSt()) && p.getMiesiac().equals(wpisView.getMiesiacWpisu()) && celzlozenia > numer && p.getCode()==200) {
-                        numer = celzlozenia;
+                try {
+                    if (p.getJpk().getClass().getName().equals("jpk201701.JPK")) {
+                        numer = 1;
+                    } else if (p.getJpk().getClass().getName().equals("jpk201801.JPK")) {
+                        int celzlozenia = ((jpk201801.JPK)p.getJpk()).getNaglowek().getCelZlozenia();
+                        if (p.getRok().equals(wpisView.getRokWpisuSt()) && p.getMiesiac().equals(wpisView.getMiesiacWpisu()) && celzlozenia > numer && p.getCode()==200) {
+                            numer = celzlozenia;
+                        }
+                    } else if (p.getJpk().getClass().getName().equals("pl.gov.crd.wzor._2020._05._08._9393.JPK")) {
+                        int celzlozenia = (int) ((pl.gov.crd.wzor._2020._05._08._9393.JPK)p.getJpk()).getNaglowek().getCelZlozenia().getValue();
+                        if (p.getRok().equals(wpisView.getRokWpisuSt()) && p.getMiesiac().equals(wpisView.getMiesiacWpisu()) && celzlozenia == numer && (p.getCode()==200||p.getCode()>300)) {
+                            numer = 1;
+                        }
+                    } else if (p.getJpk().getClass().getName().equals("pl.gov.crd.wzor._2020._05._08._9394.JPK")) {
+                        int celzlozenia = (int) ((pl.gov.crd.wzor._2020._05._08._9394.JPK)p.getJpk()).getNaglowek().getCelZlozenia().getValue();
+                        if (p.getRok().equals(wpisView.getRokWpisuSt()) && p.getMiesiac().equals(wpisView.getMiesiacWpisu()) && celzlozenia == numer && (p.getCode()==200||p.getCode()>300)) {
+                            numer = 1;
+                        }
+                    } else if (p.getJpk().getClass().getName().equals("pl.gov.crd.wzor._2021._12._27._11148.JPK")) {
+                        if ((pl.gov.crd.wzor._2021._12._27._11148.JPK)p.getJpk()!=null) {
+                            int celzlozenia = (int) ((pl.gov.crd.wzor._2021._12._27._11148.JPK)p.getJpk()).getNaglowek().getCelZlozenia().getValue();
+                            if (p.getRok().equals(wpisView.getRokWpisuSt()) && p.getMiesiac().equals(wpisView.getMiesiacWpisu()) && celzlozenia == numer && (p.getCode()==200||p.getCode()>300)) {
+                                numer = 2;
+                            }
+                        }
+                    } else if (p.getJpk().getClass().getName().equals("pl.gov.crd.wzor._2021._12._27._11149.JPK")) {
+                        if ((pl.gov.crd.wzor._2021._12._27._11149.JPK)p.getJpk()!=null) {
+                            int celzlozenia = (int) ((pl.gov.crd.wzor._2021._12._27._11149.JPK)p.getJpk()).getNaglowek().getCelZlozenia().getValue();
+                            if (p.getRok().equals(wpisView.getRokWpisuSt()) && p.getMiesiac().equals(wpisView.getMiesiacWpisu()) && celzlozenia == numer && (p.getCode()==200||p.getCode()>300)) {
+                                numer = 2;
+                            }
+                        }
                     }
-                } else if (p.getJpk().getClass().getName().equals("pl.gov.crd.wzor._2020._05._08._9393.JPK")) {
-                    int celzlozenia = (int) ((pl.gov.crd.wzor._2020._05._08._9393.JPK)p.getJpk()).getNaglowek().getCelZlozenia().getValue();
-                    if (p.getRok().equals(wpisView.getRokWpisuSt()) && p.getMiesiac().equals(wpisView.getMiesiacWpisu()) && celzlozenia == numer && (p.getCode()==200||p.getCode()>300)) {
-                        numer = 2;
-                    }
-                } else if (p.getJpk().getClass().getName().equals("pl.gov.crd.wzor._2020._05._08._9394.JPK")) {
-                    int celzlozenia = (int) ((pl.gov.crd.wzor._2020._05._08._9394.JPK)p.getJpk()).getNaglowek().getCelZlozenia().getValue();
-                    if (p.getRok().equals(wpisView.getRokWpisuSt()) && p.getMiesiac().equals(wpisView.getMiesiacWpisu()) && celzlozenia == numer && (p.getCode()==200||p.getCode()>300)) {
-                        numer = 2;
-                    }
-                }
+                } catch (Exception e){}
                 
             }
         }
