@@ -345,10 +345,10 @@ public class BilansWprowadzanieView implements Serializable {
                                 }
                         }
                     } catch (Exception e) {}
-                    wb.setKwotaWn(wb.getKwotaWn()+wb1.getKwotaWn());
-                    wb.setKwotaMa(wb.getKwotaMa()+wb1.getKwotaMa());
-                       wb.setKwotaWnPLN(wb.getKwotaWnPLN()+wb1.getKwotaWnPLN());
-                    wb.setKwotaMaPLN(wb.getKwotaMaPLN()+wb1.getKwotaMaPLN());
+                    wb.setKwotaWn(Z.z(wb.getKwotaWn()+wb1.getKwotaWn()));
+                    wb.setKwotaMa(Z.z(wb.getKwotaMa()+wb1.getKwotaMa()));
+                    wb.setKwotaWnPLN(Z.z(wb.getKwotaWnPLN()+wb1.getKwotaWnPLN()));
+                    wb.setKwotaMaPLN(Z.z(wb.getKwotaMaPLN()+wb1.getKwotaMaPLN()));
                 }
             }
         }

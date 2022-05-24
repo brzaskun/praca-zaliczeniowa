@@ -324,11 +324,11 @@ public class WierszBO implements Serializable {
     }
 
     public double getKwotaWn() {
-        return kwotaWn;
+        return Z.z(kwotaWn);
     }
 
     public void setKwotaWn(double kwotaWn) {
-        this.kwotaWn = kwotaWn;
+        this.kwotaWn = Z.z(kwotaWn);
     }
 
     public boolean isRoznicakursowastatystyczna() {
@@ -340,11 +340,11 @@ public class WierszBO implements Serializable {
     }
 
     public double getKwotaMa() {
-        return kwotaMa;
+        return Z.z(kwotaMa);
     }
 
     public void setKwotaMa(double kwotaMa) {
-        this.kwotaMa = kwotaMa;
+        this.kwotaMa = Z.z(kwotaMa);
     }
 
     public Podatnik getPodatnik() {
@@ -380,19 +380,19 @@ public class WierszBO implements Serializable {
     }
 
     public double getKwotaWnPLN() {
-        return kwotaWnPLN;
+        return Z.z(kwotaWnPLN);
     }
 
     public void setKwotaWnPLN(double kwotaWnPLN) {
-        this.kwotaWnPLN = kwotaWnPLN;
+        this.kwotaWnPLN = Z.z(kwotaWnPLN);
     }
 
     public double getKwotaMaPLN() {
-        return kwotaMaPLN;
+        return Z.z(kwotaMaPLN);
     }
 
     public void setKwotaMaPLN(double kwotaMaPLN) {
-        this.kwotaMaPLN = kwotaMaPLN;
+        this.kwotaMaPLN = Z.z(kwotaMaPLN);
     }
 
     public int getId() {
