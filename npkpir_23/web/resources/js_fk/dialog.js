@@ -7,7 +7,7 @@ var ustawdialogWindow = function(nazwa, szerokosc, wysokosc) {
         my: "center center",
         at: "center center",
         of: window,
-        collision: "none none"
+        collision: "fit flip"
         });
         $(document.getElementById(nazwa)).css()
     } catch (Exception) {
@@ -27,7 +27,7 @@ var ustawdialog = function(nazwa,rodzic) {
         my: "left top",
         at: "left+40px top",
         of: $(document.getElementById(rodzic)),
-        collision: "none none"
+        collision: "fit flip"
         });
     } catch (Exception) {
         alert ("blad w fukncji ustawdialog w pliku dialog.js wiersz 1 "+Exception);
@@ -53,7 +53,7 @@ var ustaw2 = function(nazwa,rodzic) {
         my: "left top",
         at: "left-200px top",
         of: $(document.getElementById(rodzic)),
-        collision: "none none"
+        collision: "fit flip"
         });
 };
 
@@ -64,7 +64,7 @@ var ustawdialog = function(nazwa,rodzic, szerokosc, wysokosc) {
         my: "left top",
         at: "left+20px top-10px",
         of: $(document.getElementById(rodzic)),
-        collision: "none none"
+        collision: "fit flip"
         });
     } catch (Exception) {
        //alert ("blad w fukncji ustawdialog w pliku dialog.js wiersz 16 "+Exception);
@@ -79,7 +79,7 @@ var ustawdialogAuto = function(nazwa, szerokosc, wysokosc) {
         my: "left top",
         at: "left+60px top+30px",
         of: $(document.getElementById(znajdzmenu(nazwa))),
-        collision: "none none"
+        collision: "fit flip"
         });
     } catch (Exception) {
        //alert ("blad w fukncji ustawdialog w pliku dialog.js wiersz 16 "+Exception);
@@ -94,7 +94,7 @@ var ustawdialogCenter = function(nazwa,rodzic, szerokosc, wysokosc) {
         my: "center center",
         at: "center center",
         of: $(document.getElementById(rodzic)),
-        collision: "none none"
+        collision: "fit flip"
         });
     } catch (Exception) {
        //alert ("blad w fukncji ustawdialog w pliku dialog.js wiersz 16 "+Exception);
@@ -109,7 +109,7 @@ var ustawdialogrk = function(nazwa,rodzic, szerokosc, wysokosc) {
         my: "left center",
         at: "left+150px center",
         of: $(document.getElementById(rodzic)),
-        collision: "none none"
+        collision: "fit flip"
         });
     } catch (Exception) {
        //alert ("blad w fukncji ustawdialog w pliku dialog.js wiersz 16 "+Exception);
