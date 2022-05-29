@@ -302,6 +302,8 @@ public class Podatnik implements Serializable {
     private String kartapesel;
     @Column(name = "starekadry")
     private boolean starekadry;
+    @Column(name = "rozrachunkifk")
+    private boolean rozrachunkifk;
     
     @Transient
     private double cena;
@@ -797,6 +799,14 @@ public class Podatnik implements Serializable {
 
     public void setZawieszeniedzialalnosci(List<Parametr> zawieszeniedzialalnosci) {
         this.zawieszeniedzialalnosci = zawieszeniedzialalnosci;
+    }
+
+    public boolean isRozrachunkifk() {
+        return rozrachunkifk;
+    }
+
+    public void setRozrachunkifk(boolean rozrachunkifk) {
+        this.rozrachunkifk = rozrachunkifk;
     }
     
     

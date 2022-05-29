@@ -21,11 +21,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import msg.B;
-import msg.Msg;import plik.Plik;
-import view.WpisView;import waluty.Z;
+import msg.Msg;
+import plik.Plik;
+import view.WpisView;
+import waluty.Z;
 
 /**
  *
@@ -124,8 +124,8 @@ public class PdfKontaNarastajaco {
             wiersze7_12(table, granica, rs);
         }
         if (drukujkategorie == true) {
-            String opis = rs.getKonto().getKontokategoria() != null ? rs.getKonto().getKontokategoria().getOpispelny() : "";
-            PdfPCell c = ustawfrazeAF(opis, 2, 0, Element.ALIGN_LEFT, 6);
+//            String opis = rs.getKonto().getKontokategoria() != null ? rs.getKonto().getKontokategoria().getOpispelny() : "";
+            PdfPCell c = ustawfrazeAF("usunalem kategorie", 2, 0, Element.ALIGN_LEFT, 6);
             table.addCell(c);
         } else {
             table.addCell(ustawfrazeAlign(Z.z(rs.getObrotyBoWn()) != 0.0 ? formatujLiczba(rs.getObrotyBoWn()) : "", "right", 9));

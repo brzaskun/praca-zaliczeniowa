@@ -948,7 +948,7 @@ public class Dokfk extends DokSuper implements Serializable {
     public String pobierzSymbolPoprzedniegoDokfk() {
         String symbolPoprzedniegoDokumentu = "";
         try {
-            symbolPoprzedniegoDokumentu = new String(this.getSeriadokfk());
+            symbolPoprzedniegoDokumentu = this.getSeriadokfk();
         } catch (Exception e) {
         }
         return symbolPoprzedniegoDokumentu;

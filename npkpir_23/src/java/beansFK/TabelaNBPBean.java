@@ -20,13 +20,31 @@ import org.joda.time.DateTime;
 
 public class TabelaNBPBean {
     
-    public static Tabelanbp pobierzTabeleNBP(DateTime dzienposzukiwany, TabelanbpDAO tabelanbpDAO, String nazwawaluty, Dokfk selected) {
+    public static Tabelanbp pobierzTabeleNBP(DateTime dzienposzukiwany, TabelanbpDAO tabelanbpDAO, String nazwawaluty, Dokfk selected, List<Tabelanbp> tabelalista) {
+        DateTime dzien1 = dzienposzukiwany;
+        DateTime dzien2 = dzienposzukiwany;
         boolean znaleziono = false;
-        int zabezpieczenie = 0;
+        int zabezpieczenie1 = 0;
         Tabelanbp tabelanbppobrana = null;
+        while (!znaleziono && (zabezpieczenie1 < 32)) {
+            if (tabelalista != null && tabelalista.size() > 0) {
+                dzien1 = dzien1.minusDays(1);
+                String doprzekazania1 = dzien1.toString("yyyy-MM-dd");
+                for (Tabelanbp r : tabelalista) {
+                    if (r.getNrtabeli().contains("NBP") && r.getDatatabeli().equals(doprzekazania1)) {
+                        znaleziono = true;
+                        tabelanbppobrana = r;
+                        selected.dodajTabeleWalut(r);
+                        break;
+                    }
+                }
+            }
+            zabezpieczenie1++;
+        }
+        int zabezpieczenie = 0;
         while (!znaleziono && (zabezpieczenie < 365)) {
-            dzienposzukiwany = dzienposzukiwany.minusDays(1);
-            String doprzekazania = dzienposzukiwany.toString("yyyy-MM-dd");
+            dzien2 = dzien2.minusDays(1);
+            String doprzekazania = dzien2.toString("yyyy-MM-dd");
             List<Tabelanbp> pobrane = tabelanbpDAO.findByDateWalutaLista(doprzekazania, nazwawaluty);
             if (pobrane != null && pobrane.size() > 0) {
                 for (Tabelanbp r : pobrane) {

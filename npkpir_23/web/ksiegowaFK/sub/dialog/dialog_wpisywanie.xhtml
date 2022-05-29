@@ -135,6 +135,9 @@
                                     <p:column>
                                         <h:outputText value="data op. gosp."/>
                                     </p:column>
+                                    <p:column rendered="#{WpisView.podatnikObiekt.rozrachunkifk}">
+                                        <h:outputText value="termin płat."/>
+                                    </p:column>
                                     <p:column>
                                         <h:outputText value="CIT"/>
                                     </p:column>
@@ -180,6 +183,16 @@
                                 <p:column>
                                     <p:inputText id="data3DialogWpisywanie" value="#{dokfkView.selected.dataoperacji}" 
                                                  onblur="ustawDateFK(#{WpisView.rokWpisu}, #{WpisView.miesiacWpisu}, 'data3DialogWpisywanie', #{dokfkView.zapisz0edytuj1});"
+                                                 title="wpisz numer dnia, lub miesiąc i dzień"  styleClass="dataInput"
+                                                 onfocus="zaznaczpoledaty(this)"
+                                                 >
+                                        <p:ajax global="false" event="blur" partialSubmit="true"/>
+                                        <p:ajax global="false" event="change" partialSubmit="true" listener="#{dokfkView.wygenerujokreswpisudokumentu}" />
+                                    </p:inputText>
+                                </p:column>
+                                <p:column rendered="#{WpisView.podatnikObiekt.rozrachunkifk}">
+                                    <p:inputText id="data5DialogWpisywanie" value="#{dokfkView.selected.terminPlatnosci}" 
+                                                 onblur="ustawDateFK(#{WpisView.rokWpisu}, #{WpisView.miesiacWpisu}, 'data5DialogWpisywanie', #{dokfkView.zapisz0edytuj1});"
                                                  title="wpisz numer dnia, lub miesiąc i dzień"  styleClass="dataInput"
                                                  onfocus="zaznaczpoledaty(this)"
                                                  >
@@ -419,8 +432,15 @@
                                 <h:outputText value="#{item.ewidencja.nazwa}" style="height: 20px;" rendered="#{item.ewidencja.nazwa.length() lt 15}"/>
                                 <h:outputText value="#{item.ewidencja.nazwa}" style="height: 20px; font-size: smaller" rendered="#{item.ewidencja.nazwa.length() ge 15}"/>
                             </p:column>
+                            <p:column headerText="#{mgs.netto} wal." width="80" rendered="#{dokfkView.selected.tabelanbp.waluta.symbolwaluty ne 'PLN'}">
+                                <p:inputNumber  id="nettowal" value="#{item.nettowwalucie}" symbol="#{dokfkView.selected.tabelanbp.waluta.symbolwaluty}" required="true" requiredMessage="Brak kwoty - uzupełnij" 
+                                                symbolPosition="s" decimalSeparator="."  thousandSeparator="&#160;"  inputStyle="text-align: right;" size="13" decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"> 
+                                    <p:ajax global="false" event="change" listener="#{dokfkView.updatenettowal(item,'formwpisdokument')}" partialSubmit="true"/>
+<!--                                    <p:ajax global="false" event="keyup" onstart="obsluzewidencjavatsprzedaz(event);"/>-->
+                                </p:inputNumber>
+                            </p:column>
                             <p:column headerText="#{mgs.netto}" width="80">
-                                <p:inputNumber  id="netto" value="#{item.netto}" symbol="#{dokfkView.symbolWalutyNettoVat}" required="true" requiredMessage="Brak kwoty - uzupełnij" 
+                                <p:inputNumber  id="netto" value="#{item.netto}" required="true" requiredMessage="Brak kwoty - uzupełnij" 
                                                 symbolPosition="s" decimalSeparator="."  thousandSeparator="&#160;"  inputStyle="text-align: right;" size="13" decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"> 
                                     <p:ajax global="false" event="change" listener="#{dokfkView.updatenetto(item,'formwpisdokument')}" partialSubmit="true"/>
 <!--                                    <p:ajax global="false" event="keyup" onstart="obsluzewidencjavatsprzedaz(event);"/>-->

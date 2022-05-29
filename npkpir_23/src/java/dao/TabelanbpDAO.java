@@ -9,6 +9,7 @@ import entityfk.Tabelanbp;
 import entityfk.Waluty;
 import error.E;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.annotation.PreDestroy;
@@ -157,12 +158,14 @@ public class TabelanbpDAO extends DAO implements Serializable {
     }
 
     public List<Tabelanbp> findByRokMc(String rok, String mc) {
+        List<Tabelanbp> zwrot = new ArrayList<>();
         try {
             String okres = rok+"-"+mc+"%";
-            return  getEntityManager().createNamedQuery("Tabelanbp.findAllRok").setParameter("rok", okres).getResultList();
+            zwrot = getEntityManager().createNamedQuery("Tabelanbp.findAllRok").setParameter("rok", okres).getResultList();
         } catch (Exception e) { E.e(e); 
-            return null;
+            
         }
+        return zwrot;
     }
 
   

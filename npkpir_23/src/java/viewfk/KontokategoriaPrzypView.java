@@ -14,11 +14,11 @@ import java.io.Serializable;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.inject.Named;
-
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
-import msg.Msg;import view.WpisView;
+import javax.inject.Named;
+import msg.Msg;
+import view.WpisView;
 /**
  *
  * @author Osito
@@ -90,11 +90,11 @@ public class KontokategoriaPrzypView  implements Serializable {
     
     private void nanieskategorie(List<Konto> kontazero, List<Konto> wszystkiekonta) {
         for (Konto p : kontazero) {
-            for (Konto r : wszystkiekonta) {
-                if (r.getSyntetycznenumer().equals(p.getPelnynumer()) && p.getKontokategoria() != null) {
-                    r.setKontokategoria(p.getKontokategoria());
-                }
-            }
+//            for (Konto r : wszystkiekonta) {
+//                if (r.getSyntetycznenumer().equals(p.getPelnynumer()) && p.getKontokategoria() != null) {
+//                    r.setKontokategoria(p.getKontokategoria());
+//                }
+//            }
         }
     }
     
@@ -103,7 +103,7 @@ public class KontokategoriaPrzypView  implements Serializable {
             for (Konto p : wykazkontwzor) {
                 for (Konto r : wykazkont) {
                     if (r.getPelnynumer().equals(p.getPelnynumer())) {
-                        r.setKontokategoria(p.getKontokategoria());
+                        //r.setKontokategoria(p.getKontokategoria());
                     }
                 }
             }

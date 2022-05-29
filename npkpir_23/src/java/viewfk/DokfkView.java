@@ -203,7 +203,6 @@ public class DokfkView implements Serializable {
     private KontoDAOfk kontoDAOfk;
 
     private int rodzajBiezacegoDokumentu;
-    private String symbolWalutyNettoVat;
     //ewidencja vat raport kasowy
     private EVatwpisFK ewidencjaVatRK;
     private Wiersz wierszRK;
@@ -274,6 +273,7 @@ public class DokfkView implements Serializable {
     private boolean nietrzebapodczepiac;
     private boolean dodacdoslownikow;
     private List<JPKoznaczenia> listaoznaczenjpk;
+    
 
      
     
@@ -295,6 +295,7 @@ public class DokfkView implements Serializable {
         this.kontadlaewidencji = new ConcurrentHashMap<>();
         this.ostatniedokumenty = new HashSet<>();
         this.listaoznaczenjpk = Collections.synchronizedList(new ArrayList<>());
+        this.tabelenbp = new ArrayList<>();
     }
 
     //to zostaje bo tu i tak nie pobiera dokumentow
@@ -329,6 +330,7 @@ public class DokfkView implements Serializable {
                     klientdlaPK = new Klienci("222222222222222222222", "BRAK FIRMY JAKO KONTRAHENTA!!!");
                 }
                 listaoznaczenjpk = jPKOznaczeniaDAO.findAll();
+                this.tabelenbp = tabelanbpDAO.findByRokMc(wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
                 //resetujDokumentOpen();
             }
         } catch (Exception e) {
@@ -404,6 +406,7 @@ public class DokfkView implements Serializable {
         podepnijEwidencjeVat(0);
         nietrzebapodczepiac = true;
         try {
+            
             DokFKBean.dodajWaluteDomyslnaDoDokumentu(domyslnaTabelanbp, selected);
             resetprzyciskow();
         } catch (Exception e) {
@@ -693,11 +696,6 @@ public class DokfkView implements Serializable {
                     } else {
                         k = this.selected.getEwidencjaVAT().size();
                     }
-                    if (selected.getTabelanbp() == null) {
-                        symbolWalutyNettoVat = " zł";
-                    } else {
-                        symbolWalutyNettoVat = " " + selected.getTabelanbp().getWaluta().getSkrotsymbolu();
-                    }
                     Evewidencja ewidencjazakupu = evewidencjaDAO.znajdzponazwie("zakup");;
                     List<Evewidencja> opisewidencji = pobierzewidencje(selected.getRodzajedok());
                     if (selected.getRodzajedok().getRodzajtransakcji().equals("sprzedaz")&&listaewidencjipodatnika!=null && listaewidencjipodatnika.size()>0){
@@ -948,12 +946,51 @@ public class DokfkView implements Serializable {
         return kontonetto;
     }
 
-    public void updatenetto(EVatwpisFK evatwpis, String form) {
-        ustawvat(evatwpis, selected);
+    public void updatenettowal(EVatwpisFK evatwpis, String form) {
+        Waluty w = selected.getWalutadokumentu();
+        double kurs = selected.getTabelanbp().getKurssredni();
+        double przelicznik = selected.getTabelanbp().getWaluta().getPrzelicznik();
+        //obliczamy VAT/NETTO w PLN i zachowujemy NETTO w walucie
+        String rodzajdok = selected.getRodzajedok().getSkrot();
+        double stawkavat = DokFKVATBean.pobierzstawke(evatwpis);
+         if (!w.getSymbolwaluty().equals("PLN")) {
+            if (selected.isNieprzeliczaj()==false) {
+                evatwpis.setNetto(Z.z(evatwpis.getNettowwalucie()*kurs/przelicznik));
+            }
+        }
+        if (rodzajdok.contains("WDT") || rodzajdok.contains("UPTK") || rodzajdok.contains("RVCS") || rodzajdok.contains("EXP") || rodzajdok.contains("sprzedaż zw")) {
+            evatwpis.setVat(0.0);
+        } else {
+            evatwpis.setVat(Z.z(evatwpis.getNetto() * stawkavat));
+        }
+        if (!w.getSymbolwaluty().equals("PLN")) {
+            //ten vat tu musi byc bo inaczej bylby onblur przy vat i cykliczne odswiezanie
+            evatwpis.setVatwwalucie(Z.z(evatwpis.getVat()/kurs*przelicznik));
+        }
         evatwpis.setBrutto(Z.z(evatwpis.getNetto() + evatwpis.getVat()));
         int lp = evatwpis.getLp();
         evatwpis.setSprawdzony(0);
-        symbolWalutyNettoVat = " zł";
+        String update = form + ":tablicavat:" + lp + ":netto";
+        PrimeFaces.current().ajax().update(update);
+        update = form + ":tablicavat:" + lp + ":vat";
+        PrimeFaces.current().ajax().update(update);
+        update = form + ":tablicavat:" + lp + ":brutto";
+        PrimeFaces.current().ajax().update(update);
+        String activate = "document.getElementById('" + form + ":tablicavat:" + lp + ":vat_input').select();";
+        PrimeFaces.current().executeScript(activate);
+    }
+    
+    public void updatenetto(EVatwpisFK evatwpis, String form) {
+        String rodzajdok = selected.getRodzajedok().getSkrot();
+        double stawkavat = DokFKVATBean.pobierzstawke(evatwpis);
+        if (rodzajdok.contains("WDT") || rodzajdok.contains("UPTK") || rodzajdok.contains("RVCS") || rodzajdok.contains("EXP") || rodzajdok.contains("sprzedaż zw")) {
+            evatwpis.setVat(0.0);
+        } else {
+            evatwpis.setVat(Z.z(evatwpis.getNetto() * stawkavat));
+        }
+        evatwpis.setBrutto(Z.z(evatwpis.getNetto() + evatwpis.getVat()));
+        int lp = evatwpis.getLp();
+        evatwpis.setSprawdzony(0);
         String update = form + ":tablicavat:" + lp + ":netto";
         PrimeFaces.current().ajax().update(update);
         update = form + ":tablicavat:" + lp + ":vat";
@@ -986,7 +1023,6 @@ public class DokfkView implements Serializable {
             ustawvatodbrutto(evatwpis, selected);
             int lp = evatwpis.getLp();
             evatwpis.setSprawdzony(0);
-            symbolWalutyNettoVat = " zł";
             String update = form + ":tablicavat:" + lp + ":netto";
             PrimeFaces.current().ajax().update(update);
             update = form + ":tablicavat:" + lp + ":vat";
@@ -1014,11 +1050,49 @@ public class DokfkView implements Serializable {
             PrimeFaces.current().executeScript(activate);
         }
     }
+    public void updatenettoRKwaluta() {
+        EVatwpisFK evatwpis = ewidencjaVatRK;
+        double stawkavat = 0.23;
+        String skrotRT = selected.getSeriadokfk();
+        int lp = evatwpis.getLp();
+        Waluty w = selected.getWalutadokumentu();
+        double kurs = selected.getTabelanbp().getKurssredni();
+        double przelicznik = selected.getTabelanbp().getWaluta().getPrzelicznik();
+        //obliczamy VAT/NETTO w PLN i zachowujemy NETTO w walucie
+        String opis = evatwpis.getEwidencja().getNazwa();
+        if (!w.getSymbolwaluty().equals("PLN")) {
+            double obliczonenettowpln = Z.z(evatwpis.getNettowwalucie()/ kurs * przelicznik);
+            evatwpis.setNetto(obliczonenettowpln);
+        }
+        if (opis.contains("WDT") || opis.contains("UPTK") || opis.contains("EXP") || opis.contains("RVCS") ) {
+            evatwpis.setVat(0.0);
+        } else if (selected.getRodzajedok().getProcentvat() != 0.0 && evatwpis.getEwidencja().getTypewidencji().equals("z")) {
+            evatwpis.setVat(Z.z((evatwpis.getNetto() * 0.23) / 2));
+        } else {
+            evatwpis.setVat(Z.z(evatwpis.getNetto() * stawkavat));
+        }
+        evatwpis.setBrutto(Z.z(evatwpis.getNetto() + evatwpis.getVat()));
+        String update = "ewidencjavatRK:netto";
+        PrimeFaces.current().ajax().update(update);
+        update = "ewidencjavatRK:vat";
+        PrimeFaces.current().ajax().update(update);
+        update = "ewidencjavatRK:brutto";
+        PrimeFaces.current().ajax().update(update);
+        String activate = "document.getElementById('ewidencjavatRK:vat_input').select();";
+        PrimeFaces.current().executeScript(activate);
+    }
 
     public void updatenettoRK() {
         EVatwpisFK evatwpis = ewidencjaVatRK;
         double stawkavat = 0.23;
-        ustawvat(evatwpis, selected, stawkavat);
+        String opis = evatwpis.getEwidencja().getNazwa();
+        if (opis.contains("WDT") || opis.contains("UPTK") || opis.contains("EXP") || opis.contains("RVCS") ) {
+            evatwpis.setVat(0.0);
+        } else if (selected.getRodzajedok().getProcentvat() != 0.0 && evatwpis.getEwidencja().getTypewidencji().equals("z")) {
+            evatwpis.setVat(Z.z((evatwpis.getNetto() * 0.23) / 2));
+        } else {
+            evatwpis.setVat(Z.z(evatwpis.getNetto() * stawkavat));
+        }
         evatwpis.setBrutto(Z.z(evatwpis.getNetto() + evatwpis.getVat()));
         String update = "ewidencjavatRK:netto";
         PrimeFaces.current().ajax().update(update);
@@ -1958,8 +2032,6 @@ public class DokfkView implements Serializable {
                 //selected.setwTrakcieEdycji(true);
                 //dokDAOfk.edit(selected);
                 wybranaTabelanbp = selected.getTabelanbp();
-                tabelenbp = Collections.synchronizedList(new ArrayList<>());
-                tabelenbp.add(wybranaTabelanbp);
                 obsluzcechydokumentu();
                 zapisz0edytuj1 = true;
                 rodzajBiezacegoDokumentu = selected.getRodzajedok().getKategoriadokumentu();
@@ -1993,8 +2065,6 @@ public class DokfkView implements Serializable {
                 //selected.setwTrakcieEdycji(true);
                 //dokDAOfk.edit(selected);
                 wybranaTabelanbp = selected.getTabelanbp();
-                tabelenbp = Collections.synchronizedList(new ArrayList<>());
-                tabelenbp.add(wybranaTabelanbp);
                 obsluzcechydokumentu();
                 Msg.msg("i", "Wybrano dokument do edycji " + wybranyDokfk.toString());
                 zapisz0edytuj1 = true;
@@ -2034,8 +2104,6 @@ public class DokfkView implements Serializable {
             selected = wybranyDokfk;
             selected.setwTrakcieEdycji(true);
             wybranaTabelanbp = selected.getTabelanbp();
-            tabelenbp = Collections.synchronizedList(new ArrayList<>());
-            tabelenbp.add(wybranaTabelanbp);
             obsluzcechydokumentu();
             Msg.msg("i", "Wybrano dokument do edycji " + wybranyDokfk.toString());
             zapisz0edytuj1 = true;
@@ -2754,7 +2822,6 @@ public class DokfkView implements Serializable {
 //
     public void pobierzkursNBP(ValueChangeEvent el) {
         if (el!=null && el.getNewValue()!=null) {
-            tabelenbp = Collections.synchronizedList(new ArrayList<>());
             symbolwalutydowiersza = ((Waluty) el.getNewValue()).getSymbolwaluty();
             String nazwawaluty = ((Waluty) el.getNewValue()).getSymbolwaluty();
             Waluty stara = ((Waluty) el.getOldValue());
@@ -2771,8 +2838,9 @@ public class DokfkView implements Serializable {
                     String datadokumentu = selected.getDataoperacji();
                     DateTime dzienposzukiwany = new DateTime(datadokumentu);
                     //tu sie dodaje tabele do dokumentu :)
-                    tabelenbp.add(TabelaNBPBean.pobierzTabeleNBP(dzienposzukiwany, tabelanbpDAO, nazwawaluty, selected));
-                    tabelenbp.addAll(TabelaNBPBean.pobierzTabeleNieNBP(dzienposzukiwany, tabelanbpDAO, nazwawaluty));
+                    TabelaNBPBean.pobierzTabeleNBP(dzienposzukiwany, tabelanbpDAO, nazwawaluty, selected, tabelenbp);
+                    //tabelenbp.add(TabelaNBPBean.pobierzTabeleNBP(dzienposzukiwany, tabelanbpDAO, nazwawaluty, selected));
+                    //tabelenbp.addAll(TabelaNBPBean.pobierzTabeleNieNBP(dzienposzukiwany, tabelanbpDAO, nazwawaluty));
                     if (rodzajBiezacegoDokumentu != 0) {
                         pokazRzadWalutowy = true;
                     }
@@ -2785,11 +2853,6 @@ public class DokfkView implements Serializable {
                         selected.setWalutadokumentu(waluta);
                         //wpisuje kurs bez przeliczania, to jest dla nowego dokumentu jak sie zmieni walute na euro
                         wybranawaluta = waluta.getSymbolwaluty();
-                    }
-                    if (zapisz0edytuj1 == false) {
-                        symbolWalutyNettoVat = " " + selected.getTabelanbp().getWaluta().getSkrotsymbolu();
-                    } else {
-                        symbolWalutyNettoVat = " zł";
                     }
                 } else {
                     //najpierw trzeba przewalutowac ze starym kursem, a potem wlepis polska tabele
@@ -2808,11 +2871,6 @@ public class DokfkView implements Serializable {
                         p.setTabelanbp(domyslnaTabelanbp);
                     }
                     pokazRzadWalutowy = false;
-                    if (zapisz0edytuj1 == false) {
-                        symbolWalutyNettoVat = " " + selected.getTabelanbp().getWaluta().getSkrotsymbolu();
-                    } else {
-                        symbolWalutyNettoVat = " zł";
-                    }
                 }
                 PrimeFaces.current().ajax().update("formwpisdokument:tablicavat");
                 PrimeFaces.current().ajax().update("formwpisdokument:panelTabelaNBP");
@@ -2829,13 +2887,14 @@ public class DokfkView implements Serializable {
         String datadokumentu = selected.getDataoperacji();
         DateTime dzienposzukiwany = new DateTime(datadokumentu);
         //tu sie dodaje tabele do dokumentu :)
-        Tabelanbp pobierzTabeleNBP = TabelaNBPBean.pobierzTabeleNBP(dzienposzukiwany, tabelanbpDAO, nazwawaluty, selected);
-        tabelenbp.add(pobierzTabeleNBP);
-        tabelenbp.addAll(TabelaNBPBean.pobierzTabeleNieNBP(dzienposzukiwany, tabelanbpDAO, nazwawaluty));
+        TabelaNBPBean.pobierzTabeleNBP(dzienposzukiwany, tabelanbpDAO, nazwawaluty, selected, tabelenbp);
+        //Tabelanbp pobierzTabeleNBP = TabelaNBPBean.pobierzTabeleNBP(dzienposzukiwany, tabelanbpDAO, nazwawaluty, selected);
+        //tabelenbp.add(pobierzTabeleNBP);
+        //tabelenbp.addAll(TabelaNBPBean.pobierzTabeleNieNBP(dzienposzukiwany, tabelanbpDAO, nazwawaluty));
         if (rodzajBiezacegoDokumentu != 0) {
             pokazRzadWalutowy = true;
         }
-        selected.dodajTabeleWalut(pobierzTabeleNBP);
+        //selected.dodajTabeleWalut(pobierzTabeleNBP);
         DokFKWalutyBean.zmienkurswaluty(selected);
         PrimeFaces.current().ajax().update("formwpisdokument:dataList");
         wybranawaluta = selected.getTabelanbp().getWaluta().getSymbolwaluty();
@@ -3928,13 +3987,6 @@ public void oznaczjakonkup() {
         this.ewidencjaVatRK = ewidencjaVatRK;
     }
 
-    public String getSymbolWalutyNettoVat() {
-        return symbolWalutyNettoVat;
-    }
-
-    public void setSymbolWalutyNettoVat(String symbolWalutyNettoVat) {
-        this.symbolWalutyNettoVat = symbolWalutyNettoVat;
-    }
 
     public int getRodzajBiezacegoDokumentu() {
         return rodzajBiezacegoDokumentu;

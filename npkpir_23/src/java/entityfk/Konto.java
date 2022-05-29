@@ -167,16 +167,6 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
     private String nazwaskrocona;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 25)
-    @Column(name = "bilansowewynikowe")
-    private String bilansowewynikowe;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 30)
-    @Column(name = "zwyklerozrachszczegolne")
-    private String zwyklerozrachszczegolne;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "macierzysty")
     private int macierzysty;
     @OneToOne(fetch = FetchType.EAGER)
@@ -237,9 +227,9 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
     private String syntetycznenumer;
     @Column(name = "de")
     private String de;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "kontokategoria",referencedColumnName = "id")
-    private Kontokategoria kontokategoria;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "kontokategoria",referencedColumnName = "id")
+//    private Kontokategoria kontokategoria;
     @Column(name = "wnma0wm1ma2")
     private int wnma0wm1ma2;
     @Column(name = "saldoWnksiegi")
@@ -274,8 +264,29 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
     //99 rzis
     @Column(length = 10, name = "stronaMa")
     protected String stronaMa;
+    //zwykłe = 0
+    //syntetyka = 1
+    //analityka = 2
+    //szczególne = 3
+    //rozrachunkowe/vat = 4 (gdy rozrachunkowe)
+    //rozrachunkowe/vat = 5 (gdy vat)
+    //wynikowe  = 0
     @Column(name = "syntetykaanalityka")
     protected String syntetykaanalityka;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 25)
+    @Column(name = "bilansowewynikowe")
+    private String bilansowewynikowe;
+    //rozrachunkowe
+    //szczególne
+    //zwykłe
+    //vat
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 30)
+    @Column(name = "zwyklerozrachszczegolne")
+    private String zwyklerozrachszczegolne;
     @Column(name = "wynik0bilans1")
     protected boolean wynik0bilans1;
     //dawne KontoBO
@@ -329,7 +340,7 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
         this.przychod0koszt1 = old.przychod0koszt1;
         this.syntetycznenumer = old.syntetycznenumer;
         this.de = old.de;
-        this.kontokategoria = old.kontokategoria;
+        //this.kontokategoria = old.kontokategoria;
         this.wnma0wm1ma2 = old.wnma0wm1ma2;
         this.saldoWnksiegi = old.saldoWnksiegi;
         this.saldoMaksiegi = old.saldoMaksiegi;
@@ -634,13 +645,13 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
         this.boMa = boMa;
     }
 
-    public Kontokategoria getKontokategoria() {
-        return kontokategoria;
-    }
-
-    public void setKontokategoria(Kontokategoria kontokategoria) {
-        this.kontokategoria = kontokategoria;
-    }
+//    public Kontokategoria getKontokategoria() {
+//        return kontokategoria;
+//    }
+//
+//    public void setKontokategoria(Kontokategoria kontokategoria) {
+//        this.kontokategoria = kontokategoria;
+//    }
 
     public String getSprawdzono() {
         return sprawdzono;

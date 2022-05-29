@@ -7,14 +7,15 @@
     
     >
     <p:dialog id="dialogewidencjavatRK" header="Ewidencja VAT RK/DEL wiersz #{dokfkView.lpwierszaRK}" widgetVar="dialogewidencjavatRK"  appendTo="@(body)"
-              resizable="false"  onShow="ustawdialogrk('dialogewidencjavatRK','dialogpierwszy',800,220);" modal="true"
+              resizable="false"  onShow="ustawdialogrk('dialogewidencjavatRK','dialogpierwszy',900,220);" modal="true"
               closeOnEscape="true" onHide="ukryjdialogvatrk();" >
         <h:form id="ewidencjavatRK"> 
-            <p:panelGrid id="paneldatydokumentu" columns="4" style="width: 600px;"  styleClass="uipanelGrid0">
+            <p:panelGrid id="paneldatydokumentu" columns="5" style="width: 700px;"  styleClass="uipanelGrid0">
                 <h:outputText value="data dokumentu"/>
                 <h:outputText value="data operacji gosp."/>
                 <h:outputText value="dane kontrahenta"/>
                 <h:outputText value="nr wł dok."/>
+                <h:outputText value="opis transakcji" style="width: 160px;"/>
                 <h:inputText id="data1DialogVAT" value="#{dokfkView.ewidencjaVatRK.datadokumentu}"
                              onblur="ustawDateFKRK(#{WpisView.rokWpisu}, #{WpisView.miesiacWpisu}, 'data1DialogVAT');
                                              $(this).removeClass('ui-state-focus');
@@ -61,17 +62,17 @@
                 </p:autoComplete>
                 <p:inputText value="#{dokfkView.ewidencjaVatRK.numerwlasnydokfk}" style="width: 170px;" required="true" requiredMessage="brak nr wlasnego dokumentu" onblur="czypuste(this)">
                 </p:inputText>
+                <p:inputText id="opisvat" value="#{dokfkView.ewidencjaVatRK.opisvat}" style="width: 170px;"/>
             </p:panelGrid>
             <p:panelGrid id="panelzewidencjavat" columns="8"  styleClass="uipanelGrid0" style="min-width: 470px; margin-top: 2%;">
-                <h:outputText value="opis transakcji" style="width: 160px;"/>
                 <h:outputText value="rodzaj ewidencji" style="width: 110px;"/>
+                <h:outputText value="#{mgs.netto} waluta" style="width: 95px;" rendered="#{dokfkView.selected.tabelanbp.waluta.symbolwaluty ne 'PLN'}"/>
                 <h:outputText value="#{mgs.netto}" style="width: 95px;"/>
                 <h:outputText value="#{mgs.VAT}" style="width: 95px;"/>
                 <h:outputText value="brutto" style="width: 95px;"/>
                 <h:outputText value="op/zw" style="width: 75px;"/>
                 <h:outputText value="50%" />
                 <h:outputText value="75%" />
-                <p:inputText id="opisvat" value="#{dokfkView.ewidencjaVatRK.opisvat}" style="width: 170px;"/>
                 <h:selectOneMenu value="#{dokfkView.ewidencjaVatRK.ewidencja}" converter="EVatwpisFKConv"
                                  onblur="$(this).removeClass('ui-state-focus');
                                         $(this).addClass('ui-state-default');"
@@ -82,7 +83,14 @@
                     <f:selectItems value="#{dokfkView.listaewidencjivatRK}" var="item" itemLabel="#{item.nazwa}"/>
                     <p:ajax event="change" global="false" partialSubmit="true"/>
                 </h:selectOneMenu>
-                <p:inputNumber id="netto" value="#{dokfkView.ewidencjaVatRK.netto}" symbol="#{dokfkView.symbolWalutyNettoVat}" 
+                <p:inputNumber id="nettowaluta" value="#{dokfkView.ewidencjaVatRK.nettowwalucie}"  rendered="#{dokfkView.selected.tabelanbp.waluta.symbolwaluty ne 'PLN'}"
+                               symbol="#{dokfkView.selected.tabelanbp.waluta.symbolwaluty}"
+                                required="true" requiredMessage="Brak kwoty - uzupełnij" onfocus="kalkulator_pobierzwiersz(this);"
+                                style="text-align: right; height: 19px;" symbolPosition="s" decimalSeparator="."  size="12"
+                                thousandSeparator="&#160;"  inputStyle="text-align: right;" decimalPlaces="2" minValue="-1000000" styleClass="wiersznetto"> 
+                    <p:ajax global="false" event="change" listener="#{dokfkView.updatenettoRKwaluta()}" partialSubmit="true"/>
+                </p:inputNumber>
+                <p:inputNumber id="netto" value="#{dokfkView.ewidencjaVatRK.netto}" 
                                 required="true" requiredMessage="Brak kwoty - uzupełnij" onfocus="kalkulator_pobierzwiersz(this);"
                                 style="text-align: right; height: 19px;" symbolPosition="s" decimalSeparator="."  size="12"
                                 thousandSeparator="&#160;"  inputStyle="text-align: right;" decimalPlaces="2" minValue="-1000000" styleClass="wiersznetto"> 
