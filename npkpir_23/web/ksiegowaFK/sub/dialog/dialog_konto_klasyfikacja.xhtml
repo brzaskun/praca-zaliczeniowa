@@ -12,7 +12,7 @@
 
     <p:dialog id="dialog_konto_klasyfikacja" header="Plan kont firmy #{WpisView.podatnikObiekt.nazwapelnaPDF} definicja klasyfikacji" widgetVar="dialog_konto_klasyfikacja" fitViewport="true"
               resizable="false" onShow="ustawdialog('dialog_konto_klasyfikacja','menuustawienia', 1250, 750);ustalmaxlevel('form:dataList_data');" closeOnEscape="true" onHide="resetujdialog('dialog_konto_klasyfikacja');"  >
-        <h:form id="form_dialog_konto_klasyfikacja">
+<!--        <h:form id="form_dialog_konto_klasyfikacja">
 
             <p:panelGrid columns="2" >
                 <p:dataTable id="dataList" value="#{kontokategoriaView.lista}" var="loop"  selectionMode="single" scrollable="true" scrollHeight="520"
@@ -80,6 +80,6 @@
                 <p:commandButton value="edytuj" actionListener="#{kontokategoriaView.edytuj()}" update="form_dialog_konto_klasyfikacja form_dialog_konto_klasyfikacja_przyporzadkowanie form_dialog_konto_klasyfikacja_przyporzadkowanie_podatnik" global="false"
                                  style="margin-left: 30px; width: 120px;"/>
             </p:panelGrid>
-        </h:form>
+        </h:form>-->
     </p:dialog>
 </ui:composition>

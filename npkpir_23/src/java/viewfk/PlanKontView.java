@@ -788,29 +788,32 @@ public class PlanKontView implements Serializable {
             try {
                 List<Podatnik> listapodatnikowfk = podatnikDAO.findPodatnikFK();
                 for (Podatnik p : listapodatnikowfk) {
-                    Konto kontopodatnik = new Konto(selectednodekonto);
-                    try {
-                        kontopodatnik.setPodatnik(p);
-                        if (kontopodatnik.getKontomacierzyste()!=null) {
-                            Konto macierzyste = kontoDAOfk.findKonto(kontopodatnik.getKontomacierzyste().getPelnynumer(), wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
-                            kontopodatnik.setMacierzysty(macierzyste.getId());
-                            kontopodatnik.setKontomacierzyste(macierzyste);
-                            macierzyste.setMapotomkow(true);
-                            macierzyste.setBlokada(true);
-                            kontoDAOfk.edit(macierzyste);
-                        } else {
-                            kontopodatnik.setMapotomkow(false);
-                            kontopodatnik.setBlokada(false);
+                    List<Konto> obecnyplantkont = kontoDAOfk.findWszystkieKontaPodatnika(p, wpisView.getRokWpisuSt());
+                    if (obecnyplantkont!=null&&!obecnyplantkont.isEmpty()) {
+                        Konto kontopodatnik = new Konto(selectednodekonto);
+                        try {
+                            kontopodatnik.setPodatnik(p);
+                            if (kontopodatnik.getKontomacierzyste()!=null) {
+                                Konto macierzyste = kontoDAOfk.findKonto(kontopodatnik.getKontomacierzyste().getPelnynumer(), wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
+                                kontopodatnik.setMacierzysty(macierzyste.getId());
+                                kontopodatnik.setKontomacierzyste(macierzyste);
+                                macierzyste.setMapotomkow(true);
+                                macierzyste.setBlokada(true);
+                                kontoDAOfk.edit(macierzyste);
+                            } else {
+                                kontopodatnik.setMapotomkow(false);
+                                kontopodatnik.setBlokada(false);
+                            }
+                            kontoDAOfk.create(kontopodatnik);
+                            //to chyba jest bez sensu
+                            KontoPozycjaBean.duplikujpozycje(ukladBRDAO,wybranyukladwzorcowy.getUklad(), p, wpisView.getRokWpisuSt(), selectednodekonto, kontopodatnik, kontopozycjaZapisDAO);
+                        } catch (RollbackException e) {
+                            E.e(e);
+                        } catch (PersistenceException x) {
+                            Msg.msg("e", "Wystąpił błąd przy implementowaniu kont. Istnieje konto o takim numerze: " + kontopodatnik.getPelnynumer());
+                        } catch (Exception ef) {
+                            E.e(ef);
                         }
-                        kontoDAOfk.create(kontopodatnik);
-                        //to chyba jest bez sensu
-                        KontoPozycjaBean.duplikujpozycje(ukladBRDAO,wybranyukladwzorcowy.getUklad(), p, wpisView.getRokWpisuSt(), selectednodekonto, kontopodatnik, kontopozycjaZapisDAO);
-                    } catch (RollbackException e) {
-                        E.e(e);
-                    } catch (PersistenceException x) {
-                        Msg.msg("e", "Wystąpił błąd przy implementowaniu kont. Istnieje konto o takim numerze: " + kontopodatnik.getPelnynumer());
-                    } catch (Exception ef) {
-                        E.e(ef);
                     }
                 }
                 Msg.msg("Zakonczono z sukcesem implementacje pojedyńczego konta wzorcowego u wszystkich klientów FK");
@@ -861,15 +864,18 @@ public class PlanKontView implements Serializable {
             try {
                 List<Podatnik> listapodatnikowfk = podatnikDAO.findPodatnikFK();
                 for (Podatnik p : listapodatnikowfk) {
-                    Konto konto = new Konto(selectednodekonto);
-                    konto = dodajpojedynczekoto(konto, p);
-                    KontoPozycjaBean.duplikujpozycje(ukladBRDAO, wybranyukladwzorcowy.getUklad(), p, wpisView.getRokWpisuSt(), selectednodekonto, konto, kontopozycjaZapisDAO);
-                    List<Konto> potomnelista = kontoDAOfk.findKontaPotomne(wpisView.getPodatnikwzorcowy(), wpisView.getRokWpisu(), selectednodekonto, selectednodekonto.getBilansowewynikowe());
-                    if (potomnelista != null) {
-                        for (Konto r : potomnelista) {
-                            Konto potomne = new Konto(r);
-                            potomne = dodajpojedynczekoto(potomne, p);
-                            KontoPozycjaBean.duplikujpozycje(ukladBRDAO, wybranyukladwzorcowy.getUklad(), p, wpisView.getRokWpisuSt(), r, potomne, kontopozycjaZapisDAO);
+                    List<Konto> obecnyplantkont = kontoDAOfk.findWszystkieKontaPodatnika(p, wpisView.getRokWpisuSt());
+                    if (obecnyplantkont!=null&&!obecnyplantkont.isEmpty()) {
+                        Konto konto = new Konto(selectednodekonto);
+                        konto = dodajpojedynczekoto(konto, p);
+                        KontoPozycjaBean.duplikujpozycje(ukladBRDAO, wybranyukladwzorcowy.getUklad(), p, wpisView.getRokWpisuSt(), selectednodekonto, konto, kontopozycjaZapisDAO);
+                        List<Konto> potomnelista = kontoDAOfk.findKontaPotomne(wpisView.getPodatnikwzorcowy(), wpisView.getRokWpisu(), selectednodekonto, selectednodekonto.getBilansowewynikowe());
+                        if (potomnelista != null) {
+                            for (Konto r : potomnelista) {
+                                Konto potomne = new Konto(r);
+                                potomne = dodajpojedynczekoto(potomne, p);
+                                KontoPozycjaBean.duplikujpozycje(ukladBRDAO, wybranyukladwzorcowy.getUklad(), p, wpisView.getRokWpisuSt(), r, potomne, kontopozycjaZapisDAO);
+                            }
                         }
                     }
                 }

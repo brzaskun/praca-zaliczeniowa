@@ -12,7 +12,7 @@
 
     <p:dialog id="dialog_konto_klasyfikacja_przyporzadkowanie_podatnik" header="Plan kont firmy #{WpisView.podatnikObiekt.nazwapelnaPDF} przyporządkowanie klasyfikacji" widgetVar="dialog_konto_klasyfikacja_przyporzadkowanie_podatnik" fitViewport="true"
               resizable="false" onShow="ustawdialog('dialog_konto_klasyfikacja_przyporzadkowanie_podatnik','menuustawienia', 1250, 750);" closeOnEscape="true" onHide="resetujdialog('dialog_konto_klasyfikacja_przyporzadkowanie_podatnik');"  >
-        <h:form id="form_dialog_konto_klasyfikacja_przyporzadkowanie_podatnik">
+<!--        <h:form id="form_dialog_konto_klasyfikacja_przyporzadkowanie_podatnik">
             <p:panelGrid columns="2">
                   <p:commandButton id="zachowaj" value="zachowaj" actionListener="#{kontokategoriaPrzypView.zachowajkonta()}"  global="false" style="float: left; margin-left: 20px;width: 120px;" />
                   <p:commandButton id="importuj" value="importuj" actionListener="#{kontokategoriaPrzypView.importujkategorie()}" update="form_dialog_konto_klasyfikacja_przyporzadkowanie_podatnik:dataListwzorcowy" global="false" style="float: left; margin-left: 20px;width: 120px;" />
@@ -69,6 +69,6 @@
                     </p:column>
                 </p:dataTable>
             </p:panelGrid>
-        </h:form>
+        </h:form>-->
     </p:dialog>
 </ui:composition>
