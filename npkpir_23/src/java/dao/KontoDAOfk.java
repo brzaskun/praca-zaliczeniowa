@@ -289,7 +289,6 @@ public class KontoDAOfk extends DAO implements Serializable {
     public List<Konto> findWszystkieKontaPodatnikaPobierzRelacje(Podatnik podatnik, String rok) {
         try {
              LoadGroup lg = new LoadGroup();
-            lg.addAttribute("kontokategoria");
             lg.addAttribute("kontomacierzyste");
             lg.setIsConcurrent(Boolean.TRUE);
             return  getEntityManager().createNamedQuery("Konto.findByPodatnikRok").setParameter("podatnik", podatnik).setParameter("rok", Integer.parseInt(rok))
@@ -359,7 +358,6 @@ public class KontoDAOfk extends DAO implements Serializable {
     public List<Konto> findWszystkieKontaBilansowePodatnika(Podatnik podatnik, String rok) {
         try {
             LoadGroup lg = new LoadGroup();
-            lg.addAttribute("kontokategoria");
             lg.addAttribute("kontomacierzyste");
             return getEntityManager().createNamedQuery("Konto.findByPodatnikBilansowe").setParameter("podatnik", podatnik).setParameter("rok", Integer.parseInt(rok))
                     .setHint(QueryHints.LOAD_GROUP, lg).getResultList();
@@ -372,7 +370,6 @@ public class KontoDAOfk extends DAO implements Serializable {
     public List<Konto> findWszystkieKontaWynikowePodatnika(Podatnik podatnik, String rok) {
         try {
             LoadGroup lg = new LoadGroup();
-            lg.addAttribute("kontokategoria");
             lg.addAttribute("kontomacierzyste");
            return getEntityManager().createNamedQuery("Konto.findByPodatnikWynikowe").setParameter("podatnik", podatnik).setParameter("rok", Integer.parseInt(rok))
                     .setHint(QueryHints.LOAD_GROUP, lg).getResultList();
@@ -491,17 +488,13 @@ public class KontoDAOfk extends DAO implements Serializable {
   
     public List<Konto> findKontaPrzyporzadkowaneAll(String bilansowewynikowe, Podatnik podatnik, Integer rok) {
         try {
-             LoadGroup lg = new LoadGroup();
-            lg.addAttribute("kontokategoria");
+//             LoadGroup lg = new LoadGroup();
+//            lg.addAttribute("kontokategoria");
             if (bilansowewynikowe.equals("bilansowe")) {
-                return Collections.synchronizedList( getEntityManager().createNamedQuery("Konto.findByPozycjaBilansoweAll").setParameter("podatnik", podatnik).setParameter("rok", rok)
-
-                    .setHint(QueryHints.LOAD_GROUP, lg).getResultList());
+                return Collections.synchronizedList( getEntityManager().createNamedQuery("Konto.findByPozycjaBilansoweAll").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList());
                 //return Collections.synchronizedList( getEntityManager().createNamedQuery("Konto.findByPozycjaBilansoweAll").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList());
             } else {
-                return Collections.synchronizedList( getEntityManager().createNamedQuery("Konto.findByPozycjaWynikoweAll").setParameter("podatnik", podatnik).setParameter("rok", rok)
-
-                    .setHint(QueryHints.LOAD_GROUP, lg).getResultList());
+                return Collections.synchronizedList( getEntityManager().createNamedQuery("Konto.findByPozycjaWynikoweAll").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList());
     //            return Collections.synchronizedList( getEntityManager().createNamedQuery("Konto.findByPozycjaWynikoweAll").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList());
             }
         } catch (Exception e) {
@@ -514,9 +507,9 @@ public class KontoDAOfk extends DAO implements Serializable {
     public List<Konto> findKontaPotomnePodatnikMacierzysty(Podatnik podatnik, Integer rok, int macierzysty) {
         List<Konto> zwrot = new ArrayList<>();
         try {
-            LoadGroup lg = new LoadGroup();
-            lg.addAttribute("kontokategoria");
-            zwrot = getEntityManager().createNamedQuery("Konto.findByMacierzystyPodatnik").setParameter("macierzysty", macierzysty).setParameter("podatnik", podatnik).setParameter("rok", rok).setHint(QueryHints.LOAD_GROUP, lg).getResultList();
+//            LoadGroup lg = new LoadGroup();
+//            lg.addAttribute("kontokategoria");
+            zwrot = getEntityManager().createNamedQuery("Konto.findByMacierzystyPodatnik").setParameter("macierzysty", macierzysty).setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
         } catch (Exception e) {
             E.e(e);
         }
@@ -526,9 +519,9 @@ public class KontoDAOfk extends DAO implements Serializable {
     public List<Konto> findKontaPotomnePodatnik(Podatnik podatnik, Integer rok, Konto macierzyste) {
         List<Konto> zwrot = new ArrayList<>();
         try {
-            LoadGroup lg = new LoadGroup();
-            lg.addAttribute("kontokategoria");
-            zwrot = getEntityManager().createNamedQuery("Konto.findByMacierzysteBOPodatnik").setParameter("macierzyste", macierzyste).setParameter("podatnik", podatnik).setParameter("rok", rok).setHint(QueryHints.LOAD_GROUP, lg).getResultList();
+//            LoadGroup lg = new LoadGroup();
+//            lg.addAttribute("kontokategoria");
+            zwrot = getEntityManager().createNamedQuery("Konto.findByMacierzysteBOPodatnik").setParameter("macierzyste", macierzyste).setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
         } catch (Exception e) {
             E.e(e);
         }
@@ -538,9 +531,9 @@ public class KontoDAOfk extends DAO implements Serializable {
      public List<Konto> findKontaPotomneByPodatnik(Podatnik podatnik, Konto macierzyste) {
         List<Konto> zwrot = new ArrayList<>();
         try {
-            LoadGroup lg = new LoadGroup();
-            lg.addAttribute("kontokategoria");
-            zwrot = getEntityManager().createNamedQuery("Konto.findByMacierzysteByPodatnik").setParameter("macierzyste", macierzyste).setParameter("podatnik", podatnik).setHint(QueryHints.LOAD_GROUP, lg).getResultList();
+//            LoadGroup lg = new LoadGroup();
+//            lg.addAttribute("kontokategoria");
+            zwrot = getEntityManager().createNamedQuery("Konto.findByMacierzysteByPodatnik").setParameter("macierzyste", macierzyste).setParameter("podatnik", podatnik).getResultList();
         } catch (Exception e) {
             E.e(e);
         }

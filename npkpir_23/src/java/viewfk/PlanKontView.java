@@ -1046,61 +1046,51 @@ public class PlanKontView implements Serializable {
             List<Konto> wykazkontf = new ArrayList<>();
             //wykazkontf.add(selectednodekonto);
             kontoDAOfk.findKontaWszystkiePotomnePodatnik(wykazkontf, podatnik, wpisView.getRokWpisu(), selectednodekonto);
-            for (Konto k: wykazkont) {
-                if (k.getKontomacierzyste()==null && k.getMacierzysty()!=0) {
-                    k.setKontomacierzyste(KontaFKBean.znajdzemacierzyste(k.getMacierzysty(), kontoDAO));
-                    kontoDAO.edit(k);
+            if (!wykazkontf.isEmpty()) {
+                for (Konto k: wykazkontf) {
+                    k.setBlokada(false);
                 }
-            }
-            //resetuj kolumne macierzyste
-//            for (Konto p : wykazkontf) {
-//                p.czyscPozycje();
-//            }
-            //tutaj nanosi czy ma potomkow
-            KontaFKBean.ustawCzyMaPotomkowJedno(selectednodekonto, wykazkontf, kontoDAOfk);
-            wykazkontf = new ArrayList<>();
-            kontoDAOfk.findKontaWszystkiePotomnePodatnik(wykazkontf, podatnik, wpisView.getRokWpisu(), selectednodekonto);
-            for (Konto p : wykazkontf) {
-                p.kopiujPozycje(selectednodekonto);
-                p.setSyntetykaanalityka("syntetyczne");
-//                KontopozycjaZapis kpo = PlanKontFKBean.naniesprzyporzadkowanie(selectednodekonto, kontoDAOfk, kontopozycjaZapisDAO, wybranyuklad);
-//                if (p.isMapotomkow() == true && kpo != null && !kpo.getSyntetykaanalityka().equals("analityka")) {
-//                    if (p.getBilansowewynikowe().equals("wynikowe")) {
-//                        if (p.getZwyklerozrachszczegolne().equals("szczególne")) {
-//                            PozycjaRZiSFKBean.przyporzadkujpotkomkowRozrachunkowe(selectednodekonto, kontoDAOfk, podatnik, "wnma");
-//                        } else {
-//                            PozycjaRZiSFKBean.przyporzadkujpotkomkowZwykle(selectednodekonto, kontoDAOfk, podatnik, "wynik");
-//                        }
-//                    } else if (p.getZwyklerozrachszczegolne().equals("rozrachunkowe") || p.getZwyklerozrachszczegolne().equals("vat") || p.getZwyklerozrachszczegolne().equals("szczególne")) {
-//                        PozycjaRZiSFKBean.przyporzadkujpotkomkowRozrachunkowe(selectednodekonto, kontoDAOfk, podatnik, "wnma");
-//                    } else {
-//                        PozycjaRZiSFKBean.przyporzadkujpotkomkowZwykle(selectednodekonto, kontoDAOfk, podatnik, "bilans");
-//                    }
-//                }
-            }
-            kontopozycjaZapisDAO.usunKontoPozycjaPodatnikUladKonto(wybranyuklad, wykazkontf);
-            List<KontopozycjaZapis> nowepozycje = Collections.synchronizedList(new ArrayList<>());
-            for (Konto p : wykazkontf) {
-                try {
-                    nowepozycje.add(new KontopozycjaZapis(p, wybranyuklad));
-                } catch (Exception e) {
-                    E.e(e);
+                kontoDAO.editList(wykazkontf);
+                for (Konto k: wykazkontf) {
+                    if (k.getKontomacierzyste()==null && k.getMacierzysty()!=0) {
+                        k.setKontomacierzyste(KontaFKBean.znajdzemacierzyste(k.getMacierzysty(), kontoDAO));
+                        kontoDAO.edit(k);
+                    }
                 }
-            }
-            kontopozycjaZapisDAO.editList(nowepozycje);
-            kontoDAO.editList(wykazkontf);
-            if (podatnik.equals(wpisView.getPodatnikObiekt())) {
-                wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(podatnik, wpisView.getRokWpisuSt());
+                //tutaj nanosi czy ma potomkow
+                KontaFKBean.ustawCzyMaPotomkowJedno(selectednodekonto, wykazkontf, kontoDAOfk);
+                wykazkontf = new ArrayList<>();
+                kontoDAOfk.findKontaWszystkiePotomnePodatnik(wykazkontf, podatnik, wpisView.getRokWpisu(), selectednodekonto);
+                for (Konto p : wykazkontf) {
+                    p.kopiujPozycje(selectednodekonto);
+                    p.setSyntetykaanalityka("syntetyka");
+                }
+                kontopozycjaZapisDAO.usunKontoPozycjaPodatnikUladKonto(wybranyuklad, wykazkontf);
+                List<KontopozycjaZapis> nowepozycje = Collections.synchronizedList(new ArrayList<>());
+                for (Konto p : wykazkontf) {
+                    try {
+                        nowepozycje.add(new KontopozycjaZapis(p, wybranyuklad));
+                    } catch (Exception e) {
+                        E.e(e);
+                    }
+                }
+                kontopozycjaZapisDAO.editList(nowepozycje);
+                kontoDAO.editList(wykazkontf);
+                if (podatnik.equals(wpisView.getPodatnikObiekt())) {
+                    wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(podatnik, wpisView.getRokWpisuSt());
+                } else {
+                    wykazkontwzor = kontoDAOfk.findWszystkieKontaPodatnika(podatnik, wpisView.getRokWpisuSt());
+                }
+                listaukladow = ukladBRDAO.findPodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+                wybranyuklad = UkladBRBean.pobierzukladaktywny(ukladBRDAO, listaukladow);
+                PozycjaRZiSFKBean.zmianaukladu("bilansowe", wybranyuklad, ukladBRDAO, pozycjaRZiSDAO, kontopozycjaZapisDAO, kontoDAO, podatnik, wpisView.getRokWpisuSt());
+                PozycjaRZiSFKBean.zmianaukladu("wynikowe", wybranyuklad, ukladBRDAO, pozycjaRZiSDAO, kontopozycjaZapisDAO, kontoDAO, podatnik, wpisView.getRokWpisuSt());
+                Collections.sort(wykazkont, new Kontocomparator());
+                //wykazkontlazy = new LazyKontoDataModel(wykazkontf);
+                Msg.msg("Zakończono porządkowanie kont");
             } else {
-                wykazkontwzor = kontoDAOfk.findWszystkieKontaPodatnika(podatnik, wpisView.getRokWpisuSt());
+                Msg.msg("e","Brak kont potomnych");
             }
-            listaukladow = ukladBRDAO.findPodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
-            wybranyuklad = UkladBRBean.pobierzukladaktywny(ukladBRDAO, listaukladow);
-            PozycjaRZiSFKBean.zmianaukladu("bilansowe", wybranyuklad, ukladBRDAO, pozycjaRZiSDAO, kontopozycjaZapisDAO, kontoDAO, podatnik, wpisView.getRokWpisuSt());
-            PozycjaRZiSFKBean.zmianaukladu("wynikowe", wybranyuklad, ukladBRDAO, pozycjaRZiSDAO, kontopozycjaZapisDAO, kontoDAO, podatnik, wpisView.getRokWpisuSt());
-            Collections.sort(wykazkont, new Kontocomparator());
-            //wykazkontlazy = new LazyKontoDataModel(wykazkontf);
-            Msg.msg("Zakończono porządkowanie kont");
         } else {
             Msg.msg("e","Nie wybrano konta");
         }
