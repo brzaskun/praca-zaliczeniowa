@@ -5,6 +5,7 @@
  */
 package xls;
 
+import data.Data;
 import entity.Klienci;
 import java.io.Serializable;
 
@@ -208,6 +209,13 @@ public class ImportBankWiersz implements Serializable {
         this.saldopooperacji = saldopooperacji;
     }
     
+    public String getMc() {
+        String mc = null;
+        if (this.datatransakcji!=null&&this.datatransakcji.length()==10) {
+            mc = Data.getMc(this.datatransakcji);
+        }
+        return mc;
+    }
 
     @Override
     public String toString() {

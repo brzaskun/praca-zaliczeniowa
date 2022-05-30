@@ -328,8 +328,9 @@ public class BankImportKsiazkaView implements Serializable {
         
      public int generowanieDokumentu(ImportBankWiersz r, Waluty walutadokumentu) {
         int zwrot = 0;
+        String mc = r.getMc()!=null?r.getMc():wpisView.getMiesiacWpisu();
         try {
-            FakturaRozrachunki nowe = new FakturaRozrachunki(r, wpisView.getPodatnikObiekt(), wpisView.getUzer(), rodzajdok, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+            FakturaRozrachunki nowe = new FakturaRozrachunki(r, wpisView.getPodatnikObiekt(), wpisView.getUzer(), rodzajdok, wpisView.getRokWpisuSt(), mc);
             if (r.getKurs()!=0.0) {
                 nowe.setKwotawwalucie(r.getKwota());
                 nowe.setKwotapln(Z.z(r.getKwota()*r.getKurs()));
