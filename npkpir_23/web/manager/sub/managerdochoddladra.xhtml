@@ -38,19 +38,19 @@
                                 </f:facet>
                                 <h:outputText value="#{yndex+1}" style="width: 20px;"/>
                             </p:column>
-                            <p:column  style="width: 200px;" exportable="false">
+                            <p:column  style="width: 200px;" exportable="false" filterBy="#{item.podatnik.printnazwa}" filterMatchMode="contains">
                                 <f:facet name="header">
                                     <h:outputText value="podatnik"/>
                                 </f:facet>
                                 <h:outputText value="#{item.podatnik.printnazwa}"/>
                             </p:column>
-                            <p:column  style="width: 80px;" exportable="false">
+                            <p:column  style="width: 80px;" exportable="false" filterBy="#{item.podatnik.printnazwa}" filterMatchMode="startsWith">
                                 <f:facet name="header">
                                     <h:outputText value="NIP"/>
                                 </f:facet>
                                 <h:outputText value="#{item.podatnik.nip}"/>
                             </p:column>
-                            <p:column  style="width: 200px;">
+                            <p:column  style="width: 200px;" filterBy="#{item.podatnik.printnazwa}" filterMatchMode="contains">
                                 <f:facet name="header">
                                     <h:outputText value="imie nazwisko"/>
                                 </f:facet>
