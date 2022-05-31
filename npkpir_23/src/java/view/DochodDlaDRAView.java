@@ -94,6 +94,12 @@ public class DochodDlaDRAView implements Serializable {
                 rokpkpir = rok;
             }
             List<Podatnik> podatnicy = podatnikDAO.findPodatnikNieFK();
+            for (Iterator<Podatnik> it = podatnicy.iterator();it.hasNext();) {
+                Podatnik p = it.next();
+                if (p.getNip().equals("8511005008")) {
+                    it.remove();
+                }
+            }
             Collections.sort(podatnicy, new Podatnikcomparator());
             double podatnikprocentudzial = 100.0;
             this.wiersze = new ArrayList<>();
