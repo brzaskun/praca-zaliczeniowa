@@ -147,6 +147,7 @@ public class ZestawienieFKView implements Serializable {
                     }
                 }
                 biezacyPit.setPodatnik(wpisView.getPodatnikWpisu());
+                biezacyPit.setPodatnik1(wpisView.getPodatnikObiekt());
                 biezacyPit.setPkpirR(wpisView.getRokWpisuSt());
                 biezacyPit.setPkpirM(wpisView.getMiesiacWpisu());
                 WynikFKRokMc znalezione = wynikFKRokMcDAO.findWynikFKPodatnikRokUdzialowiec(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(), wybranyudzialowiec);

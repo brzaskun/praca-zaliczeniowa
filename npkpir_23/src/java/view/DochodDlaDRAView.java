@@ -32,6 +32,7 @@ import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -124,8 +125,8 @@ public class DochodDlaDRAView implements Serializable {
                                     wiersz.setDochodzusnetto(przychod);
                                     wiersz.setDochodzusnar(przychod > 0.0 ? przychod : 0.0);
                                     wiersz.setDochodzusnettonar(przychod > 0.0 ? przychod : 0.0);
-                                    Ryczpoz jestpit = pobierzrycz(rok, mc, podatnik.getNazwapelna(), u.getNazwiskoimie());
-                                    wiersz.setJestpit(jestpit != null);
+                                    boolean jestpit = pobierzrycz(rok, mc, podatnik.getNazwapelna());
+                                    wiersz.setJestpit(jestpit);
                                     //Msg.msg("Obliczono przychód za mc");
                                     if (Mce.getMiesiacToNumber().get(mc) > 1) {
                                         WierszDRA wierszmcpop = pobierzwierszmcpop(wierszebaza, podatnik, imieinazwisko, rok, mcod);
@@ -149,8 +150,8 @@ public class DochodDlaDRAView implements Serializable {
                                     wiersz.setDochodzusnar(dochod > 0.0 ? dochod : 0.0);
                                     wiersz.setDochodzusnetto(dochod > 0.0 ? dochod : 0.0);
                                     wiersz.setDochodzusnettonar(dochod > 0.0 ? dochod : 0.0);
-                                    Pitpoz jestpit = pobierzpit(rokpkpir, mcod, podatnik.getNazwapelna(), u.getNazwiskoimie());
-                                    wiersz.setJestpit(jestpit != null);
+                                    boolean jestpit = pobierzpit(rokpkpir, mcod, podatnik.getNazwapelna());
+                                    wiersz.setJestpit(jestpit);
                                         //Msg.msg("Obliczono dochód za mc");
                                     if (Mce.getMiesiacToNumber().get(mc) > 2) {
                                         WierszDRA wierszmcpop = pobierzwierszmcpop(wierszebaza, podatnik, imieinazwisko, rok, mcod);
@@ -164,6 +165,7 @@ public class DochodDlaDRAView implements Serializable {
                                         }
                                     }
                                 }
+                                wiersz.setData(new Date());
                                 if (wiersz.getId()==null) {
                                     wierszDRADAO.create(wiersz);
                                 } else {
@@ -182,15 +184,15 @@ public class DochodDlaDRAView implements Serializable {
                                 double przychod = pobierzprzychod(podatnik, rok, mc, wiersz);
                                 wiersz.setPrzychod(przychod);
                                 wiersz.setDochodzus(przychod);
-                                Ryczpoz jestpit = pobierzrycz(rok, mcod, podatnik.getNazwapelna(), imieinazwisko);
-                                wiersz.setJestpit(jestpit != null);
+                                boolean jestpit = pobierzrycz(rok, mcod, podatnik.getNazwapelna());
+                                wiersz.setJestpit(jestpit);
                             } else {
                                 //oblicz dochod
                                 double dochod = pobierzdochod(podatnik, rokpkpir, mcdo, mcdo, wiersz);
                                 wiersz.setWynikpodatkowymc(dochod);
                                 wiersz.setDochodzus(dochod>0.0?dochod:0.0);
-                                Pitpoz jestpit = pobierzpit(rokpkpir, mcod, podatnik.getNazwapelna(), imieinazwisko);
-                                wiersz.setJestpit(jestpit != null);
+                                boolean jestpit = pobierzpit(rokpkpir, mcod, podatnik.getNazwapelna());
+                                wiersz.setJestpit(jestpit);
                             }
                             this.wiersze.add(wiersz);
                         }
@@ -250,18 +252,24 @@ public class DochodDlaDRAView implements Serializable {
         Msg.msg("Pobrano dane");
     }
 
-    private Pitpoz pobierzpit(String rokpkpir, String mcod, String nazwapelna, String udzialowiec) {
-        Pitpoz zwrot = null;
+    private boolean pobierzpit(String rokpkpir, String mcod, String nazwapelna) {
+        boolean zwrot = false;
         try {
-            zwrot = pitDAO.findByUdzialowiec(rokpkpir, mcod, nazwapelna, udzialowiec);
+            List<Pitpoz> pitlList = pitDAO.findList(rokpkpir, mcod, nazwapelna);
+            if (pitlList!=null&&!pitlList.isEmpty()) {
+                zwrot = true;
+            }
         } catch (Exception ew){}
         return zwrot;
     }
     
-    private Ryczpoz pobierzrycz(String rokpkpir, String mcod, String nazwapelna, String udzialowiec) {
-        Ryczpoz zwrot = null;
+    private boolean pobierzrycz(String rokpkpir, String mcod, String nazwapelna) {
+        boolean zwrot = false;
         try {
-            zwrot = ryczDAO.findByUdzialowiec(rokpkpir, mcod, nazwapelna, udzialowiec);
+            List<Ryczpoz> ryczlList = ryczDAO.findList(rokpkpir, mcod, nazwapelna);
+            if (ryczlList!=null&&!ryczlList.isEmpty()) {
+                zwrot = true;
+            }
         } catch (Exception ew){}
         return zwrot;
     }

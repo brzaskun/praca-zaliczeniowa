@@ -15,7 +15,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -104,6 +106,9 @@ public class Ryczpoz implements Serializable {
     private List<RyczaltPodatek> listapodatkow;
     @Column(name = "strata", columnDefinition = "DECIMAL(7,2)")
     private BigDecimal strata;
+    @JoinColumn(name = "podid", referencedColumnName = "id")
+    @ManyToOne
+    private Podatnik podatnik1;
 
     public Ryczpoz() {
     }
@@ -522,6 +527,15 @@ public class Ryczpoz implements Serializable {
         this.strata = strata;
     }
 
+    public Podatnik getPodatnik1() {
+        return podatnik1;
+    }
+
+    public void setPodatnik1(Podatnik podatnik1) {
+        this.podatnik1 = podatnik1;
+    }
+
+    
     
    
 

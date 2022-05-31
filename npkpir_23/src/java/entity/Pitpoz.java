@@ -14,6 +14,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
@@ -115,6 +116,9 @@ public class Pitpoz implements Serializable {
     @JoinColumn(name = "cechazapisu", referencedColumnName = "id")
     @OneToOne
     private Cechazapisu cechazapisu;
+    @JoinColumn(name = "podid", referencedColumnName = "id")
+    @ManyToOne
+    private Podatnik podatnik1;
   
 
     public Pitpoz() {
@@ -332,6 +336,14 @@ public class Pitpoz implements Serializable {
 
     public void setCechazapisu(Cechazapisu cechazapisu) {
         this.cechazapisu = cechazapisu;
+    }
+
+    public Podatnik getPodatnik1() {
+        return podatnik1;
+    }
+
+    public void setPodatnik1(Podatnik podatnik1) {
+        this.podatnik1 = podatnik1;
     }
 
     

@@ -524,6 +524,7 @@ public class ZestawienieView implements Serializable {
                     }
                 }
                 biezacyPit.setPodatnik(wpisView.getPodatnikWpisu());
+                biezacyPit.setPodatnik1(wpisView.getPodatnikObiekt());
                 biezacyPit.setPkpirR(wpisView.getRokWpisu().toString());
                 biezacyPit.setPkpirM(wpisView.getMiesiacWpisu());
                 biezacyPit.setPrzychody(obliczprzychod());
