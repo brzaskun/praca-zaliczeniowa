@@ -1926,12 +1926,14 @@ public class FakturaView implements Serializable {
                 if (wpisView.getPodatnikObiekt().getNip().equals("8511005008")) {
                     dodajwierszedodatkowe(nowa, p);
                 }
+                FakturaBean.dodajtabelenbp(nowa, tabelanbpDAO);
                 if (waloryzajca > 0) {
                     try {
                         waloryzacjakwoty(nowa, waloryzajca);
                         Faktura stara = p.getDokument();
                         //to jest po to zeby potem juz generowac z okresowych ze zwaloryzowana kwota
                         waloryzacjakwoty(stara, waloryzajca);
+                        FakturaBean.ewidencjavat(nowa, evewidencjaDAO);
                         fakturaDAO.edit(stara);
                     } catch (Exception e) { E.e(e); 
                         Msg.msg("e", "Nieudane generowanie faktury okresowej z waloryzacją FakturaView:wygenerujzokresowych");
@@ -1982,7 +1984,6 @@ public class FakturaView implements Serializable {
                 String roksprzedazy = datasprzedazy.substring(0, 4);
                 nowa.setRok(roksprzedazy);
                 nowa.setMc(miesiacsprzedazy);
-                FakturaBean.dodajtabelenbp(nowa, tabelanbpDAO);
                 nowa.setNrkontabankowego(FakturaBean.pobierznumerkonta(wpisView.getPodatnikObiekt()));
                 FakturaBean.wielekont(nowa, fakturaWalutaKontoView.getListakontaktywne(), fakturaStopkaNiemieckaDAO, wpisView.getPodatnikObiekt());
                 try {

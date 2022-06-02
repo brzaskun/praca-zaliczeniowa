@@ -278,7 +278,7 @@ public class DokView implements Serializable {
         //pobranie ostatniego dokumentu
         try {
             //czasami dokument ostatni jest zle zapisany, w przypadku bleduy nalezy go usunac
-            wysDokument = ostatnidokumentDAO.pobierz(wpisView.getUzer().getLogin());
+                wysDokument = ostatnidokumentDAO.pobierz(wpisView.getUzer().getLogin());
             if (wysDokument != null && wysDokument.getEwidencjaVAT1() != null && !wysDokument.getEwidencjaVAT1().isEmpty()) {
                 Iterator it = wysDokument.getEwidencjaVAT1().iterator();
                 while (it.hasNext()) {

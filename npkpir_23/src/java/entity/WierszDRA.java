@@ -83,7 +83,7 @@ public class WierszDRA  implements Serializable{
     private boolean brakdokumentow;
     @Column (name = "jestpit")
     private boolean jestpit;
-    @Column(name = "data", insertable=false, updatable=false, columnDefinition="timestamp default current_timestamp")
+    @Column(name = "data", insertable=true, updatable=true, columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP  ON UPDATE CURRENT_TIMESTAMP")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date data;
 

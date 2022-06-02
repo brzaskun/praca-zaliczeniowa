@@ -32,7 +32,6 @@ import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -171,7 +170,6 @@ public class DochodDlaDRAView implements Serializable {
                                         }
                                     }
                                 }
-                                wiersz.setData(new Date());
                                 if (wiersz.getId()==null) {
                                     wierszDRADAO.create(wiersz);
                                 } else {
