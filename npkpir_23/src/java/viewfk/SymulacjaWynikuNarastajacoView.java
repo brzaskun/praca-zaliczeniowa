@@ -254,7 +254,7 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
                 }
             } 
             if (podstawaopodatkowania > 0 && robic) {
-                if (wpisView.getRokWpisu()==2021 && wynikdokwietnia!=0.0) {
+                if (wpisView.getRokWpisu()==2021 && wynikdokwietnia!=0.0 && wpisView.getFormaprawna().equals("SPOLKA_KOMANDYTOWA")) {
                     pdop = Z.z0((podstawaopodatkowania-wynikdokwietnia)*wpisView.getStawkapodatkuospr());
                     dodatkoweinfo = "Podstawę podatku obniżono o dochód podatkowy do 04/2021";
                     if (pdop<0.0) {
