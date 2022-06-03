@@ -233,9 +233,7 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
             double podstawaopodatkowania = Z.z0(wynikpodatkowy-strata);
             pdop = 0.0;
             boolean robic = true;
-            if (wpisView.getRokWpisu()==2021&&Mce.getMiesiacToNumber().get(wpisView.getMiesiacWpisu())<5) {
-                robic = false;
-            } else if (wpisView.getRokWpisu()==2021) {
+            if (wpisView.getRokWpisu()==2021&& wpisView.getFormaprawna().equals("SPOLKA_KOMANDYTOWA")&&Mce.getMiesiacToNumber().get(wpisView.getMiesiacWpisu())>4) {
                 WynikFKRokMc styczen = wynikFKRokMcDAO.findWynikFKPodatnikRokUdzialowiec(wpisView.getPodatnikObiekt(), "2021", "01","firma"); 
                 WynikFKRokMc luty = wynikFKRokMcDAO.findWynikFKPodatnikRokUdzialowiec(wpisView.getPodatnikObiekt(), "2021", "02","firma"); 
                 WynikFKRokMc marzec = wynikFKRokMcDAO.findWynikFKPodatnikRokUdzialowiec(wpisView.getPodatnikObiekt(), "2021", "03","firma"); 
@@ -245,7 +243,8 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
                 double marzecd  = marzec!=null?marzec.getWynikpodatkowy():0.0;
                 double kwieciend  = kwiecien!=null?kwiecien.getWynikpodatkowy():0.0;
                 wynikdokwietnia = styczend+lutyd+marzecd+kwieciend;
-            } else if (wpisView.isMc0kw1()) {
+            } 
+            if (wpisView.isMc0kw1()) {
                 robic = false;
                 int nrmca = Mce.getMiesiacToNumber().get(wpisView.getMiesiacWpisu());
                 int reszta = nrmca % 3;
@@ -253,8 +252,11 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
                     robic = true;
                 }
             } 
+            if (wpisView.getRokWpisu()==2021&&Mce.getMiesiacToNumber().get(wpisView.getMiesiacWpisu())<5 && wpisView.getFormaprawna().equals("SPOLKA_KOMANDYTOWA")) {
+                robic = false;
+            }
             if (podstawaopodatkowania > 0 && robic) {
-                if (wpisView.getRokWpisu()==2021 && wynikdokwietnia!=0.0) {
+                if (wpisView.getRokWpisu()==2021 && wynikdokwietnia!=0.0 && wpisView.getFormaprawna().equals("SPOLKA_KOMANDYTOWA")) {
                     pdop = Z.z0((podstawaopodatkowania-wynikdokwietnia)*wpisView.getStawkapodatkuospr());
                     dodatkoweinfo = "Podstawę podatku obniżono o dochód podatkowy do 04/2021";
                     if (pdop<0.0) {
