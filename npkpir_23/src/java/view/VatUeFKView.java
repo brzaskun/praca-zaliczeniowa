@@ -359,7 +359,7 @@ public class VatUeFKView implements Serializable {
         }
         boolean zwrot = false;
         if (Data.czyjestpo("2016-11-30", wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu())) {
-            zwrot = typdokumentu.equals("WNT") || typdokumentu.equals("WDT")  || typdokumentu.equals("UPTK100");
+            zwrot = typdokumentu.startsWith("WNT") || typdokumentu.equals("WDT")  || typdokumentu.equals("UPTK100");
         } else {
             zwrot = typdokumentu.equals("WNT") || typdokumentu.equals("WDT")  || typdokumentu.equals("UPTK");
         }
