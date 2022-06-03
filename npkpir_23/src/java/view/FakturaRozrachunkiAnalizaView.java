@@ -88,6 +88,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
     private boolean dolaczrokpoprzedni;
     private String dodatkowyadresmailowy;
     List<Podatnik> podatnicy;
+    private double razemwybrane;
     
     public FakturaRozrachunkiAnalizaView() {
         
@@ -106,6 +107,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
      }
     
     public void pobierzwszystkoKlienta() {
+        selectedrozliczenia = null;
         String mc = wpisView.getMiesiacWpisu();
         for (Podatnik po : podatnicy) {
             if (po.getNip().equals(szukanyklient.getNip())) {
@@ -721,6 +723,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
        }
    }
     
+
 //<editor-fold defaultstate="collapsed" desc="comment">
     public List<Klienci> getKlienci() {
         return klienci;
@@ -863,6 +866,23 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
   
    
 //</editor-fold>
+
+    public void sumawartosci() {
+        if (selectedrozliczenia!=null) {
+            razemwybrane = 0.0;
+            for (FakturaPodatnikRozliczenie p : selectedrozliczenia) {
+                razemwybrane = razemwybrane+p.getKwota();
+            }
+        }
+    }
+    
+    public double getRazemwybrane() {
+        return razemwybrane;
+    }
+
+    public void setRazemwybrane(double razemwybrane) {
+        this.razemwybrane = razemwybrane;
+    }
 
     
 
