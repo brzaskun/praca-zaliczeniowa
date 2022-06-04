@@ -32,10 +32,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.inject.Named;
-import msg.Msg;import pdffk.PdfMain;
+import msg.Msg;
+import org.primefaces.PrimeFaces;
+import pdffk.PdfMain;
 import static pdffk.PdfMain.dodajOpisWstepny;
 import static pdffk.PdfMain.dodajTabele;
 import static pdffk.PdfMain.finalizacjaDokumentuQR;
@@ -44,7 +44,7 @@ import static pdffk.PdfMain.inicjacjaWritera;
 import static pdffk.PdfMain.naglowekStopkaP;
 import static pdffk.PdfMain.otwarcieDokumentu;
 import plik.Plik;
-import view.WpisView; import org.primefaces.PrimeFaces;
+ import view.WpisView;
 
 /**
  *
@@ -86,18 +86,18 @@ public class PdfKontoZapisy {
                 table = new PdfPTable(12);
                 table.setWidths(new int[]{1, 2, 2, 2, 1, 3, 5, 2, 2, 2, 2, 1});
             } else {
-                table = new PdfPTable(15);
-                table.setWidths(new int[]{1, 2, 2, 2, 1, 2, 4, 2, 2, 2, 2, 2, 2, 1, 2});
+                table = new PdfPTable(16);
+                table.setWidths(new int[]{1, 2, 2, 2, 1, 2, 3, 4, 2, 2, 2, 2, 2, 2, 1, 2});
             }
             table.setWidthPercentage(98);
             if (duzy0maly1 == true) {
                 table.addCell(ustawfraze("Biuro Rachunkowe Taxman", 4, 0));
-                table.addCell(ustawfraze("zapisy, konto "+konto.getPelnynumer()+" "+konto.getNazwapelna(), 4, 0));
+                table.addCell(ustawfraze("zapisy, konto "+konto.getPelnynumer()+" "+konto.getNazwapelna(), 5, 0));
                 table.addCell(ustawfraze("firma: "+wpisView.getPodatnikObiekt().getNazwapelnaPDF(), 5, 0));
                 table.addCell(ustawfraze("za okres: "+wpisView.getMiesiacWpisu()+"/"+wpisView.getRokWpisuSt(), 2, 0));
             } else {
                 table.addCell(ustawfraze("Biuro Rachunkowe Taxman", 4, 0));
-                table.addCell(ustawfraze("zapisy, konto "+konto.getPelnynumer()+" "+konto.getNazwapelna(), 3, 0));
+                table.addCell(ustawfraze("zapisy, konto "+konto.getPelnynumer()+" "+konto.getNazwapelna(), 4, 0));
                 table.addCell(ustawfraze("firma: "+wpisView.getPodatnikObiekt().getNazwapelnaPDF(), 3, 0));
                 table.addCell(ustawfraze("za okres: "+wpisView.getMiesiacWpisu()+"/"+wpisView.getRokWpisuSt(), 2, 0));
             }
@@ -107,6 +107,9 @@ public class PdfKontoZapisy {
             table.addCell(ustawfraze("Nr dowodu księgowego", 0, 1));
             table.addCell(ustawfraze("Wiersz", 0, 1));
             table.addCell(ustawfraze("Nr własny", 0, 1));
+            if (duzy0maly1 == true) {
+                table.addCell(ustawfraze("Kontr.", 0, 1));
+            }
             table.addCell(ustawfraze("Opis zdarzenia gospodarcz", 0, 1));
             if (duzy0maly1 == true) {
                 table.addCell(ustawfraze("Kurs", 0, 1));
@@ -136,6 +139,7 @@ public class PdfKontoZapisy {
                 table.addCell(ustawfrazeAlign("13", "center", 6));
                 table.addCell(ustawfrazeAlign("14", "center", 6));
                 table.addCell(ustawfrazeAlign("15", "center", 6));
+                table.addCell(ustawfrazeAlign("16", "center", 6));
             }
             table.addCell(ustawfrazeAlign("1", "center", 6));
             table.addCell(ustawfrazeAlign("2", "center", 6));
@@ -153,6 +157,7 @@ public class PdfKontoZapisy {
                 table.addCell(ustawfrazeAlign("13", "center", 6));
                 table.addCell(ustawfrazeAlign("14", "center", 6));
                 table.addCell(ustawfrazeAlign("15", "center", 6));
+                table.addCell(ustawfrazeAlign("16", "center", 6));
             }
             table.setHeaderRows(3);
             table.setFooterRows(1);
@@ -164,9 +169,11 @@ public class PdfKontoZapisy {
                 table.addCell(ustawfrazeAlign(rs.getDokfkS(), "left", 7));
                 table.addCell(ustawfrazeAlign(String.valueOf(rs.getWiersz().getIdporzadkowy()), "center", 7));
                 if (duzy0maly1 == false) {
-                    table.addCell(ustawfrazeAlign(rs.getDokfk().getNumerwlasnydokfk(), "center", 8));
+                    table.addCell(ustawfrazeAlign(rs.getWiersz().getOpisWiersza(), "left", 6));
                 } else {
-                    table.addCell(ustawfrazeAlign(rs.getDokfk().getNumerwlasnydokfk(), "center", 6));
+                    table.addCell(ustawfrazeAlign(rs.getDokfk().getNumerwlasnydokfk(), "left", 6));
+                    table.addCell(ustawfrazeAlign(rs.getKontrahetZapisy(wpisView.getPodatnikObiekt().getNip()), "left", 6));
+                    
                 }
                 table.addCell(ustawfrazeAlign(rs.getWiersz().getOpisWiersza(), "left", 6));
                 if (duzy0maly1 == true) {
@@ -174,9 +181,9 @@ public class PdfKontoZapisy {
                         table.addCell(ustawfrazeAlign(formatujKurs(rs.getKursBO()), "right", 7));
                         table.addCell(ustawfrazeAlign("zap. BO", "right", 7));
                     } else {
-                        if (rs.getWiersz().getTabelanbp().getKurssredniPrzelicznik() > 0.0) {
+                        if (!rs.getWiersz().getTabelanbp().getWaluta().getSymbolwaluty().equals("PLN")) {
                             table.addCell(ustawfrazeAlign(formatujKurs(rs.getWiersz().getTabelanbp().getKurssredniPrzelicznik()), "right", 7));
-                            table.addCell(ustawfrazeAlign(rs.getWiersz().getTabelanbp().getNrtabeli(), "right", 7));
+                            table.addCell(ustawfrazeAlign(rs.getWiersz().getTabelanbp().getNrtabeli(), "right", 6));
                         } else {
                             table.addCell(ustawfrazeAlign("", "right", 7));
                             table.addCell(ustawfrazeAlign("", "right", 7));

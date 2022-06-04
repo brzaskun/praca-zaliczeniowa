@@ -1441,6 +1441,14 @@ public class DokfkView implements Serializable {
                 selected.getListawierszy().add(ObslugaWiersza.ustawPierwszyWiersz(selected));
                 liczbawierszyWDokumencie = 1;
             }
+             if (selected.getRodzajedok().getSkrot().equals("BO")) {
+                if (wierszDoUsuniecia.getWierszBOId()!=0) {
+                    WierszBO findById = wierszBODAO.findById(wybranyWiersz.getWierszBOId());
+                    if (findById!=null) {
+                        wierszBODAO.remove(findById);
+                    }
+                }
+            }
         } catch (Exception e) {
             E.e(e);
             Msg.msg("Błąd podczas usuwania wiersza");
@@ -1957,6 +1965,14 @@ public class DokfkView implements Serializable {
                 dokDAOfk.edit(selected);
             }
             Msg.msg("Usunieto wiersz");
+            if (selected.getRodzajedok().getSkrot().equals("BO")) {
+                if (wybranyWiersz.getWierszBOId()!=0) {
+                    WierszBO findById = wierszBODAO.findById(wybranyWiersz.getWierszBOId());
+                    if (findById!=null) {
+                        wierszBODAO.remove(findById);
+                    }
+                }
+            }
         }
     }
     

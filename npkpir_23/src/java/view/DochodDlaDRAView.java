@@ -71,6 +71,7 @@ public class DochodDlaDRAView implements Serializable {
     private WierszDRA selected;
     @Inject
     private WierszDRADAO wierszDRADAO;
+    private boolean pokazzrobione;
 
     @PostConstruct
     public void start() {
@@ -234,6 +235,13 @@ public class DochodDlaDRAView implements Serializable {
         }
     }
     
+    public void edytuj(WierszDRA wiersz) {
+        if (wiersz!=null) {
+            wierszDRADAO.edit(wiersz);
+            Msg.msg("Odhaczono");
+        }
+    }
+    
     public void pobierz() {
         wiersze = wierszDRADAO.findByRok(rok);
         Collections.sort(wiersze, new WierszDRAcomparator());
@@ -252,6 +260,14 @@ public class DochodDlaDRAView implements Serializable {
                 mapa.add(k);
             }
         wiersze = wierszDRADAO.findByRokMc(rok, mc);
+        if (pokazzrobione==false) {
+            for (Iterator<WierszDRA> it = wiersze.iterator();it.hasNext();) {
+                WierszDRA w = it.next();
+                if (w.isZrobiony()) {
+                    it.remove();
+                }
+            }
+        }
         Collections.sort(wiersze, new WierszDRAcomparator());
         Msg.msg("Pobrano dane");
     }
@@ -524,6 +540,14 @@ public class DochodDlaDRAView implements Serializable {
 
     public void setMapa(List<List<WierszDRA>> mapa) {
         this.mapa = mapa;
+    }
+
+    public boolean isPokazzrobione() {
+        return pokazzrobione;
+    }
+
+    public void setPokazzrobione(boolean pokazzrobione) {
+        this.pokazzrobione = pokazzrobione;
     }
 
    

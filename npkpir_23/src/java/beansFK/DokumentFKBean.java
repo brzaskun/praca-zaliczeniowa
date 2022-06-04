@@ -412,8 +412,8 @@ public class DokumentFKBean implements Serializable {
         nowydok.setListawierszy(new ArrayList<Wiersz>());
         int idporzadkowy = 1;
         StronaWiersza sw = (StronaWiersza) stronywiersza.get(0);
-        Konto przychody = kontoDAOfk.findKonto("763", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
-        Konto koszty = kontoDAOfk.findKonto("764", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
+        Konto przychody = kontoDAOfk.findKonto("755", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
+        Konto koszty = kontoDAOfk.findKonto("755", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
         Konto kontodorozliczenia = sw.getKonto();
         double roznicawn = roznicawnroznicama[0];
         double roznicama = roznicawnroznicama[1];

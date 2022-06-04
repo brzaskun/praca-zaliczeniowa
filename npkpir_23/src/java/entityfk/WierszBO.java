@@ -38,6 +38,7 @@ import waluty.Z;
     @NamedQuery(name = "WierszBO.findByDeletePodatnikRok", query = "DELETE FROM WierszBO w WHERE w.podatnik = :podatnik AND w.rok = :rok"),
     @NamedQuery(name = "WierszBO.findByDeletePodatnikRokMc", query = "DELETE FROM WierszBO w WHERE w.podatnik = :podatnik AND w.rok = :rok AND w.mc = :mc"),
     @NamedQuery(name = "WierszBO.findByPodatnikRok", query = "SELECT w FROM WierszBO w WHERE w.podatnik = :podatnik AND w.rok = :rok"),
+    @NamedQuery(name = "WierszBO.findById", query = "SELECT w FROM WierszBO w WHERE w.id = :id"),
     @NamedQuery(name = "WierszBO.findByPodatnikRokRozrachunkowe", query = "SELECT w FROM WierszBO w WHERE w.podatnik = :podatnik AND w.rok = :rok AND w.konto.zwyklerozrachszczegolne = 'rozrachunkowe'"),
     @NamedQuery(name = "WierszBO.findByPodatnikRokKonto", query = "SELECT w FROM WierszBO w WHERE w.podatnik = :podatnik AND w.rok = :rok AND w.konto = :konto"),
     @NamedQuery(name = "WierszBO.findByPodatnikRokKontoWaluta", query = "SELECT w FROM WierszBO w WHERE w.podatnik = :podatnik AND w.rok = :rok AND w.konto = :konto AND w.waluta.symbolwaluty = :waluta")

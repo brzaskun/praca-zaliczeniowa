@@ -54,7 +54,6 @@ import entityfk.Transakcja;
 import entityfk.UkladBR;
 import entityfk.Waluty;
 import entityfk.Wiersz;
-import entityfk.WierszBO;
 import entityfk.WynikFKRokMc;
 import error.E;
 import java.io.Serializable;
@@ -613,34 +612,6 @@ public class SessionFacade<T> implements Serializable {
     }
   
 
-    public List<WierszBO> findBOLista0(String grupa, WpisView wpisView) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("WierszBO.findByLista").setParameter("grupakonta", grupa).setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisuSt()).setParameter("mc", wpisView.getMiesiacWpisu()).getResultList());
-    }
-    
-    public List<WierszBO> findBOLista0likwidacja(String grupa, WpisView wpisView) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("WierszBO.findByListaLikwidacja").setParameter("grupakonta", grupa).setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisuSt()).setParameter("mc", wpisView.getMiesiacWpisu()).getResultList());
-    }
-    
-    public List<WierszBO> findBOListaRokMc(WpisView wpisView) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("WierszBO.findByListaRokMc").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisuSt()).setParameter("mc", wpisView.getMiesiacWpisu()).getResultList());
-    }
-
-    public List<WierszBO> findWierszBOPodatnikRok(Podatnik podatnik, String rok) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("WierszBO.findByPodatnikRok").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList());
-    }
-
-    public List<WierszBO> findWierszBOPodatnikRokRozrachunkowe(Podatnik podatnik, String rok) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("WierszBO.findByPodatnikRokRozrachunkowe").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList());
-    }
-
-    public List<WierszBO> findWierszBOPodatnikRokKonto(Podatnik podatnikObiekt, String rokWpisuSt, Konto konto) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("WierszBO.findByPodatnikRokKonto").setParameter("podatnik", podatnikObiekt).setParameter("rok", rokWpisuSt).setParameter("konto", konto).getResultList());
-    }
-
-    public List<WierszBO> findWierszBOPodatnikRokKontoWaluta(Podatnik podatnikObiekt, String rokWpisuSt, Konto konto, String waluta) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("WierszBO.findByPodatnikRokKontoWaluta").setParameter("podatnik", podatnikObiekt).setParameter("rok", rokWpisuSt).setParameter("konto", konto).setParameter("waluta", waluta).getResultList());
-    }
-
     public List<Transakcja> findByNowaTransakcja(StronaWiersza s) {
         return Collections.synchronizedList( getEntityManager().createNamedQuery("Transakcja.findByNowaTransakcja").setParameter("nowatransakcja", s).setHint(QueryHints.REFRESH, HintValues.TRUE).getResultList());
     }
@@ -932,13 +903,6 @@ public class SessionFacade<T> implements Serializable {
 
     public List<FakturaRozrachunki> findByPodatnikKontrahentRok(Podatnik podatnik, String rok, Klienci kontrahent) {
         return Collections.synchronizedList( getEntityManager().createNamedQuery("FakturaRozrachunki.findByPodatnikKontrahentRok").setParameter("podatnik", podatnik).setParameter("rok", rok).setParameter("kontrahent", kontrahent).getResultList());
-    }
-    public int deleteWierszBOPodatnikRok(Podatnik podatnik, String rok) {
-        return  getEntityManager().createNamedQuery("WierszBO.findByDeletePodatnikRok").setParameter("podatnik", podatnik).setParameter("rok", rok).executeUpdate();
-    }
-    
-    public int deleteWierszBOPodatnikRokMc(Podatnik podatnik, String rok, String mc) {
-        return  getEntityManager().createNamedQuery("WierszBO.findByDeletePodatnikRokMc").setParameter("podatnik", podatnik).setParameter("rok", rok).setParameter("mc", mc).executeUpdate();
     }
 
     public void statystykaUsunrok(String rok) {

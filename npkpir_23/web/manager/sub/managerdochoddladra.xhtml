@@ -7,11 +7,12 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:bcf="http://brzaskun.com/facelets">
+  
     <p:tabView id="akordeon">
         <p:tab title="Wartości miesięczne">
             <p:outputPanel>
                 <f:view>
-                    <h:form>
+                    <h:form id="formtabela">
                         <p:panelGrid columns="6">
                         <h:outputText value="rok deklaracji:" style="text-shadow: #6374AB 1px -1px 1px"/>
                         <p:selectOneMenu id="rokWpisu" value="#{dochodDlaDRAView.rok}" style="width: 70px;">
@@ -23,13 +24,21 @@
                         <p:selectOneMenu id="miesiacWpisu" value="#{dochodDlaDRAView.mc}" style="width: 70px;">
                             <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
                             <f:selectItems value="#{mce.mceList}"/>
-                            <p:ajax event="change" partialSubmit="true" listener="#{dochodDlaDRAView.pobierz}" update="@(form)"/>
+                            <p:ajax event="change" partialSubmit="true" listener="#{dochodDlaDRAView.pobierz}" update="@(form)" oncomplete="r('akordeon:formtabela:przeliczbutton').show()"/>
                         </p:selectOneMenu>
-                        <p:commandButton value="przelicz" actionListener="#{dochodDlaDRAView.init()}"  style="width: 120px;margin-left: 20px;" update="@(form)"/>
+                        
+                        <p:selectBooleanCheckbox value="#{dochodDlaDRAView.pokazzrobione}"  itemLabel="pokaż zrobione" style="width: 220px;margin-left: 20px;">
+                            <p:ajax event="change" partialSubmit="true" listener="#{dochodDlaDRAView.pobierz}"  update="akordeon:formtabela:wykazschem"/>
+                        </p:selectBooleanCheckbox>
+                        <p:commandButton id="przeliczbutton" value="przelicz" actionListener="#{dochodDlaDRAView.init()}"  style="width: 120px;margin-left: 20px;display: none;" update="@(form)"/>
                         </p:panelGrid>
-
-                        <p:dataTable value="#{dochodDlaDRAView.wiersze}" var="item" style="width: 1650px;padding: 20px;"
-                                     scrollable="true" scrollHeight="750" scrollRows="30"
+  <style>
+        .odd{
+            background-color: #e4e3e3 !important;
+        }
+    </style>
+                        <p:dataTable value="#{dochodDlaDRAView.wiersze}" var="item" style="width: 1650px;padding: 20px;" 
+                                     scrollable="true" scrollHeight="750" scrollRows="30" rowStyleClass="#{(yndex mod 2) eq 0 ? null : 'odd'}"
                                      emptyMessage="nie pobrano danych" id="wykazschem" rowKey="#{item.imienazwisko}" rowIndexVar="yndex"
                                      selection="#{dochodDlaDRAView.selected}" selectionMode="single" sortBy="#{item.imienazwisko}" sortOrder="ascending">
                             <p:column style="width: 20px;">
@@ -38,7 +47,7 @@
                                 </f:facet>
                                 <h:outputText value="#{yndex+1}" style="width: 20px;"/>
                             </p:column>
-                            <p:column  style="width: 200px;" exportable="false" filterBy="#{item.podatnik.printnazwa}" filterMatchMode="contains">
+                            <p:column  style="width: 300px;" exportable="false" filterBy="#{item.podatnik.printnazwa}" filterMatchMode="contains">
                                 <f:facet name="header">
                                     <h:outputText value="podatnik"/>
                                 </f:facet>
@@ -56,18 +65,18 @@
                                 </f:facet>
                                 <h:outputText value="#{item.imienazwisko}"/>
                             </p:column>
-                            <p:column  style="width: 140px;">
+                            <p:column  style="width: 40px;">
                                 <f:facet name="header">
                                     <h:outputText value="opodatkowanie"/>
                                 </f:facet>
-                                <h:outputText value="#{item.opodatkowanie}" rendered="#{!item.opodatkowanie.equals('brak opodatkowania')}"/>
-                                <h:outputText value="brak opodatkowania" rendered="#{item.opodatkowanie.equals('brak opodatkowania')}" style="color: darkviolet"/>
+                                <h:outputText value="R" rendered="#{!item.opodatkowanie.equals('brak opodatkowania') and item.opodatkowanie.equals('ryczałt')}"/>
+                                <h:outputText value="br" rendered="#{item.opodatkowanie.equals('brak ')}" style="color: darkviolet"/>
                             </p:column>
                             <p:column  style="width: 60px;">
                                 <f:facet name="header">
                                     <h:outputText value="udzial"/>
                                 </f:facet>
-                                <h:outputText value="#{item.udzial}"/>
+                                <h:outputText value="#{item.udzial}" rendered="#{item.udzial ne 100}"/>
                             </p:column>
                             <p:column  style="width: 60px;">
                                 <f:facet name="header">
@@ -80,14 +89,12 @@
                                     <h:outputText value="dochód pod. mc"/>
                                 </f:facet>
                                 <bcf:outputpl value="#{item.wynikpodatkowymc}" rendered="#{!item.brakdokumentow and item.wynikpodatkowymc gt 0.0}"/>
-                                <bcf:outputpl value="#{item.wynikpodatkowymc}" rendered="#{!item.brakdokumentow and item.wynikpodatkowymc lt 0.0}" stylePlus="color:red;"/>
                             </p:column>
                             <p:column>
                                 <f:facet name="header">
                                     <h:outputText value="dochód pod. nar."/>
                                 </f:facet>
                                 <bcf:outputpl value="#{item.wynikpodatkowynar}" rendered="#{!item.brakdokumentow and item.wynikpodatkowynar gt 0.0}"/>
-                                <bcf:outputpl value="#{item.wynikpodatkowynar}" rendered="#{!item.brakdokumentow and item.wynikpodatkowynar lt 0.0}" stylePlus="color:red;"/>
                             </p:column>
                             <p:column>
                                 <f:facet name="header">
@@ -99,21 +106,21 @@
                                 <f:facet name="header">
                                     <h:outputText value="przychod nar. ZUS" style="color: red;"/>
                                 </f:facet>
-                                <bcf:outputpl value="#{item.przychodnar}" rendered="#{!item.brakdokumentow and item.przychodnar gt 0.0}"/>
+                                <bcf:outputpl value="#{item.przychodnar}" rendered="#{!item.brakdokumentow and item.przychodnar gt 0.0}" stylePlus="color:green;"/>
                             </p:column>
                             <p:column>
                                 <f:facet name="header">
                                     <h:outputText value="dochód zus mc"  style="color: red;"/>
                                 </f:facet>
-                                <bcf:outputpl value="#{item.dochodzus}" rendered="#{!item.brakdokumentow and item.dochodzus gt 0.01}" stylePlus="#{item.opodatkowanie.equals('ryczałt')?'color:gray':''}"/>
-                                <bcf:outputpl value="#{item.dochodzus}" rendered="#{!item.brakdokumentow and item.dochodzus lt 0.01}" stylePlus="color:red;"/>
+                                <bcf:outputpl value="#{item.dochodzus}" rendered="#{!item.brakdokumentow and item.dochodzus gt 0.01 and item.opodatkowanie ne 'ryczałt'}"  stylePlus="color:green;"/>
+                                <bcf:outputpl value="#{item.dochodzus}" rendered="#{!item.brakdokumentow and item.dochodzus lt 0.01 and item.opodatkowanie ne 'ryczałt'}" stylePlus="color:red;"/>
                             </p:column>
                             <p:column>
                                 <f:facet name="header">
                                     <h:outputText value="dochód zus nar."/>
                                 </f:facet>
-                                <bcf:outputpl value="#{item.dochodzusnar}" rendered="#{!item.brakdokumentow and item.dochodzusnar gt 0.01}" stylePlus="#{!item.opodatkowanie.equals('ryczałt')?'color:gray':''}"/>
-                                <bcf:outputpl value="#{item.dochodzusnar}" rendered="#{!item.brakdokumentow and item.dochodzusnar lt 0.01}" stylePlus="color:red;"/>
+                                <bcf:outputpl value="#{item.dochodzusnar}" rendered="#{!item.brakdokumentow and item.dochodzusnar gt 0.01 and item.opodatkowanie ne 'ryczałt'}" />
+                                <bcf:outputpl value="#{item.dochodzusnar}" rendered="#{!item.brakdokumentow and item.dochodzusnar lt 0.01}" stylePlus="color:gray"/>
                             </p:column>
 
                             <p:column  style="text-align: center;width: 40px;">
@@ -129,6 +136,14 @@
                                 <h:outputText value="#{item.data}">
                                     <f:convertDateTime dateStyle="medium" locale="pl"/>
                                 </h:outputText>
+                            </p:column>
+                            <p:column style="text-align: center;width: 40px;">
+                                <f:facet name="header">
+                                    <h:outputText value=""/>
+                                </f:facet>
+                                <p:selectBooleanCheckbox value="#{item.zrobiony}">
+                                    <p:ajax event="change" global="false" partialSubmit="true" listener="#{dochodDlaDRAView.edytuj(item)}"/>
+                                </p:selectBooleanCheckbox>
                             </p:column>
                         </p:dataTable>
                     </h:form>

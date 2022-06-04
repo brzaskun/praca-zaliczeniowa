@@ -83,6 +83,8 @@ public class WierszDRA  implements Serializable{
     private boolean brakdokumentow;
     @Column (name = "jestpit")
     private boolean jestpit;
+    @Column (name = "zrobiony")
+    private boolean zrobiony;
     @Column(name = "data", insertable=true, updatable=true, columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP  ON UPDATE CURRENT_TIMESTAMP")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date data;
@@ -267,6 +269,14 @@ public class WierszDRA  implements Serializable{
 
     public void setData(Date data) {
         this.data = data;
+    }
+
+    public boolean isZrobiony() {
+        return zrobiony;
+    }
+
+    public void setZrobiony(boolean zrobiony) {
+        this.zrobiony = zrobiony;
     }
     
     

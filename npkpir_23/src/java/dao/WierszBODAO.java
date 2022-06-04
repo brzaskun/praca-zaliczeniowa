@@ -12,15 +12,12 @@ import entityfk.WierszBO;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
-import session.SessionFacade;
 import view.WpisView;
 /**
  *
@@ -32,8 +29,6 @@ import view.WpisView;
 public class WierszBODAO extends DAO implements Serializable {
     private static final long serialVersionUID = 1L;
     
-    @Inject
-    private SessionFacade wierszBOFacade;
   @PersistenceContext(unitName = "npkpir_22PU")
     private EntityManager em;
     
@@ -55,49 +50,90 @@ public class WierszBODAO extends DAO implements Serializable {
         super.em = this.em;
     }   
     public List<WierszBO> lista(String grupa, WpisView wpisView, boolean likwidacja) {
+        List<WierszBO> zwrot = new ArrayList<>();
         try {
             if (likwidacja) {
-                return wierszBOFacade.findBOLista0likwidacja(grupa, wpisView);
+                zwrot  = getEntityManager().createNamedQuery("WierszBO.findByListaLikwidacja").setParameter("grupakonta", grupa).setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisuSt()).setParameter("mc", wpisView.getMiesiacWpisu()).getResultList();
+    
             } else {
-                return wierszBOFacade.findBOLista0(grupa, wpisView);
+                zwrot = getEntityManager().createNamedQuery("WierszBO.findByLista").setParameter("grupakonta", grupa).setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisuSt()).setParameter("mc", wpisView.getMiesiacWpisu()).getResultList();
             }
         } catch (Exception e) { E.e(e); 
-            return Collections.synchronizedList(new ArrayList<>());
+            
         }
+        return zwrot;
     }
     
     
     
     public List<WierszBO> listaRokMc(WpisView wpisView) {
+        List<WierszBO> zwrot = new ArrayList<>();
         try {
-            return wierszBOFacade.findBOListaRokMc(wpisView);
+            zwrot = getEntityManager().createNamedQuery("WierszBO.findByListaRokMc").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisuSt()).setParameter("mc", wpisView.getMiesiacWpisu()).getResultList();
         } catch (Exception e) { E.e(e); 
-            return Collections.synchronizedList(new ArrayList<>());
+            
         }
+        return zwrot;
     }
   
     
     public List<WierszBO> findPodatnikRok(Podatnik podatnik, String rok) {
-        return wierszBOFacade.findWierszBOPodatnikRok(podatnik, rok);
+        List<WierszBO> zwrot = new ArrayList<>();
+        try {
+            zwrot = getEntityManager().createNamedQuery("WierszBO.findByPodatnikRok").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
+        } catch (Exception e) { E.e(e); 
+            
+        }
+        return zwrot;
     }
     
     public int deletePodatnikRok(Podatnik podatnik, String rok) {
-        return wierszBOFacade.deleteWierszBOPodatnikRok(podatnik, rok);
+        return getEntityManager().createNamedQuery("WierszBO.findByDeletePodatnikRok").setParameter("podatnik", podatnik).setParameter("rok", rok).executeUpdate();
     }
     
     public int deletePodatnikRokMc(Podatnik podatnik, String rok, String mc) {
-        return wierszBOFacade.deleteWierszBOPodatnikRokMc(podatnik, rok, mc);
+        return getEntityManager().createNamedQuery("WierszBO.findByDeletePodatnikRokMc").setParameter("podatnik", podatnik).setParameter("rok", rok).setParameter("mc", mc).executeUpdate();
     }
     
     public List<WierszBO> findPodatnikRokRozrachunkowe(Podatnik podatnik, String rok) {
-        return wierszBOFacade.findWierszBOPodatnikRokRozrachunkowe(podatnik, rok);
+        List<WierszBO> zwrot = new ArrayList<>();
+        try {
+            zwrot = getEntityManager().createNamedQuery("WierszBO.findByPodatnikRokRozrachunkowe").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
+        } catch (Exception e) { E.e(e); 
+            
+        }
+        return zwrot;
     }
     //jets lista bo w BO moze byc klika wierszy z tym samym kontem
     public List<WierszBO> findPodatnikRokKonto(Podatnik podatnikObiekt, String rokWpisuSt, Konto konto) {
-        return wierszBOFacade.findWierszBOPodatnikRokKonto(podatnikObiekt, rokWpisuSt, konto);
+        List<WierszBO> zwrot = new ArrayList<>();
+        try {
+            zwrot = getEntityManager().createNamedQuery("WierszBO.findByPodatnikRokKonto").setParameter("podatnik", podatnikObiekt).setParameter("rok", rokWpisuSt).setParameter("konto", konto).getResultList();
+        } catch (Exception e) { E.e(e); 
+            
+        }
+        return zwrot;
     }
     
     public List<WierszBO> findPodatnikRokKontoWaluta(Podatnik podatnikObiekt, String rokWpisuSt, Konto konto, String waluta) {
-        return wierszBOFacade.findWierszBOPodatnikRokKontoWaluta(podatnikObiekt, rokWpisuSt, konto, waluta);
+        List<WierszBO> zwrot = new ArrayList<>();
+        try {
+            zwrot = getEntityManager().createNamedQuery("WierszBO.findByPodatnikRokKontoWaluta").setParameter("podatnik", podatnikObiekt).setParameter("rok", rokWpisuSt).setParameter("konto", konto).setParameter("waluta", waluta).getResultList();
+        } catch (Exception e) { E.e(e); 
+            
+        }
+        return zwrot;
     }
+    
+     public WierszBO findById(int id) {
+        WierszBO zwrot = null;
+        try {
+            zwrot = (WierszBO) getEntityManager().createNamedQuery("WierszBO.findById").setParameter("id", id).getSingleResult();
+        } catch (Exception e) { E.e(e); 
+            
+        }
+        return zwrot;
+    }
+    
+    
 }
