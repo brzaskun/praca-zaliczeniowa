@@ -56,17 +56,15 @@ import entity.Umowa;
 import entity.Umowakodzus;
 import entity.Zmiennawynagrodzenia;
 import error.E;
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import kadryiplace.Okres;
 import kadryiplace.Osoba;
 import kadryiplace.OsobaDet;
@@ -585,16 +583,23 @@ public class OsobaView implements Serializable {
         }
     }
     
-    public static void main(String[] args) {
-        try {
-            try (PrintWriter out = new PrintWriter("kolega")) {
-                out.flush();
-            }
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(OsobaView.class.getName()).log(Level.SEVERE, null, ex);
-        }
-     
-    }
+//    public static void main(String[] args) {
+//        try {
+//            try (PrintWriter out = new PrintWriter("kolega")) {
+//                out.flush();
+//            }
+//        } catch (FileNotFoundException ex) {
+//            Logger.getLogger(OsobaView.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//     
+//    }
+    
+     public static void main(String[] args) {
+        EntityManagerFactory emfH2 = javax.persistence.Persistence.createEntityManagerFactory("WebApplication1PU");
+        EntityManager emH2 = emfH2.createEntityManager();
+        Rok rok = (Rok) emH2.createQuery("SELECT o FROM Rok o WHERE o.rokNumer=:numer").setParameter("numer", (short)2022).getSingleResult();
+         System.out.println("");
+     }
 
 //    public static void main(String[] args) {
 //        EntityManagerFactory emfH2 = javax.persistence.Persistence.createEntityManagerFactory("WebApplication1PU");
@@ -635,29 +640,8 @@ public class OsobaView implements Serializable {
 //            }
 //        }
 //    }
-//
-////        for (Fakturywystokresowe f: faktury) {
-////            //String query = "SELECT d FROM Faktura d WHERE d.fakturaPK.numerkolejny='"+f.getDokument().getFakturaPK().getNumerkolejny()+"' AND d.fakturaPK.wystawcanazwa='"+f.getDokument().getFakturaPK().getWystawcanazwa()+"'";
-////            //Faktura faktura = (Faktura) emH2.createQuery(query).getSingleResult();
-////            //f.setFa_id(faktura.getId());
-////            emH2.merge(f);
-////        }
-////        for (Osoba p :podatnicy) {
-////            emH2.getTransaction().begin();
-////            List<Dokfk> dokfk =  emH2.createQuery("SELECT o FROM Dokfk o WHERE o.podatnikObj =:podatnik AND o.rok =:rok").setParameter("podatnik", p).setParameter("rok", "2020").getResultList();
-//////            List<Rodzajedok> rodzajedok = emH2.createQuery("SELECT o FROM Rodzajedok o WHERE o.podatnikObj =:podatnik AND o.rok =:rok").setParameter("podatnik", p).setParameter("rok", 2019).getResultList();
-//////            if (dokfk!=null && !dokfk.isEmpty() && rodzajedok!=null && !rodzajedok.isEmpty()) {
-//////                for (Dokfk s : dokfk) {
-//////                    naniesrodzaj(s,rodzajedok);
-//////                    emH2.merge(s);
-//////                }
-//////                System.out.println("podatnik "+p.getPrintnazwa());
-//////            }
-////        if (dokfk.size()>0) {
-////        }
-////            emH2.getTransaction().commit();
-////        }
-////    }
+
+    
     private Rok pobierzrok(String rokWpisu, List<Rok> rokList) {
         Rok zwrot = null;
         for (Rok p : rokList) {

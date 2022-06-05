@@ -15,7 +15,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
@@ -55,8 +54,8 @@ public class EkwiwalentSkladniki implements Serializable {
     private String mc;
     @Column(name = "dziennaliczenia")
     private String dziennaliczenia;
-    @OneToOne(mappedBy = "ekwiwalentskladniki")
-    private Pasekwynagrodzen pasekwynagrodzen;
+//    @OneToOne(mappedBy = "ekwiwalentskladniki")
+//    private Pasekwynagrodzen pasekwynagrodzen;
 
 
 
@@ -109,13 +108,13 @@ public class EkwiwalentSkladniki implements Serializable {
         this.dziennaliczenia = dziennaliczenia;
     }
 
-    public Pasekwynagrodzen getPasekwynagrodzen() {
-        return pasekwynagrodzen;
-    }
-
-    public void setPasekwynagrodzen(Pasekwynagrodzen pasekwynagrodzen) {
-        this.pasekwynagrodzen = pasekwynagrodzen;
-    }
+//    public Pasekwynagrodzen getPasekwynagrodzen() {
+//        return pasekwynagrodzen;
+//    }
+//
+//    public void setPasekwynagrodzen(Pasekwynagrodzen pasekwynagrodzen) {
+//        this.pasekwynagrodzen = pasekwynagrodzen;
+//    }
 
     
     
