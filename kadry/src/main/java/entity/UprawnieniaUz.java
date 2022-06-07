@@ -28,13 +28,13 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author Osito
  */
 @Entity
-@Table(name = "uprawnienia")
+@Table(name = "uprawnieniauz")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Uprawnienia.findAll", query = "SELECT u FROM Uprawnienia u"),
-    @NamedQuery(name = "Uprawnienia.findById", query = "SELECT u FROM Uprawnienia u WHERE u.id = :id"),
-    @NamedQuery(name = "Uprawnienia.findByNazwa", query = "SELECT u FROM Uprawnienia u WHERE u.nazwa = :nazwa")})
-public class Uprawnienia implements Serializable {
+    @NamedQuery(name = "UprawnieniaUz.findAll", query = "SELECT u FROM UprawnieniaUz u"),
+    @NamedQuery(name = "UprawnieniaUz.findById", query = "SELECT u FROM UprawnieniaUz u WHERE u.id = :id"),
+    @NamedQuery(name = "UprawnieniaUz.findByNazwa", query = "SELECT u FROM UprawnieniaUz u WHERE u.nazwa = :nazwa")})
+public class UprawnieniaUz implements Serializable {
 
     @Basic(optional = false)
     @NotNull
@@ -51,14 +51,14 @@ public class Uprawnienia implements Serializable {
     @Column(name = "id")
     private Integer id;
 
-    public Uprawnienia() {
+    public UprawnieniaUz() {
     }
 
-    public Uprawnienia(Integer id) {
+    public UprawnieniaUz(Integer id) {
         this.id = id;
     }
 
-    public Uprawnienia(Integer id, String nazwa) {
+    public UprawnieniaUz(Integer id, String nazwa) {
         this.id = id;
         this.nazwa = nazwa;
     }
@@ -82,10 +82,10 @@ public class Uprawnienia implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Uprawnienia)) {
+        if (!(object instanceof UprawnieniaUz)) {
             return false;
         }
-        Uprawnienia other = (Uprawnienia) object;
+        UprawnieniaUz other = (UprawnieniaUz) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }

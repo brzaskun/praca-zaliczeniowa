@@ -23,23 +23,23 @@ import jaxb.Makexml;
 import org.apache.commons.io.IOUtils;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
-import pl.zus._2020.kedu_5_2.TDADRA;
-import pl.zus._2020.kedu_5_2.TDIPL;
-import pl.zus._2020.kedu_5_2.TDRA;
-import pl.zus._2020.kedu_5_2.TDanePLId;
-import pl.zus._2020.kedu_5_2.TINNI;
-import pl.zus._2020.kedu_5_2.TIdentyfikatorDeklRap8;
-import pl.zus._2020.kedu_5_2.TKEDU;
-import pl.zus._2020.kedu_5_2.TNaglowekKEDU;
-import pl.zus._2020.kedu_5_2.TOPLS;
-import pl.zus._2020.kedu_5_2.TProgram;
-import pl.zus._2020.kedu_5_2.TRIXDRA;
-import pl.zus._2020.kedu_5_2.TStatusIdentyfikacji;
-import pl.zus._2020.kedu_5_2.TZDRAV;
-import pl.zus._2020.kedu_5_2.TZSDRA;
-import pl.zus._2020.kedu_5_2.TZSDRAI;
-import pl.zus._2020.kedu_5_2.TZWDRA;
-import pl.zus._2020.kedu_5_2.TZestaw;
+import pl.zus._2021.kedu_5_4.TDADRA;
+import pl.zus._2021.kedu_5_4.TDIPL;
+import pl.zus._2021.kedu_5_4.TDRA;
+import pl.zus._2021.kedu_5_4.TDanePLId;
+import pl.zus._2021.kedu_5_4.TINNI;
+import pl.zus._2021.kedu_5_4.TIdentyfikatorDeklRap8;
+import pl.zus._2021.kedu_5_4.TKEDU;
+import pl.zus._2021.kedu_5_4.TNaglowekKEDU;
+import pl.zus._2021.kedu_5_4.TOPLS;
+import pl.zus._2021.kedu_5_4.TProgram;
+import pl.zus._2021.kedu_5_4.TRIXDRA;
+import pl.zus._2021.kedu_5_4.TStatusIdentyfikacji;
+import pl.zus._2021.kedu_5_4.TZDRAV;
+import pl.zus._2021.kedu_5_4.TZSDRA;
+import pl.zus._2021.kedu_5_4.TZSDRAI;
+import pl.zus._2021.kedu_5_4.TZWDRA;
+import pl.zus._2021.kedu_5_4.TZestaw;
 
 
 /**
@@ -49,12 +49,12 @@ import pl.zus._2020.kedu_5_2.TZestaw;
 public class KeduView {
     
     public static void main(String[] args) {
-        pl.zus._2020.kedu_5_2.TKEDU kedu = new TKEDU();
-        QName _KEDU_QNAME = new QName("http://www.zus.pl/2020/KEDU_5_2", "KEDU");
+        pl.zus._2021.kedu_5_4.TKEDU kedu = new TKEDU();
+        QName _KEDU_QNAME = new QName("http://www.zus.pl/2021/KEDU_5_4", "KEDU");
         kedu.setWersjaSchematu(kedu.getWersjaSchematu());
         kedu.setNaglowekKEDU(kedu_naglowek());
         kedu.getZUSDRAOrZUSRCAOrZUSRSA().add(zrob_DRA());
-        String marszal = Makexml.marszal(new JAXBElement<TKEDU>(_KEDU_QNAME, TKEDU.class, null, kedu), pl.zus._2020.kedu_5_2.TKEDU.class);
+        String marszal = Makexml.marszal(new JAXBElement<TKEDU>(_KEDU_QNAME, TKEDU.class, null, kedu), pl.zus._2021.kedu_5_4.TKEDU.class);
         walidujkedu();
     }
 
@@ -93,8 +93,8 @@ public class KeduView {
         //kwota do wplaty
         dra.setIX(dra_trixdra(dra));
         //data
-        dra.setXI(dra_topls());
-        QName qName = new QName("http://www.zus.pl/2020/KEDU_5_2", "ZUSDRA");
+        //dra.setXI(dra_topls());
+        QName qName = new QName("http://www.zus.pl/2021/KEDU_5_4", "ZUSDRA");
         return new JAXBElement<TDRA>(qName, TDRA.class, TZestaw.class, dra);
     }
 

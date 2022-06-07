@@ -95,7 +95,7 @@ public class Uz implements Serializable {
     private FirmaKadry firma;
     @JoinColumn(name = "uprawnienia", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Uprawnienia uprawnienia;
+    private UprawnieniaUz uprawnienia;
     @Id()
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
@@ -111,7 +111,7 @@ public class Uz implements Serializable {
         this.login = login;
     }
 
-    public Uz(Angaz selected, Uprawnienia uprawnienia) {
+    public Uz(Angaz selected, UprawnieniaUz uprawnienia) {
         this.firma = selected.getFirma();
         this.email = selected.getPracownik().getEmail();
         this.imie = selected.getPracownik().getImie();
@@ -127,7 +127,7 @@ public class Uz implements Serializable {
                 
     }
 
-    public Uz(FirmaKadry firma, Uprawnienia uprawnienia) {
+    public Uz(FirmaKadry firma, UprawnieniaUz uprawnienia) {
         this.firma = firma;
         this.email = firma.getEmail();
         this.imie = null;
@@ -227,10 +227,10 @@ public class Uz implements Serializable {
     public void setFirma(FirmaKadry firma) {
         this.firma = firma;
     }
-    public Uprawnienia getUprawnienia() {
+    public UprawnieniaUz getUprawnienia() {
         return uprawnienia;
     }
-    public void setUprawnienia(Uprawnienia uprawnienia) {
+    public void setUprawnienia(UprawnieniaUz uprawnienia) {
         this.uprawnienia = uprawnienia;
     }
 

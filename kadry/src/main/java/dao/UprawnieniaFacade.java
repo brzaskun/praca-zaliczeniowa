@@ -5,7 +5,7 @@
  */
 package dao;
 
-import entity.Uprawnienia;
+import entity.UprawnieniaUz;
 import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -37,12 +37,12 @@ public class UprawnieniaFacade extends DAO  {
     }
 
     public UprawnieniaFacade() {
-        super(Uprawnienia.class);
+        super(UprawnieniaUz.class);
         super.em = em;
     }
     
-    public Uprawnienia findByNazwa(String nazwa) {
-        return (Uprawnienia) getEntityManager().createNamedQuery("Uprawnienia.findByNazwa").setParameter("nazwa", nazwa).getSingleResult();
+    public UprawnieniaUz findByNazwa(String nazwa) {
+        return (UprawnieniaUz) getEntityManager().createNamedQuery("Uprawnienia.findByNazwa").setParameter("nazwa", nazwa).getSingleResult();
     }
 
      

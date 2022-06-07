@@ -20,7 +20,7 @@ import entity.FirmaKadry;
 import entity.Pracownik;
 import entity.SMTPSettings;
 import entity.Umowa;
-import entity.Uprawnienia;
+import entity.UprawnieniaUz;
 import entity.Uz;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -114,7 +114,7 @@ public class AngazView  implements Serializable {
                     lista.add(selected);
                     wpisView.setAngaz(selected);
                     wpisView.setUmowa(null);
-                    Uprawnienia uprawnienia = uprawnieniaFacade.findByNazwa("Pracownik");
+                    UprawnieniaUz uprawnienia = uprawnieniaFacade.findByNazwa("Pracownik");
                     Uz uzer = new Uz(selected, uprawnienia);
                     selected = new Angaz();
                     Msg.msg("Dodano nowy angaż");

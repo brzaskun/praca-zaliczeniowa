@@ -6,7 +6,7 @@
 package dao;
 
 import entity.Slownikszkolazatrhistoria;
-import entity.Uprawnienia;
+import entity.UprawnieniaUz;
 import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -42,8 +42,8 @@ public class SlownikszkolazatrhistoriaFacade extends DAO  {
         super.em = em;
     }
     
-    public Uprawnienia findBySymbol(String symbol) {
-        return (Uprawnienia) getEntityManager().createNamedQuery("Slownikszkolazatrhistoria.findBySymbol").setParameter("symbol", symbol).getSingleResult();
+    public UprawnieniaUz findBySymbol(String symbol) {
+        return (UprawnieniaUz) getEntityManager().createNamedQuery("Slownikszkolazatrhistoria.findBySymbol").setParameter("symbol", symbol).getSingleResult();
     }
 
      

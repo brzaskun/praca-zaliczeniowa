@@ -14,6 +14,7 @@ import dao.KalendarzwzorFacade;
 import dao.RodzajlistyplacFacade;
 import dao.UprawnieniaFacade;
 import dao.UzFacade;
+import daoplatnik.ZusdraDAO;
 import data.Data;
 import embeddable.Mce;
 import embeddable.TKodUS;
@@ -23,7 +24,7 @@ import entity.FirmaKadry;
 import entity.Kalendarzwzor;
 import entity.Rodzajlistyplac;
 import entity.Umowa;
-import entity.Uprawnienia;
+import entity.UprawnieniaUz;
 import entity.Uz;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -90,6 +91,18 @@ public class FirmaView  implements Serializable {
             selectedeast = wpisView.getFirma();
         }
         firmysuperplace = firmaFacade.findAll();
+        opipi();
+    }
+    
+    @Inject
+    private ZusdraDAO zusdraDAO;
+    
+    public void opipi() {
+        List<entityplatnik.ZUSDRA> miasto = zusdraDAO.findByNip("8511005008");
+        for (entityplatnik.ZUSDRA p : miasto) {
+            System.out.println(p.toString());
+        }
+        zusdraDAO.find();
     }
 
     public void create() {
@@ -99,7 +112,7 @@ public class FirmaView  implements Serializable {
             lista.add(selected);
             wpisView.setFirma(selected);
             Msg.msg("Dodano nową firmę");
-            Uprawnienia uprawnienia = uprawnieniaFacade.findByNazwa("Pracodawca");
+            UprawnieniaUz uprawnienia = uprawnieniaFacade.findByNazwa("Pracodawca");
             Uz uzer = new Uz(selected, uprawnienia);
             selected = new FirmaKadry();
             Msg.msg("Dodano nowy angaż");
@@ -248,7 +261,7 @@ public class FirmaView  implements Serializable {
                 uz.setNrtelefonu(firma.getTelefon());
                 uzFacade.edit(uz);
             } else {
-                Uprawnienia uprawnienia = uprawnieniaFacade.findByNazwa("Pracodawca");
+                UprawnieniaUz uprawnienia = uprawnieniaFacade.findByNazwa("Pracodawca");
                 Uz uzer = new Uz(firma, uprawnienia);
                 uzFacade.create(uzer);
             }
@@ -269,7 +282,7 @@ public class FirmaView  implements Serializable {
                 uz.setNrtelefonu(selectedlista.getTelefon());
                 uzFacade.edit(uz);
             } else {
-                Uprawnienia uprawnienia = uprawnieniaFacade.findByNazwa("Pracodawca");
+                UprawnieniaUz uprawnienia = uprawnieniaFacade.findByNazwa("Pracodawca");
                 Uz uzer = new Uz(selectedlista, uprawnienia);
                 uzFacade.create(uzer);
             }

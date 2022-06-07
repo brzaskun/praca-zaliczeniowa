@@ -196,11 +196,11 @@
     <validation-mode>NONE</validation-mode>
     <properties>
       <property name="eclipselink.ddl-generation" value="create-or-extend-tables"/>
-<!--      <property name="eclipselink.query-results-cache" value="true"/>
+      <!--      <property name="eclipselink.query-results-cache" value="true"/>
       <property name="eclipselink.cache-usage" value="CheckCacheThenDatabase"/>-->
       <!-- configure logging -->
       <!--      <property name="eclipselink.logging.level" value="fine"/>-->
-<!--      <property name="eclipselink.logging.level.sql" value="info"/>
+      <!--      <property name="eclipselink.logging.level.sql" value="info"/>
       <property name="eclipselink.logging.parameters" value="true"/>-->
     </properties>
   </persistence-unit>
@@ -217,10 +217,32 @@
       <property name="eclipselink.logging.parameters" value="true"/>-->
     </properties>
   </persistence-unit>
+  <persistence-unit name="microsoft1" transaction-type="JTA">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <jta-data-source>microsoft1</jta-data-source>
+    <exclude-unlisted-classes>false</exclude-unlisted-classes>
+    <shared-cache-mode>ALL</shared-cache-mode>
+    <validation-mode>NONE</validation-mode>
+    <properties>
+      <property name="eclipselink.query-results-cache" value="true"/>
+      <property name="eclipselink.cache-usage" value="CheckCacheThenDatabase"/>
+      <!--      <property name="eclipselink.logging.level.sql" value="info"/>
+      <property name="eclipselink.logging.parameters" value="true"/>-->
+    </properties>
+  </persistence-unit>
   <persistence-unit name="WebApplication1PU" transaction-type="RESOURCE_LOCAL">
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:sqlserver://localhost\sqlexpress;databaseName=kadryiplace"/>
+      <property name="javax.persistence.jdbc.user" value="sa"/>
+      <property name="javax.persistence.jdbc.driver" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
+      <property name="javax.persistence.jdbc.password" value="sql"/>
+    </properties>
+  </persistence-unit>
+  <persistence-unit name="PlatnikPU" transaction-type="RESOURCE_LOCAL">
+    <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    <properties>
+      <property name="javax.persistence.jdbc.url" value="jdbc:sqlserver://localhost\sqlexpress;databaseName=platnik2"/>
       <property name="javax.persistence.jdbc.user" value="sa"/>
       <property name="javax.persistence.jdbc.driver" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
       <property name="javax.persistence.jdbc.password" value="sql"/>
