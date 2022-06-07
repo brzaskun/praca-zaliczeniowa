@@ -9,10 +9,12 @@ package dao;
 import entity.Rejestrlogowan;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.metamodel.EntityType;
 import javax.transaction.Transactional;
 
 /**
@@ -54,6 +56,10 @@ public class RejestrlogowanDAO  extends DAO implements Serializable {
         Rejestrlogowan zwrot = null;
         try {
             zwrot = (Rejestrlogowan)  getEntityManager().createNamedQuery("Rejestrlogowan.findByIpusera").setParameter("ipusera", ipusera).getSingleResult();
+             Set<EntityType<?>> entities = getEntityManager().getMetamodel().getEntities();
+            for (EntityType<?> p : entities) {
+               System.out.println(p.getJavaType().getName());
+            }
         } catch (Exception e){}
         return zwrot;
     }

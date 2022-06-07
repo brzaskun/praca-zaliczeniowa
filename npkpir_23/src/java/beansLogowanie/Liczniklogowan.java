@@ -31,6 +31,7 @@ public class Liczniklogowan {
                 Rejestrlogowan rejestrlogowan = new Rejestrlogowan(ip,new Date(),5,false);
                 rejestrlogowanDAO.create(rejestrlogowan);
             }
+            
         } catch (Exception e) {
             E.e(e);
         }
