@@ -30,14 +30,14 @@
                         <p:selectBooleanCheckbox value="#{dochodDlaDRAView.pokazzrobione}"  itemLabel="pokaż zrobione" style="width: 220px;margin-left: 20px;">
                             <p:ajax event="change" partialSubmit="true" listener="#{dochodDlaDRAView.pobierz}"  update="akordeon:formtabela:wykazschem"/>
                         </p:selectBooleanCheckbox>
-                        <p:commandButton id="przeliczbutton" value="przelicz" actionListener="#{dochodDlaDRAView.init()}"  style="width: 120px;margin-left: 20px;display: none;" update="@(form)"/>
+                        <p:commandButton id="przeliczbutton" value="przelicz" actionListener="#{dochodDlaDRAView.przelicz()}"  style="width: 120px;margin-left: 20px;display: none;" update="@(form)"/>
                         </p:panelGrid>
   <style>
         .odd{
             background-color: #e4e3e3 !important;
         }
     </style>
-                        <p:dataTable value="#{dochodDlaDRAView.wiersze}" var="item" style="width: 1650px;padding: 20px;" 
+                        <p:dataTable value="#{dochodDlaDRAView.wiersze}" var="item" style="width: 1800px;padding: 20px;" 
                                      scrollable="true" scrollHeight="750" scrollRows="30" rowStyleClass="#{(yndex mod 2) eq 0 ? null : 'odd'}"
                                      emptyMessage="nie pobrano danych" id="wykazschem" rowKey="#{item.imienazwisko}" rowIndexVar="yndex"
                                      selection="#{dochodDlaDRAView.selected}" selectionMode="single" sortBy="#{item.imienazwisko}" sortOrder="ascending">
@@ -127,7 +127,7 @@
                                 <f:facet name="header">
                                     <h:outputText value="PIT"/>
                                 </f:facet>
-                                <bcf:outputpl value="&#x2713;" rendered="#{item.jestpit}" style="color: green;"/>
+                                <h:outputText value="&#x2713;" rendered="#{item.jestpit}" style="color: green;"/>
                             </p:column>
                             <p:column style="text-align: center;width: 70px;">
                                 <f:facet name="header">
@@ -136,6 +136,20 @@
                                 <h:outputText value="#{item.data}">
                                     <f:convertDateTime dateStyle="medium" locale="pl"/>
                                 </h:outputText>
+                            </p:column>
+                             <p:column style="text-align: center;width: 70px;">
+                                <f:facet name="header">
+                                    <h:outputText value="DRA"/>
+                                </f:facet>
+                                 <h:outputText value="#{item.zusdra.xii8Datawypel}">
+                                    <f:convertDateTime dateStyle="medium" locale="pl"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column  style="width: 70px;">
+                                <f:facet name="header">
+                                    <h:outputText value="DRA kwota"/>
+                                </f:facet>
+                                <bcf:outputpl value="#{item.zusdra.ix2Kwdozaplaty.doubleValue()}"/>
                             </p:column>
                             <p:column style="text-align: center;width: 40px;">
                                 <f:facet name="header">
@@ -272,7 +286,7 @@
                 </f:view>
             </p:outputPanel>
         </p:tab>
-         <p:tab title="Rok">
+<!--         <p:tab title="Rok">
             <p:outputPanel>
                 <f:view>
                     <h:form>
@@ -280,7 +294,7 @@
                     </h:form>
                     </f:view>
             </p:outputPanel>
-        </p:tab>
+        </p:tab>-->
     </p:tabView>
 </ui:composition>   
 

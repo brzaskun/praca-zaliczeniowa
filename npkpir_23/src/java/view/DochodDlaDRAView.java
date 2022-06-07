@@ -16,6 +16,7 @@ import dao.PodatnikOpodatkowanieDAO;
 import dao.PodatnikUdzialyDAO;
 import dao.RyczDAO;
 import dao.WierszDRADAO;
+import daoplatnik.ZusdraDAO;
 import data.Data;
 import embeddable.Mce;
 import embeddable.WierszPkpir;
@@ -28,6 +29,7 @@ import entity.PodatnikOpodatkowanieD;
 import entity.PodatnikUdzialy;
 import entity.Ryczpoz;
 import entity.WierszDRA;
+import entityplatnik.Zusdra;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -71,6 +73,9 @@ public class DochodDlaDRAView implements Serializable {
     private WierszDRA selected;
     @Inject
     private WierszDRADAO wierszDRADAO;
+    @Inject
+    private ZusdraDAO zusdraDAO;
+    private List<Zusdra> zusdralista;
     private boolean pokazzrobione;
 
     @PostConstruct
@@ -80,7 +85,7 @@ public class DochodDlaDRAView implements Serializable {
     }
     
     
-    public void init() {
+    public void przelicz() {
         List<WierszDRA> wierszebaza = wierszDRADAO.findByRok(rok);
         if (wierszebaza==null) {
             wierszebaza = new ArrayList<>();
@@ -265,6 +270,16 @@ public class DochodDlaDRAView implements Serializable {
                 WierszDRA w = it.next();
                 if (w.isZrobiony()) {
                     it.remove();
+                }
+            }
+        }
+        String okres = mc+rok;
+        zusdralista = zusdraDAO.findByOkres(okres);
+        for (WierszDRA w : wiersze) {
+            for (Zusdra z : zusdralista) {
+                if (w.getPodatnik().getNip().equals(z.getIi1Nip())) {
+                    w.setZusdra(z);
+                    break;
                 }
             }
         }

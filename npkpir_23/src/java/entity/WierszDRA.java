@@ -5,6 +5,7 @@
  */
 package entity;
 
+import entityplatnik.Zusdra;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
@@ -20,6 +21,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -88,6 +90,8 @@ public class WierszDRA  implements Serializable{
     @Column(name = "data", insertable=true, updatable=true, columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP  ON UPDATE CURRENT_TIMESTAMP")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date data;
+    @Transient
+    private Zusdra zusdra;
 
     public WierszDRA() {
     }
@@ -277,6 +281,14 @@ public class WierszDRA  implements Serializable{
 
     public void setZrobiony(boolean zrobiony) {
         this.zrobiony = zrobiony;
+    }
+
+    public Zusdra getZusdra() {
+        return zusdra;
+    }
+
+    public void setZusdra(Zusdra zusdra) {
+        this.zusdra = zusdra;
     }
     
     

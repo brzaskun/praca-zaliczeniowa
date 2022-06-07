@@ -56,6 +56,16 @@ public class ZusdraDAO extends DAO1 implements Serializable {
         return zwrot;
     }
     
+    public List<Zusdra> findByOkres(String okres) {
+        List<Zusdra> zwrot = new ArrayList<>();
+        try {
+            zwrot = getEntityManager().createQuery("SELECT z FROM Zusdra z WHERE z.i22okresdeklar = :okres").setParameter("okres", okres).getResultList();
+        } catch (Exception e) { 
+            E.e(e); 
+        }
+        return zwrot;
+    }
+    
     public void find() {
          List<Zusdra> zwrot = new ArrayList<>();
         try {
