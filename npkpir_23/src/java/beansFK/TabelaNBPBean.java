@@ -31,7 +31,7 @@ public class TabelaNBPBean {
                 dzien1 = dzien1.minusDays(1);
                 String doprzekazania1 = dzien1.toString("yyyy-MM-dd");
                 for (Tabelanbp r : tabelalista) {
-                    if (r.getNrtabeli().contains("NBP") && r.getDatatabeli().equals(doprzekazania1)) {
+                    if (r.getNrtabeli().contains("NBP") && r.getDatatabeli().equals(doprzekazania1) && r.getWaluta().getSymbolwaluty().equals(nazwawaluty)) {
                         znaleziono = true;
                         tabelanbppobrana = r;
                         selected.dodajTabeleWalut(r);
