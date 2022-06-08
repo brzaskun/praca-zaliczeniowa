@@ -37,7 +37,7 @@
             background-color: #e4e3e3 !important;
         }
     </style>
-                        <p:dataTable value="#{dochodDlaDRAView.wiersze}" var="item" style="width: 1800px;padding: 20px;" 
+                        <p:dataTable value="#{dochodDlaDRAView.wiersze}" var="item" style="width: 1900px;padding: 20px;" 
                                      scrollable="true" scrollHeight="750" scrollRows="30" rowStyleClass="#{(yndex mod 2) eq 0 ? null : 'odd'}"
                                      emptyMessage="nie pobrano danych" id="wykazschem" rowKey="#{item.imienazwisko}" rowIndexVar="yndex"
                                      selection="#{dochodDlaDRAView.selected}" selectionMode="single" sortBy="#{item.imienazwisko}" sortOrder="ascending">
@@ -144,6 +144,14 @@
                                  <h:outputText value="#{item.zusdra.xii8Datawypel}">
                                     <f:convertDateTime dateStyle="medium" locale="pl"/>
                                 </h:outputText>
+                            </p:column>
+                             <p:column  style="width: 70px;">
+                                <f:facet name="header">
+                                    <h:outputText value="DRA podstawa"/>
+                                </f:facet>
+                                <bcf:outputpl value="#{item.zusdra.xiPodstwymsklzdrRyczalt.doubleValue()}" rendered="#{!item.brakdokumentow and item.przychodnar gt 0.01 and item.opodatkowanie eq 'ryczałt'}"/>
+                                <bcf:outputpl value="#{item.zusdra.xiPodstwymsklzdrSkala.doubleValue()}" rendered="#{!item.brakdokumentow and item.dochodzus gt 0.01 and item.opodatkowanie ne 'ryczałt' and item.zusdra.xiPodstwymsklzdrSkala ne null}"/>
+                                <bcf:outputpl value="#{item.zusdra.xiPodstwymsklzdrLiniowy.doubleValue()}" rendered="#{!item.brakdokumentow and item.dochodzus gt 0.01 and item.opodatkowanie ne 'ryczałt' and item.zusdra.xiPodstwymsklzdrLiniowy ne null}"/>
                             </p:column>
                             <p:column  style="width: 70px;">
                                 <f:facet name="header">
