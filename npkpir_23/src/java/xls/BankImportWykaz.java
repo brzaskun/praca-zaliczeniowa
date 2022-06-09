@@ -19,6 +19,7 @@ public class BankImportWykaz {
         new ImportowanyPlik("Santander csv ;","csv",";",2),
         new ImportowanyPlik("Mbank csv ;","csv",";",3),
         new ImportowanyPlik("MT940 csv ;","csv",";",4),
+        new ImportowanyPlik("Mbank Business csv ;","csv",";",17),
         new ImportowanyPlik("Bank iPKO BP xls ;","xls",5),
         new ImportowanyPlik("BNP Paribas BP csv ;","csv",6),
         new ImportowanyPlik("ING xml","xml",7),
