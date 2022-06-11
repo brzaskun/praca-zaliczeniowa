@@ -5,11 +5,14 @@
  */
 package entity;
 
+import entityplatnik.UbezpZusrca;
 import entityplatnik.Zusdra;
+import entityplatnik.Zusrca;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -87,11 +90,24 @@ public class WierszDRA  implements Serializable{
     private boolean jestpit;
     @Column (name = "zrobiony")
     private boolean zrobiony;
+    @JoinColumn(name = "zusmail", referencedColumnName = "id", updatable = true)
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Zusmail zusmail;
     @Column(name = "data", insertable=true, updatable=true, columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP  ON UPDATE CURRENT_TIMESTAMP")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date data;
     @Transient
+    private boolean blad;
+    @Transient
     private Zusdra zusdra;
+    @Transient
+    private Zusrca zusrca;
+    @Transient
+    private UbezpZusrca ubezpZusrca;
+    @Transient
+    private double przychoddra;
+    @Transient
+    private double przychoddraru;
 
     public WierszDRA() {
     }
@@ -102,6 +118,65 @@ public class WierszDRA  implements Serializable{
         this.rok = rok;
         this.mc = mc;
         this.mcnazwa = get;
+    }
+    
+    public double getPrzychodDochod() {
+        double zwrot = 0.0;
+        if (this.zusdra!=null) {
+            if (this.zusrca!=null && this.ubezpZusrca!=null) {
+                if (this.opodatkowanie.equals("ryczałt")) {
+                    zwrot = this.ubezpZusrca.getIiiSumaprzychodowbrk()!=null?this.ubezpZusrca.getIiiSumaprzychodowbrk().doubleValue():0.0;
+                    this.przychoddraru = this.ubezpZusrca.getIiiKwotaprzychodowurk()!=null?this.ubezpZusrca.getIiiKwotaprzychodowurk().doubleValue():0.0;
+                } else {
+                    if (this.ubezpZusrca.getIiiKwotadochodumpLiniowy()!=null) {
+                        zwrot = this.ubezpZusrca.getIiiKwotadochodumpLiniowy().doubleValue();
+                    } else if (this.ubezpZusrca.getIiiKwotadochodumpSkala()!=null) {
+                        zwrot = this.ubezpZusrca.getIiiKwotadochodumpSkala().doubleValue();
+                    }
+                }
+            } else {
+                if (this.opodatkowanie.equals("ryczałt")) {
+                    zwrot = this.zusdra.getXiSumaprzychodowbrk()!=null?this.zusdra.getXiSumaprzychodowbrk().doubleValue():0.0;
+                    this.przychoddraru = this.zusdra.getXiKwotaprzychodowurk()!=null?this.zusdra.getXiKwotaprzychodowurk().doubleValue():0.0;
+                } else {
+                    if (this.zusdra.getXiKwotadochodumpLiniowy()!=null) {
+                        zwrot = this.zusdra.getXiKwotadochodumpLiniowy().doubleValue();
+                    } else if (this.zusdra.getXiKwotadochodumpSkala()!=null) {
+                        zwrot = this.zusdra.getXiKwotadochodumpSkala().doubleValue();
+                    }
+                }
+            }
+        }
+        this.przychoddra = zwrot;
+        return zwrot;
+    }
+    
+    public double getZdrowotna() {
+        double zwrot = 0.0;
+        if (this.zusdra!=null) {
+            if (this.zusrca!=null && this.ubezpZusrca!=null) {
+                if (this.opodatkowanie.equals("ryczałt")) {
+                    zwrot = this.ubezpZusrca.getIiiKwotaskladkiRyczalt()!=null?this.ubezpZusrca.getIiiKwotaskladkiRyczalt().doubleValue():0.0;
+                } else {
+                    if (this.ubezpZusrca.getIiiKwotaskladkiLiniowy()!=null) {
+                        zwrot = this.ubezpZusrca.getIiiKwotaskladkiLiniowy().doubleValue();
+                    } else if (this.ubezpZusrca.getIiiKwotaskladkiSkala()!=null) {
+                        zwrot = this.ubezpZusrca.getIiiKwotaskladkiSkala().doubleValue();
+                    }
+                }
+            } else {
+                if (this.opodatkowanie.equals("ryczałt")) {
+                    zwrot = this.zusdra.getXiKwotaskladkiRyczalt()!=null?this.zusdra.getXiKwotaskladkiRyczalt().doubleValue():0.0;
+                } else {
+                    if (this.zusdra.getXiKwotaskladkiLiniowy()!=null) {
+                        zwrot = this.zusdra.getXiKwotaskladkiLiniowy().doubleValue();
+                    } else if (this.zusdra.getXiKwotaskladkiSkala()!=null) {
+                        zwrot = this.zusdra.getXiKwotaskladkiSkala().doubleValue();
+                    }
+                }
+            }
+        }
+        return zwrot;
     }
 
     public Integer getId() {
@@ -290,6 +365,55 @@ public class WierszDRA  implements Serializable{
     public void setZusdra(Zusdra zusdra) {
         this.zusdra = zusdra;
     }
+
+    public Zusrca getZusrca() {
+        return zusrca;
+    }
+
+    public void setZusrca(Zusrca zusrca) {
+        this.zusrca = zusrca;
+    }
+
+    public UbezpZusrca getUbezpZusrca() {
+        return ubezpZusrca;
+    }
+
+    public void setUbezpZusrca(UbezpZusrca ubezpZusrca) {
+        this.ubezpZusrca = ubezpZusrca;
+    }
+
+    public boolean isBlad() {
+        return blad;
+    }
+
+    public void setBlad(boolean blad) {
+        this.blad = blad;
+    }
+
+    public double getPrzychoddra() {
+        return przychoddra;
+    }
+
+    public void setPrzychoddra(double przychoddra) {
+        this.przychoddra = przychoddra;
+    }
+
+    public double getPrzychoddraru() {
+        return przychoddraru;
+    }
+
+    public void setPrzychoddraru(double przychoddraru) {
+        this.przychoddraru = przychoddraru;
+    }
+
+    public Zusmail getZusmail() {
+        return zusmail;
+    }
+
+    public void setZusmail(Zusmail zusmail) {
+        this.zusmail = zusmail;
+    }
+    
     
     
     

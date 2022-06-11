@@ -15,8 +15,12 @@ import dao.PodatnikDAO;
 import dao.PodatnikOpodatkowanieDAO;
 import dao.PodatnikUdzialyDAO;
 import dao.RyczDAO;
+import dao.SMTPSettingsDAO;
 import dao.WierszDRADAO;
+import dao.ZusmailDAO;
+import daoplatnik.UbezpZusrcaDAO;
 import daoplatnik.ZusdraDAO;
+import daoplatnik.ZusrcaDAO;
 import data.Data;
 import embeddable.Mce;
 import embeddable.WierszPkpir;
@@ -29,19 +33,25 @@ import entity.PodatnikOpodatkowanieD;
 import entity.PodatnikUdzialy;
 import entity.Ryczpoz;
 import entity.WierszDRA;
+import entity.Zusmail;
+import entityplatnik.UbezpZusrca;
 import entityplatnik.Zusdra;
+import entityplatnik.Zusrca;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import mail.MaiManager;
 import msg.Msg;
 import waluty.Z;
 
@@ -75,7 +85,16 @@ public class DochodDlaDRAView implements Serializable {
     private WierszDRADAO wierszDRADAO;
     @Inject
     private ZusdraDAO zusdraDAO;
+    @Inject
+    private ZusrcaDAO zusrcaDAO;
+    @Inject
+    private UbezpZusrcaDAO ubezpZusrcaDAO;
+    @Inject
+    private ZusmailDAO zusmailDAO;
+    @Inject
+    private SMTPSettingsDAO sMTPSettingsDAO;
     private List<Zusdra> zusdralista;
+    private List<Zusrca> zusrcalista;
     private boolean pokazzrobione;
 
     @PostConstruct
@@ -248,6 +267,7 @@ public class DochodDlaDRAView implements Serializable {
     }
     
     public void pobierz() {
+        List<Zusmail> maile = zusmailDAO.findZusRokMc(rok, mc);
         wiersze = wierszDRADAO.findByRok(rok);
         Collections.sort(wiersze, new WierszDRAcomparator());
             Map<String, List<WierszDRA>> kotek = new TreeMap<>();
@@ -275,6 +295,7 @@ public class DochodDlaDRAView implements Serializable {
         }
         String okres = mc+rok;
         zusdralista = zusdraDAO.findByOkres(okres);
+        zusrcalista = zusrcaDAO.findByOkres(okres);
         for (WierszDRA w : wiersze) {
             for (Zusdra z : zusdralista) {
                 if (w.getPodatnik().getNip().equals(z.getIi1Nip())) {
@@ -282,7 +303,33 @@ public class DochodDlaDRAView implements Serializable {
                     break;
                 }
             }
-        }
+            for (Zusrca z : zusrcalista) {
+                if (w.getPodatnik().getNip().equals(z.getIi1Nip())) {
+                    w.setZusrca(z);
+                    List<UbezpZusrca> zalezne = ubezpZusrcaDAO.findByIdDokNad(z.getIdDokument());
+                    if (zalezne!=null && !zalezne.isEmpty()) {
+                        z.setRcalista(zalezne);
+                        for (UbezpZusrca u : zalezne) {
+                            if (u.getIiiA4Identyfik().equals(z.getIi3Pesel())) {
+                                w.setUbezpZusrca(u);
+                            }
+                        }
+                    }
+                    break;
+                }
+            }
+            w.getPrzychodDochod();
+            if (w.getOpodatkowanie().equals("ryczałt")) {
+                if (w.getPrzychodnar()!=w.getPrzychoddra()) {
+                    w.setBlad(true);
+                }
+                } else {
+                    if (w.getDochodzus()!=w.getPrzychoddra()) {
+                         w.setBlad(true);
+                    }
+                }
+                przygotujmail(w, maile);
+            }
         Collections.sort(wiersze, new WierszDRAcomparator());
         Msg.msg("Pobrano dane");
     }
@@ -515,6 +562,96 @@ public class DochodDlaDRAView implements Serializable {
             wiersz.setBrakdokumentow(true);
         }
         return przychod;
+    }
+    private static final String trescmaila = "<p> Dzień dobry</p> <p> Przesyłąmy informacje o naliczonych kwoty zobowiązań z tytułu ZUS I PIT-4</p> "
+            + "<p> dla firmy <span style=\"color:#008000;\">%s</span> NIP %s</p> "
+            + "<p> do zapłaty/przelania w miesiącu <span style=\"color:#008000;\">%s/%s</span></p> "
+            + " <table align=\"left\" border=\"1\" cellpadding=\"1\" cellspacing=\"1\" style=\"width: 500px;\"> <caption> zestawienie zobowiązań</caption> <thead> <tr> "
+            + "<th scope=\"col\"> lp</th> <th scope=\"col\"> tytuł</th> <th scope=\"col\"> kwota</th> </tr> </thead> <tbody> "
+            + "<tr><td style=\"text-align: center;\"> 1</td><td><span style='font-weight: bold'>ZUS</span></td> <td style=\"text-align: right;\"><span style=\"text-align: right;font-weight: bold\"> %.2f</span></td> </tr> "
+            + "<tr> <td style=\"text-align: center;\"> 2</td><td><span style='font-weight: bold'>PIT-4</span></td> <td style=\"text-align: right;\"> <span style=\"text-align: right;font-weight: bold\">%.2f</span></td> </tr> "
+            + "<td style=\"text-align: center;\"> 3</td> <td><span style='font-weight: bold'>PIT-8AR</span></td> <td style=\"text-align: right;\"> <span style=\"text-align: right;font-weight: bold\">%.2f</span></td></tr> "
+            + "</tbody> </table>"
+            + " <p> &nbsp;</p> <p> &nbsp;</p> <p> &nbsp;</p> <p> &nbsp;</p> <p> &nbsp;</p><br/> "
+            + "<p> Ważne! Przelew do ZUS od stycznia 2018 robimy jedną kwotą na JEDNO indywidualne konto wskazane przez ZUS.</p>"
+            + "<p> To samo dotyczy podatków</p>"
+            + "<p> Przypominamy o terminach płatności ZUS:</p>"
+            + " <p> do <span style=\"color:#008000;\">15-go</span> - dla firm z osobowością prawną (sp. z o.o.)</p>"
+            + " <p> do <span style=\"color:#008000;\">20-go</span> &nbsp;- dla pozostałych firm</p>"
+            + " <p> Termin płatności podatku:</p>"
+            + " <p> do <span style=\"color:#006400;\">20-go</span> - PIT-4/PIT-8 od wynagrodzeń pracownik&oacute;w</p>"
+            + " <p> &nbsp;</p>";
+    
+     private void przygotujmail(WierszDRA wierszDRA, List<Zusmail> maile) {
+        if (wierszDRA != null && wierszDRA.getZusdra() != null && wierszDRA.getZusdra().getIx2Kwdozaplaty() != null) {
+            try {
+                Zusmail zusmail = null;
+                if (wierszDRA.getZusmail() != null) {
+                    if (wierszDRA.getZusmail().getId() != null) {
+                        zusmail = wierszDRA.getZusmail();
+                    }
+                } else {
+                    for (Zusmail l : maile) {
+                        if (l.getPodatnik().equals(wierszDRA.getPodatnik()) && l.getRok().equals(wierszDRA.getRok()) && l.getMc().equals(wierszDRA.getMc())) {
+                            zusmail = l;
+                            break;
+                        }
+                    }
+                }
+                if (zusmail == null) {
+                    zusmail = new Zusmail(wierszDRA.getPodatnik(), wierszDRA.getRok(), wierszDRA.getMc());
+                }
+                zusmail.setZus(wierszDRA.getZusdra().getIx2Kwdozaplaty().doubleValue());
+                zusmail.setPit4(null);
+                zusmail.setPit8(null);
+                double zus = 0;
+                double pit4 = 0;
+                double pit8 = 0;
+                zus = zusmail.getZus() != null ? zusmail.getZus() : 0;
+                //            pit4 = zusmail.getPit4()!= null ? zusmail.getPit4(): 0;
+                //            pit8 = zusmail.getPit8()!= null ? zusmail.getPit8(): 0;//kom
+                zusmail.setTytul(String.format("Taxman - zestawienie kwot ZUS/PIT4 za %s/%s", rok, mc));
+                zusmail.setTresc(String.format(new Locale("pl_PL"), trescmaila, wierszDRA.getPodatnik().getPrintnazwa(), wierszDRA.getPodatnik().getNip(), rok, mc, zus, pit4, pit8));
+                zusmail.setAdresmail(wierszDRA.getPodatnik().getEmail());
+                zusmail.setWysylajacy("manager");
+                wierszDRA.setZusmail(zusmail);
+                wierszDRADAO.edit(wierszDRA);
+            } catch (Exception e) {
+                System.out.println(E.e(e));
+            }
+        }
+    }
+     
+      public void wyslijMailZUS(WierszDRA wierszDRA) {
+          Zusmail zusmail = wierszDRA.getZusmail();
+        try {
+            MaiManager.mailManagerZUS("brzaskun@o2.pl", zusmail.getTytul(), zusmail.getTresc(), zusmail.getPodatnik().getEmail(), null, sMTPSettingsDAO.findSprawaByDef());
+//            MaiManager.mailManagerZUS(zusmail.getAdresmail(), zusmail.getTytul(), zusmail.getTresc(), zusmail.getPodatnik().getEmail(), null, sMTPSettingsDAO.findSprawaByDef());
+            usuzpelnijdane(zusmail);
+        } catch (Exception e) {
+            Msg.msg("e", "Blad nie wyslano wiadomosci! " + e.toString());
+        }
+    }
+    
+     
+    
+    private void usuzpelnijdane(Zusmail zusmail) {
+        try {
+            if (zusmail != null) {
+               zusmail.setNrwysylki(zusmail.getNrwysylki()+1);
+               zusmail.setDatawysylki(new Date());
+               zusmailDAO.edit(zusmail);
+               Msg.msg("Wysłano zusmail");
+            }
+        } catch (Exception e) {
+            Msg.msg("e", "Wystąpił błąd. Mail z ZUS nie został wysłany");
+        }
+    }
+    
+    
+    public static void main(String[] args) {
+        String format = String.format(new Locale("pl_PL"),"Taxman - zestawienie kwot ZUS/PIT4 za %,.2f",12544.22);
+        System.out.println(format);
     }
 
     public List<WierszDRA> getWiersze() {

@@ -62,7 +62,7 @@ public class Zusmail implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
-    private int id;
+    private Integer id;
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name = "podatnik", referencedColumnName = "id")
     private Podatnik podatnik;
@@ -91,13 +91,13 @@ public class Zusmail implements Serializable {
     private Double pit4;
     @Column(precision = 22)
     private Double pit8;
+    @Column(precision = 22)
+    private Double zus;
     @Basic(optional = false)
-    @NotNull
     @Column(nullable = false)
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
     private Date datawysylki;
     @Basic(optional = false)
-    @NotNull
     @Column(nullable = false)
     private int nrwysylki = 0;
     @Basic(optional = false)
@@ -131,13 +131,14 @@ public class Zusmail implements Serializable {
         this.mc = mc;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
+
 
     public Podatnik getPodatnik() {
         return podatnik;
@@ -270,13 +271,21 @@ public class Zusmail implements Serializable {
         this.wysylajacy = wysylajacy;
     }
 
+    public Double getZus() {
+        return zus;
+    }
+
+    public void setZus(Double zus) {
+        this.zus = zus;
+    }
+
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 17 * hash + this.id;
-        hash = 17 * hash + Objects.hashCode(this.podatnik);
-        hash = 17 * hash + Objects.hashCode(this.rok);
-        hash = 17 * hash + Objects.hashCode(this.mc);
+        hash = 89 * hash + Objects.hashCode(this.id);
+        hash = 89 * hash + Objects.hashCode(this.podatnik);
+        hash = 89 * hash + Objects.hashCode(this.rok);
+        hash = 89 * hash + Objects.hashCode(this.mc);
         return hash;
     }
 
@@ -292,13 +301,13 @@ public class Zusmail implements Serializable {
             return false;
         }
         final Zusmail other = (Zusmail) obj;
-        if (this.id != other.id) {
-            return false;
-        }
         if (!Objects.equals(this.rok, other.rok)) {
             return false;
         }
         if (!Objects.equals(this.mc, other.mc)) {
+            return false;
+        }
+        if (!Objects.equals(this.id, other.id)) {
             return false;
         }
         if (!Objects.equals(this.podatnik, other.podatnik)) {
@@ -306,6 +315,10 @@ public class Zusmail implements Serializable {
         }
         return true;
     }
+    
+    
+
+  
 
     @Override
     public String toString() {

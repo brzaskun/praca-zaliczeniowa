@@ -8,6 +8,7 @@ package entityplatnik;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,6 +18,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -131,7 +133,10 @@ public class Zusrca implements Serializable {
     private Character statusKontroli;
     @Column(name = "ID_PL_ZUS_STATUS")
     private Character idPlZusStatus;
-
+    @Transient
+    private List<UbezpZusrca> rcalista;
+    
+    
     public Zusrca() {
     }
 
@@ -360,6 +365,16 @@ public class Zusrca implements Serializable {
         this.idPlZusStatus = idPlZusStatus;
     }
 
+    public List<UbezpZusrca> getRcalista() {
+        return rcalista;
+    }
+
+    public void setRcalista(List<UbezpZusrca> rcalista) {
+        this.rcalista = rcalista;
+    }
+    
+    
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -382,7 +397,9 @@ public class Zusrca implements Serializable {
 
     @Override
     public String toString() {
-        return "entityplatnik.Zusrca[ idDokument=" + idDokument + " ]";
+        return "Zusrca{" + "idPlatnik=" + idPlatnik + ", i12okrrozl=" + i12okrrozl + ", ii1Nip=" + ii1Nip + ", ii2Regon=" + ii2Regon + ", ii3Pesel=" + ii3Pesel + ", ii6Nazwaskr=" + ii6Nazwaskr + ", ii7Nazwisko=" + ii7Nazwisko + ", ii8Imiepierw=" + ii8Imiepierw + ", ii9Dataurodz=" + ii9Dataurodz + '}';
     }
+
+   
     
 }

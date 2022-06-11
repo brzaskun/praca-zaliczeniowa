@@ -1111,7 +1111,9 @@ public class UbezpZusrca implements Serializable {
 
     @Override
     public String toString() {
-        return "entityplatnik.UbezpZusrca[ idDokument=" + idDokument + " ]";
+        return "UbezpZusrca{" + "idPlatnik=" + idPlatnik + ", idDokNad=" + idDokNad + ", iiiA1Nazwisko=" + iiiA1Nazwisko + ", iiiA2Imiepierw=" + iiiA2Imiepierw + ", iiiA4Identyfik=" + iiiA4Identyfik + ", iiiB11kodtytub=" + iiiB11kodtytub + ", iiiB31wymczprl=" + iiiB31wymczprl + ", iiiB32wymczprm=" + iiiB32wymczprm + ", iiiB15Lkwskl=" + iiiB15Lkwskl + '}';
     }
+
+    
     
 }
