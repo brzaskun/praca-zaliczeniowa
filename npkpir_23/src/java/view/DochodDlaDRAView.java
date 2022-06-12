@@ -341,7 +341,7 @@ public class DochodDlaDRAView implements Serializable {
                     }
                 }
             dodajpit4(w, firmy);
-            przygotujmail(w, maile);
+            przygotujmail(w, maile,zwiekszmiesiac[0],zwiekszmiesiac[1]);
             }
         Collections.sort(wiersze, new WierszDRAcomparator());
         Msg.msg("Pobrano dane");
@@ -621,7 +621,7 @@ public class DochodDlaDRAView implements Serializable {
             + " <p> do <span style=\"color:#006400;\">20-go</span> - PIT-4/PIT-8 od wynagrodzeń pracownik&oacute;w</p>"
             + " <p> &nbsp;</p>";
     
-     private void przygotujmail(WierszDRA wierszDRA, List<Zusmail> maile) {
+     private void przygotujmail(WierszDRA wierszDRA, List<Zusmail> maile, String rok, String mc) {
         if (wierszDRA != null && wierszDRA.getZusdra() != null && wierszDRA.getZusdra().getIx2Kwdozaplaty() != null) {
             try {
                 Zusmail zusmail = null;
@@ -631,14 +631,14 @@ public class DochodDlaDRAView implements Serializable {
                     }
                 } else {
                     for (Zusmail l : maile) {
-                        if (l.getPodatnik().equals(wierszDRA.getPodatnik()) && l.getRok().equals(wierszDRA.getRok()) && l.getMc().equals(wierszDRA.getMc())) {
+                        if (l.getPodatnik().equals(wierszDRA.getPodatnik())) {
                             zusmail = l;
                             break;
                         }
                     }
                 }
                 if (zusmail == null) {
-                    zusmail = new Zusmail(wierszDRA.getPodatnik(), wierszDRA.getRok(), wierszDRA.getMc());
+                    zusmail = new Zusmail(wierszDRA.getPodatnik(), rok, mc);
                 }
                 zusmail.setZus(wierszDRA.getZusdra().getIx2Kwdozaplaty().doubleValue());
                 zusmail.setPit4(wierszDRA.getPit4());
@@ -649,8 +649,8 @@ public class DochodDlaDRAView implements Serializable {
                 zus = zusmail.getZus() != null ? zusmail.getZus() : 0;
                 //            pit4 = zusmail.getPit4()!= null ? zusmail.getPit4(): 0;
                 //            pit8 = zusmail.getPit8()!= null ? zusmail.getPit8(): 0;//kom
-                zusmail.setTytul(String.format("Taxman - zestawienie kwot ZUS/PIT4 za %s/%s", rok, mc));
-                zusmail.setTresc(String.format(new Locale("pl_PL"), trescmaila, wierszDRA.getPodatnik().getPrintnazwa(), wierszDRA.getPodatnik().getNip(), rok, mc, zus, pit4, pit8));
+                zusmail.setTytul(String.format("Taxman - zestawienie kwot ZUS/PIT4 za %s/%s", wierszDRA.getRok(), wierszDRA.getMc()));
+                zusmail.setTresc(String.format(new Locale("pl_PL"), trescmaila, wierszDRA.getPodatnik().getPrintnazwa(), wierszDRA.getPodatnik().getNip(), wierszDRA.getRok(), wierszDRA.getMc(), zus, pit4, pit8));
                 zusmail.setAdresmail(wierszDRA.getPodatnik().getEmail());
                 zusmail.setWysylajacy("manager");
                 wierszDRA.setZusmail(zusmail);
