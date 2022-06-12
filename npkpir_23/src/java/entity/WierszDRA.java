@@ -108,6 +108,8 @@ public class WierszDRA  implements Serializable{
     private double przychoddra;
     @Transient
     private double przychoddraru;
+    @Transient
+    private double pit4;
 
     public WierszDRA() {
     }
@@ -412,6 +414,14 @@ public class WierszDRA  implements Serializable{
 
     public void setZusmail(Zusmail zusmail) {
         this.zusmail = zusmail;
+    }
+
+    public double getPit4() {
+        return pit4;
+    }
+
+    public void setPit4(double pit4) {
+        this.pit4 = pit4;
     }
     
     

@@ -191,7 +191,7 @@
             background-color: #e4e3e3 !important;
         }
     </style>
-                        <p:dataTable value="#{dochodDlaDRAView.wiersze}" var="item" style="width: 1600px;padding: 20px;" 
+                        <p:dataTable value="#{dochodDlaDRAView.wiersze}" var="item" style="width: 167   0px;padding: 20px;" 
                                      scrollable="true" scrollHeight="750" scrollRows="30" rowStyleClass="#{(yndex mod 2) eq 0 ? null : 'odd'}"
                                      emptyMessage="nie pobrano danych" id="wykazschem" rowKey="#{item.imienazwisko}" rowIndexVar="yndex"
                                      selection="#{dochodDlaDRAView.selected}" selectionMode="single" sortBy="#{item.imienazwisko}" sortOrder="ascending">
@@ -256,9 +256,15 @@
                             </p:column>
                             <p:column  style="width: 70px;">
                                 <f:facet name="header">
-                                    <h:outputText value="Do zapł."/>
+                                    <h:outputText value="DRA d.zapł."/>
                                 </f:facet>
                                 <bcf:outputpl value="#{item.zusdra.ix2Kwdozaplaty}"/>
+                            </p:column>
+                              <p:column  style="width: 70px;">
+                                <f:facet name="header">
+                                    <h:outputText value="PIT-4"/>
+                                </f:facet>
+                                  <bcf:outputpl value="#{item.pit4}"/>
                             </p:column>
                             <p:column  style="width: 60px;">
                                 <f:facet name="header">

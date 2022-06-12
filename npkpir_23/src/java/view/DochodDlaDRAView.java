@@ -21,6 +21,8 @@ import dao.ZusmailDAO;
 import daoplatnik.UbezpZusrcaDAO;
 import daoplatnik.ZusdraDAO;
 import daoplatnik.ZusrcaDAO;
+import daosuperplace.FirmaFacade;
+import daosuperplace.RokFacade;
 import data.Data;
 import embeddable.Mce;
 import embeddable.WierszPkpir;
@@ -51,6 +53,10 @@ import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import kadryiplace.Firma;
+import kadryiplace.Okres;
+import kadryiplace.Place;
+import kadryiplace.Rok;
 import mail.MaiManager;
 import msg.Msg;
 import waluty.Z;
@@ -93,6 +99,10 @@ public class DochodDlaDRAView implements Serializable {
     private ZusmailDAO zusmailDAO;
     @Inject
     private SMTPSettingsDAO sMTPSettingsDAO;
+    @Inject
+    private FirmaFacade firmaFacade;
+    @Inject
+    private RokFacade rokFacade;
     private List<Zusdra> zusdralista;
     private List<Zusrca> zusrcalista;
     private boolean pokazzrobione;
@@ -296,6 +306,7 @@ public class DochodDlaDRAView implements Serializable {
         String okres = mc+rok;
         zusdralista = zusdraDAO.findByOkres(okres);
         zusrcalista = zusrcaDAO.findByOkres(okres);
+        List<kadryiplace.Firma> firmy = firmaFacade.findAll();
         for (WierszDRA w : wiersze) {
             for (Zusdra z : zusdralista) {
                 if (w.getPodatnik().getNip().equals(z.getIi1Nip())) {
@@ -328,12 +339,39 @@ public class DochodDlaDRAView implements Serializable {
                          w.setBlad(true);
                     }
                 }
-                przygotujmail(w, maile);
+            dodajpit4(w, firmy);
+            przygotujmail(w, maile);
             }
         Collections.sort(wiersze, new WierszDRAcomparator());
         Msg.msg("Pobrano dane");
     }
 
+    private void dodajpit4(WierszDRA w, List<kadryiplace.Firma> firmy) {
+        Firma firma = null;
+        for (Firma f : firmy) {
+            if (f.getFirNip().replace("-", "").equals(w.getPodatnik().getNip())) {
+                firma = f;
+                break;
+            }
+        }
+        if (firma!=null) {
+            Rok rok = rokFacade.findByFirmaRok(firma, Integer.parseInt(w.getRok()));
+            kadryiplace.Okres okres = null;
+            for (Okres o : rok.getOkresList()) {
+                if (o.getOkrMieNumer()==Mce.getMiesiacToNumber().get(w.getMc())) {
+                    okres = o;
+                    break;
+                }
+            }
+            List<Place> placeList = okres.getPlaceList();
+            double podatekpraca = 0.0;
+            for (Place p : placeList) {
+                podatekpraca = podatekpraca+p.getLplZalDoch().doubleValue();
+            }
+            w.setPit4(podatekpraca);
+        }
+     }
+    
     private boolean pobierzpit(String rokpkpir, String mcod, String nazwapelna) {
         boolean zwrot = false;
         try {
@@ -602,7 +640,7 @@ public class DochodDlaDRAView implements Serializable {
                     zusmail = new Zusmail(wierszDRA.getPodatnik(), wierszDRA.getRok(), wierszDRA.getMc());
                 }
                 zusmail.setZus(wierszDRA.getZusdra().getIx2Kwdozaplaty().doubleValue());
-                zusmail.setPit4(null);
+                zusmail.setPit4(wierszDRA.getPit4());
                 zusmail.setPit8(null);
                 double zus = 0;
                 double pit4 = 0;
@@ -701,8 +739,6 @@ public class DochodDlaDRAView implements Serializable {
     public void setPokazzrobione(boolean pokazzrobione) {
         this.pokazzrobione = pokazzrobione;
     }
-
-   
 
     
 

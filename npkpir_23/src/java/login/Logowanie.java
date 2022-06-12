@@ -69,6 +69,7 @@ public class Logowanie implements Serializable {
             if (ipusera!=null) {
                 liczniklogowan = Liczniklogowan.pobierzIloscLogowan(ipusera, rejestrlogowanDAO);
             }
+            
             invalidatesession();
         } catch (Exception e) {
             E.e(e);
