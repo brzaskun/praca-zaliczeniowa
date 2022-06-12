@@ -277,7 +277,8 @@ public class DochodDlaDRAView implements Serializable {
     }
     
     public void pobierz() {
-        List<Zusmail> maile = zusmailDAO.findZusRokMc(rok, mc);
+        String[] zwiekszmiesiac = Mce.zwiekszmiesiac(rok, mc);
+        List<Zusmail> maile = zusmailDAO.findZusRokMc(zwiekszmiesiac[0], zwiekszmiesiac[1]);
         wiersze = wierszDRADAO.findByRok(rok);
         Collections.sort(wiersze, new WierszDRAcomparator());
             Map<String, List<WierszDRA>> kotek = new TreeMap<>();
