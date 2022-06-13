@@ -108,6 +108,9 @@
                         <p:commandButton icon="ui-icon-trash" actionListener="#{fakturaDodPozycjaKontrahentView.usun(zapis)}" update="@form" rendered="#{zapis.rozliczone eq false}"/>
                     </p:column>
                 </p:dataTable>
+                <p:contextMenu for=":akordeon:formokresowe:dokumentyOkresowe" style="width: 250px;">
+                    <p:menuitem value="zeruj rozl." update="akordeon:listapozycji:lista" actionListener="#{fakturaDodPozycjaKontrahentView.zeruj(zapis)}" icon="ui-icon-document" />
+                </p:contextMenu>
             </h:form>
             <h:form>
                 <p:panelGrid columns="3">

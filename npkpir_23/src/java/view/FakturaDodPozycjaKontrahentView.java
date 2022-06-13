@@ -138,6 +138,20 @@ public class FakturaDodPozycjaKontrahentView  implements Serializable {
         }
     }
     
+    public void zeruj(FakturaDodPozycjaKontrahent sel) {
+        if (sel !=null) {
+            try {
+                sel.setRozliczone(false);
+                fakturaDodPozycjaKontrahentDAO.edit(sel);
+                Msg.msg("Wyzerowano pozycję");
+            } catch (Exception e) {
+                Msg.msg("e","Nieudane zerowanie pozycji");
+            }
+        } else {
+            Msg.msg("e","Nie wybrano pozycji. Nie można usunąć");
+        }
+    }
+    
     public void edytuj(FakturaDodPozycjaKontrahent sel, int co) {
         if (sel !=null) {
             try {
