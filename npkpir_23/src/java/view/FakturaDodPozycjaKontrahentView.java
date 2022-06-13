@@ -138,9 +138,10 @@ public class FakturaDodPozycjaKontrahentView  implements Serializable {
         }
     }
     
-    public void zeruj(FakturaDodPozycjaKontrahent sel) {
-        if (sel !=null) {
+    public void zeruj() {
+        if (lista_2_selected!=null && lista_2_selected.size()==1) {
             try {
+                FakturaDodPozycjaKontrahent sel = lista_2_selected.get(0);
                 sel.setRozliczone(false);
                 fakturaDodPozycjaKontrahentDAO.edit(sel);
                 Msg.msg("Wyzerowano pozycję");
