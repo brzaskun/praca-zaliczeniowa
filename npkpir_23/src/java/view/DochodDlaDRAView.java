@@ -672,7 +672,7 @@ public class DochodDlaDRAView implements Serializable {
       public void wyslijMailZUS(WierszDRA wierszDRA) {
           Zusmail zusmail = wierszDRA.getZusmail();
         try {
-            MaiManager.mailManagerZUS("brzaskun@o2.pl", zusmail.getTytul(), zusmail.getTresc(), zusmail.getPodatnik().getEmail(), null, sMTPSettingsDAO.findSprawaByDef());
+            MaiManager.mailManagerZUS(wierszDRA.getZusmail().getAdresmail(), zusmail.getTytul(), zusmail.getTresc(), zusmail.getPodatnik().getEmail(), null, sMTPSettingsDAO.findSprawaByDef());
 //            MaiManager.mailManagerZUS(zusmail.getAdresmail(), zusmail.getTytul(), zusmail.getTresc(), zusmail.getPodatnik().getEmail(), null, sMTPSettingsDAO.findSprawaByDef());
             usuzpelnijdane(zusmail);
         } catch (Exception e) {
