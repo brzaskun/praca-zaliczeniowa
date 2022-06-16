@@ -597,6 +597,7 @@ public class DochodDlaDRAView implements Serializable {
                 }
                 przychod = wierszRyczalt.getRazem();
             }
+             wiersz.setBrakdokumentow(false);
         } else {
             wiersz.setBrakdokumentow(true);
         }
