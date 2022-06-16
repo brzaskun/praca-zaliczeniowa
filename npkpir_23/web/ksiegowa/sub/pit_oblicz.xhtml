@@ -56,6 +56,7 @@
                             <h:outputText value="podatnik:"/><h:outputText value="#{zestawienieView.biezacyPit.udzialowiec}"/>
                             <h:outputText value="rok"/><h:outputText value="#{zestawienieView.biezacyPit.pkpirR}"/>
                             <h:outputText value="#{mgs.miesiąc}"/><h:outputText value="#{zestawienieView.biezacyPit.pkpirM}"/>
+                            <h:outputText value="email"/><h:outputText value="#{zestawienieView.biezacyPit.podatnik1.email}"/>
                         </p:panelGrid>
                         <p:panelGrid id="zestawieniepit" columns="2" style="width: 350px;">
                             <p:separator/><p:separator/>
@@ -111,13 +112,15 @@
 
                         </p:panelGrid>
                         <p:panelGrid  columns="3" style="margin-left: auto; margin-right: auto; width: 480px;">
-                            <p:commandButton  value="Pdf" actionListener="#{sesjaView.dodajwydruk()}" action="#{zestawienieView.drukujbiezacypit()}" onsuccess="wydrukpit5('#{WpisView.podatnikWpisu}');" style="width: 120px;" rendered="#{zamkniecieView.sprawdzMiesiacRok()}">
+                            <p:commandButton  value="Pdf" actionListener="#{sesjaView.dodajwydruk()}" action="#{zestawienieView.drukujbiezacypit()}" 
+                                              onsuccess="wydrukpit5('#{WpisView.podatnikWpisu}');" style="width: 120px;" rendered="#{zamkniecieView.sprawdzMiesiacRok()}">
                             </p:commandButton>
 
                             <p:commandButton value="przelicz"  action="#{zestawienieView.obliczPit()}" update="formpit" type="submit" style="width: 140px" styleClass="klik"/>
                             <p:splitButton value="zachowaj pit"  action="#{zestawienieView.zachowajPit()}" update="formpit" type="submit" rendered="#{zamkniecieView.sprawdzMiesiacRok()}">
                                 <p:menuitem global="false" value="dodatkowy-13" actionListener="#{zestawienieView.zachowajPit13()}" icon="ui-icon-arrowrefresh-1-w"/>  
                             </p:splitButton>
+                            <p:commandButton value="wyślij"  action="#{zestawienieView.wyslijPit()}" type="submit" style="width: 140px" styleClass="klik" rendered="#{zamkniecieView.sprawdzMiesiacRok()}"/>
                         </p:panelGrid>
                     </p:panelGrid>
                     <p:panelGrid  columns="1" >
@@ -243,6 +246,7 @@
                             <p:splitButton value="zachowaj pit"  action="#{zestawienieRyczaltView.zachowajPit()}" update="@form, :akordeon:formpit1:" type="submit" >
                                 <p:menuitem global="false" value="dodatkowy-13" actionListener="#{zestawienieRyczaltView.zachowajPit13()}" icon="ui-icon-arrowrefresh-1-w"/>  
                             </p:splitButton>
+                            <p:commandButton value="wyślij"  action="#{zestawienieRyczaltView.wyslijPit()}" type="submit" style="width: 140px" styleClass="klik" rendered="#{zamkniecieView.sprawdzMiesiacRok()}"/>
                         </p:panelGrid>
                     </p:panelGrid>
                     <p:panelGrid  columns="1" >

@@ -237,9 +237,7 @@ public class InterpaperImportView implements Serializable {
                     break;
                 case 5:
                     if (pobraneplikibytes.size()>0) {
-                        if (pobranefaktury==null) {
-                            pobranefaktury = new ArrayList<>();
-                        }
+                        pobranefaktury = new ArrayList<>();
                         for (byte[] p : pobraneplikibytes) {
                             pobranefaktury.addAll(ReadXLSMurawskiFile.getListafakturXLS(p, k, klienciDAO, rodzajdok, tabelanbpDAO, wpisView.getMiesiacWpisu()));
                         }

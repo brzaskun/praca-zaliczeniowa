@@ -11,6 +11,7 @@ import dao.PodStawkiDAO;
 import dao.PodatnikDAO;
 import dao.PodatnikUdzialyDAO;
 import dao.RyczDAO;
+import dao.SMTPSettingsDAO;
 import dao.StrataDAO;
 import dao.ZobowiazanieDAO;
 import embeddable.Mce;
@@ -37,6 +38,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -46,6 +48,7 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
+import mail.MaiManager;
 import msg.Msg;
 import org.primefaces.PrimeFaces;
 import pdf.PdfPIT28;
@@ -123,6 +126,8 @@ public class ZestawienieRyczaltView implements Serializable {
     @Inject
     private FakturaDAO fakturaDAO;
     private Podatnik taxman;
+    @Inject
+    private SMTPSettingsDAO sMTPSettingsDAO;
 
     public ZestawienieRyczaltView() {
         pobierzPity = Collections.synchronizedList(new ArrayList<>());
@@ -683,7 +688,31 @@ public class ZestawienieRyczaltView implements Serializable {
     }
     
    
+     private static final String trescmaila = "<p> Dzień dobry</p> <p> Przesyłamy informacje o naliczonych kwoty zobowiązań z tytułu podatku dochodowego</p> "
+            + "<p> dla firmy <span style=\"color:#008000;\">%s</span> NIP %s</p> "
+            + "<p> do zapłaty/przelania w miesiącu <span style=\"color:#008000;\">%s/%s</span></p> "
+            + " <table align=\"left\" border=\"1\" cellpadding=\"1\" cellspacing=\"1\" style=\"width: 500px;\"> <caption> zestawienie zobowiązań</caption> <thead> <tr> "
+            + "<th scope=\"col\"> lp</th> <th scope=\"col\"> tytuł</th> <th scope=\"col\"> kwota</th> </tr> </thead> <tbody> "
+            + "<tr><td style=\"text-align: center;\"> 1</td><td><span style='font-weight: bold'>Sprzedaż za m-c</span></td> <td style=\"text-align: right;\"><span style=\"text-align: right;font-weight: bold\"> %.2f</span></td> </tr> "
+            + "<tr><td style=\"text-align: center;\"> 2</td><td><span style='font-weight: bold'>Ryczałt</span></td> <td style=\"text-align: right;\"><span style=\"text-align: right;font-weight: bold\"> %.2f</span></td> </tr> "
+            + "</tbody> </table>"
+            + " <p> &nbsp;</p> <p> &nbsp;</p> <p> &nbsp;</p><br/> "
+            + "<p> Ważne! Przelew do US jedną kwotą na JEDNO indywidualne konto wskazane przez US.</p>"
+            + "<p> Przypominamy o terminie płatności PIT:</p>"
+            + " <p> do <span style=\"color:#008000;\">20-go</span> &nbsp; następnego miesiąca za miesiąc poprzedni</p>"
+            + " <p> &nbsp;</p>";
     
+    public void wyslijPit() {
+        try {
+            String tytuł = String.format("Taxman - zestawienie kwot podatek dochodowy za %s/%s", wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+            String tresc = String.format(new Locale("pl_PL"), trescmaila, wpisView.getPodatnikObiekt().getPrintnazwa(), wpisView.getPodatnikObiekt().getNip(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(), 
+                    biezacyPit.getPrzychodyudzial().doubleValue(), biezacyPit.getDozaplaty().doubleValue());
+            MaiManager.mailManagerZUSPIT(wpisView.getPodatnikObiekt().getEmail(), tytuł, tresc, wpisView.getUzer().getEmail(), null, sMTPSettingsDAO.findSprawaByDef());
+            msg.Msg.msg("Wysłano do klienta informacje o podatku");
+        } catch (Exception e){
+            
+        }
+    }
 
     public DokDAO getDokDAO() {
         return dokDAO;

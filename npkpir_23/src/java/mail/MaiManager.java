@@ -45,7 +45,7 @@ public class MaiManager implements Serializable {
         return message;
     }
 
-    public static void mailManagerZUS(String adres, String temat, String tresc, String wysylajacy, SMTPSettings settings, SMTPSettings ogolne) throws MessagingException, UnsupportedEncodingException {
+    public static void mailManagerZUSPIT(String adres, String temat, String tresc, String wysylajacy, SMTPSettings settings, SMTPSettings ogolne) throws MessagingException, UnsupportedEncodingException {
         //MailSetUp mailSetUp = new MailSetUp();
         MimeMessage message = logintoMailZUS(adres, wysylajacy, settings, ogolne);
         try {
@@ -69,7 +69,7 @@ public class MaiManager implements Serializable {
     
     public static void main (String[] args) throws MessagingException {
         try {
-            MaiManager.mailManagerZUS("info@taxman.biz.pl", "Test", "test \n test", "brzaskun@wp.pl", null, null);
+            MaiManager.mailManagerZUSPIT("info@taxman.biz.pl", "Test", "test \n test", "brzaskun@wp.pl", null, null);
         } catch (UnsupportedEncodingException ex) {
             // Logger.getLogger(MaiManager.class.getName()).log(Level.SEVERE, null, ex);
         }
