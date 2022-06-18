@@ -13,6 +13,7 @@ import dao.EvewidencjaDAO;
 import dao.JPKVATWersjaDAO;
 import dao.JPKvatwersjaEvewidencjaDAO;
 import dao.KlientJPKDAO;
+import dao.SMTPSettingsDAO;
 import dao.UPODAO;
 import data.Data;
 import embeddable.Kwartaly;
@@ -48,6 +49,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
@@ -56,6 +58,7 @@ import javax.inject.Named;
 import javax.servlet.ServletContext;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
+import mail.MaiManager;
 import msg.Msg;
 import org.primefaces.PrimeFaces;
 import pdf.PdfUPO;
@@ -109,6 +112,8 @@ public class Jpk_VAT2View implements Serializable {
     private Evewidencja ewidencjazakupu;
     @Inject
     private EvewidencjaDAO evewidencjaDAO;
+    @Inject
+    private SMTPSettingsDAO sMTPSettingsDAO;
 
     
     public void init() { //E.m(this);
@@ -506,7 +511,65 @@ public class Jpk_VAT2View implements Serializable {
         return upo;
     }
     
-      
+        private static final String trescmaila = "<p> Dzień dobry</p> <p> Przesyłamy informacje o naliczonych kwotach z tytułu VAT</p> "
+            + "<p> dla firmy <span style=\"color:#008000;\">%s</span> NIP %s</p> "
+            + "<p> do zapłaty/przelania w miesiącu <span style=\"color:#008000;\">%s/%s</span></p> "
+            + " <table align=\"left\" border=\"1\" cellpadding=\"1\" cellspacing=\"1\" style=\"width: 500px;\"> <caption> zestawienie zobowiązań</caption> <thead> <tr> "
+            + "<th scope=\"col\"> lp</th> <th scope=\"col\"> tytuł</th> <th scope=\"col\"> kwota</th> </tr> </thead> <tbody> "
+             + "<tr><td style=\"text-align: center;\"> 1</td><td><span >VAT należny</span></td> <td style=\"text-align: right;\"><span style=\"text-align: right;font-weight: bold\"> %.2f</span></td> </tr> "
+             + "<tr><td style=\"text-align: center;\"> 2</td><td><span >VAT naliczony</span></td> <td style=\"text-align: right;\"><span style=\"text-align: right;font-weight: bold\"> %.2f</span></td> </tr> "
+             + "<tr><td style=\"text-align: center;\"> 3</td><td><span  style='font-weight: bold'>do zapłaty</span></td> <td style=\"text-align: right;\"><span style=\"text-align: right;font-weight: bold\"> %.2f</span></td> </tr> "
+            + "<tr><td style=\"text-align: center;\"> 4</td><td><span>do zwrotu</span></td> <td style=\"text-align: right;\"><span style=\"text-align: right;font-weight: bold\"> %.2f</span></td> </tr> "
+            + "</tbody> </table>"
+            + " <p> &nbsp;</p> <p> &nbsp;</p> <p> &nbsp;</p><br/> "
+            + "<p> Ważne! Przelew do US jedną kwotą na JEDNO indywidualne konto wskazane przez US.</p>"
+            + "<p> Przypominamy o terminie płatności VAT:</p>"
+            + " <p> do <span style=\"color:#008000;\">25-go</span> &nbsp; następnego miesiąca za miesiąc poprzedni</p>"
+            + " <p> &nbsp;</p>";
+    
+    public void wyslijVAT(UPO upo) {
+        try {
+            JPKSuper jpk = upo.getJpk();
+            String tytuł = String.format("Taxman - informacja o VAT za %s/%s", wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+            double nalezny = 0.0;
+            double naliczony = 0.0;
+            double dozaplaty = 0.0;
+            double dozwrotu = 0.0;
+            boolean wyslac = false;
+            if (jpk instanceof pl.gov.crd.wzor._2021._12._27._11149.JPK) {
+                pl.gov.crd.wzor._2021._12._27._11149.JPK o = (pl.gov.crd.wzor._2021._12._27._11149.JPK)jpk;
+                nalezny = o.getEwidencja().getSprzedazCtrl().getPodatekNalezny().doubleValue();
+                naliczony = o.getEwidencja().getZakupCtrl().getPodatekNaliczony().doubleValue();
+                if (nalezny>naliczony) {
+                    dozaplaty = nalezny-naliczony;
+                } else {
+                    dozwrotu = naliczony-nalezny;
+                }
+                wyslac = true;
+            } else if (jpk instanceof pl.gov.crd.wzor._2021._12._27._11148.JPK) {
+                pl.gov.crd.wzor._2021._12._27._11148.JPK o = (pl.gov.crd.wzor._2021._12._27._11148.JPK)jpk;
+                nalezny = o.getEwidencja().getSprzedazCtrl().getPodatekNalezny().doubleValue();
+                naliczony = o.getEwidencja().getZakupCtrl().getPodatekNaliczony().doubleValue();
+                if (nalezny>naliczony) {
+                    dozaplaty = nalezny-naliczony;
+                } else {
+                    dozwrotu = naliczony-nalezny;
+                }
+                wyslac = true;
+            }
+            if (wyslac) {
+                String tresc = String.format(new Locale("pl_PL"), trescmaila, wpisView.getPodatnikObiekt().getPrintnazwa(), wpisView.getPodatnikObiekt().getNip(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(),
+                        nalezny, naliczony, dozaplaty,dozwrotu);
+                MaiManager.mailManagerZUSPIT(wpisView.getPodatnikObiekt().getEmail(), tytuł, tresc, wpisView.getUzer().getEmail(), null, sMTPSettingsDAO.findSprawaByDef());
+                msg.Msg.msg("Wysłano do klienta informacje o podatku");
+            } else {
+                msg.Msg.msg("e","Nieobsługiwany format JPK");
+            }
+        } catch (Exception e){
+            
+        }
+    }
+
     
     private JPKSuper genJPK(List<KlientJPK> kliencijpk, List<EVatwpisSuper> wiersze, Podatnik podatnik, boolean nowa0korekta1) {
         JPKSuper zwrot = null;
