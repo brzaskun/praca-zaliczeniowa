@@ -412,8 +412,8 @@ public class EwidencjaVatView implements Serializable {
                 ewidencjeFK.add(p);
             }
             pobierzmiesiacdlajpk = false;
-            PrimeFaces.current().ajax().update("form");
-            PrimeFaces.current().ajax().update("formEwidencjeGuest");
+            //PrimeFaces.current().ajax().update("@form");
+            //PrimeFaces.current().ajax().update("formEwidencjeGuest");
             //PrimeFaces.current().ajax().update("form_dialog_ewidencjevat_sprawdzanie");
         } catch (Exception e) { 
             E.e(e); 
