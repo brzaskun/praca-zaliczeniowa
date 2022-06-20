@@ -171,7 +171,7 @@ public class EVatwpisSuper implements Serializable {
     }
 
     public double getProcentvat() {
-        return 0.0;
+        return this.getDokfk().getRodzajedok().getProcentvat();
     }
 
     public Dokfk getDokfk() {
