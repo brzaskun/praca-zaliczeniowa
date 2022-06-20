@@ -24,7 +24,7 @@
     <p:dialog id="dialogewidencjevat" header="Zestawienie ewidencji vat - #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="dialogewidencjevat"  
               maximizable="true" onShow="ustawdialog('dialogewidencjevat','menurejestry',1350,750);doczeplistnerydopol();" closeOnEscape="true" onHide="resetujdialog('dialogewidencjevat');"
               resizable="true">
-        <p:ajax event="open" listener="#{vatZmianaOkresuView.aktualizujpozmianiedaty(WpisView.getPodatnikObiekt())}" global="false"/>
+        <p:ajax event="open" listener="#{vatZmianaOkresuView.aktualizujpozmianiedaty(WpisView.getPodatnikObiekt())}" global="false" update="@(form)"/>
         <h:form id="form"> 
             <style>
                 .ui-datatable .mc .ui-column-filter {
