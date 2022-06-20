@@ -130,7 +130,7 @@ public class EwidencjaVATSporzadzanie {
         //wpisuje pola zakupu
         duplikat.setNazwaewidencji(ewidencjazak);
         duplikat.setDuplikat(true);
-        if (duplikat.getProcentvat() != 0) {
+        if (duplikat.getProcentvat() != 0.0) {
             duplikat.setVat(Z.z(duplikat.getVat() * (duplikat.getProcentvat() / 100)));
         }
         return duplikat;
