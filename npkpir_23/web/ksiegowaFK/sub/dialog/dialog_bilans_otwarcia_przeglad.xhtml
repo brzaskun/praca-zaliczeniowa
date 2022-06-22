@@ -8,7 +8,7 @@
     >
 
     <p:dialog id="dialogpierwszy" header="Bilans otwarcia i obroty rozpoczęcia - przegląd sald - #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="bilansprzeglad" 
-              resizable="false" onShow="ustawdialog('dialogpierwszy','menubilanse', 1350, 750);" closeOnEscape="true" onHide="resetujdialog('dialogpierwszy');"  >
+              resizable="false" onShow="ustawdialog('dialogpierwszy','menubilanse', 1600, 750);" closeOnEscape="true" onHide="resetujdialog('dialogpierwszy');"  >
         <h:form id="formbilans">
 
             <script>
@@ -37,10 +37,10 @@
             <p:panelGrid columns="2">
                 <p:treeTable id="dataList" value="#{bilansPodgladView.root}" var="loopbop"  selection="#{bilansPodgladView.selectednodes}" selectionMode="checkbox"
                              rowStyleClass="#{loopbop.level eq 0 ? 'row1' : loopbop.level eq 1 ? 'row2' : loopbop.level eq 2 ? 'row3' : 'row4'}" styleClass="tablicaplankont"
-                             scrollable="true" style="width: 1290px; height: 600px;overflow-y: scroll;" emptyMessage="Nie ma zapisów na kontach w pozycji BO. Sprawdz czy zapisano wiersze BO do bazy." sortBy="#{loopbop.pelnynumer}">
+                             scrollable="true" style="width: 1560px; height: 600px;overflow-y: scroll;" emptyMessage="Nie ma zapisów na kontach w pozycji BO. Sprawdz czy zapisano wiersze BO do bazy." sortBy="#{loopbop.pelnynumer}">
                     <p:ajax event="select" global="false"/>
                     <p:ajax event="unselect" global="false" />
-                    <p:column headerText="nr konta" style="width: 100px;" styleClass="#{loopbop.level eq 2 ? 'druga' : null}">
+                    <p:column headerText="nr konta" style="width: 110px;" styleClass="#{loopbop.level eq 2 ? 'druga' : null}">
                         <h:outputText value="#{loopbop.pelnynumer}" /> 
                     </p:column>
                     <p:column headerText="nazwa pełna" style="width: 250px;">
@@ -53,7 +53,7 @@
                     <p:column headerText="Pozycja Ma" style="width: 70px; text-align: center;">
                         <h:outputText value="#{loopbop.pozycjaMa != null ? loopbop.pozycjaMa : 'a'}" /> 
                     </p:column>-->
-                    <p:column style="width: 100px;">
+                    <p:column style="width: 90px;">
                         <f:facet name="header">
                             <h:outputText value="Wn: "/>
                             <h:outputText value="#{bilansPodgladView.sumawn}">
@@ -64,7 +64,7 @@
                             <f:convertNumber type="number" minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
                     </h:outputText>
                     </p:column>
-                    <p:column style="width: 100px;">
+                    <p:column style="width: 90px;">
                         <f:facet name="header">
                             <h:outputText value="Wn rok pop: "/>
                         </f:facet>
@@ -72,7 +72,7 @@
                             <f:convertNumber type="number" minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
                     </h:outputText>
                     </p:column>
-                    <p:column style="width: 100px;">
+                    <p:column style="width: 90px;">
                         <f:facet name="header">
                             <h:outputText value="Ma: "/>
                             <h:outputText value="#{bilansPodgladView.sumama}">
@@ -83,7 +83,7 @@
                             <f:convertNumber type="number" minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
                     </h:outputText> 
                     </p:column>
-                    <p:column style="width: 100px;">
+                    <p:column style="width: 90px;">
                         <f:facet name="header">
                             <h:outputText value="Ma rok pop: "/>
                         </f:facet>
@@ -101,9 +101,34 @@
                             <f:convertNumber type="number" minFractionDigits="2" maxFractionDigits="2"/>
                         </h:outputText>
                     </p:column>
+                    <p:column headerText="r.b Wn" style="width: 60px; text-align: right;">
+                        <h:outputText value="#{loopbop.pozycjaWn}" >
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="r.u Wn" style="width: 60px; text-align: right;">
+                        <h:outputText value="#{loopbop.pozycjaWnRU}" >
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="" style="width: 20px; text-align: center;">
+                        <h:outputText value="!" rendered="#{loopbop.pozycjaWn ne loopbop.pozycjaWnRU}" style="color: red;">
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="r.b Ma" style="width: 60px; text-align: right;">
+                        <h:outputText value="#{loopbop.pozycjaMa}" >
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="r.u Ma" style="width: 60px; text-align: right;">
+                        <h:outputText value="#{loopbop.pozycjaMaRU}" >
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="" style="width: 20px; text-align: center;">
+                        <h:outputText value="!" rendered="#{loopbop.pozycjaMa ne loopbop.pozycjaMaRU}" style="color: red;">
+                        </h:outputText>
+                    </p:column>
                 </p:treeTable>
             </p:panelGrid>
            
         </h:form>
     </p:dialog>
 </ui:composition>
+

@@ -70,6 +70,8 @@ public class BilansPodgladView  implements Serializable{
                     if (kontoRokPop.getPelnynumer().equals(k.getPelnynumer())) {
                         k.setSaldorokpopWn(Z.z(kontoRokPop.getSaldoWnksiegi()));
                         k.setSaldorokpopMa(Z.z(kontoRokPop.getSaldoMaksiegi()));
+                        k.setPozycjaWnRU(kontoRokPop.getPozycjaWn());
+                        k.setPozycjaMaRU(kontoRokPop.getPozycjaMa());
                         ita.remove();
                         break;
                     }

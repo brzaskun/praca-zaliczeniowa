@@ -51,7 +51,7 @@ public class WierszBO implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id", nullable = false)
-    private int id;
+    private Integer id;
     @ManyToOne
     @JoinColumn(name = "podid", referencedColumnName = "id")
     private Podatnik podatnik;
@@ -215,13 +215,13 @@ public class WierszBO implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 29 * hash + this.id;
-        hash = 29 * hash + Objects.hashCode(this.podatnik);
-        hash = 29 * hash + Objects.hashCode(this.konto);
-        hash = 29 * hash + Objects.hashCode(this.rok);
-        hash = 29 * hash + Objects.hashCode(this.mc);
-        hash = 29 * hash + Objects.hashCode(this.opis);
+        int hash = 7;
+        hash = 83 * hash + Objects.hashCode(this.id);
+        hash = 83 * hash + Objects.hashCode(this.podatnik);
+        hash = 83 * hash + Objects.hashCode(this.konto);
+        hash = 83 * hash + Objects.hashCode(this.rok);
+        hash = 83 * hash + Objects.hashCode(this.mc);
+        hash = 83 * hash + Objects.hashCode(this.opis);
         return hash;
     }
 
@@ -237,9 +237,6 @@ public class WierszBO implements Serializable {
             return false;
         }
         final WierszBO other = (WierszBO) obj;
-        if (this.id != other.id) {
-            return false;
-        }
         if (!Objects.equals(this.rok, other.rok)) {
             return false;
         }
@@ -247,6 +244,9 @@ public class WierszBO implements Serializable {
             return false;
         }
         if (!Objects.equals(this.opis, other.opis)) {
+            return false;
+        }
+        if (!Objects.equals(this.id, other.id)) {
             return false;
         }
         if (!Objects.equals(this.podatnik, other.podatnik)) {
@@ -258,6 +258,7 @@ public class WierszBO implements Serializable {
         return true;
     }
 
+   
     public double getRoznicaSald() {
         double zwrot = 0.0;
         Konto nowe = this.konto;
@@ -396,14 +397,15 @@ public class WierszBO implements Serializable {
         this.kwotaMaPLN = Z.z(kwotaMaPLN);
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
+   
     public String getRok() {
         return rok;
     }

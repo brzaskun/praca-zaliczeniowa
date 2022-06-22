@@ -608,10 +608,12 @@ public class BilansWprowadzanieView implements Serializable {
     }
     
     public List<WierszBO> zapiszBilansBOdoBazy() {
-        List<WierszBO> zachowaneWiersze = Collections.synchronizedList(new ArrayList<>());
+        List<WierszBO> zachowaneWiersze = new ArrayList<>();
         Set<Integer> numerylist = listazbiorcza.keySet();
+        boolean sasyntetyczne = false;
         for (Integer r : numerylist) {
             List<WierszBO> biezacalista = listazbiorcza.get(r);
+            zachowaneWiersze = new ArrayList<>();
             if (biezacalista != null && biezacalista.size() > 0) {
                 for (WierszBO p : biezacalista) {
                     if (p.getKonto() != null) {
@@ -631,6 +633,11 @@ public class BilansWprowadzanieView implements Serializable {
                         } catch (Exception e) {
                             E.e(e);
                         }
+                        if (p.getKonto().isMapotomkow()) {
+                            sasyntetyczne = true;
+                            String info = "Są niedozwolone zapisy na syntetyce"+p.getKonto().getPelnynumer();
+                            Msg.msg("e",info);
+                        }
                     }
                 }
                 wierszBODAO.editList(zachowaneWiersze);
@@ -646,6 +653,9 @@ public class BilansWprowadzanieView implements Serializable {
         podsumujWnMa(lista6, listaSumList.get(6));
         podsumujWnMa(lista7, listaSumList.get(7));
         podsumujWnMa(lista8, listaSumList.get(8));
+        if (sasyntetyczne==false) {
+            Msg.msg("Zapisy wyłącznie na analitykach");
+        }
         Msg.msg("Naniesiono zapisy BO na konta i zapisano do bazy");
         return zachowaneWiersze;
     }

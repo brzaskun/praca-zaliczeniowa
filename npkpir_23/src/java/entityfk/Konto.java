@@ -298,6 +298,10 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
     private double roznicaWn;
     @Transient
     private double roznicaMa;
+    @Transient
+    protected String pozycjaWnRU;
+    @Transient
+    protected String pozycjaMaRU;
     
     
 //    @OneToMany(mappedBy = "konto")
@@ -845,6 +849,24 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
     public void setRoznicaMa(double roznicaMa) {
         this.roznicaMa = roznicaMa;
     }
+
+    public String getPozycjaWnRU() {
+        return pozycjaWnRU;
+    }
+
+    public void setPozycjaWnRU(String pozycjaWnRU) {
+        this.pozycjaWnRU = pozycjaWnRU;
+    }
+
+    public String getPozycjaMaRU() {
+        return pozycjaMaRU;
+    }
+
+    public void setPozycjaMaRU(String pozycjaMaRU) {
+        this.pozycjaMaRU = pozycjaMaRU;
+    }
+    
+    
     public boolean getRozBOWn() {
         boolean zwrot = false;
         if (Z.z(this.getBoWn()-this.saldorokpopWn) != 0.0) {
