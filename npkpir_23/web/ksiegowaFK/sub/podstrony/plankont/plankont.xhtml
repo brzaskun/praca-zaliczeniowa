@@ -105,7 +105,7 @@
                 <p:commandButton value="7" actionListener="#{planKontView.planBezSlownikowychSyntetyczne(WpisView.podatnikObiekt,7)}" update="form_dialog_plankont:dataList form_dialog_plankont:bezslownikowych"/>
                 <p:commandButton value="8" actionListener="#{planKontView.planBezSlownikowychSyntetyczne(WpisView.podatnikObiekt,8)}" update="form_dialog_plankont:dataList form_dialog_plankont:bezslownikowych"/>
                 <p:commandButton value="S" actionListener="#{planKontView.planBezSlownikowychSyntetyczne(WpisView.podatnikObiekt,9)}" update="form_dialog_plankont:dataList form_dialog_plankont:bezslownikowych"/>
-                <h:outputText value="Uwaga! Nie można dodawać kont analitycznych do zablokowanych kont syntetycznych"/>
+                <h:outputText value="Uwaga! Nie można dodawać kont analit. do zablokowanych kont syntet. 'Opcja bez przyporządkowanych' działa  tylko na przycisku S"/>
                 </p:panelGrid>
             <p:panelGrid columns="2" >
                 <p:dataTable id="dataList" value="#{planKontView.wykazkont}" var="loop"  selectionMode="single" selection="#{planKontView.selectednodekonto}" 
