@@ -5,16 +5,19 @@
  */
 package view;
 
+import beansJPK.KlienciJPKBean;
 import beansRegon.SzukajDaneBean;
 import dao.DokDAO;
 import dao.EvewidencjaDAO;
 import dao.KlienciDAO;
+import dao.KlientJPKDAO;
 import dao.RodzajedokDAO;
 import entity.Dok;
 import entity.EVatwpis1;
 import entity.Evewidencja;
 import entity.JPKSuper;
 import entity.Klienci;
+import entity.KlientJPK;
 import entity.KwotaKolumna1;
 import entity.Rodzajedok;
 import error.E;
@@ -65,6 +68,8 @@ public class ImportSprzedazyView  implements Serializable {
     private EvewidencjaDAO evewidencjaDAO;
     @Inject
     private KlienciDAO klDAO;
+    @Inject
+    private KlientJPKDAO klientJPKDAO;
     private boolean wybierzosobyfizyczne;
     private boolean wybierzfirmyzagraniczne;
     private double netto;
@@ -529,32 +534,42 @@ public class ImportSprzedazyView  implements Serializable {
         Msg.msg("Usunięto dokument z listy");
     }
     
+        
+        
+    
     public void zaksieguj() {
-        if (klienci!=null && klienci.size()>0) {
-            for (Klienci p: klienci) {
-                try {
-                    if (!p.getNpelna().equals("nie znaleziono firmy w bazie Regon")) {
-                        klDAO.create(p);
+        if (wybierzosobyfizyczne) {
+            klientJPKDAO.deleteByPodRokMc(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+            List<KlientJPK> lista = KlienciJPKBean.zaksiegujdok(dokumenty, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+            klientJPKDAO.createList(lista);
+            Msg.msg("Zaksięgowano dokumenty dla JPK");
+        } else {
+            if (klienci!=null && klienci.size()>0) {
+                for (Klienci p: klienci) {
+                    try {
+                        if (!p.getNpelna().equals("nie znaleziono firmy w bazie Regon")) {
+                            klDAO.create(p);
+                        }
+                    } catch(Exception e){
                     }
-                } catch(Exception e){
                 }
+                klienci = Collections.synchronizedList(new ArrayList<>());
+                Msg.msg("Dodano nowych klientw z importowanych dokumentów");
             }
-            klienci = Collections.synchronizedList(new ArrayList<>());
-            Msg.msg("Dodano nowych klientw z importowanych dokumentów");
-        }
-        if (dokumenty!=null && dokumenty.size()>0) {
-            for (Dok p: dokumenty) {
-                try {
-                    if (!p.getKontr().getNpelna().equals("nie znaleziono firmy w bazie Regon")) {
-                        dokDAO.create(p);
-                    } else {
-                        Msg.msg("e","Bład kontrahenta. Nie zaksięgowano dokumentu!");
+            if (dokumenty!=null && dokumenty.size()>0) {
+                for (Dok p: dokumenty) {
+                    try {
+                        if (!p.getKontr().getNpelna().equals("nie znaleziono firmy w bazie Regon")) {
+                            dokDAO.create(p);
+                        } else {
+                            Msg.msg("e","Bład kontrahenta. Nie zaksięgowano dokumentu!");
+                        }
+                    } catch(Exception e){
                     }
-                } catch(Exception e){
                 }
+                dokumenty = Collections.synchronizedList(new ArrayList<>());
+                Msg.msg("Zaksiowano zaimportowane dokumenty");
             }
-            dokumenty = Collections.synchronizedList(new ArrayList<>());
-            Msg.msg("Zaksiowano zaimportowane dokumenty");
         }
     }
     
