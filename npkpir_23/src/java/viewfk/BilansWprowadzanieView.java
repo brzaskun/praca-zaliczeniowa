@@ -609,6 +609,7 @@ public class BilansWprowadzanieView implements Serializable {
     
     public List<WierszBO> zapiszBilansBOdoBazy() {
         List<WierszBO> zachowaneWiersze = new ArrayList<>();
+        List<WierszBO> zachowaneWierszereturn = new ArrayList<>();
         Set<Integer> numerylist = listazbiorcza.keySet();
         boolean sasyntetyczne = false;
         for (Integer r : numerylist) {
@@ -641,6 +642,7 @@ public class BilansWprowadzanieView implements Serializable {
                     }
                 }
                 wierszBODAO.editList(zachowaneWiersze);
+                zachowaneWierszereturn.addAll(zachowaneWiersze);
             }
         }
         aktualizujListaW();
@@ -657,7 +659,7 @@ public class BilansWprowadzanieView implements Serializable {
             Msg.msg("Zapisy wyłącznie na analitykach");
         }
         Msg.msg("Naniesiono zapisy BO na konta i zapisano do bazy");
-        return zachowaneWiersze;
+        return zachowaneWierszereturn;
     }
     
     public void zapiszWierszeBOnaKonta() {
