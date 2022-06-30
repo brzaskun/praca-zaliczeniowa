@@ -93,7 +93,7 @@ public class WierszDRA  implements Serializable{
     @JoinColumn(name = "zusmail", referencedColumnName = "id", updatable = true)
     @ManyToOne(cascade = CascadeType.ALL)
     private Zusmail zusmail;
-    @Column(name = "data", insertable=true, updatable=true, columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP  ON UPDATE CURRENT_TIMESTAMP")
+    @Column(name = "data", insertable=true, updatable=true, columnDefinition="DEFAULT CURRENT_TIMESTAMP  ON UPDATE CURRENT_TIMESTAMP")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date data;
     @Transient
