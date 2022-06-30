@@ -147,70 +147,78 @@ public class DochodDlaDRAView implements Serializable {
                         List<PodatnikUdzialy> udzialy = podatnikUdzialyDAO.findUdzialyPodatnik(podatnik);
                         if (udzialy != null && udzialy.size() > 0) {
                             for (PodatnikUdzialy u : udzialy) {
-                                String imieinazwisko = u.getNazwiskoimie();
-                                WierszDRA wiersz = pobierzwiersz(wierszebaza, podatnik, imieinazwisko, rok, mc, Mce.getStringToNazwamiesiaca().get(mc));
-                                wiersz.setOpodatkowanie(formaopodatkowania);
-                                wiersz.setImienazwisko(imieinazwisko);
-                                wiersz.setUdzial(Double.parseDouble(u.getUdzial()));
-                                podatnikprocentudzial = wiersz.getUdzial();
-                                if (formaopodatkowania.contains("ryczałt")) {
-                                    //oblicz przychod
-                                    double przychod = pobierzprzychod(podatnik, rok, mc, wiersz);
-                                    if (podatnikprocentudzial != 100.0) {
-                                        przychod = Z.z(przychod * podatnikprocentudzial / 100.0);
-                                    }
-                                    wiersz.setPrzychod(przychod);
-                                    wiersz.setPrzychodnar(przychod);
-                                    wiersz.setDochodzus(przychod > 0.0 ? przychod : 0.0);
-                                    wiersz.setDochodzusnetto(przychod);
-                                    wiersz.setDochodzusnar(przychod > 0.0 ? przychod : 0.0);
-                                    wiersz.setDochodzusnettonar(przychod > 0.0 ? przychod : 0.0);
-                                    boolean jestpit = pobierzrycz(rok, mc, podatnik.getNazwapelna());
-                                    wiersz.setJestpit(jestpit);
-                                    //Msg.msg("Obliczono przychód za mc");
-                                    if (Mce.getMiesiacToNumber().get(mc) > 1) {
-                                        WierszDRA wierszmcpop = pobierzwierszmcpop(wierszebaza, podatnik, imieinazwisko, rok, mcod);
-                                        if (wierszmcpop != null) {
-                                            wiersz.setPrzychodnar(Z.z(wierszmcpop.getPrzychodnar() + wiersz.getPrzychod()));
-                                            wiersz.setDochodzus(Z.z(wiersz.getPrzychod()));
-                                            wiersz.setDochodzusnetto(Z.z(wiersz.getPrzychod()));
-                                            wiersz.setDochodzusnar(Z.z(wiersz.getPrzychodnar()));
-                                            wiersz.setDochodzusnettonar(Z.z(wierszmcpop.getDochodzusnettonar() + wiersz.getDochodzusnetto()));
+                                String rozpoczecie = u.getDatarozpoczecia();
+                                String zakonczenie = u.getDatazakonczenia();
+                                if (zakonczenie==null ||zakonczenie=="") {
+                                    zakonczenie = "2050-12-31";
+                                }
+                                if (Data.czyjestpomiedzy(rozpoczecie, zakonczenie, rok, mc)) {
+                                    String imieinazwisko = u.getNazwiskoimie();
+                                    WierszDRA wiersz = pobierzwiersz(wierszebaza, podatnik, imieinazwisko, rok, mc, Mce.getStringToNazwamiesiaca().get(mc));
+                                    wiersz.setOpodatkowanie(formaopodatkowania);
+                                    wiersz.setImienazwisko(imieinazwisko);
+                                    wiersz.setUdzial(Double.parseDouble(u.getUdzial()));
+                                    podatnikprocentudzial = wiersz.getUdzial();
+                                    if (formaopodatkowania.contains("ryczałt")) {
+                                        //oblicz przychod
+                                        double przychod = pobierzprzychod(podatnik, rok, mc, wiersz);
+                                        if (podatnikprocentudzial != 100.0) {
+                                            przychod = Z.z(przychod * podatnikprocentudzial / 100.0);
+                                        }
+                                        wiersz.setPrzychod(przychod);
+                                        wiersz.setPrzychodnar(przychod);
+                                        wiersz.setDochodzus(przychod > 0.0 ? przychod : 0.0);
+                                        wiersz.setDochodzusnetto(przychod);
+                                        wiersz.setDochodzusnar(przychod > 0.0 ? przychod : 0.0);
+                                        wiersz.setDochodzusnettonar(przychod > 0.0 ? przychod : 0.0);
+                                        boolean jestpit = pobierzrycz(rok, mc, podatnik.getNazwapelna());
+                                        wiersz.setJestpit(jestpit);
+                                        //Msg.msg("Obliczono przychód za mc");
+                                        if (Mce.getMiesiacToNumber().get(mc) > 1) {
+                                            WierszDRA wierszmcpop = pobierzwierszmcpop(wierszebaza, podatnik, imieinazwisko, rok, mcod);
+                                            if (wierszmcpop != null) {
+                                                wiersz.setPrzychodnar(Z.z(wierszmcpop.getPrzychodnar() + wiersz.getPrzychod()));
+                                                wiersz.setDochodzus(Z.z(wiersz.getPrzychod()));
+                                                wiersz.setDochodzusnetto(Z.z(wiersz.getPrzychod()));
+                                                wiersz.setDochodzusnar(Z.z(wiersz.getPrzychodnar()));
+                                                wiersz.setDochodzusnettonar(Z.z(wierszmcpop.getDochodzusnettonar() + wiersz.getDochodzusnetto()));
+                                            }
+                                        }
+                                    } else {
+                                        //oblicz dochod
+                                        double dochod = pobierzdochod(podatnik, rokpkpir, mcdo, mcdo, wiersz);
+                                        if (podatnikprocentudzial != 100.0) {
+                                            dochod = Z.z(dochod * podatnikprocentudzial / 100.0);
+                                        }
+                                        wiersz.setWynikpodatkowymc(dochod);
+                                        wiersz.setWynikpodatkowynar(dochod);
+                                        wiersz.setDochodzus(dochod > 0.0 ? dochod : 0.0);
+                                        wiersz.setDochodzusnar(dochod > 0.0 ? dochod : 0.0);
+                                        wiersz.setDochodzusnetto(dochod > 0.0 ? dochod : 0.0);
+                                        wiersz.setDochodzusnettonar(dochod > 0.0 ? dochod : 0.0);
+                                        boolean jestpit = pobierzpit(rokpkpir, mcod, podatnik.getNazwapelna());
+                                        wiersz.setJestpit(jestpit);
+                                            //Msg.msg("Obliczono dochód za mc");
+                                        if (Mce.getMiesiacToNumber().get(mc) > 2) {
+                                            WierszDRA wierszmcpop = pobierzwierszmcpop(wierszebaza, podatnik, imieinazwisko, rok, mcod);
+                                            if (wierszmcpop != null) {
+                                                wiersz.setWynikpodatkowynar(Z.z(wierszmcpop.getWynikpodatkowynar() + wiersz.getWynikpodatkowymc()));
+                                                double dochodzus = Z.z(wiersz.getWynikpodatkowynar() - wierszmcpop.getDochodzusnettonar());
+                                                wiersz.setDochodzus(dochodzus > 0.0 ? dochodzus : 0.0);
+                                                wiersz.setDochodzusnetto(dochodzus > 0.0 ? dochodzus : 0.0);
+                                                wiersz.setDochodzusnar(Z.z(wiersz.getDochodzus() + wierszmcpop.getDochodzusnar()));
+                                                wiersz.setDochodzusnettonar(Z.z(wierszmcpop.getDochodzusnettonar() + wiersz.getDochodzusnetto()));
+                                            }
                                         }
                                     }
-                                } else {
-                                    //oblicz dochod
-                                    double dochod = pobierzdochod(podatnik, rokpkpir, mcdo, mcdo, wiersz);
-                                    if (podatnikprocentudzial != 100.0) {
-                                        dochod = Z.z(dochod * podatnikprocentudzial / 100.0);
+                                    if (wiersz.getId()==null) {
+                                        //wiersz.setData(new Date());
+                                        wierszDRADAO.create(wiersz);
+                                    } else {
+                                        wierszDRADAO.edit(wiersz);
                                     }
-                                    wiersz.setWynikpodatkowymc(dochod);
-                                    wiersz.setWynikpodatkowynar(dochod);
-                                    wiersz.setDochodzus(dochod > 0.0 ? dochod : 0.0);
-                                    wiersz.setDochodzusnar(dochod > 0.0 ? dochod : 0.0);
-                                    wiersz.setDochodzusnetto(dochod > 0.0 ? dochod : 0.0);
-                                    wiersz.setDochodzusnettonar(dochod > 0.0 ? dochod : 0.0);
-                                    boolean jestpit = pobierzpit(rokpkpir, mcod, podatnik.getNazwapelna());
-                                    wiersz.setJestpit(jestpit);
-                                        //Msg.msg("Obliczono dochód za mc");
-                                    if (Mce.getMiesiacToNumber().get(mc) > 2) {
-                                        WierszDRA wierszmcpop = pobierzwierszmcpop(wierszebaza, podatnik, imieinazwisko, rok, mcod);
-                                        if (wierszmcpop != null) {
-                                            wiersz.setWynikpodatkowynar(Z.z(wierszmcpop.getWynikpodatkowynar() + wiersz.getWynikpodatkowymc()));
-                                            double dochodzus = Z.z(wiersz.getWynikpodatkowynar() - wierszmcpop.getDochodzusnettonar());
-                                            wiersz.setDochodzus(dochodzus > 0.0 ? dochodzus : 0.0);
-                                            wiersz.setDochodzusnetto(dochodzus > 0.0 ? dochodzus : 0.0);
-                                            wiersz.setDochodzusnar(Z.z(wiersz.getDochodzus() + wierszmcpop.getDochodzusnar()));
-                                            wiersz.setDochodzusnettonar(Z.z(wierszmcpop.getDochodzusnettonar() + wiersz.getDochodzusnetto()));
-                                        }
-                                    }
+                                    this.wiersze.add(wiersz);
                                 }
-                                if (wiersz.getId()==null) {
-                                    wierszDRADAO.create(wiersz);
-                                } else {
-                                    wierszDRADAO.edit(wiersz);
-                                }
-                                this.wiersze.add(wiersz);
                             }
                         } else {
                             String imieinazwisko = podatnik.getNazwisko() + " " + podatnik.getImie();
