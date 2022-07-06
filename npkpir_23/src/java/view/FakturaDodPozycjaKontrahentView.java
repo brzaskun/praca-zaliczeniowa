@@ -11,6 +11,7 @@ import dao.FakturaDodatkowaPozycjaDAO;
 import dao.FakturywystokresoweDAO;
 import dao.PodatnikDAO;
 import data.Data;
+import entity.Faktura;
 import entity.FakturaDodPozycjaKontrahent;
 import entity.FakturaDodatkowaPozycja;
 import entity.Fakturywystokresowe;
@@ -57,6 +58,7 @@ public class FakturaDodPozycjaKontrahentView  implements Serializable {
     private double sumawybranych;
     private double sumawybranych2;
     private boolean pokazujtylkopuste;
+    private List<Fakturywystokresowe> wykazfaktur;
 
     
     @PostConstruct
@@ -66,7 +68,7 @@ public class FakturaDodPozycjaKontrahentView  implements Serializable {
         lista_2 = new ArrayList<>();
         rok = Data.aktualnyRok();
         klienci = new ArrayList<>();
-        List<Fakturywystokresowe> wykazfaktur = fakturywystokresoweDAO.findPodatnikBiezace("GRZELCZYK", rok);
+        wykazfaktur = fakturywystokresoweDAO.findPodatnikBiezace("GRZELCZYK", rok);
         for (Fakturywystokresowe p : wykazfaktur) {
             Podatnik pod = podatnikDAO.findPodatnikByNIP(p.getDokument().getKontrahent().getNip());
             Klienci k = p.getDokument().getKontrahent();
@@ -98,6 +100,7 @@ public class FakturaDodPozycjaKontrahentView  implements Serializable {
                 if (pokazujtylkopuste) {
                     lista_2 = lista_2.stream().filter(p->p.getIlosc()==0).collect(Collectors.toList());
                 }
+                uzupelnijofakture(lista_tmp);
                 lista_2 = new ArrayList<>();
                 lista_2.addAll(lista_tmp);
                 Msg.msg("Pobrano stałe pozycje");
@@ -212,6 +215,7 @@ public class FakturaDodPozycjaKontrahentView  implements Serializable {
                             r.getKontrahent().setNazwapodatnika(pod.getPrintnazwa().replace("\"", ""));
                         }
                    }
+                   uzupelnijofakture(lista_tmp);
                    if (pokazujtylkopuste) {
                        lista_2 = lista_2.stream().filter(p->p.getIlosc()==0).collect(Collectors.toList());
                    }
@@ -243,6 +247,23 @@ public class FakturaDodPozycjaKontrahentView  implements Serializable {
             Msg.msg("Zachowano pozycje");
         } else {
             Msg.msg("e","Lista pusta");
+        }
+    }
+    
+    private void uzupelnijofakture(List<FakturaDodPozycjaKontrahent> lista_tmp) {
+        for (FakturaDodPozycjaKontrahent p : lista_tmp) {
+            p.setBrakfaktury(true);
+            p.setBrakfakturydoedycji(true);
+            for (Fakturywystokresowe r : wykazfaktur) {
+                Faktura f = r.getDokument();
+                if (f.getKontrahent().getNip().equals(p.getKontrahent().getNip())) {
+                    p.setBrakfaktury(false);
+                    if (r.isRecznaedycja()==true) {
+                        p.setBrakfakturydoedycji(false);
+                    }
+                    break;
+                }
+            }
         }
     }
 
@@ -333,6 +354,8 @@ public class FakturaDodPozycjaKontrahentView  implements Serializable {
     public void setPokazujtylkopuste(boolean pokazujtylkopuste) {
         this.pokazujtylkopuste = pokazujtylkopuste;
     }
+
+    
 
  
     
