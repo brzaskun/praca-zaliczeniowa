@@ -18,6 +18,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 import waluty.Z;
 
@@ -64,6 +65,10 @@ public class FakturaDodPozycjaKontrahent  implements Serializable{
     private boolean permanentny;
     @Column(name = "kwotaindywid")
     private double kwotaindywid;
+    @Transient
+    private boolean brakfaktury;
+    @Transient
+    private boolean brakfakturydoedycji;
 
     public FakturaDodPozycjaKontrahent() {
     }
@@ -132,6 +137,22 @@ public class FakturaDodPozycjaKontrahent  implements Serializable{
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public boolean isBrakfaktury() {
+        return brakfaktury;
+    }
+
+    public void setBrakfaktury(boolean brakfaktury) {
+        this.brakfaktury = brakfaktury;
+    }
+
+    public boolean isBrakfakturydoedycji() {
+        return brakfakturydoedycji;
+    }
+
+    public void setBrakfakturydoedycji(boolean brakfakturydoedycji) {
+        this.brakfakturydoedycji = brakfakturydoedycji;
     }
 
 
