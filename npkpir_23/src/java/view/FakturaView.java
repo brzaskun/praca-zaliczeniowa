@@ -821,6 +821,8 @@ public class FakturaView implements Serializable {
     public void skierujfakturedokorekty(Faktura faktura) {
         Msg.msg("Tworzenie korekty faktury");
         selected = serialclone.SerialClone.clone(faktura);
+        String pelnadata = FakturaBean.obliczdatawystawienia(wpisView);
+        selected.setDatawystawienia(pelnadata);
         selected.setZaksiegowana(false);
         selected.setWyslana(false);
         selected.setPrzyczynakorekty("Korekta faktury nr "+faktura.getNumerkolejny()+" z dnia "+faktura.getDatawystawienia()+" z powodu: brak wykonanej usługi");
