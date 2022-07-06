@@ -182,7 +182,7 @@ public class FakturaDAO extends DAO implements Serializable {
         }
     }
    
-    public Collection<? extends Klienci> findKontrahentFaktury(Podatnik podatnikObiekt) {
+    public List<Klienci> findKontrahentFaktury(Podatnik podatnikObiekt) {
         try {
             return getEntityManager().createNamedQuery("Faktura.findByKonrahentPodatnik").setParameter("podatnik", podatnikObiekt).getResultList(); 
         } catch (Exception e) {
