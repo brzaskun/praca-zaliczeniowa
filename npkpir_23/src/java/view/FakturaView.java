@@ -823,6 +823,7 @@ public class FakturaView implements Serializable {
         selected = serialclone.SerialClone.clone(faktura);
         String pelnadata = FakturaBean.obliczdatawystawienia(wpisView);
         selected.setDatawystawienia(pelnadata);
+        selected.setTerminzaplaty(FakturaBean.obliczterminzaplaty(wpisView.getPodatnikObiekt(), pelnadata));
         selected.setZaksiegowana(false);
         selected.setWyslana(false);
         selected.setPrzyczynakorekty("Korekta faktury nr "+faktura.getNumerkolejny()+" z dnia "+faktura.getDatawystawienia()+" z powodu: brak wykonanej usługi");
