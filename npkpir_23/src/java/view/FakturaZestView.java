@@ -70,12 +70,15 @@ public class FakturaZestView implements Serializable {
     private void init1() {
         podatnicyWProgramie = podatnikDAO.findAll();
         klienci = new ArrayList<>();
-        klienci.addAll(pobierzkontrahentow());
+        List<Klienci> pobierzkontrahentow = pobierzkontrahentow();
+        if (pobierzkontrahentow!=null) {
+            klienci.addAll(pobierzkontrahentow);
+        }
         Collections.sort(klienci, new Kliencicomparator());
     }
     
-    private Collection<? extends Klienci> pobierzkontrahentow() {
-        Collection p = fakturaDAO.findKontrahentFaktury(wpisView.getPodatnikObiekt());
+    private List<Klienci> pobierzkontrahentow() {
+        List<Klienci> p = fakturaDAO.findKontrahentFaktury(wpisView.getPodatnikObiekt());
         for (Iterator<Klienci> it = p.iterator(); it.hasNext();) {
             Klienci k = it.next();
             if (k == null) {
