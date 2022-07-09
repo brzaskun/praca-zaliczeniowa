@@ -310,7 +310,7 @@ public class ZestawienieRyczaltView implements Serializable {
                 List<Faktura> czywystawionofakture = fakturaDAO.findbyKontrahentNipRokMc(wpisView.getPodatnikObiekt().getNip(), taxman, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
                 if (czywystawionofakture==null||czywystawionofakture.isEmpty()) {
                     Msg.msg("e","Nie wystawiono faktury dla firmy. Nie można zakończyć miesiąca");
-                    return;
+                    //return;
                 }
             }
                 Podatnik tmpP = podatnikDAO.findByNazwaPelna(wpisView.getPodatnikWpisu());

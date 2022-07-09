@@ -59,10 +59,10 @@ public class MaiManager implements Serializable {
             message.setContent(mp);
             Transport.send(message);
         } catch (MessagingException e) {
-            E.e(e);
+            E.m(e);
             throw new RuntimeException(e);
         } catch (UnsupportedEncodingException ex) {
-            E.e(ex);
+            E.m(ex);
             // Logger.getLogger(MaiManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

@@ -60,6 +60,8 @@ public class WierszDRA  implements Serializable{
     private Podatnik podatnik;
     @Column (name = "imienazwisko")
     private String imienazwisko;
+    @Column (name = "pesel")
+    private String pesel;
     @Column (name = "opodatkowanie")
     private String opodatkowanie;
     @Column (name = "udzial")
@@ -213,6 +215,15 @@ public class WierszDRA  implements Serializable{
     public void setImienazwisko(String imienazwisko) {
         this.imienazwisko = imienazwisko;
     }
+    
+    public String getPesel() {
+        return pesel;
+    }
+
+    public void setPesel(String pesel) {
+        this.pesel = pesel;
+    }
+
 
     public boolean isBrakdokumentow() {
         return brakdokumentow;

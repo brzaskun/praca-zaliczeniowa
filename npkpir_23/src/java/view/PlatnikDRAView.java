@@ -25,10 +25,13 @@ public class PlatnikDRAView implements Serializable {
     private ZusdraDAO zusdraDAO;
     
     public void opipi() {
+        System.out.println("opipi start");
         List<entityplatnik.Zusdra> miasto = zusdraDAO.findByNip("8511005008");
         for (entityplatnik.Zusdra p : miasto) {
             System.out.println(p.toString());
         }
+        System.out.println("opipi koniec");
         zusdraDAO.find();
+        System.out.println("opipi koniec2");
     }
 }

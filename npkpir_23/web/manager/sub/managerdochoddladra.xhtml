@@ -37,7 +37,7 @@
             background-color: #e4e3e3 !important;
         }
     </style>
-                        <p:dataTable value="#{dochodDlaDRAView.wiersze}" var="item" style="width: 2000px;padding: 20px;" 
+                        <p:dataTable value="#{dochodDlaDRAView.wiersze}" var="item" style="width: 17w00px;padding: 20px;" 
                                      scrollable="true" scrollHeight="750" scrollRows="30" rowStyleClass="#{(yndex mod 2) eq 0 ? null : 'odd'}"
                                      emptyMessage="nie pobrano danych" id="wykazschem" rowKey="#{item.imienazwisko}" rowIndexVar="yndex"
                                      selection="#{dochodDlaDRAView.selected}" selectionMode="single" sortBy="#{item.imienazwisko}" sortOrder="ascending">
@@ -84,7 +84,7 @@
                                 </f:facet>
                                 <h:outputText value="brak" rendered="#{item.brakdokumentow}"/>
                             </p:column>
-                            <p:column>
+<!--                            <p:column>
                                 <f:facet name="header">
                                     <h:outputText value="dochód pod. mc"/>
                                 </f:facet>
@@ -101,27 +101,27 @@
                                     <h:outputText value="przychod mc"/>
                                 </f:facet>
                                 <bcf:outputpl value="#{item.przychod}" rendered="#{!item.brakdokumentow and item.przychod gt 0.0}"/>
-                            </p:column>
-                            <p:column>
+                            </p:column>-->
+                            <p:column style="width: 90px;">
                                 <f:facet name="header">
                                     <h:outputText value="przychod nar. ZUS" style="color: red;"/>
                                 </f:facet>
                                 <bcf:outputpl value="#{item.przychodnar}" rendered="#{!item.brakdokumentow and item.przychodnar gt 0.0}" stylePlus="color:green;"/>
                             </p:column>
-                            <p:column>
+                            <p:column style="width: 90px;">
                                 <f:facet name="header">
                                     <h:outputText value="dochód zus mc"  style="color: red;"/>
                                 </f:facet>
                                 <bcf:outputpl value="#{item.dochodzus}" rendered="#{!item.brakdokumentow and item.dochodzus gt 0.01 and item.opodatkowanie ne 'ryczałt'}"  stylePlus="color:green;"/>
                                 <bcf:outputpl value="#{item.dochodzus}" rendered="#{!item.brakdokumentow and item.dochodzus lt 0.01 and item.opodatkowanie ne 'ryczałt'}" stylePlus="color:red;"/>
                             </p:column>
-                            <p:column>
+<!--                            <p:column>
                                 <f:facet name="header">
                                     <h:outputText value="dochód zus nar."/>
                                 </f:facet>
                                 <bcf:outputpl value="#{item.dochodzusnar}" rendered="#{!item.brakdokumentow and item.dochodzusnar gt 0.01 and item.opodatkowanie ne 'ryczałt'}" />
                                 <bcf:outputpl value="#{item.dochodzusnar}" rendered="#{!item.brakdokumentow and item.dochodzusnar lt 0.01}" stylePlus="color:gray"/>
-                            </p:column>
+                            </p:column>-->
 
                             <p:column  style="text-align: center;width: 40px;">
                                 <f:facet name="header">
