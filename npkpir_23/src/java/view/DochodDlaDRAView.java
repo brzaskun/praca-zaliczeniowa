@@ -157,6 +157,7 @@ public class DochodDlaDRAView implements Serializable {
                                     WierszDRA wiersz = pobierzwiersz(wierszebaza, podatnik, imieinazwisko, rok, mc, Mce.getStringToNazwamiesiaca().get(mc));
                                     wiersz.setOpodatkowanie(formaopodatkowania);
                                     wiersz.setImienazwisko(imieinazwisko);
+                                    wiersz.setPesel(u.getPesel());
                                     wiersz.setUdzial(Double.parseDouble(u.getUdzial()));
                                     podatnikprocentudzial = wiersz.getUdzial();
                                     if (formaopodatkowania.contains("ryczałt")) {
@@ -246,6 +247,7 @@ public class DochodDlaDRAView implements Serializable {
                     } else {
                         String imieinazwisko = podatnik.getNazwisko() + " " + podatnik.getImie();
                         WierszDRA wiersz = pobierzwiersz(wierszebaza, podatnik, imieinazwisko, rok, mc, Mce.getStringToNazwamiesiaca().get(mc));
+                        
                         wiersz.setOpodatkowanie("brak opodatkowania");
                         wiersz.setImienazwisko(imieinazwisko);
                         wiersz.setUdzial(100);
@@ -321,6 +323,22 @@ public class DochodDlaDRAView implements Serializable {
                 if (w.getPodatnik().getNip().equals(z.getIi1Nip())) {
                     w.setZusdra(z);
                     break;
+                }
+            }
+            if (w.getZusdra()==null && w.getPodatnik().getPesel()!=null) {
+                for (Zusdra z : zusdralista) {
+                    if (w.getPodatnik().getPesel().equals(z.getIi3Pesel())) {
+                        w.setZusdra(z);
+                        break;
+                    }
+                }
+            }
+            if (w.getZusdra()==null && w.getPesel()!=null) {
+                for (Zusdra z : zusdralista) {
+                    if (w.getPesel().equals(z.getIi3Pesel())) {
+                        w.setZusdra(z);
+                        break;
+                    }
                 }
             }
             for (Zusrca z : zusrcalista) {
@@ -681,10 +699,11 @@ public class DochodDlaDRAView implements Serializable {
       public void wyslijMailZUS(WierszDRA wierszDRA) {
           Zusmail zusmail = wierszDRA.getZusmail();
         try {
-            MaiManager.mailManagerZUSPIT(wierszDRA.getZusmail().getAdresmail(), zusmail.getTytul(), zusmail.getTresc(), zusmail.getPodatnik().getEmail(), null, sMTPSettingsDAO.findSprawaByDef());
+            MaiManager.mailManagerZUSPIT(wierszDRA.getZusmail().getAdresmail(), zusmail.getTytul(), zusmail.getTresc(), "n.sinkiewicz@taxman.biz.pl", null, sMTPSettingsDAO.findSprawaByDef());
 //            MaiManager.mailManagerZUSPIT(zusmail.getAdresmail(), zusmail.getTytul(), zusmail.getTresc(), zusmail.getPodatnik().getEmail(), null, sMTPSettingsDAO.findSprawaByDef());
             usuzpelnijdane(zusmail);
         } catch (Exception e) {
+            E.m(e);
             Msg.msg("e", "Blad nie wyslano wiadomosci! " + e.toString());
         }
     }
@@ -700,6 +719,7 @@ public class DochodDlaDRAView implements Serializable {
                Msg.msg("Wysłano zusmail");
             }
         } catch (Exception e) {
+            E.m(e);
             Msg.msg("e", "Wystąpił błąd. Mail z ZUS nie został wysłany");
         }
     }
