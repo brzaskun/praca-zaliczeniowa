@@ -324,10 +324,12 @@ public class DochodDlaDRAView implements Serializable {
             }
         }
         String okres = mc+rok;
-        zusdralista = zusdraDAO.findByOkres(okres);
+        List<Zusdra> dralistatmp = zusdraDAO.findByOkres(okres);
+        zusdralista = przetworzZusdra(dralistatmp);
         zusrcalista = zusrcaDAO.findByOkres(okres);
         List<kadryiplace.Firma> firmy = firmaFacade.findAll();
         for (WierszDRA w : wiersze) {
+            
             for (Zusdra z : zusdralista) {
                 if (w.getPodatnik().getNip().equals(z.getIi1Nip())) {
                     w.setZusdra(z);
@@ -382,7 +384,23 @@ public class DochodDlaDRAView implements Serializable {
         Msg.msg("Pobrano dane");
     }
 
-    
+    private List<Zusdra> przetworzZusdra(List<Zusdra> zusdra) {
+        Map<String,Zusdra> nowe = new HashMap<>();
+        if (zusdra!=null) {
+            for (Zusdra p : zusdra) {
+                if (!nowe.containsKey(p.getI22okresdeklar())) {
+                    nowe.put(p.getI22okresdeklar(), p);
+                } else {
+                    Zusdra stara = nowe.get(p.getI22okresdeklar());
+                    if (Integer.valueOf(stara.getI21iddekls())<Integer.valueOf(p.getI21iddekls())) {
+                        nowe.remove(p.getI22okresdeklar());
+                        nowe.put(p.getI22okresdeklar(), p);
+                    }
+                }
+            }
+        }
+        return new ArrayList<Zusdra>(nowe.values());
+    }
     public void podsumujDRA() {
         drasumy = new ArrayList<>();
         if (mc==null) {

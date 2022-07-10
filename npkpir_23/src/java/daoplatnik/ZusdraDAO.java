@@ -78,4 +78,25 @@ public class ZusdraDAO extends DAO1 implements Serializable {
         }
     }
 
+    public List<Zusdra> findByOkresNip(String okres, String nip) {
+        List<Zusdra> zwrot = new ArrayList<>();
+        try {
+            zwrot = getEntityManager().createQuery("SELECT z FROM Zusdra z WHERE z.i22okresdeklar = :okres AND z.ii1Nip = :nip").setParameter("okres", okres).setParameter("nip", nip).getResultList();
+        } catch (Exception e) { 
+            E.e(e); 
+        }
+        return zwrot;
+    }
+
+    public List<Zusdra> findByRokNip(String rokWpisuSt, String nip) {
+        List<Zusdra> zwrot = new ArrayList<>();
+        try {
+            String okres = "%"+rokWpisuSt;
+            zwrot = getEntityManager().createQuery("SELECT z FROM Zusdra z WHERE z.i22okresdeklar LIKE :okres AND z.ii1Nip = :nip").setParameter("okres", okres).setParameter("nip", nip).getResultList();
+        } catch (Exception e) { 
+            E.e(e); 
+        }
+        return zwrot;
+    }
+
 }
