@@ -24,6 +24,7 @@ import daoplatnik.ZusrcaDAO;
 import daosuperplace.FirmaFacade;
 import daosuperplace.RokFacade;
 import data.Data;
+import embeddable.DRASumy;
 import embeddable.Mce;
 import embeddable.WierszPkpir;
 import embeddable.WierszRyczalt;
@@ -44,6 +45,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -87,6 +89,7 @@ public class DochodDlaDRAView implements Serializable {
     private List<WierszDRA> wiersze;
     private List<List<WierszDRA>> mapa;
     private WierszDRA selected;
+    private DRASumy selected1;
     @Inject
     private WierszDRADAO wierszDRADAO;
     @Inject
@@ -106,6 +109,12 @@ public class DochodDlaDRAView implements Serializable {
     private List<Zusdra> zusdralista;
     private List<Zusrca> zusrcalista;
     private boolean pokazzrobione;
+    private List<DRASumy> drasumy;
+    private int razemubezpieczeni;
+    private int razemprzedsiebiorcy;
+    private int razempracownicy;
+    private int razemzleceniobiorcy;
+    private int razeminne;
 
     @PostConstruct
     public void start() {
@@ -373,6 +382,69 @@ public class DochodDlaDRAView implements Serializable {
         Msg.msg("Pobrano dane");
     }
 
+    
+    public void podsumujDRA() {
+        drasumy = new ArrayList<>();
+        if (mc==null) {
+            mc = Data.poprzedniMc();
+        }
+        String okres = mc+rok;
+        List<Zusdra> zusdra = zusdraDAO.findByOkres(okres);
+        List<Zusrca> zusrca = zusrcaDAO.findByOkres(okres);
+        int i = 1;
+        for (Zusdra z : zusdra) {
+            DRASumy dras = new DRASumy();
+            dras.setId(i++);
+            dras.setRok(rok);
+            dras.setMc(mc);
+            dras.setZusdra(z);
+            for (Zusrca r : zusrca) {
+                if (r.getI12okrrozl().equals(z.getI22okresdeklar()) && r.getIdPlatnik()==z.getIdPlatnik()) {
+                    dras.setZusrca(r);
+                    List<UbezpZusrca> zalezne = ubezpZusrcaDAO.findByIdDokNad(r.getIdDokument());
+                    dras.setUbezpZusrca(zalezne);
+                    break;
+                }
+            }
+            drasumy.add(dras);
+            
+        }
+        sumujdra();
+        System.out.println("");
+    }
+    
+    private void sumujdra() {
+        if (drasumy!=null) {
+            razemprzedsiebiorcy = 0;
+            razemubezpieczeni = 0;
+            razempracownicy = 0;
+            razemzleceniobiorcy = 0;
+            razeminne = 0;
+            List<DRASumy> przetworzone = przetworz(drasumy);
+            for (DRASumy p : przetworzone) {
+                razemubezpieczeni = razemubezpieczeni+p.getUbezpieczeni();
+                razemprzedsiebiorcy = razemprzedsiebiorcy+p.getPrzedsiebiorcy();
+                razempracownicy = razempracownicy+p.getPracownicy();
+                razemzleceniobiorcy = razemzleceniobiorcy+p.getZleceniobiorcy();
+                razeminne = razeminne+p.getInnetytuly();
+            }
+            
+        }
+    }
+    
+    private List<DRASumy> przetworz(List<DRASumy> drasumy) {
+        Map<String,DRASumy> nowe = new HashMap<>();
+        for (DRASumy p : drasumy) {
+            if (!nowe.containsKey(p.getZusdra().getIi1Nip())) {
+                nowe.put(p.getZusdra().getIi1Nip(), p);
+            } else {
+                nowe.remove(p.getZusdra().getIi1Nip());
+                nowe.put(p.getZusdra().getIi1Nip(), p);
+            }
+        }
+        return new ArrayList<DRASumy>(nowe.values());
+    }
+    
     private void dodajpit4(WierszDRA w, List<kadryiplace.Firma> firmy) {
         Firma firma = null;
         for (Firma f : firmy) {
@@ -777,6 +849,64 @@ public class DochodDlaDRAView implements Serializable {
     public void setPokazzrobione(boolean pokazzrobione) {
         this.pokazzrobione = pokazzrobione;
     }
+
+    public List<DRASumy> getDrasumy() {
+        return drasumy;
+    }
+
+    public void setDrasumy(List<DRASumy> drasumy) {
+        this.drasumy = drasumy;
+    }
+
+    public DRASumy getSelected1() {
+        return selected1;
+    }
+
+    public void setSelected1(DRASumy selected1) {
+        this.selected1 = selected1;
+    }
+
+    public int getRazemubezpieczeni() {
+        return razemubezpieczeni;
+    }
+
+    public void setRazemubezpieczeni(int razemubezpieczeni) {
+        this.razemubezpieczeni = razemubezpieczeni;
+    }
+
+    public int getRazemprzedsiebiorcy() {
+        return razemprzedsiebiorcy;
+    }
+
+    public void setRazemprzedsiebiorcy(int razemprzedsiebiorcy) {
+        this.razemprzedsiebiorcy = razemprzedsiebiorcy;
+    }
+
+    public int getRazempracownicy() {
+        return razempracownicy;
+    }
+
+    public void setRazempracownicy(int razempracownicy) {
+        this.razempracownicy = razempracownicy;
+    }
+
+    public int getRazemzleceniobiorcy() {
+        return razemzleceniobiorcy;
+    }
+
+    public void setRazemzleceniobiorcy(int razemzleceniobiorcy) {
+        this.razemzleceniobiorcy = razemzleceniobiorcy;
+    }
+
+    public int getRazeminne() {
+        return razeminne;
+    }
+
+    public void setRazeminne(int razeminne) {
+        this.razeminne = razeminne;
+    }
+
+    
 
     
 

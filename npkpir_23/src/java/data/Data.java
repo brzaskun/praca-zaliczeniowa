@@ -239,6 +239,22 @@ public class Data implements Serializable {
         }
         return zwrot;
     }
+    public static String poprzedniMc() {
+        String zwrot = "błąd";
+        java.time.LocalDate dt = java.time.LocalDate.now();
+        java.time.format.DateTimeFormatter formatter = java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String formattedDate = dt.format(formatter);
+        if (formattedDate.length() > 0) {
+            zwrot = formattedDate.split("-")[1];
+            if (zwrot.equals("01")) {
+                zwrot = "12";
+            } else {
+                Integer mcInt = Integer.parseInt(zwrot);
+                zwrot = String.valueOf(Mce.getNumberToMiesiac().get(mcInt-1));
+            }
+        }
+        return zwrot;
+    }
     /**
      * Generowanie pary poprzedni rok-mc
      * 

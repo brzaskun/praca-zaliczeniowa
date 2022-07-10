@@ -423,6 +423,137 @@
                 </f:view>
             </p:outputPanel>
         </p:tab>
+        <p:tab title="Statystyka DRA">
+            <p:outputPanel>
+                <f:view>
+                    <h:form id="formtabeladra">
+  <style>
+        .odd{
+            background-color: #e4e3e3 !important;
+        }
+    </style>
+    <p:panelGrid columns="3">
+        <h:outputText value="miesiąc deklaracji:" style="text-shadow: #6374AB 1px -1px 1px"/>
+        <p:selectOneMenu id="miesiacWpisu" value="#{dochodDlaDRAView.mc}" style="width: 70px;">
+            <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
+            <f:selectItems value="#{mce.mceList}"/>
+            <p:ajax event="change" partialSubmit="true" listener="#{dochodDlaDRAView.podsumujDRA()}" update="akordeon:formtabeladra"/>
+        </p:selectOneMenu>
+         <p:commandButton id="przeliczbutton1" value="pobierz" actionListener="#{dochodDlaDRAView.podsumujDRA()}"  style="width: 120px;margin-left: 20px;" update="akordeon:formtabeladra"/>
+     </p:panelGrid>
+                        <p:dataTable value="#{dochodDlaDRAView.drasumy}" var="itemdra" style="width: 1300px;padding: 20px;" 
+                                     scrollable="true" scrollHeight="750" scrollRows="30" rowStyleClass="#{(yndex mod 2) eq 0 ? null : 'odd'}"
+                                     emptyMessage="nie pobrano danych" id="wykazschem" rowKey="#{itemdra.id}" rowIndexVar="yndex1"
+                                     selection="#{dochodDlaDRAView.selected1}" selectionMode="single" sortBy="#{itemdra.getNazwa()}" sortOrder="ascending">
+                            <p:column style="width: 20px;">
+                                <f:facet name="header">
+                                    <h:outputText value="id"/>
+                                </f:facet>
+                                <h:outputText value="#{yndex1+1}" style="width: 20px;"/>
+                            </p:column>
+                            <p:column  style="width: 250px;" exportable="false" sortBy="#{itemdra.getNazwa()}" filterBy="#{itemdra.getNazwa()}" filterMatchMode="contains">
+                                <f:facet name="header">
+                                    <h:outputText value="płatnik"/>
+                                </f:facet>
+                                <h:outputText value="#{itemdra.getNazwa()}"/>
+                            </p:column>
+                            <p:column  style="width: 80px;" exportable="false"  filterBy="#{itemdra.zusdra.ii1Nip}" filterMatchMode="startsWith">
+                                <f:facet name="header">
+                                    <h:outputText value="NIP"/>
+                                </f:facet>
+                                <h:outputText value="#{itemdra.zusdra.ii1Nip}"/>
+                            </p:column>
+                            <p:column style="text-align: center;width: 60px;" sortBy="#{itemdra.zusdra.xii8Datawypel}">
+                                <f:facet name="header">
+                                    <h:outputText value="data"/>
+                                </f:facet>
+                                 <h:outputText value="#{itemdra.zusdra.xii8Datawypel}">
+                                    <f:convertDateTime dateStyle="medium" locale="pl"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column style="text-align: center;width: 20px;">
+                                <f:facet name="header">
+                                    <h:outputText value="nr"/>
+                                </f:facet>
+                                <h:outputText value="#{itemdra.zusdra.i21iddekls}">
+                                </h:outputText>
+                            </p:column>
+                            <p:column style="text-align: center;width: 20px;">
+                                <f:facet name="header">
+                                    <h:outputText value="wysł"/>
+                                </f:facet>
+                                <h:outputText value="&#x2713;" rendered="#{itemdra.zusdra.statuspt eq 'Z'}">
+                                </h:outputText>
+                            </p:column>
+                            <p:column  style="text-align: center;width: 20px;" sortBy="#{itemdra.getUbezpieczeni()}">
+                                <f:facet name="header">
+                                    <h:outputText value="ub."/>
+                                </f:facet>
+                                <h:outputText value="#{itemdra.getUbezpieczeni()}" rendered="#{itemdra.getUbezpieczeni() gt 0}"/>
+                            </p:column>
+                            <p:column  style="text-align: center;width: 20px;">
+                                <f:facet name="header">
+                                    <h:outputText value="prz."/>
+                                </f:facet>
+                                 <h:outputText value="#{itemdra.getPrzedsiebiorcy()}"  rendered="#{itemdra.getPrzedsiebiorcy() gt 0}"/>
+                            </p:column>
+                            <p:column  style="text-align: center;width: 20px;">
+                                <f:facet name="header">
+                                    <h:outputText value="prac."/>
+                                </f:facet>
+                                 <h:outputText value="#{itemdra.getPracownicy()}"  rendered="#{itemdra.getPracownicy() gt 0}"/>
+                            </p:column>
+                            <p:column  style="text-align: center;width: 20px;">
+                                <f:facet name="header">
+                                    <h:outputText value="zlec."/>
+                                </f:facet>
+                                 <h:outputText value="#{itemdra.getZleceniobiorcy()}"  rendered="#{itemdra.getZleceniobiorcy() gt 0}"/>
+                            </p:column>
+                             <p:column  style="text-align: center;width: 20px;">
+                                <f:facet name="header">
+                                    <h:outputText value="inne"/>
+                                </f:facet>
+                                 <h:outputText value="#{itemdra.getInnetytuly()}"  rendered="#{itemdra.getInnetytuly() gt 0}"/>
+                            </p:column>
+                            <p:column  style="text-align: center;width: 50px;">
+                                <f:facet name="header">
+                                    <h:outputText value="okres"/>
+                                </f:facet>
+                                <h:outputText value="#{itemdra.zusdra.i22okresdeklar}" style="color: green;"/>
+                            </p:column>
+                            <p:column  style="width: 70px;">
+                                <f:facet name="header">
+                                    <h:outputText value="DRA d.zapł."/>
+                                </f:facet>
+                                <bcf:outputpl value="#{itemdra.zusdra.ix2Kwdozaplaty}"/>
+                            </p:column>
+                              
+<!--                          
+                            <p:column style="text-align: center;width: 40px;">
+                                <f:facet name="header">
+                                    <h:outputText value=""/>
+                                </f:facet>
+                                <p:selectBooleanCheckbox value="#{item.zrobiony}">
+                                    <p:ajax event="change" global="false" partialSubmit="true" listener="#{dochodDlaDRAView.edytuj(item)}"/>
+                                </p:selectBooleanCheckbox>
+                            </p:column>-->
+                        </p:dataTable>
+                        <p:panelGrid columns="2">
+                            <h:outputText value="ubezpieczeni"/>
+                            <h:outputText value="#{dochodDlaDRAView.razemubezpieczeni}"/>
+                            <h:outputText value="przedsiębiorcy"/>
+                            <h:outputText value="#{dochodDlaDRAView.razemprzedsiebiorcy}"/>
+                            <h:outputText value="pracownicy"/>
+                            <h:outputText value="#{dochodDlaDRAView.razempracownicy}"/>
+                            <h:outputText value="zleceniobiorcy"/>
+                            <h:outputText value="#{dochodDlaDRAView.razemzleceniobiorcy}"/>
+                            <h:outputText value="inne tytuły"/>
+                            <h:outputText value="#{dochodDlaDRAView.razeminne}"/>
+                        </p:panelGrid>
+                    </h:form>
+                </f:view>
+            </p:outputPanel>
+        </p:tab>
 <!--         <p:tab title="Rok">
             <p:outputPanel>
                 <f:view>
