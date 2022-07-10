@@ -22,6 +22,7 @@ public class DRASumy {
     private List<UbezpZusrca> ubezpZusrca;
     private String rok;
     private String mc;
+    private String okres;
 
     public DRASumy() {
     }
@@ -75,6 +76,15 @@ public class DRASumy {
         this.mc = mc;
     }
 
+    public String getOkres() {
+        return okres;
+    }
+
+    public void setOkres(String okres) {
+        this.okres = okres;
+    }
+
+    
     
     @Override
     public int hashCode() {
@@ -169,6 +179,39 @@ public class DRASumy {
                     suma = suma+1;
                 }
             }
+        }
+        return suma;
+    }
+    
+    public double getSpoleczne() {
+        double suma = 0;
+        if (this.ubezpZusrca!=null) {
+            for (UbezpZusrca p : this.ubezpZusrca) {
+                if (p.getIiiB11kodtytub().startsWith("05")) {
+                    double em = p.getIiiB7KwskleuRN()!= null ? p.getIiiB7KwskleuRN().doubleValue() :0.0;
+                    double ren = p.getIiiB8KwsklruRN()!= null ? p.getIiiB8KwsklruRN().doubleValue() :0.0;
+                    double cho = p.getIiiB9KwsklchuRN()!= null ? p.getIiiB9KwsklchuRN().doubleValue() :0.0;
+                    double wyp = p.getIiiB10KwsklwyuR()!= null ? p.getIiiB10KwsklwyuR().doubleValue() :0.0;
+                    suma = suma+em+ren+cho+wyp;
+                }
+            }
+        } else if (this.zusdra!=null && this.zusdra.getIv32Kwskspol()!=null) {
+            suma = this.zusdra.getIv32Kwskspol().doubleValue();
+        }
+        return suma;
+    }
+    
+     public double getZdrowotne() {
+        double suma = 0;
+        if (this.ubezpZusrca!=null) {
+            for (UbezpZusrca p : this.ubezpZusrca) {
+                if (p.getIiiB11kodtytub().startsWith("05")) {
+                    double zdr = p.getIiiC4KwsklzuR()!= null ? p.getIiiC4KwsklzuR().doubleValue() :0.0;
+                    suma = suma+zdr;
+                }
+            }
+        } else if (this.zusdra!=null && this.zusdra.getVii4Kwzap()!=null) {
+            suma = this.zusdra.getVii4Kwzap().doubleValue();
         }
         return suma;
     }

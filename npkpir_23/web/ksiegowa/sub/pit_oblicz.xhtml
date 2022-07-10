@@ -123,7 +123,7 @@
                             <p:commandButton value="wyślij"  action="#{zestawienieView.wyslijPit()}" type="submit" style="width: 140px" styleClass="klik" rendered="#{zamkniecieView.sprawdzMiesiacRok()}"/>
                         </p:panelGrid>
                     </p:panelGrid>
-                    <p:panelGrid  columns="1" >
+<!--                    <p:panelGrid  columns="1" >
                         <p:dataTable value="#{podatnikView.selected.zusstawkinowe}"  var="loop" 
                                      rows="12" id="datatable" style="width: 400px;"
                                      sortFunction="#{zusStawkiZbiorczeView.sortujZUSstawkinew}"  sortBy="#{loop}" sortOrder="descending" 
@@ -151,6 +151,59 @@
                                 <h:outputText value="#{loop.zus52odl != null ? loop.zus52odl : 'nie wpisano'}"  style="#{loop.rok eq podatnikView.biezacadata ? 'color: green; font-weight: 900;' : null}; float: right;">
                                     <f:convertNumber minFractionDigits="2" locale="PL"/>
                                 </h:outputText>
+                            </p:column>
+                        </p:dataTable>
+                    </p:panelGrid>-->
+                    <p:panelGrid  columns="1" >
+                        <p:panel header="dane ZUS pobrane z Płatnika" style="width: 450px;"/>
+                        <p:dataTable value="#{draPIT.drasumy}" var="itemdra" style="width: 500px;padding: 20px;" 
+                                     scrollable="true" scrollHeight="750" scrollRows="30" rowStyleClass="#{(yndex mod 2) eq 0 ? null : 'odd'}"
+                                     emptyMessage="nie pobrano danych" id="wykazschem" rowKey="#{itemdra.id}" rowIndexVar="yndex1"
+                                     selection="#{draPIT.selected1}" selectionMode="single" sortBy="#{itemdra.okres}" sortOrder="ascending">
+                            <p:column style="width: 20px;">
+                                <f:facet name="header">
+                                    <h:outputText value="id"/>
+                                </f:facet>
+                                <h:outputText value="#{yndex1+1}" style="width: 20px;"/>
+                            </p:column>
+                            <p:column style="text-align: center;width: 60px;" sortBy="#{itemdra.zusdra.xii8Datawypel}">
+                                <f:facet name="header">
+                                    <h:outputText value="data"/>
+                                </f:facet>
+                                 <h:outputText value="#{itemdra.zusdra.xii8Datawypel}">
+                                    <f:convertDateTime dateStyle="medium" locale="pl"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column style="text-align: center;width: 20px;">
+                                <f:facet name="header">
+                                    <h:outputText value="nr"/>
+                                </f:facet>
+                                <h:outputText value="#{itemdra.zusdra.i21iddekls}">
+                                </h:outputText>
+                            </p:column>
+                            <p:column  style="text-align: center;width: 20px;" sortBy="#{itemdra.getUbezpieczeni()}">
+                                <f:facet name="header">
+                                    <h:outputText value="ub."/>
+                                </f:facet>
+                                <h:outputText value="#{itemdra.getUbezpieczeni()}" rendered="#{itemdra.getUbezpieczeni() gt 0}"/>
+                            </p:column>
+                            <p:column  style="text-align: center;width: 50px;">
+                                <f:facet name="header">
+                                    <h:outputText value="okres"/>
+                                </f:facet>
+                                <h:outputText value="#{itemdra.okres}" style="color: green;"/>
+                            </p:column>
+                            <p:column  style="width: 70px;">
+                                <f:facet name="header">
+                                    <h:outputText value="ZUS 51"/>
+                                </f:facet>
+                                <bcf:outputpl value="#{itemdra.getSpoleczne()}"/>
+                            </p:column>
+                            <p:column  style="width: 70px;">
+                                <f:facet name="header">
+                                    <h:outputText value="ZUS 52"/>
+                                </f:facet>
+                                <bcf:outputpl value="#{itemdra.getZdrowotne()}"/>
                             </p:column>
                         </p:dataTable>
                     </p:panelGrid>
@@ -249,7 +302,7 @@
                             <p:commandButton value="wyślij"  action="#{zestawienieRyczaltView.wyslijPit()}" type="submit" style="width: 140px" styleClass="klik" rendered="#{zamkniecieView.sprawdzMiesiacRok()}"/>
                         </p:panelGrid>
                     </p:panelGrid>
-                    <p:panelGrid  columns="1" >
+<!--                    <p:panelGrid  columns="1" >
                         <p:dataTable value="#{podatnikView.selected.zusstawkinowe}"  var="loop" 
                                      rows="12" id="datatable" style="width: 400px;"
                                      sortFunction="#{zusStawkiZbiorczeView.sortujZUSstawkinew}"  sortBy="#{loop}" sortOrder="descending" 
@@ -277,6 +330,59 @@
                                 <h:outputText value="#{loop.zus52odl != null ? loop.zus52odl : 'nie wpisano'}"  style="#{loop.rok eq podatnikView.biezacadata ? 'color: green; font-weight: 900;' : null}; float: right;">
                                     <f:convertNumber minFractionDigits="2" locale="PL"/>
                                 </h:outputText>
+                            </p:column>
+                        </p:dataTable>
+                    </p:panelGrid>-->
+ <p:panelGrid  columns="1" >
+                        <p:panel header="dane ZUS pobrane z Płatnika" style="width: 450px;"/>
+                        <p:dataTable value="#{draPIT.drasumy}" var="itemdra" style="width: 500px;padding: 20px;" 
+                                     scrollable="true" scrollHeight="750" scrollRows="30" rowStyleClass="#{(yndex mod 2) eq 0 ? null : 'odd'}"
+                                     emptyMessage="nie pobrano danych" id="wykazschem" rowKey="#{itemdra.id}" rowIndexVar="yndex1"
+                                     selection="#{draPIT.selected1}" selectionMode="single" sortBy="#{itemdra.okres}" sortOrder="ascending">
+                            <p:column style="width: 20px;">
+                                <f:facet name="header">
+                                    <h:outputText value="id"/>
+                                </f:facet>
+                                <h:outputText value="#{yndex1+1}" style="width: 20px;"/>
+                            </p:column>
+                            <p:column style="text-align: center;width: 60px;" sortBy="#{itemdra.zusdra.xii8Datawypel}">
+                                <f:facet name="header">
+                                    <h:outputText value="data"/>
+                                </f:facet>
+                                 <h:outputText value="#{itemdra.zusdra.xii8Datawypel}">
+                                    <f:convertDateTime dateStyle="medium" locale="pl"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column style="text-align: center;width: 20px;">
+                                <f:facet name="header">
+                                    <h:outputText value="nr"/>
+                                </f:facet>
+                                <h:outputText value="#{itemdra.zusdra.i21iddekls}">
+                                </h:outputText>
+                            </p:column>
+                            <p:column  style="text-align: center;width: 20px;" sortBy="#{itemdra.getUbezpieczeni()}">
+                                <f:facet name="header">
+                                    <h:outputText value="ub."/>
+                                </f:facet>
+                                <h:outputText value="#{itemdra.getUbezpieczeni()}" rendered="#{itemdra.getUbezpieczeni() gt 0}"/>
+                            </p:column>
+                            <p:column  style="text-align: center;width: 50px;">
+                                <f:facet name="header">
+                                    <h:outputText value="okres"/>
+                                </f:facet>
+                                <h:outputText value="#{itemdra.okres}" style="color: green;"/>
+                            </p:column>
+                            <p:column  style="width: 70px;">
+                                <f:facet name="header">
+                                    <h:outputText value="ZUS 51"/>
+                                </f:facet>
+                                <bcf:outputpl value="#{itemdra.getSpoleczne()}"/>
+                            </p:column>
+                            <p:column  style="width: 70px;">
+                                <f:facet name="header">
+                                    <h:outputText value="ZUS 52"/>
+                                </f:facet>
+                                <bcf:outputpl value="#{itemdra.getZdrowotne()}"/>
                             </p:column>
                         </p:dataTable>
                     </p:panelGrid>
