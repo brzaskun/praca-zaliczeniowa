@@ -675,7 +675,7 @@ public class Dok extends DokSuper implements Serializable {
     public Double getNettoWaluta() {
         double suma = 0.0;
         for (KwotaKolumna1 p : this.listakwot1) {
-            if (p.getNettowaluta() != null) {
+            if (p.getNettowaluta() != 0.0) {
                 suma += p.getNettowaluta();
             }
         }
@@ -687,7 +687,7 @@ public class Dok extends DokSuper implements Serializable {
         try {
             if (this.tabelanbp!=null) {
                 for (KwotaKolumna1 p : this.listakwot1) {
-                    if (p.getNettowaluta() != null) {
+                    if (p.getNettowaluta() != 0.0) {
                         suma += p.getVat();
                     }
                 }

@@ -21,7 +21,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.Transient;
 
 /**
  *
@@ -36,15 +35,16 @@ public class KwotaKolumna1 implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
-    private long id;
-    private Double netto;
-    private Double nettowaluta;
-    private Double vat;
-    @Transient
+    private Integer id;
+    private double netto;
+    private double nettowaluta;
+    private double vat;
+    private double vatodliczony;
+    private double vatkoszt;
     private double vatwaluta;
-    private Double brutto;
+    private double brutto;
     private String nazwakolumny;
-    private String dowykorzystania;
+
     @JoinColumn(name = "dok", referencedColumnName = "id_dok")
     @ManyToOne(cascade = CascadeType.ALL)
     private Dok dok;
@@ -68,14 +68,19 @@ public class KwotaKolumna1 implements Serializable{
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 29 * hash + (int) (this.id ^ (this.id >>> 32));
-        hash = 29 * hash + Objects.hashCode(this.dok);
+        int hash = 5;
+        hash = 41 * hash + Objects.hashCode(this.id);
+        hash = 41 * hash + (int) (Double.doubleToLongBits(this.netto) ^ (Double.doubleToLongBits(this.netto) >>> 32));
+        hash = 41 * hash + (int) (Double.doubleToLongBits(this.vat) ^ (Double.doubleToLongBits(this.vat) >>> 32));
+        hash = 41 * hash + Objects.hashCode(this.dok);
         return hash;
     }
 
     @Override
     public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
         if (obj == null) {
             return false;
         }
@@ -83,7 +88,13 @@ public class KwotaKolumna1 implements Serializable{
             return false;
         }
         final KwotaKolumna1 other = (KwotaKolumna1) obj;
-        if (this.id != other.id) {
+        if (Double.doubleToLongBits(this.netto) != Double.doubleToLongBits(other.netto)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.vat) != Double.doubleToLongBits(other.vat)) {
+            return false;
+        }
+        if (!Objects.equals(this.id, other.id)) {
             return false;
         }
         if (!Objects.equals(this.dok, other.dok)) {
@@ -92,9 +103,59 @@ public class KwotaKolumna1 implements Serializable{
         return true;
     }
 
+    
+
     @Override
     public String toString() {
         return "KwotaKolumna1{" + "netto=" + netto + ", vat=" + vat + ", brutto=" + brutto + ", nazwakolumny=" + nazwakolumny + ", dok=" + dok + '}';
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public double getNetto() {
+        return netto;
+    }
+
+    public void setNetto(double netto) {
+        this.netto = netto;
+    }
+
+    public double getNettowaluta() {
+        return nettowaluta;
+    }
+
+    public void setNettowaluta(double nettowaluta) {
+        this.nettowaluta = nettowaluta;
+    }
+
+    public double getVat() {
+        return vat;
+    }
+
+    public void setVat(double vat) {
+        this.vat = vat;
+    }
+
+    public double getVatodliczony() {
+        return vatodliczony;
+    }
+
+    public void setVatodliczony(double vatodliczony) {
+        this.vatodliczony = vatodliczony;
+    }
+
+    public double getVatkoszt() {
+        return vatkoszt;
+    }
+
+    public void setVatkoszt(double vatkoszt) {
+        this.vatkoszt = vatkoszt;
     }
 
     public double getVatwaluta() {
@@ -104,54 +165,21 @@ public class KwotaKolumna1 implements Serializable{
     public void setVatwaluta(double vatwaluta) {
         this.vatwaluta = vatwaluta;
     }
-    
-    
-    public Double getNetto() {
-        return netto;
-    }
 
-    public void setNetto(Double netto) {
-        this.netto = netto;
-    }
-
-    public Double getVat() {
-        return vat;
-    }
-
-    public void setVat(Double vat) {
-        this.vat = vat;
-    }
-
-    public Double getBrutto() {
+    public double getBrutto() {
         return brutto;
     }
 
-    public void setBrutto(Double brutto) {
+    public void setBrutto(double brutto) {
         this.brutto = brutto;
     }
-    
+
     public String getNazwakolumny() {
         return nazwakolumny;
     }
 
     public void setNazwakolumny(String nazwakolumny) {
         this.nazwakolumny = nazwakolumny;
-    }
-
-    public String getDowykorzystania() {
-        return dowykorzystania;
-    }
-
-    public void setDowykorzystania(String dowykorzystania) {
-        this.dowykorzystania = dowykorzystania;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public Dok getDok() {
@@ -162,14 +190,6 @@ public class KwotaKolumna1 implements Serializable{
         this.dok = dok;
     }
 
-    public Double getNettowaluta() {
-        return nettowaluta;
-    }
-
-    public void setNettowaluta(Double nettowaluta) {
-        this.nettowaluta = nettowaluta;
-    }
-
     public List<Kolumna1Rozbicie> getListaKolumna1Rozbicie() {
         return listaKolumna1Rozbicie;
     }
@@ -178,6 +198,7 @@ public class KwotaKolumna1 implements Serializable{
         this.listaKolumna1Rozbicie = listaKolumna1Rozbicie;
     }
 
+    
   
     
     
