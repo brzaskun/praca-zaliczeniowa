@@ -385,7 +385,7 @@ public class DochodDlaDRAView implements Serializable {
     }
 
     private List<Zusdra> przetworzZusdra(List<Zusdra> zusdra) {
-        Map<String,Zusdra> nowe = new HashMap<>();
+       Map<String,Zusdra> nowe = new HashMap<>();
         if (zusdra!=null) {
             for (Zusdra p : zusdra) {
                 if (!nowe.containsKey(p.getI22okresdeklar())) {
