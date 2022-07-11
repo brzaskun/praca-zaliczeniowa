@@ -11,6 +11,7 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -132,10 +133,8 @@ public class UbezpZusrca implements Serializable {
     @NotNull
     @Column(name = "ID_PLATNIK", nullable = false)
     private int idPlatnik;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "ID_DOK_NAD", nullable = false)
-    private int idDokNad;
+    @JoinColumn(name = "ID_DOK_NAD", referencedColumnName = "ID_DOKUMENT")
+    private Zusrca idDokNad;
     @Basic(optional = false)
     @NotNull
     @Column(name = "ID_UBEZPIECZONY", nullable = false)
@@ -337,7 +336,7 @@ public class UbezpZusrca implements Serializable {
         this.idDokument = idDokument;
     }
 
-    public UbezpZusrca(Integer idDokument, int idPlatnik, int idDokNad, int idUbezpieczony, int statusws) {
+    public UbezpZusrca(Integer idDokument, int idPlatnik, Zusrca idDokNad, int idUbezpieczony, int statusws) {
         this.idDokument = idDokument;
         this.idPlatnik = idPlatnik;
         this.idDokNad = idDokNad;
@@ -361,13 +360,15 @@ public class UbezpZusrca implements Serializable {
         this.idPlatnik = idPlatnik;
     }
 
-    public int getIdDokNad() {
+    public Zusrca getIdDokNad() {
         return idDokNad;
     }
 
-    public void setIdDokNad(int idDokNad) {
+    public void setIdDokNad(Zusrca idDokNad) {
         this.idDokNad = idDokNad;
     }
+
+   
 
     public int getIdUbezpieczony() {
         return idUbezpieczony;

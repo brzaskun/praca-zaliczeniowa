@@ -80,7 +80,7 @@ public class DraPIT implements Serializable {
                 for (Zusrca r : zusrca) {
                     if (r.getI12okrrozl().equals(p.getI22okresdeklar()) && r.getIdPlatnik()==p.getIdPlatnik()) {
                         dras.setZusrca(r);
-                        List<UbezpZusrca> zalezne = ubezpZusrcaDAO.findByIdDokNad(r.getIdDokument());
+                        List<UbezpZusrca> zalezne = ubezpZusrcaDAO.findByIdDokNad(r);
                         dras.setUbezpZusrca(zalezne);
                         break;
                     }

@@ -268,27 +268,34 @@ public class DochodDlaDRAView implements Serializable {
                     i++;
                 //}
             }
-            wierszebaza = wierszDRADAO.findByRok(rok);
-            Collections.sort(wierszebaza, new WierszDRAcomparator());
-            Map<String, List<WierszDRA>> kotek = new TreeMap<>();
-            for (WierszDRA p : wierszebaza) {
-                if (kotek.containsKey(p.getImienazwisko())) {
-                    kotek.get(p.getImienazwisko()).add(p);
-                } else {
-                    List<WierszDRA> nowalista = new ArrayList<>();
-                    nowalista.add(p);
-                    kotek.put(p.getImienazwisko(), nowalista);
-                }
-            }
-            mapa = new ArrayList<>();
-            for (List<WierszDRA> k : kotek.values()) {
-                mapa.add(k);
-            }
             Msg.msg("Pobrano i przeliczono dane");
             
         } else {
             Msg.msg("e","Nie wybrano okresu");
         }
+    }
+    
+    public void pobierzrok() {
+        List<WierszDRA> wierszebaza = wierszDRADAO.findByRok(rok);
+        if (wierszebaza==null) {
+            wierszebaza = new ArrayList<>();
+        }
+        Collections.sort(wierszebaza, new WierszDRAcomparator());
+        Map<String, List<WierszDRA>> kotek = new TreeMap<>();
+        for (WierszDRA p : wierszebaza) {
+            if (kotek.containsKey(p.getImienazwisko())) {
+                kotek.get(p.getImienazwisko()).add(p);
+            } else {
+                List<WierszDRA> nowalista = new ArrayList<>();
+                nowalista.add(p);
+                kotek.put(p.getImienazwisko(), nowalista);
+            }
+        }
+        mapa = new ArrayList<>();
+        for (List<WierszDRA> k : kotek.values()) {
+            mapa.add(k);
+        }
+        Msg.msg("Pobrano i przeliczono dane");
     }
     
     public void edytuj(WierszDRA wiersz) {
@@ -330,6 +337,7 @@ public class DochodDlaDRAView implements Serializable {
         List<Zusdra> dralistatmp = zusdraDAO.findByOkres(okres);
         zusdralista = przetworzZusdra(dralistatmp);
         zusrcalista = zusrcaDAO.findByOkres(okres);
+        List<UbezpZusrca> zalezne = ubezpZusrcaDAO.findByOkres(okres);
         List<kadryiplace.Firma> firmy = firmaFacade.findAll();
         for (WierszDRA w : wiersze) {
             
@@ -358,7 +366,7 @@ public class DochodDlaDRAView implements Serializable {
             for (Zusrca z : zusrcalista) {
                 if (w.getPodatnik().getNip().equals(z.getIi1Nip())) {
                     w.setZusrca(z);
-                    List<UbezpZusrca> zalezne = ubezpZusrcaDAO.findByIdDokNad(z.getIdDokument());
+                    //List<UbezpZusrca> zalezne = ubezpZusrcaDAO.findByIdDokNad(z.getIdDokument());
                     if (zalezne!=null && !zalezne.isEmpty()) {
                         z.setRcalista(zalezne);
                         for (UbezpZusrca u : zalezne) {
@@ -422,7 +430,7 @@ public class DochodDlaDRAView implements Serializable {
             for (Zusrca r : zusrca) {
                 if (r.getI12okrrozl().equals(z.getI22okresdeklar()) && r.getIdPlatnik()==z.getIdPlatnik()) {
                     dras.setZusrca(r);
-                    List<UbezpZusrca> zalezne = ubezpZusrcaDAO.findByIdDokNad(r.getIdDokument());
+                    List<UbezpZusrca> zalezne = ubezpZusrcaDAO.findByIdDokNad(r);
                     dras.setUbezpZusrca(zalezne);
                     break;
                 }

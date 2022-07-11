@@ -5,6 +5,7 @@
 package daoplatnik;
 
 import entityplatnik.UbezpZusrca;
+import entityplatnik.Zusrca;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -45,10 +46,20 @@ public class UbezpZusrcaDAO extends DAO1 implements Serializable {
     }
     
     
-    public List<UbezpZusrca> findByIdDokNad(Integer iddoknad) {
+    public List<UbezpZusrca> findByIdDokNad(Zusrca iddoknad) {
         List<UbezpZusrca> zwrot = new ArrayList<>();
         try {
             zwrot = getEntityManager().createQuery("SELECT z FROM UbezpZusrca z WHERE z.idDokNad = :iddoknad").setParameter("iddoknad", iddoknad).getResultList();
+        } catch (Exception e) { 
+            E.e(e); 
+        }
+        return zwrot;
+    }
+
+    public List<UbezpZusrca> findByOkres(String okres) {
+        List<UbezpZusrca> zwrot = new ArrayList<>();
+        try {
+            zwrot = getEntityManager().createQuery("SELECT z FROM UbezpZusrca z WHERE z.idDokNad.i12okrrozl = :okres").setParameter("okres", okres).getResultList();
         } catch (Exception e) { 
             E.e(e); 
         }

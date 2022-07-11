@@ -24,20 +24,20 @@
                         <p:selectOneMenu id="miesiacWpisu" value="#{dochodDlaDRAView.mc}" style="width: 70px;">
                             <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
                             <f:selectItems value="#{mce.mceList}"/>
-                            <p:ajax event="change" partialSubmit="true" listener="#{dochodDlaDRAView.pobierz}" update="@(form)" oncomplete="r('akordeon:formtabela:przeliczbutton').show()"/>
+                            <p:ajax event="change" partialSubmit="true" listener="#{dochodDlaDRAView.pobierz}" update="akordeon:formtabela akordeon:formtabela1" oncomplete="r('akordeon:formtabela:przeliczbutton').show()"/>
                         </p:selectOneMenu>
                         
                         <p:selectBooleanCheckbox value="#{dochodDlaDRAView.pokazzrobione}"  itemLabel="pokaż zrobione" style="width: 220px;margin-left: 20px;">
-                            <p:ajax event="change" partialSubmit="true" listener="#{dochodDlaDRAView.pobierz}"  update="akordeon:formtabela:wykazschem"/>
+                            <p:ajax event="change" partialSubmit="true" listener="#{dochodDlaDRAView.pobierz}"  update="akordeon:formtabela akordeon:formtabela1"/>
                         </p:selectBooleanCheckbox>
-                        <p:commandButton id="przeliczbutton" value="przelicz" actionListener="#{dochodDlaDRAView.przelicz()}"  style="width: 120px;margin-left: 20px;display: none;" update="@(form)"/>
+                        <p:commandButton id="przeliczbutton" value="przelicz" actionListener="#{dochodDlaDRAView.przelicz()}"  style="width: 120px;margin-left: 20px;display: none;" update="akordeon:formtabela akordeon:formtabela1"/>
                         </p:panelGrid>
   <style>
         .odd{
             background-color: #e4e3e3 !important;
         }
     </style>
-                        <p:dataTable value="#{dochodDlaDRAView.wiersze}" var="item" style="width: 17w00px;padding: 20px;" 
+                        <p:dataTable value="#{dochodDlaDRAView.wiersze}" var="item" style="width: 1700px;padding: 20px;" 
                                      scrollable="true" scrollHeight="750" scrollRows="30" rowStyleClass="#{(yndex mod 2) eq 0 ? null : 'odd'}"
                                      emptyMessage="nie pobrano danych" id="wykazschem" rowKey="#{item.imienazwisko}" rowIndexVar="yndex"
                                      selection="#{dochodDlaDRAView.selected}" selectionMode="single" sortBy="#{item.imienazwisko}" sortOrder="ascending">
@@ -254,6 +254,12 @@
                                 </f:facet>
                                 <h:outputText value="#{item.zusdra.i22okresdeklar}" style="color: green;"/>
                             </p:column>
+                             <p:column  style="text-align: center;width: 20px;">
+                                <f:facet name="header">
+                                    <h:outputText value="wer"/>
+                                </f:facet>
+                                 <h:outputText value="#{item.zusdra.i21iddekls}"/>
+                            </p:column>
                             <p:column  style="width: 70px;">
                                 <f:facet name="header">
                                     <h:outputText value="DRA d.zapł."/>
@@ -304,7 +310,10 @@
         <p:tab title="Rok">
             <p:outputPanel>
                 <f:view>
-                    <h:form>
+                    <h:form id="formrok">
+                         <p:panelGrid columns="3">
+                             <p:commandButton id="przeliczbutton1a" value="pobierz" actionListener="#{dochodDlaDRAView.pobierzrok()}"  style="width: 120px;margin-left: 20px;" update="akordeon:formrok"/>
+                         </p:panelGrid>
                         <p:accordionPanel id="akordeon1" value="#{dochodDlaDRAView.mapa}" var="podatnik" >
                             <p:tab title="#{podatnik[0].imienazwisko} #{podatnik[0].podatnik.nip}">
                                 <p:dataTable value="#{podatnik}" var="item2" style="width: 1600px;padding: 20px;"
