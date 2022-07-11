@@ -23,6 +23,7 @@ public class DRASumy {
     private String rok;
     private String mc;
     private String okres;
+    
 
     public DRASumy() {
     }
@@ -179,6 +180,20 @@ public class DRASumy {
                     suma = suma+1;
                 }
             }
+        }
+        return suma;
+    }
+    
+    public String getKod() {
+        String suma = "n.d.";
+        if (this.ubezpZusrca!=null) {
+            for (UbezpZusrca p : this.ubezpZusrca) {
+                if (p.getIiiB11kodtytub().startsWith("05")) {
+                    suma = p.getIiiB11kodtytub()!=null?String.valueOf(p.getIiiB11kodtytub()):"brak";
+                }
+            }
+        } else if (this.zusdra!=null && this.zusdra.getXi11kodtytub()!=null) {
+            suma = this.zusdra.getXi11kodtytub()!=null?String.valueOf(this.zusdra.getXi11kodtytub()):"brak";
         }
         return suma;
     }
