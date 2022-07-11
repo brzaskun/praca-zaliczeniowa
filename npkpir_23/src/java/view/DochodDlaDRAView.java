@@ -388,13 +388,13 @@ public class DochodDlaDRAView implements Serializable {
        Map<String,Zusdra> nowe = new HashMap<>();
         if (zusdra!=null) {
             for (Zusdra p : zusdra) {
-                if (!nowe.containsKey(p.getI22okresdeklar())) {
-                    nowe.put(p.getI22okresdeklar(), p);
+                if (!nowe.containsKey(p.getIi1Nip())) {
+                    nowe.put(p.getIi1Nip(), p);
                 } else {
-                    Zusdra stara = nowe.get(p.getI22okresdeklar());
+                    Zusdra stara = nowe.get(p.getIi1Nip());
                     if (Integer.valueOf(stara.getI21iddekls())<Integer.valueOf(p.getI21iddekls())) {
-                        nowe.remove(p.getI22okresdeklar());
-                        nowe.put(p.getI22okresdeklar(), p);
+                        nowe.remove(p.getIi1Nip());
+                        nowe.put(p.getIi1Nip(), p);
                     }
                 }
             }
