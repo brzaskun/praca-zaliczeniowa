@@ -136,10 +136,10 @@ public class DochodDlaDRAView implements Serializable {
             if (!mc.equals("01")) {
                 rokpkpir = rok;
             }
-            //List<Podatnik> podatnicy = podatnikDAO.findPodatnikNieFK();
-            Podatnik podat = podatnikDAO.findPodatnikByNIP("9552379284");
-            List<Podatnik> podatnicy = new ArrayList<>();
-            podatnicy.add(podat);
+            List<Podatnik> podatnicy = podatnikDAO.findPodatnikNieFK();
+            //Podatnik podat = podatnikDAO.findPodatnikByNIP("9552379284");
+            //List<Podatnik> podatnicy = new ArrayList<>();
+            //podatnicy.add(podat);
             for (Iterator<Podatnik> it = podatnicy.iterator();it.hasNext();) {
                 Podatnik p = it.next();
                 if (p.getNip().equals("8511005008")) {
