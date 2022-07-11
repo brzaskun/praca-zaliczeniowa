@@ -136,7 +136,10 @@ public class DochodDlaDRAView implements Serializable {
             if (!mc.equals("01")) {
                 rokpkpir = rok;
             }
-            List<Podatnik> podatnicy = podatnikDAO.findPodatnikNieFK();
+            //List<Podatnik> podatnicy = podatnikDAO.findPodatnikNieFK();
+            Podatnik podat = podatnikDAO.findPodatnikByNIP("9552379284");
+            List<Podatnik> podatnicy = new ArrayList<>();
+            podatnicy.add(podat);
             for (Iterator<Podatnik> it = podatnicy.iterator();it.hasNext();) {
                 Podatnik p = it.next();
                 if (p.getNip().equals("8511005008")) {
@@ -222,7 +225,7 @@ public class DochodDlaDRAView implements Serializable {
                                         }
                                     }
                                     if (wiersz.getId()==null) {
-                                        //wiersz.setData(new Date());
+                                        wiersz.setData(new Date());
                                         wierszDRADAO.create(wiersz);
                                     } else {
                                         wierszDRADAO.edit(wiersz);
@@ -388,13 +391,13 @@ public class DochodDlaDRAView implements Serializable {
        Map<String,Zusdra> nowe = new HashMap<>();
         if (zusdra!=null) {
             for (Zusdra p : zusdra) {
-                if (!nowe.containsKey(p.getI22okresdeklar())) {
-                    nowe.put(p.getI22okresdeklar(), p);
+                if (!nowe.containsKey(p.getIi1Nip())) {
+                    nowe.put(p.getIi1Nip(), p);
                 } else {
-                    Zusdra stara = nowe.get(p.getI22okresdeklar());
+                    Zusdra stara = nowe.get(p.getIi1Nip());
                     if (Integer.valueOf(stara.getI21iddekls())<Integer.valueOf(p.getI21iddekls())) {
-                        nowe.remove(p.getI22okresdeklar());
-                        nowe.put(p.getI22okresdeklar(), p);
+                        nowe.remove(p.getIi1Nip());
+                        nowe.put(p.getIi1Nip(), p);
                     }
                 }
             }
@@ -719,7 +722,7 @@ public class DochodDlaDRAView implements Serializable {
         }
         return przychod;
     }
-    private static final String trescmaila = "<p> Dzień dobry</p> <p> Przesyłąmy informacje o naliczonych kwoty zobowiązań z tytułu ZUS I PIT-4</p> "
+    private static final String trescmaila = "<p> Dzień dobry</p> <p> Przesyłamy informacje o naliczonych kwoty zobowiązań z tytułu ZUS I PIT-4</p> "
             + "<p> dla firmy <span style=\"color:#008000;\">%s</span> NIP %s</p> "
             + "<p> do zapłaty/przelania w miesiącu <span style=\"color:#008000;\">%s/%s</span></p> "
             + " <table align=\"left\" border=\"1\" cellpadding=\"1\" cellspacing=\"1\" style=\"width: 500px;\"> <caption> zestawienie zobowiązań</caption> <thead> <tr> "
