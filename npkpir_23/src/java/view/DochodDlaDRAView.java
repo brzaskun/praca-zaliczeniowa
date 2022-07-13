@@ -231,6 +231,8 @@ public class DochodDlaDRAView implements Serializable {
                                         wierszDRADAO.edit(wiersz);
                                     }
                                     this.wiersze.add(wiersz);
+                                } else if (udzialy.size()==1){
+                                    Msg.msg("e","Sprawdź udziały w firmie "+podatnik.getPrintnazwa());
                                 }
                             }
                         } else {
