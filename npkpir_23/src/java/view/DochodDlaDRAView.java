@@ -786,7 +786,8 @@ public class DochodDlaDRAView implements Serializable {
                 //            pit4 = zusmail.getPit4()!= null ? zusmail.getPit4(): 0;
                 //            pit8 = zusmail.getPit8()!= null ? zusmail.getPit8(): 0;//kom
                 zusmail.setTytul(String.format("Taxman - zestawienie kwot ZUS/PIT4 za %s/%s", wierszDRA.getRok(), wierszDRA.getMc()));
-                zusmail.setTresc(String.format(new Locale("pl_PL"), trescmaila, wierszDRA.getPodatnik().getPrintnazwa(), wierszDRA.getPodatnik().getNip(), wierszDRA.getRok(), wierszDRA.getMc(), zus, pit4, pit8));
+                String mnastepny = Mce.getNumberToMiesiac().get(Integer.valueOf(wierszDRA.getMc())+1);
+                zusmail.setTresc(String.format(new Locale("pl_PL"), trescmaila, wierszDRA.getPodatnik().getPrintnazwa(), wierszDRA.getPodatnik().getNip(), wierszDRA.getRok(),mnastepny, zus, pit4, pit8));
                 zusmail.setAdresmail(wierszDRA.getPodatnik().getEmail());
                 zusmail.setWysylajacy("manager");
                 wierszDRA.setZusmail(zusmail);
