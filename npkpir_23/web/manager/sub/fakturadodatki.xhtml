@@ -107,10 +107,10 @@
                             <p:ajax event="change" partialSubmit="true" listener="#{fakturaDodPozycjaKontrahentView.edytuj(zapis,3)}" />
                         </p:selectBooleanCheckbox>
                     </p:column>
-                    <p:column headerText="brak fakt." width="20" sortBy="#{zapis.brakfaktury}" filterBy="#{zapis.brakfaktury}" filterFunction="contains" style="text-align:center;">  
+                    <p:column headerText="brak fakt." width="20" sortBy="#{zapis.brakfaktury}" style="text-align:center;">  
                         <h:outputText value="!" style="color: red;" rendered="#{zapis.brakfaktury}"/>
                     </p:column>
-                    <p:column headerText="nie do ed." width="20" sortBy="#{zapis.brakfakturydoedycji}" filterBy="#{zapis.brakfakturydoedycji}" filterFunction="contains" style="text-align:center;">  
+                    <p:column headerText="nie do ed." width="20" sortBy="#{zapis.brakfakturydoedycji}" style="text-align:center;">  
                         <h:outputText value="r" style="color: red;" rendered="#{zapis.brakfakturydoedycji}"/>
                     </p:column>
                     <p:column headerText="" style="text-align: center;" width="50">  
