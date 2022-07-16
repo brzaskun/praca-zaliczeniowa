@@ -1150,6 +1150,16 @@ public class InterpaperImportView implements Serializable {
                                     eVatwpisFK.setEstawka("op");
                                     nd.getEwidencjaVAT().add(eVatwpisFK);
                                     break;
+                                } else if (!PanstwaEUSymb.getWykazPanstwUE().contains(interpaperXLS.getKlient().getKrajkod()) && p.getNazwa().equals("import towarów")) {
+                                    eVatwpisFK.setNettowwalucie(Z.z(interpaperXLS.getNettowaluta()));
+                                    eVatwpisFK.setVatwwalucie(Z.z(interpaperXLS.getVatwaluta()));
+                                    eVatwpisFK.setNetto(Z.z(nettopln));
+                                    eVatwpisFK.setVat(Z.z(vatpln));
+                                    eVatwpisFK.setBrutto(Z.z(nettopln+vatpln));
+                                    eVatwpisFK.setDokfk(nd);
+                                    eVatwpisFK.setEstawka("op");
+                                    nd.getEwidencjaVAT().add(eVatwpisFK);
+                                    break;
                                 } else if (PanstwaEUSymb.getWykazPanstwUE().contains(interpaperXLS.getKlient().getKrajkod()) && p.getNazwa().equals("usługi świad. poza ter.kraju art. 100 ust.1 pkt 4")) {
                                     eVatwpisFK.setNettowwalucie(Z.z(interpaperXLS.getNettowaluta()));
                                     eVatwpisFK.setVatwwalucie(0.0);

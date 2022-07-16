@@ -230,8 +230,8 @@ public class VATDeklaracja implements Serializable {
         List<EVatwpisSuma> ewidencjeUzupelniane = Collections.synchronizedList(new ArrayList<>());
         for (Iterator<EVatwpisSuma> it = ewidencjeDoPrzegladu.iterator(); it.hasNext();) {
             EVatwpisSuma ew = (EVatwpisSuma) it.next();
-            //dodaje wartosci ujete pierwotnie jako przychod, drugi raz jako koszt 1 "import usług",3 "rejestr WNT",17"odwrotne obciążenie"
-            if (ew.getEwidencja().getId()==1 || ew.getEwidencja().getId()==3 || ew.getEwidencja().getId()==17) {
+            //dodaje wartosci ujete pierwotnie jako przychod, drugi raz jako koszt 1 "import usług",3 "rejestr WNT",17"odwrotne obciążenie", 24 "import towarów"
+            if (ew.getEwidencja().getId()==1 || ew.getEwidencja().getId()==3 || ew.getEwidencja().getId()==17 || ew.getEwidencja().getId()==24) {
                 EVatwpisSuma suma = new EVatwpisSuma(ew.getEwidencja(), ew.getNetto(), ew.getVat(), ew.getEstawka());
                 //pobieram i kopiuje stara ewidencje
                 Evewidencja tmp = new Evewidencja(ew.getEwidencja().getNazwa(), ew.getEwidencja().getNazwapola(), ew.getEwidencja().getNrpolanetto(), ew.getEwidencja().getNrpolavat(), ew.getEwidencja().getRodzajzakupu(), ew.getEwidencja().getTransakcja(), ew.getEwidencja().isTylkoNetto());

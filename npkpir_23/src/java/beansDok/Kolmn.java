@@ -95,6 +95,7 @@ public class Kolmn implements Serializable{
                 return kolumnRyczalt;
             case "zakup":
             case "import usług":
+            case "import towarów":
             case "WNT":
             case "odwrotne obciążenie":
                 return kolumnKoszty;
@@ -125,6 +126,7 @@ public class Kolmn implements Serializable{
                 return kolumnRyczalt;
             case "zakup":
             case "import usług":
+            case "import towarów":
             case "WNT":
             case "odwrotne obciążenie":
                 return kolumnKoszty;

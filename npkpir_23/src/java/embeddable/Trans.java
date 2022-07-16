@@ -33,6 +33,7 @@ public class Trans implements Serializable{
         transList.add("WDT");
         transList.add("WNT");
         transList.add("import usług");
+        transList.add("import towarów");
         transList.add("usługi poza ter.");
         transList.add("eksport towarów");
         transList.add("odwrotne obciążenie");
@@ -49,6 +50,7 @@ public class Trans implements Serializable{
         transListZO.add("WDT");
         transListZO.add("WNT");
         transListZO.add("import usług");
+        transListZO.add("import towarów");
         transListZO.add("usługi poza ter.");
         transListZO.add("eksport towarów");
         transListZO.add("odwrotne obciążenie");
@@ -62,6 +64,7 @@ public class Trans implements Serializable{
         transListRY.add("WDT");
         transListRY.add("WNT");
         transListRY.add("import usług");
+        transListRY.add("import towarów");
         transListRY.add("usługi poza ter.");
         transListRY.add("eksport towarów");
         transListRY.add("odwrotne obciążenie");

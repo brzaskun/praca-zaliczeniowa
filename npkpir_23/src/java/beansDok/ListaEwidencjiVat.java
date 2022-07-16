@@ -7,7 +7,6 @@ package beansDok;
 import comparator.Evewidencjacomparator;
 import dao.EvewidencjaDAO;
 import entity.Evewidencja;
-import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -43,6 +42,7 @@ public class ListaEwidencjiVat implements Serializable{
     private List<Evewidencja> rvcVList;//reverse charge - odwrotne obciazenie
     private List<Evewidencja> rvcVListS;//reverse charge - odwrotne obciazenie sprzedawca
     private List<Evewidencja> importuslugList;
+    private List<Evewidencja> importtowarowList;
     private List<Evewidencja> uslugiPTK;
     private List<Evewidencja> eksporttowarow;
     private List<Evewidencja> listadostepnychewidencji;
@@ -58,6 +58,7 @@ public class ListaEwidencjiVat implements Serializable{
         rvcVList = Collections.synchronizedList(new ArrayList<>());
         rvcVListS = Collections.synchronizedList(new ArrayList<>());
         importuslugList = Collections.synchronizedList(new ArrayList<>());
+        importtowarowList = Collections.synchronizedList(new ArrayList<>());
         uslugiPTK = Collections.synchronizedList(new ArrayList<>());
         eksporttowarow = Collections.synchronizedList(new ArrayList<>());
         //pojemnik na wszytskie ewidencje z EVDAO
@@ -98,8 +99,8 @@ public class ListaEwidencjiVat implements Serializable{
                     case "import uslug" : 
                         importuslugList.add(up);
                         break;
-                    case "import usług" : 
-                        importuslugList.add(up);
+                    case "import towarów" : 
+                        importtowarowList.add(up);
                         break;
                     case "usługi poza ter." :
                         uslugiPTK.add(up);
@@ -134,6 +135,8 @@ public class ListaEwidencjiVat implements Serializable{
                         return wntVList;
                     case ("import usług"):
                         return importuslugList;
+                    case "import towarów" : 
+                        return importtowarowList;
                     case "usługi poza ter.":
                         return uslugiPTK;
                     case "eksport towarów":
