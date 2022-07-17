@@ -589,7 +589,7 @@ public class ZestawienieView implements Serializable {
                 }
                 Podstawki skalaPodatkowaZaDanyRok;
                 try {
-                    skalaPodatkowaZaDanyRok = podstawkiDAO.find(Integer.parseInt(biezacyPit.getPkpirR()));
+                    skalaPodatkowaZaDanyRok = podstawkiDAO.find(Integer.parseInt(biezacyPit.getPkpirR()), biezacyPit.getPkpirM());
                 } catch (Exception e) {
                     E.e(e);
                     biezacyPit = new Pitpoz();

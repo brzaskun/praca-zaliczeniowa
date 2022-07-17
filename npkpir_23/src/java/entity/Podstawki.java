@@ -5,14 +5,16 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -24,15 +26,23 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Podstawki.findAll", query = "SELECT p FROM Podstawki p"),
-    @NamedQuery(name = "Podstawki.findByRok", query = "SELECT p FROM Podstawki p WHERE p.rok = :rok")})
+    @NamedQuery(name = "Podstawki.findByRok", query = "SELECT p FROM Podstawki p WHERE p.rok = :rok"),
+    @NamedQuery(name = "Podstawki.findByRok2022", query = "SELECT p FROM Podstawki p WHERE p.rok = :rok AND p.mc IS NULL"),
+    @NamedQuery(name = "Podstawki.findByRok202207", query = "SELECT p FROM Podstawki p WHERE p.rok = :rok AND p.mc IS NOT NULL")
+})
+
    
 public class Podstawki implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
+    @Column(name = "id")
+    private Integer id;
     @Column(name = "ROK")
     private Integer rok;
+    @Column(name = "mc")
+    private String mc;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "kwotawolna")
     private Double kwotawolna;
@@ -68,39 +78,70 @@ public class Podstawki implements Serializable {
     public Podstawki() {
     }
 
-    
-
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (rok != null ? rok.hashCode() : 0);
+        int hash = 7;
+        hash = 43 * hash + Objects.hashCode(this.id);
+        hash = 43 * hash + Objects.hashCode(this.rok);
+        hash = 43 * hash + Objects.hashCode(this.mc);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Podstawki)) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
             return false;
         }
-        Podstawki other = (Podstawki) object;
-        if ((this.rok == null && other.rok != null) || (this.rok != null && !this.rok.equals(other.rok))) {
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Podstawki other = (Podstawki) obj;
+        if (!Objects.equals(this.mc, other.mc)) {
+            return false;
+        }
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        if (!Objects.equals(this.rok, other.rok)) {
             return false;
         }
         return true;
     }
 
+    
+
+    
     @Override
     public String toString() {
         return "entity.Podstawki[ rok=" + rok + " ]";
     }
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    
     public Integer getRok() {
         return rok;
     }
 
     public void setRok(Integer rok) {
         this.rok = rok;
+    }
+
+    public String getMc() {
+        return mc;
+    }
+
+    public void setMc(String mc) {
+        this.mc = mc;
     }
 
     public Double getKwotawolna() {

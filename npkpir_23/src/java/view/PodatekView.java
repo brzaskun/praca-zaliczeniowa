@@ -123,7 +123,7 @@ public class PodatekView implements Serializable{
         Double stawka;
         Podstawki skalaPodatkowaZaDanyRok;
         try {
-            skalaPodatkowaZaDanyRok = podstawkiDAO.find(wpisView.getRokWpisu());
+            skalaPodatkowaZaDanyRok = podstawkiDAO.find(wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
         } catch (Exception e) { E.e(e); 
             Msg.msg("e", "Brak wprowadzonej skali opodatkowania dla wszystkich podatników na obecny rok. Przerywam wyliczanie PIT-u");
             return;

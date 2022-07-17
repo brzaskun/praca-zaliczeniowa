@@ -18,7 +18,10 @@
                     <h:outputText value="Lista wprowadzonych stawek"/>
                 </f:facet>
                 <p:column headerText="rok">
-                <h:outputText value="#{loop.rok}" />
+                    <h:outputText value="#{loop.rok}" />
+                 </p:column>
+                <p:column headerText="mc">
+                    <h:outputText value="#{loop.mc}" />
                  </p:column>
                 <p:column headerText="kwota wolna">
                     <h:outputText value="#{loop.kwotawolna}" ><f:convertNumber locale="PL"/></h:outputText>
@@ -58,6 +61,7 @@
         <p:panel header="wybierz parametry aktualne" style="width: 700px;">
         <p:panelGrid id="parametryzus" columns="2" >
             <h:outputText value="rok podatkowy: "/><h:selectOneMenu value="#{podStawkiView.selected.rok}"><f:selectItems value="#{roki.rokiList}"/></h:selectOneMenu>
+            <h:outputText value="mc od: "/><h:selectOneMenu value="#{podStawkiView.selected.mc}"><f:selectItems value="#{mce.mceList}"/></h:selectOneMenu>
             <h:outputText value="kwota wolna: "/><h:inputText value="#{podStawkiView.selected.kwotawolna}"><f:convertNumber /></h:inputText>
             <h:outputText value="kwota próg: "/><h:inputText value="#{podStawkiView.selected.prog}"><f:convertNumber /></h:inputText>
             <h:outputText value="kwota stawka 1: "/><h:inputText value="#{podStawkiView.selected.stawka1}"><f:convertNumber /></h:inputText>

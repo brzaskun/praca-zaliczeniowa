@@ -4,14 +4,14 @@
  */
 package dao;
 
+import embeddable.Mce;
 import entity.Podstawki;
 import java.io.Serializable;
 import javax.annotation.PreDestroy;
-import javax.inject.Inject;
-import javax.ejb.Stateless;import javax.transaction.Transactional;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import session.SessionFacade;
+import javax.transaction.Transactional;
 
 
 /**
@@ -21,9 +21,8 @@ import session.SessionFacade;
 @Stateless
 @Transactional
 public class PodStawkiDAO extends DAO implements Serializable{
-    @Inject
-    private SessionFacade podstawkiFacade;
-       @PersistenceContext(unitName = "npkpir_22PU")
+
+    @PersistenceContext(unitName = "npkpir_22PU")
     private EntityManager em;
     
     @PreDestroy
@@ -46,8 +45,17 @@ public class PodStawkiDAO extends DAO implements Serializable{
 
    
 
-    public Podstawki find(Integer rok){
-        return podstawkiFacade.findPodstawkiyear(rok);
+    public Podstawki find(Integer rok, String mc){
+        Podstawki zwrot = null;
+        int mcint = Mce.getMiesiacToNumber().get(mc);
+        if (rok < 2022 || rok > 2022) {
+            zwrot = (Podstawki)  getEntityManager().createNamedQuery("Podstawki.findByRok").setParameter("rok", rok).getSingleResult();
+        } else if (mcint<6){
+            zwrot = (Podstawki)  getEntityManager().createNamedQuery("Podstawki.findByRok2022").setParameter("rok", rok).getSingleResult();
+        } else {
+            zwrot = (Podstawki)  getEntityManager().createNamedQuery("Podstawki.findByRok202207").setParameter("rok", rok).getSingleResult();
+        }
+        return zwrot;
      }
    
    

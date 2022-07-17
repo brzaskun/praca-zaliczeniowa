@@ -24,7 +24,6 @@ import entity.PlatnosciPK;
 import entity.Podatnik;
 import entity.PodatnikEwidencjaDok;
 import entity.PodatnikOpodatkowanieD;
-import entity.Podstawki;
 import entity.Ryczpoz;
 import entity.SMTPSettings;
 import entity.Sprawa;
@@ -109,15 +108,7 @@ public class SessionFacade<T> implements Serializable {
         return Collections.synchronizedList(lista);
     }
 
-    
-    public Podstawki findPodstawkiyear(Integer rok) {
-        Podstawki tmp = (Podstawki)  getEntityManager().createNamedQuery("Podstawki.findByRok").setParameter("rok", rok).getSingleResult();
-        return tmp;
-    }
-
-    
-
-    
+        
 
     public Platnosci findPlatnosciPK(PlatnosciPK key) throws Exception {
         Platnosci tmp = (Platnosci)  getEntityManager().createNamedQuery("Platnosci.findByKey").setParameter("podatnik", key.getPodatnik()).setParameter("rok", key.getRok()).setParameter("miesiac", key.getMiesiac()).getSingleResult();
