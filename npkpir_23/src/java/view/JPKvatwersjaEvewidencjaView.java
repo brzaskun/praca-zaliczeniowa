@@ -90,22 +90,22 @@ public class JPKvatwersjaEvewidencjaView implements Serializable {
     
     public void zachowaj() {
         for (JPKvatwersjaEvewidencja p : lista) {
-            if (p.getPolejpk_netto_sprzedaz().equals("")) {
+            if (p.getPolejpk_netto_sprzedaz()!=null && p.getPolejpk_netto_sprzedaz().equals("")) {
                 p.setPolejpk_netto_sprzedaz(null);
             }
-            if (p.getPolejpk_vat_sprzedaz().equals("")) {
+            if (p.getPolejpk_vat_sprzedaz()!=null && p.getPolejpk_vat_sprzedaz().equals("")) {
                 p.setPolejpk_vat_sprzedaz(null);
             }
-            if (p.getPolejpk_netto_sprzedaz_suma().equals("")) {
+            if (p.getPolejpk_netto_sprzedaz_suma()!=null && p.getPolejpk_netto_sprzedaz_suma().equals("")) {
                 p.setPolejpk_netto_sprzedaz_suma(null);
             }
-            if (p.getPolejpk_netto_zakup().equals("")) {
+            if (p.getPolejpk_netto_zakup()!=null && p.getPolejpk_netto_zakup().equals("")) {
                 p.setPolejpk_netto_zakup(null);
             }
-            if (p.getPolejpk_vat_zakup().equals("")) {
+            if (p.getPolejpk_vat_zakup()!=null && p.getPolejpk_vat_zakup().equals("")) {
                 p.setPolejpk_vat_zakup(null);
             }
-            if (p.getPolejpk_vat_sprzedaz_suma().equals("")) {
+            if (p.getPolejpk_vat_sprzedaz_suma()!=null && p.getPolejpk_vat_sprzedaz_suma().equals("")) {
                 p.setPolejpk_vat_sprzedaz_suma(null);
             }
         }

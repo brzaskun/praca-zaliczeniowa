@@ -90,7 +90,11 @@ public class SchemaEwidencja implements Serializable {
 
     @Override
     public String toString() {
-        return "SchemaEwidencja{" + "deklaracjaVatSchema=" + deklaracjaVatSchema.getNazwaschemy() + ", evewidencja=" + evewidencja.getNazwa() + ", polenetto=" + polenetto + ", polevat=" + polevat + ", czescdeklaracji=" + czescdeklaracji + '}';
+        String zwrot = "null pointer Exception";
+        try {
+            zwrot = "SchemaEwidencja{" + "deklaracjaVatSchema=" + deklaracjaVatSchema.getNazwaschemy() + ", evewidencja=" + evewidencja.getNazwa() + ", polenetto=" + polenetto + ", polevat=" + polevat + ", czescdeklaracji=" + czescdeklaracji + '}';
+        } catch (Exception e){}
+        return zwrot;
     }
     
     
