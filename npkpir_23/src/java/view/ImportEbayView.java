@@ -31,12 +31,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.PostConstruct;
-import javax.inject.Named;
-import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
-import msg.Msg;import org.joda.time.DateTime;
+import msg.Msg;
+import org.joda.time.DateTime;
  import org.primefaces.PrimeFaces;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
@@ -116,7 +117,11 @@ public class ImportEbayView  implements Serializable {
             UploadedFile uploadedFile = event.getFile();
             String filename = uploadedFile.getFileName();
             InputStream is = uploadedFile.getInputstream();
-            faktury = ImportCSVEbay.pobierz(is);
+            if (wpisView.getRokWpisu()<2022) {
+                faktury = ImportCSVEbay.pobierz(is);
+            } else {
+               faktury = ImportCSVEbay.pobierz2022(is);
+            }
             sumuj();
             Msg.msg("Sukces. Plik " + filename + " został skutecznie załadowany");
             if (faktury.size()==0) {

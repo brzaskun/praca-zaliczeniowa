@@ -5,6 +5,7 @@
  */
 package embeddable;
 
+import data.Data;
 import waluty.Z;
 
 /**
@@ -79,6 +80,40 @@ public class FakturaEbay {
         this.Bezahltam = tmpline[27];
         this.Verschicktam = tmpline[28];
         this.Versandservice = tmpline[29];
+    }
+    
+    //Constructor 2022
+    public FakturaEbay(String[] tmpline) {
+        this.Verkaufsprotokollnummer = tmpline[2];
+        this.Nutzername = tmpline[4];
+        this.NamedesKäufers = tmpline[5];
+        this.EMaildesKäufers = "";
+        this.Käuferadresse1 = "";
+        this.Käuferadresse2 = "";
+        this.OrtdesKäufers = tmpline[6];
+        this.BundeslanddesKäufers = "";
+        this.PLZ = tmpline[8];
+        this.LanddesKäufers = tmpline[9];
+        this.Bestellnummer = tmpline[2];
+        this.Artikelnummer = tmpline[17];
+        this.TransaktionsID = "";
+        this.Artikelbezeichnung = tmpline[19];
+        this.Stückzahl = tmpline[21];
+        this.Verkaufspreis = tmpline[22];
+        this.InklusiveMehrwertsteuersatz = tmpline[26];
+        this.VerpackungundVersand = tmpline[33];//chodzi o walute
+        this.Versicherung = "";
+        this.voneBayeinbehalteneSteuer = "";
+        this.Gesamtpreis = tmpline[32];
+        this.Zahlungsmethode = tmpline[14];
+        this.PayPalTransaktionsID = tmpline[2];
+        this.Rechnungsnummer = tmpline[2];
+        this.Rechnungsdatum = Data.zmienkolejnoscEbay(tmpline[0]);
+        this.Verkaufsdatum = Data.zmienkolejnoscEbay(tmpline[0]);
+        this.Kaufabwicklungsdatum = Data.zmienkolejnoscEbay(tmpline[0]);
+        this.Bezahltam = Data.zmienkolejnoscEbay(tmpline[0]);
+        this.Verschicktam = Data.zmienkolejnoscEbay(tmpline[0]);
+        this.Versandservice = Data.zmienkolejnoscEbay(tmpline[0]);
     }
     
 
@@ -330,7 +365,11 @@ public class FakturaEbay {
     }
     
     public String getWaluta() {
-        return this.getVerpackungundVersand().substring(1,4);
+        String zwrot = this.getVerpackungundVersand();
+        if (zwrot.length()>3) {
+            zwrot = this.getVerpackungundVersand().substring(1,4);
+        }
+        return zwrot; 
     }
     
     public double getNetto() {
