@@ -99,6 +99,9 @@ public class ListaEwidencjiVat implements Serializable{
                     case "import uslug" : 
                         importuslugList.add(up);
                         break;
+                    case "import usług" : 
+                        importuslugList.add(up);
+                        break;
                     case "import towarów" : 
                         importtowarowList.add(up);
                         break;
