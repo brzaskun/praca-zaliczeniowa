@@ -1758,7 +1758,7 @@ public class DokView implements Serializable {
     
     public void edytujkursNBP() {
         if (selDokument.getWalutadokumentu()!=null && !selDokument.getWalutadokumentu().getSymbolwaluty().equals("PLN")) {
-            String datadokumentu = selDokument.getDataWyst();
+            String datadokumentu = selDokument.getDataSprz();
             DateTime dzienposzukiwany = new DateTime(datadokumentu);
             selDokument.setTabelanbp(TabelaNBPBean.pobierzTabeleNBP(dzienposzukiwany, tabelanbpDAO, selDokument.getWalutadokumentu().getSymbolwaluty()));
             symbolWalutyNettoVat = " " + selDokument.getTabelanbp().getWaluta().getSkrotsymbolu();

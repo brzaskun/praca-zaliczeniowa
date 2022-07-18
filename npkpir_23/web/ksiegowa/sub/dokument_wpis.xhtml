@@ -67,13 +67,15 @@
                                          immediate="false"  onblur="ustawDate(#{WpisView.rokWpisu},#{WpisView.miesiacWpisu});" title="wpisz numer dnia, lub miesiąc i dzień"  >
                                 <!--     archeo     <p:ajax event="blur" listener="{DokumentView.podlaczPierwszaKolumne()}" update=":dodWiad:tabelapkpir"  />-->
                                 <p:ajax event="blur" partialSubmit="true" global="false"/>
-                                <p:ajax event="change" partialSubmit="true" global="false" listener="#{DokumentView.edytujkursNBP}" update="dodWiad:panelTabelaNBP, dodWiad:dokumentprosty dodWiad:panelewidencjivat, dodWiad:sumbrutto"/>
+                                
                             </p:inputText>
                         </p:column>
                         <p:column width="60">
                             <p:inputText id="dataSPole" value="#{DokumentView.selDokument.dataSprz}" size="10"
                                          onblur="ustawDateSprzedazy(#{WpisView.rokWpisu},#{WpisView.miesiacWpisu});"
                                          required="true" requiredMessage="Pole daty sprzedaży nie może byc puste" >
+                                <p:ajax event="blur" partialSubmit="true" global="false"/>
+                                <p:ajax event="change" partialSubmit="true" global="false" listener="#{DokumentView.edytujkursNBP}" update="dodWiad:panelTabelaNBP, dodWiad:dokumentprosty dodWiad:panelewidencjivat, dodWiad:sumbrutto"/>
                             </p:inputText>
                         </p:column>
                         <p:column width="60" rendered="#{WpisView.podatnikObiekt.metodakasowa eq 'tak'}">
