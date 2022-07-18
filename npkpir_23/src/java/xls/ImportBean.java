@@ -453,6 +453,122 @@ public class ImportBean {
             }
         }
        }
+       //jpk fa 4
+       public static void podepnijEwidencjeVat(Dokfk nd, pl.gov.mf.jpk.wzor._2022._02._17._02171.JPK.Faktura faktura, ListaEwidencjiVat listaEwidencjiVat) {
+        Object[] stawka23 = {faktura.getP141()!=null,faktura.getP131(),faktura.getP141(),faktura.getP141W()};
+        Object[] stawka8 = {faktura.getP142()!=null,faktura.getP132(),faktura.getP142(),faktura.getP142W()};
+        Object[] stawka5 = {faktura.getP143()!=null,faktura.getP133(),faktura.getP143(),faktura.getP143W()};
+        Object[] stawkaWDT = {faktura.getP136()!=null,faktura.getP136(),0.0,faktura.getP143W()};
+        if (nd.getRodzajedok().getKategoriadokumentu() != 0 && nd.getRodzajedok().getKategoriadokumentu() != 5) {
+            if (nd.iswTrakcieEdycji() == false) {
+                nd.setEwidencjaVAT(new ArrayList<EVatwpisFK>());
+                /*wyswietlamy ewidencje VAT*/
+                List<Evewidencja> opisewidencji = Collections.synchronizedList(new ArrayList<>());
+                opisewidencji.addAll(listaEwidencjiVat.pobierzEvewidencje(nd.getRodzajedok().getRodzajtransakcji()));
+                int k = 0;
+                for (Evewidencja p : opisewidencji) {
+                    EVatwpisFK eVatwpisFK = new EVatwpisFK();
+                    eVatwpisFK.setLp(k++);
+                    eVatwpisFK.setEwidencja(p);
+                    przesuniecie(nd, eVatwpisFK);
+                    if (nd.getSeriadokfk().equals("SZ")) {
+                        if ((boolean) stawka23[0]) {
+                            double netto = stawka23[1]!=null?((BigDecimal)stawka23[1]).doubleValue():0.0;
+                            double vat = stawka23[2]!=null?((BigDecimal)stawka23[2]).doubleValue():0.0;
+                            if (p.getNazwa().equals("sprzedaż 23%")) {
+                                eVatwpisFK.setNettowwalucie(Z.z(netto));
+                                eVatwpisFK.setVatwwalucie(Z.z(vat));
+                                eVatwpisFK.setNetto(Z.z(netto));
+                                eVatwpisFK.setVat(Z.z(vat));
+                                eVatwpisFK.setBrutto(Z.z(Z.z(netto) + Z.z(vat)));
+                                eVatwpisFK.setDokfk(nd);
+                                eVatwpisFK.setEstawka("op");
+                                nd.getEwidencjaVAT().add(eVatwpisFK);
+                            }
+                        }
+                        if ((boolean) stawka8[0]) {
+                            double netto = stawka8[1]!=null?((BigDecimal)stawka8[1]).doubleValue():0.0;
+                            double vat = stawka8[2]!=null?((BigDecimal)stawka8[2]).doubleValue():0.0;
+                            if (p.getNazwa().equals("sprzedaż 8%")) {
+                                eVatwpisFK.setNettowwalucie(Z.z(netto));
+                                eVatwpisFK.setVatwwalucie(Z.z(vat));
+                                eVatwpisFK.setNetto(Z.z(netto));
+                                eVatwpisFK.setVat(Z.z(vat));
+                                eVatwpisFK.setBrutto(Z.z(Z.z(netto) + Z.z(vat)));
+                                eVatwpisFK.setDokfk(nd);
+                                eVatwpisFK.setEstawka("op");
+                                nd.getEwidencjaVAT().add(eVatwpisFK);
+                            }
+                        }
+                        if ((boolean) stawka5[0]) {
+                            double netto = stawka5[1]!=null?((BigDecimal)stawka5[1]).doubleValue():0.0;
+                            double vat = stawka5[2]!=null?((BigDecimal)stawka5[2]).doubleValue():0.0;
+                            if (p.getNazwa().equals("sprzedaż 5%")) {
+                                eVatwpisFK.setNettowwalucie(Z.z(netto));
+                                eVatwpisFK.setVatwwalucie(Z.z(vat));
+                                eVatwpisFK.setNetto(Z.z(netto));
+                                eVatwpisFK.setVat(Z.z(vat));
+                                eVatwpisFK.setBrutto(Z.z(Z.z(netto) + Z.z(vat)));
+                                eVatwpisFK.setDokfk(nd);
+                                eVatwpisFK.setEstawka("op");
+                                nd.getEwidencjaVAT().add(eVatwpisFK);
+                                break;
+                            }
+                        }
+                    } else if (nd.getSeriadokfk().equals("WDT") && p.getNazwa().equals("rejestr WDT")) {
+                            double netto = stawkaWDT[1]!=null?((BigDecimal)stawkaWDT[1]).doubleValue():0.0;
+                            double vat = 0.0;
+                            eVatwpisFK.setNettowwalucie(Z.z(netto));
+                            eVatwpisFK.setVatwwalucie(Z.z(vat));
+                            double kurs = nd.getTabelanbp().getKurssredniPrzelicznik();
+                            eVatwpisFK.setNetto(Z.z(netto*kurs));
+                            eVatwpisFK.setVat(Z.z(vat*kurs));
+                            eVatwpisFK.setBrutto(Z.z(eVatwpisFK.getNetto()+eVatwpisFK.getVat()));
+                            eVatwpisFK.setDokfk(nd);
+                            eVatwpisFK.setEstawka("op");
+                            nd.getEwidencjaVAT().add(eVatwpisFK);
+                            break;
+                    } else {
+                        double netto = faktura.getNetto();
+                        double vat = faktura.getVat();
+                        if (nd.getSeriadokfk().equals("ZZ") && p.getNazwa().equals("zakup")) {
+                            eVatwpisFK.setNettowwalucie(Z.z(netto));
+                            eVatwpisFK.setVatwwalucie(Z.z(vat));
+                            eVatwpisFK.setNetto(Z.z(netto));
+                            eVatwpisFK.setVat(0.0);
+                            eVatwpisFK.setBrutto(Z.z(netto));
+                            eVatwpisFK.setDokfk(nd);
+                            eVatwpisFK.setEstawka("op");
+                            nd.getEwidencjaVAT().add(eVatwpisFK);
+                            break;
+                        }
+                        if (nd.getSeriadokfk().equals("WDT") && p.getNazwa().equals("rejestr WDT")) {
+                            eVatwpisFK.setNettowwalucie(Z.z(netto));
+                            eVatwpisFK.setVatwwalucie(Z.z(vat));
+                            eVatwpisFK.setNetto(Z.z(netto));
+                            eVatwpisFK.setVat(0.0);
+                            eVatwpisFK.setBrutto(Z.z(netto));
+                            eVatwpisFK.setDokfk(nd);
+                            eVatwpisFK.setEstawka("op");
+                            nd.getEwidencjaVAT().add(eVatwpisFK);
+                            break;
+                        }
+                        if (nd.getSeriadokfk().equals("EXP") && p.getNazwa().equals("eksport towarów")) {
+                            eVatwpisFK.setNettowwalucie(Z.z(netto));
+                            eVatwpisFK.setVatwwalucie(Z.z(vat));
+                            eVatwpisFK.setNetto(Z.z(netto));
+                            eVatwpisFK.setVat(0.0);
+                            eVatwpisFK.setBrutto(Z.z(netto));
+                            eVatwpisFK.setDokfk(nd);
+                            eVatwpisFK.setEstawka("op");
+                            nd.getEwidencjaVAT().add(eVatwpisFK);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+       }
        
      public static void podepnijEwidencjeVat(Dokfk nd, double netto, double vat, ListaEwidencjiVat listaEwidencjiVat) {
         if (nd.getRodzajedok().getKategoriadokumentu() != 0 && nd.getRodzajedok().getKategoriadokumentu() != 5) {
