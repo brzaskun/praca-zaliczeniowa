@@ -1929,26 +1929,6 @@ public class FakturaView implements Serializable {
                 if (wpisView.getPodatnikObiekt().getNip().equals("8511005008")) {
                     dodajwierszedodatkowe(nowa, p);
                 }
-                FakturaBean.dodajtabelenbp(nowa, tabelanbpDAO);
-                if (waloryzajca > 0) {
-                    try {
-                        waloryzacjakwoty(nowa, waloryzajca);
-                        Faktura stara = p.getDokument();
-                        //to jest po to zeby potem juz generowac z okresowych ze zwaloryzowana kwota
-                        waloryzacjakwoty(stara, waloryzajca);
-                        FakturaBean.ewidencjavat(nowa, evewidencjaDAO);
-                        fakturaDAO.edit(stara);
-                    } catch (Exception e) { E.e(e); 
-                        Msg.msg("e", "Nieudane generowanie faktury okresowej z waloryzacją FakturaView:wygenerujzokresowych");
-                    }
-                } else if (waloryzajca == -1) {
-                    try {
-                        FakturaBean.ewidencjavat(nowa, evewidencjaDAO);
-                        Msg.msg("i", "Generowanie nowej ewidencji vat");
-                    } catch (Exception e) { E.e(e); 
-                        Msg.msg("e", "Nieudane generowanie nowej ewidencji vat dla faktury generowanej z okresowej FakturaView:wygenerujzokresowych");
-                    }
-                }
                 int dniDoZaplaty = nowa.getDnizaplaty();
                 if (datawystawienia.isEmpty()) {
                     DateTime dt = new DateTime();
@@ -1970,6 +1950,26 @@ public class FakturaView implements Serializable {
                     MutableDateTime dateTime = new MutableDateTime(datawystawienia);
                     dateTime.addDays(dniDoZaplaty);
                     nowa.setTerminzaplaty(dateTime.toString().substring(0, 10));
+                }
+                FakturaBean.dodajtabelenbp(nowa, tabelanbpDAO);
+                if (waloryzajca > 0.0) {
+                    try {
+                        waloryzacjakwoty(nowa, waloryzajca);
+                        Faktura stara = p.getDokument();
+                        //to jest po to zeby potem juz generowac z okresowych ze zwaloryzowana kwota
+                        waloryzacjakwoty(stara, waloryzajca);
+                        FakturaBean.ewidencjavat(nowa, evewidencjaDAO);
+                        fakturaDAO.edit(stara);
+                    } catch (Exception e) { E.e(e); 
+                        Msg.msg("e", "Nieudane generowanie faktury okresowej z waloryzacją FakturaView:wygenerujzokresowych");
+                    }
+                } else {
+                    try {
+                        FakturaBean.ewidencjavat(nowa, evewidencjaDAO);
+                        Msg.msg("i", "Generowanie nowej ewidencji vat");
+                    } catch (Exception e) { E.e(e); 
+                        Msg.msg("e", "Nieudane generowanie nowej ewidencji vat dla faktury generowanej z okresowej FakturaView:wygenerujzokresowych");
+                    }
                 }
                 nowa.setWygenerowanaautomatycznie(true);
                 nowa.setIdfakturaokresowa(p);

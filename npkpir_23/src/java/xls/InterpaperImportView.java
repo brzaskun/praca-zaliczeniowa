@@ -1207,9 +1207,11 @@ public class InterpaperImportView implements Serializable {
             if (Data.getMc(dataoperacji).equals(Data.getMc(datawplywu))) {
                 return false;
             }
-            int ilemiesiecy = Mce.odlegloscMcy(Data.getMc(dataoperacji), Data.getRok(dataoperacji), Data.getMc(datawplywu), Data.getRok(datawplywu));
-            if (ilemiesiecy > 3) {
-                zwrot = true;
+            if (wpisView.getRokWpisu()<2022) {
+                int ilemiesiecy = Mce.odlegloscMcy(Data.getMc(dataoperacji), Data.getRok(dataoperacji), Data.getMc(datawplywu), Data.getRok(datawplywu));
+                if (ilemiesiecy > 3) {
+                    zwrot = true;
+                }
             }
         }
         return zwrot;
