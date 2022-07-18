@@ -35,6 +35,7 @@ public class Mce implements Serializable{
     private static final Map<String,Integer> miesiacToNumber;
     private static final Map<String,Integer> mapamcyCalendar;
     private static final Map<String, String> mce_pl_de;
+    private static final Map<String, String> mce_de_short_pl;
 
     static{
         mceList = Collections.synchronizedList(new ArrayList<>());
@@ -198,6 +199,20 @@ public class Mce implements Serializable{
         mce_pl_de.put("październik", "Oktober");
         mce_pl_de.put("listopad", "November");
         mce_pl_de.put("grudzień", "Dezember");
+        
+        mce_de_short_pl = new ConcurrentHashMap<>();
+        mce_de_short_pl.put("Jan","01");
+        mce_de_short_pl.put("Feb","02");
+        mce_de_short_pl.put("März","03");
+        mce_de_short_pl.put("Apr","04");
+        mce_de_short_pl.put("Mai","05");
+        mce_de_short_pl.put("Jun","06");
+        mce_de_short_pl.put("Jul","07");
+        mce_de_short_pl.put("Aug","08");
+        mce_de_short_pl.put("Sept","09");
+        mce_de_short_pl.put("Okt","10");
+        mce_de_short_pl.put("Nov","11");
+        mce_de_short_pl.put("Dez","12");
         
     }
     
@@ -478,6 +493,10 @@ public class Mce implements Serializable{
 
     public static List<String> getMcenazwaListSlownik() {
         return mcenazwaListSlownik;
+    }
+
+    public static Map<String, String> getMce_de_short_pl() {
+        return mce_de_short_pl;
     }
 
     public static Map<String, String> getMce_pl_de() {

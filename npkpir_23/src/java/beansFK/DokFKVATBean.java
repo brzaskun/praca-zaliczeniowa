@@ -37,7 +37,7 @@ import waluty.Z;
 @Named
 public class DokFKVATBean {
     
-    static List<String> ewidencje = new ArrayList<>(Arrays.asList("WNT","import usług","odwrotne obciążenie","import towarów"));
+    static List<String> ewidencje = new ArrayList<>(Arrays.asList("WNT","import usług","import usług art. 28b","odwrotne obciążenie","import towarów"));
     
     public static Double pobierzstawke(EVatwpisFK evatwpis) {
         double kwotavat = 0.23;

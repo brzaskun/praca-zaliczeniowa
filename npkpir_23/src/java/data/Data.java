@@ -698,6 +698,29 @@ public class Data implements Serializable {
         return dobradata;
     }
     
+     public static String zmienkolejnoscEbay(String zladata) {
+        String dobradata = "1999-01-01";
+        if (zladata!=null) {
+            zladata = zladata.replace(".", "");
+            String[] data = zladata.split("\\s+");
+            String rok = data[2];
+            String mc = data[1];
+            mc = Mce.getMce_de_short_pl().get(mc);
+            String dzien = data[0];
+            if (dzien.length()==1) {
+                dzien = "0"+dzien;
+            }
+            StringBuilder sb = new StringBuilder();
+            sb.append(rok);
+            sb.append("-");
+            sb.append(mc);
+            sb.append("-");
+            sb.append(dzien);
+            dobradata = sb.toString();
+        }
+        return dobradata;
+    }
+    
     public static String zmienkolejnoscUS(String zladata) {
         String dobradata = "";
         if (dataamerico(zladata)) {
@@ -787,8 +810,24 @@ public class Data implements Serializable {
 //}
     
      public static void main(String[] args) {
-         String data = "1/28/2020";
-         boolean jest = dataamerico(data);
+        String zladata = "15. Jun 2020";
+        zladata = zladata.replace(".", "");
+        String[] data = zladata.split("\\s+");
+        String rok = data[2];
+        String mc = data[1];
+        mc = Mce.getMce_de_short_pl().get(mc);
+        String dzien = data[0];
+        if (dzien.length()==1) {
+            dzien = "0"+dzien;
+        }
+        StringBuilder sb = new StringBuilder();
+        sb.append(rok);
+        sb.append("-");
+        sb.append(mc);
+        sb.append("-");
+        sb.append(dzien);
+        String dobradata = sb.toString();
+        System.out.println(dobradata);
      }
     
 //   public static void main(String[] args) {
