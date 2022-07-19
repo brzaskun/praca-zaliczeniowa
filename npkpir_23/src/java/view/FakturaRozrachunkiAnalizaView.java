@@ -602,7 +602,11 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
     private double sumujwybraneroz(List<FakturaPodatnikRozliczenie> selectedrozliczenia) {
         double zwrot = 0.0;
         for (FakturaPodatnikRozliczenie p : selectedrozliczenia) {
-            zwrot += p.getKwota();
+            if (p.isFaktura0rozliczenie1()) {
+                zwrot -= p.getKwota();
+            } else {
+                zwrot += p.getKwota();
+            }
         }
         return zwrot;
     }
@@ -871,7 +875,11 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
         if (selectedrozliczenia!=null) {
             razemwybrane = 0.0;
             for (FakturaPodatnikRozliczenie p : selectedrozliczenia) {
-                razemwybrane = razemwybrane+p.getKwota();
+                if (p.isFaktura0rozliczenie1()) {
+                    razemwybrane = razemwybrane-p.getKwota();
+                } else {
+                    razemwybrane = razemwybrane+p.getKwota();
+                }
             }
         }
     }

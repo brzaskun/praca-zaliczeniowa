@@ -112,8 +112,13 @@ public class MailFaktRozrach implements Serializable{
         String zwrot = "";
         int lp = 1;
         for (FakturaPodatnikRozliczenie p : faktury) {
-            zwrot += "<tr> <td style=\"text-align: center;\"> "+lp+"</td> <td> "+p.getData()+"</td><td> "+p.getNrDok()+"</td> <td style=\"text-align: right;\">"+F.curr(p.getKwota(),p.getWalutafaktury())+"</td> </tr> ";
-            lp++;
+            if (p.isFaktura0rozliczenie1()) {
+                zwrot += "<tr> <td style=\"text-align: center;\"> "+lp+"</td> <td> "+p.getData()+"</td><td> otrzymano wpłatę"+p.getNrDok()+"</td> <td style=\"text-align: right;\">"+F.curr(-p.getKwota(),p.getWalutafaktury())+"</td> </tr> ";
+                lp++;
+            } else {
+                zwrot += "<tr> <td style=\"text-align: center;\"> "+lp+"</td> <td> "+p.getData()+"</td><td>  faktura "+p.getNrDok()+"</td> <td style=\"text-align: right;\">"+F.curr(p.getKwota(),p.getWalutafaktury())+"</td> </tr> ";
+                lp++;
+            }
         }
         return zwrot;
     }
