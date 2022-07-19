@@ -48,7 +48,7 @@
                     height: 25px;
                 }
             </style>
-                <p:panelGrid style="margin-top: 10px;" columns="2" id="polesumy">
+                <p:panelGrid style="margin-top: 10px;" columns="3" id="polesumy">
                     <p:panelGrid columns="1" style="width: 250px;margin-top: 10px;" id="mailklientapanel">
                     <p:column width="250">
                         <h:outputText value="mail: "/>
@@ -96,6 +96,12 @@
                         <p:commandButton icon="fa fa-bomb" actionListener="#{fakturaRozrachunkiAnalizaView.mailKliencitest()}"
                                          update=":akordeon:fakturaanaliza:tablicaanaliza"/>
                 </p:column>-->
+                </p:panelGrid>
+                    <p:panelGrid columns="2">
+                        <p:column width="35" style="text-align: center;">
+                            <p:commandButton value="korekta" actionListener="#{fakturaRozrachunkiAnalizaView.korygujnazero()}" 
+                                                update="akordeon:fakturaanaliza:tablicaanaliza" />
+                       </p:column>
                     </p:panelGrid>
             </p:panelGrid>
             <p:dataTable id="tablicaanaliza" value="#{fakturaRozrachunkiAnalizaView.nowepozycje}" var="item" style="width: 1250px; margin-top: 20px;"
@@ -207,7 +213,8 @@
                     <p:commandButton  update=":form1:messages" actionListener="#{pdfFaktura.drukuj(item.faktura, row, WpisView.podatnikObiekt)}" icon="ui-icon-print"  rendered="#{item.faktura0rozliczenie1 eq false}"/>
                 </p:column>
                 <p:column   style="text-align: center;"  width="40">
-                    <p:commandButton  update=":form1:messages,akordeon:fakturaanaliza:tablicaanaliza" actionListener="#{fakturaRozrachunkiAnalizaView.usunfakture(item)}" icon="fa fa-trash"  rendered="#{item.faktura0rozliczenie1 eq false and item.faktura.proforma}"/>
+                    <p:commandButton  update=":form1:messages,akordeon:fakturaanaliza:tablicaanaliza" actionListener="#{fakturaRozrachunkiAnalizaView.usunfakture(item)}" icon="fa fa-trash"  
+                                      rendered="#{item.faktura0rozliczenie1 eq false}"/>
                 </p:column>
 <!--                 <p:column width="40" style="text-align: center;">
                     <p:commandButton icon="fa fa-archive" actionListener="#{fakturaRozrachunkiAnalizaView.rozlicz(item, true)}"

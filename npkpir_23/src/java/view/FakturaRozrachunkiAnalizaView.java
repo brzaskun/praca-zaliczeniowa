@@ -5,18 +5,22 @@
  */
 package view;
 
+import beansFaktura.FakturaBean;
 import beansMail.SMTPBean;
 import comparator.FakturaPodatnikRozliczeniecomparator;
 import comparator.KlienciNPcomparator;
+import dao.EvewidencjaDAO;
 import dao.FakturaDAO;
 import dao.FakturaRozrachunkiDAO;
 import dao.FakturadodelementyDAO;
 import dao.KlienciDAO;
 import dao.PodatnikDAO;
 import dao.SMTPSettingsDAO;
+import dao.TabelanbpDAO;
 import data.Data;
 import embeddable.FakturaPodatnikRozliczenie;
 import embeddable.Mce;
+import embeddable.Pozycjenafakturzebazadanych;
 import entity.Faktura;
 import entity.FakturaRozrachunki;
 import entity.Fakturadodelementy;
@@ -35,6 +39,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.annotation.PostConstruct;
+import javax.ejb.EJBException;
 import javax.faces.component.UISelectOne;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.view.ViewScoped;
@@ -425,7 +430,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
     
     public void usunfakture(FakturaPodatnikRozliczenie fakturaPodatnikRozliczenie) {
         Faktura faktura = fakturaPodatnikRozliczenie.getFaktura();
-        if (faktura!=null &&  faktura.isProforma()) {
+        if (faktura!=null) {
             fakturaDAO.remove(faktura);
             nowepozycje.remove(fakturaPodatnikRozliczenie);
             Msg.msg("Usunięto proformę");
@@ -881,6 +886,80 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
                     razemwybrane = razemwybrane+p.getKwota();
                 }
             }
+        }
+    }
+
+
+    public void korygujnazero() {
+        if (selectedrozliczenia != null) {
+            List<Faktura> korekty = new ArrayList<>();
+            for (FakturaPodatnikRozliczenie p : selectedrozliczenia) {
+                Faktura faktura = p.getFaktura();
+                if (faktura != null) {
+                    Faktura selected = serialclone.SerialClone.clone(faktura);
+                    String pelnadata = FakturaBean.obliczdatawystawienia(wpisView);
+                    selected.setDatawystawienia(pelnadata);
+                    selected.setTerminzaplaty(FakturaBean.obliczterminzaplaty(wpisView.getPodatnikObiekt(), pelnadata));
+                    selected.setZaksiegowana(false);
+                    selected.setWyslana(false);
+                    selected.setPrzyczynakorekty("Korekta faktury nr " + faktura.getNumerkolejny() + " z dnia " + faktura.getDatawystawienia() + " z powodu: brak wykonanej usługi");
+                    selected.setNumerkolejny(selected.getNumerkolejny() + "/KOR");
+                    selected.setPozycjepokorekcie(utworznowepozycje(faktura.getPozycjenafakturze()));
+                    edytuj(selected);
+                    korekty.add(selected);
+                }
+            }
+            fakturaDAO.createList(korekty);
+            pobierzwszystkoKlienta();
+            Msg.msg("Tworzenie korekty faktury "+korekty.size());
+        }
+
+    }
+
+    private List<Pozycjenafakturzebazadanych> utworznowepozycje(List<Pozycjenafakturzebazadanych> pozycjenafakturze) {
+        List<Pozycjenafakturzebazadanych> zwrot = new ArrayList<>();
+        if (pozycjenafakturze != null) {
+            for (Pozycjenafakturzebazadanych p : pozycjenafakturze) {
+                Pozycjenafakturzebazadanych pozycja = new Pozycjenafakturzebazadanych(p);
+                pozycja.setIlosc(0);
+                zwrot.add(new Pozycjenafakturzebazadanych(pozycja));
+            }
+        }
+        return zwrot;
+    }
+    @Inject
+    private TabelanbpDAO tabelanbpDAO;
+    @Inject
+    private EvewidencjaDAO evewidencjaDAO;
+    public void edytuj(Faktura selected) {
+        try {
+            FakturaBean.dodajtabelenbp(selected, tabelanbpDAO);
+            FakturaBean.ewidencjavat(selected, evewidencjaDAO);
+            FakturaBean.ewidencjavatkorekta(selected, evewidencjaDAO);
+            selected.setKontrahent_nip(selected.getKontrahent().getNip());
+            selected.setRok(Data.getCzescDaty(selected.getDatawystawienia(), 0));
+            selected.setMc(Data.getCzescDaty(selected.getDatawystawienia(), 1));
+            Podatnik podatnikobiekt = wpisView.getPodatnikObiekt();
+            if (wpisView.getPodatnikObiekt().getWystawcafaktury() != null && wpisView.getPodatnikObiekt().getWystawcafaktury().equals("brak")) {
+                selected.setPodpis("");
+            } else if (wpisView.getPodatnikObiekt().getWystawcafaktury() != null && !wpisView.getPodatnikObiekt().getWystawcafaktury().equals("")) {
+                selected.setPodpis(wpisView.getPodatnikObiekt().getWystawcafaktury());
+            } else {
+                selected.setPodpis(wpisView.getUzer().getImie() + " " + wpisView.getUzer().getNazw());
+            }
+            if (selected.getNazwa() != null && selected.getNazwa().equals("")) {
+                selected.setNazwa(null);
+            }
+            selected.setWygenerowanaautomatycznie(false);
+            selected.setRecznaedycja(false);
+            selected.setTylkodlaokresowej(false);
+
+        } catch (EJBException e) {
+            E.e(e);
+            Msg.msg("e", "Nie można zachowac zmian. Sprawdź czy numer faktury jest unikalny");
+        } catch (Exception ex) {
+            E.e(ex);
+            Msg.msg("e", "Błąd. Niedokonano edycji faktury.");
         }
     }
     
