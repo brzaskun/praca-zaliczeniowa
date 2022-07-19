@@ -100,7 +100,7 @@
             </p:panelGrid>
             <p:dataTable id="tablicaanaliza" value="#{fakturaRozrachunkiAnalizaView.nowepozycje}" var="item" style="width: 1250px; margin-top: 20px;"
                          emptyMessage="niczego nie zaksięgowano dla firmy #{fakturaRozrachunkiAnalizaView.szukanyklient}" selection="#{fakturaRozrachunkiAnalizaView.selectedrozliczenia}" rowKey="#{item.lp}"
-                         rowIndexVar="row" editable="true" styleClass="compact"
+                         rowIndexVar="row" editable="true" styleClass="compact" 
                          rowStyleClass="#{item.mc mod 2 eq 0 ? 'parzyste':null}"
                          >
                 <p:ajax event="rowEdit" listener="#{fakturaRozrachunkiView.onRowEditAnaliza}" />
@@ -138,7 +138,16 @@
                     <f:facet name="header">
                         <h:outputText value="zapłata"/>
                     </f:facet>
-                        <bcf:outputpl value="#{item.kwota}" rendered="#{item.faktura0rozliczenie1 eq true}"/>
+                         <p:cellEditor>
+                        <f:facet name="output">  
+                            <bcf:outputpl value="#{item.kwota}" rendered="#{item.faktura0rozliczenie1 eq true}" stylePlus="#{item.kwota lt 0.00 ? 'color: 0066ff':null}"/>
+                        </f:facet>
+                        <f:facet name="input">  
+                            <p:inputNumber value="#{item.kwota}" required="true" styleClass="kwotarozrachunku" size="9"
+                                    symbolPosition="s" decimalSeparator="."  
+                                    thousandSeparator="&#160;" inputStyle="text-align: right;" decimalPlaces="2" minValue="-1000000"/> 
+                        </f:facet>
+                    </p:cellEditor>
                 </p:column>
                 <p:column width="60">
                     <f:facet name="header">
@@ -192,7 +201,7 @@
                     </h:outputText>
                 </p:column>
                 <p:column width="40" style="text-align: center;">
-                        <p:rowEditor style="height: 30px;" rendered="#{item.faktura0rozliczenie1 eq true}"/>
+                        <p:rowEditor style="height: 30px;" />
                 </p:column>
                 <p:column   style="text-align: center;"  width="40">
                     <p:commandButton  update=":form1:messages" actionListener="#{pdfFaktura.drukuj(item.faktura, row, WpisView.podatnikObiekt)}" icon="ui-icon-print"  rendered="#{item.faktura0rozliczenie1 eq false}"/>
