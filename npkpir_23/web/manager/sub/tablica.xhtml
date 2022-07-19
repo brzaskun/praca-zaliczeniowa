@@ -67,6 +67,24 @@
             </p:dataTable>
         </h:form>
     </p:outputPanel>
+<!-- <script type="text/javascript">
+  function socketListener(message, channel, event) {                      
+   document.getElementById("clockId").innerHTML += message + "<br/>";
+  }
+ </script>      
+    
+    <h:form>           
+  <h:commandButton value="Clock" action="#{pushBean.clockAction()}">
+   <f:ajax />
+  </h:commandButton>
+ </h:form>
+
+ <f:websocket channel="clock" onmessage="socketListener" />       
+
+ <hr/>
+ <div id="clockId" style="color:red;"></div>-->
+
+ 
 <!--    <h:form>
         <p:commandButton value="faktura nowe wiersze" actionListener="#{angazView.przerobfaktury()}"/>
     </h:form> -->

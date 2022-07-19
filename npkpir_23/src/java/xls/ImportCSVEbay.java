@@ -127,16 +127,16 @@ public class ImportCSVEbay {
                             }
                             String [] tmpline = nowetmp.stream().toArray(String[]::new);
                             String typ = tmpline[1];
-                            if (typ.equals("Bestellung")) {
+                            if (typ.equals("Bestellung")||typ.equals("Rückerstattung")) {
                                 numertransakcjinew = tmpline[2];
                                 numertransakcjiold = numertransakcjiold == null ? tmpline[2]:numertransakcjiold;
                                 if (numertransakcjinew.equals(numertransakcjiold)) {
                                     if (licznikwierszy==0) {
-                                        tmpzwrot = new FakturaEbay(tmpline);
+                                        tmpzwrot = new FakturaEbay(tmpline, typ);
                                         wierszefaktury.add(tmpzwrot);
                                         licznikwierszy++;
                                     } else {
-                                        tmpzwrot = new FakturaEbay(tmpline);
+                                        tmpzwrot = new FakturaEbay(tmpline, typ);
                                         wierszefaktury.add(tmpzwrot);
                                     }
                                 } else {
@@ -146,7 +146,7 @@ public class ImportCSVEbay {
                                         zwrot.add(tmpzwrot);
                                     }
                                     wierszefaktury = new ArrayList<>();
-                                    tmpzwrot = new FakturaEbay(tmpline);
+                                    tmpzwrot = new FakturaEbay(tmpline, typ);
                                     wierszefaktury.add(tmpzwrot);
                                     numertransakcjiold = tmpline[2];
                                     licznikwierszy++;

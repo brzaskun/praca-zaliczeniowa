@@ -83,7 +83,7 @@ public class FakturaEbay {
     }
     
     //Constructor 2022
-    public FakturaEbay(String[] tmpline) {
+    public FakturaEbay(String[] tmpline, String type) {
         this.Verkaufsprotokollnummer = tmpline[2];
         this.Nutzername = tmpline[4];
         this.NamedesKäufers = tmpline[5];
@@ -101,6 +101,9 @@ public class FakturaEbay {
         this.Stückzahl = tmpline[21];
         this.Verkaufspreis = tmpline[22];
         this.InklusiveMehrwertsteuersatz = tmpline[26];
+        if (type.equals("Rückerstattung")&&this.LanddesKäufers.equals("DE")) {
+            this.InklusiveMehrwertsteuersatz = "19%";
+        }
         this.VerpackungundVersand = tmpline[33];//chodzi o walute
         this.Versicherung = "";
         this.voneBayeinbehalteneSteuer = "";
