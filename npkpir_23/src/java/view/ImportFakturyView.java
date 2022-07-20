@@ -201,6 +201,7 @@ public class ImportFakturyView  implements Serializable {
                     Msg.msg("e", "Brak dokumentów w pliku jpk wg zadanych kruteriów");
                 }
             }
+            inputstream = uploadedFile.getInputstream();
             jpkfa3.JPK jpkfa3 = pobierzJPK3(inputstream);
             if (jpkfa3 != null) {
                 if (wybierzdlajpk) {
@@ -217,6 +218,7 @@ public class ImportFakturyView  implements Serializable {
                     Msg.msg("e", "Brak dokumentów w pliku jpk wg zadanych kruteriów");
                 }
             }
+            inputstream = uploadedFile.getInputstream();
             jpkfa2.JPK jpkfa2 = pobierzJPK2(inputstream);
             if (jpkfa2 != null) {
                 if (wybierzdlajpk) {
@@ -330,7 +332,7 @@ public class ImportFakturyView  implements Serializable {
                 pl.gov.mf.jpk.wzor._2022._02._17._02171.TKodWaluty walutapliku = wiersz.getKodWaluty();
                 String waldok = walutapliku.toString();
                 if (wiersz.getP5B() != null && wiersz.getP5B().length()>=10) {
-                    Dok dok = jpkfa3.Beanjpk.generujdok(p, waldok, evewidencje, tabelanbpDAO, tabeladomyslna, klienci, wybierzosobyfizyczne, deklaracjaniemiecka, klDAO, wpisView.getPodatnikObiekt(), dokDAO, sprzedazkraj, false);
+                    Dok dok = pl.gov.mf.jpk.wzor._2022._02._17._02171.Beanjpk.generujdok(p, waldok, evewidencje, tabelanbpDAO, tabeladomyslna, klienci, wybierzosobyfizyczne, deklaracjaniemiecka, klDAO, wpisView.getPodatnikObiekt(), dokDAO, sprzedazkraj, false);
                     if (dok!=null) {
                         netto += dok.getNetto();
                         vat += dok.getVat();
