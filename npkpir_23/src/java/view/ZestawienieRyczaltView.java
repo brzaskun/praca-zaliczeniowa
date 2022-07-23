@@ -455,6 +455,9 @@ public class ZestawienieRyczaltView implements Serializable {
     }
     
     
+    @Inject
+    private RyczView ryczView;
+    
     public void zachowajPit() {
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
         FacesContext facesCtx = FacesContext.getCurrentInstance();
@@ -463,6 +466,7 @@ public class ZestawienieRyczaltView implements Serializable {
                 Ryczpoz find = pitDAO.findByUdzialowiec(biezacyPit.getPkpirR(), biezacyPit.getPkpirM(), biezacyPit.getPodatnik(), biezacyPit.getUdzialowiec());
                 pitDAO.remove(find);
                 pitDAO.create(biezacyPit);
+                ryczView.init();
                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Edytowano PIT " + biezacyPit.getUdzialowiec() + " za m-c:" + biezacyPit.getPkpirM(), null);
                 FacesContext.getCurrentInstance().addMessage(null, msg);
             } catch (Exception e) { E.e(e); 

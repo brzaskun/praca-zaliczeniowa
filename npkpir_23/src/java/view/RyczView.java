@@ -9,11 +9,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.inject.Named;
-
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
-import msg.Msg; import org.primefaces.PrimeFaces;
+import javax.inject.Named;
+import msg.Msg;
+ import org.primefaces.PrimeFaces;
 import pdf.PdfPIT28;
 
 /**
@@ -39,7 +39,7 @@ public class RyczView implements Serializable {
     
     
     @PostConstruct
-    private void init() { //E.m(this);
+    public void init() { //E.m(this);
         lista = ryczDAO.findRyczPod(wpisView.getRokWpisu().toString(), wpisView.getPodatnikWpisu());
        
     }

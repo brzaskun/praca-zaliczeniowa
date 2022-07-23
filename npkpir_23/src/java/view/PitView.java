@@ -4,10 +4,10 @@
  */
 package view;
 
+import dao.CechazapisuDAOfk;
 import dao.PitDAO;
 import dao.PodatnikDAO;
 import dao.SMTPSettingsDAO;
-import dao.CechazapisuDAOfk;
 import entity.Pitpoz;
 import entityfk.Cechazapisu;
 import error.E;
@@ -17,12 +17,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.inject.Named;
-
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import mail.MailOther;
-import msg.Msg; import org.primefaces.PrimeFaces;
+import msg.Msg;
+ import org.primefaces.PrimeFaces;
 import pdf.PdfPIT5;
 
 /**
@@ -59,7 +59,7 @@ public class PitView implements Serializable {
     
     
     @PostConstruct
-    private void init() { //E.m(this);
+    public void init() { //E.m(this);
         lista = Collections.synchronizedList(new ArrayList<>());
         biezacyPit = new Pitpoz();
         lista = pitDAO.findPitPod(wpisView.getRokWpisu().toString(), wpisView.getPodatnikWpisu(), wybranacechadok);

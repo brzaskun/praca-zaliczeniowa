@@ -9,17 +9,35 @@
             <h:outputText value="Podatkowa księga przychodów i rozchodów"></h:outputText>
         </ui:define>
         <ui:define name="body">
-            <h:form>
-                    <p:confirmDialog id="confirmDialog" message="Wysłać PIT-5 do wybranego podatnika? (po wciśnięciu 'Tak' cierpliwie czekaj!)"  
+
+                        <h:form>
+                <p:confirmDialog id="confirmDialog" message="Wysłać PIT-5 do podatnika: #{WpisView.podatnikObiekt.nazwapelnaPDF}? (po wciśnięciu 'Tak' cierpliwie czekaj!)"  
                                      header="Mailowanie pit5" severity="alert" widgetVar="confirmation">
 
-                        <p:commandButton id="confirm" value="Tak, wysłać"  oncomplete="PF('confirmation').hide()"  style="width: 120px; float: left; margin-left: 2%;"
-                                         actionListener="#{pitView.mailPIT5()}" onsuccess="alert('Wysłano PIT5 do podatnika');" />  
-                        <p:commandButton id="decline" value="Nie wysyłać" onclick="PF('confirmation').hide()" type="button" style="width: 120px; float: right; margin-right: 2%;" />   
+                        <p:commandButton id="confirm" value="Tak, wysłać"  oncomplete="PF('confirmation').hide()"  
+                                         actionListener="#{pitView.mailPIT5()}" onsuccess="alert('Wysłano PIT5 do podatnika #{WpisView.podatnikObiekt.nazwapelnaPDF}');" />  
+                        <p:commandButton id="decline" value="Nie wysyłać" onclick="PF('confirmation').hide()" type="button" style="float: right;" />   
 
                     </p:confirmDialog>  
                 </h:form>
-             
+             <h:form>
+                <p:confirmDialog id="confirmDialogPIT" message="Usunąć ostatni PIT? (po wciśnięciu 'Tak' cierpliwie czekaj!)"  
+                                     header="Usuwanie PIT" severity="alert" widgetVar="usunPIT" rendered="#{WpisView.ksiegaryczalt}">
+                        <p:commandButton id="confirm" value="Tak, usunąć"  oncomplete="PF('usunPIT').hide()"  
+                                         actionListener="#{pitView.usun()}" update="akordeon:formpi:tablicapita" />   
+                        <p:commandButton id="decline" value="Nie usuwać" onclick="PF('usunPIT').hide();" update="akordeon:formpi:tablicapita" 
+                                         type="button" style="float: right;" />   
+                    </p:confirmDialog>  
+                </h:form>
+            <h:form>
+                <p:confirmDialog id="confirmDialogR" message="Usunąć ostatnim PIT-Ryczałt? (po wciśnięciu 'Tak' cierpliwie czekaj!)"  
+                                     header="Usuwanie PIT-Ryczałt" severity="alert" widgetVar="usunPITR"  rendered="#{!WpisView.ksiegaryczalt}">
+                        <p:commandButton id="confirm" value="Tak, usunąć"  oncomplete="PF('usunPITR').hide()"  
+                                         actionListener="#{ryczView.usun()}" update="akordeon:formpi1:tablicapita1"  />  
+                        <p:commandButton id="decline" value="Nie usuwać" onclick="PF('usunPITR').hide();" type="button" style="float: right;" />   
+                    </p:confirmDialog>  
+                </h:form>
+            
              
                 <f:view>
                     <p:layout fullPage="true" expandTitle="Wysuń" closeTitle="Zamknij" collapseTitle="Schowaj">

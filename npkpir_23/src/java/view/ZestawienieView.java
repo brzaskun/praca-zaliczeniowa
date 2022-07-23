@@ -880,6 +880,9 @@ public class ZestawienieView implements Serializable {
         return zostalo;
     }
 
+    @Inject
+    private PitView pitView;
+    
     public void zachowajPit() {
         if (biezacyPit.getWynik() != null) {
             try {
@@ -888,6 +891,7 @@ public class ZestawienieView implements Serializable {
                     pitDAO.remove(find);
                 }
                 pitDAO.create(biezacyPit);
+                pitView.init();
                 String wiad = String.format("Edytowano PIT %s za m-c:%s", biezacyPit.getUdzialowiec(), biezacyPit.getPkpirM());
                 Msg.msg("i", wiad);
             } catch (Exception e) {
