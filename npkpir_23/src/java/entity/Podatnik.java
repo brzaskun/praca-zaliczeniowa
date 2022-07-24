@@ -846,7 +846,7 @@ public class Podatnik implements Serializable {
  
     
     public List<Parametr> getKwotaautoryzujaca() {
-        return kwotaautoryzujaca;
+            return kwotaautoryzujaca;
     }
     
     public void setKwotaautoryzujaca(List<Parametr> kwotaautoryzujaca) {
@@ -875,7 +875,7 @@ public class Podatnik implements Serializable {
     
       
     public List<Udzialy> getUdzialy() {
-        return udzialy;
+        throw new UnsupportedOperationException("Metyoda pusta"); //To change body of generated methods, choose Tools | Templates.
     }
     
     public void setUdzialy(List<Udzialy> udzialy) {
@@ -1065,4 +1065,6 @@ public class Podatnik implements Serializable {
        }
        return zwrot;
    }
+
+    
 }

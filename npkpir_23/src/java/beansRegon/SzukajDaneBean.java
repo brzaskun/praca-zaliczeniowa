@@ -8,7 +8,6 @@ package beansRegon;
 import entity.Klienci;
 import entity.Podatnik;
 import error.E;
-import gus.GUSView;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -150,7 +149,9 @@ public class SzukajDaneBean {
                     } else {
                         selected.setNrlokalu(null);
                     }
+                    selected.setDatarozpoczecia(dane.get("praw_dataRozpoczeciaDzialalnosci"));
                 } else {
+                    selected.setDatarozpoczecia(dane.get("fiz_dataRozpoczeciaDzialalnosci"));
                     selected.setNrdomu(dane.get("fiz_adSiedzNumerNieruchomosci"));
                     selected.setPoczta(dane.get("fiz_adSiedzMiejscowoscPoczty_Nazwa"));
                     if (dane.get("fiz_adSiedzNumerLokalu") != null) {
@@ -171,6 +172,8 @@ public class SzukajDaneBean {
             PrimeFaces.current().ajax().update(formularz+":ulica");
             PrimeFaces.current().ajax().update(formularz+":nrdomu");
             PrimeFaces.current().ajax().update(formularz+":nrlokalu");
+            PrimeFaces.current().ajax().update(formularz+":datarozpoczecia");
+            
         }
     }
      

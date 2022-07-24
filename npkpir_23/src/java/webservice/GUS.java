@@ -127,6 +127,7 @@ public class GUS {
         pozycje = new ArrayList();
         pozycje.add("Regon");
         pozycje.add("Nazwa");
+        pozycje.add("NazwaOryginal");
         pozycje.add("Wojewodztwo");
         pozycje.add("Powiat");
         pozycje.add("Gmina");
@@ -142,7 +143,12 @@ public class GUS {
         pozycje2fiz.add("fiz_adSiedzNumerNieruchomosci");
         pozycje2fiz.add("fiz_adSiedzNumerLokalu");
         pozycje2fiz.add("fiz_adSiedzMiejscowoscPoczty_Nazwa");
-        
+        //NOWE!!!
+        pozycje2fiz.add("fiz_dataRozpoczeciaDzialalnosci");
+        pozycje2fiz.add("fiz_dataZawieszeniaDzialalnosci");
+        pozycje2fiz.add("fiz_dataWznowieniaDzialalnosci");
+        pozycje2fiz.add("fiz_dataZaistnieniaZmianyDzialalnosci");
+        pozycje2fiz.add("fiz_dataZakonczeniaDzialalnosci");
    }
     
     public static List<String> pozycje2praw;
@@ -152,6 +158,8 @@ public class GUS {
         pozycje2praw.add("praw_adSiedzNumerNieruchomosci");
         pozycje2praw.add("praw_adSiedzNumerLokalu");
         pozycje2praw.add("praw_adSiedzMiejscowoscPoczty_Nazwa");
+        pozycje2praw.add("praw_dataRozpoczeciaDzialalnosci");
+        pozycje2praw.add("praw_numerWrejestrzeEwidencji");
    }
     
     
@@ -294,6 +302,9 @@ public class GUS {
                     String element = rezultat.substring(start, stop);
                     start = element.indexOf(">")+1;
                     element = element.substring(start);
+                    if (p.equals("Nazwa")) {
+                        zwrot.put("NazwaOryginal", element);
+                    }
                     element = zmniejsznazwe(element,p);
                     zwrot.put(p, element);
                 }

@@ -65,7 +65,9 @@ public class PodatnikUdzialy implements Serializable{
     private String datazakonczenia;
     @Column(name = "opodatkowanie")
     private String opodatkowanie;
-    
+    @JoinColumn(name = "podmiot", referencedColumnName = "id")
+    @ManyToOne
+    private Podmiot podmiot;
    
 
     public PodatnikUdzialy() {
@@ -156,6 +158,14 @@ public class PodatnikUdzialy implements Serializable{
 
     public String getRokDo() {
         return rokDo;
+    }
+
+    public Podmiot getPodmiot() {
+        return podmiot;
+    }
+
+    public void setPodmiot(Podmiot podmiot) {
+        this.podmiot = podmiot;
     }
 
     public void setRokDo(String rokDo) {
