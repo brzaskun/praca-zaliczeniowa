@@ -1,0 +1,101 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      
+      xmlns:bcf="http://brzaskun.com/facelets">
+    <f:view locale="#{localeChanger.locale}">
+        <h:head>
+            <meta http-equiv="Accept-Encoding" content="gzip"/>
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+            <meta http-equiv="Pragma" content="no-cache"/>
+            <meta http-equiv="Accept-Encoding" content="gzip"/>
+            <meta http-equiv="Expires" content="0" />
+            <meta http-equiv="Cache-Control" content="no-cache,no-store,must-revalidate"/>
+            <meta http-equiv="Content-type" content="text/html;charset=UTF-8"/>
+            <h:outputStylesheet id="template" name="css/style.css"/>
+            <title>Biuro Rachunkowe Taxman</title>
+        </h:head>
+        <h:body style="background-color: #FFFFFF">
+            <bcf:ajaxs value="#{mgs.trwawprowadzaniedanych}"/>
+            <h:form>
+                <p:panel style="text-align: center; margin-left: auto; margin-right: auto; width: 600px; height: 150px;" >
+                    <p:messages id="logowanie"  showDetail="false" ><p:autoUpdate/></p:messages>
+                </p:panel>
+                    <p:panelGrid columns="1" style="text-align: center; margin-left: auto; margin-right: auto; margin-top:  1%; width: 362px; border-style: hidden !important;">
+                        <p:column style="text-align: center; margin-left: auto; margin-right: auto;">
+                            <p:commandButton value="#{mgs.powrótdologowania}" action="failure" style="width: 180px;"/>
+                        </p:column>
+
+                    </p:panelGrid>
+                
+            </h:form>
+            <h:form id="pole">
+                <p:outputPanel id="panelrejestracji">
+                    <p:panel style="text-align: center; margin-left: auto; margin-right: auto; margin-top:  1%; width: 362px" rendered="#{UzView.renderujrejestracje}">
+                    <f:facet name="header">
+                        <h:outputLabel value="#{mgs.danerejestracyjne}"/>
+                    </f:facet>
+                    <p:focus id="focus" context="rejestrowaniepanel"/>
+                    <p:panelGrid id="rejestrowaniepanel" columns="2" style="text-align: center; margin-left: auto; margin-right: auto;">
+                            <h:outputText value="#{mgs.imię}"/>
+                            <p:inputText id="imie" value="#{UzView.selUzytkownik.imie}" title="#{mgs.wpiszimie}"  required="true" requiredMessage="#{mgs.wpiszimie}!" autocomplete="true" >
+                                <p:ajax event="change" partialSubmit="true" global="false"/>
+                            </p:inputText>
+                            <h:outputText value="#{mgs.nazwisko}"/>
+                            <p:inputText id="nazwisko" value="#{UzView.selUzytkownik.nazw}" title="#{mgs.wpisznazwisko}" required="true" requiredMessage="#{mgs.wpisznazwisko}!" autocomplete="true">
+                                <p:ajax event="change" partialSubmit="true" global="false"/>
+                            </p:inputText>
+                            <h:outputText value="#{mgs.login}"/>
+                            <p:inputText id="login" value="#{UzView.selUzytkownik.login}" title="#{mgs.wpiszlogin}" 
+                                         required="true" requiredMessage="#{mgs.wpiszlogin}!" autocomplete="true">
+                                <f:validateLength minimum="6"/>
+                                <p:ajax event="change" partialSubmit="true" listener="#{UzView.sprawdzloginduplikat}" global="false" update="pole:przyciskbox"/>
+                            </p:inputText>
+                            <h:outputText value="#{mgs.haslo}"/>
+                            <p:password id="turkishFeedback" value="#{UzView.selUzytkownik.haslo}" feedback="true"   
+                                        promptLabel="#{mgs.wprowadzhaslo}" weakLabel="#{mgs.słabe}"  validatorMessage="#{mgs.hasloskladasie}"
+                                        goodLabel="#{mgs.akceptowalne}" strongLabel="#{mgs.mocne}" required="true" requiredMessage="#{mgs.wprowadzhaslo}!" autocomplete="true"> 
+                                <f:validateLength minimum="6"/>
+                                <p:ajax event="change" partialSubmit="true" global="false"/>
+                            </p:password>
+                            <h:outputText value="#{mgs.potwierdzhaslo}"/>
+                            <p:password id="haslo2" value="#{UzView.confPassword}" title="#{mgs.haslazgodne}" validatorMessage="#{mgs.hasloskladasie}" required="true" requiredMessage="#{mgs.wpiszpotwierdzenie}!" autocomplete="true" >
+                                <f:validateLength minimum="6"/>
+                                <p:ajax event="change" partialSubmit="true" global="false" listener="#{UzView.sprawdzidentycznoschasel}" update="pole:przyciskbox"/>
+                            </p:password>
+                            <p:separator/><p:separator/>
+                             <h:outputText value="#{mgs.email}"/>
+                            <p:inputText id="email" value="#{UzView.selUzytkownik.email}" required="true" title="#{mgs.wpiszemail}"
+                                         requiredMessage="#{mgs.wpiszemail}!" autocomplete="true"  validatorMessage="#{mgs.nieprawidlowymail}">
+                                <p:ajax event="change" partialSubmit="true" global="false"/>
+                                <f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
+                            </p:inputText>
+                            <h:outputText value="#{mgs.nipfirmy}"/>
+                            <p:inputText id="nipfirmy" value="#{UzView.selUzytkownik.firma}" required="true" title="#{mgs.wpisznip}"
+                                         requiredMessage="#{mgs.wpisznip}!" autocomplete="true" maxlength="10" validatorMessage="#{mgs.zakrotkinip}">
+                                <f:validateLength minimum="10"/>
+                                <p:ajax event="change" partialSubmit="true" global="false"/>
+                            </p:inputText>
+                             <h:outputText value="#{mgs.wersjajezykowa}"/>
+                            <p:selectOneMenu value="#{UzView.selUzytkownik.locale}">
+                                <f:selectItem itemValue="pl" itemLabel="pl"/>
+                                <f:selectItem itemValue="de" itemLabel="de"/>
+                                <f:selectItem itemValue="en" itemLabel="en"/>
+                                <f:selectItem itemValue="cz" itemLabel="cz"/>
+                                <p:ajax event="change" partialSubmit="true" global="false"/>
+                            </p:selectOneMenu>
+                    </p:panelGrid>
+                    <br/>
+                    <p:outputPanel id="przyciskbox">
+                        <p:commandButton id="rejestrujbutton" value="#{mgs.zarejestruj}" update="pole:panelrejestracji"
+                                         actionListener="#{UzView.dodaj()}" style="width: 150px;" rendered="#{UzView.pokazprzyciskrejestracja}"/>
+                    </p:outputPanel>
+                </p:panel>
+                    </p:outputPanel>
+            </h:form>
+        </h:body>
+    </f:view>
+</html>

@@ -1,0 +1,34 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:bcf="http://brzaskun.com/facelets">
+    <style>
+        .paneldialog_ukladwzorcowy_kopiuj .ui-panelgrid-cell {
+            width: 200px;
+        }
+    </style>
+    <p:dialog id="dialog_rzis_przypisywanie_wzorcowy_kopiuj" header="Kopiowanie przyporządkowania kont w RZiS wzorcowego w inny wzorcowy" widgetVar="dialog_rzis_przypisywanie_wzorcowy_kopiuj" 
+              resizable="false" onShow="ustawdialog('dialog_rzis_przypisywanie_wzorcowy_kopiuj','menuustawienia', 630, 210);" closeOnEscape="true" onHide="resetujdialog('dialog_rzis_przypisywanie_wzorcowy_kopiuj');"  >
+        <h:form id="formdialog_dialog_rzis_przypisywanie_wzorcowy_kopiuj">
+            <p:panelGrid  columns="2">
+                <h:outputText value="Wybrany układ wzorcowy " style="width: 250px;"/>
+                <p:selectOneMenu  value="#{pozycjaBRKontaView.ukladzrodlowykonta}" style="width: 280px;"  converter="UkladBRWzorcowyConv">
+                    <f:selectItems value="#{ukladBRWzorcowyView.lista}" var="p" itemLabel="#{p.lp} #{p.uklad} - #{p.rok}" itemValue="#{String.valueOf(p.lp)}"/>
+                </p:selectOneMenu>
+                <h:outputText value="Skopiuj przyporządkowanie do " style="width: 250px; margin-top: 10px;"/>
+                <p:selectOneMenu  value="#{pozycjaBRKontaView.ukladdocelowykonta}" style="width: 280px;"  converter="UkladBRWzorcowyConv">
+                    <f:selectItems value="#{ukladBRWzorcowyView.lista}" var="p" itemLabel="#{p.lp} #{p.uklad} - #{p.rok}" itemValue="#{String.valueOf(p.lp)}"/>
+                </p:selectOneMenu>
+            </p:panelGrid>
+            <p:commandButton value="kopiuj" actionListener="#{pozycjaBRKontaView.kopiujprzyporzadkowaniekont('r', false)}" type="submit" 
+                                 style="margin-left: 130px; margin-right: auto; margin-top: 20px; width: 120px;" onclick="PF('dialog_rzis_przypisywanie_wzorcowy_kopiuj').hide();"
+                                 />
+            <p:commandButton value="anuluj" type="button" 
+                                 onclick="PF('dialog_rzis_przypisywanie_wzorcowy_kopiuj').hide();" style="margin-right: auto; margin-left: 80px; margin-top: 20px; width: 120px;"/>
+        </h:form>
+    </p:dialog>
+</ui:composition>

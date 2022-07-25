@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:bcf="http://brzaskun.com/facelets">
+    <bcf:ajaxs value="Trwa resetowanie hasła użytkownika"/>
+    <f:view locale="#{localeChanger.locale}">
+        <h:head>
+            <meta http-equiv="Accept-Encoding" content="gzip"/>
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+            <meta http-equiv="Pragma" content="no-cache"/>
+            <meta http-equiv="Accept-Encoding" content="gzip"/>
+            <meta http-equiv="Expires" content="0" />
+            <meta http-equiv="Cache-Control" content="no-cache,no-store,must-revalidate"/>
+            <h:outputStylesheet id="template" name="css/style.css"/>
+            <title>Biuro Rachunkowe Taxman</title>
+        </h:head>
+
+        <h:body style="background-color: #FFFFFF">
+            
+            <h:form id="formlog0">
+                <p:outputPanel style="text-align: center;">
+                    <p:messages id="logowanie" style="margin-top: 20px;height: 180px; width: 400px; margin-left: auto; margin-right: auto;"  ><p:autoUpdate/></p:messages>
+                </p:outputPanel>
+                <p:panelGrid columns="3" style="margin-top: 5px; margin-left: auto; margin-right: auto; width: 400px; border-style: hidden !important;">
+                    
+                   <p:column >
+                        <p:commandButton value="#{mgs.zaloguj}" action="failure" style="width: 140px;"/>
+                    </p:column>
+                    <p:column>
+                        <p:commandButton value="#{mgs['zapomialem.hasla']}" action="zapomnialem" style="width: 140px;"/>
+                    </p:column>
+                    <p:column>
+                        <p:commandButton value="#{mgs.rejestracja}" action="rejestruj" style="width: 140px;"/>
+                    </p:column>
+                </p:panelGrid>
+            </h:form>
+            <h:form id="formlog1">
+                <p:panel style="text-align: center; margin-left: auto; margin-right: auto;  width: 450px">
+                        <h:outputLabel value="Prosze wpisać w pole poniżej swój login uzytkownika. Nowe hasło zostanie wysłane na adres mailowy podany przy rejestracji"/>
+                    <p:focus id="focus" context="logowaniepanel"/>
+                    <p:panelGrid id="logowaniepanel" columns="2" style="text-align: center; margin-left: auto; margin-right: auto; height: 75px;">
+                        <h:outputText value="twój login"/>
+                        <h:inputText value="#{resetHasla.login}" accesskey="s" required="true" requiredMessage="Wpisz login!" autocomplete="true"/>
+                    </p:panelGrid>
+                    <br/>
+                    <p:panelGrid columns="1" style="text-align: center; margin-left: auto; margin-right: auto;">
+                        <p:commandButton value="Resetuj" actionListener="#{resetHasla.reset}" update=":formlog0:logowanie" style="width: 120px;"/>
+                    </p:panelGrid>
+                </p:panel>
+            </h:form>
+        </h:body>
+    </f:view>
+</html>

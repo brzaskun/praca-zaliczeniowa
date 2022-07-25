@@ -1,0 +1,110 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    >
+    <p:tabView id="menubilanse" styleClass="menutabView" orientation="left" style=" height: 500px;width: 600px;box-shadow: 10px 10px 5px #888888; margin-left: 15px; margin-top: 15px;">
+                <p:tab title="#{mgs.Bilans}">
+                    <h:form id="dialog1menu2">
+                        <p:menu id="d1m2" styleClass="d1m" style="width: 400px; text-align: center; height: 450px;">
+                            <p:menuitem value="przegladaj Bilans porównanie" onclick="PF('dialogbilansporownanie').show();" actionListener="#{pozycjaBRView.obliczBilansOtwarciaBilansDataWybierz()}"
+                                        update=":form_dialogbilansporownanie"></p:menuitem>
+                            <p:menuitem value="przegladaj Bilans" onclick="PF('bilansprzegladuklad').show();" actionListener="#{pozycjaBRView.odswiezbilansdwiestrony()}"
+                                        update=":formprzegladbilans"></p:menuitem>
+                            <p:menuitem value="przegladaj Bilans zapisy" onclick="PF('bilansprzegladukladzapisy').show();"  actionListener="#{pozycjaBRView.pobierzukladprzegladBilans('aktywa')}"
+                                        update="formprzegladbilanszapisy">
+                            </p:menuitem>
+                            <p:menuitem value="przyporządkowanie kont" onclick="PF('bilansuklad').show();" actionListener="#{pozycjaBRKontaView.pobierzukladkontoB('aktywa')}" update="formbilansuklad"></p:menuitem>
+                            <p:menuitem value="internacjonalizacja" onclick="PF('dialog_bilans_projekt_inter').show();"></p:menuitem>
+                            <p:menuitem value="projekt układu" onclick="PF('bilansprojekt').show();"></p:menuitem>
+                            <p:menuitem value="kopiowanie przyporządkowania kont Bilans" onclick="PF('dialog_bilans_przypisywanie_podatnik_kopiuj').show();"></p:menuitem>
+                        </p:menu>  
+                    </h:form>
+                </p:tab>
+                <p:tab title="#{mgs.RZiS}" >
+                    <h:form id="dialog1menu3">
+                        <p:menu id="d1m3" styleClass="d1m" style="width: 400px; text-align: center; height: 450px;">
+                            <p:menuitem value="przegladaj RZiS porównanie z rokiem pop." onclick="PF('dialog_rzis_porownanie').show();" 
+                                        actionListener="#{pozycjaBRZestawienieView.obliczRZiSOtwarciaRZiSData()}"
+                                        update=":form_dialog_rzis_porownanie"></p:menuitem>
+                            <p:menuitem value="przegladaj RZiS za poszczególne miesiące" onclick="PF('dialog_rzis_narastajaco').show();" 
+                                        actionListener="#{pozycjaRZiSNarView.obliczRZiSOtwarciaRZiSData()}"
+                                        update=":form_dialog_rzis_narastajaco"></p:menuitem>
+                            <p:menuitem value="przegladaj RZiS porównanie m-ca w latach" onclick="PF('dialog_rzis_porownanie_mcy').show();" 
+                                        actionListener="#{pozycjaRZiSPorMcyView.obliczRZiSOtwarciaRZiSData()}"
+                                        update=":form_dialog_rzis_porownanie_mcy"></p:menuitem>
+                            <p:menuitem value="przeglądaj RZiS rok bieżący" onclick="PF('dialogrziszestawienie').show();" 
+                                        actionListener="#{pozycjaBRZestawienieView.pobierzukladprzegladRZiSWybierz()}" 
+                                        update="formdialogrziszestawienie"></p:menuitem>
+                            <p:menuitem value="przeglądaj RZiS zapisy" onclick="PF('rzisprzeglad').show();" 
+                                        actionListener="#{pozycjaBRView.pobierzukladprzegladRZiS()}"
+                                        update=":formprzeglad"></p:menuitem>
+                            <p:menuitem value="przyporządkowanie kont" onclick="PF('rzisuklad').show();" actionListener="#{pozycjaBRKontaView.pobierzukladkontoR()}" update="formrzisuklad"></p:menuitem>
+                            <p:menuitem value="internacjonalizacja" onclick="PF('dialog_rzis_projekt_inter').show();"></p:menuitem>
+                            <p:menuitem value="projekt układu" onclick="PF('rzisprojekt').show();"></p:menuitem>
+                            <p:menuitem value="kopiowanie przyporządkowania kont RZiS" onclick="PF('dialog_rzis_przypisywanie_podatnik_kopiuj').show();"></p:menuitem>
+                        </p:menu>  
+                    </h:form>
+                </p:tab>
+                <p:tab title="Sprawozdanie fin.">
+                    <h:form id="dialog1menu6">
+                        <p:menu id="d1m6" styleClass="d1m" style="width: 400px; text-align: center; height: 450px;">
+                            <p:menuitem value="zamknij księgi" onclick="PF('zamknijksiegi').show();" rendered="#{facesContext.externalContext.remoteUser ne '4'}"></p:menuitem>
+                            <p:menuitem value="zamknij księgi i sprawdź układ" onclick="PF('zamknijksiegi').show();" rendered="#{facesContext.externalContext.remoteUser eq '4'}"></p:menuitem>
+                            <p:menuitem value="drukuj zestawienia do sf" actionListener="#{drukujsprawozdaniefinansoweView.drukuj()}"></p:menuitem>
+                            <p:menuitem value="nanieś dane podatkowe do sprawozdania finansowego"  onclick="PF('danedosprawozdania').show();"></p:menuitem>
+                            <p:menuitem value="generuj sprawozdanie finansowe xml" actionListener="#{generujsprawozdaniefinansoweXMLView.drukuj()}"></p:menuitem>
+                            <p:menuitem value="generuj sprawozdanie finansowe OP xml" actionListener="#{generujsprawozdaniefinansoweXMLView.drukujOP()}"></p:menuitem>
+                            <p:menuitem value="weryfikuj sprawozdanie finansowe xml" onclick="PF('weryfikujsprawozdanie').show();"></p:menuitem>
+                            <p:menuitem value="zachowaj podpisane sprawozdanie finansowe xml"  onclick="PF('sprawozdaniexml').show();"></p:menuitem>
+                        </p:menu>  
+                    </h:form>
+                </p:tab>  
+                <p:tab title="BO">
+                    <h:form id="dialog1menu1">
+                        <p:menu id="d1m1" styleClass="d1m" style="width: 400px; text-align: center; height: 450px;">
+                            <p:menuitem value="przegladaj Bilans otwarcia" onclick="PF('dialog_bilansBO_wyliczenie').show();" actionListener="#{pozycjaBRView.obliczBilansOtwarcia()}" 
+                                        update=":formdialog_bilansBO_wyliczenie"></p:menuitem>
+                            <p:menuitem value="przeglądaj konta Bilansu otwarcia" actionListener="#{bilansPodgladView.init()}" onclick="PF('bilansprzeglad').show();" update=":formbilans"></p:menuitem>
+                            <p:menuitem value="różnice wierszeBO dokumentBO" onclick="PF('dialog_bilans_roznice').show();" update=":form_dialog_bilans_roznice"></p:menuitem>
+                            <p:menuitem value="wprowadź Bilans otwarcia" actionListener="#{bilansWprowadzanieView.rozpocznijBO()}" 
+                                        update="formbilanswprowadzanie2 formbilanswprowadzanie2_wiersz formbilanswprowadzanie3"
+                                        onclick="PF('bilanswprowadzanie2').show();"></p:menuitem>
+                            <p:menuitem value="wprowadź Obroty rozpoczęcia" actionListener="#{bilansWprowadzanieView.rozpocznijObroty()}" 
+                                        update="formbilanswprowadzanie2 formbilanswprowadzanie2_wiersz formbilanswprowadzanie3"
+                                        onclick="PF('bilanswprowadzanie2').show();"></p:menuitem>
+                            <p:menuitem value="generuj Bilans otwarcia" onclick="PF('dialog_bilans_generowanie').show();" actionListener="#{bilansGenerowanieView.reset()}" 
+                                        update="form_dialog_bilans_generowanie"></p:menuitem>
+                             <p:menuitem value="wyksięguj statystyczne różnice kursowe - rok ubiegły" onclick="PF('dialog_wyksiegowanieroznic').show();" actionListener="#{bilansGenerowanieView.znajdzdokroznic()}" 
+                                        update="form_dialog_wyksiegowanieroznic"></p:menuitem>
+                            <p:menuitem value="usuń Bilans otwarcia" onclick="PF('dialog_bilans_usun').show();"  actionListener="#{bilansBoUsunView.zestawbilanslikwidacja()}"></p:menuitem>
+                            <p:menuitem value="wprowadź BO likwidacyjne" actionListener="#{bilansWprowadzanieView.rozpocznijLikwidacja()}" rendered="#{WpisView.podatnikObiekt.dataotwarcialikwidacji ne null}" 
+                                        update="formbilanswprowadzanie2 formbilanswprowadzanie2_wiersz formbilanswprowadzanie3"
+                                        onclick="PF('bilanswprowadzanie2').show();"></p:menuitem>
+                            <p:menuitem value="generuj Bilans likwidacyjny" onclick="PF('dialog_bilans_generowanie').show();" actionListener="#{bilansGenerowanieView.resetlikiwdacja()}"  rendered="#{WpisView.podatnikObiekt.dataotwarcialikwidacji ne null}"
+                                        update="form_dialog_bilans_generowanie"></p:menuitem>
+                            <p:menuitem value="usuń Bilans likwidacyjny" onclick="PF('dialog_bilans_usun').show();" actionListener="#{bilansBoUsunView.ustawbilanslikwidacja()}"  rendered="#{WpisView.podatnikObiekt.dataotwarcialikwidacji ne null}"></p:menuitem>
+                        </p:menu>
+                    </h:form>
+                </p:tab>  
+                <p:tab title="Układ RZiS/Bilans">
+                   <h:form id="dialog1menu5">
+                       <p:menu id="d1m3" styleClass="d1m" style="width: 400px; text-align: center; height: 450px;">
+                           <p:menuitem value="Kopiowanie układu własnego" onclick="PF('dialog_uklad_kopiuj').show();"></p:menuitem>
+                           <p:menuitem value="Kopiowanie układu z innej firmy" onclick="PF('dialog_uklad_kopiuj_innafirma').show();"></p:menuitem>
+                           <p:menuitem value="Definiowanie układu" onclick="PF('dialogprojektuklad').show();"></p:menuitem>
+                       </p:menu>  
+                   </h:form>
+               </p:tab>
+                <p:tab title="CIT">
+                            <h:form id="dialog1menu4">
+                                <p:menu id="d1m4" styleClass="d1m" style="width: 400px; text-align: center; height: 450px;">
+                                    <p:menuitem value="bieżący CIT" onclick="PF('citbiezacy').show();"></p:menuitem>
+                                    <p:menuitem value="archiwum" onclick="PF('archiwumcit').show();"></p:menuitem>
+                                </p:menu>  
+                            </h:form>
+                        </p:tab>  
+            </p:tabView>
+</ui:composition>

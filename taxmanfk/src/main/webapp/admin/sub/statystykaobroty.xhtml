@@ -1,0 +1,100 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//PL" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:bcf="http://brzaskun.com/facelets">
+
+    <p:panelGrid columns="2">
+        <p:selectOneListbox id="podatnikWpisu" value="#{statystykaObrotyView.wybranypodatnik}" style="width: 572px;" converter="#{podatConv}">
+            <p:ajax event="change" partialSubmit="true" global="false" listener="#{statystykaObrotyView.pobierz}" update="form:datatable"/>
+            <f:selectItems value="#{statystykaObrotyView.podatnicy}" var="p" itemLabel="#{p.printnazwa}" itemValue="#{p}"/>
+        </p:selectOneListbox>
+        <p:commandButton value="pobierz" actionListener="#{statystykaObrotyView.pobierz}" update="form:datatable" style="width: 120px; margin-left: 10px;"/>
+    </p:panelGrid>
+    <p:panelGrid columns="2">
+        <h:inputText value="#{statystykaObrotyView.oczekiwanywspolczynnik}" label="oczekiwany współczynnik"/>
+        <p:commandButton value="przelicz" actionListener="#{statystykaObrotyView.przelicz()}" update="form:datatable" style="width: 120px; margin-left: 10px;"/>
+    </p:panelGrid>
+    <p:dataTable value="#{statystykaObrotyView.statssymulacja}" var="item" id="datatable" style="width: 1100px; padding: 10px;"
+                 sortBy="#{item.rok}" sortOrder="descending" rowIndexVar="index">
+        <p:column style="width: 20px;">
+            <f:facet name="header">
+                <h:outputText value=""/>
+            </f:facet>
+            <h:outputText value="#{index+1}"/>
+        </p:column>
+        <p:column style="width: 40px; text-align: center;">
+            <f:facet name="header">
+                <h:outputText value="rok"/>
+            </f:facet>
+            <h:outputText value="#{item.rok}"/>
+        </p:column>
+        <p:column sortBy="#{item.iloscdokumentow}" style="width: 50px; text-align: center;">
+            <f:facet name="header">
+                <h:outputText value="ilosc dok."/>
+            </f:facet>
+            <h:outputText value="#{item.iloscdokumentow}"/>
+        </p:column>
+        <p:column sortBy="#{item.obroty}" style="width: 90px;">
+            <f:facet name="header">
+                <h:outputText value="obroty"/>
+            </f:facet>
+            <bcf:outputpl value="#{item.obroty}"/>
+        </p:column>
+        <p:column sortBy="#{item.iloscfaktur}" style="width: 30px; text-align: center;">
+            <f:facet name="header">
+                <h:outputText value="il. fakt"/>
+            </f:facet>
+            <h:outputText value="#{item.iloscfaktur}"/>
+        </p:column>
+        <p:column sortBy="#{item.kwotafaktur}">
+            <f:facet name="header">
+                <h:outputText value="kwota faktur"/>
+            </f:facet>
+            <bcf:outputpl value="#{item.kwotafaktur}"/>
+        </p:column>
+        <p:column sortBy="#{item.fakturaNaObroty}">
+            <f:facet name="header">
+                <h:outputText value="fakt/obrot gr"/>
+            </f:facet>
+            <bcf:outputkurs value="#{item.fakturaNaObroty}"/>
+        </p:column>
+        <p:column sortBy="#{item.fakturaNaDokumenty}">
+            <f:facet name="header">
+                <h:outputText value="fakt/dok zł"/>
+            </f:facet>
+            <bcf:outputkurs value="#{item.fakturaNaDokumenty}"/>
+        </p:column>
+        <p:column sortBy="#{item.ranking}">
+            <f:facet name="header">
+                <h:outputText value="rank"/>
+            </f:facet>
+            <bcf:outputkurs value="#{item.ranking}"/>
+        </p:column>
+        <p:column sortBy="#{item.fakturaobecnie}">
+            <f:facet name="header">
+                <h:outputText value="fakt.ob."/>
+            </f:facet>
+            <bcf:outputpl value="#{item.fakturaobecnie}"/>
+        </p:column>
+        <p:column sortBy="#{item.fakturanowa}">
+            <f:facet name="header">
+                <h:outputText value="fakt.nowa"/>
+            </f:facet>
+             <bcf:outputpl value="#{item.fakturanowa}"/>
+        </p:column>
+        <p:column sortBy="#{item.liczbapracownikow}" width="110">
+            <f:facet name="header">
+                <h:outputText value="prac."/>
+            </f:facet>
+            <p:inplace editor="true">
+                <p:ajax event="save" listener="#{statystykaObrotyView.zachowajliczbaprac(item)}" partialSubmit="true" global="false" update="@parent"/>
+                <h:inputText value="#{item.liczbapracownikow}" size="5"/>
+            </p:inplace>
+        </p:column>
+    </p:dataTable>
+</ui:composition>   

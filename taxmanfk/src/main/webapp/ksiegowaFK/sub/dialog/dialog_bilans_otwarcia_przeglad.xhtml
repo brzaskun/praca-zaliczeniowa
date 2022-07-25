@@ -1,0 +1,134 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    
+    >
+
+    <p:dialog id="dialogpierwszy" header="Bilans otwarcia i obroty rozpoczęcia - przegląd sald - #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="bilansprzeglad" 
+              resizable="false" onShow="ustawdialog('dialogpierwszy','menubilanse', 1600, 750);" closeOnEscape="true" onHide="resetujdialog('dialogpierwszy');"  >
+        <h:form id="formbilans">
+
+            <script>
+
+                    document.onkeypress = wcisnij;
+                    function wcisnij() {
+                        if (event.keyCode === 43) {
+                            $('#form\\:rozwinwsz').click();
+                        } else if (event.keyCode === 45) {
+                            $('#form\\:zwinwsz').click();
+                        } else {
+                            return event;
+                        }
+                    }
+            </script>
+              <p:panelGrid columns="10">
+                <p:commandButton value="#{mgs.drukuj}" action="#{sesjaView.dodajwydruk()}" actionListener="#{bilansPodgladView.drukuj}" style="width: 120px;"/>
+                <p:commandButton value="#{mgs.drukuj} synt" action="#{sesjaView.dodajwydruk()}" actionListener="#{bilansPodgladView.drukujAnal(false)}" style="width: 120px; margin-left: 10px;"/>
+                <p:commandButton value="#{mgs.drukuj} analit" action="#{sesjaView.dodajwydruk()}" actionListener="#{bilansPodgladView.drukujAnal(true)}" style="width: 120px; margin-left: 10px;"/>
+                <p:commandButton value="usuń zerowe" actionListener="#{bilansPodgladView.usunzeroweRoznicaBO}" style="width: 120px; margin-left: 10px;" update="formbilans:dataList"/>
+                <p:selectBooleanCheckbox value="#{bilansPodgladView.sortujwgwartosci}" itemLabel="wg wartości" style="margin-left: 10px;">
+                    <p:ajax event="change" partialSubmit="true" global="false"/>
+                </p:selectBooleanCheckbox>
+                <p:commandButton value="doksięguj BO" actionListener="#{bilansWprowadzanieView.doksiegujroznice(bilansPodgladView.root)}" style="width: 120px; margin-left: 10px;" update="formbilans:dataList"/>
+            </p:panelGrid>
+            <p:panelGrid columns="2">
+                <p:treeTable id="dataList" value="#{bilansPodgladView.root}" var="loopbop"  selection="#{bilansPodgladView.selectednodes}" selectionMode="checkbox"
+                             rowStyleClass="#{loopbop.level eq 0 ? 'row1' : loopbop.level eq 1 ? 'row2' : loopbop.level eq 2 ? 'row3' : 'row4'}" styleClass="tablicaplankont"
+                             scrollable="true" style="width: 1560px; height: 600px;overflow-y: scroll;" emptyMessage="Nie ma zapisów na kontach w pozycji BO. Sprawdz czy zapisano wiersze BO do bazy." sortBy="#{loopbop.pelnynumer}">
+                    <p:ajax event="select" global="false"/>
+                    <p:ajax event="unselect" global="false" />
+                    <p:column headerText="nr konta" style="width: 110px;" styleClass="#{loopbop.level eq 2 ? 'druga' : null}">
+                        <h:outputText value="#{loopbop.pelnynumer}" /> 
+                    </p:column>
+                    <p:column headerText="nazwa pełna" style="width: 250px;">
+                        <h:outputText value="#{loopbop.nazwapelna}" rendered="#{facesContext.viewRoot.locale.language.equals('pl')}"/>
+                                <h:outputText value="#{loopbop.de}" rendered="#{facesContext.viewRoot.locale.language.equals('de')}"/>
+                    </p:column>
+<!--                    <p:column headerText="Pozycja Wn" style="width: 70px; text-align: center;">
+                        <h:outputText value="#{loopbop.pozycjaWn != null ? loopbop.pozycjaWn : 'a'}" /> 
+                    </p:column>
+                    <p:column headerText="Pozycja Ma" style="width: 70px; text-align: center;">
+                        <h:outputText value="#{loopbop.pozycjaMa != null ? loopbop.pozycjaMa : 'a'}" /> 
+                    </p:column>-->
+                    <p:column style="width: 90px;">
+                        <f:facet name="header">
+                            <h:outputText value="Wn: "/>
+                            <h:outputText value="#{bilansPodgladView.sumawn}">
+                                <f:convertNumber type="number" minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
+                            </h:outputText>
+                        </f:facet>
+                        <h:outputText value="#{loopbop.boWn ne 0 ? loopbop.boWn : ''}" style="float: right;">
+                            <f:convertNumber type="number" minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                    </p:column>
+                    <p:column style="width: 90px;">
+                        <f:facet name="header">
+                            <h:outputText value="Wn rok pop: "/>
+                        </f:facet>
+                        <h:outputText value="#{loopbop.saldorokpopWn ne 0 ? loopbop.saldorokpopWn : ''}" style="float: right;">
+                            <f:convertNumber type="number" minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                    </p:column>
+                    <p:column style="width: 90px;">
+                        <f:facet name="header">
+                            <h:outputText value="Ma: "/>
+                            <h:outputText value="#{bilansPodgladView.sumama}">
+                                <f:convertNumber type="number" minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
+                            </h:outputText>
+                        </f:facet>
+                        <h:outputText value="#{loopbop.boMa ne 0 ? loopbop.boMa : ''}" style="float: right;">
+                            <f:convertNumber type="number" minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
+                    </h:outputText> 
+                    </p:column>
+                    <p:column style="width: 90px;">
+                        <f:facet name="header">
+                            <h:outputText value="Ma rok pop: "/>
+                        </f:facet>
+                        <h:outputText value="#{loopbop.saldorokpopMa ne 0 ? loopbop.saldorokpopMa : ''}" style="float: right;">
+                            <f:convertNumber type="number" minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                    </p:column>
+                    <p:column headerText="różnica Wn" style="width: 70px; text-align: right;">
+                        <h:outputText value="#{loopbop.roznicaWn}" rendered="#{loopbop.getRozBOWn()}">
+                            <f:convertNumber type="number" minFractionDigits="2" maxFractionDigits="2"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="różnica Ma" style="width: 70px; text-align: right;">
+                        <h:outputText value="#{loopbop.roznicaMa}" rendered="#{loopbop.getRozBOMa()}">
+                            <f:convertNumber type="number" minFractionDigits="2" maxFractionDigits="2"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="r.b Wn" style="width: 60px; text-align: right;">
+                        <h:outputText value="#{loopbop.pozycjaWn}" >
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="r.u Wn" style="width: 60px; text-align: right;">
+                        <h:outputText value="#{loopbop.pozycjaWnRU}" >
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="" style="width: 20px; text-align: center;">
+                        <h:outputText value="!" rendered="#{loopbop.pozycjaWn ne loopbop.pozycjaWnRU}" style="color: red;">
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="r.b Ma" style="width: 60px; text-align: right;">
+                        <h:outputText value="#{loopbop.pozycjaMa}" >
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="r.u Ma" style="width: 60px; text-align: right;">
+                        <h:outputText value="#{loopbop.pozycjaMaRU}" >
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="" style="width: 20px; text-align: center;">
+                        <h:outputText value="!" rendered="#{loopbop.pozycjaMa ne loopbop.pozycjaMaRU}" style="color: red;">
+                        </h:outputText>
+                    </p:column>
+                </p:treeTable>
+            </p:panelGrid>
+           
+        </h:form>
+    </p:dialog>
+</ui:composition>
+

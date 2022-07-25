@@ -1,0 +1,31 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    >
+    <f:event type="preRenderView" listener="#{pozycjeNaFakturzeView.odchowaj()}"/>
+    <h:form id="formXY">
+        <h:inputText id="lewy" value="#{pozycjeNaFakturzeView.lewy}" size="30" style="display: none;"/>
+        <h:inputText id="gora" value="#{pozycjeNaFakturzeView.gora}" size="30" style="display: none;"/>
+        <h:inputText id="co" value="#{pozycjeNaFakturzeView.co}" size="30" style="display: none;"/>
+        <h:inputText id="lewyTablica" value="#{pozycjeNaFakturzeView.lewyTablica}" size="30" style="display: none;"/>
+        <h:inputText id="goraTablica" value="#{pozycjeNaFakturzeView.goraTablica}" size="30" style="display: none;"/>
+        <h:inputText id="coTablica" value="#{pozycjeNaFakturzeView.coTablica}" size="30" style="display: none;"/>
+        <br/>
+        <p:commandButton id="zachowaj" value="Zachowaj" actionListener="#{pozycjeNaFakturzeView.zachowajpozycje}" style="display: none;" />
+    </h:form>
+
+    <p:tabView id="akordeon" style="width: 1500px;">
+        <ui:include src="faktura/faktura_stworz.xhtml"/>
+        <ui:include src="faktura/faktura_sporzadzone.xhtml"/>
+        <ui:include src="faktura/faktura_archiwum.xhtml"/>
+        <ui:include src="faktura/faktura_okresowe.xhtml"/>
+        <ui:include src="faktura/faktura_zestawienie.xhtml"/>
+        <ui:include src="faktura/faktura_wzor.xhtml"/>
+        <ui:include src="faktura/faktura_elementyopcjonalne.xhtml"/>
+    </p:tabView>
+
+</ui:composition>   
+

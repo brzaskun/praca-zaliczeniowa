@@ -1,0 +1,130 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    
+        
+    xmlns:bcf="http://brzaskun.com/facelets">
+    <bcf:ajaxs/>
+        <h:form>
+            <p:growl ><p:autoUpdate/></p:growl>
+            <p:panel header="Wykaz podatników, dla których nie wysłano jeszcze plików JPK"/>
+            <p:dataTable value="#{jPKListaView.jpkmoznarobic}" var="item1" style="width: 890px;" emptyMessage="Nie ma podatników oczekujących na jpk za miesiąc"
+                         sortBy="#{item1.printnazwa}" rowIndexVar="index">
+                <p:column  width="20">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="podatnik" width="400">
+                    <h:outputText value="#{item1.printnazwa}"/>
+                </p:column>
+                <p:column width="90" style="text-align: center;">
+                    <p:commandButton value="podgląd jpk" actionListener="#{jpk_VAT2View.przygotujXMLPodgladAll(item1)}" update="@form" style="width: 120px;"/>
+                </p:column>
+                <p:column width="90" style="text-align: center;">
+                    <p:commandButton value="wyślij jpk" actionListener="#{jpk_VAT2View.przygotujXMLAll(item1, jPKListaView.jpkmoznarobic, jPKListaView.jpkzrobione)}" update="@form" style="width: 120px;"/>
+                </p:column>
+            </p:dataTable>
+            <p:commandButton value="pobierz 120" actionListener="#{jpk_VAT2View.pobierzwszystkie(jPKListaView.jpkzrobione)}" style="padding: 10px;margin: 10px; width: 120px;" update="@form"/>
+            <p:dataTable value="#{jPKListaView.jpkzrobione}" var="item" rowIndexVar="index" id="tabela" style="width: 1450px; margin-top: 10px;"
+                         sortBy="#{item.podatnik.printnazwa}" filteredValue="#{jPKListaView.jpkzrobionefiltered}"
+                     selectionMode="single" rowKey="#{item.id}"
+                     emptyMessage="nie wysłano jeszcze plików jpk">
+              <p:ajax event="filter" global="false"/>
+            <p:ajax event="rowToggle" global="false"/>
+                <p:column style="width: 20px; text-align: center;">
+                    <p:rowToggler/>
+                </p:column>
+            <f:facet name="header">
+                <h:outputText value="Wysłane jpk"/>
+            </f:facet>
+            <p:column style="width: 20px; text-align: center;" >
+                <f:facet name="header">
+                    <h:outputText value="lp"/>
+                </f:facet>
+                <h:outputText value="#{index+1}" />
+            </p:column>
+            <p:column style="width: 350px;" >
+                <f:facet name="header">
+                    <h:outputText value="podatnik"/>
+                </f:facet>
+                <h:outputText value="#{item.podatnik.printnazwa}"/>
+            </p:column>
+             <p:column style="width: 20px; text-align: center;">
+                <f:facet name="header">
+                    <h:outputText value="wer."/>
+                </f:facet>
+                 <h:outputText value="#{item.getJpkWersja()}" />
+            </p:column>
+            <p:column style="width: 30px; text-align: center;" sortBy="#{item.miesiac}">
+                <f:facet name="header">
+                    <h:outputText value="mc"/>
+                </f:facet>
+                <h:outputText value="#{item.miesiac}"/>
+            </p:column>
+            <p:column style="width: 40px; text-align: center;" styleClass="filter60" filterBy="#{item.code}" filterMatchMode="startsWith">
+                <f:facet name="header">
+                    <h:outputText value="wynik"/>
+                </f:facet>
+                <h:outputText value="#{item.code}"/>
+            </p:column>
+            <p:column style="width: 150px;" >
+                <f:facet name="header">
+                    <h:outputText value="status"/>
+                </f:facet>
+                <h:outputText value="#{item.description}"/>
+            </p:column>
+            <p:column style="width: 120px; text-align: center;" >
+                <f:facet name="header">
+                    <h:outputText value="numer własny"/>
+                </f:facet>
+                <h:outputText value="#{item.referenceNumber}"/>
+            </p:column>
+            <p:column style="width: 90px; text-align: center;" >
+                <f:facet name="header">
+                    <h:outputText value="data przyjęcia"/>
+                </f:facet>
+                <h:outputText value="#{item.timestamp.substring(0,16)}">
+                </h:outputText>
+            </p:column>
+            <p:column style="width: 40px; text-align: center;">
+                <f:facet name="header">
+                    <h:outputText value="upo"/>
+                </f:facet>
+                <p:commandButton icon="fa fa-archive" actionListener="#{jpk_VAT2View.pobierzUPO(item)}" update="@form"/>
+            </p:column>
+             <p:column style="width: 40px; text-align: center;">
+                <f:facet name="header">
+                    <h:outputText value="print"/>
+                </f:facet>
+                 <p:commandButton icon="fa fa-print" actionListener="#{jpk_VAT2View.drukujUPO(item)}"  global="false"/>
+            </p:column>
+            <p:rowExpansion>
+                <p:panelGrid columns="1">
+                    <h:outputText value="#{item.getJpkNaglowek()}"/>
+                <p:dataTable value="#{item}" var="itemik">
+                        <p:column headerText="data jpk" width="80">
+                            <h:outputText value="#{itemik.datajpk}">
+                                <f:convertDateTime pattern="dd/MM/yyy HH:mm"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="data upo" width="80">
+                            <h:outputText value="#{itemik.dataupo}">
+                                <f:convertDateTime pattern="dd/MM/yyy HH:mm"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="sporządził" width="100">
+                            <h:outputText value="#{itemik.wprowadzil.imie} #{itemik.wprowadzil.nazw}"/>
+                        </p:column>
+                        <p:column headerText="upo">
+                            <h:outputText value="#{itemik.potwierdzenie.toString()}"/>
+                        </p:column>
+                 </p:dataTable>
+                
+                </p:panelGrid>
+            </p:rowExpansion>
+        </p:dataTable>
+        </h:form>
+        
+</ui:composition>

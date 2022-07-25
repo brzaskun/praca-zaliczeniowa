@@ -1,0 +1,234 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:bcf="http://brzaskun.com/facelets">
+
+    <f:event type="preRenderView" listener="#{ewidencjaVatView.stworzenieEwidencjiZDokumentowFK(WpisView.getPodatnikObiekt(), null)}"/>
+    <h:form id="formEwidencjeGuestForm">
+    <p:tabView>
+        <p:tab title="#{mgs.ewidencje}">
+            <p:tabView value="#{ewidencjaVatView.ewidencjeFK}"  var="item"  >
+                <p:tab title="#{facesContext.ELContext.locale eq 'pl' ? item[0].nazwaewidencji.nazwa : item[0].nazwaewidencji.de}">
+                    <p:commandButton value="Drukuj data" icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfEwidencje(item[0].nazwaewidencji.nazwa)}" onsuccess="wydrukewidencje('#{WpisView.podatnikObiekt.nip}','#{item[0].nazwaewidencji.nazwa}')"  style="width: 120px;"/>
+                <p:commandButton value="Drukuj wart." icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfEwidencjeWartosc(item[0].nazwaewidencji.nazwa)}" onsuccess="wydrukewidencje('#{WpisView.podatnikObiekt.nip}','#{item[0].nazwaewidencji.nazwa}')"  style="width: 120px;"/>
+                <p:commandButton value="Wyślij" icon="ui-icon-mail-closed" onclick="PF('confirmation').show();" actionListener="#{sesjaView.dodajmail()}" onsuccess="wydrukewidencje('#{WpisView.podatnikObiekt.nip}','#{item[0].nazwaewidencji.nazwa}')"  style="width: 120px; margin-left: 2%;">
+                    <f:ajax event="click" listener="#{ewidencjaVatView.ustawNazwaewidencji((item[0].nazwaewidencji))}"/>
+                </p:commandButton>
+                <p:separator/>
+                    <p:dataTable value="#{item}" var="itemik" style="width: 1150px; margin-bottom: 30px;">
+                        <f:facet name="header">  
+                            <h:outputText value="#{mgs.EwidencjaVAT}  #{item[0].nazwaewidencji.nazwa}" />  
+                        </f:facet>
+                        <p:column headerText="#{mgs.lp}" style="width: 40px;" sortBy="#{itemik.id}">
+                            <h:outputText value="#{itemik.id}" rendered="#{itemik.id eq '9999' ? false : true}"/>
+                        </p:column>
+                        <p:column headerText="#{mgs.datadok}" style="width: 100px; text-align: center;" sortBy="#{itemik.dataWyst}" filterBy="#{itemik.dataWyst}" filterMatchMode="contains">
+                            <h:outputText value="#{itemik.dataWyst}"/>
+                        </p:column>
+                        <p:column headerText="#{mgs.data}" style="width: 100px; text-align: center;" sortBy="#{itemik.dataSprz}" filterMatchMode="contains" filterBy="#{itemik.dataSprz}">
+                            <h:outputText value="#{itemik.dataSprz}"/>
+                        </p:column>
+                        <p:column headerText="#{mgs.numerwlasny}" style="width: 130px;" sortBy="#{itemik.nrWlDk}" filterBy="#{itemik.nrWlDk}" filterMatchMode="contains">
+                            <h:outputText value="#{itemik.nrWlDk}"/>
+                        </p:column>
+                        <p:column headerText="#{mgs.kontrahent}" style="width: 190px;" sortBy="#{itemik.kontr.npelna}" filterBy="#{itemik.kontr.npelna}" filterMatchMode="contains">
+                            <h:outputText value="#{itemik.kontr.npelna}"/>
+                        </p:column>
+                        <p:column headerText="#{mgs.opis}" style="width: 170px;" sortBy="#{itemik.opis}" filterBy="#{itemik.opis}" filterMatchMode="contains">
+                            <h:outputText value="#{itemik.opis}"/>
+                        </p:column>
+                        <p:column headerText="#{mgs.netto}" style="width: 100px;" sortBy="#{itemik.netto}" filterBy="#{itemik.netto}" filterMatchMode="contains">
+                            <h:outputText value="#{itemik.netto}" style="float: right; padding-right: 3%">
+                                <f:convertNumber minFractionDigits="2" locale="PL"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="#{mgs.VAT}" style="width: 100px;" sortBy="#{itemik.vat}" filterBy="#{itemik.vat}" filterMatchMode="contains">
+                            <h:outputText value="#{itemik.vat}" style="float: right; padding-right: 3%">
+                                <f:convertNumber minFractionDigits="2" locale="PL"/>
+                            </h:outputText>
+                        </p:column>
+                    </p:dataTable>
+                </p:tab>
+            </p:tabView>
+        </p:tab>
+        <p:tab title="#{mgs.suma}">
+            <p:panel header="firma nie będąca płatnikiem podatku VAT" rendered="#{WpisView.podatnikObiekt.vatokres.size() gt 0 ? false : true}"/>
+            <p:panel header="#{mgs.vatrozliczany} #{WpisView.podatnikObiekt.vatokres.size() gt 0 ? WpisView.podatnikObiekt.vatokres.get(WpisView.podatnikObiekt.vatokres.size()-1).parametr : ''}" 
+                     rendered="#{WpisView.podatnikObiekt.vatokres.size() gt 0 ? true : false}"/>
+            <h:outputText value="#{mgs.wynikzaokresrozliczeniowy}: #{mgs.dozapłaty}" rendered="#{ewidencjaVatView.wynikOkresu gt 0}"/> 
+            <h:outputText value="#{mgs.wynikzaokresrozliczeniowy}: #{mgs.dozwrotu}" rendered="#{ewidencjaVatView.wynikOkresu lt 0}"/> 
+            <h:outputText value="#{ewidencjaVatView.wynikOkresu}" style="#{ewidencjaVatView.wynikOkresu gt 0 ? 'font-weight: 900; color: red;' : 'font-weight: 900; color: black;'} padding: 2%;" rendered="#{WpisView.podatnikObiekt.vatokres.size() gt 0 ? true : false}">
+                <f:convertNumber minFractionDigits="0" locale="PL" />
+            </h:outputText>
+            <p:commandButton value="#{mgs.drukuj}" icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfSuma()}" onsuccess="wydruksumavat('#{WpisView.podatnikObiekt.nip}');" style="width: 120px;"/>
+                    <p:commandButton value="Drukuj wszyst. data" icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfWszystkie()}" onsuccess="wydrukewidencjewszystkie('#{WpisView.podatnikObiekt.nip}')"  style="width: 150px; margin-left: 100px;"/>
+                    <p:commandButton value="Drukuj wszyst. wartosc" icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfWszystkieWartosc()}" onsuccess="wydrukewidencjewszystkie('#{WpisView.podatnikObiekt.nip}')"  style="width: 150px; margin-left: 10px;"/>
+                <p:separator/>
+            <p:separator/>
+            <p:dataTable value="#{ewidencjaVatView.sumydowyswietleniasprzedaz}" var="itemik" 
+                         selection="#{ewidencjaVatView.goscwybralsuma}" rowKey="#{itemik.ewidencja.nazwa}" style="width: 50%;"
+                         >
+                <f:facet name="header">
+                    <h:outputText value="#{mgs.zestawienieewidencjivat} - #{mgs.sprzedaż}"/>
+                </f:facet>
+                <p:column selectionMode="multiple" style="width: 50px;" rendered="#{!(itemik.ewidencja.nazwa eq 'podsumowanie')}"></p:column>
+                <p:column style="width: 50px;" rendered="#{(itemik.ewidencja.nazwa eq 'podsumowanie')}"></p:column>
+                <p:column headerText="#{mgs.nazwaewidencji}">
+                    <h:outputText value="#{itemik.ewidencja.nazwa}" rendered="#{facesContext.viewRoot.locale.language.equals('pl')}"/>
+                    <h:outputText value="#{itemik.ewidencja.de}" rendered="#{facesContext.viewRoot.locale.language.equals('de')}"/>
+                </p:column>
+                <p:column headerText="#{mgs.wartośćnetto}" >
+                    <h:outputText value="#{itemik.netto}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{mgs.wartosćvatnaliczony}" >
+                    <h:outputText value="#{itemik.vat}"  style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+
+            </p:dataTable>
+            <p:dataTable value="#{ewidencjaVatView.sumydowyswietleniazakupy}" var="itemik" 
+                         selection="#{ewidencjaVatView.goscwybralsuma}" rowKey="#{itemik.ewidencja.nazwa}" style="width: 50%;"
+                         >
+                <f:facet name="header">
+                    <h:outputText value="#{mgs.zestawienieewidencjivat} - #{mgs.zakup}"/>
+                </f:facet>
+                <p:column selectionMode="multiple" style="width: 50px;" rendered="#{!(itemik.ewidencja.nazwa eq 'podsumowanie')}"></p:column>
+                <p:column style="width: 50px;" rendered="#{(itemik.ewidencja.nazwa eq 'podsumowanie')}"></p:column>
+
+                <p:column headerText="#{mgs.nazwaewidencji}">
+                    <h:outputText value="#{itemik.ewidencja.nazwa}" rendered="#{facesContext.viewRoot.locale.language.equals('pl')}"/>
+                    <h:outputText value="#{itemik.ewidencja.de}" rendered="#{facesContext.viewRoot.locale.language.equals('de')}"/>
+                </p:column>
+                <p:column headerText="#{mgs.wartośćnetto}" >
+                    <h:outputText value="#{itemik.netto}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{mgs.wartosćvatnaliczony}" >
+                    <h:outputText value="#{itemik.vat}"  style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+
+            </p:dataTable>
+            <p:outputPanel style="margin-top: 10px">
+<!--                            <p:commandButton value="dodaj BO" style="width: 120px; margin-bottom: 10px;" actionListener="#{kontaVatFKView.dodajBOdoKont()}"/>-->
+                            <p:dataTable value="#{kontaVatFKView.kontavat}" var="item" style="width: 700px;" id="saldokontvat1">
+                                <p:ajax event="rowToggle" global="false" />
+                                <p:column style="height: 19px; text-align: center;" width="20">
+                                    <p:rowToggler />
+                                </p:column>
+                                <p:column headerText="#{mgs.konto}" width="50">
+                                    <h:outputText value="#{item.konto.pelnynumer}"/>
+                                </p:column>
+                                <p:column headerText="#{mgs.nazwakonta}">
+                                    <h:outputText value="#{item.konto.nazwapelna}"/>
+                                </p:column>
+                                <p:column headerText="#{mgs.saldoWn}">
+                                    <h:outputText value="#{item.saldoWn}" style="float: right;">
+                                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                                    </h:outputText>
+                                </p:column>
+                                <p:column headerText="#{mgs.saldoMa}">
+                                    <h:outputText value="#{item.saldoMa}" style="float: right;">
+                                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                                    </h:outputText>
+                                </p:column>
+                                <p:rowExpansion>
+                                    <p:dataTable value="#{item.zapisy}" var="loopik" emptyMessage="nie ma rachunków na tym koncie" paginator="true" rows="2" paginatorPosition="top">
+                                        <p:ajax event="page" global="false"/>
+                                    <p:column headerText="#{mgs.dokument}" width="70">
+                                        <h:outputText value="#{loopik.dokfkS}"/>
+                                    </p:column>
+                                    <p:column headerText="#{mgs.data}" width="80">
+                                        <h:outputText value="#{loopik.dokfk.datadokumentu}"/>
+                                    </p:column>
+                                    <p:column headerText="#{mgs.nr}" width="100">
+                                        <h:outputText value="#{loopik.dokfk.numerwlasnydokfk}"/>
+                                    </p:column>
+                                    <p:column headerText="#{mgs.kontrahent}">
+                                        <h:outputText value="#{loopik.wiersz.eVatwpisFK eq null ? loopik.dokfk.kontr.npelna : loopik.wiersz.eVatwpisFK.klient.npelna}"/>
+                                    </p:column>
+                                    <p:column headerText="#{mgs.opis}">
+                                        <h:outputText value="#{loopik.wiersz.opisWiersza}"/>
+                                    </p:column>
+                                    <p:column headerText="#{mgs.kwota}" width="60">
+                                        <bcf:outputpl value="#{loopik.kwota}"/>
+                                    </p:column>
+                                </p:dataTable>
+                            </p:rowExpansion>
+                            </p:dataTable>
+                        </p:outputPanel>
+                        <p:outputPanel style="margin-top: 10px; width: 550px;">
+                            <h:outputText value="suma faktur kosztowych z innego okresu rozliczeniowego "/>
+                            <bcf:outputpl id="sumaprzesunietych1" value="#{ewidencjaVatView.sumaprzesunietych}" />
+                            <h:outputText value="liczba dok.: "/>
+                            <h:outputText value="#{ewidencjaVatView.listaprzesunietychKoszty.size()}"/>
+                        </p:outputPanel>
+                        <p:outputPanel style="margin-top: 10px; width: 550px;">
+                            <h:outputText value="suma faktur kosztowych z następnych okresów rozliczeniowych "/>
+                            <bcf:outputpl id="sumaprzesunietychbardziej1" value="#{ewidencjaVatView.sumaprzesunietychBardziej}" />
+                            <h:outputText value="liczba dok.: "/>
+                            <h:outputText value="#{ewidencjaVatView.listaprzesunietychBardziej.size()}"/>
+                        </p:outputPanel>
+        </p:tab>
+         <p:tab title="pobrane FP">
+            <p:panel header="Lista fiskalizowanych/WDT incydentalnych pobranych za miesiąc bieżący"/>
+             <p:panelGrid columns="2">
+                <h:outputText value="suma"/>
+                <bcf:outputpl value="#{klientJPKView.suma}"/>
+            </p:panelGrid>
+            <p:dataTable value="#{klientJPKView.lista}" var="itemikjpk" rowIndexVar="indexjpk"  id="tabelapozycjedlajpk"
+                         style="width: 1200px;"
+                         >
+                <p:column style="width: 50px;">
+                    <h:outputText value="#{indexjpk+1}"/>
+                </p:column>
+                <p:column headerText="data wystawienia">
+                    <h:outputText value="#{itemikjpk.dataWystawienia}"/>
+                </p:column>
+                <p:column headerText="data sprzedaży">
+                    <h:outputText value="#{itemikjpk.dataSprzedazy}"/>
+                </p:column>
+                <p:column headerText="nazwa" width="350" sortBy="#{itemikjpk.nazwaKontrahenta}" filterBy="#{itemikjpk.nazwaKontrahenta}" filterMatchMode="contains">
+                    <h:outputText value="#{itemikjpk.nazwaKontrahenta}"/>
+                </p:column>
+                <p:column headerText="nr kontr" sortBy="#{itemikjpk.nrKontrahenta}">
+                    <h:outputText value="#{itemikjpk.nrKontrahenta}"/>
+                </p:column>
+                <p:column headerText="wartość netto"  sortBy="#{itemikjpk.netto}">
+                    <bcf:outputpl value="#{itemikjpk.netto}"/>
+                </p:column>
+                <p:column headerText="wartość vat" >
+                    <bcf:outputpl value="#{itemikjpk.vat}"/>
+                </p:column>
+                <p:column headerText="WDT" style="text-align: center;" width="30">
+                    <h:outputText value="&#x2713;" rendered="#{itemikjpk.wdt}" style="color: green;font-weight: bold"/>
+                </p:column>
+                <p:column headerText="WNT"  style="text-align: center;" width="30">
+                    <h:outputText value="&#x2713;" rendered="#{itemikjpk.wnt}" style="color: green;font-weight: bold"/>
+                </p:column>
+                <p:column headerText="TaxRep"  style="text-align: center;" width="30">
+                    <h:outputText value="&#x2713;" rendered="#{itemikjpk.amazontax0additional1 eq 0}" style="color: green;font-weight: bold"/>
+                </p:column>
+                <p:column headerText="Aditional"  style="text-align: center;" width="30">
+                    <h:outputText value="&#x2713;" rendered="#{itemikjpk.amazontax0additional1 eq 1}" style="color: green;font-weight: bold"/>
+                </p:column>
+            </p:dataTable>
+             <p:contextMenu for="form:akordeon:tabelapozycjedlajpk" style="width: 200px;">
+                <p:menuitem value="usuń wszystkie" icon="ui-icon-trash" actionListener="#{klientJPKView.usunwszytskieimportowane()}" update="form:akordeon:tabelapozycjedlajpk"/>
+            </p:contextMenu>
+        </p:tab>
+    </p:tabView>
+</h:form>
+</ui:composition>   
+
+

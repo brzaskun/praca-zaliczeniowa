@@ -1,0 +1,39 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    >
+    
+    <h:form id="form">
+        <p:growl life="3600"  ><p:autoUpdate/></p:growl>
+        <p:panel style="text-align: center; margin-left: auto; margin-right: auto; margin-top:  2%; width: 362px">
+            <f:facet name="header">
+                <h:outputLabel value="Prosze podać nowe dane rejestracyjne"/>
+            </f:facet>
+            <p:focus id="focus" context="rejestrowaniepanel"/>
+            <p:panelGrid id="rejestrowaniepanel" columns="2" style="text-align: center; margin-left: auto; margin-right: auto;">
+                 
+                <h:outputText value="hasło"/>
+                <p:password id="haslo1" value="#{UzView.nowehaslo}" feedback="true"   
+                            promptLabel="wprowadź hasło o min 6 znakach" weakLabel="słabe"  validatorMessage="Minimum 6 znaków"
+                            goodLabel="akceptowalne" strongLabel="mocne" autocomplete="true"> 
+                    <p:ajax event="change" partialSubmit="true"/>
+                </p:password>
+                <h:outputText value="potwierdz hasło"/>
+                <p:password id="haslo2" value="#{UzView.nowedrugiehaslo}" title="hasła musza być zgodne" autocomplete="true" >
+                    <p:ajax event="change"  partialSubmit="true" listener="#{UzView.porownajHaslaWTrakcie}" />
+                </p:password>
+                <h:outputText value="email (opcjonalnie)"/>
+                <p:inputText id="email" value="#{UzView.nowymail}" autocomplete="true"   validatorMessage="Nieprawidłowy adres email">
+                    <f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
+                </p:inputText>
+            </p:panelGrid>
+            <br/>
+            <p:commandButton id="przycisk" type="submit" value="Zmień dane" action="#{UzView.zmianaHaslaUz()}" style="width: 150px;" update="@form"/>
+        </p:panel>
+    </h:form>
+
+</ui:composition>   
+

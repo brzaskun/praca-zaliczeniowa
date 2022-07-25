@@ -1,0 +1,74 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:bcf="http://brzaskun.com/facelets">
+    <p:dialog id="dialog_add_wiad_kolumna1rozbicie" header="Wprowadź kwoty cząstkowe" widgetVar="add_wiad_kolumna1rozbicie" modal="true" appendTo="@(body)" 
+              resizable="false" onShow="ustawdialogWindow('dialog_add_wiad_kolumna1rozbicie',820,300)" onHide="resetujdialog('dialog_add_wiad_kolumna1rozbicie')"
+        >
+        <h:form id="formdialog_add_wiad_kolumna1rozbicie">
+            <p:panelGrid columns="5" id="podsumowanierozbicia">
+                <h:outputText value="razem"/>
+                <bcf:outputwal id="wal1" value="#{DokumentView.sumarozbicie.nettowaluta}" symbolwaluty="#{DokumentView.selDokument.walutadokumentu.skrotsymbolu}"/>
+                <bcf:outputwal id="wal2" value="#{DokumentView.sumarozbicie.netto}" symbolwaluty="PLN" />
+            </p:panelGrid>
+            <p:dataTable id="rozbicietabeladane" value="#{DokumentView.kolumna1rozbicielista}" var="item" rowIndexVar="index"
+                         scrollable="true"  scrollHeight="150" style="width: 795px;">
+                        <p:column style="text-align: center; width: 20px;">
+                            <h:outputText value="#{index+1}"/>
+                        </p:column>
+                         <p:column style="text-align: center; width: 80px;">
+                            <f:facet name="header">
+                                <h:outputText value="data"/>
+                            </f:facet>
+                             <p:inputText value="#{item.data}" onblur="ustawDaterozbicie(#{WpisView.rokWpisu},#{WpisView.miesiacWpisu},this);" size="10" >
+                                 <p:ajax event="blur" partialSubmit="true" global="false" listener="#{DokumentView.pobierzkursNBPRozbicie(item, index)}"/>
+                             </p:inputText>
+                        </p:column>
+                         <p:column style="text-align: center; width: 150px;">
+                            <f:facet name="header">
+                                <h:outputText value="netto"/>
+                            </f:facet>
+                             <p:inputNumber value="#{item.nettowaluta}" symbolPosition="s" decimalSeparator="."   inputStyle="text-align: right;" decimalPlaces="2" style="width: 120px;" >
+                                 <p:ajax event="change" partialSubmit="true" global="false" listener="#{DokumentView.przeliczkwoteRozbicie(item, index)}"/>
+                             </p:inputNumber>
+                        </p:column>
+                        <p:column style="text-align: center; width: 130px;">
+                            <f:facet name="header">
+                                <h:outputText value="kwota w pln"/>
+                            </f:facet>
+                            <h:outputText id="rozbiciekwotawpln" value="#{item.netto}" style="float: right; margin-right: 4px">
+                                <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column style="text-align: center; width: 130px;">
+                            <f:facet name="header">
+                                <h:outputText value="kurs"/>
+                            </f:facet>
+                             <h:outputText id="rozbiciekurs" value="#{item.tabelanbp.kurssredni}" style="float: right; margin-right: 4px">
+                                <f:convertNumber minFractionDigits="4" maxFractionDigits="4" locale="PL"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column style="text-align: center; width: 130px;">
+                            <f:facet name="header">
+                                <h:outputText value="tabelanbp"/>
+                            </f:facet>
+                            <h:outputText id="rozbicietabela" value="#{item.tabelanbp.nrtabeli}"/>
+                        </p:column>
+                    </p:dataTable>
+            <p:commandButton value="dodaj" type="submit" 
+                             style="margin-left: 130px; margin-right: auto; margin-top: 20px; width: 120px;" actionListener="#{DokumentView.dodajwierszrozbicie}"
+                             update="formdialog_add_wiad_kolumna1rozbicie:rozbicietabeladane" oncomplete="focusnanowymwierszu();"
+                                 />
+            <p:commandButton value="zachowaj" type="submit" 
+                                 style="margin-left: 80px; margin-right: auto; margin-top: 20px; width: 120px;" 
+                                 actionListener="#{DokumentView.sumujwierszrozbicie}" oncomplete="zachowaldialotczastkowe();"
+                                 />
+            <p:commandButton value="usuń" type="button" actionListener="#{DokumentView.anulujwierszrozbicie}"
+                                 oncomplete="PF('add_wiad_kolumna1rozbicie').hide();" update=":dodWiad:tabelapkpir" style="margin-right: auto; margin-left: 80px; margin-top: 20px; width: 120px;"/>
+        </h:form>
+    </p:dialog>
+</ui:composition>

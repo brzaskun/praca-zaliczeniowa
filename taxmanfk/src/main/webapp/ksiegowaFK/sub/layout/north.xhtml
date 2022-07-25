@@ -1,0 +1,52 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+    <p:layoutUnit position="north" size="63" resizable="false" >
+        <h:form id="menubarnorth">
+            <p:menubar autoDisplay="true" style="border: none;">
+                <p:menuitem icon="fa fa-institution" value="firma" outcome="firmaFK"/>
+                <p:menuitem icon="fa fa-stack-overflow" value="#{mgs.dokumenty}" outcome="menudokumentyFK" rendered="#{WpisView.czegosbrakuje == false}"/>
+                <p:menuitem icon="fa fa-sheqel" value="salda kont" outcome="zestawieniaFK" rendered="#{WpisView.czegosbrakuje == false}"/>
+                <p:menuitem icon="fa fa-tasks" value="VAT" outcome="rejestryFK" rendered="#{WpisView.czegosbrakuje == false}"/>
+                <p:menuitem icon="fa fa-clock-o" value="rejestry" outcome="rmkFK" rendered="#{WpisView.czegosbrakuje == false}"/>
+                <p:menuitem icon="fa fa-file-text-o" value="słowniki" outcome="kartotekiFK" rendered="#{WpisView.czegosbrakuje == false}"/>
+                <p:menuitem icon="fa fa-wrench" value="plan kont" outcome="menuplankontFK" rendered="#{WpisView.czegosbrakuje == false}"/>
+                <p:menuitem icon="fa fa-gear" value="wzorce" outcome="menuustawieniaFK" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
+                <p:menuitem icon="fa fa-building-o" value="#{mgs.bilans}" outcome="bilanseFK" rendered="#{WpisView.czegosbrakuje == false}"/>
+                <p:menuitem icon="fa fa-columns" value="deklaracje"  rendered="#{WpisView.czegosbrakuje == false}"/>
+                <p:menuitem icon="fa fa-pencil" value="stow." outcome="raportyFK" rendered="#{WpisView.czegosbrakuje == false}"/>
+                <p:menuitem icon="fa fa-car" value="środki trw." outcome="srodkitrwaleFK" rendered="#{WpisView.czegosbrakuje == false}">
+                    <f:actionListener binding="#{srodkiTrwaleAMOView.init()}"/>
+                    <f:actionListener binding="#{sTRTabView.init()}"/>
+                </p:menuitem>
+                <p:menuitem icon="fa fa-newspaper-o" value="#{mgs.zestawienia}" outcome="guestwynikFK" rendered="#{WpisView.czegosbrakuje == false}"/>
+                <p:menuitem value=" | "/>
+                <p:menuitem icon="fa fa-exchange" value="inna firma" action="#{WpisView.menustrona()}"/>
+                <p:menuitem value=" | "/>
+                <p:menuitem icon="fa fa-question-circle" value="pomoc"  rendered="#{WpisView.czegosbrakuje == false}"/>
+                <p:menuitem icon="fa fa-hand-o-right" value="uwagi" outcome="pismoadminFK"/>
+                <p:menuitem  value=" | " />
+                <p:menuitem icon="fa fa-toggle-off" value="#{mgs.wyloguj}" action="#{logowanie.logout()}" />
+                <p:menuitem  value=" | " />
+                <p:menuitem id="menuopis" value="#{WpisView.rokWpisuSt}/#{WpisView.miesiacWpisu}" style="font-weight: 900; font-size: large;">
+                </p:menuitem>
+                <p:menuitem>
+                    <p:commandButton styleClass="languagebutton" value="pl" actionListener="#{localeChanger.polishAction}"  update="@(form)"/>
+                    <p:commandButton styleClass="languagebutton" value="en" actionListener="#{localeChanger.englishAction}" update="@(form)"/>
+                    <p:commandButton styleClass="languagebutton" value="de" actionListener="#{localeChanger.deutschAction}" update="@(form)"/>
+                </p:menuitem>
+            </p:menubar>
+        </h:form>
+        <h:form>
+            <p:commandButton value="zd" accesskey="q" onstart="znajdzdivshown()" style="display: none;"
+                oncomplete="PF('dialog_zmiana_okresu').show()" global="false"
+            />
+        </h:form>
+    </p:layoutUnit>
+</ui:composition>   
+

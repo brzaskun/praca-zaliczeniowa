@@ -1,0 +1,34 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    >
+    <p:tabView id="menusrodkitrwale" orientation="left" style=" height: 500px;width: 600px;box-shadow: 10px 10px 5px #888888; margin-left: 15px; margin-top: 15px;">  
+                <p:tab title="śrdoki trwałe">
+                    <h:form id="dialog1menu1">
+                        <p:menu id="d1m1" styleClass="d1m" style="width: 400px; text-align: center; height: 450px;">
+                            <p:menuitem value="zestawienie środków trwałych/wnip" onclick="PF('dialogsrodkitrwalefkzestawienie').show();"></p:menuitem>
+                            <p:menuitem value="ewidencja środków trwałych/wnip" onclick="PF('dialogsrodkitrwalefkewidencja').show();"></p:menuitem>
+                            <p:menuitem value="dokumenty umorzeniowe" onclick="PF('dialogsrodkitrwalefkumorzenia').show();"></p:menuitem>
+                            <p:menuitem value="środki trwałe na kontach" onclick="PF('dialogsrodkitrwalefkkonta').show();"></p:menuitem>
+                        </p:menu>  
+                    </h:form>
+                </p:tab>
+                <p:tab title="wyposażenie">
+                    <h:form id="dialog1menu3">
+                        <p:menu id="d1m2" styleClass="d2m" style="width: 400px; text-align: center; height: 450px;">
+                            <p:menuitem value="ewidencja wyposażenia" onclick="PF('dialogsrodkitrwalefkwyposazenie').show();"></p:menuitem>
+                        </p:menu>  
+                    </h:form>
+                </p:tab>
+                <p:tab title="inwestycje">
+                    <h:form id="dialog1menu4">
+                        <p:menu id="d1m3" styleClass="d3m" style="width: 400px; text-align: center; height: 450px;">
+                            <p:menuitem value="wykaz inwestycji" onclick="PF('dialogsrodkitrwalefkinwestycja').show();"></p:menuitem>
+                        </p:menu>  
+                    </h:form>
+                </p:tab>  
+            </p:tabView>
+</ui:composition>

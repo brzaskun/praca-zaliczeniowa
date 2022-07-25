@@ -1,0 +1,52 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <ui:composition template="/templateFK.xhtml">
+        
+        <ui:define name="title">
+            <h:outputText value="Ewidencja środków trwałych"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            
+             
+                 <h:form>
+                    <p:growl life="3600"  id="fifi"/>
+                    <p:dialog id="confirmDialog" 
+                              header="Usunąć wybrany środek trwały?" widgetVar="confirmation" closable="false" resizable="false"> 
+                            <p:panelGrid columns="2">
+                            <p:commandButton id="confirm" value="Tak, usunąć" update="fifi :formSTR akordeon:str_posiadane" oncomplete="PF('confirmation').hide()"  
+                                             actionListener="#{sTRTabView.destroy2()}" />  
+                            <p:commandButton id="decline" value="Nie usuwać" onclick="PF('confirmation').hide()" type="button" style="margin-left: 60px;"/>   
+                            </p:panelGrid>
+                             <p:panelGrid columns="2" style="text-align: left;">
+                            <h:selectBooleanCheckbox id="powerusun" value="#{sTRTabView.napewnousunac}" title="napewno usunac" style="float: right; margin-top: 10px; margin-left: 20px;"/>
+                            <h:outputLabel for="powerusun" value="bezwzględne usuwanie" style="float: left; margin-top: 10px;"/>
+                            </p:panelGrid>
+
+                    </p:dialog>  
+                </h:form>
+                <f:view>
+            
+                    <p:layout fullPage="true" expandTitle="Wysuń" closeTitle="Zamknij" collapseTitle="Schowaj">
+                                      
+                        <ui:include src="sub/layoutTablicaSrodkiKsiegowa/north.xhtml"/>  <!-- panel polnocny-->
+                        <ui:include src="sub/layoutTablicaSrodkiKsiegowa/south.xhtml"/>   <!-- panel poludniowy-->
+                        <ui:include src="sub/layoutTablicaSrodkiKsiegowa/west.xhtml"/>   <!-- panel zachodni-->
+                        <p:layoutUnit position="center" style="box-shadow: 10px 10px 5px #888; padding: 1%;">
+                            <ui:include src="sub/dialogi/dialog_srodkitrwale_dodawanie.xhtml"/>
+                            <ui:include src="sub/dialogi/dialog_srodkitrwale_zmianawartosci.xhtml"/>
+                                <ui:include src="sub/menu_wiad.xhtml"/>   <!-- menu contextowe i pole wiadomosci growl-->
+                                <ui:include src="sub/srodkitablica.xhtml"/>   <!-- właściwa tablica z danymi z księgi-->
+                        </p:layoutUnit>
+                        
+                    </p:layout>
+                </f:view>
+            
+        </ui:define>
+    </ui:composition>
+</html>
+
+
+

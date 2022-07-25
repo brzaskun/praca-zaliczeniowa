@@ -1,0 +1,46 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:bcf="http://brzaskun.com/facelets">
+    <ui:composition template="/templateFK.xhtml">
+        <ui:define name="title">
+            <h:outputText value="Podatkowa księga przychodów i rozchodów"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <bcf:ajaxs/>
+            <f:view>
+                <h:form>
+                    <p:growl life="3600"  id="fifi"/>
+                    <p:dialog id="confirmDialog" header="Usunąć wybrany środek trwały?"  resizable="false" closable="false"
+                                      widgetVar="confirmation">  
+                        <p:panelGrid columns="2">
+                            <p:commandButton id="confirm" value="Tak, usunąć" update="fifi :akordeon:str_posiadane :akordeon:str_posiadane2" oncomplete="PF('confirmation').hide()"  
+                                             actionListener="#{sTRTabView.destroy2()}" />  
+                            <p:commandButton id="decline" value="Nie usuwać" onclick="PF('confirmation').hide()" type="button" />   
+                        </p:panelGrid>
+                        <p:panelGrid columns="2" style="text-align: left;">
+                            <h:outputLabel for="powerusun" value="twarde usuwanie"/>
+                            <h:selectBooleanCheckbox id="powerusun" value="#{sTRTabView.napewnousunac}" title="napewno usunac"/>
+                        </p:panelGrid>
+                    </p:dialog>  
+                </h:form>
+                <p:layout fullPage="true" expandTitle="Wysuń" closeTitle="Zamknij" collapseTitle="Schowaj">
+                    <ui:include src="../ksiegowaFK/sub/layout/north.xhtml"/>  <!-- panel polnocny-->
+                    <p:layoutUnit position="center">
+                        <ui:include src="sub/menu/menu_srodkitrwale.xhtml"/>  <!--  menu contextowe i pole wiadomosci growl-->
+                        <ui:include src="sub/dialogi/dialog_srodkitrwalefk_zestawienie.xhtml"/>
+                        <ui:include src="sub/dialogi/dialog_srodkitrwale_dodawanie.xhtml"/>
+                        <ui:include src="sub/dialogi/dialog_srodkitrwale_zmianawartosci.xhtml"/>
+                        <ui:include src="sub/dialogi/dialog_srodkitrwalefk_ewidencja.xhtml"/>
+                        <ui:include src="sub/dialogi/dialog_srodkitrwalefk_umorzenia.xhtml"/>
+                        <ui:include src="sub/dialogi/dialog_srodkitrwalefk_wyposazenie.xhtml"/>
+                        <ui:include src="sub/dialogi/dialog_srodkitrwalefk_inwestycja.xhtml"/>
+                        <ui:include src="sub/dialogi/dialog_srodkitrwalefk_konta.xhtml"/>
+                    </p:layoutUnit>
+                </p:layout>
+            </f:view>
+        </ui:define>
+    </ui:composition>
+</html>

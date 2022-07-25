@@ -1,0 +1,431 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    
+        
+    xmlns:bcf="http://brzaskun.com/facelets"> 
+    <script>
+        var doczeplistnerydopol = function() {
+                /* <![CDATA[ */
+                //dziekia tej genialnej funkcji wie na ktorym rowku kliknelismy i od tego zacyzn alazenie
+            $(document).on("click", '.walkingtable tr', function (event) {
+            try {
+                    zachowajobiekt(this, event);
+                } catch (ex) {
+                    alert('error dialog zapisynakoncie' + ex.toString());
+                }
+            });
+        };
+        var zmienkolor = function() {
+            $(".ui-state-highlight td").css("background-color","#c2f9d2");
+        };
+        var zmienkolor1 = function() {
+            $(".ui-state-highlight td").css("background-color","initial");
+        };
+        /* ]]> */
+    </script>
+    <style>
+        .menuzapisy {
+            width: 250px !important;
+        }
+    </style>
+    <p:dialog id="zapisy" header="Zapisy na pojedynczym koncie firma - #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="zapisynakoncie" appendTo="@(body)"
+              resizable="false" onShow="ustawdialog('zapisy','menudokumenty',1680,780);doczeplistnerydopol();$(document.getElementById('formwpiskonta:wyborkonta_input')).select();"
+              onHide="resetujdialog('zapisy');"  closeOnEscape="true" minimizable="true" dynamic="true"
+              >
+        <p:ajax event="open" listener="#{kontoZapisFKView.init()}" update="formwpiskonta form tabelazzapisami tabelazsumami miesiacezapisykonta"/>
+        <p:layout fullPage="false" style="height: 720px;width: 700px;" >  
+            <p:layoutUnit position="north">
+                <p:panelGrid columns="4" id="paseknorth" columnClasses="kontaGrid1, kontaGrid2">
+                    <h:form id="formwpiskonta">
+                        <h:outputText value="#{mgs.wybierzkonto}: "/>
+                        <p:autoComplete id="wyborkonta" value="#{kontoZapisFKView.wybranekonto}" completeMethod="#{kontoZapisFKView.complete}" 
+                                        var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" cache="true" forceSelection="true"
+                                        minQueryLength="1" maxResults="15" maxlength="10" converter="#{kontoConv}"
+                                        converterMessage="Nieudana konwersja Klient"
+                                        styleClass="kontoinput, autoCompleteBig" onfocus="usunspacje(this)"
+                                        >
+                            <p:ajax event="query" global="false"/>
+                            <p:ajax event="itemSelect" update=":tabelazzapisami:tabela, :tabelazsumami:sumy" 
+                                    oncomplete="zaznacznoda('form:dataList_data','form:dataList','formwpiskonta:wyborkonta_input');" global="false"/>
+                        </p:autoComplete>
+<!--                        <h:outputText value=" #{mgs.wybranekonto}:"/>
+                        <h:outputText id="nazwawybranegokonta" value=" #{kontoZapisFKView.wybranekonto.nazwapelna}" style="font-weight: 900;" />-->
+                    </h:form>
+                    <h:form>
+                        <p:panelGrid columns="2" style="width: 150px;">
+                        <h:outputText value="rok"/>
+                            <p:selectOneMenu id="rokWpisu" value="#{kontoZapisFKView.rokdopobrania}" style="width: 60px;">
+                                        <p:ajax event="change" listener="#{kontoZapisFKView.pobierzZapisyNaKoncieRokPop}" partialSubmit="true"
+                                            update=":tabelazzapisami :tabelazsumami" />
+                                        <f:selectItem itemValue="" itemLabel="wybierz" noSelectionOption="true"/>
+                                        <f:selectItems value="#{roki.rokiList}"/>
+                            </p:selectOneMenu>
+                        </p:panelGrid>
+                     </h:form>
+                    <h:form id="walutazapisynakoncie">
+                        <p:selectOneMenu id="wybranawaluta" value="#{kontoZapisFKView.wybranaWalutaDlaKont}" style="width: 100px; margin-left: 5px;" label="#{mgs.walutadokumentu}">
+                            <p:ajax event="change" listener="#{kontoZapisFKView.pobierzZapisyZmianaWaluty}" update=":tabelazzapisami, :tabelazsumami" />
+                            <f:selectItem itemValue="wszystkie" itemLabel="#{mgs.wszystkie}"/>
+                            <f:selectItems value="#{walutyViewFK.symboleWalut}"/>
+                        </p:selectOneMenu>
+                    </h:form>
+                    <h:form id="miesiacezapisykonta">
+                        <p:panelGrid columns="8" style="margin-left: 15px; width: 800px;">
+                            <h:outputText value="od"/>
+                            <p:column>
+                                <p:selectOneMenu id="miesiacWpisuOd" value="#{WpisView.miesiacOd}">
+                                    <p:ajax event="change" listener="#{kontoZapisFKView.zapisykontmiesiace}"  partialSubmit="true" update=":tabelazzapisami :tabelazsumami"  oncomplete="przeliczfilterzapisy()"/>
+                                    <f:selectItems value="#{mce.mceList}"/>
+                                </p:selectOneMenu>
+                            </p:column>
+                            <h:outputText value="do"/>
+                            <p:column>
+                                <p:selectOneMenu id="miesiacWpisuDo" value="#{WpisView.miesiacDo}">
+                                    <p:ajax event="change" listener="#{kontoZapisFKView.zapisykontmiesiace}" partialSubmit="true" update=":tabelazzapisami :tabelazsumami"  oncomplete="przeliczfilterzapisy()"/>
+                                    <f:selectItems value="#{mce.mceList}"/>
+                                </p:selectOneMenu>
+                            </p:column>
+                            <p:splitButton value="#{mgs.drukuj}" action="#{sesjaView.dodajwydruk()}" icon="fa fa-print" actionListener="#{kontoZapisFKView.drukujPdfZapisyNaKoncieKompakt}"  >
+                                <p:menuitem global="false" value="druk poziomy" actionListener="#{kontoZapisFKView.drukujPdfZapisyNaKoncie}" action="#{sesjaView.dodajwydruk()}"   icon="fa fa-print" oncomplete="wydrukzapisynakoncie('#{WpisView.podatnikWpisu}')"/>  
+                                <p:menuitem global="false" value="druk poziomy duży" actionListener="#{kontoZapisFKView.drukujPdfZapisyNaKoncieDuzy}" action="#{sesjaView.dodajwydruk()}"   icon="fa fa-print" oncomplete="wydrukzapisynakoncie('#{WpisView.podatnikWpisu}')"/>  
+                            </p:splitButton>
+                            <p:selectBooleanCheckbox value="#{kontoZapisFKView.kolumnaopis}" itemLabel="pokaż opis" label="pokaż opis"  style="width: 120px;margin-left: 200px;" >
+                                <p:ajax event="change" listener="#{kontoZapisFKView.zapisykontmiesiace}" partialSubmit="true" global="false"  update=":tabelazzapisami :tabelazsumami" />
+                            </p:selectBooleanCheckbox>
+                            <p:commandButton value="nierozliczone" icon="fa fa-money" actionListener="#{kontoZapisFKView.usunPozycjeRozliczone}" 
+                                             style="width: 120px; margin-left: 20px;"
+                                             update="tabelazzapisami, :tabelazsumami:sumy" />
+                            <p:commandButton value="wszystkie" icon="fa fa-file-text" actionListener="#{kontoZapisFKView.pobierzZapisyNaKoncieNode(kontoZapisFKView.wybranekonto)}" 
+                                             style="width: 120px; margin-left: 5px;"
+                                             update="tabelazzapisami, :tabelazsumami:sumy" />
+                        </p:panelGrid>
+                    </h:form>
+                </p:panelGrid>
+                <h:outputText value="#{kontoZapisFKView.zapisydopodswietlenia}" id="zapisydopodswietlenia"  style="display: none;"/>
+            </p:layoutUnit>  
+            <!--            lewa strona z drzewem kont-->
+            <p:layoutUnit id="westtree" position="west" size="450" >
+                <p:panelGrid columns="2" >
+<!--                    <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" onclick="rozwinwszystkie('form:dataList_data');" global="false" style="float: left;" />
+                    <p:commandButton id="zwinwsz" value="zwiń wszystkie" onclick="zwinwszystkie('form:dataList_data');"  global="false" style="float: left;" />-->
+<!--                    <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{planKontView.rozwinwszystkie(planKontView.root)}" update=":form:dataList" style="float: left;" />
+                    <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{planKontView.zwinwszystkie(planKontView.root)}" update=":form:dataList" style="float: left;" />-->
+                </p:panelGrid>
+                <h:form id="form">
+                   
+                    <p:remoteCommand name="reversetoggle" actionListener="#{kontoZapisFKView.reversetoggle}" 
+                                     update="tabelazzapisami:tabela tabelazsumami:sumy" oncomplete="fwiersz();" global="false"/>
+                    <p:remoteCommand name="toggleall" actionListener="#{kontoZapisFKView.toggleAll}" 
+                                     update="tabelazzapisami:tabela tabelazsumami:sumy" oncomplete="fwiersz();" global="false"/>
+                    <script>
+                        var fwiersz = function () {
+                            $(".ui-chkbox-all span").click(function (event) {
+                                console.log("single")
+                                reversetoggle();
+                                try {
+                                    event.stopPropagation();
+                                    event.preventDefault();
+                                    event.cancelBubble();
+                                } catch (e) {
+                                }
+                            });
+                            $(".ui-chkbox-all span").dblclick(function (event) {
+                                console.log("doble")
+                                toggleall();
+                                try {
+                                    event.stopPropagation();
+                                    event.preventDefault();
+                                    event.cancelBubble();
+                                } catch (e) {
+                                }
+                            });
+                        };
+                    </script>
+                    <p:outputPanel id="kontenertabeli">
+                        <style>
+                            .walkingtable .ui-widget-content .ui-datatable-odd td{
+                                height : 30px !important;
+                                padding: 0px 0px  !important;
+                            }
+                            .walkingtable .ui-widget-content .ui-datatable-even td{
+                                height : 30px !important;
+                                padding: 0px 0px  !important;
+                            }
+                        </style>
+                        <p:dataTable id="dataList" value="#{kontoZapisFKView.wykazkont}" var="loop1" selectionMode="single" 
+                                     selection="#{kontoZapisFKView.wybranekonto}" rowKey="#{loop1.id}" rowStyleClass="zapisyrowclass"
+                                     style="width: 100%; height: 500px; overflow-y: scroll;" 
+                                     rowIndexVar="wykazkontindex" styleClass="walkingtable"
+                                     sortFunction="#{kontoSortView.sortujKonto}" sortBy="#{loop1}"  emptyMessage="Nie ma żadnych księgowac na kontach w wybranym okresie.">
+                            <p:ajax event="rowSelect"  update="tabelazzapisami:tabela tabelazsumami:sumy formwpiskonta:wyborkonta" 
+                                    listener="#{kontoZapisFKView.pobierzZapisyNaKoncieNode(kontoZapisFKView.wybranekonto)}" 
+                                    oncomplete="fwiersz();"/>
+                            <p:ajax event="rowUnselect" update="tabelazzapisami:tabela tabelazsumami:sumy formwpiskonta:wyborkonta" 
+                                    listener="#{kontoZapisFKView.pobierzZapisyNaKoncieNodeUnselect}" />
+                            <p:column width="10">
+                                <h:outputText  styleClass="lpwiersza niecheckwiersza" value="#{wykazkontindex+1}" style="font-size: 0.1pt"/>
+                            </p:column>
+                            <p:column  style="width: 50px; text-align: center;" width="10">
+                                <h:outputText value="#{loop1.mapotomkow == true ? '+' : null}" /> 
+                            </p:column>
+                            <p:column headerText="nr konta"  styleClass="#{loop1.level eq 2 ? 'druga' : null}" style="width: 100px; height: 30px;  #{loop1.sprawdzono ne null?'background-color: #c2f9d2':null}">
+                                <p:outputPanel id="kontokolor">
+                                <h:outputText value="#{loop1.nrkonta}" rendered="#{loop1.nrkonta eq '0' ? false : (loop1.level eq '0' ? true : false)}" style="font-weight: 900;" /> 
+                                <h:outputText value="#{loop1.pelnynumer}" rendered="#{loop1.nrkonta eq '0' ? false : (loop1.level eq '1' ? true : false)}" style="margin-left: 10px;"/> 
+                                <h:outputText value="#{loop1.pelnynumer}" rendered="#{loop1.nrkonta eq '0' ? false : (loop1.level eq '2' ? true : false)}" style="margin-left: 20px;"/> 
+                                <h:outputText value="#{loop1.pelnynumer}" rendered="#{loop1.nrkonta eq '0' ? false : (loop1.level eq '3' ? true : false)}" style="margin-left: 30px;"/>
+<!--                                <h:outputText value="nie przyp" rendered="#{loop1.brakprzyporzadkowania()}" style="margin-left: 20px;color: red;"/>-->
+                                </p:outputPanel>
+                                <p:tooltip value="#{loop1.sprawdzono}" for="form:dataList:#{wykazkontindex}:kontokolor" trackMouse="true"/>
+                            </p:column>
+                            <p:column headerText="nazwa pełna" >
+                                <h:outputText value="#{loop1.nazwapelna}" rendered="#{facesContext.viewRoot.locale.language.equals('pl')}"/>
+                                <h:outputText value="#{loop1.de}" rendered="#{facesContext.viewRoot.locale.language.equals('de')}"/>
+                            </p:column>
+                        </p:dataTable>
+                    <p:contextMenu for="dataList" style="width: 200px;"  rendered="#{!WpisView.rokzamkniety}">
+                        <p:menuitem icon="fa fa-check-square" value="sprawdzono" actionListener="#{kontoZapisFKView.oznaczjakosprawdzone(1)}" oncomplete="zmienkolor()" global="false"/>
+                        <p:menuitem icon="fa fa-ban" value="odsprawdź" actionListener="#{kontoZapisFKView.oznaczjakosprawdzone(0)}"  oncomplete="zmienkolor1()" global="false"/>
+                        <p:menuitem icon="fa fa-ban" value="odsprawdź wszystkie" actionListener="#{kontoZapisFKView.oznaczjakosprawdzone(3)}"  global="false" update="form:dataList"/>
+                        <p:separator/>
+                        <p:menuitem icon="fa fa-trash" value="usuń zapisy" actionListener="#{dokfkView.usunzapisy(kontoZapisFKView.wybranekonto, kontoZapisFKView.kontozapisy)}"   global="false" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
+                    </p:contextMenu>
+                    </p:outputPanel>
+                </h:form>
+            </p:layoutUnit>  
+
+            <p:layoutUnit id="centertree" position="center" style="height: 200px;">
+                <style>
+                    .grid1 td {
+                        height: 35px !important;
+                    }
+                    #centertree {
+                        width: 1220px !important;
+                    }
+                    .lolo {
+                        width: 20px;
+                    }
+                </style>
+                <h:form id="tabelazzapisami">
+                    
+                    <p:remoteCommand actionListener="#{kontoZapisFKView.sumazapisowtotal}" name="przeliczfilterzapisy" update=":tabelazsumami:sumy" global="false"/>
+
+                    <p:dataTable id="tabela" value="#{kontoZapisFKView.kontozapisy}" var="loop" rowKey="#{loop.id}"
+                                 filteredValue="#{kontoZapisFKView.kontozapisyfiltered}"
+                                 selection="#{kontoZapisFKView.wybranezapisydosumowania}" sortBy="#{loop}" style="width: 1200px;"
+                                 sortFunction="#{kontoZapisFKView.sortZapisynaKoncie}" emptyMessage="Nie ma zapisów na koncie"
+                                 rowIndexVar="rowindex" styleClass="walkingtable" rowSelectMode="add"
+                                 rowsPerPageTemplate="150,300,600,900,1200" paginatorPosition="top" paginator="#{kontoZapisFKView.kontozapisy.size() gt 150 ? 'true':'false'}" rows="150"
+                                 >
+                        <p:ajax event="rowSelectCheckbox" update=":tabelazsumami:sumy" listener="#{kontoZapisFKView.sumazapisowtotal2}" global="false" />
+                        <p:ajax event="rowUnselectCheckbox" update=":tabelazsumami:sumy" listener="#{kontoZapisFKView.sumazapisowtotal2}" global="false" oncomplete="odswietlrozrachunki()"/>
+                        <p:ajax event="toggleSelect" update=":tabelazsumami:sumy" listener="#{kontoZapisFKView.sumazapisowtotal2}" global="false"/>
+                        <p:ajax event="rowSelect" update=":tabelazsumami:sumy" listener="#{kontoZapisFKView.odszukajsparowanerozrachunki}" global="false"/>
+                        <p:ajax event="rowSelect" update=":tabelazsumami:sumy" listener="#{kontoZapisFKView.sumazapisowtotal2}" global="false"/>
+                        <p:ajax event="filter" global="false" oncomplete="przeliczfilterzapisy()"/>
+                        <p:column selectionMode="multiple" styleClass="checkwiersza" width="20" style="text-align: center;"></p:column>
+<!--                        <p:column headerText="id" width="20"  >
+                            <h:outputText value="#{loop.id}" style="font-size: xx-small;"/>
+                        </p:column>-->
+                        <p:column headerText="#{mgs.numerkolejny}" width="10" style="text-align: center;">
+                            <h:outputText styleClass="lpwiersza"  value="#{rowindex+1}"/>
+                        </p:column>
+                        <p:column headerText="dt" width="20" style="text-align: center;" sortBy="#{loop.wiersz.dokfk.datadokumentu}">
+                            <h:outputText value="#{loop.wiersz.dokfk.datadokumentu.substring(5,10)}"/>
+                        </p:column>
+                        <p:column headerText="dok." width="50" style="font-size: x-small; word-break: break-all; word-wrap: break-word !important; white-space: pre-wrap;" sortBy="#{loop.wiersz.dokfk.seriadokfk}" filterBy="#{loop.dokfkS}" filterMatchMode="contains">
+                            <h:outputText value="#{loop.dokfkS}-#{loop.wiersz.idporzadkowy}" rendered="#{kontoZapisFKView.pokaztransakcje eq false}"/>
+                            <h:outputText value="#{loop.dokfkS}-#{loop.wiersz.idporzadkowy}" rendered="#{kontoZapisFKView.pokaztransakcje eq true}" 
+                                          style="#{loop.dokfkS.startsWith('WB') or loop.dokfkS.startsWith('RK') ? 'color: blue': 'color: initial'}"/>
+                        </p:column>
+                        <p:column headerText="nr wl" width="100" styleClass="filter60"  style="text-align: center; font-size: x-small; word-break: break-all; word-wrap: break-word !important; white-space: pre-wrap;" sortBy="#{loop.dokfk.numerwlasnydokfk}"
+                                  filterBy="#{loop.dokfk.numerwlasnydokfk}" filterMatchMode="contains">
+                            <h:outputText value="#{loop.dokfk.numerwlasnydokfk}" id="opisa" rendered="#{loop.dokfk.importowany eq false}"/>
+                            <h:outputText value="uwaga, niedokończony import!" rendered="#{loop.dokfk.importowany}" style="color:red;"/>
+                            <p:tooltip value="#{loop.dokfk.numerwlasnydokfk}" for="tabelazzapisami:tabela:#{rowindex}:opisa" trackMouse="true"/>
+                        </p:column>
+                        <p:column headerText="#{mgs.kontrahent}" width="100" sortBy="##{loop.getKontrahetZapisy(WpisView.podatnikObiekt.nip)}" 
+                                  rendered="#{!kontoZapisFKView.wybranekonto.pelnynumer.startsWith('20')}">
+                            <h:outputText value="#{loop.getKontrahetZapisy(WpisView.podatnikObiekt.nip)}" />
+                        </p:column>
+                        <p:column headerText="#{mgs.opis}" width="150" sortBy="#{loop.wiersz.opisWiersza}" filterBy="#{loop.wiersz.opisWiersza}" filterMatchMode="contains" rendered="#{kontoZapisFKView.kolumnaopis}"
+                                  style="word-break: break-all; word-wrap: break-word !important; white-space: pre-wrap;">
+                            <h:outputText value="#{loop.wiersz.opisWiersza}" style="white-space: normal !important; word-break: break-all !important; word-wrap: break-word !important;" />
+                        </p:column>
+                        <p:column headerText="kurs" width="30" sortBy="#{loop.getKursWalutyBOSW()}" rendered="#{kontoZapisFKView.wybranaWalutaDlaKont ne 'PLN' and kontoZapisFKView.nierenderujkolumnnywalut eq false}">
+                            <h:outputText id="kurswierszazapisy" value="#{loop.getKursWalutyBOSW()}" rendered="#{loop.getKursWalutyBOSW() > 1.0}" style="float: right;">
+                                <f:convertNumber minFractionDigits="4" maxFractionDigits="4" locale="PL"/>
+                            </h:outputText>
+                            <p:tooltip value="#{loop.wiersz.tabelanbp.nrtabeli}" for="kurswierszazapisy"/>
+                        </p:column>
+                        <p:column headerText="Wn" width="40" style="background-color: #e6f2ff;" sortBy="#{loop.kwota}"   filterBy="#{loop.kwota}" filterMatchMode="contains"
+                                  rendered="#{kontoZapisFKView.nierenderujkolumnnywalut eq false or kontoZapisFKView.pokaztransakcje eq true}" filterStyle="width:60px;">
+                            <h:outputText id="kwotawnwiersz" value="#{loop.wnma eq 'Wn' ? loop.kwota : null}" style="float: right;" rendered="#{kontoZapisFKView.pokaztransakcje eq false}">
+                                <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
+                            </h:outputText>
+                            <h:outputText id="kwotawnwiersztr" value="#{loop.wnma eq 'Wn' ? loop.pozostaloZapisynakoncie : null}" style="float: right;#{loop.isNowatransakcja() ? 'color: green': 'color: blue'}" rendered="#{kontoZapisFKView.pokaztransakcje eq true}">
+                                <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="Wn PLN" width="50" sortBy="#{loop.kwotaPLN}"   filterBy="#{loop.kwotaPLN}" filterMatchMode="contains"
+                                  rendered="#{kontoZapisFKView.pokaztransakcje eq false}" filterStyle="width:60px;">
+                            <h:outputText id="kwotawnwierszPLN" value="#{loop.wnma eq 'Wn' ? loop.kwotaPLN : null}" style="float: right;">
+                                <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="Ma" width="40" style="background-color: #e6f2ff;" sortBy="#{loop.kwota}"   filterBy="#{loop.kwota}" filterMatchMode="contains"
+                                  rendered="#{kontoZapisFKView.nierenderujkolumnnywalut eq false or kontoZapisFKView.pokaztransakcje eq true}" filterStyle="width:60px;">
+                            <h:outputText id="kwotamawiersz" value="#{loop.wnma eq 'Ma' ? loop.kwota : null}" style="float: right;" rendered="#{kontoZapisFKView.pokaztransakcje eq false}">
+                                <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
+                            </h:outputText>
+                            <h:outputText id="kwotamawiersztr" value="#{loop.wnma eq 'Ma' ? loop.pozostaloZapisynakoncie : null}" style="float: right;#{loop.isNowatransakcja() ? 'color: green': 'color: blue'}" rendered="#{kontoZapisFKView.pokaztransakcje eq true}">
+                                <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="Ma PLN" width="50" sortBy="#{loop.kwotaPLN}"  filterBy="#{loop.kwotaPLN}" filterMatchMode="contains"
+                                  rendered="#{kontoZapisFKView.pokaztransakcje eq false}"  filterStyle="width:60px;">
+                            <h:outputText id="kwotamawierszPLN" value="#{loop.wnma eq 'Ma' ? loop.kwotaPLN : null}" style="float: right;">
+                                <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="#{mgs.waluta}" width="20" sortBy="#{loop.getSymbolInnychWalutBOiSW()}" style="text-align: center;" rendered="#{kontoZapisFKView.wybranaWalutaDlaKont ne 'PLN'}">
+                            <h:outputText id="waluta" value="#{loop.getSymbolInnychWalutBOiSW()}"/>
+                        </p:column>
+                        <p:column headerText="przec." width="40" sortBy="#{loop.kontoPrzeciwstawne.pelnynumer}"  rendered="#{kontoZapisFKView.pokaztransakcje eq false}">
+                            <h:outputText id="kontonr" value="#{loop.kontoPrzeciwstawne.pelnynumer}"/>
+                            <p:tooltip value="#{loop.kontoPrzeciwstawne.nazwapelna}" for="kontonr"/>
+                        </p:column>
+                        <p:column headerText="wart.pierw." width="40" sortBy="#{loop.kontoPrzeciwstawne.pelnynumer}"  rendered="#{kontoZapisFKView.pokaztransakcje}">
+                             <h:outputText id="kwotawnwierszwn" value="#{loop.wnma eq 'Wn' ? loop.kwota : null}" style="float: right;">
+                                <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
+                            </h:outputText>
+                             <h:outputText id="kwotamawierszma" value="#{loop.wnma eq 'Ma' ? loop.kwota : null}" style="float: right;">
+                                <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
+                            </h:outputText>
+
+                        </p:column>
+                        <p:column width="20" style="text-align: center;">
+<!--                            <h:outputText value="#{loop.id}" />-->
+                            <h:outputText value="r" style="#{loop.saRozrachunki ? 'color: blue': null}" rendered="#{loop.saRozrachunki  and !kontoZapisFKView.pokaztransakcje}"/>
+                            <h:outputText value="nowa tr." style="#{loop.saRozrachunki ? 'color: green': null}" rendered="#{loop.isNowatransakcja() and kontoZapisFKView.pokaztransakcje}"/>
+                        </p:column>
+                        <!--                        <p:column headerText="Konto przeciwstawne" width="90" sortBy="9{loop.loop.kontoprzeciwstawne}">
+                                                    <h:outputText value="9{kontoprzeciwstawne eq '000' ? 'zapis z BO' : loop.kontoprzeciwstawne}"/>
+                                                </p:column>-->
+                    </p:dataTable>
+                    
+                    <p:contextMenu for="tabela" style="width: 200px;"  rendered="#{!WpisView.rokzamkniety}" class="menuzapisy">
+                        <p:menuitem value="edytuj dok" global="false" icon="fa fa-edit" 
+                                    update="formwpisdokument zestawieniezapisownakontachpola1 wpisywaniefooter"
+                                    actionListener="#{dokfkView.znajdzDokumentOznaczWierszDoPodswietlenia(kontoZapisFKView.wybranezapisydosumowania.get(0))}"
+                                    oncomplete="PF('wpisywanie').show();" />
+                        <p:menuitem value="rozlicz transakcje" icon="fa fa-tasks" actionListener="#{kontoZapisFKView.rozliczzaznaczone()}" update=":tabelazzapisami:tabela"/>
+                        <p:menuitem value="usuń różnice kursowe" icon="fa fa-minus" actionListener="#{kontoZapisFKView.usunroznicekursowe()}" update=":tabelazzapisami:tabela"/>
+                        <p:menuitem value="rozlicz konto bank./rozr. (ARS)" icon="fa fa-book" actionListener="#{kontoZapisFKView.rozliczkontobankowe()}" update=":tabelazzapisami:tabela :tabelazsumami:sumy"/>
+                        <p:menuitem value="rozlicz różnice statyst. (ATR)" icon="fa fa-book" actionListener="#{kontoZapisFKView.rozliczsaldostatystycznie()}" update=":tabelazzapisami:tabela :tabelazsumami:sumy"/>
+                        <p:menuitem value="usuń z listy" icon="ui-icon-circle-minus" actionListener="#{kontoZapisFKView.usunzListy()}" update=":tabelazzapisami:tabela"/>
+                        <p:separator/>
+                        <p:menuitem value="zeruj saldo walutowe" icon="fa fa-eye" actionListener="#{kontoZapisFKView.rozliczsaldo()}" update=":tabelazzapisami:tabela :tabelazsumami:sumy"/>
+                        <p:menuitem value="zeruj saldo pln" icon="fa fa-bullseye" actionListener="#{kontoZapisFKView.rozliczsaldopln()}" update=":tabelazzapisami:tabela :tabelazsumami:sumy"/>
+                        <p:menuitem value="usuń dok ARS (róż. zrealiz.)" icon="ui-icon-circle-minus" actionListener="#{kontoZapisFKView.usunzListyDok('ARS')}" update=":tabelazzapisami:tabela :tabelazsumami:sumy"/>
+                        <p:menuitem value="usuń dok ATR (róż. statyst.)" icon="ui-icon-circle-minus" actionListener="#{kontoZapisFKView.usunzListyDok('ATR')}" update=":tabelazzapisami:tabela :tabelazsumami:sumy"/>
+                        <p:separator/>
+                        <p:menuitem value="usuń duplikaty" icon="ui-icon-circle-minus" actionListener="#{kontoZapisFKView.usunwielokrotneSW()}" update=":tabelazzapisami:tabela :tabelazsumami:sumy"  rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
+                    </p:contextMenu>
+                     <p:contextMenu for="tabela" style="width: 200px;"  rendered="#{WpisView.rokzamkniety}">
+                        <p:menuitem value="rok zamknięty nie można nanosić zmian" />
+                    </p:contextMenu>
+                </h:form>  
+            </p:layoutUnit> 
+            <p:layoutUnit position="south" style="height: 70px;">
+                
+                <p:panelGrid columns="3">
+                    <h:form>
+                        <p:panelGrid columns="2">
+                        <h:outputText value="rodzaje kont: "/>
+                        <p:selectOneMenu id="rodzajkont" value="#{kontoZapisFKView.wybranyRodzajKonta}"  style="margin-left: 20px;">
+                            <p:ajax event="change" listener="#{kontoZapisFKView.publicinit()}" update="form:dataList tabelazsumami"/>
+                            <f:selectItem itemLabel="wszystkie" itemValue="wszystkie"/>
+                            <f:selectItem itemLabel="bilansowe" itemValue="bilansowe"/>
+                            <f:selectItem itemLabel="wynikowe" itemValue="wynikowe"/>
+                        </p:selectOneMenu>
+                        </p:panelGrid>
+                    </h:form>
+                    <h:form>
+                        <p:panelGrid columns="3" rendered="#{!WpisView.rokzamkniety}">
+                            <h:outputText value="#{mgs.wybierzkonto}: "/>
+                            <p:autoComplete id="wyborkonta" value="#{kontoZapisFKView.kontodoprzeksiegowania}" completeMethod="#{kontoZapisFKView.completeWszystkieKonta}" 
+                                            var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" cache="true" forceSelection="true"
+                                            minQueryLength="1" maxResults="15" maxlength="10" converter="#{kontoConv}"
+                                            converterMessage="Nieudana konwersja Klient" queryDelay="1" 
+                                            styleClass="kontoinput, autoCompleteBig" onfocus="usunspacje(this)"
+                                            >
+                                <p:ajax event="query" global="false"/>
+                                <p:ajax event="itemSelect" global="false"/>
+                            </p:autoComplete>
+                            <p:splitButton value="przeksięguj" actionListener="#{kontoZapisFKView.przeksieguj}" 
+                                             update="tabelazzapisami:tabela">
+                                <p:menuitem global="false" value="zaksięguj PK" actionListener="#{kontoZapisFKView.zaksiegujpk}" icon="ui-icon-arrow"/>  
+                            </p:splitButton>
+                        </p:panelGrid>
+                        <p:panelGrid columns="3" rendered="#{WpisView.rokzamkniety}" style="width: 500px;">
+                        </p:panelGrid>
+                    </h:form>
+                    <h:form id="tabelazsumami">
+                        <p:dataTable id="sumy" value="#{kontoZapisFKView.listasum}" var="loop"
+                                     style="float: right; margin-left: 50px; width: 800px; height: 70px;" emptyMessage="#{mgs.niewybranokonta}">
+                            <p:column headerText="suma Wn wal">
+                                <h:outputText value="#{loop.sumaWn}" style="float: right; font-weight: 700;">
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column headerText="suma Ma wal">
+                                <h:outputText value="#{loop.sumaMa}" style="float: right; font-weight: 700;">
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column headerText="saldo Wn wal">
+                                <h:outputText value="#{loop.saldoWn}" style="float: right; font-weight: 900; color: green;">
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column headerText="saldo Ma wal">
+                                <h:outputText value="#{loop.saldoMa}" style="float: right; font-weight: 900; color: green;">
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column headerText="suma Wn PLN">
+                                <h:outputText value="#{loop.sumaWnPLN}" style="float: right; font-weight: 700;">
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column headerText="suma Ma PLN">
+                                <h:outputText value="#{loop.sumaMaPLN}" style="float: right; font-weight: 700;">
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column headerText="saldo Wn PLN">
+                                <h:outputText value="#{loop.saldoWnPLN}" style="float: right; font-weight: 900; color: green;">
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column headerText="saldo Ma PLN">
+                                <h:outputText value="#{loop.saldoMaPLN}" style="float: right; font-weight: 900; color: green;">
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
+                                </h:outputText>
+                            </p:column>
+                        </p:dataTable>
+                    </h:form>
+                </p:panelGrid>
+            </p:layoutUnit>  
+        </p:layout>
+        <h:form id="zestawieniezapisownakontachpola1">
+            <h:inputHidden id="wierszDoPodswietlenia" value="#{dokfkView.wierszDoPodswietlenia}"/>
+        </h:form>
+    </p:dialog>
+</ui:composition>
+

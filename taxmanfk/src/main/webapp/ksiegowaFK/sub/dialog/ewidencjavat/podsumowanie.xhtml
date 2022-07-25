@@ -1,0 +1,176 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:bcf="http://brzaskun.com/facelets">
+    <p:tab title="podsumowanie">
+        <p:panel header="firma nie będąca płatnikiem podatku VAT" rendered="#{WpisView.podatnikObiekt.vatokres.size() gt 0 ? false : true}"/>
+        <p:panel header="VAT rozliczany #{WpisView.podatnikObiekt.vatokres.size() gt 0 ? WpisView.podatnikObiekt.vatokres.get(WpisView.podatnikObiekt.vatokres.size()-1).parametr : ''}" 
+                 rendered="#{WpisView.podatnikObiekt.vatokres.size() gt 0 ? true : false}"/>
+        <p:panelGrid columns="7">
+            <h:outputText value="Wynik za okres rozliczeniowy: #{ewidencjaVatView.wynikOkresu gt 0 ? 'do zapłaty ' : 'do zwrotu '}"/> 
+            <h:outputText value="#{ewidencjaVatView.wynikOkresu}" style="#{ewidencjaVatView.wynikOkresu gt 0 ? 'font-weight: 900; color: red;' : 'font-weight: 900; color: black;'} padding: 2%;" rendered="#{WpisView.podatnikObiekt.vatokres.size() gt 0 ? true : false}">
+                <f:convertNumber minFractionDigits="0" locale="PL" />
+            </h:outputText>
+            <p:splitButton value="zaksięguj VAT" style="margin-left: 30px;" actionListener="#{kontaVatFKView.generowanieDokumentuVAT(false)}" rendered="#{!kontaVatFKView.istniejejuzdokumentvat}">
+                <p:menuitem global="false" value="doksięguj VAT" actionListener="#{kontaVatFKView.generowanieDokumentuVAT(true)}"/>
+            </p:splitButton>
+            <p:commandButton value="doksięguj VAT" style="margin-left: 30px;" actionListener="#{kontaVatFKView.generowanieDokumentuVAT(true)}" rendered="#{ kontaVatFKView.istniejejuzdokumentvat}"/>
+            <p:commandButton value="#{mgs.drukuj}" icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfSuma()}" onsuccess="wydruksumavat('#{WpisView.podatnikObiekt.nip}');" style="width: 120px;margin-left: 30px;"/>
+            <p:commandButton value="Drukuj wszyst. data" icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfWszystkie()}" onsuccess="wydrukewidencjewszystkie('#{WpisView.podatnikObiekt.nip}')"  style="width: 150px; margin-left: 70px;"/>
+            <p:commandButton value="Drukuj wszyst. wartosc" icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfWszystkieWartosc()}" onsuccess="wydrukewidencjewszystkiewartosc('#{WpisView.podatnikObiekt.nip}')"  style="width: 150px; margin-left: 5px;"/>
+            <p:commandButton value="Drukuj wszyst. data - rok" icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfWszystkieRok()}" style="width: 150px; margin-left: 10px;"/>
+<!--            <p:commandButton value="wyślij jpk" icon="ui-icon-play" actionListener="#{jpk_VAT2View.przygotujXMLFK()}"
+                             update="paneljpk"
+                             style="width: 120px; margin-left: 5px;"/>-->
+        </p:panelGrid>
+        <p:separator/>
+        <p:panelGrid columns="2" columnClasses="sixty-percent forty-percent">
+            <p:panelGrid id="panelposumowaniavat" columns="1">
+                <p:dataTable value="#{ewidencjaVatView.sumydowyswietleniasprzedaz}" var="itemik" 
+                             selection="#{ewidencjaVatView.goscwybralsuma}" rowKey="#{itemik.ewidencja.nazwa}"
+                             >
+                    <f:facet name="header">
+                        <h:outputText value="zestawienie ewidencji vat - sprzedaż"/>
+                    </f:facet>
+                    <p:column selectionMode="multiple" styleClass="checkwiersza" style="width: 50px;text-align: center;" rendered="#{!(itemik.ewidencja.nazwa.contains('sum'))}"></p:column>
+                    <p:column style="width: 50px;text-align: center;" rendered="#{(itemik.ewidencja.nazwa.contains('sum'))}"></p:column>
+                    <p:column headerText="nazwa ewidencji" width="250">
+                        <h:outputText value="#{itemik.ewidencja.nazwa}"/>
+                    </p:column>
+                    <p:column headerText="wartość netto" >
+                        <h:outputText value="#{itemik.netto}" style="float: right;">
+                            <f:convertNumber minFractionDigits="2" locale="PL"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="wartosć vat należny" >
+                        <h:outputText value="#{itemik.vat}"  style="float: right;">
+                            <f:convertNumber minFractionDigits="2" locale="PL"/>
+                        </h:outputText>
+                    </p:column>
+
+                </p:dataTable>
+                <p:dataTable value="#{ewidencjaVatView.sumydowyswietleniazakupy}" var="itemik" 
+                             selection="#{ewidencjaVatView.goscwybralsuma}" rowKey="#{itemik.ewidencja.nazwa}" 
+                             >
+                    <f:facet name="header">
+                        <h:outputText value="zestawienie ewidencji vat - koszty"/>
+                    </f:facet>
+                    <p:column selectionMode="multiple" styleClass="checkwiersza" style="width: 50px;text-align: center;" rendered="#{!(itemik.ewidencja.nazwa eq 'podsumowanie')}"></p:column>
+                    <p:column style="width: 50px;text-align: center;" rendered="#{(itemik.ewidencja.nazwa eq 'podsumowanie')}"></p:column>
+
+                    <p:column headerText="nazwa ewidencji" width="250">
+                        <h:outputText value="#{itemik.ewidencja.nazwa}"/>
+                    </p:column>
+                    <p:column headerText="wartość netto" >
+                        <h:outputText value="#{itemik.netto}" style="float: right;">
+                            <f:convertNumber minFractionDigits="2" locale="PL"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="wartosć vat naliczony" >
+                        <h:outputText value="#{itemik.vat}"  style="float: right;">
+                            <f:convertNumber minFractionDigits="2" locale="PL"/>
+                        </h:outputText>
+                    </p:column>
+
+                </p:dataTable>
+            </p:panelGrid>
+<!--            <p:panelGrid id="paneljpk" columns="4">
+                <p:panelGrid rendered="#{jpk_VAT2View.jpk ne null}" style="width: 300px;" columns="2">
+                    <h:outputText value="jpk sprzedaż"/><bcf:outputpl value="#{jpk_VAT2View.jpk.sprzedazCtrl.podatekNalezny}"/>
+                    <h:outputText value="jpk sprzedaż wiersze"/><h:outputText value="#{jpk_VAT2View.jpk.sprzedazCtrl.liczbaWierszySprzedazy}"/>
+                    <h:outputText value="jpk zakup"/><bcf:outputpl value="#{jpk_VAT2View.jpk.zakupCtrl.podatekNaliczony}"/>
+                    <h:outputText value="jpk zakup wiersze"/><h:outputText value="#{jpk_VAT2View.jpk.zakupCtrl.liczbaWierszyZakupow}"/>
+                </p:panelGrid>
+            </p:panelGrid>-->
+        </p:panelGrid>
+        <p:outputPanel style="margin-top: 10px">
+<!--                            <p:commandButton value="dodaj BO" style="width: 120px; margin-bottom: 10px;" actionListener="#{kontaVatFKView.dodajBOdoKont()}"/>-->
+            <p:dataTable value="#{kontaVatFKView.kontavat}" var="item1" style="width: 700px;" id="saldokontvat"
+                         emptyMessage="Brak kont oznaczonych jako konta VAT. Sprawdź plan kont!">
+                <p:ajax event="rowToggle" global="false" />
+                <p:column style="height: 19px; text-align: center;" width="20">
+                    <p:rowToggler />
+                </p:column>
+                <p:column headerText="nr konta" width="50">
+                    <h:outputText value="#{item1.konto.pelnynumer}"/>
+                </p:column>
+                <p:column headerText="#{mgs.nazwakonta}">
+                    <h:outputText value="#{item1.konto.nazwapelna}"/>
+                </p:column>
+                <p:column headerText="saldo Wn">
+                    <h:outputText value="#{item1.saldoWn}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="saldo Ma">
+                    <h:outputText value="#{item1.saldoMa}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:rowExpansion>
+                    <p:dataTable value="#{item1.zapisy}" var="loopik" emptyMessage="nie ma rachunków na tym koncie" 
+                                 scrollable="true" scrollHeight="90">
+                        <p:ajax event="page" global="false"/>
+                        <p:column headerText="#{mgs.dokument}" width="70">
+                            <h:outputText value="#{loopik.dokfkS}"/>
+                        </p:column>
+                        <p:column headerText="#{mgs.data}" width="80">
+                            <h:outputText value="#{loopik.dokfk.datadokumentu}"/>
+                        </p:column>
+                        <p:column headerText="#{mgs.nr}" width="100">
+                            <h:outputText value="#{loopik.dokfk.numerwlasnydokfk}"/>
+                        </p:column>
+                        <p:column headerText="#{mgs.kontrahent}">
+                            <h:outputText value="#{loopik.wiersz.eVatwpisFK eq null ? loopik.dokfk.kontr.npelna : loopik.wiersz.eVatwpisFK.klient.npelna}"/>
+                        </p:column>
+                        <p:column headerText="wiersz">
+                            <h:outputText value="#{loopik.wiersz.opisWiersza}"/>
+                        </p:column>
+                        <p:column headerText="#{mgs.kwota}" width="60" sortBy="#{loopik.kwota}">
+                            <bcf:outputpl value="#{loopik.kwota}"/>
+                        </p:column>
+                    </p:dataTable>
+                </p:rowExpansion>
+            </p:dataTable>
+        </p:outputPanel>
+        <p:outputPanel style="margin-top: 10px; width: 690px;">
+            <h:outputText value="suma faktur przychodowych z innego okresu rozliczeniowego "/>
+            <bcf:outputpl id="sumaprzesunietych" value="#{ewidencjaVatView.sumaprzesunietychprzychody}" />
+            <h:outputText value="liczba dok.: "/>
+            <h:outputText value="#{ewidencjaVatView.listaprzesunietychPrzychody.size()}"/>
+        </p:outputPanel>
+        <p:outputPanel style="margin-top: 10px; width: 690px;">
+            <h:outputText value="suma faktur przychodowych z następnych okresów rozliczeniowych "/>
+            <bcf:outputpl id="sumaprzesunietychbardziej" value="#{ewidencjaVatView.sumaprzesunietychBardziejPrzychody}" />
+            <h:outputText value="liczba dok.: "/>
+            <h:outputText value="#{ewidencjaVatView.listaprzesunietychBardziejPrzychody.size()}"/>
+        </p:outputPanel>
+        <p:outputPanel style="margin-top: 10px; width: 690px;">
+            <h:outputText value="razem przychody m-ce następne "/>
+            <bcf:outputpl value="#{ewidencjaVatView.sumaprzesunietychBardziejPrzychody + ewidencjaVatView.sumaprzesunietychprzychody}"/>
+        </p:outputPanel>
+        <p:outputPanel style="margin-top: 10px; width: 690px;">
+            <h:outputText value="suma faktur kosztowych z innego okresu rozliczeniowego "/>
+            <bcf:outputpl id="sumaprzesunietych" value="#{ewidencjaVatView.sumaprzesunietych}" />
+            <h:outputText value="liczba dok.: "/>
+            <h:outputText value="#{ewidencjaVatView.listaprzesunietychKoszty.size()}"/>
+
+        </p:outputPanel>
+        <p:outputPanel style="margin-top: 10px; width: 690px;">
+            <h:outputText value="suma faktur kosztowych z następnych okresów rozliczeniowych "/>
+            <bcf:outputpl id="sumaprzesunietychbardziej" value="#{ewidencjaVatView.sumaprzesunietychBardziej}" />
+            <h:outputText value="liczba dok.: "/>
+            <h:outputText value="#{ewidencjaVatView.listaprzesunietychBardziej.size()}"/>
+        </p:outputPanel>
+        <p:outputPanel style="margin-top: 10px; width: 690px;">
+            <h:outputText value="razem koszty m-ce następne "/>
+            <bcf:outputpl value="#{ewidencjaVatView.sumaprzesunietychBardziej + ewidencjaVatView.sumaprzesunietych}"/>
+        </p:outputPanel>
+        <a  download='jpkvat' id="link"></a>
+    </p:tab>
+</ui:composition>

@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//PL" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+    <p:outputPanel id="wrapper">
+        <h:form id="form">
+            <p:growl life="3600"  ><p:autoUpdate/></p:growl>
+            <p:panelGrid columns="2">
+                <h:outputText value="treść"/>
+                <p:inputText value="#{statusProgramuView.wprowadzanainformacja.tekst}" size="120"/>
+                <h:outputText value="treść de"/>
+                <p:inputText value="#{statusProgramuView.wprowadzanainformacja.tekst_de}" size="120"/>
+                <h:outputText value="treść en"/>
+                <p:inputText value="#{statusProgramuView.wprowadzanainformacja.tekst_en}" size="120"/>
+                <h:outputText value="data od"/>
+                <p:inputText value="#{statusProgramuView.wprowadzanainformacja.dataod}" size="10" placeholder="yyyy-MM-dd"/>
+                <h:outputText value="data do"/>
+                <p:inputText value="#{statusProgramuView.wprowadzanainformacja.datado}" size="10" placeholder="yyyy-MM-dd"/>
+<!--                <h:outputText value="rodzaj uzera"/>
+                <p:selectOneMenu id="xx" value="#{statusProgramuView.wprowadzanainformacja.rodzajuzera}" required="true" immediate="true"
+                                 requiredMessage="Wybierz rodzaj użytkownika" validatorMessage="Nie wybrano rodzaju użytkownika">
+                    <f:selectItem itemLabel="wybierz użytkownika" itemValue="wybierz użytkownika" noSelectionOption="true"/>
+                    <f:selectItem itemLabel="Wszyscy" itemValue="wszyscy"/>
+                    <f:selectItems value="#{uprawnienia.listaUprawnien}"/>
+                </p:selectOneMenu>-->
+            </p:panelGrid>
+            <p:commandButton value="wprowadź" actionListener="#{statusProgramuView.wprowadzstatus}" global="false" 
+                             update="formtablica" style="margin: 10px; width: 120px;"/>
+        </h:form>
+        <h:form id="formtablica">
+            <p:dataTable value="#{statusProgramuView.wprowadzanestatusy}" var="item" rowIndexVar="index" id="tablicastatusow"
+                         style="width: 1100px; padding: 15px;" emptyMessage="Nie wprowadzono żadnych statusów">
+                <f:facet name="header">
+                    <h:outputText value="wprowadzone statusy"/>
+                </f:facet>
+                <p:column width="40" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value=""/>
+                    </f:facet>
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+               <p:column width="200">
+                    <f:facet name="header">
+                        <h:outputText value="tekst"/>
+                    </f:facet>
+                    <h:outputText value="#{item.tekst}" style="width: 400px;"/>
+                </p:column>
+                <p:column width="200">
+                    <f:facet name="header">
+                        <h:outputText value="tekst de"/>
+                    </f:facet>
+                    <h:outputText value="#{item.tekst_de}" style="width: 400px;"/>
+                </p:column>
+                <p:column width="200">
+                    <f:facet name="header">
+                        <h:outputText value="tekst en"/>
+                    </f:facet>
+                    <h:outputText value="#{item.tekst_en}" style="width: 400px;"/>
+                </p:column>
+                <p:column width="90">
+                    <f:facet name="header">
+                        <h:outputText value="data od"/>
+                    </f:facet>
+                    <h:outputText value="#{item.dataod eq '' ? '------------' : item.dataod}"/>
+                </p:column>
+                <p:column width="90">
+                    <f:facet name="header">
+                        <h:outputText value="data do"/>
+                    </f:facet>
+                    <h:outputText value="#{item.datado eq '' ? '------------' : item.datado}"/>
+                </p:column>
+                <p:column width="50" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="aktywny"/>
+                    </f:facet>
+                    <p:selectBooleanCheckbox value="#{item.aktywny}">
+                        <p:ajax event="change" global="false" listener="#{statusProgramuView.edytuj(item)}" partialSubmit="true" update="formtablica:tablicastatusow"/>
+                    </p:selectBooleanCheckbox>
+                </p:column>
+                <p:column id="deleteColumn" width="35">
+                    <p:commandButton actionListener="#{statusProgramuView.destroy(item)}" icon="ui-icon ui-icon-trash" update="formtablica:tablicastatusow"/>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </p:outputPanel>
+</ui:composition>   

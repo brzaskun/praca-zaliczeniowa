@@ -1,0 +1,31 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    
+    >
+
+    <p:dialog id="czynaniescplatnoscfaktury" header="Wpisz datę zapłaty za fakturę" widgetVar="czynaniescplatnoscfaktury" modal="true"
+              resizable="false" onShow="ustawdialogWindow('czynaniescplatnoscfaktury',350,120);r('formdatazaplaty:datazaplaty').focus();" 
+              closeOnEscape="true" onHide="resetujdialog('czynaniescplatnoscfaktury');"  >
+        <h:form id="formdatazaplaty">
+            <p:panelGrid id="fakturadatazaplatygrid" columns="2" style="text-align: center; margin-left: auto; margin-right: auto;" >
+                <p:focus for="datazaplaty">
+                    <p:inputMask id="datazaplaty" value="#{fakturyPlatnosciView.datazaplaty}" mask="9999-99-99" style="text-align: center;" immediate="true" 
+                                 onkeyup="walidacjadatyzaplaty()">
+                        <f:validateLength minimum="8"/>
+                        <p:ajax event="blur" partialSubmit="true" global="false"/>
+                    </p:inputMask>
+                    <div style="padding: 15px;">
+                    <p:commandButton id="datazaplatybutton" value="ok" type="submit" actionListener="#{fakturyPlatnosciView.naniesplatnoscfaktury}" style="width: 120px; display: none"
+                                     onsuccess="PF('czynaniescplatnoscfaktury').hide();document.getElementById('formdatazaplaty:datazaplaty').value='';" 
+                                     onfocus="weryfikujdatazaplaty('#{fakturyPlatnosciView.selected.datawystawienia}');" update=":fakturyniezaplacone, :fakturyzaplacone"/>
+                    <p:commandButton id="datazaplatycancelbutton" value="anuluj" type="button" onclick="PF('czynaniescplatnoscfaktury').hide();"  style="width: 120px;"/>
+                    </div>
+                </p:focus>
+            </p:panelGrid>
+        </h:form>
+    </p:dialog>
+</ui:composition>

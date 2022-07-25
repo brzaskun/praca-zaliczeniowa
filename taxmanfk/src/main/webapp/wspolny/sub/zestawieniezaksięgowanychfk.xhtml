@@ -1,0 +1,158 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:bcf="http://brzaskun.com/facelets">
+    <style>
+        .waluta input {
+            width: 40px !important;
+        }
+        
+        .zaksiegowanewaski input {
+            width: 75px !important;
+        }
+    </style>
+
+        <h:form id="zestawieniedokumentow">
+            <p:growl id="wiadomoscsprawdzenie" life="6000"/>
+            <p:panelGrid columns="8" style="margin-left: 2%;" >
+                 <p:column>
+                    <h:outputText value="#{mgs.rok}: "/>
+                </p:column>
+                <p:column>
+                    <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}" >
+                        <p:ajax event="change" listener="#{dokfkGuestView.odswiezzaksiegowane}" update=":zestawieniedokumentow" />
+                        <f:selectItems value="#{roki.rokiList}"/>
+                    </p:selectOneMenu>
+                </p:column>
+                <p:column>
+                    <h:outputText value="#{mgs.miesiąc}: "/>
+                </p:column>
+                <p:column>
+                    <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}" >
+                        <p:ajax event="change" listener="#{dokfkGuestView.odswiezzaksiegowane}" update=":zestawieniedokumentow" />
+                        <f:selectItem itemLabel="#{mgs.CR}" itemValue="CR"/>
+                        <f:selectItems value="#{mce.mceList}"/>
+                    </p:selectOneMenu>
+                </p:column>
+                <p:column>
+                    <p:commandButton id="pobierzzaksiegowane" value="#{mgs.pobierz}" actionListener="#{dokfkGuestView.odswiezzaksiegowane}" style="width: 120px; margin-left: 10px;" 
+                                     update=":zestawieniedokumentow"
+                                    />
+                </p:column>
+                 <h:selectOneMenu value="#{dokfkGuestView.wybranakategoriadok}" styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
+                        onfocus="$(this).removeClass('ui-state-default');$(this).addClass('ui-state-focus');"
+                        onblur="$(this).removeClass('ui-state-focus');$(this).addClass('ui-state-default');" 
+                        style="width: 200px; height: 25px; margin-left: 100px;" rendered="#{facesContext.viewRoot.locale.language eq 'pl'}">
+                    <p:ajax event="change" listener="#{dokfkGuestView.odswiezzaksiegowane}" update=":zestawieniedokumentow"/>
+                    <f:selectItem itemLabel="#{mgs.wszystkie}" itemValue="wszystkie"/>
+                    <f:selectItems value="#{dokfkGuestView.dokumentypodatnikazestawienie}" var="item" itemLabel="#{item.skrot} - #{item.nazwa}" itemValue="#{item.skrot}"/>
+                </h:selectOneMenu>
+                <h:selectOneMenu value="#{dokfkGuestView.wybranakategoriadok}" styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
+                        onfocus="$(this).removeClass('ui-state-default');$(this).addClass('ui-state-focus');"
+                        onblur="$(this).removeClass('ui-state-focus');$(this).addClass('ui-state-default');" 
+                        style="width: 200px; height: 25px; margin-left: 100px;" rendered="#{facesContext.viewRoot.locale.language eq 'de'}">
+                    <p:ajax event="change" listener="#{dokfkGuestView.odswiezzaksiegowane}" update=":zestawieniedokumentow"/>
+                    <f:selectItem itemLabel="#{mgs.wszystkie}" itemValue="wszystkie"/>
+                    <f:selectItems value="#{dokfkGuestView.dokumentypodatnikazestawienie}" var="item" itemLabel="#{item.skrot} - #{item.de}" itemValue="#{item.skrot}"/>
+                </h:selectOneMenu>
+                <p:column>
+                    <p:commandButton id="drukujbutton" value="#{mgs.drukuj}" actionListener="#{pdfZaksiegowaneView.drukujzaksiegowanydokument(dokfkGuestView.wykazZaksiegowanychDokumentow, dokfkGuestView.selected, dokfkGuestView.filteredValue)}" styleClass="fkbutton"
+                                      style="margin-left: 100px; width: 120px;" />
+                </p:column>
+            </p:panelGrid>
+<!--            
+            <script>
+                /* <![CDATA[ */
+                //dzieki tej genialnej funkcji wie na ktorym rowku kliknelismy i od tego zacyzn alazenie
+                $(document).on("click", '.gridZaksiegowane tr', function(e) {
+                    var pierwszywiersz = $("#zestawieniedokumentow\\:dataList_data").children("tr");
+                    var numerpierwszegowiersza = $.trim($(pierwszywiersz[0]).find(".lpwierszaZaksiegowane").text());
+                    try {
+                        e.stopPropagation(); // will prevent double click events from link being clicked within row
+                        var numerkliknietegowiersza = $.trim($(this).closest("tr").find(".lpwierszaZaksiegowane").text()); // trim to remove end space, closest gets closest parent of selected type
+                        var liczbadokalkulacji = numerkliknietegowiersza - numerpierwszegowiersza;
+                        zachowajnumerwiersza("zmiennazaksiegowane", liczbadokalkulacji);
+                    } catch (e) {
+                        //alert('error');
+                    }
+                });
+                /* ]]> */
+            </script>-->
+         
+            <p:dataTable id="dataList" value="#{dokfkGuestView.wykazZaksiegowanychDokumentow}" var="item" rowIndexVar="row" widgetVar="tablicadokumenty" 
+                         selection="#{dokfkGuestView.selected}" rowKey="#{item}" selectionMode="single" 
+                         style="width: 1250px;" filteredValue="#{dokfkGuestView.filteredValue}"
+                         emptyMessage="#{mgs.niepobrano}" styleClass="gridZaksiegowane" 
+                         rowsPerPageTemplate="150,300,500,1000" paginatorPosition="top" paginator="#{dokfkGuestView.wykazZaksiegowanychDokumentow.size() gt 150 ? 'true':'false'}" rows="150"
+                         >
+                <!--                     <p:ajax event="rowSelect" oncomplete="pokazwierszedok();" update=":formwpisdokument, :dialogwiersze" />-->
+                <p:ajax event="filter" global="false"/>
+                <p:ajax event="rowToggle" global="false" />
+                <p:column style="height: 19px; text-align: center;" width="20">
+                    <p:rowToggler />
+                </p:column>
+                <p:column headerText="#{mgs.numerkolejny}" width="20" style="text-align: center; height: 35px;">
+                    <h:outputText styleClass="lpwierszaZaksiegowane" value="#{row+1}"/>
+                </p:column>
+                <p:column headerText="#{mgs.datadok}" styleClass="zaksiegowanewaski" width="70" style="text-align: center;"  sortBy="#{item.datadokumentu}" filterBy="#{item.datadokumentu}" filterMatchMode="contains" >
+                    <h:outputText value="#{item.datadokumentu}"/>
+                </p:column>
+                <p:column headerText="#{mgs.symbol}" styleClass="zaksiegowanewaski" width="70" sortBy="#{item.dokfkLP}" filterBy="#{item.dokfkLP}">
+                     <h:outputText value="#{item.dokfkLP}"/>
+                </p:column>
+                <p:column headerText="#{mgs.kontrahent}" width="140" sortBy="#{item.kontr.npelna}" filterBy="#{item.kontr.npelna}" >
+                    <h:outputText value="#{item.kontr.npelna}"/>
+                </p:column>
+                <p:column headerText="#{mgs.numer}" styleClass="zaksiegowanewaski" width="110" sortBy="#{item.numerwlasnydokfk}" filterBy="#{item.numerwlasnydokfk}" filterMatchMode="contains" >
+                    <h:outputText value="#{item.numerwlasnydokfk}"/>
+                </p:column>
+                <p:column headerText="#{mgs.opis}" width="120" sortBy="#{item.opisdokfk}" filterBy="#{item.opisdokfk}" filterMatchMode="contains" >
+                    <h:outputText value="#{item.opisdokfk}"/>
+                </p:column>
+                <p:column headerText="#{mgs.wartość}" styleClass="zaksiegowanewaski" width="70" sortBy="#{item.wartoscdokumentu}" filterBy="#{item.wartoscdokumentu}" filterMatchMode="contains" >
+                    <h:outputText value="#{item.wartoscdokumentu}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{mgs.waluta}" styleClass="waluta" width="40" sortBy="#{item.walutadokumentu.symbolwaluty}" filterBy="#{item.walutadokumentu.symbolwaluty}" style="text-align: center;">
+                    <h:outputText value="#{item.walutadokumentu.symbolwaluty}"/>
+                </p:column>
+                <p:column headerText="#{mgs.VAT}" styleClass="waluta" width="50" sortBy="#{item.vatM}" filterBy="#{item.vatM}" style="text-align: center;">
+                    <h:outputText value="#{item.vatM}"/>
+                </p:column>
+                <p:column width="40" style="text-align: center;" >
+                    <p:commandButton id="rukujbutton" value="d" actionListener="#{pdfDokfkView.drukujzaksiegowanydokument(item)}" styleClass="fkbutton"
+                                     style="width: 30px;" oncomplete="wydrukzaksiegowane('#{WpisView.podatnikObiekt.nip}');"/>
+                </p:column>
+                 <p:rowExpansion>
+                    <p:column>
+                        <p:dataTable value="#{item.listawierszy}" emptyMessage="wystąpił bład nie pobrano wierszy" var="loopik" rowIndexVar="rowindex"
+                                     resizableColumns="true" style="width: 900px;" sortBy="#{loopik.idporzadkowy}" >
+                            <p:column headerText="#{mgs.numerkolejny}" width="15" style="text-align: center;">
+                                <h:outputText styleClass="lpwiersza"  value="#{loopik.idporzadkowy}"/>
+                            </p:column>
+                            <p:column headerText="#{mgs.opis}" width="140" style="text-align: left;">
+                                <h:outputText value="#{loopik.opisWiersza}"/>
+                            </p:column>
+                            <p:column headerText="#{mgs.kwotaWn}" width="80" >
+                                <bcf:outputpl value="#{loopik.stronaWn.kwota}"/>
+                            </p:column>
+                            <p:column headerText="#{mgs.kontoWn}" width="200" >
+                                <h:outputText value="#{loopik.stronaWn.konto.numerNazwaInt}"/>
+                            </p:column>
+                            <p:column headerText="#{mgs.kwotaMa}" width="80" >
+                                <bcf:outputpl value="#{loopik.stronaMa.kwota}"/>
+                            </p:column>
+                            <p:column headerText="#{mgs.kontoMa}" width="200" >
+                                <h:outputText value="#{loopik.stronaMa.konto.numerNazwaInt}"/>
+                            </p:column>
+                           
+                        </p:dataTable>
+                    </p:column>
+                </p:rowExpansion>
+            </p:dataTable>
+        </h:form>
+</ui:composition>

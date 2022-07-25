@@ -1,0 +1,52 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+
+    xmlns:f="http://java.sun.com/jsf/core">
+
+    <p:dialog header="Zmień parametry konta: #{planKontView.selectednodekonto.pelnynumer} #{planKontView.selectednodekonto.nazwaskrocona}" 
+              widgetVar="dialogedycjanazwkonta" resizable="false" id="dialogedycjanazwkonta">  
+        <h:form id="formedycjanazw">  
+            <p:focus for="dkp">
+                <p:panelGrid id="dkp" columns="2" style="width: 400px;">
+                    <h:outputLabel value="Nazwapelna:" for="nazwapelna" />
+                    <p:inputTextarea id="nazwapelna" rows="4" cols="30" value="#{planKontView.selectednodekonto.nazwapelna}" 
+                                     title="Nazwapelna" required="true" requiredMessage="Nazwa pelna jest wymagana"/>
+                    <h:outputLabel value="Nazwaskrocona:" for="nazwaskrocona" />
+                    <p:inputText id="nazwaskrocona" value="#{planKontView.selectednodekonto.nazwaskrocona}" style="width: 230px;"
+                                 title="Nazwaskrocona" required="true" requiredMessage="Nazwa skrocona jest wymagana"/>
+                    <h:outputLabel value="Bilansowe/wynikowe:" for="bilansowewynikowe" />
+                    <p:selectOneMenu id="bilansowewynikowe" value="#{planKontView.selectednodekonto.bilansowewynikowe}" required="true" requiredMessage="The Bilansowewynikowe field is required." style="width: 170px;">
+                        <f:selectItem itemLabel="bilansowe" itemValue="bilansowe"/>
+                        <f:selectItem itemLabel="wynikowe" itemValue="wynikowe"/>
+                    </p:selectOneMenu>
+                    <h:outputLabel value="Zwykle/rozrach/szczegolne:" for="zwyklerozrachszczegolne" />
+                    <p:selectOneMenu id="zwyklerozrachszczegolne" value="#{planKontView.selectednodekonto.zwyklerozrachszczegolne}" required="true" requiredMessage="The Zwyklerozrachszczegolne field is required." style="width: 170px;">
+                        <f:selectItem itemLabel="zwykłe" itemValue="zwykłe"/>
+                        <f:selectItem itemLabel="rozrachunkowe" itemValue="rozrachunkowe"/>
+                        <f:selectItem itemLabel="szczególne" itemValue="szczególne"/>
+                        <f:selectItem itemLabel="#{mgs.VAT}" itemValue="vat"/>
+                    </p:selectOneMenu>
+                    <h:outputText value="rodzaj pozycji"/>
+                    <p:selectOneMenu  value="#{planKontView.selectednodekonto.syntetykaanalityka}" style="width: 170px;">
+                        <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true"/>
+                        <f:selectItem itemLabel="analityka" itemValue="analityka"/>
+                        <f:selectItem itemLabel="syntetyczne" itemValue="syntetyczne"/>
+                        <f:selectItem itemLabel="rozrachunkowe/vat" itemValue="rozrachunkowe/vat"/>
+                        <f:selectItem itemLabel="szczególne" itemValue="szczególne"/>
+                        <f:selectItem itemLabel="zwykłe" itemValue="zwykłe"/>
+                    </p:selectOneMenu>
+                    <h:outputText value="usuń przyporządkowanie"/>
+                    <p:selectBooleanCheckbox value="#{planKontView.usunprzyporzadkowanie}"/>
+                    <h:outputText value=""/>
+                    <p:commandButton value="edytuj" actionListener="#{planKontView.zmiananazwykonta()}" type="submit" update=":formedycjanazw :form_dialog_plankont" 
+                                     style="float: right; margin-top: 10px; width: 120px;" oncomplete="PF('dialogedycjanazwkonta').hide();">
+                    </p:commandButton>
+                </p:panelGrid>
+            </p:focus>
+        </h:form>  
+    </p:dialog> 
+
+</ui:composition>

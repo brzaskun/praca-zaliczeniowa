@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:bcf="http://brzaskun.com/facelets">
+    <ui:composition template="/templateFK.xhtml">
+        <ui:define name="title">
+            <h:outputText value="Księgi handlowe"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <f:view>
+                <bcf:ajaxs/>
+                <p:layout fullPage="true" expandTitle="Wysuń" closeTitle="Zamknij" collapseTitle="Schowaj" >
+                    <ui:include src="sub/layoutDokumenty/north.xhtml"/>  <!-- panel polnocny-->
+                    <ui:include src="sub/layoutDokumenty/west.xhtml"/>   <!-- panel zachodni-->
+                    <p:layoutUnit position="center" style="box-shadow: 10px 10px 5px #888; padding: 1%;">
+                        <p:panel toggleable="true" closable="true" style="width: 1200px;">
+                            <f:facet name="header">
+                                <h:outputText value="Strona służy do przeglądania zaksięgowanych dokumentów firmy #{WpisView.podatnikObiekt.nazwapelnaPDF}"/>
+                            </f:facet>
+                        </p:panel>
+                        <ui:include src="sub/menu_wiad.xhtml"/> 
+                        <ui:include src="sub/zaksiegowanedokumenty.xhtml"/>   <!-- właściwa tablica z danymi z księgi-->
+                    </p:layoutUnit>
+                </p:layout>
+            </f:view>
+        </ui:define>
+    </ui:composition>
+</html>
+
+

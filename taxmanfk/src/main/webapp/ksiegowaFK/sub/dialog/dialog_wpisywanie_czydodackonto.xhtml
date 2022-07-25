@@ -1,0 +1,30 @@
+<ui:composition  
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    
+    >
+
+    <p:dialog id="czydodackonto" header="Kontrahent nie ma własnego konta, dodać?" widgetVar="czydodackonto" appendTo="@(body)"
+              resizable="false" onShow="czydodackontoShow();" closable="false" onHide="resetujdialog('czydodackonto');" modal="true"
+              focus="formczydodackonto:niedodawackonta">
+        <h:form id="formczydodackonto">
+            <p:panelGrid id="wyborgridczydodackonto" columns="2" style="text-align: center; margin-left: auto; margin-right: auto;" >
+                <p:focus >
+                    <p:commandButton id="czydodackontookbutton" value="tak" type="submit" style="width: 120px;" actionListener="#{kliencifkView.pobieraniekontaFKWpisCD}" 
+                                     oncomplete="PF('czydodackonto').hide();$(document.getElementById('formwpisdokument:wybranawaluta')).focus();" global="false"
+                                     update=":formwpisdokument:dataList">
+                        <p:ajax event="click" listener="#{dokfkView.zerujkontorozrachunkowe()}" global="false"/>
+                    </p:commandButton>
+                    <p:commandButton id="niedodawackonta" value="nie" type="submit" oncomplete="PF('czydodackonto').hide();$(document.getElementById('formwpisdokument:wybranawaluta')).focus();"
+                                     actionListener="#{dokfkView.niedodawajkonta}" global="false"
+                                     style="margin-left: 25px; width: 120px;">
+                        <p:ajax event="click" listener="#{kliencifkView.resetujmakontoniemakonta()}" global="false"/>
+                    </p:commandButton>
+                </p:focus>
+            </p:panelGrid>
+        </h:form>
+    </p:dialog>
+</ui:composition>

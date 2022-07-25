@@ -1,0 +1,106 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+
+    xmlns:bcf="http://brzaskun.com/facelets">
+    <p:dialog id="dialogsrodkitrwaleadmodok" header="Zestawienie dla dokumentów AMO - #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="dialogsrodkitrwaleadmodok"  
+              resizable="false"  onShow="ustawdialog('dialogsrodkitrwaleadmodok','menurmk',1150,700);" closeOnEscape="true" onHide="resetujdialog('dialogsrodkitrwaleadmodok');" >
+        <bcf:ajaxs/>
+        <h:form id="srodkiamo">
+            <p:outputPanel style="margin-top: 10px">
+<!--                            <p:commandButton value="dodaj BO" style="width: 120px; margin-bottom: 10px;" actionListener="#{kontaVatFKView.dodajBOdoKont()}"/>-->
+                <p:dataTable value="#{srodkiTrwaleAMOView.kontasrodkitrw}" var="item" style="width: 50%;" id="saldokontasrodkitrw">
+                    <p:column headerText="nr konta" width="50">
+                        <h:outputText value="#{item.konto.pelnynumer}"/>
+                    </p:column>
+                    <p:column headerText="#{mgs.nazwakonta}">
+                        <h:outputText value="#{item.konto.nazwapelna}"/>
+                    </p:column>
+                    <p:column headerText="saldo Wn">
+                        <h:outputText value="#{item.saldoWn}" style="float: right;">
+                            <f:convertNumber minFractionDigits="2" locale="PL"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="saldo Ma">
+                        <h:outputText value="#{item.saldoMa}" style="float: right;">
+                            <f:convertNumber minFractionDigits="2" locale="PL"/>
+                        </h:outputText>
+                    </p:column>
+                </p:dataTable>
+            </p:outputPanel>
+            <p:outputPanel style="margin-top: 10px">
+                <p:dataTable  var="wpis" value="#{sTRTabView.posiadane}" id="srodkiLista" editable="true" 
+                              paginator="true" paginatorAlwaysVisible="true" rows="5"
+                              paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
+                              rowsPerPageTemplate="5,20,40,80"  widgetVar="srodkiLista1" style="max-width: 1400px;"
+                              rowKey="#{wpis.id}" selection="#{sTRTabView.wybranysrodektrwalyPosiadane}" selectionMode="single"> 
+
+                    <f:facet name="header">  
+                        <h:outputText value="Ewidencja srodkow trwalych" />
+                        </f:facet>
+
+                    <p:column id="idColumn" headerText="nr kol." width="20" style="text-align: center;">  
+
+                        <h:outputText value="#{wpis.nrsrodka}"  style="#{wpis.odpisrok eq null ? 'color: gray; font-weight: 100;' : null}"/>
+                    </p:column>
+
+                    <p:column id="dataColumn" headerText="data zakupu środka    " filterBy="#{wpis.datazak}" filterMatchMode="contains" filterStyle="display : none;" sortBy="#{wpis.datazak}" width="65"
+                              style="text-align: center;">  
+
+                        <h:outputText value="#{wpis.datazak}" style="#{wpis.odpisrok eq null ? 'color: gray; font-weight: 100;' : null}">
+                            <f:convertDateTime dateStyle="medium"  />
+                        </h:outputText>
+                    </p:column>
+                    <p:column id="data2Column" headerText="data przekazania" filterBy="#{wpis.dataprzek}" filterMatchMode="contains" filterStyle="display : none;" sortBy="#{wpis.dataprzek}" width="70"
+                              style="text-align: center;">  
+
+                        <h:outputText value="#{wpis.dataprzek}" style="#{wpis.odpisrok eq null ? 'color: gray; font-weight: 100;' : null}">
+                            <f:convertDateTime dateStyle="medium"  />
+                        </h:outputText>
+                    </p:column>
+                    <p:column id="nazwaColumn" headerText="nazwa środka trwałego" filterBy="#{wpis.nazwa}" filterMatchMode="contains" filterStyle="display : none;" sortBy="#{wpis.nazwa}" width="150">  
+
+                        <h:outputText value="#{wpis.nazwa}"    style="#{wpis.odpisrok eq null ? 'color: gray; font-weight: 100;' : null}"/>
+                    </p:column>
+                    <p:column id="kstColumn" headerText="KŚT" filterBy="#{wpis.kst}" filterMatchMode="contains" filterStyle="display : none;" sortBy="#{wpis.kst}" width="50" style="text-align: center;">  
+
+                        <h:outputText value="#{wpis.kst}"   style="#{wpis.odpisrok eq null ? 'color: gray; font-weight: 100;' : null}"/>
+                    </p:column>
+                    <p:column id="rodzTrColumn" headerText="#{mgs.kwota}" filterBy="#{wpis.netto}" filterMatchMode="contains" filterStyle="display : none;" sortBy="#{wpis.netto}" width="60">  
+                        <h:outputText value="#{wpis.netto}"  style="#{wpis.odpisrok eq null ? 'color: gray; font-weight: 100; float: right;' : 'float: right;'}">
+                            <f:convertNumber minFractionDigits="2" locale="PL"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column id="kontonetto" headerText="konto netto" filterBy="#{wpis.kontonetto.pelnynumer}" filterMatchMode="contains" filterStyle="display : none;" sortBy="#{wpis.kontonetto.pelnynumer}" width="70">  
+                        <h:outputText value="#{wpis.kontonetto.pelnynumer}"  style="#{wpis.odpisrok eq null ? 'color: gray; font-weight: 100; float: right;' : 'float: right;'}">
+                            <f:convertNumber minFractionDigits="2" locale="PL"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column id="kontoumorzenie" headerText="konto umorzenie" filterBy="#{wpis.kontoumorzenie.pelnynumer}" filterMatchMode="contains" filterStyle="display : none;" sortBy="#{wpis.kontoumorzenie.pelnynumer}" width="70">  
+                        <h:outputText value="#{wpis.kontoumorzenie.pelnynumer}"  style="#{wpis.odpisrok eq null ? 'color: gray; font-weight: 100; float: right;' : 'float: right;'}">
+                            <f:convertNumber minFractionDigits="2" locale="PL"/>
+                        </h:outputText>
+                    </p:column>
+                </p:dataTable>
+            </p:outputPanel>
+            <p:panelGrid columns="2" style="margin-top: 10px">
+                <h:outputText value="Wartość środków trwałych konta:"/>
+                <h:outputText value="#{srodkiTrwaleAMOView.roznicasald}" style="text-align: center;">
+                    <f:convertNumber minFractionDigits="2" locale="PL"/>
+                </h:outputText>
+                <h:outputText value="Wartość środków trwałych ewidencja:"/>
+                <h:outputText value="#{sTRTabView.posiadanesumanetto}" style="text-align: center;">
+                    <f:convertNumber minFractionDigits="2" locale="PL"/>
+                </h:outputText>
+            </p:panelGrid>
+            <p:outputPanel style="margin-top: 10px">
+                <p:commandButton value="zaksięguj AMO" style="width: 120px; margin-bottom: 10px;" actionListener="#{srodkiTrwaleAMOView.generowanieDokumentuAMO()}" 
+                                 />
+                <h:outputText value="Kwoty na kontach różnią się od kwot w ewidencji. Nie należy księgować dokumentu amortyzacyjnego!" style="color: red;"/>
+            </p:outputPanel>
+        </h:form>
+    </p:dialog>
+</ui:composition>

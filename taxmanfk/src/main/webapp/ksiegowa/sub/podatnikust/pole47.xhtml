@@ -1,0 +1,42 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    
+    
+    xmlns:bcf="http://brzaskun.com/facelets">
+    <p:tab title="Wartości wartośc pola 47 dla pierwsze deklaracji vat">  
+        <h:form id="form8" >
+            <h:outputText value="Wartości kwoty pola47 dla pierwszej deklaracji" style="font-size: 15px"/>
+            <p:growl life="3600"  showDetail="true"/>
+            <p:focus for="parametrypodatnika8"/><br/>
+            <p:panelGrid columns="4" style="width: 500px">
+                <p:dataTable value="#{podatnikView.selected.pole47}"  var="loop" 
+                            emptyMessage="Nie wprowadzono wartości pola do przeniesienia">
+                    <f:facet name="header">
+                    <h:outputText value="Dane historyczne"/>
+                </f:facet>
+                    <p:column>
+                    <h:outputText value="kwota pola47: " />
+                    </p:column>
+                    <p:column>
+                    <bcf:outputpl0 value="#{loop}" />
+                    </p:column>
+                </p:dataTable>
+            </p:panelGrid>
+            <p:panel header="wybierz parametry aktualne" style="width: 990px;"/>
+            <h:outputText value="wpisz kwotę w pełnych złotych (bez groszy!)"/><br/>
+            <p:panelGrid id="parametrypodatnika8" columns="4" >
+                <p:inputText value="#{podatnikView.selected.pole47}" />
+            </p:panelGrid>
+            <br/>
+            <p:panelGrid columns="2" style="column-width: 350px; width: 500px">
+                <p:commandButton action="#{podatnikView.usunpole47()}" value="usun parametr" update="@form" type="submit"/>
+                <p:commandButton action="#{podatnikView.dodajpole47()}" value="dodaj parametr" update="@form" type="submit"/>
+            </p:panelGrid>
+        </h:form>
+        <br/><br/>
+    </p:tab>
+</ui:composition> 

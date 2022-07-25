@@ -1,0 +1,144 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+
+    xmlns:bcf="http://brzaskun.com/facelets">
+    <style>
+    .ui-dialog .ui-dialog-content {
+            overflow-y: hidden;
+        }
+    </style>
+    <p:dialog id="dialogcechyzapisowpodsumowanie" header="Zestawienie cech zapisów w dokumentach - #{WpisView.podatnikObiekt.nazwapelnaPDF}" 
+              widgetVar="dialogcechyzapisowpodsumowanie" 
+              resizable="false"  onShow="ustawdialog('dialogcechyzapisowpodsumowanie','menurmk',1350,700);" 
+              closeOnEscape="true" onHide="resetujdialog('dialogcechyzapisowpodsumowanie');" >
+        
+        <h:form id="formcechyzapisow">
+            <p:panelGrid columns="9" style="margin-left: 2%;" >
+                <h:outputText value="m-c" style="margin-right: 10px;"/>
+                <p:column>
+                    <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
+                        <p:ajax event="change" listener="#{cechyzapisuPrzegladView.odswiez}" partialSubmit="true"
+                                onstart="PF('tabelacechyzapisow').clearFilters();PF('tabelacechyzapisow').unselectAllRows();"
+                                update="formcechyzapisow:tabelacechyzapisow formcechyzapisow:podsumowanie"/>
+                        <f:selectItem itemLabel="#{mgs.CR}" itemValue="CR"/>
+                        <f:selectItems value="#{mce.mceList}"/>
+                    </p:selectOneMenu>
+                </p:column>
+                <p:column>
+                    <p:commandButton value="#{mgs.pobierz}" actionListener="#{cechyzapisuPrzegladView.odswiez()}" 
+                                     style="width: 120px; margin-left: 20px;" update="formcechyzapisow:tabelacechyzapisow formcechyzapisow:podsumowanie"
+                                     onchange="PF('tabelacechyzapisow').clearFilters();PF('tabelacechyzapisow').unselectAllRows();"/>
+                </p:column>
+                <p:selectBooleanCheckbox value="#{cechyzapisuPrzegladView.jakiecechy}" itemLabel="tylko podatkowe">
+                    <p:ajax event="change" global="false" partialSubmit="true" listener="#{cechyzapisuPrzegladView.odswiez()}" onstart="PF('tabelacechyzapisow').clearFilters();PF('tabelacechyzapisow').unselectAllRows();"
+                                update="formcechyzapisow:tabelacechyzapisow formcechyzapisow:podsumowanie"/>
+                </p:selectBooleanCheckbox>
+                <p:selectBooleanCheckbox value="#{cechyzapisuPrzegladView.cit8}" itemLabel="do CIT-8">
+                    <p:ajax event="change" global="false" partialSubmit="true" listener="#{cechyzapisuPrzegladView.odswiez()}" onstart="PF('tabelacechyzapisow').clearFilters();PF('tabelacechyzapisow').unselectAllRows();"
+                                update="formcechyzapisow:tabelacechyzapisow formcechyzapisow:podsumowanie"/>
+                </p:selectBooleanCheckbox>
+                <p:column>
+                    <p:commandButton id="drukujbutton" value="#{mgs.drukuj}" action="#{sesjaView.dodajwydruk()}" actionListener="#{cechyzapisuPrzegladView.drukujzaksiegowanydokument()}" styleClass="fkbutton"
+                                      style="margin-left: 100px; width: 120px;" />
+                </p:column>
+                
+<!--                <p:column>
+                    <p:commandButton id="dodajceche" value="#{mgs.dodaj}" onclick="PF('dialog_cechy_zapisu_recznie').show();" actionListener="#{cechazapisuView.init()}" styleClass="fkbutton"
+                                     style="margin-left: 100px; width: 120px;" update="formCH"/>
+                </p:column>-->
+            </p:panelGrid>
+             <style>
+            .gridtablicasyntetyczne .ui-datatable-odd td{
+                height : 30px !important;
+                
+            }
+            .gridtablicasyntetyczne .ui-datatable-even td{
+                height : 30px !important;
+                
+            }
+
+        </style>
+            <p:panelGrid id="podsumowanie" columns="2" style="width: 150px;">
+                <f:facet name="header">
+                    <p:row>
+                        <p:column width="100">
+                            <h:outputText value="razem #{WpisView.miesiacWpisu}" />
+                        </p:column>
+                    </p:row>
+                </f:facet>
+                <p:row>
+                    <p:column>
+                        <bcf:outputpl value="#{cechyzapisuPrzegladView.razem}" />
+                    </p:column>
+                </p:row>
+            </p:panelGrid>
+            <p:dataTable id="tabelacechyzapisow" var="wpiscechy" value="#{cechyzapisuPrzegladView.zapisyZCecha}" rowKey="#{wpiscechy.id}"
+                         selection="#{cechyzapisuPrzegladView.wybraneZapisyZCecha}" 
+                         filteredValue="#{cechyzapisuPrzegladView.zapisyZCechafilter}" rowSelectMode="add"
+                         emptyMessage="Nie ma cech zapisów w danym miesiącu rozliczeniowym" styleClass="gridtablicasyntetyczne"
+                         style="width: 1300px; height: 550px; overflow-y: scroll;"  widgetVar="tabelacechyzapisow" rowIndexVar="index"
+                         rowsPerPageTemplate="150,300,600,900,1200" paginatorPosition="top" paginator="#{cechyzapisuPrzegladView.zapisyZCecha.size() gt 150 ? 'true':'false'}" rows="150">
+                <p:ajax event="rowSelect" listener="#{cechyzapisuPrzegladView.sumujwybrane}" update=":formcechyzapisow:podsumowanie" global="false"/>
+                <p:ajax event="rowSelectCheckbox" listener="#{cechyzapisuPrzegladView.sumujwybrane}" update=":formcechyzapisow:podsumowanie" global="false"/>
+                <p:ajax event="rowUnselectCheckbox" listener="#{cechyzapisuPrzegladView.sumujwybrane}" update=":formcechyzapisow:podsumowanie" global="false"/>
+                <p:ajax event="toggleSelect" listener="#{cechyzapisuPrzegladView.sumujwybrane}" update=":formcechyzapisow:podsumowanie" global="false"/>
+                <p:ajax event="filter" global="false" listener="#{cechyzapisuPrzegladView.sumujfiltrowane}" onstart="PF('tabelacechyzapisow').unselectAllRows();" 
+                        update=":formcechyzapisow:podsumowanie"/>
+                <p:ajax event="sort" global="false"/>
+                <p:column selectionMode="multiple" styleClass="checkwiersza" width="30" style="text-align: center;"/>
+                <p:column headerText="#{mgs.numerkolejny}" width="30"  >
+                    <h:outputText value="#{index+1}" />
+                </p:column>
+                <p:column headerText="nazwa cechy" width="80" sortBy="#{wpiscechy.cechazapisu.nazwacechy}" 
+                          filterBy="#{wpiscechy.cechazapisu.nazwacechy}" filterMatchMode="exact">
+                    <f:facet name="filter">
+                        <p:selectOneMenu onchange="PF('tabelacechyzapisow').filter()"  style="width: 80px;">
+                            <f:selectItem itemLabel="cecha" itemValue="" noSelectionOption="true"/>
+                            <f:selectItems value="#{cechyzapisuPrzegladView.wykazcech}" />
+                        </p:selectOneMenu>
+                    </f:facet>
+                    <h:outputText value="#{wpiscechy.cechazapisu.nazwacechy}"/>
+                </p:column>
+                <p:column headerText="rodzaj cechy" width="60"  styleClass="filter40"
+                          sortBy="#{wpiscechy.cechazapisu.rodzajcechy}" filterBy="#{wpiscechy.cechazapisu.rodzajcechy}" filterMatchMode="contains">
+                    <h:outputText value="#{wpiscechy.cechazapisu.rodzajcechy}"/>
+                </p:column>
+                <p:column headerText="#{mgs.dokument}" width="80"  styleClass="filter60"
+                          sortBy="#{wpiscechy.stronaWiersza.dokfkS}" filterBy="#{wpiscechy.stronaWiersza.dokfkS}" filterMatchMode="contains">
+                    <h:outputText value="#{wpiscechy.stronaWiersza.dokfkS}"/>
+                </p:column>
+                <p:column headerText="#{mgs.datadok}" width="80"  styleClass="filter60" sortBy="#{wpiscechy.stronaWiersza.dokfk.datawystawienia}" filterBy="#{wpiscechy.stronaWiersza.dokfk.datawystawienia}">
+                    <h:outputText value="#{wpiscechy.stronaWiersza.dokfk.datawystawienia}"/>
+                </p:column>
+                <p:column headerText="data księgowania" width="80" sortBy="#{wpiscechy.stronaWiersza.dokfk.dataujecia}">
+                    <h:outputText value="#{wpiscechy.stronaWiersza.dokfk.dataujecia}" >
+                        <f:convertDateTime dateStyle="medium"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="wiersz" width="300" styleClass="filter160"  sortBy="#{wpiscechy.stronaWiersza.wiersz.opisWiersza}" filterBy="#{wpiscechy.stronaWiersza.wiersz.opisWiersza}" filterMatchMode="contains">
+                    <h:outputText value="#{wpiscechy.stronaWiersza.wiersz.opisWiersza}"/>
+                </p:column>
+                <p:column headerText="#{mgs.konto}" width="70" styleClass="filter60"  sortBy="#{wpiscechy.stronaWiersza.konto.pelnynumer}" filterBy="#{wpiscechy.stronaWiersza.konto.pelnynumer}" filterMatchMode="contains"
+                           >
+                    <h:outputText id="nrkonta" value="#{wpiscechy.stronaWiersza.konto.pelnynumer}"/>
+                    <p:tooltip for="nrkonta" value="#{wpiscechy.stronaWiersza.konto.nazwapelna}" />
+                </p:column>
+                <p:column headerText="#{mgs.kwota}" width="90" styleClass="filter60" sortBy="#{wpiscechy.stronaWiersza.kwotaPLN}" filterBy="#{wpiscechy.stronaWiersza.kwotaPLN}" filterMatchMode="contains">
+                    <bcf:outputpl value="#{wpiscechy.stronaWiersza.kwotaPLN}"/>
+                </p:column>
+                <p:column headerText="cecha dok" width="30" style="text-align: center;" sortBy="#{item.czyCechaDok()}">
+                    <h:outputText value="!" styleClass="zapisZcecha"
+                                  rendered="#{wpiscechy.cechadok}"/>
+                </p:column>
+                <p:column headerText="cecha zap" width="30" style="text-align: center;" sortBy="#{item.czyCechaZap()}">
+                    <h:outputText value="!" styleClass="zapisZcecha" 
+                                  rendered="#{wpiscechy.cechazapis}"/>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </p:dialog>
+</ui:composition>

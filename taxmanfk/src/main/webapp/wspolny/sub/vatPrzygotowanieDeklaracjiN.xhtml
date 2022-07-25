@@ -1,0 +1,175 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:bcf="http://brzaskun.com/facelets"
+    
+    >
+<!--     <f:event type="preRenderView" listener="#{podpisView.sprawdzczymozna(WpisView)}"/>-->
+            <h:form id="formdekl">
+                <p:panelGrid columns="10" id="panelzalacznisprzedaz2" styleClass="panelvazd" rendered="#{vat7DKView.wniosekVATZDEntity ne null}" style="padding-bottom: 10px;">
+                <h:outputText value="Jest przygotowana korekta sprzedaży VAT-ZD:" style="color: red;"/>
+                <h:outputText value=" korekta należny netto:" style="color: red;margin-left: 5px;"/>
+                <bcf:outputpl0 value="#{vat7DKView.wniosekVATZDEntity.netto}" style="color: red;"/>
+                <h:outputText value=" korekta należny vat:" style="color: red;margin-left: 5px;;"/>
+                <bcf:outputpl0 value="#{vat7DKView.wniosekVATZDEntity.vat}" style="color: red;"/>
+                <h:outputText value=" korekta naliczony vat -:" style="color: red;;margin-left: 5px;"/>
+                <bcf:outputpl0 value="#{vat7DKView.wniosekVATZDEntity.naliczonyzmniejszenie}" style="color: red;"/>
+                <h:outputText value=" korekta naliczony vat+ :" style="color: red;;margin-left: 5px;"/>
+                <bcf:outputpl0 value="#{vat7DKView.wniosekVATZDEntity.naliczonyzwiekszenie}" style="color: red;"/>
+                
+            </p:panelGrid>
+            <p:panelGrid id="przyciskivat" columns="6" style="border-style: solid; border-color: lightgray;">
+                <p:commandButton id="przycisk2d" value="oblicz"  actionListener="#{vat7DKView.obliczNowaDedra()}" update="@form deklaracjauwagavatzz deklaracjauwagavatzt" style="width: 150px" title="Najpierw wciśnij oblicz vat7. Potem dopisz ewentualne kwoty z ręki."
+                                 rendered="#{WpisView.podatnikObiekt.nip eq '5263158333'}"/>
+                <p:commandButton id="przycisk2" value="oblicz"  actionListener="#{vat7DKView.obliczNowaPkpir()}" update=":formdekl deklaracjauwagavatzz deklaracjauwagavatzt" style="width: 150px" title="Najpierw wciśnij oblicz vat7. Potem dopisz ewentualne kwoty z ręki."
+                                 rendered="#{!WpisView.ksiegirachunkowe and WpisView.podatnikObiekt.nip ne '5263158333'}"/>
+                <p:commandButton id="przycisk3a" value="oblicz"  actionListener="#{vat7DKView.obliczNowaFK()}" update=":formdekl deklaracjauwagavatzz deklaracjauwagavatzt" style="width: 150px" title="Najpierw wciśnij oblicz vat7. Potem dopisz ewentualne kwoty z ręki."
+                                 rendered="#{WpisView.ksiegirachunkowe and WpisView.podatnikObiekt.nip ne '5263158333'}"/>
+<!--                <p:commandButton id="przycisk2a" value="sprawdź kartę"  update="formdekl:przyciskivat" style="width: 150px"
+                                 rendered="#{WpisView.podatnikObiekt.podpiscertyfikowany and !podpisView.jestkarta}"/>-->
+                <p:commandButton id="przycisk3" value="zapisz"  actionListener="#{vat7DKView.zapiszdeklaracje}"
+                                 update=":formdekl deklaracjauwagavatzz deklaracjauwagavatzt" 
+                                 rendered="#{vat7DKView.pokazuproszczona and vat7DKView.pozwolnazapis}"
+                                 style="width: 150px; margin-left: 10px;" title="Najpierw wciśnij 'oblicz'. Potem dopisz ewentualne kwoty z ręki."/>
+                <p:commandButton  value="zapisz"  actionListener="#{vat7DKView.zapiszdeklaracje}"
+                                 update=":formdekl deklaracjauwagavatzz deklaracjauwagavatzt formX dialog_deklaracje_vat_wysylka formbutton" 
+                                 rendered="#{WpisView.podatnikObiekt.nip ne '5263158333' and vat7DKView.pokazpelna and vat7DKView.pozwolnazapis}" 
+                                 style="width: 150px; margin-left: 10px;" title="Najpierw wciśnij 'oblicz'. Potem dopisz ewentualne kwoty z ręki."/>
+                <p:commandButton  value="zapisz"  actionListener="#{vat7DKView.zapiszdeklaracje}"
+                                 update=":formdekl deklaracjauwagavatzz deklaracjauwagavatzt" 
+                                 rendered="#{WpisView.podatnikObiekt.nip eq '5263158333' and vat7DKView.pokazpelna and vat7DKView.pozwolnazapis}" 
+                                 style="width: 150px; margin-left: 10px;" title="Najpierw wciśnij 'oblicz'. Potem dopisz ewentualne kwoty z ręki."/>
+                <h:outputText value=" rozliczenia są kwartalne nie można zapisać deklaracji" style="color: red;" rendered="#{!vat7DKView.pozwolnazapis}"/>
+                <p:selectBooleanCheckbox itemLabel="wymuś korektę" style="margin-left: 100px;" value="#{vat7DKView.wymusozmnaczeniejakokorekte}"/>
+                <p:selectBooleanCheckbox itemLabel="nie sprawdzaj poprzednich"  value="#{vat7DKView.niesprawdzajpoprzednichdeklaracji}"/>
+
+              </p:panelGrid>
+            <p:panel header="Dane do bieżącej deklaracji VAT-7 miesięcznej. Schema: #{vat7DKView.pasujacaSchema.nazwaschemy}"/>
+            <p:messages id="messages" style="width: 800px;"> </p:messages>
+            <p:panelGrid columns="1"  style="width: 90%;" rendered="#{vat7DKView.flaga ne 1}">
+                <p:dataTable value="#{vat7DKView.sumaschemewidencjilista}" var="loop" sortBy="#{loop.schemaEwidencja.polenetto}" style="width: 800px;"
+                             emptyMessage="nie pobrano danych" >
+                    <f:facet name="header">
+                        <h:outputText value="rozliczenie podatku należnego"/>
+                    </f:facet>
+                    <p:column width="400">
+                        <h:outputText value="#{loop.schemaEwidencja.evewidencja.nazwa}"/>
+                    </p:column>
+                    <p:column width="30" style="text-align: center;">
+                        <h:outputText value="#{loop.schemaEwidencja.polenetto}"/>
+                    </p:column>
+                    <p:column>
+                        <bcf:outputpl0 value="#{loop.EVatwpisSuma.netto}"/>
+                    </p:column>
+                    <p:column width="30" style="text-align: center;">
+                        <h:outputText value="#{loop.schemaEwidencja.polevat}"/>
+                    </p:column>
+                    <p:column>
+                        <bcf:outputpl0 value="#{loop.EVatwpisSuma.vat}"/>
+                    </p:column>
+                </p:dataTable>
+                <p:panelGrid style="text-align: center;width: 790px;">
+                    <f:facet name="header">
+                        <p:row>
+                            <p:column>
+                            </p:column>
+                            <p:column>
+                            </p:column>
+                            <p:column>
+                            </p:column>
+                        </p:row>
+                    </f:facet>
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="#{vat7DKView.schemawierszsumarycznylista.get(0).deklaracjaVatWierszSumaryczny.nazwapozycji}"/>
+                        </p:column>
+                        <p:column>
+                            <bcf:outputpl0 value="#{vat7DKView.schemawierszsumarycznylista.get(0).deklaracjaVatWierszSumaryczny.sumanetto}"/>
+                        </p:column>
+                        <p:column>
+                            <bcf:outputpl0 value="#{vat7DKView.schemawierszsumarycznylista.get(0).deklaracjaVatWierszSumaryczny.sumavat}"/>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+                    <p:dataTable value="#{vat7DKView.schemawierszsumarycznylista}" var="loop" sortBy="#{loop.polenetto}" style="width: 800px;"
+                                 first="1" emptyMessage="" id="naliczony">
+                    <f:facet name="header">
+                        <h:outputText value="rozliczenie podatku naliczonego"/>
+                    </f:facet>
+                    <p:column width="400">
+                        <h:outputText value="#{loop.deklaracjaVatWierszSumaryczny.nazwapozycji}"/>
+                    </p:column>
+                    <p:column width="30" style="text-align: center;">
+                        <h:outputText value="#{loop.polenetto}" rendered="#{loop.netto1vat2czek3tekst4 eq 0 || loop.netto1vat2czek3tekst4 eq 1}"/>
+
+                    </p:column>
+                    <p:column>
+                        <bcf:outputpl0 value="#{loop.deklaracjaVatWierszSumaryczny.sumanetto}" rendered="#{loop.netto1vat2czek3tekst4 eq 0 || loop.netto1vat2czek3tekst4 eq 1}"/>
+                    </p:column>
+                    <p:column width="30" style="text-align: center;">
+                        <h:outputText value="#{loop.polevat}" rendered="#{loop.netto1vat2czek3tekst4 ne 3 and loop.netto1vat2czek3tekst4 ne 4}"/>
+                    </p:column>
+                    <p:column>
+                        <bcf:outputpl0 value="#{loop.deklaracjaVatWierszSumaryczny.sumavat}" rendered="#{loop.netto1vat2czek3tekst4 ne 3 and loop.netto1vat2czek3tekst4 ne 4}"/>
+                        <h:outputText value="#{loop.deklaracjaVatWierszSumaryczny.czekpole ?'tak':'nie'}" rendered="#{loop.netto1vat2czek3tekst4 eq 3}"/>
+                        <h:outputText value="#{loop.deklaracjaVatWierszSumaryczny.stringpole}" rendered="#{loop.netto1vat2czek3tekst4 eq 4}"/>
+                    </p:column>
+                </p:dataTable>
+            </p:panelGrid>
+            <style>
+                .vatramki  td {
+                    border-color: inherit !important;
+                    border-width: 1px !important;
+                    border-collapse: initial !important;
+                }
+            </style>
+            <p:panelGrid columns="2"  style="width: 800px;"    rendered="#{vat7DKView.flaga ne 1}">
+                <h:outputText value="Korekta podatku naliczonego, o której mowa w art. 89b ust. 1 ustawy" style="color: green;"/>
+                <bcf:outputpl0 value="#{vat7DKView.korektanaliczonyzmniejszajaca}" />
+                <h:outputText value="Korekta podatku naliczonego, o której mowa w art. 89b ust. 4 ustawy"  style="color: green;"/>
+                <bcf:outputpl0 value="#{vat7DKView.korektanaliczonyzwiekszajaca}"  />
+            </p:panelGrid>
+            <p:panel header="dane wprowadzane ręcznie"/>
+            <p:panelGrid columns="2"  style="width: 600px;" styleClass="vatramki"   rendered="#{vat7DKView.flaga ne 1}">
+                <h:outputText value="przeniesienie z pop.deklaracji"/>
+                <p:inputNumber styleClass="vatramki"   value="#{vat7DKView.przeniesieniezpoprzedniejdeklaracji}" decimalPlaces="0" inputStyle="text-align: right;" thousandSeparator="&#160;"/>
+                 <h:outputText value="kwota podatku należnego od wewnątrzwspólnotowego nabycia środków transportu, wykazanego w poz. 24"/>
+                <p:inputNumber  value="#{vat7DKView.wntsamochoddoodliczenia}" decimalPlaces="0" inputStyle="text-align: right;" />
+                <h:outputText value="kwota wydatkowana na zakup kasy rejestrującej"/>
+                <p:inputNumber  value="#{vat7DKView.kwotanakaserej}" decimalPlaces="0" inputStyle="text-align: right;" />
+                <h:outputText value="zwrot na rachunek w terminie 25 dni"/>
+                <p:inputNumber value="#{vat7DKView.zwrot25dni}" decimalPlaces="0" inputStyle="text-align: right;" />
+                <h:outputText value="zwrot na rachunek w terminie 60 dni"/>
+                <p:inputNumber  value="#{vat7DKView.zwrot60dni}" decimalPlaces="0" inputStyle="text-align: right;"/>
+                <h:outputText value="zwrot na rachunek w terminie 180 dni"/>
+                <p:inputNumber value="#{vat7DKView.zwrot180dni}" decimalPlaces="0" inputStyle="text-align: right;"/>
+            </p:panelGrid>
+            <p:panelGrid columns="2"  style="width: 600px;" styleClass="vatramki"   rendered="#{vat7DKView.flaga ne 1 and vat7DKView.nowejpk}">
+                <h:outputText value="Zwrot na rachunek VAT, o którym mowa w art. 87 ust. 6a ustawy"/>
+                <p:selectBooleanCheckbox styleClass="vatramki"  value="#{vat7DKView.przelewnarachunekvat}" />
+                <h:outputText value="Zaliczenie zwrotu podatku na poczet przyszłych zobowiązań podatkowych"/>
+                <p:selectBooleanCheckbox styleClass="vatramki"  value="#{vat7DKView.zaliczenienapoczetzobowiazan}" />
+                <h:outputText value="Wysokość zwrotu do zaliczenia na poczet przyszłych zobowiązań podatkowych"/>
+                <p:inputNumber styleClass="vatramki"  value="#{vat7DKView.zaliczenienapoczetzobowiazankwota}" decimalPlaces="0" inputStyle="text-align: right;" />
+                <h:outputText value="Rodzaj przyszłego zobowiązania podatkowego"/>
+                <p:inputText styleClass="vatramki"  value="#{vat7DKView.rodzajzobowiazania}" size="20"/>
+            </p:panelGrid>
+        </h:form>
+    <h:form id="deklaracjauwagavatzt"  >
+        <h:outputText value="Wystąpiono o kwotę do zwrotu a nie ma sprzedaży opodatkowanej. Należy wypełnić załącznik VAT-ZT" 
+                      style="font-weight: 900; padding: 10px;"
+                      rendered="#{vat7DKView.flagazt}"/>
+    </h:form>
+    <h:form id="deklaracjauwagavatzz"   rendered="#{vat7DKView.flaga eq 0}">
+        <h:outputText value="Wystąpiono o kwotę do zwrotu na rachunek bankowy w terminie 25 dni. Należy wypełnić załącznik VAT-ZZ" 
+                      style="font-weight: 900; padding: 10px;"
+                      rendered="#{vat7DKView.pokazinfovatzz}"/>
+    </h:form>
+</ui:composition>   
+
+

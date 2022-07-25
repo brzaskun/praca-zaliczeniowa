@@ -1,0 +1,218 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:bcf="http://brzaskun.com/facelets">
+    <p:tab id="archiwum" title="Faktury zaksięgowane">
+      
+        <h:form id="formarchiwum">
+            
+             <p:panelGrid id="panelsum1">
+                <f:facet name="header">
+                    <p:row>
+                    <p:column>
+                        <h:outputText value="ilość"/>
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="suma netto"/>
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="suma vat"/>
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="suma brutto"/>
+                    </p:column>
+                        </p:row>
+                </f:facet>
+                <p:row>
+                    <p:column style="text-align: center;">
+                        <h:outputText value="#{fakturaView.iloscwybranych}" rendered="#{fakturaView.iloscwybranych gt 0}"/>
+                    </p:column>
+                    <p:column>
+                        <bcf:outputpl id="podsumowaniewybrnetto" value="#{fakturaView.podsumowaniewybranychnetto}"/>
+                    </p:column>
+                    <p:column>
+                        <bcf:outputpl id="podsumowaniewybrvat" value="#{fakturaView.podsumowaniewybranychvat}"/>
+                    </p:column>
+                    <p:column>
+                        <bcf:outputpl id="podsumowaniewybrbrutto" value="#{fakturaView.podsumowaniewybranychbrutto}"/>
+                    </p:column>
+                </p:row>
+            </p:panelGrid>
+            <p:panel header="">
+                <p:commandButton value="drukuj zestawienie" actionListener="#{fakturaView.drukujfakturyarchiwum}" style="width: 150px; margin-left: 30px;"/>
+            </p:panel>
+            <p:dataTable id="dokumentyArchiwum" value="#{fakturaView.fakturyarchiwum}" var="wpis"  rowIndexVar="row"  filteredValue="#{fakturaView.fakturyFilteredarchiwum}"
+                         selection="#{fakturaView.gosciwybralarchiuwm}" rowKey="#{wpis.numerkolejny}" widgetVar="archTable" rowSelectMode="add" style="max-width: 1400px;"
+                         sortBy="#{wpis.numerkolejny}" sortFunction="#{fakturaView.sortZaksiegowaneFaktury}"
+                         emptyMessage="Nie ma wygenerowanych i zaksięgowanych faktur w tym miesiącu" >
+                <p:ajax event="filter" global="false"/>
+<!--                <p:ajax event="filter" global="false" listener="#{fakturaView.sumawartosciwybranych(fakturaView.gosciwybralarchiuwm)}" update=":akordeon:formarchiwum:panelsum1"/>-->
+                <p:ajax event="rowSelectCheckbox" listener="#{fakturaView.sumawartosciwybranych(fakturaView.gosciwybralarchiuwm)}" update=":akordeon:formarchiwum:panelsum1" global="false"/>
+                <p:ajax event="rowUnselectCheckbox" listener="#{fakturaView.sumawartosciwybranych(fakturaView.gosciwybralarchiuwm)}" update=":akordeon:formarchiwum:panelsum1" global="false"/>
+                <p:ajax event="toggleSelect" listener="#{fakturaView.sumawartosciwybranych(fakturaView.gosciwybralarchiuwm)}" update=":akordeon:formarchiwum:panelsum1" global="false"/> 
+                <p:ajax event="rowSelect" listener="#{fakturaView.sumawartosciwybranych(fakturaView.gosciwybralarchiuwm)}" update=":akordeon:formarchiwum:panelsum1" global="false"/>
+                <p:ajax event="rowUnselect" listener="#{fakturaView.sumawartosciwybranych(fakturaView.gosciwybralarchiuwm)}" update=":akordeon:formarchiwum:panelsum1" global="false"/>
+                <f:facet name="header">  
+                    <h:outputText value="Zestawienie zaksiegowanych faktur w mc #{WpisView.miesiacWpisu} " />  
+                    <h:outputText value="- wyszukiwanie: " />  
+                    <p:inputText id="globalFilter" onkeyup="PF('archTable').filter()" style="width:150px" 
+                                 onfocus="PF('archTable').clearFilters();PF('archTable').unselectAllRows();">
+                    </p:inputText>
+                </f:facet>
+               <p:column selectionMode="multiple"  width="30" style="text-align: center;"/>
+                <p:column width="20">
+                    <p:rowToggler />
+                </p:column>
+                <p:column headerText="nr kolejny" width="90" sortBy="#{wpis.numerkolejny}" filterBy="#{wpis.numerkolejny}" filterMatchMode="contains" filterStyle="display : none;">
+                    <h:outputText value="#{wpis.numerkolejny}" style="#{wpis.pozycjepokorekcie.size() > 0 ? 'color:red;' : null}"/>
+                </p:column>
+                <p:column headerText="#{mgs.kontrahent}" sortBy="#{wpis.kontrahent.npelna}" filterBy="#{wpis.kontrahent.npelna}" 
+                          filterMatchMode="contains" filterStyle="display : none;" width="120">
+                    <h:outputText value="#{wpis.kontrahent.npelna}" 
+                                  style="#{wpis.pozycjepokorekcie.size() > 0 ? 'color:red;' : null}; line-break: loose;word-break: break-all;word-wrap: break-word !important;"/>
+                </p:column>
+               <p:column headerText="#{mgs.opis}" filterBy="#{wpis.opisFaktury}" filterMatchMode="contains" filterStyle="display : none;" width="250"
+                          style="font-size: smaller; line-break: loose;word-break: break-all;word-wrap: break-word !important;">
+                   <h:outputText value="#{wpis.opisFaktury}" 
+                                 style="#{wpis.pozycjepokorekcie.size() > 0 ? 'color:red;' : null}; line-break: loose;word-break: break-all;word-wrap: break-word !important;"/>
+                </p:column>
+                <p:column headerText="data wyst." sortBy="#{wpis.datawystawienia}" filterBy="#{wpis.datawystawienia}" 
+                          filterMatchMode="contains" filterStyle="display : none;" width="60">
+                    <h:outputText value="#{wpis.datawystawienia.substring(2)}"/>
+                </p:column>
+                <p:column headerText="termin płatności" sortBy="#{wpis.terminzaplaty}" filterBy="#{wpis.terminzaplaty}" 
+                          filterMatchMode="contains" filterStyle="display : none;" width="60">
+                    <h:outputText value="#{wpis.terminzaplaty.substring(2)}"/>
+                </p:column>
+                 <p:column headerText="netto"  sortBy="#{wpis.nettoFakturaView}" filterBy="#{wpis.nettoFakturaView}" filterMatchMode="contains" filterStyle="display : none;"  width="70">
+                    <bcf:outputpl value="#{wpis.nettoFakturaView}"/>
+                </p:column>
+                <p:column headerText="brutto"  sortBy="#{wpis.bruttoFakturaView}" filterBy="#{wpis.bruttoFakturaView}" filterMatchMode="contains" filterStyle="display : none;"  width="70">
+                    <bcf:outputpl value="#{wpis.bruttoFakturaView}"/>
+                    <h:outputText value=" #{wpis.walutafaktury}" rendered="#{wpis.walutafaktury ne 'PLN'}"/>
+                    <bcf:outputpl value="#{wpis.bruttoFakturaViewPLN}" rendered="#{wpis.walutafaktury ne 'PLN'}"/>
+                    <h:outputText value=" PLN" rendered="#{wpis.walutafaktury ne 'PLN'}"/>
+                </p:column>
+                <p:column headerText="wysł." sortBy="#{wpis.wyslana}" filterBy="#{wpis.wyslana ? 'tak' : 'nie'}"
+                          filterMatchMode="contains" filterStyle="display : none;" style="text-align: center;"  width="40">
+                   <h:outputText value="#{wpis.datawysylki}" rendered="#{wpis.wyslana}">
+                       <f:convertDateTime  pattern="dd-MM"/>
+                    </h:outputText>
+                    <h:outputText value="nie" rendered="#{!wpis.wyslana}" style="color: green;"/>
+                </p:column>
+                <p:column headerText="zaks." sortBy="#{wpis.zaksiegowana}" filterBy="#{wpis.zaksiegowana ? 'tak' : 'nie'}"
+                          filterMatchMode="contains" filterStyle="display : none;" style="text-align: center;" width="30">
+                    <h:outputText value="#{wpis.zaksiegowana ? 'tak' : 'nie'}"/>
+                </p:column>
+               <p:column headerText="zaks.K" sortBy="#{wpis.zaksiegowanakontrahent}" filterBy="#{wpis.zaksiegowanakontrahent ? 'tak' : 'nie'}"
+                          filterMatchMode="contains" filterStyle="display : none;" style="text-align: center;" width="30">
+                    <h:outputText value="#{wpis.zaksiegowanakontrahent ? 'tak' : 'nie'}"/>
+                </p:column>
+                <p:column headerText="typ" sortBy="#{wpis.rodzajdokumentu}" filterBy="#{wpis.rodzajdokumentu}" filterMatchMode="contains" filterStyle="display : none;" style="text-align: center;" width="70">
+                    <h:outputText value="#{wpis.rodzajdokumentu}" style="#{wpis.pozycjepokorekcie.size() gt 0 ? 'color:red;' : null}"/>
+                    <h:outputText value=" korekta" rendered="#{wpis.pozycjepokorekcie.size() gt 0}" style="color: red;"/>
+                    <h:outputText value=" +duplikaty" rendered="#{wpis.duplikaty.size() gt 0}" style="color: green;"/>
+                </p:column>
+               <p:column  headerText="edytuj" style="text-align: center;"  width="40" rendered="#{facesContext.externalContext.remoteUser eq 'szef'}">
+                    <p:commandButton  update=":akordeon:formstworz, :akordeon" actionListener="#{fakturaView.skierujfakturedoedycjiZwykla(wpis)}" 
+                                      icon="ui-icon-script" oncomplete="aktywujpolewyboruklientanafakturze();" />
+                </p:column>
+                <p:column  headerText="PDF" style="text-align: center;"  width="40">
+                    <p:commandButton  update=":form1:messages" actionListener="#{pdfFaktura.drukuj(wpis, row, WpisView.podatnikObiekt)}" icon="ui-icon-print" />
+                </p:column>
+                <p:column  headerText="korekta" style="text-align: center;"  width="45">
+                    <p:commandButton  update=":akordeon:formstworz, :akordeon" actionListener="#{fakturaView.skierujfakturedokorekty(wpis)}" 
+                                      icon="ui-icon-pencil" oncomplete="aktywujpolewyboruklientanafakturze();" />
+                </p:column>
+                 <p:rowExpansion>
+                     <p:panelGrid  columns="2"  style="width: 1000px" columnClasses="sixty-percent forty-percent">
+                         <p:panelGrid  columns="2" >
+                             <h:outputText value="email kontrahenta"/>
+                             <p:inplace editor="true" effect="slide" effectSpeed="fast" saveLabel="zachowaj" cancelLabel="rezygnuj">
+                                <p:ajax event="save" listener="#{fakturaView.edytujemail(wpis.kontrahent)}" global="false" update="@parent"/>
+                                <f:facet name="output">
+                                    <h:outputText value="#{wpis.kontrahent.email ne null and wpis.kontrahent.email ne '' ? wpis.kontrahent.email : 'brak email'}"/>
+                                </f:facet>
+                                <f:facet name="input">
+                                    <p:inputText value="#{wpis.kontrahent.email}"  style="width: 180px;" />
+                                </f:facet>
+                            </p:inplace>
+                             <h:outputText value="konto bankowe"/>
+                             <h:outputText value="#{wpis.nrkontabankowego}"/>
+<!--                             <h:outputText value="kwota netto"/>
+                             <bcf:outputpl value="#{wpis.netto}"/>
+                             <h:outputText value="kwota vat"/>
+                             <bcf:outputpl value="#{wpis.vat}"/>
+                             <h:outputText value="kwota brutto"/>
+                             <bcf:outputpl value="#{wpis.brutto}"/>-->
+                         </p:panelGrid>
+                         <p:panelGrid columns="1">
+                         <p:dataTable id="tabeladuplikatow" value="#{wpis.duplikaty}" var="loopdupz" emptyMessage="nie wystawiono duplikatów" styleClass="tabduplikaty1">
+                             <f:facet name="header">
+                                 <h:outputText value="duplikaty"/>
+                             </f:facet>
+                             <p:column headerText="id" width="30" style="text-align: center;" >
+                                 <h:outputText value="#{loopdupz.id}"/>
+                             </p:column>
+                             <p:column headerText="data wystawienia" style="text-align: center;" width="100">
+                                 <h:outputText value="#{loopdupz.datawystawienia}"/>
+                             </p:column>
+                             <p:column  headerText="pdf" style="text-align: center;"  width="40">
+                                <p:commandButton  update=":form1:messages" actionListener="#{pdfFaktura.drukujDuplikat(wpis, loopdupz, WpisView)}" icon="ui-icon-print" />
+                             </p:column>
+                             <p:column  headerText="usuń" style="text-align: center;"  width="40">
+                                  <p:commandButton  update=":form1:messages @(.tabduplikaty1)" actionListener="#{fakturaDuplikatView.usunDuplikat(wpis, loopdupz)}" icon="ui-icon-trash"/>
+                             </p:column>
+                         </p:dataTable>
+                         </p:panelGrid>
+                     </p:panelGrid>
+                     <p:panelGrid  columns="1"  style="width:800px">
+                        <p:column id="ewidencjavat" headerText="ewidencjavat - netto - vat - op/zw" >  
+                            <p:dataTable var="subwpis" value="#{wpis.ewidencjavat}" emptyMessage="dokument bez vat"  resizableColumns="true" >
+                            <p:column id="SubColumn1" headerText="ewidencja"  width="350">  
+                                <h:outputText value="#{subwpis.ewidencja.nazwa}" rendered="#{subwpis.vat ne 0 ? true : subwpis.netto ne 0 ? true : false}" />
+                            </p:column>
+                            <p:column id="SubColumn1a"  headerText="#{mgs.netto}">  
+                                <h:outputText value="#{subwpis.netto}" style="float: right;" rendered="#{subwpis.vat ne 0 ? true : subwpis.netto ne 0 ? true : false}">
+                                    <f:convertNumber minFractionDigits="2" locale="PL"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column id="SubColumn2" headerText="#{mgs.VAT}">  
+                                <h:outputText value="#{subwpis.vat}" style="float: right;" rendered="#{subwpis.vat ne 0 ? true : subwpis.netto ne 0 ? true : false}">
+                                    <f:convertNumber minFractionDigits="2" locale="PL"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column id="SubColumn2a" headerText="brutto">  
+                                <h:outputText value="#{subwpis.netto + subwpis.vat}" style="float: right;" rendered="#{subwpis.vat ne 0 ? true : subwpis.netto ne 0 ? true : false}">
+                                    <f:convertNumber minFractionDigits="2" locale="PL"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column id="SubColumn3" headerText="op/zw" style="text-align: center">  
+                                <h:outputText value="#{subwpis.estawka}" rendered="#{subwpis.vat ne 0 ? true : subwpis.netto ne 0 ? true : false}"/>
+                            </p:column>
+                            <p:column id="SubColumn4" headerText="okresy vat">  
+                                <h:outputText value="#{wpis.vatM}/#{wpis.vatR}" style="float: right;" rendered="#{subwpis.vat ne 0 ? true : subwpis.netto ne 0 ? true : false}"/>
+                            </p:column>
+                        </p:dataTable>
+                    </p:column>
+                    </p:panelGrid>
+                </p:rowExpansion>
+            </p:dataTable>
+            <p:contextMenu for="dokumentyArchiwum">
+                 <p:menuitem value="Drukuj" update=":form1:messages" actionListener="#{fakturaView.pdffakturaarch()}" icon="ui-icon-print" />
+                <p:menuitem value="Mail do kontr." update=":form1:messages, :akordeon:formarchiwum:dokumentyArchiwum, :akordeon:formsporzadzone:dokumentyLista" icon="ui-icon-mail-closed" actionListener="#{fakturaView.mailfaktura(fakturaView.gosciwybralarchiuwm)}" >
+                </p:menuitem>
+                <p:menuitem value="Wyksieguj" update=":form1:messages, :akordeon:formarchiwum:dokumentyArchiwum, :akordeon:formsporzadzone:dokumentyLista" actionListener="#{fakturaView.odksieguj(fakturaView.gosciwybralarchiuwm)}" icon="ui-icon-locked" rendered="#{facesContext.externalContext.remoteUser eq 'szef' or facesContext.externalContext.remoteUser eq '4'}"/>
+                <p:menuitem value="Duplikat" actionListener="#{fakturaDuplikatView.generujduplikat(fakturaView.gosciwybralarchiuwm)}" icon="ui-icon-copy"  update=":akordeon:formarchiwum:dokumentyArchiwum :form1:messages"/>
+                <p:menuitem value="Okresowa" update=":form1:messages" icon="ui-icon-arrowrefresh-1-s" actionListener="#{fakturaView.dodajfaktureokresowa(fakturaView.gosciwybralarchiuwm)}"/>
+                <p:menuitem value="Usuń wybrane" update=":akordeon:formarchiwum:dokumentyArchiwum" actionListener="#{fakturaView.destroyarchiwalne()}" icon="ui-icon-trash" />
+                <p:separator/>
+                <p:menuitem value="Zaksięguj ponownie" update=":form1:messages" actionListener="#{fakturaView.zaksieguj(fakturaView.gosciwybralarchiuwm)}" icon="ui-icon-locked" />
+            </p:contextMenu>
+        </h:form>
+    </p:tab>
+</ui:composition>   
+

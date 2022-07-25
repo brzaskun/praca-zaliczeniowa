@@ -1,0 +1,34 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//PL" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <p:panel header="wpisuj njusy dla pupili">
+        <p:inputTextarea value="#{adminNews.nowynews}" style="width: 300px"/>
+        <p:commandButton value="Zapisz" actionListener="#{adminNews.dodaj()}" update="@form"/>
+    </p:panel>
+    <p:panel header="wpisane newsy">
+        <p:contextMenu for="form:tablicanews">
+            <p:menuitem value="Usuń" update="@form" actionListener="#{adminNews.usun()}" icon="ui-icon-disk" />
+        </p:contextMenu>
+        <p:dataTable id="tablicanews" value="#{adminNews.newslist}" var="loop" rowKey="#{loop.id}" selection="#{adminNews.adminnews}" 
+                     selectionMode="single" resizableColumns="true" paginator="true" rows="12"
+                     paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
+                     rowsPerPageTemplate="12,32,50,100,250" paginatorPosition="top">
+            <p:column headerText="id" width="50">
+                <h:outputText value="#{loop.id}"/>
+            </p:column>
+            <p:column headerText="#{mgs.data}" width="150">
+                <h:outputText value="#{loop.data}"/>
+            </p:column>
+            <p:column headerText="treść" width="600">
+                <h:outputText value="#{loop.tresc}"/>
+            </p:column>
+        </p:dataTable>
+    </p:panel>
+   
+</ui:composition>   

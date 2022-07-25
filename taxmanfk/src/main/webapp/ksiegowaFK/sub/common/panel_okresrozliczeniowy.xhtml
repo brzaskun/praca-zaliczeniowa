@@ -1,0 +1,39 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    >
+<!--    <script>
+        var pobierzform = function () {
+            var names = [];
+            $("form").each(function () {
+                names.push(this.name);
+            });
+            r("formpanelzmiana:nazwyform").val(JSON.stringify(names));
+            //return JSON.stringify(names);
+        };
+    </script>
+-->    <p:panel style="height: 60px;width: 300px;box-shadow: 10px 10px 5px #888888; margin-left: 15px; margin-top: 15px;">
+        <h:outputText value="zmiana roku rozliczeniowego"/>
+        <h:form id="formpanelzmiana">
+            <p:panelGrid columns="3" style="float: right;">
+<!--                <p:column>
+                    <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}" style="float: right;">
+                        <f:selectItems value="#{roki.rokiList}"/>
+                        <p:ajax event="change" listener="#{WpisView.wpisAktualizuj()}" update="@all" partialSubmit="true"/>
+                    </p:selectOneMenu>
+                </p:column>-->
+<!--                <p:column >
+                    <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}" style="float: right;">
+                        <f:selectItems value="#{mce.mceListOdKonca}"/>
+                        <p:ajax event="change" listener="#{WpisView.wpisAktualizuj2()}" update="zestawieniedokumentow" process="@form" onstart="pobierzform();"/>
+                    </p:selectOneMenu>
+                </p:column>-->
+            </p:panelGrid>
+<!--            <h:inputText id="nazwyform" value="#{WpisView.updateforms}" style="display: none;"/>-->
+        </h:form>
+    </p:panel>
+</ui:composition>
+

@@ -1,0 +1,186 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    
+
+    xmlns:bcf="http://brzaskun.com/facelets">
+    <style>
+        .ui-widget-content .ui-datatable-odd td{
+            height : 20px !important;
+            
+        }
+        .ui-widget-content .ui-datatable-even td{
+            height : 20px !important;
+            
+        }
+        .tabelazapisywmcu .ui-datatable-even td {
+            height : 30px !important;
+            padding: 0px 0px !important;
+        }
+        .tabelazapisywmcu .ui-datatable-odd td {
+            height : 30px !important;
+            padding: 0px 0px !important;
+        }
+    </style>
+    <script>
+        /* <![CDATA[ */
+        //dzieki tej genialnej funkcji wie na ktorym rowku kliknelismy i od tego zacyzn alazenie
+        $(document).on("click", '.gridtablicaanalityczne tr', function(e) {
+            var pierwszywiersz = $("#formtablicaanalityczne\\:tablicasaldaanalityczne_data").children("tr");
+            var numerpierwszegowiersza = $.trim($(pierwszywiersz[0]).find(".lpwierszaanalityka").text());
+            try {
+                e.stopPropagation(); // will prevent double click events from link being clicked within row
+                var numerkliknietegowiersza = $.trim($(this).closest("tr").find(".lpwierszaanalityka").text()); // trim to remove end space, closest gets closest parent of selected type
+                var liczbadokalkulacji = numerkliknietegowiersza - numerpierwszegowiersza;
+                zachowajnumerwiersza("zmiennatablicaanalityczne", liczbadokalkulacji);
+            } catch (e) {
+                //alert('error');
+            }
+        });
+        /* ]]> */
+    </script>
+
+    <bcf:ajaxs/>
+    <p:dialog id="zapisynakontachwmcu" header="Zapisy na kontach w miesiącu" widgetVar="zapisynakontachwmcu"  maximizable="true"  
+              resizable="true" onShow="ustawdialog('zapisynakontachwmcu','menuzestawienia',1350,750);" onHide="resetujdialog('zapisynakontachwmcu');"  closeOnEscape="true" 
+              >
+        <h:form id="formzapisynakontachwmcu">
+            <p:panelGrid columns="9" style="margin-left: 2%;" >
+                <p:column>
+                    <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}">
+                        <f:selectItems value="#{roki.rokiList}"/>
+                        <f:param name="rokWpisu" value="2012" />
+                    </p:selectOneMenu>
+                </p:column>
+                <h:outputText value="od "/>
+                <p:column>
+                    <p:selectOneMenu id="miesiacWpisuOd" value="#{WpisView.miesiacOd}">
+                        <p:ajax event="change" listener="#{zapisyKontaPodatnikFKView.zapisykontmiesiace}"  partialSubmit="true" update=":formzapisynakontachwmcu"/>
+                        <f:selectItems value="#{mce.mceList}"/>
+                    </p:selectOneMenu>
+                </p:column>
+                <h:outputText value="do "/>
+                <p:column>
+                    <p:selectOneMenu id="miesiacWpisuDo" value="#{WpisView.miesiacDo}">
+                        <p:ajax event="change" listener="#{zapisyKontaPodatnikFKView.zapisykontmiesiace}" partialSubmit="true" update=":formzapisynakontachwmcu"/>
+                        <f:selectItems value="#{mce.mceList}"/>
+                    </p:selectOneMenu>
+                </p:column>
+                <h:outputText value="grupa kont "/>
+                 <p:column>
+                    <p:selectOneMenu id="grupakont" value="#{zapisyKontaPodatnikFKView.grupakont}">
+                        <p:ajax event="change" listener="#{zapisyKontaPodatnikFKView.zapisykontmiesiace}" partialSubmit="true" update=":formzapisynakontachwmcu"/>
+                        <f:selectItem itemLabel="WS" itemValue="wszystkie"/>
+                        <f:selectItems value="#{zapisyKontaPodatnikFKView.grupykont}"/>
+                    </p:selectOneMenu>
+                </p:column>
+                <p:commandButton value="#{mgs.pobierz}" action="#{sesjaView.dodajwydruk()}" actionListener="#{zapisyKontaPodatnikFKView.zapisykontmiesiace}" style="width: 120px; margin-left: 10px;" update=":formzapisynakontachwmcu"/>
+                <p:commandButton value="#{mgs.drukuj}" icon="ui-icon-print" action="#{sesjaView.dodajwydruk()}" actionListener="#{zapisyKontaPodatnikFKView.drukujPdfZapisyNaKoncie}"   style="width: 120px; margin-left: 30px;"/>
+            </p:panelGrid>
+
+            <p:dataTable id="tabelazapisywmcu" value="#{zapisyKontaPodatnikFKView.kontozapisy}" var="loop" 
+                         rowKey="#{loop.konto.pelnynumer}" selection="#{zapisyKontaPodatnikFKView.wybranekontozapisy}"
+                         rowIndexVar="rowindex1" emptyMessage="Nie ma zapisów na koncie" 
+                         styleClass="tabelazapisywmcu"  style="overflow-y: scroll; height: 620px;" 
+                         >
+                        
+                <p:ajax event="rowSelectCheckbox" global="false"/>
+                <p:ajax event="rowUnselectCheckbox" global="false"/>
+                <p:ajax event="toggleSelect" global="false"/>
+                <p:ajax event="rowSelect" global="false"/>
+                <p:column width="10">
+                    <p:rowToggler />
+                </p:column>
+                <p:column selectionMode="multiple" styleClass="checkwiersza" width="20" style="text-align: center;"></p:column>
+                <p:column headerText="#{mgs.numerkolejny}" width="20" style="text-align: center;">
+                    <h:outputText styleClass="lpwiersza"  value="#{rowindex1+1}"/>
+                </p:column>
+                <p:column headerText="ilość zapisów" width="30"   style="text-align: center;">
+                    <h:outputText value="#{loop.stronywiersza.size() gt 0 ? loop.stronywiersza.size() : null}"/>
+                </p:column>
+                <p:column headerText="#{mgs.numerkonta}" width="80"  >
+                    <h:outputText value="#{loop.konto.pelnynumer}"/>
+                </p:column>
+                <p:column headerText="#{mgs.nazwakonta}" width="200" >
+                    <h:outputText value="#{loop.konto.nazwapelna}"/>
+                </p:column>
+                <p:column headerText="pozycja Wn" width="100" >
+                    <h:outputText value="#{loop.konto.pozycjaWn}"/>
+                </p:column>
+                <p:column headerText="pozycja Ma" width="100" sortBy="#{loop.konto.pelnynumer}">
+                    <h:outputText value="#{loop.konto.pozycjaMa}"/>
+                </p:column>
+                <p:rowExpansion>
+                    <p:column>
+                        <p:dataTable value="#{loop.stronywiersza}" emptyMessage="dokument bez vat" var="loopik" rowIndexVar="rowindex"
+                                     resizableColumns="true" style="width: 95%;" sortBy="#{loopik.wiersz.dokfk.datadokumentu}" >
+                            <p:column headerText="#{mgs.numerkolejny}" width="15" style="text-align: center;">
+                                <h:outputText styleClass="lpwiersza"  value="#{rowindex+1}"/>
+                            </p:column>
+                            <p:column headerText="#{mgs.data}" width="40" style="text-align: center;" sortBy="#{loopik.wiersz.dokfk.datadokumentu}">
+                                <h:outputText value="#{loopik.wiersz.dokfk.datadokumentu.substring(5,10)}"/>
+                            </p:column>
+                            <p:column headerText="#{mgs.konto}" width="50" sortBy="#{loopik.konto.pelnynumer}">
+                                <h:outputText value="#{loopik.konto.pelnynumer}"/>
+                            </p:column>
+                            <p:column headerText="dok.seria" width="50" sortBy="#{loopik.wiersz.dokfk.seriadokfk}">
+                                <h:outputText value="#{loopik.wiersz.dokfk.seriadokfk}/#{loopik.wiersz.dokfk.nrkolejnywserii}"/>
+                            </p:column>
+                            <p:column headerText="dok.nr" width="50" sortBy="#{loopik.wiersz.dokfk.numerwlasnydokfk}">
+                                <h:outputText value="#{loopik.wiersz.dokfk.numerwlasnydokfk}"/>
+                            </p:column>
+                            <p:column headerText="w." width="20"  style="text-align: center;" sortBy="#{loopik.wiersz.idporzadkowy}">
+                                <h:outputText value="#{loopik.wiersz.idporzadkowy}"/>
+                            </p:column>
+                            <p:column headerText="#{mgs.opis}" width="200" sortBy="#{loopik.wiersz.opisWiersza}">
+                                <h:outputText value="#{loopik.wiersz.opisWiersza}"/>
+                            </p:column>
+                            <p:column headerText="kurs" width="30" sortBy="#{loopik.wiersz.tabelanbp.kurssredni}" rendered="#{kontoZapisFKView.wybranaWalutaDlaKont != 'PLN'}">
+                                <h:outputText value="#{loopik.wiersz.tabelanbp.kurssredni}" rendered="#{loopik.wiersz.tabelanbp.kurssredni > 0.0}" style="float: right;">
+                                    <f:convertNumber minFractionDigits="4" maxFractionDigits="4" locale="PL"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column headerText="tab" width="40" sortBy="#{loopik.wiersz.tabelanbp.nrtabeli.substring(0,3)}" style="text-align: center;" rendered="#{kontoZapisFKView.wybranaWalutaDlaKont != 'PLN'}">
+                                <h:outputText value="#{loopik.wiersz.tabelanbp.nrtabeli.substring(0,3)}" rendered="#{loopik.wiersz.tabelanbp.nrtabeli.substring(0,3) ne '000'}"/>
+                            </p:column>
+                            <p:column headerText="Wn" width="60" sortBy="#{loopik.kwota}">
+                                <h:outputText id="kwotawnwiersz" value="#{loopik.wnma eq 'Wn' ? loopik.kwota : null}" style="float: right;">
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column headerText="Wn w PLN" width="60" sortBy="#{loopik.kwotaPLN}" rendered="#{kontoZapisFKView.wybranaWalutaDlaKont ne 'PLN'}">
+                                <h:outputText id="kwotawnwierszPLN" value="#{loopik.wnma eq 'Wn' ? loopik.kwotaPLN : null}" style="float: right;">
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column headerText="Ma" width="60" sortBy="#{loopik.kwota}">
+                                <h:outputText id="kwotamawiersz" value="#{loopik.wnma eq 'Ma' ? loopik.kwota : null}" style="float: right;">
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column headerText="Ma w PLN" width="60" sortBy="#{loopik.kwotaPLN}"  rendered="#{kontoZapisFKView.wybranaWalutaDlaKont ne 'PLN'}">
+                                <h:outputText id="kwotamawierszPLN" value="#{loopik.wnma eq 'Ma' ? loopik.kwotaPLN : null}" style="float: right;">
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column headerText="#{mgs.waluta}" width="30" sortBy="#{loopik.wiersz.tabelanbp.waluta.symbolwaluty}" style="text-align: center;" rendered="#{kontoZapisFKView.wybranaWalutaDlaKont ne 'PLN'}">
+                                <h:outputText id="waluta" value="#{loopik.wiersz.tabelanbp.waluta.symbolwaluty}"/>
+                            </p:column>
+                            <p:column headerText="Konto przeciw." width="60" sortBy="#{loopik.wnma eq 'Wn' ? loopik.wiersz.stronaMa.konto.pelnynumer : loopik.wiersz.stronaWn.konto.pelnynumer}">
+                                <h:outputText id="kontonr" value="#{loopik.wnma eq 'Wn' ? loopik.wiersz.stronaMa.konto.pelnynumer : loopik.wiersz.stronaWn.konto.pelnynumer}"/>
+                            </p:column>
+                        </p:dataTable>
+                    </p:column>
+                </p:rowExpansion>
+                <!--                        <p:column headerText="Konto przeciwstawne" width="90" sortBy="9{loop.loop.kontoprzeciwstawne}">
+                                            <h:outputText value="9{kontoprzeciwstawne eq '000' ? 'zapis z BO' : loop.kontoprzeciwstawne}"/>
+                                        </p:column>-->
+            </p:dataTable>
+        </h:form>
+
+    </p:dialog>
+</ui:composition>
+

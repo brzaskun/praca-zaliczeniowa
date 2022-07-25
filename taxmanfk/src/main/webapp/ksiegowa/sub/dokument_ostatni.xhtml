@@ -1,0 +1,136 @@
+
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    
+    >
+    <!--**********************************************************************-->
+    <!-- informacja o ostatnio wprowadzonym dokumencie-->
+    <h:form id="zobWiad">
+        <p:panel id="ostatniUzytkownik" header="Ostatnio wprowadzony dokument" style="width: 1300px; height: 400px; box-shadow: 10px 10px 5px #888; padding: 2%; margin-top: 5px;" rendered="#{!WpisView.czegosbrakuje}">
+            <div style="padding: 10px;">
+                <h:outputText value="zapisy w pkpir" style="font-weight: 500; color: green;"/>
+            </div>
+            <p:panelGrid columns="13" style="text-align: center">
+                <h:outputLabel value="nr kolejny" style="font-weight: 500"/>
+                <h:outputLabel value="data wyst" style="font-weight: 500"/>
+                <h:outputLabel value="data sprzedaży" style="font-weight: 500"/>
+                <h:outputLabel value="#{mgs.kontrahent}" style="font-weight: 500"/>
+                <h:outputLabel value="rodzaj dokumentu" style="font-weight: 500"/>
+                <h:outputLabel value="nr wł" style="font-weight: 500"/>
+                <h:outputLabel value="#{mgs.opis}" style="font-weight: 500"/>
+                <h:outputLabel value="kwota i kolumna w pkpir" style="font-weight: 500"/>
+                <h:outputLabel value="k m-c" style="font-weight: 500"/>
+                <h:outputLabel value="k rok" style="font-weight: 500"/>
+                <h:outputLabel value="v m-c" style="font-weight: 500"/>
+                <h:outputLabel value="v rok" style="font-weight: 500"/>
+                <h:outputLabel value="uwagi" style="font-weight: 500"/>
+                <h:outputText  value="#{DokumentView.wysDokument.idDok}"/>
+                <h:outputText  value="#{DokumentView.wysDokument.dataWyst}"><f:convertDateTime parent="dd/mm/yyyy"/></h:outputText>
+                <h:outputText  value="#{DokumentView.wysDokument.dataSprz}"><f:convertDateTime parent="dd/mm/yyyy"/></h:outputText>
+                <h:outputText  id="nazwa" value="#{DokumentView.wysDokument.kontr.npelna}"/>
+                <h:outputText  value="#{DokumentView.wysDokument.rodzajedok.skrot}"/>
+                <h:outputText  value="#{DokumentView.wysDokument.nrWlDk}"/>
+                <h:outputText  value="#{DokumentView.wysDokument.opis}"/>
+                <p:dataTable var="subwpis" value="#{DokumentView.wysDokument.listakwot1}" emptyMessage="dokument bez zapisu w pkpir"  resizableColumns="true" style="width: 400px;">
+                    <p:column id="SubColumnP1"  headerText="#{mgs.netto}">  
+                        <h:outputText value="#{subwpis.netto}" style="float: right;">
+                            <f:convertNumber minFractionDigits="2" locale="PL"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column id="SubColumnP2" headerText="kolumna">  
+                        <h:outputText value="#{subwpis.nazwakolumny}" style="float: right;">
+                            <f:convertNumber minFractionDigits="2" locale="PL"/>
+                        </h:outputText>
+                    </p:column>
+                </p:dataTable>
+
+                <h:outputText  value="#{DokumentView.wysDokument.pkpirM}"/>
+                <h:outputText  value="#{DokumentView.wysDokument.pkpirR}"/>
+                <h:outputText  value="#{DokumentView.wysDokument.vatM}"/>
+                <h:outputText  value="#{DokumentView.wysDokument.vatR}"/>
+                <h:outputText  value="#{DokumentView.wysDokument.uwagi}"/>
+            </p:panelGrid>
+            <p:panel>
+                <div style="padding: 10px;">
+                    <h:outputText value="zapisy w ewidencji vat" style="font-weight: 500; color: green;"/>
+                </div>
+                <p:dataTable value="#{DokumentView.wysDokument.ewidencjaVAT1}" var="p" emptyMessage="Dokument prosty - bez VAT">
+                    <p:column id="idColumn" headerText="#{wpis.nazwa}">  
+                        <f:facet name="header">  
+                            <h:outputText value="#{wpis.nazwa}"/>  
+                        </f:facet> 
+                        <h:outputText value="#{p.ewidencja.nazwa}" />
+                    </p:column>
+                    <p:column id="idColumn0" headerText="zakup">  
+                        <f:facet name="header">  
+                            <h:outputText value="pozycja"/>  
+                        </f:facet> 
+                        <h:outputText value="#{p.ewidencja.rodzajzakupu}" />
+                    </p:column>
+                    <p:column id="idColumn1" headerText="pozycja">  
+                        <f:facet name="header">  
+                            <h:outputText value="pozycja"/>  
+                        </f:facet> 
+                        <h:outputText value="#{p.ewidencja.nazwapola}" />
+                    </p:column>
+                    <p:column id="idColumn2" headerText="#{mgs.netto}">  
+                        <f:facet name="header">  
+                            <h:outputText value="#{mgs.netto}"/>  
+                        </f:facet> 
+                        <h:outputText value="#{p.netto}"  style="float: right;" >
+                            <f:convertNumber minFractionDigits="2" locale="PL"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column id="idColumn3" headerText="#{mgs.VAT}">  
+                        <f:facet name="header">  
+                            <h:outputText value="#{mgs.VAT}"/>  
+                        </f:facet> 
+                        <h:outputText value="#{p.vat}"  style="float: right;">
+                            <f:convertNumber minFractionDigits="2" locale="PL"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column id="idColumn4" headerText="op/zw">  
+                        <f:facet name="header">  
+                            <h:outputText value="op/zw"/>  
+                        </f:facet> 
+                        <h:outputText value="#{p.estawka}" />
+                    </p:column>
+                </p:dataTable>
+            </p:panel>
+            <!-- rozliczenie płatności-->
+            <p:panel>
+                <div style="padding: 10px;">
+                    <h:outputText value="rozliczenie płatności" style="font-weight: 500"/>
+                </div>
+                <p:dataTable value="#{DokumentView.wysDokument.rozrachunki1}"
+                             var="p">
+                    <p:column id="idColumn" headerText="data zapłaty">  
+                        <f:facet name="header">  
+                            <h:outputText value="data zapłaty"/>  
+                        </f:facet> 
+                        <h:outputText value="#{p.dataplatnosci}" />
+                    </p:column>
+                    <p:column id="idColumn0" headerText="kwota zapłaty">  
+                        <f:facet name="header">  
+                            <h:outputText value="kwota zapłaty"/>  
+                        </f:facet> 
+                        <h:outputText value="#{p.kwotawplacona}" />
+                    </p:column>
+                    <p:column id="idColumn1" headerText="do rozliczenia">  
+                        <f:facet name="header">  
+                            <h:outputText value="do rozliczenia"/>  
+                        </f:facet> 
+                        <h:outputText value="#{p.dorozliczenia}" />
+                    </p:column>
+                </p:dataTable>
+            </p:panel>
+        </p:panel>
+    </h:form>
+
+</ui:composition>   
+
+

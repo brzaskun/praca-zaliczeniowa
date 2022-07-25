@@ -1,0 +1,179 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:bcf="http://brzaskun.com/facelets">
+
+    <p:tab id="proforma" title="Faktury proforma">
+        <style>
+            .ui-datatable .nrkolejny .ui-column-filter {
+                width: 85px !important;
+            }
+            .ui-datatable .opis .ui-column-filter {
+                width: 185px !important;
+            }
+            .ui-datatable .data1 .ui-column-filter {
+                width: 60px !important;
+            }
+            .ui-datatable .data2 .ui-column-filter {
+                width: 70px !important;
+            }
+            .ui-datatable .data3 .ui-column-filter {
+                width: 30px !important;
+            }
+        </style>
+        <h:form id="formproforma">
+            
+            <p:panelGrid id="panelsumpro" style="height: 40px;">
+                <f:facet name="header">
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="ilość"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="suma netto"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="suma vat"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="suma brutto"/>
+                        </p:column>
+                    </p:row>
+                </f:facet>
+                <p:row>
+                    <p:column style="text-align: center;">
+                        <h:outputText value="#{fakturaView.iloscwybranych}" rendered="#{fakturaView.iloscwybranych gt 0}"/>
+                    </p:column>
+                    <p:column>
+                        <bcf:outputpl id="podsumowaniewybrnetto" value="#{fakturaView.podsumowaniewybranychnetto}"/>
+                    </p:column>
+                    <p:column>
+                        <bcf:outputpl id="podsumowaniewybrvat" value="#{fakturaView.podsumowaniewybranychvat}"/>
+                    </p:column>
+                    <p:column>
+                        <bcf:outputpl id="podsumowaniewybrbrutto" value="#{fakturaView.podsumowaniewybranychbrutto}"/>
+                    </p:column>
+                </p:row>
+            </p:panelGrid>
+            <p:panelGrid rendered="#{sMTPSettingsView.selected eq nukl}">
+                <h:outputText value="Nie skonfigurowano maila firmy. Faktury proforma będą wysyłane z domyślnego maila programu: info@taxman.biz.pl" style="font-weight: 800; color: red;"/>
+            </p:panelGrid>
+            <p:panel header="dołącz krótką wiadomość do wysyłanego maila">
+                <p:inputText value="#{fakturaView.wiadomoscdodatkowa}" style="width: 800px;"></p:inputText>
+                <p:commandButton value="drukuj zestawienie" actionListener="#{fakturaView.drukujfakturysporzadzone}" style="width: 150px; margin-left: 30px;"/>
+            </p:panel>
+            <p:dataTable id="dokumentyListaPro" value="#{fakturaView.fakturypro}" var="wpispro" rowIndexVar="row" filteredValue="#{fakturaView.fakturyFilteredpro}" 
+                         selection="#{fakturaView.gosciwybralpro}" rowKey="#{wpispro.numerkolejny}" widgetVar="dokTableFakturyPro" rowSelectMode="add" style="max-width: 1400px;"
+                         sortBy="#{wpispro.numerkolejny}" sortFunction="#{fakturaView.sortZaksiegowaneFaktury}" emptyMessage="Nie sporządzono faktur w tym miesiącu">
+                <f:facet name="header">  
+                    <h:outputText value="Zestawienie wygenerowanych faktur proforma w mc #{WpisView.miesiacWpisu} " />  
+                    <!--                    <h:outputText value="- wyszukiwanie: " />  
+                                        <p:inputText id="globalFilter" onkeyup="PF('dokTableFakturyPro').filter();" style="width:180px" placeholder="wyszukiwane wyrażenie"
+                                                     onfocus="PF('dokTableFakturyPro').clearFilters();PF('dokTableFakturyPro').unselectAllRows();"></p:inputText>-->
+                </f:facet>
+                <p:ajax event="filter" global="false" listener="#{fakturaView.sumawartosciwybranych(fakturaView.gosciwybralpro)}" update=":akordeon:formproforma:panelsumpro confirmDialogpro" />
+                <p:ajax event="rowSelectCheckbox" listener="#{fakturaView.sumawartosciwybranych(fakturaView.gosciwybralpro)}" update=":akordeon:formproforma:panelsumpro confirmDialogpro" global="false"/>
+                <p:ajax event="rowUnselectCheckbox" listener="#{fakturaView.sumawartosciwybranych(fakturaView.gosciwybralpro)}" update=":akordeon:formproforma:panelsumpro confirmDialogpro" global="false"/>
+                <p:ajax event="toggleSelect" listener="#{fakturaView.sumawartosciwybranych(fakturaView.gosciwybralpro)}" update=":akordeon:formproforma:panelsumpro confirmDialogpro" global="false"/>      
+                <p:ajax event="rowSelect" update=":akordeon:formproforma:panelsumpro confirmDialogpro" global="false"/>      
+                <p:ajax event="rowUnselect" update=":akordeon:formproforma:panelsumpro confirmDialogpro" global="false"/>  
+                <p:column selectionMode="multiple"  width="30" style="text-align: center;" />
+                <p:column width="20">
+                    <p:rowToggler />
+                </p:column>
+                <p:column styleClass="nrkolejny" headerText="nr kolejny" width="90" sortBy="#{wpispro.numerkolejny}" filterBy="#{wpispro.numerkolejny}" 
+                          filterMatchMode="contains" >
+                    <h:outputText value="#{wpispro.numerkolejny}" style="line-break: loose;word-break: break-all;word-wrap: break-word !important;"/>
+                </p:column>
+                <p:column headerText="#{mgs.kontrahent}" width="120" sortBy="#{wpispro.kontrahent.npelna}" filterBy="#{wpispro.kontrahent.npelna}" filterMatchMode="contains" 
+                          >
+                    <h:outputText value="#{wpispro.kontrahent.npelna}" style="#{wpispro.pozycjepokorekcie.size() > 0 ? 'color:red;' : null}; line-break: loose;word-break: break-all;word-wrap: break-word !important;"/>
+                </p:column>
+                <p:column styleClass="opis" headerText="#{mgs.opis}" filterBy="#{wpispro.opisFaktury}" filterMatchMode="contains"  width="250" 
+                          >
+                    <h:outputText value="#{wpispro.opisFaktury}" style="#{wpispro.pozycjepokorekcie.size() > 0 ? 'color:red;' : null}; line-break: loose;word-break: break-all;word-wrap: break-word !important;"/>
+                </p:column>
+                <p:column styleClass="data1" headerText="data wyst." sortBy="#{wpispro.datawystawienia}" filterBy="#{wpispro.datawystawienia}" 
+                          filterMatchMode="contains"  width="60">
+                    <h:outputText value="#{wpispro.datawystawienia.substring(2)}"/>
+                </p:column>
+                <p:column styleClass="data1" headerText="termin płatności" sortBy="#{wpispro.terminzaplaty}" filterBy="#{wpispro.terminzaplaty}" 
+                          filterMatchMode="contains"  width="60">
+                    <h:outputText value="#{wpispro.terminzaplaty.substring(2)}"/>
+                </p:column>
+                <p:column styleClass="data2" headerText="netto"  sortBy="#{wpispro.nettoFakturaView}" filterBy="#{wpispro.nettoFakturaView}" filterMatchMode="contains"   width="70">
+                    <bcf:outputpl value="#{wpispro.nettoFakturaView}"/>
+                    <h:outputText value=" #{wpispro.walutafaktury}" rendered="#{wpis.walutafaktury ne 'PLN'}"/>
+                </p:column>
+                <p:column styleClass="data2" headerText="brutto"  sortBy="#{wpispro.bruttoFakturaView}" filterBy="#{wpispro.bruttoFakturaView}" filterMatchMode="contains"   width="70">
+                    <bcf:outputpl value="#{wpispro.bruttoFakturaView}"/>
+                    <h:outputText value=" #{wpispro.walutafaktury}" rendered="#{wpis.walutafaktury ne 'PLN'}"/>
+                     <bcf:outputpl value="#{wpispro.bruttoFakturaViewPLN}" rendered="#{wpispro.walutafaktury ne 'PLN'}"/>
+                    <h:outputText value=" PLN" rendered="#{wpispro.walutafaktury ne 'PLN'}"/>
+                </p:column>
+                <p:column styleClass="data3" headerText="wys." sortBy="#{wpispro.wyslana}" filterBy="#{wpispro.wyslana ? 'tak' : 'nie'}" filterMatchMode="contains"  
+                          style="text-align: center;"  width="40">
+                    <h:outputText value="#{wpispro.datawysylki}" rendered="#{wpispro.wyslana}">
+                        <f:convertDateTime  pattern="dd-MM"/>
+                    </h:outputText>
+                    <h:outputText value="nie" rendered="#{!wpispro.wyslana}" style="color: green;"/>
+                </p:column>
+                <p:column styleClass="data1" headerText="typ" sortBy="#{wpispro.rodzajdokumentu}" filterBy="#{wpispro.rodzajdokumentu}" filterMatchMode="contains" 
+                          style="text-align: center;" width="60">
+                    <h:outputText value="#{wpispro.rodzajdokumentu}" style="#{wpispro.pozycjepokorekcie.size() gt 0  or wpispro.gutschrift ? 'color:red;' : null}"/>
+                    <h:outputText value=" korekta" rendered="#{wpispro.pozycjepokorekcie.size() gt 0 or wpispro.gutschrift}" style="color: red;"/>
+                    <h:outputText value=" +duplikaty" rendered="#{wpispro.duplikaty.size() gt 0}" style="color: green;"/>
+                </p:column>
+                <p:column  headerText="edytuj" style="text-align: center;"  width="40">
+                    <p:commandButton  update=":akordeon:formstworz, :akordeon" actionListener="#{fakturaView.skierujfakturedoedycjiZwykla(wpispro)}" 
+                                      icon="ui-icon-script" oncomplete="aktywujpolewyboruklientanafakturze();" />
+                </p:column>
+                <p:column  headerText="PDF" style="text-align: center;"  width="40">
+                    <p:commandButton  update=":form1:messages" actionListener="#{pdfFaktura.drukuj(wpispro, row, WpisView.podatnikObiekt)}" icon="ui-icon-print" />
+                </p:column>
+                <p:column  headerText="korekta" style="text-align: center;"  width="45">
+                    <p:commandButton  update=":akordeon:formstworz, :akordeon" actionListener="#{fakturaView.skierujfakturedokorekty(wpispro)}" 
+                                      icon="ui-icon-pencil" oncomplete="aktywujpolewyboruklientanafakturze();" rendered="#{!wpispro.fakturaniemiecka13b}"/>
+                </p:column>
+                <p:rowExpansion>
+                    <p:panelGrid  columns="3"  style="width: 1100px" columnClasses="forty-percent, twenty-percent, forty-percent">
+                        <p:column>
+                        <p:panelGrid  columns="2"  columnClasses="forty-percent, sixty-percent">
+                            <h:outputText value="email kontrahenta"/>
+                            <h:outputText value="#{wpispro.kontrahent.email ne '' ? wpispro.kontrahent.email : 'brak email'}"/>
+                            <h:outputText value="konto bankowe"/>
+                            <h:outputText value="#{wpispro.nrkontabankowego}"/>
+                            <h:outputText value="kwota netto"/>
+                            <bcf:outputpl value="#{wpispro.netto}"/>
+                            <h:outputText value="kwota vat"/>
+                            <bcf:outputpl value="#{wpispro.vat}"/>
+                            <h:outputText value="kwota brutto"/>
+                            <bcf:outputpl value="#{wpispro.brutto}"/>
+                        </p:panelGrid>
+                        </p:column>
+                        <p:column>
+                        <p:panelGrid  columns="2" >
+                            <h:outputText value="okres pod doch"/>
+                            <h:outputText value="#{wpispro.okresCit}"/>
+                            <h:outputText value="okres vat"/>
+                            <h:outputText value="#{wpispro.okresVat}"/>
+                        </p:panelGrid>
+                        </p:column>
+                    </p:panelGrid>
+                </p:rowExpansion>
+            </p:dataTable>
+            <p:contextMenu for="dokumentyListaPro" style="width: 250px;">
+                <p:menuitem value="Drukuj" update=":form1:messages" actionListener="#{fakturaView.pdffakturapro()}" icon="ui-icon-print" />
+                <p:menuitem value="Mail do kontr." update=":form1:messages, :akordeon:formarchiwum:dokumentyArchiwum, :akordeon:formproforma:dokumentyListaPro" icon="ui-icon-mail-closed" actionListener="#{fakturaView.mailfaktura(fakturaView.gosciwybralpro)}" />
+                <p:menuitem value="Usuń wybrane" update="confirmDialogpro" oncomplete="PF('confirmationFakturapro').show();" icon="ui-icon-trash" />
+                <p:separator/>
+                <p:menuitem value="Oznacz jako wysłaną" update=":form1:messages, :akordeon:formarchiwum:dokumentyArchiwum, :akordeon:formproforma:dokumentyListaPro" icon="ui-icon-mail-closed" actionListener="#{fakturaView.oznaczonejakowyslane(fakturaView.gosciwybralpro)}" />
+                <p:menuitem value="Wymuś usunięcie" update=":akordeon:formproforma:dokumentyListaPro,  :akordeon:formzestawienie:dokumentyZestawienie" actionListener="#{fakturaView.wymusdestroysporzadzone(fakturaView.gosciwybralpro)}" icon="ui-icon-trash" />
+            </p:contextMenu>
+        </h:form>
+    </p:tab>
+</ui:composition>   
+

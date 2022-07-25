@@ -1,0 +1,81 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    >
+    <p:outputPanel style="margin-left: auto; margin-right: auto; padding: 3%;">
+        <h:form id="form">
+            <p:panelGrid columns="2" style="width: 500px;">
+                <f:facet name="header">
+                    <h:outputText value="Treść wiadomości"/>
+                </f:facet>
+                          
+                <h:outputLabel for="problem" value="na czym polega problem?"/>
+                <p:inputTextarea id="problem" value="#{pismoAdminView.pismoadmin.tresc}" rows="9" autoResize="false" cols="80" validatorMessage="Rozpisz się bardziej. Napisz na czym dokłanie polega problem."/>
+                <p:commandButton value="molestuj admina" actionListener="#{pismoAdminView.molestujadmina}" style="width: 150px;" update=":wykazpism @form"/>
+            </p:panelGrid>
+        </h:form>
+        <h:form id="wykazpism">
+            <p:dataTable value="#{pismoAdminView.listapism}" var="item" style="width: 1000px; margin-top: 2%;"
+                         widgetVar="table" emptyMessage="Nikt nie niepokoił jeszcze admina"
+                         paginator="true" rows="12" paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
+                         rowsPerPageTemplate="12,16,20,50"  sortBy="#{item.datawiadomosci}" sortOrder="descending"
+                         >
+                <f:facet name="header">
+                    <h:outputText value="Wysłane wiadomości"/><br/>
+                    <h:outputText value="- wyszukiwanie słów w treści wiadomości: " />  
+                    <p:inputText id="globalFilter" onkeyup="PF('table').filter()" style="width:150px" />  
+                </f:facet>
+                <p:column width="40">
+                    <f:facet name="header">
+                        <h:outputText value="#{mgs.numerkolejny}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.lp}"/>
+                </p:column>
+                <p:column width="80">
+                    <f:facet name="header">
+                        <h:outputText value="Data nadania"/>
+                    </f:facet>
+                    <h:outputText value="#{item.datawiadomosci}">
+                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+                <p:column width="100">
+                    <f:facet name="header">
+                        <h:outputText value="Obszar"/>
+                    </f:facet>
+                    <h:outputText value="#{item.menulink}"/>
+                </p:column>
+                <p:column width="330" filterBy="#{item.tresc}" filterMatchMode="contains" filterStyle="display: none;">
+                    <f:facet name="header">
+                        <h:outputText value="Treść"/>
+                    </f:facet>
+                    <h:outputText value="#{item.tresc}"/>
+                </p:column>
+                                <p:column width="100">
+                    <f:facet name="header">
+                        <h:outputText value="Nadawca"/>
+                    </f:facet>
+                    <h:outputText value="#{item.nadawca}"/>
+                </p:column>
+                <p:column width="100">
+                    <f:facet name="header">
+                        <h:outputText value="Status"/>
+                    </f:facet>
+                    <h:outputText value="#{item.status}" style="#{item.status eq 'odrzucona' ? 'color: red;' : null}"/>
+                </p:column>
+                <p:column width="80">
+                    <f:facet name="header">
+                        <h:outputText value="Admin zmienił status dnia"/>
+                    </f:facet>
+                    <h:outputText value="#{item.datastatus}">
+                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </p:outputPanel>
+</ui:composition>   
+

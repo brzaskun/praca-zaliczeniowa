@@ -1,0 +1,192 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    
+    
+    xmlns:bcf="http://brzaskun.com/facelets">
+    
+    <p:tabView id="akordeonBilans" style="max-width: 1300px; min-width: 1000px;" activeIndex="#{fakturaView.aktywnytab}" >
+        <p:tab title="#{mgs.RZiS}" >
+           <h:form id="formprzegladRZiS">
+            <p:panelGrid columns="7">
+                <p:panelGrid columns="3">
+                    <h:outputText value="#{mgs.nazwaukładu}"/>
+                    <p:selectOneMenu value="#{pozycjaBRView.uklad}" converter="#{ukladBRConv}">
+                        <f:selectItems value="#{ukladBRView.lista}" var="loop" itemLabel="#{loop.uklad} - #{loop.rok}" itemValue="#{String.valueOf(loop.lp)}"/>
+                    </p:selectOneMenu>
+                    <p:commandButton value="#{mgs.wybierzmcrok}" style="width: 120px;" type="submit" actionListener="#{pozycjaBRView.pobierzukladprzegladRZiS()}" update="akordeonBilans:formprzegladRZiS"/>
+                </p:panelGrid>
+                <p:column>
+                    <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
+                        <p:ajax event="change" listener="#{pozycjaBRView.odswiezrzis()}" update="akordeonBilans:formprzegladRZiS" />
+                        <f:selectItems value="#{mce.mceList}"/>
+                    </p:selectOneMenu>
+                </p:column>
+                <p:column>
+                <h:outputText value="bilans od dnia" style="margin-left: 5px;"/>
+                     <p:inputText value="#{pozycjaBRView.bilansoddnia}" maxlength="10" size="10"> 
+                         <p:ajax event="blur" partialSubmit="true" global="false"/>
+                     </p:inputText>
+                     <h:outputText value="bilans na dzień" style="margin-left: 5px;"/>
+                     <p:inputText value="#{pozycjaBRView.bilansnadzien}" maxlength="10" size="10"> 
+                         <p:ajax event="blur" partialSubmit="true" global="false"/>
+                     </p:inputText>
+                </p:column>
+                <p:column>
+                    <p:commandButton value="#{mgs.drukuj}" style="width: 120px; margin-left: 50px;" type="submit" actionListener="#{pozycjaBRView.drukujRZiS()}"/>
+                    <p:commandButton value="#{mgs.drukujnrkont}" style="width: 120px; margin-left: 10px;" type="submit" actionListener="#{pozycjaBRView.drukujRZiSPozycje()}"/>
+                </p:column>
+            </p:panelGrid>
+            <p:panelGrid columns="2" style="height: 600px;">
+                <p:column>
+                    <p:treeTable id="dataList" value="#{pozycjaBRView.rootProjektRZiS}" var="loop" selectionMode="checkbox" selection="#{pozycjaBRView.selectedNodes}" 
+                                 styleClass="tablicaplankont" resizableColumns="true" emptyMessage="#{mgs.niewybranorzis}"
+                                 scrollable="true" style="height: 700px; margin-top: 0px; width: 650px; overflow-y: scroll;">
+                        <f:facet  name="header">
+                                <h:outputText value="#{mgs.rachunekzyskówistrat}"/>
+                            </f:facet>
+                        <p:ajax event="select" global="false" listener="#{pozycjaBRView.wyluskajStronyzPozycji()}" update="akordeonBilans:formprzegladRZiS:podpietepozycje, akordeonBilans:formprzegladRZiS:podpietekonta"/>
+                        <p:ajax event="unselect" global="false" listener="#{pozycjaBRView.wyluskajStronyzPozycji()}" update="akordeonBilans:formprzegladRZiS:podpietepozycje, akordeonBilans:formprzegladRZiS:podpietekonta"/>
+                        <p:column style="width: 440px;">
+                            <h:outputText value="#{loop.pozycjaSymbol}" style="font-weight: bolder" /> 
+                            <h:outputText value=" " /> 
+                            <h:outputText value="#{loop.nazwa}" rendered="#{facesContext.viewRoot.locale.language.equals('pl')}"/>
+                            <h:outputText value="#{loop.de}" rendered="#{facesContext.viewRoot.locale.language.equals('de')}"/>
+                        </p:column>
+                         <p:column headerText="#{WpisView.miesiacWpisu}/#{WpisView.rokWpisuSt}">
+                            <h:outputText value="#{loop.kwota}" style="float: right; padding-right: 15%">
+                                <f:convertNumber minFractionDigits="2" locale="PL"/>
+                            </h:outputText>
+                        </p:column>
+                    </p:treeTable>
+                </p:column>
+                <p:column>
+                    <p:panelGrid columns="1" >
+                        <p:dataTable id="podpietekonta" value="#{pozycjaBRView.sumaPodpietychKont}" emptyMessage="#{mgs.niemapodpiętychkont}" var="loop"
+                                     style="height: 200px; margin-top: 0%; width: 550px; margin-bottom: 50px; overflow-y: scroll;" sortBy="#{loop.pelnynumer}">
+                            <f:facet  name="header">
+                                <h:outputText value="#{mgs.podpiętesaldakont}"/>
+                            </f:facet>
+                            <p:column width="60">
+                                <h:outputText value="#{loop.pelnynumer}"/>
+                            </p:column>
+                            <p:column width="350">
+                                <h:outputText value="#{loop.nazwapelna}" rendered="#{facesContext.viewRoot.locale.language.equals('pl')}"/>
+                                <h:outputText value="#{loop.de}" rendered="#{facesContext.viewRoot.locale.language.equals('de')}"/>
+                            </p:column>
+                            <p:column >
+                                <bcf:outputpl value="#{loop.kwota}" />
+                            </p:column>
+                        </p:dataTable>
+                        <p:dataTable id="podpietepozycje" value="#{pozycjaBRView.podpieteStronyWiersza}" emptyMessage="#{mgs.niemapodpiętychzapisów}" var="loop"
+                                     style="height: 400px; margin-top: 0%; width: 550px; margin-bottom: 50px; overflow-y: scroll;" sortBy="#{loop.konto.pelnynumer}">
+                            <f:facet  name="header">
+                                <h:outputText value="#{mgs.podpiętezapisy}"/>
+                            </f:facet>
+                            <p:column width="30">
+                                <h:outputText value="#{loop.konto.pelnynumer}"/>
+                            </p:column>
+                            <p:column width="50">
+                                <h:outputText value="#{loop.wiersz.dataksiegowania}"/>
+                            </p:column>
+                            <p:column width="180">
+                                <h:outputText value="#{loop.wiersz.opisWiersza.length() gt 38 ? loop.wiersz.opisWiersza.subSequence(0, 38) : loop.wiersz.opisWiersza}"/>
+                            </p:column>
+                            <p:column width="50">
+                                <bcf:outputpl value="#{loop.kwota}" />
+                            </p:column>
+                            <p:column style="text-align: center;" width="40">
+                                <h:outputText value="#{loop.wiersz.dokfk.seriadokfk}/#{loop.wiersz.dokfk.nrkolejnywserii} z #{loop.wiersz.dokfk.miesiac}"/>
+                            </p:column>
+                        </p:dataTable>
+                    </p:panelGrid>
+                </p:column>
+            </p:panelGrid>
+        </h:form>
+        </p:tab>
+        <p:tab title="#{mgs.Bilans}">
+             <h:form id="formprzegladbilans">
+<!--            <p:contextMenu for="dataList">
+                <p:menuitem value="Nowe syntetyczne" icon="ui-icon-circle-plus" update=":form" onclick="PF('nowekontosyntetyczne').show();"/>
+                <p:menuitem value="Nowe analityczne" icon="ui-icon-circle-plus" update=":form" onclick="PF('nowekontoanalityczne').show();"/>
+                <p:menuitem value="Usuń" actionListener="{planKontView.usun()}" icon="ui-icon-trash" update=":form"/>
+            </p:contextMenu>
+-->            <script>
+
+                    document.onkeypress = wcisnij;
+                    function wcisnij() {
+                        if (event.keyCode == 43) {
+                            $('#form\\:rozwinwsz').click();
+                        } else if (event.keyCode == 45) {
+                            $('#form\\:zwinwsz').click();
+                        } else {
+                            return event;
+                        }
+                    }
+            </script>
+             <p:panelGrid columns="6">
+                <p:panelGrid columns="3">
+                    <h:outputText value="#{mgs.nazwaukładu}"/>
+                    <p:selectOneMenu value="#{pozycjaBRView.uklad}" converter="#{ukladBRConv}">
+                        <f:selectItems value="#{ukladBRView.lista}" var="loop" itemLabel="#{loop.uklad} - #{loop.rok}" itemValue="#{String.valueOf(loop.lp)}"/>
+                    </p:selectOneMenu>
+                    <p:commandButton value="#{mgs.wybierzmcrok}" style="width: 120px;" type="submit" actionListener="#{pozycjaBRView.obliczBilansNaDzien()}" update="akordeonBilans:formprzegladbilans"/>
+                </p:panelGrid>
+                 <p:column>
+                      <p:splitButton value="#{mgs.drukujaktywa}"  style="margin-left: 30px;" type="submit" actionListener="#{pozycjaBRView.drukujBilans('a',pozycjaBRView.sumabilansowaaktywa)}">
+                          <p:menuitem global="false" value="#{mgs.aktywaznrkont}"  actionListener="#{pozycjaBRView.drukujBilansKonta('a',pozycjaBRView.sumabilansowaaktywa)}" icon="fa fa-print"/>  
+                      </p:splitButton>
+                      <p:splitButton value="#{mgs.drukujpasywa}"  style="margin-left: 10px;" type="submit" actionListener="#{pozycjaBRView.drukujBilans('p',pozycjaBRView.sumabilansowapasywa)}">
+                          <p:menuitem global="false" value="#{mgs.pasywaznrkont}"  actionListener="#{pozycjaBRView.drukujBilansKonta('b',pozycjaBRView.sumabilansowapasywa)}" icon="fa fa-print"/>  
+                      </p:splitButton>
+                </p:column>
+            </p:panelGrid>
+            <p:panelGrid columns="2" >
+                <p:treeTable id="dataList" value="#{pozycjaBRView.rootBilansAktywa}" var="loop" selectionMode="checkbox" selection="#{pozycjaBRView.selectedNodes}" 
+                             styleClass="tablicaplankont" resizableColumns="true" emptyMessage="#{mgs.brakpozycjiaktywa}" 
+                             scrollable="true" style="width: 600px; max-height: 600px;" >
+                    <f:facet name="header">
+                        <h:outputText value="#{mgs.aktywa} "/>
+                        <bcf:outputpl value="#{pozycjaBRView.sumabilansowaaktywa}"/>
+                    </f:facet>
+                    <p:column style="width: 440px;">
+                        <h:outputText value="#{loop.pozycjaSymbol}" style="font-weight: bolder" /> 
+                        <h:outputText value=" " /> 
+                        <h:outputText value="#{loop.nazwa}" rendered="#{facesContext.viewRoot.locale.language.equals('pl')}"/>
+                        <h:outputText value="#{loop.de}" rendered="#{facesContext.viewRoot.locale.language.equals('de')}"/>
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="#{loop.kwota}" style="float: right; padding-right: 15%">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                    </p:column>
+                </p:treeTable>
+                <p:treeTable id="dataList2" value="#{pozycjaBRView.rootBilansPasywa}" var="loop" selectionMode="checkbox" selection="#{pozycjaBRView.selectedNodes}" 
+                             styleClass="tablicaplankont" resizableColumns="true" emptyMessage="#{mgs.brakpozycjipasywa}" 
+                             scrollable="true" style="width: 600px; max-height: 600px;">
+                    <f:facet name="header">
+                        <h:outputText value="#{mgs.pasywa} "/>
+                        <bcf:outputpl value="#{pozycjaBRView.sumabilansowapasywa}"/>
+                    </f:facet>
+                    <p:column style="width: 440px;">
+                        <h:outputText value="#{loop.pozycjaSymbol}" style="font-weight: bolder" /> 
+                        <h:outputText value=" " /> 
+                        <h:outputText value="#{loop.nazwa}" rendered="#{facesContext.viewRoot.locale.language.equals('pl')}"/>
+                        <h:outputText value="#{loop.de}" rendered="#{facesContext.viewRoot.locale.language.equals('de')}"/>
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="#{loop.kwota}" style="float: right; padding-right: 15%">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                    </p:column>
+                </p:treeTable>
+            </p:panelGrid>
+           
+        </h:form>
+        </p:tab>
+    </p:tabView>
+</ui:composition>   
+

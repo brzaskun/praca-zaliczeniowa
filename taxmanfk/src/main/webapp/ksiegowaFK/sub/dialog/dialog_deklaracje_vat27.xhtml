@@ -1,0 +1,19 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    >
+
+    <p:dialog id="dialog_deklaracje_vat27" header="Status wysłanych deklaracji VAT-27" widgetVar="dialog_deklaracje_vat27"  appendTo="@(body)" modal="true"
+              resizable="false" onShow="ustawdialog('dialog_deklaracje_vat27', 'menurejestry', 1450, 700);" closeOnEscape="true" onHide="resetujdialog('dialog_deklaracje_vat27');"  >
+        <p:panel style="height: 600px;">
+            <h:form>
+            <p:tabView id="akordeon3" style="height: 580px;">
+                <ui:include src="ewidencjavat/vat27.xhtml"/>
+           </p:tabView>
+            </h:form>
+        </p:panel>
+    </p:dialog>
+</ui:composition>

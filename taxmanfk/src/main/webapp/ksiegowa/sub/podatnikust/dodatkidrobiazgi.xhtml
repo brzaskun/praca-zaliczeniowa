@@ -1,0 +1,55 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    >
+    <p:tab title="Ustawienia dodatkowe">  
+        <p:panelGrid columns="3">
+        <h:form >
+            <h:outputText value="język maila "/>
+            <p:selectOneListbox value="#{podatnikView.selected.jezykmaila}" label="język maila " >
+                <p:ajax event="change" partialSubmit="true" listener="#{podatnikView.naniesjezykmaila()}" global="false"/>
+                <f:selectItem itemLabel="nie wysyłać"/>
+                <f:selectItem itemLabel="polski" itemValue="pl"/>
+                <f:selectItem itemLabel="niemiecki" itemValue="de"/>
+                <f:selectItem itemLabel="angielski" itemValue="en"/>
+                <f:selectItem itemLabel="czeski" itemValue="cze"/>
+            </p:selectOneListbox>
+        </h:form>
+        <h:form >
+            <h:outputText value="hasło do karty z certyfikatem "/>
+            <p:inputText value="#{podatnikView.selected.kartacert}">
+                <p:ajax event="blur" partialSubmit="true" listener="#{podatnikView.edytujhp()}"/>
+            </p:inputText>
+        </h:form>
+            <h:form >
+            <h:outputText value="Pesel do karty z certyfikatem "/>
+            <p:inputText value="#{podatnikView.selected.kartapesel}">
+                <p:ajax event="blur" partialSubmit="true" listener="#{podatnikView.edytujhp()}"/>
+            </p:inputText>
+        </h:form>
+        </p:panelGrid>
+        <p:panelGrid columns="1">
+        <h:form >
+            <h:outputText value="Nazwa z KRS/CEIDG "/>
+            <p:inputText value="#{podatnikView.selected.nazwaRejestr}" size="100">
+                <p:ajax event="blur" partialSubmit="true" listener="#{podatnikView.edytuj()}"/>
+            </p:inputText>
+        </h:form>
+        <h:form >
+            <h:outputText value="przedmiot działalność PKD (bez kropek) "/>
+            <p:inputText value="#{podatnikView.selected.kodPKD}"  maxlength="5" size="5" validatorMessage="Wymagane 5 znaków">
+                <p:ajax event="blur" partialSubmit="true" listener="#{podatnikView.edytuj()}"/>
+            </p:inputText>
+        </h:form>
+        <h:form >
+            <h:outputText value="robimy rozrachunki dla firmy"/>
+            <p:selectBooleanCheckbox value="#{podatnikView.selected.rozrachunkifk}">
+                <p:ajax event="change" partialSubmit="true" listener="#{podatnikView.edytuj()}"/>
+            </p:selectBooleanCheckbox>
+        </h:form>
+        </p:panelGrid>
+    </p:tab>
+</ui:composition> 

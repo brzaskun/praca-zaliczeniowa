@@ -1,0 +1,57 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    >
+    <p:confirmDialog id="confirmDialog" message="Usunąć wybrane faktury? Sztuk #{fakturaView.gosciwybral.size()}"  appendTo="@(body)"
+                     header="Rozpoczęcie usuwania faktur" severity="alert" widgetVar="confirmationFaktura" >  
+        <p:commandButton id="decline" value="Nie usuwać" onclick="PF('confirmationFaktura').hide()" type="button" style="margin-left: 15px;"/>   
+        <p:commandButton id="confirm" value="Tak, usunąć" update="akordeon:formsporzadzone:dokumentyLista akordeon:formzestawienie:dokumentyZestawienie" 
+                         oncomplete="PF('confirmationFaktura').hide()"  
+                         actionListener="#{fakturaView.destroysporzadzone}" style="margin-left: 70px;"/>  
+    </p:confirmDialog>  
+    <p:confirmDialog id="confirmDialogpro" message="Usunąć wybrane faktury proforma? Sztuk #{fakturaView.gosciwybralpro.size()}" appendTo="@(body)"
+                     header="Rozpoczęcie usuwania faktur" severity="alert" widgetVar="confirmationFakturapro" >  
+        <p:commandButton value="Nie usuwać" onclick="PF('confirmationFakturapro').hide()" type="button" style="margin-left: 15px;"/>   
+        <p:commandButton value="Tak, usunąć" update="akordeon:formproforma:dokumentyListaPro akordeon:formzestawienie:dokumentyZestawienie" 
+                         oncomplete="PF('confirmationFakturapro').hide()"  
+                         actionListener="#{fakturaView.destroysporzadzonepro}" style="margin-left: 70px;"/>  
+    </p:confirmDialog>  
+    <p:confirmDialog id="confirmDialog1" message="Wygenerować #{fakturaView.gosciwybralokres.size()} nowe faktury w miesiącu #{WpisView.miesiacWpisu}?"  appendTo="@(body)"
+                     header="Generowanie nowych faktur" severity="alert" widgetVar="confirmationFakturaOkresowe" >  
+        <p:commandButton id="decline1" value="Nie" onclick="PF('confirmationFakturaOkresowe').hide()" type="button" style="margin-left: 15px;; width: 120px;"/>   
+        <p:commandButton id="confirm1" value="Tak" update="akordeon:formsporzadzone_edit:dokumentyLista_edit akordeon:formsporzadzone:dokumentyLista akordeon:formzestawienie:dokumentyZestawienie akordeon:formokresowe:dokumentyOkresowe" 
+                         oncomplete="PF('confirmationFakturaOkresowe').hide()"  
+                         actionListener="#{fakturaView.wygenerujzokresowych()}" style="margin-left: 70px; width: 120px;"/>  
+    </p:confirmDialog>  
+    <p:confirmDialog id="confirmDialog2" message="Wygenerować #{fakturaView.gosciwybralokres.size()} ręczne faktury w miesiącu #{WpisView.miesiacWpisu}?"  appendTo="@(body)"
+                     header="Generowanie nowych faktur" severity="alert" widgetVar="confirmationFakturaOkresowe2" >  
+        <p:commandButton value="Nie" onclick="PF('confirmationFakturaOkresowe2').hide()" type="button" style="margin-left: 15px;; width: 120px;"/>   
+        <p:commandButton value="Tak" update="akordeon:formsporzadzone_edit:dokumentyLista_edit akordeon:formsporzadzone:dokumentyLista akordeon:formzestawienie:dokumentyZestawienie akordeon:formokresowe:dokumentyOkresowe" 
+                         oncomplete="PF('confirmationFakturaOkresowe2').hide()"  
+                         actionListener="#{fakturaView.wygenerujzokresowychreczne()}" style="margin-left: 70px; width: 120px;"/>  
+    </p:confirmDialog>
+     <p:confirmDialog id="confirmDialog3" message="Wygenerować #{fakturaView.gosciwybralokres.size()} ręczne faktury w miesiącu #{WpisView.miesiacWpisu}?"  appendTo="@(body)"
+                     header="Generowanie nowych faktur" severity="alert" widgetVar="confirmationFakturaOkresowe3" >  
+        <p:commandButton value="Nie" onclick="PF('confirmationFakturaOkresowe3').hide()" type="button" style="margin-left: 15px;; width: 120px;"/>   
+        <p:commandButton value="Tak" update="akordeon:formsporzadzone_edit:dokumentyLista_edit akordeon:formsporzadzone:dokumentyLista akordeon:formzestawienie:dokumentyZestawienie akordeon:formokresowe:dokumentyOkresowe" 
+                         oncomplete="PF('confirmationFakturaOkresowe3').hide()"  
+                         actionListener="#{fakturaView.wygenerujzokresowychzaleglekadry()}" style="margin-left: 70px; width: 120px;"/>  
+    </p:confirmDialog>  
+    <ui:include src="faktura/dialog_nowyklient_faktura.xhtml"/>
+    <ui:include src="faktura/dialog_nazwaskroconafaktura.xhtml"/>
+    <p:tabView id="akordeon" style="max-width: 1500px; min-width: 900px;" activeIndex="#{fakturaView.aktywnytab}" >
+        <p:ajax event="tabChange" onstart="PF('dokTableFaktury').clearFilters()" global="false"/>
+        <ui:include src="faktura/faktura_stworz.xhtml"/>
+        <ui:include src="faktura/faktura_sporzadzone.xhtml"/>
+        <ui:include src="faktura/faktura_sporzadzone_edycja.xhtml"/>
+        <ui:include src="faktura/faktura_proforma.xhtml"/>
+        <ui:include src="faktura/faktura_archiwum.xhtml"/>
+        <ui:include src="faktura/faktura_okresowe.xhtml"/>
+        <ui:include src="faktura/faktura_zestawienie.xhtml"/>
+    </p:tabView>
+ 
+</ui:composition>   
+

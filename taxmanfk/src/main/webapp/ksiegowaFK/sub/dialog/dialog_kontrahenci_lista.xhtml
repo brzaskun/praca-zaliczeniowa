@@ -1,0 +1,14 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    >
+    <p:dialog id="dialog_kontrahenci_lista" header="Wykaz kontrahentów" widgetVar="dialog_kontrahenci_lista" 
+              resizable="false"  onShow="ustawdialog('dialog_kontrahenci_lista','menukartoteki',1250,850);" closeOnEscape="true" onHide="resetujdialog('dialog_kontrahenci_lista');" >
+        <p:outputPanel style="height: 840px;">
+            <ui:include src="./../../../wspolny/sub/wykazklientow.xhtml"/> 
+        </p:outputPanel>
+    </p:dialog>
+</ui:composition>

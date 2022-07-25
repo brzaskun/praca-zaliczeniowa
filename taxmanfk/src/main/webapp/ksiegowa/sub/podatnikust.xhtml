@@ -1,0 +1,40 @@
+    
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    >
+
+    <p:panel header="Parametryzowanie indywidualne podatnika: #{podatnikView.nazwaWybranegoPodatnika}" style="font-weight: bold; width: 1000px;"/>
+    
+    <p:tabView id="akordeon" style="width: 1200px;">
+       <ui:include src="podatnikust/edycjadanychpodatnika.xhtml"/>
+       <ui:include src="podatnikust/aktywnedokumentyksiegowe.xhtml"/>
+       <ui:include src="podatnikust/udzialywfirmie.xhtml"/>
+       <ui:include src="podatnikust/wyboropodatkowania.xhtml"/>
+       <ui:include src="podatnikust/wyborvat.xhtml"/>
+       <ui:include src="podatnikust/wyborvatUE.xhtml"/>
+       <ui:include src="podatnikust/inwentaryzacja.xhtml"/>
+       <ui:include src="podatnikust/kwotaautoryzujaca.xhtml"/>
+       <ui:include src="podatnikust/pole47.xhtml"/>
+       <ui:include src="podatnikust/numeracja.xhtml"/>
+       <ui:include src="podatnikust/danedofaktury.xhtml"/>
+       <ui:include src="podatnikust/wysylkazusmail.xhtml"/>
+       <ui:include src="podatnikust/zawieszeniedzialalnosci.xhtml"/>
+       <ui:include src="podatnikust/cechydokumentow.xhtml"/>
+       <ui:include src="podatnikust/paramprocentvat.xhtml"/>
+       <ui:include src="podatnikust/paramdeklvatnadwyzka.xhtml"/>
+       <ui:include src="podatnikust/dodatkidrobiazgi.xhtml"/>
+       <ui:include src="podatnikust/sprzedazewidencja.xhtml"/>
+    </p:tabView>
+    <p:panelGrid columns="1" style="padding: 10px;" rendered="#{podatnikView.selected.datawprowadzenia ne null}">
+        <h:outputText value="ostatnia zmiana - #{podatnikView.selected.wprowadzil.toStringLIN()}"/>
+        <h:outputText value="#{podatnikView.selected.datawprowadzenia}">
+            <f:convertDateTime dateStyle="full" timeStyle="full" type="both" locale="pl_PL" timeZone="Poland"/>
+        </h:outputText>
+    </p:panelGrid>
+</ui:composition>   
+

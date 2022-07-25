@@ -1,0 +1,29 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:bcf="http://brzaskun.com/facelets">
+    <style>
+        .waluta input {
+            width: 40px !important;
+        }
+        
+        .zaksiegowanewaski input {
+            width: 75px !important;
+        }
+    </style>
+   
+        <p:dialog id="raportzorin" header="Zestawienie pobranych faktur do transferu xls/pobranie nr klientow -  #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="raportzorin" height="900" width="1450"
+              resizable="false"  onShow="ustawdialog('raportzorin','menudokumenty',1450,900);" closeOnEscape="true" onHide="resetujdialog('raportzorin');" >
+        <p:ajax event="open" listener="#{interpaperImportView.init()}" update="panelplik"/>
+        <p:ajax event="close" listener="#{dokfkView.resetujzaksiegowaneimport}" update="form_raportzorin"/>
+        
+        <!--        <h:form>
+                    <p:commandButton value="uzupełnij" actionListener="#{dokfkView.uzupelnijdokumentyodkontrahenta()}"/>
+                </h:form>-->
+        
+        <ui:include src="../../../wspolny/sub/importraportzorin.xhtml"/>
+    </p:dialog>
+</ui:composition>

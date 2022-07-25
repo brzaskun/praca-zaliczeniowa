@@ -1,0 +1,120 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    
+    xmlns:bcf="http://brzaskun.com/facelets">
+    <style>
+        .ui-datatable-scrollable-theadclone {
+            display: none !important;
+            height: 0px !important;
+        }
+    </style>
+        <p:commandButton value="drukuj" type="button" icon="ui-icon-print" style="margin-bottom: 20px; width: 120px; margin-left: 20px;">
+            <p:printer target="formtablicaporownawcza:tablicaporownawcza" />
+        </p:commandButton>
+    <h:form id="formtablicaporownawcza">
+        <p:messages id="wiad" ><p:autoUpdate/></p:messages>
+        <h:outputText value="brak bilansu otwarcia, dane są niekompletne" rendered="#{srodkiKontaView.brakbo}"/>
+        <p:dataTable value="#{srodkiKontaView.lista}" var="wpisks" rowIndexVar="indxwpisks" style="height: 580px;overflow-y: scroll; width: 1100px;" id="tablicaporownawcza">
+             <p:column style="width: 10px; height: 25px; text-align: center;" >
+                    <p:rowToggler />
+            </p:column>
+            <p:column width="30">
+                <h:outputText value="#{indxwpisks+1}"/>
+            </p:column>
+            <p:column headerText="numer konta" width="50">
+                <h:outputText value="#{wpisks.pelnynumer}"/>
+            </p:column>
+            <p:column headerText="nazwa konta" width="280">
+                <h:outputText value="#{wpisks.nazwapelna}"/>
+            </p:column>
+            <p:column headerText="saldo wn">
+                <bcf:outputpl value="#{wpisks.saldoWnstr}"/>
+            </p:column>
+            <p:column headerText="saldo ma">
+                <bcf:outputpl value="#{wpisks.saldoMastr}"/>
+            </p:column>
+            <p:column headerText="cena zakupu">
+                <bcf:outputpl value="#{wpisks.kosztnabycia}"/>
+            </p:column>
+            <p:column headerText="umorzenia">
+                <bcf:outputpl value="#{wpisks.odpisyamo}"/>
+            </p:column>
+            <p:column headerText="różnica">
+                <bcf:outputpl value="#{wpisks.roznica}" stylePlus="color: #{wpisks.roznica lt 0.0 ? 'red': 'green'}"/>
+            </p:column>
+            <p:rowExpansion>
+                <p:dataTable value="#{wpisks.srodkitrwale}" var="wpisks1" rowIndexVar="indxwpisks1" style="height: 200px;overflow-y: scroll;" id="tablicaporownawcza2">
+                    <p:column width="30">
+                        <h:outputText value="#{indxwpisks1+1}"/>
+                    </p:column>
+                    <p:column id="data2Column" headerText="data przekazania" filterBy="#{wpisks1.dataprzek}" filterMatchMode="contains" 
+                              filterStyle="display : none;" sortBy="#{wpisks1.dataprzek}" style="width: 70px; text-align: center;">  
+
+                        <h:outputText value="#{wpisks1.dataprzek}">
+                            <f:convertDateTime dateStyle="medium"  />
+                        </h:outputText>
+                    </p:column>
+                    <p:column id="nazwaColumn" headerText="nazwa środka" filterBy="#{wpisks1.nazwa}" filterMatchMode="contains" 
+                              filterStyle="display : none;" sortBy="#{wpisks1.nazwa}" style="width: 200px;">  
+
+                        <h:outputText value="#{wpisks1.nazwa}"  />
+                    </p:column>
+                    <p:column id="rodzTrColumn" headerText="kwota zakupu netto" filterBy="#{wpisks1.netto}" filterMatchMode="contains" filterStyle="display : none;" 
+                              sortBy="#{wpisks1.netto}" style="width: 67px;">  
+
+                        <bcf:outputpl value="#{wpisks1.netto}"/>
+                    </p:column>
+                     <p:column id="umoColumnpocz" headerText="um począt." filterBy="#{wpisks1.umorzeniepoczatkowe}" filterMatchMode="contains" filterStyle="display : none;" sortBy="#{wpisks1.umorzeniepoczatkowe}" style="width: 60px;">  
+                        <h:outputText value="#{wpisks1.umorzeniepoczatkowe}"  style="#{wpisks1.odpisrok eq null ? 'color: gray; font-weight: 100; float: right;' : 'float: right;'}">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column  headerText="um mc" filterBy="#{wpisks1.strMcePlan}" filterMatchMode="contains"
+                              filterStyle="display : none;" sortBy="#{wpisks1.strMcePlan}"  style="width: 40px;">  
+                        <h:outputText value="#{wpisks1.strMcePlan}"  style="#{wpisks1.odpisrok eq null ? 'color: gray; font-weight: 100; float: right;' : 'float: right;'}">
+                           
+                        </h:outputText>
+                    </p:column>
+                    <p:column  headerText="umorzenia nar" filterBy="#{wpisks1.strOdpisyPlan}" filterMatchMode="contains"
+                              filterStyle="display : none;" sortBy="#{wpisks1.strOdpisyPlan}"  style="width: 80px;">  
+                        <h:outputText value="#{wpisks1.strOdpisyPlan}"  style="#{wpisks1.odpisrok eq null ? 'color: gray; font-weight: 100; float: right;' : 'float: right;'}">
+                             <f:convertNumber minFractionDigits="2" locale="PL"/>
+                        </h:outputText>
+                    </p:column>
+                     <p:column  headerText="wartość netto" filterBy="#{wpisks1.strNettoPlan}" filterMatchMode="contains"
+                              filterStyle="display : none;" sortBy="#{wpisks1.strNettoPlan}"  style="width: 80px;">  
+                        <h:outputText value="#{wpisks1.strNettoPlan}"  style="#{wpisks1.odpisrok eq null ? 'color: gray; font-weight: 100; float: right;' : 'float: right;'}">
+                            <f:convertNumber minFractionDigits="2" locale="PL"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column id="stawkaColumn" headerText="odpis staw." filterBy="#{wpisks1.stawka}" filterMatchMode="contains" filterStyle="display : none;" 
+                              sortBy="#{wpisks1.stawka}" style="width: 50px; text-align: center;">  
+
+                        <h:outputText value="#{wpisks1.stawka}%" >
+                            <f:convertNumber maxFractionDigits="2"
+                                             groupingUsed="true"
+                                             maxIntegerDigits="5"
+                                             type="number"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column id="odpisrokColumn" headerText="odpis za rok" filterBy="#{wpisks1.odpisrok}" filterMatchMode="contains" filterStyle="display : none;" 
+                              sortBy="#{wpisks1.odpisrok}" style="width: 60px;">  
+
+                        <h:outputText value="#{wpisks1.odpisrok}"  style="float: right;">
+                            <f:convertNumber minFractionDigits="2" locale="PL"/>
+                        </h:outputText> 
+                    </p:column>
+                     <p:column  headerText="odpis za mc" filterBy="#{wpisks1.odpismc}" filterMatchMode="contains" filterStyle="display : none;" 
+                              sortBy="#{wpisks1.odpismc}" style="width: 60px;">  
+                         <bcf:outputpl value="#{wpisks1.odpismc}"/>
+                    </p:column>
+                </p:dataTable>
+            </p:rowExpansion>
+        </p:dataTable>
+    </h:form>
+</ui:composition>   
+

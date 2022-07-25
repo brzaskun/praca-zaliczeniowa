@@ -1,0 +1,845 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    
+    xmlns:bcf="http://brzaskun.com/facelets">
+    <style>
+        .dataInput {
+            width: 80px !important;
+        }
+        .ui-inputfield .ui-inputtext {
+            padding: 0px !important;
+            margin: 0px !important;
+        }
+
+        .ui-datatable-data tr td {
+            padding: 0px !important;
+            margin: 0px !important;
+        }
+        /*        dzieki temu nie mamy ramek przy wpisywani danych do dokumentu*/
+        .ui-inputfield, .ui-widget-content .ui-inputfield, .ui-widget-header .ui-inputfield {
+            border: none;
+            outline: none;
+            box-shadow: none;
+            padding: 0px;
+        }
+        .ui-inputfield.ui-state-focus, .ui-widget-content .ui-inputfield.ui-state-focus, .ui-widget-header .ui-inputfield.ui-state-focus {
+            font-weight: 700;
+            background: #e4e3e3;
+        }
+
+        .wpisywaniekontrfk .ui-autocomplete-input {
+            width: 230px;
+        }
+
+        .ui-autocomplete input {
+            width: 150px;
+        }
+
+        .pe-inputNumber{
+            width: 70px !important;
+        }
+
+        .ui-inputNum .ui-widget {
+            width: 90px !important;
+        }
+        .ilosci .pe-inputNumber{
+            width: 70px !important;
+        }
+
+        #dialogpierwszy .ui-dialog-titlebar-close {
+          visibility: hidden;
+        }
+        
+        .zapisZcecha .ui-inputfield {
+            color: red;
+        }
+
+
+    </style>
+ 
+ 
+    <script>
+        //        var kolornaglowka = function() {
+//          var x = $("#dialogpierwszy_title").text();
+//          if (x.indexOf("rok") > -1) {
+//            $("#dialogpierwszy_title").css({
+//                "color": "#b30000"
+//            })
+//           }
+//        };
+
+//    var zaznaczpole = function() {
+//        try {
+//            var czyjest = rj("zapisy");
+//            if (czyjest === null) {
+//                r("formwpisdokument:data2DialogWpisywanie").select();
+//            } else {
+//                var czywidzialne = rj("zapisy").getAttribute("aria-hidden");
+//                if (czywidzialne === "false"){
+//                    var lp = document.getElementById('zestawieniezapisownakontachpola:wierszDoPodswietlenia').value;
+//                    var nazwa = 'formwpisdokument:dataList:'+lp+':opis';
+//                    $(document.getElementById(nazwa)).select();  
+//                }
+//            }
+//        } catch (e) {
+//            
+//        }
+//        };
+        
+    </script>
+<!--    <script>
+        var doczeplistnerydopol = function() {
+                /* <![CDATA[ */
+                //dziekia tej genialnej funkcji wie na ktorym rowku kliknelismy i od tego zacyzn alazenie
+            $(document).on("click", '.walkingtable tr', function (event) {
+            try {
+                    zachowajobiekt(this, event);
+                } catch (ex) {
+                    alert('error dialog zapisynakoncie' + ex.toString());
+                }
+            });
+        };
+        /* ]]> */
+    </script>-->
+    <p:dialog id="dialogpierwszy" 
+              header="#{dokfkView.naglowekWpisDokumentu[0]}" 
+              widgetVar="wpisywanie" appendTo="@(body)" 
+              resizable="false" onShow="wpisywanieOnShow(1290,630);" closable="true"
+              onHide="wpisywanieOnHide();pokazeditbutton()"
+              focus="formwpisdokument:data2DialogWpisywanie"
+              >
+        <p:ajax event="open" listener="#{dokfkView.resetujDokumentOpen()}" global="false" oncomplete="pokazwierszoznaczony()"/>
+<!--        <p:ajax event="open" listener="#{dokfkView.resetujDokumentOpen}" global="false" />-->
+        <p:focus for="formwpisdokument">
+            <h:form id="formwpisdokument" >
+
+                <!--                nagłówek dokumentu-->
+                <p:panelGrid id="panelzkwotami" columns="2" >
+                    <p:panelGrid  columns="1"  >
+                        <p:panelGrid id="paneldatydokumentu">
+                            <f:facet name="header">
+                                <p:row>
+                                    <p:column>
+                                        <h:outputText value="data wprow."/>
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="data wpływu"/>
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="data dokum."/>
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="data op. gosp."/>
+                                    </p:column>
+                                    <p:column rendered="#{WpisView.podatnikObiekt.rozrachunkifk}">
+                                        <h:outputText value="termin płat."/>
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="CIT"/>
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="rok"/>
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="VAT"/>
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="rok"/>
+                                    </p:column>
+
+                                </p:row>
+                            </f:facet>
+                            <p:row>
+                                <p:column>
+                                    <p:inputText id="data1DialogWpisywanie" value="#{dokfkView.selected.datawystawienia}" 
+                                                 onblur="ustawDateFK(#{WpisView.rokWpisu}, #{WpisView.miesiacWpisu}, 'data1DialogWpisywanie', #{dokfkView.zapisz0edytuj1});"
+                                                 title="wpisz numer dnia, lub miesiąc i dzień" styleClass="dataInput"
+                                                 onfocus="odtworzwierszVATRK(this);" style="height: 19px;"
+                                                 >
+                                        <p:ajax global="false" event="blur" partialSubmit="true"/>
+                                    </p:inputText>
+                                </p:column>
+                                <p:column>
+                                    <p:inputText id="data4DialogWpisywanie" value="#{dokfkView.selected.datawplywu}" 
+                                                 onblur="ustawDateFK(#{WpisView.rokWpisu}, #{WpisView.miesiacWpisu}, 'data4DialogWpisywanie', #{dokfkView.zapisz0edytuj1});"
+                                                 title="wpisz numer dnia, lub miesiąc i dzień"  styleClass="dataInput"
+                                                 >
+                                        <p:ajax global="false" event="blur" partialSubmit="true"/>
+                                    </p:inputText>
+                                </p:column>
+                                <p:column>
+                                    <p:inputText id="data2DialogWpisywanie" value="#{dokfkView.selected.datadokumentu}" 
+                                                 onblur="ustawDateFK(#{WpisView.rokWpisu}, #{WpisView.miesiacWpisu}, 'data2DialogWpisywanie', #{dokfkView.zapisz0edytuj1});"
+                                                 title="wpisz numer dnia, lub miesiąc i dzień"  styleClass="dataInput"
+                                                 onfocus="zaznaczpoledaty(this)"
+                                                 >
+                                        <p:ajax global="false" event="blur" partialSubmit="true"/>
+                                    </p:inputText>
+                                </p:column>
+                                <p:column>
+                                    <p:inputText id="data3DialogWpisywanie" value="#{dokfkView.selected.dataoperacji}" 
+                                                 onblur="ustawDateFK(#{WpisView.rokWpisu}, #{WpisView.miesiacWpisu}, 'data3DialogWpisywanie', #{dokfkView.zapisz0edytuj1});"
+                                                 title="wpisz numer dnia, lub miesiąc i dzień"  styleClass="dataInput"
+                                                 onfocus="zaznaczpoledaty(this)"
+                                                 >
+                                        <p:ajax global="false" event="blur" partialSubmit="true"/>
+                                        <p:ajax global="false" event="change" partialSubmit="true" listener="#{dokfkView.wygenerujokreswpisudokumentu}" />
+                                    </p:inputText>
+                                </p:column>
+                                <p:column rendered="#{WpisView.podatnikObiekt.rozrachunkifk}">
+                                    <p:inputText id="data5DialogWpisywanie" value="#{dokfkView.selected.terminPlatnosci}" 
+                                                 onblur="ustawDateFK(#{WpisView.rokWpisu}, #{WpisView.miesiacWpisu}, 'data5DialogWpisywanie', #{dokfkView.zapisz0edytuj1});"
+                                                 title="wpisz numer dnia, lub miesiąc i dzień"  styleClass="dataInput"
+                                                 onfocus="zaznaczpoledaty(this)"
+                                                 >
+                                        <p:ajax global="false" event="blur" partialSubmit="true"/>
+                                        <p:ajax global="false" event="change" partialSubmit="true" listener="#{dokfkView.wygenerujokreswpisudokumentu}" />
+                                    </p:inputText>
+                                </p:column>
+                                  <p:column style="text-align: center">
+                                    <p:inputText id="miesiac" value="#{dokfkView.selected.miesiac}" style="text-align: center; width: 30px;"
+                                                 maxlength="2" size="3">
+                                        <p:ajax event="change" partialSubmit="true" global="false" />
+                                        <p:ajax event="blur" global="false" listener="#{dokfkView.sprawdzmiesiacWpisywanie}" update="formwpisdokument:miesiac"/>
+                                    </p:inputText>
+                                </p:column>
+                                <p:column style="text-align: center">
+                                    <p:inputText id="rok" value="#{dokfkView.selected.rok}" style="text-align: center; width: 40px;"
+                                                 onblur="sprawdzmiesiacDialogWpisywanie('#{WpisView.miesiacWpisu}');"
+                                                 maxlength="4" size="5">
+                                        <p:ajax event="change" partialSubmit="true" global="false"/>
+                                    </p:inputText>
+                                </p:column>
+                                <p:column style="text-align: center">
+                                    <p:inputText id="miesiacVAT" value="#{dokfkView.selected.vatM}" style="text-align: center; width: 30px;"
+                                                 maxlength="2" size="3">
+                                        <p:ajax event="change" partialSubmit="true" global="false" />
+                                        <p:ajax event="blur" global="false" listener="#{dokfkView.sprawdzmiesiacWpisywanievat}" update="formwpisdokument:miesiacVAT"/>
+                                    </p:inputText>
+                                </p:column>
+                                <p:column style="text-align: center">
+                                    <p:inputText id="rokVAT" value="#{dokfkView.selected.vatR}" style="text-align: center; width: 40px;"
+                                                 onblur="sprawdzmiesiacDialogWpisywanie('#{WpisView.miesiacWpisu}');"
+                                                 maxlength="4" size="5">
+                                        <p:ajax event="blur" global="false" listener="#{dokfkView.sprawdzmiesiacWpisywanievat}" update="formwpisdokument:rokVAT"/>
+                                        <p:ajax event="change" partialSubmit="true" global="false"/>
+                                    </p:inputText>
+                                </p:column>
+                            </p:row>
+                        </p:panelGrid>
+                        <p:panelGrid id="paneldaneogolnefaktury">
+                            <f:facet name="header">
+                                <p:row>
+                                    <p:column>
+                                        <h:outputText value="#{mgs.symbol}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="nr kol"/>
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="numer własny"/>
+                                    </p:column>
+                                    <p:column >
+                                        <h:outputText id="przypkontotxt" value="#{dokfkView.selected.rodzajedok.kontorozrachunkowe ne null ? 'konto' : null}"
+                                                      />
+                                    </p:column>
+                                </p:row>
+                            </f:facet>
+                            <p:row>
+                                <p:column>
+                                    <h:selectOneMenu id="symbol" value="#{dokfkView.selected.rodzajedok}" styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
+                                                     onfocus="$(this).removeClass('ui-state-default');$(this).addClass('ui-state-focus');" valueChangeListener="#{dokfkView.ewidencjazmianadok}"
+                                                     onblur="$(this).removeClass('ui-state-focus');$(this).addClass('ui-state-default');" 
+                                                     style="width: 200px; height: 19px;" converter="#{rodzajedokConv}">
+                                        <f:selectItems value="#{rodzajeDokKlientaView.rodzajedokKlienta}"  var="wploop" itemLabel="#{wploop.skrotNazwyDok} - #{wploop.nazwa}"/>
+                                        <p:ajax global="false" event="blur" listener="#{dokfkView.wygenerujnumerkolejny}" update="formwpisdokument:numer formwpisdokument:numerwlasny formwpisdokument:przypkontotxt formwpisdokument:przypkonto formwpisdokument:saldobopop" partialSubmit="true"/>
+<!--                                        <p:ajax global="false" event="change" listener="#{dokfkView.podepnijEwidencjeVatDok(0)}" update=":formwpisdokument:panelzewidencjavat"/>-->
+                                        <p:ajax global="false" event="blur" listener="#{dokfkView.podepnijEwidencjeVatDok(0)}" update=":formwpisdokument:panelzewidencjavat wpisywaniefooter:panelinfo"/>
+                                        <p:ajax global="false" event="blur" listener="#{dokfkView.podepnijoznaczenia}" update="wpisywaniefooter:panelinfo"/>
+                                        <p:ajax global="false" event="change" listener="#{dokfkView.przygotujDokumentWpisywanie()}" 
+                                                update=":formwpisdokument:panelwalutowy :formwpisdokument:panelzkwotamidok :formwpisdokument:dataList wpisywaniefooter:panelinfo"/>
+                                    </h:selectOneMenu>
+                                </p:column>
+                                <p:column>
+                                    <p:inputText id="numer" value="#{dokfkView.selected.nrkolejnywserii}" 
+                                                 style="width: 40px; font-weight: 900; margin-left: 15%;" readonly="true">
+                                    </p:inputText>
+                                </p:column>
+                                <p:column>
+                                    <p:inputText id="numerwlasny" value="#{dokfkView.selected.numerwlasnydokfk}" style="width: 160px;" valueChangeListener="#{dokfkView.skorygujokreswpisudokumentu}">
+                                        <p:ajax event="blur" global="false" partialSubmit="true" listener="#{delegacjeView.sprawdzIstnienieDelegacji(dokfkView.selected)}" 
+                                                update=":parametrydel:jest1niema0 :rodzajdokpole:pole"/>
+                                        <p:ajax event="change" global="false"  partialSubmit="true" update="formwpisdokument:panelwpisbutton formwpisdokument:komunikatywpisdok" listener="#{dokfkView.resetujnumer()}"/>
+                                    </p:inputText>
+                                </p:column>
+                                <p:column style="width: 50px; text-align: center;">
+                                    <h:outputText value="#{dokfkView.selected.kontoRozrachunkowe}"  id="przypkonto"
+                                                  style="color: #{dokfkView.selected.kontoRozrachunkowe eq 'b/k' ? 'red' : 'black'}"/>
+                                </p:column>
+                            </p:row>
+                        </p:panelGrid>
+                        <p:panelGrid id="panelzkwotamidok">
+                            <f:facet name="header">
+                                <p:row>
+                                    <p:column>
+                                        <h:outputText value="#{mgs.kontrahent}" rendered="#{dokfkView.selected.rodzajedok.kategoriadokumentu != 5 and dokfkView.selected.rodzajedok.kategoriadokumentu != 0 ? true : false}"/>
+                                    </p:column>
+                                    <p:column>  
+                                        <h:outputText value="treść dokumentu"/>
+                                    </p:column>
+                                    <p:column style="text-align: center;">
+                                        <h:outputText value="saldo" rendered="#{dokfkView.selected.rodzajedok.kategoriadokumentu == 0}"
+                                                      style="font-style: italic;"/>
+                                    </p:column>
+                                </p:row>
+                            </f:facet>
+                            <p:row>
+                                <p:column>
+                                    <p:autoComplete id="acForce" value="#{dokfkView.selected.kontr}" completeMethod="#{klienciConverterView.completeKL}" widgetVar="poleklientawpisywaniefk"
+                                                    var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="#{klientConv}" title="wpisz nazwę lub nip kontrahenta"
+                                                    minQueryLength="3" maxResults="12" maxlength="10" converterMessage="Nieudana konwersja Klient" queryDelay="5"
+                                                    forceSelection="true" styleClass="wpisywaniekontrfk" autocomplete="true" moreText="jest więcej pasujących pozycji"
+                                                        rendered="#{dokfkView.selected.rodzajedok.kategoriadokumentu != 5 and dokfkView.selected.rodzajedok.kategoriadokumentu != 0 ? true : false}" style="width: 250px;">
+                                        <p:ajax event="query" global="false"/>
+                                        <p:ajax event="blur" listener="#{dokfkView.obrobKontrahenta()}" partialSubmit="true" global="false"  update=":formwpisdokument:panelwpisbutton" 
+                                                oncomplete="znalezionoduplikat();"/>
+                                        <p:ajax event="itemSelect" listener="#{dokfkView.pobierzopiszpoprzedniegodokItemSelect}" partialSubmit="true" oncomplete="dodajnowegoklienta();" global="false"/>
+                                        <f:facet name="itemtip">  
+                                            <h:panelGrid  columns="2" cellpadding="5" width="400">  
+                                                <f:facet name="header">  
+                                                    <h:outputText value="Dane kontrahenta"/>
+                                                </f:facet>  
+                                                <h:outputText value="Nazwa: " />  
+                                                <h:outputText id="npelna" value="#{p.npelna}" />  
+                                                <h:outputText value="NIP: " />  
+                                                <h:outputText id="nip" value="#{p.nip}" />  
+                                                <h:outputText value="Adres " />  
+                                                <h:outputText id="klumna" value="#{p.miejscowosc} #{p.ulica} #{p.dom} #{p.lokal}" /> 
+                                            </h:panelGrid>
+                                        </f:facet>
+                                    </p:autoComplete>
+                                </p:column>
+                                <p:column>
+<!--                                    <p:selectOneMenu id="opisdokumentu" value="#{dokfkView.selected.opisdokfk}" styleClass="pomin"
+                                                     style="width: 230px; height: 19px;" editable="true" >
+                                        <f:selectItem itemLabel="dostawa napojów alkoholowych" itemValue="GTU1"/>
+                                        <f:selectItem itemLabel="dostawa paliw i olejów napędowych" itemValue="GTU2"/>
+                                        <f:selectItem itemLabel="dostawa oleju opałowego" itemValue="GTU3"/>
+                                    </p:selectOneMenu>-->
+                                    <p:inputText id="opisdokumentu" value="#{dokfkView.selected.opisdokfk}" 
+                                                 style="height: 19px; width: 230px;"
+                                                 autocomplete="true">
+                                        <p:ajax event="focus" listener="#{kliencifkView.pobieraniekontaFKWpis(dokfkView.isNiedodawajkontapole(), dokfkView.selected)}" global="false" update=":formwpisdokument:panelwalutowy"/>
+                                        <p:ajax event="blur" partialSubmit="true" global="false" onstart="stworzdelegacje();"
+                                                listener="#{dokfkView.skopiujopisdopierwszegowiersza()}"/>
+                                    </p:inputText>
+                                </p:column>
+                               
+                                <p:column>
+                                    <h:outputText id="saldobopop"  value="#{dokfkView.selected.saldopoczatkowe}" style="float: right; font-style: italic; margin-left: 10px;"  rendered="#{dokfkView.selected.rodzajedok.kategoriadokumentu == 0}">
+                                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                                    </h:outputText>
+                                </p:column>
+                            </p:row>
+                        </p:panelGrid>
+<!--                        <p:panelGrid id="panelzkwotamidoka" rendered="#{planKontView.infozebrakslownikowych ne ''}"
+                                     columns="#{dokfkView.selected.rodzajedok.kategoriadokumentu == 1 or dokfkView.selected.rodzajedok.kategoriadokumentu == 2 ? 3 : 2}"   styleClass="uipanelGrid0">
+                            <h:outputText value="#{planKontView.infozebrakslownikowych}" style="color: red; font-weight: 900;"/>
+                        </p:panelGrid>-->
+                        <p:panelGrid columns="2" id="panelwalutowy" style="min-width: 100%;"  styleClass="uipanelGrid0" >
+                            <p:panelGrid id="panelwalutowywybor" style="min-width: 20%;">
+                                <f:facet name="header">
+                                    <p:row>
+                                        <p:column>
+                                            <h:outputText value="#{mgs.walutadokumentu}" />
+                                        </p:column>
+                                    </p:row>
+                                </f:facet>
+                                <p:row>
+                                    <p:column rendered="#{dokfkView.wlaczZapiszButon eq false}">
+                                        <h:outputText  id="wybranawalutaR" value="#{dokfkView.selected.walutadokumentu.symbolwaluty}" 
+                                                         style="height: 19px;"
+                                                         >
+                                        </h:outputText>
+                                    </p:column>
+                                <p:growl widgetVar="grmes1"/>
+                                <p:column rendered="#{dokfkView.wlaczZapiszButon eq true}">
+                                        <h:selectOneMenu  id="wybranawaluta" value="#{dokfkView.selected.walutadokumentu}" 
+                                                         valueChangeListener="#{dokfkView.pobierzkursNBP}" 
+                                                         immediate="true" rendered="#{!dokfkView.selected.zablokujzmianewaluty}"
+                                                         styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" converter="#{walutyConv}"
+                                                         onfocus="$(this).removeClass('ui-state-default');$(this).addClass('ui-state-focus');"
+                                                         onblur="$(this).removeClass('ui-state-focus');$(this).addClass('ui-state-default');"
+                                                         style="height: 19px;"
+                                                         >
+                                            <p:ajax global="false" event="change" update="formwpisdokument:dataList"/>
+                                            <p:ajax global="false" event="focus" listener="#{delegacjeView.pobierzkontodladelegacji(dokfkView.selected)}"/>
+                                            <p:ajax global="false" event="focus" onstart="sprawdzczymakonto(#{kliencifkView.makonto0niemakonta1},#{dokfkView.dodacdoslownikow});" />
+                                            <p:ajax global="false" event="blur" listener="#{dokfkView.znajdzduplicatdokumentu}" update=":formwpisdokument:panelwpisbutton" oncomplete="znalezionoduplikat();" />
+                                            <f:selectItems value="#{dokfkView.wprowadzonesymbolewalut}" var="p" itemLabel="#{p.symbolwaluty}" itemValue="#{p}"/>
+                                        </h:selectOneMenu>
+                                    <h:outputText  value="#{dokfkView.selected.walutadokumentu}" 
+                                                   style="height: 19px;" rendered="#{dokfkView.selected.zablokujzmianewaluty}"
+                                                         >
+                                    </h:outputText>
+                                    </p:column>
+                                </p:row>
+                            </p:panelGrid>
+                            <p:panelGrid id="panelTabelaNBP" style="min-width: 80%;">
+                                <f:facet name="header">
+                                    <p:row rendered="#{dokfkView.pokazRzadWalutowy || (dokfkView.selected.tabelanbp.waluta.symbolwaluty ne 'PLN' and dokfkView.selected.rodzajedok.kategoriadokumentu != 0 and dokfkView.selected.nieprzeliczaj eq false)}">
+                                        <p:column>
+                                            <h:outputText id="w02" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : 'z dnia'}" />
+                                        </p:column>
+                                        <p:column>
+                                            <h:outputText id="w01" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : 'tabela NBP'}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <h:outputText id="w03" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : 'kurs średni'}" />
+                                        </p:column>
+                                    </p:row>
+                                </f:facet>
+                                <p:row rendered="#{dokfkView.pokazRzadWalutowy || (dokfkView.selected.tabelanbp.waluta.symbolwaluty ne 'PLN' and dokfkView.selected.rodzajedok.kategoriadokumentu != 0 and dokfkView.selected.nieprzeliczaj eq false)}">
+                                    <p:column>
+                                        <h:outputText id="w11" value="#{dokfkView.selected.walutadokumentu.symbolwaluty eq 'PLN' ? ''  : dokfkView.selected.tabelanbp.datatabeli}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText id="w12" value="#{dokfkView.selected.walutadokumentu.symbolwaluty eq 'PLN' ? ''  : dokfkView.selected.tabelanbp.nrtabeli}"
+                                                      />
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText id="w13" value="#{dokfkView.selected.walutadokumentu.symbolwaluty eq 'PLN' ? ''  : dokfkView.selected.tabelanbp.kurssredniPrzelicznik}" 
+                                                      />
+                                    </p:column>
+                                </p:row>
+                            </p:panelGrid>
+                        </p:panelGrid>
+                    </p:panelGrid>
+
+                    <p:panelGrid id="panelzewidencjavat" columns="1"  styleClass="uipanelGrid0" style="width: 620px;">
+                        <h:outputText value="tylko ewidencja vat z podatkiem należnym" style="color: blue;" rendered="#{dokfkView.selected.rodzajedok.tylkovatnalezny}"/>
+                        <p:dataTable id="tablicavat" value="#{dokfkView.selected.ewidencjaVAT}" var="item" emptyMessage="nie ma zapisów w ewidencji vat"
+                                     style="margin-top: 0px;" rendered="#{dokfkView.selected.rodzajedok.kategoriadokumentu == 1 || dokfkView.selected.rodzajedok.kategoriadokumentu == 2}"
+                                     styleClass="gridvat">
+<!--                            <p:column headerText="" width="5">
+                                <h:outputText value="#{item.lp+1}" styleClass="lpwierszavat"/>
+                            </p:column>-->
+                            <p:column headerText="rodzaj ewid." width="80">
+                                <h:outputText value="#{item.ewidencja.nazwa}" style="height: 20px;" rendered="#{item.ewidencja.nazwa.length() lt 15}"/>
+                                <h:outputText value="#{item.ewidencja.nazwa}" style="height: 20px; font-size: smaller" rendered="#{item.ewidencja.nazwa.length() ge 15}"/>
+                            </p:column>
+                            <p:column headerText="#{mgs.netto} wal." width="80" rendered="#{dokfkView.selected.tabelanbp.waluta.symbolwaluty ne 'PLN'}">
+                                <p:inputNumber  id="nettowal" value="#{item.nettowwalucie}" symbol="#{dokfkView.selected.tabelanbp.waluta.symbolwaluty}" required="true" requiredMessage="Brak kwoty - uzupełnij" 
+                                                symbolPosition="s" decimalSeparator="."  thousandSeparator="&#160;"  inputStyle="text-align: right;" size="13" decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"> 
+                                    <p:ajax global="false" event="change" listener="#{dokfkView.updatenettowal(item,'formwpisdokument')}" partialSubmit="true"/>
+<!--                                    <p:ajax global="false" event="keyup" onstart="obsluzewidencjavatsprzedaz(event);"/>-->
+                                </p:inputNumber>
+                            </p:column>
+                            <p:column headerText="#{mgs.netto}" width="80">
+                                <p:inputNumber  id="netto" value="#{item.netto}" required="true" requiredMessage="Brak kwoty - uzupełnij" 
+                                                symbolPosition="s" decimalSeparator="."  thousandSeparator="&#160;"  inputStyle="text-align: right;" size="13" decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"> 
+                                    <p:ajax global="false" event="change" listener="#{dokfkView.updatenetto(item,'formwpisdokument')}" partialSubmit="true"/>
+<!--                                    <p:ajax global="false" event="keyup" onstart="obsluzewidencjavatsprzedaz(event);"/>-->
+                                </p:inputNumber>
+                            </p:column>
+                            <p:column headerText="#{mgs.VAT} #{dokfkView.selected.rodzajedok.stawkavat ne 0.0 ? dokfkView.selected.rodzajedok.stawkavat : null}#{dokfkView.selected.rodzajedok.stawkavat ne 0.0 ? '%' : null}" width="80">
+                                <p:inputNumber   id="vat" value="#{item.vat}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" 
+                                                symbolPosition="s" decimalSeparator="."  thousandSeparator="&#160;"  inputStyle="text-align: right;" size="13" decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"> 
+                                    <p:ajax global="false" event="change" listener="#{dokfkView.updatevat(item,'formwpisdokument')}" partialSubmit="true"/>
+                                </p:inputNumber>
+                            </p:column>
+                            <p:column headerText="brutto" width="80">
+                                <p:inputNumber   id="brutto" value="#{item.brutto}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij"
+                                                symbolPosition="s" decimalSeparator="."  thousandSeparator="&#160;"  inputStyle="text-align: right;" size="13" decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto" 
+                                                >
+                                    <p:ajax global="false" event="change" listener="#{dokfkView.updatebrutto(item,'formwpisdokument')}" partialSubmit="true"/>
+                                </p:inputNumber>
+                            </p:column>
+                            <p:column headerText="op/zw" style="width: 45px; text-align: center;">
+                                <h:selectOneMenu value="#{item.estawka}" styleClass="ui-selectonemenu-label ui-inputfield ui-corner-all"
+                                                 onfocus="$(this).addClass('ui-state-focus');" 
+                                                 onblur="$(this).removeClass('ui-state-focus');" style="width: 45px; height: 20px;">
+                                    <f:selectItem itemLabel="op" itemValue="sprz.op"/>
+                                    <f:selectItem itemLabel="op.izw." itemValue="sprzed.op.izw."/>
+                                    <p:ajax global="false" event="focus" listener="#{dokfkView.dolaczWierszeZKwotami(item)}" partialSubmit="true"/>
+                                </h:selectOneMenu>
+                            </p:column>
+                            <p:column style="width: 25px; text-align: center;" rendered="#{!item.nieduplikuj}">
+                                <f:facet name="header">
+                                    <h:outputText value="#{dokfkView.sprawdzjakiokresvat() eq 'kwartalne' ? '+kw' : '+mc'}" rendered="#{!item.nieduplikuj}"/>
+                                </f:facet>
+                                <p:inputText id="mcshift" value="#{item.innyokres}" style="width: 30px; text-align: center;" 
+                                             maxlength="2" onblur="sprawdzmcshift(this)" 
+                                             >
+                                    <f:validateDoubleRange minimum="-3" maximum="3"/>
+                                    <p:ajax global="false" event="keyup" partialSubmit="true"/>
+                                    <p:ajax global="false" event="change" listener="#{dokfkView.zmienmiesiac(item.innyokres)}" 
+                                            update="formwpisdokument:dataList formwpisdokument:miesiacVAT formwpisdokument:rokVAT"/>
+                                </p:inputText>
+                            </p:column>
+                            <p:column style="width: 20px; text-align: center;" rendered="#{!item.nieduplikuj}">
+                                <p:commandButton value="+" actionListener="#{dokfkView.podepnijEwidencjeVat(1)}" global="false" update="formwpisdokument:panelzewidencjavat"
+                                                 onfocus="focusNowyVAT(event, this);" rendered="#{item.ewidencja.nazwa.contains('sprzedaż') ne true}"/>
+                            </p:column>
+                            <p:column style="width: 20px; text-align: center;" rendered="#{!item.nieduplikuj}">
+                                <p:commandButton value="-" actionListener="#{dokfkView.usunEwidencjeDodatkowa(item)}" update=":formwpisdokument:tablicavat" 
+                                                 global="false" oncomplete="r('formwpisdokument:tablicavat:0:netto_input').select();"
+                                                 rendered="#{item.ewidencja.nazwa.contains('sprzedaż') ne true}"/>
+                            </p:column>
+                            <p:column style="width: 20px; text-align: center;"  rendered="#{item.nieduplikuj}">
+                                <h:outputText value="#{item.mcEw}/#{item.rokEw.substring(2)}"/>
+                            </p:column>
+                        </p:dataTable>
+                    </p:panelGrid>
+                </p:panelGrid>
+                <div style="height: 340px;">
+                    <p:contextMenu id="contextmenudok" for=":formwpisdokument:dataList">
+<!--ARCHIWUM            <p:menuitem value="napraw wiersz" icon="ui-icon-arrowreturn-1-n" update=":formwpisdokument:dataList" actionListener="#{dokfkView.naprawwiersznkup}"/>-->
+                        <p:menuitem value="usuń wiersz" icon="ui-icon-circle-minus" update=":formwpisdokument:dataList" actionListener="#{dokfkView.usunWskazanyWiersz}" oncomplete="PF('tablicawierszydokwpisu').unselectAllRows();aktywujPierwszePoleNowegoWiersza();"/>
+                        <p:menuitem value="wymuś usuniecie" icon="ui-icon-circle-minus" update=":formwpisdokument:dataList" rendered="#{facesContext.externalContext.remoteUser eq '4'}"
+                                    actionListener="#{dokfkView.usunWskazanyWierszWymus}" oncomplete="PF('tablicawierszydokwpisu').unselectAllRows();aktywujPierwszePoleNowegoWiersza();"/>
+                        <p:menuitem value="przewalutuj wiersz" icon="fa fa-bug" actionListener="#{dokfkView.przewalutujWskazanyWiersz}"  global="false" rendered="#{dokfkView.selected.nieprzeliczaj eq false}"/>
+                        <p:menuitem value="saldo konta" icon="fa fa-table" update="panelwpisbutton" global="false"/>
+                    </p:contextMenu>
+
+                    <!--                POSZCZEGÓLNE WIERSZE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
+                    <p:dataTable id="dataList" value="#{dokfkView.selected.listawierszy}" var="wploop" style="width: 1100px; height: 280px; overflow-y: scroll;" 
+                                 rowIndexVar="index" selection="#{dokfkView.wybranyWiersz}" selectionMode="single" rowKey="#{wploop.hashCode()}" 
+                                 widgetVar="tablicawierszydokwpisu" rowStyleClass="#{wploop.czworka ne null ? 'wierszpiatkowy' : null}" 
+                                 styleClass="walkingtable2" binding="#{dokfkView.tabelawierszy}">
+<!--                        <style>
+                            .ui-datatable-scrollable-theadclone {
+                                display: none !important;
+                                height: 0px !important;
+                            }
+                        </style>-->
+<!--                        <p:ajax event="rowToggle" global="false" />-->
+                        <p:column headerText="#{mgs.numerkolejny}" style="width: 15px; text-align: center" >
+                            <h:outputText value="#{wploop.idporzadkowy}" styleClass="lpwiersza" style="width: 10px;"/>
+                        </p:column>
+<!--                        <p:column style="width: 7px;">
+                            <p:rowToggler rendered="#{wploop.dokfk.getVATRK(wploop) ne null}"/>
+                        </p:column>-->
+                        <p:column headerText="opis transakcji" style="width: 150px; text-align: center;">
+                            <p:inputText id="opisdokwpis" value="#{wploop.opisWiersza}" style="width: 260px; height: 19px;" 
+                                         styleClass="#{wploop.czworka ne null ? 'wierszpiatkowy' : null}">
+                                <!--                                     onkeypress="wywolajdok('{planKontJSView.opiskonta}', '{planKontJSView.pelnynumerkonta}', '{wploop.idporzadkowy}');" -->
+                                <p:ajax global="false" event="focus" oncomplete="zachowajwierszVATRK(#{index+1})" listener="#{dokfkView.pobierzwierszfocus(wploop)}"/>
+                                <p:ajax global="false" event="blur" partialSubmit="true"/>
+                                <p:ajax global="false" event="focus" oncomplete="skopiujopis(#{wploop.idporzadkowy});" listener="#{dokfkView.skopiujopis(wploop.idporzadkowy)}"/>
+                                <p:ajax global="false" event="focus" listener="#{dokfkView.sprawdzwartoscigrupy()}"/>
+                            </p:inputText>
+                            <p:tooltip value="#{wploop.opisWiersza}" for="formwpisdokument:dataList:#{index}:opisdokwpis" trackMouse="true"/>
+                        </p:column>
+                        <p:column headerText="ilość kg" style="width: 30px;" rendered="#{dokfkView.selected.rodzajedok.pokazkg}" >
+                            <p:inputNumber   id="ilosckg" value="#{wploop.ilosc_kg}" style="text-align: right;" styleClass="#{wploop.czworka ne null ? 'wierszpiatkowy' : null}, ilosci"
+                                            thousandSeparator="&#160;"  inputStyle="text-align: right;" size="13" decimalPlaces="2" minValue="-100000" >
+                                
+                                <p:ajax event="change" partialSubmit="true" global="false"/>
+                            </p:inputNumber>
+                        </p:column>
+                        <p:column headerText="ilość szt" style="width: 30px;" rendered="#{dokfkView.selected.rodzajedok.pokazszt}" >
+                            <p:inputNumber    id="iloscszt" value="#{wploop.ilosc_szt}" style="text-align: right;" styleClass="#{wploop.czworka ne null ? 'wierszpiatkowy' : null}, ilosci"
+                                             thousandSeparator="&#160;"  inputStyle="text-align: right;" size="13" decimalPlaces="2" minValue="-100000">
+                                
+                                <p:ajax event="change" partialSubmit="true" global="false"/>
+                            </p:inputNumber>
+                        </p:column>
+                        <p:column headerText="#{mgs.data}" style="text-align: center; width: 20px;"  rendered="#{dokfkView.selected.rodzajedok.kategoriadokumentu == 0}" >
+                            <p:inputText id="dataWiersza" value="#{wploop.dataWalutyWiersza}" styleClass="#{wploop.czworka ne null ? 'wierszpiatkowy' : null}" onblur="kopiujdatedialogwpis();" 
+                                         style="width: 20px;" maxlength="2" >
+                                
+                                <p:ajax global="false" event="change" partialSubmit="true"  onstart="obsluzDateWiersza(#{wploop.idporzadkowy-1});" listener="#{dokfkView.obsluzKursDataWiersza(wploop)}"/>
+                            </p:inputText>
+                        </p:column>
+                        <p:column headerText="BO" style="text-align: center; width: 40px;"  
+                                  rendered="#{dokfkView.selected.seriadokfk eq 'BO'}" >
+                            <h:outputText value="#{wploop.wierszBOId}"/>
+                        </p:column>
+                        <p:column headerText="wal" style="text-align: center; width: 40px;"  
+                                  rendered="#{dokfkView.selected.seriadokfk eq 'BO'}" >
+                            <h:outputText value="#{wploop.walutaWiersz}"/>
+                        </p:column>
+                        <p:column headerText="#{mgs.kwota}"  style="text-align: center; width: 50px;" rendered="#{dokfkView.pokazzapisywzlotowkach == false}">
+                            <p:inputNumber   id="wn" value="#{wploop.stronaWn.kwota}" 
+                                            style="text-align: right; margin-left: auto; margin-right: auto; width: 80px; color: red;" 
+                                            rendered="#{wploop.stronaWn != null}" onfocus="kalkulator_pobierzwiersz(this);"
+                                            symbolPosition="s" decimalSeparator="."  thousandSeparator="&#160;"  inputStyle="text-align: right;" size="12" 
+                                            decimalPlaces="2" minValue="-10000000" styleClass="#{wploop.czworka ne null ? 'wierszpiatkowy' : null}"
+                                            readonly="#{wploop.stronaWn.typStronaWiersza ne 0}"
+                                            valueChangeListener="#{dokfkView.zdarzeniaOnBlurStronaKwotaWn}">
+                                <p:ajax global="false" event="blur" onstart="skopiujKwoteZWierszaWyzej(#{wploop.idporzadkowy-1}, 'Wn');"  partialSubmit="true"/>
+                            </p:inputNumber>
+                        </p:column>
+                        <p:column headerText="kwota PLN" style="text-align: center; width: 50px;" rendered="#{dokfkView.pokazzapisywzlotowkach == true}">
+                            <p:inputNumber   id="wnpln" value="#{wploop.stronaWn.kwotaPLN}" style="text-align: right; margin-left: auto; margin-right: auto; width: 80px;" 
+                                            rendered="#{wploop.stronaWn != null}" 
+                                            symbolPosition="s" decimalSeparator="."  thousandSeparator="&#160;"  inputStyle="text-align: right;" size="12" decimalPlaces="2" minValue="-10000000" styleClass="kasa"
+                                            
+                                            >
+                                
+                            </p:inputNumber>
+                        </p:column>
+                        <!--                    <p:column width="12" style="text-align: center" rendered="{dokfkView.selected.walutadokumentu.symbolwaluty != 'PLN'}">
+                                                <h:outputText id="symbolWn" value="{wploop.tabelanbp.waluta.skrotsymbolu}" rendered="{wploop.stronaWn != null}"/>
+                                            </p:column>-->
+
+                        <p:column headerText="konto Wn" style="text-align: center; width: 100px;"> 
+                            <p:autoComplete id="kontown" value="#{wploop.stronaWn.konto}" completeMethod="#{planKontCompleteView.complete}" 
+                                            rendered="#{wploop.stronaWn != null}"
+                                            var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" forceSelection="true" 
+                                            minQueryLength="1" converter="#{planKontCompleteView}" queryDelay="0"  maxResults="200" 
+                                            converterMessage="Nieudana konwersja Klient" scrollHeight="220" widgetVar="complWn#{wploop.idporzadkowy}"
+                                            styleClass="kontoinput #{wploop.stronaWn.typStronaWiersza eq 1 ? 'kontorozrachunki' : null} #{wploop.stronaWn.typStronaWiersza eq 2 ? 'kontoplatnosci' : null} #{wploop.stronaWn.cechazapisuLista.size() gt 0 ? 'zapisZcecha' : null}"
+                                            onfocus="zachowajwiersz(#{wploop.idporzadkowy}, 'Wn', #{wploop.typWiersza}, event);
+                                                    usunspacje(this);
+                                                    pobierznumergrupywierszy(#{wploop.lpmacierzystego}, #{wploop.idporzadkowy}, #{wploop.stronaWn.typStronaWiersza});
+                                                    focusNowyWiersz();"
+                                            >
+                                <f:facet name="itemtip">
+                                    <h:outputText value="#{p.kontomacierzyste.pelnynumer} #{p.kontomacierzyste.nazwapelna}"/>
+                                </f:facet>
+                                <p:ajax event="focus" global="false" partialSubmit="true" listener="#{dokfkView.pobranieStronaWiersza(wploop.stronaWn)}"
+                                        update=":parametry, :wpisywaniefooter, formwpisdokument:contextmenudok"/>
+                                <p:ajax event="query" global="false"/>
+                                <p:ajax global="false" event="itemSelect" partialSubmit="true" listener="#{dokfkView.pobranieStronaWiersza(wploop.stronaWn)}" 
+                                        oncomplete="dodajnowekontoWpis(#{wploop.idporzadkowy}, 'Wn');"
+                                        update=":parametry, :wpisywaniefooter, :parametrynowekonto"/>
+                            </p:autoComplete>
+                        </p:column>
+                        <p:column headerText="#{mgs.kwota}" style="text-align: center; width: 50px;" width="50" rendered="#{dokfkView.pokazzapisywzlotowkach == false}">
+                            <p:inputNumber   id="ma" value="#{wploop.stronaMa.kwota}" style="text-align: right; margin-left: auto; margin-right: auto; width: 80px;" 
+                                            rendered="#{wploop.stronaMa != null}" onfocus="kalkulator_pobierzwiersz(this);"
+                                            symbolPosition="s" decimalSeparator="."  thousandSeparator="&#160;"  inputStyle="text-align: right;" size="12" decimalPlaces="2" minValue="-10000000" styleClass="kasa"
+                                            readonly="#{wploop.stronaMa.typStronaWiersza ne 0}"
+                                            valueChangeListener="#{dokfkView.zdarzeniaOnBlurStronaKwotaMa}">
+                                <p:ajax global="false" event="change" partialSubmit="true"  />
+                                <p:ajax global="false" event="blur" partialSubmit="true"  onstart="skopiujKwoteZeStronaWn(#{wploop.idporzadkowy-1}, 'Wn');"/>
+                            </p:inputNumber> 
+                        </p:column>
+                        <p:column headerText="kwota PLN" style="text-align: center; width: 50px;" rendered="#{dokfkView.pokazzapisywzlotowkach == true}">
+                            <p:inputNumber   id="mapln" value="#{wploop.stronaMa.kwotaPLN}" 
+                                            style="text-align: right; margin-left: auto; margin-right: auto; width: 80px;" 
+                                            rendered="#{wploop.stronaMa != null}"
+                                            symbolPosition="s" decimalSeparator="."  thousandSeparator="&#160;"  inputStyle="text-align: right;" size="12" decimalPlaces="2" minValue="-10000000" styleClass="kasa"
+                                            
+                                            >
+                                
+                            </p:inputNumber> 
+                        </p:column>
+                        <p:column headerText="konto Ma" style="text-align: center; width: 100px;">
+                            <p:autoComplete id="kontoma" value="#{wploop.stronaMa.konto}" completeMethod="#{planKontCompleteView.complete}" 
+                                            rendered="#{wploop.stronaMa != null}" 
+                                            var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" widgetVar="complMa#{wploop.idporzadkowy}"
+                                            minQueryLength="1" converter="#{planKontCompleteView}" queryDelay="0" maxResults="200"
+                                            converterMessage="Nieudana konwersja Klient"   scrollHeight="220" forceSelection="true"
+                                            styleClass="kontoinput  #{wploop.stronaMa.typStronaWiersza eq 1 ? 'kontorozrachunki' : null} #{wploop.stronaMa.typStronaWiersza eq 2 ? 'kontoplatnosci' : null} #{wploop.stronaMa.cechazapisuLista.size() gt 0 ? 'zapisZcecha' : ''}"
+                                            onfocus="zachowajwiersz(#{wploop.idporzadkowy}, 'Ma', #{wploop.typWiersza}, event);
+                                                    usunspacje(this);
+                                                    pobierznumergrupywierszy(#{wploop.lpmacierzystego}, #{wploop.idporzadkowy}, #{wploop.stronaMa.typStronaWiersza});
+                                                    focusNowyWiersz();"
+                                            >
+                                <f:facet name="itemtip">
+                                    <h:outputText value="#{p.kontomacierzyste.pelnynumer} #{p.kontomacierzyste.nazwapelna}"/>
+                                </f:facet>
+                                <p:ajax event="focus" global="false" partialSubmit="true" listener="#{dokfkView.pobranieStronaWiersza(wploop.stronaMa)}"
+                                        update=":parametry :wpisywaniefooter formwpisdokument:contextmenudok"/>
+                                <p:ajax event="query" global="false"/>
+                                <p:ajax global="false" event="itemSelect" partialSubmit="true" listener="#{dokfkView.pobranieStronaWiersza(wploop.stronaMa)}" 
+                                        oncomplete="dodajnowekontoWpis(#{wploop.idporzadkowy}, 'Ma');"
+                                        update=":parametry :wpisywaniefooter :parametrynowekonto" />
+                            </p:autoComplete>
+                        </p:column>
+                        <p:column  headerText="kurs"  style="width: 23px; text-align: right;"  rendered="#{dokfkView.selected.rodzajedok.kategoriadokumentu == 0 and dokfkView.selected.walutadokumentu.symbolwaluty ne 'PLN'}" >
+                            <h:outputText id="kurswiersza" value="#{wploop.tabelanbp.kurssredni}"
+                                          style="#{wploop.tabelanbp.recznie ? 'color: red !important;float: right; margin-right: 4px;' : 'float: right; margin-right: 4px;'}">
+                                <f:convertNumber minFractionDigits="5" maxFractionDigits="5" locale="PL"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="saldo" style="width: 40px;" rendered="#{dokfkView.selected.rodzajedok.kategoriadokumentu == 0}">
+                            <h:outputText id="saldo" value="#{wploop.saldoWBRK}"
+                                          style="margin-left: 5px; float: right;">
+                                <f:convertNumber minFractionDigits="2" locale="PL"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column style="width: 1px;" visible="false">
+                            <h:outputText id="idwiersza" value="#{wploop.lpmacierzystego}" style="font-size: 0.5; color: white;" />
+                        </p:column>
+                        <p:column style="width: 1px;" visible="false">
+                            <h:outputText id="maNowaTransakcja" value="#{wploop.typWiersza}" style="font-size: 0.5; color: white;" />
+                        </p:column>
+<!--                        <p:rowExpansion>
+                            <p:dataTable value="#{wploop.dokfk.getVATRK(wploop)}" var="wploopik" style="width: 45%;">
+                                <p:column  width="250">
+                                        <h:outputText value="#{wploopik.klient}"/>
+                                    </p:column>
+                                <p:column >
+                                        <bcf:outputpl value="#{wploopik.netto}"/>
+                                    </p:column>
+                                <p:column >
+                                        <bcf:outputpl value="#{wploopik.vat}"/>
+                                </p:column>
+                            </p:dataTable>
+                        </p:rowExpansion>-->
+                    </p:dataTable>
+                    <p:outputPanel id="komunikatywpisdok" style="text-align: left; margin-left: 10px;">
+                        <h:outputText  value="#{dokfkView.komunikatywpisdok}" style="color: red;"/>
+                    </p:outputPanel> 
+                    <p:panelGrid id="panelwpisbutton" style="text-align: right; float: right;">
+                        <p:row>
+                        <p:column style="text-align: right;" width="100" rendered="#{dokfkView.selected.rodzajedok.skrotNazwyDok eq 'BO'}">
+                            <h:outputText value="SaldoWn: "/>
+                            <bcf:outputpl id="saldostronywn"  value="#{dokfkView.sumadokbo[0]}" style="width: 100px; margin-left: 10px;"/>
+                        </p:column>
+                        <p:column style="text-align: right;" width="100" rendered="#{dokfkView.selected.rodzajedok.skrotNazwyDok eq 'BO'}">
+                            <h:outputText value="SaldoMa: "/>
+                            <bcf:outputpl id="saldostronyma"  value="#{dokfkView.sumadokbo[1]}" style="width: 100px; margin-left: 10px;"/>
+                        </p:column>
+                            <p:column style="text-align: right;" width="100" rendered="#{dokfkView.selected.rodzajedok.skrotNazwyDok eq 'BO'}">
+                            <h:outputText value="roznica "/>
+                            <bcf:outputpl id="saldostronyma"  value="#{dokfkView.sumadokbo[1]-dokfkView.sumadokbo[0]}" style="width: 100px; margin-left: 10px;"/>
+                        </p:column>
+                        <p:column style="text-align: right;" width="100" rendered="#{dokfkView.obliczsaldowybranegokonta() ne ''}">
+                            <h:outputText value="saldo wybranego konta: "/>
+                            <bcf:outputpl id="saldowybranegokonta"  value="#{dokfkView.obliczsaldowybranegokonta()}" style="width: 100px; margin-left: 10px;"/>
+                        </p:column>
+                            <p:column style="text-align: right;" width="100" id="wartoscdokumentu">
+                            <h:outputText value="wartość dokumentu: " style="margin-left: 20px;"/>
+                            <bcf:outputpl value="#{dokfkView.selected.wartoscdokumentu}" style="width: 100px; margin-left: 10px;"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="dokument o takim numerze już istnieje" rendered="#{(dokfkView.zapisz0edytuj1 == false) and (dokfkView.wlaczZapiszButon == false) and !WpisView.rokpoprzednizamkniety}" style="color: red;"/>
+                            <h:outputText value="probujesz zaksięgować dokument do zamkniętego roku" rendered="#{dokfkView.zapisz0edytuj1 and WpisView.rokzamkniety}" style="color: red;"/>
+                        </p:column>
+                        <p:column>
+<!--                        <p:commandButton  value="dodaj ewidencja" styleClass="fkbutton" style="width: 150px;" 
+                                          actionListener="#{dokfkView.podepnijEwidencjeVat(0)}" 
+                                         update="">
+                        </p:commandButton>-->
+                        <p:commandButton id="wpiszdokbutton" value="#{mgs.zapisz} (w)" styleClass="fkbutton" style="width: 150px;" actionListener="#{dokfkView.dodaj}" 
+                                         accesskey="w" onsuccess="powrocNaPoczatekDokfk();" rendered="#{(dokfkView.zapisz0edytuj1 == false) and dokfkView.wlaczZapiszButon}"
+                                         onfocus="focusNaNowoDodanymEnter();sprawdzgrupeprzykliknieciuwzapisz();" global="false"
+                                         widgetVar="buttonzachowaj">
+                            <p:ajax event="click" listener="#{sesjaView.dodajdokument()}" global="false"/>
+                        </p:commandButton>
+                        </p:column>
+                        <p:column>
+                        <p:commandButton id="edytujdokbutton" value="#{mgs.edytuj}" styleClass="fkbutton" style="width: 150px;" 
+                                         actionListener="#{dokfkView.edycja}" 
+                                         onfocus="focusNaNowoDodanymEnter();"
+                                         rendered="#{dokfkView.zapisz0edytuj1}" onclick="sprawdzgrupeprzykliknieciuwzapisz();" 
+                                         global="false"/>
+                        </p:column>
+                        <p:column>
+                        <p:commandButton id="edytujdokbuttonimport" value="zaksięguj" styleClass="fkbutton" style="width: 150px;" 
+                                         actionListener="#{dokfkView.edycjaimport}" 
+                                         onfocus="focusNaNowoDodanymEnter();" update="zestawieniedokumentowimport:dataListImport"
+                                         rendered="#{dokfkView.zapisz0edytuj1 and dokfkView.selected.importowany}" onclick="sprawdzgrupeprzykliknieciuwzapisz();" 
+                                         global="false"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText id="stanprzyciskuzapis" value="#{dokfkView.wlaczZapiszButon}" style="font-size: xx-small; color: white;"/>
+                        </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                    
+                </div>
+            </h:form>
+        </p:focus>
+        <f:facet name="footer">
+            <h:form id="wpisywaniefooter">
+                <p:commandButton id="vatRK" value="+" actionListener="#{dokfkView.ewidencjaVatRKInit}" styleClass="fkbutton" 
+                                 style="width: 30px; margin-left: 10px; display: none;" oncomplete="pokazewidencjevatRK();" global="false" accesskey="x" />
+                <p:commandButton id="dodajPustyWierszNaKoncu" value="dodajPustyWierszNaKoncu" actionListener="#{dokfkView.dodajPustyWierszNaKoncu()}" global="false" update=":formwpisdokument:dataList" style="display: none;" />
+                <p:commandButton id="buttonusun" value="(U)suń" actionListener="#{dokfkView.usunWierszWDokumencie}" global="false"
+                                 styleClass="fkbutton" style="width: 130px;" accesskey="u" update=":formwpisdokument" oncomplete="focusNaOstatnimWierszu();"/>
+                <p:commandButton id="uruchomrozrachunki" value="(R)ozrachunki" styleClass="fkbutton" style="width: 130px; margin-left: 10px;" global="false"
+                                 actionListener="#{dokfkView.wybranoRachunekPlatnoscCD()}" oncomplete="pokazwybortransakcjidialog()" accesskey="r" 
+                                 update="formcheckbox rozrachunki formcheckbox:znaczniktransakcji"/>
+                <p:commandButton id="oznaczjakotransakcje" value="nowatransakcja" styleClass="fkbutton" style="width: 130px; margin-left: 10px; display: none;"  
+                                 actionListener="#{dokfkView.oznaczjakonowatransakcja()}" accesskey="t" global="false"
+                                 update="formcheckbox rozrachunki formcheckbox:znaczniktransakcji"/>
+                <p:remoteCommand name="wybranoRachunekPlatnoscCD" actionListener="#{dokfkView.wybranoRachunekPlatnoscCD()}" 
+                                 update=":parametry, :formwpisdokument:dataList" 
+                                 oncomplete="pokazwybortransakcji();"/>
+                <p:commandButton id="cechadokumentu" value="CechyDok(V)" styleClass="fkbutton" style="width: 130px; margin-left: 10px;" 
+                                 onclick="PF('dialogCechyDokumentu').show();" accesskey="v" update="formCH"
+                                 global="false"/>
+                <p:commandButton id="cechazapisu" value="CechyZap(C)" styleClass="fkbutton" style="width: 130px; margin-left: 10px;" update="formCHW"
+                                 actionListener="#{dokfkView.wybranoStronaWierszaCecha()}" accesskey="c" oncomplete="PF('dialogCechyStronaWiersza').show();"
+                                 global="false"/>
+                <p:commandButton id="cechazapisudef" value="CechyZap(A)" styleClass="fkbutton" style="display: none;" 
+                                 actionListener="#{dokfkView.wybranoStronaWierszaCechaDef()}" accesskey="a" 
+                                 global="false"/>
+                <p:commandButton id="kwotywpl" value="zmiana waluty" styleClass="fkbutton" style="width: 130px; margin-left: 10px;" global="false"
+                                 actionListener="#{dokfkView.zmienwalutezapisow()}" update=":formwpisdokument:dataList"/>
+<!--                <p:commandButton id="pokazvat" value="pokaż vat" styleClass="fkbutton" style="width: 130px; margin-left: 10px;" global="false"
+                                 onclick="jQuery('.ui-row-toggler').click()" />-->
+                <p:commandButton icon="fa fa-arrow-left" styleClass="fkbutton" style="width: 60px; margin-left: 85px;" 
+                                 global="false" actionListener="#{dokfkView.przesun(-1)}" 
+                                 />
+                <p:commandButton icon="fa fa-arrow-right" styleClass="fkbutton" style="width: 60px; "  
+                                 global="false" actionListener="#{dokfkView.przesun(1)}"
+                                 />
+                <p:commandButton id="zakmnijwpis" value="rezygnuj" styleClass="fkbutton" style="width: 130px; float: right;" type="button" 
+                                 global="false" actionListener="#{dokfkView.rezygnujzedycji()}"
+                                 onclick="zamykanieDialogow();"/>
+                <p:commandButton id="przeliczbutton" value="przeliczbutton" actionListener="#{dokfkView.przelicznaklawiszu()}" 
+                                 global="false" style="display: none;"/>
+                <p:commandButton id="przywrocwpisbutton" value="przywrocwpisbutton" actionListener="#{dokfkView.przywrocwpisbutton}" 
+                                 global="false" update=":formwpisdokument" style="display: none;"/>
+                <p:commandButton id="przenumeruj" value="przenumeruj" actionListener="#{dokfkView.przenumeruj()}" global="false"
+                                 rendered="#{facesContext.externalContext.remoteUser eq '4'}"
+                                 style="margin-left: 10px; width: 130px; display: none;"  update=":formwpisdokument:dataList"/>
+                <p:commandButton id="dodajwalute" value="dodajwalute" actionListener="#{dokfkView.pobierzpoledlawaluty}" accesskey="l" onclick="PF('dialogkursrecznie').show();" 
+                                 global="false" style="margin-left: 10px; display: none;" update="formkursrecznie:dataKursReczny"/>
+                <h:inputText id="typwiersza" value="#{dokfkView.typwiersza}" style="display: none;"/>
+                <h:inputText id="lpwierszaRK" value="#{dokfkView.lpwierszaRK}" style="display: none;"/>
+                <h:inputText id="lpwierszaWpisywanie" value="#{dokfkView.lpWierszaWpisywanie}"  style="display: none;"/>
+                <p:panelGrid columns="14" id="panelinfo" style="width: 80%">
+                    <h:outputText value="domyślna cecha NKUP - Alt-A" style="width: 80px; color: green;" />
+                    <p:spacer width="20"/>
+                    <h:outputText value="ręczny kurs - Alt-L  " style="width: 80px; color: green;" />
+                    <p:spacer width="70"/>
+                        <h:outputText value=":"/><h:outputText value="#{dokfkView.selected.oznaczenie1 ne null ?dokfkView.selected.oznaczenie1.symbol:'-'}" style="color: darkmagenta; font-size: large"/>
+                        <h:outputText value=":"/><h:outputText value="#{dokfkView.selected.oznaczenie2 ne null ?dokfkView.selected.oznaczenie2.symbol:'-'}" style="color: darkmagenta; font-size: large"/>
+                        <h:outputText value=":"/><h:outputText value="#{dokfkView.selected.oznaczenie3 ne null ?dokfkView.selected.oznaczenie3.symbol:'-'}" style="color: darkmagenta; font-size: large"/>
+                        <h:outputText value=":"/><h:outputText value="#{dokfkView.selected.oznaczenie4 ne null ?dokfkView.selected.oznaczenie4.symbol:'-'}" style="color: darkmagenta; font-size: large"/>
+                </p:panelGrid>
+            </h:form>
+            <h:form id="oznaczjakonkup">
+                <p:commandButton id="oznaczjakonkup" value="oznacz jako nkup" actionListener="#{dokfkView.oznaczjakonkup()}" accesskey="b"
+                                 global="false" style="display: none;" />
+            </h:form>
+            <h:form id="wpisywaniegrupa">
+                <p:commandButton id="sprawdzwartoscigrupy" value="sprawdzwartoscigrupy" actionListener="#{dokfkView.sprawdzwartoscigrupy()}" 
+                                 global="false" style="display: none;" />
+                <h:inputText id="nrgrupywierszy" value="#{dokfkView.nrgrupywierszy}" style="display: none;"/>
+                <h:inputText id="nrgrupyaktualny" value="#{dokfkView.nrgrupyaktualny}"  style="display: none;"/>
+            </h:form>
+            <h:form id="parametry">
+                <h:inputHidden id="aktualnywierszrozrachunkow" value="#{dokfkView.rodzaj}" />
+            </h:form>
+            <h:form id="rodzajdokpole">
+                <h:inputHidden id="pole" value="#{delegacjeView.rodzajdokpole}"/>
+            </h:form>
+            <h:form id="parametrydel">
+                <h:inputHidden id="jest1niema0" value="#{delegacjeView.jest1niema0}"/>
+            </h:form>
+            <h:form id="parametrynowekonto">
+                <h:inputHidden id="jest1niema0" value="#{dokfkView.jest1niema0_konto}"/>
+            </h:form>
+            <h:form id="kalkulator">
+                <p:commandButton id="kalkulator" value="kalkulator" onclick="uruchomkalkulator('dialogpierwszy')" accesskey="k"
+                                 global="false" style="display: none;" />
+            </h:form>
+        </f:facet>
+
+    </p:dialog>
+
+</ui:composition>
+

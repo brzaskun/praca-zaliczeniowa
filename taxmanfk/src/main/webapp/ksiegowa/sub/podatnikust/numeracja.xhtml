@@ -1,0 +1,48 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    
+    
+    xmlns:bcf="http://brzaskun.com/facelets">
+    <p:tab title="Numeracja w pkpir">  
+        <h:form id="form5a" >
+            <h:outputText value="Numer pierwszego dokumentu w programie" style="font-size: 15px"/>
+            <p:growl life="3600"  showDetail="true"/>
+            <p:focus for="parametrypodatnika4a"/><br/>
+            <p:panelGrid columns="4" style="width: 500px">
+                <p:dataTable value="#{podatnikView.selected.numerpkpir}"  var="loop" 
+                            paginator="true" pageLinks="12" rows="12" emptyMessage="Nie wprowadzono" >
+                    <f:facet name="header">
+                    <h:outputText value="Dane historyczne"/>
+                </f:facet>
+                    <p:column headerText="od">
+                        <h:outputText value="#{loop.mcOd}-" />
+                        <h:outputText value="#{loop.rokOd}" />
+                    </p:column>
+                    <p:column headerText="do">
+                        <h:outputText value="#{loop.mcDo}-" />
+                        <h:outputText value="#{loop.rokDo}" />
+                    </p:column>
+                    <p:column headerText="numer w pkpir">
+                        <bcf:outputpl value="#{loop.paramentrInt}"/>
+                    </p:column>
+                </p:dataTable>
+            </p:panelGrid>
+            <p:panel header="wybierz parametry aktualne" style="width: 990px;"/>
+            <p:panelGrid id="parametrypodatnika4a" columns="4" >
+                <h:outputText value="rok podatkowy: "/>
+                <p:selectOneMenu value="#{podatnikView.parametr.rokOd}"><f:selectItems value="#{roki.rokiListString}"/></p:selectOneMenu>
+                <p:inputText value="#{podatnikView.parametr.parametr}" />
+            </p:panelGrid>
+            <br/>
+            <p:panelGrid columns="2" style="column-width: 350px; width: 500px">
+                <p:commandButton action="#{podatnikView.usunnrpkpir()}" value="usun parametr" update="@form" type="submit"/>
+                <p:commandButton action="#{podatnikView.dodajnrpkpir()}" value="dodaj parametr" update="@form" type="submit"/>
+            </p:panelGrid>
+        </h:form>
+        <br/><br/>
+    </p:tab>
+</ui:composition> 

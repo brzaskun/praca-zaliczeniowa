@@ -1,0 +1,79 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:bcf="http://brzaskun.com/facelets">
+      <script>
+        var doczeplistnerydopol = function() {
+                /* <![CDATA[ */
+                //dziekia tej genialnej funkcji wie na ktorym rowku kliknelismy i od tego zacyzn alazenie
+            $(document).on("click", '.walkingtable tr', function (event) {
+            try {
+                    zachowajobiekt(this, event);
+                } catch (ex) {
+                    alert('error dialog zapisynakoncie' + ex.toString());
+                }
+            });
+        };
+        /* ]]> */
+    </script>
+    <p:dialog id="dialogewidencjevat" header="Zestawienie ewidencji vat - #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="dialogewidencjevat"  
+              maximizable="true" onShow="ustawdialog('dialogewidencjevat','menurejestry',1350,750);doczeplistnerydopol();" closeOnEscape="true" onHide="resetujdialog('dialogewidencjevat');"
+              resizable="true">
+        <p:ajax event="open" listener="#{vatZmianaOkresuView.aktualizujpozmianiedaty(WpisView.getPodatnikObiekt())}" global="false" update="@(form)"/>
+        <h:form id="form"> 
+            <style>
+                .ui-datatable .mc .ui-column-filter {
+                    width: 25px !important;
+                }
+                .ui-datatable .nrwlasny .ui-column-filter {
+                    width: 90px !important;
+                }
+                .ui-datatable .datawystawienia .ui-column-filter {
+                    width: 75px !important;
+                }
+
+                .ui-datatable .nrwlasny .ui-column-filter {
+                    width: 85px !important;
+                }
+
+                .ui-datatable .nrkolejny .ui-column-filter {
+                    width: 95px !important;
+                }
+
+                .ui-datatable .ewnetto .ui-column-filter {
+                    width: 85px !important;
+                }
+
+                .ui-datatable .ewvat .ui-column-filter {
+                    width: 85px !important;
+                }
+            </style>
+            <script>
+                var pobierzxml = function () {
+                    document.getElementById('link').setAttribute('href', '../resources/xml/testowa#{WpisView.podatnikObiekt.nip}.xml');
+                    document.getElementById('link').setAttribute('download', 'jpk#{WpisView.podatnikObiekt.nip}_#{WpisView.rokWpisuSt}#{WpisView.miesiacWpisu}.xml');
+                    document.getElementById('link').click();
+                }
+            </script>
+            <p:tabView id="akordeon" style="height: 720px;">
+                <ui:include src="ewidencjavat/ewidencje.xhtml"/>
+                <ui:include src="ewidencjavat/podsumowanie.xhtml"/>
+                <ui:include src="ewidencjavat/klienciJPK.xhtml"/>
+                <ui:include src="ewidencjavat/kontrola.xhtml"/>
+                <ui:include src="ewidencjavat/przychodynastmc.xhtml"/>
+                <ui:include src="ewidencjavat/przychodypoznmce.xhtml"/>
+                <ui:include src="ewidencjavat/kosztynastmc.xhtml"/>
+                <ui:include src="ewidencjavat/kosztypoznmce.xhtml"/>
+                
+           </p:tabView>
+        </h:form>
+        <h:form id="zestawieniezapisownakontachpola">
+            <h:inputHidden id="wierszDoPodswietlenia" value="#{dokfkView.wierszDoPodswietlenia}"/>
+        </h:form>
+    </p:dialog>
+</ui:composition>

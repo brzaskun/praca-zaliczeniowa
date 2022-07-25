@@ -1,0 +1,34 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    >
+    <p:tabView id="menufirma" styleClass="menutabView" orientation="left" style=" height: 500px;width: 600px;box-shadow: 10px 10px 5px #888888; margin-left: 15px; margin-top: 15px;">  
+<!--                <p:tab title="wybor firmy">
+                   
+                </p:tab>  -->
+                <p:tab title="dodawanie firmy">
+                    <h:form id="dialog1menu2">
+                        <p:menu id="d1m2" styleClass="d1m" style="width: 400px; text-align: center; height: 450px;">
+                            <p:menuitem value="Nowa firma" onclick="PF('dialogwprowadzaniefirmy').show();"></p:menuitem>
+                        </p:menu>  
+                    </h:form>
+                </p:tab>  
+                <p:tab title="edycja danych">
+                    <h:form id="dialog1menu3">
+                        <p:menu id="d1m3" styleClass="d1m" style="width: 400px; text-align: center; height: 450px;">
+                            <p:menuitem value="Edytuj dane firmy" onclick="PF('dialogedycjadanychfirmy').show();"></p:menuitem>
+                        </p:menu>  
+                    </h:form>
+                </p:tab>
+                <p:tab title="sprawozdania finansowe">
+                    <h:form>
+                        <p:menu styleClass="d1m" style="width: 400px; text-align: center; height: 450px;">
+                            <p:menuitem value="Sprawozdania finansowe" onclick="PF('dialog_sprawozdania_finansowe').show();"></p:menuitem>
+                        </p:menu>  
+                    </h:form>
+                </p:tab>  
+            </p:tabView>
+</ui:composition>

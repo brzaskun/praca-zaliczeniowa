@@ -1,0 +1,244 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:bcf="http://brzaskun.com/facelets">
+    <p:tab id="okresowe" title="Faktury okresowe">
+      
+        <h:form id="formokresowe">
+           
+            <p:panelGrid id="panelsumokresowe">
+                <f:facet name="header">
+                    <p:row>
+                    <p:column>
+                        <h:outputText value="ilość"/>
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="suma netto"/>
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="suma vat"/>
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="suma brutto"/>
+                        </p:column>
+                        </p:row>
+                </f:facet>
+                <p:row>
+                    <p:column style="text-align: center;">
+                        <h:outputText value="#{fakturaView.iloscwybranych}" rendered="#{fakturaView.iloscwybranych gt 0}"/>
+                    </p:column>
+                    <p:column>
+                        <bcf:outputpl id="podsumowaniewybrnetto" value="#{fakturaView.podsumowaniewybranychnetto}"/>
+                    </p:column>
+                    <p:column>
+                        <bcf:outputpl id="podsumowaniewybrvat" value="#{fakturaView.podsumowaniewybranychvat}"/>
+                    </p:column>
+                    <p:column>
+                        <bcf:outputpl id="podsumowaniewybrbrutto" value="#{fakturaView.podsumowaniewybranychbrutto}"/>
+                    </p:column>
+                </p:row>
+            </p:panelGrid>
+            <p:panelGrid columns="9">
+<!--                <h:outputText value="Procent waloryzacji 100=100%"/>
+                <p:inputNumber  id="kwotawaloryzacji" value="#{fakturaView.waloryzajca}"  decimalPlaces="2"  inputStyle="text-align: right;" symbol=" %" symbolPosition="s" decimalSeparator="."  maxValue="100">
+                    <p:ajax event="blur" partialSubmit="true" global="false"/>
+                </p:inputNumber>-->
+                <h:outputText value="Data wystawienia"/>
+                <p:inputText  id="datawystawienia" value="#{fakturaView.datawystawienia}" maxlength="10" placeholder="rrrr-mm-dd" onblur="weryfikujsporzadzfakture(this)"/>
+                <p:commandButton value="drukuj" actionListener="#{fakturaView.drukujokresowe}" global="false" style="width: 120px; margin-left: 10px;"/>
+                <p:commandButton value="drukuj zerowe" actionListener="#{fakturaView.drukujokresowezerowe}" global="false" style="width: 120px; margin-left: 10px;"/>
+                <p:commandButton value="nanieś waloryzacje" actionListener="#{fakturaView.nanieswaloryzacje}" global="true" style="width: 120px; margin-left: 10px;" update="formokresowe:dokumentyOkresowe"/>
+                <p:selectOneMenu value="#{fakturaView.jakapobrac}" style="margin-left: 10px;">
+                    <f:selectItem itemLabel="wszystkie" itemValue="0"/>
+                    <f:selectItem itemLabel="edycja" itemValue="1"/>
+                    <f:selectItem itemLabel="zawieszona" itemValue="2"/>
+                    <f:selectItem itemLabel="wielorazowa" itemValue="3"/>
+                    <f:selectItem itemLabel="waloryzowana" itemValue="4"/>
+                    <f:selectItem itemLabel="niewaloryzowana" itemValue="5"/>
+                    <p:ajax event="change" partialSubmit="true" global="false" listener="#{fakturaView.filtrujfaktury}" update="akordeon:formokresowe:dokumentyOkresowe"/>
+                </p:selectOneMenu>
+                <h:outputText value="filtruj wg wartości od-do"/>
+                <p:inputNumber  value="#{fakturaView.dolnylimit}" symbol=" zł" 
+                                style="width: 70px;" symbolPosition="s" decimalSeparator="."  thousandSeparator="&#160;"  inputStyle="text-align: right;" decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto">
+                    <p:ajax event ="blur" partialSubmit="true"/>
+                </p:inputNumber>
+                <p:inputNumber  value="#{fakturaView.gornylimit}" symbol=" zł" 
+                                         style="width: 70px;" symbolPosition="s" decimalSeparator="."  thousandSeparator="&#160;"  inputStyle="text-align: right;" decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto">
+                    <p:ajax event ="blur" listener="#{fakturaView.filtrujfaktury2}" update="akordeon:formokresowe:dokumentyOkresowe"  partialSubmit="true"/>
+                </p:inputNumber>
+            </p:panelGrid>
+            
+            <p:dataTable id="dokumentyOkresowe" value="#{fakturaView.fakturyokresowe}" var="wpis"  rowIndexVar="row"  filteredValue="#{fakturaView.fakturyokresoweFiltered}"  rendered="#{WpisView.biuroiszef eq true}"
+                         selection="#{fakturaView.gosciwybralokres}" rowKey="#{wpis.hashCode()}" style="max-width: 1530px;" widgetVar="okresTable" sortBy="#{wpis.dokument.kontrahent.nazwabezCudzy}" sortOrder="ascending"
+                         rowSelectMode="add">
+                
+                <f:facet name="header">  
+                    <h:outputText value="Zestawienie faktur okresowych: " />  
+                    <h:outputText value="- wyszukiwanie: " />  
+                    <p:inputText id="globalFilter" onkeyup="PF('okresTable').filter()" style="width:150px" />  
+                </f:facet>
+                <p:ajax event="filter" global="false"/>
+                <p:ajax event="rowSelectCheckbox" listener="#{fakturaView.sumawartosciwybranychokresowe}" update=":akordeon:formokresowe:panelsumokresowe confirmDialog1  confirmDialog2" global="false"/>
+                <p:ajax event="rowUnselectCheckbox" listener="#{fakturaView.sumawartosciwybranychokresowe}" update=":akordeon:formokresowe:panelsumokresowe confirmDialog1 confirmDialog2" global="false"/>
+                <p:ajax event="toggleSelect" listener="#{fakturaView.sumawartosciwybranychokresowe}" update=":akordeon:formokresowe:panelsumokresowe confirmDialog1 confirmDialog2" global="false"/>      
+                <p:ajax event="rowToggle"  partialSubmit="true" global="false" update=":akordeon:formokresowe:panelsumokresowe confirmDialog1 confirmDialog2" />
+                <p:ajax event="rowSelect"  partialSubmit="true" global="false" update=":akordeon:formokresowe:panelsumokresowe confirmDialog1 confirmDialog2" />
+                <p:ajax event="rowUnselect"  partialSubmit="true" global="false" update=":akordeon:formokresowe:panelsumokresowe confirmDialog1 confirmDialog2" />
+                <p:column style="text-align: center;" width="20"> 
+                    <h:outputText value="#{row+1}"/>
+                </p:column>
+                <p:column width="20">
+                    <p:rowToggler />
+                </p:column>
+                <p:column selectionMode="multiple"   width="40" style="text-align: center;"/>
+                <p:column headerText="#{mgs.kontrahent}" sortBy="#{wpis.dokument.kontrahent.npelna}" filterBy="#{wpis.dokument.kontrahent.npelna}" 
+                          filterMatchMode="contains" width="150">
+                    <h:outputText value="#{wpis.dokument.kontrahent.nazwabezCudzy}" style="#{wpis.getStyldaty(WpisView.miesiacWpisu)}"/>
+                </p:column>
+                <p:column headerText="data wystawienia" sortBy="#{wpis.getDatawystawieniaOld()}" filterBy="#{wpis.getDatawystawieniaOld()}" filterMatchMode="contains" filterStyle="display : none;" width="90">
+                    <h:outputText value="#{wpis.getDatawystawieniaOld()}" style="#{wpis.getStyldaty(WpisView.miesiacWpisu)}"/>
+                </p:column>
+                <p:column width="100" headerText="#{mgs.opis}" sortBy="#{wpis.dokument.opisFaktury}" filterBy="#{wpis.dokument.opisFaktury}" filterMatchMode="contains">
+                    <h:outputText value="#{wpis.dokument.opisFaktury}"  style="#{wpis.getStyldaty(WpisView.miesiacWpisu)}"/>
+                    <h:outputText value=" zawieszona" style="color: red; font-size: smaller;" rendered="#{wpis.zawieszona}"/>
+                    <h:outputText value=" wielorazowa" style="color: blue; font-size: smaller;" rendered="#{!wpis.wystawtylkoraz}"/>
+                    <h:outputText value=" do edycji" style="color: blue; font-size: smaller;" rendered="#{wpis.recznaedycja}"/>
+                </p:column>
+                <p:column headerText="netto" sortBy="#{wpis.dokument.nettoFakturaView}" filterBy="#{wpis.dokument.nettoFakturaView}" filterMatchMode="contains" filterStyle="display : none;" width="70">
+                    <bcf:outputpl value="#{wpis.dokument.nettoFakturaView}" stylePlus="color: #{wpis.dokument.kolor(WpisView.rokWpisu, WpisView.miesiacWpisu)}"/>
+                    <h:outputText value=" #{wpis.dokument.walutafaktury}" rendered="#{wpis.dokument.walutafaktury ne 'PLN'}"/>
+                </p:column>
+                <p:column headerText="brutto" sortBy="#{wpis.dokument.bruttoFakturaView}" filterBy="#{wpis.dokument.bruttoFakturaView}" filterMatchMode="contains" filterStyle="display : none;" width="70">
+                    <bcf:outputpl value="#{wpis.dokument.bruttoFakturaView}"/>
+                    <h:outputText value=" #{wpis.dokument.walutafaktury}" rendered="#{wpis.dokument.walutafaktury ne 'PLN'}"/>
+                    <bcf:outputpl value="#{wpis.dokument.bruttoFakturaViewPLN}" rendered="#{wpis.dokument.walutafaktury ne 'PLN'}"/>
+                    <h:outputText value=" PLN" rendered="#{wpis.dokument.walutafaktury ne 'PLN'}" style="color: "/>
+                </p:column>
+                <p:column headerText="01" width="20" sortBy="#{wpis.m1}">  
+                    <h:outputText value="#{wpis.m1}" styleClass="#{wpis.m1 gt 0 ? 'wiecejfaktur' : 'zerofaktur'}"/>
+                </p:column>
+                <p:column headerText="02" width="20" sortBy="#{wpis.m2}">  
+                    <h:outputText value="#{wpis.m2}" styleClass="#{wpis.m2 gt 0 ? 'wiecejfaktur' : 'zerofaktur'}"/>
+                </p:column>
+                <p:column headerText="03" width="20" sortBy="#{wpis.m3}">  
+                    <h:outputText value="#{wpis.m3}" styleClass="#{wpis.m3 gt 0 ? 'wiecejfaktur' : 'zerofaktur'}"/>
+                </p:column>
+                <p:column headerText="04" width="20" sortBy="#{wpis.m4}">  
+                    <h:outputText value="#{wpis.m4}" styleClass="#{wpis.m4 gt 0 ? 'wiecejfaktur' : 'zerofaktur'}"/>
+                </p:column>
+                <p:column headerText="05" width="20" sortBy="#{wpis.m5}">  
+                    <h:outputText value="#{wpis.m5}" styleClass="#{wpis.m5 gt 0 ? 'wiecejfaktur' : 'zerofaktur'}"/>
+                </p:column>
+                <p:column headerText="06" width="20" sortBy="#{wpis.m6}">  
+                    <h:outputText value="#{wpis.m6}" styleClass="#{wpis.m6 gt 0 ? 'wiecejfaktur' : 'zerofaktur'}"/>
+                </p:column>
+                <p:column headerText="07" width="20" sortBy="#{wpis.m7}">  
+                    <h:outputText value="#{wpis.m7}" styleClass="#{wpis.m7 gt 0 ? 'wiecejfaktur' : 'zerofaktur'}"/>
+                </p:column>
+                <p:column headerText="08" width="20" sortBy="#{wpis.m8}">  
+                    <h:outputText value="#{wpis.m8}" styleClass="#{wpis.m8 gt 0 ? 'wiecejfaktur' : 'zerofaktur'}"/>
+                </p:column>
+                <p:column headerText="09" width="20" sortBy="#{wpis.m9}">  
+                    <h:outputText value="#{wpis.m9}" styleClass="#{wpis.m9 gt 0 ? 'wiecejfaktur' : 'zerofaktur'}"/>
+                </p:column>
+                <p:column headerText="10" width="20" sortBy="#{wpis.m10}">  
+                    <h:outputText value="#{wpis.m10}" styleClass="#{wpis.m10 gt 0 ? 'wiecejfaktur' : 'zerofaktur'}"/>
+                </p:column>
+                <p:column headerText="11" width="20" sortBy="#{wpis.m11}">  
+                    <h:outputText value="#{wpis.m11}" styleClass="#{wpis.m11 gt 0 ? 'wiecejfaktur' : 'zerofaktur'}"/>
+                </p:column>
+                <p:column headerText="12" width="20"  sortBy="#{wpis.m12}">  
+                    <h:outputText value="#{wpis.m12}" styleClass="#{wpis.m12 gt 0 ? 'wiecejfaktur' : 'zerofaktur'}"/>
+                </p:column>
+                <p:column headerText="data" width="80"  sortBy="#{wpis.datautworzenia}">  
+                    <h:outputText value="#{wpis.datautworzenia}">
+                        <f:convertDateTime pattern="yyyy/MM/dd" />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="drukuj" style="text-align: center;" width="40">
+                    <p:commandButton update=":form1:messages" actionListener="#{pdfFaktura.drukujokresowa(wpis, row, WpisView.podatnikObiekt)}" icon="ui-icon-print" />
+                </p:column>
+                <p:column  headerText="edytuj" style="text-align: center;"  width="40">
+                    <p:commandButton  update=":akordeon:formstworz, :akordeon" actionListener="#{fakturaView.skierujfakturedoedycji(wpis)}" 
+                                      icon="ui-icon-script" oncomplete="aktywujpolewyboruklientanafakturze();" />
+                </p:column>
+                <p:rowExpansion>
+                     <p:panelGrid  columns="4"  style="width:800px">
+                        <h:outputText value="NIP kontrahenta"/>
+                        <h:outputText value="#{wpis.dokument.kontrahent_nip}"/>
+                        <h:outputText value="email kontrahenta"/>
+                        <h:outputText value="#{wpis.dokument.kontrahent.email ne '' ? wpis.dokument.kontrahent.email : 'brak adresu email'}"/>
+                        
+<!--                        <h:outputText value="kwota netto"/>
+                        <bcf:outputpl value="#{wpis.dokument.netto}"/>
+                        <h:outputText value="kwota vat"/>
+                        <bcf:outputpl value="#{wpis.dokument.vat}"/>
+                        <h:outputText value="kwota brutto"/>
+                        <bcf:outputpl value="#{wpis.dokument.brutto}"/>-->
+                        <h:outputText value="data waloryzacji"/>
+                        <h:outputText value="#{wpis.dokument.datawaloryzacji}">
+                            <f:convertDateTime pattern="yyyy-MM-dd" />
+                        </h:outputText>
+                        <h:outputText value="procent waloryzacji %" rendered="#{wpis.dokument.procentwaloryzacji ne 0}"/>
+                        <bcf:outputpl value="#{wpis.dokument.procentwaloryzacji}"  rendered="#{wpis.dokument.procentwaloryzacji ne 0}"/>
+                        <h:outputText value="stara kwota" rendered="#{wpis.dokument.starakwota ne 0}"/>
+                        <bcf:outputpl value="#{wpis.dokument.starakwota}"  rendered="#{wpis.dokument.starakwota ne 0}"/>
+                     </p:panelGrid>
+                    <p:panelGrid  columns="1"  style="width:800px">
+                        <p:column id="ewidencjavat" headerText="ewidencjavat - netto - vat - op/zw" >  
+                            <p:dataTable var="subwpis" value="#{wpis.dokument.ewidencjavat}" emptyMessage="dokument bez vat"  resizableColumns="true">
+                                <p:column id="SubColumn1" headerText="ewidencja" width="350">  
+                                <h:outputText value="#{subwpis.ewidencja.nazwa}" rendered="#{subwpis.vat ne 0 ? true : subwpis.netto ne 0 ? true : false}" />
+                            </p:column>
+                            <p:column id="SubColumn1a"  headerText="#{mgs.netto}">  
+                                <h:outputText value="#{subwpis.netto}" style="float: right;" rendered="#{subwpis.vat ne 0 ? true : subwpis.netto ne 0 ? true : false}">
+                                    <f:convertNumber minFractionDigits="2" locale="PL"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column id="SubColumn2" headerText="#{mgs.VAT}">  
+                                <h:outputText value="#{subwpis.vat}" style="float: right;" rendered="#{subwpis.vat ne 0 ? true : subwpis.netto ne 0 ? true : false}">
+                                    <f:convertNumber minFractionDigits="2" locale="PL"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column id="SubColumn2a" headerText="brutto">  
+                                <h:outputText value="#{subwpis.netto + subwpis.vat}" style="float: right;" rendered="#{subwpis.vat ne 0 ? true : subwpis.netto ne 0 ? true : false}">
+                                    <f:convertNumber minFractionDigits="2" locale="PL"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column id="SubColumn3" headerText="op/zw" style="text-align: center">  
+                                <h:outputText value="#{subwpis.estawka}" rendered="#{subwpis.vat ne 0 ? true : subwpis.netto ne 0 ? true : false}"/>
+                            </p:column>
+                            <p:column id="SubColumn4" headerText="okresy vat">  
+                                <h:outputText value="#{wpis.vatM}/#{wpis.vatR}" style="float: right;" rendered="#{subwpis.vat ne 0 ? true : subwpis.netto ne 0 ? true : false}"/>
+                            </p:column>
+                        </p:dataTable>
+                    </p:column>
+                    </p:panelGrid>
+                </p:rowExpansion>
+            </p:dataTable>
+             <p:contextMenu for=":akordeon:formokresowe:dokumentyOkresowe" style="width: 250px;">
+                <p:menuitem value="#{mgs.drukuj}" update=":form1:messages" actionListener="#{fakturaView.drukujokresowa()}" icon="ui-icon-print" />
+                <p:menuitem value="Wygeneruj" update=":form1:messages, :akordeon:formzestawienie:dokumentyZestawienie " global="false" onclick="PF('confirmationFakturaOkresowe').show()" icon="ui-icon-lightbulb" />
+                <p:menuitem value="Wygeneruj do edycji" update=":form1:messages, :akordeon:formzestawienie:dokumentyZestawienie" global="false" onclick="PF('confirmationFakturaOkresowe2').show()" icon="ui-icon-lightbulb" />
+                <p:menuitem value="Wygeneruj zaległe kadry" update=":form1:messages, :akordeon:formzestawienie:dokumentyZestawienie" global="false" onclick="PF('confirmationFakturaOkresowe3').show()" icon="ui-icon-lightbulb"   rendered="#{facesContext.externalContext.remoteUser eq 'szef'}"/>
+                <p:menuitem value="Wygeneruj z waloryzacją" update=":form1:messages" actionListener="#{fakturaView.wygenerujzokresowychwaloryzacja()}" icon="ui-icon-lightbulb"  rendered="#{facesContext.externalContext.remoteUser eq 'szef'}"/>
+                <p:menuitem value="Usuń wybrane" update=":akordeon:formokresowe:dokumentyOkresowe" actionListener="#{fakturaView.usunfaktureokresowa()}" icon="ui-icon-trash" />
+                <p:separator/>
+                <p:menuitem value="Sprawdź bieżący m-c" update=":akordeon:formokresowe:dokumentyOkresowe" actionListener="#{fakturaView.sprawdzbiezacymiesiac()}" icon="fa fa-spinner" />
+                <p:menuitem value="Resetuj bieżący m-c" update=":akordeon:formokresowe:dokumentyOkresowe" actionListener="#{fakturaView.resetujbiezacymiesiac()}" icon="ui-icon-cancel" />
+                <p:menuitem value="Oznacz bieżący m-c" update=":akordeon:formokresowe:dokumentyOkresowe" actionListener="#{fakturaView.oznaczbiezacymiesiac()}" icon="ui-icon-plus" />
+                <p:menuitem value="Zawieś/odwieś fakturę" update="akordeon:formokresowe:dokumentyOkresowe" actionListener="#{fakturaView.zawiesfakture()}" icon="ui-icon-arrowthickstop-1-n" />
+                <p:menuitem value="Oznacz wielorazowa" update="akordeon:formokresowe:dokumentyOkresowe" actionListener="#{fakturaView.oznaczwielorazowa()}" icon="ui-icon-arrowthickstop-1-n"  rendered="#{facesContext.externalContext.remoteUser eq 'szef'}"/>
+                <p:menuitem value="Oznacz waloryzacja" update="akordeon:formokresowe:dokumentyOkresowe" actionListener="#{fakturaView.oznaczwaloryzacja()}" icon="ui-icon-arrowthickstop-1-n"  rendered="#{facesContext.externalContext.remoteUser eq 'szef'}"/>
+                <p:menuitem value="Oznacz ręczna edycja" update="akordeon:formokresowe:dokumentyOkresowe" actionListener="#{fakturaView.oznaczrecznaedycja()}" icon="ui-icon-arrowthickstop-1-n"  rendered="#{facesContext.externalContext.remoteUser eq 'szef'}"/>
+                <p:menuitem value="Porzadek" update="akordeon:formokresowe:dokumentyOkresowe" actionListener="#{fakturaView.porzadekbiuro()}" icon="ui-icon-arrowthickstop-1-n" rendered="#{facesContext.externalContext.remoteUser eq 'szef'}"/>
+                <p:separator/>
+                <p:menuitem value="Skopiuj do nowego roku" update=":akordeon:formokresowe:dokumentyOkresowe" actionListener="#{fakturaView.skopiujdoNowegoroku()}" icon="ui-icon-star" />
+            </p:contextMenu>
+        </h:form>
+    </p:tab>
+</ui:composition>   
+

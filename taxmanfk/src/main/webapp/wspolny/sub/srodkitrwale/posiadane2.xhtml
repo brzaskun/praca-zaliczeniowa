@@ -1,0 +1,106 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    
+    
+    xmlns:bcf="http://brzaskun.com/facelets">
+    <p:tab id="zestawienieposiadane2" title="posiadane2">
+        <h:form id="str_posiadane2">
+            <p:contextMenu for="srodkiLista2" style="width: 220px;">
+                <p:menuitem value="Edytuj dane środka trw." update="form_dialog_srodkitrwale_zmianawartosci" actionListener="#{sTRTabView.kopiujwybrany(sTRTabView.wybranysrodektrwalyPosiadane2)}" oncomplete="PF('dialog_srodkitrwale_zmianawartosci').show()" icon="ui-icon-wrench" />
+            </p:contextMenu>
+                <p:dataTable  var="wpis" value="#{sTRTabView.posiadane2}" id="srodkiLista2" 
+                              widgetVar="srodkiLista2" style="width: 1400px; overflow-y: scroll; height: 390px;" 
+                              rowKey="#{wpis.id}" rowIndexVar="index1"  sortBy="#{wpis.dataprzek}" sortOrder="descending"
+                              selection="#{sTRTabView.wybranysrodektrwalyPosiadane2}" selectionMode="single"> 
+                    <p:ajax event="rowSelect" global="false" update="form_dialog_srodkitrwale_zmianawartosci akordeon:str_posiadane:srodkiLista"/>
+                    <p:ajax event="filter" global="false"/>
+                    <f:facet name="header">  
+                        <h:outputText value="Zesatwienie środkow trwalych - " />
+                        <p:inputText id="globalFilter" placeholder="wyszukiwana fraza" onkeyup="PF('srodkiLista1').filter()" style="width: 200px;"/>
+                    </f:facet>
+                    <p:column headerText="nr kol."  style="width: 30px; text-align: center;">  
+                        <h:outputText value="#{index1+1}"  style="#{wpis.odpisrok eq null ? 'color: gray; font-weight: 100;' : null}"/>
+                    </p:column>
+                    <p:column id="data2Column" headerText="data przek." filterBy="#{wpis.dataprzek}" 
+                          filterMatchMode="contains" filterStyle="display : none;" sortBy="#{wpis.dataprzek}" style="width: 65px; text-align: center;"
+                          >  
+                    <h:outputText value="#{wpis.dataprzek.substring(2,10)}" style="#{wpis.odpisrok eq null ? 'color: gray; font-weight: 100;' : null}">
+                    </h:outputText>
+                </p:column>
+                    <p:column headerText="nazwa środka trwałego" filterBy="#{wpis.nazwa}" filterMatchMode="contains" filterStyle="display : none;" 
+                              sortBy="#{wpis.nazwa}" style="width: 250px;">  
+                        <h:outputText value="#{wpis.nazwa}"    style="#{wpis.odpisrok eq null ? 'color: gray; font-weight: 100;' : null}"/>
+                    </p:column>
+                    <p:column  headerText="KŚT" filterBy="#{wpis.kst}" filterMatchMode="contains" filterStyle="display : none;" sortBy="#{wpis.kst}" 
+                              style="width: 40px; text-align: center;">  
+                        <h:outputText value="#{wpis.kst}"   style="#{wpis.odpisrok eq null ? 'color: gray; font-weight: 100;' : null}"/>
+                    </p:column>
+                    <p:column  headerText="#{mgs.kwota}" filterBy="#{wpis.netto}" filterMatchMode="contains" filterStyle="display : none;" 
+                              sortBy="#{wpis.netto}" style="width: 76px;">  
+                        <h:outputText value="#{wpis.netto}"  style="#{wpis.odpisrok eq null ? 'color: gray; font-weight: 100; float: right;' : 'float: right;'}">
+                            <f:convertNumber minFractionDigits="2" locale="PL"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column  headerText="umorzenie począt." filterBy="#{wpis.umorzeniepoczatkowe}" filterMatchMode="contains" filterStyle="display : none;"
+                              sortBy="#{wpis.umorzeniepoczatkowe}" style="width: 75px;">  
+                        <h:outputText value="#{wpis.umorzeniepoczatkowe}"  style="#{wpis.odpisrok eq null ? 'color: gray; font-weight: 100; float: right;' : 'float: right;'}">
+                            <f:convertNumber minFractionDigits="2" locale="PL"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column  headerText="staw. odp." filterBy="#{wpis.stawka}" style="text-align: center;width: 55px;" 
+                              filterMatchMode="contains" filterStyle="display : none;" sortBy="#{wpis.stawka}">  
+
+                        <h:outputText value="#{wpis.stawka}%"  style="#{wpis.odpisrok eq null ? 'color: gray; font-weight: 100;' : null}">
+                            <f:convertNumber maxFractionDigits="2"
+                                             groupingUsed="true"
+                                             maxIntegerDigits="5"
+                                             type="number"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column  headerText="odpis za rok" filterBy="#{wpis.odpisrok}" filterMatchMode="contains"
+                              filterStyle="display : none;" sortBy="#{wpis.odpisrok}"  style="width: 80px;">  
+                        <h:outputText value="#{wpis.odpisrok}"  style="#{wpis.odpisrok eq null ? 'color: gray; font-weight: 100; float: right;' : 'float: right;'}">
+                            <f:convertNumber minFractionDigits="2" locale="PL"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column  headerText="umorz. liczb. mc" filterBy="#{wpis.strMce}" filterMatchMode="contains"
+                              filterStyle="display : none;" sortBy="#{wpis.strMce}"  style="width: 80px;">  
+                        <h:outputText value="#{wpis.strMce}"  style="#{wpis.odpisrok eq null ? 'color: gray; font-weight: 100; float: right;' : 'float: right;'}">
+                           
+                        </h:outputText>
+                    </p:column>
+                    <p:column  headerText="umorzenia nar" filterBy="#{wpis.strOdpisy}" filterMatchMode="contains"
+                              filterStyle="display : none;" sortBy="#{wpis.strOdpisy}"  style="width: 80px;">  
+                        <h:outputText value="#{wpis.strOdpisy}"  style="#{wpis.odpisrok eq null ? 'color: gray; font-weight: 100; float: right;' : 'float: right;'}">
+                             <f:convertNumber minFractionDigits="2" locale="PL"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column  headerText="wartość netto" filterBy="#{wpis.strNetto}" filterMatchMode="contains"
+                              filterStyle="display : none;" sortBy="#{wpis.strNetto}"  style="width: 80px;">  
+                        <h:outputText value="#{wpis.strNetto}"  style="#{wpis.odpisrok eq null ? 'color: gray; font-weight: 100; float: right;' : 'float: right;'}">
+                            <f:convertNumber minFractionDigits="2" locale="PL"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column  headerText="konto netto" filterBy="#{wpis.kontonetto.pelnynumer}" 
+                              filterMatchMode="contains" filterStyle="display : none;" sortBy="#{wpis.kontonetto.pelnynumer}" style="width: 80px;">  
+                        <h:outputText value="#{wpis.kontonetto.pelnynumer}"  style="#{wpis.odpisrok eq null ? 'color: gray; font-weight: 100; float: right;' : 'float: right;'}">
+                            <f:convertNumber minFractionDigits="2" locale="PL"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column id="kontoumorzenie" headerText="konto umorzenie" filterBy="#{wpis.kontoumorzenie.pelnynumer}"
+                              filterMatchMode="contains" filterStyle="display : none;" sortBy="#{wpis.kontoumorzenie.pelnynumer}"  style="width: 80px;">  
+                        <h:outputText value="#{wpis.kontoumorzenie.pelnynumer}"  style="#{wpis.odpisrok eq null ? 'color: gray; font-weight: 100; float: right;' : 'float: right;'}">
+                            <f:convertNumber minFractionDigits="2" locale="PL"/>
+                        </h:outputText>
+                    </p:column>
+                  </p:dataTable>
+        </h:form>
+            </p:tab>
+</ui:composition>   
+
+

@@ -1,0 +1,121 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//PL" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <p:outputPanel id="wrapper">
+        <p:dataTable  var="wpis" value="#{UzView.listaUzytkownikow}" id="uzytkownicyLista" editable="true"
+                       filteredValue="#{UzView.obiektUZjsfselected}"
+                       style="width: 1600px; height: 400px; overflow-y: scroll;"
+                      rowKey="#{wpis.login}" selection="#{UzView.selUzytkownik}" > 
+            <p:ajax event="rowEdit" global="false" update=":form:messages" listener="#{UzView.zachowajzmiany()}" />
+            <p:ajax event="rowSelectRadio"  global="false" update=":form:messages :editUzyt" listener="#{UzView.wybranoUzytkownika}" />
+            <f:facet name="header">  
+                <h:outputText value="Wykaz użytkowników" />  
+            </f:facet>
+            <p:column selectionMode="single" styleClass="checkwiersza" width="30" style="text-align: center;"/>
+            <p:column id="idColumn" headerText="id" filterBy="#{wpis.login}" filterMatchMode="contains" sortBy="#{wpis.login}">  
+                <f:facet name="header">  
+                    <h:outputText value="login" />  
+                </f:facet> 
+                        <h:outputText value="#{wpis.login}" />
+            </p:column>
+            <p:column id="dataColumn" headerText="imie" filterBy="#{wpis.imie}" filterMatchMode="contains" sortBy="#{wpis.imie}" >  
+                <f:facet name="header">  
+                    <h:outputText value="imie" />  
+                </f:facet> 
+                        <h:outputText value="#{wpis.imie}" />
+            </p:column>
+            <p:column id="kltColumn" headerText="nazwisko" filterBy="#{wpis.nazw}" filterMatchMode="contains" sortBy="#{wpis.nazw}">  
+                <f:facet name="header">  
+                    <h:outputText value="nazwisko" />  
+                </f:facet> 
+                        <h:outputText value="#{wpis.nazw}" />
+            </p:column>
+            <p:column id="kwaColumn" headerText="haslo">  
+                <f:facet name="header">  
+                    <h:outputText value="haslo" />  
+                </f:facet> 
+                <h:outputText value="#{wpis.haslo}" />
+            </p:column>
+            <p:column id="nrdokColumn" headerText="uprawnienia" filterBy="#{wpis.uprawnienia}" filterMatchMode="contains" sortBy="#{wpis.uprawnienia}">  
+                <f:facet name="header">  
+                    <h:outputText value="uprawnienia" />  
+                </f:facet> 
+                 <p:cellEditor>
+                    <f:facet name="output">  
+                        <h:outputText value="#{wpis.uprawnienia}" />
+                    </f:facet>
+                    <f:facet name="input">  
+                        <h:selectOneMenu value="#{wpis.uprawnienia}" valueChangeListener="#{UzView.edit}">
+                            <f:selectItem itemValue="" itemLabel="wybierz" noSelectionOption="true"/>
+                            <f:selectItems value="#{uprawnienia.listaUprawnien}"/>
+                        </h:selectOneMenu>
+                    </f:facet>
+                </p:cellEditor>
+            </p:column>
+            <p:column headerText="nr telefonu" filterBy="#{wpis.nrtelefonu}" filterMatchMode="contains" sortBy="#{wpis.nrtelefonu}">  
+                 <p:cellEditor>
+                    <f:facet name="output">  
+                        <h:outputText value="#{wpis.nrtelefonu}" />
+                    </f:facet>
+                    <f:facet name="input">  
+                        <p:inputText value="#{wpis.nrtelefonu}" valueChangeListener="#{UzView.edit}"/>
+                    </f:facet>
+                </p:cellEditor>
+            </p:column>
+            <p:column id="locale" headerText="locale" filterBy="#{wpis.locale}" filterMatchMode="contains" sortBy="#{wpis.locale}" width="70"
+                      style="text-align: center;">  
+                <f:facet name="header">  
+                    <h:outputText value="locale" />  
+                </f:facet> 
+                    <h:outputText value="#{wpis.locale}" />
+            </p:column>
+              <p:column id="emailColumn" headerText="email" filterBy="#{wpis.email}" filterMatchMode="contains">  
+                <f:facet name="header">  
+                    <h:outputText value="email" />  
+                </f:facet> 
+                  <p:cellEditor>
+                    <f:facet name="output">  
+                        <h:outputText value="#{wpis.email}" />
+                    </f:facet>
+                    <f:facet name="input">  
+                        <p:inputText value="#{wpis.email}" valueChangeListener="#{UzView.edit}"/>
+                    </f:facet>
+                </p:cellEditor>
+            </p:column>
+            <p:column id="firmaColumn" headerText="firma" filterBy="#{wpis.firma}" filterMatchMode="contains">  
+                <f:facet name="header">  
+                    <h:outputText value="firma" />  
+                </f:facet> 
+                <p:cellEditor>
+                    <f:facet name="output">  
+                        <h:outputText value="#{wpis.firma}" />
+                    </f:facet>
+                    <f:facet name="input">  
+                        <p:inputText value="#{wpis.firma}"/>
+                    </f:facet>
+                </p:cellEditor>
+            </p:column>
+            <p:column id="grupa" headerText="grupa" filterBy="#{wpis.grupa}" filterMatchMode="contains" sortBy="#{wpis.grupa}" width="70"
+                      style="text-align: center;">  
+                <f:facet name="header">  
+                    <h:outputText value="grupa" />  
+                </f:facet> 
+                    <h:outputText value="#{wpis.grupa}" />
+            </p:column>
+            <p:column id="editColumn" headerText="edytuj" style="text-align: center;" width="70">
+                <p:rowEditor />  
+            </p:column>
+            <p:column id="deleteColumn" headerText="usuń" style="text-align: center;" width="70">
+                <p:commandButton  action="#{UzView.destroy(wpis)}" value="Usuń"  update="@(form)"/>
+            </p:column>
+        </p:dataTable>
+        
+    </p:outputPanel>
+</ui:composition>   
+

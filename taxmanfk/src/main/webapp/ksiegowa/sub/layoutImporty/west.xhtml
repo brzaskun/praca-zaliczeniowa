@@ -1,0 +1,41 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+    
+    <p:layoutUnit position="west" size="220" header="Bieżący podatnik" collapsible="true" resizable="true" style="box-shadow: 10px 10px 5px #888;">
+        <h:form id="westKsiegowa">
+               <p:panelGrid id="westWpisWidok" columns="2" style="margin-left: 7%">
+                <h:outputText value="Podatnik:" style="text-shadow: #6374AB 1px -1px 1px"/>
+                <h:outputText value="#{WpisView.podatnikObiekt.nazwapelnaPDF}"/>
+                <h:outputText value="Rok:" style="text-shadow: #6374AB 1px -1px 1px"/>
+                <h:outputText value="#{WpisView.rokWpisu}"/>
+                <h:outputText value="Miesiac:" style="text-shadow: #6374AB 1px -1px 1px"/>
+                <h:outputText value="#{WpisView.miesiacWpisu}"/>
+            </p:panelGrid>
+           
+        
+           <p:panel id="linki" header="linki">
+               
+                    <p:menu  style="width: 160px;">
+                        <p:menuitem global="false" value="powrót"  outcome="dokumentyzaksiegowane" icon="ui-icon-circle-arrow-e"/>
+                    </p:menu>
+               <p:menu style="width: 160px;">
+                       <p:menuitem global="false" value="import JPK_VAT" outcome="importsprzedazy"  icon="ui-icon-circle-arrow-e" update="@form" />
+                       <p:menuitem global="false" value="import JPK_FA" outcome="importfaktury"  icon="ui-icon-circle-arrow-e" update="@form" />
+                       <p:menuitem global="false" value="import Amazon CSV" outcome="importcsv"  icon="ui-icon-circle-arrow-e" update="@form" />
+                       <p:menuitem global="false" value="import Amazon JSON" outcome="importcis"  icon="ui-icon-circle-arrow-e" update="@form" />
+                       <p:menuitem global="false" value="import Ebay" outcome="importebay"  icon="ui-icon-circle-arrow-e" update="@form" />  
+                       <p:menuitem global="false" value="import faktury xls" outcome="importxls"  icon="ui-icon-circle-arrow-e" update="@form" />  
+                       <p:menuitem global="false" value="import Matacz xls" outcome="importmatacz"  icon="ui-icon-circle-arrow-e" update="@form" />  
+                       <p:menuitem global="false" value="import Melka xls" outcome="importmelka"  icon="ui-icon-circle-arrow-e" update="@form" />  
+                    </p:menu>
+                    <p:commandButton id="wyloguj" value="#{mgs.wyloguj}" action="#{logowanie.logout()}" style="width: 120px; margin-top: 10px;"/>
+            </p:panel>
+</h:form>
+    </p:layoutUnit>
+         
+</ui:composition>   
+

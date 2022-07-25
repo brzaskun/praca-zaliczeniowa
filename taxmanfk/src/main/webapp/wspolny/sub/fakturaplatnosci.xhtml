@@ -1,0 +1,106 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+        
+    xmlns:bcf="http://brzaskun.com/facelets">
+  
+    <script>
+        var wydrukFakturyPlatnosci = function(kto){
+            window.open('../wydruki/'+kto+'fakturyplatnosci.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
+        }
+        var wydrukFakturyPlatnosciN = function(kto){
+            window.open('../wydruki/'+kto+'fakturyplatnosciN.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
+        }
+    </script>
+
+    <h:form id="fakturyniezaplacone">
+        <p:commandButton id="drukujbutton" global="false" value="drukuj niezapłacone" actionListener="#{pdfFakturyPlatnosciView.drukujzaksiegowanydokument(fakturyPlatnosciView.fakturyniezaplacone,fakturyPlatnosciView.fakturyniezaplaconeF,'niezapłaconych')}" styleClass="fkbutton"
+                                      style="margin-left: 20px; width: 200px;" />
+        <p:commandButton id="drukujbutton2" global="false" value="drukuj zapłacone" actionListener="#{pdfFakturyPlatnosciView.drukujzaksiegowanydokument(fakturyPlatnosciView.fakturyzaplacone,fakturyPlatnosciView.fakturyzaplaconeF, 'zapłaconych')}" styleClass="fkbutton"
+                                      style="margin-left: 20px; width: 200px;" />
+        <p:dataTable id="fakturyniezaplaconedataTable" value="#{fakturyPlatnosciView.fakturyniezaplacone}" var="wpis" emptyMessage="nie ma faktur niezapłaconych" style="width: 1200px; padding: 5px;" rowKey="#{wpis.hashCode()}"
+                     sortBy="#{wpis.numerkolejny}" sortFunction="#{fakturaView.sortZaksiegowaneFaktury}"
+                     filteredValue="#{fakturyPlatnosciView.fakturyniezaplaconeF}">
+            <p:ajax event="filter" global="false"/>
+            <f:facet name="header">
+                <h:outputText value="wykaz faktur niezapłaconych"/>
+                <h:outputText value=" - suma wszystkich: "/>
+                <bcf:outputpl value="#{fakturyPlatnosciView.sumaniezaplaconych}"/>
+            </f:facet>
+            <p:column headerText="data wyst." sortBy="#{wpis.datawystawienia}"  style="text-align: center;"
+                      filterBy="#{wpis.datawystawienia}" filterMatchMode="contains" filterStyle="display : none;" width="90">
+                <h:outputText value="#{wpis.datawystawienia}"/>
+            </p:column>
+            <p:column headerText="nr kolejny" sortBy="#{wpis.numerkolejny}" 
+                      filterBy="#{wpis.numerkolejny}" filterMatchMode="contains" filterStyle="width:80px;">
+                <h:outputText value="#{wpis.numerkolejny}" />
+            </p:column>
+            <p:column headerText="#{mgs.kontrahent}" sortBy="#{wpis.kontrahent.npelna}" width="200"
+                      filterBy="#{wpis.kontrahent.npelna}" filterMatchMode="contains"  filterStyle="width: 180px;">
+                <h:outputText value="#{wpis.kontrahent.npelna}"/>
+            </p:column>
+            <p:column headerText="#{mgs.opis}" sortBy="#{wpis.pozycjenafakturze.get(0).nazwa}" width="400"
+                      filterBy="#{wpis.pozycjenafakturze.get(0).nazwa}" filterMatchMode="contains" filterStyle="width:280px;">
+                <h:outputText value="#{wpis.pozycjenafakturze.get(0).nazwa}"/>
+            </p:column>
+            <p:column headerText="brutto"  sortBy="#{wpis.brutto}" filterBy="#{wpis.brutto}" filterMatchMode="contains" filterStyle="display : none;"  width="100">
+                <h:outputText value="#{wpis.brutto}" style="float: right;">
+                    <f:convertNumber minFractionDigits="2" locale="PL"/>
+                </h:outputText>
+                <h:outputText value="#{wpis.walutafaktury}"/>
+            </p:column>
+            <p:column headerText="termin płatności" sortBy="#{wpis.terminzaplaty}"  style="text-align: center;"
+                      filterBy="#{wpis.terminzaplaty}" filterMatchMode="contains" filterStyle="display : none;">
+                <h:outputText value="#{wpis.terminzaplaty}"/>
+            </p:column>
+            <p:column style="text-align: center;">
+                <p:commandButton value="Z" style="width: 30px;;#{wpis.kolorklawisza()}" global="false" onclick="PF('czynaniescplatnoscfaktury').show();" actionListener="#{fakturyPlatnosciView.skopiujfakture(wpis)}"
+                                 update="formdatazaplaty"/>
+            </p:column>
+        </p:dataTable>
+    </h:form>
+    <h:form id="fakturyzaplacone">
+        <p:dataTable value="#{fakturyPlatnosciView.fakturyzaplacone}" var="wpis" emptyMessage="nie ma faktur zapłaconych" style="width: 1200px; padding: 5px;"
+                     sortBy="#{wpis.numerkolejny}" sortFunction="#{fakturaView.sortZaksiegowaneFaktury}"
+                      rowKey="#{wpis.hashCode()}" filteredValue="#{fakturyPlatnosciView.fakturyzaplaconeF}">
+            <p:ajax event="filter" global="false"/>
+            <f:facet name="header">
+                <h:outputText value="wykaz faktur zapłaconych"/>
+                
+            </f:facet>
+            <p:column headerText="data wyst." sortBy="#{wpis.datawystawienia}"  style="text-align: center;"
+                      filterBy="#{wpis.datawystawienia}" filterMatchMode="contains" filterStyle="display : none;" width="90">
+                <h:outputText value="#{wpis.datawystawienia}"/>
+            </p:column>
+            <p:column headerText="nr kolejny" sortBy="#{wpis.numerkolejny}" filterBy="#{wpis.numerkolejny}" filterMatchMode="contains" 
+                      filterStyle="width:80px;">
+                <h:outputText value="#{wpis.numerkolejny}" />
+            </p:column>
+            <p:column headerText="#{mgs.kontrahent}" sortBy="#{wpis.kontrahent.npelna}" width="200"
+                      filterBy="#{wpis.kontrahent.npelna}" filterMatchMode="contains" filterStyle="width: 180px;">
+                <h:outputText value="#{wpis.kontrahent.npelna}"/>
+            </p:column>
+            <p:column headerText="#{mgs.opis}" sortBy="#{wpis.pozycjenafakturze.get(0).nazwa}" width="400"
+                      filterBy="#{wpis.pozycjenafakturze.get(0).nazwa}" filterMatchMode="contains" filterStyle="width:280px;">
+                <h:outputText value="#{wpis.pozycjenafakturze.get(0).nazwa}"/>
+            </p:column>
+            <p:column headerText="brutto"  sortBy="#{wpis.brutto}" filterBy="#{wpis.brutto}" filterMatchMode="contains" filterStyle="display : none;"  width="100">
+                <h:outputText value="#{wpis.brutto}" style="float: right;">
+                    <f:convertNumber minFractionDigits="2" locale="PL"/>
+                </h:outputText>
+                <h:outputText value="#{wpis.walutafaktury}"/>
+            </p:column>
+            <p:column headerText="data zapłaty" sortBy="#{wpis.datazaplaty}"  style="text-align: center;"
+                      filterBy="#{wpis.datazaplaty}" filterMatchMode="contains" filterStyle="display : none;">
+                <h:outputText value="#{wpis.datazaplaty}"/>
+            </p:column>
+            <p:column style="text-align: center;">
+                <p:commandButton value="U" style="width: 30px;" actionListener="#{fakturyPlatnosciView.usundatezaplaty(wpis)}" update=":fakturyniezaplacone, :fakturyzaplacone"/>
+            </p:column>
+        </p:dataTable>
+    </h:form>
+</ui:composition>   
+

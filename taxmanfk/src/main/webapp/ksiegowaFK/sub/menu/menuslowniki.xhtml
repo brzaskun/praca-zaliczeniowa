@@ -1,0 +1,74 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    >
+    <p:tabView id="menukartoteki" styleClass="menutabView" orientation="left" style=" height: 500px;width: 600px;box-shadow: 10px 10px 5px #888888; margin-left: 15px; margin-top: 15px;">  
+        <p:tab title="waluty">
+            <h:form id="dialog1menu1">
+                <p:menu id="d1m1" styleClass="d1m" style="width: 400px; text-align: center; height: 450px;">
+                    <p:menuitem value="pobrane kursy" onclick="PF('wykazkursow').show();"></p:menuitem>
+                    <p:menuitem value="wprowadzone kursy" onclick="PF('wykazkursowrecznie').show();"></p:menuitem>
+                    <p:menuitem value="wykaz walut" onclick="PF('waluty').show();"></p:menuitem>
+                    <p:menuitem value="wprowadź kurs ręcznie/pobierz wskazaną tabelę" onclick="PF('dialogkursrecznie').show();"></p:menuitem>
+                </p:menu>
+            </h:form>
+        </p:tab>  
+        <p:tab title="#{mgs.kontrahenci}">
+            <h:form id="dialog1menu2">
+                <p:menu id="d1m2" styleClass="d1m" style="width: 400px; text-align: center; height: 450px;">
+                    <p:menuitem value="dołączanie klientów do kont" onclick="PF('dialog_kliencifk_dolaczanie').show();"></p:menuitem>
+                    <p:menuitem value="wykaz dołączonych do kont" onclick="PF('dialog_kliencifk_lista').show();"></p:menuitem>
+                    <p:menuitem value="wykaz wszystkich kontrahentów" onclick="PF('dialog_kontrahenci_lista').show();"></p:menuitem>
+                </p:menu>  
+            </h:form>
+        </p:tab>  
+        <p:tab title="cechy dok">
+            <h:form id="dialog1menu3">
+                <p:menu id="d1m3" styleClass="d1m" style="width: 400px; text-align: center; height: 450px;">
+                    <p:menuitem value="wykaz i edycja cech" actionListener="#{cechazapisuView.init()}" onsuccess="PF('dialogCechyZapisu').show();" update=":formCH"></p:menuitem>
+                </p:menu>  
+            </h:form>
+        </p:tab>
+        <p:tab title="miejsca kosztów">
+            <h:form id="dialog1menu4">
+                <p:menu id="d1m4" styleClass="d1m" style="width: 400px; text-align: center; height: 450px;">
+                    <p:menuitem value="definiowanie miejsc kosztów" onclick="PF('dialog_miejscakosztow_dolaczanie').show();"></p:menuitem>
+                </p:menu>  
+            </h:form>
+        </p:tab>
+        <p:tab title="miejsca przychodów">
+            <h:form id="dialog1menu4a">
+                <p:menu id="d1m4a" styleClass="d1m" style="width: 400px; text-align: center; height: 450px;">
+                    <p:menuitem value="definiowanie miejsc przychodów" onclick="PF('dialog_miejscaprzychodow_dolaczanie').show();"></p:menuitem>
+                    <p:menuitem value="wykaz członków stowarzyszenia" onclick="PF('dialog_stowarzyszenie_wykaz_czlonkow').show();" rendered="#{WpisView.formaprawna eq 'STOWARZYSZENIE'}"></p:menuitem>
+                    <p:menuitem value="rodzaje członkostwa" onclick="PF('dialog_stowarzyszenie_rodzaje_czlonkostwa').show();" 
+                                actionListener="#{rodzajeCzlonkostwaView.pobierz()}" update="form_rodzaje_czlonkostwa form_rodzaje_czlonkostwa_lista"
+                                rendered="#{WpisView.formaprawna eq 'STOWARZYSZENIE'}"></p:menuitem>
+                    <p:menuitem value="składki" onclick="PF('dialog_stowarzyszenie_skladka').show();" actionListener="#{skladkaStowarzyszenieView.pobierz()}"
+                                update="form_skladka form_skladka_lista"
+                                rendered="#{WpisView.formaprawna eq 'STOWARZYSZENIE'}"></p:menuitem>
+                    <p:menuitem value="członek-składka" actionListener="#{skladkaCzlonekView.pobierz()}" update="form_czlonekskladka_lista"
+                                onclick="PF('dialog_stowarzyszenie_czlonekskladka').show();" rendered="#{WpisView.formaprawna eq 'STOWARZYSZENIE'}"></p:menuitem>
+                </p:menu>  
+            </h:form>
+        </p:tab>
+        <p:tab title="pojazdy i maszyny">
+            <h:form id="dialog1menu5">
+                <p:menu id="d1m4" styleClass="d1m" style="width: 400px; text-align: center; height: 450px;">
+                    <p:menuitem value="definiowanie pojazdów i maszyn" onclick="PF('dialog_pojazdy_dolaczanie').show();"></p:menuitem>
+                </p:menu>  
+            </h:form>
+        </p:tab>
+          <p:tab title="delegacje">
+            <h:form id="dialog1menu6">
+                <p:menu id="d1m4" styleClass="d1m" style="width: 400px; text-align: center; height: 450px;">
+                    <p:menuitem value="delegacje krajowe"  onclick="PF('dialog_delegacje_kraj').show();" actionListener="#{delegacjeView.init()}" update=":delegacje,:delegacjelista"></p:menuitem>
+                    <p:menuitem value="delegacje zagraniczne" onclick="PF('dialog_delegacje_zagranica').show();" actionListener="#{delegacjeView.init()}" update=":delegacjezagranica,:delegacjezagranicalista"></p:menuitem>
+                </p:menu>  
+            </h:form>
+        </p:tab>  
+    </p:tabView>
+</ui:composition>

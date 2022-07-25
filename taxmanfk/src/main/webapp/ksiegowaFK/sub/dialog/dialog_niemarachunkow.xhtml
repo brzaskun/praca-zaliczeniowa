@@ -1,0 +1,20 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    
+    >
+
+    <p:dialog id="niemarachunkow" header="" widgetVar="niemarachunkow"  modal="true" appendTo="@(body)"
+              resizable="false" onShow="niemarachunkowShow();" closeOnEscape="true" onHide="resetujdialog('niemarachunkow');" focus="niemarachunkowform:niemarachunkowbutton" >
+        <h:form id="niemarachunkowform">
+            <p:panelGrid id="niemarachunkowgrid" columns="2" style="text-align: center; margin-left: auto; margin-right: auto;" >
+                <h:outputText value="Nie ma nierozliczonych rachunków zaksięgowanych na tym koncie"/>
+                <p:commandButton id="niemarachunkowbutton" value="ok" type="submit" onclick="PF('niemarachunkow').hide();"
+                                 onsuccess="powrotdopolaPoNaniesieniuRozrachunkow();" tabindex="0"/>
+            </p:panelGrid>
+        </h:form>
+    </p:dialog>
+</ui:composition>

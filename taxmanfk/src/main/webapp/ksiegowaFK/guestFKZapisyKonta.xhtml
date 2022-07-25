@@ -1,0 +1,36 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:bcf="http://brzaskun.com/facelets">
+    <ui:composition template="/templateFK.xhtml">
+        <ui:define name="title">
+            <h:outputText value="Podatkowa księga przychodów i rozchodów"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <bcf:ajaxs/>
+            <f:view>
+                <p:layout fullPage="true" expandTitle="Wysuń" closeTitle="Zamknij" collapseTitle="Schowaj">
+                    <ui:include src="sub/layoutTablica/north.xhtml"/>  <!-- panel polnocny-->
+                    <ui:include src="sub/layoutTablica/west.xhtml"/>   <!-- panel zachodni-->
+                    <p:layoutUnit position="center">
+                        <p:panel toggleable="true" closable="true" style="width: 90%;" rendered="#{facesContext.viewRoot.locale.language.equals('pl')}">
+                            <f:facet name="header">
+                                <h:outputText value="Strona służy do wyświetlania zapisów na poszczególnych kontach. Zmiana miesiąca i waluty możliwa jest w górnym panelu."/><br/>
+                                <h:outputText value="Dane po pobraniu mogąć być sortowane. Wystarczy kliknąć na symbol strzałek znajdujących sie obok opisu kolumny."/> <br/>
+                                <h:outputText value="Można wyszukiwać poszczególne zapisy wg różnych kryteriów wpisując wyszukiwaną frazę w puste pole nad kolumną. Grosze oddzielamy od złotówek KROPKĄ."/><br/>
+                            </f:facet>
+                        </p:panel>
+                        <ui:include src="sub/menu_wiad.xhtml"/>   <!-- menu contextowe i pole wiadomosci growl-->
+                        <ui:include src="../wspolny/sub/zapisy_nakontach_wmcu.xhtml"/> 
+                        <ui:include src="sub/dialog/dialog_zmiana_okresu.xhtml"/> <!-- właściwa tablica z danymi z księgi-->
+                    </p:layoutUnit><ui:include src="sub/layout/south.xhtml"/> 
+                </p:layout>
+            </f:view>
+        </ui:define>
+    </ui:composition>
+</html>
+
+
+

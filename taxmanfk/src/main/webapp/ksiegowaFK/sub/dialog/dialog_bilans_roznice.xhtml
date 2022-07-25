@@ -1,0 +1,151 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:bcf="http://brzaskun.com/facelets">
+    <style>
+        .ui-autocomplete-input {
+            width: 240px;
+        }
+
+        .ui-column-filter {
+            width: 240px !important;
+        }
+
+        .kolumnaopis .ui-column-filter {
+            width: 150px !important;
+        }
+
+        .kurswaluta input {
+            width: 50px !important;
+        }
+        .gridtablicasyntetyczne .ui-datatable-odd td{
+            height : 30px !important;
+            
+        }
+        .gridtablicasyntetyczne .ui-datatable-even td{
+            height : 30px !important;
+            
+        }
+
+    </style>
+    <p:dialog id="dialog_bilans_roznice" header="Różnice bilans otwarcia/Obroty rozpoczęcia - dokument BO" widgetVar="dialog_bilans_roznice"
+              appendTo="@(body)"
+              resizable="false" onShow="ustawdialog('dialog_bilans_roznice','menubilanse', 1360, 680);" closeOnEscape="true" onHide="resetujdialog('dialog_bilans_roznice');"
+              >
+            <p:ajax event="open" listener="#{bilansRozniceView.init()}" update="form_dialog_bilans_roznice"/>
+        <h:form id="form_dialog_bilans_roznice">
+            <p:panelGrid columns="1">
+            <h:outputText value="#{bilansRozniceView.startmsg}" style="color:green"/>
+            <h:outputText value="wszystkie wiersze BO są w dokumencie BO" rendered="#{bilansRozniceView.wierszeBOroznice.size() eq 0}"/>
+             <h:outputText value="Te wiersze BO nie zgadzają się/nie ma ich w dokumencie BO" rendered="#{bilansRozniceView.wierszeBOroznice.size() ne 0}"/>
+             <p:dataTable value="#{bilansRozniceView.wierszeBOroznice}" var="item"
+                         style="overflow-y: scroll; height: 300px; width: 1000px; padding: 10px; margin-top: 5px;"
+                         styleClass="gridtablicasyntetyczne" rowIndexVar="idx"  emptyMessage="nie ma zapisów w tej grupie"
+                         rendered="#{bilansRozniceView.wierszeBOroznice.size() ne 0}"
+                         rowKey="#{item.hashCode()}"
+                         >
+                <p:column style="text-align: center;" sortBy="#{item.kwotaMa}" width="30">
+                    <f:facet name="header">
+                        <h:outputText value="id"/>
+                    </f:facet>
+                    <h:outputText value="#{item.id}"/>
+                </p:column>
+                <p:column width="250" filterBy="#{item.konto}" filterFunction="#{bilansWprowadzanieView.filterByKonto}"  sortBy="#{item.konto}" sortFunction="#{kontoSortView.sortujKonto}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mgs.konto}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.konto.pelnynumer} #{item.konto.nazwapelna}"/>
+                </p:column>
+                <p:column styleClass="kolumnaopis" filterBy="#{item.opis}" filterMatchMode="contains" sortBy="#{item.opis}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mgs.opis}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.opis}" style="#{item.roznicowy ? 'color:red;':null}"/>
+                </p:column>
+                <p:column style="text-align: center;" sortBy="#{item.kwotaWn}" width="90">
+                    <f:facet name="header">
+                        <h:outputText value="Kwota Wn"/>
+                    </f:facet>
+                    <bcf:outputpl value="#{item.kwotaWn}" rendered="#{item.kwotaWn ne 0.0 and bilansWprowadzanieView.nraktualnejlisty ne 9}"/>
+                    <bcf:outputpl value="#{item.kwotaWnPLN}" rendered="#{item.kwotaWnPLN ne 0.0 and bilansWprowadzanieView.nraktualnejlisty eq 9}"/>
+                </p:column>
+                <p:column style="text-align: center;" sortBy="#{item.kwotaMa}" width="90">
+                    <f:facet name="header">
+                        <h:outputText value="Kwota Ma"/>
+                    </f:facet>
+                    <bcf:outputpl value="#{item.kwotaMa}" rendered="#{item.kwotaMa ne 0.0 and bilansWprowadzanieView.nraktualnejlisty ne 9}"/>
+                    <bcf:outputpl value="#{item.kwotaMaPLN}" rendered="#{item.kwotaMaPLN ne 0.0 and bilansWprowadzanieView.nraktualnejlisty eq 9}"/>
+                </p:column>
+                  <p:column sortBy="#{item.nowy0edycja1usun2}" width="70" style="#{item.stylwiersza}" filterBy="#{item.nowy0edycja1usun2}" filterMatchMode="contains" filterStyle="width: 40px;">
+                    <f:facet name="header">
+                        <h:outputText value="stan"/>
+                    </f:facet>
+                    <h:outputText value="#{item.nowy0edycja1usun2}" />
+                </p:column>
+                <p:column style="text-align: left;" sortBy="#{item.dataK}" width="90">
+                    <f:facet name="header">
+                        <h:outputText value="data"/>
+                    </f:facet>
+                     <h:outputText value="#{item.dataK}">
+                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+                 <p:column style="text-align: center;" width="40">
+                    <f:facet name="header">
+                        <h:outputText value="nowy"/>
+                    </f:facet>
+                    <p:commandButton icon="ui-icon-refresh" style="width: 30px;" global="false"  actionListener="#{bilansWprowadzanieView.oznaczjakonowy(item)}"
+                                     update="@parent@parent"
+                                     />
+                </p:column>
+            </p:dataTable>
+            <h:outputText value="wszystkie wiersze z dokumentu BO są wierszach BO" rendered="#{bilansRozniceView.wierszeDokroznice.size() eq 0}"/>
+            <h:outputText value="Te wiersze z dok BO nie zgadzają się/nie ma ich w wierszach BO" rendered="#{bilansRozniceView.wierszeDokroznice.size() ne 0}"/>
+             <p:dataTable value="#{bilansRozniceView.wierszeDokroznice}" var="item2"
+                         style="overflow-y: scroll; height: 300px; width: 1000px; padding: 10px; margin-top: 5px;"
+                         styleClass="gridtablicasyntetyczne" rowIndexVar="idx"  emptyMessage="nie ma zapisów w tej grupie"
+                         rendered="#{bilansRozniceView.wierszeDokroznice.size() ne 0}"
+                         rowKey="#{item2.hashCode()}"
+                         >
+                <p:column style="text-align: center;" sortBy="#{item2.kwotaMa}" width="30">
+                    <f:facet name="header">
+                        <h:outputText value="id"/>
+                    </f:facet>
+                    <h:outputText value="#{item2.id}"/>
+                </p:column>
+                 <p:column width="250" filterBy="#{item2.konto}" filterFunction="#{bilansWprowadzanieView.filterByKonto}"  sortBy="#{item2.konto}" sortFunction="#{kontoSortView.sortujKonto}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mgs.konto}"/>
+                    </f:facet>
+                    <h:outputText value="#{item2.konto.pelnynumer} #{item2.konto.nazwapelna}"/>
+                </p:column>
+                 <p:column styleClass="kolumnaopis" filterBy="#{item2.opis}" filterMatchMode="contains" sortBy="#{item2.opis}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mgs.opis}"/>
+                    </f:facet>
+                    <h:outputText value="#{item2.opis}"/>
+                </p:column>
+                 <p:column style="text-align: center;" sortBy="#{item2.kwota}" width="90">
+                    <f:facet name="header">
+                        <h:outputText value="Kwota Wn"/>
+                    </f:facet>
+                    <bcf:outputpl value="#{item2.kwota}"/>
+                </p:column>
+                <p:column style="text-align: center;" sortBy="#{item2.kwotaMa}" width="90">
+                    <f:facet name="header">
+                        <h:outputText value="wiersz BO"/>
+                    </f:facet>
+                    <h:outputText value="#{item2.wierszbo.id}"/>
+                </p:column>
+            </p:dataTable>
+            <h:outputText value="#{bilansRozniceView.stopmsg}"  style="color:green"/>
+        </p:panelGrid>
+
+        </h:form>
+    </p:dialog>
+</ui:composition>

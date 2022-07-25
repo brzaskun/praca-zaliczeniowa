@@ -1,0 +1,53 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+      <p:tab id="grafika" title="Dodatkowe elementy graficzne">
+          <h:form id="formelementygraficzne">
+              <p:panel header="aktualne logo" id="panellogo">
+                  <p:graphicImage value="#{fakturaelementygraficzneView.aktualnelogo()}" 
+                                  height="#{fakturaelementygraficzneView.logowysokosc}" width="#{fakturaelementygraficzneView.logowysokosc}"  rendered="#{fakturaelementygraficzneView.aktualnelogo() ne ''}"/><br/>
+                  <h:outputText value="Brak pliku z logiem firmy w bazie danych" rendered="#{fakturaelementygraficzneView.aktualnelogo() eq ''}"/>
+                  <p:commandButton value="Usuń z bazy" style="width: 120px;" actionListener="#{fakturaelementygraficzneView.usunlogo()}" rendered="#{fakturaelementygraficzneView.aktualnelogo() ne ''}"/>
+                </p:panel>
+                <p:panel header="Wczytaj plik graficzny, który będzie umieszczony na fakturze jako logo"/>
+                <p:fileUpload fileUploadListener="#{fakturaelementygraficzneView.zachowajZaladowaneLogo}" 
+                                mode="advanced" dragDropSupport="true" fileLimit="3"
+                                update="messages1" sizeLimit="200000"  
+                                validatorMessage="Nieprawidłowy typ pliku" invalidFileMessage="Nieprawidłowy typ pliku" invalidSizeMessage="Plik za duży"
+                                fileLimitMessage="Można załadować tylko jeden plik na jedno ładowanie"
+                                uploadLabel="Wczytaj" label="Wybierz" cancelLabel="Rezygnuj" 
+                                style="height: 200px;">
+                </p:fileUpload>
+                <p:growl life="3600"  id="messages1" showDetail="true"/>
+            </h:form>
+            <h:form id="formelementygraficzne2">
+                <p:panelGrid>
+                    <f:facet name="header">
+                        <p:row>
+                            <p:column>
+                                <h:outputText value="szerokość w px"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="wysokość w px"/>
+                            </p:column>
+                        </p:row>
+                    </f:facet>
+                        <p:row>
+                            <p:column>
+                                <p:inputNumber value="#{fakturaelementygraficzneView.logoszerokosc}" decimalPlaces="0"/>
+                            </p:column>
+                            <p:column>
+                                <p:inputNumber value="#{fakturaelementygraficzneView.logowysokosc}" decimalPlaces="0"/>
+                            </p:column>
+                        </p:row>
+                    
+                </p:panelGrid>
+                <p:commandButton value="zapisz wymiary" global="false" actionListener="#{fakturaelementygraficzneView.zapiszwymiarylogo}" 
+                                 update="akordeon:formwzor akordeon:formelementygraficzne"/>
+            </h:form>
+        </p:tab>
+</ui:composition>   
+

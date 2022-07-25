@@ -1,0 +1,19 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    >
+    <style>
+        .opismiejsca input  {
+            width: 250px !important;
+        }
+    </style>
+    <p:dialog id="dialog_stowarzyszenie_wykaz_czlonkow" header="Wykaz członków stowarzyszenia" widgetVar="dialog_stowarzyszenie_wykaz_czlonkow" 
+              resizable="false"  onShow="ustawdialog('dialog_stowarzyszenie_wykaz_czlonkow','menukartoteki',1080,650);" 
+              closeOnEscape="true" onHide="resetujdialog('dialog_stowarzyszenie_wykaz_czlonkow');" 
+              >
+        <ui:include src="../../../wspolny/sub/stow_wykazczlonkow.xhtml"/>
+    </p:dialog>
+</ui:composition>

@@ -1,0 +1,125 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    
+    >
+    <p:tab title="Wybór opodatkowania podatkiem dochodowym">  
+        <h:form id="form1" >
+            <h:outputText value="Wybór opodatkowania podatkiem dochodowym" style="font-size: 15px"/>
+            <p:focus for="parametrypodatnika"/><br/>
+            <p:dataTable value="#{podatnikView.podatnikOpodatkowanie}"  var="loop" style="width: 980px; padding: 10px;" 
+                         rowKey="#{loop.id}" selection="#{podatnikView.podatnikOpodatkowanieSelected}" >
+                <f:facet name="header">
+                    <h:outputText value="Dane historyczne"/>
+                </f:facet>
+                <p:ajax event="rowSelectRadio" global="false" listener="#{podatnikView.przygotujedycjeopodatkowanie}" update="akordeon:form1"/>
+                <p:column selectionMode="single" styleClass="checkwiersza" width="30" style="text-align: center;"></p:column>
+                <p:column headerText="od" width="80">
+                    <h:outputText value="#{loop.datarozpoczecia}" />
+                    </p:column>
+                <p:column headerText="do" width="80">
+                    <h:outputText value="#{loop.datazakonczenia}" />
+                    </p:column>
+                 <p:column headerText="symbol roku">
+                     <h:outputText value="#{loop.symbolroku}" />
+                    </p:column>
+                <p:column headerText="rodzaj opodatkowania" width="150">
+                        <h:outputText value="#{loop.formaopodatkowania}" />
+                    </p:column>
+                    <p:column headerText="mies./kwart.">
+                        <h:outputText value="#{loop.mc0kw1 eq false ? 'miesięcznie' : 'kwartalnie'}" />
+                    </p:column>
+                <p:column headerText="stawka pod." rendered="#{WpisView.formaprawna eq 'SPOLKA_Z_O_O' or WpisView.formaprawna eq 'SPOLKA_KOMANDYTOWA'}">
+                        <h:outputText value="#{loop.stawkapodatkuospr}">
+                            <f:convertNumber type="percent"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="dołączony do roku">
+<!--                        <p:inplace  editor="true" saveLabel="zachowaj wprowadzoną wartość" cancelLabel="wycofaj wprowadzone zmiany">-->
+                            <h:outputText value="#{loop.dolaczonydoroku eq null ? 'opcjonalne'  : loop.dolaczonydoroku}" />
+<!--                            <p:inputText value="#{loop.dolaczonydoroku}"
+                                              label="text" />  
+                                <p:ajax event="save" global="false" listener="#{podatnikView.edycjaopodatkowanie(loop)}" 
+                                        partialSubmit="true"/>
+                        
+                        </p:inplace>-->
+                    </p:column>
+                    <p:column headerText="zamkniety" width="60" style="text-align: center;">
+                        <h:outputText value="#{loop.zamkniety ? 'tak': 'nie'}" style="#{loop.zamkniety ? 'color: red;': 'color: green;'}"/>
+                    </p:column>
+                <p:column  width="60" style="text-align: center;" headerText="zamk.">
+                        <p:commandButton icon="fa fa-lock" actionListener="#{podatnikView.zamknijrok(loop)}" global="true" update="@parent:@parent"
+                                         style="#{loop.zamkniety ? 'color: green;': 'color: red;'}" />
+                    </p:column>
+                <p:column  width="60" style="text-align: center;" headerText="odksięg.">
+                        <p:commandButton icon="fa fa-book" actionListener="#{podatnikView.odksiegujdokumenty}" global="true" update="@parent:@parent"
+                                         rendered="#{loop.zamkniety eq false and loop.symbolroku eq WpisView.rokWpisuSt}" />
+                    </p:column>
+            </p:dataTable>
+            <p:panel header="wybierz parametry aktualne" style="width: 990px;"/>
+            <p:panelGrid id="parametrypodatnika" columns="8" style="padding: 10px;" >
+                <h:outputText value="data od: "/>
+                <p:inputText id="dataod" value="#{podatnikView.wybranyPodatnikOpodatkowanie.datarozpoczecia}" maxlength="10" placeholder="rrrr-mm-dd" size="10">
+                    <p:ajax event="blur" onstart="weryfikujdateauto('akordeon:form1:dataod')"/>
+                </p:inputText>
+                <h:outputText value="data do: "/>
+                <p:inputText id="datado" value="#{podatnikView.wybranyPodatnikOpodatkowanie.datazakonczenia}" maxlength="10" placeholder="rrrr-mm-dd" size="10">
+                    <p:ajax event="blur" onstart="weryfikujdateauto('akordeon:form1:datado')"/>
+                </p:inputText>
+                <h:outputText value="symbol roku: "/>
+                <p:selectOneMenu value="#{podatnikView.wybranyPodatnikOpodatkowanie.symbolroku}">
+                    <f:selectItem itemValue="" itemLabel="wybierz" noSelectionOption="true"/> 
+                    <f:selectItems value="#{roki.rokiListString}"/>
+                </p:selectOneMenu>
+                 <h:outputText value="dołączony do: "/>
+                 <p:selectOneMenu value="#{podatnikView.wybranyPodatnikOpodatkowanie.dolaczonydoroku}"  rendered="#{WpisView.podatnikObiekt.firmafk eq 1}">
+                    <f:selectItem itemValue="" itemLabel="wybierz" noSelectionOption="true"/> 
+                    <f:selectItems value="#{roki.rokiListString}"/>
+                </p:selectOneMenu>
+                <h:outputText value="rodzaj opod: "/>
+                <p:selectOneMenu value="#{podatnikView.wybranyPodatnikOpodatkowanie.formaopodatkowania}"  rendered="#{WpisView.podatnikObiekt.firmafk eq 0}">
+                    <f:selectItem itemValue="" itemLabel="wybierz" noSelectionOption="true"/> 
+                    <f:selectItem itemValue="zasady ogólne" itemLabel="zasady ogólne"/> 
+                    <f:selectItem itemValue="podatek liniowy" itemLabel="podatek liniowy"/>
+                    <f:selectItem itemValue="ryczałt" itemLabel="ryczałt"/>
+                </p:selectOneMenu>
+                <p:selectOneMenu value="#{podatnikView.wybranyPodatnikOpodatkowanie.formaopodatkowania}"  rendered="#{WpisView.podatnikObiekt.firmafk eq 1}">
+                    <f:selectItem itemValue="" itemLabel="wybierz" noSelectionOption="true"/> 
+                    <f:selectItem itemValue="księgi rachunkowe" itemLabel="księgi rachunkowe"/>
+                </p:selectOneMenu>
+                <p:selectOneMenu value="#{podatnikView.wybranyPodatnikOpodatkowanie.formaopodatkowania}"  rendered="#{WpisView.podatnikObiekt.firmafk eq 3}">
+                    <f:selectItem itemValue="" itemLabel="wybierz" noSelectionOption="true"/> 
+                    <f:selectItem itemValue="zasady ogólne" itemLabel="zasady ogólne"/> 
+                    <f:selectItem itemValue="podatek liniowy" itemLabel="podatek liniowy"/>
+                    <f:selectItem itemValue="ryczałt" itemLabel="ryczałt"/>
+                    <f:selectItem itemValue="księgi rachunkowe" itemLabel="księgi rachunkowe"/>
+                </p:selectOneMenu>
+                <h:outputText value="mc/kw: "/>
+                <p:selectOneMenu value="#{podatnikView.wybranyPodatnikOpodatkowanie.mc0kw1}" >
+                    <f:selectItem itemLabel="miesięcznie" itemValue="false"/> 
+                    <f:selectItem itemLabel="kwartalnie" itemValue="true"/>
+                </p:selectOneMenu>
+                <h:outputText value="stawka pod. (0,19)" rendered="#{WpisView.formaprawna eq 'SPOLKA_Z_O_O'  or WpisView.formaprawna eq 'SPOLKA_KOMANDYTOWA'}"/>
+                <p:inputNumber value="#{podatnikView.wybranyPodatnikOpodatkowanie.stawkapodatkuospr}" decimalPlaces="2" maxValue="1"  rendered="#{WpisView.formaprawna eq 'SPOLKA_Z_O_O'  or WpisView.formaprawna eq 'SPOLKA_KOMANDYTOWA'}"/>
+            </p:panelGrid>
+            <br/>
+            <p:panelGrid columns="3" style="column-width: 350px; width: 500px">
+                <p:commandButton actionListener="#{podatnikView.usundoch()}" value="usun parametr" update="form1" />
+                <p:commandButton actionListener="#{podatnikView.dodajdoch()}" value="dodaj parametr" update="form1" binding="#{podatnikView.but1}"/>
+                <p:commandButton actionListener="#{podatnikView.edytujparametrdoch()}" value="edytuj parametr" update="form1"  binding="#{podatnikView.but2}" rendered="false"/>
+                <p:commandButton value="reset input" update="form1" type="submit" actionListener="#{podatnikView.resetujparamdoch()}">
+                    <p:resetInput target="parametrypodatnika"/>
+                </p:commandButton>
+            </p:panelGrid>
+        </h:form>
+        <h:form>
+            <p:panelGrid columns="2" style="padding: 10px;margin-top: 30px;">
+                <p:commandButton action="#{podatnikRokObrachukowyView.otworzrok()}" value="otwórz rok obrachunkowy" style="width: 180px;color: red;"  rendered="#{WpisView.podatnikObiekt.firmafk ne 0}"/>
+            </p:panelGrid>
+        </h:form>
+        <br/><br/>
+    </p:tab>
+</ui:composition> 

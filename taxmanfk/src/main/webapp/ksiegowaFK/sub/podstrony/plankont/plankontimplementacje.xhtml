@@ -1,0 +1,77 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:bcf="http://brzaskun.com/facelets">
+    <style>
+        .paneldialog_plankont_kopiuj .ui-panelgrid-cell {
+            width: 200px;
+        }
+    </style>
+    <bcf:ajaxs/>
+    <p:panel header="Kopiowanie kompletnego planu kont z firmy do firmy" />
+        <h:form id="formdialog_plankont_kopiuj">
+            <p:panelGrid styleClass="paneldialog_plankont_kopiuj" columns="4">
+                <h:outputText value="Pobierz plan kont z firmy" style="width: 250px;"/>
+                <p:selectOneMenu  value="#{planKontKopiujView.podatnikzrodlowy}" style="width: 280px;" converter="#{podatConv}">
+                    <f:selectItems value="#{podatnikWyborView.listaPodatnikowFK}" var="p" itemLabel="#{p.printnazwa}" itemValue="#{p}"/>
+                </p:selectOneMenu>
+                <h:outputText value="rok" style="margin-left: 70px;"/>
+                <p:inputText value="#{planKontKopiujView.rokzrodlowy}"/>
+                <h:outputText value="Skopiuj pobrany plan kont do firmy" style="width: 250px; margin-top: 10px;"/>
+                <p:selectOneMenu  value="#{planKontKopiujView.podatnikdocelowy}" style="width: 280px; margin-top: 10px;" converter="#{podatConv}">
+                    <f:selectItems value="#{podatnikWyborView.listaPodatnikowFK}" var="p" itemLabel="#{p.printnazwa}" itemValue="#{p}"/>
+                </p:selectOneMenu>
+                <h:outputText value="rok" style="margin-left: 70px;"/>
+                <p:inputText value="#{planKontKopiujView.rokdocelowy}"/>
+            </p:panelGrid>
+            <p:panelGrid columns="2" style="margin-top: 5px;">
+                <h:outputText value="kopiuj słowniki i konta słownikowe"/>
+                <p:selectBooleanCheckbox value="#{planKontKopiujView.kopiujSlownikowe}" style="margin-left: 20px;"/>
+            </p:panelGrid>
+            <p:commandButton value="kopiuj" actionListener="#{planKontKopiujView.kopiujplankont}" type="submit" 
+                                 style="margin-left: 180px; margin-right: auto; margin-top: 5px; width: 120px;" 
+                                 />
+        </h:form>
+    <p:panel header="Uzupełnienie planu kont z firmy do firmy o brakujące konta" style="margin-top: 10px;"/>
+        <h:form id="formdialog_plankont_uzupelnij">
+            <p:panelGrid styleClass="paneldialog_plankont_uzupelnij" columns="4">
+                <h:outputText value="Źródłowy plan kont z firmy" style="width: 250px;"/>
+                <p:selectOneMenu  value="#{planKontUzupelnijView.podatnikzrodlowy}" style="width: 280px;" converter="#{podatConv}" autoWidth="false">
+                    <f:selectItems value="#{podatnikWyborView.listaPodatnikowFK}" var="p" itemLabel="#{p.printnazwa}" itemValue="#{p}"/>
+                </p:selectOneMenu>
+                <h:outputText value="rok" style="margin-left: 70px;"/>
+                <p:inputText value="#{planKontUzupelnijView.rokzrodlowy}"/>
+                <h:outputText value="Docelowy plan kont do uzupełnienia" style="width: 250px; margin-top: 10px;"/>
+                <p:selectOneMenu  value="#{planKontUzupelnijView.podatnikdocelowy}" style="width: 280px; margin-top: 10px;" converter="#{podatConv}" autoWidth="false">
+                    <f:selectItems value="#{podatnikWyborView.listaPodatnikowFK}" var="p" itemLabel="#{p.printnazwa}" itemValue="#{p}"/>
+                </p:selectOneMenu>
+                <h:outputText value="rok" style="margin-left: 70px;"/>
+                <p:inputText value="#{planKontUzupelnijView.rokdocelowy}"/>
+            </p:panelGrid>
+            <p:commandButton value="uzupełnij" actionListener="#{planKontUzupelnijView.uzupelnijplankont}" type="submit" 
+                                 style="margin-left: 180px; margin-right: auto; margin-top: 5px; width: 120px;"
+                                 />
+        </h:form>
+    <style>
+        .paneldialog_plankont_implementuj_wzorcowy .ui-panelgrid-cell {
+            width: 200px;
+        }
+    </style>
+    <p:panel  header="Implementowanie kompletnego planu wzorcowego z roku do roku" style="margin-top: 10px;"/>
+        <h:form id="formdialog_plankont_implementuj_wzorcowy">
+            <p:panelGrid styleClass="paneldialog_plankont_implementuj_wzorcowy" columns="4">
+                <h:outputText value="rok źródłowy planu wzorcowego" />
+                <p:inputText value="#{planKontKopiujView.rokzrodlowy_wzorzec}"/>
+                <h:outputText value="rok docelowy planu firmy"/>
+                <p:inputText value="#{planKontKopiujView.rokdocelowy}"/>
+            </p:panelGrid>
+            <p:commandButton value="implementuj" actionListener="#{planKontKopiujView.implementujplankontWzorcowy}" 
+                                 style="margin-left: 180px;; margin-right: auto; margin-top: 20px; width: 120px;" 
+                                 />
+        </h:form>
+    
+</ui:composition>

@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:dto="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2021/03/12/eD/DefinicjeTypyOss/" xmlns:etd="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2020/03/11/eD/DefinicjeTypy/" xmlns:tns="http://crd.gov.pl/wzor/2021/08/03/08031/" targetNamespace="http://crd.gov.pl/wzor/2021/08/03/08031/" elementFormDefault="qualified" attributeFormDefault="unqualified" xml:lang="pl">
+	<xsd:import namespace="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2021/03/12/eD/DefinicjeTypyOss/" schemaLocation="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2021/03/12/eD/DefinicjeTypyOss/StrukturyDanychOss_v1-0E.xsd"/>
+	<xsd:import namespace="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2020/03/11/eD/DefinicjeTypy/" schemaLocation="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2020/03/11/eD/DefinicjeTypy/StrukturyDanych_v6-0E.xsd"/>
+	<xsd:complexType name="TNaglowek">
+		<xsd:annotation>
+			<xsd:documentation>Nagłówek deklaracji</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="KodFormularza">
+				<xsd:complexType>
+					<xsd:simpleContent>
+						<xsd:extension base="tns:TKodFormularza">
+							<xsd:attribute name="kodSystemowy" type="xsd:string" use="required" fixed="VIU-DO (1)"/>
+							<xsd:attribute name="kodPodatku" type="xsd:string" use="required" fixed="VIU"/>
+							<xsd:attribute name="rodzajZobowiazania" type="xsd:token" use="required" fixed="Z"/>
+							<xsd:attribute name="wersjaSchemy" type="xsd:string" use="required" fixed="1-0E"/>
+						</xsd:extension>
+					</xsd:simpleContent>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="WariantFormularza">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:byte">
+						<xsd:enumeration value="1"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="DataWypelnienia" type="tns:TLData">
+				<xsd:annotation>
+					<xsd:documentation>Data wypełnienia deklaracji</xsd:documentation>
+					<!-- Data złożenia deklaracji lub korekty w systemie musi być nie wcześniejsza niż dzień po zakończeniu kwartału, którego dotyczy deklaracja 
+					oraz nie późniejsza niż 3 lata od terminu złożenia -->
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="CelZlozenia" type="etd:TCelZlozenia">
+				<xsd:annotation>
+					<xsd:documentation>Cel złożenia deklaracji (złożenie/wersja robocza):
+1 - Złożenie,
+2 - Wersja robocza deklaracji.
+Wersja robocza deklaracji oznacza jej weryfikację przed złożeniem właściwej deklaracji w celu wyeliminowania nieprawidłowości. 
+W przypadku otrzymania informacji o wykrytych błędach, w celu złożenia deklaracji należy poprawić nieprawidłowości wskazane przez urząd skarbowy w otrzymanym komunikacie i złożyć poprawną deklarację zaznaczając pole „Złożenie”.
+W przypadku otrzymania informacji o prawidłowo wypełnionej wersji roboczej deklaracji, należy złożyć  deklarację zaznaczając pole – „Złożenie”.  
+Wersja robocza nie stanowi deklaracji i nie zostanie przekazana do państw członkowskich konsumpcji.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Rok">
+				<xsd:simpleType>
+					<xsd:restriction base="etd:TRok">
+						<xsd:minInclusive value="2021"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="Kwartal" type="etd:TKwartal"/>
+			<xsd:element name="KodUrzedu" type="etd:TKodUS" fixed="1436">
+				<xsd:annotation>
+					<xsd:documentation>Urząd skarbowy, do którego adresowana jest deklaracja</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:simpleType name="TKodFormularza">
+		<xsd:annotation>
+			<xsd:documentation>Symbol wzoru formularza</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="VIU-DO"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="TLData">
+		<xsd:annotation>
+			<xsd:documentation>Ograniczenie dla daty od</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:date">
+			<xsd:minInclusive value="2021-10-01"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:element name="Deklaracja">
+		<xsd:annotation>
+			<xsd:documentation>DEKLARACJA DLA ROZLICZANIA PODATKU VAT W ZAKRESIE PROCEDURY UNIJNEJ</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="Naglowek" type="tns:TNaglowek">
+					<xsd:annotation>
+						<xsd:documentation>Nagłówek deklaracji</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element name="Podmiot1">
+					<xsd:annotation>
+						<xsd:documentation>Podatnik</xsd:documentation>
+					</xsd:annotation>
+					<xsd:complexType>
+						<xsd:complexContent>
+							<xsd:extension base="dto:TPodmiotDowolnyBezAdresuMoss">
+								<xsd:attribute name="rola" type="xsd:string" use="required" fixed="Podatnik"/>
+							</xsd:extension>
+						</xsd:complexContent>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element ref="tns:PozycjeSzczegolowe">
+					<xsd:annotation>
+						<xsd:documentation>Dane szczegółowe</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element name="Pouczenie1">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:enumeration value="Za podanie nieprawdy lub zatajenie prawdy i przez to narażenie podatku na uszczuplenie grozi odpowiedzialność przewidziana w Kodeksie karnym skarbowym."/>
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="Pouczenie2">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:enumeration value="W przypadku niewpłacenia w obowiązującym terminie kwoty podatku VAT należnej Rzeczpospolitej Polskiej lub wpłacenia jej w niepełnej wysokości, niniejsza deklaracja stanowi podstawę do wystawienia tytułu wykonawczego, zgodnie z art. 3a § 1 pkt 1 ustawy z dnia 17 czerwca 1966 r. o postępowaniu egzekucyjnym w administracji (Dz. U. z 2020 r. poz. 1427, z późn. zm.)."/>
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="PozycjeSzczegolowe">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="Period" type="dto:PeriodSplit_Type" minOccurs="0">
+					<xsd:annotation>
+						<xsd:documentation>C.1. TERMIN ROZPOCZĘCIA I ZAKOŃCZENIA OKRESU ŚWIADCZENIA USŁUG I DOSTAWY TOWARÓW JEŚLI SKŁADANA JEST WIĘCEJ NIŻ JEDNA DEKLARACJA VAT ZA TEN SAM OKRES ROZLICZENIOWY W RÓŻNYCH PAŃSTWACH CZŁONKOWSKICH UNII EUROPEJSKIEJ</xsd:documentation>
+					</xsd:annotation>
+					<!-- Jeśli występuje element tns:Deklaracja/tns:PozycjeSzczegolowe/tns:Period to:
+					tns:Deklaracja/tns:PozycjeSzczegolowe/tns:Period/dto:EndDate >= tns:Deklaracja/tns:PozycjeSzczegolowe/tns:Period/dto:StartDate
+					oraz daty w elemenach tns:Deklaracja/tns:PozycjeSzczegolowe/tns:Period/dto:StartDate i tns:Deklaracja/tns:PozycjeSzczegolowe/tns:Period/dto:StartDate
+					muszą zawierać się w okresie odpowiadającym tns:Deklaracja/tns:Naglowek/tns:Rok i tns:Deklaracja/tns:Naglowek/tns:Kwartal -->
+				</xsd:element>
+				<xsd:element name="VATReturnMSCON" type="tns:VATReturnMSCON_Type" minOccurs="0">
+					<xsd:annotation>
+						<xsd:documentation>Deklaracja dla każdego państwa członkowskiego konsumpcji, w którym należny jest podatek VAT</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element name="MSCONBalance" type="tns:MSCONBalance_Type" minOccurs="0" maxOccurs="unbounded">
+					<xsd:annotation>
+						<xsd:documentation>C.6. SALDO NALEŻNEGO PODATKU VAT DLA KAŻDEGO PAŃSTWA CZŁONKOWSKIEGO KONSUMPCJI</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element name="TotalAmountOfVATDue" type="dto:EurAmountPositiveZero_Type">
+					<xsd:annotation>
+						<xsd:documentation>C.7. CAŁKOWITA KWOTA NALEŻNEGO PODATKU VAT DO WPŁATY</xsd:documentation>
+					</xsd:annotation>
+					<!-- tns:Deklaracja/tns:PozycjeSzczegolowe/tns:TotalAmountOfVATDue = 
+					SUMA(tns:PozycjeSzczegolowe/tns:MSCONBalance/tns:BalanceOfVATDue o ile są wartościami dodatnimi)
+					lub 0 gdy element tns:PozycjeSzczegolowe/tns:MSCONBalance nie występuje (pusta deklaracja) -->
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+		<xsd:unique name="kluczMSCONCorrectionsMSCON">
+			<xsd:selector xpath="tns:VATReturnMSCON/tns:Corrections"/>
+			<xsd:field xpath="tns:MSCONCountryCode"/>
+		</xsd:unique>
+		<xsd:unique name="kluczMSCONBalance">
+			<xsd:selector xpath="tns:MSCONBalance"/>
+			<xsd:field xpath="tns:MSCONCountryCode"/>
+		</xsd:unique>
+	</xsd:element>
+	<xsd:complexType name="VATReturnMSCON_Type">
+		<xsd:sequence>
+			<xsd:element name="Supplies" type="tns:MSCONSupply_Type" minOccurs="0">
+				<xsd:unique name="kluczMSIDSuppliesMSCON">
+					<xsd:selector xpath="tns:MSIDSupplies"/>
+					<xsd:field xpath="tns:MSCONCountryCode"/>
+				</xsd:unique>
+				<xsd:unique name="kluczMSESTSuppliesMSCON">
+					<xsd:selector xpath="tns:MSESTSupplies"/>
+					<xsd:field xpath="tns:MSCONCountryCode"/>
+				</xsd:unique>
+			</xsd:element>
+			<xsd:element name="Corrections" type="tns:MSCONCorrections_Type" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation>C.5. KOREKTY KWOT PODATKU VAT WYKAZANYCH W DEKLARACJACH ZA POPRZEDNIE OKRESY WYNIKAJĄCE Z KOREKT DOSTAW TOWARÓW LUB ŚWIADCZONYCH USŁUG</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="MSCONSupply_Type">
+		<xsd:sequence>
+			<xsd:element name="MSIDSupplies" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation>C.2. ŚWIADCZENIE USŁUG Z PAŃSTWA CZŁONKOWSKIEGO IDENTYFIKACJI ORAZ STAŁEGO MIEJSCA PROWADZENIA DZIAŁALNOŚCI GOSPODARCZEJ POZA UNIĄ EUROPEJSKĄ ORAZ DOSTAWY TOWARÓW WYSYŁANYCH LUB TRANSPORTOWANYCH Z PAŃSTWA CZŁONKOWSKIEGO IDENTYFIKACJI</xsd:documentation>
+				</xsd:annotation>
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="MSCONCountryCode" type="dto:MSIDCountryCodeExFormerMS_Type">
+							<xsd:annotation>
+								<xsd:documentation>Kod państwa członkowskiego konsumpcji</xsd:documentation>
+							</xsd:annotation>
+						</xsd:element>
+						<xsd:element name="MSIDSupply" type="dto:OSSVATReturnDetails_Type">
+							<xsd:unique name="kluczMSIDVatRate">
+								<xsd:selector xpath="dto:OSSVATReturnDetail"/>
+								<xsd:field xpath="dto:SupplyType"/>
+								<xsd:field xpath="dto:VATRate"/>
+							</xsd:unique>
+						</xsd:element>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="GrandTotalMSIDServices" type="dto:EurAmountPositiveZero_Type" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Całkowita kwota należnego podatku VAT z tytułu świadczonych usług świadczonych z państwa członkowskiego identyfikacji oraz stałego miejsca prowadzenia działalności gospodarczej poza Unią Europejską</xsd:documentation>
+				</xsd:annotation>
+				<!-- Wartość elementu tns:Deklaracja/tns:PozycjeSzczegolowe/tns:GrandTotalMSIDServices =
+					SUMA(tns:Deklaracja/tns:PozycjeSzczegolowe/tns:VATReturnMSCON/tns:Supplies/tns:MSIDSupplies/tns:MSIDSupply/dto:OSSVATReturnDetail/dto:VATAmount) 
+					gdzie tns:Deklaracja/tns:PozycjeSzczegolowe/tns:VATReturnMSCON/tns:Supplies/tns:MSIDSupplies/tns:MSIDSupply/dto:OSSVATReturnDetail/dto:SupplyType = SERVICES-->
+			</xsd:element>
+			<xsd:element name="GrandTotalMSIDGoods" type="dto:EurAmountPositiveZero_Type" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Całkowita kwota należnego podatku VAT z tytułu dostaw towarów wysyłanych lub transportowanych z państwa członkowskiego identyfikacji</xsd:documentation>
+				</xsd:annotation>
+				<!-- Wartość elementu tns:Deklaracja/tns:PozycjeSzczegolowe/tns:GrandTotalMSIDGoods =
+					SUMA(tns:Deklaracja/tns:PozycjeSzczegolowe/tns:VATReturnMSCON/tns:Supplies/tns:MSIDSupplies/tns:MSIDSupply/dto:OSSVATReturnDetail/dto:VATAmount) 
+					gdzie tns:Deklaracja/tns:PozycjeSzczegolowe/tns:VATReturnMSCON/tns:Supplies/tns:MSIDSupplies/tns:MSIDSupply/dto:OSSVATReturnDetail/dto:SupplyType = GOODS-->
+			</xsd:element>
+			<xsd:element name="MSESTSupplies" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation>C.3. ŚWIADCZENIE USŁUG ZE STAŁYCH MIEJSC PROWADZENIA DZIAŁALNOŚCI GOSPODARCZEJ ZNAJDUJĄCYCH SIĘ W PAŃSTWACH CZŁONKOWSKICH INNYCH NIŻ PAŃSTWO CZŁONKOWSKIE IDENTYFIKACJI ORAZ DOSTAWY TOWARÓW WYSYŁANYCH LUB TRANSPORTOWANYCH Z PAŃSTWA CZŁONKOWSKIEGO INNEGO NIŻ PAŃSTWO CZŁONKOWSKIE IDENTYFIKACJI</xsd:documentation>
+				</xsd:annotation>
+				<xsd:complexType>
+					<xsd:complexContent>
+						<xsd:extension base="tns:MSESTSupplies_Type"/>
+					</xsd:complexContent>
+				</xsd:complexType>
+				<xsd:unique name="kluczMSESTVATIdVatRate">
+					<xsd:selector xpath="tns:MSESTSupply"/>
+					<xsd:field xpath="tns:VATReturnDetails/tns:EUTraderID/dto:VATIdentificationNumber"/>
+					<xsd:field xpath="tns:VATReturnDetails/tns:EUTraderID/dto:VATIdentificationNumber/@issuedBy"/>
+					<xsd:field xpath="tns:VATReturnDetails/tns:OSSVATReturnDetail/dto:SupplyType"/>
+					<xsd:field xpath="tns:VATReturnDetails/tns:OSSVATReturnDetail/dto:VATRate"/>
+				</xsd:unique>
+				<xsd:unique name="kluczMSESTTaxRefVatRate">
+					<xsd:selector xpath="tns:MSESTSupply"/>
+					<xsd:field xpath="tns:VATReturnDetails/tns:EUTraderID/dto:TaxReferenceNumber"/>
+					<xsd:field xpath="tns:VATReturnDetails/tns:EUTraderID/dto:TaxReferenceNumber/@issuedBy"/>
+					<xsd:field xpath="tns:VATReturnDetails/tns:OSSVATReturnDetail/dto:SupplyType"/>
+					<xsd:field xpath="tns:VATReturnDetails/tns:OSSVATReturnDetail/dto:VATRate"/>
+				</xsd:unique>
+				<xsd:unique name="kluczMSESTCountryVatRate">
+					<xsd:selector xpath="tns:MSESTSupply"/>
+					<xsd:field xpath="tns:VATReturnDetails/tns:CountryCode"/>
+					<xsd:field xpath="tns:VATReturnDetails/tns:OSSVATReturnDetail/dto:SupplyType"/>
+					<xsd:field xpath="tns:VATReturnDetails/tns:OSSVATReturnDetail/dto:VATRate"/>
+				</xsd:unique>
+			</xsd:element>
+			<xsd:element name="GrandTotalMSESTServices" type="dto:EurAmountPositiveZero_Type" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Całkowita kwota należnego podatku VAT z tytułu świadczonych usług ze stałych miejsc prowadzenia działalności gospodarczej znajdujących w państwach członkowskich innych niż państwo członkowskie identyfikacji</xsd:documentation>
+				</xsd:annotation>
+				<!-- Wartość elementu tns:Deklaracja/tns:PozycjeSzczegolowe/tns:GrandTotalMSESTServices = 
+					SUMA(tns:Deklaracja/tns:PozycjeSzczegolowe/tns:VATReturnMSCON/tns:Supplies/tns:MSESTSupplies/tns:MSESTSupply/tns:VATReturnDetails/tns:OSSVATReturnDetail/dto:VATAmount) 
+					gdzie tns:Deklaracja/tns:PozycjeSzczegolowe/tns:VATReturnMSCON/tns:Supplies/tns:MSESTSupplies/tns:MSESTSupply/tns:VATReturnDetails/tns:OSSVATReturnDetail/dto:SupplyType = SERVICES-->
+			</xsd:element>
+			<xsd:element name="GrandTotalMSESTGoods" type="dto:EurAmountPositiveZero_Type" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Całkowita kwota należnego podatku VAT z tytułu dostaw towarów wysyłanych lub transportowanych z państw członkowskich innych niż państwo członkowskie identyfikacji </xsd:documentation>
+				</xsd:annotation>
+				<!-- Wartość elementu tns:Deklaracja/tns:PozycjeSzczegolowe/tns:GrandTotalMSESTGoods = 
+					SUMA(tns:Deklaracja/tns:PozycjeSzczegolowe/tns:VATReturnMSCON/tns:Supplies/tns:MSESTSupplies/tns:MSESTSupply/tns:VATReturnDetails/tns:OSSVATReturnDetail/dto:VATAmount) 
+					gdzie tns:Deklaracja/tns:PozycjeSzczegolowe/tns:VATReturnMSCON/tns:Supplies/tns:MSESTSupplies/tns:MSESTSupply/tns:VATReturnDetails/tns:OSSVATReturnDetail/dto:SupplyType = GOODS-->
+			</xsd:element>
+			<xsd:element name="GrandTotal" type="dto:EurAmountPositiveZero_Type">
+				<xsd:annotation>
+					<xsd:documentation>C.4. SUMA CAŁKOWITA KWOT NALEŻNEGO PODATKU VAT Z TYTUŁU ŚWIADCZENIA USŁUG Z PAŃSTWA CZŁONKOWSKIEGO IDENTYFIKACJI, ZE STAŁYCH MIEJSC PROWADZENIA DZIAŁALNOŚCI GOSPODARCZEJ ZNAJDUJĄCYCH SIĘ POZA PAŃSTWEM CZŁONKOWSKIM IDENTYFIKACJI, ZE STAŁEGO MIEJSCA PROWADZENIA DZIAŁALNOŚCI GOSPODARCZEJ POZA UNIĄ EUROPEJSKĄ, DOSTAWY TOWARÓW WYSYŁANYCH LUB TRANSPORTOWANYCH Z PAŃSTWA CZŁONKOWSKIEGO IDENTYFIKACJI I Z PAŃSTWA CZŁONKOWSKIEGO INNEGO NIŻ PAŃSTWO CZŁONKOWSKIE IDENTYFIKACJI
+</xsd:documentation>
+				</xsd:annotation>
+				<!-- Wartość elementu tns:Deklaracja/tns:PozycjeSzczegolowe/tns:GrandTotal = SUMA(wszystkich elementów dtm:VATAmount)
+				lub 0 gdy elementy VATAmount nie występują -->
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="MSCONCorrections_Type">
+		<xsd:sequence>
+			<xsd:element name="MSCONCountryCode" type="dto:MSIDCountryCodeExFormerMS_Type">
+				<xsd:annotation>
+					<xsd:documentation>Kod państwa członkowskiego konsumpcji</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="MSCONCorrections" type="dto:CorrectionsQuarter_Type">
+				<xsd:unique name="kluczMSCONCorrection">
+					<xsd:selector xpath="dto:Correction"/>
+					<xsd:field xpath="dto:Period/dto:Year"/>
+					<xsd:field xpath="dto:Period/dto:Quarter"/>
+				</xsd:unique>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="MSESTSupplies_Type">
+		<xsd:sequence>
+			<xsd:element name="MSCONCountryCode" type="dto:MSIDCountryCodeExFormerMS_Type">
+				<xsd:annotation>
+					<xsd:documentation>Kod państwa członkowskiego konsumpcji</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="MSESTSupply" type="tns:MSESTSupply_Type" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="MSESTSupply_Type">
+		<xsd:sequence>
+			<xsd:element name="VATReturnDetails" type="tns:VATReturnDetailsMSEST_Type"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="VATReturnDetailsMSEST_Type">
+		<xsd:sequence>
+			<xsd:choice>
+				<xsd:element name="EUTraderID" type="dto:EUTraderID_Type"/>
+				<xsd:element name="CountryCode" type="dto:OtherMSIDCountryCodeExFormerMS_Type">
+					<xsd:annotation>
+						<xsd:documentation>Kod państwa członkowskiego innego niż państwo członkowskie identyfikacji, z którego towary są wysyłane lub transportowane (w przypadku, gdy brak numeru identyfikacyjnego)</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+			</xsd:choice>
+			<xsd:element name="OSSVATReturnDetail" type="dto:OSSVATReturnDetail_Type"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="MSCONBalance_Type">
+		<xsd:sequence>
+			<xsd:element name="MSCONCountryCode" type="dto:MSIDCountryCodeExFormerMS_Type">
+				<xsd:annotation>
+					<xsd:documentation>Kod państwa członkowskiego konsumpcji</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="BalanceOfVATDue" type="dto:EurAmount_Type">
+				<xsd:annotation>
+					<xsd:documentation>Całkowita kwota należnego podatku VAT z uwzględnieniem korekty deklaracji za poprzednie okresy</xsd:documentation>
+				</xsd:annotation>
+				<!-- tns:Deklaracja/tns:PozycjeSzczegolowe/tns:MSCONBalance/tns:BalanceOfVATDue =
+				SUMA(tns:Deklaracja/tns:PozycjeSzczegolowe/tns:VATReturnMSCON/tns:Supplies/tns:MSIDSupplies/tns:MSIDSupply/dto:VATReturnDetail/dto:VATAmount) +
+				SUMA(tns:Deklaracja/tns:PozycjeSzczegolowe/tns:VATReturnMSCON/tns:Supplies/tns:MSESTSupplies/tns:MSESTSupply/tns:VATReturnDetails/tns:OSSVATReturnDetail/dto:VATAmount) +
+				SUMA(tns:Deklaracja/tns:PozycjeSzczegolowe/tns:VATReturnMSCON/tns:Corrections/tns:MSCONCorrections/dto:Correction/dto:TotalVATAmountCorrection) 
+				dla danego MSCONCountryCode -->
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+</xsd:schema>

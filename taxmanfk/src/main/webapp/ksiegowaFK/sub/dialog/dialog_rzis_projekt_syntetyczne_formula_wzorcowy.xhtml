@@ -1,0 +1,41 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    >
+     <p:dialog header="Wpisz dane pozycji głównej" widgetVar="rzisprojektsyntetyczneformula" resizable="false">  
+        <h:form id="formXrzisprojektformula">
+        <p:growl life="3600"  id="messages"/>
+        <p:focus for="dkpf">
+        <p:panelGrid id="dkpf" columns="2" style=" width: 500px;">
+            <h:outputLabel value="Nazwa pozycji:*" for="nazwa" />
+                        <p:inputText id="nazwa" value="#{pozycjaBRWzorcowyView.nowyelementRZiS.nazwa}" title="Nazwa pozycji RZiS" required="true" requiredMessage="Wprowadź nazwę pozycji" style="width: 350px;"/>
+                        <h:outputLabel value="Przychód koszt:*" for="nazwa" />
+                        <p:selectOneMenu id="rodzaj" value="#{pozycjaBRWzorcowyView.nowyelementRZiS.przychod0koszt1}">
+                            <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true"/>
+                            <f:selectItem itemLabel="#{mgs.przychód}" itemValue="false"/>
+                            <f:selectItem itemLabel="#{mgs.koszt}" itemValue="true"/>
+                        </p:selectOneMenu>
+                       <h:outputLabel value="Formuła (np. A+B):" for="formula" />
+                       <p:inputText id="formula" value="#{pozycjaBRWzorcowyView.nowyelementRZiS.formula}" title="Formuła pozycji" style="width: 300px;" required="false" validatorMessage="Nieprawidłowa formuła. Powinna wyglądać następująco: A+B lub A.I+B.I">
+                           <f:validateRegex pattern="(([A-Z]|[0-9])(\.[A-Z]*)*(\.[0-9])*(\.[a-z])*(\.\-\([0-9]\))*(\+|\-|&gt;|&lt;)*)*" for="formula" />
+                       </p:inputText>
+                       <p:commandButton value="dodaj" actionListener="#{pozycjaBRWzorcowyView.dodajnowapozycje('syntetyczna')}" 
+                                        type="submit" update=":formXrzisprojektformula, :formprojektwzorcowy" style="width: 120px; margin-left: 100px;;" 
+                                        onclick="PF('rzisprojektsyntetyczneformula').hide()" rendered="#{!pozycjaBRWzorcowyView.dodawanieformuly}"/>
+                       <p:commandButton value="edytuj" actionListener="#{pozycjaBRWzorcowyView.edytujpozycje('rzis')}" 
+                                        type="submit" update=":formXrzisprojektformula, :formprojektwzorcowy" style="width: 120px; margin-left: 100px;" 
+                                        onclick="PF('rzisprojektsyntetyczneformula').hide()" rendered="#{pozycjaBRWzorcowyView.dodawanieformuly}"/>
+                        <p:commandButton value="rezygnuj" 
+                                        type="submit" update=":formXrzisprojektformula, :formprojektwzorcowy" style="width: 120px; margin-left: 30%;" 
+                                        onclick="PF('rzisprojektsyntetyczneformula').hide()" />
+        </p:panelGrid>
+            </p:focus>
+            </h:form>
+         <p:separator/>
+         <h:outputText value="* - pola obowiązkowe"/>   
+        </p:dialog> 
+   
+</ui:composition>

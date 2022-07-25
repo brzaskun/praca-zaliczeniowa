@@ -1,0 +1,85 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+
+    xmlns:bcf="http://brzaskun.com/facelets"
+    xmlns:f="http://java.sun.com/jsf/core">
+    <style>
+
+    </style>
+
+    <p:dialog id="dialog_konto_klasyfikacja" header="Plan kont firmy #{WpisView.podatnikObiekt.nazwapelnaPDF} definicja klasyfikacji" widgetVar="dialog_konto_klasyfikacja" fitViewport="true"
+              resizable="false" onShow="ustawdialog('dialog_konto_klasyfikacja','menuustawienia', 1250, 750);ustalmaxlevel('form:dataList_data');" closeOnEscape="true" onHide="resetujdialog('dialog_konto_klasyfikacja');"  >
+<!--        <h:form id="form_dialog_konto_klasyfikacja">
+
+            <p:panelGrid columns="2" >
+                <p:dataTable id="dataList" value="#{kontokategoriaView.lista}" var="loop"  selectionMode="single" scrollable="true" scrollHeight="520"
+                             style="max-width: 1200px; height: 550px;" emptyMessage="Brak utworzonych kont dla firmy" rowKey="#{loop.id}"
+                             editable="true"
+                             >
+                    <p:columnGroup type="header">
+                        <p:row>
+                            <p:column colspan="1" headerText="" width="1" />
+                            <p:column colspan="1" headerText="symbol" width="40" />
+                            <p:column colspan="1" headerText="opis pełny" width="600"/>
+                            <p:column colspan="1" headerText="opis skrócony" width="300"/>
+                            <p:column colspan="1" headerText="" width="40" />
+                        </p:row>
+                    </p:columnGroup>
+                    <p:column style="text-align: center;">
+                        <h:outputText value="#{loop.id}" />
+                    </p:column>
+                    <p:column style="text-align: center;" width="30">
+                        <h:outputText value="#{loop.symbol}" />
+                    </p:column>
+                    <p:column  style="width: 300px;">
+                        <p:inplace editor="true" effect="slide" effectSpeed="fast" saveLabel="zachowaj" cancelLabel="rezygnuj">
+                            <p:ajax event="save" listener="#{kontokategoriaView.edytuj(loop)}" global="false" update="@parent"/>
+                            <f:facet name="output">
+                                <h:outputText value="#{loop.opispelny}" style="width: 600px;"/>
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputText value="#{loop.opispelny}" style="width: 600px;" />
+                            </f:facet>
+                        </p:inplace>
+                    </p:column>
+                    <p:column  style="width: 280px;">
+                        <p:inplace editor="true" effect="slide" effectSpeed="fast" saveLabel="zachowaj" cancelLabel="rezygnuj">
+                            <p:ajax event="save" listener="#{kontokategoriaView.edytuj(loop)}" global="false" update="@parent"/>
+                            <f:facet name="output">
+                                <h:outputText value="#{loop.opisskrocony}" style="width: 280px;"/>
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputText value="#{loop.opisskrocony}"  style="width: 280px;"/>
+                            </f:facet>
+                        </p:inplace>
+                    </p:column>
+                    <p:column   style="text-align: center;" width="30">
+                        <p:commandButton actionListener="#{kontokategoriaView.usun(loop)}" global="false" icon="fa fa-trash-o" 
+                                         update="form_dialog_konto_klasyfikacja"/>
+                    </p:column>
+                </p:dataTable>
+            </p:panelGrid>
+        </h:form>
+        <h:form id="form_wprowadzanie_kategorii">
+            <p:panelGrid columns="2" style="padding: 20xp;">
+                <h:outputText value="symbol"/>
+                <p:inputText value="#{kontokategoriaView.selectedDod.symbol}" maxlength="3">
+                    <p:ajax event="blur" listener="#{kontokategoriaView.sprawdzduplikat}" global="false" partialSubmit="true" update="form_wprowadzanie_kategorii"/>
+                </p:inputText>
+                <h:outputText value="opis pełny"/>
+                <p:inputText value="#{kontokategoriaView.selectedDod.opispelny}" style="width: 500px;"/>
+                <h:outputText value="opis skrócony"/>
+                <p:inputText value="#{kontokategoriaView.selectedDod.opisskrocony}" style="width: 350px;"/>
+            </p:panelGrid>
+            <p:panelGrid columns="2">
+                <p:commandButton value="dodaj" actionListener="#{kontokategoriaView.dodaj()}" update="form_dialog_konto_klasyfikacja form_dialog_konto_klasyfikacja_przyporzadkowanie form_dialog_konto_klasyfikacja_przyporzadkowanie_podatnik" global="false"
+                                 style="width: 120px;"/>
+                <p:commandButton value="edytuj" actionListener="#{kontokategoriaView.edytuj()}" update="form_dialog_konto_klasyfikacja form_dialog_konto_klasyfikacja_przyporzadkowanie form_dialog_konto_klasyfikacja_przyporzadkowanie_podatnik" global="false"
+                                 style="margin-left: 30px; width: 120px;"/>
+            </p:panelGrid>
+        </h:form>-->
+    </p:dialog>
+</ui:composition>

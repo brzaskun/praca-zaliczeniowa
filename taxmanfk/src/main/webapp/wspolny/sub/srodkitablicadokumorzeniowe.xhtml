@@ -1,0 +1,69 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    
+    xmlns:bcf="http://brzaskun.com/facelets">
+    <style>
+        .ui-datatable .dokumorzeniowe .ui-column-filter {
+            width: 50px !important;
+        }
+        .ui-inputfield .dokumorzeniowe .ui-inputtext {
+            padding: 0px !important;
+            margin: 0px !important;
+        }
+
+        .ui-datatable-data .dokumorzeniowe tr td {
+            padding: 0px !important;
+            margin: 0px !important;
+        }
+        /*        dzieki temu nie mamy ramek przy wpisywani danych do dokumentu*/
+        .ui-inputfield .dokumorzeniowe  .ui-widget-content .ui-inputfield, .ui-widget-header .ui-inputfield {
+            border: none;
+            outline: none;
+            box-shadow: none;
+        }
+    </style>
+<bcf:ajaxs/>
+    <h:form id="formSTRUmorzenie">
+        <p:outputPanel id="wrapper2">
+            <p:dataTable  var="subwpisX" value="#{sTRTabView.umorzeniazamiesiaclista}" id="dokumsrodkiLista"
+                          styleClass="dokumorzeniowe" rowIndexVar="index"
+                          scrollable="true" scrollHeight="500" scrollRows="15"
+                          style="width: 1100px; height: 600px;" rowKey="#{subwpisX.srodekTrw.nazwa}"
+                          emptyMessage="Nie wygenerowano umorzeń za dany miesiąc"> 
+                <p:ajax event="filter" global="false"/>
+                <f:facet name="header">  
+                    <h:outputText value="Wykaz umorzeń gotowych do zaksięgowania jako AMO w danym m-c" />  
+                </f:facet>
+                <p:column style="text-align: center; width: 50px;">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+               <p:column id="SubColumn1aX" headerText="nazwa"  style="text-align: left; width: 300px;">  
+                    <h:outputText value="#{subwpisX.srodekTrw.nazwa}" />
+                </p:column>
+                <p:column id="SubColumn4X" headerText="#{mgs.kwota}" >  
+                    <bcf:outputpl value="#{subwpisX.kwota}"/>
+                </p:column>
+                <p:column id="SubColumn5X" headerText="netto" style="text-align: center;" >  
+                    <h:outputText value="#{subwpisX.kontonetto}"/>
+                </p:column>
+                <p:column id="SubColumn6X" headerText="umorz." style="text-align: center;" >  
+                    <h:outputText value="#{subwpisX.kontoumorzenie}" />
+                </p:column>
+                <p:column headerText="fk" style="text-align: center;width: 120px;" >  
+                    <h:outputText value="#{subwpisX.dokfk.numerwlasnydokfk}" rendered="#{subwpisX.dokfk ne null}"/>
+                </p:column>
+                <p:column headerText="pkpir" style="text-align: center;width: 120px;" >  
+                    <h:outputText value="#{subwpisX.dok.nrWlDk}" rendered="#{subwpisX.dok ne null}"/>
+                </p:column>
+            </p:dataTable>  
+             <p:column  headerText="zaksięguj" style="text-align: center; width: 120px; margin-left: 20px;" rendered="#{WpisView.ksiegirachunkowe}">
+                <p:commandButton value="zaksięguj" actionListener="#{amodokView.ksiegujUmorzenieFK(sTRTabView.umorzeniazamiesiaclista)}" update=":formSTRUmorzenie" />
+            </p:column>
+        </p:outputPanel>
+    </h:form>
+</ui:composition>   
+

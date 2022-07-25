@@ -1,0 +1,31 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+    <p:layoutUnit position="west" size="175" header="Opcje" collapsible="true">
+        <h:form>
+            <p:menu id="menuWest">  
+                <p:submenu>  
+                    <p:menuitem value="autoryzacja" outcome="aindex" icon="ui-icon-circle-arrow-e" />
+                    <p:menuitem value="multiuser" outcome="multiuser" icon="ui-icon-circle-arrow-e" />
+                    <p:menuitem value="sesja" outcome="asesja" icon="ui-icon-circle-arrow-e" />
+                    <p:menuitem value="news" outcome="news" icon="ui-icon-circle-arrow-e" />
+                    <p:menuitem value="mail" outcome="mailAD" icon="ui-icon-circle-arrow-e" />
+                    <p:menuitem value="pisma do admina" outcome="pismoadminobrobka" icon="ui-icon-circle-arrow-e" />
+                    <p:menuitem value="obsluga ip" outcome="ipobsluga" icon="ui-icon-circle-arrow-e" />
+                    <p:menuitem value="statystyka" outcome="adminstatystyka" icon="ui-icon-circle-arrow-e" />
+                    <p:menuitem value="podatnicy" outcome="adminpodatnicy" icon="ui-icon-circle-arrow-e" />
+                    <p:menuitem value="obroty" outcome="adminstatystykakalkulacja" icon="ui-icon-circle-arrow-e" />
+                    <p:menuitem value="kalkulacja" outcome="adminstatystykaobroty" icon="ui-icon-circle-arrow-e" />
+                    <p:menuitem value="faktury" outcome="adminstatystykafaktury" icon="ui-icon-circle-arrow-e" />
+                    <p:menuitem value="status programu" outcome="adminstatusprogramu" icon="ui-icon-circle-arrow-e" />
+                    <p:menuitem value="ustawienia smtp" outcome="ustawieniasmtp" icon="ui-icon-circle-arrow-e" />
+                </p:submenu>  
+            </p:menu>
+        </h:form>
+    </p:layoutUnit>
+</ui:composition>   
+

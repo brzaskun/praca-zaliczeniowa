@@ -1,0 +1,149 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    >
+    <script>
+        var uzupelnij = function(pole) {
+            pole.value = "00000000000";
+            $(pole).attr("readonly", "true");
+        };
+    </script>
+        <h:form id="form">
+        <!--    panel wpisywania osoby fizycznej-->
+         <p:panel header="Wybierz firmę do edycji" style="width: 500px;"/>
+        <h:selectOneListbox id="podatnikWpisu" value="#{podatnikView.selectedDodedycja}" style="width: 350px; height: 250px;" converter="#{podatConv}">
+                    <f:selectItems value="#{podatnikWyborView.listaPodatnikowFKmanager}" var="p" itemLabel="#{p.nazwapelnaPDF}" itemValue="#{p}"/>
+                    <p:ajax event="change"  update=":formdod2" global="false" listener="#{podatnikView.skopiujdoedycji}"/>
+        </h:selectOneListbox>
+    </h:form>
+    <h:form id="formdod2">
+        <p:growl life="3600"  id="msg"/>
+        <!--        wpisywanie firmy-->
+            
+            <p:panel header="dodawanie podatnika - spółki cywilnej" style="width: 600px;"/>
+            <p:focus for="wprowadzaniepodatnika"/>
+            <p:panelGrid id="wprowadzaniepodatnika" columns="4" style="width: 600px;">
+                <h:outputLabel value="nip"/>
+                 <h:inputText id="polenip" value="#{podatnikView.selectedDod.nip}" maxlength="10" required="true" requiredMessage="NIP - jest wymagany, uzupełnij!">
+                        <f:validateLength minimum="10"/>
+                        <p:ajax event="blur" partialSubmit="true" global="false" listener="#{podatnikView.znajdzdaneregon('form')}"/>
+                </h:inputText>
+                <h:outputText value=""/>
+                <h:outputText value=""/>
+                <h:outputLabel value="nazwa pełna"/>
+                <p:inputText id="nazwapelna" value="#{podatnikView.selectedDod.printnazwa}" required="true" requiredMessage="Nazwa pełna - jest wymagana, uzupełnij!" style="width: 200px;"/>
+                <h:outputText value=""/>
+                <h:outputText value=""/>
+                <h:outputLabel value="nazwisko i imię"/>
+                <p:inputText id="nazwisko" value="#{podatnikView.selectedDod.nazwisko}" required="true" requiredMessage="Nazwisko - jest wymagane, uzupełnij!"/>
+                <h:outputLabel value="nazwisko i imie"/>
+                <p:inputText id="imie" value="#{podatnikView.selectedDod.imie}" required="true" requiredMessage="Imię - jest wymagane, uzupełnij!"/>
+                <h:outputLabel value="informacja dod."/>
+                <p:inputText id="pesel" value="#{podatnikView.selectedDod.pesel}" maxlength="11" required="true" requiredMessage="Uzupełnij pole 'wpisz 00000000000'!"
+                             onfocus="uzupelnij(this)">
+                    <f:validateLength minimum="11"/>
+                </p:inputText>
+                <h:outputLabel value="regon"/>
+                <p:inputText id="regon" value="#{podatnikView.selectedDod.regon}" maxlength="9" required="true" requiredMessage="Regon - jest wymagany, uzupełnij!">
+                    <f:validateLength minimum="9"/>
+                </p:inputText>
+                <h:outputLabel value="data rozpoczęcia działalności"/>
+                    <p:inputMask id="datarozpoczecia" value="#{podatnikView.selectedDod.datarozpoczecia}" mask="9999-99-99" required="true" requiredMessage="Data rozpoczęcia - jest wymagana, uzupełnij!"
+                                 onblur="weryfikujsporzadzfakture(this);"/>
+                <h:outputLabel value="telefon  w formacie (+48...)"/>
+                <p:inputText id="telefon" value="#{podatnikView.selectedDod.telefonkontaktowy}" required="true" requiredMessage="Telefon - jest wymagany, uzupełnij!"/>
+                <h:outputLabel value="fax"/>
+                <p:inputMask id="fax" value="#{podatnikView.selectedDod.fax}" mask="99-999-99-99">
+                </p:inputMask>
+                <h:outputLabel value="email"/>
+                <p:inputText id="email" value="#{podatnikView.selectedDod.email}" required="true" requiredMessage="Email - jest wymagany, uzupełnij!">
+                    <f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
+                </p:inputText>
+                <h:outputLabel value="data rozpoczęcia dział."/>
+                <p:inputMask id="dataurodzenia" value="#{podatnikView.selectedDod.dataurodzenia}" placeholder="rrrr-mm-dd"
+                             mask="9999-99-99" required="true" requiredMessage="Data rozpoczęcia działalności - jest wymagana, uzupełnij!"
+                             onblur="weryfikujsporzadzfakture(this);"/>
+                <h:outputLabel value="województwo"/>
+                <h:selectOneMenu value="#{podatnikView.selectedDod.wojewodztwo}" 
+                                 styleClass="ui-selectonemenu-label ui-inputfield ui-corner-all"
+                                 onfocus="$(this).addClass('ui-state-focus');" 
+                                 onblur="$(this).removeClass('ui-state-focus');" >
+                    <f:selectItems value="#{wojewodztwa.wykazS}" />
+                </h:selectOneMenu>
+                <h:outputLabel value="powiat"/>
+                <p:inputText id="powiat" value="#{podatnikView.selectedDod.powiat}" required="true" requiredMessage="Powiat - jest wymagany, uzupełnij!"/>
+                <h:outputLabel value="gmina"/>
+                <p:inputText id="gmina" value="#{podatnikView.selectedDod.gmina}" required="true" requiredMessage="Gmina - jest wymagany, uzupełnij!"/>
+                <h:outputLabel value="miejscowość"/>
+                <p:inputText id="miejscowosc" value="#{podatnikView.selectedDod.miejscowosc}" required="true" requiredMessage="Miejscowość - jest wymagany, uzupełnij!"/>
+                <h:outputLabel value="kod pocztowy"/>
+                <p:inputMask id="kod" value="#{podatnikView.selectedDod.kodpocztowy}" mask="99-999" required="true" requiredMessage="Kod pocztowy - jest wymagany, uzupełnij!"/>
+                <h:outputLabel value="poczta"/>
+                <p:inputText id="poczta" value="#{podatnikView.selectedDod.poczta}" required="true" requiredMessage="Poczta - jest wymagana, uzupełnij!"/>
+                <h:outputLabel value="ulica"/>
+                <p:inputText id="ulica" value="#{podatnikView.selectedDod.ulica}"/>
+                <h:outputLabel value="nr domu"/>
+                <p:inputText id="nrdomu" value="#{podatnikView.selectedDod.nrdomu}" required="true" requiredMessage="Nr domu - jest wymagany, uzupełnij!"/>
+                <h:outputLabel value="nr lokalu"/>
+                <p:inputText id="nrlokalu" value="#{podatnikView.selectedDod.nrlokalu}"/>
+                <h:outputLabel value="podatnik tylko dla ZUS"/>
+            <p:selectBooleanCheckbox value="#{podatnikView.selectedDod.tylkodlaZUS}"/>
+            <h:outputLabel value="zatrudnia pracownikow"/>
+                    <p:selectBooleanCheckbox value="#{podatnikView.selectedDod.zatrudniapracownikow}">
+                    </p:selectBooleanCheckbox>
+                    <h:outputText value="wysyłać dane o składkach ZUS i PIT4 na mail"/>
+                     <p:selectBooleanCheckbox value="#{podatnikView.selectedDod.wysylkazusmail}" label="wysyłać dane o wysokości ZUS i PIT-4"  valueChangeListener="#{podatnikView.zmianaWysylkaZus}">
+                    </p:selectBooleanCheckbox>
+                <p:panelGrid columns="1">
+                    <h:outputLabel value="vat metoda kasowa"/>
+                    <h:outputLabel value="urząd skarbowy VAT"/>
+                </p:panelGrid>
+                <p:panelGrid columns="1">
+                      <h:selectOneMenu value="#{podatnikView.selectedDod.metodakasowa}"
+                                     styleClass="ui-selectonemenu-label ui-inputfield ui-corner-all"
+                                     onfocus="$(this).addClass('ui-state-focus');" 
+                                     onblur="$(this).removeClass('ui-state-focus');" >
+                        <f:selectItem itemValue="tak"/>
+                        <f:selectItem itemValue="nie"/>
+                    </h:selectOneMenu>
+                    <p:autoComplete completeMethod="#{tKodUS.complete}" value="#{podatnikView.selectedDod.urzadskarbowy}"
+                                    forceSelection="true" maxResults="15" size="50" minQueryLength="3" effect="clip" var="p"
+                                    queryDelay="10" 
+                                    itemLabel="#{p}" itemValue="#{p}">
+                        <f:facet name="itemtip">  
+                            <h:panelGrid  columns="2" cellpadding="5" width="400">  
+                                <f:facet name="header">  
+                                    <h:outputText value="Dane wybranego urzędu"/>
+                                </f:facet>  
+                                <h:outputText value="Nazwa: " />  
+                                <h:outputText id="npelna" value="#{p}" />  
+                            </h:panelGrid>
+                        </f:facet>
+                    </p:autoComplete>
+                 
+<!--                    <h:selectOneMenu value="#{podatnikView.selectedDod.firmafk}" styleClass="ui-selectonemenu-label ui-inputfield ui-corner-all"
+                                     onfocus="$(this).addClass('ui-state-focus');" 
+                                     onblur="$(this).removeClass('ui-state-focus');">
+                        <f:selectItem itemValue="false" itemLabel="nie"/>
+                        <f:selectItem itemValue="true" itemLabel="tak"/>
+                    </h:selectOneMenu>-->
+                </p:panelGrid>
+            </p:panelGrid>
+<!--            <p:commandButton action="#{podatnikView.dodaj()}" value="dodaj podatnika" update="@form" type="submit"/>-->
+            <p:panelGrid columns="3" id="wprowadzaniepodatnikaprzyciski">
+                    <p:commandButton actionListener="#{podatnikView.dodaj()}" value="dodaj" update="@form form" 
+                                     rendered="#{podatnikView.selectedDodedycja eq null}"
+                                     type="submit" style="margin-top: 10px; width: 120px;"/>
+                    <p:commandButton actionListener="#{podatnikView.edytujfiz()}" value="edytuj" update="@form" 
+                                     rendered="#{podatnikView.selectedDodedycja ne null}"
+                                     type="submit" style="margin-top: 10px; width: 120px;"/>
+                    <p:commandButton actionListener="#{podatnikView.resetuj()}" process="@this"
+                                     value="resetuj" update="wprowadzaniepodatnika wprowadzaniepodatnikaprzyciski" style="margin-top: 10px; margin-left: 20px; width: 120px;"/>
+                </p:panelGrid>
+    </h:form>
+</ui:composition>   
+

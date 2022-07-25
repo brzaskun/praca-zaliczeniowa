@@ -1,0 +1,83 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:bcf="http://brzaskun.com/facelets">
+    <style>
+        .ui-autocomplete-input {
+            width: 250px;
+        }
+
+        .kurswaluta input {
+            width: 50px !important;
+        }
+        .gridtablicasyntetyczne .ui-datatable-odd td{
+            height : 30px !important;
+            
+        }
+        .gridtablicasyntetyczne .ui-datatable-even td{
+            height : 30px !important;
+            
+        }
+
+    </style>
+    <p:dialog id="dialog_bilans_generowanie" header="Bilans otwarcia - generowanie sald" widgetVar="dialog_bilans_generowanie"  
+              appendTo="@(body)"
+              resizable="false" onShow="ustawdialog('dialog_bilans_generowanie','menubilanse', 700, 740);" closeOnEscape="true" onHide="resetujdialog('dialog_bilans_generowanie');" 
+              maximizable="true">
+        <h:form id="form_dialog_bilans_generowanie" style="padding: 10px;">
+            <p:outputPanel rendered="#{bilansGenerowanieView.tojestbilanslikwidacyjny}" id="uwaga">
+                <h:outputText value="Generowanie bilansu likwidacyjnego na dzień #{WpisView.podatnikObiekt.dataotwarcialikwidacji}" style="color: red;"/>
+            </p:outputPanel>
+            <p:panelGrid columns="1">
+                <p:column>
+                    <h:outputText value="Firma - #{WpisView.podatnikObiekt.nazwapelnaPDF}"/>
+                </p:column>
+                <p:column>
+                    <h:outputText value="Rok - #{WpisView.rokWpisuSt}"/>
+                </p:column>
+            </p:panelGrid>
+            <p:panelGrid columns="1" style="height: 550px; overflow-y: scroll;">
+                <p:dataGrid value="#{bilansGenerowanieView.komunikatyok}" var="ok" emptyMessage=""
+                            columns="1" rowIndexVar="index">
+                    <h:outputText value="#{index+1}. " style="color: green;"/>
+                    <h:outputText value="#{ok}" style="color: green;"/>
+                </p:dataGrid>
+                <p:dataGrid value="#{bilansGenerowanieView.komunikatyerror}" var="err" emptyMessage="Nie ma brakujących kont" 
+                            columns="1" rowIndexVar="index" rendered="#{bilansGenerowanieView.sabledy}">
+                    <h:outputText value="#{index+1}. " style="color: red;"/>
+                    <h:outputText value="#{err}" style="color: red;"/>
+                </p:dataGrid>
+                <p:dataGrid value="#{bilansGenerowanieView.komunikatyerror2}" var="err" emptyMessage="Nie ma kont z subkontami" 
+                            columns="1" rowIndexVar="index" rendered="#{bilansGenerowanieView.sabledy2}">
+                    <h:outputText value="#{index+1}. " style="color: red;"/>
+                    <h:outputText value="#{err}" style="color: red;"/>
+                </p:dataGrid>
+                <p:dataGrid value="#{bilansGenerowanieView.komunikatyerror3}" var="err" emptyMessage="Są różnice w wygenerowanych saldach kont z kontami z BO" 
+                            columns="1" rowIndexVar="index" rendered="#{bilansGenerowanieView.komunikatyerror3.size() gt 0}">
+                    <h:outputText value="#{index+1}. " style="color: red;"/>
+                    <h:outputText value="#{err}" style="color: red;"/>
+                </p:dataGrid>
+            </p:panelGrid>
+            <p:panelGrid columns="2" style="height: 50px;">
+                <p:selectBooleanCheckbox value="#{bilansGenerowanieView.przeniestylkosalda}" label="przenieś tylko salda"/>
+                <h:outputText value="przenieś tylko salda"/>
+            </p:panelGrid>
+            <p:commandButton value="generuj BO różnicowy" actionListener="#{bilansGenerowanieView.generujBoRoznicowy()}" style="width: 120px;"
+                             update="form_dialog_bilans_generowanie formbilanswprowadzanie3:kwotysum" rendered="#{bilansGenerowanieView.tylkoroznicowy}"/>
+            <p:commandButton value="generuj bilans" actionListener="#{bilansGenerowanieView.generuj()}" style="width: 120px;"
+                             update="form_dialog_bilans_generowanie formbilanswprowadzanie3:kwotysum" rendered="#{!bilansGenerowanieView.tylkoroznicowy}"/>
+            <p:commandButton value="nanieś różnice" actionListener="#{bilansGenerowanieView.naniesroznice()}" style="width: 120px; margin-left: 20px;"
+                             oncomplete="r('form_dialog_bilans_generowanie:buttonroznice').hide()"  id="buttonroznice" rendered="#{!bilansGenerowanieView.tylkoroznicowy}"/>
+            <p:commandButton value="drukuj" style="margin-left: 20px; width: 120px;" actionListener="#{bilansGenerowanieView.drukuj()}"
+                             action="#{sesjaView.dodajwydruk()}" global="false" oncomplete="pokazwydruk('bogenerr#{WpisView.getPodatnikObiekt().getNip()}')"
+                             />
+            <p:commandButton value="zamknij" style="margin-left: 60px; width: 120px;" global="false"
+                             onclick="PF('dialog_bilans_generowanie').hide();"/>
+        </h:form>
+    </p:dialog>
+</ui:composition>

@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+    <p:layoutUnit position="west" size="175" collapsible="true">
+        <h:form>
+             <p:panelGrid columns="2" style="margin-left: 7%">
+                 <h:outputText value="#{mgs.rok}:" style="text-shadow: #6374AB 1px -1px 1px"/>
+                 <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}" style="width: 70px;">
+                    <f:selectItems value="#{roki.rokiList}"/>
+                    <p:ajax event="change" listener="#{eVatDedraView.aktualizujTabeleTabela}" update="@(form)"/>
+                </p:selectOneMenu>
+                 <h:outputText value="#{mgs.mcshort}:" style="text-shadow: #6374AB 1px -1px 1px"/>
+                <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}" style="width: 70px;">
+                    <f:selectItems value="#{mce.mceList}"/>
+                    <p:ajax event="change" listener="#{eVatDedraView.aktualizujTabeleTabela}" update="@(form)"/>
+                </p:selectOneMenu>
+            </p:panelGrid>
+        </h:form>
+        <h:form>
+            <p:menu id="menuWest" >
+                <p:submenu label="menu">  
+                    <p:menuitem value="sprzedaż" outcome="Dedra" icon="ui-icon-circle-arrow-e" />
+                    <p:menuitem value="zakupy" outcome="dedrazakupy" icon="ui-icon-circle-arrow-e" />
+                    <p:menuitem value="pobieranie" outcome="dedradeklaracje" icon="ui-icon-circle-arrow-e" />
+                    <p:menuitem value="deklaracje" outcome="dedravat" icon="ui-icon-circle-arrow-e" />
+                    <p:menuitem value="wysyłka" outcome="dedrawysylka" icon="ui-icon-circle-arrow-e" />
+                    <p:menuitem value="upo" outcome="dedrawysylane" icon="ui-icon-circle-arrow-e" />
+                    <p:menuitem value="JPK" outcome="dedrajpk" icon="ui-icon-circle-arrow-e" />
+                    <p:separator/>
+                    <p:menuitem value="ustawienia" outcome="dedraustawienia" icon="ui-icon-circle-arrow-e" />
+                </p:submenu>  
+            </p:menu>
+             <p:panel>
+                <p:commandButton id="wyloguj" value="#{mgs.wyloguj}" action="#{logowanie.logout()}" style="width: 120px; margin-top: 10px;" /> 
+            </p:panel>
+        </h:form>
+    </p:layoutUnit>
+</ui:composition>   
+

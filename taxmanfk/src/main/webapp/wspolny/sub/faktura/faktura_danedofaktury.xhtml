@@ -1,0 +1,57 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    >
+    <p:tab id="danedofaktury" title="Dane niezbędne do wystawienia faktury">
+        <p:focus for="form8" context="form8">
+            <h:form id="form8">
+                <p:growl life="3600"  id="msg8" />
+                <p:outputPanel id="wrapper">
+                    
+                    <h:outputText value="Tu należy wpisać dodatkowe dane do wystawianej faktury:"/>
+                    <p:panelGrid id="wprowadzaniefaktura" columns="2">
+                        <h:outputLabel value="miejsce wystawienia faktury"/>
+                        <p:inputText id="miejscewystawienia" value="#{WpisView.podatnikObiekt.miejscewystawienia}" maxlength="26" style="width: 300px;" required="false">
+                        </p:inputText>
+                        <h:outputLabel value="nr konta bankowego dla faktur sprzedaży"/>
+                        <p:inputMask id="polekonto" value="#{WpisView.podatnikObiekt.nrkontabankowego}"  style="width: 300px;" required="false"
+                                     mask="99 9999 9999 9999 9999 9999 9999">
+                        </p:inputMask>
+                        <h:outputLabel value="termin płatności w dniach (np. 14)"/>
+                        <p:spinner id="spinnerBasic" value="#{WpisView.podatnikObiekt.platnoscwdni}" max="365" min="0" size="3" />  
+                        <h:outputLabel value="nazwa firmy umieszczana na fakturach sprzedaży"/>
+                        <p:inputText id="nazwadlafaktury" value="#{WpisView.podatnikObiekt.nazwadlafaktury}" maxlength="512" style="width: 400px;">
+                            
+                        </p:inputText>
+                        <h:outputLabel value="alternatywna nazwa firmy umieszczana na fakturach sprzedaży"/>
+                        <p:inputText id="nazwadlafaktury2" value="#{WpisView.podatnikObiekt.nazwadlafaktury2}" maxlength="512" style="width: 400px;" rendered="#{WpisView.podatnikObiekt.nazwadlafaktury ne null}">
+                            
+                        </p:inputText>
+                        <h:outputLabel value="adres firmy umieszczana na fakturach sprzedaży"/>
+                        <p:inputText id="adresdlafaktury" value="#{WpisView.podatnikObiekt.adresdlafaktury}" maxlength="512" style="width: 400px;">
+                            
+                        </p:inputText>
+                        <h:outputLabel value="NIP dla faktury"/>
+                        <p:inputText id="nipdlafaktury" value="#{WpisView.podatnikObiekt.nipdlafaktury}" maxlength="25" style="width: 300px;" required="false">
+                        </p:inputText>
+                        <h:outputLabel value="wystawca faktury (imię i nazwisko)"/>
+                        <p:inputText id="wystawcafaktury" value="#{WpisView.podatnikObiekt.wystawcafaktury}" maxlength="512" style="width: 400px;">
+                        </p:inputText>
+                        <h:outputLabel value="schemat numeracji faktur"/>
+                        <p:inputText id="schematnumeracji" value="#{WpisView.podatnikObiekt.schematnumeracji}" maxlength="512" style="width: 400px;">
+                        </p:inputText>
+                        <h:outputText value="n - numer kolejny w roku, N - numer kolejny w miesiącu,"/>
+                        <h:outputText value=" m - numer miesiąca, r - numer roku, s - dowolny ciąg znaków za wyjątkiem: /"/>
+                        <h:outputText value="jako separatora elem. składowych należy użyć symbolu /"/>
+                    </p:panelGrid>   
+                    <p:panelGrid columns="1">
+                        <p:commandButton actionListener="#{fakturaView.edytujdanepodatnika()}" value="edytuj podatnika" update="@form" type="submit"/>
+                    </p:panelGrid>
+                </p:outputPanel>
+            </h:form>
+        </p:focus>
+    </p:tab>
+</ui:composition> 

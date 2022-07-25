@@ -1,0 +1,16 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    >
+
+    <p:dialog id="dialog_deklaracje_vat_status" header="Status wysłanych deklaracji VAT" widgetVar="dialog_deklaracje_vat_status"  appendTo="@(body)" modal="false"
+              resizable="false" onShow="ustawdialogWindow('dialog_deklaracje_vat_status', 1450, 700);" closeOnEscape="true" onHide="resetujdialog('dialog_deklaracje_vat_status');"  >
+        <p:ajax event="open" listener="#{deklaracjevatView.init()}" update="formwyslane"/>
+        <p:panel style="height: 600px;overflow-y: scroll">
+            <ui:include src="../../../wspolny/sub/vatwyslane.xhtml"/> 
+        </p:panel>
+    </p:dialog>
+</ui:composition>

@@ -1,0 +1,134 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    
+    
+    xmlns:bcf="http://brzaskun.com/facelets">
+    <p:tab  title="Odchylenia kwot za rok" >
+        <style>
+            .gridtablicasyntetyczne .ui-datatable-odd td{
+                height : 25px !important;
+                
+            }
+            .gridtablicasyntetyczne .ui-datatable-even td{
+                height : 25px !important;
+                
+            }
+
+        </style>
+        <h:form id="formzestkontarokprocent">
+            <p:dataTable id="tablicazestrokPprocent" value="#{zestawienieWynikoweRokView.kontosumyrokPrzychody}" var="loop" rowKey="#{loop.konto.pelnynumer}"
+                         sortBy="#{loop.konto.pelnynumer}" emptyMessage="#{mgs.niemazapisownakontach}" 
+                         styleClass="gridtablicasyntetyczne" widgetVar="tablicazestrokPprocent" style="width: 1300px" 
+                         >
+                <f:facet name="header">
+                    <h:outputText value="udziały procentowe na kontach przychodowych za mce 01-#{WpisView.miesiacWpisu}"/>
+                </f:facet>
+                <p:column headerText="#{mgs.konto}" width="40" >
+                    <h:outputText value="#{loop.konto.pelnynumer}"/>
+                </p:column>
+                <p:column headerText="#{mgs.opis}" width="140" >
+                    <h:outputText value="#{loop.konto.nazwapelna}"/>
+                </p:column>
+                <p:column headerText="średnia" width="50" >
+                     <bcf:outputpl value="#{loop.srednia}"/>
+                </p:column>
+                <p:column headerText="01" width="50" >
+                    <bcf:outputplprocent value="#{loop.styczenP}" style="#{loop.styczenP gt 1 ? 'color: red;' : null} float: right;"/>
+                </p:column>
+                <p:column headerText="02" width="50" >
+                    <bcf:outputplprocent value="#{loop.lutyP}" style="#{loop.lutyP gt 1 ? 'color: red;' : null} float: right;"/>
+                </p:column>
+                <p:column headerText="03" width="50" >
+                    <bcf:outputplprocent value="#{loop.marzecP}" style="#{loop.marzecP gt 1 ? 'color: red;' : null} float: right;"/>
+                </p:column>
+                <p:column headerText="04" width="50" >
+                    <bcf:outputplprocent value="#{loop.kwiecienP}" style="#{loop.kwiecienP gt 1 ? 'color: red;' : null} float: right;"/>
+                </p:column>
+                <p:column headerText="05" width="50" >
+                    <bcf:outputplprocent value="#{loop.majP}" style="#{loop.majP gt 1 ? 'color: red;' : null} float: right;"/>
+                </p:column>
+                <p:column headerText="06" width="50" >
+                    <bcf:outputplprocent value="#{loop.czerwiecP}" style="#{loop.czerwiecP gt 1 ? 'color: red;' : null} float: right;"/>
+                </p:column>
+                <p:column headerText="07" width="50" >
+                    <bcf:outputplprocent value="#{loop.lipiecP}" style="#{loop.lipiecP gt 1 ? 'color: red;' : null} float: right;"/>
+                </p:column>
+                <p:column headerText="08" width="50" >
+                    <bcf:outputplprocent value="#{loop.sierpienP}" style="#{loop.sierpienP gt 1 ? 'color: red;' : null} float: right;"/>
+                </p:column>
+                <p:column headerText="09" width="50" >
+                    <bcf:outputplprocent value="#{loop.wrzesienP}" style="#{loop.wrzesienP gt 1 ? 'color: red;' : null} float: right;"/>
+                </p:column>
+                <p:column headerText="10" width="50" >
+                    <bcf:outputplprocent value="#{loop.pazdziernikP}" style="#{loop.pazdziernikP gt 1 ? 'color: red;' : null} float: right;"/>
+                </p:column>
+                <p:column headerText="11" width="50" >
+                    <bcf:outputplprocent value="#{loop.listopadP}" style="#{loop.listopadP gt 1 ? 'color: red;' : null} float: right;"/>
+                </p:column>
+                <p:column headerText="12" width="50" >
+                    <bcf:outputplprocent value="#{loop.grudzienP}" style="#{loop.grudzienP gt 1 ? 'color: red;' : null} float: right;"/>
+                </p:column>
+            </p:dataTable>
+            <p:dataTable id="tablicazestrokKprocent" value="#{zestawienieWynikoweRokView.kontosumyrokKoszty}" var="loop" rowKey="#{loop.konto.pelnynumer}"
+                         sortBy="#{loop.konto.pelnynumer}" emptyMessage="#{mgs.niemazapisownakontach}" 
+                         styleClass="gridtablicasyntetyczne"  style="margin-top: 10px; width: 1300px" widgetVar="tablicazestrokKprocent"
+                         >
+                <f:facet name="header">
+                    <h:outputText value="udziały procentowe na kontach kosztowych za mce 01-#{WpisView.miesiacWpisu}"/>
+                </f:facet>
+                <p:column headerText="#{mgs.konto}" width="40" >
+                    <h:outputText value="#{loop.konto.pelnynumer}"/>
+                </p:column>
+                <p:column headerText="#{mgs.opis}" width="140" >
+                    <h:outputText value="#{loop.konto.nazwapelna}"/>
+                </p:column>
+                <p:column headerText="średnia" width="50" >
+                    <bcf:outputpl value="#{loop.srednia}"/>
+                </p:column>
+                <p:column headerText="01" width="50" >
+                    <bcf:outputplprocent value="#{loop.styczenP}" style="#{loop.styczenP gt 1 ? 'color: red;' : null} float: right;"/>
+                </p:column>
+                <p:column headerText="02" width="50" >
+                    <bcf:outputplprocent value="#{loop.lutyP}" style="#{loop.lutyP gt 1 ? 'color: red;' : null} float: right;"/>
+                </p:column>
+                <p:column headerText="03" width="50" >
+                    <bcf:outputplprocent value="#{loop.marzecP}" style="#{loop.marzecP gt 1 ? 'color: red;' : null} float: right;"/>
+                </p:column>
+                <p:column headerText="04" width="50" >
+                    <bcf:outputplprocent value="#{loop.kwiecienP}" style="#{loop.kwiecienP gt 1 ? 'color: red;' : null} float: right;"/>
+                </p:column>
+                <p:column headerText="05" width="50" >
+                    <bcf:outputplprocent value="#{loop.majP}" style="#{loop.majP gt 1 ? 'color: red;' : null} float: right;"/>
+                </p:column>
+                <p:column headerText="06" width="50" >
+                    <bcf:outputplprocent value="#{loop.czerwiecP}" style="#{loop.czerwiecP gt 1 ? 'color: red;' : null} float: right;"/>
+                </p:column>
+                <p:column headerText="07" width="50" >
+                    <bcf:outputplprocent value="#{loop.lipiecP}" style="#{loop.lipiecP gt 1 ? 'color: red;' : null} float: right;"/>
+                </p:column>
+                <p:column headerText="08" width="50" >
+                    <bcf:outputplprocent value="#{loop.sierpienP}" style="#{loop.sierpienP gt 1 ? 'color: red;' : null} float: right;"/>
+                </p:column>
+                <p:column headerText="09" width="50" >
+                    <bcf:outputplprocent value="#{loop.wrzesienP}" style="#{loop.wrzesienP gt 1 ? 'color: red;' : null} float: right;"/>
+                </p:column>
+                <p:column headerText="10" width="50" >
+                    <bcf:outputplprocent value="#{loop.pazdziernikP}" style="#{loop.pazdziernikP gt 1 ? 'color: red;' : null} float: right;"/>
+                </p:column>
+                <p:column headerText="11" width="50" >
+                    <bcf:outputplprocent value="#{loop.listopadP}" style="#{loop.listopadP gt 1 ? 'color: red;' : null} float: right;"/>
+                </p:column>
+                <p:column headerText="12" width="50" >
+                    <bcf:outputplprocent value="#{loop.grudzienP}" style="#{loop.grudzienP gt 1 ? 'color: red;' : null} float: right;"/>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </p:tab>  
+</ui:composition>   
+
+

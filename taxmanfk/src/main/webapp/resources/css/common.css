@@ -1,0 +1,75 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 2016-10-24, 18:13:33
+    Author     : Osito
+*/
+@font-face {
+  font-display: swap;
+}
+
+.filter10 input {
+    width: 10px !important;
+}
+.filter20 input {
+    width: 20px !important;
+}
+
+.filter30 input {
+    width: 30px !important;
+}
+
+
+.filter40 input {
+    width: 40px !important;
+}
+
+.filter60 input {
+    width: 60px !important;
+}
+
+.filter80 input {
+    width: 70px !important;
+}
+
+.filter100 input {
+    width: 100px !important;
+}
+
+.filter120 input {
+    width: 120px !important;
+}
+
+.filter140 input {
+    width: 140px !important;
+}
+    
+.filter160 input {
+    width: 160px !important;
+}
+
+.filter180 input {
+    width: 180px !important;
+}
+
+.filter200 input {
+    width: 200px !important;
+}
+
+.filter220 input {
+    width: 200px !important;
+}
+
+.filter240 input {
+    width: 240px !important;
+}
+
+html.progress, html.progress * {
+    cursor: progress !important;
+}
+.ui-chkbox-box {
+    border: 1px solid #79b7e7 !Important;
+}

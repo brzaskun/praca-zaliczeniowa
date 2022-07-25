@@ -1,0 +1,143 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    
+    
+    xmlns:bcf="http://brzaskun.com/facelets">
+
+    <p:tab id="nowa3" title="Analiza zbiorcza" >
+        <style>
+            .ui-autocomplete-input {
+                width: 340px;
+            }
+        </style>
+        <h:form id="fakturaanalizazbiorcza">
+            <style>
+                th {
+                    height: 25px;
+                }
+            </style>
+            
+                <p:commandButton value="pobierz" actionListener="#{fakturaRozrachunkiAnalizaView.zestawieniezbiorcze()}" style="width: 120px;" update="fakturaanalizazbiorcza akordeon:fakturaanaliza:wyborklienta"/>
+                <p:commandButton icon="fa fa-print" actionListener="#{fakturaRozrachunkiAnalizaView.drukujKlienciZbiorcze()}" style="width: 120px; margin-left: 20px;"/>
+                <p:commandButton value="druk wybrane" actionListener="#{fakturaRozrachunkiAnalizaView.drukujszczegolyzbiorcze()}"  style="width: 120px; margin-left: 20px;"/>
+                <p:commandButton value="mail wybrane" actionListener="#{fakturaRozrachunkiAnalizaView.mailwezwaniezbiorcze()}"  style="width: 120px; margin-left: 20px;"/>
+                <h:outputText value="pokaż nadpłaty" style="margin-left: 20px;"/>
+                <p:selectBooleanCheckbox value="#{fakturaRozrachunkiAnalizaView.pokaznadplaty}" style="margin-left: 10px;">
+                </p:selectBooleanCheckbox>
+                <h:outputText value="tylko przeterminowane" style="margin-left: 20px;"/>
+                <p:selectBooleanCheckbox value="#{fakturaRozrachunkiAnalizaView.tylkoprzeterminowane}" style="margin-left: 10px;">
+                </p:selectBooleanCheckbox>
+                <p:panelGrid columns="2" style="padding: 10px;" id="suma">
+                <h:outputText value="suma"/>
+                <bcf:outputpl value="#{fakturaRozrachunkiAnalizaView.sumasaldnierozliczonych}"/>
+            </p:panelGrid>
+                <h:outputText value="saldo w kolorze niebieskim oznacza telefon lub wysłane upomnienie"/>
+            <p:dataTable id="tablicaanaliza" value="#{fakturaRozrachunkiAnalizaView.saldanierozliczone}" var="item" style="width: 1400px; margin-top: 20px;"
+                         emptyMessage="nie znaleziono żadnych księgowań" rowKey="#{item.lp}" sortBy="#{item.saldo}" sortOrder="descending"
+                         selection="#{fakturaRozrachunkiAnalizaView.saldanierozliczoneselected}" rowSelectMode="add"
+                         
+                         >
+                <p:ajax event="toggleSelect" global="false" listener="#{fakturaRozrachunkiAnalizaView.sumujwybrane()}" update="akordeon:fakturaanalizazbiorcza:suma"/>
+                <p:ajax event="rowSelectCheckbox" global="false" listener="#{fakturaRozrachunkiAnalizaView.sumujwybrane()}" update="akordeon:fakturaanalizazbiorcza:suma"/>
+                <p:ajax event="rowUnselectCheckbox" global="false" listener="#{fakturaRozrachunkiAnalizaView.sumujwybrane()}" update="akordeon:fakturaanalizazbiorcza:suma"/>
+                <f:facet name="header">
+                    <h:outputText value="dokumenty nierozliczone"/>
+                </f:facet>
+                <p:column width="20" selectionMode="multiple"/>
+                <p:column width="20" sortBy="#{item.lp}" sortable="true">
+                    <f:facet name="header">
+                        <h:outputText value="lp"/>
+                    </f:facet>
+                    <h:outputText value="#{item.lp}"/>
+                </p:column>
+                <p:column width="240" sortable="true" sortBy="#{item.kontrahent}">
+                    <f:facet name="header">
+                        <h:outputText value="kontrahent"/>
+                    </f:facet>
+                    <h:outputText value="#{item.kontrahent}"  style="color: #{item.color2};"/>
+                </p:column>
+                <p:column width="140" sortable="true" sortBy="#{item.nrtelefonu}">
+                    <f:facet name="header">
+                        <h:outputText value="nr telefonu"/>
+                    </f:facet>
+                    <h:outputText value="#{item.nrtelefonu}"  style="color: #{item.color2};"/>
+                </p:column>
+                <p:column width="70" sortBy="#{item.data}" sortable="true">
+                    <f:facet name="header">
+                        <h:outputText value="data"/>
+                    </f:facet>
+                    <h:outputText value="#{item.data}" style="color: #{item.color2};"/>
+                </p:column>
+                  <p:column width="120">
+                    <f:facet name="header">
+                        <h:outputText value="dokument"/>
+                    </f:facet>
+                     <h:outputText value="#{item.rodzajDok} #{item.nrDok}"  style="color: #{item.color2};"/>
+                </p:column>
+<!--                <p:column width="80" sortBy="#{item.kwota}" sortable="true">
+                    <f:facet name="header">
+                        <h:outputText value="zapłata"/>
+                    </f:facet>
+                    <bcf:outputpl value="#{item.kwota}" rendered="#{item.faktura0rozliczenie1 eq true}"/>
+                </p:column>
+                <p:column width="80" sortBy="#{item.kwota}" sortable="true">
+                    <f:facet name="header">
+                        <h:outputText value="faktura"/>
+                    </f:facet>
+                    <bcf:outputpl value="#{item.kwota}" rendered="#{item.faktura0rozliczenie1 eq false}"/>
+                </p:column>-->
+                <p:column width="80" sortBy="#{item.saldo}" sortable="true">
+                    <f:facet name="header">
+                        <h:outputText value="saldo"/>
+                    </f:facet>
+                    <bcf:outputpl value="#{item.saldo}" stylePlus="color: #{item.color};" rendered="#{item.saldo ne 0.0}"/>
+                </p:column>
+                <p:column width="80" sortBy="#{item.saldopln}" sortable="true">
+                    <f:facet name="header">
+                        <h:outputText value="saldo pln"/>
+                    </f:facet>
+                    <bcf:outputpl value="#{item.saldopln}" stylePlus="color: #{item.color};" rendered="#{item.saldopln ne 0.0}"/>
+                </p:column>
+<!--                <p:column width="80" sortBy="#{item.ostatniaplatnoscdata}" style="text-align: center;" sortable="true">
+                    <f:facet name="header">
+                        <h:outputText value="ostat.wpłata"/>
+                    </f:facet>
+                    <h:outputText value="#{item.ostatniaplatnoscdata}"/>
+                </p:column>-->
+                <p:column width="80" sortBy="#{item.ostatniaplatnosckwota}" sortable="true">
+                    <f:facet name="header">
+                        <h:outputText value="kwota wpł"/>
+                    </f:facet>
+                    <bcf:outputpl value="#{item.ostatniaplatnosckwota}"/>
+                </p:column>
+                <p:column width="40" sortBy="#{item.przeniesionosaldo}" sortable="true" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="bz"/>
+                    </f:facet>
+                    <h:outputText value="#{item.przeniesionosaldo ? '+': ''}"/>
+                </p:column>
+                <p:column width="40" style="text-align: center;">
+                    <p:commandButton icon="fa fa-eye" actionListener="#{fakturaRozrachunkiAnalizaView.pobierzszczegoly(item)}" 
+                                     update="akordeon"/>
+                </p:column>
+                <p:column width="40" style="text-align: center;">
+                    <p:commandButton icon="fa fa-magic" actionListener="#{fakturaRozrachunkiAnalizaView.korygujsaldo(item)}" 
+                                     update="@form"/>
+                </p:column>
+                <p:column width="40" style="text-align: center;" headerText="bo">
+                    <p:commandButton icon="fa fa-plus" actionListener="#{fakturaRozrachunkiAnalizaView.zaksiegujjakoBO(item)}" 
+                                     update="@form"/>
+                </p:column>
+
+            </p:dataTable>
+                 <p:contextMenu for="akordeon:fakturaanalizazbiorcza:tablicaanaliza" style="width: 250px;">
+                    <p:menuitem value="zaksięguj BO"  actionListener="#{fakturaRozrachunkiAnalizaView.zaksiegujjakoBOselected()}" icon="ui-icon-print" />
+                 </p:contextMenu>
+        </h:form>
+    </p:tab>  
+</ui:composition> 

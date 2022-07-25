@@ -1,0 +1,173 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    
+
+    xmlns:bcf="http://brzaskun.com/facelets">
+
+    <style>
+        .ui-autocomplete input[id="srodkiwpis:acForce1_input"] {
+            width: 300px;
+        }
+    </style>
+    <p:dialog id="dialogwpissrodkitrwale" header="Wpisywanie nowego środka trwałego dla dok #{srodkiTrwaleView.dokfk.dokfkSN}" widgetVar="dialogwpissrodkitrwale"  modal="true" appendTo="@(body)"
+              resizable="false"  onShow="ustawdialogWindow('dialogwpissrodkitrwale',1200,400);" 
+              closeOnEscape="true" onHide="resetujdialog('dialogwpissrodkitrwale');" >
+        <h:form id="srodkiwpis"> 
+            <!--pola ewidencji SRODKOW TRWALYCH-->
+            <p:panel id="panelwyszukiwarki" style="height: 50px;" >
+                <p:panelGrid>
+                    <f:facet name="header">
+                        <p:row>
+                            <p:column>
+                                <h:outputText value="wyszukiwarka środka trw."/>
+                            </p:column>
+                            <p:column width="100">
+                                <h:outputText value="środek trw/wyposażenie"/>
+                            </p:column>
+                        </p:row>
+                    </f:facet>
+                    <p:row>
+                        <p:column>
+                            <p:autoComplete id="acForce1" value="#{srodkiTrwaleView.srodekkategoria}" completeMethod="#{srodkikstView.complete}"
+                                            var="pa" itemLabel="#{pa.nazwa}" itemValue="#{pa}"  converter="SrodkiConv"
+                                            minQueryLength="3" maxResults="15" maxlength="25" itemtipMyPosition="rightbottom"
+                                            queryDelay="10" size="50" placeholder="wpisz nazwę rodzaju środka trwałego">
+                                <p:ajax event="query" global="false"/>
+                                <f:facet name="itemtip">  
+                                    <h:panelGrid  columns="2" cellpadding="5" width="400" >  
+                                        <f:facet name="header">  
+                                            <h:outputText value="Dane środka trwałego"/>
+                                        </f:facet>  
+                                        <h:outputText value="Nazwa: " />  
+                                        <h:outputText id="npelna1" value="#{pa.nazwa}"/>  
+                                        <h:outputText value="Stawka " />  
+                                        <h:outputText id="nip1" value="#{pa.stawka}" />  
+                                        <h:outputText value="KŚT " />  
+                                        <h:outputText id="klumna1" value="#{pa.symbol}" /> 
+                                    </h:panelGrid>
+                                </f:facet>
+                                <p:ajax global="false" event="itemSelect" listener="#{srodkiTrwaleView.skopiujSTR}"/>
+                            </p:autoComplete>
+                        </p:column>
+                        <p:column >
+                            <h:selectOneMenu value="#{srodkiTrwaleView.selectedSTR.typ}" 
+                                             onblur="$(this).removeClass('ui-state-focus');
+                                                 $(this).addClass('ui-state-default');"
+                                             styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
+                                             onfocus="$(this).removeClass('ui-state-default');
+                                                 $(this).addClass('ui-state-focus');"
+                                             >
+                                <p:ajax event="blur" partialSubmit="true" global="false"/>
+                                <f:selectItem itemLabel="srodek trw." itemValue="srodek trw."/>
+                                <f:selectItem itemLabel="wnip" itemValue="wnip"/>
+                                <f:selectItem itemLabel="wyposażenie" itemValue="wyposazenie"/>
+                            </h:selectOneMenu>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+            </p:panel><!--
+            -->            <p:panel id="nowypanelsrodki" >
+                <style>
+                    .tabelasrodkitrwaleOT td {
+                       height: 30px; 
+                    }
+                    .stawkaamort .ui-inputfield {
+                        width: 40px !important;
+                    }
+                </style>
+                    <h:outputText value="Pamiętaj o wybraniu odpowiednich kont. Bez tego środek nie zostanie zaksięgowany" style="color:red;"/>
+                <p:dataTable id="tabelasrodkitrwaleOT" value="#{srodkiTrwaleView.selectedSTR}" var="loop" styleClass="tabelasrodkitrwaleOT"> 
+                    <p:column headerText="nazwa środka" style="text-align: center;" width="200">
+                        <p:inputText id="nazwasrodka" value="#{loop.nazwa}" style="width: 200px;">
+                            <p:ajax event="blur" partialSubmit="true" global="false"/>
+                        </p:inputText>
+                    </p:column>
+                    <p:column headerText="symbol inwent" style="text-align: center;" width="200">
+                        <p:inputText id="symbolinwent" value="#{loop.symbolinwentarzowy}" style="width: 200px;">
+                            <p:ajax event="blur" partialSubmit="true" global="false"/>
+                        </p:inputText>
+                    </p:column>
+                    <p:column headerText="data zakupu" width="65" style="text-align: center;">
+                        <p:inputText id="datazak" value="#{loop.datazak}"  placeholder="rrrr-mm-dd" size="10"
+                                     onblur="weryfikujsporzadzfakture(this);">
+                            <p:ajax event="blur" partialSubmit="true" global="false"/>
+                        </p:inputText>
+                    </p:column>
+                    <p:column headerText="data przyjecia" width="65" style="text-align: center;">
+                        <p:inputText id="dataprz" value="#{loop.dataprzek}"  placeholder="rrrr-mm-dd" size="10"
+                                     onblur="weryfikujsporzadzfakture(this);">
+                            <p:ajax event="blur" partialSubmit="true" global="false"/>
+                        </p:inputText>
+                    </p:column>
+                    <p:column headerText="symbol KST" width="50" style="text-align: center;">
+                        <p:inputText value="#{loop.kst}" style="text-align: center;" size="3">
+                            <p:ajax event="blur" partialSubmit="true" global="false"/>
+                        </p:inputText>
+                    </p:column>
+                    <p:column headerText="stawka amort" width="50" style="text-align: center;">
+                        <p:inputNumber value="#{loop.stawka}" styleClass="stawkaamort" style="text-align: center; width: 40px;" thousandSeparator="&#160;"  decimalPlaces="1" maxValue="100" maxlength="5">
+                            <p:ajax event="blur" partialSubmit="true" global="false"/>
+                        </p:inputNumber>
+                    </p:column>
+                    <p:column headerText="cena zakupu" style="text-align: center;">
+                        <p:inputNumber value="#{loop.netto}" symbol=" zł" required="true" size="12"
+                                        requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" decimalSeparator="."  thousandSeparator="&#160;"  inputStyle="text-align: right;" decimalPlaces="2" minValue="-100000" maxlength="8" styleClass="wiersznetto">
+                            <p:ajax event="blur" partialSubmit="true" global="false"/>
+                        </p:inputNumber>
+                    </p:column>
+                    <p:column headerText="pod.VAT" style="text-align: center;">
+                        <p:inputNumber value="#{loop.vat}" symbol=" zł" required="true"  size="12"
+                                        requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" decimalSeparator="."  thousandSeparator="&#160;"  inputStyle="text-align: right;" decimalPlaces="2" minValue="-100000" maxlength="8" styleClass="wiersznetto">
+                            <p:ajax event="blur" partialSubmit="true" global="false"/>
+                        </p:inputNumber>
+                    </p:column>
+                    <p:column headerText="dotych. umorzenie" style="text-align: center;">
+                        <p:inputNumber value="#{loop.umorzeniepoczatkowe}" symbol=" zł"  size="12" required="true" requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" decimalSeparator="."  thousandSeparator="&#160;"  inputStyle="text-align: right;" decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto">
+                            <p:ajax event="blur" partialSubmit="true" global="false"/>
+                        </p:inputNumber>
+                    </p:column>
+                    <p:column headerText="nie podlega umorzeniu" style="text-align: center;">
+                        <p:inputNumber value="#{loop.niepodlegaamortyzacji}" symbol=" zł" required="true"  size="12" requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" decimalSeparator="."  thousandSeparator="&#160;"  inputStyle="text-align: right;" decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto">
+                            <p:ajax event="blur" partialSubmit="true" global="false"/>
+                        </p:inputNumber>
+                    </p:column>
+                </p:dataTable>
+            </p:panel>
+            <p:panelGrid style="padding: 5px; margin-left: 5px;">
+                <f:facet name="header">
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="konto środka"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="konto umorzeń"/>
+                        </p:column>
+                    </p:row>
+                </f:facet>
+                <p:column>
+                    <p:selectOneMenu value="#{srodkiTrwaleView.selectedSTR.kontonetto}" style="width: 350px;"  converter="#{kontoConv}" required="true"
+                                     requiredMessage="wybierz konto środka  ">
+                        <f:selectItem itemLabel="wybierz konto środka" itemValue="" noSelectionOption="true"/>
+                        <f:selectItems value="#{planKontSrTrw.listakontSrodkiTrwale}" var="loop" itemLabel="#{loop.pelnynumer} #{loop.nazwapelna}"/>
+                    </p:selectOneMenu>
+                </p:column>
+                <p:column>
+                    <p:selectOneMenu value="#{srodkiTrwaleView.selectedSTR.kontoumorzenie}" style="width: 350px;"  converter="#{kontoConv}"  required="true"
+                                     requiredMessage="wybierz konto umorzeń">
+                        <f:selectItem itemLabel="wybierz konto umorzeń" itemValue="" noSelectionOption="true"/>
+                        <f:selectItems value="#{planKontSrTrw.listakontSrodkiTrwaleUmorzenia}" var="loop" itemLabel="#{loop.pelnynumer} #{loop.nazwapelna}"/>
+                        <p:ajax event="change" onstart="r('srodkiwpis:buttonsrodektrw').show();" global="false"/>
+                    </p:selectOneMenu>
+                </p:column>
+            </p:panelGrid>
+            <p:commandButton id="buttonsrodektrw" value="dodaj środek" global="false" style="margin-top: 15px; width: 120px; margin-left: 10px; display: none;" 
+                             onclick="wprowadzsrodek()"
+                             />
+            <p:commandButton value="rezygnuj" global="false" style="margin-top: 15px; width: 120px; margin-left: 10px;" onclick="PF('dialogwpissrodkitrwale').hide();"/>
+        </h:form>
+    </p:dialog>
+</ui:composition>

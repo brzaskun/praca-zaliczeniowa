@@ -1,0 +1,45 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    
+    >
+    <p:tab title="Księgowanie kosztów na piątki">  
+        <h:form id="form12" >
+            <h:outputText value="Księgowanie na piątkach" style="font-size: 15px"/>
+            <p:growl life="3600"  showDetail="true"/>
+            <p:focus for="parametrypodatnika12"/><br/>
+            <h:outputText value="dane historyczne"/><br/>
+            <p:panelGrid columns="4" style="width: 800px">
+                <p:dataList value="#{podatnikView.selected.paramCzworkiPiatki}"  var="loop" itemType="disc" 
+                            paginator="true" pageLinks="12" rows="12" emptyMessage="Nie wprowadzono" >
+                    <h:outputText value="od: " />
+                    <h:outputText value="#{loop.mcOd}-" />
+                    <h:outputText value="#{loop.rokOd}" />
+                    <h:outputText value="  do: " />
+                    <h:outputText value="#{loop.mcDo}-" />
+                    <h:outputText value="#{loop.rokDo}" />
+                    <h:outputText value=" zasada księgowania kosztów w roku obrachunkowym: " />
+                    <h:outputText value="#{loop.parametr eq 'tak' ? 'konto 490 + 5' : 'tylko konta zesp.4'}" style="font-weight: 900;"/>
+                    <br/>
+                </p:dataList>
+            </p:panelGrid>
+            <h:outputText value="wybierz parametr aktualny"/><br/>
+            <p:panelGrid id="parametrypodatnika12" columns="4" >
+                <h:outputText value="rok podatkowy: "/><h:selectOneMenu value="#{podatnikView.paramCzworkiPiatki.rokOd}"><f:selectItems value="#{roki.rokiList}"/></h:selectOneMenu>
+                <p:selectOneMenu value="#{podatnikView.paramCzworkiPiatki.parametr}">
+                    <f:selectItem itemLabel="tylko konta zesp.4" itemValue="nie"/>
+                    <f:selectItem itemLabel="konto 490 + 5" itemValue="tak"/>
+                </p:selectOneMenu>
+            </p:panelGrid>
+            <br/>
+            <p:panelGrid columns="2" style="column-width: 350px; width: 500px">
+                <p:commandButton action="#{podatnikView.usunParamCzworkiPiatki()}" value="usun parametr" update="form12" type="submit"/>
+                <p:commandButton action="#{podatnikView.dodajParamCzworkiPiatki()}" value="dodaj parametr" update="form12" type="submit"/>
+            </p:panelGrid>
+        </h:form>
+        <br/><br/>
+    </p:tab>
+</ui:composition> 

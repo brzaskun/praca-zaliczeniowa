@@ -1,0 +1,86 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:bcf="http://brzaskun.com/facelets">
+    <ui:composition template="/templateFK.xhtml">
+        <ui:define name="title">
+            <h:outputText value="Księgi rachunkowe"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <p:layout fullPage="true" expandTitle="Wysuń" closeTitle="Zamknij" collapseTitle="Schowaj">
+                <ui:include src="sub/layout/north.xhtml"/>  <!-- panel polnocny-->
+                <p:layoutUnit id="centralna" position="center" >
+                    <script>
+                        $(document).on("keydown", TabKeyDown);
+                    </script>
+                    <p:growl life="3600"  ><p:autoUpdate/></p:growl>
+                    <div id="ramki">
+                    </div>
+                    <h:form>
+                        <p:growl life="3600"  ><p:autoUpdate/></p:growl>
+                    </h:form>
+                    <p:confirmDialog id="confirmDialog" message="Usunąć dany układ? Operacja jest nieodwracalna!"  
+                                         header="Usuwanie układu" severity="alert" widgetVar="confirm" width="500" appendTo="@(body)"
+                                         >
+                        <h:form id="dialogusuwanieukladu">
+                            <p:outputPanel style="height: 40px; text-align: center;">
+                                <h:outputText value="układ - #{ukladBRView.selected.uklad} #{ukladBRView.selected.rok}"/>
+                            </p:outputPanel>
+                                <p:commandButton id="confirm" value="Tak"  oncomplete="PF('confirm').hide();"
+                                                 actionListener="#{ukladBRView.usun()}"
+                                                 style="float: left; width: 120px; margin-left: 2%;" update=":formprojektuklad :formdialog_uklad_kopiuj">
+                                </p:commandButton>
+                                <p:commandButton id="decline" value="Nie" onclick="PF('confirm').hide()" type="button" style="float: right; width: 120px; margin-right: 2%;"/>   
+                            </h:form>
+                    </p:confirmDialog> 
+                    <ui:include src="sub/menu/menubilanse.xhtml"/>
+                    <ui:include src="sub/dialog/dialog_rk_ewidencjaVAT_BO.xhtml"/>
+                    <ui:include src="sub/dialog/dialog_rzis_porownanie.xhtml"/>
+                    <ui:include src="sub/dialog/dialog_rzis_porownanie_mcy.xhtml"/>
+                    <ui:include src="sub/dialog/dialog_rzis_narastajaco.xhtml"/>
+                    <ui:include src="sub/dialog/dialog_rzis_zestawienie.xhtml"/>
+                    <ui:include src="sub/dialog/dialog_rzis_wyliczenie.xhtml"/>
+                    <ui:include src="sub/dialog/dialog_rzis_przypisywanie_kont.xhtml"/>
+                    <ui:include src="sub/dialog/dialog_rzis_projekt.xhtml"/>
+                    <ui:include src="sub/dialog/dialog_rzis_projekt_inter.xhtml"/>
+                    <ui:include src="sub/dialog/dialog_rzis_projekt_syntetyczne.xhtml"/>
+                    <ui:include src="sub/dialog/dialog_rzis_projekt_syntetyczne_formula.xhtml"/>
+                    <ui:include src="sub/dialog/dialog_rzis_projekt_analityczne.xhtml"/>
+                    <ui:include src="sub/dialog/dialog_rzis_konta_wnma.xhtml"/>
+                    <ui:include src="sub/dialog/dialog_bilans_roznice.xhtml"/>
+                    <ui:include src="sub/dialog/dialog_bilans_otwarcia_przeglad.xhtml"/>
+                    <ui:include src="sub/dialog/dialog_bilansBO_wyliczenie.xhtml"/>
+                    <ui:include src="sub/dialog/dialog_bilans_wyliczenie_porownaniezBO.xhtml"/>
+                    <ui:include src="sub/dialog/dialog_bilans_wyliczenie.xhtml"/>
+                    <ui:include src="sub/dialog/dialog_bilans_wyliczenie_zapisy.xhtml"/>
+                    <ui:include src="sub/dialog/dialog_bilans_przypisywanie_kont.xhtml"/>
+                    <ui:include src="sub/dialog/dialog_bilans_projekt.xhtml"/>
+                    <ui:include src="sub/dialog/dialog_bilans_projekt_inter.xhtml"/>
+                    <ui:include src="sub/dialog/dialog_bilans_projekt_syntetyczne.xhtml"/>
+                    <ui:include src="sub/dialog/dialog_bilans_projekt_syntetyczne_formula.xhtml"/>
+                    <ui:include src="sub/dialog/dialog_bilans_projekt_analityczne.xhtml"/>
+                    <ui:include src="sub/dialog/dialog_bilans_generowanie.xhtml"/>
+                    <ui:include src="sub/dialog/dialog_bilans_wprowadzanie_2.xhtml"/>
+                    <ui:include src="sub/dialog/dialog_bilans_usun.xhtml"/>
+                    <ui:include src="sub/dialog/dialog_bilans_konta_wnma.xhtml"/>
+                    <ui:include src="sub/dialog/dialog_projekt_wyborukladu.xhtml"/>
+                    <ui:include src="sub/dialog/dialog_uklad_kopiuj.xhtml"/>
+                    <ui:include src="sub/dialog/dialog_uklad_kopiuj_innafirma.xhtml"/>
+                    <ui:include src="sub/dialog/dialog_cit_biezacy.xhtml"/>
+                    <ui:include src="sub/dialog/dialog_rzis_przypisywanie_podatnik_kopiuj.xhtml"/>
+                    <ui:include src="sub/dialog/dialog_bilans_przypisywanie_podatnik_kopiuj.xhtml"/>
+                    <ui:include src="sub/dialog/dialog_kliencifk_dolaczanie_BO.xhtml"/>
+                    <ui:include src="sub/dialog/dialog_nowyklient.xhtml"/>
+                    <ui:include src="sub/dialog/dialog_zmiana_okresu.xhtml"/> 
+                    <ui:include src="sub/dialog/dialog_wyksiegowanieroznic.xhtml"/> 
+                    <ui:include src="sub/dialog/dialog_danedosprawozdania.xhtml"/> 
+                    <ui:include src="sub/dialog/dialog_weryfikujsprawozdanie.xhtml"/> 
+                    <ui:include src="sub/dialog/dialog_zamknijksiegi.xhtml"/> 
+                    <ui:include src="sub/dialog/dialog_sprawozdaniexml.xhtml"/> 
+                </p:layoutUnit><ui:include src="sub/layout/south.xhtml"/> 
+            </p:layout>
+        </ui:define>
+    </ui:composition>
+</html>

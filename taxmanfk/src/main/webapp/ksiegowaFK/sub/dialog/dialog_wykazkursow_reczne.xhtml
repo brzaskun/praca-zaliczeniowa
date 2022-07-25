@@ -1,0 +1,55 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+        
+    xmlns:bcf="http://brzaskun.com/facelets">
+    <p:dialog id="dialogkursyrecznie" header="Zestawienie kursów walut wprowadzonych ręcznie" widgetVar="wykazkursowrecznie"  
+              resizable="false"  onShow="ustawdialog('dialogkursyrecznie','menukartoteki',900,700);" closeOnEscape="true" onHide="resetujdialog('dialogkursyrecznie');" >
+        <bcf:ajaxs/>
+        <p:ajax event="open" listener="#{walutyViewFK.init()}" global="false"/>
+        <h:form id="wprowadzonekursyrecznie">
+            <p:dataTable id="dataTablekursy" var="wpis" value="#{walutyViewFK.wprowadzonekursyRok}" editable="true" emptyMessage="Nie ma wprowadzonych ręcznie kursow" 
+                          rowKey="#{wpis.idtabelanbp}" widgetVar="dataTablekursy"
+                          style="overflow-y: scroll; height: 600px;" 
+                         rowsPerPageTemplate="15,30,250,500" paginatorPosition="top" paginator="true" rows="15">
+                <p:ajax event="filter" global="false"/>
+                <p:ajax event="sort" global="false"/>
+                 <f:facet name="header">  
+                    <h:outputText value="Zestawienie zaksięgowanych tabel nieNBP " />  
+                </f:facet>
+               <p:column headerText="#{mgs.numerkolejny}" width="40" sortBy="#{wpis.idtabelanbp}">
+                    <h:outputText value="#{wpis.idtabelanbp}" style="width: 20px;"/>
+                </p:column>
+                <p:column headerText="nr tabeli" width="150" sortBy="#{wpis.nrtabeli}" filterBy="#{wpis.nrtabeli}"  filterMatchMode="contains" style="text-align: center;">
+                    <h:outputText value="#{wpis.nrtabeli}" />
+                </p:column>
+                <p:column headerText="data tabeli" width="150" sortBy="#{wpis.datatabeli}" filterBy="#{wpis.datatabeli}"  filterMatchMode="contains" style="text-align: center;">
+                    <h:outputText value="#{wpis.datatabeli}" />
+                </p:column>
+                <p:column headerText="symbol waluty" width="150" sortBy="#{wpis.waluta.symbolwaluty}" filterBy="#{wpis.waluta.symbolwaluty}"  filterMatchMode="contains" style="text-align: center;">
+                    <h:outputText value="#{wpis.waluta.symbolwaluty}" />
+                </p:column>
+                <p:column headerText="kurs do pln" width="150" sortBy="#{wpis.kurssredni}" filterBy="#{wpis.kurssredni}"  filterMatchMode="contains">
+                    <h:outputText value="#{wpis.kurssredni}" style="float: right;">
+                        <f:convertNumber minFractionDigits="4" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                 <p:column headerText="przel." width="40" sortBy="#{wpis.waluta.przelicznik}">
+                    <h:outputText value="#{wpis.waluta.przelicznik}" style="float: right;">
+                        <f:convertNumber minFractionDigits="0" maxFractionDigits="0" locale="PL"/>
+                    </h:outputText>
+                    
+                </p:column>
+                <p:column width="30" style="text-align: center;">
+                    <p:commandButton icon="fa fa-trash" actionListener="#{walutyViewFK.usuntabele(wpis)}" update="wprowadzonekursyrecznie"/>
+                </p:column>
+            </p:dataTable>
+<!--             <div style="padding: 10px;">
+                 <p:commandButton id="walutynowabutton" value="#{mgs.pobierz}" actionListener="#{walutyViewFK.pobierzkursy}" update=":wprowadzonekursyrecznie:dataTablekursy" style="width: 120px;"/>
+            </div>-->
+        </h:form>
+    </p:dialog>
+</ui:composition>

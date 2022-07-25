@@ -1,0 +1,152 @@
+
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    >
+    <h:form id="formX">
+    <p:panel id="panelDodawaniaDokumentu">
+        <p:panel menuTitle="Wprowadzanie/edytowanie danych nowych klientów" header="1Wprowadzanie danych nowych klientów (* - dane fakultatywne)" style="width: 1200px;" >
+            <p:growl life="3600"  id="mess_add" ><p:autoUpdate/></p:growl>
+            <p:focus id="focus" context="polawprowadzania" />
+            <p:panelGrid id="polawprowadzania" columns="5" >
+                <h:outputLabel value="nip/przy osobie fizycznej zostawić puste" style="font-weight: 700"/>
+                <h:outputLabel value="nazwa pełna" style="font-weight: 700"/>
+                <h:outputLabel value="nazwa skrocona" style="font-weight: 700"/>
+                <h:outputLabel value="kod pocztowy" style="font-weight: 700"/>
+                <h:outputLabel value="miejscowość" style="font-weight: 700"/>
+                <p:inputText id="nipPole" value="#{KlView.selected.nip}" maxlength="20" style="width: 200px">
+                    <p:watermark for="nipPole" value="bez -" /> 
+                    <p:ajax event="blur" partialSubmit="true" listener="#{KlView.poszukajDuplikatNipWTrakcie()}" global="false"/>
+                    <p:ajax event="keyup" listener="#{KlView.znajdzdaneregon('formX')}" partialSubmit="true" global="false"/>
+                </p:inputText>
+
+                <p:inputText id="nazwaPole" value="#{KlView.selected.npelna}"  accesskey="s" title="pełna nazwa kontrahenta" maxlength="80" style="width: 200px" required="true" requiredMessage="Pole nazwy pełnej nie może byc puste" 
+                             onblur="kopiujnazwepelnakontrahenci();" >
+                    <p:watermark for="nazwaPole" value="pełna nazwa kontrahenta 80znakow" />
+                    <p:ajax event="blur" partialSubmit="true" global="false" listener="#{KlView.wyszukajduplikatkontrahent}"/>
+                </p:inputText>
+                <p:inputText id="symbolPole" value="#{KlView.selected.nskrocona}" maxlength="55" style="width: 200px" required="true" requiredMessage="Pole nazwa skrocona nie może byc puste">
+                    <p:watermark for="symbolPole" value="hasłowo, np:FORTEX" /> 
+                </p:inputText>
+                <p:inputText id="kodPole" value="#{KlView.selected.kodpocztowy}" maxlength="9" style="width: 200px" required="true" requiredMessage="Pole kod pocztowy nie może byc puste" />
+                <p:autoComplete id="miejscowoscPole" value="#{KlView.selected.miejscowosc}" completeMethod="#{miasta.complete}"
+                                var="pin" itemLabel="#{pin}" itemValue="#{pin}" 
+                                minQueryLength="1" maxResults="10" maxlength="20"  forceSelection="false" 
+                                effect="clip" autocomplete="true" queryDelay="100" autoHighlight="true" 
+                                required="true" requiredMessage="Pole miejscowosc nie może byc puste" style="width: 200px">
+                    <p:ajax event="query" global="false"/>
+                    <p:ajax event="itemSelect" partialSubmit="true" global="false"/>
+                </p:autoComplete>
+                
+                <h:outputLabel value="ulica" style="font-weight: 700"/>
+                <h:outputLabel value="dom" style="font-weight: 700"/>
+                <h:outputLabel value="lokal" style="font-weight: 700"/>
+                <h:outputLabel value="kraj*" style="font-weight: 700"/>
+                <h:outputLabel value="email*" style="font-weight: 700"/>
+               
+                <p:inputText id="ulicaPole" value="#{KlView.selected.ulica}"   style="width: 200px" >
+                    <p:ajax event="blur" partialSubmit="true" global="false" listener="#{KlView.wstawkreske(2)}" update="@this"/>
+                </p:inputText>
+                <p:inputText id="domPole" value="#{KlView.selected.dom}" style="width: 200px" >
+                    <p:ajax event="blur" partialSubmit="true" global="false" listener="#{KlView.wstawkreske(0)}" update="@this"/>
+                </p:inputText>
+                <p:inputText id="lokalPole" value="#{KlView.selected.lokal}" requiredMessage="Pole dom nie może byc puste"  style="width: 200px">
+                    <p:ajax event="blur" partialSubmit="true" global="false" listener="#{KlView.wstawkreske(1)}" update="@this"/>
+                </p:inputText>
+                
+                <p:autoComplete id="krajPole" value="#{KlView.selected.krajnazwa}" completeMethod="#{panstwa.complete}"
+                                var="pa" itemLabel="#{pa}" itemValue="#{pa}" required="true" requiredMessage="Wybierz nazwę kraju"
+                               minQueryLength="1" maxResults="10" maxlength="20"  forceSelection="false" 
+                                effect="clip" autocomplete="true" queryDelay="100" autoHighlight="true" 
+                                style="width: 200px" >
+                    <p:ajax event="itemSelect" partialSubmit="true" global="false"  oncomplete="$('.buttondodaj').show()"/>
+                    <p:ajax event="query" global="false"/>
+                </p:autoComplete>
+                <p:inputText id="emailPole" value="#{KlView.selected.email}" style="width: 200px" >
+                </p:inputText>
+                <p:commandButton value="Dodaj" actionListener="#{KlView.dodajKlienta()}" update=":formX :formY" icon="ui-icon-disk"
+                                 rendered="#{KlView.selected.id eq null}" style="width: 120px; margin-top: 5px;display: none;" styleClass="buttondodaj uibuttonmui"/>
+                <p:commandButton value="Edytuj" actionListener="#{KlView.edit()}" update=":formX :formY" icon="ui-icon-arrowrefresh-1-w" rendered="#{KlView.selected.id ne null}" style="width: 120px; margin-top: 5px;"/>
+                <h:outputText value=""/><h:outputText value=""/><h:outputText value=""/>
+                <p:commandButton value="aktualizuj GUS" actionListener="#{KlView.znajdzdaneregonAutomat(KlView.selected)}" style="width: 120px;margin-top: 5px;float: right;" update="@form" rendered="#{KlView.selected.id ne null}"/>
+            </p:panelGrid>
+           
+        </p:panel>
+    </p:panel>
+    <p:separator/>
+    </h:form>
+<!--    Wykaz wprowadzonych kontrahentów-->
+    <h:form id="formY">
+        <p:growl life="3600" />
+        <p:dataTable var="wpis" value="#{KlView.kl1}"  id="tabelaKontr" editable="true"
+                 paginator="true" paginatorAlwaysVisible="true" rows="20"
+                 paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
+                 rowsPerPageTemplate="20,28,36,50" filteredValue="#{KlView.klienciFiltered}"
+                 rowKey="#{wpis.id}" selection="#{KlView.selectedtabela}" 
+                 emptyMessage="Nie ma klientów" style="margin-left: 2%; max-width: 1200px;">
+            <p:ajax event="rowSelectRadio" listener="#{KlView.wybranodoedycji}" update=":formY :formX" global="false"/>
+            <p:ajax event="filter" global="false"/>
+        <f:facet name="header">  
+            <h:outputText value="Wykaz klientów" />  
+        </f:facet>
+            <p:column selectionMode="single" width="30" style="text-align: center;"/>
+            <p:column id="Column1" headerText="nip" sortBy="#{wpis.nip}"  filterBy="#{wpis.nip}" filterMatchMode="startsWith" filterMaxLength="12" width="100">  
+            <h:outputText value="#{wpis.nip}" />
+        </p:column>
+            <p:column id="Column2" headerText="nazwa pełna" sortBy="#{wpis.npelna}" filterBy="#{wpis.npelna}" filterMatchMode="contains" width="200">  
+             <p:cellEditor>  
+                    <f:facet name="output">  
+                        <h:outputText value="#{wpis.npelna}"/>
+                    </f:facet>  
+                    <f:facet name="input">  
+                        <p:inputText value="#{wpis.npelna}"/>
+                    </f:facet>  
+                </p:cellEditor>
+        </p:column>
+
+            <p:column id="Column2a" headerText="nazwa skrócona" sortBy="#{wpis.nskrocona}" filterBy="#{wpis.nskrocona}" filterMatchMode="contains" width="100">  
+             <p:cellEditor>  
+                    <f:facet name="output">  
+                        <h:outputText value="#{wpis.nskrocona}"/>
+                    </f:facet>  
+                    <f:facet name="input">  
+                        <p:inputText value="#{wpis.nskrocona}"/>
+                    </f:facet>  
+                </p:cellEditor>
+        </p:column>
+            <p:column id="Column3" sortBy="#{wpis.miejscowosc}" filterBy="#{wpis.miejscowosc}" filterMatchMode="contains" width="150">  
+            <f:facet name="header">  
+                <h:outputText value="miejscowość" />  
+            </f:facet> 
+            <h:outputText value="#{wpis.kodpocztowy} #{wpis.miejscowosc}" />
+        </p:column>
+         <p:column id="Column31" sortBy="#{wpis.ulica}" filterBy="#{wpis.ulica}" filterMatchMode="contains" width="150">  
+            <f:facet name="header">  
+                <h:outputText value="ulica" />  
+            </f:facet> 
+            <h:outputText value="#{wpis.ulica} #{wpis.dom}/#{wpis.lokal}" />
+        </p:column>
+        <p:column id="Column4a" headerText="#{mgs.numerkolejny}" sortBy="#{wpis.email}" filterBy="#{wpis.email}" filterMatchMode="contains" width="100">  
+            <f:facet name="header">  
+                <h:outputText value="email" />  
+            </f:facet>
+              <h:outputText value="#{wpis.email}"/>
+        </p:column>
+            <p:column headerText="kraj" sortBy="#{wpis.krajkod}" filterBy="#{wpis.krajkod}" filterMatchMode="contains" width="100">  
+            <f:facet name="header">  
+                <h:outputText value="kraj" />  
+            </f:facet>
+              <h:outputText value="#{wpis.krajkod}"/>
+        </p:column>
+            <p:column id="deleteColumn" headerText="usuń" width="40">
+            <p:commandButton actionListener="#{KlView.destroy(wpis)}" onclick="PF('confirmation').show()" id="delete" icon="ui-icon ui-icon-trash" type="submit" update=":formY" />
+        </p:column>
+
+    </p:dataTable>
+    </h:form>
+</ui:composition>   
+
+

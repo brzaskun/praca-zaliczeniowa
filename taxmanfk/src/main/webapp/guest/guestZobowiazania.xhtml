@@ -1,0 +1,43 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <ui:composition template="/template.xhtml">
+
+        <ui:define name="title">
+            <h:outputText value="Podatkowa księga przychodów i rozchodów"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+
+             
+                <f:view>
+                    <p:layout fullPage="true" expandTitle="Wysuń" closeTitle="Zamknij" collapseTitle="Schowaj">
+                        <ui:include src="sub/layoutZobowiazania/north.xhtml"/>  <!-- panel polnocny-->
+                        <ui:include src="sub/layoutZobowiazania/south.xhtml"/>   <!-- panel poludniowy-->
+                        <ui:include src="sub/layoutZobowiazania/west.xhtml"/>   <!-- panel zachodni-->
+                        <p:layoutUnit position="center">
+                               
+                         <p:panel toggleable="true" closable="true" style="width: 1000px;"> 
+                            <f:facet name="header">
+                                <h:outputText value="Strona służy do wyświetlania kwot twoich podatków oraz ZUS za dany miesiąc. Zmiana miesiąca możliwa jest w panelu po lewej."/><br/>
+                                <h:outputText value="Dane są pobierane z programu po wciśnięciu przycisku 'ok' po lewej."/><br/>
+                                <h:outputText value="Po pobraniu dane powinny być przez ciebie uzupełnione o datę zapłaty wybraną z kalendarza."/><br/>
+                                <h:outputText value="W tym celu wystarczy kliknąć na datę znajdujący sie obok tekstu: 'zapłacono dnia'."/> <br/>
+                                <h:outputText value="W przypadku niewpisania zapłaty, kwoty nie będą brane pod uwagę podczas wyliczania PIT za m-c następny."/><br/><h:outputText value="Dla wpłat po terminie program wylicza odsetki"/><br/>
+                            </f:facet>
+                                </p:panel>
+                                <ui:include src="sub/menu_wiad.xhtml"/>   <!-- menu contextowe i pole wiadomosci growl-->
+                                <ui:include src="sub/zobowiazania.xhtml"/>   <!-- właściwa tablica z danymi z księgi-->
+
+                        </p:layoutUnit>
+
+                    </p:layout>
+                </f:view>
+            
+        </ui:define>
+    </ui:composition>
+</html>
+
+
+

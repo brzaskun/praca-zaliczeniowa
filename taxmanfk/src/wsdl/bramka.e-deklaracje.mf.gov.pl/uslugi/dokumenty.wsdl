@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="https://bramka.e-deklaracje.mf.gov.pl/" xmlns:ns="https://bramka.e-deklaracje.mf.gov.pl/xsd" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:gate="https://bramka.e-deklaracje.mf.gov.pl/">
+  <wsdl:types>
+    <xs:schema attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="https://bramka.e-deklaracje.mf.gov.pl/xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+			<xs:include schemaLocation="GateService?xsd=GateService.xsd"/>
+		</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="sendDocumentMessage">
+    <wsdl:part name="part1" element="ns:sendDocument">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="sendDocumentWithAttachmentResponseMessage">
+    <wsdl:part name="part1" element="ns:sendDocumentWithAttachmentResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="sendDocumentWithAttachmentMessage">
+    <wsdl:part name="part1" element="ns:sendDocumentWithAttachment">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="sendUnsignDocumentMessage">
+    <wsdl:part name="part1" element="ns:sendUnsignDocument">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="requestUPOMessage">
+    <wsdl:part name="part1" element="ns:requestUPO">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="sendDocumentResponseMessage">
+    <wsdl:part name="part1" element="ns:sendDocumentResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="requestUPOResponseMessage">
+    <wsdl:part name="part1" element="ns:requestUPOResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="sendUnsignDocumentResponseMessage">
+    <wsdl:part name="part1" element="ns:sendUnsignDocumentResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="GateServicePortType">
+    <wsdl:operation name="sendDocument">
+      <wsdl:input message="gate:sendDocumentMessage">
+    </wsdl:input>
+      <wsdl:output message="gate:sendDocumentResponseMessage">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="sendUnsignDocument">
+      <wsdl:input message="gate:sendUnsignDocumentMessage">
+    </wsdl:input>
+      <wsdl:output message="gate:sendUnsignDocumentResponseMessage">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="sendDocumentWithAttachment">
+      <wsdl:input message="gate:sendDocumentWithAttachmentMessage">
+    </wsdl:input>
+      <wsdl:output message="gate:sendDocumentWithAttachmentResponseMessage">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="requestUPO">
+      <wsdl:input message="gate:requestUPOMessage">
+    </wsdl:input>
+      <wsdl:output message="gate:requestUPOResponseMessage">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="GateServiceSOAP11Binding" type="gate:GateServicePortType">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="sendDocument">
+      <soap:operation soapAction="urn:sendDocument" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal" namespace="https://bramka.e-deklaracje.mf.gov.pl/"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" namespace="https://bramka.e-deklaracje.mf.gov.pl/"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="sendUnsignDocument">
+      <soap:operation soapAction="urn:sendUnsignDocument" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal" namespace="https://bramka.e-deklaracje.mf.gov.pl/"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" namespace="https://bramka.e-deklaracje.mf.gov.pl/"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="sendDocumentWithAttachment">
+      <soap:operation soapAction="urn:sendDocumentWithAttachment" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal" namespace="https://bramka.e-deklaracje.mf.gov.pl/"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" namespace="https://bramka.e-deklaracje.mf.gov.pl/"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="requestUPO">
+      <soap:operation soapAction="urn:requestUPO" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal" namespace="https://bramka.e-deklaracje.mf.gov.pl/"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" namespace="https://bramka.e-deklaracje.mf.gov.pl/"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="GateServiceSOAP12Binding" type="gate:GateServicePortType">
+    <soap12:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="sendDocument">
+      <soap12:operation soapAction="urn:sendDocument" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal" namespace="https://bramka.e-deklaracje.mf.gov.pl/"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" namespace="https://bramka.e-deklaracje.mf.gov.pl/"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="sendUnsignDocument">
+      <soap12:operation soapAction="urn:sendUnsignDocument" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal" namespace="https://bramka.e-deklaracje.mf.gov.pl/"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" namespace="https://bramka.e-deklaracje.mf.gov.pl/"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="sendDocumentWithAttachment">
+      <soap12:operation soapAction="urn:sendDocumentWithAttachment" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal" namespace="https://bramka.e-deklaracje.mf.gov.pl/"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" namespace="https://bramka.e-deklaracje.mf.gov.pl/"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="requestUPO">
+      <soap12:operation soapAction="urn:requestUPO" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal" namespace="https://bramka-de.mf.gov.pl/uslugi/dokumenty/"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" namespace="https://bramka-de.mf.gov.pl/uslugi/dokumenty/"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="GateService">
+    <wsdl:port name="GateServiceSOAP12port" binding="gate:GateServiceSOAP12Binding">
+      <soap12:address location="https://bramka.e-deklaracje.mf.gov.pl/uslugi/dokumenty/"/>
+    </wsdl:port>
+    <wsdl:port name="GateServiceSOAP11port" binding="gate:GateServiceSOAP11Binding">
+      <soap:address location="https://bramka.e-deklaracje.mf.gov.pl/uslugi/dokumenty/"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

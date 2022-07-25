@@ -1,0 +1,41 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    >
+    <style>
+        .label {
+            width: 30%;
+        }
+        .value {
+            width: 70%;
+        }
+    </style>
+     <p:dialog id="dialog_delegacje_stworz" header="Dodawanie nowej delegacji - #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="dialog_delegacje_stworz" 
+              resizable="false"  onShow="czydodacdelegacjeShow();" closeOnEscape="true" onHide="resetujdialog('dialog_delegacje_stworz');" 
+              modal="true" appendTo="@(body)">
+       
+        <h:form id="form_dialog_delegacje_stworz">
+            <p:panelGrid columns="2" columnClasses="label, value">
+                <h:outputText value="nr delegacji "/>
+                <p:inputText id="nazwamiejsca" value="#{delegacjeView.selected.opisdlugi}" style="width: 180px; margin-left: 15px; height: 20px;"/>
+                <h:outputText value="opis delegacji"/>
+                <p:inputText id="nazwamiejscas" value="#{delegacjeView.selected.opiskrotki}" style="width: 180px; margin-left: 15px; height: 20px;"/>
+                <h:outputText value="rodzaj"/>
+                <h:selectOneMenu value="#{delegacjeView.selected.krajowa0zagraniczna1}" style=" margin-left: 15px; height: 20px;" 
+                    onfocus="$(this).removeClass('ui-state-default');$(this).addClass('ui-state-focus');"
+                    onblur="$(this).removeClass('ui-state-focus');$(this).addClass('ui-state-default');">
+                    <f:selectItem itemLabel="krajowa" itemValue="false"/>
+                    <f:selectItem itemLabel="zagraniczna" itemValue="true"/>
+                </h:selectOneMenu>
+            </p:panelGrid>
+            <p:commandButton value="dodaj" actionListener="#{delegacjeView.stworz(delegacjeView.selected.krajowa0zagraniczna1, dokfkView.selected)}" global="false"
+                             style="margin-left: 45px; margin-top: 10px; width: 120px;" onclick="nowadelegacja();"
+                             rendered="#{delegacjeView.zapisz0edytuj1 == false}" />
+            <p:commandButton value="anuluj" style="margin-left: 80px; margin-top: 10px; width: 120px;" global="false"  onclick="blokujdelegacje();" 
+                             update=":form_dialog_delegacje_stworz :parametrydel" rendered="#{delegacjeView.zapisz0edytuj1 == false}"/>
+        </h:form>
+    </p:dialog>
+</ui:composition>

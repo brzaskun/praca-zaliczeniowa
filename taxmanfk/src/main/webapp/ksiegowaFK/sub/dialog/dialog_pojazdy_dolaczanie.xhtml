@@ -1,0 +1,71 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    >
+    <style>
+        .wyborkontrahenta input  {
+            width: 400px !important;
+        }
+    </style>
+    <f:event type="preRenderView" listener="#{pojazdyView.init()}"/>
+    <p:dialog id="dialog_pojazdy_dolaczanie" header="Definiowanie wykazu pojazdów i maszyn" widgetVar="dialog_pojazdy_dolaczanie" 
+              resizable="false"  onShow="ustawdialog('dialog_pojazdy_dolaczanie','menukartoteki',900,600);" closeOnEscape="true" onHide="resetujdialog('dialog_pojazdy_dolaczanie');" >
+
+        <h:form id="pojazdy">
+            <p:panelGrid columns="2" >
+                <p:panelGrid columns="2" >
+                    <h:outputText value="nr rejestracyjny "/>
+                    <p:inputText id="nazwamiejsca" value="#{pojazdyView.selected.nrrejestracyjny}" style="width: 180px;"/>
+                    <h:outputText value="nazwa pojazdu"/>
+                    <p:inputText id="nazwamiejscas" value="#{pojazdyView.selected.nazwapojazdu}" style="width: 180px;"/>
+                </p:panelGrid>
+                <p:panelGrid columns="2" >
+                    <p:commandButton value="dodaj" actionListener="#{pojazdyView.dodaj()}" style="margin: 2%; width: 120px;" 
+                                     update=":pojazdy, :pojazdylista" rendered="#{pojazdyView.zapisz0edytuj1 == false}"/>
+                    <p:commandButton value="edytuj" actionListener="#{pojazdyView.zapiszedycje()}" style="margin: 2%; width: 120px;" 
+                                     update=":pojazdy, :pojazdylista" rendered="#{pojazdyView.zapisz0edytuj1 == true}"
+                                     oncomplete="PF('listapojazdywykaz').clearFilters();"/>
+                    <p:commandButton value="rezygnuj" actionListener="#{pojazdyView.canceledycje()}" style="margin: 2%; width: 120px;" 
+                                     update=":pojazdy" global="false"
+                                     oncomplete="PF('listapojazdywykaz').clearFilters();"
+                                     rendered="#{pojazdyView.zapisz0edytuj1 == true}"/>
+                </p:panelGrid>
+            </p:panelGrid>
+        </h:form>
+        <h:form id="pojazdylista">
+            <p:dataTable value="#{pojazdyView.pojazdy}" var="item" style="width: 850px;"  scrollable="true" scrollHeight="400"
+                         emptyMessage="brak zdefiniowanych pojazdów" widgetVar="listapojazdywykaz"
+                         sortBy="#{item}"  sortFunction="#{pojazdyView.sortPojazdy}">
+                <p:ajax event="filter" global="false"/>
+                <p:column headerText="#{mgs.nr}" style="width: 40px;">
+                    <h:outputText value="#{item.nrkonta}"/>
+                </p:column>
+                <p:column headerText="nr rejestracyjny" style="width: 110px;"  filterBy="#{item.nrrejestracyjny}" filterMatchMode="contains" styleClass="filter80">
+                    <h:outputText value="#{item.nrrejestracyjny}"/>
+                </p:column>
+                <p:column headerText="nazwa pojazdu"  style="width: 300px;">
+                    <h:outputText value="#{item.nazwapojazdu}"/>
+                </p:column>
+                <p:column headerText="nr konta" style="text-align: center;">
+                    <h:outputText value="#{item.nrkonta}"/>
+                </p:column>
+                <p:column headerText="ukryj" style="text-align: center;">
+                    <p:selectBooleanCheckbox value="#{item.pokaz0chowaj1}">
+                        <p:ajax event="change" partialSubmit="true" listener="#{pojazdyView.ukryjpojazd(item)}" global="false"/>
+                    </p:selectBooleanCheckbox>
+                </p:column>
+                <p:column headerText="edytuj" style="text-align: center; width: 60px;">
+                    <p:commandButton icon="ui-icon-comment" actionListener="#{pojazdyView.edytuj(item)}" update=":pojazdy, :pojazdylista"
+                                     rendered="#{WpisView.rokWpisu eq item.rok}"/>
+                    <h:outputText value="#{item.rok}" rendered="#{WpisView.rokWpisu ne item.rok}"/>
+                </p:column>
+                <p:column headerText="usuń" style="text-align: center; width: 60px;">
+                    <p:commandButton icon="ui-icon-trash" actionListener="#{pojazdyView.usun(item)}" update=":pojazdy, :pojazdylista" rendered="#{WpisView.rokWpisu eq item.rok and item.aktywny eq false}"/>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </p:dialog>
+</ui:composition>

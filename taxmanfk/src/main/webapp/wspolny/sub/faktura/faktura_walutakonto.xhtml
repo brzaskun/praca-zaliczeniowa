@@ -1,0 +1,117 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+    <p:tab id="fakturawalutakonto" title="Wykaz kont bankowych">
+        <h:form id="form_fakturawalutakonto">
+            <p:panelGrid>
+                <f:facet name="header">
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="waluta"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="bank"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="BLZ"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="SWIFT"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="IBAN"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="nr konta"/>
+                        </p:column>
+                    </p:row>
+                </f:facet>
+                <p:row>
+                    <p:column>
+                        <p:selectOneMenu value="#{fakturaWalutaKontoView.selected.waluta}" converter="#{walutyConv}"  required="true" requiredMessage="wybierz walutę">
+                            <f:selectItem itemValue="" itemLabel="wybierz" noSelectionOption="true"/>
+                            <f:selectItems value="#{walutyViewFK.pobraneRodzajeWalut}" var="item" itemLabel="#{item.symbolwaluty}"/>
+                        </p:selectOneMenu>
+                    </p:column>
+                    <p:column>
+                        <p:inputText value="#{fakturaWalutaKontoView.selected.nazwabanku}" style="width: 200px;" required="true" requiredMessage="wpisz nazwę banku"/>
+                    </p:column>
+                    <p:column>
+                        <p:inputText value="#{fakturaWalutaKontoView.selected.blz}" style="width: 120px;"/>
+                    </p:column>
+                    <p:column>
+                        <p:inputText value="#{fakturaWalutaKontoView.selected.swift}" style="width: 120px;" required="true" requiredMessage="wpisz kod swift/bic"/>
+                    </p:column>
+                    <p:column>
+                        <p:inputText value="#{fakturaWalutaKontoView.selected.iban}" maxlength="28"
+                                     style="width: 300px;" required="true" requiredMessage="wpisz numer konta w formacie iban"/>
+                    </p:column>
+                    <p:column >
+                        <p:inputText value="#{fakturaWalutaKontoView.selected.nrkonta}" maxlength="32"
+                                     style="width: 300px;" required="true" requiredMessage="wpisz numer konta" placeholder="11 0000 1111 0000 1111 0000 1111"/>
+                    </p:column>
+                    <p:column>
+                        <p:commandButton value="dodaj" styleClass="nb" global="false" update="akordeon:form_fakturawalutakonto akordeon:form_fakturawalutakonto1:tabela"
+                                         actionListener="#{fakturaWalutaKontoView.dodaj()}"/>
+                    </p:column>
+                </p:row>
+            </p:panelGrid>
+        </h:form>
+        <h:form id="form_fakturawalutakonto1">
+            <p:dataTable id="tabela" value="#{fakturaWalutaKontoView.listakont}" var="item" style="width: 1300px;" emptyMessage="Nie wprowadzono numerów kont bankowych">
+                <p:column width="50">
+                    <f:facet name="header">
+                        <h:outputText value="waluta"/>
+                    </f:facet>
+                    <h:outputText value="#{item.waluta.symbolwaluty}"/>
+                </p:column>
+                <p:column width="250">
+                    <f:facet name="header">
+                        <h:outputText value="nazwa banku"/>
+                    </f:facet>
+                    <h:outputText value="#{item.nazwabanku}"/>
+                </p:column>
+                <p:column width="80">
+                    <f:facet name="header">
+                        <h:outputText value="BLZ"/>
+                    </f:facet>
+                    <h:outputText value="#{item.blz}"/>
+                </p:column>
+                <p:column width="100">
+                    <f:facet name="header">
+                        <h:outputText value="Swift"/>
+                    </f:facet>
+                    <h:outputText value="#{item.swift}"/>
+                </p:column>
+                <p:column width="200">
+                    <f:facet name="header">
+                        <h:outputText value="IBAN"/>
+                    </f:facet>
+                    <h:outputText value="#{item.iban}"  style="word-break: break-all !important; word-wrap: break-word !important; white-space: pre-wrap;"/>
+                </p:column>
+                <p:column width="200">
+                    <f:facet name="header">
+                        <h:outputText value="nr konta"/>
+                    </f:facet>
+                    <h:outputText value="#{item.nrkonta}"  style="word-break: break-all !important; word-wrap: break-word !important; white-space: pre-wrap;"/>
+                </p:column>
+                <p:column width="70" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="aktywne"/>
+                    </f:facet>
+                    <h:outputText value="#{item.nieaktywny ? 'nie' : 'tak'}" style="color: #{item.nieaktywny ? 'red':'green'}"/>
+                </p:column>
+                <p:column style="text-align: center;" width="40" headerText="deakt.">
+                    <p:commandButton icon="fa fa-adjust" actionListener="#{fakturaWalutaKontoView.dezaktywacja(item)}" global="false" update="@parent:@parent"/>
+                </p:column>
+                <p:column style="text-align: center;" width="40">
+                    <p:commandButton icon="fa fa-trash" actionListener="#{fakturaWalutaKontoView.usun(item)}" global="false" update="@parent:@parent:@parent"/>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </p:tab>
+</ui:composition>   
+

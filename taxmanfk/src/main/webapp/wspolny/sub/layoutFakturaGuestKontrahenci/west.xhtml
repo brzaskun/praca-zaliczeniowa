@@ -1,0 +1,38 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+    <p:layoutUnit position="west" size="260" header="#{mgs.zmianaokresu}" collapsible="true" resizable="true">
+        <h:form id="west">
+            <p:panelGrid  columns="2" >
+                    <p:column>
+                <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}" style="margin-left: 5%">
+                    <f:selectItems value="#{roki.rokiList}"/>
+                    <p:ajax event="change" listener="#{fakturyPlatnosciView.aktualizujTabeleTabelaGuest}" />
+                </p:selectOneMenu>
+                  </p:column>
+                    <p:column>
+                <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}" style="margin-left: 5%">
+                    <f:selectItems value="#{mce.mceList}"/>
+                    <p:ajax event="change" listener="#{fakturyPlatnosciView.aktualizujTabeleTabelaGuest}"  />
+                </p:selectOneMenu>
+                    </p:column>
+            </p:panelGrid>
+            <p:panel header="Menu:">
+                <p:panelGrid columns="1">
+                        <p:menu style="width: 200px;">
+                            <p:menuitem value="#{mgs.faktury}"  outcome="gfkFaktura" icon="ui-icon-circle-arrow-e" />
+                            <p:menuitem value="#{mgs.fakturyustawienia}"  outcome="gfakturaFakturaUstawienia" icon="ui-icon-circle-arrow-e" />
+                            <p:menuitem value="#{mgs.płatności}"  outcome="gfakturaFakturaPlatnosci" icon="ui-icon-circle-arrow-e" />
+                            <p:menuitem value="#{mgs.kontrahenci}"  outcome="gfakturaFakturaKontrahenci" icon="ui-icon-circle-arrow-e"/>
+                        </p:menu>
+                    
+                        <p:commandButton id="wyloguj" value="#{mgs.wyloguj}" action="#{logowanie.logout()}" style="margin-left: 25%; margin-top: 10px;"/>
+                    </p:panelGrid>
+            </p:panel>
+        </h:form>
+    </p:layoutUnit>
+</ui:composition>   
+

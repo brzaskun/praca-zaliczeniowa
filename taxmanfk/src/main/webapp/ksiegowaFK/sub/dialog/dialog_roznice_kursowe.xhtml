@@ -1,0 +1,106 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+
+    xmlns:bcf="http://brzaskun.com/facelets">
+    <style>
+        .symbolwalutroznice input {
+            width: 28px !important;
+        }
+        .kwotaroznice input {
+            width: 57px !important;
+        }
+        .firmaopis input {
+            width: 150px !important;
+        }
+        .rachunekroznice input {
+            width: 80px !important;
+        }
+        .dataroznice input {
+            width: 60px !important;
+        }
+    </style>
+    <p:dialog id="dialogroznicekursowe" header="Zestawienie różnic kursowych - #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="dialogroznicekursowe"      
+              resizable="false"  onShow="ustawdialog('dialogroznicekursowe','menurmk',1380,700);" closeOnEscape="true" onHide="resetujdialog('dialogroznicekursowe');" >
+        <bcf:ajaxs/>
+        <h:form id="transakcje">
+            <p:selectOneMenu id="miesiacWpisu" value="#{rozniceKursoweFKView.mczaksiegowane}" style="width: 60px;">
+                <p:ajax event="change" listener="#{rozniceKursoweFKView.pobierzdane}" partialSubmit="true"
+                                onstart="PF('tabelaroznicekursowe').clearFilters();PF('tabelaroznicekursowe').unselectAllRows();"
+                                update="transakcje:tabelaroznicekursowe" />
+                        <f:selectItem itemLabel="#{mgs.CR}" itemValue="CR" />
+                        <f:selectItems value="#{mce.mceList}"/>
+                </p:selectOneMenu>
+            <h:outputText value="zmień miesiąc"/>
+            <p:dataTable id="tabelaroznicekursowe" var="wpis" value="#{rozniceKursoweFKView.pobranetransakcje}" editable="true" 
+                         emptyMessage="Nie ma różnic kursowych w danym miesiącu rozliczeniowym"
+                          style="width: 1350px;height: 550px;overflow-y: scroll"  widgetVar="tabelaroznicekursowe" rowIndexVar="index">
+                <p:ajax event="filter" global="false"/>
+                <f:facet name="header">  
+                    <h:outputText value="Zestawienie zaksięgowanych transakcji walutowych " />  
+                    <h:outputText value="- wyszukiwanie: " />  
+                    <p:inputText id="globalFilter" onkeyup="PF('tabelaroznicekursowe').filter();" style="width:150px" />  
+                </f:facet>
+                <p:column headerText="#{mgs.numerkolejny}" width="20"  style="text-align: center;">
+                    <h:outputText value="#{index+1}" />
+                </p:column>
+                <p:column headerText="data rozr." width="80" filterBy="#{wpis.datarozrachunku}" sortBy="#{wpis.datarozrachunku}" styleClass="dataroznice" style="text-align: center;">
+                    <h:outputText value="#{wpis.datarozrachunku}"/>
+                </p:column>
+                <p:column headerText="firma" width="200" filterBy="#{wpis.nowaTransakcja.kontrahent}" filterMatchMode="contains" styleClass="firmaopis">
+                    <h:outputText value="#{wpis.nowaTransakcja.kontrahent}" style="word-break: break-all; word-wrap: break-word !important; white-space: pre-wrap;"/>
+                </p:column>
+                <p:column headerText="rachunek" width="100" filterBy="#{wpis.nowaTransakcja.wiersz.dokfk.toString2()}" filterMatchMode="contains" styleClass="rachunekroznice" style="text-align: center;">
+                    <h:outputText value="#{wpis.nowaTransakcja.wiersz.dokfk.toString2()}"  style="word-break: break-all; word-wrap: break-word !important; white-space: pre-wrap;"/>
+                </p:column>
+                <p:column headerText="opis" width="180" filterBy="#{wpis.nowaTransakcja.wiersz.opisWiersza}" filterMatchMode="contains" styleClass="firmaopis">
+                    <h:outputText value="#{wpis.nowaTransakcja.wiersz.opisWiersza}"  style="word-break: break-all; word-wrap: break-word !important; white-space: pre-wrap;"/>
+                </p:column>
+                <p:column headerText="kurs rach." width="40">
+                    <h:outputText value="#{wpis.nowaTransakcja.kursWalutyBOSW}" style="float: right;">
+                        <f:convertNumber minFractionDigits="4" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="płatność" width="100" filterBy="#{wpis.rozliczajacy.wiersz.dokfk.toString2()}" filterMatchMode="contains" styleClass="rachunekroznice" style="text-align: center;">
+                    <h:outputText value="#{wpis.rozliczajacy.wiersz.dokfk.toString2()}" style="word-break: break-all; word-wrap: break-word !important; white-space: pre-wrap;"/>
+                </p:column>
+                <p:column headerText="kurs płat." width="40">
+                    <h:outputText value="#{wpis.rozliczajacy.kursWalutyBOSW}" style="float: right;">
+                        <f:convertNumber minFractionDigits="4" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="kwota" width="60" filterBy="#{wpis.kwotatransakcji}" sortBy="#{wpis.kwotatransakcji}"  styleClass="kwotaroznice">
+                    <bcf:outputwal  id="waluta" value="#{wpis.kwotatransakcji}"/>
+                </p:column>
+                <p:column headerText="wal" width="30" filterBy="#{wpis.rozliczajacy.symbolWalutBOiSW}" sortBy="#{wpis.rozliczajacy.symbolWalutBOiSW}" styleClass="symbolwalutroznice">
+                    <h:outputText value="#{wpis.rozliczajacy.symbolWalutBOiSW}" />
+                </p:column>
+                <p:column headerText="data zapł." width="70" sortBy="#{wpis.rozliczajacy.wiersz.dokfk.datadokumentu}" style="text-align: center;">
+                    <h:outputText value="#{wpis.rozliczajacy.wiersz.dokfk.datadokumentu}"/>
+                </p:column>
+                <p:column headerText="różnica kursowa" width="70" sortBy="#{wpis.roznicekursowe}">
+                    <h:outputText value="#{wpis.roznicekursowe}" style="float: right; color: #{wpis.roznicekursowe gt 0.0 ? 'green' : 'red'}">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="konto rozrachw" width="70" sortBy="#{wpis.nowaTransakcja.konto.pelnynumer}">
+                    <h:outputText value="#{wpis.nowaTransakcja.konto.pelnynumer}" >
+                    </h:outputText>
+                </p:column>
+                <f:facet name="footer">  
+                    <p:panelGrid columns="2">
+                        <h:outputText value="razem"/>
+                        <bcf:outputpl value="#{rozniceKursoweFKView.sumatransakcji}" style="margin-right: 85px; float: right;"/>
+                    </p:panelGrid>
+                </f:facet>
+            </p:dataTable>
+            <p:outputPanel style="margin-top: 10px">
+                <p:commandButton value="zaksięguja" style="width: 120px; margin-bottom: 10px;" action="#{sesjaView.dodajwydruk()}" actionListener="#{rozniceKursoweFKView.generowanieDokumentuRRK()}"/>
+                <p:commandButton value="#{mgs.drukuj}" style="width: 120px; margin-bottom: 10px; margin-left: 10px;" action="#{sesjaView.dodajwydruk()}" actionListener="#{rozniceKursoweFKView.drukowanieRRK()}"/>
+            </p:outputPanel>
+        </h:form>
+    </p:dialog>
+</ui:composition>

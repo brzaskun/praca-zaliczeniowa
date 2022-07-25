@@ -1,0 +1,190 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    
+
+    xmlns:bcf="http://brzaskun.com/facelets">
+    <p:dialog id="dialog_srodkitrwale_zmianawartosci" header="Edycja danych posiadanego środka trwałego" widgetVar="dialog_srodkitrwale_zmianawartosci" 
+              resizable="false"  onShow="ustawdialog('dialog_srodkitrwale_zmianawartosci','formbuttonsrodki:buttonsrodki',1400,850);r('form_dialog_srodkitrwale_zmianawartosci:acForce1_input').focus();" closeOnEscape="true" onHide="resetujdialog('dialog_srodkitrwale_zmianawartosci');">
+        <!--pola ewidencji SRODKOW TRWALYCH-->
+        <h:form id="form_dialog_srodkitrwale_zmianawartosci">
+            <p:panel id="nowypanelsrodki" style="width: 840px; height: 870px;">
+                <p:panelGrid id="tabelasrodkitrwaleOT" columns="4" style="width: 650px;">
+                    <h:outputText value="nazwa środka" style="height: 45px;"/>
+                    <p:column  width="200">
+                        <p:inputText id="nazwasrodka" value="#{sTRTabView.edytowanysrodek.nazwa}" style="width: 200px;"
+                                     required="true" requiredMessage="Proszę wpisać nazwę środka"/>
+                    </p:column>
+                    <h:outputText value="symbol inwent."/>
+                    <p:column width="100">
+                        <p:inputText id="symbolinwent" value="#{sTRTabView.edytowanysrodek.symbolinwentarzowy}" />
+                    </p:column>
+                    <h:outputText value="data zakupu"/>
+                    <p:column>
+                        <p:inputText id="datazak" value="#{sTRTabView.edytowanysrodek.datazak}"
+                                     onchange="ustawDateSrodekTrw();" placeholder="rrrr-mm-dd" required="true" size="10" immediate="true"/>
+                    </p:column>
+                    <h:outputText value="data przyjecia"/>
+                    <p:column>
+                        <p:inputText id="dataprz" value="#{sTRTabView.edytowanysrodek.dataprzek}" valueChangeListener="#{sTRTabView.zmianadatyprzyjecia}"
+                                     onchange="ustawDateSrodekTrw();" placeholder="rrrr-mm-dd" required="true" size="10" immediate="true"/>
+                    </p:column>
+                    <h:outputText value="numer faktury"/>
+                    <p:column>
+                        <p:inputText id="numerfaktzakupu" value="#{sTRTabView.edytowanysrodek.nrwldokzak}"/>
+                    </p:column>
+                    <h:outputText value="symbol KST"/>
+                    <p:column>
+                        <p:inputText value="#{sTRTabView.edytowanysrodek.kst}"/>
+                    </p:column>
+                    <h:outputText value="cena zakupu"/>
+                    <p:column>
+                        <p:inputNumber id="cenazakupu" value="#{sTRTabView.edytowanysrodek.netto}" symbol=" zł" required="true" requiredMessage="Brak kwoty netto - uzupełnij" 
+                                       onblur="zweryfikujczyniebrakujesrodektrw('form_dialog_srodkitrwale_zmianawartosci');" valueChangeListener="#{sTRTabView.zmianakwotynetto}"
+                                       style="text-align: right;" symbolPosition="s" decimalSeparator="."   inputStyle="text-align: right;" decimalPlaces="2"  styleClass="wiersznetto"/> 
+                    </p:column>
+                    <h:outputText value="kwota vat"/>
+                    <p:column>
+                        <p:inputNumber id="kwotavat" value="#{sTRTabView.edytowanysrodek.vat}" symbol=" zł" required="true" requiredMessage="Brak kwoty vat - uzupełnij" 
+                                       style="text-align: right;" symbolPosition="s" decimalSeparator="."   inputStyle="text-align: right;" decimalPlaces="2"  styleClass="wiersznetto"/> 
+                    </p:column>
+                    <h:outputText value="umorzenie pocz."/>
+                    <p:column>
+                        <p:inputNumber id="umorzeniepocz" value="#{sTRTabView.edytowanysrodek.umorzeniepoczatkowe}" symbol=" zł" required="true" requiredMessage="Brak kwoty umorzenia - uzupełnij" 
+                                       onblur="zweryfikujczyniebrakujesrodektrw('form_dialog_srodkitrwale_zmianawartosci');" valueChangeListener="#{sTRTabView.zmianaumorzeniapocz}"
+                                       style="text-align: right;" symbolPosition="s" decimalSeparator="."   inputStyle="text-align: right;" decimalPlaces="2"  styleClass="wiersznetto"/> 
+                    </p:column>
+                    <h:outputText value="środek trw/wyposazenie"/>
+                    <p:column>
+                        <h:selectOneMenu value="#{sTRTabView.edytowanysrodek.typ}"
+                                         onfocus="$(this).addClass('ui-state-focus');"
+                                         onblur="$(this).removeClass('ui-state-focus');" styleClass="ui-selectonemenu-label ui-inputfield ui-corner-all">
+                            <f:selectItem itemLabel="srodek trw." itemValue="srodek trw."/>
+                            <f:selectItem itemLabel="wnip" itemValue="wnip"/>
+                            <f:selectItem itemLabel="wyposazenie" itemValue="wyposazenie"/>
+                        </h:selectOneMenu>
+                    </p:column>
+                    <h:outputText value="data zmiany"/>
+                    <p:column style="margin-top: 10px">
+                        <p:inputText id="data1DialogWpisywanie" value="#{sTRTabView.datazmiany}" 
+                                     onblur="weryfikujsporzadzfakture(this)"
+                                     title="wpisz numer dnia, lub miesiąc i dzień" styleClass="dataInput"
+                                     >
+                            <p:ajax global="false" event="blur" partialSubmit="true"/>
+                        </p:inputText>
+                    </p:column>
+                    <h:outputText value="zwiększenie/zmniejszenie o"/>
+                    <p:inputNumber id="kwotaPkpir" value="#{sTRTabView.kwotazmiany}" symbol="zł" required="true" 
+                                   requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" 
+                                   symbolPosition="s" decimalSeparator="."   inputStyle="text-align: right;" decimalPlaces="2" minValue="-10000000" 
+                                   styleClass="wiersznetto" > 
+                        <p:ajax event="change" global="false" partialSubmit="true"/>
+                    </p:inputNumber>
+                </p:panelGrid>
+                <p:panelGrid style="padding: 5px; margin-left: 5px;">
+                    <f:facet name="header">
+                        <p:row>
+                            <p:column>
+                                <h:outputText value="konto środka"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="konto umorzeń"/>
+                            </p:column>
+                        </p:row>
+                    </f:facet>
+                    <p:column>
+                        <p:selectOneMenu value="#{sTRTabView.edytowanysrodek.kontonetto}" style="width: 350px;"  converter="#{kontoConv}">
+                            <f:selectItem noSelectionOption="true" itemValue="" itemLabel="wybierz"/>
+                            <f:selectItems value="#{planKontSrTrw.listakontSrodkiTrwale}" var="loop" itemLabel="#{loop.pelnynumer} #{loop.nazwapelna}"/>
+                        </p:selectOneMenu>
+                    </p:column>
+                    <p:column>
+                        <p:selectOneMenu value="#{sTRTabView.edytowanysrodek.kontoumorzenie}" style="width: 350px;"  converter="#{kontoConv}">
+                            <f:selectItem noSelectionOption="true" itemValue="" itemLabel="wybierz"/>
+                            <f:selectItems value="#{planKontSrTrw.listakontSrodkiTrwaleUmorzenia}" var="loop" itemLabel="#{loop.pelnynumer} #{loop.nazwapelna}"/>
+                        </p:selectOneMenu>
+                    </p:column>
+                </p:panelGrid>
+                <p:panelGrid columns="3" >
+                    <p:commandButton id="dodajsrodekbutton" value="zachowaj" actionListener="#{sTRTabView.edytujSrodekTrwaly()}" 
+                                     update=":akordeon:str_posiadane:srodkiLista :akordeon:str_posiadane2:srodkiLista2 :form_dialog_srodkitrwale_zmianawartosci" 
+                                     style="margin-top: 10px; width: 120px;" onclick="PF('dialog_srodkitrwale_zmianawartosci').hide();"/>
+                    <p:commandButton id="dodajsrodekbutton2" value="anuluj zmiany" update=":akordeon:str_posiadane:srodkiLista :akordeon:str_posiadane2:srodkiLista2 :form_dialog_srodkitrwale_zmianawartosci" 
+                                     style="margin-top: 10px; width: 120px;" onclick="PF('dialog_srodkitrwale_zmianawartosci').hide();"/>
+                </p:panelGrid>
+                <p:dataTable value="#{sTRTabView.edytowanysrodek.zmianawartosci}" var="item" id="tabelazmian"
+                             emptyMessage="Nie naniesiono wcześniej żadnych zmian" style="width: 600px; margin-top: 10px; overflow-y: scroll;height: 100px;"
+                             rowIndexVar="index">
+                    <f:facet name="header">
+                        <h:outputText value="naniesione zmiany wartości"/>
+                    </f:facet>
+                    <p:column width="30">
+                        <h:outputText value="#{index+1}"/>
+                    </p:column>
+                    <p:column headerText="data zmiany" width="80">
+                        <h:outputText value="#{item.datazmiany}">
+                            <f:convertDateTime dateStyle="medium"  />
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="kwota" width="90">
+                        <bcf:outputpl value="#{item.kwota}"/>
+                    </p:column>
+                    <p:column headerText="wprowadził" width="110">
+                        <bcf:outputpl value="#{item.wprowadzil.imie} #{item.wprowadzil.nazw}"/>
+                    </p:column>
+                    <p:column headerText="naniesiono" width="80">
+                        <h:outputText value="#{item.dataksiegowania}">
+                            <f:convertDateTime dateStyle="medium"  />
+                        </h:outputText>
+                    </p:column>
+                    <p:column id="deleteColumn" headerText="usuń" width="40" style="text-align: center;">
+                        <p:commandButton actionListener="#{sTRTabView.destroyZmianaWartosci(item)}" id="delete" 
+                                         update="form_dialog_srodkitrwale_zmianawartosci:tabelazmian :akordeon:str_posiadane:srodkiLista :akordeon:str_posiadane2:srodkiLista2" icon="ui-icon ui-icon-trash" type="submit" >
+                            <p:ajax event="click" global="false"/>
+                        </p:commandButton>
+                    </p:column>
+                </p:dataTable>
+
+                <p:outputPanel>
+                    <p:dataTable  var="subwpisX" value="#{sTRTabView.edytowanysrodek.planumorzen}"
+                                  styleClass="dokumorzeniowe" rowIndexVar="index"
+                                  scrollable="true" scrollHeight="270" scrollRows="15"
+                                  style="width: 800px; height: 400px; overflow-y: scroll" rowKey="#{subwpisX.srodekTrw.nazwa}"
+                                  emptyMessage="Nie wygenerowano umorzeń za dla środka"> 
+                        <p:ajax event="filter" global="false"/>
+                        <f:facet name="header">  
+                            <h:outputText value="Wykaz umorzeń gotowych do zaksięgowania" />  
+                        </f:facet>
+                        <p:column style="text-align: center; width: 50px;">
+                            <h:outputText value="#{index+1}"/>
+                        </p:column>
+                        <p:column headerText="rok" style="width: 40px;">
+                            <h:outputText value="#{subwpisX.rokUmorzenia}"/>
+                        </p:column>
+                        <p:column headerText="mc" style="width: 40px;">
+                            <h:outputText value="#{subwpisX.mcUmorzenia}"/>
+                        </p:column>
+                        <p:column id="SubColumn4X" headerText="#{mgs.kwota}" >  
+                            <bcf:outputpl value="#{subwpisX.kwota}"/>
+                        </p:column>
+                        <p:column id="SubColumn5X" headerText="netto" style="text-align: center;" >  
+                            <h:outputText value="#{subwpisX.kontonetto}"/>
+                        </p:column>
+                        <p:column id="SubColumn6X" headerText="umorz." style="text-align: center;" >  
+                            <h:outputText value="#{subwpisX.kontoumorzenie}" />
+                        </p:column>
+                        <p:column headerText="fk" style="text-align: center;" >  
+                            <h:outputText value="#{subwpisX.dokfk.numerwlasnydokfk}" rendered="#{subwpisX.dokfk ne null}"/>
+                        </p:column>
+                        <p:column headerText="pkpir" style="text-align: center;" >  
+                            <h:outputText value="#{subwpisX.dok.nrWlDk}" rendered="#{subwpisX.dok ne null}"/>
+                        </p:column>
+                    </p:dataTable>
+                </p:outputPanel>
+            </p:panel>
+        </h:form>
+    </p:dialog>
+</ui:composition>

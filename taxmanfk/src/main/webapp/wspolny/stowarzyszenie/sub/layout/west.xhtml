@@ -1,0 +1,40 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+    <p:layoutUnit position="west" size="250"  collapsible="true">
+        <p:panel header="rok">
+            <h:form>
+                <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}" style="width: 70px;">
+                    <f:selectItems value="#{roki.rokiList}"/>
+                    <p:ajax event="change" listener="#{WpisView.aktualizuj()}" update="@(form)"/>
+                </p:selectOneMenu>
+            </h:form>
+        </p:panel>
+        <p:panel style="padding: 5px,5px,5px,5px;" header="Członkowie">
+            <h:form>
+                <p:menu >
+                    <p:menuitem value="Wykaz członków"  outcome="Stowarzyszenie" icon="ui-icon-circle-arrow-e"/>  
+                    <p:menuitem value="Rodzaje członkostwa"  outcome="stowarzyszenieRodzajeCzlonkostwa" icon="ui-icon-circle-arrow-e"/>  
+                    <p:menuitem value="Rodzaje składek"  outcome="stowarzyszenieRodzajeSkladek" icon="ui-icon-circle-arrow-e"/>  
+                    <p:menuitem value="Członek-składka"  outcome="stowarzyszenieCzlonekSkladka" icon="ui-icon-circle-arrow-e"/>  
+                </p:menu>
+            </h:form>
+        </p:panel>
+        <p:panel header="Rozliczenia">
+            <h:form>
+                <p:menu >
+                    <p:menuitem value="Generowanie składek"  outcome="stowarzyszenieSkladki" icon="ui-icon-circle-arrow-e" />  
+                    <p:menuitem value="Zestawienie naliczeń"  outcome="stowarzyszenieZestawienieNaliczen" icon="ui-icon-circle-arrow-e" />  
+                    <p:menuitem value="Zestawienie rozrach."  outcome="stowarzyszenieRozrachunki" icon="ui-icon-circle-arrow-e" />  
+                    <p:menuitem value="Zbiorcze rozrachunki"  outcome="stowarzyszenieRozrachunkiZbiorcze" icon="ui-icon-circle-arrow-e" />  
+                </p:menu>
+            </h:form>
+        </p:panel>
+    </p:layoutUnit>
+</ui:composition>   
+

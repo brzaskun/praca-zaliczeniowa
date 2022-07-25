@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <!--      >-->
+    <f:view locale="#{localeChanger.locale}">
+        <h:head>
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<!--            <meta http-equiv="Pragma" content="no-cache"/>-->
+            <meta http-equiv="Accept-Encoding" content="gzip"/>
+<!--            <meta http-equiv="Expires" content="0" />-->
+<!--            <meta http-equiv="Cache-Control" content="no-cache,no-store,must-revalidate"/>-->
+            <title><ui:insert name="title">Default Title</ui:insert></title>
+            <h:outputStylesheet id="template" name="#{CSSView.css}"/>
+            <h:outputStylesheet library="css" name="style.css"/>
+            <h:outputStylesheet library="css" name="common.css"/>
+            <h:outputScript library="js_common" name="globales.js"/>
+            <h:outputScript library="js_common" name="language.js"/>
+            <h:outputScript library="js_common" name="underscore.js"/>
+            <h:outputScript library="js_common" name="underscore.string.js"/>
+            <h:outputScript library="js_common" name="ustawdate.js"/>
+            <h:outputScript library="js_common" name="faktury.js"/>
+            <h:outputScript library="js_common" name="wyswietljakowaluta.js"/>
+            <h:outputScript library="js_common" name="kalkulator.js"/>
+            <h:outputScript library="js_fk" name="jsfk.js"/>
+            <h:outputScript library="js_pkpir" name="enterastab.js"/>
+            <h:outputScript library="js_pkpir" name="ogolne.js"/>
+            <h:outputScript library="js_pkpir" name="dialog_pkpir.js"/>
+            <h:outputScript library="js_pkpir" name="vat.js"/>
+            <h:outputScript library="js_pkpir" name="pit.js"/>
+            <h:outputScript library="js_pkpir" name="faktura.js"/>
+            <h:outputScript library="js_pkpir" name="tablewalking.js"/>
+            <h:outputScript library="js_pkpir" name="wydruki_pkpir.js"/>
+            <script type="text/javascript">
+                function handleMessage(facesmessage) {
+                    try {
+                        facesmessage.severity = 'info';
+                        PF('messageslogout').show([facesmessage]);
+                    } catch (e) {
+                        
+                    }
+                }
+                
+            </script>
+        </h:head>
+            <!-- Ostrzezenie dla uzytkownikow korzystajacych z IE 7 -->
+            <!--[if lte IE 7]>
+             <div class="ie6info">
+                     <p><strong>Korzystasz z przeglądarki która nie oferuje wystarczającego poziomu bezpieczeństwa. Nowa wersja programu może nie działać poprawnie w Twojej przeglądarce.</strong><br /> Zalecamy aktualizację do najnowszej wersji <a target="_blank" href="http://windows.microsoft.com/pl-PL/internet-explorer/products/ie/home">Internet Explorer</a> dostępnej dla Twojego systemu lub zainstalowanie jednej z wymienionych poniżej przeglądarek.</p>
+                     <ul>
+                             <li><a target="_blank" href="http://www.google.com/chrome/">Chrome</a></li>
+                             <li><a target="_blank" href="http://www.opera.com/browser/">Opera</a></li>
+                             <li><a target="_blank" href="http://www.mozilla.com/pl/firefox/">Firefox</a></li>
+                     </ul>
+             </div>
+        <![endif]-->
+            <h:body>
+                <p:growl  id="messageslogout" showDetail="true" sticky="true" widgetVar="messageslogout"/>  
+<!--                <p:socket onMessage="handleMessage" channel="/notify" />-->
+<!--                <p:socket onMessage="handleMessage" channel="/ksiegowa" rendered="#{request.isUserInRole('Bookkeeper') or request.isUserInRole('BookkeeperFK')}"/>-->
+                <p:idleMonitor timeout="1200000">  
+                    <p:ajax event="idle" listener="#{logowanie.logout()}" update="messageslogout" />  
+                    <!--            <p:ajax event="active" listener="{idleMonitorController.activeListener}" update="messageslogout" />  -->
+                </p:idleMonitor>   
+                 <p:outputPanel style="margin-left: auto; margin-right: auto; margin-top: 300px; text-align: center;">
+                    <h:outputText value="trwa ładowanie strony" style="color: blue; font-size: larger;  font-family: 'Arial Black', 'Arial Bold', Gadget, sans-serif;"/>
+                    <br/>
+                    <p:graphicImage value="/resources/images/template-loader.gif" style="margin-top: 30px;"/>
+
+                </p:outputPanel>
+                
+                <ui:insert class="bodi" name="body"> 
+                </ui:insert>
+
+            </h:body>
+    </f:view>
+</html>

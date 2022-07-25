@@ -1,0 +1,120 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:bcf="http://brzaskun.com/facelets">
+    <p:dialog id="dialog_ewidencjevat_sprawdzanie" header="Sprawdzanie ewidencji vat - #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="dialog_ewidencjevat_sprawdzanie"  
+              maximizable="true" onShow="ustawdialog('dialog_ewidencjevat_sprawdzanie','menurejestry',1250,750);" closeOnEscape="true" onHide="resetujdialog('dialog_ewidencjevat_sprawdzanie');"
+              resizable="true">
+        
+        <h:form id="form_dialog_ewidencjevat_sprawdzanie"> 
+            <style>
+                .ui-datatable .mc .ui-column-filter {
+                    width: 25px !important;
+                }
+                .ui-datatable .nrwlasny .ui-column-filter {
+                    width: 90px !important;
+                }
+                .ui-datatable .datawystawienia .ui-column-filter {
+                    width: 75px !important;
+                }
+
+                .ui-datatable .nrwlasny .ui-column-filter {
+                    width: 85px !important;
+                }
+
+                .ui-datatable .nrkolejny .ui-column-filter {
+                    width: 95px !important;
+                }
+
+                .ui-datatable .ewnetto .ui-column-filter {
+                    width: 85px !important;
+                }
+
+                .ui-datatable .ewvat .ui-column-filter {
+                    width: 85px !important;
+                }
+            </style>
+            <p:selectOneMenu value="#{ewidencjaVatView.ewidencjadosprawdzania}">
+                <f:selectItem itemLabel="wybierz ewidencję" itemValue="" noSelectionOption="true"/>
+                <f:selectItems value="#{ewidencjaVatView.nazwyewidencji}"/>
+                <p:ajax event="change" listener="#{ewidencjaVatView.wybierzewidencje}" global="false" partialSubmit="true"
+                        update="form_dialog_ewidencjevat_sprawdzanie:tabela"/>
+            </p:selectOneMenu>
+            <p:commandButton value="Drukuj data" icon="ui-icon-print" action="#{sesjaView.dodajwydruk()}" actionListener="#{ewidencjaVatView.drukujPdfEwidencje(item[0].nazwaewidencji.nazwa)}" onsuccess="wydrukewidencje('#{WpisView.getPodatnikObiekt().getNip()}','#{item[0].nazwaewidencji.nazwa}')"  style="width: 120px;"/>
+            <p:commandButton value="Drukuj wart." icon="ui-icon-print" action="#{sesjaView.dodajwydruk()}" actionListener="#{ewidencjaVatView.drukujPdfEwidencjeWartosc(item[0].nazwaewidencji.nazwa)}" onsuccess="wydrukewidencje('#{WpisView.getPodatnikObiekt().getNip()}','#{item[0].nazwaewidencji.nazwa}')"  style="width: 120px;"/>
+            <p:commandButton value="Wyślij" icon="ui-icon-mail-closed" onclick="PF('confirmation').show();" actionListener="#{sesjaView.dodajmail()}" onsuccess="wydrukewidencje('#{WpisView.getPodatnikObiekt().getNip()}','#{item[0].nazwaewidencji.nazwa}')"  style="width: 120px; margin-left: 2%;">
+                <f:ajax event="click" listener="#{ewidencjaVatView.ustawNazwaewidencji((item[0].nazwaewidencji))}"/>
+            </p:commandButton>
+            <p:commandButton value="Odśwież zap." icon="ui-icon-arrowreturnthick-1-n" actionListener="#{ewidencjaVatView.stworzenieEwidencjiZDokumentowFK(WpisView.getPodatnikObiekt(), null)}" 
+                             update="form_dialog_ewidencjevat_sprawdzanie" style="width: 120px; margin-left: 200px;"/>
+            <!--                            <h:outputText value="suma netto "/>
+                                        <bcf:outputpl value="#{ewidencjaVatView.podsumowanie(item,'n')}"/>
+                                        <h:outputText value="suma vat "/>
+                                        <bcf:outputpl value="#{ewidencjaVatView.podsumowanie(item,'v')}"/>-->
+            <p:separator/>
+            <p:contextMenu for="tabela" style="width: 200px;"  rendered="#{!WpisView.rokzamkniety}">
+                <p:menuitem value="wybierz dok" global="false" icon="fa fa-google-wallet" update=":formwpisdokument"
+                            actionListener="#{dokfkView.znajdzDokumentOznaczDoPodswietlenia(ewidencjaVatView.zachowanewybranewierszeewidencji)}"/>
+                <p:menuitem value="edytuj dok" global="false" icon="fa fa-edit" 
+                            onsuccess="zapisywierszywybordok();"/>
+            </p:contextMenu>
+            
+            <p:dataTable id="tabela" value="#{ewidencjaVatView.wybranaewidencja}" var="loop7" style="width: 1150px; margin-bottom: 30px; height: 500px;"
+                         rowKey="#{loop7.hashCode()}" selection="#{ewidencjaVatView.wybranewierszeewidencji}" rowSelectMode="add"
+                         filteredValue="#{ewidencjaVatView.filteredwierszeewidencji}" rowStatePreserved="true" nullSortOrder="-1"
+                         scrollable="true" scrollRows="20" scrollHeight="450" rowIndexVar="index2" >
+                <f:facet name="header">  
+                    <h:outputText value="Ewidencja VAT  #{item[0].nazwaewidencji.nazwa}" />  
+                </f:facet>
+                <p:ajax event="rowSelectCheckbox"  global="false" oncomplete="pokazmes();"/>
+                <p:ajax event="rowUnselectCheckbox" global="false"/>
+                <p:ajax event="toggleSelect" global="false"/>
+                <p:ajax event="filter" global="false"/>
+                <p:ajax event="sort" global="false"/>
+                <p:column selectionMode="multiple" styleClass="checkwiersza"  
+                          style="text-align: center;width: 30px;" rendered="#{loop7.id eq '9999' ? false : true}"></p:column>
+                <p:column width="30" style="text-align: center;" rendered="#{loop7.id eq '9999' ? true : false}"></p:column>
+                <p:column headerText="id" style="width: 25px;" sortBy="#{loop7.id}">
+                    <h:outputText value="#{loop7.id}" rendered="#{loop7.id eq '9999' ? false : true}"/>
+                    <h:outputText value="" rendered="#{loop7.id eq '9999' ? true : false}"/>
+                </p:column>
+                <p:column styleClass="datawystawienia" headerText="data wyst." style="width: 80px; text-align: center;" sortBy="#{loop7.dataWyst}" filterBy="#{loop7.dataWyst}" filterMatchMode="contains">
+                    <h:outputText value="#{loop7.dataWyst}"/>
+                </p:column>
+                <p:column styleClass="mc" headerText="m" style="width: 30px; text-align: center;" sortBy="#{loop7.innymc}" filterMatchMode="contains" filterBy="#{loop7.innymc}">
+                    <h:outputText value="#{loop7.innymc}"/>
+                </p:column>
+                <p:column styleClass="nrkolejny" headerText="nr kolejny" style="width: 100px; font-size: 93%" sortBy="#{loop7.nrKolejny}" filterBy="#{loop7.nrKolejny}" filterMatchMode="contains">
+                    <h:outputText value="#{loop7.nrKolejny}"/>
+                </p:column>
+                <p:column styleClass="nrwlasny" headerText="nr własny" style="width: 120px;" sortBy="#{loop7.nrWlDk}" filterBy="#{loop7.nrWlDk}" filterMatchMode="contains">
+                    <h:outputText value="#{loop7.nrWlDk}"/>
+                </p:column>
+                <p:column headerText="nazwa kontrhenta" style="width: 180px; font-size: 93%" sortBy="#{loop7.kontr.npelna}" filterBy="#{loop7.kontr.npelna}" filterMatchMode="contains">
+                    <h:outputText value="#{loop7.kontr.npelna.length() > 30 ? loop7.kontr.npelna.substring(0,29) : loop7.kontr.npelna}"/>
+                </p:column>
+                <p:column headerText="opis trans." style="width: 170px; font-size: 93%;" sortBy="#{loop7.opis}" filterBy="#{loop7.opis}" filterMatchMode="contains">
+                    <h:outputText value="#{loop7.opis.length() > 30 ? loop7.opis.substring(0,29) : loop7.opis}"/>
+                </p:column>
+                <p:column styleClass="ewnetto" headerText="#{mgs.netto}" style="width: 100px;" sortBy="#{loop7.netto}" filterBy="#{loop7.netto}" filterMatchMode="contains">
+                    <h:outputText value="#{loop7.netto}" style="float: right; padding-right: 3%">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column styleClass="ewvat" headerText="#{mgs.VAT}" style="width: 100px;" sortBy="#{loop7.vat}" filterBy="#{loop7.vat}" filterMatchMode="contains">
+                    <h:outputText value="#{loop7.vat}" style="float: right; padding-right: 3%">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="WNT" style="width: 40px;" sortBy="#{loop7.duplikat}" filterBy="#{loop7.duplikat}" rendered="#{item[0].nazwaewidencji.nazwa eq 'zakup'}">
+                    <h:outputText value="#{loop7.duplikat eq true ? 't' : null}"/>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </p:dialog>
+</ui:composition>

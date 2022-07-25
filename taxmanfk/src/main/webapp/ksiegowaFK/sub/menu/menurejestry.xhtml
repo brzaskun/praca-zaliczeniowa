@@ -1,0 +1,39 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    >
+    <p:tabView id="menurejestry" styleClass="menutabView" orientation="left"  style=" height: 500px;width: 600px;box-shadow: 10px 10px 5px #888888; margin-left: 15px; margin-top: 15px;"> 
+                <p:tab title="rejestry vat">
+                    <h:form id="dialog1menu1">
+                        <p:menu id="d1m1" styleClass="d1m" style="width: 400px; text-align: center; height: 450px;">
+                            <p:menuitem value="przeglądanie rejestrów vat" oncomplete="PF('dialogewidencjevat').show();" >
+                            </p:menuitem>
+                            <p:menuitem value="sporządź deklarację VAT-7" oncomplete="PF('dialog_deklaracje_vat').show();" >
+                                <f:actionListener binding="#{ewidencjaVatView.stworzenieEwidencjiZDokumentowFK(WpisView.getPodatnikObiekt(), null)}"/>
+                            </p:menuitem>
+                            <p:menuitem value="wyslij deklarację VAT-7" oncomplete="PF('dialog_deklaracje_vat_wysylka').show();" >
+                                
+                            </p:menuitem>
+                             <p:menuitem value="przeglądaj wysłane deklaracje VAT-7" oncomplete="PF('dialog_deklaracje_vat_status').show();" >
+                            </p:menuitem>
+                            <p:menuitem value="deklaracje VAT-UE" oncomplete="PF('dialog_deklaracje_vatue_status').show();" >
+                            </p:menuitem>
+                            <p:menuitem value="deklaracje VAT-OSS" oncomplete="PF('dialog_deklaracje_vatoss_status').show();" >
+                            </p:menuitem>
+                            <p:menuitem value="deklaracje VAT-27" oncomplete="PF('dialog_deklaracje_vat27').show();" >
+                            </p:menuitem>
+                            <p:menuitem value="plik JPK" oncomplete="PF('dialog_jpk_vat').show();" >
+                                
+                            </p:menuitem>
+                            <p:menuitem value="twórz załącznik VAT-ZD" oncomplete="PF('dialog_vatzd').show();" >
+                                
+                            </p:menuitem>
+                        </p:menu>
+                    </h:form>
+                </p:tab>  
+                
+            </p:tabView>
+</ui:composition>

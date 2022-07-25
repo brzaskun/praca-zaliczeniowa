@@ -1,0 +1,252 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    
+    
+    xmlns:bcf="http://brzaskun.com/facelets">
+
+    <p:tab id="nowa" title="Nanieś płatności" >
+        <style>
+            .ui-autocomplete-input {
+                width: 340px;
+            }
+        </style>
+        <script>
+           var blednadata = function() {
+               var pole = document.getElementById("akordeon:fakturarozrachunki:datarozrachunki");
+               var wart = pole.value;
+               $(pole).select();
+            };
+        </script>
+        <h:form id="fakturarozrachunki">
+            <p:focus context="fakturarozrachunki"/>
+            <p:panelGrid>
+                <f:facet name="header">
+                    <p:row >
+                        <p:column>
+                            <h:outputText value="data"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="transakcja"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="rodzaj dok."/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="nr dok."/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="kwota"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="kontrahent"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="kurs"/>
+                        </p:column>
+                    </p:row>
+                </f:facet>
+                <p:row >
+                    <p:column>
+                        <p:inputText id="datarozrachunki" value="#{fakturaRozrachunkiView.selected.data}" size="10"  required="true" onfocus="blednadata();"
+                                     onblur="ustawDateGen(#{WpisView.rokWpisu}, #{WpisView.miesiacWpisu},'akordeon:fakturarozrachunki:datarozrachunki');"/>
+                    </p:column>
+                    <p:column>
+                        <h:selectOneListbox value="#{fakturaRozrachunkiView.selected.zaplata0korekta1}" required="true" style="width: 90px;"
+                                            styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" 
+                                            onfocus="$(this).removeClass('ui-state-default');
+                                                    $(this).addClass('ui-state-focus');"
+                                            onblur="$(this).removeClass('ui-state-focus');
+                                                    $(this).addClass('ui-state-default');">
+                            <f:selectItem itemLabel="zapłata" itemValue="false"/>
+                            <f:selectItem itemLabel="korekta" itemValue="true"/>
+                        </h:selectOneListbox>
+                    </p:column>
+                    <p:column>
+                        <h:selectOneListbox value="#{fakturaRozrachunkiView.selected.rodzajdokumentu}" required="true" style="width: 90px;"
+                                            styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" 
+                                            onfocus="$(this).removeClass('ui-state-default');
+                                                    $(this).addClass('ui-state-focus');"
+                                            onblur="$(this).removeClass('ui-state-focus');
+                                                    $(this).addClass('ui-state-default');">
+                                <p:ajax event="change" global="false" partialSubmit="true" listener="#{fakturaRozrachunkiView.pobierzostatninumer}" update="akordeon:fakturarozrachunki:numerdok"/>
+                                <f:selectItem itemLabel="all" itemValue="" noSelectionOption="true"/>
+                            <f:selectItem itemLabel="rk" itemValue="rk"/>
+                            <f:selectItem itemLabel="wb" itemValue="wb"/>
+                            <f:selectItem itemLabel="wbe" itemValue="wbe"/>
+                            <f:selectItem itemLabel="wbm" itemValue="wbm"/>
+                            <f:selectItem itemLabel="wbme" itemValue="wbme"/>
+                            <f:selectItem itemLabel="fa" itemValue="fa"/>
+                            <f:selectItem itemLabel="bo" itemValue="bo"/>
+                        </h:selectOneListbox>
+                    </p:column>
+                    <p:column>
+                        <p:inputText id="numerdok" value="#{fakturaRozrachunkiView.selected.nrdokumentu}" required="true"
+                                     />
+                    </p:column>
+                    <p:column>
+                        <p:inputNumber value="#{fakturaRozrachunkiView.selected.kwotapln}" symbol=" zł" required="true" 
+                                        requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" decimalSeparator="."  
+                                         inputStyle="text-align: right;" decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"/> 
+                    </p:column>
+                    <p:column>
+                        <p:autoComplete value="#{fakturaRozrachunkiView.selected.kontrahent}" completeMethod="#{fakturaRozrachunkiView.completeKL}"
+                                        var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="#{klientConv}" title="wpisz nazwę lub nip kontrahenta"
+                                        maxResults="20" maxlength="20" converterMessage="Nieudana konwersja Klient" 
+                                        widgetVar="dialogklient" cache="true" forceSelection="true" queryDelay="10" 
+                                        required="true" requiredMessage="Pole klienta nie może być puste" styleClass="wpisywaniekontrfk" style="width: 265px;" inputStyle="width: 250px;"
+                                        >
+                            <p:ajax event="query" global="false"/>
+                            <p:ajax event="itemSelect" partialSubmit="true" global="false"/>
+                            <f:facet name="itemtip">  
+                                <h:panelGrid  columns="2" cellpadding="5" width="400">  
+                                    <f:facet name="header">  
+                                        <h:outputText value="Dane kontrahenta"/>
+                                    </f:facet>  
+                                    <h:outputText value="Nazwa: " />  
+                                    <h:outputText id="npelna" value="#{p.npelna}" />  
+                                    <h:outputText value="NIP: " />  
+                                    <h:outputText id="nip" value="#{p.nip}" />  
+                                    <h:outputText value="Adres " />  
+                                    <h:outputText id="klumna" value="#{p.miejscowosc} #{p.ulica} #{p.dom} #{p.lokal}" /> 
+                                </h:panelGrid>
+                            </f:facet>
+                        </p:autoComplete>
+                    </p:column>
+                    <p:column>
+                        <p:inputNumber value="#{fakturaRozrachunkiView.selected.kurs}" symbol=" zł" required="true" 
+                                        requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" decimalSeparator="."  
+                                         inputStyle="text-align: right;" decimalPlaces="4" minValue="-10000000" styleClass="wiersznetto"/> 
+                    </p:column>
+                </p:row>
+            </p:panelGrid>
+            <p:commandButton value="zapisz" actionListener="#{fakturaRozrachunkiView.zaksiegujplatnosc}" style="width: 120px; margin-top: 10px;" global="false"
+                             update="akordeon:fakturarozrachunki akordeon:form_wprowadzoneplatnosci"/>
+        </h:form>
+        <h:form id="form_wprowadzoneplatnosci">
+            <p:outputPanel style="text-align: right">
+                <h:outputText value="suma: " style="margin-right: 10px;"/><bcf:outputpl value="#{fakturaRozrachunkiView.suma}" stylePlus="margin-right: 200px;"/>
+            </p:outputPanel>
+            <p:remoteCommand name="przeliczfilter" actionListener="#{fakturaRozrachunkiView.sumuj}" update="@form"/>
+                <p:dataTable value="#{fakturaRozrachunkiView.wprowadzoneplatnosci}" var="item" style="width: 1170px; margin-top: 20px;"
+                             emptyMessage="niczego dzisiaj nie zaksięgowano"  sortOrder="descending" filteredValue="#{fakturaRozrachunkiView.wprowadzoneplatnoscifiltered}"
+                             editable="true" widgetVar="form_wprowadzoneplatnosci" sortBy="#{item.lp}"
+                             paginator="true" rows="10" paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
+                         rowsPerPageTemplate="10,20,50,100" >
+                    <p:ajax event="rowEdit" listener="#{fakturaRozrachunkiView.onRowEdit}" />
+                    <p:ajax event="filter" global="false" oncomplete="przeliczfilter();"/>
+                    <p:column width="30" sortBy="#{item.lp}" sortable="true">
+                        <f:facet name="header">
+                            <h:outputText value="lp"/>
+                        </f:facet>
+                        <h:outputText value="#{item.lp}"/>
+                    </p:column>
+<!--                    <p:column width="100">
+                        <f:facet name="header">
+                            <h:outputText value="wystawca"/>
+                        </f:facet>
+                        <h:outputText value="#{item.wystawca.nazwapelna}"/>
+                    </p:column>-->
+                    <p:column width="280" sortable="true" sortBy="#{item.kontrahent}"  filterBy="#{item.kontrahent.npelna}" filterMatchMode="contains" filterStyle="width:250px;">
+                        <f:facet name="header">
+                            <h:outputText value="kontrahent"/>
+                        </f:facet>
+<!--                        <p:cellEditor>
+                            <f:facet name="output">-->
+                                <h:outputText value="#{item.kontrahent.npelna}"/>
+<!--                            </f:facet>
+                            <f:facet name="input">-->
+<!--                                <p:selectOneListbox value="#{item.kontrahent}" converter="#{klientConv}" filter="true" required="true" scrollHeight="120" filterMatchMode="contains" style="width: 300px;">
+                                    <f:selectItems value="#{fakturaRozrachunkiView.klienci}" var="par" itemLabel="#{par.npelna}" />
+                                </p:selectOneListbox>-->
+                                
+<!--                            </f:facet>
+                        </p:cellEditor>-->
+                    </p:column>
+                    <p:column width="70"  sortable="true" sortBy="#{item.data}">
+                        <f:facet name="header">
+                            <h:outputText value="data"/>
+                        </f:facet>
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{item.data}"/>
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputText value="#{item.data}" style="width: 70px;"/>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    <p:column width="100" style="text-align: center;" filterBy="#{item.rodzajdokumentu}" filterMatchMode="exact" >
+                        <f:facet name="header">
+                            <h:outputText value="dokument"/>
+                        </f:facet>
+                         <f:facet name="filter">
+                            <p:selectOneMenu onchange="PF('form_wprowadzoneplatnosci').filter()" style="width: 60px;">
+                                <f:selectItem itemLabel="all" itemValue="" noSelectionOption="true"/>
+                             <f:selectItem itemLabel="rk" itemValue="rk"/>
+                            <f:selectItem itemLabel="wb" itemValue="wb"/>
+                            <f:selectItem itemLabel="wbe" itemValue="wbe"/>
+                            <f:selectItem itemLabel="wbm" itemValue="wbm"/>
+                            <f:selectItem itemLabel="wbme" itemValue="wbme"/>
+                            <f:selectItem itemLabel="fa" itemValue="fa"/>
+                            <f:selectItem itemLabel="bo" itemValue="bo"/>
+                            </p:selectOneMenu>
+                         </f:facet>
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{item.rodzajdokumentu} #{item.nrdokumentu}"/>
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputText value="#{item.rodzajdokumentu}" style="width: 90px;"/>
+                                <p:inputText value="#{item.nrdokumentu}" style="width: 90px;"/>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    <p:column width="90" style="text-align: center;" sortBy="#{item.kwotapln}" sortable="true">
+                        <f:facet name="header">
+                            <h:outputText value="zapłata/korekta"/>
+                        </f:facet>
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <bcf:outputpl value="#{item.kwotapln}" />
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputText value="#{item.kwotapln}" style="width: 90px;"/>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                     <p:column width="90" style="text-align: center;" sortBy="#{item.kwotapln}" sortable="true">
+                        <f:facet name="header">
+                            <h:outputText value="kwota w wal"/>
+                        </f:facet>
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <bcf:outputpl value="#{item.kwotawwalucie}" />
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputText value="#{item.kwotawwalucie}" style="width: 90px;"/>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    <p:column width="50"  sortable="true">
+                        <f:facet name="header">
+                            <h:outputText value="kurs"/>
+                        </f:facet>
+                        <bcf:outputkurs value="#{item.kurs}"/>
+                    </p:column>
+                    <p:column width="30" style="text-align: center;">
+                        <p:rowEditor style="height: 30px;"/>
+                    </p:column>
+                    <p:column width="30" style="text-align: center;">
+                        <p:commandButton icon="ui-icon-trash" actionListener="#{fakturaRozrachunkiView.usun(item)}" update="akordeon:form_wprowadzoneplatnosci"/>
+                    </p:column>
+                </p:dataTable>
+        </h:form>
+    </p:tab>  
+</ui:composition>   
+
+

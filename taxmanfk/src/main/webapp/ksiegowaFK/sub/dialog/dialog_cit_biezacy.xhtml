@@ -1,0 +1,123 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    
+
+    xmlns:bcf="http://brzaskun.com/facelets">
+
+    <p:dialog id="citbiezacy" header="Dane do deklaracji CIT-8 za #{WpisView.rokWpisuSt}/#{WpisView.miesiacWpisu}" widgetVar="citbiezacy" 
+              resizable="false" onShow="ustawdialog('citbiezacy','menubilanse', 750, 750);" closeOnEscape="true" onHide="resetujdialog('citbiezacy');"  >
+        <p:outputPanel style="height: 710px;; overflow-y:  scroll;">
+            <h:form id="formcitbiezacy">
+                <p:commandButton value="oblicz cit" style="width: 120px;" actionListener="#{citView.obliczcitbiezacy()}" update=":formcitbiezacy"/>
+                <p:dataTable value="#{citView.listaPrzychody}" var="item"  style="width: 580px; margin-top: 10px;" emptyMessage="nie pobrano pozycji rzis"
+                             sortBy="#{item.przychod0koszt1}">
+                    <f:facet name="header">
+                        <h:outputText value="przychody"/>
+                    </f:facet>
+                    <p:column headerText="" style="text-align: center;" width="20">
+                        <h:outputText value="#{item.symbolrzis}"/>
+                    </p:column>
+                    <p:column headerText="#{mgs.opis}" width="380">
+                        <h:outputText value="#{item.opis}"/>
+                    </p:column>
+                    <p:column headerText="#{mgs.kwota}" style="text-align: center;" width="100">
+                        <bcf:outputpl value="#{item.kwota}"/>
+                    </p:column>
+                    <p:summaryRow>
+                        <p:column colspan="2">
+                            <h:outputText value="razem"/>
+                        </p:column>
+                        <p:column>
+                            <bcf:outputpl value="#{citView.razemprzychody}"/>
+                        </p:column>
+                    </p:summaryRow>
+                </p:dataTable>
+                <p:dataTable value="#{citView.listaKoszty}" var="item" style="width: 580px; margin-top: 10px;" emptyMessage="nie pobrano pozycji rzis" 
+                             sortBy="#{item.przychod0koszt1}">
+                    <f:facet name="header">
+                        <h:outputText value="koszty"/>
+                    </f:facet>
+                    <p:column headerText="" style="text-align: center;" width="20">
+                        <h:outputText value="#{item.symbolrzis}"/>
+                    </p:column>
+                    <p:column headerText="#{mgs.opis}" width="380">
+                        <h:outputText value="#{item.opis}"/>
+                    </p:column>
+                    <p:column headerText="#{mgs.kwota}" style="text-align: center;" width="100">
+                        <bcf:outputpl value="#{item.kwota}"/>
+                    </p:column>
+                    <p:summaryRow>
+                        <p:column colspan="2">
+                            <h:outputText value="razem"/>
+                        </p:column>
+                        <p:column >
+                            <bcf:outputpl value="#{citView.razemkoszty}"/>
+                        </p:column>
+                    </p:summaryRow>
+                </p:dataTable>
+                <p:outputPanel style="margin-top: 10px; width: 568px;">
+                    <h:outputText value="wynik przed korektami" style="font-weight: 900;"/>
+                    <bcf:outputpl value="#{citView.wynikprzedkorektami}"  style="font-weight: 900; float: right;"/>
+                </p:outputPanel>
+                <p:dataTable value="#{citView.zapisycechaprzychod}" var="item"  style="width: 580px; margin-top: 10px;" emptyMessage="nie pobrano pozycji rzis"
+                             sortBy="#{item.dokfk.datadokumentu}" rendered="#{citView.zapisycechaprzychod.size() gt 0}" paginator="true" rows="7" paginatorPosition="top" >
+                    <f:facet name="header">
+                        <h:outputText value="#{mgs.npup}"/>
+                    </f:facet>
+                    <p:column headerText="dokum." style="text-align: center;" width="80">
+                        <h:outputText value="#{item.dokfkS}"/>
+                    </p:column>
+                    <p:column headerText="#{mgs.opis}" width="330">
+                        <h:outputText value="#{item.wiersz.opisWiersza}"/>
+                    </p:column>
+                    <p:column headerText="#{mgs.kwota}" style="text-align: center;" width="100">
+                        <bcf:outputpl value="#{item.wnma eq 'Ma' ? -item.kwotaPLN : item.kwotaPLN}"/>
+                    </p:column>
+                    <f:facet name="footer">
+                        <p:column colspan="2">
+                            <h:outputText value="razem"/>
+                        </p:column>
+                        <p:column>
+                            <bcf:outputpl value="#{citView.razemzapisycechaprzychod}"/>
+                        </p:column>
+                    </f:facet>
+                </p:dataTable>
+                <p:dataTable value="#{citView.zapisycechakoszt}" var="item"  style="width: 580px; margin-top: 10px;" emptyMessage="nie pobrano pozycji rzis"
+                             sortBy="#{item.dokfk.datadokumentu}"  rendered="#{citView.zapisycechakoszt.size() gt 0}" paginator="true" rows="7" paginatorPosition="top" >
+                    <f:facet name="header">
+                        <h:outputText value="#{mgs.nkup}"/>
+                    </f:facet>
+                    <p:column headerText="dokum." style="text-align: center;" width="80">
+                        <h:outputText value="#{item.dokfkS}"/>
+                    </p:column>
+                    <p:column headerText="#{mgs.opis}" width="330">
+                        <h:outputText value="#{item.wiersz.opisWiersza}"/>
+                    </p:column>
+                    <p:column headerText="#{mgs.kwota}" style="text-align: center;" width="100">
+                        <bcf:outputpl value="#{item.wnma eq 'Wn' ? -item.kwotaPLN : item.kwotaPLN}"/>
+                    </p:column>
+                    <f:facet name="footer">
+                        <p:column colspan="2">
+                            <h:outputText value="razem"/>
+                        </p:column>
+                        <p:column>
+                            <bcf:outputpl value="#{citView.razemzapisycechakoszt}"/>
+                        </p:column>
+                    </f:facet>
+                </p:dataTable>
+                <p:outputPanel style="margin-top: 10px; width: 568px;">
+                    <h:outputText value="przychody po korekcie" style="font-weight: 900;"/>
+                    <bcf:outputpl value="#{citView.przychodypokorekcie}"  style="font-weight: 900; float: right;"/><br/>
+                    <h:outputText value="koszty po korekcie" style="font-weight: 900;"/>
+                    <bcf:outputpl value="#{citView.kosztypokorekcie}"  style="font-weight: 900; float: right;"/><br/>
+                    <h:outputText value="wynik po korekcie" style="font-weight: 900;"/>
+                    <bcf:outputpl value="#{citView.wynikpokorektach}"  style="font-weight: 900; float: right;"/>
+                </p:outputPanel>
+            </h:form>
+        </p:outputPanel>
+    </p:dialog>
+</ui:composition>

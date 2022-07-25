@@ -1,0 +1,14 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    
+    xmlns:bcf="http://brzaskun.com/facelets">
+      <p:dialog id="dialog_stowarzyszenie_rozrachunki" header="Zestawienie rozrachunków z członkami - #{WpisView.podatnikObiekt.nazwapelnaPDF}" 
+                widgetVar="dialog_stowarzyszenie_rozrachunki"  resizable="false"  
+             onShow="ustawdialog('dialog_stowarzyszenie_rozrachunki','menudokumenty', 1330, 700);" closeOnEscape="true" onHide="resetujdialog('dialog_stowarzyszenie_rozrachunki');" >
+         <ui:include src="../../../wspolny/sub/stow_rozrachunkizczlonkami.xhtml"/>
+    </p:dialog>
+</ui:composition>

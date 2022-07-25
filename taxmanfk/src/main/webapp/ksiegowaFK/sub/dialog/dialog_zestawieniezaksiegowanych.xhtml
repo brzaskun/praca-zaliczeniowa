@@ -1,0 +1,321 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:bcf="http://brzaskun.com/facelets">
+    <style>
+        .waluta input {
+            width: 40px !important;
+        }
+        .vatzak input {
+            width: 30px !important;
+        }
+
+        .zaksiegowanewaski input {
+            width: 72px !important;
+        }
+        .zaksiegowanekontr input {
+            width: 150px !important;
+        }
+        
+         .ui-dialog .ui-dialog-content {
+            overflow-y: hidden;
+        }
+    </style>
+    <script>
+        var doczeplistnerydopol = function() {
+                /* <![CDATA[ */
+                //dziekia tej genialnej funkcji wie na ktorym rowku kliknelismy i od tego zacyzn alazenie
+            $(document).on("click", '.walkingtable tr', function (event) {
+            try {
+                    zachowajobiekt(this, event);
+                } catch (ex) {
+                    alert('error dialog zapisynakoncie' + ex.toString());
+                }
+            });
+        };
+        /* ]]> */
+    </script>
+    <p:dialog id="dialogtrzeci" header="Zestawienie zaksięgowanych dokumentów - #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="zestawieniezaksiegowanych" style="overflow-y: hidden;"
+              
+              resizable="false"  onShow="ustawdialog('dialogtrzeci','menudokumenty', 1600, 580);doczeplistnerydopol();" closeOnEscape="true" onHide="resetujdialog('dialogtrzeci');" >
+        <!--        <h:form>
+                    <p:commandButton value="uzupełnij" actionListener="#{dokfkView.uzupelnijdokumentyodkontrahenta()}"/>
+                </h:form>-->
+        <p:ajax event="maximize" listener="#{dokfkView.powiekszliste}" update="zestawieniedokumentow"/>
+        <p:ajax event="open" listener="#{dokfkView.odswiezzaksiegowaneInit}"
+                update=":zestawieniedokumentow:dataList zestawieniedokumentow:kategoriadokumentu zestawieniedokumentow:miesiacWpisu"/>
+        <h:form id="zestawieniedokumentow">
+            <p:growl life="6000" id="wiadomoscisprawdzanie" sticky="true" ><p:autoUpdate/></p:growl>
+            <p:panelGrid id="sumawybranych" columns="2" style="padding: 5px;">
+                <h:outputText value="   suma wartości netto wybranych dokumentów: "/>
+                <bcf:outputpl id="podsumowaniewybr" value="#{dokfkView.podsumowaniewybranych}"/>
+            </p:panelGrid>
+            <p:panelGrid id="panelprzyciskowzestdok" style="margin-left: 2%;" >
+                <p:row>
+                    <p:column>
+                        <h:outputText value="miesiąc: "/>
+                    </p:column>
+                    <p:column>
+                        <p:selectOneMenu id="miesiacWpisu" value="#{dokfkView.miesiacWpisuPokaz}" style="width: 40px;">
+                            <p:ajax event="change" listener="#{dokfkView.odswiezzaksiegowane}" partialSubmit="true"
+                                    onstart="PF('tablicadokumenty').clearFilters();PF('tablicadokumenty').unselectAllRows();"
+                                    update=":zestawieniedokumentow:dataList :zestawieniedokumentow:kategoriadokumentu :menubarnorth" />
+                            <f:selectItem itemLabel="#{mgs.CR}" itemValue="CR" />
+                            <f:selectItems value="#{mce.mceList}"/>
+                        </p:selectOneMenu>
+                    </p:column>
+                    <p:column>
+                    <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}" style="width: 40px;">
+                                    <p:ajax event="change" listener="#{dokfkView.odswiezzaksiegowaneRok}" partialSubmit="true"
+                                            onstart="PF('tablicadokumenty').clearFilters();PF('tablicadokumenty').unselectAllRows();"
+                                    update=":zestawieniedokumentow:dataList :zestawieniedokumentow:kategoriadokumentu :menubarnorth" />
+                                    <f:selectItems value="#{roki.rokiList}"/>
+                                </p:selectOneMenu>
+                    </p:column>
+                    <p:column>
+                        <p:commandButton id="pobierzzaksiegowane" value="#{mgs.pobierz}" actionListener="#{dokfkView.odswiezzaksiegowane}" style="width: 120px; margin-left: 10px;" 
+                                         update=":zestawieniedokumentow:dataList :zestawieniedokumentow:kategoriadokumentu  :menubarnorth"
+                                         onstart="PF('tablicadokumenty').clearFilters();PF('tablicadokumenty').unselectAllRows();"
+                                         />
+                    </p:column>
+                    <p:column>
+                        <p:selectOneMenu value="#{dokfkView.wybranakategoriadok}" id="kategoriadokumentu"
+                                         style="width: 200px; margin-left: 20px;" rendered="#{dokfkView.rodzajedokumentowPodatnika.size() ne 0}">
+                            <p:ajax event="change" listener="#{dokfkView.odswiezzaksiegowane}" 
+                                    onstart="PF('tablicadokumenty').clearFilters();PF('tablicadokumenty').unselectAllRows();"
+                                    update=":zestawieniedokumentow:dataList"/>
+                            <f:selectItem itemLabel="wybierz rodz.dok." itemValue="wszystkie"/>
+                            <f:selectItems value="#{dokfkView.rodzajedokumentowPodatnika}" var="item" itemLabel="#{item.skrot} - #{item.nazwa}" itemValue="#{item.skrot}"/>
+                        </p:selectOneMenu>
+                    </p:column>
+<!--                    <p:column>
+                            <p:selectOneMenu value="#{dokfkView.wybranacechadok}" id="cechydokuk"
+                                         style="width: 200px; margin-left: 20px;" >
+                            <p:ajax event="change" listener="#{dokfkView.odswiezzaksiegowane}" 
+                                    onstart="PF('tablicadokumenty').clearFilters();PF('tablicadokumenty').unselectAllRows();"
+                                    update=":zestawieniedokumentow:dataList"/>
+                            <f:selectItem itemLabel="wybierz cechę" itemValue="" />
+                            <f:selectItems value="#{dokfkView.cechydokzlisty}" var="item1" itemLabel="#{item1}" itemValue="#{item1}"/>
+                        </p:selectOneMenu>
+                    </p:column>-->
+                    <p:column>
+                         <p:splitButton value="#{mgs.drukuj}" actionListener="#{pdfZaksiegowaneView.drukujzaksiegowanydokument(dokfkView.wykazZaksiegowanychDokumentow, dokfkView.selectedlist, dokfkView.filteredValue)}" styleClass="fkbutton"
+                                         action="#{sesjaView.dodajwydruk()}" style="margin-left: 15px; width: 120px;"  rendered="#{dokfkView.rodzajedokumentowPodatnika.size() ne 0}">
+                            <p:menuitem global="false" value="druk indyw." action="#{sesjaView.dodajwydruk()}" 
+                                        actionListener="#{pdfDokfkView.drukujzaksiegowanydokumentlista(dokfkView.wykazZaksiegowanychDokumentow, dokfkView.selectedlist, dokfkView.filteredValue)}" icon="fa fa-print"
+                                         oncomplete="wydrukzaksiegowane('#{WpisView.podatnikObiekt.nip}');"/>  
+                         </p:splitButton>
+                    </p:column>
+                    <p:column>
+                        <p:commandButton id="wpisujbutton" value="wpisuj"  styleClass="fkbutton" 
+                                         actionListener="#{dokfkView.resetujDokument}"  rendered="#{!WpisView.rokzamkniety}"
+                                         oncomplete="PF('wpisywanie').show();PF('zestawieniezaksiegowanych').hide();"
+                                         style="margin-left: 10px; width: 120px;" update="formwpisdokument wpisywaniefooter"/>
+                    </p:column>
+                    <p:column>
+                        <p:commandButton id="sprawdz" value="sprawdź" actionListener="#{dokfkWeryfikacjaView.sprawdzWnMawDokfk(dokfkView.wykazZaksiegowanychDokumentow)}" style="width: 120px; margin-left: 10px;" 
+                                         update="zestawieniedokumentow:dataList" rendered="#{dokfkView.rodzajedokumentowPodatnika.size() ne 0 and !WpisView.rokzamkniety}"
+                                         />
+                    </p:column>
+ <p:column>
+                    <p:commandButton id="sprawdzVAT" value="VAT" actionListener="#{dokfkWeryfikacjaView.sprawdzNIPVAT(dokfkView.wykazZaksiegowanychDokumentow, dokfkView.filteredValue)}" style="width: 120px; margin-left: 10px;" 
+                                         update=":zestawieniedokumentow" rendered="#{dokfkView.rodzajedokumentowPodatnika.size() ne 0 and !WpisView.rokzamkniety}"
+                                         />
+                    </p:column>
+                    <p:column>
+                        <p:commandButton id="salda" value="salda" actionListener="#{dokfkView.sprawdzsalda(dokfkView.wybranakategoriadok)}" 
+                                         style="width: 120px; margin-left: 10px;"  rendered="#{!WpisView.rokzamkniety}"
+                                         update=":zestawieniedokumentow:dataList"
+                                         />
+                    </p:column>
+                  
+                    <p:column>
+                        <p:outputLabel for="pokazwszystkiedokumenty" value="wszystkie lata" style="margin-left: 10px;"/>
+                        <p:selectBooleanCheckbox id="pokazwszystkiedokumenty" value="#{dokfkView.pokazwszystkiedokumenty}">
+                            <p:ajax event="change" global="false" partialSubmit="tue" listener="#{dokfkView.odswiezzaksiegowane}" update=":zestawieniedokumentow:dataList"/>
+                        </p:selectBooleanCheckbox>
+                    </p:column>
+                    <p:column>
+                        <p:outputLabel for="pokazsrodkitrwale" value="pokaż śr.trw." style="margin-left: 10px;"/>
+                        <p:selectBooleanCheckbox id="pokazsrodkitrwale" value="#{dokfkView.pokazsrodkitrwale}">
+                            <p:ajax event="change" global="false" partialSubmit="tue" listener="#{dokfkView.resetrmk}" update="zestawieniedokumentow:pokazrmk"/>
+                            <p:ajax event="change" global="false" partialSubmit="tue" listener="#{dokfkView.odswiezzaksiegowane}" update=":zestawieniedokumentow:dataList"/>
+                        </p:selectBooleanCheckbox>
+                    </p:column>
+                    <p:column>
+                        <p:outputLabel for="pokazrmk" value="pokaż rmk" style="margin-left: 10px;"/>
+                        <p:selectBooleanCheckbox id="pokazrmk" value="#{dokfkView.pokazrmk}">
+                            <p:ajax event="change" global="false" partialSubmit="tue" listener="#{dokfkView.resetst}" update="zestawieniedokumentow:pokazsrodkitrwale"/>
+                            <p:ajax event="change" global="false" partialSubmit="tue" listener="#{dokfkView.odswiezzaksiegowane}" update=":zestawieniedokumentow:dataList"/>
+                        </p:selectBooleanCheckbox>
+                    </p:column>
+                </p:row>
+            </p:panelGrid>
+          
+            <p:contextMenu for="dataList" style="width: 200px;"  rendered="#{!WpisView.rokzamkniety}">
+                <p:menuitem value="oz/odznacz jako wzorzec" icon="fa fa-star" actionListener="#{dokfkView.oznaczDokfkJakoWzorzec()}" update=":zestawieniedokumentow:dataList"/>
+                <p:menuitem value="kopiuj dokument" icon="fa fa-plus-square" actionListener="#{dokfkView.kopiujdokument()}" update="formwpisdokument"
+                            oncomplete="PF('wpisywanie').show();PF('zestawieniezaksiegowanych').hide();"/>
+                <p:menuitem value="dodaj środek trw." icon="fa fa-truck" actionListener="#{srodkiTrwaleView.dodajSrodekTrwalyDokfk(dokfkView.selectedlist)}" update="dialogwpissrodkitrwale"/>
+                <p:menuitem value="dodaj rmk" icon="fa fa-clock-o" actionListener="#{rMKView.dodajNoweRMKDokfk(dokfkView.selectedlist)}" update="formrmk"
+                            oncomplete="PF('dialogwpisrmk').show();"/>
+                <p:menuitem value="odksieguj dokfk" icon="fa fa-book"
+                            actionListener="#{dokfkView.odksiegujdokumenty()}" update=":zestawieniedokumentow:dataList"/>
+                 <p:menuitem value="sortuj wiersze" icon="fa fa-exchange"
+                            actionListener="#{dokfkView.sortujwiersze}"/>
+                <p:separator/>
+                <p:menuitem value="usuń zaznaczone" icon="fa fa-times" actionListener="#{dokfkView.usunzaznaczone}"
+                            oncomplete="PF('tablicadokumenty').clearFilters();PF('tablicadokumenty').unselectAllRows();"
+                            update=":zestawieniedokumentow:dataList"/>
+                <p:menuitem value="usuń nieusuwalne" icon="fa fa-times" actionListener="#{dokfkView.usunspecjalne}"
+                            oncomplete="PF('tablicadokumenty').clearFilters();PF('tablicadokumenty').unselectAllRows();"
+                            update=":zestawieniedokumentow:dataList" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
+                 <p:menuitem value="usuń wszystkie" icon="fa fa-times" actionListener="#{dokfkView.usunwszystkie}"
+                            oncomplete="PF('tablicadokumenty').clearFilters();PF('tablicadokumenty').unselectAllRows();"
+                            update=":zestawieniedokumentow:dataList" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
+                
+            </p:contextMenu>
+
+            <p:dataTable id="dataList" value="#{dokfkView.wykazZaksiegowanychDokumentow}" var="item" rowIndexVar="row" widgetVar="tablicadokumenty" 
+                         selection="#{dokfkView.selectedlist}" rowKey="#{item.dokfkSN}" binding="#{dokfkView.dataTablezaksiegowane}"
+                         style="width: 1560px; height: 450px; overflow-y: scroll;" filteredValue="#{dokfkView.filteredValue}" 
+                         rowsPerPageTemplate="50,100,300,500, 1500, 3000" paginatorPosition="top"
+                         emptyMessage="Brak zaksięgowanych dokumentów" styleClass="walkingtable" rowSelectMode="add"
+                         rows="50" paginator="true"
+                         >
+                <!--                     <p:ajax event="rowSelect" oncomplete="pokazwierszedok();" update=":formwpisdokument, :dialogwiersze" />-->
+                <p:ajax event="filter" global="false"/>
+                <p:ajax event="toggleSelect" global="false" listener="#{dokfkView.sumawartosciwybranych}" update="zestawieniedokumentow:sumawybranych"/>
+                <p:ajax event="rowSelectCheckbox" global="false" listener="#{dokfkView.sumawartosciwybranych}" update="zestawieniedokumentow:sumawybranych"/>
+                <p:ajax event="rowUnselectCheckbox" global="false" listener="#{dokfkView.sumawartosciwybranych}" update="zestawieniedokumentow:sumawybranych"/>
+                <p:ajax event="rowToggle" global="false"/>
+                <p:column headerText="#{mgs.numerkolejny}" width="10" style="text-align: center; height: 32px;">
+                    <h:outputText styleClass="lpwierszaZaksiegowane lpwiersza" value="#{row+1}"/>
+                </p:column>
+                <p:column selectionMode="multiple" styleClass="checkwiersza" width="30" style="text-align: center;"></p:column>
+                <p:column styleClass="kolwi" width="10" style="height: 40px; text-align: center;" >
+                    <p:rowToggler rendered="#{item.ewidencjaVAT.size() gt 0}" id="roe"/>
+                </p:column>
+                <p:column headerText="#{mgs.datadok}" styleClass="zaksiegowanewaski" width="70" style="text-align: center;"  sortBy="#{item.datadokumentu}" filterBy="#{item.datadokumentu}" filterMatchMode="contains" >
+                    <h:outputText value="#{item.datadokumentu}"  style="#{item.datadokumentu.split('-')[1] ne WpisView.miesiacWpisu ? 'color: red;': null}"/>
+                </p:column>
+<!--                <p:column headerText="nowy nr" styleClass="zaksiegowanewaski" width="70" sortBy="#{item.dokfkLP}" filterBy="#{item.dokfkLP}">
+                    <h:outputText value="#{item.dokfkLP}"/>
+                </p:column>-->
+                <p:column headerText="#{mgs.symbol}" styleClass="zaksiegowanewaski" width="70" sortBy="#{item.dokfkSN}" 
+                          sortFunction="#{dokfkView.sortujzaksiegowane}"
+                          filterBy="#{item.dokfkSN}" filterMatchMode="contains">
+                    <h:outputText value="#{item.dokfkSN}" style="white-space: normal !important; word-break: break-all !important; word-wrap: break-word !important;"/>
+                </p:column>
+                <p:column headerText="nip" styleClass="zaksiegowanewaski" width="80" sortBy="#{item.kontr.nip}" filterBy="#{item.kontr.nip}">
+                    <h:outputText value="#{item.kontr.nip}" style="white-space: normal !important; word-break: break-all !important; word-wrap: break-word !important;"/>
+                </p:column>
+                <p:column headerText="#{mgs.kontrahent}" styleClass="zaksiegowanekontr" width="140" sortBy="#{item.kontr.npelna}" filterBy="#{item.kontr.npelna}" filterMatchMode="contains">
+                    <h:outputText value="#{item.kontr.npelna}"/>
+                </p:column>
+                <p:column headerText="#{mgs.numer}" 
+                          styleClass="zaksiegowanewaski" width="100" sortBy="#{item.numerwlasnydokfk}" filterBy="#{item.numerwlasnydokfk}" filterMatchMode="contains" >
+                    <h:outputText value="#{item.numerwlasnydokfk}" style="white-space: normal !important; word-break: break-all !important; word-wrap: break-word !important;"/>
+                </p:column>
+                <p:column headerText="symbole" width="30" style="text-align: center;color: blue;" sortBy="#{item.pobierzsymbole()}">
+                    <h:outputText value="#{item.pobierzsymbole()}" 
+                                  />
+                </p:column>
+                <p:column headerText="cechy" width="30" style="text-align: center;" sortBy="#{item.czyCechaZap() || item.czyCechaDok()}">
+                    <h:outputText value="!" styleClass="zapisZcecha" 
+                                  rendered="#{item.czyCechaZap() || item.czyCechaDok()}"/>
+                </p:column>
+                <p:column headerText="#{mgs.wartość}" 
+                          styleClass="zaksiegowanewaski" width="70" sortBy="#{item.wartoscdokumentu}" filterBy="#{item.wartoscdokumentu}" filterMatchMode="contains" >
+                    <h:outputText value="#{item.wartoscdokumentu}" style="float: right;" id="wartoscdokumentuzest">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{mgs.waluta}" styleClass="waluta" width="40" sortBy="#{item.walutadokumentu.symbolwaluty}" filterBy="#{item.walutadokumentu.symbolwaluty}" style="text-align: center;">
+                    <h:outputText value="#{item.walutadokumentu.symbolwaluty ne 'PLN' ? item.walutadokumentu.symbolwaluty : null}" id="walutadokumentuzest"/>
+                </p:column>
+                <p:column headerText="#{mgs.VAT}" styleClass="vatzak" width="30" sortBy="#{item.vatM}" filterBy="#{item.vatM}" style="text-align: center;">
+                    <h:outputText value="#{item.ewidencjaVAT.size() gt 0 ? item.vatM : null}" style="color: #{item.vatM ne item.miesiac ? 'red' : null}" id="vatdokumentuzest"/>
+                </p:column>
+                <p:column headerText="" width="30" sortBy="#{dokfkView.charakterdokumentu(item)}" style="text-align: center; #{dokfkView.charakterdokumentu(item) eq '' ? null : 'color: red;'}">
+                    <h:outputText value="#{dokfkView.charakterdokumentu(item)}" style="width: 25px;"/>
+                </p:column>
+                <p:column headerText="ujęto" width="40" style="text-align: center;" sortBy="#{item.dataujecia}">
+                    <h:outputText value="#{item.dataujecia}" style="width: 40px;">
+                        <f:convertDateTime pattern="dd/MM/yy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="b/k" width="40" style="text-align: center;">
+                    <h:outputText value="bufor #{item.wprowadzil}" rendered="#{item.dataksiegowania eq null}" style="width: 40px;"/>
+                    <h:outputText value="#{item.dataksiegowania}" rendered="#{item.dataksiegowania ne null}" style="width: 40px;">
+                        <f:convertDateTime pattern="dd/MM/yy"/>
+                    </h:outputText>
+                    <h:outputText value=" #{item.wprowadzil}" rendered="#{item.dataksiegowania ne null}"/>
+                </p:column>
+                <p:column width="25" style="text-align: center;" >
+                    <p:commandButton id="drukujbutton" icon="fa fa-print" action="#{sesjaView.dodajwydruk()}" actionListener="#{pdfDokfkView.drukujzaksiegowanydokument(item)}" styleClass="fkbutton"
+                                      style="width: 30px;" oncomplete="wydrukzaksiegowane('#{WpisView.podatnikObiekt.nip}');"/>
+                </p:column>
+                <p:column width="25" style="text-align: center;" >
+                    <p:commandButton id="drukujbutton2" icon="fa fa-file-pdf-o" action="#{sesjaView.dodajwydruk()}" actionListener="#{pdfFaktura.drukuj(item.fakturakontrahent, row, item.fakturakontrahent.wystawca)}" styleClass="fkbutton"
+                                     style="width: 30px;"  rendered="#{item.fakturakontrahent ne null}"/>
+                </p:column>
+
+                <p:column width="25" style="text-align: center;" >
+                    <p:commandButton id="edytujbutton" icon="fa fa-pencil-square-o"
+                                     actionListener="#{dokfkView.przygotujDokumentEdycja(item, row)}" 
+                                     styleClass="fkbutton" 
+                                      style="width: 30px;"  onsuccess="PF('wpisywanie').show();"
+                                      rendered="#{item.dataksiegowania eq null and !WpisView.rokzamkniety}"/>
+                </p:column>
+                <p:column width="25" style="text-align: center;">
+                    <p:commandButton actionListener="#{dokfkView.przygotujdousuniecia(item)}" styleClass="fkbutton" icon="fa fa-trash-o" 
+                                     oncomplete="PF('confirm3').show();" global="false"  style="width: 30px;"
+                                     rendered="#{item.dataksiegowania eq null and !WpisView.rokzamkniety}"
+                                     update=":potwierdzeniazestawieniedok"/>
+                </p:column>
+                <p:rowExpansion>
+                    <p:panelGrid columns="2">
+                        <p:column id="ewidencjavat" headerText="ewidencjavat - netto - vat - op/zw" resizable="true">  
+                            <p:dataTable var="subwpis" value="#{item.ewidencjaVAT}" emptyMessage="dokument bez vat"  resizableColumns="true" style="width: 700px;">
+                                <p:column id="SubColumn1" headerText="ewidencja" width="250">  
+                                    <h:outputText value="#{subwpis.ewidencja.nazwa}" style="width: 300px;"
+                                                  rendered="#{subwpis.vat ne 0 ? true : subwpis.netto ne 0 ? true : false}" />
+                                </p:column>
+                                <p:column id="SubColumn1a"  headerText="#{mgs.netto}">  
+                                    <h:outputText value="#{subwpis.netto}" style="float: right;" rendered="#{subwpis.vat ne 0 ? true : subwpis.netto ne 0 ? true : false}">
+                                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                                    </h:outputText>
+                                </p:column>
+                                <p:column id="SubColumn2" headerText="#{mgs.VAT}">  
+                                    <h:outputText value="#{subwpis.vat}" style="float: right;" rendered="#{subwpis.vat ne 0 ? true : subwpis.netto ne 0 ? true : false}">
+                                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                                    </h:outputText>
+                                </p:column>
+                                <p:column id="SubColumn2a" headerText="brutto">  
+                                    <h:outputText value="#{subwpis.netto + subwpis.vat}" style="float: right;" rendered="#{subwpis.vat ne 0 ? true : subwpis.netto ne 0 ? true : false}">
+                                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                                    </h:outputText>
+                                </p:column>
+                                <p:column id="SubColumn3" headerText="op/zw">  
+                                    <h:outputText value="#{subwpis.estawka}" rendered="#{subwpis.vat ne 0 ? true : subwpis.netto ne 0 ? true : false}"/>
+                                </p:column>
+                                <p:column id="SubColumn4" headerText="okres vat" width="50">  
+                                    <h:outputText value="#{subwpis.mcEw}/#{subwpis.rokEw}" style="float: right;" />
+                                </p:column>
+                            </p:dataTable>
+                        </p:column>
+                         <p:column headerText="ujęto" width="40" style="text-align: center;" sortBy="#{item.dataujecia}">
+                            <h:outputText value="#{item.dataujecia}" style="width: 40px;">
+                                <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                            </h:outputText>
+                        </p:column>
+                    </p:panelGrid>
+                </p:rowExpansion>
+            </p:dataTable>
+        </h:form>
+    </p:dialog>
+</ui:composition>

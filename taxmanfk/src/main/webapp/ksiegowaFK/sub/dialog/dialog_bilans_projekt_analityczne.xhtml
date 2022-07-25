@@ -1,0 +1,21 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    >
+     <p:dialog header="Wpisz dane pozycji podrzędnej" widgetVar="bilansprojektanalityczne" resizable="false">  
+        <h:form id="formYbilansprojekt">
+        <p:growl life="3600"  id="messages"/>
+        <p:focus for="dkp">
+        <p:panelGrid id="dkp" columns="2" style=" width: 500px;">
+            <h:outputLabel value="Nazwa pozycji:" for="nazwa" />
+            <p:inputText id="nazwa" value="#{pozycjaBRView.nowyelementBilans.nazwa}" title="Nazwa pozycji Bilansu" required="true" requiredMessage="Wprowadź nazwę pozycji" style="width: 350px;"/>
+            <p:commandButton value="dodaj" actionListener="#{pozycjaBRView.dodajnowapozycjeBilans('analityczna')}" 
+                             update="formbilansprojekt:dataList formprojekt:dataList" style="float: right;width: 120px;" onclick="PF('bilansprojektanalityczne').hide()"/>
+        </p:panelGrid>
+            </p:focus>
+            </h:form>
+        </p:dialog> 
+   
+</ui:composition>

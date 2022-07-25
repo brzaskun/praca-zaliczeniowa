@@ -1,0 +1,86 @@
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.mf.gov.pl/xsd/Intrastat/IST.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="IST">
+    <xs:annotation>
+      <xs:documentation>ist@t 2.52</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="Deklaracja">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="PodmiotZobowiazany">
+                <xs:complexType>
+                  <xs:simpleContent>
+                    <xs:extension base="xs:string">
+                      <xs:attribute type="xs:string" name="Nazwa"/>
+                      <xs:attribute type="xs:string" name="UlicaNumer"/>
+                      <xs:attribute type="xs:string" name="KodPocztowy"/>
+                      <xs:attribute type="xs:string" name="Miejscowosc"/>
+                      <xs:attribute type="xs:long" name="Nip"/>
+                      <xs:attribute type="xs:long" name="Regon"/>
+                    </xs:extension>
+                  </xs:simpleContent>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="Zglaszajacy">
+                <xs:complexType>
+                  <xs:simpleContent>
+                    <xs:extension base="xs:string">
+                      <xs:attribute type="xs:string" name="Nazwa"/>
+                      <xs:attribute type="xs:string" name="UlicaNumer"/>
+                      <xs:attribute type="xs:string" name="KodPocztowy"/>
+                      <xs:attribute type="xs:string" name="Miejscowosc"/>
+                      <xs:attribute type="xs:long" name="Nip"/>
+                      <xs:attribute type="xs:long" name="Regon"/>
+                    </xs:extension>
+                  </xs:simpleContent>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="Towar" maxOccurs="unbounded" minOccurs="0">
+                <xs:complexType>
+                  <xs:simpleContent>
+                    <xs:extension base="xs:string">
+                      <xs:attribute type="xs:byte" name="PozId" use="optional"/>
+                      <xs:attribute type="xs:string" name="OpisTowaru" use="optional"/>
+                      <xs:attribute type="xs:string" name="KrajPrzeznaczeniaWysylki" use="optional"/>
+                      <xs:attribute type="xs:byte" name="RodzajTransakcji" use="optional"/>
+                      <xs:attribute type="xs:int" name="KodTowarowy" use="optional"/>
+                      <xs:attribute type="xs:byte" name="MasaNetto" use="optional"/>
+                      <xs:attribute type="xs:byte" name="IloscUzupelniajacaJm" use="optional"/>
+                      <xs:attribute type="xs:short" name="WartoscFaktury" use="optional"/>
+                      <xs:attribute type="xs:string" name="IdKontrahenta" use="optional"/>
+                    </xs:extension>
+                  </xs:simpleContent>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="Wypelniajacy">
+                <xs:complexType>
+                  <xs:simpleContent>
+                    <xs:extension base="xs:string">
+                      <xs:attribute type="xs:string" name="NazwiskoImie"/>
+                      <xs:attribute type="xs:int" name="Telefon"/>
+                      <xs:attribute type="xs:string" name="Email"/>
+                    </xs:extension>
+                  </xs:simpleContent>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+            <xs:attribute type="xs:string" name="NrWlasny"/>
+            <xs:attribute type="xs:int" name="UC"/>
+            <xs:attribute type="xs:string" name="Typ"/>
+            <xs:attribute type="xs:string" name="Rodzaj"/>
+            <xs:attribute type="xs:short" name="Rok"/>
+            <xs:attribute type="xs:byte" name="Miesiac"/>
+            <xs:attribute type="xs:byte" name="Numer"/>
+            <xs:attribute type="xs:byte" name="Wersja"/>
+            <xs:attribute type="xs:short" name="LacznaWartoscFaktur"/>
+            <xs:attribute type="xs:byte" name="LacznaLiczbaPozycji"/>
+            <xs:attribute type="xs:string" name="Miejscowosc"/>
+            <xs:attribute type="xs:date" name="Data"/>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="Email"/>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

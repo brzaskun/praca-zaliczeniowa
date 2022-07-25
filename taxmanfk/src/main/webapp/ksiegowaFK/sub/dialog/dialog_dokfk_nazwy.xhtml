@@ -1,0 +1,48 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+        
+    xmlns:bcf="http://brzaskun.com/facelets"
+    xmlns:f="http://java.sun.com/jsf/core">
+    <style>
+       
+    </style>
+    
+    <p:dialog id="dialog_dokfk_nazwy" header="Rodzaje dokumentów firmy #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="dialog_dokfk_nazwy" fitViewport="true"
+              resizable="false" onShow="ustawdialog('dialog_dokfk_nazwy','menuustawienia', 1250, 750);ustalmaxlevel('form:dataList_data');" closeOnEscape="true" onHide="resetujdialog('dialog_dokfk_nazwy');"  >
+        <h:form id="form_dialog_dokfk_nazwy">
+              <p:panelGrid columns="8">
+                  <p:commandButton id="zachowaj" value="zachowaj" actionListener="#{dokfkInterView.zachowajzmiany()}"  global="false" style="float: left; margin-left: 20px;width: 120px;" />
+                  <p:commandButton id="xlsbutton" value="dane w formacie XLS" actionListener="#{xLSRodzajeDokView.zachowajwXLS(dokfkInterView.rodzajedoklista)}" style=" margin-left: 5px;" global="false" ajax="false"/>
+                  <p:commandButton id="xlsbutton2" value="pobierz dane z pliku" actionListener="#{dokfkInterView.pobierzdanezpliku()}" style=" margin-left: 5px;" global="false" update=":form_dialog_dokfk_nazwy"/>
+<!--                  <p:commandButton id="implementuj" value="implementuj" actionListener="#{dokfkInterView.implementuj()}"   style="float: left; margin-left: 20px;width: 120px;" update=":form_dialog_dokfk_nazwy"/>-->
+            </p:panelGrid>
+            <p:panelGrid columns="2" >
+                <p:dataTable id="dataList" value="#{dokfkInterView.rodzajedoklista}" var="loop"  selectionMode="single" 
+                             styleClass="tablicaplankont"
+                             style="max-width: 1200px; height: 600px;" emptyMessage="Brak zdefiniowanych dokumentów" rowKey="#{loop.hashCode()}"
+                             sortBy="#{loop.skrotNazwyDok}">
+                    <p:columnGroup type="header">
+                        <p:row>
+                            <p:column colspan="1" headerText="skrót dok" width="80" />
+                            <p:column colspan="1" headerText="nazwa pełna" width="300"/>
+                            <p:column colspan="1" headerText="nazwa de" width="250"/>
+                        </p:row>
+                    </p:columnGroup>
+                    <p:column >
+                        <h:outputText value="#{loop.skrot}" style="margin-left: 20px;"/> 
+                    </p:column>
+                    <p:column  style="width: 200px;">
+                        <h:outputText value="#{loop.nazwa}" /> 
+                    </p:column>
+                    <p:column style="text-align: center;">
+                        <p:inputText value="#{loop.de}" style="width: 350px;"/> 
+                    </p:column>
+                </p:dataTable>
+            </p:panelGrid>
+           
+        </h:form>
+    </p:dialog>
+</ui:composition>

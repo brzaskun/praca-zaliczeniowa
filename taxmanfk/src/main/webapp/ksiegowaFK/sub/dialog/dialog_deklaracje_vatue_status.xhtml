@@ -1,0 +1,25 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    >
+
+    <p:dialog id="dialog_deklaracje_vatue_status" header="Sporządzanie i wysłanie deklaracji VAT-UE" widgetVar="dialog_deklaracje_vatue_status"  appendTo="@(body)" modal="true"
+              resizable="false" onShow="ustawdialog('dialog_deklaracje_vatue_status','menurejestry', 1450, 700);" closeOnEscape="true" onHide="resetujdialog('dialog_deklaracje_vatue_status');"  >
+        <p:ajax event="open" listener="#{vatUeFKView.init()}" update="akordeon2"/>
+        <p:panel style="height: 600px;">
+            
+            <p:tabView id="akordeon2" style="height: 720px;">
+                    <ui:include src="ewidencjavat/vat_ue.xhtml"/>
+                <p:tab title="wysłane">
+                    <h:form>
+                    <ui:include src="../../../wspolny/sub/vatuewyslane.xhtml"/> 
+                    </h:form>
+                </p:tab>
+            </p:tabView>
+
+        </p:panel>
+    </p:dialog>
+</ui:composition>

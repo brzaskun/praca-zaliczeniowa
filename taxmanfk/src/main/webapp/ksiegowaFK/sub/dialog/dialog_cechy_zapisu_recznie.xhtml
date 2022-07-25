@@ -1,0 +1,83 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    >
+
+<!--    <p:dialog id="dialog_cechy_zapisu_recznie" header="Korekta wyniku finansowego" widgetVar="dialog_cechy_zapisu_recznie" resizable="false" 
+              onShow="ustawdialogCenter('dialog_cechy_zapisu_recznie','dialogcechyzapisowpodsumowanie',800,600);" focus=":form_dialog_cechy_zapisu_recznie" modal="true" appendTo="@(body)"
+              closeOnEscape="true">
+        <h:form id="form_dialog_cechy_zapisu_recznie" >
+            
+            <p:dataTable id="dataList" value="#{cechazapisuView.pobranecechy}" var="item" emptyMessage="nie zdefiniowano jeszcze zadnej cechy" 
+                          style="overflow-y: scroll; height: 400px;"
+                         rowKey="#{item.nazwacechy}">
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Nazwa cechy"/>
+                    </f:facet>
+                    <h:outputText value="#{item.nazwacechy}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Rodzaj cechy"/>
+                    </f:facet>
+                    <h:outputText value="#{item.rodzajcechy}"/>
+                </p:column>
+                 <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="charakter"/>
+                    </f:facet>
+                    <h:outputText value="#{cechazapisuView.charakter(item.charaktercechy)}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="przesunięcie"/>
+                    </f:facet>
+                    <h:outputText value="#{cechazapisuView.przesuniecie(item.przesuniecie)}"/>
+                </p:column>
+                <p:column width="40" style="text-align: center;">
+                    <p:commandButton icon="fa fa-edit"  actionListener="#{cechazapisuView.edit(item)}"
+                             update=":formCH:dataList formCH1:nowacecha"/>
+                </p:column>
+                <p:column width="40" style="text-align: center;">
+                    <p:commandButton  icon="fa fa-trash"  actionListener="#{cechazapisuView.usun(item)}"
+                             update=":form_dialog_cechy_zapisu_recznie:dataList form_dialog_cechy_zapisu_recznie1"/>
+                </p:column>
+            </p:dataTable>
+            </h:form>
+            <h:form id="form_dialog_cechy_zapisu_recznie1" >
+            <p:panelGrid id="nowacecha" >
+                <f:facet name="header">
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="Nazwa cechy"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="Rodzaj cechy"/>
+                        </p:column>
+                    </p:row>
+                </f:facet>
+                <p:row>
+                    <p:column>
+                        <p:inputText value="#{cechazapisuView.selected.nazwacechy}" style="width: 150px;"/>
+                    </p:column>
+                    <p:column>
+                        <p:selectOneMenu value="#{cechazapisuView.selected.rodzajcechy}" style="width: 300px;">
+                            <f:selectItem itemLabel="nie stanowi k.u.p." itemValue="nkup"/>
+                            <f:selectItem itemLabel="stanowi k.u.p. w m-c następnym" itemValue="kupmn"/>
+                            <f:selectItem itemLabel="nie stanowi przychodu" itemValue="np"/>
+                            <f:selectItem itemLabel="stanowi przychód w m-c następnym" itemValue="pmn"/>
+                            <f:selectItem itemLabel="rmk" itemValue="rmk"/>
+                        </p:selectOneMenu>
+                    </p:column>
+                </p:row>
+            </p:panelGrid>
+            <p:commandButton value="dodaj" style="width: 120px; margin-left: 10px;" actionListener="#{cechazapisuView.dodajnowacecha()}"
+                             update=":form_dialog_cechy_zapisu_recznie:dataList form_dialog_cechy_zapisu_recznie1"/>
+            
+        </h:form>
+    </p:dialog>-->
+</ui:composition> 

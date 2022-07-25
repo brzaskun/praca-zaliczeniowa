@@ -1,0 +1,41 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+        
+    xmlns:f="http://java.sun.com/jsf/core">
+    <p:dialog id="dialog_sprawozdanie_projekt_wzorcowy" header="Wybór układu Sprawozdania - Wzorcowy" widgetVar="dialog_sprawozdanie_projekt_wzorcowy" 
+              resizable="false" onShow="ustawdialog('dialog_sprawozdanie_projekt_wzorcowy','menuustawienia', 1000, 650);" closeOnEscape="true" onHide="resetujdialog('dialog_sprawozdanie_projekt_wzorcowy');"  >
+        <h:form id="form_sprawozdanie_projekt_wzorcowy">
+            <p:panelGrid columns="2" style="width: 720px;">
+                <p:panelGrid columns="1" style="width: 550px;">
+                    <p:dataTable id="dataList" value="#{sprawozdanieUkladView.zachowaneuklady}" var="loop" selectionMode="single" selection="#{sprawozdanieUkladView.selected}" 
+                                 styleClass="tablicaplankont" style="width: 550px; margin-top: 0%; margin-bottom: 50px;" rowKey="#{loop.lp}" scrollable="true" scrollHeight="500"
+                             emptyMessage="Brak układów Sprawozdań">
+                    <p:ajax event="rowSelect" listener="#{sprawozdanieUkladView.wybranouklad}" global="false"/>
+                    <p:column headerText="nazwa ukladu" width="200">
+                        <h:outputText value="#{loop.nazwaukladu}" style="font-weight: bolder; width: 200px;" /> 
+                    </p:column>
+                    <p:column headerText="rok">
+                        <h:outputText value="#{loop.rok}"/> 
+                    </p:column>
+                    <p:column style="width: 120px; text-align: center;">
+                        <p:commandButton value="usuń" actionListener="#{sprawozdanieUkladView.usun(loop)}" style="width: 100px;" 
+                                         update=":form_sprawozdanie_projekt_wzorcowy:dataList" global="false"/>
+                    </p:column>
+                </p:dataTable>
+                </p:panelGrid>
+                <p:panelGrid columns="1" style="width: 200px;">
+                <p:panel header="twórz układ">
+                    <h:outputText value="wpisz nazwę nowego układu" style="margin-top: 10px;"/>
+                    <p:inputText value="#{sprawozdanieUkladView.nazwanowegoukladu}" style="width: 250px; margin-top: 10px;"/>
+                    <p:commandButton value="dodaj" actionListener="#{sprawozdanieUkladView.dodaj}" style="width: 120px; margin-top: 10px;"
+                                     update=":form_sprawozdanie_projekt_wzorcowy:dataList" global="false"/>
+                </p:panel>
+                </p:panelGrid>
+            </p:panelGrid>
+        </h:form>
+    </p:dialog>
+</ui:composition>
+

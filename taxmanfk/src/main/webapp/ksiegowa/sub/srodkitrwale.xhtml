@@ -1,0 +1,52 @@
+
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+
+
+    <p:panel id="lolo">
+        <p:focus id="focus" context="panelekX" />
+        <p:panel header="Wprowadzanie srodkow trwalych" >
+            <p:panelGrid columns="6" id="panelekX" >
+                <h:outputText value="Nazwa środka" />
+                <h:inputText value="#{DokumentView.selectedSTR.nazwa}" />
+                <h:outputText value="datazakupu" />
+                <h:inputText id="dataZakupu" value="#{DokumentView.selectedSTR.datazak}" />
+                <h:outputText value="dataprzekazania" />
+                <h:inputText id="dataPrzekazania" value="#{DokumentView.selectedSTR.dataprzek}" />
+                <h:outputText value="Wartość netto" />
+                <h:inputText id="wartoscSTR" value="#{DokumentView.selectedSTR.netto}"  style="float: right;"/>
+                <h:outputText value="kwotaVat" />
+                <h:inputText id="kwotaVat" value="#{DokumentView.selectedSTR.vat}"  style="float: right;"/>
+                <h:outputText value="nrKlasyfikacji" />
+                <h:inputText value="#{DokumentView.selectedSTR.kst}" />
+                <h:outputText value="stawkaAmortyzacji" />
+                <h:inputText id="stawkaAmortyzacji" value="#{DokumentView.selectedSTR.stawka}"/>
+                <p:commandButton action="#{DokumentView.dodajSTR()}" value="Wprowadz" update=":dodWiad:mess_add,:srodki:panelekXA" />
+            </p:panelGrid>
+        </p:panel>
+        <p:panel header="Ostatnio wprowadzony środek trwały"  >
+            <p:panelGrid columns="4" id="panelekXA" >
+                <h:outputText value="Wartość pocz."/>
+                <h:outputText value="#{srodkiTrwaleView.selectedSTR.netto}" style="float: right;"/>
+                 <h:outputText value="Data Zakupu"/>
+                 <h:outputText value="#{srodkiTrwaleView.selectedSTR.datazak}"/>
+                <h:outputText value="Nazwa środka"/>
+                <h:outputText value="#{srodkiTrwaleView.selectedSTR.nazwa}"/>
+                <h:outputText value="rocznaKwotaOdpisu" />
+                <h:outputText value="#{srodkiTrwaleView.selectedSTR.odpisrok}"  style="float: right;"/>
+                <h:outputText value="miesiecznaKwotaOdpisu" />
+                <h:outputText value="#{srodkiTrwaleView.selectedSTR.odpismc}" style="float: right;"/>
+                <h:outputText value="nazwaPodatnika" />
+                <h:outputText value="#{srodkiTrwaleView.selectedSTR.podatnik.npelna}"/>
+                <h:outputText value="Ile"/>
+                <h:outputText value="#{srodkiTrwaleView.ile()}"/>
+            </p:panelGrid>
+        </p:panel>
+        
+    </p:panel>
+</ui:composition>   
+

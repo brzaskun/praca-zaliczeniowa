@@ -1,0 +1,40 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:bcf="http://brzaskun.com/facelets">
+    <ui:composition template="/templateFK.xhtml">
+        <ui:define name="title">
+            <h:outputText value="Księgi rachunkowe"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <p:layout fullPage="true" expandTitle="Wysuń" closeTitle="Zamknij" collapseTitle="Schowaj">
+                <ui:include src="sub/layout/north.xhtml"/>  <!-- panel polnocny-->
+                <p:layoutUnit id="centralna" position="center" >
+                    <div id="ramki">
+                    </div>
+                    <bcf:ajaxs value="trwa pobieranie zapisów" modal="false"/>
+                    <h:form>
+                        <p:growl life="3600"  ><p:autoUpdate/></p:growl>
+                    </h:form>
+                    <p:hotkey bind="down" global="false"  handler="idz('D');" ignoreAutoUpdate="true"/>
+                    <p:hotkey bind="up" global="false" handler="idz('G');" ignoreAutoUpdate="true"/>
+                    <ui:include src="sub/menu/menuzapisykont.xhtml"/>
+                    
+
+<!--                    edycjadok-->
+                  
+                    <ui:include src="sub/dialog/dialog_zapisymiejscakosztow_wmcu.xhtml"/>
+
+                    <ui:include src="sub/dialog/dialog_stowarzyszenie_generujskladki.xhtml"/>
+                    <ui:include src="sub/dialog/dialog_stowarzyszenie_zestawienienaliczen.xhtml"/>
+                    <ui:include src="sub/dialog/dialog_stowarzyszenie_rozrachunki.xhtml"/>
+                    <ui:include src="sub/dialog/dialog_stowarzyszenie_rozrachunki_zbiorcze.xhtml"/>
+                    
+                    <ui:include src="sub/dialog/dialog_zmiana_okresu.xhtml"/> 
+                </p:layoutUnit><ui:include src="sub/layout/south.xhtml"/> 
+            </p:layout>
+        </ui:define>
+    </ui:composition>
+</html>

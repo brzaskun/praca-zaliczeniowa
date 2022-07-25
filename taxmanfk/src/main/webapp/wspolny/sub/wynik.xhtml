@@ -1,0 +1,18 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    
+    >
+    
+     <p:tabView id="akordeon" styleClass="tabakordeonbilans" style="width: 1400px;" activeIndex="0" >
+        <ui:include src="bilanse/symulacjawyniku.xhtml"/>
+        <ui:include src="bilanse/wyniknarastajaco.xhtml"/>
+        <ui:include src="bilanse/nkupmiesiac.xhtml"/>
+        <ui:include src="bilanse/straty.xhtml"/>
+<!--        <ui:include src="bilanse/pit5.xhtml"/>-->
+    </p:tabView>
+</ui:composition>   
+

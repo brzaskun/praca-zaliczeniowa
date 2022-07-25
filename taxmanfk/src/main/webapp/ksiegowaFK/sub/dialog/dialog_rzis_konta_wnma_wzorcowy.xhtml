@@ -1,0 +1,30 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    
+    >
+
+    <p:dialog id="dialog_rzis_konta_wnma_wzorcowy" header="Wskaż stronę do przypis. konto: #{pozycjaBRKontaView.boxNaKonto.pelnynumer}" widgetVar="dialog_rzis_konta_wnma_wzorcowy" 
+              resizable="false" onShow="ustawdialogCenter('dialog_rzis_konta_wnma_wzorcowy','dialogrzisukladwzorcowy',300,80);" 
+              closeOnEscape="true" onHide="resetujdialog('dialog_rzis_konta_wnma_wzorcowy');"  >
+        <h:form id="formdialog_rzis_konta_wnma_wzorcowy">
+            <p:panelGrid id="wyborgridRZiS" columns="2" style="text-align: center; margin-left: auto; margin-right: auto;" >
+                <p:focus for="wybormenuRZiS">
+                    <h:selectOneMenu id="wybormenuRZiS" value="#{pozycjaBRKontaView.wnmaPrzypisywanieKont}" style="width: 120px;"
+                                     styleClass="ui-selectonemenu-label ui-inputfield ui-corner-all"
+                                     onfocus="$(this).addClass('ui-state-focus');"
+                                     onblur="$(this).removeClass('ui-state-focus');">
+                        <f:selectItem itemLabel="saldem Wn" itemValue="wn"/>
+                        <f:selectItem itemLabel="saldem Ma" itemValue="ma"/>
+                    </h:selectOneMenu>
+                    <p:commandButton value="ok" type="submit" actionListener="#{pozycjaBRKontaView.onKontoDropKontaSpecjalneRZiS(pozycjaBRKontaView.wybranyuklad)}" 
+                                     oncomplete="PF('dialog_rzis_konta_wnma_wzorcowy').hide();"
+                                     update=":formdialog_rzis_konta_wnma_wzorcowy :formrzisuklad:dostepnekonta :formrzisuklad:kontaprzypisane"/>
+                </p:focus>
+            </p:panelGrid>
+        </h:form>
+    </p:dialog>
+</ui:composition>

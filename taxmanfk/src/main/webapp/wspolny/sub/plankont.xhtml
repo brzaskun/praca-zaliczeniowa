@@ -1,0 +1,66 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    
+    >
+    <f:event type="preRenderView" listener="#{planKontView.init()}"/>
+    <h:form id="form_dialog_plankont_nazwy">
+        <p:commandButton id="zwinw" value="#{mgs.drukuj}" actionListener="#{planKontView.drukujPlanKont('all')}"  global="false" style="margin-bottom: 10px; width: 120px;"/>
+            <p:panelGrid columns="1" >
+                
+                <p:dataTable id="dataList" value="#{planKontView.wykazkont}" var="loop"  selectionMode="single" 
+                             rowStyleClass="#{loop.bilansowewynikowe eq 'bilansowe' ? (loop.level eq 0 ? 'row1' : loop.level eq 1 ? 'row2' : loop.level eq 2 ? 'row3' : 'row4') : (loop.level eq 0 ? 'row1w' : loop.level eq 1 ? 'row2w' : loop.level eq 2 ? 'row3w' : 'row4w')}" 
+                             styleClass="tablicaplankont"
+                             style="max-width: 1200px; height: 600px;" emptyMessage="Brak utworzonych kont dla firmy" rowKey="#{loop.id}"
+                             sortFunction="#{kontoSortView.sortujKonto}" sortBy="#{loop}"
+                             >
+                    <p:columnGroup type="header">
+                        <p:row>
+                            <p:column colspan="1" headerText="" width="1" />
+                            <p:column colspan="1" headerText="#{mgs.numerkonta}" width="100" />
+                            <p:column colspan="1" headerText="#{mgs.tłumaczenie}" width="200" rendered="#{!facesContext.viewRoot.locale.language.equals('pl')}"/>
+                            <p:column colspan="1" headerText="#{mgs.nazwapełna}" width="300"/>
+                            <p:column colspan="1" headerText="#{mgs.nazwaskrócona}" width="200"/>
+                            <p:column colspan="1" headerText="b/w" width="20"/>
+                            <p:column colspan="1" headerText="rozrach." width="50"/>
+                            <p:column colspan="1" headerText="P/K" width="40"/>
+                        </p:row>
+                    </p:columnGroup>
+                    <p:column>
+                        <h:outputText value="#{loop.level}" style="font-size: 0.5pt;"/>
+                    </p:column>
+                    <p:column styleClass="#{loop.level eq 2 ? 'druga' : null}">
+                        <h:outputText value="#{loop.nrkonta}" rendered="#{loop.nrkonta eq '0' ? false : (loop.level eq '0' ? true : false)}" /> 
+                        <h:outputText value="#{loop.pelnynumer}" rendered="#{loop.nrkonta eq '0' ? false : (loop.level eq '1' ? true : false)}" style="margin-left: 10px;"/> 
+                        <h:outputText value="#{loop.pelnynumer}" rendered="#{loop.nrkonta eq '0' ? false : (loop.level eq '2' ? true : false)}" style="margin-left: 20px;"/> 
+                        <h:outputText value="#{loop.pelnynumer}" rendered="#{loop.nrkonta eq '0' ? false : (loop.level eq '3' ? true : false)}" style="margin-left: 30px;"/> 
+                    </p:column>
+                      <p:column style="width: 200px;" rendered="#{!facesContext.viewRoot.locale.language.equals('pl')}">
+                        <h:outputText value="#{loop.de}" style="width: 280px;"/> 
+                    </p:column>
+                    <p:column  style="width: 300px;">
+                        <h:outputText value="#{loop.nazwapelna}" /> 
+                    </p:column>
+                     <p:column  style="width: 200px;">
+                         <h:outputText value="#{loop.nazwaskrocona}" /> 
+                    </p:column>
+                   <p:column  style="width: 20px; text-align: center;">
+                        <h:outputText value="#{loop.bilansowewynikowe eq 'bilansowe' ? 'B' : 'R'}" /> 
+                    </p:column>
+                    <p:column  style="width: 120px; text-align: center;">
+                        <h:outputText value="#{loop.zwyklerozrachszczegolne.length() gt 4 ? loop.zwyklerozrachszczegolne.substring(0,4) : loop.zwyklerozrachszczegolne}" style="text-align: center;"/>
+                    </p:column>
+                    <p:column style="width: 40px;">
+                        <h:outputText value="#{loop.przychod0koszt1 eq true ? 'K' : 'P'}" rendered="#{loop.bilansowewynikowe eq 'wynikowe'}"/> 
+                    </p:column>
+                </p:dataTable>
+            </p:panelGrid>
+           
+        </h:form>
+    
+</ui:composition>
+
+

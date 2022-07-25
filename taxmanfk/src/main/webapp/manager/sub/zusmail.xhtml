@@ -1,0 +1,168 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    >
+    <p:growl life="3600"  ><p:autoUpdate/></p:growl>
+    <h:form>
+        <p:panel header="Wybierz rok i miesiąc wysyłki" style="max-width: 1400px;">
+            <p:panelGrid id="parametryzus" columns="8">
+                <h:outputText value="rok: "/><p:selectOneMenu value="#{zusMailView.rok}">
+                    <p:ajax event="change" partialSubmit="true" listener="#{zusMailView.dokonajZmianyElementu('roku.')}" update=":wykazmaili"/>
+                    <f:selectItems value="#{roki.rokiList}"/>
+                </p:selectOneMenu>
+                <h:outputText value="miesiac płatności: "/><p:selectOneMenu value="#{zusMailView.mc}" >
+                    <p:ajax event="change" partialSubmit="true"  listener="#{zusMailView.dokonajZmianyElementu('miesiąca.')}" update=":wykazmaili"/>
+                    <f:selectItems value="#{mce.mceList}"/>
+                </p:selectOneMenu>
+                <h:outputText value="nr wysyłki : "/><p:selectOneMenu value="#{zusMailView.nrwysylki}" >
+                    <p:ajax event="change" partialSubmit="true"  listener="#{zusMailView.dokonajZmianyElementu('statusu wysyłki.')}" update=":wykazmaili"/>
+                    <f:selectItems value="#{zusMailView.numery}"/>
+                </p:selectOneMenu>
+                <h:outputText value="Kopie maili przyjdą na adres:"/><h:outputText value="#{WpisView.uzer.email}"/>
+            </p:panelGrid>
+        </p:panel>
+    </h:form>
+    <h:form id="wykazmailibuttons">
+        <p:panel header="Menu podręczne" style="max-width: 1400px;">
+            <p:panelGrid id="parametryzus" columns="2">
+                <p:commandButton value="Wyślij wszystkie" actionListener="#{zusMailView.wyslijwszystkie()}"  update=":wykazmaili" style="width: 150px;" rendered="#{zusMailView.wybranemaile.size() eq 0}"/>
+                <p:commandButton value="Wyślij wybrane" actionListener="#{zusMailView.wyslijwybrane()}"  update=":wykazmaili" style="width: 150px;" rendered="#{zusMailView.wybranemaile.size()  ne 0}"/>
+            </p:panelGrid>
+        </p:panel>
+    </h:form>
+        <h:form id="wykazmaili">
+            <p:dataTable value="#{zusMailView.wykazprzygotowanychmaili}" var="item" style="max-width: 1400px;"
+                         rowIndexVar="row" rowStyleClass="#{(row mod 2) eq 0 ? null : 'odd'}" rowSelectMode="add"
+                         rowKey="#{item.podatnik.id}" selection="#{zusMailView.wybranemaile}">
+                <p:ajax event="rowSelectCheckbox" listener="#{zusMailView.wybranoWiersz}" update="wykazmailibuttons"/>
+                <p:ajax event="toggleSelect"  update="wykazmailibuttons"/>
+                <f:facet name="header">
+                    <h:outputText value="Kwoty z deklaracji podatników aktywnych za #{zusMailView.mcuprzedni} płatne w miesiącu #{zusMailView.mc}"/>
+                </f:facet>
+                <p:column width="20" style="text-align: center;">
+                    <p:rowToggler />
+                </p:column>
+                <p:column selectionMode="multiple" width="20" style="text-align: center;">
+                </p:column>
+                <p:column width="100">
+                    <f:facet name="header">
+                        <h:outputText value="Podatnik"/>
+                    </f:facet>
+                    <h:outputText value="#{item.podatnik.printnazwaShort}" />
+                </p:column>
+                <p:column width="45">
+                    <f:facet name="header">
+                        <h:outputText value="51ch"/>
+                    </f:facet>
+                    <h:outputText value="#{item.zus51ch}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column width="45">
+                    <f:facet name="header">
+                        <h:outputText value="51bch"/>
+                    </f:facet>
+                    <h:outputText value="#{item.zus51bch}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column width="40">
+                    <f:facet name="header">
+                        <h:outputText value="52"/>
+                    </f:facet>
+                    <h:outputText value="#{item.zus52}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column width="40">
+                    <f:facet name="header">
+                        <h:outputText value="52odl"/>
+                    </f:facet>
+                    <h:outputText value="#{item.zus52odl}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column width="40">
+                    <f:facet name="header">
+                        <h:outputText value="53"/>
+                    </f:facet>
+                    <h:outputText value="#{item.zus53}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column width="50">
+                    <f:facet name="header">
+                        <h:outputText value="Pit4"/>
+                    </f:facet>
+                    <h:outputText value="#{item.pit4}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                 <p:column width="50">
+                    <f:facet name="header">
+                        <h:outputText value="Pit8"/>
+                    </f:facet>
+                    <h:outputText value="#{item.pit8}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column width="60">
+                    <f:facet name="header">
+                        <h:outputText value="#{mgs.data}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.datawysylki}">
+                        <f:convertDateTime pattern="dd/MM/yy" />
+                    </h:outputText>
+                </p:column>
+                <p:column style="text-align: center;"  width="30">
+                    <f:facet name="header">
+                        <h:outputText value="#{mgs.nr}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.nrwysylki}"/>
+                </p:column>
+                <p:column width="150">
+                    <f:facet name="header">
+                        <h:outputText value="Adresmail"/>
+                    </f:facet>
+                    <h:outputText value="#{item.adresmail}"/>
+                </p:column>
+                <p:rowExpansion>
+                    <p:panelGrid>
+                        <f:facet name="header">
+                            <p:row>
+                            <p:column styleClass="thirty-percent">
+                                <h:outputText value="tytuł"/>
+                            </p:column>
+                            <p:column styleClass="seventy-percent">
+                                <h:outputText value="treść"/>
+                            </p:column>
+                            </p:row>
+                        </f:facet>
+                        <p:row>
+                            <p:column>
+                                <h:outputText value="#{item.tytul}"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{item.tresc}" escape="false"/>
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </p:rowExpansion>
+                <p:column style="text-align: center;" width="100">
+                    <p:commandButton value="wyślij" actionListener="#{zusMailView.wyslijMailZUS(item)}" update=":wykazmaili" style="width: 80px;"/>
+                </p:column>
+                <p:column width="100">
+                    <f:facet name="header">
+                        <h:outputText value="Podatnik"/>
+                    </f:facet>
+                    <h:outputText value="#{item.podatnik.printnazwaShort}" />
+                </p:column>s
+            </p:dataTable>
+        </h:form>
+</ui:composition>   
+

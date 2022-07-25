@@ -1,0 +1,54 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    >
+    <style>
+        .wyborkontrahenta input  {
+            width: 400px !important;
+        }
+    </style>
+    <p:dialog id="dialog_delegacje_kraj" header="Definiowanie wykazu delegacji krajowych - #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="dialog_delegacje_kraj" 
+              resizable="false"  onShow="ustawdialog('dialog_delegacje_kraj','menukartoteki',900,700);" closeOnEscape="true" onHide="resetujdialog('dialog_delegacje_kraj');" >
+       
+        <h:form id="delegacje">
+            <p:panelGrid columns="2" >
+                <h:outputText value="nr kolejny delegacji "/>
+                <p:inputText id="nazwamiejsca" value="#{delegacjeView.selected.opisdlugi}" style="width: 180px;"/>
+                <h:outputText value="opis delegacji (kto, gdzie, kiedy)"/>
+                <p:inputText id="nazwamiejscas" value="#{delegacjeView.selected.opiskrotki}" style="width: 300px;"/>
+            </p:panelGrid>
+            <p:commandButton value="dodaj" actionListener="#{delegacjeView.dodaj(false)}" style="margin: 2%; width: 120px;" 
+                             update=":delegacje, :delegacjelista" rendered="#{delegacjeView.zapisz0edytuj1 == false}"/>
+            <p:commandButton value="edytuj" actionListener="#{delegacjeView.zapiszedycje(false)}" style="margin: 2%; width: 120px;" 
+                             update=":delegacje, :delegacjelista" rendered="#{delegacjeView.zapisz0edytuj1 == true}"/>
+        </h:form>
+        <h:form id="delegacjelista">
+            <p:dataTable value="#{delegacjeView.delegacjekrajowe}" var="item" style="width: 850px;height: 500px;overflow-y: scroll;"
+                         emptyMessage="brak zdefiniowanych delegacji krajowych" rowIndexVar="index"
+                         rowKey="#{item.id}"  sortOrder="descending"
+                         sortBy="#{item}"  sortFunction="#{delegacjeView.sortDelegacje}">
+                <p:column headerText="#{mgs.nr}" width="30">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="nr delegacji">
+                    <h:outputText value="#{item.opisdlugi}"/>
+                </p:column>
+                <p:column headerText="opis delegacji" width="400">
+                    <h:outputText value="#{item.opiskrotki}"/>
+                </p:column>
+                <p:column headerText="nr konta" width="50">
+                    <h:outputText value="#{item.nrkonta}"/>
+                </p:column>
+                <p:column headerText="edytuj" width="40" style="text-align: center;">
+                    <p:commandButton icon="ui-icon-comment" actionListener="#{delegacjeView.edytuj(item)}" update=":delegacje delegacjelista"/>
+                </p:column>
+                <p:column headerText="usuń" width="40" style="text-align: center;">
+                    <p:commandButton icon="ui-icon-trash" actionListener="#{delegacjeView.usun(item, false)}" update=":delegacje delegacjelista" rendered="#{item.aktywny eq false}"/>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </p:dialog>
+</ui:composition>

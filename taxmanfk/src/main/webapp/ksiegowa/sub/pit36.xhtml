@@ -1,0 +1,153 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    
+    xmlns:bcf="http://brzaskun.com/facelets">
+    <h:form>
+    <p:growl life="3600"  id="messages" ><p:autoUpdate/></p:growl>
+    <p:panelGrid id="dodrukupit" columns="1" style="width: 1200px" rendered="#{WpisView.ksiegaryczalt and WpisView.biuroiszef eq true}" >
+                <p:panel header="zachowane PIT-y: " /><br/>
+                <p:dataTable id="tablicapit" value="#{pit36View.lista}" var="loop" selectionMode="single"  rowKey="#{loop.id}" sortBy="#{loop.pkpirM}" style="width: 100%;"
+                             emptyMessage="Nie zachowano PIT-ow u tego podatnika w danym roku podatkowym">
+                    <p:column headerText="okres rozlicz.: ">
+                        <h:outputText value="#{loop.pkpirR}-"/><h:outputText value="#{loop.pkpirM}"/>
+                    </p:column>
+                    <p:column headerText="udzialowiec: ">
+                        <h:outputText value="#{loop.udzialowiec}"/>
+                    </p:column>
+                     <p:column headerText="przychody: ">
+                         <h:outputText value="#{loop.przychody}" style="padding-left: 20%; float: right;"><f:convertNumber minFractionDigits="2" currencyCode="PL" locale="PL"/></h:outputText>
+                    </p:column>
+                     <p:column headerText="koszty: ">
+                         <h:outputText value="#{loop.koszty}" style="padding-left: 20%; float: right;"><f:convertNumber minFractionDigits="2" currencyCode="PL" locale="PL"/></h:outputText>
+                    </p:column>
+                    <p:column headerText="udział: " style="text-align: center;">
+                        <h:outputText value="#{loop.udzial}%"/>
+                    </p:column>
+                     <p:column headerText="przychody wg udziału: ">
+                         <h:outputText value="#{loop.przychodyudzial}" style="padding-left: 20%; float: right;"><f:convertNumber minFractionDigits="2" currencyCode="PL" locale="PL"/></h:outputText>
+                    </p:column>
+                     <p:column headerText="koszty wg udziału: ">
+                         <h:outputText value="#{loop.kosztyudzial}" style="padding-left: 20%; float: right;"><f:convertNumber minFractionDigits="2" currencyCode="PL" locale="PL"/></h:outputText>
+                    </p:column>
+                    <p:column headerText="wynik narastająco: ">
+                        <h:outputText value="#{loop.wynik}" style="padding-left: 20%; float: right;"><f:convertNumber minFractionDigits="2" currencyCode="PL" locale="PL"/></h:outputText>
+                    </p:column>
+                    <p:column headerText="należna zaliczka narastająco: ">
+                        <h:outputText value="#{loop.pododpoczrok}" style="padding-left: 20%; font-weight: 700; float: right;"><f:convertNumber locale="PL"/></h:outputText>
+                    </p:column>
+                    <p:column headerText="należna zaliczka za m-c: ">
+                        <h:outputText value="#{loop.naleznazal}" style="padding-left: 20%; font-weight: 700; float: right;"><f:convertNumber locale="PL"/></h:outputText>
+                    </p:column>
+                     <p:column headerText="zus 51: ">
+                        <h:outputText value="#{loop.zus51}" style="padding-left: 20%; float: right;"><f:convertNumber minFractionDigits="2" currencyCode="PL" locale="PL"/></h:outputText>
+                    </p:column>
+                    <p:column headerText="zus 52: ">
+                        <h:outputText value="#{loop.zus52}" style="padding-left: 20%; float: right;"><f:convertNumber minFractionDigits="2" currencyCode="PL" locale="PL"/></h:outputText>
+                    </p:column>
+                </p:dataTable>
+                 <p:commandButton value="Print" type="button" icon="ui-icon-print">  
+                    <p:printer target="dodrukupit" />  
+                </p:commandButton> 
+       </p:panelGrid>
+    <p:panelGrid columns="1" style="width: 1900px" rendered="#{!WpisView.ksiegaryczalt}" >
+                <p:panel header="zachowane PIT-y: " />
+                <p:commandButton value="drukuj" actionListener="#{pit36View.drukujryczalt}" global="false" style="width: 120px;"/>
+                <br/>
+                <p:dataTable id="tablicaryczalt" value="#{pit36View.listaryczalt}" var="loop" selectionMode="single"
+                             rowKey="#{loop.id}" sortBy="#{loop.pkpirM}" style="width: 100%;"
+                             emptyMessage="Nie zachowano PIT-ow u tego podatnika w danym roku podatkowym">
+                    <p:column headerText="okres rozliczeniowy: " style="text-align: center;">
+                        <h:outputText value="#{loop.pkpirR}-"/><h:outputText value="#{loop.pkpirM}"/>
+                    </p:column>
+                    <p:column headerText="udzialowiec: " width="200">
+                        <h:outputText value="#{loop.udzialowiec}"/>
+                    </p:column>
+                    <p:column headerText="17%: ">
+                        <bcf:outputpl value="#{loop.p17}" rendered="#{loop.p17 gt 0}"/>
+                    </p:column>
+                    <p:column headerText="15%: ">
+                        <bcf:outputpl value="#{loop.p15}" rendered="#{loop.p15 gt 0}"/>
+                    </p:column>
+                    <p:column headerText="14%: ">
+                        <bcf:outputpl value="#{loop.p14}" rendered="#{loop.p14 gt 0}"/>
+                    </p:column>
+                    <p:column headerText="12.5%: ">
+                        <bcf:outputpl value="#{loop.p125}" rendered="#{loop.p125 gt 0}"/>
+                    </p:column>
+                    <p:column headerText="12%: ">
+                        <bcf:outputpl value="#{loop.p12}" rendered="#{loop.p12 gt 0}"/>
+                    </p:column>
+                    <p:column headerText="10%: ">
+                        <bcf:outputpl value="#{loop.p10}" rendered="#{loop.p10 gt 0}"/>
+                    </p:column>
+                    <p:column headerText="8.5%: ">
+                         <bcf:outputpl value="#{loop.p85}" rendered="#{loop.p85 gt 0}"/>
+                    </p:column>
+                    <p:column headerText="5.5%: ">
+                         <bcf:outputpl value="#{loop.p55}" rendered="#{loop.p55 gt 0}"/>
+                    </p:column>
+                    <p:column headerText="3%: ">
+                         <bcf:outputpl value="#{loop.p30}" rendered="#{loop.p30 gt 0}"/>
+                    </p:column>
+                    <p:column headerText="2%: ">
+                         <bcf:outputpl value="#{loop.p20}" rendered="#{loop.p20 gt 0}"/>
+                    </p:column>
+                    <p:column headerText="suma przychodów: ">
+                         <bcf:outputpl value="#{loop.przychody}"/>
+                    </p:column>
+                    <p:column headerText="udział: " style="text-align: center;" width="30">
+                        <h:outputText value="#{loop.udzial}%"/>
+                    </p:column>
+                     <p:column headerText="przychody wg udziału: ">
+                         <h:outputText value="#{loop.przychodyudzial}" style="padding-left: 20%; float: right;"><f:convertNumber minFractionDigits="2" currencyCode="PL" locale="PL"/></h:outputText>
+                    </p:column>
+                    <p:column headerText="zus 51: ">
+                        <bcf:outputpl value="#{loop.zus51}"/>
+                    </p:column>
+                    <p:column headerText="zus 52: ">
+                        <bcf:outputpl value="#{loop.zus52}"/>
+                    </p:column>
+                    <p:column headerText="należna zaliczka za m-c: ">
+                        <bcf:outputpl value="#{loop.naleznazal}"/>
+                    </p:column>
+                    <p:column headerText="17%: ">
+                        <bcf:outputpl value="#{loop.p17p}" rendered="#{loop.p17p gt 0}"/>
+                    </p:column>
+                    <p:column headerText="15%: ">
+                        <bcf:outputpl value="#{loop.p15p}" rendered="#{loop.p15p gt 0}"/>
+                    </p:column>
+                    <p:column headerText="14%: ">
+                        <bcf:outputpl value="#{loop.p14p}" rendered="#{loop.p14p gt 0}"/>
+                    </p:column>
+                    <p:column headerText="12.5%: ">
+                        <bcf:outputpl value="#{loop.p125p}" rendered="#{loop.p125p gt 0}"/>
+                    </p:column>
+                    <p:column headerText="12%: ">
+                        <bcf:outputpl value="#{loop.p12p}" rendered="#{loop.p12p gt 0}"/>
+                    </p:column>
+                    <p:column headerText="10%: ">
+                        <bcf:outputpl value="#{loop.p10p}" rendered="#{loop.p10p gt 0}"/>
+                    </p:column>
+                    <p:column headerText="8.5%: ">
+                         <bcf:outputpl value="#{loop.p85p}" rendered="#{loop.p85p gt 0}"/>
+                    </p:column>
+                    <p:column headerText="5.5%: ">
+                         <bcf:outputpl value="#{loop.p55p}" rendered="#{loop.p55p gt 0}"/>
+                    </p:column>
+                    <p:column headerText="3%: ">
+                         <bcf:outputpl value="#{loop.p30p}" rendered="#{loop.p30p gt 0}"/>
+                    </p:column>
+                    <p:column headerText="2%: ">
+                         <bcf:outputpl value="#{loop.p20p}" rendered="#{loop.p20p gt 0}"/>
+                    </p:column>
+                </p:dataTable>
+       </p:panelGrid>
+    </h:form>
+    </ui:composition>
+ 

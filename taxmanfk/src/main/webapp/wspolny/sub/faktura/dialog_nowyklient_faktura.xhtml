@@ -1,0 +1,74 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    >
+
+    <p:dialog id="dialognowyklientfaktura" header="Dane nowego klienta: ( * - dane fakultatywne)" widgetVar="dialognowyklientfaktura" resizable="false" 
+              onShow="ustawdialog('dialognowyklientfaktura','akordeon:formstworz:danekontrahentaout',1150,220);"
+              focus=":formnkfaktura:nazwaPole" onHide="resetujdialog('dialognowyklientfaktura');" >
+        <h:form id="formnkfaktura" >
+            <p:panel style="width: 95%;">
+                <p:growl life="3600"  id="mess_add" />
+                <p:focus id="focus" for="polawprowadzania"  />
+                <p:panelGrid id="polawprowadzania" columns="5" >
+                    <h:outputLabel value="nip/przy osobie fizycznej zostawić puste" style="font-weight: 700"/>
+                    <h:outputLabel value="nazwa pełna" style="font-weight: 700"/>
+                    <h:outputLabel value="nazwa skrocona" style="font-weight: 700"/>
+                    <h:outputLabel value="kod pocztowy" style="font-weight: 700"/>
+                    <h:outputLabel value="miejscowość" style="font-weight: 700"/>
+                    <p:inputText id="nipPole" value="#{KlView.selected.nip}" maxlength="20" style="width: 200px">
+                        <p:watermark for="nipPole" value="bez -" />
+                        <p:ajax event="keyup" listener="#{KlView.znajdzdaneregon('formnkfaktura')}" partialSubmit="true" global="false"/>
+                    </p:inputText>
+                    <p:inputText id="nazwaPole" value="#{KlView.selected.npelna}"  accesskey="a" title="pełna nazwa kontrahenta" maxlength="55" style="width: 200px" required="true" requiredMessage="Pole nazwy pełnej nie może byc puste"
+                                 onblur="kopiujnazwenowafaktura();" valueChangeListener="#{KlView.wyszukajduplikat}">
+                        <p:watermark for="nazwaPole" value="pełna nazwa kontrahenta 55znakow" /> 
+                        <p:ajax event="blur" global="false" partialSubmit="true"/>
+                    </p:inputText>
+                    <p:inputText id="symbolPole" value="#{KlView.selected.nskrocona}" maxlength="25" style="width: 200px" required="true" requiredMessage="Pole nazwa skrocona nie może byc puste">
+                        <p:watermark for="symbolPole" value="hasłowo, np:FORTEX" /> 
+                    </p:inputText>
+                    
+                    <p:inputText id="kodPole" value="#{KlView.selected.kodpocztowy}" maxlength="6" style="width: 200px" required="true" 
+                                 requiredMessage="Pole kod pocztowy nie może byc puste" />
+                    <p:autoComplete id="miejscowoscPole" value="#{KlView.selected.miejscowosc}" completeMethod="#{miasta.complete}"
+                                    var="p" itemLabel="#{p}" itemValue="#{p}" 
+                                    minQueryLength="1" maxResults="10" maxlength="20"  forceSelection="false" 
+                                    effect="clip" autocomplete="true" queryDelay="100" 
+                                    required="true" requiredMessage="Pole miejscowosc nie może byc puste" style="width: 200px" >
+                        <p:ajax event="change" partialSubmit="true" global="false"/>
+                        <p:ajax event="query" global="false"/>
+                        <p:ajax event="select" partialSubmit="true" global="false"/>
+                    </p:autoComplete>
+                    <h:outputLabel value="ulica" style="font-weight: 700"/>
+                    <h:outputLabel value="dom" style="font-weight: 700"/>
+                    <h:outputLabel value="lokal" style="font-weight: 700"/>
+                    <h:outputLabel value="kraj*" style="font-weight: 700"/>
+                    <h:outputLabel value="email*" style="font-weight: 700"/>
+                    <p:inputText id="ulicaPole" value="#{KlView.selected.ulica}"   style="width: 200px" required="true" requiredMessage="Pole ulica nie może byc puste"
+                                 onblur="wykresllokal_wykazklientow_dialog('formnkfaktura:ulicaPole');"/>
+                    <p:inputText id="domPole" value="#{KlView.selected.dom}" style="width: 200px" required="true" requiredMessage="Pole dom nie może byc puste"/>
+                    <p:inputText id="lokalPole" value="#{KlView.selected.lokal}"  style="width: 200px"
+                                 onblur="wykresllokal_wykazklientow_dialog('formnkfaktura:lokalPole');"
+                                 />
+                    <p:autoComplete id="krajPole" value="#{KlView.selected.krajnazwa}" completeMethod="#{panstwa.complete}"
+                                    var="p" itemLabel="#{p}" itemValue="#{p}" required="true" requiredMessage="Wybierz nazwę kraju"
+                                    minQueryLength="1" maxResults="10" maxlength="25"  forceSelection="false" 
+                                    effect="clip" autocomplete="true" queryDelay="100" 
+                                    style="width: 200px" >
+                        <p:ajax event="itemSelect" partialSubmit="true" global="false"  oncomplete="$('.uibuttonmui').show()"/>
+                        <p:ajax event="query" global="false"/>
+                    </p:autoComplete>
+                    <p:inputText id="emailPole" value="#{KlView.selected.email}" style="width: 200px" >
+<!--                        <p:ajax event="focus" listener="#{KlView.dodajpustegomaila}"/>-->
+                    </p:inputText>
+                    <p:commandButton value="dodaj" action="#{KlView.dodajKlienta}" update="akordeon:formstworz" oncomplete="skopiujdanenowegoklientanowafaktura();" style="width: 120px;display: none;"  styleClass="uibuttonmui"/>
+                </p:panelGrid>
+            </p:panel>
+        </h:form>
+    </p:dialog>
+</ui:composition>  
+

@@ -1,0 +1,30 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:bcf="http://brzaskun.com/facelets">
+    <style>
+        .paneldialog_plankont_kopiuj_wzorcowy .ui-panelgrid-cell {
+            width: 200px;
+        }
+    </style>
+    <p:dialog id="dialog_plankont_kopiuj_wzorcowy" header="Kopiowanie kompletnego planu wzorcowego z roku do roku" widgetVar="dialog_plankont_kopiuj_wzorcowy" 
+              resizable="false" onShow="ustawdialog('dialog_plankont_kopiuj_wzorcowy','menuustawienia', 530, 170);" closeOnEscape="true" onHide="resetujdialog('dialog_plankont_kopiuj_wzorcowy');"  >
+        <h:form id="formdialog_plankont_kopiuj_wzorcowy">
+            <p:panelGrid styleClass="paneldialog_plankont_kopiuj_wzorcowy" columns="4">
+                <h:outputText value="rok źródłowy" style="margin-left: 10px;"/>
+                <p:inputText value="#{planKontKopiujView.rokzrodlowy}"/>
+                <h:outputText value="rok docelowy" style="margin-left: 10px;"/>
+                <p:inputText value="#{planKontKopiujView.rokdocelowy}"/>
+            </p:panelGrid>
+            <p:commandButton value="kopiuj" actionListener="#{planKontKopiujView.kopiujplankontWzorcowy}" type="submit" 
+                                 style="margin-left: 60px; margin-right: auto; margin-top: 20px; width: 120px;" onclick="PF('dialog_plankont_kopiuj_wzorcowy').hide();"
+                                 update=":formwzorcowy"/>
+            <p:commandButton value="anuluj" type="button" 
+                                 onclick="PF('dialog_plankont_kopiuj_wzorcowy').hide();" style="margin-right: auto; margin-left: 50px; margin-top: 20px; width: 120px;"/>
+        </h:form>
+    </p:dialog>
+</ui:composition>

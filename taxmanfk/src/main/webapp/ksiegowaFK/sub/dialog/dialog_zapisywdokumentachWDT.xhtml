@@ -1,0 +1,101 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+        
+    xmlns:bcf="http://brzaskun.com/facelets">
+    <p:dialog id="zapisywdokumentachWDT" header="Zestawienie zapisów w dokumentach WDT - #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="zapisywdokumentachWDT" 
+              resizable="false"  onShow="ustawdialog('zapisywdokumentachWDT','menudokumenty', 1250, 750);" closeOnEscape="true" onHide="resetujdialog('zapisywdokumentachWDT');" maximizable="true">
+        <h:form id="formzapisywdokumentachWDT">
+            <p:panelGrid columns="8" style="margin-left: 2%;" >
+                <p:column>
+                    <h:outputText value="miesiąc: "/>
+                </p:column>
+                <p:column>
+                    <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
+                        <p:ajax event="change" listener="#{wierszeView.odswiezzaksiegowaneWDT()}" update=":formzapisywdokumentachWDT"/>
+                        <f:selectItem itemLabel="#{mgs.CR}" itemValue="CR"/>
+                        <f:selectItems value="#{mce.mceList}"/>
+                    </p:selectOneMenu>
+                </p:column>
+                <p:commandButton value="#{mgs.pobierz}" actionListener="#{wierszeView.initwierszeWDT()}" update="formzapisywdokumentachWDT" style="margin-left: 20px; width: 120px;"/>
+                <h:outputText value="suma kg" style="margin-left: 30px;"/>
+                <bcf:outputpl value="#{wierszeView.sumakg}" style="margin-left: 30px;"/>
+                <h:outputText value="suma szt" style="margin-left: 30px;"/>
+                <bcf:outputpl value="#{wierszeView.sumaszt}" style="margin-left: 30px;"/>
+                <p:commandButton id="drukujbutton" value="#{mgs.drukuj}" actionListener="#{pdfWNTWDTView.drukujzaksiegowanydokument(wierszeView.wybranewierszeWDT, wierszeView.wierszeWDT)}" styleClass="fkbutton"
+                                     style="margin-left: 100px; width: 120px;" />
+            </p:panelGrid>
+            <p:dataTable id="dataList" value="#{wierszeView.wierszeWDT}" var="loop" rowIndexVar="row" style="height: 700px; height: 650px; overflow-y: scroll"
+                         widgetVar="zapisywdokumentachWDTdataList"
+                         rowKey="#{loop.idwiersza}" editable="true" selection="#{wierszeView.wybranewierszeWDT}"  sortBy="#{loop.dokfk.datadokumentu}"
+                         emptyMessage="nie pobrano wierszy/ nie ma wierszy WDT w tym miesiącu">
+                <f:facet name="header">  
+                    <h:outputText value="Zestawienie wierszy WDT wg dokumentów " />  
+                    <h:outputText value="- wyszukiwanie: " />  
+                    <p:inputText id="globalFilter" onkeyup="PF('zapisywdokumentachWDTdataList').filter()" style="width:150px" />  
+                </f:facet>
+                <p:ajax event="rowSelectCheckbox" update="formzapisywdokumentachWDT" listener="#{wierszeView.sumazapisowtotalWDT}" global="false"/>
+                <p:ajax event="rowUnselectCheckbox" update="formzapisywdokumentachWDT" listener="#{wierszeView.sumazapisowtotalWDT}" global="false"/>
+                <p:ajax event="toggleSelect" update="formzapisywdokumentachWDT" listener="#{wierszeView.sumazapisowtotalWDT}" global="false"/>
+                <p:column selectionMode="multiple" styleClass="checkwiersza" width="20" style="text-align: center;" rendered="#{loop.opisWiersza ne 'podsumowanie'}"></p:column>
+                <p:column width="20" style="text-align: center;" rendered="#{loop.opisWiersza eq 'podsumowanie'}"></p:column>
+                <p:column headerText="#{mgs.numerkolejny}" width="20"  style="text-align: center; height: 20px;">
+                    <h:outputText value="#{row+1}"/>
+                </p:column>
+                <p:column headerText="data dokum" width="50">
+                    <h:outputText value="#{loop.dokfk.datadokumentu}"/>
+                </p:column>
+                <p:column headerText="id dokumentu" width="90">
+                    <h:outputText value="#{loop.dokfk.seriadokfk ne null ? loop.dokfkS : ''}"/>
+                </p:column>
+                <p:column headerText="nr własny" width="90">
+                    <h:outputText value="#{loop.dokfk.numerwlasnydokfk}"/>
+                </p:column>
+                <p:column headerText="#{mgs.opis}" width="140" filterBy="#{loop.opisWiersza}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{loop.opisWiersza}">
+                    <h:outputText value="#{loop.opisWiersza}" />
+                </p:column>
+                <p:column headerText="ilość kg" width="60" filterBy="#{loop.ilosc_kg}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{loop.ilosc_kg}">
+                    <h:outputText value="#{loop.ilosc_kg}" rendered="#{loop.ilosc_kg eq 0 ? false : true}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="ilość szt" width="60" filterBy="#{loop.ilosc_szt}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{loop.ilosc_szt}">
+                    <h:outputText value="#{loop.ilosc_szt}" rendered="#{loop.ilosc_szt eq 0 ? false : true}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Wn waluta" width="60" filterBy="#{loop.stronaWn.kwota}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{loop.stronaWn.kwota}">
+                    <h:outputText value="#{loop.stronaWn.kwota}" rendered="#{loop.stronaWn.kwota eq 0 ? false : true}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Wn PLN" width="60" filterBy="#{loop.stronaWn.kwotaPLN}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{loop.stronaWn.kwota}">
+                    <h:outputText value="#{loop.stronaWn.kwotaPLN}" rendered="#{loop.stronaWn.kwotaPLN eq 0 ? false : true}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="konto Wn" width="60"  filterBy="#{loop.stronaWn.konto.pelnynumer}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{loop.stronaWn.konto.pelnynumer}">
+                    <h:outputText value="#{loop.stronaWn.konto.pelnynumer}" style="margin-left: 3px;"/>
+                </p:column>
+                <p:column headerText="Ma waluta" width="60" filterBy="#{loop.stronaMa.kwota}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{loop.stronaMa.kwota}">
+                    <h:outputText value="#{loop.stronaMa.kwota}" rendered="#{loop.stronaMa.kwota eq 0 ? false : true}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Ma PLN" width="60" filterBy="#{loop.stronaMa.kwotaPLN}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{loop.stronaMa.kwota}">
+                    <h:outputText value="#{loop.stronaMa.kwotaPLN}" rendered="#{loop.stronaMa.kwotaPLN eq 0 ? false : true}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="konto Ma" width="60"   filterBy="#{loop.stronaMa.konto.pelnynumer}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{loop.stronaMa.konto.pelnynumer}">
+                    <h:outputText value="#{loop.stronaMa.konto.pelnynumer}"  style="margin-left: 3px;"/>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+        <f:facet name="footer">
+        </f:facet>
+    </p:dialog>
+</ui:composition>

@@ -1,0 +1,30 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+        
+    xmlns:f="http://java.sun.com/jsf/core">
+    <p:dialog header="Wpisz dane nowego konta analitycznego do konta: #{planKontView.selectednodekonto.pelnynumer}" widgetVar="nowekontoanalityczne" resizable="false" 
+              id="dodawaniekontaanalitycznego" onShow="snapshot('form_dialog_plankont:dataList_data');" onHide="recover('form_dialog_plankont:dataList_data');">  
+        <h:form id="formY">  
+        <p:focus for="dkp">
+            <p:panelGrid id="dkp" columns="2" style="width: 400px;">
+                       <h:outputLabel value="Nazwapelna:" for="nazwapelna" />
+                        <p:inputTextarea id="nazwapelna" rows="4" cols="30" value="#{planKontView.noweKonto.nazwapelna}" 
+                                         title="Nazwapelna" required="true" requiredMessage="The Nazwapelna field is required." onblur="kopiujnazwepelnakonta('formY:nazwapelna','formY:nazwaskrocona')"/>
+                        <h:outputLabel value="Nazwaskrocona:" for="nazwaskrocona" />
+                        <p:inputText id="nazwaskrocona" value="#{planKontView.noweKonto.nazwaskrocona}" title="Nazwaskrocona" required="true" requiredMessage="The Nazwaskrocona field is required."/>
+                        
+                        <p:commandButton value="dodaj" actionListener="#{planKontView.dodajanalityczne()}"  type="submit" 
+                                         update=":formY @form :formwzorcowy" style="display: none;" 
+                                         oncomplete="PF('nowekontoanalityczne').hide();"/>
+                        <p:commandButton value="dodaj" actionListener="#{planKontView.dodajanalityczne()}" accesskey="d" type="submit" update="formY @form formwzorcowy" 
+                                         style="float: right; width: 120px;" oncomplete="PF('nowekontoanalityczne').hide();">
+                        </p:commandButton>
+            </p:panelGrid>
+            </p:focus>
+    </h:form>  
+</p:dialog> 
+   
+</ui:composition>

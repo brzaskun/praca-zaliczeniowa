@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:bcf="http://brzaskun.com/facelets">
+    <h:form id="form_dialog_stowarzyszenie_rozrachunki_zbiorcze">
+        <p:panelGrid columns="2">
+            <p:selectOneMenu value="#{stowRozrachCzlonkZbiorczeView.wybranekonto}" style="width: 250px;" converter="#{kontoConv}"  rendered="#{podatnikView.selectedDokKsi.kategoriadokumentu == 0}">
+                <f:selectItem itemLabel="wybierz konto" itemValue="" />
+                <f:selectItems value="#{stowRozrachCzlonkZbiorczeView.konta}" var="item" itemLabel="#{item.pelnynumer} #{item.nazwapelna}" itemValue="#{item}"/>
+                <p:ajax event="change" partialSubmit="true" global="false" listener="#{stowRozrachCzlonkZbiorczeView.pobierz}" update="form_dialog_stowarzyszenie_rozrachunki_zbiorcze"/>
+        </p:selectOneMenu>
+            <p:commandButton value="drukuj" styleClass="nb" actionListener="#{stowRozrachCzlonkZbiorczeView.drukuj}" global="false"/>
+            </p:panelGrid>
+        <p:dataTable value="#{stowRozrachCzlonkZbiorczeView.listazapisow}" var="wpisek" rowIndexVar="index"
+                     filteredValue="#{stowRozrachCzlonkZbiorczeView.listazapisowfiltered}"
+                     style="overflow-y: scroll; height: 600px; width: 800px; margin-top: 15px;" emptyMessage="nie pobrano danych"
+                     sortBy="#{wpisek.konto.nazwapelna}">
+            <p:ajax event="filter" global="false"/>
+            <f:facet name="header">
+                <h:outputText value="Wykaz rozliczeń w roku #{WpisView.rokWpisuSt}"/>
+            </f:facet>
+            <p:column style="width: 30px;">
+                <h:outputText value="#{index+1}"/>
+            </p:column>
+            <p:column headerText="nazwisko i imię" styleClass="filter120"  style="width: 250px;" filterBy="#{wpisek.konto.nazwapelna}" 
+                      filterMatchMode="contains" sortBy="#{wpisek.konto.nazwapelna}">
+                <h:outputText value="#{wpisek.konto.nazwapelna}"/>
+            </p:column>
+            <p:column headerText="przypis">
+                <bcf:outputpl value="#{wpisek.sumawn}" rendered="#{wpisek.sumawn ne 0.0}"/>
+            </p:column>
+            <p:column headerText="wpłata">
+                <bcf:outputpl value="#{wpisek.sumama}" rendered="#{wpisek.sumama ne 0.0}"/>
+            </p:column>
+            <p:column headerText="zadłużenie" sortBy="#{wpisek.saldo}">
+                <bcf:outputpl value="#{wpisek.saldo}" stylePlus="#{wpisek.saldo lt 0.0 ? 'color: red':null}" rendered="#{wpisek.saldo ne 0.0}"/>
+            </p:column>
+            <p:column headerText="data przyst." style="text-align: center" sortBy="#{wpisek.mp.poczatek}">
+                <h:outputText value="#{wpisek.mp.poczatek}">
+                    <f:convertDateTime pattern="yyyy-mm-dd"/>
+                </h:outputText>
+            </p:column>
+            <p:column headerText="nr legit." style="text-align: center" sortBy="#{wpisek.mp.nrlegitymacji}">
+                <h:outputText value="#{wpisek.mp.nrlegitymacji}"/>
+            </p:column>
+        </p:dataTable>
+    </h:form>
+</html>
+

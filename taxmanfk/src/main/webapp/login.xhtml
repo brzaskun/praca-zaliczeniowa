@@ -1,0 +1,126 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:bcf="http://brzaskun.com/facelets">
+    <f:view locale="#{localeChanger.locale}">
+<!--        <f:event type="postAddToView" listener="#{logowanie.sprawdzciasteczka}"/>-->
+        <h:head>
+            <meta http-equiv="Accept-Encoding" content="gzip"/>
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+            <meta http-equiv="Pragma" content="no-cache"/>
+            <meta http-equiv="Expires" content="0" />
+            <meta http-equiv="Cache-Control" content="no-cache,no-store,must-revalidate"/>
+            <h:outputStylesheet id="template" name="css/style.css"/>
+            <script src="resources/js_common/language.js" type="text/javascript"></script>
+            <script src="resources/js_common/globales.js" type="text/javascript"></script>
+            <title>Biuro Rachunkowe Taxman</title>
+        </h:head>
+        <h:body>
+<!--            <script>
+                navigator.sayswho = (function () {
+                    var ua = navigator.userAgent, tem,
+                            M = ua.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || [];
+                    if (/trident/i.test(M[1])) {
+                        tem = /\brv[ :]+(\d+)/g.exec(ua) || [];
+                        return 'IE ' + (tem[1] || '');
+                    }
+                    if (M[1] === 'Chrome') {
+                        tem = ua.match(/\b(OPR|Edge)\/(\d+)/);
+                        if (tem != null)
+                            return tem.slice(1).join(' ').replace('OPR', 'Opera');
+                    }
+                    M = M[2] ? [M[1], M[2]] : [navigator.appName, navigator.appVersion, '-?'];
+                    if ((tem = ua.match(/version\/(\d+)/i)) != null)
+                        M.splice(1, 1, tem[1]);
+                    return info = M.join(' ');
+
+                })();
+                $(document).ready(function () {
+                    if ((navigator.sayswho.indexOf('Firefox') === -1) &amp;&amp; (navigator.sayswho.indexOf('Chrome') === -1) &amp;&amp; (navigator.sayswho.indexOf('Opera') === -1)) {
+                        if (navigator.language === 'pl' || navigator.language === 'pl-PL') {
+                            alert("Ten program działa poprawnie jedynie w przeglądarce Firefox, Chrome lub Opera!");
+                        } else if (navigator.language === 'de' || navigator.language === 'de-DE') {
+                            alert("Diese Software funktioniert nur unter Firefox, Chrome oder Opera Browser!");
+                        } else if (navigator.language === 'en' || navigator.language === 'en-EN' || navigator.language === 'en-US') {
+                            alert("This Software works only with Firefox, Chrome or Opera Browser!");
+                        }
+                    }
+                })
+            </script>-->
+            <p:panel style="text-align: center; min-height: 150px;">
+            </p:panel>
+            <p:panel style="margin-left: auto; margin-right: auto; width: 600px; border: none" >
+                <p:growl life="3600"  id="logowanie"  ><p:autoUpdate/></p:growl>
+             <h:form id="logowanieprzyciskigorne">
+                <p:panelGrid columns="3" style="margin-top: 5px; margin-left: auto; margin-right: auto; width: 400px; border-style: hidden !important;">
+                    <p:column >
+                        <p:commandButton value="#{mgs.pomoc}" action="pomoclogowanie" style="width: 140px;"/>
+                    </p:column>
+                    <p:column>
+                        <p:commandButton value="#{mgs['zapomialem.hasla']}" action="zapomnialem" style="width: 140px;"/>
+                    </p:column>
+                    <p:column>
+                        <p:commandButton value="#{mgs.rejestracja}" action="rejestruj" style="width: 140px;"/>
+                    </p:column>
+                </p:panelGrid>
+                    </h:form>
+            </p:panel>
+            <h:form id="formlog1">
+                <style>
+                    .aktywny .ui-widget-header {
+                        color:red;
+                    }
+                </style> 
+                <p:panel style="margin-top: 2%; margin-left: auto; margin-right: auto; width: 380px"
+                         header="#{facesContext.viewRoot.locale.language.equals('pl') ? statusProgramuView.aktualnystatus.tekst : (facesContext.viewRoot.locale.language.equals('de') ? statusProgramuView.aktualnystatus.tekst_de : statusProgramuView.aktualnystatus.tekst_en)}"
+                         styleClass="#{statusProgramuView.aktualnystatus ne null ? 'aktywny':null}">
+                    <p:focus id="focus" context="logowaniepanel"/>
+                    <p:panelGrid id="logowaniepanel" columns="2" style="margin-left: auto; margin-right: auto; margin-top: 4%; width: 350px; text-align: center;" >
+                        <h:outputText id="loginnazwa" value="#{mgs.login}"/>
+                        <h:inputText value="#{logowanie.uzytkownik}" accesskey="s" required="true" style="width: 150px;" requiredMessage="Wpisz login!" 
+                                      >
+<!--                            <p:ajax event="blur" listener="#{logowanie.ustawLocale(logowanie.uzytkownik)}" partialSubmit="true" global="false"  
+                                    oncomplete="r('formlog1:haslo').focus();" 
+                                    update="formlog1:loginnazwa formlog1:loginhaslo formlog1:logowaniebutton infologowanie logowanieprzyciskigorne"/>-->
+                        </h:inputText>
+                        <h:outputText id="loginhaslo" value="#{mgs.haslo}"/>
+                        <h:inputSecret id="haslo" value="#{logowanie.haslo}" required="true" style="width: 150px;" requiredMessage="Wpisz hasło!" autocomplete="true" redisplay="true"/>
+                    </p:panelGrid>
+                    <br/>
+<!--                    test-->
+                    <p:panelGrid id="logowaniebutton" columns="2" style="margin-left: auto; margin-right: auto; width: 350px; text-align: center; border: none !important;">
+                        <p:defaultCommand target="zaloguj"/>
+                        <p:commandButton id="zaloguj" value="#{mgs.zaloguj}" action="#{logowanie.login()}" ajax="false"
+                                       styleClass="loginbutton" style="width: 150px; text-align: center;">
+                        </p:commandButton>
+                    </p:panelGrid>
+                </p:panel>
+            </h:form>
+                   <p:panel style="margin-left: auto; margin-right: auto; width: 400px; border: none; text-align: right;" >
+                <h:form>
+                    <p:commandButton styleClass="languagebutton" value="pl" actionListener="#{localeChanger.polishAction}"  update="logowanieprzyciskigorne formlog1 infologowanie"/>
+                    <p:commandButton styleClass="languagebutton" value="en" actionListener="#{localeChanger.englishAction}"  update="logowanieprzyciskigorne formlog1 infologowanie"/>
+                    <p:commandButton styleClass="languagebutton" value="de" actionListener="#{localeChanger.deutschAction}" update="logowanieprzyciskigorne formlog1 infologowanie"/>
+                    <p:commandButton styleClass="languagebutton" value="cz" actionListener="#{localeChanger.czechAction}" update="logowanieprzyciskigorne formlog1 infologowanie"/>
+                </h:form>
+            </p:panel>
+            <h:form id="infologowanie" >
+                <p:panel style="margin-left: auto; margin-right: auto; width: 300px; border: none; text-align: center; font-size: smaller;" >
+                    <h:outputFormat value="#{mgs.twojeIP1}" style="color: gray;">
+                        <f:param value="#{logowanie.ipusera}"/>
+                    </h:outputFormat>
+                    <br/>
+                    <h:outputFormat value="#{mgs.twojeIP2}">
+                        <f:param value="#{logowanie.liczniklogowan}"/>
+                    </h:outputFormat>
+                </p:panel>
+            </h:form>
+
+            <!--eefe-->
+        </h:body>
+    </f:view>
+</html>

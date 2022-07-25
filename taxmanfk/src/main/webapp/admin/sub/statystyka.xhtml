@@ -1,0 +1,73 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//PL" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:bcf="http://brzaskun.com/facelets">
+    <p:outputPanel style="padding: 10px;">
+        <h:outputText value="Rok:" style="text-shadow: #6374AB 1px -1px 1px"/>
+        <p:selectOneMenu id="rokWpisu" value="#{statisticAdminView.rok}" style="width: 70px;">
+            <f:selectItems value="#{roki.rokiList}"/>
+            <p:ajax event="change" partialSubmit="true"/>
+        </p:selectOneMenu>
+    </p:outputPanel>
+    <p:outputPanel style="padding: 10px;">
+        <p:commandButton value="przeliczaj" actionListener="#{statisticAdminView.init()}" update="@form"/>
+    </p:outputPanel>
+    <p:outputPanel id="wrapper">
+        <p:dataTable  var="wpis" value="#{statisticAdminView.statystyka}" id="lista" style="width: 1200px;"
+                      paginator="true" paginatorAlwaysVisible="true" rows="20"
+                      paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
+                      rowsPerPageTemplate="20,50,100" 
+                      rowKey="#{wpis.ksiegowa}" > 
+            <f:facet name="header">  
+                <h:outputText value="Statystyka księgowych" />  
+            </f:facet>
+            
+            <p:column headerText="login" filterBy="#{wpis.ksiegowa}" sortBy="#{wpis.ksiegowa}" width="120">  
+                <h:outputText value="#{wpis.ksiegowa}" />
+            </p:column>
+            <p:column headerText="grupa" filterBy="#{wpis.grupa}" sortBy="#{wpis.grupa}" width="60">  
+                <h:outputText value="#{wpis.grupa}" />
+            </p:column>
+            <p:column headerText="imię i naz." filterBy="#{wpis.nazwiskoimie}" sortBy="#{wpis.nazwiskoimie}" width="150">  
+                <h:outputText value="#{wpis.nazwiskoimie}" />
+            </p:column>
+            <p:column headerText="#{mgs.dokumenty}" filterBy="#{wpis.iloscdokumentow}" filterMatchMode="contains" sortBy="#{wpis.iloscdokumentow}" width="120">  
+                <bcf:outputpl0 value="#{wpis.iloscdokumentow}" />
+            </p:column>
+            <p:column headerText="wydruki" filterBy="#{wpis.iloscwydrukow}" filterMatchMode="contains" sortBy="#{wpis.iloscwydrukow}" width="120">  
+                <bcf:outputpl0 value="#{wpis.iloscwydrukow}" />
+            </p:column>
+            <p:column headerText="sesje" filterBy="#{wpis.iloscsesji}" filterMatchMode="contains" sortBy="#{wpis.iloscsesji}" width="120">  
+                <bcf:outputpl0 value="#{wpis.iloscsesji}" />
+            </p:column>
+            <p:column headerText="czas" filterBy="#{wpis.spedzonyczas}" filterMatchMode="contains" sortBy="#{wpis.spedzonyczas}">  
+                <h:outputText value="#{wpis.spedzonyczas}" />
+            </p:column>
+        </p:dataTable>
+    </p:outputPanel>
+    <p:outputPanel id="wrapper2">
+        <p:dataTable  var="wpis" value="#{statisticAdminView.obrabiani}" id="lista2"  style="width: 400px;" 
+                      paginator="true" paginatorAlwaysVisible="true" rows="20"
+                      paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
+                      rowsPerPageTemplate="20,50,100" 
+                      rowKey="#{wpis.ksiegowa}" > 
+            <f:facet name="header">  
+                <h:outputText value="Ilośc klientów" />  
+            </f:facet>
+            <p:column headerText="osoba" filterBy="#{wpis.wprowadzajacy}" sortBy="#{wpis.wprowadzajacy}">  
+                <h:outputText value="#{wpis.wprowadzajacy}" />
+            </p:column>
+            <p:column headerText="grupa" filterBy="#{wpis.grupa}" filterMatchMode="contains" sortBy="#{wpis.grupa}">  
+                <h:outputText value="#{wpis.grupa}" />
+            </p:column>
+            <p:column headerText="liczba klientów" filterBy="#{wpis.liczbaklientow}" filterMatchMode="contains" sortBy="#{wpis.liczbaklientow}">  
+                <h:outputText value="#{wpis.liczbaklientow}" />
+            </p:column>
+        </p:dataTable>
+    </p:outputPanel>
+</ui:composition>   

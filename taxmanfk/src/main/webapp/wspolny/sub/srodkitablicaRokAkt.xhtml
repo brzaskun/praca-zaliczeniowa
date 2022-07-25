@@ -1,0 +1,136 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    
+    xmlns:bcf="http://brzaskun.com/facelets">
+     <style>
+        .ui-datatable .ewidencjavat .ui-column-filter {
+            width: 250px !important;
+        }
+
+     </style>
+    <h:form id="formSTR2">
+        <p:growl life="3600"  id="mess_add" />
+        <p:commandButton  value="Zachowaj w pdf" global="false" actionListener="#{sesjaView.dodajwydruk()}" action="#{STREwidencja.drukewidencjaSTR()}" onsuccess="wydrukstr('#{WpisView.podatnikWpisu}');">
+        </p:commandButton>  
+        <p:commandButton  value="Zachowaj w xls" global="false" action="#{xLSSrodkiEwidView.zachowajwXLS(STREwidencja.strtabela)}" onsuccess="wydrukstr('#{WpisView.podatnikWpisu}');"  ajax="false">
+        </p:commandButton>  
+        <p:commandButton id="ewwysylka" value="Wyślij podatnikowi" actionListener="#{sesjaView.dodajmail()}" onclick="PF('confirmation').show()" style="display: none;" >
+        </p:commandButton>
+        <p:separator/>
+        <p:dataTable  var="wpis" value="#{STREwidencja.strtabela}" id="dokumsrodkiListaRok" editable="true" 
+                      style="overflow-y: scroll; height: 530px;" styleClass="ewidencjavat" selectionMode="single" selection="#{STREwidencja.selected}"
+                      emptyMessage="W firmie nie ma środków trwałych" sortOrder="descending" rowKey="#{wpis.id}"> 
+            <p:ajax event="filter" global="false"/>
+            <f:facet name="header">  
+                <h:outputText value="Ewidencja środków trwałych za rok #{WpisView.rokWpisuSt}"  styleClass="ewidencjavat"/>  
+            </f:facet>
+
+            <p:column id="Column0" headerText="#{mgs.nr}" width="15" style="text-align: center;" >  
+                <h:outputText value="#{wpis.id}"  rendered="#{wpis.id != 0}"  style="#{wpis.dataprzek.substring(0,4) eq WpisView.rokWpisuSt ? 'color: green; font-weight: 900;' : null}"/>
+            </p:column>
+
+            <p:column id="Column1" headerText="nazwa" styleClass="ewidencjavat" filterBy="#{wpis.nazwa}" filterMatchMode="contains" sortBy="#{wpis.nazwa}" width="220" >  
+                <h:outputText value="#{wpis.nazwa}"  style="#{wpis.dataprzek.substring(0,4) eq WpisView.rokWpisuSt ? 'color: green; font-weight: 700;' : null}"/>
+            </p:column>
+            <p:column id="Column2aa" headerText="data przyj." width="65" style="text-align: center;">  
+                <h:outputText value="#{wpis.dataprzeksub}" style="#{wpis.dataprzek.substring(0,4) eq WpisView.rokWpisuSt ? 'color: green; font-weight: 700;' : null}">
+                </h:outputText>
+            </p:column>  
+            <p:column id="Column2bb" headerText="data sprzed" width="65" style="text-align: center;">  
+                <h:outputText value="#{wpis.datasprzedazysub}" style="#{wpis.datasprzedazy ne '' ? wpis.datasprzedazy.substring(0,4) eq WpisView.rokWpisuSt ? 'color: green; font-weight: 700;' : null: null}">
+                </h:outputText>
+            </p:column>  
+            <p:column id="Column3" headerText="KST" width="30" sortBy="#{wpis.kst}" style="text-align: center;">  
+                <h:outputText value="#{wpis.kst}"  style="#{wpis.dataprzek.substring(0,4) eq WpisView.rokWpisuSt ? 'color: green; font-weight: 700;' : null}"/>
+            </p:column>   
+            <p:column id="Column4" headerText="cena zakupu" width="70" sortBy="#{wpis.netto}">  
+                <bcf:outputpl value="#{wpis.netto}"/>
+            </p:column>
+            <p:column id="Column5" headerText="odpis za #{WpisView.rokWpisuSt}" width="70" sortBy="#{wpis.odpisrok}">  
+                <h:outputText value="#{wpis.odpisrok}"  style="float: right;">
+                    <f:convertNumber minFractionDigits="2" locale="PL"/>
+                </h:outputText>
+            </p:column>
+            <p:column id="Column6" headerText="umorz. na pocz. rok" width="70" sortBy="#{wpis.umorzeniaDo}">  
+                <h:outputText value="#{wpis.umorzeniaDo}"  style="float: right;">
+                    <f:convertNumber minFractionDigits="2" locale="PL"/>
+                </h:outputText>
+            </p:column>
+            <p:column id="Column7" headerText="stycz." width="45">  
+                <h:outputText value="#{wpis.m.get('01')}"  style="float: right;" rendered="#{wpis.m.get('01')ne 0.0}">
+                    <f:convertNumber minFractionDigits="2" locale="PL"/>
+                </h:outputText>
+            </p:column>
+            <p:column id="Column8" headerText="luty" width="45">  
+                <h:outputText value="#{wpis.m.get('02')}"  style="float: right;" rendered="#{wpis.m.get('02') ne 0.0}">
+                    <f:convertNumber minFractionDigits="2" locale="PL"/>
+                </h:outputText>
+            </p:column>
+            <p:column id="Column9" headerText="marzec" width="45">  
+                <h:outputText value="#{wpis.m.get('03')}"  style="float: right;" rendered="#{wpis.m.get('03') ne 0.0}">
+                    <f:convertNumber minFractionDigits="2" locale="PL"/>
+                </h:outputText>
+            </p:column>
+            <p:column id="Column10" headerText="kwiec." width="45">  
+                <h:outputText value="#{wpis.m.get('04')}"  style="float: right;" rendered="#{wpis.m.get('04') ne 0.0}">
+                    <f:convertNumber minFractionDigits="2" locale="PL"/>
+                </h:outputText>
+            </p:column>
+            <p:column id="Column11" headerText="maj" width="45">  
+                <h:outputText value="#{wpis.m.get('05')}" style="float: right;" rendered="#{wpis.m.get('05') ne 0.0}">
+                    <f:convertNumber minFractionDigits="2" locale="PL"/>
+                </h:outputText>
+            </p:column>
+            <p:column id="Column12" headerText="czerw." width="45">  
+                <h:outputText value="#{wpis.m.get('06')}"  style="float: right;" rendered="#{wpis.m.get('06') ne 0.0}">
+                    <f:convertNumber minFractionDigits="2" locale="PL"/>
+                </h:outputText>
+            </p:column>
+            <p:column id="Column13" headerText="lip." width="45">  
+                <h:outputText value="#{wpis.m.get('07')}"  style="float: right;" rendered="#{wpis.m.get('07') ne 0.0}">
+                    <f:convertNumber minFractionDigits="2" locale="PL"/>
+                </h:outputText>
+            </p:column>
+            <p:column id="Column14" headerText="sierp." width="45">  
+                <h:outputText value="#{wpis.m.get('08')}"  style="float: right;" rendered="#{wpis.m.get('08') ne 0.0}">
+                    <f:convertNumber minFractionDigits="2" locale="PL"/>
+                </h:outputText>
+            </p:column>
+            <p:column id="Column15" headerText="wrześ." width="45">  
+                <h:outputText value="#{wpis.m.get('09')}"  style="float: right;" rendered="#{wpis.m.get('09') ne 0.0}">
+                    <f:convertNumber minFractionDigits="2" locale="PL"/>
+                </h:outputText>
+            </p:column>
+            <p:column id="Column16" headerText="paź." width="45">  
+                <h:outputText value="#{wpis.m.get('10')}"  style="float: right;" rendered="#{wpis.m.get('10') ne 0.0}">
+                    <f:convertNumber minFractionDigits="2" locale="PL"/>
+                </h:outputText>
+            </p:column>
+            <p:column id="Column17" headerText="list." width="45">  
+                <h:outputText value="#{wpis.m.get('11')}"  style="float: right;" rendered="#{wpis.m.get('11') ne 0.0}">
+                    <f:convertNumber minFractionDigits="2" locale="PL"/>
+                </h:outputText>
+            </p:column>
+            <p:column id="Column18" headerText="grudz." width="45">  
+                <h:outputText value="#{wpis.m.get('12')}"  style="float: right;" rendered="#{wpis.m.get('12') ne 0.0}">
+                    <f:convertNumber minFractionDigits="2" locale="PL"/>
+                </h:outputText>
+            </p:column>
+            <p:column id="Column19" headerText="do umorz. przyszłe lata" width="55">  
+                <h:outputText value="#{wpis.pozostaloDoUmorzenia}"  style="float: right;">
+                    <f:convertNumber minFractionDigits="2" locale="PL"/>
+                </h:outputText>
+            </p:column>
+        </p:dataTable>
+        <p:contextMenu for="formSTR2:dokumsrodkiListaRok">
+            <p:menuitem value="Przelicz" update="formSTR2:dokumsrodkiListaRok" actionListener="#{STREwidencja.przekalkulujponownie()}" icon="ui-icon-disk" />
+        </p:contextMenu>
+        <br/>
+    </h:form>
+
+</ui:composition>   
+

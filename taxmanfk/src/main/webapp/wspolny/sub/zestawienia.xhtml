@@ -1,0 +1,16 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    
+    >
+    
+    <p:tabView id="akordeon" style="max-width: 1200px; min-width: 800px;" >
+        <ui:include src="zestawienia/miejscakosztow.xhtml"/>
+        <ui:include src="zestawienia/samochody.xhtml"/>
+        <ui:include src="zestawienia/miejscaprzychodow.xhtml"/>
+    </p:tabView>
+</ui:composition>   
+

@@ -1,0 +1,16 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:bcf="http://brzaskun.com/facelets">
+    
+    <p:dialog id="dialog_stowarzyszenie_czlonekskladka" header="Przyporządkowanie składek stowarzyszenia do członków" widgetVar="dialog_stowarzyszenie_czlonekskladka" 
+              resizable="false"  onShow="ustawdialog('dialog_stowarzyszenie_czlonekskladka','menukartoteki',1080,650);" 
+              closeOnEscape="true" onHide="resetujdialog('dialog_stowarzyszenie_czlonekskladka');" 
+              >
+       
+        <ui:include src="../../../wspolny/sub/stow_czlonekskladka.xhtml"/>
+    </p:dialog>
+</ui:composition>

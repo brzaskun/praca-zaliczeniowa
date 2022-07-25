@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+ <f:view locale="#{localeChanger.locale}">
+    <h:head>
+        <meta http-equiv="Accept-Encoding" content="gzip"/>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+            <meta http-equiv="Pragma" content="no-cache"/>
+            <meta http-equiv="Accept-Encoding" content="gzip"/>
+            <meta http-equiv="Expires" content="0" />
+            <meta http-equiv="Cache-Control" content="no-cache,no-store,must-revalidate"/>
+        <link rel="stylesheet" type="text/css" href="../resources/css/style.css" />
+        <title>Wstęp wzbroniony :)</title>
+    </h:head>
+    <h:body styleClass="body">
+         <p:idleMonitor timeout="7000">  
+            <p:ajax event="idle" listener="#{logowanie.autologin()}"  />  
+        </p:idleMonitor>  
+            <p:panel style="text-align: center; margin: 10% auto;  width: 600px; border-style: none;">
+                
+                <p></p>
+                <h:outputText
+                    value="Wygląda na to, ze próbowałeś się dostać do strony, do której 
+                    nie masz wystarczającyc uprawnień. Skontaktuj się z Administratorem, aby zapewnić sobie dostęp następnym razem."
+                    style="font-weight: bold;"
+                    ></h:outputText>
+                <p></p>
+                <h:form>
+                    <p:commandButton value="Zaloguj się ponownie" actionListener="#{logowanie.invalidatesession}" action="/login.xhtml?faces-redirect=true"/>
+                </h:form>
+            </p:panel>
+      
+    </h:body>
+       </f:view>    
+</html>

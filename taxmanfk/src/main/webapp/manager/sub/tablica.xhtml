@@ -1,0 +1,392 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:bcf="http://brzaskun.com/facelets">
+    <h:outputScript library="js_fk" name="jquery.countdown.js"/>
+    
+    
+    
+    <p:outputPanel style="text-align: center;">
+        <h:form>
+            <p:commandButton value="resetuj serwer" actionListener="#{servereset.reset()}" style="padding: 5px;margin: 5px;"
+                             update="@form" rendered="#{servereset.pokazbutton}" onclick="startujreset();"/>
+            <h:outputText value="Rozpoczął się reset serwera. Potrwa on ok 2-3 minut. Należy po tym czasie wybrać stronę logowania i wcisnąć kombinację klawiszy Ctrl+F5 celem odświeżenia"
+                          style="color: red;"  rendered="#{!servereset.pokazbutton}"/>
+        </h:form>
+        <div id="getting-started" style="margin: 10px; font-size: x-large;"><span id="clock"></span></div>
+    </p:outputPanel>
+    <script type="text/javascript">
+      var startujreset = function() {
+        var fiveSeconds = new Date().getTime() + 180000;
+          $('#clock').countdown(fiveSeconds, {elapse: true})
+          .on('update.countdown', function(event) {
+            var $this = $(this);
+            if (event.elapsed) {
+              $this.html(event.strftime('Moża się zalogować'));
+            } else {
+              $this.html(event.strftime('Trwa restart: <span>%H:%M:%S</span>'));
+            }
+          });;
+      };
+    </script>
+     <p:outputPanel id="wrapper">
+        <h:form>
+            <p:dataTable  var="wpis" value="#{sesjaView.wykazsesjiZalogowani}" id="lista" sortOrder="descending"
+                          paginator="true" paginatorAlwaysVisible="true" rows="20" sortBy="#{wpis.zalogowanie}"
+                          paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
+                          rowsPerPageTemplate="20,50,100" 
+                          rowKey="#{wpis.nrsesji}"> 
+                <f:facet name="header">  
+                    <h:outputText value="Wykaz zalogowanych osób" />  
+                </f:facet>
+                <p:column headerText="nr sesji" >  
+                    <h:outputText value="#{wpis.nrsesji}" />
+                </p:column>
+                <p:column headerText="login" >  
+                    <h:outputText value="#{wpis.uzytkownik}" />
+                </p:column>
+                <p:column headerText="ip" >  
+                    <h:outputText value="#{wpis.ip}" />
+                </p:column>
+                <p:column headerText="login">  
+                    <h:outputText value="#{wpis.zalogowanie}" >
+                        <f:convertDateTime locale="pl" pattern="EEE, d MMM yyyy HH:mm:ss"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="logout" >  
+                    <h:outputText value="#{wpis.wylogowanie}" >
+                        <f:convertDateTime locale="pl" pattern="EEE, d MMM yyyy HH:mm:ss"/>
+                    </h:outputText>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </p:outputPanel>
+<!-- <script type="text/javascript">
+  function socketListener(message, channel, event) {                      
+   document.getElementById("clockId").innerHTML += message + "<br/>";
+  }
+ </script>      
+    
+    <h:form>           
+  <h:commandButton value="Clock" action="#{pushBean.clockAction()}">
+   <f:ajax />
+  </h:commandButton>
+ </h:form>
+
+ <f:websocket channel="clock" onmessage="socketListener" />       
+
+ <hr/>
+ <div id="clockId" style="color:red;"></div>-->
+
+ 
+<!--    <h:form>
+        <p:commandButton value="faktura nowe wiersze" actionListener="#{angazView.przerobfaktury()}"/>
+    </h:form> -->
+<!--    <h:form>
+        <p:commandButton value="angaz" actionListener="#{pozycjeNaFakturzeView.dodajnowakolumne()}"/>
+    </h:form> -->
+<!--    <h:form>
+        <p:commandButton value="kliencifk" actionListener="#{kliencifkView.kliencifkzmiana()}"/>
+    </h:form> -->
+<!--     <h:form>
+         <p:growl />
+         <p:commandButton value="2022 walor" actionListener="#{fakturaWaloryzacjaView.mailpodwyzki()}" global="true" update="@form"/>
+    </h:form> -->
+<!--     <h:form>
+         <p:growl />
+         <p:commandButton value="jpk blob" actionListener="#{platnikDRAView.opipi()}" global="true" update="@form"/>
+    </h:form> -->
+<h:form>
+         <p:growl />
+         <p:commandButton value="podmiot" actionListener="#{podmiotView.opipi()}" global="true" update="@form"/>
+    </h:form> 
+<!--     <h:form>
+         <p:growl />
+         <p:commandButton value="jpk blob" actionListener="#{jPKListaView.jpkblob()}" global="true" update="@form"/>
+    </h:form> -->
+<!--     <h:form>
+         <p:growl />
+         <p:commandButton value="zu nowy" actionListener="#{zusStawkiZbiorczeView.nowestawki()}" global="true" update="@form"/>
+    </h:form> -->
+<!--    <h:form>
+        <p:commandButton value="evewidencje" actionListener="#{rewolucjaPodatnikView.klienciporzadek()}"/>
+    </h:form> -->
+<!--    <h:form>
+        <p:commandButton value="evewidencje" actionListener="#{rewolucjaPodatnikView.ewidencjabyid()}"/>
+    </h:form> -->
+<!-- <h:form>
+        <p:commandButton value="puste wiersze" actionListener="#{rewolucjaPodatnikView.usunpustewiersze()}"/>
+    </h:form> -->
+<!--    <h:form>
+        <p:commandButton value="nowe wiersze" actionListener="#{rewolucjaPodatnikView.przebudowawiersze()}"/>
+    </h:form>-->
+    
+<!--    <h:form>
+        <p:commandButton value="cechadok" actionListener="#{cechazapisuView.nadajid()}"/>
+    </h:form>-->
+<!--    <h:form>
+        <p:commandButton value="jpkkorekta" actionListener="#{jPKListaView.jpkkorekta()}"/>
+    </h:form>-->
+<!--    <h:form>
+        <p:commandButton value="opodatkowanie" actionListener="#{podatnikView.aktualizujopodatkowanie()}"/>
+    </h:form>-->
+<!--    <h:form>
+        <p:commandButton value="opodatkowanie" actionListener="#{podatnikView.uzupelnijpozycje()}"/>
+    </h:form>-->
+<!--    <h:form>
+        <p:commandButton value="pozycje" actionListener="#{ukladBRView.uzupelnijpozycje()}"/>
+    </h:form>-->
+<!--    <h:form>
+        <p:commandButton value="dok podid" actionListener="#{rewolucjaPodatnikView.edycjadok()}"/>
+    </h:form>
+    <h:form>
+        <p:commandButton value="dok rodzajedok" actionListener="#{rewolucjaPodatnikView.edycjadokrodzaj()}"/>
+    </h:form>-->
+<!--    <h:form>
+        <p:commandButton value="numeruj dokumenty" actionListener="#{rewolucjaPodatnikView.procKonto()}"/>
+    </h:form>-->
+<!--    <h:form>
+        <p:commandButton value="numeruj dokumenty" actionListener="#{rewolucjaPodatnikView.przenumeruj()}"/>
+    </h:form>-->
+<!--  <h:form>
+      <p:panelGrid columns="1">
+      <p:inputText value="#{gUSView.nip}" maxlength="10"/>
+      <p:commandButton value="GUS" actionListener="#{gUSView.login()}" ajax="false" update="@form"/>
+      <h:outputText value="#{gUSView.danefirmy}"/>
+      </p:panelGrid>
+    </h:form>
+    <h:form>
+        <p:commandButton value="View Cars" actionListener="#{gUSView.view}" global="false"/>
+    </h:form>
+    <h:form>
+        <p:commandButton value="importuj z pliku" actionListener="#{walutyFKBean.pobierzkursy()}" ajax="false"/>
+
+    </h:form>
+    <h:form>
+        <p:commandButton value="kopiuj nazwa" actionListener="#{podatnikView.kopiujnazweprintnazwa()}"/>
+    </h:form>
+     <h:form>
+        <p:commandButton value="strona wiersza" actionListener="#{dokfkView.stronawiersza()}" style="width: 120px;"/>
+    </h:form>
+      <h:form id="form_dialog_plankont">
+           
+            
+            <p:outputPanel style="padding: 10px;">
+                <h:outputText value="Uwaga! Nie można dodawać kont analitycznych do zablokowanych kont syntetycznych"/>
+            </p:outputPanel>
+            <p:panelGrid columns="2" >
+                <p:dataTable id="dataList" value="#{planKontView.wykazkontlazy}" var="loop"
+                             emptyMessage="Brak utworzonych kont dla firmy" rowKey="#{loop.id}"
+                             scrollRows="20" scrollable="true" virtualScroll="true" scrollHeight="200" lazy="true" rows="40" style="margin-bottom:0"
+                             rowIndexVar="index"
+                             >
+                  
+                    <p:columnGroup type="header">
+                        <p:row>
+                            <p:column colspan="1" headerText="" width="1" />
+                            <p:column colspan="1" headerText="" width="10"/>
+                            <p:column colspan="1" headerText="#{mgs.numerkonta}" width="80" />
+                            <p:column colspan="1" headerText="nazwa pełna" width="300"/>
+                            <p:column colspan="1" headerText="nazwa skrócona" width="200" rendered="#{facesContext.externalContext.remoteUser ne '4'}"/>
+                            <p:column colspan="1" headerText="dzieci" width="40" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
+                            <p:column colspan="1" headerText="przyp." width="80" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
+                            <p:column colspan="1" headerText="b/w" width="20"/>
+                            <p:column colspan="1" headerText="rozrach." width="50"/>
+                            <p:column colspan="1" headerText="pozycja Wn" width="60"/>
+                            <p:column colspan="1" headerText="pozycja Ma" width="60"/>
+                            <p:column colspan="1" headerText="blok" width="40"/>
+                            <p:column colspan="1" headerText="słow" width="40"/>
+                            <p:column colspan="1" headerText="P/K" width="40"/>
+                            <p:column colspan="1" headerText="saldo" width="40"/>
+                        </p:row>
+                    </p:columnGroup>
+                    <p:column>
+                        <h:outputText value="#{loop.level}" style="font-size: 0.5pt;"/>
+                    </p:column>
+                    <p:column  style="width: 50px; text-align: center;">
+                        <h:outputText value="#{loop.mapotomkow == true ? '+' : null}" /> 
+                    </p:column>
+                    <p:column styleClass="#{loop.level eq 2 ? 'druga' : null}">
+                        <h:outputText value="#{loop.nrkonta}" rendered="#{loop.nrkonta eq '0' ? false : (loop.level eq '0' ? true : false)}" /> 
+                        <h:outputText value="#{loop.pelnynumer}" rendered="#{loop.nrkonta eq '0' ? false : (loop.level eq '1' ? true : false)}" style="margin-left: 10px;"/> 
+                        <h:outputText value="#{loop.pelnynumer}" rendered="#{loop.nrkonta eq '0' ? false : (loop.level eq '2' ? true : false)}" style="margin-left: 20px;"/> 
+                        <h:outputText value="#{loop.pelnynumer}" rendered="#{loop.nrkonta eq '0' ? false : (loop.level eq '3' ? true : false)}" style="margin-left: 30px;"/> 
+                    </p:column>
+                    <p:column  style="width: 200px;">
+                        <h:outputText id="nazwapelna" value="#{loop.nazwapelna}" /> 
+                        <h:outputText value=" id " rendered="#{loop.idslownika gt 0}"/> 
+                        <h:outputText value="#{loop.idslownika}" rendered="#{loop.idslownika gt 0}"/> 
+                    </p:column>
+                    <p:column style="width: 30px; text-align: center;"  rendered="#{facesContext.externalContext.remoteUser eq '4'}">
+                        <h:outputText value="#{loop.mapotomkow eq true ? 't' : null}"/> 
+                    </p:column>
+                    <p:column style="width: 80px;"  rendered="#{facesContext.externalContext.remoteUser eq '4'}">
+                        <h:outputText value="#{loop.syntetykaanalityka}"/> 
+                    </p:column>
+                    <p:column style="width: 100px;"  rendered="#{facesContext.externalContext.remoteUser ne '4'}">
+                        <h:outputText value="#{loop.nazwaskrocona.length() lt 37 ? loop.nazwaskrocona : loop.nazwaskrocona.substring(0,37)}"/> 
+                    </p:column>
+                    <p:column  style="width: 20px; text-align: center;">
+                        <h:outputText value="#{loop.bilansowewynikowe eq 'bilansowe' ? 'B' : 'R'}" /> 
+                    </p:column>
+                    <p:column  style="width: 120px; text-align: center;">
+                        <h:outputText value="#{loop.zwyklerozrachszczegolne.length() gt 4 ? loop.zwyklerozrachszczegolne.substring(0,4) : loop.zwyklerozrachszczegolne}" style="text-align: center;"/>
+                    </p:column>
+                    <p:column headerText="poziom" style="width: 50px; text-align: center;">
+                        <h:outputText value="#{loop.level}" /> 
+                    </p:column>
+                    <p:column headerText="macierz." style="width: 50px;">
+                        <h:outputText value="#{loop.macierzyste}" /> 
+                    </p:column>
+                    <p:column  style="width: 100px; text-align: center;">
+                        <h:outputText value="#{loop.pozycjaWn != null ? loop.pozycjaWn : '!'}" style="#{loop.pozycjaWn == null ? 'color: red' : null}"/> 
+                    </p:column>
+                    <p:column  style="width: 100px; text-align: center;">
+                        <h:outputText value="#{loop.pozycjaMa != null ? loop.pozycjaMa : '!'}" style="#{loop.pozycjaMa == null ? 'color: red' : null}"/> 
+                    </p:column>
+                    <p:column  style="width: 40px; text-align: center;">
+                        <h:outputText value="#{loop.blokada eq 'true' ? 'blok' : null}" /> 
+                    </p:column>
+                    <p:column style="width: 40px; text-align: center;">
+                        <h:outputText value="#{loop.slownikowe eq 'true' ? 'słownik' : null}" /> 
+                    </p:column>
+                    <p:column style="width: 40px; text-align: center;">
+                        <h:outputText value="#{loop.przychod0koszt1 eq true ? 'K' : 'P'}" rendered="#{loop.bilansowewynikowe eq 'wynikowe'}"/> 
+                    </p:column>
+                    <p:column style="width: 40px; text-align: center;">
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{loop.wnma0wm1ma2S}" /></f:facet>
+                            <f:facet name="input">
+                                <h:selectOneMenu value="#{loop.wnma0wm1ma2}" style="width:100%">
+                                    <f:selectItem itemLabel="wnma" itemValue="0"/>
+                                    <f:selectItem itemLabel="wn" itemValue="1"/>
+                                    <f:selectItem itemLabel="ma" itemValue="2"/>
+                                    <p:ajax event="change" global="false" partialSubmit="true" listener="#{planKontView.nanieswnma(loop)}" update="form_dialog_plankont:dataList"/>
+                                </h:selectOneMenu>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                </p:dataTable>
+            </p:panelGrid>
+           
+        </h:form>-->
+<!--
+    <h:form>
+        <p:commandButton value="multi" actionListener="#{watek.pobieraj()}" style="width: 120px;"/>
+    </h:form>
+    
+    <h:form>
+        <p:commandButton value="dokuemnty inwestycja" actionListener="#{DokumentView.konopiujinwestycje()}" style="width: 120px;"/>
+    </h:form>-->
+    <!--    <h:form>
+            <p:commandButton value="importuj z pliku" actionListener="#{KlView.pobierzklientazPliku()}" update="@all" />
+        </h:form>-->
+
+    
+<!--        <p:commandButton value="aktualizuj konta" actionListener="#{kontoSortView.przepiszkonta()}"/>-->
+<!--    <p:commandButton value="przepisz transakcje" actionListener="#{rozniceKursoweFKView.przepiszTransakcjeNowePole()}"/>-->
+<!--    <p:commandButton value="przepisz ewidencje" actionListener="#{dokfkView.oznaczewidencjevat()}"/>-->
+<!--        <p:commandButton value="uzupelnij ewidencje" actionListener="#{dokfkView.uzupelnijewidencjevat()}"/>-->
+<!--        <p:commandButton value="skopiuj udzialy" actionListener="#{podatnikView.zamienudzialy()}"/>-->
+<!--        <p:commandButton value="zamien opodatkowanie" actionListener="#{podatnikView.zamienOpodatkowanieDochodowym()}"/>-->
+<!--        <p:commandButton value="naprawfaktury" actionListener="#{fakturaView.zrobfakt()}"/>-->
+<!--    <h:form>
+    <p:commandButton value="Export as PDF" ajax="false" >
+<p:dataExporter type="pdf" target="klienci" fileName="adresy"/>
+</p:commandButton>
+     <p:dataTable value="#{podatnicyView.podatnicy}" var="loop" rowIndexVar="index" style="width: 1100px;"
+                  sortBy="#{loop.nazwapelna}" id="klienci">
+         <f:facet name="header">
+             <h:outputText value="wykaz klientów biura"/>
+         </f:facet>
+         <p:column width="30">
+            <h:outputText value="#{index+1}"/>
+        </p:column>
+         <p:column width="200">
+            <h:outputText value="#{loop.nazwapelna}"/>
+        </p:column>
+         <p:column width="120" style="text-align: center;">
+            <h:outputText value="#{loop.nip}"/>
+        </p:column>
+        <p:column width="350">
+            <h:outputText value="#{loop.adres}"/>
+        </p:column>
+         <p:column width="200">
+            <h:outputText value="#{loop.email}"/>
+        </p:column>
+    </p:dataTable>
+</h:form>-->
+<!--<h:form id="formwysylka">
+    <h:inputTextarea cols="100" rows="30" value="#{beanektest.wysylanaDeklaracja}">
+        <p:ajax event="change" partialSubmit="true"/>
+    </h:inputTextarea>
+     <p:accordionPanel id="akordeon"   style="max-width: 1400px;"> 
+        <p:tab title="W celu wysłania deklaracji na serwer ministerstwa wciśnij przycisk wyślij. Celem uzyskania potwierdzenia, należy odpowiednio kliknąć na przycisk upo">
+        <p:panelGrid columns="2" style="width: 100%;">
+            <p:column>
+                <h:form>
+                    <p:commandButton value="wyślij" actionListener="#{beanektest.rob()}" update=":formwysylka" style="width: 150px;"/>
+                    <p:commandButton value="upo" actionListener="#{beanektest.pobierz()}" update="formwysylka" style="margin-left: 3%; width: 150px;"/>
+                </h:form>
+            </p:column>
+            <p:column>
+                <h:form id="form">
+                    <p:panelGrid columns="2" id="upoform" style="width: 100%;">
+                        <h:outputText value="id przesyłki" />
+                        <h:inputText value="#{beanektest.idpobierz}" style="width: 90%;"/>
+                        <h:outputText value="UPO" />
+                        <h:inputTextarea id="upo" value="#{beanektest.upoMB}" readonly="true" style="width: 90%; height: 60px;"/>
+                        <h:outputText value="status przesyłki - symbol"/>
+                        <h:outputText id="stat" value="#{beanektest.statMB}"  style="#{beanektest.statMB eq '200' ? 'color: green; font-weight: 900;' : null}"/>
+                        <h:outputText value="opis statusu przesyłki" />
+                        <h:inputTextarea id="opis" value="#{beanektest.opisMB}" readonly="true" style="width: 600px; height: 70px;"/>
+                    </p:panelGrid>
+                </h:form>
+                </p:column>
+            </p:panelGrid>
+        </p:tab>
+    <p:tab title="Można też przetestować wysyłke deklaracji. Celem uzyskania potwierdzenia, należy odpowiednio kliknąć na przycisk sprawdz">
+        <p:panelGrid columns="2" style="width: 100%;">
+            <p:column>
+                <h:form>
+                    <p:commandButton value="test" actionListener="#{beanektest.robtest()}" update="formwysylka" style="width: 150px;"/>
+                    <p:commandButton value="sprawdź" actionListener="#{beanektest.pobierztest()}" update=":formwysylka" style="margin-left: 3%; width: 150px;"/>
+                </h:form>
+            </p:column>
+            <p:column>
+                <h:form id="formtest">
+                    <p:panelGrid columns="2" id="upoformtest" style="width: 100%;">
+                        <h:outputText value="id przesyłki"/>
+                        <h:inputText value="#{beanektest.idpobierzT}" style="width: 90%;"/>
+                        <h:outputText value="UPO"/>
+                        <h:inputTextarea id="upotest" value="#{beanektest.upoMBT}" readonly="true" style="width: 90%; height: 60px;"/>
+                        <h:outputText value="status przesyłki - symbol"/>
+                        <h:outputText id="stattest" value="#{beanektest.statMBT}" style="#{beanektest.statMBT eq '200' ? 'color: green; font-weight: 900;' : null}"/>
+                        <h:outputText value="opis statusu przesyłki"/>
+                        <h:inputTextarea id="opistest" value="#{beanektest.opisMBT}" readonly="true" style="width: 600px; height: 70px;"/>
+                    </p:panelGrid>
+                </h:form>
+            </p:column>
+            </p:panelGrid>
+    </p:tab>
+        </p:accordionPanel>
+</h:form>-->
+<!--<h:form>
+    <p:commandButton value="aktualizuj Evatwpis1" actionListener="#{ewidencjaVatView.edycjaewidencji}" />
+</h:form>-->
+<!--<h:form>
+    <p:commandButton value="zmien konta" actionListener="#{planKontCompleteView.zmienkonta}" />
+</h:form>-->
+
+<!--<h:form>
+    <p:commandButton value="implementacja kont" actionListener="#{planKontView.implementujwmma0mn1ma0Wszystkie}" />
+</h:form>-->
+</ui:composition>
+

@@ -1,0 +1,42 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:bcf="http://brzaskun.com/facelets">
+    <style>
+        .paneldialog_plankont_kopiuj .ui-panelgrid-cell {
+            width: 200px;
+        }
+    </style>
+    <p:dialog id="dialog_plankont_kopiuj" header="Kopiowanie kompletnego planu kont z firmy do firmy" widgetVar="dialog_plankont_kopiuj" 
+              resizable="false" onShow="ustawdialog('dialog_plankont_kopiuj','menuustawienia', 730, 220);" closeOnEscape="true" onHide="resetujdialog('dialog_plankont_kopiuj');"  >
+        <h:form id="formdialog_plankont_kopiuj">
+            <p:panelGrid styleClass="paneldialog_plankont_kopiuj" columns="4">
+                <h:outputText value="Pobierz plan kont z firmy" style="width: 250px;"/>
+                <p:selectOneMenu  value="#{planKontKopiujView.podatnikzrodlowy}" style="width: 280px;" converter="#{podatConv}">
+                    <f:selectItems value="#{podatnikWyborView.listaPodatnikowFK}" var="p" itemLabel="#{p.nazwapelna}" itemValue="#{p}"/>
+                </p:selectOneMenu>
+                <h:outputText value="rok" style="margin-left: 70px;"/>
+                <p:inputText value="#{planKontKopiujView.rokzrodlowy}"/>
+                <h:outputText value="Skopiuj pobrany plan kont do firmy" style="width: 250px; margin-top: 10px;"/>
+                <p:selectOneMenu  value="#{planKontKopiujView.podatnikdocelowy}" style="width: 280px; margin-top: 10px;" converter="#{podatConv}">
+                    <f:selectItems value="#{podatnikWyborView.listaPodatnikowFK}" var="p" itemLabel="#{p.nazwapelna}" itemValue="#{p}"/>
+                </p:selectOneMenu>
+                <h:outputText value="rok" style="margin-left: 70px;"/>
+                <p:inputText value="#{planKontKopiujView.rokdocelowy}"/>
+            </p:panelGrid>
+            <p:panelGrid columns="2" style="margin-top: 5px;">
+                <h:outputText value="kopiuj słowniki i konta słownikowe"/>
+                <p:selectBooleanCheckbox value="#{planKontKopiujView.kopiujSlownikowe}" style="margin-left: 20px;"/>
+            </p:panelGrid>
+            <p:commandButton value="kopiuj" actionListener="#{planKontKopiujView.kopiujplankont}" type="submit" 
+                                 style="margin-left: 180px; margin-right: auto; margin-top: 5px; width: 120px;" onclick="PF('dialog_plankont_kopiuj').hide();"
+                                 update="formwzorcowy   formdialog_plankont_kopiuj"/>
+            <p:commandButton value="anuluj" type="button" 
+                                 onclick="PF('dialog_plankont_kopiuj').hide();" style="margin-right: auto; margin-left: 80px; margin-top: 10px; width: 120px;"/>
+        </h:form>
+    </p:dialog>
+</ui:composition>

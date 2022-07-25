@@ -1,0 +1,92 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    
+    xmlns:bcf="http://brzaskun.com/facelets">
+    <f:view>
+        <bcf:ajaxs/>
+        <h:form style="padding: 0.5%;">
+            <p:panelGrid columns="4">
+                <h:outputText value="z archiwalnymi"/>
+                <p:selectBooleanCheckbox value="#{pismoAdminView.razemzarchiwalnymi}" label="bez archiwalnych">
+                    <p:ajax event="change" listener="#{pismoAdminView.init}" update=":wykazpism" global="false"/>
+                </p:selectBooleanCheckbox>
+                <h:outputText value="pokaż ukryte"/>
+                <p:selectBooleanCheckbox value="#{pismoAdminView.wybierznowe}" label="nowe only">
+                    <p:ajax event="change" listener="#{pismoAdminView.init}" update=":wykazpism" global="false"/>
+                </p:selectBooleanCheckbox>
+            </p:panelGrid>
+        </h:form>
+      
+        <h:form id="wykazpism">
+            <p:dataTable value="#{pismoAdminView.listapismwszytskie}" var="item" style="width: 1200px; margin-top: 2%;" id="dokLista"
+                         widgetVar="table" emptyMessage="Nikt nie niepokoił jeszcze admina" filterDelay="600"
+                         paginator="true" rows="12" paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
+                         rowsPerPageTemplate="12,16,20,50" sortBy="#{item.datawiadomosci}" sortOrder="descending" 
+                         >
+                 <f:facet name="header">
+                    <h:outputText value="Przeglądanie wiadomości"/><br/>
+                </f:facet>
+                <p:column width="20">
+                    <f:facet name="header">
+                        <h:outputText value="#{mgs.numerkolejny}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.lp}"/>
+                </p:column>
+                <p:column width="80">
+                    <f:facet name="header">
+                        <h:outputText value="Data nadania"/>
+                    </f:facet>
+                    <h:outputText value="#{item.datawiadomosci}">
+                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+                <p:column width="100">
+                    <f:facet name="header">
+                        <h:outputText value="Obszar"/>
+                    </f:facet>
+                    <h:outputText value="#{item.menulink}"/>
+                </p:column>
+                <p:column width="180" filterBy="#{item.tresc}" filterMatchMode="contains"  >
+                    <f:facet name="header">
+                        <h:outputText value="Treść"/>
+                    </f:facet>
+                    <h:outputText value="#{item.tresc}"/>
+                </p:column>
+
+                <p:column width="100" filterMatchMode="contains" filterBy="#{item.nadawca}">
+                    <f:facet name="header">
+                        <h:outputText value="Nadawca"/>
+                    </f:facet>
+                     <h:outputText value="#{item.nadawca}"/>
+                </p:column>
+                <p:column width="200" filterMatchMode="contains" filterBy="#{item.status}">
+                    <f:facet name="header">
+                        <h:outputText value="Status"/>
+                    </f:facet>
+                    <p:selectOneMenu id="waznosc" value="#{item.status}" >
+                        <f:selectItems value="#{pismoAdminView.statusadmin}"/>
+                    </p:selectOneMenu>
+                </p:column>
+                <p:column width="80">
+                    <f:facet name="header">
+                        <h:outputText value="Admin zmienił status dnia"/>
+                    </f:facet>
+                    <h:outputText value="#{item.datastatus}">
+                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+                 <p:column width="80">
+                     <p:commandButton value="edytuj" actionListener="#{pismoAdminView.edytujpismoadmin(item)}" update=":wykazpism:dokLista"/>
+                </p:column>
+                <p:column width="80">
+                     <p:commandButton value="usuń" actionListener="#{pismoAdminView.usunpismoadmin(item)}" update=":wykazpism:dokLista"/>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </f:view>
+</ui:composition>   
+

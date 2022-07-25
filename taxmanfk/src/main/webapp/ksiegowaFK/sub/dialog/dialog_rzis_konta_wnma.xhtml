@@ -1,0 +1,28 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    
+    >
+
+    <p:dialog id="kontownmawyborRZiS" header="Wskaż stronę do przypis. konto: #{pozycjaBRKontaView.boxNaKonto.pelnynumer}" widgetVar="kontownmawyborRZiS" 
+              resizable="false" onShow="kontownmawyborRZiSShow();" closeOnEscape="true" onHide="resetujdialog('kontownmawyborRZiS');"  >
+        <h:form id="formkontowyborRZiS">
+            <p:panelGrid id="wyborgridRZiS" columns="2" style="text-align: center; margin-left: auto; margin-right: auto;" >
+                <p:focus for="wybormenuRZiS">
+                    <h:selectOneMenu id="wybormenuRZiS" value="#{pozycjaBRKontaView.wnmaPrzypisywanieKont}" style="width: 120px;"
+                                     styleClass="ui-selectonemenu-label ui-inputfield ui-corner-all"
+                                     onfocus="$(this).addClass('ui-state-focus');"
+                                     onblur="$(this).removeClass('ui-state-focus');">
+                        <f:selectItem itemLabel="saldem Wn" itemValue="wn"/>
+                        <f:selectItem itemLabel="saldem Ma" itemValue="ma"/>
+                    </h:selectOneMenu>
+                    <p:commandButton value="ok" type="submit" actionListener="#{pozycjaBRKontaView.onKontoDropKontaSpecjalneRZiS(pozycjaBRKontaView.wybranyuklad)}" 
+                                     oncomplete="PF('kontownmawyborRZiS').hide();" update=":formkontowyborRZiS :formrzisuklad:dostepnekonta :formrzisuklad:selected"/>
+                </p:focus>
+            </p:panelGrid>
+        </h:form>
+    </p:dialog>
+</ui:composition>

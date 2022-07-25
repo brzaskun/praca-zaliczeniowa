@@ -1,0 +1,134 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:bcf="http://brzaskun.com/facelets">
+    <style>
+        .waluta input {
+            width: 40px !important;
+        }
+
+        .zaksiegowanewaski input {
+            width: 75px !important;
+        }
+    </style>
+
+    <p:dialog id="importjpkfafa" header="Zestawienie pobranych dokumentów - #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="importjpkfafa" height="840" width="1450"
+              resizable="false"  onShow="ustawdialog('importjpkfafa','menudokumenty',1450,840);" closeOnEscape="true" onHide="resetujdialog('importjpkfafa');" >
+        <p:ajax event="open" listener="#{importFakturyView.init()}" update="form1_jpkfafa importtabelafafa"/>
+        <p:ajax event="close" listener="#{dokfkView.resetujzaksiegowaneimport}" update="zestawieniedokumentowimport"/>
+        <!--        <h:form>
+                    <p:commandButton value="uzupełnij" actionListener="#{dokfkView.uzupelnijdokumentyodkontrahenta()}"/>
+                </h:form>-->
+
+        <h:form id="form1_jpkfafa">
+            <p:panelGrid columns="4">
+                <h:outputText value="import dokumentów z pliku JPK_FA i FA3 FA4"/>
+                <p:selectBooleanCheckbox label="wybierz dla jpk" value="#{importFakturyView.wybierzdlajpk}" itemLabel="wybierz dla jpk" style="margin-left: 50px;">
+                    <p:ajax event="change" partialSubmit="true" update="form1_jpkfafa importtabelafafa"/>
+                </p:selectBooleanCheckbox>
+                <p:selectBooleanCheckbox label="wybierz osoby fizyczne" value="#{importFakturyView.wybierzosobyfizyczne}" itemLabel="wybierz tylko osoby fizyczne">
+                    <p:ajax event="change" partialSubmit="true" update="importtabelafafa"/>
+                </p:selectBooleanCheckbox>
+                <p:selectBooleanCheckbox label="dla deklaracji niemieckiej" value="#{importFakturyView.deklaracjaniemiecka}" itemLabel="dla deklaracji niemieckiej">
+                    <p:ajax event="change" partialSubmit="true" update="importtabelafafa"/>
+                </p:selectBooleanCheckbox>
+
+                <p:selectOneMenu value="#{importFakturyView.kontokasadlajpk}" style="width: 250px;height: 25px;" converter="#{kontoConv}" >
+                    <f:selectItem itemLabel="wybierz konto kasowe" itemValue="" />
+                    <f:selectItems value="#{importFakturyView.listaKontKasaBank}" var="item" itemLabel="#{item.pelnynumer} #{item.nazwapelna}" itemValue="#{item}" />
+                    <p:ajax event="itemSelect" partialSubmit="true" />
+                </p:selectOneMenu>
+            </p:panelGrid>
+            <p:fileUpload fileUploadListener="#{importFakturyView.importujsprzedazfk}" 
+                          mode="advanced" dragDropSupport="true" fileLimit="1"
+                          update="importtabelafafa" sizeLimit="2000000"  auto="true"
+                          validatorMessage="Nieprawidłowy typ pliku" invalidFileMessage="Nieprawidłowy typ pliku" invalidSizeMessage="Plik za duży"
+                          fileLimitMessage="Można załadować tylko jeden plik na jedno ładowanie"  
+                          uploadLabel="Wczytaj" label="Wybierz" cancelLabel="Rezygnuj" 
+                          style="height: 80px;">
+            </p:fileUpload>
+        </h:form>
+        <h:form id="importtabelafafa">
+            <p:panelGrid columns="6">
+                <h:outputText value="Razem netto: "/>
+                <bcf:outputpl value="#{importFakturyView.netto}"/>
+                <h:outputText value=" | vat: "/>
+                <bcf:outputpl value="#{importFakturyView.vat}"/>
+                <h:outputText value=" | brutto: "/>
+                <bcf:outputpl value="#{importFakturyView.brutto}"/>
+            </p:panelGrid>
+            <p:dataTable id="dokumentyLista" value="#{importFakturyView.dokumentyfk}" var="item" rowIndexVar="row" widgetVar="tablicadokumentyimport" 
+                         rowKey="#{item.id}" 
+                         style="width: 1450px; height: 590px; overflow-y: scroll"
+                         emptyMessage="Brak importowanych dokumentów" styleClass="gridZaksiegowane walkingtable"
+                         sortBy="#{item.id}" >
+                <!--                     <p:ajax event="rowSelect" oncomplete="pokazwierszedok();" update=":formwpisdokument, :dialogwiersze" />-->
+                <p:ajax event="filter" global="false"/>
+                <p:column headerText="#{mgs.numerkolejny}" width="20" style="text-align: center; height: 35px;">
+                    <h:outputText styleClass="lpwierszaZaksiegowane lpwiersza niecheckwiersza" value="#{row+1}"/>
+                </p:column>
+                <p:column headerText="#{mgs.datadok}" styleClass="zaksiegowanewaski" width="70" style="text-align: center;"  sortBy="#{item.datadokumentu}" filterBy="#{item.datadokumentu}" filterMatchMode="contains" >
+                    <h:outputText value="#{item.datadokumentu}"/>
+                </p:column>
+                <p:column headerText="#{mgs.symbol}" styleClass="zaksiegowanewaski" width="90" sortBy="#{item.seriadokfk}" filterBy="#{item.seriadokfk}">
+                    <h:outputText value="#{item.seriadokfk}/#{item.nrkolejnywserii}/#{item.rok}"/>
+                </p:column>
+                <p:column headerText="#{mgs.kontrahent}" width="200" sortBy="#{item.kontr.npelna}" filterBy="#{item.kontr.npelna}" >
+                    <h:outputText value="#{item.kontr.npelna}"/>
+                </p:column>
+                <p:column headerText="#{mgs.numer}" styleClass="zaksiegowanewaski" width="110" sortBy="#{item.numerwlasnydokfk}" filterBy="#{item.numerwlasnydokfk}" filterMatchMode="contains" >
+                    <h:outputText value="#{item.numerwlasnydokfk}"/>
+                </p:column>
+                <p:column headerText="#{mgs.opis}" width="120" sortBy="#{item.opisdokfk}" filterBy="#{item.opisdokfk}" filterMatchMode="contains" >
+                    <h:outputText value="#{item.opisdokfk}"/>
+                </p:column>
+                <p:column headerText="netto" styleClass="zaksiegowanewaski" width="70" sortBy="#{item.nettoVAT}" filterBy="#{item.nettoVAT}" filterMatchMode="contains" >
+                    <h:outputText value="#{item.nettoVAT}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="vat" styleClass="zaksiegowanewaski" width="70" sortBy="#{item.VATVAT}" filterBy="#{item.VATVAT}" filterMatchMode="contains" >
+                    <h:outputText value="#{item.VATVAT}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{mgs.wartość}" styleClass="zaksiegowanewaski" width="70" sortBy="#{item.wartoscdokumentu}" filterBy="#{item.wartoscdokumentu}" filterMatchMode="contains" >
+                    <h:outputText value="#{item.wartoscdokumentu}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="waluta" styleClass="waluta" width="40" sortBy="#{item.walutadokumentu.symbolwaluty}" filterBy="#{item.walutadokumentu.symbolwaluty}" style="text-align: center;">
+                    <h:outputText value="#{item.walutadokumentu.symbolwaluty}"/>
+                </p:column>
+                <p:column headerText="#{mgs.VAT}" styleClass="waluta" width="50" sortBy="#{item.vatM}" filterBy="#{item.vatM}" style="text-align: center;">
+                    <h:outputText value="#{item.vatM}"/>
+                </p:column>
+                <p:column headerText="b/k" width="30" sortBy="#{item.nrdziennika}" style="text-align: center;">
+                    <h:outputText value="#{item.nrdziennika eq null ? 'b' : item.nrdziennika}"/>
+                </p:column>         
+                <p:column width="80" style="text-align: center;" >
+                    <p:commandButton value="edytuj" actionListener="#{dokfkView.przygotujDokumentEdycjaImport(item, row)}"  styleClass="fkbutton" icon="ui-icon-document" update="formwpisdokument"
+                                     onsuccess="PF('wpisywanie').show();"
+                                     style="width: 70px;"/>
+                </p:column>
+                <p:column width="80" style="text-align: center;">
+                    <p:commandButton value="usuń" actionListener="#{importFakturyView.usundokumentimportjpkfa(item)}" styleClass="fkbutton" icon="ui-icon-trash"  global="false"  style="width: 70px;" update="importtabelafafa:dokumentyLista"/>
+                </p:column>
+            </p:dataTable>
+            
+            <p:panelGrid columns="2" style="margin-top: 7px;">
+                <p:commandButton value="zaksięguj" actionListener="#{importFakturyView.zaksiegujfk}" id="ksiegujbutton"
+                                 style="margin-top: 20px; width: 120px;" update="@form" rendered="#{importFakturyView.dokumentyfk.size() gt 0 and !importFakturyView.wybierzosobyfizyczne and !importFakturyView.deklaracjaniemiecka and !importFakturyView.wybierzdlajpk}"/>
+                <p:commandButton value="generuj dla jpk" actionListener="#{importFakturyView.generujdlajpk()}" update="form_importjpkfa" style="width: 120px;margin-left: 15px;"  rendered="#{importFakturyView.dokumentyfk.size() gt 0 and importFakturyView.wybierzdlajpk}" />            
+                <p:selectBooleanCheckbox label="usuń aktualne wpisy" value="#{importFakturyView.usunaktualnewpisy}" style="margin-left: 15px;" itemLabel="usuń aktualne wpisy"  rendered="#{importFakturyView.dokumentyfk.size() gt 0 and importFakturyView.wybierzdlajpk}">
+                    <p:ajax event="change" partialSubmit="true" update="importtabelafafa"/>
+                </p:selectBooleanCheckbox>
+<!--                <p:commandButton  icon="fa fa-print" style="margin-top: 20px; width: 120px;" actionListener="#{importFakturyView.drukuj()}" global="false" rendered="#{importFakturyView.dokumenty.size() gt 0}"/>-->
+            </p:panelGrid>
+        </h:form>
+
+    </p:dialog>
+</ui:composition>

@@ -1,0 +1,77 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+
+    xmlns:f="http://java.sun.com/jsf/core">
+    <p:dialog id="dialogprojektuklad" header="Wybór/Tworzenie układu  - #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="dialogprojektuklad" 
+              resizable="false" onShow="ustawdialog('dialogprojektuklad','menubilanse', 1000, 650);" closeOnEscape="true" onHide="resetujdialog('dialogprojektuklad');"  >
+
+        <!--             <p:contextMenu for="formprojektuklad:dataList">
+                        <p:menuitem value="Nowa syntetyczna" icon="ui-icon-circle-plus" update=":formprojektuklad" onclick="PF('rzisprojektsyntetyczne').show();"/>
+                        <p:menuitem value="Nowa analityczna" icon="ui-icon-circle-plus" update=":formprojektuklad" onclick="PF('rzisprojektanalityczne').show();"/>
+                        <p:menuitem value="Usuń" actionListener="{pozycjaRZiSView.usunpozycje}" icon="ui-icon-trash" update=":formprojektuklad"/>
+                    </p:contextMenu>
+                    <p:panelGrid columns="4" >
+                        <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="{pozycjaRZiSView.rozwinwszystkie()}" update=":form:dataList" style="float: left;" />
+                        <p:commandButton id="rozwin" value="rozwiń poziom" actionListener="{pozycjaRZiSView.rozwin()}" update=":formprojektuklad:dataList" style="float: left;" />
+                        <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="{pozycjaRZiSView.zwinwszystkie()}" update=":formprojektuklad:dataList" style="float: left;" />
+                        <p:commandButton id="zwinw" value="zwiń poziom" actionListener="{pozycjaRZiSView.zwin()}" update=":formprojektuklad:dataList" style="float: left;" />
+                    </p:panelGrid>-->
+        <p:panelGrid columns="2" style="width: 720px;">
+            <h:form id="formprojektuklad">
+                <p:panelGrid columns="1" style="width: 550px;">
+                    <p:dataTable id="dataList" value="#{ukladBRView.lista}" var="loop" selectionMode="single" selection="#{ukladBRView.selected}" 
+                                 styleClass="tablicaplankont" style="width: 650px; margin-top: 0%; margin-bottom: 50px;" rowKey="#{loop.lp}" scrollable="true" scrollHeight="500"
+                                 emptyMessage="Brak układów RZiS">
+                        <p:ajax event="rowSelect" listener="#{ukladBRView.wybranouklad}" global="false"/>
+                        
+                        <p:column headerText="nazwa ukladu" width="150"  style="text-align: center;">
+                            <h:outputText value="#{loop.uklad}" style="font-weight: bolder; width: 200px;" /> 
+                        </p:column>
+                        <p:column headerText="rok" style="text-align: center;">
+                            <h:outputText value="#{loop.rok}"/> 
+                        </p:column>
+                        <p:column headerText="import" style="text-align: center;">
+                            <h:outputText value="#{loop.importowany eq true ? 'tak' : ''}"/>
+                        </p:column>
+                        <p:column headerText="zablokowany" style="width: 120px; text-align: center;">
+                            <h:outputText value="zablokowany" rendered="#{loop.blokada}"/>
+                            <p:commandButton value="usuń"  rendered="#{!loop.blokada}" style="width: 100px;" onclick="PF('confirm').show()"
+                                             update="dialogusuwanieukladu" global="false"/>
+                        </p:column>
+
+                    </p:dataTable>
+                </p:panelGrid>
+            </h:form>
+            <p:panelGrid columns="1" style="width: 200px;">
+                <h:form>
+                    <p:panel header="twórz własny układ">
+                        <h:outputText value="wpisz nazwę nowego układu" style="margin-top: 10px;"/>
+                        <p:inputText value="#{ukladBRView.nazwanowegoukladu}" style="width: 250px; margin-top: 10px;"/>
+                        <p:commandButton value="dodaj" actionListener="#{ukladBRView.dodaj}" style="width: 120px; margin-top: 10px;" global="false"
+                                         update=":formprojektuklad :formprojekt :formbilansuklad :formbilansprojekt :formdialog_uklad_kopiuj :formdialog_dialog_rzis_przypisywanie_podatnik_kopiuj :formdialog_dialog_bilans_przypisywanie_podatnik_kopiuj"/>
+                    </p:panel>
+                </h:form>
+                <h:form>
+                    <p:panel header="importuj z wzorca">
+                        <h:outputText value="wybierz nazwę importowanego układu"/>
+                        <p:selectOneListbox value="#{ukladBRView.wybranyukladwzorcowy}" style="width: 250px; height: 200px; margin-top: 10px;" 
+                                            converter="UkladBRWzorcowyConv">
+                            <f:selectItems value="#{ukladBRView.listaWzorcowy}" var="item" itemLabel="#{item.uklad} - #{item.rok}"
+                                           itemValue="#{String.valueOf(item.lp)}"/>
+                        </p:selectOneListbox>
+                        <p:commandButton value="implementuj"
+                                         actionListener="#{ukladBRView.implementujWzorcowy}" style="width: 120px; margin-top: 10px;"
+                                         update=":formprojektuklad :formprojekt 
+                                         :formbilansuklad :formrzisuklad :formbilansprojekt 
+                                         :formdialog_uklad_kopiuj :formdialog_dialog_rzis_przypisywanie_podatnik_kopiuj 
+                                         :formdialog_dialog_bilans_przypisywanie_podatnik_kopiuj"/>
+                    </p:panel>
+                </h:form>
+            </p:panelGrid>
+        </p:panelGrid>
+    </p:dialog>
+</ui:composition>
+

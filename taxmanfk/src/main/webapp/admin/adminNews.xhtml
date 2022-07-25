@@ -1,0 +1,62 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="Podatkowa księga przychodów i rozchodów"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+             
+                <f:view>
+                    <p:layout fullPage="true" expandTitle="Wysuń" closeTitle="Zamknij" collapseTitle="Schowaj">
+<!--                       
+-->                         <ui:include src="sub/layout/north.xhtml"/>  <!-- panel polnocny-->
+                            <ui:include src="sub/layout/south.xhtml"/>   <!-- panel poludniowy-->
+                            <ui:include src="sub/layout/west.xhtml"/>   <!-- panel zachodni-->
+                        <p:layoutUnit position="center">
+                            <h:form id="form">
+                                <ui:include src="sub/menu_wiad.xhtml"/>   <!-- menu contextowe i pole wiadomosci growl-->
+                                <ui:include src="sub/news.xhtml"/>   <!-- właściwa tablica z danymi z księgi-->
+                            </h:form><!--
+-->                          <h:form>
+            <p:panel header="Wszyscy">
+                <h:panelGrid columns="2">
+                    <p:outputLabel for="summary" value="Summary: " />
+                    <p:selectOneMenu id="summary" value="#{growlBean.summary}" required="true" 
+                                     editable="true">
+                        <f:selectItem itemLabel="Uwaga. Za 1 min nastapi restart systemu i program bedzie niedostepny przez najblizsze 5 min." itemValue="Uwaga. Za 1 min nastapi restart systemu i program bedzie niedostepny przez najblizsze 5 min."/>
+                        <f:selectItem itemLabel="Uwaga. Za 3 min nastapi restart systemu i program bedzie niedostepny przez najblizsze 15-20 min." itemValue="Uwaga. Za 3 min nastapi restart systemu i program bedzie niedostepny przez najblizsze 15-20 min."/>
+                    </p:selectOneMenu>
+                    <p:outputLabel for="detail" value="Detail: " />
+                    <p:inputText id="detail" value="#{growlBean.detail}" size="120"/>
+                </h:panelGrid>
+                <p:commandButton value="Send" actionListener="#{growlBean.send_ch1}" />
+                
+            </p:panel>
+        </h:form>
+    <h:form>
+            <p:panel header="Księgowa">
+                <h:panelGrid columns="2">
+                    <p:outputLabel for="summary1" value="Summary: " />
+                    <p:inputText id="summary1" value="#{growlBean.summary1}" required="true" size="120"/>
+
+                    <p:outputLabel for="detail1" value="Detail: " />
+                    <p:inputText id="detail1" value="#{growlBean.detail1}" size="120"/>
+                </h:panelGrid>
+                <p:commandButton value="Send" actionListener="#{growlBean.send_ch2}" />
+                
+            </p:panel>
+        </h:form>
+                        </p:layoutUnit>
+                                 <ui:include src="sub/layout/east.xhtml"/>  <!--  panel wschodni-->
+                    </p:layout>
+                </f:view>
+            
+        </ui:define>
+    </ui:composition>
+</html>
+
+
+

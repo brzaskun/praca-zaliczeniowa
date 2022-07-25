@@ -1,0 +1,48 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <ui:composition template="/template.xhtml">
+        
+        <ui:define name="title">
+            <h:outputText value="Podatkowa księga przychodów i rozchodów"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            
+             
+                <f:view>
+            
+                    <p:layout fullPage="true" expandTitle="Wysuń" closeTitle="Zamknij" collapseTitle="Schowaj">
+                                      
+                        <ui:include src="sub/layoutKontrahenci/north.xhtml"/>  <!-- panel polnocny-->
+                        <ui:include src="sub/layoutKontrahenci/south.xhtml"/>   <!-- panel poludniowy-->
+                        <ui:include src="sub/layoutKontrahenci/west.xhtml"/>   <!-- panel zachodni-->
+                        <p:layoutUnit position="center">
+                           <p:panel toggleable="true" closable="true" style="width: 85%;">
+                            <f:facet name="header">
+                                <h:outputText value="Strona służy do wyświetlania obrotów za dowolny okres roku podatkowego. Proszę wybrać po lewej miesiące 'od' i 'do', a  następnie wciśnąc przycisk 'ok'"/><br/>
+                                <h:outputText value="Dane po pobraniu mogąć być sortowane. Wystarczy kliknąć na symbol znajdujący sie obok opisu kolumny."/> <br/>
+                                <h:outputText value="Można wyszukiwać poszczególne dokumenty wg różnych kryteriów wpisując wyszukiwaną frazę w puste pole nad kolumną. Grosze oddzielamy od złotówek KROPKĄ. "/>
+                                <h:outputText value="Aby podsumować kilka faktur należy, przytrzymując wciśnięty klawisz `Shift`, klinać na kwadraty znajdujące się na początku
+                                                wiersza z danym zapisem księgowym"/>
+                            </f:facet>
+                                </p:panel>
+                            
+                                
+                                <ui:include src="sub/menu_wiad.xhtml"/>   <!-- menu contextowe i pole wiadomosci growl-->
+                            <h:form id="formX">
+                                <ui:include src="sub/obroty.xhtml"/>   <!-- właściwa tablica z danymi z księgi-->
+                            </h:form>
+                        </p:layoutUnit>
+                        
+                    </p:layout>
+                </f:view>
+            
+        </ui:define>
+    </ui:composition>
+</html>
+
+
+
+

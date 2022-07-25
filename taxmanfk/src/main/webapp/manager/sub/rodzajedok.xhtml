@@ -1,0 +1,186 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:bcf="http://brzaskun.com/facelets">
+    <bcf:ajaxs/>
+<!--    dezaktywanacja, generuje u wszystkich na nowy rok ale zapomina o kontach!!!-->
+<!--     <p:outputPanel style="margin-top: 50px;margin-left: 50px;">
+        <h:form>
+            <p:panelGrid columns="3">
+                <p:outputLabel value="wybierz rok do generowania"/>
+                <p:inputText value="#{podatnikView.rokgenerowanie}"/>
+                <p:commandButton value="generuj nowy rok" actionListener="#{podatnikView.nowyrokdokumenty()}" />
+            </p:panelGrid>
+        </h:form>
+    </p:outputPanel>-->
+    <h:form id="form" >
+        <h:outputText value="Rodzaje dokumentów księgowych dla WSZYSTKICH naszych klientów" style="font-size: 15px"/>
+        <p:growl life="3600"  id="messages" showDetail="true" ><p:autoUpdate/></p:growl>
+        <br/>
+        <p:panelGrid columns="2" style="padding: 10px;" >
+            <h:outputText value="rok "/>
+            <p:selectOneMenu id="rokWpisu" value="#{rodzajedokView.rok}">
+                <p:ajax event="change" listener="#{rodzajedokView.zmianaroku()}" update="@form"/>
+                <f:selectItems value="#{roki.rokiList}"/>
+            </p:selectOneMenu>
+        </p:panelGrid>
+        <p:panelGrid columns="1" style="max-width: 1450px">
+            <h:outputText value="brak listy dokumentów domyślnych na ten rok" rendered="#{rodzajedokView.listaWspolnych.size() eq 0}" style="color: green;"/>
+            <p:commandButton value="generuj" actionListener="#{rodzajedokView.generujliste}" rendered="#{rodzajedokView.listaWspolnych.size() eq 0}" style="width: 120px;;" update="@form"/>
+            <p:dataTable id="dokLista" value="#{rodzajedokView.listaWspolnych}"  var="loop"  style="height: 500px;overflow-y: scroll" 
+                         selection="#{rodzajedokView.selected}" rowKey="#{loop.skrotNazwyDok}" selectionMode="single" rendered="#{rodzajedokView.listaWspolnych.size() gt 0}">
+                <p:ajax event="rowSelect" listener="#{rodzajedokView.skopiujwierszdoedycji}"/>
+                <f:facet name="header">
+                    <h:outputText value="Lista utworzonych dokumentów"/>
+                </f:facet>
+                <p:column headerText="skrót" sortBy="#{loop.skrotNazwyDok}"  style="text-align: center;">
+                    <h:outputText value="#{loop.skrotNazwyDok}" />
+                </p:column>
+                <p:column headerText="nazwa pełna" sortBy="#{loop.nazwa}" width="200">
+                    <h:outputText value="#{loop.nazwa}" />
+                </p:column>
+                <p:column headerText="rok dokumentu">
+                    <h:outputText value="#{loop.rok}" />
+                </p:column>
+                <p:column headerText="rodzaj transakcji">
+                    <h:outputText value="#{loop.rodzajtransakcji}" />
+                </p:column>
+                <p:column headerText="zastosowany wzorzec" style="text-align: center;">
+                    <h:outputText value="#{loop.wzorzec}" />
+                </p:column>
+                <p:column headerText="kategoria" style="text-align: center;">
+                    <h:outputText value="#{loop.kategoriadokumentu eq 1 ? 'koszt z VAT' : (loop.kategoriadokumentu eq 2 ? 'przychód z VAT' : (loop.kategoriadokumentu eq 3 ? 'koszt bez VAT' : (loop.kategoriadokumentu eq 4 ? 'przychód bez VAT': (loop.kategoriadokumentu eq 5 ? 'dokument prosty':'płatność'))))}" />
+                </p:column>
+                <p:column headerText="% VAT" width="30" style="text-align: right;">
+                    <h:outputText value="#{loop.procentvat}" rendered="#{loop.procentvat gt 0}">
+                        <f:convertNumber integerOnly="true"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="stawka VAT" width="30" style="text-align: right;">
+                    <h:outputText value="#{loop.stawkavat}" rendered="#{loop.stawkavat gt 0}">
+                        <f:convertNumber integerOnly="true"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="% kup" width="30" style="text-align: right;">
+                    <h:outputText value="#{loop.procentkup}" rendered="#{loop.procentkup gt 0}">
+                        <f:convertNumber integerOnly="true"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="automat" style="text-align: center;">
+                     <h:outputText value="#{loop.niepokazuj eq true ? 'n/p' : null}" />
+                </p:column>
+                <p:column headerText="tylko vat należ." style="text-align: center;">
+                    <h:outputText value="#{loop.tylkovatnalezny eq true ? 'tak' : null}" />
+                </p:column>
+                <p:column headerText="tylko vat" style="text-align: center;">
+                    <h:outputText value="#{loop.tylkovat eq true ? 'tak' : null}" />
+                </p:column>
+                <p:column headerText="tylko jpk" style="text-align: center;">
+                    <h:outputText value="#{loop.tylkojpk eq true ? 'tak' : null}" />
+                </p:column>
+                 <p:column headerText="tylko podatkowy" style="text-align: center;">
+                     <h:outputText value="#{loop.tylkopodatkowo eq true ? 'tak' : null}" />
+                </p:column>
+                <p:column headerText="jednostr." style="text-align: center;">
+                    <h:outputText value="#{loop.jednostronny eq true ? 'tak' : null}" />
+                </p:column>
+                <p:column headerText="jpk ozn1" style="text-align: center;">
+                    <h:outputText value="#{loop.oznaczenie1.symbol}" />
+                </p:column>
+                <p:column headerText="jpk ozn2" style="text-align: center;">
+                    <h:outputText value="#{loop.oznaczenie2.symbol}" />
+                </p:column>
+                <p:column id="deleteColumn" headerText="usuń" style="text-align: center;">
+                    <p:commandButton actionListener="#{rodzajedokView.destroy(loop)}" onclick="PF('confirmation').show()" id="delete" icon="ui-icon ui-icon-trash" type="submit" />
+                </p:column>
+                <br/>
+            </p:dataTable>
+        </p:panelGrid>
+        <br/> 
+    </h:form>
+    <h:form id="form1">
+        <h:outputText value="Wprowadz dane nowego dokumentu"/><br/>
+        <p:focus for="parametrydokument"/><br/>
+        <p:panelGrid id="parametrydokument" columns="2" >
+            <h:outputText value="skrót: " />
+            <h:inputText value="#{rodzajedokView.wprowadzany.skrotNazwyDok}" />
+            <h:outputText value=" nazwa pelna: " />
+            <h:inputText value="#{rodzajedokView.wprowadzany.nazwa}" style="width: 400px;"/>
+            <h:outputText value="rok dokumentu"/>
+            <p:selectOneMenu value="#{rodzajedokView.wprowadzany.rok}">
+                <f:selectItems value="#{roki.rokiList}"/>
+            </p:selectOneMenu>
+            <h:outputText value=" rodzaj transakcji: " />
+            <h:selectOneMenu value="#{rodzajedokView.wprowadzany.rodzajtransakcji}" >
+                <f:selectItems value="#{trans.transListView}"/>
+            </h:selectOneMenu>
+            <h:outputText value=" wzorzec: " />
+            <h:inputText value="#{rodzajedokView.wprowadzany.wzorzec}" />
+            <h:outputText value=" kategoria dokumentu: " />
+            <h:selectOneMenu value="#{rodzajedokView.wprowadzany.kategoriadokumentu}">
+                <f:selectItem itemLabel="koszt z VAT" itemValue="1"/>
+                <f:selectItem itemLabel="przychód z VAT" itemValue="2"/>
+                <f:selectItem itemLabel="koszt bez VAT" itemValue="3"/>
+                <f:selectItem itemLabel="przychód bez VAT" itemValue="4"/>
+                <f:selectItem itemLabel="dokument prosty" itemValue="5"/>
+                <f:selectItem itemLabel="#{mgs.płatności}" itemValue="0"/>
+            </h:selectOneMenu>
+            <h:outputText value=" procent VAT**: " />
+            <p:inputText value="#{rodzajedokView.wprowadzany.procentvat}" maxlength="2" validatorMessage="Wprowadz procent od 1 do 99">
+                <f:validateLongRange minimum="0" maximum="99"/>
+                <f:convertNumber integerOnly="true" type="number" />
+            </p:inputText>
+            <h:outputText value=" stawka VAT***: " />
+            <p:inputText value="#{rodzajedokView.wprowadzany.stawkavat}" maxlength="2" validatorMessage="Wprowadz procent od 1 do 99">
+                <f:validateLongRange minimum="0" maximum="99"/>
+                <f:convertNumber integerOnly="true" type="number" />
+            </p:inputText>
+            <h:outputText value=" procent kup****: " />
+            <p:inputText value="#{rodzajedokView.wprowadzany.procentkup}" maxlength="2" validatorMessage="Wprowadz procent od 1 do 99">
+                <f:validateLongRange minimum="0" maximum="99"/>
+                <f:convertNumber integerOnly="true" type="number" />
+            </p:inputText>
+            <h:outputText value=" dokument automatyczny: " />
+            <p:selectBooleanCheckbox value="#{rodzajedokView.wprowadzany.niepokazuj}"/>
+            <h:outputText value=" tylko vat należny" />
+            <p:selectBooleanCheckbox value="#{rodzajedokView.wprowadzany.tylkovatnalezny}"/>
+             <h:outputText value=" tylko vat" />
+             <p:selectBooleanCheckbox value="#{rodzajedokView.wprowadzany.tylkovat}"/>
+              <h:outputText value=" tylko jpk" />
+              <p:selectBooleanCheckbox value="#{rodzajedokView.wprowadzany.tylkojpk}"/>
+              <h:outputText value=" tylko dla rozliczenia podatkowego" />
+              <p:selectBooleanCheckbox value="#{rodzajedokView.wprowadzany.tylkopodatkowo}"/>
+             <h:outputText value=" jednostronny wiersz" />
+             <p:selectBooleanCheckbox value="#{rodzajedokView.wprowadzany.jednostronny}"/>
+             <h:outputText value=" jpk oznaczenie 1: " />
+             <h:selectOneMenu value="#{rodzajedokView.wprowadzany.oznaczenie1}" converter="#{jpkoznaczeniaConv}">
+                 <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
+                 <f:selectItems value="#{rodzajedokView.jpkoznaczenia}" var="itm1" itemLabel="#{itm1.symbol}" itemValue="#{itm1}" itemDescription="#{itm1.opis}"/>
+            </h:selectOneMenu>
+             <h:outputText value=" jpk oznaczenie 2: " />
+             <h:selectOneMenu value="#{rodzajedokView.wprowadzany.oznaczenie2}" converter="#{jpkoznaczeniaConv}">
+                 <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
+                 <f:selectItems value="#{rodzajedokView.jpkoznaczenia}" var="itm1" itemLabel="#{itm1.symbol}" itemValue="#{itm1}" itemDescription="#{itm1.opis}"/>
+            </h:selectOneMenu>
+        </p:panelGrid>
+        <p:panelGrid columns="3" style="column-width: 350px; width: 450px">
+            <p:commandButton  actionListener="#{rodzajedokView.dodaj()}" value="dodaj dokument" update="form form1" style="width: 120px;"/>
+            <p:commandButton  actionListener="#{rodzajedokView.edytuj()}" value="edytuj dokument" update="form form1" style="width: 120px;"/>
+            <p:commandButton actionListener="#{rodzajedokView.resetuj()}" process="@this"
+                                     value="resetuj" update="form1" style="width: 120px;"/>
+        </p:panelGrid>
+        <p:panelGrid columns="1" style="margin-top: 15px;">
+                <h:outputText value="*Dopuszczalne elementy wzorca: n - numer kolejny w roku, N - numer kolejny w miesiącu,	m - numer miesiąca, r - numer roku, s - dowolny ciąg znaków za wyjątkiem: /"/>
+                <h:outputText value="**Dotyczy faktur kosztowych. Wpisać tylko gdy inny niż 100%. Format wpisu dla np. faktur samochodowych: 50"/>
+                <h:outputText value="***Dotyczy faktur typu WNT. Wpisać tylko gdy inny niż 100%. Format wpisu dla np. WNT: 8"/>
+                <h:outputText value="****Dotyczy faktur typu ZZP(samochodowych od 2019). Wpisać tylko gdy inny niż 100%. Format wpisu dla osobowych: 75"/>
+        </p:panelGrid>
+    </h:form>
+   
+</ui:composition>   
+

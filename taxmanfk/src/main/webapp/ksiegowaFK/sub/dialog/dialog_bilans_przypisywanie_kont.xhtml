@@ -1,0 +1,119 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    >
+    <p:dialog id="dialogbilansuklad" header="Układ Bilansu - przypisywanie kont - #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="bilansuklad" 
+              resizable="false" onShow="ustawdialog('dialogbilansuklad','menubilanse', 1350, 750);" closeOnEscape="true" onHide="resetujdialog('dialogbilansuklad');"  >
+        <h:form id="formbilansuklad">
+            <!--            <p:contextMenu for="dataList">
+                            <p:menuitem value="Nowe syntetyczne" icon="ui-icon-circle-plus" update=":formbilansuklad" onclick="PF('nowekontosyntetyczne').show();"/>
+                            <p:menuitem value="Nowe analityczne" icon="ui-icon-circle-plus" update=":formbilansuklad" onclick="PF('nowekontoanalityczne').show();"/>
+                            <p:menuitem value="Usuń" actionListener="{planKontView.usun()}" icon="ui-icon-trash" update=":formbilansuklad"/>
+                        </p:contextMenu>
+            -->           
+            <p:panelGrid columns="10">
+                <p:panelGrid columns="4">
+                    <h:outputText value="#{mgs.nazwaukładu}"/>
+                    <p:selectOneMenu value="#{pozycjaBRKontaView.wybranyuklad}" converter="#{ukladBRConv}" rendered="#{!ukladBRView.listarokbiezacy.isEmpty()}">
+                        <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true"/>
+                        <f:selectItems value="#{ukladBRView.listarokbiezacy}" var="loop" itemLabel="#{loop.uklad} - #{loop.rok}" itemValue="#{String.valueOf(loop.lp)}"/>
+                        <p:ajax event="change" listener="#{pozycjaBRKontaView.pobierzukladkontoB('aktywa')}" update=":formbilansuklad"/>
+                    </p:selectOneMenu>
+                     <h:outputText value="brak układu na rok bieżący" style="color: red;" rendered="#{ukladBRView.listarokbiezacy.isEmpty()}"/>
+                    <p:commandButton value="wybierz aktywa" style="width: 120px;" type="submit" actionListener="#{pozycjaBRKontaView.pobierzukladkontoB('aktywa')}" update=":formbilansuklad" rendered="#{!ukladBRView.listarokbiezacy.isEmpty()}"/>
+                    <p:commandButton value="wybierz pasywa" style="width: 120px;" type="submit" actionListener="#{pozycjaBRKontaView.pobierzukladkontoB('pasywa')}" update=":formbilansuklad" rendered="#{!ukladBRView.listarokbiezacy.isEmpty()}"/>
+                </p:panelGrid>
+<!--                <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{pozycjaBRKontaView.rozwinwszystkie(rootProjektKonta)}" update=":formbilansuklad:dataList" style="float: left;" />
+                <p:commandButton id="rozwin" value="rozwiń poziom" actionListener="#{pozycjaBRKontaView.rozwin(rootProjektKonta)}" update=":formbilansuklad:dataList" style="float: left;" />
+                <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{pozycjaBRKontaView.zwinwszystkie(rootProjektKonta)}" update=":formbilansuklad:dataList" style="float: left;" />
+                <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{pozycjaBRKontaView.zwin(rootProjektKonta)}" update=":formbilansuklad:dataList" style="float: left;" />
+                <p:spacer width="40"/>-->
+<!--                <p:commandButton value="zapamiętaj" actionListener="#{pozycjaBRKontaView.zaksiegujzmianypozycji('b', pozycjaBRKontaView.wybranyuklad)}" icon="fa fa-lock" rendered="#{!ukladBRView.listarokbiezacy.isEmpty()}"/>-->
+                <p:spacer width="10"/>
+                <p:commandButton value="importuj" actionListener="#{pozycjaBRKontaView.importujwzorcoweprzyporzadkowanie('b')}" update=":formbilansuklad" icon="fa fa-sign-in" rendered="#{!ukladBRView.listarokbiezacy.isEmpty()}"/>
+                <p:column>
+                    <p:commandButton value="#{mgs.drukuj}" style="width: 120px; margin-left: 10px;" type="submit" actionListener="#{pozycjaBRKontaView.drukujBilansKonta()}" rendered="#{!ukladBRView.listarokbiezacy.isEmpty()}"/>
+                </p:column>
+            </p:panelGrid>
+            <p:panelGrid columns="3" >
+                <p:column>
+                    <p:treeTable id="dataList" value="#{pozycjaBRKontaView.rootProjektKontaBilans}" var="loop" selectionMode="single" selection="#{pozycjaBRKontaView.wybranynodekonta}" 
+                                 styleClass="tablicaplankont" style="height: 650px; margin-top: 0%; margin-bottom: 50px; width: 400px; overflow-y: scroll;"
+                                 emptyMessage="Brak pozycji Bilansu" >
+                        <p:ajax event="select" global="false" listener="#{pozycjaBRKontaView.wybranopozycjeBilans()}" update=":formbilansuklad:selected"/>
+                        <f:facet name="header">
+                            <h:outputText value="uklad #{pozycjaBRKontaView.wybranyuklad.uklad}, strona #{pozycjaBRKontaView.aktywa0pasywa1 == false ? 'aktywa' : 'pasywa'}"/>
+                        </f:facet>
+                        <p:column style="width: 325px;">
+                            <h:outputText value="#{loop.pozycjaSymbol}" style="font-weight: bolder" /> 
+                            <p:spacer width="20"/>
+                            <h:outputText value="#{loop.nazwa}"/> 
+                        </p:column>
+                        <p:column width="15" style="text-align: center">
+                            <h:outputText id="liczba" value="#{loop.przyporzadkowanekonta.size() > 0 ? loop.przyporzadkowanekonta.size() : null}" /> 
+                        </p:column>
+                    </p:treeTable>
+                </p:column>
+                <p:column>
+                    <!--                    <p:fieldset legend="DostepneKonta"  style="margin-top: 0%; float: left; height: 600px; width: 350px;">-->
+                    <p:dataTable id="dostepnekonta" var="konto" value="#{pozycjaBRKontaView.kontabezprzydzialu}" emptyMessage="wszystkie konta przyporządkowane"
+                                 style="margin-top: -13%; height: 650px; width: 450px; overflow-y: scroll" >
+                        <f:facet name="header">
+                            <h:outputText value="konta nieprzypisane"/>
+                        </f:facet>
+                        <p:column style="height: 30px; width: 80%" headerText="#{mgs.nazwakonta}">
+                            <p:splitButton id="pnl" value="#{konto.pelnynumer} #{konto.nazwaskrocona}" 
+                                           actionListener="#{pozycjaBRKontaView.onKontoDropB(konto)}" 
+                                           update=":formbilansuklad:dostepnekonta :formbilansuklad:selected"
+                                           style="color: #{konto.level eq 0 ? 'blue' : konto.level eq 1 ? 'green' : konto.level eq 2 ? 'red' : 'black'};" 
+                                            rendered="#{konto.mapotomkow == true ? true : (konto.level != 0 ? true : false)}">
+                                <p:menuitem value="analityka" actionListener="#{pozycjaBRKontaView.rozwinrzadanalityki(konto)}"  update=":formbilansuklad:dostepnekonta :formbilansuklad:selected" icon="ui-icon-arrowrefresh-1-w" 
+                                            rendered="#{konto.mapotomkow}"/>  
+                                <p:menuitem value="syntetyka" actionListener="#{pozycjaBRKontaView.zwinrzadanalityki(konto)}"  update=":formbilansuklad:dostepnekonta :formbilansuklad:selected" icon="ui-icon-arrowrefresh-1-w"/>  
+                                <p:menuitem value="syntetyka - wymuś" actionListener="#{pozycjaBRKontaView.zwinrzadanalitykiwymus(konto)}"  update=":formbilansuklad:dostepnekonta :formbilansuklad:selected" icon="ui-icon-arrowrefresh-1-w"/>  
+                                
+                            </p:splitButton>
+                             <p:commandButton id="pn2" value="#{konto.pelnynumer} #{konto.nazwapelna}" 
+                                               actionListener="#{pozycjaBRKontaView.onKontoDropB(konto)}" update=":formbilansuklad:dostepnekonta :formbilansuklad:selected"
+                                               style="color: #{konto.level eq 0 ? 'blue' : konto.level eq 1 ? 'green' : konto.level eq 2 ? 'red' : 'black'};"
+                                               rendered="#{konto.mapotomkow == false ? (konto.level == 0 ? true : false) : null}">
+                            </p:commandButton>
+                        </p:column>
+                        <p:column headerText="Wn" style="text-align: center;">
+                            <h:outputText value="#{konto.pozycjaWn != null ? '&#x2713;' : ''}"/>
+                            <h:outputText value="#{konto.stronaWn != null ? konto.stronaWn ==0 ? 'a':'p' : ''}"/>
+                        </p:column>
+                        <p:column headerText="Ma" style="text-align: center;">
+                            <h:outputText value="#{konto.pozycjaMa != null ? '&#x2713;' : ''}"/>
+                            <h:outputText value="#{konto.stronaMa != null ? konto.stronaMa ==0 ? 'a':'p' : ''}"/>
+                        </p:column>
+                    </p:dataTable>
+                </p:column>
+                <p:column>
+                    <p:dataTable id="selected" var="konto" value="#{pozycjaBRKontaView.przyporzadkowanekonta}" emptyMessage="brak przyporządkowanych kont"
+                                 style="margin-top: -13%; height: 650px; width: 450px; overflow-y: scroll" >
+                        <f:facet name="header">
+                            <h:outputText value="konta przypisane do #{pozycjaBRKontaView.wybranapozycja}"/>
+                        </f:facet>
+                        <p:column style="height: 30px; width: 80%" headerText="#{mgs.nazwakonta}">
+                            <p:commandButton value="#{konto.pelnynumer} #{konto.nazwaskrocona}" 
+                                             actionListener="#{pozycjaBRKontaView.onKontoRemoveB(konto,'b')}" update=":formbilansuklad:dostepnekonta :formbilansuklad:selected"/>
+                        </p:column>
+                        <p:column headerText="Wn" style="text-align: center;">
+                            <h:outputText value="#{konto.pozycjaWn != null ? '&#x2713; ' : ''}"/>
+                            <h:outputText value="#{konto.stronaWn != null ? konto.stronaWn ==0 ? 'a':'p' : ''}"/>
+                        </p:column>
+                        <p:column headerText="Ma" style="text-align: center;">
+                            <h:outputText value="#{konto.pozycjaMa != null ? '&#x2713; ' : ''}"/>
+                            <h:outputText value="#{konto.stronaMa != null ? konto.stronaMa ==0 ? 'a':'p' : ''}"/>
+                        </p:column>
+                    </p:dataTable>
+                </p:column>
+            </p:panelGrid>
+        </h:form>
+    </p:dialog>
+</ui:composition>
+

@@ -1,0 +1,63 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    
+    xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <f:event type="preRenderView" listener="#{ewidencjaVatView.stworzenieEwidencjiZDokumentow(WpisView.podatnikObiekt)}"/>
+    
+    
+    <p:tabView value="#{ewidencjaVatView.ewidencje}"  var="item">
+    
+        
+        <p:tab title="#{item[0].nazwaewidencji.nazwa}">
+            
+        <p:dataTable id="tabela" value="#{item}" var="itemik" 
+                            
+                             >
+                    <f:facet name="header">  
+                        <h:outputText value="Ewidencja VAT - wyszukiwanie: " />  
+                    </f:facet>
+
+  
+                    <p:column headerText="id" style="width: 40px;" sortBy="#{itemik.id}">
+                        <h:outputText value="#{itemik.id}" rendered="#{itemik.id eq '9999' ? false : true}"/>
+                    </p:column>
+                   <p:column headerText="data wyst." style="width: 90px;" sortBy="#{itemik.dataWyst}" filterBy="#{itemik.dataWyst}" filterMatchMode="contains" filterStyle="display: none;">
+                        <h:outputText value="#{itemik.dataWyst}"/>
+                    </p:column>
+                    <p:column headerText="data sprz." style="width: 90px;" sortBy="#{itemik.dataSprz}" filterMatchMode="contains" filterBy="#{itemik.dataSprz}" filterStyle="display: none;">
+                        <h:outputText value="#{itemik.dataSprz}"/>
+                    </p:column>
+                    <p:column headerText="nr własny" style="width: 140px;" sortBy="#{itemik.nrWlDk}" filterBy="#{itemik.nrWlDk}" filterMatchMode="contains" filterStyle="display: none;">
+                        <h:outputText value="#{itemik.nrWlDk}"/>
+                    </p:column>
+                    <p:column headerText="nazwa kontrhenta" style="width: 190px;" sortBy="#{itemik.kontr.npelna}" filterBy="#{itemik.kontr.npelna}" filterMatchMode="contains" filterStyle="display: none;">
+                        <h:outputText value="#{itemik.kontr.npelna}"/>
+                    </p:column>
+                    <p:column headerText="opis trans." style="width: 190px;" sortBy="#{itemik.opis}" filterBy="#{itemik.opis}" filterMatchMode="contains" filterStyle="display: none;">
+                        <h:outputText value="#{itemik.opis}"/>
+                    </p:column>
+                    <p:column headerText="#{mgs.netto}" style="width: 110px;" sortBy="#{itemik.netto}" filterBy="#{itemik.netto}" filterMatchMode="contains" filterStyle="display: none;">
+                        <h:outputText value="#{itemik.netto}" style="float: right; padding-right: 3%">
+                            <f:convertNumber minFractionDigits="2" locale="PL"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="#{mgs.VAT}" style="width: 110px;" sortBy="#{itemik.vat}" filterBy="#{itemik.vat}" filterMatchMode="contains" filterStyle="display: none;">
+                        <h:outputText value="#{itemik.vat}" style="float: right; padding-right: 3%">
+                            <f:convertNumber minFractionDigits="2" locale="PL"/>
+                        </h:outputText>
+                    </p:column>
+                  
+                </p:dataTable>
+        
+        </p:tab>
+    </p:tabView>
+  
+  
+</ui:composition>   
+
+

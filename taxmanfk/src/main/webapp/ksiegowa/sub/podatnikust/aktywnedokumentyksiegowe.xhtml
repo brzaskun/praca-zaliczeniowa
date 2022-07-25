@@ -1,0 +1,197 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    
+    >
+    <p:tab title="Aktywne dokumenty księgowe podatnika"> 
+        <h:form id="form6" >
+            <h:outputText value="Rodzaje dokumentów księgowych" style="font-size: 15px"/>
+            <p:growl life="3600"  id="messages" />
+            <p:panelGrid columns="1" style="width: 1250px">
+                <p:dataTable id="pDokKsi" value="#{podatnikView.rodzajeDokumentowLista}"  var="loop" selection="#{podatnikView.wybranyRodzajDokumentu}"
+                             style="height: 300px; overflow-y: scroll" selectionMode="single" rowKey="#{loop.id}"
+                             sortBy="#{loop.skrotNazwyDok}"
+                             emptyMessage="nie wygenerowano dokumentów/brak planu kont na bieżacy rok"
+                             >
+                    <p:ajax event="rowSelect" update=":akordeon:form7" listener="#{podatnikView.przygotujdoedycjiDokKsi}" />
+                    <p:column headerText="skrót" style="text-align: center;" width="90">
+                        <h:outputText value="#{loop.skrotNazwyDok}" />
+                    </p:column>
+                    <p:column headerText="nazwa pelna" width="180">
+                        <h:outputText value="#{loop.nazwa}" />
+                    </p:column>
+                    <p:column headerText="rodzaj transakcji">
+                        <h:outputText value="#{loop.rodzajtransakcji}" />
+                    </p:column>
+                    <p:column headerText="wzorzec" style="text-align: center;" width="50">
+                        <h:outputText value="#{loop.wzorzec}"/>
+                    </p:column>
+                    <p:column headerText="kategoria" style="text-align: center;">
+                        <h:outputText value="#{loop.kategoriadokumentu eq 1 ? 'koszt z VAT' : (loop.kategoriadokumentu eq 2 ? 'przychód z VAT' : (loop.kategoriadokumentu eq 3 ? 'koszt bez VAT' : (loop.kategoriadokumentu eq 4 ? 'przychód bez VAT': (loop.kategoriadokumentu eq 5 ? 'dokument prosty' : 'płatność'))))}" />
+                    </p:column>
+
+                   <p:column headerText="jpk ozn1" style="text-align: center;" width="30">
+                    <h:outputText value="#{loop.oznaczenie1.symbol}" />
+                    </p:column>
+                    <p:column headerText="jpk ozn2" style="text-align: center;" width="30">
+                        <h:outputText value="#{loop.oznaczenie2.symbol}" />
+                    </p:column>
+                    <p:column headerText="CIT" width="30" style="text-align: right;">
+                        <h:outputText value="&#x2713;"  rendered="#{loop.tylkopodatkowo}" style="color: green;">
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="% VAT" width="30" style="text-align: right;">
+                        <h:outputText value="#{loop.procentvat}"  rendered="#{loop.procentvat ne 0}">
+                            <f:convertNumber integerOnly="true"/>
+                        </h:outputText>
+                    </p:column>
+                     <p:column headerText="stw. VAT" width="30" style="text-align: right;">
+                         <h:outputText value="#{loop.stawkavat}" rendered="#{loop.stawkavat ne 0}">
+                            <f:convertNumber integerOnly="true"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="% kup" width="30" style="text-align: right;">
+                        <h:outputText value="#{loop.procentkup}"  rendered="#{loop.procentkup ne 0}">
+                            <f:convertNumber integerOnly="true"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="konto rozrach." style="text-align: center;" width="50" rendered="#{WpisView.ksiegirachunkowe}">
+                        <h:outputText value="#{loop.kontorozrachunkowe.pelnynumer}" />
+                    </p:column>
+                    <p:column headerText="konto VAT" style="text-align: center;" width="50" rendered="#{WpisView.ksiegirachunkowe}">
+                        <h:outputText value="#{loop.kontovat.pelnynumer}" />
+                    </p:column>
+                    <p:column headerText="konto RZiS" style="text-align: center;" width="50" rendered="#{WpisView.ksiegirachunkowe}">
+                        <h:outputText value="#{loop.kontoRZiS.pelnynumer}" />
+                    </p:column>
+                    <p:column id="deleteColumn" headerText="usuń" style="text-align: center; width: 50px;">
+                        <p:commandButton actionListener="#{podatnikView.usunDokKsi(loop)}" id="delete" icon="ui-icon ui-icon-trash" type="submit" />
+                    </p:column>
+                    <br/>
+                </p:dataTable>
+            </p:panelGrid>
+        </h:form>
+        <h:form id="form7" > 
+            <p:focus for="parametryDokKsi"/><br/>
+            <h:outputText value="Wpisz nowy dokument/Edytuj dane dokumentu" style="padding: 5px; margin-bottom: 10px;"/>
+            
+                <p:panelGrid id="parametryDokKsi" columns="8" >
+                    <h:outputText value="skrót: " />
+                    <p:inputText value="#{podatnikView.selectedDokKsi.skrotNazwyDok}" />
+                    <h:outputText value=" nazwa pelna: " />
+                    <p:inputText value="#{podatnikView.selectedDokKsi.nazwa}" />
+                    <h:outputText value=" rodzaj transakcji: " />
+                    <p:selectOneMenu value="#{podatnikView.selectedDokKsi.rodzajtransakcji}" >
+                        <f:selectItem itemLabel="wybierz" itemValue="-1" noSelectionOption="true"/>
+                        <f:selectItems value="#{trans.transListView}"/>
+                    </p:selectOneMenu>
+                    <h:outputText value=" wzorzec:* " />
+                    <p:inputText value="#{podatnikView.selectedDokKsi.wzorzec}" />
+                    <h:outputText value=" kategoria dokumentu: " />
+                    <p:selectOneMenu value="#{podatnikView.selectedDokKsi.kategoriadokumentu}"  rendered="#{WpisView.ksiegirachunkowe}">
+                        <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true" />
+                        <f:selectItem itemLabel="płatność" itemValue="0"/>
+                        <f:selectItem itemLabel="koszt z VAT" itemValue="1"/>
+                        <f:selectItem itemLabel="przychód z VAT" itemValue="2"/>
+                        <f:selectItem itemLabel="koszt bez VAT" itemValue="3"/>
+                        <f:selectItem itemLabel="przychód bez VAT" itemValue="4"/>
+                        <f:selectItem itemLabel="dokument prosty" itemValue="5"/>
+                        
+                        <p:ajax event="change" global="false" partialSubmit="true" update   =":akordeon:form7:parametryDokKsi1"/>
+                    </p:selectOneMenu>
+                    <p:selectOneMenu value="#{podatnikView.selectedDokKsi.kategoriadokumentu}"  rendered="#{!WpisView.ksiegirachunkowe}">
+                        <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true"/>
+                        <f:selectItem itemLabel="koszt z VAT" itemValue="1"/>
+                        <f:selectItem itemLabel="przychód z VAT" itemValue="2"/>
+                        <f:selectItem itemLabel="koszt bez VAT" itemValue="3"/>
+                        <f:selectItem itemLabel="przychód bez VAT" itemValue="4"/>
+                        <f:selectItem itemLabel="dokument prosty" itemValue="5"/>
+                        <p:ajax event="change" global="false" partialSubmit="true" update   =":akordeon:form7:parametryDokKsi1"/>
+                    </p:selectOneMenu>
+                    <h:outputText value=" procent VAT**: " />
+                    <p:inputText value="#{podatnikView.selectedDokKsi.procentvat}" maxlength="2" validatorMessage="Wprowadz procent od 1 do 99">
+                        <f:validateLongRange minimum="0" maximum="99"/>
+                        <f:convertNumber integerOnly="true" type="number" />
+                    </p:inputText>
+                    <h:outputText value=" stawka VAT***: " />
+                    <p:inputText value="#{podatnikView.selectedDokKsi.stawkavat}" maxlength="2" validatorMessage="Wprowadz procent od 1 do 99">
+                        <f:validateLongRange minimum="0" maximum="99"/>
+                        <f:convertNumber integerOnly="true" type="number" />
+                    </p:inputText>
+                    <h:outputText value=" procent kup****: " />
+                    <p:inputText value="#{podatnikView.selectedDokKsi.procentkup}" maxlength="2" validatorMessage="Wprowadz procent od 1 do 99">
+                        <f:validateLongRange minimum="0" maximum="99"/>
+                        <f:convertNumber integerOnly="true" type="number" />
+                    </p:inputText>
+                    <h:outputText value=" pokaż kg: " />
+                    <h:selectBooleanCheckbox value="#{podatnikView.selectedDokKsi.pokazkg}" />
+                    <h:outputText value=" pokaż szt: " />
+                    <h:selectBooleanCheckbox value="#{podatnikView.selectedDokKsi.pokazszt}" />
+                    <h:outputText value=" rozliczaj tylko VAT należny: " />
+                    <h:selectBooleanCheckbox value="#{podatnikView.selectedDokKsi.tylkovatnalezny}" />
+                     <h:outputText value=" dokument tylko dla vat: " />
+                     <h:selectBooleanCheckbox value="#{podatnikView.selectedDokKsi.tylkovat}" />
+                     <h:outputText value=" dokument tylko dla jpk: " />
+                     <h:selectBooleanCheckbox value="#{podatnikView.selectedDokKsi.tylkojpk}" />
+                     <h:outputText value=" jpk oznaczenie 1: " />
+                    <h:selectOneMenu value="#{podatnikView.selectedDokKsi.oznaczenie1}" converter="#{jpkoznaczeniaConv}">
+                        <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
+                        <f:selectItems value="#{rodzajedokView.jpkoznaczenia}" var="itm1" itemLabel="#{itm1.symbol}" itemValue="#{itm1}" itemDescription="#{itm1.opis}" />
+                   </h:selectOneMenu>
+                    <h:outputText value=" jpk oznaczenie 2: " />
+                    <h:selectOneMenu value="#{podatnikView.selectedDokKsi.oznaczenie2}"  converter="#{jpkoznaczeniaConv}">
+                        <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
+                        <f:selectItems value="#{rodzajedokView.jpkoznaczenia}" var="itm1" itemLabel="#{itm1.symbol}" itemValue="#{itm1}" itemDescription="#{itm1.opis}" />
+                   </h:selectOneMenu>
+                </p:panelGrid>
+            <p:panelGrid id="parametryDokKsi1" columns="4" rendered="#{WpisView.podatnikObiekt.firmafk ne 0 and podatnikView.selectedDokKsi.tylkovat eq false and podatnikView.selectedDokKsi.tylkojpk eq false}">
+
+                    <p:column headerText="konto rozrach." style="text-align: center;" >
+                        <p:selectOneMenu value="#{podatnikView.selectedDokKsi.kontorozrachunkowe}" style="width: 250px;" converter="#{kontoConv}"  rendered="#{podatnikView.selectedDokKsi.kategoriadokumentu == 0}">
+                            <f:selectItem itemLabel="wybierz konto kasowe" itemValue="" />
+                            <f:selectItems value="#{podatnikView.listaKontKasaBank}" var="item" itemLabel="#{item.pelnynumer} #{item.nazwapelna}" itemValue="#{item}" />
+                        </p:selectOneMenu>
+                        <p:selectOneMenu value="#{podatnikView.selectedDokKsi.kontorozrachunkowe}" style="width: 250px;" converter="#{kontoConv}"  
+                                         rendered="#{podatnikView.selectedDokKsi.kategoriadokumentu != 0}">
+                            <f:selectItem itemLabel="wybierz konto rozrachunkowe" itemValue="" />
+                            <f:selectItems value="#{podatnikView.listaKontRozrachunkowych}" var="item" itemLabel="#{item.pelnynumer} #{item.nazwapelna}" itemValue="#{item}" itemDescription="#{item.kontomacierzyste.pelnynumer} #{item.kontomacierzyste.nazwapelna}"/>
+                        </p:selectOneMenu>
+                    </p:column>
+                    <p:column headerText="konto VAT" style="text-align: center;">
+                        <p:selectOneMenu value="#{podatnikView.selectedDokKsi.kontovat}" style="width: 250px;" converter="#{kontoConv}">
+                            <f:selectItem itemLabel="wybierz konto dla vat" itemValue="" />
+                            <f:selectItems value="#{podatnikView.listaKontVAT}" var="item" itemLabel="#{item.pelnynumer} #{item.nazwapelna}" itemValue="#{item}" itemDescription="#{item.kontomacierzyste.pelnynumer} #{item.kontomacierzyste.nazwapelna}"/>
+                        </p:selectOneMenu>
+                    </p:column>
+                    <p:column headerText="konto RZiS" style="text-align: center;" >
+                        <p:selectOneMenu value="#{podatnikView.selectedDokKsi.kontoRZiS}" style="width: 250px;" converter="#{kontoConv}">
+                            <f:selectItem itemLabel="wybierz konto dla netto" itemValue="" />
+                            <f:selectItems value="#{podatnikView.listakontoRZiS}" var="item" itemLabel="#{item.pelnynumer} #{item.nazwapelna}" itemValue="#{item}" itemDescription="#{item.kontomacierzyste.pelnynumer} #{item.kontomacierzyste.nazwapelna}"/>
+                        </p:selectOneMenu>
+                    </p:column>
+                    <p:column>
+                        <h:outputLabel value="wszystkie konta rozrach." style="margin-left: 20px;"/>
+                        <p:selectBooleanCheckbox value="#{podatnikView.wszystkiekonta}" valueChangeListener="#{podatnikView.pokazWszystkieKontadoWyboru}" style="margin-left: 5px;">
+                            <p:ajax event="change" partialSubmit="true" global="false" update="akordeon:form7:parametryDokKsi1"/>
+                        </p:selectBooleanCheckbox>
+                    </p:column>
+                </p:panelGrid>
+            
+            <p:panelGrid columns="3" style="column-width: 350px; width: 300px; padding: 10px;">
+                <p:commandButton actionListener="#{podatnikView.dodajDokKsi()}" global="false" value="dodaj dokument" update=":akordeon:form6:pDokKsi :akordeon:form7" style="width: 120px;"/>
+                <p:commandButton actionListener="#{podatnikView.editdok()}" global="false" value="edytuj dokument" update=":akordeon:form6:pDokKsi :akordeon:form7" style="width: 120px;margin-left: 20px;"/>
+                <p:commandButton actionListener="#{podatnikView.pobierzrokpoprzedni}" global="true" value="pobierz rok pop." update=":akordeon:form6:pDokKsi :akordeon:form7"  style="width: 120px;margin-left: 20px;"/>
+            </p:panelGrid>
+            <p:panelGrid columns="1" style="margin-top: 15px;">
+                <h:outputText value="*Dopuszczalne elementy wzorca: n - numer kolejny w roku, N - numer kolejny w miesiącu,	m - numer miesiąca, r - numer roku, s - dowolny ciąg znaków za wyjątkiem: /"/>
+                <h:outputText value="**Dotyczy faktur kosztowych. Wpisać tylko gdy inny niż 100%. Format wpisu dla np. faktur samochodowych: 50"/>
+                <h:outputText value="***Dotyczy faktur typu WNT. Wpisać tylko gdy inny niż 100%. Format wpisu dla np. WNT: 8"/>
+                <h:outputText value="****Dotyczy faktur typu ZZP(samochodowych od 2019). Wpisać tylko gdy inny niż 100%. Format wpisu dla osobowych: 75"/>
+            </p:panelGrid>
+                
+        </h:form>
+    </p:tab>
+</ui:composition> 

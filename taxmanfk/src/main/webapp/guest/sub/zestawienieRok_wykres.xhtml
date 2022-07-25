@@ -1,0 +1,22 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <p:tab id="wykres" title="Ujęcie graficzne za rok #{WpisView.rokWpisu}">
+<!--        <script type="text/javascript">
+            function customExtender() {
+                this.cfg.highlighter = {
+                    useAxesFormatters: true,
+                    tooltipAxes: 'y'
+                };
+            }
+        </script>-->
+      <p:chart type="line" model="#{zestawienieView.linearModel}" 
+                     style="width:1000px; height: 600px;" 
+                     id="chart"  rendered="#{WpisView.ksiegaryczalt}"/> 
+       
+    </p:tab>
+</ui:composition>   
+
+

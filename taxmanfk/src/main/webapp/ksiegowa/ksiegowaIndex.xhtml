@@ -1,0 +1,99 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:bcf="http://brzaskun.com/facelets">
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="Podatkowa księga przychodów i rozchodów"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+             <h:form>
+                    <p:growl life="3600"  id="fifi"/>
+                    <p:confirmDialog id="confirmDialog" message="Sprzedać wybrany środek trwały?"  
+                                     header="" severity="alert" widgetVar="confirmation" style="width: 350px;">  
+                        <p:commandButton id="confirm" value="Sprzedać" update="fifi" oncomplete="PF('confirmation').hide()"  
+                                         actionListener="#{sTRSprzedazView.sprzedajsrodki()}" style="float: left; width: 120px;"/>  
+                        <p:commandButton id="decline" value="Cofnij" onclick="PF('confirmation').hide()" type="button" style="float: right; width: 120px;"/>   
+                        
+                    </p:confirmDialog>  
+                </h:form>
+             <h:form>
+                    <p:growl life="3600"  id="fifi1"/>
+                    <p:confirmDialog id="confirmDialog" message="Cofnąć sprzedaż wybranego środka trwałego?"  
+                                     header="" severity="alert" widgetVar="confirmation1" style="width: 350px;">  
+                        <p:commandButton id="confirm" value="Cofnij" update="fifi1" oncomplete="PF('confirmation1').hide()"  
+                                         actionListener="#{sTRSprzedazView.kupsrodki()}" style="float: left; width: 120px;"/>  
+                        <p:commandButton id="decline" value="Rezygnacja" onclick="PF('confirmation1').hide()" type="button" style="float: right; width: 120px;"/>   
+                        
+                    </p:confirmDialog>  
+                </h:form>
+                <f:view>
+
+                    <p:layout fullPage="true" expandTitle="Wysuń" closeTitle="Zamknij" collapseTitle="Schowaj">
+                        <ui:include src="sub/layoutIndex/north.xhtml"/>  <!-- panel polnocny-->
+                        <ui:include src="sub/layoutInfo/south.xhtml"/>   <!-- panel poludniowy-->
+                        <ui:include src="sub/layoutIndex/west.xhtml"/>   <!-- panel zachodni-->
+                        <ui:include src="sub/layoutTablica/east.xhtml"/>   <!-- panel wchodni-->
+                        <p:layoutUnit position="center" style="box-shadow: 10px 10px 5px #888; padding: 1%;">
+                            
+                           <p:panel style="width: 1000px; margin-top: -10px;" >
+                                <h:form id="auto">
+                                    <p:growl life="3600"  id="fifi2"/>
+                                    <p:commandButton id="wprowadzenieNowegoAut" actionListener="#{DokumentView.dodajNowyWpisAutomatyczny()}" value="amortyzacja" global="false" style="width: 150px;"/>  
+                                    <p:commandButton id="cechadokumentu" value="cechy dok(V)" styleClass="fkbutton" style="width: 150px; margin-left: 10px;" 
+                                                     onclick="PF('dialogCechyDokumentu').show();" accesskey="v" update="dodWiad:panelcechy"
+                                        global="false" rendered="#{DokumentView.cechadomyslna eq null}"/>
+                                    <p:commandButton id="cechadokumentuauto" value="#{DokumentView.cechadomyslna.nazwacechy} (V)" styleClass="fkbutton" style="width: 150px; margin-left: 10px;" 
+                                                     accesskey="v" actionListener="#{DokumentView.cechadomyslnaobsluz()}" update="dodWiad:panelcechy" oncomplete="r('dodWiad:dataPole').focus();r('dodWiad:dataPole').select()"
+                                        global="false" rendered="#{DokumentView.cechadomyslna ne null}"/>
+                                    <p:commandButton id="cechadefiniowanie" value="dodaj cechę" styleClass="fkbutton" style="width: 150px; margin-left: 10px;" 
+                                        onclick="PF('dialogCechyZapisu').show();" update=":formCH " global="false"/>
+                                    <p:selectOneMenu id="cechadokumentulist" value="#{DokumentView.cechastala}" styleClass="fkbutton" style="width: 150px; margin-left: 10px;" 
+                                                     rendered="#{DokumentView.pobranecechypodatnik.size() gt 1}" converter="#{cechaConv}">
+                                        <f:selectItem itemValue="" itemLabel="wybierz trwałą cechę" noSelectionOption="true"/>
+                                        <f:selectItems value="#{DokumentView.pobranecechypodatnik}" var="p" itemValue="#{p}" itemDescription="#{p.nazwacechy}" itemLabel="#{p.nazwacechy}"/>
+                                        <p:ajax event="change" partialSubmit="true" update="auto"/>
+                                    </p:selectOneMenu>
+                                    <h:outputText value="wpisy z cechą!" style="color: red; margin-left: 10px;" rendered="#{DokumentView.cechastala ne null}"/>
+                               </h:form>
+                            </p:panel>
+                                <ui:include src="sub/dialog_cechy_zapisu.xhtml" />
+                                <ui:include src="sub/dokument_wpis.xhtml" />
+                                <ui:include src="sub/dialog_cecha_dokument.xhtml" />
+                                <ui:include src="sub/dokument_ostatni.xhtml" />
+                                <ui:include src="sub/add_wiad_kolumna1rozbicie.xhtml" />
+                                <ui:include src="sub/wykazklientow_dialog.xhtml"/>
+                                <ui:include src="sub/dialog_kalkulator.xhtml"/>
+                        </p:layoutUnit>
+                    </p:layout>
+                    <script>
+                        var pokazdialotczastkowe = function() {
+                            var el = document.activeElement;
+                            var pole = el.id.indexOf('kwotaPkpir');
+                            if (pole > 0) {
+                                MYAPP.rozbicieczastkowefocus = el;
+                                PF('add_wiad_kolumna1rozbicie').show();
+                            }
+                        };
+                         var zachowaldialotczastkowe = function() {
+                            PF('add_wiad_kolumna1rozbicie').hide();
+                            $("#dodWiad\\:opis :input").focus(); 
+
+                        };
+                    </script>
+                    <h:form>
+                        <p:commandButton value="kolumna1rozbicie" accesskey="r" oncomplete="pokazdialotczastkowe();" 
+                                         update="formdialog_add_wiad_kolumna1rozbicie"
+                                         actionListener="#{DokumentView.przygotujrozbicie}" style="display: none"/>
+                    </h:form>
+                </f:view>
+            
+        </ui:define>
+    </ui:composition>
+</html>
+
+
+
+

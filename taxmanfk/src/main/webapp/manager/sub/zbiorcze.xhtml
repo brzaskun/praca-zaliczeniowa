@@ -1,0 +1,158 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    
+    xmlns:bcf="http://brzaskun.com/facelets">
+
+    <!--        <p:panelGrid columns="2" style="column-width: 350px; width: 700px">
+                <p:commandButton action="{zusStawkiView.usunzus()}" value="usun parametr" update="@form" type="submit" />
+                <p:commandButton action="{zusStawkiView.dodajzus()}" value="dodaj parametr" update="@form"  type="submit" />
+            </p:panelGrid>
+        </h:form>-->
+    <p:growl life="3600"  id="msgzus" ><p:autoUpdate/></p:growl>
+<!--    <h:form>
+        <p:selectBooleanCheckbox value="#{zusStawkiZbiorczeView.wszystkielata}" itemLabel="pokaż wszystkie lata" style="margin-left: 10px;">
+            <p:ajax event="change" partialSubmit="true" update="akordeon"/>
+        </p:selectBooleanCheckbox>
+    </h:form>-->
+    <style>
+        .ui-datatable-tablewrapper {
+            overflow: hidden;
+        }
+    </style>
+    <p:accordionPanel id="akordeon" value="#{zusStawkiZbiorczeView.listapodatnikow}" var="podatnik" style="max-width: 850px;" >
+
+        <p:tab title="#{podatnik.nazwisko} #{podatnik.imie}" rendered="#{podatnik.podmiotaktywny}">
+            <h:form id="formzus">
+                <p:panelGrid columns="4" style="width: 100%; max-width: 900px;">
+                    <p:dataTable value="#{podatnik.zusstawkinowe}"  var="loop" paginatorAlwaysVisible="true" paginator="true" paginatorPosition="top" pageLinks="12" rows="12"
+                                 sortFunction="#{zusStawkiZbiorczeView.sortujZUSstawkinew}"  sortBy="#{loop}" sortOrder="descending" 
+                                 selection="#{zusStawkiZbiorczeView.selected}" rowKey="#{loop.id}" 
+                                 rowIndexVar="row"  emptyMessage="Nie wprowadzono kwot" >
+                        <p:ajax event="rowSelectRadio" partialSubmit="true" update=":akordeon:formwartosci, :akordeon:formbuttony"/>       
+                        <f:facet name="header">
+                            <h:outputText value="Lista wprowadzonych danych za okresy rozliczeniowe #{podatnik.printnazwa}"/>
+                        </f:facet>
+                        <p:column selectionMode="single" style="width:16px;text-align:center"/>
+                        <p:column headerText="rok" sortBy="#{loop.rok}" style="text-align: center">
+                            <h:outputText value="#{loop.rok}"  style="#{loop.rok eq zusStawkiZbiorczeView.biezacyRok ? 'color: green; font-weight: 900;' : null}"/>
+                        </p:column>
+                        <p:column headerText="#{mgs.miesiąc}" style="text-align: center">
+                            <h:outputText value="#{loop.miesiac}"  style="#{loop.rok eq zusStawkiZbiorczeView.biezacyRok ? 'color: green; font-weight: 900;' : null}"/>
+                        </p:column>
+                        <p:column headerText="ZUS 51">
+                            <h:outputText value="#{loop.zus51ch}"  style="#{loop.rok eq zusStawkiZbiorczeView.biezacyRok ? 'color: green; font-weight: 900;' : null}; float: right;" rendered="#{loop.zus51ch gt 0.0}">
+                                <f:convertNumber minFractionDigits="2" locale="PL"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="ZUS 51/bch">
+                            <h:outputText value="#{loop.zus51bch}"  style="#{loop.rok eq zusStawkiZbiorczeView.biezacyRok ? 'color: green; font-weight: 900;' : null}; float: right;" rendered="#{loop.zus51bch gt 0.0}">
+                                <f:convertNumber minFractionDigits="2" locale="PL"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="ZUS 52">
+                            <h:outputText value="#{loop.zus52}"  style="#{loop.rok eq zusStawkiZbiorczeView.biezacyRok ? 'color: green; font-weight: 900;' : null}; float: right;" rendered="#{loop.zus52 gt 0.0}">
+                                <f:convertNumber minFractionDigits="2" locale="PL"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="ZUS 52 odl.">
+                            <h:outputText value="#{loop.zus52odl}"  style="#{loop.rok eq zusStawkiZbiorczeView.biezacyRok ? 'color: green; font-weight: 900;' : null}; float: right;" rendered="#{loop.zus52odl gt 0.0}">
+                                <f:convertNumber minFractionDigits="2" locale="PL"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="ZUS 53">
+                            <h:outputText value="#{loop.zus53}"  style="#{loop.rok eq zusStawkiZbiorczeView.biezacyRok ? 'color: green; font-weight: 900;' : null}; float: right;"  rendered="#{loop.zus53 gt 0.0}">
+                                <f:convertNumber minFractionDigits="2" locale="PL"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="PIT-4">
+                            <h:outputText value="#{loop.pit4}"  style="#{loop.rok eq zusStawkiZbiorczeView.biezacyRok ? 'color: green; font-weight: 900;' : null}; float: right;"  rendered="#{loop.pit4 gt 0.0}">
+                                <f:convertNumber minFractionDigits="2" locale="PL"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="PIT-8">
+                            <h:outputText value="#{loop.pit8}"  style="#{loop.rok eq zusStawkiZbiorczeView.biezacyRok ? 'color: green; font-weight: 900;' : null}; float: right;"  rendered="#{loop.pit8 gt 0.0}">
+                                <f:convertNumber minFractionDigits="2" locale="PL"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="prac." style="text-align: center;">
+                            <h:outputText value="&#x2713;"  style="#{loop.rok eq zusStawkiZbiorczeView.biezacyRok ? 'color: green; font-weight: 900;' : null}; float: right;" rendered="#{loop.pracownicy}">
+                            </h:outputText>
+                        </p:column>
+                         <p:column headerText="rodzaj" style="text-align: center;">
+                            <h:outputText value="uls"  style="#{loop.rok eq zusStawkiZbiorczeView.biezacyRok ? 'color: green; font-weight: 900;' : null}; float: right;" rendered="#{loop.rodzajzus eq 1}">
+                            </h:outputText>
+                             <h:outputText value="mały"  style="#{loop.rok eq zusStawkiZbiorczeView.biezacyRok ? 'color: green; font-weight: 900;' : null}; float: right;" rendered="#{loop.rodzajzus eq 2}">
+                            </h:outputText>
+                        </p:column>
+                        <br/>
+                    </p:dataTable>
+                </p:panelGrid>
+            </h:form>
+            <h:form id="formwartosci">
+                <p:panel header="Wprowadź parametry aktualne" style="width: 100%; max-width: 700px;"/>
+                <p:panelGrid id="parametryp" columns="4" >
+                    <f:ajax>
+                        <h:outputText value="rok: "/>
+                        <p:selectOneMenu value="#{zusStawkiZbiorczeView.selected.rok}" id="rokzus">
+                            <f:selectItems value="#{roki.rokiList}"/>
+                            
+                        </p:selectOneMenu>
+                        <h:outputText value="miesiąc płatności: "/>
+                        <p:selectOneMenu value="#{zusStawkiZbiorczeView.selected.miesiac}" id="miesiaczus">
+                            <f:selectItems value="#{mce.mceList}" />
+                            
+                        </p:selectOneMenu>
+                        <h:outputText value="kwota zus51 z chor.: "/>
+                        <p:inputNumber value="#{zusStawkiZbiorczeView.selected.zus51ch}" style="width: 120px; text-align: right;" symbolPosition="s" decimalSeparator="." inputStyle="text-align: right;" decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto" >
+                        </p:inputNumber>
+                        <h:outputText value="kwota zus51 bez chor.: "/>
+                        <p:inputNumber value="#{zusStawkiZbiorczeView.selected.zus51bch}" style="width: 120px; text-align: right;" symbolPosition="s" decimalSeparator="." inputStyle="text-align: right;" decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto" >
+                        </p:inputNumber>
+                        <h:outputText value="kwota zus52: "/>
+                        <p:inputNumber value="#{zusStawkiZbiorczeView.selected.zus52}" style="width: 120px; text-align: right;" symbolPosition="s" decimalSeparator="." inputStyle="text-align: right;" decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"  >
+                        </p:inputNumber>     
+                        <h:outputText value="kwota zus52odlicz: "/>
+                        <p:inputNumber value="#{zusStawkiZbiorczeView.selected.zus52odl}" style="width: 120px; text-align: right;" symbolPosition="s" decimalSeparator="." inputStyle="text-align: right;" decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"  >
+                        </p:inputNumber>
+                        <h:outputText value="kwota zus53: "/>
+                        <p:inputNumber value="#{zusStawkiZbiorczeView.selected.zus53}" style="width: 120px; text-align: right;" symbolPosition="s" decimalSeparator="." inputStyle="text-align: right;" decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"  >
+                        </p:inputNumber>
+                        <h:outputText value="kwota PIT4: "/>
+                        <p:inputNumber value="#{zusStawkiZbiorczeView.selected.pit4}" style="width: 120px; text-align: right;" symbolPosition="s" decimalSeparator="." inputStyle="text-align: right;" decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto" >
+                        </p:inputNumber>
+                        <h:outputText value="kwota PIT8: "/>
+                        <p:inputNumber value="#{zusStawkiZbiorczeView.selected.pit8}" style="width: 120px; text-align: right;" symbolPosition="s" decimalSeparator="." inputStyle="text-align: right;" decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto" >
+                        </p:inputNumber>
+                        <h:outputText value="są pracownicy " style="color: green;"/>
+                        <p:selectBooleanCheckbox value="#{zusStawkiZbiorczeView.selected.pracownicy}" styleClass="wiersznetto" >
+                        </p:selectBooleanCheckbox>
+                        <h:outputText value="email: " style="color: green;"/>
+                        <h:outputText value="#{podatnik.email}" style="color: green;"/>
+                    </f:ajax>
+                </p:panelGrid>
+                </h:form>
+            <h:form id="formbuttony">
+                <br/>
+                <p:panelGrid columns="5" style="column-width: 350px; width: 100%; max-width: 700px;  text-align: center;">
+                    <p:outputPanel layout="box">
+                        <p:commandButton actionListener="#{zusStawkiZbiorczeView.reset(podatnik)}" value="nowy" style="width: 140px;" update=":akordeon:formzus :akordeon:formwartosci :akordeon:formbuttony" rendered="#{zusStawkiZbiorczeView.selected.id ne null}"/>
+                        <p:commandButton actionListener="#{zusStawkiZbiorczeView.usunzusZbiorcze(podatnik)}" value="usun" style="width: 140px;" update=":akordeon:formzus, :akordeon:formbuttony" rendered="#{zusStawkiZbiorczeView.selected.id ne null}"/>
+                        <p:commandButton id="dodajbutton" actionListener="#{zusStawkiZbiorczeView.dodajzusZbiorcze(podatnik)}"
+                                         value="dodaj" style="width: 100px;" update=":akordeon:formzus :akordeon:formwartosci :akordeon:formbuttony" rendered="#{zusStawkiZbiorczeView.selected.id eq null}"/>
+                        <p:commandButton id="edytujbutton" actionListener="#{zusStawkiZbiorczeView.edytujzusZbiorcze(podatnik)}" value="edytuj" style="width: 140px;" update=":akordeon:formzus :akordeon:formwartosci :akordeon:formbuttony" rendered="#{zusStawkiZbiorczeView.selected.id ne null}"/>
+                    </p:outputPanel>
+                    <p:commandButton actionListener="#{zusStawkiZbiorczeView.pobierzzusPoprzedniMiesiac(podatnik)}" value="skopiuj pop.mc" style="width: 140px;" update=":akordeon:formwartosci" rendered="#{zusStawkiZbiorczeView.selected.id eq null}"/>
+                    <p:commandButton actionListener="#{zusStawkiZbiorczeView.pobierzzusZbiorcze(podatnik)}" value="pobierz z wzorca" style="width: 140px;" update=":akordeon:formwartosci" rendered="#{zusStawkiZbiorczeView.selected.id eq null}"/>
+                    <p:commandButton actionListener="#{zusStawkiZbiorczeView.uzupełnijrok(podatnik)}" value="uzupełnij rok" style="width: 140px;" update=":akordeon:formzus" rendered="#{zusStawkiZbiorczeView.selected.id eq null}"/>
+                </p:panelGrid>
+            </h:form>
+        </p:tab>
+    </p:accordionPanel>
+</ui:composition>   
+

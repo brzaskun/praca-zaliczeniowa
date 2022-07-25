@@ -1,0 +1,186 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:bcf="http://brzaskun.com/facelets">
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="Podatkowa księga przychodów i rozchodów"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <f:view>
+                <p:layout fullPage="true" expandTitle="Wysuń" closeTitle="Zamknij" collapseTitle="Schowaj">
+                    <ui:include src="sub/layoutImporty/north.xhtml"/>  <!-- panel polnocny-->
+                    <ui:include src="sub/layoutImporty/south.xhtml"/>   <!-- panel poludniowy-->
+                    <ui:include src="sub/layoutImporty/west.xhtml"/>   <!-- panel zachodni-->
+                    <ui:include src="sub/layoutImporty/east.xhtml"/>   <!-- panel wchodni-->
+                    <p:layoutUnit position="center" style="box-shadow: 10px 10px 5px #888; padding: 1%;">
+                        <bcf:ajaxs/>
+                        <h:outputText value="import dokumentów z pliku JPK_VAT"/>
+                        <h:form>
+                            <p:growl life="3600"  id="messages1"/>
+                            <p:panelGrid columns="3">
+                            <p:fileUpload fileUploadListener="#{importSprzedazyView.importujsprzedaz}"
+                                          mode="advanced" dragDropSupport="true" fileLimit="1" 
+                                          update="messages1 importtabela @form" sizeLimit="4000000"  
+                                          validatorMessage="Nieprawidłowy typ pliku" invalidFileMessage="Nieprawidłowy typ pliku" invalidSizeMessage="Plik za duży"
+                                          fileLimitMessage="Można załadować tylko jeden plik na jedno ładowanie"
+                                          uploadLabel="Wczytaj" label="Wybierz" cancelLabel="Rezygnuj"  onstart="PF('dialogAjaxCzekaj').show();"
+                                          style="height: 100px;">
+                            </p:fileUpload>
+                            <p:selectBooleanCheckbox label="wybierz osoby fizyczne" value="#{importSprzedazyView.wybierzosobyfizyczne}" itemLabel="wybierz tylko osoby fizyczne">
+                                    <p:ajax event="change" partialSubmit="true" update="importtabela"/>
+                            </p:selectBooleanCheckbox>
+                            <p:selectBooleanCheckbox label="wybierz zagraniczne" value="#{importSprzedazyView.wybierzfirmyzagraniczne}" itemLabel="wybierz tylko firmy zagraniczne">
+                                    <p:ajax event="change" partialSubmit="true" update="importtabela"/>
+                            </p:selectBooleanCheckbox>
+                            </p:panelGrid>
+                            <p:messages><p:autoUpdate/></p:messages>
+                        </h:form>
+                        <h:form id="importtabela">
+                            <p:panelGrid columns="6">
+                                <h:outputText value="netto"/>
+                                <bcf:outputpl value="#{importSprzedazyView.netto}"/>
+                                <h:outputText value="vat"/>
+                                <bcf:outputpl value="#{importSprzedazyView.vat}"/>
+                                <h:outputText value="brutto"/>
+                                <bcf:outputpl value="#{importSprzedazyView.brutto}"/>
+                            </p:panelGrid>
+                            <p:dataTable  var="wpis" value="#{importSprzedazyView.dokumenty}" id="dokumentyLista" 
+                                          rowIndexVar="index" 
+                                          style="width: 1400px; margin-top: 10px; height: 600px; overflow-y: scroll;" 
+                                          widgetVar="dokTable" 
+                                          rowStyleClass="#{wpis.rodzajedok.rodzajtransakcji eq 'sprzedaz' ? 'old' : (wpis.netto lt 0 ? 'korekta' : null)}" 
+                                          emptyMessage="Nie pobrano jeszcze żadnych danych z pliku jpk"
+                                          styleClass="grid" 
+                                          >
+                                <p:ajax event="filter" global="false" />
+
+                                <f:facet name="header">  
+                                    <h:outputText value="Zestawienie #{importSprzedazyView.dokumenty.size()} zaimportowanych dokumentów z pliku jpk" />  
+                                    <h:outputText value="- wyszukiwanie: " />  
+                                    <p:inputText id="globalFilter" onkeyup="PF('dokTable').filter()" style="width:250px" placeholder="wyszukiwane wyrażenie" />  
+                                    <!--                    <p:commandButton id="toggler" type="button" value="Kolumny" style="float:right" icon="ui-icon-calculator" />
+                                                        <p:columnToggler datasource="dokumentyLista" trigger="toggler"/>-->
+                                </f:facet>
+
+                                <p:column style="width: 10px; height: 45px; text-align: center;" >
+                                    <p:rowToggler rendered="#{wpis.ewidencjaVAT1.size() gt 0 || wpis.cechadokumentuLista.size() gt 0}"/>
+
+                                </p:column>
+                                <p:column id="idColumn" headerText="#{mgs.numerkolejny}" sortBy="#{wpis.nrWpkpir}"  style="width: 20px; text-align: center;">  
+                                    <h:outputText styleClass="lpwiersza" value="#{index+1}" />
+                                </p:column>
+                                <p:column id="dataColumn" headerText="data wyst" filterBy="#{wpis.dataWyst}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{wpis.dataWyst}"  style="width: 50px; min-width: 70px;">  
+                                    <h:outputText value="#{wpis.dataWyst.substring(2)}"/>
+                                </p:column>
+                                <p:column id="kontrColumn" headerText="#{mgs.kontrahent}" filterBy="#{wpis.kontr.npelna}" width="220"
+                                          filterStyle="width:180px;" filterMatchMode="contains" sortBy="#{wpis.kontr.npelna}">  
+                                    <h:outputText  value="#{wpis.kontr.npelna}"  rendered="#{wpis.kontr.npelna ne 'nie znaleziono firmy w bazie Regon'}"/>
+                                    <h:outputText style="color:red;" value="#{wpis.kontr.nskrocona}"  rendered="#{wpis.kontr.npelna eq 'nie znaleziono firmy w bazie Regon'}"/>
+                                    <h:outputText style="color:red;" value=" - #{wpis.kontr.npelna}"  rendered="#{wpis.kontr.npelna eq 'nie znaleziono firmy w bazie Regon'}"/>
+                                    <h:outputText value=" #{wpis.kontr.miejscowosc} - NIP #{wpis.kontr.nip}"  rendered="#{!(wpis.kontr.nip ne '0000000000')}"/>
+                                    <h:outputText value=" #{wpis.kontr.miejscowosc}"  rendered="#{wpis.kontr.nip eq '0000000000'}"/>
+                                    <h:outputText value=" NIP - #{wpis.kontr.nip}"  rendered="#{wpis.kontr.npelna eq 'nie znaleziono firmy w bazie Regon'}"/>
+                                </p:column>
+                                <p:column id="rodzTrColumn"  filterBy="#{wpis.rodzajedok}" filterStyle="display : none;" filterMatchMode="contains" 
+                                          sortBy="#{wpis.rodzajedok}"  style="width: 5%;text-align: center;">
+                                    <h:outputText value="#{wpis.rodzajedok.skrot}"/>
+                                </p:column>
+                                <p:column id="nrWlDokColumn" headerText="nr wł" filterBy="#{wpis.nrWlDk}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{wpis.nrWlDk}"  style="width: 10%;" >   
+                                    <h:outputText value="#{wpis.nrWlDk}" />
+                                </p:column>
+                                <p:column id="opisColumn" headerText="#{mgs.opis}" filterBy="#{wpis.opis}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{wpis.opis}" style="width: 10%;">  
+                                    <h:outputText value="#{wpis.opis}" styleClass="#{wpis.czyCecha() ? 'zapisZcecha' : null}"/>
+                                </p:column>
+                                <p:column id="nettoColumn" headerText="#{WpisView.vatowiec ? mgs.netto : mgs.kwota}" 
+                                          filterBy="#{wpis.symbolWaluty}" filterMatchMode="contains"  sortBy="#{wpis.symbolWaluty}"  style="width: 60px;">  
+                                    <bcf:outputpl value="#{wpis.netto}"/>
+                                    <br/>
+                                    <bcf:outputpl value="#{wpis.nettoWaluta}" rendered="#{wpis.symbolWaluty ne 'PLN'}"/> 
+                                    <h:outputText value="#{wpis.symbolWaluty}" rendered="#{wpis.symbolWaluty ne 'PLN'}"/>
+                                </p:column>
+                                <p:column id="nettoColumn1" headerText="#{mgs.vat}" styleClass="filter40" rendered="#{WpisView.vatowiec}"
+                                          filterBy="#{wpis.vat}" filterMatchMode="contains"  sortBy="#{wpis.vat}"  style="width: 60px;">  
+                                    <bcf:outputpl value="#{wpis.vat}" rendered="#{wpis.ewidencjaVAT1.size() gt 0}"/>
+                                    <br/>
+                                </p:column>
+                                <p:column id="pkpirKolColumn" headerText="zapis w pkpir" style="width: 14%;" resizable="true" >
+                                    <ui:repeat value="#{wpis.listakwot1}" var="item" varStatus="nr">
+                                        <h:outputText value="#{wpis.listakwot1.get(nr.index).netto}" style="float: right;">
+                                            <f:convertNumber minFractionDigits="2" locale="PL"/>
+                                        </h:outputText>
+                                        <h:outputText value="#{wpis.listakwot1.get(nr.index).nazwakolumny}" style="float: left;">
+                                            <f:convertNumber minFractionDigits="2" locale="PL"/>
+                                        </h:outputText><br/>
+                                    </ui:repeat>
+                                </p:column>
+                                <p:column headerText="spr" style="text-align: center;" width="20" sortBy="#{wpis.sprawdzony}">  
+                                    <h:outputText id="polespr" value="#{wpis.sprawdzony eq 2 ? '. .' : (wpis.sprawdzony eq 1 ? '. .' : '.')}" 
+                                                  style="#{wpis.sprawdzony eq 2 ? 'background-color: red; color: red;' : (wpis.sprawdzony eq 1 ? 'background-color: green; color: green;' : null)}"/>
+                                </p:column>
+                                <p:rowExpansion>
+                                    <p:column id="ewidencjavat" headerText="ewidencjavat - netto - vat - op/zw" width="300" resizable="true">  
+                                        <p:dataTable var="subwpis" value="#{wpis.ewidencjaVAT1}" emptyMessage="dokument bez vat"  resizableColumns="true" style="width: 50%;">
+                                            <p:column id="SubColumn1" headerText="ewidencja">  
+                                                <h:outputText value="#{subwpis.ewidencja.nazwa}" rendered="#{subwpis.vat ne 0 ? true : subwpis.netto ne 0 ? true : false}" />
+                                            </p:column>
+                                            <p:column id="SubColumn1a"  headerText="#{mgs.netto}">  
+                                                <h:outputText value="#{subwpis.netto}" style="float: right;" rendered="#{subwpis.vat ne 0 ? true : subwpis.netto ne 0 ? true : false}">
+                                                    <f:convertNumber minFractionDigits="2" locale="PL"/>
+                                                </h:outputText>
+                                            </p:column>
+                                            <p:column id="SubColumn2" headerText="#{mgs.VAT}">  
+                                                <h:outputText value="#{subwpis.vat}" style="float: right;" rendered="#{subwpis.vat ne 0 ? true : subwpis.netto ne 0 ? true : false}">
+                                                    <f:convertNumber minFractionDigits="2" locale="PL"/>
+                                                </h:outputText>
+                                            </p:column>
+                                            <p:column id="SubColumn2a" headerText="brutto">  
+                                                <h:outputText value="#{subwpis.netto + subwpis.vat}" style="float: right;" rendered="#{subwpis.vat ne 0 ? true : subwpis.netto ne 0 ? true : false}">
+                                                    <f:convertNumber minFractionDigits="2" locale="PL"/>
+                                                </h:outputText>
+                                            </p:column>
+                                            <p:column id="SubColumn3" headerText="op/zw">  
+                                                <h:outputText value="#{subwpis.estawka}" rendered="#{subwpis.vat ne 0 ? true : subwpis.netto ne 0 ? true : false}"/>
+                                            </p:column>
+                                            <p:column id="SubColumn4" headerText="okresy vat">  
+                                                <h:outputText value="#{wpis.vatM}/#{wpis.vatR}" style="float: right;" rendered="#{subwpis.vat ne 0 ? true : subwpis.netto ne 0 ? true : false}"/>
+                                            </p:column>
+                                        </p:dataTable>
+                                    </p:column>
+                                    <p:column id="cechy" headerText="cechy zapisu" resizable="true">  
+                                        <p:dataTable var="subwpiscecha" value="#{wpis.cechadokumentuLista}" emptyMessage="dokument bez cechy"  resizableColumns="true" style="width: 50%;">
+                                            <p:column id="SubColumn1" headerText="nazwa cechy">  
+                                                <h:outputText value="#{subwpiscecha.nazwacechy}" />
+                                            </p:column>
+                                        </p:dataTable>
+                                    </p:column>
+                                </p:rowExpansion>
+                                <p:column id="vatMcColumn" headerText="#{mgs.VAT}" filterBy="#{wpis.vatM}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{wpis.vatM}"  style="width: 14px; text-align: center;" filterMaxLength="2">  
+                                    <h:outputText style="#{wpis.vatM eq wpis.pkpirM ? null : 'font-weight: bold; color: red;'}" value="#{wpis.vatM}"/>
+                                </p:column >
+                                <p:column id="status" headerText="tab"  style="width: 7%; text-align: center;">
+                                    <h:outputText value="#{wpis.tabelanbp.nrtabeli} " rendered="#{wpis.tabelanbp ne null and wpis.tabelanbp.waluta.symbolwaluty ne 'PLN'}" style="width: 50px;"/>
+                                    <h:outputText value="#{wpis.tabelanbp.kurssredni}" rendered="#{wpis.tabelanbp ne null and wpis.tabelanbp.waluta.symbolwaluty ne 'PLN'}" style="width: 50px;"/>
+                                </p:column>
+                                <p:column id="deleteColumn" headerText="usuń" style="width: 4%; text-align: center;">
+                                    <p:commandButton actionListener="#{importSprzedazyView.usun(wpis)}" style="width: 30px;"
+                                                     id="delete" icon="ui-icon ui-icon-trash" update="importtabela:dokumentyLista"/>
+                                </p:column>
+                            </p:dataTable> 
+                            <p:growl life="3600"  id="messages2" ><p:autoUpdate/></p:growl>
+                            <p:commandButton value="zaksięguj" actionListener="#{importSprzedazyView.zaksieguj}"
+                                              style="margin-top: 10px; width: 120px;" update="@form" rendered="#{importSprzedazyView.dokumenty.size() gt 0}"/>
+                            <p:commandButton  icon="fa fa-print" style="margin-top: 20px; width: 120px;" actionListener="#{importSprzedazyView.drukuj()}" global="false" rendered="#{importSprzedazyView.dokumenty.size() gt 0}"/>
+                        </h:form>
+                    </p:layoutUnit>
+                </p:layout>
+            </f:view>
+        </ui:define>
+    </ui:composition>
+</html>
+
+
+
+

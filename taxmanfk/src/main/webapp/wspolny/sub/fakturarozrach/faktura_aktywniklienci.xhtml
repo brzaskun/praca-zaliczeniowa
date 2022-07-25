@@ -1,0 +1,38 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    
+    
+    xmlns:bcf="http://brzaskun.com/facelets">
+
+    <p:tab  title="Aktywacja kontrahentów" >
+        <h:form>
+            <p:panelGrid columns="1">
+                <p:commandButton value="aktualizuj" actionListener="#{fakturaAktywniKlienci.usunnieaktywnych()}" update="@form"/>
+            </p:panelGrid>
+        <p:dataTable value="#{fakturaAktywniKlienci.klienciaktywowanie}" var="wpis"
+                     style="width: 580px;" rowIndexVar="idf">
+            <p:ajax event="filter" global="false"/>
+            <f:facet name="header">
+                <h:outputText value="aktywacja klientów"/>
+            </f:facet>
+            <p:column width="30">
+                <h:outputText value="#{idf+1}"/>
+            </p:column>
+            <p:column width="400"  filterBy="#{wpis.npelna}" filterMatchMode="contains" filterStyle="width:250px;">
+                <h:outputText value="#{wpis.npelna}"/>
+            </p:column>
+            <p:column>
+                <h:outputText value="#{wpis.aktywnydlafaktrozrachunki eq true ? 'tak' : ''}"/>
+            </p:column>
+             <p:column>
+                 <p:commandButton value="+-" actionListener="#{fakturaAktywniKlienci.aktywacjakontrahenta(wpis)}" update="@parent:@parent akordeon:fakturarozrachunki akordeon:fakturaanaliza" global="false"/>
+            </p:column>
+        </p:dataTable>
+            </h:form>
+    </p:tab>
+</ui:composition> 

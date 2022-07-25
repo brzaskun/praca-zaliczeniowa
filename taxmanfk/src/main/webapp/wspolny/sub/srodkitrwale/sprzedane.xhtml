@@ -1,0 +1,137 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    
+    
+    xmlns:bcf="http://brzaskun.com/facelets">
+     <p:tab id="zestawieniestrs" title="sprzedane">
+         <h:form id="str_sprzedane">
+                <p:contextMenu for="srodkiListas" style="width: 220px;">
+                    <p:menuitem value="Przywróć środek do ewidencji" update=":akordeon:str_posiadane :akordeon:str_sprzedane" actionListener="#{sTRTabView.przywrocsrodki()}" icon="ui-icon-arrowreturnthick-1-w" />
+                    <p:menuitem value="Drukuj środek z ewidencji" actionListener="#{sTRTabView.drukujsrodeksprzedaz()}" icon="ui-icon-print" />
+                </p:contextMenu>
+                <p:dataTable  var="wpis" value="#{sTRTabView.sprzedane}" id="srodkiListas" editable="true" 
+                              scrollable="true" scrollHeight="390"
+                              style="max-width: 1400px;"
+                              rowKey="#{wpis.id}" selection="#{sTRTabView.wybranysrodektrwalySprzedane}" selectionMode="single"> 
+
+                    <f:facet name="header">  
+                        <h:outputText value="Ewidencja srodkow trwalych" />  
+                    </f:facet>
+ <p:ajax event="rowToggle" global="false"/>
+                    <p:column style="text-align: center; width: 10px;">
+                        <p:rowToggler/>
+                    </p:column>
+                    <p:column id="idColumn" headerText="nr kol." style="text-align: center; width: 20px;">  
+
+                        <h:outputText value="#{wpis.nrsrodka}" />
+                    </p:column>
+
+                    <p:column id="dataColumn" headerText="data zakupu" filterBy="#{wpis.datazak}" filterMatchMode="contains" 
+                              filterStyle="display : none;" sortBy="#{wpis.datazak}" style="width: 85px;">  
+
+                        <h:outputText value="#{wpis.datazak}" >
+                            <f:convertDateTime dateStyle="medium"  />
+                        </h:outputText>
+                    </p:column>
+                    <p:column id="data2Column" headerText="data przek." filterBy="#{wpis.dataprzek}" filterMatchMode="contains"
+                              filterStyle="display : none;" sortBy="#{wpis.dataprzek}"  style="width: 85px;">  
+
+                        <h:outputText value="#{wpis.dataprzek}">
+                            <f:convertDateTime dateStyle="medium"  />
+                        </h:outputText>
+                    </p:column>
+                    <p:column id="nazwaColumn" headerText="nazwa środka trwałego" filterBy="#{wpis.nazwa}" filterMatchMode="contains" filterStyle="display : none;" 
+                              sortBy="#{wpis.nazwa}"   style="width: 200px;"
+                              >  
+                        <h:outputText value="#{wpis.nazwa}"/>
+                    </p:column>
+                    <p:column id="kstColumn" headerText="KŚT" filterBy="#{wpis.kst}" filterMatchMode="contains" filterStyle="display : none;" sortBy="#{wpis.kst}" 
+                              style="text-align: center; width: 50px;">  
+
+                        <h:outputText value="#{wpis.kst}"  />
+                    </p:column>
+                    <p:column id="dowColumn" headerText="nr. faktury" filterBy="#{wpis.nrwldokzak}" 
+                              filterMatchMode="contains" filterStyle="display : none;" sortBy="#{wpis.nrwldokzak}"  style="width: 110px;">  
+
+                        <h:outputText value="#{wpis.nrwldokzak}"  />
+                    </p:column>
+                    <p:column id="rodzTrColumn" headerText="#{mgs.kwota}" filterBy="#{wpis.netto}" filterMatchMode="contains" filterStyle="display : none;"
+                              sortBy="#{wpis.netto}">  
+
+                        <h:outputText value="#{wpis.netto}" style="float: right;">
+                            <f:convertNumber minFractionDigits="2" locale="PL"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column id="vatColumn" headerText="umorzenie pocz." filterBy="#{wpis.umorzeniepoczatkowe}" filterMatchMode="contains" 
+                              filterStyle="display : none;" sortBy="#{wpis.umorzeniepoczatkowe}" width="100">  
+
+                        <h:outputText value="#{wpis.umorzeniepoczatkowe}" style="float: right;">
+                            <f:convertNumber minFractionDigits="2" locale="PL"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column id="stawkaColumn" headerText="odpis stawka" filterBy="#{wpis.stawka}"  
+                              style="text-align: center;width: 50px;" filterMatchMode="contains" filterStyle="display : none;" sortBy="#{wpis.stawka}" >  
+
+                        <h:outputText value="#{wpis.stawka}%" >
+                            <f:convertNumber maxFractionDigits="2"
+                                             groupingUsed="true"
+                                             maxIntegerDigits="5"
+                                             type="number"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column id="odpisrokColumn" headerText="odpis za rok" 
+                              filterBy="#{wpis.odpisrok}" filterMatchMode="contains" filterStyle="display : none;" sortBy="#{wpis.odpisrok}" style="width: 90px;">  
+
+                        <h:outputText value="#{wpis.odpisrok}" style="float: right;">
+                            <f:convertNumber minFractionDigits="2" locale="PL"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column id="odpismcColumn" headerText="data sprzedania    " filterBy="#{wpis.datasprzedazy}" filterMatchMode="contains" 
+                              filterStyle="display : none;" sortBy="#{wpis.datasprzedazy}">                          
+                        <h:outputText value="#{wpis.datasprzedazy}" style="float: right; width: 90px;">
+                        </h:outputText>
+                    </p:column>
+                    <p:column id="przyczynaColumn" headerText="nr dok" filterBy="#{wpis.nrwldokumentu}" filterMatchMode="contains" 
+                              filterStyle="display : none;" sortBy="#{wpis.nrwldokumentu}" style="width: 90px;">                          
+                        <h:outputText value="#{wpis.nrwldokumentu}" style="float: right;">
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column id="deleteColumn" headerText="usuń" style="text-align: center; width: 40px;">
+                        <p:commandButton actionListener="#{sTRTabView.destroy(wpis)}" onclick="PF('confirmation').show()" id="delete" icon="ui-icon ui-icon-trash" type="submit" />
+                    </p:column>
+                <p:rowExpansion>
+                    <p:column id="amortColumn" headerText="zaplanowane miesięczne umorzenia" filterBy="#{wpis.planumorzen}" filterMatchMode="contains" 
+                              filterStyle="display : none;" style="width: 350px; text-align: center;">  
+                        <p:dataTable var="subwpis" value="#{wpis.planumorzen}" emptyMessage="Nie naliczono umorzeń"
+                                     sortBy="#{subwpis.nrUmorzenia}" 
+                                     style="width: 650px; overflow-y: scroll; height: 250px;">
+                            <p:column id="SubColumn1" headerText="id" style="width: 20px;">  
+                                <h:outputText value="#{subwpis.nrUmorzenia}" />
+                            </p:column>
+                            <p:column id="SubColumn2" headerText="rok" style="width: 40px;">  
+                                <h:outputText value="#{subwpis.rokUmorzenia}" />
+                            </p:column>
+                            <p:column id="SubColumn3" headerText="mc" style="width: 20px;">  
+                                <h:outputText value="#{subwpis.mcUmorzeniaNazwa}" />
+                            </p:column>
+                            <p:column id="SubColumn4" headerText="#{mgs.kwota}"  style="width: 50px;">  
+                                <bcf:outputpl value="#{subwpis.kwota}" />
+                            </p:column>
+                            <p:column id="SubColumn5" headerText="amodok"  style="width: 50px;">  
+                                <h:outputText value="#{subwpis.amodok != null and subwpis.amodok.zaksiegowane ? 'tak' : null}" />
+                            </p:column>
+                        </p:dataTable>
+                    </p:column>
+                    </p:rowExpansion>
+                </p:dataTable>
+         </h:form>
+            </p:tab>
+</ui:composition>   
+
+

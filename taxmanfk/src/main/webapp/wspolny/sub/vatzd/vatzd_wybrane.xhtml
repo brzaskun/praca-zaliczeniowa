@@ -1,0 +1,85 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:bcf="http://brzaskun.com/facelets">
+<p:tab title="wybrane">
+    <h:form id="form3">
+    <p:panelGrid columns="5" styleClass="panelvazd">
+        <p:commandButton id="vatzd" value="vatzd" actionListener="#{vATZDView.vatzd()}"
+                      style="width: 120px; margin-left: 10px;" rendered="#{vATZDView.wniosekVATZDEntity eq null}"
+                                 update="akordeonzd:form1:dataList akordeonzd:form2:dataListzak @(.panelvazd)"/>
+        <p:commandButton  value="odznacz" actionListener="#{vATZDView.vatzdback()}"
+                      style="width: 120px; margin-left: 10px;" rendered="#{vATZDView.wniosekVATZDEntity eq null}"
+                                 update="akordeonzd:form1:dataList akordeonzd:form2:dataListzak @(.panelvazd) akordeonzd:form3:tabelawybrane"/>
+        <h:outputText value="przyporządkuj do deklaracji za miesiąc/rok" style="margin-left: 50px;"/>
+        <p:selectOneMenu id="rokWpisu" value="#{vATZDView.rokdek}" style="width: 60px;margin-left: 5px;">
+            <p:ajax event="change" partialSubmit="true"/>
+            <f:selectItems value="#{roki.rokiList}"/>
+        </p:selectOneMenu>
+        <p:selectOneMenu id="miesiacWpisu" value="#{vATZDView.mcdek}" style="width: 60px;">
+            <p:ajax event="change" partialSubmit="true"/>
+            <f:selectItem itemLabel="#{mgs.CR}" itemValue="CR" />
+            <f:selectItems value="#{mce.mceList}"/>
+        </p:selectOneMenu>
+     </p:panelGrid>
+                <p:dataTable value="#{vATZDView.pozycje}" var="itemwybr" rowIndexVar="indexw" id="tabelawybrane"
+                             style="width: 1240px; height: 550px; overflow-y: scroll;" >
+                    <p:column width="30" style="text-align: center;">
+                     <f:facet name="header">
+                         <h:outputText value="Id"/>
+                     </f:facet>
+                     <h:outputText value="#{indexw+1}"/>
+                 </p:column>
+                 <p:column width="400">
+                     <f:facet name="header">
+                         <h:outputText value="dokument"/>
+                     </f:facet>
+                     <h:outputText value="#{itemwybr.dokfk.stringdlavatzd()}"/>
+                 </p:column>
+                 <p:column>
+                     <f:facet name="header">
+                         <h:outputText value="Deklaracjavat"/>
+                     </f:facet>
+                     <h:outputText value="#{itemwybr.deklaracjavat ne null ? itemwybr.deklaracjavat:'nieprzyporządkowane'}"/>
+                 </p:column>
+                    <p:column width="30" style="text-align: center;">
+                     <f:facet name="header">
+                         <h:outputText value="rok"/>
+                     </f:facet>
+                     <h:outputText value="#{itemwybr.rokZD}"/>
+                 </p:column>
+                    <p:column width="30" style="text-align: center;">
+                     <f:facet name="header">
+                         <h:outputText value="mc"/>
+                     </f:facet>
+                     <h:outputText value="#{itemwybr.mcZD}"/>
+                 </p:column>
+                    <p:column width="90"  style="text-align: center;">
+                     <f:facet name="header">
+                         <h:outputText value="termin platnosci"/>
+                     </f:facet>
+                     <h:outputText value="#{itemwybr.terminplatnosci}"/>
+                 </p:column>
+                <p:column width="80">
+                     <f:facet name="header">
+                         <h:outputText value="korekta netto"/>
+                     </f:facet>
+                     <bcf:outputpl value="#{itemwybr.korektapodstawa}"/>
+                 </p:column>
+                    <p:column width="80">
+                     <f:facet name="header">
+                         <h:outputText value="korekta vat"/>
+                     </f:facet>
+                     <bcf:outputpl value="#{itemwybr.korektapodatek}"/>
+                 </p:column>
+                    <p:column width="40" style="text-align: center;">
+                        <p:commandButton icon="fa fa-trash-o" actionListener="#{vATZDView.usunfk(itemwybr)}" update="akordeonzd:form3:tabelawybrane"  rendered="#{vATZDView.wniosekVATZDEntity ne null and vATZDView.wniosekVATZDEntity.id eq null}"/>
+                 </p:column>
+             </p:dataTable>
+    </h:form>
+    </p:tab>
+</ui:composition>   
+

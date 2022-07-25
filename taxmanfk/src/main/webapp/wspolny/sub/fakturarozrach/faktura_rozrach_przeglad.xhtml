@@ -1,0 +1,160 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    
+    
+    xmlns:bcf="http://brzaskun.com/facelets">
+
+    <p:tab id="nowa1" title="Historia" >
+        <style>
+            .ui-autocomplete-input {
+                width: 340px;
+            }
+            .dokfaktrozliczenia {
+                min-width: 40px !important;
+            }
+        </style>
+        <h:form id="razemfaktury">
+            <p:outputPanel style="text-align: right">
+                <h:outputText value="suma: " style="margin-right: 10px;"/><bcf:outputpl value="#{fakturaRozrachunkiRozlView.suma}" stylePlus="margin-right: 200px;"/>
+            </p:outputPanel>
+        </h:form>
+        <h:form id="fakturarozliczenia">
+            
+            <p:remoteCommand name="przeliczfilter1" actionListener="#{fakturaRozrachunkiRozlView.sumuj}" update="akordeon:razemfaktury"/>
+            <p:commandButton value="pobierz" style="width: 120px;" actionListener="#{fakturaRozrachunkiRozlView.pobierzplatnosci()}" update="fakturarozliczenia" global="false"/>
+            <p:dataTable value="#{fakturaRozrachunkiRozlView.wprowadzoneplatnosci}" var="item" style="width: 1150px; margin-top: 20px;" filteredValue="#{fakturaRozrachunkiRozlView.wprowadzoneplatnoscifiltered}"
+                         sortBy="#{item.nrdokumentu}" sortFunction="#{fakturaRozrachunkiRozlView.sortujfaktrozrach}" sortOrder="descending" 
+                         emptyMessage="niczego nie zaksięgowano w miesiącu #{WpisView.miesiacWpisu}" id="wprowadzonetabela"
+                         widgetVar="fakturarozliczenia_tablica" editable="true" paginator="true" rows="20" paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
+                         rowsPerPageTemplate="20,40,80,120">
+                <p:ajax event="rowEdit" listener="#{fakturaRozrachunkiView.onRowEdit}"/>
+                <p:ajax event="filter" global="false" oncomplete="przeliczfilter1();"/>
+                <p:column width="30" sortBy="#{item.lp}" sortable="true">
+                    <f:facet name="header">
+                        <h:outputText value="lp"/>
+                    </f:facet>
+                    <h:outputText value="#{item.lp}"/>
+                </p:column>
+                <p:column width="280" sortable="true" sortBy="#{item.kontrahent.npelna}" filterBy="#{item.kontrahent.npelna}" filterMatchMode="contains" filterStyle="width:250px;">
+                    <f:facet name="header">
+                        <h:outputText value="kontrahent"/>
+                    </f:facet>
+                     <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{item.kontrahent.npelna}"/>
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:selectOneListbox value="#{item.kontrahent}" converter="#{klientConv}" filter="true" required="true" scrollHeight="120" filterMatchMode="contains" style="width: 300px;">
+                                    <f:selectItems value="#{fakturaRozrachunkiView.klienci}" var="par" itemLabel="#{par.npelna}" />
+                                </p:selectOneListbox>
+                                
+                            </f:facet>
+                        </p:cellEditor>
+                </p:column>
+<!--                <p:column width="40">
+                    <f:facet name="header">
+                        <h:outputText value="wprow."/>
+                    </f:facet>
+                    <h:outputText value="#{item.wprowadzil.login}"/>
+                </p:column>-->
+                <p:column width="70" style="text-align: center;" sortable="true" sortBy="#{item.data}">
+                    <f:facet name="header">
+                        <h:outputText value="data"/>
+                    </f:facet>
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{item.data}"/>
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText value="#{item.data}" style="width: 70px;"/>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+                <p:column width="60" sortBy="#{item.rodzajdokumentu}" filterBy="#{item.rodzajdokumentu}" filterMatchMode="exact" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="seria"/>
+                    </f:facet>
+                    <f:facet name="filter">
+                        <p:selectOneMenu onchange="PF('fakturarozliczenia_tablica').filter()" styleClass="dokfaktrozliczenia">
+                            <f:selectItem itemLabel="all" itemValue="" noSelectionOption="true"/>
+                             <f:selectItem itemLabel="rk" itemValue="rk"/>
+                            <f:selectItem itemLabel="wb" itemValue="wb"/>
+                            <f:selectItem itemLabel="wbe" itemValue="wbe"/>
+                            <f:selectItem itemLabel="wbm" itemValue="wbm"/>
+                            <f:selectItem itemLabel="wbme" itemValue="wbme"/>
+                            <f:selectItem itemLabel="fa" itemValue="fa"/>
+                            <f:selectItem itemLabel="bo" itemValue="bo"/>
+                        </p:selectOneMenu>
+                    </f:facet>
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{item.rodzajdokumentu}"/>
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText value="#{item.rodzajdokumentu}" style="width: 60px;"/>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+                <p:column width="40" style="text-align: center;" sortable="true" sortBy="#{item.nrdokumentu}" sortFunction="#{fakturaRozrachunkiRozlView.sortujfaktrozrach}">
+                    <f:facet name="header">
+                        <h:outputText value="dok."/>
+                    </f:facet>
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{item.nrdokumentu}"/>
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText value="#{item.nrdokumentu}" style="width: 90px;"/>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+                <p:column width="70" style="text-align: center;" sortBy="#{item.kwotapln}" sortable="true">
+                    <f:facet name="header">
+                        <h:outputText value="zapłata"/>
+                    </f:facet>
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <bcf:outputpl value="#{item.kwotapln}" rendered="#{!item.zaplata0korekta1}"/>
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText value="#{item.kwotapln}" style="width: 90px;"/>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+                <p:column width="70" style="text-align: center;" sortBy="#{kwotaplntem.kwotapln}" sortable="true">
+                    <f:facet name="header">
+                        <h:outputText value="korekta"/>
+                    </f:facet>
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <bcf:outputpl value="#{item.kwotapln}" rendered="#{item.zaplata0korekta1}"/>
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText value="#{item.kwotapln}" style="width: 90px;"/>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+                <p:column width="70">
+                    <f:facet name="header">
+                        <h:outputText value="księgowano"/>
+                    </f:facet>
+                    <h:outputText value="#{item.dataksiegowania}">
+                        <f:convertDateTime dateStyle="default" locale="pl"/>
+                    </h:outputText>
+                </p:column>
+                <p:column width="40" style="text-align: center;">
+                    <p:rowEditor style="height: 30px;"/>
+                </p:column>
+                <p:column width="40" style="text-align: center;">
+                    <p:commandButton icon="ui-icon-trash" actionListener="#{fakturaRozrachunkiRozlView.usun(item)}" 
+                                     update="akordeon:fakturarozliczenia:wprowadzonetabela akordeon:form_wprowadzoneplatnosci"/>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </p:tab>  
+</ui:composition> 

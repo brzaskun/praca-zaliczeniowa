@@ -1,0 +1,170 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:bcf="http://brzaskun.com/facelets">
+    <p:tab title="VAT 27">
+        <p:panelGrid id="panelvat27" columns="7" styleClass="upd27">
+            <h:outputText value="suma wybranych"/>
+            <bcf:outputpl value="#{vat27FKView.sumawybranych}"/>
+            <p:commandButton value="#{mgs.drukuj}" style="margin-left: 3%; margin-bottom: 1%; width: 120px;" actionListener="#{vat27FKView.drukujewidencjeUEfk()}"/>
+            <p:commandButton value="#{mgs.drukujtab}" style="margin-left: 10px; margin-bottom: 1%; width: 120px;" actionListener="#{vat27FKView.drukujewidencjeUEfkTabela()}"/>
+            <p:commandButton value="deklaracja" style="margin-left: 10px; margin-bottom: 1%; width: 120px;"
+                             actionListener="#{vAT27DeklaracjaView.tworzdeklaracjeFK(vat27FKView.klienciWDTWNT)}" update="@(.upd327)  @(.upd27)" rendered="#{!vat27FKView.deklaracja0korekta1}"/>
+            <p:commandButton value="korekta" style="margin-left: 10px; margin-bottom: 1%; width: 120px;"  
+                             actionListener="#{vAT27DeklaracjaView.tworzdeklaracjekorektaFK(vat27FKView.klienciWDTWNT)}" update="@(.upd327)  @(.upd27" rendered="#{vat27FKView.deklaracja0korekta1}"/>
+            
+        </p:panelGrid>
+            <p:outputPanel> 
+
+                <p:dataTable  var="wpis27" value="#{vat27FKView.klienciWDTWNT}" id="dokumentyListafk" 
+                              rowKey="#{wpis27.hashCode()}" selection="#{vat27FKView.listawybranych}"
+                              emptyMessage="W danym miesiącu nie było żadnych zapisów"
+                              sortBy="#{wpis27.kontrahent.npelna}"  styleClass="upd27"
+                              style="max-width: 95%;height: 400px;overflow-y: scroll;" widgetVar="dokTable27" 
+                              > 
+                    <f:facet name="header">  
+                        <h:outputText value="#{vat27FKView.opisvatuepkpir}" /> 
+                        <h:outputText value="- wyszukiwanie: " />  
+                        <p:inputText id="globalFilter" onkeyup="PF('dokTable27').filter()" style="width:180px" placeholder="wyszukiwane wyrażenie" />  
+                    </f:facet>
+                    <p:ajax event="rowSelectCheckbox"  global="false" listener="#{vat27FKView.podsumuj()}" update="@(.upd27)"/>
+                    <p:ajax event="rowUnselectCheckbox" global="false" listener="#{vat27FKView.podsumuj()}" update="@(.upd27)"/>
+                    <p:ajax event="toggleSelect" global="false"  listener="#{vat27FKView.podsumuj()}" update="@(.upd27)"/>
+                    <p:ajax event="rowToggle" global="false"/>
+                    <p:column selectionMode="multiple" styleClass="checkwiersza" width="30" style="text-align: center;" rendered="#{wpis27.transakcja ne 'podsumowanie'}"/>
+                    <p:column width="30" style="text-align: center;" rendered="#{wpis27.transakcja eq 'podsumowanie'}"/>
+                    <p:column style="width: 5%;">
+                        <p:rowToggler rendered="#{wpis27.zawierafk.size() gt 0 ? true : false}"/>
+                    </p:column>
+                    <p:column id="typdokColumn" headerText="transakcja" filterBy="#{wpis27.transakcja}" filterMatchMode="contains" sortBy="#{wpis27.transakcja}" style="width: 15%;" filterStyle="display : none;" >  
+                        <h:outputText value="#{wpis27.transakcja}"/>
+                    </p:column>
+                    <p:column id="krajkodColumn" headerText="kraj" filterBy="#{wpis27.kontrahent.krajkod}" filterMatchMode="contains" sortBy="#{wpis27.kontrahent.krajkod}" 
+                              style="width: 15%; text-align: center;" filterStyle="display : none;" >  
+                        <h:outputText value="#{wpis27.kontrahent.krajkod}"/>
+                    </p:column>
+                    <p:column id="nipColumn" headerText="nip" filterBy="#{wpis27.kontrahent.nip}" 
+                              filterMatchMode="contains" sortBy="#{wpis27.kontrahent.nip}" style="width: 20%;" filterStyle="display : none;" >  
+                        <h:outputText value="#{wpis27.kontrahent.nip}" />
+                    </p:column>
+                    <p:column id="kontrColumn" headerText="#{mgs.kontrahent}" filterBy="#{wpis27.kontrahent.npelna}" filterMatchMode="contains" 
+                              sortBy="#{wpis27.kontrahent.npelna}" style="width: 20%;" filterStyle="display : none;" width="300">  
+                        <h:outputText value="#{wpis27.kontrahent.npelna}"  />
+                    </p:column>
+                    <p:column id="nettoColumn" headerText="#{mgs.netto} pln" filterBy="#{wpis27.netto}" filterMatchMode="contains" sortBy="#{wpis27.netto}" style="width: 15%;" filterStyle="display : none;" >  
+                        <h:outputText value="#{wpis27.netto}" style="float: right;">
+                            <f:convertNumber minFractionDigits="2" locale="PL"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column id="nettoWalutaColumn" headerText="#{mgs.netto} #{mgs.waluta}" filterBy="#{wpis27.nettowaluta}" filterMatchMode="contains" sortBy="#{wpis27.nettowaluta}" style="width: 15%;" filterStyle="display : none;" >  
+                        <h:outputText value="#{wpis27.nettowaluta}" style="float: right;">
+                            <f:convertNumber minFractionDigits="2" locale="PL"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column id="nettoWaluta" filterBy="#{wpis27.nazwawaluty}" filterMatchMode="contains" sortBy="#{wpis27.nazwawaluty}" style="width: 40px; text-align: center;" filterStyle="display : none;" >  
+                        <h:outputText value="#{wpis27.nazwawaluty}"/>
+                    </p:column>
+                    <p:column id="liczbaColumn" headerText="ilość dok" filterBy="#{wpis27.liczbadok}" filterMatchMode="contains" sortBy="#{wpis27.liczbadok}" style="width: 15%;text-align: center;" filterStyle="display : none;" >  
+                        <h:outputText value="#{wpis27.liczbadok}" rendered="#{wpis27.transakcja eq 'podsum.' ? false : true}">
+                            <f:convertNumber minFractionDigits="0" locale="PL"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:rowExpansion>
+                        <p:column id="ewidencjavat" headerText="dokumenty podsumowane" width="300" resizable="true" >  
+                            <p:dataTable var="subwpis" value="#{wpis27.zawierafk}" emptyMessage="brak dokumentów"  resizableColumns="true" style="width: 98%;">
+                                <p:column id="SubColumn1" headerText="data wyst" width="70">  
+                                    <h:outputText value="#{subwpis.datadokumentu}" />
+                                </p:column>
+                                <p:column headerText="symbol" width="90">  
+                                    <h:outputText value="#{subwpis.dokfkSN}" />
+                                </p:column>
+                                <p:column id="SubColumn1b" headerText="nr własny" width="120">  
+                                    <h:outputText value="#{subwpis.numerwlasnydokfk}" />
+                                </p:column>
+                                <p:column id="SubColumn1c" headerText="#{mgs.opis}" width="250">  
+                                    <h:outputText value="#{subwpis.opisdokfk}" />
+                                </p:column>
+                                <p:column id="SubColumn1a"  headerText="wartość netto w pln">  
+                                    <h:outputText value="#{subwpis.nettoPLNWNT}" style="float: right;">
+                                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                                    </h:outputText>
+                                </p:column>
+                                <p:column  headerText="wartość VAT">  
+                                    <h:outputText value="#{subwpis.getVATPLNWNT()}" style="float: right;">
+                                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                                    </h:outputText>
+                                </p:column>
+                                <p:column id="SubColumn1e"  headerText="netto w wal.">  
+                                    <h:outputText value="#{subwpis.nettoWALWNT}" style="float: right;">
+                                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                                    </h:outputText>
+                                </p:column>
+                                <p:column id="SubColumn0" headerText="waluta" style="text-align: center;" width="40">  
+                                    <h:outputText value="#{subwpis.walutadokumentu.symbolwaluty}" />
+                                </p:column>
+                                <p:column id="SubColumn4" headerText="okresy vat">  
+                                    <h:outputText value="#{subwpis.vatM}/#{subwpis.vatR}" style="float: right;"/>
+                                </p:column>
+                            </p:dataTable>
+                        </p:column>
+                    </p:rowExpansion>
+                </p:dataTable>
+        </p:outputPanel>
+    </p:tab><p:tab title="wysłane">
+                <p:outputPanel> 
+               <p:dataTable value="#{vat27FKView.deklaracjevat27}" var="row" emptyMessage="brak wysłanych deklaracji za okres" style="width: 1310px;height: 450px;" styleClass="upd327"
+                             selection="#{vat27FKView.dekl27selected}" selectionMode="single" rowKey="#{row.hashCode()}">
+                    <p:column style="width: 20px;">
+                        <p:rowToggler/>
+                    </p:column>
+                    <p:column headerText="data złożenia" style="text-align: center;" width="80">
+                        <h:outputText value="#{row.datazlozenia ne null ? row.datazlozenia : 'nie złożono'}">
+                            <f:convertDateTime type="date" parent="dd/MM/yy"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="korekta / testowa" style="text-align: center;" width="50">
+                        <h:outputText value="#{row.nrkolejny eq 0 ? '': 'korekta'}" />
+                        <h:outputText value=" testowa" rendered="#{row.testowa}"/>
+                    </p:column>
+                    <p:column headerText="nr" style="text-align: center;" width="40">
+                        <h:outputText value="#{row.nrkolejny}" />
+                    </p:column>
+                    <p:column headerText="mc" style="text-align: center;" width="60">
+                        <h:outputText value="#{row.miesiac}"/>
+                    </p:column>
+                    <p:column headerText="sporządził" style="text-align: center;" width="90">
+                        <h:outputText value="#{row.sporzadzil}"/>
+                    </p:column>
+                    <p:column headerText="status" width="100">
+                        <h:outputText value="#{row.status}" />
+                    </p:column>
+                    <p:column headerText="opis/id" width="300">
+                        <h:outputText value="#{row.opis}" rendered="#{row.upo eq null}"/>
+                        <h:outputText value="#{row.identyfikator}" rendered="#{row.upo ne null}"/>
+                    </p:column>
+                    <p:column style="text-align: center;" width="85">
+                        <p:commandButton value="wysyłka" actionListener="#{beanek.rob27(row, vat27View.listaDok, vat27FKView.listaDokfk)}" update="@form" style="width: 80px;" rendered="#{row.identyfikator eq null}"/>
+                        <p:commandButton value="usuń" actionListener="#{vat27FKView.usundekl(row)}" update="@form" style="width: 80px;" rendered="#{row.status ne null and (row.status.substring(0,3) ne '200')}"/>
+                      
+                    </p:column>
+                    <p:column style="text-align: center;" width="85">
+                        <p:commandButton value="usuń" actionListener="#{vat27FKView.usundekl(row)}" update="@form" style="width: 80px;" rendered="#{row.identyfikator eq null or row.status.startsWith('4') or row.status.startsWith('300') or facesContext.externalContext.remoteUser eq 'szef'}"/>
+                          <p:commandButton value="sprawdź" actionListener="#{beanek.pobierzwyslane27(row)}" update="@form" style="width: 80px;"  rendered="#{row.identyfikator ne null and (row.status.startsWith('302') or row.status.startsWith('301'))}"/>
+                    </p:column>
+                    <p:column style="text-align: center;" width="85">
+                        <p:commandButton value="drukuj" actionListener="#{vat27FKView.drukuj(row)}" update="@form" style="width: 80px;"/>
+                    </p:column>
+                    <p:rowExpansion>
+                        <p:column id="ewidencjavat" headerText="dokumenty podsumowane" width="300" resizable="true" >
+                            <h:outputText value="#{row.deklaracja}"/>
+                        </p:column>
+                    </p:rowExpansion>
+                </p:dataTable>
+            </p:outputPanel>        
+    </p:tab>
+</ui:composition>

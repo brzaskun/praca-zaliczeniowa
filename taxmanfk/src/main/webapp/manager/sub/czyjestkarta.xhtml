@@ -1,0 +1,42 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:bcf="http://brzaskun.com/facelets">
+    
+    <h:form>
+    <p:outputPanel style="padding: 10px;margin-top: 30px; width: 500px;">
+        <div style="padding: 10px;">
+            <h:outputText value="Działa tylko z kartą biurową! Jeżeli sprawdzasz inną kartę - wprowadź hasło i pesel podpisującego poniżej"/>
+            <p:panelGrid columns="2">
+                <h:outputText value="inne hasło"/><p:inputText value="#{czyJestKartaView.innehaslo}"/>
+                <h:outputText value="pesel"/><p:inputText value="#{czyJestKartaView.innypesel}"/>
+            </p:panelGrid>
+        </div>
+        <p:panel header="można podpisać" rendered="#{czyJestKartaView.moznapodpisywac}"/>
+        <p:panel header="nie można podpisać" rendered="#{!czyJestKartaView.moznapodpisywac}"/>
+        <p:separator />
+        <p:panelGrid columns="2" >
+            <h:outputText value="Raport z badania karty"/><h:outputText value=""/>
+<!--            <h:outputText value="czy jest czytnik?"/><h:outputText value="#{czyJestKartaView.czyjestczytnik eq 'tak' ?'TAK':'Nie znaleziono czytnika'}" style="#{czyJestKartaView.czyjestczytnik eq 'tak' ?'color:green':null}"/>-->
+            <h:outputText value="czy jest karta"/><h:outputText value="#{czyJestKartaView.czyjestkarta eq 'tak' ?'TAK':'Nie znaleziono karty'}" style="#{czyJestKartaView.czyjestkarta eq 'tak' ?'color:green':null}"/>
+            <h:outputText value="czy wpisano dobre hasło"/><h:outputText value="#{czyJestKartaView.czydobrehaslo eq 'tak' ?'TAK':'UWAGA! Wprowadzono błędne hało. Niebezpieczęństwo zablokowania karty!'}" style="#{czyJestKartaView.czydobrehaslo eq 'tak' ?'color:green':null}" rendered="#{czyJestKartaView.czyjestkarta eq 'tak'}"/> <h:outputText value="" rendered="#{czyJestKartaView.czyjestkarta ne 'tak'}"/>
+            <h:outputText value="czy jest aktualny certyfikat"/><h:outputText value="#{czyJestKartaView.czyjestcertyfikat eq 'tak' ?'TAK':'Nie znaleziono na serwerze certyfikatu dla podanego nr PESEL'}" style="#{czyJestKartaView.czyjestcertyfikat eq 'tak' ?'color:green':null}" rendered="#{czyJestKartaView.czyjestkarta eq 'tak'}"/> <h:outputText value="" rendered="#{czyJestKartaView.czyjestkarta ne 'tak'}"/>
+            <h:outputText value="certyfikat wygasa za dni"/><h:outputText value="#{czyJestKartaView.czyjestcertyfikat eq 'tak' ?czyJestKartaView.certyfikatdo:''}" style="#{czyJestKartaView.czyjestcertyfikat eq 'tak' ?'color:green':null}"/>
+            <h:outputText value="nazwa certyfikatu"/><h:outputText value="#{czyJestKartaView.nazwacertyfikatu}" style="#{czyJestKartaView.czyjestcertyfikat eq 'tak' ?'color:green':null}"/>
+            <p:separator/>
+            <h:outputText value=""/>
+            <h:outputText value="użyłem hasla:"/><h:outputText value="#{czyJestKartaView.uzywamhasla}" />
+            <h:outputText value="użyłem Peselu:"/><h:outputText value="#{czyJestKartaView.uzywamPeselu}" />
+        </p:panelGrid>
+    </p:outputPanel>
+        <p:commandButton value="sprawdź" update="@form" actionListener="#{czyJestKartaView.init()}" style="width: 120px;margin-left: 20px;"/>
+    </h:form>
+ 
+</ui:composition>
+

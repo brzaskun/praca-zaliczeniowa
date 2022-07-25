@@ -1,0 +1,105 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+ >
+  
+    <p:outputPanel id="wrapper" deferred="true">
+        
+        <p:dataTable  var="wpis" value="#{rozrachunkiView.zaplacone}" id="dokumentyLista" editable="true" 
+                      paginator="true" paginatorAlwaysVisible="true" rows="12"
+                      paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
+                      rowsPerPageTemplate="12,18,24,32,50" 
+                      rowKey="#{wpis.id}" selection="#{rozrachunkiView.selDokument}" selectionMode="single"
+                      rowStyleClass="#{wpis.rodzajedok.rodzajtransakcji eq 'sprzedaz' ? 'old' : null}" emptyMessage="W danym miesiącu nie było żadnych zapisów"
+                      > 
+            <p:ajax event="rowEdit" update=":form:messages, @form" listener="#{rozrachunkiView.usunzzaplaconych}" />
+            <f:facet name="header">  
+                <h:outputText value="Wykaz dokumentów" />  
+            </f:facet>
+            
+            <p:column id="idColumn" headerText="#{mgs.numerkolejny}" sortBy="#{wpis.nrWpkpir}"  width="20" style="height: 40px;">  
+                <h:outputText value="#{wpis.nrWpkpir}" />
+            </p:column>
+                
+            <p:column id="kontrColumn" headerText="#{mgs.kontrahent}" filterBy="#{wpis.kontr.npelna}" filterMatchMode="contains" sortBy="#{wpis.kontr.npelna}">  
+                <h:outputText value="#{wpis.kontr.npelna} miejscowość:#{wpis.kontr.miejscowosc} nip:#{wpis.kontr.nip}"  />
+            </p:column>
+           
+            <p:column id="nrWlDokColumn" headerText="nr wł" filterBy="#{wpis.nrWlDk}" filterMatchMode="contains" sortBy="#{wpis.nrWlDk}" width="150">  
+                        <h:outputText value="#{wpis.nrWlDk}"/>
+            </p:column>
+            <p:column id="opisColumn" headerText="#{mgs.opis}" filterBy="#{wpis.opis}" filterMatchMode="contains" sortBy="#{wpis.nrWlDk}" width="100" >  
+                        <h:outputText value="#{wpis.opis}"/>
+            </p:column>
+            <p:column id="kwotaColumn" headerText="#{mgs.kwota}" filterBy="#{wpis.kwota}" filterMatchMode="contains" sortBy="#{wpis.kwota}" width="100">  
+                        <h:outputText value="#{wpis.brutto}" style="padding-left: 20%; font-weight: 700; float: right;">
+                          <f:convertNumber minFractionDigits="2" locale="PL"/>
+                        </h:outputText>
+            </p:column>
+            <p:column id="pkpirKolColumn" headerText="ter.płat." sortBy="#{wpis.terminPlatnosci}" width="80">
+                 <p:cellEditor>  
+                    <f:facet name="output">  
+                        <h:outputText value="#{wpis.terminPlatnosci}"/>
+                    </f:facet>  
+                    <f:facet name="input">  
+                        <p:inputText value="#{wpis.terminPlatnosci}"/>
+                    </f:facet>  
+                </p:cellEditor>
+            </p:column>
+            <p:column id="platnosci" headerText="data platnosci - kwota wpłaty -  pozostalo do zapł " width="300">  
+                <p:dataTable var="subwpis" value="#{wpis.rozrachunki1}" style="width: 300px;" emptyMessage="dokument bez płatności częściowych" >
+                    <p:column id="SubColumn1" >  
+                        <h:outputText value="#{subwpis.dataplatnosci}" />
+                    </p:column>
+                    <p:column id="SubColumn1a"  >  
+                        <h:outputText value="#{subwpis.kwotawplacona}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                        </h:outputText>
+                    </p:column>
+                      <p:column id="SubColumn2">  
+                          <h:outputText value="#{subwpis.dorozliczenia}" style="float: right;">
+                          <f:convertNumber minFractionDigits="2" locale="PL"/>
+                          </h:outputText>
+                    </p:column>
+                </p:dataTable>
+               
+            </p:column>
+            <p:column id="termin30" headerText="termin30" sortBy="#{wpis.termin30}" width="60" filterMaxLength="4">                 <h:outputText value="#{wpis.termin30}" />
+            </p:column>
+            <p:column id="termin90" headerText="termin90"  sortBy="#{wpis.termin90}" width="60" filterMaxLength="4">                 <h:outputText value="#{wpis.termin90}" />
+            </p:column>
+            <p:column id="termin150" headerText="termin150" sortBy="#{wpis.termin150}" width="60" filterMaxLength="4">  
+                <h:outputText value="#{wpis.termin150}" />
+            </p:column>
+             <p:column id="editColumn" headerText="edytuj" width="50">
+                     <p:rowEditor/>  
+              </p:column>
+            
+            <p:column id="storno" headerText="data storno - kwota storno -  pozostalo do rozl ">  
+                <p:dataTable var="subwpis" value="#{wpis.storno}" emptyMessage="dokument bez storna" >
+                    <p:column id="SubColumn1" >  
+                        <h:outputText value="#{subwpis.dataplatnosci}" />
+                    </p:column>
+                    <p:column id="SubColumn1a"  >  
+                        <h:outputText value="#{subwpis.kwotawplacona}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                        </h:outputText>
+                    </p:column>
+                      <p:column id="SubColumn2">  
+                          <h:outputText value="#{subwpis.dorozliczenia}" style="float: right;">
+                          <f:convertNumber minFractionDigits="2" locale="PL"/>
+                          </h:outputText>
+                    </p:column>
+                </p:dataTable>
+               
+            </p:column>
+           
+        </p:dataTable>
+       
+    </p:outputPanel>
+    
+</ui:composition>   
+

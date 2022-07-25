@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:bcf="http://brzaskun.com/facelets">
+    
+        <p:panel header="Wczytaj plik XML zawierający zapisy VAT" rendered="#{eVatDedraView.wiersze.size() eq 0}" style="width: 1250px;"/>
+        <h:form id="form_dialog_ewvat_dedra" >
+            <p:fileUpload fileUploadListener="#{eVatDedraView.zachowajZaladowanyPlik}" update="form_dialog_ewvat_dedra form_dialog_ewvat_dedra_tabela:tabela"
+                          mode="advanced" fileLimit="1" auto="true" 
+                          sizeLimit="400000"   
+                          validatorMessage="Nieprawidłowy typ pliku" invalidFileMessage="Nieprawidłowy typ pliku" invalidSizeMessage="Plik za duży"
+                          fileLimitMessage="Można załadować tylko jeden plik na jedno ładowanie"
+                          uploadLabel="#{mgs.wczytaj}" label="#{mgs.wybierz}" cancelLabel="#{mgs.rezygnuj}"   rendered="#{eVatDedraView.wiersze.size() eq 0}"
+                          style="height: 120px; width: 600px;">
+            </p:fileUpload>
+        </h:form>
+        <h:form id="form_dialog_ewvat_dedra_tabela" >
+            <p:dataTable value="#{eVatDedraView.wiersze}" var="item" rowIndexVar="index" id="tabela" style="width: 1300px;"
+                         scrollable="true" scrollHeight="550" scrollRows="20" sortBy="#{item.faktura}"
+                         emptyMessage="#{mgs.niepobranowierszy}">
+                <f:facet name="header">
+                    <h:outputText value=" #{mgs.ewidencja} #{item.ewidencja.nazwa}"/>
+                </f:facet>
+                <p:column style="width: 20px;">
+                    <f:facet name="header">
+                        <h:outputText value="lp"/>
+                    </f:facet>
+                    <h:outputText value="#{index+1}" rendered="#{item.ulica ne 'podsumowanie'}"/>
+                </p:column>
+                <p:column style="width: 90px;" sortBy="#{item.datadokumentu}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mgs.dataksiegowania}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.datadokumentu}"/>
+                </p:column>
+                <p:column style="width: 50px;">
+                    <f:facet name="header">
+                        <h:outputText value="#{mgs.mcrok}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.mcRok}"/>
+                </p:column>
+                <p:column style="width: 200px;" sortBy="#{item.imienazwisko}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mgs.imieinazwisko}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.imienazwisko}"/>
+                </p:column>
+                <p:column sortBy="#{item.faktura}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mgs.faktura}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.faktura}"/>
+                </p:column>
+                <p:column style="width: 250px;">
+                    <f:facet name="header">
+                        <h:outputText value="#{mgs.adres}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.adres}"/>
+                </p:column>
+                <p:column sortBy="#{item.netto}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mgs.netto}"/>
+                    </f:facet>
+                    <bcf:outputpl value="#{item.netto}"/>
+                </p:column>
+                <p:column sortBy="#{mgs.vat}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mgs.vat}"/>
+                    </f:facet>
+                    <bcf:outputpl value="#{item.vat}"/>
+                </p:column>
+                <p:column  style="width: 20px;">
+                    <f:facet name="header">
+                        <h:outputText value="%"/>
+                    </f:facet>
+                    <h:outputText value="#{item.estawka}"/>
+                </p:column>
+                <p:column sortBy="#{item.dataoperacji}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mgs.datadok}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.dataoperacji}"/>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+        <h:form>
+            <p:outputPanel style="padding: 10px;">
+                <p:commandButton value="#{mgs.zaksięguj}" actionListener="#{eVatDedraView.dodajwierszeewidencji}" style="width: 120px;" update="form_dialog_ewvat_dedra"/>
+                <p:commandButton value="#{mgs.usun}" actionListener="#{eVatDedraView.usunwierszeewidencji}" style="width: 120px; margin-left: 10px;" update="form_dialog_ewvat_dedra"/>
+                <p:commandButton value="#{mgs.drukuj}" actionListener="#{eVatDedraView.drukujewidencje}" style="width: 120px; margin-left: 10px;" />
+            </p:outputPanel>
+        </h:form>
+</html>
+
+

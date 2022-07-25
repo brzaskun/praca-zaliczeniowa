@@ -1,0 +1,20 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    >
+    <style>
+        .opismiejsca input  {
+            width: 250px !important;
+        }
+    </style>
+    <p:dialog id="dialog_miejscaprzychodow_dolaczanie" header="Definiowanie miejsca powstawania przychodu" widgetVar="dialog_miejscaprzychodow_dolaczanie" 
+              resizable="false"  onShow="ustawdialog('dialog_miejscaprzychodow_dolaczanie','menukartoteki',1230,650);" 
+              closeOnEscape="true" onHide="resetujdialog('dialog_miejscaprzychodow_dolaczanie');" 
+              >
+       
+        <ui:include src="../../../wspolny/sub/stow_miejscaprzychodow.xhtml"/>
+    </p:dialog>
+</ui:composition>

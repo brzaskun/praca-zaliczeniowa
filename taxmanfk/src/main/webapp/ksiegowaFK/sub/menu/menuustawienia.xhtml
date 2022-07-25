@@ -1,0 +1,71 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    >
+    <p:tabView id="menuustawienia" styleClass="menutabView" orientation="left"  style=" height: 500px;width: 600px;box-shadow: 10px 10px 5px #888888; margin-left: 15px; margin-top: 15px;"> 
+        <p:tab title="Plan kont wzorcowy" rendered="#{facesContext.externalContext.remoteUser eq '4'}">
+            <h:form id="dialog1menu2">
+                <p:menu id="d1m1" styleClass="d1m" style="width: 400px; text-align: center; height: 450px; height: 450px;">
+                    <p:menuitem value="Wzorcowy plan kont" onclick="PF('dialogplankontwzorcowy').show();"  actionListener="#{planKontView.init}"  update="formwzorcowy:dataListwzorcowy"
+                                global="false"></p:menuitem>
+                    <p:menuitem value="Wzorcowy plan kont inne ustawienia" onclick="PF('dialogplankontwzorcowy1').show();" 
+                                actionListener="#{planKontView.planBezSlownikowychSyntetyczne(WpisView.podatnikwzorcowy)}"  update="formwzorcowy1:dataListwzorcowy"
+                                ></p:menuitem>
+                    <p:menuitem value="Nazwy kont - internacjonalizacja" onclick="PF('dialog_plankont_wzorcowy_nazwy').show();" actionListener="#{planKontInterView.init()}" update=":form_dialog_plankont_wzorcowy_nazwy" global="false"></p:menuitem>
+                    <p:menuitem value="Kopiuj plan kont wzorcowy" onclick="PF('dialog_plankont_kopiuj_wzorcowy').show();" global="false"
+                                rendered="#{facesContext.externalContext.remoteUser eq '4'}"></p:menuitem>
+                     <p:menuitem value="Definiowanie kategorii kont" onclick="PF('dialog_konto_klasyfikacja').show();" global="false"></p:menuitem>
+                     <p:menuitem value="Przyporządkowanie kategorii kont" onclick="PF('dialog_konto_klasyfikacja_przyporzadkowanie').show();" global="false"></p:menuitem>
+                </p:menu>
+
+            </h:form>
+        </p:tab>
+        <p:tab title="Bilans wzorcowy" rendered="#{facesContext.externalContext.remoteUser eq '4'}">
+            <h:form id="dialog1menu3">
+                <p:menu id="d1m2" styleClass="d1m" style="width: 400px; text-align: center; height: 450px;">
+                    <p:menuitem value="Kopiowanie przyporządkowania kont Bilans wzorcowy" onclick="PF('dialog_bilans_przypisywanie_wzorcowy_kopiuj').show();"></p:menuitem>
+                    <p:menuitem value="Przyporządkowanie kont Bilans wzorcowy" onclick="PF('dialogbilansukladwzorcowy').show();"></p:menuitem>
+                    <p:menuitem value="Internacjonalizacja" onclick="PF('dialog_bilans_projekt_wzorcowy_inter').show();"></p:menuitem>
+                    <p:menuitem value="Projekt układu Bilans wzorcowy" onclick="PF('dialogbilansprojektwzorcowy').show();"></p:menuitem>
+                </p:menu>  
+            </h:form>
+        </p:tab>
+        <p:tab title="RZiS wzorcowy" rendered="#{facesContext.externalContext.remoteUser eq '4'}">
+            <h:form id="dialog1menu4">
+                <p:menu id="d1m3" styleClass="d1m" style="width: 400px; text-align: center; height: 450px;">
+                    <p:menuitem value="Kopiowanie przyporządkowania kont RZiS wzorcowy" onclick="PF('dialog_rzis_przypisywanie_wzorcowy_kopiuj').show();"></p:menuitem>
+                    <p:menuitem value="Przyporządkowanie kont RZiS wzorcowy" onclick="PF('rzisukladwzorcowy').show();"></p:menuitem>
+                    <p:menuitem value="Internacjonalizacja" onclick="PF('dialog_rzis_projekt_wzorcowy_inter').show();"></p:menuitem>
+                    <p:menuitem value="Projekt układu RZiS wzorcowy" onclick="PF('dialogrzisprojektwzorcowy').show();"></p:menuitem>
+                </p:menu>  
+            </h:form>
+        </p:tab>
+        <p:tab title="Układ wzorcowy" rendered="#{facesContext.externalContext.remoteUser eq '4'}">
+            <h:form id="dialog1menu5">
+                <p:menu id="d1m3" styleClass="d1m" style="width: 400px; text-align: center; height: 450px;">
+                    <p:menuitem value="Kopiowanie wzorcowego układu RZiS/Bilans" onclick="PF('dialog_ukladwzorcowy_kopiuj').show();"></p:menuitem>
+                    <p:menuitem value="Kopiowanie wybiórcze wzorcowego układu RZiS/Bilans" onclick="PF('dialog_uklad_wzorcowy_kopiuj_wybiorczo').show();"></p:menuitem>
+                    <p:menuitem value="Definiowanie układu wzorcowego" onclick="PF('dialogprojektukladwzorcowy').show();"></p:menuitem>
+                </p:menu>  
+            </h:form>
+        </p:tab>
+        <p:tab title="Sprawozdanie">
+            <h:form id="dialog1menu6">
+                <p:menu id="d1m4" styleClass="d1m" style="width: 400px; text-align: center; height: 450px;">
+                    <p:menuitem value="Układ sprawozdania" onclick="PF('dialog_sprawozdanie_uklad').show();"></p:menuitem>
+                    <p:menuitem value="Definiowanie układu sprawozdania" onclick="PF('dialog_sprawozdanie_projekt_wzorcowy').show();"></p:menuitem>
+                </p:menu>  
+            </h:form>
+        </p:tab>
+         <p:tab title="Rodzaje dokumentów">
+            <h:form id="dialog1menu7">
+                <p:menu id="d1m4" styleClass="d1m" style="width: 400px; text-align: center; height: 450px;">
+                    <p:menuitem value="Edycja nazw dokumentów podatnika" onclick="PF('dialog_dokfk_nazwy').show();"></p:menuitem>
+                </p:menu>  
+            </h:form>
+        </p:tab>
+    </p:tabView>
+</ui:composition>

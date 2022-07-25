@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:etd="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2016/01/25/eD/DefinicjeTypy/" xmlns:dtsf="http://www.mf.gov.pl/schematy/SF/DefinicjeTypySprawozdaniaFinansowe/2018/07/09/DefinicjeTypySprawozdaniaFinansowe/" xmlns:jin="http://www.mf.gov.pl/schematy/SF/DefinicjeTypySprawozdaniaFinansowe/2018/07/09/JednostkaInnaStruktury" xmlns:tns="http://www.mf.gov.pl/schematy/SF/DefinicjeTypySprawozdaniaFinansowe/2018/07/09/JednostkaInnaWZlotych" targetNamespace="http://www.mf.gov.pl/schematy/SF/DefinicjeTypySprawozdaniaFinansowe/2018/07/09/JednostkaInnaWZlotych" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0" xml:lang="pl">
+	<xsd:import namespace="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2016/01/25/eD/DefinicjeTypy/" schemaLocation="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2016/01/25/eD/DefinicjeTypy/StrukturyDanych_v4-0E.xsd"/>
+	<xsd:import namespace="http://www.mf.gov.pl/schematy/SF/DefinicjeTypySprawozdaniaFinansowe/2018/07/09/DefinicjeTypySprawozdaniaFinansowe/" schemaLocation="https://www.mf.gov.pl/documents/764034/6464789/StrukturyDanychSprFin_v1-0.xsd"/>
+	<xsd:import namespace="http://www.mf.gov.pl/schematy/SF/DefinicjeTypySprawozdaniaFinansowe/2018/07/09/JednostkaInnaStruktury" schemaLocation="https://www.mf.gov.pl/documents/764034/6464789/JednostkaInnaStrukturyDanychSprFin_v1-0.xsd"/>
+	<xsd:element name="JednostkaInna">
+		<xsd:annotation>
+			<xsd:documentation>ZAKRES INFORMACJI WYKAZYWANYCH W SPRAWOZDANIU FINANSOWYM, O KTÓRYM MOWA W ART. 45 USTAWY, DLA JEDNOSTEK INNYCH NIŻ BANKI, ZAKŁADY UBEZPIECZEŃ I ZAKŁADY REASEKURACJI</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="Naglowek" type="jin:TNaglowekSprawozdaniaFinansowegoJednostkaInnaWZlotych">
+					<xsd:annotation>
+						<xsd:documentation>Nagłówek sprawozdania finansowego</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element name="WprowadzenieDoSprawozdaniaFinansowego">
+					<xsd:annotation>
+						<xsd:documentation>Wprowadzenie do sprawozdania finansowego</xsd:documentation>
+					</xsd:annotation>
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="P_1">
+								<xsd:annotation>
+									<xsd:documentation>Dane identyfikujące jednostkę</xsd:documentation>
+								</xsd:annotation>
+								<xsd:complexType>
+									<xsd:sequence>
+										<xsd:element name="P_1A" type="dtsf:TNazwaSiedziba">
+											<xsd:annotation>
+												<xsd:documentation>Firma, siedziba albo miejsce zamieszkania</xsd:documentation>
+											</xsd:annotation>
+										</xsd:element>
+										<xsd:element name="P_1B" type="dtsf:TAdresZOpcZagranicznym">
+											<xsd:annotation>
+												<xsd:documentation>Adres</xsd:documentation>
+											</xsd:annotation>
+										</xsd:element>
+										<xsd:element name="P_1C" type="dtsf:PKDPodstawowaDzialalnosc">
+											<xsd:annotation>
+												<xsd:documentation>Podstawowy przedmiot działalności jednostki</xsd:documentation>
+											</xsd:annotation>
+										</xsd:element>
+										<xsd:element name="P_1D" type="dtsf:TIdentyfikatorPodmiotu">
+											<xsd:annotation>
+												<xsd:documentation>Numer we właściwym rejestrze sądowym albo ewidencji </xsd:documentation>
+											</xsd:annotation>
+										</xsd:element>
+									</xsd:sequence>
+								</xsd:complexType>
+							</xsd:element>
+							<xsd:element name="P_2" type="dtsf:TZakresDatOpcjonalnych" minOccurs="0">
+								<xsd:annotation>
+									<xsd:documentation>Czas trwania działalności jednostki, jeżeli jest ograniczony</xsd:documentation>
+								</xsd:annotation>
+							</xsd:element>
+							<xsd:element name="P_3" type="dtsf:TZakresDatSF">
+								<xsd:annotation>
+									<xsd:documentation>Wskazanie okresu objętego sprawozdaniem finansowym</xsd:documentation>
+								</xsd:annotation>
+							</xsd:element>
+							<xsd:element name="P_4" type="xsd:boolean">
+								<xsd:annotation>
+									<xsd:documentation>Wskazanie, że sprawozdanie finansowe zawiera dane łączne, jeżeli w skład jednostki wchodzą wewnętrzne jednostki organizacyjne sporządzające samodzielne sprawozdania finansowe: true - sprawozdanie finansowe zawiera dane łącznie; false - sprawozdanie nie zawiera danych łącznych </xsd:documentation>
+								</xsd:annotation>
+							</xsd:element>
+							<xsd:element name="P_5">
+								<xsd:annotation>
+									<xsd:documentation>Założenie kontynuacji działalnności</xsd:documentation>
+								</xsd:annotation>
+								<xsd:complexType>
+									<xsd:sequence>
+										<xsd:element name="P_5A" type="xsd:boolean">
+											<xsd:annotation>
+												<xsd:documentation>Wskazanie, czy sprawozdanie finansowe zostało sporządzone przy założeniu kontynuowania działalności gospodarczej		przez jednostkę w dającej się przewidzieć przyszłości</xsd:documentation>
+											</xsd:annotation>
+										</xsd:element>
+										<xsd:element name="P_5B" type="xsd:boolean">
+											<xsd:annotation>
+												<xsd:documentation>Wskazanie, czy nie istnieją okoliczności wskazujące na zagrożenie kontynuowania przez nią działalności</xsd:documentation>
+											</xsd:annotation>
+										</xsd:element>
+										<xsd:element name="P_5C" type="etd:TTekstowy" minOccurs="0">
+											<xsd:annotation>
+												<xsd:documentation>Opis okoliczności wskazujących na zagrożenie kontynuowania działalności</xsd:documentation>
+											</xsd:annotation>
+										</xsd:element>
+									</xsd:sequence>
+								</xsd:complexType>
+							</xsd:element>
+							<xsd:element name="P_6" minOccurs="0">
+								<xsd:annotation>
+									<xsd:documentation>Informacja czy sprawozdanie finansowe jest sporządzone po połączeniu spółek</xsd:documentation>
+								</xsd:annotation>
+								<xsd:complexType>
+									<xsd:sequence>
+										<xsd:element name="P_6A" type="xsd:boolean">
+											<xsd:annotation>
+												<xsd:documentation>W przypadku sprawozdania finansowego sporządzonego za okres, w ciągu którego nastąpiło połączenie, wskazanie,
+że jest to sprawozdanie finansowe sporządzone po połączeniu spółek: true - sprawozdanie sporządzone po połączeniu spółek; false - sprawozdanie sporządzone przed połączeniem </xsd:documentation>
+											</xsd:annotation>
+										</xsd:element>
+										<xsd:element name="P_6B" type="etd:TTekstowy">
+											<xsd:annotation>
+												<xsd:documentation>Wskazanie zastosowanej metody rozliczenia połączenia (nabycia, łączenia udziałów)</xsd:documentation>
+											</xsd:annotation>
+										</xsd:element>
+									</xsd:sequence>
+								</xsd:complexType>
+							</xsd:element>
+							<xsd:element name="P_7">
+								<xsd:annotation>
+									<xsd:documentation>Zasady (polityka) rachunkowości</xsd:documentation>
+								</xsd:annotation>
+								<xsd:complexType>
+									<xsd:sequence>
+										<xsd:element name="P_7A" type="etd:TTekstowy" maxOccurs="unbounded">
+											<xsd:annotation>
+												<xsd:documentation>Omówienie przyjętych zasad (polityki) rachunkowości, w zakresie w jakim ustawa pozostawia jednostce prawo wyboru, w tym:</xsd:documentation>
+											</xsd:annotation>
+										</xsd:element>
+										<xsd:element name="P_7B" type="etd:TTekstowy" maxOccurs="unbounded">
+											<xsd:annotation>
+												<xsd:documentation>metod wyceny aktywów i pasywów (także amortyzacji),</xsd:documentation>
+											</xsd:annotation>
+										</xsd:element>
+										<xsd:element name="P_7C" type="etd:TTekstowy" maxOccurs="unbounded">
+											<xsd:annotation>
+												<xsd:documentation>ustalenia wyniku finansowego</xsd:documentation>
+											</xsd:annotation>
+										</xsd:element>
+										<xsd:element name="P_7D" type="etd:TTekstowy" maxOccurs="unbounded">
+											<xsd:annotation>
+												<xsd:documentation>ustalenia sposobu sporządzenia sprawozdania finansowego</xsd:documentation>
+											</xsd:annotation>
+										</xsd:element>
+									</xsd:sequence>
+								</xsd:complexType>
+							</xsd:element>
+							<xsd:element name="P_8" type="dtsf:TPozycjaUzytkownika" minOccurs="0" maxOccurs="unbounded">
+								<xsd:annotation>
+									<xsd:documentation>Informacja uszczegóławiająca, wynikająca z potrzeb lub specyfiki jednostki</xsd:documentation>
+								</xsd:annotation>
+							</xsd:element>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element name="Bilans" type="jin:BilansJednostkaInna">
+					<xsd:annotation>
+						<xsd:documentation>Bilans</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element name="RZiS" type="jin:RZiSJednostkaInna">
+					<xsd:annotation>
+						<xsd:documentation>Rachunek zysków i strat</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element name="ZestZmianWKapitale" type="jin:ZestZmianWKapitaleJednostkaInna" minOccurs="0">
+					<xsd:annotation>
+						<xsd:documentation>Zestawienie zmian w kapitale (funduszu) własnym</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element name="RachPrzeplywow" type="jin:RachPrzeplywowJednostkaInna" minOccurs="0">
+					<xsd:annotation>
+						<xsd:documentation>Rachunek przepływów pieniężnych</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element name="DodatkoweInformacjeIObjasnieniaJednstkaInna">
+					<xsd:annotation>
+						<xsd:documentation>Dodatkowe informacje i objaśnienia</xsd:documentation>
+					</xsd:annotation>
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="DodatkoweInformacjeIObjasnienia" type="dtsf:TInformacjaDodatkowa" maxOccurs="unbounded">
+								<xsd:annotation>
+									<xsd:documentation>Dodatkowe informacje i objaśnienia</xsd:documentation>
+								</xsd:annotation>
+							</xsd:element>
+							<xsd:element name="InformacjaDodatkowaDotyczacaPodatkuDochodowego" type="dtsf:TInformacjaDodatkowaDotyczacaPodatkuDochodowego">
+								<xsd:annotation>
+									<xsd:documentation>Rozliczenie różnicy pomiędzy podstawą opodatkowania podatkiem dochodowym a wynikiem finansowym (zyskiem, stratą) brutto</xsd:documentation>
+								</xsd:annotation>
+							</xsd:element>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+</xsd:schema>

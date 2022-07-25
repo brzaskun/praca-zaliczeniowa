@@ -1,0 +1,104 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    >
+    <f:view >
+        <p:dialog closable="false" height="140" width="170" position="center" widgetVar="dialogAjaxCzekajZaksiegowane" appendTo="@(body)"
+                  showHeader="false" draggable="false" modal="true" style="text-align: center;">
+            <p:panelGrid columns="1" style="margin-left: auto; margin-right: auto; margin-top: 10px;">
+                <p:graphicImage url="/resources/images/wait4.gif" style="margin-left: auto; margin-right: auto;" />
+                <h:outputText value="#{value != null ? value : 'Trwa pobieranie dokumentów'}" style="margin-top: 20px; margin-left: auto; margin-right: auto;"/>
+            </p:panelGrid>
+        </p:dialog>
+        <h:form>
+            <p:ajaxStatus style="width:74px;height:74px;position:fixed;right:250px;bottom:250px" onstart="PF('dialogAjaxCzekajZaksiegowane').show();" onsuccess="PF('dialogAjaxCzekajZaksiegowane').hide();">
+                <f:facet name="error">
+                    <h:outputText value="Wystąpił nieoczekiwany błąd. Dane nie zostały utracone. Przejdź do strony logowania i zaloguj się ponownie"
+                                  style="color: red; font-weight: 900;"/>
+                </f:facet>
+            </p:ajaxStatus>
+        </h:form>
+    </f:view>
+    <p:panel rendered="#{WpisView.czegosbrakuje}">
+        <h:outputText value="Niepełne ustawienia danych firmy. Proszę uzupełnić i ponownie się wybrać firmę." style="color: red; font-weight: 900;"/>
+    </p:panel>
+    <p:tabView id="menudokumenty"  styleClass="menutabView" orientation="left" style=" height: 500px;width: 600px; box-shadow: 10px 10px 5px #888888; margin-left: 15px; margin-top: 15px;"
+                rendered="#{WpisView.czegosbrakuje == false}">  
+        <p:tab title="dokumenty">
+            <h:form id="dialog1menu2">
+                <p:menu id="d1m2" styleClass="d1m" style="width: 400px; text-align: center; height: 450px;">
+                    <p:menuitem value="wpisywanie" rendered="#{!WpisView.rokzamkniety and planKontCompleteView.listakontOstatniaAnalitykaklienta.size() gt 0}"
+                                oncomplete="PF('wpisywanie').show();"  global="false"></p:menuitem>
+                    <p:menuitem value="brak planu kont - nie można księgować" rendered="#{!WpisView.rokzamkniety and planKontCompleteView.listakontOstatniaAnalitykaklienta.size() eq 0}"
+                                oncomplete="alert('Wygeneruj najpierw plan kont!')" style="color: red;" global="false"
+                                ></p:menuitem>
+                    <p:menuitem value="przeglądanie zaksięgowanych" oncomplete="PF('zestawieniezaksiegowanych').show();" 
+                                ></p:menuitem>
+                    <p:menuitem value="zapisy na koncie" onclick="PF('zapisynakoncie').show();" 
+                                       ></p:menuitem>
+                    <p:menuitem value="obroty konta" onclick="PF('obrotynakoncie').show();"
+                                        ></p:menuitem>
+                    <p:menuitem value="rozrachunki wg kont" onclick="PF('rozrachunkiPrzeglad').show();"
+                                         update="formwpisrozrachunki form1 tabelanowerozrachunki tabelazsumamirozrach"></p:menuitem>
+                    <p:menuitem value="zestawienia"  outcome="guestwynikFK" icon="ui-icon-circle-arrow-e" oncomplete="$('#akordeon\\:symulacjawyniku').click();"/>
+                    <p:menuitem value="generuj JPK_KR za miesiąc" actionListener="#{jPKKRView.przygotuj()}"  icon="ui-icon-circle-arrow-e" />  
+                </p:menu>  
+            </h:form>
+        </p:tab>
+        <p:tab title="wiersze">
+            <h:form id="dialog1menu2a">
+                <p:menu id="d1m2" styleClass="d1m" style="width: 400px; text-align: center; height: 450px;">
+                    <p:menuitem value="wiersze w dokumentach" onclick="PF('zapisywdokumentach').show();" 
+                                actionListener="#{wierszeView.init}" update=":zestawieniezapisownakontach, :zestawieniezapisownakontach_footer" global="false"></p:menuitem>
+                    
+                    <p:menuitem value="wierszeWDT" onclick="PF('zapisywdokumentachWDT').show();" global="false"></p:menuitem>
+                    <p:menuitem value="wierszeWNT" onclick="PF('zapisywdokumentachWNT').show();" global="false"></p:menuitem>
+                </p:menu>  
+            </h:form>
+        </p:tab>
+        
+         <p:tab title="sprawozdania">
+            <h:form>
+                <p:menu id="d1m3" styleClass="d1m" style="width: 400px; text-align: center; height: 150px;">
+                    <p:menuitem value="zestawienia kontrahentów" actionListener="#{gUSView.view}" timeout="50000" oncomplete="ustawdialogframe('menudokumenty');"></p:menuitem>
+                </p:menu>
+            </h:form>      
+        </p:tab>
+        <p:tab title="numeracja">
+            <h:form>
+                <p:menu id="d1m3" styleClass="d1m" style="width: 400px; text-align: center; height: 150px;">
+                    <p:menuitem value="reset bieżącej numeracji" oncomplete="PF('dialog_przenumerujDokumentyFK').show();" ></p:menuitem>
+                </p:menu>
+            </h:form>      
+        </p:tab>
+        <p:tab title="import faktur">
+            <h:form id="dialog1menu4">
+                <p:menu id="d1m3" styleClass="d1m" style="width: 400px; text-align: center; height: 340px;">
+                    <p:menuitem value="importuj dokumenty z dostarczonych plików" oncomplete="PF('importinterpaper').show();" actionListener="#{dokfkView.odswiezzaksiegowaneimport}" ></p:menuitem>
+                    <p:menuitem value="Zorim xml to xls/pobranie nr kontrahentów" oncomplete="PF('raportzorin').show();"  ></p:menuitem>
+                    <p:menuitem value="importuj wyciągi bankowe" oncomplete="PF('importbank').show();" actionListener="#{dokfkView.odswiezzaksiegowaneimport}" ></p:menuitem>
+                    <p:menuitem value="importuj plik Amazon CSV" oncomplete="PF('importamazoncsv').show();" actionListener="#{dokfkView.odswiezzaksiegowaneimport}" ></p:menuitem>
+                    <p:menuitem value="importuj plik Amazon Additional Temp. WNT/WDT" oncomplete="PF('importamazoncsvnazwy').show();" ></p:menuitem>
+                    <p:menuitem value="importuj plik Amazon CSV - Ebay" oncomplete="PF('importamazoncsvebay').show();" ></p:menuitem>
+                    <p:menuitem value="importuj plik Amazon - Intrastat" oncomplete="PF('importamazonintrastat').show();" ></p:menuitem>
+                    <p:menuitem value="importuj plik JPK_VAT" oncomplete="PF('importjpkfa').show();" actionListener="#{dokfkView.odswiezzaksiegowaneimport}" ></p:menuitem>
+                    <p:menuitem value="importuj plik JPK_FA" oncomplete="PF('importjpkfafa').show();" actionListener="#{dokfkView.odswiezzaksiegowaneimport}" ></p:menuitem>
+                    <p:menuitem value="importuj plik tylko dla JPK (FP)" oncomplete="PF('importjpkonly').show();" actionListener="#{dokfkView.odswiezzaksiegowaneimport}" ></p:menuitem>
+                    <p:menuitem value="dokumenty importowane" oncomplete="PF('zestawieniezaksiegowanychimport').show();" actionListener="#{dokfkView.odswiezzaksiegowaneimport}" ></p:menuitem>
+                    <p:separator/>
+                    <p:menuitem value="ustawienia importu banki" oncomplete="PF('ustawieniabanki').show();" actionListener="#{bankImportWzoryView.init()}" update="ustawieniabankiimport ustawieniabankidodaj"></p:menuitem>
+                </p:menu>
+            </h:form>
+               
+<!--            <h:form>
+                <p:commandButton value="nanies srodkitrw dokfk" actionListener="#{dokfkView.oznaczdokumentysrodkitrwale()}" />
+            </h:form>
+            <h:form>
+                <p:commandButton value="nanies rmk dokfk" actionListener="#{dokfkView.oznaczdokumentyrmk()}" />
+            </h:form>  -->
+        </p:tab>
+    </p:tabView>
+</ui:composition>

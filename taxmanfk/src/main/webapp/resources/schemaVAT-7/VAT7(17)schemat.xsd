@@ -1,0 +1,476 @@
+<?xml version="1.0" encoding="UTF-8"?><xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:etd="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2016/01/25/eD/DefinicjeTypy/" xmlns:tns="http://crd.gov.pl/wzor/2016/08/05/3412/" xmlns:vzd="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2016/07/29/eD/VATZD/" xmlns:vzt="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2016/07/29/eD/VATZT/" xmlns:vzz="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2016/08/03/eD/VATZZ/" xmlns:zzu="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2016/02/05/eD/ORDZU/" targetNamespace="http://crd.gov.pl/wzor/2016/08/05/3412/" elementFormDefault="qualified" attributeFormDefault="unqualified" xml:lang="pl">
+	<xsd:import namespace="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2016/08/03/eD/VATZZ/" schemaLocation="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2016/08/03/eD/VATZZ/VAT-ZZ(5)_v2-1E.xsd"/>
+	<xsd:import namespace="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2016/07/29/eD/VATZT/" schemaLocation="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2016/07/29/eD/VATZT/VAT-ZT(5)_v2-0E.xsd"/>
+	<xsd:import namespace="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2016/07/29/eD/VATZD/" schemaLocation="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2016/07/29/eD/VATZD/VAT-ZD(1)_v2-0E.xsd"/>
+	<xsd:import namespace="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2016/02/05/eD/ORDZU/" schemaLocation="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2016/02/05/eD/ORDZU/ORD-ZU(3)_v1-0E.xsd"/>
+	<xsd:import namespace="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2016/01/25/eD/DefinicjeTypy/" schemaLocation="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2016/01/25/eD/DefinicjeTypy/StrukturyDanych_v4-0E.xsd"/>
+	<xsd:simpleType name="TKodFormularza">
+		<xsd:annotation>
+			<xsd:documentation>Symbol wzoru formularza</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="VAT-7"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="TNaglowek">
+		<xsd:annotation>
+			<xsd:documentation>Nagłówek deklaracji</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="KodFormularza">
+				<xsd:complexType>
+					<xsd:simpleContent>
+						<xsd:extension base="tns:TKodFormularza">
+							<xsd:attribute name="kodSystemowy" type="xsd:string" use="required" fixed="VAT-7 (17)"/>
+							<xsd:attribute name="kodPodatku" type="xsd:string" use="required" fixed="VAT"/>
+							<xsd:attribute name="rodzajZobowiazania" type="xsd:token" use="required" fixed="Z"/>
+							<xsd:attribute name="wersjaSchemy" type="xsd:string" use="required" fixed="1-0E"/>
+						</xsd:extension>
+					</xsd:simpleContent>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="WariantFormularza">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:byte">
+						<xsd:enumeration value="17"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="CelZlozenia">
+				<xsd:complexType>
+					<xsd:simpleContent>
+						<xsd:extension base="etd:TCelZlozenia">
+							<xsd:attribute name="poz" type="xsd:string" use="required" fixed="P_7"/>
+						</xsd:extension>
+					</xsd:simpleContent>
+				</xsd:complexType>
+				<!--Zgodnie z art. 81 ustawy z dnia 29 sierpnia 1997 r. - Ordynacja podatkowa (Dz. U. z 2015 r. poz. 613, z późn. zm.).-->
+			</xsd:element>
+			<xsd:element name="Rok">
+				<xsd:simpleType>
+					<xsd:restriction base="etd:TRok">
+						<xsd:minInclusive value="2016"/>
+						<xsd:maxInclusive value="2030"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="Miesiac" type="etd:TMiesiac"/>
+			<xsd:element name="KodUrzedu" type="etd:TKodUS"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:element name="Deklaracja">
+		<xsd:annotation>
+			<xsd:documentation>DEKLARACJA DLA PODATKU OD TOWARÓW I USŁUG</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="Naglowek" type="tns:TNaglowek">
+					<xsd:annotation>
+						<xsd:documentation>Nagłówek deklaracji</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element name="Podmiot1">
+					<xsd:complexType>
+						<xsd:complexContent>
+							<xsd:extension base="etd:TPodmiotDowolnyBezAdresu2">
+								<xsd:attribute name="rola" type="xsd:string" use="required" fixed="Podatnik"/>
+							</xsd:extension>
+						</xsd:complexContent>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element ref="tns:PozycjeSzczegolowe">
+					<xsd:annotation>
+						<xsd:documentation>Rozliczenie podatku należnego, rozliczenie podatku naliczonego, obliczenie wysokości zobowiązania podatkowego lub kwoty zwrotu</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element name="Pouczenia">
+					<xsd:annotation>
+						<xsd:documentation>Wartość 1 oznacza potwierdzenie zapoznania się z treścią i akceptację poniższych pouczeń:
+								W przypadku niewpłacenia w obowiązującym terminie kwoty z poz. 54 lub wpłacenia jej w niepełnej wysokości, niniejsza deklaracja stanowi podstawę do wystawienia tytułu wykonawczego zgodnie z przepisami ustawy z dnia 17 czerwca 1966 r. o postępowaniu egzekucyjnym w administracji (Dz. U. z 2016 r. poz. 599, z późn. zm.).
+
+Za podanie nieprawdy lub zatajenie prawdy i przez to narażenie podatku na uszczuplenie grozi odpowiedzialność przewidziana w Kodeksie karnym skarbowym.
+								</xsd:documentation>
+					</xsd:annotation>
+					<xsd:simpleType>
+						<xsd:restriction base="etd:TKwota2Nieujemna">
+							<xsd:minExclusive value="0"/>
+							<xsd:maxExclusive value="2"/>
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="Zalaczniki" minOccurs="0">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element ref="vzz:Wniosek_VAT-ZZ" minOccurs="0"/>
+							<xsd:element ref="vzt:Wniosek_VAT-ZT" minOccurs="0"/>
+							<xsd:element ref="vzd:Wniosek_VAT-ZD" minOccurs="0"/>
+							<xsd:element ref="zzu:Zalacznik_ORD-ZU" minOccurs="0"/>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="PozycjeSzczegolowe">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="P_10" type="etd:TKwotaC" minOccurs="0">
+					<xsd:annotation>
+						<xsd:documentation>Podstawa opodatkowania - Dostawa towarów oraz świadczenie usług na terytorium kraju, zwolnione od podatku</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element name="P_11" type="etd:TKwotaC" minOccurs="0">
+					<xsd:annotation>
+						<xsd:documentation>Podstawa opodatkowania - Dostawa towarów oraz świadczenie usług poza terytorium kraju</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element name="P_12" type="etd:TKwotaC" minOccurs="0">
+					<xsd:annotation>
+						<xsd:documentation>Podstawa opodatkowania - w tym świadczenie usług, o których mowa w art. 100 ust. 1 pkt 4 ustawy</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element name="P_13" type="etd:TKwotaC" minOccurs="0">
+					<xsd:annotation>
+						<xsd:documentation>Podstawa opodatkowania - Dostawa towarów oraz świadczenie usług na terytorium kraju, opodatkowane stawką 0%</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element name="P_14" type="etd:TKwotaC" minOccurs="0">
+					<xsd:annotation>
+						<xsd:documentation>Podstawa opodatkowania - w tym dostawa towarów, o której mowa w art. 129 ustawy</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:sequence minOccurs="0">
+					<xsd:element name="P_15" type="etd:TKwotaC">
+						<xsd:annotation>
+							<xsd:documentation>Podstawa opodatkowania - Dostawa towarów oraz świadczenie usług na terytorium kraju, opodatkowane stawką 5%</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="P_16" type="etd:TKwotaC">
+						<xsd:annotation>
+							<xsd:documentation>Podatek należny - Dostawa towarów oraz świadczenie usług na terytorium kraju, opodatkowane stawką 5%</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:sequence>
+				<xsd:sequence minOccurs="0">
+					<xsd:element name="P_17" type="etd:TKwotaC">
+						<xsd:annotation>
+							<xsd:documentation>Podstawa opodatkowania - Dostawa towarów oraz świadczenie usług na terytorium kraju, opodatkowane stawką 7% albo 8%</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="P_18" type="etd:TKwotaC">
+						<xsd:annotation>
+							<xsd:documentation>Podatek należny - Dostawa towarów oraz świadczenie usług na terytorium kraju, opodatkowane stawką 7% albo 8%</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:sequence>
+				<xsd:sequence minOccurs="0">
+					<xsd:element name="P_19" type="etd:TKwotaC">
+						<xsd:annotation>
+							<xsd:documentation>Podstawa opodatkowania - Dostawa towarów oraz świadczenie usług na terytorium kraju, opodatkowane stawką 22% albo 23%</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="P_20" type="etd:TKwotaC">
+						<xsd:annotation>
+							<xsd:documentation>Podatek należny - Dostawa towarów oraz świadczenie usług na terytorium kraju, opodatkowane stawką 22% albo 23%</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:sequence>
+				<xsd:element name="P_21" type="etd:TKwotaC" minOccurs="0">
+					<xsd:annotation>
+						<xsd:documentation>Podstawa opodatkowania - Wewnątrzwspólnotowa dostawa towarów</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element name="P_22" type="etd:TKwotaC" minOccurs="0">
+					<xsd:annotation>
+						<xsd:documentation>Podstawa opodatkowania - Eksport towarów</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:sequence minOccurs="0">
+					<xsd:element name="P_23" type="etd:TKwotaC">
+						<xsd:annotation>
+							<xsd:documentation>Podstawa opodatkowania - Wewnątrzwspólnotowe nabycie towarów</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="P_24" type="etd:TKwotaC">
+						<xsd:annotation>
+							<xsd:documentation>Podatek należny - Wewnątrzwspólnotowe nabycie towarów</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:sequence>
+				<xsd:sequence minOccurs="0">
+					<xsd:element name="P_25" type="etd:TKwotaC">
+						<xsd:annotation>
+							<xsd:documentation>Podstawa opodatkowania - Import towarów podlegający rozliczeniu zgodnie z art. 33a ustawy</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="P_26" type="etd:TKwotaC">
+						<xsd:annotation>
+							<xsd:documentation>Podatek należny - Import towarów podlegający rozliczeniu zgodnie z art. 33a ustawy</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:sequence>
+				<xsd:sequence minOccurs="0">
+					<xsd:element name="P_27" type="etd:TKwotaC">
+						<xsd:annotation>
+							<xsd:documentation>Podstawa opodatkowania - Import usług z wyłączeniem usług nabywanych od podatników podatku od wartości dodanej, do których stosuje się art. 28b ustawy</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="P_28" type="etd:TKwotaC">
+						<xsd:annotation>
+							<xsd:documentation>Podatek należny - Import usług z wyłączeniem usług nabywanych od podatników podatku od wartości dodanej, do których stosuje się art. 28b ustawy</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:sequence>
+				<xsd:sequence minOccurs="0">
+					<xsd:element name="P_29" type="etd:TKwotaC">
+						<xsd:annotation>
+							<xsd:documentation>Podstawa opodatkowania - Import usług nabywanych od podatników podatku od wartości dodanej, do których stosuje się art. 28b ustawy</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="P_30" type="etd:TKwotaC">
+						<xsd:annotation>
+							<xsd:documentation>Podatek należny - Import usług nabywanych od podatników podatku od wartości dodanej, do których stosuje się art. 28b ustawy</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:sequence>
+				<xsd:element name="P_31" type="etd:TKwotaC" minOccurs="0">
+					<xsd:annotation>
+						<xsd:documentation>Podstawa opodatkowania - Dostawa towarów oraz świadczenie usług, dla których podatnikiem jest nabywca zgodnie z art. 17 ust. 1 pkt 7 lub 8 ustawy (wypełnia dostawca)</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:sequence minOccurs="0">
+					<xsd:element name="P_32" type="etd:TKwotaC">
+						<xsd:annotation>
+							<xsd:documentation>Podstawa opodatkowania - Dostawa towarów, dla których podatnikiem jest nabywca zgodnie z art. 17 ust. 1 pkt 5 ustawy (wypełnia nabywca)</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="P_33" type="etd:TKwotaC">
+						<xsd:annotation>
+							<xsd:documentation>Podatek należny - Dostawa towarów, dla których podatnikiem jest nabywca zgodnie z art. 17 ust. 1 pkt 5 ustawy (wypełnia nabywca)</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:sequence>
+				<xsd:sequence minOccurs="0">
+					<xsd:element name="P_34" type="etd:TKwotaC">
+						<xsd:annotation>
+							<xsd:documentation>Podstawa opodatkowania - Dostawa towarów oraz świadczenie usług, dla których podatnikiem jest nabywca zgodnie z art. 17 ust. 1 pkt 7 lub 8 ustawy (wypełnia nabywca)</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="P_35" type="etd:TKwotaC">
+						<xsd:annotation>
+							<xsd:documentation>Podatek należny - Dostawa towarów oraz świadczenie usług, dla których podatnikiem jest nabywca zgodnie z art. 17 ust. 1 pkt 7 lub 8 ustawy (wypełnia nabywca)</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:sequence>
+				<xsd:element name="P_36" type="etd:TKwotaCNieujemna" minOccurs="0">
+					<xsd:annotation>
+						<xsd:documentation>Kwota podatku należnego od towarów i usług objętych spisem z natury, o którym mowa w art. 14 ust. 5 ustawy</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element name="P_37" type="etd:TKwotaCNieujemna" minOccurs="0">
+					<xsd:annotation>
+						<xsd:documentation>Zwrot odliczonej lub zwróconej kwoty wydatkowanej na zakup kas rejestrujących, o którym mowa w art. 111 ust. 6 ustawy</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element name="P_38" type="etd:TKwotaCNieujemna" minOccurs="0">
+					<xsd:annotation>
+						<xsd:documentation>Kwota podatku należnego od wewnątrzwspólnotowego nabycia środków transportu, wykazanego w poz. 24, podlegająca wpłacie w terminie, o którym mowa w art. 103 ust. 3, w związku z ust. 4 ustawy</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element name="P_39" type="etd:TKwotaCNieujemna" minOccurs="0">
+					<xsd:annotation>
+						<xsd:documentation>Kwota podatku od wewnątrzwspólnotowego nabycia paliw silnikowych, podlegająca wpłacie w terminach, o których mowa w art. 103 ust. 5a i 5b ustawy</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:sequence>
+					<xsd:element name="P_40" type="etd:TKwotaC" minOccurs="0">
+						<xsd:annotation>
+							<xsd:documentation>Razem - Podstawa opodatkowania</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="P_41" type="etd:TKwotaC">
+						<xsd:annotation>
+							<xsd:documentation>Razem - Podatek należny</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:sequence>
+				<xsd:element name="P_42" type="etd:TKwotaCNieujemna" minOccurs="0">
+					<xsd:annotation>
+						<xsd:documentation>Kwota nadwyżki z poprzedniej deklaracji</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:sequence minOccurs="0">
+					<xsd:element name="P_43" type="etd:TKwotaC">
+						<xsd:annotation>
+							<xsd:documentation>Wartość netto - Nabycie towarów i usług zaliczanych u podatnika do środków trwałych</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="P_44" type="etd:TKwotaC">
+						<xsd:annotation>
+							<xsd:documentation>Podatek naliczony - Nabycie towarów i usług zaliczanych u podatnika do środków trwałych</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:sequence>
+				<xsd:sequence minOccurs="0">
+					<xsd:element name="P_45" type="etd:TKwotaC">
+						<xsd:annotation>
+							<xsd:documentation>Wartość netto - Nabycie towarów i usług pozostałych</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="P_46" type="etd:TKwotaC">
+						<xsd:annotation>
+							<xsd:documentation>Podatek naliczony - Nabycie towarów i usług pozostałych</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:sequence>
+				<xsd:element name="P_47" type="etd:TKwotaC" minOccurs="0">
+					<xsd:annotation>
+						<xsd:documentation>Korekta podatku naliczonego od nabycia środków trwałych</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element name="P_48" type="etd:TKwotaC" minOccurs="0">
+					<xsd:annotation>
+						<xsd:documentation>Korekta podatku naliczonego od pozostałych nabyć</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element name="P_49" minOccurs="0">
+					<xsd:annotation>
+						<xsd:documentation>Korekta podatku naliczonego, o której mowa w art. 89b ust. 1 ustawy</xsd:documentation>
+					</xsd:annotation>
+					<xsd:simpleType>
+						<xsd:restriction base="etd:TKwotaC">
+							<xsd:maxInclusive value="0"/>
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="P_50" type="etd:TKwotaCNieujemna" minOccurs="0">
+					<xsd:annotation>
+						<xsd:documentation>Korekta podatku naliczonego, o której mowa w art. 89b ust. 4 ustawy</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element name="P_51" type="etd:TKwotaC" minOccurs="0">
+					<xsd:annotation>
+						<xsd:documentation>Razem kwota podatku naliczonego do odliczenia</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element name="P_52" type="etd:TKwotaCNieujemna" minOccurs="0">
+					<xsd:annotation>
+						<xsd:documentation>Kwota wydatkowana na zakup kas rejestrujących, do odliczenia w danym okresie rozliczeniowym</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element name="P_53" type="etd:TKwotaCNieujemna" minOccurs="0">
+					<xsd:annotation>
+						<xsd:documentation>Kwota podatku objęta zaniechaniem poboru</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element name="P_54" type="etd:TKwotaCNieujemna">
+					<xsd:annotation>
+						<xsd:documentation>Kwota podatku podlegającego wpłacie do urzędu skarbowego</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element name="P_55" type="etd:TKwotaCNieujemna" minOccurs="0">
+					<xsd:annotation>
+						<xsd:documentation>Kwota wydatkowana na zakup kas rejestrujących, przysługująca do zwrotu w danym okresie rozliczeniowym</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element name="P_56" type="etd:TKwotaCNieujemna" minOccurs="0">
+					<xsd:annotation>
+						<xsd:documentation>Nadwyżka podatku naliczonego nad należnym</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element name="P_57" type="etd:TKwotaCNieujemna">
+					<xsd:annotation>
+						<xsd:documentation>Kwota do zwrotu na rachunek bankowy wskazany przez podatnika</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element name="P_58" type="etd:TKwotaCNieujemna" minOccurs="0">
+					<xsd:annotation>
+						<xsd:documentation>w tym kwota do zwrotu - w terminie 25 dni</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element name="P_59" type="etd:TKwotaCNieujemna" minOccurs="0">
+					<xsd:annotation>
+						<xsd:documentation>w tym kwota do zwrotu - w terminie 60 dni</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element name="P_60" type="etd:TKwotaCNieujemna" minOccurs="0">
+					<xsd:annotation>
+						<xsd:documentation>w tym kwota do zwrotu - w terminie 180 dni</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element name="P_61" type="etd:TKwotaCNieujemna" minOccurs="0">
+					<xsd:annotation>
+						<xsd:documentation>Kwota do przeniesienia na następny okres rozliczeniowy</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element name="P_62" type="etd:TWybor1" minOccurs="0">
+					<xsd:annotation>
+						<xsd:documentation>Podatnik wykonywał w okresie rozliczeniowym czynności, o których mowa w art. 119 ustawy</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element name="P_63" type="etd:TWybor1" minOccurs="0">
+					<xsd:annotation>
+						<xsd:documentation>Podatnik wykonywał w okresie rozliczeniowym czynności, o których mowa w art. 120 ust. 4 lub 5 ustawy</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element name="P_64" type="etd:TWybor1" minOccurs="0">
+					<xsd:annotation>
+						<xsd:documentation>Podatnik wykonywał w okresie rozliczeniowym czynności, o których mowa w art. 122 ustawy</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element name="P_65" type="etd:TWybor1" minOccurs="0">
+					<xsd:annotation>
+						<xsd:documentation>Podatnik wykonywał w okresie rozliczeniowym czynności, o których mowa w art. 136 ustawy</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element name="P_66" type="etd:TWybor1_2" minOccurs="0">
+					<xsd:annotation>
+						<xsd:documentation>Do niniejszej deklaracji dołączono Wniosek o zwrot podatku (VAT-ZZ): 1 - tak, 2 - nie</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element name="P_67" type="etd:TWybor1_2" minOccurs="0">
+					<xsd:annotation>
+						<xsd:documentation>Do niniejszej deklaracji dołączono Wniosek o przyspieszenie terminu zwrotu podatku (VAT-ZT): 1 - tak, 2 - nie</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:sequence minOccurs="0">
+					<xsd:element name="P_68" type="etd:TWybor1_2">
+						<xsd:annotation>
+							<xsd:documentation>Do niniejszej deklaracji dołączono Zawiadomienie o skorygowaniu podstawy opodatkowania oraz kwoty podatku należnego (VAT-ZD): 1 - tak, 2 - nie</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="P_69" minOccurs="0">
+						<xsd:annotation>
+							<xsd:documentation>Jeżeli w poz. 68 zaznaczono kwadrat nr 1, należy podać liczbę załączników VAT-ZD</xsd:documentation>
+						</xsd:annotation>
+						<xsd:simpleType>
+							<xsd:restriction base="xsd:byte">
+								<xsd:enumeration value="1"/>
+							</xsd:restriction>
+						</xsd:simpleType>
+					</xsd:element>
+				</xsd:sequence>
+				<xsd:element name="P_73" minOccurs="0">
+					<xsd:annotation>
+						<xsd:documentation>Telefon kontaktowy</xsd:documentation>
+					</xsd:annotation>
+					<xsd:simpleType>
+						<xsd:restriction base="etd:TZnakowy">
+							<xsd:maxLength value="40"/>
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="P_74" minOccurs="0">
+					<xsd:annotation>
+						<xsd:documentation>Data wypełnienia</xsd:documentation>
+					</xsd:annotation>
+					<xsd:simpleType>
+						<xsd:restriction base="etd:TData">
+							<xsd:minInclusive value="2016-08-01"/>
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+</xsd:schema>

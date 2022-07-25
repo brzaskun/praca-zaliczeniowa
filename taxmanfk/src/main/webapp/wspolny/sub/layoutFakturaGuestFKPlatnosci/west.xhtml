@@ -1,0 +1,68 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+    <p:layoutUnit position="west" size="260" header="#{mgs.zmianaokresu}" collapsible="true" resizable="true">
+        <h:form id="west">
+            <p:panelGrid  columns="2" >
+                    <p:column>
+                <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}" style="margin-left: 5%">
+                    <f:selectItems value="#{roki.rokiList}"/>
+                    <p:ajax event="change" listener="#{fakturyPlatnosciView.aktualizujTabeleTabelaGuest}"  update=":fakturyniezaplacone, :fakturyzaplacone"/>
+                </p:selectOneMenu>
+                  </p:column>
+                    <p:column>
+                <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}" style="margin-left: 5%">
+                    <f:selectItems value="#{mce.mceList}"/>
+                    <p:ajax event="change" listener="#{fakturyPlatnosciView.aktualizujTabeleTabelaGuest}"   update=":fakturyniezaplacone, :fakturyzaplacone"/>
+                </p:selectOneMenu>
+                    </p:column>
+            </p:panelGrid>
+            <p:panel header="Menu:">
+                <p:panelGrid columns="1">
+                         <p:menu style="width: 200px;">
+                            <p:menuitem value="#{mgs.faktury}"  outcome="gfkFaktura" icon="ui-icon-circle-arrow-e"/>
+                            <p:menuitem value="#{mgs.fakturyustawienia}"  outcome="guestfakturaustawieniaFK" icon="ui-icon-circle-arrow-e" rendered="#{facesContext.viewRoot.locale.language.equals('pl')}"/>
+                            <p:menuitem value="#{mgs.płatności}"  outcome="gfakturaFakturaPlatnosci" icon="ui-icon-circle-arrow-e" rendered="#{facesContext.viewRoot.locale.language.equals('pl')}"/>
+                            <p:menuitem value="#{mgs.kontrahenci}"  outcome="gfakturaFakturaKontrahenci" icon="ui-icon-circle-arrow-e"/>
+                        </p:menu>
+                    <p:menu style="width: 200px;" rendered="#{WpisView.formaprawna eq 'STOWARZYSZENIE'}">
+                        <p:menuitem value="defin. miejsc przychodów" outcome="gfk_stow_miejscaprzychodow" icon="ui-icon-circle-arrow-e" ></p:menuitem>
+                        <p:menuitem value="wykaz członków stow." outcome="gfk_stow_wykazczlonkow" icon="ui-icon-circle-arrow-e" ></p:menuitem>
+                        <p:menuitem value="rodzaje członkostwa" outcome="gfk_stow_rodzajeczlonkostwa" icon="ui-icon-circle-arrow-e" actionListener="#{rodzajeCzlonkostwaView.pobierz()}"></p:menuitem>
+                        <p:menuitem value="składki" outcome="gfk_stow_skladki" icon="ui-icon-circle-arrow-e" actionListener="#{skladkaStowarzyszenieView.pobierz()}"></p:menuitem>
+                        <p:menuitem value="członek-składka" outcome="gfk_stow_czlonekskladka" icon="ui-icon-circle-arrow-e" actionListener="#{skladkaCzlonekView.pobierz()}"></p:menuitem>
+                        <p:menuitem value="roczne zestaw. naliczeń" outcome="gfk_stow_zestawienienaliczen" icon="ui-icon-circle-arrow-e" actionListener="#{stowNaliczenieZestView.pobierz()}"></p:menuitem>
+                        <p:menuitem value="zest. rozrach. z członk." outcome="gfk_stow_rozrachunkizczlonkami" icon="ui-icon-circle-arrow-e" actionListener="#{stowRozrachCzlonkView.pobierz()}"></p:menuitem>
+                        <p:menuitem value="zbiorcze zest. roz. z czł." outcome="gfk_stow_rozrachunkizczlonkami_zbiorcze" icon="ui-icon-circle-arrow-e" actionListener="#{stowRozrachCzlonkZbiorczeView.pobierzzbiorcze()}"></p:menuitem>
+                    </p:menu>
+                    <p:menu style="width: 200px;">
+                        <p:menuitem value="#{mgs.dokumenty}"  outcome="gfktablica" icon="ui-icon-circle-arrow-e" actionListener="#{dokfkView.odswiezzaksiegowaneInit}" update=":zestawieniedokumentow"/>
+                        <p:menuitem value="#{mgs.grupykosztów}"  outcome="gfkZestawienia" icon="ui-icon-circle-arrow-e"/>
+                        <p:menuitem value="#{mgs.wynikfinansowy}"  outcome="gfkWynik" icon="ui-icon-circle-arrow-e"/>
+                        <p:menuitem value="#{mgs.zestawienia}"  outcome="gfkBilanse" icon="ui-icon-circle-arrow-e"/>
+                        <p:menuitem value="#{mgs.konta}"  outcome="gfkZapisyKonta" icon="ui-icon-circle-arrow-e"/>
+                        <p:menuitem value="#{mgs.bilans}"  outcome="gfkBil" icon="ui-icon-circle-arrow-e"/>
+                        <p:menuitem value="#{mgs.budżet}"  outcome="gfkBudzet" icon="ui-icon-circle-arrow-e"/>
+                    </p:menu>
+                    <p:menu style="width: 200px;">
+                        <p:menuitem value="#{mgs.VAT}"  outcome="gfkVAT" icon="ui-icon-circle-arrow-e"/>
+                    </p:menu>
+                    <p:menu style="width: 200px;">
+                        <p:menuitem value="#{mgs.rozrachunki}"  outcome="gfkZobowiazania" icon="ui-icon-circle-arrow-e"/>
+                    </p:menu>
+                     <p:menu style="width: 200px;">
+                        <p:menuitem value="#{mgs.plankont}"  outcome="gfkPlankont" icon="ui-icon-circle-arrow-e"/>
+                    </p:menu>
+                     <p:menu style="width: 180px;" rendered="#{facesContext.externalContext.isUserInRole('Multiuser')}">
+                        <p:menuitem value="#{mgs.zmianafirmy}"  outcome="Multiuser" icon="ui-icon-circle-arrow-e"/>
+                    </p:menu> 
+                        <p:commandButton id="wyloguj" value="#{mgs.wyloguj}" action="#{logowanie.logout()}" style="margin-left: 25%; margin-top: 10px;"/>
+                    </p:panelGrid>
+            </p:panel>
+        </h:form>
+    </p:layoutUnit>
+</ui:composition>   
+

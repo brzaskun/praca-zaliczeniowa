@@ -1,0 +1,77 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+    <p:layoutUnit position="west" size="220" header="Bieżący podatnik" collapsible="true" resizable="true" style="box-shadow: 10px 10px 5px #888;">
+        <h:form id="westWpis">
+     <p:remoteCommand name="przeliczmiesiac"   actionListener="#{fakturaView.aktualizujTabeleTabela}" update="akordeon"/>       
+            <p:panel id="linki" header="linki">
+            <p:panelGrid id="westWpisWidok" columns="2" style="margin-left: 7%">
+                <h:outputText value="Podatnik:" style="text-shadow: #6374AB 1px -1px 1px"/>
+                <h:outputText value="#{WpisView.podatnikObiekt.nazwapelnaPDF}"/>
+                <h:outputText value="Rok:" style="text-shadow: #6374AB 1px -1px 1px"/>
+                <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}">
+                    <f:selectItems value="#{roki.rokiList}"/>
+                    <p:ajax event="change" partialSubmit="true" oncomplete="przeliczmiesiac()"/>
+                </p:selectOneMenu>
+                <h:outputText value="Miesiac:" style="text-shadow: #6374AB 1px -1px 1px"/>
+                <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}" style="width: 70px;">
+                    <f:selectItems value="#{mce.mceList}"/>
+                    <p:ajax event="change" partialSubmit="true" oncomplete="przeliczmiesiac()"/>
+                </p:selectOneMenu>
+            </p:panelGrid>
+                <p:menu >
+                    <p:menuitem value="zmiana podatnika"  outcome="zmianapodatnika" icon="ui-icon-circle-arrow-e" />
+                    <p:menuitem value="info podatnik"  outcome="info" icon="ui-icon-circle-arrow-e" />
+                    <p:menuitem value="parametry" outcome="parampodatnika" icon="ui-icon-circle-arrow-e" />
+                </p:menu>
+                <p:menu >
+                    <p:menuitem value="wpisywanie" rendered="#{!zamkniecieView.moznaksiegowac}"  outcome="ksiegowa" icon="ui-icon-circle-arrow-e" />
+                </p:menu>
+                <p:menu>
+                    <p:menuitem value="wykaz dokumentów"  outcome="dokumentyzaksiegowane" icon="ui-icon-circle-arrow-e"/>
+                    <p:menuitem value="podatkowa ksiega"  outcome="ksiega" icon="ui-icon-circle-arrow-e" />
+                    <p:menuitem value="faktury miesieczne"  outcome="fakturymiesieczne" icon="ui-icon-circle-arrow-e"/> 
+                    <p:menuitem global="false" value="import sprzedaży" outcome="importy"  icon="ui-icon-circle-arrow-e" update="@form" />  
+                    <p:menuitem value="obroty w roku"  icon="ui-icon-circle-arrow-e" action="#{obrotyView.init()}" update="@form" />  
+                    <p:menuitem value="kontrahenci fakt." outcome="klienci"  icon="ui-icon-circle-arrow-e"/>  
+                    <p:menuitem value="zestaw. sumaryczne"  outcome="zestawienie" icon="ui-icon-circle-arrow-e"/>  
+                </p:menu>
+                <p:menu>
+                    <p:menuitem value="środki trwałe"  outcome="srodki" icon="ui-icon-circle-arrow-e"/>  
+                </p:menu>
+                <p:menu>
+                    <p:menuitem value="PIT"  outcome="pitoblicz" icon="ui-icon-circle-arrow-e"/>
+                    <p:menuitem value="#{mgs.VAT}" icon="ui-icon-circle-arrow-e" action="#{ewidencjaVatView.przekierowanieEwidencji()}" update="westWpis" rendered="#{WpisView.podatnikObiekt.vatokres.size() gt 0 ? true : false}">
+                        <f:actionListener binding="#{ewidencjaVatView.stworzenieEwidencjiZDokumentow(WpisView.podatnikObiekt)}"/>
+                        
+                    </p:menuitem>
+                    <p:menuitem value="zamknięcie miesiąca"  outcome="zamkniecie" icon="ui-icon-circle-arrow-e"/>
+                </p:menu>
+                <p:menu style="width: 200px;" rendered="#{WpisView.formaprawna eq 'STOWARZYSZENIE'}">
+                        <p:menuitem value="defin. miejsc przychodów" outcome="gfk_stow_miejscaprzychodow" icon="ui-icon-circle-arrow-e" ></p:menuitem>
+                        <p:menuitem value="wykaz członków stow." outcome="gfk_stow_wykazczlonkow" icon="ui-icon-circle-arrow-e" ></p:menuitem>
+                        <p:menuitem value="rodzaje członkostwa" outcome="gfk_stow_rodzajeczlonkostwa" icon="ui-icon-circle-arrow-e" actionListener="#{rodzajeCzlonkostwaView.pobierz()}"></p:menuitem>
+                        <p:menuitem value="składki" outcome="gfk_stow_skladki" icon="ui-icon-circle-arrow-e" actionListener="#{skladkaStowarzyszenieView.pobierz()}"></p:menuitem>
+                        <p:menuitem value="członek-składka" outcome="gfk_stow_czlonekskladka" icon="ui-icon-circle-arrow-e" actionListener="#{skladkaCzlonekView.pobierz()}"></p:menuitem>
+                        <p:menuitem value="roczne zestaw. naliczeń" outcome="gfk_stow_zestawienienaliczen" icon="ui-icon-circle-arrow-e" actionListener="#{stowNaliczenieZestView.pobierz()}"></p:menuitem>
+                        <p:menuitem value="zest. rozrach. z członk." outcome="gfk_stow_rozrachunkizczlonkami" icon="ui-icon-circle-arrow-e" actionListener="#{stowRozrachCzlonkView.pobierz()}"></p:menuitem>
+                        <p:menuitem value="zbiorcze zest. roz. z czł." outcome="gfk_stow_rozrachunkizczlonkami_zbiorcze" icon="ui-icon-circle-arrow-e" actionListener="#{stowRozrachCzlonkZbiorczeView.pobierzzbiorcze()}"></p:menuitem>
+                    </p:menu>
+                <p:menu>
+                    <p:menuitem value="faktury - panel"  outcome="faktura" icon="ui-icon-circle-arrow-e"/>
+                    <p:menuitem global="false" value="faktury - ustawienia"  outcome="fakturaustawienia" icon="ui-icon-circle-arrow-e"/>
+                    <p:menuitem global="false" value="faktury - rozrach"  outcome="fakturarozrachunki"   icon="ui-icon-circle-arrow-e"/>
+                </p:menu>
+                <p:menu>
+                    <p:menuitem value="napisz do admina"  outcome="pismoadmin" icon="ui-icon-circle-arrow-e"/>
+                    <p:menuitem value="zmień hasło"  outcome="zmianahasla" icon="ui-icon-circle-arrow-e"/>
+                </p:menu>
+                <p:commandButton id="wyloguj" value="#{mgs.wyloguj}" action="#{logowanie.logout()}" style="width: 120px; margin-top: 10px;"/>
+            </p:panel>
+        </h:form>
+    </p:layoutUnit>
+</ui:composition>   
+

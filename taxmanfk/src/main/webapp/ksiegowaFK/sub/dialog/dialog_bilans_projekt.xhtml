@@ -1,0 +1,56 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    >
+    <p:dialog id="dialogbilansprojekt" header="Projekt Bilansu - #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="bilansprojekt" 
+              resizable="false" onShow="ustawdialog('dialogbilansprojekt','menubilanse', 1250, 750);" closeOnEscape="true" onHide="resetujdialog('dialogbilansprojekt');"  >
+        <h:form id="formbilansprojekt">
+            <p:contextMenu for="formbilansprojekt:dataList" style="width: 200px;">
+                <p:menuitem value="Nowa syntetyczna" icon="ui-icon-circle-plus"  onclick="PF('bilansprojektsyntetyczne').show();" rendered="#{pozycjaBRView.uklad.importowany eq false ? 'true' : 'false'}"/>
+                <p:menuitem value="Nowa syntetyczna z formułą" icon="ui-icon-circle-plus"  onclick="PF('bilansprojektsyntetyczneformula').show();" rendered="#{pozycjaBRView.uklad.importowany eq false ? 'true' : 'false'}"/>
+                <p:menuitem value="Nowa analityczna" icon="ui-icon-circle-plus" onclick="PF('bilansprojektanalityczne').show();" rendered="#{pozycjaBRView.uklad.importowany eq false ? 'true' : 'false'}"/>
+                <p:menuitem value="Usuń" actionListener="#{pozycjaBRView.usunpozycje}" icon="ui-icon-trash" update=":formbilansprojekt" rendered="#{pozycjaBRView.uklad.importowany eq false ? 'true' : 'false'}"/>
+                <p:menuitem value="nie można modyfikować importowanego układu" rendered="#{pozycjaBRView.uklad.importowany eq false ? 'false' : 'true'}"/>
+            </p:contextMenu>
+            <p:panelGrid columns="4" >
+<!--                <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{pozycjaBRView.rozwinwszystkie(pozycjaBRView.rootProjektRZiS)}" update=":formbilansprojekt:dataList" style="float: left;" />
+                <p:commandButton id="rozwin" value="rozwiń poziom" actionListener="#{pozycjaBRView.rozwin(pozycjaBRView.rootProjektRZiS)}" update=":formbilansprojekt:dataList" style="float: left;" />
+                <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{pozycjaBRView.zwinwszystkie(pozycjaBRView.rootProjektRZiS)}" update=":formbilansprojekt:dataList" style="float: left;" />
+                <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{pozycjaBRView.zwin(pozycjaBRView.rootProjektRZiS)}" update=":formbilansprojekt:dataList" style="float: left;" />-->
+            </p:panelGrid>
+            <p:panelGrid columns="3" style="width: 1020px;">
+                <p:treeTable id="dataList" value="#{pozycjaBRView.rootProjektRZiS}" var="loop" selectionMode="single" selection="#{pozycjaBRView.wybranynodekonta}" 
+                             styleClass="tablicaplankont" style="height: 650px; margin-top: 0%; width: 650px; margin-bottom: 50px; overflow-y: scroll;"
+                             emptyMessage="Brak wybranego układu lub pozycji w wybranym Bilansie">
+                    <f:facet name="header">
+                        <h:outputText value="uklad #{pozycjaBRView.uklad.uklad} #{pozycjaBRView.uklad.rok}"/>
+                    </f:facet>
+                    <p:ajax event="select" global="false" listener="#{pozycjaBRView.wybranopozycjeBilans()}"/>
+                    <p:column headerText="symbol i nazwa pozycji">
+                        <h:outputText value="#{loop.pozycjaSymbol}" style="font-weight: bolder" /> 
+                        <p:spacer width="20"/>
+                        <h:outputText value="#{loop.nazwa}"/> 
+                    </p:column>
+                    <p:column headerText="formuła">
+                        <h:outputText value="#{loop.formula}"/>
+                    </p:column>
+                     <p:column headerText="rodzaj">
+                        <h:outputText value="#{loop.przychod0koszt1 eq false ? 'aktywa' : 'pasywa'}"/>
+                    </p:column>
+                </p:treeTable>
+                <p:panel id="wyborbilans" header="pobierz układ" style="margin-top: -50px;">
+                    <h:outputText value="wybierz nazwę kreowanego układu"/>
+                    <p:selectOneListbox value="#{pozycjaBRView.uklad}" style="height: 200px; margin-top: 4px; width: 240px;" converter="#{ukladBRConv}">
+                        <f:selectItems value="#{ukladBRView.lista}" var="loop" itemLabel="#{loop.uklad} - #{loop.rok} - #{loop.importowany eq true ? 'imp' : 'wsy'}" itemValue="#{String.valueOf(loop.lp)}"/>
+                    </p:selectOneListbox>
+                    <p:commandButton value="wybierz aktywa" style="width: 120px;" type="submit" actionListener="#{pozycjaBRView.pobierzProjektUkladu('b', pozycjaBRView.rootProjektRZiS, 'aktywa')}" update=":formbilansprojekt"/>
+                    <p:commandButton value="wybierz pasywa" style="width: 120px;" type="submit" actionListener="#{pozycjaBRView.pobierzProjektUkladu('b', pozycjaBRView.rootProjektRZiS, 'pasywa')}" update=":formbilansprojekt"/>
+                </p:panel>
+            </p:panelGrid>
+        </h:form>
+    </p:dialog>
+</ui:composition>
+

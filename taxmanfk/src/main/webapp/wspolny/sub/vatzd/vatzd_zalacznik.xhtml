@@ -1,0 +1,65 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:bcf="http://brzaskun.com/facelets">
+
+     <p:tab title="załącznik">
+         <h:form id="form4">
+         <p:panelGrid columns="2" styleClass="panelvazd" style="margin-bottom: 15px;">
+         <p:commandButton value="zachowaj" actionListener="#{vATZDView.zachowajwniosek()}" 
+                                 style="width: 120px; margin-left: 10px;"
+                                 update="@(.panelvazd) @parent akordeonzd:form4:tabeladekl"  rendered="#{vATZDView.wniosekVATZDEntity ne null and vATZDView.wniosekVATZDEntity.id eq null}"/>
+         <p:commandButton value="usuń" actionListener="#{vATZDView.usunwniosek()}"
+                                 style="width: 120px; margin-left: 10px;"
+                                 update="@(.panelvazd) @parent akordeonzd:form4:tabeladekl" rendered="#{vATZDView.wniosekVATZDEntity.id ne null and vATZDView.wniosekVATZDEntity.deklaracjevat.size() eq 0}"/>
+         <p:panelGrid columns="1" styleClass="panelvazd"  layout="grid" style="width: 900px;"  rendered="#{vATZDView.wniosekVATZDEntity.deklaracjevat.size() gt 0}">
+            <h:outputText value="Aby usunąć wniosek załączony do deklaracji trzeba najpierw usunąć deklarację" style="color: #0066ff"/>
+         </p:panelGrid>
+     `  </p:panelGrid>
+         
+         <p:panelGrid columns="6" id="panelzalacznisprzedaz2" styleClass="panelvazd" layout="grid" style="width: 1200px;" columnClasses="seventy-percent thirty-percent">
+            <h:outputText value="rok: "/>
+            <h:outputText value="mc: "/>
+            <h:outputText value="korekta netto: "/>
+            <h:outputText value="korekta vat: "/>
+            <h:outputText value="korekta art.89b ust1: "/>
+            <h:outputText value="korekta art.89b ust4: "/>
+            <h:outputText value="#{vATZDView.wniosekVATZDEntity.rok}"/>
+            
+             <h:outputText value="#{vATZDView.wniosekVATZDEntity.mc}"/>
+            
+            <bcf:outputpl0 value="#{vATZDView.wniosekVATZDEntity.netto}"/>
+            
+            <bcf:outputpl0 value="#{vATZDView.wniosekVATZDEntity.vat}"/>
+            
+            <bcf:outputpl0 value="#{vATZDView.wniosekVATZDEntity.naliczonyzmniejszenie}"/>
+            
+            <bcf:outputpl0 value="#{vATZDView.wniosekVATZDEntity.naliczonyzwiekszenie}"/>
+        </p:panelGrid>
+        <p:panelGrid columns="1" rendered="#{vATZDView.wniosekVATZDEntity.deklaracjevat.size() gt 0}"  layout="grid" style="width: 500px;margin-top: 15px;" columnClasses="seventy-percent thirty-percent">
+            <p:dataTable value="#{vATZDView.wniosekVATZDEntity.deklaracjevat}" var="wpisl" id="tabeladekl">
+                <p:column headerText="załączony do deklaracji">
+                <h:outputText value="#{wpisl.wzorschemy}"/>
+                </p:column>
+                <p:column headerText="data sporządzenia">
+                <h:outputText value="#{wpisl.datasporzadzenia}">
+                    <f:convertDateTime pattern="yyyy-mm-dd"/>
+                </h:outputText>
+                </p:column>
+                <p:column headerText="data wysłania">
+                <h:outputText value="#{wpisl.datazlozenia}">
+                    <f:convertDateTime pattern="yyyy-mm-dd"/>
+                </h:outputText>
+                </p:column>
+            </p:dataTable>
+         </p:panelGrid>
+         <p:panelGrid columns="1" id="panelzalacznisprzedaz" styleClass="panelvazd"  layout="grid" style="width: 1200px;margin-top: 15px;" >
+             <h:outputText value="#{vATZDView.wniosekVATZDEntity.zalacznik}"/>
+        </p:panelGrid>
+            </h:form>
+    </p:tab>
+</ui:composition>   
+

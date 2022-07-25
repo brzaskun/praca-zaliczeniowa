@@ -1,0 +1,226 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    >
+    <p:dialog id="dialogdanedosprawozdania" header="Nanieś dane do infomracji dodatkowej i sprawozdania" widgetVar="danedosprawozdania" 
+              resizable="false" onShow="ustawdialog('dialogdanedosprawozdania','menubilanse', 1050, 750);" closeOnEscape="true" onHide="resetujdialog('dialogdanedosprawozdania');"  >
+        <p:ajax event="open" listener="#{sprFinKwotyInfDodView.init()}" update="akordeon"/>
+        <p:tabView id="akordeon">
+            <p:tab title="dane fin.">
+                <h:form id="form_dialogdanedosprawozdania">
+                    <p:panelGrid columns="3">
+                        <h:outputText value="nazwa pozycji wyliczenia" style="font-weight: 900"/>
+                        <h:outputText value="kwoty za #{WpisView.rokWpisuSt}" style="font-weight: 900"/>
+                        <h:outputText value="kwota za #{WpisView.rokUprzedniSt}" style="font-weight: 900"/>
+                        <h:outputText value="A. Zysk (strata) brutto za dany rok"/>
+                        <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.pid1A}" decimalPlaces="2" thousandSeparator="&#160;"  inputStyle="text-align: right;" symbol=" zł" symbolPosition="s" decimalSeparator="." required="true" requiredMessage="Wpisz kwotę"/>
+                        <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.pid1B}" decimalPlaces="2" thousandSeparator="&#160;"  inputStyle="text-align: right;" symbol=" zł" symbolPosition="s" decimalSeparator="." required="true" requiredMessage="Wpisz kwotę"/>
+                        <h:outputText value="B. Przychody zwolnione z opodatkowania (trwałe różnice pomiędzy zyskiem/stratą dla celów rachunkowych a dochodem/stratą dla celów podatkowych)"/>
+                        <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.pid2A}" decimalPlaces="2" thousandSeparator="&#160;"  inputStyle="text-align: right;" symbol=" zł" symbolPosition="s" decimalSeparator="." required="true" requiredMessage="Wpisz kwotę"/>
+                        <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.pid2B}" decimalPlaces="2" thousandSeparator="&#160;"  inputStyle="text-align: right;" symbol=" zł" symbolPosition="s" decimalSeparator="." required="true" requiredMessage="Wpisz kwotę"/>
+                        <h:outputText value="C. Przychody niepodlegające opodatkowania w roku bieżącym"/>
+                        <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.pid3A}" decimalPlaces="2" thousandSeparator="&#160;"  inputStyle="text-align: right;" symbol=" zł" symbolPosition="s" decimalSeparator="." required="true" requiredMessage="Wpisz kwotę"/>
+                        <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.pid3B}" decimalPlaces="2" thousandSeparator="&#160;"  inputStyle="text-align: right;" symbol=" zł" symbolPosition="s" decimalSeparator="." required="true" requiredMessage="Wpisz kwotę"/>
+                        <h:outputText value="D. Przychody podlegające opodatkowania w roku bieżącym, ujęte w księgach rachunkowych lat ubiegłych"/>
+                        <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.pid4A}" decimalPlaces="2" thousandSeparator="&#160;"  inputStyle="text-align: right;" symbol=" zł" symbolPosition="s" decimalSeparator="." required="true" requiredMessage="Wpisz kwotę"/>
+                        <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.pid4B}" decimalPlaces="2" thousandSeparator="&#160;"  inputStyle="text-align: right;" symbol=" zł" symbolPosition="s" decimalSeparator="." required="true" requiredMessage="Wpisz kwotę"/>
+                        <h:outputText value="E. Koszty niestanowiące kosztów uzyskania przychodów (trwałe różnice pomiędzy zyskiem/stratą dla celów rachunkowych a dochodem/stratą dla celów podatkowych)"/>
+                        <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.pid5A}" decimalPlaces="2" thousandSeparator="&#160;"  inputStyle="text-align: right;" symbol=" zł" symbolPosition="s" decimalSeparator="." required="true" requiredMessage="Wpisz kwotę"/>
+                        <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.pid5B}" decimalPlaces="2" thousandSeparator="&#160;"  inputStyle="text-align: right;" symbol=" zł" symbolPosition="s" decimalSeparator="." required="true" requiredMessage="Wpisz kwotę"/>
+                        <h:outputText value="F. Koszty nieuznawane za koszty uzyskania przychodów w bieżącym roku"/>
+                        <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.pid6A}" decimalPlaces="2" thousandSeparator="&#160;"  inputStyle="text-align: right;" symbol=" zł" symbolPosition="s" decimalSeparator="." required="true" requiredMessage="Wpisz kwotę"/>
+                        <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.pid6B}" decimalPlaces="2" thousandSeparator="&#160;"  inputStyle="text-align: right;" symbol=" zł" symbolPosition="s" decimalSeparator="." required="true" requiredMessage="Wpisz kwotę"/>
+                        <h:outputText value="G. Koszty uznawane za koszty uzyskania przychodów w roku bieżącym ujęte w księgach lat ubiegłych"/>
+                        <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.pid7A}" decimalPlaces="2" thousandSeparator="&#160;"  inputStyle="text-align: right;" symbol=" zł" symbolPosition="s" decimalSeparator="." required="true" requiredMessage="Wpisz kwotę"/>
+                        <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.pid7B}" decimalPlaces="2" thousandSeparator="&#160;"  inputStyle="text-align: right;" symbol=" zł" symbolPosition="s" decimalSeparator="." required="true" requiredMessage="Wpisz kwotę"/>
+                        <h:outputText value="H. Strata z lat ubiegłych"/>
+                        <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.pid8A}" decimalPlaces="2" thousandSeparator="&#160;"  inputStyle="text-align: right;" symbol=" zł" symbolPosition="s" decimalSeparator="." required="true" requiredMessage="Wpisz kwotę"/>
+                        <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.pid8B}" decimalPlaces="2" thousandSeparator="&#160;"  inputStyle="text-align: right;" symbol=" zł" symbolPosition="s" decimalSeparator="." required="true" requiredMessage="Wpisz kwotę"/>
+                        <h:outputText value="I. Inne zmiany podstawy opodatkowania"/>
+                        <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.pid9A}" decimalPlaces="2" thousandSeparator="&#160;"  inputStyle="text-align: right;" symbol=" zł" symbolPosition="s" decimalSeparator="." required="true" requiredMessage="Wpisz kwotę"/>
+                        <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.pid9B}" decimalPlaces="2" thousandSeparator="&#160;"  inputStyle="text-align: right;" symbol=" zł" symbolPosition="s" decimalSeparator="." required="true" requiredMessage="Wpisz kwotę"/>
+                        <h:outputText value="J. Podstawa opodatkowania podatkiem dochodowy"/>
+                        <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.pid10A}" decimalPlaces="2" thousandSeparator="&#160;"  inputStyle="text-align: right;" symbol=" zł" symbolPosition="s" decimalSeparator="." required="true" requiredMessage="Wpisz kwotę"/>
+                        <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.pid10B}" decimalPlaces="2" thousandSeparator="&#160;"  inputStyle="text-align: right;" symbol=" zł" symbolPosition="s" decimalSeparator="." required="true" requiredMessage="Wpisz kwotę"/>
+                        <h:outputText value="K. Podatek dochodowy"/>
+                        <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.pid11A}" decimalPlaces="2" thousandSeparator="&#160;"  inputStyle="text-align: right;" symbol=" zł" symbolPosition="s" decimalSeparator="." required="true" requiredMessage="Wpisz kwotę"/>
+                        <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.pid11B}" decimalPlaces="2" thousandSeparator="&#160;"  inputStyle="text-align: right;" symbol=" zł" symbolPosition="s" decimalSeparator="." required="true" requiredMessage="Wpisz kwotę"/>
+                    </p:panelGrid>
+                    <p:panelGrid columns="6" style="margin-top: 10px;">
+                        <h:outputText value="data sporządzenia" style="font-weight: bold;"/>
+                        <p:inputMask value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.datasporzadzenia}" size="10" maxlength="10" mask="9999-99-99">
+                            <f:validateRegex pattern="^(\d{4})-(0?[1-9]|1[012])-(0?[1-9]|[12][0-9]|3[01])$"/>
+                        </p:inputMask>
+                        <h:outputText value="data OD" style="font-weight: bold;"/>
+                        <p:inputMask value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.dataod}" size="10" maxlength="10"  mask="9999-99-99"  validatorMessage="Błędnie wpisana data. Sprawdź. rrrr-mm-dd">
+                            <f:validateRegex pattern="^(\d{4})-(0?[1-9]|1[012])-(0?[1-9]|[12][0-9]|3[01])$"/>
+                        </p:inputMask>
+                        <h:outputText value="data DO" style="font-weight: bold;"/>
+                        <p:inputMask value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.datado}" size="10" maxlength="10"  mask="9999-99-99" validatorMessage="Błędnie wpisana data. Sprawdź. rrrr-mm-dd">
+                            <f:validateRegex pattern="^(\d{4})-(0?[1-9]|1[012])-(0?[1-9]|[12][0-9]|3[01])$"/>
+                        </p:inputMask>
+                    </p:panelGrid>
+                    <p:panelGrid columns="2" style="margin-top: 10px;">
+                        <p:commandButton value="zapisz" actionListener="#{sprFinKwotyInfDodView.zapisz}" style="width: 120px;" update="@form"/>
+                    </p:panelGrid>
+                </h:form>
+                <h:form>
+                    <p:panelGrid columns="2" style="width: 1000px;">
+                        <p:panelGrid columns="1"  style="margin-top: 20px;width: 450px;">
+                            <h:outputText value="plik z informacją dodatkową (nazwa bez spacji i polskich znaków!!)" style="font-weight: bold;"/>
+                            <p:fileUpload fileUploadListener="#{sprFinKwotyInfDodView.zachowajplik}" 
+                                          mode="advanced" dragDropSupport="true" fileLimit="3"
+                                          update="messages1 @form" sizeLimit="1000000"   auto="true"
+                                          validatorMessage="Nieprawidłowy typ pliku" invalidFileMessage="Nieprawidłowy typ pliku" invalidSizeMessage="Plik za duży"
+                                          fileLimitMessage="Można załadować tylko jeden plik na jedno ładowanie"
+                                          uploadLabel="Wczytaj" label="Wybierz" cancelLabel="Rezygnuj" 
+                                          style="height: 100px;">
+                            </p:fileUpload>
+                            <p:growl life="3600"  id="messages1" showDetail="false"/>
+                            <h:outputText value="zach. plik: #{sprFinKwotyInfDodView.sprFinKwotyInfDod.nazwapliku}" rendered="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.plik ne null}" style="font-weight: bold; color: green;"/>
+                            <p:commandButton value="pokaż" style="width: 120px;margin-top: 20px;" actionListener="#{sprFinKwotyInfDodView.pokazplik}"/>
+                            <h:outputText value="wersja schemy #{sprFinKwotyInfDodView.sprFinKwotyInfDod.nrschemy}" style="color: green;float:right"/>
+                        </p:panelGrid>
+                        <p:panelGrid columns="1"  style="margin-top: 20px;width: 450px;">
+                            <h:outputText value="plik z informacją wstępną - opcjonalny (nazwa bez spacji i znaków!!)" style="font-weight: bold;"/>
+                            <p:fileUpload fileUploadListener="#{sprFinKwotyInfDodView.zachowajplikOpcja}" 
+                                          mode="advanced" dragDropSupport="true" fileLimit="3"
+                                          update="messages2 @form" sizeLimit="1000000"   auto="true"
+                                          validatorMessage="Nieprawidłowy typ pliku" invalidFileMessage="Nieprawidłowy typ pliku" invalidSizeMessage="Plik za duży"
+                                          fileLimitMessage="Można załadować tylko jeden plik na jedno ładowanie"
+                                          uploadLabel="Wczytaj" label="Wybierz" cancelLabel="Rezygnuj" 
+                                          style="height: 100px;">
+                            </p:fileUpload>
+                            <p:growl life="3600"  id="messages2" showDetail="false"/>
+                            <h:outputText value="zach. plik: #{sprFinKwotyInfDodView.sprFinKwotyInfDod.nazwaplikuOpcja}" rendered="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.plikOpcja ne null}" style="font-weight: bold; color: green;"/>
+                            <p:commandButton value="pokaż" style="width: 120px;margin-top: 20px;" actionListener="#{sprFinKwotyInfDodView.pokazplikOpcja()}"/>
+                            <h:outputText value="wersja schemy #{sprFinKwotyInfDodView.sprFinKwotyInfDod.nrschemy}" style="color: green;float:right"/>
+                        </p:panelGrid>
+                    </p:panelGrid>
+                </h:form>
+            </p:tab>
+            <p:tab title="inf.dodatkowa">
+                <h:form>
+                    <p:panelGrid columns="2">
+                        <h:outputText value="pobierz dane z roku poprzedniego"/>
+                        <p:commandButton value="kopuj" actionListener="#{sprFinKwotyInfDodView.kopiujsad}" update="@form"/>
+                        <h:outputText value="sąd rejestrowy"/>
+                        <p:inputText value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.sad}" size="100">
+                            <p:ajax event="change" listener="#{sprFinKwotyInfDodView.zapisz}" global="false"/>
+                        </p:inputText>
+                        <h:outputText value=""/>
+                        <h:outputText value="Sąd Rejonowy Szczecin-Centrum w Szczecinie XIII Wydział Gospodarczy Krajowego Rejestru Sądowego"/>
+                        <h:outputText value="podstawowy rodz. dział"/>
+                        <p:inputText value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.ppdzialalnosci}" size="100">
+                            <p:ajax event="change" listener="#{sprFinKwotyInfDodView.zapisz}" global="false"/>
+                        </p:inputText>
+                        <h:outputText value="kolejny rodz. dział"/>
+                        <p:inputText value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.pozpdzialalnosci}" size="100">
+                            <p:ajax event="change" listener="#{sprFinKwotyInfDodView.zapisz}" global="false"/>
+                        </p:inputText>
+                        <h:outputText value="zysk strata netto"/>
+                        <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.zyskstratanetto}" decimalPlaces="2" thousandSeparator="&#160;"  inputStyle="text-align: right;" symbol=" zł" symbolPosition="s" decimalSeparator="." >
+                            <p:ajax event="change" listener="#{sprFinKwotyInfDodView.zapisz}" global="false"/>
+                        </p:inputNumber>
+                        <h:outputText value="kwota wyniku do podziału"/>
+                        <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.dopodzialu}" decimalPlaces="2" thousandSeparator="&#160;"  inputStyle="text-align: right;" symbol=" zł" symbolPosition="s" decimalSeparator="." >
+                            <p:ajax event="change" listener="#{sprFinKwotyInfDodView.zapisz}" global="false"/>
+                        </p:inputNumber>
+                        <h:outputText value="kapitał wyniku na zapasowy"/>
+                        <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.kapitalrezerwowy}" decimalPlaces="2" thousandSeparator="&#160;"  inputStyle="text-align: right;" symbol=" zł" symbolPosition="s" decimalSeparator="." >
+                            <p:ajax event="change" listener="#{sprFinKwotyInfDodView.zapisz}" global="false"/>
+                        </p:inputNumber>
+                        <h:outputText value="pokrycie strat z lat ubiegłych"/>
+                        <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.stratazlatubieglych}" decimalPlaces="2" thousandSeparator="&#160;"  inputStyle="text-align: right;" symbol=" zł" symbolPosition="s" decimalSeparator="." >
+                            <p:ajax event="change" listener="#{sprFinKwotyInfDodView.zapisz}" global="false"/>
+                        </p:inputNumber>
+                        <h:outputText value="wynik niepodzielony"/>
+                        <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.wynikniepodzielony}" decimalPlaces="2" thousandSeparator="&#160;"  inputStyle="text-align: right;" symbol=" zł" symbolPosition="s" decimalSeparator="." >
+                            <p:ajax event="change" listener="#{sprFinKwotyInfDodView.zapisz}" global="false"/>
+                        </p:inputNumber>
+                        <h:outputText value="średnia liczba pracowników"/>
+                        <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.pracownicy}" decimalPlaces="1" thousandSeparator="&#160;"  inputStyle="text-align: right;">
+                            <p:ajax event="change" listener="#{sprFinKwotyInfDodView.zapisz}" global="false"/>
+                        </p:inputNumber>
+                        <h:outputText value="średnia liczba zleceniobiorców"/>
+                        <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.zleceniobiorcy}" decimalPlaces="1" thousandSeparator="&#160;"  inputStyle="text-align: right;">
+                            <p:ajax event="change" listener="#{sprFinKwotyInfDodView.zapisz}" global="false"/>
+                        </p:inputNumber>
+                        <h:outputText value="średnia liczba urlipy wych., mac., bezpłatne"/>
+                        <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.inni}"  decimalPlaces="1" thousandSeparator="&#160;"  inputStyle="text-align: right;" >
+                            <p:ajax event="change" listener="#{sprFinKwotyInfDodView.zapisz}" global="false"/>
+                        </p:inputNumber>
+                    </p:panelGrid>
+                </h:form>
+                <h:form>
+                    <p:panelGrid columns="1">
+                        <h:outputText value="Ważne! Aby informacja poprawnie się wygenerowała, salda z bieżącego i poprzedniego roku muszą być zaksięgowane!" style="color: red;"/>
+                    <p:commandButton value="generuj inf.dod." style="width: 120px;margin-top: 30px;" actionListener="#{sprFinKwotyInfDodView.generujInfdod}"/>
+                    </p:panelGrid>
+                </h:form>
+            </p:tab>
+            <p:tab title="spr. zarządu">
+                <h:form>
+                    <p:panelGrid columns="2">
+                        <h:outputText value="suma bilansowa za rok bieżący"/>
+                        <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.sumabilansowa}" decimalPlaces="2" thousandSeparator="&#160;"  inputStyle="text-align: right;">
+                            <p:ajax event="change" listener="#{sprFinKwotyInfDodView.zapisz}" global="false"/>
+                        </p:inputNumber>
+                    </p:panelGrid>
+                </h:form>
+                <h:form>
+                    <p:panelGrid columns="1">
+                    <p:commandButton value="generuj spraw." style="width: 120px;margin-top: 30px;" actionListener="#{sprFinKwotyInfDodView.generujSprawozdanieZarzadu}"/>
+                    </p:panelGrid>
+                </h:form>
+            </p:tab>
+            <p:tab title="uchwały">
+                <h:form>
+                    <p:panelGrid columns="4" style="width: 950px; padding: 5px;">
+                <p:dataTable value="#{sprFinKwotyInfDodView.podatnikUdzialy}"  var="loop" rowKey="#{loop.id}" selection="#{podatnikView.wybranyPodatnikUdzialy}" id="form9tablica"
+                              >
+                    <p:column headerText="data od">
+                        <h:outputText value="#{loop.datarozpoczecia}" />
+                    </p:column>
+                    <p:column headerText="data do">
+                        <h:outputText value="#{loop.datazakonczenia}"/>
+                    </p:column>
+                    <p:column headerText="nazwisko i imie" width="200">
+                        <h:outputText value="#{loop.nazwiskoimie}" />
+                    </p:column>
+                    <p:column headerText="nip/pesel" width="100">
+                        <h:outputText value="#{loop.nip}" />
+                        <h:outputText value="#{loop.pesel}" />
+                    </p:column>
+                    <p:column headerText="udział" style="text-align: center;">
+                        <h:outputText value="#{loop.udzial}" />
+                    </p:column>
+                    <p:column headerText="liczba udz." style="text-align: center;">
+                        <h:outputText value="#{loop.liczbaudzialow}" />
+                    </p:column>
+                    <p:column headerText="wartość nom." style="text-align: center;">
+                        <h:outputText value="#{loop.wartoscnominalna}" />
+                    </p:column>
+                </p:dataTable>
+            </p:panelGrid>
+                </h:form>
+                <h:form>
+                    <p:panelGrid columns="2">
+                    <h:outputText value="data uchwał" style="font-weight: bold;"/>
+                        <p:inputMask value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.datauchwal}" size="10" maxlength="10"  mask="9999-99-99"  validatorMessage="Błędnie wpisana data. Sprawdź. rrrr-mm-dd">
+                            <f:validateRegex pattern="^(\d{4})-(0?[1-9]|1[012])-(0?[1-9]|[12][0-9]|3[01])$"/>
+                            <p:ajax event="change" listener="#{sprFinKwotyInfDodView.zapisz}" global="false"/>
+                        </p:inputMask>
+                    </p:panelGrid>
+                    <p:panelGrid columns="1">
+                    <p:commandButton value="generuj uchwały" style="width: 120px;margin-top: 30px;" actionListener="#{sprFinKwotyInfDodView.generujUchwaly}"/>
+                    </p:panelGrid>
+                </h:form>
+            </p:tab>
+        </p:tabView>
+    </p:dialog>
+</ui:composition>
+

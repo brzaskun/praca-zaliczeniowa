@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
+    <system systemId="file:/D:/WSDL/dokumenty.wsdl" uri="wsdl/dokumenty.wsdl"/>
+    <system systemId="file:/C:/Users/Osito/Documents/NetBeansProjects/taxmanfk/src/main/webapp/WEB-INF/wsdl/dokumenty.wsdl" uri="wsdl/dokumenty.wsdl"/>
+    <system systemId="file:/C:/Users/Osito/Documents/NetBeansProjects/taxmanfk/src/wsdl/dokumenty.wsdl" uri="wsdl/dokumenty.wsdl"/>
+</catalog>

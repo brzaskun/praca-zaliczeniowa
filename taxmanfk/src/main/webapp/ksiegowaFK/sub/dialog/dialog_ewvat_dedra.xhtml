@@ -1,0 +1,15 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    
+    xmlns:bcf="http://brzaskun.com/facelets">
+
+    <p:dialog id="dialog_ewvat_dedra" header="Sporządzenie ewidencji Dedra za #{WpisView.miesiacWpisu}/#{WpisView.rokWpisuSt}" widgetVar="dialog_ewvat_dedra" resizable="false" 
+              onShow="ustawdialog('dialog_ewvat_dedra','menurejestry',1200,700);"  modal="true" appendTo="@(body)"
+              closeOnEscape="true">
+        <ui:include src="../../../wspolny/dedraEwidencja.xhtml"/>
+    </p:dialog>
+</ui:composition> 

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:bcf="http://brzaskun.com/facelets">
+    <h:form id="form_rodzaje_czlonkostwa">
+            <style>
+        .opismiejsca input  {
+            width: 250px !important;
+        }
+    </style>
+            <p:panelGrid columns="2" >
+                <h:outputText value="nazwa członkostwa"/>
+                <p:inputText value="#{rodzajeCzlonkostwaView.rodzajCzlonkostwa.nazwa}" style="width: 180px;"/>
+                <h:outputText value="skrót nazwy członkostwa"/>
+                <p:inputText value="#{rodzajeCzlonkostwaView.rodzajCzlonkostwa.skrotnazwy}" maxlength="6" style="width: 80px;"/>
+                <h:outputText value="opis"/>
+                <p:inputText value="#{rodzajeCzlonkostwaView.rodzajCzlonkostwa.opis}" style="width: 380px;"/>
+            </p:panelGrid>
+            <p:commandButton value="dodaj" actionListener="#{rodzajeCzlonkostwaView.dodaj()}" style="margin: 2%; width: 120px;" global="false"
+                             update="form_rodzaje_czlonkostwa form_rodzaje_czlonkostwa_lista:rodzaje_czlonkostwa_lista " rendered="#{rodzajeCzlonkostwaView.zapisz0edytuj1 == false}"/>
+            <p:commandButton value="edytuj" actionListener="#{rodzajeCzlonkostwaView.edytuj()}" style="margin: 2%; width: 120px;" global="false"
+                             update="form_rodzaje_czlonkostwa form_rodzaje_czlonkostwa_lista:rodzaje_czlonkostwa_lista " rendered="#{rodzajeCzlonkostwaView.zapisz0edytuj1 == true}"/>
+        </h:form>
+        <h:form id="form_rodzaje_czlonkostwa_lista">
+            <p:dataTable value="#{rodzajeCzlonkostwaView.rodzajCzlonkostwaLista}" var="item" rowIndexVar="index"
+                         scrollable="true" scrollHeight="350" style="width: 980px;"  emptyMessage="brak zdefiniowanych rodzajów członkostwa"
+                         sortBy="#{item.nazwa}" id="rodzaje_czlonkostwa_lista">
+                <p:column headerText="#{mgs.nr}" style="width: 40px; text-align: center;">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="nazwa rodzaju członkostwa" style="width: 200px;" sortBy="#{item.nazwa}" filterBy="#{item.nazwa}"
+                          filterMatchMode="contains">
+                    <h:outputText value="#{item.nazwa}" />
+                </p:column>
+                <p:column headerText="skrót nazwy" style="width: 120px;" sortBy="#{item.skrotnazwy}" filterBy="#{item.skrotnazwy}"
+                          filterMatchMode="contains">
+                    <h:outputText value="#{item.skrotnazwy}"/>
+                </p:column>
+                 <p:column headerText="opis" style="text-align: center; width: 300px;">
+                    <h:outputText value="#{item.opis}"/>
+                </p:column>
+                <p:column headerText="edytuj" style="text-align: center;">
+                    <p:commandButton icon="ui-icon-comment" actionListener="#{rodzajeCzlonkostwaView.edytuj(item)}" 
+                                     update="form_rodzaje_czlonkostwa" 
+                                      style="width: 40px;"/>
+                </p:column>
+                <p:column headerText="usuń"  style="text-align: center;">
+                    <p:commandButton icon="ui-icon-trash" actionListener="#{rodzajeCzlonkostwaView.usun(item)}" 
+                                     update="form_rodzaje_czlonkostwa form_rodzaje_czlonkostwa_lista:rodzaje_czlonkostwa_lista" style="width: 40px;"/>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+</html>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE glassfish-web-app PUBLIC "-//GlassFish.org//DTD GlassFish Application Server 3.1 Servlet 3.0//EN" "http://glassfish.org/dtds/glassfish-web-app_3_0-1.dtd">
+<glassfish-web-app error-url="">
+  <security-role-mapping>
+    <role-name>Administrator</role-name>
+    <principal-name>Administrator</principal-name>
+    <group-name>Administrator</group-name>
+  </security-role-mapping>
+  <security-role-mapping>
+    <role-name>Manager</role-name>
+    <principal-name>Manager</principal-name>
+    <group-name>Manager</group-name>
+  </security-role-mapping>
+  <security-role-mapping>
+    <role-name>ZUS</role-name>
+    <principal-name>ZUS</principal-name>
+    <group-name>ZUS</group-name>
+  </security-role-mapping>
+  <security-role-mapping>
+    <role-name>Bookkeeper</role-name>
+    <principal-name>Bookkeeper</principal-name>
+    <group-name>Bookkeeper</group-name>
+  </security-role-mapping>
+  <security-role-mapping>
+    <role-name>BookkeeperFK</role-name>
+    <principal-name>BookkeeperFK</principal-name>
+    <group-name>BookkeeperFK</group-name>
+  </security-role-mapping>
+  <security-role-mapping>
+    <role-name>Stowarzyszenie</role-name>
+    <principal-name>Stowarzyszenie</principal-name>
+    <group-name>Stowarzyszenie</group-name>
+  </security-role-mapping>
+  <security-role-mapping>
+    <role-name>Guest</role-name>
+    <principal-name>Guest</principal-name>
+    <group-name>Guest</group-name>
+  </security-role-mapping>
+  <security-role-mapping>
+    <role-name>GuestFaktura</role-name>
+    <principal-name>GuestFaktura</principal-name>
+    <group-name>GuestFaktura</group-name>
+  </security-role-mapping>
+  <security-role-mapping>
+    <role-name>GuestFK</role-name>
+    <principal-name>GuestFK</principal-name>
+    <group-name>GuestFK</group-name>
+  </security-role-mapping>
+    <security-role-mapping>
+    <role-name>GuestFKBook</role-name>
+    <principal-name>GuestFKBook</principal-name>
+    <group-name>GuestFKBook</group-name>
+  </security-role-mapping>
+  <security-role-mapping>
+    <role-name>Noobie</role-name>
+    <principal-name>Noobie</principal-name>
+    <group-name>Noobie</group-name>
+  </security-role-mapping>
+  <security-role-mapping>
+    <role-name>Dedra</role-name>
+    <principal-name>Dedra</principal-name>
+    <group-name>Dedra</group-name>
+  </security-role-mapping>
+  <security-role-mapping>
+    <role-name>Multiuser</role-name>
+    <principal-name>Multiuser</principal-name>
+    <group-name>Multiuser</group-name>
+  </security-role-mapping>
+  <security-role-mapping>
+    <role-name>MultiuserBook</role-name>
+    <principal-name>MultiuserBook</principal-name>
+    <group-name>MultiuserBook</group-name>
+  </security-role-mapping>
+  <class-loader delegate="false"/>
+  <!--    <jsp-config>
+    <property name="keepgenerated" value="true">
+      <description>Keep a copy of the generated servlet class' java code.</description>
+    </property>
+  </jsp-config>-->
+  <!-- Change the default character encoding from ISO-8859-1 to UTF-8 -->
+  <parameter-encoding default-charset="UTF-8"/>
+</glassfish-web-app>

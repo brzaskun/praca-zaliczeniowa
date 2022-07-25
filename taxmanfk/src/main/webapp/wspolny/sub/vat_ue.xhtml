@@ -1,0 +1,227 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    
+    xmlns:bcf="http://brzaskun.com/facelets">
+    <script>
+        var pokazbutony = function() {
+            try {
+                r('akordeon2:formVATUE:deklbutton').show();
+                r('akordeon2:formVATUE:deklbutton2').show();
+                r('akordeon2:formVATUE:drukviesbutton').show();
+            } catch(e){}
+            try {
+                r('akordeon:formVATUE:deklbutton').show();
+                r('akordeon:formVATUE:deklbutton2').show();
+                r('akordeon:formVATUE:drukviesbutton').show();
+            } catch(e){}
+            
+        }
+    </script>
+    
+    <p:panelGrid id="panelue" columns="9">
+            <h:outputText value="suma wybranych"/>
+            <bcf:outputpl value="#{vatUeFKView.sumawybranych}"/>
+            <p:commandButton value="#{mgs.drukuj}" style="margin-left: 3%; margin-bottom: 1%; width: 120px;" actionListener="#{vatUeFKView.drukujewidencjeUEfk()}"/>
+            <p:commandButton value="#{mgs.drukujtab}" style="margin-left: 10px; margin-bottom: 1%; width: 120px;" actionListener="#{vatUeFKView.drukujewidencjeUEfkTabela()}"/>
+            <p:commandButton value="rozwiń/zwiń" style="margin-left: 10px; margin-bottom: 1%; width: 120px;" onclick="jQuery('.ui-row-toggler').click()" global="false"/>
+            <p:commandButton value="deklar. test" style="margin-left: 10px; margin-bottom: 1%; width: 120px;display:inline ;"
+                             actionListener="#{vatUeFKView.tworzdeklaracje(vatUeFKView.klienciWDTWNT,0)}" rendered="#{!vatUeFKView.deklaracja0korekta1}"/>
+            <p:commandButton value="deklaracja" style="margin-left: 10px; margin-bottom: 1%; width: 120px;" id="deklbutton"
+                             actionListener="#{vatUeFKView.tworzdeklaracje(vatUeFKView.klienciWDTWNT,1)}" update="@(.upd3) @(.upd)" rendered="#{!vatUeFKView.deklaracja0korekta1}"/>
+<!--            <p:commandButton value="deklaracja" style="margin-left: 10px; margin-bottom: 1%; width: 120px;" id="deklbutton"
+                             actionListener="#{vatUeFKView.tworzdeklaracje(vatUeFKView.klienciWDTWNT,1)}" update="@(.upd3) @(.upd)"/>-->
+            <p:commandButton value="korekta test" style="margin-left: 10px; margin-bottom: 1%; width: 120px; display: inline;"  update="@(.upd3) @(.upd)"   styleClass="upd3"
+                             actionListener="#{vatUeFKView.tworzdeklaracjekorekta(vatUeFKView.klienciWDTWNT, 0)}" rendered="#{vatUeFKView.deklaracja0korekta1}"/>
+            <p:commandButton value="korekta" style="margin-left: 10px; margin-bottom: 1%; width: 120px;"  update="@(.upd3) @(.upd)"   id="deklbutton2" styleClass="upd3"
+                             actionListener="#{vatUeFKView.tworzdeklaracjekorekta(vatUeFKView.klienciWDTWNT, 1)}" rendered="#{vatUeFKView.deklaracja0korekta1}"/>
+            <p:commandButton value="VIES" style="margin-left: 10px; margin-bottom: 1%; width: 120px;" actionListener="#{vatUeFKView.sprawdzVIES}"
+                             update="@(.upd1)" oncomplete="pokazbutony();"/>
+            <p:commandButton value="druk VIES" style="margin-left: 10px; margin-bottom: 1%; width: 120px; display: none;" id="drukviesbutton"
+                             actionListener="#{vatUeFKView.drukujVIES}"
+                             />
+        </p:panelGrid>
+        
+            <p:outputPanel > 
+
+                <p:dataTable  var="wpis1" value="#{vatUeFKView.klienciWDTWNT}" id="dokumentyLista" 
+                              rowKey="#{wpis1.id}" selection="#{vatUeFKView.listawybranych}"
+                              emptyMessage="#{vatUeFKView.komunikat}"
+                              sortBy="#{wpis1.kontrahent.npelna}" styleClass="upd1"
+                              style="height: 400px;overflow-y: scroll;width: 1280px;" widgetVar="dokTable" 
+                              > 
+                    <f:facet name="header">  
+                        <h:outputText value="#{vatUeFKView.opisvatuepkpir}" /> 
+                        <h:outputText value="- wyszukiwanie: " />  
+                        <p:inputText id="globalFilter" onkeyup="PF('dokTable').filter()" style="width:180px" placeholder="wyszukiwane wyrażenie" />  
+                    </f:facet>
+                    <p:ajax event="rowSelectCheckbox"  global="false" listener="#{vatUeFKView.podsumuj()}" update="@(.upd)"/>
+                    <p:ajax event="rowUnselectCheckbox" global="false" listener="#{vatUeFKView.podsumuj()}" update="@(.upd)"/>
+                    <p:ajax event="toggleSelect" global="false"  listener="#{vatUeFKView.podsumuj()}" update="@(.upd)"/>
+                    <p:ajax event="rowToggle" global="false"/>
+                    <p:column selectionMode="multiple" styleClass="checkwiersza" width="30" style="text-align: center;" rendered="#{wpis1.transakcja ne 'podsumowanie'}"/>
+                    <p:column width="30" style="text-align: center;" rendered="#{wpis1.transakcja eq 'podsumowanie'}"/>
+                    <p:column style="width: 5%;">
+                        <p:rowToggler rendered="#{wpis1.zawierafk.size() gt 0 or wpis1.zawiera.size() gt 0? true : false}"/>
+                    </p:column>
+                    <p:column id="typdokColumn" headerText="transakcja" filterBy="#{wpis1.transakcja}" filterMatchMode="contains" sortBy="#{wpis1.transakcja}" style="width: 15%;" >  
+                        <h:outputText value="#{wpis1.transakcja}"/>
+                    </p:column>
+                    <p:column id="krajkodColumn" headerText="kraj" filterBy="#{wpis1.kontrahent.krajkod}" filterMatchMode="contains" sortBy="#{wpis1.kontrahent.krajkod}" 
+                              style="width: 20px; text-align: center;" >  
+                        <h:outputText value="#{wpis1.kontrahent.krajkod}" style="color: #{wpis1.kontrahent.krajkod eq 'PL'?'red':'initial'}"/>
+                    </p:column>
+                    <p:column id="nipColumn" headerText="nip" filterBy="#{wpis1.kontrahentwyborNIP}" 
+                              filterMatchMode="contains" sortBy="#{wpis1.kontrahentwyborNIP}" style="width: 20%;" >  
+                        <h:outputText value="#{wpis1.kontrahentwyborNIP}" />
+                    </p:column>
+                    <p:column id="nipColumnold" headerText="pop. nip" filterBy="#{wpis1.poprzedninip}" 
+                              filterMatchMode="contains" sortBy="#{wpis1.poprzedninip}" style="width: 25%;" filterStyle="display : none;" >  
+                        <p:inputText value="#{wpis1.poprzedninip}" size="15"/>
+                    </p:column>
+                    <p:column id="kontrColumn" headerText="#{mgs.kontrahent}" filterBy="#{wpis1.kontrahentwyborNazwa}" filterMatchMode="contains" 
+                              sortBy="#{wpis1.kontrahentwyborNazwa}" width="320">  
+                        <h:outputText value="#{wpis1.kontrahentwyborNazwa}"  />
+                    </p:column>
+                    <p:column id="nettoColumn" headerText="#{mgs.netto} pln" filterBy="#{wpis1.netto}" filterMatchMode="contains" sortBy="#{wpis1.netto}" style="width: 15%;" filterStyle="display : none;" >  
+                        <h:outputText value="#{wpis1.netto}" style="float: right;">
+                            <f:convertNumber minFractionDigits="2" locale="PL"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column id="nettoWalutaColumn" headerText="#{mgs.netto} #{mgs.waluta}" filterBy="#{wpis1.nettowaluta}" filterMatchMode="contains" sortBy="#{wpis1.nettowaluta}" style="width: 15%;" filterStyle="display : none;" >  
+                        <h:outputText value="#{wpis1.nettowaluta}" style="float: right;">
+                            <f:convertNumber minFractionDigits="2" locale="PL"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column id="nettoWaluta" filterBy="#{wpis1.nazwawaluty.symbolwaluty}" filterMatchMode="contains" sortBy="#{wpis1.nazwawaluty.symbolwaluty}" style="width: 40px; text-align: center;" filterStyle="display : none;" >  
+                        <h:outputText value="#{wpis1.nazwawaluty.symbolwaluty}"/>
+                    </p:column>
+                    <p:column id="liczbaColumn" headerText="ilość dok" filterBy="#{wpis1.liczbadok}" filterMatchMode="contains" sortBy="#{wpis1.liczbadok}" style="width: 30px;text-align: center;" filterStyle="display : none;" >  
+                        <h:outputText value="#{wpis1.liczbadok}" rendered="#{wpis1.transakcja eq 'podsum.' ? false : true}">
+                            <f:convertNumber minFractionDigits="0" locale="PL"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column id="vies" headerText="VIES" sortBy="#{wpis1.vies}" style="width: 15%; text-align: center;">  
+                         <h:outputText value="#{wpis1.vies.wynikVies}" rendered="#{wpis1.transakcja eq 'podsum.' ? false : true}"
+                                       style="#{wpis1.vies.identyfikatorsprawdzenia eq null or wpis1.vies.uwagi ne null ? 'color: red;':'color: green;'}">
+                        </h:outputText>
+                    </p:column>
+                    
+                    <p:rowExpansion>
+                        <p:column id="ewidencjavat" headerText="dokumenty podsumowane" >  
+                            <p:dataTable var="subwpis" value="#{wpis1.zawierafk}" style="width: 80%;"
+                                         emptyMessage="brak dokumentów"  resizableColumns="true"   rendered="#{wpis1.zawierafk.size() gt 0}">
+                                <p:column id="SubColumn1" headerText="data wyst" width="70">  
+                                    <h:outputText value="#{subwpis.datadokumentu}" />
+                                </p:column>
+                                <p:column headerText="symbol" width="90">  
+                                    <h:outputText value="#{subwpis.dokfkSN}" />
+                                </p:column>
+                                <p:column id="SubColumn1b" headerText="nr własny" width="120">  
+                                    <h:outputText value="#{subwpis.numerwlasnydokfk}" />
+                                </p:column>
+                                <p:column id="SubColumn1c" headerText="#{mgs.opis}" width="250">  
+                                    <h:outputText value="#{subwpis.opisdokfk}" />
+                                </p:column>
+                                <p:column id="SubColumn1a"  headerText="netto pln">  
+                                    <h:outputText value="#{subwpis.nettoPLNWNT}" style="float: right;">
+                                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                                    </h:outputText>
+                                </p:column>
+                                <p:column  headerText="wartość VAT">  
+                                    <h:outputText value="#{subwpis.getVATPLNWNT()}" style="float: right;">
+                                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                                    </h:outputText>
+                                </p:column>
+                                <p:column id="SubColumn1e"  headerText="netto w wal.">  
+                                    <h:outputText value="#{subwpis.nettoWALWNT}" style="float: right;">
+                                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                                    </h:outputText>
+                                </p:column>
+                                <p:column id="SubColumn0" headerText="waluta" style="text-align: center;" width="40">  
+                                    <h:outputText value="#{subwpis.walutadokumentu.symbolwaluty}" />
+                                </p:column>
+                                <p:column id="SubColumn4" headerText="okresy vat">  
+                                    <h:outputText value="#{subwpis.vatM}/#{subwpis.vatR}" style="float: right;"/>
+                                </p:column>
+                            </p:dataTable>
+                            <p:dataTable var="subwpis1" value="#{wpis1.zawiera}" emptyMessage="brak dokumentów"  resizableColumns="true" rowIndexVar="index1"
+                                        rendered="#{wpis1.zawiera.size() gt 0}" style="width: 80%;">
+                            <p:column id="SubColumn0" headerText="#{mgs.numerkolejny}" style="text-align: center;" width="30">  
+                                <h:outputText value="#{index1+1}" />
+                            </p:column>
+                            <p:column id="SubColumn1" headerText="data wyst">  
+                                <h:outputText value="#{subwpis1.dataWyst}" />
+                            </p:column>
+                            <p:column id="SubColumn1b" headerText="nr własny">  
+                                <h:outputText value="#{subwpis1.nrWlDk}" />
+                            </p:column>
+                            <p:column id="SubColumn1c" headerText="#{mgs.opis}">  
+                                <h:outputText value="#{subwpis1.opis}" />
+                            </p:column>
+                            <p:column id="SubColumn1a"  headerText="#{mgs.netto}">  
+                                <h:outputText value="#{subwpis1.netto}" style="float: right;">
+                                    <f:convertNumber minFractionDigits="2" locale="PL"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column id="SubColumn4" headerText="okresy vat">  
+                                <h:outputText value="#{subwpis1.vatM}/#{subwpis1.vatR}" style="float: right;"/>
+                            </p:column>
+                        </p:dataTable>
+                        </p:column>
+                    </p:rowExpansion>
+                </p:dataTable>
+                <p:separator/>
+                <p:dataTable value="#{vatUeFKView.deklaracjeUE_biezace}" var="row" emptyMessage="brak błędnych lub niepotwierdzonych/niewysłanych deklaracji za okres" style="width: 1210px;" styleClass="upd3"
+                             selection="#{vatUeFKView.deklUEselected}" selectionMode="single" rowKey="#{row.hashCode()}">
+                    <p:column style="width: 3%;" >
+                        <p:rowToggler/>
+                    </p:column>
+                    <p:column headerText="data złożenia" style="text-align: center;" width="70">
+                        <h:outputText value="#{row.datazlozenia ne null ? row.datazlozenia : 'nie złożono'}">
+                            <f:convertDateTime type="date" locale="pl"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="korekta / testowa" style="text-align: center;" width="50">
+                        <h:outputText value="#{row.nrkolejny eq 0 ? '': 'korekta'}" />
+                        <h:outputText value=" testowa" rendered="#{row.testowa}"/>
+                    </p:column>
+                    <p:column headerText="nr" style="text-align: center;" width="30">
+                        <h:outputText value="#{row.nrkolejny}" />
+                    </p:column>
+                    <p:column headerText="mc" style="text-align: center;" width="30">
+                        <h:outputText value="#{row.miesiac}"/>
+                    </p:column>
+                    <p:column headerText="status" width="180">
+                        <h:outputText value="#{row.status}" />
+                    </p:column>
+                   
+                    <p:column style="text-align: center;" width="75">
+                        <p:commandButton value="wysyłka" actionListener="#{beanek.robUE(row, vatUeFKView.listaDok,  vatUeFKView.listaDokfk)}" update="@form" style="width: 80px;" rendered="#{row.status eq null}"/>
+                    </p:column>
+                    <p:column style="text-align: center;" width="75">
+                        <p:commandButton value="usuń" actionListener="#{vatUeFKView.usundekl(row)}" update="@form @(.upd)" style="width: 80px;" rendered="#{row.identyfikator eq null or row.status.startsWith('4') or facesContext.externalContext.remoteUser eq 'szef'}"/>
+                        <p:commandButton value="sprawdź" actionListener="#{beanek.pobierzwyslaneUE(row)}" update="@form" style="width: 80px;" rendered="#{row.identyfikator ne null and !row.status.startsWith('4')}"/>
+                    </p:column>
+                    <p:column style="text-align: center;" width="75">
+                        <p:commandButton value="drukuj szczeg." actionListener="#{vatUeFKView.drukuj(row)}" update="@form" style="width: 80px;"/>
+                    </p:column>
+                    <p:column style="text-align: center;" width="75">
+                        <p:commandButton value="drukuj uprosz." actionListener="#{vatUeFKView.drukujUPR(row)}" update="@form" style="width: 80px;"/>
+                    </p:column>
+                    <p:rowExpansion>
+                        <p:panelGrid columns="3">
+                            <h:outputText value="#{row.opis}" rendered="#{row.upo eq null}"/>
+                            <h:outputText value="#{row.identyfikator}" rendered="#{row.upo ne null}"/>
+                            <h:outputText value="#{row.deklaracja}"/>
+                        </p:panelGrid>
+                    </p:rowExpansion>
+                </p:dataTable>
+            </p:outputPanel>
+
+        <h:outputText value="Uwaga! Sumowane są zapisy księgowe w danym dokumencie, jeżeli oprócz kwot bezposrednio z dokumentu dokonano księgowań równoległych sumy w tabeli nie będa prawidłowe"
+                      style="color: red;"/>
+</ui:composition>

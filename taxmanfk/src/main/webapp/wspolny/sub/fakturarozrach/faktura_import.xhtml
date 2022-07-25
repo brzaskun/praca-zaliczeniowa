@@ -1,0 +1,175 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    
+    
+    xmlns:bcf="http://brzaskun.com/facelets">
+
+    <p:tab  title="Pobierz wyciągi" >
+        <style>
+        .waluta input {
+            width: 40px !important;
+        }
+        
+        .zaksiegowanewaski input {
+            width: 75px !important;
+        }
+        .ui-dialog .ui-dialog-content {
+            overflow-y: hidden;
+        }
+    </style>
+   
+        <h:form id="panelplikbankall">
+            <p:panelGrid  columns="2" columnClasses="sixty-percent forty-percent" >
+                <p:selectOneMenu  value="#{bankImportKsiazkaView.wybranyrodzajimportu}"  converter="#{importowanyPlikConv}"
+                                         style="width: 200px; margin-left: 20px;" >
+                            <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true"/>
+                            <f:selectItems value="#{bankImportKsiazkaView.rodzajeimportu}"  var="wploopa" itemLabel="#{wploopa.opis}" itemValue="#{wploopa}"/>
+                            <p:ajax global="false" event="blur"  partialSubmit="true"/>
+                            <p:ajax global="false" event="change"  partialSubmit="true" listener="#{bankImportKsiazkaView.grid0pokaz}" update="akordeon:panelplikbankall akordeon:form_importbankall"/>
+                    </p:selectOneMenu>
+            </p:panelGrid>
+            <p:panelGrid  columns="2" columnClasses="sixty-percent forty-percent" rendered="false" binding="#{bankImportKsiazkaView.grid0}">
+                    <p:panelGrid columns="1" style="margin-top: 20px;margin-bottom: 10px;">
+                        <h:outputText value="plik/pliki CSV/XML z dokumentami źródłowymi " style="font-weight: bold;"/>
+                        <p:fileUpload fileUploadListener="#{bankImportKsiazkaView.zachowajplik}" auto="true"
+                                      mode="advanced" dragDropSupport="true" multiple="true"
+                                      update="messages1" sizeLimit="10000000"   
+                                      fileLimitMessage="Można załadować tylko jeden plik na jedno ładowanie"
+                                      uploadLabel="Wczytaj" label="Wybierz" cancelLabel="Rezygnuj" 
+                                      style="height: 90px;" sequential="true">
+                        </p:fileUpload>
+                        <p:growl life="3600"  id="messages1" showDetail="false"/>
+                    </p:panelGrid>
+                <p:panelGrid columns="2" style="margin-top: 20px;margin-bottom: 10px; float: right;" rendered="false" binding="#{bankImportKsiazkaView.grid1}">
+                    <h:outputText value="rodzaj wyciągu" style="margin-left: 40px;"/>
+                        <p:selectOneMenu id="symbolall" value="#{bankImportKsiazkaView.rodzajdok}" 
+                                         style="width: 200px; margin-left: 20px;"  >
+                            <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true"/>
+                            <f:selectItems value="#{bankImportKsiazkaView.rodzajedokKlienta}" />
+                            <p:ajax global="false" event="blur"  partialSubmit="true"/>
+                            <p:ajax global="false" event="change"  partialSubmit="true" listener="#{bankImportKsiazkaView.grid2pokaz}" update="akordeon:panelprzyciskowbankall akordeon:form_importbankall"/>
+                        </p:selectOneMenu>
+                </p:panelGrid>
+            </p:panelGrid>
+        </h:form>
+        <h:form id="panelprzyciskowbankall">
+            <h:outputText value="Wyciąg nie jest z bieżącego miesiąca" style="color: red;" rendered="false" binding="#{bankImportKsiazkaView.alert1}"/>
+        <p:panelGrid columns="2" rendered="false" binding="#{bankImportKsiazkaView.grid2}">
+            <p:panelGrid columns="8" style="width: 1000px;">
+                <h:outputText value="nr wyciągu od"/><h:outputText value="#{bankImportKsiazkaView.naglowek.wyciagnrod}"/>
+                <h:outputText value="nr wyciągu do"/><h:outputText value="#{bankImportKsiazkaView.naglowek.wyciagnrdo}"/>
+                <h:outputText value="data od"/><h:outputText value="#{bankImportKsiazkaView.naglowek.wyciagdataod}"/>
+                <h:outputText value="data do"/><h:outputText value="#{bankImportKsiazkaView.naglowek.wyciagdatado}"/>
+                <h:outputText value="waluta"/><h:outputText value="#{bankImportKsiazkaView.naglowek.wyciagwaluta}"/>
+                <h:outputText value="konto"/><h:outputText value="#{bankImportKsiazkaView.naglowek.wyciagkonto}" rendered="#{bankImportKsiazkaView.naglowek.wyciagkonto ne '11111'}"/>
+                <h:outputText value="Pobrano historię zapisów a nie wyciąg. Informacja o saldach jest niedostępna" rendered="#{bankImportKsiazkaView.naglowek.wyciagkonto eq '11111'}" style="color:red;font-weight: bold;"/>
+                <h:outputText value="wprowadź saldo początkowe" rendered="#{bankImportKsiazkaView.naglowek.wyciagkonto eq '11111'}" style="font-weight: bold"/><p:inputNumber value="#{bankImportKsiazkaView.naglowek.wyciagbo}" rendered="#{bankImportKsiazkaView.naglowek.wyciagkonto eq '11111'}" decimalPlaces="2"
+                                                                                                                                                                        inputStyle="text-align: right;" symbolPosition="s" decimalSeparator="."  >
+                    <p:ajax event="blur" partialSubmit="true"/>
+                </p:inputNumber>
+                <h:outputText value="saldo początkowe" rendered="#{bankImportKsiazkaView.naglowek.wyciagkonto ne '11111'}"/><bcf:outputpl value="#{bankImportKsiazkaView.naglowek.wyciagbo}" rendered="#{bankImportKsiazkaView.naglowek.wyciagkonto ne '11111'}"/>
+                <h:outputText value="saldo końcowe" rendered="#{bankImportKsiazkaView.naglowek.wyciagkonto ne '11111'}"/><bcf:outputpl value="#{bankImportKsiazkaView.naglowek.wyciagbz}" rendered="#{bankImportKsiazkaView.naglowek.wyciagkonto ne '11111'}"/>
+            </p:panelGrid>
+        <h:outputText value="#{bankImportKsiazkaView.wiadomoscnieprzypkonta}" style="color: red; margin-bottom: 10px;"/>
+        <p:panelGrid columns="4" style="width: 500px;">
+            
+                <p:commandButton value="pobierz dane" actionListener="#{bankImportKsiazkaView.importujdok()}" update="akordeon:panelprzyciskowbankall akordeon:form_importbankall" style="width: 120px;" />
+                <p:commandButton value="resetuj" actionListener="#{bankImportKsiazkaView.resetuj()}" update="akordeon:panelplikbankall akordeon:panelprzyciskowbankall akordeon:form_importbankall" style="width: 120px; margin-left: 20px;" resetValues="true"/>
+                <p:commandButton value="usuń duplikaty" actionListener="#{bankImportKsiazkaView.usunduplikaty()}" update="akordeon:form_importbankall" style="width: 120px;margin-left: 20px;"/>
+                <p:commandButton value="generuj dok" actionListener="#{bankImportKsiazkaView.generuj()}" update="akordeon:form_importbankall" style="width: 120px;margin-left: 60px;" rendered="false" binding="#{bankImportKsiazkaView.generujbutton}"/>
+            </p:panelGrid>
+        </p:panelGrid>
+        </h:form>  
+ 
+            <h:form id="form_importbankall">
+                <p:panelGrid columns="1" rendered="false" binding="#{bankImportKsiazkaView.grid3}" style="height: 580px;">
+            <p:dataTable id="dataListImportall" value="#{bankImportKsiazkaView.pobranefaktury}" var="itemimp" rowIndexVar="row" widgetVar="tablicadokumentyimportall" 
+                         selection="#{bankImportKsiazkaView.selected}" rowKey="#{itemimp.nr}"  
+                         style="width: 1500px; height: 540px; overflow-y: scroll; margin-top: 15px;margin-bottom: 5px;" filteredValue="#{bankImportKsiazkaView.pobranefakturyfilter}"
+                         emptyMessage="Brak importowanych dokumentów" styleClass="gridZaksiegowane"
+                         sortBy="#{itemimp.nr}"  >
+                <!--                     <p:ajax event="rowSelect" oncomplete="pokazwierszedok();" update=":formwpisdokument, :dialogwiersze" />-->
+                <p:ajax event="filter" global="false"/>
+                <p:ajax event="rowSelectCheckbox" global="false"/>
+                <p:ajax event="rowUnselectCheckbox" global="false"/>
+                <p:column selectionMode="multiple" styleClass="checkwiersza" width="30" style="text-align: center;"></p:column>
+                <p:column headerText="#{mgs.numerkolejny}" width="15" style="text-align: center; height: 35px;">
+                    <h:outputText styleClass="lpwierszaZaksiegowane" value="#{itemimp.nr}"/>
+                </p:column>
+                <p:column headerText="data trans." styleClass="zaksiegowanewaski" width="65" style="text-align: center;"  sortBy="#{itemimp.datatransakcji}"  filterBy="#{itemimp.datatransakcji}" filterMatchMode="contains" >
+                    <h:outputText value="#{itemimp.datatransakcji}"/>
+                </p:column>
+                <p:column headerText="data wal." styleClass="zaksiegowanewaski" width="56" style="text-align: center;"  sortBy="#{itemimp.datawaluty}" filterBy="#{itemimp.datawaluty}" filterMatchMode="contains" >
+                    <h:outputText value="#{itemimp.datawaluty}"/>
+                </p:column>
+                <p:column headerText="Wn" styleClass="zaksiegowanewaski" width="70" style="text-align: center;"  sortBy="#{itemimp.kwota}" filterBy="#{itemimp.kwota}" filterMatchMode="contains" >
+                    <bcf:outputpl value="#{itemimp.kwota}" rendered="#{itemimp.wnma eq 'Wn'}"/>
+                </p:column>
+                <p:column headerText="Ma" styleClass="zaksiegowanewaski" width="70" style="text-align: center;"  sortBy="#{itemimp.kwota}" filterBy="#{itemimp.kwota}" filterMatchMode="contains" >
+                    <bcf:outputpl value="#{itemimp.kwota}" rendered="#{itemimp.wnma eq 'Ma'}"/>
+                </p:column>
+                <p:column headerText="waluta" styleClass="zaksiegowanewaski" width="40" style="text-align: center;"  sortBy="#{itemimp.waluta}" filterBy="#{itemimp.waluta}" filterMatchMode="contains" >
+                    <h:outputText value="#{itemimp.waluta}"/>
+                </p:column>
+                <p:column headerText="kurs" styleClass="zaksiegowanewaski" width="80" style="text-align: center;"  sortBy="#{itemimp.kurs}" filterBy="#{itemimp.kurs}" filterMatchMode="contains" >
+                    <p:inputNumber value="#{itemimp.kurs}" symbol=" zł" style="text-align: right;" symbolPosition="s" decimalSeparator="."   inputStyle="text-align: right;" decimalPlaces="4" minValue="-10000000" size="9">
+                        <p:ajax event="blur" partialSubmit="true" global="false"/>
+                    </p:inputNumber>
+                </p:column>
+                <p:column headerText="typ" width="30" sortBy="#{itemimp.kontrahentakraj}" filterBy="#{itemimp.typtransakcji}" >
+                    <h:outputText value="#{itemimp.typtransakcji}"/>
+                </p:column>
+                <p:column headerText="opis" styleClass="zaksiegowanewaski" width="150" sortBy="#{itemimp.opistransakcji}" filterBy="#{itemimp.opistransakcji}" filterMatchMode="contains" >
+                    <h:outputText value="#{itemimp.opistransakcji}" rendered="#{itemimp.juzzaksiegowany eq false}"/>
+                    <h:outputText value="duplikat" rendered="#{itemimp.juzzaksiegowany eq true}" style="color: red;"/>
+                </p:column>
+                <p:column headerText="#{mgs.kontrahent}" width="140" sortBy="#{itemimp.kontrahent}" filterBy="#{itemimp.kontrahent}" >
+                    <h:outputText value="#{itemimp.kontrahent}" rendered="#{itemimp.kontrahent ne 'NOTPROVIDED'}"/>
+                    <h:outputText value="prowizja" rendered="#{itemimp.kontrahent eq 'NOTPROVIDED'}"/>
+                </p:column>
+                <p:column headerText="klient" width="140" >
+                    <p:autoComplete value="#{itemimp.klient}" completeMethod="#{fakturaRozrachunkiView.completeKL}"
+                                        var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="#{klientConv}" title="wpisz nazwę lub nip kontrahenta"
+                                        maxResults="20" maxlength="20" converterMessage="Nieudana konwersja Klient" 
+                                        cache="true"  queryDelay="10" 
+                                        styleClass="wpisywaniekontrfk" style="width: 185px;" inputStyle="width: 170px;"
+                                        >
+                            <p:ajax event="query" global="false"/>
+                            <p:ajax event="itemSelect" partialSubmit="true" global="false"/>
+                            <f:facet name="itemtip">  
+                                <h:panelGrid  columns="2" cellpadding="5" width="400">  
+                                    <f:facet name="header">  
+                                        <h:outputText value="Dane kontrahenta"/>
+                                    </f:facet>  
+                                    <h:outputText value="Nazwa: " />  
+                                    <h:outputText id="npelna" value="#{p.npelna}" />  
+                                    <h:outputText value="NIP: " />  
+                                    <h:outputText id="nip" value="#{p.nip}" />  
+                                    <h:outputText value="Adres " />  
+                                    <h:outputText id="klumna" value="#{p.miejscowosc} #{p.ulica} #{p.dom} #{p.lokal}" /> 
+                                </h:panelGrid>
+                            </f:facet>
+                        </p:autoComplete>
+                </p:column>
+                <p:column headerText="kraj" width="30" sortBy="#{itemimp.kontrahentakraj}" filterBy="#{itemimp.kontrahentakraj}" >
+                    <h:outputText value="#{itemimp.kontrahentakraj}" rendered="#{itemimp.kontrahent ne 'NOTPROVIDED'}"/>
+                </p:column>
+                <p:column headerText="nr trans" width="90" sortBy="#{itemimp.nrtransakji}" filterBy="#{itemimp.nrtransakji}" >
+                    <h:outputText value="#{itemimp.nrtransakji}"/>
+                </p:column>
+                <p:column width="40" >
+                    <p:commandButton icon="fa fa-trash" actionListener="#{bankImportKsiazkaView.usun(itemimp)}" update="@form"/>
+                </p:column>
+            </p:dataTable>
+                    </p:panelGrid>
+        </h:form>
+    </p:tab>
+
+</ui:composition>   
+
+

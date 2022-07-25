@@ -1,0 +1,225 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:bcf="http://brzaskun.com/facelets">
+    <h:form>
+        <p:growl life="3600"  id="messages" ><p:autoUpdate/></p:growl>
+    </h:form>
+    <p:tabView id="akordeon">
+        <p:tab title="wprowadź treść">
+            <h:form id="formmail">
+                <p:panelGrid columns="2">
+                    <p:column>
+                        
+                       <p:editor id="editor"  widgetVar="editorWidget" value="#{adminMailView.zawartoscmaila}" width="1200" height="600">
+                       </p:editor>
+                       <p:commandButton value="Save" actionListener="#{adminMailView.zachowajMaila}" style="margin-left: 10px; width: 120px; margin-top: 10px;" icon="ui-icon-disk"  update=":akordeon:wysylanie"/>
+                       <p:commandButton value="Reset" type="button" onclick="PF('editorWidget').clear();" style="margin-left: 10px; width: 120px; margin-top: 10px;" icon="ui-icon-close"  update=":akordeon:wysylanie"/>
+                    </p:column>
+                </p:panelGrid>
+            </h:form>
+        </p:tab>
+        <p:tab title="adresaci">
+            <h:form>
+                <p:panelGrid columns="17">
+                    <h:outputText value="tylko dodatkowe"/>
+                    <p:selectBooleanCheckbox value="#{adminMailView.tylkododatkowe}">
+                        <p:ajax event="change" partialSubmit="true" update="@form" listener="#{adminMailView.init}"/>
+                    </p:selectBooleanCheckbox>
+                    <h:outputText value="tylko pracodawcy"/>
+                    <p:selectBooleanCheckbox value="#{adminMailView.tylkozus}">
+                        <p:ajax event="change" partialSubmit="true" update="@form" listener="#{adminMailView.init}"/>
+                    </p:selectBooleanCheckbox>
+                    <h:outputText value="osoby prawne"/>
+                    <p:selectBooleanCheckbox value="#{adminMailView.tylkospolki}">
+                        <p:ajax event="change" partialSubmit="true" update="@form" listener="#{adminMailView.init}"/>
+                    </p:selectBooleanCheckbox>
+                    <h:outputText value="osoby fizyczne"/>
+                    <p:selectBooleanCheckbox value="#{adminMailView.tylkofizyczne}">
+                        <p:ajax event="change" partialSubmit="true" update="@form" listener="#{adminMailView.init}"/>
+                    </p:selectBooleanCheckbox>
+                    <h:outputText value="vat-owcy"/>
+                    <p:selectBooleanCheckbox value="#{adminMailView.tylkovat}">
+                        <p:ajax event="change" partialSubmit="true" update="@form" listener="#{adminMailView.init}"/>
+                    </p:selectBooleanCheckbox>
+                    <h:outputText value="nievat-owcy"/>
+                    <p:selectBooleanCheckbox value="#{adminMailView.tylkonievat}">
+                        <p:ajax event="change" partialSubmit="true" update="@form" listener="#{adminMailView.init}"/>
+                    </p:selectBooleanCheckbox>
+                    <h:outputText value="tylko aktywni"/>
+                    <p:selectBooleanCheckbox value="#{adminMailView.tylkoaktywni}">
+                        <p:ajax event="change" partialSubmit="true" update="@form" listener="#{adminMailView.init}"/>
+                    </p:selectBooleanCheckbox>
+                    <h:outputText value="stare kadry"/>
+                    <p:selectBooleanCheckbox value="#{adminMailView.starekadry}">
+                        <p:ajax event="change" partialSubmit="true" update="@form" listener="#{adminMailView.init}"/>
+                    </p:selectBooleanCheckbox>
+                    <p:selectOneMenu value="#{adminMailView.jezykmaila}">
+                        <p:ajax event="change" partialSubmit="true" update="@form" listener="#{adminMailView.init}"/>
+                        <f:selectItem itemLabel="wszystkie"/>
+                        <f:selectItem itemLabel="polski" itemValue="pl"/>
+                        <f:selectItem itemLabel="niemiecki" itemValue="de"/>
+                        <f:selectItem itemLabel="angielski" itemValue="en"/>
+                        <f:selectItem itemLabel="czeski" itemValue="cze"/>
+                    </p:selectOneMenu>
+                    <h:outputText value="bez sms"/>
+                    <p:selectBooleanCheckbox value="#{adminMailView.wyslijsms}">
+                        <p:ajax event="change" partialSubmit="true" update="@form" listener="#{adminMailView.init}"/>
+                    </p:selectBooleanCheckbox>
+                </p:panelGrid>
+                <p:dataTable value="#{adminMailView.klientList}" var="loop" rowIndexVar="index" style="width: 800px;" id="adresy"  sortBy="#{loop.npelna}" rowKey="#{loop.id}" rendered="#{!adminMailView.tylkododatkowe}">
+                    <f:facet name="header">
+                        <h:outputText value="Wykaz adresatów"/>
+                    </f:facet>
+                    <p:column headerText="#{mgs.numerkolejny}" width="30">
+                        <h:outputText value="#{index+1}"/>
+                    </p:column>
+                    <p:column headerText="nazwa" width="400">
+                        <h:outputText value="#{loop.npelna}"/>
+                    </p:column>
+                    <p:column headerText="adres">
+                        <h:outputText value="#{loop.email}"/>
+                    </p:column>
+                    <p:column headerText="wysyłka">
+                        <p:selectOneMenu value="#{loop.jezykwysylki}" label="język maila" >
+                        <p:ajax event="change" partialSubmit="true" listener="#{adminMailView.naniesjezykmaila(loop)}" global="false"/>
+                        <f:selectItem itemLabel="nie wysyłać"/>
+                        <f:selectItem itemLabel="polski" itemValue="pl"/>
+                        <f:selectItem itemLabel="niemiecki" itemValue="de"/>
+                        <f:selectItem itemLabel="angielski" itemValue="en"/>
+                        <f:selectItem itemLabel="czeski" itemValue="cze"/>
+                    </p:selectOneMenu>
+                    </p:column>
+                </p:dataTable>
+                <p:dataTable value="#{adminMailView.lista}" var="loop1" rowIndexVar="index1" style="width: 800px;" id="adresy2"  sortBy="#{loop1.mail}" rowKey="#{loop1.id}" rendered="#{adminMailView.tylkododatkowe}">
+                    <f:facet name="header">
+                        <h:outputText value="Wykaz adresatów"/>
+                    </f:facet>
+                    <p:column headerText="#{mgs.numerkolejny}" width="30">
+                        <h:outputText value="#{index1+1}"/>
+                    </p:column>
+                    <p:column headerText="nazwa" width="400">
+                        <h:outputText value="#{loop1.nazwa}"/>
+                    </p:column>
+                    <p:column headerText="adres">
+                        <h:outputText value="#{loop1.mail}"/>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+        </p:tab>
+        <p:tab title="załącznik">
+            <h:form>
+                <p:panel header="Wczytaj plik, który będzie umieszczony jako załącznik do maila"/>
+                <p:fileUpload fileUploadListener="#{adminMailView.zachowajZalacznik}" 
+                              update="@form" mode="advanced" dragDropSupport="true" fileLimit="3"
+                                sizeLimit="2000000"  
+                                validatorMessage="Nieprawidłowy typ pliku" invalidFileMessage="Nieprawidłowy typ pliku" invalidSizeMessage="Plik za duży"
+                                fileLimitMessage="Można załadować tylko jeden plik na jedno ładowanie"
+                                uploadLabel="Wczytaj" label="Wybierz" cancelLabel="Rezygnuj" 
+                                style="height: 200px;">
+                </p:fileUpload>
+                <p:outputPanel>
+                    <h:outputText value="Wczytano plik #{adminMailView.nazwazalacznik}"/>
+                </p:outputPanel>
+            </h:form>
+        </p:tab>
+        <p:tab title="wyslij maila">
+            <bcf:ajaxs/>
+            <h:form id="wysylanie">
+                <p:panelGrid columns="1">
+                     <p:column>
+                        <h:outputLabel value="wprowadz temat wiadomości: " for="akordeon:wysylanie:tytul"/>
+                        <h:inputText value="#{adminMailView.tematwiadomosci}" label="temat wiadomości" style="width: 500px;" id="tytul"/>
+                    </p:column>
+                    <p:column>
+                        <p:commandButton value="wyslij" actionListener="#{adminMailView.wyslijAdminMail()}" label="temat wiadomości" style="width: 300px;" update=":akordeon:formmaile:wyslenemaile"/>
+                        <p:spacer width="10"/>
+                        <p:commandButton value="test" actionListener="#{adminMailView.wyslijAdminMailTest()}" label="temat wiadomości" style="width: 300px;" update=":akordeon:formmaile:wyslenemaile"/>
+                    </p:column>
+                    <p:column>
+                        <p:panel header="wprowadzona wiadomość" style="width: 800px; height: 250px;">
+                            <h:outputText id="wprowadzonymail" value="#{adminMailView.zawartoscmaila}"/>
+                        </p:panel>
+                    </p:column>
+                </p:panelGrid>
+            </h:form>
+        </p:tab>
+        <p:tab title="wysłane maile">
+            <h:form id="formmaile">
+                <p:dataTable id="wyslenemaile" value="#{adminMailView.wyslanemaile}" var="loop" rowIndexVar="index" style="width: 1400px;" sortBy="#{loop.id}" sortOrder="descending">
+                <p:ajax event="rowToggle" global="false" />
+                <p:column style="height: 19px; text-align: center;" width="20">
+                    <p:rowToggler />
+                </p:column>
+                <f:facet name="header">
+                    <h:outputText value="Wykaz wysłanych maili"/>
+                </f:facet>
+                    <p:column headerText="#{mgs.numerkolejny}" width="30">
+                    <h:outputText value="#{loop.id}"/>
+                </p:column>
+                    <p:column headerText="data wysyłki" width="150">
+                        <h:outputText value="#{loop.datawysylki}">
+                            <f:convertDateTime dateStyle="full" locale="pl"/>
+                        </h:outputText>
+                </p:column>
+                    <p:column headerText="tytuł" width="250">
+                    <h:outputText value="#{loop.tytul}"/>
+                    <h:outputText value=" załącznik #{loop.nazwazalacznika}" rendered="#{loop.nazwazalacznika ne null}"/>
+                </p:column>
+                <p:column headerText="treść">
+                    <h:outputText value="#{loop.tresc}" escape="false"/>
+                </p:column>
+                <p:column headerText="liczba maili" width="30">
+                    <h:outputText value="#{loop.maile.size()}"/>
+                </p:column>
+                    <p:rowExpansion>
+                        <p:dataTable value="#{loop.podatnicy}" var="loopik" rowIndexVar="index" style="width: 500px;">
+                            <p:column width="40">
+                                <h:outputText value="#{index+1}"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{loopik}"/>
+                            </p:column>
+                        </p:dataTable>
+                    </p:rowExpansion>
+            </p:dataTable>
+                </h:form>
+        </p:tab>
+        <p:tab title="dodatkowe maile">
+            <h:form>
+                <p:panelGrid columns="5">
+                    <h:outputText value="adres"/>
+                    <p:inputText value="#{dodatkoweMaileView.selected.mail}" required="true" requiredMessage="brakuje maila" />
+                    <h:outputText value="nazwa"/>
+                    <p:inputText value="#{dodatkoweMaileView.selected.nazwa}" required="true" requiredMessage="brakuje nazwy"/>
+                    <p:commandButton value="dodaj" actionListener="#{dodatkoweMaileView.dodaj()}" update="akordeon:formmailedodatkowe"/>
+                </p:panelGrid>
+            </h:form>
+            <h:form id="formmailedodatkowe">
+                <p:dataTable  value="#{dodatkoweMaileView.lista}" var="loop" rowIndexVar="index" style="width: 800px;" sortBy="#{loop.id}" sortOrder="descending">
+                <f:facet name="header">
+                    <h:outputText value="dodatkowe adresy mailowe"/>
+                </f:facet>
+                <p:column headerText="lp" width="30">
+                    <h:outputText value="#{index}"/>
+                </p:column>
+                <p:column headerText="mail" width="150">
+                    <h:outputText value="#{loop.mail}"/>
+                </p:column>
+                <p:column headerText="nazwa" width="150">
+                    <h:outputText value="#{loop.nazwa}"/>
+                </p:column>
+                <p:column headerText="nazwa" width="40">
+                    <p:commandButton icon="fa fa-trash" actionListener="#{dodatkoweMaileView.usun(loop)}" update="akordeon:formmailedodatkowe"/>
+                </p:column>
+            </p:dataTable>
+                </h:form>
+        </p:tab>
+    </p:tabView>
+
+</ui:composition>   
+

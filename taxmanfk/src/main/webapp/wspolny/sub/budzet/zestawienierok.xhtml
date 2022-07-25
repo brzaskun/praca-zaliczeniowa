@@ -1,0 +1,147 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    
+    
+    xmlns:bcf="http://brzaskun.com/facelets">
+    <p:tab  title="Zestawienie wynikowe za rok" >
+        <style>
+            .gridtablicasyntetyczne .ui-datatable-odd td{
+                height : 25px !important;
+                
+            }
+            .gridtablicasyntetyczne .ui-datatable-even td{
+                height : 25px !important;
+                
+            }
+
+        </style>
+        <h:form id="formzestkontarok">
+            <p:panelGrid columns="7" style="margin-left: 2%;" >
+                <h:outputText value="rok" style="margin-right: 10px;"/>
+                <p:column>
+                    <p:selectOneMenu id="rokwpisu" value="#{WpisView.rokWpisu}">
+                        <p:ajax event="change" listener="#{zestawienieWynikoweRokView.odswiezsymulacjewynikuanalityczne}" update=":akordeon:formzestkontarok :akordeon:formzestkontarokprocent"/>
+                        <f:selectItems value="#{roki.rokiList}"/>
+                    </p:selectOneMenu>
+                </p:column>
+                <p:column>
+                    <p:commandButton value="#{mgs.pobierz}" actionListener="#{zestawienieWynikoweRokView.odswiezsymulacjewynikuanalityczne}" 
+                                     style="width: 120px; margin-left: 20px;" update=":akordeon:formzestkontarok :akordeon:formzestkontarokprocent"/>
+                </p:column>
+                <h:outputText value="#{mgs.przetwarzanie}"/>
+            </p:panelGrid>
+
+            <p:dataTable id="tablicazestrokP" value="#{zestawienieWynikoweRokView.kontosumyrokPrzychody}" var="loop" rowKey="#{loop.konto.pelnynumer}"
+                         sortBy="#{loop.konto.pelnynumer}" emptyMessage="#{mgs.niemazapisownakontach}" 
+                         styleClass="gridtablicasyntetyczne" widgetVar="tablicazestrokP" style="width: 1300px" 
+                         >
+                <f:facet name="header">
+                    <h:outputText value="zapisy na kontach przychodowych"/>
+                </f:facet>
+                <p:column headerText="#{mgs.konto}" width="40" >
+                    <h:outputText value="#{loop.konto.pelnynumer}"/>
+                </p:column>
+                <p:column headerText="#{mgs.opis}" width="140" >
+                    <h:outputText value="#{loop.konto.nazwapelna}"/>
+                </p:column>
+                <p:column headerText="01" width="50" >
+                    <bcf:outputpl value="#{loop.styczen}" />
+                </p:column>
+                <p:column headerText="02" width="50" >
+                    <bcf:outputpl value="#{loop.luty}" />
+                </p:column>
+                <p:column headerText="03" width="50" >
+                    <bcf:outputpl value="#{loop.marzec}" />
+                </p:column>
+                <p:column headerText="04" width="50" >
+                    <bcf:outputpl value="#{loop.kwiecien}" />
+                </p:column>
+                <p:column headerText="05" width="50" >
+                    <bcf:outputpl value="#{loop.maj}" />
+                </p:column>
+                <p:column headerText="06" width="50" >
+                    <bcf:outputpl value="#{loop.czerwiec}" />
+                </p:column>
+                <p:column headerText="07" width="50" >
+                    <bcf:outputpl value="#{loop.lipiec}" />
+                </p:column>
+                <p:column headerText="08" width="50" >
+                    <bcf:outputpl value="#{loop.sierpien}" />
+                </p:column>
+                <p:column headerText="09" width="50" >
+                    <bcf:outputpl value="#{loop.wrzesien}" />
+                </p:column>
+                <p:column headerText="10" width="50" >
+                    <bcf:outputpl value="#{loop.pazdziernik}" />
+                </p:column>
+                <p:column headerText="11" width="50" >
+                    <bcf:outputpl value="#{loop.listopad}" />
+                </p:column>
+                <p:column headerText="12" width="50" >
+                    <bcf:outputpl value="#{loop.grudzien}" />
+                </p:column>
+            </p:dataTable>
+            <p:dataTable id="tablicazestrokK" value="#{zestawienieWynikoweRokView.kontosumyrokKoszty}" var="loop" rowKey="#{loop.konto.pelnynumer}"
+                         sortBy="#{loop.konto.pelnynumer}" emptyMessage="#{mgs.niemazapisownakontach}" 
+                         styleClass="gridtablicasyntetyczne"  style="margin-top: 10px; width: 1300px" widgetVar="tablicazestrokK"
+                         >
+                <f:facet name="header">
+                    <h:outputText value="zapisy na kontach kosztowych"/>
+                </f:facet>
+                <!--                <p:ajax event="rowSelectCheckbox" update="@form" global="false"/>
+                                <p:ajax event="rowUnselectCheckbox" update="@form"  global="false"/>
+                                <p:column selectionMode="multiple" width="20" style="text-align: center;"></p:column>-->
+
+                <p:column headerText="#{mgs.konto}" width="40" >
+                    <h:outputText value="#{loop.konto.pelnynumer}"/>
+                </p:column>
+                <p:column headerText="#{mgs.opis}" width="140" >
+                    <h:outputText value="#{loop.konto.nazwapelna}"/>
+                </p:column>
+                <p:column headerText="01" width="50" >
+                    <bcf:outputpl value="#{loop.styczen}" />
+                </p:column>
+                <p:column headerText="02" width="50" >
+                    <bcf:outputpl value="#{loop.luty}" />
+                </p:column>
+                <p:column headerText="03" width="50" >
+                    <bcf:outputpl value="#{loop.marzec}" />
+                </p:column>
+                <p:column headerText="04" width="50" >
+                    <bcf:outputpl value="#{loop.kwiecien}" />
+                </p:column>
+                <p:column headerText="05" width="50" >
+                    <bcf:outputpl value="#{loop.maj}" />
+                </p:column>
+                <p:column headerText="06" width="50" >
+                    <bcf:outputpl value="#{loop.czerwiec}" />
+                </p:column>
+                <p:column headerText="07" width="50" >
+                    <bcf:outputpl value="#{loop.lipiec}" />
+                </p:column>
+                <p:column headerText="08" width="50" >
+                    <bcf:outputpl value="#{loop.sierpien}" />
+                </p:column>
+                <p:column headerText="09" width="50" >
+                    <bcf:outputpl value="#{loop.wrzesien}" />
+                </p:column>
+                <p:column headerText="10" width="50" >
+                    <bcf:outputpl value="#{loop.pazdziernik}" />
+                </p:column>
+                <p:column headerText="11" width="50" >
+                    <bcf:outputpl value="#{loop.listopad}" />
+                </p:column>
+                <p:column headerText="12" width="50" >
+                    <bcf:outputpl value="#{loop.grudzien}" />
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </p:tab>  
+</ui:composition>   
+
+

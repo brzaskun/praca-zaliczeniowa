@@ -1,0 +1,54 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <ui:composition template="/template.xhtml">
+
+        <ui:define name="title">
+            <h:outputText value="Podatkowa księga przychodów i rozchodów"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+
+             
+                <h:form>
+                    <p:growl life="3600"  id="fifi"/>
+                    <p:confirmDialog id="confirmDialog" message="Usunąć wybrany dokument?"  
+                                     header="" severity="alert" widgetVar="confirmation">  
+
+                        <p:commandButton id="confirm" value="Tak, usunąć" update="fifi :form:dokumentyLista" oncomplete="PF('confirmation').hide()"  
+                                         actionListener="#{DokTabView.destroy2()}" />  
+                        <p:commandButton id="decline" value="Nie usuwać" onclick="PF('confirmation').hide()" type="button" />   
+
+                    </p:confirmDialog>  
+                </h:form>
+                <f:view>
+                    <p:layout fullPage="true" expandTitle="Wysuń" closeTitle="Zamknij" collapseTitle="Schowaj">
+                        <ui:include src="sub/layoutNiezaplacone/north.xhtml"/>  <!-- panel polnocny-->
+                        <ui:include src="sub/layoutNiezaplacone/south.xhtml"/>   <!-- panel poludniowy-->
+                        <ui:include src="sub/layoutNiezaplacone/west.xhtml"/>   <!-- panel zachodni-->
+                        <p:layoutUnit position="center">
+
+                            <p:panel toggleable="true" closable="true" style="width: 1000px;">
+                                <f:facet name="header">
+                                    <h:outputText value="Strona służy do wyświetlania niezapłaconych faktur"/><br/>
+                                    <h:outputText value="Zmiana miesiąca możliwa jest w panelu po lewej."/><br/>
+                                    <h:outputText value="Po kliknięciu myszą na dany dokument pojawi się okienko do wprowadzenia płatności."/><br/>
+                                    <h:outputText value="W ostatniej kolumnie jest informacja o zaksięgowaniu dokumentu storno"/><br/>
+                                    <h:outputText value="Jeżeli taki dokument istnieje za dany miesiąc nie moża doksięgowywać płatności z tą datą"/>
+                                </f:facet>
+                            </p:panel> 
+                            <h:form id="form">
+                                <ui:include src="sub/menu_wiad.xhtml"/>   <!-- menu contextowe i pole wiadomosci growl-->
+                                <ui:include src="sub/niezaplacone.xhtml"/>   <!-- właściwa tablica z danymi z księgi-->
+                            </h:form>
+                        </p:layoutUnit>
+                    </p:layout>
+                </f:view>
+            
+        </ui:define>
+    </ui:composition>
+</html>
+
+
+

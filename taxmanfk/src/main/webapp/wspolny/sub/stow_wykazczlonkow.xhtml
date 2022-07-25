@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:bcf="http://brzaskun.com/facelets">
+    <h:form id="form_dialog_stowarzyszenie_wykaz_czlonkow">
+            <p:outputPanel style="margin: 10px;">
+                <p:commandButton value="drukuj" actionListener="#{miejscePrzychodowView.drukujczlonkowie}" style="width: 120px;"/>
+            </p:outputPanel>
+        </h:form>
+        <h:form id="form_dialog_stowarzyszenie_wykaz_czlonkow_lista">
+            <p:dataTable value="#{miejscePrzychodowView.czlonkowiestowarzyszenia}" var="item" style="width: 1130px;" rowIndexVar="index"
+                         scrollable="true" scrollHeight="450"  emptyMessage="brak zdefiniowanych członków stowarzyszenia"
+                         sortBy="#{item.opismiejsca}">
+                <p:ajax event="filter" global="false"/>
+                <p:column style="width: 30px;">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{mgs.nr}" style="width: 40px;" sortBy="#{item.nrkonta}" sortFunction="#{miejscePrzychodowView.compare}">
+                    <h:outputText value="#{item.nrkonta}"/>
+                </p:column>
+                <p:column headerText="nazwisko i imię" style="width: 250px;" sortBy="#{item.opismiejsca}" filterBy="#{item.opismiejsca}"
+                          filterMatchMode="contains"  styleClass="filter200">
+                    <h:outputText value="#{item.opismiejsca}" />
+                </p:column>
+                <p:column headerText="data przystąpienia" style="text-align: center;" sortBy="#{item.poczatek}">
+                    <p:inputMask value="#{item.poczatek}" mask="9999-99-99" maxlength="10" size="10" slotChar="____-__-__">
+                        <p:ajax event="blur" partialSubmit="true" global="false" listener="#{miejscePrzychodowView.edytujpozycje(item, item.poczatek, 0)}"/>
+                    </p:inputMask>
+                </p:column>
+                <p:column headerText="data wystąpienia" style="text-align: center;" sortBy="#{item.koniec}">
+                    <p:inputMask value="#{item.koniec}" mask="9999-99-99" maxlength="10" size="10" slotChar="____-__-__">
+                        <p:ajax event="blur" partialSubmit="true" global="false" listener="#{miejscePrzychodowView.edytujpozycje(item, item.koniec, 0)}"/>
+                    </p:inputMask>
+                </p:column>
+                <p:column headerText="adres email" style="text-align: center;width: 200px;" styleClass="filter180" sortBy="#{item.email}" filterBy="#{item.email}"
+                          filterMatchMode="contains" >
+                    <p:inputText value="#{item.email}" >
+                        <p:ajax event="blur" partialSubmit="true" global="false" listener="#{miejscePrzychodowView.edytujpozycje(item, item.email, 1)}"/>
+                    </p:inputText>
+                </p:column>
+                <p:column headerText="telefon" style="text-align: center;width: 200px;" styleClass="filter180" sortBy="#{item.email}" filterBy="#{item.email}"
+                          filterMatchMode="contains" >
+                    <p:inputText value="#{item.telefon}" >
+                        <p:ajax event="blur" partialSubmit="true" global="false" listener="#{miejscePrzychodowView.edytujpozycje(item, item.telefon, -1)}"/>
+                    </p:inputText>
+                </p:column>
+                <p:column headerText="nr legit." style="text-align: center;" sortBy="#{item.nrlegitymacji}" filterBy="#{item.nrlegitymacji}"  sortFunction="#{miejscePrzychodowView.compare}"
+                          filterMatchMode="contains"  styleClass="filter80">
+                    <p:inputText value="#{item.nrlegitymacji}" size="4">
+                        <p:ajax event="blur" partialSubmit="true" global="false" listener="#{miejscePrzychodowView.edytujpozycje(item, item.nrlegitymacji, 2)}"/>
+                    </p:inputText>
+                </p:column>
+               
+            </p:dataTable>
+        </h:form>
+</html>

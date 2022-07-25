@@ -1,0 +1,99 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//PL" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:bcf="http://brzaskun.com/facelets">
+
+    <p:dataTable value="#{statystykaFakturyView.lista}" var="item" id="datatable" style="width: 1200px; padding: 10px;"
+                 sortBy="#{item.podatnik.nazwapelna}" sortOrder="ascending" rowIndexVar="index" selectionMode="single"
+                 rowKey="#{item.id}">
+        <p:column style="width: 20px;" sortBy="#{item.id}">
+            <f:facet name="header">
+                <h:outputText value=""/>
+            </f:facet>
+            <h:outputText value="#{item.id}"/>
+        </p:column>
+        <p:column style="width: 300px;" sortBy="#{item.podatnik.nazwapelna}">
+            <f:facet name="header">
+                <h:outputText value="podatnik"/>
+            </f:facet>
+            <h:outputText value="#{item.podatnik.nazwapelna}"/>
+        </p:column>
+        <p:column sortBy="#{item.statFaktRok.get('2013').iloscfaktur}" style="width: 50px;">
+            <f:facet name="header">
+                <h:outputText value="ilosc faktur 2013"/>
+            </f:facet>
+            <h:outputText value="#{item.statFaktRok.get('2013').iloscfaktur}"/>
+        </p:column>
+        <p:column sortBy="#{item.statFaktRok.get('2013').kwotafaktur}">
+            <f:facet name="header">
+                <h:outputText value="kwota faktur 2013"/>
+            </f:facet>
+            <bcf:outputpl value="#{item.statFaktRok.get('2013').kwotafaktur}"/>
+        </p:column>
+         <p:column sortBy="#{item.kwotafaktur}">
+            <f:facet name="header">
+                <h:outputText value="srednia 2013"/>
+            </f:facet>
+            <bcf:outputpl value="#{item.statFaktRok.get('2013').srednia}"/>
+        </p:column>
+        <p:column sortBy="#{item.statFaktRok.get('2014').iloscfaktur}" style="width: 50px;">
+            <f:facet name="header">
+                <h:outputText value="ilosc faktur 2014"/>
+            </f:facet>
+            <h:outputText value="#{item.statFaktRok.get('2014').iloscfaktur}"/>
+        </p:column>
+        <p:column sortBy="#{item.statFaktRok.get('2014').kwotafaktur}">
+            <f:facet name="header">
+                <h:outputText value="kwota faktur 2014"/>
+            </f:facet>
+            <bcf:outputpl value="#{item.statFaktRok.get('2014').kwotafaktur}"/>
+        </p:column>
+         <p:column sortBy="#{item.kwotafaktur}">
+            <f:facet name="header">
+                <h:outputText value="srednia 2014"/>
+            </f:facet>
+            <bcf:outputpl value="#{item.statFaktRok.get('2014').srednia}"/>
+        </p:column>
+        <p:column sortBy="#{item.statFaktRok.get('2015').iloscfaktur}" style="width: 50px;">
+            <f:facet name="header">
+                <h:outputText value="ilosc faktur 2015"/>
+            </f:facet>
+            <h:outputText value="#{item.statFaktRok.get('2015').iloscfaktur}"/>
+        </p:column>
+        <p:column sortBy="#{item.statFaktRok.get('2015').kwotafaktur}">
+            <f:facet name="header">
+                <h:outputText value="kwota faktur 2015"/>
+            </f:facet>
+            <bcf:outputpl value="#{item.statFaktRok.get('2015').kwotafaktur}"/>
+        </p:column>
+        <p:column sortBy="#{item.kwotafaktur}">
+            <f:facet name="header">
+                <h:outputText value="srednia 2015"/>
+            </f:facet>
+            <bcf:outputpl value="#{item.statFaktRok.get('2015').srednia}"/>
+        </p:column>
+        <p:column sortBy="#{item.statFaktRok.get('2016').iloscfaktur}" style="width: 50px;">
+            <f:facet name="header">
+                <h:outputText value="ilosc faktur 2016"/>
+            </f:facet>
+            <h:outputText value="#{item.statFaktRok.get('2016').iloscfaktur}"/>
+        </p:column>
+        <p:column sortBy="#{item.statFaktRok.get('2016').kwotafaktur}">
+            <f:facet name="header">
+                <h:outputText value="kwota faktur 2016"/>
+            </f:facet>
+            <bcf:outputpl value="#{item.statFaktRok.get('2016').kwotafaktur}"/>
+        </p:column>
+        <p:column sortBy="#{item.kwotafaktur}">
+            <f:facet name="header">
+                <h:outputText value="srednia 2016"/>
+            </f:facet>
+            <bcf:outputpl value="#{item.statFaktRok.get('2016').srednia}"/>
+        </p:column>
+    </p:dataTable>
+</ui:composition>   

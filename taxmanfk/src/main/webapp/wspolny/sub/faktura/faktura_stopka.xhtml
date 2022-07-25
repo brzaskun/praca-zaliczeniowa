@@ -1,0 +1,20 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+      <p:tab id="stopka" title="Faktura mail stopka">
+           <h:form id="formmailstopka">
+                <p:panelGrid columns="2">
+                    <p:column>
+                        <p:editor id="editor"  widgetVar="editorWidget" value="#{fakturadodelementyView.mailfakturastopka}" width="1200" height="600"/>
+                        <p:commandButton value="Zachowaj" actionListener="#{fakturadodelementyView.zachowajstopke}" style="margin-left: 10px; width: 120px; margin-top: 10px;" icon="ui-icon-disk"/>
+                        <p:commandButton value="Kasuj" type="button" onclick="PF('editorWidget').clear();" style="margin-left: 10px; width: 120px; margin-top: 10px;" icon="ui-icon-close"/>
+                    </p:column>
+                </p:panelGrid>
+            </h:form>
+        </p:tab>
+</ui:composition>   
+

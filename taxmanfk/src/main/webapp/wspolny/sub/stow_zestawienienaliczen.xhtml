@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:bcf="http://brzaskun.com/facelets">
+        <h:form id="form_dialog_stowarzyszenie_zestawienienaliczen">
+<!--            <p:panelGrid columns="3">
+            <p:selectOneMenu value="#{stowNaliczenieZestView.wybranakategoria}">
+                <f:selectItem itemValue="" itemLabel="wybierz" noSelectionOption="true"/>
+                <f:selectItems value="#{stowNaliczenieKategorie.lista}"/>
+                <p:ajax event="change" listener="#{stowNaliczenieZestView.pobierz}" update="form_dialog_stowarzyszenie_zestawienienaliczen:tabela"
+                        />
+            </p:selectOneMenu>
+            </p:panelGrid>
+            <p:dataTable value="#{stowNaliczenieZestView.lista}" var="wpis" scrollable="true" scrollHeight="500" style="width: 1300px;"
+                         sortBy="#{wpis.miejsce.opismiejsca}" rowIndexVar="index" id="tabela">
+                <p:column width="30">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="nazwisko i imię" width="250">
+                    <h:outputText value="#{wpis.miejsce.opismiejsca}"/>
+                </p:column>
+                <p:column width="60" headerText="01">
+                    <bcf:outputpl value="#{wpis.m01}" rendered="#{wpis.m01 ne 0.0}"/>
+                </p:column>
+                <p:column width="60" headerText="02">
+                    <bcf:outputpl value="#{wpis.m02}" rendered="#{wpis.m02 ne 0.0}"/>
+                </p:column>
+                <p:column width="60" headerText="03">
+                    <bcf:outputpl value="#{wpis.m03}" rendered="#{wpis.m03 ne 0.0}"/>
+                </p:column>
+                <p:column width="60" headerText="04">
+                    <bcf:outputpl value="#{wpis.m04}" rendered="#{wpis.m04 ne 0.0}"/>
+                </p:column>
+                <p:column width="60" headerText="05">
+                    <bcf:outputpl value="#{wpis.m05}" rendered="#{wpis.m05 ne 0.0}"/>
+                </p:column>
+                <p:column width="60" headerText="06">
+                    <bcf:outputpl value="#{wpis.m06}" rendered="#{wpis.m06 ne 0.0}"/>
+                </p:column>
+                <p:column width="60" headerText="07">
+                    <bcf:outputpl value="#{wpis.m07}" rendered="#{wpis.m07 ne 0.0}"/>
+                </p:column>
+                <p:column width="60" headerText="08">
+                    <bcf:outputpl value="#{wpis.m08}" rendered="#{wpis.m08 ne 0.0}"/>
+                </p:column>
+                <p:column width="60" headerText="09">
+                    <bcf:outputpl value="#{wpis.m09}" rendered="#{wpis.m09 ne 0.0}"/>
+                </p:column>
+                <p:column width="60" headerText="10">
+                    <bcf:outputpl value="#{wpis.m10}" rendered="#{wpis.m10 ne 0.0}"/>
+                </p:column>
+                <p:column width="60" headerText="11">
+                    <bcf:outputpl value="#{wpis.m11}" rendered="#{wpis.m11 ne 0.0}"/>
+                </p:column>
+                <p:column width="60" headerText="12">
+                    <bcf:outputpl value="#{wpis.m12}" rendered="#{wpis.m12 ne 0.0}"/>
+                </p:column>
+            </p:dataTable>-->
+        </h:form>
+</html>
+

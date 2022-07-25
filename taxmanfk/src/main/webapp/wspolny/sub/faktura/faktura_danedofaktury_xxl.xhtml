@@ -1,0 +1,46 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    >
+    <p:tab id="danedofakturyxxl" title="Dane do faktury xxl">
+        <p:focus for="form9" context="form8">
+            <h:form id="form9">
+                <p:growl life="3600"  id="msg9" />
+                <p:outputPanel id="wrapper">
+                    
+                    <h:outputText value="Tu należy wpisać dodatkowe dane do wystawianej faktury:"/>
+                    <p:panelGrid id="wprowadzaniefakturaxxl" columns="2">
+                        <h:outputLabel value="opis kolumna netto 0"/>
+                        <p:inputText value="#{fakturaXXLKolumnaView.selected.nettoopis0}" style="width: 400px;"/>
+                        <h:outputLabel value="opis kolumna netto 1"/>
+                        <p:inputText value="#{fakturaXXLKolumnaView.selected.nettoopis1}" style="width: 400px;"/>
+                        <h:outputLabel value="opis kolumna netto 2"/>
+                        <p:inputText value="#{fakturaXXLKolumnaView.selected.nettoopis2}" style="width: 400px;"/>
+                        <h:outputLabel value="opis kolumna netto 3"/>
+                        <p:inputText value="#{fakturaXXLKolumnaView.selected.nettoopis3}" style="width: 400px;"/>
+                        <h:outputLabel value="opis kolumna netto 4"/>
+                        <p:inputText value="#{fakturaXXLKolumnaView.selected.nettoopis4}" style="width: 400px;"/>
+                        <h:outputLabel value="opis kolumna netto 5"/>
+                        <p:inputText value="#{fakturaXXLKolumnaView.selected.nettoopis5}" style="width: 400px;"/>
+                    </p:panelGrid>
+                    <p:panelGrid id="wprowadzaniefakturaxxl2" columns="2">
+                        <h:outputLabel value="pokaż pkwiu"/>
+                        <p:selectBooleanCheckbox value="#{fakturaXXLKolumnaView.selected.pkwiu}" style="width: 400px;"/>
+                        <h:outputLabel value="pokaż ilość"/>
+                        <p:selectBooleanCheckbox value="#{fakturaXXLKolumnaView.selected.ilosc}" style="width: 400px;"/>
+                        <h:outputLabel value="pokaż jednostka"/>
+                        <p:selectBooleanCheckbox value="#{fakturaXXLKolumnaView.selected.jednostka}" style="width: 400px;"/>
+                        <h:outputLabel value="pokaż cena"/>
+                        <p:selectBooleanCheckbox value="#{fakturaXXLKolumnaView.selected.cena}" style="width: 400px;"/>
+                    </p:panelGrid>
+                    <p:panelGrid columns="1">
+                        <p:commandButton actionListener="#{fakturaXXLKolumnaView.edytujdanefaktxxl()}" value="edytuj dane" update=":akordeon:form9" type="submit"/>
+                    </p:panelGrid>
+                </p:outputPanel>
+            </h:form>
+        </p:focus>
+    </p:tab>
+</ui:composition> 

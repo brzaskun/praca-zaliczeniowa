@@ -1,0 +1,163 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:bcf="http://brzaskun.com/facelets">
+
+    <p:tab id="zestawienie" title="Faktury wystawione wg kontrahentow">
+        <h:form id="formzestawienie">
+            <p:panelGrid columns="2">
+                <p:panelGrid columns="1">
+                    <p:selectOneListbox id="wyborklienta" value="#{fakturaZestView.szukanyklient}" style="width: 300px;"  converter="#{klientConv}"
+                                        styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" 
+                                        filter="true" filterMatchMode="contains"
+                                        >
+                        <f:selectItems value="#{fakturaZestView.klienci}"/>
+                        <p:ajax event="change" global="false" listener="#{fakturaZestView.pobierzwszystkoKlienta()}" 
+                                update="formzestawienie:dokumentyZestawienie akordeon:formzestawienie:panelinfo"/>
+                    </p:selectOneListbox>
+                    <p:panelGrid columns="3">
+                        <p:commandButton value="wszyscy" actionListener="#{fakturaZestView.wszyscypodatnicy()}" update="@form, :form1:messages" style="width: 120px;"  rendered="#{WpisView.biuroiszef eq true}"/>
+                        <p:outputLabel value="wszystkie lata"/>
+                        <p:selectBooleanCheckbox value="#{fakturaZestView.pobierzwszystkielataKlienta}"  rendered="#{WpisView.biuroiszef eq true}">
+                            <p:ajax event="change" partialSubmit="true" />
+                        </p:selectBooleanCheckbox>
+                    </p:panelGrid>
+                </p:panelGrid>
+                <p:panelGrid columns="1" id="panelinfo" style="margin-left: 20px;">
+                    <p:fragment>
+                    <p:autoUpdate/>
+                    <p:panel header="Dane dla klienta #{fakturaZestView.szukanyklient.npelna}" style="width: 600px;"/>
+                    <h:outputText value="stare kadry" rendered="#{fakturaZestView.podatnik.starekadry}" style="color: crimson;"/>
+                    <p:panelGrid columns="3" >
+                        <p:panelGrid columns="2" >
+                            <h:outputText value="księgowość"/>
+                            <bcf:inputpl value="#{fakturaZestView.fakturaWaloryzacja.kwotabiezacanetto}"/>
+                            <h:outputText value="umowa o pracę"/>
+                            <bcf:inputpl value="#{fakturaZestView.fakturaWaloryzacja.umowaoprace}"/>
+                            <h:outputText value="umowa zlecenie"/>
+                            <bcf:inputpl value="#{fakturaZestView.fakturaWaloryzacja.umowazlecenie}"/>
+                            <h:outputText value="oddelegowanie"/>
+                            <bcf:inputpl value="#{fakturaZestView.fakturaWaloryzacja.oddelegowanie}"/>
+                            <h:outputText value="sprawozdanie roczne"/>
+                            <bcf:inputpl value="#{fakturaZestView.fakturaWaloryzacja.sprawozdanieroczne}"/>
+                            <h:outputText value="obsługa Niemcy"/>
+                            <bcf:inputpl value="#{fakturaZestView.fakturaWaloryzacja.obsluganiemcy}"/>
+                        </p:panelGrid>
+                        <p:panelGrid columns="2" >
+                            <h:outputText value="zmień o procent"/>
+                            <p:inputNumber value="#{fakturaZestView.fakturaWaloryzacja.procentzmian}">
+                                <p:ajax event="blur" partialSubmit="true" listener="#{fakturaZestView.przelicz()}" update="@parent:@parent"/>
+                            </p:inputNumber>
+                            <h:outputText value="księgowość"/>
+                            <bcf:inputpl value="#{fakturaZestView.fakturaWaloryzacja.kwotabiezacanettoN}"/>
+                            <h:outputText value="umowa o pracę"/>
+                            <bcf:inputpl value="#{fakturaZestView.fakturaWaloryzacja.umowaopraceN}"/>
+                            <h:outputText value="umowa zlecenie"/>
+                            <bcf:inputpl value="#{fakturaZestView.fakturaWaloryzacja.umowazlecenieN}"/>
+                            <h:outputText value="oddelegowanie"/>
+                            <bcf:inputpl value="#{fakturaZestView.fakturaWaloryzacja.oddelegowanieN}"/>
+                            <h:outputText value="sprawozdanie roczne"/>
+                            <bcf:inputpl value="#{fakturaZestView.fakturaWaloryzacja.sprawozdanieroczneN}"/>
+                            <h:outputText value="obsługa Niemcy"/>
+                            <bcf:inputpl value="#{fakturaZestView.fakturaWaloryzacja.obsluganiemcyN}"/>
+                        </p:panelGrid>
+                        <p:panelGrid columns="2" >
+                            <h:outputText value="dawno nie zmieniane"/>
+                            <p:selectBooleanCheckbox value="#{fakturaZestView.fakturaWaloryzacja.dawnoniezmieniona}">
+                                <p:ajax event="change" global="false" partialSubmit="true" listener="#{fakturaZestView.zapiszwaloryzacje}"/>
+                            </p:selectBooleanCheckbox>
+                            <h:outputText value="zmiana opodatkowania"/>
+                            <p:selectBooleanCheckbox value="#{fakturaZestView.fakturaWaloryzacja.zmianaopodatkowania}">
+                                <p:ajax event="change" global="false" partialSubmit="true" listener="#{fakturaZestView.zapiszwaloryzacje}"/>
+                            </p:selectBooleanCheckbox>
+                            <h:outputText value="większa ilośc dokumentów"/>
+                            <p:selectBooleanCheckbox value="#{fakturaZestView.fakturaWaloryzacja.wiekszailosc}">
+                                <p:ajax event="change" global="false" partialSubmit="true" listener="#{fakturaZestView.zapiszwaloryzacje}"/>
+                            </p:selectBooleanCheckbox>
+                            <h:outputText value="wyrównanie do minimum"/>
+                            <p:selectBooleanCheckbox value="#{fakturaZestView.fakturaWaloryzacja.minimum}">
+                                <p:ajax event="change" global="false" partialSubmit="true" listener="#{fakturaZestView.zapiszwaloryzacje}"/>
+                            </p:selectBooleanCheckbox>
+                            <h:outputText value="data maila"/>
+                            <h:outputText value="#{fakturaZestView.fakturaWaloryzacja.datamaila}"/>
+                            <h:outputText value="klient zaakceptowal"/>
+                            <p:selectBooleanCheckbox value="#{fakturaZestView.fakturaWaloryzacja.klientakceptacja}">
+                                <p:ajax event="change" global="false" partialSubmit="true" listener="#{fakturaZestView.zapiszwaloryzacje}"/>
+                            </p:selectBooleanCheckbox>
+                            <h:outputText value="nie wysyłać"/>
+                            <p:selectBooleanCheckbox value="#{fakturaZestView.fakturaWaloryzacja.niewysylac}">
+                                <p:ajax event="change" global="false" partialSubmit="true" listener="#{fakturaZestView.zapiszwaloryzacje}"/>
+                            </p:selectBooleanCheckbox>
+                        </p:panelGrid>
+                    </p:panelGrid>
+                    <p:commandButton value="zapisz" actionListener="#{fakturaZestView.zapiszwaloryzacje}"/>
+                    </p:fragment>
+                </p:panelGrid>
+            </p:panelGrid>
+<!--            <p:panelGrid>
+                <h:outputText value="#{fakturaZestView.fakturaWaloryzacja.kontrahent.email}" style=color:blue;"/>
+            </p:panelGrid>-->
+            <p:dataTable id="dokumentyZestawienie"  value="#{fakturaZestView.fakturyZestawienie}" var="item"  rowIndexVar="row" 
+                         rowKey="#{item.kontrahent.npelna}" style="width: 1050px;height: 800px; overflow-y: scroll;" widgetVar="zestTable" sortBy="#{item.kontrahent.npelna}" sortOrder="descending"
+                         rowSelectMode="add"  emptyMessage="nie pobrano wierszy" >
+                <p:column>
+                    <style>
+                        .dokumentyZestawienie tr td {
+                            padding: 0px !important;
+                            margin: 0px !important;
+                        }
+                    </style>
+                    <p:dataTable value="#{item.trescfaktury}" var="loop" sortBy="#{loop.data}" sortOrder="descending" rowIndexVar="rowA"
+                                 rowKey="#{loop.toString()}"
+                                 filteredValue="#{fakturaZestView.filtertresc}"
+                                 styleClass="dokumentyZestawienie" >
+                        <p:ajax event="filter" global="false"/>
+                        <f:facet name="header">
+                            <h:outputText value="#{item.podatnik.printnazwa}" rendered="#{item.podatnik != null}"/>
+                            <h:outputText value="#{item.kontrahent}" rendered="#{item.kontrahent != null}"/>
+                        </f:facet>
+                        <p:column width="30" headerText="m-c">
+                            <h:outputText value="#{loop.mc}"/>
+                        </p:column>
+                        <p:column headerText="data wyst.">
+                            <h:outputText value="#{loop.data}"/>
+                        </p:column>
+                        <p:column width="150" headerText="nr.fakt">
+                            <h:outputText value="#{loop.nrfakt}"/>
+                        </p:column>
+                        <p:column width="150" headerText="#{mgs.opis}" filterBy="#{loop.opis}" filterMatchMode="contains">
+                            <h:outputText value="#{loop.opis}"/>
+                        </p:column>
+                        <p:column headerText="#{mgs.netto}">
+                            <bcf:outputpl value="#{loop.netto}"/>
+                        </p:column>
+                        <p:column headerText="#{mgs.VAT}">
+                            <bcf:outputpl value="#{loop.vat}" />
+                        </p:column>
+                        <p:column headerText="brutto">
+                            <bcf:outputpl value="#{loop.brutto}"/>
+                        </p:column>
+                        <p:column headerText="ilosc wierszy" style="text-align: center;">
+                            <h:outputText value="#{loop.iloscwierszy}"/>
+                        </p:column>
+                        <p:column headerText="waluta" style="text-align: center;">
+                            <h:outputText value="#{loop.waluta}" rendered="#{loop.waluta ne 'PLN'}"/>
+                        </p:column>
+                        <p:column  headerText="PDF" style="text-align: center;"  width="50">
+                            <p:commandButton  actionListener="#{pdfFaktura.drukuj(loop.faktura, rowA, WpisView.podatnikObiekt)}" icon="ui-icon-print" />
+                        </p:column>
+                        <p:column  headerText="korekta" style="text-align: center;"  width="45">
+                            <p:commandButton  update=":akordeon" actionListener="#{fakturaView.skierujfakturedokorekty(loop.faktura)}" 
+                                              icon="ui-icon-pencil" rendered="#{!loop.faktura.fakturaniemiecka13b}"/>
+                        </p:column>
+                    </p:dataTable>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </p:tab>
+</ui:composition>   
+
+

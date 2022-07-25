@@ -1,0 +1,127 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:bcf="http://brzaskun.com/facelets">
+    <style>
+        .waluta input {
+            width: 40px !important;
+        }
+        
+        .zaksiegowanewaski input {
+            width: 75px !important;
+        }
+    </style>
+   
+    <p:dialog id="zestawieniezaksiegowanychimport" header="Zestawienie zaimportowanych dokumentów - #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="zestawieniezaksiegowanychimport" 
+              resizable="false"  onShow="ustawdialog('zestawieniezaksiegowanychimport','menudokumenty');doczeplistnerydopol();" closeOnEscape="true" onHide="resetujdialog('zestawieniezaksiegowanychimport');" >
+        <p:ajax event="close" listener="#{dokfkView.resetujzaksiegowaneimport}" update=":zestawieniedokumentowimport"/>
+        <!--        <h:form>
+                    <p:commandButton value="uzupełnij" actionListener="#{dokfkView.uzupelnijdokumentyodkontrahenta()}"/>
+                </h:form>-->
+
+        <h:form id="zestawieniedokumentowimport">
+            <p:panelGrid columns="7" style="margin-left: 2%;" >
+                <p:column>
+                    <h:outputText value="miesiąc: "/>
+                </p:column>
+                <p:column>
+                    <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
+                        <p:ajax event="change" listener="#{dokfkView.odswiezzaksiegowaneimport}"/>
+                        <f:selectItem itemLabel="#{mgs.CR}" itemValue="CR"/>
+                        <f:selectItems value="#{mce.mceList}"/>
+                    </p:selectOneMenu>
+                </p:column>
+                <p:column>
+                    <p:commandButton value="#{mgs.pobierz}" actionListener="#{dokfkView.odswiezzaksiegowaneimport}" style="width: 120px;"/>
+                </p:column>
+                <p:selectOneMenu value="#{dokfkView.wybranakategoriadokimport}" style="margin-left: 120px;" >
+                    <p:ajax event="change" listener="#{dokfkView.odswiezzaksiegowaneimport}"/>
+                    <f:selectItem itemLabel="#{mgs.wszystkie}" itemValue="wszystkie"/>
+                    <f:selectItems value="#{dokfkView.dokumentypodatnika}" var="item" itemLabel="#{item.skrot}" itemValue="#{item.skrot}"/>
+             </p:selectOneMenu>
+                <h:outputText value="sprawdź, aby zaksięgować wszystkie" style="width: 120px; margin-left: 40px;"/>
+                 <p:commandButton id="sprawdz" value="sprawdź" actionListener="#{dokfkWeryfikacjaView.sprawdzWnMawDokfk(dokfkView.wykazZaksiegowanychDokumentowimport)}" style="width: 120px; margin-left: 20px;" 
+                                         update="zestawieniedokumentowimport" 
+                                         />
+                 <p:commandButton id="zaksieguj" value="zaksieguj" actionListener="#{dokfkView.zaksiegujimport(dokfkView.wykazZaksiegowanychDokumentowimport)}" style="width: 120px; margin-left: 80px; float: right;" 
+                                  update="zestawieniedokumentowimport:dataListImport" 
+                                         />
+            </p:panelGrid>
+            
+<!--            <script>
+                /* <![CDATA[ */
+                //dzieki tej genialnej funkcji wie na ktorym rowku kliknelismy i od tego zacyzn alazenie
+                $(document).on("click", '.gridZaksiegowane tr', function(e) {
+                    var pierwszywiersz = $("#zestawieniedokumentowimport\\:dataListImport_data").children("tr");
+                    var numerpierwszegowiersza = $.trim($(pierwszywiersz[0]).find(".lpwierszaZaksiegowane").text());
+                    try {
+                        e.stopPropagation(); // will prevent double click events from link being clicked within row
+                        var numerkliknietegowiersza = $.trim($(this).closest("tr").find(".lpwierszaZaksiegowane").text()); // trim to remove end space, closest gets closest parent of selected type
+                        var liczbadokalkulacji = numerkliknietegowiersza - numerpierwszegowiersza;
+                        zachowajnumerwiersza("zmiennazaksiegowaneimport", liczbadokalkulacji);
+                    } catch (e) {
+                        //alert('error');
+                    }
+                });
+                /* ]]> */
+            </script>-->
+            <p:contextMenu for="dataListImport" style="width: 200px;">
+                <p:menuitem value="oznacz FP" icon="ui-icon-comment" actionListener="#{dokfkView.oznaczwybranefp()}" update="zestawieniedokumentowimport"/>
+                <p:menuitem value="usuń wszystkie" icon="ui-icon-trash" actionListener="#{dokfkView.usunwszytskieimportowane()}" update="zestawieniedokumentowimport"/>
+            </p:contextMenu>
+
+            <p:dataTable id="dataListImport" value="#{dokfkView.wykazZaksiegowanychDokumentowimport}" var="item" rowIndexVar="row" widgetVar="tablicadokumentyimport" 
+                         selection="#{dokfkView.selectedlistimport}" rowKey="#{item.id}" selectionMode="multiple" 
+                         style="width: 1250px; height: 580px; overflow-y: scroll" filteredValue="#{dokfkView.filteredValueimport}"
+                         emptyMessage="Brak importowanych dokumentów" styleClass="gridZaksiegowane walkingtable"
+                         sortBy="#{item.id}" rowSelectMode="add"
+                         rowsPerPageTemplate="150,300,600,900,1200" paginatorPosition="top" paginator="#{dokfkView.wykazZaksiegowanychDokumentowimport.size() gt 150 ? 'true':'false'}" rows="150">
+                <!--                     <p:ajax event="rowSelect" oncomplete="pokazwierszedok();" update=":formwpisdokument, :dialogwiersze" />-->
+                <p:ajax event="filter" global="false"/>
+                <p:column headerText="#{mgs.numerkolejny}" width="20" style="text-align: center; height: 35px;">
+                    <h:outputText styleClass="lpwierszaZaksiegowane lpwiersza niecheckwiersza" value="#{row+1}"/>
+                </p:column>
+                <p:column headerText="#{mgs.datadok}" styleClass="zaksiegowanewaski" width="70" style="text-align: center;"  sortBy="#{item.datadokumentu}" filterBy="#{item.datadokumentu}" filterMatchMode="contains" >
+                    <h:outputText value="#{item.datadokumentu}"/>
+                </p:column>
+                <p:column headerText="#{mgs.symbol}" styleClass="zaksiegowanewaski" width="70" sortBy="#{item.dokfkSN}" filterBy="#{item.dokfkSN}" filterMatchMode="contains">
+                    <h:outputText value="#{item.dokfkSN}"/>
+                </p:column>
+                <p:column headerText="#{mgs.kontrahent}" width="140" sortBy="#{item.kontr.npelna}" filterBy="#{item.kontr.npelna}" >
+                    <h:outputText value="#{item.kontr.npelna}"/>
+                </p:column>
+                <p:column headerText="#{mgs.numer}" styleClass="zaksiegowanewaski" width="110" sortBy="#{item.numerwlasnydokfk}" filterBy="#{item.numerwlasnydokfk}" filterMatchMode="contains" >
+                    <h:outputText value="#{item.numerwlasnydokfk}"/>
+                </p:column>
+                <p:column headerText="#{mgs.opis}" width="120" sortBy="#{item.opisdokfk}" filterBy="#{item.opisdokfk}" filterMatchMode="contains" >
+                    <h:outputText value="#{item.opisdokfk}"/>
+                </p:column>
+                <p:column headerText="#{mgs.wartość}" styleClass="zaksiegowanewaski" width="70" sortBy="#{item.wartoscdokumentu}" filterBy="#{item.wartoscdokumentu}" filterMatchMode="contains" >
+                    <h:outputText value="#{item.wartoscdokumentu}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="waluta" styleClass="waluta" width="40" sortBy="#{item.walutadokumentu.symbolwaluty}" filterBy="#{item.walutadokumentu.symbolwaluty}" style="text-align: center;">
+                    <h:outputText value="#{item.walutadokumentu.symbolwaluty}"/>
+                </p:column>
+                <p:column headerText="#{mgs.VAT}" styleClass="waluta" width="50" sortBy="#{item.vatM}" filterBy="#{item.vatM}" style="text-align: center;">
+                    <h:outputText value="#{item.vatM}"/>
+                </p:column>
+                <p:column headerText="b/k" width="30" sortBy="#{item.nrdziennika}" style="text-align: center;">
+                    <h:outputText value="#{item.nrdziennika eq null ? 'b' : item.nrdziennika}"/>
+                </p:column>         
+                <p:column width="80" style="text-align: center;" >
+                    <p:commandButton value="edytuj" actionListener="#{dokfkView.przygotujDokumentEdycjaImport(item, row)}"  styleClass="fkbutton" icon="ui-icon-document" update="formwpisdokument"
+                                     onsuccess="PF('wpisywanie').show();"
+                                     style="width: 70px;"/>
+                </p:column>
+                <p:column width="80" style="text-align: center;">
+                    <p:commandButton value="usuń" actionListener="#{dokfkView.usundokumentimport(item)}" styleClass="fkbutton" icon="ui-icon-trash"  global="false"  style="width: 70px;" update="zestawieniedokumentowimport:dataListImport"/>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </p:dialog>
+</ui:composition>

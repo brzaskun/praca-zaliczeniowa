@@ -1,0 +1,50 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    
+    >
+    <p:tab title="Wybór formy rozliczen podatkiem vat">  
+            <h:form id="form2" >
+                <h:outputText value="Wybór formy rozliczen podatkiem vat" style="font-size: 15px"/>
+                <p:growl life="3600"  showDetail="true"/>
+                <p:focus for="parametryp1"/><br/>
+                <p:panelGrid columns="4" style="width: 500px">
+                    <p:dataTable value="#{podatnikView.selected.vatokres}"  var="loop" 
+                                 >
+                        <f:facet name="header">
+                        <h:outputText value="Dane historyczne"/>
+                    </f:facet>
+                        <p:column headerText="od">
+                            <h:outputText value="#{loop.mcOd}-" />
+                            <h:outputText value="#{loop.rokOd}" />
+                        </p:column>
+                        <p:column headerText="do">
+                            <h:outputText value="#{loop.mcDo}-" />
+                            <h:outputText value="#{loop.rokDo}" />
+                        </p:column>
+                        <p:column headerText="rodzaj rozliczeń">
+                            <h:outputText value="#{loop.parametr}" />
+                        </p:column>
+                    </p:dataTable>
+                </p:panelGrid>
+                <p:panel header="wybierz parametry aktualne" style="width: 990px;"/>
+                <p:panelGrid id="parametryp1" columns="5" >
+                    <h:outputText value="rok podatkowy: "/><p:selectOneMenu value="#{podatnikView.parametr.rokOd}"><f:selectItems value="#{roki.rokiListString}"/></p:selectOneMenu>
+                    <h:outputText value="miesiąc od: "/><p:selectOneMenu value="#{podatnikView.parametr.mcOd}"><f:selectItems value="#{mce.mceList}"/></p:selectOneMenu>
+                    <p:selectOneMenu value="#{podatnikView.parametr.parametr}" >
+                        <f:selectItem itemValue="miesięczne" itemLabel="miesięczne"/> 
+                        <f:selectItem itemValue="kwartalne" itemLabel="kwartalne"/>
+                    </p:selectOneMenu>
+                </p:panelGrid>
+                <br/>
+                <p:panelGrid columns="2" style="column-width: 350px; width: 500px">
+                    <p:commandButton action="#{podatnikView.usunvat()}" value="usun parametr" update="@form" type="submit"/>
+                    <p:commandButton action="#{podatnikView.dodajvat()}" value="dodaj parametr" update="@form" type="submit"/>
+                </p:panelGrid>
+            </h:form>
+            <br/><br/>
+        </p:tab>
+</ui:composition> 

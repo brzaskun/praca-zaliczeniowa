@@ -1,0 +1,55 @@
+
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+    <p:panel >
+        <p:panel menuTitle="Wprowadzanie nowego użytkownika" header="Wprowadzanie danych nowego użytkownika"  >
+            <p:growl id="mess_add" ><p:autoUpdate/></p:growl>
+             
+         <p:panelGrid columns="7" >
+            <h:outputLabel value="login"/>
+            <h:outputLabel value="imie"/>
+            <h:outputLabel value="nazwisko"/>
+            <h:outputLabel value="hasło"/>
+            <h:outputLabel value="uprawnienia"/>
+            <h:outputLabel value="firma"/>
+            <h:outputLabel value=" "/>
+            <p:inputText value="#{UzView.nowyUzytkownik.login}" accesskey="s" required="true" requiredMessage="logi  - uzupełnij">
+            </p:inputText>
+            <p:inputText value="#{UzView.nowyUzytkownik.imie}" required="true" requiredMessage="imie - uzupełnij"/>
+            <p:inputText value="#{UzView.nowyUzytkownik.nazw}" required="true" requiredMessage="nazwisko - uzupełnij"/>
+            <p:inputText value="#{UzView.nowyUzytkownik.haslo}" required="true" requiredMessage="hasło - uzupełnij"/>
+            <p:selectOneMenu value="#{UzView.nowyUzytkownik.uprawnienia}" required="true" requiredMessage="uprawnienia - uzupełnij">
+                <f:selectItems value="#{uprawnienia.listaUprawnien}"/>
+            </p:selectOneMenu>
+            <p:selectOneMenu value="#{UzView.nowyUzytkownik.firma}" style="width: 300px;" >
+                <f:selectItems value="#{podatnikWyborView.listaPodatnikow}" var="item" itemLabel="#{item.printnazwa}" itemValue="#{item.nip}"/>
+            </p:selectOneMenu>
+            <p:commandButton action="#{UzView.dodajNowyWpis()}" value="Dodaj" update=":form:uzytkownicyLista dodWiad"/>
+        </p:panelGrid>
+    </p:panel>
+<!--    <p:panel id="ostatniUzytkownik" menuTitle="Ostatnio wprowadzony użytkownik">
+        <h:outputLabel value="Ostatnio wprowadzony:"/>
+        <p:panelGrid columns="7">
+              <h:outputLabel value="login"/>
+            <h:outputLabel value="imie"/>
+            <h:outputLabel value="nazwisko"/>
+            <h:outputLabel value="hasło"/>
+            <h:outputLabel value="uprawnienia"/>
+            <h:outputLabel value="loginglowny"/>
+            <h:outputLabel value="telefon"/>
+
+                <h:outputText  value="#{UzView.selUzytkownik.login}"/>
+                <h:outputText  value="#{UzView.selUzytkownik.imie}"/>
+                <h:outputText  value="#{UzView.selUzytkownik.nazw}"/>
+                <h:outputText  value="#{UzView.selUzytkownik.haslo}"/>
+                <h:outputText  value="#{UzView.selUzytkownik.uprawnienia}"/>
+                <h:outputText  value="#{UzView.selUzytkownik.loginglowny}"/>
+         </p:panelGrid>
+    </p:panel>-->
+        </p:panel>
+</ui:composition>   
+

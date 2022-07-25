@@ -1,0 +1,40 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <h:form id="westIndex">
+        <p:focus id="focus" context="panelwyboru"/>
+        <p:panel id="panelwyboru" menuTitle="Dane" header="Parametry" style="width: 600px; margin: auto; margin-top: 3%; text-align: center;">
+            <f:facet name="header">
+                <h:outputText value="W celu rozpoczęcia przeglądania zestawień i dokumentów proszę wybrac rok i miesiącaa" style="display: block; text-align: center"/>
+            </f:facet>
+            <p:graphicImage url="/resources/images/ksiegi.jpg"/>
+            <p></p>
+            <p:panelGrid columns="4">
+                <p:column >
+                    <p:selectOneMenu id="podatnikWpisu" value="#{WpisView.podatnikObiekt}" style="width: 280px;" converter="#{podatConv}">
+                        <f:selectItems value="#{multiuserView.listawyboru}" var="p" itemLabel="#{p.printnazwa}" itemValue="#{p}"/>
+                        <p:ajax event="change" partialSubmit="true" global="false"/>
+                    </p:selectOneMenu>
+                </p:column>
+                <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}" style="width: 100px;">
+                    <f:selectItems value="#{roki.rokiList}"/>
+                </p:selectOneMenu>
+                <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}"  style="width: 100px;">
+                    <f:selectItems value="#{mce.mceList}"/>
+                </p:selectOneMenu>
+                <p:commandButton action="#{WpisView.wrocGuestfk()}" value="#{mgs.wybierzmcrok}" actionListener="#{WpisView.wpisAktualizuj()}" accesskey="s" style="height: 40px" ajax="false"/>
+            </p:panelGrid>
+            <f:facet name="footer" >
+                <h:outputText style="display: block; text-align: center" value="Po wybraniu roku i miesiąca zostaniesz przekierowany do zapisów księgowych z tego okresu."/>
+                <h:outputText style="display: block; text-align: center; color: red;" value="Uwaga! Proszę odblokować opcję wyskakujacych okienek dla naszej domeny. Inaczej nie będą się pojawiać wydruki w formacie PDF."/>
+            </f:facet>
+        </p:panel>
+    </h:form>
+</ui:composition>   
+

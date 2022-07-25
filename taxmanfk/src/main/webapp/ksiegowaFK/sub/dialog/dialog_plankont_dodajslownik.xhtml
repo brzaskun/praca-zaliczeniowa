@@ -1,0 +1,32 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    >
+    <p:dialog header="Wybierz słownik jako analitykę: #{planKontView.selectednodekonto.pelnynumer}" widgetVar="nowekontoslownik" resizable="false"
+              onShow="snapshot('form_dialog_plankont:dataList_data');" onHide="recover('form_dialog_plankont:dataList_data');">
+        <h:form id="dialog_plankont_dodajslownik">  
+        <p:focus for="wybierzslownik">
+            <p:selectOneMenu id="wybierzslownik" value="#{planKontView.noweKonto.nrkonta}" style="width: 260px;">
+                <f:selectItem itemValue="kontr" itemLabel="Kontrahenci"/>
+                <f:selectItem itemValue="miejs" itemLabel="Miejsca kosztów"/>
+                <f:selectItem itemValue="miejp" itemLabel="Miejsca przychodów"/>
+                <f:selectItem itemValue="samoc" itemLabel="Pojazdy i maszyny"/>
+                <f:selectItem itemValue="miesi" itemLabel="Lista miesięcy"/>
+                <f:selectItem itemValue="deleK" itemLabel="Delegacje krajowe"/>
+                <f:selectItem itemValue="deleZ" itemLabel="Delegacje zagraniczne"/>
+            </p:selectOneMenu>
+            <p:panelGrid id="dkp" columns="2" style="margin-top: 10px;">
+                <p:commandButton value="dodaj" actionListener="#{planKontView.dodajslownik()}" type="submit" 
+                                         update=":form_dialog_plankont:dataList" style="margin-left: auto; margin-right: auto; width: 120px;" oncomplete="PF('nowekontoslownik').hide();"  />
+                <p:commandButton value="anuluj" type="button" 
+                                         style="margin-left: 15px; margin-right: auto; width: 120px;"
+                                         onclick="PF('nowekontoslownik').hide();"  />
+            </p:panelGrid>
+            </p:focus>
+    </h:form>  
+</p:dialog> 
+   
+</ui:composition>

@@ -1,0 +1,361 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    
+    
+    xmlns:bcf="http://brzaskun.com/facelets">
+    <p:tab  title="#{mgs.przychodyikoszty}" id="symulacjawyniku" >
+        <style>
+            .gridtablicasyntetyczne .ui-datatable-odd td{
+                height : 25px !important;
+                
+            }
+            .gridtablicasyntetyczne .ui-datatable-even td{
+                height : 25px !important;
+                
+            }
+
+        </style>
+        <script>
+            var pokazprzyciski = function() {
+                r('akordeon:formsymulacjanarastajaco:xlsbutton').show();
+                r('akordeon:formsymulacjanarastajaco:xlsbutton_button').show();
+                r('akordeon:formsymulacjanarastajaco:xlsbutton_menuButton').show();
+                r('akordeon:formsymulacja:drukujtab').show();
+                r('akordeon:formsymulacja:drukujszcz').show();
+                r('akordeon:formsymulacja:tylkosyntopis').show();
+                r('akordeon:formsymulacja:tylkosyntcheck').show();
+            };
+        </script>
+        <h:form id="formsymulacja">
+            <p:panelGrid columns="16" style="margin-left: 2%;" >
+                <h:outputText value="rok" style="margin-right: 10px;"/>
+                <h:outputText value="#{WpisView.rokWpisuSt}" style="margin-right: 10px;"/>
+                <h:outputText value="m-c od" style="margin-right: 10px;"/>
+                <p:column>
+                    <p:selectOneMenu id="miesiacWpisu1" value="#{symulacjaWynikuView.mcod}">
+                        <p:ajax event="change" listener="#{symulacjaWynikuView.odswiezsymulacjewynikuanalityczne}" 
+                                update="akordeon" oncomplete="pokazprzyciski();"/>
+                        <f:selectItems value="#{mce.mceList}"/>
+                    </p:selectOneMenu>
+                </p:column>
+                <h:outputText value="m-c do" style="margin-right: 10px;"/>
+                <p:column>
+                    <p:selectOneMenu id="miesiacWpisu2" value="#{symulacjaWynikuView.mcdo}">
+                        <p:ajax event="change" listener="#{symulacjaWynikuView.odswiezsymulacjewynikuanalityczne}" 
+                                update="akordeon" oncomplete="pokazprzyciski();"/>
+                        <f:selectItems value="#{mce.mceList}"/>
+                    </p:selectOneMenu>
+                </p:column>
+                <p:column>
+                    <p:commandButton value="#{mgs.pobierz}" actionListener="#{symulacjaWynikuView.odswiezsymulacjewynikuanalityczne()}" 
+                                     oncomplete="pokazprzyciski();"
+                                     style="width: 120px; margin-left: 20px;" update="akordeon"/>
+                </p:column>
+                <p:commandButton value="zaksięguj" actionListener="#{symulacjaWynikuView.zaksiegujwynik}" rendered="#{facesContext.externalContext.isUserInRole('BookkeeperFK')}"
+                                style="width: 120px; " update="akordeon:formsymulacjanarastajaco"/>
+                <p:splitButton id="drukujtab" value="#{mgs.drukujtab}" action="#{sesjaView.dodajwydruk()}" actionListener="#{symulacjaWynikuView.drukuj(1)}" style="width: 120px;margin-left: 10px;" oncomplete="wydruksymulacjawyniku('#{WpisView.podatnikObiekt.nip}', 1)">
+                    <p:menuitem id="drukujszcz" value="#{mgs.drukujszcz}" action="#{sesjaView.dodajwydruk()}" actionListener="#{symulacjaWynikuView.drukuj(2)}" style="width: 120px;" oncomplete="wydruksymulacjawyniku('#{WpisView.podatnikObiekt.nip}', 2)"/>
+                </p:splitButton>
+<!--                <p:commandButton id="drukujtab" value="#{mgs.drukujtab}" action="#{sesjaView.dodajwydruk()}" actionListener="#{symulacjaWynikuView.drukuj(1)}" style="width: 120px; margin-left: 20px; display: none;" oncomplete="wydruksymulacjawyniku('#{WpisView.podatnikObiekt.nip}', 1)"/>
+                <p:commandButton id="drukujszcz" value="#{mgs.drukujszcz}" action="#{sesjaView.dodajwydruk()}" actionListener="#{symulacjaWynikuView.drukuj(2)}" style="width: 120px; margin-left: 15px; display: none;" oncomplete="wydruksymulacjawyniku('#{WpisView.podatnikObiekt.nip}', 2)"/>-->
+                <p:selectBooleanCheckbox  id="tylkosyntcheck" value="#{symulacjaWynikuView.tylkokontasyntetyczne}"  style="margin-left: 5px; display: none;" itemLabel="tylko konta syntetyczne"  >
+                    <p:ajax event="change" listener="#{symulacjaWynikuView.odswiezsymulacjewynikuanalityczne}" partialSubmit="true" update="akordeon:formsymulacja akordeon:formsymulacjankup"
+                            oncomplete="pokazprzyciski();"/>
+                </p:selectBooleanCheckbox>
+                    <p:selectOneMenu value="#{symulacjaWynikuView.wybranawaluta}" id="walutadokuk"
+                                         style="width: 200px;" >
+                            <p:ajax event="change" listener="#{symulacjaWynikuView.odswiezsymulacjewynikuanalityczne}" 
+                                    update="akordeon:formsymulacja akordeon:formsymulacjankup"/>
+                            <f:selectItem itemLabel="wybierz walutę" itemValue="" />
+                            <f:selectItems value="#{symulacjaWynikuView.pobranewalutypodatnik}" var="item1" itemLabel="#{item1}" itemValue="#{item1}"/>
+                    </p:selectOneMenu>
+                    <p:selectOneMenu value="#{symulacjaWynikuView.wybranacechadok}" id="cechydokuk"
+                                         style="width: 200px;" >
+                            <p:ajax event="change" listener="#{symulacjaWynikuView.odswiezsymulacjewynikuanalityczne}" 
+                                    update="akordeon:formsymulacja akordeon:formsymulacjankup"  oncomplete="pokazprzyciski();"/>
+                            <f:selectItem itemLabel="wybierz cechę" itemValue="" />
+                            <f:selectItems value="#{symulacjaWynikuView.pobranecechypodatnik}" var="item1" itemLabel="#{item1.nazwacechy}" itemValue="#{item1.nazwacechy}"/>
+                    </p:selectOneMenu>
+            </p:panelGrid>
+            <p:panelGrid columns="1">
+                <h:outputText value="Uwaga. Wyliczanie podatku działa prawidłowo pod warunkiem wybrania tego samego miesiąca jako mcod i mcdo" style="color: green"/>
+            </p:panelGrid>
+            <p:panelGrid columns="2">
+                <p:dataTable id="tablicasymulacjaP" value="#{symulacjaWynikuView.listakontaprzychody}" var="loop" rowKey="#{loop.konto.pelnynumer}" rowIndexVar="indexa"
+                         sortBy="#{loop.konto.pelnynumer}" emptyMessage="#{mgs.niemazapisownakontach}" selection="#{symulacjaWynikuView.sumaSaldoKontoPrzychody}"
+                         styleClass="gridtablicasyntetyczne" widgetVar="tablicasymulacjaP" style="width: 1100px; height: 400px; overflow-y: scroll;"
+                         
+                         >
+                <f:facet name="header">
+                    <h:outputText value="zestawienia przychodów: "/>
+                </f:facet>
+                <p:ajax event="rowSelectCheckbox" update="akordeon:formsymulacja" listener="#{symulacjaWynikuView.sumazapisowPrzychody()}" global="false"/>
+                <p:ajax event="rowUnselectCheckbox" update="akordeon:formsymulacja"  listener="#{symulacjaWynikuView.sumazapisowPrzychody()}" global="false"/>
+                <p:ajax event="toggleSelect" update="akordeon:formsymulacja"  listener="#{symulacjaWynikuView.sumazapisowPrzychody()}" global="false"/>
+                <p:column selectionMode="multiple" width="20" style="text-align: center;"></p:column>
+                <p:ajax event="rowToggle" global="false"/>
+                <p:column width="20">
+                    <p:rowToggler/>
+                </p:column>
+                <p:column headerText="id" sortBy="#{loop.id}"  style="width: 20px; text-align: center;">
+                    <h:outputText styleClass="lpwierszaanalityka" value="#{indexa+1}"/>
+                </p:column>
+                <p:column headerText="#{mgs.konto}" width="70" >
+                    <h:outputText value="#{loop.konto.pelnynumer}"/>
+                </p:column>
+                <p:column headerText="#{mgs.opis}" width="140" >
+                    <h:outputText value="#{loop.konto.nazwapelna}" rendered="#{facesContext.viewRoot.locale.language.equals('pl')}"/>
+                    <h:outputText value="#{loop.konto.de}" rendered="#{facesContext.viewRoot.locale.language.equals('de')}"/>
+                </p:column>
+                <p:column headerText="#{mgs.obrotyWn}" width="60" >
+                    <h:outputText value="#{loop.obrotyWn != 0.0 ? loop.obrotyWn : null}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{mgs.obrotyMa}" width="60" >
+                    <h:outputText value="#{loop.obrotyMa != 0.0 ? loop.obrotyMa : null}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{mgs.saldoWn}" width="60" >
+                    <h:outputText value="#{loop.saldoWn != 0.0 ? loop.saldoWn : null}" style="float: right; color: green; font-weight: 700;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{mgs.saldoMa}" width="60" >
+                    <h:outputText value="#{loop.saldoMa != 0.0 ? loop.saldoMa : null}" style="float: right; color: green; font-weight: 700;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{mgs.vat}" width="60" >
+                    <h:outputText value="#{loop.vat != 0.0 ? loop.vat : null}" style="float: right; color: green; font-weight: 700;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{mgs.kontosyntetyczne}" width="110" >
+                    <h:outputText value="#{loop.getTopKontoOpis()}" />
+                </p:column>
+                <f:facet name="footer">
+                    <p:panelGrid style="padding-right: 30px;">
+                    <p:column colspan="8">
+                        <h:outputText value="razem przychody, razem vat"/>
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="#{symulacjaWynikuView.sumaprzychody}">
+                            <f:convertNumber minFractionDigits="2" locale="PL"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="#{symulacjaWynikuView.sumavatprzychody}">
+                            <f:convertNumber minFractionDigits="2" locale="PL"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column></p:column>
+                    </p:panelGrid>
+                </f:facet>
+                <p:rowExpansion>
+                    <p:dataTable value="#{loop.zapisy}" var="loopik" emptyMessage="nie ma rachunków na tym koncie">
+                        <p:column headerText="#{mgs.dokument}" width="60" style="text-align: right;">
+                            <h:outputText value="#{loopik.dokfkS}" style="color: #{loopik.color}"/>
+                        </p:column>
+                        <p:column headerText="#{mgs.data}" width="50">
+                            <h:outputText value="#{loopik.dokfk.datadokumentu}" style="color: #{loopik.color}"/>
+                        </p:column>
+                        <p:column headerText="#{mgs.nr}" width="100">
+                            <h:outputText value="#{loopik.dokfk.numerwlasnydokfk}" style="color: #{loopik.color}"/>
+                        </p:column>
+                        <p:column headerText="#{mgs.kontrahent}" width="150">
+                            <h:outputText value="#{loopik.wiersz.eVatwpisFK eq null ? loopik.dokfk.kontr.npelna : loopik.wiersz.eVatwpisFK.klient.npelna}" style="color: #{loopik.color}"/>
+                        </p:column>
+                        <p:column headerText="wiersz" width="150">
+                            <h:outputText value="#{loopik.wiersz.opisWiersza}" style="color: #{loopik.color}"/>
+                        </p:column>
+                        <p:column headerText="#{mgs.kwota}" width="60">
+                            <bcf:outputpl value="#{loopik.wnma eq 'Ma' ? loopik.kwota : -loopik.kwota}"/>
+                        </p:column>
+                        <p:column width="10">
+                            <h:outputText value="#{loopik.wiersz.tabelanbp.waluta.skrotsymbolu}" style="color: #{loopik.color}"/>
+                        </p:column>
+                    </p:dataTable>
+                </p:rowExpansion>
+                
+            </p:dataTable>
+                <p:panelGrid columns="1" style="width: 190px;">
+                    <h:outputText value="brak dokumentu ARS - nie rozliczono różnic kursowych od środków własnych" rendered="#{zestawienieBrakiView.jestASR eq false}"/>
+                    <h:outputText value="brak dokumentu AMO - nie naliczono odpisów amortyzacyjnych" rendered="#{zestawienieBrakiView.jestAMO eq false}"/>
+                </p:panelGrid>
+                </p:panelGrid>
+            <p:dataTable id="tablicasymulacjaK" value="#{symulacjaWynikuView.listakontakoszty}" var="loop" rowKey="#{loop.konto.pelnynumer}"  rowIndexVar="index1"
+                         sortBy="#{loop.konto.pelnynumer}" emptyMessage="#{mgs.niemazapisownakontach}" selection="#{symulacjaWynikuView.sumaSaldoKontoKoszty}" 
+                         styleClass="gridtablicasyntetyczne"  style="margin-top: 10px; width: 1100px; height: 500px; overflow-y: scroll;" widgetVar="tablicasymulacjaK"
+                         >
+                <f:facet name="header">
+                    <h:outputText value="zestawienia kosztów "/>
+                </f:facet>
+                
+                <p:ajax event="rowSelectCheckbox" update="akordeon:formsymulacja" listener="#{symulacjaWynikuView.sumazapisowKoszty()}" global="false"/>
+                <p:ajax event="rowUnselectCheckbox" update="akordeon:formsymulacja"  listener="#{symulacjaWynikuView.sumazapisowKoszty()}" global="false"/>
+                <p:ajax event="toggleSelect" update="akordeon:formsymulacja"  listener="#{symulacjaWynikuView.sumazapisowKoszty()}" global="false"/>
+                <p:column selectionMode="multiple" width="20" style="text-align: center;"></p:column>
+                <p:ajax event="rowToggle" global="false"/>
+                <p:column width="20">
+                    <p:rowToggler />
+                </p:column>
+                <p:column headerText="id" width="20" sortBy="#{loop.id}" style="text-align: center;" >
+                    <h:outputText styleClass="lpwierszaanalityka" value="#{index1+1}"/>
+                </p:column>
+                <p:column headerText="#{mgs.konto}" width="70" >
+                    <h:outputText value="#{loop.konto.pelnynumer}"/>
+                </p:column>
+                <p:column headerText="#{mgs.opis}" width="140" >
+                    <h:outputText value="#{loop.konto.nazwapelna}" rendered="#{facesContext.viewRoot.locale.language.equals('pl')}"/>
+                    <h:outputText value="#{loop.konto.de}" rendered="#{facesContext.viewRoot.locale.language.equals('de')}"/>
+                </p:column>
+                <p:column headerText="#{mgs.obrotyWn}" width="60" >
+                    <h:outputText value="#{loop.obrotyWn != 0.0 ? loop.obrotyWn : null}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{mgs.obrotyMa}" width="60" >
+                    <h:outputText value="#{loop.obrotyMa != 0.0 ? loop.obrotyMa : null}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{mgs.saldoWn}" width="60" >
+                    <h:outputText value="#{loop.saldoWn != 0.0 ? loop.saldoWn : null}" style="float: right; color: green; font-weight: 700;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{mgs.saldoMa}" width="60" >
+                    <h:outputText value="#{loop.saldoMa != 0.0 ? loop.saldoMa : null}" style="float: right; color: green; font-weight: 700;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                  <p:column headerText="#{mgs.vat}" width="60" >
+                    <h:outputText value="#{loop.vat != 0.0 ? loop.vat : null}" style="float: right; color: green; font-weight: 700;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{mgs.kontosyntetyczne}" width="110" >
+                    <h:outputText value="#{loop.getTopKontoOpis()}" />
+                </p:column>
+
+               <f:facet name="footer">
+                    <p:panelGrid style="padding-right: 30px;">
+                    <p:column colspan="8">
+                        <h:outputText value="razem koszty, razem vat"/>
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="#{symulacjaWynikuView.sumakoszty}">
+                            <f:convertNumber minFractionDigits="2" locale="PL"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="#{symulacjaWynikuView.sumavatkoszty}">
+                            <f:convertNumber minFractionDigits="2" locale="PL"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column></p:column>
+                    </p:panelGrid>
+               </f:facet>
+                
+                <p:rowExpansion>
+                    <p:dataTable value="#{loop.zapisy}" var="loopik" emptyMessage="nie ma rachunków na tym koncie">
+                        <p:column headerText="#{mgs.dokument}" width="60">
+                            <h:outputText value="#{loopik.dokfkS}" style="color: #{loopik.color}"/>
+                        </p:column>
+                        <p:column headerText="#{mgs.data}" width="50">
+                            <h:outputText value="#{loopik.dokfk.datadokumentu}" style="color: #{loopik.color}"/>
+                        </p:column>
+                        <p:column headerText="#{mgs.nr}" width="100">
+                            <h:outputText value="#{loopik.dokfk.numerwlasnydokfk}" style="color: #{loopik.color}"/>
+                        </p:column>
+                        <p:column headerText="#{mgs.kontrahent}" width="150">
+                            <h:outputText value="#{loopik.wiersz.eVatwpisFK eq null ? loopik.dokfk.kontr.npelna : loopik.wiersz.eVatwpisFK.klient.npelna}" style="color: #{loopik.color}"/>
+                        </p:column>
+                        <p:column headerText="wiersz" width="150">
+                            <h:outputText value="#{loopik.wiersz.opisWiersza}" style="color: #{loopik.color}"/>
+                        </p:column>
+                        <p:column headerText="#{mgs.kwota}" width="60">
+                            <bcf:outputpl value="#{loopik.wnma eq 'Wn' ? loopik.kwota : -loopik.kwota}"/>
+                        </p:column>
+                        <p:column width="10">
+                            <h:outputText value="#{loopik.wiersz.tabelanbp.waluta.skrotsymbolu}" style="color: #{loopik.color}"/>
+                        </p:column>
+                    </p:dataTable>
+                </p:rowExpansion>
+            </p:dataTable>
+            <p:dataTable id="tabelapodsumowanienowa" value="#{symulacjaWynikuView.pozycjePodsumowaniaWynikuNowe}" var="item2"
+                         style="width: 80%;margin-top: 20px;" rowIndexVar="index2">
+                <p:column width="30" style="text-align: center;">
+                    <h:outputText value="#{index2+1}"/>
+                </p:column>
+                <p:column width="220" headerText="#{mgs.udziałowiec}">
+                    <h:outputText value="#{item2.udzialowiec}"/>
+                </p:column>
+                <p:column  width="40" headerText="#{mgs.udział}">
+                    <bcf:outputplprocent value="#{item2.udzial}"/>
+                </p:column>
+                <p:column  headerText="#{mgs.przychody}">
+                    <bcf:outputpl value="#{item2.przychody}"/>
+                </p:column>
+                <p:column  headerText="#{mgs.koszty}">
+                    <bcf:outputpl value="#{item2.koszty}"/>
+                </p:column>
+                 <p:column  headerText="#{mgs.wynikfinansowy}">
+                     <bcf:outputpl value="#{item2.wynikfinansowy}"/>
+                </p:column>
+                <p:column  headerText="przych.podatk.">
+                    <bcf:outputpl value="#{item2.przychodyPodatkowe}"/>
+                </p:column>
+                <p:column  headerText="koszt. podat.">
+                    <bcf:outputpl value="#{item2.kosztyPodatkowe}"/>
+                </p:column>
+                <p:column  headerText="korekta wyniku fin.">
+                    <bcf:outputpl value="#{item2.wynikPodatkowyWstępny}"/>
+                </p:column>
+            </p:dataTable>
+            <p:dataTable id="tabelapodsumowanienowa2" value="#{symulacjaWynikuView.pozycjePodsumowaniaWynikuNowe}" var="item3"
+                         style="width: 80%;margin-top: 20px;" rowIndexVar="index3">
+                <p:column width="30" style="text-align: center;">
+                    <h:outputText value="#{index3+1}"/>
+                </p:column>
+                <p:column width="220" headerText="#{mgs.udziałowiec}">
+                    <h:outputText value="#{item3.udzialowiec}"/>
+                </p:column>
+                <p:column width="40" headerText="#{mgs.udział}">
+                    <bcf:outputplprocent value="#{item3.udzial}"/>
+                </p:column>
+                <p:column  headerText="#{mgs.nkup}">
+                    <bcf:outputpl value="#{item3.nkup}"/>
+                </p:column>
+                <p:column  headerText="#{mgs.kupmn}">
+                    <bcf:outputpl value="#{item3.kupmn}"/>
+                </p:column>
+                <p:column  headerText="#{mgs.kupmnpopmce}">
+                    <bcf:outputpl value="#{item3.kupmn_poprzedniemce}"/>
+                </p:column>
+                <p:column  headerText="#{mgs.npup}">
+                    <bcf:outputpl value="#{item3.npup}"/>
+                </p:column>
+                <p:column  headerText="#{mgs.pmn}">
+                    <bcf:outputpl value="#{item3.pmn}"/>
+                </p:column>
+                <p:column  headerText="#{mgs.pmnpopmce}">
+                    <bcf:outputpl value="#{item3.pmn_poprzedniemce}"/>
+                </p:column>
+                <p:column  headerText="#{mgs.wynikpodatkowy}">
+                    <bcf:outputpl value="#{item3.wynikpodatkowy}"/>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+       
+    </p:tab>  
+</ui:composition>   
+
+

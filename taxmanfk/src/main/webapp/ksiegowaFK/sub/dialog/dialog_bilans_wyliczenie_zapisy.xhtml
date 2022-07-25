@@ -1,0 +1,139 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    
+
+    xmlns:bcf="http://brzaskun.com/facelets">
+
+    <p:dialog id="dialogbilansprzegladzapisy" header="Bilans za okres rozliczeniowy z saldami kont - #{WpisView.podatnikObiekt.printnazwa}" widgetVar="bilansprzegladukladzapisy" 
+              resizable="false" onShow="ustawdialog('dialogbilansprzegladzapisy','menubilanse', 1300, 780);" closeOnEscape="true" onHide="resetujdialog('dialogbilansprzegladzapisy');"  >
+        <h:form id="formprzegladbilanszapisy">
+            <!--            <p:contextMenu for="dataList">
+                            <p:menuitem value="Nowe syntetyczne" icon="ui-icon-circle-plus" update=":form" onclick="PF('nowekontosyntetyczne').show();"/>
+                            <p:menuitem value="Nowe analityczne" icon="ui-icon-circle-plus" update=":form" onclick="PF('nowekontoanalityczne').show();"/>
+                            <p:menuitem value="Usuń" actionListener="{planKontView.usun()}" icon="ui-icon-trash" update=":form"/>
+                        </p:contextMenu>
+            -->            <script>
+
+                document.onkeypress = wcisnij;
+                function wcisnij() {
+                    if (event.keyCode == 43) {
+                        $('#form\\:rozwinwsz').click();
+                    } else if (event.keyCode == 45) {
+                        $('#form\\:zwinwsz').click();
+                    } else {
+                        return event;
+                    }
+                }
+            </script>
+                <p:panelGrid columns="7">
+                    <h:outputText value="#{mgs.nazwaukładu}"/>
+                    <p:selectOneMenu value="#{pozycjaBRView.uklad}" converter="#{ukladBRConv}">
+                        <f:selectItems value="#{ukladBRView.listarokbiezacy}" var="loop" itemLabel="#{loop.uklad} - #{loop.rok}" itemValue="#{String.valueOf(loop.lp)}"/>
+                        <p:ajax event="change" listener="#{pozycjaBRView.zmianaukladprzegladBilans()}"/>
+                    </p:selectOneMenu>
+                    <p:commandButton value="oblicz" style="width: 120px;" type="submit" actionListener="#{pozycjaBRView.pobierzukladprzegladBilans('aktywa')}" update=":formprzegladbilanszapisy"/>
+                    <p:commandButton value="pokaż aktywa" style="width: 120px;" type="submit" actionListener="#{pozycjaBRView.pokazukladprzegladBilans('aktywa')}" update=":formprzegladbilanszapisy"/>
+                    <p:commandButton value="pokaż pasywa" style="width: 120px;" type="submit" actionListener="#{pozycjaBRView.pokazukladprzegladBilans('pasywa')}" update=":formprzegladbilanszapisy"/>
+                    <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
+                        <p:ajax event="change" listener="#{pozycjaBRView.odswiezbilans()}" update="formprzegladbilanszapisy" />
+                        <f:selectItems value="#{mce.mceList}"/>
+                    </p:selectOneMenu>
+                    <h:outputText value="wydruki z nr kont są dostępne w okienku 'przeglądaj Bilans'"/>
+<!--                <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{pozycjaBRView.rozwinwszystkie()}" update=":formprzegladbilanszapisy:dataList" style="float: left;" />
+                <p:commandButton id="rozwin" value="rozwiń poziom" actionListener="#{pozycjaBRView.rozwin()}" update=":formprzegladbilanszapisy:dataList" style="float: left;" />
+                <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{pozycjaBRView.zwinwszystkie()}" update=":formprzegladbilanszapisy:dataList" style="float: left;" />
+                <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{pozycjaBRView.zwin()}" update=":formprzegladbilanszapisy:dataList" style="float: left;" />-->
+            </p:panelGrid>
+            <p:panelGrid columns="2" >
+                <p:column>
+                    <p:treeTable id="dataList" value="#{pozycjaBRView.rootBilansAktywa}" var="loop" selectionMode="checkbox" selection="#{pozycjaBRView.selectedNodes}" 
+                                 styleClass="tablicaplankont" resizableColumns="true" emptyMessage="#{mgs.brakpozycjiaktywa}" 
+                                 scrollable="true" style="height: 700px; margin-top: 0px; width: 650px; overflow-y: scroll;" rendered="#{pozycjaBRView.pokazaktywa}">
+                        <p:ajax event="select" global="false" listener="#{pozycjaBRView.wyluskajStronyzPozycjiBilans()}" update=":formprzegladbilanszapisy:podpietekonta :formprzegladbilanszapisy:podpietepozycje"/>
+                        <p:ajax event="unselect" global="false" listener="#{pozycjaBRView.wyluskajStronyzPozycjiBilans()}" update=":formprzegladbilanszapisy:podpietekonta :formprzegladbilanszapisy:podpietepozycje"/>
+                        <f:facet name="header">
+                            <h:outputText value="#{mgs.aktywa} "/>
+                            <bcf:outputpl value="#{pozycjaBRView.sumabilansowaaktywa}"/>
+                        </f:facet>
+                        <p:column style="width: 440px;">
+                            <h:outputText value="#{loop.pozycjaSymbol}" style="font-weight: bolder" /> 
+                            <h:outputText value=" " /> 
+                            <h:outputText value="#{loop.nazwa}" /> 
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{loop.kwota}" style="float: right; padding-right: 15%"  rendered="#{loop.kwota!= 0.0}">
+                                <f:convertNumber minFractionDigits="2" locale="PL"/>
+                            </h:outputText>
+                        </p:column>
+                    </p:treeTable>
+                    <p:treeTable id="dataList2" value="#{pozycjaBRView.rootBilansPasywa}" var="loop" selectionMode="checkbox" selection="#{pozycjaBRView.selectedNodes}" 
+                                 styleClass="tablicaplankont" resizableColumns="true" emptyMessage="#{mgs.brakpozycjipasywa}" 
+                                 scrollable="true"  style="height: 700px; margin-top: 0px; width: 650px; overflow-y: scroll;" 
+                                 rendered="#{pozycjaBRView.pokazaktywa == false}">
+                        <p:ajax event="select" global="false" listener="#{pozycjaBRView.wyluskajStronyzPozycjiBilans()}" update=":formprzegladbilanszapisy:podpietekonta, :formprzegladbilanszapisy:podpietepozycje"/>
+                        <p:ajax event="unselect" listener="#{pozycjaBRView.wyluskajStronyzPozycjiBilans()}" update=":formprzegladbilanszapisy:podpietekonta, :formprzegladbilanszapisy:podpietepozycje"/>
+                        <f:facet name="header">
+                            <h:outputText value="#{mgs.pasywa} "/>
+                            <bcf:outputpl value="#{pozycjaBRView.sumabilansowapasywa}"/>
+                        </f:facet>
+                        <p:column style="width: 440px;">
+                            <h:outputText value="#{loop.pozycjaSymbol}" style="font-weight: bolder" /> 
+                            <h:outputText value=" " /> 
+                            <h:outputText value="#{loop.nazwa}" /> 
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{loop.kwota}" style="float: right; padding-right: 15%"  rendered="#{loop.kwota!= 0.0}">
+                                <f:convertNumber minFractionDigits="2" locale="PL"/>
+                            </h:outputText>
+                        </p:column>
+                    </p:treeTable>
+                </p:column>
+                <p:column>
+                    <p:panelGrid columns="1" >
+                        <p:dataTable id="podpietekonta" value="#{pozycjaBRView.sumaPodpietychKont}" emptyMessage="#{mgs.niemapodpiętychkont}" var="loop"
+                                     style="height: 200px; margin-top: 0%; width: 600px; margin-bottom: 50px; overflow-y: scroll;" sortBy="#{loop.pelnynumer}">
+                            <f:facet  name="header">
+                                <h:outputText value="#{mgs.podpiętesaldakont}"/>
+                            </f:facet>
+                            <p:column width="60">
+                                <h:outputText value="#{loop.pelnynumer}"/>
+                            </p:column>
+                            <p:column width="350">
+                                <h:outputText value="#{loop.nazwapelna}"/>
+                            </p:column>
+                            <p:column >
+                                <bcf:outputpl value="#{loop.kwota}" />
+                            </p:column>
+                        </p:dataTable>
+                        <p:dataTable id="podpietepozycje" value="#{pozycjaBRView.podpieteStronyWiersza}" emptyMessage="#{mgs.niemapodpiętychzapisów}" var="loop"
+                                     style="height: 400px; margin-top: 0%; width: 600px; margin-bottom: 50px; overflow-y: scroll;" sortBy="#{loop.konto.pelnynumer}">
+                            <f:facet  name="header">
+                                <h:outputText value="#{mgs.podpiętezapisy}"/>
+                            </f:facet>
+                            <p:column width="30" sortBy="#{loop.konto.pelnynumer}">
+                                <h:outputText value="#{loop.konto.pelnynumer}"/>
+                            </p:column>
+                            <p:column width="50" sortBy="#{loop.wiersz.dataDokumentu}">
+                                <h:outputText value="#{loop.wiersz.dataDokumentu}"/>
+                            </p:column>
+                            <p:column width="180">
+                                <h:outputText value="#{loop.wiersz.opisWiersza.length() gt 38 ? loop.wiersz.opisWiersza.subSequence(0, 38) : loop.wiersz.opisWiersza}"/>
+                            </p:column>
+                            <p:column width="50" sortBy="#{loop.kwota}">
+                                <bcf:outputpl value="#{loop.kwota}" />
+                            </p:column>
+                            <p:column style="text-align: left;" width="40">
+                                <h:outputText value="#{loop.wiersz.dokfk.seriadokfk}/#{loop.wiersz.dokfk.nrkolejnywserii} z #{loop.wiersz.dokfk.miesiac}"/>
+                            </p:column>
+                        </p:dataTable>
+                    </p:panelGrid>
+                </p:column>
+            </p:panelGrid>
+        </h:form>
+    </p:dialog>
+</ui:composition>
+

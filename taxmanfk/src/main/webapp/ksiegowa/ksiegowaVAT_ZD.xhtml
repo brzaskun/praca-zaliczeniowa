@@ -1,0 +1,27 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <ui:composition template="/template.xhtml">
+
+        <ui:define name="title">
+            <h:outputText value="Podatkowa księga przychodów i rozchodów"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+             
+                <f:view>
+                    <p:layout fullPage="true" expandTitle="Wysuń" closeTitle="Zamknij" collapseTitle="Schowaj">
+                        <ui:include src="sub/layoutVat/north.xhtml"/>  <!-- panel polnocny-->
+                        <ui:include src="sub/layoutVat/south.xhtml"/>   <!-- panel poludniowy-->
+                        <ui:include src="sub/layoutVat/west.xhtml"/>   <!-- panel zachodni-->
+                        <ui:include src="sub/layoutTablica/east.xhtml"/>   <!-- panel wchodni-->
+                        <p:layoutUnit position="center" style="box-shadow: 10px 10px 5px #888; padding: 1%;">
+                            <ui:include src="sub/vatzd.xhtml"/>   <!-- właściwa tablica z danymi z księgi-->
+                        </p:layoutUnit>
+                    </p:layout>
+                </f:view>
+            
+        </ui:define>
+    </ui:composition>
+</html>

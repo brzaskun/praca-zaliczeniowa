@@ -1,0 +1,181 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:bcf="http://brzaskun.com/facelets">
+    <ui:composition template="/templateFK.xhtml">
+        <ui:define name="title">
+            <h:outputText value="Rozliczenia VAT"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <f:view>
+                <p:layout fullPage="true" expandTitle="Wysuń" closeTitle="Zamknij" collapseTitle="Schowaj">
+                    <ui:include src="sub/layout_1/north.xhtml"/>  <!-- panel polnocny-->
+                    <ui:include src="sub/layout_1/south.xhtml"/>   <!-- panel poludniowy-->
+                    <ui:include src="sub/layout_1/west.xhtml"/>   <!-- panel zachodni-->
+                    <p:layoutUnit position="center">
+                        <h:form id="form">
+                            <ui:include src="sub/menu_wiad.xhtml"/>   <!-- menu contextowe i pole wiadomosci growl-->
+                        </h:form>
+<!--                        <ui:include src="../wspolny/dedraZakupyPlik.xhtml"/>-->
+                        <!--                        jak robie tak, to dzieja sie dziwne rzeczy, w p:inputNumber cyfry wskakuja kilka razy-->
+                    <h:form id="form_dialog_ewvat_dedra" >
+                        <p:focus for="polawprowadzania1"/>
+                        <p:panel header="Zaksięguj faktury zakupu"  style="width: 1250px;"/>
+                        <p:panelGrid columns="2">
+                            <p:panelGrid id="polawprowadzania1" style="width: 1000px; padding: 20px;">
+                                <f:facet name="header">
+                                    <p:row>
+                                        <p:column colspan="1">
+                                            <h:outputText value="data operacji."/>
+                                        </p:column>
+                                        <p:column colspan="1">
+                                            <h:outputText value="data wpływu"/>
+                                        </p:column>
+                                        <p:column colspan="1">
+                                            <h:outputText value="klient"/>
+                                        </p:column>
+                                        <p:column colspan="1">
+                                            <h:outputText value="nr faktury"/>  
+                                        </p:column>
+                                        <p:column colspan="1">
+                                            <h:outputText value="netto"/>
+                                        </p:column>
+                                        <p:column colspan="1">
+                                            <h:outputText value="vat"/>
+                                        </p:column>
+                                    </p:row>
+                                </f:facet>
+                                <p:row>
+                                    <p:column colspan="1">
+                                        <p:inputMask value="#{eVatDedraView.selected.dataoperacji}" mask="9999-99-99" required="true" requiredMessage="Data jest wymagana, uzupełnij!"/>
+                                    </p:column>
+                                    <p:column colspan="1">
+                                        <p:inputMask value="#{eVatDedraView.selected.datadokumentu}"  mask="9999-99-99" required="true" requiredMessage="Data jest wymagana, uzupełnij!"/>
+                                    </p:column>
+                                    <p:column colspan="1">
+                                        <p:autoComplete id="acForce" value="#{eVatDedraView.selected.klient}" completeMethod="#{klienciConverterView.completeKL}" widgetVar="poleklientawpisywaniefk"
+                                                        var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="#{klientConv}" title="wpisz nazwę lub nip kontrahenta"
+                                                        minQueryLength="3" maxResults="12" maxlength="10" converterMessage="Nieudana konwersja Klient" queryDelay="5"
+                                                        forceSelection="true" styleClass="wpisywaniekontrfk" autocomplete="true" moreText="jest więcej pasujących pozycji"
+                                                        >
+                                            <p:ajax event="query" global="false"/>
+                                            <p:ajax event="itemSelect" partialSubmit="true" global="false"/>
+                                            <f:facet name="itemtip">  
+                                                <h:panelGrid  columns="2" cellpadding="5" width="400">  
+                                                    <f:facet name="header">  
+                                                        <h:outputText value="Dane kontrahenta"/>
+                                                    </f:facet>  
+                                                    <h:outputText value="Nazwa: " />  
+                                                    <h:outputText id="npelna" value="#{p.npelna}" />  
+                                                    <h:outputText value="NIP: " />  
+                                                    <h:outputText id="nip" value="#{p.nip}" />  
+                                                    <h:outputText value="Adres " />  
+                                                    <h:outputText id="klumna" value="#{p.miejscowosc} #{p.ulica} #{p.dom} #{p.lokal}" /> 
+                                                </h:panelGrid>
+                                            </f:facet>
+                                        </p:autoComplete>
+                                    </p:column>
+                                    <p:column colspan="1">
+                                        <p:inputText value="#{eVatDedraView.selected.faktura}"/>
+                                    </p:column>
+                                    <p:column colspan="1">
+                                        <p:inputNumber value="#{eVatDedraView.selected.netto}" symbol=" zł" required="true" 
+                                                       requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" 
+                                                       symbolPosition="s" decimalSeparator="."   inputStyle="text-align: right;" decimalPlaces="2" minValue="-10000000" 
+                                                       styleClass="wiersznetto" thousandSeparator="&#160;" >
+                                        </p:inputNumber>
+                                    </p:column>
+                                    <p:column colspan="1">
+                                        <p:inputNumber value="#{eVatDedraView.selected.vat}" symbol=" zł" required="true" 
+                                                       requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" 
+                                                       symbolPosition="s" decimalSeparator="."   inputStyle="text-align: right;" decimalPlaces="2" minValue="-10000000" 
+                                                       styleClass="wiersznetto" thousandSeparator="&#160;" >
+                                        </p:inputNumber>
+                                    </p:column>
+                                </p:row>
+                            </p:panelGrid>
+                            <p:commandButton value="dodaj" actionListener="#{eVatDedraView.dodajwierszzakupu}" style="width: 120px;float: right" update="@form form_dialog_ewvat_dedra2"/>
+                        </p:panelGrid>
+                    </h:form>
+                        <h:form id="form_dialog_ewvat_dedra2" >
+                        <p:dataTable value="#{eVatDedraView.zakupy}" var="item" rowIndexVar="index" id="tabela" style="width: 1300px;"
+                                      sortBy="#{item.faktura}"
+                                     emptyMessage="#{mgs.niepobranowierszy}">
+                            <f:facet name="header">
+                                <h:outputText value=" #{mgs.ewidencja} #{item.ewidencja.nazwa}"/>
+                            </f:facet>
+                            <p:column style="width: 20px;">
+                                <f:facet name="header">
+                                    <h:outputText value="lp"/>
+                                </f:facet>
+                                <h:outputText value="#{index+1}" rendered="#{item.ulica ne 'podsumowanie'}"/>
+                            </p:column>
+                            <p:column style="width: 90px;" sortBy="#{item.datadokumentu}">
+                                <f:facet name="header">
+                                    <h:outputText value="#{mgs.dataksiegowania}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.datadokumentu}"/>
+                            </p:column>
+                            <p:column style="width: 50px;">
+                                <f:facet name="header">
+                                    <h:outputText value="#{mgs.mcrok}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.mcRok}"/>
+                            </p:column>
+                            <p:column style="width: 200px;" sortBy="#{item.imienazwisko}">
+                                <f:facet name="header">
+                                    <h:outputText value="#{mgs.imieinazwisko}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.imienazwisko}"/>
+                            </p:column>
+                            <p:column sortBy="#{item.faktura}">
+                                <f:facet name="header">
+                                    <h:outputText value="#{mgs.faktura}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.faktura}"/>
+                            </p:column>
+                            <p:column style="width: 250px;">
+                                <f:facet name="header">
+                                    <h:outputText value="#{mgs.adres}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.adres}"/>
+                            </p:column>
+                            <p:column sortBy="#{item.netto}">
+                                <f:facet name="header">
+                                    <h:outputText value="#{mgs.netto}"/>
+                                </f:facet>
+                                <bcf:outputpl value="#{item.netto}"/>
+                            </p:column>
+                            <p:column sortBy="#{mgs.vat}">
+                                <f:facet name="header">
+                                    <h:outputText value="#{mgs.vat}"/>
+                                </f:facet>
+                                <bcf:outputpl value="#{item.vat}"/>
+                            </p:column>
+                            <p:column sortBy="#{item.dataoperacji}">
+                                <f:facet name="header">
+                                    <h:outputText value="#{mgs.datadok}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.dataoperacji}"/>
+                            </p:column>
+                            <p:column style="text-align: center;">
+                                <p:commandButton icon="fa fa-trash" actionListener="#{eVatDedraView.usun(item)}" update="@parent:@parent"/>
+                            </p:column>
+                        </p:dataTable>
+                        </h:form>
+                        <h:form>
+                            <p:outputPanel style="padding: 10px;">
+                                <p:commandButton value="#{mgs.drukuj}" actionListener="#{eVatDedraView.drukujewidencje}" style="width: 120px; margin-left: 10px;" />
+                            </p:outputPanel>
+                        </h:form>
+                    </p:layoutUnit>
+                </p:layout>
+            </f:view>
+        </ui:define>
+    </ui:composition>
+</html>
+
+
+

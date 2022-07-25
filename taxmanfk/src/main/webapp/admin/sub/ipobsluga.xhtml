@@ -1,0 +1,61 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    
+    xmlns:bcf="http://brzaskun.com/facelets">
+    <f:view>
+        <bcf:ajaxs/>
+<!--        <h:form style="padding: 0.5%;">
+            <p:panelGrid columns="2">
+                <h:outputText value="bez archiwalnych"/>
+                <p:selectBooleanCheckbox value="{pismoAdminView.wybierztylkobiezace}" label="bez archiwalnych">
+                    <p:ajax event="change" listener="{pismoAdminView.init}" update=":wykazpism"/>
+                </p:selectBooleanCheckbox>
+            </p:panelGrid>
+        </h:form>-->
+        <h:form id="wykazip">
+            <p:dataTable value="#{rejestrlogowanView.rejestrlogowan}" var="item" style="width: 80%; margin-top: 2%;" id="dokLista"
+                         widgetVar="table" emptyMessage="Brak zablokowanych ip" filterDelay="600"
+                         paginator="true" rows="12" paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
+                         rowsPerPageTemplate="12,16,20,50" sortBy="#{item.datalogowania}" sortOrder="descending" 
+                         >
+                 <f:facet name="header">
+                    <h:outputText value="Wykaz zablokowanych ip"/><br/>
+                </f:facet>
+                <p:column width="20">
+                    <f:facet name="header">
+                        <h:outputText value="IP usera"/>
+                    </f:facet>
+                    <h:outputText value="#{item.ipusera}"/>
+                </p:column>
+                <p:column width="80">
+                    <f:facet name="header">
+                        <h:outputText value="data logowania"/>
+                    </f:facet>
+                    <h:outputText value="#{item.datalogowania}">
+                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+                <p:column width="100">
+                    <f:facet name="header">
+                        <h:outputText value="ilość logowań"/>
+                    </f:facet>
+                    <h:outputText value="#{item.ilosclogowan}"/>
+                </p:column>
+                <p:column filterBy="#{item.blokada}" filterMatchMode="contains"  >
+                    <f:facet name="header">
+                        <h:outputText value="blokada"/>
+                    </f:facet>
+                    <h:outputText value="#{item.blokada}"/>
+                </p:column>
+                 <p:column width="80">
+                     <p:commandButton value="odblokuj" actionListener="#{rejestrlogowanView.odblokujIPusera(item)}" update=":wykazip"/>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </f:view>
+</ui:composition>   
+

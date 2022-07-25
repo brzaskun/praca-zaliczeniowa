@@ -1,0 +1,163 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    
+    
+    xmlns:bcf="http://brzaskun.com/facelets">
+    <p:tab  title="#{mgs.zestawieniesynt}" >
+        <style>
+            .gridtablicasyntetyczne tr{
+                height : 40px !important;
+            }
+            
+            .gridtablicasyntetyczne td{
+                padding: 0px  !important;
+            }
+            .ui-datatable .kontosyntetyczne .ui-column-filter {
+            width: 45px !important;
+        }
+
+        </style>
+        <h:form id="formtablicasyntetyczne">
+            <p:panelGrid columns="6" style="margin-left: 2%;" >
+                <h:outputText value="m-c" style="margin-right: 10px;"/>
+                <p:column>
+                    <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
+                        <p:ajax event="change" listener="#{saldoSyntetykaView.odswiezsaldosyntetyczne}" update="@form, :akordeon:tabelazsumamisyntetyka"/>
+                        <f:selectItems value="#{mce.mceList}"/>
+                    </p:selectOneMenu>
+                </p:column>
+                <p:column>
+                    <p:commandButton value="#{mgs.pobierz}" actionListener="#{saldoSyntetykaView.odswiezsaldosyntetyczne()}" style="width: 120px; margin-left: 20px;" update="@form, :akordeon:tabelazsumamisyntetyka"/>
+                </p:column>
+                <h:outputText value="#{mgs.przetwarzanie}"/>
+                <p:commandButton value="#{mgs.drukujtab}" actionListener="#{saldoSyntetykaView.drukuj(1)}" style="width: 120px; margin-left: 20px;" />
+                <p:commandButton value="#{mgs.drukujszcz}" actionListener="#{saldoSyntetykaView.drukujS(2)}" style="width: 120px; margin-left: 20px;" />
+            </p:panelGrid>
+            
+            <p:dataTable id="tablicasaldasyntetyczne" value="#{saldoSyntetykaView.listaSaldoKonto}" var="loop" rowKey="#{loop.konto.pelnynumer}"
+                         filteredValue="#{saldoSyntetykaView.listaSaldoKontofilter}"
+                         sortBy="#{loop.konto}" sortFunction="#{saldoSyntetykaView.compare}" emptyMessage="#{mgs.niemazapisownakontach}" selectionMode="single" 
+                         styleClass="gridtablicasyntetyczne"  style="overflow-y: scroll; height: 620px;" widgetVar="tablicasaldasyntetyczne"
+                         >
+                <p:ajax event="filter" global="false"/>
+                <p:ajax event="rowToggle" global="false"/>
+                <p:column width="20">
+                    <p:rowToggler/>
+                </p:column>
+                <p:column headerText="id" width="20" sortBy="#{loop.id}" >
+                    <h:outputText styleClass="lpwierszaanalityka" value="#{loop.id}"/>
+                </p:column>
+                <p:column styleClass="kontosyntetyczne" headerText="#{mgs.konto}" width="40" filterBy="#{loop.konto.pelnynumer}" >
+                    <h:outputText value="#{loop.konto.pelnynumer}"/>
+                </p:column>
+                <p:column headerText="#{mgs.opis}" width="140" >
+                    <h:outputText value="#{loop.konto.nazwapelna}" rendered="#{facesContext.viewRoot.locale.language.equals('pl')}"/>
+                    <h:outputText value="#{loop.konto.de}" rendered="#{facesContext.viewRoot.locale.language.equals('de')}"/>
+                </p:column>
+                <p:column headerText="#{mgs.boWn}" width="60" >
+                    <h:outputText value="#{loop.boWn != 0.0 ? loop.boWn : null}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{mgs.boMa}" width="60" >
+                    <h:outputText value="#{loop.boMa != 0.0 ? loop.boMa : null}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+               <p:column headerText="#{mgs.obrotyWn}" width="60"  style="background-color: #e6f2ff;">
+                    <h:outputText value="#{loop.obrotyWnMc != 0.0 ? loop.obrotyWn : null}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{mgs.obrotyMa}" width="60"  style="background-color: #e6f2ff;">
+                    <h:outputText value="#{loop.obrotyMaMc != 0.0 ? loop.obrotyMa : null}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{mgs.obrotyWnNar}" width="60" >
+                    <h:outputText value="#{loop.obrotyWn != 0.0 ? loop.obrotyWn : null}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{mgs.obrotyMaNar}" width="60" >
+                    <h:outputText value="#{loop.obrotyMa != 0.0 ? loop.obrotyMa : null}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{mgs.obrotyBOWn}" width="60" >
+                    <h:outputText value="#{loop.obrotyBoWn != 0.0 ? loop.obrotyBoWn : null}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{mgs.obrotyBOMa}" width="60" >
+                    <h:outputText value="#{loop.obrotyBoMa != 0.0 ? loop.obrotyBoMa : null}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{mgs.saldoWn}" width="60" >
+                    <h:outputText value="#{loop.saldoWn != 0.0 ? loop.saldoWn : null}" style="float: right; color: green; font-weight: 700;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{mgs.saldoMa}" width="60" >
+                    <h:outputText value="#{loop.saldoMa != 0.0 ? loop.saldoMa : null}" style="float: right; color: green; font-weight: 700;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{mgs.konto}" width="40" >
+                    <h:outputText value="#{loop.konto.pelnynumer}" />
+                </p:column>
+            </p:dataTable>
+        </h:form>
+        <h:form id="tabelazsumamisyntetyka">
+            <p:dataTable id="sumy" value="#{saldoSyntetykaView.sumaSaldoKonto}" var="loop" styleClass="gridtablicaanalityczne"
+                         style="float: right; margin-right: 90px; width: 970px; height: 60px;" emptyMessage="#{mgs.niewybranokonta}">
+                <p:column headerText="#{mgs.boWn}" width="50" >
+                    <bcf:outputpl value="#{loop.boWn}"/>
+                </p:column>
+                <p:column headerText="#{mgs.boMa}" width="50" >
+                    <bcf:outputpl value="#{loop.boMa}"/>
+                </p:column>
+                <p:column headerText="#{mgs.obrotyWn}" width="50"  style="background-color: #e6f2ff;">
+                    <h:outputText value="#{loop.obrotyWnMc != 0.0 ? loop.obrotyWnMc : null}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{mgs.obrotyMa}" width="50"  style="background-color: #e6f2ff;">
+                    <h:outputText value="#{loop.obrotyMaMc != 0.0 ? loop.obrotyMaMc : null}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{mgs.obrotyWnNar}" width="50" >
+                    <h:outputText value="#{loop.obrotyWn != 0.0 ? loop.obrotyWn : null}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{mgs.obrotyMaNar}" width="50" >
+                    <h:outputText value="#{loop.obrotyMa != 0.0 ? loop.obrotyMa : null}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{mgs.obrotyBOWn}" width="45" >
+                    <bcf:outputpl value="#{loop.obrotyBoWn}"/>
+                </p:column>
+                <p:column headerText="#{mgs.obrotyBOMa}" width="45" >
+                    <bcf:outputpl value="#{loop.obrotyBoMa}"/>
+                </p:column>
+                <p:column headerText="#{mgs.saldoWn}" width="45" >
+                    <bcf:outputpl value="#{loop.saldoWn}"/>
+                </p:column>
+                <p:column headerText="#{mgs.saldoMa}" width="45" >
+                    <bcf:outputpl value="#{loop.saldoMa}"/>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </p:tab>  
+</ui:composition>   
+
+

@@ -1,0 +1,52 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    >
+    <p:dialog id="dialog_rzis_projekt_wzorcowy_inter" header="Projekt Rachunku Zysków i Strat - Wzorcowy" widgetVar="dialog_rzis_projekt_wzorcowy_inter" 
+              resizable="false" onShow="ustawdialog('dialog_rzis_projekt_wzorcowy_inter','menuustawienia', 1250, 750);" closeOnEscape="true" onHide="resetujdialog('dialog_rzis_projekt_wzorcowy_inter');"  >
+        <h:form id="form_dialog_rzis_projekt_wzorcowy_inter">
+            <p:panelGrid columns="7" >
+                <p:commandButton id="zachowaj" value="zachowaj" actionListener="#{pozycjaBRWzorcowyView.zachowajInt(pozycjaBRWzorcowyView.rootProjektRZiS)}" update=":form_dialog_rzis_projekt_wzorcowy_inter:dataList" style="float: left; margin-left: 100px; width: 120px;" />
+                <p:commandButton id="xlsbutton" value="dane w formacie XLS" actionListener="#{xLSRZiSView.zachowajRZiSwXLS(pozycjaBRWzorcowyView.rootProjektRZiS)}" style=" margin-left: 5px;" global="false" ajax="false"/>
+                <p:fileUpload fileUploadListener="#{pozycjaBRWzorcowyView.pobierzdanezplikur}" 
+                                      validatorMessage="Nieprawidłowy typ pliku" invalidFileMessage="Nieprawidłowy typ pliku" 
+                                      fileLimitMessage="Można załadować tylko jeden plik na jedno ładowanie"
+                                      uploadLabel="Wczytaj" label="Wybierz" cancelLabel="Rezygnuj" 
+                                      sequential="true">
+                        </p:fileUpload>
+            </p:panelGrid>
+            <p:panelGrid columns="3" style="width: 920px;">
+                <p:treeTable id="dataList" value="#{pozycjaBRWzorcowyView.rootProjektRZiS}" var="loop" selectionMode="single" selection="#{pozycjaBRWzorcowyView.wybranynodekonta}" 
+                             styleClass="tablicaplankont" style="height: 650px; margin-top: 0%; width: 900px; margin-bottom: 50px; overflow-y: scroll;"
+                             emptyMessage="Brak wybranego układu lub pozycji w wybranym RZiS">
+                    <f:facet name="header">
+                        <h:outputText value="uklad #{pozycjaBRWzorcowyView.uklad.uklad} - #{pozycjaBRWzorcowyView.uklad.rok}"/>
+                    </f:facet>
+                    <p:ajax event="select" global="false" listener="#{pozycjaBRWzorcowyView.wybranopozycjeRZiS}"/>
+                    <p:column headerText="id" style="width: 50px;">
+                        <h:outputText value="#{loop.lp}"/> 
+                    </p:column>
+                    <p:column headerText="symbol i nazwa pozycji">
+                        <h:outputText value="#{loop.pozycjaSymbol}" style="font-weight: bolder" /> 
+                        <p:spacer width="20"/>
+                        <h:outputText value="#{loop.nazwa}"/> 
+                    </p:column>
+                   <p:column headerText="de" width="400">
+                        <h:inputText value="#{loop.de}" style="width: 400px;"/>
+                    </p:column>
+                </p:treeTable>
+                <p:panel id="wyborrziswzorcowy" header="pobierz układ" style="margin-top: -50px;">
+                    <h:outputText value="wybierz nazwę kreowanego układu"/>
+                    <p:selectOneListbox id="selboxwzorzec" value="#{pozycjaBRWzorcowyView.uklad}" style="height: 200px; margin-top: 4px; width: 240px;" converter="UkladBRWzorcowyConv">
+                        <f:selectItems value="#{ukladBRWzorcowyView.lista}" var="loopik" itemLabel="#{loopik.lp} #{loopik.uklad} - #{loopik.rok}"  itemValue="#{String.valueOf(loopik.lp)}"/>
+                    </p:selectOneListbox>
+                    <p:commandButton value="#{mgs.wybierzmcrok}" style="width: 120px;" type="submit" actionListener="#{pozycjaBRWzorcowyView.pobierzuklad('r', pozycjaBRWzorcowyView.rootProjektRZiS, '')}" update=":form_dialog_rzis_projekt_wzorcowy_inter"/>
+                </p:panel>
+            </p:panelGrid>
+        </h:form>
+    </p:dialog>
+</ui:composition>
+

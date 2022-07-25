@@ -1,0 +1,547 @@
+
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    
+    >
+    <style>
+        .ui-inputfield .ui-inputtext {
+            padding: 0px !important;
+            margin: 0px !important;
+        }
+
+  
+        /*        dzieki temu nie mamy ramek przy wpisywani danych do dokumentu*/
+        .ui-inputfield, .ui-widget-content .ui-inputfield, .ui-widget-header .ui-inputfield {
+            border: none;
+            outline: none;
+            box-shadow: none;
+        }
+        .ui-inputfield.ui-state-focus, .ui-widget-content .ui-inputfield.ui-state-focus, .ui-widget-header .ui-inputfield.ui-state-focus {
+            font-weight: 700;
+            background: #e4e3e3;
+        }
+        .wiersznetto .ui-inputfield{
+            width: 100px;
+            float: left;
+        }
+        .colorgreen input[type="text"] {
+            color: green;
+        }
+
+    </style>
+    <h:form id="dodWiad">
+        <!--                te batony zostaja, sa wywolywane przez javascript-->
+        <p:commandButton id="dodkol" value="dodajkolumne" actionListener="#{DokumentView.dodajwierszpkpir()}" update=":dodWiad:tabelapkpir" oncomplete="aktywujnetto()" accesskey="p" style="display: none;"/>
+        <p:commandButton id="usunkol" value="usunkolumne" actionListener="#{DokumentView.usunwierszpkpir()}" update=":dodWiad:tabelapkpir" oncomplete="aktywujnetto()" accesskey="p" style="display: none;"/>
+        <p:panel menuTitle="Wprowadzanie dokumentów klient" header="Wprowadzanie dokumentów klient: #{WpisView.podatnikObiekt.nazwapelnaPDF} okres: #{WpisView.rokWpisu}/#{WpisView.miesiacWpisu}" 
+                 style="width: 900px; box-shadow: 10px 10px 5px #888; padding: 2%; margin-top: -2%; min-height: 450px;" id="wprowadzanie">
+            <p:growl life="3600"  id="mess_add" ><p:autoUpdate/></p:growl>
+            <p:focus for="polawprowadzania1"/>
+            <p:panelGrid  columns="2" >
+                <p:panelGrid id="polawprowadzania1" style="width: 300px;">
+                    <f:facet name="header">
+                        <p:row >
+                            <p:column>
+                                <h:outputLabel value="data wystawienia" style="font-weight: 500"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputLabel value="data powst.ob." style="font-weight: 500"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputLabel value="waluta" style="font-weight: 500"/>
+                            </p:column>
+                        </p:row>
+                    </f:facet>
+                    <p:row >
+                        <p:column width="60">
+                            <p:inputText id="dataPole" value="#{DokumentView.selDokument.dataWyst}"   accesskey="s" maxlength="10"
+                                         style="height: 19px;" size="10"  required="true" requiredMessage="Pole daty nie może byc puste" immediate="false"  onblur="ustawDate(#{WpisView.rokWpisu},#{WpisView.miesiacWpisu});" title="wpisz numer dnia, lub miesiąc i dzień"  >
+                                <!--     archeo     <p:ajax event="blur" listener="{DokumentView.podlaczPierwszaKolumne()}" update=":dodWiad:tabelapkpir"  />-->
+                                <p:ajax event="blur" listener="#{DokumentView.zmienokresVAT}" global="false"/>
+                            </p:inputText>
+                        </p:column>
+                        <p:column width="60">
+                            <p:inputText id="dataSPole" value="#{DokumentView.selDokument.dataSprz}" size="10"
+                                         onblur="ustawDateSprzedazy(#{WpisView.rokWpisu},#{WpisView.miesiacWpisu});" 
+                                         required="true" requiredMessage="Pole daty sprzedaży nie może byc puste" >
+                                <p:ajax event="blur" listener="#{DokumentView.zmienokresVAT}" global="false"/>
+                            </p:inputText>
+                        </p:column>
+                        <p:column>
+                            <h:selectOneMenu  id="wybranawaluta" value="#{DokumentView.selDokument.walutadokumentu}" 
+                                              valueChangeListener="#{DokumentView.pobierzkursNBP}" 
+                                              immediate="true" 
+                                              styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" converter="#{walutyConv}"
+                                              onfocus="$(this).removeClass('ui-state-default');
+                                                      $(this).addClass('ui-state-focus');"
+                                              onblur="$(this).removeClass('ui-state-focus');
+                                                      $(this).addClass('ui-state-default');"
+                                              style="height: 26px;"
+                                              >
+                                <p:ajax event="change" partialSubmit="true" update="dodWiad:panelTabelaNBP, dodWiad:dokumentprosty" global="false"/>
+                                <f:selectItems value="#{DokumentView.wprowadzonesymbolewalut}" var="p" itemLabel="#{p.symbolwaluty}" itemValue="#{p}"/>
+                            </h:selectOneMenu>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+                <p:panelGrid id="panelTabelaNBP" style="width: 270px;" rendered="#{DokumentView.selDokument.listakwot1.get(0).listaKolumna1Rozbicie.size() eq 0}">
+                    <f:facet name="header">
+                        <p:row>
+                            <p:column width="110">
+                                <h:outputText id="w02" value="#{DokumentView.selDokument.walutadokumentu eq 'PLN' ? ''  : 'z dnia'}" style="width: 110px;"/>
+                            </p:column>
+                            <p:column width="90">
+                                <h:outputText id="w01" value="#{DokumentView.selDokument.walutadokumentu eq 'PLN' ? ''  : 'tabela NBP'}" style="width: 90px;"/>
+                            </p:column>
+                            <p:column width="90">
+                                <h:outputText id="w03" value="#{DokumentView.selDokument.walutadokumentu eq 'PLN' ? ''  : 'kurs średni'}" style="width: 90px;"/>
+                            </p:column>
+                        </p:row>
+                    </f:facet>
+                    <p:row style="height: 30px;">
+                        <p:column>
+                            <h:outputText id="w11" value="#{DokumentView.selDokument.walutadokumentu.symbolwaluty eq 'PLN' ? ''  : DokumentView.selDokument.tabelanbp.datatabeli}" style="width: 110px;height: 19px;"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText id="w12" value="#{DokumentView.selDokument.walutadokumentu.symbolwaluty eq 'PLN' ? ''  : DokumentView.selDokument.tabelanbp.nrtabeli}"
+                                          />
+                        </p:column>
+                        <p:column>
+                            <h:outputText id="w13" value="#{DokumentView.selDokument.walutadokumentu.symbolwaluty eq 'PLN' ? ''  : DokumentView.selDokument.tabelanbp.kurssredni}" 
+                                          />
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+            </p:panelGrid>
+            <p:panelGrid id="polawprowadzania" style="width: 450px;">
+                <f:facet name="header">
+                    <p:row >
+                        <p:column>
+                            <h:outputLabel value="kontrahent" style="font-weight: 500"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputLabel value="rodzaj dok" style="font-weight: 500"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputLabel value="nr własnyAA" style="font-weight: 500;"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputLabel value="opis transakcji (F9)/nowa kol (+-)" style="font-weight: 500"/>
+                        </p:column>
+                    </p:row>
+                </f:facet>
+                <p:row >
+                    <p:column>
+                        <p:autoComplete id="acForce" value="#{DokumentView.selDokument.kontr}" completeMethod="#{klienciConverterView.completeKL}"
+                                        var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="#{klientConv}" title="wpisz nazwę lub nip kontrahenta"
+                                        minQueryLength="3" maxResults="12" maxlength="12" converterMessage="Nieudana konwersja Klient" 
+                                        widgetVar="dialogklient" cache="true" forceSelection="true" queryDelay="10" 
+                                        valueChangeListener="#{DokumentView.pobierzdaneZpoprzedniegoDokumentu}" 
+                                        required="true" requiredMessage="Pole klienta nie może być puste"
+                                         onblur="sprawdzczybrakklienta();">
+                            <!-- usunalem z gory    onkeyup="sprawdzczykopiowacklienta();"-->
+                            <p:ajax event="blur" listener="#{DokumentView.dodajklientaautomat()}"  global="false"/>
+                            <p:ajax event="query" global="false"/>
+                            <p:ajax event="itemSelect" partialSubmit="true"  global="false"
+                                    update="dodWiad:rodzajTrans,dodWiad:opis"  />
+                            <f:facet name="itemtip">  
+                                <h:panelGrid  columns="2" cellpadding="5" width="400">  
+                                    <f:facet name="header">  
+                                        <h:outputText value="Dane kontrahenta"/>
+                                    </f:facet>  
+                                    <h:outputText value="Nazwa: " />  
+                                    <h:outputText id="npelna" value="#{p.npelna}" />  
+                                    <h:outputText value="NIP: " />  
+                                    <h:outputText id="nip" value="#{p.nip}" />  
+                                    <h:outputText value="Adres " />  
+                                    <h:outputText id="klumna" value="#{p.miejscowosc} #{p.ulica} #{p.dom} #{p.lokal}" /> 
+                                </h:panelGrid>
+                            </f:facet>
+                        </p:autoComplete>
+                    </p:column>
+                    <p:column>
+                        <h:selectOneMenu id="rodzajTrans" value="#{DokumentView.selDokument.rodzajedok}" converter="#{rodzajedokConv}"
+                                         style="width: 180px; word-break: break-all; height: 25px;" 
+                                         styleClass="ui-selectonemenu-label ui-inputfield ui-corner-all"
+                                         onfocus="$(this).removeClass('ui-state-default');
+                                                 $(this).addClass('ui-state-focus');"
+                                         onblur="$(this).removeClass('ui-state-focus');
+                                                 $(this).addClass('ui-state-default');">
+                            <f:selectItems value="#{DokumentView.rodzajedokKlienta}" var="loop" itemLabel="#{loop.skrotNazwyDok} - #{loop.nazwa}" 
+                                           itemValue="#{loop}"/>
+<!--                            <p:ajax event="keyup" listener="#{DokumentView.pobierzwprowadzonynumer()}" global="false"/>-->
+                            <p:ajax event="change" partialSubmit="true" global="false" update="dodWiad:paneloznaczenia"/>
+                            <p:ajax global="false" event="blur" listener="#{DokumentView.podepnijoznaczenia}"  update="dodWiad:paneloznaczenia"/>
+                        </h:selectOneMenu>
+                    </p:column>
+                    <p:column>
+                        <p:inputText id="numerwlasny" value="#{DokumentView.selDokument.nrWlDk}" title="wpisz numer własny faktury" style="width: 150px;">
+                            <p:ajax event="focus" listener="#{DokumentView.podepnijListe()}" 
+                                    update="dodWiad:tabelapkpir" global="false" onstart="aktywujopis(#{DokumentView.nieVatowiec});"/>
+                            <p:ajax event="change" partialSubmit="true" listener="#{DokumentView.sprawdzCzyNieDuplikatwtrakcie}" global="false"/>
+                        </p:inputText>
+                    </p:column>
+                    <p:column>
+                        <p:autoComplete id="opis" value="#{DokumentView.selDokument.opis}" completeMethod="#{Opis.complete}"
+                                        var="p" itemLabel="#{p}" itemValue="#{p}"  title="wpisz opis faktury"
+                                        minQueryLength="2" maxResults="10" maxlength="40"
+                                        effect="clip" autocomplete="true"  queryDelay="1" style="width: 200px;">
+                            <p:ajax event="blur" partialSubmit="true" global="false" listener="#{DokumentView.oznaczeniajpk}"/>
+                            <p:ajax event="itemSelect" partialSubmit="true" global="false"/>
+                            <p:ajax event="query" global="false"/>
+                        </p:autoComplete>
+                    </p:column>
+                </p:row>
+            </p:panelGrid>
+            <p:commandButton id="dodajopis" value="ok" actionListener="#{Opis.dodajOpis}" style="display: none;"/>
+            <!--        <span id="log"></span>-->
+            <!-- kolumny podatkowej ksiegi przychodow i rozchodow-->
+            <p:panelGrid columns="2" style="width: 855px;" columnClasses="forty-percent, sixty-percent">
+                <p:dataTable id="tabelapkpir" value="#{DokumentView.selDokument.listakwot1}" var="row" emptyMessage="jeszcze nie wygenerowano kolumny" 
+                             rowIndexVar="index">
+                    <p:column headerText="kwota netto*"  width="105" style="height: 28px;">
+                        <p:inputNumber id="kwotaPkpir" value="#{row.netto}" symbol="#{DokumentView.symbolWalutyNettoVat}" required="true" 
+                                        requiredMessage="Brak kwoty - uzupełnij" style="text-align: right; height: 19px;" 
+                                        symbolPosition="s" decimalSeparator="."   inputStyle="text-align: right;" decimalPlaces="2" minValue="-10000000" 
+                                        styleClass="wiersznetto  #{row.listaKolumna1Rozbicie.size() gt 0 ? 'colorgreen':null}" onfocus="kalkulator_pobierzwiersz(this);dolaczwyliczenieKopiowanie(event);"
+                                        > 
+                            <p:ajax event="focus" listener="#{DokumentView.podepnijEwidencjeVat}" global="false"
+                                    update="dodWiad:panelewidencjivat, dodWiad:sumbrutto, dodWiad:dokumentprosty"/>
+                            <p:ajax event="change" listener="#{DokumentView.skopiujwartosc(index)}" global="false" partialSubmit="true"/>
+                        </p:inputNumber>
+                    </p:column>
+                    <p:column headerText="kwota w walucie"  width="105" rendered="#{DokumentView.selDokument.tabelanbp.waluta.symbolwaluty ne 'PLN'}">
+                        <p:inputNumber id="kwotaPkpir1" value="#{row.nettowaluta}" symbol=" #{DokumentView.selDokument.tabelanbp.waluta.skrotsymbolu}" required="true" 
+                                        requiredMessage="Brak kwoty - uzupełnij" style="text-align: right; height: 19px;" 
+                                        symbolPosition="s" decimalSeparator="."   inputStyle="text-align: right;" decimalPlaces="2" minValue="-10000000" 
+                                        styleClass="wiersznetto" readonly="true">
+                            <p:ajax event="blur" listener="#{DokumentView.przewalutuj(index)}" global="false" partialSubmit="true"
+                                    update="dodWiad:sumbrutto"/>
+                        </p:inputNumber>
+                    </p:column>
+                    <p:column headerText="kolumna pkpir" style="text-align: center;" width="170">
+                        <h:selectOneMenu id="kolumnaPkpir" value="#{row.nazwakolumny}" style="width: 170px; text-align: center;" styleClass="ui-selectonemenu-label ui-inputfield ui-corner-all"
+                                         onfocus="$(this).addClass('ui-state-focus');"
+                                         onblur="$(this).removeClass('ui-state-focus');">
+                            <f:selectItems value="#{DokumentView.kolumny}"/>
+                        </h:selectOneMenu><br/>
+                    </p:column>
+                </p:dataTable>
+                <p:panelGrid id="tabelapkpir2" >
+                    <f:facet name="header">
+                        <p:row >
+                            <p:column>
+                                <h:outputText value="dok. prosty" />
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="rozliczony" />
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="termin płatności" />
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="wartość dokumentu" />
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="inwestycja" />
+                            </p:column>
+                        </p:row>
+                    </f:facet>
+                    <p:row >
+
+                    </p:row>
+
+                    <p:row style="height: 30px;">
+                        <p:column headerText="dok. prosty" style="text-align: center;" width="60">
+                            <h:selectBooleanCheckbox id="dokumentprosty" value="#{DokumentView.selDokument.dokumentProsty}" 
+                                                     valueChangeListener="#{DokumentView.dokumentEwidencjaVAT}">
+                                <p:ajax event="change" partialSubmit="true" global="false" update="dodWiad:panelewidencjivat, dodWiad:sumbrutto"/>
+                            </h:selectBooleanCheckbox>
+                        </p:column>
+                        <p:column headerText="rozliczony" style="text-align: center;" width="60">
+                            <h:selectBooleanCheckbox id="rozliczony" value="#{DokumentView.selDokument.rozliczony}" onchange="przekazdate()"  >
+                                <p:ajax event="click" partialSubmit="true" global="false"/>
+                            </h:selectBooleanCheckbox>
+                        </p:column>
+                        <p:column headerText="termin płatności" width="100">
+                            <p:inputText id="dataTPole" value="#{DokumentView.selDokument.terminPlatnosci}" size="10" 
+                                         required="true" requiredMessage="Brakuje terminu platnosci" title="wpisz pełny termin płatności">
+                                <p:ajax event="change" partialSubmit="true" global="false"/>
+                            </p:inputText>
+                        </p:column>
+                        <p:column headerText="wartość dokumentu">
+                            <p:inputNumber id="sumbrutto" value="#{DokumentView.sumbrutto}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="text-align: right; height: 19px;" symbolPosition="s" decimalSeparator="."   inputStyle="text-align: right;" decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"/> 
+                        </p:column>
+                        <p:column headerText="inwestycja">
+                            <h:selectOneMenu id="inwestycja" value="#{DokumentView.selDokument.inwestycja}" style="display: none; width: 200px;"
+                                             onfocus="$(this).addClass('ui-state-focus');" converter="InwestycjeConv"
+                                             onblur="$(this).removeClass('ui-state-focus');">
+                                <f:selectItem itemValue="" itemLabel="wybierz" noSelectionOption="true"/>
+                                <f:selectItems value="#{inwestycjeView.inwestycjerozpoczete}" var="inwest" itemLabel="#{inwest.symbol}" itemValue="#{inwest}"/>
+                            </h:selectOneMenu>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+            </p:panelGrid>
+            <!--            sprzedawanie srodkow trwalych-->
+            <p:contextMenu for="panelewidencji">
+                <p:menuitem global="false" value="Sprzedaż" onclick="PF('confirmation').show()" actionListener="#{sTRSprzedazView.sprzedajgrupa(DokumentView.selDokument.dataWyst,DokumentView.selDokument.nrWlDk)}" icon="ui-icon-trash"/>
+                <p:menuitem global="false" value="Odkup" onclick="PF('confirmation1').show()" actionListener="#{sTRSprzedazView.sprzedajgrupa(DokumentView.selDokument.dataWyst,DokumentView.selDokument.nrWlDk)}" icon="ui-icon-trash"/>
+            </p:contextMenu>
+            <p:panel id="panelewidencji" style="max-width: 1100px;">
+                <p:dataTable  var="wpis" value="#{sTRTabView.srodkiTrwale}" id="srodkiLista" rendered="#{DokumentView.pokazEST}"
+                              paginator="true" paginatorAlwaysVisible="true" rows="6"  filteredValue="#{sTRTabView.filteredValues}"
+                              paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
+                              rowsPerPageTemplate="6,12,18,24,32,50" style="max-width: 1100px; " widgetVar="srodkiListadodWiad"
+                              rowKey="#{wpis.id}" selection="#{sTRSprzedazView.wybranesrodkitrwale}"> 
+
+                    <f:facet name="header">  
+                        <h:outputText value="Ewidencja srodkow trwalych - wyszukiwanie" /> 
+                        <!-- nie dziala nie wiadomo dlaczego-->
+                        <!--                        <p:inputText id="globalFilter1" onkeyup="PF('srodkiListadodWiad').filter();" style="width:250px" placeholder="wyszukiwane wyrażenie" />  -->
+                    </f:facet>
+                    <p:column selectionMode="multiple" width="20" style="text-align: center;"/>
+                    <p:column id="idColumn" headerText="nr kol" width="40" style="text-align: center;">  
+                        <h:outputText value="#{wpis.nrsrodka}" style="#{wpis.styl}"/>
+                    </p:column>
+                    <p:column id="dataColumn" headerText="data zak" filterBy="#{wpis.datazak}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{wpis.datazak}" width="80">  
+
+                        <h:outputText value="#{wpis.datazak}" style="#{wpis.styl}">
+                            <f:convertDateTime dateStyle="medium" locale="pl"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column id="data2Column" headerText="data przek" filterBy="#{wpis.dataprzek}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{wpis.dataprzek}" width="80">  
+
+                        <h:outputText value="#{wpis.dataprzek}" style="#{wpis.styl}">
+                            <f:convertDateTime dateStyle="medium" locale="pl"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column id="nazwaColumn" headerText="nazwa" filterBy="#{wpis.nazwa}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{wpis.nazwa}" >  
+
+                        <h:outputText value="#{wpis.nazwa}"  style="#{wpis.styl}" />
+                    </p:column>
+                    <p:column id="kstColumn" headerText="KŚT" filterBy="#{wpis.kst}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{wpis.kst}" width="50"  style="text-align: center;">  
+
+                        <h:outputText value="#{wpis.kst}"  style="#{wpis.styl}" />
+                    </p:column>
+                    <p:column id="dowColumn" headerText="nr.fakt" filterBy="#{wpis.nrwldokzak}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{wpis.nrwldokzak}" width="50">  
+
+                        <h:outputText value="#{wpis.nrwldokzak}" style="#{wpis.styl}"  />
+                    </p:column>
+                    <p:column id="rodzTrColumn" headerText="#{mgs.kwota}" filterBy="#{wpis.netto}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{wpis.netto}">  
+
+                        <h:outputText value="#{wpis.netto}" style="float: right; #{wpis.styl}">
+                            <f:convertNumber minFractionDigits="2" locale="PL"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column id="vatColumn" headerText="umorz.pocz" filterBy="#{wpis.umorzeniepoczatkowe}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{wpis.umorzeniepoczatkowe}">  
+
+                        <h:outputText value="#{wpis.umorzeniepoczatkowe}" style="float: right; #{wpis.styl}">
+                            <f:convertNumber minFractionDigits="2" locale="PL"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column id="stawkaColumn" headerText="odpis stawka" filterBy="#{wpis.stawka}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{wpis.stawka}" width="50"  style="text-align: right;">  
+
+                        <h:outputText value="#{wpis.stawka}%" style="#{wpis.styl}">
+                            <f:convertNumber maxFractionDigits="2"
+                                             groupingUsed="true"
+                                             maxIntegerDigits="5"
+                                             type="number"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column id="odpisrokColumn" headerText="odpis rok" filterBy="#{wpis.odpisrok}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{wpis.odpisrok}" width="90">  
+
+                        <h:outputText value="#{wpis.odpisrok}" style="float: right; #{wpis.styl}">
+                            <f:convertNumber minFractionDigits="2" locale="PL"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column id="odpismcColumn" headerText="wyksiegowany" filterBy="#{wpis.odpismc}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{wpis.odpismc}" width="90">  
+
+                        <h:outputText value="#{wpis.datasprzedazy}" style="float: right; #{wpis.styl}">
+                        </h:outputText>
+                    </p:column>
+                </p:dataTable>
+
+            </p:panel>
+            <!--pola ewidencji SRODKOW TRWALYCH-->
+            <p:outputPanel id="panelwyszukiwarki" style="width: 900px;" >
+                <p:panel header="wyszukiwarka środka trw." style="width: 300px;" rendered="#{DokumentView.renderujwysz}"/>
+                <p:autoComplete id="acForce1" value="#{DokumentView.srodekkategoria}" completeMethod="#{srodkikstView.complete}"
+                                var="pa" itemLabel="#{pa.nazwa}" itemValue="#{pa}"  converter="SrodkiConv"
+                                minQueryLength="3" maxResults="15" maxlength="15" itemtipMyPosition="rightbottom"
+                                queryDelay="100" size="50" rendered="#{DokumentView.renderujwysz}">
+                    <p:ajax event="blur" async="true" listener="#{DokumentView.skopiujSTR()}"/>
+                    <f:facet name="itemtip">  
+                        <h:panelGrid  columns="2" cellpadding="5" width="400" >  
+                            <f:facet name="header">  
+                                <h:outputText value="Dane środka trwałego"/>
+                            </f:facet>  
+                            <h:outputText value="Nazwa: " />  
+                            <h:outputText id="npelna1" value="#{pa.nazwa}"/>  
+                            <h:outputText value="Stawka " />  
+                            <h:outputText id="nip1" value="#{pa.stawka}" />  
+                            <h:outputText value="KŚT " />  
+                            <h:outputText id="klumna1" value="#{pa.symbol}" /> 
+                        </h:panelGrid>
+                    </f:facet>
+                </p:autoComplete>
+            </p:outputPanel>
+            <p:outputPanel id="nowypanelsrodki" style="width: 900px;">
+                <p:panelGrid id="tabelasrodkitrwaleOT" rendered="#{DokumentView.renderujwysz}" style="margin-top: 5px;"> 
+                    <f:facet name="header">
+                        <p:row>
+                            <p:column>
+                                <h:outputText value="nazwa środka"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="data przyjecia"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="symbol KST"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="tawka amort."/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="dotychczasowe umorzenie"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="nie podlega umorzeniu"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="środek trw/wyposazenie"/>
+                            </p:column>
+                        </p:row>
+                    </f:facet>
+                    <p:row>
+                        <p:column>
+                            <p:inputText id="nazwasrodka" value="#{DokumentView.selectedSTR.nazwa}" style="width: 230px;"/>
+                        </p:column>
+                        <p:column>
+                            <p:inputText id="dataprz" value="#{DokumentView.selectedSTR.dataprzek}" onblur="ustawDateSrodekTrw();"/>
+                        </p:column>
+                        <p:column style="text-align: center;">
+                            <p:inputText value="#{DokumentView.selectedSTR.kst}" style="width: 30px;"/>
+                        </p:column>
+                        <p:column style="text-align: center;">
+                            <p:inputText value="#{DokumentView.selectedSTR.stawka}" style="width: 30px;"/>
+                        </p:column>
+                        <p:column>
+                            <p:inputNumber value="#{DokumentView.selectedSTR.umorzeniepoczatkowe}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" decimalSeparator="."   inputStyle="text-align: right;" decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"/> 
+                        </p:column>
+                        <p:column>
+                            <p:inputNumber value="#{DokumentView.selectedSTR.niepodlegaamortyzacji}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" decimalSeparator="."   inputStyle="text-align: right;" decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"/> 
+                        </p:column>
+                        <p:column>
+                            <h:selectOneMenu value="#{DokumentView.selectedSTR.typ}" styleClass="ui-selectonemenu-label ui-inputfield ui-corner-all"
+                                             onfocus="$(this).removeClass('ui-state-default');
+                                                 $(this).addClass('ui-state-focus');"
+                                         onblur="$(this).removeClass('ui-state-focus');
+                                                 $(this).addClass('ui-state-default');">
+                                <f:selectItem itemLabel="srodek trw." itemValue="srodek trw."/>
+                                <f:selectItem itemLabel="wyposazenie" itemValue="wyposazenie"/>
+                            </h:selectOneMenu>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+            </p:outputPanel>
+            <!--pola ewidencji VAT-->
+
+            <p:panel id="panelewidencjivat" >
+                <!--                alternatywne pola ewidencji vat-->
+                <p:dataTable id="tablicavat" value="#{DokumentView.selDokument.ewidencjaVAT1}" var="item" emptyMessage="nie ma zapisów w ewidencji vat" style="width: 90%;" rendered="#{!DokumentView.ukryjEwiencjeVAT}">
+                    <p:column headerText="rodzaj ewidencji" style="width: 25%;">
+                        <h:outputText value="#{item.ewidencja.nazwa}"/>
+                    </p:column>
+                    <p:column headerText="#{mgs.netto}" style="width: 20%;">
+                        <p:inputNumber id="netto" value="#{item.netto}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" decimalSeparator="."   inputStyle="text-align: right;" decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"> 
+                            <p:ajax event="change" listener="#{DokumentView.updatenetto(item)}" />
+                        </p:inputNumber>
+                    </p:column>
+                    <p:column headerText="#{mgs.VAT}" style="width: 20%;">
+                        <p:inputNumber id="vat" value="#{item.vat}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" decimalSeparator="."   inputStyle="text-align: right;" decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"> 
+                            <p:ajax event="change" listener="#{DokumentView.updatevat(item)}" />
+                        </p:inputNumber>
+                    </p:column>
+                    <p:column headerText="brutto" style="width: 20%;">
+                        <p:inputNumber id="brutto" value="#{item.brutto}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="text-align: right; height: 19px;" symbolPosition="s" decimalSeparator="."   inputStyle="text-align: right;" decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"/> 
+                    </p:column>
+                    <p:column headerText="op/zw" style="width: 15%;">
+                        <h:selectOneMenu value="#{item.estawka}" styleClass="ui-selectonemenu-label ui-inputfield ui-corner-all"
+                                         onfocus="$(this).addClass('ui-state-focus');"
+                                         onblur="$(this).removeClass('ui-state-focus');"
+                                         style="width: 100px;">
+                            <f:selectItem itemLabel="sprz.op" itemValue="sprz.op"/>
+                            <f:selectItem itemLabel="sprzed.op.izw." itemValue="sprzed.op.izw."/>
+                        </h:selectOneMenu>
+                    </p:column>
+                </p:dataTable>
+            </p:panel>
+            <!--pola ewidencji VAT-->
+            <p:panelGrid id="ostatnipanel" style="width: 400px;">
+                <f:facet name="header">
+                    <p:row >
+                        <p:column>
+                            <h:outputLabel value="v m-c" style="font-weight: 500"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputLabel value="v rok" style="font-weight: 500"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputLabel value="uwagi" style="font-weight: 500"/>
+                        </p:column>
+
+                    </p:row>
+                </f:facet>
+                <p:row >
+                    <p:column>
+                        <h:selectOneMenu id="vatm" value="#{DokumentView.selDokument.vatM}" style="width: 50px;"
+                                         styleClass="ui-selectonemenu-label ui-inputfield ui-corner-all"
+                                         onfocus="$(this).addClass('ui-state-focus');"
+                                         onblur="$(this).removeClass('ui-state-focus');">
+                            <f:selectItems value="#{mce.mceList}"/>
+                        </h:selectOneMenu>
+                    </p:column>
+                    <p:column>
+                        <h:selectOneMenu id="rokm" value="#{DokumentView.selDokument.vatR}" style="width: 80px;"
+                                         styleClass="ui-selectonemenu-label ui-inputfield ui-corner-all"
+                                         onfocus="$(this).addClass('ui-state-focus');"
+                                         onblur="$(this).removeClass('ui-state-focus');">
+                            <f:selectItems value="#{roki.rokiList}"/>
+                        </h:selectOneMenu>
+                    </p:column>
+                    <p:column>
+                        <p:inputText value="#{DokumentView.selDokument.uwagi}" style="width: 200px;"/>
+                    </p:column>
+                    <p:column>
+                    </p:column>
+                    <p:column>
+                        <p:commandButton id="wprowadzenieNowego" accesskey="w" actionListener="#{DokumentView.dodaj(2)}" value="Edytuj" 
+                                         update=":dodWiad form:dokumentyLista" style="width: 150px;" oncomplete="PF('dialogEdycjaZaksiegowanychDokumentow').hide()">
+                            <p:ajax event="click" listener="#{sesjaView.dodajdokument()}" global="false"/>
+                        </p:commandButton>
+                    </p:column>
+                </p:row>
+            </p:panelGrid>
+            <p:panelGrid columns="8" id="paneloznaczenia">
+                <h:outputText value=":"/><h:outputText value="#{DokumentView.selDokument.oznaczenie1 ne null ?DokumentView.selDokument.oznaczenie1.symbol:'-'}" style="color: darkmagenta; font-size: large"/>
+                <h:outputText value=":"/><h:outputText value="#{DokumentView.selDokument.oznaczenie2 ne null ?DokumentView.selDokument.oznaczenie2.symbol:'-'}" style="color: darkmagenta; font-size: large"/>
+                <h:outputText value=":"/><h:outputText value="#{DokumentView.selDokument.oznaczenie3 ne null ?DokumentView.selDokument.oznaczenie3.symbol:'-'}" style="color: darkmagenta; font-size: large"/>
+                <h:outputText value=":"/><h:outputText value="#{DokumentView.selDokument.oznaczenie4 ne null ?DokumentView.selDokument.oznaczenie4.symbol:'-'}" style="color: darkmagenta; font-size: large"/>
+            </p:panelGrid>
+            <h:outputText value="*kalkulator wartości netto ALT-k"/>
+        </p:panel>
+
+    </h:form>
+    <h:form id="kalkulator">
+        <p:commandButton id="kalkulator" value="kalkulator" onclick="PF('dialog_kalkulator').show()" accesskey="k"
+                         global="false" style="display: none;" />
+    </h:form>
+
+</ui:composition>   
+
+

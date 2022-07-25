@@ -1,0 +1,22 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    >
+     <p:dialog header="Wpisz dane pozycji podrzędnej" widgetVar="rzisprojektanalityczne" resizable="false">  
+        <h:form id="formYrzisprojekt">
+        <p:growl life="3600"  id="messages"/>
+        <p:focus for="dkp">
+        <p:panelGrid id="dkp" columns="2" style=" width: 500px;">
+            <h:outputLabel value="Nazwa pozycji:" for="nazwa" />
+                        <p:inputText id="nazwa" value="#{pozycjaBRView.nowyelementRZiS.nazwa}" 
+                                     title="Nazwa pozycji RZiS" required="true" requiredMessage="Wprowadź nazwę pozycji" style="width: 350px;"/>
+                        <p:commandButton value="dodaj" styleClass="nb"
+                                        actionListener="#{pozycjaBRView.dodajnowapozycjeRZiS('analityczna')}" accesskey="d" type="submit" update=":formYrzisprojekt, :formprojekt" style="float: right;" onclick="PF('rzisprojektanalityczne').hide()"/>
+        </p:panelGrid>
+            </p:focus>
+            </h:form>
+        </p:dialog> 
+   
+</ui:composition>

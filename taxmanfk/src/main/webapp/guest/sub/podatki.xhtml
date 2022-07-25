@@ -1,0 +1,58 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+        
+    xmlns:bcf="http://brzaskun.com/facelets">
+    <p:outputPanel deferred="true">
+        <p:panel header="Wykaz zobowiązań w roku podatkowym #{WpisView.rokWpisu}" />
+        <h:form id="podatkiform">
+            <p:dataTable id="zestawieniepodatkow" value="#{platnosciTablicaView.lista}" var="item" resizableColumns="true" 
+                         emptyMessage="Brak kwot zobowiązań" style="max-width: 700px; " reflow="true"
+                         >
+                <p:columnGroup type="header">
+                   
+                    <p:row>
+                        <p:column headerText="mc"/>
+                        <p:column headerText="pit4"/>
+                        <p:column headerText="#{WpisView.ksiegaryczalt eq true ? 'pit5' : 'ryczałt'}"/>
+                        <p:column headerText="vat"/>
+                        <p:column headerText="zus51"/>
+                        <p:column headerText="zus52"/>
+                        <p:column headerText="zus53"/>
+                        
+                    </p:row>
+                </p:columnGroup>
+                <p:column style="text-align: center;">
+                    <h:outputText value="#{item.platnosciPK.miesiac}"/>
+                </p:column>
+                <p:column>
+                    <bcf:outputpl value="#{item.pit4}" rendered="#{item.pit4 gt 0}"/>
+                </p:column>
+                <p:column>
+                    <bcf:outputpl value="#{item.pit5}" rendered="#{item.pit5 gt 0}"/>
+                </p:column>
+                <p:column>
+                    <bcf:outputpl value="#{item.vat}" rendered="#{item.vat gt 0}"/>
+                </p:column>
+                <p:column>
+                    <bcf:outputpl value="#{item.zus51}" rendered="#{item.zus51 gt 0}"/>
+                </p:column>
+                <p:column>
+                    <bcf:outputpl value="#{item.zus52}" rendered="#{item.zus52 gt 0}"/>
+                </p:column>
+                <p:column>
+                    <bcf:outputpl value="#{item.zus53}" rendered="#{item.zus53 gt 0}"/>
+                </p:column>
+            </p:dataTable>
+            <p:outputPanel>
+                <h:outputText value="Uwaga: kwoty podatków za mc są do zapłacenia w następnym mcu - kwoty ZUS są płatne w danym miesiącu"/>
+            </p:outputPanel>
+            <p:commandButton value="#{mgs.drukuj}" type="button" style="width: 120px; margin-top: 10px;">
+                <p:printer target="zestawieniepodatkow" /></p:commandButton>
+        </h:form>
+    </p:outputPanel>
+</ui:composition>   
+

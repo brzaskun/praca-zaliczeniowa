@@ -1,0 +1,34 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+    <p:layoutUnit position="north" size="10 0" resizable="true" closable="true" collapsible="true">
+            <h:form>
+                <p:menubar autoDisplay="true">
+                    <p:menuitem icon="ui-icon-folder-open" value="firma" outcome="firmaFK"/>
+                    <p:menuitem icon="ui-icon-document" value="#{mgs.dokumenty}" outcome="menudokumentyFK"/>
+                    <p:menuitem icon="ui-icon-pencil" value="zapisy kont" outcome="raportyFK"/>
+                    <p:menuitem icon="ui-icon-contact" value="rejestry" outcome="rejestryFK"/>
+                    <p:menuitem icon="ui-icon-search" value="#{mgs.rozrachunki}" outcome="menurozrachunkiFK" />
+                    <p:menuitem icon="ui-icon-note" value="kartoteki" outcome="kartotekiFK"/>
+                    <p:menuitem icon="ui-icon-gear" value="ustawienia" outcome="menuustawieniaFK"/>
+                    <p:menuitem icon="ui-icon-star" value="#{mgs.bilans}" outcome="bilanseFK"/>
+                    <p:menuitem icon="ui-icon-calendar" value="deklaracje" />
+                    <p:menuitem icon="ui-icon-note" value="środki trw." outcome="srodkitrwaleFK"/>
+                    <p:menuitem icon="ui-icon-note" value="rmk" outcome="rmkFK"/>
+                    <p:menuitem icon="ui-icon-help" value="pomoc" />
+                    <p:menuitem  value=" | " />
+                    <p:menuitem icon="ui-icon-arrowrefresh-1-n" value="#{mgs.wyloguj}" action="#{logowanie.logout()}" />
+                </p:menubar>
+            </h:form>
+        <p:panel>
+            <h:outputText value="aktualna firma:"/>
+            <h:outputText value="#{WpisView.podatnikWpisu}" style="font-weight: 900;"/>
+        </p:panel>
+    </p:layoutUnit>
+</ui:composition>   
+

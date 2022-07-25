@@ -1,0 +1,126 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    
+    xmlns:bcf="http://brzaskun.com/facelets"
+    xmlns:c="http://java.sun.com/jsp/jstl/core">
+    
+    <p:commandButton  value="Zachowaj w pdf" actionListener="#{sesjaView.dodajwydruk()}" action="#{obrotyView.drukujObroty()}" >
+    </p:commandButton>
+    <p:commandButton id="obrotywysylka" value="Wyślij podatnikowi" actionListener="#{sesjaView.dodajmail()}" onclick="PF('confirmation').show();" style="display: none;">
+    </p:commandButton>
+    <p:commandButton value="Odhacz wybrane" actionListener="#{obrotyView.czyscwybrane()}" update=":formX:podsumowaniewybr :formX:podsumowaniewybrnetto :formX:dokumentyLista" style="margin-left: 20px;"
+                     onclick="PF('dokTable').clearFilters()">
+    </p:commandButton>
+    <p:selectBooleanCheckbox value="#{obrotyView.czyduplikaty}" itemLabel="usuń duplikaty kontrahentów" style="margin-left: 15px;">
+        <p:ajax event="change" listener="#{obrotyView.usunduplikaty}" partialSubmit="true" update="formX:dokumentyLista"/>
+    </p:selectBooleanCheckbox>
+    <p:panelGrid columns="4">
+        <h:outputText value="   suma wartości netto wybranych dokumentów w zł: "/>
+        <h:outputText  id="podsumowaniewybr" value="#{obrotyView.podsumowaniewybranychnetto}">
+            <f:convertNumber minFractionDigits="2" locale="PL"/>
+        </h:outputText>
+        <h:outputText value=" -  suma wartości brutto wybranych dokumentów w zł: "/>
+        <h:outputText  id="podsumowaniewybrnetto" value="#{obrotyView.podsumowaniewybranych}">
+            <f:convertNumber minFractionDigits="2" locale="PL"/>
+        </h:outputText>
+    </p:panelGrid>
+    <p:separator/>
+    <p:outputPanel id="wrapper" deferred="true">
+
+        <p:dataTable  var="wpis" value="#{obrotyView.obiektDOKmrjsfSelX}" id="dokumentyLista" filteredValue="#{obrotyView.dokumentyFiltered}"
+                      filterDelay="1800"
+                      selection="#{obrotyView.goscwybral}"  widgetVar="dokTable" 
+                      rowStyleClass="#{wpis.rodzajedok.rodzajtransakcji eq 'sprzedaz' ? 'old' : null}" rowKey="#{wpis.idDok}"
+                      style="max-width: 1400px;height: 600px;overflow-y: scroll;"  
+                      rowsPerPageTemplate="150,300,500,1000" paginatorPosition="top" paginator="#{obrotyView.obiektDOKmrjsfSelX.size() gt 150 ? 'true':'false'}" rows="150"> >
+            <p:ajax event="toggleSelect" global="false"  listener="#{obrotyView.sumawartosciwybranych}" update=":formX:podsumowaniewybr, :formX:podsumowaniewybrnetto"/>
+            <p:ajax event="rowSelectCheckbox" global="false"  listener="#{obrotyView.sumawartosciwybranych}" update=":formX:podsumowaniewybr, :formX:podsumowaniewybrnetto"/>
+            <p:ajax event="rowUnselectCheckbox" global="false"  listener="#{obrotyView.sumawartosciwybranych}" update=":formX:podsumowaniewybr, :formX:podsumowaniewybrnetto"/>
+            <p:ajax event="filter" global="false" />
+            <f:facet name="header">  
+                <h:outputText value="Wykaz obrotow z kontrahentem" />
+                <h:outputText value="- wyszukiwanie: " />  
+                    <p:inputText id="globalFilter" onkeyup="PF('dokTable').filter()" style="width:180px" placeholder="wyszukiwane wyrażenie" />
+<!--                    <p:commandButton id="toggler" type="button" value="Kolumny" style="float:right" icon="ui-icon-calculator" />
+                    <p:columnToggler datasource="dokumentyLista" trigger="toggler" />-->
+            </f:facet>
+            <p:column selectionMode="multiple"  style="width: 5%;" >
+            </p:column>
+            <p:column id="idColumn" headerText="#{mgs.numerkolejny}" filterStyle="display: none;" sortBy="#{wpis.idDok}" width="30">  
+                <h:outputText value="#{wpis.nrWpkpir}" />
+            </p:column>
+            <p:column id="dataColumn" width="70" headerText="data wyst" filterBy="#{wpis.dataWyst}" filterMatchMode="contains" filterStyle="display: none;" sortBy="#{wpis.dataWyst}"  style="width: 9%;">  
+                <h:outputText value="#{wpis.dataWyst.substring(2,10)}">
+                </h:outputText>
+            </p:column>
+            <p:column id="kontrColumn" width="270" headerText="#{mgs.kontrahent}" filterBy="#{wpis.kontr.npelna}" filterMatchMode="contains" filterStyle="display: none;" sortBy="#{wpis.kontr.npelna}" style="width: 14%;">  
+                 <f:facet name="filter">
+                     <p:selectOneMenu onchange="PF('dokTable').filter()" style="width: 250px;">
+                        <f:selectItem itemLabel="kontrahent" itemValue="#{null}" />
+                        <f:selectItems value="#{obrotyView.kontrahentypodatnika}" />
+                        <p:ajax event="change" listener="#{obrotyView.czyscwybrane}" update=":formX:podsumowaniewybr :formX:podsumowaniewybrnetto :formX:dokumentyLista"/>
+                    </p:selectOneMenu>
+                </f:facet>
+                <h:outputText value="#{wpis.kontr.npelna}"  />
+            </p:column>
+            <p:column id="rodzTrColumn" headerText="rodzaj trans" filterBy="#{wpis.rodzajedok.rodzajtransakcji}" filterMatchMode="exact" filterStyle="display: none;" sortBy="#{wpis.rodzajedok.rodzajtransakcji}" style="width: 9%; text-align: center;">  
+                <f:facet name="filter">
+                    <p:selectOneMenu onchange="PF('dokTable').filter()" >
+                        <f:selectItem itemLabel="rodz" itemValue="#{null}" />
+                        <f:selectItems value="#{obrotyView.rodzajetransakcji}" />
+                        <p:ajax event="change" listener="#{obrotyView.czyscwybrane}" update=":formX:podsumowaniewybr :formX:podsumowaniewybrnetto :formX:dokumentyLista"/>
+                    </p:selectOneMenu>
+                </f:facet>
+                <h:outputText value="#{wpis.rodzajedok.rodzajtransakcji}" />
+            </p:column>
+            <p:column id="typDokColumn" headerText="symbol dok" filterBy="#{wpis.rodzajedok.skrot}" filterMatchMode="exact" sortBy="#{wpis.rodzajedok.skrot}" style="width: 8%; text-align: center;">  
+                 <f:facet name="filter">
+                    <p:selectOneMenu onchange="PF('dokTable').filter()" >
+                        <f:selectItem itemLabel="dok" itemValue="#{null}" />
+                        <f:selectItems value="#{obrotyView.dokumentypodatnika}" />
+                        <p:ajax event="change" listener="#{obrotyView.czyscwybrane}" update=":formX:podsumowaniewybr :formX:podsumowaniewybrnetto :formX:dokumentyLista"/>
+                    </p:selectOneMenu>
+                </f:facet>
+                <h:outputText value="#{wpis.rodzajedok.skrot}" />
+            </p:column>
+            <p:column id="nrWlDokColumn" headerText="nr wł" filterBy="#{wpis.nrWlDk}" filterMatchMode="contains" filterStyle="display: none;" sortBy="#{wpis.nrWlDk}" style="width: 13%;">  
+                <h:outputText value="#{wpis.nrWlDk}" />
+            </p:column>
+            <p:column id="opisColumn" headerText="#{mgs.opis}" filterBy="#{wpis.opis}" filterMatchMode="contains" filterStyle="display: none;" sortBy="#{wpis.opis}"  style="width: 12%;">  
+                <h:outputText value="#{wpis.opis}" />
+            </p:column>
+            <p:column id="kwotanettoColumn" width="80" headerText="#{mgs.netto}" filterBy="#{wpis.netto}" filterMatchMode="contains" filterStyle="display: none;" sortBy="#{wpis.netto}" style="width: 12%;">  
+                <h:outputText value="#{wpis.netto}" style="padding-left: 20%; font-weight: 700; float: right">
+                    <f:convertNumber  locale="PL" minFractionDigits="2" />
+                </h:outputText>
+            </p:column>
+            <p:column id="kwotabruttoColumn" width="80" headerText="brutto" filterBy="#{wpis.brutto}" filterMatchMode="contains" filterStyle="display: none;" sortBy="#{wpis.brutto}" style="width: 12%;">  
+                <h:outputText value="#{wpis.brutto}" style="padding-left: 20%; font-weight: 700; float: right">
+                    <f:convertNumber  locale="PL" minFractionDigits="2" />
+                </h:outputText>
+            </p:column>
+            <p:column id="kwotanettoColumnwal" width="80" headerText="#{mgs.netto} waluta" filterBy="#{wpis.tabelanbp.waluta.symbolwaluty}" filterMatchMode="contains" sortBy="#{wpis.nettoWaluta}" style="width: 12%;">
+                <f:facet name="filter">
+                     <p:selectOneMenu onchange="PF('dokTable').filter()" >
+                        <f:selectItem itemLabel="wal" itemValue="#{null}" />
+                        <f:selectItems value="#{walutyViewSimple.symboleWalut}" />
+                        <p:ajax event="change" listener="#{obrotyView.czyscwybrane}" update=":formX:podsumowaniewybr :formX:podsumowaniewybrnetto :formX:dokumentyLista"/>
+                    </p:selectOneMenu>
+                </f:facet>
+                 <bcf:outputpl value="#{wpis.nettoWaluta}"  rendered="#{wpis.tabelanbp ne null and wpis.tabelanbp.waluta.symbolwaluty ne 'PLN'}"/> 
+                 <h:outputText value="#{wpis.tabelanbp.waluta.symbolwaluty}" rendered="#{wpis.tabelanbp ne null and wpis.tabelanbp.waluta.symbolwaluty ne 'PLN'}"/>
+            </p:column>
+             <p:column id="kwotanettoColumnwaltab" width="80" headerText="tabela" sortBy="#{wpis.tabelanbp.nrtabeli}" style="width: 12%;">  
+               <h:outputText value="#{wpis.tabelanbp.nrtabeli} " rendered="#{wpis.tabelanbp ne null and  wpis.tabelanbp.waluta.symbolwaluty ne 'PLN'}" style="width: 50px;"/>
+                    <h:outputText value="#{wpis.tabelanbp.kurssredni}" rendered="#{wpis.tabelanbp ne null and  wpis.tabelanbp.waluta.symbolwaluty ne 'PLN'}" style="width: 50px;"/>
+            </p:column>
+
+        </p:dataTable>
+
+    </p:outputPanel>
+</ui:composition>   
+

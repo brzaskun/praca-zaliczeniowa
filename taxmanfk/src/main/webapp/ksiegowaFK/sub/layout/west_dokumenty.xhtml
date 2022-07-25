@@ -1,0 +1,26 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:bcf="http://brzaskun.com/facelets">
+    <p:layoutUnit position="west" size="255"  collapsible="true" style="box-shadow: 10px 10px 5px #888888;">
+        <h:form>
+            <p:menu style="width: 238px; border: none;">
+                <p:menuitem value="wpisywanie dokumentów" action="#{menu_dokumenty.ufile1(true)}" icon="ui-icon-circle-arrow-e" />  
+                <p:menuitem value="przeglądanie zaksięgowanych"  outcome="dokumentksiegi" icon="ui-icon-circle-arrow-e" />  
+                <p:menuitem value="wiersze w dokumentach"  action="#{menu_dokumenty.ufile3(true)}" icon="ui-icon-circle-arrow-e" />  
+                <p:menuitem value="wiersze WDT/WNT"  action="#{menu_dokumenty.ufile4(true)}" icon="ui-icon-circle-arrow-e" />  
+                <p:menuitem value="zaimportowane faktury"  action="#{menu_dokumenty.ufile5(true)}" icon="ui-icon-circle-arrow-e" />  
+                <p:menuitem value="przenumeruj dokumenty"  action="#{menu_dokumenty.ufile6(true)}" icon="ui-icon-circle-arrow-e" />  
+            </p:menu>
+        </h:form>
+        <p:panel>
+            <p:commandButton id="wyloguj" value="#{mgs.wyloguj}" action="#{logowanie.logout()}" style="width: 120px; margin-top: 10px;" /> 
+        </p:panel>
+    </p:layoutUnit>
+</ui:composition>   
+

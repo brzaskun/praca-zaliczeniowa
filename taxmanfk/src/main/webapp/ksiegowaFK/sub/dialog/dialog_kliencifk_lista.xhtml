@@ -1,0 +1,52 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    >
+    <p:dialog id="dialog_kliencifk_lista" header="Przyporządkowanie klientów do kont - lista" widgetVar="dialog_kliencifk_lista" 
+              resizable="false"  onShow="ustawdialog('dialog_kliencifk_lista','menukartoteki',1200,600);" closeOnEscape="true" onHide="resetujdialog('dialog_kliencifk_lista');" >
+        <h:form id="kliencifkform">
+            <p:panelGrid columns="5" >
+                <h:outputText value="nowa nazwa klientafk "/>
+                <p:inputText id="nazwaklientafk" value="#{kliencifkView.selected.nazwa}" style="width: 250px; margin-left: 5px; margin-right: 5px;"/>
+                <h:outputText value="nowy nip klientafk "/>
+                <p:inputText id="nipklientafk" value="#{kliencifkView.selected.nip}" style="width: 140px; margin-left: 5px;"/>
+                <p:commandButton value="edytuj" actionListener="#{kliencifkView.zapiszedycje()}" style="margin-left: 10px; width: 120px;" 
+                             update=":kliencifkform, :kliencifkformLista" rendered="#{kliencifkView.zapisz0edytuj1 == true}"/>
+            </p:panelGrid>
+        </h:form>
+        <h:form id="kliencifkformLista">
+            <p:dataTable id="infokonta" value="#{kliencifkView.listawszystkichklientowFk}" var="item"  emptyMessage="Klient nie posiada kont rozrachunkowych z kontrahentami"
+                         style="margin-top: 1%; width: 1050px;" 
+                         scrollable="true" scrollHeight="400" 
+                         sortBy="#{item}"  sortFunction="#{kliencifkView.sortKliencifk}"
+                         rowsPerPageTemplate="40,120,250,500" paginatorPosition="top" rows="40"
+                         paginator="#{kliencifkView.listawszystkichklientowFk.size() gt 150 ? 'true':'false'}">
+                <p:ajax event="filter" global="false"/>
+                <f:facet name="header">
+                    <h:outputText value="Wykaz przyporządkowanych kont"/>
+                </f:facet>
+                <p:column headerText="lp" sortBy="#{item.nrkonta}" style="width: 30px;" >
+                    <h:outputText value="#{item.nrkonta}"/>
+                </p:column>
+                <p:column headerText="nazwa" sortBy="#{item.nazwa}" filterBy="#{item.nazwa}" filterMatchMode="contains" style="width: 400px;" filterStyle="width:300px;">
+                    <h:outputText value="#{item.nazwa}"/>
+                </p:column>
+                <p:column headerText="nip" sortBy="#{item.nip}" filterBy="#{item.nip}" filterMatchMode="startsWith" style="width: 120px;">
+                    <h:outputText value="#{item.nip}"/>
+                </p:column>
+                <p:column headerText="dod.symbol" sortBy="#{item.banksymbol}" filterBy="#{item.banksymbol}" filterMatchMode="startsWith" style="width: 150px;">
+                    <h:outputText value="#{item.banksymbol}"/>
+                </p:column>
+                <p:column headerText="edytuj" style="text-align: center; width: 70px;">
+                    <p:commandButton icon="ui-icon-comment" actionListener="#{kliencifkView.edytuj(item)}" update=":kliencifkform :kliencifkformLista" global="false"/>
+                </p:column>
+                <p:column headerText="usuń" style="text-align: center; width: 70px;">
+                    <p:commandButton icon="ui-icon-trash" actionListener="#{kliencifkView.remove(item)}" update=":kliencifkform :kliencifkformLista"/>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </p:dialog>
+</ui:composition>

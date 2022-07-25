@@ -1,0 +1,54 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    >
+
+    <p:dialog id="dialogCechyStronaWiersza" header="Wykaz przyporządkowanych cech dla bieżącego zapisu" widgetVar="dialogCechyStronaWiersza" resizable="false" 
+              onShow="ustawdialog('dialogCechyStronaWiersza','dialogpierwszy',500,550);" onHide="focusNaStronieCechaWiersza()" 
+              focus="formCHW:tablicacech"  modal="true" appendTo="@(body)"
+              closeOnEscape="true">
+        <p:ajax event="open" listener="#{dokfkView.wybierzcechankup}" update="formCHW:tablicacech" oncomplete="r('formCHW:tablicacech_data').find('td')[0].click();"/>
+        <h:form id="formCHW" >
+            <p:dataTable  value="#{dokfkView.pobranecechypodatnik}" var="item" rows="6" style="height: 270px;" id="tablicacech"
+                          emptyMessage="cechy nie zostały zdefiniowane" selection="#{dokfkView.cechazapisudododania}" 
+                          rowKey="#{item}" styleClass="walkingtable" rowIndexVar="index">
+                <p:column width="10" styleClass="lpwiersza" style="text-align: center;">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column selectionMode="single" width="20"  styleClass="checkwiersza">
+                </p:column>
+                <p:column headerText="nazwa cechy do wyboru">
+                    <h:outputText value="#{item.nazwacechy}"/>
+                </p:column>
+                <p:column headerText="rodzaj cechy do wyboru" style="text-align: center;">
+                    <h:outputText value="#{item.rodzajcechy}"/>
+                </p:column>
+                <p:column width="40" style="text-align: center;">
+                    <p:commandButton value="+" actionListener="#{dokfkView.dodajcechedostronawiersza(item)}" global="false" update="@form"/>
+                </p:column>
+            </p:dataTable>
+            <p:separator/>
+            <p:dataTable  value="#{dokfkView.stronaWierszaCechy.cechazapisuLista}" var="item" rows="6" style="height: 170px;" id="tablicacech2"
+                          emptyMessage="dokument bez cech">
+                <p:column headerText="nazwa cechy przyporządkowanej">
+                    <h:outputText value="#{item.nazwacechy}"/>
+                </p:column>
+                <p:column headerText="rodzaj cechy przyporządkowanej" style="text-align: center;">
+                    <h:outputText value="#{item.rodzajcechy}"/>
+                </p:column>
+                <p:column width="40" style="text-align: center;">
+                    <p:commandButton value="-" actionListener="#{dokfkView.usuncechedostronawiersza(item)}" global="false" update="@form"/>
+                </p:column>
+            </p:dataTable>
+            <p:outputPanel style="text-align: center;">
+                <p:commandButton value="zapisz wybraną (F)" style="width: 150px;" accesskey="f" actionListener="#{dokfkView.dodajcechedostronawiersza()}"
+                                 update="formCHW:tablicacech formCHW:tablicacech2"/>
+                 <p:commandButton value="zamknij (G)" style="margin-left: 10px;width: 150px;" accesskey="g" 
+                                  oncomplete="PF('dialogCechyStronaWiersza').hide()"/>
+            </p:outputPanel>
+        </h:form>
+    </p:dialog>
+</ui:composition> 

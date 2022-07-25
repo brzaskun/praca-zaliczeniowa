@@ -1,0 +1,415 @@
+<?xml version="1.0" encoding="UTF-8"?><xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:etd="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2020/03/11/eD/DefinicjeTypy/" xmlns:kue="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2013/05/23/eD/KodyUE/" xmlns:tns="http://crd.gov.pl/wzor/2020/07/03/9689/" targetNamespace="http://crd.gov.pl/wzor/2020/07/03/9689/" elementFormDefault="qualified" attributeFormDefault="unqualified" xml:lang="pl">
+	<xsd:import namespace="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2020/03/11/eD/DefinicjeTypy/" schemaLocation="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2020/03/11/eD/DefinicjeTypy/StrukturyDanych_v6-0E.xsd"/>
+	<xsd:import namespace="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2013/05/23/eD/KodyUE/" schemaLocation="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2013/05/23/eD/KodyUE/KodyKrajowUE_v2-0E.xsd"/>
+	<!--Informacja jest składana wyłącznie za pomocą środków komunikacji elektronicznej-->
+	<!-- -->
+	<!--Przez urząd skarbowy, do którego jest adresowana korekta informacji, rozumie się urząd skarbowy, przy pomocy którego właściwy dla podatnika naczelnik urzędu skarbowego wykonuje swoje zadania.-->
+	<xsd:complexType name="TNaglowek">
+		<xsd:annotation>
+			<xsd:documentation>Nagłówek deklaracji</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="KodFormularza">
+				<xsd:complexType>
+					<xsd:simpleContent>
+						<xsd:extension base="tns:TKodFormularza">
+							<xsd:attribute name="kodSystemowy" type="xsd:string" use="required" fixed="VATUEK (5)"/>
+							<xsd:attribute name="wersjaSchemy" type="xsd:string" use="required" fixed="1-0E"/>
+						</xsd:extension>
+					</xsd:simpleContent>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="WariantFormularza">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:byte">
+						<xsd:enumeration value="5"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="Rok">
+				<xsd:simpleType>
+					<xsd:restriction base="etd:TRok">
+						<xsd:minInclusive value="2020"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="Miesiac" type="etd:TMiesiac"/>
+			<xsd:element name="CelZlozenia">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:byte">
+						<xsd:enumeration value="1"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="KodUrzedu" type="etd:TKodUS"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:simpleType name="TKodFormularza">
+		<xsd:annotation>
+			<xsd:documentation>Symbol wzoru formularza</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="VAT-UEK"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="TNrVatUE">
+		<xsd:annotation>
+			<xsd:documentation>Numer Identyfikacyjny VAT kontrahenta UE</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="(\d|[A-Z]|\+|\*){1,12}"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:element name="Deklaracja">
+		<xsd:annotation>
+			<xsd:documentation>KOREKTA INFORMACJI PODSUMOWUJĄCEJ O DOKONANYCH WEWNĄTRZWSPÓLNOTOWYCH TRANSAKCJACH I PRZEMIESZCZENIACH TOWARÓW W PROCEDURZE MAGAZYNU TYPU CALL-OFF STOCK</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="Naglowek" type="tns:TNaglowek">
+					<xsd:annotation>
+						<xsd:documentation>Nagłówek deklaracji</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element name="Podmiot1">
+					<xsd:complexType>
+						<xsd:complexContent>
+							<xsd:extension base="etd:TPodmiotDowolnyBezAdresu3">
+								<xsd:attribute name="rola" type="xsd:string" use="required" fixed="Podatnik"/>
+							</xsd:extension>
+						</xsd:complexContent>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element name="PozycjeSzczegolowe">
+					<xsd:annotation>
+						<xsd:documentation>Korekta informacji o wewnątrzwspólnotowych transakcjach i przemieszczeniach towarów w procedurze magazynu typu call-off stock</xsd:documentation>
+					</xsd:annotation>
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="Grupa1" minOccurs="0" maxOccurs="unbounded">
+								<xsd:annotation>
+									<xsd:documentation>Korekta informacji o wewnątrzwspólnotowych dostawach towarów</xsd:documentation>
+								</xsd:annotation>
+								<xsd:complexType>
+									<xsd:sequence>
+										<xsd:sequence minOccurs="0">
+											<xsd:element name="P_DBa" type="kue:TKodKrajuUE">
+												<xsd:annotation>
+													<xsd:documentation>Kod kraju kontrahenta (nabywcy towaru) (BYŁO)</xsd:documentation>
+												</xsd:annotation>
+											</xsd:element>
+											<xsd:element name="P_DBb" type="tns:TNrVatUE">
+												<xsd:annotation>
+													<xsd:documentation>Numer identyfikacyjny VAT kontrahenta (nabywcy towaru) (BYŁO)</xsd:documentation>
+												</xsd:annotation>
+											</xsd:element>
+											<xsd:element name="P_DBc">
+												<xsd:annotation>
+													<xsd:documentation>Łączna wartość transakcji w zł (BYŁO)</xsd:documentation>
+												</xsd:annotation>
+												<xsd:simpleType>
+													<xsd:restriction base="etd:TKwotaC">
+														<xsd:totalDigits value="12"/>
+													</xsd:restriction>
+												</xsd:simpleType>
+											</xsd:element>
+											<xsd:element name="P_DBd" type="etd:TWybor1_2">
+												<xsd:annotation>
+													<xsd:documentation>Określenie, czy pozycja dotyczy transakcji trójstronnych (BYŁO)
+	1 - pozycja nie dotyczy transakcji trójstronnych
+	2 - pozycja dotyczy transakcji trójstronnych</xsd:documentation>
+												</xsd:annotation>
+											</xsd:element>
+										</xsd:sequence>
+										<xsd:sequence minOccurs="0">
+											<xsd:element name="P_DJa" type="kue:TKodKrajuUE">
+												<xsd:annotation>
+													<xsd:documentation>Kod kraju kontrahenta (nabywcy towaru) (JEST)</xsd:documentation>
+												</xsd:annotation>
+											</xsd:element>
+											<xsd:element name="P_DJb" type="tns:TNrVatUE">
+												<xsd:annotation>
+													<xsd:documentation>Numer identyfikacyjny VAT kontrahenta (nabywcy towaru) (JEST)</xsd:documentation>
+												</xsd:annotation>
+											</xsd:element>
+											<xsd:element name="P_DJc">
+												<xsd:annotation>
+													<xsd:documentation>Łączna wartość transakcji w zł (JEST)</xsd:documentation>
+												</xsd:annotation>
+												<xsd:simpleType>
+													<xsd:restriction base="etd:TKwotaC">
+														<xsd:totalDigits value="12"/>
+													</xsd:restriction>
+												</xsd:simpleType>
+											</xsd:element>
+											<xsd:element name="P_DJd" type="etd:TWybor1_2">
+												<xsd:annotation>
+													<xsd:documentation>Określenie, czy pozycja dotyczy transakcji trójstronnych (JEST)
+	1 - pozycja nie dotyczy transakcji trójstronnych
+	2 - pozycja dotyczy transakcji trójstronnych</xsd:documentation>
+												</xsd:annotation>
+											</xsd:element>
+										</xsd:sequence>
+									</xsd:sequence>
+								</xsd:complexType>
+							</xsd:element>
+							<xsd:element name="Grupa2" minOccurs="0" maxOccurs="unbounded">
+								<xsd:annotation>
+									<xsd:documentation>Korekta informacji o wewnątrzwspólnotowych nabyciach towarów</xsd:documentation>
+								</xsd:annotation>
+								<xsd:complexType>
+									<xsd:sequence>
+										<xsd:sequence minOccurs="0">
+											<xsd:element name="P_NBa" type="kue:TKodKrajuUE">
+												<xsd:annotation>
+													<xsd:documentation>Kod kraju kontrahenta (dostawcy towaru) (BYŁO)</xsd:documentation>
+												</xsd:annotation>
+											</xsd:element>
+											<xsd:element name="P_NBb" type="tns:TNrVatUE">
+												<xsd:annotation>
+													<xsd:documentation>Numer identyfikacyjny VAT kontrahenta (dostawcy towaru) (BYŁO)</xsd:documentation>
+												</xsd:annotation>
+											</xsd:element>
+											<xsd:element name="P_NBc">
+												<xsd:annotation>
+													<xsd:documentation>Łączna wartość transakcji w zł (BYŁO)</xsd:documentation>
+												</xsd:annotation>
+												<xsd:simpleType>
+													<xsd:restriction base="etd:TKwotaC">
+														<xsd:totalDigits value="12"/>
+													</xsd:restriction>
+												</xsd:simpleType>
+											</xsd:element>
+											<xsd:element name="P_NBd" type="etd:TWybor1_2">
+												<xsd:annotation>
+													<xsd:documentation>Określenie, czy pozycja dotyczy transakcji trójstronnych (BYŁO)
+	1 - pozycja nie dotyczy transakcji trójstronnych
+	2 - pozycja dotyczy transakcji trójstronnych</xsd:documentation>
+												</xsd:annotation>
+											</xsd:element>
+										</xsd:sequence>
+										<xsd:sequence minOccurs="0">
+											<xsd:element name="P_NJa" type="kue:TKodKrajuUE">
+												<xsd:annotation>
+													<xsd:documentation>Kod kraju kontrahenta (dostawcy towaru) (JEST)</xsd:documentation>
+												</xsd:annotation>
+											</xsd:element>
+											<xsd:element name="P_NJb" type="tns:TNrVatUE">
+												<xsd:annotation>
+													<xsd:documentation>Numer identyfikacyjny VAT kontrahenta (dostawcy towaru) (JEST)</xsd:documentation>
+												</xsd:annotation>
+											</xsd:element>
+											<xsd:element name="P_NJc">
+												<xsd:annotation>
+													<xsd:documentation>Łączna wartość transakcji w zł (JEST)</xsd:documentation>
+												</xsd:annotation>
+												<xsd:simpleType>
+													<xsd:restriction base="etd:TKwotaC">
+														<xsd:totalDigits value="12"/>
+													</xsd:restriction>
+												</xsd:simpleType>
+											</xsd:element>
+											<xsd:element name="P_NJd" type="etd:TWybor1_2">
+												<xsd:annotation>
+													<xsd:documentation>Określenie, czy pozycja dotyczy transakcji trójstronnych (JEST)
+	1 - pozycja nie dotyczy transakcji trójstronnych
+	2 - pozycja dotyczy transakcji trójstronnych</xsd:documentation>
+												</xsd:annotation>
+											</xsd:element>
+										</xsd:sequence>
+									</xsd:sequence>
+								</xsd:complexType>
+							</xsd:element>
+							<xsd:element name="Grupa3" minOccurs="0" maxOccurs="unbounded">
+								<xsd:annotation>
+									<xsd:documentation>Korekta informacji o wewnątrzwspólnotowym świadczeniu usług</xsd:documentation>
+								</xsd:annotation>
+								<xsd:complexType>
+									<xsd:sequence>
+										<xsd:sequence minOccurs="0">
+											<xsd:element name="P_UBa" type="kue:TKodKrajuUE">
+												<xsd:annotation>
+													<xsd:documentation>Kod kraju kontrahenta (usługobiorcy) (BYŁO)</xsd:documentation>
+												</xsd:annotation>
+											</xsd:element>
+											<xsd:element name="P_UBb" type="tns:TNrVatUE">
+												<xsd:annotation>
+													<xsd:documentation>Numer identyfikacyjny VAT kontrahenta (usługobiorcy) (BYŁO)</xsd:documentation>
+												</xsd:annotation>
+											</xsd:element>
+											<xsd:element name="P_UBc">
+												<xsd:annotation>
+													<xsd:documentation>Łączna wartość transakcji w zł (BYŁO)</xsd:documentation>
+												</xsd:annotation>
+												<xsd:simpleType>
+													<xsd:restriction base="etd:TKwotaC">
+														<xsd:totalDigits value="12"/>
+													</xsd:restriction>
+												</xsd:simpleType>
+											</xsd:element>
+										</xsd:sequence>
+										<xsd:sequence minOccurs="0">
+											<xsd:element name="P_UJa" type="kue:TKodKrajuUE">
+												<xsd:annotation>
+													<xsd:documentation>Kod kraju kontrahenta (usługobiorcy) (JEST)</xsd:documentation>
+												</xsd:annotation>
+											</xsd:element>
+											<xsd:element name="P_UJb" type="tns:TNrVatUE">
+												<xsd:annotation>
+													<xsd:documentation>Numer identyfikacyjny VAT kontrahenta (usługobiorcy) (JEST)</xsd:documentation>
+												</xsd:annotation>
+											</xsd:element>
+											<xsd:element name="P_UJc">
+												<xsd:annotation>
+													<xsd:documentation>Łączna wartość transakcji w zł (JEST)</xsd:documentation>
+												</xsd:annotation>
+												<xsd:simpleType>
+													<xsd:restriction base="etd:TKwotaC">
+														<xsd:totalDigits value="12"/>
+													</xsd:restriction>
+												</xsd:simpleType>
+											</xsd:element>
+										</xsd:sequence>
+									</xsd:sequence>
+								</xsd:complexType>
+							</xsd:element>
+							<xsd:element name="Grupa4" minOccurs="0" maxOccurs="unbounded">
+								<xsd:annotation>
+									<xsd:documentation>Korekta informacji o przemieszczeniach towarów w procedurze magazynu typu call-off stock na terytorium państwa członkowskiego inne niż terytorium kraju</xsd:documentation>
+								</xsd:annotation>
+								<xsd:complexType>
+									<xsd:sequence>
+										<xsd:sequence minOccurs="0">
+											<xsd:element name="P_CBa" type="kue:TKodKrajuUE">
+												<xsd:annotation>
+													<xsd:documentation>Kod kraju kontrahenta</xsd:documentation>
+												</xsd:annotation>
+											</xsd:element>
+											<xsd:element name="P_CBb" type="tns:TNrVatUE">
+												<xsd:annotation>
+													<xsd:documentation>Numer identyfikacyjny VAT kontrahenta</xsd:documentation>
+												</xsd:annotation>
+											</xsd:element>
+											<xsd:choice>
+												<xsd:element name="P_CBc" type="tns:TNrVatUE">
+													<xsd:annotation>
+														<xsd:documentation>Numer identyfikacyjny VAT kontrahenta zastąpionego</xsd:documentation>
+													</xsd:annotation>
+												</xsd:element>
+												<xsd:element name="P_CBd" type="etd:TWybor1_2" default="1">
+													<xsd:annotation>
+														<xsd:documentation>Określenie, czy pozycja dotyczy powrotnego przemieszczenia
+	1 - pozycja nie dotyczy powrotnego przemieszczenia
+	2 - pozycja dotyczy powrotnego przemieszczenia</xsd:documentation>
+													</xsd:annotation>
+												</xsd:element>
+											</xsd:choice>
+										</xsd:sequence>
+										<xsd:sequence minOccurs="0">
+											<xsd:element name="P_CJa" type="kue:TKodKrajuUE">
+												<xsd:annotation>
+													<xsd:documentation>Kod kraju kontrahenta</xsd:documentation>
+												</xsd:annotation>
+											</xsd:element>
+											<xsd:element name="P_CJb" type="tns:TNrVatUE">
+												<xsd:annotation>
+													<xsd:documentation>Numer identyfikacyjny VAT kontrahenta</xsd:documentation>
+												</xsd:annotation>
+											</xsd:element>
+											<xsd:choice>
+												<xsd:element name="P_CJc" type="tns:TNrVatUE">
+													<xsd:annotation>
+														<xsd:documentation>Numer identyfikacyjny VAT kontrahenta zastąpionego</xsd:documentation>
+													</xsd:annotation>
+												</xsd:element>
+												<xsd:element name="P_CJd" type="etd:TWybor1_2" default="1">
+													<xsd:annotation>
+														<xsd:documentation>Określenie, czy pozycja dotyczy powrotnego przemieszczenia
+	1 - pozycja nie dotyczy powrotnego przemieszczenia
+	2 - pozycja dotyczy powrotnego przemieszczenia</xsd:documentation>
+													</xsd:annotation>
+												</xsd:element>
+											</xsd:choice>
+										</xsd:sequence>
+									</xsd:sequence>
+								</xsd:complexType>
+							</xsd:element>
+						</xsd:sequence>
+					</xsd:complexType>
+					<xsd:unique name="kluczPozycjaDostawyBylo">
+						<xsd:selector xpath="tns:Grupa1"/>
+						<xsd:field xpath="tns:P_DBa"/>
+						<xsd:field xpath="tns:P_DBb"/>
+						<xsd:field xpath="tns:P_DBd"/>
+					</xsd:unique>
+					<xsd:unique name="kluczPozycjaDostawyJest">
+						<xsd:selector xpath="tns:Grupa1"/>
+						<xsd:field xpath="tns:P_DJa"/>
+						<xsd:field xpath="tns:P_DJb"/>
+						<xsd:field xpath="tns:P_DJd"/>
+					</xsd:unique>
+					<xsd:unique name="kluczPozycjaNabyciaBylo">
+						<xsd:selector xpath="tns:Grupa2"/>
+						<xsd:field xpath="tns:P_NBa"/>
+						<xsd:field xpath="tns:P_NBb"/>
+						<xsd:field xpath="tns:P_NBd"/>
+					</xsd:unique>
+					<xsd:unique name="kluczPozycjaNabyciaJest">
+						<xsd:selector xpath="tns:Grupa2"/>
+						<xsd:field xpath="tns:P_NJa"/>
+						<xsd:field xpath="tns:P_NJb"/>
+						<xsd:field xpath="tns:P_NJd"/>
+					</xsd:unique>
+					<xsd:unique name="kluczPozycjaUslugiBylo">
+						<xsd:selector xpath="tns:Grupa3"/>
+						<xsd:field xpath="tns:P_UBa"/>
+						<xsd:field xpath="tns:P_UBb"/>
+					</xsd:unique>
+					<xsd:unique name="kluczPozycjaUslugiJest">
+						<xsd:selector xpath="tns:Grupa3"/>
+						<xsd:field xpath="tns:P_UJa"/>
+						<xsd:field xpath="tns:P_UJb"/>
+					</xsd:unique>
+					<xsd:unique name="kluczPozycjaCallOffB1">
+						<xsd:selector xpath="tns:Grupa4"/>
+						<xsd:field xpath="tns:P_CBa"/>
+						<xsd:field xpath="tns:P_CBb"/>
+						<xsd:field xpath="tns:P_CBc"/>
+					</xsd:unique>
+					<xsd:unique name="kluczPozycjaCallOffB2">
+						<xsd:selector xpath="tns:Grupa4"/>
+						<xsd:field xpath="tns:P_CBa"/>
+						<xsd:field xpath="tns:P_CBb"/>
+						<xsd:field xpath="tns:P_CBd"/>
+					</xsd:unique>
+					<xsd:unique name="kluczPozycjaCallOffJ1">
+						<xsd:selector xpath="tns:Grupa4"/>
+						<xsd:field xpath="tns:P_CJa"/>
+						<xsd:field xpath="tns:P_CJb"/>
+						<xsd:field xpath="tns:P_CJc"/>
+					</xsd:unique>
+					<xsd:unique name="kluczPozycjaCallOffJ2">
+						<xsd:selector xpath="tns:Grupa4"/>
+						<xsd:field xpath="tns:P_CJa"/>
+						<xsd:field xpath="tns:P_CJb"/>
+						<xsd:field xpath="tns:P_CJd"/>
+					</xsd:unique>
+				</xsd:element>
+				<xsd:element name="Pouczenie">
+					<xsd:annotation>
+						<xsd:documentation>Wartość 1 oznacza potwierdzenie zapoznania się z treścią i akceptację poniższego pouczenia:
+								Za podanie nieprawdy lub zatajenie prawdy grozi odpowiedzialność przewidziana w Kodeksie karnym skarbowym.
+								</xsd:documentation>
+					</xsd:annotation>
+					<xsd:simpleType>
+						<xsd:restriction base="etd:TKwota2Nieujemna">
+							<xsd:minExclusive value="0"/>
+							<xsd:maxExclusive value="2"/>
+							<xsd:fractionDigits value="0"/>
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+</xsd:schema>

@@ -1,0 +1,65 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:bcf="http://brzaskun.com/facelets">
+    <ui:composition template="/templateFK.xhtml">
+        <ui:define name="title">
+            <h:outputText value="Księgi rachunkowe"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <bcf:ajaxs />
+            
+            <p:layout fullPage="true" expandTitle="Wysuń" closeTitle="Zamknij" collapseTitle="Schowaj">
+                <ui:include src="sub/layout/north.xhtml"/>  <!-- panel polnocny-->
+                <p:layoutUnit id="centralna" position="center" >
+                    <div id="ramki">
+                    </div>
+                    <h:form>
+                        <p:growl life="3600"  ><p:autoUpdate/></p:growl>
+                    </h:form>
+                    <ui:include src="sub/menu/menuustawienia.xhtml"/>
+                    
+                    <ui:include src="sub/dialog/dialog_plankont_wzorcowy.xhtml"/>
+                    <ui:include src="sub/dialog/dialog_plankont_wzorcowy_1.xhtml"/>
+                    <ui:include src="sub/dialog/dialog_plankont_wzorcowy_nazwy.xhtml"/>
+                    <ui:include src="sub/dialog/dialog_plankont_analityczne_wzorcowy.xhtml"/>
+                    <ui:include src="sub/dialog/dialog_plankont_syntetyczne_wzorcowy.xhtml"/>
+                    <ui:include src="sub/dialog/dialog_plankont_edycja_nazw_wzorcowy.xhtml"/>
+                    <ui:include src="sub/dialog/dialog_plankont_kopiuj.xhtml"/>
+                    <ui:include src="sub/dialog/dialog_plankont_kopiuj_wzorcowy.xhtml"/>
+                    <ui:include src="sub/dialog/dialog_rzis_projekt_wzorcowy.xhtml"/>
+                    <ui:include src="sub/dialog/dialog_rzis_projekt_wzorcowy_inter.xhtml"/>
+                    <ui:include src="sub/dialog/dialog_projekt_wyborukladu_wzorcowy.xhtml"/>
+                    <ui:include src="sub/dialog/dialog_rzis_przypisywanie_wzorcowy_kopiuj.xhtml"/>
+                    <ui:include src="sub/dialog/dialog_rzis_projekt_syntetyczne_wzorcowy.xhtml"/>
+                    <ui:include src="sub/dialog/dialog_rzis_projekt_syntetyczne_formula_wzorcowy.xhtml"/>
+                    <ui:include src="sub/dialog/dialog_rzis_projekt_analityczne_wzorcowy.xhtml"/>
+                    <ui:include src="sub/dialog/dialog_rzis_przypisywanie_kont_wzorcowy.xhtml"/>
+<!--                    <ui:include src="sub/dialog/dialog_rzis_konta_wnma_wzorcowy.xhtml"/>-->
+                    <ui:include src="sub/dialog/dialog_rzis_konta_wnma.xhtml"/>
+                    <ui:include src="sub/dialog/dialog_uklad_wzorcowy_kopiuj.xhtml"/>
+                    <ui:include src="sub/dialog/dialog_uklad_wzorcowy_kopiuj_wybiorczo.xhtml"/>
+                    <ui:include src="sub/dialog/dialog_bilans_projekt_wzorcowy.xhtml"/>
+                    <ui:include src="sub/dialog/dialog_bilans_projekt_wzorcowy_inter.xhtml"/>
+                    <ui:include src="sub/dialog/dialog_bilans_przypisywanie_wzorcowy_kopiuj.xhtml"/>
+                    <ui:include src="sub/dialog/dialog_bilans_projekt_syntetyczne_wzorcowy.xhtml"/>
+                    <ui:include src="sub/dialog/dialog_bilans_projekt_syntetyczne_formula_wzorcowy.xhtml"/>
+                    <ui:include src="sub/dialog/dialog_bilans_projekt_analityczne_wzorcowy.xhtml"/>
+                    <ui:include src="sub/dialog/dialog_bilans_przypisywanie_kont_wzorcowy.xhtml"/>
+<!--                    <ui:include src="sub/dialog/dialog_bilans_konta_wnma_wzorcowy.xhtml"/>-->
+                    <ui:include src="sub/dialog/dialog_bilans_konta_wnma.xhtml"/>
+                    <ui:include src="sub/dialog/dialog_zmiananazwypozycji_wzor.xhtml"/>
+                    <ui:include src="sub/dialog/dialog_sprawozdanie_uklad.xhtml"/>
+                    <ui:include src="sub/dialog/dialog_sprawozdanie_projekt_wzorcowy.xhtml"/>
+                    <ui:include src="sub/dialog/dialog_dokfk_nazwy.xhtml"/>
+                    <ui:include src="sub/dialog/dialog_konto_klasyfikacja.xhtml"/>
+                    <ui:include src="sub/dialog/dialog_konto_klasyfikacja_przyporzadkowanie.xhtml"/>
+                    <ui:include src="sub/dialog/dialog_konto_klasyfikacja_przyporzadkowanie_podatnik.xhtml"/>
+                    <ui:include src="sub/dialog/dialog_zmiana_okresu.xhtml"/> 
+                </p:layoutUnit><ui:include src="sub/layout/south.xhtml"/> 
+            </p:layout>
+        </ui:define>
+    </ui:composition>
+</html>

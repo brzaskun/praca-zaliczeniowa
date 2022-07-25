@@ -1,0 +1,111 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    >
+    <p:dialog id="dialogwaluty" header="Zestawienie używanych w programie walut" widgetVar="waluty"  
+              resizable="false"  onShow="ustawdialog('dialogwaluty','menukartoteki',650,550);" closeOnEscape="true" onHide="resetujdialog('dialogwaluty');" >
+        <p:ajax event="open" listener="#{walutyViewFK.init()}" global="false"/>
+        <h:form id="wprowadzonewaluty">
+            <p:growl life="3600"  ><p:autoUpdate/></p:growl>
+            <style>
+                .ui-datatable-scrollable-theadclone {
+                    display: none !important;
+                    height: 0px !important;
+                }
+            </style>
+            <p:panelGrid columns="5">
+                <h:outputText value="data od  - nie starsza niż 3 mce!!"/>
+                <p:inputText maxlength="10" size="10" placeholder="yyyy-mm-dd" value="#{walutyKursRecznieView.dataodtabela}"/>
+                <h:outputText value="data końcowa WYMAGANA!"/>
+                <p:inputText value="#{walutyKursRecznieView.datadotabela}" placeholder="rrrr-mm-dd" maxlength="10" size="10"/>
+            </p:panelGrid>
+            <p:dataTable id="dataTablewaluty" var="wpis" value="#{walutyViewFK.pobraneRodzajeWalut}" editable="true" emptyMessage="Nie ma wprowadzonych walut"
+                         scrollable="true" scrollHeight="300" scrollRows="10" style="width: 630px;" resizableColumns="true">
+                <p:column headerText="skrót waluty" style="text-align: center; height: 25px;">
+                    <h:outputText value="#{wpis.symbolwaluty}" />
+                </p:column>
+                <p:column headerText="nazwa waluty" style="width: 180px;">
+                    <p:inplace editor="true" effect="slide" effectSpeed="fast" saveLabel="zachowaj" cancelLabel="rezygnuj">
+                        <p:ajax event="save" listener="#{walutyViewFK.handleSave(wpis)}"  update="@parent"/>
+                        <f:facet name="output">
+                            <h:outputText value="#{wpis.nazwawaluty}" style="width: 200px;"/>
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText value="#{wpis.nazwawaluty}" style="width: 150px;"/>
+                        </f:facet>
+                    </p:inplace>
+                </p:column>
+                <p:column headerText="symbol waluty" style="text-align: center;">
+                    <p:inplace editor="true" effect="slide" effectSpeed="fast" saveLabel="zachowaj" cancelLabel="rezygnuj">
+                        <p:ajax event="save" listener="#{walutyViewFK.handleSave(wpis)}"  update="@parent"/>
+                        <f:facet name="output">
+                            <h:outputText value="#{wpis.skrotsymbolu}" />
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText value="#{wpis.skrotsymbolu}" size="6"/>
+                        </f:facet>
+                    </p:inplace>
+                </p:column>
+                <p:column headerText="przelicznik" style="text-align: center;">
+                    <p:inplace editor="true" effect="slide" effectSpeed="fast" saveLabel="zachowaj" cancelLabel="rezygnuj">
+                        <p:ajax event="save" listener="#{walutyViewFK.handleSave(wpis)}"  update="@parent"/>
+                        <f:facet name="output">
+                            <h:outputText value="#{wpis.przelicznik}" />
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText value="#{wpis.przelicznik}" size="6"/>
+                        </f:facet>
+                    </p:inplace>
+                </p:column>
+                <p:column headerText="usuń" style="text-align: center;">
+                    <p:commandButton icon="ui-icon-trash" actionListener="#{walutyViewFK.usunwalute(wpis)}" update="wprowadzonewaluty wpiswalut" rendered="#{wpis.symbolwaluty ne 'PLN'}"/>
+                </p:column>
+                <p:column headerText="pobierz kursy" style="text-align: center;">
+                    <p:commandButton icon="ui-icon-arrowthickstop-1-s" actionListener="#{walutyKursRecznieView.pobierzkursyNowaWaluta(wpis)}" update="wprowadzonewaluty wpiswalut" rendered="#{wpis.symbolwaluty ne 'PLN'}"/>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+        <h:form id="wpiswalut">
+            <p:panelGrid id="dataTablewpisywaniewalut" style="margin-top: 10px;margin-bottom: 5px; display: none; width: 150px;">
+                <f:facet name="header">
+                    <p:row>
+                        <p:column width="40">
+                            <h:outputText value="skrót waluty" style="width: 40px;"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="nazwa waluty"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="symbol waluty"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="przelicznik"/>
+                        </p:column>
+                    </p:row>
+                </f:facet>
+                <p:row>
+                    <p:column >
+                        <p:inputText value="#{walutyViewFK.nowawaluta.symbolwaluty}" required="true" requiredMessage="Wpisz skrót waluty" maxlength="3"   style="text-align: center;"/>
+                    </p:column>
+                    <p:column>
+                        <p:inputText value="#{walutyViewFK.nowawaluta.nazwawaluty}" required="true" requiredMessage="Wpisz nazwę waluty"/>
+                    </p:column>
+                    <p:column>
+                        <p:inputText value="#{walutyViewFK.nowawaluta.skrotsymbolu}" required="true" requiredMessage="Wpisz symbol waluty"
+                                     maxlength="2" style="text-align: center;"/>
+                    </p:column>
+                    <p:column>
+                        <p:inputText value="#{walutyViewFK.nowawaluta.przelicznik}" required="true"/>
+                    </p:column>
+                </p:row>
+            </p:panelGrid>
+            <div style="padding: 10px;">
+                <p:commandButton id="walutynowabutton" value="nowa" onclick="walutypokaz();" style="width: 120px;"/>
+                <p:commandButton id="walutydodajbutton" value="dodaj" actionListener="#{walutyViewFK.dodajnowawalute}" oncomplete="walutyschowaj();" style="width: 120px; display: none;" update=":wprowadzonewaluty:dataTablewaluty"/>
+            </div>
+        </h:form>
+    </p:dialog>
+</ui:composition>

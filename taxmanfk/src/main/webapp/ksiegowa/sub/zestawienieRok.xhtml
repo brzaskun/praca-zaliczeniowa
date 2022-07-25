@@ -1,0 +1,14 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+>
+   
+    <p:tabView id="akordeon" style="width: 1500px;" rendered="#{WpisView.biuroiszef eq true}">
+        <ui:include src="zestawienieRok_dane.xhtml" />
+            <ui:include src="zestawienieRok_wykres.xhtml" rendered="#{WpisView.ksiegaryczalt}"/>
+            <ui:include src="zestawienieRok_cechy.xhtml" rendered="#{WpisView.ksiegaryczalt}"/>
+    </p:tabView>
+
+</ui:composition>  
+

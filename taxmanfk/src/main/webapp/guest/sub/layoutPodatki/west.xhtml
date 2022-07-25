@@ -1,0 +1,57 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+    <p:layoutUnit position="west" size="260" header="#{mgs.zmianaokresu}" collapsible="true" resizable="true">
+        <h:form id="westKsiegowa">
+            <h:messages id="westmsg"/>
+              <p:panelGrid  columns="2" >
+                    <p:column>
+                <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}" style="margin-left: 5%;width: 150px;">
+                    <f:selectItems value="#{roki.rokiList}"/>
+                     <p:ajax event="change" listener="#{platnosciTablicaView.aktualizujTablice}" update=":podatkiform"/>
+                </p:selectOneMenu>
+                  </p:column>
+            </p:panelGrid>
+        </h:form>
+        <h:form>
+            <p:panel header="Tu możesz sprawdzić:">
+                 <p:panelGrid columns="1">
+                        <p:menu style="width: 180px;">
+                            <p:menuitem value="dokumenty za mc" outcome="gtablica" icon="ui-icon-circle-arrow-e" />
+                            <p:menuitem value="dokumenty w roku"  icon="ui-icon-circle-arrow-e" action="#{obrotyView.initGuest()}" update="@form"/>  
+                            <p:menuitem value="podatkowa ksiega"  outcome="gksiega" icon="ui-icon-circle-arrow-e"  rendered="#{WpisView.ksiegaryczalt == true}"/><p:menuitem global="false" value="ewid. przychodów"  outcome="gewidencjaprzychodow" icon="ui-icon-circle-arrow-e" rendered="#{WpisView.ksiegaryczalt == false}"/>
+                            <p:menuitem value="ewidencja vat" icon="ui-icon-circle-arrow-e" outcome="gewidencja"  rendered="#{WpisView.podatnikObiekt.vatokres.size() gt 0 ? true : false}"/>       
+                            <p:menuitem value="niezapłacone"  outcome="gniezaplacone" icon="ui-icon-circle-arrow-e" />
+                            <p:menuitem value="faktury okresowe"  outcome="gfmiesieczne" icon="ui-icon-circle-arrow-e" />
+                            <p:menuitem value="podsumowanie roku"  outcome="gzestawienie" icon="ui-icon-circle-arrow-e"/>
+                        </p:menu>
+                        <p:menu style="width: 180px;">
+                            <p:menuitem value="terminy płatności"  outcome="gzobow" icon="ui-icon-circle-arrow-e"/>
+                            <p:menuitem value="wysokość zobowiązań"  outcome="gpodatki" icon="ui-icon-circle-arrow-e" />
+                        </p:menu>
+                        <p:menu style="width: 180px;">
+                            <p:menuitem value="PIT-y"  outcome="gpit" icon="ui-icon-circle-arrow-e"/>
+                            <p:menuitem value="VAT-y"  outcome="gvat" icon="ui-icon-circle-arrow-e" />
+                        </p:menu>
+                      <p:menu style="width: 180px;">
+                           <p:menuitem value="środki trwałe"  outcome="srodkiewidencja" icon="ui-icon-circle-arrow-e"/>  
+                       </p:menu>
+                        <p:menu style="width: 180px;">
+                            <p:menuitem value="wystaw fakturę"  outcome="gfaktura" icon="ui-icon-circle-arrow-e"/>
+                            <p:menuitem value="ustawienia faktury"  outcome="gfakturaustawienia" icon="ui-icon-circle-arrow-e"/>
+                        </p:menu>
+                       
+                        <p:menu style="width: 180px;">
+                            <p:menuitem value="uwagi do programu"  outcome="gadmin" icon="ui-icon-circle-arrow-e"/>
+                        </p:menu> 
+                         <p:commandButton id="zmien" value="zmień firmę" action="/indexMulti.xhtml" ajax="false" style="width: 120px; margin-left: 20%"/>
+                        <p:commandButton id="wyloguj" value="#{mgs.wyloguj}" action="#{logowanie.logout()}" style="width: 120px; margin-left: 20%;"/>
+                    </p:panelGrid>
+            </p:panel>
+        </h:form>
+    </p:layoutUnit>
+</ui:composition>   
+

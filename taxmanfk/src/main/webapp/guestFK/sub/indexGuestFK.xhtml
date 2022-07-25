@@ -1,0 +1,35 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+ <f:view locale="#{localeChanger.locale}">
+    <h:form id="westIndex">
+        <p:focus id="focus" context="panelwyboru"/>
+        <p:panel id="panelwyboru" menuTitle="Dane" header="Parametry" style="width: 400px; margin: auto; margin-top: 3%; text-align: center;">
+            <f:facet name="header">
+                <h:outputText value="#{mgs['guest.mcrok.header']}" style="display: block; text-align: center"/>
+            </f:facet>
+            <p:graphicImage url="/resources/images/ksiegi.jpg"/>
+            <p></p>
+            <p:panelGrid columns="3" style="text-align: center; margin: auto;">
+                <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}" style="width: 100px;">
+                    <f:selectItems value="#{roki.rokiList}"/>
+                </p:selectOneMenu>
+                <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}"  style="width: 100px;">
+                    <f:selectItems value="#{mce.mceList}"/>
+                </p:selectOneMenu>
+                <p:commandButton action="/guestFK/guestFKTablica.xhtml?faces-redirect=true" value="#{mgs.wybierzmcrok}" actionListener="#{WpisView.wpisAktualizuj()}" accesskey="s" ajax="false"
+                                 style="width: 120px;"/>
+            </p:panelGrid>
+            <f:facet name="footer" >
+                <h:outputText style="display: block; text-align: center; color: red;" value="#{mgs['guest.mcrok.uwaga']}"/>
+            </f:facet>
+        </p:panel>
+    </h:form>
+ </f:view>
+</ui:composition>   
+

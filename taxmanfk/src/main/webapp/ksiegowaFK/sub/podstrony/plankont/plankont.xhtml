@@ -1,0 +1,199 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+        
+    xmlns:bcf="http://brzaskun.com/facelets"
+    xmlns:f="http://java.sun.com/jsf/core">
+    <style>
+       
+    </style>
+    <p:outputPanel deferredMode="true">
+        <h:form id="form_dialog_plankont">
+           
+            <p:contextMenu id="contextforplankont" for="dataList"  style="width: 200px;">
+                <!--                <p:menuitem id="nowesyntetyczne" value="Nowe syntetyczne" icon="ui-icon-circle-plus" onclick="PF('nowekontosyntetyczne').show();" global="false" />-->
+                <p:menuitem id="nowesyntetyczne1" value="Nowe syntetyczne" icon="ui-icon-circle-plus" onclick="PF('nowekontosyntetyczne').show();" global="false" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
+                <p:menuitem id="nowesyntetyczne" value="Nie można dod. syntetyki" icon="ui-icon-notice" global="false"  rendered="#{facesContext.externalContext.remoteUser ne '4'}"/>
+                <p:menuitem id="noweanalityczne" value="Nowe analityczne" icon="ui-icon-circle-plus" onclick="PF('nowekontoanalityczne').show();" global="false"/>
+                <p:menuitem id="noweslownik1" value="Dołącz słownik" icon="ui-icon-circle-plus" onclick="PF('nowekontoslownik').show();"  global="false"/>
+                <p:menuitem id="usunslownik" value="Usuń cały słownik" icon="ui-icon-circle-plus" onclick="PF('usunkontoslownik').show();"  global="false"/>
+                <p:menuitem id="noweedycjanazwy" value="Edycja konta" icon="ui-icon-circle-plus" onclick="PF('dialogedycjanazwkonta').show();"  global="false"/>
+                <p:menuitem  value="Oznacz jako kosztowe" icon="ui-icon-circle-plus" actionListener="#{planKontView.oznaczkontoJakoKosztowe()}" update="form_dialog_plankont:dataList"/>
+                <p:menuitem  value="Oznacz jako przychodowe" icon="ui-icon-circle-plus" actionListener="#{planKontView.oznaczkontoJakoPrzychodowe()}" update="form_dialog_plankont:dataList"/>
+                <p:menuitem value="Usuń" actionListener="#{planKontView.usun('K')}" icon="ui-icon-trash" update="form_dialog_plankont:dataList"/>
+                <p:separator/>
+                <p:menuitem value="Implem. konto z analityką" actionListener="#{planKontView.implementacjaJednegoKontadoWzorcowychZAnalitykom()}" icon="ui-icon-tag" update="form_dialog_plankont:dataList" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
+                <p:menuitem value="Blokada" actionListener="#{planKontView.obslugaBlokadyKonta()}" icon="ui-icon-locked" update=":form_dialog_plankont"/>
+                <p:menuitem value="Blokada wszystkie" actionListener="#{planKontView.obslugaBlokadyKontaWszystkie()}" icon="ui-icon-locked" update=":form_dialog_plankont"/>
+                <p:menuitem value="Porządkuj wybrane konto" onclick="PF('confirm5').show();" global="false" icon="ui-icon-tag" 
+                            />
+                <p:menuitem value="Porządkuj konta" onclick="PF('confirm3').show();" global="false" icon="ui-icon-tag" 
+                            />
+                <p:menuitem value="Weryfikuj słowniki" onclick="PF('confirm4').show();" global="false" icon="ui-icon-note" update="form_dialog_plankont:dataList" />
+                <p:menuitem value="Usuń z subkontami"  icon="ui-icon-trash" actionListener="#{planKontView.usunZsubkontami('K')}" update="form_dialog_plankont:dataList"
+                            rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
+                <p:menuitem value="Usuń wszystkie" onclick="PF('confirm2').show();" 
+                            global="false" icon="ui-icon-trash"  rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
+            </p:contextMenu>
+<!--            <script>
+
+                    document.onkeypress = wcisnij;
+                    function wcisnij() {
+                        if (event.keyCode == 43) {
+                            $('#form\\:rozwinwsz').click();
+                        } else if (event.keyCode == 45) {
+                            $('#form\\:zwinwsz').click();
+                        } else {
+                            return event;
+                        }
+                    }
+            </script>-->
+              <p:panelGrid columns="10">
+<!--                <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{planKontView.rozwinwszystkie(planKontView.root)}" update=":form:dataList" style="float: left;" />
+                <p:commandButton id="rozwin" value="rozwiń poziom" actionListener="#{planKontView.rozwin(planKontView.root)}" update=":form:dataList" style="float: left;" />
+                <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{planKontView.zwinwszystkie(planKontView.root)}" update=":form:dataList" style="float: left;" />
+                <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{planKontView.zwin(planKontView.root)}" update=":form:dataList" style="float: left;" />-->
+<!--                  <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" onclick="rozwinwszystkie('form_dialog_plankont:dataList_data')" global="false" style="float: left;" />
+                  <p:commandButton id="rozwin" value="rozwiń poziom" onclick="rozwinjeden('form_dialog_plankont:dataList_data')" global="false" style="float: left;" />
+                  <p:commandButton id="zwinwsz" value="zwiń wszystkie" onclick="zwinwszystkie('form_dialog_plankont:dataList_data')"  global="false" style="float: left;" />
+                  <p:commandButton id="zwinw" value="zwiń poziom" onclick="zwinjeden('form_dialog_plankont:dataList_data')"  global="false" style="float: left;" />-->
+                  <p:splitButton value="#{mgs.drukuj}"  actionListener="#{planKontView.drukujPlanKont('all')}"  action="#{sesjaView.dodajwydruk()}" global="false" style="margin-left: 20px;">
+                      <p:menuitem global="false" value="wynikowe" action="#{sesjaView.dodajwydruk()}" actionListener="#{planKontView.drukujPlanKont('wynikowe')}" icon="fa fa-print"/>  
+                      <p:menuitem global="false" value="bilansowe" action="#{sesjaView.dodajwydruk()}" actionListener="#{planKontView.drukujPlanKont('bilansowe')}" icon="fa fa-print"/>  
+                      <p:menuitem global="false" value="grupa 0" action="#{sesjaView.dodajwydruk()}" actionListener="#{planKontView.drukujPlanKont('grupa0')}" icon="fa fa-print"/>  
+                      <p:menuitem global="false" value="grupa 1" action="#{sesjaView.dodajwydruk()}" actionListener="#{planKontView.drukujPlanKont('grupa1')}" icon="fa fa-print"/>  
+                      <p:menuitem global="false" value="grupa 2" action="#{sesjaView.dodajwydruk()}" actionListener="#{planKontView.drukujPlanKont('grupa2')}" icon="fa fa-print"/>  
+                      <p:menuitem global="false" value="grupa 3" action="#{sesjaView.dodajwydruk()}" actionListener="#{planKontView.drukujPlanKont('grupa3')}" icon="fa fa-print"/>  
+                      <p:menuitem global="false" value="grupa 4" action="#{sesjaView.dodajwydruk()}" actionListener="#{planKontView.drukujPlanKont('grupa4')}" icon="fa fa-print"/>  
+                      <p:menuitem global="false" value="grupa 5" action="#{sesjaView.dodajwydruk()}" actionListener="#{planKontView.drukujPlanKont('grupa5')}" icon="fa fa-print"/>  
+                      <p:menuitem global="false" value="grupa 6" action="#{sesjaView.dodajwydruk()}" actionListener="#{planKontView.drukujPlanKont('grupa6')}" icon="fa fa-print"/>  
+                      <p:menuitem global="false" value="grupa 7" action="#{sesjaView.dodajwydruk()}" actionListener="#{planKontView.drukujPlanKont('grupa7')}" icon="fa fa-print"/>  
+                      <p:menuitem global="false" value="grupa 8" action="#{sesjaView.dodajwydruk()}" actionListener="#{planKontView.drukujPlanKont('grupa8')}" icon="fa fa-print"/>  
+                  </p:splitButton>
+                  <p:selectBooleanCheckbox id="bezslownikowych" itemLabel="bez słownikowych" value="#{planKontView.bezslownikowych}">
+                      <p:ajax event="change" partialSubmit="true" listener="#{planKontView.planBezSlownikowychSyntetyczne(WpisView.podatnikObiekt)}" update="form_dialog_plankont:dataList"/>
+                  </p:selectBooleanCheckbox>
+                  <p:selectBooleanCheckbox itemLabel="tylko syntetyka" value="#{planKontView.tylkosyntetyka}">
+                      <p:ajax event="change"  partialSubmit="true" listener="#{planKontView.planBezSlownikowychSyntetyczne(WpisView.podatnikObiekt)}" update="form_dialog_plankont:dataList"/>
+                  </p:selectBooleanCheckbox>
+                  <p:selectBooleanCheckbox itemLabel="bez przyporządk." value="#{planKontView.bezprzyporzadkowania}">
+                      <p:ajax event="change"  partialSubmit="true" listener="#{planKontView.planBezSlownikowychSyntetyczne(WpisView.podatnikObiekt)}" update="form_dialog_plankont:dataList"/>
+                  </p:selectBooleanCheckbox>
+                  <p:selectOneMenu id="bilansowewynikowe" value="#{planKontView.kontadowyswietlenia}" required="true" requiredMessage="The Bilansowewynikowe field is required." style="width: 170px;">
+                        <p:ajax event="change" partialSubmit="true" listener="#{planKontView.planBezSlownikowychSyntetyczne(WpisView.podatnikObiekt)}" update="form_dialog_plankont:dataList"/>
+                        <f:selectItem itemLabel="wszystkie" itemValue="wszystkie"/>
+                        <f:selectItem itemLabel="bilansowe" itemValue="bilansowe"/>
+                        <f:selectItem itemLabel="wynikowe" itemValue="wynikowe"/>
+                  </p:selectOneMenu>
+                   <h:outputText value="#{mgs.nazwaukładu}"/>
+                   <p:selectOneMenu value="#{planKontView.wybranyuklad}" converter="#{ukladBRConv}">
+                       <f:selectItem itemLabel="brak układu"  noSelectionOption="true"/>
+                        <f:selectItems value="#{planKontView.listaukladow}" var="loop"  itemLabel="#{loop.uklad} - #{loop.rok}" itemValue="#{String.valueOf(loop.lp)}"/>
+                        <p:ajax event="change" update="form_dialog_plankont:dataList" partialSubmit="true" listener="#{planKontView.zmienuklad()}"/>
+                    </p:selectOneMenu>
+                   <p:commandButton value="update konta" actionListener="#{planKontView.updatekonta}" update="form_dialog_plankont:dataList"/>
+            </p:panelGrid>
+            <p:panelGrid columns="10">
+                <p:commandButton value="0" actionListener="#{planKontView.planBezSlownikowychSyntetyczne(WpisView.podatnikObiekt,0)}" update="form_dialog_plankont:dataList form_dialog_plankont:bezslownikowych"/>
+                <p:commandButton value="1" actionListener="#{planKontView.planBezSlownikowychSyntetyczne(WpisView.podatnikObiekt,1)}" update="form_dialog_plankont:dataList form_dialog_plankont:bezslownikowych"/>
+                <p:commandButton value="2" actionListener="#{planKontView.planBezSlownikowychSyntetyczne(WpisView.podatnikObiekt,2)}" update="form_dialog_plankont:dataList form_dialog_plankont:bezslownikowych"/>
+                <p:commandButton value="3" actionListener="#{planKontView.planBezSlownikowychSyntetyczne(WpisView.podatnikObiekt,3)}" update="form_dialog_plankont:dataList form_dialog_plankont:bezslownikowych"/>
+                <p:commandButton value="4" actionListener="#{planKontView.planBezSlownikowychSyntetyczne(WpisView.podatnikObiekt,4)}" update="form_dialog_plankont:dataList form_dialog_plankont:bezslownikowych"/>
+                <p:commandButton value="6" actionListener="#{planKontView.planBezSlownikowychSyntetyczne(WpisView.podatnikObiekt,6)}" update="form_dialog_plankont:dataList form_dialog_plankont:bezslownikowych"/>
+                <p:commandButton value="7" actionListener="#{planKontView.planBezSlownikowychSyntetyczne(WpisView.podatnikObiekt,7)}" update="form_dialog_plankont:dataList form_dialog_plankont:bezslownikowych"/>
+                <p:commandButton value="8" actionListener="#{planKontView.planBezSlownikowychSyntetyczne(WpisView.podatnikObiekt,8)}" update="form_dialog_plankont:dataList form_dialog_plankont:bezslownikowych"/>
+                <p:commandButton value="S" actionListener="#{planKontView.planBezSlownikowychSyntetyczne(WpisView.podatnikObiekt,9)}" update="form_dialog_plankont:dataList form_dialog_plankont:bezslownikowych"/>
+                <h:outputText value="Uwaga! Nie można dodawać kont analit. do zablokowanych kont syntet. 'Opcja bez przyporządkowanych' działa  tylko na przycisku S"/>
+                </p:panelGrid>
+            <p:panelGrid columns="2" >
+                <p:dataTable id="dataList" value="#{planKontView.wykazkont}" var="loop"  selectionMode="single" selection="#{planKontView.selectednodekonto}" 
+                             rowStyleClass="#{planKontView.kontadowyswietlenia eq 'bilansowe' ?
+                                              (loop.zwyklerozrachszczegolne eq 'zwykłe' ? 'rowb_zwykle' : loop.zwyklerozrachszczegolne eq 'szczególne' ? 'rowb_szczegolne' : loop.zwyklerozrachszczegolne eq 'vat' ? 'rowb_vat' : 'rowb_rozrachunkowe') :
+                                              (planKontView.kontadowyswietlenia eq 'wynikowe' ? (loop.przychod0koszt1 eq false ? 'rowb_szczegolne' : 'rowb_zwykle') : 
+                                              (loop.bilansowewynikowe eq 'bilansowe' ? (loop.level eq 0 ? 'row1' : loop.level eq 1 ? 'row2' : loop.level eq 2 ? 'row3' : 'row4') : (loop.level eq 0 ? 'row1w' : (loop.level eq 1 ? 'row2w' : loop.level eq 2 ? 'row3w' : 'row4w'))))}"
+                             styleClass="tablicaplankont" rowHover="true"  editable="true" editMode="cell"
+                             style="width: 1350px;margin-bottom:0px;" emptyMessage="Brak utworzonych kont dla firmy" rowKey="#{loop.id}"
+                             rowsPerPageTemplate="250,500,500,1000,1500" paginatorPosition="top" paginator="true" rows="250"
+                             rowIndexVar="index"
+                             >
+                    <p:ajax event="filter" global="false"/>
+                    <p:ajax event="rowSelect" update=":dodawaniekontaanalitycznego, :dialogedycjanazwkonta" 
+                            listener="#{planKontView.selrow}" global="false"/>
+                    <p:column style="width: 10px;">
+                        <h:outputText value="#{loop.level}" style="font-size: 0.5pt;"/>
+                    </p:column>
+                    <p:column  style="width: 50px; text-align: center;">
+                        <h:outputText value="#{loop.mapotomkow == true ? '+' : null}" /> 
+                    </p:column>
+                    <p:column headerText="nr konta" style="width: 100px;" styleClass="#{loop.level eq 2 ? 'druga' : null}" >
+                        <h:outputText value="#{loop.pelnynumer}" rendered="#{loop.nrkonta eq '0' ? false : (loop.level eq '0' ? true : false)}" /> 
+                        <h:outputText value="#{loop.pelnynumer}" rendered="#{loop.nrkonta eq '0' ? false : (loop.level eq '1' ? true : false)}" style="margin-left: 10px;"/> 
+                        <h:outputText value="#{loop.pelnynumer}" rendered="#{loop.nrkonta eq '0' ? false : (loop.level eq '2' ? true : false)}" style="margin-left: 20px;"/> 
+                        <h:outputText value="#{loop.pelnynumer}" rendered="#{loop.nrkonta eq '0' ? false : (loop.level eq '3' ? true : false)}" style="margin-left: 30px;"/> 
+                    </p:column>
+                    <p:column headerText="nazwa pełna" style="width: 300px;">
+                        <h:outputText id="nazwapelna" value="#{loop.nazwapelna}" /> 
+                        <h:outputText value=" id " rendered="#{loop.idslownika gt 0}"/> 
+                        <h:outputText value="#{loop.idslownika}" rendered="#{loop.idslownika gt 0}"/> 
+                    </p:column>
+                    <p:column headerText="dzieci" style="width: 60px; text-align: center;"  rendered="#{facesContext.externalContext.remoteUser eq '4'}">
+                        <h:outputText value="#{loop.mapotomkow eq true ? 't' : null}"/> 
+                    </p:column>
+                    <p:column headerText="przyp." style="width: 100px;"  rendered="#{facesContext.externalContext.remoteUser eq '4'}">
+                        <h:outputText value="#{loop.syntetykaanalityka}"/> 
+                    </p:column>
+                    <p:column headerText="nazw skróc."  style="width: 100px;"  rendered="#{facesContext.externalContext.remoteUser ne '4'}">
+                        <h:outputText value="#{loop.nazwaskrocona.length() lt 37 ? loop.nazwaskrocona : loop.nazwaskrocona.substring(0,37)}"/> 
+                    </p:column>
+                    <p:column headerText="b/w" style="width: 20px; text-align: center;">
+                        <h:outputText value="#{loop.bilansowewynikowe eq 'bilansowe' ? 'B' : 'R'}" /> 
+                    </p:column>
+                    <p:column headerText="rozrach" style="width: 70px; text-align: center;">
+                        <h:outputText value="#{loop.zwyklerozrachszczegolne.length() gt 4 ? loop.zwyklerozrachszczegolne.substring(0,4) : loop.zwyklerozrachszczegolne}" style="text-align: center;"/>
+                    </p:column>
+<!--                    <p:column headerText="poziom" style="width: 50px; text-align: center;">
+                        <h:outputText value="#{loop.level}" /> 
+                    </p:column>-->
+<!--                    <p:column headerText="macierz." style="width: 50px;">
+                        <h:outputText value="#{loop.macierzyste}" /> 
+                    </p:column>-->
+                    <p:column  headerText="pozycja Wn" style="width: 90px; text-align: center;">
+                        <h:outputText value="#{loop.pozycjaWn != null ? loop.pozycjaWn : '!'}" style="#{loop.pozycjaWn == null ? 'color: red' : null}"/> 
+                    </p:column>
+                    <p:column headerText="pozycja Ma" style="width: 90px; text-align: center;">
+                        <h:outputText value="#{loop.pozycjaMa != null ? loop.pozycjaMa : '!'}" style="#{loop.pozycjaMa == null ? 'color: red' : null}"/> 
+                    </p:column>
+                    <p:column headerText="blok" style="width: 40px; text-align: center;">
+                        <h:outputText value="#{loop.blokada eq 'true' ? 'blok' : null}" /> 
+                    </p:column>
+                    <p:column headerText="słow" style="width: 40px; text-align: center;">
+                        <h:outputText value="#{loop.slownikowe eq 'true' ? 'słownik' : null}" /> 
+                    </p:column>
+                    <p:column headerText="P/K" style="width: 40px; text-align: center;">
+                        <h:outputText value="#{loop.przychod0koszt1 eq true ? 'K' : 'P'}" rendered="#{loop.bilansowewynikowe eq 'wynikowe'}"/> 
+                    </p:column>
+                    <p:column headerText="saldo" style="width: 40px; text-align: center;">
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{loop.wnma0wm1ma2S}" /></f:facet>
+                            <f:facet name="input">
+                                <h:selectOneMenu value="#{loop.wnma0wm1ma2}" style="width:100%">
+                                    <f:selectItem itemLabel="wnma" itemValue="0"/>
+                                    <f:selectItem itemLabel="wn" itemValue="1"/>
+                                    <f:selectItem itemLabel="ma" itemValue="2"/>
+                                    <p:ajax event="change" global="false" partialSubmit="true" listener="#{planKontView.nanieswnma(loop)}" update="form_dialog_plankont:dataList"/>
+                                </h:selectOneMenu>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                </p:dataTable>
+            </p:panelGrid>
+           
+        </h:form>
+        <h:form>
+            <p:commandButton id="nowesyntetycznejakniema" value="pierwsze syntetyczne" icon="ui-icon-circle-plus" onclick="PF('nowekontosyntetyczne').show();" global="false" rendered="#{planKontView.wykazkont.size() eq 0}"/>
+        </h:form>
+        </p:outputPanel>
+</ui:composition>
