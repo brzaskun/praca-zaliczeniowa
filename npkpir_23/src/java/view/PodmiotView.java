@@ -14,9 +14,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import msg.Msg;
+import org.primefaces.event.RowEditEvent;
 import webservice.GUS;
 
 /**
@@ -32,6 +35,14 @@ public class PodmiotView implements Serializable {
     private PodmiotDAO podmiotDAO;
     @Inject
     private PodatnikDAO podatnikDAO;
+    private List<Podmiot> podmioty;
+    private Podmiot selected;
+    
+    
+    @PostConstruct
+    private void init() {
+        podmioty = podmiotDAO.findAll();
+    }
     
     public void opipi() {
         System.out.println("poczatek");
@@ -54,11 +65,12 @@ public class PodmiotView implements Serializable {
                         podmiot.setNazwisko(null);
                     }
                     lista.add(podmiot);
-                    System.out.println("NIP " + podmiot.getNip());
-                }
+                    //System.out.println("NIP " + p.getNip());
+                    }
             }));
+            podmiotDAO.createList(lista);
         }
-            System.out.println("koniec");
+        System.out.println("koniec moniec");
     }
 
    
@@ -104,6 +116,37 @@ public class PodmiotView implements Serializable {
         }
         return zwrot;
         }
+    
+    
+    public void rowedit(RowEditEvent event) {
+        Podmiot podmiot = (Podmiot) event.getObject();
+        podmiotDAO.edit(podmiot);
+        Msg.msg("Naniesiono zmiany");
+    }
+    
+    public void rowcancel() {
+        Msg.msg("e","Anulowano zmiany");
+    }
+
+    private void pokazinfo(String nip) {
+        System.out.println("NIP 888 KALINKA " + nip);
+    }
+
+    public List<Podmiot> getPodmioty() {
+        return podmioty;
+    }
+
+    public void setPodmioty(List<Podmiot> podmioty) {
+        this.podmioty = podmioty;
+    }
+
+    public Podmiot getSelected() {
+        return selected;
+    }
+
+    public void setSelected(Podmiot selected) {
+        this.selected = selected;
+    }
 
     
     

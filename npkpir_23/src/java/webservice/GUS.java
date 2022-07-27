@@ -28,7 +28,7 @@ import org.tempuri.UslugaBIRzewnPubl;
  *
  * @author Osito
  */
-@WebService(serviceName = "UslugaBIRzewnPubl", portName = "e3", endpointInterface = "org.tempuri.IUslugaBIRzewnPubl", targetNamespace = "http://tempuri.org/", wsdlLocation = "WEB-INF/wsdl/GUS/UslugaBIRzewnPubl1.wsdl")
+@WebService(serviceName = "UslugaBIRzewnPubl", portName = "e3", endpointInterface = "org.tempuri.IUslugaBIRzewnPubl", targetNamespace = "http://tempuri.org/", wsdlLocation = "WEB-INF/wsdl/UslugaBIRzewnPubl1.wsdl")
 public class GUS {
 
     public java.lang.String pobierzCaptcha() {

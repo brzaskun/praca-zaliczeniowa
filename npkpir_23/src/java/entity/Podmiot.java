@@ -66,16 +66,16 @@ public class Podmiot implements Serializable {
     @Column(name = "regon", length = 45)
     private String regon;
     @Size(max = 45)
-    @Column(name = "nazwa", length = 45)
+    @Column(name = "nazwa", length = 256)
     private String nazwa;
     @Size(max = 45)
-    @Column(name = "nazwisko", length = 45)
+    @Column(name = "nazwisko", length = 80)
     private String nazwisko;
     @Size(max = 45)
     @Column(name = "imie", length = 45)
     private String imie;
     @Size(max = 45)
-    @Column(name = "printnazwa", length = 45)
+    @Column(name = "printnazwa", length = 256)
     private String printnazwa;
     @Column(name = "osobafizyczna")
     private boolean osobafizyczna;
