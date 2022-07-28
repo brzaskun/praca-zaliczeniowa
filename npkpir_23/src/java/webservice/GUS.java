@@ -179,7 +179,7 @@ public class GUS {
 "  </dane>\n" +
 "</root>\"";
     
-    private static String zmniejsznazwe(String element, String p) {
+    public static String zmniejsznazwe(String element, String p) {
         String zwrot = element;
         if (p.equals("Nazwa")) {
             if (element.contains("PRZEDSIĘBIORSTWO PROJEKTOWO-USŁUGOWE")) {

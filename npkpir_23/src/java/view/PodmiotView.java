@@ -37,11 +37,15 @@ public class PodmiotView implements Serializable {
     private PodatnikDAO podatnikDAO;
     private List<Podmiot> podmioty;
     private Podmiot selected;
+    @Inject
+    private Podmiot nowy;
     
     
     @PostConstruct
     private void init() {
         podmioty = podmiotDAO.findAll();
+        nowy.setPin("1234");
+        nowy.setKrajrezydencji("PL");
     }
     
     public void opipi() {
@@ -74,7 +78,39 @@ public class PodmiotView implements Serializable {
     }
 
    
+    public void pobierzdaneind() {
+        if (this.nowy.getNip()!=null) {
+            boolean niemanipu = sprawdznip(podmioty, this.nowy.getNip());
+            if (niemanipu) {
+                Map<String, String> dane = pobierzdane(this.nowy.getNip());
+                if (!dane.isEmpty() && dane.size() > 1) {
+                        this.nowy.setNazwa(dane.get("Nazwa"));
+                        this.nowy.setPrintnazwa(webservice.GUS.zmniejsznazwe("Nazwa", dane.get("Nazwa")));
+                        this.nowy.setRegon(dane.get("Regon"));
+                        String typ = dane.get("Typ");
+                        if (typ.equals("P")) {
+                            this.nowy.setKrs(dane.get("praw_numerWrejestrzeEwidencji"));
+                            this.nowy.setOsobafizyczna(false);
+                        } else {
+                            this.nowy.setOsobafizyczna(true);
+                        }
+                    Msg.msg("Uzupełniono dane");
+                } else {
+                    this.nowy.setNazwa("BŁĘDNY NIP");
+                    Msg.msg("e","Błędny NIP");
+                }
+                
+            } else {
+                this.nowy.setNazwa("TAKI PODMIOT JUŻ ISTNIEJE");
+                Msg.msg("e","Taki podmiot już istnieje!");
+            }
+        }
+    }
     
+    private boolean sprawdznip(List<Podmiot> podmioty, String nip) {
+        Podmiot znaleziony = podmioty.stream().filter(p->p.getNip().equals(nip)).findFirst().orElse(null);
+        return znaleziony==null;
+    }
             
     private String zrobKRS(Map<String, String> dane, String krs) {
         String zwrot = krs;
@@ -120,7 +156,7 @@ public class PodmiotView implements Serializable {
     
     public void rowedit(RowEditEvent event) {
         Podmiot podmiot = (Podmiot) event.getObject();
-        podmiotDAO.edit(podmiot);
+        podmiotDAO.edit(event);
         Msg.msg("Naniesiono zmiany");
     }
     
@@ -129,7 +165,7 @@ public class PodmiotView implements Serializable {
     }
 
     private void pokazinfo(String nip) {
-        System.out.println("NIP 888 KALINKA " + nip);
+        System.out.println("NIP 888 aKALINK sssA " + nip);
     }
 
     public List<Podmiot> getPodmioty() {
@@ -147,6 +183,16 @@ public class PodmiotView implements Serializable {
     public void setSelected(Podmiot selected) {
         this.selected = selected;
     }
+
+    public Podmiot getNowy() {
+        return nowy;
+    }
+
+    public void setNowy(Podmiot nowy) {
+        this.nowy = nowy;
+    }
+
+    
 
     
     

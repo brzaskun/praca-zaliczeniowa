@@ -7,144 +7,181 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     >
-    
 
 
-    <h:form id="formlista">
-        <p:growl life="3600"  id="msgzus" ><p:autoUpdate/></p:growl>
-        <p:panel header="Wykaz podmiotów" style="width: 100%;">
-            <p:dataTable value="#{podmiotView.podmioty}"  var="item" paginatorAlwaysVisible="true" paginator="true" pageLinks="12" rows="20"
-                         selection="#{podmiotView.selected}" selectionMode="single" rowKey="#{item.id}" editable="true"
-                         rowIndexVar="row"  style="width: 1700px;" editMode="row"
-                         emptyMessage="Nie wprowadzono stawek">
-                <p:ajax event="rowSelect"  partialSubmit="true"/>
-                <p:ajax event="rowEdit" partialSubmit="true" listener="#{podmiotView.rowedit}"/>
-                <p:ajax event="rowEditCancel" partialSubmit="true"  listener="#{podmiotView.rowcancel}"/>
- 
-                <f:facet name="header">
-                    <h:outputText value="Lista wprowadzonych stawek - pełny ZUS"/>
-                </f:facet>
-                <p:column width="30">
-                    <f:facet name="header">
-                        <h:outputText value="Id"/>
-                    </f:facet>
-                    <h:outputText value="#{row+1}"/>
-                </p:column>
-                <p:column filterBy="#{item.nip}" filterMatchMode="startsWith" filterable="true" sortBy="#{item.nip}">
-                    <f:facet name="header">
-                        <h:outputText value="Nip"/>
-                    </f:facet>
-                    <p:cellEditor>
-                        <f:facet name="output"><h:outputText value="#{item.nip}"/></f:facet>
-                        <f:facet name="input"><p:inputText value="#{item.nip}" style="width: 90%"/></f:facet>
-                    </p:cellEditor>
-                </p:column>
-                <p:column filterBy="#{item.pesel}" filterMatchMode="startsWith" filterable="true" >
-                    <f:facet name="header">
-                        <h:outputText value="Pesel"/>
-                    </f:facet>
-                    <p:cellEditor>
-                        <f:facet name="output"><h:outputText value="#{item.pesel}"/></f:facet>
-                        <f:facet name="input"><p:inputText value="#{item.pesel}" style="width: 90%"/></f:facet>
-                    </p:cellEditor>
-                </p:column>
-                <p:column filterBy="#{item.krs}" filterMatchMode="startsWith" filterable="true" >
-                    <f:facet name="header">
-                        <h:outputText value="Krs"/>
-                    </f:facet>
-                    <p:cellEditor>
-                        <f:facet name="output"><h:outputText value="#{item.krs}"/></f:facet>
-                        <f:facet name="input"><p:inputText value="#{item.krs}" style="width: 90%"/></f:facet>
-                    </p:cellEditor>
-                </p:column>
-                <p:column filterBy="#{item.regon}" filterMatchMode="startsWith" filterable="true" >
-                    <f:facet name="header">
-                        <h:outputText value="Regon"/>
-                    </f:facet>
-                    <p:cellEditor>
-                        <f:facet name="output"><h:outputText value="#{item.regon}"/></f:facet>
-                        <f:facet name="input"><p:inputText value="#{item.regon}" style="width: 90%"/></f:facet>
-                    </p:cellEditor>
-                </p:column  >
-                <p:column width="200" filterBy="#{item.nazwa}" filterMatchMode="startsWith" filterable="true" sortBy="#{item.nazwa}">
-                    <f:facet name="header">
-                        <h:outputText value="Nazwa"/>
-                    </f:facet>
-                    <p:cellEditor>
-                        <f:facet name="output"><h:outputText value="#{item.nazwa}"/></f:facet>
-                        <f:facet name="input"><p:inputText value="#{item.nazwa}" style="width: 90%"/></f:facet>
-                    </p:cellEditor>
-                </p:column>
-                <p:column filterBy="#{item.nazwisko}" filterMatchMode="startsWith" filterable="true" sortBy="#{item.nazwisko}" >
-                    <f:facet name="header">
-                        <h:outputText value="Nazwisko"/>
-                    </f:facet>
-                    <p:cellEditor>
-                        <f:facet name="output"><h:outputText value="#{item.nazwisko}"/></f:facet>
-                        <f:facet name="input"><p:inputText value="#{item.nazwisko}" style="width: 90%"/></f:facet>
-                    </p:cellEditor>
-                </p:column>
-                <p:column>
-                    <f:facet name="header">
-                        <h:outputText value="Imie"/>
-                    </f:facet>
-                    <p:cellEditor>
-                        <f:facet name="output"><h:outputText value="#{item.imie}"/></f:facet>
-                        <f:facet name="input"><p:inputText value="#{item.imie}" style="width: 90%"/></f:facet>
-                    </p:cellEditor>
-                </p:column>
-                <p:column filterBy="#{item.login}" filterMatchMode="startsWith" filterable="true" >
-                    <f:facet name="header">
-                        <h:outputText value="Login"/>
-                    </f:facet>
-                    <p:cellEditor>
-                        <f:facet name="output"><h:outputText value="#{item.login}"/></f:facet>
-                        <f:facet name="input"><p:inputText value="#{item.login}" style="width: 90%"/></f:facet>
-                    </p:cellEditor>
-                </p:column>
-                <p:column width="40">
-                    <f:facet name="header">
-                        <h:outputText value="Pin"/>
-                    </f:facet>
-                    <p:cellEditor>
-                        <f:facet name="output"><h:outputText value="#{item.pin}"/></f:facet>
-                        <f:facet name="input"><p:inputText value="#{item.pin}" style="width: 90%"/></f:facet>
-                    </p:cellEditor>
-                </p:column>
-                <p:column width="200">
-                    <f:facet name="header">
-                        <h:outputText value="Email"/>
-                    </f:facet>
-                    <p:cellEditor>
-                        <f:facet name="output"><h:outputText value="#{item.email}"/></f:facet>
-                        <f:facet name="input"><p:inputText value="#{item.email}" style="width: 90%"/></f:facet>
-                    </p:cellEditor>
-                </p:column>
-                <p:column>
-                    <f:facet name="header">
-                        <h:outputText value="Telefon"/>
-                    </f:facet>
-                    <p:cellEditor>
-                        <f:facet name="output"><h:outputText value="#{item.telefon}"/></f:facet>
-                        <f:facet name="input"><p:inputText value="#{item.telefon}" style="width: 90%"/></f:facet>
-                    </p:cellEditor>
-                </p:column>
-                <p:column width="30" filterBy="#{item.krajrezydencji}" filterMatchMode="startsWith" filterable="true" sortBy="#{item.krajrezydencji}" style="text-align: center;">
-                    <f:facet name="header">
-                        <h:outputText value="Kraj"/>
-                    </f:facet>
-                     <p:cellEditor>
-                         <f:facet name="output"><h:outputText value="#{item.krajrezydencji}"/></f:facet>
-                         <f:facet name="input"><p:inputText value="#{item.krajrezydencji}" style="width: 90%"/></f:facet>
-                    </p:cellEditor>
-                </p:column>
-                <p:column style="width:35px">
-                    <p:rowEditor />
-                </p:column>
-            </p:dataTable>
-        </p:panel>
-    </h:form>
+    <p:tabView>
+        <p:tab title="lista podmiotów">
+            <h:form id="formlista">
+                <p:growl life="3600"  id="msgzus" ><p:autoUpdate/></p:growl>
+                <p:panel header="Wykaz podmiotów" style="width: 100%;">
+                    <p:dataTable value="#{podmiotView.podmioty}"  var="item" paginatorAlwaysVisible="true" paginator="true" pageLinks="12" rows="20"
+                                 selection="#{podmiotView.selected}" selectionMode="single" rowKey="#{item.id}" editable="true"
+                                 rowIndexVar="row"  style="width: 1700px;" editMode="row"
+                                 emptyMessage="Nie wprowadzono stawek">
+                        <p:ajax event="rowSelect"  partialSubmit="true"/>
+                        <p:ajax event="rowEdit" partialSubmit="true" listener="#{podmiotView.rowedit}"/>
+                        <p:ajax event="rowEditCancel" partialSubmit="true"  listener="#{podmiotView.rowcancel}"/>
 
+                        <f:facet name="header">
+                            <h:outputText value="Lista wprowadzonych stawek - pełny ZUS"/>
+                        </f:facet>
+                        <p:column width="30">
+                            <f:facet name="header">
+                                <h:outputText value="Id"/>
+                            </f:facet>
+                            <h:outputText value="#{row+1}"/>
+                        </p:column>
+                        <p:column filterBy="#{item.nip}" filterMatchMode="startsWith" filterable="true" sortBy="#{item.nip}">
+                            <f:facet name="header">
+                                <h:outputText value="Nip"/>
+                            </f:facet>
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{item.nip}"/></f:facet>
+                                <f:facet name="input"><p:inputText value="#{item.nip}" style="width: 90%"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column filterBy="#{item.pesel}" filterMatchMode="startsWith" filterable="true" >
+                            <f:facet name="header">
+                                <h:outputText value="Pesel"/>
+                            </f:facet>
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{item.pesel}"/></f:facet>
+                                <f:facet name="input"><p:inputText value="#{item.pesel}" style="width: 90%"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column filterBy="#{item.krs}" filterMatchMode="startsWith" filterable="true" >
+                            <f:facet name="header">
+                                <h:outputText value="Krs"/>
+                            </f:facet>
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{item.krs}"/></f:facet>
+                                <f:facet name="input"><p:inputText value="#{item.krs}" style="width: 90%"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column filterBy="#{item.regon}" filterMatchMode="startsWith" filterable="true" >
+                            <f:facet name="header">
+                                <h:outputText value="Regon"/>
+                            </f:facet>
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{item.regon}"/></f:facet>
+                                <f:facet name="input"><p:inputText value="#{item.regon}" style="width: 90%"/></f:facet>
+                            </p:cellEditor>
+                        </p:column  >
+                        <p:column width="200" filterBy="#{item.nazwa}" filterMatchMode="startsWith" filterable="true" sortBy="#{item.nazwa}">
+                            <f:facet name="header">
+                                <h:outputText value="Nazwa"/>
+                            </f:facet>
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{item.nazwa}"/></f:facet>
+                                <f:facet name="input"><p:inputText value="#{item.nazwa}" style="width: 90%"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column filterBy="#{item.nazwisko}" filterMatchMode="startsWith" filterable="true" sortBy="#{item.nazwisko}" >
+                            <f:facet name="header">
+                                <h:outputText value="Nazwisko"/>
+                            </f:facet>
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{item.nazwisko}"/></f:facet>
+                                <f:facet name="input"><p:inputText value="#{item.nazwisko}" style="width: 90%"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Imie"/>
+                            </f:facet>
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{item.imie}"/></f:facet>
+                                <f:facet name="input"><p:inputText value="#{item.imie}" style="width: 90%"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column filterBy="#{item.login}" filterMatchMode="startsWith" filterable="true" >
+                            <f:facet name="header">
+                                <h:outputText value="Login"/>
+                            </f:facet>
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{item.login}"/></f:facet>
+                                <f:facet name="input"><p:inputText value="#{item.login}" style="width: 90%"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column width="40">
+                            <f:facet name="header">
+                                <h:outputText value="Pin"/>
+                            </f:facet>
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{item.pin}"/></f:facet>
+                                <f:facet name="input"><p:inputText value="#{item.pin}" style="width: 90%"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column width="200">
+                            <f:facet name="header">
+                                <h:outputText value="Email"/>
+                            </f:facet>
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{item.email}"/></f:facet>
+                                <f:facet name="input"><p:inputText value="#{item.email}" style="width: 90%"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Telefon"/>
+                            </f:facet>
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{item.telefon}"/></f:facet>
+                                <f:facet name="input"><p:inputText value="#{item.telefon}" style="width: 90%"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column width="30" filterBy="#{item.krajrezydencji}" filterMatchMode="startsWith" filterable="true" sortBy="#{item.krajrezydencji}" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="Kraj"/>
+                            </f:facet>
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{item.krajrezydencji}"/></f:facet>
+                                <f:facet name="input"><p:inputText value="#{item.krajrezydencji}" style="width: 90%"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column style="width:35px">
+                            <p:rowEditor />
+                        </p:column>
+                    </p:dataTable>
+                </p:panel>
+            </h:form>
+        </p:tab>
+        <p:tab title="dodaj nowy">
+            <h:form id="formdodaj">
+                <p:panelGrid columns="2">
+                    <h1><h:outputText value="Dodaj nowy podmiot"/></h1>
+                    <p:panelGrid columns="2">
+                        <p:outputLabel value="Nip:" for="nip" />
+                        <p:inputText id="nip" value="#{podmiotView.nowy.nip}" title="Nip" required="true" requiredMessage="Pole wymagane">
+                            <p:ajax event="blur" listener="#{podmiotView.pobierzdaneind}" update="@form"/>
+                        </p:inputText>
+                        <p:outputLabel value="Pesel:" for="pesel" />
+                        <p:inputText id="pesel" value="#{podmiotView.nowy.pesel}" title="Pesel" />
+                        <p:outputLabel value="Krs:" for="krs" />
+                        <p:inputText id="krs" value="#{podmiotView.nowy.krs}" title="Krs" />
+                        <p:outputLabel value="Regon:" for="regon" />
+                        <p:inputText id="regon" value="#{podmiotView.nowy.regon}" title="Regon" />
+                        <p:outputLabel value="Nazwa:" for="nazwa" />
+                        <p:inputText id="nazwa" value="#{podmiotView.nowy.nazwa}" title="Nazwa" size="100"/>
+                        <p:outputLabel value="Nazwisko:" for="nazwisko" />
+                        <p:inputText id="nazwisko" value="#{podmiotView.nowy.nazwisko}" title="Nazwisko" />
+                        <p:outputLabel value="Imie:" for="imie" />
+                        <p:inputText id="imie" value="#{podmiotView.nowy.imie}" title="Imie" />
+                        <p:outputLabel value="Login:" for="login" />
+                        <p:inputText id="login" value="#{podmiotView.nowy.login}" title="Login" />
+                        <p:outputLabel value="Pin:" for="pin" />
+                        <p:inputText id="pin" value="#{podmiotView.nowy.pin}" title="Pin" />
+                        <p:outputLabel value="Email:" for="email" />
+                        <p:inputText id="email" value="#{podmiotView.nowy.email}" title="Email" />
+                        <p:outputLabel value="Telefon:" for="telefon" />
+                        <p:inputText id="telefon" value="#{podmiotView.nowy.telefon}" title="Telefon" />
+                        <p:outputLabel value="Krajrezydencji:" for="krajrezydencji" />
+                        <p:inputText id="krajrezydencji" value="#{podmiotView.nowy.krajrezydencji}" title="Kraj rezydencji" />
+                    </p:panelGrid>
+                </p:panelGrid>
+            </h:form>
+        </p:tab>
+    </p:tabView>
 </ui:composition>   
 
 
