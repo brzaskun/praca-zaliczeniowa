@@ -9,7 +9,7 @@
     >
 
 
-    <p:tabView>
+    <p:tabView id="akordeon">
         <p:tab title="lista podmiotów">
             <h:form id="formlista">
                 <p:growl life="3600"  id="msgzus" ><p:autoUpdate/></p:growl>
@@ -147,26 +147,42 @@
             </h:form>
         </p:tab>
         <p:tab title="dodaj nowy">
-            <h:form id="formdodaj">
+            <script>
+                window.onload = function() {
+                    r('akordeon:formdodaj:panela').hide();
+                    r('akordeon:formdodaj:buton').hide();
+                  };
+            </script>
+                <h1><h:outputText value="Dodaj nowy podmiot"/></h1>
                 <p:panelGrid columns="2">
-                    <h1><h:outputText value="Dodaj nowy podmiot"/></h1>
-                    <p:panelGrid columns="2">
+                    <h:form id="formbuton">
+                        <p:commandButton value="osoba fizyczna"  actionListener="#{podmiotView.setOsobafizyczna(true)}" update="akordeon:formdodaj:panel" style="width: 120px;" onclick="r('akordeon:formdodaj:panela').show();r('akordeon:formdodaj:buton').show()"/>
+                        <p:commandButton value="osoba prawna" actionListener="#{podmiotView.setOsobafizyczna(false)}" update="akordeon:formdodaj:panel" style="width: 120px;" onclick="r('akordeon:formdodaj:panela').show();r('akordeon:formdodaj:buton').show()"/>
+                    </h:form>
+                </p:panelGrid>
+                <h:form id="formdodaj">
+                <p:panelGrid columns="1" id="panel">
+                    <p:panelGrid columns="2" id="panela">
                         <p:outputLabel value="Nip:" for="nip" />
-                        <p:inputText id="nip" value="#{podmiotView.nowy.nip}" title="Nip" required="true" requiredMessage="Pole wymagane">
-                            <p:ajax event="blur" listener="#{podmiotView.pobierzdaneind}" update="@form"/>
+                        <p:inputText id="nip" value="#{podmiotView.nowy.nip}" title="Nip" >
+                            <p:ajax event="blur"  partialSubmit="true" listener="#{podmiotView.pobierzdaneind}" update="@form"/>
                         </p:inputText>
-                        <p:outputLabel value="Pesel:" for="pesel" />
-                        <p:inputText id="pesel" value="#{podmiotView.nowy.pesel}" title="Pesel" />
-                        <p:outputLabel value="Krs:" for="krs" />
-                        <p:inputText id="krs" value="#{podmiotView.nowy.krs}" title="Krs" />
+                        <p:outputLabel value="Pesel:" for="pesel"   rendered="#{podmiotView.osobafizyczna eq true}"/>
+                        <p:inputText id="pesel" value="#{podmiotView.nowy.pesel}" title="Pesel"  rendered="#{podmiotView.osobafizyczna eq true}">
+                            <p:ajax event="blur" partialSubmit="true" listener="#{podmiotView.sprawdzpesel()}"/>
+                        </p:inputText>
+                        <p:outputLabel value="Krs:" for="krs"  rendered="#{podmiotView.osobafizyczna eq false}"/>
+                        <p:inputText id="krs" value="#{podmiotView.nowy.krs}" title="Krs" rendered="#{podmiotView.osobafizyczna eq false}">
+                            <p:ajax event="blur" partialSubmit="true" listener="#{podmiotView.sprawdzkrs()}"/>
+                        </p:inputText>
                         <p:outputLabel value="Regon:" for="regon" />
                         <p:inputText id="regon" value="#{podmiotView.nowy.regon}" title="Regon" />
                         <p:outputLabel value="Nazwa:" for="nazwa" />
                         <p:inputText id="nazwa" value="#{podmiotView.nowy.nazwa}" title="Nazwa" size="100"/>
-                        <p:outputLabel value="Nazwisko:" for="nazwisko" />
-                        <p:inputText id="nazwisko" value="#{podmiotView.nowy.nazwisko}" title="Nazwisko" />
-                        <p:outputLabel value="Imie:" for="imie" />
-                        <p:inputText id="imie" value="#{podmiotView.nowy.imie}" title="Imie" />
+                        <p:outputLabel value="Nazwisko:" for="nazwisko"   rendered="#{podmiotView.osobafizyczna eq true}"/>
+                        <p:inputText id="nazwisko" value="#{podmiotView.nowy.nazwisko}" title="Nazwisko"  rendered="#{podmiotView.osobafizyczna eq true}"/>
+                        <p:outputLabel value="Imie:" for="imie"   rendered="#{podmiotView.osobafizyczna eq true}"/>
+                        <p:inputText id="imie" value="#{podmiotView.nowy.imie}" title="Imie"  rendered="#{podmiotView.osobafizyczna eq true}"/>
                         <p:outputLabel value="Login:" for="login" />
                         <p:inputText id="login" value="#{podmiotView.nowy.login}" title="Login" />
                         <p:outputLabel value="Pin:" for="pin" />
@@ -178,6 +194,7 @@
                         <p:outputLabel value="Krajrezydencji:" for="krajrezydencji" />
                         <p:inputText id="krajrezydencji" value="#{podmiotView.nowy.krajrezydencji}" title="Kraj rezydencji" />
                     </p:panelGrid>
+                    <p:commandButton value="dodaj" id="buton" actionListener="#{podmiotView.dodajnowy()}" update="@(form)" style="width: 120px;"  onclick="r('akordeon:formdodaj:panela').hide();;r('akordeon:formdodaj:buton').hide()"/>
                 </p:panelGrid>
             </h:form>
         </p:tab>

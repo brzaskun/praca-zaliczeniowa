@@ -19,7 +19,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -51,13 +50,11 @@ public class Podmiot implements Serializable {
     @Basic(optional = false)
     @Column(name = "id", nullable = false)
     private Integer id;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 45)
-    @Column(name = "nip", unique = true, length = 45)
+    @Size(min = 1, max = 10)
+    @Column(name = "nip", unique = true, length = 10)
     private String nip;
-    @Size(max = 45)
-    @Column(name = "pesel", length = 45)
+    @Size(max = 11)
+    @Column(name = "pesel", length = 11)
     private String pesel;
     @Size(max = 45)
     @Column(name = "krs", length = 45)
@@ -65,16 +62,16 @@ public class Podmiot implements Serializable {
     @Size(max = 45)
     @Column(name = "regon", length = 45)
     private String regon;
-    @Size(max = 45)
+    @Size(max = 256)
     @Column(name = "nazwa", length = 256)
     private String nazwa;
-    @Size(max = 45)
+    @Size(max = 80)
     @Column(name = "nazwisko", length = 80)
     private String nazwisko;
     @Size(max = 45)
     @Column(name = "imie", length = 45)
     private String imie;
-    @Size(max = 45)
+    @Size(max = 256)
     @Column(name = "printnazwa", length = 256)
     private String printnazwa;
     @Column(name = "osobafizyczna")

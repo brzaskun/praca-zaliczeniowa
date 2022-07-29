@@ -39,6 +39,7 @@ public class PodmiotView implements Serializable {
     private Podmiot selected;
     @Inject
     private Podmiot nowy;
+    private boolean osobafizyczna;
     
     
     @PostConstruct
@@ -111,6 +112,30 @@ public class PodmiotView implements Serializable {
         Podmiot znaleziony = podmioty.stream().filter(p->p.getNip().equals(nip)).findFirst().orElse(null);
         return znaleziony==null;
     }
+    
+    public void sprawdzpesel() {
+        Podmiot znaleziony = null;
+        for (Podmiot p : podmioty) {
+            if (p.getPesel()!=null && p.getPesel().equals(nowy.getPesel())) {
+                znaleziony = p;
+            }
+        }
+        if (znaleziony!=null) {
+             this.nowy.setNazwa("TAKI PODMIOT JUŻ ISTNIEJE");
+        } 
+    }
+    
+    public void sprawdzkrs() {
+        Podmiot znaleziony = null;
+        for (Podmiot p : podmioty) {
+            if (p.getKrs()!=null && p.getKrs().equals(nowy.getKrs())) {
+                znaleziony = p;
+            }
+        }
+        if (znaleziony!=null) {
+             this.nowy.setNazwa("TAKI PODMIOT JUŻ ISTNIEJE");
+        }
+    }
             
     private String zrobKRS(Map<String, String> dane, String krs) {
         String zwrot = krs;
@@ -160,6 +185,19 @@ public class PodmiotView implements Serializable {
         Msg.msg("Naniesiono zmiany");
     }
     
+    public void dodajnowy() {
+        if (nowy!=null) {
+            if (nowy.getNip()==null&&nowy.getPesel()!=null) {
+                Msg.msg("e","Błąd. Należy wprowadzić albo NIP albo Pesel");
+            } else {
+                podmiotDAO.create(nowy);
+                podmioty.add(nowy);
+                nowy = new Podmiot();
+                Msg.msg("Dodano nowy podmiot");
+            }
+        }
+    }
+    
     public void rowcancel() {
         Msg.msg("e","Anulowano zmiany");
     }
@@ -190,6 +228,14 @@ public class PodmiotView implements Serializable {
 
     public void setNowy(Podmiot nowy) {
         this.nowy = nowy;
+    }
+
+    public boolean isOsobafizyczna() {
+        return osobafizyczna;
+    }
+
+    public void setOsobafizyczna(boolean osobafizyczna) {
+        this.osobafizyczna = osobafizyczna;
     }
 
     
