@@ -6,7 +6,7 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
-    
+
     xmlns:bcf="http://brzaskun.com/facelets">
 
     <!--        <p:panelGrid columns="2" style="column-width: 350px; width: 700px">
@@ -14,53 +14,59 @@
                 <p:commandButton action="{zusStawkiView.dodajzus()}" value="dodaj parametr" update="@form"  type="submit" />
             </p:panelGrid>
         </h:form>-->
-   <p:growl life="3600"  ><p:autoUpdate/></p:growl>
-   <f:view>
+    <p:growl life="3600"  ><p:autoUpdate/></p:growl>
+    <f:view>
 
 
-       <h:form>
-           <h1><h:outputText value="List"/></h1>
-           <p:dataTable value="#{aktywacjaPodatnikow.listapodatnikow}" var="item" style="max-width: 1100px;"  sortBy="#{item.printnazwa}">
-               <p:column>
-                   <f:facet name="header">
-                       <h:outputText value="Nip"/>
-                   </f:facet>
-                   <h:outputText value="#{item.nip}"/>
-               </p:column>
-               <p:column>
-                   <f:facet name="header">
-                       <h:outputText value="Pesel"/>
-                   </f:facet>
-                   <h:outputText value="#{item.pesel}"/>
-               </p:column>
-               <p:column width="200px;" sortBy="#{item.printnazwa}">
-                   <f:facet name="header">
-                       <h:outputText value="Nazwapelna"/>
-                   </f:facet>
-                   <h:outputText value="#{item.printnazwa}"/>
-               </p:column>
-               <p:column>
-                   <f:facet name="header">
-                       <h:outputText value="ID"/>
-                   </f:facet>
-                   <h:outputText value="#{item.nazwapelna}"/>
-               </p:column>
-               <p:column>
-                   <f:facet name="header">
-                       <h:outputText value="Aktywacja"/>
-                   </f:facet>
-                   <h:outputText value="#{item.podmiotaktywny eq true ? 'aktywny' : '-----------'}"/>
-               </p:column>
-               <p:column>
-                   <f:facet name="header">
-                   </f:facet>
-                   <p:commandButton value="aktyw/deaktyw" style="width: 120px;" actionListener="#{aktywacjaPodatnikow.aktywacjaDeaktywacja(item)}" update="@form"/>
-               </p:column>
-           </p:dataTable>
-       </h:form>
-   </f:view>
+        <h:form>
+            <p:autoUpdate/>
+            <p:panelGrid columns="1" style="padding: 10px;">
+                <p:commandButton value="weryfikacja #{aktywacjaPodatnikow.rok}" actionListener="#{aktywacjaPodatnikow.weryfikacja}" style="width:120px;">
+                    <p:ajax event="click" partialSubmit="true" update="@form"/>
+                </p:commandButton>
+                <h1><h:outputText value="Wykaz firm"/></h1>
+                <p:dataTable value="#{aktywacjaPodatnikow.listapodatnikow}" var="item" style="max-width: 1100px;"  sortBy="#{item.printnazwa}">
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Nip"/>
+                        </f:facet>
+                        <h:outputText value="#{item.nip}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Pesel"/>
+                        </f:facet>
+                        <h:outputText value="#{item.pesel}"/>
+                    </p:column>
+                    <p:column width="200px;" sortBy="#{item.printnazwa}">
+                        <f:facet name="header">
+                            <h:outputText value="Nazwapelna"/>
+                        </f:facet>
+                        <h:outputText value="#{item.printnazwa}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="ID"/>
+                        </f:facet>
+                        <h:outputText value="#{item.nazwapelna}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Aktywacja"/>
+                        </f:facet>
+                        <h:outputText value="#{item.podmiotaktywny eq true ? 'aktywny' : '-----------'}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                        </f:facet>
+                        <p:commandButton value="aktyw/deaktyw" style="width: 120px;" actionListener="#{aktywacjaPodatnikow.aktywacjaDeaktywacja(item)}" update="@form"/>
+                    </p:column>
+                </p:dataTable>
+            </p:panelGrid>
+        </h:form>
+    </f:view>
 
-   
+
 
 </ui:composition>   
 

@@ -6,15 +6,21 @@
 package view;
 
 import dao.PodatnikDAO;
+import dao.PodatnikUdzialyDAO;
 import dao.PodmiotDAO;
 import entity.Podatnik;
+import entity.PodatnikUdzialy;
 import entity.Podmiot;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
+import javax.faces.event.ValueChangeEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -35,19 +41,28 @@ public class PodmiotView implements Serializable {
     private PodmiotDAO podmiotDAO;
     @Inject
     private PodatnikDAO podatnikDAO;
+    @Inject
+    private PodatnikUdzialyDAO podatnikUdzialyDAO;
     private List<Podmiot> podmioty;
+    private List<PodatnikUdzialy> podatnikUdzialy;
     private Podmiot selected;
     @Inject
     private Podmiot nowy;
     private boolean osobafizyczna;
+    private boolean tylkoaktywne;
+    private boolean tylkoprawne;
+    
     
     
     @PostConstruct
     private void init() {
         podmioty = podmiotDAO.findAll();
+        podatnikUdzialy = podatnikUdzialyDAO.findAll();
         nowy.setPin("1234");
         nowy.setKrajrezydencji("PL");
     }
+    
+    
     
     public void opipi() {
         System.out.println("poczatek");
@@ -55,27 +70,78 @@ public class PodmiotView implements Serializable {
         List<Podatnik> podatnicy = podatnikDAO.findAllManager();
         if (podatnicy != null) {
             podatnicy.forEach((p -> {
-                Podmiot podmiot = new Podmiot(p);
-                Map<String, String> dane = pobierzdane(podmiot.getNip());
-                if (!dane.isEmpty() && dane.size() > 1) {
-                    podmiot.setNazwa(zrobnazwe(dane, p.getNip()));
-                    podmiot.setOsobafizyczna(czyfizyczna(dane, podmiot.getPesel(), podmiot.getKrs()));
-                    podmiot.setPin("1234");
-                    podmiot.setEmail(p.getEmail());
-                    podmiot.setTelefon(p.getTelefonkontaktowy());
-                    podmiot.setKrajrezydencji("PL");
-                    if (podmiot.isOsobafizyczna() == false) {
-                        podmiot.setKrs(zrobKRS(dane, p.getImie()));
-                        podmiot.setImie(null);
-                        podmiot.setNazwisko(null);
-                    }
-                    lista.add(podmiot);
-                    //System.out.println("NIP " + p.getNip());
-                    }
+                if (p.isPodmiotaktywny()) {
+                    Podmiot podmiot = new Podmiot(p);
+                    Map<String, String> dane = pobierzdane(podmiot.getNip());
+                    if (!dane.isEmpty() && dane.size() > 1) {
+                        podmiot.setOsobafizyczna(czyfizyczna(dane, podmiot.getPesel(), podmiot.getKrs()));
+                        podmiot.setPin("1234");
+                        podmiot.setEmail(p.getEmail());
+                        podmiot.setTelefon(p.getTelefonkontaktowy());
+                        podmiot.setKrajrezydencji("PL");
+                        podmiot.setAktywnydlazus(true);
+                        if (podmiot.isOsobafizyczna() == false) {
+                            podmiot.setNazwa(zrobnazwe(dane, p.getNip()));
+                            podmiot.setPrintnazwa(p.getPrintnazwa());
+                            podmiot.setKrs(zrobKRS(dane, p.getImie()));
+                            podmiot.setImie(null);
+                            podmiot.setNazwisko(null);
+                            podmiot.setAktywnydlazus(false);
+                        }
+                        lista.add(podmiot);
+                        //System.out.println("NIP " + p.getNip());
+                        }
+                }
             }));
             podmiotDAO.createList(lista);
         }
         System.out.println("koniec moniec");
+    }
+    
+    public void podmiotudzialy() {
+        System.out.println("poczatek udzialy");
+        podatnikUdzialy = podatnikUdzialyDAO.findAll();
+        podmioty = podmiotDAO.findAll();
+        List<PodatnikUdzialy> udzialy = new ArrayList<>();
+        if (podmioty != null && podatnikUdzialy!=null) {
+            for (Podmiot p : podmioty) {
+                for (Iterator it = podatnikUdzialy.iterator();it.hasNext();) {
+                   PodatnikUdzialy u = (PodatnikUdzialy) it.next();
+                   if (u!=null) {
+                    if (p.isOsobafizyczna()) {
+                        if (u.getPesel()!=null&&p.getPesel()!=null&&p.getPesel().equals(u.getPesel())) {
+                            u.setPodmiot(p);
+                            udzialy.add(u);
+                            it.remove();
+                        } else if (u.getNip()!=null&&p.getNip()!=null&&p.getNip().equals(u.getNip())) {
+                            u.setPodmiot(p);
+                            udzialy.add(u);
+                            it.remove();
+                        }
+                    } else {
+                        if (u.getNip()!=null&&p.getNip()!=null&&p.getNip().equals(u.getNip())) {
+                            u.setPodmiot(p);
+                            udzialy.add(u);
+                            it.remove();
+                        }
+                    }
+                   }
+                }
+            }
+        }
+        podatnikUdzialyDAO.editList(udzialy);
+        System.out.println("koniec moniec udzialy");
+    }
+    
+    public void usunpodmioty() {
+        System.out.println("poczatek udzialy");
+        podatnikUdzialy = podatnikUdzialyDAO.findAll();
+        for (Iterator it = podatnikUdzialy.iterator();it.hasNext();) {
+            PodatnikUdzialy u = (PodatnikUdzialy) it.next();
+            u.setPodmiot(null);
+        }
+        podatnikUdzialyDAO.editList(podatnikUdzialy);
+        System.out.println("koniec moniec udzialy");
     }
 
    
@@ -85,14 +151,15 @@ public class PodmiotView implements Serializable {
             if (niemanipu) {
                 Map<String, String> dane = pobierzdane(this.nowy.getNip());
                 if (!dane.isEmpty() && dane.size() > 1) {
-                        this.nowy.setNazwa(dane.get("Nazwa"));
-                        this.nowy.setPrintnazwa(webservice.GUS.zmniejsznazwe("Nazwa", dane.get("Nazwa")));
                         this.nowy.setRegon(dane.get("Regon"));
                         String typ = dane.get("Typ");
                         if (typ.equals("P")) {
+                            this.nowy.setNazwa(dane.get("Nazwa"));
+                            this.nowy.setPrintnazwa(webservice.GUS.zmniejsznazwe("Nazwa", dane.get("Nazwa")));
                             this.nowy.setKrs(dane.get("praw_numerWrejestrzeEwidencji"));
                             this.nowy.setOsobafizyczna(false);
                         } else {
+                            this.nowy.setAktywnydlazus(true);
                             this.nowy.setOsobafizyczna(true);
                         }
                     Msg.msg("Uzupełniono dane");
@@ -205,7 +272,28 @@ public class PodmiotView implements Serializable {
     private void pokazinfo(String nip) {
         System.out.println("NIP 888 aKALINK sssA " + nip);
     }
+    
+    public void pobierzliste(ValueChangeEvent event) {
+        boolean newValue = (boolean) event.getNewValue();
+        if (newValue==true) {
+            podatnikUdzialy = podatnikUdzialy.stream().filter(Objects::nonNull).filter(p->p.getPodatnikObj()!=null).filter(p->p.getPodatnikObj().isPodmiotaktywny()).collect(Collectors.toList());
+        } else {
+            podatnikUdzialy = podatnikUdzialyDAO.findAll();
+        }
+        System.out.println("");
+    }
 
+    public void pobierzliste1(ValueChangeEvent event) {
+        boolean newValue = (boolean) event.getNewValue();
+        if (newValue==true) {
+            podatnikUdzialy = podatnikUdzialy.stream().filter(Objects::nonNull).filter(p->p.getPodatnikObj()!=null).filter(r->r.getPodatnikObj().getPesel().equals("00000000000")).collect(Collectors.toList());
+        } else {
+            podatnikUdzialy = podatnikUdzialyDAO.findAll();
+        }
+        System.out.println("");
+    }
+
+    
     public List<Podmiot> getPodmioty() {
         return podmioty;
     }
@@ -236,6 +324,30 @@ public class PodmiotView implements Serializable {
 
     public void setOsobafizyczna(boolean osobafizyczna) {
         this.osobafizyczna = osobafizyczna;
+    }
+
+    public List<PodatnikUdzialy> getPodatnikUdzialy() {
+        return podatnikUdzialy;
+    }
+
+    public void setPodatnikUdzialy(List<PodatnikUdzialy> podatnikUdzialy) {
+        this.podatnikUdzialy = podatnikUdzialy;
+    }
+
+    public boolean isTylkoaktywne() {
+        return tylkoaktywne;
+    }
+
+    public void setTylkoaktywne(boolean tylkoaktywne) {
+        this.tylkoaktywne = tylkoaktywne;
+    }
+
+    public boolean isTylkoprawne() {
+        return tylkoprawne;
+    }
+
+    public void setTylkoprawne(boolean tylkoprawne) {
+        this.tylkoprawne = tylkoprawne;
     }
 
     

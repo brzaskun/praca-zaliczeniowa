@@ -6,17 +6,21 @@
 
 package viewmanager;
 
+import dao.DokDAO;
+import dao.DokDAOfk;
 import dao.PodatnikDAO;
+import data.Data;
+import entity.Dok;
 import entity.Podatnik;
-import error.E;
+import entityfk.Dokfk;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import msg.Msg;
 
 /**
@@ -30,6 +34,11 @@ public class AktywacjaPodatnikow implements Serializable{
     
     private List<Podatnik> listapodatnikow;
     @Inject private PodatnikDAO podatnikDAO;
+    @Inject private DokDAO dokDAO;
+    @Inject private DokDAOfk dokDAOfk;
+    private String rok;
+    
+    
 
     public AktywacjaPodatnikow() {
         listapodatnikow = Collections.synchronizedList(new ArrayList<>());
@@ -38,6 +47,7 @@ public class AktywacjaPodatnikow implements Serializable{
     @PostConstruct
     private void init() { //E.m(this);
         listapodatnikow = podatnikDAO.findAllManager();
+        rok = Data.aktualnyRok();
     }
     
     public void aktywacjaDeaktywacja(Podatnik p) {
@@ -48,12 +58,46 @@ public class AktywacjaPodatnikow implements Serializable{
         Msg.msg("Zmieniono status podatnika");
     }
 
+    public void weryfikacja() {
+        if (listapodatnikow!=null) {
+            for (Podatnik p : listapodatnikow) {
+               //System.out.println("Podatnik: "+p.getPrintnazwa());
+               try {
+                    List<Dok> pkpir = dokDAO.zwrocBiezacegoKlientaRok(p, rok);
+                    List<Dokfk> fk = dokDAOfk.findDokfkPodatnikRok(p, rok);
+                    boolean sapkpir = true;
+                    boolean safk = true;
+                    if (pkpir==null||pkpir.isEmpty()) {
+                        sapkpir = false;
+                    } 
+                    if (fk==null||fk.isEmpty()) {
+                        safk = false;
+                    }
+                    if (sapkpir==false&&safk==false) {
+                        p.setPodmiotaktywny(false);
+                    }
+               } catch (Exception e){}
+            }
+            podatnikDAO.editList(listapodatnikow);
+            Msg.msg("Lista zaktualizowana");
+        }
+    }
+    
+    
     public List<Podatnik> getListapodatnikow() {
         return listapodatnikow;
     }
 
     public void setListapodatnikow(List<Podatnik> listapodatnikow) {
         this.listapodatnikow = listapodatnikow;
+    }
+
+    public String getRok() {
+        return rok;
+    }
+
+    public void setRok(String rok) {
+        this.rok = rok;
     }
     
     

@@ -74,8 +74,12 @@ public class Podmiot implements Serializable {
     @Size(max = 256)
     @Column(name = "printnazwa", length = 256)
     private String printnazwa;
+    @Column(name = "dataurodzenia", length = 10)
+    private String dataurodzenia;
     @Column(name = "osobafizyczna")
     private boolean osobafizyczna;
+    @Column(name = "aktywnydlazus")
+    private boolean aktywnydlazus;
     @Column(name = "aktywny")
     private boolean aktywny;
     @Column(name = "login")
@@ -110,10 +114,16 @@ public class Podmiot implements Serializable {
         }
         this.krs = null;
         this.regon = p.getRegon();
-        this.nazwa = p.getNazwaRejestr();
         this.nazwisko = p.getNazwisko();
+        if (this.nazwisko!=null) {
+            this.nazwisko = this.nazwisko.toLowerCase();
+            this.nazwisko = this.nazwisko.substring(0,1).toUpperCase()+this.nazwisko.substring(1);
+        }
         this.imie = p.getImie();
-        this.printnazwa = p.getPrintnazwa();
+        if (this.imie!=null) {
+            this.imie = this.imie.toLowerCase();
+            this.imie = this.imie.substring(0,1).toUpperCase()+this.imie.substring(1);
+        }
         this.osobafizyczna = false;
         this.aktywny = p.isPodmiotaktywny();
     }
@@ -257,6 +267,22 @@ public class Podmiot implements Serializable {
 
     public void setPodatnikudzialy(List<PodatnikUdzialy> podatnikudzialy) {
         this.podatnikudzialy = podatnikudzialy;
+    }
+
+    public String getDataurodzenia() {
+        return dataurodzenia;
+    }
+
+    public void setDataurodzenia(String dataurodzenia) {
+        this.dataurodzenia = dataurodzenia;
+    }
+
+    public boolean isAktywnydlazus() {
+        return aktywnydlazus;
+    }
+
+    public void setAktywnydlazus(boolean aktywnydlazus) {
+        this.aktywnydlazus = aktywnydlazus;
     }
 
     @Override

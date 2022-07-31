@@ -106,6 +106,14 @@
          <p:growl />
          <p:commandButton value="podmiot" actionListener="#{podmiotView.opipi()}" global="true" update="@form"/>
     </h:form> 
+<h:form>
+         <p:growl />
+         <p:commandButton value="udziały" actionListener="#{podmiotView.podmiotudzialy()}" global="true" update="@form"/>
+    </h:form> 
+<h:form>
+         <p:growl />
+         <p:commandButton value="usuń" actionListener="#{podmiotView.usunpodmioty()}" global="true" update="@form"/>
+    </h:form> 
 <!--     <h:form>
          <p:growl />
          <p:commandButton value="jpk blob" actionListener="#{jPKListaView.jpkblob()}" global="true" update="@form"/>
