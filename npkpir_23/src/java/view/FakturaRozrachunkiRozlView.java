@@ -19,10 +19,9 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.annotation.PostConstruct;
-import javax.inject.Named;
-
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import msg.Msg;
 /**
  *
@@ -66,7 +65,8 @@ public class FakturaRozrachunkiRozlView  implements Serializable {
     }
     
     public void pobierzplatnosci() {
-        wprowadzoneplatnosci = fakturaRozrachunkiDAO.findByPodatnikrokMc(wpisView);
+        wprowadzoneplatnosci = fakturaRozrachunkiDAO.findByPodatnikrok(wpisView);
+        wprowadzoneplatnoscifiltered = null;
     }
    
     private Collection<? extends Klienci> pobierzkontrahentow() {

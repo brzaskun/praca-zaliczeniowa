@@ -69,7 +69,9 @@
                                 <f:facet name="header">
                                     <h:outputText value="op."/>
                                 </f:facet>
-                                <h:outputText value="R" rendered="#{!item.opodatkowanie.equals('brak opodatkowania') and item.opodatkowanie.equals('ryczałt')}"/>
+                                <h:outputText value="R" rendered="#{!item.opodatkowanie.equals('brak opodatkowania') and item.opodatkowanie.equals('ryczałt')}" style="color:darkslateblue"/>
+                                <h:outputText value="L" rendered="#{!item.opodatkowanie.equals('brak opodatkowania') and item.opodatkowanie.contains('liniow')}" style="color:darkgreen"/>
+                                <h:outputText value="S" rendered="#{!item.opodatkowanie.equals('brak opodatkowania') and item.opodatkowanie.contains('ogól')}"/>
                                 <h:outputText value="br" rendered="#{item.opodatkowanie.equals('brak ')}" style="color: darkviolet"/>
                             </p:column>
                             <p:column  style="width: 40px;">

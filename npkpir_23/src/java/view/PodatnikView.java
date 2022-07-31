@@ -1534,7 +1534,18 @@ public class PodatnikView implements Serializable {
     private void zachowajZmiany(Podatnik p) {
         p.setWprowadzil(wpisView.getUzer());
         p.setDatawprowadzenia(new Date());
-        podatnikDAO.edit(selected);
+        podatnikDAO.edit(p);
+        if (p.getEmail()!=null) {
+            List<Klienci> klient = klDAO.findKlienciByNip(p.getNip());
+            if (klient!=null&&!klient.isEmpty()) {
+                for (Klienci k : klient) {
+                    if (k.getEmail()==null||(k.getEmail().contains("brak")||k.getEmail().contains("niema"))) {
+                        k.setEmail(p.getEmail());
+                        klDAO.edit(p);
+                    }
+                }
+            }
+        }
     }
     
     
