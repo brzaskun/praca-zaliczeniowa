@@ -128,7 +128,16 @@ public class Podmiot implements Serializable {
         this.aktywny = p.isPodmiotaktywny();
     }
 
-    
+
+    public String getNazwanazwisko() {
+        String zwrot = "";
+        if (this.nazwisko!=null) {
+            zwrot = this.nazwisko+" "+this.imie;
+        } else {
+            zwrot = this.nazwa;
+        }
+        return zwrot;
+    }
     
     
     public Integer getId() {

@@ -148,19 +148,19 @@
         </p:tab>
         <p:tab title="dodaj nowy">
             <script>
-                window.onload = function() {
+                window.onload = function () {
                     r('akordeon:formdodaj:panela').hide();
                     r('akordeon:formdodaj:buton').hide();
-                  };
+                };
             </script>
-                <h1><h:outputText value="Dodaj nowy podmiot"/></h1>
-                <p:panelGrid columns="2">
-                    <h:form id="formbuton">
-                        <p:commandButton value="osoba fizyczna"  actionListener="#{podmiotView.setOsobafizyczna(true)}" update="akordeon:formdodaj:panel" style="width: 120px;" onclick="r('akordeon:formdodaj:panela').show();r('akordeon:formdodaj:buton').show()"/>
-                        <p:commandButton value="osoba prawna" actionListener="#{podmiotView.setOsobafizyczna(false)}" update="akordeon:formdodaj:panel" style="width: 120px;" onclick="r('akordeon:formdodaj:panela').show();r('akordeon:formdodaj:buton').show()"/>
-                    </h:form>
-                </p:panelGrid>
-                <h:form id="formdodaj">
+            <h1><h:outputText value="Dodaj nowy podmiot"/></h1>
+            <p:panelGrid columns="2">
+                <h:form id="formbuton">
+                    <p:commandButton value="osoba fizyczna"  actionListener="#{podmiotView.setOsobafizyczna(true)}" update="akordeon:formdodaj:panel" style="width: 120px;" onclick="r('akordeon:formdodaj:panela').show();r('akordeon:formdodaj:buton').show()"/>
+                    <p:commandButton value="osoba prawna" actionListener="#{podmiotView.setOsobafizyczna(false)}" update="akordeon:formdodaj:panel" style="width: 120px;" onclick="r('akordeon:formdodaj:panela').show();r('akordeon:formdodaj:buton').show()"/>
+                </h:form>
+            </p:panelGrid>
+            <h:form id="formdodaj">
                 <p:panelGrid columns="1" id="panel">
                     <p:panelGrid columns="2" id="panela">
                         <p:outputLabel value="Nip:" for="nip" />
@@ -201,7 +201,7 @@
                 </p:panelGrid>
             </h:form>
         </p:tab>
-        <p:tab title="udziały">
+        <p:tab title="Udziały">
             <h:form id="form9">
                 <p:autoUpdate/>
                 <p:panelGrid columns="2">
@@ -212,14 +212,17 @@
                         <p:ajax event="change" partialSubmit="true" update="akordeon:form9:form9tablica"/>
                     </p:selectBooleanCheckbox>
                 </p:panelGrid>
-            <p:dataTable value="#{podmiotView.podatnikUdzialy}"  var="loop" rowKey="#{loop.id}"  id="form9tablica"
-                              editable="true" style="width:1700px;" sortBy="#{loop.podatnikObj.printnazwa}">
+                <p:dataTable value="#{podmiotView.podatnikUdzialy}"  var="loop" rowKey="#{loop.id}"  id="form9tablica"
+                             editable="true" style="width:1700px;" sortBy="#{loop.podatnikObj.printnazwa}">
                     <p:ajax event="rowEdit"  />
                     <p:column headerText="nazwa" style="text-align: left;" width="250" sortBy="#{loop.podatnikObj.printnazwa}" filterBy="#{loop.podatnikObj.printnazwa}" filterMatchMode="contains">
                         <h:outputText value="#{loop.podatnikObj.printnazwa}" />
                     </p:column>
-                    <p:column headerText="księgowa" style="text-align: left;" width="100" sortBy="#{loop.podatnikObj.ksiegowa}" filterBy="#{loop.podatnikObj.ksiegowa}" filterMatchMode="contains">
+                    <p:column headerText="księgowa" style="text-align: left;" width="100" sortBy="#{loop.podatnikObj.ksiegowa.imieNazwisko}" filterBy="#{loop.podatnikObj.ksiegowa.imieNazwisko}" filterMatchMode="contains">
                         <h:outputText value="#{loop.podatnikObj.ksiegowa.imieNazwisko}" />
+                    </p:column>
+                    <p:column headerText="fp" style="text-align: center;" width="30" sortBy="#{loop.podatnikObj.gussymbol}" filterBy="#{loop.podatnikObj.gussymbol}" filterMatchMode="startsWith">
+                        <h:outputText value="#{loop.podatnikObj.gussymbol}" />
                     </p:column>
                     <p:column headerText="podmiot nazwa" style="text-align: left;" width="250">
                         <h:outputText value="#{loop.podmiot.nazwa}" />
@@ -250,14 +253,56 @@
                     <p:column headerText="udział" style="text-align: center;" width="30">
                         <p:commandButton icon="pi pi-book" actionListener="#{podmiotView.nowypodmiot(loop)}" update="akordeon:formdodaj" onclick="r('akordeon:formdodaj:panela').show();r('akordeon:formdodaj:buton').show()"/>
                     </p:column>
-<!--                    <p:column headerText="liczba udz." width="30">
-                        <h:outputText value="#{loop.liczbaudzialow}" />
-                    </p:column>
-                    <p:column headerText="wartość nom."  width="70">
-                        <bcf:outputpl value="#{loop.wartoscnominalna}" />
-                    </p:column>-->
+                    <!--                    <p:column headerText="liczba udz." width="30">
+                                            <h:outputText value="#{loop.liczbaudzialow}" />
+                                        </p:column>
+                                        <p:column headerText="wartość nom."  width="70">
+                                            <bcf:outputpl value="#{loop.wartoscnominalna}" />
+                                        </p:column>-->
                 </p:dataTable>
-                </h:form>
+            </h:form>
+        </p:tab>
+        <p:tab title="Podmioty">
+            <h:form id="form10">
+                <p:dataTable value="#{podmiotView.podmioty}"  var="loop11" rowKey="#{loop11.id}"  id="form9tablica"
+                             editable="true" style="width:1300px;" sortBy="#{loop11.nazwanazwisko}">
+                    <p:ajax event="rowEdit"  />
+                     <p:column width="10">
+                         <p:rowToggler rendered="#{loop11.podatnikudzialy ne null and loop11.podatnikudzialy.size() gt 0}"/>
+                    </p:column>
+                    <p:column headerText="nazwa" style="text-align: left;" width="250" sortBy="#{loop11.nazwanazwisko}" filterBy="#{loop11.nazwanazwisko}" filterMatchMode="contains">
+                        <h:outputText value="#{loop11.nazwanazwisko}" />
+                    </p:column>
+                    <p:column headerText="aktywny" width="30" style="text-align: center;">
+                        <h:outputText value="&#x2713;" rendered="#{loop11.aktywny}" />
+                    </p:column>
+                    <p:column headerText="akt. dla zus" width="30" style="text-align: center;">
+                        <h:outputText value="&#x2713;" rendered="#{loop11.aktywnydlazus}"/>
+                    </p:column>
+                    <p:column headerText="nip" width="100" filterBy="#{loop11.email}" filterMatchMode="startsWith">
+                        <h:outputText value="#{loop11.email}" />
+                    </p:column>
+                    <p:column headerText="pesel" width="100">
+                        <h:outputText value="#{loop11.telefon}" />
+                    </p:column>
+                        <p:rowExpansion>
+                           <p:column id="udziały" headerText="udziały wykaz" width="500" resizable="true">  
+                               <p:dataTable var="subwpis" value="#{loop11.podatnikudzialy}" emptyMessage="brak udziałów!"  resizableColumns="true" style="width: 50%;">
+                                   <p:column id="SubColumn1" headerText="nazwa">  
+                                       <h:outputText value="#{subwpis.podatnikObj.printnazwa}" />
+                                   </p:column>
+                                   <p:column id="SubColumn1a"  headerText="nip">  
+                                       <h:outputText value="#{subwpis.podatnikObj.nip}">
+                                       </h:outputText>
+                                   </p:column>
+                                    <p:column headerText="udział" style="text-align: center;" width="30">
+                                        <h:outputText value="#{subwpis.udzial}" />
+                                    </p:column>
+                               </p:dataTable>
+                           </p:column>
+                       </p:rowExpansion>
+                </p:dataTable>
+            </h:form>
         </p:tab>
     </p:tabView>
 </ui:composition>   
