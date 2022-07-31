@@ -43,8 +43,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import javax.faces.component.html.HtmlOutputText;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -423,12 +425,15 @@ public class BankImportView implements Serializable {
                 }
             }
             if (pobranefaktury!=null && !pobranefaktury.isEmpty()) {
+                String rok = wpisView.getRokWpisuSt();
+                pobranefaktury = pobranefaktury.stream().filter(Objects::nonNull).filter(r->Data.getRok(r.getDatatransakcji()).equals(rok)).collect(Collectors.toList());
                 String mcc = Data.getMc(pobranefaktury.get(0).getDatatransakcji());
-                if (!mcc.equals(mc) && pobierzcalyrok==false) {
-                    Msg.msg("e","Importowany wyciąg nalezy do innego miesiąca. Proszę zmienić miesiąc.");
-                } else {
-                    generujbutton.setRendered(true);
-                }
+//                if (!mcc.equals(mc) && pobierzcalyrok==false) {
+//                    Msg.msg("e","Importowany wyciąg nalezy do innego miesiąca. Proszę zmienić miesiąc.");
+//                } else {
+//                    generujbutton.setRendered(true);
+//                }
+                generujbutton.setRendered(true);
                 wierszezmiesiaca = wierszDAO.pobierzWierszeMcDok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), mc, rodzajdok.getSkrotNazwyDok());
                 if (wierszezmiesiaca!=null && wierszezmiesiaca.size()>0) {
                     for (ImportBankWiersz p : pobranefaktury) {
@@ -464,7 +469,9 @@ public class BankImportView implements Serializable {
             List<String> zakresmiesiecy = Mce.zakresmiesiecy(wpisView.getMiesiacWpisu(), "12");
             for (String mc : zakresmiesiecy) {
                 if (!pobranefaktury.isEmpty()) {
-                    zwrot = generuj(mc);
+                    List<ImportBankWiersz> lista = pobranefaktury.stream().filter(Objects::nonNull)
+                    .filter(r->Data.getMc(r.getDatatransakcji()).equals(mc)).collect(Collectors.toList());
+                    zwrot = generuj(mc, lista);
                 }
             }
             if (zwrot==0) {
@@ -472,16 +479,19 @@ public class BankImportView implements Serializable {
             }
         } else {
             int zwrot = 1;
-            zwrot = generuj(wpisView.getMiesiacWpisu());
+            String rok = wpisView.getRokWpisuSt();
+            List<ImportBankWiersz> lista = pobranefaktury.stream().filter(Objects::nonNull)
+                    .filter(r->Data.getMc(r.getDatatransakcji()).equals(wpisView.getMiesiacWpisu())).collect(Collectors.toList());
+            zwrot = generuj(wpisView.getMiesiacWpisu(), lista);
             if (zwrot==0) {
                 Msg.msg("Wygenerowano wyciągi za miesiąc");
             }
         }
     }
 
-    public int generuj(String mc) {
+    public int generuj(String mc, List<ImportBankWiersz> lista) {
         int zwrota = 1;
-        if (pobranefaktury !=null && pobranefaktury.size()>0) {
+        if (lista !=null && lista.size()>0) {
             datakontrol = null;
             int ile = 1;
             int duplikaty = 0;
@@ -489,13 +499,13 @@ public class BankImportView implements Serializable {
             Waluty walutadokumentu = walutyDAOfk.findWalutaBySymbolWaluty(naglowek.getWyciagwaluta());
             List<BankImportWzory> zasady = bankImportWzoryDAO.findByBank(wybranyrodzajimportu.getOpis());
             boolean czytojuzinnymc = false;
-            while (pobranefaktury!=null && pobranefaktury.size() >0 && ile < 10000) {
-                czytojuzinnymc = !Data.getMc(pobranefaktury.get(0).getDatatransakcji()).equals(mc);
+            while (lista!=null && lista.size() >0 && ile < 10000) {
+                czytojuzinnymc = !Data.getMc(lista.get(0).getDatatransakcji()).equals(mc);
                 if (czytojuzinnymc) {
                     zwrota = 0;
                     return zwrota;
                 }
-                int czyduplikat = generowanieDokumentu(ile, kontr, walutadokumentu, zasady, mc);
+                int czyduplikat = generowanieDokumentu(ile, kontr, walutadokumentu, zasady, mc, lista);
                 if (czyduplikat == -1) {
                     Msg.msg("e", "Błąd przy generowaniu dokumentów. Przerywam funkcje. "+duplikaty);
                     break;
@@ -518,11 +528,11 @@ public class BankImportView implements Serializable {
     }
     
         
-     public int generowanieDokumentu(int i, Klienci kontr, Waluty walutadokumentu, List<BankImportWzory> zasady, String mc) {
+     public int generowanieDokumentu(int i, Klienci kontr, Waluty walutadokumentu, List<BankImportWzory> zasady, String mc, List<ImportBankWiersz> lista) {
         int zwrot = 0;
         try {
             int numerkolejny = ImportBean.oblicznumerkolejny(rodzajdok.getSkrotNazwyDok(), dokDAOfk, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
-            Dokfk dokument = stworznowydokument(i, kontr, numerkolejny, wpisView, walutadokumentu, zasady, mc);
+            Dokfk dokument = stworznowydokument(i, kontr, numerkolejny, wpisView, walutadokumentu, zasady, mc, lista);
             try {
                 if (dokument!=null) {
                     dokument.setImportowany(true);
@@ -541,8 +551,8 @@ public class BankImportView implements Serializable {
         return zwrot;
     }
      
-      public Dokfk stworznowydokument(int i, Klienci kontr, int numerkolejny, WpisView wpisView, Waluty walutadokumentu, List<BankImportWzory> zasady, String mc) {
-            ImportowanyPlikNaglowek pn = pobranefaktury.get(0).getNaglowek();
+      public Dokfk stworznowydokument(int i, Klienci kontr, int numerkolejny, WpisView wpisView, Waluty walutadokumentu, List<BankImportWzory> zasady, String mc, List<ImportBankWiersz> lista) {
+            ImportowanyPlikNaglowek pn = lista.get(0).getNaglowek();
         if (Data.czyjestpo(Data.ostatniDzien(wpisView.getRokWpisuSt(), mc), pn.getWyciagdatado())) {
             pn.setWyciagdatado(Data.ostatniDzien(wpisView.getRokWpisuSt(), mc));
         }
@@ -566,7 +576,7 @@ public class BankImportView implements Serializable {
             nd = null;
             usunduplikat(juzjest);
         } else {
-            ustawwiersze(nd, zasady);
+            ustawwiersze(nd, zasady, lista);
             if (nd.getListawierszy()!=null && nd.getListawierszy().size()>0) {
                 ustawdaty(nd, pn, mc);
                 nd.setImportowany(true);
@@ -634,10 +644,10 @@ public class BankImportView implements Serializable {
         }
     }
      
-    private void ustawwiersze(Dokfk nd, List<BankImportWzory> zasady) {
+    private void ustawwiersze(Dokfk nd, List<BankImportWzory> zasady, List<ImportBankWiersz> lista) {
         nd.setListawierszy(new ArrayList<Wiersz>());
         int lpwiersza = 1;
-        for (Iterator<ImportBankWiersz> it = pobranefaktury.iterator(); it.hasNext();) {
+        for (Iterator<ImportBankWiersz> it = lista.iterator(); it.hasNext();) {
             ImportBankWiersz p = it.next();
             if (datakontrol==null) {
                 datakontrol = p.getDatatransakcji();
