@@ -247,12 +247,15 @@
                     <p:column headerText="udział" style="text-align: center;" width="30">
                         <h:outputText value="#{loop.udzial}" />
                     </p:column>
-                    <p:column headerText="liczba udz." width="30">
+                    <p:column headerText="udział" style="text-align: center;" width="30">
+                        <p:commandButton icon="pi pi-book" actionListener="#{podmiotView.nowypodmiot(loop)}" update="akordeon:formdodaj" onclick="r('akordeon:formdodaj:panela').show();r('akordeon:formdodaj:buton').show()"/>
+                    </p:column>
+<!--                    <p:column headerText="liczba udz." width="30">
                         <h:outputText value="#{loop.liczbaudzialow}" />
                     </p:column>
                     <p:column headerText="wartość nom."  width="70">
                         <bcf:outputpl value="#{loop.wartoscnominalna}" />
-                    </p:column>
+                    </p:column>-->
                 </p:dataTable>
                 </h:form>
         </p:tab>

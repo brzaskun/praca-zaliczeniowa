@@ -304,6 +304,8 @@ public class Podatnik implements Serializable {
     private boolean starekadry;
     @Column(name = "rozrachunkifk")
     private boolean rozrachunkifk;
+    @Column(name = "gussymbol")
+    private String gussymbol;
     
     @Transient
     private double cena;
@@ -1014,6 +1016,14 @@ public class Podatnik implements Serializable {
         this.metodakasowapit = metodakasowapit;
     }
 
+    public String getGussymbol() {
+        return gussymbol;
+    }
+
+    public void setGussymbol(String gussymbol) {
+        this.gussymbol = gussymbol;
+    }
+
     
     
     
@@ -1066,5 +1076,105 @@ public class Podatnik implements Serializable {
        return zwrot;
    }
 
-    
+
+//   Szczególna forma prawna służy do określania, czy podmiot jest zaklasyfikowany do jednej z niżej wymienionych grup:
+//
+//spółki cywilne prowadzące działalność na podstawie umowy zawartej zgodnie z Kodeksem cywilnym (kod 019),
+//spółki przewidziane w przepisach innych ustaw niż Kodeks spółek handlowych i Kodeks cywilny lub formy prawne, do których stosuje się przepisy o spółkach (kod 023),
+//uczelnie (kod 044),
+//fundusze (kod 049),
+//Kościół Katolicki (kod 050),
+//inne kościoły i związki wyznaniowe (kod 051),
+//europejskie ugrupowanie współpracy terytorialnej (kod 053),
+//stowarzyszenia niewpisane do KRS (kod 055),
+//organizacje społeczne oddzielnie niewymienione niewpisane do KRS (kod 060),
+//partie polityczne (kod 070),
+//samorządy gospodarcze i zawodowe niewpisane do KRS (kod 076),
+//przedstawicielstwa zagraniczne (kod 080),
+//wspólnoty mieszkaniowe (kod 085),
+//osoby fizyczne prowadzące działalność gospodarczą (kod 099),
+//europejskie zgrupowania interesów gospodarczych (kod 114),
+//spółki akcyjne (kod 116),
+//spółki z ograniczoną odpowiedzialnością (kod 117),
+//spółki jawne (kod 118),
+//spółki partnerskie (kod 115),
+//spółki komandytowe (kod 120),
+//spółki komandytowo-akcyjne (kod 121),
+//spółki europejskie (kod 122),
+//przedsiębiorstwa państwowe (kod 124),
+//towarzystwa ubezpieczeń wzajemnych (kod 126),
+//instytucje gospodarki budżetowej (kod 132),
+//związki zawodowe rolników indywidualnych (kod 133),
+//towarzystwa reasekuracji wzajemnej (kod 134),
+//główne oddziały zagranicznych zakładów reasekuracji (kod 135),
+//główne oddziały zagranicznych zakładów ubezpieczeń (kod 136),
+//ogólnokrajowe zrzeszenia międzybranżowe (kod 137),
+//ogólnokrajowe związki międzybranżowe (kod 138),
+//spółdzielnie (kod 140),
+//spółdzielnie europejskie (kod 142),
+//związki rolników, kółek i organizacji rolniczych (kod 143),
+//związki rolniczych zrzeszeń branżowych (kod 145),
+//samodzielne publiczne zakłady opieki zdrowotnej (kod 146),
+//cechy rzemieślnicze (kod 147),
+//fundacje (kod 148),
+//izby rzemieślnicze (kod 152),
+//Związek Rzemiosła Polskiego (kod 154),
+//stowarzyszenia (kod 155),
+//związki stowarzyszeń (kod 156),
+//stowarzyszenia kultury fizycznej (kod 157),
+//związki sportowe (kod 158),
+//polskie związki sportowe (kod 159),
+//inne organizacje społeczne lub zawodowe (kod 160),
+//kolumny transportu sanitarnego (kod 161),
+//stowarzyszenia kultury fizycznej o zasięgu ogólnokrajowym (kod 162),
+//zrzeszenia handlu i usług (kod 163),
+//zrzeszenia transportu (kod 164),
+//instytuty badawcze (kod 165),
+//jednostki badawczo-rozwojowe (kod 141),
+//ogólnokrajowe reprezentacje zrzeszeń handlu i usług (kod 166),
+//ogólnokrajowe reprezentacje zrzeszeń transportu (kod 167),
+//inne organizacje podmiotów gospodarczych (kod 168),
+//izby gospodarcze (kod 169),
+//przedsiębiorstwa zagraniczne (kod 171),
+//związki zawodowe (kod 172),
+//związki pracodawców (kod 174),
+//federacje/konfederacje związków pracodawców (kod 175),
+//kółka rolnicze (kod 177),
+//rolnicze zrzeszenia branżowe (kod 178),
+//oddziały zagranicznych przedsiębiorców (kod 179),
+//spółdzielcze kasy oszczędnościowo-kredytowe (kod 180),
+//stowarzyszenia ogrodowe (kod 181),
+//związki stowarzyszeń ogrodowych (kod 182),
+//jednostki terenowe stowarzyszeń posiadające osobowość prawną (kod 183),
+//jednostki organizacyjne związków zawodowych posiadające osobowość prawną (kod 184)
+//przedszkola publiczne (kod 381),
+//przedszkola niepubliczne (kod 382),
+//publiczne szkoły podstawowe (kod 383),
+//publiczne gimnazja (kod 384),
+//publiczne szkoły ponadpodstawowe (kod 385),
+//publiczne szkoły ponadgimnazjalne (kod 386),
+//publiczne szkoły artystyczne (kod 387),
+//niepubliczne szkoły podstawowe (kod 388),
+//niepubliczne gimnazja (kod 389),
+//niepubliczne szkoły ponadpodstawowe (kod 390),
+//niepubliczne szkoły ponadgimnazjalne (kod 391),
+//niepubliczne szkoły artystyczne (kod 392),
+//publiczne placówki systemu oświaty (kod 393),
+//niepubliczne placówki systemu oświaty (kod 394),
+//inne publiczne jednostki organizacyjne systemu oświaty (kod 395),
+//inne niepubliczne jednostki organizacyjne systemu oświaty (kod 396),
+//publiczne zespoły szkół i placówek systemu oświaty (kod 397),
+//niepubliczne zespoły szkół i placówek systemu oświaty (kod 398),
+//organy władzy, administracji rządowej (kod 401),
+//organy kontroli państwowej i ochrony prawa (kod 402),
+//wspólnoty samorządowe (kod 403),
+//sądy i trybunały (kod 406),
+//Skarb Państwa (kod 409),
+//państwowe jednostki organizacyjne (kod 428),
+//gminne samorządowe jednostki organizacyjne (kod 429),
+//powiatowe samorządowe jednostki organizacyjne (kod 430),
+//wojewódzkie samorządowe jednostki organizacyjne (kod 431),
+//inne państwowe lub samorządowe osoby prawne w rozumieniu art. 9 pkt 14 ustawy z dnia 27 sierpnia 2009 r. o finansach publicznych (Dz. U. z 2013 r. poz. 885, z późn. zm.3)) (kod 439),
+//bez szczególnej formy prawnej (kod 999).
+   
 }

@@ -49,14 +49,14 @@ public class SzukajDaneBean {
                     if (dane.get("praw_adSiedzNumerLokalu") != null) {
                         selected.setLokal(dane.get("praw_adSiedzNumerLokalu"));
                     } else {
-                        selected.setLokal(null);
+                        selected.setLokal("-");
                     }
                 } else {
                     selected.setDom(dane.get("fiz_adSiedzNumerNieruchomosci"));
                     if (dane.get("fiz_adSiedzNumerLokalu") != null) {
                         selected.setLokal(dane.get("fiz_adSiedzNumerLokalu"));
                     } else {
-                        selected.setLokal(null);
+                        selected.setLokal("-");
                     }
                 }
             }
@@ -147,17 +147,19 @@ public class SzukajDaneBean {
                     if (dane.get("praw_adSiedzNumerLokalu") != null) {
                         selected.setNrlokalu(dane.get("praw_adSiedzNumerLokalu"));
                     } else {
-                        selected.setNrlokalu(null);
+                        selected.setNrlokalu("-");
                     }
                     selected.setDatarozpoczecia(dane.get("praw_dataRozpoczeciaDzialalnosci"));
+                    selected.setGussymbol(dane.get("praw_szczegolnaFormaPrawna_Symbol"));
                 } else {
                     selected.setDatarozpoczecia(dane.get("fiz_dataRozpoczeciaDzialalnosci"));
                     selected.setNrdomu(dane.get("fiz_adSiedzNumerNieruchomosci"));
                     selected.setPoczta(dane.get("fiz_adSiedzMiejscowoscPoczty_Nazwa"));
+                    selected.setGussymbol(dane.get("praw_szczegolnaFormaPrawna_Symbol"));
                     if (dane.get("fiz_adSiedzNumerLokalu") != null) {
                         selected.setNrlokalu(dane.get("fiz_adSiedzNumerLokalu"));
                     } else {
-                        selected.setNrlokalu(null);
+                        selected.setNrlokalu("-");
                     }
                 }
             }
@@ -174,6 +176,26 @@ public class SzukajDaneBean {
             PrimeFaces.current().ajax().update(formularz+":nrlokalu");
             PrimeFaces.current().ajax().update(formularz+":datarozpoczecia");
             
+        }
+    }
+     
+     public static void znajdzdaneregonFP(Podatnik selected) {
+        String nip = selected.getNip();
+        Pattern p = Pattern.compile("^[a-zA-Z]+$");//<-- compile( not Compile(
+        Matcher m = p.matcher(nip.substring(0,1));  //<-- matcher( not Matcher
+        if (selected.getNip() != null && !m.find() && selected.getNip().length()==10) {
+            GUS poc = new GUS();
+            Map<String, String> dane = poc.pobierz(nip);
+            if (dane.size()>1) {
+                String typ = dane.get("Typ");
+                if (typ.equals("P")) {
+                    selected.setDatarozpoczecia(dane.get("praw_dataRozpoczeciaDzialalnosci"));
+                    selected.setGussymbol(dane.get("praw_szczegolnaFormaPrawna_Symbol"));
+                } else {
+                    selected.setDatarozpoczecia(dane.get("fiz_dataRozpoczeciaDzialalnosci"));
+                    selected.setGussymbol(dane.get("fiz_szczegolnaFormaPrawna_Symbol"));
+                }
+            }
         }
     }
      

@@ -231,6 +231,17 @@ public class PodatnikView implements Serializable {
     
 
     
+     public void gusdatyiforma() {
+        List<Podatnik> podatnicy = podatnikDAO.findAllManager();
+        for (Podatnik p : podatnicy) {
+            if (p.getNip()!=null) {
+                SzukajDaneBean.znajdzdaneregonFP(p);
+            }
+        }
+        podatnikDAO.editList(podatnicy);
+        Msg.dP();
+     }
+    
     public void zrobdokumenty() {
         List<Podatnik> podatnicy = podatnikDAO.findAllManager();
         Collections.sort(podatnicy, new Podatnikcomparator());

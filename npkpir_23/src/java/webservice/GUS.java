@@ -111,6 +111,7 @@ public class GUS {
                     } else {
                         zwrot.put("Typ", "F");
                         rapszcz = e3.danePobierzPelnyRaport(zwrottmp.get("Regon"), "PublDaneRaportDzialalnoscFizycznejCeidg");
+                        zwrot.put("fiz_szczegolnaFormaPrawna_Symbol","099");
                         zwrot.putAll(wyslijdanefirmy(pozycje2fiz, rapszcz));
                     }
                 }
@@ -149,6 +150,8 @@ public class GUS {
         pozycje2fiz.add("fiz_dataWznowieniaDzialalnosci");
         pozycje2fiz.add("fiz_dataZaistnieniaZmianyDzialalnosci");
         pozycje2fiz.add("fiz_dataZakonczeniaDzialalnosci");
+        pozycje2fiz.add("fiz_dataZaistnieniaZmiany");
+        
    }
     
     public static List<String> pozycje2praw;
@@ -160,6 +163,15 @@ public class GUS {
         pozycje2praw.add("praw_adSiedzMiejscowoscPoczty_Nazwa");
         pozycje2praw.add("praw_dataRozpoczeciaDzialalnosci");
         pozycje2praw.add("praw_numerWrejestrzeEwidencji");
+        //Nowe
+        pozycje2praw.add("praw_podstawowaFormaPrawna_Symbol");
+        pozycje2praw.add("praw_szczegolnaFormaPrawna_Symbol");
+        pozycje2praw.add("praw_dataRozpoczeciaDzialalnosci");
+        pozycje2praw.add("praw_dataZawieszeniaDzialalnosci");
+        pozycje2praw.add("praw_dataWznowieniaDzialalnosci");
+        pozycje2praw.add("praw_dataZaistnieniaZmianyDzialalnosci");
+        pozycje2praw.add("praw_dataZakonczeniaDzialalnosci");
+        pozycje2praw.add("praw_dataZaistnieniaZmiany");
    }
     
     

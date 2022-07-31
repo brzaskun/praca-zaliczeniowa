@@ -58,6 +58,8 @@ public class PodmiotView implements Serializable {
     private void init() {
         podmioty = podmiotDAO.findAll();
         podatnikUdzialy = podatnikUdzialyDAO.findAll();
+        podatnikUdzialy = podatnikUdzialy.stream().filter(Objects::nonNull).filter(p->p.getPodatnikObj()!=null).filter(p->p.getPodatnikObj().isPodmiotaktywny()).collect(Collectors.toList());
+        tylkoaktywne = true;
         nowy.setPin("1234");
         nowy.setKrajrezydencji("PL");
     }
@@ -164,12 +166,12 @@ public class PodmiotView implements Serializable {
                         }
                     Msg.msg("Uzupełniono dane");
                 } else {
-                    this.nowy.setNazwa("BŁĘDNY NIP");
+                    this.nowy.setRegon("BŁĘDNY NIP");
                     Msg.msg("e","Błędny NIP");
                 }
                 
             } else {
-                this.nowy.setNazwa("TAKI PODMIOT JUŻ ISTNIEJE");
+                this.nowy.setRegon("TAKI PODMIOT JUŻ ISTNIEJE");
                 Msg.msg("e","Taki podmiot już istnieje!");
             }
         }
@@ -293,6 +295,11 @@ public class PodmiotView implements Serializable {
         System.out.println("");
     }
 
+    
+    public void nowypodmiot(PodatnikUdzialy p) {
+        
+    }
+    
     
     public List<Podmiot> getPodmioty() {
         return podmioty;
