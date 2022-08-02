@@ -49,6 +49,11 @@
                         <h:outputText value="#{loop.opodatkowanie}" rendered="#{loop.opodatkowanie ne null}"/>
                         <h:outputText value="nie wybrano" rendered="#{loop.opodatkowanie eq null}" style="color: red;"/>
                     </p:column>
+                     <p:column headerText="PIT" style="text-align: center;" width="30">
+                        <p:selectBooleanCheckbox value="#{loop.pit}" >
+                            <p:ajax event="change" partialSubmit="true" listener="#{podatnikView.editudzial(loop)}"/>
+                        </p:selectBooleanCheckbox>
+                    </p:column>
                     <p:column style="text-align: center;" headerText="usuń">
                         <p:commandButton action="#{podatnikView.usunUdzialy(loop)}"  icon="ui-icon-trash" update="akordeon:form9:form9tablica" type="submit"/>
                     </p:column>

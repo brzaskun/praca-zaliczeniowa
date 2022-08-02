@@ -100,7 +100,25 @@ public class PodmiotView implements Serializable {
         System.out.println("koniec moniec");
     }
     
-    public void podmiotudzialy() {
+    
+    
+    public void pitoznacz() {
+        System.out.println("poczatek pitoznacz");
+        podmioty = podmiotDAO.findAll();
+        if (podmioty != null) {
+            for (Podmiot p : podmioty) {
+                List<PodatnikUdzialy> podatnikudz = p.getPodatnikudzialy();
+                if (podatnikudz!=null&&podatnikudz.size()==1) {
+                    PodatnikUdzialy ppp = podatnikudz.get(0);
+                    ppp.setPit(true);
+                    podatnikUdzialyDAO.edit(ppp);
+                }
+            }
+        }
+        System.out.println("koniec moniec pitoznacz");
+    }
+    
+        public void podmiotudzialy() {
         System.out.println("poczatek udzialy");
         podatnikUdzialy = podatnikUdzialyDAO.findAll();
         podmioty = podmiotDAO.findAll();
@@ -300,6 +318,14 @@ public class PodmiotView implements Serializable {
         
     }
     
+    public void editudzial(PodatnikUdzialy p) {
+        try {
+            podatnikUdzialyDAO.edit(p);
+            Msg.dP();
+        } catch (Exception e) {
+            Msg.dPe();
+        }
+    }
     
     public List<Podmiot> getPodmioty() {
         return podmioty;

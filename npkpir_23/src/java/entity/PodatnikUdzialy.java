@@ -68,6 +68,8 @@ public class PodatnikUdzialy implements Serializable{
     @JoinColumn(name = "podmiot", referencedColumnName = "id")
     @ManyToOne
     private Podmiot podmiot;
+    @Column(name="pit")
+    private boolean pit;
    
 
     public PodatnikUdzialy() {
@@ -259,6 +261,14 @@ public class PodatnikUdzialy implements Serializable{
 
     public void setWartoscnominalna(double wartoscnominalna) {
         this.wartoscnominalna = wartoscnominalna;
+    }
+
+    public boolean isPit() {
+        return pit;
+    }
+
+    public void setPit(boolean pit) {
+        this.pit = pit;
     }
 
    

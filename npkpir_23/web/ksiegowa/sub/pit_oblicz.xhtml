@@ -29,12 +29,12 @@
                         </p:panelGrid>
                         <p:panel header="wybierz osobę: " style="width: 250px;" rendered="#{zestawienieView.listawybranychudzialowcow.size() gt 1}"/>
                         <p:selectOneMenu value="#{zestawienieView.wybranyudzialowiec}" style="width: 250px;"  rendered="#{zestawienieView.listawybranychudzialowcow.size() gt 1}">
-                            <f:selectItem itemLabel="wybierz osobe" itemValue="wybierz osobe"/>
-                            <f:selectItems value="#{zestawienieView.listawybranychudzialowcow}"/>
+                            <f:selectItem itemLabel="wybierz osobe" itemValue="wybierz osobe" noSelectionOption="true"/>
+                            <f:selectItems value="#{zestawienieView.listawybranychudzialowcow}" var="ytem" itemLabel="#{ytem.nazwiskoimie}" itemValue="#{ytem}"/>
                             <p:ajax event="change" update=":akordeon:formpit" listener="#{zestawienieView.obliczPit()}" partialSubmit="true"/>
                         </p:selectOneMenu>
                         <p:panel header="imię nazwisko przedsiębiorcy: " style="width: 250px;" rendered="#{zestawienieView.listawybranychudzialowcow.size() eq 1}"/>
-                        <h:outputText value="#{zestawienieView.wybranyudzialowiec}"/>
+                        <h:outputText value="#{zestawienieView.wybranyudzialowiec.nazwiskoimie}"/>
                         <p:panel header="opodatkowanie: "/>
                         <h:outputText value="#{WpisView.rodzajopodatkowania}"/>
                         <h:outputText value="#{WpisView.mc0kw1 ? ' rozliczenie kwartalne': null}"/>
@@ -50,7 +50,9 @@
                         </p:selectOneMenu>
                     </p:panelGrid>
                     <p:panelGrid  columns="1" >
-                        <p:panel header="dane nowego PIT-u: #{zestawienieView.wybranyudzialowiec} #{zestawienieView.wybranyprocent}%" style="width: 450px;"/>
+                        <p:panel header="dane nowego PIT-u: #{zestawienieView.wybranyudzialowiec.nazwiskoimie} #{zestawienieView.wybranyudzialowiec.udzial}%" style="width: 450px;"/>
+                        <h:outputText value="Dochody z tej firmy są dodawane do działalności podstawowej. Nie można generować PIT" style="color: red;" rendered="#{zestawienieView.wybranyudzialowiec.pit eq false}"/>
+                        <h:outputText value="Główna działalność. Do dochodów z tej firmy są dodawane pozostałe działalności." style="color: blue;" rendered="#{zestawienieView.wybranyudzialowiec.pit eq true}"/>
                         <p:panelGrid id="zestawieniepit1" columns="4" style="width: 450px;">
                             <h:outputText value="firma:"/><h:outputText value="#{WpisView.printNazwa}"/>
                             <h:outputText value="podatnik:"/><h:outputText value="#{zestawienieView.biezacyPit.udzialowiec}"/>

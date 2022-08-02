@@ -2103,6 +2103,13 @@ public void przygotujedycjeopodatkowanie() {
         return zwrot;
     }
 
-    
+    public void editudzial(PodatnikUdzialy p) {
+        try {
+            podatnikUdzialyDAO.edit(p);
+            Msg.dP();
+        } catch (Exception e) {
+            Msg.dPe();
+        }
+    }    
 
 }

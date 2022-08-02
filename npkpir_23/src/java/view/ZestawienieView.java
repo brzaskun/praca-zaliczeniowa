@@ -109,7 +109,7 @@ public class ZestawienieView implements Serializable {
     private WierszPkpir rok;
     private List<WierszPkpir> zebranieMcy;
     //dane niezbedne do wyliczania pit
-    private String wybranyudzialowiec;
+    private PodatnikUdzialy wybranyudzialowiec;
     @Inject
     private DokDAO dokDAO;
     @Inject
@@ -140,8 +140,7 @@ public class ZestawienieView implements Serializable {
     private PodStawkiDAO podstawkiDAO;
     @Inject
     private ZobowiazanieDAO zobowiazanieDAO;
-    private String wybranyprocent;
-    private List<String> listawybranychudzialowcow;
+    private List<PodatnikUdzialy> listawybranychudzialowcow;
     //z reki
     private boolean zus51zreki;
     private boolean zus52zreki;
@@ -187,7 +186,7 @@ public class ZestawienieView implements Serializable {
         pobierzPity = Collections.synchronizedList(new ArrayList<>());
         zebranieMcy = Collections.synchronizedList(new ArrayList<>());
         listapit = Collections.synchronizedList(new ArrayList<>());
-        listawybranychudzialowcow = Collections.synchronizedList(new ArrayList<>());
+        listawybranychudzialowcow = new ArrayList<>();
         Ipolrocze = new WierszPkpir(13, wpisView.getRokWpisuSt(), "13", "I półrocze");
         IIpolrocze = new WierszPkpir(14, wpisView.getRokWpisuSt(), "14", "II półrocze");
         rok = new WierszPkpir(15, wpisView.getRokWpisuSt(), "15", "rok");
@@ -195,10 +194,7 @@ public class ZestawienieView implements Serializable {
             pobranecechypodatnik = cechazapisuDAOfk.findPodatnikOnlyAktywne(wpisView.getPodatnikObiekt());
             Podatnik pod = wpisView.getPodatnikObiekt();
             try {
-                List<PodatnikUdzialy> udzialy = podatnikUdzialyDAO.findUdzialyPodatnik(wpisView.getPodatnikObiekt());
-                for (PodatnikUdzialy p : udzialy) {
-                    listawybranychudzialowcow.add(p.getNazwiskoimie());
-                }
+                listawybranychudzialowcow = podatnikUdzialyDAO.findUdzialyPodatnik(wpisView.getPodatnikObiekt());
             } catch (Exception e) {
                 E.e(e);
                 Msg.msg("e", "Nie uzupełnione parametry podatnika", "formpit:messages");
@@ -521,19 +517,12 @@ public class ZestawienieView implements Serializable {
             }
             sprawdzczyzaksiegowanoamortyzacje();
             if (flaga == 0) {
-                List<PodatnikUdzialy> udzialy = podatnikUdzialyDAO.findUdzialyPodatnik(wpisView.getPodatnikObiekt());
-                for (PodatnikUdzialy p : udzialy) {
-                    if (p.getNazwiskoimie().equals(wybranyudzialowiec)) {
-                        wybranyprocent = p.getUdzial();
-                        break;
-                    }
-                }
                 biezacyPit.setPodatnik(wpisView.getPodatnikWpisu());
                 biezacyPit.setPodatnik1(wpisView.getPodatnikObiekt());
                 biezacyPit.setPkpirR(wpisView.getRokWpisu().toString());
                 biezacyPit.setPkpirM(wpisView.getMiesiacWpisu());
                 biezacyPit.setPrzychody(obliczprzychod());
-                double procent = Double.parseDouble(wybranyprocent) / 100;
+                double procent = Double.parseDouble(wybranyudzialowiec.getUdzial()) / 100;
                 biezacyPit.setPrzychodyudzial(biezacyPit.getPrzychody().multiply(new BigDecimal(procent)));
                 biezacyPit.setKoszty(obliczkoszt());
                 if (wpisView.getMiesiacWpisu().equals("12")) {
@@ -545,8 +534,8 @@ public class ZestawienieView implements Serializable {
                     biezacyPit.setKosztyudzial(biezacyPit.getKoszty().multiply(new BigDecimal(procent)));
                 }
                 biezacyPit.setWynik(biezacyPit.getPrzychodyudzial().subtract(biezacyPit.getKosztyudzial()));
-                biezacyPit.setUdzialowiec(wybranyudzialowiec);
-                biezacyPit.setUdzial(wybranyprocent);
+                biezacyPit.setUdzialowiec(wybranyudzialowiec.getNazwiskoimie());
+                biezacyPit.setUdzial(wybranyudzialowiec.getUdzial());
                 Podatnik selected = wpisView.getPodatnikObiekt();
                 Pitpoz sumapoprzednichmcy;
                 try {
@@ -581,7 +570,7 @@ public class ZestawienieView implements Serializable {
                     komunikatblad = "Brak wpisanych stawek ZUS-51,52 indywidualnych dla danego klienta. Jeżeli ZUS 51 nie ma być odliczany, sprawdź czy odpowiednia opcja jest wybrana w ustwieniach klienta";
                     Msg.msg("e", "Brak wpisanych stawek ZUS-51,52 indywidualnych dla danego klienta. Jeżeli ZUS 51 nie ma być odliczany, sprawdź czy odpowiednia opcja jest wybrana w ustwieniach klienta");
                     biezacyPit = new Pitpoz();
-                    wybranyudzialowiec = "wybierz osobe";
+                    wybranyudzialowiec = null;
                     pierwszypitwroku = false;
                     pierwszypitwrokuzaznacz = false;
                     PrimeFaces.current().ajax().update("formpit:");
@@ -593,7 +582,7 @@ public class ZestawienieView implements Serializable {
                 } catch (Exception e) {
                     E.e(e);
                     biezacyPit = new Pitpoz();
-                    wybranyudzialowiec = "wybierz osobe";
+                    wybranyudzialowiec = null;
                     pierwszypitwroku = false;
                     pierwszypitwrokuzaznacz = false;
                     komunikatblad = "Brak wprowadzonej skali opodatkowania dla wszystkich podatników na obecny rok. Przerywam wyliczanie PIT-u";
@@ -640,7 +629,7 @@ public class ZestawienieView implements Serializable {
                     komunikatblad = "Brak wprowadzonych terminów płatności podatków w danym okresie rozliczeniowym! Nie można przeliczyć PIT-u";
                     Msg.msg("e", "Brak wprowadzonego rodzaju opodatkowania dla danego podatnika!! Nie można przeliczyć PIT za: " + biezacyPit.getPkpirM());
                     biezacyPit = new Pitpoz();
-                    wybranyudzialowiec = "wybierz osobe";
+                    wybranyudzialowiec = null;
                     pierwszypitwroku = false;
                     pierwszypitwrokuzaznacz = false;
                     return;
@@ -692,7 +681,7 @@ public class ZestawienieView implements Serializable {
                     komunikatblad = "Brak wprowadzonych terminów płatności podatków w danym okresie rozliczeniowym! Nie można przeliczyć PIT-u";
                     Msg.msg("e", "Brak wprowadzonych terminów płatności podatków w danym okresie rozliczeniowym! Nie można przeliczyć PIT-u");
                     biezacyPit = new Pitpoz();
-                    wybranyudzialowiec = "wybierz osobe";
+                    wybranyudzialowiec = null;
                     pierwszypitwroku = false;
                     pierwszypitwrokuzaznacz = false;
                 }
@@ -946,7 +935,7 @@ public class ZestawienieView implements Serializable {
     }
 
     public void aktualizujPIT(AjaxBehaviorEvent e) {
-        wybranyudzialowiec = "wybierz osobe";
+        wybranyudzialowiec = null;
         PrimeFaces.current().ajax().update("formpit");
         aktualizuj();
         Msg.msg("i", "Zmieniono miesiąc obrachunkowy.");
@@ -967,7 +956,7 @@ public class ZestawienieView implements Serializable {
         //FacesContext.getCurrentInstance().getExternalContext().redirect(strona);
     }
 
-    public Pitpoz skumulujpity(String mcDo, String udzialowiec) {
+    public Pitpoz skumulujpity(String mcDo, PodatnikUdzialy udzialowiec) {
         Pitpoz tmp = new Pitpoz("zus");
         try {
             Collection c = pitDAO.findPitPod(wpisView.getRokWpisu().toString(), wpisView.getPodatnikWpisu(), wybranacechadok);
@@ -982,12 +971,12 @@ public class ZestawienieView implements Serializable {
             while (it.hasNext()) {
                 Pitpoz tmpX = (Pitpoz) it.next();
                 int miesiacPituPobranego = Integer.parseInt(tmpX.getPkpirM());
-                if (miesiacPituPobranego <= poprzednimc && tmpX.getUdzialowiec().equals(udzialowiec)) {
+                if (miesiacPituPobranego <= poprzednimc && tmpX.getUdzialowiec().equals(udzialowiec.getNazwiskoimie())) {
                     if (tmpX.getNaleznazal().signum() == 1) {
                         tmp.setNalzalodpoczrok(tmp.getNalzalodpoczrok().add(tmpX.getNaleznazal()));
                     }
                 }
-                if (tmpX.getPkpirM().equals(starymcS) && tmpX.getUdzialowiec().equals(udzialowiec)) {
+                if (tmpX.getPkpirM().equals(starymcS) && tmpX.getUdzialowiec().equals(udzialowiec.getNazwiskoimie())) {
                     if (tmpX.getZus51() != null) {
                         tmp.setZus51(tmp.getZus51().add(tmpX.getZus51()));
                     } else {
@@ -1308,29 +1297,23 @@ public class ZestawienieView implements Serializable {
         this.wrzesien = wrzesien;
     }
 
-    public String getWybranyudzialowiec() {
+    public PodatnikUdzialy getWybranyudzialowiec() {
         return wybranyudzialowiec;
     }
 
-    public void setWybranyudzialowiec(String wybranyudzialowiec) {
+    public void setWybranyudzialowiec(PodatnikUdzialy wybranyudzialowiec) {
         this.wybranyudzialowiec = wybranyudzialowiec;
     }
 
-    public String getWybranyprocent() {
-        return wybranyprocent;
-    }
 
-    public void setWybranyprocent(String wybranyprocent) {
-        this.wybranyprocent = wybranyprocent;
-    }
-
-    public List<String> getListawybranychudzialowcow() {
+    public List<PodatnikUdzialy> getListawybranychudzialowcow() {
         return listawybranychudzialowcow;
     }
 
-    public void setListawybranychudzialowcow(List<String> listawybranychudzialowcow) {
+    public void setListawybranychudzialowcow(List<PodatnikUdzialy> listawybranychudzialowcow) {
         this.listawybranychudzialowcow = listawybranychudzialowcow;
     }
+
 
     public boolean isZus51zreki() {
         return zus51zreki;
@@ -1373,7 +1356,7 @@ public class ZestawienieView implements Serializable {
                 int numermiesiaca = Mce.getMiesiacToNumber().get(wpisView.getMiesiacWpisu());
                 String numermiesiacaS = Mce.getNumberToMiesiac().get(numermiesiaca - 3);
                 try {
-                    Pitpoz poprzednipit = pitDAO.find(wpisView.getRokWpisuSt(), numermiesiacaS, wpisView.getPodatnikWpisu(), wybranyudzialowiec, wybranacechadok);
+                    Pitpoz poprzednipit = pitDAO.find(wpisView.getRokWpisuSt(), numermiesiacaS, wpisView.getPodatnikWpisu(), wybranyudzialowiec.getNazwiskoimie(), wybranacechadok);
                     if (poprzednipit == null) {
                         throw new Exception();
                     }
@@ -1388,7 +1371,7 @@ public class ZestawienieView implements Serializable {
         } else {
             if (!wpisView.getMiesiacWpisu().equals("01") || wybranyudzialowiec.equals("wybierz osobe")) {
                 try {
-                    Pitpoz poprzednipit = pitDAO.find(wpisView.getRokWpisuSt(), wpisView.getMiesiacUprzedni(), wpisView.getPodatnikWpisu(), wybranyudzialowiec, wybranacechadok);
+                    Pitpoz poprzednipit = pitDAO.find(wpisView.getRokWpisuSt(), wpisView.getMiesiacUprzedni(), wpisView.getPodatnikWpisu(), wybranyudzialowiec.getNazwiskoimie(), wybranacechadok);
                 } catch (Exception e) {
                     E.e(e);
                     Msg.msg("w", "Brak PIT-u w miesiącu poprzednim. Nie można wyliczyć bieżącego miesiąca");
