@@ -122,7 +122,7 @@
                             <p:splitButton value="zachowaj pit"  action="#{zestawienieView.zachowajPit()}" update="akordeon:formpit akordeon:formpi:tablicapita" type="submit">
                                 <p:menuitem global="false" value="dodatkowy-13" actionListener="#{zestawienieView.zachowajPit13()}" icon="ui-icon-arrowrefresh-1-w"/>  
                             </p:splitButton>
-                            <p:commandButton value="wyślij"  action="#{zestawienieView.wyslijPit()}" type="submit" style="width: 140px" styleClass="klik"/>
+                            <p:commandButton value="wyślij"  action="#{zestawienieView.wyslijPit()}" type="submit" style="width: 140px"/>
                         </p:panelGrid>
                     </p:panelGrid>
 <!--                    <p:panelGrid  columns="1" >
@@ -301,7 +301,7 @@
                             <p:splitButton value="zachowaj pit"  action="#{zestawienieRyczaltView.zachowajPit()}" update="@form, akordeon:formpi1:tablicapita1" type="submit" >
                                 <p:menuitem global="false" value="dodatkowy-13" actionListener="#{zestawienieRyczaltView.zachowajPit13()}" icon="ui-icon-arrowrefresh-1-w"/>  
                             </p:splitButton>
-                            <p:commandButton value="wyślij"  action="#{zestawienieRyczaltView.wyslijPit()}" type="submit" style="width: 140px" styleClass="klik" rendered="#{zamkniecieView.sprawdzMiesiacRok()}"/>
+                            <p:commandButton value="wyślij"  action="#{zestawienieRyczaltView.wyslijPit()}" type="submit" style="width: 140px" rendered="#{zamkniecieView.sprawdzMiesiacRok()}"/>
                         </p:panelGrid>
                     </p:panelGrid>
 <!--                    <p:panelGrid  columns="1" >

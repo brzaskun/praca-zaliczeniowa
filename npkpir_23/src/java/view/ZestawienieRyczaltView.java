@@ -49,6 +49,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import mail.MaiManager;
+import mail.Mail;
 import msg.Msg;
 import org.primefaces.PrimeFaces;
 import pdf.PdfPIT28;
@@ -310,6 +311,7 @@ public class ZestawienieRyczaltView implements Serializable {
                 List<Faktura> czywystawionofakture = fakturaDAO.findbyKontrahentNipRokMc(wpisView.getPodatnikObiekt().getNip(), taxman, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
                 if (czywystawionofakture==null||czywystawionofakture.isEmpty()) {
                     Msg.msg("e","Nie wystawiono faktury dla firmy. Nie można zakończyć miesiąca");
+                    Mail.wykrytobrakfaktury("info@taxman.biz.pl", wpisView.getPrintNazwa(), null, sMTPSettingsDAO.findSprawaByDef());
                     //return;
                 }
             }

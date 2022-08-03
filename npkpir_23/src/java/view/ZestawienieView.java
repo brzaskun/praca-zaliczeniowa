@@ -56,6 +56,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import mail.MaiManager;
+import mail.Mail;
 import msg.Msg;
 import org.apache.commons.collections4.CollectionUtils;
 import org.primefaces.PrimeFaces;
@@ -500,6 +501,7 @@ public class ZestawienieView implements Serializable {
             List<Faktura> czywystawionofakture = fakturaDAO.findbyKontrahentNipRokMc(wpisView.getPodatnikObiekt().getNip(), taxman, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
             if (czywystawionofakture==null||czywystawionofakture.isEmpty()) {
                 Msg.msg("e","Nie wystawiono faktury dla firmy. Nie można zakończyć miesiąca");
+                Mail.wykrytobrakfaktury("info@taxman.biz.pl", wpisView.getPrintNazwa(), null, sMTPSettingsDAO.findSprawaByDef());
                 //return;
             }
         }
@@ -613,16 +615,16 @@ public class ZestawienieView implements Serializable {
                             podatek = (dochód.multiply(BigDecimal.valueOf(stawka)));
                             podatek = podatek.setScale(0, RoundingMode.HALF_EVEN);
                             break;
-                        case "ryczałt":
-                            stawka = skalaPodatkowaZaDanyRok.getStawkaryczalt1();
-                            podatek = (przychody.multiply(BigDecimal.valueOf(stawka)));
-                            podatek = podatek.setScale(0, RoundingMode.HALF_EVEN);
-                            break;
-                        case "ryczałt bez VAT":
-                            stawka = skalaPodatkowaZaDanyRok.getStawkaryczalt1();
-                            podatek = (przychody.multiply(BigDecimal.valueOf(stawka)));
-                            podatek = podatek.setScale(0, RoundingMode.HALF_EVEN);
-                            break;
+//                        case "ryczałt":
+//                            stawka = skalaPodatkowaZaDanyRok.getStawkaryczalt1();
+//                            podatek = (przychody.multiply(BigDecimal.valueOf(stawka)));
+//                            podatek = podatek.setScale(0, RoundingMode.HALF_EVEN);
+//                            break;
+//                        case "ryczałt bez VAT":
+//                            stawka = skalaPodatkowaZaDanyRok.getStawkaryczalt1();
+//                            podatek = (przychody.multiply(BigDecimal.valueOf(stawka)));
+//                            podatek = podatek.setScale(0, RoundingMode.HALF_EVEN);
+//                            break;
                     }
                 } catch (Exception e) {
                     E.e(e);
@@ -757,7 +759,7 @@ public class ZestawienieView implements Serializable {
         Dok dokumentamo = null;
         try {
             amortyzacjawmiesiacu = amoDokDAO.findMR(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
-            if (amortyzacjawmiesiacu.getUmorzenia().isEmpty()) {
+            if (amortyzacjawmiesiacu!=null&&amortyzacjawmiesiacu.getUmorzenia().isEmpty()) {
                 amortyzacjawmiesiacu = null;
             }
         } catch (Exception e) {

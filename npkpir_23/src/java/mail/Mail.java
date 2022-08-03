@@ -198,6 +198,25 @@ public class Mail {
             throw new RuntimeException(e);
         }
     }
+    
+     public static void wykrytobrakfaktury(String adres, String firma, SMTPSettings settings, SMTPSettings ogolne) {
+        try {
+            MimeMessage message = new MimeMessage(MailSetUp.otworzsesje(settings, ogolne));
+            message.setFrom(new InternetAddress(SMTPBean.adresFrom(settings, ogolne), SMTPBean.nazwaFirmyFrom(settings, ogolne)));
+            message.setRecipients(Message.RecipientType.TO,
+                    InternetAddress.parse(adres));
+            message.setSubject("Uwaga wykryto podatnika bez faktury");
+            message.setContent("Szanowny Szefie,"
+                    + "<p>włąśnie ktoś zamyka firmę: </p>"
+                    + "<span style=\"color: green;\">"+firma+"</span>"
+                    + "<p>pomimo braku wystawionej w tym miesiącu faktury."
+                    + stopka,  "text/html; charset=utf-8");
+            Transport.send(message);
+            message.setHeader("Content-Type", "text/html; charset=utf-8");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
       
        public static void resetowaniehasla(String adres, String login, SMTPSettings settings, SMTPSettings ogolne) {
         try {
