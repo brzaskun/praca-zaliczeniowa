@@ -39,7 +39,7 @@ import waluty.Z;
  */
 @Named
 @ViewScoped
-public class ZUSMailView implements Serializable {
+public class ZusMailNView implements Serializable {
     private static final long serialVersionUID = 1L;
     
     private String rok;
@@ -58,8 +58,9 @@ public class ZUSMailView implements Serializable {
     private SMTPSettingsDAO sMTPSettingsDAO;
     @Inject
     private WpisView wpisView;
+    private boolean dosusniecia;
 
-    public ZUSMailView() {
+    public ZusMailNView() {
         wykazprzygotowanychmaili = Collections.synchronizedList(new ArrayList<>());
         stawkipodatnicy = new ConcurrentHashMap<>();
         wybranemaile = Collections.synchronizedList(new ArrayList<>());
@@ -89,6 +90,7 @@ public class ZUSMailView implements Serializable {
                     for (Zusstawkinew r : zusstawki) {
                         if (r.getRok().equals(rok) && r.getMiesiac().equals(mc)){
                             stawkipodatnicy.put(p, r);
+                            break;
                         }
                     }
                 }
@@ -144,7 +146,7 @@ public class ZUSMailView implements Serializable {
                     zus52 = zusmail.getZus52() != null ? zusmail.getZus52() : 0;
                     zus53 = zusmail.getZus53() != null ? zusmail.getZus53() : 0;
                     pit4 = zusmail.getPit4()!= null ? zusmail.getPit4(): 0;
-                    pit8 = zusmail.getPit8()!= null ? zusmail.getPit8(): 0;
+                    pit8 = zusmail.getPit8()!= null ? zusmail.getPit8(): 0;//kom
                     zusmail.setTytul(String.format("Taxman - zestawienie kwot ZUS/PIT4 za %s/%s", rok, mc));
                     double sumazus = Z.z(zus51+zus52+zus53);
                     zusmail.setTresc(String.format(new Locale("pl"),trescmaila, p.getPrintnazwa(), p.getNip(),rok, mc, zus51, zus52, zus53, sumazus, pit4, pit8));
@@ -230,7 +232,7 @@ public class ZUSMailView implements Serializable {
     
     public void wyslijMailZUS(Zusmail zusmail) {
         try {
-            MaiManager.mailManagerZUS(zusmail.getAdresmail(), zusmail.getTytul(), zusmail.getTresc(), wpisView.getUzer().getEmail(), null, sMTPSettingsDAO.findSprawaByDef());
+            MaiManager.mailManagerZUSPIT(zusmail.getAdresmail(), zusmail.getTytul(), zusmail.getTresc(), wpisView.getUzer().getEmail(), null, sMTPSettingsDAO.findSprawaByDef());
             usuzpelnijdane(zusmail);
             Msg.msg("i", "Wyslano wiadomość");
         } catch (Exception e) {
@@ -240,7 +242,7 @@ public class ZUSMailView implements Serializable {
     
      public void wyslijMailZUSSilent(Zusmail zusmail) {
         try {
-            MaiManager.mailManagerZUS(zusmail.getAdresmail(), zusmail.getTytul(), zusmail.getTresc(), wpisView.getUzer().getEmail(), null, sMTPSettingsDAO.findSprawaByDef());
+            MaiManager.mailManagerZUSPIT(zusmail.getAdresmail(), zusmail.getTytul(), zusmail.getTresc(), wpisView.getUzer().getEmail(), null, sMTPSettingsDAO.findSprawaByDef());
             usuzpelnijdane(zusmail);
         } catch (Exception e) {
             Msg.msg("e", "Blad nie wyslano wiadomosci! " + e.toString());

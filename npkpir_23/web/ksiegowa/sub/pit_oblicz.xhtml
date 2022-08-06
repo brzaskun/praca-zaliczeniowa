@@ -128,7 +128,7 @@
 <!--                    <p:panelGrid  columns="1" >
                         <p:dataTable value="#{podatnikView.selected.zusstawkinowe}"  var="loop" 
                                      rows="12" id="datatable" style="width: 400px;"
-                                     sortFunction="#{zusStawkiZbiorczeView.sortujZUSstawkinew}"  sortBy="#{loop}" sortOrder="descending" 
+                                     sortFunction="#{zusStawkiZbiorczeNView.sortujZUSstawkinew}"  sortBy="#{loop}" sortOrder="descending" 
                                      rowIndexVar="row" rowStyleClass="#{(row mod 2) eq 0 ? null : 'odd'}" >
                             <f:facet name="header">
                                 <h:outputText value="Stawki ZUS w bieżącym roku"/>
@@ -307,7 +307,7 @@
 <!--                    <p:panelGrid  columns="1" >
                         <p:dataTable value="#{podatnikView.selected.zusstawkinowe}"  var="loop" 
                                      rows="12" id="datatable" style="width: 400px;"
-                                     sortFunction="#{zusStawkiZbiorczeView.sortujZUSstawkinew}"  sortBy="#{loop}" sortOrder="descending" 
+                                     sortFunction="#{zusStawkiZbiorczeNView.sortujZUSstawkinew}"  sortBy="#{loop}" sortOrder="descending" 
                                      rowIndexVar="row" rowStyleClass="#{(row mod 2) eq 0 ? null : 'odd'}" >
                             <f:facet name="header">
                                 <h:outputText value="Stawki ZUS w bieżącym roku"/>
