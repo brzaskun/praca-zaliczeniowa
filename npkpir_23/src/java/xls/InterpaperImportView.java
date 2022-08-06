@@ -628,7 +628,7 @@ public class InterpaperImportView implements Serializable {
             } else {
                 if (this.rodzajdok.equals("zakup")) {
                     rodzajdk = "ZZ";
-                    if (interpaperXLS.getVatPLN()!=0.0 && !interpaperXLS.getKlientpaństwo().equals("Polska")) {
+                    if (interpaperXLS.getVatPLN()!=0.0 && interpaperXLS.getKlientpaństwo()!=null && !interpaperXLS.getKlientpaństwo().equals("Polska")) {
                         rodzajdk = "RACH";
                     }
                 } else if (this.rodzajdok.equals("WNT")) {
