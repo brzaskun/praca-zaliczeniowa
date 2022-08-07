@@ -23,6 +23,11 @@
         </exception-handler-factory>
     </factory>-->
     <navigation-rule>
+         <navigation-case>
+            <from-outcome>kadrowa</from-outcome>
+            <to-view-id>/kadrowa/index.xhtml</to-view-id>
+            <redirect></redirect>
+        </navigation-case>
         <navigation-case>
             <from-outcome>Dedra</from-outcome>
             <to-view-id>/dedra/dedraIndex.xhtml</to-view-id>

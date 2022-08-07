@@ -125,6 +125,9 @@
         <role-name>Manager</role-name>
     </security-role>
     <security-role>
+        <role-name>HumanResources</role-name>
+    </security-role>
+    <security-role>
         <role-name>Bookkeeper</role-name>
     </security-role>
     <security-role>
@@ -175,6 +178,15 @@
         </web-resource-collection>
         <auth-constraint>
             <role-name>Administrator</role-name>
+        </auth-constraint>
+    </security-constraint>
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>HR Area</web-resource-name>
+            <url-pattern>/kadrowa/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>HumanResources</role-name>
         </auth-constraint>
     </security-constraint>
     <security-constraint>

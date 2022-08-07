@@ -95,7 +95,9 @@ public class Logowanie implements Serializable {
                     navto = "Administrator";
                 } else if (request.isUserInRole("Manager")) {
                     navto = "Manager";
-                } else if (request.isUserInRole("ZUS")) {
+                } else if (request.isUserInRole("HumanResources")) {
+                    navto = "kadry";
+                }else if (request.isUserInRole("ZUS")) {
                     navto = "ZUS";
                 } else if (request.isUserInRole("Bookkeeper")) {
                     navto = "Bookkeeper";

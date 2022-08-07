@@ -6,6 +6,11 @@
     <principal-name>Administrator</principal-name>
     <group-name>Administrator</group-name>
   </security-role-mapping>
+   <security-role-mapping>
+    <role-name>HumanResources</role-name>
+    <principal-name>HumanResources</principal-name>
+    <group-name>HumanResources</group-name>
+  </security-role-mapping>
   <security-role-mapping>
     <role-name>Manager</role-name>
     <principal-name>Manager</principal-name>
