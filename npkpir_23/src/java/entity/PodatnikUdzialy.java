@@ -133,6 +133,15 @@ public class PodatnikUdzialy implements Serializable{
     }
 
     
+    public String getGlownaDzialalnosc() {
+        String zwrot = "Brak podmiotu";
+        if (this.podmiot!=null&&this.podmiot.getPodatnikudzialy()!=null) {
+            PodatnikUdzialy get = this.podmiot.getPodatnikudzialy().stream().filter(p->p.pit).findFirst().get();
+            zwrot = get.podatnikObj.getPrintnazwa();
+        }
+        return zwrot;
+    }
+    
     
     public String getMcOd() {
         return mcOd;

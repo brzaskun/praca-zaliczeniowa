@@ -157,7 +157,7 @@ public class ZestawienieRyczaltView implements Serializable {
             zebranieMcy = Collections.synchronizedList(new ArrayList<>());
             listapit = Collections.synchronizedList(new ArrayList<>());
             listawybranychudzialowcow = Collections.synchronizedList(new ArrayList<>());
-            Podatnik pod = podatnikDAO.findByNazwaPelna(wpisView.getPodatnikWpisu());
+            Podatnik pod = wpisView.getPodatnikObiekt();
             List<PodatnikUdzialy> udzialy = podatnikUdzialyDAO.findUdzialyPodatnik(wpisView.getPodatnikObiekt());
             try {
                 for (PodatnikUdzialy p : udzialy) {
@@ -168,8 +168,43 @@ public class ZestawienieRyczaltView implements Serializable {
                 E.e(e);
                 Msg.msg("e", "Nie uzupełniony wykaz udziałów", "formpit:messages");
             }
-            try {
-                lista = KsiegaBean.pobierzdokumentyRok(dokDAO, pod, wpisView.getRokWpisu(), wpisView.getMiesiacWpisu(), wpisView.getOdjakiegomcdok());
+        sumowaniemiesiecy();
+        wstyczen = new ArrayList<>();
+        wluty = new ArrayList<>();
+        wmarzec = new ArrayList<>();
+        wkwiecien = new ArrayList<>();
+        wmaj = new ArrayList<>();
+        wczerwiec = new ArrayList<>();
+        wlipiec = new ArrayList<>();
+        wsierpien = new ArrayList<>();
+        wwrzesien = new ArrayList<>();
+        wpazdziernik = new ArrayList<>();
+        wlistopad = new ArrayList<>();
+        wgrudzien = new ArrayList<>();
+        wIpolrocze = new ArrayList<>();
+        wIIpolrocze = new ArrayList<>();
+        wrok = new ArrayList<>();
+        naniesnaliste(wstyczen, zebranieMcy.get(0));
+        naniesnaliste(wluty, zebranieMcy.get(1));
+        naniesnaliste(wmarzec, zebranieMcy.get(2));
+        naniesnaliste(wkwiecien, zebranieMcy.get(3));
+        naniesnaliste(wmaj, zebranieMcy.get(4));
+        naniesnaliste(wczerwiec, zebranieMcy.get(5));
+        naniesnaliste(wlipiec, zebranieMcy.get(6));
+        naniesnaliste(wsierpien, zebranieMcy.get(7));
+        naniesnaliste(wwrzesien, zebranieMcy.get(8));
+        naniesnaliste(wpazdziernik, zebranieMcy.get(9));
+        naniesnaliste(wlistopad, zebranieMcy.get(10));
+        naniesnaliste(wgrudzien, zebranieMcy.get(11));
+        naniesnaliste(wIpolrocze, Ipolrocze);
+        naniesnaliste(wIIpolrocze, IIpolrocze);
+        naniesnaliste(wrok, rok);
+        }
+    }
+   
+    private void sumowaniemiesiecy() {
+        try {
+                lista = KsiegaBean.pobierzdokumentyRok(dokDAO, wpisView.getPodatnikObiekt(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu(), wpisView.getOdjakiegomcdok());
             } catch (Exception e) {
                 E.e(e);
             }
@@ -254,39 +289,8 @@ public class ZestawienieRyczaltView implements Serializable {
                     rok.dodaj(p);
                 }
             }
-        wstyczen = new ArrayList<>();
-        wluty = new ArrayList<>();
-        wmarzec = new ArrayList<>();
-        wkwiecien = new ArrayList<>();
-        wmaj = new ArrayList<>();
-        wczerwiec = new ArrayList<>();
-        wlipiec = new ArrayList<>();
-        wsierpien = new ArrayList<>();
-        wwrzesien = new ArrayList<>();
-        wpazdziernik = new ArrayList<>();
-        wlistopad = new ArrayList<>();
-        wgrudzien = new ArrayList<>();
-        wIpolrocze = new ArrayList<>();
-        wIIpolrocze = new ArrayList<>();
-        wrok = new ArrayList<>();
-        naniesnaliste(wstyczen, zebranieMcy.get(0));
-        naniesnaliste(wluty, zebranieMcy.get(1));
-        naniesnaliste(wmarzec, zebranieMcy.get(2));
-        naniesnaliste(wkwiecien, zebranieMcy.get(3));
-        naniesnaliste(wmaj, zebranieMcy.get(4));
-        naniesnaliste(wczerwiec, zebranieMcy.get(5));
-        naniesnaliste(wlipiec, zebranieMcy.get(6));
-        naniesnaliste(wsierpien, zebranieMcy.get(7));
-        naniesnaliste(wwrzesien, zebranieMcy.get(8));
-        naniesnaliste(wpazdziernik, zebranieMcy.get(9));
-        naniesnaliste(wlistopad, zebranieMcy.get(10));
-        naniesnaliste(wgrudzien, zebranieMcy.get(11));
-        naniesnaliste(wIpolrocze, Ipolrocze);
-        naniesnaliste(wIIpolrocze, IIpolrocze);
-        naniesnaliste(wrok, rok);
-        }
     }
-   
+    
     private void naniesnaliste(List<Double> wstyczen, WierszRyczalt get) {
         wstyczen.add(get.getKolumna_17i0());
         wstyczen.add(get.getKolumna_15i0());
@@ -303,6 +307,8 @@ public class ZestawienieRyczaltView implements Serializable {
     
     //oblicze pit ryczałtowca  i wkleja go do biezacego Pitu w celu wyswietlenia, nie zapisuje
     public void obliczPit() {
+        //bo inaczej nie przelicza pozniejszych miesiecy nie ma pobranych danych 
+        sumowaniemiesiecy();
         if (!wybranyudzialowiec.equals("wybierz osobe")) {
             HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
             Principal principal = request.getUserPrincipal();
@@ -325,6 +331,7 @@ public class ZestawienieRyczaltView implements Serializable {
                 }
                 biezacyPit.setPodatnik(wpisView.getPodatnikWpisu());
                 biezacyPit.setPodatnik1(wpisView.getPodatnikObiekt());
+                //biezacyPit.setPodmiot(wybranyudzialowiec.getPodmiot());
                 biezacyPit.setPkpirR(wpisView.getRokWpisu().toString());
                 biezacyPit.setPkpirM(wpisView.getMiesiacWpisu());
                 obliczprzychod();

@@ -5,9 +5,11 @@
 package dao;
 
 import entity.Pitpoz;
+import entity.Podmiot;
 import entityfk.Cechazapisu;
 import error.E;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.annotation.PreDestroy;
@@ -91,6 +93,14 @@ public class PitDAO extends DAO implements Serializable {
             tmp = getEntityManager().createQuery("SELECT p FROM Pitpoz p WHERE p.pkpirR = :pkpirR AND p.podatnik = :podatnik AND p.cechazapisu = :cecha").setParameter("pkpirR", rok).setParameter("podatnik", pod).setParameter("cecha", wybranacechadok).getResultList();
         }
         return Collections.synchronizedList(tmp);
+    }
+
+    public List<Pitpoz> findByPodmiotRok(Podmiot podmiot, String rokWpisuSt) {
+        List<Pitpoz> zwrot = new ArrayList<>();
+        try {
+            zwrot = getEntityManager().createQuery("SELECT p FROM Pitpoz p WHERE p.pkpirR = :pkpirR AND p.podmiot = :podmiot").setParameter("pkpirR", rokWpisuSt).setParameter("podmiot", podmiot).getResultList();
+        } catch (Exception e) {}
+        return zwrot;
     }
 
 }

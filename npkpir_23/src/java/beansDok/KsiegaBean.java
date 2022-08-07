@@ -69,7 +69,7 @@ public class KsiegaBean {
     }
     
     public static List<Dok> pobierzdokumentyRok(DokDAO dokDAO, Podatnik podatnik, Integer rok, String mcdo, String mcod) {
-        List<Dok> dokumentyZaRok = null;
+        List<Dok> dokumentyZaRok = new ArrayList();
         try {
             dokumentyZaRok = dokDAO.zwrocBiezacegoKlientaRokOdMcaDoMca(podatnik, rok.toString(), mcdo, mcod);
             Collections.sort(dokumentyZaRok, new Dokcomparator());

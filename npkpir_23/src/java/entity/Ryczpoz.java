@@ -109,6 +109,9 @@ public class Ryczpoz implements Serializable {
     @JoinColumn(name = "podid", referencedColumnName = "id")
     @ManyToOne
     private Podatnik podatnik1;
+    @JoinColumn(name = "podmiot", referencedColumnName = "id")
+    @ManyToOne
+    private Podmiot podmiot;
 
     public Ryczpoz() {
     }

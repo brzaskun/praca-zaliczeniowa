@@ -54,7 +54,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.ws.Holder;
 import javax.xml.ws.WebServiceRef;
-import jpkview.Jpk_VAT2View;
+import jpkview.JPK_VAT2View;
 import msg.Msg;
 import org.primefaces.PrimeFaces;
 import org.w3c.dom.Document;
@@ -72,7 +72,7 @@ import view.DeklaracjevatView;
 public class beanek  implements Serializable {
     
     @Inject
-    private Jpk_VAT2View jPK_VAT2View;
+    private JPK_VAT2View jPK_VAT2View;
     
     private static final long serialVersionUID = 1L;
 
@@ -846,13 +846,14 @@ public class beanek  implements Serializable {
         this.statMBT = statMBT;
     }
 
-    public Jpk_VAT2View getjPK_VAT2View() {
+    public JPK_VAT2View getjPK_VAT2View() {
         return jPK_VAT2View;
     }
 
-    public void setjPK_VAT2View(Jpk_VAT2View jPK_VAT2View) {
+    public void setjPK_VAT2View(JPK_VAT2View jPK_VAT2View) {
         this.jPK_VAT2View = jPK_VAT2View;
     }
+
 
     public String getOpisMBT() {
         return opisMBT;

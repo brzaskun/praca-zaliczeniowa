@@ -23,6 +23,7 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import waluty.Z;
 
 /**
  *
@@ -117,8 +118,10 @@ public class Pitpoz implements Serializable {
     @OneToOne
     private Cechazapisu cechazapisu;
     @JoinColumn(name = "podid", referencedColumnName = "id")
-    @ManyToOne
     private Podatnik podatnik1;
+    @JoinColumn(name = "podmiot", referencedColumnName = "id")
+    @ManyToOne
+    private Podmiot podmiot;
   
 
     public Pitpoz() {
@@ -273,6 +276,14 @@ public class Pitpoz implements Serializable {
     public void setWynik(BigDecimal wynik) {
         this.wynik = wynik;
     }
+    
+     public double getWynikNarastajaco() {
+        double przychody = this.przychody!=null?this.przychody.doubleValue():0.0;
+        double koszty = this.koszty!=null?this.koszty.doubleValue():0.0;
+        return Z.z(przychody-koszty);
+    }
+
+    
 
     public String getTerminwplaty() {
         return terminwplaty;
@@ -344,6 +355,14 @@ public class Pitpoz implements Serializable {
 
     public void setPodatnik1(Podatnik podatnik1) {
         this.podatnik1 = podatnik1;
+    }
+
+    public Podmiot getPodmiot() {
+        return podmiot;
+    }
+
+    public void setPodmiot(Podmiot podmiot) {
+        this.podmiot = podmiot;
     }
 
     

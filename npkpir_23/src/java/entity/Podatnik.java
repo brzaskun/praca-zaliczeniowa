@@ -307,6 +307,8 @@ public class Podatnik implements Serializable {
     @Column(name = "gussymbol")
     private String gussymbol;
     
+    
+    
     @Transient
     private double cena;
 
@@ -1024,13 +1026,7 @@ public class Podatnik implements Serializable {
         this.gussymbol = gussymbol;
     }
 
-    
-    
-    
-    //</editor-fold>
-   
-    
-   
+
     @Override
     public int hashCode() {
         int hash = 0;

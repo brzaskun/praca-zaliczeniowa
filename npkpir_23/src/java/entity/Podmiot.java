@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -94,6 +95,10 @@ public class Podmiot implements Serializable {
     private String krajrezydencji;
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "podmiot")
     private List<PodatnikUdzialy> podatnikudzialy;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "podmiot", cascade = CascadeType.ALL,  orphanRemoval=true)
+    private List<Pitpoz> pitpozlista;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "podmiot", cascade = CascadeType.ALL,  orphanRemoval=true)
+    private List<Ryczpoz> ryczpozlista;
 
     public Podmiot() {
     }

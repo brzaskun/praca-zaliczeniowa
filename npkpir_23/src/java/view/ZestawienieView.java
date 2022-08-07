@@ -48,6 +48,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
@@ -159,6 +160,7 @@ public class ZestawienieView implements Serializable {
     private Podatnik taxman;
     @Inject
     private SMTPSettingsDAO sMTPSettingsDAO;
+    private List<Pitpoz> pitydlapita;
 
     private int flaga = 0;
 
@@ -171,7 +173,6 @@ public class ZestawienieView implements Serializable {
 
     @PostConstruct
     public void init() { //E.m(this);
-        taxman = podatnikDAO.findPodatnikByNIP("8511005008");
         styczen = new WierszPkpir(1, wpisView.getRokWpisuSt(), "01", "styczeń");
         luty = new WierszPkpir(2, wpisView.getRokWpisuSt(), "02", "luty");
         marzec = new WierszPkpir(3, wpisView.getRokWpisuSt(), "03", "marzec");
@@ -184,13 +185,15 @@ public class ZestawienieView implements Serializable {
         pazdziernik = new WierszPkpir(10, wpisView.getRokWpisuSt(), "10", "październik");
         listopad = new WierszPkpir(11, wpisView.getRokWpisuSt(), "11", "listopad");
         grudzien = new WierszPkpir(12, wpisView.getRokWpisuSt(), "12", "grudzień");
+        Ipolrocze = new WierszPkpir(13, wpisView.getRokWpisuSt(), "13", "I półrocze");
+        IIpolrocze = new WierszPkpir(14, wpisView.getRokWpisuSt(), "14", "II półrocze");
+        rok = new WierszPkpir(15, wpisView.getRokWpisuSt(), "15", "rok");
+        pitydlapita = new ArrayList<>();
+        taxman = podatnikDAO.findPodatnikByNIP("8511005008");
         pobierzPity = Collections.synchronizedList(new ArrayList<>());
         zebranieMcy = Collections.synchronizedList(new ArrayList<>());
         listapit = Collections.synchronizedList(new ArrayList<>());
         listawybranychudzialowcow = new ArrayList<>();
-        Ipolrocze = new WierszPkpir(13, wpisView.getRokWpisuSt(), "13", "I półrocze");
-        IIpolrocze = new WierszPkpir(14, wpisView.getRokWpisuSt(), "14", "II półrocze");
-        rok = new WierszPkpir(15, wpisView.getRokWpisuSt(), "15", "rok");
         if (wpisView.getPodatnikObiekt() != null && wpisView.isKsiegaryczalt()) {
             pobranecechypodatnik = cechazapisuDAOfk.findPodatnikOnlyAktywne(wpisView.getPodatnikObiekt());
             Podatnik pod = wpisView.getPodatnikObiekt();
@@ -200,8 +203,65 @@ public class ZestawienieView implements Serializable {
                 E.e(e);
                 Msg.msg("e", "Nie uzupełnione parametry podatnika", "formpit:messages");
             }
-            try {
-                lista = KsiegaBean.pobierzdokumentyRok(dokDAO, pod, wpisView.getRokWpisu(), wpisView.getMiesiacWpisu(), wpisView.getOdjakiegomcdok());
+            sumowaniemiesiecy();
+
+        }
+        if (listawybranychudzialowcow.size() == 1 && CollectionUtils.isNotEmpty(lista)) {
+            wybranyudzialowiec = listawybranychudzialowcow.get(0);
+            obliczPit();
+        }
+        createLinearModel();
+        wstyczen = new ArrayList<>();
+        wluty = new ArrayList<>();
+        wmarzec = new ArrayList<>();
+        wkwiecien = new ArrayList<>();
+        wmaj = new ArrayList<>();
+        wczerwiec = new ArrayList<>();
+        wlipiec = new ArrayList<>();
+        wsierpien = new ArrayList<>();
+        wwrzesien = new ArrayList<>();
+        wpazdziernik = new ArrayList<>();
+        wlistopad = new ArrayList<>();
+        wgrudzien = new ArrayList<>();
+        wIpolrocze = new ArrayList<>();
+        wIIpolrocze = new ArrayList<>();
+        wrok = new ArrayList<>();
+        naniesnaliste(wstyczen, zebranieMcy.get(0));
+        naniesnaliste(wluty, zebranieMcy.get(1));
+        naniesnaliste(wmarzec, zebranieMcy.get(2));
+        naniesnaliste(wkwiecien, zebranieMcy.get(3));
+        naniesnaliste(wmaj, zebranieMcy.get(4));
+        naniesnaliste(wczerwiec, zebranieMcy.get(5));
+        naniesnaliste(wlipiec, zebranieMcy.get(6));
+        naniesnaliste(wsierpien, zebranieMcy.get(7));
+        naniesnaliste(wwrzesien, zebranieMcy.get(8));
+        naniesnaliste(wpazdziernik, zebranieMcy.get(9));
+        naniesnaliste(wlistopad, zebranieMcy.get(10));
+        naniesnaliste(wgrudzien, zebranieMcy.get(11));
+        naniesnaliste(wIpolrocze, Ipolrocze);
+        naniesnaliste(wIIpolrocze, IIpolrocze);
+        naniesnaliste(wrok, rok);
+    }
+    
+    private void sumowaniemiesiecy() {
+        try {
+            styczen = new WierszPkpir(1, wpisView.getRokWpisuSt(), "01", "styczeń");
+            luty = new WierszPkpir(2, wpisView.getRokWpisuSt(), "02", "luty");
+            marzec = new WierszPkpir(3, wpisView.getRokWpisuSt(), "03", "marzec");
+            kwiecien = new WierszPkpir(4, wpisView.getRokWpisuSt(), "04", "kwiecień");
+            maj = new WierszPkpir(5, wpisView.getRokWpisuSt(), "05", "maj");
+            czerwiec = new WierszPkpir(6, wpisView.getRokWpisuSt(), "06", "czerwiec");
+            lipiec = new WierszPkpir(7, wpisView.getRokWpisuSt(), "07", "lipiec");
+            sierpien = new WierszPkpir(8, wpisView.getRokWpisuSt(), "08", "sierpień");
+            wrzesien = new WierszPkpir(9, wpisView.getRokWpisuSt(), "09", "wrzesień");
+            pazdziernik = new WierszPkpir(10, wpisView.getRokWpisuSt(), "10", "październik");
+            listopad = new WierszPkpir(11, wpisView.getRokWpisuSt(), "11", "listopad");
+            grudzien = new WierszPkpir(12, wpisView.getRokWpisuSt(), "12", "grudzień");
+            Ipolrocze = new WierszPkpir(13, wpisView.getRokWpisuSt(), "13", "I półrocze");  
+            IIpolrocze = new WierszPkpir(14, wpisView.getRokWpisuSt(), "14", "II półrocze");
+            rok = new WierszPkpir(15, wpisView.getRokWpisuSt(), "15", "rok");
+            zebranieMcy = Collections.synchronizedList(new ArrayList<>());
+                lista = KsiegaBean.pobierzdokumentyRok(dokDAO, wpisView.getPodatnikObiekt(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu(), wpisView.getOdjakiegomcdok());
                 if (wybranacechadok != null) {
                     for (Iterator<Dok> it = lista.iterator(); it.hasNext();) {
                         Dok p = it.next();
@@ -293,43 +353,6 @@ public class ZestawienieView implements Serializable {
                     rok.dodaj(p);
                 }
             }
-
-        }
-        if (listawybranychudzialowcow.size() == 1 && CollectionUtils.isNotEmpty(lista)) {
-            wybranyudzialowiec = listawybranychudzialowcow.get(0);
-            obliczPit();
-        }
-        createLinearModel();
-        wstyczen = new ArrayList<>();
-        wluty = new ArrayList<>();
-        wmarzec = new ArrayList<>();
-        wkwiecien = new ArrayList<>();
-        wmaj = new ArrayList<>();
-        wczerwiec = new ArrayList<>();
-        wlipiec = new ArrayList<>();
-        wsierpien = new ArrayList<>();
-        wwrzesien = new ArrayList<>();
-        wpazdziernik = new ArrayList<>();
-        wlistopad = new ArrayList<>();
-        wgrudzien = new ArrayList<>();
-        wIpolrocze = new ArrayList<>();
-        wIIpolrocze = new ArrayList<>();
-        wrok = new ArrayList<>();
-        naniesnaliste(wstyczen, zebranieMcy.get(0));
-        naniesnaliste(wluty, zebranieMcy.get(1));
-        naniesnaliste(wmarzec, zebranieMcy.get(2));
-        naniesnaliste(wkwiecien, zebranieMcy.get(3));
-        naniesnaliste(wmaj, zebranieMcy.get(4));
-        naniesnaliste(wczerwiec, zebranieMcy.get(5));
-        naniesnaliste(wlipiec, zebranieMcy.get(6));
-        naniesnaliste(wsierpien, zebranieMcy.get(7));
-        naniesnaliste(wwrzesien, zebranieMcy.get(8));
-        naniesnaliste(wpazdziernik, zebranieMcy.get(9));
-        naniesnaliste(wlistopad, zebranieMcy.get(10));
-        naniesnaliste(wgrudzien, zebranieMcy.get(11));
-        naniesnaliste(wIpolrocze, Ipolrocze);
-        naniesnaliste(wIIpolrocze, IIpolrocze);
-        naniesnaliste(wrok, rok);
     }
 
     private void naniesnaliste(List<Double> wstyczen, WierszPkpir get) {
@@ -494,6 +517,7 @@ public class ZestawienieView implements Serializable {
 
     //oblicze pit i wkleja go do biezacego Pitu w celu wyswietlenia, nie zapisuje
     public void obliczPit() {
+        sumowaniemiesiecy();
         HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         Principal principal = request.getUserPrincipal();
         String uzernazwa = principal.getName();
@@ -509,8 +533,9 @@ public class ZestawienieView implements Serializable {
         if (listawybranychudzialowcow.size() == 1) {
             wybranyudzialowiec = listawybranychudzialowcow.get(0);
         }
-        if (wybranyudzialowiec.equals("wybierz osobe")) {
+        if (wybranyudzialowiec==null) {
             Msg.msg("e", "Nie wybrałeś podatnika");
+            return;
         } else {
             if (pierwszypitwrokuzaznacz == false) {
                 if (sprawdzczyjestpitwpoprzednimmiesiacu() != 0) {
@@ -521,6 +546,7 @@ public class ZestawienieView implements Serializable {
             if (flaga == 0) {
                 biezacyPit.setPodatnik(wpisView.getPodatnikWpisu());
                 biezacyPit.setPodatnik1(wpisView.getPodatnikObiekt());
+                biezacyPit.setPodmiot(wybranyudzialowiec.getPodmiot());
                 biezacyPit.setPkpirR(wpisView.getRokWpisu().toString());
                 biezacyPit.setPkpirM(wpisView.getMiesiacWpisu());
                 biezacyPit.setPrzychody(obliczprzychod());
@@ -689,6 +715,19 @@ public class ZestawienieView implements Serializable {
                 }
                 Msg.msg("Przeliczono PIT");
             }
+        }
+        List<Pitpoz> pitpozlistapobrane = pitDAO.findByPodmiotRok(wybranyudzialowiec.getPodmiot(), wpisView.getRokWpisuSt());
+        if (pitpozlistapobrane!=null) {
+            List<Pitpoz> pitpozlista = new ArrayList<>();
+            for (Pitpoz p : pitpozlistapobrane) {
+                if (!p.getPodatnik().equals(wpisView.getPodatnikObiekt())) {
+                    pitpozlista.add(p);
+                }
+            }
+            pitydlapita = pitpozlista.stream()
+                .filter(p->!p.getPodatnik1().equals(wpisView.getPodatnikObiekt()))
+                .filter(p->p.getPkpirM().equals(wpisView.getMiesiacWpisu()))
+                .collect(Collectors.toList());
         }
     }
 
@@ -1006,6 +1045,8 @@ public class ZestawienieView implements Serializable {
             for (WierszPkpir p : zebranieMcy) {
                 if (p.getId() <= granica) {
                     suma = suma.add(BigDecimal.valueOf(p.getRazemprzychody()));
+                } else {
+                    break;
                 }
             }
             return suma;
@@ -1024,6 +1065,8 @@ public class ZestawienieView implements Serializable {
             for (WierszPkpir p : zebranieMcy) {
                 if (p.getId() <= granica) {
                     suma = suma.add(BigDecimal.valueOf(p.getRazemkoszty()));
+                } else {
+                    break;
                 }
             }
             return suma;
@@ -1354,7 +1397,7 @@ public class ZestawienieView implements Serializable {
             return 0;
         }
         if (wpisView.isMc0kw1()) {
-            if (!wpisView.getMiesiacWpisu().equals("03") || wybranyudzialowiec.equals("wybierz osobe")) {
+            if (!wpisView.getMiesiacWpisu().equals("03") && wybranyudzialowiec!=null) {
                 int numermiesiaca = Mce.getMiesiacToNumber().get(wpisView.getMiesiacWpisu());
                 String numermiesiacaS = Mce.getNumberToMiesiac().get(numermiesiaca - 3);
                 try {
@@ -1371,7 +1414,7 @@ public class ZestawienieView implements Serializable {
             }
 
         } else {
-            if (!wpisView.getMiesiacWpisu().equals("01") || wybranyudzialowiec.equals("wybierz osobe")) {
+            if (!wpisView.getMiesiacWpisu().equals("01") && wybranyudzialowiec!=null) {
                 try {
                     Pitpoz poprzednipit = pitDAO.find(wpisView.getRokWpisuSt(), wpisView.getMiesiacUprzedni(), wpisView.getPodatnikWpisu(), wybranyudzialowiec.getNazwiskoimie(), wybranacechadok);
                 } catch (Exception e) {
@@ -1535,6 +1578,14 @@ public class ZestawienieView implements Serializable {
 
     public void setRok(WierszPkpir rok) {
         this.rok = rok;
+    }
+
+    public List<Pitpoz> getPitydlapita() {
+        return pitydlapita;
+    }
+
+    public void setPitydlapita(List<Pitpoz> pitydlapita) {
+        this.pitydlapita = pitydlapita;
     }
 
 }
