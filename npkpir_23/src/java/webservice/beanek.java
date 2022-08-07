@@ -54,6 +54,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.ws.Holder;
 import javax.xml.ws.WebServiceRef;
+import jpkview.Jpk_VAT2NView;
 import msg.Msg;
 import org.primefaces.PrimeFaces;
 import org.w3c.dom.Document;
@@ -71,7 +72,7 @@ import view.DeklaracjevatView;
 public class beanek  implements Serializable {
     
     @Inject
-    private Object jPK_VAT2View;
+    private Jpk_VAT2NView jPK_VAT2View;
     
     private static final long serialVersionUID = 1L;
 
@@ -345,11 +346,11 @@ public class beanek  implements Serializable {
                 Msg.msg("i", "Wypuszczono gołębia z deklaracja podatnika " + podatnik + " za " + rok + "-" + mc, "formX:msg");
                 try {
                     if (wyslijtezjpk) {
-//                        if (jPK_VAT2View.isPkpir0ksiegi1()) {
-//                            jPK_VAT2View.przygotujXMLFK();
-//                        } else {
-//                            jPK_VAT2View.przygotujXML();
-//                        }
+                        if (jPK_VAT2View.isPkpir0ksiegi1()) {
+                            jPK_VAT2View.przygotujXMLFK();
+                        } else {
+                            jPK_VAT2View.przygotujXML();
+                        }
                     }
                 } catch (Exception e1) {
                     Msg.msg("e","Nieudane łączne wysyłanie jpk z deklaracją");
@@ -845,13 +846,13 @@ public class beanek  implements Serializable {
         this.statMBT = statMBT;
     }
 
-//    public JPK_VAT2View getjPK_VAT2View() {
-//        return jPK_VAT2View;
-//    }
-//
-//    public void setjPK_VAT2View(JPK_VAT2View jPK_VAT2View) {
-//        this.jPK_VAT2View = jPK_VAT2View;
-//    }
+    public JPK_VAT2View getjPK_VAT2View() {
+        return jPK_VAT2View;
+    }
+
+    public void setjPK_VAT2View(JPK_VAT2View jPK_VAT2View) {
+        this.jPK_VAT2View = jPK_VAT2View;
+    }
 
 
     public String getOpisMBT() {
