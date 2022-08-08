@@ -62,7 +62,7 @@
                     </f:facet>
                     <h:outputText value="#{item.wprowadzil.login}"/>
                 </p:column>-->
-                <p:column width="70" style="text-align: center;" sortable="true" sortBy="#{item.data}">
+                <p:column width="70" style="text-align: center;" sortable="true" sortBy="#{item.data}" filterBy="#{item.data}" filterMatchMode="contains">
                     <f:facet name="header">
                         <h:outputText value="data"/>
                     </f:facet>

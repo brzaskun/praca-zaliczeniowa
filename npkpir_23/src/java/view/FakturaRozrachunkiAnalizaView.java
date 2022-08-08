@@ -40,9 +40,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJBException;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.component.UISelectOne;
 import javax.faces.event.ValueChangeEvent;
-import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import mail.MailFaktRozrach;
@@ -56,7 +56,7 @@ import waluty.Z;
  * @author Osito
  */
 @Named
-@ViewScoped
+@SessionScoped
 public class FakturaRozrachunkiAnalizaView  implements Serializable {
     private static final long serialVersionUID = 1L;
     

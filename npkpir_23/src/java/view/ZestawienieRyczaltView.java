@@ -209,6 +209,20 @@ public class ZestawienieRyczaltView implements Serializable {
                 E.e(e);
             }
             if (lista != null) {
+                styczen = new WierszRyczalt(1, wpisView.getRokWpisuSt(), "01", "styczeń");
+                luty = new WierszRyczalt(2, wpisView.getRokWpisuSt(), "02", "luty");
+                marzec = new WierszRyczalt(3, wpisView.getRokWpisuSt(), "03", "marzec");
+                kwiecien = new WierszRyczalt(4, wpisView.getRokWpisuSt(), "04", "kwiecień");
+                maj = new WierszRyczalt(5, wpisView.getRokWpisuSt(), "05", "maj");
+                czerwiec = new WierszRyczalt(6, wpisView.getRokWpisuSt(), "06", "czerwiec");
+                lipiec = new WierszRyczalt(7, wpisView.getRokWpisuSt(), "07", "lipiec");
+                sierpien = new WierszRyczalt(8, wpisView.getRokWpisuSt(), "08", "sierpień");
+                wrzesien = new WierszRyczalt(9, wpisView.getRokWpisuSt(), "09", "wrzesień");
+                pazdziernik = new WierszRyczalt(10, wpisView.getRokWpisuSt(), "10", "październik");
+                listopad = new WierszRyczalt(11, wpisView.getRokWpisuSt(), "11", "listopad");
+                grudzien = new WierszRyczalt(12, wpisView.getRokWpisuSt(), "12", "grudzień");
+                pobierzPity = Collections.synchronizedList(new ArrayList<>());
+                zebranieMcy = Collections.synchronizedList(new ArrayList<>());
                 zebranieMcy.add(styczen);
                 zebranieMcy.add(luty);
                 zebranieMcy.add(marzec);

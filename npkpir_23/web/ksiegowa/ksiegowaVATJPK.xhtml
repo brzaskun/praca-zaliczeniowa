@@ -22,13 +22,13 @@
                                              header="Usuwanie wybranego JPK" severity="alert" widgetVar="confirmation">  
 
                                 <p:commandButton id="confirm" value="Tak, usunąć" update="form_dialog_jpk_vat" oncomplete="PF('confirmation').hide()"  
-                                                 actionListener="#{jpk_VAT2View.usunUPO}" />  
+                                                 actionListener="#{jpk_VAT2NView.usunUPO}" />  
                                 <p:commandButton id="decline" value="Nie usuwać" onclick="PF('confirmation').hide()" type="button" />   
 
                             </p:confirmDialog>  
                         </h:form>
                         <p:layoutUnit position="center" style="box-shadow: 10px 10px 5px #888; padding: 1%;">
-                            <f:event type="preRenderView" listener="#{jpk_VAT2View.init()}"/>
+                            <f:event type="preRenderView" listener="#{jpk_VAT2NView.init()}"/>
                                 <ui:include src="../wspolny/wspolnyjpkVAT.xhtml"/>   <!-- właściwa tablica z danymi z księgi-->
                         </p:layoutUnit>
                     </p:layout>

@@ -89,7 +89,7 @@
             <p:commandButton value="#{mgs.drukuj}" icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfSuma()}" onsuccess="wydruksumavat('#{WpisView.podatnikObiekt.nip}');" style="width: 120px;"/>
             <p:commandButton value="Drukuj wszyst. data" icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfWszystkie()}" onsuccess="wydrukewidencjewszystkie('#{WpisView.podatnikObiekt.nip}')"  style="width: 150px; margin-left: 100px;"/>
                     <p:commandButton value="Drukuj wszyst. wartosc" icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfWszystkieWartosc()}" onsuccess="wydrukewidencjewszystkiewartosc('#{WpisView.podatnikObiekt.nip}')"  style="width: 150px; margin-left: 10px;"/>
-<!--                    <p:commandButton value="generuj jpk" icon="ui-icon-play" actionListener="#{jpk_VAT2View.przygotujXML()}"
+<!--                    <p:commandButton value="generuj jpk" icon="ui-icon-play" actionListener="#{jpk_VAT2NView.przygotujXML()}"
                                      oncomplete="pobierzxml()" update="formVatZestKsiegowa"
                              style="width: 120px; margin-left: 10px;"/>-->
             <p:separator/>
@@ -144,11 +144,11 @@
             </p:dataTable>
             </p:panelGrid>
 <!--                        <p:panelGrid id="paneljpk" columns="4">
-                            <p:panelGrid rendered="#{jpk_VAT2View.jpk ne null}" style="width: 300px;" columns="2">
-                                <h:outputText value="jpk sprzedaż"/><bcf:outputpl value="#{jpk_VAT2View.jpk.sprzedazCtrl.podatekNalezny}"/>
-                                <h:outputText value="jpk sprzedaż wiersze"/><h:outputText value="#{jpk_VAT2View.jpk.sprzedazCtrl.liczbaWierszySprzedazy}"/>
-                                <h:outputText value="jpk zakup"/><bcf:outputpl value="#{jpk_VAT2View.jpk.zakupCtrl.podatekNaliczony}"/>
-                                <h:outputText value="jpk zakup wiersze"/><h:outputText value="#{jpk_VAT2View.jpk.zakupCtrl.liczbaWierszyZakupow}"/>
+                            <p:panelGrid rendered="#{jpk_VAT2NView.jpk ne null}" style="width: 300px;" columns="2">
+                                <h:outputText value="jpk sprzedaż"/><bcf:outputpl value="#{jpk_VAT2NView.jpk.sprzedazCtrl.podatekNalezny}"/>
+                                <h:outputText value="jpk sprzedaż wiersze"/><h:outputText value="#{jpk_VAT2NView.jpk.sprzedazCtrl.liczbaWierszySprzedazy}"/>
+                                <h:outputText value="jpk zakup"/><bcf:outputpl value="#{jpk_VAT2NView.jpk.zakupCtrl.podatekNaliczony}"/>
+                                <h:outputText value="jpk zakup wiersze"/><h:outputText value="#{jpk_VAT2NView.jpk.zakupCtrl.liczbaWierszyZakupow}"/>
                             </p:panelGrid>
                         </p:panelGrid>
 <a  download='jpkvat' id="link"></a>-->
