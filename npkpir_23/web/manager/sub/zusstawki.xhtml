@@ -11,48 +11,48 @@
     <h:form id="formlista">
         <p:growl life="3600"  id="msgzus" ><p:autoUpdate/></p:growl>
         <p:panel header="Pełny ZUS. Dane wprowadzone dla WSZYSTKICH naszych klientów" style="width: 100%;">
-            <p:dataTable value="#{zusStawkiView.listapobranychstawek}"  var="loop" paginatorAlwaysVisible="true" paginator="true" pageLinks="12" rows="12"
-                         sortFunction="#{zusStawkiView.sortujZUSstawki}"  sortBy="#{loop}" sortOrder="descending" 
-                         selection="#{zusStawkiView.selected}" selectionMode="single" rowKey="#{loop.id}"
+            <p:dataTable value="#{zusStawkiNView.listapobranychstawek}"  var="loop" paginatorAlwaysVisible="true" paginator="true" pageLinks="12" rows="12"
+                         sortFunction="#{zusStawkiNView.sortujZUSstawki}"  sortBy="#{loop}" sortOrder="descending" 
+                         selection="#{zusStawkiNView.selected}" selectionMode="single" rowKey="#{loop.id}"
                          rowIndexVar="row" rowStyleClass="#{(row mod 2) eq 0 ? null : 'odd'}" style="width: 800px;"
                          emptyMessage="Nie wprowadzono stawek">
-                <p:ajax event="rowSelect" listener="#{zusStawkiView.wybranowiadomosc()}"  update=":formzus"/>
+                <p:ajax event="rowSelect" listener="#{zusStawkiNView.wybranowiadomosc()}"  update=":formzus"/>
                 <f:facet name="header">
                     <h:outputText value="Lista wprowadzonych stawek - pełny ZUS"/>
                 </f:facet>
                 <p:column headerText="rok" sortBy="#{loop.rok}" style="text-align: center">
-                    <h:outputText value="#{loop.rok}" style="#{loop.rok eq zusStawkiView.biezacadata ? 'color: green; font-weight: 900;' : null}; "/>
+                    <h:outputText value="#{loop.rok}" style="#{loop.rok eq zusStawkiNView.biezacadata ? 'color: green; font-weight: 900;' : null}; "/>
                 </p:column>
                 <p:column headerText="#{mgs.miesiąc}"  style="text-align: center" width="50">
-                    <h:outputText value="#{loop.miesiac}" style="#{loop.rok eq zusStawkiView.biezacadata ? 'color: green; font-weight: 900;' : null}"/>
+                    <h:outputText value="#{loop.miesiac}" style="#{loop.rok eq zusStawkiNView.biezacadata ? 'color: green; font-weight: 900;' : null}"/>
                 </p:column>
                 <p:column headerText="ZUS 51">
-                    <h:outputText value="#{loop.zus51ch}" style="#{loop.rok eq zusStawkiView.biezacadata ? 'color: green; font-weight: 900;' : null}; float: right;">
+                    <h:outputText value="#{loop.zus51ch}" style="#{loop.rok eq zusStawkiNView.biezacadata ? 'color: green; font-weight: 900;' : null}; float: right;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
                 <p:column headerText="ZUS 51/bch">
-                    <h:outputText value="#{loop.zus51bch}"  style="#{loop.rok eq zusStawkiView.biezacadata ? 'color: green; font-weight: 900;' : null}; float: right;">
+                    <h:outputText value="#{loop.zus51bch}"  style="#{loop.rok eq zusStawkiNView.biezacadata ? 'color: green; font-weight: 900;' : null}; float: right;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
                 <p:column headerText="ZUS 52">
-                    <h:outputText value="#{loop.zus52}" style="#{loop.rok eq zusStawkiView.biezacadata ? 'color: green; font-weight: 900;' : null}; float: right;">
+                    <h:outputText value="#{loop.zus52}" style="#{loop.rok eq zusStawkiNView.biezacadata ? 'color: green; font-weight: 900;' : null}; float: right;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
                 <p:column headerText="ZUS 52 odl.">
-                    <h:outputText value="#{loop.zus52odl}"  style="#{loop.rok eq zusStawkiView.biezacadata ? 'color: green; font-weight: 900;' : null}; float: right;">
+                    <h:outputText value="#{loop.zus52odl}"  style="#{loop.rok eq zusStawkiNView.biezacadata ? 'color: green; font-weight: 900;' : null}; float: right;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
                 <p:column headerText="ZUS 53">
-                    <h:outputText value="#{loop.zus53}" style="#{loop.rok eq zusStawkiView.biezacadata ? 'color: green; font-weight: 900;' : null}; float: right;">
+                    <h:outputText value="#{loop.zus53}" style="#{loop.rok eq zusStawkiNView.biezacadata ? 'color: green; font-weight: 900;' : null}; float: right;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
                 <p:column style="text-align: center">
-                    <p:commandButton action="#{zusStawkiView.usunzus(loop)}" value="usun" update="@form" type="submit" />
+                    <p:commandButton action="#{zusStawkiNView.usunzus(loop)}" value="usun" update="@form" type="submit" />
                 </p:column>
             </p:dataTable>
         </p:panel>
