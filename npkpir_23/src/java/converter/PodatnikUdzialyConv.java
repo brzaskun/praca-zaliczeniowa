@@ -32,7 +32,9 @@ public class PodatnikUdzialyConv implements javax.faces.convert.Converter, Seria
     public void init() { //E.m(this);
         try {
             lista = podatnikUdzialyDAO.findAll();
-        } catch (Exception e) {}
+        } catch (Exception e) {
+            System.out.println("");
+        }
     }
 
     @Override
