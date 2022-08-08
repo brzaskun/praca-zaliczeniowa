@@ -63,11 +63,6 @@
                             <h:outputText value="#{mgs.miesiąc}"/><h:outputText value="#{zestawienieView.biezacyPit.pkpirM}"/>
                             <h:outputText value="email"/><h:outputText value="#{zestawienieView.biezacyPit.podatnik1.email}"/>
                         </p:panelGrid>
-                        <style>
-                            .borders.ui-panelgrid  {
-                                border: 1px solid !important;
-}
-                        </style>
                         <p:panelGrid id="zestawieniepit" columns="2" style="width: 350px;" styleClass="borders">
                             <p:separator/><p:separator/>
                             <h:outputText value="przychody firmy narast."/>
@@ -275,17 +270,19 @@
                 <p:panelGrid  columns="3" >
                     <p:panelGrid  columns="1" >
                         <p:panel header="wybierz osobę: " style="width: 250px;"/>
-                        <p:selectOneMenu value="#{zestawienieRyczaltView.wybranyudzialowiec}" style="width: 250px;">
-                            <f:selectItem itemLabel="wybierz osobe" itemValue="wybierz osobe"/>
+                        <p:selectOneMenu value="#{zestawienieRyczaltView.wybranyudzialowiec}" style="width: 250px;"  rendered="#{zestawienieRyczaltView.listawybranychudzialowcow.size() gt 1}"  converter="#{podatnikUdzialyConv}">
+                            <f:selectItem itemLabel="wybierz osobe" noSelectionOption="true"/>
                             <f:selectItems value="#{zestawienieRyczaltView.listawybranychudzialowcow}"/>
                             <p:ajax event="change" update=":akordeon:formpit1" listener="#{zestawienieRyczaltView.obliczPit()}"/>
                         </p:selectOneMenu>
+                        <p:panel header="imię nazwisko przedsiębiorcy: " style="width: 250px;" rendered="#{zestawienieRyczaltView.listawybranychudzialowcow.size() eq 1}"/>
+                        <h:outputText value="#{zestawienieRyczaltView.wybranyudzialowiec.nazwiskoimie}"/>
                         <p:panel header="opodatkowanie: "/>
                         <h:outputText value="#{WpisView.rodzajopodatkowania}"/>
                         <h:outputText value="#{WpisView.mc0kw1 ? ' rozliczenie kwartalne': null}"/>
                     </p:panelGrid>
                     <p:panelGrid  columns="1" >
-                        <p:panel header="dane do ryczałtu: #{zestawienieRyczaltView.wybranyudzialowiec} #{zestawienieRyczaltView.wybranyprocent}%" style="width: 450px;"/>
+                        <p:panel header="dane do ryczałtu: #{zestawienieRyczaltView.wybranyudzialowiec.nazwiskoimie} #{zestawienieRyczaltView.wybranyprocent}%" style="width: 450px;"/>
                         <p:panelGrid id="zestawieniepit1" columns="4" style="width: 450px;">
                             <h:outputText value="firma"/><h:inputText value="#{WpisView.podatnikObiekt.printnazwa}"/>
                             <h:outputText value="podatnik"/><h:inputText value="#{zestawienieRyczaltView.biezacyPit.udzialowiec}"/>
@@ -313,7 +310,6 @@
                             <h:inputText value="#{zestawienieRyczaltView.biezacyPit.wynik}" style=" font-weight: 700; float: right;  text-align: right;">
                                 <f:convertNumber locale="PL"/></h:inputText>
                             <h:outputText value="ZUS 51 (z ręki)"/>
-                            <p:panelGrid columns="1">
                                 <p:panelGrid columns="2">
                                     <h:inputText value="#{zestawienieRyczaltView.biezacyPit.zus51}" style=" font-weight: 700; float: right;  text-align: right;">
                                         <f:convertNumber locale="PL"/>
@@ -349,7 +345,6 @@
                                 <h:outputText value="termin płatności"/><h:inputText value="#{zestawienieRyczaltView.biezacyPit.terminwplaty}" style="text-align: right;"/>
                                 <h:outputText value="przelano"/><h:inputText value="#{zestawienieRyczaltView.biezacyPit.przelano}"/>
                                 <h:outputText value="zamknięty"/><h:inputText value="#{zestawienieRyczaltView.biezacyPit.zamkniety}"/>
-                            </p:panelGrid>
                         </p:panelGrid>
                         <p:panelGrid  columns="3">
                             <p:commandButton  value="Pdf" actionListener="#{sesjaView.dodajwydruk()}" action="#{zestawienieRyczaltView.drukujRyczalt()}" onsuccess="wydrukpit5('#{WpisView.podatnikWpisu}');" style="width: 140px;">

@@ -538,6 +538,14 @@ public class Ryczpoz implements Serializable {
         this.podatnik1 = podatnik1;
     }
 
+    public Podmiot getPodmiot() {
+        return podmiot;
+    }
+
+    public void setPodmiot(Podmiot podmiot) {
+        this.podmiot = podmiot;
+    }
+
     
     
    
