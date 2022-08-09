@@ -113,7 +113,7 @@
                         </f:facet>
                     </p:cellEditor>
                 </p:column>
-                <p:column width="70" style="text-align: center;" sortBy="#{item.kwotapln}" sortable="true">
+            <p:column width="70" style="text-align: center;" sortBy="#{item.kwotapln}" sortable="true" filterBy="#{item.kwotapln}" filterMatchMode="startsWith">
                     <f:facet name="header">
                         <h:outputText value="zapłata"/>
                     </f:facet>
