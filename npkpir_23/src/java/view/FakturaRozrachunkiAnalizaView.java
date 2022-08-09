@@ -374,19 +374,17 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
                 FakturaPodatnikRozliczenie r = nowepozycje.get(nowepozycje.size()-1);
                 r.setNrtelefonu(p.getZnacznik1());
                 if (r.getSaldopln() != 0.0) {
-                    if (r.getMc().equals(wpisView.getMiesiacWpisu())) {
-                        if (r.isFaktura0rozliczenie1()) {
-                            r.setColor2("green");
-                        } else {
-                            r.setColor("initial");
-                        }
-                        if (r.getDataupomnienia()!=null || r.getDatatelefon()!=null) {
-                            r.setColor("blue");
-                            r.setSwiezowezwany(true);
-                        } else {
-                            r.setColor("initial");
-                            r.setSwiezowezwany(false);
-                        }
+                    if (r.isFaktura0rozliczenie1()) {
+                        r.setColor2("green");
+                    } else {
+                        r.setColor("initial");
+                    }
+                    if (r.getDataupomnienia()!=null || r.getDatatelefon()!=null) {
+                        r.setColor("blue");
+                        r.setSwiezowezwany(true);
+                    } else {
+                        r.setColor("initial");
+                        r.setSwiezowezwany(false);
                     }
                     //r.setLp(i++);
                     if (pokaznadplaty == true) {
