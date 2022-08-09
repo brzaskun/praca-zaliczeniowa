@@ -38,6 +38,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJBException;
 import javax.enterprise.context.SessionScoped;
@@ -254,6 +255,12 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
         }
     }
     
+    public void bezwezwania() {
+        if (saldanierozliczone!=null) {
+            saldanierozliczone = saldanierozliczone.stream().filter(p->p.isSwiezowezwany()==false).collect(Collectors.toList());
+        }
+    }
+    
     private void obliczsaldo(List<FakturaPodatnikRozliczenie> nowepozycje) {
         double saldo = 0.0;
         double saldopln = 0.0;
@@ -375,8 +382,10 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
                         }
                         if (r.getDataupomnienia()!=null || r.getDatatelefon()!=null) {
                             r.setColor("blue");
+                            r.setSwiezowezwany(true);
                         } else {
                             r.setColor("initial");
+                            r.setSwiezowezwany(false);
                         }
                     }
                     //r.setLp(i++);

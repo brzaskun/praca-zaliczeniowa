@@ -31,7 +31,9 @@
                 </p:selectBooleanCheckbox>
                 <h:outputText value="tylko przeterminowane" style="margin-left: 20px;"/>
                 <p:selectBooleanCheckbox value="#{fakturaRozrachunkiAnalizaView.tylkoprzeterminowane}" style="margin-left: 10px;">
-                </p:selectBooleanCheckbox>
+                <p:commandButton value="bez wezw." actionListener="#{fakturaRozrachunkiAnalizaView.bezwezwania()}"  style="width: 120px; margin-left: 20px;">
+                    <p:ajax event="click" update="akordeon:fakturaanalizazbiorcza:tablicaanaliza"/>
+                </p:commandButton>
                 <p:panelGrid columns="2" style="padding: 10px;" id="suma">
                 <h:outputText value="suma"/>
                 <bcf:outputpl value="#{fakturaRozrachunkiAnalizaView.sumasaldnierozliczonych}"/>
