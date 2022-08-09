@@ -41,6 +41,7 @@ import waluty.Z;
     private String color2;
     private String walutafaktury;
     private String nrtelefonu;
+    private boolean swiezowezwany;
     
 
     public FakturaPodatnikRozliczenie(FakturaRozrachunki p) {
@@ -353,6 +354,15 @@ import waluty.Z;
     public void setColor2(String color2) {
         this.color2 = color2;
     }
+
+    public boolean isSwiezowezwany() {
+        return swiezowezwany;
+    }
+
+    public void setSwiezowezwany(boolean swiezowezwany) {
+        this.swiezowezwany = swiezowezwany;
+    }
+
     
     
     
