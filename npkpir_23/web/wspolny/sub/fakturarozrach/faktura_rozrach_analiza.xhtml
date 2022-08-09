@@ -55,6 +55,10 @@
                         <h:outputText value="#{fakturaRozrachunkiAnalizaView.szukanyklient.ksiegowa.imieNazwisko}" rendered="#{fakturaRozrachunkiAnalizaView.szukanyklient.ksiegowa ne null}"/>
                     </p:column>
                     <p:column width="250">
+                        <h:outputText value="polecający: "/>
+                        <h:outputText value="#{fakturaRozrachunkiAnalizaView.szukanyklient.ksiegowa.imieNazwisko}" rendered="#{fakturaRozrachunkiAnalizaView.szukanyklient.ksiegowa ne null}"/>
+                    </p:column>
+                    <p:column width="250">
                         <h:outputText value="mail: "/>
                         <p:inplace id="nrfaktury" editor="true" saveLabel="zachowaj wprowadzoną wartość" cancelLabel="wycofaj wprowadzone zmiany" emptyLabel="brak maila" >
                             <f:facet name="output">

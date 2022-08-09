@@ -306,7 +306,8 @@ public class Podatnik implements Serializable {
     private boolean rozrachunkifk;
     @Column(name = "gussymbol")
     private String gussymbol;
-    
+    @Column(name = "polecajacy")
+    private String polecajacy;
     
     
     @Transient
@@ -1024,6 +1025,14 @@ public class Podatnik implements Serializable {
 
     public void setGussymbol(String gussymbol) {
         this.gussymbol = gussymbol;
+    }
+
+    public String getPolecajacy() {
+        return polecajacy;
+    }
+
+    public void setPolecajacy(String polecajacy) {
+        this.polecajacy = polecajacy;
     }
 
 

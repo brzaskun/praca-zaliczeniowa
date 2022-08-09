@@ -118,6 +118,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
             if (po.getNip().equals(szukanyklient.getNip())) {
                 szukanyklient.setTelefon(po.getTelefonkontaktowy());
                 szukanyklient.setKsiegowa(po.getKsiegowa());
+                szukanyklient.setPolecajacy(po.getPolecajacy());
                 break;
             }
         }
@@ -187,6 +188,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
                         k.setNazwapodatnika(po.getPrintnazwa());
                         k.setTelefon(po.getTelefonkontaktowy());
                         k.setKsiegowa(po.getKsiegowa());
+                        k.setPolecajacy(po.getPolecajacy());
                         break;
                     }
                 }
@@ -420,6 +422,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
                 szukanyklient.setNazwapodatnika(po.getPrintnazwa());
                 szukanyklient.setTelefon(po.getTelefonkontaktowy());
                 szukanyklient.setKsiegowa(po.getKsiegowa());
+                szukanyklient.setPolecajacy(po.getPolecajacy());
                 break;
             }
         }

@@ -92,6 +92,8 @@ public class Klienci extends KlienciSuper implements Serializable {
     private String telefon;
     @Transient
     private Uz ksiegowa;
+    @Transient
+    private String polecajacy;
     
     
 
@@ -364,6 +366,14 @@ public class Klienci extends KlienciSuper implements Serializable {
 
     public void setKsiegowa(Uz ksiegowa) {
         this.ksiegowa = ksiegowa;
+    }
+
+    public String getPolecajacy() {
+        return polecajacy;
+    }
+
+    public void setPolecajacy(String polecajacy) {
+        this.polecajacy = polecajacy;
     }
     
     
