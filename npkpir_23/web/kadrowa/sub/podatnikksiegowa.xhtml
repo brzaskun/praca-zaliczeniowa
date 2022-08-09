@@ -18,7 +18,7 @@
             <p:dataExporter type="xls" target="formpodatnicy:tabelapodatnicy" fileName="lista" />
         </p:commandButton>
                     <p:dataTable id="tabelapodatnicy" value="#{podatnikKsiegowaShortView.listapodatnikow}" var="item" style="width: 1300px;" 
-                                 paginatorAlwaysVisible="true" paginator="true" pageLinks="12" rows="30"
+                                 paginatorAlwaysVisible="true" paginator="true" pageLinks="12" rows="30" reflow="true"
                                  rowIndexVar="index" 
                                  rowStyleClass="#{item.ksiegowa.login.startsWith('mar') ? 'rmarta' : item.ksiegowa.login.startsWith('wda') ? 'rwioletta' : item.ksiegowa.login.startsWith('go') ? 'rmalgosia' : 'rrenata'}">
                         <p:ajax event="filter" global="false"/>
@@ -28,9 +28,9 @@
                         <p:column headerText="podatnik" width="300">
                             <h:outputText value="#{item.printnazwa}"/>
                         </p:column>
-                        <p:column headerText="księgowa" >
+                        <p:column headerText="kadrowa" >
 <!--                            <h:outputText value="#{item.ksiegowa.login}"/>-->
-                            <p:selectOneMenu value="#{item.ksiegowa}" style="width: 100px;text-align: center;" converter="#{uzConv}">
+                            <p:selectOneMenu value="#{item.kadrowa}" style="width: 100px;text-align: center;" converter="#{uzConv}">
                                 <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
                                 <f:selectItems value="#{podatnikKsiegowaShortView.listaksiegowych}" var="loop" itemLabel="#{loop.login}" itemValue="#{loop}"/>
                             </p:selectOneMenu>
@@ -66,7 +66,7 @@
                     </p:dataTable>
                 </p:column>
                 <p:column>
-                    <p:outputLabel for="wybierzuzera" value="wybierz księgową"/>
+                    <p:outputLabel for="wybierzuzera" value="wybierz kadrową"/>
                     <p:selectOneMenu id="wybierzuzera" value="#{podatnikKsiegowaShortView.wybrany}" style="width: 100px; " converter="#{uzConv}">
                         <f:selectItem itemLabel="wszyscy" noSelectionOption="true"/>
                         <f:selectItems value="#{podatnikKsiegowaShortView.listaksiegowych}"  var="loopa" itemLabel="#{loopa.login}" itemValue="#{loopa}"/>

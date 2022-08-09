@@ -210,8 +210,8 @@
                         <p:ajax event="change" partialSubmit="true" update="akordeon:form9:form9tablica"/>
                     </p:selectBooleanCheckbox>
                 </p:panelGrid>
-                <p:dataTable value="#{podmiotView.podatnikUdzialy}"  var="loop" rowKey="#{loop.id}"  id="form9tablica"
-                             editable="true" style="width:1700px;" sortBy="#{loop.podatnikObj.printnazwa}">
+                <p:dataTable value="#{podmiotView.podatnikUdzialy}"  var="loop" rowKey="#{loop.id}"  id="form9tablica" 
+                             editable="true" style="width:1700px;height: 700px;overflow-y: scroll;" sortBy="#{loop.podatnikObj.printnazwa}">
                     <p:ajax event="rowEdit"  />
                     <p:column headerText="nazwa" style="text-align: left;" width="250" sortBy="#{loop.podatnikObj.printnazwa}" filterBy="#{loop.podatnikObj.printnazwa}" filterMatchMode="contains">
                         <h:outputText value="#{loop.podatnikObj.printnazwa}" />

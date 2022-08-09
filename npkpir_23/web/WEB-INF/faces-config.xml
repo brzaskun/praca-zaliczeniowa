@@ -33,6 +33,14 @@
             <to-view-id>/kadrowa/podmioty.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
         <navigation-case>
+            <from-outcome>podatnikksiegowaK</from-outcome>
+            <to-view-id>/kadrowa/podatnikksiegowa.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>dochoddladraK</from-outcome>
+            <to-view-id>/kadrowa/dochoddladra.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+        <navigation-case>
             <from-outcome>Dedra</from-outcome>
             <to-view-id>/dedra/dedraIndex.xhtml</to-view-id>
             <redirect></redirect>

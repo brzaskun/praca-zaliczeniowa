@@ -2881,6 +2881,12 @@
   background-color: var(--yellow-900) !important;
 }
 
+
+.bg-taxman {
+  background-color: #5c9ccc !important;
+}
+
+
 .bg-cyan-50 {
   background-color: var(--cyan-50) !important;
 }

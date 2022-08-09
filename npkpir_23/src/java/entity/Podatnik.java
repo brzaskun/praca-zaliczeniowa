@@ -254,6 +254,9 @@ public class Podatnik implements Serializable {
     @JoinColumn(name = "ksiegowa", referencedColumnName = "login")
     @ManyToOne
     private Uz ksiegowa;
+    @JoinColumn(name = "kadrowa", referencedColumnName = "login")
+    @ManyToOne
+    private Uz kadrowa;
     //wzorcowe one to many unidirectional/ nazwa kolumny to nazwa tworzona w tabeli ParamVatUE, nie trzeba zmiennej w ParamVatUE
     @JoinColumn(name = "podid")
     @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY, orphanRemoval = true)
@@ -1033,6 +1036,14 @@ public class Podatnik implements Serializable {
 
     public void setPolecajacy(String polecajacy) {
         this.polecajacy = polecajacy;
+    }
+
+    public Uz getKadrowa() {
+        return kadrowa;
+    }
+
+    public void setKadrowa(Uz kadrowa) {
+        this.kadrowa = kadrowa;
     }
 
 
