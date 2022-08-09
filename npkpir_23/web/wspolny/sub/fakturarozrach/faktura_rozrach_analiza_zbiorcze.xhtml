@@ -55,7 +55,7 @@
                     </f:facet>
                     <h:outputText value="#{item.lp}"/>
                 </p:column>
-                <p:column width="240" sortable="true" sortBy="#{item.kontrahent}">
+                <p:column width="240" sortable="true" sortBy="#{item.kontrahent}" filterBy="#{item.kontrahent}" filterFunction="contains">
                     <f:facet name="header">
                         <h:outputText value="kontrahent"/>
                     </f:facet>

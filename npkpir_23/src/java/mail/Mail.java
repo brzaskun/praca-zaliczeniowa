@@ -139,7 +139,7 @@ public class Mail {
                     InternetAddress.parse(adres));
             message.setRecipients(Message.RecipientType.BCC,
                     InternetAddress.parse("info@taxman.biz.pl"));
-            message.setSubject("Potwierdzenie rejestracji w internetowym serwisie Biura Rachunkowego Taxman");
+            message.setSubject("Potwierdzenie rejestracji w internetowym serwisie Biura Rachunkowego Taxman","UTF-8");
             message.setContent("Szanowny Użytkowniku,"
                     + "<p>Właśnie zarejestrowałeś się w naszym serwisie z loginem: </p>"
                     + "<span style=\"color: green;\">"+login+"</span>"
@@ -161,7 +161,7 @@ public class Mail {
                     InternetAddress.parse(adres));
             message.setRecipients(Message.RecipientType.BCC,
                     InternetAddress.parse("info@taxman.biz.pl"));
-            message.setSubject("Potwierdzenie zmiany hasła/adresu email w internetowym serwisie Biura Rachunkowego Taxman");
+            message.setSubject("Potwierdzenie zmiany hasła/adresu email w internetowym serwisie Biura Rachunkowego Taxman","UTF-8");
             message.setContent("Szanowny Użytkowniku,"
                     + "<p>Właśnie zmieniłeś hasło/email w naszym serwisie dla loginu: </p>"
                     + "<span style=\"color: green;\">"+login+"</span>"
@@ -182,7 +182,7 @@ public class Mail {
                     InternetAddress.parse(adres));
             message.setRecipients(Message.RecipientType.BCC,
                     InternetAddress.parse("info@taxman.biz.pl"));
-            message.setSubject("Potwierdzenie nadania uprawnień w serwisie Biura Rachunkowego Taxman");
+            message.setSubject("Potwierdzenie nadania uprawnień w serwisie Biura Rachunkowego Taxman","UTF-8");
             message.setContent("Szanowny Użytkowniku,"
                     + "<p>Administrator własnie nadał ci następujące uprawnienia: <strong>"+uprawnienia+"</strong><br/>"
                     + "w naszym serwisie powiązane z loginem: <br/>"+login+".</p>"
@@ -226,7 +226,7 @@ public class Mail {
                     InternetAddress.parse(adres));
             message.setRecipients(Message.RecipientType.BCC,
                     InternetAddress.parse("info@taxman.biz.pl"));
-            message.setSubject("Potwierdzenie zresetowania zapomnianego hasła w serwisie Biura Rachunkowego Taxman");
+            message.setSubject("Potwierdzenie zresetowania zapomnianego hasła w serwisie Biura Rachunkowego Taxman","UTF-8");
             message.setContent("Szanowny Użytkowniku,"
                     + "<p>Administrator własnie zresetował Ci hasło"
                     + "w naszym serwisie</p>"
@@ -286,7 +286,7 @@ public class Mail {
                     InternetAddress.parse("info@taxman.pl"));
             message.setRecipients(Message.RecipientType.BCC,
                     InternetAddress.parse("info@taxman.biz.pl"));
-            message.setSubject("Błąd w programie");
+            message.setSubject("Błąd w programie","UTF-8");
             message.setContent("Szanowny Użytkowniku,"
                     + "<span style=\"color: green;\">"+blad+"</span>"
                     + stopka,  "text/html; charset=utf-8");

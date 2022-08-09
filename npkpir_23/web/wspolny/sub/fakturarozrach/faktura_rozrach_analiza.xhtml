@@ -51,6 +51,10 @@
                 <p:panelGrid style="margin-top: 10px;" columns="3" id="polesumy">
                     <p:panelGrid columns="1" style="width: 250px;margin-top: 10px;" id="mailklientapanel">
                     <p:column width="250">
+                        <h:outputText value="ksiegowa: "/>
+                        <h:outputText value="#{fakturaRozrachunkiAnalizaView.szukanyklient.ksiegowa.imieNazwisko}" rendered="#{fakturaRozrachunkiAnalizaView.szukanyklient.ksiegowa ne null}"/>
+                    </p:column>
+                    <p:column width="250">
                         <h:outputText value="mail: "/>
                         <p:inplace id="nrfaktury" editor="true" saveLabel="zachowaj wprowadzoną wartość" cancelLabel="wycofaj wprowadzone zmiany" emptyLabel="brak maila" >
                             <f:facet name="output">

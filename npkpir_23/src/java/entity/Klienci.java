@@ -90,6 +90,8 @@ public class Klienci extends KlienciSuper implements Serializable {
     private String nazwapodatnika;
     @Transient
     private String telefon;
+    @Transient
+    private Uz ksiegowa;
     
     
 
@@ -355,6 +357,16 @@ public class Klienci extends KlienciSuper implements Serializable {
     public void setTelefon(String telefon) {
         this.telefon = telefon;
     }
+
+    public Uz getKsiegowa() {
+        return ksiegowa;
+    }
+
+    public void setKsiegowa(Uz ksiegowa) {
+        this.ksiegowa = ksiegowa;
+    }
+    
+    
     
 //    @XmlTransient
 //    public List<Dok> getDokumenty() {

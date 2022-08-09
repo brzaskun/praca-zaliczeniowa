@@ -24,9 +24,13 @@
     </factory>-->
     <navigation-rule>
          <navigation-case>
-            <from-outcome>kadrowa</from-outcome>
+            <from-outcome>kadry</from-outcome>
             <to-view-id>/kadrowa/index.xhtml</to-view-id>
             <redirect></redirect>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>podmiotyK</from-outcome>
+            <to-view-id>/kadrowa/podmioty.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
         <navigation-case>
             <from-outcome>Dedra</from-outcome>
