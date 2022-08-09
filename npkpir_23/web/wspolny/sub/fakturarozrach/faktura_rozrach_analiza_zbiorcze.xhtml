@@ -116,6 +116,12 @@
                     </f:facet>
                     <bcf:outputpl value="#{item.ostatniaplatnosckwota}"/>
                 </p:column>
+                <p:column width="30" sortBy="#{item.swiezowezwany}" sortable="true" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="wzw"/>
+                    </f:facet>
+                    <h:outputText value="#{item.swiezowezwany ? '&#x2713;': null}" style="font-weight: 900"/>
+                </p:column>
                 <p:column width="40" sortBy="#{item.przeniesionosaldo}" sortable="true" style="text-align: center;">
                     <f:facet name="header">
                         <h:outputText value="bz"/>
