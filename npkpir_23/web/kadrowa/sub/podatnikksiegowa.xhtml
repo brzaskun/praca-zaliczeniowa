@@ -17,7 +17,7 @@
                       <p:commandButton value="XLS" >
             <p:dataExporter type="xls" target="formpodatnicy:tabelapodatnicy" fileName="lista" />
         </p:commandButton>
-                    <p:dataTable id="tabelapodatnicy" value="#{podatnikKsiegowaShortView.listapodatnikow}" var="item" style="width: 1300px;" 
+                    <p:dataTable id="tabelapodatnicy" value="#{podatnikKsiegowaShortView.listapodatnikow}" var="item" style="width: 1350px;" 
                                  paginatorAlwaysVisible="true" paginator="true" pageLinks="12" rows="30" reflow="true"
                                  rowIndexVar="index" 
                                  rowStyleClass="#{item.ksiegowa.login.startsWith('mar') ? 'rmarta' : item.ksiegowa.login.startsWith('wda') ? 'rwioletta' : item.ksiegowa.login.startsWith('go') ? 'rmalgosia' : 'rrenata'}">
