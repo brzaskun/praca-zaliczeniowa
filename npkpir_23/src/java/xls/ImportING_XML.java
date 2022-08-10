@@ -77,6 +77,7 @@ public class ImportING_XML implements Serializable {
                             x.setDatatransakcji(Data.calendarToString(a.getBookgDt().getDtTm()));
                             x.setDatawaluty(Data.calendarToString(a.getValDt().getDtTm()));
                             String opis = a.getNtryDtls().getTxDtls().getRmtInf().getUstrd();
+                            opis = opis==null?"bez opisu":opis;
                             x.setOpistransakcji(opis);
                             x.setNrwyciagu(pn.getWyciagnr());
                             String rodzajoperacji = a.getCdtDbtInd();
