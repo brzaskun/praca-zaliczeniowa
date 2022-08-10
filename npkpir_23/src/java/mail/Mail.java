@@ -199,7 +199,7 @@ public class Mail {
         }
     }
     
-     public static void wykrytobrakfaktury(String adres, String firma, SMTPSettings settings, SMTPSettings ogolne) {
+     public static void wykrytobrakfaktury(String adres, String firma, SMTPSettings settings, SMTPSettings ogolne, String kto) {
         try {
             MimeMessage message = new MimeMessage(MailSetUp.otworzsesje(settings, ogolne));
             message.setFrom(new InternetAddress(SMTPBean.adresFrom(settings, ogolne), SMTPBean.nazwaFirmyFrom(settings, ogolne)));
@@ -207,7 +207,7 @@ public class Mail {
                     InternetAddress.parse(adres));
             message.setSubject("Uwaga wykryto podatnika bez faktury");
             message.setContent("Szanowny Szefie,"
-                    + "<p>włąśnie ktoś zamyka firmę: </p>"
+                    + "<p>właśnie "+kto+" zamyka firmę: </p>"
                     + "<span style=\"color: green;\">"+firma+"</span>"
                     + "<p>pomimo braku wystawionej w tym miesiącu faktury."
                     + stopka,  "text/html; charset=utf-8");
