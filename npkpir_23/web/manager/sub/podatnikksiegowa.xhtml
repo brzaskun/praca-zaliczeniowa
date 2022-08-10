@@ -54,12 +54,12 @@
                         </p:column>
                         <p:column headerText="tel." width="150" style="text-align: center;">
 <!--                            <h:outputText value="#{item.telefonkontaktowy}"/>-->
-                            <p:inputText value="#{item.telefonkontaktowy}" size="40">
+                            <p:inputText value="#{item.telefonkontaktowy}" size="17">
                                 <p:ajax event="blur" listener="#{podatnikKsiegowaShortView.edytujpodatnika(item)}" />
                             </p:inputText>
                         </p:column>
-                        <p:column headerText="polec." width="150" style="text-align: center;">
-                            <p:inputText value="#{item.polecajacy}" size="40">
+                        <p:column headerText="polec." width="200" style="text-align: center;">
+                            <p:inputText value="#{item.polecajacy}" size="25">
                                 <p:ajax event="blur" listener="#{podatnikKsiegowaShortView.edytujpodatnika(item)}" />
                             </p:inputText>
                         </p:column>

@@ -30,6 +30,7 @@ public class PodatnikKsiegowaShortView implements Serializable{
     private static final long serialVersionUID = 1L;
     private List<Podatnik> listapodatnikow;
     private List<Uz> listaksiegowych;
+    private List<Uz> listakadrowych;
     private Uz wybrany;
     @Inject
     private PodatnikDAO podatnikDAO;
@@ -42,6 +43,7 @@ public class PodatnikKsiegowaShortView implements Serializable{
         Collections.sort(listapodatnikow, new Podatnikcomparator());
         listaksiegowych = uzDAO.findByUprawnienia("Bookkeeper");
         listaksiegowych.addAll(uzDAO.findByUprawnienia("BookkeeperFK"));
+        listakadrowych = uzDAO.findByUprawnienia("HumanResources");
         Collections.sort(listaksiegowych, new Uzcomparator());
     }
     
@@ -109,6 +111,14 @@ public class PodatnikKsiegowaShortView implements Serializable{
 
     public void setWybrany(Uz wybrany) {
         this.wybrany = wybrany;
+    }
+
+    public List<Uz> getListakadrowych() {
+        return listakadrowych;
+    }
+
+    public void setListakadrowych(List<Uz> listakadrowych) {
+        this.listakadrowych = listakadrowych;
     }
 
     

@@ -32,7 +32,7 @@
 <!--                            <h:outputText value="#{item.ksiegowa.login}"/>-->
                             <p:selectOneMenu value="#{item.kadrowa}" style="width: 100px;text-align: center;" converter="#{uzConv}">
                                 <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
-                                <f:selectItems value="#{podatnikKsiegowaShortView.listaksiegowych}" var="loop" itemLabel="#{loop.login}" itemValue="#{loop}"/>
+                                <f:selectItems value="#{podatnikKsiegowaShortView.listakadrowych}" var="loop" itemLabel="#{loop.login}" itemValue="#{loop}"/>
                             </p:selectOneMenu>
                         </p:column>
                         <p:column headerText="aktywny" width="60" style="text-align: center;">
@@ -54,12 +54,12 @@
                         </p:column>
                         <p:column headerText="tel." width="150" style="text-align: center;">
 <!--                            <h:outputText value="#{item.telefonkontaktowy}"/>-->
-                            <p:inputText value="#{item.telefonkontaktowy}" size="40">
+                            <p:inputText value="#{item.telefonkontaktowy}" size="17">
                                 <p:ajax event="blur" listener="#{podatnikKsiegowaShortView.edytujpodatnika(item)}" />
                             </p:inputText>
                         </p:column>
-                        <p:column headerText="polec." width="150" style="text-align: center;">
-                            <p:inputText value="#{item.polecajacy}" size="40">
+                        <p:column headerText="polec." width="200" style="text-align: center;">
+                            <p:inputText value="#{item.polecajacy}" size="25">
                                 <p:ajax event="blur" listener="#{podatnikKsiegowaShortView.edytujpodatnika(item)}" />
                             </p:inputText>
                         </p:column>
