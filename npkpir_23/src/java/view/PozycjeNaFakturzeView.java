@@ -84,7 +84,7 @@ public class PozycjeNaFakturzeView implements Serializable {
     public void importuj() {
         Podatnik wzorcowy = podatnikDAO.findPodatnikByNIP("8511005008");
         List<Pozycjenafakturze> pozycjewzorcowe = pozycjeDAO.findFakturyPodatnik(wzorcowy);
-        pozycjefakturapodatnik = pobierzpozycjepodatnika();
+        pozycjefakturapodatnik = pobierzpozycjepodatnika(pozycjewzorcowe);
         for (Pozycjenafakturze wzor : pozycjewzorcowe) {
             for (Pozycjenafakturze podatnik : pozycjefakturapodatnik.values()) {
                 if (wzor.getNazwa().equals(podatnik.getNazwa())) {
@@ -142,7 +142,29 @@ public class PozycjeNaFakturzeView implements Serializable {
         }
     }
 
-    private HashMap<String, Pozycjenafakturze> pobierzpozycjepodatnika() {
+    private HashMap<String, Pozycjenafakturze> pobierzpozycjepodatnika(List<Pozycjenafakturze> pozycjewzorcowe) {
+        pozycjefakturapodatniklista = pozycjeDAO.findFakturyPodatnik(wpisView.getPodatnikObiekt());
+        HashMap<String, Pozycjenafakturze> nowa = new HashMap<>();
+        if (pozycjefakturapodatniklista!=null&& !pozycjefakturapodatniklista.isEmpty()) {
+            for (Pozycjenafakturze p : pozycjefakturapodatniklista) {
+                nowa.put(p.getNazwa(), p);
+            }
+        } else {
+            for (Pozycjenafakturze p : pozycjewzorcowe) {
+                Pozycjenafakturze n = new Pozycjenafakturze();
+                n.setNazwa(p.getNazwa());
+                n.setGora(p.getGora());
+                n.setLewy(p.getLewy());
+                n.setSzerokosc(p.getSzerokosc());
+                n.setWysokosc(p.getWysokosc());
+                n.setPodid(wpisView.getPodatnikObiekt());
+                nowa.put(n.getNazwa(), n);
+            }
+        }
+        return nowa;
+    }
+    
+      private HashMap<String, Pozycjenafakturze> pobierzpozycjepodatnika() {
         pozycjefakturapodatniklista = pozycjeDAO.findFakturyPodatnik(wpisView.getPodatnikObiekt());
         HashMap<String, Pozycjenafakturze> nowa = new HashMap<>();
         for (Pozycjenafakturze p : pozycjefakturapodatniklista) {

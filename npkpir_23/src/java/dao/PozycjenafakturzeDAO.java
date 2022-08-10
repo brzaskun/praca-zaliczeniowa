@@ -49,7 +49,13 @@ public class PozycjenafakturzeDAO  extends DAO implements Serializable {
      * @return
      */
     public List<Pozycjenafakturze> findFakturyPodatnik(Podatnik podatnik){
-        return getEntityManager().createNamedQuery("Pozycjenafakturze.findByPodatnik").setParameter("podatnik", podatnik).getResultList();
+        List<Pozycjenafakturze> zwrot = null;
+        try {
+            zwrot = getEntityManager().createNamedQuery("Pozycjenafakturze.findByPodatnik").setParameter("podatnik", podatnik).getResultList();
+        } catch (Exception e) {
+            
+        }
+        return zwrot;
     }
 
     public Pozycjenafakturze findPozycjePodatnikCo(Podatnik podatnik, String co) {

@@ -26,7 +26,7 @@
                         <p:inputText id="nazwadlafaktury" value="#{WpisView.podatnikObiekt.nazwadlafaktury}" maxlength="512" style="width: 400px;">
                             
                         </p:inputText>
-                        <h:outputLabel value="alternatywna nazwa firmy umieszczana na fakturach sprzedaży"/>
+                        <h:outputLabel value="alternatywna nazwa firmy umieszczana na fakturach sprzedaży" rendered="#{WpisView.podatnikObiekt.nazwadlafaktury ne null}"/>
                         <p:inputText id="nazwadlafaktury2" value="#{WpisView.podatnikObiekt.nazwadlafaktury2}" maxlength="512" style="width: 400px;" rendered="#{WpisView.podatnikObiekt.nazwadlafaktury ne null}">
                             
                         </p:inputText>
