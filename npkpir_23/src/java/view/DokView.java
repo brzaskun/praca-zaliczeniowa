@@ -1203,10 +1203,12 @@ public class DokView implements Serializable {
             String opis = selDokument.getOpis().substring(1);
             String[] lista = opis.split("\\*");
             String[] nowalista = przejrzyjliste(lista);
-            boolean moznawsadzac = czyjesttylepustych(nowalista);
-            if (moznawsadzac) {
-                wsadzoznaczenia(nowalista);
-                PrimeFaces.current().ajax().update("dodWiad:paneloznaczenia");
+            if (nowalista!=null) {
+                boolean moznawsadzac = czyjesttylepustych(nowalista);
+                if (moznawsadzac) {
+                    wsadzoznaczenia(nowalista);
+                    PrimeFaces.current().ajax().update("dodWiad:paneloznaczenia");
+                }
             }
         } else {
             podepnijoznaczenia();

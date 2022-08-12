@@ -160,7 +160,11 @@ public class EVatwpis1 extends EVatwpisSuper implements Serializable {
 
     @Override
     public String toString() {
-        return "EVatwpis1{"+ super.toString() + "dok=" + dok.toString2() + '}';
+        if (dok!=null) {
+            return "EVatwpis1{"+ super.toString() + "dok=" + dok.toString2() + '}';
+        } else {
+            return "EVatwpis1{"+ super.toString();
+        }
     }
 
     
