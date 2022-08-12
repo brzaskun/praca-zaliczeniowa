@@ -22,8 +22,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import static java.util.stream.Collectors.collectingAndThen;
-import static java.util.stream.Collectors.toList;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -60,15 +58,11 @@ public class StatystykaKalkulacjaView  implements Serializable {
     }
     
     public void generuj() {
-        List<Podatnik> podatnicytmp = podatnikDAO.findPodatnikNieFK();
-        List<Podatnik> podatnicy = podatnicytmp.stream().filter(p -> p.isPodmiotaktywny()).collect(collectingAndThen(toList(), Collections::synchronizedList));
-        List<Podatnik> podatnicyFKtmp = podatnikDAO.findPodatnikFK();
-        List<Podatnik> podatnicyFK = podatnicyFKtmp.stream().filter(p -> p.isPodmiotaktywny()).collect(collectingAndThen(toList(), Collections::synchronizedList));
+        List<Podatnik> podatnicy = podatnikDAO.findAktywny();
         podatnikroklista = stworzliste(podatnicy);
-        podatnikroklista.addAll(stworzlistefk(podatnicyFK));
-        listadozachowania = Collections.synchronizedList(new ArrayList<>());
         listadozachowania.addAll(podatnikroklista);
         podatnikroklista.add(dodajsume(podatnikroklista));
+        zaksieguj();
         Msg.msg("Wygenerowano statystyki");
     }
     
@@ -105,13 +99,15 @@ public class StatystykaKalkulacjaView  implements Serializable {
     
      private double obroty(List<Dok> dokumenty) {
         double zwrot = 0.0;
-        zwrot = dokumenty.stream().filter((p) -> p.getRodzajedok().getKategoriadokumentu()==2|| p.getRodzajedok().getKategoriadokumentu()==4).map((p) -> p.getBrutto()).reduce(zwrot, (accumulator, _item) -> accumulator + _item);
+        if (dokumenty!=null&&!dokumenty.isEmpty()) {
+            zwrot = dokumenty.stream().filter((p) -> p.getRodzajedok()!=null && (p.getRodzajedok().getKategoriadokumentu()==2|| p.getRodzajedok().getKategoriadokumentu()==4)).map((p) -> p.getBruttoDouble()).reduce(zwrot, (accumulator, _item) -> accumulator + _item);
+        }
         return zwrot;
     }
     
      private int iloscfaktur(List<Faktura> faktury) {
         int zwrot = 0;
-        if (!faktury.isEmpty()) {
+        if (faktury!=null&&!faktury.isEmpty()) {
             zwrot = faktury.size();
         }
         return zwrot;
@@ -119,15 +115,17 @@ public class StatystykaKalkulacjaView  implements Serializable {
 
     private double kwotafaktur(List<Faktura> faktury) {
         double zwrot = 0.0;
-        for (Faktura p : faktury) {
-            zwrot += p.getNetto();
+        if (faktury!=null&&!faktury.isEmpty()) {
+            for (Faktura p : faktury) {
+                zwrot += p.getNetto();
+            }
         }
         return zwrot;
     }
 
     private int iloscdok(List dokumenty) {
         int zwrot = 0;
-        if (!dokumenty.isEmpty()) {
+        if (dokumenty!=null&&!dokumenty.isEmpty()) {
             zwrot = dokumenty.size();
         }
         return zwrot;

@@ -545,6 +545,10 @@ public class Dok extends DokSuper implements Serializable {
     public Double getBrutto() {
         return this.brutto != null ? this.brutto : 0.0;
     }
+    
+      public double getBruttoDouble() {
+        return this.brutto != null ? this.brutto : 0.0;
+    }
 
     public void setBrutto(Double brutto) {
         this.brutto = brutto;

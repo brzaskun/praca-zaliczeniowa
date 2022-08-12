@@ -9,19 +9,19 @@
     xmlns:bcf="http://brzaskun.com/facelets">
 
     <p:dataTable value="#{statystykaFakturyView.lista}" var="item" id="datatable" style="width: 1200px; padding: 10px;"
-                 sortBy="#{item.podatnik.nazwapelna}" sortOrder="ascending" rowIndexVar="index" selectionMode="single"
+                 sortBy="#{item.podatnik.printnazwa}" sortOrder="ascending" rowIndexVar="index" selectionMode="single"
                  rowKey="#{item.id}">
         <p:column style="width: 20px;" sortBy="#{item.id}">
             <f:facet name="header">
                 <h:outputText value=""/>
             </f:facet>
-            <h:outputText value="#{item.id}"/>
+            <h:outputText value="#{index+1}"/>
         </p:column>
-        <p:column style="width: 300px;" sortBy="#{item.podatnik.nazwapelna}">
+        <p:column style="width: 300px;" sortBy="#{item.podatnik.printnazwa}">
             <f:facet name="header">
                 <h:outputText value="podatnik"/>
             </f:facet>
-            <h:outputText value="#{item.podatnik.nazwapelna}"/>
+            <h:outputText value="#{item.podatnik.printnazwa}"/>
         </p:column>
         <p:column sortBy="#{item.statFaktRok.get('2013').iloscfaktur}" style="width: 50px;">
             <f:facet name="header">

@@ -70,7 +70,10 @@ public class StatystykaFaktury {
             this.rok = s.getRok();
             this.iloscfaktur = s.getIloscfaktur();
             this.kwotafaktur = s.getKwotafaktur();
-            this.srednia = Z.z(this.kwotafaktur/this.iloscfaktur);
+            this.srednia = 0.0;
+            if (this.iloscfaktur!=0.0) {
+                this.srednia = Z.z(this.kwotafaktur/this.iloscfaktur);
+            }
         }
 
      

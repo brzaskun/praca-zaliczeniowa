@@ -11,17 +11,16 @@ import dao.PodatnikDAO;
 import dao.StatystykaDAO;
 import entity.Podatnik;
 import entity.Statystyka;
-import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
-import msg.Msg;import waluty.Z;
-
+import javax.inject.Named;
+import msg.Msg;
+import waluty.Z;
 /**
  *
  * @author Osito
@@ -42,7 +41,7 @@ public class StatystykaObrotyView implements Serializable {
     
     @PostConstruct
     private void init() { //E.m(this);
-        podatnicy = podatnikDAO.findAll();
+        podatnicy = podatnikDAO.findAktywny();
         Collections.sort(podatnicy, new Podatnikcomparator());
     }
     
