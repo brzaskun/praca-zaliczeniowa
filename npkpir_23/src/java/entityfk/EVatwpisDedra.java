@@ -135,19 +135,20 @@ public class EVatwpisDedra extends EVatwpisSuper implements Serializable {
         this.estawka = estawka;
     }
     
-      
-    @Override
-    public long getId() {
-        return id;
-    }
     
-    public void setId(long id) {
-        this.id = id;
-    }
 
     @Override
     public double getNetto() {
         return netto;
+    }
+
+    @Override
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
     
     @Override
@@ -274,7 +275,7 @@ public class EVatwpisDedra extends EVatwpisSuper implements Serializable {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 23 * hash + (int) (this.id ^ (this.id >>> 32));
+        hash = 23 * hash + Objects.hashCode(this.id);
         hash = 23 * hash + Objects.hashCode(this.ewidencja);
         hash = 23 * hash + (int) (Double.doubleToLongBits(this.netto) ^ (Double.doubleToLongBits(this.netto) >>> 32));
         hash = 23 * hash + (int) (Double.doubleToLongBits(this.vat) ^ (Double.doubleToLongBits(this.vat) >>> 32));
@@ -295,7 +296,7 @@ public class EVatwpisDedra extends EVatwpisSuper implements Serializable {
             return false;
         }
         final EVatwpisDedra other = (EVatwpisDedra) obj;
-        if (this.id != other.id) {
+        if (!Objects.equals(this.id, other.id)) {
             return false;
         }
         if (Double.doubleToLongBits(this.netto) != Double.doubleToLongBits(other.netto)) {

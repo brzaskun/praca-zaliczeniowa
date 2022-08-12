@@ -124,13 +124,16 @@ public class EVatwpis1 extends EVatwpisSuper implements Serializable {
         this.dok = dok;
     }
 
-    public long getId() {
+    @Override
+    public Integer getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
+
+  
 
     public String getMcEw() {
         return mcEw;
@@ -153,6 +156,7 @@ public class EVatwpis1 extends EVatwpisSuper implements Serializable {
     @Override
     public int hashCode() {
         int hash = 3;
+        hash = 23 * hash + Objects.hashCode(this.id);
         hash = 17 * hash + Objects.hashCode(this.ewidencja);
         hash = 17 * hash + Objects.hashCode(this.dok);
         return hash;
@@ -172,6 +176,9 @@ public class EVatwpis1 extends EVatwpisSuper implements Serializable {
 
     @Override
     public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
         if (obj == null) {
             return false;
         }
@@ -179,6 +186,9 @@ public class EVatwpis1 extends EVatwpisSuper implements Serializable {
             return false;
         }
         final EVatwpis1 other = (EVatwpis1) obj;
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
         if (!Objects.equals(this.ewidencja, other.ewidencja)) {
             return false;
         }

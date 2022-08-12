@@ -8,6 +8,7 @@ package entity;
 import entityfk.Dokfk;
 import entityfk.Wiersz;
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
@@ -30,7 +31,7 @@ public class EVatwpisSuper implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
-    protected long id;
+    protected Integer id;
 //    @JoinColumn(name = "ewidencja", referencedColumnName = "nazwa")
 //    @ManyToOne
 //    protected Evewidencja ewidencja;
@@ -78,7 +79,7 @@ public class EVatwpisSuper implements Serializable {
         
     }
 
-    public long getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -254,7 +255,38 @@ public class EVatwpisSuper implements Serializable {
         this.tylkodlajpk = tylkodlajpk;
     }
 
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 23 * hash + Objects.hashCode(this.id);
+        hash = 23 * hash + Objects.hashCode(this.ewidencja);
+        return hash;
+    }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final EVatwpisSuper other = (EVatwpisSuper) obj;
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        if (!Objects.equals(this.ewidencja, other.ewidencja)) {
+            return false;
+        }
+        return true;
+    }
+
+
+    
+    
     
 
     @Override

@@ -262,18 +262,22 @@ public class EVatwpisFK extends EVatwpisSuper implements Serializable {
         this.dokfk = dokfk;
     }
     
-    @Override
-    public long getId() {
-        return id;
-    }
+
     
-    public void setId(long id) {
-        this.id = id;
-    }
+
     
     @Override
     public Wiersz getWiersz() {
         return wiersz;
+    }
+
+    @Override
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
     
     public void setWiersz(Wiersz wiersz) {
@@ -347,7 +351,7 @@ public class EVatwpisFK extends EVatwpisSuper implements Serializable {
     @Override
     public int hashCode() {
         int hash = 3;
-        hash = 97 * hash + (int) (this.id ^ (this.id >>> 32));
+        hash = 97 * hash + Objects.hashCode(this.id);
         hash = 97 * hash + Objects.hashCode(this.ewidencja);
         hash = 97 * hash + Objects.hashCode(this.dokfk);
         hash = 97 * hash + Objects.hashCode(this.wiersz);
@@ -367,7 +371,7 @@ public class EVatwpisFK extends EVatwpisSuper implements Serializable {
             return false;
         }
         final EVatwpisFK other = (EVatwpisFK) obj;
-        if (this.id != other.id) {
+        if (!Objects.equals(this.id, other.id)) {
             return false;
         }
         if (!Objects.equals(this.ewidencja, other.ewidencja)) {
