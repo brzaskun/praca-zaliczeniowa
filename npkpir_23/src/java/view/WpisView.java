@@ -95,6 +95,7 @@ public class WpisView implements Serializable {
         uzer = pobierzWpisBD();
         odjakiegomcdok = "01";
         formaprawna = null;
+        vatowiec = false;
         if (uzer != null) {
             podatnikObiekt = uzer.getPodatnik();
             if (podatnikObiekt == null) {
