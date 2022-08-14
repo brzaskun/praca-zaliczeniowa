@@ -141,7 +141,10 @@
                     <h:selectBooleanCheckbox value="#{podatnikView.selectedDod.zatrudniapracownikow}">
                     </h:selectBooleanCheckbox>-->
                     <h:outputText value="wysyłać dane o składkach ZUS i PIT4 na mail"/>
-                     <h:selectBooleanCheckbox value="#{podatnikView.selectedDod.wysylkazusmail}" label="wysyłać dane o wysokości ZUS i PIT-4"  valueChangeListener="#{podatnikView.zmianaWysylkaZus}">
+                     <h:selectBooleanCheckbox value="#{podatnikView.selectedDod.wysylkazusmail}" label="wysyłać dane o wysokości ZUS i PIT-4" >
+                    </h:selectBooleanCheckbox>
+                    <h:outputText value="zewnętrzny użytkownik modułu faktur"/>
+                        <h:selectBooleanCheckbox value="#{podatnikView.selectedDod.modulfaktur}" label="zewnętrzny użytkownik modułu faktur" >
                     </h:selectBooleanCheckbox>
 <!--                    <h:outputText value="dzień pierwszego miesiąca, za który podatnik płaci 'mały' ZUS"/>
                      <p:inputMask value="#{podatnikView.selectedDod.datamalyzus}" mask="9999-99-99">

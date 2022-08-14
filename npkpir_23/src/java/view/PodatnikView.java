@@ -296,7 +296,9 @@ public class PodatnikView implements Serializable {
         try {
             generujIndex(selectedDod);
             sformatuj(selectedDod);
-            selectedDod.setNowypodmiot(true);
+            if (selectedDod.isModulfaktur()==false) {
+                selectedDod.setNowypodmiot(true);
+            }
             if (!selectedDod.getPrintnazwa().equals("nie znaleziono firmy w bazie Regon")) {
                 podatnikDAO.create(selectedDod);
                 podatnikWyborView.init();

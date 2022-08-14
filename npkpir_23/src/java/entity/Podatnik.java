@@ -330,6 +330,8 @@ public class Podatnik implements Serializable {
     private boolean faktura;
     @Column(name = "zua")
     private boolean zua;
+    @Column(name = "modulfaktur")
+    private boolean modulfaktur;
     
     
     @Transient
@@ -1151,6 +1153,14 @@ public class Podatnik implements Serializable {
 
     public void setZua(boolean zua) {
         this.zua = zua;
+    }
+
+    public boolean isModulfaktur() {
+        return modulfaktur;
+    }
+
+    public void setModulfaktur(boolean modulfaktur) {
+        this.modulfaktur = modulfaktur;
     }
 
     
