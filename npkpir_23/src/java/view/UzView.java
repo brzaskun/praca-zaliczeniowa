@@ -231,12 +231,30 @@ public class UzView implements Serializable {
         String nowy = (String) event.getNewValue();
         if (!nowy.equals("Noobie")) {
             try {
-                sformatuj();
-                Mail.nadanoUprawniednia(selUzytkownik.getEmail(), selUzytkownik.getLogin(), nowy, null, sMTPSettingsDAO.findSprawaByDef());
-                Msg.msg("Nowy uzytkownik edytowany: "+selUzytkownik.getLogin());
+                if (selUzytkownik!=null) {
+                    sformatuj();
+                    selUzytkownik.setAktywny(true);
+                    uzDAO.edit(selUzytkownik);
+                    Mail.nadanoUprawniednia(selUzytkownik.getEmail(), selUzytkownik.getLogin(), nowy, null, sMTPSettingsDAO.findSprawaByDef());
+                    Msg.msg("Nowy uzytkownik edytowany: "+selUzytkownik.getLogin());
+                } else {
+                    Msg.msg("e","Nie wybrano użytkownika");
+                }
             } catch (Exception e) { 
                 E.e(e); 
                 Msg.msg("e", "Uzytkownik nie zedytowany View: "+selUzytkownik.getEmail());
+            }
+        }
+    }
+    
+    public void edytuj(Uz uzer) {
+        if (uzer!=null) {
+            try {
+                uzDAO.edit(uzer);
+                Msg.dP();
+            } catch (Exception e) { 
+                E.e(e); 
+                Msg.dPe();
             }
         }
     }

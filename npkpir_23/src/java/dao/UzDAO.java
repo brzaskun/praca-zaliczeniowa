@@ -64,6 +64,16 @@ public class UzDAO extends DAO implements Serializable{
         }
         return zwrot;
     }
+    
+    public List<Uz> findByUprawnieniaAktywny(String uprawnienia) {
+        List<Uz> zwrot = new ArrayList<>();
+        try {
+            zwrot = getEntityManager().createNamedQuery("Uz.findByUprawnieniaAktywny").setParameter("uprawnienia", uprawnienia).getResultList();
+        } catch (Exception e) {
+            
+        }
+        return zwrot;
+    }
    
       
 }

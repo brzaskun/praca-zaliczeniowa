@@ -9,6 +9,7 @@ import beansRegon.SzukajDaneBean;
 import comparator.Dokfkcomparator;
 import comparator.Kontocomparator;
 import comparator.Podatnikcomparator;
+import comparator.Uzcomparator;
 import dao.DokDAO;
 import dao.DokDAOfk;
 import dao.KlienciDAO;
@@ -17,6 +18,7 @@ import dao.PodatnikDAO;
 import dao.PodatnikOpodatkowanieDAO;
 import dao.PodatnikUdzialyDAO;
 import dao.RodzajedokDAO;
+import dao.SMTPSettingsDAO;
 import dao.UzDAO;
 import dao.ZUSDAO;
 import data.Data;
@@ -57,6 +59,7 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
+import mail.MailPodatnik;
 import msg.Msg;
 import org.joda.time.DateTime;
 import org.primefaces.PrimeFaces;
@@ -133,6 +136,8 @@ public class PodatnikView implements Serializable {
     private PodatnikOpodatkowanieD podatnikOpodatkowanieSelected;
     private List<FormaPrawna> formyprawne;
     private boolean wszystkiekonta;
+    private List<Uz> listaksiegowych;
+    private List<Uz> listakadrowych;
     @Inject
     private ParamVatUE paramVatUE;
     @Inject
@@ -149,6 +154,8 @@ public class PodatnikView implements Serializable {
     private CommandButton but1;
     private CommandButton but2;
     private String rokgenerowanie;
+    @Inject
+    private SMTPSettingsDAO sMTPSettingsDAO;
     
     
 
@@ -182,7 +189,6 @@ public class PodatnikView implements Serializable {
             E.e(e); 
         } 
         try {
-            selectedDod.setFax("000000000");
             nazwaWybranegoPodatnika = uz.getPodatnik().getPrintnazwa();
             selected = uz.getPodatnik();
             //zrobdokumenty();
@@ -214,6 +220,11 @@ public class PodatnikView implements Serializable {
         udzialy.setDatarozpoczecia(wpisView.getRokWpisuSt()+"-01-01");
         wybranyPodatnikOpodatkowanie.setStawkapodatkuospr(0.19);
         sumaudzialow = sumujudzialy(podatnikUdzialy);
+        listaksiegowych = uzDAO.findByUprawnienia("Bookkeeper");
+        listaksiegowych.addAll(uzDAO.findByUprawnienia("BookkeeperFK"));
+        listakadrowych = uzDAO.findByUprawnienia("HumanResources");
+        Collections.sort(listaksiegowych, new Uzcomparator());
+        Collections.sort(listakadrowych, new Uzcomparator());
     }
     
     private void korygujtelefon(Podatnik selected) {
@@ -285,6 +296,7 @@ public class PodatnikView implements Serializable {
         try {
             generujIndex(selectedDod);
             sformatuj(selectedDod);
+            selectedDod.setNowypodmiot(true);
             if (!selectedDod.getPrintnazwa().equals("nie znaleziono firmy w bazie Regon")) {
                 podatnikDAO.create(selectedDod);
                 podatnikWyborView.init();
@@ -339,6 +351,76 @@ public class PodatnikView implements Serializable {
             E.e(e); 
             Msg.msg("e", "Wystąpił błąd. Nie wyedytowano podatnika-firmę: " + selectedDod.getNazwapelna());
         }
+    }
+    
+    public void edytujnowy() {
+        try {
+            List<String> braki = zrobbraki(selectedDod);
+            if (braki.isEmpty()) {
+                selectedDod.setNowypodmiot(false);
+            }
+            podatnikDAO.edit(selectedDod);
+            Msg.msg("i", "Wyedytowano podatnika: " + selectedDod.getPrintnazwa());
+            podatnikWyborView.init();
+            selectedDod = new Podatnik();
+        } catch (Exception e) { 
+            E.e(e); 
+            Msg.msg("e", "Wystąpił błąd. Nie wyedytowano podatnika-firmę: " + selectedDod.getNazwapelna());
+        }
+    }
+    
+    private  List<String> zrobbraki(Podatnik p) {
+        List<String> braki = new ArrayList<>();
+        int i = 1;
+        if (p!=null) {
+            if (p.getKsiegowa()==null) {
+                braki.add("<span style=\"color: blue;\">nie przyporzadkowano osoby księgowej</span>");
+            }
+            if (p.getKadrowa()==null) {
+                braki.add("<span style=\"color: blue;\">nie przyporzadkowano osoby kadrowej</span>");
+            }
+            if (p.isUmowalokal()==false) {
+                braki.add(i+") umowa najmu na siedzibę/tytuł prawny");
+                i++;
+            }
+            if (p.isVatr()==false) {
+                braki.add(i+") VAT-R");
+                i++;
+            }
+            if (p.isVatue()==false) {
+                braki.add(i+") VAT-R UE");
+                i++;
+            }
+            if (p.isOpisdzialalnosci()==false) {
+                braki.add(i+") opis działalności");
+                i++;
+            }
+            if (p.isKontobankowe()==false) {
+                braki.add(i+") umowa rachunku bankowego");
+                i++;
+            }
+            if (p.isPpo()==false) {
+                braki.add(i+") pełnomocnictwo ogólne");
+                i++;
+            }
+            if (p.isPel()==false) {
+                braki.add(i+") pełnomocnictwo ZUS");
+                i++;
+            }
+            if (p.isUmowa()==false) {
+                braki.add(i+") umowa z biurem");
+                i++;
+            }
+            if (p.isFaktura()==false) {
+                braki.add(i+") faktura okresowa");
+                i++;
+            }
+            if (p.isZua()==false) {
+                braki.add(i+") zgłoszdenie ZUA");
+                i++;
+            }
+        }
+        return braki;
     }
     
     public void resetuj() {
@@ -1437,11 +1519,59 @@ public class PodatnikView implements Serializable {
     public void znajdzdaneregon(String formularz) {
         try {
             if (selectedDod.getId() == 0) {
-                SzukajDaneBean.znajdzdaneregon(formularz, selectedDod);
+                if (selectedDod.getNip()!=null&&!selectedDod.getNip().equals("")&&!selectedDod.getNip().startsWith("XX")) {
+                    SzukajDaneBean.znajdzdaneregon(formularz, selectedDod);
+                } else if (selectedDod.getNip()==null||selectedDod.getNip().equals("")) {
+                    selectedDod.setNip(wygenerujnip());
+                }
             }
         } catch (Exception e) {
             E.e(e);
         }
+    }
+    
+    public void nazwacaps() {
+        if (selectedDod.getPrintnazwa()!=null) {
+            selectedDod.setPrintnazwa(selectedDod.getPrintnazwa().toUpperCase(new Locale("pl","PL")));
+        }
+    }
+    
+    private String wygenerujnip() {
+        String zwrot = null;
+        Pattern pattern = Pattern.compile("X{2}\\d{10}");
+        try {
+            List<String> nipy = klDAO.findKlientByNipXX();
+            Collections.sort(nipy);
+            Integer max = 0;
+            boolean szukaj = true;
+            int licznik = 1;
+            int nipysize = nipy.size();
+            while (szukaj && licznik<nipysize) {
+                if (nipysize > 0) {
+                    String pozycja = nipy.get(nipysize - licznik);
+                    Matcher m = pattern.matcher(pozycja.toUpperCase());
+                    boolean czypasuje = m.matches();
+                    if (czypasuje) {
+                        max = Integer.parseInt(pozycja.substring(2));
+                        max++;
+                        szukaj = false;
+                        break;
+                    } else {
+                        licznik++;
+                    }
+                }
+            }
+            //uzupelnia o zera i robi stringa;
+            String wygenerowanynip = max.toString();
+            while (wygenerowanynip.length() < 10) {
+                wygenerowanynip = "0" + wygenerowanynip;
+            }
+            wygenerowanynip = "XX" + wygenerowanynip;
+            zwrot = wygenerowanynip;
+        } catch (Exception e) {
+            E.e(e);
+        }
+        return zwrot;
     }
     
     private void zweryfikujBazeBiezacegoPodatnika() {
@@ -2069,6 +2199,22 @@ public void przygotujedycjeopodatkowanie() {
     }
 }
 
+    public List<Uz> getListaksiegowych() {
+        return listaksiegowych;
+    }
+
+    public void setListaksiegowych(List<Uz> listaksiegowych) {
+        this.listaksiegowych = listaksiegowych;
+    }
+
+    public List<Uz> getListakadrowych() {
+        return listakadrowych;
+    }
+
+    public void setListakadrowych(List<Uz> listakadrowych) {
+        this.listakadrowych = listakadrowych;
+    }
+
     public CommandButton getBut1() {
         return but1;
     }
@@ -2112,4 +2258,15 @@ public void przygotujedycjeopodatkowanie() {
         }
     }    
 
+    public void poczta() {
+        Podatnik podatnik = new Podatnik();
+        podatnik.setPrintnazwa("GADAKADA");
+        podatnik.setGussymbol("099");
+        MailPodatnik.dodanonowegopodatnika(podatnik, uzDAO, sMTPSettingsDAO.findSprawaByDef());
+    }
+    
+     public void pocztakontrola() {
+       // MailPodatnik.sprawdznowych(podatnikDAO, sMTPSettingsDAO, uzDAO);
+    }
+    
 }

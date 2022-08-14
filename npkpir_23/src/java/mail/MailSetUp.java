@@ -5,6 +5,7 @@
 package mail;
 
 import beansMail.SMTPBean;
+import dao.UzDAO;
 import entity.SMTPSettings;
 import error.E;
 import java.io.Serializable;
@@ -101,6 +102,20 @@ public class MailSetUp implements Serializable{
         return message;
     }
      
+     public static MimeMessage logintoUZAktywny(UzDAO uzDAO, SMTPSettings ogolne) {
+        MimeMessage message = new MimeMessage(otworzsesje(ogolne, ogolne));
+        try {
+            message.setSentDate(new Date());
+            message.addHeader("X-Priority", "1");
+            message.setFrom(new InternetAddress(SMTPBean.adresFrom(ogolne, ogolne), SMTPBean.nazwaFirmyFrom(ogolne, ogolne)));
+        } catch (MessagingException ex) {
+            // Logger.getLogger(MailSetUp.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (UnsupportedEncodingException ex) {
+            // Logger.getLogger(MailSetUp.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return message;
+    }
+     
      public static MimeMessage logintoMailZUS(String adreskontrahenta, String wysylajacy, SMTPSettings settings, SMTPSettings ogolne) {
         MimeMessage message = new MimeMessage(otworzsesje(settings, ogolne));
         try {
@@ -150,8 +165,10 @@ public class MailSetUp implements Serializable{
             if (settings.isSmtpauth()) {
                 props.put("mail.smtp.auth", "true");
             }
-            if (settings.isStarttlsenable()) {
+            if (ogolne.isStarttlsenable()) {
                 props.put("mail.smtp.starttls.enable", "true");
+            } else if (ogolne.isSslenable()) {
+                props.put("mail.smtp.ssl.enable", "true");
             }
             session = Session.getInstance(props,
                     new javax.mail.Authenticator() {

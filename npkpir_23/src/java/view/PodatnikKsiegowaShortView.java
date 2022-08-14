@@ -45,6 +45,7 @@ public class PodatnikKsiegowaShortView implements Serializable{
         listaksiegowych.addAll(uzDAO.findByUprawnienia("BookkeeperFK"));
         listakadrowych = uzDAO.findByUprawnienia("HumanResources");
         Collections.sort(listaksiegowych, new Uzcomparator());
+        Collections.sort(listakadrowych, new Uzcomparator());
     }
     
     public void init2() { //E.m(this);

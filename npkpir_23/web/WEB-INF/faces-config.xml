@@ -462,14 +462,7 @@
             <from-outcome>manager</from-outcome>
             <to-view-id>/manager/managerPodUstaw.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
-        <navigation-case>
-            <from-outcome>zusstawki</from-outcome>
-            <to-view-id>/manager/managerZUSstawki.xhtml?faces-redirect=true</to-view-id>
-        </navigation-case>
-        <navigation-case>
-            <from-outcome>zusstawkimaly</from-outcome>
-            <to-view-id>/manager/managerZUSstawkimaly.xhtml?faces-redirect=true</to-view-id>
-        </navigation-case>
+
         <navigation-case>
             <from-outcome>aktywacja</from-outcome>
             <to-view-id>/manager/managerAktywacjaPodatnik.xhtml?faces-redirect=true</to-view-id>
@@ -483,6 +476,10 @@
             <to-view-id>/manager/managerSprawozdaniefin.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
         <navigation-case>
+            <from-outcome>nowepodmioty</from-outcome>
+            <to-view-id>/manager/managerNowePodmioty.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+        <navigation-case>
             <from-outcome>podstawki</from-outcome>
             <to-view-id>/manager/managerPodstawki.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
@@ -493,10 +490,6 @@
          <navigation-case>
             <from-outcome>fakturadodatki</from-outcome>
             <to-view-id>/manager/managerFakturaDodatki.xhtml?faces-redirect=true</to-view-id>
-        </navigation-case>
-        <navigation-case>
-            <from-outcome>dochoddladra</from-outcome>
-            <to-view-id>/manager/managerDochodDlaDRA.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
         <navigation-case>
             <from-outcome>terminy</from-outcome>
@@ -525,14 +518,6 @@
         <navigation-case>
             <from-outcome>podatnikksiegowa</from-outcome>
             <to-view-id>/manager/managerPodatnikKsiegowa.xhtml?faces-redirect=true</to-view-id>
-        </navigation-case>
-        <navigation-case>
-            <from-outcome>zbiorcze</from-outcome>
-            <to-view-id>/manager/managerZbiorcze.xhtml?faces-redirect=true</to-view-id>
-        </navigation-case>
-        <navigation-case>
-            <from-outcome>managerzusmail</from-outcome>
-            <to-view-id>/manager/managerZUSMail.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
         <navigation-case>
             <from-outcome>ewidvat</from-outcome>

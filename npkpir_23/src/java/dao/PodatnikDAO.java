@@ -72,6 +72,7 @@ public class PodatnikDAO extends DAO implements Serializable{
         return zwrot;
     }
     
+    
      public  List<Podatnik> findAllManager(){
         List<Podatnik>  zwrot = null;
         try {
@@ -143,6 +144,16 @@ public class PodatnikDAO extends DAO implements Serializable{
         }
         return zwrot;
      }
+
+    public List<Podatnik> findNowi() {
+        List<Podatnik>  zwrot = null;
+        try {
+            zwrot = getEntityManager().createNamedQuery("Podatnik.findByPodmiotnowy").getResultList();
+        } catch (Exception e) { 
+            E.e(e); 
+        }
+        return zwrot;
+    }
      
      
 }

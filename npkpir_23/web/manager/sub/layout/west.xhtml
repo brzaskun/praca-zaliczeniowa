@@ -7,37 +7,32 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets">
     <p:layoutUnit position="west" size="250"  collapsible="true">
-        <p:panel style="padding: 5px,5px,5px,5px;" header="Ustawianie ZUS dla wszystkich podatników">
-            <h:form>
-                <p:menu >
-                    <p:menuitem value="ZUS pełny - wzorzec"  outcome="zusstawki" icon="ui-icon-circle-arrow-e"/>  
-                    <p:menuitem value="ZUS mały - wzorzec"  outcome="zusstawkimaly" icon="ui-icon-circle-arrow-e"/>  
-                    <p:menuitem value="Kwoty indywidualne"  outcome="zbiorcze" icon="ui-icon-circle-arrow-e" />
-                    <p:menuitem value="ZUS mail"  outcome="managerzusmail" icon="ui-icon-circle-arrow-e" />  
-                </p:menu>
-            </h:form>
-        </p:panel>
         <p:panel header="Ustawianie parametrów dla wszystkich podatników">
             <h:form>
                 <p:menu >
                     <p:menuitem value="podmioty"  outcome="podmioty" icon="ui-icon-circle-arrow-e"/>
                     <p:menuitem value="podatnik-księgowa"  outcome="podatnikksiegowa" icon="ui-icon-circle-arrow-e"/>
+                    <p:menuitem value="dane podatników" outcome="sprawozdaniefin" icon="ui-icon-circle-arrow-e"/>
+                    <p:menuitem value="dodaj os.fizyczną"  outcome="dodpodatnika" icon="ui-icon-circle-arrow-e"/>  
+                    <p:menuitem value="dodaj spółkę cyw."  outcome="dodpodatnikaSC" icon="ui-icon-circle-arrow-e"/>
+                    <p:menuitem value="nowe podmioty" outcome="nowepodmioty" icon="ui-icon-circle-arrow-e"/>  
+                    <p:menuitem value="aktywacja" outcome="aktywacja" icon="ui-icon-circle-arrow-e"/>  
+                </p:menu>
+                <p:menu>
                     <p:menuitem value="rodz. dokumentów"  outcome="rodzajedok" icon="ui-icon-circle-arrow-e" />  
                     <p:menuitem value="stawki podatkowe"  outcome="podstawki" icon="ui-icon-circle-arrow-e"/>  
                     <p:menuitem value="terminy płatności."  outcome="terminy" icon="ui-icon-circle-arrow-e"/>  
                     <p:menuitem value="ewidencje vat"  outcome="ewidvat" icon="ui-icon-circle-arrow-e"/>  
                     <p:menuitem value="deklaracje vat"  outcome="deklaracjevat" icon="ui-icon-circle-arrow-e"/>  
-                    <p:menuitem value="deklaracje vat-zz"  outcome="deklaracjevatzz" icon="ui-icon-circle-arrow-e"/>  
-                    <p:menuitem value="deklaracje vat-zt"  outcome="deklaracjevatzt" icon="ui-icon-circle-arrow-e"/>  
-                    <p:menuitem value="dane podatników" outcome="sprawozdaniefin" icon="ui-icon-circle-arrow-e"/>
-                    <p:menuitem value="dodaj os.fizyczną"  outcome="dodpodatnika" icon="ui-icon-circle-arrow-e"/>  
-                    <p:menuitem value="dodaj spółkę"  outcome="dodpodatnikaSC" icon="ui-icon-circle-arrow-e"/>  
-                    <p:menuitem value="aktywacja" outcome="aktywacja" icon="ui-icon-circle-arrow-e"/>  
+<!--                    <p:menuitem value="deklaracje vat-zz"  outcome="deklaracjevatzz" icon="ui-icon-circle-arrow-e"/>  
+                    <p:menuitem value="deklaracje vat-zt"  outcome="deklaracjevatzt" icon="ui-icon-circle-arrow-e"/>  -->
                     <p:menuitem value="zamykanie roku" outcome="zamykanieroku" icon="ui-icon-circle-arrow-e"/>
-                    <p:menuitem value="czy jest karta"  outcome="czyjestkarta" icon="ui-icon-circle-arrow-e" />
                     <p:menuitem value="waloryzacja"  outcome="waloryzacja" icon="ui-icon-circle-arrow-e" />
+                </p:menu>
+                <p:menu>
                     <p:menuitem value="faktura dodatki"  outcome="fakturadodatki" icon="ui-icon-circle-arrow-e" />
-                    <p:menuitem value="dochód dla DRA"  outcome="dochoddladra" icon="ui-icon-circle-arrow-e" />
+                    <p:separator/>
+                    <p:menuitem value="czy jest karta"  outcome="czyjestkarta" icon="ui-icon-circle-arrow-e" />
                 </p:menu>
             </h:form>
         </p:panel>

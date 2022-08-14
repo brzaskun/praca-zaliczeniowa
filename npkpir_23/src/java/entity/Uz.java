@@ -33,7 +33,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Uz.findByHaslo", query = "SELECT u FROM Uz u WHERE u.haslo = :haslo"),
     @NamedQuery(name = "Uz.findByImie", query = "SELECT u FROM Uz u WHERE u.imie = :imie"),
     @NamedQuery(name = "Uz.findByNazw", query = "SELECT u FROM Uz u WHERE u.nazw = :nazw"),
-    @NamedQuery(name = "Uz.findByUprawnienia", query = "SELECT u FROM Uz u WHERE u.uprawnienia = :uprawnienia")
+    @NamedQuery(name = "Uz.findByUprawnienia", query = "SELECT u FROM Uz u WHERE u.uprawnienia = :uprawnienia"),
+    @NamedQuery(name = "Uz.findByUprawnieniaAktywny", query = "SELECT u FROM Uz u WHERE u.uprawnienia = :uprawnienia AND u.aktywny = TRUE")
 })
 public class Uz implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -108,6 +109,8 @@ public class Uz implements Serializable {
     @Size(max = 2)
     @Column(name = "miesiacDo")
     private String miesiacDo;
+    @Column(name = "aktywny")
+    private boolean aktywny;
     
     public Uz() {
     }
@@ -341,6 +344,15 @@ public class Uz implements Serializable {
     public String toStringLIN() {
         return "login " + login + ", " + imie + " " + nazw + ", uprawnienia " + uprawnienia;
     }
+
+    public boolean isAktywny() {
+        return aktywny;
+    }
+
+    public void setAktywny(boolean aktywny) {
+        this.aktywny = aktywny;
+    }
+
     
    
 }

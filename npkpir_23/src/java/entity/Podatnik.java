@@ -34,7 +34,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -74,6 +73,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Podatnik.findByFirmafk", query = "SELECT p FROM Podatnik p WHERE p.firmafk = :firmafk AND p.podmiotaktywny = true"),
     @NamedQuery(name = "Podatnik.findByZUS", query = "SELECT p FROM Podatnik p WHERE p.wysylkazusmail = true AND p.podmiotaktywny = true"),
     @NamedQuery(name = "Podatnik.findByPodmiotaktywny", query = "SELECT p FROM Podatnik p WHERE p.podmiotaktywny = true"),
+    @NamedQuery(name = "Podatnik.findByPodmiotnowy", query = "SELECT p FROM Podatnik p WHERE p.nowypodmiot = TRUE"),
     @NamedQuery(name = "Podatnik.findByPodmiotaktywnyPrzyporzadkowany", query = "SELECT p FROM Podatnik p WHERE p.podmiotaktywny = :podmiotaktywny AND p.ksiegowa IS NOT NULL"),
     @NamedQuery(name = "Podatnik.findByKsiegowa", query = "SELECT p FROM Podatnik p WHERE p.ksiegowa = :ksiegowa"),
     @NamedQuery(name = "Podatnik.findByWojewodztwo", query = "SELECT p FROM Podatnik p WHERE p.wojewodztwo = :wojewodztwo")})
@@ -84,17 +84,12 @@ public class Podatnik implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private int id;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 255)
     @Column(name = "nip", unique = true)
-    @Pattern(regexp="\\d+",message="NIP składa się wyłącznie z cyfr")
     private String nip;
     @Size(max = 255)
     @Column(name = "PESEL")
     @Pattern(regexp="\\d+",message="Pesel składa się wyłącznie z cyfr")
     private String pesel;
-    @Size(max = 255)
     @Column(name = "REGON")
     @Pattern(regexp="\\d+",message="Regon składa się wyłącznie z cyfr")
     private String regon;
@@ -106,6 +101,7 @@ public class Podatnik implements Serializable {
     @Column(name = "EMAIL")
     private String email;
     @Size(max = 255)
+    //drugiemail
     @Column(name = "FAX")
     private String fax;
     @Size(max = 255)
@@ -311,6 +307,29 @@ public class Podatnik implements Serializable {
     private String gussymbol;
     @Column(name = "polecajacy")
     private String polecajacy;
+    @Column(name = "nowypodmiot")
+    private boolean nowypodmiot;
+    
+    @Column(name = "umowalokal")
+    private boolean umowalokal;
+    @Column(name = "vatr")
+    private boolean vatr;
+    @Column(name = "vatue")
+    private boolean vatue;
+    @Column(name = "opisdzialalnosci")
+    private boolean opisdzialalnosci;
+    @Column(name = "kontobankowe")
+    private boolean kontobankowe;
+    @Column(name = "ppo")
+    private boolean ppo;
+    @Column(name = "pel")
+    private boolean pel;
+    @Column(name = "umowa")
+    private boolean umowa;
+    @Column(name = "faktura")
+    private boolean faktura;
+    @Column(name = "zua")
+    private boolean zua;
     
     
     @Transient
@@ -1046,6 +1065,96 @@ public class Podatnik implements Serializable {
         this.kadrowa = kadrowa;
     }
 
+    public boolean isNowypodmiot() {
+        return nowypodmiot;
+    }
+
+    public void setNowypodmiot(boolean nowypodmiot) {
+        this.nowypodmiot = nowypodmiot;
+    }
+
+    public boolean isUmowalokal() {
+        return umowalokal;
+    }
+
+    public void setUmowalokal(boolean umowalokal) {
+        this.umowalokal = umowalokal;
+    }
+
+    public boolean isVatr() {
+        return vatr;
+    }
+
+    public void setVatr(boolean vatr) {
+        this.vatr = vatr;
+    }
+
+    public boolean isVatue() {
+        return vatue;
+    }
+
+    public void setVatue(boolean vatue) {
+        this.vatue = vatue;
+    }
+
+    public boolean isOpisdzialalnosci() {
+        return opisdzialalnosci;
+    }
+
+    public void setOpisdzialalnosci(boolean opisdzialalnosci) {
+        this.opisdzialalnosci = opisdzialalnosci;
+    }
+
+    public boolean isKontobankowe() {
+        return kontobankowe;
+    }
+
+    public void setKontobankowe(boolean kontobankowe) {
+        this.kontobankowe = kontobankowe;
+    }
+
+    public boolean isPpo() {
+        return ppo;
+    }
+
+    public void setPpo(boolean ppo) {
+        this.ppo = ppo;
+    }
+
+    public boolean isPel() {
+        return pel;
+    }
+
+    public void setPel(boolean pel) {
+        this.pel = pel;
+    }
+
+    public boolean isUmowa() {
+        return umowa;
+    }
+
+    public void setUmowa(boolean umowa) {
+        this.umowa = umowa;
+    }
+
+    public boolean isFaktura() {
+        return faktura;
+    }
+
+    public void setFaktura(boolean faktura) {
+        this.faktura = faktura;
+    }
+
+    public boolean isZua() {
+        return zua;
+    }
+
+    public void setZua(boolean zua) {
+        this.zua = zua;
+    }
+
+    
+    
 
     @Override
     public int hashCode() {

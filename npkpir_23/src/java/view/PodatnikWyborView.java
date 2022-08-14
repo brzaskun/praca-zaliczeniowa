@@ -29,6 +29,7 @@ public class PodatnikWyborView implements Serializable {
     private PodatnikDAO podatnikDAO;
     private List<Podatnik> listaPodatnikowNoFKmanager;
     private List<Podatnik> listaPodatnikowNoFK;
+    private List<Podatnik> listaPodatnikowNowi;
     private List<Podatnik> listaPodatnikowFK;
     private List<Podatnik> listaPodatnikowFKmanager;
     private List<Podatnik> listaPodatnikow;
@@ -38,6 +39,7 @@ public class PodatnikWyborView implements Serializable {
         this.listaPodatnikowNoFK = new ArrayList<>();
         this.listaPodatnikowFK = new ArrayList<>();
         this.listaPodatnikowFKmanager = new ArrayList<>();
+        this.listaPodatnikowNowi = new ArrayList<>();
     }
     
     
@@ -45,6 +47,7 @@ public class PodatnikWyborView implements Serializable {
     public void init() { //E.m(this);
         listaPodatnikow = podatnikDAO.findAktywny();
         Collections.sort(listaPodatnikow, new Podatnikcomparator());
+        listaPodatnikowNowi = podatnikDAO.findNowi();
         for (Podatnik p : listaPodatnikow) {
             if (!p.isTylkodlaZUS()) {
                 switch (p.getFirmafk()) {
@@ -121,7 +124,17 @@ public class PodatnikWyborView implements Serializable {
     public void setListaPodatnikowFK(List<Podatnik> listaPodatnikowFK) {
         this.listaPodatnikowFK = listaPodatnikowFK;
     }
+    
+    
 //</editor-fold>
+
+    public List<Podatnik> getListaPodatnikowNowi() {
+        return listaPodatnikowNowi;
+    }
+
+    public void setListaPodatnikowNowi(List<Podatnik> listaPodatnikowNowi) {
+        this.listaPodatnikowNowi = listaPodatnikowNowi;
+    }
     
     
     

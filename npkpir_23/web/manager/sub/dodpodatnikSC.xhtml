@@ -24,9 +24,9 @@
         <p:growl life="3600"  id="msg"/>
         <!--        wpisywanie firmy-->
             
-            <p:panel header="dodawanie podatnika - spółki cywilnej" style="width: 600px;"/>
+            <p:panel header="dodawanie podatnika - spółki cywilnej" style="width: 500px;"/>
             <p:focus for="wprowadzaniepodatnika"/>
-            <p:panelGrid id="wprowadzaniepodatnika" columns="4" style="width: 600px;">
+            <p:panelGrid id="wprowadzaniepodatnika" columns="4">
                 <h:outputLabel value="nip"/>
                  <h:inputText id="polenip" value="#{podatnikView.selectedDod.nip}" maxlength="10" required="true" requiredMessage="NIP - jest wymagany, uzupełnij!">
                         <f:validateLength minimum="10"/>
@@ -56,12 +56,13 @@
                                  onblur="weryfikujsporzadzfakture(this);"/>
                 <h:outputLabel value="telefon  w formacie (+48...)"/>
                 <p:inputText id="telefon" value="#{podatnikView.selectedDod.telefonkontaktowy}" required="true" requiredMessage="Telefon - jest wymagany, uzupełnij!"/>
-                <h:outputLabel value="fax"/>
-                <p:inputMask id="fax" value="#{podatnikView.selectedDod.fax}" mask="99-999-99-99">
-                </p:inputMask>
                 <h:outputLabel value="email"/>
                 <p:inputText id="email" value="#{podatnikView.selectedDod.email}" required="true" requiredMessage="Email - jest wymagany, uzupełnij!">
                     <f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
+                </p:inputText>
+                <h:outputLabel value="email faktury"/>
+                <p:inputText id="fax" value="#{podatnikView.selectedDod.fax}">
+                    <p:ajax event="blur" partialSubmit="true" global="false"/>
                 </p:inputText>
                 <h:outputLabel value="data rozpoczęcia dział."/>
                 <p:inputMask id="dataurodzenia" value="#{podatnikView.selectedDod.dataurodzenia}" placeholder="rrrr-mm-dd"
@@ -99,17 +100,17 @@
                      <p:selectBooleanCheckbox value="#{podatnikView.selectedDod.wysylkazusmail}" label="wysyłać dane o wysokości ZUS i PIT-4"  valueChangeListener="#{podatnikView.zmianaWysylkaZus}">
                     </p:selectBooleanCheckbox>
                 <p:panelGrid columns="1">
-                    <h:outputLabel value="vat metoda kasowa"/>
+<!--                    <h:outputLabel value="vat metoda kasowa"/>-->
                     <h:outputLabel value="urząd skarbowy VAT"/>
                 </p:panelGrid>
                 <p:panelGrid columns="1">
-                      <h:selectOneMenu value="#{podatnikView.selectedDod.metodakasowa}"
+<!--                      <h:selectOneMenu value="#{podatnikView.selectedDod.metodakasowa}"
                                      styleClass="ui-selectonemenu-label ui-inputfield ui-corner-all"
                                      onfocus="$(this).addClass('ui-state-focus');" 
                                      onblur="$(this).removeClass('ui-state-focus');" >
                         <f:selectItem itemValue="tak"/>
                         <f:selectItem itemValue="nie"/>
-                    </h:selectOneMenu>
+                    </h:selectOneMenu>-->
                     <p:autoComplete completeMethod="#{tKodUS.complete}" value="#{podatnikView.selectedDod.urzadskarbowy}"
                                     forceSelection="true" maxResults="15" size="50" minQueryLength="3" effect="clip" var="p"
                                     queryDelay="10" 

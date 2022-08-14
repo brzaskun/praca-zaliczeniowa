@@ -109,7 +109,7 @@ public class VatUeFKView implements Serializable {
     }
 
     public void init() { //E.m(this);
-        if (inicjacjabyla==false) {
+            if (inicjacjabyla==false) {
             klienciWDTWNT = Collections.synchronizedList(new ArrayList<>());
             listaDok = Collections.synchronizedList(new ArrayList<>());
             listaDokfk = Collections.synchronizedList(new ArrayList<>());

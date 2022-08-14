@@ -108,6 +108,11 @@
                 </f:facet> 
                     <h:outputText value="#{wpis.grupa}" />
             </p:column>
+             <p:column headerText="akt." style="text-align: center;" width="30">
+                 <p:selectBooleanCheckbox value="#{wpis.aktywny}">
+                     <p:ajax event="change" partialSubmit="true" listener="#{UzView.edytuj(wpis)}"/>
+                 </p:selectBooleanCheckbox>
+            </p:column>
             <p:column id="editColumn" headerText="edytuj" style="text-align: center;" width="70">
                 <p:rowEditor />  
             </p:column>

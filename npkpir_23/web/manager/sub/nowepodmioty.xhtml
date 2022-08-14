@@ -1,0 +1,90 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+
+    xmlns:bcf="http://brzaskun.com/facelets">
+
+    <!--        <p:panelGrid columns="2" style="column-width: 350px; width: 700px">
+                <p:commandButton action="{zusStawkiNView.usunzus()}" value="usun parametr" update="@form" type="submit" />
+                <p:commandButton action="{zusStawkiNView.dodajzus()}" value="dodaj parametr" update="@form"  type="submit" />
+            </p:panelGrid>
+        </h:form>-->
+    <p:growl life="3600"  ><p:autoUpdate/></p:growl>
+    <f:view>
+
+        <h:form id="form">
+            <!--    panel wpisywania osoby fizycznej-->
+            <p:panel header="Wybierz nową firmę do edycji" style="width: 500px;"/>
+            <h:selectOneListbox id="podatnikWpisu" value="#{podatnikView.selectedDodedycja}" style="width: 350px; height: 150px;" converter="#{podatConv}" >
+                <f:selectItem itemLabel="wybierz podatnika" itemValue="" noSelectionOption="true"/>
+                <f:selectItems value="#{podatnikWyborView.listaPodatnikowNowi}" var="p" itemLabel="#{p.printnazwa}" itemValue="#{p}"/>
+                <p:ajax event="change"  update=":formdod2" global="false" listener="#{podatnikView.skopiujdoedycji}"/>
+            </h:selectOneListbox>
+        </h:form>
+        <h:form id="formdod2">
+            <p:tooltip for="formdod2:wprowadzaniepodatnika"/> 
+            <p:panel header="Edycja podatnika - osoby fizycznej" style="width: 500px;"/>
+            <p:focus for="wprowadzaniepodatnika"/>
+            <p:panelGrid id="wprowadzaniepodatnika" columns="2" style="padding: 10px;">
+                <h:outputLabel value="nip"/>
+                <h:outputText id="polenip" value="#{podatnikView.selectedDod.nip}" />
+                <h:outputLabel value="nazwa ewidencyjna"/>
+                <h:outputText value="#{podatnikView.selectedDod.printnazwa}" />
+                <h:outputLabel value="umowa najem lokalu"/>
+                <h:selectBooleanCheckbox value="#{podatnikView.selectedDod.umowalokal}">
+                </h:selectBooleanCheckbox>
+                <h:outputLabel value="vat-r"/>
+                <h:selectBooleanCheckbox value="#{podatnikView.selectedDod.vatr}">
+                </h:selectBooleanCheckbox>
+                <h:outputLabel value="vat-ue"/>
+                <h:selectBooleanCheckbox value="#{podatnikView.selectedDod.vatue}">
+                </h:selectBooleanCheckbox>
+                <h:outputLabel value="opis działalności"/>
+                <h:selectBooleanCheckbox value="#{podatnikView.selectedDod.opisdzialalnosci}">
+                </h:selectBooleanCheckbox>
+                <h:outputLabel value="konto bankowe"/>
+                <h:selectBooleanCheckbox value="#{podatnikView.selectedDod.kontobankowe}">
+                </h:selectBooleanCheckbox>
+                <h:outputLabel value="PPO"/>
+                <h:selectBooleanCheckbox value="#{podatnikView.selectedDod.ppo}">
+                </h:selectBooleanCheckbox>
+                <h:outputLabel value="PEL"/>
+                <h:selectBooleanCheckbox value="#{podatnikView.selectedDod.pel}">
+                </h:selectBooleanCheckbox>
+                <h:outputLabel value="umowa"/>
+                <h:selectBooleanCheckbox value="#{podatnikView.selectedDod.umowa}">
+                </h:selectBooleanCheckbox>
+                <h:outputLabel value="faktura"/>
+                <h:selectBooleanCheckbox value="#{podatnikView.selectedDod.faktura}">
+                </h:selectBooleanCheckbox>
+                <h:outputLabel value="ZUA"/>
+                <h:selectBooleanCheckbox value="#{podatnikView.selectedDod.zua}">
+                </h:selectBooleanCheckbox>
+                <h:outputLabel value="księgowa"/>
+                <p:selectOneMenu value="#{podatnikView.selectedDod.ksiegowa}" style="width: 100px;text-align: center;" converter="#{uzConv}">
+                    <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
+                    <f:selectItems value="#{podatnikView.listaksiegowych}" var="loop" itemLabel="#{loop.login}" itemValue="#{loop}"/>
+                </p:selectOneMenu>
+                 <h:outputLabel value="kadrowa"/>
+                 <p:selectOneMenu value="#{podatnikView.selectedDod.kadrowa}" style="width: 100px;text-align: center;" converter="#{uzConv}">
+                    <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
+                    <f:selectItems value="#{podatnikView.listakadrowych}" var="loop" itemLabel="#{loop.login}" itemValue="#{loop}"/>
+                </p:selectOneMenu>
+            </p:panelGrid>
+            <p:panelGrid columns="3" id="wprowadzaniepodatnikaprzyciski">
+                <p:commandButton actionListener="#{podatnikView.edytujnowy()}" value="edytuj" update="@form" 
+                                 rendered="#{podatnikView.selectedDodedycja ne null}"
+                                 type="submit" style="margin-top: 10px; width: 120px;"/>
+            </p:panelGrid>
+        </h:form>
+    </f:view>
+
+
+
+</ui:composition>   
+
