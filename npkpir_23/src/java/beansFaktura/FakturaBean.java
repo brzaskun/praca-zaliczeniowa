@@ -312,11 +312,15 @@ public class FakturaBean {
     }
 
     public static String pobierzmiejscewyst(Podatnik podatnikobiekt) {
+        String zwrot = podatnikobiekt.getMiejscowosc();
          try {
-            return podatnikobiekt.getMiejscewystawienia().isEmpty() ? "nie ustawiono miejsca" : podatnikobiekt.getMiejscewystawienia();
+            if (podatnikobiekt.getMiejscewystawienia()!=null) {
+                zwrot = podatnikobiekt.getMiejscewystawienia();
+            }
         } catch (Exception et) {
-            return "nie ustawiono miejsca";
+            zwrot = "nie ustawiono miejsca";
         }
+         return zwrot;
     }
     
     public static void ewidencjavat(Faktura selected, EvewidencjaDAO evewidencjaDAO) {

@@ -165,8 +165,12 @@ public class PozycjeNaFakturzeView implements Serializable {
     }
     
       private HashMap<String, Pozycjenafakturze> pobierzpozycjepodatnika() {
-        pozycjefakturapodatniklista = pozycjeDAO.findFakturyPodatnik(wpisView.getPodatnikObiekt());
         HashMap<String, Pozycjenafakturze> nowa = new HashMap<>();
+        pozycjefakturapodatniklista = pozycjeDAO.findFakturyPodatnik(wpisView.getPodatnikObiekt());
+        if (pozycjefakturapodatniklista==null || pozycjefakturapodatniklista.isEmpty()) {
+            importuj();
+            pozycjefakturapodatniklista = pozycjeDAO.findFakturyPodatnik(wpisView.getPodatnikObiekt());
+        }
         for (Pozycjenafakturze p : pozycjefakturapodatniklista) {
             nowa.put(p.getNazwa(), p);
         }

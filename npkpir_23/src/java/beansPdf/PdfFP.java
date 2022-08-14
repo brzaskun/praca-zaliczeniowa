@@ -264,6 +264,10 @@ public class PdfFP {
                         String sprzedawca = B.b("sprzedawca")+": ";
                         String wystawca = selected.getWystawcanazwa()!=null?selected.getWystawcanazwa():selected.getWystawca().getNazwadlafaktury();
                         adres = selected.getWystawca().getAdresdlafaktury();
+                        if (wystawca==null) {
+                           wystawca = podatnik.getPrintnazwa();
+                           adres = podatnik.getAdres();
+                        }
                         String nip = selected.getWystawca().getNipdlafaktury() != null ? B.b("NIP")+": "+selected.getWystawca().getNipdlafaktury() : B.b("NIP")+": "+selected.getWystawca().getNip();
                         table = PdfFTablice.wygenerujtabliceWystawcaOdbiorca(sprzedawca, wystawca, adres, nip, szerokosc, wysokosc, 10);
                         table.writeSelectedRows(0, table.getRows().size(), wymiarylewy.get("akordeon:formwzor:wystawca"), wymiaryGora.get("akordeon:formwzor:wystawca"), writer.getDirectContent());

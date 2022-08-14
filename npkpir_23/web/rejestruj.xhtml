@@ -75,7 +75,7 @@
                             </p:inputText>
                             <h:outputText value="#{mgs.nipfirmy}"/>
                             <p:inputText id="nipfirmy" value="#{UzView.selUzytkownik.firma}" required="true" title="#{mgs.wpisznip}"
-                                         requiredMessage="#{mgs.wpisznip}!" autocomplete="true" maxlength="10" validatorMessage="#{mgs.zakrotkinip}">
+                                         requiredMessage="#{mgs.wpisznip}!" autocomplete="true" maxlength="12" validatorMessage="#{mgs.zakrotkinip}">
                                 <f:validateLength minimum="10"/>
                                 <p:ajax event="change" partialSubmit="true" global="false"/>
                             </p:inputText>

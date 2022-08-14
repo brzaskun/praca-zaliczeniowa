@@ -577,7 +577,7 @@ public class FakturaView implements Serializable {
         if (rachunek) {
             selected.setRachunek(true);
         }
-        String platnoscwdniach = wpisView.getPodatnikObiekt().getPlatnoscwdni() == null ? "0" : wpisView.getPodatnikObiekt().getPlatnoscwdni();
+        String platnoscwdniach = wpisView.getPodatnikObiekt().getPlatnoscwdni() == null ? "14" : wpisView.getPodatnikObiekt().getPlatnoscwdni();
         selected.setDnizaplaty(Integer.parseInt(platnoscwdniach));
         String pelnadata = FakturaBean.obliczdatawystawienia(wpisView);
         selected.setDatawystawienia(pelnadata);
@@ -588,6 +588,9 @@ public class FakturaView implements Serializable {
         selected.setMiejscewystawienia(FakturaBean.pobierzmiejscewyst(podatnikobiekt));
         selected.setTerminzaplaty(FakturaBean.obliczterminzaplaty(podatnikobiekt, pelnadata));
         selected.setNrkontabankowego(FakturaBean.pobierznumerkonta(podatnikobiekt));
+        if (selected.getNrkontabankowego().equals("brak numeru konta bankowego")) {
+            selected.setSposobzaplaty("gotówka");
+        }
         List<FakturaWalutaKonto> listakontaktywne  = fakturaWalutaKontoDAO.findPodatnik(wpisView);
         if (listakontaktywne!=null) {
             FakturaBean.wielekont(selected, listakontaktywne, fakturaStopkaNiemieckaDAO, wpisView.getPodatnikObiekt());
@@ -2568,7 +2571,12 @@ public class FakturaView implements Serializable {
     }
      
     public int sortZaksiegowaneFaktury(Object o1, Object o2) {
-        return FakturaSortBean.sortZaksiegowaneDok(o1, o2, wpisView);
+        if (wpisView.getPodatnikObiekt().getSchematnumeracji()!=null) {
+            return FakturaSortBean.sortZaksiegowaneDok(o1, o2, wpisView);
+        } else {
+            Msg.msg("e","Brak schematu numerowania faktur");
+            return 0;
+        }
     }
     
      public void drukujfakturysporzadzone() {

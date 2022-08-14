@@ -117,6 +117,7 @@
                         </p:inputText>
                         <h:outputLabel value="konto bankowe: " />
                         <p:outputPanel id="polebankowe">
+                            <h:outputText value="brak numeru konta bankowego wystawiającego" rendered="#{fakturaView.selected.nrkontabankowego eq 'brak numeru konta bankowego'}"/>
                             <p:outputPanel rendered="#{fakturaView.listakontawwalucie==null or fakturaView.listakontawwalucie.size() eq 1}">
                                 <p:inplace id="kontobankowe" editor="true" saveLabel="zachowaj wprowadzoną wartość" cancelLabel="wycofaj wprowadzone zmiany">  
                                     <p:inputText value="#{fakturaView.selected.nrkontabankowego}" maxlength="34"
@@ -124,7 +125,7 @@
                                 </p:inplace>
                             </p:outputPanel>
                             <p:outputPanel rendered="#{fakturaView.listakontawwalucie!=null and fakturaView.listakontawwalucie.size() gt 1}">
-                                <p:selectOneMenu value="#{fakturaView.selected.nrkontabankowego}" required="true" requiredMessage="Wprowadź nazwę konta bankowego" autoWidth="true">
+                                <p:selectOneMenu value="#{fakturaView.selected.nrkontabankowego}" required="true" requiredMessage="Wprowadź nazwę konta bankowego" autoWidth="true" >
                                     <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true"/>
                                     <f:selectItems value="#{fakturaView.listakontawwalucie}"  var="itenkonto" itemValue="#{itenkonto}" itemLabel="#{itenkonto}"/>
                                 </p:selectOneMenu>

@@ -28,7 +28,7 @@
                     </p:inputText>
                     <h:outputLabel value="nazwa ewidencyjna"/>
                     <p:inputText id="nazwapelna" value="#{podatnikView.selectedDod.printnazwa}" 
-                                 required="true" requiredMessage="Nazwa pełna - jest wymagana, uzupełnij!" maxlength="25" title="Nie więcej niż 25 znaków" alt="Nie więcej niż 25 znaków">
+                                 required="true" requiredMessage="Nazwa pełna - jest wymagana, uzupełnij!" maxlength="125" title="Nie więcej niż 125 znaków" alt="Nie więcej niż 125 znaków">
                         <p:ajax event="blur" partialSubmit="true" listener="#{podatnikView.nazwacaps}" global="false" update="@this"/>
                     </p:inputText>
                     <h:outputLabel value="nazwisko"/>
