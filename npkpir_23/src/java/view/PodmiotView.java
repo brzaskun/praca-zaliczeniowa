@@ -66,7 +66,7 @@ public class PodmiotView implements Serializable {
     
     
     
-    public void opipi() {
+    public void tworzeniePodmiotuzPodatnika() {
         System.out.println("poczatek");
         List<Podmiot> lista = new ArrayList<>();
         List<Podatnik> podatnicy = podatnikDAO.findAllManager();
