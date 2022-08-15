@@ -5,9 +5,9 @@
  */
 package beanStatystyka;
 
+import dao.DokDAOfk;
 import dao.FakturaDAO;
 import dao.PodatnikDAO;
-import dao.DokDAOfk;
 import entity.Faktura;
 import entity.Podatnik;
 import entity.Statystyka;
@@ -33,6 +33,11 @@ public class StatystykaBeanFK implements Runnable {
     private FakturaDAO fakturaDAO;
     @Inject
     private PodatnikDAO podatnikDAO;
+
+    public StatystykaBeanFK() {
+    }
+    
+    
     
 
     public StatystykaBeanFK(List<Statystyka> zwrot, Podatnik p, int lp, String rok, DokDAOfk dokDAOfk, FakturaDAO fakturaDAO) {

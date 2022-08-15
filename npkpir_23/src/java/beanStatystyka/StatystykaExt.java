@@ -17,6 +17,8 @@ public class StatystykaExt extends Statystyka implements Serializable {
     private double fakturaobecnie;
     private double fakturanowa;
 
+    
+    
     public StatystykaExt(double wspolczynnik, double fakturaobecnie, double fakturanowa, Statystyka o) {
         super(o);
         this.wspolczynnik = wspolczynnik;

@@ -8,7 +8,7 @@ package view;
 import daoplatnik.UbezpZusrcaDAO;
 import daoplatnik.ZusdraDAO;
 import daoplatnik.ZusrcaDAO;
-import embeddable.DRASumy;
+import entity.DraSumy;
 import entityplatnik.UbezpZusrca;
 import entityplatnik.Zusdra;
 import entityplatnik.Zusrca;
@@ -31,8 +31,8 @@ import javax.inject.Named;
 public class DraPIT implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    private List<DRASumy> drasumy;
-    private DRASumy selected1;
+    private List<DraSumy> drasumy;
+    private DraSumy selected1;
     @Inject
     private WpisView wpisView;
     @Inject
@@ -71,7 +71,7 @@ public class DraPIT implements Serializable {
         if (!zusdra.isEmpty()) {
             int i = 1;
             for (Zusdra p : zusdra) {
-                DRASumy dras = new DRASumy();
+                DraSumy dras = new DraSumy();
                 dras.setId(i++);
                 dras.setRok(pobierzrok(p.getI22okresdeklar()));
                 dras.setMc(pobierzmc(p.getI22okresdeklar()));
@@ -119,19 +119,19 @@ public class DraPIT implements Serializable {
         return i22okresdeklar.substring(0,2);
     }
 
-    public List<DRASumy> getDrasumy() {
+    public List<DraSumy> getDrasumy() {
         return drasumy;
     }
 
-    public void setDrasumy(List<DRASumy> drasumy) {
+    public void setDrasumy(List<DraSumy> drasumy) {
         this.drasumy = drasumy;
     }
 
-    public DRASumy getSelected1() {
+    public DraSumy getSelected1() {
         return selected1;
     }
 
-    public void setSelected1(DRASumy selected1) {
+    public void setSelected1(DraSumy selected1) {
         this.selected1 = selected1;
     }
     

@@ -10,10 +10,12 @@ import comparator.Dokcomparator;
 import comparator.Podatnikcomparator;
 import comparator.WierszDRAcomparator;
 import dao.DokDAO;
+import dao.DraSumyDAO;
 import dao.PitDAO;
 import dao.PodatnikDAO;
 import dao.PodatnikOpodatkowanieDAO;
 import dao.PodatnikUdzialyDAO;
+import dao.PodmiotDAO;
 import dao.RyczDAO;
 import dao.SMTPSettingsDAO;
 import dao.WierszDRADAO;
@@ -24,16 +26,17 @@ import daoplatnik.ZusrcaDAO;
 import daosuperplace.FirmaFacade;
 import daosuperplace.RokFacade;
 import data.Data;
-import embeddable.DRASumy;
 import embeddable.Mce;
 import embeddable.WierszPkpir;
 import embeddable.WierszRyczalt;
 import entity.Dok;
+import entity.DraSumy;
 import entity.KwotaKolumna1;
 import entity.Pitpoz;
 import entity.Podatnik;
 import entity.PodatnikOpodatkowanieD;
 import entity.PodatnikUdzialy;
+import entity.Podmiot;
 import entity.Ryczpoz;
 import entity.WierszDRA;
 import entity.Zusmail;
@@ -77,6 +80,10 @@ public class DochodDlaDRAView implements Serializable {
     @Inject
     private PodatnikDAO podatnikDAO;
     @Inject
+    private PodmiotDAO podmiotDAO;
+    @Inject
+    private DraSumyDAO draSumyDAO;
+    @Inject
     private PodatnikUdzialyDAO podatnikUdzialyDAO;
     @Inject
     private PodatnikOpodatkowanieDAO podatnikOpodatkowanieDDAO;
@@ -89,7 +96,7 @@ public class DochodDlaDRAView implements Serializable {
     private List<WierszDRA> wiersze;
     private List<List<WierszDRA>> mapa;
     private WierszDRA selected;
-    private DRASumy selected1;
+    private DraSumy selected1;
     @Inject
     private WierszDRADAO wierszDRADAO;
     @Inject
@@ -109,7 +116,7 @@ public class DochodDlaDRAView implements Serializable {
     private List<Zusdra> zusdralista;
     private List<Zusrca> zusrcalista;
     private boolean pokazzrobione;
-    private List<DRASumy> drasumy;
+    private List<DraSumy> drasumy;
     private int razemubezpieczeni;
     private int razemprzedsiebiorcy;
     private int razempracownicy;
@@ -414,7 +421,13 @@ public class DochodDlaDRAView implements Serializable {
         }
         return new ArrayList<Zusdra>(nowe.values());
     }
-    public void podsumujDRA() {
+    
+    
+    
+    
+    
+    
+    public void podsumujDRAF(String mc, String rok, List<DraSumy> bazadanych) {
         drasumy = new ArrayList<>();
         if (mc==null) {
             mc = Data.poprzedniMc();
@@ -422,13 +435,48 @@ public class DochodDlaDRAView implements Serializable {
         String okres = mc+rok;
         List<Zusdra> zusdra = zusdraDAO.findByOkres(okres);
         List<Zusrca> zusrca = zusrcaDAO.findByOkres(okres);
+        List<Podatnik> podatnicy = podatnikDAO.findAllManager();
+        List<Podmiot> podmioty = podmiotDAO.findAll();
         int i = 1;
         for (Zusdra z : zusdra) {
-            DRASumy dras = new DRASumy();
-            dras.setId(i++);
+            DraSumy dras = new DraSumy();
             dras.setRok(rok);
             dras.setMc(mc);
+            for (Podatnik za : podatnicy) {
+                if (za.getNip().equals(z.getIi1Nip())) {
+                    dras.setPodatnik(za);
+                    break;
+                }
+            }
+            if (dras.getPodatnik()==null) {
+                for (Podatnik za : podatnicy) {
+                    if (za.getPesel()!=null && za.getPesel().equals(z.getIi3Pesel())) {
+                        dras.setPodatnik(za);
+                        break;
+                    }
+                }
+            }
+            if (dras.getPodatnik()==null && podmioty!=null) {
+                for (Podmiot za : podmioty) {
+                    if (za.getNip().equals(z.getIi1Nip())) {
+                        dras.setPodmiot(za);
+                        break;
+                    }
+                }
+                if (dras.getPodmiot()==null) {
+                    for (Podmiot za : podmioty) {
+                        if (za.getPesel()!=null && za.getPesel().equals(z.getIi3Pesel())) {
+                            dras.setPodmiot(za);
+                            break;
+                        }
+                    }
+                }
+            }
             dras.setZusdra(z);
+            dras.setNazwa(dras.getNazwaF());
+            if (bazadanych!=null&&!bazadanych.isEmpty()) {
+                dras = pobierzbaza(dras,bazadanych);
+            }
             for (Zusrca r : zusrca) {
                 if (r.getI12okrrozl().equals(z.getI22okresdeklar()) && r.getIdPlatnik()==z.getIdPlatnik()) {
                     dras.setZusrca(r);
@@ -437,11 +485,48 @@ public class DochodDlaDRAView implements Serializable {
                     break;
                 }
             }
+            dras.setUbezpieczeni(dras.getUbezpieczeniF());
+            dras.setPrzedsiebiorcy(dras.getPrzedsiebiorcyF());
+            dras.setPracownicy(dras.getPracownicyF());
+            dras.setZleceniobiorcy(dras.getZleceniobiorcyF());
+            dras.setInnetytuly(dras.getInnetytulyF());
+            dras.setKod(dras.getKodF());
+            dras.setSpoleczne(dras.getSpoleczneF());
+            dras.setZdrowotne(dras.getZdrowotneF());
+            dras.setData(Data.data_yyyyMMdd(z.getXii8Datawypel()));
+            dras.setNr(z.getI21iddekls());
+            dras.setOkres(z.getI22okresdeklar());
+            dras.setDozaplaty(z.getIx2Kwdozaplaty().doubleValue());
             drasumy.add(dras);
             
         }
         sumujdra();
+        draSumyDAO.editList(drasumy);
         System.out.println("");
+    }
+    
+    private DraSumy pobierzbaza(DraSumy dras, List<DraSumy> bazadanych) {
+        DraSumy zwrot = dras;
+        for (DraSumy p : bazadanych) {
+            if (p.getPodatnik()!=null) {
+                if ( p.getPodatnik().equals(dras.getPodatnik()) && p.getNr().equals(dras.getNr())) {
+                    zwrot = p;
+                    break;
+                }
+            } else 
+            if (p.getPodmiot()!=null) {
+                if ( p.getPodmiot().equals(dras.getPodmiot()) && p.getNr().equals(dras.getNr())) {
+                    zwrot = p;
+                    break;
+                }
+            } else {
+                if ( p.getNazwa().equals(dras.getNazwa()) && p.getNr().equals(dras.getNr())) {
+                    zwrot = p;
+                    break;
+                }
+            }
+        }
+        return zwrot;
     }
     
     private void sumujdra() {
@@ -451,8 +536,8 @@ public class DochodDlaDRAView implements Serializable {
             razempracownicy = 0;
             razemzleceniobiorcy = 0;
             razeminne = 0;
-            List<DRASumy> przetworzone = przetworz(drasumy);
-            for (DRASumy p : przetworzone) {
+            List<DraSumy> przetworzone = przetworz(drasumy);
+            for (DraSumy p : przetworzone) {
                 razemubezpieczeni = razemubezpieczeni+p.getUbezpieczeni();
                 razemprzedsiebiorcy = razemprzedsiebiorcy+p.getPrzedsiebiorcy();
                 razempracownicy = razempracownicy+p.getPracownicy();
@@ -463,9 +548,9 @@ public class DochodDlaDRAView implements Serializable {
         }
     }
     
-    private List<DRASumy> przetworz(List<DRASumy> drasumy) {
-        Map<String,DRASumy> nowe = new HashMap<>();
-        for (DRASumy p : drasumy) {
+    private List<DraSumy> przetworz(List<DraSumy> drasumy) {
+        Map<String,DraSumy> nowe = new HashMap<>();
+        for (DraSumy p : drasumy) {
             if (!nowe.containsKey(p.getZusdra().getIi1Nip())) {
                 nowe.put(p.getZusdra().getIi1Nip(), p);
             } else {
@@ -473,7 +558,7 @@ public class DochodDlaDRAView implements Serializable {
                 nowe.put(p.getZusdra().getIi1Nip(), p);
             }
         }
-        return new ArrayList<DRASumy>(nowe.values());
+        return new ArrayList<DraSumy>(nowe.values());
     }
     
     private void dodajpit4(WierszDRA w, List<kadryiplace.Firma> firmy) {
@@ -882,19 +967,19 @@ public class DochodDlaDRAView implements Serializable {
         this.pokazzrobione = pokazzrobione;
     }
 
-    public List<DRASumy> getDrasumy() {
+    public List<DraSumy> getDrasumy() {
         return drasumy;
     }
 
-    public void setDrasumy(List<DRASumy> drasumy) {
+    public void setDrasumy(List<DraSumy> drasumy) {
         this.drasumy = drasumy;
     }
 
-    public DRASumy getSelected1() {
+    public DraSumy getSelected1() {
         return selected1;
     }
 
-    public void setSelected1(DRASumy selected1) {
+    public void setSelected1(DraSumy selected1) {
         this.selected1 = selected1;
     }
 
@@ -937,6 +1022,8 @@ public class DochodDlaDRAView implements Serializable {
     public void setRazeminne(int razeminne) {
         this.razeminne = razeminne;
     }
+
+    
 
     
 

@@ -21,6 +21,7 @@
         <class>entity.DodatkoweMaile</class>
         <class>entity.Dok</class>
         <class>entity.DokFP</class>
+        <class>entity.DraSumy</class>
         <class>entity.EVatOpis</class>
         <class>entity.EVatwpis1</class>
         <class>entity.EVatwpisKJPK</class>
@@ -147,7 +148,6 @@
         <validation-mode>NONE</validation-mode>
     <properties>
       <property name="eclipselink.ddl-generation" value="create-tables"/>
-      <property name="eclipselink.ddl-generation" value="none"/>
       <property name="eclipselink.id-validation" value="NONE"/>
       <!--      <property name="eclipselink.query-results-cache" value="true"/>-->
       <!--      <property name="eclipselink.cache-usage" value="CheckCacheThenDatabase"/>-->

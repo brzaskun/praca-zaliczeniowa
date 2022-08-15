@@ -44,6 +44,11 @@ public class StatystykaBean  implements Serializable {
     @Inject
     private FakturaDAO fakturaDAO;
 
+    public StatystykaBean() {
+    }
+
+    
+    
     public StatystykaBean(List<Statystyka> zwrot, Podatnik p, int lp, String rok, DokDAO dokDAO, FakturaDAO fakturaDAO) {
         this.zwrot = zwrot;
         this.p = p;

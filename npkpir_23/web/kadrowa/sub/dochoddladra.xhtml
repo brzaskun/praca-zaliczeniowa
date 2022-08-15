@@ -452,7 +452,7 @@
         </p:selectOneMenu>
          <p:commandButton id="przeliczbutton1" value="pobierz" actionListener="#{dochodDlaDRAView.podsumujDRA()}"  style="width: 120px;margin-left: 20px;" update="akordeon:formtabeladra"/>
      </p:panelGrid>
-                        <p:dataTable value="#{dochodDlaDRAView.drasumy}" var="itemdra" style="width: 1300px;padding: 20px;"  reflow="true"
+                        <p:dataTable value="#{dochodDlaDRAView.drasumy}" var="itemdra" style="width: 1350px;padding: 20px;"  reflow="true"
                                      scrollable="true" scrollHeight="750" scrollRows="30" rowStyleClass="#{(yndex mod 2) eq 0 ? null : 'odd'}"
                                      emptyMessage="nie pobrano danych" id="wykazschem" rowKey="#{itemdra.id}" rowIndexVar="yndex1"
                                      selection="#{dochodDlaDRAView.selected1}" selectionMode="single" sortBy="#{itemdra.getNazwa()}" sortOrder="ascending">
@@ -468,6 +468,12 @@
                                 </f:facet>
                                 <h:outputText value="#{itemdra.getNazwa()}"/>
                             </p:column>
+                            <p:column  style="width: 250px;" exportable="false" sortBy="#{itemdra.podatnik.printnazwa}" filterBy="#{itemdra.podatnik.printnazwa}" filterMatchMode="contains">
+                                <f:facet name="header">
+                                    <h:outputText value="płatnik"/>
+                                </f:facet>
+                                <h:outputText value="#{itemdra.podatnik.printnazwa}"/>
+                            </p:column>
                             <p:column  style="width: 80px;" exportable="false"  filterBy="#{itemdra.zusdra.ii1Nip}" filterMatchMode="startsWith">
                                 <f:facet name="header">
                                     <h:outputText value="NIP"/>
@@ -480,11 +486,11 @@
                                 </f:facet>
                                 <h:outputText value="#{itemdra.getKod()}"/>
                             </p:column>
-                            <p:column style="text-align: center;width: 60px;" sortBy="#{itemdra.zusdra.xii8Datawypel}">
+                            <p:column style="text-align: center;width: 90px;" sortBy="#{itemdra.data}">
                                 <f:facet name="header">
                                     <h:outputText value="data"/>
                                 </f:facet>
-                                 <h:outputText value="#{itemdra.zusdra.xii8Datawypel}">
+                                 <h:outputText value="#{itemdra.data}">
                                     <f:convertDateTime dateStyle="medium" locale="pl"/>
                                 </h:outputText>
                             </p:column>
@@ -492,7 +498,7 @@
                                 <f:facet name="header">
                                     <h:outputText value="nr"/>
                                 </f:facet>
-                                <h:outputText value="#{itemdra.zusdra.i21iddekls}">
+                                <h:outputText value="#{itemdra.nr}">
                                 </h:outputText>
                             </p:column>
                             <p:column style="text-align: center;width: 20px;">
@@ -536,13 +542,13 @@
                                 <f:facet name="header">
                                     <h:outputText value="okres"/>
                                 </f:facet>
-                                <h:outputText value="#{itemdra.zusdra.i22okresdeklar}" style="color: green;"/>
+                                <h:outputText value="#{itemdra.okres}" style="color: green;"/>
                             </p:column>
                             <p:column  style="width: 70px;">
                                 <f:facet name="header">
                                     <h:outputText value="DRA d.zapł."/>
                                 </f:facet>
-                                <bcf:outputpl value="#{itemdra.zusdra.ix2Kwdozaplaty}"/>
+                                <bcf:outputpl value="#{itemdra.dozaplaty}"/>
                             </p:column>
                               
 <!--                          
