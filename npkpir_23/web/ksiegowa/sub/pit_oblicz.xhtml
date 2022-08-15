@@ -219,11 +219,11 @@
                                 </f:facet>
                                 <h:outputText value="#{yndex1+1}" style="width: 20px;"/>
                             </p:column>
-                            <p:column style="text-align: center;width: 60px;" sortBy="#{itemdra.zusdra.xii8Datawypel}">
+                            <p:column style="text-align: center;width: 60px;" sortBy="#{itemdra.data}">
                                 <f:facet name="header">
                                     <h:outputText value="data"/>
                                 </f:facet>
-                                <h:outputText value="#{itemdra.zusdra.xii8Datawypel}">
+                                <h:outputText value="#{itemdra.data}">
                                     <f:convertDateTime dateStyle="medium" locale="pl"/>
                                 </h:outputText>
                             </p:column>
@@ -231,14 +231,14 @@
                                 <f:facet name="header">
                                     <h:outputText value="nr"/>
                                 </f:facet>
-                                <h:outputText value="#{itemdra.zusdra.i21iddekls}">
+                                <h:outputText value="#{itemdra.nr}">
                                 </h:outputText>
                             </p:column>
-                            <p:column  style="text-align: center;width: 20px;" sortBy="#{itemdra.getUbezpieczeni()}">
+                            <p:column  style="text-align: center;width: 20px;" sortBy="#{itemdra.ubezpieczeni}">
                                 <f:facet name="header">
                                     <h:outputText value="ub."/>
                                 </f:facet>
-                                <h:outputText value="#{itemdra.getUbezpieczeni()}" rendered="#{itemdra.getUbezpieczeni() gt 0}"/>
+                                <h:outputText value="#{itemdra.ubezpieczeni}" rendered="#{itemdra.ubezpieczeni gt 0}"/>
                             </p:column>
                             <p:column  style="text-align: center;width: 50px;">
                                 <f:facet name="header">
@@ -250,13 +250,13 @@
                                 <f:facet name="header">
                                     <h:outputText value="ZUS 51"/>
                                 </f:facet>
-                                <bcf:outputpl value="#{itemdra.getSpoleczne()}"/>
+                                <bcf:outputpl value="#{itemdra.spoleczne}"/>
                             </p:column>
                             <p:column  style="width: 70px;">
                                 <f:facet name="header">
                                     <h:outputText value="ZUS 52"/>
                                 </f:facet>
-                                <bcf:outputpl value="#{itemdra.getZdrowotne()}"/>
+                                <bcf:outputpl value="#{itemdra.zdrowotne}"/>
                             </p:column>
                         </p:dataTable>
                     </p:panelGrid>

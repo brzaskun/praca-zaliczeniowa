@@ -6,6 +6,7 @@
 package dao;
 
 import entity.DraSumy;
+import entity.Podatnik;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -51,6 +52,14 @@ public class DraSumyDAO  extends DAO implements Serializable {
         List<DraSumy> zwrot = new ArrayList<>();
         try {
             zwrot = getEntityManager().createNamedQuery("DraSumy.findByRokMc").setParameter("rok", rokWpisuSt).setParameter("mc", mc).getResultList();
+        } catch (Exception e){}
+        return zwrot;
+    }
+
+    public List<DraSumy> zwrocRokPodatnik(String rokWpisuSt, Podatnik podatnikObiekt) {
+        List<DraSumy> zwrot = new ArrayList<>();
+        try {
+            zwrot = getEntityManager().createNamedQuery("DraSumy.findByRokPodatnik").setParameter("rok", rokWpisuSt).setParameter("podatnik", podatnikObiekt).getResultList();
         } catch (Exception e){}
         return zwrot;
     }

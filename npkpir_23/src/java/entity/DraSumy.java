@@ -32,12 +32,13 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @Table(name = "drasumy", uniqueConstraints = {
-    @UniqueConstraint(columnNames={"okres, nr, podatnik,podmiot"})
+    @UniqueConstraint(columnNames={"okres, nr, iddokument"})
 })
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "DraSumy.findAll", query = "SELECT a FROM DraSumy a"),
-    @NamedQuery(name = "DraSumy.findByRokMc", query = "SELECT a FROM DraSumy a where a.rok = :rok AND a.mc = :mc")
+    @NamedQuery(name = "DraSumy.findByRokMc", query = "SELECT a FROM DraSumy a where a.rok = :rok AND a.mc = :mc"),
+    @NamedQuery(name = "DraSumy.findByRokPodatnik", query = "SELECT a FROM DraSumy a where a.rok = :rok AND a.podatnik = :podatnik")
 })
 public class DraSumy implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -46,6 +47,8 @@ public class DraSumy implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
+    @Column(name = "iddokument")
+    private int iddokument;
     @Transient
     private Zusdra zusdra;
     @Transient
@@ -103,6 +106,14 @@ public class DraSumy implements Serializable {
 
     public Zusdra getZusdra() {
         return zusdra;
+    }
+
+    public int getIddokument() {
+        return iddokument;
+    }
+
+    public void setIddokument(int iddokument) {
+        this.iddokument = iddokument;
     }
 
     public void setZusdra(Zusdra zusdra) {
@@ -169,11 +180,10 @@ public class DraSumy implements Serializable {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 53 * hash + Objects.hashCode(this.id);
-        hash = 53 * hash + Objects.hashCode(this.zusdra);
-        hash = 53 * hash + Objects.hashCode(this.okres);
-        hash = 53 * hash + Objects.hashCode(this.podmiot);
-        hash = 53 * hash + Objects.hashCode(this.podatnik);
+        hash = 97 * hash + this.iddokument;
+        hash = 97 * hash + Objects.hashCode(this.okres);
+        hash = 97 * hash + Objects.hashCode(this.nazwa);
+        hash = 97 * hash + Objects.hashCode(this.nr);
         return hash;
     }
 
@@ -189,22 +199,26 @@ public class DraSumy implements Serializable {
             return false;
         }
         final DraSumy other = (DraSumy) obj;
+        if (this.iddokument != other.iddokument) {
+            return false;
+        }
         if (!Objects.equals(this.okres, other.okres)) {
             return false;
         }
-        if (!Objects.equals(this.id, other.id)) {
+        if (!Objects.equals(this.nazwa, other.nazwa)) {
             return false;
         }
-        if (!Objects.equals(this.zusdra, other.zusdra)) {
-            return false;
-        }
-        if (!Objects.equals(this.podmiot, other.podmiot)) {
-            return false;
-        }
-        if (!Objects.equals(this.podatnik, other.podatnik)) {
+        if (!Objects.equals(this.nr, other.nr)) {
             return false;
         }
         return true;
+    }
+
+    
+    
+    @Override
+    public String toString() {
+        return "DraSumy{" + "okres=" + okres + ", podmiot=" + podmiot.getPrintnazwa() + ", nazwa=" + nazwa + ", nr=" + nr + '}';
     }
 
     

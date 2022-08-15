@@ -114,10 +114,13 @@ public class DraPlatnikTimer {
                 }
             }
             dras.setZusdra(z);
+            dras.setIddokument(z.getIdDokument());
             dras.setNazwa(dras.getNazwaF());
             if (bazadanych!=null&&!bazadanych.isEmpty()) {
                 dras = pobierzbaza(dras,bazadanych);
             }
+            dras.setZusdra(z);
+            dras.setIddokument(z.getIdDokument());
             for (Zusrca r : zusrca) {
                 if (r.getI12okrrozl().equals(z.getI22okresdeklar()) && r.getIdPlatnik()==z.getIdPlatnik()) {
                     dras.setZusrca(r);
@@ -137,16 +140,16 @@ public class DraPlatnikTimer {
             dras.setData(Data.data_yyyyMMdd(z.getXii8Datawypel()));
             dras.setNr(z.getI21iddekls());
             dras.setOkres(z.getI22okresdeklar());
-            System.out.println("okres "+dras.getOkres());
-            System.out.println("nazwa "+dras.getNazwa());
-            System.out.println("id "+z.getIdDokument());
+//            System.out.println("okres "+dras.getOkres());
+//            System.out.println("nazwa "+dras.getNazwa());
+//            System.out.println("id "+z.getIdDokument());
             double kwota = z.getIx2Kwdozaplaty()!=null?z.getIx2Kwdozaplaty().doubleValue():0.0;
             dras.setDozaplaty(kwota);
             drasumy.add(dras);
             
         }
         draSumyDAO.editList(drasumy);
-        System.out.println("");
+        //System.out.println("Koniec DRA");
     }
       
       private DraSumy pobierzbaza(DraSumy dras, List<DraSumy> bazadanych) {

@@ -424,7 +424,13 @@ public class DochodDlaDRAView implements Serializable {
     
     
     
-    
+    public void podsumujDRA() {
+        if (mc==null) {
+            mc = Data.poprzedniMc();
+        }
+        List<DraSumy> bazadanych = draSumyDAO.zwrocRokMc(rok, mc);
+        podsumujDRAF(mc, rok, bazadanych);
+     }
     
     
     public void podsumujDRAF(String mc, String rok, List<DraSumy> bazadanych) {
@@ -473,10 +479,13 @@ public class DochodDlaDRAView implements Serializable {
                 }
             }
             dras.setZusdra(z);
+            dras.setIddokument(z.getIdDokument());
             dras.setNazwa(dras.getNazwaF());
             if (bazadanych!=null&&!bazadanych.isEmpty()) {
                 dras = pobierzbaza(dras,bazadanych);
             }
+            dras.setZusdra(z);
+            dras.setIddokument(z.getIdDokument());
             for (Zusrca r : zusrca) {
                 if (r.getI12okrrozl().equals(z.getI22okresdeklar()) && r.getIdPlatnik()==z.getIdPlatnik()) {
                     dras.setZusrca(r);
@@ -496,7 +505,8 @@ public class DochodDlaDRAView implements Serializable {
             dras.setData(Data.data_yyyyMMdd(z.getXii8Datawypel()));
             dras.setNr(z.getI21iddekls());
             dras.setOkres(z.getI22okresdeklar());
-            dras.setDozaplaty(z.getIx2Kwdozaplaty().doubleValue());
+            double kwota = z.getIx2Kwdozaplaty()!=null?z.getIx2Kwdozaplaty().doubleValue():0.0;
+            dras.setDozaplaty(kwota);
             drasumy.add(dras);
             
         }

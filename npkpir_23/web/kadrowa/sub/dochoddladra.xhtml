@@ -454,19 +454,19 @@
      </p:panelGrid>
                         <p:dataTable value="#{dochodDlaDRAView.drasumy}" var="itemdra" style="width: 1350px;padding: 20px;"  reflow="true"
                                      scrollable="true" scrollHeight="750" scrollRows="30" rowStyleClass="#{(yndex mod 2) eq 0 ? null : 'odd'}"
-                                     emptyMessage="nie pobrano danych" id="wykazschem" rowKey="#{itemdra.id}" rowIndexVar="yndex1"
-                                     selection="#{dochodDlaDRAView.selected1}" selectionMode="single" sortBy="#{itemdra.getNazwa()}" sortOrder="ascending">
+                                     emptyMessage="nie pobrano danych" id="wykazschem" rowKey="#{itemdra.iddokument}" rowIndexVar="yndex1"
+                                    sortBy="#{itemdra.nazwa}" sortOrder="ascending">
                             <p:column style="width: 20px;">
                                 <f:facet name="header">
                                     <h:outputText value="id"/>
                                 </f:facet>
                                 <h:outputText value="#{yndex1+1}" style="width: 20px;"/>
                             </p:column>
-                            <p:column  style="width: 250px;" exportable="false" sortBy="#{itemdra.getNazwa()}" filterBy="#{itemdra.getNazwa()}" filterMatchMode="contains">
+                            <p:column  style="width: 250px;" exportable="false" sortBy="#{itemdra.nazwa}" filterBy="#{itemdra.nazwa}" filterMatchMode="contains">
                                 <f:facet name="header">
                                     <h:outputText value="płatnik"/>
                                 </f:facet>
-                                <h:outputText value="#{itemdra.getNazwa()}"/>
+                                <h:outputText value="#{itemdra.nazwa}"/>
                             </p:column>
                             <p:column  style="width: 250px;" exportable="false" sortBy="#{itemdra.podatnik.printnazwa}" filterBy="#{itemdra.podatnik.printnazwa}" filterMatchMode="contains">
                                 <f:facet name="header">
@@ -474,17 +474,17 @@
                                 </f:facet>
                                 <h:outputText value="#{itemdra.podatnik.printnazwa}"/>
                             </p:column>
-                            <p:column  style="width: 80px;" exportable="false"  filterBy="#{itemdra.zusdra.ii1Nip}" filterMatchMode="startsWith">
+                            <p:column  style="width: 80px;" exportable="false"  filterBy="#{itemdra.podatnik.nip}" filterMatchMode="startsWith">
                                 <f:facet name="header">
                                     <h:outputText value="NIP"/>
                                 </f:facet>
-                                <h:outputText value="#{itemdra.zusdra.ii1Nip}"/>
+                                <h:outputText value="#{itemdra.podatnik.nip}"/>
                             </p:column>
-                            <p:column  style="width: 40px;" exportable="false"  filterBy="#{itemdra.getKod()}" filterMatchMode="startsWith">
+                            <p:column  style="width: 40px;" exportable="false"  filterBy="#{itemdra.kod}" filterMatchMode="startsWith">
                                 <f:facet name="header">
                                     <h:outputText value="kod"/>
                                 </f:facet>
-                                <h:outputText value="#{itemdra.getKod()}"/>
+                                <h:outputText value="#{itemdra.kod}"/>
                             </p:column>
                             <p:column style="text-align: center;width: 90px;" sortBy="#{itemdra.data}">
                                 <f:facet name="header">
@@ -508,35 +508,35 @@
                                 <h:outputText value="&#x2713;" rendered="#{itemdra.zusdra.statuspt eq 'Z'}">
                                 </h:outputText>
                             </p:column>
-                            <p:column  style="text-align: center;width: 20px;" sortBy="#{itemdra.getUbezpieczeni()}">
+                            <p:column  style="text-align: center;width: 20px;" sortBy="#{itemdra.ubezpieczeni}">
                                 <f:facet name="header">
                                     <h:outputText value="ub."/>
                                 </f:facet>
-                                <h:outputText value="#{itemdra.getUbezpieczeni()}" rendered="#{itemdra.getUbezpieczeni() gt 0}"/>
+                                <h:outputText value="#{itemdra.ubezpieczeni}" rendered="#{itemdra.ubezpieczeni gt 0}"/>
                             </p:column>
                             <p:column  style="text-align: center;width: 20px;">
                                 <f:facet name="header">
                                     <h:outputText value="prz."/>
                                 </f:facet>
-                                 <h:outputText value="#{itemdra.getPrzedsiebiorcy()}"  rendered="#{itemdra.getPrzedsiebiorcy() gt 0}"/>
+                                <h:outputText value="#{itemdra.przedsiebiorcy}"  rendered="#{itemdra.przedsiebiorcy gt 0}"/>
                             </p:column>
                             <p:column  style="text-align: center;width: 20px;">
                                 <f:facet name="header">
                                     <h:outputText value="prac."/>
                                 </f:facet>
-                                 <h:outputText value="#{itemdra.getPracownicy()}"  rendered="#{itemdra.getPracownicy() gt 0}"/>
+                                <h:outputText value="#{itemdra.pracownicy}"  rendered="#{itemdra.pracownicy gt 0}"/>
                             </p:column>
                             <p:column  style="text-align: center;width: 20px;">
                                 <f:facet name="header">
                                     <h:outputText value="zlec."/>
                                 </f:facet>
-                                 <h:outputText value="#{itemdra.getZleceniobiorcy()}"  rendered="#{itemdra.getZleceniobiorcy() gt 0}"/>
+                                <h:outputText value="#{itemdra.zleceniobiorcy}"  rendered="#{itemdra.zleceniobiorcy gt 0}"/>
                             </p:column>
                              <p:column  style="text-align: center;width: 20px;">
                                 <f:facet name="header">
                                     <h:outputText value="inne"/>
                                 </f:facet>
-                                 <h:outputText value="#{itemdra.getInnetytuly()}"  rendered="#{itemdra.getInnetytuly() gt 0}"/>
+                                 <h:outputText value="#{itemdra.innetytuly}"  rendered="#{itemdra.innetytuly gt 0}"/>
                             </p:column>
                             <p:column  style="text-align: center;width: 50px;">
                                 <f:facet name="header">
