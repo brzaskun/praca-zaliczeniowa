@@ -51,6 +51,9 @@ public class FakturaDodPozycjaKontrahentView  implements Serializable {
     private List<FakturaDodPozycjaKontrahent> lista_2;
     private List<FakturaDodPozycjaKontrahent> lista_2_filter;
     private List<FakturaDodPozycjaKontrahent> lista_2_selected;
+    private List<FakturaDodPozycjaKontrahent> lista_3;
+    private List<FakturaDodPozycjaKontrahent> lista_3_filter;
+    private List<FakturaDodPozycjaKontrahent> lista_3_selected;
     @Inject
     private FakturaDodPozycjaKontrahent selected;
     private String rok;
@@ -89,6 +92,8 @@ public class FakturaDodPozycjaKontrahentView  implements Serializable {
             if (rok != null && mc != null) {
                 lista_2_filter = null;
                 lista_2_selected = null;
+                lista_3_filter = null;
+                lista_3_selected = null;
                 lista_wzor = fakturaDodPozycjaKontrahentDAO.findByRok(rok);
                 List<FakturaDodPozycjaKontrahent> lista_tmp = lista_wzor.stream().filter(p -> p.getRok().equals(rok) && p.getMc().equals(mc)).collect(Collectors.toList());
                 for (FakturaDodPozycjaKontrahent p : lista_tmp) {
@@ -102,7 +107,9 @@ public class FakturaDodPozycjaKontrahentView  implements Serializable {
                 }
                 uzupelnijofakture(lista_tmp);
                 lista_2 = new ArrayList<>();
-                lista_2.addAll(lista_tmp);
+                lista_2.addAll(lista_tmp.stream().filter(p->p.isBrakfakturydoedycji()==false).collect(Collectors.toList()));
+                lista_3 = new ArrayList<>();
+                lista_3.addAll(lista_tmp.stream().filter(p->p.isBrakfakturydoedycji()==true).collect(Collectors.toList()));
                 Msg.msg("Pobrano stałe pozycje");
             }
         }
@@ -353,6 +360,30 @@ public class FakturaDodPozycjaKontrahentView  implements Serializable {
 
     public void setPokazujtylkopuste(boolean pokazujtylkopuste) {
         this.pokazujtylkopuste = pokazujtylkopuste;
+    }
+
+    public List<FakturaDodPozycjaKontrahent> getLista_3() {
+        return lista_3;
+    }
+
+    public void setLista_3(List<FakturaDodPozycjaKontrahent> lista_3) {
+        this.lista_3 = lista_3;
+    }
+
+    public List<FakturaDodPozycjaKontrahent> getLista_3_filter() {
+        return lista_3_filter;
+    }
+
+    public void setLista_3_filter(List<FakturaDodPozycjaKontrahent> lista_3_filter) {
+        this.lista_3_filter = lista_3_filter;
+    }
+
+    public List<FakturaDodPozycjaKontrahent> getLista_3_selected() {
+        return lista_3_selected;
+    }
+
+    public void setLista_3_selected(List<FakturaDodPozycjaKontrahent> lista_3_selected) {
+        this.lista_3_selected = lista_3_selected;
     }
 
     

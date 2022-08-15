@@ -63,6 +63,19 @@ public class FakturaDodatkowaPozycjaView  implements Serializable {
             Msg.msg("e","Nie wybrano pozycji. Nie można usunąć");
         }
     }
+    
+    public void edytuj(FakturaDodatkowaPozycja sel) {
+        if (sel !=null) {
+            try {
+                fakturaDodatkowaPozycjaDAO.edit(sel);
+                Msg.msg("Edytowano pozycję");
+            } catch (Exception e) {
+                Msg.msg("e","Nieudana edycja pozycji");
+            }
+        } else {
+            Msg.msg("e","Nie wybrano pozycji. Nie można edytować");
+        }
+    }
 
     public List<FakturaDodatkowaPozycja> getLista() {
         return lista;

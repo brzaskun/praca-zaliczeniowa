@@ -44,6 +44,8 @@ public class FakturaDodatkowaPozycja  implements Serializable{
     private double kwota;
     @Column(name = "aktywny")
     private boolean aktywny;
+    @Column(name = "praca1zlecenie0")
+    private boolean praca1zlecenie0;
 
     public int getId() {
         return id;
@@ -77,6 +79,15 @@ public class FakturaDodatkowaPozycja  implements Serializable{
         this.aktywny = aktywny;
     }
 
+    public boolean isPraca1zlecenie0() {
+        return praca1zlecenie0;
+    }
+
+    public void setPraca1zlecenie0(boolean praca1zlecenie0) {
+        this.praca1zlecenie0 = praca1zlecenie0;
+    }
+
+    
     @Override
     public int hashCode() {
         int hash = 7;
