@@ -12,16 +12,16 @@
             <bcf:ajaxs/>    
                 <f:view>
                     <p:layout fullPage="true" expandTitle="Wysuń" closeTitle="Zamknij" collapseTitle="Schowaj">
-<!--                       
--->                         <ui:include src="sub/layout/north.xhtml"/>  <!-- panel polnocny-->
-                            <ui:include src="sub/layout/south.xhtml"/>   <!-- panel poludniowy-->
-                            <ui:include src="sub/layout/west.xhtml"/>   <!-- panel zachodni-->
-                             <ui:include src="sub/layout/east.xhtml"/>   <!-- panel zachodni-->
+                       
+                         <ui:include src="sub/layout/north.xhtml"/>   panel polnocny
+                            <ui:include src="sub/layout/south.xhtml"/>    panel poludniowy
+                            <ui:include src="sub/layout/west.xhtml"/>    panel zachodni
+                             <ui:include src="sub/layout/east.xhtml"/>    panel zachodni
                         <p:layoutUnit position="center">
-                        <ui:include src="sub/tablica.xhtml"/>   <!-- właściwa tablica z danymi z księgi-->
-<!--                        <ui:include src="/sub/kalendarz.xhtml"/>    właściwa tablica z danymi z księgi
+                        <ui:include src="sub/tablica.xhtml"/>    właściwa tablica z danymi z księgi
+                        <ui:include src="/sub/kalendarz.xhtml"/>    właściwa tablica z danymi z księgi
                         <ui:include src="/sub/dialog_sprawy.xhtml"/>
-                        <ui:include src="/sub/dialog_nowasprawa.xhtml"/> -->
+                        <ui:include src="/sub/dialog_nowasprawa.xhtml"/> 
                            
                         </p:layoutUnit>
                                 
@@ -30,6 +30,30 @@
             
         </ui:define>
     </ui:composition>
+<!--    <h:body>
+        <ui:composition template="../templateCSS.xhtml">
+
+            <ui:define name="top" >
+                <ui:include src="sub/layout/north.xhtml"/>
+            </ui:define>
+
+            <ui:define name="left">
+                <ui:include src="sub/layout/west.xhtml"/>
+            </ui:define>
+
+            <ui:define name="content">
+                <ui:include src="sub/tablica.xhtml"/>
+                <ui:include src="/sub/kalendarz.xhtml"/> 
+                <ui:include src="/sub/dialog_sprawy.xhtml"/>
+                <ui:include src="/sub/dialog_nowasprawa.xhtml"/> 
+            </ui:define>
+
+            <ui:define name="bottom">
+                <ui:include src="sub/layout/south.xhtml"/>
+            </ui:define>
+
+        </ui:composition>
+    </h:body>-->
 </html>
 
 
