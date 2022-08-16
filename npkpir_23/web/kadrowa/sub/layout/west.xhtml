@@ -17,7 +17,7 @@
                     </p:menu>
                 </h:form>
             </p:panel>-->
-            <p:panel header="Ustawianie parametrów dla wszystkich podatników" >
+            <p:panel header="Ustawianie parametrów dla wszystkich podatników" style="text-align: center;">
                 <h:form>
                     <p:menu >
                         <p:menuitem value="podmioty"  outcome="podmiotyK" icon="ui-icon-circle-arrow-e"/>
@@ -29,8 +29,8 @@
                     </p:menu>
                 </h:form>
             </p:panel>
-            <p:panel>
-                <p:commandButton id="wyloguj" value="#{mgs.wyloguj}" action="#{logowanie.logout()}" /> 
+            <p:panel style="text-align: center;">
+                <p:commandButton id="wyloguj" value="#{mgs.wyloguj}" action="#{logowanie.logout()}" styleClass="button"/> 
             </p:panel>
 </ui:composition>   
 

@@ -236,4 +236,7 @@ html.progress, html.progress * {
     padding: 0px 0px 0px 0px !important;
 }*/
 
+.button {
+    width: 120px;
+}
 

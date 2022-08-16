@@ -21,20 +21,25 @@
         </h:form>
         <div class="grid">
             <div id="top" class="col-12 card-container blue-container flex justify-content-start">
-                <p:outputPanel class="flex-auto bg-taxman font-bold text-primary p-4 border-round mb-3">
+                <p:outputPanel class="flex-auto bg-taxman font-bold text-primary p-4 border-round mb-3" style="box-shadow: 10px 10px 5px #888;">
                     <ui:insert name="top">Top</ui:insert>
                 </p:outputPanel>
             </div>
-            <div class="col-12 flex">
-                <p:outputPanel class="col-1 block bg-white font-bold p-0 border-round mb-3" style="min-width: 192px;">
-                        <ui:insert name="left" >Left</ui:insert>
-                    </p:outputPanel>
-                    <p:outputPanel class="col-11 flex-auto bg-white font-bold p-0 border-round mb-3">
-                        <ui:insert name="content">Content</ui:insert>
-                    </p:outputPanel>
+            <div class="col-12 flex" style="margin-top: -10px;top:90px;bottom:70px;position: absolute;">
+                <p:outputPanel class="col-1 block bg-white font-bold p-0 border-round mb-3" style="box-shadow: 10px 10px 5px #888;">
+                    <p:idleMonitor timeout="1200000">  
+                        <p:ajax event="idle" listener="#{logowanie.logout()}"/>  
+                        <!--            <p:ajax event="active" listener="{idleMonitorController.activeListener}" update="messageslogout" />  -->
+                    </p:idleMonitor>   
+
+                    <ui:insert name="left" >Left</ui:insert>
+                </p:outputPanel>
+                <p:outputPanel class="col-11 flex-auto bg-white font-bold p-0 border-round mb-3"  style="margin-left: 10px;box-shadow: 10px 10px 5px #888;">
+                    <ui:insert name="content">Content</ui:insert>
+                </p:outputPanel>
             </div>
             <div id="bottom"  class="col-12 card-container blue-container flex justify-content-start">
-                <p:outputPanel class="flex-auto bg-bluegray-100 font-bold text-center p-4 border-round mb-3">
+                <p:outputPanel class="flex-auto bg-bluegray-100 font-bold text-center p-4 border-round mb-3"  style="box-shadow: 10px 10px 5px #888;bottom: 0;position: absolute;width:97%;">
                     <ui:insert name="bottom">Bottom</ui:insert>
                 </p:outputPanel>
             </div>
