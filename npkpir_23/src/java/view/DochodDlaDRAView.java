@@ -518,21 +518,27 @@ public class DochodDlaDRAView implements Serializable {
     private DraSumy pobierzbaza(DraSumy dras, List<DraSumy> bazadanych) {
         DraSumy zwrot = dras;
         for (DraSumy p : bazadanych) {
-            if (p.getPodatnik()!=null) {
-                if ( p.getPodatnik().equals(dras.getPodatnik()) && p.getNr().equals(dras.getNr())) {
-                    zwrot = p;
-                    break;
-                }
-            } else 
-            if (p.getPodmiot()!=null) {
-                if ( p.getPodmiot().equals(dras.getPodmiot()) && p.getNr().equals(dras.getNr())) {
-                    zwrot = p;
-                    break;
-                }
+            if (p.getIddokument() == dras.getIddokument()) {
+                zwrot = p;
+                break;
             } else {
-                if ( p.getNazwa().equals(dras.getNazwa()) && p.getNr().equals(dras.getNr())) {
-                    zwrot = p;
-                    break;
+                if (p.getPodatnik() != null) {
+                    if (p.getPodatnik().equals(dras.getPodatnik()) && p.getNr().equals(dras.getNr())) {
+                        zwrot = p;
+                        break;
+                    }
+                } else {
+                    if (p.getPodmiot() != null) {
+                        if (p.getPodmiot().equals(dras.getPodmiot()) && p.getNr().equals(dras.getNr())) {
+                            zwrot = p;
+                            break;
+                        }
+                    } else {
+                        if (p.getNazwa().equals(dras.getNazwa()) && p.getNr().equals(dras.getNr())) {
+                            zwrot = p;
+                            break;
+                        }
+                    }
                 }
             }
         }

@@ -62,7 +62,7 @@
                     </p:selectBooleanCheckbox>
                 </p:panelGrid>
                 <p:growl life="3600" showDetail="true"><p:autoUpdate/></p:growl>
-                <p:dataTable  var="zapis" value="#{fakturaDodPozycjaKontrahentView.lista_2}" id="lista" sortOrder="ascending" style="width: 1370px;" widgetVar="tabelazwynikami"
+                <p:dataTable  var="zapis" value="#{fakturaDodPozycjaKontrahentView.lista_2}" id="lista" sortOrder="ascending" style="width: 1420px;" widgetVar="tabelazwynikami"
                               filteredValue="#{fakturaDodPozycjaKontrahentView.lista_2_filter}" selection="#{fakturaDodPozycjaKontrahentView.lista_2_selected}" selectionMode="multiple"
                               paginator="true" paginatorAlwaysVisible="#{fakturaDodPozycjaKontrahentView.lista_2.size() gt 20 ? true : false}" rows="20" sortBy="#{zapis.kontrahent.nazwapodatnika}"
                               paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
@@ -83,6 +83,10 @@
                     <p:column headerText="ilość" width="50" style="text-align: center;" sortBy="#{zapis.ilosc}">  
                         <p:inputNumber value="#{zapis.ilosc}" decimalPlaces="0" size="3">
                             <p:ajax event="change"  partialSubmit="true" listener="#{fakturaDodPozycjaKontrahentView.edytuj(zapis,1)}" />
+                        </p:inputNumber>
+                    </p:column>
+                     <p:column headerText="ilość dra" width="50" style="text-align: center;" sortBy="#{zapis.iloscdra}">  
+                         <p:inputNumber value="#{zapis.iloscdra}" decimalPlaces="0" size="3" readonly="true">
                         </p:inputNumber>
                     </p:column>
                     <p:column headerText="rozl" width="50" style="text-align: center;" filterBy="#{zapis.rozliczone}">  

@@ -55,6 +55,8 @@ public class FakturaDodPozycjaKontrahent  implements Serializable{
     private FakturaDodatkowaPozycja fakturaDodatkowaPozycja;
     @Column(name = "ilosc")
     private int ilosc;
+    @Column(name = "iloscdra")
+    private int iloscdra;
     @Column(name = "rok")
     private String rok;
     @Column(name = "mc")
@@ -218,6 +220,14 @@ public class FakturaDodPozycjaKontrahent  implements Serializable{
 
     public void setKwotaindywid(double kwotaindywid) {
         this.kwotaindywid = kwotaindywid;
+    }
+
+    public int getIloscdra() {
+        return iloscdra;
+    }
+
+    public void setIloscdra(int iloscdra) {
+        this.iloscdra = iloscdra;
     }
 
  

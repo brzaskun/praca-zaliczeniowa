@@ -6,11 +6,13 @@
 package view;
 
 import comparator.Klienci1comparator;
+import dao.DraSumyDAO;
 import dao.FakturaDodPozycjaKontrahentDAO;
 import dao.FakturaDodatkowaPozycjaDAO;
 import dao.FakturywystokresoweDAO;
 import dao.PodatnikDAO;
 import data.Data;
+import entity.DraSumy;
 import entity.Faktura;
 import entity.FakturaDodPozycjaKontrahent;
 import entity.FakturaDodatkowaPozycja;
@@ -62,6 +64,8 @@ public class FakturaDodPozycjaKontrahentView  implements Serializable {
     private double sumawybranych2;
     private boolean pokazujtylkopuste;
     private List<Fakturywystokresowe> wykazfaktur;
+    @Inject
+    private DraSumyDAO draSumyDAO;
 
     
     @PostConstruct
@@ -106,6 +110,7 @@ public class FakturaDodPozycjaKontrahentView  implements Serializable {
                     lista_2 = lista_2.stream().filter(p->p.getIlosc()==0).collect(Collectors.toList());
                 }
                 uzupelnijofakture(lista_tmp);
+                uzupelnijodanezDRA(lista_tmp);
                 lista_2 = new ArrayList<>();
                 lista_2.addAll(lista_tmp.stream().filter(p->p.isBrakfakturydoedycji()==false).collect(Collectors.toList()));
                 lista_3 = new ArrayList<>();
@@ -273,6 +278,39 @@ public class FakturaDodPozycjaKontrahentView  implements Serializable {
             }
         }
     }
+    
+     private void uzupelnijodanezDRA(List<FakturaDodPozycjaKontrahent> lista_tmp) {
+        if (lista_tmp!=null) {
+            String[] okpop = Data.poprzedniOkres(mc, rok);
+            List<DraSumy> drasumy = draSumyDAO.zwrocRokMc(okpop[1], okpop[0]);
+            for (FakturaDodPozycjaKontrahent p : lista_tmp) {
+                p.setBrakfaktury(true);
+                p.setBrakfakturydoedycji(true);
+                for (Fakturywystokresowe r : wykazfaktur) {
+                    Faktura f = r.getDokument();
+                    if (f.getKontrahent().getNip().equals(p.getKontrahent().getNip())) {
+                        p.setBrakfaktury(false);
+                        if (r.isRecznaedycja()==true) {
+                            p.setBrakfakturydoedycji(false);
+                        }
+                        break;
+                    }
+                }
+                for (DraSumy d : drasumy) {
+                    if (d.getPodatnik()!=null&&d.getPodatnik().getNip().equals(p.getKontrahent().getNip())) {
+                        if (p.getFakturaDodatkowaPozycja().isPraca1zlecenie0()) {
+                            p.setIloscdra(d.getPracownicy());
+                        } else {
+                            p.setIloscdra(d.getZleceniobiorcy()+d.getInnetytuly());
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    
 
     public FakturaDodPozycjaKontrahent getSelected() {
         return selected;
@@ -386,7 +424,7 @@ public class FakturaDodPozycjaKontrahentView  implements Serializable {
         this.lista_3_selected = lista_3_selected;
     }
 
-    
+   
 
  
     
