@@ -71,7 +71,6 @@ public class Statystyka  implements Serializable {
     }
 
     public Statystyka(Statystyka o) {
-        this.lp = o.lp;
         this.podatnik = o.podatnik;
         this.rok = o.rok;
         this.iloscdokumentow = o.iloscdokumentow;
@@ -85,8 +84,7 @@ public class Statystyka  implements Serializable {
     }
     
     
-    public Statystyka(int lp, Podatnik podatnik, String rok, int iloscdokumentow, double obroty, int iloscfaktur, double kwotafaktur) {
-        this.lp = lp;
+    public Statystyka(Podatnik podatnik, String rok, int iloscdokumentow, double obroty, int iloscfaktur, double kwotafaktur) {
         this.podatnik = podatnik;
         this.rok = rok;
         this.iloscdokumentow = iloscdokumentow;

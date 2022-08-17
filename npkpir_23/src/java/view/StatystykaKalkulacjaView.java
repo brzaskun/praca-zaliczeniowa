@@ -54,7 +54,7 @@ public class StatystykaKalkulacjaView  implements Serializable {
     public StatystykaKalkulacjaView() {
         podatnikroklista = Collections.synchronizedList(new ArrayList<>());
         listadozachowania = Collections.synchronizedList(new ArrayList<>());
-        rok = "2016";
+        rok = "2022";
     }
     
     public void generuj() {
@@ -84,16 +84,15 @@ public class StatystykaKalkulacjaView  implements Serializable {
 
     private List<Statystyka> stworzliste(List<Podatnik> podatnicy) {
         List<Statystyka> zwrot = Collections.synchronizedList(new ArrayList<Statystyka>());
-        int lp = 1;
-        for (Podatnik p : podatnicy) {
+        Podatnik podatnik = podatnikDAO.findPodatnikByNIP("8511005008");
+        podatnicy.parallelStream().forEach(p->{
             List<Dok> dokumenty = dokDAO.zwrocBiezacegoKlientaRok(p, rok);
-            Podatnik podatnik = podatnikDAO.findPodatnikByNIP("8511005008");
             List<Faktura> faktury = fakturaDAO.findbyKontrahentNipRok(p.getNip(), podatnik, rok);
-            Statystyka sb = new Statystyka(lp++, p, rok, iloscdok(dokumenty), obroty(dokumenty), iloscfaktur(faktury), kwotafaktur(faktury));
+            Statystyka sb = new Statystyka(p, rok, iloscdok(dokumenty), obroty(dokumenty), iloscfaktur(faktury), kwotafaktur(faktury));
             if (sb.getIloscdokumentow() > 0 && sb.getIloscfaktur() > 0) {
                 zwrot.add(sb);
             }
-        }
+        });
         return zwrot;
     }
     
@@ -138,7 +137,7 @@ public class StatystykaKalkulacjaView  implements Serializable {
             List<Dokfk> dokumenty = dokDAOfk.findDokfkPodatnikRok(p, rok);
             Podatnik podatnik = podatnikDAO.findPodatnikByNIP("8511005008");
             List<Faktura> faktury = fakturaDAO.findbyKontrahentNipRok(p.getNip(), podatnik, rok);
-            Statystyka sb = new Statystyka(lp++, p, rok, iloscdok(dokumenty), obrotyfk(dokumenty), iloscfaktur(faktury), kwotafaktur(faktury));
+            Statystyka sb = new Statystyka(p, rok, iloscdok(dokumenty), obrotyfk(dokumenty), iloscfaktur(faktury), kwotafaktur(faktury));
             if (sb.getIloscdokumentow() > 0 || sb.getIloscfaktur() > 0) {
                 zwrot.add(sb);
             }
