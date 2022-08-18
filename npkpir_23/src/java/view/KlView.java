@@ -205,6 +205,46 @@ public class KlView implements Serializable {
         selected = new Klienci();
         PrimeFaces.current().ajax().update("formXNowyKlient");
     }
+    
+    public void dodajKlientafkSilent(Dokfk dokfk, EVatwpisFK evfk) {
+        try {
+            if (selected.getNip().isEmpty()) {
+                wygenerujnip();
+            }
+            String formatka = selected.getNskrocona().toUpperCase();
+            selected.setNskrocona(formatka);
+            if (selected.getKrajnazwa() == null) {
+                Msg.msg("e", "Nie dodano nowego klienta. Nie wprowadzono kraju");
+                return;
+            } else {
+                String kraj = selected.getKrajnazwa();
+                String symbol = ps1.getWykazPanstwSX().get(kraj);
+                selected.setKrajkod(symbol);
+                poszukajDuplikatNip();
+                poszukajDuplikatNazwa();
+                klDAO.create(selected);
+                kl1.add(selected);
+                //planKontCompleteView.init(); to jest zbedne, po co pobierac konta jeszcze raz skoro dodano tylko pozycje do kartoteki klientow a nie kont.
+                Msg.msg("i", "Dodano nowego klienta" + selected.getNpelna());
+            }
+        } catch (Exception e) {
+            E.e(e);
+            Msg.msg("e", "Nie dodano nowego klienta. Klient o takim Nip/Nazwie pełnej juz istnieje");
+        }
+        if (evfk != null) {
+            evfk.setKlient(selected);
+        }
+        //jeżeli funkcja jest wywolana z wpisywania dokumnetu to zerujemy pola
+        if (dokfk != null) {
+            dokfk.setKontr(selected);
+        }
+        try {
+            kliencifkView.setWybranyklient(serialclone.SerialClone.clone(selected));
+            kliencifkView.setWybranyklient1(serialclone.SerialClone.clone(selected));
+            kliencifkView.pobieraniekontaFK();
+        } catch (Exception e) {}
+        selected = new Klienci();
+    }
 
 //    public void pobierzklientazPliku() throws IOException {
 //        readLargerTextFile(FILE_NAME);

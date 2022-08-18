@@ -294,6 +294,7 @@ public class PodatnikView implements Serializable {
             selectedDod.setPesel("00000000000");
         }
         try {
+            selectedDod.setGussymbol("099");
             generujIndex(selectedDod);
             sformatuj(selectedDod);
             if (selectedDod.isModulfaktur()==false) {
@@ -301,6 +302,7 @@ public class PodatnikView implements Serializable {
             }
             if (!selectedDod.getPrintnazwa().equals("nie znaleziono firmy w bazie Regon")) {
                 podatnikDAO.create(selectedDod);
+                MailPodatnik.dodanonowegopodatnika(selectedDod, uzDAO, sMTPSettingsDAO.findSprawaByDef());
                 podatnikWyborView.init();
                 Msg.msg("i", "Dodano nowego podatnika: " + selectedDod.getPrintnazwa());
                 dodajjakoKlienci(selectedDod, selectedDod.getEmail());
@@ -311,6 +313,13 @@ public class PodatnikView implements Serializable {
         } catch (Exception e) { 
             E.e(e); 
             Msg.msg("e", "Wystąpił błąd. Nie dodano nowego podatnika-firmę: " + selectedDod.getNazwapelna());
+        }
+    }
+    
+    public void mail() {
+        if (selectedDod!=null) {
+            MailPodatnik.dodanonowegopodatnika(selectedDod, uzDAO, sMTPSettingsDAO.findSprawaByDef());
+            Msg.dP();
         }
     }
     
@@ -344,6 +353,7 @@ public class PodatnikView implements Serializable {
             selectedDod.setPesel("00000000000");
         }
         try {
+            selectedDod.setGussymbol("099");
             sformatuj(selectedDod);
             podatnikDAO.edit(selectedDod);
             Msg.msg("i", "Wyedytowano podatnika: " + selectedDod.getPrintnazwa());

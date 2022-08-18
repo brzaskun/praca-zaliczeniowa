@@ -158,11 +158,13 @@
                     <p:commandButton actionListener="#{podatnikView.dodaj()}" value="dodaj" update="@form form" 
                                      rendered="#{podatnikView.selectedDodedycja eq null}"
                                      type="submit" style="margin-top: 10px; width: 120px;"/>
-                    <p:commandButton actionListener="#{podatnikView.edytujfiz()}" value="edytuj" update="@form" 
+                    <p:commandButton actionListener="#{podatnikView.edytujfiz()}" value="edytuj" update="@form form" 
                                      rendered="#{podatnikView.selectedDodedycja ne null}"
                                      type="submit" style="margin-top: 10px; width: 120px;"/>
                     <p:commandButton actionListener="#{podatnikView.resetuj()}" process="@this"
                                      value="resetuj" update="wprowadzaniepodatnika wprowadzaniepodatnikaprzyciski" style="margin-top: 10px; margin-left: 20px; width: 120px;"/>
+                    <p:commandButton actionListener="#{podatnikView.mail()}" 
+                                     value="mail"  style="margin-top: 10px;width: 120px;"/>
                 </p:panelGrid>
     </h:form>
 </ui:composition>   
