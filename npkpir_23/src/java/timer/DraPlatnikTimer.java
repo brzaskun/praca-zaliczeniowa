@@ -133,6 +133,7 @@ public class DraPlatnikTimer {
             dras.setPrzedsiebiorcy(dras.getPrzedsiebiorcyF());
             dras.setPracownicy(dras.getPracownicyF());
             dras.setZleceniobiorcy(dras.getZleceniobiorcyF());
+            dras.setZleceniobiorcyzerowi(dras.getZleceniobiorcyZerowiF());
             dras.setInnetytuly(dras.getInnetytulyF());
             dras.setKod(dras.getKodF());
             dras.setSpoleczne(dras.getSpoleczneF());

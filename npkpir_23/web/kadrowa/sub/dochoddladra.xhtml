@@ -452,7 +452,7 @@
                                 </p:selectOneMenu>
                                 <p:commandButton id="przeliczbutton1" value="pobierz" actionListener="#{dochodDlaDRAView.podsumujDRA()}"  style="width: 120px;margin-left: 20px;" update="akordeon:formtabeladra"/>
                             </p:panelGrid>
-                            <p:dataTable value="#{dochodDlaDRAView.drasumy}" var="itemdra" style="width: 1350px;padding: 20px;"  reflow="true"
+                            <p:dataTable value="#{dochodDlaDRAView.drasumy}" var="itemdra" style="width: 1550px;padding: 20px;"  reflow="true"
                                          scrollable="true" scrollHeight="750" scrollRows="30" rowStyleClass="#{(yndex mod 2) eq 0 ? null : 'odd'}"
                                          emptyMessage="nie pobrano danych" id="wykazschem" rowKey="#{itemdra.iddokument}" rowIndexVar="yndex1"
                                          sortBy="#{itemdra.nazwa}" sortOrder="ascending">
@@ -508,35 +508,47 @@
                                     <h:outputText value="&#x2713;" rendered="#{itemdra.zusdra.statuspt eq 'Z'}">
                                     </h:outputText>
                                 </p:column>
-                                <p:column  style="text-align: center;width: 20px;" sortBy="#{itemdra.ubezpieczeni}">
+                                <p:column  style="text-align: center;width: 30px;" sortBy="#{itemdra.ubezpieczeni}">
                                     <f:facet name="header">
                                         <h:outputText value="ub."/>
                                     </f:facet>
                                     <h:outputText value="#{itemdra.ubezpieczeni}" rendered="#{itemdra.ubezpieczeni gt 0}"/>
                                 </p:column>
-                                <p:column  style="text-align: center;width: 20px;">
+                                <p:column  style="text-align: center;width: 30px;">
                                     <f:facet name="header">
                                         <h:outputText value="prz."/>
                                     </f:facet>
                                     <h:outputText value="#{itemdra.przedsiebiorcy}"  rendered="#{itemdra.przedsiebiorcy gt 0}"/>
                                 </p:column>
-                                <p:column  style="text-align: center;width: 20px;">
+                                <p:column  style="text-align: center;width: 30px;">
                                     <f:facet name="header">
                                         <h:outputText value="prac."/>
                                     </f:facet>
                                     <h:outputText value="#{itemdra.pracownicy}"  rendered="#{itemdra.pracownicy gt 0}"/>
                                 </p:column>
-                                <p:column  style="text-align: center;width: 20px;">
+                                <p:column  style="text-align: center;width: 30px;">
                                     <f:facet name="header">
                                         <h:outputText value="zlec."/>
                                     </f:facet>
                                     <h:outputText value="#{itemdra.zleceniobiorcy}"  rendered="#{itemdra.zleceniobiorcy gt 0}"/>
                                 </p:column>
-                                <p:column  style="text-align: center;width: 20px;">
+                                <p:column  style="text-align: center;width: 30px;">
+                                    <f:facet name="header">
+                                        <h:outputText value="zlec.0"/>
+                                    </f:facet>
+                                     <h:outputText value="#{itemdra.zleceniobiorcyzerowi}"  rendered="#{itemdra.zleceniobiorcyzerowi gt 0}"/>
+                                </p:column>
+                                <p:column  style="text-align: center;width: 30px;">
                                     <f:facet name="header">
                                         <h:outputText value="inne"/>
                                     </f:facet>
                                     <h:outputText value="#{itemdra.innetytuly}"  rendered="#{itemdra.innetytuly gt 0}"/>
+                                </p:column>
+                                <p:column  style="text-align: center;width: 30px;">
+                                    <f:facet name="header">
+                                        <h:outputText value="stud."/>
+                                    </f:facet>
+                                     <h:outputText value="#{itemdra.studenci}"  rendered="#{itemdra.studenci gt 0}"/>
                                 </p:column>
                                 <p:column  style="text-align: center;width: 50px;">
                                     <f:facet name="header">

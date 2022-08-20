@@ -429,11 +429,12 @@ public class DochodDlaDRAView implements Serializable {
             mc = Data.poprzedniMc();
         }
         List<DraSumy> bazadanych = draSumyDAO.zwrocRokMc(rok, mc);
-        podsumujDRAF(mc, rok, bazadanych);
+        List<kadryiplace.Firma> firmy = firmaFacade.findAll();
+        podsumujDRAF(mc, rok, bazadanych, firmy);
      }
     
     
-    public void podsumujDRAF(String mc, String rok, List<DraSumy> bazadanych) {
+    public void podsumujDRAF(String mc, String rok, List<DraSumy> bazadanych,List<kadryiplace.Firma> firmy) {
         drasumy = new ArrayList<>();
         if (mc==null) {
             mc = Data.poprzedniMc();
@@ -498,6 +499,7 @@ public class DochodDlaDRAView implements Serializable {
             dras.setPrzedsiebiorcy(dras.getPrzedsiebiorcyF());
             dras.setPracownicy(dras.getPracownicyF());
             dras.setZleceniobiorcy(dras.getZleceniobiorcyF());
+            dras.setZleceniobiorcyzerowi(dras.getZleceniobiorcyZerowiF());
             dras.setInnetytuly(dras.getInnetytulyF());
             dras.setKod(dras.getKodF());
             dras.setSpoleczne(dras.getSpoleczneF());
@@ -507,6 +509,7 @@ public class DochodDlaDRAView implements Serializable {
             dras.setOkres(z.getI22okresdeklar());
             double kwota = z.getIx2Kwdozaplaty()!=null?z.getIx2Kwdozaplaty().doubleValue():0.0;
             dras.setDozaplaty(kwota);
+            dodajpit4DRA(dras, firmy);
             drasumy.add(dras);
             
         }
@@ -602,6 +605,38 @@ public class DochodDlaDRAView implements Serializable {
             w.setPit4(podatekpraca);
         }
      }
+    
+    private void dodajpit4DRA(DraSumy w, List<kadryiplace.Firma> firmy) {
+        if (w.getPodatnik()!=null) {
+            Firma firma = null;
+            for (Firma f : firmy) {
+                if (f.getFirNip()!=null) {
+                    if (f.getFirNip().replace("-", "").equals(w.getPodatnik().getNip())) {
+                        firma = f;
+                        break;
+                    }
+                }
+            }
+            if (firma != null) {
+                Rok rok = rokFacade.findByFirmaRok(firma, Integer.parseInt(w.getRok()));
+                kadryiplace.Okres okres = null;
+                for (Okres o : rok.getOkresList()) {
+                    if (o.getOkrMieNumer() == Mce.getMiesiacToNumber().get(w.getMc())) {
+                        okres = o;
+                        break;
+                    }
+                }
+                List<Place> placeList = okres.getPlaceList();
+                int studenci = 0;
+                for (Place p : placeList) {
+                    if (p.getLplKodTytU12().equals("0411") && p.getLplZalDoch().doubleValue() == 0.0) {
+                        studenci = studenci + 1;
+                    }
+                    w.setStudenci(studenci);
+                }
+            }
+        }
+    }
     
     private boolean pobierzpit(String rokpkpir, String mcod, String nazwapelna) {
         boolean zwrot = false;

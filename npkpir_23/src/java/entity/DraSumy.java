@@ -81,8 +81,12 @@ public class DraSumy implements Serializable {
     private int pracownicy;
     @Column(name = "zleceniobiorcy")
     private int zleceniobiorcy;
+    @Column(name = "zleceniobiorcyzerowi")
+    private int zleceniobiorcyzerowi;
     @Column(name = "innetytuly")
     private int innetytuly;
+    @Column(name = "studenci")
+    private int studenci;
     @Column(name = "dozaplaty")
     private double dozaplaty;
     @Column(name = "kod")
@@ -176,6 +180,24 @@ public class DraSumy implements Serializable {
     public void setData(String data) {
         this.data = data;
     }
+
+    public int getZleceniobiorcyzerowi() {
+        return zleceniobiorcyzerowi;
+    }
+
+    public void setZleceniobiorcyzerowi(int zleceniobiorcyzerowi) {
+        this.zleceniobiorcyzerowi = zleceniobiorcyzerowi;
+    }
+
+    public int getStudenci() {
+        return studenci;
+    }
+
+    public void setStudenci(int studenci) {
+        this.studenci = studenci;
+    }
+    
+    
 
     @Override
     public int hashCode() {
@@ -273,13 +295,26 @@ public class DraSumy implements Serializable {
         int suma = 0;
         if (this.ubezpZusrca!=null) {
             for (UbezpZusrca p : this.ubezpZusrca) {
-                if (p.getIiiB11kodtytub().startsWith("04")) {
+                if (p.getIiiB11kodtytub().startsWith("04")&&p.getIiiB6Podwymzdr()!=null&&p.getIiiB6Podwymzdr().doubleValue()!=0.0) {
                     suma = suma+1;
                 }
             }
         }
         return suma;
     }
+    
+     public int getZleceniobiorcyZerowiF() {
+        int suma = 0;
+        if (this.ubezpZusrca!=null) {
+            for (UbezpZusrca p : this.ubezpZusrca) {
+                if (p.getIiiB11kodtytub().startsWith("04")&&p.getIiiB6Podwymzdr()!=null&&p.getIiiB6Podwymzdr().doubleValue()==0.0) {
+                    suma = suma+1;
+                }
+            }
+        }
+        return suma;
+    }
+     
     public int getPracownicyF() {
         int suma = 0;
         if (this.ubezpZusrca!=null) {
