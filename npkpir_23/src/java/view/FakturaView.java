@@ -3426,6 +3426,27 @@ public class FakturaView implements Serializable {
         this.iloscwybranych2 = iloscwybranych2;
     }
 
-   
+
+    public void poprawsierpien() {
+        Podatnik pod = podatnikDAO.findPodatnikByNIP("8511005008");
+        List<Faktura> fakt = fakturaDAO.findbyPodatnikRokMc(pod, "2022","08");
+        for (Faktura f : fakt) {
+            boolean usun = false;
+            List<Pozycjenafakturzebazadanych> pozycjenafakturze = f.getPozycjenafakturze();
+            for (Iterator<Pozycjenafakturzebazadanych> it = pozycjenafakturze.iterator();it.hasNext();) {
+                Pozycjenafakturzebazadanych p = it.next();
+                if (p.getNazwa().contains("rozliczenia")) {
+                    it.remove();
+                    usun = true;
+                    System.out.println("usunieto "+f.getNumerkolejny());
+                }
+            }
+            if (usun) {
+                f.setWyslana(false);
+                f.setDatawysylki(null);
+                fakturaDAO.edit(f); 
+            }
+        }
+    }
     
 }

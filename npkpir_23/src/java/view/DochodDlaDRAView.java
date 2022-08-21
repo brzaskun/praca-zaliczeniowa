@@ -430,22 +430,23 @@ public class DochodDlaDRAView implements Serializable {
         }
         List<DraSumy> bazadanych = draSumyDAO.zwrocRokMc(rok, mc);
         List<kadryiplace.Firma> firmy = firmaFacade.findAll();
-        podsumujDRAF(mc, rok, bazadanych, firmy);
+        String mc1 = mc;
+        if (mc1==null) {
+            mc1 = Data.poprzedniMc();
+        }
+        podsumujDRAF(mc1, rok, bazadanych, firmy);
      }
     
     
     public void podsumujDRAF(String mc, String rok, List<DraSumy> bazadanych,List<kadryiplace.Firma> firmy) {
-        drasumy = new ArrayList<>();
-        if (mc==null) {
-            mc = Data.poprzedniMc();
-        }
+        drasumy = Collections.synchronizedList(new ArrayList<>());
         String okres = mc+rok;
         List<Zusdra> zusdra = zusdraDAO.findByOkres(okres);
         List<Zusrca> zusrca = zusrcaDAO.findByOkres(okres);
         List<Podatnik> podatnicy = podatnikDAO.findAllManager();
         List<Podmiot> podmioty = podmiotDAO.findAll();
         int i = 1;
-        for (Zusdra z : zusdra) {
+        zusdra.stream().forEach(z-> {
             DraSumy dras = new DraSumy();
             dras.setRok(rok);
             dras.setMc(mc);
@@ -511,8 +512,7 @@ public class DochodDlaDRAView implements Serializable {
             dras.setDozaplaty(kwota);
             dodajpit4DRA(dras, firmy);
             drasumy.add(dras);
-            
-        }
+        });
         sumujdra();
         draSumyDAO.editList(drasumy);
         System.out.println("");
@@ -633,6 +633,7 @@ public class DochodDlaDRAView implements Serializable {
                         studenci = studenci + 1;
                     }
                     w.setStudenci(studenci);
+                    w.setUbezpieczeni(w.getUbezpieczeni()+w.getStudenci());
                 }
             }
         }

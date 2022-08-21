@@ -38,6 +38,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Rok.findAll", query = "SELECT r FROM Rok r"),
     @NamedQuery(name = "Rok.findByRokSerial", query = "SELECT r FROM Rok r WHERE r.rokSerial = :rokSerial"),
     @NamedQuery(name = "Rok.findByRokFirma", query = "SELECT r FROM Rok r WHERE r.rokFirSerial = :firma AND r.rokNumer=:rok"),
+    @NamedQuery(name = "Rok.findByRok", query = "SELECT r FROM Rok r WHERE r.rokNumer=:rok"),
     @NamedQuery(name = "Rok.findByRokDataOd", query = "SELECT r FROM Rok r WHERE r.rokDataOd = :rokDataOd"),
     @NamedQuery(name = "Rok.findByRokDataDo", query = "SELECT r FROM Rok r WHERE r.rokDataDo = :rokDataDo"),
     @NamedQuery(name = "Rok.findByRokOpis", query = "SELECT r FROM Rok r WHERE r.rokOpis = :rokOpis"),

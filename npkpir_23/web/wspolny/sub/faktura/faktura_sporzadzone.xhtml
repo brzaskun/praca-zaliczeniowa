@@ -184,12 +184,12 @@
                             </p:inplace>
                             <h:outputText value="konto bankowe"/>
                             <h:outputText value="#{wpis.nrkontabankowego}"/>
-<!--                            <h:outputText value="kwota netto"/>
+                            <h:outputText value="kwota netto"/>
                             <bcf:outputpl value="#{wpis.nettoPrzelicz}"/>
                             <h:outputText value="kwota vat"/>
                             <bcf:outputpl value="#{wpis.vatPrzelicz}"/>
                             <h:outputText value="kwota brutto"/>
-                            <bcf:outputpl value="#{wpis.bruttoPrzelicz}"/>-->
+                            <bcf:outputpl value="#{wpis.bruttoPrzelicz}"/>
                         </p:panelGrid>
                         </p:column>
                         <p:column>
@@ -230,10 +230,37 @@
                         </p:panelGrid>
                         </p:column>
                     </p:panelGrid>
-                    <p:panelGrid  columns="1"  style="width:800px">
+                    <p:panelGrid  columns="1" >
+                          <p:column>
+                        <p:dataTable value="#{wpis.pozycjenafakturze}" var="row" rowIndexVar="rowStat"
+                             style="width: 600px;"
+                             >
+                            <p:column headerText="nazwa" width="150" style="text-align: center;">
+                                <h:outputText value="#{row.nazwa}"/>
+                            </p:column>
+                            <p:column headerText="pkwiu" width="30" style="text-align: center;">
+                                <h:outputText  value="#{row.PKWiU}"/>
+                            </p:column>
+                            <p:column headerText="jedn. miary" width="65" style="text-align: center;">
+                                <h:outputText  value="#{row.jednostka}"/>
+                            </p:column>
+                            <p:column headerText="ilość" width="60" style="text-align: center;">
+                                <h:outputText  value="#{row.ilosc}"/>
+                            </p:column>
+                            <p:column headerText="#{fakturaView.selected.liczodwartoscibrutto ? 'cena jedn.brutto' : 'cena jedn.netto'}" width="60" style="text-align: center;">
+                                <bcf:outputpl  value="#{row.cena}"/>
+                            </p:column>
+                            <p:column headerText="stawka VAT" width="40" style="text-align: center;">
+                                <bcf:outputpl  value="#{row.podatek}"/>
+                            </p:column>
+                            <p:column headerText="VAT" width="140" style="text-align: center;" rendered="#{fakturaView.selected.id ne null}">
+                                <bcf:outputpl  value="#{row.podatekkwota}"/>
+                            </p:column>
+                        </p:dataTable>
+                            </p:column>
                         <p:column id="ewidencjavat" headerText="ewidencjavat - netto - vat - op/zw" >  
-                            <p:dataTable var="subwpis" value="#{wpis.ewidencjavat}" emptyMessage="dokument bez vat"  resizableColumns="true">
-                                <p:column id="SubColumn1" headerText="ewidencja" width="350">  
+                            <p:dataTable var="subwpis" value="#{wpis.ewidencjavat}" emptyMessage="dokument bez vat"  resizableColumns="true" style="width: 600px;">
+                                <p:column id="SubColumn1" headerText="ewidencja" width="150">  
                                 <h:outputText value="#{subwpis.ewidencja.nazwa}" rendered="#{subwpis.vat ne 0 ? true : subwpis.netto ne 0 ? true : false}" />
                             </p:column>
                             <p:column id="SubColumn1a"  headerText="#{mgs.netto}">  
@@ -259,6 +286,7 @@
                             </p:column>
                         </p:dataTable>
                     </p:column>
+                      
                     </p:panelGrid>
                 </p:rowExpansion>
             </p:dataTable>
