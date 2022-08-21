@@ -16,25 +16,26 @@
             <p:growl life="3600"  id="messages"/>
             <p:focus for="parametryp9"/>
             <p:panelGrid columns="4" style="width: 1200px; padding: 5px;">
-                <p:dataTable value="#{podatnikView.podatnikUdzialy}"  var="loop" rowKey="#{loop.id}" selection="#{podatnikView.wybranyPodatnikUdzialy}" id="form9tablica"
+                <p:dataTable value="#{podatnikView.podatnikUdzialy}"  var="loop" rowKey="#{loop.id}" selection="#{podatnikView.wybranyPodatnikUdzialy}" id="form9tablica" widgetVar="tabelaudzialy"
                               editable="true">
                     <p:ajax event="rowEdit" update=":akordeon:form9:messages" listener="#{podatnikView.editUdzialy}" />
                     <p:ajax event="rowSelectRadio" global="false" listener="#{podatnikView.skopiujudzialy()}" update="akordeon:form9"/>
                     <p:column selectionMode="single" style="text-align: center;"/>
-                    <p:column headerText="data od">
+                    <p:column headerText="data od" width="70">
                         <h:outputText value="#{loop.datarozpoczecia}" />
                     </p:column>
-                    <p:column headerText="data do">
+                    <p:column headerText="data do" width="70">
                         <h:outputText value="#{loop.datazakonczenia}"/>
                     </p:column>
-                    <p:column headerText="nazwisko i imie" width="200">
+                    <p:column headerText="nazwisko i imie" width="150">
                         <h:outputText value="#{loop.nazwiskoimie}" />
                     </p:column>
-                    <p:column headerText="nip" width="100">
+                    <p:column headerText="nip/pesel" width="100">
                         <h:outputText value="#{loop.nip}" />
-                    </p:column>
-                    <p:column headerText="pesel" width="100">
                         <h:outputText value="#{loop.pesel}" />
+                    </p:column>
+                    <p:column headerText="udziałowiec nowe" width="150" >
+                        <h:outputText value="#{loop.podmiot.nazwanazwisko}" />
                     </p:column>
                     <p:column headerText="udział" style="text-align: center;">
                         <h:outputText value="#{loop.udzial}" />
@@ -73,6 +74,12 @@
                 </p:inputText>
             </p:panelGrid>
             <p:panelGrid id="parametryp9a" columns="2"  style="padding: 10px;">
+                <h:outputText value="udziałowiec nowe ustawienia"/>
+                <p:selectOneMenu id="rodzaj" value="#{podatnikView.udzialy.podmiot}" filter="true" filterMatchMode="contains" converter="#{podmiotConv}" autoWidth="true">
+                    <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true"/>
+                    <f:selectItems var="poz" value="#{podatnikView.podmioty}" itemLabel="#{poz.nazwanazwisko}" itemValue="#{poz}" />
+                    <p:ajax event="itemSelect" partialSubmit="true" listener="#{podatnikView.edytujudzial(podatnikView.udzialy)}" oncomplete="PF('tabelaudzialy').unselectAllRows()" update="akordeon:form9:form9tablica"/>
+                </p:selectOneMenu>
                 <h:outputText value="nazwisko i imie"/><h:inputText value="#{podatnikView.udzialy.nazwiskoimie}" required="true"/>
                 <h:outputText value="nip"/><h:inputText value="#{podatnikView.udzialy.nip}"/>
                 <h:outputText value="pesel"/><h:inputText value="#{podatnikView.udzialy.pesel}"/>

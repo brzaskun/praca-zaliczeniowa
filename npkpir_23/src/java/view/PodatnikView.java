@@ -9,6 +9,7 @@ import beansRegon.SzukajDaneBean;
 import comparator.Dokfkcomparator;
 import comparator.Kontocomparator;
 import comparator.Podatnikcomparator;
+import comparator.Podmiotcomparator;
 import comparator.Uzcomparator;
 import dao.DokDAO;
 import dao.DokDAOfk;
@@ -17,6 +18,7 @@ import dao.KontoDAOfk;
 import dao.PodatnikDAO;
 import dao.PodatnikOpodatkowanieDAO;
 import dao.PodatnikUdzialyDAO;
+import dao.PodmiotDAO;
 import dao.RodzajedokDAO;
 import dao.SMTPSettingsDAO;
 import dao.UzDAO;
@@ -34,6 +36,7 @@ import entity.ParamVatUE;
 import entity.Podatnik;
 import entity.PodatnikOpodatkowanieD;
 import entity.PodatnikUdzialy;
+import entity.Podmiot;
 import entity.Rodzajedok;
 import entity.Uz;
 import entity.Zusstawki;
@@ -77,6 +80,9 @@ public class PodatnikView implements Serializable {
     private String nazwaWybranegoPodatnika;
     @Inject
     private PodatnikDAO podatnikDAO;
+    @Inject
+    private PodmiotDAO podmiotDAO;
+    private List<Podmiot> podmioty;
     @Inject
     private Podatnik selected;
     @Inject
@@ -225,6 +231,8 @@ public class PodatnikView implements Serializable {
         listakadrowych = uzDAO.findByUprawnienia("HumanResources");
         Collections.sort(listaksiegowych, new Uzcomparator());
         Collections.sort(listakadrowych, new Uzcomparator());
+        podmioty = podmiotDAO.findAll();
+        Collections.sort(podmioty, new Podmiotcomparator());
     }
     
     private void korygujtelefon(Podatnik selected) {
@@ -2279,6 +2287,23 @@ public void przygotujedycjeopodatkowanie() {
     
      public void pocztakontrola() {
        // MailPodatnik.sprawdznowych(podatnikDAO, sMTPSettingsDAO, uzDAO);
+    }
+
+    public List<Podmiot> getPodmioty() {
+        return podmioty;
+    }
+
+    public void setPodmioty(List<Podmiot> podmioty) {
+        this.podmioty = podmioty;
+    }
+
+    public void edytujudzial(PodatnikOpodatkowanieD pod) {
+        if (pod!=null) {
+            podatnikOpodatkowanieDDAO.edit(pod);
+            Msg.dP();
+        } else {
+            Msg.msg("e","Nie wybrano podatnika");
+        }
     }
     
 }
