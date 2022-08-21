@@ -92,10 +92,10 @@
 <!--                            <p:commandButton value="dodaj BO" style="width: 120px; margin-bottom: 10px;" actionListener="#{kontaVatFKView.dodajBOdoKont()}"/>-->
             <p:dataTable value="#{kontaVatFKView.kontavat}" var="item1" style="width: 700px;" id="saldokontvat"
                          emptyMessage="Brak kont oznaczonych jako konta VAT. Sprawdź plan kont!">
-                <p:ajax event="rowToggle" global="false" />
+<!--                <p:ajax event="rowToggle" global="false" />
                 <p:column style="height: 19px; text-align: center;" width="20">
                     <p:rowToggler />
-                </p:column>
+                </p:column>-->
                 <p:column headerText="nr konta" width="50">
                     <h:outputText value="#{item1.konto.pelnynumer}"/>
                 </p:column>
@@ -112,7 +112,7 @@
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
-                <p:rowExpansion>
+<!--                <p:rowExpansion>
                     <p:dataTable value="#{item1.zapisy}" var="loopik" emptyMessage="nie ma rachunków na tym koncie" 
                                  scrollable="true" scrollHeight="90">
                         <p:ajax event="page" global="false"/>
@@ -135,7 +135,7 @@
                             <bcf:outputpl value="#{loopik.kwota}"/>
                         </p:column>
                     </p:dataTable>
-                </p:rowExpansion>
+                </p:rowExpansion>-->
             </p:dataTable>
         </p:outputPanel>
         <p:outputPanel style="margin-top: 10px; width: 690px;">

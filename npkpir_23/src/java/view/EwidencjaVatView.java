@@ -233,6 +233,32 @@ public class EwidencjaVatView implements Serializable {
         }
     }
     
+    public void fakturasprawdzanieD(int l, List<EVatwpisFK> lista) {
+        EVatwpisFK w = null;
+        if (zachowanewybranewierszeewidencji!= null && zachowanewybranewierszeewidencji.size()==1) {
+            w = (EVatwpisFK) zachowanewybranewierszeewidencji.get(0);
+        } else {
+            w = (EVatwpisFK) zachowanewybranewierszeewidencji.get(zachowanewybranewierszeewidencji.size()-1);
+        }
+        if (w!=null) {
+            int rowek = 0;
+            for (EVatwpisFK s : lista) {
+                if (s.equals(w)) {
+                    s.setSprawdzony(l);
+                    if (s.isDuplikat()) {
+                        Msg.msg("w", "Oznaczono zapis zduplikowany. Zmiany nie zostaną zachowane w bazie", "grmes");
+                    } else {
+                        eVatwpisFKDAO.edit(s);
+                    }
+                    break;
+                }
+                rowek++;
+            }
+            String p = "formm:akordeon:akordeon2:"+iTabPanel.getActiveIndex()+":tabela:"+rowek+":polespr";
+            PrimeFaces.current().ajax().update(p);
+        }
+    }
+    
     
     public void fakturavatoznaczanie() {
         EVatwpisFK w = null;
@@ -258,7 +284,7 @@ public class EwidencjaVatView implements Serializable {
                     }
                     rowek++;
                 }
-                String p = "form:akordeon:akordeon2:"+iTabPanel.getActiveIndex()+":tabela:"+rowek+":polespr";
+                String p = "formm:akordeon:akordeon2:"+iTabPanel.getActiveIndex()+":tabela:"+rowek+":polespr";
                 PrimeFaces.current().ajax().update(p);
             }
         }
@@ -398,6 +424,69 @@ public class EwidencjaVatView implements Serializable {
             listadokvatprzetworzona.addAll(pobierzEVatIncydentalni(podatnik, vatokres, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu()));
             przejrzyjEVatwpis1Lista();
             dodajwierszeVATZD(wniosekVATZDEntity);
+            
+            stworzenieEwidencjiCzescWspolnaFK();
+            for (String k : listaewidencji.keySet()) {
+                nazwyewidencji.add(k);
+            }
+            Locale locale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
+            String l = locale.getLanguage();
+            for (List p : listaewidencji.values()) {
+                if (l.equals("de")) {
+                    tlumaczewidencje(p);
+                }
+                ewidencjeFK.add(p);
+            }
+            pobierzmiesiacdlajpk = false;
+            //PrimeFaces.current().ajax().update("@form");
+            //PrimeFaces.current().ajax().update("formEwidencjeGuest");
+            //PrimeFaces.current().ajax().update("form_dialog_ewidencjevat_sprawdzanie");
+        } catch (Exception e) { 
+            E.e(e); 
+        }
+        //drukuj ewidencje
+    }
+    public void stworzenieEwidencjiZDokumentowFKD(Podatnik podatnik, WniosekVATZDEntity wniosekVATZDEntity) {
+        try {
+            listadokvatprzetworzona = Collections.synchronizedList(new ArrayList<>());
+            ewidencjazakupu = evewidencjaDAO.znajdzponazwie("zakup");
+            zerujListy();
+            String vatokres = sprawdzjakiokresvat();
+            if (pobierzmiesiacdlajpk) {
+                vatokres = "miesięczne";
+            }
+            if (wpisView.getPodatnikObiekt().getMetodakasowa().equals("tak")) {
+                listadokvatprzetworzona = przetworzRozliczenia(podatnik, vatokres, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+                Collections.sort(listadokvatprzetworzona,new EVatwpisFKcomparator());
+            } else {
+                listadokvatprzetworzona.addAll(pobierzEVatRokFK(podatnik, vatokres, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(), false));
+                Collections.sort(listadokvatprzetworzona,new EVatwpisFKcomparator());
+//                listaprzesunietychKoszty = pobierzEVatRokFKNastepnyOkres(vatokres);
+//                wyluskajzlisty(listaprzesunietychKoszty, "koszty");
+//                sumaprzesunietych = sumujprzesuniete(listaprzesunietychKoszty);
+//                listaprzesunietychBardziej = pobierzEVatRokFKNastepnyOkresBardziej(vatokres);
+//                wyluskajzlisty(listaprzesunietychBardziej, "koszty");
+//                sumaprzesunietychBardziej = sumujprzesuniete(listaprzesunietychBardziej);
+//                listaprzesunietychPrzychody = pobierzEVatRokFKNastepnyOkres(vatokres);
+//                wyluskajzlisty(listaprzesunietychPrzychody, "przychody");
+//                sumaprzesunietychprzychody = sumujprzesuniete(listaprzesunietychPrzychody);
+//                listaprzesunietychBardziejPrzychody = pobierzEVatRokFKNastepnyOkresBardziej(vatokres);
+//                wyluskajzlisty(listaprzesunietychBardziejPrzychody, "przychody");
+//                sumaprzesunietychBardziejPrzychody = sumujprzesuniete(listaprzesunietychBardziejPrzychody);
+            }
+            if (listadokvatprzetworzona != null) {
+                for (Iterator<EVatwpisSuper> it = listadokvatprzetworzona.iterator(); it.hasNext();) {
+                    EVatwpisFK p = (EVatwpisFK) it.next();
+                    if (p.getDokfk() != null && p.getDokfk().getRodzajedok().isTylkojpk()) {
+                        it.remove();
+                    }
+                }
+            }
+            //w uproszczonej tego nie ma
+            //ale musi byc bo w fk sa faktury wdt wnt np vintis
+            //listadokvatprzetworzona.addAll(pobierzEVatIncydentalni(podatnik, vatokres, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu()));
+            przejrzyjEVatwpis1Lista();
+            //dodajwierszeVATZD(wniosekVATZDEntity);
             
             stworzenieEwidencjiCzescWspolnaFK();
             for (String k : listaewidencji.keySet()) {

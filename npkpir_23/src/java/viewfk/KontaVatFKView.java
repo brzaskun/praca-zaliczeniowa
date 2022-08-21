@@ -8,11 +8,11 @@ package viewfk;
 
 import beansFK.KontaFKBean;
 import comparator.SaldoKontocomparator;
+import dao.DokDAOfk;
 import dao.KlienciDAO;
+import dao.KontoDAOfk;
 import dao.RodzajedokDAO;
 import dao.StronaWierszaDAO;
-import dao.DokDAOfk;
-import dao.KontoDAOfk;
 import dao.TabelanbpDAO;
 import dao.WalutyDAOfk;
 import dao.WierszBODAO;
@@ -35,13 +35,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import javax.annotation.PostConstruct;
-import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
-import msg.Msg;import view.EwidencjaVatView;
+import javax.inject.Named;
+import msg.Msg;
+import view.EwidencjaVatView;
 import view.ParametrView;
-import view.WpisView;import waluty.Z;
+import view.WpisView;
+import waluty.Z;
 
 /**
  *
@@ -81,7 +82,6 @@ public class KontaVatFKView implements Serializable {
     
     
     
-    @PostConstruct
     public void init() { //E.m(this);
        if (wpisView.getMiesiacWpisu().equals("CR")) {
            wpisView.setMiesiacWpisu(Data.aktualnyMc());

@@ -34,6 +34,14 @@ public class VatZmianaOkresuView implements Serializable {
             E.e(e);
         }
     }
+    
+    public void aktualizujpozmianiedatyD(Podatnik podatnik) {
+        try {
+            ewidencjaVatView.stworzenieEwidencjiZDokumentowFKD(podatnik, null);
+        } catch (Exception e) {
+            E.e(e);
+        }
+    }
 
     public EwidencjaVatView getEwidencjaVatView() {
         return ewidencjaVatView;
