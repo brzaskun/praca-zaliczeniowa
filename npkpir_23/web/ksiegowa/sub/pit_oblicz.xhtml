@@ -272,7 +272,7 @@
                         <p:panel header="wybierz osobę: " style="width: 250px;"/>
                         <p:selectOneMenu value="#{zestawienieRyczaltView.wybranyudzialowiec}" style="width: 250px;"  rendered="#{zestawienieRyczaltView.listawybranychudzialowcow.size() gt 1}"  converter="#{podatnikUdzialyConv}">
                             <f:selectItem itemLabel="wybierz osobe" noSelectionOption="true"/>
-                            <f:selectItems value="#{zestawienieView.listawybranychudzialowcow}" var="ytem" itemLabel="#{ytem.nazwiskoimie}" itemValue="#{ytem}"/>
+                            <f:selectItems value="#{zestawienieRyczaltView.listawybranychudzialowcow}" var="ytem" itemLabel="#{ytem.nazwiskoimie}" itemValue="#{ytem}"/>
                             <p:ajax event="change" update=":akordeon:formpit1" listener="#{zestawienieRyczaltView.obliczPit()}"/>
                         </p:selectOneMenu>
                         <p:panel header="imię nazwisko przedsiębiorcy: " style="width: 250px;" rendered="#{zestawienieRyczaltView.listawybranychudzialowcow.size() eq 1}"/>
