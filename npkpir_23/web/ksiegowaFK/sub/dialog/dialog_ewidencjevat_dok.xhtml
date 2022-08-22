@@ -21,6 +21,10 @@
         };
         /* ]]> */
     </script>
+ <h:outputScript library="js_fk" name="vatoznacz_1.js"/>
+   <script>
+        $(document).on("keydown", TabKeyVat1);
+     </script>
     <p:dialog id="dialogewidencjevatdok" header="Zestawienie ewidencji vat - #{WpisView.podatnikObiekt.printnazwa}" widgetVar="dialogewidencjevatdok"  
               maximizable="true" onShow="ustawdialog('dialogewidencjevatdok','menudokumenty',1350,750);doczeplistnerydopol();" closeOnEscape="true" onHide="resetujdialog('dialogewidencjevatdok');"
               resizable="true">

@@ -34,10 +34,8 @@
             color: blue;
         }
     </style>
-    <h:outputScript library="js_fk" name="vatoznacz.js"/>
-     <script>
-        $(document).on("keydown", TabKeyVat);
-     </script>
+   
+   
      <p:remoteCommand actionListener="#{DokTabView.fakturaoznaczanie()}" name="oznaczfakturespacja" global="false"/>
      <p:growl widgetVar="grmes"/>
     <h:form>
