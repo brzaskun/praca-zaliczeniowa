@@ -3431,7 +3431,7 @@ public class FakturaView implements Serializable {
         Podatnik pod = podatnikDAO.findPodatnikByNIP("8511005008");
         List<Faktura> fakt = fakturaDAO.findbyPodatnikRokMc(pod, "2022","08");
         for (Faktura f : fakt) {
-                if (f.getDatawysylki().equals(new Date("2022-08-21"))) {
+                if (Data.data_yyyyMMdd(f.getDatawysylki()).equals("2022-08-21")) {
                     this.selected = f;
                     edytuj();
                     System.out.println("edytowano "+f.getNumerkolejny());
