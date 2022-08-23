@@ -20,7 +20,6 @@ import dao.DokDAO;
 import dao.InwestycjeDAO;
 import dao.JPKOznaczeniaDAO;
 import dao.KlienciDAO;
-import dao.OstatnidokumentDAO;
 import dao.PodatnikDAO;
 import dao.PodatnikEwidencjaDokDAO;
 import dao.RodzajedokDAO;
@@ -42,7 +41,6 @@ import entity.Klienci;
 import entity.KlienciSuper;
 import entity.Kolumna1Rozbicie;
 import entity.KwotaKolumna1;
-import entity.Ostatnidokument;
 import entity.Podatnik;
 import entity.PodatnikEwidencjaDok;
 import entity.Rodzajedok;
@@ -96,7 +94,6 @@ public class DokView implements Serializable {
     private static final long serialVersionUID = 1L;
     @Inject
     private Dok selDokument;
-    @Inject
     private Dok wysDokument;
     @Inject
     private Klienci selectedKontr;
@@ -110,8 +107,6 @@ public class DokView implements Serializable {
     private SrodkikstDAO srodkikstDAO;
     @Inject
     private JPKOznaczeniaDAO jPKOznaczeniaDAO;
-    @Inject
-    private OstatnidokumentDAO ostatnidokumentDAO;
     @Inject
     private DokDAO dokDAO;
     @Inject
@@ -275,40 +270,9 @@ public class DokView implements Serializable {
             podX = podatnikDAO.findByNazwaPelna(pod);
             rodzajedokKlienta.addAll(rodzajedokDAO.findListaPodatnik(podX, wpisView.getRokWpisuSt()));
         }
-        //pobranie ostatniego dokumentu
-        try {
-            //czasami dokument ostatni jest zle zapisany, w przypadku bleduy nalezy go usunac
-                wysDokument = ostatnidokumentDAO.pobierz(wpisView.getUzer().getLogin());
-            if (wysDokument != null && wysDokument.getEwidencjaVAT1() != null && !wysDokument.getEwidencjaVAT1().isEmpty()) {
-                Iterator it = wysDokument.getEwidencjaVAT1().iterator();
-                while (it.hasNext()) {
-                    EVatwpis1 p = (EVatwpis1) it.next();
-                    if (p.getNetto() == 0.0 && p.getVat() == 0.0) {
-                        it.remove();
-                    }
-                }
-            }
-            if (wysDokument != null) {
-                typdokumentu = wysDokument.getRodzajedok().getSkrot();
-                selDokument.setRodzajedok(wysDokument.getRodzajedok());
-                selDokument.setOpis(wysDokument.getOpis());
-                if (!wpisView.isVatowiec() || (selDokument.getRodzajedok()!= null&& selDokument.getRodzajedok().isDokProsty())) {
-                    selDokument.setDokumentProsty(true);
-                    ukryjEwiencjeVAT = true;
-                    selDokument.getEwidencjaVAT1().clear();
-                    //ewidencjaAddwiad.clear();
-                }
-                selDokument.getListakwot1().get(0).setNazwakolumny(wysDokument.getListakwot1().get(0).getNazwakolumny());
-               
-            } else {
-                this.typdokumentu = "ZZ";
-                selDokument.setRodzajedok(rodzajedokDAO.find("ZZ", wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt()));
-            }
-            
-        } catch (Exception e) {
+        if (wysDokument==null) {
             this.typdokumentu = "ZZ";
             selDokument.setRodzajedok(rodzajedokDAO.find("ZZ", wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt()));
-            E.e(e);
         }
         wygenerujnumerkolejny();
         selDokument.setKontr1(wstawKlientaDoNowegoDok());
@@ -374,18 +338,6 @@ public class DokView implements Serializable {
         }
     }
     
-    //edytuje ostatni dokument celem wykorzystania przy wpisie
-    public void edytujdokument() {
-        try {
-            selDokument = ostatnidokumentDAO.pobierz(wpisView.getUzer().getLogin());
-            typdokumentu = selDokument.getRodzajedok().getSkrot();
-            dokDAO.remove(selDokument);
-        } catch (Exception e) {
-            E.e(e);
-        }
-        PrimeFaces.current().ajax().update("dodWiad:wprowadzanie");
-    }
-
        
     public void podepnijListe() {
         String transakcjiRodzaj = selDokument.getRodzajedok().getRodzajtransakcji();
@@ -831,10 +783,6 @@ public class DokView implements Serializable {
                     }
                     dokDAO.create(selDokument);
                     //wpisywanie do bazy ostatniego dokumentu
-                    Ostatnidokument temp = new Ostatnidokument();
-                    temp.setUzytkownik(wpisView.getUzer().getLogin());
-                    temp.setDokument(selDokument);
-                    ostatnidokumentDAO.edit(temp);
                     pobranecechypodatnik = cechazapisuDAOfk.findPodatnikOnly(wpisView.getPodatnikObiekt());
                     if (pobranecechypodatnik != null && pobranecechypodatnik.size() ==1) {
                         cechadomyslna = pobranecechypodatnik.get(0);
@@ -847,7 +795,7 @@ public class DokView implements Serializable {
                     } catch (Exception e) {
                         E.e(e);
                     }
-                    wysDokument = ostatnidokumentDAO.pobierz(selDokument.getWprowadzil());
+                    wysDokument = serialclone.SerialClone.clone(selDokument);
                     liczbawierszy = 1;
                     PrimeFaces.current().ajax().update("zobWiad:ostatniUzytkownik");
                     Msg.msg("i", "Nowy dokument zachowany" + selDokument.toString2());
@@ -1390,31 +1338,6 @@ public class DokView implements Serializable {
         FacesContext.getCurrentInstance().getExternalContext().redirect("klienci.xhtml");
     }
 
-    /**
-     * stare do edycji dokumentu
-     *
-     * @param wpis
-     * @throws IOException
-     */
-    public void przekierowanieEdytujDokument(Dok wpis) throws IOException {
-        HttpServletRequest request;
-        request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-        Principal principal = request.getUserPrincipal();
-        Ostatnidokument temp = new Ostatnidokument();
-        temp.setUzytkownik(principal.getName());
-        temp.setDokument(wpis);
-        try {
-            ostatnidokumentDAO.create(temp);
-        } catch (Exception e) {
-            E.e(e);
-            ostatnidokumentDAO.edit(temp);
-        }
-        FacesContext.getCurrentInstance().getExternalContext().redirect("ksiegowaIndex.xhtml?faces-redirect=true<");
-    }
-
-    public void przekierowanieWpis() throws IOException {
-        FacesContext.getCurrentInstance().getExternalContext().redirect("ksiegowaIndex.xhtml?faces-redirect=true<");
-    }
 
     private void aktualizujInwestycje(Dok dok) {
         try {
