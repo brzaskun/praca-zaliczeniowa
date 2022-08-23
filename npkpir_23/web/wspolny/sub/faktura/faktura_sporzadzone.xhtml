@@ -133,7 +133,7 @@
                           style="text-align: center;"  width="40">
                     <h:outputText value="tak" rendered="#{wpis.idfakturaokresowa eq null}" style="color: green;"/>
                 </p:column>
-                <p:column styleClass="data3" headerText="wys." sortBy="#{wpis.wyslana}" filterBy="#{wpis.wyslana ? 'tak' : 'nie'}" filterMatchMode="contains"  
+                <p:column styleClass="data3" headerText="wys." sortBy="#{wpis.wyslana}" filterBy="#{wpis.wyslana ? wpis.datawysylki : 'nie'}" filterMatchMode="contains"  
                           style="text-align: center;"  width="40">
                     <h:outputText value="#{wpis.datawysylki}" rendered="#{wpis.wyslana}">
                         <f:convertDateTime  pattern="dd-MM"/>
