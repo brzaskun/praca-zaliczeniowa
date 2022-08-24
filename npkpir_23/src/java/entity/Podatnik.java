@@ -332,6 +332,8 @@ public class Podatnik implements Serializable {
     private boolean zua;
     @Column(name = "modulfaktur")
     private boolean modulfaktur;
+    @Column(name = "upl")
+    private boolean upl;
     
     
     @Transient
@@ -1161,6 +1163,14 @@ public class Podatnik implements Serializable {
 
     public void setModulfaktur(boolean modulfaktur) {
         this.modulfaktur = modulfaktur;
+    }
+
+    public boolean isUpl() {
+        return upl;
+    }
+
+    public void setUpl(boolean upl) {
+        this.upl = upl;
     }
 
     

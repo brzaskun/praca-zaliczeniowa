@@ -251,7 +251,11 @@ public class MailPodatnik {
                 i++;
             }
             if (p.isZua()==false) {
-                braki.add(i+") zgłoszdenie ZUA");
+                braki.add(i+") zgłoszenie ZUA");
+                i++;
+            }
+             if (p.isUpl()==false) {
+                braki.add(i+") zgłoszenie UPL");
                 i++;
             }
         }

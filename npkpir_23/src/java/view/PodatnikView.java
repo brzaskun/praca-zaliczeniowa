@@ -382,7 +382,6 @@ public class PodatnikView implements Serializable {
             podatnikDAO.edit(selectedDod);
             Msg.msg("i", "Wyedytowano podatnika: " + selectedDod.getPrintnazwa());
             podatnikWyborView.init();
-            selectedDod = new Podatnik();
         } catch (Exception e) { 
             E.e(e); 
             Msg.msg("e", "Wystąpił błąd. Nie wyedytowano podatnika-firmę: " + selectedDod.getNazwapelna());
