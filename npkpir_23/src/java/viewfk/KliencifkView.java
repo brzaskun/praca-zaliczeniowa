@@ -158,11 +158,9 @@ public class KliencifkView implements Serializable {
     
     private Kliencifk pobierzklientafk(String nip) {
         Kliencifk zwrot = null;
-        for (Kliencifk p : listawszystkichklientowFk) {
-            if (p.getNip().equals(nip)) {
-                zwrot = p;
-                break;
-            }
+        try {
+            zwrot = listawszystkichklientowFk.parallelStream().filter(p->p.getNip().equals(nip)).findFirst().get();
+        } catch (Exception e){
         }
         return zwrot;
     }

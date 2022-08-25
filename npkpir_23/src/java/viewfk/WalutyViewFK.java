@@ -21,15 +21,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
-import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import msg.Msg;
 import org.primefaces.PrimeFaces;
 import org.primefaces.event.RowEditEvent;
- import view.WpisView;
-import waluty.WalutyNBP;
+import view.WpisView;
+ import waluty.WalutyNBP;
 import waluty.Z;
 
 /**
@@ -80,7 +79,7 @@ public class WalutyViewFK implements Serializable {
         symboleTabelRecznie = Collections.synchronizedList(new ArrayList<>());
     }
 
-    @PostConstruct
+    
     public void init() { //E.m(this);
         pobraneRodzajeWalut = walutyDAOfk.findAll();
         pobranekursyRok = tabelanbpDAO.findKursyRokNBP(wpisView.getRokWpisuSt());

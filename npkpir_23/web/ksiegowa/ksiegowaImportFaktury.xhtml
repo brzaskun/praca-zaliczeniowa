@@ -15,6 +15,7 @@
                     <ui:include src="sub/layoutImporty/south.xhtml"/>   <!-- panel poludniowy-->
                     <ui:include src="sub/layoutImporty/west.xhtml"/>   <!-- panel zachodni-->
                     <ui:include src="sub/layoutImporty/east.xhtml"/>   <!-- panel wchodni-->
+                     <f:event type="preRenderView" listener="#{importFakturyView.init()}"/>
                     <p:layoutUnit position="center" style="box-shadow: 10px 10px 5px #888; padding: 1%;">
                         <bcf:ajaxs/>
                         <h:form>

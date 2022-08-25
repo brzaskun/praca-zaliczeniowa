@@ -25,10 +25,10 @@ public class ConnectionJDBC {
     //jedynie dostep do pol a nie ma transofrmacji rzedu na object
      public static Connection getConnection() throws NamingException, ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
         String url = "jdbc:mysql://localhost:3306/";
-        String dbName = "pkpir?useUnicode=true&characterEncoding=UTF-8&useSSL=false";
-        String driver = "com.mysql.jdbc.Driver";
+        String dbName = "pkpir?useUnicode=true&characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true&";
+        String driver = "com.mysql.cj.jdbc.Driver";
         String userName = "brzaskun";
-        String password = "Pufikun7005*";
+        String password = "pufikun";
         Class.forName(driver).newInstance();
         Connection conn = DriverManager.getConnection(url + dbName, userName, password);
         return conn;

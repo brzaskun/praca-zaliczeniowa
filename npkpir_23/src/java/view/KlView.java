@@ -14,17 +14,18 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.annotation.PostConstruct;
-import javax.inject.Named;
-import javax.faces.view.ViewScoped;
 import javax.faces.event.ValueChangeEvent;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import msg.Msg;
 import org.primefaces.PrimeFaces;
- import org.primefaces.event.SelectEvent;
-import params.Params;
+import org.primefaces.event.SelectEvent;
+ import params.Params;
 import viewfk.KliencifkView;
 
 /**
@@ -70,7 +71,13 @@ public class KlView implements Serializable {
 
     @PostConstruct
     private void init() { //E.m(this);
-        kl1 = klDAO.findAll();
+        CompletableFuture future = CompletableFuture.runAsync(() -> {
+            try {
+                kl1 = klDAO.findAll();
+            } catch (Exception ex) {
+
+            }
+        });
         //selected.setKrajnazwa("Polska");
         //selected.setKrajkod(panstwaMapa.getWykazPanstwSX().get("Polska"));
     }

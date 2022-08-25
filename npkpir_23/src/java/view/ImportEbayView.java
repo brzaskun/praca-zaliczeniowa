@@ -30,7 +30,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -38,8 +37,8 @@ import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import msg.Msg;
 import org.joda.time.DateTime;
- import org.primefaces.PrimeFaces;
-import org.primefaces.event.FileUploadEvent;
+import org.primefaces.PrimeFaces;
+ import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 import pdf.PdfDok;
 import pdf.PdfEbay;
@@ -84,8 +83,8 @@ public class ImportEbayView  implements Serializable {
     private double vatpln;
     private Tabelanbp tabeladomyslna;
         
-    @PostConstruct
-    private void init() { //E.m(this);
+    
+    public void init() { //E.m(this);
         rodzajedok = new HashMap<>();
         rodzajedok.put("SZ", rodzajedokDAO.find("SZ", wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt()));
         rodzajedok.put("RACHSP", rodzajedokDAO.find("RACHSP", wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt()));

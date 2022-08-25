@@ -1,4 +1,4 @@
-    <ui:composition 
+<ui:composition 
     xmlns="http://www.w3.org/1999/xhtml"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:f="http://java.sun.com/jsf/core"
@@ -15,103 +15,104 @@
         }
     </style>
 
-    <p:dialog id="importamazoncsvebay" header="Amazon pobieranie danych" widgetVar="importamazoncsvebay" height="900" width="1450"
+    <p:dialog id="importamazoncsvebay" header="EBAY pobieranie danych" widgetVar="importamazoncsvebay" height="900" width="1450"
               resizable="false"  onShow="ustawdialog('importamazoncsvebay','menudokumenty',1450,900);" closeOnEscape="true" onHide="resetujdialog('importamazoncsvebay');" >
+        <p:ajax event="open" listener="#{amazonImportEbay.init()}" update="importtabelaebayinit importtabelaebay"/>
         <!--        <h:form>
                     <p:commandButton value="uzupełnij" actionListener="#{dokfkView.uzupelnijdokumentyodkontrahenta()}"/>
                 </h:form>-->
-            <bcf:ajaxs/>
-            <h:outputText value="import dokumentów EBAY z pliku XLS AdditionalDataTemplate"/>
-                        <h:form>
-                            <p:growl life="3600"  id="messages1"/>
-                                <p:panelGrid columns="1">
-                                    <p:fileUpload fileUploadListener="#{amazonImportEbay.importujsprzedaz}" 
-                                                  mode="advanced" dragDropSupport="true" fileLimit="1"
-                                                  update="messages1 importtabelaebay" 
-                                                  validatorMessage="Nieprawidłowy typ pliku" invalidFileMessage="Nieprawidłowy typ pliku" invalidSizeMessage="Plik za duży"
-                                                  fileLimitMessage="Można załadować tylko jeden plik na jedno ładowanie"
-                                                  uploadLabel="Wczytaj" label="Wybierz" cancelLabel="Rezygnuj" onstart="PF('dialogAjaxCzekaj').show();"
-                                                  style="height: 100px;">
-                                    </p:fileUpload>
-                                </p:panelGrid>
-                        </h:form>
-                        <h:form id="importtabelaebay">
-                            <p:dataTable  var="wpisama" value="#{amazonImportEbay.listafk}" id="dokumentyLista" 
-                                          rowIndexVar="index" 
-                                          style="width: 1400px; margin-top: 10px;" rowKey="#{wpisama.id}" 
-                                          paginator="true" paginatorAlwaysVisible="true" rows="12"
-                                          paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
-                                          rowsPerPageTemplate="12,48,96,182,364" 
-                                          widgetVar="dokTable" 
-                                          rowStyleClass="#{wpisama.dowodSprzedazy eq 'REFUND' ? 'korekta' : null}" 
-                                          emptyMessage="Nie pobrano jeszcze żadnych danych z pliku xls"
-                                          styleClass="grid" 
-                                          >
-                                <p:ajax event="filter" global="false" />
+        <bcf:ajaxs/>
+        <h:outputText value="import dokumentów EBAY z pliku XLS AdditionalDataTemplate"/>
+        <h:form id="importtabelaebayinit">
+            <p:growl life="3600"  id="messages1"/>
+            <p:panelGrid columns="1">
+                <p:fileUpload fileUploadListener="#{amazonImportEbay.importujsprzedaz}" 
+                              mode="advanced" dragDropSupport="true" fileLimit="1"
+                              update="messages1 importtabelaebay" 
+                              validatorMessage="Nieprawidłowy typ pliku" invalidFileMessage="Nieprawidłowy typ pliku" invalidSizeMessage="Plik za duży"
+                              fileLimitMessage="Można załadować tylko jeden plik na jedno ładowanie"
+                              uploadLabel="Wczytaj" label="Wybierz" cancelLabel="Rezygnuj" onstart="PF('dialogAjaxCzekaj').show();"
+                              style="height: 100px;">
+                </p:fileUpload>
+            </p:panelGrid>
+        </h:form>
+        <h:form id="importtabelaebay">
+            <p:dataTable  var="wpisama" value="#{amazonImportEbay.listafk}" id="dokumentyLista" 
+                          rowIndexVar="index" 
+                          style="width: 1400px; margin-top: 10px;" rowKey="#{wpisama.id}" 
+                          paginator="true" paginatorAlwaysVisible="true" rows="12"
+                          paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
+                          rowsPerPageTemplate="12,48,96,182,364" 
+                          widgetVar="dokTable" 
+                          rowStyleClass="#{wpisama.dowodSprzedazy eq 'REFUND' ? 'korekta' : null}" 
+                          emptyMessage="Nie pobrano jeszcze żadnych danych z pliku xls"
+                          styleClass="grid" 
+                          >
+                <p:ajax event="filter" global="false" />
 
-                                <f:facet name="header">  
-                                    <h:outputText value="Zestawienie #{amazonImportEbay.listafk.size()} zaimportowanych dokumentów z pliku csv" />  
-                                    <h:outputText value="- wyszukiwanie: " />  
-                                    <p:inputText id="globalFilter" onkeyup="PF('dokTable').filter()" style="width:250px" placeholder="wyszukiwane wyrażenie" />  
-                                    <!--                    <p:commandButton id="toggler" type="button" value="Kolumny" style="float:right" icon="ui-icon-calculator" />
-                                                        <p:columnToggler datasource="dokumentyLista" trigger="toggler"/>-->
-                                </f:facet>
+                <f:facet name="header">  
+                    <h:outputText value="Zestawienie #{amazonImportEbay.listafk.size()} zaimportowanych dokumentów z pliku csv" />  
+                    <h:outputText value="- wyszukiwanie: " />  
+                    <p:inputText id="globalFilter" onkeyup="PF('dokTable').filter()" style="width:250px" placeholder="wyszukiwane wyrażenie" />  
+                    <!--                    <p:commandButton id="toggler" type="button" value="Kolumny" style="float:right" icon="ui-icon-calculator" />
+                                        <p:columnToggler datasource="dokumentyLista" trigger="toggler"/>-->
+                </f:facet>
 
-                                <p:column style="width: 10px; height: 45px; text-align: center;" >
-                                    <p:rowToggler rendered="#{wpisama.ewidencja.size() gt 0}"/>
+                <p:column style="width: 10px; height: 45px; text-align: center;" >
+                    <p:rowToggler rendered="#{wpisama.ewidencja.size() gt 0}"/>
 
-                                </p:column>
-                                <p:column id="idColumn" headerText="#{mgs.numerkolejny}"  style="width: 20px; text-align: center;">  
-                                    <h:outputText styleClass="lpwiersza" value="#{index+1}" />
-                                </p:column>
-                                <p:column id="dataColumn" headerText="data wyst" filterBy="#{wpisama.dataSprzedazy}"  filterMatchMode="contains" sortBy="#{wpisama.dataSprzedazy}"  style="width: 50px; min-width: 70px;">  
-                                    <h:outputText value="#{wpisama.dataSprzedazy}"/>
-                                </p:column>
-                                <p:column id="nrWlDokColumn" headerText="nr wł" filterBy="#{wpisama.serial}"  filterMatchMode="contains" sortBy="#{wpisama.serial}"  style="width: 10%;" >   
-                                    <h:outputText value="#{wpisama.serial}" />
-                                </p:column>
-                                <p:column id="opisColumn" headerText="kraj N" filterBy="#{wpisama.kodKrajuNadania}" filterMatchMode="contains" sortBy="#{wpisama.kodKrajuNadania}" style="width: 40px;text-align: center;">  
-                                    <h:outputText value="#{wpisama.kodKrajuNadania}" />
-                                </p:column>
-                                <p:column  headerText="kraj D" filterBy="#{wpisama.kodKrajuDoreczenia}" filterMatchMode="contains" sortBy="#{wpisama.kodKrajuDoreczenia}" style="width: 40px;text-align: center;">  
-                                    <h:outputText value="#{wpisama.kodKrajuDoreczenia}" />
-                                </p:column>
-                                 <p:column  headerText="jurys" filterBy="#{wpisama.jurysdykcja}" filterMatchMode="contains" sortBy="#{wpisama.jurysdykcja}" style="width: 60px;text-align: center;">  
-                                    <h:outputText value="#{wpisama.jurysdykcja}" />
-                                </p:column>
-                                <p:column headerText="wal" filterBy="#{wpisama.waluta}"  filterMatchMode="contains" sortBy="#{wpisama.waluta}" style="width: 40px;">  
-                                    <h:outputText value="#{wpisama.waluta}" />
-                                </p:column>
-                                <p:column id="nettoColumn" headerText="#{mgs.netto}" 
-                                          filterBy="#{wpisama.nettowaluta}" filterMatchMode="contains"  sortBy="#{wpisama.nettowaluta}"  style="width: 60px;">  
-                                    <bcf:outputpl value="#{wpisama.nettowaluta}"/>
-                                </p:column>
-                                <p:column id="nettoColumn1" headerText="#{mgs.vat}" styleClass="filter40"
-                                          filterBy="#{wpisama.vatwaluta}" filterMatchMode="contains"  sortBy="#{wpisama.vatwaluta}"  style="width: 60px;">  
-                                    <bcf:outputpl value="#{wpisama.vatwaluta}"/>
-                                </p:column>
-                                <p:column headerText="stawka vat" styleClass="filter40"
-                                          filterBy="#{wpisama.stawkavat}" filterMatchMode="contains"  sortBy="#{wpisama.stawkavat}"  style="width: 60px;">  
-                                    <bcf:outputplprocent value="#{wpisama.stawkavat}"/>
-                                </p:column>
-                                <p:column id="nettoColumnP" headerText="#{mgs.netto} PLN" 
-                                          filterBy="#{wpisama.netto}" filterMatchMode="contains"  sortBy="#{wpisama.netto}"  style="width: 60px;">  
-                                    <bcf:outputpl value="#{wpisama.netto}"/>
-                                </p:column>
-                                <p:column id="nettoColumn1P" headerText="#{mgs.vat} PLN" styleClass="filter40"
-                                          filterBy="#{wpisama.vat}" filterMatchMode="contains"  sortBy="#{wpisama.vat}"  style="width: 60px;">  
-                                    <bcf:outputpl value="#{wpisama.vat}"/>
-                                </p:column>
-                                <p:column id="deleteColumn" headerText="usuń" style="width: 4%; text-align: center;">
-                                    <p:commandButton actionListener="#{amazonImportEbay.usun(wpis)}" style="width: 30px;"
-                                                     id="delete" icon="ui-icon ui-icon-trash" update="importtabelaebay:dokumentyLista"/>
-                                </p:column>
-                            </p:dataTable> 
-                            <p:growl life="3600"  id="messages2" ><p:autoUpdate/></p:growl>
-                            <p:commandButton  icon="fa fa-print" style="margin-top: 20px; width: 120px;" actionListener="#{amazonImportEbay.drukujfk()}"  rendered="#{amazonImportEbay.listafk.size() gt 0}"/>
+                </p:column>
+                <p:column id="idColumn" headerText="#{mgs.numerkolejny}"  style="width: 20px; text-align: center;">  
+                    <h:outputText styleClass="lpwiersza" value="#{index+1}" />
+                </p:column>
+                <p:column id="dataColumn" headerText="data wyst" filterBy="#{wpisama.dataSprzedazy}"  filterMatchMode="contains" sortBy="#{wpisama.dataSprzedazy}"  style="width: 50px; min-width: 70px;">  
+                    <h:outputText value="#{wpisama.dataSprzedazy}"/>
+                </p:column>
+                <p:column id="nrWlDokColumn" headerText="nr wł" filterBy="#{wpisama.serial}"  filterMatchMode="contains" sortBy="#{wpisama.serial}"  style="width: 10%;" >   
+                    <h:outputText value="#{wpisama.serial}" />
+                </p:column>
+                <p:column id="opisColumn" headerText="kraj N" filterBy="#{wpisama.kodKrajuNadania}" filterMatchMode="contains" sortBy="#{wpisama.kodKrajuNadania}" style="width: 40px;text-align: center;">  
+                    <h:outputText value="#{wpisama.kodKrajuNadania}" />
+                </p:column>
+                <p:column  headerText="kraj D" filterBy="#{wpisama.kodKrajuDoreczenia}" filterMatchMode="contains" sortBy="#{wpisama.kodKrajuDoreczenia}" style="width: 40px;text-align: center;">  
+                    <h:outputText value="#{wpisama.kodKrajuDoreczenia}" />
+                </p:column>
+                <p:column  headerText="jurys" filterBy="#{wpisama.jurysdykcja}" filterMatchMode="contains" sortBy="#{wpisama.jurysdykcja}" style="width: 60px;text-align: center;">  
+                    <h:outputText value="#{wpisama.jurysdykcja}" />
+                </p:column>
+                <p:column headerText="wal" filterBy="#{wpisama.waluta}"  filterMatchMode="contains" sortBy="#{wpisama.waluta}" style="width: 40px;">  
+                    <h:outputText value="#{wpisama.waluta}" />
+                </p:column>
+                <p:column id="nettoColumn" headerText="#{mgs.netto}" 
+                          filterBy="#{wpisama.nettowaluta}" filterMatchMode="contains"  sortBy="#{wpisama.nettowaluta}"  style="width: 60px;">  
+                    <bcf:outputpl value="#{wpisama.nettowaluta}"/>
+                </p:column>
+                <p:column id="nettoColumn1" headerText="#{mgs.vat}" styleClass="filter40"
+                          filterBy="#{wpisama.vatwaluta}" filterMatchMode="contains"  sortBy="#{wpisama.vatwaluta}"  style="width: 60px;">  
+                    <bcf:outputpl value="#{wpisama.vatwaluta}"/>
+                </p:column>
+                <p:column headerText="stawka vat" styleClass="filter40"
+                          filterBy="#{wpisama.stawkavat}" filterMatchMode="contains"  sortBy="#{wpisama.stawkavat}"  style="width: 60px;">  
+                    <bcf:outputplprocent value="#{wpisama.stawkavat}"/>
+                </p:column>
+                <p:column id="nettoColumnP" headerText="#{mgs.netto} PLN" 
+                          filterBy="#{wpisama.netto}" filterMatchMode="contains"  sortBy="#{wpisama.netto}"  style="width: 60px;">  
+                    <bcf:outputpl value="#{wpisama.netto}"/>
+                </p:column>
+                <p:column id="nettoColumn1P" headerText="#{mgs.vat} PLN" styleClass="filter40"
+                          filterBy="#{wpisama.vat}" filterMatchMode="contains"  sortBy="#{wpisama.vat}"  style="width: 60px;">  
+                    <bcf:outputpl value="#{wpisama.vat}"/>
+                </p:column>
+                <p:column id="deleteColumn" headerText="usuń" style="width: 4%; text-align: center;">
+                    <p:commandButton actionListener="#{amazonImportEbay.usun(wpis)}" style="width: 30px;"
+                                     id="delete" icon="ui-icon ui-icon-trash" update="importtabelaebay:dokumentyLista"/>
+                </p:column>
+            </p:dataTable> 
+            <p:growl life="3600"  id="messages2" ><p:autoUpdate/></p:growl>
+            <p:commandButton  icon="fa fa-print" style="margin-top: 20px; width: 120px;" actionListener="#{amazonImportEbay.drukujfk()}"  rendered="#{amazonImportEbay.listafk.size() gt 0}"/>
 <!--                            <p:commandButton  value="zaksięguj WDT" style="margin-top: 20px; width: 120px;" actionListener="#{amazonImportEbay.zaksiegujWDTjpk()}"  rendered="#{amazonImportEbay.listafk.size() gt 0}"/>-->
 <!--                            <p:commandButton  value="CSV WDT" style="margin-top: 20px; width: 120px; margin-left: 40px;" actionListener="#{amazonImportEbay.robcsv()}"  rendered="#{amazonImportEbay.dokumenty.size() gt 0}"/>-->
-                        </h:form>
+        </h:form>
 
     </p:dialog>
 </ui:composition>

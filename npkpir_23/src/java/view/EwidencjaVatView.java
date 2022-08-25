@@ -49,6 +49,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.annotation.PostConstruct;
@@ -1004,23 +1005,27 @@ public class EwidencjaVatView implements Serializable {
 
     private void rozdzielEVatwpis1NaEwidencje() {
         Map<String, Evewidencja> ewidencje = evewidencjaDAO.findAllMap();
-        for (EVatwpisSuper wierszogolny : listadokvatprzetworzona) {
-            if (wierszogolny.getNetto() != 0.0 || wierszogolny.getVat() != 0.0) {
+        Map<String, List<EVatwpisSuper>> listaewidencji = new ConcurrentHashMap<>();
+        Map<String, EVatwpisSuma> sumaewidencji = new ConcurrentHashMap<>();
+        listadokvatprzetworzona.stream().forEach(vatwiersz->{
+            if (vatwiersz.getNetto() != 0.0 || vatwiersz.getVat() != 0.0) {
                 //sprawdza nazwe ewidencji zawarta w wierszu ogolnym i dodaje do listy
-                String nazwaewidencji = wierszogolny.getNazwaewidencji().getNazwa();
+                String nazwaewidencji = vatwiersz.getNazwaewidencji().getNazwa();
                 if (!listaewidencji.containsKey(nazwaewidencji)) {
                     listaewidencji.put(nazwaewidencji, new ArrayList<EVatwpisSuper>());
                     Evewidencja nowaEv = ewidencje.get(nazwaewidencji);
-                    sumaewidencji.put(nazwaewidencji, new EVatwpisSuma(nowaEv, BigDecimal.ZERO, BigDecimal.ZERO, wierszogolny.getOpizw()));
+                    sumaewidencji.put(nazwaewidencji, new EVatwpisSuma(nowaEv, BigDecimal.ZERO, BigDecimal.ZERO, vatwiersz.getOpizw()));
                 }
-                listaewidencji.get(nazwaewidencji).add(wierszogolny);
+                listaewidencji.get(nazwaewidencji).add(vatwiersz);
                 EVatwpisSuma ew = sumaewidencji.get(nazwaewidencji);
-                BigDecimal sumanetto = ew.getNetto().add(BigDecimal.valueOf(wierszogolny.getNetto()).setScale(2, RoundingMode.HALF_EVEN));
+                BigDecimal sumanetto = ew.getNetto().add(BigDecimal.valueOf(vatwiersz.getNetto()).setScale(2, RoundingMode.HALF_EVEN));
                 ew.setNetto(sumanetto);
-                BigDecimal sumavat = ew.getVat().add(BigDecimal.valueOf(wierszogolny.getVat()).setScale(2, RoundingMode.HALF_EVEN));
+                BigDecimal sumavat = ew.getVat().add(BigDecimal.valueOf(vatwiersz.getVat()).setScale(2, RoundingMode.HALF_EVEN));
                 ew.setVat(sumavat);
             }
-        }
+        });
+        this.listaewidencji = new HashMap<String, List<EVatwpisSuper>>(listaewidencji);
+        this.sumaewidencji = new HashMap<String, EVatwpisSuma>(sumaewidencji);
     }
     
     private void rozdzielEVatwpisDedraNaEwidencje() {

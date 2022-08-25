@@ -36,7 +36,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -45,8 +44,8 @@ import javax.xml.bind.Unmarshaller;
 import jpkfa.CurrCodeType;
 import msg.Msg;
 import org.primefaces.PrimeFaces;
- import org.primefaces.event.FileUploadEvent;
-import org.primefaces.model.UploadedFile;
+import org.primefaces.event.FileUploadEvent;
+ import org.primefaces.model.UploadedFile;
 import pdf.PdfDok;
 import pl.gov.mf.jpk.wzor._2022._02._17._02171.TKodWaluty;
 import waluty.Z;
@@ -107,7 +106,7 @@ public class ImportFakturyView  implements Serializable {
     private boolean usunaktualnewpisy;
     private String symbol;
         
-    @PostConstruct
+    
     public void init() { //E.m(this);
         sprzedazkraj = rodzajedokDAO.find("SZ", wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         sprzedazwdt = rodzajedokDAO.find("WDT", wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
