@@ -29,8 +29,10 @@ import msg.Msg;
 public class PodatnikKsiegowaShortView implements Serializable{
     private static final long serialVersionUID = 1L;
     private List<Podatnik> listapodatnikow;
+    private List<Podatnik> listapodatnikowfiltered;
     private List<Uz> listaksiegowych;
     private List<Uz> listakadrowych;
+    private List<Uz> listakadrowychfiltered;
     private Uz wybrany;
     @Inject
     private PodatnikDAO podatnikDAO;
@@ -120,6 +122,22 @@ public class PodatnikKsiegowaShortView implements Serializable{
 
     public void setListakadrowych(List<Uz> listakadrowych) {
         this.listakadrowych = listakadrowych;
+    }
+
+    public List<Uz> getListakadrowychfiltered() {
+        return listakadrowychfiltered;
+    }
+
+    public void setListakadrowychfiltered(List<Uz> listakadrowychfiltered) {
+        this.listakadrowychfiltered = listakadrowychfiltered;
+    }
+
+    public List<Podatnik> getListapodatnikowfiltered() {
+        return listapodatnikowfiltered;
+    }
+
+    public void setListapodatnikowfiltered(List<Podatnik> listapodatnikowfiltered) {
+        this.listapodatnikowfiltered = listapodatnikowfiltered;
     }
 
     

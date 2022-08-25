@@ -11,6 +11,7 @@ import comparator.Kontocomparator;
 import dao.DokDAO;
 import dao.DokDAOfk;
 import dao.EvewidencjaDAO;
+import dao.JPKOznaczeniaDAO;
 import dao.KlienciDAO;
 import dao.KliencifkDAO;
 import dao.KlientJPKDAO;
@@ -21,6 +22,7 @@ import dao.TabelanbpDAO;
 import dao.UkladBRDAO;
 import entity.Dok;
 import entity.Evewidencja;
+import entity.JPKoznaczenia;
 import entity.Klienci;
 import entity.KlientJPK;
 import entity.Rodzajedok;
@@ -42,8 +44,8 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
 import jpkfa.CurrCodeType;
 import msg.Msg;
- import org.primefaces.PrimeFaces;
-import org.primefaces.event.FileUploadEvent;
+import org.primefaces.PrimeFaces;
+ import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 import pdf.PdfDok;
 import pl.gov.mf.jpk.wzor._2022._02._17._02171.TKodWaluty;
@@ -90,6 +92,8 @@ public class ImportFakturyView  implements Serializable {
     private KlientJPKDAO klientJPKDAO;
     @Inject
     private KlienciDAO klDAO;
+    @Inject
+    private JPKOznaczeniaDAO jPKOznaczeniaDAO;
     private boolean wybierzosobyfizyczne;
     private boolean wybierzdlajpk;
     private boolean deklaracjaniemiecka;
@@ -101,6 +105,7 @@ public class ImportFakturyView  implements Serializable {
     private List<Konto> listaKontKasaBank;
     private Konto kontokasadlajpk;
     private boolean usunaktualnewpisy;
+    private String symbol;
         
     @PostConstruct
     public void init() { //E.m(this);
@@ -165,8 +170,22 @@ public class ImportFakturyView  implements Serializable {
                     Msg.msg("e", "Brak dokumentów w pliku jpk wg zadanych kruteriów");
                 }
             }
+            JPKoznaczenia oz = null;
+            String stary = null;
+            symbol = symbol.toUpperCase();
+            if (symbol!=null&&symbol.length()==2) {
+                for (Dok d : dokumenty) {
+                    if (stary!=null&&stary.equals(symbol)) {
+                        d.setOznaczenie1(oz);
+                    } else {
+                        oz = jPKOznaczeniaDAO.findBySymbol(symbol);
+                        stary = symbol;
+                        d.setOznaczenie1(oz);
+                }
+            }
             if (jpkfa2==null&&jpkfa3==null) {
                 Msg.msg("e", "Pobrany plik to nie JPK_FA2(2) ani JPK_FA3(1)");
+            }
             }
             
         } catch (Exception ex) {
@@ -776,6 +795,11 @@ public class ImportFakturyView  implements Serializable {
         
         klientJPKDAO.deleteByPodRokMc(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
         List<KlientJPK> lista = KlienciJPKBean.zaksiegujdok(dokumenty, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+        if (symbol!=null&&symbol.length()==2) {
+            for (KlientJPK p : lista) {
+                p.setOpissprzedaz(symbol);
+            }
+        }
         klientJPKDAO.createList(lista);
         Msg.msg("Zaksięgowano dokumenty dla JPK");
     }
@@ -966,6 +990,14 @@ public class ImportFakturyView  implements Serializable {
 
     public void setUsunaktualnewpisy(boolean usunaktualnewpisy) {
         this.usunaktualnewpisy = usunaktualnewpisy;
+    }
+
+    public String getSymbol() {
+        return symbol;
+    }
+
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
     }
 
     

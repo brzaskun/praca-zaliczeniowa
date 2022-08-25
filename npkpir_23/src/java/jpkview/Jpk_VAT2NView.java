@@ -1445,9 +1445,6 @@ public class Jpk_VAT2NView implements Serializable {
             }
             if (kliencijpk!=null&& !kliencijpk.isEmpty()) {
                 for (KlientJPK p : kliencijpk) {
-                    if (p.getNetto()==6164.15) {
-                        System.out.println("");
-                    }
                      if (!p.getEwidencjaVAT().get(0).getEwidencja().getTypewidencji().equals("z") && (Z.z(p.getNetto()) != 0.0 || Z.z(p.getVat()) != 0.0)) {
                         lista.add(JPK_VAT2020M2_Bean.dodajwierszsprzedazy(p, BigInteger.valueOf(lp++),sprzedazCtrl, mapa.get(p.getEwidencjaVAT().get(0).getEwidencja())));
                      } else {

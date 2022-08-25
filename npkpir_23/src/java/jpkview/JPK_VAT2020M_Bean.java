@@ -72,8 +72,16 @@ public class JPK_VAT2020M_Bean {
     public static JPK.Ewidencja.SprzedazWiersz dodajwierszsprzedazy(KlientJPK ev, BigInteger lp, JPK.Ewidencja.SprzedazCtrl sprzedazCtrl, JPKvatwersjaEvewidencja jPKvatwersjaEvewidencja) {
         JPK.Ewidencja.SprzedazWiersz w = new JPK.Ewidencja.SprzedazWiersz();
         try {
-            if (ev.isWdt()==false&&ev.isWnt()==false) {
-                w.setTypDokumentu(pl.gov.crd.wzor._2020._05._08._9393.TDowoduSprzedazy.FP);
+             if (ev.isWdt()==false&&ev.isWnt()==false) {
+                if (ev.getOpissprzedaz().equals("SW")) {
+                    w.setSW(Byte.valueOf("1"));
+                } else if (ev.getOpissprzedaz().equals("RO")) {
+                    w.setTypDokumentu(TDowoduSprzedazy.RO);
+                } else if (ev.getOpissprzedaz().equals("WEW")) {
+                    w.setTypDokumentu(TDowoduSprzedazy.WEW);
+                } else {
+                    w.setTypDokumentu(TDowoduSprzedazy.FP);
+                }
             }
             w.setLpSprzedazy(lp);
             w.setDataSprzedazy(Data.dataStringToXMLGregorian(ev.getDataSprzedazy()));
@@ -82,11 +90,6 @@ public class JPK_VAT2020M_Bean {
             w.setNazwaKontrahenta(ev.getNazwaKontrahenta()!=null&&ev.getNazwaKontrahenta().length()>0?ev.getNazwaKontrahenta():"brak");
             w.setDowodSprzedazy(ev.getDowodSprzedazy());
             dodajkwotydowierszaSprzedazy(w,ev.getNetto(), ev.getVat(),sprzedazCtrl, jPKvatwersjaEvewidencja);
-            if (ev.isWnt()==false&&ev.isWdt()==false) {
-                if (!ev.getWaluta().equals("PLN")) {
-                    w.setSW(Byte.valueOf("1"));
-                }
-            }
         } catch (Exception ex) {
 
         }

@@ -10,7 +10,7 @@
         <h:form id="formpodatnicy">
 
             <p:outputPanel>
-                <p:commandButton value="zapisz podatnicy" style="width: 200px; margin: 10px;" actionListener="#{podatnikKsiegowaShortView.zapisz}"/>
+                <p:commandButton value="zapisz zmiany" style="width: 200px; margin: 10px;" actionListener="#{podatnikKsiegowaShortView.zapisz}"/>
                 <p:panelGrid columns="2" style="width: 1250px;">
 
                     <p:column>
@@ -18,17 +18,18 @@
                             <p:dataExporter type="xls" target="formpodatnicy:tabelapodatnicy" fileName="lista" />
                         </p:commandButton>
                         <p:dataTable id="tabelapodatnicy" value="#{podatnikKsiegowaShortView.listapodatnikow}" var="item" style="width: 1350px;" 
-                                     paginatorAlwaysVisible="true" paginator="true" pageLinks="12" rows="30" reflow="true"
+                                     filteredValue="#{podatnikKsiegowaShortView.listapodatnikowfiltered}"  rowKey="#{item.id}"
+                                     paginatorAlwaysVisible="true" paginator="true" pageLinks="12" rows="25" reflow="true"
                                      rowIndexVar="index" 
                                      rowStyleClass="#{item.ksiegowa.login.startsWith('mar') ? 'rmarta' : item.ksiegowa.login.startsWith('wda') ? 'rwioletta' : item.ksiegowa.login.startsWith('go') ? 'rmalgosia' : 'rrenata'}">
                             <p:ajax event="filter" global="false"/>
                             <p:column headerText="lp" width="30">
                                 <h:outputText value="#{index+1}"/>
                             </p:column>
-                            <p:column headerText="podatnik" width="300">
+                            <p:column headerText="podatnik" width="300" filterBy="#{item.printnazwa}" filterMatchMode="contains">
                                 <h:outputText value="#{item.printnazwa}"/>
                             </p:column>
-                            <p:column headerText="kadrowa" >
+                            <p:column headerText="kadrowa" filterBy="#{item.kadrowa.login}" filterMatchMode="contains">
     <!--                            <h:outputText value="#{item.ksiegowa.login}"/>-->
                                 <p:selectOneMenu value="#{item.kadrowa}" style="width: 100px;text-align: center;" converter="#{uzConv}">
                                     <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>

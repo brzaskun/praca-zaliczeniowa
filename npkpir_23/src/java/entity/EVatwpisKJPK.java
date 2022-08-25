@@ -42,6 +42,7 @@ public class EVatwpisKJPK extends EVatwpisSuper implements Serializable {
     private KlientJPK klientJPK;
     @Transient
     private int sprawdzony;
+    
 
     
     public EVatwpisKJPK(EVatwpisKJPK eVatwpisFK) {
@@ -164,7 +165,8 @@ public class EVatwpisKJPK extends EVatwpisSuper implements Serializable {
     public void setSprawdzony(int sprawdzony) {
         this.sprawdzony = sprawdzony;
     }
-    
+
+
     
 
     @Override

@@ -105,6 +105,8 @@ public class KlientJPK implements Serializable {
     private boolean importt;
     @Column(name = "amazontax0additional1")
     private int amazontax0additional1;
+    @Column(name="opissprzedaz")
+    private String opissprzedaz;
 
     public KlientJPK() {
         this.ewidencjaVAT = new ArrayList<>();
@@ -419,6 +421,14 @@ public class KlientJPK implements Serializable {
 
     public void setImportt(boolean importt) {
         this.importt = importt;
+    }
+
+    public String getOpissprzedaz() {
+        return opissprzedaz;
+    }
+
+    public void setOpissprzedaz(String opissprzedaz) {
+        this.opissprzedaz = opissprzedaz;
     }
     
     

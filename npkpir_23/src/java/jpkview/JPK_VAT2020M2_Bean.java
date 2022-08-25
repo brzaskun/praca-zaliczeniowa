@@ -73,7 +73,15 @@ public class JPK_VAT2020M2_Bean {
         JPK.Ewidencja.SprzedazWiersz w = new JPK.Ewidencja.SprzedazWiersz();
         try {
             if (ev.isWdt()==false&&ev.isWnt()==false) {
-                w.setTypDokumentu(pl.gov.crd.wzor._2021._12._27._11148.TDowoduSprzedazy.FP);
+                if (ev.getOpissprzedaz().equals("SW")) {
+                    w.setWSTOEE(Byte.valueOf("1"));
+                } else if (ev.getOpissprzedaz().equals("RO")) {
+                    w.setTypDokumentu(pl.gov.crd.wzor._2021._12._27._11148.TDowoduSprzedazy.RO);
+                } else if (ev.getOpissprzedaz().equals("WEW")) {
+                    w.setTypDokumentu(pl.gov.crd.wzor._2021._12._27._11148.TDowoduSprzedazy.WEW);
+                } else {
+                    w.setTypDokumentu(pl.gov.crd.wzor._2021._12._27._11148.TDowoduSprzedazy.FP);
+                }
             }
             w.setLpSprzedazy(lp);
             w.setDataSprzedazy(Data.dataStringToXMLGregorian(ev.getDataSprzedazy()));
@@ -82,11 +90,6 @@ public class JPK_VAT2020M2_Bean {
             w.setNazwaKontrahenta(ev.getNazwaKontrahenta()!=null&&ev.getNazwaKontrahenta().length()>0?ev.getNazwaKontrahenta():"brak");
             w.setDowodSprzedazy(ev.getDowodSprzedazy());
             dodajkwotydowierszaSprzedazy(w,ev.getNetto(), ev.getVat(),sprzedazCtrl, jPKvatwersjaEvewidencja);
-            if (ev.isWnt()==false&&ev.isWdt()==false) {
-                if (!ev.getWaluta().equals("PLN")) {
-                    w.setWSTOEE(Byte.valueOf("1"));
-                }
-            }
         } catch (Exception ex) {
 
         }
