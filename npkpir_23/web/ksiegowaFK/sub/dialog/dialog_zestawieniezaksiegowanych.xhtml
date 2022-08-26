@@ -38,9 +38,10 @@
         };
         /* ]]> */
     </script>
-    <p:dialog id="dialogtrzeci" header="Zestawienie zaksięgowanych dokumentów - #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="zestawieniezaksiegowanych" style="overflow-y: hidden;"
+    <p:dialog id="dialogtrzeci" header="Zestawienie zaksięgowanych dokumentów - #{WpisView.podatnikObiekt.nazwapelnaPDF}" 
+              widgetVar="zestawieniezaksiegowanych" style="overflow-y: hidden;"
               
-              resizable="false"  onShow="ustawdialog('dialogtrzeci','menudokumenty', 1600, 580);doczeplistnerydopol();" closeOnEscape="true" onHide="resetujdialog('dialogtrzeci');" >
+              resizable="false"  onShow="ustawdialog('dialogtrzeci','menudokumenty', 1740, 580);doczeplistnerydopol();" closeOnEscape="true" onHide="resetujdialog('dialogtrzeci');" >
         <!--        <h:form>
                     <p:commandButton value="uzupełnij" actionListener="#{dokfkView.uzupelnijdokumentyodkontrahenta()}"/>
                 </h:form>-->
@@ -181,7 +182,7 @@
 
             <p:dataTable id="dataList" value="#{dokfkView.wykazZaksiegowanychDokumentow}" var="item" rowIndexVar="row" widgetVar="tablicadokumenty" 
                          selection="#{dokfkView.selectedlist}" rowKey="#{item.dokfkSN}" binding="#{dokfkView.dataTablezaksiegowane}"
-                         style="width: 1560px; height: 450px; overflow-y: scroll;" filteredValue="#{dokfkView.filteredValue}" 
+                         style="width: 1660px; height: 450px; overflow-y: scroll;" filteredValue="#{dokfkView.filteredValue}" 
                          rowsPerPageTemplate="50,100,300,500, 1500, 3000" paginatorPosition="top"
                          emptyMessage="Brak zaksięgowanych dokumentów" styleClass="walkingtable" rowSelectMode="add"
                          rows="50" paginator="true"
@@ -199,18 +200,18 @@
                 <p:column styleClass="kolwi" width="10" style="height: 40px; text-align: center;" >
                     <p:rowToggler rendered="#{item.ewidencjaVAT.size() gt 0}" id="roe"/>
                 </p:column>
-                <p:column headerText="#{mgs.datadok}" styleClass="zaksiegowanewaski" width="70" style="text-align: center;"  sortBy="#{item.datadokumentu}" filterBy="#{item.datadokumentu}" filterMatchMode="contains" >
+                <p:column headerText="#{mgs.datadok}" styleClass="zaksiegowanewaski" width="60" style="text-align: center;"  sortBy="#{item.datadokumentu}" filterBy="#{item.datadokumentu}" filterMatchMode="contains" >
                     <h:outputText value="#{item.datadokumentu}"  style="#{item.datadokumentu.split('-')[1] ne WpisView.miesiacWpisu ? 'color: red;': null}"/>
                 </p:column>
 <!--                <p:column headerText="nowy nr" styleClass="zaksiegowanewaski" width="70" sortBy="#{item.dokfkLP}" filterBy="#{item.dokfkLP}">
                     <h:outputText value="#{item.dokfkLP}"/>
                 </p:column>-->
-                <p:column headerText="#{mgs.symbol}" styleClass="zaksiegowanewaski" width="70" sortBy="#{item.dokfkSN}" 
+                <p:column headerText="#{mgs.symbol}" styleClass="zaksiegowanewaski" width="65" sortBy="#{item.dokfkSN}" 
                           sortFunction="#{dokfkView.sortujzaksiegowane}"
                           filterBy="#{item.dokfkSN}" filterMatchMode="contains">
                     <h:outputText value="#{item.dokfkSN}" style="white-space: normal !important; word-break: break-all !important; word-wrap: break-word !important;"/>
                 </p:column>
-                <p:column headerText="nip" styleClass="zaksiegowanewaski" width="80" sortBy="#{item.kontr.nip}" filterBy="#{item.kontr.nip}">
+                <p:column headerText="nip" styleClass="zaksiegowanewaski" width="60" sortBy="#{item.kontr.nip}" filterBy="#{item.kontr.nip}">
                     <h:outputText value="#{item.kontr.nip}" style="white-space: normal !important; word-break: break-all !important; word-wrap: break-word !important;"/>
                 </p:column>
                 <p:column headerText="#{mgs.kontrahent}" styleClass="zaksiegowanekontr" width="140" sortBy="#{item.kontr.npelna}" filterBy="#{item.kontr.npelna}" filterMatchMode="contains">
@@ -219,6 +220,10 @@
                 <p:column headerText="#{mgs.numer}" 
                           styleClass="zaksiegowanewaski" width="100" sortBy="#{item.numerwlasnydokfk}" filterBy="#{item.numerwlasnydokfk}" filterMatchMode="contains" >
                     <h:outputText value="#{item.numerwlasnydokfk}" style="white-space: normal !important; word-break: break-all !important; word-wrap: break-word !important;"/>
+                </p:column>
+                <p:column headerText="opis" 
+                          styleClass="zaksiegowanewaski" width="100" sortBy="#{item.opisdokfk}" filterBy="#{item.opisdokfk}" filterMatchMode="contains" >
+                    <h:outputText value="#{item.opisdokfk}" style="white-space: normal !important; word-break: break-all !important; word-wrap: break-word !important;"/>
                 </p:column>
                 <p:column headerText="symbole" width="30" style="text-align: center;color: blue;" sortBy="#{item.pobierzsymbole()}">
                     <h:outputText value="#{item.pobierzsymbole()}" 
@@ -234,10 +239,10 @@
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
-                <p:column headerText="#{mgs.waluta}" styleClass="waluta" width="40" sortBy="#{item.walutadokumentu.symbolwaluty}" filterBy="#{item.walutadokumentu.symbolwaluty}" style="text-align: center;">
+                <p:column headerText="#{mgs.waluta}" styleClass="waluta" width="30" sortBy="#{item.walutadokumentu.symbolwaluty}" filterBy="#{item.walutadokumentu.symbolwaluty}" style="text-align: center;">
                     <h:outputText value="#{item.walutadokumentu.symbolwaluty ne 'PLN' ? item.walutadokumentu.symbolwaluty : null}" id="walutadokumentuzest"/>
                 </p:column>
-                <p:column headerText="#{mgs.VAT}" styleClass="vatzak" width="30" sortBy="#{item.vatM}" filterBy="#{item.vatM}" style="text-align: center;">
+                <p:column headerText="#{mgs.VAT}" styleClass="vatzak" width="20" sortBy="#{item.vatM}" filterBy="#{item.vatM}" style="text-align: center;">
                     <h:outputText value="#{item.ewidencjaVAT.size() gt 0 ? item.vatM : null}" style="color: #{item.vatM ne item.miesiac ? 'red' : null}" id="vatdokumentuzest"/>
                 </p:column>
                 <p:column headerText="" width="30" sortBy="#{dokfkView.charakterdokumentu(item)}" style="text-align: center; #{dokfkView.charakterdokumentu(item) eq '' ? null : 'color: red;'}">
