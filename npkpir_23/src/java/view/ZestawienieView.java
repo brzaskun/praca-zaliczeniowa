@@ -6,6 +6,7 @@ package view;
 
 import beansDok.KsiegaBean;
 import beansPIT.WyliczPodatekZasadyOgolne;
+import comparator.Dokcomparator;
 import comparator.Stratacomparator;
 import dao.AmoDokDAO;
 import dao.CechazapisuDAOfk;
@@ -58,6 +59,7 @@ import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import mail.MaiManager;
 import mail.Mail;
+import mail.MailOther;
 import msg.Msg;
 import org.apache.commons.collections4.CollectionUtils;
 import org.primefaces.PrimeFaces;
@@ -66,6 +68,7 @@ import org.primefaces.model.chart.AxisType;
 import org.primefaces.model.chart.CategoryAxis;
 import org.primefaces.model.chart.LineChartModel;
 import org.primefaces.model.chart.LineChartSeries;
+import pdf.PdfDok;
 import pdf.PdfPIT5;
 import pdf.PdfZestRok;
 import waluty.Z;
@@ -924,6 +927,7 @@ public class ZestawienieView implements Serializable {
                 pitView.init();
                 String wiad = String.format("Edytowano PIT %s za m-c:%s", biezacyPit.getUdzialowiec(), biezacyPit.getPkpirM());
                 Msg.msg("i", wiad);
+                mailzestawieniedokklient(biezacyPit);
             } catch (Exception e) {
                 E.e(e);
                 String wiad = String.format("Błąd podczas zachowywania PIT %s za m-c:%s", biezacyPit.getUdzialowiec(), biezacyPit.getPkpirM());
@@ -934,6 +938,29 @@ public class ZestawienieView implements Serializable {
             Msg.msg("e", "Nie można zachować. PIT nie wypełniony");
         }
     }
+    
+     
+    private void mailzestawieniedokklient(Pitpoz biezacyPit) {
+         try {
+            List<Dok> dokumentypobrane = dokDAO.zwrocBiezacegoKlientaRokMC(biezacyPit.getPodatnik1(), biezacyPit.getPkpirR(), biezacyPit.getPkpirM());
+            //sortowanie dokumentów
+            if (dokumentypobrane!=null) {
+                for (Iterator<Dok> it = dokumentypobrane.iterator(); it.hasNext();) {
+                    Dok tmpx = it.next();
+                    if (tmpx.getRodzajedok().isTylkojpk()) {
+                        it.remove();
+                    }
+                }
+            }
+            Collections.sort(dokumentypobrane, new Dokcomparator());
+            byte[] drukujDok = PdfDok.drukujDok(dokumentypobrane, wpisView,0, null, "dokupr");
+            MailOther.pkpirdokumenty(wpisView, sMTPSettingsDAO.findSprawaByDef(), drukujDok, "zestawienie_dok.pdf");
+        } catch (Exception e) {
+            E.e(e);
+        }
+    }
+    
+    
     
     
      private static final String trescmaila = "<p> Dzień dobry</p> <p> Przesyłamy informacje o naliczonych kwoty zobowiązań z tytułu podatku dochodowego</p> "
@@ -1587,5 +1614,7 @@ public class ZestawienieView implements Serializable {
     public void setPitydlapita(List<Pitpoz> pitydlapita) {
         this.pitydlapita = pitydlapita;
     }
+
+    
 
 }

@@ -12,6 +12,9 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
 
@@ -86,7 +89,24 @@ public class Plik {
             return fileOutputStream;
         }
     }
+    
+    public static byte[] plikRBA(String nazwa) {
+        ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+        String realPath = ctx.getRealPath("/")+"wydruki\\";
+        byte[] zwrot  = null;
+        String pelnanazwa = realPath+nazwa;
+        try {
+            Path path = Paths.get(pelnanazwa);
+            zwrot = Files.readAllBytes(path);
+        } catch (FileNotFoundException ex) {
+            System.out.println(E.e(ex));
+        } finally {
+            return zwrot;
+        }
+    }
 
+    
+    
     public static String getKatalog() {
         ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
         String realPath = ctx.getRealPath("/")+"wydruki\\";

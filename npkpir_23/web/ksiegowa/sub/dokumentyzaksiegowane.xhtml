@@ -142,12 +142,16 @@
                           style="width: 1450px; margin-top: 10px; height: 700px; overflow-y: scroll;" rowKey="#{wpis.idDok}" selection="#{DokTabView.gosciuwybral}" 
                           widgetVar="dokTable"
                           rowStyleClass="#{wpis.rodzajedok.rodzajtransakcji eq 'sprzedaz' ? 'old' : (wpis.netto lt 0 ? 'korekta' : null)}" 
-                          emptyMessage="W danym miesiącu nie było żadnych zapisów"
-                          selectionMode="multiple" styleClass="grid" 
+                          emptyMessage="W danym miesiącu nie było żadnych zapisów" rowSelectMode="add"
+                          styleClass="grid" 
                           >
- <p:ajax event="filter" global="false" />
+                <p:ajax event="filter" global="false" />
                 <!--                <p:ajax event="filter" global="false" oncomplete="przeliczfilter()"/>-->
-                <p:ajax event="rowSelect"  listener="#{DokumentView.skopiujdoedycji()}" global="false"/>
+                <p:ajax event="toggleSelect" partialSubmit="true" global="false" />
+                <p:ajax event="rowSelectCheckbox" partialSubmit="true" global="false"/>
+                <p:ajax event="rowUnselectCheckbox" partialSubmit="true" global="false"/>
+                <p:ajax event="rowToggle" partialSubmit="true" global="false"/>
+                <p:ajax event="rowSelect" partialSubmit="true"  listener="#{DokumentView.skopiujdoedycji()}" global="false"/>
 <!--                <p:ajax event="contextMenu"  listener="#{DokTabView.fakturasprawdzanieajax()}" />-->
                 <f:facet name="header">  
                     <h:outputText value="Zestawienie #{DokTabView.dokumentylista.size()} zaksięgowanych w miesiącu '#{WpisView.miesiacWpisu}' dokumentów " />  
@@ -156,10 +160,9 @@
 <!--                    <p:commandButton id="toggler" type="button" value="Kolumny" style="float:right" icon="ui-icon-calculator" />
                     <p:columnToggler datasource="dokumentyLista" trigger="toggler"/>-->
                 </f:facet>
-
+                <p:column selectionMode="multiple" styleClass="checkwiersza" width="30" style="text-align: center;"></p:column>
                 <p:column style="width: 10px; height: 45px; text-align: center;" >
                     <p:rowToggler rendered="#{wpis.ewidencjaVAT1.size() gt 0 || wpis.cechadokumentuLista.size() gt 0}"/>
-                    
                 </p:column>
                 <p:column id="idColumn" headerText="#{mgs.numerkolejny}" sortBy="#{wpis.nrWpkpir}"  style="width: 20px; text-align: center;">  
                     <h:outputText styleClass="lpwiersza" value="#{wpis.nrWpkpir}" />

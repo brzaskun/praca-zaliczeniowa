@@ -37,7 +37,8 @@ import static pdffk.PdfMain.inicjacjaWritera;
 import static pdffk.PdfMain.naglowekStopkaP;
 import static pdffk.PdfMain.otwarcieDokumentu;
 import plik.Plik;
- import view.WpisView;
+import static plik.Plik.plikRBA;
+import view.WpisView;
 import waluty.Z;
 
 /**
@@ -46,7 +47,7 @@ import waluty.Z;
  */
 public class PdfDok extends Pdf implements Serializable {
     
-    public static void drukujDok(List<Dok> lista, WpisView wpisView, int modyfikator, String wybranacechadok, String apendix) {
+    public static byte[] drukujDok(List<Dok> lista, WpisView wpisView, int modyfikator, String wybranacechadok, String apendix) {
         String nazwa = wpisView.getPodatnikObiekt().getNip()+"listadok"+apendix;
         File file = Plik.plik(nazwa, true);
         if (file.isFile()) {
@@ -57,7 +58,7 @@ public class PdfDok extends Pdf implements Serializable {
             PdfWriter writer = inicjacjaWritera(document, nazwa);
             naglowekStopkaP(writer);
             otwarcieDokumentu(document, nazwa);
-            dodajOpisWstepny(document, "Zestawienie zaksięgowanych dokumentów firma  - "+wpisView.getPrintNazwa(), wpisView.getPodatnikObiekt(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
+            dodajOpisWstepny(document, "Zestawienie zaksięgowanych dokumentów - ", wpisView.getPodatnikObiekt(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
             if (wybranacechadok != null) {
                 PdfMain.dodajLinieOpisuBezOdstepu(document, "wybrano dokumenty z cechą: "+wybranacechadok);
             }
@@ -103,6 +104,8 @@ public class PdfDok extends Pdf implements Serializable {
         } finally {
             finalizacjaDokumentuQR(document,nazwa);
         }
+        nazwa = nazwa+".pdf";
+        return plikRBA(nazwa);
     }
 
     private static void dodajsume(List tabelazbiorcza) {

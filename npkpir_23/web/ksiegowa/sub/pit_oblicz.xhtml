@@ -129,6 +129,7 @@
                                 <p:menuitem global="false" value="dodatkowy-13" actionListener="#{zestawienieView.zachowajPit13()}" icon="ui-icon-arrowrefresh-1-w"/>  
                             </p:splitButton>
                             <p:commandButton value="wyślij"  action="#{zestawienieView.wyslijPit()}" type="submit" style="width: 140px"/>
+                            <h:outputText value="email: #{WpisView.podatnikObiekt.email}"/>
                         </p:panelGrid>
                     </p:panelGrid>
                     <!--                    <p:panelGrid  columns="1" >

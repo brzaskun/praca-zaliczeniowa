@@ -2526,7 +2526,7 @@ public class PdfMain {
             if (nazwaklasy.equals("entity.Dok")) {
                 if (modyfikator==0) {
                     Dok p = (Dok) it.next();
-                    table.addCell(ustawfrazeAlign(String.valueOf(p.getNrWpkpir()), "center", 9, 25f));
+                    table.addCell(ustawfrazeAlign(i++, "center", 9, 25f));
                     table.addCell(ustawfrazeAlign(p.getDataWyst(), "center", 9));
                     table.addCell(ustawfrazeAlign(p.getKontr1().toString3(), "left", 9));
                     table.addCell(ustawfrazeAlign(p.getRodzajedok().getSkrot(), "center", 9));

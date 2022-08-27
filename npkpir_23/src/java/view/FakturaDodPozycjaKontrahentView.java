@@ -228,6 +228,7 @@ public class FakturaDodPozycjaKontrahentView  implements Serializable {
                         }
                    }
                    uzupelnijofakture(lista_tmp);
+                   uzupelnijodanezDRA(lista_tmp);
                    if (pokazujtylkopuste) {
                        lista_2 = lista_2.stream().filter(p->p.getIlosc()==0).collect(Collectors.toList());
                    }

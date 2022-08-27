@@ -24,6 +24,7 @@ import javax.mail.Transport;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
+import javax.mail.util.ByteArrayDataSource;
 import javax.servlet.ServletContext;
 import msg.Msg;
 import org.primefaces.PrimeFaces;
@@ -37,6 +38,52 @@ import plik.Plik;
 
 public class MailOther implements Serializable{
  
+    
+    
+    public static void pkpirdokumenty(WpisView wpisView, SMTPSettings ogolne, byte[] zalacznik, String nazwapliku) {
+         try {
+             MimeMessage message = MailSetUp.logintoMail(wpisView, null, ogolne);
+             message.setSubject("Wydruk zestawienia zaksięgowanych faktur i rachunków za miesiąc","UTF-8");
+             // create and fill the first message part
+             MimeBodyPart mbp1 = new MimeBodyPart();
+             mbp1.setHeader("Content-Type", "text/html; charset=utf-8");
+             Podatnik pod = wpisView.getPodatnikObiekt();
+             String klient = pod.getImie()+" "+pod.getNazwisko();
+             mbp1.setContent("Dzień dobry"
+                     + "<p>Zakończno rozliczanie miesiąca.</p>"
+                     + "<p>W niniejszym mailu załączamy wydruk zestawienia faktur i rachunków za "
+                     +"okres "+wpisView.getRokWpisuSt()+"/"+wpisView.getMiesiacWpisu()
+                     + "</p>"
+                     +"<p>firma: "+pod.getPrintnazwa()
+                     +"</p>"
+                     + Mail.reklama
+                     + Mail.stopka,  "text/html; charset=utf-8");
+                      // create the Multipart and add its parts to it
+                Multipart mp = new MimeMultipart();
+                mp.addBodyPart(mbp1);
+                dolaczplik(zalacznik, mp, nazwapliku);
+                // add the Multipart to the message
+                message.setContent(mp);
+                Transport.send(message);
+                Msg.msg("i","Wyslano maila z zestawieniem dok. na wskazany adres: "+wpisView.getPodatnikObiekt().getEmail());
+            } catch (MessagingException e) {
+             Msg.msg("e", "Błąd podczas wysyłki pkpir. Wysyłka nieudana");
+         }
+     }
+    private static void dolaczplik(byte[] is, Multipart mimeMultipart, String nazwapliku) {
+        if (is != null && is instanceof byte[]) {
+            try {
+                // create the second message part with the attachment from a OutputStrean
+                MimeBodyPart attachment= new MimeBodyPart();
+                ByteArrayDataSource ds = new ByteArrayDataSource(is, "application/pdf");
+                attachment.setDataHandler(new DataHandler(ds));
+                attachment.setFileName(nazwapliku);
+                mimeMultipart.addBodyPart(attachment);
+            } catch (Exception ex) {
+                // Logger.getLogger(MailAdmin.class.getName()).log(Level.SEVERE, null, ex);
+            }
+    }
+    }
     
      
     public static void pkpir(WpisView wpisView, SMTPSettings ogolne) {
