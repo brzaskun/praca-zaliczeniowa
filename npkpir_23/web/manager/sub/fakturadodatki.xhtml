@@ -67,10 +67,13 @@
                               paginator="true" paginatorAlwaysVisible="#{fakturaDodPozycjaKontrahentView.lista_2.size() gt 20 ? true : false}" rows="20" sortBy="#{zapis.kontrahent.nazwapodatnika}"
                               paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
                               rowsPerPageTemplate="20,50,100" emptyMessage="Nie dodano pozycji w tym miesiącu"
-                              rowKey="#{zapis.id}"> 
+                              rowKey="#{zapis.hashCode()}" rowIndexVar="iindex"> 
                     <f:facet name="header">  
                         <h:outputText value="Wykaz wprowadzonych wartości" />  
                     </f:facet>
+                    <p:column width="20">  
+                        <h:outputText value="#{iindex+1}" style="color: #{zapis.ilosc==0? 'green':'initial'}" />
+                    </p:column>
                     <p:column headerText="nazwa" width="400" filterBy="#{zapis.kontrahent.nazwapodatnika}" filterMatchMode="contains">  
                         <h:outputText value="#{zapis.kontrahent.nazwapodatnika}" style="color: #{zapis.ilosc==0? 'green':'initial'}"/>
                     </p:column>
@@ -161,11 +164,14 @@
                               filteredValue="#{fakturaDodPozycjaKontrahentView.lista_3_filter}" selection="#{fakturaDodPozycjaKontrahentView.lista_3_selected}" selectionMode="multiple"
                               paginator="true" paginatorAlwaysVisible="#{fakturaDodPozycjaKontrahentView.lista_3.size() gt 20 ? true : false}" rows="20" sortBy="#{zapis1.kontrahent.nazwapodatnika}"
                               paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
-                              rowsPerPageTemplate="20,50,100" emptyMessage="Nie dodano pozycji w tym miesiącu"
-                              rowKey="#{zapis1.id}"> 
+                              rowsPerPageTemplate="20,50,100" emptyMessage="Nie dodano pozycji w tym miesiącu" rowIndexVar="iiindex"
+                              rowKey="#{zapis1.hashCode()}"> 
                     <f:facet name="header">  
                         <h:outputText value="Wykaz wprowadzonych wartości" />  
                     </f:facet>
+                    <p:column width="20">  
+                        <h:outputText value="#{iiindex  +1}" style="color: #{zapis1.ilosc==0? 'green':'initial'}" />
+                    </p:column>
                     <p:column headerText="nazwa" width="400" filterBy="#{zapis1.kontrahent.nazwapodatnika}" filterMatchMode="contains">  
                         <h:outputText value="#{zapis1.kontrahent.nazwapodatnika}" style="color: #{zapis1.ilosc==0? 'green':'initial'}"/>
                     </p:column>

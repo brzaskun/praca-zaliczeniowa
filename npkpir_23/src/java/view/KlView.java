@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.view.ViewScoped;
@@ -352,17 +353,9 @@ public class KlView implements Serializable {
         try {
             String q = query.substring(0, 1);
             int i = Integer.parseInt(q);
-            for (Klienci p : kl1) {
-                if (p.getNip().startsWith(query)) {
-                    results.add(p);
-                }
-            }
+            results.addAll(kl1.parallelStream().filter(p->p.getNip().startsWith(query)).collect(Collectors.toList()));
         } catch (NumberFormatException e) {
-            for (Klienci p : kl1) {
-                if (p.getNpelna().toLowerCase().contains(query.toLowerCase())) {
-                    results.add(p);
-                }
-            }
+            results.addAll(kl1.parallelStream().filter(p->p.getNpelna().toLowerCase().contains(query.toLowerCase())).collect(Collectors.toList()));
         }
         results.add(new Klienci(-1, "nowy klient", "nowy klient", "0123456789", "11-111", "miejscowosc", "ulica", "1", "1"));
         return results;

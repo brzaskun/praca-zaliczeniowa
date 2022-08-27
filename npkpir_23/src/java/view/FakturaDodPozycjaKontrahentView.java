@@ -221,7 +221,7 @@ public class FakturaDodPozycjaKontrahentView  implements Serializable {
                    }
                    for (FakturaDodPozycjaKontrahent p : lista_tmp) {
                        FakturaDodPozycjaKontrahent r = new FakturaDodPozycjaKontrahent(p, rok, mc);
-                       dodajpozycje(r,lista_2);
+                       dodajpozycje(r,lista_2, lista_3);
                        Podatnik pod = podatnikDAO.findPodatnikByNIP(r.getKontrahent().getNip());
                         if (pod != null) {
                             r.getKontrahent().setNazwapodatnika(pod.getPrintnazwa().replace("\"", ""));
@@ -239,9 +239,15 @@ public class FakturaDodPozycjaKontrahentView  implements Serializable {
         }
     }
     
-    private void dodajpozycje(FakturaDodPozycjaKontrahent r, List<FakturaDodPozycjaKontrahent> lista_2) {
+    private void dodajpozycje(FakturaDodPozycjaKontrahent r, List<FakturaDodPozycjaKontrahent> lista_2, List<FakturaDodPozycjaKontrahent> lista_3) {
         boolean dodac = true;
         for (FakturaDodPozycjaKontrahent p : lista_2) {
+            if (r.getKontrahent().equals(p.getKontrahent())&&r.getFakturaDodatkowaPozycja().equals(p.getFakturaDodatkowaPozycja())) {
+                dodac = false;
+                break;
+            }
+        }
+        for (FakturaDodPozycjaKontrahent p : lista_3) {
             if (r.getKontrahent().equals(p.getKontrahent())&&r.getFakturaDodatkowaPozycja().equals(p.getFakturaDodatkowaPozycja())) {
                 dodac = false;
                 break;
@@ -255,7 +261,13 @@ public class FakturaDodPozycjaKontrahentView  implements Serializable {
     
     public void zachowajpermanentne() {
         if (lista_2!=null&& !lista_2.isEmpty()) {
-            fakturaDodPozycjaKontrahentDAO.createEditList(lista_2);
+            for (FakturaDodPozycjaKontrahent p : lista_2) {
+                if (p.getId()==null) {
+                    fakturaDodPozycjaKontrahentDAO.create(p);
+                } else {
+                    fakturaDodPozycjaKontrahentDAO.edit(p);
+                }
+            }
             Msg.msg("Zachowano pozycje");
         } else {
             Msg.msg("e","Lista pusta");

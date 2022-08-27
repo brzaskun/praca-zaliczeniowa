@@ -46,7 +46,7 @@ public class FakturaDodPozycjaKontrahent  implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
-    private int id;
+    private Integer id;
     @JoinColumn(name = "kontrahent", referencedColumnName = "id")
     @ManyToOne
     private Klienci kontrahent;
@@ -87,17 +87,14 @@ public class FakturaDodPozycjaKontrahent  implements Serializable{
         this.kwotaindywid = Z.z(p.getKwotaindywid());
     }
 
-  
-    
-
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 47 * hash + this.id;
-        hash = 47 * hash + Objects.hashCode(this.kontrahent);
-        hash = 47 * hash + Objects.hashCode(this.fakturaDodatkowaPozycja);
-        hash = 47 * hash + Objects.hashCode(this.rok);
-        hash = 47 * hash + Objects.hashCode(this.mc);
+        int hash = 5;
+        hash = 79 * hash + Objects.hashCode(this.id);
+        hash = 79 * hash + Objects.hashCode(this.kontrahent);
+        hash = 79 * hash + Objects.hashCode(this.fakturaDodatkowaPozycja);
+        hash = 79 * hash + Objects.hashCode(this.rok);
+        hash = 79 * hash + Objects.hashCode(this.mc);
         return hash;
     }
 
@@ -113,13 +110,13 @@ public class FakturaDodPozycjaKontrahent  implements Serializable{
             return false;
         }
         final FakturaDodPozycjaKontrahent other = (FakturaDodPozycjaKontrahent) obj;
-        if (this.id != other.id) {
-            return false;
-        }
         if (!Objects.equals(this.rok, other.rok)) {
             return false;
         }
         if (!Objects.equals(this.mc, other.mc)) {
+            return false;
+        }
+        if (!Objects.equals(this.id, other.id)) {
             return false;
         }
         if (!Objects.equals(this.kontrahent, other.kontrahent)) {
@@ -131,16 +128,16 @@ public class FakturaDodPozycjaKontrahent  implements Serializable{
         return true;
     }
 
-    
-    
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
+  
+   
     public boolean isBrakfaktury() {
         return brakfaktury;
     }
