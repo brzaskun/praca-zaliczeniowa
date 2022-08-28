@@ -11,11 +11,11 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Base64;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FileUtils;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
@@ -54,13 +54,13 @@ public class MobiledokView implements Serializable{
 //            ImageIO.write(bufferedImg, "png", os);
 //            dsc.setStream(new ByteArrayInputStream(os.toByteArray()));
 //            return dsc;
-           
-            FileUtils.writeByteArrayToFile(new File("d:\\obrazek.jpg"), mobiledok.getPlik());
+            byte[] decode = Base64.getDecoder().decode(new String(mobiledok.getPlik()).getBytes("UTF-8"));
+            //FileUtils.writeByteArrayToFile(new File("d:\\obrazek.jpg"), decode);
             DefaultStreamedContent dsc = new DefaultStreamedContent();
             dsc.setContentType("image/jpg");
             String nazwa = wpisView.getPodatnikObiekt().getNip()+"."+mobiledok.getRozszerzenie();
             dsc.setName(nazwa);
-            dsc.setStream(new ByteArrayInputStream(Base64.encodeBase64(mobiledok.getPlik())));
+            dsc.setStream(new ByteArrayInputStream(decode));
             return dsc;
         }
         catch (Exception e) {
