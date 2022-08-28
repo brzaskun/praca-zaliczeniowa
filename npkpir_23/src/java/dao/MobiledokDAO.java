@@ -47,6 +47,7 @@ public class MobiledokDAO extends DAO implements Serializable{
  
 
     public List<Mobiledok> findByNip(String nip) {
-        return getEntityManager().createNamedQuery("Mobiledok.findByNip").setParameter("nip", nip).getResultList();
+        //return getEntityManager().createNamedQuery("Mobiledok.findByNip").setParameter("nip", nip).getResultList();
+        return getEntityManager().createQuery("SELECT f FROM Mobiledok f WHERE f.nip = :nip").setParameter("nip", nip).getResultList();
     }
 }
