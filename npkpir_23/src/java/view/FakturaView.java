@@ -919,7 +919,7 @@ public class FakturaView implements Serializable {
                 pozycje.clear();
             }
             for (FakturaDodPozycjaKontrahent p : lista) {
-                double ilosc = p.getIlosc();
+                double ilosc = p.getIloscdra();
                 double cena = p.getKwotaindywid()!=0.0 ?p.getKwotaindywid() : p.getFakturaDodatkowaPozycja().getKwota();
                 if (ilosc>0&&cena>0.0&&p.isRozliczone()==false) {
                     if (liczodbrutto) {

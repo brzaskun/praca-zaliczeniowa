@@ -54,6 +54,7 @@ public class MobiledokView implements Serializable{
 //            ImageIO.write(bufferedImg, "png", os);
 //            dsc.setStream(new ByteArrayInputStream(os.toByteArray()));
 //            return dsc;
+           
             FileUtils.writeByteArrayToFile(new File("d:\\obrazek.jpg"), mobiledok.getPlik());
             DefaultStreamedContent dsc = new DefaultStreamedContent();
             dsc.setContentType("image/jpg");
