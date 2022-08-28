@@ -52,6 +52,8 @@
     <class>entity.Kolumna1Rozbicie</class>
     <class>entity.KwotaKolumna1</class>
     <class>entity.Logofaktura</class>
+    <class>entity.Mobile</class>
+    <class>entity.Mobiledok</class>
     <class>entity.MultiuserSettings</class>
     <class>entity.Odsetki</class>
     <class>entity.ParamCzworkiPiatki</class>

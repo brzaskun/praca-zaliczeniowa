@@ -1,0 +1,47 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:bcf="http://brzaskun.com/facelets"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:form id="skanydok" >
+            <p:dataTable value="#{mobiledokView.lista}" var="item" style="width: 600px;">
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Id"/>
+                        </f:facet>
+                        <h:outputText value="#{item.id}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="nip"/>
+                        </f:facet>
+                        <h:outputText value="#{item.nip}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="data"/>
+                        </f:facet>
+                        <h:outputText value="#{item.data}">
+                            <f:convertDateTime pattern="yyyy/MM/dd HH:mm:ss" />
+                        </h:outputText>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="plik"/>
+                        </f:facet>
+                        <p:graphicImage value="#{mobiledokView.picture(item)}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="roz."/>
+                        </f:facet>
+                        <h:outputText value="#{item.rozszerzenie}"/>
+                    </p:column>
+                </p:dataTable>
+    </h:form>
+</ui:composition>   
+
+

@@ -4,7 +4,7 @@
  */
 package dao;
 
-import entity.Granica;
+import entity.Mobiledok;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PreDestroy;
@@ -20,10 +20,10 @@ import javax.transaction.Transactional;
  */
 @Stateless
 @Transactional
-public class GranicaDAO extends DAO implements Serializable{
+public class MobiledokDAO extends DAO implements Serializable{
      private static final long serialVersionUID = 1L;
 
-    @PersistenceContext(unitName = "npkpir_22PU")
+     @PersistenceContext(unitName = "npkpir_22PU")
     private EntityManager em;
     
     @PreDestroy
@@ -39,14 +39,14 @@ public class GranicaDAO extends DAO implements Serializable{
         return em;
     }
 
-    public GranicaDAO() {
-        super(Granica.class);
+    public MobiledokDAO() {
+        super(Mobiledok.class);
         super.em = this.em;
     }
 
  
 
-    public List<Granica> findByRok(String rokWpisuSt) {
-        return getEntityManager().createNamedQuery("Granica.findByRok").setParameter("rok", rokWpisuSt).getResultList();
+    public List<Mobiledok> findByNip(String nip) {
+        return getEntityManager().createNamedQuery("Mobiledok.findByNip").setParameter("nip", nip).getResultList();
     }
 }
