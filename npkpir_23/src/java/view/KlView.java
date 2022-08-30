@@ -14,7 +14,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -72,13 +71,11 @@ public class KlView implements Serializable {
 
     @PostConstruct
     private void init() { //E.m(this);
-        CompletableFuture future = CompletableFuture.runAsync(() -> {
-            try {
-                kl1 = klDAO.findAll();
-            } catch (Exception ex) {
+        try {
+            kl1 = klDAO.findAll();
+        } catch (Exception ex) {
 
-            }
-        });
+        }
         //selected.setKrajnazwa("Polska");
         //selected.setKrajkod(panstwaMapa.getWykazPanstwSX().get("Polska"));
     }
