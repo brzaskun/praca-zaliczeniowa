@@ -21,6 +21,7 @@ import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.context.FacesContext;
@@ -70,22 +71,30 @@ public class ObslugaPodpisuBean {
         Provider pkcs11Provider = null;
         int proba = 0;
         try {
-            do {
-                ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
-                String realPath = ctx.getRealPath("/").replace("\\", "\\\\")+DRIVER;
-                //String realPath = "C:\\Windows\\System32\\cryptoCertum3PKCS.dll";
-                String pkcs11config = "name=SmartCardn"+"\r"
-                        + "library="+realPath+"\r"+ "slotListIndex=0";
-                byte[] pkcs11configBytes = pkcs11config.getBytes("UTF-8");
-                ByteArrayInputStream configStream = new ByteArrayInputStream(pkcs11configBytes);
-                pkcs11Provider = new sun.security.pkcs11.SunPKCS11(configStream);
-                Security.removeProvider(pkcs11Provider.getName());
-                Security.addProvider(pkcs11Provider);
-                proba++;
-            } while (proba < 3 && pkcs11Provider==null);
-            if (pkcs11Provider!=null) {
+            CompletableFuture<Provider> cf = CompletableFuture.completedFuture(pobierz());
+            if (cf.isDone()) {
+                pkcs11Provider = cf.get();
                 odpowiedz.put(0, "tak");
             }
+        } catch (Exception e) {
+            error.E.s("Brak wpiętego czytnika karty/pendriva");
+        } 
+        return pkcs11Provider;
+    }
+    
+    private static Provider pobierz() {
+        Provider pkcs11Provider = null;
+        try {
+            ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+            String realPath = ctx.getRealPath("/").replace("\\", "\\\\")+DRIVER;
+            //String realPath = "C:\\Windows\\System32\\cryptoCertum3PKCS.dll";
+            String pkcs11config = "name=SmartCardn"+"\r"
+                    + "library="+realPath+"\r"+ "slotListIndex=0";
+            byte[] pkcs11configBytes = pkcs11config.getBytes("UTF-8");
+            ByteArrayInputStream configStream = new ByteArrayInputStream(pkcs11configBytes);
+            pkcs11Provider = new sun.security.pkcs11.SunPKCS11(configStream);
+            Security.removeProvider(pkcs11Provider.getName());
+            Security.addProvider(pkcs11Provider);
         } catch (Exception e) {
             error.E.s("Brak wpiętego czytnika karty/pendriva");
         } 
