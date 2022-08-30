@@ -4,11 +4,9 @@
  */
 package view;
 
-import dao.DokDAO;
 import dao.MobiledokDAO;
 import entity.Mobiledok;
 import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Base64;
@@ -16,7 +14,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.apache.commons.io.FileUtils;
+import msg.Msg;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
@@ -29,18 +27,14 @@ import org.primefaces.model.StreamedContent;
 public class MobiledokView implements Serializable{
     private static final long serialVersionUID = 1L;
     private List<Mobiledok> lista;
-    private List<Mobiledok> lista2;
     @Inject
     private MobiledokDAO mobiledokDAO;
-    @Inject
-    private DokDAO  dokDAO;
     @Inject
     private WpisView wpisView;
     
     @PostConstruct
     private void init() {
         lista = mobiledokDAO.findByNip(wpisView.getPodatnikObiekt().getNip());
-        lista2 = dokDAO.zwrocBiezacegoKlientaRokKW(wpisView);
         System.out.println("");;
     }
     
@@ -66,6 +60,18 @@ public class MobiledokView implements Serializable{
         catch (Exception e) {
             e.printStackTrace();
             return null;
+        }
+    }
+    
+    public void usun(Mobiledok mobiledok) {
+        if (mobiledok!=null) {
+            try{
+                lista.remove(mobiledok);
+                mobiledokDAO.remove(mobiledok);
+                Msg.dP();
+            } catch (Exception e) {
+                Msg.dPe();
+            }
         }
     }
 

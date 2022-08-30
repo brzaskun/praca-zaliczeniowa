@@ -7,7 +7,7 @@
     xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <h:form id="skanydok" >
-            <p:dataTable value="#{mobiledokView.lista}" var="item" style="width: 1200px;">
+            <p:dataTable value="#{mobiledokView.lista}" var="item" style="width: 900px;">
                     <p:column width="30">
                         <f:facet name="header">
                             <h:outputText value="Id"/>
@@ -39,6 +39,13 @@
                             <h:outputText value="roz."/>
                         </f:facet>
                         <h:outputText value="#{item.rozszerzenie}"/>
+                    </p:column>
+                </p:dataTable>
+                <p:column width="40">
+                        <f:facet name="header">
+                            <h:outputText value=""/>
+                        </f:facet>
+                    <p:commandButton icon="fa fa-trash" actionListener="#{mobiledokView.usun(item)}" update="@form" global="false"/>
                     </p:column>
                 </p:dataTable>
     </h:form>
