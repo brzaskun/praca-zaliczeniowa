@@ -147,6 +147,7 @@ public class KontoZapisFKView implements Serializable{
 //            wybranekonto = wykazkont.get(0);
 //        }
         pobraneRodzajeWalut = walutyDAOfk.findAll();
+        symboleWalut = Collections.synchronizedList(new ArrayList<>());
         for (Waluty w : pobraneRodzajeWalut) {
             symboleWalut.add(w.getSymbolwaluty());
         }
