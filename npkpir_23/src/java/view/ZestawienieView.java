@@ -719,18 +719,20 @@ public class ZestawienieView implements Serializable {
                 Msg.msg("Przeliczono PIT");
             }
         }
-        List<Pitpoz> pitpozlistapobrane = pitDAO.findByPodmiotRok(wybranyudzialowiec.getPodmiot(), wpisView.getRokWpisuSt());
-        if (pitpozlistapobrane!=null) {
-            List<Pitpoz> pitpozlista = new ArrayList<>();
-            for (Pitpoz p : pitpozlistapobrane) {
-                if (!p.getPodatnik().equals(wpisView.getPodatnikObiekt())) {
-                    pitpozlista.add(p);
+        if (wybranyudzialowiec!=null) {
+            List<Pitpoz> pitpozlistapobrane = pitDAO.findByPodmiotRok(wybranyudzialowiec.getPodmiot(), wpisView.getRokWpisuSt());
+            if (pitpozlistapobrane!=null) {
+                List<Pitpoz> pitpozlista = new ArrayList<>();
+                for (Pitpoz p : pitpozlistapobrane) {
+                    if (!p.getPodatnik().equals(wpisView.getPodatnikObiekt())) {
+                        pitpozlista.add(p);
+                    }
                 }
+                pitydlapita = pitpozlista.stream()
+                    .filter(p->!p.getPodatnik1().equals(wpisView.getPodatnikObiekt()))
+                    .filter(p->p.getPkpirM().equals(wpisView.getMiesiacWpisu()))
+                    .collect(Collectors.toList());
             }
-            pitydlapita = pitpozlista.stream()
-                .filter(p->!p.getPodatnik1().equals(wpisView.getPodatnikObiekt()))
-                .filter(p->p.getPkpirM().equals(wpisView.getMiesiacWpisu()))
-                .collect(Collectors.toList());
         }
     }
 
