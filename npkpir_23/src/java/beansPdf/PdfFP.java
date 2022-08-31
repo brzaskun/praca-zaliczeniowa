@@ -425,7 +425,7 @@ public class PdfFP {
 //                        pozycja = zwrocPolozenieElementu(skladnikifaktury, "poleUwagi");
 //                        prost(writer.getDirectContent(), (int) (pozycja.getLewy() / dzielnik) - 5, wymiaryGora.get("akordeon:formwzor:poleUwagi") - 5, 400, 15);
 //                        absText(writer, selected.getPoleuwagi(), (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:poleUwagi"), 8);
-                        text = PdfFP.pobierzelementdodatkowy("pole Uwagi", elementydod);
+                        text = selected.getPoleuwagi();
                         table = PdfFTablice.wygenerujtabliceDaty(text,szerokosc, wysokosc, 9);
                         table.writeSelectedRows(0, table.getRows().size(), wymiarylewy.get("akordeon:formwzor:poleUwagi"), wymiaryGora.get("akordeon:formwzor:poleUwagi"), writer.getDirectContent());
                     }
