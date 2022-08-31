@@ -142,6 +142,7 @@ public class MailOther implements Serializable{
                     String nazwa = wpisView.getPodatnikObiekt().getNazwadlafaktury() != null ? wpisView.getPodatnikObiekt().getNazwadlafaktury() : wpisView.getPodatnikWpisu();
                     message.setSubject("Wydruk faktury VAT - "+SMTPBean.nazwaFirmyFrom(settings, ogolne),"UTF-8");
                     // create and fill the first message part
+                    String reklama = wpisView.getPodatnikObiekt().getNip().equals("8511005008") ? Mail.reklama: "";
                     MimeBodyPart mbp1 = new MimeBodyPart();
                     mbp1.setHeader("Content-Type", "text/html; charset=utf-8");
                     mbp1.setContent("Witam"

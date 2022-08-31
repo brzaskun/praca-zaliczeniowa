@@ -133,6 +133,20 @@ public class PdfFTablice {
         return table;
     }
     
+    public static PdfPTable wygenerujtabliceUwagi(String text, int szerokosc, int wysokosc, int czcionkasize) throws DocumentException, IOException {
+        PdfPTable table = new PdfPTable(1);
+        float x1 = (float) (szerokosc);
+        table.setTotalWidth(x1);
+        table.setLockedWidth(true);
+        table.getDefaultCell().setBorder(Rectangle.ALIGN_CENTER);
+        table.getDefaultCell().setHorizontalAlignment(Element.ALIGN_LEFT);
+        table.getDefaultCell().setVerticalAlignment(Element.ALIGN_MIDDLE);
+        table.getDefaultCell().setPaddingLeft(5);
+        table.addCell(ustawfrazeAlign(text, "left", czcionkasize, wysokosc, 10f));
+        table.completeRow();
+        return table;
+    }
+    
     
     public static PdfPTable wygenerujtabliceWystawcaOdbiorca(String text, String text1, String text2, String text3, int szerokosc, int wysokosc, int czcionkasize) throws DocumentException, IOException {
         PdfPTable table = new PdfPTable(1);
