@@ -70,7 +70,7 @@
                         <p:selectOneMenu id="wybranawaluta" value="#{kontoZapisFKView.wybranaWalutaDlaKont}" style="width: 100px; margin-left: 5px;" label="#{mgs.walutadokumentu}">
                             <p:ajax event="change" listener="#{kontoZapisFKView.pobierzZapisyZmianaWaluty}" update=":tabelazzapisami, :tabelazsumami" />
                             <f:selectItem itemValue="wszystkie" itemLabel="#{mgs.wszystkie}"/>
-                            <f:selectItems value="#{walutyViewFK.symboleWalut}"/>
+                            <f:selectItems value="#{kontoZapisFKView.symboleWalut}"/>
                         </p:selectOneMenu>
                     </h:form>
                     <h:form id="miesiacezapisykonta">

@@ -10,7 +10,9 @@ and open the template in the editor.
 @font-face {
   font-display: swap;
 }
-
+html.progress, html.progress * {
+    cursor: progress !important;
+}
 .filter10 input {
     width: 10px !important;
 }

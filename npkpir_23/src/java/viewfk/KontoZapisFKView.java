@@ -16,6 +16,7 @@ import dao.RodzajedokDAO;
 import dao.StronaWierszaDAO;
 import dao.TabelanbpDAO;
 import dao.TransakcjaDAO;
+import dao.WalutyDAOfk;
 import dao.WierszBODAO;
 import dao.WierszDAO;
 import data.Data;
@@ -26,6 +27,7 @@ import entityfk.Konto;
 import entityfk.StronaWiersza;
 import entityfk.Tabelanbp;
 import entityfk.Transakcja;
+import entityfk.Waluty;
 import entityfk.Wiersz;
 import error.E;
 import extclass.ReverseIterator;
@@ -113,6 +115,10 @@ public class KontoZapisFKView implements Serializable{
     private List<Konto> ostatniaanalityka;
     private String rokdopobrania;
     private boolean kolumnaopis;
+    private List<String> symboleWalut;
+    private List<Waluty> pobraneRodzajeWalut;
+    @Inject
+    private WalutyDAOfk walutyDAOfk;
 
     
 
@@ -140,6 +146,10 @@ public class KontoZapisFKView implements Serializable{
 //        if (wykazkont != null) {
 //            wybranekonto = wykazkont.get(0);
 //        }
+        pobraneRodzajeWalut = walutyDAOfk.findAll();
+        for (Waluty w : pobraneRodzajeWalut) {
+            symboleWalut.add(w.getSymbolwaluty());
+        }
     }
     
     public void publicinit() {
@@ -1936,6 +1946,14 @@ public class KontoZapisFKView implements Serializable{
 
     public void setKolumnaopis(boolean kolumnaopis) {
         this.kolumnaopis = kolumnaopis;
+    }
+
+    public List<String> getSymboleWalut() {
+        return symboleWalut;
+    }
+
+    public void setSymboleWalut(List<String> symboleWalut) {
+        this.symboleWalut = symboleWalut;
     }
     
     
