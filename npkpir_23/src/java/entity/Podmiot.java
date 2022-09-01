@@ -51,7 +51,6 @@ public class Podmiot implements Serializable {
     @Basic(optional = false)
     @Column(name = "id", nullable = false)
     private Integer id;
-    @Size(min = 1, max = 10)
     @Column(name = "nip", unique = true, length = 10)
     private String nip;
     @Size(max = 11)
@@ -99,6 +98,12 @@ public class Podmiot implements Serializable {
     private List<Pitpoz> pitpozlista;
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "podmiot", cascade = CascadeType.ALL,  orphanRemoval=true)
     private List<Ryczpoz> ryczpozlista;
+    @Column(name = "start")
+    private String start;
+    @Column(name = "pause")
+    private String pause;
+    @Column(name = "stop")
+    private String stop;
 
     public Podmiot() {
     }
@@ -297,6 +302,30 @@ public class Podmiot implements Serializable {
 
     public void setAktywnydlazus(boolean aktywnydlazus) {
         this.aktywnydlazus = aktywnydlazus;
+    }
+
+    public String getStart() {
+        return start;
+    }
+
+    public void setStart(String start) {
+        this.start = start;
+    }
+
+    public String getPause() {
+        return pause;
+    }
+
+    public void setPause(String pause) {
+        this.pause = pause;
+    }
+
+    public String getStop() {
+        return stop;
+    }
+
+    public void setStop(String stop) {
+        this.stop = stop;
     }
 
     @Override

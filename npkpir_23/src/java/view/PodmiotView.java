@@ -8,11 +8,13 @@ package view;
 import dao.PodatnikDAO;
 import dao.PodatnikUdzialyDAO;
 import dao.PodmiotDAO;
+import data.Data;
 import entity.Podatnik;
 import entity.PodatnikUdzialy;
 import entity.Podmiot;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -51,6 +53,7 @@ public class PodmiotView implements Serializable {
     private boolean osobafizyczna;
     private boolean tylkoaktywne;
     private boolean tylkoprawne;
+    private boolean tylkofizyczne;
     
     
     
@@ -113,6 +116,21 @@ public class PodmiotView implements Serializable {
                     ppp.setPit(true);
                     podatnikUdzialyDAO.edit(ppp);
                 }
+            }
+        }
+        System.out.println("koniec moniec pitoznacz");
+    }
+    
+    
+      public void pobierzpodmioty() {
+        podmioty = podmiotDAO.findAll();
+        if (podmioty != null) {
+            if (tylkofizyczne) {
+                tylkoprawne = false;
+                podmioty = podmioty.parallelStream().filter(p->p.isOsobafizyczna()).collect(Collectors.toList());
+            } else if (tylkoprawne) {
+                tylkofizyczne = false;
+                podmioty = podmioty.parallelStream().filter(p->!p.isOsobafizyczna()).collect(Collectors.toList());
             }
         }
         System.out.println("koniec moniec pitoznacz");
@@ -268,8 +286,17 @@ public class PodmiotView implements Serializable {
     
     public void rowedit(RowEditEvent event) {
         Podmiot podmiot = (Podmiot) event.getObject();
-        podmiotDAO.edit(event);
+        podmiotDAO.edit(podmiot);
         Msg.msg("Naniesiono zmiany");
+    }
+    
+    public void edytujpodmiot(Podmiot podmiot) {
+        if (podmiot!=null) {
+            podmiotDAO.edit(podmiot);
+            Msg.msg("Naniesiono zmianę daty");
+        } else {
+            Msg.msg("e","Nie wybrano podmiotu");
+        }
     }
     
     public void dodajnowy() {
@@ -277,6 +304,7 @@ public class PodmiotView implements Serializable {
             if (nowy.getNip()==null&&nowy.getPesel()!=null) {
                 Msg.msg("e","Błąd. Należy wprowadzić albo NIP albo Pesel");
             } else {
+                nowy.setStart(Data.data_yyyyMMdd(new Date()));
                 podmiotDAO.create(nowy);
                 podmioty.add(nowy);
                 nowy = new Podmiot();
@@ -383,9 +411,18 @@ public class PodmiotView implements Serializable {
         this.tylkoprawne = tylkoprawne;
     }
 
+    public boolean isTylkofizyczne() {
+        return tylkofizyczne;
+    }
+
+    public void setTylkofizyczne(boolean tylkofizyczne) {
+        this.tylkofizyczne = tylkofizyczne;
+    }
+
     
 
     
     
 }
+
 
