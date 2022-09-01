@@ -151,6 +151,9 @@ public class SzukajDaneBean {
                     }
                     selected.setDatarozpoczecia(dane.get("praw_dataRozpoczeciaDzialalnosci"));
                     selected.setGussymbol(dane.get("praw_szczegolnaFormaPrawna_Symbol"));
+                    selected.setDatazawieszenia(dane.get("praw_dataZawieszeniaDzialalnosci"));
+                    selected.setDatawznowienia(dane.get("praw_dataWznowieniaDzialalnosci"));
+                    selected.setDatalikwidacji(dane.get("paw_dataZakonczeniaDzialalnosci"));
                 } else {
                     selected.setDatarozpoczecia(dane.get("fiz_dataRozpoczeciaDzialalnosci"));
                     selected.setNrdomu(dane.get("fiz_adSiedzNumerNieruchomosci"));
@@ -161,6 +164,9 @@ public class SzukajDaneBean {
                     } else {
                         selected.setNrlokalu("-");
                     }
+                    selected.setDatazawieszenia(dane.get("praw_dataZawieszeniaDzialalnosci"));
+                    selected.setDatawznowienia(dane.get("praw_dataWznowieniaDzialalnosci"));
+                    selected.setDatalikwidacji(dane.get("paw_dataZakonczeniaDzialalnosci"));
                 }
             }
             PrimeFaces.current().ajax().update(formularz+":nazwapelna");
@@ -191,9 +197,15 @@ public class SzukajDaneBean {
                 if (typ.equals("P")) {
                     selected.setDatarozpoczecia(dane.get("praw_dataRozpoczeciaDzialalnosci"));
                     selected.setGussymbol(dane.get("praw_szczegolnaFormaPrawna_Symbol"));
+                    selected.setDatazawieszenia(dane.get("praw_dataZawieszeniaDzialalnosci"));
+                    selected.setDatawznowienia(dane.get("praw_dataWznowieniaDzialalnosci"));
+                    selected.setDatalikwidacji(dane.get("paw_dataZakonczeniaDzialalnosci"));
                 } else {
                     selected.setDatarozpoczecia(dane.get("fiz_dataRozpoczeciaDzialalnosci"));
                     selected.setGussymbol(dane.get("fiz_szczegolnaFormaPrawna_Symbol"));
+                    selected.setDatazawieszenia(dane.get("fiz_dataZawieszeniaDzialalnosci"));
+                    selected.setDatawznowienia(dane.get("fiz_dataWznowieniaDzialalnosci"));
+                    selected.setDatalikwidacji(dane.get("fiz_dataZakonczeniaDzialalnosci"));
                 }
             }
         }

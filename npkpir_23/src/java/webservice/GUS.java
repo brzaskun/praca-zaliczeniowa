@@ -151,6 +151,7 @@ public class GUS {
         pozycje2fiz.add("fiz_dataZaistnieniaZmianyDzialalnosci");
         pozycje2fiz.add("fiz_dataZakonczeniaDzialalnosci");
         pozycje2fiz.add("fiz_dataZaistnieniaZmiany");
+        pozycje2fiz.add("fiz_dataZakonczeniaDzialalnosci");
         
    }
     
@@ -172,6 +173,7 @@ public class GUS {
         pozycje2praw.add("praw_dataZaistnieniaZmianyDzialalnosci");
         pozycje2praw.add("praw_dataZakonczeniaDzialalnosci");
         pozycje2praw.add("praw_dataZaistnieniaZmiany");
+        pozycje2praw.add("praw_dataZakonczeniaDzialalnosci");
    }
     
     

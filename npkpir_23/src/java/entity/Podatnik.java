@@ -266,6 +266,15 @@ public class Podatnik implements Serializable {
     @Column(name = "datarozpoczecia")
     @Size(max = 10)
     private String datarozpoczecia;
+    @Column(name = "datazawieszenia")
+    @Size(max = 10)
+    private String datazawieszenia;
+    @Column(name = "datawznowienia")
+    @Size(max = 10)
+    private String datawznowienia;
+    @Column(name = "datalikwidacji")
+    @Size(max = 10)
+    private String datalikwidacji;
     @OneToMany(mappedBy = "podatnikObj")
     private List<PodatnikOpodatkowanieD> podatnikOpodatkowanieD;
     @OneToMany(mappedBy = "podatnik")
@@ -1171,6 +1180,30 @@ public class Podatnik implements Serializable {
 
     public void setUpl(boolean upl) {
         this.upl = upl;
+    }
+
+    public String getDatawznowienia() {
+        return datawznowienia;
+    }
+
+    public void setDatawznowienia(String datawznowienia) {
+        this.datawznowienia = datawznowienia;
+    }
+
+    public String getDatalikwidacji() {
+        return datalikwidacji;
+    }
+
+    public void setDatalikwidacji(String datalikwidacji) {
+        this.datalikwidacji = datalikwidacji;
+    }
+
+    public String getDatazawieszenia() {
+        return datazawieszenia;
+    }
+
+    public void setDatazawieszenia(String datazawieszenia) {
+        this.datazawieszenia = datazawieszenia;
     }
 
     
