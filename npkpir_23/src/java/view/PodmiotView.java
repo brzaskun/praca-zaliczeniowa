@@ -47,6 +47,7 @@ public class PodmiotView implements Serializable {
     private PodatnikUdzialyDAO podatnikUdzialyDAO;
     private List<Podmiot> podmioty;
     private List<PodatnikUdzialy> podatnikUdzialy;
+    private List<PodatnikUdzialy> podatnikUdzialyFilter;
     private Podmiot selected;
     @Inject
     private Podmiot nowy;
@@ -417,6 +418,14 @@ public class PodmiotView implements Serializable {
 
     public void setTylkofizyczne(boolean tylkofizyczne) {
         this.tylkofizyczne = tylkofizyczne;
+    }
+
+    public List<PodatnikUdzialy> getPodatnikUdzialyFilter() {
+        return podatnikUdzialyFilter;
+    }
+
+    public void setPodatnikUdzialyFilter(List<PodatnikUdzialy> podatnikUdzialyFilter) {
+        this.podatnikUdzialyFilter = podatnikUdzialyFilter;
     }
 
     

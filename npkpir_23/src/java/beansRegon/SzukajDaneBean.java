@@ -199,7 +199,7 @@ public class SzukajDaneBean {
                     selected.setGussymbol(dane.get("praw_szczegolnaFormaPrawna_Symbol"));
                     selected.setDatazawieszenia(dane.get("praw_dataZawieszeniaDzialalnosci"));
                     selected.setDatawznowienia(dane.get("praw_dataWznowieniaDzialalnosci"));
-                    selected.setDatalikwidacji(dane.get("paw_dataZakonczeniaDzialalnosci"));
+                    selected.setDatalikwidacji(dane.get("praw_dataZakonczeniaDzialalnosci"));
                 } else {
                     selected.setDatarozpoczecia(dane.get("fiz_dataRozpoczeciaDzialalnosci"));
                     selected.setGussymbol(dane.get("fiz_szczegolnaFormaPrawna_Symbol"));

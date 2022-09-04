@@ -95,7 +95,10 @@ public class DraSumy implements Serializable {
     private double spoleczne;
     @Column(name = "zdrowotne")
     private double zdrowotne;
-    
+    @Column(name = "fp")
+    private double fp;
+    @Column(name = "pit4")
+    private double pit4;
 
     public DraSumy() {
     }
@@ -195,6 +198,23 @@ public class DraSumy implements Serializable {
 
     public void setStudenci(int studenci) {
         this.studenci = studenci;
+    }
+
+    public double getFp() {
+        return fp;
+    }
+
+    public void setFp(double fp) {
+        this.fp = fp;
+    }
+
+
+    public double getPit4() {
+        return pit4;
+    }
+
+    public void setPit4(double pit4) {
+        this.pit4 = pit4;
     }
     
     

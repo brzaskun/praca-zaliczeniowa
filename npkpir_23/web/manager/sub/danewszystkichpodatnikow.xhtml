@@ -15,7 +15,7 @@
     <p:growl life="3600"  id="msgzus" ><p:autoUpdate/></p:growl>
     <h:form>
         <p:commandButton value="drukuj" actionListener="#{podatnicyView.drukujwszystkich}" style="width: 120px; margin: 10px;"/>
-    <p:dataTable value="#{podatnicyView.podatnicy}" var="podatnik" sortBy="#{podatnik.printnazwa}" rowIndexVar="index" style="width: 1350px;"
+    <p:dataTable value="#{podatnicyView.podatnicy}" var="podatnik" sortBy="#{podatnik.printnazwa}" rowIndexVar="index" style="width: 1600px;"
                  rowKey="#{podatnik.id}" rowSelectMode="add"
                  selection="#{podatnicyView.wybranipodatnicy}">
         <f:facet name="header">
@@ -38,6 +38,18 @@
             <p:inputText value="#{podatnik.telefonkontaktowy}">
                 <p:ajax event="change" partialSubmit="true" listener="#{podatnicyView.edytuj(podatnik)}"/>
             </p:inputText>
+        </p:column>
+         <p:column width="70" headerText="rozp.">
+             <h:outputText value="#{podatnik.datarozpoczecia}"/>
+        </p:column>
+        <p:column width="70" headerText="zaw.">
+            <h:outputText value="#{podatnik.datazawieszenia}"/>
+        </p:column>
+        <p:column width="70" headerText="wzn.">
+            <h:outputText value="#{podatnik.datawznowienia}"/>
+        </p:column>
+        <p:column width="70" headerText="lik.">
+            <h:outputText value="#{podatnik.datalikwidacji}"/>
         </p:column>
          <p:column width="250" headerText="adres">
              <p:panelGrid columns="2">

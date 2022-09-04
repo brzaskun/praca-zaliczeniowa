@@ -194,7 +194,8 @@ public class DokTabView implements Serializable {
             } else {
                 if (tmpx.getPkpirM().equals(mc)) {
                     dokumentyl.add(tmpx.getRodzajedok());
-                    kontrahenty.add(tmpx.getKontr().getNpelna());
+                    String kontra = tmpx.getKontr()!=null?tmpx.getKontr().getNpelna():"problem "+tmpx.getNrWlDk();
+                    kontrahenty.add(kontra);
                     waluty.add(tmpx.getWalutadokumentu() != null ? tmpx.getWalutadokumentu().getSymbolwaluty() : "PLN");
                     if (wybranacechadok == null) {
                         dodaj = true;

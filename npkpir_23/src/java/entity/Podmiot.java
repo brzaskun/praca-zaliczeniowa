@@ -215,7 +215,11 @@ public class Podmiot implements Serializable {
     }
 
     public String getPrintnazwa() {
-        return printnazwa;
+        String zwrot = printnazwa;
+        if (printnazwa==null) {
+            zwrot = nazwisko+" "+imie;
+        }
+        return zwrot;
     }
 
     public void setPrintnazwa(String printnazwa) {

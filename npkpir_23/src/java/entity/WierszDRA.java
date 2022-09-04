@@ -58,6 +58,9 @@ public class WierszDRA  implements Serializable{
     @JoinColumn(name = "podatnik", referencedColumnName = "id")
     @ManyToOne
     private Podatnik podatnik;
+    @JoinColumn(name = "podmiot", referencedColumnName = "id")
+    @ManyToOne
+    private Podmiot podmiot;
     @Column (name = "imienazwisko")
     private String imienazwisko;
     @Column (name = "pesel")
@@ -70,6 +73,10 @@ public class WierszDRA  implements Serializable{
     private double wynikpodatkowymc;
     @Column (name = "wynikpodatkowynar")
     private double wynikpodatkowynar;
+    @Column (name = "wynikpodatkowymcinne")
+    private double wynikpodatkowymcInne;
+    @Column (name = "wynikpodatkowynarinne")
+    private double wynikpodatkowynarInne;
     @Column (name = "dochodzus")
     private double dochodzus;
     @Column (name = "dochodzusnar")
@@ -78,14 +85,14 @@ public class WierszDRA  implements Serializable{
     private double skladki;
     @Column (name = "skladkinar")
     private double skladkinar;
-    @Column (name = "dochodzusnetto")
-    private double dochodzusnetto;
-    @Column (name = "dochodzusnettonar")
-    private double dochodzusnettonar;
-    @Column (name = "przychod")
-    private double przychod;
-    @Column (name = "przychodnar")
-    private double przychodnar;
+//    @Column (name = "dochodzusnetto")
+//    private double dochodzusnetto;
+//    @Column (name = "dochodzusnettonar")
+//    private double dochodzusnettonar;
+//    @Column (name = "przychod")
+//    private double przychod;
+//    @Column (name = "przychodnar")
+//    private double przychodnar;
     @Column (name = "brakdokumentow")
     private boolean brakdokumentow;
     @Column (name = "jestpit")
@@ -257,13 +264,13 @@ public class WierszDRA  implements Serializable{
         this.skladki = skladki;
     }
 
-    public double getDochodzusnetto() {
-        return dochodzusnetto;
-    }
-
-    public void setDochodzusnetto(double dochodzusnetto) {
-        this.dochodzusnetto = dochodzusnetto;
-    }
+//    public double getDochodzusnetto() {
+//        return dochodzusnetto;
+//    }
+//
+//    public void setDochodzusnetto(double dochodzusnetto) {
+//        this.dochodzusnetto = dochodzusnetto;
+//    }
 
     public double getDochodzusnar() {
         return dochodzusnar;
@@ -281,12 +288,28 @@ public class WierszDRA  implements Serializable{
         this.skladkinar = skladkinar;
     }
 
-    public double getDochodzusnettonar() {
-        return dochodzusnettonar;
+//    public double getDochodzusnettonar() {
+//        return dochodzusnettonar;
+//    }
+//
+//    public void setDochodzusnettonar(double dochodzusnettonar) {
+//        this.dochodzusnettonar = dochodzusnettonar;
+//    }
+
+    public double getWynikpodatkowymcInne() {
+        return wynikpodatkowymcInne;
     }
 
-    public void setDochodzusnettonar(double dochodzusnettonar) {
-        this.dochodzusnettonar = dochodzusnettonar;
+    public void setWynikpodatkowymcInne(double wynikpodatkowymcInne) {
+        this.wynikpodatkowymcInne = wynikpodatkowymcInne;
+    }
+
+    public double getWynikpodatkowynarInne() {
+        return wynikpodatkowynarInne;
+    }
+
+    public void setWynikpodatkowynarInne(double wynikpodatkowynarInne) {
+        this.wynikpodatkowynarInne = wynikpodatkowynarInne;
     }
 
    
@@ -296,6 +319,14 @@ public class WierszDRA  implements Serializable{
 
     public void setRok(String rok) {
         this.rok = rok;
+    }
+
+    public Podmiot getPodmiot() {
+        return podmiot;
+    }
+
+    public void setPodmiot(Podmiot podmiot) {
+        this.podmiot = podmiot;
     }
 
     public Podatnik getPodatnik() {
@@ -330,13 +361,13 @@ public class WierszDRA  implements Serializable{
         this.wynikpodatkowymc = wynikpodatkowymc;
     }
 
-    public double getPrzychod() {
-        return przychod;
-    }
-
-    public void setPrzychod(double przychod) {
-        this.przychod = przychod;
-    }
+//    public double getPrzychod() {
+//        return przychod;
+//    }
+//
+//    public void setPrzychod(double przychod) {
+//        this.przychod = przychod;
+//    }
 
     public boolean isJestpit() {
         return jestpit;
@@ -347,13 +378,13 @@ public class WierszDRA  implements Serializable{
         this.jestpit = jestpit;
     }
 
-    public double getPrzychodnar() {
-        return przychodnar;
-    }
-
-    public void setPrzychodnar(double przychodnar) {
-        this.przychodnar = przychodnar;
-    }
+//    public double getPrzychodnar() {
+//        return przychodnar;
+//    }
+//
+//    public void setPrzychodnar(double przychodnar) {
+//        this.przychodnar = przychodnar;
+//    }
 
     public Date getData() {
         return data;
@@ -440,7 +471,7 @@ public class WierszDRA  implements Serializable{
     
     @Override
     public String toString() {
-        return "WierszDRA{" + "rok=" + rok + ", mc=" + mc + ", mcnazwa=" + mcnazwa + ", podatnik=" + podatnik.getPrintnazwa() + ", imienazwisko=" + imienazwisko + ", opodatkowanie=" + opodatkowanie + ", udzial=" + udzial + ", dochod=" + wynikpodatkowymc + ", przychod=" + przychod + '}';
+        return "WierszDRA{" + "rok=" + rok + ", mc=" + mc + ", mcnazwa=" + mcnazwa + ", podatnik=" + podatnik.getPrintnazwa() + ", imienazwisko=" + imienazwisko + ", opodatkowanie=" + opodatkowanie + ", udzial=" + udzial + ", dochod=" + wynikpodatkowymc + ", przychod=" + "brak" + '}';
     }
 
     @Override
