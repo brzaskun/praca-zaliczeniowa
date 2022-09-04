@@ -24,6 +24,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -58,6 +59,9 @@ public class WierszDRA  implements Serializable{
     @JoinColumn(name = "podatnik", referencedColumnName = "id")
     @ManyToOne
     private Podatnik podatnik;
+    @JoinColumn(name = "podatnikudzial", referencedColumnName = "id")
+    @ManyToOne
+    private PodatnikUdzialy podatnikudzial;
     @JoinColumn(name = "podmiot", referencedColumnName = "id")
     @ManyToOne
     private Podmiot podmiot;
@@ -85,6 +89,7 @@ public class WierszDRA  implements Serializable{
     private double skladki;
     @Column (name = "skladkinar")
     private double skladkinar;
+//<editor-fold defaultstate="collapsed" desc="comment">
 //    @Column (name = "dochodzusnetto")
 //    private double dochodzusnetto;
 //    @Column (name = "dochodzusnettonar")
@@ -93,6 +98,7 @@ public class WierszDRA  implements Serializable{
 //    private double przychod;
 //    @Column (name = "przychodnar")
 //    private double przychodnar;
+//</editor-fold>
     @Column (name = "brakdokumentow")
     private boolean brakdokumentow;
     @Column (name = "jestpit")
@@ -105,6 +111,9 @@ public class WierszDRA  implements Serializable{
     @Column(name = "data", insertable=true, updatable=true, columnDefinition="DEFAULT CURRENT_TIMESTAMP  ON UPDATE CURRENT_TIMESTAMP")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date data;
+    @Column (name = "datadra")
+    @Temporal(TemporalType.DATE)
+    private Date datadra;
     @Transient
     private boolean blad;
     @Transient
@@ -229,6 +238,14 @@ public class WierszDRA  implements Serializable{
 
     public void setPesel(String pesel) {
         this.pesel = pesel;
+    }
+
+    public Date getDatadra() {
+        return datadra;
+    }
+
+    public void setDatadra(Date datadra) {
+        this.datadra = datadra;
     }
 
 
@@ -464,6 +481,14 @@ public class WierszDRA  implements Serializable{
 
     public void setPit4(double pit4) {
         this.pit4 = pit4;
+    }
+
+    public PodatnikUdzialy getPodatnikudzial() {
+        return podatnikudzial;
+    }
+
+    public void setPodatnikudzial(PodatnikUdzialy podatnikudzial) {
+        this.podatnikudzial = podatnikudzial;
     }
     
     

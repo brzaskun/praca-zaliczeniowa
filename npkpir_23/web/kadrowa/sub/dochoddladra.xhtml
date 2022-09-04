@@ -38,8 +38,8 @@
                                 }
                             </style>
                             <p:dataTable value="#{dochodDlaDRAView.wiersze}" var="item" style="width: 2100px;padding: 20px;" 
-                                         scrollable="true" scrollHeight="750" scrollRows="30" rowStyleClass="#{(yndex mod 2) eq 0 ? null : 'odd'}"
-                                         emptyMessage="nie pobrano danych" id="wykazschem" rowKey="#{item.imienazwisko}" rowIndexVar="yndex" reflow="true"
+                                         scrollable="true" scrollHeight="750" scrollRows="30"
+                                         emptyMessage="nie pobrano danych" id="wykazschem" rowKey="#{item.id}" rowIndexVar="yndex" reflow="true"
                                          selection="#{dochodDlaDRAView.selected}" selectionMode="single" sortBy="#{item.imienazwisko}" sortOrder="ascending">
                                 <p:column style="width: 20px;">
                                     <f:facet name="header">
@@ -52,6 +52,8 @@
                                         <h:outputText value="płatnik"/>
                                     </f:facet>
                                     <h:outputText value="#{item.podatnik.printnazwa}"/>
+                                    <h:outputText value="/"/>
+                                    <h:outputText value="#{item.imienazwisko}"/>
                                 </p:column>
                                 <p:column  style="width: 80px;" exportable="false" filterBy="#{item.podatnik.printnazwa}" filterMatchMode="startsWith">
                                     <f:facet name="header">
@@ -65,7 +67,7 @@
                                     </f:facet>
                                     <h:outputText value="#{item.podatnik.datarozpoczecia}"/>
                                 </p:column>
-                                <p:column  style="width: 20px;">
+                                <p:column  style="width: 20px;" filterBy="#{item.opodatkowanie}">
                                     <f:facet name="header">
                                         <h:outputText value="op."/>
                                     </f:facet>
@@ -204,8 +206,8 @@
                                 }
                             </style>
                             <p:dataTable value="#{dochodDlaDRAView.wiersze}" var="item" style="width: 1670px;padding: 20px;" reflow="true"
-                                         scrollable="true" scrollHeight="750" scrollRows="30" rowStyleClass="#{(yndex mod 2) eq 0 ? null : 'odd'}"
-                                         emptyMessage="nie pobrano danych" id="wykazschem" rowKey="#{item.imienazwisko}" rowIndexVar="yndex"
+                                         scrollable="true" scrollHeight="750" scrollRows="30" 
+                                         emptyMessage="nie pobrano danych" id="wykazschem" rowKey="#{item.id}" rowIndexVar="yndex"
                                          selection="#{dochodDlaDRAView.selected}" selectionMode="single" sortBy="#{item.imienazwisko}" sortOrder="ascending">
                                 <p:column style="width: 20px;">
                                     <f:facet name="header">
@@ -329,8 +331,8 @@
                                 }
                             </style>
                             <p:dataTable value="#{dochodDlaDRAView.wiersze}" var="item" style="width: 1710px;padding: 20px;" reflow="true"
-                                         scrollable="true" scrollHeight="750" scrollRows="30" rowStyleClass="#{(yndex mod 2) eq 0 ? null : 'odd'}"
-                                         emptyMessage="nie pobrano danych" id="wykazschem" rowKey="#{item.imienazwisko}" rowIndexVar="yndex"
+                                         scrollable="true" scrollHeight="750" scrollRows="30"
+                                         emptyMessage="nie pobrano danych" id="wykazschem" rowKey="#{item.id}" rowIndexVar="yndex"
                                          selection="#{dochodDlaDRAView.selected}" selectionMode="single" sortBy="#{item.imienazwisko}" sortOrder="ascending">
                                 <p:column style="width: 20px;">
                                     <f:facet name="header">
@@ -593,9 +595,9 @@
                                 </p:selectOneMenu>
                                 <p:commandButton id="przeliczbutton1" value="pobierz" actionListener="#{dochodDlaDRAView.podsumujDRA()}"  style="width: 120px;margin-left: 20px;" update="akordeon:formtabeladra"/>
                             </p:panelGrid>
-                            <p:dataTable value="#{dochodDlaDRAView.drasumy}" var="itemdra" style="width: 1760px;padding: 20px;"  reflow="true"
-                                         scrollable="true" scrollHeight="750" scrollRows="30" rowStyleClass="#{(yndex mod 2) eq 0 ? null : 'odd'}"
-                                         emptyMessage="nie pobrano danych" id="wykazschem" rowKey="#{itemdra.iddokument}" rowIndexVar="yndex1"
+                            <p:dataTable value="#{dochodDlaDRAView.drasumy}" var="itemdra" style="width: 1950px;padding: 20px;"  reflow="true"
+                                         scrollable="true" scrollHeight="750" scrollRows="30" selectionMode="single"
+                                         emptyMessage="nie pobrano danych" id="wykazschem" rowKey="#{itemdra.id}" rowIndexVar="yndex1"
                                          sortBy="#{itemdra.nazwa}" sortOrder="ascending">
                                 <p:column style="width: 20px;">
                                     <f:facet name="header">
@@ -691,12 +693,12 @@
                                     </f:facet>
                                     <h:outputText value="#{itemdra.studenci}"  rendered="#{itemdra.studenci gt 0}"/>
                                 </p:column>
-                                <p:column  style="text-align: center;width: 50px;">
+<!--                                <p:column  style="text-align: center;width: 50px;">
                                     <f:facet name="header">
                                         <h:outputText value="okres"/>
                                     </f:facet>
                                     <h:outputText value="#{itemdra.okres}" style="color: green;"/>
-                                </p:column>
+                                </p:column>-->
                                 <p:column  style="width: 70px;">
                                     <f:facet name="header">
                                         <h:outputText value="DRA d.zapł."/>
@@ -721,16 +723,25 @@
                                     </f:facet>
                                     <bcf:outputpl value="#{itemdra.fp}"/>
                                 </p:column>
+                                <p:column  style="width: 70px;">
+                                    <f:facet name="header">
+                                        <h:outputText value="Przychody"/>
+                                    </f:facet>
+                                    <bcf:outputpl value="#{itemdra.draprzychody}"/>
+                                </p:column>
+                                <p:column  style="width: 70px;">
+                                    <f:facet name="header">
+                                        <h:outputText value="Przychody RRU"/>
+                                    </f:facet>
+                                    <bcf:outputpl value="#{itemdra.draprzychodyRR}"/>
+                                </p:column>
+                                <p:column  style="width: 70px;">
+                                    <f:facet name="header">
+                                            <h:outputText value="PIT-4"/>
+                                    </f:facet>
+                                    <bcf:outputpl value="#{itemdra.pit4}"/>
+                                </p:column>
 
-                                <!--                          
-                                                            <p:column style="text-align: center;width: 40px;">
-                                                                <f:facet name="header">
-                                                                    <h:outputText value=""/>
-                                                                </f:facet>
-                                                                <p:selectBooleanCheckbox value="#{item.zrobiony}">
-                                                                    <p:ajax event="change" global="false" partialSubmit="true" listener="#{dochodDlaDRAView.edytuj(item)}"/>
-                                                                </p:selectBooleanCheckbox>
-                                                            </p:column>-->
                             </p:dataTable>
                             <p:panelGrid columns="2">
                                 <h:outputText value="ubezpieczeni"/>
@@ -760,4 +771,5 @@
         </p:tabView>
     </p:outputPanel>
 </ui:composition>   
+
 

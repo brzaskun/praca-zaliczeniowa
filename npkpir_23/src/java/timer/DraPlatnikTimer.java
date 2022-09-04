@@ -11,6 +11,8 @@ import dao.PodmiotDAO;
 import daoplatnik.UbezpZusrcaDAO;
 import daoplatnik.ZusdraDAO;
 import daoplatnik.ZusrcaDAO;
+import daosuperplace.FirmaFacade;
+import daosuperplace.RokFacade;
 import data.Data;
 import embeddable.Mce;
 import entity.DraSumy;
@@ -25,6 +27,10 @@ import javax.ejb.Schedule;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.inject.Named;
+import kadryiplace.Firma;
+import kadryiplace.Okres;
+import kadryiplace.Place;
+import kadryiplace.Rok;
 
 /**
  *
@@ -46,6 +52,10 @@ public class DraPlatnikTimer {
     private PodatnikDAO podatnikDAO;
     @Inject
     private PodmiotDAO podmiotDAO;
+    @Inject
+    private FirmaFacade firmaFacade;
+    @Inject
+    private RokFacade rokFacade;
     
     @Schedule(dayOfWeek = "1-5", hour = "*", persistent = false)
     public void autozus() {
@@ -74,6 +84,7 @@ public class DraPlatnikTimer {
             mc = Data.poprzedniMc();
         }
         String okres = mc+rok;
+        List<kadryiplace.Firma> firmy = firmaFacade.findAll();
         List<Zusdra> zusdra = zusdraDAO.findByOkres(okres);
         List<Zusrca> zusrca = zusrcaDAO.findByOkres(okres);
         List<Podatnik> podatnicy = podatnikDAO.findAllManager();
@@ -125,8 +136,15 @@ public class DraPlatnikTimer {
                 if (r.getI12okrrozl().equals(z.getI22okresdeklar()) && r.getIdPlatnik()==z.getIdPlatnik()) {
                     dras.setZusrca(r);
                     List<UbezpZusrca> zalezne = ubezpZusrcaDAO.findByIdDokNad(r);
-                    dras.setUbezpZusrca(zalezne);
+                    dras.setUbezpZusrcaList(zalezne);
                     break;
+                }
+            }
+            if (dras.getUbezpZusrcaList()!=null && !dras.getUbezpZusrcaList().isEmpty()) {
+                for (UbezpZusrca u : dras.getUbezpZusrcaList()) {
+                    if (u.getIiiA4Identyfik().equals(z.getIi3Pesel())) {
+                        dras.setUbezpZusrca(u);
+                    }
                 }
             }
             dras.setUbezpieczeni(dras.getUbezpieczeniF());
@@ -141,11 +159,16 @@ public class DraPlatnikTimer {
             dras.setData(Data.data_yyyyMMdd(z.getXii8Datawypel()));
             dras.setNr(z.getI21iddekls());
             dras.setOkres(z.getI22okresdeklar());
+            dras.setDraprzychody(dras.getDraprzychodyF());
+            dras.setDraprzychodyRR(dras.getDraprzychodyRRF());
 //            System.out.println("okres "+dras.getOkres());
 //            System.out.println("nazwa "+dras.getNazwa());
 //            System.out.println("id "+z.getIdDokument());
             double kwota = z.getIx2Kwdozaplaty()!=null?z.getIx2Kwdozaplaty().doubleValue():0.0;
             dras.setDozaplaty(kwota);
+            double kwotafp = z.getViii3KwzaplViii()!=null?z.getViii3KwzaplViii().doubleValue():0.0;
+            dras.setFp(kwotafp);
+            dodajpit4DRA(dras, firmy);
             drasumy.add(dras);
             
         }
@@ -175,5 +198,41 @@ public class DraPlatnikTimer {
             }
         }
         return zwrot;
+    }
+      
+       private void dodajpit4DRA(DraSumy w, List<kadryiplace.Firma> firmy) {
+        if (w.getPodatnik()!=null) {
+            Firma firma = null;
+            for (Firma f : firmy) {
+                if (f.getFirNip()!=null) {
+                    if (f.getFirNip().replace("-", "").equals(w.getPodatnik().getNip())) {
+                        firma = f;
+                        break;
+                    }
+                }
+            }
+            if (firma != null) {
+                Rok rok = rokFacade.findByFirmaRok(firma, Integer.parseInt(w.getRok()));
+                kadryiplace.Okres okres = null;
+                for (Okres o : rok.getOkresList()) {
+                    if (o.getOkrMieNumer() == Mce.getMiesiacToNumber().get(w.getMc())) {
+                        okres = o;
+                        break;
+                    }
+                }
+                List<Place> placeList = okres.getPlaceList();
+                int studenci = 0;
+                double podatekpraca = 0.0;
+                for (Place p : placeList) {
+                    podatekpraca = podatekpraca+p.getLplZalDoch().doubleValue();
+                    if (p.getLplKodTytU12().equals("0411") && p.getLplZalDoch().doubleValue() == 0.0) {
+                        studenci = studenci + 1;
+                    }
+                    w.setStudenci(studenci);
+                    w.setUbezpieczeni(w.getUbezpieczeni()+w.getStudenci());
+                }
+                w.setPit4(podatekpraca);
+            }
+        }
     }
 }

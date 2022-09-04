@@ -73,7 +73,7 @@ public class PodatnikUdzialy implements Serializable{
    
 
     public PodatnikUdzialy() {
-        
+        this.pit = true;
     }
     
     public PodatnikUdzialy(Udzialy p, Podatnik podatnikObj) {
@@ -85,6 +85,7 @@ public class PodatnikUdzialy implements Serializable{
         this.nip = p.getNip();
         this.udzial = p.getUdzial();
         this.podatnikObj = podatnikObj;
+        this.pit = true;
     }
     
     

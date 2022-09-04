@@ -54,6 +54,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -180,6 +181,7 @@ public class DochodDlaDRAView implements Serializable {
                                     wiersz.setPesel(u.getPesel());
                                     wiersz.setPodmiot(u.getPodmiot()!=null?u.getPodmiot():null);
                                     wiersz.setUdzial(Double.parseDouble(u.getUdzial()));
+                                    wiersz.setPodatnikudzial(u);
                                     podatnikprocentudzial = wiersz.getUdzial();
                                     if (formaopodatkowania.contains("ryczałt")) {
                                         //oblicz przychod
@@ -235,8 +237,10 @@ public class DochodDlaDRAView implements Serializable {
                                     }
                                     if (wiersz.getId()==null) {
                                         wiersz.setData(new Date());
+                                        //System.out.println("create "+wiersz.getImienazwisko());
                                         wierszDRADAO.create(wiersz);
                                     } else {
+                                        //System.out.println("edit "+wiersz.getImienazwisko());
                                         wierszDRADAO.edit(wiersz);
                                     }
                                     this.wiersze.add(wiersz);
@@ -280,11 +284,49 @@ public class DochodDlaDRAView implements Serializable {
                     i++;
                 //}
             }
+            if (this.wiersze!=null&&this.wiersze.size()>0) {
+                List<WierszDRA> wierszeglowne = wiersze.stream().filter(p->p.getPodatnikudzial()!=null&&p.getPodatnikudzial().isPit()).collect(Collectors.toList());
+                List<WierszDRA> wierszedodatkowe = wiersze.stream().filter(p->p.getPodatnikudzial()!=null&&p.getPodatnikudzial().isPit()==false).collect(Collectors.toList());
+                for (WierszDRA d : wierszedodatkowe) {
+                    for (WierszDRA g : wierszeglowne) {
+                        String imiewiersz = d.getImienazwisko().toLowerCase(new Locale("pl_PL")).trim();
+                        String imiezmienna = g.getImienazwisko().toLowerCase(new Locale("pl_PL")).trim();
+                        if (imiewiersz.equals(imiezmienna)&&d.getRok().equals(g.getRok())&&d.getMc().equals(g.getMc())&&d.getOpodatkowanie().equals(g.getOpodatkowanie())) {
+                            dodajdoglownego(d,g, g.getOpodatkowanie(), wierszebaza, mcod);
+                            wierszDRADAO.edit(g);
+                        }
+                    }
+                }
+            }
             Msg.msg("Pobrano i przeliczono dane");
             
         } else {
             Msg.msg("e","Nie wybrano okresu");
         }
+    }
+    
+    private void dodajdoglownego(WierszDRA d, WierszDRA wiersz, String formaopodatkowania, List<WierszDRA> wierszebaza, String mcod) {
+           int odkiedy = 2;
+            if (formaopodatkowania.contains("ryczałt")) {
+                odkiedy = 1;
+            }
+            wiersz.setWynikpodatkowymcInne(wiersz.getWynikpodatkowymcInne()+d.getWynikpodatkowymc());
+            wiersz.setWynikpodatkowynarInne(wiersz.getWynikpodatkowynarInne()+d.getWynikpodatkowynar());
+            double dochodmiesiacsuma = wiersz.getWynikpodatkowymc()+wiersz.getWynikpodatkowymcInne();
+            double dochodmiesiacsumanra = wiersz.getWynikpodatkowynar()+wiersz.getWynikpodatkowynarInne();
+            wiersz.setDochodzus(dochodmiesiacsuma > 0.0 ? dochodmiesiacsuma : 0.0);
+            wiersz.setDochodzusnar(dochodmiesiacsumanra > 0.0 ? dochodmiesiacsumanra : 0.0);
+            if (Mce.getMiesiacToNumber().get(mc) > odkiedy) {
+                WierszDRA wierszmcpop = pobierzwierszmcpop(wierszebaza, wiersz.getPodatnik(), wiersz.getImienazwisko(), rok, mcod);
+                if (wierszmcpop != null) {
+                    wiersz.setWynikpodatkowynar(Z.z(wierszmcpop.getWynikpodatkowynar() + wiersz.getWynikpodatkowymc()));
+                    wiersz.setWynikpodatkowynarInne(wiersz.getWynikpodatkowynarInne()+d.getWynikpodatkowynar());
+                    dochodmiesiacsuma = wiersz.getWynikpodatkowymc()+wiersz.getWynikpodatkowymcInne();
+                    dochodmiesiacsumanra = wiersz.getWynikpodatkowynar()+wiersz.getWynikpodatkowynarInne();
+                    wiersz.setDochodzus(dochodmiesiacsuma > 0.0 ? dochodmiesiacsuma : 0.0);
+                    wiersz.setDochodzusnar(dochodmiesiacsumanra > 0.0 ? dochodmiesiacsumanra : 0.0);
+                }
+            }
     }
     
     public void pobierzrok() {
@@ -391,6 +433,7 @@ public class DochodDlaDRAView implements Serializable {
                 }
             }
             w.getPrzychodDochod();
+            w.setDatadra(w.getZusdra()!=null&&w.getZusdra().getXii8Datawypel()!=null?w.getZusdra().getXii8Datawypel():null);
             if (w.getOpodatkowanie().equals("ryczałt")) {
                 if (w.getWynikpodatkowynar()!=w.getPrzychoddra()) {
                     w.setBlad(true);
@@ -495,8 +538,15 @@ public class DochodDlaDRAView implements Serializable {
                 if (r.getI12okrrozl().equals(z.getI22okresdeklar()) && r.getIdPlatnik()==z.getIdPlatnik()) {
                     dras.setZusrca(r);
                     List<UbezpZusrca> zalezne = ubezpZusrcaDAO.findByIdDokNad(r);
-                    dras.setUbezpZusrca(zalezne);
+                    dras.setUbezpZusrcaList(zalezne);
                     break;
+                }
+            }
+            if (dras.getUbezpZusrcaList()!=null && !dras.getUbezpZusrcaList().isEmpty()) {
+                for (UbezpZusrca u : dras.getUbezpZusrcaList()) {
+                    if (u.getIiiA4Identyfik().equals(z.getIi3Pesel())) {
+                        dras.setUbezpZusrca(u);
+                    }
                 }
             }
             dras.setUbezpieczeni(dras.getUbezpieczeniF());
@@ -511,6 +561,8 @@ public class DochodDlaDRAView implements Serializable {
             dras.setData(Data.data_yyyyMMdd(z.getXii8Datawypel()));
             dras.setNr(z.getI21iddekls());
             dras.setOkres(z.getI22okresdeklar());
+            dras.setDraprzychody(dras.getDraprzychodyF());
+            dras.setDraprzychodyRR(dras.getDraprzychodyRRF());
             double kwota = z.getIx2Kwdozaplaty()!=null?z.getIx2Kwdozaplaty().doubleValue():0.0;
             dras.setDozaplaty(kwota);
             double kwotafp = z.getViii3KwzaplViii()!=null?z.getViii3KwzaplViii().doubleValue():0.0;
@@ -633,13 +685,16 @@ public class DochodDlaDRAView implements Serializable {
                 }
                 List<Place> placeList = okres.getPlaceList();
                 int studenci = 0;
+                double podatekpraca = 0.0;
                 for (Place p : placeList) {
+                    podatekpraca = podatekpraca+p.getLplZalDoch().doubleValue();
                     if (p.getLplKodTytU12().equals("0411") && p.getLplZalDoch().doubleValue() == 0.0) {
                         studenci = studenci + 1;
                     }
                     w.setStudenci(studenci);
                     w.setUbezpieczeni(w.getUbezpieczeni()+w.getStudenci());
                 }
+                w.setPit4(podatekpraca);
             }
         }
     }
@@ -670,8 +725,11 @@ public class DochodDlaDRAView implements Serializable {
         WierszDRA zwrot = null;
         if (wiersze.size()>0) {
             for (WierszDRA w : wiersze) {
-                if (w.getPodatnik().equals(podatnik)&&w.getImienazwisko().equals(imienazwisko)&&w.getMc().equals(mc)) {
+                String imiewiersz = w.getImienazwisko().toLowerCase(new Locale("pl_PL")).trim();
+                String imiezmienna = imienazwisko.toLowerCase(new Locale("pl_PL")).trim();
+                if (w.getPodatnik().equals(podatnik)&&imiewiersz.equals(imiezmienna)&&w.getMc().equals(mc)) {
                     zwrot = w;
+                    break;
                 }
             }
         }
@@ -689,6 +747,7 @@ public class DochodDlaDRAView implements Serializable {
                 if (w.getPodatnik().equals(podatnik)&&imiewiersz.equals(imiezmienna)&&w.getRok().equals(rok)&&w.getMc().equals(mc)) {
                     zwrot = w;
                     dodac = false;
+                    break;
                 }
             }
         }
@@ -1081,6 +1140,8 @@ public class DochodDlaDRAView implements Serializable {
     public void setRazeminne(int razeminne) {
         this.razeminne = razeminne;
     }
+
+    
 
     
 

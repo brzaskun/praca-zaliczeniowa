@@ -54,7 +54,9 @@ public class DraSumy implements Serializable {
     @Transient
     private Zusrca zusrca;
     @Transient
-    private List<UbezpZusrca> ubezpZusrca;
+    private UbezpZusrca ubezpZusrca;
+    @Transient
+    private List<UbezpZusrca> ubezpZusrcaList;
     @Column(name = "rok")
     private String rok;
     @Column(name = "mc")
@@ -99,6 +101,18 @@ public class DraSumy implements Serializable {
     private double fp;
     @Column(name = "pit4")
     private double pit4;
+    @Column(name = "pit5")
+    private double pit5;
+    @Column(name = "pdop")
+    private double pdop;
+    @Column(name = "vat")
+    private double vat;
+    @Column(name = "vatniemcy")
+    private double vatniemcy;
+    @Column(name = "draprzychody")
+    private double draprzychody;
+     @Column(name = "draprzychodyRR")
+    private double draprzychodyRR;
 
     public DraSumy() {
     }
@@ -136,12 +150,12 @@ public class DraSumy implements Serializable {
     }
 
     
-    public List<UbezpZusrca> getUbezpZusrca() {
-        return ubezpZusrca;
+    public List<UbezpZusrca> getUbezpZusrcaList() {
+        return ubezpZusrcaList;
     }
 
-    public void setUbezpZusrca(List<UbezpZusrca> ubezpZusrca) {
-        this.ubezpZusrca = ubezpZusrca;
+    public void setUbezpZusrcaList(List<UbezpZusrca> ubezpZusrcaList) {
+        this.ubezpZusrcaList = ubezpZusrcaList;
     }
 
     public String getRok() {
@@ -216,6 +230,47 @@ public class DraSumy implements Serializable {
     public void setPit4(double pit4) {
         this.pit4 = pit4;
     }
+
+    public double getDraprzychody() {
+        return draprzychody;
+    }
+
+    public void setDraprzychody(double draprzychody) {
+        this.draprzychody = draprzychody;
+    }
+
+    public double getPit5() {
+        return pit5;
+    }
+
+    public void setPit5(double pit5) {
+        this.pit5 = pit5;
+    }
+
+    public double getPdop() {
+        return pdop;
+    }
+
+    public void setPdop(double pdop) {
+        this.pdop = pdop;
+    }
+
+    public double getVat() {
+        return vat;
+    }
+
+    public void setVat(double vat) {
+        this.vat = vat;
+    }
+
+    public double getVatniemcy() {
+        return vatniemcy;
+    }
+
+    public void setVatniemcy(double vatniemcy) {
+        this.vatniemcy = vatniemcy;
+    }
+    
     
     
 
@@ -286,8 +341,8 @@ public class DraSumy implements Serializable {
     
     public int getPrzedsiebiorcyF() {
         int suma = 0;
-        if (this.ubezpZusrca!=null) {
-            for (UbezpZusrca p : this.ubezpZusrca) {
+        if (this.ubezpZusrcaList!=null) {
+            for (UbezpZusrca p : this.ubezpZusrcaList) {
                 if (p.getIiiB11kodtytub().startsWith("05")) {
                     suma = suma+1;
                 }
@@ -300,8 +355,8 @@ public class DraSumy implements Serializable {
     
      public int getInnetytulyF() {
         int suma = 0;
-        if (this.ubezpZusrca!=null) {
-            for (UbezpZusrca p : this.ubezpZusrca) {
+        if (this.ubezpZusrcaList!=null) {
+            for (UbezpZusrca p : this.ubezpZusrcaList) {
                 if (!p.getIiiB11kodtytub().startsWith("05")&&!p.getIiiB11kodtytub().startsWith("04")&&!p.getIiiB11kodtytub().startsWith("01")) {
                     suma = suma+1;
                 }
@@ -313,8 +368,8 @@ public class DraSumy implements Serializable {
     
     public int getZleceniobiorcyF() {
         int suma = 0;
-        if (this.ubezpZusrca!=null) {
-            for (UbezpZusrca p : this.ubezpZusrca) {
+        if (this.ubezpZusrcaList!=null) {
+            for (UbezpZusrca p : this.ubezpZusrcaList) {
                 if (p.getIiiB11kodtytub().startsWith("04")&&p.getIiiB6Podwymzdr()!=null&&p.getIiiB6Podwymzdr().doubleValue()!=0.0) {
                     suma = suma+1;
                 }
@@ -325,8 +380,8 @@ public class DraSumy implements Serializable {
     
      public int getZleceniobiorcyZerowiF() {
         int suma = 0;
-        if (this.ubezpZusrca!=null) {
-            for (UbezpZusrca p : this.ubezpZusrca) {
+        if (this.ubezpZusrcaList!=null) {
+            for (UbezpZusrca p : this.ubezpZusrcaList) {
                 if (p.getIiiB11kodtytub().startsWith("04")&&p.getIiiB6Podwymzdr()!=null&&p.getIiiB6Podwymzdr().doubleValue()==0.0) {
                     suma = suma+1;
                 }
@@ -337,8 +392,8 @@ public class DraSumy implements Serializable {
      
     public int getPracownicyF() {
         int suma = 0;
-        if (this.ubezpZusrca!=null) {
-            for (UbezpZusrca p : this.ubezpZusrca) {
+        if (this.ubezpZusrcaList!=null) {
+            for (UbezpZusrca p : this.ubezpZusrcaList) {
                 if (p.getIiiB11kodtytub().startsWith("01")) {
                     suma = suma+1;
                 }
@@ -349,8 +404,8 @@ public class DraSumy implements Serializable {
     
     public String getKodF() {
         String suma = "n.d.";
-        if (this.ubezpZusrca!=null) {
-            for (UbezpZusrca p : this.ubezpZusrca) {
+        if (this.ubezpZusrcaList!=null) {
+            for (UbezpZusrca p : this.ubezpZusrcaList) {
                 if (p.getIiiB11kodtytub().startsWith("05")) {
                     suma = p.getIiiB11kodtytub()!=null?String.valueOf(p.getIiiB11kodtytub()):"brak";
                 }
@@ -364,8 +419,8 @@ public class DraSumy implements Serializable {
     //pozycje przy pit-5
     public double getSpoleczneF() {
         double suma = 0;
-        if (this.ubezpZusrca!=null) {
-            for (UbezpZusrca p : this.ubezpZusrca) {
+        if (this.ubezpZusrcaList!=null) {
+            for (UbezpZusrca p : this.ubezpZusrcaList) {
                 if (p.getIiiB11kodtytub().startsWith("05")) {
                     double em = p.getIiiB7KwskleuRN()!= null ? p.getIiiB7KwskleuRN().doubleValue() :0.0;
                     double ren = p.getIiiB8KwsklruRN()!= null ? p.getIiiB8KwsklruRN().doubleValue() :0.0;
@@ -383,8 +438,8 @@ public class DraSumy implements Serializable {
     //pozycje przy pit-5
      public double getZdrowotneF() {
         double suma = 0;
-        if (this.ubezpZusrca!=null) {
-            for (UbezpZusrca p : this.ubezpZusrca) {
+        if (this.ubezpZusrcaList!=null) {
+            for (UbezpZusrca p : this.ubezpZusrcaList) {
                 if (p.getIiiB11kodtytub().startsWith("05")) {
                     double zdr = p.getIiiC4KwsklzuR()!= null ? p.getIiiC4KwsklzuR().doubleValue() :0.0;
                     suma = suma+zdr;
@@ -395,7 +450,51 @@ public class DraSumy implements Serializable {
         }
         return suma;
     }
+     
+     public double getDraprzychodyRRF() {
+        double zwrot = 0.0;
+        if (this.zusdra!=null) {
+            if (this.zusrca!=null && this.ubezpZusrca!=null) {
+                if (this.ubezpZusrca.getIiiKwotaprzychodowurk()!=null) {
+                    zwrot = this.ubezpZusrca.getIiiKwotaprzychodowurk()!=null?this.ubezpZusrca.getIiiKwotaprzychodowurk().doubleValue():0.0;
+                }
+            } else {
+                if (this.zusdra.getXiKwotaprzychodowurk()!=null) {
+                    zwrot = this.zusdra.getXiKwotaprzychodowurk()!=null?this.zusdra.getXiKwotaprzychodowurk().doubleValue():0.0;
+                }
+            }
+        }
+        return zwrot;
+    }
 
+     public double getDraprzychodyF() {
+        double zwrot = 0.0;
+        if (this.zusdra!=null) {
+            if (this.zusrca!=null && this.ubezpZusrca!=null) {
+                if (this.ubezpZusrca.getIiiSumaprzychodowbrk()!=null) {
+                    zwrot = this.ubezpZusrca.getIiiSumaprzychodowbrk()!=null?this.ubezpZusrca.getIiiSumaprzychodowbrk().doubleValue():0.0;
+                } else {
+                    if (this.ubezpZusrca.getIiiKwotadochodumpLiniowy()!=null) {
+                        zwrot = this.ubezpZusrca.getIiiKwotadochodumpLiniowy().doubleValue();
+                    } else if (this.ubezpZusrca.getIiiKwotadochodumpSkala()!=null) {
+                        zwrot = this.ubezpZusrca.getIiiKwotadochodumpSkala().doubleValue();
+                    }
+                }
+            } else {
+                if (this.zusdra.getXiSumaprzychodowbrk()!=null) {
+                    zwrot = this.zusdra.getXiSumaprzychodowbrk()!=null?this.zusdra.getXiSumaprzychodowbrk().doubleValue():0.0;
+                } else {
+                    if (this.zusdra.getXiKwotadochodumpLiniowy()!=null) {
+                        zwrot = this.zusdra.getXiKwotadochodumpLiniowy().doubleValue();
+                    } else if (this.zusdra.getXiKwotadochodumpSkala()!=null) {
+                        zwrot = this.zusdra.getXiKwotadochodumpSkala().doubleValue();
+                    }
+                }
+            }
+        }
+        return zwrot;
+    }
+     
     public Podmiot getPodmiot() {
         return podmiot;
     }
@@ -490,6 +589,22 @@ public class DraSumy implements Serializable {
 
     public void setZdrowotne(double zdrowotne) {
         this.zdrowotne = zdrowotne;
+    }
+
+    public UbezpZusrca getUbezpZusrca() {
+        return ubezpZusrca;
+    }
+
+    public void setUbezpZusrca(UbezpZusrca ubezpZusrca) {
+        this.ubezpZusrca = ubezpZusrca;
+    }
+
+    public double getDraprzychodyRR() {
+        return draprzychodyRR;
+    }
+
+    public void setDraprzychodyRR(double draprzychodyRR) {
+        this.draprzychodyRR = draprzychodyRR;
     }
      
      
