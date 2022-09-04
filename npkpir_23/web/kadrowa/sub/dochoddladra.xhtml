@@ -24,13 +24,13 @@
                                 <p:selectOneMenu id="miesiacWpisu" value="#{dochodDlaDRAView.mc}" style="width: 70px;">
                                     <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
                                     <f:selectItems value="#{mce.mceList}"/>
-                                    <p:ajax event="change" partialSubmit="true" listener="#{dochodDlaDRAView.pobierz}" update="akordeon:formtabela akordeon:formtabela1 akordeon:formtabela11" oncomplete="r('akordeon:formtabela:przeliczbutton').show()"/>
+                                    <p:ajax event="change" partialSubmit="true" listener="#{dochodDlaDRAView.pobierz}" update="akordeon:formtabela akordeon:formtabela1" oncomplete="r('akordeon:formtabela:przeliczbutton').show()"/>
                                 </p:selectOneMenu>
 
                                 <p:selectBooleanCheckbox value="#{dochodDlaDRAView.pokazzrobione}"  itemLabel="pokaż zrobione" style="width: 220px;margin-left: 20px;">
-                                    <p:ajax event="change" partialSubmit="true" listener="#{dochodDlaDRAView.pobierz}"  update="akordeon:formtabela akordeon:formtabela1 akordeon:formtabela11"/>
+                                    <p:ajax event="change" partialSubmit="true" listener="#{dochodDlaDRAView.pobierz}"  update="akordeon:formtabela akordeon:formtabela1"/>
                                 </p:selectBooleanCheckbox>
-                                <p:commandButton id="przeliczbutton" value="przelicz" actionListener="#{dochodDlaDRAView.przelicz()}"  style="width: 120px;margin-left: 20px;display: none;" update="akordeon:formtabela akordeon:formtabela1 akordeon:formtabela11"/>
+                                <p:commandButton id="przeliczbutton" value="przelicz" actionListener="#{dochodDlaDRAView.przelicz()}"  style="width: 120px;margin-left: 20px;display: none;" update="akordeon:formtabela akordeon:formtabela1"/>
                             </p:panelGrid>
                             <style>
                                 .odd{
@@ -39,7 +39,7 @@
                             </style>
                             <p:dataTable value="#{dochodDlaDRAView.wiersze}" var="item" style="width: 2100px;padding: 20px;" 
                                          scrollable="true" scrollHeight="750" scrollRows="30" filteredValue="#{dochodDlaDRAView.wierszeFiltered}"
-                                         emptyMessage="nie pobrano danych" id="wykazschem" rowKey="#{item.id}" rowIndexVar="yndex" reflow="true"
+                                         emptyMessage="nie pobrano danych" id="wykazschem" rowKey="#{item.podatnik.nip}" rowIndexVar="yndex" reflow="true"
                                          selection="#{dochodDlaDRAView.selected}" selectionMode="single" sortBy="#{item.imienazwisko}" sortOrder="ascending">
                                 <p:column style="width: 20px;">
                                     <f:facet name="header">
@@ -207,144 +207,13 @@
                             </style>
                             <p:dataTable value="#{dochodDlaDRAView.wiersze}" var="item" style="width: 1670px;padding: 20px;" reflow="true"
                                          scrollable="true" scrollHeight="750" scrollRows="30" 
-                                         emptyMessage="nie pobrano danych" id="wykazschem" rowKey="#{item.id}" rowIndexVar="yndex"
+                                         emptyMessage="nie pobrano danych" id="wykazschem" rowKey="#{item.podatnik.nip}" rowIndexVar="yndex"
                                          selection="#{dochodDlaDRAView.selected}" selectionMode="single" sortBy="#{item.imienazwisko}" sortOrder="ascending">
                                 <p:column style="width: 20px;">
                                     <f:facet name="header">
                                         <h:outputText value="id"/>
                                     </f:facet>
                                     <h:outputText value="#{yndex+1}" style="width: 20px;"/>
-                                </p:column>
-                                <p:column  style="width: 300px;" exportable="false" filterBy="#{item.podatnik.printnazwa}" filterMatchMode="contains">
-                                    <f:facet name="header">
-                                        <h:outputText value="płatnik"/>
-                                    </f:facet>
-                                    <h:outputText value="#{item.podatnik.printnazwa}"/>
-                                </p:column>
-                                <p:column  style="width: 80px;" exportable="false" filterBy="#{item.podatnik.nip}" filterMatchMode="startsWith">
-                                    <f:facet name="header">
-                                        <h:outputText value="NIP"/>
-                                    </f:facet>
-                                    <h:outputText value="#{item.podatnik.nip}"/>
-                                </p:column>
-
-                                <p:column  style="text-align: center;width: 40px;">
-                                    <f:facet name="header">
-                                        <h:outputText value="PIT"/>
-                                    </f:facet>
-                                    <h:outputText value="&#x2713;" rendered="#{item.jestpit}" style="color: green;"/>
-                                </p:column>
-                                <p:column style="text-align: center;width: 60px;">
-                                    <f:facet name="header">
-                                        <h:outputText value="data księg."/>
-                                    </f:facet>
-                                    <h:outputText value="#{item.data}">
-                                        <f:convertDateTime dateStyle="medium" locale="pl"/>
-                                    </h:outputText>
-                                </p:column>
-                                <p:column style="text-align: center;width: 60px;">
-                                    <f:facet name="header">
-                                        <h:outputText value="DRA"/>
-                                    </f:facet>
-                                    <h:outputText value="#{item.zusdra.xii8Datawypel}">
-                                        <f:convertDateTime dateStyle="medium" locale="pl"/>
-                                    </h:outputText>
-                                </p:column>
-                                <p:column  style="text-align: center;width: 20px;">
-                                    <f:facet name="header">
-                                        <h:outputText value="term"/>
-                                    </f:facet>
-                                    <h:outputText value="#{item.zusdra.i1Termindekirap}"/>
-                                </p:column>
-                                <p:column  style="text-align: center;width: 20px;">
-                                    <f:facet name="header">
-                                        <h:outputText value="ub."/>
-                                    </f:facet>
-                                    <h:outputText value="#{item.zusdra.iii1Lubezp}"/>
-                                </p:column>
-                                <p:column  style="text-align: center;width: 50px;">
-                                    <f:facet name="header">
-                                        <h:outputText value="okres"/>
-                                    </f:facet>
-                                    <h:outputText value="#{item.zusdra.i22okresdeklar}" style="color: green;"/>
-                                </p:column>
-                                <p:column  style="text-align: center;width: 20px;">
-                                    <f:facet name="header">
-                                        <h:outputText value="wer"/>
-                                    </f:facet>
-                                    <h:outputText value="#{item.zusdra.i21iddekls}"/>
-                                </p:column>
-                                <p:column  style="width: 70px;">
-                                    <f:facet name="header">
-                                        <h:outputText value="DRA d.zapł."/>
-                                    </f:facet>
-                                    <bcf:outputpl value="#{item.zusdra.ix2Kwdozaplaty}"/>
-                                </p:column>
-                                <p:column  style="width: 70px;">
-                                    <f:facet name="header">
-                                        <h:outputText value="PIT-4"/>
-                                    </f:facet>
-                                    <bcf:outputpl value="#{item.pit4}"/>
-                                </p:column>
-                                <p:column  style="width: 60px;">
-                                    <f:facet name="header">
-                                        <h:outputText value="Wysłano"/>
-                                    </f:facet>
-                                    <h:outputText value="#{item.zusmail.datawysylki}" rendered="#{item.zusmail.id ne null}">
-                                        <f:convertDateTime dateStyle="medium" locale="pl"/>
-                                    </h:outputText>
-                                </p:column>
-                                <p:column  style="width: 140px;">
-                                    <f:facet name="header">
-                                        <h:outputText value="email"/>
-                                    </f:facet>
-                                    <h:outputText value="#{item.zusmail.adresmail}" rendered="#{item.zusmail.id ne null}">
-                                    </h:outputText>
-                                </p:column>
-                                <p:column  style="width: 30px; text-align: center;">
-                                    <f:facet name="header">
-                                        <h:outputText value=""/>
-                                    </f:facet>
-                                    <p:commandButton  actionListener="#{dochodDlaDRAView.wyslijMailZUS(item)}" icon="fa fa-envelope" rendered="#{item.zusmail ne null}" update="@parent:@parent"/>
-                                </p:column>
-                                <!--                          
-                                                            <p:column style="text-align: center;width: 40px;">
-                                                                <f:facet name="header">
-                                                                    <h:outputText value=""/>
-                                                                </f:facet>
-                                                                <p:selectBooleanCheckbox value="#{item.zrobiony}">
-                                                                    <p:ajax event="change" global="false" partialSubmit="true" listener="#{dochodDlaDRAView.edytuj(item)}"/>
-                                                                </p:selectBooleanCheckbox>
-                                                            </p:column>-->
-                            </p:dataTable>
-                        </h:form>
-                    </f:view>
-                </p:outputPanel>
-            </p:tab>
-            <p:tab title="Wysyłka NOWA">
-                <p:outputPanel>
-                    <f:view>
-                        <h:form id="formtabela11">
-                            <style>
-                                .odd{
-                                    background-color: #e4e3e3 !important;
-                                }
-                            </style>
-                            <p:dataTable value="#{dochodDlaDRAView.wiersze}" var="item" style="width: 1710px;padding: 20px;" reflow="true"
-                                         scrollable="true" scrollHeight="750" scrollRows="30"
-                                         emptyMessage="nie pobrano danych" id="wykazschem" rowKey="#{item.id}" rowIndexVar="yndex"
-                                         selection="#{dochodDlaDRAView.selected}" selectionMode="single" sortBy="#{item.imienazwisko}" sortOrder="ascending">
-                                <p:column style="width: 20px;">
-                                    <f:facet name="header">
-                                        <h:outputText value="id"/>
-                                    </f:facet>
-                                    <h:outputText value="#{yndex+1}" style="width: 20px;"/>
-                                </p:column>
-                                <p:column  style="width: 300px;" exportable="false" filterBy="#{item.podmiot.printnazwa}" filterMatchMode="contains">
-                                    <f:facet name="header">
-                                        <h:outputText value="podmiot"/>
-                                    </f:facet>
-                                    <h:outputText value="#{item.podmiot.printnazwa}"/>
                                 </p:column>
                                 <p:column  style="width: 300px;" exportable="false" filterBy="#{item.podatnik.printnazwa}" filterMatchMode="contains">
                                     <f:facet name="header">
