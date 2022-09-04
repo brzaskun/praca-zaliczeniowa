@@ -61,34 +61,35 @@ public class DraPlatnikTimer {
     public void autozus() {
         List<String> miesiaceGranica = Mce.getMiesiaceGranica(Data.aktualnyMc());
         String rok = Data.aktualnyRok();
+        List<kadryiplace.Firma> firmy = firmaFacade.findAll();
+        List<Podatnik> podatnicy = podatnikDAO.findAllManager();
+        List<Podmiot> podmioty = podmiotDAO.findAll();
         if (miesiaceGranica!=null) {
             for (String mie : miesiaceGranica) {
                 String mc = mie;
-                podsumujDRA(rok,mc);
+                podsumujDRA(rok, mc, firmy, podatnicy, podmioty);
             }
         }
     }
     
     
-     public void podsumujDRA(String rok, String mc) {
+     public void podsumujDRA(String rok, String mc, List<kadryiplace.Firma> firmy, List<Podatnik> podatnicy, List<Podmiot> podmioty) {
         if (mc==null) {
             mc = Data.poprzedniMc();
         }
         List<DraSumy> bazadanych = draSumyDAO.zwrocRokMc(rok, mc);
-         podsumujDRAF(mc, rok, bazadanych);
+         podsumujDRAF(mc, rok, bazadanych, firmy, podatnicy, podmioty);
      }
      
-      public void podsumujDRAF(String mc, String rok, List<DraSumy> bazadanych) {
+      public void podsumujDRAF(String mc, String rok, List<DraSumy> bazadanych, List<kadryiplace.Firma> firmy, List<Podatnik> podatnicy, List<Podmiot> podmioty) {
         List<DraSumy> drasumy = new ArrayList<>();
         if (mc==null) {
             mc = Data.poprzedniMc();
         }
         String okres = mc+rok;
-        List<kadryiplace.Firma> firmy = firmaFacade.findAll();
+        
         List<Zusdra> zusdra = zusdraDAO.findByOkres(okres);
         List<Zusrca> zusrca = zusrcaDAO.findByOkres(okres);
-        List<Podatnik> podatnicy = podatnikDAO.findAllManager();
-        List<Podmiot> podmioty = podmiotDAO.findAll();
         int i = 1;
         for (Zusdra z : zusdra) {
             DraSumy dras = new DraSumy();

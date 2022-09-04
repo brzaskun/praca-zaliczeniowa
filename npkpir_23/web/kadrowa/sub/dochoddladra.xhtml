@@ -38,7 +38,7 @@
                                 }
                             </style>
                             <p:dataTable value="#{dochodDlaDRAView.wiersze}" var="item" style="width: 2100px;padding: 20px;" 
-                                         scrollable="true" scrollHeight="750" scrollRows="30"
+                                         scrollable="true" scrollHeight="750" scrollRows="30" filteredValue="#{dochodDlaDRAView.wierszeFiltered}"
                                          emptyMessage="nie pobrano danych" id="wykazschem" rowKey="#{item.id}" rowIndexVar="yndex" reflow="true"
                                          selection="#{dochodDlaDRAView.selected}" selectionMode="single" sortBy="#{item.imienazwisko}" sortOrder="ascending">
                                 <p:column style="width: 20px;">

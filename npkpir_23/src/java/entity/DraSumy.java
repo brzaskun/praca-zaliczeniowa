@@ -103,8 +103,8 @@ public class DraSumy implements Serializable {
     private double pit4;
     @Column(name = "pit5")
     private double pit5;
-    @Column(name = "pdop")
-    private double pdop;
+    @Column(name = "cit2")
+    private double cit2;
     @Column(name = "vat")
     private double vat;
     @Column(name = "vatniemcy")
@@ -247,12 +247,12 @@ public class DraSumy implements Serializable {
         this.pit5 = pit5;
     }
 
-    public double getPdop() {
-        return pdop;
+    public double getCit2() {
+        return cit2;
     }
 
-    public void setPdop(double pdop) {
-        this.pdop = pdop;
+    public void setCit2(double cit2) {
+        this.cit2 = cit2;
     }
 
     public double getVat() {

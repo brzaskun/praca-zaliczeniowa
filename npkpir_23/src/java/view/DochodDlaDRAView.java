@@ -95,6 +95,7 @@ public class DochodDlaDRAView implements Serializable {
     private String rok;
     private String mc;
     private List<WierszDRA> wiersze;
+    private List<WierszDRA> wierszeFiltered;
     private List<WierszDRA> wierszeN;
     private List<List<WierszDRA>> mapa;
     private WierszDRA selected;
@@ -1139,6 +1140,14 @@ public class DochodDlaDRAView implements Serializable {
 
     public void setRazeminne(int razeminne) {
         this.razeminne = razeminne;
+    }
+
+    public List<WierszDRA> getWierszeFiltered() {
+        return wierszeFiltered;
+    }
+
+    public void setWierszeFiltered(List<WierszDRA> wierszeFiltered) {
+        this.wierszeFiltered = wierszeFiltered;
     }
 
     
