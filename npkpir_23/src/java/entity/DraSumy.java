@@ -38,6 +38,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "DraSumy.findAll", query = "SELECT a FROM DraSumy a"),
     @NamedQuery(name = "DraSumy.findByRokMc", query = "SELECT a FROM DraSumy a where a.rok = :rok AND a.mc = :mc"),
+    @NamedQuery(name = "DraSumy.findByRokPodatnik", query = "SELECT a FROM DraSumy a where a.rok = :rok AND a.podatnik = :podatnik"),
     @NamedQuery(name = "DraSumy.findByRokPodatnik", query = "SELECT a FROM DraSumy a where a.rok = :rok AND a.podatnik = :podatnik")
 })
 public class DraSumy implements Serializable {
