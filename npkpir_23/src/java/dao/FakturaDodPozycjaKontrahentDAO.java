@@ -65,6 +65,14 @@ public class FakturaDodPozycjaKontrahentDAO  extends DAO implements Serializable
         }
    }
     
+    public  List<FakturaDodPozycjaKontrahent> findByRokMc(String rok, String mc) {
+        try {
+            return getEntityManager().createNamedQuery("FakturaDodPozycjaKontrahent.findByRokMc").setParameter("rok", rok).setParameter("mc", mc).getResultList();
+        } catch (Exception e) { E.e(e); 
+            return null;
+        }
+   }
+    
     public List<FakturaDodPozycjaKontrahent> findByRok(String aktualnyRok) {
         List<FakturaDodPozycjaKontrahent> zwrot = null;
         try {

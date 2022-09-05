@@ -253,6 +253,15 @@ public class FakturaView implements Serializable {
         Collections.sort(fakturyokresowe, new Fakturyokresowecomparator());
         List<Faktura> fakturytmp = fakturaDAO.findbyPodatnikRokMc(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
         boolean czybiuro = wpisView.getPodatnikObiekt().getNip().equals("8511005008");
+        List<FakturaDodPozycjaKontrahent> lista = fakturaDodPozycjaKontrahentDAO.findByRokMc(wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+        for (Fakturywystokresowe p : fakturyokresowe) {
+            Klienci odbiorca = p.getDokument().getKontrahent();
+            for (FakturaDodPozycjaKontrahent r : lista) {
+                if (r.getKontrahent().equals(odbiorca) && r.isDowygenerowania() == true && r.getDatafaktury() == null) {
+                    p.setSapracownicy(true);
+                }
+            }
+        }
 //        if (czybiuro) {
 //            boolean czyszef = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser().equals("szef");
 //            if (czyszef) {
@@ -919,29 +928,33 @@ public class FakturaView implements Serializable {
                 pozycje.clear();
             }
             for (FakturaDodPozycjaKontrahent p : lista) {
-                double ilosc = p.getIloscdra();
-                double cena = p.getKwotaindywid()!=0.0 ?p.getKwotaindywid() : p.getFakturaDodatkowaPozycja().getKwota();
-                if (ilosc>0&&cena>0.0&&p.isRozliczone()==false) {
-                    if (liczodbrutto) {
-                        double brutto = Z.z(ilosc*cena);
-                        double podatek = 23.0;
-                        double podatekkwota = Z.z(brutto*podatek/(100.0+podatek));
-                        double netto = Z.z(brutto - podatekkwota);
-                        Pozycjenafakturzebazadanych nowa = new Pozycjenafakturzebazadanych(++lp, p.getFakturaDodatkowaPozycja().getNazwa(), "", "osb.", ilosc, cena, netto, podatek, podatekkwota, brutto);
-                        nowa.setDodatkowapozycja(p.getId());
-                        pozycje.add(nowa);
-                    } else {
-                        double netto = Z.z(ilosc*cena);
-                        double podatek = 23.0;
-                        double podatekkwota = Z.z(netto*podatek/100);
-                        double brutto = Z.z(netto + podatekkwota);
-                        Pozycjenafakturzebazadanych nowa = new Pozycjenafakturzebazadanych(++lp, p.getFakturaDodatkowaPozycja().getNazwa(), "", "osb.", ilosc, cena, netto, podatek, podatekkwota, brutto);
-                        nowa.setDodatkowapozycja(p.getId());
-                        pozycje.add(nowa);
+                if (p.isDowygenerowania()) {
+                    double ilosc = p.getIloscdra();
+                    double cena = p.getKwotaindywid()!=0.0 ?p.getKwotaindywid() : p.getFakturaDodatkowaPozycja().getKwota();
+                    if (ilosc>0&&cena>0.0&&p.isRozliczone()==false) {
+                        if (liczodbrutto) {
+                            double brutto = Z.z(ilosc*cena);
+                            double podatek = 23.0;
+                            double podatekkwota = Z.z(brutto*podatek/(100.0+podatek));
+                            double netto = Z.z(brutto - podatekkwota);
+                            Pozycjenafakturzebazadanych nowa = new Pozycjenafakturzebazadanych(++lp, p.getFakturaDodatkowaPozycja().getNazwa(), "", "osb.", ilosc, cena, netto, podatek, podatekkwota, brutto);
+                            nowa.setDodatkowapozycja(p.getId());
+                            pozycje.add(nowa);
+                        } else {
+                            double netto = Z.z(ilosc*cena);
+                            double podatek = 23.0;
+                            double podatekkwota = Z.z(netto*podatek/100);
+                            double brutto = Z.z(netto + podatekkwota);
+                            Pozycjenafakturzebazadanych nowa = new Pozycjenafakturzebazadanych(++lp, p.getFakturaDodatkowaPozycja().getNazwa(), "", "osb.", ilosc, cena, netto, podatek, podatekkwota, brutto);
+                            nowa.setDodatkowapozycja(p.getId());
+                            pozycje.add(nowa);
+                        }
+                        p.setRozliczone(true);
+                        p.setDowygenerowania(false);
+                        p.setDatafaktury(Data.data_yyyyMMdd(new Date()));
+                        fakturaDodPozycjaKontrahentDAO.edit(p);
+                        zwrot = 1;
                     }
-                    p.setRozliczone(true);
-                    fakturaDodPozycjaKontrahentDAO.edit(p);
-                    zwrot = 1;
                 }
             }
         }
@@ -2046,6 +2059,7 @@ public class FakturaView implements Serializable {
                                 break;
                         }
                         p.setDatawystawienia(nowa.getDatawystawienia());
+                        p.setSapracownicy(false);
                         fakturywystokresoweDAO.edit(p);
                     }
                     if (waloryzajca > 0) {
@@ -2911,7 +2925,6 @@ public class FakturaView implements Serializable {
     public void setFakturyFilteredpro(List<Faktura> fakturyFilteredpro) {
         this.fakturyFilteredpro = fakturyFilteredpro;
     }
-
   
   
     public List<Fakturywystokresowe> getFakturyokresowe() {

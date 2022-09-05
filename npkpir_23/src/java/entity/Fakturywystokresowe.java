@@ -21,6 +21,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -142,6 +143,8 @@ public class Fakturywystokresowe implements Serializable {
     @Column(name = "datautworzenia", insertable=true, updatable=true)
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date datautworzenia;
+    @Transient
+    private boolean sapracownicy;
 
     public Fakturywystokresowe() {
     }
@@ -389,6 +392,14 @@ public class Fakturywystokresowe implements Serializable {
 
     public void setDatautworzenia(Date datautworzenia) {
         this.datautworzenia = datautworzenia;
+    }
+
+    public boolean isSapracownicy() {
+        return sapracownicy;
+    }
+
+    public void setSapracownicy(boolean sapracownicy) {
+        this.sapracownicy = sapracownicy;
     }
     
     

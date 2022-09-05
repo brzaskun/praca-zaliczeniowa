@@ -72,7 +72,7 @@
             </p:panelGrid>
             
             <p:dataTable id="dokumentyOkresowe" value="#{fakturaView.fakturyokresowe}" var="wpis"  rowIndexVar="row"  filteredValue="#{fakturaView.fakturyokresoweFiltered}"  rendered="#{WpisView.biuroiszef eq true}"
-                         selection="#{fakturaView.gosciwybralokres}" rowKey="#{wpis.hashCode()}" style="max-width: 1530px;" widgetVar="okresTable" sortBy="#{wpis.dokument.kontrahent.nazwabezCudzy}" sortOrder="ascending"
+                         selection="#{fakturaView.gosciwybralokres}" rowKey="#{wpis.hashCode()}" style="max-width: 1650px;" widgetVar="okresTable" sortBy="#{wpis.dokument.kontrahent.nazwabezCudzy}" sortOrder="ascending"
                          rowSelectMode="add">
                 
                 <f:facet name="header">  
@@ -152,6 +152,9 @@
                 </p:column>
                 <p:column headerText="12" width="20"  sortBy="#{wpis.m12}">  
                     <h:outputText value="#{wpis.m12}" styleClass="#{wpis.m12 gt 0 ? 'wiecejfaktur' : 'zerofaktur'}"/>
+                </p:column>
+                <p:column headerText="prac." width="30" style="text-align: center;" filterBy="#{wpis.sapracownicy}" sortBy="#{wpis.sapracownicy}">  
+                    <h:outputText value="&#x2713;" rendered="#{wpis.sapracownicy}" style="color: blue;font-weight: 900;"/>
                 </p:column>
                 <p:column headerText="data" width="80"  sortBy="#{wpis.datautworzenia}">  
                     <h:outputText value="#{wpis.datautworzenia}">

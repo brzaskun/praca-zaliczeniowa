@@ -62,7 +62,7 @@
                     </p:selectBooleanCheckbox>
                 </p:panelGrid>
                 <p:growl life="3600" showDetail="true"><p:autoUpdate/></p:growl>
-                <p:dataTable  var="zapis" value="#{fakturaDodPozycjaKontrahentView.lista_2}" id="lista" sortOrder="ascending" style="width: 1420px;" widgetVar="tabelazwynikami"
+                <p:dataTable  var="zapis" value="#{fakturaDodPozycjaKontrahentView.lista_2}" id="lista" sortOrder="ascending" style="width: 1580px;" widgetVar="tabelazwynikami"
                               filteredValue="#{fakturaDodPozycjaKontrahentView.lista_2_filter}" selection="#{fakturaDodPozycjaKontrahentView.lista_2_selected}" selectionMode="multiple"
                               paginator="true" paginatorAlwaysVisible="#{fakturaDodPozycjaKontrahentView.lista_2.size() gt 20 ? true : false}" rows="20" sortBy="#{zapis.kontrahent.nazwapodatnika}"
                               paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
@@ -123,7 +123,15 @@
                     <p:column headerText="nie do ed." width="20" sortBy="#{zapis.brakfakturydoedycji}" style="text-align:center;">  
                         <h:outputText value="r" style="color: red;" rendered="#{zapis.brakfakturydoedycji}"/>
                     </p:column>
-                    <p:column headerText="" style="text-align: center;" width="50">  
+                    <p:column headerText="faktur." width="30" sortBy="#{zapis.dowygenerowania}" style="text-align:center;">  
+                        <p:selectBooleanCheckbox value="#{zapis.dowygenerowania}" >
+                            <p:ajax event="change" partialSubmit="true" listener="#{fakturaDodPozycjaKontrahentView.edytuj(zapis,4)}" />
+                        </p:selectBooleanCheckbox>
+                    </p:column>
+                    <p:column headerText="data fakt." width="70" sortBy="#{zapis.datafaktury}" style="text-align:center;">  
+                        <h:outputText value="#{zapis.datafaktury}" style="color: green;" />
+                    </p:column>
+                    <p:column headerText="" style="text-align: center;" width="40">  
                         <p:commandButton icon="ui-icon-trash" actionListener="#{fakturaDodPozycjaKontrahentView.usun(zapis)}" update="@form" rendered="#{zapis.rozliczone eq false}"/>
                     </p:column>
                 </p:dataTable>

@@ -36,6 +36,7 @@ import waluty.Z;
     @NamedQuery(name = "FakturaDodPozycjaKontrahent.findByKontrahent", query = "SELECT d FROM FakturaDodPozycjaKontrahent d WHERE d.kontrahent = :kontrahent"),
     @NamedQuery(name = "FakturaDodPozycjaKontrahent.findById", query = "SELECT d FROM FakturaDodPozycjaKontrahent d WHERE d.id = :id"),
     @NamedQuery(name = "FakturaDodPozycjaKontrahent.findByKontrahentRokMc", query = "SELECT d FROM FakturaDodPozycjaKontrahent d WHERE d.kontrahent = :kontrahent AND d.rok = :rok AND d.mc = :mc"),
+    @NamedQuery(name = "FakturaDodPozycjaKontrahent.findByRokMc", query = "SELECT d FROM FakturaDodPozycjaKontrahent d WHERE d.rok = :rok AND d.mc = :mc"),
     @NamedQuery(name = "FakturaDodPozycjaKontrahent.findByRok", query = "SELECT d FROM FakturaDodPozycjaKontrahent d WHERE d.rok = :rok"),
     @NamedQuery(name = "FakturaDodPozycjaKontrahent.deleteById", query = "DELETE FROM FakturaDodPozycjaKontrahent s WHERE s.id = :id"),
     @NamedQuery(name = "FakturaDodPozycjaKontrahent.aktualizuj", query = "UPDATE FakturaDodPozycjaKontrahent r SET r.rozliczone = '0' WHERE r.id = :id")
@@ -67,12 +68,17 @@ public class FakturaDodPozycjaKontrahent  implements Serializable{
     private boolean permanentny;
     @Column(name = "kwotaindywid")
     private double kwotaindywid;
+    @Column(name = "dowygenerowania")
+    private boolean dowygenerowania;
+    @Column(name = "datafaktury")
+    private String datafaktury;
     @Transient
     private boolean brakfaktury;
     @Transient
     private boolean brakfakturydoedycji;
 
     public FakturaDodPozycjaKontrahent() {
+        this.dowygenerowania = false;
     }
         
 
@@ -85,6 +91,7 @@ public class FakturaDodPozycjaKontrahent  implements Serializable{
         this.rozliczone = false;
         this.permanentny = p.isPermanentny();
         this.kwotaindywid = Z.z(p.getKwotaindywid());
+        this.dowygenerowania = false;
     }
 
     @Override
@@ -225,6 +232,22 @@ public class FakturaDodPozycjaKontrahent  implements Serializable{
 
     public void setIloscdra(int iloscdra) {
         this.iloscdra = iloscdra;
+    }
+
+    public boolean isDowygenerowania() {
+        return dowygenerowania;
+    }
+
+    public void setDowygenerowania(boolean dowygenerowania) {
+        this.dowygenerowania = dowygenerowania;
+    }
+
+    public String getDatafaktury() {
+        return datafaktury;
+    }
+
+    public void setDatafaktury(String datafaktury) {
+        this.datafaktury = datafaktury;
     }
 
  
