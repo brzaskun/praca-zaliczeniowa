@@ -51,7 +51,7 @@ public class Podmiot implements Serializable {
     @Basic(optional = false)
     @Column(name = "id", nullable = false)
     private Integer id;
-    @Column(name = "nip", unique = true, length = 10)
+    @Column(name = "nip", length = 10)
     private String nip;
     @Size(max = 11)
     @Column(name = "pesel", length = 11)

@@ -63,6 +63,14 @@ public class DraSumyDAO  extends DAO implements Serializable {
         } catch (Exception e){}
         return zwrot;
     }
+
+    public DraSumy findByIddokument(Integer idDokument) {
+        DraSumy zwrot = new DraSumy();
+        try {
+            zwrot = (DraSumy) getEntityManager().createNamedQuery("DraSumy.findByIddokument").setParameter("iddokument", idDokument).getSingleResult();
+        } catch (Exception e){}
+        return zwrot;
+    }
     
     
 }

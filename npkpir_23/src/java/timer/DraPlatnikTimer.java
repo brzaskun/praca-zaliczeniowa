@@ -93,7 +93,7 @@ public class DraPlatnikTimer {
         int i = 1;
         for (Zusdra z : zusdra) {
             //trzeba pobrac jak juz istnieje!!!
-            DraSumy dras = new DraSumy();
+            DraSumy dras = pobierzdrasumy(z.getIdDokument());
             dras.setRok(rok);
             dras.setMc(mc);
             for (Podatnik za : podatnicy) {
@@ -236,5 +236,13 @@ public class DraPlatnikTimer {
                 w.setPit4(podatekpraca);
             }
         }
+    }
+
+    private DraSumy pobierzdrasumy(Integer idDokument) {
+        DraSumy zwrot = new DraSumy();
+        if (idDokument!=null) {
+            zwrot = draSumyDAO.findByIddokument(idDokument);
+        }
+        return zwrot;
     }
 }
