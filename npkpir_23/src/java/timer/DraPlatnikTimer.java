@@ -92,6 +92,7 @@ public class DraPlatnikTimer {
         List<Zusrca> zusrca = zusrcaDAO.findByOkres(okres);
         int i = 1;
         for (Zusdra z : zusdra) {
+            //trzeba pobrac jak juz istnieje!!!
             DraSumy dras = new DraSumy();
             dras.setRok(rok);
             dras.setMc(mc);

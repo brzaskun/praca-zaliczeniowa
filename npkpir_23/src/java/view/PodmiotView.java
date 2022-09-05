@@ -308,8 +308,11 @@ public class PodmiotView implements Serializable {
                 nowy.setStart(Data.data_yyyyMMdd(new Date()));
                 podmiotDAO.create(nowy);
                 podmioty.add(nowy);
+                String podmiot = nowy.getNazwanazwisko();
                 nowy = new Podmiot();
-                Msg.msg("Dodano nowy podmiot");
+                nowy.setPin("1234");
+                nowy.setKrajrezydencji("PL");
+                Msg.msg("Dodano nowy podmiot "+podmiot);
             }
         }
     }

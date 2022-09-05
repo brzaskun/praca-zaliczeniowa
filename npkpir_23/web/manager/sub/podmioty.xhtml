@@ -160,6 +160,7 @@
                 </h:form>
             </p:panelGrid>
             <h:form id="formdodaj">
+                <p:messages  id="messagespodmiot" ><p:autoUpdate/></p:messages>
                 <p:panelGrid columns="1" id="panel">
                     <p:panelGrid columns="2" id="panela">
                         <p:outputLabel value="Nip:" for="nip" />
@@ -196,7 +197,7 @@
                         <p:outputLabel value="Krajrezydencji:" for="krajrezydencji" />
                         <p:inputText id="krajrezydencji" value="#{podmiotView.nowy.krajrezydencji}" title="Kraj rezydencji" />
                     </p:panelGrid>
-                    <p:commandButton value="dodaj" id="buton" actionListener="#{podmiotView.dodajnowy()}" update="@(form)" style="width: 120px;"  onclick="r('akordeon:formdodaj:panela').hide();;r('akordeon:formdodaj:buton').hide()"/>
+                    <p:commandButton value="dodaj" id="buton" actionListener="#{podmiotView.dodajnowy()}" update="@(form)" style="width: 120px;"  onclick="r('akordeon:formdodaj:panela').hide();r('akordeon:formdodaj:buton').hide()"/>
                 </p:panelGrid>
             </h:form>
         </p:tab>
