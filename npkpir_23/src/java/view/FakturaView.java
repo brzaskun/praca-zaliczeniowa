@@ -253,15 +253,17 @@ public class FakturaView implements Serializable {
         Collections.sort(fakturyokresowe, new Fakturyokresowecomparator());
         List<Faktura> fakturytmp = fakturaDAO.findbyPodatnikRokMc(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
         boolean czybiuro = wpisView.getPodatnikObiekt().getNip().equals("8511005008");
-        List<FakturaDodPozycjaKontrahent> lista = fakturaDodPozycjaKontrahentDAO.findByRokMc(wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
-        for (Fakturywystokresowe p : fakturyokresowe) {
-            Klienci odbiorca = p.getDokument().getKontrahent();
-            for (FakturaDodPozycjaKontrahent r : lista) {
-                if (r.getKontrahent().equals(odbiorca) && r.isDowygenerowania() == true && r.getDatafaktury() == null) {
-                    p.setSapracownicy(true);
+        try {
+            List<FakturaDodPozycjaKontrahent> lista = fakturaDodPozycjaKontrahentDAO.findByRokMc(wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+            for (Fakturywystokresowe p : fakturyokresowe) {
+                Klienci odbiorca = p.getDokument().getKontrahent();
+                for (FakturaDodPozycjaKontrahent r : lista) {
+                    if (r.getKontrahent().equals(odbiorca) && r.isDowygenerowania() == true && r.getDatafaktury() == null) {
+                        p.setSapracownicy(true);
+                    }
                 }
             }
-        }
+        } catch (Exception e){}
 //        if (czybiuro) {
 //            boolean czyszef = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser().equals("szef");
 //            if (czyszef) {
