@@ -150,6 +150,14 @@ public class FakturaDAO extends DAO implements Serializable {
             return null;
         }
     }
+      
+      public List<Faktura> findbyPodatnikRokProforma(Podatnik podatnik, String rok) {
+         try {
+            return getEntityManager().createNamedQuery("Faktura.findByWystawcanazwaRokProforma").setParameter("wystawcanazwa", podatnik).setParameter("rok", rok).getResultList();
+        } catch (Exception e) { E.e(e); 
+            return null;
+        }
+    }
 
     public List<Faktura> findbyPodatnikRokMc(Podatnik podatnik, String rok, String mc) {
         List<Faktura> zwrot = new ArrayList<>();

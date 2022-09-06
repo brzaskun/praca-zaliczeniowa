@@ -21,7 +21,7 @@
             <p:commandButton value="podgląd jpk" actionListener="#{jpk_VAT2NView.przygotujXMLPodglad()}" update="@form" style="width: 120px;" rendered="#{!jpk_VAT2NView.pkpir0ksiegi1}"/>
             <p:commandButton value="pobierz jpkfk" actionListener="#{jpk_VAT2NView.przygotujXMLFKDL()}" update="@form" style="width: 120px;" rendered="#{jpk_VAT2NView.pkpir0ksiegi1}"/>
             <p:commandButton value="pobierz jpk" actionListener="#{jpk_VAT2NView.przygotujXMLDL()}" update="@form" style="width: 120px;" rendered="#{!jpk_VAT2NView.pkpir0ksiegi1}"/>
-            <p:dataTable value="#{jpk_VAT2NView.deklaracjadlajpk.schemawierszsumarycznylista}" var="wiersz" rendered="#{jpk_VAT2NView.deklaracjadlajpk ne null}" style="width: 700px; margin-left: 100px;">
+            <p:dataTable id="tabeladekalracje" value="#{jpk_VAT2NView.deklaracjadlajpk.schemawierszsumarycznylista}" var="wiersz" rendered="#{jpk_VAT2NView.deklaracjadlajpk ne null}" style="width: 700px; margin-left: 100px;">
                 <p:column width="350" rendered="#{wiersz.deklaracjaVatWierszSumaryczny.sumavat ne 0}">
                     <h:outputText value="#{wiersz.deklaracjaVatWierszSumaryczny.nazwapozycji}"/>
                 </p:column>
@@ -110,10 +110,11 @@
                 <h:outputText value="#{itemblad.vat}" />
             </p:column>
         </p:dataTable>
-        <p:dataTable value="#{jpk_VAT2NView.lista}" var="item" rowIndexVar="index" id="tabela" style="width: 1400px; margin-top: 10px; height: 450px;overflow-y: scroll;"
+        <p:dataTable value="#{jpk_VAT2NView.lista}" var="item" rowIndexVar="index" id="tabela" style="width: 1500px; margin-top: 10px; height: 450px;overflow-y: scroll;"
                       sortBy="#{item.miesiac}"
                      selection="#{jpk_VAT2NView.selected}" selectionMode="single" rowKey="#{item.id}"
                      emptyMessage="nie wysłano jeszcze plików jpk">
+            <p:ajax event="rowSelect" global="false" listener="#{jpk_VAT2NView.pokazdeklaracje}" update="form_dialog_jpk_vat"/>
             <p:ajax event="rowToggle" global="false"/>
                 <p:column style="width: 20px; text-align: center;">
                     <p:rowToggler/>
@@ -127,7 +128,7 @@
                 </f:facet>
                 <h:outputText value="#{index+1}" />
             </p:column>
-             <p:column style="width: 20px; text-align: center;">
+             <p:column style="width: 40px; text-align: center;">
                 <f:facet name="header">
                     <h:outputText value="v"/>
                 </f:facet>

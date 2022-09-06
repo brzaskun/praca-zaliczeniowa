@@ -328,6 +328,7 @@ public class FakturaView implements Serializable {
                 }
             }
         }
+        fakturypro = fakturaDAO.findbyPodatnikRokProforma(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         Fakturaelementygraficzne elementgraficzny = fakturaelementygraficzneDAO.findFaktElementyGraficznePodatnik(wpisView.getPodatnikWpisu());
         if (elementgraficzny != null) {
             sprawdzczyniezniknalplik(elementgraficzny.getFakturaelementygraficznePK().getNazwaelementu());
@@ -1690,6 +1691,21 @@ public class FakturaView implements Serializable {
         }
     }
     
+     public void wgenerujnumerfakturyLikwidacjaProforma()  {
+        String nazwaklienta = (String) Params.params("akordeon:formstworz:acForce_input");
+        if (!nazwaklienta.equals("nowy klient")) {
+            if (selected!=null && selected.getKontrahent()!=null) {
+                if (selected.getKontrahent().getNskrocona() == null) {
+                    Msg.msg("e", "Brak nazwy skróconej kontrahenta " + selected.getKontrahent().getNpelna() + ", nie mogę poprawnie wygenerować numeru faktury. Uzupełnij dane odbiorcy faktury.");
+                    PrimeFaces.current().executeScript("PF('nazwaskroconafaktura').show();");
+                    PrimeFaces.current().executeScript("$(document.getElementById(\"formkontowybor:wybormenu\")).focus();");
+                } else {
+                    FakturaOkresowaGenNum.wygenerujnumerfaktury(fakturaDAO, selected, wpisView);
+                }
+            }
+        }
+    }
+    
     
 
     public void dodajfaktureokresowa(List<Faktura> gosciwybral) {
@@ -2765,7 +2781,7 @@ public class FakturaView implements Serializable {
             } else if (!selected.isProforma() && selected.getNumerkolejny().contains("/PROFORMA")) {
                 selected.setProforma(false);
                 selected.setNumerkolejny(selected.getNumerkolejny().replace("/PROFORMA", ""));
-                wgenerujnumerfaktury();
+                wgenerujnumerfakturyLikwidacjaProforma();
                 Msg.msg("Usunięto oznaczeniePROFORMA Zmieniono numer faktury.");
             }
         } else {

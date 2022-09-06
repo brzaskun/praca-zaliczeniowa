@@ -8,7 +8,7 @@
     xmlns:bcf="http://brzaskun.com/facelets">
 
     <p:dialog id="dialog_jpk_vat" header="Ewidencja wystawianych plików JPK VAT firmy #{WpisView.podatnikObiekt.printnazwa}" widgetVar="dialog_jpk_vat" resizable="false" 
-              onShow="ustawdialog('dialog_jpk_vat','menurejestry',1300,700);"  modal="false" appendTo="@(body)"
+              onShow="ustawdialog('dialog_jpk_vat','menurejestry',1520,700);"  modal="false" appendTo="@(body)"
               closeOnEscape="true">
         <p:ajax event="open" listener="#{jpk_VAT2NView.init()}" update="form_dialog_jpk_vat"/>
         <ui:include src="../../../wspolny/wspolnyjpkVAT.xhtml"/>

@@ -53,6 +53,7 @@ import waluty.Z;
     @NamedQuery(name = "Faktura.findByNumerkolejnyWystawcanazwa", query = "SELECT f FROM Faktura f WHERE f.numerkolejny = :numerkolejny AND f.wystawca = :wystawcanazwa"),
     @NamedQuery(name = "Faktura.findByNumerkolejnyWystawcanazwaDlaOkresowej", query = "SELECT f FROM Faktura f WHERE f.numerkolejny = :numerkolejny AND f.wystawca = :wystawcanazwa AND f.tylkodlaokresowej=1"),
     @NamedQuery(name = "Faktura.findByWystawcanazwaRok", query = "SELECT f FROM Faktura f WHERE f.wystawca = :wystawcanazwa AND f.rok = :rok"),
+    @NamedQuery(name = "Faktura.findByWystawcanazwaRokProforma", query = "SELECT f FROM Faktura f WHERE f.wystawca = :wystawcanazwa AND f.rok = :rok AND f.proforma = TRUE"),
     @NamedQuery(name = "Faktura.findByWystawcanazwaRokMc", query = "SELECT f FROM Faktura f WHERE f.wystawca = :wystawcanazwa AND f.rok = :rok AND f.mc = :mc"),
     @NamedQuery(name = "Faktura.findByWystawcanazwaRokMcNiezaplacone", query = "SELECT f FROM Faktura f WHERE f.wystawca = :wystawcanazwa AND f.rok = :rok AND f.mc = :mc AND f.datazaplaty IS NULL AND f.tylkodlaokresowej = '0'"),
     @NamedQuery(name = "Faktura.findByWystawcanazwaRokMcZaplacone", query = "SELECT f FROM Faktura f WHERE f.wystawca = :wystawcanazwa AND f.rok = :rok AND f.mc = :mc AND f.datazaplaty IS NOT NULL AND f.tylkodlaokresowej = '0'"),

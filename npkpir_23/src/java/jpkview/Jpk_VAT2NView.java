@@ -223,6 +223,14 @@ public class Jpk_VAT2NView implements Serializable {
         
     }
     
+   public void pokazdeklaracje() {
+       if (selected!=null) {
+           deklaracjadlajpk = selected.getDeklaracja();
+           Msg.dP();
+                   
+       }
+   }
+    
     
     public void init2() {
         nowa0korekta1 = false;

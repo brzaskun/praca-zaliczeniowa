@@ -69,7 +69,7 @@
                          selection="#{fakturaView.gosciwybralpro}" rowKey="#{wpispro.numerkolejny}" widgetVar="dokTableFakturyPro" rowSelectMode="add" style="max-width: 1400px;"
                          sortBy="#{wpispro.numerkolejny}" sortFunction="#{fakturaView.sortZaksiegowaneFaktury}" emptyMessage="Nie sporządzono faktur w tym miesiącu">
                 <f:facet name="header">  
-                    <h:outputText value="Zestawienie wygenerowanych faktur proforma w mc #{WpisView.miesiacWpisu} " />  
+                    <h:outputText value="Zestawienie wygenerowanych faktur proforma w roku #{WpisView.rokWpisuSt} " />  
                     <!--                    <h:outputText value="- wyszukiwanie: " />  
                                         <p:inputText id="globalFilter" onkeyup="PF('dokTableFakturyPro').filter();" style="width:180px" placeholder="wyszukiwane wyrażenie"
                                                      onfocus="PF('dokTableFakturyPro').clearFilters();PF('dokTableFakturyPro').unselectAllRows();"></p:inputText>-->
