@@ -135,7 +135,7 @@ public class PdfPIT28 {
             document.add(new Paragraph("___________________________",fontM));
             document.add(new Paragraph("sporządził",fontM));
         document.close();
-        Msg.msg("i", "Wydrukowano PIT28", "form:messages");
+        Msg.msg("i", "Wydrukowano PIT28");
     }
     
    

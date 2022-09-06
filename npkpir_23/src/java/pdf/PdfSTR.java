@@ -120,7 +120,7 @@ public class PdfSTR {
         pdf.add(table);
         pdf.addAuthor("Biuro Rachunkowe Taxman");
         pdf.close();
-        Msg.msg("i", "Wydrukowano środki trwałe", "form:messages");
+        Msg.msg("i", "Wydrukowano środki trwałe");
     }
 
 //    private List<STRtabela> obliczsume(List<STRtabela> wykaz) {

@@ -116,10 +116,10 @@ public class PozycjeNaFakturzeView implements Serializable {
                 pozycjeDAO.edit(pozycje);
             }
             pobierzpozycjepodatnika();
-            Msg.msg("i", "Zachowano "+pozycje.toString(), "form:messages");
+            Msg.msg("i", "Zachowano "+pozycje.toString());
         } catch (Exception e) { 
             E.e(e); 
-            Msg.msg("e", "Wystapił błąd przy zachowywaniu pozycji", "form:messages");
+            Msg.msg("e", "Wystapił błąd przy zachowywaniu pozycji");
         }
         
     }

@@ -139,6 +139,6 @@ public class PdfInwestycja {
         pdf.add(table);
         pdf.close();
         PrimeFaces.current().executeScript("wydrukinwestycja('"+wpisView.getPodatnikWpisu()+"');");
-        Msg.msg("i", "Wydrukowano wybraną inwestycję", "form:messages");
+        Msg.msg("i", "Wydrukowano wybraną inwestycję");
     }
 }

@@ -85,27 +85,27 @@ public class InwestycjeView implements Serializable {
             inwestycjeDAO.create(selected);
             selected.setOpis("");
             selected.setSkrot("");
-            Msg.msg("i", "Dodałem nową inwestycję", "form:messages");
+            Msg.msg("i", "Dodałem nową inwestycję");
             inwestycjerozpoczete.add(selected);
         } catch (Exception e) {
             E.e(e);
-            Msg.msg("e", "Wystąpił błąd. Nie dodałem nowej inwestycji", "form:messages");
+            Msg.msg("e", "Wystąpił błąd. Nie dodałem nowej inwestycji");
         }
     }
 
     public void usun(Inwestycje wybrana) {
         try {
             if (!wybrana.getDoklist().isEmpty()) {
-                Msg.msg("e", "Inwestycja zawiera dokumenty! Usuń je najpierw", "form:messages");
+                Msg.msg("e", "Inwestycja zawiera dokumenty! Usuń je najpierw");
                 throw new Exception();
             } else {
                 inwestycjeDAO.remove(wybrana);
                 inwestycjerozpoczete.remove(wybrana);
-                Msg.msg("i", "Usunąłem wybrną inwestycję", "form:messages");
+                Msg.msg("i", "Usunąłem wybrną inwestycję");
             }
         } catch (Exception e) {
             E.e(e);
-            Msg.msg("e", "Wystąpił błąd. Nie usunąłem wkazanej inwestycji", "form:messages");
+            Msg.msg("e", "Wystąpił błąd. Nie usunąłem wkazanej inwestycji");
         }
     }
 
@@ -117,11 +117,11 @@ public class InwestycjeView implements Serializable {
             inwestycjeDAO.edit(wybranainwestycja);
             inwestycjerozpoczete.remove(wybranainwestycja);
             inwestycjezakonczone.add(wybranainwestycja);
-            Msg.msg("i", "Zamknąłem wybrną inwestycję", "form:messages");
+            Msg.msg("i", "Zamknąłem wybrną inwestycję");
             dodajdokumentOT(wybranainwestycja);
         } catch (Exception e) {
             E.e(e);
-            Msg.msg("e", "Wystąpił błąd. Nie zamknąłem wkazanej inwestycji", "form:messages");
+            Msg.msg("e", "Wystąpił błąd. Nie zamknąłem wkazanej inwestycji");
         }
     }
     
@@ -208,10 +208,10 @@ public class InwestycjeView implements Serializable {
             inwestycjeDAO.edit(wybrany);
             inwestycjezakonczone.remove(wybrany);
             inwestycjerozpoczete.add(wybrany);
-            Msg.msg("i", "Otworzyłem ponownie wybrną inwestycję", "form:messages");
+            Msg.msg("i", "Otworzyłem ponownie wybrną inwestycję");
         } catch (Exception e) {
             E.e(e);
-            Msg.msg("e", "Wystąpił błąd. Nie można było ponownie otworzyć inwestycji", "form:messages");
+            Msg.msg("e", "Wystąpił błąd. Nie można było ponownie otworzyć inwestycji");
         }
     }
     public void edytuj(Inwestycje i) {
@@ -236,10 +236,10 @@ public class InwestycjeView implements Serializable {
 //                    aktualizujwartosci(p);
 //                }
 //            }
-//            Msg.msg("i", "Usunąłem rachunek z inwestycji " + dok.toString(), "form:messages");
+//            Msg.msg("i", "Usunąłem rachunek z inwestycji " + dok.toString());
 //        } catch (Exception e) {
 //            E.e(e);
-//            Msg.msg("e", "Wystąpił błąd. Nie można było usunąć rachunku " + dok.toString(), "form:messages");
+//            Msg.msg("e", "Wystąpił błąd. Nie można było usunąć rachunku " + dok.toString());
 //        }
 //    }
 
@@ -255,7 +255,7 @@ public class InwestycjeView implements Serializable {
     }
 
     public void wybranoinwestycje() {
-        Msg.msg("i", "Wybrano inwestycję " + wybrany.getOpis(), "form:messages");
+        Msg.msg("i", "Wybrano inwestycję " + wybrany.getOpis());
     }
 
     public WpisView getWpisView() {

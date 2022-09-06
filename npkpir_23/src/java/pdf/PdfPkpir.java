@@ -55,7 +55,7 @@ public class PdfPkpir {
         pdf.close();
         pdffk.PdfMain.dodajQR(nazwapliku);
         PrimeFaces.current().executeScript("wydrukpkpir('"+wpisView.getPodatnikWpisu().trim()+"');");
-        Msg.msg("i", "Wydrukowano księgę", "form:messages");
+        Msg.msg("i", "Wydrukowano księgę");
     }
     
     public static void drukujksiegeRok(Map<String, List<DokKsiega>> ksiegimiesieczne, WpisView wpisView) throws DocumentException, FileNotFoundException, IOException {
@@ -87,7 +87,7 @@ public class PdfPkpir {
         pdf.close();
         pdffk.PdfMain.dodajQR(nazwapliku);
         PrimeFaces.current().executeScript("wydrukpkpir('"+wpisView.getPodatnikWpisu().trim()+"');");
-        Msg.msg("i", "Wydrukowano księgę", "form:messages");
+        Msg.msg("i", "Wydrukowano księgę");
     }
 
     private static PdfPTable generujTabele(WpisView wpisView, String mc) {

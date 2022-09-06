@@ -119,7 +119,7 @@ public class PdfObroty  {
         pdf.close();
         pdffk.PdfMain.dodajQR(nazwapliku);
         PrimeFaces.current().executeScript("wydrukobroty('"+wpisView.getPodatnikWpisu()+"');");
-        Msg.msg("i", "Wydrukowano obroty", "form:messages");
+        Msg.msg("i", "Wydrukowano obroty");
     }
 
     private static Object[] obliczsume(List<Dok> wykaz) {

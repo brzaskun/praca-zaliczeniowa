@@ -820,32 +820,32 @@ public class Vat7DKView implements Serializable {
             if (badana != null) {
                 String l = " "+badana.getRok()+"-"+badana.getMiesiac()+" wysłana dnia: "+data.Data.data_yyyyMMdd(badana.getDatazlozenia())+" ";
                 if (badana.getStatus().startsWith("399")||badana.getStatus().startsWith("120")) {
-                    Msg.msg("e", "Istnieje deklaracja za okres " + rok + "-" + mc + " która została już wysłana z plikiem jpk, ale nie pobrano jeszcze upo!", "form:messages");
+                    Msg.msg("e", "Istnieje deklaracja za okres " + rok + "-" + mc + " która została już wysłana z plikiem jpk, ale nie pobrano jeszcze upo!");
                     pozycjeDeklaracjiVAT.setCelzlozenia("1");
                     nowadeklaracja.setNrkolejny(badana.getNrkolejny());
                     f = 1;
                 } else if (badana.getStatus().startsWith("388")) {
-                    Msg.msg("w", "Przygotowano do zachowania drugą wersję niezałączonej do jpk deklaracji za okres  " + rok + "-" + mc, "form:messages");
+                    Msg.msg("w", "Przygotowano do zachowania drugą wersję niezałączonej do jpk deklaracji za okres  " + rok + "-" + mc);
                     f = 2;
                 } else if (badana.getStatus().startsWith("301") || badana.getStatus().startsWith("302") || badana.getStatus().isEmpty()) {
-                    Msg.msg("e", "Wysłałeś już deklarację" + l + "ale nie pobrałeś UPO. Nie mozna sporządzić nowej deklaracji za miesiąc następny!", "form:messages");
+                    Msg.msg("e", "Wysłałeś już deklarację" + l + "ale nie pobrałeś UPO. Nie mozna sporządzić nowej deklaracji za miesiąc następny!");
                     f = 1;
                 } else if (badana.getStatus().startsWith("4")) {
                     pozycjeDeklaracjiVAT.setCelzlozenia("1");
-                    Msg.msg("w", "Utworzono nową deklarację" + l + ". Wysłanie poprzedniej zakończyło się błędem. Jeśli chcesz sporządzić korektę usuń najpierw błędną deklarację.", "form:messages");
+                    Msg.msg("w", "Utworzono nową deklarację" + l + ". Wysłanie poprzedniej zakończyło się błędem. Jeśli chcesz sporządzić korektę usuń najpierw błędną deklarację.");
                     nowadeklaracja.setNrkolejny(badana.getNrkolejny() + 1);
                 } else if (badana.getStatus().startsWith("200") && pierwotnazamiastkorekty == false) {
                     nowadeklaracja.setNrkolejny(badana.getNrkolejny() + 1);
                     pozycjeDeklaracjiVAT.setCelzlozenia("2");
-                    Msg.msg("w", "Przygotowano do zachowania korekte poprawnie wyslanej deklaracji za okres  " + rok + "-" + mc, "form:messages");
+                    Msg.msg("w", "Przygotowano do zachowania korekte poprawnie wyslanej deklaracji za okres  " + rok + "-" + mc);
                 } else if (badana.getStatus().startsWith("200") && pierwotnazamiastkorekty == true) {
                     nowadeklaracja.setNrkolejny(badana.getNrkolejny() + 1);
                     pozycjeDeklaracjiVAT.setCelzlozenia("1");
-                    Msg.msg("w", "Wysłano już deklarację za ten okres. Jednakże w opcjach ustawiono wymuszenie deklaracji pierwotnej", "form:messages");
-                    Msg.msg("w", "Przygotowano do zachowania drugą wersję poprawnie wyslanej deklaracji za okres  " + rok + "-" + mc, "form:messages");
+                    Msg.msg("w", "Wysłano już deklarację za ten okres. Jednakże w opcjach ustawiono wymuszenie deklaracji pierwotnej");
+                    Msg.msg("w", "Przygotowano do zachowania drugą wersję poprawnie wyslanej deklaracji za okres  " + rok + "-" + mc);
                 } else {
                     f = 1;
-                    Msg.msg("e", "Wystąpił dziwny błąd wołaj szefa", "form:messages");
+                    Msg.msg("e", "Wystąpił dziwny błąd wołaj szefa");
 
                 }
             } else {

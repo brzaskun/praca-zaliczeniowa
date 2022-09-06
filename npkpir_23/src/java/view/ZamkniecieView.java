@@ -114,7 +114,7 @@ public class ZamkniecieView implements Serializable {
     }
 
     public void zapisokresy(){
-        Msg.msg("i", "Trwa wprowadzanie zmian", "form:messages");
+        Msg.msg("i", "Trwa wprowadzanie zmian");
         zaksiegujDokumenty();
         zamknietemiesiace.setZamkniete(mapaokresowPobrane);
         for(Okresrozliczeniowy p : mapaokresowPobrane){
@@ -141,14 +141,14 @@ public class ZamkniecieView implements Serializable {
              };
         }
         if(i==2){
-            Msg.msg("e", "Nie wolno edytować dwóch miesięcy na raz", "form:messages");
+            Msg.msg("e", "Nie wolno edytować dwóch miesięcy na raz");
             for(Okresrozliczeniowy p : mapaokresowPobrane){
                 p.setEdytuj(false);
             }
             //PrimeFaces.current().ajax().update(e.getSource().toString());
         } else {
             zDAO.edit(zamknietemiesiace);
-            Msg.msg("i", "Edycja miesiąca", "form:messages");
+            Msg.msg("i", "Edycja miesiąca");
         }
     }
     

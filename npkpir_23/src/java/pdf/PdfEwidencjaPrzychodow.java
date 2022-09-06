@@ -64,7 +64,7 @@ public class PdfEwidencjaPrzychodow {
         pdf.addAuthor("Biuro Rachunkowe Taxman");
         pdf.close();
         PrimeFaces.current().executeScript("wydrukpkpir('"+wpisView.getPodatnikWpisu().trim()+"');");
-        Msg.msg("i", "Wydrukowano ewidencję przychodów", "form:messages");
+        Msg.msg("i", "Wydrukowano ewidencję przychodów");
         
         
     }
@@ -97,7 +97,7 @@ public class PdfEwidencjaPrzychodow {
         pdf.addAuthor("Biuro Rachunkowe Taxman");
         pdf.close();
         PrimeFaces.current().executeScript("wydrukpkpir('"+wpisView.getPodatnikWpisu().trim()+"');");
-        Msg.msg("i", "Wydrukowano księgę", "form:messages");
+        Msg.msg("i", "Wydrukowano księgę");
     }
     
     private static PdfPTable generujTabele(WpisView wpisView, String mc) {

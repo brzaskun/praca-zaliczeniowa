@@ -54,7 +54,7 @@ public class FakturyPlatnosciView  implements Serializable {
         fakturyzaplacone.clear();
         aktualizuj();
         init();
-        Msg.msg("i", "Udana zamiana miesiąca. Aktualny okres rozliczeniowy: " + wpisView.getRokWpisu() + "/" + wpisView.getMiesiacWpisu(), "form:messages");
+        Msg.msg("i", "Udana zamiana miesiąca. Aktualny okres rozliczeniowy: " + wpisView.getRokWpisu() + "/" + wpisView.getMiesiacWpisu());
     }
     
     private void aktualizuj() {

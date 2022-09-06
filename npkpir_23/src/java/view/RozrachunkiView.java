@@ -154,7 +154,7 @@ public class RozrachunkiView implements Serializable {
 
     public void usunzzaplaconych(RowEditEvent ex) {
         Dok tmp = (Dok) ex.getObject();
-        Msg.msg("i", "Probuje zmienić rozliczenia: " + tmp.getOpis(), "form:messages");
+        Msg.msg("i", "Probuje zmienić rozliczenia: " + tmp.getOpis());
         try {
             //jak bedzie storno to ma wyrzuci blad. trzeba usunac strono wpierw
             try {
@@ -170,9 +170,9 @@ public class RozrachunkiView implements Serializable {
             zaplacone.remove(tmp);
             niezaplacone.add(tmp);
             PrimeFaces.current().ajax().update("form:dokumentyLista");
-            Msg.msg("i", "Dokument z nowymi datami zaksięgowany: " + tmp.getOpis(), "form:messages");
+            Msg.msg("i", "Dokument z nowymi datami zaksięgowany: " + tmp.getOpis());
         } catch (Exception e) { E.e(e); 
-            Msg.msg("e", "Nie udało się usunąć rozliczeń: " + tmp.getOpis() + "Sprawdź obecność storno.", "form:messages");
+            Msg.msg("e", "Nie udało się usunąć rozliczeń: " + tmp.getOpis() + "Sprawdź obecność storno.");
         }
     }
 

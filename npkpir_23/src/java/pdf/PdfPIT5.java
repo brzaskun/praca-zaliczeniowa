@@ -153,7 +153,7 @@ public class PdfPIT5 {
             document.add(new Paragraph("___________________________",fontM));
             document.add(new Paragraph("sporządził",fontM));
         document.close();
-        Msg.msg("i", "Wydrukowano PIT5", "form:messages");
+        Msg.msg("i", "Wydrukowano PIT5");
     }
     
    

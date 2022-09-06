@@ -150,7 +150,7 @@ public class PdfPK {
         document.add(new Paragraph("___________________________", fontM));
         document.add(new Paragraph("sporządził", fontM));
         document.close();
-        Msg.msg("i", "Sporządzono dokument w pdf", "form:messages");
+        Msg.msg("i", "Sporządzono dokument w pdf");
         return nazwapliku;
     }
 
