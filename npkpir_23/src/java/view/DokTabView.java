@@ -433,7 +433,7 @@ public class DokTabView implements Serializable {
     }
     
     public void fakturaoznaczanie() {
-        Dok w = gosciuwybral.get(0);
+        Dok w = gosciuwybral.get(gosciuwybral.size()-1);
         w.setSprawdzony(w.getSprawdzony()==0?1:w.getSprawdzony()==1?2:0);
         int rowek = 0;
         for (Dok s : dokumentylista) {

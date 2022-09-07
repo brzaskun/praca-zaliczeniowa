@@ -58,6 +58,8 @@ public class FakturaDodPozycjaKontrahent  implements Serializable{
     private int ilosc;
     @Column(name = "iloscdra")
     private int iloscdra;
+    @Column(name = "iloscdrap")
+    private int iloscdraP;
     @Column(name = "rok")
     private String rok;
     @Column(name = "mc")
@@ -232,6 +234,14 @@ public class FakturaDodPozycjaKontrahent  implements Serializable{
 
     public void setIloscdra(int iloscdra) {
         this.iloscdra = iloscdra;
+    }
+
+    public int getIloscdraP() {
+        return iloscdraP;
+    }
+
+    public void setIloscdraP(int iloscdraP) {
+        this.iloscdraP = iloscdraP;
     }
 
     public boolean isDowygenerowania() {

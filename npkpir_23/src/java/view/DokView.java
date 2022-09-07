@@ -1396,7 +1396,6 @@ public class DokView implements Serializable {
     }
 
     private void skopiujdoedycjidane() {
-        selDokument = dokTabView.getGosciuwybral().get(0);
         liczbawierszy = selDokument.getListakwot1().size();
         podepnijListe();//to jest wybor kolumn do selectOneMenu bez tego nie ma selectedItems
         if (selDokument.getListakwot1().isEmpty()) {
@@ -1433,7 +1432,8 @@ public class DokView implements Serializable {
         
     }
 
-    public void sprawdzczywybranodokumentdoedycji() {
+    public void sprawdzczywybranodokumentdoedycji(Dok dokument) {
+        selDokument = dokument;
         skopiujdoedycjidane();
         obsluzcechydokumentu();
         if (selDokument.getRodzajedok().getSkrot().equals("OT")) {

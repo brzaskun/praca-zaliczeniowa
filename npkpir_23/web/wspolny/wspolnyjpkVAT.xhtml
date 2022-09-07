@@ -33,9 +33,10 @@
                 </p:column>
             </p:dataTable>
         </p:panelGrid>
-         <p:panelGrid>
+        <p:panelGrid >
+            <p:outputPanel style="padding: 20px;">
             <h:outputText value="wersja jpk (1 - jpk pierwotne, 2 korekta)"/>
-            <p:selectOneMenu value="#{jpk_VAT2NView.werjsajpkrecznie}" label="wersja jpk">
+            <p:selectOneMenu value="#{jpk_VAT2NView.werjsajpkrecznie}" label="wersja jpk" style="margin-left: 20px;">
                 <f:selectItem itemValue="0" itemLabel="0"/>
                 <f:selectItem itemValue="1" itemLabel="1"/>
                 <f:selectItem itemValue="2" itemLabel="2"/>
@@ -44,6 +45,7 @@
                 <f:selectItem itemValue="5" itemLabel="5"/>
                 <p:ajax event="change" partialSubmit="true"/>
             </p:selectOneMenu>
+            </p:outputPanel>
         </p:panelGrid>
         <p:panelGrid columns="5" rendered="#{WpisView.podatnikObiekt.nip eq '5263158333'}">
             <p:commandButton value="wyślij jpk" actionListener="#{jpk_VAT2NView.przygotujXMLDedra()}" update="@form" style="width: 120px;" rendered="#{!jpk_VAT2NView.nowa0korekta1}"/>

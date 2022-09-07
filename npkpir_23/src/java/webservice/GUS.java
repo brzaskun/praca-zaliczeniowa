@@ -248,6 +248,8 @@ public class GUS {
                 zwrot = element.replace("SPÓŁKA AKCYJNA", "S.A.");
             } else if (element.contains("SPÓŁKA CYWILNA")) {
                 zwrot = element.replace("SPÓŁKA CYWILNA", "S.C.");
+            } else if (element.contains("SPÓŁKA JAWNA")) {
+                zwrot = element.replace("SPÓŁKA JAWNA", "SP.J.");
             } else if (a.length>3) {
                 zwrot = zloznazwe(a,a.length);
             } else if (a.length==3) {

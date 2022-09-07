@@ -145,6 +145,16 @@ public class UPO  implements Serializable {
                 if (cel.equals("2")) {
                     zwrot = "kor.";
                 }
+            } else if (jpk instanceof pl.gov.crd.wzor._2021._12._27._11148.JPK) {
+                String cel = Byte.toString(((pl.gov.crd.wzor._2021._12._27._11148.JPK)jpk).getNaglowek().getCelZlozenia().getValue());
+                if (cel.equals("2")) {
+                    zwrot = "kor.";
+                }
+            } else if (jpk instanceof pl.gov.crd.wzor._2021._12._27._11149.JPK) {
+                String cel = Byte.toString(((pl.gov.crd.wzor._2021._12._27._11149.JPK)jpk).getNaglowek().getCelZlozenia().getValue());
+                if (cel.equals("2")) {
+                    zwrot = "kor.";
+                }
             }
         }
         return zwrot;

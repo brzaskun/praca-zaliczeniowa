@@ -311,8 +311,8 @@ public class DochodDlaDRAView implements Serializable {
             if (formaopodatkowania.contains("ryczałt")) {
                 odkiedy = 1;
             }
-            wiersz.setWynikpodatkowymcInne(wiersz.getWynikpodatkowymcInne()+d.getWynikpodatkowymc());
-            wiersz.setWynikpodatkowynarInne(wiersz.getWynikpodatkowynarInne()+d.getWynikpodatkowynar());
+            wiersz.setWynikpodatkowymcInne(d.getWynikpodatkowymc());
+            wiersz.setWynikpodatkowynarInne(d.getWynikpodatkowynar());
             double dochodmiesiacsuma = wiersz.getWynikpodatkowymc()+wiersz.getWynikpodatkowymcInne();
             double dochodmiesiacsumanra = wiersz.getWynikpodatkowynar()+wiersz.getWynikpodatkowynarInne();
             wiersz.setDochodzus(dochodmiesiacsuma > 0.0 ? dochodmiesiacsuma : 0.0);

@@ -13,6 +13,7 @@ package enumy;
 public enum FormaPrawna {
     OSOBA_FIZYCZNA,
     SPOLKA_CYWILNA,
+    SPOLKA_JAWNA,
     SPOLKA_Z_O_O,
     SPOLKA_KOMANDYTOWA,
     PROSTA_SPÓŁKA_AKCYJNA,
@@ -54,6 +55,11 @@ public enum FormaPrawna {
     public static FormaPrawna getPROSTA_SPÓŁKA_AKCYJNA() {
         return PROSTA_SPÓŁKA_AKCYJNA;
     }
+
+    public static FormaPrawna getSPOLKA_JAWNA() {
+        return SPOLKA_JAWNA;
+    }
+    
     
     
     

@@ -99,22 +99,25 @@ public class FakturaDodPozycjaKontrahentView  implements Serializable {
                 lista_3_filter = null;
                 lista_3_selected = null;
                 lista_wzor = fakturaDodPozycjaKontrahentDAO.findByRok(rok);
-                List<FakturaDodPozycjaKontrahent> lista_tmp = lista_wzor.stream().filter(p -> p.getRok().equals(rok) && p.getMc().equals(mc)).collect(Collectors.toList());
-                for (FakturaDodPozycjaKontrahent p : lista_tmp) {
-                    Podatnik pod = podatnikDAO.findPodatnikByNIP(p.getKontrahent().getNip());
-                    if (pod != null) {
-                        p.getKontrahent().setNazwapodatnika(pod.getPrintnazwa());
+                try {
+                    List<FakturaDodPozycjaKontrahent> lista_tmp = lista_wzor.stream().filter(p -> p.getRok().equals(rok) && p.getMc().equals(mc)).collect(Collectors.toList());
+                    for (FakturaDodPozycjaKontrahent p : lista_tmp) {
+                        Podatnik pod = podatnikDAO.findPodatnikByNIP(p.getKontrahent().getNip());
+                        if (pod != null) {
+                            p.getKontrahent().setNazwapodatnika(pod.getPrintnazwa());
+                        }
                     }
-                }
-                if (pokazujtylkopuste) {
-                    lista_2 = lista_2.stream().filter(p->p.getIlosc()==0).collect(Collectors.toList());
-                }
-                uzupelnijofakture(lista_tmp);
-                uzupelnijodanezDRA(lista_tmp);
-                lista_2 = new ArrayList<>();
-                lista_2.addAll(lista_tmp.stream().filter(p->p.isBrakfakturydoedycji()==false).collect(Collectors.toList()));
-                lista_3 = new ArrayList<>();
-                lista_3.addAll(lista_tmp.stream().filter(p->p.isBrakfakturydoedycji()==true).collect(Collectors.toList()));
+                    if (pokazujtylkopuste) {
+                        lista_2 = lista_2.stream().filter(p->p.getIlosc()==0).collect(Collectors.toList());
+                    }
+                    uzupelnijofakture(lista_tmp);
+                    uzupelnijodanezDRA(lista_tmp);
+                    uzupelnijodanezDRAmcpop(lista_tmp);
+                    lista_2 = new ArrayList<>();
+                    lista_2.addAll(lista_tmp.stream().filter(p->p.isBrakfakturydoedycji()==false).collect(Collectors.toList()));
+                    lista_3 = new ArrayList<>();
+                    lista_3.addAll(lista_tmp.stream().filter(p->p.isBrakfakturydoedycji()==true).collect(Collectors.toList()));
+                } catch (Exception e){}
                 Msg.msg("Pobrano stałe pozycje");
             }
         }
@@ -299,24 +302,32 @@ public class FakturaDodPozycjaKontrahentView  implements Serializable {
             String[] okpop = Data.poprzedniOkres(mc, rok);
             List<DraSumy> drasumy = draSumyDAO.zwrocRokMc(okpop[1], okpop[0]);
             for (FakturaDodPozycjaKontrahent p : lista_tmp) {
-                p.setBrakfaktury(true);
-                p.setBrakfakturydoedycji(true);
-                for (Fakturywystokresowe r : wykazfaktur) {
-                    Faktura f = r.getDokument();
-                    if (f.getKontrahent().getNip().equals(p.getKontrahent().getNip())) {
-                        p.setBrakfaktury(false);
-                        if (r.isRecznaedycja()==true) {
-                            p.setBrakfakturydoedycji(false);
-                        }
-                        break;
-                    }
-                }
                 for (DraSumy d : drasumy) {
                     if (d.getPodatnik()!=null&&d.getPodatnik().getNip().equals(p.getKontrahent().getNip())) {
                         if (p.getFakturaDodatkowaPozycja().isPraca1zlecenie0()) {
                             p.setIloscdra(d.getPracownicy());
                         } else {
                             p.setIloscdra(d.getZleceniobiorcy()+d.getInnetytuly()+d.getStudenci());
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+    }
+     
+      private void uzupelnijodanezDRAmcpop(List<FakturaDodPozycjaKontrahent> lista_tmp) {
+        if (lista_tmp!=null) {
+            String[] okpop = Data.poprzedniOkres(mc, rok);
+            String[] okpop1 = Data.poprzedniOkres(okpop[0], okpop[1]);
+            List<DraSumy> drasumy = draSumyDAO.zwrocRokMc(okpop1[1], okpop1[0]);
+            for (FakturaDodPozycjaKontrahent p : lista_tmp) {
+                for (DraSumy d : drasumy) {
+                    if (d.getPodatnik()!=null&&d.getPodatnik().getNip().equals(p.getKontrahent().getNip())) {
+                        if (p.getFakturaDodatkowaPozycja().isPraca1zlecenie0()) {
+                            p.setIloscdraP(d.getPracownicy());
+                        } else {
+                            p.setIloscdraP(d.getZleceniobiorcy()+d.getInnetytuly()+d.getStudenci());
                         }
                         break;
                     }
