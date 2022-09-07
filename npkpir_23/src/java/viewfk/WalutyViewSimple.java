@@ -4,33 +4,16 @@
  */
 package viewfk;
 
-import beansFK.WalutyFKBean;
-import comparator.Tabelanbpcomparator;
-import dao.TabelanbpDAO;
 import dao.WalutyDAOfk;
-import dao.WierszDAO;
-import entityfk.Tabelanbp;
 import entityfk.Waluty;
-import entityfk.Wiersz;
-import error.E;
 import java.io.Serializable;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Locale;
-import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
-import javax.inject.Named;
-
-import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
-import msg.Msg;import org.primefaces.event.RowEditEvent;
-import view.WpisView; import org.primefaces.PrimeFaces;
-import waluty.WalutyNBP;
-import waluty.Z;
+import javax.inject.Named;
 
 /**
  *
@@ -65,6 +48,14 @@ public class WalutyViewSimple implements Serializable {
 
     public void setSymboleWalut(List<String> symboleWalut) {
         this.symboleWalut = symboleWalut;
+    }
+
+    public List<Waluty> getPobraneRodzajeWalut() {
+        return pobraneRodzajeWalut;
+    }
+
+    public void setPobraneRodzajeWalut(List<Waluty> pobraneRodzajeWalut) {
+        this.pobraneRodzajeWalut = pobraneRodzajeWalut;
     }
     
 

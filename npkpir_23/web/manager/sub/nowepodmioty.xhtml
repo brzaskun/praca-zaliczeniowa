@@ -33,7 +33,7 @@
             <p:panelGrid id="wprowadzaniepodatnika" columns="2" style="padding: 10px;">
                 <h:outputLabel value="nip"/>
                 <h:outputText id="polenip" value="#{podatnikView.selectedDod.nip}" />
-                <h:outputLabel value="nazwa ewidencyjna"/>
+                <h:outputLabel value="nazwa ewidencyjna (ważna informacja na dole!)"/>
                 <h:outputText value="#{podatnikView.selectedDod.printnazwa}" />
                 <h:outputLabel value="umowa najem lokalu"/>
                 <h:selectBooleanCheckbox value="#{podatnikView.selectedDod.umowalokal}">
@@ -84,6 +84,10 @@
                                  rendered="#{podatnikView.selectedDodedycja ne null}"
                                  type="submit" style="margin-top: 10px; width: 120px;"/>
             </p:panelGrid>
+            <p:outputPanel>
+                <h:outputText value="W przypadku osób fizycznych wpisujemy NAZWISKO IMIĘ (CAPSLOCK) w przypadku firma NAZWĘ FIRMY z formą prawną w skrótcie."/>
+            </p:outputPanel>
+                
         </h:form>
     </f:view>
 

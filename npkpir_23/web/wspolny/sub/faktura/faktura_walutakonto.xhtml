@@ -33,7 +33,7 @@
                     <p:column>
                         <p:selectOneMenu value="#{fakturaWalutaKontoView.selected.waluta}" converter="#{walutyConv}"  required="true" requiredMessage="wybierz walutę">
                             <f:selectItem itemValue="" itemLabel="wybierz" noSelectionOption="true"/>
-                            <f:selectItems value="#{walutyViewFK.pobraneRodzajeWalut}" var="item" itemLabel="#{item.symbolwaluty}"/>
+                            <f:selectItems value="#{walutyViewSimple.pobraneRodzajeWalut}" var="item" itemLabel="#{item.symbolwaluty}"/>
                         </p:selectOneMenu>
                     </p:column>
                     <p:column>
