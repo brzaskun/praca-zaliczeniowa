@@ -116,8 +116,8 @@ public class DochodDlaDRAView implements Serializable {
     private FirmaFacade firmaFacade;
     @Inject
     private RokFacade rokFacade;
-    private List<Zusdra> zusdralista;
-    private List<Zusrca> zusrcalista;
+//    private List<Zusdra> zusdralista;
+//    private List<Zusrca> zusrcalista;
     private boolean pokazzrobione;
     private List<DraSumy> drasumy;
     private int razemubezpieczeni;
@@ -389,84 +389,141 @@ public class DochodDlaDRAView implements Serializable {
             }
         }
         String okres = mc+rok;
-        List<Zusdra> dralistatmp = zusdraDAO.findByOkres(okres);
-        zusdralista = przetworzZusdra(dralistatmp);
-        zusrcalista = zusrcaDAO.findByOkres(okres);
-        List<UbezpZusrca> zalezne = ubezpZusrcaDAO.findByOkres(okres);
+        List<DraSumy> dralistatmp = draSumyDAO.zwrocRokMc(rok,mc);
+        List<DraSumy> zusdralista = przetworzZusdra(dralistatmp);
         List<kadryiplace.Firma> firmy = firmaFacade.findAll();
         for (WierszDRA w : wiersze) {
-            
-            for (Zusdra z : zusdralista) {
-                if (w.getPodatnik().getNip().equals(z.getIi1Nip())) {
-                    w.setZusdra(z);
-                    break;
-                }
-            }
-            if (w.getZusdra()==null && w.getPodatnik().getPesel()!=null) {
-                for (Zusdra z : zusdralista) {
-                    if (w.getPodatnik().getPesel().equals(z.getIi3Pesel())) {
-                        w.setZusdra(z);
-                        break;
+            DraSumy znaleziona = zusdralista.stream().filter(p->p.getPodatnik()!=null&&p.getPodatnik().equals(w.getPodatnik())).findFirst().orElse(null);
+            if (znaleziona!=null) {
+                w.setDatadra(Data.stringToDate(znaleziona.getData()));
+                w.setPrzychoddra(znaleziona.getDraprzychody());
+                w.setPrzychoddraru(znaleziona.getDraprzychodyRR());
+                w.setZdrowotna(znaleziona.getZdrowotne());
+                if (w.getOpodatkowanie().equals("ryczałt")) {
+                    if (w.getWynikpodatkowynar()!=w.getPrzychoddra()) {
+                        w.setBlad(true);
                     }
-                }
-            }
-            if (w.getZusdra()==null && w.getPesel()!=null) {
-                for (Zusdra z : zusdralista) {
-                    if (w.getPesel().equals(z.getIi3Pesel())) {
-                        w.setZusdra(z);
-                        break;
-                    }
-                }
-            }
-            for (Zusrca z : zusrcalista) {
-                if (w.getPodatnik().getNip().equals(z.getIi1Nip())) {
-                    w.setZusrca(z);
-                    //List<UbezpZusrca> zalezne = ubezpZusrcaDAO.findByIdDokNad(z.getIdDokument());
-                    if (zalezne!=null && !zalezne.isEmpty()) {
-                        z.setRcalista(zalezne);
-                        for (UbezpZusrca u : zalezne) {
-                            if (u.getIiiA4Identyfik().equals(z.getIi3Pesel())) {
-                                w.setUbezpZusrca(u);
-                            }
+                    } else {
+                        if (w.getDochodzus()!=w.getPrzychoddra()) {
+                             w.setBlad(true);
                         }
                     }
-                    break;
-                }
             }
-            w.getPrzychodDochod();
-            w.setDatadra(w.getZusdra()!=null&&w.getZusdra().getXii8Datawypel()!=null?w.getZusdra().getXii8Datawypel():null);
-            if (w.getOpodatkowanie().equals("ryczałt")) {
-                if (w.getWynikpodatkowynar()!=w.getPrzychoddra()) {
-                    w.setBlad(true);
-                }
-                } else {
-                    if (w.getDochodzus()!=w.getPrzychoddra()) {
-                         w.setBlad(true);
-                    }
-                }
             dodajpit4(w, firmy);
             przygotujmail(w, maile,zwiekszmiesiac[0],zwiekszmiesiac[1]);
             }
         Collections.sort(wiersze, new WierszDRAcomparator());
         Msg.msg("Pobrano dane");
     }
+//    public void pobierz() {
+//        String[] zwiekszmiesiac = Mce.zwiekszmiesiac(rok, mc);
+//        List<Zusmail> maile = zusmailDAO.findZusRokMc(zwiekszmiesiac[0], zwiekszmiesiac[1]);
+//        wiersze = wierszDRADAO.findByRok(rok);
+//        Collections.sort(wiersze, new WierszDRAcomparator());
+//            Map<String, List<WierszDRA>> kotek = new TreeMap<>();
+//            for (WierszDRA p : wiersze) {
+//                if (kotek.containsKey(p.getImienazwisko())) {
+//                    kotek.get(p.getImienazwisko()).add(p);
+//                } else {
+//                    List<WierszDRA> nowalista = new ArrayList<>();
+//                    nowalista.add(p);
+//                    kotek.put(p.getImienazwisko(), nowalista);
+//                }
+//            }
+//            mapa = new ArrayList<>();
+//            for (List<WierszDRA> k : kotek.values()) {
+//                mapa.add(k);
+//            }
+//        wiersze = wierszDRADAO.findByRokMc(rok, mc);
+//        if (pokazzrobione==false) {
+//            for (Iterator<WierszDRA> it = wiersze.iterator();it.hasNext();) {
+//                WierszDRA w = it.next();
+//                if (w.isZrobiony()) {
+//                    it.remove();
+//                }
+//            }
+//        }
+//        String okres = mc+rok;
+//        List<Zusdra> dralistatmp = zusdraDAO.findByOkres(okres);
+//        zusdralista = przetworzZusdra(dralistatmp);
+//        zusrcalista = zusrcaDAO.findByOkres(okres);
+//        List<UbezpZusrca> zalezne = ubezpZusrcaDAO.findByOkres(okres);
+//        List<kadryiplace.Firma> firmy = firmaFacade.findAll();
+//        for (WierszDRA w : wiersze) {
+//            
+//            for (Zusdra z : zusdralista) {
+//                if (w.getPodatnik().getNip().equals(z.getIi1Nip())) {
+//                    w.setZusdra(z);
+//                    break;
+//                }
+//            }
+//            if (w.getZusdra()==null && w.getPodatnik().getPesel()!=null) {
+//                for (Zusdra z : zusdralista) {
+//                    if (w.getPodatnik().getPesel().equals(z.getIi3Pesel())) {
+//                        w.setZusdra(z);
+//                        break;
+//                    }
+//                }
+//            }
+//            if (w.getZusdra()==null && w.getPesel()!=null) {
+//                for (Zusdra z : zusdralista) {
+//                    if (w.getPesel().equals(z.getIi3Pesel())) {
+//                        w.setZusdra(z);
+//                        break;
+//                    }
+//                }
+//            }
+//            for (Zusrca z : zusrcalista) {
+//                if (w.getPodatnik().getNip().equals(z.getIi1Nip())) {
+//                    w.setZusrca(z);
+//                    //List<UbezpZusrca> zalezne = ubezpZusrcaDAO.findByIdDokNad(z.getIdDokument());
+//                    if (zalezne!=null && !zalezne.isEmpty()) {
+//                        z.setRcalista(zalezne);
+//                        for (UbezpZusrca u : zalezne) {
+//                            if (u.getIiiA4Identyfik().equals(z.getIi3Pesel())) {
+//                                w.setUbezpZusrca(u);
+//                            }
+//                        }
+//                    }
+//                    break;
+//                }
+//            }
+//            w.getPrzychodDochod();
+//            w.setDatadra(w.getZusdra()!=null&&w.getZusdra().getXii8Datawypel()!=null?w.getZusdra().getXii8Datawypel():null);
+//            if (w.getOpodatkowanie().equals("ryczałt")) {
+//                if (w.getWynikpodatkowynar()!=w.getPrzychoddra()) {
+//                    w.setBlad(true);
+//                }
+//                } else {
+//                    if (w.getDochodzus()!=w.getPrzychoddra()) {
+//                         w.setBlad(true);
+//                    }
+//                }
+//            dodajpit4(w, firmy);
+//            przygotujmail(w, maile,zwiekszmiesiac[0],zwiekszmiesiac[1]);
+//            }
+//        Collections.sort(wiersze, new WierszDRAcomparator());
+//        Msg.msg("Pobrano dane");
+//    }
 
-    private List<Zusdra> przetworzZusdra(List<Zusdra> zusdra) {
-       Map<String,Zusdra> nowe = new HashMap<>();
+    private List<DraSumy> przetworzZusdra(List<DraSumy> zusdra) {
+       Map<String,DraSumy> nowe = new HashMap<>();
         if (zusdra!=null) {
-            for (Zusdra p : zusdra) {
-                if (!nowe.containsKey(p.getIi1Nip())) {
-                    nowe.put(p.getIi1Nip(), p);
-                } else {
-                    Zusdra stara = nowe.get(p.getIi1Nip());
-                    if (Integer.valueOf(stara.getI21iddekls())<Integer.valueOf(p.getI21iddekls())) {
-                        nowe.remove(p.getIi1Nip());
-                        nowe.put(p.getIi1Nip(), p);
+            for (DraSumy p : zusdra) {
+                if (p.getPodatnik()!=null) {
+                    if (!nowe.containsKey(p.getPodatnik().getNip())) {
+                        nowe.put(p.getPodatnik().getNip(), p);
+                    } else {
+                        DraSumy stara = nowe.get(p.getPodatnik().getNip());
+                        if (Integer.valueOf(stara.getNr())<Integer.valueOf(p.getNr())) {
+                            nowe.remove(p.getPodatnik().getNip());
+                            nowe.put(p.getPodatnik().getNip(), p);
+                        }
                     }
                 }
             }
         }
-        return new ArrayList<Zusdra>(nowe.values());
+        return new ArrayList<DraSumy>(nowe.values());
     }
     
     

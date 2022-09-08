@@ -89,6 +89,8 @@ public class WierszDRA  implements Serializable{
     private double skladki;
     @Column (name = "skladkinar")
     private double skladkinar;
+    @Column (name = "zdrowotna")
+    private double zdrowotna;
 //<editor-fold defaultstate="collapsed" desc="comment">
 //    @Column (name = "dochodzusnetto")
 //    private double dochodzusnetto;
@@ -140,64 +142,64 @@ public class WierszDRA  implements Serializable{
         this.mcnazwa = get;
     }
     
-    public double getPrzychodDochod() {
-        double zwrot = 0.0;
-        if (this.zusdra!=null) {
-            if (this.zusrca!=null && this.ubezpZusrca!=null) {
-                if (this.opodatkowanie.equals("ryczałt")) {
-                    zwrot = this.ubezpZusrca.getIiiSumaprzychodowbrk()!=null?this.ubezpZusrca.getIiiSumaprzychodowbrk().doubleValue():0.0;
-                    this.przychoddraru = this.ubezpZusrca.getIiiKwotaprzychodowurk()!=null?this.ubezpZusrca.getIiiKwotaprzychodowurk().doubleValue():0.0;
-                } else {
-                    if (this.ubezpZusrca.getIiiKwotadochodumpLiniowy()!=null) {
-                        zwrot = this.ubezpZusrca.getIiiKwotadochodumpLiniowy().doubleValue();
-                    } else if (this.ubezpZusrca.getIiiKwotadochodumpSkala()!=null) {
-                        zwrot = this.ubezpZusrca.getIiiKwotadochodumpSkala().doubleValue();
-                    }
-                }
-            } else {
-                if (this.opodatkowanie.equals("ryczałt")) {
-                    zwrot = this.zusdra.getXiSumaprzychodowbrk()!=null?this.zusdra.getXiSumaprzychodowbrk().doubleValue():0.0;
-                    this.przychoddraru = this.zusdra.getXiKwotaprzychodowurk()!=null?this.zusdra.getXiKwotaprzychodowurk().doubleValue():0.0;
-                } else {
-                    if (this.zusdra.getXiKwotadochodumpLiniowy()!=null) {
-                        zwrot = this.zusdra.getXiKwotadochodumpLiniowy().doubleValue();
-                    } else if (this.zusdra.getXiKwotadochodumpSkala()!=null) {
-                        zwrot = this.zusdra.getXiKwotadochodumpSkala().doubleValue();
-                    }
-                }
-            }
-        }
-        this.przychoddra = zwrot;
-        return zwrot;
-    }
-    
-    public double getZdrowotna() {
-        double zwrot = 0.0;
-        if (this.zusdra!=null) {
-            if (this.zusrca!=null && this.ubezpZusrca!=null) {
-                if (this.opodatkowanie.equals("ryczałt")) {
-                    zwrot = this.ubezpZusrca.getIiiKwotaskladkiRyczalt()!=null?this.ubezpZusrca.getIiiKwotaskladkiRyczalt().doubleValue():0.0;
-                } else {
-                    if (this.ubezpZusrca.getIiiKwotaskladkiLiniowy()!=null) {
-                        zwrot = this.ubezpZusrca.getIiiKwotaskladkiLiniowy().doubleValue();
-                    } else if (this.ubezpZusrca.getIiiKwotaskladkiSkala()!=null) {
-                        zwrot = this.ubezpZusrca.getIiiKwotaskladkiSkala().doubleValue();
-                    }
-                }
-            } else {
-                if (this.opodatkowanie.equals("ryczałt")) {
-                    zwrot = this.zusdra.getXiKwotaskladkiRyczalt()!=null?this.zusdra.getXiKwotaskladkiRyczalt().doubleValue():0.0;
-                } else {
-                    if (this.zusdra.getXiKwotaskladkiLiniowy()!=null) {
-                        zwrot = this.zusdra.getXiKwotaskladkiLiniowy().doubleValue();
-                    } else if (this.zusdra.getXiKwotaskladkiSkala()!=null) {
-                        zwrot = this.zusdra.getXiKwotaskladkiSkala().doubleValue();
-                    }
-                }
-            }
-        }
-        return zwrot;
-    }
+//    public double getPrzychodDochod() {
+//        double zwrot = 0.0;
+//        if (this.zusdra!=null) {
+//            if (this.zusrca!=null && this.ubezpZusrca!=null) {
+//                if (this.opodatkowanie.equals("ryczałt")) {
+//                    zwrot = this.ubezpZusrca.getIiiSumaprzychodowbrk()!=null?this.ubezpZusrca.getIiiSumaprzychodowbrk().doubleValue():0.0;
+//                    this.przychoddraru = this.ubezpZusrca.getIiiKwotaprzychodowurk()!=null?this.ubezpZusrca.getIiiKwotaprzychodowurk().doubleValue():0.0;
+//                } else {
+//                    if (this.ubezpZusrca.getIiiKwotadochodumpLiniowy()!=null) {
+//                        zwrot = this.ubezpZusrca.getIiiKwotadochodumpLiniowy().doubleValue();
+//                    } else if (this.ubezpZusrca.getIiiKwotadochodumpSkala()!=null) {
+//                        zwrot = this.ubezpZusrca.getIiiKwotadochodumpSkala().doubleValue();
+//                    }
+//                }
+//            } else {
+//                if (this.opodatkowanie.equals("ryczałt")) {
+//                    zwrot = this.zusdra.getXiSumaprzychodowbrk()!=null?this.zusdra.getXiSumaprzychodowbrk().doubleValue():0.0;
+//                    this.przychoddraru = this.zusdra.getXiKwotaprzychodowurk()!=null?this.zusdra.getXiKwotaprzychodowurk().doubleValue():0.0;
+//                } else {
+//                    if (this.zusdra.getXiKwotadochodumpLiniowy()!=null) {
+//                        zwrot = this.zusdra.getXiKwotadochodumpLiniowy().doubleValue();
+//                    } else if (this.zusdra.getXiKwotadochodumpSkala()!=null) {
+//                        zwrot = this.zusdra.getXiKwotadochodumpSkala().doubleValue();
+//                    }
+//                }
+//            }
+//        }
+//        this.przychoddra = zwrot;
+//        return zwrot;
+//    }
+//    
+//    public double getZdrowotna() {
+//        double zwrot = 0.0;
+//        if (this.zusdra!=null) {
+//            if (this.zusrca!=null && this.ubezpZusrca!=null) {
+//                if (this.opodatkowanie.equals("ryczałt")) {
+//                    zwrot = this.ubezpZusrca.getIiiKwotaskladkiRyczalt()!=null?this.ubezpZusrca.getIiiKwotaskladkiRyczalt().doubleValue():0.0;
+//                } else {
+//                    if (this.ubezpZusrca.getIiiKwotaskladkiLiniowy()!=null) {
+//                        zwrot = this.ubezpZusrca.getIiiKwotaskladkiLiniowy().doubleValue();
+//                    } else if (this.ubezpZusrca.getIiiKwotaskladkiSkala()!=null) {
+//                        zwrot = this.ubezpZusrca.getIiiKwotaskladkiSkala().doubleValue();
+//                    }
+//                }
+//            } else {
+//                if (this.opodatkowanie.equals("ryczałt")) {
+//                    zwrot = this.zusdra.getXiKwotaskladkiRyczalt()!=null?this.zusdra.getXiKwotaskladkiRyczalt().doubleValue():0.0;
+//                } else {
+//                    if (this.zusdra.getXiKwotaskladkiLiniowy()!=null) {
+//                        zwrot = this.zusdra.getXiKwotaskladkiLiniowy().doubleValue();
+//                    } else if (this.zusdra.getXiKwotaskladkiSkala()!=null) {
+//                        zwrot = this.zusdra.getXiKwotaskladkiSkala().doubleValue();
+//                    }
+//                }
+//            }
+//        }
+//        return zwrot;
+//    }
 
     public Integer getId() {
         return id;
@@ -489,6 +491,14 @@ public class WierszDRA  implements Serializable{
 
     public void setPodatnikudzial(PodatnikUdzialy podatnikudzial) {
         this.podatnikudzial = podatnikudzial;
+    }
+
+    public double getZdrowotna() {
+        return zdrowotna;
+    }
+
+    public void setZdrowotna(double zdrowotna) {
+        this.zdrowotna = zdrowotna;
     }
     
     

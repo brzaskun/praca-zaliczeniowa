@@ -32,11 +32,6 @@
                                 </p:selectBooleanCheckbox>
                                 <p:commandButton id="przeliczbutton" value="przelicz" actionListener="#{dochodDlaDRAView.przelicz()}"  style="width: 120px;margin-left: 20px;display: none;" update="akordeon:formtabela akordeon:formtabela1"/>
                             </p:panelGrid>
-                            <style>
-                                .odd{
-                                    background-color: #e4e3e3 !important;
-                                }
-                            </style>
                             <p:dataTable value="#{dochodDlaDRAView.wiersze}" var="item" style="width: 2100px;padding: 20px;" 
                                          scrollable="true" scrollHeight="750" scrollRows="30" filteredValue="#{dochodDlaDRAView.wierszeFiltered}"
                                          emptyMessage="nie pobrano danych" id="wykazschem" rowKey="#{item.podatnik.nip}" rowIndexVar="yndex" reflow="true"
@@ -155,7 +150,7 @@
                                     <f:facet name="header">
                                         <h:outputText value="DRA"/>
                                     </f:facet>
-                                    <h:outputText value="#{item.zusdra.xii8Datawypel}">
+                                    <h:outputText value="#{item.datadra}">
                                         <f:convertDateTime dateStyle="medium" locale="pl"/>
                                     </h:outputText>
                                 </p:column>
@@ -181,7 +176,7 @@
                                     <f:facet name="header">
                                         <h:outputText value="DRA zdrow."/>
                                     </f:facet>
-                                    <bcf:outputpl value="#{item.getZdrowotna()}"/>
+                                    <bcf:outputpl value="#{item.zdrowotna}"/>
                                 </p:column>
                                 <p:column style="text-align: center;width: 40px;">
                                     <f:facet name="header">
@@ -328,12 +323,13 @@
                             <p:panelGrid columns="3">
                                 <p:commandButton id="przeliczbutton1a" value="pobierz" actionListener="#{dochodDlaDRAView.pobierzrok()}"  style="width: 120px;margin-left: 20px;" update="akordeon:formrok"/>
                             </p:panelGrid>
-                            <p:accordionPanel id="akordeon1" value="#{dochodDlaDRAView.mapa}" var="podatnik" >
+                            <p:accordionPanel id="akordeon1" value="#{dochodDlaDRAView.mapa}" var="podatnik" style="max-height: 700px;overflow-y: scroll">
                                 <p:tab title="#{podatnik[0].imienazwisko} #{podatnik[0].podatnik.nip}">
                                     <p:dataTable value="#{podatnik}" var="item2" style="width: 1600px;padding: 20px;" reflow="true"
+                                                 scrollable="true" scrollHeight="450" scrollRows="20" sortBy="#{item2.mc}"
                                                  emptyMessage="nie pobrano danych" id="wykazschem2" rowKey="#{item2.mc}" rowIndexVar="yndex1"
                                                  >
-                                        <p:column width="30" exportable="false">
+                                        <p:column width="30" exportable="false" sortBy="#{item2.mc}">
                                             <f:facet name="header">
                                                 <h:outputText value="mc"/>
                                             </f:facet>
@@ -386,18 +382,6 @@
                                         </p:column>
                                         <p:column>
                                             <f:facet name="header">
-                                                <h:outputText value="przychod mc"/>
-                                            </f:facet>
-                                            <bcf:outputpl value="#{item2.przychod}" rendered="#{!item2.brakdokumentow and item2.przychod gt 0.0}"/>
-                                        </p:column>
-                                        <p:column>
-                                            <f:facet name="header">
-                                                <h:outputText value="przychod nar."/>
-                                            </f:facet>
-                                            <bcf:outputpl value="#{item2.przychodnar}" rendered="#{!item2.brakdokumentow and item2.przychodnar gt 0.0}"/>
-                                        </p:column>
-                                        <p:column>
-                                            <f:facet name="header">
                                                 <h:outputText value="dochód zus mc"/>
                                             </f:facet>
                                             <bcf:outputpl value="#{item2.dochodzus}" rendered="#{!item2.brakdokumentow and item2.dochodzus gt 0.01}" stylePlus="#{item2.opodatkowanie.equals('ryczałt')?'color:gray':''}"/>
@@ -410,7 +394,7 @@
                                             <bcf:outputpl value="#{item2.dochodzusnar}" rendered="#{!item2.brakdokumentow and item2.dochodzusnar gt 0.01}" stylePlus="#{!item2.opodatkowanie.equals('ryczałt')?'color:gray':''}"/>
                                             <bcf:outputpl value="#{item2.dochodzusnar}" rendered="#{!item2.brakdokumentow and item2.dochodzusnar lt 0.01}" stylePlus="color:red;"/>
                                         </p:column>
-                                        <p:column>
+<!--                                        <p:column>
                                             <f:facet name="header">
                                                 <h:outputText value="dochód zus netto mc"/>
                                             </f:facet>
@@ -423,7 +407,7 @@
                                             </f:facet>
                                             <bcf:outputpl value="#{item2.dochodzusnettonar}" rendered="#{!item2.brakdokumentow and item2.dochodzusnettonar gt 0.01}" stylePlus="#{!item2.opodatkowanie.equals('ryczałt')?'color:gray':''}"/>
                                             <bcf:outputpl value="#{item2.dochodzusnettonar}" rendered="#{!item2.brakdokumentow and item2.dochodzusnettonar lt 0.01}" stylePlus="color:red;"/>
-                                        </p:column>
+                                        </p:column>-->
 
                                         <p:column width="40" style="text-align: center;">
                                             <f:facet name="header">
