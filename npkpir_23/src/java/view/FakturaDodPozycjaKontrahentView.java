@@ -307,7 +307,7 @@ public class FakturaDodPozycjaKontrahentView  implements Serializable {
                         if (p.getFakturaDodatkowaPozycja().isPraca1zlecenie0()) {
                             p.setIloscdra(d.getPracownicy());
                         } else {
-                            p.setIloscdra(d.getZleceniobiorcy()+d.getInnetytuly()+d.getStudenci());
+                            p.setIloscdra(d.getZleceniobiorcy()+d.getZleceniobiorcyzerowi()+d.getInnetytuly()+d.getStudenci());
                         }
                         break;
                     }
