@@ -32,7 +32,7 @@
                                 </p:selectBooleanCheckbox>
                                 <p:commandButton id="przeliczbutton" value="przelicz" actionListener="#{dochodDlaDRAView.przelicz()}"  style="width: 120px;margin-left: 20px;display: none;" update="akordeon:formtabela akordeon:formtabela1"/>
                             </p:panelGrid>
-                            <p:dataTable value="#{dochodDlaDRAView.wiersze}" var="item" style="width: 2100px;padding: 20px;" 
+                            <p:dataTable value="#{dochodDlaDRAView.wiersze}" var="item" style="width: 1800px;padding: 20px;" 
                                          scrollable="true" scrollHeight="750" scrollRows="30" filteredValue="#{dochodDlaDRAView.wierszeFiltered}"
                                          emptyMessage="nie pobrano danych" id="wykazschem" rowKey="#{item.podatnik.nip}" rowIndexVar="yndex" reflow="true"
                                          selection="#{dochodDlaDRAView.selected}" selectionMode="single" sortBy="#{item.imienazwisko}" sortOrder="ascending">
@@ -104,7 +104,7 @@
                                     <bcf:outputpl value="#{item.wynikpodatkowymcInne}" rendered="#{!item.brakdokumentow and item.wynikpodatkowymcInne gt 0.0}"/>
                                     <bcf:outputpl value="#{item.wynikpodatkowymcInne}" rendered="#{!item.brakdokumentow and item.wynikpodatkowymcInne lt 0.0}" stylePlus="color:red;"/>
                                 </p:column>
-                                <p:column>
+<!--                                <p:column>
                                     <f:facet name="header">
                                         <h:outputText value="wynik pod. nar. inne"/>
                                     </f:facet>
@@ -116,7 +116,7 @@
                                         <h:outputText value="przychod nar. ZUS" style="color: red;"/>
                                     </f:facet>
                                     <bcf:outputpl value="#{item.dochodzusnar}" rendered="#{!item.brakdokumentow and item.dochodzusnar gt 0.0 and item.opodatkowanie eq 'ryczałt'}" stylePlus="color:green;"/>
-                                </p:column>
+                                </p:column>-->
                                 <p:column style="width: 90px;">
                                     <f:facet name="header">
                                         <h:outputText value="dochód zus mc"  style="color: red;"/>
@@ -326,7 +326,7 @@
                             <p:accordionPanel id="akordeon1" value="#{dochodDlaDRAView.mapa}" var="podatnik" style="max-height: 700px;overflow-y: scroll">
                                 <p:tab title="#{podatnik[0].imienazwisko} #{podatnik[0].podatnik.nip}">
                                     <p:dataTable value="#{podatnik}" var="item2" style="width: 1600px;padding: 20px;" reflow="true"
-                                                 scrollable="true" scrollHeight="450" scrollRows="20" sortBy="#{item2.mc}"
+                                                 sortBy="#{item2.mc}"
                                                  emptyMessage="nie pobrano danych" id="wykazschem2" rowKey="#{item2.mc}" rowIndexVar="yndex1"
                                                  >
                                         <p:column width="30" exportable="false" sortBy="#{item2.mc}">

@@ -161,7 +161,7 @@ public class DochodDlaDRAView implements Serializable {
             this.wiersze = new ArrayList<>();
             int i = 1;
             for (Podatnik podatnik : podatnicy) {
-                //if (podatnik.getNip().equals("8531513989")) {
+                if (podatnik.getNip().equals("9552563450")) {
                 //if (podatnik.getNip().equals("8511005008")||podatnik.getNip().equals("8511054159")||podatnik.getNip().equals("8792611113")||podatnik.getNip().equals("9551392851")||podatnik.getNip().equals("9281839264")) {
                     PodatnikOpodatkowanieD opodatkowanie = zwrocFormaOpodatkowania(podatnik, rok, mc);
                     if (opodatkowanie != null) {
@@ -171,7 +171,7 @@ public class DochodDlaDRAView implements Serializable {
                             for (PodatnikUdzialy u : udzialy) {
                                 String rozpoczecie = u.getDatarozpoczecia();
                                 String zakonczenie = u.getDatazakonczenia();
-                                if (zakonczenie==null ||zakonczenie=="") {
+                                if (zakonczenie==null ||zakonczenie.equals("")) {
                                     zakonczenie = "2050-12-31";
                                 }
                                 if (Data.czyjestpomiedzy(rozpoczecie, zakonczenie, rok, mc)) {
@@ -283,7 +283,7 @@ public class DochodDlaDRAView implements Serializable {
                         this.wiersze.add(wiersz);
                     }
                     i++;
-                //}
+                }
             }
             if (this.wiersze!=null&&this.wiersze.size()>0) {
                 List<WierszDRA> wierszeglowne = wiersze.stream().filter(p->p.getPodatnikudzial()!=null&&p.getPodatnikudzial().isPit()).collect(Collectors.toList());
@@ -985,7 +985,7 @@ public class DochodDlaDRAView implements Serializable {
                 } catch (Exception e) {
                     E.e(e);
                 }
-                przychod = wierszRyczalt.getRazem();
+                przychod = przychod + wierszRyczalt.getRazem();
             }
              wiersz.setBrakdokumentow(false);
         } else {
