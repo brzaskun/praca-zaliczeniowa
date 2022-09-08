@@ -230,9 +230,9 @@ public class DraPlatnikTimer {
                     if (p.getLplKodTytU12().equals("0411") && p.getLplZalDoch().doubleValue() == 0.0) {
                         studenci = studenci + 1;
                     }
-                    w.setStudenci(studenci);
-                    w.setUbezpieczeni(w.getUbezpieczeni()+w.getStudenci());
                 }
+                w.setStudenci(studenci);
+                w.setUbezpieczeni(w.getUbezpieczeni()+w.getStudenci());
                 w.setPit4(podatekpraca);
             }
         }
