@@ -125,37 +125,39 @@ public class UPO  implements Serializable {
             jpk = this.jpkblob.getJpk();
         }
         if (jpk != null) {
-            if (jpk instanceof jpk201701.JPK) {
-                String cel = Byte.toString(((jpk201701.JPK)jpk).getNaglowek().getCelZlozenia());
-                if (cel.equals("2")) {
-                    zwrot = "kor.";
+            try {
+                if (jpk instanceof jpk201701.JPK) {
+                    String cel = Byte.toString(((jpk201701.JPK)jpk).getNaglowek().getCelZlozenia());
+                    if (cel.equals("2")) {
+                        zwrot = "kor.";
+                    }
+                } else if (jpk instanceof jpk201801.JPK) {
+                    int cel = ((jpk201801.JPK)jpk).getNaglowek().getCelZlozenia();
+                    if (cel > 0) {
+                        zwrot = "kor.";
+                    }
+                } else if (jpk instanceof pl.gov.crd.wzor._2020._05._08._9393.JPK) {
+                    String cel = Byte.toString(((pl.gov.crd.wzor._2020._05._08._9393.JPK)jpk).getNaglowek().getCelZlozenia().getValue());
+                    if (cel.equals("2")) {
+                        zwrot = "kor.";
+                    }
+                } else if (jpk instanceof pl.gov.crd.wzor._2020._05._08._9394.JPK) {
+                    String cel = Byte.toString(((pl.gov.crd.wzor._2020._05._08._9394.JPK)jpk).getNaglowek().getCelZlozenia().getValue());
+                    if (cel.equals("2")) {
+                        zwrot = "kor.";
+                    }
+                } else if (jpk instanceof pl.gov.crd.wzor._2021._12._27._11148.JPK) {
+                    String cel = Byte.toString(((pl.gov.crd.wzor._2021._12._27._11148.JPK)jpk).getNaglowek().getCelZlozenia().getValue());
+                    if (cel.equals("2")) {
+                        zwrot = "kor.";
+                    }
+                } else if (jpk instanceof pl.gov.crd.wzor._2021._12._27._11149.JPK) {
+                    String cel = Byte.toString(((pl.gov.crd.wzor._2021._12._27._11149.JPK)jpk).getNaglowek().getCelZlozenia().getValue());
+                    if (cel.equals("2")) {
+                        zwrot = "kor.";
+                    }
                 }
-            } else if (jpk instanceof jpk201801.JPK) {
-                int cel = ((jpk201801.JPK)jpk).getNaglowek().getCelZlozenia();
-                if (cel > 0) {
-                    zwrot = "kor.";
-                }
-            } else if (jpk instanceof pl.gov.crd.wzor._2020._05._08._9393.JPK) {
-                String cel = Byte.toString(((pl.gov.crd.wzor._2020._05._08._9393.JPK)jpk).getNaglowek().getCelZlozenia().getValue());
-                if (cel.equals("2")) {
-                    zwrot = "kor.";
-                }
-            } else if (jpk instanceof pl.gov.crd.wzor._2020._05._08._9394.JPK) {
-                String cel = Byte.toString(((pl.gov.crd.wzor._2020._05._08._9394.JPK)jpk).getNaglowek().getCelZlozenia().getValue());
-                if (cel.equals("2")) {
-                    zwrot = "kor.";
-                }
-            } else if (jpk instanceof pl.gov.crd.wzor._2021._12._27._11148.JPK) {
-                String cel = Byte.toString(((pl.gov.crd.wzor._2021._12._27._11148.JPK)jpk).getNaglowek().getCelZlozenia().getValue());
-                if (cel.equals("2")) {
-                    zwrot = "kor.";
-                }
-            } else if (jpk instanceof pl.gov.crd.wzor._2021._12._27._11149.JPK) {
-                String cel = Byte.toString(((pl.gov.crd.wzor._2021._12._27._11149.JPK)jpk).getNaglowek().getCelZlozenia().getValue());
-                if (cel.equals("2")) {
-                    zwrot = "kor.";
-                }
-            }
+            } catch (Exception e){}
         }
         return zwrot;
     }
