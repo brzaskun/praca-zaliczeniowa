@@ -97,13 +97,13 @@
                                     <bcf:outputpl value="#{item.wynikpodatkowynar}" rendered="#{!item.brakdokumentow and item.wynikpodatkowynar gt 0.0}"/>
                                     <bcf:outputpl value="#{item.wynikpodatkowynar}" rendered="#{!item.brakdokumentow and item.wynikpodatkowynar lt 0.0}" stylePlus="color:red;"/>
                                 </p:column>
-                                 <p:column>
+<!--                                 <p:column>
                                     <f:facet name="header">
                                         <h:outputText value="wynik pod. mc inne"/>
                                     </f:facet>
                                     <bcf:outputpl value="#{item.wynikpodatkowymcInne}" rendered="#{!item.brakdokumentow and item.wynikpodatkowymcInne gt 0.0}"/>
                                     <bcf:outputpl value="#{item.wynikpodatkowymcInne}" rendered="#{!item.brakdokumentow and item.wynikpodatkowymcInne lt 0.0}" stylePlus="color:red;"/>
-                                </p:column>
+                                </p:column>-->
 <!--                                <p:column>
                                     <f:facet name="header">
                                         <h:outputText value="wynik pod. nar. inne"/>
@@ -111,12 +111,12 @@
                                     <bcf:outputpl value="#{item.wynikpodatkowynarInne}" rendered="#{!item.brakdokumentow and item.wynikpodatkowynarInne gt 0.0}"/>
                                     <bcf:outputpl value="#{item.wynikpodatkowynarInne}" rendered="#{!item.brakdokumentow and item.wynikpodatkowynarInne lt 0.0}" stylePlus="color:red;"/>
                                 </p:column>
-                                <p:column style="width: 90px;">
+-->                                <p:column style="width: 90px;">
                                     <f:facet name="header">
                                         <h:outputText value="przychod nar. ZUS" style="color: red;"/>
                                     </f:facet>
                                     <bcf:outputpl value="#{item.dochodzusnar}" rendered="#{!item.brakdokumentow and item.dochodzusnar gt 0.0 and item.opodatkowanie eq 'ryczałt'}" stylePlus="color:green;"/>
-                                </p:column>-->
+                                </p:column>
                                 <p:column style="width: 90px;">
                                     <f:facet name="header">
                                         <h:outputText value="dochód zus mc"  style="color: red;"/>
