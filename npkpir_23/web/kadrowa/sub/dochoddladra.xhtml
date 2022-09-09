@@ -450,7 +450,7 @@
                             </p:panelGrid>
                             <p:dataTable value="#{dochodDlaDRAView.drasumy}" var="itemdra" style="width: 1950px;padding: 20px;"  reflow="true"
                                          scrollable="true" scrollHeight="750" scrollRows="30" selectionMode="single"
-                                         emptyMessage="nie pobrano danych" id="wykazschem" rowKey="#{itemdra.id}" rowIndexVar="yndex1"
+                                         emptyMessage="nie pobrano danych" id="wykazschem" rowKey="#{itemdra.nazwa}" rowIndexVar="yndex1"
                                          sortBy="#{itemdra.nazwa}" sortOrder="ascending">
                                 <p:column style="width: 20px;">
                                     <f:facet name="header">
