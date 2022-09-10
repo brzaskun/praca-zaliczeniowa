@@ -23,21 +23,22 @@
     </h:head>
 
     <h:body>
-        <bcf:ajaxs/>  
+          
         <h:form>
             <p:growl life="7200" ><p:autoUpdate/></p:growl>
         </h:form>
+        <bcf:ajaxs/>
         <div class="grid">
             <p:confirmPopup global="true">
                 <p:commandButton value="Nie" type="button" styleClass="ui-confirm-popup-no ui-button-flat"/>
                 <p:commandButton value="Tak" type="button" styleClass="ui-confirm-popup-yes" />
             </p:confirmPopup>
             <div id="top" class="col-12 card-container blue-container flex justify-content-start">
-                <p:outputPanel class="flex-auto bg-taxman font-bold text-primary p-4 border-round mb-3" style="box-shadow: 10px 10px 5px #888;">
+                <p:outputPanel class="flex-auto bg-taxman font-bold text-primary border-round mb-3" style="box-shadow: 10px 10px 5px #888;">
                     <ui:insert name="top">Top</ui:insert>
                 </p:outputPanel>
             </div>
-            <div class="col-12 flex" style="margin-top: -10px;top:90px;bottom:70px;position: absolute;height: 88%;overflow-y: hidden;">
+            <div class="col-12 flex" style="margin-top: -10px;top:90px;position: absolute;height: 88%;overflow-y: hidden;">
                 <p:outputPanel class="col-1 block bg-white font-bold p-0 border-round mb-3" style="box-shadow: 10px 10px 5px #888;min-width: 180px;">
                     <p:idleMonitor timeout="2400000">  
                         <p:ajax event="idle" listener="#{logowanie.logout()}"/>  
@@ -46,12 +47,12 @@
 
                     <ui:insert name="left" >Left</ui:insert>
                 </p:outputPanel>
-                <p:outputPanel class="col-11 flex-auto bg-white font-bold p-0 border-round mb-3"  style="margin-left: 10px;box-shadow: 10px 10px 5px #888;">
+                <p:outputPanel class="col-11 flex-auto bg-white font-bold p-1 border-round mb-3"  style="margin-left: 10px;box-shadow: 10px 10px 5px #888;">
                     <ui:insert name="content">Content</ui:insert>
                 </p:outputPanel>
             </div>
-            <div id="bottom"  class="col-12 card-container blue-container flex justify-content-start">
-                <p:outputPanel class="flex-auto bg-bluegray-100 font-bold text-center p-4 border-round mb-3"  style="box-shadow: 10px 10px 5px #888;bottom: 0;position: absolute;width:97%;">
+            <div id="bottom"  class="col-12  card  blue-container flex align-items-center">
+                <p:outputPanel class="col-12 bg-bluegray-100 text-1xl flex-auto text-center align-items-center font-bold p-1 border-round mb-3 h-3rem"  style="box-shadow: 10px 10px 5px #888;bottom: 0;position: absolute;width: 99%;">
                      <ui:include src="south.xhtml"/>
                 </p:outputPanel>
             </div>
