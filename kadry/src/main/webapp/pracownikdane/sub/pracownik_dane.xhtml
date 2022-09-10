@@ -8,7 +8,7 @@
     <p:panelGrid columns="2" columnClasses="thirty-percent, seventy-percent" style="width: 1500px;">
             <p:outputPanel style="height: 200px">
                 <h:form id="AngazCreateForm">
-                    <p:selectOneListbox id="pracownik" value="#{pracownikDane2View.selectedangaz}" required="true" requiredMessage="pracownik"  converter="#{angazConverter}" style="width: 200px;height: 300px;" filter="true" filterMatchMode="contains">
+                    <p:selectOneListbox id="pracownik" value="#{pracownikDane2View.selectedangaz}" required="true" requiredMessage="pracownik"  converter="#{angazConverter}" style="width: 200px;height: 300px;" filter="true" filterMatchMode="contains" scrollHeight="300">
                         <f:selectItems value="#{pracownikDane2View.listapracownikow}"
                                        var="pracownikItem"
                                        itemValue="#{pracownikItem}" itemLabel="#{pracownikItem.pracownik.nazwiskoImie}"/>
