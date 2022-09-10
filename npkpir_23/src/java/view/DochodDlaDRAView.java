@@ -876,11 +876,7 @@ public class DochodDlaDRAView implements Serializable {
                         if (dokument.getUsunpozornie() == false) {
                             List<KwotaKolumna1> szczegol = dokument.getListakwot1();
                             for (KwotaKolumna1 tmp : szczegol) {
-                                String selekcja = dokument.getPkpirM();
                                 String selekcja2 = tmp.getNazwakolumny();
-                                if (selekcja2 == null) {
-                                    error.E.s("");
-                                }
                                 Double kwota = tmp.getNetto();
                                 Double temp = 0.0;
                                 switch (selekcja2) {
