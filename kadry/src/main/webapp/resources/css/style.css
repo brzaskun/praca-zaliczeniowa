@@ -5,6 +5,10 @@
     Description:
         Purpose of the stylesheet follows.
 */
+html.progress, html.progress * {
+    cursor: progress !important;
+}
+
 .ui-menu .ui-menu-parent .ui-menu-child {
     white-space: nowrap;
     width: auto !important;

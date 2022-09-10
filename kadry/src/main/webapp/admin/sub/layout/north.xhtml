@@ -6,13 +6,12 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:bcf="http://brzaskun.com/facelets"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:pe="http://primefaces.org/ui/extensions">
-    <pe:layoutPane position="north" resizable="true" closable="true" size="63">
+    >
         <h:form id="north">
             <p:panelGrid columns="2" style="width: 100%;overflow-y: hidden;">
-                <p:panelGrid columns="4" style="width: 900px" columnClasses="fifty-percent, twofive-percent, twofive-percent" styleClass="tabelanorth">
+                <p:panelGrid columns="4" style="width: 900px" columnClasses="fifty-percent, twofive-percent, twofive-percent" >
                     <p:column>
-                        <h:outputText value="#{wpisView.firma.nazwa}" style="font-weight: 900; font-size: medium; background-color: #BECEFE;"/>
+                        <h:outputText value="#{wpisView.firma.nazwa}" style="font-weight: 900; font-size: medium;"/>
                     </p:column>
                     <p:column>
                         <h:outputText value="#{wpisView.pracownik.nazwisko}" style="font-weight: 900; font-size: medium;" rendered="#{wpisView.pracownik ne null}"/>
@@ -38,6 +37,5 @@
                 </p:panelGrid>
             </p:panelGrid>
         </h:form>
-    </pe:layoutPane>
 </ui:composition>   
 

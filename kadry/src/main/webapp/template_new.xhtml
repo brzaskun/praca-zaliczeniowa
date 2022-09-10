@@ -18,6 +18,7 @@
         <h:outputScript library="js" name="globales.js"/>
         <h:outputStylesheet name="cssnew/primeflex.css"/>
         <h:outputStylesheet name="cssnew/saga-blue.css"/>
+        <h:outputStylesheet name="cssnew/style.css"/>
         <h:outputStylesheet id="template" name="#{CSSView.css}"/>
         <h:outputScript library="jsnew" name="globales.js"/>
     </h:head>
@@ -52,11 +53,10 @@
             </div>
             <div id="bottom"  class="col-12 card-container blue-container flex justify-content-start">
                 <p:outputPanel class="flex-auto bg-bluegray-100 font-bold text-center p-4 border-round mb-3"  style="box-shadow: 10px 10px 5px #888;bottom: 0;position: absolute;width:97%;">
-                     <ui:include src="south.xhtml"/>
+                    <ui:insert name="bottom">Bottom</ui:insert>
                 </p:outputPanel>
             </div>
         </div>
     </h:body>
 
 </html>
-

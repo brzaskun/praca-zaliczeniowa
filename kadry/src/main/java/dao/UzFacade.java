@@ -33,7 +33,7 @@ public class UzFacade extends DAO {
         
     }
 
-    protected EntityManager getEntityManager() {
+    public EntityManager getEntityManager() {
         return em;
     }
 

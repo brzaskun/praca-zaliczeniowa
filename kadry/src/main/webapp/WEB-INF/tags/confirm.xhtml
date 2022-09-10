@@ -8,10 +8,10 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:c="http://java.sun.com/jsp/jstl/core"
       xmlns:bcf="http://brzaskun.com/facelets"
-xmlns:pe="http://primefaces.org/ui/extensions">
+>
     <h:body>
         <ui:composition>
-            <f:view  contentType="text/html;charset=UTF-8" encoding="UTF-8">
+            
 
                 <script>
                     var zamknijdialog = function(nazwadialogu) {
@@ -40,7 +40,7 @@ xmlns:pe="http://primefaces.org/ui/extensions">
                         <p:commandButton id="decline" value="Odwołaj" onclick="PF('confirm#{lp != null ? lp : '1'}').hide()" type="button" style="float: right; width: 120px; margin-right: 2%;"/>   
                     </h:form>
                 </p:confirmDialog>  
-            </f:view>
+            
         </ui:composition>
     </h:body>
 </html>

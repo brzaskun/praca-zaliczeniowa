@@ -2847,8 +2847,10 @@ public class Place implements Serializable {
 
     @Override
     public String toString() {
-        return "Place{" + "lplChorPrac=" + lplNiezd.doubleValue() + ", lplChorBudz=" + lplPodst.doubleValue() + ", lplChorPfron=" + lplKoszty.toString() + ", lplWypUbez=" + lplWypUbez + '}';
+        return "Place{" + "lplKoszty=" + lplKoszty + ", lplZalDoch=" + lplZalDoch + ", lplPdstZus=" + lplPdstZus + ", lplPodDoch=" + lplPodDoch + ", lplPrzychOpod=" + lplPrzychOpod + ", lplOkrSerial=" + lplOkrSerial.getOkrRokSerial().getRokNumer() + ", lplOsoSerial=" + lplOsoSerial.getOsoNazwisko() + '}';
     }
+
+  
 
     
     

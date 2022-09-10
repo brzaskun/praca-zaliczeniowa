@@ -5,19 +5,19 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:bcf="http://brzaskun.com/facelets"
-    xmlns:pe="http://primefaces.org/ui/extensions">
+    >
     <ui:composition template="/template.xhtml">
         <ui:define name="title">
             <h:outputText value="Kadry i płace"></h:outputText>
         </ui:define>
         <ui:define name="body">
-            <f:view  contentType="text/html;charset=UTF-8" encoding="UTF-8">
+            
                 <bcf:ajaxs/>
-                <pe:layout  > 
+                 
                     <ui:include src="sub/layout/north.xhtml" />  <!-- panel polnocny-->
-                    <ui:include src="sub/layout/south.xhtml"/>   <!-- panel poludniowy-->
-                    <ui:include src="sub/layout/west.xhtml"/>   <!-- panel poludniowy-->
-                    <pe:layoutPane position="center" id="centertile" >
+                      
+                    <ui:include src="sub/layout/west.xhtml"/>   
+                    
                         <p:outputPanel>
                             <h:form id="formmenu">
                                 <p:menubar autoDisplay="true">
@@ -44,9 +44,9 @@
                         <ui:include src="sub/edycjadanych_stanowisko.xhtml"/>
                         </p:outputPanel>
                         
-                    </pe:layoutPane>
-                </pe:layout>
-            </f:view>
+                    
+                
+            
         </ui:define>
     </ui:composition>
 </html>

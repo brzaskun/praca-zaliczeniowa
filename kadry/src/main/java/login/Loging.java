@@ -72,6 +72,11 @@ public class Loging implements Serializable {
                 wpisView.setFirma(uzer.getFirma());
                 wpisView.init();
             }
+//            Set<EntityType<?>> entities = uzFacade.getEntityManager().getMetamodel().getEntities();
+//            for (EntityType<?> p : entities) {
+//                String toString = p.getJavaType().getName();
+//               System.out.println("<class>"+toString+"</class>");
+//             }
             //Msg.msg("Zweryfikowano hasło");
             return navto;
         } catch (Exception exp) {

@@ -5,20 +5,21 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:bcf="http://brzaskun.com/facelets"
-    xmlns:pe="http://primefaces.org/ui/extensions">
-    <ui:composition template="/template.xhtml">
-        <ui:define name="title">
-            <h:outputText value="Kadry i płace"></h:outputText>
-        </ui:define>
-        <ui:define name="body">
-            <f:view  contentType="text/html;charset=UTF-8" encoding="UTF-8">
+      >
+    <h:body>
+        <ui:composition template="../template.xhtml">
                 <bcf:ajaxs/>
-                <pe:layout   > 
-                    <ui:include src="sub/layout/north.xhtml" />  <!-- panel polnocny-->
-                    <ui:include src="sub/layout/south.xhtml"/>   <!-- panel poludniowy-->
-                    <ui:include src="sub/layout/west.xhtml"/>   <!-- panel poludniowy-->
-                    <pe:layoutPane position="center" id="centertile" >
-                        <h:form id="formmenu">
+                <ui:define name="top" >
+                    <ui:include src="sub/layout/north.xhtml"/>
+                </ui:define>
+
+                <ui:define name="left">
+                    <ui:include src="sub/layout/west.xhtml"/>
+                </ui:define>
+
+                <ui:define name="content">
+                    <p:outputPanel>
+                    <h:form id="formmenu">
                          <p:menubar autoDisplay="true">
                              <p:menuitem icon="pi pi-sliders-h" value="parametry" style="width: 150px" action="Parametry"/>
                              <p:menuitem icon="pi pi-mobile" value="firmy" style="width: 150px" action="Firma"/>
@@ -55,6 +56,7 @@
                             
                         </p:menubar>
                         </h:form>
+                        </p:outputPanel>
                        <ui:include src="sub/menu_wiad.xhtml"/>   <!-- menu contextowe i pole wiadomosci growl-->
                      <ui:include src="sub/dialog/dialog_czaspracy_kalendarzwzor.xhtml"/>
                      <ui:include src="sub/dialog/dialog_czaspracy_kalendarzmiesiac.xhtml"/>
@@ -91,18 +93,9 @@
                      <h:outputText value="- przelicz, zachowaj i wydrukuj listę" style="color: green"/>
                      <h:outputText value="- wyślij informacje do pracodawcy i pracownika" style="color: green"/>
                      </p:panelGrid>
-<!--                       <h:form>
-                       <h:outputText value="rok WpisView"/>
-                       <h:outputText value="#{wpisView.rokWpisu}"/>
-                       <p:spacer width="100"/>
-                       <h:outputText value="rok TestView"/>
-                       <h:outputText value="#{testView.rok}"/>
-                       <p:spacer height="50"/>
-                       <p:commandButton value="zmien Wpis" actionListener="#{wpisView.zmienrok}" update="@form" global="false"/>
-                       </h:form>-->
-                    </pe:layoutPane>
-                </pe:layout>
-            </f:view>
-        </ui:define>
-    </ui:composition>
+                </ui:define>
+
+        </ui:composition>
+    </h:body>
 </html>
+

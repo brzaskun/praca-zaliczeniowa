@@ -6,7 +6,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
 
     xmlns:bcf="http://brzaskun.com/facelets"
-    xmlns:pe="http://primefaces.org/ui/extensions">
+    >
     <p:panel header="paski wynagrodzeń" rendered="#{pasekwynagrodzenView.ileszczegolow eq 'prosta'}">
         <p:dataTable id="datalist2" value="#{pasekwynagrodzenView.lista}" var="itempasek" emptyMessage="Brak listy za dany okres"
                      selectionMode="single" selection="#{pasekwynagrodzenView.selectedlista}" rowIndexVar="indexpasek"

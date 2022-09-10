@@ -72,6 +72,7 @@ import kadryiplace.OsobaPot;
 import kadryiplace.OsobaPropTyp;
 import kadryiplace.OsobaSkl;
 import kadryiplace.OsobaZlec;
+import kadryiplace.Place;
 import kadryiplace.Rok;
 import kadryiplace.Urzad;
 import msg.Msg;
@@ -597,7 +598,19 @@ public class OsobaView implements Serializable {
      public static void main(String[] args) {
         EntityManagerFactory emfH2 = javax.persistence.Persistence.createEntityManagerFactory("WebApplication1PU");
         EntityManager emH2 = emfH2.createEntityManager();
-        Rok rok = (Rok) emH2.createQuery("SELECT o FROM Rok o WHERE o.rokNumer=:numer").setParameter("numer", (short)2022).getSingleResult();
+        kadryiplace.Firma firma = (kadryiplace.Firma) emH2.createQuery("SELECT o FROM Firma o WHERE o.firSerial=:id").setParameter("id", 51).getSingleResult();
+        Rok rok = (Rok) emH2.createQuery("SELECT o FROM Rok o WHERE o.rokNumer=:numer and o.rokFirSerial=:fir").setParameter("numer", (short)2022).setParameter("fir", firma).getSingleResult();
+        kadryiplace.Okres okres = null;
+        for (Okres o : rok.getOkresList()) {
+            if (o.getOkrMieNumer()==5) {
+                okres = o;
+            }
+        }
+        List<Place> placeList = okres.getPlaceList();
+        double podatekpraca = 0.0;
+        for (Place p : placeList) {
+            podatekpraca = podatekpraca+p.getLplZalDoch().doubleValue();
+        }
          System.out.println("");
      }
 
@@ -688,6 +701,5 @@ public class OsobaView implements Serializable {
     }
 
     
-
     
 }
