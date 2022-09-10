@@ -41,6 +41,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "WierszDRA.findAll", query = "SELECT f FROM WierszDRA f"),
     @NamedQuery(name = "WierszDRA.findByRok", query = "SELECT f FROM WierszDRA f WHERE f.rok = :rok"),
+    @NamedQuery(name = "WierszDRA.findByRokPodatnik", query = "SELECT f FROM WierszDRA f WHERE f.rok = :rok AND f.podatnik = :podatnik"),
     @NamedQuery(name = "WierszDRA.findByRokMc", query = "SELECT f FROM WierszDRA f WHERE f.rok = :rok AND f.mc = :mc")
 })
 public class WierszDRA  implements Serializable{

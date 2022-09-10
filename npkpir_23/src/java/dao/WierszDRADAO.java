@@ -4,6 +4,7 @@
  */
 package dao;
 
+import entity.Podatnik;
 import entity.WierszDRA;
 import java.io.Serializable;
 import java.util.List;
@@ -47,6 +48,10 @@ public class WierszDRADAO extends DAO implements Serializable {
     
     public List<WierszDRA> findByRok(String rok){
         return getEntityManager().createNamedQuery("WierszDRA.findByRok").setParameter("rok", rok).getResultList();
+    }
+    
+    public List<WierszDRA> findByRokPodatnik(String rok, Podatnik podatnik){
+        return getEntityManager().createNamedQuery("WierszDRA.findByRokPodatnik").setParameter("rok", rok).setParameter("podatnik", podatnik).getResultList();
     }
     
     public List<WierszDRA> findByRokMc(String rok, String mc){

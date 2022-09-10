@@ -28,7 +28,6 @@ import daosuperplace.RokFacade;
 import data.Data;
 import embeddable.Mce;
 import embeddable.WierszPkpir;
-import embeddable.WierszRyczalt;
 import entity.Dok;
 import entity.DraSumy;
 import entity.KwotaKolumna1;
@@ -53,7 +52,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.TreeMap;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
@@ -94,10 +92,11 @@ public class DochodDlaDRAView implements Serializable {
     private RyczDAO ryczDAO;
     private String rok;
     private String mc;
+    private String maxmc;
     private List<WierszDRA> wiersze;
+    private List<WierszDRA> wierszerok;
     private List<WierszDRA> wierszeFiltered;
     private List<WierszDRA> wierszeN;
-    private List<List<WierszDRA>> mapa;
     private WierszDRA selected;
     private DraSumy selected1;
     @Inject
@@ -116,6 +115,7 @@ public class DochodDlaDRAView implements Serializable {
     private FirmaFacade firmaFacade;
     @Inject
     private RokFacade rokFacade;
+    private Podatnik podatnik;
 //    private List<Zusdra> zusdralista;
 //    private List<Zusrca> zusrcalista;
     private boolean pokazzrobione;
@@ -129,11 +129,22 @@ public class DochodDlaDRAView implements Serializable {
     @PostConstruct
     public void start() {
         rok = "2022";
-        mapa = new ArrayList<>();
+        maxmc = Data.poprzedniMc();
     }
     
     
-    public void przelicz() {
+    public void przeliczRok() {
+        if (podatnik!=null) {
+            for (String mic : Mce.getMiesiaceGranica(maxmc)) {
+                mc = mic;
+                przelicz(podatnik.getNip());
+            }
+            pobierzrokByNip();
+            Msg.dP();
+        }
+    }
+    
+    public void przelicz(String nip) {
         List<WierszDRA> wierszebaza = wierszDRADAO.findByRok(rok);
         if (wierszebaza==null) {
             wierszebaza = new ArrayList<>();
@@ -147,12 +158,16 @@ public class DochodDlaDRAView implements Serializable {
                 rokpkpir = rok;
             }
             List<Podatnik> podatnicy = podatnikDAO.findPodatnikNieFK();
+            if (nip!=null&&!nip.equals("")) {
+                podatnicy = new ArrayList<>();
+                podatnicy.add(podatnikDAO.findPodatnikByNIP(nip));
+            }
             //Podatnik podat = podatnikDAO.findPodatnikByNIP("9552379284");
             //List<Podatnik> podatnicy = new ArrayList<>();
             //podatnicy.add(podat);
             for (Iterator<Podatnik> it = podatnicy.iterator();it.hasNext();) {
                 Podatnik p = it.next();
-                if (p.getNip().equals("8511005008")) {
+                if (p.getNip()!=null&&p.getNip().equals("8511005008")) {
                     it.remove();
                 }
             }
@@ -299,7 +314,7 @@ public class DochodDlaDRAView implements Serializable {
                     }
                 }
             }
-            Msg.msg("Pobrano i przeliczono dane");
+            Msg.msg("Pobrano i przeliczono dane za mc"+mc);
             
         } else {
             Msg.msg("e","Nie wybrano okresu");
@@ -330,29 +345,41 @@ public class DochodDlaDRAView implements Serializable {
             }
     }
     
-    public void pobierzrok() {
-        List<WierszDRA> wierszebaza = wierszDRADAO.findByRok(rok);
-        if (wierszebaza==null) {
-            wierszebaza = new ArrayList<>();
-        }
-        Collections.sort(wierszebaza, new WierszDRAcomparator());
-        Map<String, List<WierszDRA>> kotek = new TreeMap<>();
-        for (WierszDRA p : wierszebaza) {
-            if (kotek.containsKey(p.getImienazwisko())) {
-                kotek.get(p.getImienazwisko()).add(p);
-            } else {
-                List<WierszDRA> nowalista = new ArrayList<>();
-                nowalista.add(p);
-                kotek.put(p.getImienazwisko(), nowalista);
+     public void pobierzrokByNip() {
+        if (podatnik!=null) {
+            wierszerok = wierszDRADAO.findByRokPodatnik(rok, podatnik);
+            if (wierszerok==null) {
+                wierszerok = new ArrayList<>();
             }
+            Collections.sort(wierszerok, new WierszDRAcomparator());
+            Msg.msg("Pobrano i przeliczono dane");
         }
-        mapa = new ArrayList<>();
-        for (List<WierszDRA> k : kotek.values()) {
-            mapa.add(k);
-        }
-        Msg.msg("Pobrano i przeliczono dane");
     }
     
+    
+//    public void pobierzrok() {
+//        List<WierszDRA> wierszebaza = wierszDRADAO.findByRok(rok);
+//        if (wierszebaza==null) {
+//            wierszebaza = new ArrayList<>();
+//        }
+//        Collections.sort(wierszebaza, new WierszDRAcomparator());
+//        Map<String, List<WierszDRA>> kotek = new TreeMap<>();
+//        for (WierszDRA p : wierszebaza) {
+//            if (kotek.containsKey(p.getImienazwisko())) {
+//                kotek.get(p.getImienazwisko()).add(p);
+//            } else {
+//                List<WierszDRA> nowalista = new ArrayList<>();
+//                nowalista.add(p);
+//                kotek.put(p.getImienazwisko(), nowalista);
+//            }
+//        }
+//        mapa = new ArrayList<>();
+//        for (List<WierszDRA> k : kotek.values()) {
+//            mapa.add(k);
+//        }
+//        Msg.msg("Pobrano i przeliczono dane");
+//    }
+//    
     public void edytuj(WierszDRA wiersz) {
         if (wiersz!=null) {
             wierszDRADAO.edit(wiersz);
@@ -363,22 +390,6 @@ public class DochodDlaDRAView implements Serializable {
     public void pobierz() {
         String[] zwiekszmiesiac = Mce.zwiekszmiesiac(rok, mc);
         List<Zusmail> maile = zusmailDAO.findZusRokMc(zwiekszmiesiac[0], zwiekszmiesiac[1]);
-        wiersze = wierszDRADAO.findByRok(rok);
-        Collections.sort(wiersze, new WierszDRAcomparator());
-            Map<String, List<WierszDRA>> kotek = new TreeMap<>();
-            for (WierszDRA p : wiersze) {
-                if (kotek.containsKey(p.getImienazwisko())) {
-                    kotek.get(p.getImienazwisko()).add(p);
-                } else {
-                    List<WierszDRA> nowalista = new ArrayList<>();
-                    nowalista.add(p);
-                    kotek.put(p.getImienazwisko(), nowalista);
-                }
-            }
-            mapa = new ArrayList<>();
-            for (List<WierszDRA> k : kotek.values()) {
-                mapa.add(k);
-            }
         wiersze = wierszDRADAO.findByRokMc(rok, mc);
         if (pokazzrobione==false) {
             for (Iterator<WierszDRA> it = wiersze.iterator();it.hasNext();) {
@@ -931,63 +942,15 @@ public class DochodDlaDRAView implements Serializable {
                     it.remove();
                 }
             }
-            WierszRyczalt wierszRyczalt = new WierszRyczalt(1, rok, mc, "dla DRA");
             for (Dok dokument : lista) {
                 try {
-                    List<KwotaKolumna1> szczegol = dokument.getListakwot1();
-                    for (KwotaKolumna1 tmp : szczegol) {
-                        String nazwakolumny = tmp.getNazwakolumny();
-                        Double kwota = tmp.getNetto();
-                        Double temp = 0.0;
-                        switch (nazwakolumny) {
-                            case "17%":
-                                temp = wierszRyczalt.getKolumna_17i0() + kwota;
-                                wierszRyczalt.setKolumna_17i0(temp);
-                                break;
-                            case "15%":
-                                temp = wierszRyczalt.getKolumna_15i0() + kwota;
-                                wierszRyczalt.setKolumna_15i0(temp);
-                                break;
-                            case "14%":
-                                temp = wierszRyczalt.getKolumna_14i0() + kwota;
-                                wierszRyczalt.setKolumna_14i0(temp);
-                                break;
-                            case "12.5%":
-                                temp = wierszRyczalt.getKolumna_12i5() + kwota;
-                                wierszRyczalt.setKolumna_12i5(temp);
-                                break;
-                            case "12%":
-                                temp = wierszRyczalt.getKolumna_12i0() + kwota;
-                                wierszRyczalt.setKolumna_12i0(temp);
-                                break;
-                            case "10%":
-                                temp = wierszRyczalt.getKolumna_10i0() + kwota;
-                                wierszRyczalt.setKolumna_10i0(temp);
-                                break;
-                            case "8.5%":
-                                temp = wierszRyczalt.getKolumna_8i5() + kwota;
-                                wierszRyczalt.setKolumna_8i5(temp);
-                                break;
-                            case "5.5%":
-                                temp = wierszRyczalt.getKolumna_5i5() + kwota;
-                                wierszRyczalt.setKolumna_5i5(temp);
-                                break;
-                            case "3%":
-                                temp = wierszRyczalt.getKolumna_3i0() + kwota;
-                                wierszRyczalt.setKolumna_3i0(temp);
-                                break;
-                            case "2%":
-                                temp = wierszRyczalt.getKolumna_2i0() + kwota;
-                                wierszRyczalt.setKolumna_2i0(temp);
-                                break;
-                        }
-                    }
+                    przychod = przychod + dokument.getNetto();
+                    
                 } catch (Exception e) {
                     E.e(e);
                 }
-                przychod = przychod + wierszRyczalt.getRazem();
             }
-             wiersz.setBrakdokumentow(false);
+            wiersz.setBrakdokumentow(false);
         } else {
             wiersz.setBrakdokumentow(true);
         }
@@ -1127,13 +1090,6 @@ public class DochodDlaDRAView implements Serializable {
         this.mc = mc;
     }
 
-    public List<List<WierszDRA>> getMapa() {
-        return mapa;
-    }
-
-    public void setMapa(List<List<WierszDRA>> mapa) {
-        this.mapa = mapa;
-    }
 
     public boolean isPokazzrobione() {
         return pokazzrobione;
@@ -1205,6 +1161,30 @@ public class DochodDlaDRAView implements Serializable {
 
     public void setWierszeFiltered(List<WierszDRA> wierszeFiltered) {
         this.wierszeFiltered = wierszeFiltered;
+    }
+
+    public Podatnik getPodatnik() {
+        return podatnik;
+    }
+
+    public void setPodatnik(Podatnik podatnik) {
+        this.podatnik = podatnik;
+    }
+
+    public List<WierszDRA> getWierszerok() {
+        return wierszerok;
+    }
+
+    public void setWierszerok(List<WierszDRA> wierszerok) {
+        this.wierszerok = wierszerok;
+    }
+
+    public String getMaxmc() {
+        return maxmc;
+    }
+
+    public void setMaxmc(String maxmc) {
+        this.maxmc = maxmc;
     }
 
     
