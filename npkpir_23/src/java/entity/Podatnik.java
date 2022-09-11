@@ -343,6 +343,14 @@ public class Podatnik implements Serializable {
     private boolean modulfaktur;
     @Column(name = "upl")
     private boolean upl;
+    @Size (max = 10)
+    @Column(name = "koniecumowy")
+    private String koniecumowy;
+    @Size (max = 10)
+    @Column(name = "wydaniedokumentow")
+    private String wydaniedokumentow;
+    @Column(name = "wysylaczestdok")
+    private boolean wysylaczestdok;
     
     
     @Transient
@@ -1204,6 +1212,30 @@ public class Podatnik implements Serializable {
 
     public void setDatazawieszenia(String datazawieszenia) {
         this.datazawieszenia = datazawieszenia;
+    }
+
+    public String getKoniecumowy() {
+        return koniecumowy;
+    }
+
+    public void setKoniecumowy(String koniecumowy) {
+        this.koniecumowy = koniecumowy;
+    }
+
+    public String getWydaniedokumentow() {
+        return wydaniedokumentow;
+    }
+
+    public void setWydaniedokumentow(String wydaniedokumentow) {
+        this.wydaniedokumentow = wydaniedokumentow;
+    }
+
+    public boolean isWysylaczestdok() {
+        return wysylaczestdok;
+    }
+
+    public void setWysylaczestdok(boolean wysylaczestdok) {
+        this.wysylaczestdok = wysylaczestdok;
     }
 
     

@@ -929,7 +929,9 @@ public class ZestawienieView implements Serializable {
                 pitView.init();
                 String wiad = String.format("Edytowano PIT %s za m-c:%s", biezacyPit.getUdzialowiec(), biezacyPit.getPkpirM());
                 Msg.msg("i", wiad);
-                mailzestawieniedokklient(biezacyPit);
+                if (wpisView.getPodatnikObiekt().isWysylaczestdok()) {
+                    mailzestawieniedokklient(biezacyPit);
+                }
             } catch (Exception e) {
                 E.e(e);
                 String wiad = String.format("Błąd podczas zachowywania PIT %s za m-c:%s", biezacyPit.getUdzialowiec(), biezacyPit.getPkpirM());

@@ -560,49 +560,53 @@ public class DochodDlaDRAView implements Serializable {
         List<Zusrca> zusrca = zusrcaDAO.findByOkres(okres);
         List<Podatnik> podatnicy = podatnikDAO.findAllManager();
         List<Podmiot> podmioty = podmiotDAO.findAll();
+        List<DraSumy> dralistatmp = draSumyDAO.zwrocRokMc(rok,mc);
+        List<DraSumy> zusdralista = przetworzZusdra(dralistatmp);
         int i = 1;
         zusdra.stream().forEach(z-> {
-            DraSumy dras = new DraSumy();
-            dras.setRok(rok);
-            dras.setMc(mc);
-            for (Podatnik za : podatnicy) {
-                if (za.getNip().equals(z.getIi1Nip())) {
-                    dras.setPodatnik(za);
-                    break;
-                }
-            }
-            if (dras.getPodatnik()==null) {
+            DraSumy dras = zusdralista.stream().filter(p->p.getIddokument()==z.getIdDokument()).findFirst().orElse(null);
+            if (dras==null) {
+                dras = new DraSumy();
+                dras.setRok(rok);
+                dras.setMc(mc);
                 for (Podatnik za : podatnicy) {
-                    if (za.getPesel()!=null && za.getPesel().equals(z.getIi3Pesel())) {
+                    if (za.getNip().equals(z.getIi1Nip())) {
                         dras.setPodatnik(za);
                         break;
                     }
                 }
-            }
-            if (dras.getPodatnik()==null && podmioty!=null) {
-                for (Podmiot za : podmioty) {
-                    if (za.getNip().equals(z.getIi1Nip())) {
-                        dras.setPodmiot(za);
-                        break;
-                    }
-                }
-                if (dras.getPodmiot()==null) {
-                    for (Podmiot za : podmioty) {
+                if (dras.getPodatnik()==null) {
+                    for (Podatnik za : podatnicy) {
                         if (za.getPesel()!=null && za.getPesel().equals(z.getIi3Pesel())) {
-                            dras.setPodmiot(za);
+                            dras.setPodatnik(za);
                             break;
                         }
                     }
                 }
+                if (dras.getPodatnik()==null && podmioty!=null) {
+                    for (Podmiot za : podmioty) {
+                        if (za.getNip().equals(z.getIi1Nip())) {
+                            dras.setPodmiot(za);
+                            break;
+                        }
+                    }
+                    if (dras.getPodmiot()==null) {
+                        for (Podmiot za : podmioty) {
+                            if (za.getPesel()!=null && za.getPesel().equals(z.getIi3Pesel())) {
+                                dras.setPodmiot(za);
+                                break;
+                            }
+                        }
+                    }
+                }
+                dras.setIddokument(z.getIdDokument());
             }
             dras.setZusdra(z);
-            dras.setIddokument(z.getIdDokument());
             dras.setNazwa(dras.getNazwaF());
             if (bazadanych!=null&&!bazadanych.isEmpty()) {
                 dras = pobierzbaza(dras,bazadanych);
             }
             dras.setZusdra(z);
-            dras.setIddokument(z.getIdDokument());
             for (Zusrca r : zusrca) {
                 if (r.getI12okrrozl().equals(z.getI22okresdeklar()) && r.getIdPlatnik()==z.getIdPlatnik()) {
                     dras.setZusrca(r);
