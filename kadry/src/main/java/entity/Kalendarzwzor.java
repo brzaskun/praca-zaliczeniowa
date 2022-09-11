@@ -40,6 +40,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Kalendarzwzor.findAll", query = "SELECT k FROM Kalendarzwzor k"),
     @NamedQuery(name = "Kalendarzwzor.findById", query = "SELECT k FROM Kalendarzwzor k WHERE k.id = :id"),
     @NamedQuery(name = "Kalendarzwzor.findByRok", query = "SELECT k FROM Kalendarzwzor k WHERE k.rok = :rok"),
+    @NamedQuery(name = "Kalendarzwzor.findByRokMc", query = "SELECT k FROM Kalendarzwzor k WHERE k.rok = :rok AND k.mc = :mc"),
     @NamedQuery(name = "Kalendarzwzor.findByMc", query = "SELECT k FROM Kalendarzwzor k WHERE k.mc = :mc"),
     @NamedQuery(name = "Kalendarzwzor.findByFirmaRok", query = "SELECT k FROM Kalendarzwzor k WHERE k.firma=:firma AND k.rok=:rok"),
     @NamedQuery(name = "Kalendarzwzor.findByFirmaRokMc", query = "SELECT k FROM Kalendarzwzor k WHERE k.firma=:firma AND k.rok=:rok AND k.mc = :mc")
@@ -135,7 +136,15 @@ public class Kalendarzwzor implements Serializable {
         }
         this.dzienList = nowedni;
     }
-    
+    public void edytujdnizglobalnego(Kalendarzwzor kalendarzwzor) {
+        List<Dzien> dzienListwzor = kalendarzwzor.getDzienList();
+        Collections.sort(dzienListwzor, new Dziencomparator());
+        for (int i = 0; i < dzienListwzor.size(); i++) {
+            Dzien dzien = this.getDzienList().get(i);
+            Dzien dzienwzor = dzienListwzor.get(i);
+            dzien.nanieswzor(dzienwzor);
+        }
+    }
     
     @XmlTransient
     public List<Dzien> getDzienList() {
@@ -188,7 +197,16 @@ public class Kalendarzwzor implements Serializable {
             while (iloscroboczych>6) {
                 iloscroboczych = iloscroboczych-7;
             }
+            int licznik = 1;
+            String data = this.getRok()+"-"+this.getMc()+"-";
+            String data2 = this.getRok()+"-"+this.getMc()+"-0";
             for (Dzien d : this.dzienList) {
+                d.setNrdnia(licznik);
+                if (licznik<10) {
+                    d.setDatastring(data2+licznik++);
+                } else {
+                    d.setDatastring(data+licznik++);
+                }
                 if (iloscroboczych<5) {
                     d.setTypdnia(0);
                     d.setNormagodzin(8.0);

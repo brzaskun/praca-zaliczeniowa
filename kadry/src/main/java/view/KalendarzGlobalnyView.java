@@ -11,12 +11,10 @@ import dao.FirmaKadryFacade;
 import dao.KalendarzmiesiacFacade;
 import dao.KalendarzwzorFacade;
 import dao.UmowaFacade;
-import embeddable.Mce;
 import entity.Dzien;
 import entity.FirmaKadry;
 import entity.Kalendarzmiesiac;
 import entity.Kalendarzwzor;
-import entity.Umowa;
 import java.io.Serializable;
 import java.util.List;
 import javax.faces.view.ViewScoped;
@@ -31,7 +29,7 @@ import z.Z;
  */
 @Named
 @ViewScoped
-public class KalendarzwzorView  implements Serializable {
+public class KalendarzGlobalnyView  implements Serializable {
     private static final long serialVersionUID = 1L;
     @Inject
     private Kalendarzwzor selected;
@@ -48,12 +46,15 @@ public class KalendarzwzorView  implements Serializable {
     private UmowaFacade umowaFacade;
     @Inject
     private WpisView wpisView;
+    private FirmaKadry firmaglobalna;
     
     
     public void init() {
-        selected.setFirma(wpisView.getFirma());
+        firmaglobalna = firmaFacade.findByNIP("0000000000");
+        selected.setFirma(firmaglobalna);
         selected.setRok(wpisView.getRokWpisu());
-        lista  = kalendarzwzorFacade.findByFirmaRok(wpisView.getFirma(), wpisView.getRokWpisu());
+        lista  = kalendarzwzorFacade.findByFirmaRok(firmaglobalna, wpisView.getRokWpisu());
+        
     }
     
     public void init2() {
@@ -111,7 +112,7 @@ public class KalendarzwzorView  implements Serializable {
     }
     
     public void zrobkalendarzumowa() {
-        if (selected!=null && selected.getFirma()!=null) {
+            if (selected!=null && selected.getFirma()!=null) {
             if (selected.getRok()!=null&&selected.getMc()!=null) {
                 try {
                     Kalendarzwzor znaleziono = kalendarzwzorFacade.findByFirmaRokMc(selected.getFirma(), selected.getRok(), selected.getMc());
@@ -121,10 +122,9 @@ public class KalendarzwzorView  implements Serializable {
                     } else {
                         String mc = selected.getMc();
                         String rok = selected.getRok();
-                        FirmaKadry firma = selected.getFirma();
-                        selected = new Kalendarzwzor(firma, rok, mc);
+                        selected = new Kalendarzwzor(firmaglobalna, rok, mc);
                         String[] popokres = data.Data.poprzedniOkres(mc, rok);
-                        Kalendarzwzor poprzedni = kalendarzwzorFacade.findByFirmaRokMc(selected.getFirma(), popokres[1], popokres[0]);
+                        Kalendarzwzor poprzedni = kalendarzwzorFacade.findByFirmaRokMc(firmaglobalna, popokres[1], popokres[0]);
                         KalendarzWzorBean.dodajdnidokalendarza(selected);
                         selected.zrobkolejnedni(poprzedni);
                         Msg.msg("Przygotowano kalendarz");
@@ -136,93 +136,21 @@ public class KalendarzwzorView  implements Serializable {
         }
     }
     
-      public void globalnie() {
-        if (wpisView.getFirma()!=null && wpisView.getRokWpisu()!=null) {
-            FirmaKadry firmaglobalna = firmaFacade.findByNIP("0000000000");
-            for (String mce: Mce.getMceListS()) {
-                Kalendarzwzor kal = new Kalendarzwzor();
-                kal.setRok(wpisView.getRokWpisu());
-                kal.setMc(mce);
-                kal.setFirma(wpisView.getFirma());
-                Kalendarzwzor kalmiesiac = kalendarzwzorFacade.findByFirmaRokMc(wpisView.getFirma(), kal.getRok(), mce);
-                if (kalmiesiac==null) {
-                    Kalendarzwzor znaleziono = kalendarzwzorFacade.findByFirmaRokMc(firmaglobalna, kal.getRok(), mce);
-                    if (znaleziono!=null) {
-                        kal.generujdnizglobalnego(znaleziono);
-                        kalendarzwzorFacade.create(kal);
-                    } else {
-                        Msg.msg("e","Brak kalendarza globalnego za "+mce);
-                    }
-                }
-            }
-             lista  = kalendarzwzorFacade.findByFirmaRok(wpisView.getFirma(), wpisView.getRokWpisu());
-            Msg.msg("Pobrano dane z kalendarza globalnego z bazy danych i utworzono kalendarz wzorcowy firmy");
-        } else {
-            Msg.msg("e","Nie wybrano firmy");
-        }
-    }
-      
-       public void taxmannaglobalnie() {
-        if (wpisView.getFirma()!=null && wpisView.getRokWpisu()!=null) {
-            FirmaKadry firmazrodlowa = firmaFacade.findByNIP("8511005008");
-            FirmaKadry firmadocelowa = firmaFacade.findByNIP("0000000000");
-            for (String mce: Mce.getMceListS()) {
-                Kalendarzwzor kal = new Kalendarzwzor();
-                kal.setRok(wpisView.getRokWpisu());
-                kal.setMc(mce);
-                kal.setFirma(firmadocelowa);
-                Kalendarzwzor kalmiesiac = kalendarzwzorFacade.findByFirmaRokMc(firmadocelowa, kal.getRok(), mce);
-                if (kalmiesiac==null) {
-                    Kalendarzwzor znaleziono = kalendarzwzorFacade.findByFirmaRokMc(firmazrodlowa, kal.getRok(), mce);
-                    if (znaleziono!=null) {
-                        kal.generujdnizglobalnego(znaleziono);
-                        kalendarzwzorFacade.create(kal);
-                    } else {
-                        Msg.msg("e","Brak kalendarza globalnego za "+mce);
-                    }
-                }
-            }
-             lista  = kalendarzwzorFacade.findByFirmaRok(firmadocelowa, wpisView.getRokWpisu());
-            Msg.msg("Pobrano dane z kalendarza taxman z bazy danych i utworzono kalendarz globalny");
-        } else {
-            Msg.msg("e","Nie wybrano firmy");
-        }
-    }
+    
      
     public void nanieszmiany() {
-        if (wpisView.getFirma()!=null && wpisView.getRokWpisu()!=null) {
-            FirmaKadry firma = wpisView.getFirma();
-            List<Kalendarzmiesiac> kalendarzepracownikow = kalendarzmiesiacFacade.findByFirmaRokMc(firma, selected.getRok(), selected.getMc());
-            for (Kalendarzmiesiac kal: kalendarzepracownikow) {
-                Kalendarzwzor znaleziono = kalendarzwzorFacade.findByFirmaRokMc(firma, selected.getRok(), selected.getMc());
-                kal.edytujdnizglobalnego(znaleziono);
-                kalendarzmiesiacFacade.edit(kal);
+        if (selected!=null && selected.getId()!=null) {
+            List<Kalendarzwzor> kalendarzewzorcowe = kalendarzwzorFacade.findByRokMc(selected.getRok(), selected.getMc());
+            for (Kalendarzwzor kal: kalendarzewzorcowe) {
+                kal.edytujdnizglobalnego(selected);
+                kalendarzwzorFacade.edit(kal);
             }
             Msg.msg("Naniesiono zmiany na kalendarze pracowników");
         } else {
-            Msg.msg("e","Nie wybrano firmy");
+            Msg.msg("e","nie wybrnao kalendarza, kalendarz nie zachowany w bazie");
         }
     }
-      
-    
-    public void implementuj() {
-        if (selected!=null) {
-            List<Umowa> listaumowa = umowaFacade.findPracownikFirma(wpisView.getPracownik(), wpisView.getFirma());
-            for (Umowa u : listaumowa) {
-                if (u.nalezydomiesiaca(selected.getRok(), selected.getMc())) {
-                    Kalendarzwzor znaleziono = kalendarzwzorFacade.findByFirmaRokMc(u.getAngaz().getFirma(), selected.getRok(), selected.getMc());
-                    if (znaleziono!=null) {
-                        Kalendarzmiesiac kalendarzmiesiac = new Kalendarzmiesiac();
-                        kalendarzmiesiac.setRok(selected.getRok());
-                        kalendarzmiesiac.setMc(selected.getMc());
-                        kalendarzmiesiac.setUmowa(u);
-                        kalendarzmiesiac.ganerujdnizwzrocowego(znaleziono, null, u.getEtatList());
-                    } 
-                }
-            }
-            Msg.msg("Zaimplantowano kalendarz wzorcowy u wszystkich");
-        }
-    }
+   
     
     
     public Kalendarzwzor getSelected() {
