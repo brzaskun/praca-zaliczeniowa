@@ -12,6 +12,7 @@ import entity.Naliczenieskladnikawynagrodzenia;
 import entity.Pasekwynagrodzen;
 import entity.Podatki;
 import entity.Umowa;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -21,7 +22,9 @@ import z.Z;
  *
  * @author Osito
  */
-public class Oddelegowanie {
+public class Oddelegowanie implements Serializable{
+    private static final long serialVersionUID = 1L;
+    
     private int id;
     private Umowa umowa;
     private Kalendarzmiesiac kalendarz;

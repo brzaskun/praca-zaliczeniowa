@@ -68,6 +68,7 @@ public class Loging implements Serializable {
                     navto = "PortalPracodawca";
                 }
                 Uz uzer = uzFacade.findUzByLogin(lo);
+                request.setAttribute("uzer", uzer);
                 wpisView.setUzer(uzer);
                 wpisView.setFirma(uzer.getFirma());
                 wpisView.init();

@@ -18,7 +18,7 @@ import javax.inject.Named;
 @Named
 @SessionScoped
 public class Roki implements Serializable{
-
+    private static final long serialVersionUID = 1L;
     private static final List<Integer> rokiList;
     private static final List<String> rokiListS;
 

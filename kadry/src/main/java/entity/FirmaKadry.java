@@ -155,7 +155,11 @@ public class FirmaKadry implements Serializable {
     }
 
     public String getMiasto() {
-        return miasto;
+        String zwrot = this.miasto;
+        if (zwrot==null) {
+            zwrot = "brak siedziby";
+        }
+        return zwrot;
     }
 
     public void setMiasto(String miasto) {

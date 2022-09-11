@@ -195,7 +195,20 @@
     <shared-cache-mode>NONE</shared-cache-mode>
     <validation-mode>NONE</validation-mode>
     <properties>
-      <property name="eclipselink.ddl-generation" value="create-or-extend-tables"/>
+      <property name="eclipselink.ddl-generation" value="create-tables"/>
+      <property name="eclipselink.id-validation" value="NONE"/>
+      <property name="eclipselink.cache.type.default" value="Full"/>
+      <property name="eclipselink.cache.size.default" value="5000"/>
+      <property name="eclipselink.cache.shared.default" value="true"/>
+      <property name="eclipselink.query-results-cache" value="true"/>
+      <property name="eclipselink.cache-usage" value="CheckCacheThenDatabase"/>
+      <property name="eclipselink.jdbc.batch-writing" value="Oracle-JDBC"/>
+      <property name="eclipselink.jdbc.batch-writing.size" value="1000"/>
+      <property name="eclipselink.tuning" value="standard"/>
+      <property name="eclipselink.deploy-on-startup" value="true"/>
+      <property name="eclipselink.jdbc.cache-statements" value="true"/>
+      <property name="eclipselink.jdbc.cache-statements.size" value="100"/>
+      <property name="eclipselink.cache.type.default" value="Full"/>
       <!--      <property name="eclipselink.query-results-cache" value="true"/>
       <property name="eclipselink.cache-usage" value="CheckCacheThenDatabase"/>-->
       <!-- configure logging -->
@@ -211,8 +224,20 @@
     <shared-cache-mode>ALL</shared-cache-mode>
     <validation-mode>NONE</validation-mode>
     <properties>
+      <property name="eclipselink.ddl-generation" value="create-tables"/>
+      <property name="eclipselink.id-validation" value="NONE"/>
+      <property name="eclipselink.cache.type.default" value="Full"/>
+      <property name="eclipselink.cache.size.default" value="5000"/>
+      <property name="eclipselink.cache.shared.default" value="true"/>
       <property name="eclipselink.query-results-cache" value="true"/>
       <property name="eclipselink.cache-usage" value="CheckCacheThenDatabase"/>
+      <property name="eclipselink.jdbc.batch-writing" value="Oracle-JDBC"/>
+      <property name="eclipselink.jdbc.batch-writing.size" value="1000"/>
+      <property name="eclipselink.tuning" value="standard"/>
+      <property name="eclipselink.deploy-on-startup" value="true"/>
+      <property name="eclipselink.jdbc.cache-statements" value="true"/>
+      <property name="eclipselink.jdbc.cache-statements.size" value="100"/>
+      <property name="eclipselink.cache.type.default" value="Full"/>
       <!--      <property name="eclipselink.logging.level.sql" value="info"/>
       <property name="eclipselink.logging.parameters" value="true"/>-->
     </properties>
@@ -224,8 +249,20 @@
     <shared-cache-mode>ALL</shared-cache-mode>
     <validation-mode>NONE</validation-mode>
     <properties>
+      <property name="eclipselink.ddl-generation" value="create-tables"/>
+      <property name="eclipselink.id-validation" value="NONE"/>
+      <property name="eclipselink.cache.type.default" value="Full"/>
+      <property name="eclipselink.cache.size.default" value="5000"/>
+      <property name="eclipselink.cache.shared.default" value="true"/>
       <property name="eclipselink.query-results-cache" value="true"/>
       <property name="eclipselink.cache-usage" value="CheckCacheThenDatabase"/>
+      <property name="eclipselink.jdbc.batch-writing" value="Oracle-JDBC"/>
+      <property name="eclipselink.jdbc.batch-writing.size" value="1000"/>
+      <property name="eclipselink.tuning" value="standard"/>
+      <property name="eclipselink.deploy-on-startup" value="true"/>
+      <property name="eclipselink.jdbc.cache-statements" value="true"/>
+      <property name="eclipselink.jdbc.cache-statements.size" value="100"/>
+      <property name="eclipselink.cache.type.default" value="Full"/>
       <!--      <property name="eclipselink.logging.level.sql" value="info"/>
       <property name="eclipselink.logging.parameters" value="true"/>-->
     </properties>

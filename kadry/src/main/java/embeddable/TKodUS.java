@@ -20,7 +20,7 @@ import javax.persistence.Embeddable;
 @Embeddable
 @Named
 public class TKodUS implements Serializable {
-
+    private static final long serialVersionUID = 1L;
     private static HashMap<String,String> mapaUrzadKod;
     private static List<String> nazwyurzedow;
 

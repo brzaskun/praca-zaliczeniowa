@@ -17,8 +17,10 @@ import entity.Uz;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.http.HttpServletRequest;
 /**
  *
  * @author Osito
@@ -55,11 +57,15 @@ public class WpisView implements Serializable {
 
     @PostConstruct
     public void init() { //E.m(this);
-        rokWpisu="2020";
-        miesiacWpisu="12";
-        if (uzer!=null) {
+        rokWpisu = "2020";
+        miesiacWpisu = "12";
+        if (uzer == null) {
+            HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            uzer = (Uz) request.getAttribute("uzer");
+        }
+            if (uzer != null) {
             memory = pobierzMemory();
-            if (memory!=null && memory.getId()!=null) {
+            if (memory != null && memory.getId() != null) {
                 this.firma = memory.getFirma();
                 this.angaz = memory.getAngaz();
                 this.umowa = memory.getUmowa();

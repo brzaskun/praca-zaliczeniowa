@@ -20,7 +20,7 @@ import javax.inject.Named;
 @Named
 @SessionScoped
 public class CzasTrwania implements Serializable{
-    
+    private static final long serialVersionUID = 1L;
     private static final Map<Integer,String> listaczastrwania;
     
     static {

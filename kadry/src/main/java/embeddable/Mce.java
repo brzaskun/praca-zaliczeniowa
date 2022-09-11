@@ -22,7 +22,7 @@ import view.WpisView;
 @Named
 @SessionScoped
 public class Mce implements Serializable{
-    
+    private static final long serialVersionUID = 1L;
     private static final List<String> mceList;
     private static final List<String> mceListKW;
     private static final List<String> mceListOdKonca;
