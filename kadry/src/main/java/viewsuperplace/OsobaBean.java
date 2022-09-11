@@ -11,9 +11,12 @@ import comparator.ZatrudHistComparator;
 import dao.DefinicjalistaplacFacade;
 import dao.KalendarzmiesiacFacade;
 import dao.KalendarzwzorFacade;
+import dao.NieobecnoscFacade;
 import dao.RodzajlistyplacFacade;
+import dao.RodzajnieobecnosciFacade;
 import dao.SkladnikPotraceniaFacade;
 import dao.SkladnikWynagrodzeniaFacade;
+import dao.SwiadczeniekodzusFacade;
 import dao.ZmiennaPotraceniaFacade;
 import dao.ZmiennaWynagrodzeniaFacade;
 import data.Data;
@@ -225,17 +228,8 @@ public class OsobaBean {
     static List<Kalendarzmiesiac> generujKalendarzNowaUmowa(Angaz angaz, Pracownik pracownik, Umowa umowa, KalendarzmiesiacFacade kalendarzmiesiacFacade, KalendarzwzorFacade kalendarzwzorFacade, String rok, List<EtatPrac> etaty) {
         List<Kalendarzmiesiac> zwrot = new ArrayList<>();
         if (angaz!=null && pracownik!=null && umowa!=null) {
-            //Integer rokodumowy = Integer.parseInt(Data.getRok(umowa.getDataod()));
-            //Integer rokimportu = Integer.parseInt(rok);
-            //Integer mcod = Integer.parseInt(Data.getMc(umowa.getDataod()));
-            //Integer dzienod = Integer.parseInt(Data.getDzien(umowa.getDataod()));
             Integer mcod = 1;
             Integer dzienod = 1;
-//            if (rokodumowy<rokimportu) {
-//                mcod = 1;
-//                dzienod = 1;
-//            }
-//            if (rokodumowy<=rokimportu) {
             for (String mce: Mce.getMceListS()) {
                 Integer kolejnymc = Integer.parseInt(mce);
                 if (kolejnymc>=mcod) {
@@ -264,6 +258,22 @@ public class OsobaBean {
         }
         return zwrot;
     }
+    
+    public static List<Nieobecnosc> pobierznieobecnosci(Osoba osoba, Umowa aktywnaumowa, NieobecnoscFacade nieobecnoscFacade, RodzajnieobecnosciFacade rodzajnieobecnosciFacade, SwiadczeniekodzusFacade swiadczeniekodzusFacade) {
+        List<Rodzajnieobecnosci> rodzajnieobscnoscilist = rodzajnieobecnosciFacade.findAll();
+        List<Swiadczeniekodzus> swiadczeniekodzuslist = swiadczeniekodzusFacade.findAll();
+        List<Nieobecnosc> nieobecnosci = OsobaBean.pobierznieobecnosci(osoba, aktywnaumowa, rodzajnieobscnoscilist, swiadczeniekodzuslist);
+        for (Nieobecnosc p : nieobecnosci) {
+            p.setImportowana(true);
+            p.setRokod(Data.getRok(p.getDataod()));
+            p.setRokdo(Data.getRok(p.getDatado()));
+            p.setMcod(Data.getMc(p.getDataod()));
+            p.setMcdo(Data.getMc(p.getDatado()));
+        }
+        nieobecnoscFacade.createList(nieobecnosci);
+        return nieobecnosci;
+    }
+    
     
     static List<Skladnikpotracenia> pobierzskladnipotracenia(List<OsobaPot> skladniki, List<Rodzajpotracenia> rodzajepotracen, Umowa aktywna, SkladnikPotraceniaFacade skladnikPotraceniaFacade, ZmiennaPotraceniaFacade zmiennaPotraceniaFacade) {
         List<Skladnikpotracenia> zwrot = new ArrayList<>();

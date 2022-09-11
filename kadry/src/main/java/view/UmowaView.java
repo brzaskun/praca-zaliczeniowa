@@ -33,7 +33,6 @@ import entity.EtatPrac;
 import entity.Kalendarzmiesiac;
 import entity.Kalendarzwzor;
 import entity.Kodyzawodow;
-import entity.Kombinacjaubezpieczen;
 import entity.Nieobecnosc;
 import entity.Rodzajwynagrodzenia;
 import entity.Skladnikpotracenia;
@@ -43,7 +42,6 @@ import entity.Umowa;
 import entity.Umowakodzus;
 import entity.Zmiennapotracenia;
 import entity.Zmiennawynagrodzenia;
-import error.E;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -54,7 +52,6 @@ import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import kadryiplace.OsobaPropTyp;
 import kadryiplace.WynKodTyt;
 import msg.Msg;
 import pdf.PdfUmowaoPrace;
@@ -714,16 +711,16 @@ public class UmowaView  implements Serializable {
     }
       
     
-    public void rob() {
-        List<OsobaPropTyp> lista = osobaPropTypFacade.findAll();
-        for (OsobaPropTyp p : lista) {
-            Kombinacjaubezpieczen k = new Kombinacjaubezpieczen(p);
-            try {
-                kombinacjaubezpieczenFacade.create(k);
-            } catch (Exception e) {
-                E.e(e);
-            }
-        }
-    }
+//    public void rob() {
+//        List<OsobaPropTyp> lista = osobaPropTypFacade.findAll();
+//        for (OsobaPropTyp p : lista) {
+//            Kombinacjaubezpieczen k = new Kombinacjaubezpieczen(p);
+//            try {
+//                kombinacjaubezpieczenFacade.create(k);
+//            } catch (Exception e) {
+//                E.e(e);
+//            }
+//        }
+//    }
     
 }

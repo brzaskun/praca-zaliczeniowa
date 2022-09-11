@@ -91,7 +91,7 @@ public class FirmaView  implements Serializable {
             selectedeast = wpisView.getFirma();
         }
         firmysuperplace = firmaFacade.findAll();
-        opipi();
+        //opipi();
     }
     
     @Inject
@@ -103,6 +103,7 @@ public class FirmaView  implements Serializable {
             System.out.println(p.toString());
         }
         zusdraDAO.find();
+        System.out.println("");
     }
 
     public void create() {

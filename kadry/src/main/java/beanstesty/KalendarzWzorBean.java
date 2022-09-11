@@ -58,7 +58,7 @@ public class KalendarzWzorBean {
         return kalendarzwzor;
     }
         
-        public static void create(Kalendarzwzor kalendarzwzor) {
+        public static void dodajdnidokalendarza(Kalendarzwzor kalendarzwzor) {
             kalendarzwzor.setDzienList(new ArrayList<>());
             String data = kalendarzwzor.getRok()+"-"+kalendarzwzor.getMc()+"-";
             String data2 = kalendarzwzor.getRok()+"-"+kalendarzwzor.getMc()+"-0";

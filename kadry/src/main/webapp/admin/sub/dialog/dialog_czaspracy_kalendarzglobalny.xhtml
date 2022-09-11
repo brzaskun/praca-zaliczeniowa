@@ -5,36 +5,36 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     >
-    <p:dialog id="dialogkalendarzwzor" header="Kalendarz wzorcowy" widgetVar="dialogkalendarzwzor"  
-              resizable="false"  onShow="ustawdialog('dialogkalendarzwzor','centertile',1650,800);" closeOnEscape="true" onHide="resetujdialog('dialogkalendarzwzor');" 
+    <p:dialog id="dialogkalendarzglobalny" header="Kalendarz globalny do implementacji jako wzorcowy danej firmy" widgetVar="dialogkalendarzglobalny"  
+              resizable="false"  onShow="ustawdialog('dialogkalendarzglobalny','centertile',1650,800);" closeOnEscape="true" onHide="resetujdialog('dialogkalendarzglobalny');" 
               fitViewport="true">
-        <p:ajax event="open" listener="#{kalendarzwzorView.init()}" update="KalendarzwzorCreateForm KalendarzwzormiesiacSaRokForm KalendarzwzorCopyForm KalendarzwzorListForm" global="false"/>
+        <p:ajax event="open" listener="#{kalendarzGlobalnyView.init()}" update="KalendarzGlobalCreateForm KalendarzwzormiesiacSaRokGlobForm  KalendarzwzorListGlobForm" global="false"/>
         <p:outputPanel style="height: 180px">
             <p:panelGrid columns="3">
-                <h:form id="KalendarzwzorCreateForm">
+                <h:form id="KalendarzGlobalCreateForm">
                     <h:panelGroup id="display">
-                        <p:panelGrid columns="2" rendered="#{kalendarzwzorView.selected != null}">
+                        <p:panelGrid columns="2" rendered="#{kalendarzGlobalnyView.selected != null}">
                             <p:outputLabel value="firma" for="firmakalendarz" />
-                            <h:outputText id="firmakalendarz" value="#{kalendarzwzorView.selected.firma.nazwa}"/>
+                            <h:outputText id="firmakalendarz" value="#{kalendarzGlobalnyView.selected.firma.nazwa}"/>
                             <p:outputLabel value="rok" for="rok" />
-                            <p:inputText id="rok" value="#{kalendarzwzorView.selected.rok}" title="rok" >
-                                <p:ajax event="change" partialSubmit="true" listener="#{kalendarzwzorView.init2()}" global="false" update="KalendarzwzormiesiacSaRokForm:datalist" />
+                            <p:inputText id="rok" value="#{kalendarzGlobalnyView.selected.rok}" title="rok" >
+                                <p:ajax event="change" partialSubmit="true" listener="#{kalendarzGlobalnyView.init2()}" global="false" update="KalendarzwzormiesiacSaRokGlobForm:datalist" />
                             </p:inputText>
                             <p:outputLabel value="miesiąc" for="mc" />
-                            <p:inputText id="mc" value="#{kalendarzwzorView.selected.mc}" title="mc" >
-                                <p:ajax event="blur" listener="#{kalendarzwzorView.zrobkalendarzumowa}" partialSubmit="true" global="false" update="KalendarzwzorCreateForm:mc :KalendarzwzorListForm"/>
+                            <p:inputText id="mc" value="#{kalendarzGlobalnyView.selected.mc}" title="mc" >
+                                <p:ajax event="blur" listener="#{kalendarzGlobalnyView.zrobkalendarzumowa}" partialSubmit="true" global="false" update="KalendarzGlobalCreateForm:mc :KalendarzwzorListGlobForm"/>
                             </p:inputText>
 
                         </p:panelGrid>
                     </h:panelGroup>
                 </h:form>
-                <h:form id="KalendarzwzormiesiacSaRokForm">
-                    <p:dataTable id="datalist" value="#{kalendarzwzorView.lista}" var="itemkalendarzwzorjest"
+                <h:form id="KalendarzwzormiesiacSaRokGlobForm">
+                    <p:dataTable id="datalist" value="#{kalendarzGlobalnyView.lista}" var="itemkalendarzwzorjest"
                                  rowKey="#{itemkalendarzwzorjest.id}" emptyMessage="brak kalendarzy wzor."
-                                 selection="#{kalendarzwzorView.selected}" selectionMode="single"
+                                 selection="#{kalendarzGlobalnyView.selected}" selectionMode="single"
                                  style="height: 150px;overflow-y: scroll; width: 150px; margin-left: 50px;" sortBy="#{itemkalendarzwzorjest.mc}"
                                  >
-                        <p:ajax event="rowSelect" partialSubmit="true" global="false" update=":KalendarzwzorListForm KalendarzwzorCreateForm:mc KalendarzwzorCreateForm:rok"/>
+                        <p:ajax event="rowSelect" partialSubmit="true" global="false" update=":KalendarzwzorListGlobForm KalendarzGlobalCreateForm:mc KalendarzGlobalCreateForm:rok"/>
                         <p:column width="50" style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="utworzono kalendarze za mc"/>
@@ -43,23 +43,13 @@
                         </p:column>
                     </p:dataTable>
                 </h:form>
-                <h:form id="KalendarzwzorCopyForm">
-                    <p:outputPanel>
-                        <p:commandButton value="generuj z globalnego" styleClass="nuttonnorm" actionListener="#{kalendarzwzorView.globalnie}" update="KalendarzwzormiesiacSaRokForm"/>
-                    </p:outputPanel>
-                </h:form>
-                <h:form id="KalendarzwzorCopyFormTMP">
-                    <p:outputPanel>
-                        <p:commandButton value="wygeneruj globalne" styleClass="nuttonnorm" actionListener="#{kalendarzwzorView.taxmannaglobalnie}" update="KalendarzwzormiesiacSaRokForm"/>
-                    </p:outputPanel>
-                </h:form>
             </p:panelGrid>
         </p:outputPanel>
         <p:outputPanel>
             <p:panelGrid columns="2">
-            <h:form id="KalendarzwzorListForm">
+            <h:form id="KalendarzwzorListGlobForm">
                 <p:panel header="Dni kalendarza wzorcowego">
-                    <p:dataTable id="datalist" value="#{kalendarzwzorView.selected.dzienList}" var="itemkalendarz"
+                    <p:dataTable id="datalist" value="#{kalendarzGlobalnyView.selected.dzienList}" var="itemkalendarz"
                                  rowKey="#{itemkalendarz.id}"  sortMode="single"
                                  style="height: 450px; width: 600px; overflow-y: scroll;"
                                  emptyMessage="Brak zapisów"
@@ -144,17 +134,19 @@
                         <p:fragment>
                             <p:autoUpdate/>
                             <h:outputText value="norma godzin "/>
-                            <h:outputText value="#{kalendarzwzorView.selected.norma}"/>
+                            <h:outputText value="#{kalendarzGlobalnyView.selected.norma}"/>
                         </p:fragment>
                     </p:outputPanel>
                 </p:panel>
                 <p:outputPanel>
-                    <p:commandButton styleClass="buttonnorm" actionListener="#{kalendarzwzorView.edit}" value="#{bundle.Edit}"  update="KalendarzwzorCreateForm:mc :KalendarzwzorListForm:datalist KalendarzwzormiesiacSaRokForm:datalist" rendered="#{kalendarzwzorView.selected.id ne null}"/>
-                    <p:commandButton styleClass="buttonnorm2" actionListener="#{kalendarzwzorView.reset}" value="Resetuj"  update="KalendarzwzorCreateForm:mc :KalendarzwzorListForm:datalist KalendarzwzormiesiacSaRokForm:datalist" rendered="#{kalendarzwzorView.selected.id ne null}"/>
-                    <p:commandButton styleClass="buttonnorm2" actionListener="#{kalendarzwzorView.create}" value="#{bundle.Save}"  update="KalendarzwzorCreateForm:mc :KalendarzwzorListForm:datalist KalendarzwzormiesiacSaRokForm:datalist" rendered="#{kalendarzwzorView.selected.id eq null}"/>
-                    <p:commandButton styleClass="buttonnorm2" actionListener="#{kalendarzwzorView.nanieszmiany}" value="nanieś pracow."  update="KalendarzwzorCreateForm:mc :KalendarzwzorListForm:datalist KalendarzwzormiesiacSaRokForm:datalist" rendered="#{kalendarzwzorView.selected.id ne null}"/>
-                    <p:commandButton styleClass="buttonnorm2" actionListener="#{kalendarzwzorView.implementuj}" value="implementuj wszyscy"  
-                                     update="KalendarzwzorCreateForm:mc :KalendarzwzorListForm:datalist KalendarzwzormiesiacSaRokForm:datalist" rendered="#{kalendarzwzorView.selected.id ne null}"/>
+                    <p:commandButton styleClass="buttonnorm" actionListener="#{kalendarzGlobalnyView.edit}" value="#{bundle.Edit}"  update="KalendarzGlobalCreateForm:mc :KalendarzwzorListGlobForm:datalist KalendarzwzormiesiacSaRokGlobForm:datalist" rendered="#{kalendarzGlobalnyView.selected.id ne null}">
+                        <p:confirm type="popup" header="Zachowanie zmian" message="Na pewno zachować zmiany?" icon="pi pi-exclamation-triangle"/>
+                    </p:commandButton>
+                    <p:commandButton styleClass="buttonnorm2" actionListener="#{kalendarzGlobalnyView.reset}" value="Resetuj"  update="KalendarzGlobalCreateForm:mc :KalendarzwzorListGlobForm:datalist KalendarzwzormiesiacSaRokGlobForm:datalist" rendered="#{kalendarzGlobalnyView.selected.id ne null}"/>
+                    <p:commandButton styleClass="buttonnorm2" actionListener="#{kalendarzGlobalnyView.create}" value="#{bundle.Save}"  update="KalendarzGlobalCreateForm:mc :KalendarzwzorListGlobForm:datalist KalendarzwzormiesiacSaRokGlobForm:datalist" rendered="#{kalendarzGlobalnyView.selected.id eq null}"/>
+                    <p:commandButton styleClass="buttonnorm2" actionListener="#{kalendarzGlobalnyView.nanieszmiany}" value="nanies na wzor."  update="KalendarzGlobalCreateForm:mc :KalendarzwzorListGlobForm:datalist KalendarzwzormiesiacSaRokGlobForm:datalist" rendered="#{kalendarzGlobalnyView.selected.id ne null}">
+                        <p:confirm type="popup" header="Kopiowanie do wszystkich wzorcowych" message="Na pewno kopiowac do wzorcowych?" icon="pi pi-exclamation-triangle"/>
+                    </p:commandButton>
                 </p:outputPanel>
            </h:form>
                 <p:outputPanel>

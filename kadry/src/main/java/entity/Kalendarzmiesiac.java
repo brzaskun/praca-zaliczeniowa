@@ -132,7 +132,7 @@ private static final long serialVersionUID = 1L;
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-      public void edytujdnizglobalnego(Kalendarzwzor kalendarzwzor) {
+    public void edytujdnizglobalnego(Kalendarzwzor kalendarzwzor) {
         List<Dzien> dzienListwzor = kalendarzwzor.getDzienList();
         Collections.sort(dzienListwzor, new Dziencomparator());
         for (int i = 0; i < dzienListwzor.size(); i++) {
