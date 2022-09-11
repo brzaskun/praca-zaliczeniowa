@@ -66,7 +66,7 @@
                                 <f:facet name="input"><p:inputText value="#{item.regon}" style="width: 90%"/></f:facet>
                             </p:cellEditor>
                         </p:column  >
-                        <p:column width="200" filterBy="#{item.nazwa}" filterMatchMode="startsWith" filterable="true" sortBy="#{item.nazwa}">
+                        <p:column width="200" filterBy="#{item.nazwa}" filterMatchMode="contains" filterable="true" sortBy="#{item.nazwa}">
                             <f:facet name="header">
                                 <h:outputText value="Nazwa"/>
                             </f:facet>
@@ -75,7 +75,7 @@
                                 <f:facet name="input"><p:inputText value="#{item.nazwa}" style="width: 90%"/></f:facet>
                             </p:cellEditor>
                         </p:column>
-                        <p:column filterBy="#{item.nazwisko}" filterMatchMode="startsWith" filterable="true" sortBy="#{item.nazwisko}" >
+                        <p:column filterBy="#{item.nazwisko}" filterMatchMode="contains" filterable="true" sortBy="#{item.nazwisko}" >
                             <f:facet name="header">
                                 <h:outputText value="Nazwisko"/>
                             </f:facet>
@@ -93,7 +93,7 @@
                                 <f:facet name="input"><p:inputText value="#{item.imie}" style="width: 90%"/></f:facet>
                             </p:cellEditor>
                         </p:column>
-                        <p:column filterBy="#{item.login}" filterMatchMode="startsWith" filterable="true" >
+                        <p:column filterBy="#{item.login}" filterMatchMode="contains" filterable="true" >
                             <f:facet name="header">
                                 <h:outputText value="Login"/>
                             </f:facet>
@@ -282,10 +282,19 @@
                         <h:outputText value="#{loop11.nazwanazwisko}" />
                     </p:column>
                     <p:column headerText="aktywny" width="30" style="text-align: center;">
-                        <h:outputText value="&#x2713;" rendered="#{loop11.aktywny}" />
+                        <p:selectBooleanCheckbox value="#{loop11.aktywny}" >
+                            <p:ajax event="change" partialSubmit="true" listener="#{podmiotView.edytujpodmiot(loop11)}"/>
+                        </p:selectBooleanCheckbox>
                     </p:column>
                     <p:column headerText="akt. dla zus" width="30" style="text-align: center;">
-                        <h:outputText value="&#x2713;" rendered="#{loop11.aktywnydlazus}"/>
+                        <p:selectBooleanCheckbox value="#{loop11.aktywnydlazus}" >
+                            <p:ajax event="change" partialSubmit="true" listener="#{podmiotView.edytujpodmiot(loop11)}"/>
+                        </p:selectBooleanCheckbox>
+                    </p:column>
+                     <p:column headerText="archiw" width="30" style="text-align: center;">
+                         <p:selectBooleanCheckbox value="#{loop11.stop}" >
+                            <p:ajax event="change" partialSubmit="true" listener="#{podmiotView.edytujpodmiot(loop11)}"/>
+                        </p:selectBooleanCheckbox>
                     </p:column>
                     <p:column headerText="mail" width="200" filterBy="#{loop11.email}" filterMatchMode="startsWith">
                         <h:outputText value="#{loop11.email}" />
