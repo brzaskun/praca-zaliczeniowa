@@ -215,7 +215,7 @@
                 <p:dataTable value="#{podmiotView.podatnikUdzialy}"  var="loop" rowKey="#{loop.id}"  id="form9tablica"
                              editable="true" style="width:1700px;" sortBy="#{loop.podatnikObj.printnazwa}">
                     <p:ajax event="rowEdit"  />
-                    <p:column headerText="nazwa" style="text-align: left;" width="250" sortBy="#{loop.podatnikObj.printnazwa}" filterBy="#{loop.podatnikObj.printnazwa}" filterMatchMode="contains">
+                    <p:column headerText="podatnik" style="text-align: left;" width="250" sortBy="#{loop.podatnikObj.printnazwa}" filterBy="#{loop.podatnikObj.printnazwa}" filterMatchMode="contains">
                         <h:outputText value="#{loop.podatnikObj.printnazwa}" />
                     </p:column>
                     <p:column headerText="księgowa" style="text-align: left;" width="100" sortBy="#{loop.podatnikObj.ksiegowa.imieNazwisko}" filterBy="#{loop.podatnikObj.ksiegowa.imieNazwisko}" filterMatchMode="contains">
@@ -232,7 +232,7 @@
                         <h:outputText value=" "/>
                         <h:outputText value="#{loop.podmiot.imie}"/>
                     </p:column>
-                    <p:column headerText="nazwisko i imie" width="200">
+                    <p:column headerText="udziały nazwa" width="200">
                         <h:outputText value="#{loop.nazwiskoimie}" />
                     </p:column>
                     <p:column headerText="data od" width="90">

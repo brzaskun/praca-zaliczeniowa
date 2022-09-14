@@ -410,6 +410,7 @@ public class DochodDlaDRAView implements Serializable {
                 w.setPrzychoddra(znaleziona.getDraprzychody());
                 w.setPrzychoddraru(znaleziona.getDraprzychodyRR());
                 w.setZdrowotna(znaleziona.getZdrowotne());
+                w.setZusdozaplaty(znaleziona.getDozaplaty());
                 if (w.getOpodatkowanie().equals("ryczałt")) {
                     if (w.getWynikpodatkowynar()!=w.getPrzychoddra()) {
                         w.setBlad(true);

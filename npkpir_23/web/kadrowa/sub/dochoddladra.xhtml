@@ -247,7 +247,7 @@
                                     <f:facet name="header">
                                         <h:outputText value="DRA"/>
                                     </f:facet>
-                                    <h:outputText value="#{item.zusdra.xii8Datawypel}">
+                                    <h:outputText value="#{item.datadra}">
                                         <f:convertDateTime dateStyle="medium" locale="pl"/>
                                     </h:outputText>
                                 </p:column>
@@ -255,19 +255,19 @@
                                     <f:facet name="header">
                                         <h:outputText value="term"/>
                                     </f:facet>
-                                    <h:outputText value="#{item.zusdra.i1Termindekirap}"/>
+                                    <h:outputText value="brak"/>
                                 </p:column>
                                 <p:column  style="text-align: center;width: 20px;">
                                     <f:facet name="header">
                                         <h:outputText value="ub."/>
                                     </f:facet>
-                                    <h:outputText value="#{item.zusdra.iii1Lubezp}"/>
+                                    <h:outputText value="#{item.ubezpZusrca}"/>
                                 </p:column>
                                 <p:column  style="text-align: center;width: 50px;">
                                     <f:facet name="header">
                                         <h:outputText value="okres"/>
                                     </f:facet>
-                                    <h:outputText value="#{item.zusdra.i22okresdeklar}" style="color: green;"/>
+                                    <h:outputText value="brak" style="color: green;"/>
                                 </p:column>
                                 <p:column  style="text-align: center;width: 20px;">
                                     <f:facet name="header">
@@ -279,7 +279,7 @@
                                     <f:facet name="header">
                                         <h:outputText value="DRA d.zapł."/>
                                     </f:facet>
-                                    <bcf:outputpl value="#{item.zusdra.ix2Kwdozaplaty}"/>
+                                    <bcf:outputpl value="#{item.zusdozaplaty}"/>
                                 </p:column>
                                 <p:column  style="width: 70px;">
                                     <f:facet name="header">

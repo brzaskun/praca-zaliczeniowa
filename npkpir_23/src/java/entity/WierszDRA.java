@@ -82,6 +82,8 @@ public class WierszDRA  implements Serializable{
     private double wynikpodatkowymcInne;
     @Column (name = "wynikpodatkowynarinne")
     private double wynikpodatkowynarInne;
+    @Column (name = "zusdozaplaty")
+     private double zusdozaplaty;
     @Column (name = "dochodzus")
     private double dochodzus;
     @Column (name = "dochodzusnar")
@@ -500,6 +502,14 @@ public class WierszDRA  implements Serializable{
 
     public void setZdrowotna(double zdrowotna) {
         this.zdrowotna = zdrowotna;
+    }
+
+    public double getZusdozaplaty() {
+        return zusdozaplaty;
+    }
+
+    public void setZusdozaplaty(double zusdozaplaty) {
+        this.zusdozaplaty = zusdozaplaty;
     }
     
     
