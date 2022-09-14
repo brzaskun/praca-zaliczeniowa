@@ -977,7 +977,7 @@ public class DochodDlaDRAView implements Serializable {
             + " <p> &nbsp;</p>";
     
      private void przygotujmail(WierszDRA wierszDRA, List<Zusmail> maile, String rok, String mc) {
-        if (wierszDRA != null && wierszDRA.getZusdra() != null && wierszDRA.getZusdra().getIx2Kwdozaplaty() != null) {
+        if (wierszDRA != null) {
             try {
                 Zusmail zusmail = null;
                 if (wierszDRA.getZusmail() != null) {
