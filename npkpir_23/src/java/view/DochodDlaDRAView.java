@@ -1003,7 +1003,7 @@ public class DochodDlaDRAView implements Serializable {
                 if (zusmail == null) {
                     zusmail = new Zusmail(wierszDRA.getPodatnik(), rok, mc);
                 }
-                zusmail.setZus(wierszDRA.getZusdra().getIx2Kwdozaplaty().doubleValue());
+                zusmail.setZus(wierszDRA.getZusdozaplaty());
                 zusmail.setPit4(wierszDRA.getPit4());
                 zusmail.setPit8(null);
                 double zus = 0;
