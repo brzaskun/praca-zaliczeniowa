@@ -20,8 +20,8 @@ import javax.inject.Named;
 public class WierszDRAcomparator implements Comparator<WierszDRA>{
     @Override
     public int compare(WierszDRA o1, WierszDRA o2) {
-        String imieinaz1 = o1.getImienazwisko();
-        String imieinaz2 = o2.getImienazwisko();
+        String imieinaz1 = o1.getPodatnikudzial().getNazwiskoimie();
+        String imieinaz2 = o2.getPodatnikudzial().getNazwiskoimie();
         String datao1 = imieinaz1.toLowerCase(new Locale("pl", "PL"));
         String datao2 = imieinaz2.toLowerCase(new Locale("pl", "PL"));
         Collator collator = Collator.getInstance(new Locale("pl", "PL"));

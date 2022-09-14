@@ -34,33 +34,33 @@
                             </p:panelGrid>
                             <p:dataTable value="#{dochodDlaDRAView.wiersze}" var="item" style="width: 1850px;padding: 20px;" 
                                          scrollable="true" scrollHeight="750" scrollRows="30" filteredValue="#{dochodDlaDRAView.wierszeFiltered}"
-                                         emptyMessage="nie pobrano danych" id="wykazschem" rowKey="#{item.podatnik.nip}" rowIndexVar="yndex" reflow="true"
-                                         selection="#{dochodDlaDRAView.selected}" selectionMode="single" sortBy="#{item.imienazwisko}" sortOrder="ascending">
+                                         emptyMessage="nie pobrano danych" id="wykazschem" rowKey="#{item.podatnikudzial.podatnikObj.nip}" rowIndexVar="yndex" reflow="true"
+                                         selection="#{dochodDlaDRAView.selected}" selectionMode="single" sortBy="#{item.podatnikudzial.podatnikObj.printnazwa}" sortOrder="ascending">
                                 <p:column style="width: 20px;">
                                     <f:facet name="header">
                                         <h:outputText value="id"/>
                                     </f:facet>
                                     <h:outputText value="#{yndex+1}" style="width: 20px;"/>
                                 </p:column>
-                                <p:column  style="width: 300px;" exportable="false" filterBy="#{item.podatnik.printnazwa}" filterMatchMode="contains">
+                                <p:column  style="width: 300px;" exportable="false" filterBy="#{item.podatnikudzial.podatnikObj.printnazwa}" filterMatchMode="contains">
                                     <f:facet name="header">
                                         <h:outputText value="płatnik"/>
                                     </f:facet>
-                                    <h:outputText value="#{item.podatnik.printnazwa}"/>
+                                    <h:outputText value="#{item.podatnikudzial.podatnikObj.printnazwa}"/>
                                     <h:outputText value="/"/>
-                                    <h:outputText value="#{item.imienazwisko}"/>
+                                    <h:outputText value="#{item.podatnikudzial.nazwiskoimie}"/>
                                 </p:column>
-                                <p:column  style="width: 80px;" exportable="false" filterBy="#{item.podatnik.printnazwa}" filterMatchMode="startsWith">
+                                <p:column  style="width: 80px;" exportable="false" filterBy="#{item.podatnikudzial.podatnikObj.nip}" filterMatchMode="startsWith">
                                     <f:facet name="header">
                                         <h:outputText value="NIP"/>
                                     </f:facet>
-                                    <h:outputText value="#{item.podatnik.nip}"/>
+                                    <h:outputText value="#{item.podatnikudzial.podatnikObj.nip}"/>
                                 </p:column>
-                                <p:column  style="width: 70px;" filterBy="#{item.podatnik.datarozpoczecia}" filterMatchMode="contains">
+                                <p:column  style="width: 70px;" filterBy="#{item.podatnikudzial.podatnikObj.datarozpoczecia}" filterMatchMode="contains">
                                     <f:facet name="header">
                                         <h:outputText value="data rozp"/>
                                     </f:facet>
-                                    <h:outputText value="#{item.podatnik.datarozpoczecia}"/>
+                                    <h:outputText value="#{item.podatnikudzial.podatnikObj.datarozpoczecia}"/>
                                 </p:column>
                                 <p:column  style="width: 20px;" filterBy="#{item.opodatkowanie}">
                                     <f:facet name="header">
@@ -75,7 +75,7 @@
                                     <f:facet name="header">
                                         <h:outputText value="udzial"/>
                                     </f:facet>
-                                    <h:outputText value="#{item.udzial}" rendered="#{item.udzial ne 100}"/>
+                                    <h:outputText value="#{item.podatnikudzial.udzial}" rendered="#{item.podatnikudzial.udzial ne 100}"/>
                                 </p:column>
                                 <p:column  style="width: 30px;">
                                     <f:facet name="header">
@@ -150,7 +150,7 @@
                                     <f:facet name="header">
                                         <h:outputText value="DRA"/>
                                     </f:facet>
-                                    <h:outputText value="#{item.datadra}">
+                                    <h:outputText value="#{item.draSumy.data}">
                                         <f:convertDateTime dateStyle="medium" locale="pl"/>
                                     </h:outputText>
                                 </p:column>
@@ -158,25 +158,25 @@
                                     <f:facet name="header">
                                         <h:outputText value=""/>
                                     </f:facet>
-                                    <h:outputText value="!" style="color: red;" rendered="#{item.blad eq true and item.przychoddraru eq 0.0}"/>
+                                    <h:outputText value="!" style="color: red;" rendered="#{item.blad eq true and item.draSumy.draprzychodyRR eq 0.0}"/>
                                 </p:column>
                                 <p:column  style="width: 70px;">
                                     <f:facet name="header">
                                         <h:outputText value="DRA przych.RU"/>
                                     </f:facet>
-                                    <bcf:outputpl value="#{item.przychoddraru}"/>
+                                    <bcf:outputpl value="#{item.draSumy.draprzychodyRR}"/>
                                 </p:column>
                                 <p:column  style="width: 70px;">
                                     <f:facet name="header">
                                         <h:outputText value="DRA przych. / doch."/>
                                     </f:facet>
-                                    <bcf:outputpl value="#{item.przychoddra}"/>
+                                    <bcf:outputpl value="#{item.draSumy.draprzychody}"/>
                                 </p:column>
                                 <p:column  style="width: 70px;">
                                     <f:facet name="header">
                                         <h:outputText value="DRA zdrow."/>
                                     </f:facet>
-                                    <bcf:outputpl value="#{item.zdrowotna}"/>
+                                    <bcf:outputpl value="#{item.draSumy.zdrowotne}"/>
                                 </p:column>
                                 <p:column style="text-align: center;width: 40px;">
                                     <f:facet name="header">
@@ -208,25 +208,25 @@
                             </style>
                             <p:dataTable value="#{dochodDlaDRAView.wiersze}" var="item" style="width: 1670px;padding: 20px;" reflow="true"
                                          scrollable="true" scrollHeight="750" scrollRows="30" 
-                                         emptyMessage="nie pobrano danych" id="wykazschem" rowKey="#{item.podatnik.nip}" rowIndexVar="yndex"
-                                         selection="#{dochodDlaDRAView.selected}" selectionMode="single" sortBy="#{item.imienazwisko}" sortOrder="ascending">
+                                         emptyMessage="nie pobrano danych" id="wykazschem" rowKey="#{item.podatnikudzial.podatnikObj.nip}" rowIndexVar="yndex"
+                                         selection="#{dochodDlaDRAView.selected}" selectionMode="single" sortBy="#{item.podatnikudzial.nazwiskoimie}" sortOrder="ascending">
                                 <p:column style="width: 20px;">
                                     <f:facet name="header">
                                         <h:outputText value="id"/>
                                     </f:facet>
                                     <h:outputText value="#{yndex+1}" style="width: 20px;"/>
                                 </p:column>
-                                <p:column  style="width: 300px;" exportable="false" filterBy="#{item.podatnik.printnazwa}" filterMatchMode="contains">
+                                <p:column  style="width: 300px;" exportable="false" filterBy="#{item.podatnikudzial.podatnikObj.printnazwa}" filterMatchMode="contains">
                                     <f:facet name="header">
                                         <h:outputText value="płatnik"/>
                                     </f:facet>
-                                    <h:outputText value="#{item.podatnik.printnazwa}"/>
+                                    <h:outputText value="#{item.podatnikudzial.podatnikObj.printnazwa}"/>
                                 </p:column>
-                                <p:column  style="width: 80px;" exportable="false" filterBy="#{item.podatnik.nip}" filterMatchMode="startsWith">
+                                <p:column  style="width: 80px;" exportable="false" filterBy="#{item.podatnikudzial.podatnikObj.nip}" filterMatchMode="startsWith">
                                     <f:facet name="header">
                                         <h:outputText value="NIP"/>
                                     </f:facet>
-                                    <h:outputText value="#{item.podatnik.nip}"/>
+                                    <h:outputText value="#{item.podatnikudzial.podatnikObj.nip}"/>
                                 </p:column>
 
                                 <p:column  style="text-align: center;width: 40px;">
@@ -247,7 +247,7 @@
                                     <f:facet name="header">
                                         <h:outputText value="DRA"/>
                                     </f:facet>
-                                    <h:outputText value="#{item.datadra}">
+                                    <h:outputText value="#{item.draSumy.data}">
                                         <f:convertDateTime dateStyle="medium" locale="pl"/>
                                     </h:outputText>
                                 </p:column>
@@ -255,13 +255,13 @@
                                     <f:facet name="header">
                                         <h:outputText value="term"/>
                                     </f:facet>
-                                    <h:outputText value="brak"/>
+                                    <h:outputText value="#{item.draSumy.okres}"/>
                                 </p:column>
                                 <p:column  style="text-align: center;width: 20px;">
                                     <f:facet name="header">
                                         <h:outputText value="ub."/>
                                     </f:facet>
-                                    <h:outputText value="#{item.ubezpZusrca}"/>
+                                    <h:outputText value="#{item.draSumy.ubezpZusrca}"/>
                                 </p:column>
                                 <p:column  style="text-align: center;width: 50px;">
                                     <f:facet name="header">
@@ -273,19 +273,19 @@
                                     <f:facet name="header">
                                         <h:outputText value="wer"/>
                                     </f:facet>
-                                    <h:outputText value="#{item.zusdra.i21iddekls}"/>
+                                    <h:outputText value="#{item.draSumy.nr}"/>
                                 </p:column>
                                 <p:column  style="width: 70px;">
                                     <f:facet name="header">
                                         <h:outputText value="DRA d.zapł."/>
                                     </f:facet>
-                                    <bcf:outputpl value="#{item.zusdozaplaty}"/>
+                                    <bcf:outputpl value="#{item.draSumy.dozaplaty}"/>
                                 </p:column>
                                 <p:column  style="width: 70px;">
                                     <f:facet name="header">
                                         <h:outputText value="PIT-4"/>
                                     </f:facet>
-                                    <bcf:outputpl value="#{item.pit4}"/>
+                                    <bcf:outputpl value="#{item.draSumy.pit4}"/>
                                 </p:column>
                                 <p:column  style="width: 60px;">
                                     <f:facet name="header">
