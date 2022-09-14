@@ -251,12 +251,12 @@
                                         <f:convertDateTime dateStyle="medium" locale="pl"/>
                                     </h:outputText>
                                 </p:column>
-                                <p:column  style="text-align: center;width: 20px;">
+<!--                                <p:column  style="text-align: center;width: 20px;">
                                     <f:facet name="header">
                                         <h:outputText value="term"/>
                                     </f:facet>
-                                    <h:outputText value="#{item.draSumy.okres}"/>
-                                </p:column>
+                                    <h:outputText value="#{item.draSumy.ubezpZusrca}"/>
+                                </p:column>-->
                                 <p:column  style="text-align: center;width: 20px;">
                                     <f:facet name="header">
                                         <h:outputText value="ub."/>
@@ -267,7 +267,7 @@
                                     <f:facet name="header">
                                         <h:outputText value="okres"/>
                                     </f:facet>
-                                    <h:outputText value="brak" style="color: green;"/>
+                                    <h:outputText value="#{item.draSumy.okres}" style="color: green;"/>
                                 </p:column>
                                 <p:column  style="text-align: center;width: 20px;">
                                     <f:facet name="header">
