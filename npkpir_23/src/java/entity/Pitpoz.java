@@ -78,6 +78,10 @@ public class Pitpoz implements Serializable {
     @Size(max = 255)
     @Column(name = "pkpir_m")
     private String pkpirM;
+    @Column(name = "przychodymc")
+    private double przychodymc;
+    @Column(name = "kosztymc")
+    private double kosztymc;
     @Column(name = "przychody")
     private BigDecimal przychody;
     @Column(name = "koszty")
@@ -88,6 +92,10 @@ public class Pitpoz implements Serializable {
     private BigDecimal przychodyudzial;
     @Column(name = "kosztyudzial")
     private BigDecimal kosztyudzial;
+    @Column(name = "przychodyudzialmc")
+    private double przychodyudzialmc;
+    @Column(name = "kosztyudzialmc")
+    private double kosztyudzialmc;
     @Column(name = "wynik")
     private BigDecimal wynik;
     @Column(name = "strata")
@@ -363,6 +371,42 @@ public class Pitpoz implements Serializable {
 
     public void setPodmiot(Podmiot podmiot) {
         this.podmiot = podmiot;
+    }
+
+    public double getPrzychodymc() {
+        return przychodymc;
+    }
+
+    public void setPrzychodymc(double przychodymc) {
+        this.przychodymc = przychodymc;
+    }
+
+    public double getKosztymc() {
+        return kosztymc;
+    }
+
+    public void setKosztymc(double kosztymc) {
+        this.kosztymc = kosztymc;
+    }
+
+    public double getPrzychodyudzialmc() {
+        return przychodyudzialmc;
+    }
+
+    public void setPrzychodyudzialmc(double przychodyudzialmc) {
+        this.przychodyudzialmc = przychodyudzialmc;
+    }
+
+    public double getKosztyudzialmc() {
+        return kosztyudzialmc;
+    }
+
+    public void setKosztyudzialmc(double kosztyudzialmc) {
+        this.kosztyudzialmc = kosztyudzialmc;
+    }
+
+    public double getWynikzamc() {
+        return Z.z(this.przychodymc-this.kosztymc);
     }
 
     

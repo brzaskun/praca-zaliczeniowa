@@ -206,7 +206,7 @@ public class ZestawienieView implements Serializable {
                 E.e(e);
                 Msg.msg("e", "Nie uzupełnione parametry podatnika", "formpit:messages");
             }
-            sumowaniemiesiecy();
+            sumowaniemiesiecy(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
 
         }
         if (listawybranychudzialowcow.size() == 1 && CollectionUtils.isNotEmpty(lista)) {
@@ -246,25 +246,25 @@ public class ZestawienieView implements Serializable {
         naniesnaliste(wrok, rok);
     }
     
-    private void sumowaniemiesiecy() {
+    private void sumowaniemiesiecy(Podatnik podatnik, String rokint, String mcints) {
         try {
-            styczen = new WierszPkpir(1, wpisView.getRokWpisuSt(), "01", "styczeń");
-            luty = new WierszPkpir(2, wpisView.getRokWpisuSt(), "02", "luty");
-            marzec = new WierszPkpir(3, wpisView.getRokWpisuSt(), "03", "marzec");
-            kwiecien = new WierszPkpir(4, wpisView.getRokWpisuSt(), "04", "kwiecień");
-            maj = new WierszPkpir(5, wpisView.getRokWpisuSt(), "05", "maj");
-            czerwiec = new WierszPkpir(6, wpisView.getRokWpisuSt(), "06", "czerwiec");
-            lipiec = new WierszPkpir(7, wpisView.getRokWpisuSt(), "07", "lipiec");
-            sierpien = new WierszPkpir(8, wpisView.getRokWpisuSt(), "08", "sierpień");
-            wrzesien = new WierszPkpir(9, wpisView.getRokWpisuSt(), "09", "wrzesień");
-            pazdziernik = new WierszPkpir(10, wpisView.getRokWpisuSt(), "10", "październik");
-            listopad = new WierszPkpir(11, wpisView.getRokWpisuSt(), "11", "listopad");
-            grudzien = new WierszPkpir(12, wpisView.getRokWpisuSt(), "12", "grudzień");
-            Ipolrocze = new WierszPkpir(13, wpisView.getRokWpisuSt(), "13", "I półrocze");  
-            IIpolrocze = new WierszPkpir(14, wpisView.getRokWpisuSt(), "14", "II półrocze");
-            rok = new WierszPkpir(15, wpisView.getRokWpisuSt(), "15", "rok");
+            styczen = new WierszPkpir(1, rokint, "01", "styczeń");
+            luty = new WierszPkpir(2, rokint, "02", "luty");
+            marzec = new WierszPkpir(3, rokint, "03", "marzec");
+            kwiecien = new WierszPkpir(4, rokint, "04", "kwiecień");
+            maj = new WierszPkpir(5, rokint, "05", "maj");
+            czerwiec = new WierszPkpir(6, rokint, "06", "czerwiec");
+            lipiec = new WierszPkpir(7, rokint, "07", "lipiec");
+            sierpien = new WierszPkpir(8, rokint, "08", "sierpień");
+            wrzesien = new WierszPkpir(9, rokint, "09", "wrzesień");
+            pazdziernik = new WierszPkpir(10, rokint, "10", "październik");
+            listopad = new WierszPkpir(11, rokint, "11", "listopad");
+            grudzien = new WierszPkpir(12, rokint, "12", "grudzień");
+            Ipolrocze = new WierszPkpir(13, rokint, "13", "I półrocze");  
+            IIpolrocze = new WierszPkpir(14, rokint, "14", "II półrocze");
+            rok = new WierszPkpir(15, rokint, "15", "rok");
             zebranieMcy = Collections.synchronizedList(new ArrayList<>());
-                lista = KsiegaBean.pobierzdokumentyRok(dokDAO, wpisView.getPodatnikObiekt(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu(), wpisView.getOdjakiegomcdok());
+                lista = KsiegaBean.pobierzdokumentyRok(dokDAO, podatnik, Integer.parseInt(rokint), mcints, wpisView.getOdjakiegomcdok());
                 if (wybranacechadok != null) {
                     for (Iterator<Dok> it = lista.iterator(); it.hasNext();) {
                         Dok p = it.next();
@@ -520,7 +520,7 @@ public class ZestawienieView implements Serializable {
 
     //oblicze pit i wkleja go do biezacego Pitu w celu wyswietlenia, nie zapisuje
     public void obliczPit() {
-        sumowaniemiesiecy();
+        sumowaniemiesiecy(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
         HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         Principal principal = request.getUserPrincipal();
         String uzernazwa = principal.getName();
@@ -552,17 +552,21 @@ public class ZestawienieView implements Serializable {
                 biezacyPit.setPodmiot(wybranyudzialowiec.getPodmiot());
                 biezacyPit.setPkpirR(wpisView.getRokWpisu().toString());
                 biezacyPit.setPkpirM(wpisView.getMiesiacWpisu());
-                biezacyPit.setPrzychody(obliczprzychod());
+                biezacyPit.setPrzychody(obliczprzychod(biezacyPit));
                 double procent = Double.parseDouble(wybranyudzialowiec.getUdzial()) / 100;
                 biezacyPit.setPrzychodyudzial(biezacyPit.getPrzychody().multiply(new BigDecimal(procent)));
-                biezacyPit.setKoszty(obliczkoszt());
+                biezacyPit.setPrzychodyudzialmc(Z.z(biezacyPit.getPrzychodymc()*procent));
+                biezacyPit.setKoszty(obliczkoszt(biezacyPit));
                 if (wpisView.getMiesiacWpisu().equals("12")) {
                     BigDecimal roznicaremanentow = new BigDecimal(remanentView.getRoznica());
                     biezacyPit.setRemanent(roznicaremanentow);
                     BigDecimal kosztypokorekcie = biezacyPit.getKoszty().add(roznicaremanentow);
+                    biezacyPit.setKosztymc(Z.z(biezacyPit.getKosztymc()+roznicaremanentow.doubleValue()));
                     biezacyPit.setKosztyudzial(kosztypokorekcie.multiply(new BigDecimal(procent)));
+                    biezacyPit.setKosztyudzialmc(Z.z(biezacyPit.getKosztymc()*procent));
                 } else {
                     biezacyPit.setKosztyudzial(biezacyPit.getKoszty().multiply(new BigDecimal(procent)));
+                    biezacyPit.setKosztyudzialmc(Z.z(biezacyPit.getKosztymc()*procent));
                 }
                 biezacyPit.setWynik(biezacyPit.getPrzychodyudzial().subtract(biezacyPit.getKosztyudzial()));
                 biezacyPit.setUdzialowiec(wybranyudzialowiec.getNazwiskoimie());
@@ -734,6 +738,26 @@ public class ZestawienieView implements Serializable {
                     .collect(Collectors.toList());
             }
         }
+    }
+    
+    //oblicze pit i wkleja go do biezacego Pitu w celu wyswietlenia, nie zapisuje
+    public void obliczPitDRA(String rok, String mc, Podatnik podatnik, PodatnikUdzialy udzialowiec) {
+        sumowaniemiesiecy(podatnik,rok,mc);
+        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        Principal principal = request.getUserPrincipal();
+        String uzernazwa = principal.getName();
+        if (flaga == 0) {
+            Pitpoz biezacyPit = pitDAO.find(rok, mc, podatnik.getNazwapelna(), udzialowiec.getNazwiskoimie(), null);
+            if (biezacyPit!=null) {
+                biezacyPit.setPrzychodymc(Z.z(obliczprzychodDRA(mc)));
+                biezacyPit.setKosztymc(Z.z(obliczkosztDRA(mc)));
+                double procent = Z.z4(Double.parseDouble(wybranyudzialowiec.getUdzial()) / 100);
+                biezacyPit.setPrzychodyudzialmc(Z.z(biezacyPit.getPrzychodymc()*procent));
+                biezacyPit.setKosztyudzialmc(Z.z(biezacyPit.getKosztymc()*procent));
+                pitDAO.edit(biezacyPit);
+            }
+        }
+                
     }
 
     private BigDecimal pobierzZUS51() {
@@ -1068,14 +1092,17 @@ public class ZestawienieView implements Serializable {
         }
     }
 
-    private BigDecimal obliczprzychod() {
+    private BigDecimal obliczprzychod(Pitpoz pitpoz) {
         try {
             BigDecimal suma = new BigDecimal(0);
             String selekcja = wpisView.getMiesiacWpisu();
             int granica = Mce.getMiesiacToNumber().get(selekcja);
             for (WierszPkpir p : zebranieMcy) {
-                if (p.getId() <= granica) {
+                if (p.getId() < granica) {
                     suma = suma.add(BigDecimal.valueOf(p.getRazemprzychody()));
+                } else if (p.getId() == granica) {
+                    suma = suma.add(BigDecimal.valueOf(p.getRazemprzychody()));
+                    pitpoz.setPrzychodymc(Z.z(p.getRazemprzychody()));
                 } else {
                     break;
                 }
@@ -1087,15 +1114,36 @@ public class ZestawienieView implements Serializable {
             return new BigDecimal(BigInteger.ZERO);
         }
     }
+    
+    private double obliczprzychodDRA(String mc) {
+        try {
+            double suma = 0.0;
+            int granica = Mce.getMiesiacToNumber().get(mc);
+            for (WierszPkpir p : zebranieMcy) {
+                if (p.getId() == granica) {
+                    suma = p.getRazemprzychody();
+                    break;
+                }
+            }
+            return suma;
+        } catch (Exception e) {
+            E.e(e);
+            Msg.msg("e", "Nie było w tym roku żadnych przychodów");
+            return 0.0;
+        }
+    }
 
-    private BigDecimal obliczkoszt() {
+    private BigDecimal obliczkoszt(Pitpoz pitpoz) {
         try {
             BigDecimal suma = new BigDecimal(0);
             String selekcja = wpisView.getMiesiacWpisu();
             int granica = Mce.getMiesiacToNumber().get(selekcja);
             for (WierszPkpir p : zebranieMcy) {
-                if (p.getId() <= granica) {
+                if (p.getId() < granica) {
                     suma = suma.add(BigDecimal.valueOf(p.getRazemkoszty()));
+                } else if (p.getId() == granica) {
+                    suma = suma.add(BigDecimal.valueOf(p.getRazemkoszty()));
+                    pitpoz.setKosztymc(Z.z(p.getRazemkoszty()));
                 } else {
                     break;
                 }
@@ -1105,6 +1153,24 @@ public class ZestawienieView implements Serializable {
             E.e(e);
             Msg.msg("e", "Nie było w tym roku żadnych kosztów");
             return new BigDecimal(BigInteger.ZERO);
+        }
+    }
+    
+     private double obliczkosztDRA(String mc) {
+        try {
+            double suma = 0.0;
+            int granica = Mce.getMiesiacToNumber().get(mc);
+            for (WierszPkpir p : zebranieMcy) {
+                if (p.getId() == granica) {
+                    suma = p.getRazemkoszty();
+                    break;
+                }
+            }
+            return suma;
+        } catch (Exception e) {
+            E.e(e);
+            Msg.msg("e", "Nie było w tym roku żadnych kosztów");
+            return 0.0;
         }
     }
 
@@ -1619,6 +1685,40 @@ public class ZestawienieView implements Serializable {
         this.pitydlapita = pitydlapita;
     }
 
+
+public void nowypit() {
+    Msg.dP();
+    List<Podatnik> podatnicy = podatnikDAO.findPodatnikNieFK();
+    Integer rok = 2022;
+    String rokS = "2022";
+    String mc = "01";
+    int i = 1;
+    for (Podatnik p :podatnicy) {
+        if (p.getNip().equals("8522456855")) {
+            for (String mies : Mce.getMiesiaceGranica("08")) {
+                mc =mies;
+                System.out.println("podatnik "+p.getPrintnazwa());
+                wpisView.setPodatnikObiekt(p);
+                wpisView.setRokWpisu(rok);
+                wpisView.setRokWpisuSt(rokS);
+                wpisView.setMiesiacWpisu(mc);
+                wpisView.initpublic();
+                wpisView.naniesDaneDoWpis();
+                listawybranychudzialowcow = podatnikUdzialyDAO.findUdzialyPodatnik(p);
+                for (PodatnikUdzialy r :listawybranychudzialowcow) {
+                    wybranyudzialowiec = r;
+                    obliczPitDRA(rokS, mc, p, wybranyudzialowiec);
+                }
+            }
+            i++;
+            if (i==2) {
+                break;
+            }
+        }
+    }
+    Msg.dP();
+    System.out.println("Koniec");
+}
     
 
 }
