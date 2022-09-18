@@ -370,7 +370,7 @@ public class WpisView implements Serializable {
         return !ParametrView.zwrocParametr(parametry, rok, mc).equals("blad");
     }
     
-    private void pobierzOpodatkowanie() {
+    public void pobierzOpodatkowanie() {
         try {
             PodatnikOpodatkowanieD opodatkowanie = zwrocFormaOpodatkowania(rokWpisuSt);
             mc0kw1 = opodatkowanie.isMc0kw1();

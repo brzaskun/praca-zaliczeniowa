@@ -207,9 +207,9 @@ public class ZestawienieView implements Serializable {
                 E.e(e);
                 Msg.msg("e", "Nie uzupełnione parametry podatnika", "formpit:messages");
             }
-            sumowaniemiesiecy(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
 
         }
+        sumowaniemiesiecy(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
         if (listawybranychudzialowcow.size() == 1 && CollectionUtils.isNotEmpty(lista)) {
             wybranyudzialowiec = listawybranychudzialowcow.get(0);
             obliczPit();
@@ -1720,34 +1720,36 @@ public void nowypit() {
         wpisView.setRokWpisu(rok);
         wpisView.setRokWpisuSt(rokS);
         wpisView.setMiesiacWpisu(mc);
-        //wpisView.initpublic();
+        wpisView.pobierzOpodatkowanie();
         wpisView.naniesDaneDoWpis();
         System.out.println("podatnik "+p.getPrintnazwa());
-        PodatnikOpodatkowanieD podatniopodatkowanie = wpisView.zwrocFormaOpodatkowania(rokS);
-        String opodatkowanie = podatniopodatkowanie.getFormaopodatkowania();
-        if (!opodatkowanie.contains("ryczałt")) {
-            boolean mc0kw1 = podatniopodatkowanie.isMc0kw1();
-            if (mc0kw1) {
-                for (String mies : Mce.getMiesiaceGranica("08")) {
-                    mc =mies;
-                    if (mc.equals("01")) {
-                        pierwszypitwroku = true;
-                    } else {
-                        pierwszypitwroku = false;
-                    }
-                    if (czynaliczacpodatek(mc, mc0kw1)==false) {
-                        wpisView.setMiesiacWpisu(mc);
-                        listawybranychudzialowcow = podatnikUdzialyDAO.findUdzialyPodatnik(p);
-                        for (PodatnikUdzialy r :listawybranychudzialowcow) {
-                            wybranyudzialowiec = r;
-                            obliczPit();
-                            zachowajPit();
+        try {
+            PodatnikOpodatkowanieD podatniopodatkowanie = wpisView.zwrocFormaOpodatkowania(rokS);
+            String opodatkowanie = podatniopodatkowanie.getFormaopodatkowania();
+            if (!opodatkowanie.contains("ryczałt")) {
+                boolean mc0kw1 = podatniopodatkowanie.isMc0kw1();
+                if (mc0kw1) {
+                    for (String mies : Mce.getMiesiaceGranica("08")) {
+                        mc =mies;
+                        if (mc.equals("01")) {
+                            pierwszypitwroku = true;
+                        } else {
+                            pierwszypitwroku = false;
+                        }
+                        if (czynaliczacpodatek(mc, mc0kw1)==false) {
+                            wpisView.setMiesiacWpisu(mc);
+                            listawybranychudzialowcow = podatnikUdzialyDAO.findUdzialyPodatnik(p);
+                            for (PodatnikUdzialy r :listawybranychudzialowcow) {
+                                wybranyudzialowiec = r;
+                                obliczPit();
+                                zachowajPit();
+                            }
                         }
                     }
                 }
+                i++;
             }
-            i++;
-        }
+        } catch (Exception e){}
     //        if (i==10) {
     //            break;
     //        }
