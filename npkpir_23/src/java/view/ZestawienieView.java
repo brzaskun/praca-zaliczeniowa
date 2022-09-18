@@ -1716,15 +1716,15 @@ public void nowypit() {
     String mc = "01";
     int i = 1;
     for (Podatnik p :podatnicy) {
-        if (p.getNip().equals("8511005008")) {
-            wpisView.setPodatnikObiekt(p);
-            wpisView.setRokWpisu(rok);
-            wpisView.setRokWpisuSt(rokS);
-            wpisView.setMiesiacWpisu(mc);
-            //wpisView.initpublic();
-            wpisView.naniesDaneDoWpis();
-            PodatnikOpodatkowanieD podatniopodatkowanie = wpisView.zwrocFormaOpodatkowania(rokS);
-            boolean mc0kw1 = podatniopodatkowanie.isMc0kw1();
+        wpisView.setPodatnikObiekt(p);
+        wpisView.setRokWpisu(rok);
+        wpisView.setRokWpisuSt(rokS);
+        wpisView.setMiesiacWpisu(mc);
+        //wpisView.initpublic();
+        wpisView.naniesDaneDoWpis();
+        PodatnikOpodatkowanieD podatniopodatkowanie = wpisView.zwrocFormaOpodatkowania(rokS);
+        boolean mc0kw1 = podatniopodatkowanie.isMc0kw1();
+        if (mc0kw1) {
             for (String mies : Mce.getMiesiaceGranica("08")) {
                 mc =mies;
                 if (mc.equals("01")) {
@@ -1742,11 +1742,11 @@ public void nowypit() {
                     }
                 }
             }
-            i++;
+        }
+        i++;
     //        if (i==10) {
     //            break;
     //        }
-        }
     }
     Msg.dP();
     System.out.println("Koniec");
