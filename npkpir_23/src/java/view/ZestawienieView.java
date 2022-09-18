@@ -29,6 +29,7 @@ import entity.Faktura;
 import entity.KwotaKolumna1;
 import entity.Pitpoz;
 import entity.Podatnik;
+import entity.PodatnikOpodatkowanieD;
 import entity.PodatnikUdzialy;
 import entity.Podstawki;
 import entity.Strata;
@@ -513,6 +514,7 @@ public class ZestawienieView implements Serializable {
     }
 
     public void obliczPitCecha() {
+        biezacyPit = new Pitpoz();
         init();
         biezacyPit.setCechazapisu(wybranacechadok);
         obliczPit();
@@ -520,6 +522,7 @@ public class ZestawienieView implements Serializable {
 
     //oblicze pit i wkleja go do biezacego Pitu w celu wyswietlenia, nie zapisuje
     public void obliczPit() {
+        biezacyPit = new Pitpoz();
         sumowaniemiesiecy(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
         HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         Principal principal = request.getUserPrincipal();
@@ -624,103 +627,109 @@ public class ZestawienieView implements Serializable {
                     Msg.msg("e", "Brak wprowadzonej skali opodatkowania dla wszystkich podatników na obecny rok. Przerywam wyliczanie PIT-u");
                     return;
                 }
-                String opodatkowanie = wpisView.zwrocFormaOpodatkowania(wpisView.getRokWpisuSt()).getFormaopodatkowania();
+                PodatnikOpodatkowanieD podatniopodatkowanie = wpisView.zwrocFormaOpodatkowania(wpisView.getRokWpisuSt());
+                String opodatkowanie = podatniopodatkowanie.getFormaopodatkowania();
+                boolean mc0kw1 = podatniopodatkowanie.isMc0kw1();
                 String rodzajop = opodatkowanie;
-                Double stawka = 0.0;
-                BigDecimal podatek = BigDecimal.ZERO;
-                BigDecimal dochód = biezacyPit.getPodstawa();
-                BigDecimal przychody = biezacyPit.getPrzychody();
-                try {
-                    switch (rodzajop) {
-                        case "zasady ogólne":
-                            podatek = WyliczPodatekZasadyOgolne.wyliczopodatek(skalaPodatkowaZaDanyRok, dochód);
-                            break;
-                        case "zasady ogólne bez VAT":
-                            podatek = WyliczPodatekZasadyOgolne.wyliczopodatek(skalaPodatkowaZaDanyRok, dochód);
-                            break;
-                        case "podatek liniowy":
-                            stawka = skalaPodatkowaZaDanyRok.getStawkaliniowy();
-                            podatek = (dochód.multiply(BigDecimal.valueOf(stawka)));
-                            podatek = podatek.setScale(0, RoundingMode.HALF_EVEN);
-                            break;
-                        case "podatek liniowy bez VAT":
-                            stawka = skalaPodatkowaZaDanyRok.getStawkaliniowy();
-                            podatek = (dochód.multiply(BigDecimal.valueOf(stawka)));
-                            podatek = podatek.setScale(0, RoundingMode.HALF_EVEN);
-                            break;
-//                        case "ryczałt":
-//                            stawka = skalaPodatkowaZaDanyRok.getStawkaryczalt1();
-//                            podatek = (przychody.multiply(BigDecimal.valueOf(stawka)));
-//                            podatek = podatek.setScale(0, RoundingMode.HALF_EVEN);
-//                            break;
-//                        case "ryczałt bez VAT":
-//                            stawka = skalaPodatkowaZaDanyRok.getStawkaryczalt1();
-//                            podatek = (przychody.multiply(BigDecimal.valueOf(stawka)));
-//                            podatek = podatek.setScale(0, RoundingMode.HALF_EVEN);
-//                            break;
+                if (czynaliczacpodatek(wpisView.getMiesiacWpisu(), mc0kw1)) {
+                    Double stawka = 0.0;
+                    BigDecimal podatek = BigDecimal.ZERO;
+                    BigDecimal dochód = biezacyPit.getPodstawa();
+                    BigDecimal przychody = biezacyPit.getPrzychody();
+                    try {
+                        switch (rodzajop) {
+                            case "zasady ogólne":
+                                podatek = WyliczPodatekZasadyOgolne.wyliczopodatek(skalaPodatkowaZaDanyRok, dochód);
+                                break;
+                            case "zasady ogólne bez VAT":
+                                podatek = WyliczPodatekZasadyOgolne.wyliczopodatek(skalaPodatkowaZaDanyRok, dochód);
+                                break;
+                            case "podatek liniowy":
+                                stawka = skalaPodatkowaZaDanyRok.getStawkaliniowy();
+                                podatek = (dochód.multiply(BigDecimal.valueOf(stawka)));
+                                podatek = podatek.setScale(0, RoundingMode.HALF_EVEN);
+                                break;
+                            case "podatek liniowy bez VAT":
+                                stawka = skalaPodatkowaZaDanyRok.getStawkaliniowy();
+                                podatek = (dochód.multiply(BigDecimal.valueOf(stawka)));
+                                podatek = podatek.setScale(0, RoundingMode.HALF_EVEN);
+                                break;
+    //                        case "ryczałt":
+    //                            stawka = skalaPodatkowaZaDanyRok.getStawkaryczalt1();
+    //                            podatek = (przychody.multiply(BigDecimal.valueOf(stawka)));
+    //                            podatek = podatek.setScale(0, RoundingMode.HALF_EVEN);
+    //                            break;
+    //                        case "ryczałt bez VAT":
+    //                            stawka = skalaPodatkowaZaDanyRok.getStawkaryczalt1();
+    //                            podatek = (przychody.multiply(BigDecimal.valueOf(stawka)));
+    //                            podatek = podatek.setScale(0, RoundingMode.HALF_EVEN);
+    //                            break;
+                        }
+                    } catch (Exception e) {
+                        E.e(e);
+                        komunikatblad = "Brak wprowadzonych terminów płatności podatków w danym okresie rozliczeniowym! Nie można przeliczyć PIT-u";
+                        Msg.msg("e", "Brak wprowadzonego rodzaju opodatkowania dla danego podatnika!! Nie można przeliczyć PIT za: " + biezacyPit.getPkpirM());
+                        biezacyPit = new Pitpoz();
+                        wybranyudzialowiec = null;
+                        pierwszypitwroku = false;
+                        pierwszypitwrokuzaznacz = false;
+                        return;
                     }
-                } catch (Exception e) {
-                    E.e(e);
-                    komunikatblad = "Brak wprowadzonych terminów płatności podatków w danym okresie rozliczeniowym! Nie można przeliczyć PIT-u";
-                    Msg.msg("e", "Brak wprowadzonego rodzaju opodatkowania dla danego podatnika!! Nie można przeliczyć PIT za: " + biezacyPit.getPkpirM());
-                    biezacyPit = new Pitpoz();
-                    wybranyudzialowiec = null;
-                    pierwszypitwroku = false;
-                    pierwszypitwrokuzaznacz = false;
-                    return;
-                }
-                if (podatek.signum() == 1) {
-                    biezacyPit.setPodatek(podatek);
-                } else {
-                    biezacyPit.setPodatek(BigDecimal.ZERO);
-                }
-                if (zus52zreki == false) {
-                    biezacyPit.setZus52(pobierzZUS52());
-                    biezacyPit.setZus52(biezacyPit.getZus52().add(sumapoprzednichmcy.getZus52()));
-                }
-                if (wpisView.getRokWpisu()<2022) {
-                    BigDecimal tmpX = podatek.subtract(biezacyPit.getZus52());
-                    tmpX = tmpX.setScale(0, RoundingMode.HALF_EVEN);
-                    if (tmpX.signum() == -1) {
-                        biezacyPit.setPododpoczrok(BigDecimal.ZERO);
-                    } else {
-                        biezacyPit.setPododpoczrok(tmpX);
-                    }
-                } else {
                     if (podatek.signum() == 1) {
-                        biezacyPit.setPododpoczrok(podatek);
+                        biezacyPit.setPodatek(podatek);
                     } else {
-                        biezacyPit.setPododpoczrok(BigDecimal.ZERO);
+                        biezacyPit.setPodatek(BigDecimal.ZERO);
                     }
-                }
-                //wyliczenie podatku koniec
+                    if (zus52zreki == false) {
+                        biezacyPit.setZus52(pobierzZUS52());
+                        biezacyPit.setZus52(biezacyPit.getZus52().add(sumapoprzednichmcy.getZus52()));
+                    }
+                    if (wpisView.getRokWpisu()<2022) {
+                        BigDecimal tmpX = podatek.subtract(biezacyPit.getZus52());
+                        tmpX = tmpX.setScale(0, RoundingMode.HALF_EVEN);
+                        if (tmpX.signum() == -1) {
+                            biezacyPit.setPododpoczrok(BigDecimal.ZERO);
+                        } else {
+                            biezacyPit.setPododpoczrok(tmpX);
+                        }
+                    } else {
+                        if (podatek.signum() == 1) {
+                            biezacyPit.setPododpoczrok(podatek);
+                        } else {
+                            biezacyPit.setPododpoczrok(BigDecimal.ZERO);
+                        }
+                    }
+                    //wyliczenie podatku koniec
 
-                biezacyPit.setNalzalodpoczrok(sumapoprzednichmcy.getNalzalodpoczrok());
-                if (biezacyPit.getPododpoczrok().subtract(biezacyPit.getNalzalodpoczrok()).signum() == 1) {
-                    biezacyPit.setNaleznazal(biezacyPit.getPododpoczrok().subtract(biezacyPit.getNalzalodpoczrok()));
+                    biezacyPit.setNalzalodpoczrok(sumapoprzednichmcy.getNalzalodpoczrok());
+                    if (biezacyPit.getPododpoczrok().subtract(biezacyPit.getNalzalodpoczrok()).signum() == 1) {
+                        biezacyPit.setNaleznazal(biezacyPit.getPododpoczrok().subtract(biezacyPit.getNalzalodpoczrok()));
+                    } else {
+                        biezacyPit.setNaleznazal(BigDecimal.ZERO);
+                    }
+                    if (biezacyPit.getNaleznazal().compareTo(BigDecimal.ZERO) == 1) {
+                        biezacyPit.setDozaplaty(biezacyPit.getNaleznazal());
+                    } else {
+                        biezacyPit.setDozaplaty(BigDecimal.ZERO);
+                    }
+                    try {
+                        Zobowiazanie data = zobowiazanieDAO.find(biezacyPit.getPkpirR(), biezacyPit.getPkpirM());
+                        biezacyPit.setTerminwplaty(data.getZobowiazaniePK().getRok() + "-" + data.getZobowiazaniePK().getMc() + "-" + data.getPitday());
+                        pierwszypitwroku = false;
+                        pierwszypitwrokuzaznacz = false;
+                    } catch (Exception e) {
+                        E.e(e);
+                        komunikatblad = "Brak wprowadzonych terminów płatności podatków w danym okresie rozliczeniowym! Nie można przeliczyć PIT-u";
+                        Msg.msg("e", "Brak wprowadzonych terminów płatności podatków w danym okresie rozliczeniowym! Nie można przeliczyć PIT-u");
+                        biezacyPit = new Pitpoz();
+                        wybranyudzialowiec = null;
+                        pierwszypitwroku = false;
+                        pierwszypitwrokuzaznacz = false;
+                    }
+                    Msg.msg("Przeliczono PIT");
                 } else {
-                    biezacyPit.setNaleznazal(BigDecimal.ZERO);
+                    Msg.msg("w","Podatek naliczany kwartalnie");
                 }
-                if (biezacyPit.getNaleznazal().compareTo(BigDecimal.ZERO) == 1) {
-                    biezacyPit.setDozaplaty(biezacyPit.getNaleznazal());
-                } else {
-                    biezacyPit.setDozaplaty(BigDecimal.ZERO);
-                }
-                try {
-                    Zobowiazanie data = zobowiazanieDAO.find(biezacyPit.getPkpirR(), biezacyPit.getPkpirM());
-                    biezacyPit.setTerminwplaty(data.getZobowiazaniePK().getRok() + "-" + data.getZobowiazaniePK().getMc() + "-" + data.getPitday());
-                    pierwszypitwroku = false;
-                    pierwszypitwrokuzaznacz = false;
-                } catch (Exception e) {
-                    E.e(e);
-                    komunikatblad = "Brak wprowadzonych terminów płatności podatków w danym okresie rozliczeniowym! Nie można przeliczyć PIT-u";
-                    Msg.msg("e", "Brak wprowadzonych terminów płatności podatków w danym okresie rozliczeniowym! Nie można przeliczyć PIT-u");
-                    biezacyPit = new Pitpoz();
-                    wybranyudzialowiec = null;
-                    pierwszypitwroku = false;
-                    pierwszypitwrokuzaznacz = false;
-                }
-                Msg.msg("Przeliczono PIT");
             }
         }
         if (wybranyudzialowiec!=null) {
@@ -738,6 +747,18 @@ public class ZestawienieView implements Serializable {
                     .collect(Collectors.toList());
             }
         }
+    }
+    
+    private boolean czynaliczacpodatek(String miesiacWpisu, boolean mc0kw1) {
+        boolean zwrot = true;
+        if (mc0kw1) {
+            if (miesiacWpisu.equals("03")||miesiacWpisu.equals("06")||miesiacWpisu.equals("09")||miesiacWpisu.equals("12")) {
+                zwrot = true;
+            } else {
+                zwrot = false;
+            }
+        }
+        return zwrot;
     }
     
     //oblicze pit i wkleja go do biezacego Pitu w celu wyswietlenia, nie zapisuje
@@ -1695,28 +1716,43 @@ public void nowypit() {
     String mc = "01";
     int i = 1;
     for (Podatnik p :podatnicy) {
-        for (String mies : Mce.getMiesiaceGranica("08")) {
-            mc =mies;
+        if (p.getNip().equals("8511005008")) {
             wpisView.setPodatnikObiekt(p);
             wpisView.setRokWpisu(rok);
             wpisView.setRokWpisuSt(rokS);
             wpisView.setMiesiacWpisu(mc);
-            wpisView.initpublic();
+            //wpisView.initpublic();
             wpisView.naniesDaneDoWpis();
-            listawybranychudzialowcow = podatnikUdzialyDAO.findUdzialyPodatnik(p);
-            for (PodatnikUdzialy r :listawybranychudzialowcow) {
-                wybranyudzialowiec = r;
-                obliczPitDRA(rokS, mc, p, wybranyudzialowiec);
+            PodatnikOpodatkowanieD podatniopodatkowanie = wpisView.zwrocFormaOpodatkowania(rokS);
+            boolean mc0kw1 = podatniopodatkowanie.isMc0kw1();
+            for (String mies : Mce.getMiesiaceGranica("08")) {
+                mc =mies;
+                if (mc.equals("01")) {
+                    pierwszypitwroku = true;
+                } else {
+                    pierwszypitwroku = false;
+                }
+                if (czynaliczacpodatek(mc, mc0kw1)==false) {
+                    wpisView.setMiesiacWpisu(mc);
+                    listawybranychudzialowcow = podatnikUdzialyDAO.findUdzialyPodatnik(p);
+                    for (PodatnikUdzialy r :listawybranychudzialowcow) {
+                        wybranyudzialowiec = r;
+                        obliczPit();
+                        zachowajPit();
+                    }
+                }
             }
+            i++;
+    //        if (i==10) {
+    //            break;
+    //        }
         }
-        i++;
-//        if (i==10) {
-//            break;
-//        }
     }
     Msg.dP();
     System.out.println("Koniec");
 }
+
+    
     
 
 }
