@@ -755,6 +755,7 @@ public class ZestawienieView implements Serializable {
                 biezacyPit.setPrzychodyudzialmc(Z.z(biezacyPit.getPrzychodymc()*procent));
                 biezacyPit.setKosztyudzialmc(Z.z(biezacyPit.getKosztymc()*procent));
                 pitDAO.edit(biezacyPit);
+                Msg.msg("podatnik "+podatnik.getPrintnazwa());
             }
         }
                 
@@ -1694,27 +1695,37 @@ public void nowypit() {
     String mc = "01";
     int i = 1;
     for (Podatnik p :podatnicy) {
-        if (p.getNip().equals("8522456855")) {
-            for (String mies : Mce.getMiesiaceGranica("08")) {
-                mc =mies;
-                System.out.println("podatnik "+p.getPrintnazwa());
-                wpisView.setPodatnikObiekt(p);
-                wpisView.setRokWpisu(rok);
-                wpisView.setRokWpisuSt(rokS);
-                wpisView.setMiesiacWpisu(mc);
-                wpisView.initpublic();
-                wpisView.naniesDaneDoWpis();
-                listawybranychudzialowcow = podatnikUdzialyDAO.findUdzialyPodatnik(p);
-                for (PodatnikUdzialy r :listawybranychudzialowcow) {
-                    wybranyudzialowiec = r;
-                    obliczPitDRA(rokS, mc, p, wybranyudzialowiec);
-                }
-            }
-            i++;
-            if (i==2) {
-                break;
+        wpisView.setPodatnikObiekt(p);
+        wpisView.setRokWpisu(2021);
+        wpisView.setRokWpisuSt("2021");
+        wpisView.setMiesiacWpisu("12");
+        wpisView.initpublic();
+        wpisView.naniesDaneDoWpis();
+        listawybranychudzialowcow = podatnikUdzialyDAO.findUdzialyPodatnik(p);
+        for (PodatnikUdzialy r :listawybranychudzialowcow) {
+            wybranyudzialowiec = r;
+            obliczPitDRA("2021", "12", p, wybranyudzialowiec);
+        }
+    }
+    for (Podatnik p :podatnicy) {
+        for (String mies : Mce.getMiesiaceGranica("08")) {
+            mc =mies;
+            wpisView.setPodatnikObiekt(p);
+            wpisView.setRokWpisu(rok);
+            wpisView.setRokWpisuSt(rokS);
+            wpisView.setMiesiacWpisu(mc);
+            wpisView.initpublic();
+            wpisView.naniesDaneDoWpis();
+            listawybranychudzialowcow = podatnikUdzialyDAO.findUdzialyPodatnik(p);
+            for (PodatnikUdzialy r :listawybranychudzialowcow) {
+                wybranyudzialowiec = r;
+                obliczPitDRA(rokS, mc, p, wybranyudzialowiec);
             }
         }
+        i++;
+//        if (i==10) {
+//            break;
+//        }
     }
     Msg.dP();
     System.out.println("Koniec");

@@ -13,7 +13,7 @@
                 <p:outputPanel>
                     <f:view>
                         <h:form id="formtabela">
-                            <p:panelGrid columns="6">
+                            <p:panelGrid columns="8">
                                 <h:outputText value="rok deklaracji:" style="text-shadow: #6374AB 1px -1px 1px"/>
                                 <p:selectOneMenu id="rokWpisu" value="#{dochodDlaDRAView.rok}" style="width: 70px;">
                                     <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
@@ -30,6 +30,14 @@
                                 <p:selectBooleanCheckbox value="#{dochodDlaDRAView.pokazzrobione}"  itemLabel="pokaż zrobione" style="width: 220px;margin-left: 20px;">
                                     <p:ajax event="change" partialSubmit="true" listener="#{dochodDlaDRAView.pobierz}"  update="akordeon:formtabela akordeon:formtabela1"/>
                                 </p:selectBooleanCheckbox>
+                                <h:outputText value="rodzaj opodatkowania:" style="text-shadow: #6374AB 1px -1px 1px"/>
+                                <p:selectOneMenu id="opodatkowanie" value="#{dochodDlaDRAView.opodatkowanie}" style="width: 70px;margin-left: 20px;">
+                                    <f:selectItem itemLabel="wszystkie" noSelectionOption="true"/>
+                                    <f:selectItem itemLabel="skala" itemValue="skala"/>
+                                    <f:selectItem itemLabel="liniowy" itemValue="liniowy"/>
+                                    <f:selectItem itemLabel="ryczałt" itemValue="ryczałt"/>
+                                    <p:ajax event="change" partialSubmit="true" listener="#{dochodDlaDRAView.modyfikujliste}" update="akordeon:formtabela akordeon:formtabela1" oncomplete="r('akordeon:formtabela:przeliczbutton').show()"/>
+                                </p:selectOneMenu><!-- comment -->
                                 <p:commandButton id="przeliczbutton" value="przelicz" actionListener="#{dochodDlaDRAView.przelicz(null)}"  style="width: 120px;margin-left: 20px;" update="akordeon:formtabela akordeon:formtabela1"/>
                             </p:panelGrid>
                             <p:dataTable value="#{dochodDlaDRAView.wiersze}" var="item" style="width: 1850px;padding: 20px;" 
@@ -190,7 +198,7 @@
                                     <f:facet name="header">
                                             <h:outputText value=""/>
                                     </f:facet>
-                                      <p:commandButton icon="fa fa-calculator" actionListener="#{dochodDlaDRAView.przelicz(item.podatnik.nip)}" update="@parent:@parent"/>
+                                      <p:commandButton icon="fa fa-calculator" actionListener="#{dochodDlaDRAView.przelicz(item.podatnikudzial.podatnikObj.nip)}" update="@parent:@parent"/>
                                 </p:column>
                             </p:dataTable>
                         </h:form>

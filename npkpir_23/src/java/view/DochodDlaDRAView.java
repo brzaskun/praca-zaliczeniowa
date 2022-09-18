@@ -6,7 +6,6 @@
 package view;
 
 import beansDok.KsiegaBean;
-import comparator.Dokcomparator;
 import comparator.Podatnikcomparator;
 import comparator.WierszDRAcomparator;
 import dao.DokDAO;
@@ -27,10 +26,8 @@ import daosuperplace.FirmaFacade;
 import daosuperplace.RokFacade;
 import data.Data;
 import embeddable.Mce;
-import embeddable.WierszPkpir;
 import entity.Dok;
 import entity.DraSumy;
-import entity.KwotaKolumna1;
 import entity.Pitpoz;
 import entity.Podatnik;
 import entity.PodatnikOpodatkowanieD;
@@ -52,6 +49,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -92,6 +90,7 @@ public class DochodDlaDRAView implements Serializable {
     private String rok;
     private String mc;
     private String maxmc;
+    private String opodatkowanie;
     private List<WierszDRA> wiersze;
     private List<WierszDRA> wierszerok;
     private List<WierszDRA> wierszeFiltered;
@@ -143,6 +142,23 @@ public class DochodDlaDRAView implements Serializable {
         }
     }
     
+    public void modyfikujliste() {
+        if (opodatkowanie!=null) {
+            if (opodatkowanie.equals("skala")) {
+                pobierz();
+                wiersze = wiersze.stream().filter(p->p.getOpodatkowanie().equals("zasady ogólne")).collect(Collectors.toList());
+            } else if (opodatkowanie.equals("liniowy")) {
+                pobierz();
+                wiersze = wiersze.stream().filter(p->p.getOpodatkowanie().equals("podatek liniowy")).collect(Collectors.toList());
+            } else if (opodatkowanie.equals("ryczałt")) {
+                pobierz();
+                wiersze = wiersze.stream().filter(p->p.getOpodatkowanie().equals("ryczałt")).collect(Collectors.toList());
+            }
+        } else {
+            pobierz();
+        }
+    }
+    
     public void przelicz(String nip) {
         List<WierszDRA> wierszebaza = wierszDRADAO.findByRok(rok);
         if (wierszebaza==null) {
@@ -156,10 +172,12 @@ public class DochodDlaDRAView implements Serializable {
             if (!mc.equals("01")) {
                 rokpkpir = rok;
             }
-            List<Podatnik> podatnicy = podatnikDAO.findPodatnikNieFK();
+            List<Podatnik> podatnicy = null;
             if (nip!=null&&!nip.equals("")) {
                 podatnicy = new ArrayList<>();
                 podatnicy.add(podatnikDAO.findPodatnikByNIP(nip));
+            } else {
+                podatnicy = podatnikDAO.findPodatnikNieFK();
             }
             //Podatnik podat = podatnikDAO.findPodatnikByNIP("9552379284");
             //List<Podatnik> podatnicy = new ArrayList<>();
@@ -172,7 +190,9 @@ public class DochodDlaDRAView implements Serializable {
             }
             Collections.sort(podatnicy, new Podatnikcomparator());
             double podatnikprocentudzial = 100.0;
-            this.wiersze = new ArrayList<>();
+            if (nip==null) {
+                this.wiersze = new ArrayList<>();
+            }
             int i = 1;
             for (Podatnik podatnik : podatnicy) {
                 //if (podatnik.getNip().equals("9552563450")) {
@@ -222,7 +242,7 @@ public class DochodDlaDRAView implements Serializable {
                                             }
                                         } else {
                                             //oblicz dochod
-                                            double dochod = pobierzdochod(podatnik, rokpkpir, mcdo, mcdo, wiersz);
+                                            double dochod = pobierzdochod(podatnik, rokpkpir, mcdo, wiersz);
                                             if (podatnikprocentudzial != 100.0) {
                                                 dochod = Z.z(dochod * podatnikprocentudzial / 100.0);
                                             }
@@ -255,7 +275,9 @@ public class DochodDlaDRAView implements Serializable {
                                             //System.out.println("edit "+wiersz.getImienazwisko());
                                             wierszDRADAO.edit(wiersz);
                                         }
-                                        this.wiersze.add(wiersz);
+                                        if (nip==null) {
+                                            this.wiersze.add(wiersz);
+                                        }
                                     } else if (udzialy.size()==1){
                                         Msg.msg("e","Sprawdź udziały w firmie "+podatnik.getPrintnazwa());
                                     }
@@ -372,13 +394,39 @@ public class DochodDlaDRAView implements Serializable {
             DraSumy znaleziona = drasumytabela.stream().filter(p->p.getPodatnik()!=null&&p.getPodatnik().equals(w.getPodatnikudzial().getPodatnikObj())).findFirst().orElse(null);
             if (znaleziona!=null) {
                 w.setDraSumy(znaleziona);
-                    if (w.getWynikpodatkowynar()!=znaleziona.getDraprzychodyRR()) {
+                if (w.getOpodatkowanie().equals("ryczałt")) {
+                    if (w.getWynikpodatkowynar()==znaleziona.getDraprzychody()) {
+                        w.setBlad(false);
+                    } else if (w.getWynikpodatkowynar()!=znaleziona.getDraprzychody()) {
                         w.setBlad(true);
-                    } else if (w.getDochodzus()!=znaleziona.getDraprzychody()) {
-                             w.setBlad(true);
                     }
+                } else {
+                    if (w.getWynikpodatkowymc()>0) {
+                        if (w.getWynikpodatkowymc()==znaleziona.getDraprzychody()) {
+                            w.setBlad(false);
+                        } else if (w.getWynikpodatkowymc()!=znaleziona.getDraprzychody()) {
+                            w.setBlad(true);
+                        }
+                    } else if (w.getWynikpodatkowymc()<0 && znaleziona.getDraprzychody()>0) {
+                        w.setBlad(true);
+                    } else {
+                        w.setBlad(false);
+                    }
+                }
                 dodajpit4DRA(znaleziona, firmy);
                 przygotujmail(w, maile,zwiekszmiesiac[0],zwiekszmiesiac[1]);
+            }
+        }
+         if (opodatkowanie!=null) {
+            if (opodatkowanie.equals("skala")) {
+                pobierz();
+                wiersze = wiersze.stream().filter(p->p.getOpodatkowanie().equals("zasady ogólne")).collect(Collectors.toList());
+            } else if (opodatkowanie.equals("liniowy")) {
+                pobierz();
+                wiersze = wiersze.stream().filter(p->p.getOpodatkowanie().equals("podatek liniowy")).collect(Collectors.toList());
+            } else if (opodatkowanie.equals("ryczałt")) {
+                pobierz();
+                wiersze = wiersze.stream().filter(p->p.getOpodatkowanie().equals("ryczałt")).collect(Collectors.toList());
             }
         }
         Collections.sort(wiersze, new WierszDRAcomparator());
@@ -722,71 +770,13 @@ public class DochodDlaDRAView implements Serializable {
         return jedno;
     }
 
-    private double pobierzdochod(Podatnik podatnik, String rok, String mcod, String mcdo, WierszDRA wiersz) {
+    private double pobierzdochod(Podatnik podatnik, String rok, String mc, WierszDRA wiersz) {
         double dochod = 0.0;
         try {
-             List<Dok> lista = null;
-            try {
-                lista = dokDAO.zwrocBiezacegoKlientaRokOdMcaDoMca(podatnik, rok, mcdo, mcod);
-                Collections.sort(lista, new Dokcomparator());
-            } catch (Exception e) { 
-                E.e(e); 
-            }
-            if (lista!=null&&!lista.isEmpty()) {
-                for (Iterator<Dok> it = lista.iterator(); it.hasNext();) {
-                    Dok tmpx = it.next();
-                    if (tmpx.getRodzajedok().isTylkojpk()) {
-                        it.remove();
-                    }
-                }
-                WierszPkpir wierszPkpir = new WierszPkpir(1, rok, mc, "dla DRA");
-                for (Dok dokument : lista) {
-                    try {
-                        if (dokument.getUsunpozornie() == false) {
-                            List<KwotaKolumna1> szczegol = dokument.getListakwot1();
-                            for (KwotaKolumna1 tmp : szczegol) {
-                                String selekcja2 = tmp.getNazwakolumny();
-                                Double kwota = tmp.getNetto();
-                                Double temp = 0.0;
-                                switch (selekcja2) {
-                                    case "przych. sprz":
-                                        temp = wierszPkpir.getKolumna7() + kwota;
-                                        wierszPkpir.setKolumna7(temp);
-                                        break;
-                                    case "pozost. przych.":
-                                        temp = wierszPkpir.getKolumna8() + kwota;
-                                        wierszPkpir.setKolumna8(temp);
-                                        break;
-                                    case "zakup tow. i mat.":
-                                        temp = wierszPkpir.getKolumna10() + kwota;
-                                        wierszPkpir.setKolumna10(temp);
-                                        break;
-                                    case "koszty ub.zak.":
-                                        temp = wierszPkpir.getKolumna11() + kwota;
-                                        wierszPkpir.setKolumna11(temp);
-                                        break;
-                                    case "wynagrodzenia":
-                                        temp = wierszPkpir.getKolumna12() + kwota;
-                                        wierszPkpir.setKolumna12(temp);
-                                        break;
-                                    case "poz. koszty":
-                                        temp = wierszPkpir.getKolumna13() + kwota;
-                                        wierszPkpir.setKolumna13(temp);
-                                        break;
-                                    case "inwestycje":
-                                        temp = wierszPkpir.getKolumna15() + kwota;
-                                        wierszPkpir.setKolumna15(temp);
-                                        break;
-                                }
-                            }
-                            //pobierzPity();
-                        } else {
-                        }
-                    } catch (Exception e) {
-                        E.e(e);
-                    }
-                }
-                dochod = wierszPkpir.getRazemdochod();
+             Pitpoz pit = pitDAO.find(rok, mc, podatnik.getNazwapelna());
+            
+            if (pit!=null) {
+                dochod = pit.getPrzychodyudzialmc();
                 wiersz.setBrakdokumentow(false);
             } else {
                 wiersz.setBrakdokumentow(true);
@@ -1050,6 +1040,14 @@ public class DochodDlaDRAView implements Serializable {
 
     public void setMaxmc(String maxmc) {
         this.maxmc = maxmc;
+    }
+
+    public String getOpodatkowanie() {
+        return opodatkowanie;
+    }
+
+    public void setOpodatkowanie(String opodatkowanie) {
+        this.opodatkowanie = opodatkowanie;
     }
 
     
