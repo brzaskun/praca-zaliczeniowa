@@ -1695,19 +1695,6 @@ public void nowypit() {
     String mc = "01";
     int i = 1;
     for (Podatnik p :podatnicy) {
-        wpisView.setPodatnikObiekt(p);
-        wpisView.setRokWpisu(2021);
-        wpisView.setRokWpisuSt("2021");
-        wpisView.setMiesiacWpisu("12");
-        wpisView.initpublic();
-        wpisView.naniesDaneDoWpis();
-        listawybranychudzialowcow = podatnikUdzialyDAO.findUdzialyPodatnik(p);
-        for (PodatnikUdzialy r :listawybranychudzialowcow) {
-            wybranyudzialowiec = r;
-            obliczPitDRA("2021", "12", p, wybranyudzialowiec);
-        }
-    }
-    for (Podatnik p :podatnicy) {
         for (String mies : Mce.getMiesiaceGranica("08")) {
             mc =mies;
             wpisView.setPodatnikObiekt(p);
