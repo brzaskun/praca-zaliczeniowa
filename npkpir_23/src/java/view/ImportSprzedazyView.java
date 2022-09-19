@@ -568,7 +568,7 @@ public class ImportSprzedazyView  implements Serializable {
                     }
                 }
                 dokumenty = Collections.synchronizedList(new ArrayList<>());
-                Msg.msg("Zaksiowano zaimportowane dokumenty");
+                Msg.msg("Zaksięgowano zaimportowane dokumenty");
             }
         }
     }

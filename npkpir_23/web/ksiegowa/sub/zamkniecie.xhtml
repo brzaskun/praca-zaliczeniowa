@@ -6,7 +6,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
     xmlns:c="http://java.sun.com/jsp/jstl/core">
-    <script type="text/javascript">
+<!--    <script type="text/javascript">
 	function start() {
         window['progress'] = setInterval(function() {
             var oldValue = PF('pbClient').getValue(),
@@ -28,14 +28,14 @@
            
        }  
 
-</script>
+</script>-->
     <div style="height: 100px;">
     <div style="margin: 15px;">
-    <p:progressBar id="progressBarClient" widgetVar="pbClient" style="width:300px"/>  
+<!--    <p:progressBar id="progressBarClient" widgetVar="pbClient" style="width:300px"/>  -->
     </div>
    
     <div style="margin: 15px; width: 670px;" >
-        <p:messages id="messages"/>
+        <p:messages id="messages"><p:autoUpdate/></p:messages>
     </div>
     </div>
     <p:dataTable value="#{zamkniecieView.mapaokresowPobrane}" var="wpis"     id="dataTable"
@@ -51,13 +51,13 @@
             <h:outputText value="#{wpis.miesiac}" />
         </p:column>
         <p:column id="zamkniety" headerText="zamkniety" style="text-align: center;">  
-            <h:selectBooleanCheckbox value="#{wpis.zamkniety}" readonly="#{wpis.edytuj eq true ? false : true}" disabled="#{wpis.edytuj eq true ? false : true}" >
-                <p:ajax event="change" global="false" listener="#{zamkniecieView.zapisokresy()}" update="@this, :westWpis" onstart="start();"/>
+            <h:selectBooleanCheckbox value="#{wpis.zamkniety}" readonly="#{wpis.edytuj eq true ? false : true}"  >
+                <p:ajax event="change" global="false" listener="#{zamkniecieView.zapisokresy()}" partialSubmit="true" update=":westWpis" />
             </h:selectBooleanCheckbox>
         </p:column>
         <p:column id="edytuj" headerText="edytuj" style="text-align: center;">  
             <h:selectBooleanCheckbox value="#{wpis.edytuj}" >
-                <p:ajax event="change" listener="#{zamkniecieView.zapisokresyedit}" update="@this, :form:dataTable, :westWpis" onstart="cancel();"/>
+                <p:ajax event="change" listener="#{zamkniecieView.zapisokresyedit}" partialSubmit="true" update="form:dataTable :westWpis"/>
             </h:selectBooleanCheckbox>
         </p:column>
     </p:dataTable>

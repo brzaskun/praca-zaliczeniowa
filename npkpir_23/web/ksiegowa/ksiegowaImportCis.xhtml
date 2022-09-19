@@ -45,8 +45,8 @@
                                 <p:commandButton value="Print" type="button" icon="pi pi-print" style="margin-left: 20px; width: 120px;">
                                     <p:printer target="importtabela:dokumentyLista" />
                                 </p:commandButton>
-                                <p:commandButton value="generuj" actionListener="#{importCisView.stworzdokumenty}" style="margin-left: 100px;width: 120px;" update="messages1 importtabeladok"/>
-                                <p:commandButton value="księguj" actionListener="#{importCisView.zaksieguj}" style="margin-left: 70px;width: 120px;" update="messages1 importtabeladok"/>
+                                <p:commandButton value="1.generuj" actionListener="#{importCisView.stworzdokumenty}" style="margin-left: 100px;width: 120px;" update="messages1 importtabeladok"/>
+                                <p:commandButton value="2.księguj" actionListener="#{importCisView.zaksieguj}" style="margin-left: 70px;width: 120px;" update="messages1 importtabeladok"/>
                             </p:panelGrid>
                             <p:remoteCommand name="przeliczfilter" actionListener="#{importCisView.sumuj}" update="importtabela:sumysumy" global="false"/>
                             <p:dataTable  var="wpisek" value="#{importCisView.faktury}" id="dokumentyLista"
