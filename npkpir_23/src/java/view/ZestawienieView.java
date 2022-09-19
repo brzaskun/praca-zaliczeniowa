@@ -150,6 +150,7 @@ public class ZestawienieView implements Serializable {
     //z reki
     private boolean zus51zreki;
     private boolean zus52zreki;
+    private double zus51zrekivalue;
     private boolean pierwszypitwroku;
     private boolean pierwszypitwrokuzaznacz;
     @Inject
@@ -523,6 +524,9 @@ public class ZestawienieView implements Serializable {
     //oblicze pit i wkleja go do biezacego Pitu w celu wyswietlenia, nie zapisuje
     public void obliczPit() {
         biezacyPit = new Pitpoz();
+        if (zus51zreki) {
+            biezacyPit.setZus51(BigDecimal.valueOf(zus51zrekivalue));
+        }
         sumowaniemiesiecy(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
         HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         Principal principal = request.getUserPrincipal();
@@ -1705,6 +1709,14 @@ public class ZestawienieView implements Serializable {
 
     public void setPitydlapita(List<Pitpoz> pitydlapita) {
         this.pitydlapita = pitydlapita;
+    }
+
+    public double getZus51zrekivalue() {
+        return zus51zrekivalue;
+    }
+
+    public void setZus51zrekivalue(double zus51zrekivalue) {
+        this.zus51zrekivalue = zus51zrekivalue;
     }
 
 

@@ -96,9 +96,9 @@
                             <p:panelGrid  columns="2"  rendered="#{zestawienieView.wybranyudzialowiec.pit eq true}" columnClasses=".forty-percent .sixty-percent" style="width: 350px;">
                                 <h:outputText value="ZUS 51 (z ręki)"/>
                                 <p:panelGrid columns="2" style="border: none;">
-                                    <h:inputText id="kwotazus51" value="#{zestawienieView.biezacyPit.zus51}" style=" font-weight: 700; float: right; text-align: right;"  >
+                                    <h:inputText id="kwotazus51" value="#{zestawienieView.zus51zrekivalue}" style=" font-weight: 700; float: right; text-align: right;"  >
                                         <f:convertNumber locale="PL" maxFractionDigits="2"/>
-                                        <p:ajax event="keyup" listener="#{zestawienieView.zus51zrekiF}" partialSubmit="true" update=":akordeon:formpit:reka51"/>
+                                        <p:ajax event="change" listener="#{zestawienieView.zus51zrekiF}" partialSubmit="true" update=":akordeon:formpit:reka51"/>
                                         <p:ajax event="blur" listener="#{zestawienieView.obliczPit()}" global="false" update=":akordeon:formpit"/>
                                     </h:inputText>
                                     <h:selectBooleanCheckbox id="reka51" label="z ręki" value="#{zestawienieView.zus51zreki}"/>
