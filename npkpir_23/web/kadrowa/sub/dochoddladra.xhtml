@@ -368,25 +368,25 @@
                                         <f:facet name="header">
                                             <h:outputText value="udzial"/>
                                         </f:facet>
-                                        <h:outputText value="#{item2.udzial}"/>
+                                        <h:outputText value="#{item2.podatnikudzial.udzial}"/>
                                     </p:column>
                                     <p:column width="200" exportable="false">
                                         <f:facet name="header">
                                             <h:outputText value="płatnik"/>
                                         </f:facet>
-                                        <h:outputText value="#{item2.podatnik.printnazwa}"/>
+                                        <h:outputText value="#{item2.podatnikudzial.podatnikObj.printnazwa}"/>
                                     </p:column>
                                     <p:column width="100" exportable="false">
                                         <f:facet name="header">
                                             <h:outputText value="imie i naz"/>
                                         </f:facet>
-                                        <h:outputText value="#{item2.imienazwisko}"/>
+                                        <h:outputText value="#{item2.podatnikudzial.nazwiskoimie}"/>
                                     </p:column>
                                     <p:column width="80" exportable="false">
                                         <f:facet name="header">
                                             <h:outputText value="NIP"/>
                                         </f:facet>
-                                        <h:outputText value="#{item2.podatnik.nip}"/>
+                                        <h:outputText value="#{item2.podatnikudzial.podatnikObj.nip}"/>
                                     </p:column>
                                     <p:column width="60">
                                         <f:facet name="header">

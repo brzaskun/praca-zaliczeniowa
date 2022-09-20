@@ -793,7 +793,7 @@ public class DochodDlaDRAView implements Serializable {
         if (lista!=null&&!lista.isEmpty()) {
             for (Iterator<Dok> it = lista.iterator(); it.hasNext();) {
                 Dok tmpx = it.next();
-                if (tmpx.getRodzajedok().isTylkojpk()) {
+                if (tmpx.getRodzajedok().isTylkojpk() || (tmpx.getRodzajedok().getKategoriadokumentu()!=2&&tmpx.getRodzajedok().getKategoriadokumentu()!=4)) {
                     it.remove();
                 }
             }
