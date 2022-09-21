@@ -143,7 +143,7 @@
         <p:outputPanel id="kontenertabeli"  rendered="#{WpisView.biuroiszef eq true}">
             <p:dataTable  var="wpis" value="#{DokTabView.dokumentylista}" id="dokumentyLista"  filteredValue="#{DokTabView.dokumentyFiltered}" 
                           rowIndexVar="index" 
-                          style="width: 1500px; margin-top: 10px; height: 700px; overflow-y: scroll;" rowKey="#{wpis.idDok}" selection="#{DokTabView.gosciuwybral}" 
+                          style="width: 1500px; margin-top: 10px; height: 700px; " rowKey="#{wpis.idDok}" selection="#{DokTabView.gosciuwybral}" 
                           widgetVar="dokTable"
                           rowStyleClass="#{wpis.rodzajedok.rodzajtransakcji eq 'sprzedaz' ? 'old' : (wpis.netto lt 0 ? 'korekta' : null)}" 
                           emptyMessage="W danym miesiącu nie było żadnych zapisów" rowSelectMode="add"
