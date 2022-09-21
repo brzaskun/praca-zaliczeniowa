@@ -303,7 +303,7 @@ public class DokTabView implements Serializable {
                     List<UmorzenieN> umorzenia = umorzenieNDAO.findByDok(dokdoUsuniecia);
                     if (!umorzenia.isEmpty()) {
                         for (UmorzenieN pa : umorzenia) {
-                            pa.setDokfk(null);
+                            pa.setDok(null);
                             umorzenieNDAO.edit(pa);
                         }
                     }

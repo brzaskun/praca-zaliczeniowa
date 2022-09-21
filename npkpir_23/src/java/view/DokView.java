@@ -543,24 +543,29 @@ public class DokView implements Serializable {
         try {
             int lp = e.getLp();
             double vat = 0.0;
+            double vatmin = 0.0;
             try {
                 String ne = e.getEwidencja().getNazwa();
                 double n = Math.abs(e.getNetto());
                 switch (ne) {
                     case "sprzedaż 23%":
                         vat = (n * 0.23) + 0.02;
+                        vatmin = (n * 0.23) - 0.04;
                         break;
                     case "sprzedaż 8%":
-                        vat = (n * 0.08) + 0.02;
+                        vat = (n * 0.08) - 0.04;
+                        vatmin = (n * 0.08) - 0.04;
                         break;
                     case "sprzedaż 5%":
                         vat = (n * 0.05) + 0.02;
+                        vatmin = (n * 0.05) - 0.04;
                         break;
                     case "sprzedaż 0%":
                     case "sprzedaż zw":
                         break;
                     default:
                         vat = (n * 0.23) + 0.02;
+                        vatmin = (n * 0.23) - 0.04;
                         break;
                 }
             } catch (Exception e2) {
@@ -570,6 +575,16 @@ public class DokView implements Serializable {
                 e.setVat(0.0);
                 e.setBrutto(0.0);
                 Msg.msg("e", "VAT jest za duży od wyliczonej kwoty");
+                String update = "dodWiad:tablicavat:" + lp + ":vat";
+                PrimeFaces.current().ajax().update(update);
+                update = "dodWiad:tablicavat:" + lp + ":brutto";
+                PrimeFaces.current().ajax().update(update);
+                update = "dodWiad:sumbrutto";
+                PrimeFaces.current().ajax().update(update);
+            } else if (Math.abs(e.getVat()) < vatmin) {
+                e.setVat(0.0);
+                e.setBrutto(0.0);
+                Msg.msg("e", "VAT jest za mały niż wyliczona kwota");
                 String update = "dodWiad:tablicavat:" + lp + ":vat";
                 PrimeFaces.current().ajax().update(update);
                 update = "dodWiad:tablicavat:" + lp + ":brutto";

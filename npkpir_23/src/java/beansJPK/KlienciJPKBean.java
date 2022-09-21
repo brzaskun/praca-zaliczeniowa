@@ -31,7 +31,7 @@ public class KlienciJPKBean {
         List<KlientJPK> zwrot = new ArrayList<>();
         for (Dok d : polskaprywatne) {
             KlientJPK a = new KlientJPK(d, podatnik, rok, mc);
-            a.setOpissprzedaz("SW");
+            a.setOpissprzedaz("WEW");
             a.setEwidencjaVAT(tworzewidencjeVAT(a, d));
             zwrot.add(a);
         }

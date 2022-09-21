@@ -263,6 +263,8 @@ public class Dok extends DokSuper implements Serializable {
     @JoinColumn(name = "fakturakontrahent", referencedColumnName = "id")
     @OneToOne
     private Faktura fakturakontrahent;
+//    @OneToMany(fetch = FetchType.EAGER, mappedBy = "dok", cascade = CascadeType.ALL,  orphanRemoval=true)
+//    private List<UmorzenieN> listaumorzen;
     
     
     public Dok() {
@@ -733,6 +735,14 @@ public class Dok extends DokSuper implements Serializable {
     public void setFakturaCis(FakturaCis fakturaCis) {
         this.fakturaCis = fakturaCis;
     }
+
+//    public List<UmorzenieN> getListaumorzen() {
+//        return listaumorzen;
+//    }
+//
+//    public void setListaumorzen(List<UmorzenieN> listaumorzen) {
+//        this.listaumorzen = listaumorzen;
+//    }
     
     public double getVat() {
         double br = this.brutto == null ? 0.0 : this.brutto;
