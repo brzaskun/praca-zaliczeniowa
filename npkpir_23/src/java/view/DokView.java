@@ -581,7 +581,7 @@ public class DokView implements Serializable {
                 PrimeFaces.current().ajax().update(update);
                 update = "dodWiad:sumbrutto";
                 PrimeFaces.current().ajax().update(update);
-            } else if (Math.abs(e.getVat()) < vatmin) {
+            } else if (Math.abs(e.getVat()) < vatmin && e.getDok().getRodzajedok().getKategoriadokumentu()==2) {
                 e.setVat(0.0);
                 e.setBrutto(0.0);
                 Msg.msg("e", "VAT jest za mały niż wyliczona kwota");
