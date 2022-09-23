@@ -125,7 +125,7 @@
                     <h:outputLabel value="firma w likwidacji"/>
                  <p:selectBooleanCheckbox value="#{podatnikView.selected.jestwlikiwdacji}"/>
                  <h:outputLabel value="wysyłanie deklaracji tylko z podpisem kwalifikowanym"/>
-                 <p:selectBooleanCheckbox value="#{podatnikView.selected.podpiscertyfikowany}" disabled="#{facesContext.externalContext.remoteUser ne '4' and facesContext.externalContext.remoteUser ne 'szef'}"/>
+                 <p:selectBooleanCheckbox value="#{podatnikView.selected.podpiscertyfikowany}" />
                  <h:outputLabel value="kod ubezpieczenia ZUS"/>
             <p:selectOneMenu value="#{podatnikView.selected.kodubezpieczeniaZUS}">
                 <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>

@@ -302,6 +302,7 @@ public class PodatnikView implements Serializable {
             selectedDod.setPesel("00000000000");
         }
         try {
+            selectedDod.setPodpiscertyfikowany(true);
             selectedDod.setGussymbol("099");
             generujIndex(selectedDod);
             sformatuj(selectedDod);
