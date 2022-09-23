@@ -776,7 +776,7 @@ public class DochodDlaDRAView implements Serializable {
              Pitpoz pit = pitDAO.find(rok, mc, podatnik.getNazwapelna());
             
             if (pit!=null) {
-                dochod = pit.getPrzychodyudzialmc();
+                dochod = pit.getWynikudzialzamc();
                 wiersz.setBrakdokumentow(false);
             } else {
                 wiersz.setBrakdokumentow(true);

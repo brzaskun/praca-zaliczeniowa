@@ -408,6 +408,10 @@ public class Pitpoz implements Serializable {
     public double getWynikzamc() {
         return Z.z(this.przychodymc-this.kosztymc);
     }
+    
+    public double getWynikudzialzamc() {
+        return Z.z(this.przychodyudzialmc-this.kosztyudzialmc);
+    }
 
     
     
