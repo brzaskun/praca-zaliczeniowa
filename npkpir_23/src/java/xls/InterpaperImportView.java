@@ -1048,6 +1048,9 @@ public class InterpaperImportView implements Serializable {
     @Inject
     private EvewidencjaDAO eVDAO;
     private void podepnijEwidencjeVat(Dokfk nd, InterpaperXLS interpaperXLS) {
+        if (nd.getNumerwlasnydokfk().equals("0029/08/2022")) {
+            System.out.println("");
+        }
         if (nd.getRodzajedok().getKategoriadokumentu() != 0 && nd.getRodzajedok().getKategoriadokumentu() != 5) {
             if (nd.iswTrakcieEdycji() == false) {
                 double kurs = nd.getTabelanbp().getKurssredniPrzelicznik();
@@ -1066,7 +1069,17 @@ public class InterpaperImportView implements Serializable {
                             przesuniecie(nd,eVatwpisFK);
                             eVatwpisFK.setLp(k++);
                             eVatwpisFK.setEwidencja(p);
-                             if (p.getNazwa().equals("sprzedaż 23%")||p.getNazwa().equals("zakup")) {
+                            if ((interpaperXLS.getVatPLN()==0.0 && p.getNazwa().equals("sprzedaż 0%"))||p.getNazwa().equals("zakup")) {
+                                    eVatwpisFK.setNettowwalucie(Z.z(interpaperXLS.getNettowaluta()));
+                                    eVatwpisFK.setVatwwalucie(Z.z(interpaperXLS.getVatwaluta()));
+                                    eVatwpisFK.setNetto(Z.z(nettopln));
+                                    eVatwpisFK.setVat(Z.z(vatpln));
+                                    eVatwpisFK.setBrutto(Z.z(nettopln+vatpln));
+                                    eVatwpisFK.setDokfk(nd);
+                                    eVatwpisFK.setEstawka("op");
+                                    nd.getEwidencjaVAT().add(eVatwpisFK);
+                                    break;
+                            } else if ((interpaperXLS.getVatPLN()!=0.0 && p.getNazwa().equals("sprzedaż 23%"))||p.getNazwa().equals("zakup")) {
                                     eVatwpisFK.setNettowwalucie(Z.z(interpaperXLS.getNettowaluta()));
                                     eVatwpisFK.setVatwwalucie(Z.z(interpaperXLS.getVatwaluta()));
                                     eVatwpisFK.setNetto(Z.z(nettopln));

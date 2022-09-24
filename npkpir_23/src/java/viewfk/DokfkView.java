@@ -2537,7 +2537,18 @@ public class DokfkView implements Serializable {
         }
     }
     
+    //dodawanie domyslnej cechy nkup
     public void wybranoStronaWierszaCechaDef() {
+        Cechazapisu cechankup = null;
+        for (Cechazapisu c : pobranecechypodatnik) {
+            if (c.getNazwacechy().equals("NKUP")) {
+                cechankup = c;
+                break;
+            }
+        }
+        if (selected.getCechadokumentuLista()!=null) {
+            
+        }
         if (pobranecechypodatnikzapas != null) {
             int idwiersza = Integer.parseInt((String) Params.params("wpisywaniefooter:lpwierszaWpisywanie"));
             String wnma = "wn";
@@ -2548,13 +2559,6 @@ public class DokfkView implements Serializable {
                 } else {
                     stronaWierszaCechy = wiersz.getStronaMa();
                     wnma = "ma";
-                }
-                Cechazapisu cechankup = null;
-                for (Cechazapisu c : pobranecechypodatnik) {
-                    if (c.getNazwacechy().equals("NKUP")) {
-                        cechankup = c;
-                        break;
-                    }
                 }
                 if (stronaWierszaCechy.getCechazapisuLista().contains(cechankup)) {
                     stronaWierszaCechy.getCechazapisuLista().remove(cechankup);
@@ -2573,15 +2577,27 @@ public class DokfkView implements Serializable {
 
     public void dodajcechedostronawiersza() {
        if (cechazapisudododania != null) {
-            pobranecechypodatnik.remove(cechazapisudododania);
-            stronaWierszaCechy.getCechazapisuLista().add(cechazapisudododania);
+           boolean tacechajestwdokumecie = czycechajestwdokumencie(selected.getCechadokumentuLista(), cechazapisudododania);
+            if (tacechajestwdokumecie) {
+                Msg.msg("e","Cecha użyta w dokumencie. Nie można dodać do wiersza!");
+            } else {
+                pobranecechypodatnik.remove(cechazapisudododania);
+                stronaWierszaCechy.getCechazapisuLista().add(cechazapisudododania);
+                Msg.msg("Dodano cechę do wiersza");
+            }
             //cechazapisudododania.getStronaWierszaLista().add(stronaWierszaCechy);
        }
     }
     
     public void dodajcechedostronawiersza(Cechazapisu c) {
-        pobranecechypodatnik.remove(c);
-        stronaWierszaCechy.getCechazapisuLista().add(c);
+        boolean tacechajestwdokumecie = czycechajestwdokumencie(selected.getCechadokumentuLista(), c);
+        if (tacechajestwdokumecie) {
+            Msg.msg("e","Cecha użyta w dokumencie. Nie można dodać do wiersza!");
+        } else {
+            pobranecechypodatnik.remove(c);
+            stronaWierszaCechy.getCechazapisuLista().add(c);
+            Msg.msg("Dodano cechę do wiersza");
+        }
         //c.getStronaWierszaLista().add(stronaWierszaCechy);
     }
 
@@ -2589,6 +2605,67 @@ public class DokfkView implements Serializable {
         pobranecechypodatnik.add(c);
         stronaWierszaCechy.getCechazapisuLista().remove(c);
         //c.getStronaWierszaLista().remove(stronaWierszaCechy);
+    }
+    
+    
+     private boolean czycechajestwdokumencie(List<Cechazapisu> listacech, Cechazapisu c) {
+        boolean zwrot = false;
+        if (listacech!=null) {
+            for (Cechazapisu s : listacech) {
+                if (s.equals(c)) {
+                    zwrot = true;
+                }
+            }
+        }
+        return zwrot;
+    }
+     
+     private boolean czycechajestwstronach(List<StronaWiersza> listastron, Cechazapisu c) {
+        boolean zwrot = false;
+        if (listastron!=null) {
+            for (StronaWiersza s : listastron) {
+                if (s.getCechazapisuLista().contains(c)) {
+                    zwrot = true;
+                }
+            }
+        }
+        return zwrot;
+    }
+    
+    public void dodajcechedodokumentu(Cechazapisu c) {
+        boolean tacechajestwwierszu = czycechajestwstronach(selected.getStronyWierszy(), c);
+        if (tacechajestwwierszu) {
+            Msg.msg("e","Cecha użyta w wierszu. Nie można dodać do dokumentu!");
+        } else {
+            pobranecechypodatnik.remove(c);
+            selected.getCechadokumentuLista().add(c);
+            Msg.msg("Dodano cechę do dokumentu");
+        }
+        //c.getDokfkLista().add(selected);
+    }
+
+    public void usuncechedodokumentu(Cechazapisu c) {
+        pobranecechypodatnik.add(c);
+        selected.getCechadokumentuLista().remove(c);
+        //c.getDokfkLista().remove(selected);
+    }
+
+    private void obsluzcechydokumentu() {
+        //usuwamy z listy dostepnych cech te, ktore sa juz przyporzadkowane do dokumentu
+        if (pobranecechypodatnik != null) {
+            List<Cechazapisu> cechyuzyte = null;
+            if (selected != null) {
+                if (selected.getCechadokumentuLista() == null) {
+                    cechyuzyte = Collections.synchronizedList(new ArrayList<>());
+                } else {
+                    cechyuzyte = selected.getCechadokumentuLista();
+                }
+                pobranecechypodatnik = new ArrayList<>(pobranecechypodatnikzapas);
+                for (Cechazapisu c : cechyuzyte) {
+                    pobranecechypodatnik.remove(c);
+                }
+            }
+        }
     }
 
     public void oznaczjakonowatransakcja() {
@@ -3218,35 +3295,7 @@ public class DokfkView implements Serializable {
     }
     
 
-    public void dodajcechedodokumentu(Cechazapisu c) {
-        pobranecechypodatnik.remove(c);
-        selected.getCechadokumentuLista().add(c);
-        //c.getDokfkLista().add(selected);
-    }
-
-    public void usuncechedodokumentu(Cechazapisu c) {
-        pobranecechypodatnik.add(c);
-        selected.getCechadokumentuLista().remove(c);
-        //c.getDokfkLista().remove(selected);
-    }
-
-    private void obsluzcechydokumentu() {
-        //usuwamy z listy dostepnych cech te, ktore sa juz przyporzadkowane do dokumentu
-        if (pobranecechypodatnik != null) {
-            List<Cechazapisu> cechyuzyte = null;
-            if (selected != null) {
-                if (selected.getCechadokumentuLista() == null) {
-                    cechyuzyte = Collections.synchronizedList(new ArrayList<>());
-                } else {
-                    cechyuzyte = selected.getCechadokumentuLista();
-                }
-                pobranecechypodatnik = new ArrayList<>(pobranecechypodatnikzapas);
-                for (Cechazapisu c : cechyuzyte) {
-                    pobranecechypodatnik.remove(c);
-                }
-            }
-        }
-    }
+   
 
     private double obliczsaldopoczatkowe() {
         List<StronaWiersza> kontozapisy = stronaWierszaDAO.findStronaByPodatnikKontoRokWaluta(wpisView.getPodatnikObiekt(), selected.getRodzajedok().getKontorozrachunkowe(), wpisView.getRokWpisuSt(), selected.getTabelanbp().getWaluta().getSymbolwaluty());
