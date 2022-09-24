@@ -127,6 +127,7 @@ public class KlientJPK implements Serializable {
         this.vat = d.getVat();
         this.waluta = d.getSymbolWaluty();
         this.ewidencjaVAT = new ArrayList<>();
+        this.opissprzedaz = "WEW";
     }
     
     public KlientJPK(Dokfk d, Podatnik podatnik, String rok, String mc) {
@@ -143,6 +144,7 @@ public class KlientJPK implements Serializable {
         this.vat = d.getVATVAT();
         this.waluta = d.getWalutadokumentu().getSymbolwaluty();
         this.ewidencjaVAT = new ArrayList<>();
+        this.opissprzedaz = "WEW";
     }
 
     public KlientJPK(InterpaperXLS d, Podatnik podatnik, String rok, String mc) {
@@ -159,6 +161,7 @@ public class KlientJPK implements Serializable {
         this.vat = d.getVatPLN();
         this.waluta = d.getWalutaplatnosci();
         this.ewidencjaVAT = new ArrayList<>();
+        this.opissprzedaz = "WEW";
     }
 
     public KlientJPK(KlientJPK a) {
@@ -203,6 +206,7 @@ public class KlientJPK implements Serializable {
         this.waluta = "PLN";
         this.ewidencjaVAT = new ArrayList<>();
         this.stawkavat = (double) d.getSprzedazWiersz().getStawka();
+        this.opissprzedaz = "WEW";
     }
 
   

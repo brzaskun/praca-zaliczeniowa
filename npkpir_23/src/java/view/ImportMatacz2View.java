@@ -9,16 +9,20 @@ import beansDok.ListaEwidencjiVat;
 import beansJPK.KlienciJPKBean;
 import dao.EVatwpisDedraDAO;
 import dao.KlientJPKDAO;
+import dao.TabelanbpDAO;
 import data.Data;
 import embeddablefk.InterpaperXLS;
 import entity.Evewidencja;
 import entity.KlientJPK;
+import entityfk.Tabelanbp;
 import error.E;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.Serializable;
+import java.text.Format;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -34,6 +38,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.joda.time.DateTime;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 import waluty.Z;
@@ -44,7 +49,7 @@ import waluty.Z;
  */
 @Named
 @ViewScoped
-public class ImportMataczView  implements Serializable {
+public class ImportMatacz2View  implements Serializable {
     private static final long serialVersionUID = 1L;
     private List<InterpaperXLS> dokumenty;
     private List<InterpaperXLS> selected;
@@ -60,6 +65,8 @@ public class ImportMataczView  implements Serializable {
     private Evewidencja evewidencja8;
     @Inject
     private EVatwpisDedraDAO eVatwpisDedraDAO;
+    @Inject 
+    private TabelanbpDAO tabelanbpDAO;
 
       
 //    private boolean fakturypolska;
@@ -97,7 +104,7 @@ public class ImportMataczView  implements Serializable {
         }
     }
     
-   private static String filename = "d://matacz.xls";
+   private static String filename = "d://matacz2.xls";
     
     public void getListafaktur() {
          try {
@@ -111,29 +118,29 @@ public class ImportMataczView  implements Serializable {
             int i =1;
             while (rowIterator.hasNext()) {
                 Row row = rowIterator.next();
-                if (row.getCell(0).getRowIndex()>0) {
+                if (row.getCell(0).getRowIndex()>1) {
                     String text = row.getCell(1).getStringCellValue();
-                    int textl = text.length();
-                    String nrfakt = text.substring(0, textl-10);
-                    String data = text.substring(textl-10,textl);
+                    String nrfakt = text.substring(8);
+                    String data = row.getCell(7).getStringCellValue();
                     InterpaperXLS interpaperXLS = new InterpaperXLS();
                     interpaperXLS.setNrfaktury(nrfakt);
                     interpaperXLS.setDatawystawienia(Data.stringToDate(data));
                     interpaperXLS.setDatasprzedaży(Data.stringToDate(data));
-                    interpaperXLS.setKontrahent(pobierzkontrahenta(row.getCell(3)));
+                    interpaperXLS.setKontrahent(pobierzkontrahenta(row.getCell(2)));
                     String nip = null;
                     interpaperXLS.setNip(nip);
-                    String waluta = row.getCell(23).getStringCellValue();
+                    String waluta = row.getCell(14).getStringCellValue();
                     waluta = waluta.substring(0, 3);
                     //interpaperXLS.setKlient(ustawkontrahenta(interpaperXLS, k, klienciDAO, znalezieni));
                     interpaperXLS.setWalutaplatnosci(waluta);
-                    interpaperXLS.setNettowaluta(zamiennakwote(row.getCell(19)));
-                    interpaperXLS.setVatwaluta(zamiennakwote(row.getCell(20)));
+                    interpaperXLS.setNettowaluta(zamiennakwote(row.getCell(9)));
+                    interpaperXLS.setVatwaluta(zamiennakwote(row.getCell(11)));
                     interpaperXLS.setBruttowaluta(Z.z(interpaperXLS.getNettowaluta()+interpaperXLS.getVatwaluta()));
-                    interpaperXLS.setNettoPLN(zamiennakwote(row.getCell(19)));
-                    interpaperXLS.setVatPLN(zamiennakwote(row.getCell(20)));
-                    interpaperXLS.setBruttoPLN(Z.z(interpaperXLS.getNettoPLN()+interpaperXLS.getVatPLN()));
-                    if (zamiennakwote(row.getCell(6))>0) {
+                    interpaperXLS.setNettoPLN(zamiennakwote(row.getCell(9)));
+                    interpaperXLS.setVatPLN(zamiennakwote(row.getCell(11)));
+                    interpaperXLS.setBruttoPLN(Z.z(interpaperXLS.getNettowaluta()+interpaperXLS.getVatwaluta()));
+                    ustawtabelenbp(interpaperXLS);
+                    if (zamiennakwote(row.getCell(6))==23) {
                         interpaperXLS.setEvewidencja(evewidencja23);
                     } else {
                         interpaperXLS.setEvewidencja(evewidencja8);
@@ -167,28 +174,33 @@ public class ImportMataczView  implements Serializable {
             int i = 1;
             while (rowIterator.hasNext()) {
                 Row row = rowIterator.next();
-                if (row.getCell(0).getRowIndex()>0) {
+                if (row.getCell(0).getRowIndex()>1) {
                     String text = row.getCell(1).getStringCellValue();
-                    int textl = text.length();
-                    String nrfakt = text.substring(0, textl-10);
-                    String data = text.substring(textl-10,textl);
+                    String nrfakt = text.substring(8);
+                    String data = row.getCell(7).getStringCellValue();
                     InterpaperXLS interpaperXLS = new InterpaperXLS();
                     interpaperXLS.setNrfaktury(nrfakt);
                     interpaperXLS.setDatawystawienia(Data.stringToDate(data));
                     interpaperXLS.setDatasprzedaży(Data.stringToDate(data));
-                    interpaperXLS.setKontrahent(pobierzkontrahenta(row.getCell(3)));
+                    interpaperXLS.setKontrahent(pobierzkontrahenta(row.getCell(2)));
                     String nip = null;
                     interpaperXLS.setNip(nip);
-                    String waluta = row.getCell(23).getStringCellValue();
+                    String waluta = row.getCell(14).getStringCellValue();
                     waluta = waluta.substring(0, 3);
                     //interpaperXLS.setKlient(ustawkontrahenta(interpaperXLS, k, klienciDAO, znalezieni));
                     interpaperXLS.setWalutaplatnosci(waluta);
-                    interpaperXLS.setNettowaluta(zamiennakwote(row.getCell(19)));
-                    interpaperXLS.setVatwaluta(zamiennakwote(row.getCell(20)));
+                    interpaperXLS.setNettowaluta(zamiennakwote(row.getCell(9)));
+                    interpaperXLS.setVatwaluta(zamiennakwote(row.getCell(11)));
                     interpaperXLS.setBruttowaluta(Z.z(interpaperXLS.getNettowaluta()+interpaperXLS.getVatwaluta()));
-                    interpaperXLS.setNettoPLN(zamiennakwote(row.getCell(19)));
-                    interpaperXLS.setVatPLN(zamiennakwote(row.getCell(20)));
-                    interpaperXLS.setBruttoPLN(Z.z(interpaperXLS.getNettowaluta()+interpaperXLS.getVatwaluta()));
+                    interpaperXLS.setNettoPLN(zamiennakwote(row.getCell(9)));
+                    interpaperXLS.setVatPLN(zamiennakwote(row.getCell(11)));
+                    interpaperXLS.setBruttoPLN(Z.z(interpaperXLS.getNettoPLN()+interpaperXLS.getVatPLN()));
+                    //ustawtabelenbp(interpaperXLS);
+                    if (zamiennakwote(row.getCell(10))==23) {
+                        //interpaperXLS.setEvewidencja(evewidencja23);
+                    } else {
+                        //interpaperXLS.setEvewidencja(evewidencja8);
+                    }
                     interpaperXLS.setNr(i);
                     i++;
                  }
@@ -227,12 +239,34 @@ public class ImportMataczView  implements Serializable {
     
     
     public void zaksiegujdokjpk() {
-        klientJPKDAO.deleteByPodRokMc(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+        //klientJPKDAO.deleteByPodRokMc(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
         List<KlientJPK> lista = KlienciJPKBean.zaksiegujdokJPK(dokumenty, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
         klientJPKDAO.createList(lista);
         Msg.msg("Zaksięgowano dokumenty dla JPK");
     }
     
+     private void ustawtabelenbp(InterpaperXLS interpaperXLS) {
+         if (!interpaperXLS.getWalutaplatnosci().equals("PLN")) {
+            Format formatterX = new SimpleDateFormat("yyyy-MM-dd");
+            String datadokumentu = formatterX.format(interpaperXLS.getDatasprzedaży());
+            DateTime dzienposzukiwany = new DateTime(datadokumentu);
+            boolean znaleziono = false;
+            int zabezpieczenie = 0;
+            while (!znaleziono && (zabezpieczenie < 365)) {
+                dzienposzukiwany = dzienposzukiwany.minusDays(1);
+                String doprzekazania = dzienposzukiwany.toString("yyyy-MM-dd");
+                Tabelanbp tabelanbppobrana = tabelanbpDAO.findByDateWaluta(doprzekazania, interpaperXLS.getWalutaplatnosci());
+                if (tabelanbppobrana instanceof Tabelanbp) {
+                    znaleziono = true;
+                    interpaperXLS.setNettoPLN(Z.z(interpaperXLS.getNettowaluta()*tabelanbppobrana.getKurssredniPrzelicznik()));
+                    interpaperXLS.setVatPLN(Z.z(interpaperXLS.getVatwaluta()*tabelanbppobrana.getKurssredniPrzelicznik()));
+                    interpaperXLS.setBruttoPLN(Z.z(interpaperXLS.getNettoPLN()+interpaperXLS.getVatPLN()));
+                    break;
+                }
+                zabezpieczenie++;
+            }
+         }
+    }
 
     public List<InterpaperXLS> getDokumenty() {
         return dokumenty;
