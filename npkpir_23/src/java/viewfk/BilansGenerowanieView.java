@@ -98,7 +98,7 @@ public class BilansGenerowanieView implements Serializable {
     }
     
     @PostConstruct
-    private void init() { //E.m(this);
+    public void init() { //E.m(this);
         List<Waluty> waluty = walutyDAOfk.findAll();
         for (Waluty p : waluty) {
             listawalut.put(p.getSymbolwaluty(), p);
@@ -614,9 +614,11 @@ public class BilansGenerowanieView implements Serializable {
     private List<SaldoKonto> przetwarzajSaldoKonto(List<SaldoKonto> listaSaldoKonto) {
         List<SaldoKonto> nowalista = Collections.synchronizedList(new ArrayList<>());
         for (SaldoKonto p : listaSaldoKonto) {
-             if (p.getKonto().getPelnynumer().startsWith("149")) {
-                nowalista.addAll(przetworzPojedyncze(p));
-            } else if (p.getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe") && p.getKonto().getPelnynumer().startsWith("20") && przeniestylkosalda==false) {
+            //dziewczyny nie chca pozycji
+//             if (p.getKonto().getPelnynumer().startsWith("149")) {
+//                nowalista.addAll(przetworzPojedyncze(p));
+//            } else
+            if (p.getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe") && p.getKonto().getPelnynumer().startsWith("20") && przeniestylkosalda==false) {
                 nowalista.addAll(przetworzPojedyncze(p));
             } else if (p.getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe") && p.getKonto().getPelnynumer().startsWith("20") && przeniestylkosalda==true) {
                 Set<Waluty> waluty = pobierzWalutySaldoKonto(p, false);

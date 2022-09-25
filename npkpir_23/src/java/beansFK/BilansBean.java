@@ -96,9 +96,9 @@ public class BilansBean {
             kurs = Math.abs(saldo / saldowaluta);
         }
         double[] sumy = new double[3];
-        sumy[0] = saldo;
-        sumy[1] = saldowaluta;
-        sumy[2] = kurs;
+        sumy[0] = Z.z(saldo);
+        sumy[1] = Z.z(saldowaluta);
+        sumy[2] = Z.z(kurs);
         return sumy;
     }
 }

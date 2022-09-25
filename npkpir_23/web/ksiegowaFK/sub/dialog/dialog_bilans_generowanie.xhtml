@@ -29,6 +29,7 @@
               appendTo="@(body)"
               resizable="false" onShow="ustawdialog('dialog_bilans_generowanie','menubilanse', 700, 740);" closeOnEscape="true" onHide="resetujdialog('dialog_bilans_generowanie');" 
               maximizable="true">
+        <p:ajax event="open" listener="#{bilansGenerowanieView.init()}" global="false" update="form_dialog_bilans_generowanie"/>
         <h:form id="form_dialog_bilans_generowanie" style="padding: 10px;">
             <p:outputPanel rendered="#{bilansGenerowanieView.tojestbilanslikwidacyjny}" id="uwaga">
                 <h:outputText value="Generowanie bilansu likwidacyjnego na dzień #{WpisView.podatnikObiekt.dataotwarcialikwidacji}" style="color: red;"/>
