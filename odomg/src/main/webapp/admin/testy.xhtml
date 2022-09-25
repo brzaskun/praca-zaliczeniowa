@@ -42,25 +42,48 @@
             </p:outputPanel>
             <p:tabView activeIndex="0" id="akordeon">
                 <p:tab title="dodawanie">
-                    <p:panel header="dodawanie nowego slajdu"/>
+                    <p:panel header="dodawanie nowego slajdu z pytaniem"/>
                     <p:outputPanel style="margin: 20px;">
                         <h:form id="formdodawanie">
                             <p:messages ><p:autoUpdate/></p:messages>
                             <p:panelGrid columns="2" style="padding: 10px;">
-                                <h:outputText value="nazwa szkolenia:"/>
-                                <p:inputText value="#{szkolenieEditView.szkolenie.nazwaszkolenia}" required="true" >
+                                <h:outputText value="nazwa slajdu testu:"/>
+                                <p:inputText value="#{testEditView.test.nazwatest}" required="true" >
                                     <p:ajax event="keyup" partialSubmit="true" update="akordeon:formlog1"/>
                                 </p:inputText>
-                                <h:outputText value="nagłówek:"/>
-                                <p:inputText value="#{szkolenieEditView.szkolenie.naglowek}" required="true" >
+                                <h:outputText value="pytanie:"/>
+                                <p:inputText value="#{testEditView.test.pytanie}" required="true" >
                                     <p:ajax event="keyup" partialSubmit="true" update="akordeon:formlog1"/>
                                 </p:inputText>
-                                <h:outputText value="treść:"/>
-                                <p:textEditor value="#{szkolenieEditView.szkolenie.tresc}" required="true" height="250" styleClass="slajd2">
-                                    <p:ajax event="keyup" partialSubmit="true" update="akordeon:formlog1"/>
-                                </p:textEditor>
+                                <h:outputText value="odpowiedzi:"/>
+                                <p:panelGrid columns="2" style="padding: 10px;" styleClass="ninety-percent ten-percent">
+                                    <p:inputText value="#{testEditView.test.odp1}" style="width: 450px;">
+                                        <p:ajax event="keyup" partialSubmit="true" update="akordeon:formlog1"/>
+                                    </p:inputText>
+                                    <p:selectBooleanCheckbox value="#{testEditView.test.odp1walidacja}">
+                                        <p:ajax event="change" partialSubmit="true" update="akordeon:formlog1"/>
+                                    </p:selectBooleanCheckbox>
+                                    <p:inputText value="#{testEditView.test.odp2}" style="width: 450px;">
+                                        <p:ajax event="keyup" partialSubmit="true" update="akordeon:formlog1"/>
+                                    </p:inputText>
+                                    <p:selectBooleanCheckbox value="#{testEditView.test.odp2walidacja}">
+                                        <p:ajax event="change" partialSubmit="true" update="akordeon:formlog1"/>
+                                    </p:selectBooleanCheckbox>
+                                    <p:inputText value="#{testEditView.test.odp3}" style="width: 450px;">
+                                        <p:ajax event="keyup" partialSubmit="true" update="akordeon:formlog1"/>
+                                    </p:inputText>
+                                    <p:selectBooleanCheckbox value="#{testEditView.test.odp3walidacja}">
+                                        <p:ajax event="change" partialSubmit="true" update="akordeon:formlog1"/>
+                                    </p:selectBooleanCheckbox>
+                                    <p:inputText value="#{testEditView.test.odp4}" style="width: 450px;">
+                                        <p:ajax event="keyup" partialSubmit="true" update="akordeon:formlog1"/>
+                                    </p:inputText>
+                                    <p:selectBooleanCheckbox value="#{testEditView.test.odp4walidacja}">
+                                        <p:ajax event="change" partialSubmit="true" update="akordeon:formlog1"/>
+                                    </p:selectBooleanCheckbox>
+                                </p:panelGrid>
                             </p:panelGrid>
-                            <p:commandButton value="dodaj" actionListener="#{szkolenieEditView.dodaj}" update="@form akordeon:formlog1" styleClass="buttonnorm"/>
+                            <p:commandButton value="dodaj" actionListener="#{testEditView.dodaj}" update="@form akordeon:formlog1" styleClass="buttonnorm"/>
                         </h:form>
                     </p:outputPanel>
                     <p:outputPanel style="margin: 20px; background-color: #363030;">
@@ -68,42 +91,47 @@
                             <p:outputPanel styleClass="box">
                                 <p:outputPanel styleClass="slajd">
                                     <div id="gornawklejka" class="gornawklejka">
-                                        <span style="font-size: larger;">#{szkolenieEditView.szkolenie.nazwaszkolenia}</span> 
+                                        <span style="font-size: larger;">#{testEditView.test.nazwatest}</span> 
                                     </div>
                                     <div id="szkolenienaglowek" class="szkolenienaglowek">
-                                        <h2>#{szkolenieEditView.szkolenie.naglowek}</h2>
+                                        <h2>#{testEditView.test.pytanie}</h2>
 
                                     </div>
 
                                     <div class="trescszkolenia" style="margin-top: 10px;">
-                                        <h:outputText  value="#{szkolenieEditView.szkolenie.tresc}" escape="false"/>
+                                        <p:panelGrid columns="2" columnClasses="ninety-percent ten-percent" style="text-align: left;width: 100%;">
+                                            <h:outputText  value="#{testEditView.test.odp1}" escape="false"/><p:selectBooleanCheckbox  value="#{testEditView.test.odp1walidacja}"/>
+                                            <h:outputText  value="#{testEditView.test.odp2}" escape="false"/><p:selectBooleanCheckbox  value="#{testEditView.test.odp2walidacja}"/>
+                                            <h:outputText  value="#{testEditView.test.odp3}" escape="false"/><p:selectBooleanCheckbox  value="#{testEditView.test.odp3walidacja}"/>
+                                            <h:outputText  value="#{testEditView.test.odp4}" escape="false"/><p:selectBooleanCheckbox  value="#{testEditView.test.odp4walidacja}"/>
+                                        </p:panelGrid>
                                     </div>
-                                    <div class="zakonczylesszkolenie">
-                                        <span id="koniecszkolenia" style="display: none; ">Koniec szkolenia</span>
+                                    <div class="zakonczylestest">
+                                        <span id="koniectestu" style="display: none; ">Koniec testu</span>
                                     </div>
                                     <div class="dolneprzyciski" >
-                                        <p:commandButton value="następny"  style="float: right;" styleClass="buttonszkolenie" title="Przejście do kolejnej strony szkolenia" />
-                                        <p:commandButton value="poprzedni"  styleClass="buttonszkolenie" title="Powrót do poprzedniej strony szkolenia" />
+                                        <p:commandButton value="następny"  style="float: right;" styleClass="buttonszkolenie" title="Przejście do kolejnej strony testu" />
+                                        <p:commandButton value="poprzedni"  styleClass="buttonszkolenie" title="Powrót do poprzedniej strony testu" />
                                     </div>
                                 </p:outputPanel>
                             </p:outputPanel>
                         </h:form>
                     </p:outputPanel>
                 </p:tab>
-                <p:tab title="szkolenia">
+                <p:tab title="testy">
                     <p:outputPanel style="margin: 20px;">
-                        <h:form id="szkoleniewykaz">
-                            <h:outputText value="wybierz szkolenie"/>
-                            <p:selectOneListbox value="#{szkolenieEditView.szkoleniewykaz}" converter="#{szkolenieWykazConverter}" style="width: 400px;">
+                        <h:form id="testywykaz">
+                            <h:outputText value="wybierz test"/>
+                            <p:selectOneListbox value="#{testEditView.testwykaz}" converter="#{testWykazConverter}" style="width: 400px;">
                                 <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
-                                <f:selectItems value="#{szkolenieEditView.szkoleniewykazlista}" var="pozycja" itemLabel="#{pozycja.nazwa}" itemValue="#{pozycja}"/>
-                                <p:ajax event="change" partialSubmit="true" listener="#{szkolenieEditView.pobierzslajdy}" update="@form"/>
+                                <f:selectItems value="#{testEditView.testwykazlista}" var="pozycja" itemLabel="#{pozycja.nazwa}" itemValue="#{pozycja}"/>
+                                <p:ajax event="change" partialSubmit="true" listener="#{testEditView.pobierzslajdy}" update="@form"/>
                             </p:selectOneListbox>
-                            <p:dataTable id="dataList" value="#{szkolenieEditView.szkolenielista}" var="item" style="overflow-y: scroll;max-width: 1000px; margin-top: 15px;" size="small"
+                            <p:dataTable id="dataList" value="#{testEditView.testlista}" var="item" style="overflow-y: scroll;max-width: 1000px; margin-top: 15px;" size="small"
                                          rowIndexVar="index" rowKey="#{item.id}" editable="true" sortBy="#{item.id}"
                                          rowsPerPageTemplate="20,100,250,500" paginatorPosition="top" paginator="true" rows="20" draggableRows="true"
-                                         emptyMessage="Nie wprowadzono ani jednego slajdu" selectionMode="multiple" selection="#{szkolenieEditView.szkolenielistaselected}">
-                                <p:ajax event="rowReorder" listener="#{szkolenieEditView.onRowReorder}" />
+                                         emptyMessage="Nie wprowadzono ani jednego slajdu" selectionMode="multiple" selection="#{testEditView.testlistaselected}">
+                                <p:ajax event="rowReorder" listener="#{testEditView.onRowReorder}" />
                                 <p:column width="30" style="text-align: center;" >
                                     <f:facet name="header">
                                         <h:outputText value="lp"/>
@@ -117,15 +145,20 @@
                                     <p:outputPanel styleClass="box">
                                         <p:outputPanel styleClass="slajd" style="height: 250px important;">
                                             <div id="gornawklejka" class="gornawklejka">
-                                                <span style="font-size: larger;">#{item.nazwaszkolenia}</span> 
+                                                <span style="font-size: larger;">#{item.nazwatest}</span> 
                                             </div>
-                                            <div id="szkolenienaglowek" class="szkolenienaglowek">
-                                                <h2>#{item.naglowek}</h2>
+                                            <div id="testnaglowek" class="szkolenienaglowek">
+                                                <h2>#{item.pytanie}</h2>
 
                                             </div>
 
                                             <div class="trescszkolenia" style="margin-top: 10px;">
-                                                <h:outputText  value="#{item.tresc}" escape="false"/>
+                                                <p:panelGrid columns="2" columnClasses="ninety-percent ten-percent" style="text-align: left;width: 100%;">
+                                                      <h:outputText  value="#{item.odp1}" escape="false"/><p:selectBooleanCheckbox  value="#{item.odp1walidacja}"/>
+                                                      <h:outputText  value="#{item.odp2}" escape="false"/><p:selectBooleanCheckbox  value="#{item.odp2walidacja}"/>
+                                                      <h:outputText  value="#{item.odp3}" escape="false"/><p:selectBooleanCheckbox  value="#{item.odp3walidacja}"/>
+                                                      <h:outputText  value="#{item.odp4}" escape="false"/><p:selectBooleanCheckbox  value="#{item.odp4walidacja}"/>
+                                                 </p:panelGrid>
                                             </div>
                                             <div class="zakonczylesszkolenie">
                                                 <span id="koniecszkolenia" style="display: none; ">Koniec szkolenia</span>

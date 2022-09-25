@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:f="http://java.sun.com/jsf/core"
+      >
+    <f:view  contentType="text/html;charset=UTF-8" encoding="UTF-8">
+        <h:head>
+            <meta http-equiv="Accept-Encoding" content="gzip"/>
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+            <meta http-equiv="Pragma" content="no-cache"/>
+            <meta http-equiv="Expires" content="0" />
+            <meta http-equiv="Cache-Control" content="no-cache,no-store,must-revalidate"/>
+            <link rel="icon" type="image/png" sizes="32x32" href="#{resource['css/pics/ODOLogoVector.png']}"/>
+            <h:outputStylesheet name="css/main_admin.css" />
+            <h:outputStylesheet name="css/button.css" />
+            <h:outputStylesheet name="css/style.css" />
+            <h:outputStylesheet name="css/details.css" />
+            <h:outputStylesheet name="css/qlcore.css" />
+            <title>Testy Dane Wrażliwe</title>
+            <style>
+                .ui-autocomplete input {
+                    width: 400px;
+                }
+            </style>
+        </h:head>
+        <h:body>
+            <p:growl life="7200"><p:autoUpdate/></p:growl>
+            <p:outputPanel>
+                <h:form id="formmenu">
+                    <p:menubar autoDisplay="true">
+                        <p:menuitem icon="pi pi-users" value="użytkownicy" style="width: 150px" action="Osoby"/>
+                        <p:menuitem icon="pi pi-bars" value="firmy" style="width: 150px" action="Firmy"/>
+                        <p:menuitem icon="pi pi-info-circle" value="szkolenia" style="width: 150px" action="Szkolenia"/>
+                        <p:menuitem icon="pi pi-check-square" value="testy" style="width: 150px" action="Testy"/>
+                        <p:menuitem icon="pi pi-cloud-download" value="pobierz" style="width: 150px" action="Upowaznienia"/>
+                        <p:menuitem icon="pi pi-chart-line" value="statystyka" style="width: 150px" action="Statystyka"/>
+                    </p:menubar>
+                </h:form>
+            </p:outputPanel>
+            <p:tabView activeIndex="1" id="akordeon">
+                <p:tab title="dodawanie">
+                    <p:panel header="dodawanie nowego uczestnika"/>
+                    <p:outputPanel style="margin: 20px;">
+                        <h:form id="formdodawanie">
+                            <p:messages ><p:autoUpdate/></p:messages>
+                            <p:panelGrid columns="2" style="padding: 10px;">
+                                <h:outputText value="nazwa firmy:"/>
+                                <p:inputText value="#{firmyView.nowy.nazwazakladu}" required="true"/>
+                                <h:outputText value="ulica, nr domu:"/>
+                                <p:inputText value="#{firmyView.nowy.ulica}" required="true"/>
+                                <h:outputText value="miejscowość:"/>
+                                <p:inputText value="#{firmyView.nowy.miejscowosc}" required="true" />
+                                <h:outputText value="próg zdawalności:"/>
+                                <p:inputNumber value="#{firmyView.nowy.progzdawalnosci}" required="true" />
+                                <h:outputText value="kontakt:"/>
+                                <p:inputText value="#{firmyView.nowy.kontakt}" required="true" />
+                                <h:outputText value="email:"/>
+                                <p:inputText value="#{firmyView.nowy.email}" required="true" />
+                                <h:outputText value="email2:"/>
+                                <p:inputText value="#{firmyView.nowy.email2}" required="true" />
+                                <h:outputText value="dopuszczalna liczba prac.:"/>
+                                <p:inputNumber value="#{firmyView.nowy.maxpracownikow}" required="true" />
+                                <h:outputText value="limit dni manager:"/>
+                                <p:inputNumber value="#{firmyView.nowy.managerlimit}" required="true" />
+                                
+                            </p:panelGrid>
+                            <p:commandButton value="dodaj" actionListener="#{firmyView.dodaj}" update="@form akordeon:formdodawanie_arch" styleClass="buttonnorm"/>
+                        </h:form>
+                    </p:outputPanel>
+                    <p:outputPanel style="margin: 20px;">
+                        <h:form id="formdodawanie_arch">
+                            <p:panel header="dane nowododanej firmy" style="width: 400px;"/>
+                            <p:panelGrid columns="2" style="padding: 10px;" >
+                                <h:outputText value="nazwa firmy:"/>
+                                <h:outputText value="#{firmyView.nowy_arch.nazwazakladu}"/>
+                                <h:outputText value="ulica, nr domu:"/>
+                                <h:outputText value="#{firmyView.nowy_arch.ulica}"/>
+                                <h:outputText value="miejscowość:"/>
+                                <h:outputText value="#{firmyView.nowy_arch.miejscowosc}"/>
+                                <h:outputText value="próg zdawalności:"/>
+                                <h:outputText value="#{firmyView.nowy_arch.progzdawalnosci}"/>
+                                <h:outputText value="kontakt:"/>
+                                <h:outputText value="#{firmyView.nowy_arch.kontakt}"/>
+                                <h:outputText value="email:"/>
+                                <h:outputText value="#{firmyView.nowy_arch.email}"/>
+                                <h:outputText value="email2:"/>
+                                <h:outputText value="#{firmyView.nowy_arch.email2}"/>
+                                <h:outputText value="dopuszczalna liczba prac.:"/>
+                                <h:outputText value="#{firmyView.nowy_arch.maxpracownikow}"/>
+                                <h:outputText value="limit dni manager:"/>
+                                <h:outputText value="#{firmyView.nowy_arch.managerlimit}"/>
+                            </p:panelGrid>
+                        </h:form>
+                    </p:outputPanel>
+                </p:tab>
+
+                <p:tab title="firmy wykaz">
+                    <p:outputPanel style="margin: 20px;">
+                        <h:form id="formosoby">
+                            <p:commandButton value="XLS" style="margin-left: 100px;">
+                                <p:dataExporter target="formosoby:dataList" type="xls" fileName="osobytabela" />
+                            </p:commandButton>
+                            <p:dataTable id="dataList" value="#{firmyView.zakladpracylista}" var="item" style="overflow-y: scroll;width: 1600px; margin-top: 15px;" size="small"
+                                         rowIndexVar="index" rowKey="#{item.id}" editable="true"
+                                         rowsPerPageTemplate="20,100,250,500" paginatorPosition="top" paginator="true" rows="20"
+                                         emptyMessage="Nie wprowadzono ani jednego pracownika" selectionMode="single" selection="#{firmyView.zakladpracyselected}">
+                                <p:ajax event="rowEdit" listener="#{firmyView.onRowEdit}" update="akordeon:formosoby:dataList"/>
+                                <p:ajax event="rowEditCancel" listener="#{firmyView.onRowCancel}" update="akordeon:formosoby:dataList"/>
+                                <p:column width="30" style="text-align: center;">
+                                    <f:facet name="header">
+                                        <h:outputText value="lp"/>
+                                    </f:facet>
+                                    <h:outputText value="#{index+1}"/>
+                                </p:column>
+                                <p:column width="30" style="text-align: center;">
+                                    <f:facet name="header">
+                                        <h:outputText value="id"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.id}"/>
+                                </p:column>
+                                <p:column width="250" filterBy="#{item.nazwazakladu}" filterMatchMode="contains" sortBy="#{item.nazwazakladu}" sortOrder="1">
+                                    <f:facet name="header">
+                                        <h:outputText value="Nazwa zakładu"/>
+                                    </f:facet>
+                                    <p:cellEditor>
+                                        <f:facet name="output">
+                                            <h:outputText value="#{item.nazwazakladu}"/>
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <p:inputText value="#{item.nazwazakladu}" style="width:100%"/>
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+                                <p:column width="150" filterBy="#{item.ulica}" filterMatchMode="contains">
+                                    <f:facet name="header">
+                                        <h:outputText value="Ulica, nr domu"/>
+                                    </f:facet>
+                                    <p:cellEditor>
+                                        <f:facet name="output">
+                                            <h:outputText value="#{item.ulica}"/>
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <p:inputText value="#{item.ulica}" style="width:100%"/>
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+                                <p:column width="150" filterBy="#{item.miejscowosc}" filterMatchMode="contains">
+                                    <f:facet name="header">
+                                        <h:outputText value="Miejscowosc"/>
+                                    </f:facet>
+                                    <p:cellEditor>
+                                        <f:facet name="output">
+                                            <h:outputText value="#{item.miejscowosc}"/>
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <p:inputText value="#{item.miejscowosc}" style="width:100%"/>
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+                                <p:column width="50" filterBy="#{item.progzdawalnosci}" filterMatchMode="contains" style="text-align: center;">
+                                    <f:facet name="header">
+                                        <h:outputText value="Próg zdaw."/>
+                                    </f:facet>
+                                    <p:cellEditor>
+                                        <f:facet name="output">
+                                            <h:outputText value="#{item.progzdawalnosci}"/>
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <p:inputNumber value="#{item.progzdawalnosci}" style="width:100%"/>
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+                                <p:column width="100" filterBy="#{item.kontakt}" filterMatchMode="contains">
+                                    <f:facet name="header">
+                                        <h:outputText value="Kontakt"/>
+                                    </f:facet>
+                                    <p:cellEditor>
+                                        <f:facet name="output">
+                                            <h:outputText value="#{item.kontakt}"/>
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <p:inputText value="#{item.kontakt}" style="width:100%"/>
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+                                <p:column width="100" filterBy="#{item.email}" filterMatchMode="contains">
+                                    <f:facet name="header">
+                                        <h:outputText value="Email"/>
+                                    </f:facet>
+                                    <p:cellEditor>
+                                        <f:facet name="output">
+                                            <h:outputText value="#{item.email}"/>
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <p:inputText value="#{item.email}" style="width:100%"/>
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+                                <p:column width="100" filterBy="#{item.email2}" filterMatchMode="contains">
+                                    <f:facet name="header">
+                                        <h:outputText value="Email2"/>
+                                    </f:facet>
+                                    <p:cellEditor>
+                                        <f:facet name="output">
+                                            <h:outputText value="#{item.email2}"/>
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <p:inputText value="#{item.email2}" style="width:100%"/>
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+                                <p:column width="50" filterBy="#{item.maxpracownikow}" filterMatchMode="contains" style="text-align: center;">
+                                    <f:facet name="header">
+                                        <h:outputText value="max liczb.prac."/>
+                                    </f:facet>
+                                    <p:cellEditor>
+                                        <f:facet name="output">
+                                            <h:outputText value="#{item.maxpracownikow}"/>
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <p:inputNumber value="#{item.maxpracownikow}" style="width:100%"/>
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+                                <p:column width="50" filterBy="#{item.managerlimit}" filterMatchMode="contains" style="text-align: center;">
+                                    <f:facet name="header">
+                                        <h:outputText value="limit dni manag."/>
+                                    </f:facet>
+                                    <p:cellEditor>
+                                        <f:facet name="output">
+                                            <h:outputText value="#{item.managerlimit}"/>
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <p:inputNumber value="#{item.managerlimit}" style="width:100%"/>
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+<!--                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Utworzony"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.utworzony}" rendered="#{item.utworzony ne null}">
+                                        <f:convertDateTime pattern="yyyy/MM/dd HH:mm:ss" />
+                                    </h:outputText>
+                                </p:column>-->
+                                <p:column style="width:2rem;text-align: center;" exportable="false">
+                                    <p:rowEditor editTitle="Edytuj" cancelTitle="Rezygnuj" saveTitle="Zachowaj" />
+                                </p:column>
+                            </p:dataTable>
+                        </h:form>
+                    </p:outputPanel>
+                </p:tab>
+                
+            </p:tabView>
+        </h:body>
+    </f:view>
+</html>

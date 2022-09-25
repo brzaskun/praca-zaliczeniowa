@@ -76,18 +76,14 @@ public class Test implements Serializable {
     @Size(max = 512)
     @Column(name = "odp4", length = 512)
     private String odp4;
-    @Size(max = 5)
-    @Column(name = "odp1walidacja", length = 5)
-    private String odp1walidacja;
-    @Size(max = 5)
-    @Column(name = "odp2walidacja", length = 5)
-    private String odp2walidacja;
-    @Size(max = 5)
-    @Column(name = "odp3walidacja", length = 5)
-    private String odp3walidacja;
-    @Size(max = 5)
-    @Column(name = "odp4walidacja", length = 5)
-    private String odp4walidacja;
+    @Column(name = "odp1walidacja")
+    private boolean odp1walidacja;
+    @Column(name = "odp2walidacja")
+    private boolean odp2walidacja;
+    @Column(name = "odp3walidacja")
+    private boolean odp3walidacja;
+    @Column(name = "odp4walidacja")
+    private boolean odp4walidacja;
 
     public Test() {
     }
@@ -174,37 +170,39 @@ public class Test implements Serializable {
         this.odp4 = odp4;
     }
 
-    public String getOdp1walidacja() {
+    public boolean isOdp1walidacja() {
         return odp1walidacja;
     }
 
-    public void setOdp1walidacja(String odp1walidacja) {
+    public void setOdp1walidacja(boolean odp1walidacja) {
         this.odp1walidacja = odp1walidacja;
     }
 
-    public String getOdp2walidacja() {
+    public boolean isOdp2walidacja() {
         return odp2walidacja;
     }
 
-    public void setOdp2walidacja(String odp2walidacja) {
+    public void setOdp2walidacja(boolean odp2walidacja) {
         this.odp2walidacja = odp2walidacja;
     }
 
-    public String getOdp3walidacja() {
+    public boolean isOdp3walidacja() {
         return odp3walidacja;
     }
 
-    public void setOdp3walidacja(String odp3walidacja) {
+    public void setOdp3walidacja(boolean odp3walidacja) {
         this.odp3walidacja = odp3walidacja;
     }
 
-    public String getOdp4walidacja() {
+    public boolean isOdp4walidacja() {
         return odp4walidacja;
     }
 
-    public void setOdp4walidacja(String odp4walidacja) {
+    public void setOdp4walidacja(boolean odp4walidacja) {
         this.odp4walidacja = odp4walidacja;
     }
+
+   
 
     @Override
     public int hashCode() {

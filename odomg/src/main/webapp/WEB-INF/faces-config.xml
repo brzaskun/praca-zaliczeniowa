@@ -39,8 +39,20 @@
                 <to-view-id>/admin/osoby.xhtml?faces-redirect=true</to-view-id>
             </navigation-case>
             <navigation-case>
+                <from-outcome>Firmy</from-outcome>
+                <to-view-id>/admin/firmy.xhtml?faces-redirect=true</to-view-id>
+            </navigation-case>
+            <navigation-case>
                 <from-outcome>Szkolenia</from-outcome>
                 <to-view-id>/admin/szkolenia.xhtml?faces-redirect=true</to-view-id>
+            </navigation-case>
+            <navigation-case>
+                <from-outcome>Testy</from-outcome>
+                <to-view-id>/admin/testy.xhtml?faces-redirect=true</to-view-id>
+            </navigation-case>
+             <navigation-case>
+                <from-outcome>Upowaznienia</from-outcome>
+                <to-view-id>/admin/upowaznienia.xhtml?faces-redirect=true</to-view-id>
             </navigation-case>
             <navigation-case>
                 <from-outcome>Statystyka</from-outcome>

@@ -84,6 +84,10 @@ public class Zakladpracy implements Serializable {
     @Size(max = 255)
     @Column(name = "email", length = 255)
     private String email;
+    @Size(max = 255)
+    @Column(name = "email2", length = 255)
+    private String email2;
+
 
     public Zakladpracy() {
     }
@@ -99,6 +103,22 @@ public class Zakladpracy implements Serializable {
         this.maxpracownikow = maxpracownikow;
         this.managerlimit = managerlimit;
     }
+
+    public Zakladpracy(Zakladpracy nowy) {
+        this.nazwazakladu = nowy.nazwazakladu;
+        this.symbol = nowy.symbol;
+        this.ulica = nowy.ulica;
+        this.miejscowosc = nowy.miejscowosc;
+        this.firmaaktywna = nowy.firmaaktywna;
+        this.progzdawalnosci = nowy.progzdawalnosci;
+        this.kontakt = nowy.kontakt;
+        this.maxpracownikow = nowy.maxpracownikow;
+        this.managerlimit = nowy.managerlimit;
+        this.email = nowy.email;
+        this.email2 = nowy.email2;
+    }
+
+    
 
     public Integer getId() {
         return id;
@@ -186,6 +206,14 @@ public class Zakladpracy implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getEmail2() {
+        return email2;
+    }
+
+    public void setEmail2(String email2) {
+        this.email2 = email2;
     }
 
     @Override

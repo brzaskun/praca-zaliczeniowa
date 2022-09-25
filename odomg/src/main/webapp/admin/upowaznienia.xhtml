@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:f="http://java.sun.com/jsf/core"
+
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <f:view  contentType="text/html;charset=UTF-8" encoding="UTF-8">
+        <h:head>
+            <meta http-equiv="Accept-Encoding" content="gzip"/>
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+            <meta http-equiv="Pragma" content="no-cache"/>
+            <meta http-equiv="Expires" content="0" />
+            <meta http-equiv="Cache-Control" content="no-cache,no-store,must-revalidate"/>
+            <link rel="icon" type="image/png" sizes="32x32" href="#{resource['css/pics/ODOLogoVector.png']}"/>
+            <h:outputStylesheet name="css/main_admin.css" />
+            <h:outputStylesheet name="css/button.css" />
+            <h:outputStylesheet name="css/style.css" />
+            <h:outputStylesheet name="css/details_1.css" />
+            <h:outputStylesheet name="css/qlcore.css" />
+            <title>Testy Dane Wrażliwe</title>
+            <style>
+                .ui-autocomplete input {
+                    width: 400px;
+                }
+            </style>
+        </h:head>
+        <h:body>
+            <p:growl life="7200"><p:autoUpdate/></p:growl>
+            <p:outputPanel>
+                <h:form id="formmenu">
+                    <p:menubar autoDisplay="true">
+                        <p:menuitem icon="pi pi-users" value="użytkownicy" style="width: 150px" action="Osoby"/>
+                        <p:menuitem icon="pi pi-bars" value="firmy" style="width: 150px" action="Firmy"/>
+                        <p:menuitem icon="pi pi-info-circle" value="szkolenia" style="width: 150px" action="Szkolenia"/>
+                        <p:menuitem icon="pi pi-check-square" value="testy" style="width: 150px" action="Testy"/>
+                        <p:menuitem icon="pi pi-cloud-download" value="pobierz" style="width: 150px" action="Upowaznienia"/>
+                        <p:menuitem icon="pi pi-chart-line" value="statystyka" style="width: 150px" action="Statystyka"/>
+                    </p:menubar>
+                </h:form>
+            </p:outputPanel>
+            <p:tabView activeIndex="0" id="akordeon">
+                <p:tab title="upoważnienia">
+                    <p:outputPanel style="margin: 20px;">
+                        <h:form id="formwyniki">
+                            <p:dataTable id="dataList" value="#{pobierzPlikView.pliki}" var="item" style="overflow-y: scroll;width: 1000px; margin-top: 15px;" size="small"
+                                         rowIndexVar="index" rowKey="#{item.hashCode()}" sortBy="#{item.lastModified()}" 
+                                         rowsPerPageTemplate="20,100,250,500" paginatorPosition="top" paginator="true" rows="20"
+                                         emptyMessage="Nie pobrano ani jednego pracownika" selectionMode="multiple" selection="#{statystykaView.listaosobyselected}">
+                                <p:column width="30" style="text-align: center;">
+                                    <f:facet name="header">
+                                        <h:outputText value="lp"/>
+                                    </f:facet>
+                                    <h:outputText value="#{index+1}"/>
+                                </p:column>
+                                <p:column width="250" filterBy="#{item.name}" filterMatchMode="contains" sortBy="#{item.name}" sortOrder="ascending">
+                                    <f:facet name="header">
+                                        <h:outputText value="nazwa"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.name}"/>
+                                </p:column>
+                                <p:column width="50" filterBy="#{item.lastModified()}" filterMatchMode="contains" sortBy="#{item.lastModified()}" sortOrder="ascending">
+                                    <f:facet name="header">
+                                        <h:outputText value="data"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.lastModified()}">
+                                        <f:convertDateTime pattern="yyyy/MM/dd HH:mm:ss" />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column width="50" style="text-align: center;">
+                                    <f:facet name="header">
+                                        <h:outputText value="pobierz"/>
+                                    </f:facet>
+                                    <a href="data:sql,#{item.toURI()}" target="_blank" download="#{item.name}">pobierz</a>
+                                </p:column>
+                                
+                            </p:dataTable>
+                        </h:form>
+                    </p:outputPanel>
+                </p:tab>
+            </p:tabView>
+        </h:body>
+    </f:view>
+</html>

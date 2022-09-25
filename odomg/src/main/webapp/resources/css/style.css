@@ -195,6 +195,16 @@
      vertical-align: top;
 }
 
+.eighty-percent {
+     width: 80%;
+     vertical-align: top;
+}
+
+.ninety-percent {
+     width: 90%;
+     vertical-align: top;
+}
+
 .onefive-percent {
      width: 15%;
      vertical-align: top;
