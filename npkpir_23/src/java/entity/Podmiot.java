@@ -71,6 +71,9 @@ public class Podmiot implements Serializable {
     @Size(max = 45)
     @Column(name = "imie", length = 45)
     private String imie;
+    @Size(max = 45)
+    @Column(name = "drugieimie", length = 45)
+    private String drugieimie;
     @Size(max = 256)
     @Column(name = "printnazwa", length = 256)
     private String printnazwa;
@@ -212,6 +215,14 @@ public class Podmiot implements Serializable {
 
     public void setImie(String imie) {
         this.imie = imie;
+    }
+
+    public String getDrugieimie() {
+        return drugieimie;
+    }
+
+    public void setDrugieimie(String drugieimie) {
+        this.drugieimie = drugieimie;
     }
 
     public String getPrintnazwa() {

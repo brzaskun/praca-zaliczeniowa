@@ -9,7 +9,6 @@ import dao.DokDAO;
 import dao.PodatnikDAO;
 import embeddable.Mce;
 import entity.Deklaracjevat;
-import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;

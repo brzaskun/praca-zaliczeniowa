@@ -311,6 +311,7 @@ public class PodatnikView implements Serializable {
             }
             if (!selectedDod.getPrintnazwa().equals("nie znaleziono firmy w bazie Regon")) {
                 podatnikDAO.create(selectedDod);
+                dodajpodmiot(selectedDod);
                 MailPodatnik.dodanonowegopodatnika(selectedDod, uzDAO, sMTPSettingsDAO.findSprawaByDef());
                 podatnikWyborView.init();
                 Msg.msg("i", "Dodano nowego podatnika: " + selectedDod.getPrintnazwa());
@@ -2303,6 +2304,24 @@ public void przygotujedycjeopodatkowanie() {
             Msg.dP();
         } else {
             Msg.msg("e","Nie wybrano podatnika");
+        }
+    }
+
+    private void dodajpodmiot(Podatnik selectedDod) {
+        try {
+            Podmiot nowy = new Podmiot();
+            nowy.setNazwisko(selectedDod.getNazwisko());
+            nowy.setImie(selectedDod.getImie());
+            nowy.setPesel(selectedDod.getPesel());
+            nowy.setDataurodzenia(nowy.getDataurodzenia());
+            nowy.setEmail(selectedDod.getEmail());
+            nowy.setTelefon(selectedDod.getTelefonkontaktowy());
+            nowy.setLogin(selectedDod.getNip());
+            nowy.setPin("1234");
+            podmiotDAO.create(nowy);
+            Msg.msg("Wygenerowano nowy podmiot");
+        } catch (Exception e){
+            Msg.msg("e","Błąd generowania nowego podmiotu");
         }
     }
     
