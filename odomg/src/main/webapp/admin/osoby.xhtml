@@ -4,7 +4,8 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:c="http://java.sun.com/jsp/jstl/core"
       xmlns:f="http://java.sun.com/jsf/core"
-      >
+          
+      xmlns:bcf="http://brzaskun.com/facelets">
     <f:view  contentType="text/html;charset=UTF-8" encoding="UTF-8">
         <h:head>
             <meta http-equiv="Accept-Encoding" content="gzip"/>
@@ -18,6 +19,7 @@
             <h:outputStylesheet name="css/style.css" />
             <h:outputStylesheet name="css/details.css" />
             <h:outputStylesheet name="css/qlcore.css" />
+            <h:outputScript library="js" name="globales.js"/>
             <title>Testy Dane Wrażliwe</title>
             <style>
                 .ui-autocomplete input {
@@ -39,7 +41,7 @@
                     </p:menubar>
                 </h:form>
             </p:outputPanel>
-            <p:tabView activeIndex="1" id="akordeon">
+            <p:tabView activeIndex="2" id="akordeon">
                 <p:tab title="dodawanie">
                     <p:panel header="dodawanie nowego uczestnika"/>
                     <p:outputPanel style="margin: 20px;">
@@ -97,10 +99,30 @@
                         </h:form>
                     </p:outputPanel>
                 </p:tab>
+                <p:tab title="import">
+                    <p:outputPanel style="margin: 20px;">
+                        <h:form id="panelplik">
+                            <p:panelGrid columns="2" columnClasses="sixty-percent forty-percent">
+                                    <p:panelGrid columns="1" style="margin-top: 20px;margin-bottom: 10px;">
+                                        <h:outputText value="Akceptowana wersja pliku xls,xlsx" style="font-weight: bold;"/>
+                                         
+                                        <p:fileUpload listener="#{importView.zachowajplik}" mode="advanced" global="false"
+                                                      update="messages" auto="true" sizeLimit="100000" allowTypes="/(\.|\/)(xls|xlsx)$/"
+                                                      invalidFileMessage="Niewłaściwy format pliku: "
+                                                      uploadLabel="Wczytaj" label="Wybierz" cancelLabel="Rezygnuj"
+                                                      invalidSizeMessage="Plik za duży"/>
 
+                                        <p:growl id="messages" />
+                                    </p:panelGrid>
+                            </p:panelGrid>
+                        </h:form>
+                    </p:outputPanel>
+                </p:tab>
+                    
                 <p:tab title="uczestnicy">
                     <p:outputPanel style="margin: 20px;">
                         <h:form id="formosoby">
+                            <bcf:ajaxs/>
                             <h:outputText value="wybierz firmę"/>
                             <p:selectOneListbox value="#{osobyView.zakladpracy}" converter="#{zakladpracyConverter}" style="width: 400px;" filter="true" filterMatchMode="contains" >
                                 <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
