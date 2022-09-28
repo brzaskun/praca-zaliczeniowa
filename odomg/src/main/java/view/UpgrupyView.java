@@ -62,7 +62,7 @@ public class UpgrupyView  implements Serializable {
             if (grupyfirma!=null) {
                 for (Uczestnicy p :listaosoby) {
                     p.setUczestnikgrupy(new ArrayList<UczestnikGrupa>());
-                    List<Uczestnikgrupy> uczestnikgrupylista = uczestnikgrupylistaall.stream().filter(c->c.getId().equals(p.getId())).collect(Collectors.toList());
+                    List<Uczestnikgrupy> uczestnikgrupylista = uczestnikgrupylistaall.stream().filter(c->c.getIdUczestnik()!=null&&c.getIdUczestnik().equals(p.getId())).collect(Collectors.toList());
                     for (Grupyupowaznien r : grupyfirma) {
                         boolean dodac = true;
                         for (Uczestnikgrupy s : uczestnikgrupylista) {

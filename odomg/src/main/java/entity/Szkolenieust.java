@@ -86,6 +86,19 @@ public class Szkolenieust implements Serializable {
         this.iloscpytan = iloscpytan;
     }
 
+    public Szkolenieust(Szkolenieust nowy) {
+        this.firma = nowy.firma;
+        this.nazwaszkolenia = nowy.nazwaszkolenia;
+        this.iloscpytan = nowy.iloscpytan;
+        this.email = nowy.email;
+        this.progzdawalnosci = nowy.progzdawalnosci;
+        this.upowaznienie = nowy.upowaznienie;
+        this.firmaId = nowy.firmaId;
+    }
+
+    
+    
+    
     public Integer getId() {
         return id;
     }

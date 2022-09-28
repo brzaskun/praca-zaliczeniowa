@@ -36,6 +36,7 @@
                         <p:menuitem icon="pi pi-bars" value="firmy" style="width: 150px" action="Firmy"/>
                         <p:menuitem icon="pi pi-info-circle" value="szkolenia" style="width: 150px" action="Szkolenia"/>
                         <p:menuitem icon="pi pi-check-square" value="testy" style="width: 150px" action="Testy"/>
+                        <p:menuitem icon="pi pi-file" value="zaświadczenia" style="width: 150px" action="Zaswiadczenia"/>
                         <p:menuitem icon="pi pi-cloud-download" value="pobierz" style="width: 150px" action="Upowaznienia"/>
                         <p:menuitem icon="pi pi-chart-line" value="statystyka" style="width: 150px" action="Statystyka"/>
                     </p:menubar>
@@ -107,7 +108,7 @@
                                         <h:outputText value="Akceptowana wersja pliku xls,xlsx" style="font-weight: bold;"/>
                                          
                                         <p:fileUpload listener="#{importView.zachowajplik}" mode="advanced" global="false"
-                                                      update="messages" auto="true" sizeLimit="100000" allowTypes="/(\.|\/)(xls|xlsx)$/"
+                                                      update="messages akordeon:osobyimport" auto="true" sizeLimit="100000" allowTypes="/(\.|\/)(xls|xlsx)$/"
                                                       invalidFileMessage="Niewłaściwy format pliku: "
                                                       uploadLabel="Wczytaj" label="Wybierz" cancelLabel="Rezygnuj"
                                                       invalidSizeMessage="Plik za duży"/>
@@ -115,6 +116,106 @@
                                         <p:growl id="messages" />
                                     </p:panelGrid>
                             </p:panelGrid>
+                        </h:form>
+                        <h:form id="osobyimport">
+                             <p:dataTable id="dataList" value="#{importView.lista}" var="item" style="overflow-y: scroll;width: 1600px; margin-top: 15px;" size="small"
+                                         rowIndexVar="index" rowKey="#{item.email}" editable="true"
+                                         rowsPerPageTemplate="20,100,250,500" paginatorPosition="top" paginator="true" rows="20"
+                                         emptyMessage="Nie wprowadzono ani jednego pracownika" selectionMode="multiple" selection="#{osobyView.listaosobyselected}">
+                                <p:ajax event="rowEdit" listener="#{importView.onRowEdit}" update="akordeon:formosoby:dataList"/>
+                                <p:ajax event="rowEditCancel" listener="#{importView.onRowCancel}" update="akordeon:formosoby:dataList"/>
+                                <p:column width="20" style="text-align: center;" exportable="false">
+                                    <p:rowToggler rendered="#{item.uczestnikgrupy ne null and item.uczestnikgrupy.size() gt 0}"/>
+                                </p:column>
+                                <p:column width="30" style="text-align: center;">
+                                    <f:facet name="header">
+                                        <h:outputText value="lp"/>
+                                    </f:facet>
+                                    <h:outputText value="#{index+1}"/>
+                                </p:column>
+                                <p:column width="250" filterBy="#{item.email}" filterMatchMode="contains" sortBy="#{item.email}" sortOrder="1">
+                                    <f:facet name="header">
+                                        <h:outputText value="Email"/>
+                                    </f:facet>
+                                    <p:cellEditor>
+                                        <f:facet name="output">
+                                            <h:outputText value="#{item.email}"/>
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <p:inputText value="#{item.email}" style="width:100%"/>
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+                                <p:column width="250" filterBy="#{item.imienazwisko}" filterMatchMode="contains">
+                                    <f:facet name="header">
+                                        <h:outputText value="Imie nazwisko"/>
+                                    </f:facet>
+                                    <p:cellEditor>
+                                        <f:facet name="output">
+                                            <h:outputText value="#{item.imienazwisko}"/>
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <p:inputText value="#{item.imienazwisko}" style="width:100%"/>
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+                                <p:column width="30" style="text-align: center;" filterBy="#{item.plec}" filterMatchMode="startsWith">
+                                    <f:facet name="header">
+                                        <h:outputText value="Plec"/>
+                                    </f:facet>
+                                    <p:cellEditor>
+                                        <f:facet name="output">
+                                            <h:outputText value="#{item.plec}"/>
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <p:inputText value="#{item.plec}" style="width:100%"/>
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+                                <p:column width="200" filterBy="#{item.nazwaszkolenia}" filterMatchMode="contains">
+                                    <f:facet name="header">
+                                        <h:outputText value="Nazwa szkolenia"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.nazwaszkolenia}"/>
+                                </p:column>
+                                <p:column width="150" filterBy="#{item.indetyfikator}" filterMatchMode="contains">
+                                    <f:facet name="header">
+                                        <h:outputText value="Identyfikator"/>
+                                    </f:facet>
+                                     <p:cellEditor>
+                                        <f:facet name="output">
+                                            <h:outputText value="#{item.indetyfikator}"/>
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <p:inputText value="#{item.indetyfikator}" style="width:100%"/>
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+                                <p:column width="150" filterBy="#{item.nrupowaznienia}" filterMatchMode="contains">
+                                    <f:facet name="header">
+                                        <h:outputText value="Nr upoważnienia"/>
+                                    </f:facet>
+                                     <p:cellEditor>
+                                        <f:facet name="output">
+                                            <h:outputText value="#{item.nrupowaznienia}"/>
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <p:inputText value="#{item.nrupowaznienia}" style="width:100%"/>
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+                                <p:column style="width:2rem;text-align: center;" exportable="false">
+                                    <p:rowEditor editTitle="Edytuj" cancelTitle="Rezygnuj" saveTitle="Zachowaj" />
+                                </p:column>
+                                <p:rowExpansion>
+                                    <p:dataTable id="datalistpasek" value="#{item.uczestnikgrupy}" var="itemik"
+                                                 rowIndexVar="indexkartapasek" 
+                                                 style="height: 150px; overflow-y: scroll;width: 97%;margin-left: 30px;" emptyMessage="Nie ma żadnych grup"
+                                                 >
+                                    </p:dataTable>
+                                    <p:column headerText="#{itemik.nazwa}"/>
+                                </p:rowExpansion>
+                            </p:dataTable>
                         </h:form>
                     </p:outputPanel>
                 </p:tab>
@@ -411,6 +512,9 @@
                                          emptyMessage="Nie wprowadzono ani jednego pracownika" selectionMode="multiple" selection="#{upgrupyView.listaosobyselected}">
                                 <p:ajax event="rowEdit" listener="#{osobyView.onRowEdit}" update="akordeon:formgrupy:dataList"/>
                                 <p:ajax event="rowEditCancel" listener="#{osobyView.onRowCancel}" update="akordeon:formgrupy:dataList"/>
+                                 <p:column width="20" style="text-align: center;" exportable="false">
+                                    <p:rowToggler rendered="#{item.uczestnikgrupy ne null and item.uczestnikgrupy.size() gt 0}"/>
+                                </p:column>
                                 <p:column width="30" style="text-align: center;">
                                     <f:facet name="header">
                                         <h:outputText value="lp"/>
@@ -478,16 +582,42 @@
                                         <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
                                     </h:outputText>
                                 </p:column>
-                                <p:column>
-                                    <p:repeat value="#{item.uczestnikgrupy}" var="columna">
-                                        <p:column>
-                                            <h:outputText value="#{columna.nazwa}" style="color: #{columna.jest?'initial':'gray'}"/>
-                                            <p:selectBooleanCheckbox value="#{columna.jest}">
-                                                <p:ajax event="change" partialSubmit="true" update="@parent"/>
-                                            </p:selectBooleanCheckbox>
-                                        </p:column>
-                                    </p:repeat>
+                                <p:column width="450">
+                                    <p:dataTable  value="#{item.uczestnikgrupy}" var="itemik"
+                                                 rowIndexVar="indexkartapasek" 
+                                                 style="height: 250px; overflow-y: scroll;width: 100%;margin-left: 30px;" emptyMessage="Nie ma żadnych grup"
+                                                 >
+                                       <p:column style="width: 90%;">
+                                                <h:outputText value="#{itemik.nazwa}" />
+                                            </p:column>
+                                            <p:column  style="text-align: center;width: 10%;">
+                                                <p:selectBooleanCheckbox value="#{itemik.jest}" >
+                                                    <p:ajax event="change" partialSubmit="true" update="@parent" />
+                                                </p:selectBooleanCheckbox>
+                                            </p:column>
+                                        </p:dataTable>
                                 </p:column>
+                                  <p:rowExpansion>
+                                    <p:dataTable id="datalistpasek" value="#{item.uczestnikgrupy}" var="itemik"
+                                                 rowIndexVar="indexkartapasek" 
+                                                 style="height: 250px; overflow-y: scroll;width: 150px;margin-left: 30px;" emptyMessage="Nie ma żadnych grup"
+                                                 >
+                                       <p:column style="width: 90%;">
+                                                <h:outputText value="#{columna.nazwa}" style="width: 90% !important;"/>
+                                            </p:column>
+                                            <p:column  style="text-align: center;width: 10%;">
+                                                <p:selectBooleanCheckbox value="#{columna.jest}" >
+                                                    <p:ajax event="change" partialSubmit="true" update="@parent"/>
+                                                </p:selectBooleanCheckbox>
+                                            </p:column>
+                                        </p:dataTable>
+                                </p:rowExpansion>
+<!--                                    <p:repeat value="#{item.uczestnikgrupy}" var="columna">
+                                        <p:column headerText="#{columna.nazwa}">
+                                            <h:outputText value="#{columna.nazwa}"/>
+                                        </p:column>
+                                    </p:repeat>-->
+                                
                                 <p:column style="width:2rem;text-align: center;" exportable="false">
                                     <p:rowEditor editTitle="Edytuj" cancelTitle="Rezygnuj" saveTitle="Zachowaj" />
                                 </p:column>

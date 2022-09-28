@@ -35,6 +35,7 @@
                         <p:menuitem icon="pi pi-bars" value="firmy" style="width: 150px" action="Firmy"/>
                         <p:menuitem icon="pi pi-info-circle" value="szkolenia" style="width: 150px" action="Szkolenia"/>
                         <p:menuitem icon="pi pi-check-square" value="testy" style="width: 150px" action="Testy"/>
+                        <p:menuitem icon="pi pi-file" value="zaświadczenia" style="width: 150px" action="Zaswiadczenia"/>
                         <p:menuitem icon="pi pi-cloud-download" value="pobierz" style="width: 150px" action="Upowaznienia"/>
                         <p:menuitem icon="pi pi-chart-line" value="statystyka" style="width: 150px" action="Statystyka"/>
                     </p:menubar>
@@ -42,7 +43,7 @@
             </p:outputPanel>
             <p:tabView activeIndex="1" id="akordeon">
                 <p:tab title="dodawanie">
-                    <p:panel header="dodawanie nowego uczestnika"/>
+                    <p:panel header="dodawanie nowej firmy"/>
                     <p:outputPanel style="margin: 20px;">
                         <h:form id="formdodawanie">
                             <p:messages ><p:autoUpdate/></p:messages>
@@ -253,7 +254,188 @@
                         </h:form>
                     </p:outputPanel>
                 </p:tab>
-                
+                <p:tab title="firma-szkolenie">
+                    <p:outputPanel style="margin: 20px;">
+                        <h:form id="firmaszkolenie">
+                            <p:commandButton value="XLS" style="margin-left: 100px;">
+                                <p:dataExporter target="firmaszkolenie:dataList" type="xls" fileName="osobytabela" />
+                            </p:commandButton>
+                            <p:dataTable id="dataList" value="#{firmaSzkolenieView.lista}" var="item" style="overflow-y: scroll;width: 1600px; margin-top: 15px;" size="small"
+                                         rowIndexVar="index" rowKey="#{item.id}" editable="true"
+                                         rowsPerPageTemplate="20,100,250,500" paginatorPosition="top" paginator="true" rows="20"
+                                         emptyMessage="Nie wprowadzono ani jednego pracownika" selectionMode="single" selection="#{firmaSzkolenieView.szkolenieustselected}">
+                                <p:ajax event="rowEdit" listener="#{firmaSzkolenieView.onRowEdit}" update="akordeon:firmaszkolenie:dataList"/>
+                                <p:ajax event="rowEditCancel" listener="#{firmaSzkolenieView.onRowCancel}" update="akordeon:firmaszkolenie:dataList"/>
+                                <p:column width="30" style="text-align: center;">
+                                    <f:facet name="header">
+                                        <h:outputText value="lp"/>
+                                    </f:facet>
+                                    <h:outputText value="#{index+1}"/>
+                                </p:column>
+                                <p:column width="30" style="text-align: center;">
+                                    <f:facet name="header">
+                                        <h:outputText value="id"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.id}"/>
+                                </p:column>
+                                <p:column width="200" filterBy="#{item.nazwaszkolenia}" filterMatchMode="contains" sortBy="#{item.nazwaszkolenia}" sortOrder="1">
+                                    <f:facet name="header">
+                                        <h:outputText value="Nazwa szkolenia"/>
+                                    </f:facet>
+                                    <p:cellEditor>
+                                        <f:facet name="output">
+                                            <h:outputText value="#{item.nazwaszkolenia}"/>
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <p:inputText value="#{item.nazwaszkolenia}" style="width:100%"/>
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+                                <p:column width="250" filterBy="#{item.firma}" filterMatchMode="contains">
+                                    <f:facet name="header">
+                                        <h:outputText value="Firma"/>
+                                    </f:facet>
+                                    <p:cellEditor>
+                                        <f:facet name="output">
+                                            <h:outputText value="#{item.firma}"/>
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <p:inputText value="#{item.firma}" style="width:100%"/>
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+                                <p:column width="150" filterBy="#{item.email}" filterMatchMode="contains">
+                                    <f:facet name="header">
+                                        <h:outputText value="Email"/>
+                                    </f:facet>
+                                    <p:cellEditor>
+                                        <f:facet name="output">
+                                            <h:outputText value="#{item.email}"/>
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <p:inputText value="#{item.email}" style="width:100%"/>
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+                                <p:column width="50" filterBy="#{item.iloscpytan}" filterMatchMode="contains" style="text-align: center;">
+                                    <f:facet name="header">
+                                        <h:outputText value="Il. pyt."/>
+                                    </f:facet>
+                                    <p:cellEditor>
+                                        <f:facet name="output">
+                                            <h:outputText value="#{item.iloscpytan}"/>
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <p:inputNumber value="#{item.iloscpytan}" style="width:100%"/>
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+                                <p:column width="50" filterBy="#{item.progzdawalnosci}" filterMatchMode="contains">
+                                    <f:facet name="header">
+                                        <h:outputText value="Próg zdaw."/>
+                                    </f:facet>
+                                    <p:cellEditor>
+                                        <f:facet name="output">
+                                            <h:outputText value="#{item.progzdawalnosci}"/>
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <p:inputText value="#{item.progzdawalnosci}" style="width:100%"/>
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+                                <p:column width="100" filterBy="#{item.upowaznienie}" filterMatchMode="contains">
+                                    <f:facet name="header">
+                                        <h:outputText value="Upoważnienie"/>
+                                    </f:facet>
+                                    <p:cellEditor>
+                                        <f:facet name="output">
+                                            <h:outputText value="#{item.upowaznienie}"/>
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <p:inputText value="#{item.email}" style="width:100%"/>
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+<!--                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Utworzony"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.utworzony}" rendered="#{item.utworzony ne null}">
+                                        <f:convertDateTime pattern="yyyy/MM/dd HH:mm:ss" />
+                                    </h:outputText>
+                                </p:column>-->
+                                <p:column style="width:2rem;text-align: center;" exportable="false">
+                                    <p:rowEditor editTitle="Edytuj" cancelTitle="Rezygnuj" saveTitle="Zachowaj" />
+                                </p:column>
+                            </p:dataTable>
+                        </h:form>
+                    </p:outputPanel>
+                </p:tab>
+                <p:tab title="firma-grupa">
+                    <p:outputPanel style="margin: 20px;">
+                        <h:form id="firmagrupa">
+                            <p:commandButton value="XLS" style="margin-left: 100px;">
+                                <p:dataExporter target="firmagrupa:dataList" type="xls" fileName="osobytabela" />
+                            </p:commandButton>
+                            <p:dataTable id="dataList" value="#{grupyupowaznienView.lista}" var="item" style="overflow-y: scroll;width: 1000px; margin-top: 15px;" size="small"
+                                         rowIndexVar="index" rowKey="#{item.id}" editable="true"
+                                         rowsPerPageTemplate="20,100,250,500" paginatorPosition="top" paginator="true" rows="20"
+                                         emptyMessage="Nie wprowadzono ani jednego pracownika" selectionMode="single" selection="#{grupyupowaznienView.selected}">
+                                <p:ajax event="rowEdit" listener="#{grupyupowaznienView.onRowEdit}" update="akordeon:firmagrupa:dataList"/>
+                                <p:ajax event="rowEditCancel" listener="#{grupyupowaznienView.onRowCancel}" update="akordeon:firmagrupa:dataList"/>
+                                <p:column width="30" style="text-align: center;">
+                                    <f:facet name="header">
+                                        <h:outputText value="lp"/>
+                                    </f:facet>
+                                    <h:outputText value="#{index+1}"/>
+                                </p:column>
+                                <p:column width="30" style="text-align: center;">
+                                    <f:facet name="header">
+                                        <h:outputText value="id"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.id}"/>
+                                </p:column>
+                                <p:column width="250" filterBy="#{item.firma}" filterMatchMode="contains" sortBy="#{item.firma}" sortOrder="1">
+                                    <f:facet name="header">
+                                        <h:outputText value="Firma"/>
+                                    </f:facet>
+                                    <p:cellEditor>
+                                        <f:facet name="output">
+                                            <h:outputText value="#{item.firma}"/>
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <p:inputText value="#{item.firma}" style="width:100%"/>
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+                                <p:column width="200" filterBy="#{item.nazwagrupy}" filterMatchMode="contains">
+                                    <f:facet name="header">
+                                        <h:outputText value="Nazwa grupy"/>
+                                    </f:facet>
+                                    <p:cellEditor>
+                                        <f:facet name="output">
+                                            <h:outputText value="#{item.nazwagrupy}"/>
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <p:inputText value="#{item.nazwagrupy}" style="width:100%"/>
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+<!--                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Utworzony"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.utworzony}" rendered="#{item.utworzony ne null}">
+                                        <f:convertDateTime pattern="yyyy/MM/dd HH:mm:ss" />
+                                    </h:outputText>
+                                </p:column>-->
+                                <p:column style="width:2rem;text-align: center;" exportable="false">
+                                    <p:rowEditor editTitle="Edytuj" cancelTitle="Rezygnuj" saveTitle="Zachowaj" />
+                                </p:column>
+                            </p:dataTable>
+                        </h:form>
+                    </p:outputPanel>
+                </p:tab>
             </p:tabView>
         </h:body>
     </f:view>

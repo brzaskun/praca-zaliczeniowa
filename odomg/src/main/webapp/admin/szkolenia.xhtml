@@ -36,6 +36,7 @@
                         <p:menuitem icon="pi pi-bars" value="firmy" style="width: 150px" action="Firmy"/>
                         <p:menuitem icon="pi pi-info-circle" value="szkolenia" style="width: 150px" action="Szkolenia"/>
                         <p:menuitem icon="pi pi-check-square" value="testy" style="width: 150px" action="Testy"/>
+                        <p:menuitem icon="pi pi-file" value="zaświadczenia" style="width: 150px" action="Zaswiadczenia"/>
                         <p:menuitem icon="pi pi-cloud-download" value="pobierz" style="width: 150px" action="Upowaznienia"/>
                         <p:menuitem icon="pi pi-chart-line" value="statystyka" style="width: 150px" action="Statystyka"/>
                     </p:menubar>
@@ -148,7 +149,71 @@
                         </h:form>
                     </p:outputPanel>
                 </p:tab>
-              
+              <p:tab title="szkolenie-test">
+                    <p:outputPanel style="margin: 20px;">
+                        <h:form id="szkolenietest">
+                            <p:commandButton value="XLS" style="margin-left: 100px;">
+                                <p:dataExporter target="szkolenietest:dataList" type="xls" fileName="osobytabela" />
+                            </p:commandButton>
+                            <p:dataTable id="dataList" value="#{szkolenietestView.lista}" var="item" style="overflow-y: scroll;width: 1000px; margin-top: 15px;" size="small"
+                                         rowIndexVar="index" rowKey="#{item.id}" editable="true"
+                                         rowsPerPageTemplate="20,100,250,500" paginatorPosition="top" paginator="true" rows="20"
+                                         emptyMessage="Nie wprowadzono ani jednego pracownika" selectionMode="single" selection="#{szkolenietestView.selected}">
+                                <p:ajax event="rowEdit" listener="#{szkolenietestView.onRowEdit}" update="akordeon:szkolenietest:dataList"/>
+                                <p:ajax event="rowEditCancel" listener="#{szkolenietestView.onRowCancel}" update="akordeon:szkolenietest:dataList"/>
+                                <p:column width="30" style="text-align: center;">
+                                    <f:facet name="header">
+                                        <h:outputText value="lp"/>
+                                    </f:facet>
+                                    <h:outputText value="#{index+1}"/>
+                                </p:column>
+                                <p:column width="30" style="text-align: center;">
+                                    <f:facet name="header">
+                                        <h:outputText value="id"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.id}"/>
+                                </p:column>
+                                <p:column width="250" filterBy="#{item.szkolenie}" filterMatchMode="contains" sortBy="#{item.szkolenie}" sortOrder="1">
+                                    <f:facet name="header">
+                                        <h:outputText value="Firma"/>
+                                    </f:facet>
+                                    <p:cellEditor>
+                                        <f:facet name="output">
+                                            <h:outputText value="#{item.szkolenie}"/>
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <p:inputText value="#{item.szkolenie}" style="width:100%"/>
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+                                <p:column width="200" filterBy="#{item.test}" filterMatchMode="contains">
+                                    <f:facet name="header">
+                                        <h:outputText value="Nazwa grupy"/>
+                                    </f:facet>
+                                    <p:cellEditor>
+                                        <f:facet name="output">
+                                            <h:outputText value="#{item.test}"/>
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <p:inputText value="#{item.test}" style="width:100%"/>
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+<!--                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Utworzony"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.utworzony}" rendered="#{item.utworzony ne null}">
+                                        <f:convertDateTime pattern="yyyy/MM/dd HH:mm:ss" />
+                                    </h:outputText>
+                                </p:column>-->
+                                <p:column style="width:2rem;text-align: center;" exportable="false">
+                                    <p:rowEditor editTitle="Edytuj" cancelTitle="Rezygnuj" saveTitle="Zachowaj" />
+                                </p:column>
+                            </p:dataTable>
+                        </h:form>
+                    </p:outputPanel>
+                </p:tab>
             </p:tabView>
         </h:body>
     </f:view>
