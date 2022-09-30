@@ -30,6 +30,12 @@
         <h:body>
             <p:growl life="7200"><p:autoUpdate/></p:growl>
             <p:outputPanel>
+                <h:form>
+                    <p:confirmPopup global="true">
+                        <p:commandButton value="Nie" type="button" styleClass="ui-confirm-popup-no ui-button-flat"/>
+                        <p:commandButton value="Tak" type="button" styleClass="ui-confirm-popup-yes" />
+                    </p:confirmPopup>       
+                </h:form>
                 <h:form id="formmenu">
                     <p:menubar autoDisplay="true">
                         <p:menuitem icon="pi pi-users" value="użytkownicy" style="width: 150px" action="Osoby"/>
@@ -103,8 +109,14 @@
                 <p:tab title="import">
                     <p:outputPanel style="margin: 20px;">
                         <h:form id="panelplik">
-                            <p:panelGrid columns="2" columnClasses="sixty-percent forty-percent">
-                                    <p:panelGrid columns="1" style="margin-top: 20px;margin-bottom: 10px;">
+                            <h:outputText value="wybierz firmę"/>
+                            <p:selectOneListbox value="#{importView.zakladpracy}" converter="#{zakladpracyConverter}" style="width: 400px;" filter="true" filterMatchMode="contains" >
+                                <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
+                                <f:selectItems value="#{importView.zakladpracylista}" var="pozycja" itemLabel="#{pozycja.nazwazakladu}" itemValue="#{pozycja}"/>
+                                <p:ajax event="change" partialSubmit="true"  update="akordeon:panelplik"/>
+                            </p:selectOneListbox>
+                            <p:panelGrid columns="2" columnClasses="sixty-percent forty-percent" > 
+                                <p:panelGrid columns="1" style="margin-top: 20px;margin-bottom: 10px;" >
                                         <h:outputText value="Akceptowana wersja pliku xls,xlsx" style="font-weight: bold;"/>
                                          
                                         <p:fileUpload listener="#{importView.zachowajplik}" mode="advanced" global="false"
@@ -114,16 +126,18 @@
                                                       invalidSizeMessage="Plik za duży"/>
 
                                         <p:growl id="messages" />
+                                        <p:messages><p:autoUpdate/></p:messages>
                                     </p:panelGrid>
                             </p:panelGrid>
                         </h:form>
                         <h:form id="osobyimport">
+                           
                              <p:dataTable id="dataList" value="#{importView.lista}" var="item" style="overflow-y: scroll;width: 1600px; margin-top: 15px;" size="small"
                                          rowIndexVar="index" rowKey="#{item.email}" editable="true"
-                                         rowsPerPageTemplate="20,100,250,500" paginatorPosition="top" paginator="true" rows="20"
-                                         emptyMessage="Nie wprowadzono ani jednego pracownika" selectionMode="multiple" selection="#{osobyView.listaosobyselected}">
-                                <p:ajax event="rowEdit" listener="#{importView.onRowEdit}" update="akordeon:formosoby:dataList"/>
-                                <p:ajax event="rowEditCancel" listener="#{importView.onRowCancel}" update="akordeon:formosoby:dataList"/>
+                                         rowsPerPageTemplate="20,100,250,500" paginatorPosition="top" paginator="true" rows="20" filteredValue="#{importView.listaosobyfiltered}"
+                                         emptyMessage="Nie wprowadzono ani jednego pracownika" selectionMode="multiple" selection="#{importView.listaosobyselected}">
+                                <p:ajax event="rowEdit" listener="#{importView.onRowEdit}" update="akordeon:osobyimport:dataList"/>
+                                <p:ajax event="rowEditCancel" listener="#{importView.onRowCancel}" update="akordeon:osobyimport:dataList"/>
                                 <p:column width="20" style="text-align: center;" exportable="false">
                                     <p:rowToggler rendered="#{item.uczestnikgrupy ne null and item.uczestnikgrupy.size() gt 0}"/>
                                 </p:column>
@@ -133,13 +147,31 @@
                                     </f:facet>
                                     <h:outputText value="#{index+1}"/>
                                 </p:column>
-                                <p:column width="250" filterBy="#{item.email}" filterMatchMode="contains" sortBy="#{item.email}" sortOrder="1">
+                                <p:column width="30" style="text-align: center;"  sortBy="#{item.nrwierszaimport}" sortOrder="1">
+                                    <f:facet name="header">
+                                        <h:outputText value="Nr"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.nrwierszaimport}" />
+                                </p:column>
+                                <p:column width="30" style="text-align: center;">
+                                    <f:facet name="header">
+                                        <h:outputText value="Dup."/>
+                                    </f:facet>
+                                    <h:outputText value="!" style="font-size: x-large; font-weight: 900;color: red;" rendered="#{item.duplikat}"/>
+                                </p:column>
+                                <p:column width="30" style="text-align: center;">
+                                    <f:facet name="header">
+                                        <h:outputText value="Braki"/>
+                                    </f:facet>
+                                    <h:outputText value="!" style="font-size: x-large; font-weight: 900;color: #e60000;" rendered="#{item.braki}"/>
+                                </p:column>
+                                <p:column width="250" filterBy="#{item.email}" filterMatchMode="contains" sortBy="#{item.email}">
                                     <f:facet name="header">
                                         <h:outputText value="Email"/>
                                     </f:facet>
                                     <p:cellEditor>
                                         <f:facet name="output">
-                                            <h:outputText value="#{item.email}"/>
+                                            <h:outputText value="#{item.email}" style="#{item.email.substring(0,1) eq '!'?'color: red':'initial'}"/>
                                         </f:facet>
                                         <f:facet name="input">
                                             <p:inputText value="#{item.email}" style="width:100%"/>
@@ -152,7 +184,7 @@
                                     </f:facet>
                                     <p:cellEditor>
                                         <f:facet name="output">
-                                            <h:outputText value="#{item.imienazwisko}"/>
+                                            <h:outputText value="#{item.imienazwisko}" style="#{item.imienazwisko.substring(0,1) eq '!'?'color: red':'initial'}"/>
                                         </f:facet>
                                         <f:facet name="input">
                                             <p:inputText value="#{item.imienazwisko}" style="width:100%"/>
@@ -165,18 +197,18 @@
                                     </f:facet>
                                     <p:cellEditor>
                                         <f:facet name="output">
-                                            <h:outputText value="#{item.plec}"/>
+                                            <h:outputText value="#{item.plec}" style="#{item.plec   .substring(0,1) eq '!'?'color: red':'initial'}"/>
                                         </f:facet>
                                         <f:facet name="input">
                                             <p:inputText value="#{item.plec}" style="width:100%"/>
                                         </f:facet>
                                     </p:cellEditor>
                                 </p:column>
-                                <p:column width="200" filterBy="#{item.nazwaszkolenia}" filterMatchMode="contains">
+                                <p:column width="200" filterBy="#{item.nazwaszkolenia}" filterMatchMode="contains"  sortBy="#{item.nazwaszkolenia}">
                                     <f:facet name="header">
                                         <h:outputText value="Nazwa szkolenia"/>
                                     </f:facet>
-                                    <h:outputText value="#{item.nazwaszkolenia}"/>
+                                    <h:outputText value="#{item.nazwaszkolenia}" style="#{item.nazwaszkolenia.substring(0,1) eq '!'?'color: red':'initial'}"/>
                                 </p:column>
                                 <p:column width="150" filterBy="#{item.indetyfikator}" filterMatchMode="contains">
                                     <f:facet name="header">
@@ -207,6 +239,11 @@
                                 <p:column style="width:2rem;text-align: center;" exportable="false">
                                     <p:rowEditor editTitle="Edytuj" cancelTitle="Rezygnuj" saveTitle="Zachowaj" />
                                 </p:column>
+                                  <p:column style="width:2rem;text-align: center;" exportable="false">
+                                      <p:commandButton icon="pi pi-trash" actionListener="#{importView.usun(item)}" update="@parent:@parent">
+                                          <p:confirm type="popup" header="Uwaga!" message="Chcesz usunąć tego uczestnika?" icon="pi pi-info-circle"/>
+                                      </p:commandButton>
+                                </p:column>
                                 <p:rowExpansion>
                                     <p:dataTable id="datalistpasek" value="#{item.uczestnikgrupy}" var="itemik"
                                                  rowIndexVar="indexkartapasek" 
@@ -223,7 +260,6 @@
                 <p:tab title="uczestnicy">
                     <p:outputPanel style="margin: 20px;">
                         <h:form id="formosoby">
-                            <bcf:ajaxs/>
                             <h:outputText value="wybierz firmę"/>
                             <p:selectOneListbox value="#{osobyView.zakladpracy}" converter="#{zakladpracyConverter}" style="width: 400px;" filter="true" filterMatchMode="contains" >
                                 <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
@@ -257,7 +293,7 @@
                             </p:commandButton>
                             <p:dataTable id="dataList" value="#{osobyView.listaosoby}" var="item" style="overflow-y: scroll;width: 1600px; margin-top: 15px;" size="small"
                                          rowIndexVar="index" rowKey="#{item.id}" editable="true"
-                                         rowsPerPageTemplate="20,100,250,500" paginatorPosition="top" paginator="true" rows="20"
+                                         rowsPerPageTemplate="20,100,250,500" paginatorPosition="top" paginator="true" rows="20" filteredValue="#{osobyView.listaosobyfiltered}"
                                          emptyMessage="Nie wprowadzono ani jednego pracownika" selectionMode="multiple" selection="#{osobyView.listaosobyselected}">
                                 <p:ajax event="rowEdit" listener="#{osobyView.onRowEdit}" update="akordeon:formosoby:dataList"/>
                                 <p:ajax event="rowEditCancel" listener="#{osobyView.onRowCancel}" update="akordeon:formosoby:dataList"/>
@@ -276,7 +312,7 @@
                                     </f:facet>
                                     <h:outputText value="#{item.id}"/>
                                 </p:column>
-                                <p:column width="250" filterBy="#{item.email}" filterMatchMode="contains" sortBy="#{item.email}" sortOrder="1">
+                                <p:column width="250" filterBy="#{item.email}" filterMatchMode="contains" sortBy="#{item.email}" sortOrder="1" >
                                     <f:facet name="header">
                                         <h:outputText value="Email"/>
                                     </f:facet>
@@ -383,6 +419,7 @@
                                 <p:column style="width:2rem;text-align: center;" exportable="false">
                                     <p:rowEditor editTitle="Edytuj" cancelTitle="Rezygnuj" saveTitle="Zachowaj" />
                                 </p:column>
+                               
                                 <p:rowExpansion>
                                     <p:dataTable id="datalistpasek" value="#{item.uczestnicyarchiwumList}" var="itemik"
                                                  rowIndexVar="indexkartapasek" 
@@ -508,10 +545,10 @@
                             </p:commandButton>
                             <p:dataTable id="dataList" value="#{upgrupyView.listaosoby}" var="item" style="overflow-y: scroll;width: 1600px; margin-top: 15px;" size="small"
                                          rowIndexVar="index" rowKey="#{item.id}" editable="true"
-                                         rowsPerPageTemplate="20,100,250,500" paginatorPosition="top" paginator="true" rows="20"
+                                         rowsPerPageTemplate="20,100,250,500" paginatorPosition="top" paginator="true" rows="20" filteredValue="#{upgrupyView.listaosobyfiltered}"
                                          emptyMessage="Nie wprowadzono ani jednego pracownika" selectionMode="multiple" selection="#{upgrupyView.listaosobyselected}">
-                                <p:ajax event="rowEdit" listener="#{osobyView.onRowEdit}" update="akordeon:formgrupy:dataList"/>
-                                <p:ajax event="rowEditCancel" listener="#{osobyView.onRowCancel}" update="akordeon:formgrupy:dataList"/>
+                                <p:ajax event="rowEdit" listener="#{upgrupyView.onRowEdit}" update="akordeon:formgrupy:dataList"/>
+                                <p:ajax event="rowEditCancel" listener="#{upgrupyView.onRowCancel}" update="akordeon:formgrupy:dataList"/>
                                  <p:column width="20" style="text-align: center;" exportable="false">
                                     <p:rowToggler rendered="#{item.uczestnikgrupy ne null and item.uczestnikgrupy.size() gt 0}"/>
                                 </p:column>

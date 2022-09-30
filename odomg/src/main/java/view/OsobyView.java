@@ -40,6 +40,7 @@ public class OsobyView implements Serializable {
     private Uczestnicy nowy;
     private Uczestnicy nowy_arch;
     private List<Uczestnicy> listaosobyselected;
+    private List<Uczestnicy> listaosobyfiltered;
     @Inject
     private ZakladpracyFacade zakladpracyFacade;
     @Inject
@@ -151,6 +152,14 @@ public class OsobyView implements Serializable {
 
     public void setNowy_arch(Uczestnicy nowy_arch) {
         this.nowy_arch = nowy_arch;
+    }
+
+    public List<Uczestnicy> getListaosobyfiltered() {
+        return listaosobyfiltered;
+    }
+
+    public void setListaosobyfiltered(List<Uczestnicy> listaosobyfiltered) {
+        this.listaosobyfiltered = listaosobyfiltered;
     }
 
     

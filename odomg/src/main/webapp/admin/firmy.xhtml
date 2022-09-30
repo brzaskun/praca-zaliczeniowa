@@ -29,6 +29,12 @@
         <h:body>
             <p:growl life="7200"><p:autoUpdate/></p:growl>
             <p:outputPanel>
+                 <h:form>
+                    <p:confirmPopup global="true">
+                        <p:commandButton value="Nie" type="button" styleClass="ui-confirm-popup-no ui-button-flat"/>
+                        <p:commandButton value="Tak" type="button" styleClass="ui-confirm-popup-yes" />
+                    </p:confirmPopup>       
+                </h:form>
                 <h:form id="formmenu">
                     <p:menubar autoDisplay="true">
                         <p:menuitem icon="pi pi-users" value="użytkownicy" style="width: 150px" action="Osoby"/>

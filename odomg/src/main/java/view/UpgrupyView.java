@@ -47,6 +47,7 @@ public class UpgrupyView  implements Serializable {
     private List<Zakladpracy> zakladpracylista;
     private List<Uczestnicy> listaosoby;
     private List<Uczestnicy> listaosobyselected;
+    private List<Uczestnicy> listaosobyfiltered;
     private List<Uczestnikgrupy> uczestnikgrupylistaall;
     
     @PostConstruct
@@ -120,6 +121,14 @@ public class UpgrupyView  implements Serializable {
 
     public void setListaosobyselected(List<Uczestnicy> listaosobyselected) {
         this.listaosobyselected = listaosobyselected;
+    }
+
+    public List<Uczestnicy> getListaosobyfiltered() {
+        return listaosobyfiltered;
+    }
+
+    public void setListaosobyfiltered(List<Uczestnicy> listaosobyfiltered) {
+        this.listaosobyfiltered = listaosobyfiltered;
     }
     
     

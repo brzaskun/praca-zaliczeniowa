@@ -10,6 +10,7 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -188,6 +189,12 @@ private String email;
     private Date wyslanymailuprdataprzyp;
     @Transient
     private List<UczestnikGrupa> uczestnikgrupy;
+    @Transient
+    private boolean duplikat;
+    @Transient
+    private boolean braki;
+    @Transient
+    private int nrwierszaimport;
 
     public Uczestnicy() {
     }
@@ -413,23 +420,42 @@ private String email;
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        int hash = 7;
+        hash = 59 * hash + Objects.hashCode(this.email);
+        hash = 59 * hash + Objects.hashCode(this.nazwaszkolenia);
+        hash = 59 * hash + Objects.hashCode(this.id);
+        hash = 59 * hash + Objects.hashCode(this.sessionstart);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Uczestnicy)) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
             return false;
         }
-        Uczestnicy other = (Uczestnicy) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Uczestnicy other = (Uczestnicy) obj;
+        if (!Objects.equals(this.email, other.email)) {
+            return false;
+        }
+        if (!Objects.equals(this.nazwaszkolenia, other.nazwaszkolenia)) {
+            return false;
+        }
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        if (!Objects.equals(this.sessionstart, other.sessionstart)) {
             return false;
         }
         return true;
     }
+
+   
 
     @Override
     public String toString() {
@@ -556,6 +582,31 @@ private String email;
     public void setUczestnikgrupy(List<UczestnikGrupa> uczestnikgrupy) {
         this.uczestnikgrupy = uczestnikgrupy;
     }
+
+    public boolean isDuplikat() {
+        return duplikat;
+    }
+
+    public void setDuplikat(boolean duplikat) {
+        this.duplikat = duplikat;
+    }
+
+    public boolean isBraki() {
+        return braki;
+    }
+
+    public void setBraki(boolean braki) {
+        this.braki = braki;
+    }
+
+    public int getNrwierszaimport() {
+        return nrwierszaimport;
+    }
+
+    public void setNrwierszaimport(int nrwierszaimport) {
+        this.nrwierszaimport = nrwierszaimport;
+    }
+
 
    
     
