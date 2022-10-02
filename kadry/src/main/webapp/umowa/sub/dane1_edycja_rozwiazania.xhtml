@@ -1,0 +1,60 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:bcf="http://brzaskun.com/facelets"
+>
+    <p:panelGrid columns="2" columnClasses="fifty-percent fifty-percent">
+            <p:outputPanel>
+                <h:form id="RozwiazaniaNowyForm">
+                    <p:panel header="dodawanie nowego rozwiązania umowy">
+                        <p:panelGrid columns="2" >
+                            <h:outputText value="rozwiązywana umowa: "/>
+                                <h:outputText value="#{rozwiazanieumowyView.nowy.umowa.nrkolejny}"/>
+                                <h:outputText value="data wypowiedzenia: "/>
+                                <p:inputText value="#{rozwiazanieumowyView.nowy.datawypowiedzenia}" size="10" placeholder="____-__-__"/>
+                                <h:outputText value="przyczyna wypowiedzenia: "/>
+                                <p:inputText value="#{rozwiazanieumowyView.nowy.przyczyna}" size="100"/>
+                                <h:outputText value="rodzaj wypowiedzenia: "/>
+                                <p:column>
+                                    <p:panelGrid columns="2" >
+                                        <h:outputText value="a) wypowiedzenie"/><p:selectBooleanCheckbox value="#{rozwiazanieumowyView.nowy.wypowiedzenie}" label="wypowiedzenie"/>
+                                        <h:outputText value="b) rozwiązanie"/><p:selectBooleanCheckbox value="#{rozwiazanieumowyView.nowy.rozwiazanie}" label="rozwiązanie"/>
+                                        <h:outputText value="c) porozumienie stron"/><p:selectBooleanCheckbox value="#{rozwiazanieumowyView.nowy.porozumienie}" label="porozumienie"/>
+                                    </p:panelGrid>
+                                </p:column>
+                                <h:outputText value="inicjator wypowiedzenia"/>
+                                <p:column>
+                                    <p:panelGrid columns="2" >
+                                        <h:outputText value="a) pracodawca"/><p:selectBooleanCheckbox value="#{rozwiazanieumowyView.nowy.pracodawca}"/>
+                                        <h:outputText value="b) pracownik"/><p:selectBooleanCheckbox value="#{rozwiazanieumowyView.nowy.pracownik}"/>
+                                    </p:panelGrid>
+                                </p:column>
+                                <h:outputText value="okres wypowiedzenia"/>
+                                <p:column>
+                                    <p:panelGrid columns="2" >
+                                        <h:outputText value="a) 2 tygodnie"/><p:selectBooleanCheckbox value="#{rozwiazanieumowyView.nowy.tygodnie2}"/>
+                                        <h:outputText value="b) miesiąc"/><p:selectBooleanCheckbox value="#{rozwiazanieumowyView.nowy.miesiac1}"/>
+                                        <h:outputText value="c) 3 miesiące"/><p:selectBooleanCheckbox value="#{rozwiazanieumowyView.nowy.miesiac3}"/>
+                                    </p:panelGrid>
+                                </p:column>
+                                <h:outputText value="tryb wypowiedzenia"/>
+                                <p:column>
+                                    <p:panelGrid columns="2" >
+                                        <h:outputText value="a) bez zach. okr. wyp"/><p:selectBooleanCheckbox label="bez zach. okr. wyp"   value="#{rozwiazanieumowyView.nowy.trybnatychmiastowy}"/>
+                                        <h:outputText value="b) skróc. okr. wyp"/><p:selectBooleanCheckbox label="skróc. okr. wyp"   value="#{rozwiazanieumowyView.nowy.skroceneiokresuwyp}"/>
+                                    </p:panelGrid>
+                                </p:column>
+                                <h:outputText value="zwolnienie z ob. pracy" />
+                                <p:selectBooleanCheckbox label="zwolnienie" value="#{rozwiazanieumowyView.nowy.zwolnieniezpracy}"/>
+                            <p:column style="text-align: center; width: 30px;">
+                                <p:commandButton value="dodaj" styleClass="buttonnorm" actionListener="#{rozwiazanieumowyView.dodajnowy()}" update="north, @(form)"/>
+                            </p:column>
+                        </p:panelGrid>
+                    </p:panel>
+                </h:form>
+            </p:outputPanel>
+        </p:panelGrid>
+</ui:composition>

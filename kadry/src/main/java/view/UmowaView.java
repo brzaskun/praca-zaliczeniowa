@@ -68,6 +68,7 @@ public class UmowaView  implements Serializable {
     private Umowa selected;
     @Inject
     private Umowa selectedlista;
+    private List<Umowa> wybraneumowy;
     @Inject
     private EtatPrac etat;
     private List<Umowa> lista;
@@ -676,6 +677,14 @@ public class UmowaView  implements Serializable {
 
     public void setWynagrodzeniegodzinowe(double wynagrodzeniegodzinowe) {
         this.wynagrodzeniegodzinowe = wynagrodzeniegodzinowe;
+    }
+
+    public List<Umowa> getWybraneumowy() {
+        return wybraneumowy;
+    }
+
+    public void setWybraneumowy(List<Umowa> wybraneumowy) {
+        this.wybraneumowy = wybraneumowy;
     }
 
     

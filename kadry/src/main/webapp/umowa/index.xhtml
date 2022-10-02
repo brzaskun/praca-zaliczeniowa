@@ -35,13 +35,30 @@
                         </p:outputPanel>
                         <ui:include src="sub/menu_wiad.xhtml"/>   <!-- menu contextowe i pole wiadomosci growl-->
                         <p:outputPanel style="width: 1800px;">
-                        <ui:include src="sub/dialog_umowa.xhtml"/>
-                        <ui:include src="sub/edycjadanych_rodzajumowy.xhtml"/>
-                        <ui:include src="sub/edycjadanych_umowa.xhtml"/>
-                        <ui:include src="sub/edycjadanych_skladnikwynagrodzenia.xhtml"/>
-                        <ui:include src="sub/edycjadanych_potracenia.xhtml"/>
-                        <ui:include src="sub/edycjadanych_etat.xhtml"/>
-                        <ui:include src="sub/edycjadanych_stanowisko.xhtml"/>
+                            <p:tabView id="akordeon">
+                                <p:tab title="umowy">
+                                    <ui:include src="sub/dane_rodzajumowy.xhtml"/>
+                                    <ui:include src="sub/dane_umowa.xhtml"/>
+                                    <ui:include src="sub/dane_skladnikwynagrodzenia.xhtml"/>
+                                    <ui:include src="sub/dane_potracenia.xhtml"/>
+                                    <ui:include src="sub/dane_etat_stanowisko.xhtml"/>
+                                </p:tab>
+                                <p:tab title="nowa">
+                                    <ui:include src="sub/dialog_umowa.xhtml"/>
+                                    <ui:include src="sub/edycjadanych_umowa.xhtml"/>
+                                    <ui:include src="sub/edycjadanych_skladnikwynagrodzenia.xhtml"/>
+                                    <ui:include src="sub/edycjadanych_potracenia.xhtml"/>
+                                    <ui:include src="sub/edycjadanych_etat_stanowisko.xhtml"/>
+                                </p:tab>
+                                <p:tab title="rozwiązanie">
+                                    <ui:include src="sub/dane1_rodzajumowy_rozwiazanie.xhtml"/>
+                                    <ui:include src="sub/dane1_umowa_rozwiazanie.xhtml"/>
+                                    <ui:include src="sub/dane1_rozwiazania.xhtml"/>
+                                </p:tab>
+                                <p:tab title="nowe rozwiąz.">
+                                    <ui:include src="sub/dane1_edycja_rozwiazania.xhtml"/>
+                                </p:tab>
+                            </p:tabView>
                         </p:outputPanel>
                         
                     

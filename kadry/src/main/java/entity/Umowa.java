@@ -26,9 +26,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -40,7 +42,9 @@ import view.WpisView;
  * @author Osito
  */
 @Entity
-@Table(name = "umowa")
+@Table(name = "umowa", uniqueConstraints = {
+    @UniqueConstraint(columnNames={"angaz","nrkolejny"})
+})
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Umowa.findAll", query = "SELECT u FROM Umowa u"),
@@ -225,7 +229,10 @@ public class Umowa implements Serializable {
     @JoinColumn(name = "kombinacjaubezpieczen", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Kombinacjaubezpieczen kombinacjaubezpieczen;
-    
+    @JoinColumn(name = "rozwiazanieumowy", referencedColumnName = "id")
+    @OneToOne
+    private Rozwiazanieumowy rozwiazanieumowy;
+   
 
     public Umowa() {
         this.etatList = new ArrayList<>();
@@ -799,6 +806,16 @@ public class Umowa implements Serializable {
     public void setIloscdnitrwaniaumowy(int iloscdnitrwaniaumowy) {
         this.iloscdnitrwaniaumowy = iloscdnitrwaniaumowy;
     }
+
+    public Rozwiazanieumowy getRozwiazanieumowy() {
+        return rozwiazanieumowy;
+    }
+
+    public void setRozwiazanieumowy(Rozwiazanieumowy rozwiazanieumowy) {
+        this.rozwiazanieumowy = rozwiazanieumowy;
+    }
+
+   
 
     
     

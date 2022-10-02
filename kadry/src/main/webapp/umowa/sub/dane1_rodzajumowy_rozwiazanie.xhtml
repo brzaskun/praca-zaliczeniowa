@@ -7,8 +7,8 @@
 
     xmlns:bcf="http://brzaskun.com/facelets"
 >
-    <p:outputPanel style="height: 60px" id="panelumowadane0">
-        <h:form id="UmowaWyborForm">
+    <p:outputPanel style="height: 60px" id="panelumowadane0R">
+        <h:form id="UmowaWyborFormR">
             <p:panelGrid columns="2" style="padding: 10px;">
                 <p:outputLabel value="wybierz rodzaj umowy do przeglądania/edycji" for="rodzajumowy" />
                 <p:selectOneMenu id="rodzajumowy" value="#{umowaView.rodzajumowy}"  autoWidth="false" style="width: 300px;" filter="true" filterMatchMode="contains" required="true">
@@ -16,7 +16,7 @@
                     <f:selectItem itemLabel="umowa o pracę" itemValue="1"/>
                     <f:selectItem itemLabel="umowa zlecenia i o dzieło" itemValue="2"/>
                     <f:selectItem itemLabel="pełnienie funkcji" itemValue="3"/>
-                    <p:ajax event="change" partialSubmit="true" listener="#{umowaView.wyborinnejumowy()}" global="false" update="@(form) UmowaCreateForm"/>
+                    <p:ajax event="change" partialSubmit="true" listener="#{umowaView.wyborinnejumowy()}" global="false" update="@(form)"/>
                 </p:selectOneMenu>
             </p:panelGrid>
         </h:form>
