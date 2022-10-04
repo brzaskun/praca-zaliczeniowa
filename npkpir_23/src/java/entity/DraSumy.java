@@ -344,7 +344,7 @@ public class DraSumy implements Serializable {
         int suma = 0;
         if (this.ubezpZusrcaList!=null) {
             for (UbezpZusrca p : this.ubezpZusrcaList) {
-                if (p.getIiiB11kodtytub().startsWith("05")) {
+                if (p.getIiiB11kodtytub()!=null&&p.getIiiB11kodtytub().startsWith("05")) {
                     suma = suma+1;
                 }
             }
@@ -358,7 +358,7 @@ public class DraSumy implements Serializable {
         int suma = 0;
         if (this.ubezpZusrcaList!=null) {
             for (UbezpZusrca p : this.ubezpZusrcaList) {
-                if (!p.getIiiB11kodtytub().startsWith("05")&&!p.getIiiB11kodtytub().startsWith("04")&&!p.getIiiB11kodtytub().startsWith("01")) {
+                if (p.getIiiB11kodtytub()!=null&&!p.getIiiB11kodtytub().startsWith("05")&&!p.getIiiB11kodtytub().startsWith("04")&&!p.getIiiB11kodtytub().startsWith("01")) {
                     suma = suma+1;
                 }
             }
@@ -371,7 +371,7 @@ public class DraSumy implements Serializable {
         int suma = 0;
         if (this.ubezpZusrcaList!=null) {
             for (UbezpZusrca p : this.ubezpZusrcaList) {
-                if (p.getIiiB11kodtytub().startsWith("04")&&p.getIiiB6Podwymzdr()!=null&&p.getIiiB6Podwymzdr().doubleValue()!=0.0) {
+                if (p.getIiiB11kodtytub()!=null&&p.getIiiB11kodtytub().startsWith("04")&&p.getIiiB6Podwymzdr()!=null&&p.getIiiB6Podwymzdr().doubleValue()!=0.0) {
                     suma = suma+1;
                 }
             }
@@ -383,7 +383,7 @@ public class DraSumy implements Serializable {
         int suma = 0;
         if (this.ubezpZusrcaList!=null) {
             for (UbezpZusrca p : this.ubezpZusrcaList) {
-                if (p.getIiiB11kodtytub().startsWith("04")&&p.getIiiB6Podwymzdr()!=null&&p.getIiiB6Podwymzdr().doubleValue()==0.0) {
+                if (p.getIiiB11kodtytub()!=null&&p.getIiiB11kodtytub().startsWith("04")&&p.getIiiB6Podwymzdr()!=null&&p.getIiiB6Podwymzdr().doubleValue()==0.0) {
                     suma = suma+1;
                 }
             }
@@ -395,7 +395,7 @@ public class DraSumy implements Serializable {
         int suma = 0;
         if (this.ubezpZusrcaList!=null) {
             for (UbezpZusrca p : this.ubezpZusrcaList) {
-                if (p.getIiiB11kodtytub().startsWith("01")) {
+                if (p.getIiiB11kodtytub()!=null&&p.getIiiB11kodtytub()!=null&&p.getIiiB11kodtytub().startsWith("01")) {
                     suma = suma+1;
                 }
             }
@@ -407,7 +407,7 @@ public class DraSumy implements Serializable {
         String suma = "n.d.";
         if (this.ubezpZusrcaList!=null) {
             for (UbezpZusrca p : this.ubezpZusrcaList) {
-                if (p.getIiiB11kodtytub().startsWith("05")) {
+                if (p.getIiiB11kodtytub()!=null&&p.getIiiB11kodtytub().startsWith("05")) {
                     suma = p.getIiiB11kodtytub()!=null?String.valueOf(p.getIiiB11kodtytub()):"brak";
                 }
             }
@@ -422,7 +422,7 @@ public class DraSumy implements Serializable {
         double suma = 0;
         if (this.ubezpZusrcaList!=null) {
             for (UbezpZusrca p : this.ubezpZusrcaList) {
-                if (p.getIiiB11kodtytub().startsWith("05")) {
+                if (p.getIiiB11kodtytub()!=null&&p.getIiiB11kodtytub().startsWith("05")) {
                     double em = p.getIiiB7KwskleuRN()!= null ? p.getIiiB7KwskleuRN().doubleValue() :0.0;
                     double ren = p.getIiiB8KwsklruRN()!= null ? p.getIiiB8KwsklruRN().doubleValue() :0.0;
                     double cho = p.getIiiB9KwsklchuRN()!= null ? p.getIiiB9KwsklchuRN().doubleValue() :0.0;
@@ -441,7 +441,7 @@ public class DraSumy implements Serializable {
         double suma = 0;
         if (this.ubezpZusrcaList!=null) {
             for (UbezpZusrca p : this.ubezpZusrcaList) {
-                if (p.getIiiB11kodtytub().startsWith("05")) {
+                if (p.getIiiB11kodtytub()!=null&&p.getIiiB11kodtytub().startsWith("05")) {
                     double zdr = p.getIiiC4KwsklzuR()!= null ? p.getIiiC4KwsklzuR().doubleValue() :0.0;
                     suma = suma+zdr;
                 }
