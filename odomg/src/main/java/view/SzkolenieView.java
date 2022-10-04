@@ -17,6 +17,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import org.primefaces.component.commandbutton.CommandButton;
 
 /**
  *
@@ -40,6 +41,8 @@ public class SzkolenieView implements Serializable {
     private String naglowekslajdu;
     private String trescslajdu;
     private int nrbiezacyslajdu;
+    private CommandButton buttonzakoncz;
+    private CommandButton buttonprzod;
     
     
     @PostConstruct
@@ -62,16 +65,27 @@ public class SzkolenieView implements Serializable {
         nrbiezacyslajdu = nrbiezacyslajdu+1;
         if (nrbiezacyslajdu>slajdyszkolenie.size()-1) {
             nrbiezacyslajdu = slajdyszkolenie.size()-1;
+            buttonzakoncz.setRendered(true);
+            buttonprzod.setRendered(false);
+        } else {
+            buttonzakoncz.setRendered(false);
+            buttonprzod.setRendered(true);
         }
         pobierzslajd();
     }
     
     public void slajddotylu() {
         nrbiezacyslajdu = nrbiezacyslajdu-1;
+        buttonzakoncz.setRendered(false);
+        buttonprzod.setRendered(true);
         if (nrbiezacyslajdu<0) {
             nrbiezacyslajdu = 0;
         }
         pobierzslajd();
+    }
+    
+    public void uruchomtest() {
+        System.out.println("test");
     }
 
     public List<Uczestnicy> getUczestnikszkolenie() {
@@ -112,6 +126,22 @@ public class SzkolenieView implements Serializable {
 
     public void setTrescslajdu(String trescslajdu) {
         this.trescslajdu = trescslajdu;
+    }
+
+    public CommandButton getButtonzakoncz() {
+        return buttonzakoncz;
+    }
+
+    public void setButtonzakoncz(CommandButton buttonzakoncz) {
+        this.buttonzakoncz = buttonzakoncz;
+    }
+
+    public CommandButton getButtonprzod() {
+        return buttonprzod;
+    }
+
+    public void setButtonprzod(CommandButton buttonprzod) {
+        this.buttonprzod = buttonprzod;
     }
     
     

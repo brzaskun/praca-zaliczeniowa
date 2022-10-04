@@ -50,6 +50,10 @@
                 <from-outcome>Testy</from-outcome>
                 <to-view-id>/admin/testy.xhtml?faces-redirect=true</to-view-id>
             </navigation-case>
+            <navigation-case>
+                <from-outcome>Zaswiadczenia</from-outcome>
+                <to-view-id>/admin/zaswiadczenia.xhtml?faces-redirect=true</to-view-id>
+            </navigation-case>
              <navigation-case>
                 <from-outcome>Upowaznienia</from-outcome>
                 <to-view-id>/admin/upowaznienia.xhtml?faces-redirect=true</to-view-id>

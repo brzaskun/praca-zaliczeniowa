@@ -19,6 +19,7 @@
             <h:outputStylesheet name="css/style.css" />
             <h:outputStylesheet name="css/details_1.css" />
             <h:outputStylesheet name="css/qlcore.css" />
+            <h:outputScript library="js" name="globales.js"/>
             <title>Testy Dane Wrażliwe</title>
             <style>
                 .ui-autocomplete input {
@@ -29,12 +30,19 @@
         <h:body>
             <p:growl life="7200"><p:autoUpdate/></p:growl>
             <p:outputPanel>
+                 <h:form>
+                    <p:confirmPopup global="true">
+                        <p:commandButton value="Nie" type="button" styleClass="ui-confirm-popup-no ui-button-flat"/>
+                        <p:commandButton value="Tak" type="button" styleClass="ui-confirm-popup-yes" />
+                    </p:confirmPopup>       
+                </h:form>
                 <h:form id="formmenu">
                     <p:menubar autoDisplay="true">
                         <p:menuitem icon="pi pi-users" value="użytkownicy" style="width: 150px" action="Osoby"/>
                         <p:menuitem icon="pi pi-bars" value="firmy" style="width: 150px" action="Firmy"/>
                         <p:menuitem icon="pi pi-info-circle" value="szkolenia" style="width: 150px" action="Szkolenia"/>
                         <p:menuitem icon="pi pi-check-square" value="testy" style="width: 150px" action="Testy"/>
+                        <p:menuitem icon="pi pi-file" value="zaświadczenia" style="width: 150px" action="Zaswiadczenia"/>
                         <p:menuitem icon="pi pi-cloud-download" value="pobierz" style="width: 150px" action="Upowaznienia"/>
                         <p:menuitem icon="pi pi-chart-line" value="statystyka" style="width: 150px" action="Statystyka"/>
                     </p:menubar>

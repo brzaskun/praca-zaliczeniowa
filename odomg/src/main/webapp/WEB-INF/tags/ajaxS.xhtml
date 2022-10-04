@@ -13,7 +13,7 @@
                          showHeader="false" draggable="false" modal="#{modal != null ? modal : 'true'}" style="text-align: center;" resizable="false"
                          onShow="con();" onHide="coff();">
                 <p:panelGrid columns="1" style="margin-left: auto; margin-right: auto; margin-top: 10px;">
-                    <p:graphicImage url="resources/images/wait4.gif" style="margin-left: auto; margin-right: auto; width: 42px; height: 42px;" />
+                    <p:graphicImage url="#{resource['images/wait4.gif']}" style="margin-left: auto; margin-right: auto; width: 42px; height: 42px;" />
                     <h:outputText value="#{value != null ? value : 'Trwa przetwarzanie danych'}" style="margin-top: 20px; margin-left: auto; margin-right: auto;"/>
                 </p:panelGrid>
             </p:dialog>

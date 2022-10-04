@@ -196,8 +196,8 @@
 }
 
 .eighty-percent {
-     width: 80%;
-     vertical-align: top;
+     width: 80% !important;
+     vertical-align: top  !important;
 }
 
 .ninety-percent {
@@ -211,8 +211,8 @@
 }
 
 .twenty-percent {
-     width: 20%;
-     vertical-align: top;
+     width: 20% !important;
+     vertical-align: top !important;
 }
 .thirty-percent {
      width: 30%;

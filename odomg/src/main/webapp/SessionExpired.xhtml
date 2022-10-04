@@ -20,11 +20,11 @@
     <h:body styleClass="body">
         <script>
             var zielonyobrazek = function() {
-                document.getElementById("buttonwylogowanie").src = "resources/images/greenbutton.png";
+                document.getElementById("buttonwylogowanie").src = "#{resource['images/greenbutton.png']}";
             };
             
             var czerwonyobrazek = function() {
-                document.getElementById("buttonwylogowanie").src = "resources/images/redbutton.png";
+                document.getElementById("buttonwylogowanie").src = "#{resource['images/redbutton.png']}";
             };
             const LOCAL_DOMAINS = ["localhost"];
             const LOCAL_DOMAINS_OFFICE = ["192.168.1.90"];

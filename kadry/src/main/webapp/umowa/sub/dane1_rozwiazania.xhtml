@@ -1,0 +1,83 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:bcf="http://brzaskun.com/facelets"
+>
+    <p:panelGrid columns="2" columnClasses="fifty-percent fifty-percent">
+            <p:outputPanel>
+                <h:form id="RozwiazaniaListForm">
+                    <p:panel header="Wykaz wypowiedzeń umów">
+                        <p:dataTable id="datalist" value="#{rozwiazanieumowyView.lista}" var="itemroz"
+                                     selectionMode="single" selection="#{skladnikPotraceniaView.selectedlista}"
+                                     rowKey="#{itemroz.id}" emptyMessage="Brak sporządzonych rozwiązań umowy"
+                                     style="height: 150px; overflow-y: scroll;"
+                                     >
+                            <p:ajax event="rowSelect" partialSubmit="true" global="false" />
+                            <p:column width="40" style="text-align: center;">
+                                <f:facet name="header">
+                                    <h:outputText value="id"/>
+                                </f:facet>
+                                <h:outputText value="#{itemroz.id}"/>
+                            </p:column>
+                            <p:column width="60">
+                                <f:facet name="header">
+                                    <h:outputText value="umowa"/>
+                                </f:facet>
+                                <h:outputText value="#{itemroz.umowa.nrkolejny}"/>
+                            </p:column>
+                            <p:column width="170">
+                                <f:facet name="header">
+                                    <h:outputText value="nazwa"/>
+                                </f:facet>
+                                <h:outputText value="#{itemroz.data}">
+                                    <f:convertDateTime dateStyle="medium" locale="pl"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column width="100">
+                                <f:facet name="header">
+                                    <h:outputText value="sposób"/>
+                                </f:facet>
+                                <h:outputText value="wypowiedzenie"   rendered="#{itemroz.wypowiedzenie}"/>
+                                <h:outputText value="rozwiązanie"   rendered="#{itemroz.rozwiazanie}"/>
+                                <h:outputText value="porozumienie"   rendered="#{itemroz.porozumienie}"/>
+                            </p:column>
+                            <p:column width="100">
+                                <f:facet name="header">
+                                    <h:outputText value="przez kogo"/>
+                                </f:facet>
+                                <h:outputText value="pracodawca"   rendered="#{itemroz.pracodawca}"/>
+                                <h:outputText value="pracownik"   rendered="#{itemroz.pracownik}"/>
+                            </p:column>
+                            <p:column width="100">
+                                <f:facet name="header">
+                                    <h:outputText value="wypowiedzenie"/>
+                                </f:facet>
+                                <h:outputText value="2 tygodnie"   rendered="#{itemroz.tygodnie2}"/>
+                                <h:outputText value="miesiąc"   rendered="#{itemroz.miesiac1}"/>
+                                <h:outputText value="3 miesiące"   rendered="#{itemroz.miesiac3}"/>
+                            </p:column>
+                            <p:column width="100">
+                                <f:facet name="header">
+                                    <h:outputText value="tryb szczegolny"/>
+                                </f:facet>
+                                <h:outputText value="bez zach. okr. wyp"   rendered="#{itemroz.trybnatychmiastowy}"/>
+                                <h:outputText value="skróc. okr. wyp"   rendered="#{itemroz.skroceneiokresuwyp}"/>
+                            </p:column>
+                            <p:column style="text-align: center;" width="30">
+                                <f:facet name="header">
+                                    <h:outputText value="zwolnienie z ob. pracy" />
+                                </f:facet>
+                                <h:outputText value="&#x2714;"    rendered="#{itemroz.zwolnieniezpracy}"/>
+                            </p:column>
+                            <p:column style="text-align: center; width: 30px;">
+                                <p:commandButton icon="fa fa-trash" actionListener="#{rozwiazanieumowyView.usun(itemroz)}" update="north, @(form)"/>
+                            </p:column>
+                        </p:dataTable>
+                    </p:panel>
+                </h:form>
+            </p:outputPanel>
+        </p:panelGrid>
+</ui:composition>

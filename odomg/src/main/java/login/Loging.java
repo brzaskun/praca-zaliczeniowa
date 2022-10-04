@@ -36,7 +36,7 @@ public class Loging implements Serializable {
     private void init() { //E.m(this);
         try {
             invalidatesession();
-            uzytkownik ="brzaskun@o2.pl";
+            uzytkownik ="brzaskun@wp.pl";
             haslo = "12";
         } catch (Exception e) {
             E.e(e);

@@ -23,6 +23,12 @@
             <h:form id="formlog1">
                 <p:outputPanel styleClass="box">
                     <p:outputPanel styleClass="slajd">
+                         <h:form>
+                            <p:confirmPopup global="true">
+                                <p:commandButton value="Tak" type="button" styleClass="buttonszkolenie" />
+                                <p:commandButton value="Nie" type="button" styleClass="buttonszkolenie" style="float: right;"/>
+                            </p:confirmPopup>       
+                        </h:form>
                         <div id="gornawklejka">
                             <span style="font-size: larger;">#{szkolenieView.szkoleniewykaz.opis}</span> 
                         </div>
@@ -38,9 +44,11 @@
                             <span id="koniecszkolenia" style="display: none; ">Koniec szkolenia</span>
                         </div>
                         <div class="dolneprzyciski" >
-                            <p:commandButton value="następny" actionListener="#{szkolenieView.slajddoprzodu()}" style="float: right;" styleClass="buttonszkolenie" title="Przejście do kolejnej strony szkolenia" update="@form"/>
+                            <p:commandButton value="następny" actionListener="#{szkolenieView.slajddoprzodu()}" style="float: right;" styleClass="buttonszkolenie" title="Przejście do kolejnej strony szkolenia" update="@form" binding="#{szkolenieView.buttonprzod}"/>
                             <p:commandButton value="poprzedni" actionListener="#{szkolenieView.slajddotylu()}"  styleClass="buttonszkolenie" title="Powrót do poprzedniej strony szkolenia" update="@form"/>
-                            <button id="zakonczszkolenie" name="zakonczszkolenie" class ="buttonszkolenie" type="submit" style="float: right;" title="Definitywne zakończenie szkolenia i rozpoczęcie testu"><span class="spanszkolenie">Zakończ</span></button>
+                            <p:commandButton value="zakończ" action="" actionListener="#{szkolenieView.uruchomtest()}"  styleClass="buttonszkolenie" title="Definitywne zakończenie szkolenia i rozpoczęcie testu" style="float: right;" rendered="false" binding="#{szkolenieView.buttonzakoncz}">
+                                <p:confirm type="popup" header="Uwaga!" message="Na pewno rozpocząć test?" icon="pi pi-info-circle"/>
+                            </p:commandButton>
                         </div>
                     </p:outputPanel>
                 </p:outputPanel>

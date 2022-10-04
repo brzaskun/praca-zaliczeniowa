@@ -47,6 +47,7 @@ public class UpgrupyView  implements Serializable {
     private List<Zakladpracy> zakladpracylista;
     private List<Uczestnicy> listaosoby;
     private List<Uczestnicy> listaosobyselected;
+    private List<Uczestnicy> listaosobyfiltered;
     private List<Uczestnikgrupy> uczestnikgrupylistaall;
     
     @PostConstruct
@@ -62,7 +63,7 @@ public class UpgrupyView  implements Serializable {
             if (grupyfirma!=null) {
                 for (Uczestnicy p :listaosoby) {
                     p.setUczestnikgrupy(new ArrayList<UczestnikGrupa>());
-                    List<Uczestnikgrupy> uczestnikgrupylista = uczestnikgrupylistaall.stream().filter(c->c.getId().equals(p.getId())).collect(Collectors.toList());
+                    List<Uczestnikgrupy> uczestnikgrupylista = uczestnikgrupylistaall.stream().filter(c->c.getIdUczestnik()!=null&&c.getIdUczestnik().equals(p.getId())).collect(Collectors.toList());
                     for (Grupyupowaznien r : grupyfirma) {
                         boolean dodac = true;
                         for (Uczestnikgrupy s : uczestnikgrupylista) {
@@ -120,6 +121,14 @@ public class UpgrupyView  implements Serializable {
 
     public void setListaosobyselected(List<Uczestnicy> listaosobyselected) {
         this.listaosobyselected = listaosobyselected;
+    }
+
+    public List<Uczestnicy> getListaosobyfiltered() {
+        return listaosobyfiltered;
+    }
+
+    public void setListaosobyfiltered(List<Uczestnicy> listaosobyfiltered) {
+        this.listaosobyfiltered = listaosobyfiltered;
     }
     
     

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<!--<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE resources PUBLIC "-//GlassFish.org//DTD GlassFish Application Server 3.1 Resource Definitions//EN" "http://glassfish.org/dtds/glassfish-resources_1_5.dtd">
 <resources>
    <jdbc-connection-pool associate-with-thread="false"
@@ -21,4 +21,8 @@
 <jdbc-resource enabled="true" jndi-name="odomgDB" object-type="user" pool-name="odomgPool" >
     <description/>
   </jdbc-resource>
-</resources>
+</resources>-->
+<!--'mysql:host=195.78.66.230;'
+R::setup($_SESSION['host'].'dbname=p6273_odomg', 'p6273_odomg', 'P3rsKy_K@tek1');-->
+<!--jdbc:mysql://195.78.66.230:3306/p6273_odomg?serverTimezone=Europe/Rome&useUnicode=true&characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true&zeroDateTimeBehavior=convertToNull&-->
+    <!--jdbc:mysql://localhost:3306/p6273_odomg?useUnicode=true&characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true&zeroDateTimeBehavior=convertToNull&-->
