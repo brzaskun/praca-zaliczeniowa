@@ -60,7 +60,7 @@ public class PitDAO extends DAO implements Serializable {
      public Pitpoz findByUdzialowiec(String rok, String mc, String pod, String udzialowiec) {
         Pitpoz zwrot = null;
         try {
-            zwrot = (Pitpoz)  getEntityManager().createQuery("SELECT p FROM Pitpoz p WHERE p.pkpirR = :pkpirR AND p.pkpirM = :pkpirM AND p.podatnik = :podatnik and p.udzialowiec")
+            zwrot = (Pitpoz)  getEntityManager().createQuery("SELECT p FROM Pitpoz p WHERE p.pkpirR = :pkpirR AND p.pkpirM = :pkpirM AND p.podatnik = :podatnik and p.udzialowiec = :udzialowiec")
                     .setParameter("pkpirR", rok).setParameter("pkpirM", mc).setParameter("podatnik", pod).setParameter("udzialowiec", udzialowiec).getSingleResult();
         } catch (Exception e){}
         return zwrot;

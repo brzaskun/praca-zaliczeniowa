@@ -195,7 +195,7 @@ public class DochodDlaDRAView implements Serializable {
             }
             int i = 1;
             for (Podatnik podatnik : podatnicy) {
-                //if (podatnik.getNip().equals("9552563450")) {
+                //if (podatnik.getNip().equals("7642681382")) {
                 //if (podatnik.getNip().equals("8511005008")||podatnik.getNip().equals("8511054159")||podatnik.getNip().equals("8792611113")||podatnik.getNip().equals("9551392851")||podatnik.getNip().equals("9281839264")) {
                     PodatnikOpodatkowanieD opodatkowanie = zwrocFormaOpodatkowania(podatnik, rok, mc);
                     if (opodatkowanie != null) {
@@ -242,17 +242,19 @@ public class DochodDlaDRAView implements Serializable {
                                             }
                                         } else {
                                             //oblicz dochod
-                                            double dochod = pobierzdochod(podatnik, rokpkpir, mcdo, wiersz);
+                                            String nazwa = podatnik.getNazwapelna();
+                                            String udzialowiec = null;
                                             if (podatnikprocentudzial != 100.0) {
-                                                dochod = Z.z(dochod * podatnikprocentudzial / 100.0);
+                                                udzialowiec = u.getNazwiskoimie();
                                             }
+                                            double dochod = pobierzdochod(nazwa, udzialowiec, rokpkpir, mcdo, wiersz);
                                             wiersz.setWynikpodatkowymc(dochod);
                                             wiersz.setWynikpodatkowynar(dochod);
                                             wiersz.setDochodzus(dochod > 0.0 ? dochod : 0.0);
                                             wiersz.setDochodzusnar(dochod > 0.0 ? dochod : 0.0);
                                             //wiersz.setDochodzusnetto(dochod > 0.0 ? dochod : 0.0);
                                             //wiersz.setDochodzusnettonar(dochod > 0.0 ? dochod : 0.0);
-                                            boolean jestpit = pobierzpit(rokpkpir, mcod, podatnik.getNazwapelna());
+                                            boolean jestpit = pobierzpit(rokpkpir, mcod, nazwa, udzialowiec);
                                             wiersz.setJestpit(jestpit);
                                                 //Msg.msg("Obliczono dochód za mc");
                                             if (Mce.getMiesiacToNumber().get(mc) > 2) {
@@ -690,11 +692,16 @@ public class DochodDlaDRAView implements Serializable {
     
     
     
-    private boolean pobierzpit(String rokpkpir, String mcod, String nazwapelna) {
+    private boolean pobierzpit(String rokpkpir, String mcod, String nazwa, String udzialowiec) {
         boolean zwrot = false;
         try {
-            List<Pitpoz> pitlList = pitDAO.findList(rokpkpir, mcod, nazwapelna);
-            if (pitlList!=null&&!pitlList.isEmpty()) {
+            Pitpoz pit = null;
+            if (udzialowiec==null) {
+                pit = pitDAO.find(rokpkpir, mcod, nazwa);
+            } else {
+                pit = pitDAO.findByUdzialowiec(rokpkpir, mcod, nazwa, udzialowiec);
+            }
+            if (pit!=null) {
                 zwrot = true;
             }
         } catch (Exception ew){}
@@ -770,10 +777,15 @@ public class DochodDlaDRAView implements Serializable {
         return jedno;
     }
 
-    private double pobierzdochod(Podatnik podatnik, String rok, String mc, WierszDRA wiersz) {
+    private double pobierzdochod(String nazwa, String udzialowiec, String rok, String mc, WierszDRA wiersz) {
         double dochod = 0.0;
         try {
-             Pitpoz pit = pitDAO.find(rok, mc, podatnik.getNazwapelna());
+            Pitpoz pit = null;
+            if (udzialowiec==null) {
+                pit = pitDAO.find(rok, mc, nazwa);
+            } else {
+                pit = pitDAO.findByUdzialowiec(rok, mc, nazwa, udzialowiec);
+            }
             
             if (pit!=null) {
                 dochod = pit.getWynikudzialzamc();
