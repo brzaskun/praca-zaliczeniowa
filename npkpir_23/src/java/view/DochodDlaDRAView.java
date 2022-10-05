@@ -303,6 +303,7 @@ public class DochodDlaDRAView implements Serializable {
 //                    }
 //                }
 //            }
+            pobierz();
             Msg.msg("Pobrano i przeliczono dane za mc"+mc);
             
         } else {
