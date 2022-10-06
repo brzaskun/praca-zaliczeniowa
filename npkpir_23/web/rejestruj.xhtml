@@ -56,15 +56,15 @@
                             </p:inputText>
                             <h:outputText value="#{mgs.haslo}"/>
                             <p:password id="turkishFeedback" value="#{UzView.selUzytkownik.haslo}" feedback="true"   
-                                        promptLabel="#{mgs.wprowadzhaslo}" weakLabel="#{mgs.słabe}"  validatorMessage="#{mgs.hasloskladasie}"
+                                        promptLabel="#{mgs.wprowadzhaslo}" weakLabel="#{mgs.słabe}"  validatorMessage="#{mgs.hasloskladasie}" 
                                         goodLabel="#{mgs.akceptowalne}" strongLabel="#{mgs.mocne}" required="true" requiredMessage="#{mgs.wprowadzhaslo}!" autocomplete="true"> 
                                 <f:validateLength minimum="6"/>
-                                <p:ajax event="change" partialSubmit="true" global="false"/>
+                                <p:ajax event="blur" partialSubmit="true" global="false" listener="#{UzView.sprawdzidentycznoschasel}" update="pole:przyciskbox"/>
                             </p:password>
                             <h:outputText value="#{mgs.potwierdzhaslo}"/>
                             <p:password id="haslo2" value="#{UzView.confPassword}" title="#{mgs.haslazgodne}" validatorMessage="#{mgs.hasloskladasie}" required="true" requiredMessage="#{mgs.wpiszpotwierdzenie}!" autocomplete="true" >
                                 <f:validateLength minimum="6"/>
-                                <p:ajax event="change" partialSubmit="true" global="false" listener="#{UzView.sprawdzidentycznoschasel}" update="pole:przyciskbox"/>
+                                <p:ajax event="blur" partialSubmit="true" global="false" listener="#{UzView.sprawdzidentycznoschasel}" update="pole:przyciskbox"/>
                             </p:password>
                             <p:separator/><p:separator/>
                              <h:outputText value="#{mgs.email}"/>

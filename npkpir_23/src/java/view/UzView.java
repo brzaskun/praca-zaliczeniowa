@@ -274,21 +274,23 @@ public class UzView implements Serializable {
     }
 
     public void sprawdzidentycznoschasel() {
-        if (selUzytkownik.getHaslo().length() < 6) {
-            pokazprzyciskrejestracja = false;
-        } else {
-            if (!confPassword.equals(selUzytkownik.getHaslo())) {
-                    pokazprzyciskrejestracja = false;
-                String locale = FacesContext.getCurrentInstance().getELContext().getLocale().getLanguage();
-                if (locale.equals(new Locale("pl").getLanguage())) {
-                    Msg.msg("e","Hasła nie pasuja. Sprawdź to.", "registerForm:passwordConfirm");
-                } else if (locale.equals(new Locale("de").getLanguage())) {
-                    Msg.msg("e","Passwörter stimmen nicht überein. Prüfen Sie das.", "registerForm:passwordConfirm");
-                } else if (locale.equals(new Locale("en").getLanguage())) {
-                    Msg.msg("e","Hasła nie pasuja. Sprawdź to.", "registerForm:passwordConfirm");
-                }
+        if (selUzytkownik.getHaslo()!=null&&confPassword!=null) {
+            if (selUzytkownik.getHaslo().length() < 6) {
+                pokazprzyciskrejestracja = false;
             } else {
-                pokazprzyciskrejestracja = true;
+                if (!confPassword.equals(selUzytkownik.getHaslo())) {
+                        pokazprzyciskrejestracja = false;
+                    String locale = FacesContext.getCurrentInstance().getELContext().getLocale().getLanguage();
+                    if (locale.equals(new Locale("pl").getLanguage())) {
+                        Msg.msg("e","Hasła nie pasuja. Sprawdź to.", "registerForm:passwordConfirm");
+                    } else if (locale.equals(new Locale("de").getLanguage())) {
+                        Msg.msg("e","Passwörter stimmen nicht überein. Prüfen Sie das.", "registerForm:passwordConfirm");
+                    } else if (locale.equals(new Locale("en").getLanguage())) {
+                        Msg.msg("e","Hasła nie pasuja. Sprawdź to.", "registerForm:passwordConfirm");
+                    }
+                } else {
+                    pokazprzyciskrejestracja = true;
+                }
             }
         }
     }

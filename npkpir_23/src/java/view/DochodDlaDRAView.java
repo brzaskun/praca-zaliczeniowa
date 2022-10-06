@@ -195,7 +195,7 @@ public class DochodDlaDRAView implements Serializable {
             }
             int i = 1;
             for (Podatnik podatnik : podatnicy) {
-                //if (podatnik.getNip().equals("7642681382")) {
+                if (podatnik.getNip().equals("8522532326")) {
                 //if (podatnik.getNip().equals("8511005008")||podatnik.getNip().equals("8511054159")||podatnik.getNip().equals("8792611113")||podatnik.getNip().equals("9551392851")||podatnik.getNip().equals("9281839264")) {
                     PodatnikOpodatkowanieD opodatkowanie = zwrocFormaOpodatkowania(podatnik, rok, mc);
                     if (opodatkowanie != null) {
@@ -302,7 +302,7 @@ public class DochodDlaDRAView implements Serializable {
 //                        }
 //                    }
 //                }
-//            }
+              }
             pobierz();
             Msg.msg("Pobrano i przeliczono dane za mc"+mc);
             
@@ -485,6 +485,10 @@ public class DochodDlaDRAView implements Serializable {
                             nowe.remove(p.getPodatnik().getNip());
                             nowe.put(p.getPodatnik().getNip(), p);
                         }
+                        if (stara.getIddokument()<p.getIddokument()) {
+                            nowe.remove(p.getPodatnik().getNip());
+                            nowe.put(p.getPodatnik().getNip(), p);
+                        }
                     }
                 }
             }
@@ -540,7 +544,7 @@ public class DochodDlaDRAView implements Serializable {
                 }
                 if (dras.getPodatnik()==null && podmioty!=null) {
                     for (Podmiot za : podmioty) {
-                        if (za.getNip().equals(z.getIi1Nip())) {
+                        if (za.getNip()!=null&&za.getNip().equals(z.getIi1Nip())) {
                             dras.setPodmiot(za);
                             break;
                         }
@@ -597,7 +601,9 @@ public class DochodDlaDRAView implements Serializable {
             dras.setFp(kwotafp);
             dodajpit4DRA(dras, firmy);
             drasumy.add(dras);
+            System.out.println(dras.getNazwa());
         });
+        System.out.println("Koniec");
         sumujdra();
         draSumyDAO.editList(drasumy);
         System.out.println("");
