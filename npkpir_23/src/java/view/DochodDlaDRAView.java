@@ -195,7 +195,7 @@ public class DochodDlaDRAView implements Serializable {
             }
             int i = 1;
             for (Podatnik podatnik : podatnicy) {
-                if (podatnik.getNip().equals("8522532326")) {
+                //if (podatnik.getNip().equals("8522532326")) {
                 //if (podatnik.getNip().equals("8511005008")||podatnik.getNip().equals("8511054159")||podatnik.getNip().equals("8792611113")||podatnik.getNip().equals("9551392851")||podatnik.getNip().equals("9281839264")) {
                     PodatnikOpodatkowanieD opodatkowanie = zwrocFormaOpodatkowania(podatnik, rok, mc);
                     if (opodatkowanie != null) {
@@ -302,7 +302,7 @@ public class DochodDlaDRAView implements Serializable {
 //                        }
 //                    }
 //                }
-              }
+              //}
             pobierz();
             Msg.msg("Pobrano i przeliczono dane za mc"+mc);
             
