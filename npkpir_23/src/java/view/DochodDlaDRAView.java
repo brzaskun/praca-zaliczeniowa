@@ -475,19 +475,21 @@ public class DochodDlaDRAView implements Serializable {
     private List<DraSumy> przetworzZusdra(List<DraSumy> zusdra) {
        Map<String,DraSumy> nowe = new HashMap<>();
         if (zusdra!=null) {
-            for (DraSumy p : zusdra) {
-                if (p.getPodatnik()!=null) {
-                    if (!nowe.containsKey(p.getPodatnik().getNip())) {
-                        nowe.put(p.getPodatnik().getNip(), p);
-                    } else {
-                        DraSumy stara = nowe.get(p.getPodatnik().getNip());
-                        if (Integer.valueOf(stara.getNr())<Integer.valueOf(p.getNr())) {
-                            nowe.remove(p.getPodatnik().getNip());
-                            nowe.put(p.getPodatnik().getNip(), p);
-                        }
-                        if (stara.getIddokument()<p.getIddokument()) {
-                            nowe.remove(p.getPodatnik().getNip());
-                            nowe.put(p.getPodatnik().getNip(), p);
+            for (DraSumy pobranedrasumy : zusdra) {
+                if (pobranedrasumy!=null && pobranedrasumy.getPodatnik()!=null) {
+                    if (pobranedrasumy.getPodatnik()!=null) {
+                        if (!nowe.containsKey(pobranedrasumy.getPodatnik().getNip())) {
+                            nowe.put(pobranedrasumy.getPodatnik().getNip(), pobranedrasumy);
+                        } else {
+                            DraSumy stara = nowe.get(pobranedrasumy.getPodatnik().getNip());
+                            if (Integer.valueOf(stara.getNr())<Integer.valueOf(pobranedrasumy.getNr())) {
+                                nowe.remove(pobranedrasumy.getPodatnik().getNip());
+                                nowe.put(pobranedrasumy.getPodatnik().getNip(), pobranedrasumy);
+                            }
+                            if (stara.getIddokument()<pobranedrasumy.getIddokument()) {
+                                nowe.remove(pobranedrasumy.getPodatnik().getNip());
+                                nowe.put(pobranedrasumy.getPodatnik().getNip(), pobranedrasumy);
+                            }
                         }
                     }
                 }
