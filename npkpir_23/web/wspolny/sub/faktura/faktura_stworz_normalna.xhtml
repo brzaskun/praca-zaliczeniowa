@@ -17,6 +17,9 @@
             <p:selectBooleanCheckbox value="#{fakturaView.selected.koncowa}">
                 <p:ajax event="change" listener="#{fakturaView.pobierzczesciowe()}" update="akordeon:formstworz:rzadn"/>
             </p:selectBooleanCheckbox>
+            <h:outputText value="faktura bilansowa "/>
+            <p:selectBooleanCheckbox value="#{fakturaView.selected.bilansowa}">
+            </p:selectBooleanCheckbox>
         </p:panelGrid>
          <p:panelGrid columns="6"  styleClass="polefaktury" layout="grid">
             <h:outputText value="licz od wartości brutto " style="color: #{fakturaView.selected.liczodwartoscibrutto ? 'blue':'initial'}"/>

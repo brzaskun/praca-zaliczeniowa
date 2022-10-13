@@ -328,6 +328,8 @@ public class Faktura implements Serializable {
     private String projektnumer;
     @Column(name = "koncowa")
     private boolean koncowa;
+    @Column(name = "bilansowa")
+    private boolean bilansowa;
   
 
     public Faktura() {
@@ -472,6 +474,14 @@ public class Faktura implements Serializable {
 
     public void setWystawcanazwa(String wystawcanazwa) {
         this.wystawcanazwa = wystawcanazwa;
+    }
+
+    public boolean isBilansowa() {
+        return bilansowa;
+    }
+
+    public void setBilansowa(boolean bilansowa) {
+        this.bilansowa = bilansowa;
     }
 
     public String getProjektnumer() {

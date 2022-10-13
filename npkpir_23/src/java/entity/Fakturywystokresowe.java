@@ -132,6 +132,10 @@ public class Fakturywystokresowe implements Serializable {
     @NotNull
     @Column(nullable = false)
     private int m12;
+    @Basic(optional = false)
+    @NotNull
+    @Column(nullable = false)
+    private int m13;
     @Column(name = "biezaca0archiwalna1")
     private boolean biezaca0archiwalna1;
     @Column(name = "zawieszona")
@@ -153,7 +157,7 @@ public class Fakturywystokresowe implements Serializable {
         this.id = id;
     }
 
-    public Fakturywystokresowe(Integer id, String podatnik, String rok, Faktura dokument, int m1, int m2, int m3, int m4, int m5, int m6, int m7, int m8, int m9, int m10, int m11, int m12) {
+    public Fakturywystokresowe(Integer id, String podatnik, String rok, Faktura dokument, int m1, int m2, int m3, int m4, int m5, int m6, int m7, int m8, int m9, int m10, int m11, int m12, int m13) {
         this.id = id;
         this.podatnik = podatnik;
         this.rok = rok;
@@ -170,6 +174,7 @@ public class Fakturywystokresowe implements Serializable {
         this.m10 = m10;
         this.m11 = m11;
         this.m12 = m12;
+        this.m13 = m13;
     }
 
     public Fakturywystokresowe(Fakturywystokresowe stara, String rok) {
@@ -192,6 +197,7 @@ public class Fakturywystokresowe implements Serializable {
         this.m10 = stara.m10;
         this.m11 = stara.m11;
         this.m12 = stara.m12;
+        this.m13 = stara.m13;
     }
 
     public Integer getId() {
@@ -338,6 +344,15 @@ public class Fakturywystokresowe implements Serializable {
     public void setM12(int m12) {
         this.m12 = m12;
     }
+
+    public int getM13() {
+        return m13;
+    }
+
+    public void setM13(int m13) {
+        this.m13 = m13;
+    }
+    
      public boolean isZawieszona() {
         return zawieszona;
     }

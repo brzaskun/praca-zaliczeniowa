@@ -85,9 +85,9 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import mail.MailOther;
 import msg.Msg;
- import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FileUtils;
 import org.joda.time.DateTime;
-import org.joda.time.LocalDate;
+ import org.joda.time.LocalDate;
 import org.joda.time.MutableDateTime;
 import org.primefaces.PrimeFaces;
 import org.primefaces.component.autocomplete.AutoComplete;
@@ -1205,6 +1205,9 @@ public class FakturaView implements Serializable {
                 fakturaokresowa.setM12(fakturaokresowa.getM12() > 0 ? fakturaokresowa.getM12() - 1 : 0);
                 break;
         }
+        if (nowa.isBilansowa()) {
+              fakturaokresowa.setM13(fakturaokresowa.getM13() > 0 ? fakturaokresowa.getM13() - 1 : 0);
+        }
         fakturywystokresoweDAO.edit(fakturaokresowa);
         fakturyokresowe = fakturywystokresoweDAO.findPodatnikBiezace(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
         Msg.msg("i", "Zaktualizowano okresowa");
@@ -1777,6 +1780,9 @@ public class FakturaView implements Serializable {
                 nowafakturaokresowa.setM12(1);
                 break;
         }
+        if (p.isBilansowa()) {
+            nowafakturaokresowa.setM13(1);
+        }
     }
     
     public void dodajfaktureokresowanowyrok(Faktura p) {
@@ -1869,6 +1875,36 @@ public class FakturaView implements Serializable {
         }
     }
     
+    public void wygenerujzokresowychbilansowe() {
+        if (gosciwybralokres.isEmpty()) {
+            Msg.msg("e", "Nie wybrano faktury ręcznych lub wybrano tylko faktury jednorazowe");
+        } else {
+            List<Faktura> faktury = wygenerujzokresowychcd();
+            for (Faktura f : faktury) {
+                f.setBilansowa(true);
+                List<Pozycjenafakturzebazadanych> pozycjebd = f.getPozycjenafakturze();
+                Pozycjenafakturzebazadanych wiersz = pozycjebd.get(0);
+                wiersz.setNazwa("sporządzenie sprawozdania finansowego");
+                wiersz.setJednostka("kpl");
+                if (pozycjebd.size()>1) {
+                    int i = 1;
+                    for (Iterator<Pozycjenafakturzebazadanych> it = pozycjebd.iterator(); it.hasNext();) {
+                        if (i>1) {
+                            it.remove();
+                        }
+                        i++;
+                    }
+                }
+                Fakturywystokresowe idfakturaokresowa = f.getIdfakturaokresowa();
+                idfakturaokresowa.setM13(1);
+                fakturywystokresoweDAO.edit(idfakturaokresowa);
+            }
+            fakturaDAO.editList(faktury);
+            faktury_edit = faktury;
+            Msg.msg("w", "Faktury do przejrzenia na liście do edycji");
+        }
+    }
+    
     public void wygenerujzokresowychzaleglekadry() {
         for (Iterator<Fakturywystokresowe> it = gosciwybralokres.iterator(); it.hasNext();) {
             Fakturywystokresowe p = it.next();
@@ -1948,7 +1984,8 @@ public class FakturaView implements Serializable {
     }
     
     
-    public void wygenerujzokresowychcd() {
+    public List<Faktura> wygenerujzokresowychcd() {
+        List<Faktura> nowododane = new ArrayList<>();
         for (Fakturywystokresowe p : gosciwybralokres) {
             if (!p.isZawieszona()) {
                 Faktura nowa = SerialClone.clone(p.getDokument());
@@ -2030,6 +2067,7 @@ public class FakturaView implements Serializable {
                     Klienci kontra = nowa.getKontrahent();
                     kontra.setAktywnydlafaktrozrachunki(true);
                     klienciDAO.edit(kontra);
+                    nowododane.add(nowa);
                     if (nowa.isRecznaedycja()) {
                         faktury_edit.add(nowa);
                     } else {
@@ -2094,15 +2132,11 @@ public class FakturaView implements Serializable {
         }
         PrimeFaces.current().ajax().update("akordeon:formsporzadzone:dokumentyLista");
         PrimeFaces.current().ajax().update("akordeon:formokresowe:dokumentyOkresowe");
-
+        return nowododane;
     }
 
     public void resetujbiezacymiesiac() {
-        if (gosciwybralokres.isEmpty()) {
-            Msg.msg("e", "Nie wybrano faktury do resetu");
-            return;
-        }
-        for (Fakturywystokresowe p : gosciwybralokres) {
+        for (Fakturywystokresowe p : this.fakturyokresowe) {
             Fakturywystokresowe okresowe = p;
             String miesiac = wpisView.getMiesiacWpisu();
             switch (miesiac) {
@@ -2143,6 +2177,7 @@ public class FakturaView implements Serializable {
                     okresowe.setM12(0);
                     break;
             }
+            okresowe.setM13(0);
             fakturywystokresoweDAO.edit(okresowe);
         }
     }
@@ -2284,17 +2319,21 @@ public class FakturaView implements Serializable {
     
     public void sprawdzbiezacymiesiac() {
         resetujbiezacymiesiac();
-        for (Faktura r : faktury) {
-            if (r.getBrutto() == 123.0) {
-            }
+        List<Faktura> fakturytmp = fakturaDAO.findbyPodatnikRokMc(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+        for (Faktura r : fakturytmp) {
             for (Fakturywystokresowe p : this.fakturyokresowe) {
-                if (p.getDokument().getKontrahent().equals(r.getKontrahent()) && p.getDokument().getBrutto() == r.getBrutto()) {
+                if (p.getDokument().getKontrahent().equals(r.getKontrahent())) {
+                    if (r.isBilansowa()) {
+                        p.setM13(p.getM13() + 1);
+                        fakturywystokresoweDAO.edit(p);
+                    } 
                     naniesoznaczenienaokresowa(p);
                     break;
                 }
             }
 
         }
+        Msg.dP();
     }
     
     private void naniesoznaczenienaokresowa(Fakturywystokresowe p) {
@@ -2302,40 +2341,40 @@ public class FakturaView implements Serializable {
         String miesiac = wpisView.getMiesiacWpisu();
         switch (miesiac) {
             case "01":
-                okresowe.setM1(1);
+                okresowe.setM1(okresowe.getM1()+1);
                 break;
             case "02":
-                okresowe.setM2(1);
+                okresowe.setM2(okresowe.getM2()+1);
                 break;
             case "03":
-                okresowe.setM3(1);
+                okresowe.setM3(okresowe.getM3()+1);
                 break;
             case "04":
-                okresowe.setM4(1);
+                okresowe.setM4(okresowe.getM4()+1);
                 break;
             case "05":
-                okresowe.setM5(1);
+                okresowe.setM5(okresowe.getM5()+1);
                 break;
             case "06":
-                okresowe.setM6(1);
+                okresowe.setM6(okresowe.getM6()+1);
                 break;
             case "07":
-                okresowe.setM7(1);
+                okresowe.setM7(okresowe.getM7()+1);
                 break;
             case "08":
-                okresowe.setM8(1);
+                okresowe.setM8(okresowe.getM8()+1);
                 break;
             case "09":
-                okresowe.setM9(1);
+                okresowe.setM9(okresowe.getM9()+1);
                 break;
             case "10":
-                okresowe.setM10(1);
+                okresowe.setM10(okresowe.getM10()+1);
                 break;
             case "11":
-                okresowe.setM11(1);
+                okresowe.setM11(okresowe.getM11()+1);
                 break;
             case "12":
-                okresowe.setM12(1);
+                okresowe.setM12(okresowe.getM12()+1);
                 break;
         }
         fakturywystokresoweDAO.edit(okresowe);

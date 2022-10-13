@@ -153,6 +153,9 @@
                 <p:column headerText="12" width="20"  sortBy="#{wpis.m12}">  
                     <h:outputText value="#{wpis.m12}" styleClass="#{wpis.m12 gt 0 ? 'wiecejfaktur' : 'zerofaktur'}"/>
                 </p:column>
+                <p:column headerText="bil." width="20"  sortBy="#{wpis.m13}">  
+                    <h:outputText value="#{wpis.m13}" styleClass="#{wpis.m13 gt 0 ? 'wiecejfaktur' : 'zerofaktur'}"/>
+                </p:column>
                 <p:column headerText="prac." width="30" style="text-align: center;" filterBy="#{wpis.sapracownicy}" sortBy="#{wpis.sapracownicy}">  
                     <h:outputText value="&#x2713;" rendered="#{wpis.sapracownicy}" style="color: blue;font-weight: 900;"/>
                 </p:column>
@@ -228,6 +231,7 @@
                 <p:menuitem value="Wygeneruj do edycji" update=":form1:messages, :akordeon:formzestawienie:dokumentyZestawienie" global="false" onclick="PF('confirmationFakturaOkresowe2').show()" icon="ui-icon-lightbulb" />
                 <p:menuitem value="Wygeneruj zaległe kadry" update=":form1:messages, :akordeon:formzestawienie:dokumentyZestawienie" global="false" onclick="PF('confirmationFakturaOkresowe3').show()" icon="ui-icon-lightbulb"   rendered="#{facesContext.externalContext.remoteUser eq 'szef'}"/>
                 <p:menuitem value="Wygeneruj z waloryzacją" update=":form1:messages" actionListener="#{fakturaView.wygenerujzokresowychwaloryzacja()}" icon="ui-icon-lightbulb"  rendered="#{facesContext.externalContext.remoteUser eq 'szef'}"/>
+                <p:menuitem value="Wygeneruj jako bilansowe" update=":form1:messages akordeon:formsporzadzone_edit:dokumentyLista_edit" actionListener="#{fakturaView.wygenerujzokresowychbilansowe()}" icon="ui-icon-lightbulb"  rendered="#{facesContext.externalContext.remoteUser eq 'szef'}"/>
                 <p:menuitem value="Usuń wybrane" update=":akordeon:formokresowe:dokumentyOkresowe" actionListener="#{fakturaView.usunfaktureokresowa()}" icon="ui-icon-trash" />
                 <p:separator/>
                 <p:menuitem value="Sprawdź bieżący m-c" update=":akordeon:formokresowe:dokumentyOkresowe" actionListener="#{fakturaView.sprawdzbiezacymiesiac()}" icon="fa fa-spinner" />
