@@ -174,6 +174,12 @@
                         </p:column>
                         <p:column style="text-align: center;">
                             <f:facet name="header">
+                                <h:outputText value="opieka nad dziec."/>
+                            </f:facet>
+                            <h:inputText size="4"  value="#{itemkalendarz.opiekadziecko}" style="#{itemkalendarz.opiekadziecko eq 0 ? 'color: #cccccc':''}"/>
+                        </p:column>
+                        <p:column style="text-align: center;">
+                            <f:facet name="header">
                                 <h:outputText value="choroba"/>
                             </f:facet>
                             <h:inputText size="4"  value="#{itemkalendarz.wynagrodzeniezachorobe}" style="#{itemkalendarz.wynagrodzeniezachorobe eq 0 ? 'color: #cccccc':''}"/>
@@ -203,12 +209,13 @@
                             <h:inputText size="4"  value="#{itemkalendarz.poranocna}" style="#{itemkalendarz.poranocna eq 0 ? 'color: #cccccc':''}"/>
                         </p:column>
                     </p:dataTable>
-                    <p:panelGrid columns="7" style="width: 500px;align-content: center; margin-top: 10px;">
+                    <p:panelGrid columns="8" style="width: 500px;align-content: center; margin-top: 10px;">
                         <h:outputText value="norma godzin"/>
                         <h:outputText value="przepracowane"/>
                         <h:outputText value="dni oddeleg."/>
                         <h:outputText value="urlop płatny"/>
                         <h:outputText value="urlop bezpłat."/>
+                        <h:outputText value="opieka nad dzieckiem"/>
                         <h:outputText value="wyn. choroba"/>
                         <h:outputText value="zasiłek"/>
                         <h:outputText value="#{kalendarzmiesiacView.selected.norma}"/>
@@ -216,6 +223,7 @@
                         <h:outputText value="#{kalendarzmiesiacView.selected.dnioddelegowania}"/>
                          <h:outputText value="#{kalendarzmiesiacView.selected.urlop}"/>
                          <h:outputText value="#{kalendarzmiesiacView.selected.urlopbezplatny}"/>
+                         <h:outputText value="#{kalendarzmiesiacView.selected.opiekadziecko}"/>
                          <h:outputText value="#{kalendarzmiesiacView.selected.choroba}"/>
                          <h:outputText value="#{kalendarzmiesiacView.selected.zasilek}"/>
                     </p:panelGrid>

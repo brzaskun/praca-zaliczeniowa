@@ -255,13 +255,13 @@
                     </p:outputPanel>
                 </h:form>
             </p:tab>
-             <p:tab title="Rodzaje nieobecności">
+             <p:tab title="Symbole nieobecności">
                 <h:form id="SlownikNieobecnosciForm">
                     <p:dataTable id="datalistn" value="#{swiadczeniekodzusView.lista}" var="item13"
                                  selectionMode="single" selection="#{swiadczeniekodzusView.selectedlista}"
                                  rowKey="#{item13.id}" 
                                  scrollable="true" scrollHeight="750" scrollRows="30" 
-                                 style=" width: 1200px;"
+                                 style=" width: 1250px;"
                                  >
 
                         <p:column width="40" style="text-align: center;">
@@ -321,6 +321,48 @@
                         
                     </p:dataTable>
                     <p:commandButton value="zachowaj" styleClass="buttonnorm" actionListener="#{swiadczeniekodzusView.zachowaj}" update="@form"/>
+                </h:form>
+            </p:tab>
+            <p:tab title="Rodzaje nieobecności">
+                <h:form id="RodzajeNieobecnosciForm">
+                    <p:dataTable id="datalistn" value="#{rodzajenieobecnosciView.lista}" var="item13roz"
+                                 selectionMode="single" selection="#{rodzajenieobecnosciView.selectedlista}"
+                                 rowKey="#{item13roz.id}" rowIndexVar="yndexvar"
+                                 scrollable="true" scrollHeight="750" scrollRows="30" 
+                                 style=" width: 850px;"
+                                 >
+
+                        <p:column width="40" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="id"/>
+                            </f:facet>
+                            <h:outputText value="#{yndexvar+1}"/>
+                        </p:column>
+                        <p:column width="50" style="text-align: center;"  sortOrder="asc" sortBy="#{item13roz.kod}" filterBy="#{item13roz.kod}" filterMatchMode="contains">
+                            <f:facet name="header">
+                                <h:outputText value="kod"/>
+                            </f:facet>
+                            <h:outputText value="#{item13roz.kod}"/>
+                        </p:column>
+                        <p:column width="250"  filterBy="#{item13roz.opis}" filterMatchMode="contains">
+                            <f:facet name="header">
+                                <h:outputText value="opis"/>
+                            </f:facet>
+                            <h:outputText value="#{item13roz.opis}"/>
+                        </p:column>
+                        <p:column width="50" style="text-align: center;"  sortOrder="asc" sortBy="#{item13roz.redukcjawyn}" filterBy="#{item13roz.redukcjawyn}" filterMatchMode="contains">
+                            <f:facet name="header">
+                                <h:outputText value="red. wyn."/>
+                            </f:facet>
+                            <h:outputText value="#{item13roz.redukcjawyn}"/>
+                        </p:column>
+                        <p:column width="50" style="text-align: center;"  sortOrder="asc" sortBy="#{item13roz.nieskladkowy}" filterBy="#{item13roz.nieskladkowy}" filterMatchMode="contains">
+                            <f:facet name="header">
+                                <h:outputText value="nieskład."/>
+                            </f:facet>
+                            <h:outputText value="&#x2714;" rendered="#{item13roz.nieskladkowy}" style="color: green;"/>
+                        </p:column>
+                    </p:dataTable>
                 </h:form>
             </p:tab>
              <p:tab title="Zmienne podatkowe">
@@ -568,7 +610,144 @@
             </p:dataTable>
         </h:form>
     </p:outputPanel>
+        </p:tab>
+            <p:tab title="Schema świadectwo pracy">
+                <h:form id="Swiadectwo">
+                     <p:panelGrid columns="2">
+                        <p:outputLabel value="rok od"/>
+                        <p:inputText value="#{swiadectwoschemaView.selected.rok}"/>
+                        <p:outputLabel value="mc od"/>
+                        <p:inputText value="#{swiadectwoschemaView.selected.mc}"/>
+                        <p:outputLabel value="nazwa schemy"/>
+                        <p:inputText value="#{swiadectwoschemaView.selected.nazwaschemy}"/>
+                        <p:panelGrid columns="1">
+                            <p:commandButton value="dodaj" styleClass="buttonnorm" actionListener="#{swiadectwoschemaView.dodajrok()}" update="akordeon:Swiadectwo" />
+                        </p:panelGrid>
+                     </p:panelGrid>
+                          <p:dataTable value="#{swiadectwoschemaView.listaswiadectwoschemy}" var="itemeksw" rowIndexVar="indexekwiw" rowKey="#{itemeksw.id}"
+                                 selection="#{swiadectwoschemaView.selected}" selectionMode="single"  sortBy="#{itemeksw.rok}"
+                                 scrollable="true" scrollHeight="750" scrollRows="30" 
+                                 style="width: 400px;margin-top: 30px;" emptyMessage="Nie wprowadzono wartości">
+                            <p:ajax event="rowSelect" partialSubmit="true"/>
+                            <p:column width="30" style="text-align: center;">
+                                <f:facet name="header">
+                                    <h:outputText value=""/>
+                                </f:facet>
+                                <h:outputText value="#{indexekwiw+1}"/>
+                            </p:column>
+                            <p:column width="50" style="text-align: center;" sortBy="#{itemeksw.rok}">
+                                <f:facet name="header">
+                                    <h:outputText value="rok"/>
+                                </f:facet>
+                                <h:outputText value="#{itemeksw.rok}"/>
+                            </p:column>
+                            <p:column width="50" style="text-align: center;" sortBy="#{itemeksw.mc}">
+                                <f:facet name="header">
+                                    <h:outputText value="mc"/>
+                                </f:facet>
+                                <h:outputText value="#{itemeksw.mc}"/>
+                            </p:column>
+                            <p:column width="100" style="text-align: center;">
+                                <f:facet name="header">
+                                    <h:outputText value="nazwa"/>
+                                </f:facet>
+                                <bcf:outputpl value="#{itemeksw.nazwaschemy}"/>
+                            </p:column>
+                        </p:dataTable>`
+               </h:form>
+            </p:tab>
+            <p:tab title="Świad. nieobec.">
+                <h:form id="Swiadectwonieob">
+                     <p:panelGrid columns="2">
+                        <p:outputLabel value="rodzaj nieobecności"/>
+                        <p:selectOneMenu id="nieobkodzus" value="#{swiadectwoschemaView.selectednieobecnoscschema.rodzajnieobecnosci}" required="true" requiredMessage="wybierz rodzaj nieobecnosci"  converter="#{rodzajnieobecnosciConverter}" filter="true" filterMatchMode="contains">
+                                <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
+                                <f:selectItems value="#{swiadectwoschemaView.listanieobecnosci}" 
+                                               var="nieobItem"
+                                               itemValue="#{nieobItem}" itemLabel="#{nieobItem.kod} #{nieobItem.opis}"/>
+                                <p:ajax event="change" partialSubmit="true" global="false" />
+                        </p:selectOneMenu>
+                        <p:outputLabel value="wybrana schema"/>
+                        <p:selectOneMenu id="schemasw" value="#{swiadectwoschemaView.selectednieobecnoscschema.swiadectwoschema}" required="true" requiredMessage="wybierz rodzaj schemy"  converter="#{swiadectwoschemaConverter}" filter="true" filterMatchMode="contains">
+                                <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
+                                <f:selectItems value="#{swiadectwoschemaView.listaswiadectwoschemy}" 
+                                               var="nieobItem1"
+                                               itemValue="#{nieobItem1}" itemLabel="#{nieobItem1.nazwaschemy} #{nieobItem1.rok}"/>
+                                <p:ajax event="change" partialSubmit="true" global="false" />
+                        </p:selectOneMenu>
+                        <p:outputLabel value="nr zdania"/>
+                        <p:inputText value="#{swiadectwoschemaView.selectednieobecnoscschema.zdanie}"/>
+                        <p:outputLabel value="nr podzdania"/>
+                        <p:inputText value="#{swiadectwoschemaView.selectednieobecnoscschema.podzdanie}"/>
+                        <p:panelGrid columns="1">
+                            <p:commandButton value="dodaj" styleClass="buttonnorm" actionListener="#{swiadectwoschemaView.dodaj()}" update="akordeon:Swiadectwonieob akordeon:Swiadectwonieoblista" />
+                        </p:panelGrid>
+                     </p:panelGrid>
+                </h:form>
+                <h:form id="Swiadectwonieoblista">
+                          <p:dataTable value="#{swiadectwoschemaView.listanieob}" var="itemeksw" rowIndexVar="indexekwiw" rowKey="#{itemeksw.id}"
+                                 selection="#{swiadectwoschemaView.selectednieobecnoscschema}" selectionMode="single"  sortBy="#{itemeksw.rok}"
+                                 scrollable="true" scrollHeight="750" scrollRows="30" 
+                                 style="width: 900px;margin-top: 30px;" emptyMessage="Nie wprowadzono wartości">
+                            <p:ajax event="rowSelect" partialSubmit="true"/>
+                            <p:column width="30" style="text-align: center;">
+                                <f:facet name="header">
+                                    <h:outputText value=""/>
+                                </f:facet>
+                                <h:outputText value="#{indexekwiw+1}"/>
+                            </p:column>
+                            <p:column width="250" sortBy="#{itemeksw.rodzajnieobecnosci.opis}">
+                                <f:facet name="header">
+                                    <h:outputText value="nieobecność"/>
+                                </f:facet>
+                                <h:outputText value="#{itemeksw.rodzajnieobecnosci.opis}"/>
+                            </p:column>
+                            <p:column width="40" sortBy="#{itemeksw.rodzajnieobecnosci.kod}" style="text-align: center;">
+                                <f:facet name="header">
+                                    <h:outputText value="kod"/>
+                                </f:facet>
+                                <h:outputText value="#{itemeksw.rodzajnieobecnosci.kod}"/>
+                            </p:column>
+                            <p:column width="100" sortBy="#{itemeksw.mc}">
+                                <f:facet name="header">
+                                    <h:outputText value="schema"/>
+                                </f:facet>
+                                <h:outputText value="#{itemeksw.swiadectwoschema.nazwaschemy}"/>
+                            </p:column>
+                            <p:column width="60" style="text-align: center;">
+                                <f:facet name="header">
+                                    <h:outputText value="zdanie"/>
+                                </f:facet>
+                                <bcf:outputpl value="#{itemeksw.zdanie}"/>
+                            </p:column>
+                            <p:column width="60" style="text-align: center;">
+                                <f:facet name="header">
+                                    <h:outputText value="podzdanie"/>
+                                </f:facet>
+                                <bcf:outputpl value="#{itemeksw.podzdanie}"/>
+                            </p:column>
+                             <p:column width="40" style="text-align: center;">
+                                <f:facet name="header">
+                                    <h:outputText value="nieskład."/>
+                                </f:facet>
+                                 <h:outputText value="&#x2714;" rendered="#{itemeksw.rodzajnieobecnosci.nieskladkowy}"/>
+                            </p:column>
+                             <p:column width="40" style="text-align: center;">
+                                <f:facet name="header">
+                                    <h:outputText value="dni kal."/>
+                                </f:facet>
+                                 <h:outputText value="&#x2714;" rendered="#{itemeksw.rodzajnieobecnosci.dnikalendarzowe}"/>
+                            </p:column>
+                             <p:column width="30" style="text-align: center;">
+                                <f:facet name="header">
+                                    <h:outputText value=""/>
+                                </f:facet>
+                                 <p:commandButton icon="pi pi-trash" actionListener="#{swiadectwoschemaView.usun(itemeksw)}" update="@parent:@parent"/>
+                            </p:column>
+                        </p:dataTable>`
+               </h:form>
             </p:tab>
         </p:tabView>
     </p:outputPanel>
 </ui:composition>
+

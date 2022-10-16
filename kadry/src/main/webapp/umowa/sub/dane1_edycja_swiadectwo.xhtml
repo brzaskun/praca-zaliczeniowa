@@ -1,0 +1,124 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:bcf="http://brzaskun.com/facelets"
+    >
+    <p:panelGrid columns="2" columnClasses="fifty-percent fifty-percent">
+        <p:outputPanel>
+            <h:form id="SwiadectwoForm">
+                <p:panel header="Zestawienie danych do świadectwa">
+                    <p:dataTable id="datalist" value="#{rozwiazanieumowyView.dnidoswiadectwa}" var="itemsw"
+                                 selectionMode="single" selection="#{rozwiazanieumowyView.selected}" rowIndexVar="itemswin"
+                                 rowKey="#{itemsw.id}" emptyMessage="Brak sporządzonych rozwiązań umowy"
+                                 style="width: 950px;height: 450px; overflow-y: scroll;"
+                                 >
+                        <p:ajax event="rowSelect" partialSubmit="true" global="false" />
+                        <p:column width="20" style="text-align: center;">
+                            <p:rowToggler rendered="#{itemsw.nieobecnoscinieskladkowe.size() gt 0}" />
+                        </p:column>
+                        <p:column width="40" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="id"/>
+                            </f:facet>
+                            <h:outputText value="#{itemswin+1}"/>
+                        </p:column>
+                        <p:column width="90">
+                            <f:facet name="header">
+                                <h:outputText value="świadectwo"/>
+                            </f:facet>
+                            <h:outputText value="#{itemsw.swiadectwo.datawystawienia}"/>
+                        </p:column>
+                        <p:column width="70">
+                            <f:facet name="header">
+                                <h:outputText value="umowa"/>
+                            </f:facet>
+                            <h:outputText value="#{itemsw.swiadectwo.rozwiazanieumowy.umowa.nrkolejny}"/>
+                        </p:column>
+                        <p:column width="40" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="kod"/>
+                            </f:facet>
+                            <h:outputText value="#{itemsw.nieobecnoscswiadectwoschema.rodzajnieobecnosci.kod}"/>
+                        </p:column>
+                        <p:column width="220">
+                            <f:facet name="header">
+                                <h:outputText value="opis"/>
+                            </f:facet>
+                            <h:outputText value="#{itemsw.nieobecnoscswiadectwoschema.rodzajnieobecnosci.opis}"/>
+                        </p:column>
+                        <p:column width="40">
+                            <f:facet name="header">
+                                <h:outputText value="dni"/>
+                            </f:facet>
+                            <h:outputText value="#{itemsw.dni}"/>
+                        </p:column>
+                        <p:column width="40">
+                            <f:facet name="header">
+                                <h:outputText value="godz"/>
+                            </f:facet>
+                            <h:outputText value="#{itemsw.godziny}"/>
+                        </p:column>
+                        <p:rowExpansion>
+                            <p:dataTable id="datalistsrednia" value="#{itemsw.nieobecnoscinieskladkowe}" var="itemswnieob1"
+                                         rowIndexVar="itemswnieob11" rowKey="#{itemswnieob1.id}"
+                                         style="width: 750px;"
+                                         >
+                                <p:column width="40" style="text-align: center;">
+                                    <f:facet name="header">
+                                        <h:outputText value="id"/>
+                                    </f:facet>
+                                    <h:outputText value="#{itemswnieob11+1}" style="height: 20px;"/>
+                                </p:column>
+                                <p:column width="30" filterBy="#{itemswnieob1.rodzajnieobecnosci.kod}" filterMatchMode="startsWith"  sortBy="#{itemswnieob1.rodzajnieobecnosci.kod}" sortOrder="desc">
+                                    <f:facet name="header">
+                                        <h:outputText value="kod"/>
+                                    </f:facet>
+                                    <h:outputText value="#{itemswnieob1.rodzajnieobecnosci.kod}" style="color: #{nieobecnoscView.kolornieobecnosci(itemswnieob1)};"/>
+                                </p:column>
+                                <p:column width="200" filterBy="#{itemswnieob1.rodzajnieobecnosci.opis}" filterMatchMode="contains">
+                                    <f:facet name="header">
+                                        <h:outputText value="nazwa"/>
+                                    </f:facet>
+                                    <h:outputText value="#{itemswnieob1.rodzajnieobecnosci.opis}" style="color: #{nieobecnoscView.kolornieobecnosci(itemswnieob1)};"/>
+                                </p:column> 
+                                <p:column width="50" filterBy="#{itemswnieob1.dataod}" filterMatchMode="startsWith" sortBy="#{itemswnieob1.dataod}" sortOrder="desc" sortPriority="1">
+                                    <f:facet name="header">
+                                        <h:outputText value="data od"/>
+                                    </f:facet>
+                                    <h:outputText value="#{itemswnieob1.dataod}" style="color: #{nieobecnoscView.kolornieobecnosci(itemswnieob1)};"/>
+                                </p:column>
+                                <p:column width="50" filterBy="#{itemswnieob1.datado}" filterMatchMode="startsWith">
+                                    <f:facet name="header">
+                                        <h:outputText value="data do"/>
+                                    </f:facet>
+                                    <h:outputText value="#{itemswnieob1.datado}" style="color: #{nieobecnoscView.kolornieobecnosci(itemswnieob1)};"/>
+                                </p:column>
+                                <p:column style="text-align: center;" width="40">
+                                    <f:facet name="header">
+                                        <h:outputText value="dni kal."/>
+                                    </f:facet>
+                                    <h:outputText value="#{itemswnieob1.dnikalendarzowe}" style="color: #{nieobecnoscView.kolornieobecnosci(itemswnieob1)};"/>
+                                </p:column>
+                                <p:column style="text-align: center;" width="40">
+                                    <f:facet name="header">
+                                        <h:outputText value="dni rob."/>
+                                    </f:facet>
+                                    <h:outputText value="#{itemswnieob1.dniroboczenieobecnosci}" style="color: #{nieobecnoscView.kolornieobecnosci(itemswnieob1)};"/>
+                                </p:column>
+                                <p:column style="text-align: center;" width="40">
+                                    <f:facet name="header">
+                                        <h:outputText value="nan. na kal."/>
+                                    </f:facet>
+                                    <h:outputText value="&#x2714;" rendered="#{itemswnieob1.naniesiona}" style="color: green;font-weight: 900;"/>
+                                </p:column>
+                            </p:dataTable>
+                        </p:rowExpansion>
+                    </p:dataTable>
+                </p:panel>
+            </h:form>
+        </p:outputPanel>
+    </p:panelGrid>
+</ui:composition>

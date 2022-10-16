@@ -95,6 +95,8 @@ public class Dzien implements Serializable {
     private double wynagrodzeniezachorobe;
     @Column(name = "zasilek")
     private double zasilek;
+    @Column(name = "opiekadziecko")
+    private double opiekadziecko;
     @JoinColumn(name = "kalendarzwzor", referencedColumnName = "id")
     @ManyToOne
     private Kalendarzwzor kalendarzwzor;
@@ -198,6 +200,7 @@ public class Dzien implements Serializable {
         this.urlopbezplatny = dzienwzor.urlopbezplatny;
         this.wynagrodzeniezachorobe = dzienwzor.wynagrodzeniezachorobe;
         this.zasilek = dzienwzor.zasilek;
+        this.opiekadziecko = dzienwzor.opiekadziecko;
         this.kalendarzmiesiac = kalendarzmiesiac;
     }
     
@@ -217,6 +220,7 @@ public class Dzien implements Serializable {
         this.urlopbezplatny = dzienwzor.urlopbezplatny;
         this.wynagrodzeniezachorobe = dzienwzor.wynagrodzeniezachorobe;
         this.zasilek = dzienwzor.zasilek;
+        this.opiekadziecko = dzienwzor.opiekadziecko;
         this.kalendarzwzor = kalendarzwzor;
     }
 
@@ -243,7 +247,7 @@ public class Dzien implements Serializable {
     }
     @Override
     public String toString() {
-        return "Dzien{" + "nrdnia=" + nrdnia + ", typdnia=" + typdnia + ", normagodzin=" + normagodzin + ", przepracowano=" + przepracowano + ", piecdziesiatki=" + piecdziesiatki + ", setki=" + setki + ", poranocna=" + poranocna + ", kod=" + kod + '}';
+        return "Dzien{" + "data=" + datastring + ", nrdnia=" + nrdnia + ", typdnia=" + typdnia + ", normagodzin=" + normagodzin + ", przepracowano=" + przepracowano + ", piecdziesiatki=" + piecdziesiatki + ", setki=" + setki + ", poranocna=" + poranocna + ", kod=" + kod + '}';
     }
     
     public Integer getId() {
@@ -445,6 +449,14 @@ public class Dzien implements Serializable {
         this.zasilek = zasilek;
     }
 
+    public double getOpiekadziecko() {
+        return opiekadziecko;
+    }
+
+    public void setOpiekadziecko(double opiekadziecko) {
+        this.opiekadziecko = opiekadziecko;
+    }
+
     void nanies(Dzien dzienwzor) {
         this.nrdnia = dzienwzor.nrdnia;
         this.datastring = dzienwzor.datastring;
@@ -458,6 +470,7 @@ public class Dzien implements Serializable {
         this.zasilek = 0;
         this.urlopPlatny = 0.0;
         this.urlopbezplatny = 0.0;
+        this.opiekadziecko = 0.0;
         this.kod = null;
     }
     
@@ -468,6 +481,7 @@ public class Dzien implements Serializable {
         this.zasilek = 0;
         this.urlopPlatny = 0.0;
         this.urlopbezplatny = 0.0;
+        this.opiekadziecko = 0.0;
         this.kod = null;
     }
 

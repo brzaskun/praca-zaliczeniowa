@@ -58,6 +58,10 @@ public class Rodzajnieobecnosci implements Serializable {
     @Size(max = 1)
     @Column(name = "redukcjawyn")
     private Character redukcjawyn;
+    @Column(name = "nieskladkowy")
+    private boolean nieskladkowy;
+    @Column(name = "dnikalendarzowe")
+    private boolean dnikalendarzowe;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "rodzajnieobecnosci")
     private List<Swiadczeniekodzus> swiadczeniekodzusList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "rodzajnieobecnosci")
@@ -113,6 +117,22 @@ public class Rodzajnieobecnosci implements Serializable {
 
     public void setRedukcjawyn(Character redukcjawyn) {
         this.redukcjawyn = redukcjawyn;
+    }
+
+    public boolean isNieskladkowy() {
+        return nieskladkowy;
+    }
+
+    public void setNieskladkowy(boolean nieskladkowy) {
+        this.nieskladkowy = nieskladkowy;
+    }
+
+    public boolean isDnikalendarzowe() {
+        return dnikalendarzowe;
+    }
+
+    public void setDnikalendarzowe(boolean dnikalendarzowe) {
+        this.dnikalendarzowe = dnikalendarzowe;
     }
 
    

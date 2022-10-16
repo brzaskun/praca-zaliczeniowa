@@ -94,6 +94,8 @@ private static final long serialVersionUID = 1L;
     private double choroba;
     @Column(name="zasilek")
     private double zasilek;
+    @Column(name="opiekadziecko")
+    private double opiekadziecko;
     @Column(name="piecdziesiatka")
     private double piecdziesiatka;
     @Column(name="setka")
@@ -670,6 +672,14 @@ private static final long serialVersionUID = 1L;
         this.poranocna = poranocna;
     }
 
+    public double getOpiekadziecko() {
+        return opiekadziecko;
+    }
+
+    public void setOpiekadziecko(double opiekadziecko) {
+        this.opiekadziecko = opiekadziecko;
+    }
+
     
     
     public int naniesnieobecnosc(Nieobecnosc p) {
@@ -708,7 +718,12 @@ private static final long serialVersionUID = 1L;
                 dzienaktualny.setPrzepracowano(0);
                 dzienaktualny.setKod(kod);
                 p.setNaniesiona(true);
-            } else if (kod.equals("Z")) {
+            } else if (kod.equals("Z_1")) {
+                dzienaktualny.setOpiekadziecko(dzienaktualny.getNormagodzin());
+                dzienaktualny.setPrzepracowano(0);
+                dzienaktualny.setKod(kod);
+                p.setNaniesiona(true);
+            }  else if (kod.equals("Z")) {
                 if (p.isPonpiatek()) {
                     if (dzienaktualny.getTypdnia()==0) {
                         dzienaktualny.setKod(kod);

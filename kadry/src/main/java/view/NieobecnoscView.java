@@ -322,7 +322,7 @@ public class NieobecnoscView  implements Serializable {
                             if (znaleziony != null) {
                                 if (nieobecnosc.getRokod().equals(wpisView.getRokWpisu()) || nieobecnosc.getRokdo().equals(wpisView.getRokWpisu())) {
                                     int dniroboczenieobecnosci = znaleziony.naniesnieobecnosc(nieobecnosc);
-                                    if (!nieobecnosc.isImportowana()) {
+                                    if (dniroboczenieobecnosci>0) {
                                         nieobecnosc.setDniroboczenieobecnosci(nieobecnosc.getDniroboczenieobecnosci()+dniroboczenieobecnosci);
                                     }
                                 }

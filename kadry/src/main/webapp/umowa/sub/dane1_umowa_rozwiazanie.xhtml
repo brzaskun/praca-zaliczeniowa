@@ -15,8 +15,8 @@
                              rowKey="#{itemumowa.id}" sortBy="#{itemumowa.dataod}" sortMode="single"
                              style="height: 220px; overflow-y: scroll; width: 1800px;"
                              >
-                    <p:ajax event="rowSelect" listener="#{rozwiazanieumowyView.pobierzRozwiazanie()}" update="akordeon:RozwiazaniaNowyForm akordeon:RozwiazaniaListForm" partialSubmit="true" global="false" />
-                    <p:ajax event="rowSelectRadio" listener="#{rozwiazanieumowyView.pobierzRozwiazanie()}" update="akordeon:RozwiazaniaNowyForm akordeon:RozwiazaniaListForm"  partialSubmit="true" global="false"/>
+                    <p:ajax event="rowSelect" listener="#{rozwiazanieumowyView.pobierzRozwiazanie()}" update="akordeon:RozwiazaniaNowyForm akordeon:RozwiazaniaListForm akordeon:SwiadectwoForm" partialSubmit="true" global="false" />
+                    <p:ajax event="rowSelectRadio" listener="#{rozwiazanieumowyView.pobierzRozwiazanie()}" update="akordeon:RozwiazaniaNowyForm akordeon:RozwiazaniaListForm akordeon:SwiadectwoForm"  partialSubmit="true" global="false"/>
                     <p:column width="40" selectionMode="single" selectRow="true" style="text-align: center;"/>
                     <p:column width="80" style="text-align: center;">
                         <f:facet name="header">
