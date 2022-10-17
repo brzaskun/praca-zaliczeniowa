@@ -689,7 +689,7 @@ public class BankImportView implements Serializable {
     private Konto ustawkonto(ImportBankWiersz p, List<BankImportWzory> zasady ) {
         Konto zwrot = null;
         if (kliencifk!=null&&!kliencifk.isEmpty()) {
-            Kliencifk szukanyklient = kliencifkmapa.get(p.getIBAN().toUpperCase());
+                Kliencifk szukanyklient = kliencifkmapa.get(p.getIBAN().toUpperCase());
             if (szukanyklient == null) {
                 for (Kliencifk r: kliencifk) {
                     if (r.getBanksymbol().equals(p.getIBAN().toUpperCase())) {

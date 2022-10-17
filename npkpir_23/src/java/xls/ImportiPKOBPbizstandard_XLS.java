@@ -116,6 +116,8 @@ public class ImportiPKOBPbizstandard_XLS implements Serializable {
                                 int rozm = rachunek.length();
                                 rachunek = rachunek.substring(rozm-32, rozm);
                                 rachunek = rachunek.replace(" ", "").trim();
+                            } else if (rachunek.length()==32){
+                                //
                             } else {
                                 rachunek = null;
                             }

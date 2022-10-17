@@ -44,7 +44,7 @@ public class ImportPekao24_CSV implements Serializable {
             ByteArrayInputStream file = new ByteArrayInputStream(pobrane);
             if (pobrane != null) {
                 //Iterable<CSVRecord> recordss = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(Files.newBufferedReader(pathToFile,Charset.forName("UTF-8")));
-                Iterable<CSVRecord> recordss = CSVFormat.newFormat(';').withFirstRecordAsHeader().parse(new com.google.gdata.util.io.base.UnicodeReader(file, ("UTF-8")));
+                Iterable<CSVRecord> recordss = CSVFormat.newFormat(';').withQuote('"').withFirstRecordAsHeader().parse(new com.google.gdata.util.io.base.UnicodeReader(file, ("UTF-8")));
                 int i = 0;
                 ImportBankWiersz y = new ImportBankWiersz();
                 for (CSVRecord record : recordss) {
