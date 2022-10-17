@@ -327,10 +327,18 @@ public class PlanKontFKBean {
         KontopozycjaZapis kontopozycjamacierzysta = null;
         try {
             Konto macierzyste = noweKonto.getKontomacierzyste();
-            kontopozycjamacierzysta = kontopozycjaZapisDAO.findByKonto(macierzyste, ukladBR);
-            if (macierzyste != null && !kontopozycjamacierzysta.getSyntetykaanalityka().equals("analityka")) {
-                if (kontopozycjamacierzysta != null) {
+            if (macierzyste != null) {
+                kontopozycjamacierzysta = kontopozycjaZapisDAO.findByKonto(macierzyste, ukladBR);
+                if (kontopozycjamacierzysta != null && kontopozycjamacierzysta.getSyntetykaanalityka().equals("zwykle")) {
                     naniesPrzyporzadkowaniePojedynczeKonto(kontopozycjamacierzysta, noweKonto, kontopozycjaZapisDAO, kontoDAOfk, "syntetyka", ukladBR);
+                } else if (kontopozycjamacierzysta != null && kontopozycjamacierzysta.getSyntetykaanalityka().equals("rozrachunkowe/vat")) {
+                    naniesPrzyporzadkowaniePojedynczeKonto(kontopozycjamacierzysta, noweKonto, kontopozycjaZapisDAO, kontoDAOfk, "rozrachunkowe/vat", ukladBR);
+                } else if (kontopozycjamacierzysta != null && kontopozycjamacierzysta.getSyntetykaanalityka().equals("szczególne")) {
+                    naniesPrzyporzadkowaniePojedynczeKonto(kontopozycjamacierzysta, noweKonto, kontopozycjaZapisDAO, kontoDAOfk, "szczególne", ukladBR);
+                } else if (kontopozycjamacierzysta != null && kontopozycjamacierzysta.getSyntetykaanalityka().equals("analityka")) {
+                    naniesPrzyporzadkowaniePojedynczeKonto(kontopozycjamacierzysta, noweKonto, kontopozycjaZapisDAO, kontoDAOfk, "zwykle", ukladBR);
+                } else if (kontopozycjamacierzysta != null && kontopozycjamacierzysta.getSyntetykaanalityka().equals("wynikowe")) {
+                    naniesPrzyporzadkowaniePojedynczeKonto(kontopozycjamacierzysta, noweKonto, kontopozycjaZapisDAO, kontoDAOfk, "wynikowe", ukladBR);
                 }
             } else {
                 kontopozycjamacierzysta = kontopozycjaZapisDAO.findByKonto(noweKonto, ukladBR);
