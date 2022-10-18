@@ -1219,6 +1219,21 @@ public class PdfMain {
                     col[6] = 2;
                     col[7] = 2;
                     return col;
+                } else if (modyfikator == 3){ 
+                    //PdfKontoZapisy drukujzapisyKompakt
+                    col = new int[size];
+                    col[0] = 1;
+                    col[1] = 3;
+                    col[2] = 3;
+                    col[3] = 2;
+                    col[4] = 3;
+                    col[5] = 7;
+                    col[6] = 3;
+                    col[7] = 3;
+                    col[8] = 3;
+                    col[9] = 2;
+                    col[10] = 2;
+                    return col;
                 } else {
                     //PdfKontoZapisy drukujzapisyKompakt
                     col = new int[size];
@@ -2667,6 +2682,48 @@ public class PdfMain {
                             table.addCell(r);
                         }
                     }
+                } else if (modyfikator == 3) {
+                    //PdfKontoZapisy drukujzapisyKompakt
+                    StronaWiersza p = (StronaWiersza) it.next();
+                    table.addCell(ustawfrazeAlign(String.valueOf(i++), "center", 7));
+                    try {
+                    if (p.getDokfk() != null && p.getDokfk().getRodzajedok() != null && p.getDokfk().getRodzajedok().getKategoriadokumentu()==0) {
+                        table.addCell(ustawfrazeAlign(p.getDataWierszaPelna(), "center", 7));
+                    } else {
+                        table.addCell(ustawfrazeAlign(p.getDataOperacji(), "center", 7));
+                    }
+                    } catch (Exception e) {
+                        table.addCell(ustawfrazeAlign("", "center", 7));
+                    }
+                    table.addCell(ustawfrazeAlign(p.getDokfkS(), "center", 7));
+                    table.addCell(ustawfrazeAlign(p.getIdporzadkowy() > 0 ? p.getIdporzadkowy(): "", "center", 7));
+                    table.addCell(ustawfrazeAlign(p.getNumerwlasnydokfk(), "left", 7));
+                    table.addCell(ustawfrazeAlign(p.getOpisWiersza(34), "left", 7));
+                    if (p.getOpisWiersza(34).contains("suma") || p.getOpisWiersza(34).contains("saldo ")) {
+                       table.addCell(ustawfrazeAlign("", "right", 7));
+                    } else {
+                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwota())), "right", 7));
+                    }
+                    if (p.isWn()) {
+                        if (p.getOpisWiersza(34).contains("suma ") || p.getOpisWiersza(34).contains("saldo ")) {
+                             table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwota())), "right", 7));
+                        } else {
+                            table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getPozostaloZapisynakoncie())), "right", 7));
+                        }
+                    } else {
+                        table.addCell(ustawfrazeAlign("", "right", 7));
+                    }
+                    if (p.isWn()) {
+                        table.addCell(ustawfrazeAlign("", "right", 7));
+                    } else {
+                        if (p.getOpisWiersza(34).contains("suma ") || p.getOpisWiersza(34).contains("saldo ")) {
+                             table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwota())), "right", 7));
+                        } else {
+                            table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getPozostaloZapisynakoncie())), "right", 7));
+                        }
+                    }
+                    table.addCell(ustawfrazeAlign(p.getSymbolWalutPrint(), "center", 7));
+                    table.addCell(ustawfrazeAlign(p.getKontoPrzeciwstawneNumer(), "left", 7));
                 } else {
                     //PdfKontoZapisy drukujzapisyKompakt
                     StronaWiersza p = (StronaWiersza) it.next();

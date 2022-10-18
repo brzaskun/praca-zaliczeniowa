@@ -1217,13 +1217,13 @@ public class KontoZapisFKView implements Serializable{
             if (kontozapisyfiltered != null && kontozapisyfiltered.size() > 0) {
                 sumazapisow();
                 sumazapisowpln();
-                PdfKontoZapisy.drukujzapisy(wpisView, kontozapisyfiltered, wybranekonto, listasum, true);
+                PdfKontoZapisy.drukujzapisy(wpisView, kontozapisyfiltered, wybranekonto, listasum, true, pokaztransakcje);
             } else if (wybranezapisydosumowania != null && wybranezapisydosumowania.size() > 0) {
                 sumazapisow();
                 sumazapisowpln();
-                PdfKontoZapisy.drukujzapisy(wpisView, wybranezapisydosumowania, wybranekonto, listasum, true);
+                PdfKontoZapisy.drukujzapisy(wpisView, wybranezapisydosumowania, wybranekonto, listasum, true, pokaztransakcje);
             } else {
-                PdfKontoZapisy.drukujzapisy(wpisView, kontozapisy, wybranekonto, listasum, true);
+                PdfKontoZapisy.drukujzapisy(wpisView, kontozapisy, wybranekonto, listasum, true, pokaztransakcje);
             }
         } catch (Exception e) {  
             E.e(e);
@@ -1235,13 +1235,13 @@ public class KontoZapisFKView implements Serializable{
             if (kontozapisyfiltered != null && kontozapisyfiltered.size() > 0) {
                 sumazapisow();
                 sumazapisowpln();
-                PdfKontoZapisy.drukujzapisyKompakt(wpisView, kontozapisyfiltered, wybranekonto, listasum, 2, nierenderujkolumnnywalut);
+                PdfKontoZapisy.drukujzapisyKompakt(wpisView, kontozapisyfiltered, wybranekonto, listasum, 2, nierenderujkolumnnywalut, pokaztransakcje);
             } else if (wybranezapisydosumowania != null && wybranezapisydosumowania.size() > 0) {
                 sumazapisow();
                 sumazapisowpln();
-                PdfKontoZapisy.drukujzapisyKompakt(wpisView, wybranezapisydosumowania, wybranekonto, listasum, 2, nierenderujkolumnnywalut);
+                PdfKontoZapisy.drukujzapisyKompakt(wpisView, wybranezapisydosumowania, wybranekonto, listasum, 2, nierenderujkolumnnywalut, pokaztransakcje);
             } else {
-                PdfKontoZapisy.drukujzapisyKompakt(wpisView, kontozapisy, wybranekonto, listasum, 2, nierenderujkolumnnywalut);
+                PdfKontoZapisy.drukujzapisyKompakt(wpisView, kontozapisy, wybranekonto, listasum, 2, nierenderujkolumnnywalut, pokaztransakcje);
             }
         } catch (Exception e) {  
             E.e(e);
@@ -1254,13 +1254,13 @@ public class KontoZapisFKView implements Serializable{
              if (kontozapisyfiltered != null && kontozapisyfiltered.size() > 0) {
                 sumazapisow();
                 sumazapisowpln();
-                PdfKontoZapisy.drukujzapisy(wpisView, kontozapisyfiltered, wybranekonto, listasum, false);
+                PdfKontoZapisy.drukujzapisy(wpisView, kontozapisyfiltered, wybranekonto, listasum, false, pokaztransakcje);
             } else if (wybranezapisydosumowania != null && wybranezapisydosumowania.size() > 0) {
                 sumazapisow();
                 sumazapisowpln();
-                PdfKontoZapisy.drukujzapisy(wpisView, wybranezapisydosumowania, wybranekonto, listasum, false);
+                PdfKontoZapisy.drukujzapisy(wpisView, wybranezapisydosumowania, wybranekonto, listasum, false, pokaztransakcje);
             } else {
-                PdfKontoZapisy.drukujzapisy(wpisView, kontozapisy, wybranekonto, listasum, false);
+                PdfKontoZapisy.drukujzapisy(wpisView, kontozapisy, wybranekonto, listasum, false, pokaztransakcje);
             }
         } catch (Exception e) {  E.e(e);
 

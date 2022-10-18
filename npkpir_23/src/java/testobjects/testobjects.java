@@ -413,10 +413,11 @@ public static List[] getKontoZapisy(List<StronaWiersza> wiersze) {
        n.add("w.");
        n.add("nr własny");
        n.add("opis");
+       n.add("kwota dok.");
        n.add("Wn");  
        n.add("Ma");
        n.add("wal.");
-       n.add("k. przec.");
+       n.add("konto przec.");
        List[] tabela = new List[2];
        tabela[0] = n;
        tabela[1] = wiersze;

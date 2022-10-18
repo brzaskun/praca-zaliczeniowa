@@ -54,7 +54,7 @@ import plik.Plik;
 public class PdfKontoZapisy {
 
     public static void drukujzapisy(WpisView wpisView, List<StronaWiersza> kontozapisy, Konto wybranekonto, List<ListaSum> listasum, 
-            boolean duzy0maly1)  throws DocumentException, FileNotFoundException, IOException {
+            boolean duzy0maly1, boolean pokaztransakcje)  throws DocumentException, FileNotFoundException, IOException {
         Podatnik pod = wpisView.getPodatnikObiekt();
         Konto konto = wybranekonto;
         try {
@@ -92,13 +92,13 @@ public class PdfKontoZapisy {
             table.setWidthPercentage(98);
             if (duzy0maly1 == true) {
                 table.addCell(ustawfraze("Biuro Rachunkowe Taxman", 4, 0));
-                table.addCell(ustawfraze("zapisy, konto "+konto.getPelnynumer()+" "+konto.getNazwapelna(), 5, 0));
-                table.addCell(ustawfraze("firma: "+wpisView.getPodatnikObiekt().getNazwapelnaPDF(), 5, 0));
+                table.addCell(ustawfraze("zapisy, konto "+konto.getPelnynumer()+" "+konto.getNazwapelna(), 4, 0));
+                table.addCell(ustawfraze("firma: "+wpisView.getPodatnikObiekt().getNazwapelnaPDF(), 6, 0));
                 table.addCell(ustawfraze("za okres: "+wpisView.getMiesiacWpisu()+"/"+wpisView.getRokWpisuSt(), 2, 0));
             } else {
                 table.addCell(ustawfraze("Biuro Rachunkowe Taxman", 4, 0));
-                table.addCell(ustawfraze("zapisy, konto "+konto.getPelnynumer()+" "+konto.getNazwapelna(), 4, 0));
-                table.addCell(ustawfraze("firma: "+wpisView.getPodatnikObiekt().getNazwapelnaPDF(), 3, 0));
+                table.addCell(ustawfraze("zapisy, konto "+konto.getPelnynumer()+" "+konto.getNazwapelna(), 3, 0));
+                table.addCell(ustawfraze("firma: "+wpisView.getPodatnikObiekt().getNazwapelnaPDF(), 4, 0));
                 table.addCell(ustawfraze("za okres: "+wpisView.getMiesiacWpisu()+"/"+wpisView.getRokWpisuSt(), 2, 0));
             }
             table.addCell(ustawfraze("lp", 0, 1));
@@ -190,17 +190,23 @@ public class PdfKontoZapisy {
                         }
                     }
                 }
+               double kwotawaluta = rs.getKwota();
+               double kwotapln = rs.getKwotaPLN();
+               if (pokaztransakcje) {
+                   kwotawaluta = rs.getPozostaloZapisynakoncie();
+                   kwotapln = rs.getPozostaloPLNZapisynakoncie();
+               }
                 if (duzy0maly1 == false) {
                     if (rs.getWnma().equals("Wn")) {
-                        table.addCell(ustawfrazeAlign(formatujLiczba(rs.getKwota()), "right", 9));
-                        table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKwotaPLN()), "right", 9));
+                        table.addCell(ustawfrazeAlign(formatujLiczba(kwotawaluta), "right", 9));
+                        table.addCell(ustawfrazeAlign(formatujWaluta(kwotapln), "right", 9));
                         table.addCell(ustawfrazeAlign("", "right", 9));
                         table.addCell(ustawfrazeAlign("", "right", 9));
                     } else {
                         table.addCell(ustawfrazeAlign("", "right", 9));
                         table.addCell(ustawfrazeAlign("", "right", 9));
-                        table.addCell(ustawfrazeAlign(formatujLiczba(rs.getKwota()), "right", 9));
-                        table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKwotaPLN()), "right", 9));
+                        table.addCell(ustawfrazeAlign(formatujLiczba(kwotawaluta), "right", 9));
+                        table.addCell(ustawfrazeAlign(formatujWaluta(kwotapln), "right", 9));
                     }
                     if (rs.getWiersz().getTabelanbp() == null) {
                         table.addCell(ustawfrazeAlign(rs.getSymbolWalutyBO(), "center", 9));
@@ -209,15 +215,15 @@ public class PdfKontoZapisy {
                     }
                 } else {
                     if (rs.getWnma().equals("Wn")) {
-                        table.addCell(ustawfrazeAlign(formatujLiczba(rs.getKwota()), "right", 7));
-                        table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKwotaPLN()), "right", 7));
+                        table.addCell(ustawfrazeAlign(formatujLiczba(kwotawaluta), "right", 7));
+                        table.addCell(ustawfrazeAlign(formatujWaluta(kwotapln), "right", 7));
                         table.addCell(ustawfrazeAlign("", "right", 7));
                         table.addCell(ustawfrazeAlign("", "right", 7));
                     } else {
                         table.addCell(ustawfrazeAlign("", "right", 7));
                         table.addCell(ustawfrazeAlign("", "right", 7));
-                        table.addCell(ustawfrazeAlign(formatujLiczba(rs.getKwota()), "right", 7));
-                        table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKwotaPLN()), "right", 7));
+                        table.addCell(ustawfrazeAlign(formatujLiczba(kwotawaluta), "right", 7));
+                        table.addCell(ustawfrazeAlign(formatujWaluta(kwotapln), "right", 7));
                     }
                     if (rs.getWiersz().getTabelanbp() == null) {
                         table.addCell(ustawfrazeAlign(rs.getSymbolWalutyBO(), "center", 7));
@@ -255,6 +261,7 @@ public class PdfKontoZapisy {
             table.addCell(ustawfrazeAlign("", "left", 7));
             table.addCell(ustawfrazeAlign("", "center", 7));
             table.addCell(ustawfrazeAlign("", "center", 6));
+            table.addCell(ustawfrazeAlign("", "right", 7));
             table.addCell(ustawfrazeAlign("podsumowanie", "left", 6));
             if (duzy0maly1 == true) {
                 table.addCell(ustawfrazeAlign("", "right", 7));
@@ -265,7 +272,7 @@ public class PdfKontoZapisy {
                 table.addCell(ustawfrazeAlign(formatujWaluta(listasum.get(0).getSumaWnPLN()), "right", 7));
                 table.addCell(ustawfrazeAlign(formatujLiczba(listasum.get(0).getSumaMa()), "right", 7));
                 table.addCell(ustawfrazeAlign(formatujWaluta(listasum.get(0).getSumaMaPLN()), "right", 7));
-                table.addCell(ustawfrazeAlign("", "right", 7));
+                
             } else {
                 table.addCell(ustawfrazeAlign(formatujLiczba(listasum.get(0).getSumaWn()), "right", 9));
                 table.addCell(ustawfrazeAlign(formatujWaluta(listasum.get(0).getSumaWnPLN()), "right", 9));
@@ -323,7 +330,7 @@ public class PdfKontoZapisy {
     }
     
     public static void drukujzapisyKompakt(WpisView wpisView, List<StronaWiersza> kontozapisy, Konto wybranekonto, List<ListaSum> listasum, 
-            int opcja, boolean nierenderujkolumnnywalut)  {
+            int opcja, boolean nierenderujkolumnnywalut, boolean pokaztransakcje)  {
         String nazwa = wpisView.getPodatnikObiekt().getNip()+"plankont";
         File file = Plik.plik(nazwa, true);
         if (file.isFile()) {
@@ -349,7 +356,11 @@ public class PdfKontoZapisy {
             if (wybranekonto.getKontomacierzyste()!=null) {
                 PdfMain.dodajLinieOpisuCenter(document, wybranekonto.getNumerNazwaMacierzyste());
             }
-            dodajTabele(document, testobjects.testobjects.getKontoZapisy(nowalista),95,2);
+            if (pokaztransakcje) {
+                dodajTabele(document, testobjects.testobjects.getKontoZapisy(nowalista),95,3);
+            } else {
+                dodajTabele(document, testobjects.testobjects.getKontoZapisy(nowalista),95,2);
+            }
             finalizacjaDokumentuQR(document,nazwa);
             String f = "pokazwydruk('"+nazwa+"');";
             PrimeFaces.current().executeScript(f);

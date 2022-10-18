@@ -267,7 +267,8 @@
                             <h:outputText id="kwotawnwiersz" value="#{loop.wnma eq 'Wn' ? loop.kwota : null}" style="float: right;" rendered="#{kontoZapisFKView.pokaztransakcje eq false}">
                                 <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
                             </h:outputText>
-                            <h:outputText id="kwotawnwiersztr" value="#{loop.wnma eq 'Wn' ? loop.pozostaloZapisynakoncie : null}" style="float: right;#{loop.isNowatransakcja() ? 'color: green': 'color: blue'}" rendered="#{kontoZapisFKView.pokaztransakcje eq true}">
+                            <h:outputText id="kwotawnwiersztr" value="#{loop.wnma eq 'Wn' ? loop.pozostaloZapisynakoncie : null}" style="float: right;#{loop.isNowatransakcja() ? 'color: green': 'color: blue'}" 
+                                          rendered="#{kontoZapisFKView.pokaztransakcje eq true}">
                                 <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
                             </h:outputText>
                         </p:column>
