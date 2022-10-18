@@ -862,7 +862,7 @@ public class FakturaView implements Serializable {
     //to sa te automaty co mialy dodawac doatkowe wiersze z managera
     private void dodajwierszedodatkowe(Faktura faktura, Fakturywystokresowe okresowa) {
         List<Pozycjenafakturzebazadanych> pozycje = faktura.getPozycjenafakturze();
-        if (faktura.isRecznaedycja()) {
+        if (faktura.isRecznaedycja()&&faktura.isBilansowa()==false) {
             int czyjestcosdodatkowego = dodajpozycje(faktura.isLiczodwartoscibrutto(), pozycje, faktura.getKontrahent(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(), okresowa);
             if (czyjestcosdodatkowego==1) {
                 double netto = 0.0;
@@ -958,6 +958,8 @@ public class FakturaView implements Serializable {
                         fakturaDodPozycjaKontrahentDAO.edit(p);
                         zwrot = 1;
                     }
+                } else {
+                    
                 }
             }
         }

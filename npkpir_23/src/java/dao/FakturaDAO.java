@@ -102,8 +102,8 @@ public class FakturaDAO extends DAO implements Serializable {
         List<Faktura> zwrot = null;
          try {
             zwrot = getEntityManager().createNamedQuery("Faktura.findByRokPodatnik").setParameter("rok", rok).setParameter("wystawcanazwa", wystawcanazwa).getResultList();
-        } catch (Exception e) { E.e(e); 
-            
+        } catch (Exception e) { 
+            E.e(e); 
         }
         return zwrot;
     }
@@ -111,7 +111,8 @@ public class FakturaDAO extends DAO implements Serializable {
     public Faktura findOstatniaFakturaByRokPodatnik(String rok, Podatnik wystawcanazwa) {
          try {
             return (Faktura)  getEntityManager().createNamedQuery("Faktura.findOstatniaFakturaByRokPodatnik").setParameter("rok", rok).setParameter("wystawcanazwa", wystawcanazwa).setMaxResults(1).getSingleResult();
-        } catch (Exception e) { E.e(e); 
+        } catch (Exception e) { 
+            E.e(e); 
             return null;
         }
     }
