@@ -394,6 +394,10 @@ public class DochodDlaDRAView implements Serializable {
         List<DraSumy> drasumytabela = przetworzZusdra(dralistatmp);
         List<kadryiplace.Firma> firmy = firmaFacade.findAll();
         for (WierszDRA w : wiersze) {
+            String nip = w.getPodatnikudzial().getPodatnikObj().getNip();
+            if (nip.equals("6692462279")) {
+                System.out.println("");
+            }
             DraSumy znaleziona = drasumytabela.stream().filter(p->p.getPodatnik()!=null&&p.getPodatnik().equals(w.getPodatnikudzial().getPodatnikObj())).findFirst().orElse(null);
             if (znaleziona!=null) {
                 w.setDraSumy(znaleziona);
@@ -477,6 +481,10 @@ public class DochodDlaDRAView implements Serializable {
         if (zusdra!=null) {
             for (DraSumy pobranedrasumy : zusdra) {
                 if (pobranedrasumy!=null && pobranedrasumy.getPodatnik()!=null) {
+                    String nip = pobranedrasumy.getPodatnik().getNip();
+                    if (nip.equals("6692462279")) {
+                        System.out.println("");
+                    }
                     if (pobranedrasumy.getPodatnik()!=null) {
                         if (!nowe.containsKey(pobranedrasumy.getPodatnik().getNip())) {
                             nowe.put(pobranedrasumy.getPodatnik().getNip(), pobranedrasumy);

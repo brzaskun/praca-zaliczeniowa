@@ -357,7 +357,7 @@ public class PdfKontoZapisy {
                 PdfMain.dodajLinieOpisuCenter(document, wybranekonto.getNumerNazwaMacierzyste());
             }
             if (pokaztransakcje) {
-                dodajTabele(document, testobjects.testobjects.getKontoZapisy(nowalista),95,3);
+                dodajTabele(document, testobjects.testobjects.getKontoZapisy3(nowalista),95,3);
             } else {
                 dodajTabele(document, testobjects.testobjects.getKontoZapisy(nowalista),95,2);
             }
