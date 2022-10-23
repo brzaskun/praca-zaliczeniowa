@@ -10,7 +10,7 @@
             <p:dataTable id="datalist" value="#{pracownikAlertyView.listaumowy}" var="itemUmowa" rowIndexVar="yndex"
                          selectionMode="single" 
                          rowKey="#{itemUmowa.id}"  sortBy="#{itemUmowa.datado}"
-                         style="height: 550px; overflow-y: scroll;width: 700px;"
+                         style="height: 550px; overflow-y: scroll;width: 960px;"
                          rowsPerPageTemplate="20,100,250,500" paginatorPosition="top" paginator="true" rows="20"
                          emptyMessage="Nie pobrano listy"
                          >
@@ -36,19 +36,31 @@
                     <h:outputText value="umowa o pracę" rendered="#{itemUmowa.umowakodzus.praca}"/>
                     <h:outputText value="umowa zlecenia" rendered="#{itemUmowa.umowakodzus.zlecenie}"/>
                 </p:column>
-                <p:column width="60" style="text-align: center;" sortBy="#{itemUmowa.datado}" sortOrder="desc">
+                <p:column width="100" >
+                    <f:facet name="header">
+                        <h:outputText value="czas trwania"/>
+                    </f:facet>
+                    <h:outputText value="#{itemUmowa.czastrwania}"/>
+                </p:column>
+                <p:column width="70" style="text-align: center;" sortBy="#{itemUmowa.dataod}" sortOrder="desc">
+                    <f:facet name="header">
+                        <h:outputText value="data od"/>
+                    </f:facet>
+                    <h:outputText value="#{itemUmowa.dataod}"/>
+                </p:column>
+                <p:column width="70" style="text-align: center;" sortBy="#{itemUmowa.datado}" sortOrder="desc">
                     <f:facet name="header">
                         <h:outputText value="data do"/>
                     </f:facet>
                     <h:outputText value="#{itemUmowa.datado}"/>
                 </p:column>
-                <p:column width="60" style="text-align: center;">
+                <p:column width="70" style="text-align: center;">
                     <f:facet name="header">
                         <h:outputText value="data przypomnienia"/>
                     </f:facet>
                     <h:outputText value="#{itemUmowa.dataprzypomnienia}"/>
                 </p:column>
-                <p:column width="60" style="text-align: center;">
+                <p:column width="70" style="text-align: center;">
                     <f:facet name="header">
                         <h:outputText value="data mail"/>
                     </f:facet>

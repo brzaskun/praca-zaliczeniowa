@@ -1099,6 +1099,25 @@ public class Pasekwynagrodzen implements Serializable {
         return zwrot;
     }
 
+    public Skladnikwynagrodzenia pobierzzasadnicze() {
+        Skladnikwynagrodzenia zwrot = null;
+        if (this.naliczenieskladnikawynagrodzeniaList!=null) {
+            if (this.naliczenieskladnikawynagrodzeniaList.size()==1) {
+                zwrot = this.naliczenieskladnikawynagrodzeniaList.get(0).getSkladnikwynagrodzenia();
+            } else {
+                for(Naliczenieskladnikawynagrodzenia p : this.naliczenieskladnikawynagrodzeniaList) {
+                    Skladnikwynagrodzenia skladnikwynagrodzenia = p.getSkladnikwynagrodzenia();
+                    if (skladnikwynagrodzenia.getRodzajwynagrodzenia().getOpispelny().equals("Wynagrodzenie zasadnicze")) {
+                        zwrot = skladnikwynagrodzenia;
+                        break;
+                    }
+                }
+            }
+        }
+        return zwrot;
+    }
+
+   
     
 
     public class Skladnikwynlista {

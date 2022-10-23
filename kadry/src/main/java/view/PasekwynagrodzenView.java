@@ -261,7 +261,7 @@ public class PasekwynagrodzenView implements Serializable {
                         paskidowyliczeniapodstawy = pobierzpaskidosredniej(pracownikmc);
                         historiawynagrodzen = wynagrodzeniahistoryczneFacade.findByAngaz(pracownikmc.getUmowa().getAngaz());
                     }
-                    double sumapoprzednich = PasekwynagrodzenBean.sumaprzychodowpoprzednich(pasekwynagrodzenFacade, pracownikmc, stawkipodatkowe.get(1).getKwotawolnaod());
+                    double sumapoprzednich = PasekwynagrodzenBean.sumapodstawaopodpopmce(pasekwynagrodzenFacade, pracownikmc, stawkipodatkowe.get(1).getKwotawolnaod());
                     double wynagrodzenieminimalne = wynagrodzenieminimalneFacade.findByRok(Data.getRok(datawyplaty)).getKwotabrutto();
                     //zeby nei odoliczyc kwoty wolnej dwa razy
                     boolean czyodlicoznokwotewolna = PasekwynagrodzenBean.czyodliczonokwotewolna(pracownikmc.getRok(), pracownikmc.getMc(), pracownikmc.getUmowa().getAngaz(), pasekwynagrodzenFacade);

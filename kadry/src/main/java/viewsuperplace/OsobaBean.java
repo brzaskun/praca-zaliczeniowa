@@ -316,6 +316,7 @@ public class OsobaBean {
             }
         }
         if (!zwrot.isEmpty()) {
+            
             List<Skladnikwynagrodzenia> single = new ArrayList<>();
             for (Skladnikwynagrodzenia s : zwrot) {
                 if (!single.contains(s)) {
@@ -325,10 +326,11 @@ public class OsobaBean {
                     Skladnikwynagrodzenia pobrany = single.get(single.indexOf(s));
                     List<Zmiennawynagrodzenia> nowezmienne = s.getZmiennawynagrodzeniaList();
                     for (Zmiennawynagrodzenia r : nowezmienne) {
-                        r.setSkladnikwynagrodzenia(pobrany);
+                        if (zmiennaWynagrodzeniaFacade.findByDataSkladnik(r)==false) {
+                            r.setSkladnikwynagrodzenia(pobrany);
+                            zmiennaWynagrodzeniaFacade.edit(r);
+                        }
                     }
-                    pobrany.getZmiennawynagrodzeniaList().addAll(nowezmienne);
-                    skladnikWynagrodzeniaFacade.edit(pobrany);
                 }
             }
             zwrot = single;
@@ -578,11 +580,13 @@ public class OsobaBean {
                             }
                         }
                         wiersz.setKwota(Z.z(t.getSsoNumeric().doubleValue()));
-                        if (wiersz.getKwota()!=0.0) {
-                            skladnikwynagrodzenia.getZmiennawynagrodzeniaList().add(wiersz);
-                        } else if (osobaSkl.getOssSsdSerial1()!=null) {
-                            wiersz.setMinimalneustatowe(true);
-                            skladnikwynagrodzenia.getZmiennawynagrodzeniaList().add(wiersz);
+                        if (zmiennaWynagrodzeniaFacade.findByDataSkladnik(wiersz)==false) {
+                            if (wiersz.getKwota()!=0.0) {
+                                skladnikwynagrodzenia.getZmiennawynagrodzeniaList().add(wiersz);
+                            } else if (osobaSkl.getOssSsdSerial1()!=null) {
+                                wiersz.setMinimalneustatowe(true);
+                                skladnikwynagrodzenia.getZmiennawynagrodzeniaList().add(wiersz);
+                            }
                         }
                     }
                 }
@@ -599,11 +603,13 @@ public class OsobaBean {
                     wiersz.setAktywna(true);
                 }
                 wiersz.setKwota(Z.z(osobaSkl.getOssKwota().doubleValue()));
-                if (wiersz.getKwota()!=0.0) {
-                    skladnikwynagrodzenia.getZmiennawynagrodzeniaList().add(wiersz);
-                } else if (osobaSkl.getOssSsdSerial1()!=null) {
-                    wiersz.setMinimalneustatowe(true);
-                    skladnikwynagrodzenia.getZmiennawynagrodzeniaList().add(wiersz);
+                if (zmiennaWynagrodzeniaFacade.findByDataSkladnik(wiersz)==false) {
+                    if (wiersz.getKwota()!=0.0) {
+                        skladnikwynagrodzenia.getZmiennawynagrodzeniaList().add(wiersz);
+                    } else if (osobaSkl.getOssSsdSerial1()!=null) {
+                        wiersz.setMinimalneustatowe(true);
+                        skladnikwynagrodzenia.getZmiennawynagrodzeniaList().add(wiersz);
+                    }
                 }
             }
         }
@@ -698,7 +704,8 @@ public class OsobaBean {
                         Short lplDniPrzepr = r.getLplDniPrzepr();
                         historycznenaliczeniewynagrodzenia(placeSklList, nowypasek, skladnikwynagrodzenia, lplDniObow, lplDniPrzepr);
                         List<PlacePrz>  placePrzList = r.getPlacePrzList();
-                        historycznenaliczenienieobecnosc(placePrzList, nowypasek, nieobecnoscilista);
+                        Skladnikwynagrodzenia zasadnicze = nowypasek.pobierzzasadnicze();
+                        historycznenaliczenienieobecnosc(placePrzList, nowypasek, nieobecnoscilista, zasadnicze);
                         List<PlacePot>  placePotList = r.getPlacePotList();
                         historycznenaliczeniepotracenie(placePotList, nowypasek, skladnikpotracenia);
                         Pasekwynagrodzen.pasekuzupelnianie(nowypasek, r, datakonca26lat);
@@ -769,7 +776,7 @@ public class OsobaBean {
         }
     }
     
-    static void historycznenaliczenienieobecnosc(List<PlacePrz> placePrzList, Pasekwynagrodzen pasekwynagrodzen, List<Nieobecnosc> nieobecnoscilista) {
+    static void historycznenaliczenienieobecnosc(List<PlacePrz> placePrzList, Pasekwynagrodzen pasekwynagrodzen, List<Nieobecnosc> nieobecnoscilista, Skladnikwynagrodzenia zasadnicze) {
         for (PlacePrz p : placePrzList) {
             Naliczenienieobecnosc naliczenienieobecnosc = new Naliczenienieobecnosc();
             naliczenienieobecnosc.setNieobecnosc(historiawyszukajnieobecnosci(p, nieobecnoscilista));
@@ -780,6 +787,7 @@ public class OsobaBean {
             naliczenienieobecnosc.setKwota(p.getPrzKwota().doubleValue());
             naliczenienieobecnosc.setKwotabezzus(p.getPrzKwota().doubleValue());
             naliczenienieobecnosc.setPasekwynagrodzen(pasekwynagrodzen);
+            naliczenienieobecnosc.setSkladnikwynagrodzenia(zasadnicze);
             pasekwynagrodzen.setBruttobezzus(Z.z(pasekwynagrodzen.getBruttobezzus()+p.getPrzKwota().doubleValue()));
             pasekwynagrodzen.getNaliczenienieobecnoscList().add(naliczenienieobecnosc);
         }

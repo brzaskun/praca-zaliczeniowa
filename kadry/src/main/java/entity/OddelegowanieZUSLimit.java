@@ -111,5 +111,10 @@ public class OddelegowanieZUSLimit implements Serializable {
         return true;
     }
 
+    @Override
+    public String toString() {
+        return "OddelegowanieZUSLimit{" + "kwota=" + kwota + ", rok=" + rok + '}';
+    }
+
      
 }

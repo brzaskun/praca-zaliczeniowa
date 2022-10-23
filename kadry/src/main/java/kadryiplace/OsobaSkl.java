@@ -744,7 +744,7 @@ public class OsobaSkl implements Serializable {
 
     @Override
     public String toString() {
-        return "OsobaSkl{" + "ossSerial=" + ossSerial + ", ossDataOd=" + ossDataOd + ", ossDataDo=" + ossDataDo + ", ossKwota=" + ossKwota + ", ossStatus=" + ossStatus + ", ossTyp=" + ossTyp + ", ossAktywna=" + ossAktywna + ", ossDod1=" + ossDod1 + ", ossRodzaj=" + ossRodzaj + ", ossTyp3=" + ossTyp3 + '}';
+        return "OsobaSkl{ nazwa"+ ossWksSerial.getWksOpis() + "ossSerial=" + ossSerial + ", ossDataOd=" + ossDataOd + ", ossDataDo=" + ossDataDo + ", ossKwota=" + ossKwota + ", ossStatus=" + ossStatus + ", ossTyp=" + ossTyp + ", ossAktywna=" + ossAktywna + ", ossDod1=" + ossDod1 + ", ossRodzaj=" + ossRodzaj + ", ossTyp3=" + ossTyp3 + '}';
     }
 
    

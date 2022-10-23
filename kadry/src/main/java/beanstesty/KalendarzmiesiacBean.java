@@ -186,7 +186,7 @@ public class KalendarzmiesiacBean {
             for (Nieobecnosc nieobecnosc : nieobecnosclista) {
                String kod = nieobecnosc.getKod();
                if (kod.equals("313")) {
-                    //wynagrodzenie za czas niezdolnosci od pracy
+                    //zasilek chorobowy
                     naliczskladnikiwynagrodzeniazaChorobe(kalendarz, nieobecnosc, pasekwynagrodzen);
                 } else if (kod.equals("331")) {
                     //wynagrodzenie za czas niezdolnosci od pracy
@@ -309,6 +309,8 @@ public class KalendarzmiesiacBean {
                 if (naliczenieskladnikawynagrodzenia.getKwotaumownazacalymc()!=0.0) {
                     pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().add(naliczenieskladnikawynagrodzenia);
                 }
+            } else {
+                System.out.println("Nie ma formuly naliczenia skladnika wynagrodzzenia "+p.getRodzajwynagrodzenia().getOpisskrocony());
             }
         }
         return jestoddelegowanie;
@@ -386,17 +388,17 @@ public class KalendarzmiesiacBean {
     static void naliczskladnikiwynagrodzeniazaChorobe(Kalendarzmiesiac kalendarz, Nieobecnosc nieobecnosc, Pasekwynagrodzen pasekwynagrodzen) {
         double liczbagodzinchoroby = 0.0;
         double liczbagodzinobowiazku = 0.0;
-        int dzienod = Data.getDzienI(nieobecnosc.getDataod());
-        int dziendo = Data.getDzienI(nieobecnosc.getDatado());
+        String pierwszydzienmiesiaca = Data.pierwszyDzienKalendarz(kalendarz);
+        String ostatnidzienmiesiaca = Data.ostatniDzienKalendarz(kalendarz);
+        String dataod = Data.czyjestpo(pierwszydzienmiesiaca, nieobecnosc.getDataod())?nieobecnosc.getDataod():pierwszydzienmiesiaca;
+        String datado = Data.czyjestprzed(ostatnidzienmiesiaca, nieobecnosc.getDatado())?nieobecnosc.getDatado():ostatnidzienmiesiaca;
+        int dzienod = Data.getDzienI(dataod);
+        int dziendo = Data.getDzienI(datado);
         for (Dzien p : kalendarz.getDzienList()) {
             if (p.getTypdnia()==0 && p.getNrdnia()>=dzienod &&p.getNrdnia()<=dziendo) {
                 liczbagodzinchoroby = liczbagodzinchoroby+p.getWynagrodzeniezachorobe()+p.getZasilek();
             }
         }
-        String pierwszydzienmiesiaca = Data.pierwszyDzienKalendarz(kalendarz);
-        String ostatnidzienmiesiaca = Data.ostatniDzienKalendarz(kalendarz);
-        String dataod = Data.czyjestpo(pierwszydzienmiesiaca, nieobecnosc.getDataod())?nieobecnosc.getDataod():pierwszydzienmiesiaca;
-        String datado = Data.czyjestprzed(ostatnidzienmiesiaca, nieobecnosc.getDatado())?nieobecnosc.getDatado():ostatnidzienmiesiaca;
         double dnikalendarzoweniechoroby = Data.iletodniKalendarzowych(dataod, datado);
         for (Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia : pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList()) {
                 Naliczenienieobecnosc naliczenienieobecnosc = new Naliczenienieobecnosc();

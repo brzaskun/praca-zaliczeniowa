@@ -6,6 +6,7 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,6 +18,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -25,7 +27,9 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Osito
  */
 @Entity
-@Table(name = "zmiennawynagrodzenia")
+@Table(name = "zmiennawynagrodzenia", uniqueConstraints = {
+    @UniqueConstraint(columnNames={"dataod","datado", "skladnikwynagrodzenia"})
+})
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Zmiennawynagrodzenia.findAll", query = "SELECT z FROM Zmiennawynagrodzenia z"),
@@ -35,7 +39,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Zmiennawynagrodzenia.findByKwotastala", query = "SELECT z FROM Zmiennawynagrodzenia z WHERE z.kwota = :kwota"),
     @NamedQuery(name = "Zmiennawynagrodzenia.findByNazwa", query = "SELECT z FROM Zmiennawynagrodzenia z WHERE z.nazwa = :nazwa"),
     @NamedQuery(name = "Zmiennawynagrodzenia.findByUmowa", query = "SELECT z FROM Zmiennawynagrodzenia z WHERE z.skladnikwynagrodzenia.umowa = :umowa"),
-    @NamedQuery(name = "Zmiennawynagrodzenia.findBySkladnik", query = "SELECT z FROM Zmiennawynagrodzenia z WHERE z.skladnikwynagrodzenia = :skladnikwynagrodzenia")
+    @NamedQuery(name = "Zmiennawynagrodzenia.findBySkladnik", query = "SELECT z FROM Zmiennawynagrodzenia z WHERE z.skladnikwynagrodzenia = :skladnikwynagrodzenia"),
+    @NamedQuery(name = "Zmiennawynagrodzenia.findByDataSkladnik", query = "SELECT z FROM Zmiennawynagrodzenia z WHERE z.skladnikwynagrodzenia.rodzajwynagrodzenia = :rodzajwynagrodzenia AND z.dataod = :dataod AND z.datado = :datado"),
+    @NamedQuery(name = "Zmiennawynagrodzenia.findByDataSkladnikNull", query = "SELECT z FROM Zmiennawynagrodzenia z WHERE z.skladnikwynagrodzenia.rodzajwynagrodzenia = :rodzajwynagrodzenia AND z.dataod = :dataod AND z.datado IS NULL")
 })
 public class Zmiennawynagrodzenia implements Serializable {
 
@@ -92,6 +98,19 @@ public class Zmiennawynagrodzenia implements Serializable {
         this.skladnikwynagrodzenia = skladnik;
         this.waluta = "PLN";
     }
+
+
+    public Zmiennawynagrodzenia(Zmiennawynagrodzenia r) {
+        this.datado = r.getDatado();
+        this.dataod = r.getDataod();
+        this.nazwa = r.getNazwa();
+        this.waluta = r.getWaluta();
+        this.netto0brutto1 = r.isNetto0brutto1();
+        this.skladnikwynagrodzenia = r.getSkladnikwynagrodzenia();
+        this.kwota = r.getKwota();
+        this.aktywna = r.isAktywna();
+        this.minimalneustatowe = r.isMinimalneustatowe();
+    }
     
     
 
@@ -103,26 +122,44 @@ public class Zmiennawynagrodzenia implements Serializable {
         this.id = id;
     }
 
-
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        int hash = 7;
+        hash = 83 * hash + Objects.hashCode(this.id);
+        hash = 83 * hash + Objects.hashCode(this.datado);
+        hash = 83 * hash + Objects.hashCode(this.dataod);
+        hash = 83 * hash + Objects.hashCode(this.skladnikwynagrodzenia);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Zmiennawynagrodzenia)) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
             return false;
         }
-        Zmiennawynagrodzenia other = (Zmiennawynagrodzenia) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Zmiennawynagrodzenia other = (Zmiennawynagrodzenia) obj;
+        if (!Objects.equals(this.datado, other.datado)) {
+            return false;
+        }
+        if (!Objects.equals(this.dataod, other.dataod)) {
+            return false;
+        }
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        if (!Objects.equals(this.skladnikwynagrodzenia, other.skladnikwynagrodzenia)) {
             return false;
         }
         return true;
     }
+
+
 
     @Override
     public String toString() {

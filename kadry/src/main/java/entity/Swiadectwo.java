@@ -46,6 +46,8 @@ public class Swiadectwo implements Serializable {
     @NotNull
     @JoinColumn(name = "rozwiazanieumowy", referencedColumnName = "id")
     private Rozwiazanieumowy rozwiazanieumowy;
+    @Column(name="infouzupelniajace")
+    private String infouzupelniajace;
 
     public Swiadectwo() {
     }
@@ -85,6 +87,14 @@ public class Swiadectwo implements Serializable {
 
     public void setRozwiazanieumowy(Rozwiazanieumowy rozwiazanieumowy) {
         this.rozwiazanieumowy = rozwiazanieumowy;
+    }
+
+    public String getInfouzupelniajace() {
+        return infouzupelniajace;
+    }
+
+    public void setInfouzupelniajace(String infouzupelniajace) {
+        this.infouzupelniajace = infouzupelniajace;
     }
 
    
