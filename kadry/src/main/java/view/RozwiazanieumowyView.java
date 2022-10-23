@@ -9,6 +9,7 @@ import dao.NieobecnoscFacade;
 import dao.NieobecnoscswiadectwoschemaFacade;
 import dao.RozwiazanieumowyFacade;
 import dao.UmowaFacade;
+import data.Data;
 import entity.Dzien;
 import entity.Nieobecnosc;
 import entity.Nieobecnoscswiadectwoschema;
@@ -26,6 +27,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import msg.Msg;
+import pdf.PdfSwiadectwo;
 
 /**
  *
@@ -98,8 +100,9 @@ public class RozwiazanieumowyView  implements Serializable {
                 swiadectwodni.setNieobecnoscswiadectwoschema(p);
                 swiadectwodni.setDni(dnirobocze);
                 swiadectwodni.setGodziny(godzinyrobocze);
+                swiadectwodni.setCzesci(filter0.size());
                 swiadectwodnilista.add(swiadectwodni);
-                swiadectwodni.setNieobecnoscinieskladkowe(filter0);
+                swiadectwodni.setNieobecnoscilista(filter0);
             }
         }
         return swiadectwodnilista;
@@ -130,6 +133,17 @@ public class RozwiazanieumowyView  implements Serializable {
         }
     }
 
+    public void drukujswiadectwo() {
+        Swiadectwo swiadectwo = new  Swiadectwo();
+        if (selectedlista!=null) {
+            swiadectwo.setDatawystawienia(Data.aktualnaData());
+            swiadectwo.setRozwiazanieumowy(selectedlista);
+            PdfSwiadectwo.drukuj(swiadectwo, dnidoswiadectwa);
+        } else {
+            Msg.msg("e","Brak wypowiedzenia");
+        }
+    }
+    
     public Rozwiazanieumowy getSelectedlista() {
         return selectedlista;
     }

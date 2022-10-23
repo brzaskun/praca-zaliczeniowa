@@ -86,6 +86,8 @@ public class Rozwiazanieumowy implements Serializable {
     @Size(max = 256)
     @Column(name = "przyczyna")
     private String przyczyna;
+    @Column(name = "podstawaprawna")
+    private String podstawaprawna;
     @Column(name = "trybnatychmiastowy")
     private boolean trybnatychmiastowy;
     @Column(name = "zwolnieniezpracy")
@@ -213,6 +215,14 @@ public class Rozwiazanieumowy implements Serializable {
 
     public void setPrzyczyna(String przyczyna) {
         this.przyczyna = przyczyna;
+    }
+
+    public String getPodstawaprawna() {
+        return podstawaprawna;
+    }
+
+    public void setPodstawaprawna(String podstawaprawna) {
+        this.podstawaprawna = podstawaprawna;
     }
 
     public boolean isTrybnatychmiastowy() {

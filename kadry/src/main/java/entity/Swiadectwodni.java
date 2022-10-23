@@ -54,8 +54,10 @@ public class Swiadectwodni implements Serializable {
     private double dni;
     @Column(name = "godziny", precision = 22, scale = 0)
     private double godziny;
+    @Column(name = "czesci")
+    private double  czesci;
     @Transient
-    private List<Nieobecnosc> nieobecnoscinieskladkowe;
+    private List<Nieobecnosc> nieobecnoscilista;
 
     public Swiadectwodni() {
     }
@@ -109,12 +111,20 @@ public class Swiadectwodni implements Serializable {
         this.godziny = godziny;
     }
 
-    public List<Nieobecnosc> getNieobecnoscinieskladkowe() {
-        return nieobecnoscinieskladkowe;
+    public List<Nieobecnosc> getNieobecnoscilista() {
+        return nieobecnoscilista;
     }
 
-    public void setNieobecnoscinieskladkowe(List<Nieobecnosc> nieobecnoscinieskladkowe) {
-        this.nieobecnoscinieskladkowe = nieobecnoscinieskladkowe;
+    public void setNieobecnoscilista(List<Nieobecnosc> nieobecnoscilista) {
+        this.nieobecnoscilista = nieobecnoscilista;
+    }
+
+    public double getCzesci() {
+        return czesci;
+    }
+
+    public void setCzesci(double czesci) {
+        this.czesci = czesci;
     }
 
 

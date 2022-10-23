@@ -17,7 +17,7 @@
                                  >
                         <p:ajax event="rowSelect" partialSubmit="true" global="false" />
                         <p:column width="20" style="text-align: center;">
-                            <p:rowToggler rendered="#{itemsw.nieobecnoscinieskladkowe.size() gt 0}" />
+                            <p:rowToggler rendered="#{itemsw.nieobecnoscilista.size() gt 0}" />
                         </p:column>
                         <p:column width="40" style="text-align: center;">
                             <f:facet name="header">
@@ -62,7 +62,7 @@
                             <h:outputText value="#{itemsw.godziny}"/>
                         </p:column>
                         <p:rowExpansion>
-                            <p:dataTable id="datalistsrednia" value="#{itemsw.nieobecnoscinieskladkowe}" var="itemswnieob1"
+                            <p:dataTable id="datalistsrednia" value="#{itemsw.nieobecnoscilista}" var="itemswnieob1"
                                          rowIndexVar="itemswnieob11" rowKey="#{itemswnieob1.id}"
                                          style="width: 750px;"
                                          >

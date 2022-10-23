@@ -54,7 +54,7 @@ public class Stanowiskoprac implements Serializable {
     private String datado;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 128)
+    @Size(min = 1, max = 256)
     @Column(name = "opis")
     private String opis;
     @Basic(optional = false)

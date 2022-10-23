@@ -85,6 +85,9 @@ public class PdfMain {
     public static Document inicjacjaA4Portrait() {
         return new Document(PageSize.A4, 20, 20, 40, 20);
     }
+    public static Document inicjacjaA4PortraitLean() {
+        return new Document(PageSize.A4, 60, 40, 40, 40);
+    }
     
     public static Document inicjacjaA4Portrait(float left, float right) {
         return new Document(PageSize.A4,left, right, 40, 20);
@@ -101,14 +104,16 @@ public class PdfMain {
        
     private static Font[] czcionki() {
         try {
-            Font[] czcionki = new Font[3];
+            Font[] czcionki = new Font[4];
             BaseFont helvetica = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
-            Font font = new Font(helvetica, 11);
-            Font fontM = new Font(helvetica, 9);
             Font fontS = new Font(helvetica, 5);
+            Font fontM = new Font(helvetica, 9);
+            Font font = new Font(helvetica, 11);
+            Font fontL = new Font(helvetica, 13);
             czcionki[0] = fontS;
             czcionki[1] = fontM;
             czcionki[2] = font;
+            czcionki[3] = fontL;
             return czcionki;
         } catch (DocumentException ex) {
             E.e(ex);
@@ -408,6 +413,17 @@ public class PdfMain {
         try {
             Paragraph opiswstepny = new Paragraph(new Phrase(opis, ft[fontsize]));
             opiswstepny.setAlignment(al);
+            document.add(opiswstepny);
+        } catch (DocumentException ex) {
+            E.e(ex);
+        }
+    }
+     
+     public static void dodajLinieOpisuBezOdstepuWciecie(Document document, String opis, int al, int fontsize) {
+        try {
+            Paragraph opiswstepny = new Paragraph(new Phrase(opis, ft[fontsize]));
+            opiswstepny.setAlignment(al);
+            opiswstepny.setFirstLineIndent(20f);
             document.add(opiswstepny);
         } catch (DocumentException ex) {
             E.e(ex);

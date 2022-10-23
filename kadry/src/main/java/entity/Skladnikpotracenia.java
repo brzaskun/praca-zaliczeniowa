@@ -59,6 +59,8 @@ public class Skladnikpotracenia implements Serializable {
     @JoinColumn(name = "umowa", referencedColumnName = "id")
     @ManyToOne
     private Umowa umowa;
+    @Column(name = "rozliczony")
+    private boolean rozliczony;
 
 
     public Skladnikpotracenia() {
@@ -94,6 +96,14 @@ public class Skladnikpotracenia implements Serializable {
 
     public void setUmowa(Umowa umowa) {
         this.umowa = umowa;
+    }
+
+    public boolean isRozliczony() {
+        return rozliczony;
+    }
+
+    public void setRozliczony(boolean rozliczony) {
+        this.rozliczony = rozliczony;
     }
 
 

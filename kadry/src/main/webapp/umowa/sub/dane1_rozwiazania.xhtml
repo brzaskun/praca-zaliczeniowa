@@ -11,7 +11,7 @@
                 <h:form id="RozwiazaniaListForm">
                     <p:panel header="Wykaz wypowiedzeń umów">
                         <p:dataTable id="datalist" value="#{rozwiazanieumowyView.lista}" var="itemroz"
-                                     selectionMode="single" selection="#{skladnikPotraceniaView.selectedlista}"
+                                     selectionMode="single" selection="#{rozwiazanieumowyView.selectedlista}"
                                      rowKey="#{itemroz.id}" emptyMessage="Brak sporządzonych rozwiązań umowy"
                                      style="height: 150px; overflow-y: scroll;"
                                      >
