@@ -34,7 +34,8 @@
                             <f:selectItems value="#{pasekwynagrodzenView.listadefinicjalistaplac}" 
                                            var="firmalistaItem"
                                            itemValue="#{firmalistaItem}" itemLabel="#{firmalistaItem.opis} #{firmalistaItem.nrkolejny}"/>
-                            <p:ajax event="change" partialSubmit="true" global="false" listener="#{pasekwynagrodzenView.pobierzkalendarzezamcanaliza}" update="PasekwynagrodzenAnalizaForm DefinicjalistaplacAnalizaForm2 PasekwynagrodzenAnalizaForm"/>
+                            <p:ajax event="change" partialSubmit="true" global="false" listener="#{pasekwynagrodzenView.pobierzkalendarzezamcanaliza}" 
+                                    update="PasekwynagrodzenAnalizaForm DefinicjalistaplacAnalizaForm2 PasekwynagrodzenAnalizaForm "/>
                         </p:selectOneMenu>
 
 
@@ -46,7 +47,8 @@
                             <f:selectItems value="#{pasekwynagrodzenView.listakalendarzmiesiacdoanalizy2}" 
                                            var="firmalistaItem"
                                            itemValue="#{firmalistaItem}" itemLabel="#{firmalistaItem.nazwiskoImie}"/>
-                            <p:ajax event="change" partialSubmit="true" global="false" listener="#{pasekwynagrodzenView.pobierzpracownika}" update="PasekwynagrodzenAnalizaForm"/>
+                            <p:ajax event="change" partialSubmit="true" global="false" listener="#{pasekwynagrodzenView.pobierzpracownika}" 
+                                    update="PasekwynagrodzenAnalizaForm DefinicjalistaplacAnalizaForm2 PasekwynagrodzenAnalizaForm "/>
                         </p:selectOneMenu>
                     </h:form>
 <!--                        <p:selectOneMenu id="wybranypracownik" value="#{pasekwynagrodzenView.wybranykalendarz}" required="true" requiredMessage="Wybierz pracownika" converter="#{kalendarzmiesiacConverter}">

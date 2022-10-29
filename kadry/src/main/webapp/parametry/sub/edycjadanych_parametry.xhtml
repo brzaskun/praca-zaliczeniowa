@@ -15,7 +15,7 @@
                                  selectionMode="single" selection="#{rodzjaumowySetView.selectedlista}"
                                  rowKey="#{item111.id}" rowIndexVar="indexumowa" 
                                  scrollable="true" scrollHeight="750" scrollRows="30" 
-                                 style="width: 1700px;"
+                                 style="width: 1750px;"
                                  emptyMessage="Nie pobrano elementów"
                                  >
 
@@ -32,7 +32,7 @@
                             </f:facet>
                             <h:outputText value="#{item111.kod}"/>
                         </p:column>
-                        <p:column width="800" filterBy="#{item111.opis}" filterMatchMode="contains">
+                        <p:column width="750" filterBy="#{item111.opis}" filterMatchMode="contains">
                             <f:facet name="header">
                                 <h:outputText value="opis"/>
                             </f:facet>
@@ -61,6 +61,12 @@
                                 <h:outputText value="pełnienie funkcji"/>
                             </f:facet>
                             <p:selectBooleanCheckbox value="#{item111.funkcja}"/>
+                        </p:column>
+                        <p:column style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="aktywny"/>
+                            </f:facet>
+                            <p:selectBooleanCheckbox value="#{item111.aktywny}"/>
                         </p:column>
                     </p:dataTable>
                     <p:commandButton value="zachowaj" styleClass="buttonnorm" actionListener="#{rodzjaumowySetView.zachowaj}" update="@form"/>

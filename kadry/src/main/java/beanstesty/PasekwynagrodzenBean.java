@@ -95,7 +95,7 @@ public class PasekwynagrodzenBean {
             PasekwynagrodzenBean.obliczpodatekwstepnyZlecenieDB(pasek, stawkipodatkowe, pasek.isNierezydent());
         }
         PasekwynagrodzenBean.ulgapodatkowaDB(pasek, stawkipodatkowe, true);
-        PasekwynagrodzenBean.naliczzdrowota(pasek, pasek.isNierezydent());
+        PasekwynagrodzenBean.naliczzdrowota(pasek, pasek.isNierezydent(), true);
         PasekwynagrodzenBean.obliczpodatekdowplaty(pasek);
         PasekwynagrodzenBean.netto(pasek);
         PasekwynagrodzenBean.potracenia(pasek);
@@ -137,85 +137,13 @@ public class PasekwynagrodzenBean {
         pasek.setMc(definicjalistaplac.getMc());
         boolean jestoddelegowanie = kalendarz.getDnioddelegowania()>0;
         if (umowaoprace) {
-            KalendarzmiesiacBean.naliczskladnikiwynagrodzeniaDB(kalendarz, pasek, kurs);
-            List<Nieobecnosc> nieobecnosci = pobierznieobecnosci(kalendarz);
-            List<Nieobecnosc> zatrudnieniewtrakciemiesiaca = pobierz(nieobecnosci,"D");
-            List<Nieobecnosc> choroba = pobierz(nieobecnosci,"CH");
-            List<Nieobecnosc> zasilekchorobowy = pobierz(nieobecnosci,"ZC");
-            List<Nieobecnosc> urlop = pobierz(nieobecnosci,"U");
-            List<Nieobecnosc> urlopbezplatny = pobierz(nieobecnosci,"X");
-            List<Nieobecnosc> oddelegowanie = pobierz(nieobecnosci,"Z");
-            KalendarzmiesiacBean.nalicznadgodziny50DB(kalendarz, pasek);
-            //KalendarzmiesiacBean.nalicznadgodziny100(kalendarz, pasek);
-            //najpierw musimy przyporzadkowac aktualne skladniki, aby potem prawidlowo obliczyc redukcje
-            KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, zatrudnieniewtrakciemiesiaca, pasek);
-            KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, choroba, pasek);
-            KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, zasilekchorobowy, pasek);
-            KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, urlopbezplatny, pasek);
-            KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, oddelegowanie, pasek);
-            KalendarzmiesiacBean.redukujskladnikistale(kalendarz, pasek);
-            KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, urlop, pasek);
-            KalendarzmiesiacBean.redukujskladnikistale2(kalendarz, pasek);
-        } else if (umowazlecenia&&umowazlecenianierezydent==false) {
-            if (pasek.isNierezydent()) {
-                pasek.setDo26lat(false);
-            }
-            KalendarzmiesiacBean.naliczskladnikiwynagrodzeniaDBZlecenie(kalendarz, pasek, kurs);
+            umowaopracewyliczenie(kalendarz, pasek, kurs, definicjalistaplac, czyodlicoznokwotewolna, jestoddelegowanie, limitZUS, stawkipodatkowe, sumapoprzednich);
+        } else if (umowazlecenia) {
+            umowazleceniawyliczenie(kalendarz, pasek, kurs, definicjalistaplac, czyodlicoznokwotewolna, jestoddelegowanie, limitZUS, stawkipodatkowe, sumapoprzednich);
+        } else if (umowazlecenianierezydent) {
+            umowazleceniaNRwyliczenie(kalendarz, pasek, kurs, definicjalistaplac, czyodlicoznokwotewolna, jestoddelegowanie, limitZUS, stawkipodatkowe, sumapoprzednich);
         } else if (umowafunkcja) {
-            KalendarzmiesiacBean.naliczskladnikiwynagrodzeniaDBFunkcja(kalendarz, pasek, kurs);
-        } else {
-            KalendarzmiesiacBean.naliczskladnikiwynagrodzeniaDBNierezydent(kalendarz, pasek, kurs);
-        }
-//        KalendarzmiesiacBean.naliczskladnikipotraceniaDB(kalendarz, pasek);
-        if (definicjalistaplac.getRodzajlistyplac().getSymbol().equals("ZA")) {
-            PasekwynagrodzenBean.obliczbruttobezzusZasilek(pasek);
-        } else {
-            PasekwynagrodzenBean.obliczbruttozus(pasek);
-            PasekwynagrodzenBean.obliczbruttobezzus(pasek);
-            PasekwynagrodzenBean.obliczbruttobezzusbezpodatek(pasek);
-        }
-        if (jestoddelegowanie) {
-            if (jestoddelegowanie&&kurs==0.0) {
-                Msg.msg("e","Jest oddelegowanie, a brak kursu!");
-            }
-            pasek.setKurs(kurs);
-            PasekwynagrodzenBean.obliczdietedoodliczenia(pasek, kalendarz);
-            PasekwynagrodzenBean.wyliczlimitZUS(kalendarz, pasek, kurs, limitZUS);
-        } else {
-            PasekwynagrodzenBean.wyliczpodstaweZUS(pasek);
-        }
-        if (pasek.isUlgadlaKlasySredniej()&&kalendarz.getRokI()>2021) {
-            PasekwynagrodzenBean.uwzglednijulgeklasasrednia(pasek);
-        }
-        PasekwynagrodzenBean.pracownikemerytalna(pasek);
-        PasekwynagrodzenBean.pracownikrentowa(pasek);
-        PasekwynagrodzenBean.pracownikchorobowa(pasek);
-        PasekwynagrodzenBean.razemspolecznepracownik(pasek);
-        PasekwynagrodzenBean.obliczbruttominusspoleczneDB(pasek);
-        if (umowaoprace) {
-            if (definicjalistaplac.getRodzajlistyplac().getSymbol().equals("ZA")) {
-                PasekwynagrodzenBean.obliczpodstaweopodatkowaniaZasilekDB(pasek, stawkipodatkowe);
-                PasekwynagrodzenBean.obliczpodatekwstepnyDB(pasek, stawkipodatkowe, sumapoprzednich, true);
-            } else {
-                PasekwynagrodzenBean.obliczpodstaweopodatkowaniaDB(pasek, stawkipodatkowe);
-                PasekwynagrodzenBean.obliczpodatekwstepnyDB(pasek, stawkipodatkowe, sumapoprzednich, false);
-            }
-        } else if (umowazlecenia||umowazlecenianierezydent) {
-            PasekwynagrodzenBean.obliczpodstaweopodatkowaniaZlecenie(pasek, stawkipodatkowe, pasek.isNierezydent());
-            PasekwynagrodzenBean.obliczpodatekwstepnyZlecenieDB(pasek, stawkipodatkowe, pasek.isNierezydent());
-        } else  if (umowafunkcja) {
-            PasekwynagrodzenBean.obliczpodstaweopodatkowaniaFunkcja(pasek, stawkipodatkowe, pasek.isNierezydent());
-            PasekwynagrodzenBean.obliczpodatekwstepnyZlecenieDB(pasek, stawkipodatkowe, pasek.isNierezydent());
-        }
-        if (czyodlicoznokwotewolna==false) {
-             if (definicjalistaplac.getRodzajlistyplac().getSymbol().equals("ZA")) {
-                PasekwynagrodzenBean.ulgapodatkowaDB(pasek, stawkipodatkowe, true);
-             } else if (definicjalistaplac.getRodzajlistyplac().getSymbol().equals("UZ")||definicjalistaplac.getRodzajlistyplac().getSymbol().equals("WZ")||definicjalistaplac.getRodzajlistyplac().getSymbol().equals("UD")) {
-                 PasekwynagrodzenBean.ulgapodatkowaDB(pasek, stawkipodatkowe, false);
-             }
-        }
-        if (!definicjalistaplac.getRodzajlistyplac().getSymbol().equals("OS")) {
-            PasekwynagrodzenBean.naliczzdrowota(pasek, pasek.isNierezydent());
+            umowafunkcjawyliczenie(kalendarz, pasek, kurs, definicjalistaplac, czyodlicoznokwotewolna, jestoddelegowanie, limitZUS, stawkipodatkowe, sumapoprzednich);
         }
         PasekwynagrodzenBean.obliczpodatekdowplaty(pasek);
         PasekwynagrodzenBean.netto(pasek);
@@ -232,7 +160,7 @@ public class PasekwynagrodzenBean {
         PasekwynagrodzenBean.razem53(pasek);
         PasekwynagrodzenBean.razemkosztpracodawcy(pasek);
         PasekwynagrodzenBean.naniesrobocze(pasek,kalendarz);
-        
+       
 //        System.out.println("****************");
 //        for (Naliczenieskladnikawynagrodzenia r : pasek.getNaliczenieskladnikawynagrodzeniaList()) {
 //            if (r.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getRedukowany()) {
@@ -257,6 +185,145 @@ public class PasekwynagrodzenBean {
         return pasek;
     }
     
+        private static void umowaopracewyliczenie(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasek, double kurs, Definicjalistaplac definicjalistaplac, boolean czyodlicoznokwotewolna, boolean jestoddelegowanie, double limitZUS, List<Podatki> stawkipodatkowe, double sumapoprzednich) {
+        KalendarzmiesiacBean.naliczskladnikiwynagrodzeniaDB(kalendarz, pasek, kurs);
+        List<Nieobecnosc> nieobecnosci = pobierznieobecnosci(kalendarz);
+        List<Nieobecnosc> zatrudnieniewtrakciemiesiaca = pobierz(nieobecnosci, "D");
+        List<Nieobecnosc> choroba = pobierz(nieobecnosci, "CH");
+        List<Nieobecnosc> zasilekchorobowy = pobierz(nieobecnosci, "ZC");
+        List<Nieobecnosc> urlop = pobierz(nieobecnosci, "U");
+        List<Nieobecnosc> urlopbezplatny = pobierz(nieobecnosci, "X");
+        List<Nieobecnosc> oddelegowanie = pobierz(nieobecnosci, "Z");
+        KalendarzmiesiacBean.nalicznadgodziny50DB(kalendarz, pasek);
+        //KalendarzmiesiacBean.nalicznadgodziny100(kalendarz, pasek);
+        //najpierw musimy przyporzadkowac aktualne skladniki, aby potem prawidlowo obliczyc redukcje
+        KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, zatrudnieniewtrakciemiesiaca, pasek);
+        KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, choroba, pasek);
+        KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, zasilekchorobowy, pasek);
+        KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, urlopbezplatny, pasek);
+        KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, oddelegowanie, pasek);
+        KalendarzmiesiacBean.redukujskladnikistale(kalendarz, pasek);
+        KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, urlop, pasek);
+        KalendarzmiesiacBean.redukujskladnikistale2(kalendarz, pasek);
+        if (definicjalistaplac.getRodzajlistyplac().getSymbol().equals("ZA")) {
+            PasekwynagrodzenBean.obliczbruttobezzusZasilek(pasek);
+        } else {
+            PasekwynagrodzenBean.obliczbruttozus(pasek);
+            PasekwynagrodzenBean.obliczbruttobezzus(pasek);
+            PasekwynagrodzenBean.obliczbruttobezzusbezpodatek(pasek);
+        }
+        if (jestoddelegowanie) {
+            if (jestoddelegowanie && kurs == 0.0) {
+                Msg.msg("e", "Jest oddelegowanie, a brak kursu!");
+            }
+            pasek.setKurs(kurs);
+            PasekwynagrodzenBean.obliczdietedoodliczenia(pasek, kalendarz);
+            PasekwynagrodzenBean.wyliczlimitZUS(kalendarz, pasek, kurs, limitZUS);
+        } else {
+            PasekwynagrodzenBean.wyliczpodstaweZUS(pasek);
+        }
+        if (pasek.isUlgadlaKlasySredniej() && kalendarz.getRokI() == 2022 && kalendarz.getMcI() < 7) {
+            PasekwynagrodzenBean.uwzglednijulgeklasasrednia(pasek);
+        }
+        PasekwynagrodzenBean.pracownikemerytalna(pasek);
+        PasekwynagrodzenBean.pracownikrentowa(pasek);
+        PasekwynagrodzenBean.pracownikchorobowa(pasek);
+        PasekwynagrodzenBean.razemspolecznepracownik(pasek);
+        PasekwynagrodzenBean.obliczbruttominusspoleczneDB(pasek);
+        if (definicjalistaplac.getRodzajlistyplac().getSymbol().equals("ZA")) {
+            PasekwynagrodzenBean.obliczpodstaweopodatkowaniaZasilekDB(pasek, stawkipodatkowe);
+            PasekwynagrodzenBean.obliczpodatekwstepnyDB(pasek, stawkipodatkowe, sumapoprzednich, true);
+        } else {
+            PasekwynagrodzenBean.obliczpodstaweopodatkowaniaDB(pasek, stawkipodatkowe);
+            PasekwynagrodzenBean.obliczpodatekwstepnyDB(pasek, stawkipodatkowe, sumapoprzednich, false);
+        }
+        if (czyodlicoznokwotewolna == false) {
+            if (definicjalistaplac.getRodzajlistyplac().getSymbol().equals("ZA")) {
+                PasekwynagrodzenBean.ulgapodatkowaDB(pasek, stawkipodatkowe, true);
+            } else {
+                PasekwynagrodzenBean.ulgapodatkowaDB(pasek, stawkipodatkowe, false);
+            }
+        }
+        PasekwynagrodzenBean.naliczzdrowota(pasek, pasek.isNierezydent(), true);
+    }
+
+    private static void umowazleceniawyliczenie(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasek, double kurs, Definicjalistaplac definicjalistaplac, boolean czyodlicoznokwotewolna, boolean jestoddelegowanie, double limitZUS, List<Podatki> stawkipodatkowe, double sumapoprzednich) {
+        KalendarzmiesiacBean.naliczskladnikiwynagrodzeniaDBZlecenie(kalendarz, pasek, kurs);
+        PasekwynagrodzenBean.obliczbruttozus(pasek);
+        PasekwynagrodzenBean.obliczbruttobezzus(pasek);
+        PasekwynagrodzenBean.obliczbruttobezzusbezpodatek(pasek);
+        if (jestoddelegowanie) {
+            if (jestoddelegowanie && kurs == 0.0) {
+                Msg.msg("e", "Jest oddelegowanie, a brak kursu!");
+            }
+            pasek.setKurs(kurs);
+            PasekwynagrodzenBean.obliczdietedoodliczenia(pasek, kalendarz);
+            PasekwynagrodzenBean.wyliczlimitZUS(kalendarz, pasek, kurs, limitZUS);
+        } else {
+            PasekwynagrodzenBean.wyliczpodstaweZUS(pasek);
+        }
+        if (pasek.isUlgadlaKlasySredniej() && kalendarz.getRokI() == 2022 && kalendarz.getMcI() < 7) {
+            PasekwynagrodzenBean.uwzglednijulgeklasasrednia(pasek);
+        }
+        PasekwynagrodzenBean.pracownikemerytalna(pasek);
+        PasekwynagrodzenBean.pracownikrentowa(pasek);
+        PasekwynagrodzenBean.pracownikchorobowa(pasek);
+        PasekwynagrodzenBean.razemspolecznepracownik(pasek);
+        PasekwynagrodzenBean.obliczbruttominusspoleczneDB(pasek);
+        PasekwynagrodzenBean.obliczpodstaweopodatkowaniaZlecenie(pasek, stawkipodatkowe, pasek.isNierezydent());
+        PasekwynagrodzenBean.obliczpodatekwstepnyZlecenieDB(pasek, stawkipodatkowe, pasek.isNierezydent());
+        if (czyodlicoznokwotewolna == false) {
+            PasekwynagrodzenBean.ulgapodatkowaDB(pasek, stawkipodatkowe, false);
+        }
+        PasekwynagrodzenBean.naliczzdrowota(pasek, pasek.isNierezydent(), false);
+    }
+
+    private static void umowazleceniaNRwyliczenie(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasek, double kurs, Definicjalistaplac definicjalistaplac, boolean czyodlicoznokwotewolna, boolean jestoddelegowanie, double limitZUS, List<Podatki> stawkipodatkowe, double sumapoprzednich) {
+        pasek.setDo26lat(false);
+        KalendarzmiesiacBean.naliczskladnikiwynagrodzeniaDBNierezydent(kalendarz, pasek, kurs);
+//        KalendarzmiesiacBean.naliczskladnikipotraceniaDB(kalendarz, pasek);
+        PasekwynagrodzenBean.obliczbruttozus(pasek);
+        PasekwynagrodzenBean.obliczbruttobezzus(pasek);
+        PasekwynagrodzenBean.obliczbruttobezzusbezpodatek(pasek);
+        if (jestoddelegowanie) {
+            if (jestoddelegowanie && kurs == 0.0) {
+                Msg.msg("e", "Jest oddelegowanie, a brak kursu!");
+            }
+            pasek.setKurs(kurs);
+            PasekwynagrodzenBean.obliczdietedoodliczenia(pasek, kalendarz);
+            PasekwynagrodzenBean.wyliczlimitZUS(kalendarz, pasek, kurs, limitZUS);
+        } else {
+            PasekwynagrodzenBean.wyliczpodstaweZUS(pasek);
+        }
+        if (pasek.isUlgadlaKlasySredniej() && kalendarz.getRokI() == 2022 && kalendarz.getMcI() < 7) {
+            PasekwynagrodzenBean.uwzglednijulgeklasasrednia(pasek);
+        }
+        PasekwynagrodzenBean.pracownikemerytalna(pasek);
+        PasekwynagrodzenBean.pracownikrentowa(pasek);
+        PasekwynagrodzenBean.pracownikchorobowa(pasek);
+        PasekwynagrodzenBean.razemspolecznepracownik(pasek);
+        PasekwynagrodzenBean.obliczbruttominusspoleczneDB(pasek);
+        PasekwynagrodzenBean.obliczpodstaweopodatkowaniaZlecenie(pasek, stawkipodatkowe, pasek.isNierezydent());
+        PasekwynagrodzenBean.obliczpodatekwstepnyZlecenieDB(pasek, stawkipodatkowe, pasek.isNierezydent());
+        if (czyodlicoznokwotewolna == false) {
+            PasekwynagrodzenBean.ulgapodatkowaDB(pasek, stawkipodatkowe, false);
+        }
+        PasekwynagrodzenBean.naliczzdrowota(pasek, pasek.isNierezydent(), false);
+    }
+
+    private static void umowafunkcjawyliczenie(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasek, double kurs, Definicjalistaplac definicjalistaplac, boolean czyodlicoznokwotewolna, boolean jestoddelegowanie, double limitZUS, List<Podatki> stawkipodatkowe, double sumapoprzednich) {
+        KalendarzmiesiacBean.naliczskladnikiwynagrodzeniaDBFunkcja(kalendarz, pasek, kurs);
+        PasekwynagrodzenBean.obliczbruttozus(pasek);
+        PasekwynagrodzenBean.obliczbruttobezzus(pasek);
+        PasekwynagrodzenBean.obliczbruttobezzusbezpodatek(pasek);
+        PasekwynagrodzenBean.wyliczpodstaweZUS(pasek);
+        PasekwynagrodzenBean.obliczbruttominusspoleczneDB(pasek);
+        PasekwynagrodzenBean.obliczpodstaweopodatkowaniaZlecenie(pasek, stawkipodatkowe, pasek.isNierezydent());
+        PasekwynagrodzenBean.obliczpodatekwstepnyZlecenieDB(pasek, stawkipodatkowe, pasek.isNierezydent());
+        PasekwynagrodzenBean.obliczpodstaweopodatkowaniaFunkcja(pasek, stawkipodatkowe, pasek.isNierezydent());
+        PasekwynagrodzenBean.obliczpodatekwstepnyZlecenieDB(pasek, stawkipodatkowe, pasek.isNierezydent());
+        PasekwynagrodzenBean.naliczzdrowota(pasek, pasek.isNierezydent(), false);
+    }
     
      public static void obliczwiek(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasek) {
         if (kalendarz!=null) {
@@ -290,7 +357,7 @@ public class PasekwynagrodzenBean {
         PasekwynagrodzenBean.obliczpodstaweopodatkowaniaDB(pasek, stawkipodatkowe);
         PasekwynagrodzenBean.obliczpodatekwstepnyDB(pasek, stawkipodatkowe, sumapoprzednich, true);
         PasekwynagrodzenBean.ulgapodatkowaDB(pasek, stawkipodatkowe, true);
-        PasekwynagrodzenBean.naliczzdrowota(pasek, pasek.isNierezydent());
+        PasekwynagrodzenBean.naliczzdrowota(pasek, pasek.isNierezydent(), true);
         PasekwynagrodzenBean.obliczpodatekdowplaty(pasek);
         PasekwynagrodzenBean.netto(pasek);
         PasekwynagrodzenBean.dowyplaty(pasek);
@@ -339,7 +406,7 @@ public class PasekwynagrodzenBean {
         PasekwynagrodzenBean.obliczpodstaweopodatkowania(pasek);
         PasekwynagrodzenBean.obliczpodatekwstepny(pasek);
         PasekwynagrodzenBean.ulgapodatkowa(pasek);
-        PasekwynagrodzenBean.naliczzdrowota(pasek, pasek.isNierezydent());
+        PasekwynagrodzenBean.naliczzdrowota(pasek, pasek.isNierezydent(), true);
         PasekwynagrodzenBean.obliczpodatekdowplaty(pasek);
         PasekwynagrodzenBean.potracenia(pasek);
         PasekwynagrodzenBean.netto(pasek);
@@ -706,7 +773,7 @@ public class PasekwynagrodzenBean {
         pasek.setKwotawolnadlazdrowotnej(kwotawolnadlazdrowotnej);
     }
 
-    private static void naliczzdrowota(Pasekwynagrodzen pasek, boolean nierezydent) {
+    private static void naliczzdrowota(Pasekwynagrodzen pasek, boolean nierezydent, boolean praca) {
         double spolecznepodstawa = Z.z(pasek.getPodstawaskladkizus()-pasek.getRazemspolecznepracownik());
         double podstawazdrowotna = Z.z(spolecznepodstawa) > 0.0 ? Z.z(spolecznepodstawa) :0.0;
         pasek.setPodstawaubezpzdrowotne(podstawazdrowotna);
@@ -736,11 +803,16 @@ public class PasekwynagrodzenBean {
                         pasek.setPraczdrowotnedopotracenia(Z.z(zdrowotne-zdrowotneodliczane));
                     }
                 } else {
-                    double podatekwstepny = Z.z(pasek.getPodatekwstepny()-pasek.getKwotawolnadlazdrowotnej());
-                    if (zdrowotne>podatekwstepny) {
-                        pasek.setPraczdrowotne(podatekwstepny);
-                        pasek.setPraczdrowotnedoodliczenia(podatekwstepny);
-                        pasek.setPraczdrowotnedopotracenia(0.0);
+                    if (praca) {
+                        double podatekwstepny = Z.z(pasek.getPodatekwstepny()-pasek.getKwotawolnadlazdrowotnej());
+                        if (zdrowotne>podatekwstepny) {
+                            pasek.setPraczdrowotne(podatekwstepny);
+                            pasek.setPraczdrowotnedoodliczenia(podatekwstepny);
+                            pasek.setPraczdrowotnedopotracenia(0.0);
+                        } else {
+                            pasek.setPraczdrowotnedoodliczenia(0.0);
+                            pasek.setPraczdrowotnedopotracenia(Z.z(zdrowotne));
+                        }
                     } else {
                         pasek.setPraczdrowotnedoodliczenia(0.0);
                         pasek.setPraczdrowotnedopotracenia(Z.z(zdrowotne));

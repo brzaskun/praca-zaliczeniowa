@@ -33,10 +33,10 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Umowakodzus.findAll", query = "SELECT u FROM Umowakodzus u"),
     @NamedQuery(name = "Umowakodzus.findById", query = "SELECT u FROM Umowakodzus u WHERE u.id = :id"),
-    @NamedQuery(name = "Umowakodzus.findByAktywne", query = "SELECT u FROM Umowakodzus u WHERE u.praca = TRUE OR u.zlecenie = TRUE ORDER BY u.kod"),
-    @NamedQuery(name = "Umowakodzus.findByAktywneZlecenie", query = "SELECT u FROM Umowakodzus u WHERE u.zlecenie = TRUE ORDER BY u.kod"),
-    @NamedQuery(name = "Umowakodzus.findByAktywneFunkcja", query = "SELECT u FROM Umowakodzus u WHERE u.funkcja = TRUE ORDER BY u.kod"),
-    @NamedQuery(name = "Umowakodzus.findByAktywnePraca", query = "SELECT u FROM Umowakodzus u WHERE u.praca = TRUE ORDER BY u.kod"),
+    @NamedQuery(name = "Umowakodzus.findByAktywne", query = "SELECT u FROM Umowakodzus u WHERE u.aktywny = TRUE AND (u.praca = TRUE OR u.zlecenie = TRUE) ORDER BY u.kod"),
+    @NamedQuery(name = "Umowakodzus.findByAktywneZlecenie", query = "SELECT u FROM Umowakodzus u WHERE u.aktywny = TRUE AND  u.zlecenie = TRUE ORDER BY u.kod"),
+    @NamedQuery(name = "Umowakodzus.findByAktywneFunkcja", query = "SELECT u FROM Umowakodzus u WHERE u.aktywny = TRUE AND  u.funkcja = TRUE ORDER BY u.kod"),
+    @NamedQuery(name = "Umowakodzus.findByAktywnePraca", query = "SELECT u FROM Umowakodzus u WHERE u.aktywny = TRUE AND  u.praca = TRUE ORDER BY u.kod"),
     @NamedQuery(name = "Umowakodzus.findByKod", query = "SELECT u FROM Umowakodzus u WHERE u.kod = :kod"),
     @NamedQuery(name = "Umowakodzus.findByWktSerial", query = "SELECT u FROM Umowakodzus u WHERE u.wkt_serial = :wktserial"),
     @NamedQuery(name = "Umowakodzus.findByOpis", query = "SELECT u FROM Umowakodzus u WHERE u.opis = :opis")})
@@ -68,6 +68,8 @@ public class Umowakodzus implements Serializable {
     private boolean zlecenie;
     @Column(name = "funkcja")
     private boolean funkcja;
+    @Column(name = "aktywny")
+    private boolean aktywny;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "umowakodzus")
     private List<Umowa> umowaList;
 
@@ -134,6 +136,14 @@ public class Umowakodzus implements Serializable {
 
     public void setWkt_serial(Integer wkt_serial) {
         this.wkt_serial = wkt_serial;
+    }
+
+    public boolean isAktywny() {
+        return aktywny;
+    }
+
+    public void setAktywny(boolean aktywny) {
+        this.aktywny = aktywny;
     }
 
 

@@ -576,6 +576,14 @@ private static final long serialVersionUID = 1L;
         return mc;
     }
     
+    public int getMcI() {
+        Integer zwrot = 0;
+        if (this.mc!=null) {
+            zwrot = Integer.parseInt(this.mc);
+        }
+        return zwrot;
+    }
+    
     public String getRokMc() {
         return rok+mc;
     }

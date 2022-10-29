@@ -36,6 +36,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Rodzajwynagrodzenia.findAktywne", query = "SELECT r FROM Rodzajwynagrodzenia r WHERE r.aktywne = TRUE"),
     @NamedQuery(name = "Rodzajwynagrodzenia.findByKod", query = "SELECT r FROM Rodzajwynagrodzenia r WHERE r.kod = :kod"),
     @NamedQuery(name = "Rodzajwynagrodzenia.findByOpispelny", query = "SELECT r FROM Rodzajwynagrodzenia r WHERE r.opispelny = :opispelny"),
+    @NamedQuery(name = "Rodzajwynagrodzenia.findGodzinowe", query = "SELECT r FROM Rodzajwynagrodzenia r WHERE r.opispelny = :opispelny AND r.kod = :kod"),
     @NamedQuery(name = "Rodzajwynagrodzenia.findByOpisskrocony", query = "SELECT r FROM Rodzajwynagrodzenia r WHERE r.opisskrocony = :opisskrocony")})
 public class Rodzajwynagrodzenia implements Serializable {
     private static final long serialVersionUID = 1L;

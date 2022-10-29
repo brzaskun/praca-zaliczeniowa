@@ -78,7 +78,9 @@
                 <p:panelGrid columns="1">
                     <p:commandButton value="zaksięguj" actionListener="#{rachunekZlecenieView.zaksieguj()}" update="RachunekZleceniaForm" styleClass="buttonnorm" rendered="#{rachunekZlecenieView.rachunekdoumowyzlecenia.id eq null}"/>
                     <p:commandButton value="usuń" actionListener="#{rachunekZlecenieView.usun()}" update="RachunekZleceniaForm" styleClass="buttonnorm2" 
-                                     rendered="#{rachunekZlecenieView.rachunekdoumowyzlecenia.id ne null and rachunekZlecenieView.rachunekdoumowyzlecenia.pasekwynagrodzen eq null}"/>
+                                     rendered="#{rachunekZlecenieView.rachunekdoumowyzlecenia.id ne null and rachunekZlecenieView.rachunekdoumowyzlecenia.pasekwynagrodzen eq null}">
+                         <p:confirm type="popup" header="Usuwanie rachunku do umowy" message="Na pewno usunąć rachunek?" icon="pi pi-exclamation-triangle"/>
+                    </p:commandButton>
                     <h:outputText value="Rachunek ujęty na liście płac. Nie można usunąć rachunku." rendered="#{rachunekZlecenieView.rachunekdoumowyzlecenia.id ne null and rachunekZlecenieView.rachunekdoumowyzlecenia.pasekwynagrodzen ne null}"/>
                 </p:panelGrid>
                 </p:outputPanel>

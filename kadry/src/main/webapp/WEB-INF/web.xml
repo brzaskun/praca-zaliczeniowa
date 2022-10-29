@@ -152,4 +152,12 @@
             <role-name>Pracodawca</role-name>
         </auth-constraint>
     </security-constraint>
+    <error-page>
+        <exception-type>javax.faces.application.ViewExpiredException</exception-type>
+        <location>/SessionExpired.xhtml</location>
+    </error-page>
+     <error-page>
+        <error-code>500</error-code>
+        <location>/Status500.xhtml</location>
+    </error-page>
 </web-app>
