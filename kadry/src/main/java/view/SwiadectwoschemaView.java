@@ -5,6 +5,7 @@
  */
 package view;
 
+import comparator.Rodzajnieobecnoscicomparator;
 import dao.NieobecnoscswiadectwoschemaFacade;
 import dao.RodzajnieobecnosciFacade;
 import dao.SwiadectwoschemaFacade;
@@ -13,6 +14,7 @@ import entity.Rodzajnieobecnosci;
 import entity.Swiadectwoschema;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
@@ -47,6 +49,7 @@ public class SwiadectwoschemaView implements Serializable {
     public void init() {
         listaswiadectwoschemy = swiadectwoschemaFacade.findAll();
         listanieobecnosci = rodzajnieobecnosciFacade.findAll();
+        Collections.sort(listanieobecnosci, new Rodzajnieobecnoscicomparator());
         listanieob = nieobecnoscswiadectwoschemaFacade.findAll();
     }
     

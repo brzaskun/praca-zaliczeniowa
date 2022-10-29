@@ -96,6 +96,10 @@ private static final long serialVersionUID = 1L;
     private double zasilek;
     @Column(name="opiekadziecko")
     private double opiekadziecko;
+    @Column(name="macierzynski")
+    private double macierzynski;
+    @Column(name="wychowawczy")
+    private double wychowawczy;
     @Column(name="piecdziesiatka")
     private double piecdziesiatka;
     @Column(name="setka")
@@ -680,6 +684,22 @@ private static final long serialVersionUID = 1L;
         this.opiekadziecko = opiekadziecko;
     }
 
+    public double getMacierzynski() {
+        return macierzynski;
+    }
+
+    public void setMacierzynski(double macierzynski) {
+        this.macierzynski = macierzynski;
+    }
+
+    public double getWychowawczy() {
+        return wychowawczy;
+    }
+
+    public void setWychowawczy(double wychowawczy) {
+        this.wychowawczy = wychowawczy;
+    }
+
     
     
     public int naniesnieobecnosc(Nieobecnosc p) {
@@ -697,13 +717,14 @@ private static final long serialVersionUID = 1L;
             final int j = i;
             Dzien dzienaktualny = this.dzienList.stream().filter(pa->pa.getNrdnia()==j).findFirst().get();
             String kod = p.getKod();
-            if (kod.equals("331")) {
+            String kodzbiorczy = p.getRodzajnieobecnosci().getKodzbiorczy();
+            if (kod.equals("CH")) {
                 dzienaktualny.setWynagrodzeniezachorobe(dzienaktualny.getNormagodzin());
                 dzienaktualny.setPrzepracowano(0);
                 dzienaktualny.setKod(kod);
                 p.setNaniesiona(true);
                 
-            } else if (kod.equals("313")) {
+            } else if (kod.equals("ZC")) {
                 dzienaktualny.setZasilek(dzienaktualny.getNormagodzin());
                 dzienaktualny.setPrzepracowano(0);
                 dzienaktualny.setKod(kod);
@@ -718,8 +739,18 @@ private static final long serialVersionUID = 1L;
                 dzienaktualny.setPrzepracowano(0);
                 dzienaktualny.setKod(kod);
                 p.setNaniesiona(true);
-            } else if (kod.equals("Z_1")) {
+            } else if (kod.equals("MD")) {
                 dzienaktualny.setOpiekadziecko(dzienaktualny.getNormagodzin());
+                dzienaktualny.setPrzepracowano(0);
+                dzienaktualny.setKod(kod);
+                p.setNaniesiona(true);
+            } else if (kod.equals("UM")) {
+                dzienaktualny.setMacierzynski(dzienaktualny.getNormagodzin());
+                dzienaktualny.setPrzepracowano(0);
+                dzienaktualny.setKod(kod);
+                p.setNaniesiona(true);
+            } else if (kod.equals("WY")) {
+                dzienaktualny.setWychowawczy(dzienaktualny.getNormagodzin());
                 dzienaktualny.setPrzepracowano(0);
                 dzienaktualny.setKod(kod);
                 p.setNaniesiona(true);

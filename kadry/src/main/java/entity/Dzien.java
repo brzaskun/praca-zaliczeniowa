@@ -97,6 +97,10 @@ public class Dzien implements Serializable {
     private double zasilek;
     @Column(name = "opiekadziecko")
     private double opiekadziecko;
+    @Column(name = "macierzynski")
+    private double macierzynski;
+    @Column(name = "wychowawczy")
+    private double wychowawczy;
     @JoinColumn(name = "kalendarzwzor", referencedColumnName = "id")
     @ManyToOne
     private Kalendarzwzor kalendarzwzor;
@@ -201,6 +205,8 @@ public class Dzien implements Serializable {
         this.wynagrodzeniezachorobe = dzienwzor.wynagrodzeniezachorobe;
         this.zasilek = dzienwzor.zasilek;
         this.opiekadziecko = dzienwzor.opiekadziecko;
+        this.macierzynski = dzienwzor.macierzynski;
+        this.wychowawczy = dzienwzor.wychowawczy;
         this.kalendarzmiesiac = kalendarzmiesiac;
     }
     
@@ -221,6 +227,8 @@ public class Dzien implements Serializable {
         this.wynagrodzeniezachorobe = dzienwzor.wynagrodzeniezachorobe;
         this.zasilek = dzienwzor.zasilek;
         this.opiekadziecko = dzienwzor.opiekadziecko;
+        this.macierzynski = dzienwzor.macierzynski;
+        this.wychowawczy = dzienwzor.wychowawczy;
         this.kalendarzwzor = kalendarzwzor;
     }
 
@@ -457,6 +465,22 @@ public class Dzien implements Serializable {
         this.opiekadziecko = opiekadziecko;
     }
 
+    public double getMacierzynski() {
+        return macierzynski;
+    }
+
+    public void setMacierzynski(double macierzynski) {
+        this.macierzynski = macierzynski;
+    }
+
+    public double getWychowawczy() {
+        return wychowawczy;
+    }
+
+    public void setWychowawczy(double wychowawczy) {
+        this.wychowawczy = wychowawczy;
+    }
+
     void nanies(Dzien dzienwzor) {
         this.nrdnia = dzienwzor.nrdnia;
         this.datastring = dzienwzor.datastring;
@@ -471,6 +495,8 @@ public class Dzien implements Serializable {
         this.urlopPlatny = 0.0;
         this.urlopbezplatny = 0.0;
         this.opiekadziecko = 0.0;
+        this.macierzynski = 0.0;
+        this.wychowawczy = 0.0;
         this.kod = null;
     }
     
@@ -482,6 +508,8 @@ public class Dzien implements Serializable {
         this.urlopPlatny = 0.0;
         this.urlopbezplatny = 0.0;
         this.opiekadziecko = 0.0;
+        this.macierzynski = 0.0;
+        this.wychowawczy = 0.0;
         this.kod = null;
     }
 

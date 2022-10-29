@@ -169,7 +169,7 @@ public class KalendarzmiesiacBean {
                 }
             }
         }
-        if (nieobecnosc.getKod().equals("331")) {
+        if (nieobecnosc.getKod().equals("CH")) {
             naliczskladnikiwynagrodzeniazaChorobe(kalendarz, nieobecnosc, pasekwynagrodzen);
         }  else if (nieobecnosc.getKod().equals("U")) {
             naliczskladnikiwynagrodzeniazaUrlop(kalendarz, nieobecnosc, pasekwynagrodzen);
@@ -185,10 +185,10 @@ public class KalendarzmiesiacBean {
         if (nieobecnosclista!=null && !nieobecnosclista.isEmpty()) {
             for (Nieobecnosc nieobecnosc : nieobecnosclista) {
                String kod = nieobecnosc.getKod();
-               if (kod.equals("313")) {
+               if (kod.equals("ZC")) {
                     //zasilek chorobowy
                     naliczskladnikiwynagrodzeniazaChorobe(kalendarz, nieobecnosc, pasekwynagrodzen);
-                } else if (kod.equals("331")) {
+                } else if (kod.equals("CH")) {
                     //wynagrodzenie za czas niezdolnosci od pracy
                     naliczskladnikiwynagrodzeniazaChorobe(kalendarz, nieobecnosc, pasekwynagrodzen);
                 } else if (kod.equals("U")) {
@@ -961,10 +961,10 @@ public class KalendarzmiesiacBean {
                 for (Naliczenienieobecnosc p : pasekwynagrodzen.getNaliczenienieobecnoscList()) {
                     if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getRedukowany() && p.getSkladnikwynagrodzenia().equals(naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia())) {
                         switch (p.getNieobecnosc().getKod()) {
-                            case "313":
+                            case "ZC":
                                 redukcjazarchorobe = redukcjazarchorobe+p.getKwotaredukcji();
                                 break;
-                            case "331":
+                            case "CH":
                                 redukcjazarchorobe = redukcjazarchorobe+p.getKwotaredukcji();
                                 break;
                             case "U":
@@ -1003,7 +1003,7 @@ public class KalendarzmiesiacBean {
                 for (Naliczenienieobecnosc p : pasekwynagrodzen.getNaliczenienieobecnoscList()) {
                     if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getRedukowany() && p.getSkladnikwynagrodzenia().equals(pa.getSkladnikwynagrodzenia())) {
                         switch (p.getNieobecnosc().getKod()) {
-                            case "331":
+                            case "CH":
                                 //redukcjazarchorobe = redukcjazarchorobe+p.getKwotaredukcji();
                                 break;
                             case "U":

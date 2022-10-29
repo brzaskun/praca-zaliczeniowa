@@ -98,7 +98,7 @@ public class PracownikNieobecnoscView  implements Serializable {
         if (wpisView.getPracownik()!=null) {
             chorobaprezentacja = new Nieobecnoscprezentacja(wpisView.getUmowa(), wpisView.getRokWpisu());  
             List<Kalendarzmiesiac> kalendarze = kalendarzmiesiacFacade.findByRokUmowa(wpisView.getUmowa(), wpisView.getRokWpisu());
-            chorobaprezentacja.setNieobecnoscwykorzystanieList(naniesdnizkodem(kalendarze, chorobaprezentacja, "331"));
+            chorobaprezentacja.setNieobecnoscwykorzystanieList(naniesdnizkodem(kalendarze, chorobaprezentacja, "CH"));
             List<Umowa> umowy = umowaFacade.findByAngaz(wpisView.getAngaz());
             chorobaprezentacja.setWymiarokresbiezacy(obliczwymiarwgodzinachchoroba(umowy, wpisView.getUmowa().pobierzetat(stannadzien)));
             chorobaprezentacja.setDoprzeniesienia(chorobaprezentacja.getWymiarokresbiezacy()-chorobaprezentacja.getWykorzystanierokbiezacy()-chorobaprezentacja.getWykorzystanierokbiezacyekwiwalent());
@@ -110,7 +110,7 @@ public class PracownikNieobecnoscView  implements Serializable {
         if (wpisView.getPracownik()!=null) {
             zasilekprezentacja = new Nieobecnoscprezentacja(wpisView.getUmowa(), wpisView.getRokWpisu());  
             List<Kalendarzmiesiac> kalendarze = kalendarzmiesiacFacade.findByRokUmowa(wpisView.getUmowa(), wpisView.getRokWpisu());
-            zasilekprezentacja.setNieobecnoscwykorzystanieList(naniesdnizkodem(kalendarze, zasilekprezentacja, "313"));
+            zasilekprezentacja.setNieobecnoscwykorzystanieList(naniesdnizkodem(kalendarze, zasilekprezentacja, "ZC"));
             List<Umowa> umowy = umowaFacade.findByAngaz(wpisView.getAngaz());
             zasilekprezentacja.setWymiarokresbiezacy(obliczwymiarwgodzinachzasilek(umowy, wpisView.getUmowa().pobierzetat(stannadzien)));
             zasilekprezentacja.setDoprzeniesienia(zasilekprezentacja.getWymiarokresbiezacy()-zasilekprezentacja.getWykorzystanierokbiezacy()-zasilekprezentacja.getWykorzystanierokbiezacyekwiwalent());
@@ -134,10 +134,10 @@ public class PracownikNieobecnoscView  implements Serializable {
                         if (kod.equals("U")) {
                             wykorzystanie.setGodziny((int) r.getUrlopPlatny());
                         }
-                        if (kod.equals("331")) {
+                        if (kod.equals("CH")) {
                             wykorzystanie.setGodziny((int) r.getWynagrodzeniezachorobe());
                         }
-                        if (kod.equals("313")) {
+                        if (kod.equals("ZC")) {
                             wykorzystanie.setGodziny((int) r.getZasilek());
                         }
                         wykorzystanie.setUrlopprezentacja(urlopprezentacja);
@@ -156,10 +156,10 @@ public class PracownikNieobecnoscView  implements Serializable {
         if (kod.equals("U")) {
             urlopprezentacja.setWykorzystanierokbiezacy(wykorzystaniesuma.getGodziny());
         }
-        if (kod.equals("331")) {
+        if (kod.equals("CH")) {
             urlopprezentacja.setWykorzystanierokbiezacy((int) wykorzystaniesuma.getDni());
         }
-        if (kod.equals("313")) {
+        if (kod.equals("ZC")) {
             urlopprezentacja.setWykorzystanierokbiezacy((int) wykorzystaniesuma.getDni());
         }
         lista.add(wykorzystaniesuma);

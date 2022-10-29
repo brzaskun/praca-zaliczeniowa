@@ -42,7 +42,7 @@ public class RodzajnieobecnosciFacade extends DAO  {
     }
 
     public Rodzajnieobecnosci findByKod(String kod) {
-        return (Rodzajnieobecnosci) getEntityManager().createNamedQuery("Rodzajnieobecnosci.findByKod").setParameter("kod", kod.charAt(0)).getSingleResult();
+        return (Rodzajnieobecnosci) getEntityManager().createNamedQuery("Rodzajnieobecnosci.findByKod").setParameter("kod", kod).getSingleResult();
     }
     
     

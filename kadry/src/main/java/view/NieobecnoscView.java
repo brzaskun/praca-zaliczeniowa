@@ -6,6 +6,7 @@
 package view;
 
 import comparator.Pracownikcomparator;
+import comparator.Rodzajnieobecnoscicomparator;
 import dao.DzienFacade;
 import dao.KalendarzmiesiacFacade;
 import dao.KalendarzwzorFacade;
@@ -120,6 +121,7 @@ public class NieobecnoscView  implements Serializable {
         }
         listaumowa = umowaFacade.findPracownik(wpisView.getPracownik());
         listaabsencji = rodzajnieobecnosciFacade.findAll();
+        Collections.sort(listaabsencji, new Rodzajnieobecnoscicomparator());
         delegacja = false;
         //Collections.sort(listaabsencji, new Nieobecnoscikodzuscomparator());
     }
@@ -235,7 +237,7 @@ public class NieobecnoscView  implements Serializable {
     public void naniesrodzajnieobecnosci() {
         if (selected.getRodzajnieobecnosci()!=null) {
             swiadczeniekodzusLista = swiadczeniekodzusFacade.findByRodzajnieobecnosci(selected.getRodzajnieobecnosci());
-            if (selected.getRodzajnieobecnosci().getKod().equals('Z')) {
+            if (selected.getRodzajnieobecnosci().getKod().equals("Z")) {
                 selected.setKrajoddelegowania("Niemcy");
                 selected.setWalutadiety("EUR");
                 selected.setDietaoddelegowanie(49.0);
@@ -249,7 +251,7 @@ public class NieobecnoscView  implements Serializable {
     
     public void naniesprocent() {
          if (selected.getSwiadczeniekodzus()!=null) {
-            if (selected.getSwiadczeniekodzus().getKod().equals("331")) {
+            if (selected.getSwiadczeniekodzus().getKod().equals("CH")) {
                 selected.setZwolnienieprocent(80.0);
             }
         }
@@ -395,7 +397,7 @@ public class NieobecnoscView  implements Serializable {
             }
             if (zwrot != null) {
                 Nieobecnosc nieob = new Nieobecnosc(zwrot, wpisView.getUmowa());
-                nieob.setSwiadczeniekodzus(nieobecnosckodzusFacade.findByKod("331"));
+                nieob.setSwiadczeniekodzus(nieobecnosckodzusFacade.findByKod("CH"));
                 nieob.setId(999);
                 nieob.setPobranaZUS(true);
                 nieob.setRokod(Data.getRok(selected.getDataod()));

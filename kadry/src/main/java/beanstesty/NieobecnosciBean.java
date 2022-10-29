@@ -96,7 +96,7 @@ public class NieobecnosciBean {
             List<Okres> okresy = OkresBean.generujokresy(nieobecnosc);
             try {
                 //bo nanosimy tylko na 2021
-                int rokgraniczny = 2019;
+                int rokgraniczny = 2020;
                 if (Integer.parseInt(nieobecnosc.getRokod())>=rokgraniczny) {
                     for (Okres okr : okresy) {
                         Kalendarzmiesiac znaleziony = kalendarzmiesiacFacade.findByRokMcUmowa(umowa, okr.getRok(), okr.getMc());

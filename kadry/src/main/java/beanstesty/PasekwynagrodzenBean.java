@@ -139,8 +139,8 @@ public class PasekwynagrodzenBean {
             jestoddelegowanie = KalendarzmiesiacBean.naliczskladnikiwynagrodzeniaDB(kalendarz, pasek, kurs);
             List<Nieobecnosc> nieobecnosci = pobierznieobecnosci(kalendarz);
             List<Nieobecnosc> zatrudnieniewtrakciemiesiaca = pobierz(nieobecnosci,"D");
-            List<Nieobecnosc> choroba = pobierz(nieobecnosci,"331");
-            List<Nieobecnosc> zasilekchorobowy = pobierz(nieobecnosci,"313");
+            List<Nieobecnosc> choroba = pobierz(nieobecnosci,"CH");
+            List<Nieobecnosc> zasilekchorobowy = pobierz(nieobecnosci,"ZC");
             List<Nieobecnosc> urlop = pobierz(nieobecnosci,"U");
             List<Nieobecnosc> urlopbezplatny = pobierz(nieobecnosci,"X");
             List<Nieobecnosc> oddelegowanie = pobierz(nieobecnosci,"Z");

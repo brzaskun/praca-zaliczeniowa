@@ -21,7 +21,7 @@ public class NieobecnosckodzusBean {
     public static Swiadczeniekodzus createChoroba() {
         if (choroba==null) {
            choroba = new Swiadczeniekodzus();
-           choroba.setKod("331");
+           choroba.setKod("CH");
            choroba.setOpis("choroba");
            choroba.setOpisskrocony("choroba");
         }

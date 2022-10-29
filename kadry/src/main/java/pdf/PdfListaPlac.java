@@ -454,7 +454,7 @@ public class PdfListaPlac {
         table.addCell(ustawfrazeAlign(roboczgodz[1], "left",6));
         table.addCell(ustawfrazeAlign(String.valueOf(i++), "left",6,10f));
         table.addCell(ustawfrazeAlign("choroba", "left",6));
-        double[] roboczenieob = k.roboczenieob("331");
+        double[] roboczenieob = k.roboczenieob("CH");
         table.addCell(ustawfrazeAlign(roboczenieob[0], "left",6));
         table.addCell(ustawfrazeAlign(roboczenieob[1], "left",6));
         table.addCell(ustawfrazeAlign(String.valueOf(i++), "left",6,10f));

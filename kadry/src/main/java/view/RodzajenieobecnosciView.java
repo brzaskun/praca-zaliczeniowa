@@ -5,9 +5,11 @@
  */
 package view;
 
+import comparator.Rodzajnieobecnoscicomparator;
 import dao.RodzajnieobecnosciFacade;
 import entity.Rodzajnieobecnosci;
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
@@ -31,6 +33,7 @@ public class RodzajenieobecnosciView  implements Serializable {
     @PostConstruct
     private void init() {
         lista = rodzajnieobecnosciFacade.findAll();
+        Collections.sort(lista, new Rodzajnieobecnoscicomparator());
     }
 
     public void zachowaj() {

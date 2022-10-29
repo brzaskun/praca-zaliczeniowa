@@ -45,6 +45,7 @@ public class Rodzajnieobecnosci implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
+    //tylko do importu
     @Column(name = "absSerial")
     private Integer absSerial;
     @Basic(optional = false)
@@ -54,7 +55,12 @@ public class Rodzajnieobecnosci implements Serializable {
     private String opis;
     @Size(max = 1)
     @Column(name = "kod")
-    private Character kod;
+    private String kod;
+    @Size(max = 2)
+    @Column(name = "kodzbiorczy")
+    private String kodzbiorczy;
+    @Column(name = "kolejnosc")
+    private int kolejnosc;
     @Size(max = 1)
     @Column(name = "redukcjawyn")
     private Character redukcjawyn;
@@ -103,12 +109,24 @@ public class Rodzajnieobecnosci implements Serializable {
         this.opis = opis;
     }
 
-    public Character getKod() {
+    public String getKod() {
         return kod;
     }
 
-    public void setKod(Character kod) {
+    public void setKod(String kod) {
         this.kod = kod;
+    }
+
+    public String getKodzbiorczy() {
+        String zwrot = kodzbiorczy;
+        if (zwrot==null) {
+            kodzbiorczy = "";
+        }
+        return zwrot;
+    }
+
+    public void setKodzbiorczy(String kodzbiorczy) {
+        this.kodzbiorczy = kodzbiorczy;
     }
 
     public Character getRedukcjawyn() {
@@ -135,6 +153,15 @@ public class Rodzajnieobecnosci implements Serializable {
         this.dnikalendarzowe = dnikalendarzowe;
     }
 
+    public int getKolejnosc() {
+        return kolejnosc;
+    }
+
+    public void setKolejnosc(int kolejnosc) {
+        this.kolejnosc = kolejnosc;
+    }
+
+    
    
     @XmlTransient
     public List<Swiadczeniekodzus> getSwiadczeniekodzusList() {

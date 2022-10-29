@@ -417,11 +417,11 @@ public class Nieobecnosc implements Serializable {
     }
 
     public String getKod() {
-        return  this.getSwiadczeniekodzus()!=null?this.getSwiadczeniekodzus().getKod():String.valueOf(this.getRodzajnieobecnosci().getKod());
+        return  this.getRodzajnieobecnosci().getKod()!=null?this.getRodzajnieobecnosci().getKod():String.valueOf(this.getSwiadczeniekodzus().getKod());
     }
     
      public String getOpisRodzajSwiadczenie() {
-        return  this.getSwiadczeniekodzus()!=null?this.getSwiadczeniekodzus().getOpisskrocony():String.valueOf(this.getRodzajnieobecnosci().getOpis());
+        return  this.getRodzajnieobecnosci().getOpis()!=null?this.getRodzajnieobecnosci().getOpis():this.getSwiadczeniekodzus().getOpisskrocony();
     }
 
     public boolean isPonpiatek() {

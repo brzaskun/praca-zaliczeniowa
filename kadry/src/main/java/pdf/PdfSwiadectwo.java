@@ -103,7 +103,7 @@ public class PdfSwiadectwo {
                 PdfMain.dodajLinieOpisuBezOdstepu(document, urlop, Element.ALIGN_LEFT, 2);
                 String urlop1 = "1) wykorzystał urlop wypoczynkowy w wymiarze: ";
                 for (Swiadectwodni s : dnidoswiadectwa) {
-                    if (s.getNieobecnoscswiadectwoschema().getRodzajnieobecnosci().getKod().equals('U')) {
+                    if (s.getNieobecnoscswiadectwoschema().getRodzajnieobecnosci().getKodzbiorczy().equals("U")) {
                         urlop1 = urlop1+s.getDni();
                         czydodano = true;
                     }
@@ -115,7 +115,7 @@ public class PdfSwiadectwo {
                 czydodano = false;
                 String urlop2 = "w tym urlop wypoczynkowy wykorzystany na podstawie art. 167 2 Kodeksu pracy w roku kalendarzowym, w którym ustał stosunek pracy: ";
                 for (Swiadectwodni s : dnidoswiadectwa) {
-                    if (s.getNieobecnoscswiadectwoschema().getRodzajnieobecnosci().getKod().equals('O')) {
+                    if (s.getNieobecnoscswiadectwoschema().getRodzajnieobecnosci().getKod().equals("UZ")) {
                         urlop2 = urlop2+s.getDni();
                         czydodano = true;
                     }
@@ -128,7 +128,7 @@ public class PdfSwiadectwo {
                 czydodano = false;
                 String urlop3 = "2) korzystał z urlopu bezpłatnego: ";
                  for (Swiadectwodni s : dnidoswiadectwa) {
-                    if (s.getNieobecnoscswiadectwoschema().getRodzajnieobecnosci().getKod().equals('8')) {
+                    if (s.getNieobecnoscswiadectwoschema().getRodzajnieobecnosci().getKod().equals("X")) {
                         urlop3 = urlop3+s.getDni();
                         czydodano = true;
                     }
@@ -143,7 +143,7 @@ public class PdfSwiadectwo {
                 String urlop4b = " w ";
                 String urlop4c = " częsciach";
                 for (Swiadectwodni s : dnidoswiadectwa) {
-                    if (s.getNieobecnoscswiadectwoschema().getRodzajnieobecnosci().getKod().equals('J')) {
+                    if (s.getNieobecnoscswiadectwoschema().getRodzajnieobecnosci().getKod().equals("J")) {
                         urlop4a = urlop4a+s.getDni();
                         urlop4b = urlop4b+s.getCzesci();
                         urlop4a = urlop4a+urlop4b+urlop4c;
@@ -161,19 +161,23 @@ public class PdfSwiadectwo {
                 String urlop5c = " w okresie (okresach) ";
                 String urlop5d = " w ";
                 String urlop5e = " częsciach ";
-                String urlop5f = " w tym na podstawie art. 182() §3 Kodeksu pracy w ";
+                String urlop5f = " w tym na podstawie art. 182(1c) §3 Kodeksu pracy w ";
                 String urlop5g = " częsciach.";
                 for (Swiadectwodni s : dnidoswiadectwa) {
-                    if (s.getNieobecnoscswiadectwoschema().getRodzajnieobecnosci().getOpis().equals("Urlop rodzicielski")) {
+                    if (s.getNieobecnoscswiadectwoschema().getRodzajnieobecnosci().getKodzbiorczy().equals("R")) {
                         urlop5b = urlop5b+s.getDni();
                         urlop5c = okresy(s);
                         urlop5d = urlop5d+s.getCzesci();
-                        urlop5a = urlop5a+urlop5b+urlop5c+urlop5d+urlop5e+urlop5f+urlop5g;//uzupelnic
                         czydodano = true;
+                    }
+                    if (s.getNieobecnoscswiadectwoschema().getRodzajnieobecnosci().getKod().equals("RZ")) {
+                        urlop5f = urlop5f+s.getCzesci();
                     }
                 }
                 if (czydodano==false) {
                     urlop5a = urlop5a+" nie dotyczy";
+                } else {
+                    urlop5a = urlop5a+urlop5b+urlop5c+urlop5d+urlop5e+urlop5f+urlop5g;//uzupelnic
                 }
                 PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, urlop5a, Element.ALIGN_LEFT, 2);
                 document.add(Chunk.NEWLINE);
@@ -184,7 +188,7 @@ public class PdfSwiadectwo {
                 String urlop6d = " w ";
                 String urlop6e = " częsciach ";
                 for (Swiadectwodni s : dnidoswiadectwa) {
-                    if (s.getNieobecnoscswiadectwoschema().getRodzajnieobecnosci().getKod().equals('B')) {
+                    if (s.getNieobecnoscswiadectwoschema().getRodzajnieobecnosci().getKod().equals("WY")) {
                         urlop6b = urlop6b+s.getDni();
                         urlop6c = okresy(s);
                         urlop6d = urlop6d+s.getCzesci();
@@ -203,7 +207,7 @@ public class PdfSwiadectwo {
                 document.add(Chunk.NEWLINE);
                 String opieka = "7) wykorzystał zwolnienie od pracy przewidziane w art. 188 Kodeksu pracy ";
                 for (Swiadectwodni s : dnidoswiadectwa) {
-                    if (s.getNieobecnoscswiadectwoschema().getRodzajnieobecnosci().getKod().equals('8')) {
+                    if (s.getNieobecnoscswiadectwoschema().getRodzajnieobecnosci().getKod().equals("MD")) {
                         opieka = opieka+s.getDni();
                         czydodano = true;
                     }
@@ -216,7 +220,7 @@ public class PdfSwiadectwo {
                 czydodano = false;
                 String choroba = "8) był niezdolny do pracy przez okres:  ";
                 for (Swiadectwodni s : dnidoswiadectwa) {
-                    if (s.getNieobecnoscswiadectwoschema().getRodzajnieobecnosci().getKod().equals('N')) {
+                    if (s.getNieobecnoscswiadectwoschema().getRodzajnieobecnosci().getKodzbiorczy().equals("CH")) {
                         choroba = choroba+s.getDni()+" dni";
                         czydodano = true;
                     }
@@ -231,7 +235,7 @@ public class PdfSwiadectwo {
                 czydodano = false;
                 String wojsko = "10) odbył służbę wojskową w okresie:  ";
                 for (Swiadectwodni s : dnidoswiadectwa) {
-                    if (s.getNieobecnoscswiadectwoschema().getRodzajnieobecnosci().getKod().equals('W')) {
+                    if (s.getNieobecnoscswiadectwoschema().getRodzajnieobecnosci().getKod().equals("SW")) {
                         wojsko = wojsko+s.getDni()+" dni";
                         czydodano = true;
                     }
