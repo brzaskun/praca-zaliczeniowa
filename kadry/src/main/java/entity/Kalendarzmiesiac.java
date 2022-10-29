@@ -297,6 +297,50 @@ private static final long serialVersionUID = 1L;
         return zwrot;
     }
     
+    public double[] macierzynskidnigodz() {
+        double[] zwrot = new double[2];
+        double chorobadni = 0;
+        double chorobagodziny = 0;
+        String dataod = null;
+        String datado = null;
+        if (this.dzienList!=null) {
+            for (Dzien d : dzienList) {
+                if (d.getMacierzynski()>0.0) {
+                    String pierwszydzienmiesiaca = Data.pierwszyDzienKalendarz(this);
+                    String ostatnidzienmiesiaca = Data.ostatniDzienKalendarz(this);
+                    dataod = Data.czyjestpo(pierwszydzienmiesiaca, d.getNieobecnosc().getDataod())?d.getNieobecnosc().getDataod():pierwszydzienmiesiaca;
+                    datado = Data.czyjestprzed(ostatnidzienmiesiaca, d.getNieobecnosc().getDatado())?d.getNieobecnosc().getDatado():ostatnidzienmiesiaca;
+                    chorobagodziny = chorobagodziny+d.getWynagrodzeniezachorobe();
+                    zwrot[0] = Data.iletodniKalendarzowych(dataod, datado);
+                }
+            }
+        }
+        zwrot[1] = chorobagodziny;
+        return zwrot;
+    }
+    
+    public double[] wychowawczydnigodz() {
+        double[] zwrot = new double[2];
+        double chorobadni = 0;
+        double chorobagodziny = 0;
+        String dataod = null;
+        String datado = null;
+        if (this.dzienList!=null) {
+            for (Dzien d : dzienList) {
+                if (d.getWychowawczy()>0.0) {
+                    String pierwszydzienmiesiaca = Data.pierwszyDzienKalendarz(this);
+                    String ostatnidzienmiesiaca = Data.ostatniDzienKalendarz(this);
+                    dataod = Data.czyjestpo(pierwszydzienmiesiaca, d.getNieobecnosc().getDataod())?d.getNieobecnosc().getDataod():pierwszydzienmiesiaca;
+                    datado = Data.czyjestprzed(ostatnidzienmiesiaca, d.getNieobecnosc().getDatado())?d.getNieobecnosc().getDatado():ostatnidzienmiesiaca;
+                    chorobagodziny = chorobagodziny+d.getWynagrodzeniezachorobe();
+                    zwrot[0] = Data.iletodniKalendarzowych(dataod, datado);
+                }
+            }
+        }
+        zwrot[1] = chorobagodziny;
+        return zwrot;
+    }
+    
     public double[] chorobaczywaloryzacja() {
         double[] zwrot = new double[3];
         double godzinyobowiazku = 0;

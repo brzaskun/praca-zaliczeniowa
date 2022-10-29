@@ -111,7 +111,7 @@
                 <p:panel header="Dni kalendarza pracownika #{kalendarzmiesiacView.selected.rok}/#{kalendarzmiesiacView.selected.mc}">
                     <p:dataTable id="datalist" value="#{kalendarzmiesiacView.selected.dzienList}" var="itemkalendarz"
                                  rowKey="#{itemkalendarz.id}"
-                                 style="height: 520px; overflow-y: scroll; width: 1000px;" sortMode="single"
+                                 style="height: 520px; overflow-y: scroll; width: 1200px;" sortMode="single"
                                  emptyMessage="Brak zapisów"
                                  >
 
@@ -208,18 +208,30 @@
                             </f:facet>
                             <h:inputText size="4"  value="#{itemkalendarz.poranocna}" style="#{itemkalendarz.poranocna eq 0 ? 'color: #cccccc':''}"/>
                         </p:column>
+                        <p:column style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="u. macie."/>
+                            </f:facet>
+                            <h:inputText size="4"  value="#{itemkalendarz.macierzynski}" style="#{itemkalendarz.macierzynski eq 0 ? 'color: #cccccc':''}"/>
+                        </p:column>
+                        <p:column style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="u. wychow."/>
+                            </f:facet>
+                            <h:inputText size="4"  value="#{itemkalendarz.wychowawczy}" style="#{itemkalendarz.wychowawczy eq 0 ? 'color: #cccccc':''}"/>
+                        </p:column>
                     </p:dataTable>
-                    <p:panelGrid columns="8" style="width: 500px;align-content: center; margin-top: 10px;">
+                    <p:panelGrid columns="10" style="width: 500px;align-content: center; margin-top: 10px;">
                         <h:outputText value="norma godzin"/>
-                        <h:outputText value="przepracowane"/>
+                        <h:outputText value="dni przeprac."/>
                         <h:outputText value="dni oddeleg."/>
                         <h:outputText value="urlop płatny"/>
                         <h:outputText value="urlop bezpłat."/>
-                        <h:outputText value="opieka nad dzieckiem"/>
+                        <h:outputText value="opieka nad dziec."/>
                         <h:outputText value="wyn. choroba"/>
                         <h:outputText value="zasiłek"/>
-                        <h:outputText value="macierzyński"/>
-                        <h:outputText value="wychowawczy"/>
+                        <h:outputText value="macierz."/>
+                        <h:outputText value="wychow."/>
                         <h:outputText value="#{kalendarzmiesiacView.selected.norma}"/>
                         <h:outputText value="#{kalendarzmiesiacView.selected.przepracowane}"/>
                         <h:outputText value="#{kalendarzmiesiacView.selected.dnioddelegowania}"/>

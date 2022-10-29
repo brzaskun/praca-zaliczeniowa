@@ -344,6 +344,12 @@
                             </f:facet>
                             <h:outputText value="#{item13roz.kod}"/>
                         </p:column>
+                        <p:column width="50" style="text-align: center;"  sortOrder="asc" sortBy="#{item13roz.kolejnosc}" filterBy="#{item13roz.kolejnosc}" filterMatchMode="contains">
+                            <f:facet name="header">
+                                <h:outputText value="kol."/>
+                            </f:facet>
+                            <h:outputText value="#{item13roz.kolejnosc}"/>
+                        </p:column>
                         <p:column width="250"  filterBy="#{item13roz.opis}" filterMatchMode="contains">
                             <f:facet name="header">
                                 <h:outputText value="opis"/>

@@ -278,8 +278,7 @@ public class KalendarzmiesiacBean {
         pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().add(naliczenieskladnikawynagrodzenia);
         return false;
     }
-    static boolean naliczskladnikiwynagrodzeniaDB(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasekwynagrodzen, double kurs) {
-        boolean jestoddelegowanie = false;
+    static void naliczskladnikiwynagrodzeniaDB(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasekwynagrodzen, double kurs) {
         for (Skladnikwynagrodzenia p : kalendarz.getUmowa().getSkladnikwynagrodzeniaList()) {
             if (p.getRodzajwynagrodzenia().getKod().equals("11")) {
                 Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = NaliczenieskladnikawynagrodzeniaBean.createWynagrodzenieDB(kalendarz, pasekwynagrodzen, p, kurs);
@@ -288,9 +287,6 @@ public class KalendarzmiesiacBean {
                 }
             } else if (p.getRodzajwynagrodzenia().getKod().equals("13")) {
                 Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = NaliczenieskladnikawynagrodzeniaBean.createWynagrodzenieDB(kalendarz, pasekwynagrodzen, p, kurs);
-                if (p.isOddelegowanie()) {
-                        jestoddelegowanie = true;
-                }
                 if (naliczenieskladnikawynagrodzenia.getKwotaumownazacalymc()!=0.0) {
                     pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().add(naliczenieskladnikawynagrodzenia);
                 }
@@ -313,7 +309,6 @@ public class KalendarzmiesiacBean {
                 System.out.println("Nie ma formuly naliczenia skladnika wynagrodzzenia "+p.getRodzajwynagrodzenia().getOpisskrocony());
             }
         }
-        return jestoddelegowanie;
     }
     
     

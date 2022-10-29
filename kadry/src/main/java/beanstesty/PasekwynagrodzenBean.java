@@ -128,15 +128,16 @@ public class PasekwynagrodzenBean {
         } else {
             pasek.setDo26lat(false);
         }
-        pasek.setNierezydent(obliczczynierezydent(kalendarz.getUmowa(), datawyplaty)||kalendarz.isNierezydent());
+        boolean nierezydent = obliczczynierezydent(kalendarz.getUmowa(), datawyplaty)||kalendarz.isNierezydent();
+        pasek.setNierezydent(nierezydent);
         pasek.setWynagrodzenieminimalne(wynagrodzenieminimalne);
         pasek.setDefinicjalistaplac(definicjalistaplac);
         pasek.setKalendarzmiesiac(kalendarz);
         pasek.setRok(definicjalistaplac.getRok());
         pasek.setMc(definicjalistaplac.getMc());
-        boolean jestoddelegowanie = false;
+        boolean jestoddelegowanie = kalendarz.getDnioddelegowania()>0;
         if (umowaoprace) {
-            jestoddelegowanie = KalendarzmiesiacBean.naliczskladnikiwynagrodzeniaDB(kalendarz, pasek, kurs);
+            KalendarzmiesiacBean.naliczskladnikiwynagrodzeniaDB(kalendarz, pasek, kurs);
             List<Nieobecnosc> nieobecnosci = pobierznieobecnosci(kalendarz);
             List<Nieobecnosc> zatrudnieniewtrakciemiesiaca = pobierz(nieobecnosci,"D");
             List<Nieobecnosc> choroba = pobierz(nieobecnosci,"CH");
@@ -159,11 +160,11 @@ public class PasekwynagrodzenBean {
             if (pasek.isNierezydent()) {
                 pasek.setDo26lat(false);
             }
-            jestoddelegowanie = KalendarzmiesiacBean.naliczskladnikiwynagrodzeniaDBZlecenie(kalendarz, pasek, kurs);
+            KalendarzmiesiacBean.naliczskladnikiwynagrodzeniaDBZlecenie(kalendarz, pasek, kurs);
         } else if (umowafunkcja) {
-            jestoddelegowanie = KalendarzmiesiacBean.naliczskladnikiwynagrodzeniaDBFunkcja(kalendarz, pasek, kurs);
+            KalendarzmiesiacBean.naliczskladnikiwynagrodzeniaDBFunkcja(kalendarz, pasek, kurs);
         } else {
-            jestoddelegowanie = KalendarzmiesiacBean.naliczskladnikiwynagrodzeniaDBNierezydent(kalendarz, pasek, kurs);
+            KalendarzmiesiacBean.naliczskladnikiwynagrodzeniaDBNierezydent(kalendarz, pasek, kurs);
         }
 //        KalendarzmiesiacBean.naliczskladnikipotraceniaDB(kalendarz, pasek);
         if (definicjalistaplac.getRodzajlistyplac().getSymbol().equals("ZA")) {

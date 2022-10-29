@@ -93,31 +93,39 @@
                         <bcf:outputpl value="#{pasekwynagrodzenView.wybranykalendarz.pasek.netto}"/>
                     </p:panelGrid>
                     <h:outputText value="kalendarz:"/>
-                    <p:panelGrid columns="6" style="width: 600px; margin-bottom: 10px;">
+                    <p:panelGrid columns="8" style="width: 600px; margin-bottom: 10px;">
                         <h:outputText value="dni rob. należne: "/>
                         <h:outputText value="godz. rob. należne: "/>
                         <h:outputText value="dni urlop. wyp.: "/>
                         <h:outputText value="dni urlop. bezpł.: "/>
                         <h:outputText value="dni choroba: "/>
                         <h:outputText value="dni zasilek: "/>
+                        <h:outputText value="dni macierzynski: "/>
+                        <h:outputText value="dni wychowawczy: "/>
                         <h:outputText value="dni rob. wykonane: "/>
                         <h:outputText value="godz. rob. wykonane: "/>
                         <h:outputText value="godziny urlop. wyp.: "/>
                         <h:outputText value="godziny urlop. bezpł.: "/>
                         <h:outputText value="godziny choroba: "/>
                         <h:outputText value="godziny zasilek: "/>
+                        <h:outputText value="godziny macierz.: "/>
+                        <h:outputText value="godziny wychow.: "/>
                         <h:outputText value="#{pasekwynagrodzenView.wybranykalendarz.robocze()[0]}" styleClass="wwb"/>
                         <h:outputText value="#{pasekwynagrodzenView.wybranykalendarz.roboczegodz()[0]}" styleClass="wwb"/>
                         <h:outputText value="#{pasekwynagrodzenView.wybranykalendarz.urlopdnigodz()[0]}" styleClass="wwb"/>
                         <h:outputText value="#{pasekwynagrodzenView.wybranykalendarz.urlopbezplatnydnigodz()[0]}" styleClass="wwb"/>
                         <h:outputText value="#{pasekwynagrodzenView.wybranykalendarz.chorobadnigodz()[0]}" styleClass="wwb"/>
                         <h:outputText value="#{pasekwynagrodzenView.wybranykalendarz.zasilekdnigodz()[0]}" styleClass="wwb"/>
+                        <h:outputText value="#{pasekwynagrodzenView.wybranykalendarz.macierzynskidnigodz()[0]}" styleClass="wwb"/>
+                        <h:outputText value="#{pasekwynagrodzenView.wybranykalendarz.wychowawczydnigodz()[0]}" styleClass="wwb"/>
                         <h:outputText value="#{pasekwynagrodzenView.wybranykalendarz.robocze()[1]}" styleClass="wwb"/>
                         <h:outputText value="#{pasekwynagrodzenView.wybranykalendarz.roboczegodz()[1]}" styleClass="wwb"/>
                         <h:outputText value="#{pasekwynagrodzenView.wybranykalendarz.urlopdnigodz()[1]}" styleClass="wwb"/>
                         <h:outputText value="#{pasekwynagrodzenView.wybranykalendarz.urlopbezplatnydnigodz()[1]}" styleClass="wwb"/>
                         <h:outputText value="#{pasekwynagrodzenView.wybranykalendarz.chorobadnigodz()[1]}" styleClass="wwb"/>
                         <h:outputText value="#{pasekwynagrodzenView.wybranykalendarz.zasilekdnigodz()[1]}" styleClass="wwb"/>
+                        <h:outputText value="#{pasekwynagrodzenView.wybranykalendarz.macierzynskidnigodz()[1]}" styleClass="wwb"/>
+                        <h:outputText value="#{pasekwynagrodzenView.wybranykalendarz.wychowawczydnigodz()[1]}" styleClass="wwb"/>
                     </p:panelGrid>
                     <p:tabView>
                         <p:tab title="Składniki wynagrodzenia">
@@ -191,10 +199,10 @@
                                         <h:outputText value="/"/>
                                         <h:outputText value="#{itempasekpotr.skladnikwynagrodzenia.rodzajwynagrodzenia.opisskrocony}"/>
                                     </p:column>
-                                    <p:column headerText="data od" width="60" sortBy="#{itempasekpotr.nieobecnosc.dataod}" sortOrder="asc" sortPriority="1">
+                                    <p:column headerText="data od" width="50" sortBy="#{itempasekpotr.nieobecnosc.dataod}" sortOrder="asc" sortPriority="1">
                                         <h:outputText value="#{itempasekpotr.nieobecnosc.dataod}"/>
                                     </p:column>
-                                    <p:column headerText="data do" width="60">
+                                    <p:column headerText="data do" width="50">
                                         <h:outputText value="#{itempasekpotr.nieobecnosc.datado}"/>
                                     </p:column>
                                     <p:column headerText="dnia kalen." width="40" style="text-align: center;">
@@ -209,7 +217,7 @@
                                     <p:column headerText="godziny robocze" width="40" style="text-align: center;">
                                         <h:outputText value="#{itempasekpotr.liczbagodzinobowiazku}"/>
                                     </p:column>
-                                    <p:column headerText="suma kwot do śr." width="40">
+                                    <p:column headerText="suma kwot do śr." width="50">
                                         <bcf:outputpl value="#{itempasekpotr.sumakwotdosredniej}"/>
                                     </p:column>
                                     <p:column headerText="suma godz. do śr." width="40" style="text-align: right;">
