@@ -35,7 +35,7 @@
                         </p:outputPanel>
                         <ui:include src="sub/menu_wiad.xhtml"/>   <!-- menu contextowe i pole wiadomosci growl-->
                         <p:outputPanel style="width: 1800px;">
-                            <p:tabView id="akordeon">
+                            <p:tabView id="akordeon" activeIndex="#{umowaView.tabView}">
                                 <p:tab title="umowy">
                                     <ui:include src="sub/dane_rodzajumowy.xhtml"/>
                                     <ui:include src="sub/dane_umowa.xhtml"/>
@@ -64,6 +64,7 @@
                                 <p:tab title="św. wydruk">
                                     <ui:include src="sub/dane1_edycja_swiadectwo_wydruk.xhtml"/>
                                 </p:tab>
+                                
                             </p:tabView>
                         </p:outputPanel>
                         

@@ -72,6 +72,7 @@ public class UmowaView  implements Serializable {
     @Inject
     private EtatPrac etat;
     private List<Umowa> lista;
+    private List<Umowa> listawypowiedzenia;
     private List<Angaz> listaangaz;
     private List<Umowakodzus> listaumowakodzus;
     private List<Kodyzawodow> listakodyzawodow;
@@ -120,6 +121,7 @@ public class UmowaView  implements Serializable {
     private String datadzisiejsza;
     private String miejscowosc;
     private String rodzajumowy;
+    private int tabView;
     
     @PostConstruct
     public void init() {
@@ -133,6 +135,7 @@ public class UmowaView  implements Serializable {
             }
             if (rodzajumowy.equals("1")) {
                 lista  = umowaFacade.findByAngazPraca(wpisView.getAngaz());
+                listawypowiedzenia = umowaFacade.findByAngazPraca(wpisView.getAngaz());
                 listaumowakodzus = rodzajumowyFacade.findUmowakodzusAktywnePraca();
             } else if (rodzajumowy.equals("2")) {
                 lista  = umowaFacade.findByAngazZlecenie(wpisView.getAngaz());
@@ -143,6 +146,7 @@ public class UmowaView  implements Serializable {
             }
         } else {
             lista = new ArrayList<>();
+            listawypowiedzenia = new ArrayList<>();
         }
         //to psuje zmiane pracownika jak ma tyylko umowy zlecenia
 //        if (rodzajumowy==null) {
@@ -209,6 +213,19 @@ public class UmowaView  implements Serializable {
        datadzisiejsza = Data.aktualnaData();
        miejscowosc = wpisView.getFirma().getMiasto();
        updateClassView.updateUmowa();
+    }
+    
+    public void wyborinnejumowy2() {
+        if (rodzajumowy==null) {
+            rodzajumowy = "1";
+        }
+        if (rodzajumowy.equals("1")) {
+            listawypowiedzenia  = umowaFacade.findByAngazPraca(wpisView.getAngaz());
+        } else if (rodzajumowy.equals("2")) {
+            listawypowiedzenia  = umowaFacade.findByAngazZlecenie(wpisView.getAngaz());
+        } else  {
+            listawypowiedzenia  = umowaFacade.findByAngazFunkcja(wpisView.getAngaz());
+        }
     }
     
      
@@ -401,7 +418,7 @@ public class UmowaView  implements Serializable {
     
     public void sprawdzczyumowajestnaczas() {
         if (selected.getDatado()!=null) {
-            if (selected.getSlownikszkolazatrhistoria().getSymbol().equals("P")) {
+            if (selected.getSlownikszkolazatrhistoria()!=null&&selected.getSlownikszkolazatrhistoria().getSymbol().equals("P")) {
                 Msg.msg("e","Wybrano umowę na czas nieokreślony a wprowadzono datę do!");
             }
         }
@@ -557,6 +574,16 @@ public class UmowaView  implements Serializable {
         }
     }
     
+    public void przedluz() {
+        if (selectedlista != null) {
+            tabView=1;
+            selected = new Umowa(selectedlista);
+            Msg.msg("Przygotowano dane");
+        } else {
+            Msg.msg("e","Nie wybrano umowy");
+        }
+    }
+    
     public void drukujumoweselected() {
         if (selected!=null) {
             PdfUmowaoPrace.drukuj(selected);
@@ -686,6 +713,24 @@ public class UmowaView  implements Serializable {
     public void setWybraneumowy(List<Umowa> wybraneumowy) {
         this.wybraneumowy = wybraneumowy;
     }
+
+    public int getTabView() {
+        return tabView;
+    }
+
+    public void setTabView(int tabView) {
+        this.tabView = tabView;
+    }
+
+    public List<Umowa> getListawypowiedzenia() {
+        return listawypowiedzenia;
+    }
+
+    public void setListawypowiedzenia(List<Umowa> listawypowiedzenia) {
+        this.listawypowiedzenia = listawypowiedzenia;
+    }
+
+    
 
     
     public static void main(String[] args) {

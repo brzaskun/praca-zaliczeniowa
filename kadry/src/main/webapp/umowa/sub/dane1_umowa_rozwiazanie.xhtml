@@ -10,10 +10,10 @@
     <p:outputPanel style="margin-top: 10px;">
         <h:form id="UmowaListFormR">
             <p:panel header="Wykaz umów #{umowaView.rodzajumowy eq '1' ?'o pracę':'zlecenia i o dzieło'} z uwzględnieniem wypowiedzenia">
-                <p:dataTable id="datalist" value="#{umowaView.lista}" var="itemumowa" widgetVar="dataListumowa"
+                <p:dataTable id="datalist" value="#{umowaView.listawypowiedzenia}" var="itemumowawy" widgetVar="dataListumowaR"
                              selection="#{rozwiazanieumowyView.wybranaumowa}" emptyMessage="Brak zawartych umów" rowSelectMode="add"
-                             rowKey="#{itemumowa.id}" sortBy="#{itemumowa.dataod}" sortMode="single"
-                             style="height: 220px; overflow-y: scroll; width: 1800px;"
+                             rowKey="#{itemumowawy.id}" sortBy="#{itemumowawy.dataod}" sortMode="single"
+                             style="height: 220px; overflow-y: scroll; width: 1720px;"
                              >
                     <p:ajax event="rowSelect" listener="#{rozwiazanieumowyView.pobierzRozwiazanie()}" update="akordeon:RozwiazaniaNowyForm akordeon:RozwiazaniaListForm akordeon:SwiadectwoForm" partialSubmit="true" global="false" />
                     <p:ajax event="rowSelectRadio" listener="#{rozwiazanieumowyView.pobierzRozwiazanie()}" update="akordeon:RozwiazaniaNowyForm akordeon:RozwiazaniaListForm akordeon:SwiadectwoForm"  partialSubmit="true" global="false"/>
@@ -22,97 +22,86 @@
                         <f:facet name="header">
                             <h:outputText value="nr"/>
                         </f:facet>
-                        <h:outputText value="#{itemumowa.nrkolejny}" style="line-break: auto; word-break: break-all;color: #{itemumowa.aktywna eq true ? 'green':'initial'}"/>
+                        <h:outputText value="#{itemumowawy.nrkolejny}" style="line-break: auto; word-break: break-all;color: #{itemumowawy.aktywna eq true ? 'green':'initial'}"/>
                     </p:column>
                     <!--                         <p:column>
                                                 <f:facet name="header">
                                                     <h:outputText value="angaz"/>
                                                 </f:facet>
-                                                 <h:outputText value="#{itemumowa.angaz.pracownik.nazwiskoImie}" style="color: #{itemumowa.aktywna eq true ? 'green':'initial'}"/>
+                                                 <h:outputText value="#{itemumowawy.angaz.pracownik.nazwiskoImie}" style="color: #{itemumowawy.aktywna eq true ? 'green':'initial'}"/>
                                             </p:column>-->            <p:column width="100">
                         <f:facet name="header">
                             <h:outputText value="umowa"/>
                         </f:facet>
-                        <h:outputText value="#{itemumowa.slownikszkolazatrhistoria.opis}" style="color: #{itemumowa.aktywna eq true ? 'green':'initial'}"/>
+                        <h:outputText value="#{itemumowawy.slownikszkolazatrhistoria.opis}" style="color: #{itemumowawy.aktywna eq true ? 'green':'initial'}"/>
                     </p:column>
                     <p:column width="200">
                         <f:facet name="header">
                             <h:outputText value="rodzaj umowy ZUS"/>
                         </f:facet>
-                        <h:outputText value="#{itemumowa.umowakodzus.opiswybor}" style="color: #{itemumowa.aktywna eq true ? 'green':'initial'}"/>
+                        <h:outputText value="#{itemumowawy.umowakodzus.opiswybor}" style="color: #{itemumowawy.aktywna eq true ? 'green':'initial'}"/>
                     </p:column>
                     <p:column style="text-align: center;">
                         <f:facet name="header">
                             <h:outputText value="odliczac ulge pod."/>
                         </f:facet>
-                        <h:outputText value="&#x2714;" rendered="#{itemumowa.odliczaculgepodatkowa eq true}" style="color: #{itemumowa.aktywna eq true ? 'green':'initial'}"/>
+                        <h:outputText value="&#x2714;" rendered="#{itemumowawy.odliczaculgepodatkowa eq true}" style="color: #{itemumowawy.aktywna eq true ? 'green':'initial'}"/>
                     </p:column>
                     <p:column style="text-align: center;">
                         <f:facet name="header">
                             <h:outputText value="rozw."/>
                         </f:facet>
-                        <h:outputText value="&#x2714;"  rendered="#{itemumowa.rozwiazanieumowy ne null}"/>
+                        <h:outputText value="&#x2714;"  rendered="#{itemumowawy.rozwiazanieumowy ne null}"/>
                     </p:column>
                     <p:column style="text-align: center;">
                         <f:facet name="header">
                             <h:outputText value="data wyp."/>
                         </f:facet>
-                        <h:outputText value="#{itemumowa.rozwiazanieumowy.datawypowiedzenia}"  rendered="#{itemumowa.rozwiazanieumowy ne null}"/>
+                        <h:outputText value="#{itemumowawy.rozwiazanieumowy.datawypowiedzenia}"  rendered="#{itemumowawy.rozwiazanieumowy ne null}"/>
                     </p:column>
                     
-                    <p:column style="text-align: center;color: #{itemumowa.aktywna eq true ? 'green':'initial'}" sortOrder="desc" sortBy="#{itemumowa.dataod}">
+                    <p:column style="text-align: center;color: #{itemumowawy.aktywna eq true ? 'green':'initial'}" sortOrder="desc" sortBy="#{itemumowawy.dataod}">
                         <f:facet name="header">
                             <h:outputText value="data od"/>
                         </f:facet>
-                        <h:outputText value="#{itemumowa.dataod}"/>
+                        <h:outputText value="#{itemumowawy.dataod}"/>
                     </p:column>
-                    <p:column style="text-align: center;color: #{itemumowa.aktywna eq true ? 'green':'initial'}">
+                    <p:column style="text-align: center;color: #{itemumowawy.aktywna eq true ? 'green':'initial'}">
                         <f:facet name="header">
                             <h:outputText value="data do"/>
                         </f:facet>
-                        <h:outputText value="#{itemumowa.datado}"/>
+                        <h:outputText value="#{itemumowawy.datado}"/>
                     </p:column>
 
                     <p:column style="text-align: center;">
                         <f:facet name="header">
                             <h:outputText value="zas. chor. od "/>
                         </f:facet>
-                        <h:outputText value="#{itemumowa.pierwszydzienzasilku}"/>
+                        <h:outputText value="#{itemumowawy.pierwszydzienzasilku}"/>
                     </p:column>
                     <p:column style="text-align: center;">
                         <f:facet name="header">
                             <h:outputText value="koszty uzyskania"/>
                         </f:facet>
-                        <h:outputText value="#{itemumowa.kosztyuzyskaniaprocent}"/>
+                        <h:outputText value="#{itemumowawy.kosztyuzyskaniaprocent}"/>
                     </p:column>
                     <p:column style="text-align: center;">
                         <f:facet name="header">
                             <h:outputText value="kod ubezpieczenia"/>
                         </f:facet>
-                        <h:outputText value="#{itemumowa.umowakodzus.kod}"/>
+                        <h:outputText value="#{itemumowawy.umowakodzus.kod}"/>
                     </p:column>
                     <p:column style="text-align: center;">
                         <f:facet name="header">
                             <h:outputText value="kod zawodu"/>
                         </f:facet>
-                        <h:outputText value="#{itemumowa.kodzawodu.symbolkzis}"/>
+                        <h:outputText value="#{itemumowawy.kodzawodu.symbolkzis}"/>
                     </p:column>
                     <p:column style="text-align: center;">
                         <f:facet name="header">
                             <h:outputText value="nfz"/>
                         </f:facet>
-                        <h:outputText value="#{itemumowa.nfz}"/>
-                    </p:column>
-                    <p:column width="40" style="text-align: center;">
-                        <p:commandButton icon="fa fa-edit" actionListener="#{umowaView.edytuj(itemumowa)}" update="north, @(form)"/>
-                    </p:column>
-                    <p:column width="40" style="text-align: center;">
-                        <p:commandButton icon="fa fa-file-text-o"  actionListener="#{umowaView.edytuj(itemumowa)}" onclick="PF('dialogumowatresc').show();" update="north, @(form)"/>
-                    </p:column>
-                    <p:column width="40" style="text-align: center;">
-                        <p:commandButton icon="fa fa-trash" actionListener="#{umowaView.usun(itemumowa)}" update="north, @(form)">
-                            <p:confirm type="popup" header="Potwierdzenie" message="Usunąć daną umowę?" icon="pi pi-exclamation-triangle"/>
-                        </p:commandButton>
+                        <h:outputText value="#{itemumowawy.nfz}"/>
                     </p:column>
                 </p:dataTable>
             </p:panel>

@@ -245,6 +245,34 @@ public class Umowa implements Serializable {
         this.stanowiskopracList = new ArrayList<>();
     }
 
+    public Umowa(Umowa stara) {
+        String nowadata = Data.dodajdzien(stara.datado, 1);;
+        this.dataod = nowadata;
+        this.datazawarcia = nowadata;
+        this.nfz = stara.nfz;
+        this.stanowisko = stara.stanowisko;
+        this.miejscepracy = stara.miejscepracy;
+        this.kosztyuzyskania0podwyzszone1 = stara.kosztyuzyskania0podwyzszone1;
+        this.nierezydent = stara.nierezydent;
+        this.dataprzyjazdudopolski = stara.dataprzyjazdudopolski;
+        this.odliczaculgepodatkowa = stara.odliczaculgepodatkowa;
+        this.nieliczFGSP = stara.nieliczFGSP;
+        this.nieliczFP = stara.nieliczFP;
+        this.kodzawodu = stara.kodzawodu;
+        this.etatList = noweetat(stara.etatList,this);
+        this.angaz = stara.angaz;
+        this.opiszawodu = stara.opiszawodu;
+        this.miejscepracy = stara.miejscepracy;
+        this.skladnikpotraceniaList = nowepotracenie(stara.skladnikpotraceniaList,this);
+        this.skladnikwynagrodzeniaList = noweskladniki(stara.skladnikwynagrodzeniaList,this);
+        this.stanowiskopracList = nowestanowisko(stara.stanowiskopracList,this);
+        this.opiszawodu = stara.opiszawodu;
+        this.innewarunkizatrudnienia = stara.innewarunkizatrudnienia;
+        this.terminrozpoczeciapracy = nowadata;
+        this.dopuszczalnailoscgodzin = stara.dopuszczalnailoscgodzin;
+   }
+    
+    
     public Integer getId() {
         return id;
     }
@@ -1005,5 +1033,120 @@ public class Umowa implements Serializable {
         return zwrot;
     }
 
+    private List<EtatPrac> noweetat(List<EtatPrac> etatList, Umowa aThis) {
+        List<EtatPrac> zwrot = new ArrayList<>();
+        if (etatList!=null) {
+            for (EtatPrac e : etatList) {
+                if (e.getDatado()==null || e.getDatado().equals("")) {
+                    EtatPrac nowy = new EtatPrac();
+                    nowy.setDataod(aThis.getDataod());
+                    nowy.setEtat1(e.getEtat1());
+                    nowy.setEtat2(e.getEtat2());
+                    nowy.setUmowa(aThis);
+                    zwrot.add(nowy);
+                }
+            }
+        }
+        return zwrot;
+    }
+
+    private List<Skladnikpotracenia> nowepotracenie(List<Skladnikpotracenia> skladnikpotraceniaList, Umowa aThis) {
+        List<Skladnikpotracenia> zwrot = new ArrayList<>();
+        if (skladnikpotraceniaList!=null) {
+            for (Skladnikpotracenia e : skladnikpotraceniaList) {
+                if (e.isRozliczony()==false) {
+                    Skladnikpotracenia nowy = new Skladnikpotracenia();
+                    nowy.setUmowa(aThis);
+                    nowy.setNazwa(e.getNazwa());
+                    nowy.setRodzajpotracenia(e.getRodzajpotracenia());
+                    nowy.setRozliczony(false);
+                    nowy.setZmiennapotraceniaList(nowezmienne(e.getZmiennapotraceniaList()));
+                    zwrot.add(nowy);
+                }
+            }
+        }
+        return zwrot;
+    }
+
+    private List<Zmiennapotracenia> nowezmienne(List<Zmiennapotracenia> zmiennapotraceniaList) {
+        List<Zmiennapotracenia> zwrot = new ArrayList<>();
+        if (zmiennapotraceniaList!=null) {
+            for (Zmiennapotracenia e : zmiennapotraceniaList) {
+                if (e.getDatado()==null || e.getDatado().equals("")) {
+                    Zmiennapotracenia nowy = new Zmiennapotracenia();
+                    nowy.setDataod(e.getDataod());
+                    nowy.setSkladnikpotracenia(e.getSkladnikpotracenia());
+                    nowy.setKwotakomornicza(e.getKwotakomornicza());
+                    nowy.setSkladnikpotracenia(e.getSkladnikpotracenia());
+                    nowy.setKwotakomornicza(e.getKwotakomornicza());
+                    nowy.setKwotakomorniczarozliczona(e.getKwotakomorniczarozliczona());
+                    nowy.setKwotastala(e.getKwotastala());
+                    nowy.setMaxustawowy(e.isMaxustawowy());
+                    zwrot.add(nowy);
+                }
+            }
+        }
+        return zwrot;
+    }
+
+    private List<Stanowiskoprac> nowestanowisko(List<Stanowiskoprac> stanowiskopracList, Umowa aThis) {
+        List<Stanowiskoprac> zwrot = new ArrayList<>();
+        if (stanowiskopracList!=null) {
+            for (Stanowiskoprac e : stanowiskopracList) {
+                if (e.getDatado()==null || e.getDatado().equals("")) {
+                    Stanowiskoprac nowy = new Stanowiskoprac();
+                    nowy.setDataod(aThis.getDataod());
+                    nowy.setOpis(e.getOpis());
+                    nowy.setUwagi(e.getUwagi());
+                    nowy.setUmowa(aThis);
+                    zwrot.add(nowy);
+                }
+            }
+        }
+        return zwrot;
+    }
+
+    private List<Skladnikwynagrodzenia> noweskladniki(List<Skladnikwynagrodzenia> skladnikwynagrodzeniaList, Umowa aThis) {
+        List<Skladnikwynagrodzenia> zwrot = new ArrayList<>();
+        if (skladnikwynagrodzeniaList!=null) {
+            for (Skladnikwynagrodzenia e : skladnikwynagrodzeniaList) {
+                if (e.getZmiennawynagrodzeniaList()==null) {
+                    Skladnikwynagrodzenia nowy = new Skladnikwynagrodzenia();
+                    nowy.setUmowa(aThis);
+                    nowy.setOddelegowanie(e.isOddelegowanie());
+                    nowy.setRodzajwynagrodzenia(nowy.getRodzajwynagrodzenia());
+                    nowy.setUwagi(nowy.getUwagi());
+                    //nowy.setWks_serial(nowy.getWks_serial());
+                    nowy.setZmiennawynagrodzeniaList(nowezmiennewynagrodzenia(e.getZmiennawynagrodzeniaList()));
+                    if (nowy.getZmiennawynagrodzeniaList()!=null&&nowy.getZmiennawynagrodzeniaList().size()>0) {
+                        zwrot.add(nowy);
+                    }
+                }
+            }
+        }
+        return zwrot;
+    }
+
+    
+    private List<Zmiennawynagrodzenia> nowezmiennewynagrodzenia(List<Zmiennawynagrodzenia> zmiennawynagrodzeniaList) {
+        List<Zmiennawynagrodzenia> zwrot = new ArrayList<>();
+        if (zmiennawynagrodzeniaList!=null) {
+            for (Zmiennawynagrodzenia e : zmiennawynagrodzeniaList) {
+                if (e.getDatado()==null || e.getDatado().equals("")) {
+                    Zmiennawynagrodzenia nowy = new Zmiennawynagrodzenia();
+                    nowy.setDataod(e.getDataod());
+                    nowy.setSkladnikwynagrodzenia(e.getSkladnikwynagrodzenia());
+                    nowy.setKwota(e.getKwota());
+                    nowy.setMinimalneustatowe(e.isMinimalneustatowe());
+                    nowy.setNazwa(e.getNazwa());
+                    nowy.setNetto0brutto1(e.isNetto0brutto1());
+                    nowy.setAktywna(e.isAktywna());
+                    nowy.setWaluta(e.getWaluta());
+                    zwrot.add(nowy);
+                }
+            }
+        }
+        return zwrot;
+    }
    
 }

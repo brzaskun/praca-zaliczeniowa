@@ -11,11 +11,13 @@
         <h:form id="UmowaListForm">
             <p:panel header="Wykaz umów #{umowaView.rodzajumowy eq '1' ?'o pracę':'zlecenia i o dzieło'} / Gdy jest pusta sprawdź w parametrach przyporządkowanie kodu do umowy">
                 <p:dataTable id="datalist" value="#{umowaView.lista}" var="itemumowa" widgetVar="dataListumowa"
-                             selectionMode="single" selection="#{umowaView.selectedlista}" emptyMessage="Brak zawartych umów"
+                             selection="#{umowaView.selectedlista}" emptyMessage="Brak zawartych umów"
                              rowKey="#{itemumowa.id}" sortBy="#{itemumowa.dataod}" sortMode="single"
                              style="height: 220px; overflow-y: scroll; width: 1800px;"
                              >
                     <p:ajax event="rowSelect" listener="#{umowaView.aktywuj}" partialSubmit="true" global="false" update="north, @(form)"/>
+                    <p:ajax event="rowSelectRadio" listener="#{umowaView.aktywuj}" partialSubmit="true" global="false" update="north, @(form)"/>
+                    <p:column width="40" selectionMode="single" selectRow="true" style="text-align: center;"/>
                     <p:column width="80" style="text-align: center;">
                         <f:facet name="header">
                             <h:outputText value="nr"/>
@@ -150,7 +152,8 @@
                 </p:dataTable>
             </p:panel>
             <p:contextMenu for="datalist" style="width: 200px;">
-                <p:menuitem value="oznacz jako aktywną" icon="fa fa-star" actionListener="#{umowaView.oznaczjakoaktywna()}" update="@form"/>
+                <p:menuitem value="oznacz jako aktywną" icon="pi pi-star" actionListener="#{umowaView.oznaczjakoaktywna()}" update="@form"/>
+                <p:menuitem value="przedłuż umowę" icon="pi pi-step-forward-alt" actionListener="#{umowaView.przedluz()}" update="@form akordeon akordeon:UmowaCreateForm"/>
             </p:contextMenu>
         </h:form>
     </p:outputPanel>
