@@ -7,6 +7,7 @@ package view;
 
 import DAOsuperplace.OsobaPropTypFacade;
 import DAOsuperplace.WynKodTytFacade;
+import beanstesty.NieobecnosciBean;
 import beanstesty.PasekwynagrodzenBean;
 import beanstesty.UmowaBean;
 import dao.AngazFacade;
@@ -258,8 +259,7 @@ public class UmowaView  implements Serializable {
                 stanowiskopracFacade.create(stanowisko);
                 selected.getStanowiskopracList().add(stanowisko);
             }
-            Msg.msg("Dodano nową umowę");
-            Kalendarzmiesiac kalendarz = generujKalendarzNowaUmowa();
+            generujKalendarzNowaUmowa();
             if (wynagrodzeniemiesieczne!=0.0 || wynagrodzeniegodzinowe!=0.0){
               Rodzajwynagrodzenia rodzajwynagrodzenia = selected.getUmowakodzus().isPraca() ? rodzajwynagrodzeniaFacade.findZasadniczePraca(): rodzajwynagrodzeniaFacade.findZasadniczeZlecenie();
               if (wynagrodzeniegodzinowe != 0.0) {
@@ -272,9 +272,14 @@ public class UmowaView  implements Serializable {
               }
               skladnikWynagrodzeniaView.init();
               zmiennaWynagrodzeniaView.init();
+              Kalendarzmiesiac kalendarz = kalendarzmiesiacFacade.findByRokMcUmowa(selected, selected.getRok(), selected.getMc());
               List<Nieobecnosc> zatrudnieniewtrakciemiesiaca = PasekwynagrodzenBean.generuj(kalendarz.getUmowa(),rodzajnieobecnosciFacade, kalendarz.getRok(), kalendarz.getMc(), kalendarz);
               if (zatrudnieniewtrakciemiesiaca!=null) {
                 nieobecnoscFacade.createList(zatrudnieniewtrakciemiesiaca);
+                boolean czynaniesiono = NieobecnosciBean.nanies(zatrudnieniewtrakciemiesiaca.get(0), wpisView.getRokWpisu(), wpisView.getRokUprzedni(), kalendarzmiesiacFacade, nieobecnoscFacade);
+                if (czynaniesiono==false) {
+                    Msg.msg("e", "Wystąpił błąd podczas nanoszenia rozpoczęcia umowy");
+                }
               }
             }
             selected = new Umowa();
@@ -282,6 +287,7 @@ public class UmowaView  implements Serializable {
             etat1 = null;
             etat2 = null;
             updateClassView.updateUmowa();
+            Msg.msg("Dodano nową umowę");
           } catch (Exception e) {
               Msg.msg("e", "Błąd - nie dodano nowej umowy. Sprawdź angaż");
           }

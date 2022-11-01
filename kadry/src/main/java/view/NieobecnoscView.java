@@ -5,6 +5,7 @@
  */
 package view;
 
+import beanstesty.NieobecnosciBean;
 import comparator.Pracownikcomparator;
 import comparator.Rodzajnieobecnoscicomparator;
 import dao.DzienFacade;
@@ -309,38 +310,9 @@ public class NieobecnoscView  implements Serializable {
         }
     
     public boolean nanies(Nieobecnosc nieobecnosc) {
-        boolean czynaniesiono = false;
-        if (nieobecnosc.isNaniesiona() == false) {
-            try {
-                if (nieobecnosc.getRokod().equals(wpisView.getRokWpisu()) || nieobecnosc.getRokdo().equals(wpisView.getRokWpisu())) {
-                    String mcod = nieobecnosc.getMcod();
-                    if (nieobecnosc.getRokod().equals(wpisView.getRokUprzedni())) {
-                        mcod = "01";
-                    }
-                    String mcdo = nieobecnosc.getMcdo();
-                    for (String mc : Mce.getMceListS()) {
-                        if (Data.jestrownywiekszy(mc, mcod) && Data.jestrownywiekszy(mcdo, mc)) {
-                            Kalendarzmiesiac znaleziony = kalendarzmiesiacFacade.findByRokMcUmowa(nieobecnosc.getUmowa(), wpisView.getRokWpisu(), mc);
-                            if (znaleziony != null) {
-                                if (nieobecnosc.getRokod().equals(wpisView.getRokWpisu()) || nieobecnosc.getRokdo().equals(wpisView.getRokWpisu())) {
-                                    int dniroboczenieobecnosci = znaleziony.naniesnieobecnosc(nieobecnosc);
-                                    if (dniroboczenieobecnosci>0) {
-                                        nieobecnosc.setDniroboczenieobecnosci(nieobecnosc.getDniroboczenieobecnosci()+dniroboczenieobecnosci);
-                                    }
-                                }
-                                nieobecnoscFacade.edit(nieobecnosc);
-                                kalendarzmiesiacFacade.edit(znaleziony);
-                                czynaniesiono = true;
-                                kalendarzmiesiacView.init();
-                            } else {
-                                Msg.msg("e", "Brak kalendarza pracownika za miesiąc rozliczeniowy. Nie można nanieść nieobecności!");
-                            }
-                        }
-                    }
-                }
-            } catch (Exception e) {
-                Msg.msg("e", "Wystąpił błąd podczas nanoszenia nieobecności");
-            }
+        boolean czynaniesiono = NieobecnosciBean.nanies(nieobecnosc, wpisView.getRokWpisu(), wpisView.getRokUprzedni(), kalendarzmiesiacFacade, nieobecnoscFacade);
+        if (czynaniesiono==false) {
+            Msg.msg("e", "Wystąpił błąd podczas nanoszenia nieobecności");
         }
         return czynaniesiono;
     }

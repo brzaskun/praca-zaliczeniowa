@@ -35,10 +35,10 @@
                         <p:inputText id="dataode" value="#{stanowiskoPracView.selected.dataod}" title="data od" placeholder="____-__-__"  required="true"/>
                         <p:outputLabel value="data do" for="datadoe" />
                         <p:inputText id="datadoe" value="#{stanowiskoPracView.selected.datado}" title="data do" placeholder="____-__-__" />
-                        <p:outputLabel value=" " for="stanowisko" />
-                        <p:inputNumber id="stanowisko" value="#{stanowiskoPracView.selected.opis}" size="2" maxValue="9" maxlength="1" decimalPlaces="0"/>
-                        <p:outputLabel value=" " for="uwagi" />
-                        <p:inputNumber id="uwagi" value="#{stanowiskoPracView.selected.uwagi}" size="2" maxValue="9" maxlength="1" decimalPlaces="0"/>
+                        <p:outputLabel value="stanowisko" for="stanowisko" />
+                        <p:inputText id="stanowisko" value="#{stanowiskoPracView.selected.opis}" size="40"/>
+                        <p:outputLabel value="uwagi" for="uwagi" />
+                        <p:inputText id="uwagi" value="#{stanowiskoPracView.selected.uwagi}" size="30" />
                     </p:panelGrid>
                     <p:commandButton styleClass="buttonnorm" actionListener="#{stanowiskoPracView.create}" value="#{bundle.Save}" update="display,@(form)"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="EtatCreateDialog.hide()"/>

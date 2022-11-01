@@ -7,6 +7,8 @@ package beanstesty;
 
 import dao.KalendarzmiesiacFacade;
 import dao.NieobecnoscFacade;
+import data.Data;
+import embeddable.Mce;
 import embeddable.Okres;
 import entity.Kalendarzmiesiac;
 import entity.Nieobecnosc;
@@ -175,4 +177,42 @@ public class NieobecnosciBean {
 //        }
 //        return czynaniesiono;
 //    }
+     
+     public static boolean nanies(Nieobecnosc nieobecnosc, String rokwpisu, String rokuprzedni, KalendarzmiesiacFacade kalendarzmiesiacFacade, NieobecnoscFacade nieobecnoscFacade) {
+        boolean czynaniesiono = false;
+        if (nieobecnosc.isNaniesiona() == false) {
+            try {
+                if (nieobecnosc.getRokod().equals(rokwpisu) || nieobecnosc.getRokdo().equals(rokwpisu)) {
+                    String mcod = nieobecnosc.getMcod();
+                    if (nieobecnosc.getRokod().equals(rokuprzedni)) {
+                        mcod = "01";
+                    }
+                    String mcdo = nieobecnosc.getMcdo();
+                    for (String mc : Mce.getMceListS()) {
+                        if (Data.jestrownywiekszy(mc, mcod) && Data.jestrownywiekszy(mcdo, mc)) {
+                            Kalendarzmiesiac znaleziony = kalendarzmiesiacFacade.findByRokMcUmowa(nieobecnosc.getUmowa(), rokwpisu, mc);
+                            if (znaleziony != null) {
+                                if (nieobecnosc.getRokod().equals(rokwpisu) || nieobecnosc.getRokdo().equals(rokwpisu)) {
+                                    int dniroboczenieobecnosci = znaleziony.naniesnieobecnosc(nieobecnosc);
+                                    if (dniroboczenieobecnosci>0) {
+                                        nieobecnosc.setDniroboczenieobecnosci(nieobecnosc.getDniroboczenieobecnosci()+dniroboczenieobecnosci);
+                                    }
+                                }
+                                nieobecnoscFacade.edit(nieobecnosc);
+                                kalendarzmiesiacFacade.edit(znaleziony);
+                                czynaniesiono = true;
+                            } else {
+                                Msg.msg("e", "Brak kalendarza pracownika za miesiąc rozliczeniowy. Nie można nanieść nieobecności!");
+                            }
+                        }
+                    }
+                }
+            } catch (Exception e) {
+                Msg.msg("e", "Wystąpił błąd podczas nanoszenia nieobecności");
+            }
+        }
+        return czynaniesiono;
+    }
+     
+     
 }
