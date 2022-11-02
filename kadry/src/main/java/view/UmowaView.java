@@ -72,7 +72,9 @@ public class UmowaView  implements Serializable {
     private List<Umowa> wybraneumowy;
     @Inject
     private EtatPrac etat;
-    private List<Umowa> lista;
+    private List<Umowa> listapraca;
+    private List<Umowa> listazlecenia;
+    private List<Umowa> listafunkcja;
     private List<Umowa> listawypowiedzenia;
     private List<Angaz> listaangaz;
     private List<Umowakodzus> listaumowakodzus;
@@ -134,19 +136,19 @@ public class UmowaView  implements Serializable {
             } else {
                 rodzajumowy = "3";
             }
+            listapraca  = umowaFacade.findByAngazPraca(wpisView.getAngaz());
+            listawypowiedzenia = umowaFacade.findByAngazPraca(wpisView.getAngaz());
+            listazlecenia  = umowaFacade.findByAngazZlecenie(wpisView.getAngaz());
+            listafunkcja  = umowaFacade.findByAngazFunkcja(wpisView.getAngaz());
             if (rodzajumowy.equals("1")) {
-                lista  = umowaFacade.findByAngazPraca(wpisView.getAngaz());
-                listawypowiedzenia = umowaFacade.findByAngazPraca(wpisView.getAngaz());
                 listaumowakodzus = rodzajumowyFacade.findUmowakodzusAktywnePraca();
             } else if (rodzajumowy.equals("2")) {
-                lista  = umowaFacade.findByAngazZlecenie(wpisView.getAngaz());
                 listaumowakodzus = rodzajumowyFacade.findUmowakodzusAktywneZlecenie();
             } else {
-                lista  = umowaFacade.findByAngazFunkcja(wpisView.getAngaz());
                 listaumowakodzus = rodzajumowyFacade.findUmowakodzusAktywneFunkcja();
             }
         } else {
-            lista = new ArrayList<>();
+            listapraca = new ArrayList<>();
             listawypowiedzenia = new ArrayList<>();
         }
         //to psuje zmiane pracownika jak ma tyylko umowy zlecenia
@@ -160,8 +162,8 @@ public class UmowaView  implements Serializable {
         datadzisiejsza = Data.aktualnaData();
         miejscowosc = wpisView.getFirma().getMiasto();
         selected = new Umowa();
-        if (lista!=null&&lista.size()>0&&wpisView.getUmowa()!=null&&!lista.contains(wpisView.getUmowa())) {
-            wpisView.setUmowa(lista.get(lista.size()-1));
+        if (listapraca!=null&&listapraca.size()>0&&wpisView.getUmowa()!=null&&!listapraca.contains(wpisView.getUmowa())) {
+            wpisView.setUmowa(listapraca.get(listapraca.size()-1));
         }
         pasekwynagrodzenView.setSymulacjabrrutto(wpisView.getRokWpisuInt()<2022?2800:3010);
         pasekwynagrodzenView.symulacjaoblicz("1");
@@ -172,9 +174,9 @@ public class UmowaView  implements Serializable {
             rodzajumowy = "1";
         }
         if (rodzajumowy.equals("1")) {
-            lista  = umowaFacade.findByAngazPraca(wpisView.getAngaz());
-            if (lista!=null&&lista.size()>0) {
-                Umowa aktywna = lista.stream().filter(p->p.isAktywna()).findAny().orElse(lista.get(0));
+            listapraca  = umowaFacade.findByAngazPraca(wpisView.getAngaz());
+            if (listapraca!=null&&listapraca.size()>0) {
+                Umowa aktywna = listapraca.stream().filter(p->p.isAktywna()).findAny().orElse(listapraca.get(0));
                 if (aktywna.isAktywna()==false) {
                     aktywna.setAktywna(true);
                     umowaFacade.edit(aktywna);
@@ -184,9 +186,9 @@ public class UmowaView  implements Serializable {
                 wpisView.setUmowa(null);
             }
         } else if (rodzajumowy.equals("2")) {
-            lista  = umowaFacade.findByAngazZlecenie(wpisView.getAngaz());
-            if (lista!=null&&lista.size()>0) {
-                Umowa aktywna = lista.stream().filter(p->p.isAktywna()).findAny().orElse(lista.get(0));
+            listapraca  = umowaFacade.findByAngazZlecenie(wpisView.getAngaz());
+            if (listapraca!=null&&listapraca.size()>0) {
+                Umowa aktywna = listapraca.stream().filter(p->p.isAktywna()).findAny().orElse(listapraca.get(0));
                 if (aktywna.isAktywna()==false) {
                     aktywna.setAktywna(true);
                     umowaFacade.edit(aktywna);
@@ -196,9 +198,9 @@ public class UmowaView  implements Serializable {
                 wpisView.setUmowa(null);
             }
         } else  {
-            lista  = umowaFacade.findByAngazFunkcja(wpisView.getAngaz());
-            if (lista!=null&&lista.size()>0) {
-                Umowa aktywna = lista.stream().filter(p->p.isAktywna()).findAny().orElse(lista.get(0));
+            listapraca  = umowaFacade.findByAngazFunkcja(wpisView.getAngaz());
+            if (listapraca!=null&&listapraca.size()>0) {
+                Umowa aktywna = listapraca.stream().filter(p->p.isAktywna()).findAny().orElse(listapraca.get(0));
                 if (aktywna.isAktywna()==false) {
                     aktywna.setAktywna(true);
                     umowaFacade.edit(aktywna);
@@ -241,13 +243,13 @@ public class UmowaView  implements Serializable {
             selected.setAktywna(true);
             selected.setDatasystem(new Date());
             umowaFacade.create(selected);
-            if (lista!=null&&!lista.isEmpty()) {
-                for (Umowa p : lista) {
+            if (listapraca!=null&&!listapraca.isEmpty()) {
+                for (Umowa p : listapraca) {
                     p.setAktywna(false);
                 }
-                umowaFacade.editList(lista);
+                umowaFacade.editList(listapraca);
             }
-            lista.add(selected);
+            listapraca.add(selected);
             wpisView.setUmowa(selected);
             if (selected.getUmowakodzus().isPraca() && etat1!=null && etat2!=null) {
                 EtatPrac etat = new EtatPrac(selected, etat1, etat2);
@@ -497,7 +499,7 @@ public class UmowaView  implements Serializable {
         if (umowa!=null) {
             wpisView.setUmowa(null);
             umowaFacade.remove(umowa);
-            lista.remove(umowa);
+            listapraca.remove(umowa);
             Msg.msg("Usunięto umowę");
         } else {
             Msg.msg("e","Nie wybrano umowy");
@@ -570,10 +572,10 @@ public class UmowaView  implements Serializable {
     
     public void oznaczjakoaktywna() {
         if (selectedlista!=null) {
-            for (Umowa p : lista) {
+            for (Umowa p : listapraca) {
                 p.setAktywna(false);
             }
-            umowaFacade.editList(lista);
+            umowaFacade.editList(listapraca);
             selectedlista.setAktywna(true);
             umowaFacade.edit(selectedlista);
             Msg.msg("Oznaczono umowę");
@@ -608,12 +610,12 @@ public class UmowaView  implements Serializable {
         this.selected = selected;
     }
 
-    public List<Umowa> getLista() {
-        return lista;
+    public List<Umowa> getListapraca() {
+        return listapraca;
     }
 
-    public void setLista(List<Umowa> lista) {
-        this.lista = lista;
+    public void setListapraca(List<Umowa> listapraca) {
+        this.listapraca = listapraca;
     }
 
     public Umowa getSelectedlista() {
@@ -736,6 +738,22 @@ public class UmowaView  implements Serializable {
         this.listawypowiedzenia = listawypowiedzenia;
     }
 
+    public List<Umowa> getListazlecenia() {
+        return listazlecenia;
+    }
+
+    public void setListazlecenia(List<Umowa> listazlecenia) {
+        this.listazlecenia = listazlecenia;
+    }
+
+    public List<Umowa> getListafunkcja() {
+        return listafunkcja;
+    }
+
+    public void setListafunkcja(List<Umowa> listafunkcja) {
+        this.listafunkcja = listafunkcja;
+    }
+
     
 
     
@@ -772,8 +790,8 @@ public class UmowaView  implements Serializable {
       
     
 //    public void rob() {
-//        List<OsobaPropTyp> lista = osobaPropTypFacade.findAll();
-//        for (OsobaPropTyp p : lista) {
+//        List<OsobaPropTyp> listapraca = osobaPropTypFacade.findAll();
+//        for (OsobaPropTyp p : listapraca) {
 //            Kombinacjaubezpieczen k = new Kombinacjaubezpieczen(p);
 //            try {
 //                kombinacjaubezpieczenFacade.create(k);

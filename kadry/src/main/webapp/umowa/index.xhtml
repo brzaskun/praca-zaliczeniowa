@@ -36,15 +36,21 @@
                         <ui:include src="sub/menu_wiad.xhtml"/>   <!-- menu contextowe i pole wiadomosci growl-->
                         <p:outputPanel style="width: 1800px;">
                             <p:tabView id="akordeon" activeIndex="#{umowaView.tabView}">
-                                <p:tab title="umowy">
-                                    <ui:include src="sub/dane_rodzajumowy.xhtml"/>
-                                    <ui:include src="sub/dane_umowa.xhtml"/>
+                                <p:tab title="umowy o pracę">
+                                    <ui:include src="sub/dane_umowa_praca.xhtml"/>
                                     <ui:include src="sub/dane_skladnikwynagrodzenia.xhtml"/>
                                     <ui:include src="sub/dane_potracenia.xhtml"/>
                                     <ui:include src="sub/dane_etat_stanowisko.xhtml"/>
                                 </p:tab>
+                                <p:tab title="umowy zlecenia">
+                                    <ui:include src="sub/dane_umowa_zlecenie.xhtml"/>
+                                </p:tab>
+                                <p:tab title="umowy funkcja">
+                                    <ui:include src="sub/dane_umowa_funkcja.xhtml"/>
+                                </p:tab>
                                 <p:tab title="nowa">
-                                    <ui:include src="sub/dialog_umowa.xhtml"/>
+                                    <ui:include src="sub/dane_rodzajumowy.xhtml"/>
+                                    <ui:include src="sub/dialog_umowa1.xhtml"/>
                                     <ui:include src="sub/edycjadanych_umowa.xhtml"/>
                                     <ui:include src="sub/edycjadanych_skladnikwynagrodzenia.xhtml"/>
                                     <ui:include src="sub/edycjadanych_potracenia.xhtml"/>
