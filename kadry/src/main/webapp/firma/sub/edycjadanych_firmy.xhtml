@@ -106,7 +106,7 @@
                         </p:column>
 
                         <p:column width="40" style="text-align: center;">
-                            <p:commandButton icon="fa fa-trash" actionListener="#{firmaView.usun(item1)}" update="north @(form)" >
+                            <p:commandButton icon="fa fa-trash" actionListener="#{firmaView.usun(item1)}" update="north @(form)" rendered="#{item1.nip ne '0000000000'}">
                                 <p:confirm type="popup" header="Potwierdzenie" message="Usunąć wyszystkie dane firmy?" icon="pi pi-exclamation-triangle"/>
                             </p:commandButton>
                         </p:column>

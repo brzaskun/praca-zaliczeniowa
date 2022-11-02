@@ -255,11 +255,11 @@ public class AngazView  implements Serializable {
     
     public void usun(Angaz angaz) {
         if (angaz != null) {
-            if (wpisView.getAngaz() != null && wpisView.getAngaz().equals(angaz)) {
+            //if (wpisView.getAngaz() != null && wpisView.getAngaz().equals(angaz)) {
                 wpisView.setAngaz(null);
                 wpisView.setUmowa(null);
                 wpisView.setPracownik(null);
-            }
+            //}
             Pracownik prac = angaz.getPracownik();
             angazFacade.remove(angaz);
             lista.remove(angaz);

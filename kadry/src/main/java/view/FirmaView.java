@@ -245,11 +245,15 @@ public class FirmaView  implements Serializable {
                 wpisView.setAngaz(null);
                 wpisView.setUmowa(null);
             }
-            firmaKadryFacade.remove(firma);
-            lista.remove(firma);
-            Msg.msg("Usunięto firmę");
+            try {
+                firmaKadryFacade.remove(firma);
+                lista.remove(firma);
+                Msg.msg("Usunięto firmę");
+            } catch (Exception e) {
+                Msg.msg("e","Wystąpił błąd. Nie usunięto firmy");
+            }
         } else {
-            Msg.msg("e","Nie usunięto firmy");
+            Msg.msg("e","Nie wybrano firmy");
         }
     }
     
