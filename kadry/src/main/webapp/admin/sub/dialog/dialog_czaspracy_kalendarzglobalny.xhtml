@@ -18,11 +18,11 @@
                             <h:outputText id="firmakalendarz" value="#{kalendarzGlobalnyView.selected.firma.nazwa}"/>
                             <p:outputLabel value="rok" for="rok" />
                             <p:inputText id="rok" value="#{kalendarzGlobalnyView.selected.rok}" title="rok" >
-                                <p:ajax event="change" partialSubmit="true" listener="#{kalendarzGlobalnyView.init2()}" global="false" update="KalendarzwzormiesiacSaRokGlobForm:datalist" />
+                                <p:ajax event="change" partialSubmit="true" listener="#{kalendarzGlobalnyView.zrobkalendarzumowa}" global="false" update=":KalendarzwzorListGlobForm" />
                             </p:inputText>
                             <p:outputLabel value="miesiąc" for="mc" />
                             <p:inputText id="mc" value="#{kalendarzGlobalnyView.selected.mc}" title="mc" >
-                                <p:ajax event="blur" listener="#{kalendarzGlobalnyView.zrobkalendarzumowa}" partialSubmit="true" global="false" update="KalendarzGlobalCreateForm:mc :KalendarzwzorListGlobForm"/>
+                                <p:ajax event="blur" listener="#{kalendarzGlobalnyView.zrobkalendarzumowa}" partialSubmit="true" global="false" update=":KalendarzwzorListGlobForm"/>
                             </p:inputText>
 
                         </p:panelGrid>

@@ -18,7 +18,7 @@
                             <h:outputText id="firmakalendarz" value="#{kalendarzwzorView.selected.firma.nazwa}"/>
                             <p:outputLabel value="rok" for="rok" />
                             <p:inputText id="rok" value="#{kalendarzwzorView.selected.rok}" title="rok" >
-                                <p:ajax event="change" partialSubmit="true" listener="#{kalendarzwzorView.init2()}" global="false" update="KalendarzwzormiesiacSaRokForm:datalist" />
+                                <p:ajax event="change" partialSubmit="true" listener="#{kalendarzwzorView.zrobkalendarzumowa}" global="false" update="KalendarzwzormiesiacSaRokForm:datalist" />
                             </p:inputText>
                             <p:outputLabel value="miesiąc" for="mc" />
                             <p:inputText id="mc" value="#{kalendarzwzorView.selected.mc}" title="mc" >

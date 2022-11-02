@@ -53,6 +53,7 @@ public class KalendarzGlobalnyView  implements Serializable {
         firmaglobalna = firmaFacade.findByNIP("0000000000");
         selected.setFirma(firmaglobalna);
         selected.setRok(wpisView.getRokWpisu());
+        selected.setMc(wpisView.getMiesiacWpisu());
         lista  = kalendarzwzorFacade.findByFirmaRok(firmaglobalna, wpisView.getRokWpisu());
         
     }

@@ -133,7 +133,7 @@ public class FirmaView  implements Serializable {
     
     public void globalnie(String rok) {
         if (wpisView.getFirma()!=null) {
-            FirmaKadry firmaglobalna = firmaKadryFacade.findByNIP("8511005008");
+            FirmaKadry firmaglobalna = firmaKadryFacade.findByNIP("0000000000");
             for (String mce: Mce.getMceListS()) {
                 Kalendarzwzor kal = new Kalendarzwzor();
                 kal.setRok(rok);
