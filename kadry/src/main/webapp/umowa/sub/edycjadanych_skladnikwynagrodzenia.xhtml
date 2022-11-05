@@ -12,14 +12,6 @@
                     <p:panel header="Dodawanie/edycja składnika wynagrodzenia"/>
                     <h:panelGroup id="display">
                         <p:panelGrid columns="6" rendered="#{skladnikWynagrodzeniaView.selected != null}">
-                            <p:outputLabel value="umowa" for="umowaskladnik" />
-                            <p:selectOneMenu id="umowaskladnik" value="#{skladnikWynagrodzeniaView.selected.umowa}" converter="#{umowaConverter}" required="true" style="width: 250px;">
-                                <f:selectItem itemLabel="wybierz" noSelectionOption="true" />
-                                <f:selectItems value="#{skladnikWynagrodzeniaView.listaumow}"
-                                               var="umowaskladnikItem1"
-                                               itemValue="#{umowaskladnikItem1}" itemLabel="#{umowaskladnikItem1.nrkolejny}"/>
-                                <p:ajax event="change" partialSubmit="true" global="false"/>
-                            </p:selectOneMenu>
                              <p:outputLabel value="nazwa" for="nazwa" />
                              <p:selectOneMenu id="nazwa" value="#{skladnikWynagrodzeniaView.selected.rodzajwynagrodzenia}" converter="#{rodzajwynagrodzeniaConverter}" filter="true" required="true">
                                 <f:selectItem itemLabel="wybierz" noSelectionOption="true" />

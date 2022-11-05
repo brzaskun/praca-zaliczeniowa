@@ -10,7 +10,6 @@ import dao.SkladnikWynagrodzeniaFacade;
 import dao.UmowaFacade;
 import entity.Rodzajwynagrodzenia;
 import entity.Skladnikwynagrodzenia;
-import entity.Umowa;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -33,7 +32,6 @@ public class SkladnikWynagrodzeniaView  implements Serializable {
     private Skladnikwynagrodzenia selectedlista;
     private List<Skladnikwynagrodzenia> lista;
     private List<Rodzajwynagrodzenia> listarodzajwynagrodzenia;
-    private List<Umowa> listaumow;
     @Inject
     private SkladnikWynagrodzeniaFacade skladnikWynagrodzeniaFacade;
     @Inject
@@ -50,7 +48,6 @@ public class SkladnikWynagrodzeniaView  implements Serializable {
         if (wpisView.getUmowa()!=null) {
             lista  = skladnikWynagrodzeniaFacade.findByAngaz(wpisView.getAngaz());
         }
-        listaumow = umowaFacade.findPracownikFirma(wpisView.getPracownik(), wpisView.getFirma());
         selected.setAngaz(wpisView.getAngaz());
         listarodzajwynagrodzenia = rodzajwynagrodzeniaFacade.findAktywne();
 
@@ -65,6 +62,7 @@ public class SkladnikWynagrodzeniaView  implements Serializable {
                 selected = new Skladnikwynagrodzenia();
                 Msg.msg("Udana edycja składnika wyn");
             } else {
+                selected.setAngaz(wpisView.getAngaz());
                 skladnikWynagrodzeniaFacade.create(selected);
                 lista.add(selected);
                 selected = new Skladnikwynagrodzenia();
@@ -124,13 +122,6 @@ public class SkladnikWynagrodzeniaView  implements Serializable {
         this.lista = lista;
     }
 
-    public List<Umowa> getListaumow() {
-        return listaumow;
-    }
-
-    public void setListaumow(List<Umowa> listaumow) {
-        this.listaumow = listaumow;
-    }
 
     public List<Rodzajwynagrodzenia> getListarodzajwynagrodzenia() {
         return listarodzajwynagrodzenia;

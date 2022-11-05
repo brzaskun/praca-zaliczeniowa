@@ -11,7 +11,6 @@ import dao.SkladnikPotraceniaFacade;
 import dao.UmowaFacade;
 import entity.Rodzajpotracenia;
 import entity.Skladnikpotracenia;
-import entity.Umowa;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -35,7 +34,6 @@ public class SkladnikPotraceniaView  implements Serializable {
     private Skladnikpotracenia selectedlista;
     private List<Skladnikpotracenia> lista;
     private List<Rodzajpotracenia> listapotracen;
-    private List<Umowa> listaumow;
     @Inject
     private SkladnikPotraceniaFacade skladnikPotraceniaFacade;
     @Inject
@@ -52,7 +50,7 @@ public class SkladnikPotraceniaView  implements Serializable {
         if (wpisView.getAngaz()!=null) {
             lista  = skladnikPotraceniaFacade.findByPracownik(wpisView.getAngaz().getPracownik());
         }
-        listaumow = umowaFacade.findPracownik(wpisView.getPracownik());
+        selected.setAngaz(wpisView.getAngaz());
         listapotracen = rodzajpotraceniaFacade.findAll();
 
     }
@@ -61,6 +59,7 @@ public class SkladnikPotraceniaView  implements Serializable {
     public void create() {
       if (selected!=null && selected.getAngaz()!=null) {
           try {
+            selected.setAngaz(wpisView.getAngaz());
             skladnikPotraceniaFacade.create(selected);
             lista.add(selected);
             selected = new Skladnikpotracenia();
@@ -106,13 +105,7 @@ public class SkladnikPotraceniaView  implements Serializable {
         this.lista = lista;
     }
 
-    public List<Umowa> getListaumow() {
-        return listaumow;
-    }
 
-    public void setListaumow(List<Umowa> listaumow) {
-        this.listaumow = listaumow;
-    }
 
 
     public List<Rodzajpotracenia> getListapotracen() {

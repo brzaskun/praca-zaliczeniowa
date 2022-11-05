@@ -110,6 +110,7 @@ public class AngazView  implements Serializable {
                     selected.setDatadodania(new Date());
                     selected.setUtworzyl(wpisView.getUzer().getImieNazwisko());
                     selected.setFirma(wpisView.getFirma());
+                    selected.setKosztyuzyskaniaprocent(100.0);
                     angazFacade.create(selected);
                     lista.add(selected);
                     wpisView.setAngaz(selected);
@@ -331,6 +332,27 @@ public class AngazView  implements Serializable {
         if (pracownik!=null) {
             pracownikFacade.edit(pracownik);
             Msg.msg("Zaktualizowano danepracownika");
+        }
+    }
+    
+    public void zapiszangaz() {
+        if (selectedlista!=null) {
+            if (selectedlista.getId()!=null) {
+                if (selectedlista.getKosztyuzyskaniaprocent()>100) {
+                    selectedlista.setKosztyuzyskania0podwyzszone(true);
+                } else {
+                    selectedlista.setKosztyuzyskania0podwyzszone(false);
+                }
+                if (selectedlista.getKwotawolnaprocent()>0) {
+                    selectedlista.setOdliczaculgepodatkowa(true);
+                } else {
+                    selectedlista.setOdliczaculgepodatkowa(false);
+                }
+                pracownikFacade.edit(selectedlista);
+                Msg.msg("Zaktualizowano danepracownika");
+            }
+        } else {
+            Msg.msg("e","Nie wybrano angażu do edycji");
         }
     }
     

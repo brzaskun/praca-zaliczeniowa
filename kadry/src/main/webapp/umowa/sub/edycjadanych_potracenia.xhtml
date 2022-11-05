@@ -12,14 +12,6 @@
                     <p:panel header="Dodawanie/edycja składnika potrąceń"/>
                     <h:panelGroup id="display">
                         <p:panelGrid columns="4" rendered="#{skladnikPotraceniaView.selected != null}">
-                            <p:outputLabel value="umowa" for="umowaskladnik" />
-                            <p:selectOneMenu id="umowaskladnik" value="#{skladnikPotraceniaView.selected.umowa}" converter="#{umowaConverter}" required="true" style="width: 250px;">
-                                <f:selectItem itemLabel="wybierz" noSelectionOption="true" />
-                                <f:selectItems value="#{skladnikPotraceniaView.listaumow}"
-                                               var="umowaskladnikItem1"
-                                               itemValue="#{umowaskladnikItem1}" itemLabel="#{umowaskladnikItem1.nrkolejny}"/>
-                                <p:ajax event="change" partialSubmit="true" global="false"/>
-                            </p:selectOneMenu>
                              <p:outputLabel value="nazwa" for="nazwa" />
                              <p:selectOneMenu id="nazwa" value="#{skladnikPotraceniaView.selected.rodzajpotracenia}" converter="#{slownikpotracenConverter}" filter="true" required="true">
                                 <f:selectItem itemLabel="wybierz" noSelectionOption="true" />

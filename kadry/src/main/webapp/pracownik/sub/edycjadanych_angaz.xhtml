@@ -182,14 +182,21 @@
                     </p:dataTable>
                 </p:panel>
             </h:form>
-             <h:form>
+            <h:form id="Angazeditform">
                 <p:outputPanel>
                     <p:panel header="Uzupełnienie danych angażu #{angazView.selectedlista.pracownik.nazwiskoImie}"/>
                     <p:panelGrid columns="2">
-                        <p:outputLabel value="koszty uzyskania procent" for="nazwisko" />
-                        <p:inputText id="nazwisko" value="#{angazView.selectedlista.kosztyuzyskaniaprocent}" title="koszty uzyskania procent" required="true" requiredMessage="Wpisz nazwisko"/>
+                        <p:outputLabel value="koszty uzyskania procent" for="kupro" />
+                        <p:inputNumber id="kupro" value="#{angazView.selectedlista.kosztyuzyskaniaprocent}" title="koszty uzyskania procent" required="true" requiredMessage="Wpisz procent koszty uzyskania przychodów" size="6"/>
+                        <p:outputLabel value="kwota wolna procent" for="kwotawol" />
+                        <p:inputNumber id="kwotawol" value="#{angazView.selectedlista.kwotawolnaprocent}" title="kwota wolna procent" required="true" requiredMessage="Wpisz kwota wolna procent" size="6"/>
+                        <p:outputLabel value="data przyjazdu do Polski" for="polska" />
+                        <p:inputText id="polska" value="#{angazView.selectedlista.dataprzyjazdudopolski}" title="data przyjazdu do Polski"/>
+                        <p:outputLabel value="nierezydent" for="nierezydent" />
+                        <p:selectBooleanCheckbox id="nierezydent" value="#{angazView.selectedlista.nierezydent}"/>
                     </p:panelGrid>
                 </p:outputPanel>
+                <p:commandButton value="zapisz" actionListener="#{angazView.zapiszangaz()}" styleClass="buttonnorm" update="@form"/>
             </h:form>
         </p:outputPanel>
      </p:panelGrid>
