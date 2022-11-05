@@ -69,8 +69,6 @@ public class Loging implements Serializable {
                 }
                 Uz uzer = uzFacade.findUzByLogin(lo);
                 request.setAttribute("uzer", uzer);
-                wpisView.setUzer(uzer);
-                wpisView.setFirma(uzer.getFirma());
                 wpisView.init();
             }
 //            Set<EntityType<?>> entities = uzFacade.getEntityManager().getMetamodel().getEntities();
@@ -94,6 +92,17 @@ public class Loging implements Serializable {
             session.invalidate();
         }
     }
+    
+    public void logout() {
+        try {
+            HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+            session.invalidate();
+        } catch (Exception e) {
+            E.e(e);
+        }
+        FacesContext.getCurrentInstance().getApplication().getNavigationHandler().handleNavigation(FacesContext.getCurrentInstance(), null, "/SessionExpired.xhtml?faces-redirect=true");
+    }
+
 
     //po okreslonym czasie bezczynnosci na stronie Access denied przerzuci do strony logowania
     public void autologin() {

@@ -18,7 +18,6 @@ import entity.Dzien;
 import entity.Kalendarzmiesiac;
 import entity.Kalendarzwzor;
 import entity.Nieobecnosc;
-import entity.Umowa;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -39,7 +38,6 @@ public class KalendarzmiesiacView  implements Serializable {
     private static final long serialVersionUID = 1L;
     @Inject
     private Kalendarzmiesiac selected;
-    private List<Umowa> listaumowa;
     private List<Kalendarzmiesiac> listakalendarzeprac;
     @Inject
     private KalendarzmiesiacFacade kalendarzmiesiacFacade;
@@ -57,7 +55,7 @@ public class KalendarzmiesiacView  implements Serializable {
     
     public void init() {
         Kalendarzmiesiac szukany = null;
-        if (wpisView.getUmowa()!=null) {
+        if (wpisView.getAngaz()!=null) {
              szukany  = kalendarzmiesiacFacade.findByRokMcAngaz(wpisView.getAngaz(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
         }
         if (szukany==null) {
@@ -66,10 +64,6 @@ public class KalendarzmiesiacView  implements Serializable {
         } else {
             selected  = kalendarzmiesiacFacade.findByRokMcAngaz(wpisView.getAngaz(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
         }
-        listaumowa = new ArrayList<>();
-        try {
-            listaumowa.add(umowaFacade.findPracownikFirmaJeden(wpisView.getPracownik(), wpisView.getFirma()));
-        } catch (Exception e){}
         pobierzkalendarzeprac();
     }
         
@@ -252,14 +246,6 @@ public class KalendarzmiesiacView  implements Serializable {
         this.selected = selected;
     }
 
-
-    public List<Umowa> getListaumowa() {
-        return listaumowa;
-    }
-
-    public void setListaumowa(List<Umowa> listaumowa) {
-        this.listaumowa = listaumowa;
-    }
 
     public List<Kalendarzmiesiac> getListakalendarzeprac() {
         return listakalendarzeprac;

@@ -45,7 +45,7 @@
                         <f:facet name="header">
                             <h:outputText value="odliczac ulge pod."/>
                         </f:facet>
-                        <h:outputText value="&#x2714;" rendered="#{itemumowawy.odliczaculgepodatkowa eq true}" style="color: #{itemumowawy.aktywna eq true ? 'green':'initial'}"/>
+                        <h:outputText value="&#x2714;" rendered="#{itemumowawy.angaz.odliczaculgepodatkowa eq true}" style="color: #{itemumowawy.aktywna eq true ? 'green':'initial'}"/>
                     </p:column>
                     <p:column style="text-align: center;">
                         <f:facet name="header">
@@ -83,7 +83,7 @@
                         <f:facet name="header">
                             <h:outputText value="koszty uzyskania"/>
                         </f:facet>
-                        <h:outputText value="#{itemumowawy.kosztyuzyskaniaprocent}"/>
+                        <h:outputText value="#{itemumowawy.angaz.kosztyuzyskaniaprocent}"/>
                     </p:column>
                     <p:column style="text-align: center;">
                         <f:facet name="header">

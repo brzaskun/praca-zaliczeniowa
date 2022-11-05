@@ -63,17 +63,17 @@ public class WpisView implements Serializable {
             HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
             uzer = (Uz) request.getAttribute("uzer");
         }
-            if (uzer != null) {
-            memory = pobierzMemory();
-            if (memory != null && memory.getId() != null) {
-                this.firma = memory.getFirma();
-                this.angaz = memory.getAngaz();
-                this.umowa = memory.getUmowa();
-                this.pracownik = memory.getPracownik();
-                this.rokWpisu = memory.getRok();
-                this.miesiacWpisu = memory.getMc();
-            }
+        if (uzer != null) {
+        memory = pobierzMemory();
+        if (memory != null && memory.getId() != null) {
+            this.firma = memory.getFirma();
+            this.angaz = memory.getAngaz();
+            this.umowa = memory.getUmowa();
+            this.pracownik = memory.getPracownik();
+            this.rokWpisu = memory.getRok();
+            this.miesiacWpisu = memory.getMc();
         }
+    }
     }
     
     private Memory pobierzMemory() {
@@ -176,6 +176,10 @@ public class WpisView implements Serializable {
         if (memory!=null) {
             memory.setFirma(firma);
             memoryFacade.edit(memory);
+        } else {
+            memory = createMemory();
+            memory.setFirma(firma);
+            memoryFacade.edit(memory);
         }
         this.firma = firma;
     }
@@ -186,6 +190,10 @@ public class WpisView implements Serializable {
 
     public void setPracownik(Pracownik pracownik) {
          if (memory!=null) {
+            memory.setPracownik(pracownik);
+            memoryFacade.edit(memory);
+        }else {
+            memory = createMemory();
             memory.setPracownik(pracownik);
             memoryFacade.edit(memory);
         }

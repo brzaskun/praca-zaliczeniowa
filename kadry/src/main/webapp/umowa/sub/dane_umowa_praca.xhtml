@@ -18,12 +18,6 @@
                     <p:ajax event="rowSelect" listener="#{umowaView.aktywuj}" partialSubmit="true" global="false" update="north, @(form)"/>
                     <p:ajax event="rowSelectRadio" listener="#{umowaView.aktywuj}" partialSubmit="true" global="false" update="north, @(form)"/>
                     <p:column width="40" selectionMode="single" selectRow="true" style="text-align: center;"/>
-                    <p:column width="80" style="text-align: center;">
-                        <f:facet name="header">
-                            <h:outputText value="nr"/>
-                        </f:facet>
-                        <h:outputText value="#{itemumowa.nrkolejny}" style="line-break: auto; word-break: break-all;color: #{itemumowa.aktywna eq true ? 'green':'initial'}"/>
-                    </p:column>
                     <!--                         <p:column>
                                                 <f:facet name="header">
                                                     <h:outputText value="angaz"/>
@@ -45,7 +39,7 @@
                         <f:facet name="header">
                             <h:outputText value="odliczac ulge pod."/>
                         </f:facet>
-                        <h:outputText value="&#x2714;" rendered="#{itemumowa.odliczaculgepodatkowa eq true}" style="color: #{itemumowa.aktywna eq true ? 'green':'initial'}"/>
+                        <h:outputText value="&#x2714;" rendered="#{itemumowa.angaz.odliczaculgepodatkowa eq true}" style="color: #{itemumowa.aktywna eq true ? 'green':'initial'}"/>
                     </p:column>
                     <p:column style="text-align: center;">
                         <f:facet name="header">
@@ -76,7 +70,7 @@
                         <f:facet name="header">
                             <h:outputText value="koszty uzyskania"/>
                         </f:facet>
-                        <h:outputText value="#{itemumowa.kosztyuzyskaniaprocent}"/>
+                        <h:outputText value="#{itemumowa.angaz.kosztyuzyskaniaprocent}"/>
                     </p:column>
                     <p:column style="text-align: center;">
                         <f:facet name="header">

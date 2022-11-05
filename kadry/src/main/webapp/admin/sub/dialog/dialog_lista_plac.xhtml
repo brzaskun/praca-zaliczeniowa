@@ -63,7 +63,7 @@
                         </h:form>
                          <h:form id="DefinicjalistaplacCreateForm2">
                             <p:outputLabel value="" for="wybranypracownik" />
-                            <p:pickList id="wybranypracownik" value="#{pasekwynagrodzenView.listakalendarzmiesiac}" var="kalendarzItem" itemLabel="#{kalendarzItem.umowa.angaz.pracownik.nazwiskoImie}" itemValue="#{kalendarzItem}" 
+                            <p:pickList id="wybranypracownik" value="#{pasekwynagrodzenView.listakalendarzmiesiac}" var="kalendarzItem" itemLabel="#{kalendarzItem.angaz.pracownik.nazwiskoImie}" itemValue="#{kalendarzItem}" 
                                         showCheckbox="true" converter="#{kalendarzmiesiacConverter}"/>
                             <p:panelGrid columns="5" >
                             <p:commandButton styleClass="buttonnorm" actionListener="#{pasekwynagrodzenView.przelicz}" value="oblicz" update="PasekwynagrodzenListForm" />

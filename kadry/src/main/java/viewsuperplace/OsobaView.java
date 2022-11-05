@@ -249,6 +249,7 @@ public class OsobaView implements Serializable {
                         angaz.setSerialsp(serial);
                         angaz.setRok(wpisView.getRokWpisu());
                         angaz.setMc(wpisView.getMiesiacWpisu());
+                        angaz.setKosztyuzyskaniaprocent(100);
                         if (osoba.getOsoDataZatr()!=null) {
                             String zatrudnienie = Data.data_yyyyMMdd(osoba.getOsoDataZatr());
                             angaz.setRok(Data.getRok(zatrudnienie));
