@@ -19,6 +19,7 @@ import entity.Kalendarzwzor;
 import entity.Umowa;
 import java.io.Serializable;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -49,10 +50,17 @@ public class KalendarzwzorView  implements Serializable {
     @Inject
     private WpisView wpisView;
     
-    
+    @PostConstruct
     public void init() {
-        selected.setFirma(wpisView.getFirma());
-        selected.setRok(wpisView.getRokWpisu());
+        Kalendarzwzor znaleziono = kalendarzwzorFacade.findByFirmaRokMc(wpisView.getFirma(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
+        if (znaleziono!=null) {
+            selected = znaleziono;
+            Msg.msg("Pobrano kalendarz z bazy danych");
+        } else {
+            selected.setFirma(wpisView.getFirma());
+            selected.setRok(wpisView.getRokWpisu());
+            selected.setMc(wpisView.getMiesiacWpisu());
+        }
         lista  = kalendarzwzorFacade.findByFirmaRok(wpisView.getFirma(), wpisView.getRokWpisu());
     }
     

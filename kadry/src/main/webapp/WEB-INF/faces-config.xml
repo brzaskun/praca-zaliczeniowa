@@ -46,6 +46,11 @@
             <from-outcome>Pracownikdane</from-outcome>
             <to-view-id>/pracownikdane/index.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
+        
+        <navigation-case>
+            <from-outcome>KalendarzeGlobalne</from-outcome>
+            <to-view-id>/kalendarz/index.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
          <navigation-case>
             <from-outcome>Pracownikalerty</from-outcome>
             <to-view-id>/pracownikalerty/index.xhtml?faces-redirect=true</to-view-id>

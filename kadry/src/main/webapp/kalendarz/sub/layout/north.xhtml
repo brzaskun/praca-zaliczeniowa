@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:bcf="http://brzaskun.com/facelets"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+    >
+        <h:form id="north">
+                <div class="card-container blue-container col-12 flex">
+                    <div class="inline-block col-5 bg-taxman text-3xl flex-auto text-white font-bold p-1 border-round ">
+                        <h:outputText value="#{wpisView.firma.nazwa}"/>
+                    </div>
+                    <div class="inline-block  col-1 bg-taxman text-3xl flex-auto text-white font-bold  p-1 border-round">
+                        <h:outputText value="#{wpisView.pracownik.nazwisko}" rendered="#{wpisView.pracownik ne null}"/>
+                    </div>
+                    <div class="inline-block  col-1 bg-taxman text-3xl flex-auto text-white font-bold  p-1 border-round">
+                        <h:outputText value="#{wpisView.pracownik.imie}"   rendered="#{wpisView.pracownik ne null}"/>
+                    </div>
+                    <div class="inline-block  col-1 bg-taxman text-3xl flex-auto text-white font-bold text-center p-1 border-round">
+                         <h:outputText value="#{wpisView.umowa.nrkolejny}"   rendered="#{wpisView.umowa ne null}"/>
+                    </div>
+                    <div class="inline-block col-1 bg-taxman text-3xl flex-auto text-white font-bold text-center p-1 border-round">
+                       <p:inputText value="#{wpisView.rokWpisu}"  size="4">
+                           <p:ajax event="change" partialSubmit="true" global="false" update="@(form)" listener="#{updateClassView.updateUmowa()}"/>
+                        </p:inputText>
+                    </div>
+                    <div class="inline-block col-1 bg-taxman text-3xl flex-auto text-white font-bold text-center p-1 border-round">
+                        <p:inputText value="#{wpisView.miesiacWpisu}"  size="2">
+                            <p:ajax event="change" partialSubmit="true" global="false" update="@(form)"  listener="#{updateClassView.updateUmowa()}"/>
+                        </p:inputText>
+                    </div>
+            </div>
+        </h:form>
+</ui:composition>   
+  
+

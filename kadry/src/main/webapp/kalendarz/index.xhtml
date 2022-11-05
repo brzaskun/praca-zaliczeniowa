@@ -8,7 +8,7 @@
       >
     <h:body>
         <ui:composition template="../template.xhtml">
-            
+
             <ui:define name="top" >
                 <ui:include src="sub/layout/north.xhtml"/>
             </ui:define>
@@ -40,10 +40,14 @@
                     </h:form>
                 </p:outputPanel>
                 <ui:include src="sub/menu_wiad.xhtml"/>   <!-- menu contextowe i pole wiadomosci growl-->
-                <ui:include src="sub/edycjadanych_parametry.xhtml"/>
-
-
-
+                <p:tabView id="akordeon" >
+                    <p:tab title="firma">
+                        <ui:include src="sub/kalendarz_firmy.xhtml"/>
+                    </p:tab>
+                    <p:tab title="globalny">
+                        <ui:include src="sub/kalendarz_globalny.xhtml"/>
+                    </p:tab>
+                </p:tabView>
             </ui:define>
         </ui:composition>
     </h:body>

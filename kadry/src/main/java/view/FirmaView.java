@@ -125,6 +125,7 @@ public class FirmaView  implements Serializable {
             listywszystkie("2020");
             listywszystkie("2021");
             listywszystkie("2022");
+            selected = new FirmaKadry();
           } catch (Exception e) {
               Msg.msg("e", "Błąd - nie dodano nowej firmy");
           }
