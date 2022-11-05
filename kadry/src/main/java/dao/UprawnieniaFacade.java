@@ -42,7 +42,7 @@ public class UprawnieniaFacade extends DAO  {
     }
     
     public UprawnieniaUz findByNazwa(String nazwa) {
-        return (UprawnieniaUz) getEntityManager().createNamedQuery("Uprawnienia.findByNazwa").setParameter("nazwa", nazwa).getSingleResult();
+        return (UprawnieniaUz) getEntityManager().createNamedQuery("UprawnieniaUz.findByNazwa").setParameter("nazwa", nazwa).getSingleResult();
     }
 
      

@@ -7,6 +7,31 @@
     xmlns:bcf="http://brzaskun.com/facelets"
 >
     <p:panelGrid columns="2" columnClasses="fifty-percent fifty-percent">
+        <p:outputPanel style="height: 140px" styleClass="panelzramka">
+                <h:form id="SkladnikwynagrodzeniaCreateForm">
+                    <p:panel header="Dodawanie/edycja składnika wynagrodzenia"/>
+                    <h:panelGroup id="display">
+                        <p:panelGrid columns="6" rendered="#{skladnikWynagrodzeniaView.selected != null}">
+                             <p:outputLabel value="nazwa" for="nazwa" />
+                             <p:selectOneMenu id="nazwa" value="#{skladnikWynagrodzeniaView.selected.rodzajwynagrodzenia}" converter="#{rodzajwynagrodzeniaConverter}" filter="true" required="true">
+                                <f:selectItem itemLabel="wybierz" noSelectionOption="true" />
+                                <f:selectItems value="#{skladnikWynagrodzeniaView.listarodzajwynagrodzenia}"
+                                               var="rodzajwynItem"
+                                               itemValue="#{rodzajwynItem}" itemLabel="#{rodzajwynItem.kod} #{rodzajwynItem.opisskrocony}"/>
+                                <p:ajax event="change" partialSubmit="true" global="false"  update="SkladnikwynagrodzeniaCreateForm:kod"/>
+                            </p:selectOneMenu>
+                             <p:outputLabel value="oddelegowanie" for="oddelegowniebox" />
+                             <p:selectBooleanCheckbox id="oddelegowniebox" value="#{skladnikWynagrodzeniaView.selected.oddelegowanie}" />
+                            <p:outputLabel value="kod" for="kod" />
+                            <h:outputText id="kod" value="#{skladnikWynagrodzeniaView.selected.rodzajwynagrodzenia.kod}" title="kod" />
+                            <p:outputLabel value="uwagi" for="uwagi" />
+                             <p:inputText id="uwagi" value="#{skladnikWynagrodzeniaView.selected.uwagi}" title="nazwa" size="40"/>
+                        </p:panelGrid>
+                        <p:commandButton styleClass="buttonnorm" actionListener="#{skladnikWynagrodzeniaView.create}" value="#{bundle.Save}" update="display,@(form)"/>
+                        <p:commandButton value="#{bundle.Cancel}" onclick="SkladnikwynagrodzeniaCreateDialog.hide()"/>
+                    </h:panelGroup>
+                </h:form>
+            </p:outputPanel>
             <p:outputPanel>
                 <h:form id="SkladnikwynagrodzeniaListForm">
                     <p:panel header="Wykaz składników wynagrodzenia">
@@ -79,84 +104,6 @@
                     </p:panel>
                 </h:form>
             </p:outputPanel>
-            <p:outputPanel>
-                <h:form id="ZmiennawynagrodzeniaListForm">
-                    <p:panel header="Wykaz zmiennych składniki wynagrodzenia">
-                        <p:dataTable id="datalist" value="#{zmiennaWynagrodzeniaView.lista}" var="itemzmiennawyn"
-                                     selectionMode="single" selection="#{zmiennaWynagrodzeniaView.selectedlista}"
-                                     rowKey="#{itemzmiennawyn.id}" emptyMessage="Składnik nie posiada zdefiniowanych zmiennych"
-                                     style="height: 200px; overflow-y: scroll;" sortMode="single"
-                                     >
-
-                            <p:column width="40" style="text-align: center;">
-                                <f:facet name="header">
-                                    <h:outputText value="id"/>
-                                </f:facet>
-                                <h:outputText value="#{itemzmiennawyn.id}"/>
-                            </p:column>
-                            <p:column width="200">
-                                <f:facet name="header">
-                                    <h:outputText value="nazwa"/>
-                                </f:facet>
-                                <h:outputText value="#{itemzmiennawyn.nazwa}"/>
-                            </p:column>
-                            <p:column sortBy="#{itemzmiennawyn.dataod}" sortOrder="desc">
-                                <f:facet name="header">
-                                    <h:outputText value="data od"/>
-                                </f:facet>
-                                <h:outputText value="#{itemzmiennawyn.dataod}"/>
-                            </p:column>
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="data do"/>
-                                </f:facet>
-                                <h:outputText value="#{itemzmiennawyn.datado}"/>
-                            </p:column>
-
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="kwota"/>
-                                </f:facet>
-                                <p:inplace  effectSpeed="fast" event="dblclick" editor="true">
-                                    <f:facet name="output">
-                                        <bcf:outputpl value="#{itemzmiennawyn.kwota}"/>
-                                    </f:facet>
-                                    <f:facet name="input">
-                                        <bcf:inputpl  value="#{itemzmiennawyn.kwota}"/>
-                                    </f:facet>
-                                    <p:ajax event="save" listener="#{zmiennaWynagrodzeniaView.edytuj(itemzmiennawyn)}" update="@this"/>
-                                </p:inplace>
-                                
-                            </p:column>
-                            <p:column width="40" style="text-align: center;">
-                                <f:facet name="header">
-                                    <h:outputText value="kwota"/>
-                                </f:facet>
-                                <bcf:outputpl value="#{itemzmiennawyn.waluta}"/>
-                            </p:column>
-                             <p:column width="40" style="text-align: center;">
-                                <f:facet name="header">
-                                    <h:outputText value="brutto"/>
-                                </f:facet>
-                                 <h:outputText value="&#x2714;" rendered="#{itemzmiennawyn.netto0brutto1 eq true}"/>
-                            </p:column>
-                            <p:column width="20" style="text-align: center;">
-                                <f:facet name="header">
-                                    <h:outputText value="min. ust."/>
-                                </f:facet>
-                                 <p:selectBooleanCheckbox value="#{itemzmiennawyn.minimalneustatowe}"/>
-                            </p:column>
-                            <p:column width="30" style="text-align: center;">
-                                <p:commandButton icon="fa fa-edit"  actionListener="#{zmiennaWynagrodzeniaView.wybierzdoedycji(itemzmiennawyn)}" update="north, @(form) akordeon:ZmiennawynagrodzeniaCreateForm"/>
-                            </p:column>
-                            <p:column width="30" style="text-align: center;">
-                                <p:commandButton icon="fa fa-trash" actionListener="#{zmiennaWynagrodzeniaView.usunZmiennaWyn(itemzmiennawyn)}" update="north @(form)">
-                                    <p:confirm type="popup" header="Potwierdzenie" message="Usunąć daną zmienną?" icon="pi pi-exclamation-triangle"/>
-                                </p:commandButton>
-                            </p:column>
-                        </p:dataTable>
-                    </p:panel>
-                </h:form>
-            </p:outputPanel>
+            
         </p:panelGrid>
 </ui:composition>

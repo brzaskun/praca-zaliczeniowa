@@ -1,0 +1,76 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:bcf="http://brzaskun.com/facelets"
+>
+    <p:panelGrid columns="2">
+        <p:outputPanel style="height: 140px;" styleClass="panelzramka">
+            <h:form id="StanowiskoCreateForm">
+                <p:panel header="Dodawanie/edycja stanowiska do umowy"/>
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="6" rendered="#{stanowiskoPracView.selected != null}" style="width: 300px">
+                        <p:outputLabel value="data od" for="dataode" />
+                        <p:inputText id="dataode" value="#{stanowiskoPracView.selected.dataod}" title="data od" placeholder="____-__-__"  required="true"/>
+                        <p:outputLabel value="data do" for="datadoe" />
+                        <p:inputText id="datadoe" value="#{stanowiskoPracView.selected.datado}" title="data do" placeholder="____-__-__" />
+                        <p:outputLabel value="stanowisko" for="stanowisko" />
+                        <p:inputText id="stanowisko" value="#{stanowiskoPracView.selected.opis}" size="40"/>
+                        <p:outputLabel value="uwagi" for="uwagi" />
+                        <p:inputText id="uwagi" value="#{stanowiskoPracView.selected.uwagi}" size="30" />
+                    </p:panelGrid>
+                    <p:commandButton styleClass="buttonnorm" actionListener="#{stanowiskoPracView.create}" value="#{bundle.Save}" update="display,@(form)"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="EtatCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:outputPanel>
+        <p:outputPanel>
+                <h:form id="StanowiskoListForm">
+                    <p:panel header="Wykaz historii stanowisk">
+                        <p:dataTable id="datalist" value="#{stanowiskoPracView.lista}" var="itemetat"
+                                     selectionMode="single" selection="#{stanowiskoPracView.selectedlista}"
+                                     rowKey="#{itemetat.id}" emptyMessage="Składnik nie posiada zdefiniowanych zmiennych"
+                                     style="height: 100px; overflow-y: scroll;width: 800px;"
+                                     >
+
+                            <p:column width="40" style="text-align: center;">
+                                <f:facet name="header">
+                                    <h:outputText value="id"/>
+                                </f:facet>
+                                <h:outputText value="#{itemetat.id}"/>
+                            </p:column>
+                            <p:column width="250">
+                                <f:facet name="header">
+                                    <h:outputText value="umowa"/>
+                                </f:facet>
+                                <h:outputText value="#{itemetat.umowa.nrkolejny}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="data od"/>
+                                </f:facet>
+                                <h:outputText value="#{itemetat.dataod}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="data do"/>
+                                </f:facet>
+                                <h:outputText value="#{itemetat.datado}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="stanowisko"/>
+                                </f:facet>
+                                <h:outputText value="#{itemetat.opis}"/>
+                            </p:column>
+                            <p:column style="text-align: center;">
+                                <p:commandButton icon="fa fa-trash" actionListener="#{stanowiskoPracView.usun(itemetat)}" update="north @(form)"/>
+                            </p:column>
+                        </p:dataTable>
+                    </p:panel>
+                </h:form>
+            </p:outputPanel>
+        </p:panelGrid>
+</ui:composition>

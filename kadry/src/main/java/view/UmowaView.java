@@ -27,12 +27,10 @@ import dao.UmowaFacade;
 import dao.UmowakodzusFacade;
 import dao.ZmiennaWynagrodzeniaFacade;
 import data.Data;
-import embeddable.Mce;
 import entity.Angaz;
 import entity.Dzien;
 import entity.EtatPrac;
 import entity.Kalendarzmiesiac;
-import entity.Kalendarzwzor;
 import entity.Kodyzawodow;
 import entity.Nieobecnosc;
 import entity.Rodzajwynagrodzenia;
@@ -146,6 +144,8 @@ public class UmowaView  implements Serializable {
                 listaumowakodzus = rodzajumowyFacade.findUmowakodzusAktywneFunkcja();
             }
         } else {
+            rodzajumowy = "1";
+            listaumowakodzus = rodzajumowyFacade.findUmowakodzusAktywnePraca();
             listapraca = new ArrayList<>();
             listawypowiedzenia = new ArrayList<>();
         }
@@ -257,7 +257,6 @@ public class UmowaView  implements Serializable {
                 Stanowiskoprac stanowisko = new Stanowiskoprac(wpisView.getAngaz(), selected.getDataod(), selected.getDatado(), selected.getStanowisko());
                 stanowiskopracFacade.create(stanowisko);
             }
-            generujKalendarzNowaUmowa();
             if (wynagrodzeniemiesieczne!=0.0 || wynagrodzeniegodzinowe!=0.0){
               Rodzajwynagrodzenia rodzajwynagrodzenia = selected.getUmowakodzus().isPraca() ? rodzajwynagrodzeniaFacade.findZasadniczePraca(): rodzajwynagrodzeniaFacade.findZasadniczeZlecenie();
               if (wynagrodzeniegodzinowe != 0.0) {
@@ -293,38 +292,7 @@ public class UmowaView  implements Serializable {
     }
     
     
-    public Kalendarzmiesiac generujKalendarzNowaUmowa() {
-        Kalendarzmiesiac kal = null;
-        if (wpisView.getAngaz()!=null && wpisView.getPracownik()!=null && wpisView.getUmowa()!=null) {
-            String rok = Data.getRok(wpisView.getUmowa().getDataod());
-            Integer mcod = Integer.parseInt(Data.getMc(wpisView.getUmowa().getDataod()));
-            Integer dzienod = Integer.parseInt(Data.getDzien(wpisView.getUmowa().getDataod()));
-            for (String mc: Mce.getMceListS()) {
-                Integer kolejnymc = Integer.parseInt(mc);
-                if (kolejnymc>=mcod) {
-                    kal = kalendarzmiesiacFacade.findByRokMcAngaz(wpisView.getAngaz(), rok, mc);
-                    if (kal==null) {
-                        Kalendarzwzor znaleziono = kalendarzwzorFacade.findByFirmaRokMc(wpisView.getAngaz().getFirma(), rok, mc);
-                        if (znaleziono!=null) {
-                            kal = new Kalendarzmiesiac();
-                            kal.setRok(rok);
-                            kal.setMc(mc);
-                            kal.setAngaz(wpisView.getAngaz());
-                            kal.ganerujdnizwzrocowego(znaleziono, dzienod, wpisView.getAngaz().getEtatList());
-                            kalendarzmiesiacFacade.create(kal);
-                            dzienod = null;
-                        } else {
-                            Msg.msg("e","Brak kalendarza wzorcowego za "+mc);
-                        }
-                    }
-                }
-            }
-            Msg.msg("Pobrano dane z kalendarza wzorcowego z bazy danych i utworzono kalendarze pracownika");
-        } else {
-            Msg.msg("e","Nie można wygenerować. Nie wybrano pracownika i umowy");
-        }
-        return kal;
-    }
+    
     
     public void edytujumowe(Umowa umowa) {
         try {
@@ -362,7 +330,6 @@ public class UmowaView  implements Serializable {
             selected.setDatasystem(new Date());
             umowaFacade.edit(selected);
             wpisView.setUmowa(selected);
-            generujKalendarzNowaUmowa();
             String rok = Data.getRok(selected.getDataod());
             String mc = Data.getMc(selected.getDataod());
             Kalendarzmiesiac kalendarz = selected.getAngaz().getKalendarzmiesiacList().stream().filter(p->p.getRok().equals(rok)&&p.getMc().equals(mc)).findFirst().get();

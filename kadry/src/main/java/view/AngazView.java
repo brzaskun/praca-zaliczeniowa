@@ -15,8 +15,11 @@ import dao.SMTPSettingsFacade;
 import dao.UmowaFacade;
 import dao.UprawnieniaFacade;
 import dao.UzFacade;
+import embeddable.Mce;
 import entity.Angaz;
 import entity.FirmaKadry;
+import entity.Kalendarzmiesiac;
+import entity.Kalendarzwzor;
 import entity.Pracownik;
 import entity.SMTPSettings;
 import entity.Umowa;
@@ -112,6 +115,7 @@ public class AngazView  implements Serializable {
                     selected.setFirma(wpisView.getFirma());
                     selected.setKosztyuzyskaniaprocent(100.0);
                     angazFacade.create(selected);
+                    generujKalendarzNowaUmowa();
                     lista.add(selected);
                     wpisView.setAngaz(selected);
                     wpisView.setUmowa(null);
@@ -128,6 +132,37 @@ public class AngazView  implements Serializable {
                 }
             }
         }
+    }
+    
+    public Kalendarzmiesiac generujKalendarzNowaUmowa() {
+        Kalendarzmiesiac kal = null;
+        if (wpisView.getAngaz()!=null && wpisView.getPracownik()!=null) {
+            String rok = wpisView.getAngaz().getRok();
+            Integer mcod = Integer.parseInt(wpisView.getAngaz().getMc());
+            for (String mc: Mce.getMceListS()) {
+                Integer kolejnymc = Integer.parseInt(mc);
+                if (kolejnymc>=mcod) {
+                    kal = kalendarzmiesiacFacade.findByRokMcAngaz(wpisView.getAngaz(), rok, mc);
+                    if (kal==null) {
+                        Kalendarzwzor znaleziono = kalendarzwzorFacade.findByFirmaRokMc(wpisView.getAngaz().getFirma(), rok, mc);
+                        if (znaleziono!=null) {
+                            kal = new Kalendarzmiesiac();
+                            kal.setRok(rok);
+                            kal.setMc(mc);
+                            kal.setAngaz(wpisView.getAngaz());
+                            kal.ganerujdnizwzrocowego(znaleziono, null, wpisView.getAngaz().getEtatList());
+                            kalendarzmiesiacFacade.create(kal);
+                        } else {
+                            Msg.msg("e","Brak kalendarza wzorcowego za "+mc);
+                        }
+                    }
+                }
+            }
+            Msg.msg("Pobrano dane z kalendarza wzorcowego z bazy danych i utworzono kalendarze pracownika");
+        } else {
+            Msg.msg("e","Nie można wygenerować. Nie wybrano pracownika i umowy");
+        }
+        return kal;
     }
     
 //    public void generujkalendarze() {

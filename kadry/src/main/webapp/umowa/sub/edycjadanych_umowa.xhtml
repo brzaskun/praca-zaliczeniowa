@@ -57,31 +57,8 @@
                         <p:inputText id="miejscepracy" value="#{umowaView.selected.miejscepracy}" title="miejsce pracy" />
                          <p:outputLabel value="wiek" for="wiek1" />
                          <h:outputText id="wiek1" value="#{umowaView.selected.wiekumowa}" styleClass="dataUmowy"/>
-
-                        <!--                        <p:outputLabel value="data spoleczne" for="dataspoleczne1" />
-                                                <p:inputText id="dataspoleczne1" value="#{umowaView.selected.dataspoleczne}" title="data spoleczne"  placeholder="____-__-__"  styleClass="dataUmowy"/>
-                                                <p:outputLabel value="data zdrowotne" for="datazdrowotne1" />
-                                                <p:inputText id="datazdrowotne1" value="#{umowaView.selected.datazdrowotne}" title="data zdrowotne"  placeholder="____-__-__"  styleClass="dataUmowy"/>-->
-                        <p:outputLabel value="nierezydent" for="nierezydent1" style="color: #97B0F8;"/>
-                        <p:selectBooleanCheckbox id="nierezydent1" value="#{umowaView.selected.nierezydent}">
-                        </p:selectBooleanCheckbox>
-                        <p:outputLabel value="data przyjazdu do Polski" for="datapolska1"  style="color: #97B0F8;"/>
-                        <p:inputText id="datapolska1" value="#{umowaView.selected.dataprzyjazdudopolski}" title="termin rozpoczecia pracy" styleClass="dataUmowy"  placeholder="____-__-__"  maxlength="10"/>
                     </p:panelGrid>
                     <p:panelGrid columns="2">
-
-                        <p:outputLabel value="odliczac ulge podatkowa" for="odliczaculgepodatkowa1" />
-                        <p:selectBooleanCheckbox id="odliczaculgepodatkowa1" value="#{umowaView.selected.odliczaculgepodatkowa}" />
-
-                        <p:outputLabel value="podwyższone koszty uzyskania" for="kosztyuzyskania1" />
-                        <p:selectBooleanCheckbox id="kosztyuzyskania1" value="#{umowaView.selected.kosztyuzyskania0podwyzszone1}">
-                            <p:ajax event="change" partialSubmit="true" listener="#{umowaView.nanieskosztynaumowe()}" />
-                        </p:selectBooleanCheckbox>
-<!--                        <p:inputText id="kosztyuzyskania1" value="#{umowaView.selected.kosztyuzyskaniaprocent}" title="koszty uzyskania procent" />-->
-
-                        <!--                        <p:outputLabel value="kwota wolna proc" for="kwotawolna1" />
-                                                <p:inputText id="kwotawolna1" value="#{umowaView.selected.kwotawolnaprocent}" title="kwota wolna procent" />-->
-
                         <p:outputLabel value="kod zawodu" for="kodzawodu1" />
                         <p:autoComplete id="kodzawodu1" value="#{umowaView.selected.kodzawodu}" converter="#{kodyzawodowConverter}" style="width: 300px;" cache="true" cacheTimeout="2000"
                                         minQueryLength="3" maxResults="15" maxlength="25" itemtipMyPosition="rightbottom" queryDelay="10" size="50"

@@ -7,6 +7,29 @@
     xmlns:bcf="http://brzaskun.com/facelets"
 >
     <p:panelGrid columns="2" columnClasses="fifty-percent fifty-percent">
+         <p:outputPanel style="height: 140px" styleClass="panelzramka">
+                <h:form id="PotraceniaCreateForm">
+                    <p:panel header="Dodawanie/edycja składnika potrąceń"/>
+                    <h:panelGroup id="display">
+                        <p:panelGrid columns="4" rendered="#{skladnikPotraceniaView.selected != null}">
+                             <p:outputLabel value="nazwa" for="nazwa" />
+                             <p:selectOneMenu id="nazwa" value="#{skladnikPotraceniaView.selected.rodzajpotracenia}" converter="#{slownikpotracenConverter}" filter="true" required="true">
+                                <f:selectItem itemLabel="wybierz" noSelectionOption="true" />
+                                <f:selectItems value="#{skladnikPotraceniaView.listapotracen}"
+                                               var="rodzajpotrItem"
+                                               itemValue="#{rodzajpotrItem}" itemLabel="#{rodzajpotrItem.opis}"/>
+                                <p:ajax event="change" partialSubmit="true" global="false"  update="PotraceniaCreateForm:kod"/>
+                            </p:selectOneMenu>
+                            <p:outputLabel value="limit umowa o pracę" for="kod" />
+                            <h:outputText id="kod" value="#{skladnikPotraceniaView.selected.rodzajpotracenia.limitumowaoprace}" title="limit umowa o pracę" />
+                            <p:outputLabel value="limit umowa zlecenia" for="uwagi" />
+                            <h:outputText id="uwagi" value="#{skladnikPotraceniaView.selected.rodzajpotracenia.limitumowazlecenia}" title="limit umowa zlecenia"/>
+                        </p:panelGrid>
+                        <p:commandButton styleClass="buttonnorm" actionListener="#{skladnikPotraceniaView.create}" value="#{bundle.Save}" update="display,@(form)"/>
+                        <p:commandButton value="#{bundle.Cancel}" onclick="SkladnikwynagrodzeniaCreateDialog.hide()"/>
+                    </h:panelGroup>
+                </h:form>
+            </p:outputPanel>
             <p:outputPanel>
                 <h:form id="SkladnikpotraceniaListForm">
                     <p:panel header="Wykaz składników potrącenia">
@@ -54,70 +77,6 @@
                             
                             <p:column style="text-align: center; width: 30px;">
                                 <p:commandButton icon="fa fa-trash" actionListener="#{skladnikPotraceniaView.usunSkladnikPotr(itemskladnikpotracenia)}" update="north, @(form)"/>
-                            </p:column>
-                        </p:dataTable>
-                    </p:panel>
-                </h:form>
-            </p:outputPanel>
-            <p:outputPanel>
-                <h:form id="SkladnikporaceniaListForm">
-                    <p:panel header="Wykaz zmiennych potrąceń">
-                        <p:dataTable id="datalist" value="#{zmiennaPotraceniaView.lista}" var="itemzmiennapotr"
-                                     selectionMode="single" selection="#{pracownikView.selectedlista}"
-                                     rowKey="#{itemzmiennapotr.id}" emptyMessage="Składnik nie posiada zdefiniowanych zmiennych"
-                                     style="height: 150px; overflow-y: scroll;"
-                                     >
-
-                            <p:column width="30" style="text-align: center;">
-                                <f:facet name="header">
-                                    <h:outputText value="id"/>
-                                </f:facet>
-                                <h:outputText value="#{itemzmiennapotr.id}"/>
-                            </p:column>
-                            <p:column width="100">
-                                <f:facet name="header">
-                                    <h:outputText value="nazwa"/>
-                                </f:facet>
-                                <h:outputText value="#{itemzmiennapotr.nazwa}"/>
-                            </p:column>
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="data od"/>
-                                </f:facet>
-                                <h:outputText value="#{itemzmiennapotr.dataod}"/>
-                            </p:column>
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="data do"/>
-                                </f:facet>
-                                <h:outputText value="#{itemzmiennapotr.datado}"/>
-                            </p:column>
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="kwota"/>
-                                </f:facet>
-                                <bcf:outputpl value="#{itemzmiennapotr.kwotastala}"/>
-                            </p:column>
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="komornik"/>
-                                </f:facet>
-                                <bcf:outputpl value="#{itemzmiennapotr.kwotakomornicza}"/>
-                            </p:column>
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="rozliczono"/>
-                                </f:facet>
-                                <bcf:outputpl value="#{itemzmiennapotr.kwotakomorniczarozliczona}"/>
-                            </p:column>
-                            <p:column width="20" style="text-align: center;">
-                                <f:facet name="header">
-                                    <h:outputText value="max ust."/>
-                                </f:facet>
-                                <p:selectBooleanCheckbox value="#{itemzmiennapotr.maxustawowy}"/>
-                            </p:column>
-                            <p:column style="text-align: center;">
-                                <p:commandButton icon="fa fa-trash" actionListener="#{zmiennaPotraceniaView.usunZmiennaPotr(itemzmiennapotr)}" update="north @(form)"/>
                             </p:column>
                         </p:dataTable>
                     </p:panel>
