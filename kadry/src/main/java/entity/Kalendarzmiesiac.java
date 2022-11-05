@@ -49,14 +49,11 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Kalendarzmiesiac.findById", query = "SELECT k FROM Kalendarzmiesiac k WHERE k.id = :id"),
     @NamedQuery(name = "Kalendarzmiesiac.findByRok", query = "SELECT k FROM Kalendarzmiesiac k WHERE k.rok = :rok"),
     @NamedQuery(name = "Kalendarzmiesiac.findByMc", query = "SELECT k FROM Kalendarzmiesiac k WHERE k.mc = :mc"),
-    @NamedQuery(name = "Kalendarzmiesiac.findByRokMcUmowa", query = "SELECT k FROM Kalendarzmiesiac k WHERE k.mc = :mc AND k.rok = :rok AND k.umowa=:umowa"),
-    @NamedQuery(name = "Kalendarzmiesiac.findByRokUmowa", query = "SELECT k FROM Kalendarzmiesiac k WHERE k.rok = :rok AND k.umowa=:umowa"),
-    @NamedQuery(name = "Kalendarzmiesiac.findByUmowa", query = "SELECT k FROM Kalendarzmiesiac k WHERE k.umowa=:umowa"),
-    @NamedQuery(name = "Kalendarzmiesiac.findByFirmaRokMc", query = "SELECT k FROM Kalendarzmiesiac k WHERE k.mc = :mc AND k.rok = :rok AND k.umowa.angaz.firma=:firma"),
-    @NamedQuery(name = "Kalendarzmiesiac.findByFirmaRokMcPraca", query = "SELECT k FROM Kalendarzmiesiac k WHERE k.mc = :mc AND k.rok = :rok AND k.umowa.angaz.firma=:firma AND k.umowa.umowakodzus.praca = TRUE"),
-    @NamedQuery(name = "Kalendarzmiesiac.findByFirmaRokMcZlecenie", query = "SELECT k FROM Kalendarzmiesiac k WHERE k.mc = :mc AND k.rok = :rok AND k.umowa.angaz.firma=:firma AND k.umowa.umowakodzus.zlecenie = TRUE  AND k.umowa.angaz.pracownik.nierezydent = FALSE"),
-    @NamedQuery(name = "Kalendarzmiesiac.findByFirmaRokMcFunkcja", query = "SELECT k FROM Kalendarzmiesiac k WHERE k.mc = :mc AND k.rok = :rok AND k.umowa.angaz.firma=:firma AND k.umowa.umowakodzus.funkcja = TRUE"),
-    @NamedQuery(name = "Kalendarzmiesiac.findByFirmaRokMcNierezydent", query = "SELECT k FROM Kalendarzmiesiac k WHERE k.mc = :mc AND k.rok = :rok AND k.umowa.angaz.firma=:firma AND k.umowa.angaz.pracownik.nierezydent = TRUE")
+    @NamedQuery(name = "Kalendarzmiesiac.findByRokMcAngaz", query = "SELECT k FROM Kalendarzmiesiac k WHERE k.mc = :mc AND k.rok = :rok AND k.angaz=:angaz"),
+    @NamedQuery(name = "Kalendarzmiesiac.findByRokAngaz", query = "SELECT k FROM Kalendarzmiesiac k WHERE k.rok = :rok AND k.angaz=:angaz"),
+    @NamedQuery(name = "Kalendarzmiesiac.findByAngaz", query = "SELECT k FROM Kalendarzmiesiac k WHERE k.angaz=:angaz"),
+    @NamedQuery(name = "Kalendarzmiesiac.findByFirmaRokMc", query = "SELECT k FROM Kalendarzmiesiac k WHERE k.mc = :mc AND k.rok = :rok AND k.angaz.firma=:firma"),
+    @NamedQuery(name = "Kalendarzmiesiac.findByFirmaRokMcNierezydent", query = "SELECT k FROM Kalendarzmiesiac k WHERE k.mc = :mc AND k.rok = :rok AND k.angaz.firma=:firma AND k.angaz.pracownik.nierezydent = TRUE")
    })
 public class Kalendarzmiesiac implements Serializable {
 private static final long serialVersionUID = 1L;
@@ -65,6 +62,10 @@ private static final long serialVersionUID = 1L;
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
+    @NotNull
+    @JoinColumn(name = "angaz", referencedColumnName = "id")
+    @ManyToOne()
+    private Angaz angaz;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 4)
@@ -75,10 +76,10 @@ private static final long serialVersionUID = 1L;
     @Size(min = 1, max = 2)
     @Column(name = "mc")
     private String mc;
-    @NotNull
-    @JoinColumn(name = "umowa", referencedColumnName = "id")
-    @ManyToOne
-    private Umowa umowa;
+//    @NotNull
+//    @JoinColumn(name = "umowa", referencedColumnName = "id")
+//    @ManyToOne
+//    private Umowa umowa;
     @OneToMany(mappedBy = "kalendarzmiesiac", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Pasekwynagrodzen> pasekwynagrodzenList;
     @OneToMany(mappedBy = "kalendarzmiesiac", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -124,14 +125,14 @@ private static final long serialVersionUID = 1L;
         this.pasekwynagrodzenList = new ArrayList<>();
     }
 
-    public Kalendarzmiesiac(Umowa umowa, String rokWpisu, String miesiacWpisu) {
-        this.umowa = umowa;
+    public Kalendarzmiesiac(Angaz angaz, String rokWpisu, String miesiacWpisu) {
+        this.angaz = angaz;
         this.rok = rokWpisu;
         this.mc = miesiacWpisu;
     }
 
     public Kalendarzmiesiac(Kalendarzmiesiac selected) {
-        this.umowa = selected.umowa;
+        this.angaz = selected.angaz;
         this.rok = selected.rok;
         this.mc = selected.mc;
         this.dzienList = selected.dzienList;
@@ -179,11 +180,11 @@ private static final long serialVersionUID = 1L;
     public void setId(Integer id) {
         this.id = id;
     }
-    public Umowa getUmowa() {
-        return umowa;
+    public Angaz getAngaz() {
+        return angaz;
     }
-    public void setUmowa(Umowa umowa) {
-        this.umowa = umowa;
+    public void setAngaz(Angaz angaz) {
+        this.angaz = angaz;
     }
    
       
@@ -208,7 +209,7 @@ private static final long serialVersionUID = 1L;
 
     @Override
     public String toString() {
-        return "Kalendarzmiesiac{" + "rok=" + rok + ", mc=" + mc + ", umowa=" + umowa.getImieNazwisko() + '}';
+        return "Kalendarzmiesiac{" + "rok=" + rok + ", mc=" + mc + ", angaz=" + getNazwiskoImie() + '}';
     }
   
    
@@ -466,7 +467,7 @@ private static final long serialVersionUID = 1L;
                 if (cosjest(d.getKod())&&biezaca==null) {
                     //nowykod
                     Rodzajnieobecnosci nieobecnosckodzus = rodzajnieobecnosciFacade.findByKod(d.getKod());
-                    biezaca = new Nieobecnosc(this.getUmowa());
+                    biezaca = new Nieobecnosc(this.getAngaz());
                     biezaca.setKodzwolnienia(d.getKod());
                     biezaca.setDataod(Data.pelnadata(this,d.getNrdnia()));
                     biezaca.setDatado(Data.pelnadata(this,d.getNrdnia()));
@@ -477,7 +478,7 @@ private static final long serialVersionUID = 1L;
                     } else {
                         wykaz.add(biezaca);
                         Rodzajnieobecnosci nieobecnosckodzus = rodzajnieobecnosciFacade.findByKod(d.getKod());
-                        biezaca = new Nieobecnosc(this.getUmowa());
+                        biezaca = new Nieobecnosc(this.getAngaz());
                         biezaca.setKodzwolnienia(d.getKod());
                         biezaca.setDataod(Data.pelnadata(this,d.getNrdnia()));
                         biezaca.setDatado(Data.pelnadata(this,d.getNrdnia()));
@@ -501,17 +502,7 @@ private static final long serialVersionUID = 1L;
         return kod!=null&&!kod.equals("");
     }
 
-   public boolean isPraca() {
-       return this.getUmowa().getUmowakodzus().isPraca();
-   }
-   
-   public boolean isZlecenie() {
-       return this.getUmowa().getUmowakodzus().isZlecenie();
-   }
-   public boolean isFunkcja() {
-       return this.getUmowa().getUmowakodzus().isFunkcja();
-   }
-   
+
    public Pasekwynagrodzen getPasek() {
        Pasekwynagrodzen zwrot = new Pasekwynagrodzen();
          if (this.pasekwynagrodzenList!=null && this.pasekwynagrodzenList.size()==1) {
@@ -632,23 +623,23 @@ private static final long serialVersionUID = 1L;
     }
 
     public String getNazwiskoImie() {
-        return this.getUmowa().getAngaz().getPracownik().getNazwiskoImie();
+        return this.getAngaz().getPracownik().getNazwiskoImie();
     }
     
     public String getPesel() {
-        return this.getUmowa().getAngaz().getPracownik().getPesel();
+        return this.getAngaz().getPracownik().getPesel();
     }
     
     public String getDataUrodzenia() {
-        return this.getUmowa().getAngaz().getPracownik().getDataurodzenia();
+        return this.getAngaz().getPracownik().getDataurodzenia();
     }
     
     public String getNazwisko() {
-        return this.getUmowa().getAngaz().getPracownik().getNazwisko();
+        return this.getAngaz().getPracownik().getNazwisko();
     }
     
     public String getImie() {
-        return this.getUmowa().getAngaz().getPracownik().getImie();
+        return this.getAngaz().getPracownik().getImie();
     }
 
     public double getDnioddelegowania() {
@@ -894,7 +885,7 @@ private static final long serialVersionUID = 1L;
     }
 
     public boolean isNierezydent() {
-        return this.getUmowa().getAngaz().getPracownik().isNierezydent();
+        return this.getAngaz().getPracownik().isNierezydent();
     }
 
     

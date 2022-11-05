@@ -44,8 +44,8 @@ public class EtatView implements Serializable {
     @PostConstruct
     public void init() {
         if (wpisView.getUmowa()!=null){
-            selected.setUmowa(wpisView.getUmowa());
-            lista = etatFacade.findByUmowa(wpisView.getUmowa());
+            selected.setAngaz(wpisView.getAngaz());
+            lista = etatFacade.findByAngaz(wpisView.getAngaz());
         }
     }
     
@@ -53,7 +53,7 @@ public class EtatView implements Serializable {
       if (selected!=null && wpisView.getUmowa()!=null) {
           if (selected.getId()==null) {
             try {
-              selected.setUmowa(wpisView.getUmowa());
+              selected.setAngaz(wpisView.getAngaz());
               etatFacade.create(selected);
               lista.add(selected);
               edytujkalendarz(selected);
@@ -89,7 +89,7 @@ public class EtatView implements Serializable {
     }
 
     private void edytujkalendarz(EtatPrac selected) {
-        List<Kalendarzmiesiac> kalendarze = kalendarzmiesiacFacade.findByUmowa(selected.getUmowa());
+        List<Kalendarzmiesiac> kalendarze = kalendarzmiesiacFacade.findByAngaz(selected.getAngaz());
         for (Kalendarzmiesiac k : kalendarze) {
             boolean czyjestpo = Data.czyjestpo(selected.getDataod(), k.getRok(), k.getMc());
             boolean czyjestprzed = Data.czyjestprzed(selected.getDatado(), k.getRok(), k.getMc());

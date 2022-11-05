@@ -38,6 +38,10 @@
             <from-outcome>Pracownik</from-outcome>
             <to-view-id>/pracownik/index.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
+        <navigation-case>
+            <from-outcome>Pracownikwykaz</from-outcome>
+            <to-view-id>/pracownikwykaz/index.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
          <navigation-case>
             <from-outcome>Pracownikdane</from-outcome>
             <to-view-id>/pracownikdane/index.xhtml?faces-redirect=true</to-view-id>

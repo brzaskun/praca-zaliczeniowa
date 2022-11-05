@@ -192,7 +192,7 @@ public class OsobaBean {
         return zwrot;
     }
 
-    static List<Stanowiskoprac> pobierzstanowiska(Osoba osoba, Umowa umowa) {
+    static List<Stanowiskoprac> pobierzstanowiska(Osoba osoba, Angaz angaz) {
         List<Stanowiskoprac> zwrot = new ArrayList<>();
         List<StanHist> stanHist = osoba.getStanHistList();
         for (StanHist r : stanHist) {
@@ -201,14 +201,14 @@ public class OsobaBean {
                 stan.setDataod(Data.data_yyyyMMdd(r.getSthDataOd()));
                 stan.setDatado(Data.data_yyyyMMdd(r.getSthDataDo()));
                 stan.setOpis(r.getSthStaSerial().getStaNazwa());
-                stan.setUmowa(umowa);
+                stan.setAngaz(angaz);
                 zwrot.add(stan);
             } catch (Exception e){}
         }
         return zwrot;
     }
 
-    static List<EtatPrac> pobierzetaty(Osoba osoba, Umowa umowa) {
+    static List<EtatPrac> pobierzetaty(Osoba osoba, Angaz angaz) {
         List<EtatPrac> zwrot = new ArrayList<>();
         List<WymiarHist> wymiarHist = osoba.getWymiarHistList();
         for (WymiarHist r : wymiarHist) {
@@ -218,16 +218,16 @@ public class OsobaBean {
                 stan.setDatado(Data.data_yyyyMMdd(r.getWehDataDo()));
                 stan.setEtat1(r.getWehEtat1());
                 stan.setEtat2(r.getWehEtat2());
-                stan.setUmowa(umowa);
+                stan.setAngaz(angaz);
                 zwrot.add(stan);
             } catch (Exception e){}
         }
         return zwrot;
     }
     
-    static List<Kalendarzmiesiac> generujKalendarzNowaUmowa(Angaz angaz, Pracownik pracownik, Umowa umowa, KalendarzmiesiacFacade kalendarzmiesiacFacade, KalendarzwzorFacade kalendarzwzorFacade, String rok, List<EtatPrac> etaty) {
+    static List<Kalendarzmiesiac> generujKalendarzNowaUmowa(Angaz angaz, Pracownik pracownik, KalendarzmiesiacFacade kalendarzmiesiacFacade, KalendarzwzorFacade kalendarzwzorFacade, String rok, List<EtatPrac> etaty) {
         List<Kalendarzmiesiac> zwrot = new ArrayList<>();
-        if (angaz!=null && pracownik!=null && umowa!=null) {
+        if (angaz!=null && pracownik!=null) {
             Integer mcod = 1;
             Integer dzienod = 1;
             for (String mce: Mce.getMceListS()) {
@@ -236,10 +236,10 @@ public class OsobaBean {
                     Kalendarzmiesiac kal = new Kalendarzmiesiac();
                     kal.setRok(rok);
                     kal.setMc(mce);
-                    kal.setUmowa(umowa);
-                    Kalendarzmiesiac kalmiesiac = kalendarzmiesiacFacade.findByRokMcUmowa(umowa,rok, mce);
+                    kal.setAngaz(angaz);
+                    Kalendarzmiesiac kalmiesiac = kalendarzmiesiacFacade.findByRokMcAngaz(angaz,rok, mce);
                     if (kalmiesiac==null) {
-                        Kalendarzwzor pobranywzorcowy = kalendarzwzorFacade.findByFirmaRokMc(kal.getUmowa().getAngaz().getFirma(), kal.getRok(), mce);
+                        Kalendarzwzor pobranywzorcowy = kalendarzwzorFacade.findByFirmaRokMc(kal.getAngaz().getFirma(), kal.getRok(), mce);
                         if (pobranywzorcowy!=null) {
                             kal.ganerujdnizwzrocowego(pobranywzorcowy, dzienod, etaty);
                             zwrot.add(kal);
@@ -259,10 +259,10 @@ public class OsobaBean {
         return zwrot;
     }
     
-    public static List<Nieobecnosc> pobierznieobecnosci(Osoba osoba, Umowa aktywnaumowa, NieobecnoscFacade nieobecnoscFacade, RodzajnieobecnosciFacade rodzajnieobecnosciFacade, SwiadczeniekodzusFacade swiadczeniekodzusFacade) {
+    public static List<Nieobecnosc> pobierznieobecnosci(Osoba osoba, Angaz angaz, NieobecnoscFacade nieobecnoscFacade, RodzajnieobecnosciFacade rodzajnieobecnosciFacade, SwiadczeniekodzusFacade swiadczeniekodzusFacade) {
         List<Rodzajnieobecnosci> rodzajnieobscnoscilist = rodzajnieobecnosciFacade.findAll();
         List<Swiadczeniekodzus> swiadczeniekodzuslist = swiadczeniekodzusFacade.findAll();
-        List<Nieobecnosc> nieobecnosci = OsobaBean.pobierznieobecnosci(osoba, aktywnaumowa, rodzajnieobscnoscilist, swiadczeniekodzuslist);
+        List<Nieobecnosc> nieobecnosci = OsobaBean.pobierznieobecnosci(osoba, angaz, rodzajnieobscnoscilist, swiadczeniekodzuslist);
         for (Nieobecnosc p : nieobecnosci) {
             p.setImportowana(true);
             p.setRokod(Data.getRok(p.getDataod()));
@@ -275,18 +275,18 @@ public class OsobaBean {
     }
     
     
-    static List<Skladnikpotracenia> pobierzskladnipotracenia(List<OsobaPot> skladniki, List<Rodzajpotracenia> rodzajepotracen, Umowa aktywna, SkladnikPotraceniaFacade skladnikPotraceniaFacade, ZmiennaPotraceniaFacade zmiennaPotraceniaFacade) {
+    static List<Skladnikpotracenia> pobierzskladnipotracenia(List<OsobaPot> skladniki, List<Rodzajpotracenia> rodzajepotracen, Angaz angaz, SkladnikPotraceniaFacade skladnikPotraceniaFacade, ZmiennaPotraceniaFacade zmiennaPotraceniaFacade) {
         List<Skladnikpotracenia> zwrot = new ArrayList<>();
         if (skladniki!=null) {
             OsobaPot wybrany = null;
             for (OsobaPot s : skladniki) {
                 if (wybrany == null) {
                     wybrany = s;
-                    Skladnikpotracenia generujpotracenie = generujpotracenie(wybrany, rodzajepotracen, aktywna, skladnikPotraceniaFacade, zmiennaPotraceniaFacade);
+                    Skladnikpotracenia generujpotracenie = generujpotracenie(wybrany, rodzajepotracen, angaz, skladnikPotraceniaFacade, zmiennaPotraceniaFacade);
                     zwrot.add(generujpotracenie);
                 } else if (s.getOpoSerial()>wybrany.getOpoSerial()) {
                     wybrany = s;
-                    Skladnikpotracenia generujpotracenie = generujpotracenie(wybrany, rodzajepotracen, aktywna, skladnikPotraceniaFacade, zmiennaPotraceniaFacade);
+                    Skladnikpotracenia generujpotracenie = generujpotracenie(wybrany, rodzajepotracen, angaz, skladnikPotraceniaFacade, zmiennaPotraceniaFacade);
                     zwrot.add(generujpotracenie);
                 }
             }
@@ -295,20 +295,20 @@ public class OsobaBean {
     }
 
     
-    static List<Skladnikwynagrodzenia> pobierzskladnikwynagrodzenia(List<OsobaSkl> skladniki, List<Rodzajwynagrodzenia> rodzajewynagrodzenia, Umowa aktywna, SkladnikWynagrodzeniaFacade skladnikWynagrodzeniaFacade, ZmiennaWynagrodzeniaFacade zmiennaWynagrodzeniaFacade) {
+    static List<Skladnikwynagrodzenia> pobierzskladnikwynagrodzenia(List<OsobaSkl> skladniki, List<Rodzajwynagrodzenia> rodzajewynagrodzenia, Angaz angaz, SkladnikWynagrodzeniaFacade skladnikWynagrodzeniaFacade, ZmiennaWynagrodzeniaFacade zmiennaWynagrodzeniaFacade) {
         List<Skladnikwynagrodzenia> zwrot = new ArrayList<>();
         if (skladniki!=null) {
             OsobaSkl wybrany = null;
             for (OsobaSkl s : skladniki) {
                 if (wybrany == null) {
                     wybrany = s;
-                    Skladnikwynagrodzenia generujskladnik = generujskladnik(wybrany, rodzajewynagrodzenia, aktywna, skladnikWynagrodzeniaFacade, zmiennaWynagrodzeniaFacade);
+                    Skladnikwynagrodzenia generujskladnik = generujskladnik(wybrany, rodzajewynagrodzenia, angaz, skladnikWynagrodzeniaFacade, zmiennaWynagrodzeniaFacade);
                     if (generujskladnik!=null) {
                         zwrot.add(generujskladnik);
                     }
                 } else if (s.getOssSerial()>wybrany.getOssSerial()) {
                     wybrany = s;
-                    Skladnikwynagrodzenia generujskladnik = generujskladnik(wybrany, rodzajewynagrodzenia, aktywna, skladnikWynagrodzeniaFacade, zmiennaWynagrodzeniaFacade);
+                    Skladnikwynagrodzenia generujskladnik = generujskladnik(wybrany, rodzajewynagrodzenia, angaz, skladnikWynagrodzeniaFacade, zmiennaWynagrodzeniaFacade);
                     if (generujskladnik!=null) {
                         zwrot.add(generujskladnik);
                     }
@@ -338,18 +338,18 @@ public class OsobaBean {
         return zwrot;
     }
     
-    static List<Skladnikwynagrodzenia> pobierzskladnikzlecenie(List<OsobaZlec> skladniki, List<Rodzajwynagrodzenia> rodzajewynagrodzenia, Umowa aktywna, SkladnikWynagrodzeniaFacade skladnikWynagrodzeniaFacade, ZmiennaWynagrodzeniaFacade zmiennaWynagrodzeniaFacade) {
+    static List<Skladnikwynagrodzenia> pobierzskladnikzlecenie(List<OsobaZlec> skladniki, List<Rodzajwynagrodzenia> rodzajewynagrodzenia, Angaz angaz, SkladnikWynagrodzeniaFacade skladnikWynagrodzeniaFacade, ZmiennaWynagrodzeniaFacade zmiennaWynagrodzeniaFacade) {
         List<Skladnikwynagrodzenia> zwrot = new ArrayList<>();
         if (skladniki!=null) {
             OsobaZlec wybrany = null;
             for (OsobaZlec s : skladniki) {
                 if (wybrany == null) {
                     wybrany = s;
-                    Skladnikwynagrodzenia generujskladnik = generujskladnikzlecenie(wybrany, rodzajewynagrodzenia, aktywna, skladnikWynagrodzeniaFacade, zmiennaWynagrodzeniaFacade);
+                    Skladnikwynagrodzenia generujskladnik = generujskladnikzlecenie(wybrany, rodzajewynagrodzenia, angaz, skladnikWynagrodzeniaFacade, zmiennaWynagrodzeniaFacade);
                     zwrot.add(generujskladnik);
                 } else if (s.getOzlSerial()>wybrany.getOzlSerial()) {
                     wybrany = s;
-                    Skladnikwynagrodzenia generujskladnik = generujskladnikzlecenie(wybrany, rodzajewynagrodzenia, aktywna, skladnikWynagrodzeniaFacade, zmiennaWynagrodzeniaFacade);
+                    Skladnikwynagrodzenia generujskladnik = generujskladnikzlecenie(wybrany, rodzajewynagrodzenia, angaz, skladnikWynagrodzeniaFacade, zmiennaWynagrodzeniaFacade);
                     zwrot.add(generujskladnik);
                 }
             }
@@ -375,32 +375,32 @@ public class OsobaBean {
         return zwrot;
     }
     
-    private static Skladnikpotracenia generujpotracenie(OsobaPot wybrany, List<Rodzajpotracenia> rodzajpotracenia, Umowa aktywna, SkladnikPotraceniaFacade skladnikPotraceniaFacade, ZmiennaPotraceniaFacade zmiennaPotraceniaFacade) {
+    private static Skladnikpotracenia generujpotracenie(OsobaPot wybrany, List<Rodzajpotracenia> rodzajpotracenia, Angaz angaz, SkladnikPotraceniaFacade skladnikPotraceniaFacade, ZmiennaPotraceniaFacade zmiennaPotraceniaFacade) {
         Skladnikpotracenia skladnik = new Skladnikpotracenia();
-        skladnik.setUmowa(aktywna);
+        skladnik.setAngaz(angaz);
         skladnik.setRodzajpotracenia(pobierzrodzajpotracenia(wybrany,rodzajpotracenia));
         skladnikPotraceniaFacade.create(skladnik);
-        pobierzzmiennapotracenia(aktywna, skladnik, wybrany, zmiennaPotraceniaFacade);
+        pobierzzmiennapotracenia(skladnik, wybrany, zmiennaPotraceniaFacade);
         return skladnik;
     }
-    private static Skladnikwynagrodzenia generujskladnik(OsobaSkl wybrany, List<Rodzajwynagrodzenia> rodzajewynagrodzenia, Umowa aktywna, SkladnikWynagrodzeniaFacade skladnikWynagrodzeniaFacade, ZmiennaWynagrodzeniaFacade zmiennaWynagrodzeniaFacade) {
+    private static Skladnikwynagrodzenia generujskladnik(OsobaSkl wybrany, List<Rodzajwynagrodzenia> rodzajewynagrodzenia, Angaz angaz, SkladnikWynagrodzeniaFacade skladnikWynagrodzeniaFacade, ZmiennaWynagrodzeniaFacade zmiennaWynagrodzeniaFacade) {
         Skladnikwynagrodzenia skladnik = new Skladnikwynagrodzenia();
-        skladnik.setUmowa(aktywna);
+        skladnik.setAngaz(angaz);
         skladnik.setWks_serial(wybrany.getOssWksSerial().getWksSerial());
         skladnik.setRodzajwynagrodzenia(pobierzrodzajwynagrodzenia(wybrany,rodzajewynagrodzenia));
-        pobierzzmiennawynagrodzenia(aktywna, skladnik, wybrany, zmiennaWynagrodzeniaFacade);
+        pobierzzmiennawynagrodzenia(skladnik, wybrany, zmiennaWynagrodzeniaFacade);
         if (skladnik.getZmiennawynagrodzeniaList()==null||skladnik.getZmiennawynagrodzeniaList().isEmpty()) {
             skladnik = null;
         }
         return skladnik;
     }
     
-     public static Skladnikwynagrodzenia generujskladnikzlecenie(OsobaZlec wybrany, List<Rodzajwynagrodzenia> rodzajewynagrodzenia, Umowa aktywna, SkladnikWynagrodzeniaFacade skladnikWynagrodzeniaFacade, ZmiennaWynagrodzeniaFacade zmiennaWynagrodzeniaFacade) {
+     public static Skladnikwynagrodzenia generujskladnikzlecenie(OsobaZlec wybrany, List<Rodzajwynagrodzenia> rodzajewynagrodzenia, Angaz angaz, SkladnikWynagrodzeniaFacade skladnikWynagrodzeniaFacade, ZmiennaWynagrodzeniaFacade zmiennaWynagrodzeniaFacade) {
         Skladnikwynagrodzenia skladnik = new Skladnikwynagrodzenia();
-        skladnik.setUmowa(aktywna);
+        skladnik.setAngaz(angaz);
         skladnik.setWks_serial(wybrany.getOzlWksSerial().getWksSerial());
         skladnik.setRodzajwynagrodzenia(pobierzrodzajwynagrodzeniazlecenie(wybrany,rodzajewynagrodzenia));
-        Zmiennawynagrodzenia zmiennawynagrodzenia = pobierzzmiennawynagrodzeniazlecenie(aktywna, skladnik, wybrany, zmiennaWynagrodzeniaFacade);
+        Zmiennawynagrodzenia zmiennawynagrodzenia = pobierzzmiennawynagrodzeniazlecenie(skladnik, wybrany, zmiennaWynagrodzeniaFacade);
         String rokod = Data.getRok(zmiennawynagrodzenia.getDataod());
         if (zmiennawynagrodzenia.getDatado()==null||(Integer.parseInt(rokod)>2020&&zmiennawynagrodzenia.getKwota()!=0.0)) {
             skladnik.getZmiennawynagrodzeniaList().add(zmiennawynagrodzenia);
@@ -462,7 +462,7 @@ public class OsobaBean {
         return zwrot;
     }
 
-     static void pobierzzmiennapotracenia(Umowa aktywna, Skladnikpotracenia skladnikpotracenia, OsobaPot s, ZmiennaPotraceniaFacade zmiennaPotraceniaFacade) {
+     static void pobierzzmiennapotracenia(Skladnikpotracenia skladnikpotracenia, OsobaPot s, ZmiennaPotraceniaFacade zmiennaPotraceniaFacade) {
          if (skladnikpotracenia!=null) {
             StSystOpis ossSsdSerial1 = s.getOpoSsdSerial1();
             if (ossSsdSerial1!=null && s.getOpoSsdSerial1().getStSystWartList()!=null && !s.getOpoSsdSerial1().getStSystWartList().isEmpty()) {
@@ -542,7 +542,7 @@ public class OsobaBean {
      }
      
 
-    static void pobierzzmiennawynagrodzenia(Umowa aktywna, Skladnikwynagrodzenia skladnikwynagrodzenia, OsobaSkl osobaSkl, ZmiennaWynagrodzeniaFacade zmiennaWynagrodzeniaFacade) {
+    static void pobierzzmiennawynagrodzenia(Skladnikwynagrodzenia skladnikwynagrodzenia, OsobaSkl osobaSkl, ZmiennaWynagrodzeniaFacade zmiennaWynagrodzeniaFacade) {
         if (skladnikwynagrodzenia!=null) {
             StSystOpis ossSsdSerial1 = osobaSkl.getOssSsdSerial1();
             if (ossSsdSerial1!=null) {
@@ -615,7 +615,7 @@ public class OsobaBean {
         }
     }
     
-    static Zmiennawynagrodzenia pobierzzmiennawynagrodzeniazlecenie(Umowa aktywna, Skladnikwynagrodzenia skladnikwynagrodzenia, OsobaZlec s, ZmiennaWynagrodzeniaFacade zmiennaWynagrodzeniaFacade) {
+    static Zmiennawynagrodzenia pobierzzmiennawynagrodzeniazlecenie(Skladnikwynagrodzenia skladnikwynagrodzenia, OsobaZlec s, ZmiennaWynagrodzeniaFacade zmiennaWynagrodzeniaFacade) {
         Zmiennawynagrodzenia wiersz = null;
         if (skladnikwynagrodzenia!=null) {
             wiersz = new Zmiennawynagrodzenia();
@@ -645,7 +645,7 @@ public class OsobaBean {
 //                    String mcdo = nieobecnosc.getMcdo();
 //                    for (String mc : Mce.getMceListS()) {
 //                        if (Data.jestrownywiekszy(mc, mcod) && Data.jestrownywiekszy(mcdo, mc)) {
-//                            Kalendarzmiesiac znaleziony = kalendarzmiesiacFacade.findByRokMcUmowa(wpisView.getUmowa(), wpisView.getRokWpisu(), mc);
+//                            Kalendarzmiesiac znaleziony = kalendarzmiesiacFacade.findByRokMcAngaz(wpisView.getAngaz(), wpisView.getRokWpisu(), mc);
 //                            if (znaleziony != null) {
 //                                if (nieobecnosc.getRokod().equals(wpisView.getRokWpisu()) || nieobecnosc.getRokdo().equals(wpisView.getRokWpisu())) {
 //                                    znaleziony.naniesnieobecnosc(nieobecnosc);
@@ -902,15 +902,15 @@ public class OsobaBean {
         return paski;
     }
 
-    static List<Nieobecnosc> pobierznieobecnosci(Osoba osoba, Umowa umowa, List<Rodzajnieobecnosci> rodzajnieobecnoscilist, List<Swiadczeniekodzus> swiadczeniekodzuslist) {
+    static List<Nieobecnosc> pobierznieobecnosci(Osoba osoba, Angaz angaz, List<Rodzajnieobecnosci> rodzajnieobecnoscilist, List<Swiadczeniekodzus> swiadczeniekodzuslist) {
         List<Nieobecnosc> zwrot = new ArrayList<>();
         List<OsobaPrz> osobaPrzList = osoba.getOsobaPrzList();
         for (OsobaPrz r : osobaPrzList) {
             try {
-                Nieobecnosc n = new Nieobecnosc(r, umowa);
+                Nieobecnosc n = new Nieobecnosc(r, angaz);
                 n.setRodzajnieobecnosci(histporiapobierzrodzajnieobescnosci(r, rodzajnieobecnoscilist));
                 n.setSwiadczeniekodzus(histporiapobierzswiadczeniekodzus(r, swiadczeniekodzuslist));
-                if (n.getUmowa()!=null) {
+                if (n.getAngaz()!=null) {
                     zwrot.add(n);
                 }
             } catch (Exception e){

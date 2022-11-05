@@ -380,12 +380,8 @@ public class Pracownik implements Serializable {
         List<Nieobecnosc> zwrot = new ArrayList<>();
         if (this.angazList!=null&& !this.angazList.isEmpty()) {
             for (Angaz p : angazList) {
-                if (p.getUmowaList()!=null && !p.getUmowaList().isEmpty()) {
-                    for (Umowa u : p.getUmowaList()) {
-                        if (u.getNieobecnoscList()!=null&&!u.getNieobecnoscList().isEmpty()) {
-                            zwrot.addAll(u.getNieobecnoscList());
-                        }
-                    }
+                if (p.getNieobecnoscList()!=null&&!p.getNieobecnoscList().isEmpty()) {
+                    zwrot.addAll(p.getNieobecnoscList());
                 }
             }
         }

@@ -39,8 +39,8 @@ import kadryiplace.OsobaPrz;
     @NamedQuery(name = "Nieobecnosc.findById", query = "SELECT n FROM Nieobecnosc n WHERE n.id = :id"),
     @NamedQuery(name = "Nieobecnosc.findByKod", query = "SELECT n FROM Nieobecnosc n WHERE n.swiadczeniekodzus.kod = :kod"),
     @NamedQuery(name = "Nieobecnosc.findByNazwa", query = "SELECT n FROM Nieobecnosc n WHERE n.swiadczeniekodzus.opis = :opis"),
-    @NamedQuery(name = "Nieobecnosc.findByUmowa", query = "SELECT n FROM Nieobecnosc n WHERE n.umowa = :umowa"),
-    @NamedQuery(name = "Nieobecnosc.findByUmowa200", query = "SELECT n FROM Nieobecnosc n WHERE n.umowa = :umowa and n.swiadczeniekodzus.kod='200'"),
+    @NamedQuery(name = "Nieobecnosc.findByAngaz", query = "SELECT n FROM Nieobecnosc n WHERE n.angaz = :angaz"),
+    @NamedQuery(name = "Nieobecnosc.findByAngaz200", query = "SELECT n FROM Nieobecnosc n WHERE n.angaz = :angaz and n.swiadczeniekodzus.kod='200'"),
     @NamedQuery(name = "Nieobecnosc.findByDataod", query = "SELECT n FROM Nieobecnosc n WHERE n.dataod = :dataod"),
     @NamedQuery(name = "Nieobecnosc.findByDatado", query = "SELECT n FROM Nieobecnosc n WHERE n.datado = :datado")})
 public class Nieobecnosc implements Serializable {
@@ -50,6 +50,10 @@ public class Nieobecnosc implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
+    @NotNull
+    @JoinColumn(name = "angaz", referencedColumnName = "id")
+    @ManyToOne()
+    private Angaz angaz;
     @Size(max = 45)
     @NotNull
     @Column(name = "dataod")
@@ -69,9 +73,6 @@ public class Nieobecnosc implements Serializable {
     @JoinColumn(name = "swiadczeniekodzus", referencedColumnName = "id")
     @ManyToOne(optional = true)
     private Swiadczeniekodzus swiadczeniekodzus;
-    @JoinColumn(name = "umowa", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private Umowa umowa;
     @OneToMany(mappedBy = "nieobecnosc")
     private List<Naliczenienieobecnosc> naliczenienieobecnoscList;
     @Size(max = 256)
@@ -126,19 +127,19 @@ public class Nieobecnosc implements Serializable {
         this.zwolnienieprocent = 100;
     }
 
-    public Nieobecnosc(Umowa umowa) {
-        this.umowa = umowa;
+    public Nieobecnosc(Angaz angaz) {
+        this.angaz = angaz;
         this.zwolnienieprocent = 100;
     }
 
-    public Nieobecnosc(RaportEzla zwrot, Umowa umowa) {
-        this.setUmowa(umowa);
+    public Nieobecnosc(RaportEzla zwrot, Angaz angaz) {
+        this.setAngaz(angaz);
         this.setDataod(Data.calendarToString(zwrot.getDokumentyEzla().getDaneDokumentu().getOkresZwolnienia().getDataOd()));
         this.setDatado(Data.calendarToString(zwrot.getDokumentyEzla().getDaneDokumentu().getOkresZwolnienia().getDataDo()));
         this.setKodzwolnienia(zwrot.getDokumentyEzla().getDaneDokumentu().getSeria()+zwrot.getDokumentyEzla().getDaneDokumentu().getNumer());
     }
 
-    public Nieobecnosc(OsobaPrz r, Umowa umowa) {
+    public Nieobecnosc(OsobaPrz r, Angaz angaz) {
         if (r.getOspWkpSerial()!=null) {
             //zwolnienie
             this.dataod = Data.data_yyyyMMdd(r.getOspDataOd());
@@ -151,7 +152,7 @@ public class Nieobecnosc implements Serializable {
             this.godzinyroboczenieobecnosc = r.getOspNum2().doubleValue();
             this.seriainrzwolnienia = r.getOspVchar2()!=null?r.getOspVchar2().replaceAll("\\s+", ""):null;
             this.kodzwolnienia = r.getOspWkpSerial().getWkpKod();
-            this.umowa = umowa;
+            this.angaz = angaz;
             this.importowana = true;
         } else if (r.getOspAbsSerial()!=null) {
             //urlop
@@ -163,7 +164,7 @@ public class Nieobecnosc implements Serializable {
             this.dniroboczenieobecnosci = r.getOspLiczba();
             this.godzinyroboczenieobecnosc = r.getOspNum2().doubleValue();
             this.kodzwolnienia = r.getOspAbsSerial().getAbsKod().toString();
-            this.umowa = umowa;
+            this.angaz = angaz;
             this.importowana = true;
         } else {
         }
@@ -197,9 +198,9 @@ public class Nieobecnosc implements Serializable {
     @Override
     public String toString() {
         if (swiadczeniekodzus!=null) {
-            return "Nieobecnosc{" + "dataod=" + dataod + ", datado=" + datado + ", swiadczeniekodzus=" + swiadczeniekodzus.getKod() + ", umowa=" + umowa.getAngaz().getPracownik().getNazwiskoImie() + ", opis=" + opis + ", dnirobocze=" + dniroboczenieobecnosci + ", importowana=" + importowana + ", pobranaZUS=" + pobranaZUS + ", rokod=" + rokod + ", rokdo=" + rokdo + ", mcod=" + mcod + ", mcdo=" + mcdo + '}';
+            return "Nieobecnosc{" + "dataod=" + dataod + ", datado=" + datado + ", swiadczeniekodzus=" + swiadczeniekodzus.getKod() + ", angaz=" + this.getAngaz().getPracownik().getNazwiskoImie() + ", opis=" + opis + ", dnirobocze=" + dniroboczenieobecnosci + ", importowana=" + importowana + ", pobranaZUS=" + pobranaZUS + ", rokod=" + rokod + ", rokdo=" + rokdo + ", mcod=" + mcod + ", mcdo=" + mcdo + '}';
         } else {
-            return "Nieobecnosc{" + "dataod=" + dataod + ", datado=" + datado + ", umowa=" + umowa.getAngaz().getPracownik().getNazwiskoImie() + ", opis=" + opis + ", dnirobocze=" + dniroboczenieobecnosci + ", importowana=" + importowana + ", pobranaZUS=" + pobranaZUS + ", rokod=" + rokod + ", rokdo=" + rokdo + ", mcod=" + mcod + ", mcdo=" + mcdo + '}';
+            return "Nieobecnosc{" + "dataod=" + dataod + ", datado=" + datado + ", angaz=" + this.getAngaz().getPracownik().getNazwiskoImie() + ", opis=" + opis + ", dnirobocze=" + dniroboczenieobecnosci + ", importowana=" + importowana + ", pobranaZUS=" + pobranaZUS + ", rokod=" + rokod + ", rokdo=" + rokdo + ", mcod=" + mcod + ", mcdo=" + mcdo + '}';
         }
     }
 
@@ -244,11 +245,11 @@ public class Nieobecnosc implements Serializable {
         this.krajoddelegowania = krajoddelegowania;
     }
 
-    public Umowa getUmowa() {
-        return umowa;
+    public Angaz getAngaz() {
+        return angaz;
     }
-    public void setUmowa(Umowa umowa) {
-        this.umowa = umowa;
+    public void setAngaz(Angaz angaz) {
+        this.angaz = angaz;
     }
 
     public double getDietaoddelegowanie() {

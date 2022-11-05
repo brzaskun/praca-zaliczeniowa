@@ -92,6 +92,8 @@
                         <p:inputText id="usnazwakod" value="#{pracownikDane2View.selected.kodurzeduskarbowego}" title="kod urzędu skarbowego" readonly="true"/>
                         <p:outputLabel value="zaliczki na podatek w innym kraju" for="innykraj" />
                         <p:selectBooleanCheckbox id="innykraj" value="#{pracownikDane2View.selected.zaliczkiwinnymkraju}" title="płaci zaliczki w innym kraju"/>
+                        <p:outputLabel value="koszty uzyskania przychodu" for="koszt" />
+                        <p:inputText id="koszt" value="#{pracownikDane2View.selected.adres}" title="nazwa urzędu skarbowego"  size="5"/>
                     </p:panelGrid>
                     <p:panel header="dane do urlopu na dzień wprowadzenia do programu"/>
                     <p:panelGrid columns="8">

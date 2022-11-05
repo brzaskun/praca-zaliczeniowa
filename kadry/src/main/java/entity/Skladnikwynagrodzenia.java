@@ -23,6 +23,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -37,9 +38,9 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Skladnikwynagrodzenia.findAll", query = "SELECT s FROM Skladnikwynagrodzenia s"),
     @NamedQuery(name = "Skladnikwynagrodzenia.findById", query = "SELECT s FROM Skladnikwynagrodzenia s WHERE s.id = :id"),
-    @NamedQuery(name = "Skladnikwynagrodzenia.findByPracownik", query = "SELECT s FROM Skladnikwynagrodzenia s WHERE s.umowa.angaz.pracownik = :pracownik"),
-    @NamedQuery(name = "Skladnikwynagrodzenia.findByUmowa", query = "SELECT s FROM Skladnikwynagrodzenia s WHERE s.umowa = :umowa"),
-    @NamedQuery(name = "Skladnikwynagrodzenia.findByFirma", query = "SELECT s FROM Skladnikwynagrodzenia s WHERE s.umowa.angaz.firma = :firma AND s.umowa.aktywna = TRUE")
+    @NamedQuery(name = "Skladnikwynagrodzenia.findByPracownik", query = "SELECT s FROM Skladnikwynagrodzenia s WHERE s.angaz.pracownik = :pracownik"),
+    @NamedQuery(name = "Skladnikwynagrodzenia.findByAngaz", query = "SELECT s FROM Skladnikwynagrodzenia s WHERE s.angaz = :angaz"),
+    @NamedQuery(name = "Skladnikwynagrodzenia.findByFirma", query = "SELECT s FROM Skladnikwynagrodzenia s WHERE s.angaz.firma = :firma")
 })
 public class Skladnikwynagrodzenia implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -48,15 +49,16 @@ public class Skladnikwynagrodzenia implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
+    @NotNull
+    @JoinColumn(name = "angaz", referencedColumnName = "id")
+    @ManyToOne()
+    private Angaz angaz;
      //skladnik chorobowy
     @Column(name = "wks_serial")
     private Integer wks_serial;
     @JoinColumn(name = "rodzajwynagrodzenia", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Rodzajwynagrodzenia rodzajwynagrodzenia;
-    @JoinColumn(name = "umowa", referencedColumnName = "id")
-    @ManyToOne
-    private Umowa umowa;
     @Column(name = "oddelegowanie")
     private  boolean oddelegowanie;
     @Size(max = 255)
@@ -112,13 +114,15 @@ public class Skladnikwynagrodzenia implements Serializable {
         this.wks_serial = wks_serial;
     }
 
-    public Umowa getUmowa() {
-        return umowa;
+    public Angaz getAngaz() {
+        return angaz;
     }
 
-    public void setUmowa(Umowa umowa) {
-        this.umowa = umowa;
+    public void setAngaz(Angaz angaz) {
+        this.angaz = angaz;
     }
+
+   
     
     public String getKod() {
         return this.rodzajwynagrodzenia.getKod();
@@ -169,7 +173,7 @@ public class Skladnikwynagrodzenia implements Serializable {
 
     @Override
     public String toString() {
-        return "Skladnikwynagrodzenia{" + "rodzajwynagrodzenia=" + rodzajwynagrodzenia.getOpisskrocony() + ", umowa=" + umowa.getNrkolejny() + ", oddelegowanie=" + oddelegowanie + '}';
+        return "Skladnikwynagrodzenia{" + "rodzajwynagrodzenia=" + rodzajwynagrodzenia.getOpisskrocony() + ", angaz=" + angaz.getPracownik().getNazwiskoImie() + ", oddelegowanie=" + oddelegowanie + '}';
     }
 
    

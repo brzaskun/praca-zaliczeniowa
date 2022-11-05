@@ -143,7 +143,7 @@ public class Rachunekdoumowyzlecenia implements Serializable {
         this.chorobowa = umowa.isChorobowe()||umowa.isChorobowedobrowolne();
         this.zdrowotna = umowa.isZdrowotne();
         this.wypadkowa = umowa.isWypadkowe();
-        this.procentkosztowuzyskania = Z.z(umowa.getKosztyuzyskaniaprocent());
+        this.procentkosztowuzyskania = Z.z(180);
     }
 
 

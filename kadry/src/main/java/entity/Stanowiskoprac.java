@@ -34,7 +34,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Stanowiskoprac.findByDataod", query = "SELECT s FROM Stanowiskoprac s WHERE s.dataod = :dataod"),
     @NamedQuery(name = "Stanowiskoprac.findByDatado", query = "SELECT s FROM Stanowiskoprac s WHERE s.datado = :datado"),
     @NamedQuery(name = "Stanowiskoprac.findByOpis", query = "SELECT s FROM Stanowiskoprac s WHERE s.opis = :opis"),
-    @NamedQuery(name = "Stanowiskoprac.findByUmowa", query = "SELECT s FROM Stanowiskoprac s WHERE s.umowa = :umowa"),
+    @NamedQuery(name = "Stanowiskoprac.findByAngaz", query = "SELECT s FROM Stanowiskoprac s WHERE s.angaz = :angaz"),
     @NamedQuery(name = "Stanowiskoprac.findByUwagi", query = "SELECT s FROM Stanowiskoprac s WHERE s.uwagi = :uwagi")})
 public class Stanowiskoprac implements Serializable {
 
@@ -62,9 +62,10 @@ public class Stanowiskoprac implements Serializable {
     @Size(min = 1, max = 128)
     @Column(name = "uwagi")
     private String uwagi;
-    @JoinColumn(name = "umowa", referencedColumnName = "id")
-    @ManyToOne
-    private Umowa umowa;
+    @NotNull
+    @JoinColumn(name = "angaz", referencedColumnName = "id")
+    @ManyToOne()
+    private Angaz angaz;
 
     public Stanowiskoprac() {
     }
@@ -80,11 +81,11 @@ public class Stanowiskoprac implements Serializable {
         this.uwagi = uwagi;
     }
 
-    public Stanowiskoprac(Umowa umowa) {
-        this.dataod = umowa.getDataod();
-        this.datado = umowa.getDatado();
-        this.opis = umowa.getKodzawodu().getNazwa();
-        this.umowa = umowa;
+    public Stanowiskoprac(Angaz angaz, String dataod, String datado, String nazwazawodu) {
+        this.dataod = dataod;
+        this.datado = datado;
+        this.opis = nazwazawodu;
+        this.angaz = angaz;
     }
 
     
@@ -129,13 +130,15 @@ public class Stanowiskoprac implements Serializable {
         this.uwagi = uwagi;
     }
 
-    public Umowa getUmowa() {
-        return umowa;
+    public Angaz getAngaz() {
+        return angaz;
     }
 
-    public void setUmowa(Umowa umowa) {
-        this.umowa = umowa;
+    public void setAngaz(Angaz angaz) {
+        this.angaz = angaz;
     }
+
+  
 
     @Override
     public int hashCode() {

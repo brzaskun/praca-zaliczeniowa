@@ -5,9 +5,9 @@
  */
 package dao;
 
-import entity.Pracownik;
-import entity.Umowa;
+import entity.Angaz;
 import entity.Nieobecnoscprezentacja;
+import entity.Pracownik;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PreDestroy;
@@ -59,9 +59,9 @@ public class NieobecnoscprezentacjaFacade extends DAO{
         return zwrot;
     }
     
-    public List<Nieobecnoscprezentacja> findByUmowa(Umowa umowa) {
+    public List<Nieobecnoscprezentacja> findByAngaz(Angaz angaz) {
         List<Nieobecnoscprezentacja> zwrot = new ArrayList<>();
-        zwrot = getEntityManager().createNamedQuery("Urlopprezentacja.findByUmowa").setParameter("umowa", umowa).getResultList();
+        zwrot = getEntityManager().createNamedQuery("Urlopprezentacja.findByAngaz").setParameter("umowa", angaz).getResultList();
         return zwrot;
     }
 }

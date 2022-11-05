@@ -20,7 +20,7 @@ public class SkladnikpotraceniaBean {
         if (skladnikpotracenia == null) {
             skladnikpotracenia = new Skladnikpotracenia();
             skladnikpotracenia.setNazwa("wynagrodzenie zasadnicze");
-            skladnikpotracenia.setUmowa(UmowaBean.create());
+            skladnikpotracenia.setAngaz(AngazBean.create());
         }
         return skladnikpotracenia;
     }

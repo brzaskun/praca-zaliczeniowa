@@ -137,9 +137,9 @@ public class AngazView  implements Serializable {
 //                    kal.setRok(wpisView.getRokWpisu());
 //                    kal.setMc(mce);
 //                    kal.setUmowa(wpisView.getUmowa());
-//                    Kalendarzmiesiac kalmiesiac = kalendarzmiesiacFacade.findByRokMcUmowa(wpisView.getUmowa(), wpisView.getRokWpisu(), mce);
+//                    Kalendarzmiesiac kalmiesiac = kalendarzmiesiacFacade.findByRokMcAngaz(wpisView.getAngaz(), wpisView.getRokWpisu(), mce);
 //                    if (kalmiesiac==null) {
-//                        Kalendarzwzor znaleziono = kalendarzwzorFacade.findByFirmaRokMc(kal.getUmowa().getAngaz().getFirma(), kal.getRok(), mce);
+//                        Kalendarzwzor znaleziono = kalendarzwzorFacade.findByFirmaRokMc(kal.getAngaz().getFirma(), kal.getRok(), mce);
 //                        if (znaleziono!=null) {
 //                            kal.ganerujdnizwzrocowego(znaleziono, null);
 //                            kalendarzmiesiacFacade.create(kal);

@@ -59,7 +59,7 @@ public class SkladnikPotraceniaView  implements Serializable {
     
 
     public void create() {
-      if (selected!=null && selected.getUmowa()!=null) {
+      if (selected!=null && selected.getAngaz()!=null) {
           try {
             skladnikPotraceniaFacade.create(selected);
             lista.add(selected);

@@ -16,11 +16,11 @@
                     <h:form id="KalendarzmiesiacCreateForm">
                         <p:panelGrid columns="6">
                             <p:outputLabel value="umowa" for="umowakalendarz" />
-                            <h:outputText id="umowakalendarz" value="#{kalendarzmiesiacView.selected.umowa.nrkolejny}" style="color: green;"/>
+                            <h:outputText id="umowakalendarz" value="#{kalendarzmiesiacView.selected.angaz.pracownik.dowodosobisty}" style="color: green;"/>
                             <p:outputLabel value="pracownik" for="umowakalendarz0" />
-                            <h:outputText id="umowakalendarz0" value="#{kalendarzmiesiacView.selected.umowa.imieNazwisko}" style="color: green;"/>
+                            <h:outputText id="umowakalendarz0" value="#{kalendarzmiesiacView.selected.angaz.pracownik.nazwisko}" style="color: green;"/>
                             <p:outputLabel value="rodzaj umowy" for="umowakalendarz1" />
-                            <h:outputText id="umowakalendarz1" value="#{kalendarzmiesiacView.selected.umowa.rodzajumowy}" style="color: green;"/>
+                            <h:outputText id="umowakalendarz1" value="koniec" style="color: green;"/>
 <!--                            <p:selectOneMenu id="umowakalendarz" value="#{kalendarzmiesiacView.selected.umowa}" converter="#{umowaConverter}">
                                 <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
                                 <f:selectItems value="#{kalendarzmiesiacView.listaumowa}"

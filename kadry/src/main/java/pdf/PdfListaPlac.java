@@ -83,7 +83,7 @@ public class PdfListaPlac {
     
     public static void drukuj(Pasekwynagrodzen p, RodzajnieobecnosciFacade rodzajnieobecnosciFacade) {
         try {
-            Angaz a = p.getKalendarzmiesiac().getUmowa().getAngaz();
+            Angaz a = p.getKalendarzmiesiac().getAngaz();
             String nazwa = a.getFirma().getNip()+"lp.pdf";
             if (p != null) {
                 Document document = PdfMain.inicjacjaA4Landscape();
@@ -135,7 +135,7 @@ public class PdfListaPlac {
     
     private static void dodajtabeleglowna(Pasekwynagrodzen p, Document document) {
         try {
-            Angaz a = p.getKalendarzmiesiac().getUmowa().getAngaz();
+            Angaz a = p.getKalendarzmiesiac().getAngaz();
             PdfPTable table = generujTabele(a.getFirma().getNazwa(),a.getPracownik().getNazwiskoImie(), a.getPracownik().getPesel(), p.getKalendarzmiesiac().getRok(),p.getKalendarzmiesiac().getMc(), p.getDefinicjalistaplac().getNrkolejny());
             List<Pasekwynagrodzen> wykaz = new ArrayList<>();
             wykaz.add(p);
@@ -392,7 +392,8 @@ public class PdfListaPlac {
             table.addCell(ustawfrazeAlign(rs.getOpisRodzajSwiadczenie(), "left",6));
             table.addCell(ustawfrazeAlign(rs.getDataod(), "right",6));
             table.addCell(ustawfrazeAlign(rs.getDatado(), "right",6));
-            table.addCell(ustawfrazeAlign(rs.getUmowa().getUmowakodzus()!=null?rs.getUmowa().getUmowakodzus().getKod():"brak kodu w umowie", "left",6));
+            table.addCell(ustawfrazeAlign("dorobi", "right",6));
+            //table.addCell(ustawfrazeAlign(rs.getUmowa().getUmowakodzus()!=null?rs.getUmowa().getUmowakodzus().getKod():"brak kodu w umowie", "left",6));
         }
     }
       public static String wierszeNieobecnosciString(List<Nieobecnosc> wykaznieob) {

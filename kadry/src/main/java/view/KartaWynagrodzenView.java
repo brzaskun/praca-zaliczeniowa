@@ -172,8 +172,8 @@ public class KartaWynagrodzenView  implements Serializable {
                 Pasekwynagrodzen pasek = it.next();
                 if (pasek.getMcwypl().equals(karta.getMc())) {
                     //tu sie dodaje paski do karty wynagrodzen
-                    if (!angazzpaskow.contains(pasek.getKalendarzmiesiac().getUmowa().getAngaz())) {
-                        angazzpaskow.add(pasek.getKalendarzmiesiac().getUmowa().getAngaz());
+                    if (!angazzpaskow.contains(pasek.getKalendarzmiesiac().getAngaz())) {
+                        angazzpaskow.add(pasek.getKalendarzmiesiac().getAngaz());
                         if (angazzpaskow.size()>1) {
                             karta.setKosztywieleumow(true);
                             suma.setKosztywieleumow(true);

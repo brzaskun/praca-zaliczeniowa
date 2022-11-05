@@ -11,7 +11,6 @@ import entity.Kalendarzmiesiac;
 import entity.Naliczenieskladnikawynagrodzenia;
 import entity.Pasekwynagrodzen;
 import entity.Podatki;
-import entity.Umowa;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +25,7 @@ public class Oddelegowanie implements Serializable{
     private static final long serialVersionUID = 1L;
     
     private int id;
-    private Umowa umowa;
+    private Angaz angaz;
     private Kalendarzmiesiac kalendarz;
     private Pasekwynagrodzen pasek;
     private String rok;
@@ -43,7 +42,7 @@ public class Oddelegowanie implements Serializable{
     public Oddelegowanie(List<Kalendarzmiesiac> kalendarze, List<Pasekwynagrodzen> paski, Angaz a, String rok, String mc, List<Podatki> stawkipodatkowe) {
         this.kalendarz = pobierzkalendarz(kalendarze, rok, mc);
         this.pasek = pobierzpasek(paski,rok,mc);
-        this.umowa = kalendarz.getUmowa();
+        this.angaz = kalendarz.getAngaz();
         this.rok = rok;
         this.mc = mc;
         this.liczbadni = (int) kalendarz.getDnioddelegowania();
@@ -151,12 +150,12 @@ public class Oddelegowanie implements Serializable{
         this.liczbadni = liczbadni;
     }
 
-    public Umowa getUmowa() {
-        return umowa;
+    public Angaz getAngaz() {
+        return angaz;
     }
 
-    public void setUmowa(Umowa umowa) {
-        this.umowa = umowa;
+    public void setAngaz(Angaz angaz) {
+        this.angaz = angaz;
     }
 
     public Kalendarzmiesiac getKalendarz() {
@@ -229,7 +228,7 @@ public class Oddelegowanie implements Serializable{
     public int hashCode() {
         int hash = 7;
         hash = 29 * hash + this.id;
-        hash = 29 * hash + Objects.hashCode(this.umowa);
+        hash = 29 * hash + Objects.hashCode(this.angaz);
         hash = 29 * hash + Objects.hashCode(this.kalendarz);
         return hash;
     }
@@ -249,7 +248,7 @@ public class Oddelegowanie implements Serializable{
         if (this.id != other.id) {
             return false;
         }
-        if (!Objects.equals(this.umowa, other.umowa)) {
+        if (!Objects.equals(this.angaz, other.angaz)) {
             return false;
         }
         if (!Objects.equals(this.kalendarz, other.kalendarz)) {
@@ -260,7 +259,7 @@ public class Oddelegowanie implements Serializable{
 
     @Override
     public String toString() {
-        return "Oddelegowanie{" + "umowa=" + umowa.getNazwiskoImie() + ", kalendarz=" + kalendarz.getRokMc() + ", liczbadni=" + liczbadni + '}';
+        return "Oddelegowanie{" + "umowa=" + angaz.getPracownik().getNazwiskoImie() + ", kalendarz=" + kalendarz.getRokMc() + ", liczbadni=" + liczbadni + '}';
     }
 
    

@@ -1,0 +1,111 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    >
+    <p:panelGrid columns="2" columnClasses="twenty-percent, eighty-percent" style="height: 400px;width: 1700px;">
+        <p:outputPanel style="height: 400px">
+            <h:form id="PracownikCreateForm">
+                <h:panelGroup id="display">
+                    <p:panel header="Dane nowego pracownika "/>
+                    <p:panelGrid columns="2" rendered="#{pracownikView.selected != null}">
+                        <p:outputLabel value="nazwisko" for="nazwisko" />
+                        <p:inputText id="nazwisko" value="#{pracownikView.selected.nazwisko}" title="nazwisko" required="true" requiredMessage="Wpisz nazwisko"/>
+                        <p:outputLabel value="imię" for="imie" />
+                        <p:inputText id="imie" value="#{pracownikView.selected.imie}" title="imię" required="true" requiredMessage="Wpisz imię"/>
+                        <p:outputLabel value="pesel" for="pesel" />
+                        <p:inputText id="pesel" value="#{pracownikView.selected.pesel}" title="pesel" required="true" requiredMessage="Wpisz Pesel" maxlength="11"/>
+                        <p:outputLabel value="email" for="email" />
+                        <p:inputText id="email" value="#{pracownikView.selected.email}" title="email"/>
+                        <p:outputLabel value="telefon" for="telefon" />
+                        <p:inputText id="telefon" value="#{pracownikView.selected.telefon}" title="telefon"/>
+                    </p:panelGrid>
+                    <p:commandButton styleClass="buttonnorm" actionListener="#{pracownikView.create}" value="#{bundle.Save}" update="display,@(form)" />
+                </h:panelGroup>
+            </h:form>
+        </p:outputPanel>
+        <p:outputPanel>
+            <h:form id="PracownikListForm">
+                <p:panel header="Wykaz pracowników u wszystkich pracodawców">
+                    <p:dataTable id="datalist" value="#{pracownikView.lista}" var="item2" widgetVar="listapracownikow"
+                                 rowSelectMode="add" selection="#{pracownikView.selectedlista}" 
+                                 rowKey="#{item2.id}" filteredValue="#{pracownikView.listafiltered}"
+                                 style="height: 400px; overflow-y: scroll;" size="small"
+                                 rowsPerPageTemplate="20,100,250,500" paginatorPosition="top" paginator="true" rows="20"
+                                 emptyMessage="Nie wprowadzono ani jednego pracownika"
+                                 >
+                        <p:column width="40" selectionMode="multiple" selectRow="true" style="text-align: center;"/>
+                        <p:column width="40" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="id"/>
+                            </f:facet>
+                            <h:outputText value="#{item2.id}"/>
+                        </p:column>
+                        <p:column filterBy="#{item2.nazwisko}" filterMatchMode="startsWith">
+                            <f:facet name="header">
+                                <h:outputText value="nazwisko"/>
+                            </f:facet>
+                            <h:outputText value="#{item2.nazwisko}"/>
+                        </p:column>
+                        <p:column filterBy="#{item2.imie}" filterMatchMode="startsWith">
+                            <f:facet name="header">
+                                <h:outputText value="imię"/>
+                            </f:facet>
+                            <h:outputText value="#{item2.imie}"/>
+                        </p:column>
+                        <p:column filterBy="#{item2.pesel}" filterMatchMode="startsWith">
+                            <f:facet name="header">
+                                <h:outputText value="Pesel"/>
+                            </f:facet>
+                            <h:outputText value="#{item2.pesel}"/>
+                        </p:column>
+                        <p:column  filterBy="#{item2.firmypracownika}" filterMatchMode="contains">
+                            <f:facet name="header">
+                                <h:outputText value="firmy"/>
+                            </f:facet>
+                            <h:outputText value="#{item2.firmypracownika}"/>
+                        </p:column>
+                         <p:column width="150" filterBy="#{item2.email}" filterMatchMode="contains">
+                            <f:facet name="header">
+                                <h:outputText value="email"/>
+                            </f:facet>
+                            <p:inputText value="#{item2.email}">
+                                <p:ajax event="change" partialSubmit="true" global="false" listener="#{pracownikView.edytuj(item2)}"/>
+                            </p:inputText>
+                        </p:column>
+                        <p:column style="text-align: center;" filterBy="#{item2.telefon}" filterMatchMode="contains">
+                            <f:facet name="header">
+                                <h:outputText value="telefon"/>
+                            </f:facet>
+                            <p:inputText value="#{item2.telefon}">
+                                <p:ajax event="change" partialSubmit="true" global="false" listener="#{pracownikView.edytuj(item2)}"/>
+                            </p:inputText>
+                        </p:column>
+                        <p:column width="50" style="text-align: center;" sortBy="#{item2.czyjestangaz}">
+                            <f:facet name="header">
+                                <h:outputText value=" jest angaż"/>
+                            </f:facet>
+                             <h:outputText value="#{item2.czyjestangaz}"/>
+                        </p:column>
+                        <p:column width="50" style="text-align: center;" sortBy="#{item2.czyjestumowa}">
+                            <f:facet name="header">
+                                <h:outputText value="jest umowa"/>
+                            </f:facet>
+                             <h:outputText value="#{item2.czyjestumowa}"/>
+                        </p:column>
+                        <p:column width="50" style="text-align: center;">
+                            <p:commandButton icon="fa fa-trash" actionListener="#{pracownikView.usun(item2)}" update="north  PracownikListForm:datalist">
+                                <p:confirm type="popup" header="Potwierdzenie" message="Usunąć wyszystkie dane pracownika?" icon="pi pi-exclamation-triangle"/>
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </p:panel>
+                 <p:contextMenu for="PracownikListForm:datalist" style="width: 200px;">
+                        <p:menuitem icon="fa fa-trash" value="usuń wybrane" actionListener="#{pracownikView.usunwybrane()}" global="false" update="north PracownikListForm:datalist"/>
+                </p:contextMenu>
+            </h:form>
+        </p:outputPanel>
+</p:panelGrid>    
+</ui:composition>

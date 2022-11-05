@@ -6,6 +6,7 @@
 package beanstesty;
 
 import entity.Angaz;
+import java.util.ArrayList;
 
 /**
  *
@@ -20,6 +21,11 @@ public class AngazBean {
             angaz = new Angaz();
             angaz.setFirma(FirmaBean.create());
             angaz.setPracownik(PracownikBean.create());
+            angaz.setSkladnikwynagrodzeniaList(new ArrayList<>());
+            angaz.getSkladnikwynagrodzeniaList().add(SkladnikwynagrodzeniaBean.createWynagrodzenie());
+            //umowa.getSkladnikwynagrodzeniaList().add(SkladnikwynagrodzeniaBean.createPremiaUznaniowa());
+            angaz.setSkladnikpotraceniaList(new ArrayList<>());
+            angaz.getSkladnikpotraceniaList().add(SkladnikpotraceniaBean.create());
         }
         return angaz;
     }

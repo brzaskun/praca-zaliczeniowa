@@ -21,6 +21,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -36,8 +37,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Skladnikpotracenia.findAll", query = "SELECT s FROM Skladnikpotracenia s"),
     @NamedQuery(name = "Skladnikpotracenia.findById", query = "SELECT s FROM Skladnikpotracenia s WHERE s.id = :id"),
     @NamedQuery(name = "Skladnikpotracenia.findByNazwa", query = "SELECT s FROM Skladnikpotracenia s WHERE s.nazwa = :nazwa"),
-    @NamedQuery(name = "Skladnikpotracenia.findByPracownik", query = "SELECT s FROM Skladnikpotracenia s WHERE s.umowa.angaz.pracownik = :pracownik"),
-    @NamedQuery(name = "Skladnikpotracenia.findByUmowa", query = "SELECT s FROM Skladnikpotracenia s WHERE s.umowa = :umowa")
+    @NamedQuery(name = "Skladnikpotracenia.findByPracownik", query = "SELECT s FROM Skladnikpotracenia s WHERE s.angaz.pracownik = :pracownik"),
+    @NamedQuery(name = "Skladnikpotracenia.findByAngaz", query = "SELECT s FROM Skladnikpotracenia s WHERE s.angaz = :angaz")
 })
 public class Skladnikpotracenia implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -56,9 +57,10 @@ public class Skladnikpotracenia implements Serializable {
     private List<Zmiennapotracenia> zmiennapotraceniaList;
     @OneToMany(mappedBy = "skladnikpotracenia")
     private List<Naliczeniepotracenie> naliczeniepotracenieList;
-    @JoinColumn(name = "umowa", referencedColumnName = "id")
-    @ManyToOne
-    private Umowa umowa;
+    @NotNull
+    @JoinColumn(name = "angaz", referencedColumnName = "id")
+    @ManyToOne()
+    private Angaz angaz;
     @Column(name = "rozliczony")
     private boolean rozliczony;
 
@@ -90,14 +92,15 @@ public class Skladnikpotracenia implements Serializable {
         this.naliczeniepotracenieList = naliczeniepotracenieList;
     }
 
-    public Umowa getUmowa() {
-        return umowa;
+    public Angaz getAngaz() {
+        return angaz;
     }
 
-    public void setUmowa(Umowa umowa) {
-        this.umowa = umowa;
+    public void setAngaz(Angaz angaz) {
+        this.angaz = angaz;
     }
 
+   
     public boolean isRozliczony() {
         return rozliczony;
     }

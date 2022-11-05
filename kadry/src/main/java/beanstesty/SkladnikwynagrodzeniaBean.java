@@ -24,7 +24,7 @@ public class SkladnikwynagrodzeniaBean {
             skladnikwynagrodzenia = new Skladnikwynagrodzenia();
             skladnikwynagrodzenia.setRodzajwynagrodzenia(RodzajwynagrodzeniaBean.createWynagrodzenie());
             skladnikwynagrodzenia.setUwagi("wynagrodzenie zasadnicze");
-            skladnikwynagrodzenia.setUmowa(UmowaBean.create());
+            skladnikwynagrodzenia.setAngaz(AngazBean.create());
             skladnikwynagrodzenia.getZmiennawynagrodzeniaList().add(ZmiennawynagrodzeniaBean.createWynagrodzenie(skladnikwynagrodzenia));
             skladnikwynagrodzenia.getZmiennawynagrodzeniaList().add(ZmiennawynagrodzeniaBean.createWynagrodzenie2(skladnikwynagrodzenia));
         }
@@ -36,7 +36,7 @@ public class SkladnikwynagrodzeniaBean {
             skladnikpremiauznaniowa = new Skladnikwynagrodzenia();
             skladnikpremiauznaniowa.setRodzajwynagrodzenia(RodzajwynagrodzeniaBean.createPremiaUznaniowa());
             skladnikpremiauznaniowa.setUwagi("premia uznaniowa");
-            skladnikpremiauznaniowa.setUmowa(UmowaBean.create());
+            skladnikpremiauznaniowa.setAngaz(AngazBean.create());
             skladnikpremiauznaniowa.getZmiennawynagrodzeniaList().add(ZmiennawynagrodzeniaBean.createPremia());
         }
         return skladnikpremiauznaniowa;
@@ -47,7 +47,7 @@ public class SkladnikwynagrodzeniaBean {
             skladniknadgodziny50 = new Skladnikwynagrodzenia();
             skladniknadgodziny50.setRodzajwynagrodzenia(RodzajwynagrodzeniaBean.createNadgodziny50());
             skladniknadgodziny50.setUwagi("nadgodziny 50%");
-            skladniknadgodziny50.setUmowa(UmowaBean.create());
+            skladniknadgodziny50.setAngaz(AngazBean.create());
             skladniknadgodziny50.getZmiennawynagrodzeniaList().add(ZmiennawynagrodzeniaBean.createPremia());
         }
         return skladniknadgodziny50;
@@ -56,7 +56,7 @@ public class SkladnikwynagrodzeniaBean {
     public static Skladnikwynagrodzenia createNadgodziny50DB(Kalendarzmiesiac kalendarz, String dataod, String datado) {
             Skladnikwynagrodzenia zwrot = new Skladnikwynagrodzenia();
             zwrot.setUwagi("nadgodziny 50%");
-            zwrot.setUmowa(kalendarz.getUmowa());
+            zwrot.setAngaz(kalendarz.getAngaz());
             zwrot.getZmiennawynagrodzeniaList().add(ZmiennawynagrodzeniaBean.createNadgodziny50DB(zwrot, dataod, datado));
             return zwrot;
     }
@@ -67,7 +67,7 @@ public class SkladnikwynagrodzeniaBean {
             skladniknadgodziny100 = new Skladnikwynagrodzenia();
             skladniknadgodziny100.setRodzajwynagrodzenia(RodzajwynagrodzeniaBean.createNadgodziny100());
             skladniknadgodziny100.setUwagi("nadgodziny 100%");
-            skladniknadgodziny100.setUmowa(UmowaBean.create());
+            skladniknadgodziny100.setAngaz(AngazBean.create());
             skladniknadgodziny100.getZmiennawynagrodzeniaList().add(ZmiennawynagrodzeniaBean.createPremia());
         }
         return skladniknadgodziny100;

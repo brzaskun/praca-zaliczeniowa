@@ -37,7 +37,7 @@ public class KomornikView  implements Serializable {
     
     public void init() {
         if (wpisView.getUmowa()!=null) {
-            skladnikpotracenialist = skladnikPotraceniaFacade.findByUmowa(wpisView.getUmowa());
+            skladnikpotracenialist = skladnikPotraceniaFacade.findByAngaz(wpisView.getAngaz());
             pobierzdane();
         }
     }
@@ -52,7 +52,7 @@ public class KomornikView  implements Serializable {
     }
     
     private List<Naliczeniepotracenie> pobierzpotracenia(Skladnikpotracenia selected) {
-        List<Naliczeniepotracenie> pobrane = naliczeniepotracenieFacade.findByUmowa(selected.getUmowa());
+        List<Naliczeniepotracenie> pobrane = naliczeniepotracenieFacade.findByAngaz(selected.getAngaz());
         double suma = 0.0;
         for (Naliczeniepotracenie p : pobrane) {
             suma= suma +p.getKwota();

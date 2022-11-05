@@ -215,8 +215,8 @@ public class KalendarzwzorView  implements Serializable {
                         Kalendarzmiesiac kalendarzmiesiac = new Kalendarzmiesiac();
                         kalendarzmiesiac.setRok(selected.getRok());
                         kalendarzmiesiac.setMc(selected.getMc());
-                        kalendarzmiesiac.setUmowa(u);
-                        kalendarzmiesiac.ganerujdnizwzrocowego(znaleziono, null, u.getEtatList());
+                        kalendarzmiesiac.setAngaz(wpisView.getAngaz());
+                        kalendarzmiesiac.ganerujdnizwzrocowego(znaleziono, null, wpisView.getAngaz().getEtatList());
                     } 
                 }
             }

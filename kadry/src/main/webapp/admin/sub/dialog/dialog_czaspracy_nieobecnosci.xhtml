@@ -22,12 +22,12 @@
                         <p:panelGrid columns="3" rendered="#{nieobecnoscView.selected != null}">
                             <p:panelGrid columns="2">
                                 <p:outputLabel value="pracownik" for="prac" />
-                                <h:outputText id="prac" value="#{nieobecnoscView.selected.umowa.nazwiskoImie}"/>
+                                <h:outputText id="prac" value="#{nieobecnoscView.selected.angaz.pracownik.nazwiskoImie}"/>
                                 <p:outputLabel value="umowa nr" for="umowa" />
-                                <h:outputText id="umowa" value="#{nieobecnoscView.selected.umowa.nrkolejny}"/>
+                                <h:outputText id="umowa" value="numer"/>
                                 <p:outputLabel value="data od" for="umowaod" />
-                                <h:outputText id="umowaod" value="#{nieobecnoscView.selected.umowa.dataod}" >
-                                    <f:convertDateTime dateStyle="medium" locale="pl"/>
+                                <h:outputText id="umowaod" value="od" >
+                                    
                                 </h:outputText>
                                 <p:outputLabel value="nazwa nieobecności" for="nieobkodzus" />
                                 <p:selectOneMenu id="nieobkodzus" value="#{nieobecnoscView.selected.rodzajnieobecnosci}" required="true" requiredMessage="wybierz rodzaj nieobecnosci"  converter="#{rodzajnieobecnosciConverter}" filter="true" filterMatchMode="contains">

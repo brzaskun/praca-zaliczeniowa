@@ -6,7 +6,6 @@
 package dao;
 
 import entity.Skladnikwynagrodzenia;
-import entity.Umowa;
 import entity.Zmiennawynagrodzenia;
 import java.io.Serializable;
 import java.util.List;
@@ -46,9 +45,7 @@ public class ZmiennaWynagrodzeniaFacade extends DAO implements Serializable {
         super.em = em;
     }
 
-    public List<Zmiennawynagrodzenia> findByUmowa(Umowa umowa) {
-        return getEntityManager().createNamedQuery("Zmiennawynagrodzenia.findByUmowa").setParameter("umowa", umowa).getResultList();
-    }
+ 
 
     public List<Zmiennawynagrodzenia> findBySkladnik(Skladnikwynagrodzenia skladnikwynagrodzenia) {
         return getEntityManager().createNamedQuery("Zmiennawynagrodzenia.findBySkladnik").setParameter("skladnikwynagrodzenia", skladnikwynagrodzenia).getResultList();

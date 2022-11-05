@@ -5,13 +5,9 @@
  */
 package entity;
 
-import beanstesty.DataBean;
-import comparator.KalendarzmiesiacLastcomparator;
 import data.Data;
 import embeddable.CzasTrwania;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
@@ -35,7 +31,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
-import view.WpisView;
 
 /**
  *
@@ -52,8 +47,6 @@ import view.WpisView;
     @NamedQuery(name = "Umowa.findByDatado", query = "SELECT u FROM Umowa u WHERE u.datado = :datado"),
     @NamedQuery(name = "Umowa.findByDataod", query = "SELECT u FROM Umowa u WHERE u.dataod = :dataod"),
     @NamedQuery(name = "Umowa.findByDatazawarcia", query = "SELECT u FROM Umowa u WHERE u.datazawarcia = :datazawarcia"),
-    @NamedQuery(name = "Umowa.findByKosztyuzyskania", query = "SELECT u FROM Umowa u WHERE u.kosztyuzyskaniaprocent = :kosztyuzyskaniaprocent"),
-    @NamedQuery(name = "Umowa.findByOdliczaculgepodatkowa", query = "SELECT u FROM Umowa u WHERE u.odliczaculgepodatkowa = :odliczaculgepodatkowa"),
     @NamedQuery(name = "Umowa.findByChorobowe", query = "SELECT u FROM Umowa u WHERE u.chorobowe = :chorobowe"),
     @NamedQuery(name = "Umowa.findByChorobowedobrowolne", query = "SELECT u FROM Umowa u WHERE u.chorobowedobrowolne = :chorobowedobrowolne"),
     @NamedQuery(name = "Umowa.findByDataspoleczne", query = "SELECT u FROM Umowa u WHERE u.dataspoleczne = :dataspoleczne"),
@@ -84,6 +77,10 @@ public class Umowa implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
+    @NotNull
+    @JoinColumn(name = "angaz", referencedColumnName = "id")
+    @ManyToOne()
+    private Angaz angaz;
     @Size(max = 10)
     @Column(name = "datado")
     private String datado;
@@ -112,19 +109,6 @@ public class Umowa implements Serializable {
     @Column(name = "miejscepracy")
     private String miejscepracy;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Column(name = "kosztyuzyskaniaprocent")
-    private double kosztyuzyskaniaprocent;
-    @Column(name = "kosztyuzyskania0podwyzszone1")
-    private boolean kosztyuzyskania0podwyzszone1;
-    @Column(name = "nierezydent")
-    private boolean nierezydent;
-    @Size(max = 10)
-    @Column(name = "dataprzyjazdudopolski")
-    private String dataprzyjazdudopolski;
-    @Column(name = "kwotawolnaprocent")
-    private double kwotawolnaprocent;
-    @Column(name = "odliczaculgepodatkowa")
-    private boolean odliczaculgepodatkowa;
     @Column(name = "chorobowe")
     private boolean chorobowe;
     @Column(name = "chorobowedobrowolne")
@@ -144,27 +128,12 @@ public class Umowa implements Serializable {
     @JoinColumn(name = "kodzawodu", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Kodyzawodow kodzawodu;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "umowa", orphanRemoval = true)
-    private List<EtatPrac> etatList;
     @Column(name = "czastrwania")
     private Integer czastrwania;
     @JoinColumn(name = "umowakodzus", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Umowakodzus umowakodzus;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "umowa")
-    private List<Nieobecnosc> nieobecnoscList;
-    @NotNull
-    @JoinColumn(name = "angaz", referencedColumnName = "id")
-    @ManyToOne()
-    private Angaz angaz;
-    @OneToMany(mappedBy = "umowa", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Kalendarzmiesiac> kalendarzmiesiacList;
-    @OneToMany(mappedBy = "umowa", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Skladnikpotracenia> skladnikpotraceniaList;
-    @OneToMany(mappedBy = "umowa", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Skladnikwynagrodzenia> skladnikwynagrodzeniaList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "umowa")
-    private List<Stanowiskoprac> stanowiskopracList;
+   
     @Column(name = "aktywna")
     private  boolean aktywna;
     @Temporal(TemporalType.TIMESTAMP)
@@ -189,8 +158,6 @@ public class Umowa implements Serializable {
     @Column(name = "opiszawodu")
     private String opiszawodu;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "umowa")
-    private List<Nieobecnoscprezentacja> urlopprezentacjaList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "umowa")
     private List<Rachunekdoumowyzlecenia> rachunekdoumowyzleceniaList;
     @Size(max = 256)
     @Column(name = "innewarunkizatrudnienia")
@@ -212,16 +179,7 @@ public class Umowa implements Serializable {
     private String  dataprzypomnienia;
     @Column(name = "dataprzypomnieniamail")
     private String  dataprzypomnieniamail;
-    @Column(name = "dataszkolenierok")
-    private String  dataszkolenierok;
-    @Column(name = "dataszkolenie3lata")
-    private String  dataszkolenie3lata;
-    @Column(name = "dataszkolenie5lat")
-    private String  dataszkolenie5lat;
-    @Column(name = "dataprzypomnieniaszkolenie")
-    private String  dataprzypomnieniaszkolenie;
-    @Column(name = "dataprzypomnieniamailszkolenie")
-    private String  dataprzypomnieniamailszkolenie;
+ 
     @Column(name = "lata")
     private int lata;
     @Column(name = "dni")
@@ -235,14 +193,11 @@ public class Umowa implements Serializable {
    
 
     public Umowa() {
-        this.etatList = new ArrayList<>();
-        this.stanowiskopracList = new ArrayList<>();
+
     }
 
     public Umowa(int id) {
         this.id = id;
-        this.etatList = new ArrayList<>();
-        this.stanowiskopracList = new ArrayList<>();
     }
 
     public Umowa(Umowa stara) {
@@ -252,20 +207,12 @@ public class Umowa implements Serializable {
         this.nfz = stara.nfz;
         this.stanowisko = stara.stanowisko;
         this.miejscepracy = stara.miejscepracy;
-        this.kosztyuzyskania0podwyzszone1 = stara.kosztyuzyskania0podwyzszone1;
-        this.nierezydent = stara.nierezydent;
-        this.dataprzyjazdudopolski = stara.dataprzyjazdudopolski;
-        this.odliczaculgepodatkowa = stara.odliczaculgepodatkowa;
         this.nieliczFGSP = stara.nieliczFGSP;
         this.nieliczFP = stara.nieliczFP;
         this.kodzawodu = stara.kodzawodu;
-        this.etatList = noweetat(stara.etatList,this);
         this.angaz = stara.angaz;
         this.opiszawodu = stara.opiszawodu;
         this.miejscepracy = stara.miejscepracy;
-        this.skladnikpotraceniaList = nowepotracenie(stara.skladnikpotraceniaList,this);
-        this.skladnikwynagrodzeniaList = noweskladniki(stara.skladnikwynagrodzeniaList,this);
-        this.stanowiskopracList = nowestanowisko(stara.stanowiskopracList,this);
         this.opiszawodu = stara.opiszawodu;
         this.innewarunkizatrudnienia = stara.innewarunkizatrudnienia;
         this.terminrozpoczeciapracy = nowadata;
@@ -295,28 +242,12 @@ public class Umowa implements Serializable {
         this.angaz = angaz;
     }
 
-    @XmlTransient
-    public List<Kalendarzmiesiac> getKalendarzmiesiacList() {
-        return kalendarzmiesiacList;
-    }
-
-    public void setKalendarzmiesiacList(List<Kalendarzmiesiac> kalendarzmiesiacList) {
-        this.kalendarzmiesiacList = kalendarzmiesiacList;
-    }
-
-    @XmlTransient
-    public List<Skladnikpotracenia> getSkladnikpotraceniaList() {
-        return skladnikpotraceniaList;
-    }
-
-    public void setSkladnikpotraceniaList(List<Skladnikpotracenia> skladnikpotraceniaList) {
-        this.skladnikpotraceniaList = skladnikpotraceniaList;
-    }
+    
 
     public String getDataprzypomnienia() {
         return dataprzypomnienia;
     }
-
+        
     public void setDataprzypomnienia(String dataprzypomnienia) {
         this.dataprzypomnienia = dataprzypomnienia;
     }
@@ -327,14 +258,6 @@ public class Umowa implements Serializable {
 
     public void setMiejscepracy(String miejscepracy) {
         this.miejscepracy = miejscepracy;
-    }
-
-    public boolean isKosztyuzyskania0podwyzszone1() {
-        return kosztyuzyskania0podwyzszone1;
-    }
-
-    public void setKosztyuzyskania0podwyzszone1(boolean kosztyuzyskania0podwyzszone1) {
-        this.kosztyuzyskania0podwyzszone1 = kosztyuzyskania0podwyzszone1;
     }
 
     public String getDataprzypomnieniamail() {
@@ -351,22 +274,6 @@ public class Umowa implements Serializable {
 
     public void setDatasystem(Date datasystem) {
         this.datasystem = datasystem;
-    }
-
-    public boolean isNierezydent() {
-        return nierezydent;
-    }
-
-    public void setNierezydent(boolean nierezydent) {
-        this.nierezydent = nierezydent;
-    }
-
-    public String getDataprzyjazdudopolski() {
-        return dataprzyjazdudopolski;
-    }
-
-    public void setDataprzyjazdudopolski(String dataprzyjazdudopolski) {
-        this.dataprzyjazdudopolski = dataprzyjazdudopolski;
     }
 
     public int getLata() {
@@ -386,14 +293,6 @@ public class Umowa implements Serializable {
     }
     
 
-    @XmlTransient
-    public List<Skladnikwynagrodzenia> getSkladnikwynagrodzeniaList() {
-        return skladnikwynagrodzeniaList;
-    }
-
-    public void setSkladnikwynagrodzeniaList(List<Skladnikwynagrodzenia> skladnikwynagrodzeniaList) {
-        this.skladnikwynagrodzeniaList = skladnikwynagrodzeniaList;
-    }
 
     @XmlTransient
     public List<Rachunekdoumowyzlecenia> getRachunekdoumowyzleceniaList() {
@@ -404,45 +303,6 @@ public class Umowa implements Serializable {
         this.rachunekdoumowyzleceniaList = rachunekdoumowyzleceniaList;
     }
 
-    public String getDataszkolenierok() {
-        return dataszkolenierok;
-    }
-
-    public void setDataszkolenierok(String dataszkolenierok) {
-        this.dataszkolenierok = dataszkolenierok;
-    }
-
-    public String getDataszkolenie3lata() {
-        return dataszkolenie3lata;
-    }
-
-    public void setDataszkolenie3lata(String dataszkolenie3lata) {
-        this.dataszkolenie3lata = dataszkolenie3lata;
-    }
-
-    public String getDataszkolenie5lat() {
-        return dataszkolenie5lat;
-    }
-
-    public void setDataszkolenie5lat(String dataszkolenie5lat) {
-        this.dataszkolenie5lat = dataszkolenie5lat;
-    }
-
-    public String getDataprzypomnieniaszkolenie() {
-        return dataprzypomnieniaszkolenie;
-    }
-
-    public void setDataprzypomnieniaszkolenie(String dataprzypomnieniaszkolenie) {
-        this.dataprzypomnieniaszkolenie = dataprzypomnieniaszkolenie;
-    }
-
-    public String getDataprzypomnieniamailszkolenie() {
-        return dataprzypomnieniamailszkolenie;
-    }
-
-    public void setDataprzypomnieniamailszkolenie(String dataprzypomnieniamailszkolenie) {
-        this.dataprzypomnieniamailszkolenie = dataprzypomnieniamailszkolenie;
-    }
 
     @Override
     public int hashCode() {
@@ -472,13 +332,7 @@ public class Umowa implements Serializable {
    public String umowanumernazwa() {
        return this.nrkolejny;
    }
-   @XmlTransient   
-   public List<Nieobecnosc> getNieobecnoscList() {
-       return nieobecnoscList;
-   }
-   public void setNieobecnoscList(List<Nieobecnosc> nieobecnoscList) {
-       this.nieobecnoscList = nieobecnoscList;
-   }
+   
 
 
 
@@ -496,13 +350,7 @@ public class Umowa implements Serializable {
         int zwrot = CzasTrwania.find(czastrwania);;
         this.czastrwania = zwrot;
     }
-    @XmlTransient
-    public List<EtatPrac> getEtatList() {
-        return etatList;
-    }
-    public void setEtatList(List<EtatPrac> etatList) {
-        this.etatList = etatList;
-    }
+    
     public Kodyzawodow getKodzawodu() {
         return kodzawodu;
     }
@@ -510,23 +358,6 @@ public class Umowa implements Serializable {
         this.kodzawodu = kodzawodu;
     }
 
-
-
-    public  double getKosztyuzyskaniaprocent() {
-        return kosztyuzyskaniaprocent;
-    }
-
-    public void setKosztyuzyskaniaprocent( double kosztyuzyskaniaprocent) {
-        this.kosztyuzyskaniaprocent = kosztyuzyskaniaprocent;
-    }
-
-    public boolean isOdliczaculgepodatkowa() {
-        return odliczaculgepodatkowa;
-    }
-
-    public void setOdliczaculgepodatkowa(boolean odliczaculgepodatkowa) {
-        this.odliczaculgepodatkowa = odliczaculgepodatkowa;
-    }
 
     public boolean isChorobowe() {
         return chorobowe;
@@ -745,21 +576,6 @@ public class Umowa implements Serializable {
         this.opiszawodu = opiszawodu;
     }
 
-    public double getKwotawolnaprocent() {
-        return kwotawolnaprocent;
-    }
-
-    public void setKwotawolnaprocent(double kwotawolnaprocent) {
-        this.kwotawolnaprocent = kwotawolnaprocent;
-    }
-
-    public List<Stanowiskoprac> getStanowiskopracList() {
-        return stanowiskopracList;
-    }
-
-    public void setStanowiskopracList(List<Stanowiskoprac> stanowiskopracList) {
-        this.stanowiskopracList = stanowiskopracList;
-    }
 
     public String getInnewarunkizatrudnienia() {
         return innewarunkizatrudnienia;
@@ -843,20 +659,7 @@ public class Umowa implements Serializable {
         this.rozwiazanieumowy = rozwiazanieumowy;
     }
 
-   
-
-    
-    
-    
-    @XmlTransient
-    public List<Nieobecnoscprezentacja> getUrlopprezentacjaList() {
-        return urlopprezentacjaList;
-    }
-
-    public void setUrlopprezentacjaList(List<Nieobecnoscprezentacja> urlopprezentacjaList) {
-        this.urlopprezentacjaList = urlopprezentacjaList;
-    }
-
+  
     public String getWiekumowa() {
         String zwrot = "";
         if (this.dataod!=null) {
@@ -865,288 +668,139 @@ public class Umowa implements Serializable {
         return zwrot;
     }
     
-    public EtatPrac pobierzetat(String data) {
-       EtatPrac zwrot = null;
-        List<EtatPrac> etatList1 = this.etatList;
-        if (etatList1!=null) {
-            for (EtatPrac p : etatList1) {
-                String datagraniczna = p.getDataod();
-                if (Data.czyjestpo(datagraniczna, data)) {
-                    zwrot = p;
-                }
-            }
-        }
-        return zwrot;
-    }
+  
     
-    public String pobierzwynagrodzenieString(WpisView wpisView) {
-        String zwrot = "";
-        if (this.skladnikwynagrodzeniaList!=null) {
-            for (Skladnikwynagrodzenia p : this.skladnikwynagrodzeniaList) {
-                zwrot = zwrot+p.getRodzajwynagrodzenia().getOpispelny()+" ";
-                zwrot = zwrot+pobierzkwoteString(p.getZmiennawynagrodzeniaList(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
-            }
-        }
-        return zwrot;
-    }
-    
-    public String pobierzwynagrodzenieString() {
-        String zwrot = "";
-        if (this.skladnikwynagrodzeniaList!=null) {
-            for (Skladnikwynagrodzenia p : this.skladnikwynagrodzeniaList) {
-                zwrot = zwrot+p.getRodzajwynagrodzenia().getOpispelny()+" ";
-                zwrot = zwrot+pobierzkwoteString(p.getZmiennawynagrodzeniaList());
-            }
-        }
-        return zwrot;
-    }
+   
 
-    private String pobierzkwoteString(List<Zmiennawynagrodzenia> zmiennawynagrodzeniaList, String rok, String mc) {
-        String zwrot = "";
-        if (zmiennawynagrodzeniaList!=null) {
-            for (Zmiennawynagrodzenia p : zmiennawynagrodzeniaList) {
-                String dataod1 = p.getDataod();
-                String datado1 = p.getDatado();
-                boolean czydataodjestwmcu = Data.czydatajestwmcu(dataod1, rok, mc);
-                boolean czydatadojestwmcu = Data.czydatajestwmcu(datado1, rok, mc);
-                if (czydatadojestwmcu&&czydataodjestwmcu || datado1==null) {
-                    zwrot = zwrot+p.getNazwa()+" ";
-                    zwrot = zwrot+f.F.curr(p.getKwota());
-                    break;
-                }
-            }
-        }
-        return zwrot;
-    }
+//    private List<EtatPrac> noweetat(List<EtatPrac> etatList, Umowa aThis) {
+//        List<EtatPrac> zwrot = new ArrayList<>();
+//        if (etatList!=null) {
+//            for (EtatPrac e : etatList) {
+//                if (e.getDatado()==null || e.getDatado().equals("")) {
+//                    EtatPrac nowy = new EtatPrac();
+//                    nowy.setDataod(aThis.getDataod());
+//                    nowy.setEtat1(e.getEtat1());
+//                    nowy.setEtat2(e.getEtat2());
+//                    nowy.setUmowa(aThis);
+//                    zwrot.add(nowy);
+//                }
+//            }
+//        }
+//        return zwrot;
+//    }
+//
+//    private List<Skladnikpotracenia> nowepotracenie(List<Skladnikpotracenia> skladnikpotraceniaList, Umowa aThis) {
+//        List<Skladnikpotracenia> zwrot = new ArrayList<>();
+//        if (skladnikpotraceniaList!=null) {
+//            for (Skladnikpotracenia e : skladnikpotraceniaList) {
+//                if (e.isRozliczony()==false) {
+//                    Skladnikpotracenia nowy = new Skladnikpotracenia();
+//                    nowy.setUmowa(aThis);
+//                    nowy.setNazwa(e.getNazwa());
+//                    nowy.setRodzajpotracenia(e.getRodzajpotracenia());
+//                    nowy.setRozliczony(false);
+//                    nowy.setZmiennapotraceniaList(nowezmienne(e.getZmiennapotraceniaList()));
+//                    zwrot.add(nowy);
+//                }
+//            }
+//        }
+//        return zwrot;
+//    }
+//
+//    private List<Zmiennapotracenia> nowezmienne(List<Zmiennapotracenia> zmiennapotraceniaList) {
+//        List<Zmiennapotracenia> zwrot = new ArrayList<>();
+//        if (zmiennapotraceniaList!=null) {
+//            for (Zmiennapotracenia e : zmiennapotraceniaList) {
+//                if (e.getDatado()==null || e.getDatado().equals("")) {
+//                    Zmiennapotracenia nowy = new Zmiennapotracenia();
+//                    nowy.setDataod(e.getDataod());
+//                    nowy.setSkladnikpotracenia(e.getSkladnikpotracenia());
+//                    nowy.setKwotakomornicza(e.getKwotakomornicza());
+//                    nowy.setSkladnikpotracenia(e.getSkladnikpotracenia());
+//                    nowy.setKwotakomornicza(e.getKwotakomornicza());
+//                    nowy.setKwotakomorniczarozliczona(e.getKwotakomorniczarozliczona());
+//                    nowy.setKwotastala(e.getKwotastala());
+//                    nowy.setMaxustawowy(e.isMaxustawowy());
+//                    zwrot.add(nowy);
+//                }
+//            }
+//        }
+//        return zwrot;
+//    }
+//
+//    private List<Stanowiskoprac> nowestanowisko(List<Stanowiskoprac> stanowiskopracList, Umowa aThis) {
+//        List<Stanowiskoprac> zwrot = new ArrayList<>();
+//        if (stanowiskopracList!=null) {
+//            for (Stanowiskoprac e : stanowiskopracList) {
+//                if (e.getDatado()==null || e.getDatado().equals("")) {
+//                    Stanowiskoprac nowy = new Stanowiskoprac();
+//                    nowy.setDataod(aThis.getDataod());
+//                    nowy.setOpis(e.getOpis());
+//                    nowy.setUwagi(e.getUwagi());
+//                    nowy.setUmowa(aThis);
+//                    zwrot.add(nowy);
+//                }
+//            }
+//        }
+//        return zwrot;
+//    }
+//
+//    private List<Skladnikwynagrodzenia> noweskladniki(List<Skladnikwynagrodzenia> skladnikwynagrodzeniaList, Umowa aThis) {
+//        List<Skladnikwynagrodzenia> zwrot = new ArrayList<>();
+//        if (skladnikwynagrodzeniaList!=null) {
+//            for (Skladnikwynagrodzenia e : skladnikwynagrodzeniaList) {
+//                if (e.getZmiennawynagrodzeniaList()==null) {
+//                    Skladnikwynagrodzenia nowy = new Skladnikwynagrodzenia();
+//                    nowy.setUmowa(aThis);
+//                    nowy.setOddelegowanie(e.isOddelegowanie());
+//                    nowy.setRodzajwynagrodzenia(nowy.getRodzajwynagrodzenia());
+//                    nowy.setUwagi(nowy.getUwagi());
+//                    //nowy.setWks_serial(nowy.getWks_serial());
+//                    nowy.setZmiennawynagrodzeniaList(nowezmiennewynagrodzenia(e.getZmiennawynagrodzeniaList()));
+//                    if (nowy.getZmiennawynagrodzeniaList()!=null&&nowy.getZmiennawynagrodzeniaList().size()>0) {
+//                        zwrot.add(nowy);
+//                    }
+//                }
+//            }
+//        }
+//        return zwrot;
+//    }
+//
+//    
+//    private List<Zmiennawynagrodzenia> nowezmiennewynagrodzenia(List<Zmiennawynagrodzenia> zmiennawynagrodzeniaList) {
+//        List<Zmiennawynagrodzenia> zwrot = new ArrayList<>();
+//        if (zmiennawynagrodzeniaList!=null) {
+//            for (Zmiennawynagrodzenia e : zmiennawynagrodzeniaList) {
+//                if (e.getDatado()==null || e.getDatado().equals("")) {
+//                    Zmiennawynagrodzenia nowy = new Zmiennawynagrodzenia();
+//                    nowy.setDataod(e.getDataod());
     
-    private String pobierzkwoteString(List<Zmiennawynagrodzenia> zmiennawynagrodzeniaList) {
-        String zwrot = "";
-        if (zmiennawynagrodzeniaList!=null) {
-            for (Zmiennawynagrodzenia p : zmiennawynagrodzeniaList) {
-                String dataod1 = p.getDataod();
-                String datado1 = p.getDatado();
-                zwrot = zwrot+p.getNazwa()+" ";
-                zwrot = zwrot+f.F.curr(p.getKwota());
-                break;
-            }
-        }
-        return zwrot;
-    }
-    
-     public double pobierzwynagrodzenieKwota(String rok, String mc, Kalendarzmiesiac kalendarz) {
-        double zwrot = 0.0;
-        if (this.skladnikwynagrodzeniaList!=null) {
-            for (Skladnikwynagrodzenia p : this.skladnikwynagrodzeniaList) {
-                zwrot = pobierzkwoteKwota(p.getZmiennawynagrodzeniaList(), rok, mc, kalendarz);
-            }
-        }
-        return zwrot;
-    }   
-     
-    
-
-    private double pobierzkwoteKwota(List<Zmiennawynagrodzenia> zmiennawynagrodzeniaList, String rok, String mc, Kalendarzmiesiac kalendarz) {
-        double zwrot = 0.0;
-        if (zmiennawynagrodzeniaList!=null) {
-            for (Zmiennawynagrodzenia p : zmiennawynagrodzeniaList) {
-                String dataod1 = p.getDataod();
-                String datado1 = p.getDatado();
-                if (DataBean.czysiemiesci(kalendarz, dataod1, datado1)) {
-                    zwrot = p.getKwota();
-                    break;
-                }
-            }
-        }
-        return zwrot;
-    }
-    
-    public boolean czywynagrodzeniegodzinowe() {
-        boolean zwrot = false;
-        if (this.skladnikwynagrodzeniaList!=null) {
-            for (Skladnikwynagrodzenia p : this.skladnikwynagrodzeniaList) {
-                if (p.getRodzajwynagrodzenia().getKod().equals("11")||p.getRodzajwynagrodzenia().getKod().equals("50")) {
-                    zwrot = !p.getRodzajwynagrodzenia().getGodzinowe0miesieczne1();
-                }
-            }
-        }
-        return zwrot;
-    }
-    
-    public Rachunekdoumowyzlecenia pobierzRachunekzlecenie(String rok, String mc) {
-        Rachunekdoumowyzlecenia zwrot = null;
-        try {
-            List<Rachunekdoumowyzlecenia> rachunekdoumowyzleceniaList = this.getRachunekdoumowyzleceniaList();
-            if (rachunekdoumowyzleceniaList!=null) {
-                zwrot = rachunekdoumowyzleceniaList.stream().filter(pa->pa.getMc().equals(mc)&&pa.getRok().equals(rok)).findAny().get();
-            }
-        } catch (Exception e){}
-        return zwrot;
-    }
-
-    public List<Naliczenieskladnikawynagrodzenia> pobierzpaski(String rok, String mc, Skladnikwynagrodzenia s) {
-        List<Naliczenieskladnikawynagrodzenia> zwrot = new ArrayList<>();
-        List<Kalendarzmiesiac> kalendarzList = this.getKalendarzmiesiacList();
-        Collections.sort(kalendarzList, new KalendarzmiesiacLastcomparator());
-        int ilemamy = 0;
-        for (Kalendarzmiesiac  r : kalendarzList) {
-            if (r.getRokI()<=Integer.parseInt(rok)) {
-                if (Data.czyjestpomcnaprawdepo(r.getMc(), r.getRok(), mc, rok)) {
-                    Naliczenieskladnikawynagrodzenia naliczonewynagrodzenie = r.getNaliczonewynagrodzenie(s);
-                    if (naliczonewynagrodzenie!=null) {
-                        zwrot.add(naliczonewynagrodzenie);
-                    }
-                    ilemamy++;
-                }
-                if (ilemamy==3) {
-                    break;
-                }
-            }
-        }
-        
-        return zwrot;
-    }
+//                    nowy.setSkladnikwynagrodzenia(e.getSkladnikwynagrodzenia());
+//                    nowy.setKwota(e.getKwota());
+//                    nowy.setMinimalneustatowe(e.isMinimalneustatowe());
+//                    nowy.setNazwa(e.getNazwa());
+//                    nowy.setNetto0brutto1(e.isNetto0brutto1());
+//                    nowy.setAktywna(e.isAktywna());
+//                    nowy.setWaluta(e.getWaluta());
+//                    zwrot.add(nowy);
+//                }
+//            }
+//        }
+//        return zwrot;
+//    }
 
     public String getEtat() {
-        String zwrot = "pełny etat";
-        if (this.etatList!=null&&this.etatList.size()>0) {
-            EtatPrac e = etatList.get(0);
-            switch (e.getEtat()){
-                case "1/1":
-                    zwrot = "pełny etat";
-                    break;
-                default:
-                    zwrot = e.getEtat()+" etatu";
-                    break;
-            }
-        }
-        return zwrot;
+        return "Zrobic pole etat w umowie!";
     }
 
-    public Skladnikwynagrodzenia pobierzskladnikzlecenie() {
-        Skladnikwynagrodzenia zwrot = null;
-        if (this.skladnikwynagrodzeniaList!=null) {
-            for (Skladnikwynagrodzenia p : this.skladnikwynagrodzeniaList) {
-                zwrot = p;
-                break;
-            }
-        }
-        return zwrot;
+    public String pobierzwynagrodzenieString() {
+        return "Zrobić pole opisowe wynagrodzenie w umowie!";
     }
 
-    private List<EtatPrac> noweetat(List<EtatPrac> etatList, Umowa aThis) {
-        List<EtatPrac> zwrot = new ArrayList<>();
-        if (etatList!=null) {
-            for (EtatPrac e : etatList) {
-                if (e.getDatado()==null || e.getDatado().equals("")) {
-                    EtatPrac nowy = new EtatPrac();
-                    nowy.setDataod(aThis.getDataod());
-                    nowy.setEtat1(e.getEtat1());
-                    nowy.setEtat2(e.getEtat2());
-                    nowy.setUmowa(aThis);
-                    zwrot.add(nowy);
-                }
-            }
-        }
-        return zwrot;
-    }
-
-    private List<Skladnikpotracenia> nowepotracenie(List<Skladnikpotracenia> skladnikpotraceniaList, Umowa aThis) {
-        List<Skladnikpotracenia> zwrot = new ArrayList<>();
-        if (skladnikpotraceniaList!=null) {
-            for (Skladnikpotracenia e : skladnikpotraceniaList) {
-                if (e.isRozliczony()==false) {
-                    Skladnikpotracenia nowy = new Skladnikpotracenia();
-                    nowy.setUmowa(aThis);
-                    nowy.setNazwa(e.getNazwa());
-                    nowy.setRodzajpotracenia(e.getRodzajpotracenia());
-                    nowy.setRozliczony(false);
-                    nowy.setZmiennapotraceniaList(nowezmienne(e.getZmiennapotraceniaList()));
-                    zwrot.add(nowy);
-                }
-            }
-        }
-        return zwrot;
-    }
-
-    private List<Zmiennapotracenia> nowezmienne(List<Zmiennapotracenia> zmiennapotraceniaList) {
-        List<Zmiennapotracenia> zwrot = new ArrayList<>();
-        if (zmiennapotraceniaList!=null) {
-            for (Zmiennapotracenia e : zmiennapotraceniaList) {
-                if (e.getDatado()==null || e.getDatado().equals("")) {
-                    Zmiennapotracenia nowy = new Zmiennapotracenia();
-                    nowy.setDataod(e.getDataod());
-                    nowy.setSkladnikpotracenia(e.getSkladnikpotracenia());
-                    nowy.setKwotakomornicza(e.getKwotakomornicza());
-                    nowy.setSkladnikpotracenia(e.getSkladnikpotracenia());
-                    nowy.setKwotakomornicza(e.getKwotakomornicza());
-                    nowy.setKwotakomorniczarozliczona(e.getKwotakomorniczarozliczona());
-                    nowy.setKwotastala(e.getKwotastala());
-                    nowy.setMaxustawowy(e.isMaxustawowy());
-                    zwrot.add(nowy);
-                }
-            }
-        }
-        return zwrot;
-    }
-
-    private List<Stanowiskoprac> nowestanowisko(List<Stanowiskoprac> stanowiskopracList, Umowa aThis) {
-        List<Stanowiskoprac> zwrot = new ArrayList<>();
-        if (stanowiskopracList!=null) {
-            for (Stanowiskoprac e : stanowiskopracList) {
-                if (e.getDatado()==null || e.getDatado().equals("")) {
-                    Stanowiskoprac nowy = new Stanowiskoprac();
-                    nowy.setDataod(aThis.getDataod());
-                    nowy.setOpis(e.getOpis());
-                    nowy.setUwagi(e.getUwagi());
-                    nowy.setUmowa(aThis);
-                    zwrot.add(nowy);
-                }
-            }
-        }
-        return zwrot;
-    }
-
-    private List<Skladnikwynagrodzenia> noweskladniki(List<Skladnikwynagrodzenia> skladnikwynagrodzeniaList, Umowa aThis) {
-        List<Skladnikwynagrodzenia> zwrot = new ArrayList<>();
-        if (skladnikwynagrodzeniaList!=null) {
-            for (Skladnikwynagrodzenia e : skladnikwynagrodzeniaList) {
-                if (e.getZmiennawynagrodzeniaList()==null) {
-                    Skladnikwynagrodzenia nowy = new Skladnikwynagrodzenia();
-                    nowy.setUmowa(aThis);
-                    nowy.setOddelegowanie(e.isOddelegowanie());
-                    nowy.setRodzajwynagrodzenia(nowy.getRodzajwynagrodzenia());
-                    nowy.setUwagi(nowy.getUwagi());
-                    //nowy.setWks_serial(nowy.getWks_serial());
-                    nowy.setZmiennawynagrodzeniaList(nowezmiennewynagrodzenia(e.getZmiennawynagrodzeniaList()));
-                    if (nowy.getZmiennawynagrodzeniaList()!=null&&nowy.getZmiennawynagrodzeniaList().size()>0) {
-                        zwrot.add(nowy);
-                    }
-                }
-            }
-        }
-        return zwrot;
-    }
-
-    
-    private List<Zmiennawynagrodzenia> nowezmiennewynagrodzenia(List<Zmiennawynagrodzenia> zmiennawynagrodzeniaList) {
-        List<Zmiennawynagrodzenia> zwrot = new ArrayList<>();
-        if (zmiennawynagrodzeniaList!=null) {
-            for (Zmiennawynagrodzenia e : zmiennawynagrodzeniaList) {
-                if (e.getDatado()==null || e.getDatado().equals("")) {
-                    Zmiennawynagrodzenia nowy = new Zmiennawynagrodzenia();
-                    nowy.setDataod(e.getDataod());
-                    nowy.setSkladnikwynagrodzenia(e.getSkladnikwynagrodzenia());
-                    nowy.setKwota(e.getKwota());
-                    nowy.setMinimalneustatowe(e.isMinimalneustatowe());
-                    nowy.setNazwa(e.getNazwa());
-                    nowy.setNetto0brutto1(e.isNetto0brutto1());
-                    nowy.setAktywna(e.isAktywna());
-                    nowy.setWaluta(e.getWaluta());
-                    zwrot.add(nowy);
-                }
-            }
-        }
-        return zwrot;
+    public boolean czynalezydookresu(String rok, String mc) {
+        String dataod = this.dataod;
+        //String dataod ()
+        return true;
     }
    
 }

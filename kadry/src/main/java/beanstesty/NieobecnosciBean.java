@@ -12,7 +12,6 @@ import embeddable.Mce;
 import embeddable.Okres;
 import entity.Kalendarzmiesiac;
 import entity.Nieobecnosc;
-import entity.Umowa;
 import error.E;
 import java.util.List;
 import msg.Msg;
@@ -92,7 +91,7 @@ public class NieobecnosciBean {
         return urlopbezplatny;
     }
      
-     public static boolean nanies(Nieobecnosc nieobecnosc, Umowa umowa, NieobecnoscFacade nieobecnoscFacade, KalendarzmiesiacFacade kalendarzmiesiacFacade) {
+     public static boolean nanies(Nieobecnosc nieobecnosc, NieobecnoscFacade nieobecnoscFacade, KalendarzmiesiacFacade kalendarzmiesiacFacade) {
         boolean czynaniesiono = false;
         if (nieobecnosc.isNaniesiona() == false) {
             List<Okres> okresy = OkresBean.generujokresy(nieobecnosc);
@@ -101,7 +100,7 @@ public class NieobecnosciBean {
                 int rokgraniczny = 2020;
                 if (Integer.parseInt(nieobecnosc.getRokod())>=rokgraniczny) {
                     for (Okres okr : okresy) {
-                        Kalendarzmiesiac znaleziony = kalendarzmiesiacFacade.findByRokMcUmowa(umowa, okr.getRok(), okr.getMc());
+                        Kalendarzmiesiac znaleziony = kalendarzmiesiacFacade.findByRokMcAngaz(nieobecnosc.getAngaz(), okr.getRok(), okr.getMc());
                         if (znaleziony != null) {
                             znaleziony.naniesnieobecnosc(nieobecnosc);
                             nieobecnoscFacade.edit(nieobecnosc);
@@ -136,7 +135,7 @@ public class NieobecnosciBean {
 //                    String mcdo = nieobecnosc.getMcdo();
 //                    for (String mc : Mce.getMceListS()) {
 //                        if (Data.jestrownywiekszy(mc, mcod) && Data.jestrownywiekszy(mcdo, mc)) {
-//                            Kalendarzmiesiac znaleziony = kalendarzmiesiacFacade.findByRokMcUmowa(umowa, rokbiezacy, mc);
+//                            Kalendarzmiesiac znaleziony = kalendarzmiesiacFacade.findByRokMcAngaz(umowa, rokbiezacy, mc);
 //                            if (znaleziony != null) {
 //                                if (nieobecnosc.getRokod().equals(rokbiezacy) || nieobecnosc.getRokdo().equals(rokbiezacy)) {
 //                                    znaleziony.naniesnieobecnosc(nieobecnosc);
@@ -156,7 +155,7 @@ public class NieobecnosciBean {
 //                    String mcdo = nieobecnosc.getMcdo();
 //                    for (String mc : Mce.getMceListS()) {
 //                        if (Data.jestrownywiekszy(mc, mcod) && Data.jestrownywiekszy(mcdo, mc)) {
-//                            Kalendarzmiesiac znaleziony = kalendarzmiesiacFacade.findByRokMcUmowa(umowa, rokbiezacy, mc);
+//                            Kalendarzmiesiac znaleziony = kalendarzmiesiacFacade.findByRokMcAngaz(umowa, rokbiezacy, mc);
 //                            if (znaleziony != null) {
 //                                if (nieobecnosc.getRokod().equals(rokbiezacy) || nieobecnosc.getRokdo().equals(rokbiezacy)) {
 //                                    znaleziony.naniesnieobecnosc(nieobecnosc);
@@ -190,7 +189,7 @@ public class NieobecnosciBean {
                     String mcdo = nieobecnosc.getMcdo();
                     for (String mc : Mce.getMceListS()) {
                         if (Data.jestrownywiekszy(mc, mcod) && Data.jestrownywiekszy(mcdo, mc)) {
-                            Kalendarzmiesiac znaleziony = kalendarzmiesiacFacade.findByRokMcUmowa(nieobecnosc.getUmowa(), rokwpisu, mc);
+                            Kalendarzmiesiac znaleziony = kalendarzmiesiacFacade.findByRokMcAngaz(nieobecnosc.getAngaz(), rokwpisu, mc);
                             if (znaleziony != null) {
                                 if (nieobecnosc.getRokod().equals(rokwpisu) || nieobecnosc.getRokdo().equals(rokwpisu)) {
                                     int dniroboczenieobecnosci = znaleziony.naniesnieobecnosc(nieobecnosc);

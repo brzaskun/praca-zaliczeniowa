@@ -114,10 +114,10 @@ public class PasekwynagrodzenBean {
       
     public static Pasekwynagrodzen obliczWynagrodzenie(Kalendarzmiesiac kalendarz, Definicjalistaplac definicjalistaplac, SwiadczeniekodzusFacade nieobecnosckodzusFacade, List<Pasekwynagrodzen> paskidowyliczeniapodstawy, 
         List<Wynagrodzeniahistoryczne> historiawynagrodzen, List<Podatki> stawkipodatkowe, double sumapoprzednich, double wynagrodzenieminimalne, boolean czyodlicoznokwotewolna, double kurs,double limitZUS, String datawyplaty) {
-        boolean umowaoprace = kalendarz.isPraca();
-        boolean umowazlecenia = kalendarz.isZlecenie();
-        boolean umowazlecenianierezydent = kalendarz.isZlecenie()&&(kalendarz.getUmowa().isNierezydent()||kalendarz.isNierezydent());
-        boolean umowafunkcja = kalendarz.isFunkcja();
+        boolean umowaoprace = true;
+        boolean umowazlecenia = false;
+        boolean umowazlecenianierezydent = false;
+        boolean umowafunkcja = false;
         Pasekwynagrodzen pasek = new Pasekwynagrodzen();
         pasek.setDatawyplaty(datawyplaty);
         obliczwiek(kalendarz, pasek);
@@ -128,7 +128,7 @@ public class PasekwynagrodzenBean {
         } else {
             pasek.setDo26lat(false);
         }
-        boolean nierezydent = obliczczynierezydent(kalendarz.getUmowa(), datawyplaty)||kalendarz.isNierezydent();
+        boolean nierezydent = false;
         pasek.setNierezydent(nierezydent);
         pasek.setWynagrodzenieminimalne(wynagrodzenieminimalne);
         pasek.setDefinicjalistaplac(definicjalistaplac);
@@ -328,7 +328,7 @@ public class PasekwynagrodzenBean {
     
      public static void obliczwiek(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasek) {
         if (kalendarz!=null) {
-            String dataurodzenia = kalendarz.getUmowa().getAngaz().getPracownik().getDataurodzenia();
+            String dataurodzenia = kalendarz.getAngaz().getPracownik().getDataurodzenia();
             LocalDate dataur = LocalDate.parse(dataurodzenia);
             LocalDate dataumowy = LocalDate.parse(pasek.getDatawyplaty());
             String rok = Data.getRok(pasek.getDatawyplaty());
@@ -519,52 +519,35 @@ public class PasekwynagrodzenBean {
     }
 
     private static void pracownikemerytalna(Pasekwynagrodzen pasek) {
-        if (pasek.getKalendarzmiesiac().getUmowa().isEmerytalne()) {
             pasek.setPracemerytalne(Z.z(pasek.getPodstawaskladkizus()*0.0976));
-        }
     }
     
     private static void emerytalna(Pasekwynagrodzen pasek) {
-        if (pasek.getKalendarzmiesiac().getUmowa().isEmerytalne()) {
             pasek.setEmerytalne(Z.z(pasek.getPodstawaskladkizus()*0.0976));
-        }
     }
 
     private static void pracownikrentowa(Pasekwynagrodzen pasek) {
-        if (pasek.getKalendarzmiesiac().getUmowa().isRentowe()) {
             pasek.setPracrentowe(Z.z(pasek.getPodstawaskladkizus()*0.015));
-        }
     }
     
     private static void rentowa(Pasekwynagrodzen pasek) {
-        if (pasek.getKalendarzmiesiac().getUmowa().isRentowe()) {
             pasek.setRentowe(Z.z(pasek.getPodstawaskladkizus()*0.065));
-        }
     }
     
     private static void wypadkowa(Pasekwynagrodzen pasek) {
-        if (pasek.getKalendarzmiesiac().getUmowa().isWypadkowe()) {
             pasek.setWypadkowe(Z.z(pasek.getPodstawaskladkizus()*0.0167));
-        }
     }
     
     private static void fp(Pasekwynagrodzen pasek) {
-        if (!pasek.getKalendarzmiesiac().getUmowa().isNieliczFP()) {
             pasek.setFp(Z.z(pasek.getPodstawaskladkizus()*0.0245));
-        }
     }
     
     private static void fgsp(Pasekwynagrodzen pasek) {
-        if (!pasek.getKalendarzmiesiac().getUmowa().isNieliczFGSP()) {
             pasek.setFgsp(Z.z(pasek.getPodstawaskladkizus()*0.001));
-        }
     }
 
     private static void pracownikchorobowa(Pasekwynagrodzen pasek) {
-        boolean podlega = pasek.getKalendarzmiesiac().getUmowa().isChorobowe() || pasek.getKalendarzmiesiac().getUmowa().isChorobowedobrowolne();
-        if (podlega) {
             pasek.setPracchorobowe(Z.z(pasek.getPodstawaskladkizus()*0.0245));
-        }
     }
 
     private static void razemspolecznepracownik(Pasekwynagrodzen pasek) {
@@ -620,7 +603,8 @@ public class PasekwynagrodzenBean {
     private static void obliczpodstaweopodatkowaniaDB(Pasekwynagrodzen pasek, List<Podatki> stawkipodatkowe, boolean nieodliczackup) {
         Podatki pierwszyprog = stawkipodatkowe.get(0);
         double bruttominusspoleczne = pasek.getBruttominusspoleczne();
-        double kosztyuzyskania = pasek.getKalendarzmiesiac().getUmowa().getKosztyuzyskaniaprocent()==100?pierwszyprog.getKup():pierwszyprog.getKuppodwyzszone();
+        double kosztyuzyskania = 100;
+                //pasek.getKalendarzmiesiac().getUmowa().getKosztyuzyskaniaprocent()==100?pierwszyprog.getKup():pierwszyprog.getKuppodwyzszone();
         if (nieodliczackup) {
             kosztyuzyskania = 0.0;
         }
@@ -643,14 +627,15 @@ public class PasekwynagrodzenBean {
         } else {
             pasek.setPodstawaopodatkowania(podstawa);
             pasek.setKosztyuzyskania(kosztyuzyskania);
-            pasek.setProcentkosztow(pasek.getKalendarzmiesiac().getUmowa().getKosztyuzyskaniaprocent());
+            pasek.setProcentkosztow(100);
         }
         
     }
     private static void obliczpodstaweopodatkowaniaZlecenie(Pasekwynagrodzen pasek, List<Podatki> stawkipodatkowe, boolean nierezydent) {
         Podatki pierwszyprog = stawkipodatkowe.get(0);
         double bruttominusspoleczne = pasek.getBruttominusspoleczne();
-        Rachunekdoumowyzlecenia rachunekdoumowyzlecenia = pasek.getKalendarzmiesiac().getUmowa().pobierzRachunekzlecenie(pasek.getKalendarzmiesiac().getRok(), pasek.getKalendarzmiesiac().getMc());
+        //Rachunekdoumowyzlecenia rachunekdoumowyzlecenia = pasek.getKalendarzmiesiac().getAngaz().pobierzRachunekzlecenie(pasek.getKalendarzmiesiac().getRok(), pasek.getKalendarzmiesiac().getMc());
+        Rachunekdoumowyzlecenia rachunekdoumowyzlecenia =null;
         double procentkosztyuzyskania = rachunekdoumowyzlecenia.getProcentkosztowuzyskania();
         double podstawadlakosztow = Z.z0(bruttominusspoleczne) > 0.0 ? Z.z0(bruttominusspoleczne) :0.0;
         double kosztyuzyskania = Z.z(podstawadlakosztow*procentkosztyuzyskania/100);
@@ -662,14 +647,14 @@ public class PasekwynagrodzenBean {
         } else {
             pasek.setKosztyuzyskania(kosztyuzyskania);
         }
-        pasek.setProcentkosztow(pasek.getKalendarzmiesiac().getUmowa().getKosztyuzyskaniaprocent());
+        pasek.setProcentkosztow(100);
         
     }
     
     private static void obliczpodstaweopodatkowaniaFunkcja(Pasekwynagrodzen pasek, List<Podatki> stawkipodatkowe, boolean nierezydent) {
         Podatki pierwszyprog = stawkipodatkowe.get(0);
         double bruttominusspoleczne = pasek.getBruttominusspoleczne();
-        double kosztyuzyskania = pasek.getKalendarzmiesiac().getUmowa().getKosztyuzyskaniaprocent()==100?pierwszyprog.getKup():pierwszyprog.getKuppodwyzszone();
+        double kosztyuzyskania = 100;
         double podstawa = Z.z0(bruttominusspoleczne-kosztyuzyskania) > 0.0 ? Z.z0(bruttominusspoleczne-kosztyuzyskania) :0.0;
         pasek.setPodstawaopodatkowania(podstawa);
         pasek.setKosztyuzyskania(kosztyuzyskania);
@@ -690,7 +675,7 @@ public class PasekwynagrodzenBean {
         } else {
             pasek.setKosztyuzyskania(kosztyuzyskania);
         }
-        pasek.setProcentkosztow(pasek.getKalendarzmiesiac().getUmowa().getKosztyuzyskaniaprocent());
+        pasek.setProcentkosztow(100);
         
     }
     
@@ -737,7 +722,7 @@ public class PasekwynagrodzenBean {
     
     
     private static void ulgapodatkowa(Pasekwynagrodzen pasek) {
-        boolean ulga = pasek.getKalendarzmiesiac().getUmowa().isOdliczaculgepodatkowa();
+        boolean ulga = true;
         double kwotawolna = 43.76;
         if (ulga && pasek.isDo26lat()==false) {
             double podatek = pasek.getPodatekwstepny();
@@ -753,14 +738,14 @@ public class PasekwynagrodzenBean {
     }
 
     private static void ulgapodatkowaDB(Pasekwynagrodzen pasek,  List<Podatki> stawkipodatkowe, boolean ignoruj26lat) {
-        boolean ulga = pasek.getKalendarzmiesiac().getUmowa().isOdliczaculgepodatkowa();
+        boolean ulga = true;
         double kwotawolna = stawkipodatkowe.get(0).getWolnamc();
         double kwotawolnadlazdrowotnej = stawkipodatkowe.get(0).getWolnadlazdrowotnej();
         if (pasek.isDrugiprog()) {
             kwotawolna = 0.0;
             pasek.setKwotawolna(kwotawolna);
         }
-        if (pasek.isNierezydent()&&!pasek.getKalendarzmiesiac().isPraca()) {
+        if (pasek.isNierezydent()) {
             kwotawolna = 0.0;
             pasek.setKwotawolna(kwotawolna);
         } else if (ulga && (pasek.isDo26lat()==false||ignoruj26lat)) {
@@ -879,7 +864,7 @@ public class PasekwynagrodzenBean {
         String mc = kalendarz.getMc();
         boolean jest = false;
         List<Nieobecnosc> zwrot = new ArrayList<>();
-        for (Nieobecnosc p : kalendarz.getUmowa().getNieobecnoscList()) {
+        for (Nieobecnosc p : kalendarz.getAngaz().getNieobecnoscList()) {
             jest = Data.czydatajestwmcu(p.getDataod(), rok, mc);
             jest = Data.czydatajestwmcu(p.getDatado(), rok, mc);
             if (jest && p.isNaniesiona()) {
@@ -889,19 +874,19 @@ public class PasekwynagrodzenBean {
         return zwrot;
     }
 
-    public static List<Nieobecnosc> generuj(Umowa umowa, RodzajnieobecnosciFacade rodzajnieobecnosciFacade, String rok, String mc, Kalendarzmiesiac kalendarzmiesiac) {
+    public static List<Nieobecnosc> generuj(Angaz angaz, String dataod, String datado, RodzajnieobecnosciFacade rodzajnieobecnosciFacade, String rok, String mc, Kalendarzmiesiac kalendarzmiesiac) {
         List<Nieobecnosc> zwrotlist = new ArrayList<>();
         Nieobecnosc zwrot = new Nieobecnosc();
-        String rokumowa = Data.getRok(umowa.getDataod());
-        String mcumowa = Data.getMc(umowa.getDataod());
-        String dzienumowa = Data.getDzien(umowa.getDataod());
+        String rokumowa = Data.getRok(dataod);
+        String mcumowa = Data.getMc(dataod);
+        String dzienumowa = Data.getDzien(dataod);
         if (rokumowa.equals(rok)&&mcumowa.equals(mc)&&!dzienumowa.equals("01")) {
             Rodzajnieobecnosci nieobecnosckodzus = rodzajnieobecnosciFacade.findByKod("D");
             zwrot = new Nieobecnosc();
-            zwrot.setUmowa(umowa);
+            zwrot.setAngaz(angaz);
             zwrot.setRodzajnieobecnosci(nieobecnosckodzus);
-            String pierwszydzienmca = Data.pierwszyDzien(umowa.getDataod());
-            LocalDate pierwszydzienumowy = LocalDate.parse(umowa.getDataod());
+            String pierwszydzienmca = Data.pierwszyDzien(dataod);
+            LocalDate pierwszydzienumowy = LocalDate.parse(dataod);
             LocalDate yesterday = pierwszydzienumowy.minusDays(1);  
             String dzienprzedumowa = yesterday.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
             zwrot.setDataod(pierwszydzienmca);
@@ -914,17 +899,17 @@ public class PasekwynagrodzenBean {
             zwrot.setMcdo(Data.getMc(zwrot.getDatado()));
             zwrotlist.add(zwrot);
         }
-        if (umowa.getDatado()!=null&&!umowa.getDatado().equals("")) {
-            String rokumowado = Data.getRok(umowa.getDatado());
-            String mcumowado = Data.getMc(umowa.getDatado());
-            String dzienumowado = Data.getDzien(umowa.getDatado());
+        if (datado!=null&&!datado.equals("")) {
+            String rokumowado = Data.getRok(datado);
+            String mcumowado = Data.getMc(datado);
+            String dzienumowado = Data.getDzien(datado);
             String ostatnidzienmca = Data.getDzien(Data.ostatniDzien(rokumowado, mcumowado));
             if (rokumowado.equals(rok)&&mcumowado.equals(mc)&&!dzienumowado.equals(ostatnidzienmca)) {
                 Rodzajnieobecnosci nieobecnosckodzus = rodzajnieobecnosciFacade.findByKod("D");
                 zwrot = new Nieobecnosc();
-                zwrot.setUmowa(umowa);
+                zwrot.setAngaz(angaz);
                 zwrot.setRodzajnieobecnosci(nieobecnosckodzus);
-                LocalDate ostatnidzienumowy = LocalDate.parse(umowa.getDatado());
+                LocalDate ostatnidzienumowy = LocalDate.parse(datado);
                 LocalDate tomorrow = ostatnidzienumowy.plusDays(1);  
                 String dzienpoumowie = tomorrow.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
                 zwrot.setDataod(dzienpoumowie);
@@ -944,9 +929,8 @@ public class PasekwynagrodzenBean {
     public static Pasekwynagrodzen sumujpaski(List<Pasekwynagrodzen> lista) {
         Pasekwynagrodzen sumapasek = new Pasekwynagrodzen();
         sumapasek.setKalendarzmiesiac(new Kalendarzmiesiac());
-        sumapasek.getKalendarzmiesiac().setUmowa(new Umowa());
-        sumapasek.getKalendarzmiesiac().getUmowa().setAngaz(new Angaz());
-        sumapasek.getKalendarzmiesiac().getUmowa().getAngaz().setPracownik(new Pracownik("podsumowanie"," "));
+        sumapasek.getKalendarzmiesiac().setAngaz(new Angaz());
+        sumapasek.getKalendarzmiesiac().getAngaz().setPracownik(new Pracownik("podsumowanie"," "));
         for (Pasekwynagrodzen p : lista) {
             sumapasek.dodajPasek(p);
         }
@@ -1017,7 +1001,7 @@ public class PasekwynagrodzenBean {
     }
 
     public static double sumapodstawaopodpopmce(PasekwynagrodzenFacade pasekwynagrodzenFacade, Kalendarzmiesiac p, double prog) {
-        List<Pasekwynagrodzen> paskipodatnika = pasekwynagrodzenFacade.findByRokAngaz(p.getRok(), p.getUmowa().getAngaz());
+        List<Pasekwynagrodzen> paskipodatnika = pasekwynagrodzenFacade.findByRokAngaz(p.getRok(), p.getAngaz());
         double suma = 0.0;
         for (Pasekwynagrodzen r : paskipodatnika) {
             suma = suma+r.getPodstawaopodatkowania();
@@ -1044,8 +1028,8 @@ public class PasekwynagrodzenBean {
 
     private static boolean obliczczynierezydent(Umowa umowa, String termwyplaty) {
         boolean zwrot = false;
-        if (umowa.getDataprzyjazdudopolski()!=null&&!umowa.getDataprzyjazdudopolski().equals("")) {
-            String dataprzyjazdu = umowa.getDataprzyjazdudopolski();
+        if (umowa.getAngaz().getDataprzyjazdudopolski()!=null&&!umowa.getAngaz().getDataprzyjazdudopolski().equals("")) {
+            String dataprzyjazdu = umowa.getAngaz().getDataprzyjazdudopolski();
             LocalDate dataprzyj = LocalDate.parse(dataprzyjazdu);
             LocalDate datawypl = LocalDate.parse(termwyplaty);
             String rok = Data.getRok(termwyplaty);
@@ -1081,7 +1065,17 @@ public class PasekwynagrodzenBean {
     }
 
     
-
+    public static Rachunekdoumowyzlecenia pobierzRachunekzlecenie(Angaz angaz, String rok, String mc) {
+        Rachunekdoumowyzlecenia zwrot = null;
+        try {
+            Umowa umowa = angaz.pobierzumowa(rok,mc);
+            List<Rachunekdoumowyzlecenia> rachunekdoumowyzleceniaList = umowa.getRachunekdoumowyzleceniaList();
+            if (rachunekdoumowyzleceniaList!=null) {
+                zwrot = rachunekdoumowyzleceniaList.stream().filter(pa->pa.getMc().equals(mc)&&pa.getRok().equals(rok)).findAny().get();
+            }
+        } catch (Exception e){}
+        return zwrot;
+    }
     
    
 }

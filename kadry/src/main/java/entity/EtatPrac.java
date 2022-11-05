@@ -35,7 +35,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "EtatPrac.findAll", query = "SELECT e FROM EtatPrac e"),
     @NamedQuery(name = "EtatPrac.findById", query = "SELECT e FROM EtatPrac e WHERE e.id = :id"),
-    @NamedQuery(name = "EtatPrac.findByUmowa", query = "SELECT e FROM EtatPrac e WHERE e.umowa = :umowa"),
+    @NamedQuery(name = "EtatPrac.findByAngaz", query = "SELECT e FROM EtatPrac e WHERE e.angaz = :angaz"),
     @NamedQuery(name = "EtatPrac.findByDataod", query = "SELECT e FROM EtatPrac e WHERE e.dataod = :dataod"),
     @NamedQuery(name = "EtatPrac.findByDatado", query = "SELECT e FROM EtatPrac e WHERE e.datado = :datado"),
     @NamedQuery(name = "EtatPrac.findByEtatPrac1", query = "SELECT e FROM EtatPrac e WHERE e.etat1 = :etat1"),
@@ -64,9 +64,9 @@ public class EtatPrac implements Serializable {
     @NotNull
     @Column(name = "etat2")
     private int etat2;
-    @JoinColumn(name = "umowa", referencedColumnName = "id")
+    @JoinColumn(name = "angaz", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Umowa umowa;
+    private Angaz angaz;
 
     public EtatPrac() {
     }
@@ -82,12 +82,12 @@ public class EtatPrac implements Serializable {
         this.etat2 = etat2;
     }
 
-    public EtatPrac(Umowa selected, Integer etat1, Integer etat2) {
-        this.dataod = selected.getDataod();
-        this.datado = selected.getDatado();
+    public EtatPrac(Angaz selected, String dataod, String datado, Integer etat1, Integer etat2) {
+        this.dataod = dataod;
+        this.datado = datado;
         this.etat1 = etat1==null?1:etat1;
         this.etat2 = etat2==null?1:etat2;
-        this.umowa = selected;
+        this.angaz = selected;
     }
 
     public Integer getId() {
@@ -130,12 +130,12 @@ public class EtatPrac implements Serializable {
         this.etat2 = etat2;
     }
 
-    public Umowa getUmowa() {
-        return umowa;
+    public Angaz getAngaz() {
+        return angaz;
     }
 
-    public void setUmowa(Umowa umowa) {
-        this.umowa = umowa;
+    public void setAngaz(Angaz angaz) {
+        this.angaz = angaz;
     }
 
     public String getEtat() {
@@ -148,7 +148,7 @@ public class EtatPrac implements Serializable {
         hash = 71 * hash + Objects.hashCode(this.id);
         hash = 71 * hash + Objects.hashCode(this.dataod);
         hash = 71 * hash + Objects.hashCode(this.datado);
-        hash = 71 * hash + Objects.hashCode(this.umowa);
+        hash = 71 * hash + Objects.hashCode(this.angaz);
         return hash;
     }
 
@@ -173,7 +173,7 @@ public class EtatPrac implements Serializable {
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }
-        if (!Objects.equals(this.umowa, other.umowa)) {
+        if (!Objects.equals(this.angaz, other.angaz)) {
             return false;
         }
         return true;
@@ -183,7 +183,7 @@ public class EtatPrac implements Serializable {
 
     @Override
     public String toString() {
-        return "EtatPrac{" + "dataod=" + dataod + ", datado=" + datado + ", etat1=" + etat1 + ", etat2=" + etat2 + ", umowa=" + umowa.getNrkolejny() + '}';
+        return "EtatPrac{" + "dataod=" + dataod + ", datado=" + datado + ", etat1=" + etat1 + ", etat2=" + etat2 + ", angaz=" + angaz.getPracownik().getNazwiskoImie() + '}';
     }
     
 

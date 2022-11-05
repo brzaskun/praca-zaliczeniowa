@@ -10,7 +10,6 @@ import entity.Kalendarzmiesiac;
 import entity.Naliczeniepotracenie;
 import entity.Pasekwynagrodzen;
 import entity.Skladnikpotracenia;
-import entity.Umowa;
 import entity.Zmiennapotracenia;
 import java.util.ArrayList;
 import java.util.List;
@@ -96,8 +95,7 @@ public class NaliczeniepotracenieBean {
     }
 
     private static double podsumuj(Pasekwynagrodzen pasekwynagrodzen, Skladnikpotracenia skladnikpotracenia) {
-        Umowa umowa = pasekwynagrodzen.getKalendarzmiesiac().getUmowa();
-        List<Kalendarzmiesiac> kalendarzmiesiacList = umowa.getKalendarzmiesiacList();
+        List<Kalendarzmiesiac> kalendarzmiesiacList = pasekwynagrodzen.getKalendarzmiesiac().getAngaz().getKalendarzmiesiacList();
         List<Naliczeniepotracenie> paskizpotraceniem = pobierzpaski(kalendarzmiesiacList, skladnikpotracenia);
         double suma = 0.0;
         for (Naliczeniepotracenie p : paskizpotraceniem) {

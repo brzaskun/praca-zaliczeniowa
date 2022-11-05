@@ -5,10 +5,10 @@
  */
 package dao;
 
+import entity.Angaz;
 import entity.FirmaKadry;
 import entity.Pracownik;
 import entity.Skladnikwynagrodzenia;
-import entity.Umowa;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -54,9 +54,9 @@ public class SkladnikWynagrodzeniaFacade extends DAO  implements Serializable {
         return zwrot;
     }
     
-    public List<Skladnikwynagrodzenia> findByUmowa(Umowa umowa) {
+    public List<Skladnikwynagrodzenia> findByAngaz(Angaz angaz) {
         List<Skladnikwynagrodzenia> zwrot = new ArrayList<>();
-        zwrot = getEntityManager().createNamedQuery("Skladnikwynagrodzenia.findByUmowa").setParameter("umowa", umowa).getResultList();
+        zwrot = getEntityManager().createNamedQuery("Skladnikwynagrodzenia.findByAngaz").setParameter("angaz", angaz).getResultList();
         return zwrot;
     }
     public List<Skladnikwynagrodzenia> findByFirma(FirmaKadry firma) {

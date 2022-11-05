@@ -5,8 +5,8 @@
  */
 package dao;
 
+import entity.Angaz;
 import entity.Naliczeniepotracenie;
-import entity.Umowa;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PreDestroy;
@@ -47,7 +47,7 @@ public class NaliczeniepotracenieFacade extends DAO    implements Serializable {
     
    
 
-    public List<Naliczeniepotracenie> findByUmowa(Umowa umowa) {
-        return getEntityManager().createNamedQuery("Naliczeniepotracenie.findByUmowa").setParameter("umowa", umowa).getResultList();
+    public List<Naliczeniepotracenie> findByAngaz(Angaz angaz) {
+        return getEntityManager().createNamedQuery("Naliczeniepotracenie.findByUmowa").setParameter("angaz", angaz).getResultList();
     }
 }

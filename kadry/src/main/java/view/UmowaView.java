@@ -36,12 +36,10 @@ import entity.Kalendarzwzor;
 import entity.Kodyzawodow;
 import entity.Nieobecnosc;
 import entity.Rodzajwynagrodzenia;
-import entity.Skladnikpotracenia;
 import entity.Skladnikwynagrodzenia;
 import entity.Stanowiskoprac;
 import entity.Umowa;
 import entity.Umowakodzus;
-import entity.Zmiennapotracenia;
 import entity.Zmiennawynagrodzenia;
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -252,14 +250,12 @@ public class UmowaView  implements Serializable {
             listapraca.add(selected);
             wpisView.setUmowa(selected);
             if (selected.getUmowakodzus().isPraca() && etat1!=null && etat2!=null) {
-                EtatPrac etat = new EtatPrac(selected, etat1, etat2);
+                EtatPrac etat = new EtatPrac(wpisView.getAngaz(), selected.getDataod(), selected.getDatado(), etat1, etat2);
                 etatFacade.create(etat);
-                selected.getEtatList().add(etat);
             }
             if (selected.getUmowakodzus().isPraca() && selected.getKodzawodu()!=null) {
-                Stanowiskoprac stanowisko = new Stanowiskoprac(selected);
+                Stanowiskoprac stanowisko = new Stanowiskoprac(wpisView.getAngaz(), selected.getDataod(), selected.getDatado(), selected.getStanowisko());
                 stanowiskopracFacade.create(stanowisko);
-                selected.getStanowiskopracList().add(stanowisko);
             }
             generujKalendarzNowaUmowa();
             if (wynagrodzeniemiesieczne!=0.0 || wynagrodzeniegodzinowe!=0.0){
@@ -274,8 +270,8 @@ public class UmowaView  implements Serializable {
               }
               skladnikWynagrodzeniaView.init();
               zmiennaWynagrodzeniaView.init();
-              Kalendarzmiesiac kalendarz = kalendarzmiesiacFacade.findByRokMcUmowa(selected, selected.getRok(), selected.getMc());
-              List<Nieobecnosc> zatrudnieniewtrakciemiesiaca = PasekwynagrodzenBean.generuj(kalendarz.getUmowa(),rodzajnieobecnosciFacade, kalendarz.getRok(), kalendarz.getMc(), kalendarz);
+              Kalendarzmiesiac kalendarz = kalendarzmiesiacFacade.findByRokMcAngaz(selected.getAngaz(), selected.getRok(), selected.getMc());
+              List<Nieobecnosc> zatrudnieniewtrakciemiesiaca = PasekwynagrodzenBean.generuj(kalendarz.getAngaz(),selected.getDataod(), selected.getDatado(),rodzajnieobecnosciFacade, kalendarz.getRok(), kalendarz.getMc(), kalendarz);
               if (zatrudnieniewtrakciemiesiaca!=null) {
                 nieobecnoscFacade.createList(zatrudnieniewtrakciemiesiaca);
                 boolean czynaniesiono = NieobecnosciBean.nanies(zatrudnieniewtrakciemiesiaca.get(0), wpisView.getRokWpisu(), wpisView.getRokUprzedni(), kalendarzmiesiacFacade, nieobecnoscFacade);
@@ -306,15 +302,15 @@ public class UmowaView  implements Serializable {
             for (String mc: Mce.getMceListS()) {
                 Integer kolejnymc = Integer.parseInt(mc);
                 if (kolejnymc>=mcod) {
-                    kal = kalendarzmiesiacFacade.findByRokMcUmowa(wpisView.getUmowa(), rok, mc);
+                    kal = kalendarzmiesiacFacade.findByRokMcAngaz(wpisView.getAngaz(), rok, mc);
                     if (kal==null) {
-                        Kalendarzwzor znaleziono = kalendarzwzorFacade.findByFirmaRokMc(wpisView.getUmowa().getAngaz().getFirma(), rok, mc);
+                        Kalendarzwzor znaleziono = kalendarzwzorFacade.findByFirmaRokMc(wpisView.getAngaz().getFirma(), rok, mc);
                         if (znaleziono!=null) {
                             kal = new Kalendarzmiesiac();
                             kal.setRok(rok);
                             kal.setMc(mc);
-                            kal.setUmowa(wpisView.getUmowa());
-                            kal.ganerujdnizwzrocowego(znaleziono, dzienod, wpisView.getUmowa().getEtatList());
+                            kal.setAngaz(wpisView.getAngaz());
+                            kal.ganerujdnizwzrocowego(znaleziono, dzienod, wpisView.getAngaz().getEtatList());
                             kalendarzmiesiacFacade.create(kal);
                             dzienod = null;
                         } else {
@@ -363,37 +359,14 @@ public class UmowaView  implements Serializable {
                     zatrudnieniewtrakciemiesiaca = null;
                 }
             }
-            if (selected.getEtatList()!=null&&selected.getEtatList().size()==1) {
-                EtatPrac etat = selected.getEtatList().get(0);
-                etat.setDataod(selected.getDataod());
-                etat.setDatado(selected.getDatado());
-            }
-            if (selected.getSkladnikwynagrodzeniaList()!=null) {
-                for (Skladnikwynagrodzenia p : selected.getSkladnikwynagrodzeniaList()) {
-                    if (p.getZmiennawynagrodzeniaList()!=null&&p.getZmiennawynagrodzeniaList().size()==1) {
-                        Zmiennawynagrodzenia zmienna = p.getZmiennawynagrodzeniaList().get(0);
-                        zmienna.setDataod(selected.getDataod());
-                        zmienna.setDatado(selected.getDatado());
-                    }
-                }
-            }
-            if (selected.getSkladnikpotraceniaList()!=null) {
-                for (Skladnikpotracenia p : selected.getSkladnikpotraceniaList()) {
-                    if (p.getZmiennapotraceniaList()!=null&&p.getZmiennapotraceniaList().size()==1) {
-                        Zmiennapotracenia zmienna = p.getZmiennapotraceniaList().get(0);
-                        zmienna.setDataod(selected.getDataod());
-                        zmienna.setDatado(selected.getDatado());
-                    }
-                }
-            }
             selected.setDatasystem(new Date());
             umowaFacade.edit(selected);
             wpisView.setUmowa(selected);
             generujKalendarzNowaUmowa();
             String rok = Data.getRok(selected.getDataod());
             String mc = Data.getMc(selected.getDataod());
-            Kalendarzmiesiac kalendarz = selected.getKalendarzmiesiacList().stream().filter(p->p.getRok().equals(rok)&&p.getMc().equals(mc)).findFirst().get();
-            List<Nieobecnosc> zatrudnieniewtrakciemiesiaca = PasekwynagrodzenBean.generuj(selected,rodzajnieobecnosciFacade, rok, mc, kalendarz);
+            Kalendarzmiesiac kalendarz = selected.getAngaz().getKalendarzmiesiacList().stream().filter(p->p.getRok().equals(rok)&&p.getMc().equals(mc)).findFirst().get();
+            List<Nieobecnosc> zatrudnieniewtrakciemiesiaca = PasekwynagrodzenBean.generuj(selected.getAngaz(),selected.getDataod(), selected.getDatado(),rodzajnieobecnosciFacade, rok, mc, kalendarz);
             if (zatrudnieniewtrakciemiesiaca!=null) {
               nieobecnoscFacade.createList(zatrudnieniewtrakciemiesiaca);
             }
@@ -432,15 +405,7 @@ public class UmowaView  implements Serializable {
         }
     }
     
-    public void nanieskosztynaumowe() {
-        if (selected!=null) {
-            if (selected.isKosztyuzyskania0podwyzszone1()) {
-                selected.setKosztyuzyskaniaprocent(100);
-            } else {
-                selected.setKosztyuzyskaniaprocent(120);
-            }
-        }
-    }
+  
     
     public void cancel() {
         try {
@@ -476,10 +441,7 @@ public class UmowaView  implements Serializable {
                 selected.setEmerytalne(true);
                 selected.setWypadkowe(true);
                 selected.setZdrowotne(true);
-                selected.setKosztyuzyskaniaprocent(100.0);
-                selected.setKwotawolnaprocent(100.0);
                 selected.setNfz("16");
-                selected.setOdliczaculgepodatkowa(true);
             } else if (selected.getUmowakodzus().isZlecenie()) {
                 selected.setNrkolejny("UC/"+numerkolejny+"/"+wpisView.getRokWpisu()+"/"+wpisView.getMiesiacWpisu());
                 selected.setChorobowe(false);
@@ -488,8 +450,6 @@ public class UmowaView  implements Serializable {
                 selected.setEmerytalne(true);
                 selected.setWypadkowe(true);
                 selected.setZdrowotne(true);
-                selected.setKosztyuzyskaniaprocent(20.0);
-                selected.setKwotawolnaprocent(100.0);
                 selected.setNfz("16");
             }
         }
@@ -515,14 +475,14 @@ public class UmowaView  implements Serializable {
         }
     }
     
-    public void dodatetat() {
-        if (etat!=null&&etat.getDataod()!=null) {
-            etatFacade.create(etat);
-            selected.getEtatList().add(etat);
-            umowaFacade.edit(selected);
-        }
-    }
-    
+//    public void dodatetat() {
+//        if (etat!=null&&etat.getDataod()!=null) {
+//            etatFacade.create(etat);
+//            selected.getEtatList().add(etat);
+//            umowaFacade.edit(selected);
+//        }
+//    }
+//    
     public void naniesdatynaumowe() {
         if (selected!=null && selected.getDatazawarcia()!=null) {
             selected.setDataspoleczne(selected.getDatazawarcia());
@@ -542,7 +502,7 @@ public class UmowaView  implements Serializable {
 
     private Skladnikwynagrodzenia dodajskladnikwynagrodzenia(Rodzajwynagrodzenia rodzajwynagrodzenia) {
         Skladnikwynagrodzenia skladnikwynagrodzenia = new Skladnikwynagrodzenia();
-        skladnikwynagrodzenia.setUmowa(selected);
+        skladnikwynagrodzenia.setAngaz(selected.getAngaz());
         skladnikwynagrodzenia.setRodzajwynagrodzenia(rodzajwynagrodzenia);
         try {
             skladnikWynagrodzeniaFacade.create(skladnikwynagrodzenia);

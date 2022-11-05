@@ -48,19 +48,17 @@ public class SkladnikWynagrodzeniaView  implements Serializable {
     @PostConstruct
     public void init() {
         if (wpisView.getUmowa()!=null) {
-            lista  = skladnikWynagrodzeniaFacade.findByUmowa(wpisView.getUmowa());
+            lista  = skladnikWynagrodzeniaFacade.findByAngaz(wpisView.getAngaz());
         }
         listaumow = umowaFacade.findPracownikFirma(wpisView.getPracownik(), wpisView.getFirma());
-        if (listaumow.size()==1) {
-            selected.setUmowa(listaumow.get(0));
-        }
+        selected.setAngaz(wpisView.getAngaz());
         listarodzajwynagrodzenia = rodzajwynagrodzeniaFacade.findAktywne();
 
     }
     
 
     public void create() {
-      if (selected!=null && selected.getUmowa()!=null) {
+      if (selected!=null && selected.getAngaz()!=null) {
           try {
             if (selected.getId()!=null) {
                 skladnikWynagrodzeniaFacade.edit(selected);

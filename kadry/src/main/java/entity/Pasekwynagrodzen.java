@@ -44,10 +44,10 @@ import z.Z;
     @NamedQuery(name = "Pasekwynagrodzen.findAll", query = "SELECT p FROM Pasekwynagrodzen p"),
     @NamedQuery(name = "Pasekwynagrodzen.findByDefKal", query = "SELECT p FROM Pasekwynagrodzen p WHERE p.definicjalistaplac = :definicjalistaplac AND p.kalendarzmiesiac = :kalendarzmiesiac"),
     @NamedQuery(name = "Pasekwynagrodzen.findByDef", query = "SELECT p FROM Pasekwynagrodzen p WHERE p.definicjalistaplac = :definicjalistaplac"),
-    @NamedQuery(name = "Pasekwynagrodzen.findByRokAngaz", query = "SELECT p FROM Pasekwynagrodzen p WHERE p.rok = :rok AND p.kalendarzmiesiac.umowa.angaz = :angaz"),
-    @NamedQuery(name = "Pasekwynagrodzen.findByRokWyplAngaz", query = "SELECT p FROM Pasekwynagrodzen p WHERE p.rokwypl = :rok AND p.kalendarzmiesiac.umowa.angaz = :angaz"),
-    @NamedQuery(name = "Pasekwynagrodzen.findByRokMcAngaz", query = "SELECT p FROM Pasekwynagrodzen p WHERE p.rok = :rok AND p.mc = :mc AND p.kalendarzmiesiac.umowa.angaz = :angaz"),
-    @NamedQuery(name = "Pasekwynagrodzen.findByRokMcWyplAngaz", query = "SELECT p FROM Pasekwynagrodzen p WHERE p.rokwypl = :rok AND p.mcwypl = :mc AND p.kalendarzmiesiac.umowa.angaz = :angaz"),
+    @NamedQuery(name = "Pasekwynagrodzen.findByRokAngaz", query = "SELECT p FROM Pasekwynagrodzen p WHERE p.rok = :rok AND p.kalendarzmiesiac.angaz = :angaz"),
+    @NamedQuery(name = "Pasekwynagrodzen.findByRokWyplAngaz", query = "SELECT p FROM Pasekwynagrodzen p WHERE p.rokwypl = :rok AND p.kalendarzmiesiac.angaz = :angaz"),
+    @NamedQuery(name = "Pasekwynagrodzen.findByRokMcAngaz", query = "SELECT p FROM Pasekwynagrodzen p WHERE p.rok = :rok AND p.mc = :mc AND p.kalendarzmiesiac.angaz = :angaz"),
+    @NamedQuery(name = "Pasekwynagrodzen.findByRokMcWyplAngaz", query = "SELECT p FROM Pasekwynagrodzen p WHERE p.rokwypl = :rok AND p.mcwypl = :mc AND p.kalendarzmiesiac.angaz = :angaz"),
     @NamedQuery(name = "Pasekwynagrodzen.findById", query = "SELECT p FROM Pasekwynagrodzen p WHERE p.id = :id"),
     @NamedQuery(name = "Pasekwynagrodzen.findByBruttobezzus", query = "SELECT p FROM Pasekwynagrodzen p WHERE p.bruttobezzus = :bruttobezzus"),
     @NamedQuery(name = "Pasekwynagrodzen.findByBruttozus", query = "SELECT p FROM Pasekwynagrodzen p WHERE p.bruttozus = :bruttozus"),
@@ -65,7 +65,6 @@ import z.Z;
     @NamedQuery(name = "Pasekwynagrodzen.findByPraczdrowotnedoodliczenia", query = "SELECT p FROM Pasekwynagrodzen p WHERE p.praczdrowotnedoodliczenia = :praczdrowotnedoodliczenia"),
     @NamedQuery(name = "Pasekwynagrodzen.findByPraczdrowotnedopotracenia", query = "SELECT p FROM Pasekwynagrodzen p WHERE p.praczdrowotnedopotracenia = :praczdrowotnedopotracenia"),
     @NamedQuery(name = "Pasekwynagrodzen.findByRentowe", query = "SELECT p FROM Pasekwynagrodzen p WHERE p.rentowe = :rentowe"),
-    @NamedQuery(name = "Pasekwynagrodzen.findByUmowa", query = "SELECT p FROM Pasekwynagrodzen p WHERE p.kalendarzmiesiac.umowa = :umowa"),
     @NamedQuery(name = "Pasekwynagrodzen.findByWypadkowe", query = "SELECT p FROM Pasekwynagrodzen p WHERE p.wypadkowe = :wypadkowe")})
 public class Pasekwynagrodzen implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -546,11 +545,11 @@ public class Pasekwynagrodzen implements Serializable {
     }
 
     public String getNazwiskoImie() {
-        return this.kalendarzmiesiac.getUmowa().getAngaz().getPracownik().getNazwiskoImie();
+        return this.kalendarzmiesiac.getAngaz().getPracownik().getNazwiskoImie();
     }
     
     public String getPesel() {
-        return this.kalendarzmiesiac.getUmowa().getAngaz().getPracownik().getPesel();
+        return this.kalendarzmiesiac.getAngaz().getPracownik().getPesel();
     }
 
     public double getBruttobezzus() {
@@ -954,8 +953,8 @@ public class Pasekwynagrodzen implements Serializable {
 
     public boolean isUlgadlaKlasySredniej () {
         boolean zwrot = false;
-        if (this.kalendarzmiesiac!=null && this.kalendarzmiesiac.getUmowa()!=null && this.kalendarzmiesiac.getUmowa().getAngaz()!=null) {
-            zwrot = this.kalendarzmiesiac.getUmowa().getAngaz().getPracownik().isUlgadlaklasysredniej();
+        if (this.kalendarzmiesiac!=null && this.kalendarzmiesiac.getAngaz()!=null) {
+            zwrot = this.kalendarzmiesiac.getAngaz().getPracownik().isUlgadlaklasysredniej();
         }
         return zwrot;
     }
@@ -1045,10 +1044,10 @@ public class Pasekwynagrodzen implements Serializable {
                 wiersz.dniprzepracowane = p.getDnifaktyczne();
                 wiersz.godzinyobowiazku = p.getGodzinynalezne();
                 wiersz.godzinyprzepracowane = p.getGodzinyfaktyczne();
-                if (p.getPasekwynagrodzen().getKalendarzmiesiac().getUmowa().getUmowakodzus().isPraca()) {
+                try {
                     wiersz.setUrlopSP(p.getSkl_dod_1()!=null&&p.getSkl_dod_1().equals('T'));
                     wiersz.setRedukcjaSP(p.getSkl_rodzaj()!=null&&p.getSkl_rodzaj().equals('U'));
-                }
+                } catch (Exception e){}
                 zwrot.add(wiersz);
             }
         }

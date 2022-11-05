@@ -35,7 +35,7 @@ public class OddelegowanieTabela {
     private String rokmcprzekroczenia;
 
     public OddelegowanieTabela(Oddelegowanie p) {
-        this.pracownik = p.getUmowa().getPracownik();
+        this.pracownik = p.getAngaz().getPracownik();
         this.rok = p.getRok();
         switch (p.getMc()) {
             case "01":

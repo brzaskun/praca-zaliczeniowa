@@ -5,10 +5,10 @@
  */
 package dao;
 
+import entity.Angaz;
 import entity.Dzien;
 import entity.FirmaKadry;
 import entity.Kalendarzmiesiac;
-import entity.Umowa;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -112,26 +112,26 @@ public class KalendarzmiesiacFacade  extends DAO implements Serializable {
         super.create(entity);
     }
    
-    public Kalendarzmiesiac findByRokMcUmowa(Umowa umowa, String rok, String mc) {
+    public Kalendarzmiesiac findByRokMcAngaz(Angaz angaz, String rok, String mc) {
         Kalendarzmiesiac zwrot = null;
         try {
-            zwrot = (Kalendarzmiesiac) getEntityManager().createNamedQuery("Kalendarzmiesiac.findByRokMcUmowa").setParameter("rok", rok).setParameter("mc", mc).setParameter("umowa", umowa).getSingleResult();
+            zwrot = (Kalendarzmiesiac) getEntityManager().createNamedQuery("Kalendarzmiesiac.findByRokMcAngaz").setParameter("rok", rok).setParameter("mc", mc).setParameter("angaz", angaz).getSingleResult();
         } catch (Exception e) {}
         return zwrot;
     }
     
-    public List<Kalendarzmiesiac> findByRokUmowa(Umowa umowa, String rok) {
+    public List<Kalendarzmiesiac> findByRokAngaz(Angaz angaz, String rok) {
         List<Kalendarzmiesiac> zwrot = new ArrayList<>();
         try {
-            zwrot = getEntityManager().createNamedQuery("Kalendarzmiesiac.findByRokUmowa").setParameter("rok", rok).setParameter("umowa", umowa).getResultList();
+            zwrot = getEntityManager().createNamedQuery("Kalendarzmiesiac.findByRokAngaz").setParameter("rok", rok).setParameter("angaz", angaz).getResultList();
         } catch (Exception e) {}
         return zwrot;
     }
     
-    public List<Kalendarzmiesiac> findByUmowa(Umowa umowa) {
+    public List<Kalendarzmiesiac> findByAngaz(Angaz angaz) {
         List<Kalendarzmiesiac> zwrot = new ArrayList<>();
         try {
-            zwrot = getEntityManager().createNamedQuery("Kalendarzmiesiac.findByUmowa").setParameter("umowa", umowa).getResultList();
+            zwrot = getEntityManager().createNamedQuery("Kalendarzmiesiac.findByAngaz").setParameter("angaz", angaz).getResultList();
         } catch (Exception e) {}
         return zwrot;
     }
@@ -144,30 +144,7 @@ public class KalendarzmiesiacFacade  extends DAO implements Serializable {
         return zwrot;
     }
     
-    public List<Kalendarzmiesiac> findByFirmaRokMcPraca(FirmaKadry firma, String rok, String mc) {
-        List<Kalendarzmiesiac> zwrot = new ArrayList<>();
-        try {
-            zwrot = getEntityManager().createNamedQuery("Kalendarzmiesiac.findByFirmaRokMcPraca").setParameter("rok", rok).setParameter("mc", mc).setParameter("firma", firma).getResultList();
-        } catch (Exception e) {}
-        return zwrot;
-    }
-    
-    public List<Kalendarzmiesiac> findByFirmaRokMcZlecenie(FirmaKadry firma, String rok, String mc) {
-        List<Kalendarzmiesiac> zwrot = new ArrayList<>();
-        try {
-            zwrot = getEntityManager().createNamedQuery("Kalendarzmiesiac.findByFirmaRokMcZlecenie").setParameter("rok", rok).setParameter("mc", mc).setParameter("firma", firma).getResultList();
-        } catch (Exception e) {}
-        return zwrot;
-    }
-    
-    public List<Kalendarzmiesiac> findByFirmaRokMcFunkcja(FirmaKadry firma, String rok, String mc) {
-        List<Kalendarzmiesiac> zwrot = new ArrayList<>();
-        try {
-            zwrot = getEntityManager().createNamedQuery("Kalendarzmiesiac.findByFirmaRokMcFunkcja").setParameter("rok", rok).setParameter("mc", mc).setParameter("firma", firma).getResultList();
-        } catch (Exception e) {}
-        return zwrot;
-    }
-    
+       
     public List<Kalendarzmiesiac> findByFirmaRokMcNierezydent(FirmaKadry firma, String rok, String mc) {
         List<Kalendarzmiesiac> zwrot = new ArrayList<>();
         try {

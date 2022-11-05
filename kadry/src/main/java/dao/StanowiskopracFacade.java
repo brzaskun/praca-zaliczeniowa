@@ -5,8 +5,8 @@
  */
 package dao;
 
+import entity.Angaz;
 import entity.Stanowiskoprac;
-import entity.Umowa;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,9 +46,9 @@ public class StanowiskopracFacade extends DAO  implements Serializable {
         super.em = em;
     }
     
-    public List<Stanowiskoprac> findByUmowa(Umowa umowa) {
+    public List<Stanowiskoprac> findByAngaz(Angaz angaz) {
         List<Stanowiskoprac> zwrot = new ArrayList<>();
-        zwrot = getEntityManager().createNamedQuery("Stanowiskoprac.findByUmowa").setParameter("umowa", umowa).getResultList();
+        zwrot = getEntityManager().createNamedQuery("Stanowiskoprac.findByAngaz").setParameter("angaz", angaz).getResultList();
         return zwrot;
     }   
    

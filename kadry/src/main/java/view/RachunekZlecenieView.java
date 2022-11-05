@@ -96,7 +96,7 @@ public class RachunekZlecenieView  implements Serializable {
                         }
                     }
                 }
-                Kalendarzmiesiac kalendarz = kalendarzmiesiacFacade.findByRokMcUmowa(umowabiezaca, wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
+                Kalendarzmiesiac kalendarz = kalendarzmiesiacFacade.findByRokMcAngaz(umowabiezaca.getAngaz(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
                 if (trzebazrobicrachunek && kalendarz != null) {
                     rachunekdoumowyzlecenia = new Rachunekdoumowyzlecenia(umowabiezaca);
                     rachunekdoumowyzlecenia.setDataod(Data.pierwszyDzien(wpisView));
@@ -109,18 +109,18 @@ public class RachunekZlecenieView  implements Serializable {
                             rachunekdoumowyzlecenia.setDatado(datado);
                         }
                     }
-                    double kwota = umowabiezaca.pobierzwynagrodzenieKwota(wpisView.getRokWpisu(), wpisView.getMiesiacWpisu(), kalendarz);
+                    double kwota = umowabiezaca.getAngaz().pobierzwynagrodzenieKwota(wpisView.getRokWpisu(), wpisView.getMiesiacWpisu(), kalendarz);
                     double iloscgodzinzkalendarza = pobierzgodzinyzkalendarza();
                     rachunekdoumowyzlecenia.setIloscgodzin(iloscgodzinzkalendarza);
-                    if (umowabiezaca.czywynagrodzeniegodzinowe()) {
+                    if (umowabiezaca.getAngaz().czywynagrodzeniegodzinowe()) {
                         rachunekdoumowyzlecenia.setWynagrodzeniegodzinowe(kwota);
                         rachunekdoumowyzlecenia.setKwota(Z.z(rachunekdoumowyzlecenia.getWynagrodzeniegodzinowe() * iloscgodzinzkalendarza));
                     } else {
                         rachunekdoumowyzlecenia.setWynagrodzeniemiesieczne(kwota);
                         rachunekdoumowyzlecenia.setKwota(Z.z(kwota));
                     }
-                    rachunekdoumowyzlecenia.setProcentkosztowuzyskania(umowabiezaca.getKosztyuzyskaniaprocent());
-                    rachunekdoumowyzlecenia.setKoszt(Z.z(rachunekdoumowyzlecenia.getKwota() * umowabiezaca.getKosztyuzyskaniaprocent() / 100.0));
+                    rachunekdoumowyzlecenia.setProcentkosztowuzyskania(umowabiezaca.getAngaz().getKosztyuzyskaniaprocent());
+                    rachunekdoumowyzlecenia.setKoszt(Z.z(rachunekdoumowyzlecenia.getKwota() * umowabiezaca.getAngaz().getKosztyuzyskaniaprocent() / 100.0));
                 }
             } else {
                 Msg.msg("Pobrano zachowany rachunek");
@@ -130,7 +130,7 @@ public class RachunekZlecenieView  implements Serializable {
 
     private double pobierzgodzinyzkalendarza() {
         double zwrot = 0;
-        Kalendarzmiesiac kalendarz = kalendarzmiesiacFacade.findByRokMcUmowa(wpisView.getUmowa(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
+        Kalendarzmiesiac kalendarz = kalendarzmiesiacFacade.findByRokMcAngaz(wpisView.getAngaz(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
         double[] roboczegodz = kalendarz.roboczegodz();
         if (roboczegodz!=null) {
             zwrot = roboczegodz[1];
@@ -167,13 +167,13 @@ public class RachunekZlecenieView  implements Serializable {
         for (Rachunekdoumowyzlecenia p : lista) {
             if (p.getId()==null) {
                 if (p.getKwota()>0.0) {
-                    Skladnikwynagrodzenia skladnik = p.getUmowa().pobierzskladnikzlecenie();
+                    Skladnikwynagrodzenia skladnik = p.getUmowa().getAngaz().pobierzskladnikzlecenie();
                     skladnik.getZmiennawynagrodzeniaList().add(new Zmiennawynagrodzenia(p, skladnik));
                     rachunekdoumowyzleceniaFacade.create(p);
                     skladnikWynagrodzeniaFacade.edit(skladnik);
                 }
             } else {
-                Skladnikwynagrodzenia skladnik = p.getUmowa().pobierzskladnikzlecenie();
+                Skladnikwynagrodzenia skladnik = p.getUmowa().getAngaz().pobierzskladnikzlecenie();
                 Zmiennawynagrodzenia zmienna = skladnik.pobierzzmienna(p);
                 zmienna.setKwota(p.getKwota());
                 zmiennaWynagrodzeniaFacade.edit(zmienna);

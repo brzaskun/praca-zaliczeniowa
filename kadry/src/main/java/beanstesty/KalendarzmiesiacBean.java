@@ -6,7 +6,6 @@
 package beanstesty;
 
 import comparator.KalendarzmiesiacRMcomparator;
-import comparator.Umowacomparator;
 import data.Data;
 import embeddable.Mce;
 import entity.Dzien;
@@ -21,7 +20,6 @@ import entity.Rodzajwynagrodzenia;
 import entity.Skladnikpotracenia;
 import entity.Skladnikwynagrodzenia;
 import entity.Sredniadlanieobecnosci;
-import entity.Umowa;
 import entity.Zmiennawynagrodzenia;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -40,7 +38,7 @@ public class KalendarzmiesiacBean {
     public static Kalendarzmiesiac create() {
         if (kalendarzmiesiac==null) {
             kalendarzmiesiac = new Kalendarzmiesiac();
-            kalendarzmiesiac.setUmowa(UmowaBean.create());
+            kalendarzmiesiac.setAngaz(AngazBean.create());
             kalendarzmiesiac.setRok("2020");
             kalendarzmiesiac.setMc("12");
             kalendarzmiesiac.setDzienList(new ArrayList<>());
@@ -218,7 +216,7 @@ public class KalendarzmiesiacBean {
         double godzinyroboczewmiesiacu = dniroboczewmiesiacu * 8.0;
         String datastart = kalendarz.getPierwszyDzien();
         String dataend = kalendarz.getOstatniDzien();
-        for (Skladnikwynagrodzenia p : kalendarz.getUmowa().getSkladnikwynagrodzeniaList()) {
+        for (Skladnikwynagrodzenia p : kalendarz.getAngaz().getSkladnikwynagrodzeniaList()) {
             if (p.getRodzajwynagrodzenia().getKod().equals("11")) {
                 double skladnikistale = 0.0;
                 int i = 0;
@@ -279,7 +277,7 @@ public class KalendarzmiesiacBean {
         return false;
     }
     static void naliczskladnikiwynagrodzeniaDB(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasekwynagrodzen, double kurs) {
-        for (Skladnikwynagrodzenia p : kalendarz.getUmowa().getSkladnikwynagrodzeniaList()) {
+        for (Skladnikwynagrodzenia p : kalendarz.getAngaz().getSkladnikwynagrodzeniaList()) {
             if (p.getRodzajwynagrodzenia().getKod().equals("11")) {
                 Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = NaliczenieskladnikawynagrodzeniaBean.createWynagrodzenieDB(kalendarz, pasekwynagrodzen, p, kurs);
                 if (naliczenieskladnikawynagrodzenia.getKwotaumownazacalymc()!=0.0) {
@@ -315,10 +313,9 @@ public class KalendarzmiesiacBean {
     
     static boolean naliczskladnikiwynagrodzeniaDBZlecenie(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasekwynagrodzen, double kurs) {
         boolean jestoddelegowanie = false;
-        for (Skladnikwynagrodzenia p : kalendarz.getUmowa().getSkladnikwynagrodzeniaList()) {
+        for (Skladnikwynagrodzenia p : kalendarz.getAngaz().getSkladnikwynagrodzeniaList()) {
             if (p.getRodzajwynagrodzenia().getKod().equals("50")) {
-                Umowa umowa = kalendarz.getUmowa();
-                Rachunekdoumowyzlecenia rachunekdoumowyzlecenia = umowa.pobierzRachunekzlecenie(kalendarz.getRok(), kalendarz.getMc());
+                Rachunekdoumowyzlecenia rachunekdoumowyzlecenia = PasekwynagrodzenBean.pobierzRachunekzlecenie(kalendarz.getAngaz(),kalendarz.getRok(), kalendarz.getMc());
                 Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = NaliczenieskladnikawynagrodzeniaBean.createWynagrodzenieDBZlecenie(pasekwynagrodzen, p, kalendarz.getDzienList(), kurs, rachunekdoumowyzlecenia);
                 if (naliczenieskladnikawynagrodzenia.getKwotaumownazacalymc()!=0.0) {
                     pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().add(naliczenieskladnikawynagrodzenia);
@@ -333,9 +330,8 @@ public class KalendarzmiesiacBean {
     
     static boolean naliczskladnikiwynagrodzeniaDBFunkcja(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasekwynagrodzen, double kurs) {
         boolean jestoddelegowanie = false;
-        for (Skladnikwynagrodzenia p : kalendarz.getUmowa().getSkladnikwynagrodzeniaList()) {
+        for (Skladnikwynagrodzenia p : kalendarz.getAngaz().getSkladnikwynagrodzeniaList()) {
             if (p.getRodzajwynagrodzenia().getKod().equals("50")) {
-                Umowa umowa = kalendarz.getUmowa();
                 Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = NaliczenieskladnikawynagrodzeniaBean.createWynagrodzenieDBFunkcja(kalendarz, pasekwynagrodzen, p, kurs);
                 if (naliczenieskladnikawynagrodzenia.getKwotaumownazacalymc()!=0.0) {
                     pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().add(naliczenieskladnikawynagrodzenia);
@@ -350,9 +346,8 @@ public class KalendarzmiesiacBean {
     
     static boolean naliczskladnikiwynagrodzeniaDBNierezydent(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasekwynagrodzen, double kurs) {
         boolean jestoddelegowanie = false;
-        for (Skladnikwynagrodzenia p : kalendarz.getUmowa().getSkladnikwynagrodzeniaList()) {
+        for (Skladnikwynagrodzenia p : kalendarz.getAngaz().getSkladnikwynagrodzeniaList()) {
             if (p.getRodzajwynagrodzenia().getKod().equals("NZ")) {
-                Umowa umowa = kalendarz.getUmowa();
                 Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = NaliczenieskladnikawynagrodzeniaBean.createWynagrodzenieDBFunkcja(kalendarz, pasekwynagrodzen, p, kurs);
                 if (naliczenieskladnikawynagrodzenia.getKwotaumownazacalymc()!=0.0) {
                     pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().add(naliczenieskladnikawynagrodzenia);
@@ -366,13 +361,13 @@ public class KalendarzmiesiacBean {
     }
     
     static void naliczskladnikipotracenia(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasekwynagrodzen) {
-        for (Skladnikpotracenia p : kalendarz.getUmowa().getSkladnikpotraceniaList()) {
+        for (Skladnikpotracenia p : kalendarz.getAngaz().getSkladnikpotraceniaList()) {
             Naliczeniepotracenie naliczeniepotracenie = NaliczeniepotracenieBean.create();
             pasekwynagrodzen.getNaliczeniepotracenieList().add(naliczeniepotracenie);
         }
     }
     static void naliczskladnikipotraceniaDB(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasekwynagrodzen, double wolneodzajecia) {
-        for (Skladnikpotracenia p : kalendarz.getUmowa().getSkladnikpotraceniaList()) {
+        for (Skladnikpotracenia p : kalendarz.getAngaz().getSkladnikpotraceniaList()) {
             Naliczeniepotracenie naliczeniepotracenie = NaliczeniepotracenieBean.createPotracenieDB(pasekwynagrodzen, p, wolneodzajecia);
             if (naliczeniepotracenie!=null) {
                 pasekwynagrodzen.getNaliczeniepotracenieList().add(naliczeniepotracenie);
@@ -432,27 +427,23 @@ public class KalendarzmiesiacBean {
     
     private static double wyliczsredniachoroba(Kalendarzmiesiac kalendarz, Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia, Nieobecnosc nieobecnosc, Naliczenienieobecnosc naliczenienieobecnosc) {
         double zwrot = 0.0;
-        List<Umowa> listaumow = kalendarz.getUmowa().getAngaz().getUmowaList();
-        Collections.sort(listaumow, new Umowacomparator());
         List<Kalendarzmiesiac> kalendarze = new ArrayList<>();
         String rok = kalendarz.getRok();
         String mc = kalendarz.getMc();
         String[] poprzedniOkres = Data.poprzedniOkres(mc, rok);
         mc = poprzedniOkres[0];
         rok = poprzedniOkres[1];
-        for (Umowa p : listaumow) {
-            List<Kalendarzmiesiac> kalendarzmiesiacList = p.getKalendarzmiesiacList();
-            Collections.sort(kalendarzmiesiacList, new KalendarzmiesiacRMcomparator());
-            for (Kalendarzmiesiac kal : kalendarzmiesiacList) {
-                if (kal.getRok().equals(rok)&&kal.getMc().equals(mc)) {
-                    kalendarze.add(kal);
-                    poprzedniOkres = Data.poprzedniOkres(mc, rok);
-                    mc = poprzedniOkres[0];
-                    rok = poprzedniOkres[1];
-                }
-                if (kalendarze.size()==12) {
-                    break;
-                }
+        List<Kalendarzmiesiac> kalendarzmiesiacList = kalendarz.getAngaz().getKalendarzmiesiacList();
+        Collections.sort(kalendarzmiesiacList, new KalendarzmiesiacRMcomparator());
+        for (Kalendarzmiesiac kal : kalendarzmiesiacList) {
+            if (kal.getRok().equals(rok)&&kal.getMc().equals(mc)) {
+                kalendarze.add(kal);
+                poprzedniOkres = Data.poprzedniOkres(mc, rok);
+                mc = poprzedniOkres[0];
+                rok = poprzedniOkres[1];
+            }
+            if (kalendarze.size()==12) {
+                break;
             }
         }
         double dniroboczewmiesiacu = 0.0;
@@ -702,7 +693,7 @@ public class KalendarzmiesiacBean {
                 pasekwynagrodzen.getNaliczenienieobecnoscList().add(naliczenienieobecnosc);
             }
         }
-        List<Skladnikwynagrodzenia> listaskladnikowzmiennych = kalendarz.getUmowa().getSkladnikwynagrodzeniaList();
+        List<Skladnikwynagrodzenia> listaskladnikowzmiennych = kalendarz.getAngaz().getSkladnikwynagrodzeniaList();
         for (Skladnikwynagrodzenia skladnikwynagrodzenia : listaskladnikowzmiennych) {
             if (skladnikwynagrodzenia.getRodzajwynagrodzenia().getStale0zmienne1() == true&&skladnikwynagrodzenia.getRodzajwynagrodzenia().isSredniaurlopowakraj()==true) {
                 Naliczenienieobecnosc naliczenienieobecnosc = new Naliczenienieobecnosc();
@@ -747,8 +738,7 @@ public class KalendarzmiesiacBean {
      private static double wyliczsredniagodzinowaZmienne(Kalendarzmiesiac kalendarz, Skladnikwynagrodzenia skladnikwynagrodzenia, double liczbagodzinieobecnosci, double liczbagodzinobowiazku, Naliczenienieobecnosc naliczenienieobecnosc) {
         double sredniadopodstawy = 0.0;
         if (skladnikwynagrodzenia.getRodzajwynagrodzenia().getStale0zmienne1()==true) {
-              Umowa umowa = kalendarz.getUmowa();
-                List<Naliczenieskladnikawynagrodzenia> naliczonyskladnikdosredniej = umowa.pobierzpaski(kalendarz.getRok(), kalendarz.getMc(), skladnikwynagrodzenia);
+                List<Naliczenieskladnikawynagrodzenia> naliczonyskladnikdosredniej = kalendarz.getAngaz().pobierzpaski(kalendarz.getRok(), kalendarz.getMc(), skladnikwynagrodzenia);
                 double godzinyfaktyczne = 0.0;
                 double dnifaktyczne = 0.0;
                 double kwotywyplacone = 0.0;
@@ -1027,7 +1017,7 @@ public class KalendarzmiesiacBean {
 
     private static Skladnikwynagrodzenia pobierzskladnik(Kalendarzmiesiac kalendarz, String kodskladnika) {
         Skladnikwynagrodzenia zwrot = null;
-        for (Skladnikwynagrodzenia p : kalendarz.getUmowa().getSkladnikwynagrodzeniaList()) {
+        for (Skladnikwynagrodzenia p : kalendarz.getAngaz().getSkladnikwynagrodzeniaList()) {
             if (p.getRodzajwynagrodzenia().getKod().equals(kodskladnika)) {
                 zwrot = p;
                 break;
@@ -1048,8 +1038,6 @@ public class KalendarzmiesiacBean {
     }
 
     private static double obliczsredniadopodstawy(Kalendarzmiesiac kalendarz, Skladnikwynagrodzenia skladnikwynagrodzenia, Nieobecnosc nieobecnosc) {
-        Umowa umowa = kalendarz.getUmowa();
-        String dataod = umowa.getDataod();
         String rok = kalendarz.getRok();
         String mc = kalendarz.getMc();
         String dataodnieobecnoscdataod = nieobecnosc.getDataod();

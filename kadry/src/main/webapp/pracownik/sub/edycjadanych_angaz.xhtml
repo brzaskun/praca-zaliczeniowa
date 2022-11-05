@@ -182,6 +182,15 @@
                     </p:dataTable>
                 </p:panel>
             </h:form>
+             <h:form>
+                <p:outputPanel>
+                    <p:panel header="Uzupełnienie danych angażu #{angazView.selectedlista.pracownik.nazwiskoImie}"/>
+                    <p:panelGrid columns="2">
+                        <p:outputLabel value="koszty uzyskania procent" for="nazwisko" />
+                        <p:inputText id="nazwisko" value="#{angazView.selectedlista.kosztyuzyskaniaprocent}" title="koszty uzyskania procent" required="true" requiredMessage="Wpisz nazwisko"/>
+                    </p:panelGrid>
+                </p:outputPanel>
+            </h:form>
         </p:outputPanel>
      </p:panelGrid>
 </ui:composition>

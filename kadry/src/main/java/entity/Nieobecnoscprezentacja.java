@@ -20,6 +20,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -54,9 +55,10 @@ public class Nieobecnoscprezentacja implements Serializable {
     private int wykorzystanierokbiezacy;
     @Column(name = "wykorzystanierokbiezacyekwiwalent")
     private int wykorzystanierokbiezacyekwiwalent;
-    @JoinColumn(name = "umowa", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private Umowa umowa;
+    @NotNull
+    @JoinColumn(name = "angaz", referencedColumnName = "id")
+    @ManyToOne()
+    private Angaz angaz;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "urlopprezentacja")
     private List<Nieobecnoscwykorzystanie> nieobecnoscwykorzystanieList;
 
@@ -69,8 +71,8 @@ public class Nieobecnoscprezentacja implements Serializable {
         this.id = id;
     }
 
-    public Nieobecnoscprezentacja(Umowa umowa, String rok) {
-        this.umowa = umowa;
+    public Nieobecnoscprezentacja(Angaz angaz, String rok) {
+        this.angaz = angaz;
         this.rok = rok;
     }
 
@@ -160,14 +162,15 @@ public class Nieobecnoscprezentacja implements Serializable {
         this.wykorzystanierokbiezacyekwiwalent = wykorzystanierokbiezacyekwiwalent;
     }
 
-    
-    public Umowa getUmowa() {
-        return umowa;
+    public Angaz getAngaz() {
+        return angaz;
     }
 
-    public void setUmowa(Umowa umowa) {
-        this.umowa = umowa;
+    public void setAngaz(Angaz angaz) {
+        this.angaz = angaz;
     }
+
+   
 
     @XmlTransient
     public List<Nieobecnoscwykorzystanie> getNieobecnoscwykorzystanieList() {

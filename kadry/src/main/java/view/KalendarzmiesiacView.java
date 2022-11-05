@@ -58,13 +58,13 @@ public class KalendarzmiesiacView  implements Serializable {
     public void init() {
         Kalendarzmiesiac szukany = null;
         if (wpisView.getUmowa()!=null) {
-             szukany  = kalendarzmiesiacFacade.findByRokMcUmowa(wpisView.getUmowa(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
+             szukany  = kalendarzmiesiacFacade.findByRokMcAngaz(wpisView.getAngaz(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
         }
         if (szukany==null) {
             selected.setRok(wpisView.getRokWpisu());
             selected.setMc(wpisView.getMiesiacWpisu());
         } else {
-            selected  = kalendarzmiesiacFacade.findByRokMcUmowa(wpisView.getUmowa(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
+            selected  = kalendarzmiesiacFacade.findByRokMcAngaz(wpisView.getAngaz(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
         }
         listaumowa = new ArrayList<>();
         try {
@@ -103,7 +103,7 @@ public class KalendarzmiesiacView  implements Serializable {
             try {
                 kalendarzmiesiacFacade.remove(selected);
                 selected = null;
-                listakalendarzeprac = kalendarzmiesiacFacade.findByRokUmowa(wpisView.getUmowa(), wpisView.getRokWpisu());
+                listakalendarzeprac = kalendarzmiesiacFacade.findByRokAngaz(wpisView.getAngaz(), wpisView.getRokWpisu());
                 Msg.msg("Usunięto kalendarz");
             } catch (Exception e) {
             }
@@ -116,7 +116,7 @@ public class KalendarzmiesiacView  implements Serializable {
     public void reset() {
       if (selected!=null) {
           try {
-            Kalendarzwzor kalendarzwzor = kalendarzwzorFacade.findByFirmaRokMc(selected.getUmowa().getAngaz().getFirma(), selected.getRok(), selected.getMc());
+            Kalendarzwzor kalendarzwzor = kalendarzwzorFacade.findByFirmaRokMc(selected.getAngaz().getFirma(), selected.getRok(), selected.getMc());
             if (kalendarzwzor!=null) {
                 Set<Nieobecnosc> nieobecnosci = new HashSet<>();
                 for (Dzien p : selected.getDzienList()) {
@@ -144,19 +144,19 @@ public class KalendarzmiesiacView  implements Serializable {
     }
     
     public void zrobkalendarzumowa() {
-        if (selected.getUmowa()==null) {
-            selected.setUmowa(wpisView.getUmowa());
+        if (selected.getAngaz()==null) {
+            selected.setAngaz(wpisView.getAngaz());
         }
-        if (selected!=null && selected.getUmowa()!=null) {
+        if (selected!=null && selected.getAngaz()!=null) {
             if (selected.getRok()!=null&&selected.getMc()!=null) {
-                Kalendarzmiesiac szukany = kalendarzmiesiacFacade.findByRokMcUmowa(selected.getUmowa(), selected.getRok(), selected.getMc());
+                Kalendarzmiesiac szukany = kalendarzmiesiacFacade.findByRokMcAngaz(selected.getAngaz(), selected.getRok(), selected.getMc());
                 if (szukany !=null) {
-                    selected = kalendarzmiesiacFacade.findByRokMcUmowa(selected.getUmowa(), selected.getRok(), selected.getMc());
+                    selected = kalendarzmiesiacFacade.findByRokMcAngaz(selected.getAngaz(), selected.getRok(), selected.getMc());
                     Msg.msg("Pobrano z bazy zachowany kalendarz");
                 } else {
-                    Kalendarzwzor znaleziono = kalendarzwzorFacade.findByFirmaRokMc(selected.getUmowa().getAngaz().getFirma(), selected.getRok(), selected.getMc());
+                    Kalendarzwzor znaleziono = kalendarzwzorFacade.findByFirmaRokMc(selected.getAngaz().getFirma(), selected.getRok(), selected.getMc());
                     if (znaleziono!=null) {
-                        selected.ganerujdnizwzrocowego(znaleziono, null, selected.getUmowa().getEtatList());
+                        selected.ganerujdnizwzrocowego(znaleziono, null, selected.getAngaz().getEtatList());
                         Msg.msg("Pobrano dane z kalendarza wzorcowego z bazy danych");
                     } else {
                         KalendarzmiesiacBean.create(selected);
@@ -182,12 +182,12 @@ public class KalendarzmiesiacView  implements Serializable {
                     Kalendarzmiesiac kal = new Kalendarzmiesiac();
                     kal.setRok(wpisView.getRokWpisu());
                     kal.setMc(mc);
-                    kal.setUmowa(wpisView.getUmowa());
-                    Kalendarzmiesiac kalmiesiac = kalendarzmiesiacFacade.findByRokMcUmowa(wpisView.getUmowa(), wpisView.getRokWpisu(), mc);
+                    kal.setAngaz(wpisView.getAngaz());
+                    Kalendarzmiesiac kalmiesiac = kalendarzmiesiacFacade.findByRokMcAngaz(wpisView.getAngaz(), wpisView.getRokWpisu(), mc);
                     if (kalmiesiac==null) {
-                        Kalendarzwzor znaleziono = kalendarzwzorFacade.findByFirmaRokMc(kal.getUmowa().getAngaz().getFirma(), kal.getRok(), mc);
+                        Kalendarzwzor znaleziono = kalendarzwzorFacade.findByFirmaRokMc(kal.getAngaz().getFirma(), kal.getRok(), mc);
                         if (znaleziono!=null) {
-                            kal.ganerujdnizwzrocowego(znaleziono, dzienod, selected.getUmowa().getEtatList());
+                            kal.ganerujdnizwzrocowego(znaleziono, dzienod, wpisView.getAngaz().getEtatList());
                             kalendarzmiesiacFacade.create(kal);
                             dzienod = null;
                             kalendarze.add(kal);
@@ -200,11 +200,11 @@ public class KalendarzmiesiacView  implements Serializable {
                 }
             }
             Kalendarzmiesiac kalendarz = kalendarze.stream().filter(p->p.getRok().equals(rok)&&p.getMc().equals(mcu)).findFirst().get();
-            List<Nieobecnosc> zatrudnieniewtrakciemiesiaca = PasekwynagrodzenBean.generuj(wpisView.getUmowa(),rodzajnieobecnosciFacade, rok, mcu, kalendarz);
+            List<Nieobecnosc> zatrudnieniewtrakciemiesiaca = PasekwynagrodzenBean.generuj(wpisView.getAngaz(), wpisView.getUmowa().getDataod(), wpisView.getUmowa().getDatado(),rodzajnieobecnosciFacade, rok, mcu, kalendarz);
             if (zatrudnieniewtrakciemiesiaca!=null) {
               nieobecnoscFacade.createList(zatrudnieniewtrakciemiesiaca);
             }
-            listakalendarzeprac = kalendarzmiesiacFacade.findByRokUmowa(wpisView.getUmowa(), wpisView.getRokWpisu());
+            listakalendarzeprac = kalendarzmiesiacFacade.findByRokAngaz(wpisView.getAngaz(), wpisView.getRokWpisu());
             Msg.msg("Pobrano dane z kalendarza wzorcowego z bazy danych i utworzono kalendarze pracownika");
         } else {
             Msg.msg("e","Nie wybrano pracownika i umowy");
@@ -213,7 +213,7 @@ public class KalendarzmiesiacView  implements Serializable {
     
     public void pobierzkalendarzeprac() {
         if (wpisView.getAngaz()!=null && wpisView.getPracownik()!=null && wpisView.getUmowa()!=null) {
-            listakalendarzeprac = kalendarzmiesiacFacade.findByRokUmowa(wpisView.getUmowa(), wpisView.getRokWpisu());
+            listakalendarzeprac = kalendarzmiesiacFacade.findByRokAngaz(wpisView.getAngaz(), wpisView.getRokWpisu());
         } else {
             Msg.msg("e","Nie mozna pobrac kalendarza. Nie wybrano pracownika i umowy");
         }

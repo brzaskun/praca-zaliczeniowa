@@ -5,9 +5,9 @@
  */
 package dao;
 
+import entity.Angaz;
 import entity.EtatPrac;
 import entity.Pracownik;
-import entity.Umowa;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,9 +56,9 @@ public class EtatPracFacade extends DAO implements Serializable {
         return zwrot;
     }
     
-    public List<EtatPrac> findByUmowa(Umowa umowa) {
+    public List<EtatPrac> findByAngaz(Angaz angaz) {
         List<EtatPrac> zwrot = new ArrayList<>();
-        zwrot = getEntityManager().createNamedQuery("EtatPrac.findByUmowa").setParameter("umowa", umowa).getResultList();
+        zwrot = getEntityManager().createNamedQuery("EtatPrac.findByAngaz").setParameter("angaz", angaz).getResultList();
         return zwrot;
     }
 }

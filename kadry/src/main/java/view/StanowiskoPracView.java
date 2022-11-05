@@ -35,14 +35,14 @@ public class StanowiskoPracView implements Serializable {
     
     @PostConstruct
     public void init() {
-        selected.setUmowa(wpisView.getUmowa());
-        lista = stanowiskopracFacade.findByUmowa(wpisView.getUmowa());
+        selected.setAngaz(wpisView.getAngaz());
+        lista = stanowiskopracFacade.findByAngaz(wpisView.getAngaz());
     }
     
     public void create() {
       if (selected!=null && wpisView.getUmowa()!=null) {
           try {
-            selected.setUmowa(wpisView.getUmowa());
+            selected.setAngaz(wpisView.getAngaz());
             stanowiskopracFacade.create(selected);
             lista.add(selected);
             selected = new Stanowiskoprac();

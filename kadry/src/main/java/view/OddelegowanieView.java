@@ -16,6 +16,7 @@ import entity.Angaz;
 import entity.Kalendarzmiesiac;
 import entity.Pasekwynagrodzen;
 import entity.Podatki;
+import entity.Pracownik;
 import entity.Umowa;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -58,13 +59,10 @@ public class OddelegowanieView  implements Serializable {
         lata.add("2020");
         lata.add("2021");
         for (Angaz a : angaze) {
-            List<Kalendarzmiesiac> kalendarze = new ArrayList<>();
-            for (Umowa u : a.getUmowaList()) {
-                kalendarze.addAll(kalendarzmiesiacFacade.findByUmowa(u));
-            }
+            List<Kalendarzmiesiac> kalendarze = kalendarzmiesiacFacade.findByAngaz(a);
             List<Pasekwynagrodzen> paski = new ArrayList<>();
             for (Umowa u : a.getUmowaList()) {
-                paski.addAll(pasekwynagrodzenFacade.findByUmowa(u));
+                //paski.addAll(pasekwynagrodzenFacade.findByUmowa(u));
             }
             for (String rok : lata) {
                  List<Podatki> stawkipodatkowe = podatkiFacade.findByRokUmowa(rok, "P");
@@ -83,7 +81,7 @@ public class OddelegowanieView  implements Serializable {
                 if (tabela.isEmpty()) {
                     tabela.add(new OddelegowanieTabela(p));
                 } else {
-                    OddelegowanieTabela doedycji = pobierzrok(tabela, p.getUmowa(), p.getRok());
+                    OddelegowanieTabela doedycji = pobierzrok(tabela, p.getAngaz().getPracownik(), p.getRok());
                     if (doedycji==null) {
                         tabela.add(new OddelegowanieTabela(p));
                     } else {
@@ -179,10 +177,10 @@ public class OddelegowanieView  implements Serializable {
         System.out.println("");
     }
 
-    private OddelegowanieTabela pobierzrok(List<OddelegowanieTabela> tabela, Umowa umowa, String rok) {
+    private OddelegowanieTabela pobierzrok(List<OddelegowanieTabela> tabela, Pracownik pracownik, String rok) {
         OddelegowanieTabela zwrot = null;
         for (OddelegowanieTabela t : tabela) {
-            if (t.getPracownik().equals(umowa.getPracownik())&&t.getRok().equals(rok)) {
+            if (t.getPracownik().equals(pracownik)&&t.getRok().equals(rok)) {
                 zwrot = t;
             }
         }

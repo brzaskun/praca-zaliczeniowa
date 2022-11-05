@@ -55,7 +55,8 @@ public class UmowaReminder {
             listaszkoleniabhp.addAll(a.getUmowaList().stream().filter(p->p.isAktywna()).collect(Collectors.toList()));
         }
         if (listaszkoleniabhp!=null) {
-            for (Umowa u : listaszkoleniabhp) {
+            for (Umowa um : listaszkoleniabhp) {
+                Angaz u =um.getAngaz();
                 if (u.getDataszkolenie5lat()!=null&&!u.getDataszkolenie5lat().equals("")) {
                     LocalDate today = LocalDate.parse(u.getDataszkolenie5lat()) ;
                     LocalDate tomorrow = today.plusDays(1804) ;

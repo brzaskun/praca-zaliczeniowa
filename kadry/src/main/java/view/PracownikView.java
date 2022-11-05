@@ -85,7 +85,7 @@ public class PracownikView  implements Serializable {
                     }
                     wpisView.setAngaz(null);
                 }
-                if (wpisView.getUmowa() != null && wpisView.getUmowa().getAngaz().getPracownik().equals(pracownik)) {
+                if (wpisView.getUmowa() != null && wpisView.getAngaz().getPracownik().equals(pracownik)) {
                     wpisView.setUmowa(null);
                 }
                 pracownikFacade.remove(pracownik);
@@ -113,7 +113,7 @@ public class PracownikView  implements Serializable {
                     }
                     wpisView.setAngaz(null);
                 }
-                if (wpisView.getUmowa() != null && wpisView.getUmowa().getAngaz().getPracownik().equals(pracownik)) {
+                if (wpisView.getUmowa() != null && wpisView.getAngaz().getPracownik().equals(pracownik)) {
                     wpisView.setUmowa(null);
                 }
                 pracownikFacade.remove(pracownik);

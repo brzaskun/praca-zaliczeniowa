@@ -115,7 +115,7 @@ public class NieobecnoscView  implements Serializable {
     public void init() {
         if (wpisView.getUmowa()!=null) {
             lista  = nieobecnoscFacade.findByUmowa(wpisView.getUmowa());
-            selected.setUmowa(wpisView.getUmowa());
+            selected.setAngaz(wpisView.getAngaz());
             if (pokazcalyrok==false) {
                 lista = lista.stream().filter(p->p.getRokod().equals(wpisView.getRokWpisu())||p.getRokdo().equals(wpisView.getRokWpisu())).collect(Collectors.toList());
             }
@@ -164,7 +164,7 @@ public class NieobecnoscView  implements Serializable {
                 selected.setDnikalendarzowe(iloscdni+1.0);
                 nieobecnoscFacade.create(selected);
                 lista.add(selected);
-                selected = new Nieobecnosc(wpisView.getUmowa());
+                selected = new Nieobecnosc(wpisView.getAngaz());
                 Msg.msg("Dodano nieobecność");
             } else {
                 selected.setRokod(Data.getRok(selected.getDataod()));
@@ -176,7 +176,7 @@ public class NieobecnoscView  implements Serializable {
                 double iloscdni = DAYS.between(oddata,dodata);
                 selected.setDnikalendarzowe(iloscdni+1.0);
                 nieobecnoscFacade.edit(selected);
-                selected = new Nieobecnosc(wpisView.getUmowa());
+                selected = new Nieobecnosc(wpisView.getAngaz());
                 Msg.msg("Edytowano nieobecność");
             }
           } catch (Exception e) {
@@ -190,7 +190,7 @@ public class NieobecnoscView  implements Serializable {
           try {
             for (Pracownik p : listapracownikow.getTarget()) {
                 Nieobecnosc nowa = new Nieobecnosc();
-                nowa.setUmowa(umowaFacade.findPracownikAktywna(p));
+                nowa.setAngaz(wpisView.getAngaz());
                 nowa.setDataod(selected.getDataod());
                 nowa.setDatado(selected.getDatado());
                 nowa.setRokod(Data.getRok(selected.getDataod()));
@@ -285,7 +285,7 @@ public class NieobecnoscView  implements Serializable {
                         String mcdo = nieobecnosc.getMcdo();
                         for (String mc : Mce.getMceListS()) {
                             if (Data.jestrownywiekszy(mc, mcod) && Data.jestrownywiekszy(mcdo, mc)) {
-                                Kalendarzmiesiac znaleziony = kalendarzmiesiacFacade.findByRokMcUmowa(nieobecnosc.getUmowa(), wpisView.getRokWpisu(), mc);
+                                Kalendarzmiesiac znaleziony = kalendarzmiesiacFacade.findByRokMcAngaz(nieobecnosc.getAngaz(), wpisView.getRokWpisu(), mc);
                                 if (znaleziony != null) {
                                     if (nieobecnosc.getRokod().equals(wpisView.getRokWpisu()) || nieobecnosc.getRokdo().equals(wpisView.getRokWpisu())) {
                                         int dniroboczenieobecnosci = znaleziony.naniesnieobecnosc(nieobecnosc);
@@ -368,7 +368,7 @@ public class NieobecnoscView  implements Serializable {
                 error.E.s("");
             }
             if (zwrot != null) {
-                Nieobecnosc nieob = new Nieobecnosc(zwrot, wpisView.getUmowa());
+                Nieobecnosc nieob = new Nieobecnosc(zwrot, wpisView.getAngaz());
                 nieob.setSwiadczeniekodzus(nieobecnosckodzusFacade.findByKod("CH"));
                 nieob.setId(999);
                 nieob.setPobranaZUS(true);

@@ -1,0 +1,187 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    >
+     <p:panelGrid columns="2" columnClasses="twenty-percent, eighty-percent" style="height: 300px;width: 1700px;">
+        <p:outputPanel style="height: 300px">
+            <h:form id="AngazCreateForm">
+                <h:panelGroup id="display">
+                    <p:panel header="Wybór pracownika do angażu w firmie #{wpisView.firma.nazwa}"/>
+                    <p:panelGrid columns="2" rendered="#{angazView.selected != null}">
+                        <p:outputLabel value="pracownik" for="pracownik" />
+                        <p:autoComplete id="pracownik" value="#{angazView.selected.pracownik}" required="true" requiredMessage="Wybierz pracownika" converter="#{pracownikConverter}"
+                                        widgetVar="angazpracownik" completeMethod="#{angazView.complete}"
+                                        var="prac" itemLabel="#{prac.nazwiskoImie}" itemValue="#{prac}"  title="wpisz nazwisko lub pesel kontrahenta"
+                                        minQueryLength="3" maxResults="12" maxlength="10" converterMessage="Nieudana konwersja pracownika" queryDelay="5"
+                                        forceSelection="true" styleClass="wpisywaniekontrfk" moreText="jest więcej pasujących pozycji"
+                                        >
+                            <p:ajax event="query" global="false"/>
+                            <p:ajax event="itemSelect" partialSubmit="true" global="false"/>
+                            <f:facet name="itemtip">  
+                                <h:panelGrid  columns="2" cellpadding="5" width="400">  
+                                    <f:facet name="header">  
+                                        <h:outputText value="Dane pracownika"/>
+                                    </f:facet>  
+                                    <h:outputText value="Nazwisko: " />  
+                                    <h:outputText value="#{prac.nazwisko}" />  
+                                    <h:outputText value="Imię: " />  
+                                    <h:outputText value="#{prac.imie}" />  
+                                    <h:outputText value="Pesel: " />  
+                                    <h:outputText value="#{prac.pesel}" /> 
+                                </h:panelGrid>
+                            </f:facet>
+                        </p:autoComplete>
+                         <p:outputLabel value="rok" for="rok" />
+                            <p:inputText id="rok" value="#{angazView.selected.rok}" title="rok" >
+                            </p:inputText>
+                            <p:outputLabel value="miesiąc" for="mc" />
+                            <p:inputText id="mc" value="#{angazView.selected.mc}" title="miesiąc" >
+                            </p:inputText>
+                    </p:panelGrid>
+          
+  <!--                    <p:panel header="Podatki"/>
+                  <p:panelGrid columns="2" rendered="#{angazView.lista != null}">
+                        <p:outputLabel value="#{bundle.CreatePodatekLabel_odliczaculgepodatkowa}" for="odliczaculgepodatkowa" />
+                        <p:selectBooleanCheckbox id="odliczaculgepodatkowa" value="#{angazView.selected.podatek.odliczaculgepodatkowa}" />
+                        <p:outputLabel value="#{bundle.CreatePodatekLabel_kosztyuzyskania}" for="kosztyuzyskania" />
+                        <p:inputNumber id="kosztyuzyskania" value="#{angazView.selected.podatek.kosztyuzyskania}" title="#{bundle.CreatePodatekTitle_kosztyuzyskania}" required="true" requiredMessage="#{bundle.CreatePodatekRequiredMessage_kosztyuzyskania}"
+                                       decimalPlaces="2" thousandSeparator="&#160;"  inputStyle="text-align: right;" symbol=" zł" symbolPosition="s" decimalSeparator=","/>
+                    </p:panelGrid>
+                    <p:panel header="ZUS"/>
+                    <p:panelGrid columns="2" rendered="#{angazView.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateUbezpieczenieLabel_kodubezpieczenia}" for="kodubezpieczenia" />
+                        <p:inputText id="kodubezpieczenia" value="#{angazView.selected.ubezpieczenie.kodubezpieczenia}" title="#{bundle.CreateUbezpieczenieTitle_kodubezpieczenia}" required="true" requiredMessage="#{bundle.CreateUbezpieczenieRequiredMessage_kodubezpieczenia}"/>
+                        <p:outputLabel value="#{bundle.CreateUbezpieczenieLabel_kodzawodu}" for="kodzawodu" />
+                        <p:inputText id="kodzawodu" value="#{angazView.selected.ubezpieczenie.kodzawodu}" title="#{bundle.CreateUbezpieczenieTitle_kodzawodu}" required="true" requiredMessage="#{bundle.CreateUbezpieczenieRequiredMessage_kodzawodu}"/>
+                        <p:outputLabel value="#{bundle.CreateUbezpieczenieLabel_nfz}" for="nfz" />
+                        <p:inputText id="nfz" value="#{angazView.selected.ubezpieczenie.nfz}" title="#{bundle.CreateUbezpieczenieTitle_nfz}" />
+                        <p:outputLabel value="#{bundle.CreateUbezpieczenieLabel_datanfz}" for="datanfz" />
+                        <p:inputText id="datanfz" value="#{angazView.selected.ubezpieczenie.datanfz}" title="#{bundle.CreateUbezpieczenieTitle_datanfz}" />
+                        <p:outputLabel value="#{bundle.CreateUbezpieczenieLabel_dataspoleczne}" for="dataspoleczne" />
+                        <p:inputText id="dataspoleczne" value="#{angazView.selected.ubezpieczenie.dataspoleczne}" title="#{bundle.CreateUbezpieczenieTitle_dataspoleczne}" />
+                        <p:outputLabel value="#{bundle.CreateUbezpieczenieLabel_datazdrowotne}" for="datazdrowotne" />
+                        <p:inputText id="datazdrowotne" value="#{angazView.selected.ubezpieczenie.datazdrowotne}" title="#{bundle.CreateUbezpieczenieTitle_datazdrowotne}" />
+                        <p:outputLabel value="#{bundle.CreateUbezpieczenieLabel_emerytalne}" for="emerytalne" />
+                        <p:selectBooleanCheckbox id="emerytalne" value="#{angazView.selected.ubezpieczenie.emerytalne}" />
+                        <p:outputLabel value="#{bundle.CreateUbezpieczenieLabel_rentowe}" for="rentowe" />
+                        <p:selectBooleanCheckbox id="rentowe" value="#{angazView.selected.ubezpieczenie.rentowe}" />
+                        <p:outputLabel value="#{bundle.CreateUbezpieczenieLabel_chorobowe}" for="chorobowe" />
+                        <p:selectBooleanCheckbox id="chorobowe" value="#{angazView.selected.ubezpieczenie.chorobowe}" />
+                        <p:outputLabel value="#{bundle.CreateUbezpieczenieLabel_chorobowedobrowolne}" for="chorobowedobrowolne" />
+                        <p:selectBooleanCheckbox id="chorobowedobrowolne" value="#{angazView.selected.ubezpieczenie.chorobowedobrowolne}" />
+                        <p:outputLabel value="#{bundle.CreateUbezpieczenieLabel_wypadkowe}" for="wypadkowe" />
+                        <p:selectBooleanCheckbox id="wypadkowe" value="#{angazView.selected.ubezpieczenie.wypadkowe}" />
+                        <p:outputLabel value="#{bundle.CreateUbezpieczenieLabel_zdrowotne}" for="zdrowotne" />
+                        <p:selectBooleanCheckbox id="zdrowotne" value="#{angazView.selected.ubezpieczenie.zdrowotne}" />
+                        <p:outputLabel value="#{bundle.CreateUbezpieczenieLabel_nieliczFP}" for="nieliczFP" />
+                        <p:selectBooleanCheckbox id="nieliczFP" value="#{angazView.selected.ubezpieczenie.nieliczFP}" />
+                        <p:outputLabel value="#{bundle.CreateUbezpieczenieLabel_nieliczFGSP}" for="nieliczFGSP" />
+                        <p:selectBooleanCheckbox id="nieliczFGSP" value="#{angazView.selected.ubezpieczenie.nieliczFGSP}" />
+                    </p:panelGrid>-->
+                    <p:commandButton styleClass="buttonnorm" actionListener="#{angazView.create}" value="#{bundle.Save}" update="display,@(form)" />
+                    <p:commandButton value="#{bundle.Cancel}" onclick="AngazCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:outputPanel>
+        <p:outputPanel>
+             <h:form id="AngazListForm">
+                 <p:panel header="Wykaz angażów w firmie #{wpisView.firma.nazwa}">
+                    <p:dataTable id="datalist" value="#{angazView.lista}" var="itemAngaz"
+                                 selectionMode="single" selection="#{angazView.selectedlista}"
+                                 rowKey="#{itemAngaz.id}"  sortBy="#{itemAngaz.pracownik.nazwisko}"
+                                style="height: 300px; overflow-y: scroll;"
+                                rowsPerPageTemplate="20,100,250,500" paginatorPosition="top" paginator="true" rows="20"
+                                emptyMessage="Nie ma angażów w firmie"
+                                 >
+                        <p:ajax event="rowSelect" listener="#{angazView.aktywuj}" partialSubmit="true" global="false" update="north"/>
+                        <p:column width="40" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="id"/>
+                            </f:facet>
+                            <h:outputText value="#{itemAngaz.id}"/>
+                        </p:column>
+                        <p:column width="80">
+                            <f:facet name="header">
+                                <h:outputText value="dodał"/>
+                            </f:facet>
+                            <h:outputText value="#{itemAngaz.utworzyl}" />
+                        </p:column>
+                        <p:column width="60" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="data"/>
+                            </f:facet>
+                            <h:outputText value="#{itemAngaz.datadodania}">
+                                <f:convertDateTime locale="pl" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="firma"/>
+                            </f:facet>
+                            <h:outputText value="#{itemAngaz.firma.nazwa}"/>
+                        </p:column>
+                        <p:column width="40" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="serial"/>
+                            </f:facet>
+                            <h:outputText value="#{itemAngaz.serialsp}"/>
+                        </p:column>
+                        <p:column  sortBy="#{itemAngaz.pracownik.nazwisko}" sortOrder="asc">
+                            <f:facet name="header">
+                                <h:outputText value="pracownik"/>
+                            </f:facet>
+                            <h:outputText value="#{itemAngaz.pracownik.nazwisko}"/>
+                            <h:outputText value=" "/>
+                            <h:outputText value="#{itemAngaz.pracownik.imie}"/>
+                        </p:column>
+                         <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Pesel"/>
+                            </f:facet>
+                            <h:outputText value="#{itemAngaz.pracownik.pesel}"/>
+                        </p:column>
+                         <p:column width="30" sortBy="#{itemAngaz.pracownik.aktywny}" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="akt."/>
+                            </f:facet>
+                             <p:selectBooleanCheckbox value="#{itemAngaz.pracownik.aktywny}">
+                                 <p:ajax event="change" partialSubmit="true" global="false" listener="#{angazView.zapisz(itemAngaz.pracownik)}"/>
+                             </p:selectBooleanCheckbox>
+                        </p:column>
+                        <p:column width="30">
+                            <f:facet name="header">
+                                <h:outputText value="rok"/>
+                            </f:facet>
+                            <h:outputText value="#{itemAngaz.rok}"/>
+                        </p:column>
+                         <p:column width="20">
+                            <f:facet name="header">
+                                <h:outputText value="mc"/>
+                            </f:facet>
+                            <h:outputText value="#{itemAngaz.mc}"/>
+                        </p:column>
+                        <p:column width="50" sortBy="#{itemAngaz.pracownik.ulgadlaklasysredniej}" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="ulga dla klasy śr."/>
+                            </f:facet>
+                            <p:selectBooleanCheckbox value="#{itemAngaz.pracownik.ulgadlaklasysredniej}">
+                                <p:ajax event="change" partialSubmit="true" global="false" listener="#{angazView.zapisz(itemAngaz.pracownik)}"/>
+                            </p:selectBooleanCheckbox>
+                        </p:column>
+                        <p:column headerText="mail"  width="40" style="text-align: center;">
+                            <p:commandButton icon="fa fa-file-text" actionListener="#{angazView.mail(itemAngaz.pracownik)}"/>
+                        </p:column>
+                          <p:column width="40" style="text-align: center;">
+                            <p:commandButton icon="fa fa-trash" actionListener="#{angazView.usun(itemAngaz)}" update="north AngazListForm">
+                                <p:confirm type="popup" header="Potwierdzenie" message="Usunąć angaż pracownika?" icon="pi pi-exclamation-triangle"/>
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </p:panel>
+            </h:form>
+        </p:outputPanel>
+     </p:panelGrid>
+</ui:composition>

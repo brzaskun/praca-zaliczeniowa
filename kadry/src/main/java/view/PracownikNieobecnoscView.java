@@ -84,11 +84,11 @@ public class PracownikNieobecnoscView  implements Serializable {
     
     public void pobierzurlop() {
         if (wpisView.getPracownik()!=null) {
-            urlopprezentacja = new Nieobecnoscprezentacja(wpisView.getUmowa(), wpisView.getRokWpisu());  
-            List<Kalendarzmiesiac> kalendarze = kalendarzmiesiacFacade.findByRokUmowa(wpisView.getUmowa(), wpisView.getRokWpisu());
+            urlopprezentacja = new Nieobecnoscprezentacja(wpisView.getAngaz(), wpisView.getRokWpisu());  
+            List<Kalendarzmiesiac> kalendarze = kalendarzmiesiacFacade.findByRokAngaz(wpisView.getAngaz(), wpisView.getRokWpisu());
             urlopprezentacja.setNieobecnoscwykorzystanieList(naniesdnizkodem(kalendarze, urlopprezentacja, "U"));
             List<Umowa> umowy = umowaFacade.findByAngaz(wpisView.getAngaz());
-            urlopprezentacja.setWymiarokresbiezacy(obliczwymiarwgodzinach(umowy, wpisView.getUmowa().pobierzetat(stannadzien)));
+            urlopprezentacja.setWymiarokresbiezacy(obliczwymiarwgodzinach(umowy, wpisView.getAngaz().pobierzetat(stannadzien)));
             urlopprezentacja.setDoprzeniesienia(urlopprezentacja.getWymiarokresbiezacy()-urlopprezentacja.getWykorzystanierokbiezacy()-urlopprezentacja.getWykorzystanierokbiezacyekwiwalent());
             Msg.msg("Pobrano dane urlopowe");
         }
@@ -96,11 +96,11 @@ public class PracownikNieobecnoscView  implements Serializable {
     
     public void pobierzchoroba() {
         if (wpisView.getPracownik()!=null) {
-            chorobaprezentacja = new Nieobecnoscprezentacja(wpisView.getUmowa(), wpisView.getRokWpisu());  
-            List<Kalendarzmiesiac> kalendarze = kalendarzmiesiacFacade.findByRokUmowa(wpisView.getUmowa(), wpisView.getRokWpisu());
+            chorobaprezentacja = new Nieobecnoscprezentacja(wpisView.getAngaz(), wpisView.getRokWpisu());  
+            List<Kalendarzmiesiac> kalendarze = kalendarzmiesiacFacade.findByRokAngaz(wpisView.getAngaz(), wpisView.getRokWpisu());
             chorobaprezentacja.setNieobecnoscwykorzystanieList(naniesdnizkodem(kalendarze, chorobaprezentacja, "CH"));
             List<Umowa> umowy = umowaFacade.findByAngaz(wpisView.getAngaz());
-            chorobaprezentacja.setWymiarokresbiezacy(obliczwymiarwgodzinachchoroba(umowy, wpisView.getUmowa().pobierzetat(stannadzien)));
+            chorobaprezentacja.setWymiarokresbiezacy(obliczwymiarwgodzinachchoroba(umowy, wpisView.getAngaz().pobierzetat(stannadzien)));
             chorobaprezentacja.setDoprzeniesienia(chorobaprezentacja.getWymiarokresbiezacy()-chorobaprezentacja.getWykorzystanierokbiezacy()-chorobaprezentacja.getWykorzystanierokbiezacyekwiwalent());
             Msg.msg("Pobrano dane chorobowe");
         }
@@ -108,11 +108,11 @@ public class PracownikNieobecnoscView  implements Serializable {
     
      public void pobierzzasilek() {
         if (wpisView.getPracownik()!=null) {
-            zasilekprezentacja = new Nieobecnoscprezentacja(wpisView.getUmowa(), wpisView.getRokWpisu());  
-            List<Kalendarzmiesiac> kalendarze = kalendarzmiesiacFacade.findByRokUmowa(wpisView.getUmowa(), wpisView.getRokWpisu());
+            zasilekprezentacja = new Nieobecnoscprezentacja(wpisView.getAngaz(), wpisView.getRokWpisu());  
+            List<Kalendarzmiesiac> kalendarze = kalendarzmiesiacFacade.findByRokAngaz(wpisView.getAngaz(), wpisView.getRokWpisu());
             zasilekprezentacja.setNieobecnoscwykorzystanieList(naniesdnizkodem(kalendarze, zasilekprezentacja, "ZC"));
             List<Umowa> umowy = umowaFacade.findByAngaz(wpisView.getAngaz());
-            zasilekprezentacja.setWymiarokresbiezacy(obliczwymiarwgodzinachzasilek(umowy, wpisView.getUmowa().pobierzetat(stannadzien)));
+            zasilekprezentacja.setWymiarokresbiezacy(obliczwymiarwgodzinachzasilek(umowy, wpisView.getAngaz().pobierzetat(stannadzien)));
             zasilekprezentacja.setDoprzeniesienia(zasilekprezentacja.getWymiarokresbiezacy()-zasilekprezentacja.getWykorzystanierokbiezacy()-zasilekprezentacja.getWykorzystanierokbiezacyekwiwalent());
             Msg.msg("Pobrano dni zasiłkowe");
         }
@@ -141,7 +141,7 @@ public class PracownikNieobecnoscView  implements Serializable {
                             wykorzystanie.setGodziny((int) r.getZasilek());
                         }
                         wykorzystanie.setUrlopprezentacja(urlopprezentacja);
-                        EtatPrac pobierzetat = p.getUmowa().pobierzetat(wykorzystanie.getData());
+                        EtatPrac pobierzetat = p.getAngaz().pobierzetat(wykorzystanie.getData());
                         wykorzystanie.setEtat1(pobierzetat.getEtat1());
                         wykorzystanie.setEtat2(pobierzetat.getEtat2());
                         if (wykorzystanie.getGodziny()>0) {

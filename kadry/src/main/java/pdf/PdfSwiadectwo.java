@@ -63,14 +63,14 @@ public class PdfSwiadectwo {
                 PdfMain.dodajLinieOpisuBezOdstepu(document, pracownik1, Element.ALIGN_LEFT, 2);
                 String pracownik3 = "był/a zatrudniony "+pracodawca1+" "+pracodawca3;
                 PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, pracownik3, Element.ALIGN_LEFT, 2);
-                List<EtatPrac> etatList = umowa.getEtatList();
+                List<EtatPrac> etatList = umowa.getAngaz().getEtatList();
                 for (EtatPrac et : etatList) {
                     String etat = "w okresie od "+et.getDataod()+" do "+et.getDatado()+" w wymiarze "+et.getEtat();
                     PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, etat, Element.ALIGN_LEFT, 2);
                 }
                 document.add(Chunk.NEWLINE);
                 String stanowisko = "2. W okresie zatrudnienia pracownik wykonywał/a pracę";
-                List<Stanowiskoprac> stanowiskopracList = umowa.getStanowiskopracList();
+                List<Stanowiskoprac> stanowiskopracList = umowa.getAngaz().getStanowiskopracList();
                 for (Stanowiskoprac p : stanowiskopracList) {
                     String stan = "w okresie od "+p.getDataod()+" do "+p.getDatado()+" w wymiarze "+p.getOpis();
                     PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, stan, Element.ALIGN_LEFT, 2);
@@ -265,7 +265,7 @@ public class PdfSwiadectwo {
                 document.add(Chunk.NEWLINE);
                 String komornik = "7. Informacja o zajęciu wynagrodzenia: ";
                 PdfMain.dodajLinieOpisuBezOdstepu(document, komornik, Element.ALIGN_LEFT, 2);
-                List<Skladnikpotracenia> skladnikpotraceniaList = umowa.getSkladnikpotraceniaList();
+                List<Skladnikpotracenia> skladnikpotraceniaList = umowa.getAngaz().getSkladnikpotraceniaList();
                 czydodano = false;
                 for (Skladnikpotracenia skl : skladnikpotraceniaList) {
                     if (skl.getRodzajpotracenia().getOpis().contains("Tytuł wykonawczy")&&skl.isRozliczony()==false) {

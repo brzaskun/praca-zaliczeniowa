@@ -289,19 +289,17 @@ public class OsobaView implements Serializable {
                         Msg.msg("e","Przerywam import");
                         log.add("BŁĄD. Brak odpowiednika kody z SuperPlac. Przerywam import");
                     } else{
-                        Umowa aktywnaumowa = null;
                         if (umowakodzuspraca!=null) {
                             List<Umowa> umowyoprace = OsobaBean.pobierzumowy(osoba, angaz, rodzajezatr, rodzajewypowiedzenia, umowakodzuspraca);
                             umowaFacade.createList(umowyoprace);
                             log.add("Udane zachowanie umowę o pracę");
                             Msg.msg("Zachowano umowy");
-                            aktywnaumowa = umowyoprace.stream().filter(p -> p.isAktywna()).findFirst().get();
-                            wpisView.setUmowa(aktywnaumowa);
-                            List<Stanowiskoprac> stanowiska = OsobaBean.pobierzstanowiska(osoba, aktywnaumowa);
+                            wpisView.setAngaz(angaz);
+                            List<Stanowiskoprac> stanowiska = OsobaBean.pobierzstanowiska(osoba, angaz);
                             stanowiskopracFacade.createList(stanowiska);
                             log.add("Udane zachowanie stanowiska");
                             Short formawynagrodzenia = osoba.getOsoWynForma();
-                            List<EtatPrac> etaty = OsobaBean.pobierzetaty(osoba, aktywnaumowa);
+                            List<EtatPrac> etaty = OsobaBean.pobierzetaty(osoba, angaz);
                             etatpracFacade.createList(etaty);
                             log.add("Udane zachowanie etatu");
                             List<OsobaSkl> skladniki = osoba.getOsobaSklList();
@@ -310,24 +308,24 @@ public class OsobaView implements Serializable {
                             String rokdlakalendarza = "2020";
                             //*********************************************************************
                             //paski rok 2020 umowa o pracę
-                            List<Kalendarzmiesiac> generujKalendarzNowaUmowa = OsobaBean.generujKalendarzNowaUmowa(angaz, pracownik, aktywnaumowa, kalendarzmiesiacFacade, kalendarzwzorFacade, rokdlakalendarza, etaty);
+                            List<Kalendarzmiesiac> generujKalendarzNowaUmowa = OsobaBean.generujKalendarzNowaUmowa(angaz, pracownik, kalendarzmiesiacFacade, kalendarzwzorFacade, rokdlakalendarza, etaty);
                             kalendarzmiesiacFacade.createList(generujKalendarzNowaUmowa);
                             log.add("Udane zachowanie wygenerowanych kalendarzy za 2020");
-                            List<Nieobecnosc> nieobecnosci = OsobaBean.pobierznieobecnosci(osoba, aktywnaumowa, nieobecnoscFacade, rodzajnieobecnosciFacade, swiadczeniekodzusFacade);
+                            List<Nieobecnosc> nieobecnosci = OsobaBean.pobierznieobecnosci(osoba, angaz, nieobecnoscFacade, rodzajnieobecnosciFacade, swiadczeniekodzusFacade);
                             log.add("Udane zachowanie nieobecnosci");
                             List<OsobaPot> osobaPotList = osoba.getOsobaPotList();
                             List<Rodzajpotracenia> rodzajepotracen = rodzajpotraceniaFacade.findAll();
-                            List<Skladnikpotracenia> skladnikpotracenia = OsobaBean.pobierzskladnipotracenia(osobaPotList, rodzajepotracen, aktywnaumowa, skladnikPotraceniaFacade, zmiennaPotraceniaFacade);
+                            List<Skladnikpotracenia> skladnikpotracenia = OsobaBean.pobierzskladnipotracenia(osobaPotList, rodzajepotracen, angaz, skladnikPotraceniaFacade, zmiennaPotraceniaFacade);
                             log.add("Udane zachowanie potrąceń");
                             List<Rok> rokList = osoba.getOsoFirSerial().getRokList();
                             Rok rok = pobierzrok(rokdlakalendarza, rokList);
                             List<Okres> okresList = pobierzokresySuperplace(1, rok.getOkresList());
-                            List<Skladnikwynagrodzenia> skladnikwynagrodzenia = OsobaBean.pobierzskladnikwynagrodzenia(skladniki, rodzajewynagrodzenia, aktywnaumowa, skladnikWynagrodzeniaFacade, zmiennaWynagrodzeniaFacade);
+                            List<Skladnikwynagrodzenia> skladnikwynagrodzenia = OsobaBean.pobierzskladnikwynagrodzenia(skladniki, rodzajewynagrodzenia, angaz, skladnikWynagrodzeniaFacade, zmiennaWynagrodzeniaFacade);
                             log.add("Udane zachowanie składników wynagrodzenia i zmiennych umowa o pracę");
                             List<Pasekwynagrodzen> paskiumowaoprace = OsobaBean.zrobpaskiimportUmowaopraceizlecenia(wpisView, osoba, okresList, false, datakonca26lat, skladnikwynagrodzenia, nieobecnosci, skladnikpotracenia);
                             if (paskiumowaoprace.size()>0) {
                                 List<Definicjalistaplac> listyaktywne = OsobaBean.generujlistyplac(paskiumowaoprace, wpisView.getFirma(), definicjalistaplacFacade, rodzajlistyplacFacade, rokdlakalendarza);
-                                List<Kalendarzmiesiac> kalendarze = kalendarzmiesiacFacade.findByRokUmowa(aktywnaumowa, rokdlakalendarza);
+                                List<Kalendarzmiesiac> kalendarze = kalendarzmiesiacFacade.findByRokAngaz(angaz, rokdlakalendarza);
                                 List<Pasekwynagrodzen> paskigotowe = OsobaBean.dodajlisteikalendarzdopaska(paskiumowaoprace, listyaktywne, kalendarze);
                                 //paskigotowe = OsobaBean.laczduplikatyumowaoprace(paskigotowe);
                                 pasekwynagrodzenFacade.createList(paskigotowe);
@@ -339,7 +337,7 @@ public class OsobaView implements Serializable {
                             rokdlakalendarza = "2021";
                             //*********************************************************************
                             //paski rok 2021 umowa o pracę
-                            generujKalendarzNowaUmowa = OsobaBean.generujKalendarzNowaUmowa(angaz, pracownik, aktywnaumowa, kalendarzmiesiacFacade, kalendarzwzorFacade, rokdlakalendarza, etaty);
+                            generujKalendarzNowaUmowa = OsobaBean.generujKalendarzNowaUmowa(angaz, pracownik, kalendarzmiesiacFacade, kalendarzwzorFacade, rokdlakalendarza, etaty);
                             kalendarzmiesiacFacade.editList(generujKalendarzNowaUmowa);
                             log.add("Udane zachowanie wygenerowanych kalendarzy za 2021");
                             rok = pobierzrok(rokdlakalendarza, rokList);
@@ -347,7 +345,7 @@ public class OsobaView implements Serializable {
                             paskiumowaoprace = OsobaBean.zrobpaskiimportUmowaopraceizlecenia(wpisView, osoba, okresList, false, datakonca26lat, skladnikwynagrodzenia, nieobecnosci, skladnikpotracenia);
                             if (paskiumowaoprace.size()>0) {
                                 List<Definicjalistaplac> listyaktywne = OsobaBean.generujlistyplac(paskiumowaoprace, wpisView.getFirma(), definicjalistaplacFacade, rodzajlistyplacFacade, rokdlakalendarza);
-                                List<Kalendarzmiesiac> kalendarze = kalendarzmiesiacFacade.findByRokUmowa(aktywnaumowa, rokdlakalendarza);
+                                List<Kalendarzmiesiac> kalendarze = kalendarzmiesiacFacade.findByRokAngaz(angaz, rokdlakalendarza);
                                 List<Pasekwynagrodzen> paskigotowe = OsobaBean.dodajlisteikalendarzdopaska(paskiumowaoprace, listyaktywne, kalendarze);
                                 //paskigotowe = OsobaBean.laczduplikatyumowaoprace(paskigotowe);
                                 pasekwynagrodzenFacade.createList(paskigotowe);
@@ -358,7 +356,7 @@ public class OsobaView implements Serializable {
                             //koniec paski 2021 umowa o pracę
                             rokdlakalendarza = "2022";
                             //paski rok 2022 umowa o pracę
-                            generujKalendarzNowaUmowa = OsobaBean.generujKalendarzNowaUmowa(angaz, pracownik, aktywnaumowa, kalendarzmiesiacFacade, kalendarzwzorFacade, rokdlakalendarza, etaty);
+                            generujKalendarzNowaUmowa = OsobaBean.generujKalendarzNowaUmowa(angaz, pracownik, kalendarzmiesiacFacade, kalendarzwzorFacade, rokdlakalendarza, etaty);
                             kalendarzmiesiacFacade.editList(generujKalendarzNowaUmowa);
                             log.add("Udane zachowanie wygenerowanych kalendarzy za 2022");
                             rok = pobierzrok(rokdlakalendarza, rokList);
@@ -366,7 +364,7 @@ public class OsobaView implements Serializable {
                             paskiumowaoprace = OsobaBean.zrobpaskiimportUmowaopraceizlecenia(wpisView, osoba, okresList, false, datakonca26lat, skladnikwynagrodzenia, nieobecnosci, skladnikpotracenia);
                             if (paskiumowaoprace.size()>0) {
                                 List<Definicjalistaplac> listyaktywne = OsobaBean.generujlistyplac(paskiumowaoprace, wpisView.getFirma(), definicjalistaplacFacade, rodzajlistyplacFacade, rokdlakalendarza);
-                                List<Kalendarzmiesiac> kalendarze = kalendarzmiesiacFacade.findByRokUmowa(aktywnaumowa, rokdlakalendarza);
+                                List<Kalendarzmiesiac> kalendarze = kalendarzmiesiacFacade.findByRokAngaz(angaz, rokdlakalendarza);
                                 List<Pasekwynagrodzen> paskigotowe = OsobaBean.dodajlisteikalendarzdopaska(paskiumowaoprace, listyaktywne, kalendarze);
                                 //paskigotowe = OsobaBean.laczduplikatyumowaoprace(paskigotowe);
                                 pasekwynagrodzenFacade.createList(paskigotowe);
@@ -376,12 +374,12 @@ public class OsobaView implements Serializable {
                             //koniec paski 2022 umowa o pracę
                             rokdlakalendarza = "2023";
                             //paski rok 2022 umowa o pracę
-                            generujKalendarzNowaUmowa = OsobaBean.generujKalendarzNowaUmowa(angaz, pracownik, aktywnaumowa, kalendarzmiesiacFacade, kalendarzwzorFacade, rokdlakalendarza, etaty);
+                            generujKalendarzNowaUmowa = OsobaBean.generujKalendarzNowaUmowa(angaz, pracownik, kalendarzmiesiacFacade, kalendarzwzorFacade, rokdlakalendarza, etaty);
                             kalendarzmiesiacFacade.editList(generujKalendarzNowaUmowa);
                             log.add("Udane zachowanie wygenerowanych kalendarzy za 2023");
                             //koniec paski 2023 umowa o pracę
                              for (Nieobecnosc p : nieobecnosci) {
-                                NieobecnosciBean.nanies(p, aktywnaumowa, nieobecnoscFacade, kalendarzmiesiacFacade);
+                                NieobecnosciBean.nanies(p, nieobecnoscFacade, kalendarzmiesiacFacade);
                             }
                             log.add("Naniesiono nieobecnosci na kalendarz");
                         }
@@ -391,13 +389,11 @@ public class OsobaView implements Serializable {
                             umowaFacade.createList(umowyoprace);
                             log.add("Udane zachowanie pełnienie funkcji");
                             Msg.msg("Zachowano umowy");
-                            aktywnaumowa = umowyoprace.stream().filter(p -> p.isAktywna()).findFirst().get();
-                            wpisView.setUmowa(aktywnaumowa);
-                            List<Stanowiskoprac> stanowiska = OsobaBean.pobierzstanowiska(osoba, aktywnaumowa);
+                            List<Stanowiskoprac> stanowiska = OsobaBean.pobierzstanowiska(osoba, angaz);
                             stanowiskopracFacade.createList(stanowiska);
                             log.add("Udane zachowanie stanowiska");
                             Short formawynagrodzenia = osoba.getOsoWynForma();
-                            List<EtatPrac> etaty = OsobaBean.pobierzetaty(osoba, aktywnaumowa);
+                            List<EtatPrac> etaty = OsobaBean.pobierzetaty(osoba, angaz);
                             etatpracFacade.createList(etaty);
                             log.add("Udane zachowanie etatu");
                             List<OsobaSkl> skladniki = osoba.getOsobaSklList();
@@ -406,24 +402,24 @@ public class OsobaView implements Serializable {
                             String rokdlakalendarza = "2020";
                             //*********************************************************************
                             //paski rok 2020 funkcja
-                            List<Kalendarzmiesiac> generujKalendarzNowaUmowa = OsobaBean.generujKalendarzNowaUmowa(angaz, pracownik, aktywnaumowa, kalendarzmiesiacFacade, kalendarzwzorFacade, rokdlakalendarza, etaty);
+                            List<Kalendarzmiesiac> generujKalendarzNowaUmowa = OsobaBean.generujKalendarzNowaUmowa(angaz, pracownik, kalendarzmiesiacFacade, kalendarzwzorFacade, rokdlakalendarza, etaty);
                             kalendarzmiesiacFacade.createList(generujKalendarzNowaUmowa);
                             log.add("Udane zachowanie wygenerowanych kalendarzy za 2020 pełnienie funkcji");
-                            List<Nieobecnosc> nieobecnosci = OsobaBean.pobierznieobecnosci(osoba, aktywnaumowa, nieobecnoscFacade, rodzajnieobecnosciFacade, swiadczeniekodzusFacade);
+                            List<Nieobecnosc> nieobecnosci = OsobaBean.pobierznieobecnosci(osoba, angaz, nieobecnoscFacade, rodzajnieobecnosciFacade, swiadczeniekodzusFacade);
                             log.add("Udane zachowanie nieobecnosci");
                             List<OsobaPot> osobaPotList = osoba.getOsobaPotList();
                             List<Rodzajpotracenia> rodzajepotracen = rodzajpotraceniaFacade.findAll();
-                            List<Skladnikpotracenia> skladnikpotracenia = OsobaBean.pobierzskladnipotracenia(osobaPotList, rodzajepotracen, aktywnaumowa, skladnikPotraceniaFacade, zmiennaPotraceniaFacade);
+                            List<Skladnikpotracenia> skladnikpotracenia = OsobaBean.pobierzskladnipotracenia(osobaPotList, rodzajepotracen, angaz, skladnikPotraceniaFacade, zmiennaPotraceniaFacade);
                             log.add("Udane zachowanie potrąceń");
                             List<Rok> rokList = osoba.getOsoFirSerial().getRokList();
                             Rok rok = pobierzrok(rokdlakalendarza, rokList);
                             List<Okres> okresList = pobierzokresySuperplace(1, rok.getOkresList());
-                            List<Skladnikwynagrodzenia> skladnikwynagrodzenia = OsobaBean.pobierzskladnikwynagrodzenia(skladniki, rodzajewynagrodzenia, aktywnaumowa, skladnikWynagrodzeniaFacade, zmiennaWynagrodzeniaFacade);
+                            List<Skladnikwynagrodzenia> skladnikwynagrodzenia = OsobaBean.pobierzskladnikwynagrodzenia(skladniki, rodzajewynagrodzenia, angaz, skladnikWynagrodzeniaFacade, zmiennaWynagrodzeniaFacade);
                             log.add("Udane zachowanie składników wynagrodzenia i zmiennych  pełnienie funkcji");
                             List<Pasekwynagrodzen> paskiumowaoprace = OsobaBean.zrobpaskiimportUmowaopraceizlecenia(wpisView, osoba, okresList, false, datakonca26lat, skladnikwynagrodzenia, nieobecnosci, skladnikpotracenia);
                             if (paskiumowaoprace.size()>0) {
                                 List<Definicjalistaplac> listyaktywne = OsobaBean.generujlistyplac(paskiumowaoprace, wpisView.getFirma(), definicjalistaplacFacade, rodzajlistyplacFacade, rokdlakalendarza);
-                                List<Kalendarzmiesiac> kalendarze = kalendarzmiesiacFacade.findByRokUmowa(aktywnaumowa, rokdlakalendarza);
+                                List<Kalendarzmiesiac> kalendarze = kalendarzmiesiacFacade.findByRokAngaz(angaz, rokdlakalendarza);
                                 List<Pasekwynagrodzen> paskigotowe = OsobaBean.dodajlisteikalendarzdopaska(paskiumowaoprace, listyaktywne, kalendarze);
                                 //paskigotowe = OsobaBean.laczduplikatyumowaoprace(paskigotowe);
                                 pasekwynagrodzenFacade.createList(paskigotowe);
@@ -434,7 +430,7 @@ public class OsobaView implements Serializable {
                             //*********************************************************************
                             rokdlakalendarza = "2021";
                             //paski rok 2021 funkcja
-                            generujKalendarzNowaUmowa = OsobaBean.generujKalendarzNowaUmowa(angaz, pracownik, aktywnaumowa, kalendarzmiesiacFacade, kalendarzwzorFacade, rokdlakalendarza, etaty);
+                            generujKalendarzNowaUmowa = OsobaBean.generujKalendarzNowaUmowa(angaz, pracownik, kalendarzmiesiacFacade, kalendarzwzorFacade, rokdlakalendarza, etaty);
                             kalendarzmiesiacFacade.editList(generujKalendarzNowaUmowa);
                             log.add("Udane zachowanie wygenerowanych kalendarzy za 2021 pełnienie funkcji");
                             rok = pobierzrok(rokdlakalendarza, rokList);
@@ -442,7 +438,7 @@ public class OsobaView implements Serializable {
                             paskiumowaoprace = OsobaBean.zrobpaskiimportUmowaopraceizlecenia(wpisView, osoba, okresList, false, datakonca26lat, skladnikwynagrodzenia, nieobecnosci, skladnikpotracenia);
                             if (paskiumowaoprace.size()>0) {
                                 List<Definicjalistaplac> listyaktywne = OsobaBean.generujlistyplac(paskiumowaoprace, wpisView.getFirma(), definicjalistaplacFacade, rodzajlistyplacFacade, rokdlakalendarza);
-                                List<Kalendarzmiesiac> kalendarze = kalendarzmiesiacFacade.findByRokUmowa(aktywnaumowa, rokdlakalendarza);
+                                List<Kalendarzmiesiac> kalendarze = kalendarzmiesiacFacade.findByRokAngaz(angaz, rokdlakalendarza);
                                 List<Pasekwynagrodzen> paskigotowe = OsobaBean.dodajlisteikalendarzdopaska(paskiumowaoprace, listyaktywne, kalendarze);
                                 //paskigotowe = OsobaBean.laczduplikatyumowaoprace(paskigotowe);
                                 pasekwynagrodzenFacade.createList(paskigotowe);
@@ -453,7 +449,7 @@ public class OsobaView implements Serializable {
                             //*********************************************************************
                             rokdlakalendarza = "2022";
                             //paski rok 2022 funkcja
-                            generujKalendarzNowaUmowa = OsobaBean.generujKalendarzNowaUmowa(angaz, pracownik, aktywnaumowa, kalendarzmiesiacFacade, kalendarzwzorFacade, rokdlakalendarza, etaty);
+                            generujKalendarzNowaUmowa = OsobaBean.generujKalendarzNowaUmowa(angaz, pracownik, kalendarzmiesiacFacade, kalendarzwzorFacade, rokdlakalendarza, etaty);
                             kalendarzmiesiacFacade.editList(generujKalendarzNowaUmowa);
                             log.add("Udane zachowanie wygenerowanych kalendarzy za 2022 pełnienie funkcji");
                             rok = pobierzrok(rokdlakalendarza, rokList);
@@ -461,7 +457,7 @@ public class OsobaView implements Serializable {
                             paskiumowaoprace = OsobaBean.zrobpaskiimportUmowaopraceizlecenia(wpisView, osoba, okresList, false, datakonca26lat, skladnikwynagrodzenia, nieobecnosci, skladnikpotracenia);
                             if (paskiumowaoprace.size()>0) {
                                 List<Definicjalistaplac> listyaktywne = OsobaBean.generujlistyplac(paskiumowaoprace, wpisView.getFirma(), definicjalistaplacFacade, rodzajlistyplacFacade, rokdlakalendarza);
-                                List<Kalendarzmiesiac> kalendarze = kalendarzmiesiacFacade.findByRokUmowa(aktywnaumowa, rokdlakalendarza);
+                                List<Kalendarzmiesiac> kalendarze = kalendarzmiesiacFacade.findByRokAngaz(angaz, rokdlakalendarza);
                                 List<Pasekwynagrodzen> paskigotowe = OsobaBean.dodajlisteikalendarzdopaska(paskiumowaoprace, listyaktywne, kalendarze);
                                 //paskigotowe = OsobaBean.laczduplikatyumowaoprace(paskigotowe);
                                 pasekwynagrodzenFacade.createList(paskigotowe);
@@ -471,12 +467,12 @@ public class OsobaView implements Serializable {
                             //koniec paski 2022 funkcja
                             rokdlakalendarza = "2023";
                             //paski rok 2023 funkcja
-                            generujKalendarzNowaUmowa = OsobaBean.generujKalendarzNowaUmowa(angaz, pracownik, aktywnaumowa, kalendarzmiesiacFacade, kalendarzwzorFacade, rokdlakalendarza, etaty);
+                            generujKalendarzNowaUmowa = OsobaBean.generujKalendarzNowaUmowa(angaz, pracownik, kalendarzmiesiacFacade, kalendarzwzorFacade, rokdlakalendarza, etaty);
                             kalendarzmiesiacFacade.editList(generujKalendarzNowaUmowa);
                             log.add("Udane zachowanie wygenerowanych kalendarzy za 2022 pełnienie funkcji");
                             //koniec paski 2023 funkcja
                             for (Nieobecnosc p : nieobecnosci) {
-                                NieobecnosciBean.nanies(p, aktywnaumowa, nieobecnoscFacade, kalendarzmiesiacFacade);
+                                NieobecnosciBean.nanies(p, nieobecnoscFacade, kalendarzmiesiacFacade);
                             }
                             log.add("Naniesiono nieobecnosci na kalendarz");
                         }
@@ -486,15 +482,12 @@ public class OsobaView implements Serializable {
                                 List<OsobaZlec> listaumow = osoba.getOsobaZlecList();
                                 List<Umowa> umowyzlecenia = OsobaBean.pobierzumowyzlecenia(listaumow, angaz, umowakodzuszlecenie);
                                 log.add("Udane zachowanie umowy zlecenia");
-                                aktywnaumowa = umowyzlecenia.stream().filter(p -> p.isAktywna()).findFirst().get();
-                                aktywnaumowa.setDatado(null);
-                                umowaFacade.create(aktywnaumowa);
-                                wpisView.setUmowa(aktywnaumowa);
-                                Msg.msg("Pobrano umowy zlecenia");
+                                umowaFacade.create(angaz);
+                                  Msg.msg("Pobrano umowy zlecenia");
                                 String rokdlakalendarza = "2020";
                                 //*********************************************************************
                                 //paski rok 2020 umowa zlecenia
-                                List<Kalendarzmiesiac> generujKalendarzNowaUmowa = OsobaBean.generujKalendarzNowaUmowa(angaz, pracownik, aktywnaumowa, kalendarzmiesiacFacade, kalendarzwzorFacade, rokdlakalendarza, null);
+                                List<Kalendarzmiesiac> generujKalendarzNowaUmowa = OsobaBean.generujKalendarzNowaUmowa(angaz, pracownik, kalendarzmiesiacFacade, kalendarzwzorFacade, rokdlakalendarza, null);
                                 kalendarzmiesiacFacade.createList(generujKalendarzNowaUmowa);
                                 log.add("Udane zachowanie wygenerowanych kalendarzy za 2020 umowa zlecenia");
                                 List<Rok> rokList = osoba.getOsoFirSerial().getRokList();
@@ -507,7 +500,7 @@ public class OsobaView implements Serializable {
                                 List<OsobaZlec> skladniki = osoba.getOsobaZlecList();
                                 List<Rodzajwynagrodzenia> rodzajewynagrodzenia = rodzajwynagrodzeniaFacade.findAll();
                                 Rodzajwynagrodzenia rodzajwynagrodzeniaNZ = rodzajwynagrodzeniaFacade.findNZ();
-                                List<Skladnikwynagrodzenia> skladnikwynagrodzenia = OsobaBean.pobierzskladnikzlecenie(skladniki, rodzajewynagrodzenia, aktywnaumowa, skladnikWynagrodzeniaFacade, zmiennaWynagrodzeniaFacade);
+                                List<Skladnikwynagrodzenia> skladnikwynagrodzenia = OsobaBean.pobierzskladnikzlecenie(skladniki, rodzajewynagrodzenia, angaz, skladnikWynagrodzeniaFacade, zmiennaWynagrodzeniaFacade);
                                 if (skladnikwynagrodzenia!=null&&skladnikwynagrodzenia.size()==1&&pracownik.isNierezydent()) {
                                     Skladnikwynagrodzenia sklw = skladnikwynagrodzenia.get(0);
                                     sklw.setRodzajwynagrodzenia(rodzajwynagrodzeniaNZ);
@@ -521,12 +514,12 @@ public class OsobaView implements Serializable {
                                 }
                                 List<OsobaPot> osobaPotList = osoba.getOsobaPotList();
                                 List<Rodzajpotracenia> rodzajepotracen = rodzajpotraceniaFacade.findAll();
-                                List<Skladnikpotracenia> skladnikpotracenia = OsobaBean.pobierzskladnipotracenia(osobaPotList, rodzajepotracen, aktywnaumowa, skladnikPotraceniaFacade, zmiennaPotraceniaFacade);
+                                List<Skladnikpotracenia> skladnikpotracenia = OsobaBean.pobierzskladnipotracenia(osobaPotList, rodzajepotracen, angaz, skladnikPotraceniaFacade, zmiennaPotraceniaFacade);
                                 log.add("Udane zachowanie potrąceń");
                                 List<Pasekwynagrodzen> paskiumowazlecenia = OsobaBean.zrobpaskiimportUmowaopraceizlecenia(wpisView, osoba, okresList, true, datakonca26lat, skladnikwynagrodzenia, null, skladnikpotracenia);
                                 if (paskiumowazlecenia.size()>0) {
                                     List<Definicjalistaplac> listyumowazlecenia = OsobaBean.generujlistyplac(paskiumowazlecenia, wpisView.getFirma(), definicjalistaplacFacade, rodzajlistyplacFacade, rokdlakalendarza);
-                                    List<Kalendarzmiesiac> kalendarze = kalendarzmiesiacFacade.findByRokUmowa(aktywnaumowa, rokdlakalendarza);
+                                    List<Kalendarzmiesiac> kalendarze = kalendarzmiesiacFacade.findByRokAngaz(angaz, rokdlakalendarza);
                                     List<Pasekwynagrodzen> paskigotowe = OsobaBean.dodajlisteikalendarzdopaska(paskiumowazlecenia, listyumowazlecenia, kalendarze);
                                     //paskigotowe = OsobaBean.laczduplikaty(paskigotowe);
                                     //bo definicje listyplac moga juz istniec
@@ -539,7 +532,7 @@ public class OsobaView implements Serializable {
                                 rokdlakalendarza = "2021";
                                 //*********************************************************************
                                 //paski rok 2021 umowa zlecenia
-                                generujKalendarzNowaUmowa = OsobaBean.generujKalendarzNowaUmowa(angaz, pracownik, aktywnaumowa, kalendarzmiesiacFacade, kalendarzwzorFacade, rokdlakalendarza, null);
+                                generujKalendarzNowaUmowa = OsobaBean.generujKalendarzNowaUmowa(angaz, pracownik, kalendarzmiesiacFacade, kalendarzwzorFacade, rokdlakalendarza, null);
                                 kalendarzmiesiacFacade.createList(generujKalendarzNowaUmowa); 
                                 log.add("Udane zachowanie wygenerowanych kalendarzy za 2021 umowa zlecenia");
                                 rok = pobierzrok(rokdlakalendarza, rokList);
@@ -547,7 +540,7 @@ public class OsobaView implements Serializable {
                                 paskiumowazlecenia = OsobaBean.zrobpaskiimportUmowaopraceizlecenia(wpisView, osoba, okresList, true, datakonca26lat, skladnikwynagrodzenia, null, skladnikpotracenia);
                                 if (paskiumowazlecenia.size()>0) {
                                     List<Definicjalistaplac> listyumowazlecenia = OsobaBean.generujlistyplac(paskiumowazlecenia, wpisView.getFirma(),definicjalistaplacFacade, rodzajlistyplacFacade, rokdlakalendarza);
-                                    List<Kalendarzmiesiac> kalendarze = kalendarzmiesiacFacade.findByRokUmowa(aktywnaumowa, rokdlakalendarza);
+                                    List<Kalendarzmiesiac> kalendarze = kalendarzmiesiacFacade.findByRokAngaz(angaz, rokdlakalendarza);
                                     List<Pasekwynagrodzen> paskigotowe = OsobaBean.dodajlisteikalendarzdopaska(paskiumowazlecenia, listyumowazlecenia, kalendarze);
                                     //paskigotowe = OsobaBean.laczduplikaty(paskigotowe);
                                     pasekwynagrodzenFacade.createList(paskigotowe);
@@ -559,7 +552,7 @@ public class OsobaView implements Serializable {
                                 rokdlakalendarza = "2022";
                                 //kalendarz rok 2022 umowa o zlecenie
                                 //*********************************************************************
-                                generujKalendarzNowaUmowa = OsobaBean.generujKalendarzNowaUmowa(angaz, pracownik, aktywnaumowa, kalendarzmiesiacFacade, kalendarzwzorFacade, rokdlakalendarza, null);
+                                generujKalendarzNowaUmowa = OsobaBean.generujKalendarzNowaUmowa(angaz, pracownik, kalendarzmiesiacFacade, kalendarzwzorFacade, rokdlakalendarza, null);
                                 kalendarzmiesiacFacade.editList(generujKalendarzNowaUmowa);
                                 log.add("Udane zachowanie wygenerowanych kalendarzy za 2022");
                                 rok = pobierzrok(rokdlakalendarza, rokList);
@@ -567,7 +560,7 @@ public class OsobaView implements Serializable {
                                 paskiumowazlecenia = OsobaBean.zrobpaskiimportUmowaopraceizlecenia(wpisView, osoba, okresList, true, datakonca26lat, skladnikwynagrodzenia, null, skladnikpotracenia);
                                 if (paskiumowazlecenia.size()>0) {
                                     List<Definicjalistaplac> listyumowazlecenia = OsobaBean.generujlistyplac(paskiumowazlecenia, wpisView.getFirma(),definicjalistaplacFacade, rodzajlistyplacFacade, rokdlakalendarza);
-                                    List<Kalendarzmiesiac> kalendarze = kalendarzmiesiacFacade.findByRokUmowa(aktywnaumowa, rokdlakalendarza);
+                                    List<Kalendarzmiesiac> kalendarze = kalendarzmiesiacFacade.findByRokAngaz(angaz, rokdlakalendarza);
                                     List<Pasekwynagrodzen> paskigotowe = OsobaBean.dodajlisteikalendarzdopaska(paskiumowazlecenia, listyumowazlecenia, kalendarze);
                                     //paskigotowe = OsobaBean.laczduplikaty(paskigotowe);
                                     pasekwynagrodzenFacade.createList(paskigotowe);
@@ -578,7 +571,7 @@ public class OsobaView implements Serializable {
                                 rokdlakalendarza = "2023";
                                 //kalendarz rok 2023 umowa o zlecenie
                                 //*********************************************************************
-                                generujKalendarzNowaUmowa = OsobaBean.generujKalendarzNowaUmowa(angaz, pracownik, aktywnaumowa, kalendarzmiesiacFacade, kalendarzwzorFacade, rokdlakalendarza, null);
+                                generujKalendarzNowaUmowa = OsobaBean.generujKalendarzNowaUmowa(angaz, pracownik, kalendarzmiesiacFacade, kalendarzwzorFacade, rokdlakalendarza, null);
                                 kalendarzmiesiacFacade.editList(generujKalendarzNowaUmowa);
                                 log.add("Udane zachowanie wygenerowanych kalendarzy za 2023");
                                 //koniec paski 2023 umowa zlecenia
