@@ -74,7 +74,7 @@ public class RozwiazanieumowyView  implements Serializable {
                 nowy.setUmowa(wybranaumowa);
             }
             if (wpisView.getUmowa()!=null) {
-                listanieob  = nieobecnoscFacade.findByUmowa(wpisView.getUmowa());
+                listanieob  = nieobecnoscFacade.findByAngaz(wpisView.getAngaz());
                 listanieobecschema = nieobecnoscswiadectwoschemaFacade.findAll();
                 dnidoswiadectwa = naniesnieobecnoscinascheme(listanieob, listanieobecschema, pobrane, wpisView.getRokWpisu());
             }

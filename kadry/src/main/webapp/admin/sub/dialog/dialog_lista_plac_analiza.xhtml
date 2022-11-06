@@ -66,10 +66,9 @@
         <p:outputPanel  styleClass="panelzramka">
             <h:form id="PasekwynagrodzenAnalizaForm">
                 <p:panel header="paski wynagrodzeń">
-                    <p:panelGrid columns="13" style="width: 1200px; margin-bottom: 10px;">
+                    <p:panelGrid columns="12" style="width: 1200px; margin-bottom: 10px;">
                         <h:outputText value="nazwisko i imię: "/>
                         <h:outputText value="PESEL: "/>
-                        <h:outputText value="umowa: "/>
                         <p:spacer width="50"/>
                         <h:outputText value="brutto: "/>
                         <h:outputText value="brutto zus: "/>
@@ -82,7 +81,6 @@
                         <h:outputText value="netto: "/>
                         <h:outputText value="#{pasekwynagrodzenView.wybranykalendarz.nazwiskoImie}" styleClass="wwb"/>
                         <h:outputText value="#{pasekwynagrodzenView.wybranykalendarz.pesel}" styleClass="wwb"/>
-                        <h:outputText value="#{pasekwynagrodzenView.wybranykalendarz.umowa.umowakodzus.kod}" styleClass="wwb"/>
                         <p:spacer width="50"/>
                         <bcf:outputpl value="#{pasekwynagrodzenView.wybranykalendarz.pasek.brutto}"/>
                         <bcf:outputpl value="#{pasekwynagrodzenView.wybranykalendarz.pasek.bruttozus}"/>

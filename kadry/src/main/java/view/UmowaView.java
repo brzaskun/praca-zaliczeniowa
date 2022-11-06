@@ -307,7 +307,7 @@ public class UmowaView  implements Serializable {
       if (selected!=null && selected.getId()!=null) {
           try {
             if (selected.getDataod()!=null) {
-                List<Nieobecnosc> zatrudnieniewtrakciemiesiaca = nieobecnoscFacade.findByUmowa200(selected);
+                List<Nieobecnosc> zatrudnieniewtrakciemiesiaca = nieobecnoscFacade.findByAngaz200(wpisView.getAngaz());
                 if (zatrudnieniewtrakciemiesiaca!=null) {
                     for (Nieobecnosc p : zatrudnieniewtrakciemiesiaca) {
                         List<Dzien> dzienList = p.getDzienList();

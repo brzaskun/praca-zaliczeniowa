@@ -151,7 +151,7 @@ public class PasekwynagrodzenView implements Serializable {
         } catch (Exception e) {
         }
         listarodzajlistyplac = rodzajlistyplacFacade.findAktywne();
-        ileszczegolow = "prosta";
+        ileszczegolow = "normalna";
         symulacjabrrutto = wpisView.getRokWpisuInt()<2022?2800:3010;
     }
     

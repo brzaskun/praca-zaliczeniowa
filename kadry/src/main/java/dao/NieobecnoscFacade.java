@@ -5,8 +5,8 @@
  */
 package dao;
 
+import entity.Angaz;
 import entity.Nieobecnosc;
-import entity.Umowa;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PreDestroy;
@@ -47,11 +47,11 @@ public class NieobecnoscFacade extends DAO    implements Serializable {
     
    
 
-    public List<Nieobecnosc> findByUmowa(Umowa umowa) {
-        return getEntityManager().createNamedQuery("Nieobecnosc.findByUmowa").setParameter("umowa", umowa).getResultList();
+    public List<Nieobecnosc> findByAngaz(Angaz angaz) {
+        return getEntityManager().createNamedQuery("Nieobecnosc.findByAngaz").setParameter("angaz", angaz).getResultList();
     }
     
-    public List<Nieobecnosc> findByUmowa200(Umowa umowa) {
-        return getEntityManager().createNamedQuery("Nieobecnosc.findByUmowa200").setParameter("umowa", umowa).getResultList();
+    public List<Nieobecnosc> findByAngaz200(Angaz angaz) {
+        return getEntityManager().createNamedQuery("Nieobecnosc.findByAngaz200").setParameter("angaz", angaz).getResultList();
     }
 }

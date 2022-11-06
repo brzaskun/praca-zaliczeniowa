@@ -114,7 +114,7 @@ public class NieobecnoscView  implements Serializable {
     
     public void init() {
         if (wpisView.getUmowa()!=null) {
-            lista  = nieobecnoscFacade.findByUmowa(wpisView.getUmowa());
+            lista  = nieobecnoscFacade.findByAngaz(wpisView.getAngaz());
             selected.setAngaz(wpisView.getAngaz());
             if (pokazcalyrok==false) {
                 lista = lista.stream().filter(p->p.getRokod().equals(wpisView.getRokWpisu())||p.getRokdo().equals(wpisView.getRokWpisu())).collect(Collectors.toList());

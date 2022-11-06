@@ -88,7 +88,7 @@ public class PasekwynagrodzenBean {
         PasekwynagrodzenBean.razemspolecznepracownik(pasek);
         PasekwynagrodzenBean.obliczbruttominusspoleczneDB(pasek);        
         if (umowaoprace) {
-            PasekwynagrodzenBean.obliczpodstaweopodatkowaniaDB(pasek, stawkipodatkowe, po26roku);
+            PasekwynagrodzenBean.obliczpodstaweopodatkowaniaDB(pasek, stawkipodatkowe, po26roku, kalendarz.getAngaz().isKosztyuzyskania0podwyzszone());
             PasekwynagrodzenBean.obliczpodatekwstepnyDB(pasek, stawkipodatkowe, 0.0, false);
         } else {
             PasekwynagrodzenBean.obliczpodstaweopodatkowaniaZlecenieSymulacja(pasek, stawkipodatkowe, pasek.isNierezydent());
@@ -114,10 +114,10 @@ public class PasekwynagrodzenBean {
       
     public static Pasekwynagrodzen obliczWynagrodzenie(Kalendarzmiesiac kalendarz, Definicjalistaplac definicjalistaplac, SwiadczeniekodzusFacade nieobecnosckodzusFacade, List<Pasekwynagrodzen> paskidowyliczeniapodstawy, 
         List<Wynagrodzeniahistoryczne> historiawynagrodzen, List<Podatki> stawkipodatkowe, double sumapoprzednich, double wynagrodzenieminimalne, boolean czyodlicoznokwotewolna, double kurs,double limitZUS, String datawyplaty) {
-        boolean umowaoprace = true;
-        boolean umowazlecenia = false;
-        boolean umowazlecenianierezydent = false;
-        boolean umowafunkcja = false;
+        boolean umowaoprace = definicjalistaplac.getRodzajlistyplac().getTyp()==1;
+        boolean umowazlecenia = definicjalistaplac.getRodzajlistyplac().getTyp()==2;
+        boolean umowazlecenianierezydent = definicjalistaplac.getRodzajlistyplac().getTyp()==2&&kalendarz.isNierezydent();
+        boolean umowafunkcja = definicjalistaplac.getRodzajlistyplac().getTyp()==3;
         Pasekwynagrodzen pasek = new Pasekwynagrodzen();
         pasek.setDatawyplaty(datawyplaty);
         obliczwiek(kalendarz, pasek);
@@ -128,7 +128,7 @@ public class PasekwynagrodzenBean {
         } else {
             pasek.setDo26lat(false);
         }
-        boolean nierezydent = false;
+        boolean nierezydent = kalendarz.isNierezydent();
         pasek.setNierezydent(nierezydent);
         pasek.setWynagrodzenieminimalne(wynagrodzenieminimalne);
         pasek.setDefinicjalistaplac(definicjalistaplac);
@@ -235,7 +235,7 @@ public class PasekwynagrodzenBean {
             PasekwynagrodzenBean.obliczpodstaweopodatkowaniaZasilekDB(pasek, stawkipodatkowe);
             PasekwynagrodzenBean.obliczpodatekwstepnyDB(pasek, stawkipodatkowe, sumapoprzednich, true);
         } else {
-            PasekwynagrodzenBean.obliczpodstaweopodatkowaniaDB(pasek, stawkipodatkowe, nieodliczackup);
+            PasekwynagrodzenBean.obliczpodstaweopodatkowaniaDB(pasek, stawkipodatkowe, nieodliczackup, kalendarz.getAngaz().isKosztyuzyskania0podwyzszone());
             PasekwynagrodzenBean.obliczpodatekwstepnyDB(pasek, stawkipodatkowe, sumapoprzednich, false);
         }
         if (czyodlicoznokwotewolna == false) {
@@ -355,7 +355,7 @@ public class PasekwynagrodzenBean {
         pasek.setPracchorobowe(Z.z(pasek.getPodstawaskladkizus()*0.0245));
         PasekwynagrodzenBean.razemspolecznepracownik(pasek);
         PasekwynagrodzenBean.obliczbruttominusspoleczneDB(pasek);
-        PasekwynagrodzenBean.obliczpodstaweopodatkowaniaDB(pasek, stawkipodatkowe, false);
+        PasekwynagrodzenBean.obliczpodstaweopodatkowaniaDB(pasek, stawkipodatkowe, false, kalendarz.getAngaz().isKosztyuzyskania0podwyzszone());
         PasekwynagrodzenBean.obliczpodatekwstepnyDB(pasek, stawkipodatkowe, sumapoprzednich, true);
         PasekwynagrodzenBean.ulgapodatkowaDB(pasek, stawkipodatkowe, true);
         PasekwynagrodzenBean.naliczzdrowota(pasek, pasek.isNierezydent(), true);
@@ -600,10 +600,13 @@ public class PasekwynagrodzenBean {
         pasek.setPodstawaopodatkowania(podstawa);
     }
      
-    private static void obliczpodstaweopodatkowaniaDB(Pasekwynagrodzen pasek, List<Podatki> stawkipodatkowe, boolean nieodliczackup) {
+    private static void obliczpodstaweopodatkowaniaDB(Pasekwynagrodzen pasek, List<Podatki> stawkipodatkowe, boolean nieodliczackup, boolean podwyzszonekoszty) {
         Podatki pierwszyprog = stawkipodatkowe.get(0);
         double bruttominusspoleczne = pasek.getBruttominusspoleczne();
-        double kosztyuzyskania = 100;
+        double kosztyuzyskania = pierwszyprog.getKup();
+        if (podwyzszonekoszty) {
+            kosztyuzyskania = pierwszyprog.getKuppodwyzszone();
+        }
                 //pasek.getKalendarzmiesiac().getUmowa().getKosztyuzyskaniaprocent()==100?pierwszyprog.getKup():pierwszyprog.getKuppodwyzszone();
         if (nieodliczackup) {
             kosztyuzyskania = 0.0;
