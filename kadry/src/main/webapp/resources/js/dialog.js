@@ -1,5 +1,3 @@
-"use strict";
-
 var ustawdialogWindow = function(nazwa, szerokosc, wysokosc) {
     $(document.getElementById(nazwa)).width(szerokosc).height(wysokosc);
     try {
@@ -20,7 +18,7 @@ var pokazmes = function() {
 };
 
 
-var ustawdialog = function(nazwa,rodzic) {
+var ustawdialogwymiary = function(nazwa,rodzic) {
     $(document.getElementById(nazwa)).width(1250).height(700);
     try {
         $(document.getElementById(nazwa)).position({

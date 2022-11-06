@@ -42,7 +42,7 @@
                   <p:panel header="Rozliczenie potrącenia"/>
                   <p:dataTable id="datalist" value="#{komornikView.potracenialist}" var="itempotraceniepoz"
                                rowKey="#{itempotraceniepoz.id}" sortBy="#{itempotraceniepoz.rokMc}" rowIndexVar="indexka"
-                                style="height: 450px; overflow-y: scroll; width: 700px;"
+                                style="height: 450px; overflow-y: scroll; width: 700px;" emptyMessage="Nie ma zapisów"
                                  >
                         <p:column width="40" style="text-align: center;">
                             <f:facet name="header">

@@ -34,7 +34,8 @@
                                 </p:menubar>
                             </h:form>
                         </p:outputPanel>
-                        <ui:include src="sub/menu_wiad.xhtml"/>   <!-- menu contextowe i pole wiadomosci growl-->
+                        <ui:include src="sub/menu_wiad.xhtml"/>
+                        <ui:include src="sub/dialog_umowa1.xhtml"/><!-- menu contextowe i pole wiadomosci growl-->
                         <p:outputPanel style="width: 1800px;">
                             <p:tabView id="akordeon" activeIndex="#{umowaView.tabView}">
                                 <p:tab title="umowy o pracę">
@@ -44,7 +45,6 @@
                                 </p:tab>
                                 <p:tab title="nowa umowa">
                                     <ui:include src="sub/dane_rodzajumowy.xhtml"/>
-                                    <ui:include src="sub/dialog_umowa1.xhtml"/>
                                     <ui:include src="sub/edycjadanych_umowa.xhtml"/>
                                 </p:tab>
                                 <p:tab title="składniki">
