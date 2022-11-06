@@ -49,7 +49,7 @@ public class DraView  implements Serializable {
     private double zus;
     private double pit4;
     private String mcdra;
-     
+    //nie dupad
     
     public void init() {
         mcdra = wpisView.getMiesiacWpisu();
