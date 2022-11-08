@@ -55,7 +55,7 @@
                         <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
                         <f:selectItems value="#{pasekwynagrodzenView.listakalendarzmiesiac}"
                                        var="kalendarzItem"
-                                       itemValue="#{kalendarzItem}" itemLabel="#{kalendarzItem.umowa.angaz.pracownik.nazwiskoImie}"/>
+                                       itemValue="#{kalendarzItem}" itemLabel="#{kalendarzItem.angaz.pracownik.nazwiskoImie}"/>
                         <p:ajax event="change" listener="#{pasekwynagrodzenView.przelicz}" partialSubmit="true" global="false" update="@(form)"/>
                     </p:selectOneMenu>-->
                 </p:panelGrid>

@@ -10,7 +10,7 @@
     <p:panel header="paski wynagrodzeń" rendered="#{pasekwynagrodzenView.ileszczegolow eq 'normalna'}">
         <p:dataTable id="datalist1" value="#{pasekwynagrodzenView.lista}" var="itempasek" emptyMessage="Brak listy za dany okres"
                      selectionMode="single" selection="#{pasekwynagrodzenView.selectedlista}" rowIndexVar="indexpasek"
-                     rowKey="#{itempasek.kalendarzmiesiac.hashCode()}" sortBy="#{itempasek.kalendarzmiesiac.umowa.angaz.pracownik.nazwiskoImie}"
+                     rowKey="#{itempasek.kalendarzmiesiac.hashCode()}" sortBy="#{itempasek.kalendarzmiesiac.angaz.pracownik.nazwiskoImie}"
                      style="height: 450px; overflow-y: scroll;width: 1400px;"
                      >
             <p:column width="20" style="text-align: center;">

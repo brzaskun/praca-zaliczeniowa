@@ -19,7 +19,7 @@
                         </p:panelGrid>
                         <p:panelGrid columns="4" rendered="#{pracownikNieobecnoscView.urlopprezentacja != null}">
                             <p:outputLabel value="nazwisko i imię pracownika" for="urlopimie" />
-                            <p:inputText id="urlopimie" value="#{pracownikNieobecnoscView.urlopprezentacja.umowa.angaz.pracownik.nazwiskoImie}" readonly="true"/>
+                            <p:inputText id="urlopimie" value="#{pracownikNieobecnoscView.urlopprezentacja.angaz.pracownik.nazwiskoImie}" readonly="true"/>
                             <p:outputLabel value="rok rozliczeniowy" for="urloprok" />
                             <p:inputText id="urloprok" value="#{pracownikNieobecnoscView.urlopprezentacja.rok}" readonly="true"/>
                             <p:outputLabel value="zaległy rok uprzedni" for="urloplp" />
@@ -73,12 +73,6 @@
                                 </f:facet>
                                 <h:outputText value="#{urlopwykorzystanie.etat1}/#{urlopwykorzystanie.etat2}"/>
                             </p:column>
-                            <p:column width="80" style="text-align: center;">
-                                <f:facet name="header">
-                                    <h:outputText value="umowa"/>
-                                </f:facet>
-                                <h:outputText value="#{urlopwykorzystanie.urlopprezentacja.umowa.nrkolejny}"/>
-                            </p:column>
                         </p:dataTable>
                         <p:panelGrid columns="4" rendered="#{pracownikNieobecnoscView.urlopprezentacja != null}" style="margin-top: 20px;">
                             <p:outputLabel value="do rozliczenia/wykorzystania:" for="przeniesienia" />
@@ -104,7 +98,7 @@
                         </p:panelGrid>
                         <p:panelGrid columns="4" rendered="#{pracownikNieobecnoscView.chorobaprezentacja != null}">
                             <p:outputLabel value="nazwisko i imię pracownika" for="urlopimie" />
-                            <p:inputText id="urlopimie" value="#{pracownikNieobecnoscView.chorobaprezentacja.umowa.angaz.pracownik.nazwiskoImie}" readonly="true"/>
+                            <p:inputText id="urlopimie" value="#{pracownikNieobecnoscView.chorobaprezentacja.angaz.pracownik.nazwiskoImie}" readonly="true"/>
                             <p:outputLabel value="rok rozliczeniowy" for="urloprok" />
                             <p:inputText id="urloprok" value="#{pracownikNieobecnoscView.chorobaprezentacja.rok}" readonly="true"/>
                             <p:outputLabel value="zaległy rok uprzedni" for="urloplp" />
@@ -158,12 +152,6 @@
                                 </f:facet>
                                 <h:outputText value="#{chorobawykorzystanie.etat1}/#{chorobawykorzystanie.etat2}"/>
                             </p:column>
-                            <p:column width="80" style="text-align: center;">
-                                <f:facet name="header">
-                                    <h:outputText value="umowa"/>
-                                </f:facet>
-                                <h:outputText value="#{chorobawykorzystanie.urlopprezentacja.umowa.nrkolejny}"/>
-                            </p:column>
                         </p:dataTable>
                         <p:panelGrid columns="4" rendered="#{pracownikNieobecnoscView.chorobaprezentacja != null}" style="margin-top: 20px;">
                             <p:outputLabel value="do rozliczenia/wykorzystania:" for="przeniesienia" />
@@ -179,7 +167,7 @@
                         </p:panelGrid>
                         <p:panelGrid columns="4" rendered="#{pracownikNieobecnoscView.zasilekprezentacja != null}">
                             <p:outputLabel value="nazwisko i imię pracownika" for="urlopimiez" />
-                            <p:inputText id="urlopimiez" value="#{pracownikNieobecnoscView.zasilekprezentacja.umowa.angaz.pracownik.nazwiskoImie}" readonly="true"/>
+                            <p:inputText id="urlopimiez" value="#{pracownikNieobecnoscView.zasilekprezentacja.angaz.pracownik.nazwiskoImie}" readonly="true"/>
                             <p:outputLabel value="rok rozliczeniowy" for="urloprokz" />
                             <p:inputText id="urloprokz" value="#{pracownikNieobecnoscView.zasilekprezentacja.rok}" readonly="true"/>
                             <p:outputLabel value="zaległy rok uprzedni" for="urloplpz" />
@@ -232,12 +220,6 @@
                                     <h:outputText value="etat"/>
                                 </f:facet>
                                 <h:outputText value="#{zasilekwykorzystanie.etat1}/#{zasilekwykorzystanie.etat2}"/>
-                            </p:column>
-                            <p:column width="80" style="text-align: center;">
-                                <f:facet name="header">
-                                    <h:outputText value="umowa"/>
-                                </f:facet>
-                                <h:outputText value="#{zasilekwykorzystanie.urlopprezentacja.umowa.nrkolejny}"/>
                             </p:column>
                         </p:dataTable>
                         <p:panelGrid columns="4" rendered="#{pracownikNieobecnoscView.zasilekprezentacja != null}" style="margin-top: 20px;">
