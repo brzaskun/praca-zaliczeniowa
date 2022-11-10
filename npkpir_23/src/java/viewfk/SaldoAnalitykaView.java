@@ -306,7 +306,7 @@ public class SaldoAnalitykaView implements Serializable {
                 listaSaldoKonto.addAll(przygotowanalista.values());
                 for (Iterator<SaldoKonto> it = listaSaldoKonto.iterator(); it.hasNext();) {
                     SaldoKonto skn = it.next();
-                    if (skn.getSaldoMa() == 0.0 && skn.getSaldoWn() == 0.0 && skn.getObrotyBoWn() == 0.0 && skn.getObrotyBoMa() == 0.0) {
+                    if (skn.getSaldoMa() == 0.0 && skn.getSaldoWn() == 0.0 && skn.getObrotyBoWn() == 0.0 && skn.getObrotyBoMa() == 0.0 && skn.getBoWn()==0.0 &&skn.getBoMa()==0.0) {
                         it.remove();
                     }
                 }
@@ -347,7 +347,7 @@ public class SaldoAnalitykaView implements Serializable {
         listaSaldoKonto.addAll(przygotowanalista.values());
         for (Iterator<SaldoKonto> it = listaSaldoKonto.iterator(); it.hasNext();) {
             SaldoKonto skn = it.next();
-            if (skn.getSaldoMa() == 0.0 && skn.getSaldoWn() == 0.0 && skn.getObrotyBoWn() == 0.0 && skn.getObrotyBoMa() == 0.0) {
+            if (skn.getSaldoMa() == 0.0 && skn.getSaldoWn() == 0.0 && skn.getObrotyBoWn() == 0.0 && skn.getObrotyBoMa() == 0.0 && skn.getBoWn()==0.0 &&skn.getBoMa()==0.0) {
                 it.remove();
             }
         }
