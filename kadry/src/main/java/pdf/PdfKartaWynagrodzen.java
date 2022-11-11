@@ -131,7 +131,11 @@ public class PdfKartaWynagrodzen {
             table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPodstawaopodatkowania())), "right",6));
             table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPodatekwstepny())), "right",6));
             table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPraczdrowotne())), "right",6));
-            table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPraczdrowotnedoodliczenia())), "right",6));
+            if (rs.getRok()!=null&&Integer.parseInt(rs.getRok())<2022) {
+                table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPraczdrowotnedoodliczenia())), "right",6));
+            } else {
+                table.addCell(ustawfrazeAlign("", "right",6));
+            }
             table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPodatekdochodowy())), "right",6));
             table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getNetto())), "right",6));
         }

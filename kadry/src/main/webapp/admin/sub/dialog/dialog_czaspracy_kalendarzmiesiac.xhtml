@@ -14,13 +14,7 @@
                 <h:outputText value="W przypadku nierównych godzin mimo całego miesiąca proszę sprawdzić kalendarz wzorcowy"/>
                 <p:panelGrid columns="3">
                     <h:form id="KalendarzmiesiacCreateForm">
-                        <p:panelGrid columns="6">
-                            <p:outputLabel value="umowa" for="umowakalendarz" />
-                            <h:outputText id="umowakalendarz" value="#{kalendarzmiesiacView.selected.angaz.pracownik.dowodosobisty}" style="color: green;"/>
-                            <p:outputLabel value="pracownik" for="umowakalendarz0" />
-                            <h:outputText id="umowakalendarz0" value="#{kalendarzmiesiacView.selected.angaz.pracownik.nazwisko}" style="color: green;"/>
-                            <p:outputLabel value="rodzaj umowy" for="umowakalendarz1" />
-                            <h:outputText id="umowakalendarz1" value="koniec" style="color: green;"/>
+                        <p:panelGrid columns="4">
                             <p:outputLabel value="rok" for="rok" />
                             <p:inputText id="rok" value="#{kalendarzmiesiacView.selected.rok}" title="rok" >
                                 <p:ajax event="blur" listener="#{kalendarzmiesiacView.pobierzkalendarzeprac}" partialSubmit="true" global="false" update=":KalendarzmiesiacListForm:datalist KalendarzmiesiacSaRokForm"/>
@@ -46,7 +40,7 @@
                                 </f:facet>
                                 <h:outputText value="#{itemkalendarzjest.mc}"/>
                             </p:column>
-</p:dataTable>-->       <p:panelGrid columns="1" style="margin-left: 100xp;">
+</p:dataTable>-->       <p:panelGrid columns="1" style="margin-left: 130xp;">
                         <p:panelGrid columns="1">
                             <p:panel header="Wybierz z istniejących kalendarzy"/>
                         </p:panelGrid>
@@ -91,10 +85,10 @@
                             </p:panelGrid>
                     </h:form>
                     <h:form id="KalendarzmiesiacCreateRokForm">
-                        <p:panelGrid columns="2">
+<!--                        <p:panelGrid columns="2">
                             <p:outputLabel value="generuj kalendarz za rok" for="rokkal" />
                             <p:commandButton id="rokkal" value="generuj" styleClass="buttonnorm" actionListener="#{kalendarzmiesiacView.generujrok()}" update="KalendarzmiesiacSaRokForm"/>
-                        </p:panelGrid>
+                        </p:panelGrid>-->
                     </h:form>
                 </p:panelGrid>
             </h:panelGroup>
@@ -104,7 +98,7 @@
                 <p:panel header="Dni kalendarza pracownika #{kalendarzmiesiacView.selected.rok}/#{kalendarzmiesiacView.selected.mc}">
                     <p:dataTable id="datalist" value="#{kalendarzmiesiacView.selected.dzienList}" var="itemkalendarz"
                                  rowKey="#{itemkalendarz.id}"
-                                 style="height: 520px; overflow-y: scroll; width: 1200px;" sortMode="single"
+                                 style="height: 500px; overflow-y: scroll; width: 1200px;" sortMode="single"
                                  emptyMessage="Brak zapisów"
                                  >
 

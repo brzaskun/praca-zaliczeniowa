@@ -930,6 +930,14 @@ public class Pasekwynagrodzen implements Serializable {
     public String getRok() {
         return rok;
     }
+    
+    public int getRokI() {
+        int zwrot = 0;
+        if (this.rok!=null) {
+            zwrot = Integer.parseInt(this.rok);
+        }
+        return zwrot;
+    }
 
     public void setRok(String rok) {
         this.rok = rok;

@@ -27,10 +27,12 @@ import dao.UmowaFacade;
 import dao.UmowakodzusFacade;
 import dao.ZmiennaWynagrodzeniaFacade;
 import data.Data;
+import embeddable.Mce;
 import entity.Angaz;
 import entity.Dzien;
 import entity.EtatPrac;
 import entity.Kalendarzmiesiac;
+import entity.Kalendarzwzor;
 import entity.Kodyzawodow;
 import entity.Nieobecnosc;
 import entity.Rodzajwynagrodzenia;
@@ -160,6 +162,8 @@ public class UmowaView  implements Serializable {
         datadzisiejsza = Data.aktualnaData();
         miejscowosc = wpisView.getFirma().getMiasto();
         selected = new Umowa();
+        etat1 = 1;
+        etat2 = 1;
         if (listapraca!=null&&listapraca.size()>0&&wpisView.getUmowa()!=null&&!listapraca.contains(wpisView.getUmowa())) {
             wpisView.setUmowa(listapraca.get(listapraca.size()-1));
         }
@@ -249,8 +253,9 @@ public class UmowaView  implements Serializable {
             }
             listapraca.add(selected);
             wpisView.setUmowa(selected);
+            EtatPrac etat = null;
             if (selected.getUmowakodzus().isPraca() && etat1!=null && etat2!=null) {
-                EtatPrac etat = new EtatPrac(wpisView.getAngaz(), selected.getDataod(), selected.getDatado(), etat1, etat2);
+                etat = new EtatPrac(wpisView.getAngaz(), selected.getDataod(), selected.getDatado(), etat1, etat2);
                 etatFacade.create(etat);
             }
             if (selected.getUmowakodzus().isPraca() && selected.getKodzawodu()!=null) {
@@ -269,6 +274,7 @@ public class UmowaView  implements Serializable {
               }
               skladnikWynagrodzeniaView.init();
               zmiennaWynagrodzeniaView.init();
+              generujKalendarzNowaUmowa(selected, etat);
               Kalendarzmiesiac kalendarz = kalendarzmiesiacFacade.findByRokMcAngaz(selected.getAngaz(), selected.getRok(), selected.getMc());
               List<Nieobecnosc> zatrudnieniewtrakciemiesiaca = PasekwynagrodzenBean.generuj(kalendarz.getAngaz(),selected.getDataod(), selected.getDatado(),rodzajnieobecnosciFacade, kalendarz.getRok(), kalendarz.getMc(), kalendarz);
               if (zatrudnieniewtrakciemiesiaca!=null) {
@@ -281,8 +287,9 @@ public class UmowaView  implements Serializable {
             }
             selected = new Umowa();
             wynagrodzeniemiesieczne = 0.0;
-            etat1 = null;
-            etat2 = null;
+            wynagrodzeniegodzinowe = 0.0;
+            etat1 = 1;
+            etat2 = 1;
             updateClassView.updateUmowa();
             Msg.msg("Dodano nową umowę");
           } catch (Exception e) {
@@ -500,6 +507,37 @@ public class UmowaView  implements Serializable {
         return zmiennawynagrodzenia;
     }
     
+      
+     public Kalendarzmiesiac generujKalendarzNowaUmowa(Umowa selected, EtatPrac etat) {
+        Kalendarzmiesiac kal = null;
+        if (selected!=null && selected.getPracownik()!=null) {
+            String rok = selected.getRok();
+            Integer mcod = Integer.parseInt(selected.getMc());
+            for (String mc: Mce.getMceListS()) {
+                Integer kolejnymc = Integer.parseInt(mc);
+                if (kolejnymc>=mcod) {
+                    kal = new Kalendarzmiesiac();
+                    Kalendarzwzor znaleziono = kalendarzwzorFacade.findByFirmaRokMc(wpisView.getAngaz().getFirma(), rok, mc);
+                    if (znaleziono!=null) {
+                        kal.setRok(rok);
+                        kal.setMc(mc);
+                        kal.setAngaz(selected.getAngaz());
+                        kal.ganerujdnizwzrocowego(znaleziono, null, etat);
+                        kalendarzmiesiacFacade.create(kal);
+                    } else {
+                        Msg.msg("e","Brak kalendarza wzorcowego za "+mc);
+                    }
+                }
+            }
+            Msg.msg("Pobrano dane z kalendarza wzorcowego z bazy danych i utworzono kalendarze pracownika");
+        } else {
+            Msg.msg("e","Nie można wygenerować. Nie wybrano pracownika i umowy");
+        }
+        return kal;
+    }
+      
+      
+      
     public void oznaczjakoaktywna() {
         if (selectedlista!=null) {
             for (Umowa p : listapraca) {

@@ -83,7 +83,9 @@
                     </p:panelGrid>-->
                     <p:commandButton styleClass="buttonnorm" actionListener="#{angazView.create}" value="#{bundle.Save}" update="display,@(form)" />
                     <p:commandButton value="#{bundle.Cancel}" onclick="AngazCreateDialog.hide()"/>
+                    <p:messages><p:autoUpdate/></p:messages>
                 </h:panelGroup>
+                
             </h:form>
         </p:outputPanel>
         <p:outputPanel>

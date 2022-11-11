@@ -96,7 +96,7 @@
                         <f:facet name="header">
                             <h:outputText value="zdrowotne odlicz."/>
                         </f:facet>
-                        <bcf:outputpl value="#{itemkarta.praczdrowotnedoodliczenia}" stylePlus="#{itemkarta.praczdrowotnedoodliczenia eq 0 ? 'color:silver':null}"/>
+                        <bcf:outputpl value="#{itemkarta.praczdrowotnedoodliczenia}" stylePlus="#{itemkarta.praczdrowotnedoodliczenia eq 0 ? 'color:silver':null}"  rendered="#{itempasek.rokI lt 2022}"/>
                     </p:column>
                     <p:column width="60">
                         <f:facet name="header">

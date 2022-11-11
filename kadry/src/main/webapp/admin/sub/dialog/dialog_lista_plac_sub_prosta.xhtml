@@ -20,8 +20,7 @@
                 <p:panelGrid styleClass="pasekwync">
                     <p:row>
                         <p:column width="80" style="text-align: center;">
-                            <h:outputText value="zapisane" rendered="#{itempasek.id ne null}" styleClass="wwb"/>
-                            <h:outputText value="nowe" rendered="#{itempasek.id eq null}" styleClass="ww"/>
+                            <h:outputText value="koszt prac."/>
                         </p:column>
                         <p:column>
                             <h:outputText value="razem brutto"/>
@@ -50,7 +49,7 @@
                     </p:row>
                     <p:row>
                         <p:column width="40" style="text-align: center;">
-                            <h:outputText value="#{indexpasek+1}"/>
+                            <bcf:outputpl value="#{itempasek.kosztpracodawcy}" rendered="#{itempasek.importowany eq false}"/>
                             <h:outputText value="/import" style="color:blue;" rendered="#{itempasek.importowany eq true}"/>
                         </p:column>
                         <p:column>
@@ -140,7 +139,7 @@
                             <bcf:outputpl value="#{itempasek.kwotawolna}"/>
                         </p:column>
                         <p:column>
-                            <bcf:outputpl value="#{itempasek.praczdrowotnedoodliczenia}"/>
+                            <bcf:outputpl value="#{itempasek.praczdrowotnedoodliczenia}" rendered="#{itempasek.rokI lt 2022}"/>
                         </p:column>
                         <p:column>
                             <bcf:outputpl value="#{itempasek.praczdrowotnedopotracenia}"/>

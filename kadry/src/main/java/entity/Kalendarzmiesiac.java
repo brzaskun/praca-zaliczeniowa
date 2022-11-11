@@ -592,6 +592,21 @@ private static final long serialVersionUID = 1L;
         }
     }
     
+    public void ganerujdnizwzrocowego(Kalendarzwzor kalendarzwzor, Integer dzienstart, EtatPrac etat) {
+        int start = dzienstart!=null? dzienstart:0;
+        List<Dzien> nowedni = new ArrayList<>();
+        for (int i = 0; i < kalendarzwzor.getDzienList().size(); i++) {
+            Dzien dzienwzor = kalendarzwzor.getDzienList().get(i);
+            Dzien dzien = new Dzien(dzienwzor, this, etat);
+            if (dzien.getNrdnia()<start) {
+                dzien.setPrzepracowano(0);
+            }
+            nowedni.add(dzien);
+        }
+        this.dzienList = nowedni;
+    }
+    
+    
     public void ganerujdnizwzrocowego(Kalendarzwzor kalendarzwzor, Integer dzienstart, List<EtatPrac> etaty) {
         int start = dzienstart!=null? dzienstart:0;
         List<Dzien> nowedni = new ArrayList<>();
