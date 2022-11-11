@@ -31,6 +31,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -53,6 +54,7 @@ public class AngazView  implements Serializable {
     private Angaz selectedeast;
     private List<Angaz> lista;
     private List<Angaz> listaeast;
+    private List<Angaz> listaeast2;
     private List<FirmaKadry> listafirm;
     private List<Pracownik> listapracownikow;
     @Inject
@@ -89,7 +91,8 @@ public class AngazView  implements Serializable {
         listapracownikow = pracownikFacade.findAll();
         if (wpisView.getFirma()!=null) {
             lista = angazFacade.findByFirma(wpisView.getFirma());
-            listaeast = angazFacade.findByFirmaAktywni(wpisView.getFirma());
+            pobierzpracownikow();
+            pobierzpracownikow2();
         }
          if (wpisView.getAngaz()!=null) {
             selectedeast = wpisView.getAngaz();
@@ -97,41 +100,55 @@ public class AngazView  implements Serializable {
     }
     
     public void pobierzpracownikow() {
+        List<Angaz> zwrot = new ArrayList<>();
         if (pokazwszystkich) {
-            listaeast = angazFacade.findByFirma(wpisView.getFirma());
+            zwrot = angazFacade.findByFirma(wpisView.getFirma());
         } else {
-            listaeast = angazFacade.findByFirmaAktywni(wpisView.getFirma());
+            zwrot = angazFacade.findByFirmaAktywni(wpisView.getFirma());
+        }
+        if (!zwrot.isEmpty()) {
+            listaeast = zwrot.stream().filter(p->p.getUmowaList()!=null&&!p.getUmowaList().isEmpty()).collect(Collectors.toList());
+        }
+    }
+    
+    public void pobierzpracownikow2() {
+        if (pokazwszystkich) {
+            listaeast2 = angazFacade.findByFirma(wpisView.getFirma());
+        } else {
+            listaeast2 = angazFacade.findByFirmaAktywni(wpisView.getFirma());
         }
     }
 
     public void create() {
         if (selected != null && wpisView.getFirma() != null) {
             if (selected.getPracownik().getEmail() == null || selected.getPracownik().getEmail().equals("")) {
-                Msg.msg("e", "Pracownik nie posiada adresu email. Nie można stworzyć angażu. Email musi być unikalny");
-            } else {
-                try {
-                    selected.setDatadodania(new Date());
-                    selected.setUtworzyl(wpisView.getUzer().getImieNazwisko());
-                    selected.setFirma(wpisView.getFirma());
-                    selected.setKosztyuzyskaniaprocent(100.0);
-                    angazFacade.create(selected);
-                    generujKalendarzNowaUmowa();
-                    lista.add(selected);
-                    wpisView.setAngaz(selected);
-                    wpisView.setUmowa(null);
-                    UprawnieniaUz uprawnienia = uprawnieniaFacade.findByNazwa("Pracownik");
-                    Uz uzer = new Uz(selected, uprawnienia);
-                    selected = new Angaz();
-                    Msg.msg("Dodano nowy angaż");
-                    uzFacade.create(uzer);
-                    //nie moze tu byc bo nie ma umowy
-                    //generujkalendarze();
-                    Msg.msg("Dodano nowego użytkownika");
-                } catch (Exception e) {
-                    Msg.msg("e", "Błąd - nie dodano nowego angażu");
-                }
+                selected.getPracownik().setEmail(generujemail(selected.getPracownik()));
+                selected.getPracownik().setFikcyjnymail(true);
+                Msg.msg("w", "Pracownik nie posiada adresu email. Generuje zastępnczy adres mailowy");
             }
-        }
+            try {
+                selected.setDatadodania(new Date());
+                selected.setUtworzyl(wpisView.getUzer().getImieNazwisko());
+                selected.setFirma(wpisView.getFirma());
+                selected.setKosztyuzyskaniaprocent(100.0);
+                selected.setKwotawolnaprocent(100.0);
+                angazFacade.create(selected);
+                generujKalendarzNowaUmowa();
+                lista.add(selected);
+                wpisView.setAngaz(selected);
+                wpisView.setUmowa(null);
+                UprawnieniaUz uprawnienia = uprawnieniaFacade.findByNazwa("Pracownik");
+                Uz uzer = new Uz(selected, uprawnienia);
+                selected = new Angaz();
+                Msg.msg("Dodano nowy angaż");
+                uzFacade.create(uzer);
+                //nie moze tu byc bo nie ma umowy
+                //generujkalendarze();
+                Msg.msg("Dodano nowego użytkownika");
+            } catch (Exception e) {
+                Msg.msg("e", "Błąd - nie dodano nowego angażu");
+            }
+                    }
     }
     
     public Kalendarzmiesiac generujKalendarzNowaUmowa() {
@@ -411,6 +428,15 @@ public class AngazView  implements Serializable {
         Mail.ankieta(pracownik.getEmail(), null, findSprawaByDef);
     }
     
+    private String generujemail(Pracownik pracownik) {
+        String zwrot = "brak adresu";
+        if (pracownik!=null) {
+            String nowyadres = pracownik.getNazwisko()+pracownik.getImie()+"@taxman.biz.pl";
+        }
+        return zwrot;
+    }
+
+    
     public Angaz getSelected() {
         return selected;
     }
@@ -476,6 +502,15 @@ public class AngazView  implements Serializable {
         this.pokazwszystkich = pokazwszystkich;
     }
 
+    public List<Angaz> getListaeast2() {
+        return listaeast2;
+    }
+
+    public void setListaeast2(List<Angaz> listaeast2) {
+        this.listaeast2 = listaeast2;
+    }
+
+    
    
     
     

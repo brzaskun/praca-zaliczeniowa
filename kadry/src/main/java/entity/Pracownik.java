@@ -180,6 +180,9 @@ public class Pracownik implements Serializable {
     private int stazmiesiace;
     @Column(name = "stazdni")
     private int stazdni;
+    @Column(name = "fikcyjnymail")
+    private boolean fikcyjnymail;
+    
 
     public Pracownik() {
        this.aktywny = true;
@@ -311,6 +314,14 @@ public class Pracownik implements Serializable {
     public void setAktywny(boolean aktywny) {
         this.aktywny = aktywny;
     }
+
+    public boolean isFikcyjnymail() {
+        return fikcyjnymail;
+    }
+
+    public void setFikcyjnymail(boolean fikcyjnymail) {
+        this.fikcyjnymail = fikcyjnymail;
+    }
     
     
     
@@ -364,6 +375,14 @@ public class Pracownik implements Serializable {
         return zwrot;
     }
     
+    public String getFikcyjnymailsymbol(){
+        String zwrot = "";
+        if (this.fikcyjnymail) {
+            zwrot = "✔";
+        }
+        return zwrot;
+    }
+    
     public List<Umowa> getUmowy(){
         List<Umowa> zwrot = new ArrayList<>();
         if (this.angazList!=null&& !this.angazList.isEmpty()) {
@@ -397,6 +416,9 @@ public class Pracownik implements Serializable {
                     zwrot = zwrot+p.getFirma().getNazwa()+"; ";
                 }
             }
+        }
+        if (zwrot.equals("")) {
+            zwrot = "brak angażu";
         }
         return zwrot;
     }

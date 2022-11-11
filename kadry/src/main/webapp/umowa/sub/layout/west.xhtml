@@ -25,10 +25,10 @@
          <h:form id="EastPracownicy">
             <p:panel header="Pracownicy">
                 <p:selectBooleanCheckbox id="wyboropcji" value="#{angazView.pokazwszystkich}">
-                    <p:ajax event="change" listener="#{angazView.pobierzpracownikow}" update="@form" global="false"/>
+                    <p:ajax event="change" listener="#{angazView.pobierzpracownikow2}" update="@form" global="false"/>
                 </p:selectBooleanCheckbox>
                 <p:outputLabel for="wyboropcji" value="pobierz wszystkich"/>
-                <p:dataTable id="datalist" value="#{angazView.listaeast}" var="item2"
+                <p:dataTable id="datalist" value="#{angazView.listaeast2}" var="item2"
                              selectionMode="single" selection="#{angazView.selectedeast}" sortBy="#{item2.pracownik.nazwiskoImie}"
                              rowKey="#{item2.id}" emptyMessage="Firma nie ma pracowników"
                              style="height: 350px;overflow-y: scroll;"

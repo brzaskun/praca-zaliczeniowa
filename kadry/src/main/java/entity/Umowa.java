@@ -663,7 +663,7 @@ public class Umowa implements Serializable {
     public String getWiekumowa() {
         String zwrot = "";
         if (this.dataod!=null) {
-            zwrot = "lat: "+this.lata+" dni: "+this.dni;
+            zwrot = this.lata+" lat i "+this.dni+" dni";
         }
         return zwrot;
     }

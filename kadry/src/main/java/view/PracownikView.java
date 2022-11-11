@@ -53,6 +53,7 @@ public class PracownikView  implements Serializable {
       if (selected!=null) {
           try {
             selected.setIpusera(IPaddress.getIpAddr((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest()));
+            selected.setDatalogowania(Data.aktualnaDataCzas());
             selected.setModyfikowal(wpisView.getUzer().getLogin());
             pracownikFacade.create(selected);
             lista.add(selected);

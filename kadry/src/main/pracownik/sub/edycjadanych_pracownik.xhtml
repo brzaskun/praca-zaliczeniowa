@@ -5,8 +5,8 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     >
-    <p:panelGrid columns="2" columnClasses="twenty-percent, eighty-percent" style="height: 400px;width: 1700px;">
-        <p:outputPanel style="height: 400px">
+    <p:panelGrid columns="1" columnClasses="twenty-percent, eighty-percent" style="height: 400px;width: 1700px;">
+        <p:outputPanel style="height: 250px">
             <h:form id="PracownikCreateForm">
                 <h:panelGroup id="display">
                     <p:panel header="Dane nowego pracownika "/>
@@ -65,7 +65,7 @@
                             <f:facet name="header">
                                 <h:outputText value="firmy"/>
                             </f:facet>
-                            <h:outputText value="#{item2.firmypracownika}"/>
+                            <h:outputText value="#{item2.firmypracownika}" style="#{item2.firmypracownika eq'brak angażu'?'color:blue':null}"/>
                         </p:column>
                          <p:column width="150" filterBy="#{item2.email}" filterMatchMode="contains">
                             <f:facet name="header">
@@ -94,6 +94,20 @@
                                 <h:outputText value="jest umowa"/>
                             </f:facet>
                              <h:outputText value="#{item2.czyjestumowa}"/>
+                        </p:column>
+                        <p:column filterBy="#{item2.datalogowania}" filterMatchMode="startsWith">
+                            <f:facet name="header">
+                                <h:outputText value="logowanie"/>
+                            </f:facet>
+                            <h:outputText value="#{item2.datalogowania}">
+                                <f:convertDateTime dateStyle="medium" locale="pl"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="zmienił"/>
+                            </f:facet>
+                            <h:outputText value="#{item2.modyfikowal}"/>
                         </p:column>
                         <p:column width="50" style="text-align: center;">
                             <p:commandButton icon="fa fa-trash" actionListener="#{pracownikView.usun(item2)}" update="north  AngazListForm PracownikListForm:datalist">

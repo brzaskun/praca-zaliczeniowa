@@ -5,8 +5,8 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     >
-     <p:panelGrid columns="2" columnClasses="twenty-percent, eighty-percent" style="height: 300px;width: 1700px;">
-        <p:outputPanel style="height: 300px">
+     <p:panelGrid columns="1" columnClasses="twenty-percent, eighty-percent" style="height: 300px;width: 1700px;">
+        <p:outputPanel style="height: 250px">
             <h:form id="AngazCreateForm">
                 <h:panelGroup id="display">
                     <p:panel header="Wybór pracownika do angażu w firmie #{wpisView.firma.nazwa}"/>
@@ -117,12 +117,12 @@
                                 <f:convertDateTime locale="pl" />
                             </h:outputText>
                         </p:column>
-                        <p:column>
+<!--                        <p:column>
                             <f:facet name="header">
                                 <h:outputText value="firma"/>
                             </f:facet>
                             <h:outputText value="#{itemAngaz.firma.nazwa}"/>
-                        </p:column>
+                        </p:column>-->
                         <p:column width="40" style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="serial"/>
@@ -163,14 +163,28 @@
                             </f:facet>
                             <h:outputText value="#{itemAngaz.mc}"/>
                         </p:column>
-                        <p:column width="50" sortBy="#{itemAngaz.pracownik.ulgadlaklasysredniej}" style="text-align: center;">
+                         <p:column width="40" style="text-align: center;" sortBy="#{itemAngaz.pracownik.czyjestumowa}">
+                            <f:facet name="header">
+                                <h:outputText value="fikcyjnyu mail"/>
+                            </f:facet>
+                             <h:outputText value="#{itemAngaz.pracownik.fikcyjnymailsymbol}"/>
+                        </p:column>
+                        <p:column width="70" filterBy="#{itemAngaz.pracownik.datalogowania}" filterMatchMode="startsWith">
+                            <f:facet name="header">
+                                <h:outputText value="logowanie"/>
+                            </f:facet>
+                            <h:outputText value="#{itemAngaz.pracownik.datalogowania}">
+                                <f:convertDateTime dateStyle="medium" locale="pl"/>
+                            </h:outputText>
+                        </p:column>
+<!--                        <p:column width="50" sortBy="#{itemAngaz.pracownik.ulgadlaklasysredniej}" style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="ulga dla klasy śr."/>
                             </f:facet>
                             <p:selectBooleanCheckbox value="#{itemAngaz.pracownik.ulgadlaklasysredniej}">
                                 <p:ajax event="change" partialSubmit="true" global="false" listener="#{angazView.zapisz(itemAngaz.pracownik)}"/>
                             </p:selectBooleanCheckbox>
-                        </p:column>
+                        </p:column>-->
                         <p:column headerText="mail"  width="40" style="text-align: center;">
                             <p:commandButton icon="fa fa-file-text" actionListener="#{angazView.mail(itemAngaz.pracownik)}"/>
                         </p:column>

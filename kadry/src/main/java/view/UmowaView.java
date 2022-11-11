@@ -348,8 +348,10 @@ public class UmowaView  implements Serializable {
     
     public void obliczwiek() {
         String zwrot = "";
-        if (selected!=null&&selected.getDataod()!=null) {
-            String dataurodzenia = wpisView.getAngaz().getPracownik().getDataurodzenia();
+        String dataurodzenia = wpisView.getAngaz().getPracownik().getDataurodzenia();
+        if (dataurodzenia==null) {
+            Msg.msg("e","Brak daty urodzenia pracownika");
+        } else if (selected!=null&&selected.getDataod()!=null) {
             LocalDate dataur = LocalDate.parse(dataurodzenia);
             LocalDate dataumowy = LocalDate.parse(selected.getDataod());
             String rok = Data.getRok(selected.getDataod());
@@ -408,7 +410,7 @@ public class UmowaView  implements Serializable {
                 selected.setEmerytalne(true);
                 selected.setWypadkowe(true);
                 selected.setZdrowotne(true);
-                selected.setNfz("16");
+                selected.setNfz("16R");
             } else if (selected.getUmowakodzus().isZlecenie()) {
                 selected.setNrkolejny("UC/"+numerkolejny+"/"+wpisView.getRokWpisu()+"/"+wpisView.getMiesiacWpisu());
                 selected.setChorobowe(false);
@@ -417,7 +419,7 @@ public class UmowaView  implements Serializable {
                 selected.setEmerytalne(true);
                 selected.setWypadkowe(true);
                 selected.setZdrowotne(true);
-                selected.setNfz("16");
+                selected.setNfz("16R");
             }
         }
     }
@@ -490,6 +492,7 @@ public class UmowaView  implements Serializable {
                 zmiennawynagrodzenia.setKwota(wynagrodzeniegodzinowe);
             }
             zmiennawynagrodzenia.setDataod(selected.getDataod());
+            zmiennawynagrodzenia.setDatado(selected.getDatado());
         }
         try {
             zmiennaWynagrodzeniaFacade.create(zmiennawynagrodzenia);

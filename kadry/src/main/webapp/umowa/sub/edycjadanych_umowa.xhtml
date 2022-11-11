@@ -7,23 +7,31 @@
 
     xmlns:bcf="http://brzaskun.com/facelets"
     >
-    <p:outputPanel style="height: 330px" id="panelumowadane">
+    <p:outputPanel style="height: 550px" id="panelumowadane">
         <h:form id="UmowaCreateForm">
             <p:panel header="Dodawanie/edycja umowy #{umowaView.rodzajumowy eq '1' ?'o pracę':'zlecenia i o dzieło'}"/>
             <h:panelGroup id="displaypraca" rendered="#{umowaView.rodzajumowy eq '1'}">
                 <h:outputText value="Dodajesz nową umowę o pracę" style="color:green; margin-left: 50px; font-weight: bolder;" rendered="#{umowaView.selected.id eq null}"/>
                 <h:outputText value="Zmieniasz istniejącą umowę" style="color:blue; margin-left: 50px; font-weight: bolder;" rendered="#{umowaView.selected.id ne null}"/>
-                <p:panelGrid columns="4" rendered="#{umowaView.selected != null}">
+                <p:panelGrid columns="2" rendered="#{umowaView.selected != null}">
                     <p:panelGrid columns="2">
                         <p:outputLabel value="angaz" for="angaz1" />
                         <h:outputText id="angaz1" value="#{wpisView.angaz.pracownik.nazwiskoImie}"/>
+                        <p:outputLabel value="wiek" for="wiek1" />
+                        <h:outputText id="wiek1" value="#{umowaView.selected.wiekumowa}" styleClass="dataUmowy"/>
+                        <p:separator/>
+                        <p:separator/>
+                        <p:outputLabel value="data zawarcia" for="datazawarcia1" />
+                        <p:inputText id="datazawarcia1" value="#{umowaView.selected.datazawarcia}" title="data zawarcia"  placeholder="____-__-__"  required="true" styleClass="dataUmowy" maxlength="10">
+                            <p:ajax event="change" listener="#{umowaView.naniesdatynaumowe}" partialSubmit="true" global="false" update="@(.dataUmowy)"/>
+                        </p:inputText>
                         <p:outputLabel value="rodzaj umowy" for="rodzajumowy1" />
                         <p:selectOneMenu id="rodzajumowy1" value="#{umowaView.selected.umowakodzus}" converter="#{umowakodzusConverter}" autoWidth="false" style="width: 300px;" filter="true" filterMatchMode="contains" required="true">
                             <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
                             <f:selectItems value="#{umowaView.listaumowakodzus}"
                                            var="umowakodzusItem"
                                            itemValue="#{umowakodzusItem}" itemLabel="#{umowakodzusItem.kod} #{umowakodzusItem.opis}"/>
-                            <p:ajax event="change" listener="#{umowaView.ustawumowe}" partialSubmit="true" global="false" update="@(form) UmowaCreateForm:nrumowy"/>
+                            <p:ajax event="change" listener="#{umowaView.ustawumowe}" partialSubmit="true" global="false" update="@(form) UmowaCreateForm:nrumowy UmowaCreateForm:wiek1"/>
                         </p:selectOneMenu>
                         <p:outputLabel value="kod ZUS" for="kodumowy1" />
                         <p:inputText id="kodumowy1" value="#{umowaView.selected.umowakodzus.kod}" title="kod" readonly="true"/>
@@ -39,10 +47,7 @@
                         </p:selectOneMenu>
                         <p:outputLabel value="opis stanowiska" for="stanowisko1" />
                         <p:inputText id="stanowisko1" value="#{umowaView.selected.stanowisko}" title="stanowisko" style="width: 200px;"/>
-                        <p:outputLabel value="data zawarcia" for="datazawarcia1" />
-                        <p:inputText id="datazawarcia1" value="#{umowaView.selected.datazawarcia}" title="data zawarcia"  placeholder="____-__-__"  required="true" styleClass="dataUmowy" maxlength="10">
-                            <p:ajax event="change" listener="#{umowaView.naniesdatynaumowe}" partialSubmit="true" global="false" update="@(.dataUmowy)"/>
-                        </p:inputText>
+                        
                     </p:panelGrid>
                     <p:panelGrid columns="2">
                         <p:outputLabel value="data od" for="dataod1" />
@@ -55,8 +60,8 @@
                         <p:inputText id="datarozp1" value="#{umowaView.selected.terminrozpoczeciapracy}" title="termin rozpoczecia pracy" styleClass="dataUmowy"  placeholder="____-__-__"  maxlength="10"/>
                         <p:outputLabel value="miejsce pracy" for="miejscepracy" />
                         <p:inputText id="miejscepracy" value="#{umowaView.selected.miejscepracy}" title="miejsce pracy" />
-                         <p:outputLabel value="wiek" for="wiek1" />
-                         <h:outputText id="wiek1" value="#{umowaView.selected.wiekumowa}" styleClass="dataUmowy"/>
+                         
+                         
                     </p:panelGrid>
                     <p:panelGrid columns="2">
                         <p:outputLabel value="kod zawodu" for="kodzawodu1" />
@@ -219,6 +224,7 @@
                 <p:commandButton styleClass="buttonnorm2" actionListener="#{umowaView.create}" value="Dodaj" update="north, @(form)"  rendered="#{umowaView.selected.id eq null}"/>
                 <p:commandButton styleClass="buttonnorm2" value="Anuluj"  actionListener="#{umowaView.cancel}"  update="north, @(form)" process="@this"/>
             </h:panelGroup>
+            <p:messages><p:autoUpdate/></p:messages>
         </h:form>
     </p:outputPanel>
     <p:outputPanel id="panelsymulacji" style="margin-top: 5px;width: 700px;">
