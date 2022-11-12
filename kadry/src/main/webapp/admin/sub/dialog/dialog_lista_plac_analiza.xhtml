@@ -10,7 +10,7 @@
     <p:dialog id="dialoglistaplacanaliza" header="Analiza wynagrodzenia" widgetVar="dialoglistaplacanaliza"  
               resizable="false"  onShow="ustawdialog('dialoglistaplacanaliza','centertile',1650,800);" closeOnEscape="true" onHide="resetujdialog('dialoglistaplacanaliza');" 
               fitViewport="true">
-        <p:ajax event="open" listener="#{pasekwynagrodzenView.initanaliza()}" update="DefinicjalistaplacAnalizaForm DefinicjalistaplacAnalizaForm1 DefinicjalistaplacAnalizaForm2 PasekwynagrodzenAnalizaForm" global="false"/>
+        <p:ajax event="open" listener="#{pasekwynagrodzenView.initanaliza()}" update="DefinicjalistaplacAnalizaForm1 DefinicjalistaplacAnalizaForm2 PasekwynagrodzenAnalizaForm " global="false"/>
         <p:outputPanel style="height: 50px">
 
             <h:panelGroup >
@@ -127,7 +127,7 @@
                         <h:outputText value="#{pasekwynagrodzenView.wybranykalendarz.macierzynskidnigodz()[1]}" styleClass="wwb"/>
                         <h:outputText value="#{pasekwynagrodzenView.wybranykalendarz.wychowawczydnigodz()[1]}" styleClass="wwb"/>
                     </p:panelGrid>
-                    <p:tabView>
+                    <p:tabView id="akordeon">
                         <p:tab title="Składniki wynagrodzenia">
                             <p:panelGrid columns="1" rendered="#{pasekwynagrodzenView.wybranykalendarz.pasekwynagrodzenList ne null}" style="margin-bottom: 10px;">
                                 <p:dataTable id="datalist" value="#{pasekwynagrodzenView.listawynagrodzenpracownika}" var="itempasekwyn"

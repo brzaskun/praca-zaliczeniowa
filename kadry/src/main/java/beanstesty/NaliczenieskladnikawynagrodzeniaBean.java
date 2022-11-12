@@ -81,7 +81,7 @@ public class NaliczenieskladnikawynagrodzeniaBean {
             }
         }
         double godzinyroboczewmiesiacu = dniroboczewmiesiacu * 8.0;
-        String datastart = kalendarz.getPierwszyDzien();
+        String datastart = ustaldateod(kalendarz);
         String dataend = kalendarz.getOstatniDzien();
         Naliczenieskladnikawynagrodzenia zwrot = new Naliczenieskladnikawynagrodzenia();
         double zmiennawynagrodzeniakwota = 0.0;
@@ -110,7 +110,7 @@ public class NaliczenieskladnikawynagrodzeniaBean {
                 godzinyroboczewmiesiacu = godzinyroboczewmiesiacu + p.getNormagodzin();
             }
         }
-        String datastart = kalendarz.getPierwszyDzien();
+        String datastart = ustaldateod(kalendarz);
         String dataend = kalendarz.getOstatniDzien();
         Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = new Naliczenieskladnikawynagrodzenia();
         if (skladnikwynagrodzenia.getRodzajwynagrodzenia().getKod().equals("11")) {
@@ -262,6 +262,19 @@ public class NaliczenieskladnikawynagrodzeniaBean {
 //        zwrot.setSkladnikwynagrodzenia(skladnikwynagrodzenia);
         return naliczenieskladnikawynagrodzenia;
     }
+    
+    private static String ustaldateod(Kalendarzmiesiac kalendarz) {
+        String zwrot = kalendarz.getPierwszyDzien();
+        for (Dzien d : kalendarz.getDzienList()) {
+            if (d.getKod()!=null&&d.getKod().equals("D")) {
+                zwrot = d.getDatastring();
+            } else {
+                zwrot = d.getDatastring();
+                break;
+            }
+        }
+        return zwrot;
+    }
 
     public static Naliczenieskladnikawynagrodzenia createPremia() {
         if (naliczenieskladnikapremia == null) {
@@ -287,7 +300,7 @@ public class NaliczenieskladnikawynagrodzeniaBean {
         double zmiennawynagrodzeniakwota = 0.0;
         double dniroboczeprzepracowane = 0.0;
         double dniroboczeprzepracowanestat = 0.0;
-        String datastart = kalendarz.getPierwszyDzien();
+        String datastart = ustaldateod(kalendarz);
         String dataend = kalendarz.getOstatniDzien();
         for (Zmiennawynagrodzenia r : skladnikwynagrodzenia.getZmiennawynagrodzeniaList()) {
             int dzienodzmienna = DataBean.dataod(naliczenieskladnikawynagrodzenia.getDataod(), kalendarz.getRok(), kalendarz.getMc());
@@ -344,5 +357,7 @@ public class NaliczenieskladnikawynagrodzeniaBean {
         }
         return naliczenieskladnikanadgodziny100;
     }
+
+    
 
 }

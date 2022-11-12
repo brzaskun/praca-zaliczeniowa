@@ -184,6 +184,8 @@ public class Umowa implements Serializable {
     private int lata;
     @Column(name = "dni")
     private int dni;
+    @Column(name = "licznikumow")
+    private int licznikumow;
     @JoinColumn(name = "kombinacjaubezpieczen", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Kombinacjaubezpieczen kombinacjaubezpieczen;
@@ -290,6 +292,14 @@ public class Umowa implements Serializable {
 
     public void setDni(int dni) {
         this.dni = dni;
+    }
+
+    public int getLicznikumow() {
+        return licznikumow;
+    }
+
+    public void setLicznikumow(int licznikumow) {
+        this.licznikumow = licznikumow;
     }
     
 

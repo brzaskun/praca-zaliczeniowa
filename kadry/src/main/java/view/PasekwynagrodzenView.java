@@ -180,6 +180,7 @@ public class PasekwynagrodzenView implements Serializable {
             wybranalistaplac2 = listadefinicjalistaplac.stream().filter(p -> p.getMc().equals(wpisView.getMiesiacWpisu())).findFirst().get();
             datawyplaty = zrobdatawyplaty(wpisView.getMiesiacWpisu(), wpisView.getRokWpisu(), wpisView.getFirma());
             listakalendarzmiesiacdoanalizy2 = kalendarzmiesiacFacade.findByFirmaRokMc(wybranalistaplac2.getFirma(), wybranalistaplac2.getRok(), wybranalistaplac2.getMc());
+            wybranykalendarz = listakalendarzmiesiacdoanalizy2.stream().filter(s->s.getPesel().equals(wpisView.getPracownik().getPesel())).findFirst().orElse(null);
             //pobierzkalendarzezamc();
             pobierzkalendarzezamcanaliza();
         } catch (Exception e) {
@@ -203,7 +204,6 @@ public class PasekwynagrodzenView implements Serializable {
             wybranalistaplac = listadefinicjalistaplac.stream().filter(p -> p.getMc().equals(wpisView.getMiesiacWpisu())).findFirst().get();
             wybranalistaplac2 = listadefinicjalistaplac.stream().filter(p -> p.getMc().equals(wpisView.getMiesiacWpisu())).findFirst().get();
             datawyplaty = zrobdatawyplaty(wpisView.getMiesiacWpisu(), wpisView.getRokWpisu(), wpisView.getFirma());
-            listakalendarzmiesiacdoanalizy2 = kalendarzmiesiacFacade.findByFirmaRokMc(wybranalistaplac2.getFirma(), wybranalistaplac2.getRok(), wybranalistaplac2.getMc());
             pobierzkalendarzezamc();
             pobierzkalendarzezamcanaliza();
         } catch (Exception e) {
@@ -499,6 +499,7 @@ public class PasekwynagrodzenView implements Serializable {
             if (wybranykalendarz != null) {
                 try {
                     wybranykalendarz = listakalendarzmiesiac.stream().filter(p -> p.getPesel().equals(wybranykalendarz.getAngaz().getPracownik().getPesel())).findFirst().get();
+                    pobierzpracownika();
                 } catch (Exception e) {
                 }
             }

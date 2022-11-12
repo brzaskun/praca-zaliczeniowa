@@ -250,6 +250,10 @@ public class UmowaView  implements Serializable {
                     p.setAktywna(false);
                 }
                 umowaFacade.editList(listapraca);
+                int kolejnosc = listapraca.size()+1;
+                selected.setLicznikumow(kolejnosc);
+            } else {
+                selected.setLicznikumow(1);
             }
             listapraca.add(selected);
             wpisView.setUmowa(selected);
