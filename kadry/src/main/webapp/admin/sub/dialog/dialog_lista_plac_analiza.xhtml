@@ -17,7 +17,7 @@
 
                 <p:panelGrid columns="4" rendered="#{pasekwynagrodzenView.listadefinicjalistaplac ne null}">
                     <h:form id="DefinicjalistaplacAnalizaForm">
-                        <p:outputLabel value="rodzaj umowy" />
+<!--                        <p:outputLabel value="rodzaj umowy" />
                          <p:selectOneMenu id="rodzajumowy" value="#{pasekwynagrodzenView.rodzajlistyplac}" autoWidth="false" style="width: 280px;margin-left: 10px;" required="true" filter="true" filterMatchMode="contains" requiredMessage="Wybierz rodzaj listy płac"
                                  converter="#{rodzjalistyplacConverter}">
                                 <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
@@ -25,7 +25,7 @@
                                                var="firmalistaItem"
                                                itemValue="#{firmalistaItem}" itemLabel="#{firmalistaItem.nazwa}"/>
                                 <p:ajax event="change" partialSubmit="true" listener="#{pasekwynagrodzenView.wyborinnejumowy()}" global="false" update="PasekwynagrodzenAnalizaForm DefinicjalistaplacAnalizaForm1 DefinicjalistaplacAnalizaForm2"/>
-                        </p:selectOneMenu>
+                        </p:selectOneMenu>-->
                     </h:form>
                     <h:form id="DefinicjalistaplacAnalizaForm1">
                         <p:outputLabel value="wybrana lista płac" for="wybranalista" />
@@ -211,7 +211,7 @@
                                     <p:column headerText="dni robocze" width="40" style="text-align: center;">
                                         <h:outputText value="#{itempasekpotr.nieobecnosc.dniroboczenieobecnosci}"/>
                                     </p:column>
-                                    <p:column headerText="godziny urlopu" width="40" style="text-align: center;">
+                                    <p:column headerText="godziny nieobec." width="40" style="text-align: center;">
                                         <h:outputText value="#{itempasekpotr.liczbagodzinurlopu}"/>
                                     </p:column>
                                     <p:column headerText="godziny robocze" width="40" style="text-align: center;">
