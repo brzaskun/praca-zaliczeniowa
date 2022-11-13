@@ -63,6 +63,14 @@ public class DataBean {
         return dziendozmienna;
     }
     
+    public static String dataodString(String data, String rok, String mc) {
+        String dataod = Data.pierwszyDzien(rok, mc);
+        if (data!=null&&!data.equals("")&&Data.getRok(data).equals(rok)&&Data.getMc(data).equals(mc)) {
+            dataod = data;
+        }
+        return dataod;
+    }
+    
     public static int datado(String data, String rok, String mc) {
         String datado = Data.ostatniDzien(rok, mc);
         if (data!=null&&!data.equals("")&&Data.getRok(data).equals(rok)&&Data.getMc(data).equals(mc)) {
@@ -70,6 +78,14 @@ public class DataBean {
         }
         int dziendozmienna = Data.getDzienI(datado);
         return dziendozmienna;
+    }
+    
+     public static String datadoString(String data, String rok, String mc) {
+        String datado = Data.ostatniDzien(rok, mc);
+        if (data!=null&&!data.equals("")&&Data.getRok(data).equals(rok)&&Data.getMc(data).equals(mc)) {
+            datado = data;
+        }
+        return datado;
     }
     
     public static void main(String[]args) {

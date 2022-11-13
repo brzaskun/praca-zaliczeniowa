@@ -189,7 +189,7 @@ public class PasekwynagrodzenBean {
                 boolean czyodlicoznokwotewolna, boolean jestoddelegowanie, double limitZUS, List<Podatki> stawkipodatkowe, double sumapoprzednich, boolean nieodliczackup) {
         KalendarzmiesiacBean.naliczskladnikiwynagrodzeniaDB(kalendarz, pasek, kurs);
         List<Nieobecnosc> nieobecnosci = pobierznieobecnosci(kalendarz);
-        List<Nieobecnosc> zatrudnieniewtrakciemiesiaca = pobierz(nieobecnosci, "D");
+        //List<Nieobecnosc> zatrudnieniewtrakciemiesiaca = pobierz(nieobecnosci, "D");
         List<Nieobecnosc> choroba = pobierz(nieobecnosci, "CH");
         List<Nieobecnosc> zasilekchorobowy = pobierz(nieobecnosci, "ZC");
         List<Nieobecnosc> urlop = pobierz(nieobecnosci, "U");
@@ -198,7 +198,7 @@ public class PasekwynagrodzenBean {
         KalendarzmiesiacBean.nalicznadgodziny50DB(kalendarz, pasek);
         //KalendarzmiesiacBean.nalicznadgodziny100(kalendarz, pasek);
         //najpierw musimy przyporzadkowac aktualne skladniki, aby potem prawidlowo obliczyc redukcje
-        KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, zatrudnieniewtrakciemiesiaca, pasek);
+        //KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, zatrudnieniewtrakciemiesiaca, pasek);
         KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, choroba, pasek);
         KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, zasilekchorobowy, pasek);
         KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, urlopbezplatny, pasek);

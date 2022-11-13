@@ -160,7 +160,7 @@
             <p:rowExpansion>
                 <p:dataTable id="datalist1" value="#{itempasek.pobierzskladniki}" var="itempasekszcz"
                              rowIndexVar="indexpasekszcz"
-                             style="height: 200px; overflow-y: scroll;width: 1200px;"
+                             style="height: 200px; overflow-y: scroll;width: 1280px;"
                              >
                     <p:column style="text-align: center;" headerText="lp" width="40">
                         <h:outputText value="#{itempasekszcz.lp}"/>
@@ -187,6 +187,9 @@
                     </p:column>
                     <p:column headerText="data do" width="60">
                         <h:outputText value="#{itempasekszcz.datado}"/>
+                    </p:column>
+                    <p:column headerText="umowa" width="80">
+                        <bcf:outputpl value="#{itempasekszcz.wynagrodzeniezmienna}"/>
                     </p:column>
                      <p:column headerText="st/h" width="60">
                         <bcf:outputpl value="#{itempasekszcz.stawkanagodzine}"/>

@@ -279,15 +279,11 @@ public class KalendarzmiesiacBean {
     static void naliczskladnikiwynagrodzeniaDB(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasekwynagrodzen, double kurs) {
         for (Skladnikwynagrodzenia p : kalendarz.getAngaz().getSkladnikwynagrodzeniaList()) {
             if (p.getRodzajwynagrodzenia().getKod().equals("11")) {
-                Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = NaliczenieskladnikawynagrodzeniaBean.createWynagrodzenieDB(kalendarz, pasekwynagrodzen, p, kurs);
-                if (naliczenieskladnikawynagrodzenia.getKwotaumownazacalymc()!=0.0) {
-                    pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().add(naliczenieskladnikawynagrodzenia);
-                }
+                List<Naliczenieskladnikawynagrodzenia> naliczenieskladnikawynagrodzenia = NaliczenieskladnikawynagrodzeniaBean.createWynagrodzenieDB(kalendarz, pasekwynagrodzen, p, kurs);
+                pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().addAll(naliczenieskladnikawynagrodzenia);
             } else if (p.getRodzajwynagrodzenia().getKod().equals("13")) {
-                Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = NaliczenieskladnikawynagrodzeniaBean.createWynagrodzenieDB(kalendarz, pasekwynagrodzen, p, kurs);
-                if (naliczenieskladnikawynagrodzenia.getKwotaumownazacalymc()!=0.0) {
-                    pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().add(naliczenieskladnikawynagrodzenia);
-                }
+                List<Naliczenieskladnikawynagrodzenia> naliczenieskladnikawynagrodzenia = NaliczenieskladnikawynagrodzeniaBean.createWynagrodzenieDB(kalendarz, pasekwynagrodzen, p, kurs);
+                pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().addAll(naliczenieskladnikawynagrodzenia);
             } else if (p.getRodzajwynagrodzenia().getKod().equals("21")) {
                 Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = NaliczenieskladnikawynagrodzeniaBean.createPremiaDB(kalendarz, pasekwynagrodzen, p);
                 if (naliczenieskladnikawynagrodzenia.getKwotadolistyplac()!=0.0) {
@@ -804,16 +800,16 @@ public class KalendarzmiesiacBean {
                 int dzienodzmienna = DataBean.dataod(naliczenieskladnikawynagrodzenia.getDataod(), kalendarz.getRok(), kalendarz.getMc());
                 int dziendozmienna = DataBean.datado(naliczenieskladnikawynagrodzenia.getDatado(), kalendarz.getRok(), kalendarz.getMc());
                 skladnikistale = naliczenieskladnikawynagrodzenia.getKwotaumownazacalymc();
-                if (kod.equals("D")) {
-                    for (Dzien s : kalendarz.getDzienList()) {
-                        if (s.getTypdnia()==0 && s.getKod()!=null && s.getKod().equals("D")) {
-                            if (s.getNrdnia()>=dzienod &&s.getNrdnia()<=dziendo) {
-                                dninieobecnoscirobocze = dninieobecnoscirobocze+1;
-                                godzinynieobecnoscirobocze = godzinynieobecnoscirobocze+s.getNormagodzin();
-                            }
-                        }
-                    }
-                } else {
+//                if (kod.equals("D")) {
+//                    for (Dzien s : kalendarz.getDzienList()) {
+//                        if (s.getTypdnia()==0 && s.getKod()!=null && s.getKod().equals("D")) {
+//                            if (s.getNrdnia()>=dzienod &&s.getNrdnia()<=dziendo) {
+//                                dninieobecnoscirobocze = dninieobecnoscirobocze+1;
+//                                godzinynieobecnoscirobocze = godzinynieobecnoscirobocze+s.getNormagodzin();
+//                            }
+//                        }
+//                    }
+//                } else {
                     for (Dzien s : kalendarz.getDzienList()) {
                        if (s.getTypdnia()==0 && s.getNrdnia()>=dzienod &&s.getNrdnia()<=dziendo) {
                            if (s.getNrdnia()>=dzienodzmienna &&s.getNrdnia()<=dziendozmienna) {
@@ -822,7 +818,7 @@ public class KalendarzmiesiacBean {
                            }
                        }
                    }
-                }
+//                }
                 naliczenienieobecnosc.setLiczbadniurlopu(dninieobecnoscirobocze);
                 naliczenienieobecnosc.setLiczbagodzinurlopu(godzinynieobecnoscirobocze);
                 naliczenienieobecnosc.setSkladnikistale(skladnikistale);
