@@ -221,6 +221,8 @@
                         <p:inputNumber id="kwotawol" value="#{angazView.selectedlista.kwotawolnaprocent}" title="kwota wolna procent" required="true" requiredMessage="Wpisz kwota wolna procent" size="6"/>
                         <p:outputLabel value="data przyjazdu do Polski" for="polska" />
                         <p:inputText id="polska" value="#{angazView.selectedlista.dataprzyjazdudopolski}" title="data przyjazdu do Polski"/>
+                        <p:outputLabel value="odliczać kwotę wolną" for="ulga" />
+                        <p:selectBooleanCheckbox id="ulga" value="#{angazView.selectedlista.odliczaculgepodatkowa}"/>
                         <p:outputLabel value="nierezydent" for="nierezydent" />
                         <p:selectBooleanCheckbox id="nierezydent" value="#{angazView.selectedlista.nierezydent}"/>
                     </p:panelGrid>

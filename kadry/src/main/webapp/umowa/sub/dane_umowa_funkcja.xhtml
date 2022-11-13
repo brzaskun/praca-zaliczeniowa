@@ -13,7 +13,7 @@
                 <p:dataTable id="datalist" value="#{umowaView.listafunkcja}" var="itemumowa" widgetVar="dataListumowafunkcja"
                              selection="#{umowaView.selectedlista}" emptyMessage="Brak zawartych umów"
                              rowKey="#{itemumowa.id}" sortBy="#{itemumowa.dataod}" sortMode="single"
-                             style="height: 220px; overflow-y: scroll; width: 1800px;"
+                             style="height: 220px; overflow-y: scroll; width: 1850px;"
                              >
                     <p:ajax event="rowSelect" listener="#{umowaView.aktywuj}" partialSubmit="true" global="false" update="north, @(form)"/>
                     <p:ajax event="rowSelectRadio" listener="#{umowaView.aktywuj}" partialSubmit="true" global="false" update="north, @(form)"/>
@@ -34,6 +34,12 @@
                             <h:outputText value="rodzaj umowy ZUS"/>
                         </f:facet>
                         <h:outputText value="#{itemumowa.umowakodzus.opiswybor}" style="color: #{itemumowa.aktywna eq true ? 'green':'initial'}"/>
+                    </p:column>
+                    <p:column style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="numer"/>
+                        </f:facet>
+                        <h:outputText value="#{itemumowa.nrkolejny}" style="color: #{itemumowa.aktywna eq true ? 'green':'initial'}"/>
                     </p:column>
                     <p:column style="text-align: center;">
                         <f:facet name="header">

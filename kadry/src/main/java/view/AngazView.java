@@ -133,6 +133,7 @@ public class AngazView  implements Serializable {
                 selected.setFirma(wpisView.getFirma());
                 selected.setKosztyuzyskaniaprocent(100.0);
                 selected.setKwotawolnaprocent(100.0);
+                selected.setOdliczaculgepodatkowa(true);
                 angazFacade.create(selected);
                 lista.add(selected);
                 wpisView.setAngaz(selected);

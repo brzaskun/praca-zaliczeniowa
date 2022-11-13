@@ -194,7 +194,7 @@ public class KalendarzmiesiacView  implements Serializable {
                 }
             }
             Kalendarzmiesiac kalendarz = kalendarze.stream().filter(p->p.getRok().equals(rok)&&p.getMc().equals(mcu)).findFirst().get();
-            List<Nieobecnosc> zatrudnieniewtrakciemiesiaca = PasekwynagrodzenBean.generuj(wpisView.getAngaz(), wpisView.getUmowa().getDataod(), wpisView.getUmowa().getDatado(),rodzajnieobecnosciFacade, rok, mcu, kalendarz);
+            List<Nieobecnosc> zatrudnieniewtrakciemiesiaca = PasekwynagrodzenBean.generujNieobecnosci(wpisView.getAngaz(), wpisView.getUmowa().getDataod(), wpisView.getUmowa().getDatado(),rodzajnieobecnosciFacade, rok, mcu, kalendarz, null);
             if (zatrudnieniewtrakciemiesiaca!=null) {
               nieobecnoscFacade.createList(zatrudnieniewtrakciemiesiaca);
             }
@@ -206,10 +206,10 @@ public class KalendarzmiesiacView  implements Serializable {
     }
     
     public void pobierzkalendarzeprac() {
-        if (wpisView.getAngaz()!=null && wpisView.getPracownik()!=null && wpisView.getUmowa()!=null) {
+        if (wpisView.getAngaz()!=null && wpisView.getPracownik()!=null) {
             listakalendarzeprac = kalendarzmiesiacFacade.findByRokAngaz(wpisView.getAngaz(), wpisView.getRokWpisu());
         } else {
-            Msg.msg("e","Nie mozna pobrac kalendarza. Nie wybrano pracownika i umowy");
+            Msg.msg("e","Nie można pobrać kalendarza. Nie wybrano pracownika i umowy");
         }
     }
     

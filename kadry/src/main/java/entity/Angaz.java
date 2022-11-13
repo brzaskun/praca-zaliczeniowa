@@ -609,6 +609,18 @@ public class Angaz implements Serializable {
         }
         return null;
     }
+
+    public Skladnikwynagrodzenia pobierzSkladnikwynagrodzenia(Rodzajwynagrodzenia rodzajwynagrodzenia) {
+        Skladnikwynagrodzenia zwrot = null;
+        if (this.skladnikwynagrodzeniaList!=null) {
+            for (Skladnikwynagrodzenia s : this.skladnikwynagrodzeniaList) {
+                if (s.getRodzajwynagrodzenia().equals(rodzajwynagrodzenia)) {
+                    zwrot = s;
+                }
+            }
+        }
+        return zwrot;
+    }
     
     
 }

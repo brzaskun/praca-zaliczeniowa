@@ -40,15 +40,15 @@ public class StanowiskoPracView implements Serializable {
     }
     
     public void create() {
-      if (selected!=null && wpisView.getUmowa()!=null) {
+      if (selected!=null && wpisView.getAngaz()!=null) {
           try {
             selected.setAngaz(wpisView.getAngaz());
             stanowiskopracFacade.create(selected);
             lista.add(selected);
             selected = new Stanowiskoprac();
-            Msg.msg("Dodano etat");
+            Msg.msg("Dodano stanowisko");
           } catch (Exception e) {
-              Msg.msg("e", "Błąd - nie dodano etatu");
+              Msg.msg("e", "Błąd - nie dodano stanowiska");
           }
       } else {
           Msg.msg("e","Brak wybranej umowy");

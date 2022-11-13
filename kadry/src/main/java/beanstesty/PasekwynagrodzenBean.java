@@ -877,7 +877,7 @@ public class PasekwynagrodzenBean {
         return zwrot;
     }
 
-    public static List<Nieobecnosc> generuj(Angaz angaz, String dataod, String datado, RodzajnieobecnosciFacade rodzajnieobecnosciFacade, String rok, String mc, Kalendarzmiesiac kalendarzmiesiac) {
+    public static List<Nieobecnosc> generujNieobecnosci(Angaz angaz, String dataod, String datado, RodzajnieobecnosciFacade rodzajnieobecnosciFacade, String rok, String mc, Kalendarzmiesiac kalendarzmiesiac, String dataostatniejumowy) {
         List<Nieobecnosc> zwrotlist = new ArrayList<>();
         Nieobecnosc zwrot = new Nieobecnosc();
         String rokumowa = Data.getRok(dataod);
@@ -889,6 +889,11 @@ public class PasekwynagrodzenBean {
             zwrot.setAngaz(angaz);
             zwrot.setRodzajnieobecnosci(nieobecnosckodzus);
             String pierwszydzienmca = Data.pierwszyDzien(dataod);
+            if (dataostatniejumowy!=null) {
+                LocalDate pierwszydzienmcald = LocalDate.parse(dataostatniejumowy);
+                LocalDate tumorow = pierwszydzienmcald.plusDays(1);
+                pierwszydzienmca = tumorow.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            }
             LocalDate pierwszydzienumowy = LocalDate.parse(dataod);
             LocalDate yesterday = pierwszydzienumowy.minusDays(1);  
             String dzienprzedumowa = yesterday.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));

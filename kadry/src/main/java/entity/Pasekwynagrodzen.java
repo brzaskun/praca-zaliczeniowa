@@ -1052,6 +1052,7 @@ public class Pasekwynagrodzen implements Serializable {
                 wiersz.dniprzepracowane = p.getDnifaktyczne();
                 wiersz.godzinyobowiazku = p.getGodzinynalezne();
                 wiersz.godzinyprzepracowane = p.getGodzinyfaktyczne();
+                wiersz.stawkanagodzine = p.getStawkagodzinowa();
                 try {
                     wiersz.setUrlopSP(p.getSkl_dod_1()!=null&&p.getSkl_dod_1().equals('T'));
                     wiersz.setRedukcjaSP(p.getSkl_rodzaj()!=null&&p.getSkl_rodzaj().equals('U'));
@@ -1142,6 +1143,8 @@ public class Pasekwynagrodzen implements Serializable {
         double dniprzepracowane;
         double godzinyobowiazku;
         double godzinyprzepracowane;
+        double stawkanagodzine;
+        
         public Skladnikwynlista() {
         }
 
@@ -1255,6 +1258,14 @@ public class Pasekwynagrodzen implements Serializable {
 
         public void setGodzinyprzepracowane(double godzinyprzepracowane) {
             this.godzinyprzepracowane = godzinyprzepracowane;
+        }
+
+        public double getStawkanagodzine() {
+            return stawkanagodzine;
+        }
+
+        public void setStawkanagodzine(double stawkanagodzine) {
+            this.stawkanagodzine = stawkanagodzine;
         }
     
 

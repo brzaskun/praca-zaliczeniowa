@@ -125,14 +125,16 @@ public class UmowaBean {
                 zwrot = selected.getDataod();
             } else {
                 Umowa u = umowaList.get(0);
-                int iledni = Data.iletodniKalendarzowych(u.getDatado(), selected.getDataod());
-                if (u.getSlownikszkolazatrhistoria().getPraca0nauka1() && iledni < 90) {
-                    zwrot = selected.getDataod();
-                } else {
-                    if (selected.isChorobowe() == true && iledni > 30) {
-                        zwrot = pokazXXdzien(selected.getDataod(), 30);
-                    } else if (selected.isChorobowedobrowolne() == true && iledni > 30) {
-                        zwrot = pokazXXdzien(selected.getDataod(), 90);
+                if (u.getId()!=null||!u.getId().equals(selected.getId())) {
+                    int iledni = Data.iletodniKalendarzowych(u.getDatado(), selected.getDataod());
+                    if (u.getSlownikszkolazatrhistoria().getPraca0nauka1() && iledni < 90) {
+                        zwrot = selected.getDataod();
+                    } else {
+                        if (selected.isChorobowe() == true && iledni > 30) {
+                            zwrot = pokazXXdzien(selected.getDataod(), 30);
+                        } else if (selected.isChorobowedobrowolne() == true && iledni > 30) {
+                            zwrot = pokazXXdzien(selected.getDataod(), 90);
+                        }
                     }
                 }
             }

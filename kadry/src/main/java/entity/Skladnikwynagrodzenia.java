@@ -23,6 +23,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -33,12 +34,15 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author Osito
  */
 @Entity
-@Table(name = "skladnikwynagrodzenia")
+@Table(name = "skladnikwynagrodzenia", uniqueConstraints = {
+    @UniqueConstraint(columnNames={"angaz,rodzajwynagrodzenia"})
+})
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Skladnikwynagrodzenia.findAll", query = "SELECT s FROM Skladnikwynagrodzenia s"),
     @NamedQuery(name = "Skladnikwynagrodzenia.findById", query = "SELECT s FROM Skladnikwynagrodzenia s WHERE s.id = :id"),
     @NamedQuery(name = "Skladnikwynagrodzenia.findByPracownik", query = "SELECT s FROM Skladnikwynagrodzenia s WHERE s.angaz.pracownik = :pracownik"),
+    @NamedQuery(name = "Skladnikwynagrodzenia.findByAngazRodzaj", query = "SELECT s FROM Skladnikwynagrodzenia s WHERE s.angaz = :angaz AND s.rodzajwynagrodzenia = :rodzajwynagrodzenia"),
     @NamedQuery(name = "Skladnikwynagrodzenia.findByAngaz", query = "SELECT s FROM Skladnikwynagrodzenia s WHERE s.angaz = :angaz"),
     @NamedQuery(name = "Skladnikwynagrodzenia.findByFirma", query = "SELECT s FROM Skladnikwynagrodzenia s WHERE s.angaz.firma = :firma")
 })

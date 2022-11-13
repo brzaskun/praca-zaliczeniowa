@@ -29,9 +29,9 @@
         <p:outputPanel>
                 <h:form id="StanowiskoListForm">
                     <p:panel header="Wykaz historii stanowisk">
-                        <p:dataTable id="datalist" value="#{stanowiskoPracView.lista}" var="itemetat"
+                        <p:dataTable id="datalist" value="#{stanowiskoPracView.lista}" var="itemstanow"
                                      selectionMode="single" selection="#{stanowiskoPracView.selectedlista}"
-                                     rowKey="#{itemetat.id}" emptyMessage="Składnik nie posiada zdefiniowanych zmiennych"
+                                     rowKey="#{itemstanow.hashCode()}" emptyMessage="Składnik nie posiada zdefiniowanych zmiennych"
                                      style="height: 100px; overflow-y: scroll;width: 800px;"
                                      >
 
@@ -39,28 +39,28 @@
                                 <f:facet name="header">
                                     <h:outputText value="id"/>
                                 </f:facet>
-                                <h:outputText value="#{itemetat.id}"/>
+                                <h:outputText value="#{itemstanow.id}"/>
                             </p:column>
                             <p:column>
                                 <f:facet name="header">
                                     <h:outputText value="data od"/>
                                 </f:facet>
-                                <h:outputText value="#{itemetat.dataod}"/>
+                                <h:outputText value="#{itemstanow.dataod}"/>
                             </p:column>
                             <p:column>
                                 <f:facet name="header">
                                     <h:outputText value="data do"/>
                                 </f:facet>
-                                <h:outputText value="#{itemetat.datado}"/>
+                                <h:outputText value="#{itemstanow.datado}"/>
                             </p:column>
                             <p:column>
                                 <f:facet name="header">
                                     <h:outputText value="stanowisko"/>
                                 </f:facet>
-                                <h:outputText value="#{itemetat.opis}"/>
+                                <h:outputText value="#{itemstanow.opis}"/>
                             </p:column>
                             <p:column style="text-align: center;">
-                                <p:commandButton icon="fa fa-trash" actionListener="#{stanowiskoPracView.usun(itemetat)}" update="north @(form)"/>
+                                <p:commandButton icon="fa fa-trash" actionListener="#{stanowiskoPracView.usun(itemstanow)}" update="north @(form)"/>
                             </p:column>
                         </p:dataTable>
                     </p:panel>

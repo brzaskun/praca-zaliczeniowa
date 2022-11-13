@@ -41,7 +41,7 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "kalendarzmiesiac", uniqueConstraints = {
-    @UniqueConstraint(columnNames={"rok,mc,umowa"})
+    @UniqueConstraint(columnNames={"rok,mc,angaz"})
 })
 @XmlRootElement
 @NamedQueries({

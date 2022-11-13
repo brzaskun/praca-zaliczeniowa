@@ -38,6 +38,12 @@
                     </p:column>
                     <p:column style="text-align: center;">
                         <f:facet name="header">
+                            <h:outputText value="numer"/>
+                        </f:facet>
+                        <h:outputText value="#{itemumowa.nrkolejny}" style="color: #{itemumowa.aktywna eq true ? 'green':'initial'}"/>
+                    </p:column>
+                    <p:column style="text-align: center;">
+                        <f:facet name="header">
                             <h:outputText value="odliczac ulge pod."/>
                         </f:facet>
                         <h:outputText value="&#x2714;" rendered="#{itemumowa.angaz.odliczaculgepodatkowa eq true}" style="color: #{itemumowa.aktywna eq true ? 'green':'initial'}"/>

@@ -35,7 +35,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "EtatPrac.findAll", query = "SELECT e FROM EtatPrac e"),
     @NamedQuery(name = "EtatPrac.findById", query = "SELECT e FROM EtatPrac e WHERE e.id = :id"),
-    @NamedQuery(name = "EtatPrac.findByAngaz", query = "SELECT e FROM EtatPrac e WHERE e.angaz = :angaz"),
+    @NamedQuery(name = "EtatPrac.findByAngaz", query = "SELECT e FROM EtatPrac e WHERE e.angaz = :angaz ORDER BY e.dataod DESC"),
     @NamedQuery(name = "EtatPrac.findByDataod", query = "SELECT e FROM EtatPrac e WHERE e.dataod = :dataod"),
     @NamedQuery(name = "EtatPrac.findByDatado", query = "SELECT e FROM EtatPrac e WHERE e.datado = :datado"),
     @NamedQuery(name = "EtatPrac.findByEtatPrac1", query = "SELECT e FROM EtatPrac e WHERE e.etat1 = :etat1"),
