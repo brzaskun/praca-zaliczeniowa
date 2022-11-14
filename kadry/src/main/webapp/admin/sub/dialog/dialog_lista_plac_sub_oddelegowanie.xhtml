@@ -252,12 +252,12 @@
             <p:rowExpansion>
                 <p:dataTable id="datalist" value="#{itempasek.pobierzskladniki}" var="itempasekszcz"
                              rowIndexVar="indexpasekszcz"
-                             style="height: 200px; overflow-y: scroll;width: 1280px;"
+                             style="height: 200px; overflow-y: scroll;width: 1300px;"
                              >
                     <p:column style="text-align: center;" headerText="lp" width="40">
                         <h:outputText value="#{itempasekszcz.lp}"/>
                     </p:column>
-                    <p:column headerText="kod" width="40">
+                   <p:column headerText="kod" width="25" style="text-align: center;">
                         <h:outputText value="#{itempasekszcz.kod}"/>
                     </p:column>
                     <p:column headerText="składnik" width="320">
@@ -280,16 +280,19 @@
                     <p:column headerText="data do" width="60">
                         <h:outputText value="#{itempasekszcz.datado}"/>
                     </p:column>
-                    <p:column headerText="umowa" width="80">
+                    <p:column headerText="umowa" width="70">
                         <bcf:outputpl value="#{itempasekszcz.wynagrodzeniezmienna}"/>
                     </p:column>
-                    <p:column headerText="st/h" width="60">
+                     <p:column headerText="st/h" width="40" >
                         <bcf:outputpl value="#{itempasekszcz.stawkanagodzine}"/>
                     </p:column>
-                    <p:column headerText="kwota" width="80">
+                    <p:column headerText="st/dz" width="60">
+                        <bcf:outputpl value="#{itempasekszcz.stawkadzienna}"/>
+                    </p:column>
+                    <p:column headerText="kwota" width="70">
                         <bcf:outputpl value="#{itempasekszcz.kwota}"/>
                     </p:column>
-                    <p:column headerText="redukcja" width="80">
+                    <p:column headerText="redukcja" width="70">
                         <bcf:outputpl value="#{itempasekszcz.redukcja}"/>
                     </p:column>
                 </p:dataTable>

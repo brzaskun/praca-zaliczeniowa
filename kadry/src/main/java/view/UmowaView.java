@@ -9,6 +9,7 @@ import DAOsuperplace.OsobaPropTypFacade;
 import DAOsuperplace.WynKodTytFacade;
 import beanstesty.NieobecnosciBean;
 import beanstesty.PasekwynagrodzenBean;
+import beanstesty.UmowaBean;
 import dao.AngazFacade;
 import dao.DzienFacade;
 import dao.EtatPracFacade;
@@ -242,8 +243,10 @@ public class UmowaView implements Serializable {
             try {
                 selected.setAngaz(wpisView.getAngaz());
                 if (selected.getUmowakodzus().isPraca()) {
-                    //String dataodkiedywyplatazasilku = UmowaBean.obliczdatepierwszegozasilku(wpisView.getAngaz().getUmowaList(), selected);
-                    //selected.setPierwszydzienzasilku(dataodkiedywyplatazasilku);
+                    try {
+                        String dataodkiedywyplatazasilku = UmowaBean.obliczdatepierwszegozasilku(wpisView.getAngaz().getUmowaList(), selected);
+                        selected.setPierwszydzienzasilku(dataodkiedywyplatazasilku);
+                    } catch (Exception e){}
                 }
                 selected.setAktywna(true);
                 selected.setDatasystem(new Date());
@@ -372,6 +375,12 @@ public class UmowaView implements Serializable {
                         nieobecnoscFacade.removeList(zatrudnieniewtrakciemiesiaca);
                         zatrudnieniewtrakciemiesiaca = null;
                     }
+                }
+                if (selected.getUmowakodzus().isPraca()) {
+                    try {
+                        String dataodkiedywyplatazasilku = UmowaBean.obliczdatepierwszegozasilku(wpisView.getAngaz().getUmowaList(), selected);
+                        selected.setPierwszydzienzasilku(dataodkiedywyplatazasilku);
+                    } catch (Exception e){}
                 }
                 selected.setDatasystem(new Date());
                 umowaFacade.edit(selected);

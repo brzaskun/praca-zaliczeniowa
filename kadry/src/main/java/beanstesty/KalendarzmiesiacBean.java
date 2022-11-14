@@ -408,6 +408,7 @@ public class KalendarzmiesiacBean {
                 double stawkadzienna = Z.z(skladnikistalenetto/30)*procentzazwolnienie;
                 naliczenienieobecnosc.setStawkadzienna(stawkadzienna);
                 double dowyplatyzaczasnieobecnosci = Z.z(stawkadzienna*dnikalendarzoweniechoroby);
+                naliczenienieobecnosc.setStawkadzienna(stawkadzienna);
                 naliczenienieobecnosc.setKwota(dowyplatyzaczasnieobecnosci);
                 naliczenienieobecnosc.setKwotabezzus(dowyplatyzaczasnieobecnosci);
                 double stawkadziennaredukcji = Z.z(skladnikistaledoredukcji/30);
@@ -949,17 +950,17 @@ public class KalendarzmiesiacBean {
                                 redukcjazarchorobe = redukcjazarchorobe+p.getKwotaredukcji();
                                 break;
                             case "U":
-                                redukcjazaurlop = redukcjazaurlop+p.getKwotaredukcji();
+                                //redukcjazaurlop = redukcjazaurlop+p.getKwotaredukcji();
                                 break;
                             case "X":
-                                redukcjazabezplatny = redukcjazabezplatny+p.getKwotaredukcji();
+                                //redukcjazabezplatny = redukcjazabezplatny+p.getKwotaredukcji();
                                 break;
                             case "D":
                                 //tego nie roboimy bo to stattystyczne
-                                redukcjazadnipozaumowa = redukcjazadnipozaumowa+p.getKwotastatystyczna();
+                                //redukcjazadnipozaumowa = redukcjazadnipozaumowa+p.getKwotastatystyczna();
                                 break;
                             case "Z":
-                                redukcjazabezplatny = redukcjazabezplatny+p.getKwotaredukcji();
+                                //redukcjazabezplatny = redukcjazabezplatny+p.getKwotaredukcji();
                                 break;
                         }
                     }

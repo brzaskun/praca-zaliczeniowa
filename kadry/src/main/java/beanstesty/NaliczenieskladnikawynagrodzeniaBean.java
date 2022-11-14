@@ -137,7 +137,7 @@ public class NaliczenieskladnikawynagrodzeniaBean {
                         //daje norma godzin a nie z uwzglednieniem zwolnien bo przeciez rewdukcja bedzie pozniej
                         //zmienilem zdanie. redukcja bedzie statystyczna
                         //tu musza byc faktycznie dni
-                        if (s.getKod() == null || s.getKod().equals("")) {
+                        if (s.getKod() == null || s.getKod().equals("") || s.getKod().equals("CH")) {
                             if (s.getTypdnia() == 0 && s.getNormagodzin() > 0.0 && s.getNrdnia() >= dzienodzmienna && s.getNrdnia() <= dziendozmienna) {
                                 dniroboczeprzepracowanezm = dniroboczeprzepracowanezm + 1;
                                 dniroboczeprzepracowane = dniroboczeprzepracowane + 1;

@@ -203,7 +203,7 @@ public class PasekwynagrodzenBean {
         KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, zasilekchorobowy, pasek);
         KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, urlopbezplatny, pasek);
         KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, oddelegowanie, pasek);
-        //KalendarzmiesiacBean.redukujskladnikistale(kalendarz, pasek);
+        KalendarzmiesiacBean.redukujskladnikistale(kalendarz, pasek);
         KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, urlop, pasek);
         //KalendarzmiesiacBean.redukujskladnikistale2(kalendarz, pasek);
         if (definicjalistaplac.getRodzajlistyplac().getSymbol().equals("ZA")) {

@@ -1079,6 +1079,7 @@ public class Pasekwynagrodzen implements Serializable {
                 wiersz.dniprzepracowane = p.getLiczbadniurlopu();
                 wiersz.godzinyobowiazku = p.getLiczbagodzinobowiazku();
                 wiersz.godzinyprzepracowane = p.getLiczbagodzinurlopu();
+                wiersz.stawkadzienna = p.getStawkadzienna();
                 zwrot.add(wiersz);
             }
         }
@@ -1146,6 +1147,7 @@ public class Pasekwynagrodzen implements Serializable {
         double godzinyobowiazku;
         double godzinyprzepracowane;
         double stawkanagodzine;
+        double stawkadzienna;
         
         public Skladnikwynlista() {
         }
@@ -1276,6 +1278,14 @@ public class Pasekwynagrodzen implements Serializable {
 
         public void setWynagrodzeniezmienna(double wynagrodzeniezmienna) {
             this.wynagrodzeniezmienna = wynagrodzeniezmienna;
+        }
+
+        public double getStawkadzienna() {
+            return stawkadzienna;
+        }
+
+        public void setStawkadzienna(double stawkadzienna) {
+            this.stawkadzienna = stawkadzienna;
         }
     
 

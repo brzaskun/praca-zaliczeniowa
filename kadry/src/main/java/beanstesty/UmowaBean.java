@@ -117,28 +117,38 @@ public class UmowaBean {
 
     public static String obliczdatepierwszegozasilku(List<Umowa> umowaList, Umowa selected) {
         String zwrot = selected.getDataod();
-        if (umowaList == null || umowaList.isEmpty()) {
-            zwrot = pokazXXdzien(selected.getDataod(), 30);
-        } else {
-            Collections.sort(umowaList, new Umowacomparator());
-            if (czyjestdziesieclatubezpieczenia(umowaList)) {
-                zwrot = selected.getDataod();
+        try {
+            if (umowaList == null || umowaList.isEmpty()) {
+                zwrot = pokazXXdzien(selected.getDataod(), 30);
             } else {
-                Umowa u = umowaList.get(0);
-                if (u.getId()!=null||!u.getId().equals(selected.getId())) {
-                    int iledni = Data.iletodniKalendarzowych(u.getDatado(), selected.getDataod());
-                    if (u.getSlownikszkolazatrhistoria().getPraca0nauka1() && iledni < 90) {
-                        zwrot = selected.getDataod();
-                    } else {
-                        if (selected.isChorobowe() == true && iledni > 30) {
-                            zwrot = pokazXXdzien(selected.getDataod(), 30);
-                        } else if (selected.isChorobowedobrowolne() == true && iledni > 30) {
-                            zwrot = pokazXXdzien(selected.getDataod(), 90);
+                Collections.sort(umowaList, new Umowacomparator());
+                if (czyjestdziesieclatubezpieczenia(umowaList)) {
+                    zwrot = selected.getDataod();
+                } else {
+                    int iledni = 0;
+                    for (Umowa u : umowaList) {
+                        if (u.getId() != null && !u.getId().equals(selected.getId())) {
+                            if (u.getSlownikszkolazatrhistoria().getPraca0nauka1()) {
+                                int wciaguiludnipodjetoprace = Data.iletodniKalendarzowych(u.getDatado(), selected.getDataod());
+                                if ( wciaguiludnipodjetoprace < 90) {
+                                    zwrot = selected.getDataod();
+                                    break;
+                                }
+                            } else {
+                                iledni = iledni+Data.iletodniKalendarzowych(u.getDataod(), u.getDatado());
+                            }
                         }
+                    }
+                    if (selected.isChorobowe() == true && iledni<30) {
+                        zwrot = pokazXXdzien(selected.getDataod(), 30-iledni);
+                    } else if (selected.isChorobowedobrowolne() == true) {
+                        zwrot = pokazXXdzien(selected.getDataod(), 90-iledni);
                     }
                 }
             }
+        } catch (Exception ef) {
         }
+
         return zwrot;
     }
     

@@ -20,7 +20,7 @@
                         <p:outputLabel value="pesel" for="pesel" />
                         <p:inputText id="pesel" value="#{pracownikDaneView.selected.pesel}" title="imię" required="true" requiredMessage="Wpisz Pesel" maxlength="11"/>
                         <p:outputLabel value="data urodzenia" for="du" />
-                        <p:inputText id="du" value="#{pracownikDaneView.selected.dataurodzenia}" title="data urodzenia" required="true" requiredMessage="Wpisz datę urodzenia"/>
+                        <p:inputMask id="du" value="#{pracownikDaneView.selected.dataurodzenia}" mask="9999-99-99" title="data urodzenia" required="true" requiredMessage="Wpisz datę urodzenia"/>
                         <p:outputLabel value="miejsce urodzenia" for="mu" />
                         <p:inputText id="mu" value="#{pracownikDaneView.selected.miejsceurodzenia}" title="miejsce urodzenia"/>
                         <p:outputLabel value="jestem nierezydentem" for="rez" />
