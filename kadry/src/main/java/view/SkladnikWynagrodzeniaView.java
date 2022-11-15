@@ -55,7 +55,7 @@ public class SkladnikWynagrodzeniaView  implements Serializable {
     
 
     public void create() {
-      if (selected!=null && selected.getAngaz()!=null) {
+      if (selected!=null && wpisView.getAngaz()!=null) {
           try {
             if (selected.getId()!=null) {
                 skladnikWynagrodzeniaFacade.edit(selected);

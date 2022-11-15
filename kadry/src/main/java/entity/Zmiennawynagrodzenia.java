@@ -110,6 +110,10 @@ public class Zmiennawynagrodzenia implements Serializable {
         this.aktywna = r.isAktywna();
         this.minimalneustatowe = r.isMinimalneustatowe();
     }
+
+    public Zmiennawynagrodzenia(Skladnikwynagrodzenia skladnikwynagrodzenia) {
+        this.skladnikwynagrodzenia = skladnikwynagrodzenia;
+    }
     
     
 

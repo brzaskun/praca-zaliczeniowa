@@ -197,7 +197,7 @@ public class Rodzajwynagrodzenia implements Serializable {
         this.godzinowe0miesieczne1 = godzinowe0miesieczne1;
     }
 
-    public  boolean getRedukowany() {
+    public  boolean isRedukowany() {
         return redukowany;
     }
 

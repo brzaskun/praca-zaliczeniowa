@@ -13,6 +13,7 @@ import comparator.Sredniadlanieobecnoscicomparator;
 import dao.DefinicjalistaplacFacade;
 import dao.KalendarzmiesiacFacade;
 import dao.KalendarzwzorFacade;
+import dao.NieobecnoscFacade;
 import dao.OddelegowanieZUSLimitFacade;
 import dao.PasekwynagrodzenFacade;
 import dao.PodatkiFacade;
@@ -31,6 +32,7 @@ import entity.Kalendarzmiesiac;
 import entity.Kalendarzwzor;
 import entity.Naliczenienieobecnosc;
 import entity.Naliczenieskladnikawynagrodzenia;
+import entity.Nieobecnosc;
 import entity.OddelegowanieZUSLimit;
 import entity.Pasekwynagrodzen;
 import entity.Podatki;
@@ -97,6 +99,8 @@ public class PasekwynagrodzenView implements Serializable {
     private RodzajlistyplacFacade rodzajlistyplacFacade;
     @Inject
     private PodatkiFacade podatkiFacade;
+    @Inject
+    private NieobecnoscFacade nieobecnoscFacade;
     @Inject
     private WpisView wpisView;
     private Rodzajlistyplac rodzajlistyplac;
@@ -271,9 +275,9 @@ public class PasekwynagrodzenView implements Serializable {
                     if (oddelegowanieZUSLimit != null) {
                         limitzus = oddelegowanieZUSLimit.getKwota();
                     }
-
+                    List<Nieobecnosc> nieobecnosci = nieobecnoscFacade.findByAngaz(wpisView.getAngaz());
                     Pasekwynagrodzen pasek = PasekwynagrodzenBean.obliczWynagrodzenie(pracownikmc, wybranalistaplac, nieobecnosckodzusFacade, paskidowyliczeniapodstawy, historiawynagrodzen, stawkipodatkowe, sumapoprzednich, wynagrodzenieminimalne, czyodlicoznokwotewolna,
-                            kursdlalisty, limitzus, datawyplaty);
+                            kursdlalisty, limitzus, datawyplaty, nieobecnosci);
                     usunpasekjakzawiera(pasek);
                     lista.add(pasek);
                 }

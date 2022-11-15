@@ -151,12 +151,16 @@ public class NaliczenieskladnikawynagrodzeniaBean {
                         }
                     }
                     double stawkadziennazm = Z.z(skladnikistale / dniroboczewmiesiacu);
-                    double stawkagodzinowazm = Z.z4(skladnikistale / godzinyroboczewmiesiacu);
+                    double stawkagodzinowazm = Z.z6(skladnikistale / godzinyroboczewmiesiacu);
                     stawkadzienna = stawkadzienna + stawkadziennazm;
                     stawkagodzinowa = stawkagodzinowa + stawkagodzinowazm;
                     //tu wylicza wynagrodzenie za faktycznie przepracowany czas i date obowiazywania zmiennej
-                    dowyplatyzaczasprzepracowany = dowyplatyzaczasprzepracowany + Z.z(stawkagodzinowazm * godzinyobecnosciroboczezm);
-                    redukcja = Z.z(skladnikistale-dowyplatyzaczasprzepracowany);
+                    if (skladnikwynagrodzenia.getRodzajwynagrodzenia().isRedukowany()) {
+                        redukcja = Z.z(skladnikistale-dowyplatyzaczasprzepracowany);
+                        dowyplatyzaczasprzepracowany = dowyplatyzaczasprzepracowany + Z.z(stawkagodzinowazm * godzinyobecnosciroboczezm);
+                    } else {
+                        dowyplatyzaczasprzepracowany = skladnikistale;
+                    }
                     liczbazmiennych++;
                 }
                 if (liczbazmiennych > 0) {

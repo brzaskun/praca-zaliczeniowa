@@ -382,7 +382,7 @@ public class Data implements Serializable {
     }
     
     public static boolean czyjestpomcnaprawdepo(String mcgraniczny, String rokgraniczny, String mcbadanegookresu, String rokbadanegookresu) {
-        int wynikporównania = -1;
+            int wynikporównania = -1;
         wynikporównania  = compare(rokbadanegookresu, mcbadanegookresu,rokgraniczny, mcgraniczny);
         return wynikporównania > 0;
     }

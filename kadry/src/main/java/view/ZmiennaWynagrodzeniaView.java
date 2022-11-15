@@ -41,6 +41,7 @@ public class ZmiennaWynagrodzeniaView  implements Serializable {
     @Inject
     private WpisView wpisView;
     
+    
     @PostConstruct
     public void init() {
         if (wpisView.getAngaz() != null && wpisView.getUmowa()!=null) {
@@ -63,10 +64,11 @@ public class ZmiennaWynagrodzeniaView  implements Serializable {
 
     public void create() {
       if (selected!=null && selected.getSkladnikwynagrodzenia()!=null) {
+          Skladnikwynagrodzenia skladnikwynagrodzenia = selected.getSkladnikwynagrodzenia();
           try {
             if (selected.getId()!=null) {
                 zmiennaWynagrodzeniaFacade.edit(selected);
-                selected = new Zmiennawynagrodzenia();
+                selected = new Zmiennawynagrodzenia(skladnikwynagrodzenia);
                 Msg.msg("Udana edycja zmiennej wyn");
             } else {
                 if (lista!=null && lista.size()>0) {
@@ -75,6 +77,7 @@ public class ZmiennaWynagrodzeniaView  implements Serializable {
                 zmiennaWynagrodzeniaFacade.create(selected);
                 lista.add(selected);
                 selected = new Zmiennawynagrodzenia();
+                selected.setSkladnikwynagrodzenia(skladnikwynagrodzenia);
                 Msg.msg("Dodano zmienną wyn");
             }
           } catch (Exception e) {

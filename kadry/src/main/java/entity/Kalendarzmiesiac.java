@@ -513,9 +513,9 @@ private static final long serialVersionUID = 1L;
         return zwrot;
    }
    
-   public List<Naliczenieskladnikawynagrodzenia> skladnikiwynagrodzenialista() {
+    public List<Naliczenieskladnikawynagrodzenia> skladnikiwynagrodzenialista() {
        List<Naliczenieskladnikawynagrodzenia> zwrot = new ArrayList<>();
-       if (this.pasekwynagrodzenList!=null && !this.pasekwynagrodzenList.isEmpty()) {
+       if (this.getPasekwynagrodzenList()!=null && !this.getPasekwynagrodzenList().isEmpty()) {
            for (Pasekwynagrodzen p : this.pasekwynagrodzenList) {
                if (p.getNaliczenieskladnikawynagrodzeniaList()!=null) {
                    zwrot.addAll(p.getNaliczenieskladnikawynagrodzeniaList());

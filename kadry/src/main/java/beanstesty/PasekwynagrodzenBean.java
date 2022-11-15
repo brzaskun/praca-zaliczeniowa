@@ -113,7 +113,7 @@ public class PasekwynagrodzenBean {
     }
       
     public static Pasekwynagrodzen obliczWynagrodzenie(Kalendarzmiesiac kalendarz, Definicjalistaplac definicjalistaplac, SwiadczeniekodzusFacade nieobecnosckodzusFacade, List<Pasekwynagrodzen> paskidowyliczeniapodstawy, 
-        List<Wynagrodzeniahistoryczne> historiawynagrodzen, List<Podatki> stawkipodatkowe, double sumapoprzednich, double wynagrodzenieminimalne, boolean czyodlicoznokwotewolna, double kurs,double limitZUS, String datawyplaty) {
+        List<Wynagrodzeniahistoryczne> historiawynagrodzen, List<Podatki> stawkipodatkowe, double sumapoprzednich, double wynagrodzenieminimalne, boolean czyodlicoznokwotewolna, double kurs,double limitZUS, String datawyplaty, List<Nieobecnosc> nieobecnosci) {
         boolean umowaoprace = definicjalistaplac.getRodzajlistyplac().getTyp()==1;
         boolean umowazlecenia = definicjalistaplac.getRodzajlistyplac().getTyp()==2;
         boolean umowazlecenianierezydent = definicjalistaplac.getRodzajlistyplac().getTyp()==2&&kalendarz.isNierezydent();
@@ -137,7 +137,7 @@ public class PasekwynagrodzenBean {
         pasek.setMc(definicjalistaplac.getMc());
         boolean jestoddelegowanie = kalendarz.getDnioddelegowania()>0;
         if (umowaoprace) {
-            umowaopracewyliczenie(kalendarz, pasek, kurs, definicjalistaplac, czyodlicoznokwotewolna, jestoddelegowanie, limitZUS, stawkipodatkowe, sumapoprzednich, !po26roku);
+            umowaopracewyliczenie(kalendarz, pasek, kurs, definicjalistaplac, czyodlicoznokwotewolna, jestoddelegowanie, limitZUS, stawkipodatkowe, sumapoprzednich, !po26roku, nieobecnosci);
         } else if (umowazlecenia) {
             umowazleceniawyliczenie(kalendarz, pasek, kurs, definicjalistaplac, czyodlicoznokwotewolna, jestoddelegowanie, limitZUS, stawkipodatkowe, sumapoprzednich);
         } else if (umowazlecenianierezydent) {
@@ -163,7 +163,7 @@ public class PasekwynagrodzenBean {
        
 //        System.out.println("****************");
 //        for (Naliczenieskladnikawynagrodzenia r : pasek.getNaliczenieskladnikawynagrodzeniaList()) {
-//            if (r.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getRedukowany()) {
+//            if (r.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().isRedukowany()) {
 //                System.out.println(r.getSkladnikwynagrodzenia().getUwagi()+" "+Z.z(r.getKwotazredukowana()));
 //            } else {
 //                System.out.println(r.getSkladnikwynagrodzenia().getUwagi()+" "+Z.z(r.getKwota()));
@@ -171,7 +171,7 @@ public class PasekwynagrodzenBean {
 //        }
 //        for (Naliczenienieobecnosc r : pasek.getNaliczenienieobecnoscList()) {
 //            System.out.println(r.getNieobecnosc().getNieobecnosckodzus().getOpisskrocony()+" od "+r.getSkladnikwynagrodzenia().getUwagi()+" "+Z.z(r.getKwota()));
-//            if (r.getKwotaredukcji()!=0.0 && r.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getRedukowany()) {
+//            if (r.getKwotaredukcji()!=0.0 && r.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().isRedukowany()) {
 //                System.out.println(r.getSkladnikwynagrodzenia().getUwagi()+" redukcja za "+r.getNieobecnosc().getNieobecnosckodzus().getOpisskrocony()+" kwota redukcji "+Z.z(r.getKwotaredukcji()));
 //            }
 //        }
@@ -186,9 +186,9 @@ public class PasekwynagrodzenBean {
     }
     
         private static void umowaopracewyliczenie(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasek, double kurs, Definicjalistaplac definicjalistaplac, 
-                boolean czyodlicoznokwotewolna, boolean jestoddelegowanie, double limitZUS, List<Podatki> stawkipodatkowe, double sumapoprzednich, boolean nieodliczackup) {
+                boolean czyodlicoznokwotewolna, boolean jestoddelegowanie, double limitZUS, List<Podatki> stawkipodatkowe, double sumapoprzednich, boolean nieodliczackup, List<Nieobecnosc> nieobecnoscilista) {
         KalendarzmiesiacBean.naliczskladnikiwynagrodzeniaDB(kalendarz, pasek, kurs);
-        List<Nieobecnosc> nieobecnosci = pobierznieobecnosci(kalendarz);
+        List<Nieobecnosc> nieobecnosci = pobierznieobecnosci(kalendarz, nieobecnoscilista);
         //List<Nieobecnosc> zatrudnieniewtrakciemiesiaca = pobierz(nieobecnosci, "D");
         List<Nieobecnosc> choroba = pobierz(nieobecnosci, "CH");
         List<Nieobecnosc> zasilekchorobowy = pobierz(nieobecnosci, "ZC");
@@ -416,7 +416,7 @@ public class PasekwynagrodzenBean {
 
         System.out.println("****************");
         for (Naliczenieskladnikawynagrodzenia r : pasek.getNaliczenieskladnikawynagrodzeniaList()) {
-            if (r.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getRedukowany()) {
+            if (r.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().isRedukowany()) {
                 System.out.println(r.getSkladnikwynagrodzenia().getUwagi()+" kwota do listy płac: "+Z.z(r.getKwotadolistyplac()));
             } else {
                 System.out.println(r.getSkladnikwynagrodzenia().getUwagi()+" nieredukowany "+Z.z(r.getKwotaumownazacalymc()));
@@ -424,13 +424,13 @@ public class PasekwynagrodzenBean {
             System.out.println("dni nalezne "+r.getDninalezne()+" faktyczne "+Z.z(r.getDnifaktyczne()));
         }
         for (Naliczenienieobecnosc r : pasek.getNaliczenienieobecnoscList()) {
-            if (r.getKwota()!=0.0 && r.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getRedukowany()) {
+            if (r.getKwota()!=0.0 && r.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().isRedukowany()) {
                 System.out.println(r.getNieobecnosc().getOpisRodzajSwiadczenie()+" od "+r.getSkladnikwynagrodzenia().getUwagi()+" "+Z.z(r.getKwota()));
             }
-            if (r.getKwotastatystyczna()!=0.0 && r.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getRedukowany()) {
+            if (r.getKwotastatystyczna()!=0.0 && r.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().isRedukowany()) {
                 System.out.println(r.getSkladnikwynagrodzenia().getUwagi()+" statystyczna redukcja za "+r.getNieobecnosc().getOpisRodzajSwiadczenie()+" kwota "+Z.z(r.getKwotastatystyczna()));
             }
-            if (r.getKwotaredukcji()!=0.0 && r.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getRedukowany()) {
+            if (r.getKwotaredukcji()!=0.0 && r.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().isRedukowany()) {
                 System.out.println(r.getSkladnikwynagrodzenia().getUwagi()+" redukcja za "+r.getNieobecnosc().getOpisRodzajSwiadczenie()+" kwota redukcji "+Z.z(r.getKwotaredukcji()));
             }
         }
@@ -862,12 +862,12 @@ public class PasekwynagrodzenBean {
         }
     }
 
-    private static List<Nieobecnosc> pobierznieobecnosci(Kalendarzmiesiac kalendarz) {
+    private static List<Nieobecnosc> pobierznieobecnosci(Kalendarzmiesiac kalendarz, List<Nieobecnosc> nieobecnosci) {
         String rok = kalendarz.getRok();
         String mc = kalendarz.getMc();
         boolean jest = false;
         List<Nieobecnosc> zwrot = new ArrayList<>();
-        for (Nieobecnosc p : kalendarz.getAngaz().getNieobecnoscList()) {
+        for (Nieobecnosc p : nieobecnosci) {
             jest = Data.czydatajestwmcu(p.getDataod(), rok, mc);
             jest = Data.czydatajestwmcu(p.getDatado(), rok, mc);
             if (jest && p.isNaniesiona()) {

@@ -414,7 +414,7 @@ public class KalendarzmiesiacBean {
                 double stawkadziennaredukcji = Z.z(skladnikistaledoredukcji/30);
                 naliczenienieobecnosc.setStawkadziennaredukcji(stawkadziennaredukcji);
                 double kwotaredukcji = Z.z(stawkadziennaredukcji*dnikalendarzoweniechoroby);
-                if (naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getRedukowany()) {
+                if (naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().isRedukowany()) {
                     naliczenienieobecnosc.setKwotaredukcji(kwotaredukcji);
                 }
                 naliczenienieobecnosc.setPasekwynagrodzen(pasekwynagrodzen);
@@ -788,7 +788,7 @@ public class KalendarzmiesiacBean {
 //        W takim przypadku należy więc przyjmować nominalną, a nie rozkładową liczbę godzin pracy.
 //        Wg superplac dotyczy to zaczecia pracy w miesiacu jak i bezplatnego
         for (Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia : pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList()) {
-            if (naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getRedukowany() && naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getStale0zmienne1()==false) {
+            if (naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().isRedukowany() && naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getStale0zmienne1()==false) {
                 double dninieobecnoscirobocze = 0.0;
                 double godzinynieobecnoscirobocze = 0.0;
                 Naliczenienieobecnosc naliczenienieobecnosc = new Naliczenienieobecnosc();
@@ -941,7 +941,7 @@ public class KalendarzmiesiacBean {
                 double redukcjazabezplatny = 0.0;
                 double redukcjazadnipozaumowa = 0.0;
                 for (Naliczenienieobecnosc p : pasekwynagrodzen.getNaliczenienieobecnoscList()) {
-                    if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getRedukowany() && p.getSkladnikwynagrodzenia().equals(naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia())) {
+                    if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().isRedukowany() && p.getSkladnikwynagrodzenia().equals(naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia())) {
                         switch (p.getNieobecnosc().getKod()) {
                             case "ZC":
                                 redukcjazarchorobe = redukcjazarchorobe+p.getKwotaredukcji();
@@ -965,7 +965,7 @@ public class KalendarzmiesiacBean {
                         }
                     }
                 }
-                if (naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getRedukowany()) {
+                if (naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().isRedukowany()) {
                     double wartoscskladnika = Z.z(naliczenieskladnikawynagrodzenia.getKwotadolistyplac());
                     double redukcjasuma = Z.z(redukcjazarchorobe+redukcjazaurlop+redukcjazabezplatny+redukcjazadnipozaumowa);
                     naliczenieskladnikawynagrodzenia.setKwotyredukujacesuma(redukcjasuma);
@@ -983,7 +983,7 @@ public class KalendarzmiesiacBean {
                 double redukcjazabezplatny = 0.0;
                 double redukcjazadnipozaumowa = 0.0;
                 for (Naliczenienieobecnosc p : pasekwynagrodzen.getNaliczenienieobecnoscList()) {
-                    if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getRedukowany() && p.getSkladnikwynagrodzenia().equals(pa.getSkladnikwynagrodzenia())) {
+                    if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().isRedukowany() && p.getSkladnikwynagrodzenia().equals(pa.getSkladnikwynagrodzenia())) {
                         switch (p.getNieobecnosc().getKod()) {
                             case "CH":
                                 //redukcjazarchorobe = redukcjazarchorobe+p.getKwotaredukcji();
@@ -1003,7 +1003,7 @@ public class KalendarzmiesiacBean {
                         }
                     }
                 }
-                if (pa.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getRedukowany()) {
+                if (pa.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().isRedukowany()) {
                     double kwotyredukujace = pa.getKwotyredukujacesuma();
                     pa.setKwotyredukujacesuma(Z.z(kwotyredukujace+redukcjazabezplatny+redukcjazaurlop+redukcjazadnipozaumowa));
                     pa.setKwotadolistyplac(Z.z(pa.getKwotadolistyplac()-redukcjazaurlop));
