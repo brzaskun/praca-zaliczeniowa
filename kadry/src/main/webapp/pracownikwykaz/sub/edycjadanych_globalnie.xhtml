@@ -12,11 +12,17 @@
                     <p:panel header="Dane nowego pracownika "/>
                     <p:panelGrid columns="2" rendered="#{pracownikView.selected != null}">
                         <p:outputLabel value="nazwisko" for="nazwisko" />
-                        <p:inputText id="nazwisko" value="#{pracownikView.selected.nazwisko}" title="nazwisko" required="true" requiredMessage="Wpisz nazwisko"/>
+                        <p:inputText id="nazwisko" value="#{pracownikView.selected.nazwisko}" title="nazwisko" required="true" requiredMessage="Wpisz nazwisko">
+                            <p:ajax event="blur" listener="#{pracownikView.modyfikujnazwisko(pracownikView.selected.nazwisko)}" update="@this"/>
+                        </p:inputText>
                         <p:outputLabel value="imię" for="imie" />
-                        <p:inputText id="imie" value="#{pracownikView.selected.imie}" title="imię" required="true" requiredMessage="Wpisz imię"/>
+                        <p:inputText id="imie" value="#{pracownikView.selected.imie}" title="imię" required="true" requiredMessage="Wpisz imię">
+                            <p:ajax event="blur" listener="#{pracownikView.modyfikujimie(pracownikView.selected.imie)}" update="@this"/>
+                        </p:inputText>
                         <p:outputLabel value="pesel" for="pesel" />
-                        <p:inputText id="pesel" value="#{pracownikView.selected.pesel}" title="pesel" required="true" requiredMessage="Wpisz Pesel" maxlength="11"/>
+                        <p:inputText id="pesel" value="#{pracownikView.selected.pesel}" title="pesel" required="true" requiredMessage="Wpisz Pesel" maxlength="11">
+                            <p:ajax event="blur" listener="#{pracownikView.peseldataurodzenia()}" partialSubmit="true"/>
+                        </p:inputText>
                         <p:outputLabel value="email" for="email" />
                         <p:inputText id="email" value="#{pracownikView.selected.email}" title="email"/>
                         <p:outputLabel value="telefon" for="telefon" />

@@ -23,7 +23,7 @@
                         <p:separator/>
                         <p:outputLabel value="data zawarcia" for="datazawarcia1" />
                         <p:inputText id="datazawarcia1" value="#{umowaView.selected.datazawarcia}" title="data zawarcia"  placeholder="____-__-__"  required="true" styleClass="dataUmowy" maxlength="10">
-                            <p:ajax event="change" listener="#{umowaView.naniesdatynaumowe}" partialSubmit="true" global="false" update="@(.dataUmowy)"/>
+                            <p:ajax event="change" listener="#{umowaView.naniesdatynaumowe}" partialSubmit="true" global="false" update="@(.dataUmowy) @this"/>
                         </p:inputText>
                         <p:outputLabel value="rodzaj umowy" for="rodzajumowy1" />
                         <p:selectOneMenu id="rodzajumowy1" value="#{umowaView.selected.umowakodzus}" converter="#{umowakodzusConverter}" autoWidth="false" style="width: 300px;" filter="true" filterMatchMode="contains" required="true">

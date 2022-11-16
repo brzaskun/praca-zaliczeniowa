@@ -210,6 +210,30 @@ public class Dzien implements Serializable {
         this.kalendarzmiesiac = kalendarzmiesiac;
     }
     
+    public Dzien(Dzien dzienwzor, Kalendarzmiesiac kalendarzmiesiac) {
+        this.nrdnia = dzienwzor.nrdnia;
+        this.datastring = dzienwzor.datastring;
+        this.typdnia = dzienwzor.typdnia;
+        this.normagodzin = dzienwzor.normagodzin;
+        this.normagodzinwzorcowa = dzienwzor.normagodzin;
+        this.etat1 = 1;
+        this.etat2 = 1;
+        //tu nie ma bledu bo inczaej pracownik ma zero.za kladamy ze pracowal
+        this.przepracowano = dzienwzor.normagodzin;
+        this.piecdziesiatki = dzienwzor.piecdziesiatki;
+        this.setki = dzienwzor.setki;
+        this.poranocna = dzienwzor.poranocna;
+        this.kod = dzienwzor.kod;
+        this.urlopPlatny = dzienwzor.urlopPlatny;
+        this.urlopbezplatny = dzienwzor.urlopbezplatny;
+        this.wynagrodzeniezachorobe = dzienwzor.wynagrodzeniezachorobe;
+        this.zasilek = dzienwzor.zasilek;
+        this.opiekadziecko = dzienwzor.opiekadziecko;
+        this.macierzynski = dzienwzor.macierzynski;
+        this.wychowawczy = dzienwzor.wychowawczy;
+        this.kalendarzmiesiac = kalendarzmiesiac;
+    }
+    
     public Dzien(Dzien dzienwzor, Kalendarzwzor kalendarzwzor) {
         this.id = null;
         this.nrdnia = dzienwzor.nrdnia;

@@ -555,6 +555,43 @@
                         </p:dataTable>`
                 </h:form>
             </p:tab>
+            <p:tab title="Limit dochody 26lat">
+                <h:form id="Limit26">
+                     <p:panelGrid columns="4">
+                        <p:outputLabel value="rok"/>
+                        <p:inputText value="#{limitdochodudwaszescView.selected.rok}"/>
+                        <p:outputLabel value="limit dochodu zwolnionego dla osób do 26lat"/>
+                        <bcf:inputplid id="pstawka1" value="#{limitdochodudwaszescView.selected.kwota}"/>
+                        <p:panelGrid columns="1">
+                            <p:commandButton value="dodaj" styleClass="buttonnorm" actionListener="#{limitdochodudwaszescView.dodajrok()}" update="akordeon:Limit26" />
+                        </p:panelGrid>
+                     </p:panelGrid>
+                          <p:dataTable value="#{limitdochodudwaszescView.lista}" var="itemekwiw" rowIndexVar="indexekwiw" rowKey="#{itemekwiw.id}"
+                                 selection="#{limitdochodudwaszescView.selected}" selectionMode="single"  sortBy="#{itemekwiw.rok}"
+                                 scrollable="true" scrollHeight="750" scrollRows="30" 
+                                 style="width: 400px;margin-top: 30px;" emptyMessage="Nie wprowadzono wartości">
+                            <p:ajax event="rowSelect" partialSubmit="true"/>
+                            <p:column width="30" style="text-align: center;">
+                                <f:facet name="header">
+                                    <h:outputText value=""/>
+                                </f:facet>
+                                <h:outputText value="#{indexekwiw+1}"/>
+                            </p:column>
+                            <p:column width="50" style="text-align: center;" sortBy="#{itemekwiw.rok}">
+                                <f:facet name="header">
+                                    <h:outputText value="rok"/>
+                                </f:facet>
+                                <h:outputText value="#{itemekwiw.rok}"/>
+                            </p:column>
+                            <p:column width="50" style="text-align: center;">
+                                <f:facet name="header">
+                                    <h:outputText value="kwota"/>
+                                </f:facet>
+                                <bcf:outputpl value="#{itemekwiw.kwota}"/>
+                            </p:column>
+                        </p:dataTable>`
+                </h:form>
+            </p:tab>
             <p:tab title="Uwagi do admina">
                 <p:outputPanel style="margin-left: auto; margin-right: auto; padding: 3%;">
         <h:form id="form">
@@ -570,9 +607,9 @@
         </h:form>
         <h:form id="wykazpism">
             <p:dataTable value="#{pismoAdminView.listapism}" var="item" style="width: 1000px; margin-top: 2%;"
-                         widgetVar="table" emptyMessage="Nikt nie niepokoił jeszcze admina"
+                         widgetVar="table" emptyMessage="Nikt nie niepokoił jeszcze admina"  sortBy="#{item.datawiadomosci}" sortMode="multiple"
                          paginator="true" rows="12" paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
-                         rowsPerPageTemplate="12,16,20,50"  sortBy="#{item.datawiadomosci}"
+                         rowsPerPageTemplate="12,16,20,50"  
                          >
                 <f:facet name="header">
                     <h:outputText value="Wysłane wiadomości"/><br/>
@@ -585,7 +622,7 @@
                     </f:facet>
                     <h:outputText value="#{item.lp}"/>
                 </p:column>
-                <p:column width="80" sortBy="#{item.datawiadomosci}">
+                <p:column width="80" sortBy="#{item.datawiadomosci}" sortOrder="descending" sortable="true" sortPriority="1">
                     <f:facet name="header">
                         <h:outputText value="Data nadania"/>
                     </f:facet>
@@ -611,13 +648,8 @@
                     </f:facet>
                     <h:outputText value="#{item.status}" style="#{item.status eq 'odrzucona' ? 'color: red;' : null}"/>
                 </p:column>
-                <p:column width="80">
-                    <f:facet name="header">
-                        <h:outputText value="Admin zmienił status dnia"/>
-                    </f:facet>
-                    <h:outputText value="#{item.datastatus}">
-                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
-                    </h:outputText>
+                <p:column width="30" style="text-align: center;">
+                    <p:commandButton icon="pi pi-trash" actionListener="#{pismoAdminView.usunpismoadmin(item)}" update="@parent:@parent"/>
                 </p:column>
             </p:dataTable>
         </h:form>

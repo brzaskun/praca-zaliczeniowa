@@ -136,7 +136,7 @@ public class PismoAdminView implements Serializable{
     public void usunpismoadmin(Pismoadmin p) {
         try {
             pismoadminFacade.remove(p);
-            listapismwszytskie.remove(p);
+            listapism.remove(p);
             Msg.msg("i", "Udało się usunąć infomację dla Admina");
         } catch (Exception e) { E.e(e); 
             Msg.msg("e", "Wystąpił błąd, nie udało się usunąć infomacji dla Admina");

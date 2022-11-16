@@ -36,6 +36,7 @@
                         </p:autoComplete>
                          <p:outputLabel value="rok" for="rok" />
                             <p:inputText id="rok" value="#{angazView.selected.rok}" title="rok" >
+                                <p:ajax event="blur" listener="#{angazView.sprawdzrok()}" update="@this"/>
                             </p:inputText>
                             <p:outputLabel value="miesiąc" for="mc" />
                             <p:inputText id="mc" value="#{angazView.selected.mc}" title="miesiąc" >
@@ -124,13 +125,13 @@
                             </f:facet>
                             <h:outputText value="#{itemAngaz.serialsp}"/>
                         </p:column>
-                        <p:column  sortBy="#{itemAngaz.pracownik.nazwiskoImie}" sortOrder="asc">
+                        <p:column  sortBy="#{itemAngaz.pracownik.nazwiskoImie}" sortOrder="asc" filterBy="#{itemAngaz.pracownik.nazwiskoImie}" filterMatchMode="contains">
                             <f:facet name="header">
                                 <h:outputText value="pracownik"/>
                             </f:facet>
                             <h:outputText value="#{itemAngaz.pracownik.nazwiskoImie}"/>
                         </p:column>
-                         <p:column>
+                         <p:column filterBy="#{itemAngaz.pracownik.pesel}" filterMatchMode="startsWith">
                             <f:facet name="header">
                                 <h:outputText value="Pesel"/>
                             </f:facet>

@@ -15,8 +15,11 @@ import dao.SMTPSettingsFacade;
 import dao.UmowaFacade;
 import dao.UprawnieniaFacade;
 import dao.UzFacade;
+import embeddable.Mce;
 import entity.Angaz;
 import entity.FirmaKadry;
+import entity.Kalendarzmiesiac;
+import entity.Kalendarzwzor;
 import entity.Pracownik;
 import entity.SMTPSettings;
 import entity.Umowa;
@@ -134,24 +137,68 @@ public class AngazView  implements Serializable {
                 selected.setKosztyuzyskaniaprocent(100.0);
                 selected.setKwotawolnaprocent(100.0);
                 selected.setOdliczaculgepodatkowa(true);
-                angazFacade.create(selected);
-                lista.add(selected);
-                wpisView.setAngaz(selected);
-                wpisView.setUmowa(null);
-                UprawnieniaUz uprawnienia = uprawnieniaFacade.findByNazwa("Pracownik");
-                Uz uzer = new Uz(selected, uprawnienia);
-                selected = new Angaz();
-                Msg.msg("Dodano nowy angaż");
-                uzFacade.create(uzer);
-                //nie moze tu byc bo nie ma umowy
-                //generujkalendarze();
-                Msg.msg("Dodano nowego użytkownika");
+                try {
+                    angazFacade.create(selected);
+                    lista.add(selected);
+                    wpisView.setAngaz(selected);
+                    wpisView.setUmowa(null);
+                    UprawnieniaUz uprawnienia = uprawnieniaFacade.findByNazwa("Pracownik");
+                    Uz uzer = new Uz(selected, uprawnienia);
+                    uzFacade.create(uzer);
+                    generujKalendarzNowaUmowa(selected);
+                    Msg.msg("Stworzono kalendarz dla angażu");
+                    selected = new Angaz();
+                    Msg.msg("Dodano nowy angaż");
+                    //nie moze tu byc bo nie ma umowy
+                    //generujkalendarze();
+                    Msg.msg("Dodano nowego użytkownika");
+                } catch (Exception e){
+                    Msg.msg("e", "Taki angaż już istnieje");
+                }
             } catch (Exception e) {
                 Msg.msg("e", "Błąd - nie dodano nowego angażu");
             }
                     }
     }
     
+    
+     public Kalendarzmiesiac generujKalendarzNowaUmowa(Angaz selected) {
+        Kalendarzmiesiac kal = null;
+        if (selected != null && selected.getPracownik() != null) {
+            String rok = selected.getRok();
+            Integer mcod = Integer.parseInt(selected.getMc());
+            for (String mc : Mce.getMceListS()) {
+                Integer kolejnymc = Integer.parseInt(mc);
+                if (kolejnymc >= mcod) {
+                    kal = new Kalendarzmiesiac();
+                    Kalendarzwzor znaleziono = kalendarzwzorFacade.findByFirmaRokMc(wpisView.getAngaz().getFirma(), rok, mc);
+                    if (znaleziono != null) {
+                        kal.setRok(rok);
+                        kal.setMc(mc);
+                        kal.setAngaz(selected);
+                        kal.ganerujdnizwzrocowego(znaleziono, null);
+                        kalendarzmiesiacFacade.create(kal);
+                    } else {
+                        Msg.msg("e", "Brak kalendarza wzorcowego za " + mc);
+                    }
+                }
+            }
+            Msg.msg("Pobrano dane z kalendarza wzorcowego z bazy danych i utworzono kalendarze pracownika");
+        } else {
+            Msg.msg("e", "Nie można wygenerować. Nie wybrano pracownika i umowy");
+        }
+        return kal;
+    }
+     
+     public void sprawdzrok() {
+         if (selected.getRok()!=null)  {
+            int rokI = Integer.parseInt(selected.getRok());
+            if (rokI<2022) {
+                selected.setRok(null);
+                Msg.msg("e","Angaż nie może być z wcześniejszego roku niż 2022");
+            }
+         }
+     }
     
     
 //    public void generujkalendarze() {

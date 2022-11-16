@@ -29,6 +29,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -40,7 +41,9 @@ import view.WpisView;
  * @author Osito
  */
 @Entity
-@Table(name = "angaz")
+@Table(name = "angaz", uniqueConstraints = {
+    @UniqueConstraint(columnNames={"firma","pracownik"})
+})
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Angaz.findAll", query = "SELECT a FROM Angaz a"),

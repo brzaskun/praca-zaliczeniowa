@@ -20,6 +20,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import msg.Msg;
+import org.apache.commons.text.CaseUtils;
 
 /**
  *
@@ -165,6 +166,39 @@ public class PracownikView  implements Serializable {
               Msg.msg("e", "Błąd - nie zachowano zmian pracownika");
           }
       }
+    }
+    
+    public void modyfikujnazwisko(String nazwisko) {
+        if (selected.getNazwisko()!=null) {
+            selected.setNazwisko(CaseUtils.toCamelCase(nazwisko, true, null));
+        }
+    }
+    
+    public void modyfikujimie(String imie) {
+        if (selected.getImie()!=null) {
+            selected.setImie(CaseUtils.toCamelCase(imie, true, null));
+        }
+    }
+    
+    public void peseldataurodzenia() {
+        if (selected.getPesel()!=null) {
+            String skrot = selected.getPesel();
+            if (skrot!=null) {
+                String liczbamiesiaca = skrot.substring(2, 3);
+                int liczbamiesiacaI = Integer.parseInt(liczbamiesiaca);
+                String liczbamiesiaca1 = skrot.substring(3, 4);
+                if (liczbamiesiacaI==0||liczbamiesiacaI==1) {
+                    String tmp = "19" + skrot.substring(0, 2) + "-" + skrot.substring(2, 4) + "-" + skrot.substring(4, 6);
+                    selected.setDataurodzenia(tmp);
+                } else {
+                    liczbamiesiacaI = liczbamiesiacaI-2;
+                    String nowymiesiac = liczbamiesiacaI+liczbamiesiaca1;
+                    String tmp = "20" + skrot.substring(0, 2) + "-" + nowymiesiac + "-" + skrot.substring(4, 6);
+                    selected.setDataurodzenia(tmp);
+                }
+                
+            }
+        }
     }
     
     public Pracownik getSelected() {
