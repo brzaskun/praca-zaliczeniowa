@@ -88,7 +88,7 @@ public class PasekwynagrodzenBean {
         PasekwynagrodzenBean.razemspolecznepracownik(pasek);
         PasekwynagrodzenBean.obliczbruttominusspoleczneDB(pasek);        
         if (umowaoprace) {
-            PasekwynagrodzenBean.obliczpodstaweopodatkowaniaDB(pasek, stawkipodatkowe, po26roku, kalendarz.getAngaz().isKosztyuzyskania0podwyzszone());
+            PasekwynagrodzenBean.obliczpodstaweopodatkowaniaDB(pasek, stawkipodatkowe, po26roku, kalendarz.getAngaz().isKosztyuzyskania0podwyzszone(), 0.0);
             PasekwynagrodzenBean.obliczpodatekwstepnyDB(pasek, stawkipodatkowe, 0.0, false);
         } else {
             PasekwynagrodzenBean.obliczpodstaweopodatkowaniaZlecenieSymulacja(pasek, stawkipodatkowe, pasek.isNierezydent());
@@ -113,7 +113,7 @@ public class PasekwynagrodzenBean {
     }
       
     public static Pasekwynagrodzen obliczWynagrodzenie(Kalendarzmiesiac kalendarz, Definicjalistaplac definicjalistaplac, SwiadczeniekodzusFacade nieobecnosckodzusFacade, List<Pasekwynagrodzen> paskidowyliczeniapodstawy, 
-        List<Wynagrodzeniahistoryczne> historiawynagrodzen, List<Podatki> stawkipodatkowe, double sumapoprzednich, double wynagrodzenieminimalne, boolean czyodlicoznokwotewolna, double kurs,double limitZUS, String datawyplaty, List<Nieobecnosc> nieobecnosci) {
+        List<Wynagrodzeniahistoryczne> historiawynagrodzen, List<Podatki> stawkipodatkowe, double sumapoprzednich, double wynagrodzenieminimalne, boolean czyodlicoznokwotewolna, double kurs,double limitZUS, String datawyplaty, List<Nieobecnosc> nieobecnosci, double limit26) {
         boolean umowaoprace = definicjalistaplac.getRodzajlistyplac().getTyp()==1;
         boolean umowazlecenia = definicjalistaplac.getRodzajlistyplac().getTyp()==2;
         boolean umowazlecenianierezydent = definicjalistaplac.getRodzajlistyplac().getTyp()==2&&kalendarz.isNierezydent();
@@ -137,7 +137,7 @@ public class PasekwynagrodzenBean {
         pasek.setMc(definicjalistaplac.getMc());
         boolean jestoddelegowanie = kalendarz.getDnioddelegowania()>0;
         if (umowaoprace) {
-            umowaopracewyliczenie(kalendarz, pasek, kurs, definicjalistaplac, czyodlicoznokwotewolna, jestoddelegowanie, limitZUS, stawkipodatkowe, sumapoprzednich, !po26roku, nieobecnosci);
+            umowaopracewyliczenie(kalendarz, pasek, kurs, definicjalistaplac, czyodlicoznokwotewolna, jestoddelegowanie, limitZUS, stawkipodatkowe, sumapoprzednich, !po26roku, nieobecnosci, limit26);
         } else if (umowazlecenia) {
             umowazleceniawyliczenie(kalendarz, pasek, kurs, definicjalistaplac, czyodlicoznokwotewolna, jestoddelegowanie, limitZUS, stawkipodatkowe, sumapoprzednich);
         } else if (umowazlecenianierezydent) {
@@ -186,7 +186,7 @@ public class PasekwynagrodzenBean {
     }
     
         private static void umowaopracewyliczenie(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasek, double kurs, Definicjalistaplac definicjalistaplac, 
-                boolean czyodlicoznokwotewolna, boolean jestoddelegowanie, double limitZUS, List<Podatki> stawkipodatkowe, double sumapoprzednich, boolean nieodliczackup, List<Nieobecnosc> nieobecnoscilista) {
+                boolean czyodlicoznokwotewolna, boolean jestoddelegowanie, double limitZUS, List<Podatki> stawkipodatkowe, double sumapoprzednich, boolean nieodliczackup, List<Nieobecnosc> nieobecnoscilista, double limit26) {
         boolean odliczaculgepodatkowa = kalendarz.getAngaz().isOdliczaculgepodatkowa();
         KalendarzmiesiacBean.naliczskladnikiwynagrodzeniaDB(kalendarz, pasek, kurs);
         List<Nieobecnosc> nieobecnosci = pobierznieobecnosci(kalendarz, nieobecnoscilista);
@@ -236,7 +236,7 @@ public class PasekwynagrodzenBean {
             PasekwynagrodzenBean.obliczpodstaweopodatkowaniaZasilekDB(pasek, stawkipodatkowe);
             PasekwynagrodzenBean.obliczpodatekwstepnyDB(pasek, stawkipodatkowe, sumapoprzednich, true);
         } else {
-            PasekwynagrodzenBean.obliczpodstaweopodatkowaniaDB(pasek, stawkipodatkowe, nieodliczackup, kalendarz.getAngaz().isKosztyuzyskania0podwyzszone());
+            PasekwynagrodzenBean.obliczpodstaweopodatkowaniaDB(pasek, stawkipodatkowe, nieodliczackup, kalendarz.getAngaz().isKosztyuzyskania0podwyzszone(), limit26);
             PasekwynagrodzenBean.obliczpodatekwstepnyDB(pasek, stawkipodatkowe, sumapoprzednich, false);
         }
         if (czyodlicoznokwotewolna == false) {
@@ -358,7 +358,7 @@ public class PasekwynagrodzenBean {
         pasek.setPracchorobowe(Z.z(pasek.getPodstawaskladkizus()*0.0245));
         PasekwynagrodzenBean.razemspolecznepracownik(pasek);
         PasekwynagrodzenBean.obliczbruttominusspoleczneDB(pasek);
-        PasekwynagrodzenBean.obliczpodstaweopodatkowaniaDB(pasek, stawkipodatkowe, false, kalendarz.getAngaz().isKosztyuzyskania0podwyzszone());
+        PasekwynagrodzenBean.obliczpodstaweopodatkowaniaDB(pasek, stawkipodatkowe, false, kalendarz.getAngaz().isKosztyuzyskania0podwyzszone(),0.0);
         PasekwynagrodzenBean.obliczpodatekwstepnyDB(pasek, stawkipodatkowe, sumapoprzednich, true);
         PasekwynagrodzenBean.ulgapodatkowaDB(pasek, stawkipodatkowe, true, true);
         PasekwynagrodzenBean.naliczzdrowota(pasek, pasek.isNierezydent(), true);
@@ -603,7 +603,7 @@ public class PasekwynagrodzenBean {
         pasek.setPodstawaopodatkowania(podstawa);
     }
      
-    private static void obliczpodstaweopodatkowaniaDB(Pasekwynagrodzen pasek, List<Podatki> stawkipodatkowe, boolean nieodliczackup, boolean podwyzszonekoszty) {
+    private static void obliczpodstaweopodatkowaniaDB(Pasekwynagrodzen pasek, List<Podatki> stawkipodatkowe, boolean nieodliczackup, boolean podwyzszonekoszty, double limit26) {
         Podatki pierwszyprog = stawkipodatkowe.get(0);
         double bruttominusspoleczne = pasek.getBruttominusspoleczne();
         double kosztyuzyskania = pierwszyprog.getKup();
@@ -691,6 +691,41 @@ public class PasekwynagrodzenBean {
     }
 
     private static void obliczpodatekwstepnyDB(Pasekwynagrodzen pasek, List<Podatki> stawkipodatkowe, double sumapoprzednich, boolean ignoruj26lat) {
+        if (pasek.isDo26lat()==false || (pasek.isDo26lat()&&ignoruj26lat==true)) {
+            obliczpodatekwstepnyDBStandard(pasek, stawkipodatkowe, sumapoprzednich, ignoruj26lat);
+        } else {
+            obliczpodatekwstepnyDB26lat(pasek, stawkipodatkowe, sumapoprzednich, ignoruj26lat);
+        }
+    }
+       
+    private static void obliczpodatekwstepnyDB26lat(Pasekwynagrodzen pasek, List<Podatki> stawkipodatkowe, double sumapoprzednich, boolean ignoruj26lat) {
+        double podstawaopodatkowania = pasek.getPodstawaopodatkowaniahipotetyczna();
+        double podstawaopodatkowaniaPodatek = pasek.getPodstawaopodatkowania();
+        double podatek = Z.z(Z.z0(podstawaopodatkowania)*stawkipodatkowe.get(0).getStawka());
+        double drugiprog = stawkipodatkowe.get(0).getKwotawolnado();
+        if (sumapoprzednich>=drugiprog) {
+            podatek = Z.z(Z.z0(podstawaopodatkowania)*stawkipodatkowe.get(1).getStawka());
+            pasek.setDrugiprog(true);
+        } else if (sumapoprzednich<drugiprog) {
+            double razemzbiezacym = sumapoprzednich+podstawaopodatkowania;
+            if (razemzbiezacym>drugiprog) {
+                double podatekdol = Z.z(Z.z0(drugiprog-sumapoprzednich)*stawkipodatkowe.get(0).getStawka());
+                double podatekgora = Z.z(Z.z0(razemzbiezacym-drugiprog)*stawkipodatkowe.get(1).getStawka());
+                podatek = podatekdol+podatekgora;
+                pasek.setDrugiprog(true);
+            } else {
+                podatek = Z.z(Z.z0(podstawaopodatkowania)*stawkipodatkowe.get(0).getStawka());
+            }
+        }
+        if (pasek.isDo26lat()&&ignoruj26lat==false) {
+            pasek.setPodatekwstepnyhipotetyczny(podatek);
+            pasek.setPodatekwstepny(0.0);
+        } else {
+            pasek.setPodatekwstepny(podatek);
+        }
+    }
+    
+    private static void obliczpodatekwstepnyDBStandard(Pasekwynagrodzen pasek, List<Podatki> stawkipodatkowe, double sumapoprzednich, boolean ignoruj26lat) {
         double podstawaopodatkowania = pasek.isDo26lat()&&ignoruj26lat==false?pasek.getPodstawaopodatkowaniahipotetyczna():pasek.getPodstawaopodatkowania();
         double podatek = Z.z(Z.z0(podstawaopodatkowania)*stawkipodatkowe.get(0).getStawka());
         double drugiprog = stawkipodatkowe.get(0).getKwotawolnado();

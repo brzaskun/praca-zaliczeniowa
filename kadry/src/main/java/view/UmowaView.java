@@ -238,88 +238,19 @@ public class UmowaView implements Serializable {
 
     public void create() {
         if (selected != null && wpisView.getAngaz() != null) {
-            try {
-                selected.setAngaz(wpisView.getAngaz());
-                if (selected.getUmowakodzus().isPraca()) {
-                    try {
-                        String dataodkiedywyplatazasilku = UmowaBean.obliczdatepierwszegozasilku(wpisView.getAngaz().getUmowaList(), selected);
-                        selected.setPierwszydzienzasilku(dataodkiedywyplatazasilku);
-                    } catch (Exception e){}
-                }
-                selected.setAktywna(true);
-                selected.setDatasystem(new Date());
-                String dataostatniejumowy = null;
-                listapraca = umowaFacade.findByAngaz(wpisView.getAngaz());
-                if (listapraca != null && listapraca.size()>0) {
-                    int kolejnosc = listapraca.size() + 1;
-                    selected.setLicznikumow(kolejnosc);
-                    int numerpoprzedniejumowy = kolejnosc-1;
-                    for (Umowa p : listapraca) {
-                        if (p.getLicznikumow()==numerpoprzedniejumowy) {
-                            if (p.getDatado()!=null) {
-                                String datado = p.getDatado();
-                                String rok = Data.getRok(datado);
-                                String mc = Data.getMc(datado);
-                                if (selected.getRok().equals(rok)&&selected.getMc().equals(mc)) {
-                                    dataostatniejumowy = p.getDatado();
-                                }
-                            }
-                        }
-                    }
-                } else {
-                    selected.setLicznikumow(1);
-                }
-                umowaFacade.create(selected);
-                if (listapraca!=null&&listapraca.size()>0) {
-                    for (Umowa p : listapraca) {
-                        p.setAktywna(false);
-                    }
-                    umowaFacade.editList(listapraca);
-                }
-                listapraca.add(selected);
-                wpisView.setUmowa(selected);
-                if (selected.getUmowakodzus().isPraca() && etat1 != null && etat2 != null) {
-                    EtatPrac etat = new EtatPrac(wpisView.getAngaz(), selected.getDataod(), selected.getDatado(), etat1, etat2);
-                    etatFacade.create(etat);
-                }
-                if (selected.getUmowakodzus().isPraca() && selected.getKodzawodu() != null) {
-                    Stanowiskoprac stanowisko = new Stanowiskoprac(wpisView.getAngaz(), selected.getDataod(), selected.getDatado(), selected.getStanowisko());
-                    stanowiskopracFacade.create(stanowisko);
-                }
-                if (wynagrodzeniemiesieczne != 0.0) {
-                    Rodzajwynagrodzenia rodzajwynagrodzenia = selected.getUmowakodzus().isPraca() ? rodzajwynagrodzeniaFacade.findZasadniczePraca() : rodzajwynagrodzeniaFacade.findZasadniczeZlecenie();
-                    Skladnikwynagrodzenia skladnikwynagrodzenia = skladnikWynagrodzeniaFacade.findByAngazRodzaj(selected.getAngaz(),rodzajwynagrodzenia);
-                    if (skladnikwynagrodzenia == null) {
-                        skladnikwynagrodzenia = dodajskladnikwynagrodzenia(rodzajwynagrodzenia);
-                    }
-                    Zmiennawynagrodzenia zmiennawynagrodzenie = dodajzmiennawynagrodzenie(skladnikwynagrodzenia);
-                    if (skladnikwynagrodzenia.getId() != null && zmiennawynagrodzenie != null) {
-                        Msg.msg("Dodano składniki wynagrodzania");
-                    }
-                }
-                if (wynagrodzeniegodzinowe != 0.0) {
-                    Rodzajwynagrodzenia rodzajwynagrodzenia = selected.getUmowakodzus().isPraca() ? rodzajwynagrodzeniaFacade.findGodzinowePraca() : rodzajwynagrodzeniaFacade.findGodzinoweZlecenie();
-                    Skladnikwynagrodzenia skladnikwynagrodzenia = skladnikWynagrodzeniaFacade.findByAngazRodzaj(selected.getAngaz(),rodzajwynagrodzenia);
-                    if (skladnikwynagrodzenia == null) {
-                        skladnikwynagrodzenia = dodajskladnikwynagrodzenia(rodzajwynagrodzenia);
-                    }
-                    Zmiennawynagrodzenia zmiennawynagrodzenie = dodajzmiennawynagrodzenie(skladnikwynagrodzenia);
-                    if (skladnikwynagrodzenia.getId() != null && zmiennawynagrodzenie != null) {
-                        Msg.msg("Dodano składniki wynagrodzania");
-                    }
-                }
+            if (listapraca != null && listapraca.size()>0) {
+                createkolejna();
+            } else {
+                createpierwsza();
+            }
+            //zrobic dopasowanie kalendarfza do etatu
                 skladnikWynagrodzeniaView.init();
                 zmiennaWynagrodzeniaView.init();
-                //tworzy tylko kalendarz dla bardzo pierwszej umowy
-                if (selected.getLicznikumow() == 1) {
-                    //generujKalendarzNowaUmowa(selected, etat);
-                }
-                //zrobic dopasowanie kalendarfza do etatu
                 Kalendarzmiesiac kalendarz = kalendarzmiesiacFacade.findByRokMcAngaz(selected.getAngaz(), selected.getRok(), selected.getMc());
                 if (kalendarz == null) {
                     Msg.msg("e", "Brak kalendarza za miesiąc rozpoczęcia umowy");
                 }
-                List<Nieobecnosc> zatrudnieniewtrakciemiesiaca = PasekwynagrodzenBean.generujNieobecnosci(kalendarz.getAngaz(), selected.getDataod(), selected.getDatado(), rodzajnieobecnosciFacade, kalendarz.getRok(), kalendarz.getMc(), kalendarz, dataostatniejumowy);
+                List<Nieobecnosc> zatrudnieniewtrakciemiesiaca = PasekwynagrodzenBean.generujNieobecnosci(wpisView.getAngaz(), selected.getDataod(), selected.getDatado(), rodzajnieobecnosciFacade, kalendarz.getRok(), kalendarz.getMc(), kalendarz, null);
                 if (zatrudnieniewtrakciemiesiaca != null&&zatrudnieniewtrakciemiesiaca.size()>0) {
                     nieobecnoscFacade.createList(zatrudnieniewtrakciemiesiaca);
                     boolean czynaniesiono = NieobecnosciBean.nanies(zatrudnieniewtrakciemiesiaca.get(0), wpisView.getRokWpisu(), wpisView.getRokUprzedni(), kalendarzmiesiacFacade, nieobecnoscFacade);
@@ -334,6 +265,166 @@ public class UmowaView implements Serializable {
                 etat2 = 1;
                 updateClassView.updateUmowa();
                 Msg.msg("Dodano nową umowę");
+        }
+    }
+    
+    
+    public void createpierwsza() {
+        if (selected != null && wpisView.getAngaz() != null) {
+            try {
+                selected.setAngaz(wpisView.getAngaz());
+                if (selected.getUmowakodzus().isPraca()) {
+                    try {
+                        String dataodkiedywyplatazasilku = UmowaBean.obliczdatepierwszegozasilku(wpisView.getAngaz().getUmowaList(), selected);
+                        selected.setPierwszydzienzasilku(dataodkiedywyplatazasilku);
+                    } catch (Exception e){}
+                }
+                selected.setAktywna(true);
+                selected.setDatasystem(new Date());
+                String dataostatniejumowy = null;
+                selected.setLicznikumow(1);
+                umowaFacade.create(selected);
+                listapraca.add(selected);
+                wpisView.setUmowa(selected);
+                if (selected.getUmowakodzus().isPraca() && etat1 != null && etat2 != null) {
+                    EtatPrac etat = new EtatPrac(wpisView.getAngaz(), selected.getDataod(), selected.getDatado(), etat1, etat2);
+                    etatFacade.create(etat);
+                }
+                if (selected.getUmowakodzus().isPraca() && selected.getKodzawodu() != null) {
+                    Stanowiskoprac stanowisko = new Stanowiskoprac(wpisView.getAngaz(), selected.getDataod(), selected.getDatado(), selected.getStanowisko());
+                    stanowiskopracFacade.create(stanowisko);
+                }
+                if (wynagrodzeniemiesieczne != 0.0) {
+                    Rodzajwynagrodzenia rodzajwynagrodzenia = selected.getUmowakodzus().isPraca() ? rodzajwynagrodzeniaFacade.findZasadniczePraca() : rodzajwynagrodzeniaFacade.findZasadniczeZlecenie();
+                    Skladnikwynagrodzenia skladnikwynagrodzenia =  dodajskladnikwynagrodzenia(rodzajwynagrodzenia);
+                    Zmiennawynagrodzenia zmiennawynagrodzenie = dodajzmiennawynagrodzenie(skladnikwynagrodzenia);
+                    if (skladnikwynagrodzenia.getId() != null && zmiennawynagrodzenie != null) {
+                        Msg.msg("Dodano składniki wynagrodzania");
+                    }
+                }
+                if (wynagrodzeniegodzinowe != 0.0) {
+                    Rodzajwynagrodzenia rodzajwynagrodzenia = selected.getUmowakodzus().isPraca() ? rodzajwynagrodzeniaFacade.findGodzinowePraca() : rodzajwynagrodzeniaFacade.findGodzinoweZlecenie();
+                    Skladnikwynagrodzenia skladnikwynagrodzenia = dodajskladnikwynagrodzenia(rodzajwynagrodzenia);
+                    Zmiennawynagrodzenia zmiennawynagrodzenie = dodajzmiennawynagrodzenie(skladnikwynagrodzenia);
+                    if (skladnikwynagrodzenia.getId() != null && zmiennawynagrodzenie != null) {
+                        Msg.msg("Dodano składniki wynagrodzania");
+                    }
+                }
+            } catch (Exception e) {
+                Msg.msg("e", "Błąd - nie dodano nowej umowy. Sprawdź angaż");
+            }
+        }
+    }
+    
+    public void createkolejna() {
+        if (selected != null && wpisView.getAngaz() != null) {
+            try {
+                Angaz angaz = wpisView.getAngaz();
+                selected.setAngaz(angaz);
+                if (selected.getUmowakodzus().isPraca()) {
+                    try {
+                        String dataodkiedywyplatazasilku = UmowaBean.obliczdatepierwszegozasilku(angaz.getUmowaList(), selected);
+                        selected.setPierwszydzienzasilku(dataodkiedywyplatazasilku);
+                    } catch (Exception e){}
+                }
+                selected.setAktywna(true);
+                selected.setDatasystem(new Date());
+                Umowa ostatniaumowa = null;
+                String dataostatniejumowy = null;
+                String datazamknieciapoprzedniejumowy = Data.odejmijdzien(selected.getDataod(), 1);
+                listapraca = umowaFacade.findByAngaz(angaz);
+                int kolejnosc = listapraca.size() + 1;
+                selected.setLicznikumow(kolejnosc);
+                int numerpoprzedniejumowy = kolejnosc-1;
+                for (Umowa p : listapraca) {
+                    if (p.getLicznikumow()==numerpoprzedniejumowy) {
+                        ostatniaumowa = p;
+                        if (p.getDatado()!=null&&!p.getDatado().equals("")) {
+                            String datado = p.getDatado();
+                            String rok = Data.getRok(datado);
+                            String mc = Data.getMc(datado);
+                            if (selected.getRok().equals(rok)&&selected.getMc().equals(mc)) {
+                                dataostatniejumowy = p.getDatado();
+                            }
+                        } else {
+                            p.setDatado(datazamknieciapoprzedniejumowy);
+                            umowaFacade.edit(p);
+                        }
+                    }
+                }
+                
+                umowaFacade.create(selected);
+                for (Umowa p : listapraca) {
+                    p.setAktywna(false);
+                }
+                umowaFacade.editList(listapraca);
+                listapraca.add(selected);
+                wpisView.setUmowa(selected);
+                if (selected.getUmowakodzus().isPraca() && etat1 != null && etat2 != null) {
+                    List<EtatPrac> etaty = etatFacade.findByAngaz(angaz);
+                    EtatPrac ostatnietat = null;
+                    for (EtatPrac e : etaty) {
+                        if (e.getDatado()==null||e.getDatado().equals("")) {
+                            if (etat1!=e.getEtat1()||etat2!=e.getEtat2()) {
+                                e.setDatado(datazamknieciapoprzedniejumowy);
+                                etatFacade.edit(e);
+                                EtatPrac etat = new EtatPrac(angaz, selected.getDataod(), selected.getDatado(), etat1, etat2);
+                                etatFacade.create(etat);
+                            }
+                        }
+                    }
+                }
+                if (selected.getUmowakodzus().isPraca() && selected.getKodzawodu() != null) {
+                    List<Stanowiskoprac> etaty = stanowiskopracFacade.findByAngaz(angaz);
+                    Stanowiskoprac ostatnietat = null;
+                    for (Stanowiskoprac e : etaty) {
+                        if (e.getDatado()==null||e.getDatado().equals("")) {
+                            if (!e.getOpis().equals(selected.getStanowisko())) {
+                                e.setDatado(datazamknieciapoprzedniejumowy);
+                                stanowiskopracFacade.edit(e);
+                                Stanowiskoprac stanowisko = new Stanowiskoprac(angaz, selected.getDataod(), selected.getDatado(), selected.getStanowisko());
+                                stanowiskopracFacade.create(stanowisko);
+                            }
+                        }
+                    }
+                    
+                }
+                if (wynagrodzeniemiesieczne != 0.0) {
+                    Rodzajwynagrodzenia rodzajwynagrodzenia = selected.getUmowakodzus().isPraca() ? rodzajwynagrodzeniaFacade.findZasadniczePraca() : rodzajwynagrodzeniaFacade.findZasadniczeZlecenie();
+                    Skladnikwynagrodzenia skladnikwynagrodzenia = skladnikWynagrodzeniaFacade.findByAngazRodzaj(selected.getAngaz(),rodzajwynagrodzenia);
+                    List<Zmiennawynagrodzenia> etaty = zmiennaWynagrodzeniaFacade.findBySkladnik(skladnikwynagrodzenia);
+                    Zmiennawynagrodzenia ostatnietat = null;
+                    for (Zmiennawynagrodzenia e : etaty) {
+                        if (e.getDatado()==null||e.getDatado().equals("")) {
+                            if (e.getKwota()!=wynagrodzeniemiesieczne) {
+                                e.setDatado(datazamknieciapoprzedniejumowy);
+                                zmiennaWynagrodzeniaFacade.edit(e);
+                                Zmiennawynagrodzenia zmiennawynagrodzenie = dodajzmiennawynagrodzenie(skladnikwynagrodzenia);
+                                if (skladnikwynagrodzenia.getId() != null && zmiennawynagrodzenie != null) {
+                                    Msg.msg("Dodano składniki wynagrodzania");
+                                }
+                            }
+                        }
+                    }
+                }
+                if (wynagrodzeniegodzinowe != 0.0) {
+                    Rodzajwynagrodzenia rodzajwynagrodzenia = selected.getUmowakodzus().isPraca() ? rodzajwynagrodzeniaFacade.findGodzinowePraca() : rodzajwynagrodzeniaFacade.findGodzinoweZlecenie();
+                    Skladnikwynagrodzenia skladnikwynagrodzenia = skladnikWynagrodzeniaFacade.findByAngazRodzaj(selected.getAngaz(),rodzajwynagrodzenia);
+                    List<Zmiennawynagrodzenia> etaty = zmiennaWynagrodzeniaFacade.findBySkladnik(skladnikwynagrodzenia);
+                    Zmiennawynagrodzenia ostatnietat = null;
+                    for (Zmiennawynagrodzenia e : etaty) {
+                        if (e.getDatado()==null||e.getDatado().equals("")) {
+                            if (e.getKwota()!=wynagrodzeniegodzinowe) {
+                                e.setDatado(datazamknieciapoprzedniejumowy);
+                                zmiennaWynagrodzeniaFacade.edit(e);
+                                Zmiennawynagrodzenia zmiennawynagrodzenie = dodajzmiennawynagrodzenie(skladnikwynagrodzenia);
+                                if (skladnikwynagrodzenia.getId() != null && zmiennawynagrodzenie != null) {
+                                    Msg.msg("Dodano składniki wynagrodzania");
+                                }
+                            }
+                        }
+                    }
+                }
             } catch (Exception e) {
                 Msg.msg("e", "Błąd - nie dodano nowej umowy. Sprawdź angaż");
             }

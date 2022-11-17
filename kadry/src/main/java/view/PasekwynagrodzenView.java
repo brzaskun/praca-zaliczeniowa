@@ -13,6 +13,7 @@ import comparator.Sredniadlanieobecnoscicomparator;
 import dao.DefinicjalistaplacFacade;
 import dao.KalendarzmiesiacFacade;
 import dao.KalendarzwzorFacade;
+import dao.LimitdochodudwaszescFacade;
 import dao.NieobecnoscFacade;
 import dao.OddelegowanieZUSLimitFacade;
 import dao.PasekwynagrodzenFacade;
@@ -30,6 +31,7 @@ import entity.Definicjalistaplac;
 import entity.FirmaKadry;
 import entity.Kalendarzmiesiac;
 import entity.Kalendarzwzor;
+import entity.Limitdochodudwaszesc;
 import entity.Naliczenienieobecnosc;
 import entity.Naliczenieskladnikawynagrodzenia;
 import entity.Nieobecnosc;
@@ -102,6 +104,10 @@ public class PasekwynagrodzenView implements Serializable {
     @Inject
     private NieobecnoscFacade nieobecnoscFacade;
     @Inject
+    private Limitdochodudwaszesc limitdochodudwaszesc;
+    @Inject
+    private LimitdochodudwaszescFacade limitdochodudwaszescFacade;
+    @Inject
     private WpisView wpisView;
     private Rodzajlistyplac rodzajlistyplac;
     private List<Rodzajlistyplac> listarodzajlistyplac;
@@ -157,6 +163,7 @@ public class PasekwynagrodzenView implements Serializable {
         listarodzajlistyplac = rodzajlistyplacFacade.findAktywne();
         ileszczegolow = "normalna";
         symulacjabrrutto = wpisView.getRokWpisuInt()<2022?2800:3010;
+        limitdochodudwaszesc = limitdochodudwaszescFacade.findbyRok(wpisView.getRokWpisu());
     }
     
      public void initanaliza() {
@@ -277,7 +284,7 @@ public class PasekwynagrodzenView implements Serializable {
                     }
                     List<Nieobecnosc> nieobecnosci = nieobecnoscFacade.findByAngaz(wpisView.getAngaz());
                     Pasekwynagrodzen pasek = PasekwynagrodzenBean.obliczWynagrodzenie(pracownikmc, wybranalistaplac, nieobecnosckodzusFacade, paskidowyliczeniapodstawy, historiawynagrodzen, stawkipodatkowe, sumapoprzednich, wynagrodzenieminimalne, czyodlicoznokwotewolna,
-                            kursdlalisty, limitzus, datawyplaty, nieobecnosci);
+                            kursdlalisty, limitzus, datawyplaty, nieobecnosci, limitdochodudwaszesc.getKwota());
                     usunpasekjakzawiera(pasek);
                     lista.add(pasek);
                 }
