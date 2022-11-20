@@ -194,6 +194,7 @@ public class PasekwynagrodzenBean {
         List<Nieobecnosc> choroba = pobierz(nieobecnosci, "CH");
         List<Nieobecnosc> zasilekchorobowy = pobierz(nieobecnosci, "ZC");
         List<Nieobecnosc> urlop = pobierz(nieobecnosci, "U");
+        List<Nieobecnosc> urlopoddelegowanie = pobierz(nieobecnosci, "UD");
         List<Nieobecnosc> urlopbezplatny = pobierz(nieobecnosci, "X");
         List<Nieobecnosc> oddelegowanie = pobierz(nieobecnosci, "Z");
         KalendarzmiesiacBean.nalicznadgodzinyDB(kalendarz, pasek, false);
@@ -207,6 +208,7 @@ public class PasekwynagrodzenBean {
         //KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, oddelegowanie, pasek);
         KalendarzmiesiacBean.redukujskladnikistale(kalendarz, pasek);
         KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, urlop, pasek);
+        KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, urlopoddelegowanie, pasek);
         //KalendarzmiesiacBean.redukujskladnikistale2(kalendarz, pasek);
         if (definicjalistaplac.getRodzajlistyplac().getSymbol().equals("ZA")) {
             PasekwynagrodzenBean.obliczbruttobezzusZasilek(pasek);

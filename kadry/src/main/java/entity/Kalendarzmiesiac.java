@@ -792,7 +792,7 @@ private static final long serialVersionUID = 1L;
                 dzienaktualny.setPrzepracowano(0);
                 dzienaktualny.setKod(kod);
                 p.setNaniesiona(true);
-            } else if (kod.equals("U")) {
+            } else if (kod.equals("U")||kod.equals("UD")) {
                 dzienaktualny.setUrlopPlatny(dzienaktualny.getNormagodzin());
                 dzienaktualny.setPrzepracowano(0);
                 dzienaktualny.setKod(kod);
