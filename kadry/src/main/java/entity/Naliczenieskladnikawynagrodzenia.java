@@ -83,6 +83,10 @@ public class Naliczenieskladnikawynagrodzenia implements Serializable {
     private Character skl_dod_1;
     @Column(name = "skl_rodzaj")
     private Character skl_rodzaj;
+    @Column(name = "uwagi")
+    private String uwagi;
+    @Column(name = "waluta")
+    private String waluta;
    
 
     public Naliczenieskladnikawynagrodzenia() {
@@ -129,6 +133,14 @@ public class Naliczenieskladnikawynagrodzenia implements Serializable {
 
     public void setSkl_rodzaj(Character skl_rodzaj) {
         this.skl_rodzaj = skl_rodzaj;
+    }
+
+    public String getWaluta() {
+        return waluta;
+    }
+
+    public void setWaluta(String waluta) {
+        this.waluta = waluta;
     }
 
   
@@ -276,6 +288,14 @@ public class Naliczenieskladnikawynagrodzenia implements Serializable {
 
     public double getStawkagodzinowa() {
         return stawkagodzinowa;
+    }
+
+    public String getUwagi() {
+        return uwagi;
+    }
+
+    public void setUwagi(String uwagi) {
+        this.uwagi = uwagi;
     }
 
     public void setStawkagodzinowa(double stawkagodzinowa) {

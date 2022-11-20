@@ -278,8 +278,11 @@ public class KalendarzmiesiacBean {
     }
     static void naliczskladnikiwynagrodzeniaDB(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasekwynagrodzen, double kurs) {
         for (Skladnikwynagrodzenia p : kalendarz.getAngaz().getSkladnikwynagrodzeniaList()) {
-            if (p.getRodzajwynagrodzenia().getKod().equals("11")) {
+            if (p.getRodzajwynagrodzenia().getKod().equals("11")&&p.isOddelegowanie()==false) {
                 List<Naliczenieskladnikawynagrodzenia> naliczenieskladnikawynagrodzenia = NaliczenieskladnikawynagrodzeniaBean.createWynagrodzenieDB(kalendarz, pasekwynagrodzen, p, kurs);
+                pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().addAll(naliczenieskladnikawynagrodzenia);
+            } else if (p.getRodzajwynagrodzenia().getKod().equals("11")&&p.isOddelegowanie()==true) {
+                List<Naliczenieskladnikawynagrodzenia> naliczenieskladnikawynagrodzenia = NaliczenieskladnikawynagrodzeniaBean.createWynagrodzenieDBOddelegowanie(kalendarz, pasekwynagrodzen, p, kurs);
                 pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().addAll(naliczenieskladnikawynagrodzenia);
             } else if (p.getRodzajwynagrodzenia().getKod().equals("13")) {
                 List<Naliczenieskladnikawynagrodzenia> naliczenieskladnikawynagrodzenia = NaliczenieskladnikawynagrodzeniaBean.createWynagrodzenieDB(kalendarz, pasekwynagrodzen, p, kurs);
@@ -397,7 +400,7 @@ public class KalendarzmiesiacBean {
                 Skladnikwynagrodzenia skladnikwynagrodzenia = naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia();
                 naliczenienieobecnosc.setSkladnikwynagrodzenia(skladnikwynagrodzenia);
                 naliczenienieobecnosc.setNieobecnosc(nieobecnosc);
-                naliczenienieobecnosc.setJakiskladnikredukowalny(naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getUwagi());
+                naliczenienieobecnosc.setJakiskladnikredukowalny(naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getOpispelny());
                 double sredniadopodstawy = wyliczsredniachoroba(kalendarz, naliczenieskladnikawynagrodzenia, nieobecnosc, naliczenienieobecnosc);
                 naliczenienieobecnosc.setPodstawadochoroby(sredniadopodstawy);
                 double skladnikistalenetto = sredniadopodstawy-(sredniadopodstawy*.1371);
@@ -869,9 +872,10 @@ public class KalendarzmiesiacBean {
         pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().add(naliczenieskladnikawynagrodzenia);
     }
     
-    static void nalicznadgodziny50DB(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasekwynagrodzen) {
+    static void nalicznadgodzinyDB(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasekwynagrodzen, boolean sto) {
         double godzinyrobocze = 0.0;
         double nadliczbowe = 0.0;
+        double dninadliczbowe = 0.0;
         String datapoczatek = kalendarz.getRok()+"-"+kalendarz.getMc()+"-";
         String dataod = null;
         String datado = null;
@@ -879,8 +883,10 @@ public class KalendarzmiesiacBean {
             if (p.getTypdnia()==0) {
                 godzinyrobocze = godzinyrobocze+p.getNormagodzin();
             }
-            if (p.getTypdnia()==0 && p.getPiecdziesiatki()>0.0) {
-                nadliczbowe = nadliczbowe+p.getPiecdziesiatki();
+            double nadgodziny = sto?p.getSetki():p.getPiecdziesiatki();
+            if (p.getTypdnia()==0 && nadgodziny>0.0) {
+                dninadliczbowe = dninadliczbowe+1;
+                nadliczbowe = nadliczbowe+nadgodziny;
                 if (dataod==null) {
                     String nrdnia = String.valueOf(p.getNrdnia());
                     if (nrdnia.length()==1) {
@@ -901,13 +907,21 @@ public class KalendarzmiesiacBean {
             Skladnikwynagrodzenia wynagrodzeniezasadnicze = wynagrodzeniedopobrania.getSkladnikwynagrodzenia();
             Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = new Naliczenieskladnikawynagrodzenia();
             Skladnikwynagrodzenia skladniknadgodziny50 = pobierzskladnik(kalendarz, "12");
-            naliczenieskladnikawynagrodzenia.setSkladnikwynagrodzenia(skladniknadgodziny50);
-            double skladnik = wynagrodzeniezasadnicze.getZmiennawynagrodzeniaList().get(0).getKwota();
-            double stawkagodznowanormalna = skladnik / godzinyrobocze*0.5;
-            naliczenieskladnikawynagrodzenia.setKwotaumownazacalymc(Z.z(stawkagodznowanormalna*nadliczbowe));
-            //naliczenieskladnikawynagrodzenia.setKwotazus(Z.z(stawkagodznowanormalna*nadliczbowe));
-            naliczenieskladnikawynagrodzenia.setPasekwynagrodzen(pasekwynagrodzen);
-            pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().add(naliczenieskladnikawynagrodzenia);
+            if (skladniknadgodziny50!=null) {
+                naliczenieskladnikawynagrodzenia.setSkladnikwynagrodzenia(skladniknadgodziny50);
+                double skladnik = wynagrodzeniezasadnicze.getZmiennawynagrodzeniaList().get(0).getKwota();
+                double wspolczynnik = sto?2.0:1.5;
+                double stawkagodznowanormalna = skladnik / godzinyrobocze*wspolczynnik;
+                String uwagi = sto?"setki":"pięćdz.";
+                naliczenieskladnikawynagrodzenia.setUwagi(uwagi);
+                naliczenieskladnikawynagrodzenia.setStawkagodzinowa(stawkagodznowanormalna);
+                naliczenieskladnikawynagrodzenia.setGodzinyfaktyczne(nadliczbowe);
+                naliczenieskladnikawynagrodzenia.setDnifaktyczne(dninadliczbowe);
+                naliczenieskladnikawynagrodzenia.setKwotadolistyplac(Z.z(stawkagodznowanormalna*nadliczbowe));
+                //naliczenieskladnikawynagrodzenia.setKwotazus(Z.z(stawkagodznowanormalna*nadliczbowe));
+                naliczenieskladnikawynagrodzenia.setPasekwynagrodzen(pasekwynagrodzen);
+                pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().add(naliczenieskladnikawynagrodzenia);
+            }
         }
     }
     
@@ -1015,7 +1029,7 @@ public class KalendarzmiesiacBean {
     private static Skladnikwynagrodzenia pobierzskladnik(Kalendarzmiesiac kalendarz, String kodskladnika) {
         Skladnikwynagrodzenia zwrot = null;
         for (Skladnikwynagrodzenia p : kalendarz.getAngaz().getSkladnikwynagrodzeniaList()) {
-            if (p.getRodzajwynagrodzenia().getKod().equals(kodskladnika)) {
+            if (p.getRodzajwynagrodzenia().getKod().equals(kodskladnika)&&p.getRodzajwynagrodzenia().isAktywne()) {
                 zwrot = p;
                 break;
             }

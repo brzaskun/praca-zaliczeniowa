@@ -196,14 +196,15 @@ public class PasekwynagrodzenBean {
         List<Nieobecnosc> urlop = pobierz(nieobecnosci, "U");
         List<Nieobecnosc> urlopbezplatny = pobierz(nieobecnosci, "X");
         List<Nieobecnosc> oddelegowanie = pobierz(nieobecnosci, "Z");
-        KalendarzmiesiacBean.nalicznadgodziny50DB(kalendarz, pasek);
+        KalendarzmiesiacBean.nalicznadgodzinyDB(kalendarz, pasek, false);
+        KalendarzmiesiacBean.nalicznadgodzinyDB(kalendarz, pasek, true);
         //KalendarzmiesiacBean.nalicznadgodziny100(kalendarz, pasek);
         //najpierw musimy przyporzadkowac aktualne skladniki, aby potem prawidlowo obliczyc redukcje
         //KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, zatrudnieniewtrakciemiesiaca, pasek);
         KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, choroba, pasek);
         KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, zasilekchorobowy, pasek);
         KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, urlopbezplatny, pasek);
-        KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, oddelegowanie, pasek);
+        //KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, oddelegowanie, pasek);
         KalendarzmiesiacBean.redukujskladnikistale(kalendarz, pasek);
         KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, urlop, pasek);
         //KalendarzmiesiacBean.redukujskladnikistale2(kalendarz, pasek);
@@ -237,7 +238,8 @@ public class PasekwynagrodzenBean {
             PasekwynagrodzenBean.obliczpodatekwstepnyDB(pasek, stawkipodatkowe, sumapoprzednich, true);
         } else {
             PasekwynagrodzenBean.obliczpodstaweopodatkowaniaDB(pasek, stawkipodatkowe, nieodliczackup, kalendarz.getAngaz().isKosztyuzyskania0podwyzszone(), limit26);
-            PasekwynagrodzenBean.obliczpodatekwstepnyDB(pasek, stawkipodatkowe, sumapoprzednich, false);
+            boolean ignoruj26lat = false;
+            PasekwynagrodzenBean.obliczpodatekwstepnyDB(pasek, stawkipodatkowe, sumapoprzednich, ignoruj26lat);
         }
         if (czyodlicoznokwotewolna == false) {
             if (definicjalistaplac.getRodzajlistyplac().getSymbol().equals("ZA")) {
@@ -691,7 +693,7 @@ public class PasekwynagrodzenBean {
     }
 
     private static void obliczpodatekwstepnyDB(Pasekwynagrodzen pasek, List<Podatki> stawkipodatkowe, double sumapoprzednich, boolean ignoruj26lat) {
-        if (pasek.isDo26lat()==false || (pasek.isDo26lat()&&ignoruj26lat==true)) {
+        if (pasek.isDo26lat()==false || ignoruj26lat==true) {
             obliczpodatekwstepnyDBStandard(pasek, stawkipodatkowe, sumapoprzednich, ignoruj26lat);
         } else {
             obliczpodatekwstepnyDB26lat(pasek, stawkipodatkowe, sumapoprzednich, ignoruj26lat);
@@ -701,7 +703,7 @@ public class PasekwynagrodzenBean {
     private static void obliczpodatekwstepnyDB26lat(Pasekwynagrodzen pasek, List<Podatki> stawkipodatkowe, double sumapoprzednich, boolean ignoruj26lat) {
         double podstawaopodatkowania = pasek.getPodstawaopodatkowaniahipotetyczna();
         double podstawaopodatkowaniaPodatek = pasek.getPodstawaopodatkowania();
-        double podatek = Z.z(Z.z0(podstawaopodatkowania)*stawkipodatkowe.get(0).getStawka());
+        double podatek = Z.z(Z.z0(podstawaopodatkowania+podstawaopodatkowania)*stawkipodatkowe.get(0).getStawka());
         double drugiprog = stawkipodatkowe.get(0).getKwotawolnado();
         if (sumapoprzednich>=drugiprog) {
             podatek = Z.z(Z.z0(podstawaopodatkowania)*stawkipodatkowe.get(1).getStawka());
@@ -717,16 +719,12 @@ public class PasekwynagrodzenBean {
                 podatek = Z.z(Z.z0(podstawaopodatkowania)*stawkipodatkowe.get(0).getStawka());
             }
         }
-        if (pasek.isDo26lat()&&ignoruj26lat==false) {
-            pasek.setPodatekwstepnyhipotetyczny(podatek);
-            pasek.setPodatekwstepny(0.0);
-        } else {
-            pasek.setPodatekwstepny(podatek);
-        }
+        pasek.setPodatekwstepnyhipotetyczny(podatek);
+        pasek.setPodatekwstepny(0.0);
     }
     
     private static void obliczpodatekwstepnyDBStandard(Pasekwynagrodzen pasek, List<Podatki> stawkipodatkowe, double sumapoprzednich, boolean ignoruj26lat) {
-        double podstawaopodatkowania = pasek.isDo26lat()&&ignoruj26lat==false?pasek.getPodstawaopodatkowaniahipotetyczna():pasek.getPodstawaopodatkowania();
+        double podstawaopodatkowania = pasek.getPodstawaopodatkowania();
         double podatek = Z.z(Z.z0(podstawaopodatkowania)*stawkipodatkowe.get(0).getStawka());
         double drugiprog = stawkipodatkowe.get(0).getKwotawolnado();
         if (sumapoprzednich>=drugiprog) {
@@ -743,12 +741,7 @@ public class PasekwynagrodzenBean {
                 podatek = Z.z(Z.z0(podstawaopodatkowania)*stawkipodatkowe.get(0).getStawka());
             }
         }
-        if (pasek.isDo26lat()&&ignoruj26lat==false) {
-            pasek.setPodatekwstepnyhipotetyczny(podatek);
-            pasek.setPodatekwstepny(0.0);
-        } else {
-            pasek.setPodatekwstepny(podatek);
-        }
+        pasek.setPodatekwstepny(podatek);
     }
     
     private static void obliczpodatekwstepnyZlecenieDB(Pasekwynagrodzen pasek, List<Podatki> stawkipodatkowe, boolean nierezydent) {
@@ -817,6 +810,7 @@ public class PasekwynagrodzenBean {
                 zdrowotne = zdrowotne>podatekwstepny?Z.z(podatekwstepny):zdrowotne;
                 zdrowotneodliczane = zdrowotneodliczane>podatekwstepny?Z.z(podatekwstepny):zdrowotneodliczane;
                 pasek.setPraczdrowotne(zdrowotne);
+                zdrowotneodliczane = Integer.parseInt(pasek.getRokwypl())<2022?zdrowotneodliczane:0.0;
                 pasek.setPraczdrowotnedoodliczenia(zdrowotneodliczane);
                 pasek.setPraczdrowotnedopotracenia(zdrowotne);
             } else {
@@ -835,8 +829,8 @@ public class PasekwynagrodzenBean {
                         double podatekwstepny = Z.z(pasek.getPodatekwstepny()-pasek.getKwotawolnadlazdrowotnej());
                         if (zdrowotne>podatekwstepny) {
                             pasek.setPraczdrowotne(podatekwstepny);
-                            pasek.setPraczdrowotnedoodliczenia(podatekwstepny);
-                            pasek.setPraczdrowotnedopotracenia(0.0);
+                            pasek.setPraczdrowotnedoodliczenia(0.0);
+                            pasek.setPraczdrowotnedopotracenia(podatekwstepny);
                         } else {
                             pasek.setPraczdrowotnedoodliczenia(0.0);
                             pasek.setPraczdrowotnedopotracenia(Z.z(zdrowotne));

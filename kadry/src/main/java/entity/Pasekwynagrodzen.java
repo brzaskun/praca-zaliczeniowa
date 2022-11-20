@@ -1053,7 +1053,10 @@ public class Pasekwynagrodzen implements Serializable {
                 wiersz.godzinyobowiazku = p.getGodzinynalezne();
                 wiersz.godzinyprzepracowane = p.getGodzinyfaktyczne();
                 wiersz.stawkanagodzine = p.getStawkagodzinowa();
+                wiersz.stawkadzienna = p.getStawkadzienna();
                 wiersz.wynagrodzeniezmienna = p.getKwotaumownazacalymc();
+                wiersz.uwagi = p.getUwagi();
+                wiersz.waluta = p.getWaluta();
                 try {
                     wiersz.setUrlopSP(p.getSkl_dod_1()!=null&&p.getSkl_dod_1().equals('T'));
                     wiersz.setRedukcjaSP(p.getSkl_rodzaj()!=null&&p.getSkl_rodzaj().equals('U'));
@@ -1136,6 +1139,7 @@ public class Pasekwynagrodzen implements Serializable {
         String dataod;
         String datado;
         String kod;
+        String uwagi;
         boolean urlopSP;
         boolean redukcjaSP;
         boolean potracenie;
@@ -1148,6 +1152,7 @@ public class Pasekwynagrodzen implements Serializable {
         double godzinyprzepracowane;
         double stawkanagodzine;
         double stawkadzienna;
+        String waluta;
         
         public Skladnikwynlista() {
         }
@@ -1286,6 +1291,22 @@ public class Pasekwynagrodzen implements Serializable {
 
         public void setStawkadzienna(double stawkadzienna) {
             this.stawkadzienna = stawkadzienna;
+        }
+
+        public String getUwagi() {
+            return uwagi;
+        }
+
+        public void setUwagi(String uwagi) {
+            this.uwagi = uwagi;
+        }
+
+        public String getWaluta() {
+            return waluta;
+        }
+
+        public void setWaluta(String waluta) {
+            this.waluta = waluta;
         }
     
 

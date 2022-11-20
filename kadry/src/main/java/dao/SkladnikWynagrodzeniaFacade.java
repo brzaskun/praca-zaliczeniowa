@@ -6,7 +6,6 @@
 package dao;
 
 import entity.Angaz;
-import entity.FirmaKadry;
 import entity.Pracownik;
 import entity.Rodzajwynagrodzenia;
 import entity.Skladnikwynagrodzenia;
@@ -60,11 +59,11 @@ public class SkladnikWynagrodzeniaFacade extends DAO  implements Serializable {
         zwrot = getEntityManager().createNamedQuery("Skladnikwynagrodzenia.findByAngaz").setParameter("angaz", angaz).getResultList();
         return zwrot;
     }
-    public List<Skladnikwynagrodzenia> findByFirma(FirmaKadry firma) {
-        List<Skladnikwynagrodzenia> zwrot = new ArrayList<>();
-        zwrot = getEntityManager().createNamedQuery("Skladnikwynagrodzenia.findByUmowa").setParameter("firma", firma).getResultList();
-        return zwrot;
-    }
+//    public List<Skladnikwynagrodzenia> findByFirma(FirmaKadry firma) {
+//        List<Skladnikwynagrodzenia> zwrot = new ArrayList<>();
+//        zwrot = getEntityManager().createNamedQuery("Skladnikwynagrodzenia.findByUmowa").setParameter("firma", firma).getResultList();
+//        return zwrot;
+//    }
 
     public Skladnikwynagrodzenia findByAngazRodzaj(Angaz angaz, Rodzajwynagrodzenia rodzajwynagrodzenia) {
         Skladnikwynagrodzenia zwrot = null;

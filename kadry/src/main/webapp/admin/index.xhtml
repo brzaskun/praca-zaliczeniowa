@@ -84,9 +84,10 @@
 <!--                         <p:commandButton value="rodzaj" styleClass="buttonnorm" actionListener="#{definicjalistaplacView.generujtabele()}" />-->
 <!--                         <p:commandButton value="rob" styleClass="buttonnorm" actionListener="#{umowaView.rob()}" />-->
                      </h:form>
-                     <p:panelGrid columns="1" style="padding: 20px;">
+                     <p:panelGrid columns="1" style="padding: 20px; overflow-y: no-display;">
                      <h:outputText value="w celu sporządzenia listy płac:" style="color: green"/>
                      <h:outputText value="- wprowaź nieobecności" style="color: green"/>
+                     <h:outputText value="- wprowaź nadgodziny - sprawdź czy jest wprowadzony składnik nadgodziny" style="color: green"/>
                      <h:outputText value="- nanieś je na kalendarz pracownika" style="color: green"/>
                      <h:outputText value="- otwórz dialog z listą płac" style="color: green"/>
                      <h:outputText value="- wybierz pracowników do listy" style="color: green"/>
