@@ -17,7 +17,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -82,35 +81,46 @@ public class ImportING_XML implements Serializable {
                             x.setNrwyciagu(pn.getWyciagnr());
                             String rodzajoperacji = a.getCdtDbtInd();
                             if (rodzajoperacji.equals("DBIT")) {
-                                List<Object> content = a.getNtryDtls().getTxDtls().getRltdPties().getCdtrAcct().getId().getContent();
-                                if (content!=null && content.size()>0) {
-                                    if (content.get(1).getClass().getName().equals("javax.xml.bind.JAXBElement")) {
-                                        String iban = (String) ((javax.xml.bind.JAXBElement)content.get(1)).getValue();
-                                        x.setIBAN(iban.replaceAll("\\s", ""));
-                                    } else {
-                                        xls.ing.Other o = (xls.ing.Other) content.get(1);
-                                        Id id1 = o.getId();
-                                        String iban = (String) id1.getContent().get(0);
-                                        x.setIBAN(iban.replaceAll("\\s", ""));
+                                if (a.getNtryDtls().getTxDtls().getRltdPties().getCdtrAcct() != null) {
+                                    List<Object> content = a.getNtryDtls().getTxDtls().getRltdPties().getCdtrAcct().getId().getContent();
+                                    if (content != null && content.size() > 0) {
+                                        if (content.get(1).getClass().getName().equals("javax.xml.bind.JAXBElement")) {
+                                            String iban = (String) ((javax.xml.bind.JAXBElement) content.get(1)).getValue();
+                                            x.setIBAN(iban.replaceAll("\\s", ""));
+                                        } else {
+                                            xls.ing.Other o = (xls.ing.Other) content.get(1);
+                                            Id id1 = o.getId();
+                                            String iban = (String) id1.getContent().get(0);
+                                            x.setIBAN(iban.replaceAll("\\s", ""));
+                                        }
                                     }
+                                } else {
+                                        String iban = a.getNtryDtls().getTxDtls().getRltdPties().getCdtr().getNm();
+                                        x.setIBAN(iban.replaceAll("\\s", ""));
                                 }
                                 x.setKontrahent(a.getNtryDtls().getTxDtls().getRltdPties().getCdtr().getNm());//??
                                 double kwota = Z.z(a.getAmt().getValue());
                                 x.setKwota(kwota);
                                 x.setWnma("Ma");
                             } else {
-                                List<Object> content = a.getNtryDtls().getTxDtls().getRltdPties().getDbtrAcct().getId().getContent();
-                                if (content!=null && content.size()>0) {
-                                    if (content.get(1).getClass().getName().equals("javax.xml.bind.JAXBElement")) {
-                                        String iban = (String) ((javax.xml.bind.JAXBElement)content.get(1)).getValue();
-                                        x.setIBAN(iban.replaceAll("\\s", ""));
+                                    if (a.getNtryDtls().getTxDtls().getRltdPties().getDbtrAcct() != null) {
+                                        List<Object> content = a.getNtryDtls().getTxDtls().getRltdPties().getDbtrAcct().getId().getContent();
+                                        if (content != null && content.size() > 0) {
+                                            if (content.get(1).getClass().getName().equals("javax.xml.bind.JAXBElement")) {
+                                                String iban = (String) ((javax.xml.bind.JAXBElement) content.get(1)).getValue();
+                                                x.setIBAN(iban.replaceAll("\\s", ""));
+                                            } else {
+                                                xls.ing.Other o = (xls.ing.Other) content.get(1);
+                                                Id id1 = o.getId();
+                                                String iban = (String) id1.getContent().get(0);
+                                                x.setIBAN(iban.replaceAll("\\s", ""));
+                                            }
+                                        }
                                     } else {
-                                        xls.ing.Other o = (xls.ing.Other) content.get(1);
-                                        Id id1 = o.getId();
-                                        String iban = (String) id1.getContent().get(0);
+                                        String iban = a.getNtryDtls().getTxDtls().getRltdPties().getDbtr().getNm();
                                         x.setIBAN(iban.replaceAll("\\s", ""));
                                     }
-                                }
+                                
                                 x.setKontrahent(a.getNtryDtls().getTxDtls().getRltdPties().getDbtr().getNm());//??
                                 double kwota = Z.z(a.getAmt().getValue());
                                 x.setKwota(kwota);
@@ -134,9 +144,10 @@ public class ImportING_XML implements Serializable {
             Msg.msg("e", "Wystąpił błąd przy pobieraniu danych po wczytaniu.");
         }
         zwrot.add(pn);
-        Collections.reverse(pobranefaktury);
-        for (int i = 1; i <pobranefaktury.size();i++) {
-            pobranefaktury.get(i-1).setNr(i);
+        int j = 1;
+        int rozmiar =pobranefaktury.size();
+        for (int i = rozmiar; i >0;i--) {
+            pobranefaktury.get(i-1).setNr(j++);
         }
         zwrot.add(pobranefaktury);
         zwrot.add(nrwyciagu);
