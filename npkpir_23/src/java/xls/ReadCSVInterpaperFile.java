@@ -50,7 +50,7 @@ public class ReadCSVInterpaperFile {
     private static String filename = "c://temp//faktury2.xlsx";
     
         
-     public static List<InterpaperXLS> getListafakturCSV(byte[] plikinterpaper, List<Klienci> k, KlienciDAO klienciDAO, String rodzajdok, String mc) {
+     public static List<InterpaperXLS> getListafakturCSV(byte[] plikinterpaper, List<Klienci> k, KlienciDAO klienciDAO, String rodzajdok, String rok, String mc) {
         List<InterpaperXLS> listafaktur = Collections.synchronizedList(new ArrayList<>());
          try {
             InputStream file = new ByteArrayInputStream(plikinterpaper);
@@ -77,7 +77,7 @@ public class ReadCSVInterpaperFile {
                         String mcdok = Data.getMc(Data.data_yyyyMMdd(Date.valueOf(row.get(2))));
                         if (mc.equals(mcdok)) {
                             if (rodzajdok.equals("zakup")) {
-                                uzupelnijzakup(interpaperXLS, row, k, klienciDAO, znalezieni);
+                                uzupelnijzakup(interpaperXLS, row, k, klienciDAO, znalezieni, Data.ostatniDzien(rok, mc));
                             } else {
                                 uzupelnijsprzedaz(interpaperXLS, row, k, klienciDAO, znalezieni);
                             }

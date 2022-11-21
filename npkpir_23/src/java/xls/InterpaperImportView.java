@@ -224,7 +224,7 @@ public class InterpaperImportView implements Serializable {
             List<Klienci> k = klienciDAO.findAll();
             switch (wybranyrodzajimportu.getLp()) {
                 case 1:
-                    pobranefaktury = ReadCSVInterpaperFile.getListafakturCSV(pobranyplik, k, klienciDAO, rodzajdok, wpisView.getMiesiacWpisu());
+                    pobranefaktury = ReadCSVInterpaperFile.getListafakturCSV(pobranyplik, k, klienciDAO, rodzajdok, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
                     break;
                 case 2:
                     pobranefaktury = ReadXLSFirmaoFile.getListafakturXLS(pobranyplik, k, klienciDAO, rodzajdok, wpisView.getMiesiacWpisu());

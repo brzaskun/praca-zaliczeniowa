@@ -156,7 +156,7 @@ public class InterpaperImportMT940View implements Serializable {
     public void importujdok() {
         try {
             List<Klienci> k = klienciDAO.findAll();
-            pobranefaktury = ReadCSVInterpaperFile.getListafakturCSV(plikinterpaper, k, klienciDAO, rodzajdok, wpisView.getMiesiacWpisu());
+            pobranefaktury = ReadCSVInterpaperFile.getListafakturCSV(plikinterpaper, k, klienciDAO, rodzajdok, wpisView.getRokWpisuSt(),  wpisView.getMiesiacWpisu());
             for (InterpaperXLS p : pobranefaktury) {
                 if (p.getKlient()==null) {
                     p.setKlient(SzukajDaneBean.znajdzdaneregonAutomat(p.getNip()));
