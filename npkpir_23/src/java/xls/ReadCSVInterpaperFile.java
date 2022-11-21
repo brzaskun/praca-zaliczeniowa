@@ -7,10 +7,10 @@ package xls;
 
 import beansRegon.SzukajDaneBean;
 import dao.KlienciDAO;
-import dao.RodzajedokDAO;
 import dao.KontoDAOfk;
 import dao.PozycjaBilansDAO;
 import dao.PozycjaRZiSDAO;
+import dao.RodzajedokDAO;
 import data.Data;
 import embeddablefk.InterpaperXLS;
 import entity.Klienci;
@@ -20,7 +20,6 @@ import entityfk.Konto;
 import entityfk.PozycjaBilans;
 import entityfk.PozycjaRZiS;
 import error.E;
-import gus.GUSView;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -96,11 +95,11 @@ public class ReadCSVInterpaperFile {
         return listafaktur;
     }
      
-   private static void uzupelnijzakup(InterpaperXLS interpaperXLS, List<String> row, List<Klienci> k, KlienciDAO klienciDAO, Map<String, Klienci> znalezieni) {
+   private static void uzupelnijzakup(InterpaperXLS interpaperXLS, List<String> row, List<Klienci> k, KlienciDAO klienciDAO, Map<String, Klienci> znalezieni, String ostatnidzien) {
        interpaperXLS.setNrfaktury(row.get(0));
-       interpaperXLS.setDataotrzymania(Date.valueOf(row.get(1)));
+       interpaperXLS.setDataotrzymania(Data.stringToDate(ostatnidzien));
         interpaperXLS.setDatawystawienia(Date.valueOf(row.get(2)));
-        interpaperXLS.setDatasprzedaży(Date.valueOf(row.get(3)));
+        interpaperXLS.setDatasprzedaży(Date.valueOf(row.get(1)));
         interpaperXLS.setDataobvat(Date.valueOf(row.get(4)));
         interpaperXLS.setKontrahent(row.get(5));
         interpaperXLS.setNip(row.get(6));
