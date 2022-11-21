@@ -12,6 +12,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
@@ -33,6 +34,8 @@ public class PodatnikWyborView implements Serializable {
     private List<Podatnik> listaPodatnikowFK;
     private List<Podatnik> listaPodatnikowFKmanager;
     private List<Podatnik> listaPodatnikow;
+    @Inject
+    private WpisView wpisView;
 
     public PodatnikWyborView() {
         this.listaPodatnikowNoFKmanager = new ArrayList<>();
@@ -48,6 +51,9 @@ public class PodatnikWyborView implements Serializable {
         listaPodatnikow = podatnikDAO.findAktywny();
         Collections.sort(listaPodatnikow, new Podatnikcomparator());
         listaPodatnikowNowi = podatnikDAO.findNowi();
+        if (wpisView.getUzer()!=null&&wpisView.getUzer().getLogin().equals("Amelka")) {
+            listaPodatnikow = listaPodatnikow.stream().filter(p->p.getKsiegowa()!=null&&p.getKsiegowa().equals(wpisView.getUzer())).collect(Collectors.toList());
+        }
         for (Podatnik p : listaPodatnikow) {
             if (!p.isTylkodlaZUS()) {
                 switch (p.getFirmafk()) {

@@ -257,6 +257,10 @@ public class WpisView implements Serializable {
     
     public void naniesDaneDoWpis() {
         czegosbrakuje = false;
+        if (uzer==null) {
+            HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            uzer = (Uz) request.getAttribute("uzer");
+        }
         if (uzer.getPodatnik()==null || !uzer.getPodatnik().equals(podatnikObiekt)) {
             uzer.setPodatnik(podatnikObiekt);
             //error.E.s("zmiana podatnika na "+podatnikObiekt.getPrintnazwa());

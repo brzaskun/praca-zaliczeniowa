@@ -25,7 +25,7 @@
                         <p:column headerText="lp" width="30">
                             <h:outputText value="#{index+1}"/>
                         </p:column>
-                        <p:column headerText="podatnik" width="300">
+                        <p:column headerText="podatnik" width="300" filterBy="#{item.printnazwa}" filterMatchMode="contains">
                             <h:outputText value="#{item.printnazwa}"/>
                         </p:column>
                         <p:column headerText="księgowa" >

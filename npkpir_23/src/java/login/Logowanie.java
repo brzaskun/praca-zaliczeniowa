@@ -57,6 +57,8 @@ public class Logowanie implements Serializable {
     private SMTPSettingsDAO sMTPSettingsDAO;
     @Inject
     private LocaleChanger localeChanger;
+    @Inject
+    private UzDAO uzFacade;
 
     public Logowanie() {
        
@@ -150,6 +152,8 @@ public class Logowanie implements Serializable {
                 } else if (request.isUserInRole("Noobie")) {
                     navto = "Noobie";
                 }
+                Uz uzer = uzFacade.findUzByLogin(uzytkownik);
+                request.setAttribute("uzer", uzer);
                 dodajInfoDoSesji();
                 if (liczniklogowan < 5) {
                     Liczniklogowan.resetujLogowanie(ipusera, rejestrlogowanDAO);

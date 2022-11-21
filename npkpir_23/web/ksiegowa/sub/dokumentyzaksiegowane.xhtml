@@ -288,7 +288,7 @@
                 </p:column>
                  <p:column  headerText="edycja" style="width: 4%; text-align: center;">
                     <p:commandButton actionListener="#{DokumentView.sprawdzczywybranodokumentdoedycji(wpis)}" style="width: 30px;" update=":formM:messages dodWiad:tabelapkpir dodWiad:paneloznaczenia"
-                                     id="edit" icon="ui-icon ui-icon-pencil"  rendered="#{wpis.status eq 'bufor' ? true : false}" />
+                                     id="edit" icon="ui-icon ui-icon-pencil"  />
                 </p:column>
                 <p:column id="deleteColumn" headerText="usuń" style="width: 4%; text-align: center;">
                     <p:commandButton actionListener="#{DokTabView.destroy(wpis)}" onclick="PF('confirmation').show()" style="width: 30px;"
