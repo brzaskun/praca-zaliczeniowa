@@ -192,7 +192,7 @@ public class KalendarzmiesiacBean {
                 } else if (kod.equals("U")) {
                     //urlop wypoczynowy
                     naliczskladnikiwynagrodzeniazaUrlop(kalendarz, nieobecnosc, pasekwynagrodzen);
-                } else if (kod.equals("U")) {
+                } else if (kod.equals("UD")) {
                     //urlop wypoczynowy
                     naliczskladnikiwynagrodzeniazaUrlopOddelegowanie(kalendarz, nieobecnosc, pasekwynagrodzen);
                 } else if (kod.equals("X")) {
@@ -735,7 +735,7 @@ public class KalendarzmiesiacBean {
         int dziendo = Data.getDzienI(datado);
         for (Dzien p : kalendarz.getDzienList()) {
             if (p.getTypdnia()==0 && (p.getNormagodzin()!=0.0 || p.getKod().equals("D"))) {
-                if (p.getPrzepracowano()>0.0 || p.getKod().equals("U") || p.getKod().equals("D")) {
+                if (p.getPrzepracowano()>0.0 || p.getKod().equals("UD") || p.getKod().equals("D")) {
                     liczbadniobowiazku = liczbadniobowiazku+1;
                     liczbagodzinobowiazku = liczbagodzinobowiazku+p.getNormagodzin();
                 }
