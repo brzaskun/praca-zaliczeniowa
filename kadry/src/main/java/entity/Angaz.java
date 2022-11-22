@@ -6,11 +6,8 @@
 package entity;
 
 import beanstesty.DataBean;
-import comparator.KalendarzmiesiacLastcomparator;
 import data.Data;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
@@ -524,28 +521,7 @@ public class Angaz implements Serializable {
     
     
 
-    public List<Naliczenieskladnikawynagrodzenia> pobierzpaski(String rok, String mc, Skladnikwynagrodzenia s) {
-        List<Naliczenieskladnikawynagrodzenia> zwrot = new ArrayList<>();
-        List<Kalendarzmiesiac> kalendarzList = this.getKalendarzmiesiacList();
-        Collections.sort(kalendarzList, new KalendarzmiesiacLastcomparator());
-        int ilemamy = 0;
-        for (Kalendarzmiesiac  r : kalendarzList) {
-            if (r.getRokI()<=Integer.parseInt(rok)) {
-                if (Data.czyjestpomcnaprawdepo(r.getMc(), r.getRok(), mc, rok)) {
-                    Naliczenieskladnikawynagrodzenia naliczonewynagrodzenie = r.getNaliczonewynagrodzenie(s);
-                    if (naliczonewynagrodzenie!=null) {
-                        zwrot.add(naliczonewynagrodzenie);
-                    }
-                    ilemamy++;
-                }
-                if (ilemamy==3) {
-                    break;
-                }
-            }
-        }
-        
-        return zwrot;
-    }
+   
 
     public String getEtat() {
         String zwrot = "pełny etat";

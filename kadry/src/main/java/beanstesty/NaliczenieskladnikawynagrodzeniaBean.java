@@ -304,7 +304,7 @@ public class NaliczenieskladnikawynagrodzeniaBean {
                 double dniroboczeprzepracowane = 0.0;
                 double dniroboczeprzepracowanestat = 0.0;
                 double godzinyobecnoscirobocze = 0.0;
-                //double godzinyobecnosciroboczestat = 0.0;
+                double godzinyobecnosciroboczestat = 0.0;
                 double stawkadzienna = 0.0;
                 double stawkagodzinowa = 0.0;
                 double dowyplatyzaczasprzepracowany = 0.0;
@@ -332,6 +332,10 @@ public class NaliczenieskladnikawynagrodzeniaBean {
                                 godzinyobecnoscirobocze = godzinyobecnoscirobocze + s.getNormagodzin();
                                 godzinyobecnosciroboczezm = godzinyobecnosciroboczezm + s.getNormagodzin();
                                 normadzienna = s.getNormagodzin();
+                            }
+                            if (s.getTypdnia() == 0 && s.getPrzepracowano() > 0.0 && s.getNrdnia() >= dzienodzmienna && s.getNrdnia() <= dziendozmienna) {
+                                dniroboczeprzepracowanestat = dniroboczeprzepracowanestat + 1;
+                                godzinyobecnosciroboczestat = godzinyobecnosciroboczestat + s.getPrzepracowano();
                             }
                         }
                     }
