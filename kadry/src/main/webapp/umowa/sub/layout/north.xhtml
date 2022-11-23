@@ -25,9 +25,10 @@
                         </p:inputText>
                     </div>
                     <div class="inline-block col-1 bg-taxman text-3xl flex-auto text-white font-bold text-center p-1 border-round">
-                        <p:inputText value="#{wpisView.miesiacWpisu}"  size="2">
+                       <p:selectOneMenu id="miesiacWpisu" value="#{wpisView.miesiacWpisu}"  style="width: 100px;">
+                            <f:selectItems value="#{mce.mceList}"/>
                             <p:ajax event="change" partialSubmit="true" global="false" update="@(form)"  listener="#{updateClassView.updateUmowa()}"/>
-                        </p:inputText>
+                        </p:selectOneMenu>
                     </div>
             </div>
         </h:form>

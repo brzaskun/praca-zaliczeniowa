@@ -202,13 +202,13 @@ public class PasekwynagrodzenBean {
         //KalendarzmiesiacBean.nalicznadgodziny100(kalendarz, pasek);
         //najpierw musimy przyporzadkowac aktualne skladniki, aby potem prawidlowo obliczyc redukcje
         //KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, zatrudnieniewtrakciemiesiaca, pasek);
-        KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, choroba, pasek, kalendarzlista);
-        KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, zasilekchorobowy, pasek, kalendarzlista);
-        KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, urlopbezplatny, pasek, kalendarzlista);
+        KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, choroba, pasek, kalendarzlista, kurs);
+        KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, zasilekchorobowy, pasek, kalendarzlista, kurs);
+        KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, urlopbezplatny, pasek, kalendarzlista, kurs);
         //KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, oddelegowanie, pasek);
         KalendarzmiesiacBean.redukujskladnikistale(kalendarz, pasek);
-        KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, urlop, pasek, kalendarzlista);
-        KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, urlopoddelegowanie, pasek, kalendarzlista);
+        KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, urlop, pasek, kalendarzlista, kurs);
+        KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, urlopoddelegowanie, pasek, kalendarzlista, kurs);
         //KalendarzmiesiacBean.redukujskladnikistale2(kalendarz, pasek);
         if (definicjalistaplac.getRodzajlistyplac().getSymbol().equals("ZA")) {
             PasekwynagrodzenBean.obliczbruttobezzusZasilek(pasek);

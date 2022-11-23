@@ -39,8 +39,10 @@
                                 <p:ajax event="blur" listener="#{angazView.sprawdzrok()}" update="@this"/>
                             </p:inputText>
                             <p:outputLabel value="miesiąc" for="mc" />
-                            <p:inputText id="mc" value="#{angazView.selected.mc}" title="miesiąc" >
-                            </p:inputText>
+                        <p:selectOneMenu id="mc" value="#{angazView.selected.mc}"  style="width: 100px;">
+                                <f:selectItems value="#{mce.mceList}"/>
+                                <p:ajax event="change" partialSubmit="true" global="false" update="@(form)"  listener="#{updateClassView.updateUmowa()}"/>
+                            </p:selectOneMenu>
                     </p:panelGrid>
           
   <!--                    <p:panel header="Podatki"/>

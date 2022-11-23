@@ -110,6 +110,8 @@ public class Naliczenienieobecnosc implements Serializable {
     private String dataod;
     @Column(name = "datado")
     private String datado;
+    @Column(name = "waluta")
+    private String waluta;
 
     public Naliczenienieobecnosc() {
         this.sredniadlanieobecnosciList = new ArrayList<>();
@@ -354,6 +356,14 @@ public class Naliczenienieobecnosc implements Serializable {
 
     public void setJakiskladnikredukowalny(String jakiskladnikredukowalny) {
         this.jakiskladnikredukowalny = jakiskladnikredukowalny;
+    }
+
+    public String getWaluta() {
+        return waluta;
+    }
+
+    public void setWaluta(String waluta) {
+        this.waluta = waluta;
     }
 
     @XmlTransient
