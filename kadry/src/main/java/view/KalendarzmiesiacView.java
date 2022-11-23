@@ -12,7 +12,6 @@ import dao.KalendarzwzorFacade;
 import dao.NieobecnoscFacade;
 import dao.RodzajnieobecnosciFacade;
 import dao.UmowaFacade;
-import data.Data;
 import embeddable.Mce;
 import entity.Dzien;
 import entity.Kalendarzmiesiac;
@@ -164,11 +163,11 @@ public class KalendarzmiesiacView  implements Serializable {
     }
     
     public void generujrok() {
-        if (wpisView.getAngaz()!=null && wpisView.getPracownik()!=null && wpisView.getUmowa()!=null) {
-            String rok = Data.getRok(wpisView.getUmowa().getDataod());
-            String mcu = Data.getMc(wpisView.getUmowa().getDataod());
-            Integer mcod = Integer.parseInt(Data.getMc(wpisView.getUmowa().getDataod()));
-            Integer dzienod = Integer.parseInt(Data.getDzien(wpisView.getUmowa().getDataod()));
+        if (wpisView.getAngaz()!=null && wpisView.getPracownik()!=null) {
+            String rok = wpisView.getAngaz().getRok();
+            String mcu = wpisView.getAngaz().getMc();
+            Integer mcod = Integer.parseInt(rok);
+            Integer dzienod = Integer.parseInt(mcu);
             List<Kalendarzmiesiac> kalendarze = new ArrayList<>();
             for (String mc: Mce.getMceListS()) {
                 Integer kolejnymc = Integer.parseInt(mc);
@@ -193,12 +192,14 @@ public class KalendarzmiesiacView  implements Serializable {
                     }
                 }
             }
-            Kalendarzmiesiac kalendarz = kalendarze.stream().filter(p->p.getRok().equals(rok)&&p.getMc().equals(mcu)).findFirst().get();
-            List<Nieobecnosc> zatrudnieniewtrakciemiesiaca = PasekwynagrodzenBean.generujNieobecnosci(wpisView.getAngaz(), wpisView.getUmowa().getDataod(), wpisView.getUmowa().getDatado(),rodzajnieobecnosciFacade, rok, mcu, kalendarz, null);
-            if (zatrudnieniewtrakciemiesiaca!=null) {
-              nieobecnoscFacade.createList(zatrudnieniewtrakciemiesiaca);
+            if (wpisView.getUmowa()!=null) {
+                Kalendarzmiesiac kalendarz = kalendarze.stream().filter(p->p.getRok().equals(rok)&&p.getMc().equals(mcu)).findFirst().get();
+                List<Nieobecnosc> zatrudnieniewtrakciemiesiaca = PasekwynagrodzenBean.generujNieobecnosci(wpisView.getAngaz(), wpisView.getUmowa().getDataod(), wpisView.getUmowa().getDatado(),rodzajnieobecnosciFacade, rok, mcu, kalendarz, null);
+                if (zatrudnieniewtrakciemiesiaca!=null) {
+                  nieobecnoscFacade.createList(zatrudnieniewtrakciemiesiaca);
+                }
+                listakalendarzeprac = kalendarzmiesiacFacade.findByRokAngaz(wpisView.getAngaz(), wpisView.getRokWpisu());
             }
-            listakalendarzeprac = kalendarzmiesiacFacade.findByRokAngaz(wpisView.getAngaz(), wpisView.getRokWpisu());
             Msg.msg("Pobrano dane z kalendarza wzorcowego z bazy danych i utworzono kalendarze pracownika");
         } else {
             Msg.msg("e","Nie wybrano pracownika i umowy");

@@ -196,13 +196,19 @@ public class Data implements Serializable {
      *            <code>-1</code> jeżeli wcześniejsza jest jednak późniejsza
      */
     public static int compare(String datapozniejsza, String datawczesniejsza) {
-        int rokP = Integer.parseInt(datapozniejsza.substring(0,4));
-        int mcP = Integer.parseInt(datapozniejsza.substring(5, 7));
-        int dcP = Integer.parseInt(datapozniejsza.substring(8, 10));
-        int rokW = Integer.parseInt(datawczesniejsza.substring(0, 4));
-        int mcW = Integer.parseInt(datawczesniejsza.substring(5, 7));
-        int dcW = Integer.parseInt(datawczesniejsza.substring(8, 10));
-        return doCompare(rokP, mcP, dcP, rokW, mcW, dcW);
+        int zwrot = 0;
+        if (datapozniejsza==null||datapozniejsza.equals("")) {
+            zwrot = 1;
+        } else {
+            int rokP = Integer.parseInt(datapozniejsza.substring(0,4));
+            int mcP = Integer.parseInt(datapozniejsza.substring(5, 7));
+            int dcP = Integer.parseInt(datapozniejsza.substring(8, 10));
+            int rokW = Integer.parseInt(datawczesniejsza.substring(0, 4));
+            int mcW = Integer.parseInt(datawczesniejsza.substring(5, 7));
+            int dcW = Integer.parseInt(datawczesniejsza.substring(8, 10));
+            zwrot = doCompare(rokP, mcP, dcP, rokW, mcW, dcW);
+        }
+        return zwrot;
     }
     
     

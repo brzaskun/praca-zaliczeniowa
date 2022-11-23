@@ -63,12 +63,18 @@ public class DataBean {
         return dziendozmienna;
     }
     
-    public static String dataodString(String data, String rok, String mc) {
-        String dataod = Data.pierwszyDzien(rok, mc);
-        if (data!=null&&!data.equals("")&&Data.getRok(data).equals(rok)&&Data.getMc(data).equals(mc)) {
-            dataod = data;
+    public static String dataodString(String datazmiennej, String rok, String mc) {
+        String zwrot = null;
+        String datakalendarza = Data.pierwszyDzien(rok, mc);
+        int jestwokresie = Data.compare(datakalendarza, datazmiennej);
+        if (datazmiennej!=null&&!datazmiennej.equals("")&&Data.getRok(datazmiennej).equals(rok)&&Data.getMc(datazmiennej).equals(mc)) {
+            zwrot = datazmiennej;
+        } else if (jestwokresie>0) {
+            zwrot = datakalendarza;
+        } else {
+            zwrot = "2055-01-01";
         }
-        return dataod;
+        return zwrot;
     }
     
     public static int datado(String data, String rok, String mc) {
@@ -80,12 +86,18 @@ public class DataBean {
         return dziendozmienna;
     }
     
-     public static String datadoString(String data, String rok, String mc) {
-        String datado = Data.ostatniDzien(rok, mc);
-        if (data!=null&&!data.equals("")&&Data.getRok(data).equals(rok)&&Data.getMc(data).equals(mc)) {
-            datado = data;
+     public static String datadoString(String datazmiennej, String rok, String mc) {
+        String zwrot = null;
+        String datakalendarza = Data.ostatniDzien(rok, mc);
+        int jestwokresie = Data.compare(datazmiennej, datakalendarza);
+        if (datazmiennej!=null&&!datazmiennej.equals("")&&Data.getRok(datazmiennej).equals(rok)&&Data.getMc(datazmiennej).equals(mc)) {
+            zwrot = datazmiennej;
+        } else if (jestwokresie<0) {
+            zwrot = datakalendarza;
+        } else {
+            zwrot = "2055-01-01";
         }
-        return datado;
+        return zwrot;
     }
     
     public static void main(String[]args) {
