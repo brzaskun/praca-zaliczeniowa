@@ -145,7 +145,7 @@ public class AngazView  implements Serializable {
                     UprawnieniaUz uprawnienia = uprawnieniaFacade.findByNazwa("Pracownik");
                     Uz uzer = new Uz(selected, uprawnienia);
                     uzFacade.create(uzer);
-                    generujKalendarzNowaUmowa(selected);
+                    generujKalendarzNowyAngaz(selected);
                     Msg.msg("Stworzono kalendarz dla angażu");
                     selected = new Angaz();
                     Msg.msg("Dodano nowy angaż");
@@ -162,7 +162,7 @@ public class AngazView  implements Serializable {
     }
     
     
-     public Kalendarzmiesiac generujKalendarzNowaUmowa(Angaz selected) {
+     public Kalendarzmiesiac generujKalendarzNowyAngaz(Angaz selected) {
         Kalendarzmiesiac kal = null;
         if (selected != null && selected.getPracownik() != null) {
             String rok = selected.getRok();

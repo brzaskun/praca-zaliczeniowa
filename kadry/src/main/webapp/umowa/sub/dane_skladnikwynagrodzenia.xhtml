@@ -6,7 +6,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:bcf="http://brzaskun.com/facelets"
 >
-    <p:panelGrid columns="2" columnClasses="fifty-percent fifty-percent">
+    <p:panelGrid columns="2" columnClasses="forty-percent">
         <p:outputPanel style="height: 140px" styleClass="panelzramka">
                 <h:form id="SkladnikwynagrodzeniaCreateForm">
                     <p:panel header="Dodawanie/edycja składnika wynagrodzenia"/>
@@ -79,6 +79,20 @@
                                 </f:facet>
                                 <h:outputText value="zmienna" rendered="#{itemskladnikwyn.rodzajwynagrodzenia.stale0zmienne1 eq true}"/>
                                 <h:outputText value="stała" rendered="#{itemskladnikwyn.rodzajwynagrodzenia.stale0zmienne1 eq false}"/>
+                            </p:column>
+                             <p:column style="text-align: center;" width="40">
+                                <f:facet name="header">
+                                    <h:outputText value="urlop kraj"/>
+                                </f:facet>
+                                 <h:outputText value="tak" rendered="#{itemskladnikwyn.rodzajwynagrodzenia.sredniaurlopowakraj eq true}"/>
+                                <h:outputText value="nie" rendered="#{itemskladnikwyn.rodzajwynagrodzenia.sredniaurlopowakraj eq false}"/>
+                            </p:column>
+                             <p:column style="text-align: center;" width="40">
+                                <f:facet name="header">
+                                    <h:outputText value="urlop oddel."/>
+                                </f:facet>
+                                 <h:outputText value="tak" rendered="#{itemskladnikwyn.rodzajwynagrodzenia.sredniaurlopowaoddelegowanie eq true}"/>
+                                <h:outputText value="nie" rendered="#{itemskladnikwyn.rodzajwynagrodzenia.sredniaurlopowaoddelegowanie eq false}"/>
                             </p:column>
                             <p:column style="text-align: center;" width="20">
                                 <f:facet name="header">

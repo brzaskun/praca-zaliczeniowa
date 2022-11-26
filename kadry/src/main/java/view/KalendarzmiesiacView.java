@@ -80,8 +80,6 @@ public class KalendarzmiesiacView  implements Serializable {
                 kalendarzmiesiacFacade.edit(selected);
                 Msg.msg("Edytowano nowy kalendarz dla pracownika");
             }
-            wpisView.setRokWpisu(selected.getRok());
-            wpisView.setMiesiacWpisu(selected.getMc());
           } catch (Exception e) {
               Msg.msg("e", "Błąd - nie dodano kalendarza dla pracownika");
           }
@@ -142,19 +140,28 @@ public class KalendarzmiesiacView  implements Serializable {
         }
         if (selected!=null && selected.getAngaz()!=null) {
             if (selected.getRok()!=null&&selected.getMc()!=null) {
+                String rok = selected.getRok();
+                String mc = selected.getMc();
                 Kalendarzmiesiac szukany = kalendarzmiesiacFacade.findByRokMcAngaz(selected.getAngaz(), selected.getRok(), selected.getMc());
                 if (szukany !=null) {
-                    selected = kalendarzmiesiacFacade.findByRokMcAngaz(selected.getAngaz(), selected.getRok(), selected.getMc());
+                    selected = szukany;
                     Msg.msg("Pobrano z bazy zachowany kalendarz");
                 } else {
                     Kalendarzwzor znaleziono = kalendarzwzorFacade.findByFirmaRokMc(selected.getAngaz().getFirma(), selected.getRok(), selected.getMc());
                     if (znaleziono!=null) {
-                        selected.ganerujdnizwzrocowego(znaleziono, null, selected.getAngaz().getEtatList());
+                         Kalendarzmiesiac kal = new Kalendarzmiesiac();
+                        kal.setRok(rok);
+                        kal.setMc(mc);
+                        kal.setAngaz(wpisView.getAngaz());
+                        kal.ganerujdnizwzrocowego(znaleziono, null, selected.getAngaz().getEtatList());
                         Msg.msg("Pobrano dane z kalendarza wzorcowego z bazy danych");
+                        create();
+                        selected = kal;
                     } else {
                         KalendarzmiesiacBean.create(selected);
                         Msg.msg("Przygotowano kalendarz");
                     }
+                    pobierzkalendarzeprac();
                 }
             }
         } else {

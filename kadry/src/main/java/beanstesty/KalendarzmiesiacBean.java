@@ -811,10 +811,19 @@ public class KalendarzmiesiacBean {
         }
         return sredniadopodstawy;
      }
-     private static double wyliczsredniagodzinowaZmienne(Kalendarzmiesiac kalendarz, Skladnikwynagrodzenia skladnikwynagrodzenia, double liczbagodzinieobecnosci, double liczbagodzinobowiazku, Naliczenienieobecnosc naliczenienieobecnosc, List<Kalendarzmiesiac> kalendarzList) {
+     private static double wyliczsredniagodzinowaZmienne(Kalendarzmiesiac kalendarz, Skladnikwynagrodzenia skladnikwynagrodzenia, double liczbagodzinieobecnosci, 
+             double liczbagodzinobowiazku, Naliczenienieobecnosc naliczenienieobecnosc, List<Kalendarzmiesiac> kalendarzList) {
         double sredniadopodstawy = 0.0;
         if (skladnikwynagrodzenia.getRodzajwynagrodzenia().getStale0zmienne1()==true) {
-                List<Naliczenieskladnikawynagrodzenia> naliczonyskladnikdosredniej = pobierzpaski(kalendarz.getRok(), kalendarz.getMc(), skladnikwynagrodzenia, kalendarzList);
+                String rok = kalendarz.getRok();
+                String mc = kalendarz.getMc();
+                String dzien = kalendarz.getAngaz().getFirma().getDzienlp();
+                if (dzien!=null) {
+                    String[] popokres = Data.poprzedniOkres(mc, rok);
+                    rok = popokres[1];
+                    mc = popokres[0];
+                }
+                List<Naliczenieskladnikawynagrodzenia> naliczonyskladnikdosredniej = pobierzpaski(rok, mc, skladnikwynagrodzenia, kalendarzList);
                 double godzinyfaktyczne = 0.0;
                 double dnifaktyczne = 0.0;
                 double kwotywyplacone = 0.0;

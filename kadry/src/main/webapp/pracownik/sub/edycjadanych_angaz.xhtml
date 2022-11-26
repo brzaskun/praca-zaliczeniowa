@@ -11,7 +11,7 @@
                 <h:panelGroup id="display">
                     <p:panel header="Wybór pracownika do angażu w firmie #{wpisView.firma.nazwa}"/>
                     <p:panelGrid columns="2" rendered="#{angazView.selected != null}">
-                        <p:outputLabel value="pracownik" for="pracownik" />
+                        <p:outputLabel value="pracownik (Pesel lub nazwisko)" for="pracownik" />
                         <p:autoComplete id="pracownik" value="#{angazView.selected.pracownik}" required="true" requiredMessage="Wybierz pracownika" converter="#{pracownikConverter}"
                                         widgetVar="angazpracownik" completeMethod="#{angazView.complete}"
                                         var="prac" itemLabel="#{prac.nazwiskoImie}" itemValue="#{prac}"  title="wpisz nazwisko lub pesel kontrahenta"
