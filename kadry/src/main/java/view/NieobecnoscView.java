@@ -102,6 +102,7 @@ public class NieobecnoscView  implements Serializable {
     private  boolean pokazcalyrok;
     private org.primefaces.model.DualListModel<Pracownik> listapracownikow;
     private boolean delegacja;
+    
 
     
     @PostConstruct
@@ -507,7 +508,7 @@ public class NieobecnoscView  implements Serializable {
         this.delegacja = delegacja;
     }
 
-      
+
    
     
     

@@ -84,19 +84,19 @@
                                 <f:facet name="header">
                                     <h:outputText value="urlop kraj"/>
                                 </f:facet>
-                                 <h:outputText value="tak" rendered="#{itemskladnikwyn.rodzajwynagrodzenia.sredniaurlopowakraj eq true}"/>
-                                <h:outputText value="nie" rendered="#{itemskladnikwyn.rodzajwynagrodzenia.sredniaurlopowakraj eq false}"/>
+                                 <h:outputText value="&#x2714;" rendered="#{itemskladnikwyn.rodzajwynagrodzenia.sredniaurlopowakraj eq true}" style="color: green"/>
+                                
                             </p:column>
                              <p:column style="text-align: center;" width="40">
                                 <f:facet name="header">
                                     <h:outputText value="urlop oddel."/>
                                 </f:facet>
-                                 <h:outputText value="tak" rendered="#{itemskladnikwyn.rodzajwynagrodzenia.sredniaurlopowaoddelegowanie eq true}"/>
-                                <h:outputText value="nie" rendered="#{itemskladnikwyn.rodzajwynagrodzenia.sredniaurlopowaoddelegowanie eq false}"/>
+                                 <h:outputText value="&#x2714;" rendered="#{itemskladnikwyn.rodzajwynagrodzenia.sredniaurlopowaoddelegowanie eq true}" style="color: green"/>
+
                             </p:column>
                             <p:column style="text-align: center;" width="20">
                                 <f:facet name="header">
-                                    <h:outputText value="oddel."/>
+                                    <h:outputText value="należ. za oddel."/>
                                 </f:facet>
                                  <h:outputText value="&#x2714;" rendered="#{itemskladnikwyn.oddelegowanie eq true}"/>
                             </p:column>

@@ -14,10 +14,8 @@ import entity.Kalendarzmiesiac;
  */
 public class DataBean {
     
-    public static boolean czysiemiesci(Kalendarzmiesiac kalendarz, String zmiennadataod, String zmiennadatado) {
+    public static boolean czysiemiesci(String pierwszydzienmiesiaca, String ostatnidzienmiesiaca, String zmiennadataod, String zmiennadatado) {
         boolean zwrot = true;
-        String pierwszydzienmiesiaca = kalendarz.getPierwszyDzien();
-        String ostatnidzienmiesiaca = kalendarz.getOstatniDzien();
         //czy data poczatkowa zmiennej jest starsza od daty koncowej kalendarza
         boolean zaczynasieprzedpoczatkiem = Data.czyjestprzed(pierwszydzienmiesiaca, zmiennadataod);
         boolean konczysieprzedpoczatkiem = Data.czyjestprzed(pierwszydzienmiesiaca, zmiennadatado);
@@ -104,23 +102,23 @@ public class DataBean {
         Kalendarzmiesiac kalendarz = KalendarzmiesiacBean.create();
         String dataod = "2020-11-01";
         String datado = "2020-11-30";
-        boolean czy = czysiemiesci(kalendarz, dataod, datado);
+        boolean czy = czysiemiesci(kalendarz.getPierwszyDzien(), kalendarz.getOstatniDzien(), dataod, datado);
         System.out.println("odpowiedz: "+czy);
         dataod = "2020-11-01";
         datado = "2020-12-31";
-        czy = czysiemiesci(kalendarz, dataod, datado);
+        czy = czysiemiesci(kalendarz.getPierwszyDzien(), kalendarz.getOstatniDzien(), dataod, datado);
         System.out.println("odpowiedz: "+czy);
         dataod = "2020-12-03";
         datado = "2020-12-13";
-        czy = czysiemiesci(kalendarz, dataod, datado);
+        czy = czysiemiesci(kalendarz.getPierwszyDzien(), kalendarz.getOstatniDzien(), dataod, datado);
         System.out.println("odpowiedz: "+czy);
         dataod = "2020-12-05";
         datado = "2021-01-13";
-        czy = czysiemiesci(kalendarz, dataod, datado);
+        czy = czysiemiesci(kalendarz.getPierwszyDzien(), kalendarz.getOstatniDzien(), dataod, datado);
         System.out.println("odpowiedz: "+czy);
         dataod = "2021-01-01";
         datado = "2021-01-31";
-        czy = czysiemiesci(kalendarz, dataod, datado);
+        czy = czysiemiesci(kalendarz.getPierwszyDzien(), kalendarz.getOstatniDzien(), dataod, datado);
         
     }
 }

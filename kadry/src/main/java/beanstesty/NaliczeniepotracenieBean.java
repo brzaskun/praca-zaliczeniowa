@@ -40,7 +40,7 @@ public class NaliczeniepotracenieBean {
         for (Zmiennapotracenia p : zmiennawynagrodzeniaList) {
             int dzienodzmienna = DataBean.dataod(p.getDataod(), kalendarz.getRok(), kalendarz.getMc());
             int dziendozmienna = DataBean.datado(p.getDatado(), kalendarz.getRok(), kalendarz.getMc());
-            if (DataBean.czysiemiesci(kalendarz, p.getDataod(), p.getDatado())) {
+            if (DataBean.czysiemiesci(kalendarz.getPierwszyDzien(), kalendarz.getOstatniDzien(), p.getDataod(), p.getDatado())) {
                 double juzrozliczono = podsumuj(pasekwynagrodzen, skladnikpotracenia);
                 if (p.getKwotastala()!=0.0) {
                     if (p.getDatado()==null && Data.czyjestprzed(p.getDatado(), pasekwynagrodzen.getRok(), pasekwynagrodzen.getMc())) {

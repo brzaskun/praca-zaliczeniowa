@@ -470,7 +470,7 @@ public class KalendarzmiesiacBean {
                     double godzinyobecnosciroboczezm = 0.0;
                     int dzienodzmienna = DataBean.dataod(r.getDataod(), kalendarz.getRok(), kalendarz.getMc());
                     int dziendozmienna = DataBean.datado(r.getDatado(), kalendarz.getRok(), kalendarz.getMc());
-                    if (DataBean.czysiemiesci(kalendarz, r.getDataod(), r.getDatado())) {
+                    if (DataBean.czysiemiesci(kalendarz.getPierwszyDzien(), kalendarz.getOstatniDzien(), r.getDataod(), r.getDatado())) {
                         skladnikistale = r.getKwota();
                         for (Dzien s : kalendarz.getDzienList()) {
                             //daje norma godzin a nie z uwzglednieniem zwolnien bo przeciez rewdukcja bedzie pozniej
@@ -906,7 +906,7 @@ public class KalendarzmiesiacBean {
                         double stawkagodzinowawaluta = 0.0;
                         int dzienodzmienna = DataBean.dataod(r.getDataod(), kalendarz.getRok(), kalendarz.getMc());
                         int dziendozmienna = DataBean.datado(r.getDatado(), kalendarz.getRok(), kalendarz.getMc());
-                        if (DataBean.czysiemiesci(kalendarz, r.getDataod(), r.getDatado())) {
+                        if (DataBean.czysiemiesci(kalendarz.getPierwszyDzien(), kalendarz.getOstatniDzien(), r.getDataod(), r.getDatado())) {
                             for (Dzien s : kalendarz.getDzienList()) {
                                 //daje norma godzin a nie z uwzglednieniem zwolnien bo przeciez rewdukcja bedzie pozniej
                                 //zmienilem zdanie. redukcja bedzie statystyczna

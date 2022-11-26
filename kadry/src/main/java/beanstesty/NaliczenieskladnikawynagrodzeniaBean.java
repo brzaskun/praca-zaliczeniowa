@@ -63,7 +63,7 @@ public class NaliczenieskladnikawynagrodzeniaBean {
         Naliczenieskladnikawynagrodzenia zwrot = new Naliczenieskladnikawynagrodzenia();
         double zmiennawynagrodzeniakwota = 0.0;
         for (Zmiennawynagrodzenia r : skladnikwynagrodzenia.getZmiennawynagrodzeniaList()) {
-            if (DataBean.czysiemiesci(kalendarz, r.getDataod(), r.getDatado())) {
+            if (DataBean.czysiemiesci(kalendarz.getPierwszyDzien(), kalendarz.getOstatniDzien(), r.getDataod(), r.getDatado())) {
                 zmiennawynagrodzeniakwota = Z.z(zmiennawynagrodzeniakwota+r.getKwota());
             }
         }
@@ -132,7 +132,9 @@ public class NaliczenieskladnikawynagrodzeniaBean {
                 int dziendozmienna = DataBean.datado(r.getDatado(), kalendarz.getRok(), kalendarz.getMc());
                 String datastart = DataBean.dataodString(r.getDataod(), kalendarz.getRok(), kalendarz.getMc());
                 String dataend = DataBean.datadoString(r.getDatado(), kalendarz.getRok(), kalendarz.getMc());
-                if (DataBean.czysiemiesci(kalendarz, r.getDataod(), r.getDatado())) {
+                String pierwszydzienmiesiaca = kalendarz.getPierwszyDzien();
+                String ostatnidzienmiesiaca = kalendarz.getOstatniDzien();
+                if (DataBean.czysiemiesci(pierwszydzienmiesiaca, ostatnidzienmiesiaca, r.getDataod(), r.getDatado())) {
                     skladnikistale = r.getKwota();
                     for (Dzien s : kalendarz.getDzienList()) {
                         //daje norma godzin a nie z uwzglednieniem zwolnien bo przeciez rewdukcja bedzie pozniej
@@ -204,7 +206,7 @@ public class NaliczenieskladnikawynagrodzeniaBean {
                 double godzinyobecnosciroboczezm = 0.0;
                 int dzienodzmienna = DataBean.dataod(naliczenieskladnikawynagrodzenia.getDataod(), kalendarz.getRok(), kalendarz.getMc());
                 int dziendozmienna = DataBean.datado(naliczenieskladnikawynagrodzenia.getDatado(), kalendarz.getRok(), kalendarz.getMc());
-                if (DataBean.czysiemiesci(kalendarz, r.getDataod(), r.getDatado())) {
+                if (DataBean.czysiemiesci(kalendarz.getPierwszyDzien(), kalendarz.getOstatniDzien(), r.getDataod(), r.getDatado())) {
                     for (Dzien s : kalendarz.getDzienList()) {
                         //daje norma godzin a nie z uwzglednieniem zwolnien bo przeciez rewdukcja bedzie pozniej
                         if (s.getKod() != null && s.getKod().equals("Z")) {
@@ -319,7 +321,7 @@ public class NaliczenieskladnikawynagrodzeniaBean {
                 double normadzienna = 0.0;
                 String datastart = DataBean.dataodString(r.getDataod(), kalendarz.getRok(), kalendarz.getMc());
                 String dataend = DataBean.datadoString(r.getDatado(), kalendarz.getRok(), kalendarz.getMc());
-                if (DataBean.czysiemiesci(kalendarz, r.getDataod(), r.getDatado())) {
+                if (DataBean.czysiemiesci(kalendarz.getPierwszyDzien(), kalendarz.getOstatniDzien(), r.getDataod(), r.getDatado())) {
                     umowazagodzine = r.getKwota();
                     for (Dzien s : kalendarz.getDzienList()) {
                         //daje norma godzin a nie z uwzglednieniem zwolnien bo przeciez rewdukcja bedzie pozniej
@@ -420,7 +422,7 @@ public class NaliczenieskladnikawynagrodzeniaBean {
         for (Zmiennawynagrodzenia r : skladnikwynagrodzenia.getZmiennawynagrodzeniaList()) {
             int dzienodzmienna = DataBean.dataod(naliczenieskladnikawynagrodzenia.getDataod(), kalendarz.getRok(), kalendarz.getMc());
             int dziendozmienna = DataBean.datado(naliczenieskladnikawynagrodzenia.getDatado(), kalendarz.getRok(), kalendarz.getMc());
-            if (DataBean.czysiemiesci(kalendarz, r.getDataod(), r.getDatado())) {
+            if (DataBean.czysiemiesci(kalendarz.getPierwszyDzien(), kalendarz.getOstatniDzien(), r.getDataod(), r.getDatado())) {
                 zmiennawynagrodzeniakwota = r.getKwota();
                 for (Dzien s : kalendarz.getDzienList()) {
                     //daje norma godzin a nie z uwzglednieniem zwolnien bo przeciez rewdukcja bedzie pozniej

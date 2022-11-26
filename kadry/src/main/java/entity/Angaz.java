@@ -498,7 +498,7 @@ public class Angaz implements Serializable {
             for (Zmiennawynagrodzenia p : zmiennawynagrodzeniaList) {
                 String dataod1 = p.getDataod();
                 String datado1 = p.getDatado();
-                if (DataBean.czysiemiesci(kalendarz, dataod1, datado1)) {
+                if (DataBean.czysiemiesci(kalendarz.getPierwszyDzien(), kalendarz.getOstatniDzien(), dataod1, datado1)) {
                     zwrot = p.getKwota();
                     break;
                 }
