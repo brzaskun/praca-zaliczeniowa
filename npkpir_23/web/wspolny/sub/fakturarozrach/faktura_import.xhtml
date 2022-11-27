@@ -128,7 +128,7 @@
                     <h:outputText value="#{itemimp.opistransakcji}" rendered="#{itemimp.juzzaksiegowany eq false}"/>
                     <h:outputText value="duplikat" rendered="#{itemimp.juzzaksiegowany eq true}" style="color: red;"/>
                 </p:column>
-                <p:column headerText="#{mgs.kontrahent}" width="140" sortBy="#{itemimp.kontrahent}" filterBy="#{itemimp.kontrahent}" >
+                <p:column headerText="#{mgs.kontrahent}" width="140" sortBy="#{itemimp.kontrahent}" filterBy="#{itemimp.kontrahent}"  filterMatchMode="contains">
                     <h:outputText value="#{itemimp.kontrahent}" rendered="#{itemimp.kontrahent ne 'NOTPROVIDED'}"/>
                     <h:outputText value="prowizja" rendered="#{itemimp.kontrahent eq 'NOTPROVIDED'}"/>
                 </p:column>
@@ -159,7 +159,7 @@
                 <p:column headerText="kraj" width="30" sortBy="#{itemimp.kontrahentakraj}" filterBy="#{itemimp.kontrahentakraj}" >
                     <h:outputText value="#{itemimp.kontrahentakraj}" rendered="#{itemimp.kontrahent ne 'NOTPROVIDED'}"/>
                 </p:column>
-                <p:column headerText="nr trans" width="90" sortBy="#{itemimp.nrtransakji}" filterBy="#{itemimp.nrtransakji}" >
+                <p:column headerText="nr trans" width="90" sortBy="#{itemimp.nrtransakji}" filterBy="#{itemimp.nrtransakji}" filterMatchMode="contains">
                     <h:outputText value="#{itemimp.nrtransakji}"/>
                 </p:column>
                 <p:column width="40" >
