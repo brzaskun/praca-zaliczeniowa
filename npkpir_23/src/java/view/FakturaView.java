@@ -3218,6 +3218,82 @@ public class FakturaView implements Serializable {
         }
         return zwrot;
     }
+    
+    public void edytujokresowa(Fakturywystokresowe fakturaokresowa) {
+        if (fakturaokresowa!=null) {
+            fakturywystokresoweDAO.edit(fakturaokresowa);
+            Msg.msg("Zachowano kwotę waloryzacji");
+        } else {
+            Msg.msg("Nie wybrano waloryzacji");
+        }
+    }
+
+    private boolean czywystawiona(Fakturywystokresowe p, String miesiacWpisu) {
+        boolean zwrot = false;
+        switch (miesiacWpisu) {
+            case "01":
+                if (p.getM1()>0) {
+                    zwrot = true;
+                }
+                break;
+            case "02":
+                if (p.getM2()>0) {
+                    zwrot = true;
+                }
+                break;
+            case "03":
+                if (p.getM3()>0) {
+                    zwrot = true;
+                }
+                break;
+            case "04":
+                if (p.getM4()>0) {
+                    zwrot = true;
+                }
+                break;
+            case "05":
+                if (p.getM5()>0) {
+                    zwrot = true;
+                }
+                break;
+            case "06":
+                if (p.getM6()>0) {
+                    zwrot = true;
+                }
+                break;
+            case "07":
+                if (p.getM7()>0) {
+                    zwrot = true;
+                }
+                break;
+            case "08":
+                if (p.getM8()>0) {
+                    zwrot = true;
+                }
+                break;
+            case "09":
+                if (p.getM9()>0) {
+                    zwrot = true;
+                }
+                break;
+            case "10":
+                if (p.getM10()>0) {
+                    zwrot = true;
+                }
+                break;
+            case "11":
+                if (p.getM11()>0) {
+                    zwrot = true;
+                }
+                break;
+            case "12":
+                if (p.getM11()>0) {
+                    zwrot = true;
+                }
+                break;
+        }
+        return zwrot;
+    }
 
     
 
@@ -3317,6 +3393,8 @@ public class FakturaView implements Serializable {
                         it.remove();
                     } else if (jakapobrac==5 && p.getDokument().getDatawaloryzacji()!=null) {
                         it.remove();
+                    } else if (jakapobrac==6 && czywystawiona(p, wpisView.getMiesiacWpisu())) {
+                        it.remove();
                     }
                 }
             } else {
@@ -3332,6 +3410,8 @@ public class FakturaView implements Serializable {
                     } else if (jakapobrac==4 && p.getDokument().getDatawaloryzacji()==null) {
                         it.remove();
                     } else if (jakapobrac==5 && p.getDokument().getDatawaloryzacji()!=null) {
+                        it.remove();
+                    } else if (jakapobrac==6 && czywystawiona(p, wpisView.getMiesiacWpisu())) {
                         it.remove();
                     }
                 }

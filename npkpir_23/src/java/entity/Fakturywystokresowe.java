@@ -144,6 +144,8 @@ public class Fakturywystokresowe implements Serializable {
     private boolean wystawtylkoraz;
     @Column(name = "recznaedycja")
     private boolean recznaedycja;
+    @Column(name = "kwotaroknastepny")
+    private double kwotaroknastepny;
     @Column(name = "datautworzenia", insertable=true, updatable=true)
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date datautworzenia;
@@ -416,6 +418,15 @@ public class Fakturywystokresowe implements Serializable {
     public void setSapracownicy(boolean sapracownicy) {
         this.sapracownicy = sapracownicy;
     }
+
+    public double getKwotaroknastepny() {
+        return kwotaroknastepny;
+    }
+
+    public void setKwotaroknastepny(double kwotaroknastepny) {
+        this.kwotaroknastepny = kwotaroknastepny;
+    }
+
     
     
 
