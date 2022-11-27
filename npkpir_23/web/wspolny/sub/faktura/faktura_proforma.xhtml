@@ -6,7 +6,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:bcf="http://brzaskun.com/facelets">
 
-    <p:tab id="proforma" title="Faktury proforma">
+    <p:tab id="proforma" title="Faktury proforma" rendered="#{WpisView.biuroiszef eq true}">
         <style>
             .ui-datatable .nrkolejny .ui-column-filter {
                 width: 85px !important;
@@ -104,11 +104,11 @@
                           filterMatchMode="contains"  width="60">
                     <h:outputText value="#{wpispro.terminzaplaty.substring(2)}"/>
                 </p:column>
-                <p:column styleClass="data2" headerText="netto"  sortBy="#{wpispro.nettoFakturaView}" filterBy="#{wpispro.nettoFakturaView}" filterMatchMode="contains"   width="70">
+                <p:column styleClass="data2" headerText="netto"  sortBy="#{wpispro.nettoFakturaView}" filterBy="#{wpispro.nettoFakturaView}" filterMatchMode="contains"   width="70" rendered="#{WpisView.biuroiszef eq true}">
                     <bcf:outputpl value="#{wpispro.nettoFakturaView}"/>
                     <h:outputText value=" #{wpispro.walutafaktury}" rendered="#{wpis.walutafaktury ne 'PLN'}"/>
                 </p:column>
-                <p:column styleClass="data2" headerText="brutto"  sortBy="#{wpispro.bruttoFakturaView}" filterBy="#{wpispro.bruttoFakturaView}" filterMatchMode="contains"   width="70">
+                <p:column styleClass="data2" headerText="brutto"  sortBy="#{wpispro.bruttoFakturaView}" filterBy="#{wpispro.bruttoFakturaView}" filterMatchMode="contains"   width="70" rendered="#{WpisView.biuroiszef eq true}">
                     <bcf:outputpl value="#{wpispro.bruttoFakturaView}"/>
                     <h:outputText value=" #{wpispro.walutafaktury}" rendered="#{wpis.walutafaktury ne 'PLN'}"/>
                      <bcf:outputpl value="#{wpispro.bruttoFakturaViewPLN}" rendered="#{wpispro.walutafaktury ne 'PLN'}"/>

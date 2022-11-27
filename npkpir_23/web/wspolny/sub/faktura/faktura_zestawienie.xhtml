@@ -6,7 +6,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:bcf="http://brzaskun.com/facelets">
 
-    <p:tab id="zestawienie" title="Faktury wystawione wg kontrahentow">
+    <p:tab id="zestawienie" title="Faktury wystawione wg kontrahentow"  rendered="#{WpisView.biuroiszef eq true}">
         <h:form id="formzestawienie">
             <p:panelGrid columns="2">
                 <p:panelGrid columns="1">
