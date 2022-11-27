@@ -30,6 +30,11 @@ public abstract class  DAO<T> {
         getEntityManager().persist(entity);
     }
     
+    public void createFlush(T entity) {
+        getEntityManager().persist(entity);
+        getEntityManager().flush();
+    }
+    
      public void createList(List<T> entityList) {
         for (T p : entityList) {
             try {
@@ -39,6 +44,16 @@ public abstract class  DAO<T> {
             }
         }
         
+    }
+     public void createListFlush(List<T> entityList) {
+        for (T p : entityList) {
+            try {
+                getEntityManager().persist(p);
+            } catch (Exception e) {
+                E.e(e);
+            }
+        }
+        getEntityManager().flush();
     }
      
     public void createEditList(List<T> entityList) {

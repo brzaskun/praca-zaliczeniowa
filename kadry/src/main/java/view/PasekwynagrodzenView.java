@@ -136,11 +136,13 @@ public class PasekwynagrodzenView implements Serializable {
         if (wpisView.getUmowa() != null) {
             if (wpisView.getUmowa().getUmowakodzus() != null && wpisView.getUmowa().getUmowakodzus().isPraca()) {
                 rodzajlistyplac = rodzajlistyplacFacade.findUmowaoPrace();
-            } else if  (wpisView.getUmowa().getUmowakodzus().isZlecenie()){
+            } else if  (wpisView.getUmowa().getUmowakodzus() != null &&wpisView.getUmowa().getUmowakodzus().isZlecenie()){
                 rodzajlistyplac = rodzajlistyplacFacade.findUmowaZlecenia();
-            } else if  (wpisView.getUmowa().getUmowakodzus().isFunkcja()) {
+            } else if  (wpisView.getUmowa().getUmowakodzus() != null &&wpisView.getUmowa().getUmowakodzus().isFunkcja()) {
                 rodzajlistyplac = rodzajlistyplacFacade.findUmowaFunkcja();
-            } 
+            } else {
+                rodzajlistyplac = rodzajlistyplacFacade.findUmowaoPrace();
+            }
         }
         if (rodzajlistyplac == null) {
             rodzajlistyplac = rodzajlistyplacFacade.findUmowaoPrace();
@@ -264,6 +266,8 @@ public class PasekwynagrodzenView implements Serializable {
             List<Podatki> stawkipodatkowe = podatkiFacade.findByRokUmowa(Data.getRok(datawyplaty), "P");
             if (datawyplaty == null) {
                 Msg.msg("e", "Brak daty wypłaty");
+            } else if (limitdochodudwaszesc==null){
+                Msg.msg("e", "Brak limitu dochodu dla osób 26lat");
             } else if (stawkipodatkowe != null && !stawkipodatkowe.isEmpty()) {
                 for (Kalendarzmiesiac pracownikmc : listakalendarzmiesiac.getTarget()) {
                     boolean czysainnekody = pracownikmc.czysainnekody();

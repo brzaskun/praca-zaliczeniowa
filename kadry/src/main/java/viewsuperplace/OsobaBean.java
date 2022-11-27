@@ -226,35 +226,48 @@ public class OsobaBean {
     }
     
     static List<Kalendarzmiesiac> generujKalendarzNowaUmowa(Angaz angaz, Pracownik pracownik, KalendarzmiesiacFacade kalendarzmiesiacFacade, KalendarzwzorFacade kalendarzwzorFacade, String rok, List<EtatPrac> etaty) {
+        List<Kalendarzmiesiac> istniejacekalendarze = kalendarzmiesiacFacade.findByRokAngaz(angaz, rok);
+        if (istniejacekalendarze==null) {
+            istniejacekalendarze = new ArrayList<>();
+        }
         List<Kalendarzmiesiac> zwrot = new ArrayList<>();
-        if (angaz!=null && pracownik!=null) {
+        if (angaz != null && pracownik != null) {
             Integer mcod = 1;
             Integer dzienod = 1;
-            for (String mce: Mce.getMceListS()) {
-                Integer kolejnymc = Integer.parseInt(mce);
-                if (kolejnymc>=mcod) {
-                    Kalendarzmiesiac kal = new Kalendarzmiesiac();
-                    kal.setRok(rok);
-                    kal.setMc(mce);
-                    kal.setAngaz(angaz);
-                    Kalendarzmiesiac kalmiesiac = kalendarzmiesiacFacade.findByRokMcAngaz(angaz,rok, mce);
-                    if (kalmiesiac==null) {
-                        Kalendarzwzor pobranywzorcowy = kalendarzwzorFacade.findByFirmaRokMc(kal.getAngaz().getFirma(), kal.getRok(), mce);
-                        if (pobranywzorcowy!=null) {
-                            kal.ganerujdnizwzrocowego(pobranywzorcowy, dzienod, etaty);
-                            zwrot.add(kal);
-                            dzienod = 1;
-                        } else {
-                            Msg.msg("e","Brak kalendarza wzorcowego za "+mce);
-                            break;
+            for (String mce : Mce.getMceListS()) {
+                boolean niema = true;
+                for (Kalendarzmiesiac ik : istniejacekalendarze) {
+                    if (ik.getRok().equals(rok) && ik.getMc().equals(mce)) {
+                        niema = false;
+                        break;
+                    }
+                }
+                if (niema) {
+                    Integer kolejnymc = Integer.parseInt(mce);
+                    if (kolejnymc >= mcod) {
+                        Kalendarzmiesiac kal = new Kalendarzmiesiac();
+                        kal.setRok(rok);
+                        kal.setMc(mce);
+                        kal.setAngaz(angaz);
+                        Kalendarzmiesiac kalmiesiac = kalendarzmiesiacFacade.findByRokMcAngaz(angaz, rok, mce);
+                        if (kalmiesiac == null) {
+                            Kalendarzwzor pobranywzorcowy = kalendarzwzorFacade.findByFirmaRokMc(kal.getAngaz().getFirma(), kal.getRok(), mce);
+                            if (pobranywzorcowy != null) {
+                                kal.ganerujdnizwzrocowego(pobranywzorcowy, dzienod, etaty);
+                                zwrot.add(kal);
+                                dzienod = 1;
+                            } else {
+                                Msg.msg("e", "Brak kalendarza wzorcowego za " + rok+"/"+mce);
+                                break;
+                            }
                         }
                     }
                 }
-                }
-                Msg.msg("Pobrano dane z kalendarza wzorcowego z bazy danych i utworzono kalendarze pracownika");
+            }
+            Msg.msg("Pobrano dane z kalendarza wzorcowego z bazy danych i utworzono kalendarze pracownika");
 //            }
         } else {
-            Msg.msg("e","Nie wybrano pracownika i umowy");
+            Msg.msg("e", "Nie wybrano pracownika i umowy");
         }
         return zwrot;
     }
@@ -346,11 +359,15 @@ public class OsobaBean {
                 if (wybrany == null) {
                     wybrany = s;
                     Skladnikwynagrodzenia generujskladnik = generujskladnikzlecenie(wybrany, rodzajewynagrodzenia, angaz, skladnikWynagrodzeniaFacade, zmiennaWynagrodzeniaFacade);
-                    zwrot.add(generujskladnik);
+                    if (generujskladnik!=null) {
+                        zwrot.add(generujskladnik);
+                    }
                 } else if (s.getOzlSerial()>wybrany.getOzlSerial()) {
                     wybrany = s;
                     Skladnikwynagrodzenia generujskladnik = generujskladnikzlecenie(wybrany, rodzajewynagrodzenia, angaz, skladnikWynagrodzeniaFacade, zmiennaWynagrodzeniaFacade);
-                    zwrot.add(generujskladnik);
+                    if (generujskladnik!=null) {
+                        zwrot.add(generujskladnik);
+                    }
                 }
             }
         }
@@ -359,15 +376,15 @@ public class OsobaBean {
             for (Skladnikwynagrodzenia s : zwrot) {
                 if (!single.contains(s)) {
                     single.add(s);
-                    skladnikWynagrodzeniaFacade.create(s);
+                    skladnikWynagrodzeniaFacade.createFlush(s);
                 } else {
                     Skladnikwynagrodzenia pobrany = single.get(single.indexOf(s));
                     List<Zmiennawynagrodzenia> nowezmienne = s.getZmiennawynagrodzeniaList();
                     for (Zmiennawynagrodzenia r : nowezmienne) {
                         r.setSkladnikwynagrodzenia(pobrany);
                     }
+                    zmiennaWynagrodzeniaFacade.createListFlush(nowezmienne);
                     pobrany.getZmiennawynagrodzeniaList().addAll(nowezmienne);
-                    skladnikWynagrodzeniaFacade.edit(pobrany);
                 }
             }
             zwrot = single;
@@ -858,7 +875,7 @@ public class OsobaBean {
     }
      
    
-     static List<Rachunekdoumowyzlecenia> zrobrachunkidozlecenia(WpisView wpisView, Osoba osoba) {
+     static List<Rachunekdoumowyzlecenia> zrobrachunkidozlecenia(Umowa umowa, Osoba osoba) {
         List<Rachunekdoumowyzlecenia> zwrot = new ArrayList<>();
         List<PlaceZlec> placeList = osoba.getPlaceZlecList();
         for (PlaceZlec r : placeList) {
@@ -866,7 +883,7 @@ public class OsobaBean {
                 Short rokNumer = r.getPzlOkrSerial().getOkrRokSerial().getRokNumer();
                 if (rokNumer>2019) {
                     Rachunekdoumowyzlecenia nowypasek = new Rachunekdoumowyzlecenia(r);
-                    nowypasek.setUmowa(wpisView.getUmowa());
+                    nowypasek.setUmowa(umowa);
                     String rok = String.valueOf(rokNumer);
                     String mc = Mce.getNumberToMiesiac().get(Integer.valueOf(r.getPzlOkrSerial().getOkrMieNumer()));
                     nowypasek.setRok(rok);

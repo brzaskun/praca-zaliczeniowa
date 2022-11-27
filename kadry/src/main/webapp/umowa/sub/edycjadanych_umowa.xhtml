@@ -155,22 +155,22 @@
                                                 <p:outputLabel value="data zdrowotne" for="datazdrowotne1" />
                                                 <p:inputText id="datazdrowotne1" value="#{umowaView.selected.datazdrowotne}" title="data zdrowotne"  placeholder="____-__-__"  styleClass="dataUmowy"/>-->
                         <p:outputLabel value="nierezydent" for="nierezydent" style="color: #97B0F8;"/>
-                        <p:selectBooleanCheckbox id="nierezydent" value="#{umowaView.selected.nierezydent}">
+                        <p:selectBooleanCheckbox id="nierezydent" value="#{umowaView.selected.angaz.nierezydent}">
                         </p:selectBooleanCheckbox>
                         <p:outputLabel value="data przyjazdu do Polski" for="datapolska"  style="color: #97B0F8;"/>
-                        <p:inputText id="datapolska" value="#{umowaView.selected.dataprzyjazdudopolski}" title="termin rozpoczecia pracy" styleClass="dataUmowy"  placeholder="____-__-__"  maxlength="10"/>
+                        <p:inputText id="datapolska" value="#{umowaView.selected.angaz.dataprzyjazdudopolski}" title="termin rozpoczecia pracy" styleClass="dataUmowy"  placeholder="____-__-__"  maxlength="10"/>
 
 
                     </p:panelGrid>
                     <p:panelGrid columns="2">
 
-                        <p:outputLabel value="odliczac ulge podatkowa" for="odliczaculgepodatkowa" />
+<!--                        <p:outputLabel value="odliczac ulge podatkowa" for="odliczaculgepodatkowa" />
                         <p:selectBooleanCheckbox id="odliczaculgepodatkowa" value="#{umowaView.selected.odliczaculgepodatkowa}" />
 
                         <p:outputLabel value="koszty uzyskania proc" for="kosztyuzyskania" />
                         <p:inputText id="kosztyuzyskania" value="#{umowaView.selected.kosztyuzyskaniaprocent}" title="koszty uzyskania procent" />
                         <p:outputLabel value="kwota wolna proc" for="kwotawolna" />
-                        <p:inputText id="kwotawolna" value="#{umowaView.selected.kwotawolnaprocent}" title="kwota wolna procent" />
+                        <p:inputText id="kwotawolna" value="#{umowaView.selected.kwotawolnaprocent}" title="kwota wolna procent" />-->
 
                         <p:outputLabel value="kod zawodu" for="kodzawodu" />
                         <p:autoComplete id="kodzawodu" value="#{umowaView.selected.kodzawodu}" converter="#{kodyzawodowConverter}" style="width: 300px;" cache="true" cacheTimeout="2000"

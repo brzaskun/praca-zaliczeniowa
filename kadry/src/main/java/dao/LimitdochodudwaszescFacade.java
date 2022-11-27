@@ -45,7 +45,12 @@ public class LimitdochodudwaszescFacade extends DAO  implements Serializable {
     }
 
    public Limitdochodudwaszesc findbyRok(String rokWpisu) {
-        return (Limitdochodudwaszesc) getEntityManager().createNamedQuery("Limitdochodudwaszesc.findByRok").setParameter("rok", rokWpisu).getSingleResult();
+       Limitdochodudwaszesc zwrot = null;
+       try {
+        zwrot = (Limitdochodudwaszesc) getEntityManager().createNamedQuery("Limitdochodudwaszesc.findByRok").setParameter("rok", rokWpisu).getSingleResult();
+       } catch (Exception e)
+       {}
+       return zwrot;
     }
 
       

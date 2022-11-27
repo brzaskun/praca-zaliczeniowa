@@ -45,7 +45,7 @@
                         <f:facet name="header">
                             <h:outputText value="odliczac ulge pod."/>
                         </f:facet>
-                        <h:outputText value="&#x2714;" rendered="#{itemumowa.odliczaculgepodatkowa eq true}" style="color: #{itemumowa.aktywna eq true ? 'green':'initial'}"/>
+                        <h:outputText value="&#x2714;" rendered="#{itemumowa.angaz.odliczaculgepodatkowa eq true}" style="color: #{itemumowa.aktywna eq true ? 'green':'initial'}"/>
                     </p:column>
                     <p:column style="text-align: center;">
                         <f:facet name="header">
@@ -118,7 +118,7 @@
                         <f:facet name="header">
                             <h:outputText value="koszty uzyskania"/>
                         </f:facet>
-                        <h:outputText value="#{itemumowa.kosztyuzyskaniaprocent}"/>
+                        <h:outputText value="#{itemumowa.angaz.kosztyuzyskaniaprocent}"/>
                     </p:column>
                     <p:column style="text-align: center;">
                         <f:facet name="header">
@@ -139,13 +139,13 @@
                         <h:outputText value="#{itemumowa.nfz}"/>
                     </p:column>
                     <p:column width="40" style="text-align: center;">
-                        <p:commandButton icon="fa fa-edit" actionListener="#{umowaView.edytuj(itemumowa)}" update="north, @(form)"/>
+                        <p:commandButton icon="fa fa-edit" actionListener="#{umowaView.edytuj(itemumowa)}" update="north @(form)  akordeon:UmowaListFormZlecenie"/>
                     </p:column>
                     <p:column width="40" style="text-align: center;">
-                        <p:commandButton icon="fa fa-file-text-o"  actionListener="#{umowaView.edytuj(itemumowa)}" onclick="PF('dialogumowatresc').show();" update="north, @(form)"/>
+                        <p:commandButton icon="fa fa-file-text-o"  actionListener="#{umowaView.edytuj(itemumowa)}" onclick="PF('dialogumowatresc').show();" update="north akordeon:UmowaListFormZlecenie @(form)"/>
                     </p:column>
                     <p:column width="40" style="text-align: center;">
-                        <p:commandButton icon="fa fa-trash" actionListener="#{umowaView.usun(itemumowa)}" update="north, @(form)">
+                        <p:commandButton icon="fa fa-trash" actionListener="#{umowaView.usunzlecenie(itemumowa)}" update="north @(form)  akordeon:UmowaListFormZlecenie">
                             <p:confirm type="popup" header="Potwierdzenie" message="Usunąć daną umowę?" icon="pi pi-exclamation-triangle"/>
                         </p:commandButton>
                     </p:column>

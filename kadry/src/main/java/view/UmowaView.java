@@ -167,8 +167,12 @@ public class UmowaView implements Serializable {
         selected = new Umowa();
         etat1 = 1;
         etat2 = 1;
-        if (listapraca != null && listapraca.size() > 0 && wpisView.getUmowa() != null && !listapraca.contains(wpisView.getUmowa())) {
-            wpisView.setUmowa(listapraca.get(listapraca.size() - 1));
+        if (selectedlista==null) {
+            if (listapraca != null && listapraca.size() > 0 && wpisView.getUmowa() != null && !listapraca.contains(wpisView.getUmowa())) {
+                wpisView.setUmowa(listapraca.get(listapraca.size() - 1));
+            }
+        } else {
+            wpisView.setUmowa(selectedlista);
         }
         pasekwynagrodzenView.setSymulacjabrrutto(wpisView.getRokWpisuInt() < 2022 ? 2800 : 3010);
         pasekwynagrodzenView.symulacjaoblicz("1");
@@ -592,7 +596,47 @@ public class UmowaView implements Serializable {
                 get.setAktywna(true);
             }
             umowaFacade.editList(listapraca);
-            Msg.msg("Usunięto umowę");
+            Msg.msg("Usunięto umowę o pracę");
+        } else {
+            Msg.msg("e", "Nie wybrano umowy");
+        }
+    }
+    
+    public void usunfunkcja(Umowa umowa) {
+        if (umowa != null) {
+            wpisView.setUmowa(null);
+            umowaFacade.remove(umowa);
+            listafunkcja.remove(umowa);
+            listafunkcja = umowaFacade.findByAngazFunkcja(wpisView.getAngaz());
+            for (Umowa p : listafunkcja) {
+                p.setAktywna(false);
+            }
+            if (listafunkcja!=null&&listafunkcja.size()>0) {
+                Umowa get = listafunkcja.get(listafunkcja.size()-1);
+                get.setAktywna(true);
+            }
+            umowaFacade.editList(listafunkcja);
+            Msg.msg("Usunięto umowę o pełnienie funkcji");
+        } else {
+            Msg.msg("e", "Nie wybrano umowy");
+        }
+    }
+    
+    public void usunzlecenie(Umowa umowa) {
+        if (umowa != null) {
+            wpisView.setUmowa(null);
+            umowaFacade.remove(umowa);
+            listazlecenia.remove(umowa);
+            listazlecenia = umowaFacade.findByAngazZlecenie(wpisView.getAngaz());
+            for (Umowa p : listazlecenia) {
+                p.setAktywna(false);
+            }
+            if (listazlecenia!=null&&listazlecenia.size()>0) {
+                Umowa get = listazlecenia.get(listazlecenia.size()-1);
+                get.setAktywna(true);
+            }
+            umowaFacade.editList(listazlecenia);
+            Msg.msg("Usunięto umowę zlecenia");
         } else {
             Msg.msg("e", "Nie wybrano umowy");
         }
