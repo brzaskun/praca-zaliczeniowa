@@ -130,12 +130,15 @@ public class UmowaView implements Serializable {
             wpisView.setUmowa(umowa);
         }
         if (wpisView.getUmowa() != null) {
-            if (wpisView.getUmowa().getUmowakodzus().isPraca()) {
+            if (wpisView.getUmowa().getUmowakodzus()!=null&&wpisView.getUmowa().getUmowakodzus().isPraca()) {
                 rodzajumowy = "1";
-            } else if (wpisView.getUmowa().getUmowakodzus().isZlecenie()) {
+            } else if (wpisView.getUmowa().getUmowakodzus()!=null&&wpisView.getUmowa().getUmowakodzus().isZlecenie()) {
                 rodzajumowy = "2";
-            } else {
+            } else if (wpisView.getUmowa().getUmowakodzus()!=null) {
                 rodzajumowy = "3";
+            }
+            if (rodzajumowy == null) {
+                rodzajumowy = "1";
             }
             listapraca = umowaFacade.findByAngazPraca(wpisView.getAngaz());
             listawypowiedzenia = umowaFacade.findByAngazPraca(wpisView.getAngaz());
