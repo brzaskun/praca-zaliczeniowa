@@ -328,13 +328,12 @@ public class PracownikNieobecnoscView  implements Serializable {
                         for (Naliczenieskladnikawynagrodzenia pa : naliczonyskladnikdosredniej) {
                             godzinyfaktyczne = godzinyfaktyczne+pa.getGodzinyfaktyczne();
                             dnifaktyczne = dnifaktyczne+pa.getDnifaktyczne();
-                            stawkazagodzine = stawkazagodzine + pa.getStawkagodzinowa();
                             kwotywyplacone = kwotywyplacone + pa.getKwotadolistyplac();
                             liczba++;
                             boolean skladnikstaly = false;
-                            double stawkazagodzinezm = Z.z(pa.getKwotadolistyplac()/pa.getGodzinynalezne());
-                            double sredniadopodstazm = Z.z(stawkazagodzinezm * godzinyekwiwalent);
-                            Sredniadlanieobecnosci srednia = new Sredniadlanieobecnosci(pa.getPasekwynagrodzen().getRok(), pa.getPasekwynagrodzen().getMc(), pa.getKwotadolistyplac(), skladnikstaly, naliczenienieobecnosc, godzinyekwiwalent, pa.getGodzinyfaktyczne(), pa.getDnifaktyczne(), pa.getGodzinynalezne(), pa.getDninalezne(), stawkazagodzinezm);
+                            stawkazagodzine = stawkazagodzine + Z.z(pa.getKwotadolistyplac()/pa.getGodzinynalezne());
+                            sredniadopodstawy = sredniadopodstawy + Z.z(stawkazagodzine * godzinyekwiwalent);
+                            Sredniadlanieobecnosci srednia = new Sredniadlanieobecnosci(pa.getPasekwynagrodzen().getRok(), pa.getPasekwynagrodzen().getMc(), pa.getKwotadolistyplac(), skladnikstaly, naliczenienieobecnosc, godzinyekwiwalent, pa.getGodzinyfaktyczne(), pa.getDnifaktyczne(), pa.getGodzinynalezne(), pa.getDninalezne(), stawkazagodzine);
                             naliczenienieobecnosc.getSredniadlanieobecnosciList().add(srednia);
                             naliczenienieobecnosc.setSredniazailemcy(liczba);
                             if(liczba>3) {
@@ -343,7 +342,7 @@ public class PracownikNieobecnoscView  implements Serializable {
                         }
                         if (godzinyfaktyczne!=0.0&&dnifaktyczne!=0.0) {
                             stawkazagodzine = Z.z(stawkazagodzine/3.0);
-                            sredniadopodstawy = sredniadopodstawy + Z.z(stawkazagodzine * godzinyekwiwalent);
+                            sredniadopodstawy = Z.z(sredniadopodstawy/3.0);
                             naliczenienieobecnosc.setSumakwotdosredniej(kwotywyplacone);
                             naliczenienieobecnosc.setSumagodzindosredniej(godzinyfaktyczne);
                             naliczenienieobecnosc.setSkladnikizmiennesrednia(sredniadopodstawy);
