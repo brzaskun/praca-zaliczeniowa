@@ -173,9 +173,9 @@ public class PasekwynagrodzenView implements Serializable {
         if (wpisView.getUmowa() != null) {
             if (wpisView.getUmowa().getUmowakodzus() != null && wpisView.getUmowa().getUmowakodzus().isPraca()) {
                 rodzajlistyplac = rodzajlistyplacFacade.findUmowaoPrace();
-            } else if  (wpisView.getUmowa().getUmowakodzus().isZlecenie()){
+            } else if  (wpisView.getUmowa().getUmowakodzus() != null && wpisView.getUmowa().getUmowakodzus().isZlecenie()){
                 rodzajlistyplac = rodzajlistyplacFacade.findUmowaZlecenia();
-            } else {
+            } else  if  (wpisView.getUmowa().getUmowakodzus() != null) {
                 rodzajlistyplac = rodzajlistyplacFacade.findUmowaFunkcja();
             }
         }
