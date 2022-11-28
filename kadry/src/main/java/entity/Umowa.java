@@ -132,6 +132,7 @@ public class Umowa implements Serializable {
     private Integer czastrwania;
     @JoinColumn(name = "umowakodzus", referencedColumnName = "id")
     @ManyToOne(optional = false)
+    @NotNull
     private Umowakodzus umowakodzus;
    
     @Column(name = "aktywna")
@@ -682,7 +683,19 @@ public class Umowa implements Serializable {
         return zwrot;
     }
     
-  
+  public boolean czynalezydookresu(String rok, String mc) {
+        boolean zwrot = false;
+        String dataod = this.dataod;
+        String datado = this.datado;
+        if (datado==null||datado.equals("")) {
+            datado = "2050-12-31";
+        }
+        if (Data.czyjestpomiedzy(dataod, datado, rok, mc)) {
+            zwrot = true;
+        }
+        //String dataod ()
+        return zwrot;
+    }
     
    
 
@@ -811,10 +824,6 @@ public class Umowa implements Serializable {
         return "Zrobić pole opisowe wynagrodzenie w umowie!";
     }
 
-    public boolean czynalezydookresu(String rok, String mc) {
-        String dataod = this.dataod;
-        //String dataod ()
-        return true;
-    }
+    
    
 }

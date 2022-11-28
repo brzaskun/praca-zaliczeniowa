@@ -582,11 +582,12 @@ public class Angaz implements Serializable {
         for (Umowa z : umowaList1) {
             if (z.getRodzajumowy().equals("umowa zlecenia")) {
                 if (z.czynalezydookresu(rok,mc)) {
-                    
+                    zwrot = z;
+                    break;
                 }
             }
         }
-        return null;
+        return zwrot;
     }
 
     public Skladnikwynagrodzenia pobierzSkladnikwynagrodzenia(Rodzajwynagrodzenia rodzajwynagrodzenia) {

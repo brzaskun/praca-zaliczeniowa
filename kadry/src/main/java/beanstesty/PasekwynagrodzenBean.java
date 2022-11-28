@@ -644,11 +644,11 @@ public class PasekwynagrodzenBean {
     private static void obliczpodstaweopodatkowaniaZlecenie(Pasekwynagrodzen pasek, List<Podatki> stawkipodatkowe, boolean nierezydent) {
         Podatki pierwszyprog = stawkipodatkowe.get(0);
         double bruttominusspoleczne = pasek.getBruttominusspoleczne();
-        //Rachunekdoumowyzlecenia rachunekdoumowyzlecenia = pasek.getKalendarzmiesiac().getAngaz().pobierzRachunekzlecenie(pasek.getKalendarzmiesiac().getRok(), pasek.getKalendarzmiesiac().getMc());
-        Rachunekdoumowyzlecenia rachunekdoumowyzlecenia =null;
+        Rachunekdoumowyzlecenia rachunekdoumowyzlecenia = PasekwynagrodzenBean.pobierzRachunekzlecenie(pasek.getKalendarzmiesiac().getAngaz(), pasek.getKalendarzmiesiac().getRok(), pasek.getKalendarzmiesiac().getMc());
+        //Rachunekdoumowyzlecenia rachunekdoumowyzlecenia =null;
         double procentkosztyuzyskania = rachunekdoumowyzlecenia.getProcentkosztowuzyskania();
         double podstawadlakosztow = Z.z0(bruttominusspoleczne) > 0.0 ? Z.z0(bruttominusspoleczne) :0.0;
-        double kosztyuzyskania = Z.z(podstawadlakosztow*procentkosztyuzyskania/100);
+        double kosztyuzyskania = Z.z(podstawadlakosztow*20/100);
         double dieta30proc = pasek.getDietaodliczeniepodstawaop();
         double podstawa = Z.z0(bruttominusspoleczne-kosztyuzyskania-dieta30proc) > 0.0 ? Z.z0(bruttominusspoleczne-kosztyuzyskania-dieta30proc) :0.0;
         pasek.setPodstawaopodatkowania(podstawa);
@@ -657,8 +657,6 @@ public class PasekwynagrodzenBean {
         } else {
             pasek.setKosztyuzyskania(kosztyuzyskania);
         }
-        pasek.setProcentkosztow(100);
-        
     }
     
     private static void obliczpodstaweopodatkowaniaFunkcja(Pasekwynagrodzen pasek, List<Podatki> stawkipodatkowe, boolean nierezydent) {

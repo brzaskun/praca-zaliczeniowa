@@ -33,12 +33,12 @@
                     <h:outputText value="#{rachunekZlecenieView.umowabiezaca.datado}" rendered="#{rachunekZlecenieView.umowabiezaca.datado ne ''}" styleClass="ww"/>
                     <h:outputText value="czas nieokreślony" rendered="#{rachunekZlecenieView.umowabiezaca.datado eq null or rachunekZlecenieView.umowabiezaca.datado eq ''}"/>
                     <p:outputLabel value="rodzaj wynagrodzenia:"/>
-                    <h:outputText value="#{rachunekZlecenieView.umowabiezaca.pobierzwynagrodzenieString(wpisView)}" styleClass="ww"/>
+                    <h:outputText value="#{rachunekZlecenieView.umowabiezaca.angaz.pobierzwynagrodzenieString(wpisView)}" styleClass="ww"/>
                 </p:panelGrid>
                 <p:panelGrid columns="1" style="margin-top: 10px;">
                     <h:outputText value="Braku zawartej umowy zlecenia z " styleClass="ww" rendered="#{rachunekZlecenieView.umowabiezaca eq null}"/>
-                    <h:outputText value="Jest zawarta umowa, ale nie dotyczy bieżacego okresu" styleClass="ww" rendered="#{rachunekZlecenieView.trzebazrobicrachunek eq false}"/>
-                    <h:outputText value="Jest zawarta umowa. Nalezy rozliczyć bieżacy okres" styleClass="ww" rendered="#{rachunekZlecenieView.trzebazrobicrachunek eq true}"/>
+                    <h:outputText value="Jest zawarta umowa, ale nie dotyczy bieżacego okresu" styleClass="ww" rendered="#{rachunekZlecenieView.trzebazrobicrachunek eq false and rachunekZlecenieView.rachunekdoumowyzlecenia.id eq null}"/>
+                    <h:outputText value="Jest zawarta umowa. Nalezy rozliczyć bieżacy okres" styleClass="ww" rendered="#{rachunekZlecenieView.trzebazrobicrachunek eq true and rachunekZlecenieView.rachunekdoumowyzlecenia.id eq null}"/>
                 </p:panelGrid>
                 <p:panelGrid columns="2">
                     <p:outputLabel value="data sporządzenia rach:"/>
@@ -72,8 +72,8 @@
                     <p:outputLabel value="naliczać zdrowotną:"/>
                     <p:selectBooleanCheckbox value="#{rachunekZlecenieView.rachunekdoumowyzlecenia.zdrowotna}" styleClass="czekpole"/>
                     <p:outputLabel value="naliczać podatek:"/>
-                    <h:outputText value="podatek zryczałtowany - nierezydent" rendered="#{rachunekZlecenieView.rachunekdoumowyzlecenia.umowa.nierezydent eq true}"/>
-                    <h:outputText value="podatek wg skali" rendered="#{rachunekZlecenieView.rachunekdoumowyzlecenia.umowa.nierezydent eq false}"/>
+                    <h:outputText value="podatek zryczałtowany - nierezydent" rendered="#{rachunekZlecenieView.rachunekdoumowyzlecenia.umowa.angaz.nierezydent eq true}"/>
+                    <h:outputText value="podatek wg skali" rendered="#{rachunekZlecenieView.rachunekdoumowyzlecenia.umowa.angaz.nierezydent eq false}"/>
                 </p:panelGrid>
                 <p:panelGrid columns="1">
                     <p:commandButton value="zaksięguj" actionListener="#{rachunekZlecenieView.zaksieguj()}" update="RachunekZleceniaForm" styleClass="buttonnorm" rendered="#{rachunekZlecenieView.rachunekdoumowyzlecenia.id eq null}"/>

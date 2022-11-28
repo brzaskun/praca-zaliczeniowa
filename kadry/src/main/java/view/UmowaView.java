@@ -170,9 +170,13 @@ public class UmowaView implements Serializable {
         selected = new Umowa();
         etat1 = 1;
         etat2 = 1;
-        if (selectedlista==null) {
-            if (listapraca != null && listapraca.size() > 0 && wpisView.getUmowa() != null && !listapraca.contains(wpisView.getUmowa())) {
+        if (selectedlista==null||selectedlista.getId()==null) {
+            if (rodzajumowy.equals("1")&&listapraca != null && listapraca.size() > 0 && wpisView.getUmowa() != null && !listapraca.contains(wpisView.getUmowa())) {
                 wpisView.setUmowa(listapraca.get(listapraca.size() - 1));
+            } else if (rodzajumowy.equals("2")&&listazlecenia != null && listazlecenia.size() > 0 && wpisView.getUmowa() != null && !listazlecenia.contains(wpisView.getUmowa())) {
+                wpisView.setUmowa(listazlecenia.get(listazlecenia.size() - 1));
+            } else if (rodzajumowy.equals("3")&&listafunkcja != null && listafunkcja.size() > 0 && wpisView.getUmowa() != null && !listafunkcja.contains(wpisView.getUmowa())) {
+                wpisView.setUmowa(listafunkcja.get(listafunkcja.size() - 1));
             }
         } else {
             wpisView.setUmowa(selectedlista);
@@ -228,6 +232,26 @@ public class UmowaView implements Serializable {
                         Msg.msg("e", "Wystąpił błąd podczas nanoszenia rozpoczęcia umowy");
                     }
                 }
+                selected = new Umowa();
+                wynagrodzeniemiesieczne = 0.0;
+                wynagrodzeniegodzinowe = 0.0;
+                etat1 = 1;
+                etat2 = 1;
+                updateClassView.updateUmowa();
+                Msg.msg("Dodano nową umowę");
+        }
+    }
+    
+     public void createzlecenie() {
+        if (selected != null && wpisView.getAngaz() != null) {
+            if (listapraca != null && listapraca.size()>0) {
+                createkolejna();
+            } else {
+                createpierwsza();
+            }
+            //zrobic dopasowanie kalendarfza do etatu
+                skladnikWynagrodzeniaView.init();
+                zmiennaWynagrodzeniaView.init();
                 selected = new Umowa();
                 wynagrodzeniemiesieczne = 0.0;
                 wynagrodzeniegodzinowe = 0.0;
