@@ -331,7 +331,7 @@ public class PracownikNieobecnoscView  implements Serializable {
                             kwotywyplacone = kwotywyplacone+pa.getKwotadolistyplac();
                             liczba++;
                             boolean skladnikstaly = false;
-                            double stawkazagodzinezm = Z.z(pa.getKwotadolistyplac()/pa.getGodzinyfaktyczne());
+                            double stawkazagodzinezm = Z.z(pa.getKwotadolistyplac()/pa.getGodzinynalezne());
                             double sredniadopodstazm = Z.z(stawkazagodzinezm * godzinyekwiwalent);
                             Sredniadlanieobecnosci srednia = new Sredniadlanieobecnosci(pa.getPasekwynagrodzen().getRok(), pa.getPasekwynagrodzen().getMc(), pa.getKwotadolistyplac(), skladnikstaly, naliczenienieobecnosc, godzinyekwiwalent, pa.getGodzinyfaktyczne(), pa.getDnifaktyczne(), pa.getGodzinynalezne(), pa.getDninalezne(), stawkazagodzinezm);
                             naliczenienieobecnosc.getSredniadlanieobecnosciList().add(srednia);

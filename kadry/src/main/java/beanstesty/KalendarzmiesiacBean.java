@@ -1038,6 +1038,7 @@ public class KalendarzmiesiacBean {
     
     static void nalicznadgodzinyDB(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasekwynagrodzen, boolean sto) {
         double godzinyrobocze = 0.0;
+        double dnirobocze = 0.0;
         double nadliczbowe = 0.0;
         double dninadliczbowe = 0.0;
         String datapoczatek = kalendarz.getRok()+"-"+kalendarz.getMc()+"-";
@@ -1045,6 +1046,7 @@ public class KalendarzmiesiacBean {
         String datado = null;
         for (Dzien p : kalendarz.getDzienList()) {
             if (p.getTypdnia()==0) {
+                dnirobocze = dnirobocze + 1;
                 godzinyrobocze = godzinyrobocze+p.getNormagodzin();
             }
             double nadgodziny = sto?p.getSetki():p.getPiecdziesiatki();
@@ -1081,6 +1083,8 @@ public class KalendarzmiesiacBean {
                 naliczenieskladnikawynagrodzenia.setStawkagodzinowa(stawkagodznowanormalna);
                 naliczenieskladnikawynagrodzenia.setGodzinyfaktyczne(nadliczbowe);
                 naliczenieskladnikawynagrodzenia.setDnifaktyczne(dninadliczbowe);
+                naliczenieskladnikawynagrodzenia.setDninalezne(dnirobocze);
+                naliczenieskladnikawynagrodzenia.setGodzinynalezne(godzinyrobocze);
                 naliczenieskladnikawynagrodzenia.setKwotadolistyplac(Z.z(stawkagodznowanormalna*nadliczbowe));
                 //naliczenieskladnikawynagrodzenia.setKwotazus(Z.z(stawkagodznowanormalna*nadliczbowe));
                 naliczenieskladnikawynagrodzenia.setPasekwynagrodzen(pasekwynagrodzen);
