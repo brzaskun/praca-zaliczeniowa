@@ -314,8 +314,8 @@ public class PracownikNieobecnoscView  implements Serializable {
                         List<Naliczenieskladnikawynagrodzenia> naliczonyskladnikdosredniej = pobierzpaski(rok, mc, p, kalendarzlista);
                         double godzinyfaktyczne = 0.0;
                         double dnifaktyczne = 0.0;
-                        double kwotywyplacone = 0.0;
                         double stawkazagodzine = 0.0;
+                        double kwotywyplacone = 0.0;
                         int liczba = 0;
                         double sredniadopodstawy = 0.0;
                         Naliczenienieobecnosc naliczenienieobecnosc = new Naliczenienieobecnosc();
@@ -328,7 +328,8 @@ public class PracownikNieobecnoscView  implements Serializable {
                         for (Naliczenieskladnikawynagrodzenia pa : naliczonyskladnikdosredniej) {
                             godzinyfaktyczne = godzinyfaktyczne+pa.getGodzinyfaktyczne();
                             dnifaktyczne = dnifaktyczne+pa.getDnifaktyczne();
-                            kwotywyplacone = kwotywyplacone+pa.getKwotadolistyplac();
+                            stawkazagodzine = stawkazagodzine + pa.getStawkagodzinowa();
+                            kwotywyplacone = kwotywyplacone + pa.getKwotadolistyplac();
                             liczba++;
                             boolean skladnikstaly = false;
                             double stawkazagodzinezm = Z.z(pa.getKwotadolistyplac()/pa.getGodzinynalezne());
@@ -341,7 +342,7 @@ public class PracownikNieobecnoscView  implements Serializable {
                             }
                         }
                         if (godzinyfaktyczne!=0.0&&dnifaktyczne!=0.0) {
-                            stawkazagodzine = Z.z(kwotywyplacone/godzinyfaktyczne);
+                            stawkazagodzine = Z.z(stawkazagodzine/3.0);
                             sredniadopodstawy = sredniadopodstawy + Z.z(stawkazagodzine * godzinyekwiwalent);
                             naliczenienieobecnosc.setSumakwotdosredniej(kwotywyplacone);
                             naliczenienieobecnosc.setSumagodzindosredniej(godzinyfaktyczne);
