@@ -331,8 +331,8 @@ public class PracownikNieobecnoscView  implements Serializable {
                             kwotywyplacone = kwotywyplacone + pa.getKwotadolistyplac();
                             liczba++;
                             boolean skladnikstaly = false;
-                            stawkazagodzine = stawkazagodzine + pa.getKwotadolistyplac()/pa.getGodzinynalezne();
                             double stawkazagodzinezm = pa.getKwotadolistyplac()/pa.getGodzinynalezne();
+                            
                             Sredniadlanieobecnosci srednia = new Sredniadlanieobecnosci(pa.getPasekwynagrodzen().getRok(), pa.getPasekwynagrodzen().getMc(), pa.getKwotadolistyplac(), 
                                     skladnikstaly, naliczenienieobecnosc, godzinyekwiwalent, pa.getGodzinyfaktyczne(), pa.getDnifaktyczne(), pa.getGodzinynalezne(), pa.getDninalezne(), stawkazagodzinezm);
                             naliczenienieobecnosc.getSredniadlanieobecnosciList().add(srednia);
@@ -342,14 +342,15 @@ public class PracownikNieobecnoscView  implements Serializable {
                             }
                         }
                         if (godzinyfaktyczne!=0.0&&dninalezne!=0.0) {
-                            stawkazagodzine = Z.z6(stawkazagodzine/3.0);
-                            sredniadopodstawy = Z.z(stawkazagodzine*godzinyekwiwalent);
+                            stawkazagodzine = Z.z6(kwotywyplacone/godzinyfaktyczne);
+                            sredniadopodstawy = Z.z(kwotywyplacone/3);
                             naliczenienieobecnosc.setSumakwotdosredniej(kwotywyplacone);
                             naliczenienieobecnosc.setSumagodzindosredniej(godzinyfaktyczne);
                             naliczenienieobecnosc.setSkladnikizmiennesrednia(sredniadopodstawy);
-                            naliczenienieobecnosc.setStawkadzienna(Z.z(kwotywyplacone/dninalezne));
+                            double stawkadzienna = Z.z(sredniadopodstawy/wspolczynnikEkwiwalent.getKwota());
+                            naliczenienieobecnosc.setStawkadzienna(stawkadzienna);
                             naliczenienieobecnosc.setStawkagodzinowa(stawkazagodzine);
-                            naliczenienieobecnosc.setKwota(sredniadopodstawy);
+                            naliczenienieobecnosc.setKwota(stawkadzienna*dniekwiwalent);
                             ewiewalentskladnikizmienne = ewiewalentskladnikizmienne+sredniadopodstawy;
                             ekwiwalentrazem = ekwiwalentrazem+sredniadopodstawy;
                             skladnikizmienne.add(naliczenienieobecnosc);
