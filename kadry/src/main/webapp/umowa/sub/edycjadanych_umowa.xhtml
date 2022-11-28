@@ -160,17 +160,9 @@
                         <p:outputLabel value="data przyjazdu do Polski" for="datapolska"  style="color: #97B0F8;"/>
                         <p:inputText id="datapolska" value="#{umowaView.selected.angaz.dataprzyjazdudopolski}" title="termin rozpoczecia pracy" styleClass="dataUmowy"  placeholder="____-__-__"  maxlength="10"/>
 
-
                     </p:panelGrid>
                     <p:panelGrid columns="2">
 
-<!--                        <p:outputLabel value="odliczac ulge podatkowa" for="odliczaculgepodatkowa" />
-                        <p:selectBooleanCheckbox id="odliczaculgepodatkowa" value="#{umowaView.selected.odliczaculgepodatkowa}" />
-
-                        <p:outputLabel value="koszty uzyskania proc" for="kosztyuzyskania" />
-                        <p:inputText id="kosztyuzyskania" value="#{umowaView.selected.kosztyuzyskaniaprocent}" title="koszty uzyskania procent" />
-                        <p:outputLabel value="kwota wolna proc" for="kwotawolna" />
-                        <p:inputText id="kwotawolna" value="#{umowaView.selected.kwotawolnaprocent}" title="kwota wolna procent" />-->
 
                         <p:outputLabel value="kod zawodu" for="kodzawodu" />
                         <p:autoComplete id="kodzawodu" value="#{umowaView.selected.kodzawodu}" converter="#{kodyzawodowConverter}" style="width: 300px;" cache="true" cacheTimeout="2000"
