@@ -313,7 +313,7 @@ public class PracownikNieobecnoscView  implements Serializable {
                         }
                         List<Naliczenieskladnikawynagrodzenia> naliczonyskladnikdosredniej = pobierzpaski(rok, mc, p, kalendarzlista);
                         double godzinyfaktyczne = 0.0;
-                        double dnifaktyczne = 0.0;
+                        double dninalezne = 0.0;
                         double stawkazagodzine = 0.0;
                         double kwotywyplacone = 0.0;
                         int liczba = 0;
@@ -327,26 +327,27 @@ public class PracownikNieobecnoscView  implements Serializable {
                         naliczenienieobecnosc.setLiczbagodzinurlopu(godzinyekwiwalent);
                         for (Naliczenieskladnikawynagrodzenia pa : naliczonyskladnikdosredniej) {
                             godzinyfaktyczne = godzinyfaktyczne+pa.getGodzinyfaktyczne();
-                            dnifaktyczne = dnifaktyczne+pa.getDnifaktyczne();
+                            dninalezne = dninalezne+pa.getDninalezne();
                             kwotywyplacone = kwotywyplacone + pa.getKwotadolistyplac();
                             liczba++;
                             boolean skladnikstaly = false;
-                            stawkazagodzine = stawkazagodzine + Z.z(pa.getKwotadolistyplac()/pa.getGodzinynalezne());
-                            sredniadopodstawy = sredniadopodstawy + Z.z(stawkazagodzine * godzinyekwiwalent);
-                            Sredniadlanieobecnosci srednia = new Sredniadlanieobecnosci(pa.getPasekwynagrodzen().getRok(), pa.getPasekwynagrodzen().getMc(), pa.getKwotadolistyplac(), skladnikstaly, naliczenienieobecnosc, godzinyekwiwalent, pa.getGodzinyfaktyczne(), pa.getDnifaktyczne(), pa.getGodzinynalezne(), pa.getDninalezne(), stawkazagodzine);
+                            stawkazagodzine = stawkazagodzine + pa.getKwotadolistyplac()/pa.getGodzinynalezne();
+                            double stawkazagodzinezm = pa.getKwotadolistyplac()/pa.getGodzinynalezne();
+                            Sredniadlanieobecnosci srednia = new Sredniadlanieobecnosci(pa.getPasekwynagrodzen().getRok(), pa.getPasekwynagrodzen().getMc(), pa.getKwotadolistyplac(), 
+                                    skladnikstaly, naliczenienieobecnosc, godzinyekwiwalent, pa.getGodzinyfaktyczne(), pa.getDnifaktyczne(), pa.getGodzinynalezne(), pa.getDninalezne(), stawkazagodzinezm);
                             naliczenienieobecnosc.getSredniadlanieobecnosciList().add(srednia);
                             naliczenienieobecnosc.setSredniazailemcy(liczba);
                             if(liczba>3) {
                                 break;
                             }
                         }
-                        if (godzinyfaktyczne!=0.0&&dnifaktyczne!=0.0) {
-                            stawkazagodzine = Z.z(stawkazagodzine/3.0);
-                            sredniadopodstawy = Z.z(sredniadopodstawy/3.0);
+                        if (godzinyfaktyczne!=0.0&&dninalezne!=0.0) {
+                            stawkazagodzine = Z.z6(stawkazagodzine/3.0);
+                            sredniadopodstawy = Z.z(stawkazagodzine*godzinyekwiwalent);
                             naliczenienieobecnosc.setSumakwotdosredniej(kwotywyplacone);
                             naliczenienieobecnosc.setSumagodzindosredniej(godzinyfaktyczne);
                             naliczenienieobecnosc.setSkladnikizmiennesrednia(sredniadopodstawy);
-                            naliczenienieobecnosc.setStawkadzienna(Z.z(kwotywyplacone/dnifaktyczne));
+                            naliczenienieobecnosc.setStawkadzienna(Z.z(kwotywyplacone/dninalezne));
                             naliczenienieobecnosc.setStawkagodzinowa(stawkazagodzine);
                             naliczenienieobecnosc.setKwota(sredniadopodstawy);
                             ewiewalentskladnikizmienne = ewiewalentskladnikizmienne+sredniadopodstawy;
