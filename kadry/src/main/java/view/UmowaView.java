@@ -182,49 +182,12 @@ public class UmowaView implements Serializable {
         if (rodzajumowy == null) {
             rodzajumowy = "1";
         }
-        if (rodzajumowy.equals("1")) {
-            listapraca = umowaFacade.findByAngazPraca(wpisView.getAngaz());
-            if (listapraca != null && listapraca.size() > 0) {
-                Umowa aktywna = listapraca.stream().filter(p -> p.isAktywna()).findAny().orElse(listapraca.get(0));
-                if (aktywna.isAktywna() == false) {
-                    aktywna.setAktywna(true);
-                    umowaFacade.edit(aktywna);
-                }
-                wpisView.setUmowa(aktywna);
-            } else {
-                wpisView.setUmowa(null);
-            }
-        } else if (rodzajumowy.equals("2")) {
-            listapraca = umowaFacade.findByAngazZlecenie(wpisView.getAngaz());
-            if (listapraca != null && listapraca.size() > 0) {
-                Umowa aktywna = listapraca.stream().filter(p -> p.isAktywna()).findAny().orElse(listapraca.get(0));
-                if (aktywna.isAktywna() == false) {
-                    aktywna.setAktywna(true);
-                    umowaFacade.edit(aktywna);
-                }
-                wpisView.setUmowa(aktywna);
-            } else {
-                wpisView.setUmowa(null);
-            }
-        } else {
-            listapraca = umowaFacade.findByAngazFunkcja(wpisView.getAngaz());
-            if (listapraca != null && listapraca.size() > 0) {
-                Umowa aktywna = listapraca.stream().filter(p -> p.isAktywna()).findAny().orElse(listapraca.get(0));
-                if (aktywna.isAktywna() == false) {
-                    aktywna.setAktywna(true);
-                    umowaFacade.edit(aktywna);
-                }
-                wpisView.setUmowa(aktywna);
-            } else {
-                wpisView.setUmowa(null);
-            }
-        }
         listaangaz = angazFacade.findByFirma(wpisView.getFirma());
         listaumowakodzus = rodzajumowyFacade.findUmowakodzusAktywne();
         listakodyzawodow = kodyzawodowFacade.findAll();
         datadzisiejsza = Data.aktualnaData();
         miejscowosc = wpisView.getFirma().getMiasto();
-        updateClassView.updateUmowa();
+        //updateClassView.updateUmowa();
     }
 
     public void wyborinnejumowy2() {
