@@ -150,8 +150,10 @@ public class KalendarzGlobalnyView  implements Serializable {
         if (selected!=null && selected.getId()!=null) {
             List<Kalendarzwzor> kalendarzewzorcowe = kalendarzwzorFacade.findByRokMc(selected.getRok(), selected.getMc());
             for (Kalendarzwzor kal: kalendarzewzorcowe) {
-                kal.edytujdnizglobalnego(selected);
-                kalendarzwzorFacade.edit(kal);
+                if (!kal.getFirma().getNip().equals("0000000000")) {
+                    kal.edytujdnizglobalnego(selected);
+                    kalendarzwzorFacade.edit(kal);
+                }
             }
             Msg.msg("Naniesiono zmiany na kalendarze pracowników");
         } else {

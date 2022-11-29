@@ -127,22 +127,26 @@ public class Kalendarzwzor implements Serializable {
         return "entity.Kalendarzwzor[ id=" + id + " ]";
     }
 
-     public void generujdnizglobalnego(Kalendarzwzor kalendarzwzor) {
+     public void generujdnizglobalnego(Kalendarzwzor kalendarzglobalny) {
+        List<Dzien> dzienListGlobalny = this.getDzienList();
+        Collections.sort(dzienListGlobalny, new Dziencomparator());
         List<Dzien> nowedni = new ArrayList<>();
-        for (int i = 0; i < kalendarzwzor.getDzienList().size(); i++) {
-            Dzien dzienwzor = kalendarzwzor.getDzienList().get(i);
+        for (int i = 0; i < dzienListGlobalny.size(); i++) {
+            Dzien dzienwzor = dzienListGlobalny.get(i);
             Dzien dzien = new Dzien(dzienwzor, this);
             nowedni.add(dzien);
         }
         this.dzienList = nowedni;
     }
-    public void edytujdnizglobalnego(Kalendarzwzor kalendarzwzor) {
-        List<Dzien> dzienListwzor = kalendarzwzor.getDzienList();
-        Collections.sort(dzienListwzor, new Dziencomparator());
-        for (int i = 0; i < dzienListwzor.size(); i++) {
-            Dzien dzien = this.getDzienList().get(i);
-            Dzien dzienwzor = dzienListwzor.get(i);
-            dzien.nanieswzor(dzienwzor);
+    public void edytujdnizglobalnego(Kalendarzwzor kalendarzglobalny) {
+        List<Dzien> dzienListGlobalny = kalendarzglobalny.getDzienList();
+        Collections.sort(dzienListGlobalny, new Dziencomparator());
+        List<Dzien> dzienListWzor = this.getDzienList();
+        Collections.sort(dzienListWzor, new Dziencomparator());
+        for (int i = 0; i < dzienListGlobalny.size(); i++) {
+            Dzien dzienwzor = dzienListWzor.get(i);
+            Dzien dzienglobalny = dzienListGlobalny.get(i);
+            dzienwzor.nanieswzor(dzienglobalny);
         }
     }
     
