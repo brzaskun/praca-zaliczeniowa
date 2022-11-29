@@ -102,7 +102,7 @@ public class NaliczenieskladnikawynagrodzeniaBean {
         return zwrot;
     }
 
-    public static List<Naliczenieskladnikawynagrodzenia> createWynagrodzenieDB(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasekwynagrodzen, Skladnikwynagrodzenia skladnikwynagrodzenia, double kurs) {
+    public static List<Naliczenieskladnikawynagrodzenia> createWynagrodzenieDB(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasekwynagrodzen, Skladnikwynagrodzenia skladnikwynagrodzenia, double kurs, double wynagrodzenieminimalne) {
         List<Naliczenieskladnikawynagrodzenia> zwrot = new ArrayList<>();
         double dniroboczewmiesiacu = 0.0;
         double godzinyroboczewmiesiacu = 0.0;
@@ -136,6 +136,9 @@ public class NaliczenieskladnikawynagrodzeniaBean {
                 String ostatnidzienmiesiaca = kalendarz.getOstatniDzien();
                 if (DataBean.czysiemiesci(pierwszydzienmiesiaca, ostatnidzienmiesiaca, r.getDataod(), r.getDatado())) {
                     skladnikistale = r.getKwota();
+                    if (r.isMinimalneustatowe()) {
+                        skladnikistale = wynagrodzenieminimalne;
+                    }
                     for (Dzien s : kalendarz.getDzienList()) {
                         //daje norma godzin a nie z uwzglednieniem zwolnien bo przeciez rewdukcja bedzie pozniej
                         //zmienilem zdanie. redukcja bedzie statystyczna

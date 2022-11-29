@@ -142,7 +142,7 @@
                     </p:commandButton>
                     <p:commandButton styleClass="buttonnorm2" actionListener="#{kalendarzGlobalnyView.reset}" value="Resetuj"  update="akordeon:KalendarzGlobalCreateForm:mc akordeon:KalendarzwzorListGlobForm:datalist akordeon:KalendarzwzormiesiacSaRokGlobForm:datalist" rendered="#{kalendarzGlobalnyView.selected.id ne null}"/>
                     <p:commandButton styleClass="buttonnorm2" actionListener="#{kalendarzGlobalnyView.create}" value="#{bundle.Save}"  update="akordeon:KalendarzGlobalCreateForm:mc akordeon:KalendarzwzorListGlobForm:datalist akordeon:KalendarzwzormiesiacSaRokGlobForm:datalist" rendered="#{kalendarzGlobalnyView.selected.id eq null}"/>
-                    <p:commandButton styleClass="buttonnorm2" actionListener="#{kalendarzGlobalnyView.nanieszmiany}" value="nanies na wzor."  update="akordeon:KalendarzGlobalCreateForm:mc akordeon:KalendarzwzorListGlobForm:datalist akordeon:KalendarzwzormiesiacSaRokGlobForm:datalist" rendered="#{kalendarzGlobalnyView.selected.id ne null}">
+                    <p:commandButton styleClass="buttonnorm2" actionListener="#{kalendarzGlobalnyView.nanieszmiany}" value="nanieś na wzór."  update="akordeon:KalendarzGlobalCreateForm:mc akordeon:KalendarzwzorListGlobForm:datalist akordeon:KalendarzwzormiesiacSaRokGlobForm:datalist" rendered="#{kalendarzGlobalnyView.selected.id ne null}">
                         <p:confirm type="popup" header="Kopiowanie do wszystkich wzorcowych" message="Na pewno kopiowac do wzorcowych?" icon="pi pi-exclamation-triangle"/>
                     </p:commandButton>
                 </p:outputPanel>

@@ -145,8 +145,10 @@ private static final long serialVersionUID = 1L;
     public void edytujdnizglobalnego(Kalendarzwzor kalendarzwzor) {
         List<Dzien> dzienListwzor = kalendarzwzor.getDzienList();
         Collections.sort(dzienListwzor, new Dziencomparator());
+        List<Dzien> dzienList = this.getDzienList();
+        Collections.sort(dzienList, new Dziencomparator());
         for (int i = 0; i < dzienListwzor.size(); i++) {
-            Dzien dzien = this.getDzienList().get(i);
+            Dzien dzien = dzienList.get(i);
             Dzien dzienwzor = dzienListwzor.get(i);
             dzien.nanieswzor(dzienwzor);
         }
