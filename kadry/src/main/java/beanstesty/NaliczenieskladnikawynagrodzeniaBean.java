@@ -9,7 +9,6 @@ import entity.Dzien;
 import entity.Kalendarzmiesiac;
 import entity.Naliczenieskladnikawynagrodzenia;
 import entity.Pasekwynagrodzen;
-import entity.Rachunekdoumowyzlecenia;
 import entity.Skladnikwynagrodzenia;
 import entity.Zmiennawynagrodzenia;
 import java.util.ArrayList;
@@ -49,9 +48,8 @@ public class NaliczenieskladnikawynagrodzeniaBean {
         return 0.0;
     }
 
-    public static Naliczenieskladnikawynagrodzenia createWynagrodzenieDBZlecenie(Pasekwynagrodzen pasekwynagrodzen, Skladnikwynagrodzenia skladnikwynagrodzenia, List<Dzien> listadni, double kurs, Rachunekdoumowyzlecenia rachunekdoumowyzlecenia) {
+    public static Naliczenieskladnikawynagrodzenia createWynagrodzenieDBZlecenie(Pasekwynagrodzen pasekwynagrodzen, Skladnikwynagrodzenia skladnikwynagrodzenia, List<Dzien> listadni, double kurs, double zmiennawynagrodzeniakwota) {
         Naliczenieskladnikawynagrodzenia zwrot = new Naliczenieskladnikawynagrodzenia();
-        double zmiennawynagrodzeniakwota = rachunekdoumowyzlecenia.getKwota();
         zwrot.setPasekwynagrodzen(pasekwynagrodzen);
         zwrot.setKwotaumownazacalymc(zmiennawynagrodzeniakwota);
         zwrot.setKwotadolistyplac(zmiennawynagrodzeniakwota);

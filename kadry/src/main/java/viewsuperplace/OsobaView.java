@@ -58,6 +58,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -225,6 +226,10 @@ public class OsobaView implements Serializable {
                             }
                         }
                         pracownik = OsobaBean.pobierzOsobaBasic(osoba, kodurzedu, nazwaurzedu);
+                        String email = pracownik.getNazwisko()+pracownik.getImie()+"@taxman.biz.pl";
+                        email = email.toLowerCase(new Locale("pl","PL"));
+                        pracownik.setEmail(email);
+                        pracownik.setFikcyjnymail(true);
                         pracownikFacade.create(pracownik);
                         moznadalej = true;
                         log.add("Utworzono pracownika "+pracownik.getNazwiskoImie());

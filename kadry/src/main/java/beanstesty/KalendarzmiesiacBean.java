@@ -16,7 +16,6 @@ import entity.Naliczeniepotracenie;
 import entity.Naliczenieskladnikawynagrodzenia;
 import entity.Nieobecnosc;
 import entity.Pasekwynagrodzen;
-import entity.Rachunekdoumowyzlecenia;
 import entity.Rodzajwynagrodzenia;
 import entity.Skladnikpotracenia;
 import entity.Skladnikwynagrodzenia;
@@ -314,12 +313,12 @@ public class KalendarzmiesiacBean {
     
     
     
-    static boolean naliczskladnikiwynagrodzeniaDBZlecenie(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasekwynagrodzen, double kurs) {
+    static boolean naliczskladnikiwynagrodzeniaDBZlecenie(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasekwynagrodzen, double kurs, double zmiennawynagrodzeniakwota, double iloscgodzin) {
         boolean jestoddelegowanie = false;
         for (Skladnikwynagrodzenia p : kalendarz.getAngaz().getSkladnikwynagrodzeniaList()) {
             if (p.getRodzajwynagrodzenia().getKod().equals("50")) {
-                Rachunekdoumowyzlecenia rachunekdoumowyzlecenia = PasekwynagrodzenBean.pobierzRachunekzlecenie(kalendarz.getAngaz(),kalendarz.getRok(), kalendarz.getMc());
-                Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = NaliczenieskladnikawynagrodzeniaBean.createWynagrodzenieDBZlecenie(pasekwynagrodzen, p, kalendarz.getDzienList(), kurs, rachunekdoumowyzlecenia);
+                Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = NaliczenieskladnikawynagrodzeniaBean.createWynagrodzenieDBZlecenie(pasekwynagrodzen, p, kalendarz.getDzienList(), kurs, zmiennawynagrodzeniakwota);
+                naliczenieskladnikawynagrodzenia.setGodzinyfaktyczne(iloscgodzin);
                 if (naliczenieskladnikawynagrodzenia.getKwotaumownazacalymc()!=0.0) {
                     pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().add(naliczenieskladnikawynagrodzenia);
                     if (p.isOddelegowanie()) {

@@ -18,6 +18,7 @@ import dao.NieobecnoscFacade;
 import dao.OddelegowanieZUSLimitFacade;
 import dao.PasekwynagrodzenFacade;
 import dao.PodatkiFacade;
+import dao.RachunekdoumowyzleceniaFacade;
 import dao.RodzajlistyplacFacade;
 import dao.RodzajnieobecnosciFacade;
 import dao.SMTPSettingsFacade;
@@ -107,6 +108,8 @@ public class PasekwynagrodzenView implements Serializable {
     private Limitdochodudwaszesc limitdochodudwaszesc;
     @Inject
     private LimitdochodudwaszescFacade limitdochodudwaszescFacade;
+    @Inject
+    private RachunekdoumowyzleceniaFacade rachunekdoumowyzleceniaFacade;
     @Inject
     private WpisView wpisView;
     private Rodzajlistyplac rodzajlistyplac;
@@ -288,8 +291,13 @@ public class PasekwynagrodzenView implements Serializable {
                     }
                     List<Nieobecnosc> nieobecnosci = nieobecnoscFacade.findByAngaz(wpisView.getAngaz());
                     List<Kalendarzmiesiac> kalendarzlista = kalendarzmiesiacFacade.findByAngaz(wpisView.getAngaz());
+                    Rachunekdoumowyzlecenia rachunekdoumowyzlecenia = PasekwynagrodzenBean.pobierzRachunekzlecenie(pracownikmc.getAngaz(),pracownikmc.getRok(), pracownikmc.getMc());
                     Pasekwynagrodzen pasek = PasekwynagrodzenBean.obliczWynagrodzenie(pracownikmc, wybranalistaplac, nieobecnosckodzusFacade, paskidowyliczeniapodstawy, historiawynagrodzen, stawkipodatkowe, sumapoprzednich, wynagrodzenieminimalne, czyodlicoznokwotewolna,
-                            kursdlalisty, limitzus, datawyplaty, nieobecnosci, limitdochodudwaszesc.getKwota(), kalendarzlista);
+                            kursdlalisty, limitzus, datawyplaty, nieobecnosci, limitdochodudwaszesc.getKwota(), kalendarzlista, rachunekdoumowyzlecenia);
+                    if (rachunekdoumowyzlecenia!=null) {
+                        rachunekdoumowyzlecenia.setPasekwynagrodzen(pasek);
+                        rachunekdoumowyzleceniaFacade.edit(rachunekdoumowyzlecenia);
+                    }
                     usunpasekjakzawiera(pasek);
                     lista.add(pasek);
                 }
@@ -383,6 +391,13 @@ public class PasekwynagrodzenView implements Serializable {
     public void usun(Pasekwynagrodzen p) {
         if (p != null) {
             if (p.getId() != null) {
+                if (p.getDefinicjalistaplac().getRodzajlistyplac().getSymbol().equals("UZ")||p.getDefinicjalistaplac().getRodzajlistyplac().getSymbol().equals("UD")) {
+                     Rachunekdoumowyzlecenia rachunekdoumowyzlecenia = PasekwynagrodzenBean.pobierzRachunekzlecenie(p.getKalendarzmiesiac().getAngaz(),p.getRok(), p.getMc());
+                    if (rachunekdoumowyzlecenia!=null) {
+                        rachunekdoumowyzlecenia.setPasekwynagrodzen(null);
+                        rachunekdoumowyzleceniaFacade.edit(rachunekdoumowyzlecenia);
+                    }   
+                }
                 pasekwynagrodzenFacade.remove(p);
                 lista.remove(p);
             } else {
