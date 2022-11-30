@@ -81,6 +81,7 @@ public class PracownikNieobecnoscView  implements Serializable {
     List<Naliczenienieobecnosc> skladnikistale;
     List<Naliczenienieobecnosc> skladnikizmienne;
     private EtatPrac wybranyetat;
+    private String wiekdlachoroby;
     
     public void init() {
         try {
@@ -130,9 +131,12 @@ public class PracownikNieobecnoscView  implements Serializable {
             List<Umowa> umowy = umowaFacade.findByAngaz(wpisView.getAngaz());
             chorobaprezentacja.setWymiarokresbiezacy(obliczwymiarwgodzinachchoroba(umowy, wpisView.getAngaz().pobierzetat(stannadzien)));
             chorobaprezentacja.setDoprzeniesienia(chorobaprezentacja.getWymiarokresbiezacy()-chorobaprezentacja.getWykorzystanierokbiezacy()-chorobaprezentacja.getWykorzystanierokbiezacyekwiwalent());
+            wiekdlachoroby = obliczwiek(wpisView.getAngaz().getPracownik());
             Msg.msg("Pobrano dane chorobowe");
         }
     }
+    
+    
     
      public void pobierzzasilek() {
         if (wpisView.getPracownik()!=null) {
@@ -239,6 +243,25 @@ public class PracownikNieobecnoscView  implements Serializable {
             zwrot = 15;
         }
         return zwrot;
+    }
+    
+    public  String obliczwiek(Pracownik pracownik) {
+        String zwrota = "";
+        if (pracownik!=null) {
+            String dataurodzenia = pracownik.getDataurodzenia();
+            LocalDate dataur = LocalDate.parse(dataurodzenia);
+            LocalDate dataumowy = LocalDate.parse(stannadzien);
+            String rok = Data.getRok(stannadzien);
+            String pierwszydzienroku = rok+"-01-01";
+            LocalDate dataroku = LocalDate.parse(pierwszydzienroku);
+            long lata = ChronoUnit.YEARS.between(dataur, dataumowy);
+            long dni = ChronoUnit.DAYS.between(dataroku, dataumowy);
+            int[] zwrot = new int[2];
+            zwrot[0] = (int) lata;
+            zwrot[1] = (int) dni;
+            zwrota = "lat: "+zwrot[0]+" dni: "+zwrot[1];
+        }
+        return zwrota;
     }
     
     private int obliczwymiarwgodzinachzasilek(List<Umowa> umowy, EtatPrac etat) {
@@ -409,6 +432,14 @@ public class PracownikNieobecnoscView  implements Serializable {
 
     public void setEkwiwalent(Nieobecnosc ekwiwalent) {
         this.ekwiwalent = ekwiwalent;
+    }
+
+    public String getWiekdlachoroby() {
+        return wiekdlachoroby;
+    }
+
+    public void setWiekdlachoroby(String wiekdlachoroby) {
+        this.wiekdlachoroby = wiekdlachoroby;
     }
 
     public double getEwiewalentskladnikizmienne() {

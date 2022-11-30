@@ -210,6 +210,8 @@
                         <p:panelGrid columns="4" rendered="#{pracownikNieobecnoscView.chorobaprezentacja != null}">
                             <p:outputLabel value="stan na dzien" for="stannadzien" />
                             <p:inputText id="stannadzien" value="#{pracownikNieobecnoscView.stannadzien}" readonly="true" size="10"/>
+                            <p:outputLabel value="wiek na dzień wypłaty" for="wieka" />
+                            <h:outputText id="wieka" value="#{pracownikNieobecnoscView.wiekdlachoroby}" style="color: green;"/>
                         </p:panelGrid>
                         <p:panelGrid columns="4" rendered="#{pracownikNieobecnoscView.chorobaprezentacja != null}">
                             <p:outputLabel value="nazwisko i imię pracownika" for="urlopimie" />
