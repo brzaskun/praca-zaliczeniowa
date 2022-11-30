@@ -45,6 +45,7 @@ import entity.SMTPSettings;
 import entity.Tabelanbp;
 import entity.Umowa;
 import entity.Wynagrodzeniahistoryczne;
+import entity.Wynagrodzenieminimalne;
 import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -281,7 +282,18 @@ public class PasekwynagrodzenView implements Serializable {
                         historiawynagrodzen = wynagrodzeniahistoryczneFacade.findByAngaz(pracownikmc.getAngaz());
                     }
                     double sumapoprzednich = PasekwynagrodzenBean.sumapodstawaopodpopmce(pasekwynagrodzenFacade, pracownikmc, stawkipodatkowe.get(1).getKwotawolnaod());
-                    double wynagrodzenieminimalne = wynagrodzenieminimalneFacade.findByRok(Data.getRok(datawyplaty)).getKwotabrutto();
+                    List<Wynagrodzenieminimalne> wynagrodzenielist = wynagrodzenieminimalneFacade.findByRok(Data.getRok(datawyplaty));
+                    double wynagrodzenieminimalne = 0.0;
+                    if (wynagrodzenielist!=null&&wynagrodzenielist.size()==1) {
+                        wynagrodzenieminimalne = wynagrodzenielist.get(0).getKwotabrutto();
+                    } else if (wynagrodzenielist!=null&&wynagrodzenielist.size()>1){
+                        for (Wynagrodzenieminimalne w : wynagrodzenielist) {
+                            if (Data.czyjestpomiedzy(w.getDataod(), w.getDatado(), pracownikmc.getRok(), pracownikmc.getMc())) {
+                                wynagrodzenieminimalne = w.getKwotabrutto();
+                                break;
+                            }
+                        }
+                    }
                     //zeby nei odoliczyc kwoty wolnej dwa razy
                     boolean czyodlicoznokwotewolna = PasekwynagrodzenBean.czyodliczonokwotewolna(pracownikmc.getRok(), pracownikmc.getMc(), pracownikmc.getAngaz(), pasekwynagrodzenFacade);
                     double limitzus = 0.0;

@@ -7,6 +7,8 @@ package dao;
 
 import entity.Wynagrodzenieminimalne;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -43,8 +45,14 @@ public class WynagrodzenieminimalneFacade extends DAO implements Serializable {
         super.em = em;
     }
 
-    public Wynagrodzenieminimalne findByRok(String rokWpisu) {
-        return (Wynagrodzenieminimalne) getEntityManager().createNamedQuery("Wynagrodzenieminimalne.findByRok").setParameter("rok", rokWpisu).getSingleResult();
+    public List<Wynagrodzenieminimalne> findByRok(String rokWpisu) {
+        List<Wynagrodzenieminimalne> zwrot = new ArrayList<>();
+        try {
+            zwrot =  getEntityManager().createNamedQuery("Wynagrodzenieminimalne.findByRok").setParameter("rok", rokWpisu).getResultList();
+        } catch (Exception e) {
+            
+        }
+        return zwrot;
     }
 
  }

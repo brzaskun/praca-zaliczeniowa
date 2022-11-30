@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -24,7 +25,9 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Osito
  */
 @Entity
-@Table(name = "wynagrodzenieminimalne")
+@Table(name = "wynagrodzenieminimalne", uniqueConstraints = {
+    @UniqueConstraint(columnNames={"rok","kwotabrutto"})
+})
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Wynagrodzenieminimalne.findAll", query = "SELECT w FROM Wynagrodzenieminimalne w"),
@@ -48,6 +51,12 @@ public class Wynagrodzenieminimalne implements Serializable {
     @NotNull
     @Column(name = "kwotabrutto")
     private double kwotabrutto;
+    @Size(max = 255)
+    @Column(name = "datado")
+    private String datado;
+    @Size(max = 255)
+    @Column(name = "dataod")
+    private String dataod;
 
     public Wynagrodzenieminimalne() {
     }
@@ -85,6 +94,24 @@ public class Wynagrodzenieminimalne implements Serializable {
     public void setKwotabrutto(double kwotabrutto) {
         this.kwotabrutto = kwotabrutto;
     }
+
+    public String getDatado() {
+        return datado;
+    }
+
+    public void setDatado(String datado) {
+        this.datado = datado;
+    }
+
+    public String getDataod() {
+        return dataod;
+    }
+
+    public void setDataod(String dataod) {
+        this.dataod = dataod;
+    }
+    
+    
 
     @Override
     public int hashCode() {
