@@ -563,6 +563,7 @@ public class OsobaBean {
     static void pobierzzmiennawynagrodzenia(Skladnikwynagrodzenia skladnikwynagrodzenia, OsobaSkl osobaSkl, ZmiennaWynagrodzeniaFacade zmiennaWynagrodzeniaFacade) {
         if (skladnikwynagrodzenia != null) {
             StSystOpis ossSsdSerial1 = osobaSkl.getOssSsdSerial1();
+            int nrkolejnyzmiennej = 0;
             if (ossSsdSerial1 != null) {
                 List<StSystWart> osobaSklList = osobaSkl.getOssSsdSerial1().getStSystWartList();
                 if (osobaSklList != null && osobaSklList.size() > 0) {
@@ -599,6 +600,7 @@ public class OsobaBean {
                         }
                         wiersz.setKwota(Z.z(t.getSsoNumeric().doubleValue()));
                         if (zmiennaWynagrodzeniaFacade.findByDataSkladnik(wiersz) == false) {
+                            wiersz.setNrkolejnyzmiennej(nrkolejnyzmiennej++);
                             if (wiersz.getKwota() != 0.0) {
                                 skladnikwynagrodzenia.getZmiennawynagrodzeniaList().add(wiersz);
                             } else if (osobaSkl.getOssSsdSerial1() != null) {
@@ -625,6 +627,7 @@ public class OsobaBean {
                     }
                     wiersz.setKwota(0.0);
                     wiersz.setMinimalneustatowe(true);
+                    wiersz.setNrkolejnyzmiennej(nrkolejnyzmiennej++);
                     skladnikwynagrodzenia.getZmiennawynagrodzeniaList().add(wiersz);
 
                 }
@@ -642,6 +645,7 @@ public class OsobaBean {
                 }
                 wiersz.setKwota(Z.z(osobaSkl.getOssKwota().doubleValue()));
                 if (zmiennaWynagrodzeniaFacade.findByDataSkladnik(wiersz) == false) {
+                    wiersz.setNrkolejnyzmiennej(nrkolejnyzmiennej++);
                     if (wiersz.getKwota() != 0.0) {
                         skladnikwynagrodzenia.getZmiennawynagrodzeniaList().add(wiersz);
                     } else if (osobaSkl.getOssSsdSerial1() != null) {

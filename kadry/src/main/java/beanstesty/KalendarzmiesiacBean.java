@@ -779,7 +779,7 @@ public class KalendarzmiesiacBean {
         for (Kalendarzmiesiac  r : kalendarzList) {
             if (r.getRokI()<=Integer.parseInt(rok)) {
                 if (Data.czyjestpomcnaprawdepo(r.getMc(), r.getRok(), mc, rok)) {
-                    Naliczenieskladnikawynagrodzenia naliczonewynagrodzenie = r.getNaliczonewynagrodzenie(s);
+                    Naliczenieskladnikawynagrodzenia naliczonewynagrodzenie = getNaliczonewynagrodzenie(r, s);
                     if (naliczonewynagrodzenie!=null) {
                         zwrot.add(naliczonewynagrodzenie);
                     }
@@ -793,6 +793,33 @@ public class KalendarzmiesiacBean {
         
         return zwrot;
     }
+     
+     public static Naliczenieskladnikawynagrodzenia getNaliczonewynagrodzenie(Kalendarzmiesiac  kalendarz, Skladnikwynagrodzenia s) {
+        Naliczenieskladnikawynagrodzenia zwrot = null;
+        List<Naliczenieskladnikawynagrodzenia> lista = skladnikiwynagrodzenialista(kalendarz);
+        if (lista!=null) {
+            for (Naliczenieskladnikawynagrodzenia naliczenie : lista) {
+                if (naliczenie.getSkladnikwynagrodzenia().equals(s)) {
+                    zwrot = naliczenie;
+                    break;
+                }
+            }
+        }
+        return zwrot;
+    }
+     
+     public static List<Naliczenieskladnikawynagrodzenia> skladnikiwynagrodzenialista(Kalendarzmiesiac  kalendarz) {
+       List<Naliczenieskladnikawynagrodzenia> zwrot = new ArrayList<>();
+       List<Pasekwynagrodzen> pasekwynagrodzenList = kalendarz.getPasekwynagrodzenList();
+       if (kalendarz.getPasekwynagrodzenList()!=null && !kalendarz.getPasekwynagrodzenList().isEmpty()) {
+           for (Pasekwynagrodzen p : kalendarz.getPasekwynagrodzenList()) {
+               if (p.getNaliczenieskladnikawynagrodzeniaList()!=null) {
+                   zwrot.addAll(p.getNaliczenieskladnikawynagrodzeniaList());
+               }
+           }
+       }
+       return zwrot;
+   }
 
      private static double wyliczsredniagodzinowaStale(Kalendarzmiesiac kalendarz, Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia, double liczbagodzinieobecnosci, double liczbagodzinobowiazku, Naliczenienieobecnosc naliczenienieobecnosc) {
         double sredniadopodstawy = 0.0;

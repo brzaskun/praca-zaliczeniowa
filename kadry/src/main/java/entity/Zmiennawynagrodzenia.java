@@ -74,6 +74,8 @@ public class Zmiennawynagrodzenia implements Serializable {
     private  boolean aktywna;
     @Column(name = "minimalneustatowe")
     private  boolean minimalneustatowe;
+    @Column(name = "nrkolejnyzmiennej")
+    private  int nrkolejnyzmiennej;
     
 
 
@@ -242,6 +244,16 @@ public class Zmiennawynagrodzenia implements Serializable {
     public void setMinimalneustatowe(boolean minimalneustatowe) {
         this.minimalneustatowe = minimalneustatowe;
     }
+
+    public int getNrkolejnyzmiennej() {
+        return nrkolejnyzmiennej;
+    }
+
+    public void setNrkolejnyzmiennej(int nrkolejnyzmiennej) {
+        this.nrkolejnyzmiennej = nrkolejnyzmiennej;
+    }
+
+   
 
     
 

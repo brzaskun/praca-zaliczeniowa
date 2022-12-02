@@ -900,12 +900,13 @@ public class PasekwynagrodzenBean {
     private static List<Nieobecnosc> pobierznieobecnosci(Kalendarzmiesiac kalendarz, List<Nieobecnosc> nieobecnosci) {
         String rok = kalendarz.getRok();
         String mc = kalendarz.getMc();
-        boolean jest = false;
+        boolean jestod = false;
+        boolean jestdo = false;
         List<Nieobecnosc> zwrot = new ArrayList<>();
         for (Nieobecnosc p : nieobecnosci) {
-            jest = Data.czydatajestwmcu(p.getDataod(), rok, mc);
-            jest = Data.czydatajestwmcu(p.getDatado(), rok, mc);
-            if (jest && p.isNaniesiona()) {
+            jestod = Data.czydatajestwmcu(p.getDataod(), rok, mc);
+            jestdo = Data.czydatajestwmcu(p.getDatado(), rok, mc);
+            if ((jestod||jestdo) && p.isNaniesiona()) {
                 zwrot.add(p);
             }
         }

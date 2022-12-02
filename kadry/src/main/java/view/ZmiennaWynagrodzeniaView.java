@@ -5,6 +5,7 @@
  */
 package view;
 
+import comparator.ZmiennaWynagrodzeniacomparator;
 import dao.SkladnikWynagrodzeniaFacade;
 import dao.ZmiennaWynagrodzeniaFacade;
 import data.Data;
@@ -12,6 +13,7 @@ import entity.Skladnikwynagrodzenia;
 import entity.Zmiennawynagrodzenia;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
@@ -116,7 +118,8 @@ public class ZmiennaWynagrodzeniaView  implements Serializable {
     
     private void zakonczokrespoprzedni(List<Zmiennawynagrodzenia> lista, Zmiennawynagrodzenia selected) {
         try {
-            Zmiennawynagrodzenia ostatnia = lista.get(lista.size()-1);
+            Collections.sort(lista, new ZmiennaWynagrodzeniacomparator());
+            Zmiennawynagrodzenia ostatnia = lista.get(0);
             String nowadataod = selected.getDataod();
             String wyliczonadatado = Data.odejmijdni(nowadataod, 1);
             ostatnia.setDatado(wyliczonadatado);

@@ -6,6 +6,7 @@
 package view;
 
 import beanstesty.AngazBean;
+import beanstesty.KalendarzmiesiacBean;
 import beanstesty.PasekwynagrodzenBean;
 import comparator.Defnicjalistaplaccomparator;
 import comparator.Kalendarzmiesiaccomparator;
@@ -551,7 +552,7 @@ public class PasekwynagrodzenView implements Serializable {
 
     public void pobierzpracownika() {
         if (wybranykalendarz != null) {
-            listawynagrodzenpracownika = wybranykalendarz.skladnikiwynagrodzenialista();
+            listawynagrodzenpracownika = KalendarzmiesiacBean.skladnikiwynagrodzenialista(wybranykalendarz);
             listanieobecnoscipracownika = wybranykalendarz.skladnikinieobecnosclista();
             for (Naliczenienieobecnosc p : listanieobecnoscipracownika) {
                 Collections.sort(p.getSredniadlanieobecnosciList(), new Sredniadlanieobecnoscicomparator());

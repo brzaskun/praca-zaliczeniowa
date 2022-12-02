@@ -515,17 +515,7 @@ private static final long serialVersionUID = 1L;
         return zwrot;
    }
    
-    public List<Naliczenieskladnikawynagrodzenia> skladnikiwynagrodzenialista() {
-       List<Naliczenieskladnikawynagrodzenia> zwrot = new ArrayList<>();
-       if (this.getPasekwynagrodzenList()!=null && !this.getPasekwynagrodzenList().isEmpty()) {
-           for (Pasekwynagrodzen p : this.pasekwynagrodzenList) {
-               if (p.getNaliczenieskladnikawynagrodzeniaList()!=null) {
-                   zwrot.addAll(p.getNaliczenieskladnikawynagrodzeniaList());
-               }
-           }
-       }
-       return zwrot;
-   }
+
    
    public List<Naliczenienieobecnosc> skladnikinieobecnosclista() {
        Set<Naliczenienieobecnosc> zwrot = new HashSet<>();
@@ -877,19 +867,7 @@ private static final long serialVersionUID = 1L;
         return zwrot;
     }
 
-    public Naliczenieskladnikawynagrodzenia getNaliczonewynagrodzenie(Skladnikwynagrodzenia s) {
-        Naliczenieskladnikawynagrodzenia zwrot = null;
-        List<Naliczenieskladnikawynagrodzenia> lista = skladnikiwynagrodzenialista();
-        if (lista!=null) {
-            for (Naliczenieskladnikawynagrodzenia naliczenie : lista) {
-                if (naliczenie.getSkladnikwynagrodzenia().equals(s)) {
-                    zwrot = naliczenie;
-                    break;
-                }
-            }
-        }
-        return zwrot;
-    }
+    
 
     public double pobierzPodstaweNieobecnosc(Nieobecnosc nieobecnosc) {
         double kwota = 0.0;

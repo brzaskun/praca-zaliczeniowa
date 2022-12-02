@@ -14,6 +14,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -180,7 +181,7 @@ public class Pasekwynagrodzen implements Serializable {
     @ManyToOne
     private Definicjalistaplac definicjalistaplac;
     @JoinColumn(name = "kalendarzmiesiac", referencedColumnName = "id")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Kalendarzmiesiac kalendarzmiesiac;
     @Column(name="rok")
     private String rok;
@@ -213,11 +214,11 @@ public class Pasekwynagrodzen implements Serializable {
     private Integer lpl_serial;
     @OneToMany(mappedBy = "pasekwynagrodzen")
     private List<Rachunekdoumowyzlecenia> rachunekdoumowyzleceniaList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pasekwynagrodzen", orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pasekwynagrodzen", orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Naliczeniepotracenie> naliczeniepotracenieList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pasekwynagrodzen", orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pasekwynagrodzen", orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Naliczenieskladnikawynagrodzenia> naliczenieskladnikawynagrodzeniaList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pasekwynagrodzen", orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pasekwynagrodzen", orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Naliczenienieobecnosc> naliczenienieobecnoscList;
     @Transient
     private int numerator;

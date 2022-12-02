@@ -11,6 +11,7 @@ import static beanstesty.KalendarzmiesiacBean.pobierzpaski;
 import dao.EtatPracFacade;
 import dao.KalendarzmiesiacFacade;
 import dao.NieobecnoscprezentacjaFacade;
+import dao.PasekwynagrodzenFacade;
 import dao.PracownikFacade;
 import dao.SkladnikWynagrodzeniaFacade;
 import dao.UmowaFacade;
@@ -24,6 +25,7 @@ import entity.Naliczenieskladnikawynagrodzenia;
 import entity.Nieobecnosc;
 import entity.Nieobecnoscprezentacja;
 import entity.Nieobecnoscwykorzystanie;
+import entity.Pasekwynagrodzen;
 import entity.Pracownik;
 import entity.Skladnikwynagrodzenia;
 import entity.Sredniadlanieobecnosci;
@@ -64,6 +66,8 @@ public class PracownikNieobecnoscView  implements Serializable {
     private SkladnikWynagrodzeniaFacade skladnikWynagrodzeniaFacade;
     @Inject
     private EtatPracFacade etatPracFacade;
+    @Inject
+    private PasekwynagrodzenFacade pasekwynagrodzenFacade;
     @Inject
     private WpisView wpisView;
     private Nieobecnoscprezentacja urlopprezentacja;
@@ -334,6 +338,7 @@ public class PracownikNieobecnoscView  implements Serializable {
                             rok = popokres[1];
                             mc = popokres[0];
                         }
+                        List<Pasekwynagrodzen> paski = pasekwynagrodzenFacade.findByRokAngaz(rok, wpisView.getAngaz());
                         List<Naliczenieskladnikawynagrodzenia> naliczonyskladnikdosredniej = pobierzpaski(rok, mc, p, kalendarzlista);
                         double godzinyfaktyczne = 0.0;
                         double dninalezne = 0.0;
