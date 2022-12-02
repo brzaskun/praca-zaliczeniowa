@@ -1075,6 +1075,7 @@ public class Pasekwynagrodzen implements Serializable {
                 } else {
                     wiersz.nazwa = p.getNieobecnosc().getOpisRodzajSwiadczenie();
                 }
+                wiersz.kodzus = p.getNieobecnosc().getSwiadczeniekodzus()!=null?p.getNieobecnosc().getSwiadczeniekodzus().getKod():"";
                 wiersz.kwota = p.getKwota();
                 wiersz.redukcja = p.getKwotaredukcji()+p.getKwotastatystyczna();
                 wiersz.dataod = p.getDataod();
@@ -1142,6 +1143,7 @@ public class Pasekwynagrodzen implements Serializable {
         String dataod;
         String datado;
         String kod;
+        String kodzus;
         String uwagi;
         boolean urlopSP;
         boolean redukcjaSP;
@@ -1311,7 +1313,16 @@ public class Pasekwynagrodzen implements Serializable {
         public void setWaluta(String waluta) {
             this.waluta = waluta;
         }
+
+        public String getKodzus() {
+            return kodzus;
+        }
+
+        public void setKodzus(String kodzus) {
+            this.kodzus = kodzus;
+        }
     
+        
 
         
         @Override

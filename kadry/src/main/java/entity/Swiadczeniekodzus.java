@@ -116,14 +116,16 @@ public class Swiadczeniekodzus implements Serializable {
         this.wkp_serial = wkp_serial;
     }
 
-
-    public boolean getZdrowotne() {
+    public boolean isZdrowotne() {
         return zdrowotne;
     }
 
     public void setZdrowotne(boolean zdrowotne) {
         this.zdrowotne = zdrowotne;
     }
+
+
+    
 
     @XmlTransient
     public List<Nieobecnosc> getNieobecnoscList() {

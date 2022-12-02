@@ -457,59 +457,61 @@ public class KalendarzmiesiacBean {
                 godzinyroboczewmiesiacu = godzinyroboczewmiesiacu+pa.getNormagodzin();
             }
         }
+        double sredniadopodstawystale = 0.0;
+        double sredniadopodstawyzmienne = 0.0;
         double sredniadopodstawy = 0.0;
         double godzinyobecnoscirobocze = 0.0;
-        if (kalendarze.size()==1) {
-             //wyliczenie dla skladnika stalego ze zmiennymi
-            if (naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getGodzinowe0miesieczne1()&&naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getStale0zmienne1()==false) {
-                double skladnikistale = 0.0;
-                double dniroboczeprzepracowanestat = 0.0;
-                for (Zmiennawynagrodzenia r : naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getZmiennawynagrodzeniaList()) {
-                    double dniroboczeprzepracowanezm = 0.0;
-                    double godzinyobecnosciroboczezm = 0.0;
-                    int dzienodzmienna = DataBean.dataod(r.getDataod(), kalendarz.getRok(), kalendarz.getMc());
-                    int dziendozmienna = DataBean.datado(r.getDatado(), kalendarz.getRok(), kalendarz.getMc());
-                    if (DataBean.czysiemiesci(kalendarz.getPierwszyDzien(), kalendarz.getOstatniDzien(), r.getDataod(), r.getDatado())) {
-                        skladnikistale = r.getKwota();
-                        for (Dzien s : kalendarz.getDzienList()) {
-                            //daje norma godzin a nie z uwzglednieniem zwolnien bo przeciez rewdukcja bedzie pozniej
-                            if (s.getTypdnia() == 0 && s.getNormagodzin()>0.0 && s.getNrdnia() >= dzienodzmienna && s.getNrdnia() <= dziendozmienna) {
-                                dniroboczeprzepracowanezm++;
-                                godzinyobecnosciroboczezm = godzinyobecnosciroboczezm +s.getNormagodzin();
-                            }
-                            if (s.getTypdnia() == 0 && s.getPrzepracowano()>0.0 && s.getNrdnia() >= dzienodzmienna && s.getNrdnia() <= dziendozmienna) {
-                                dniroboczeprzepracowanestat++;
-                            }
-                        }
-                    }
-                    godzinyobecnoscirobocze = godzinyobecnoscirobocze+godzinyobecnosciroboczezm;
-                    double stawkadziennazm = Z.z4(skladnikistale / godzinyroboczewmiesiacu);
-                    sredniadopodstawy = sredniadopodstawy + Z.z(stawkadziennazm * godzinyobecnosciroboczezm);
-                    boolean skladnikstaly = true;
-                    Sredniadlanieobecnosci srednia = new Sredniadlanieobecnosci(kalendarz.getRok(), kalendarz.getMc(), sredniadopodstawy, skladnikstaly, naliczenienieobecnosc, godzinyobecnosciroboczezm,
-                            naliczenieskladnikawynagrodzenia.getGodzinyfaktyczne(), naliczenieskladnikawynagrodzenia.getDnifaktyczne(), naliczenieskladnikawynagrodzenia.getGodzinynalezne(), naliczenieskladnikawynagrodzenia.getDninalezne(), 0.0);
-                    naliczenienieobecnosc.getSredniadlanieobecnosciList().add(srednia);
-                }
-                
-                naliczenienieobecnosc.setSkladnikistale(sredniadopodstawy);
-                naliczenienieobecnosc.setSredniazailemcy(1);
-                naliczenienieobecnosc.setSumakwotdosredniej(sredniadopodstawy);
-                naliczenienieobecnosc.setSumagodzindosredniej(godzinyobecnoscirobocze);
-            } else if (naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getStale0zmienne1()==true) {
-                  /* nie bedzie tego bo srednia ze zmiennych jest brana z poprzednich miesiecy, a tu ich nie ma*/
-            }
-        } else {
-            sredniadopodstawy = 0.0;
+        
+        //wyliczenie dla skladnika stalego ze zmiennymi
+       if (naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getGodzinowe0miesieczne1()&&naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getStale0zmienne1()==false) {
+           double skladnikistale = 0.0;
+           double dniroboczeprzepracowanestat = 0.0;
+           for (Zmiennawynagrodzenia r : naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getZmiennawynagrodzeniaList()) {
+               double dniroboczeprzepracowanezm = 0.0;
+               double godzinyobecnosciroboczezm = 0.0;
+               int dzienodzmienna = DataBean.dataod(r.getDataod(), kalendarz.getRok(), kalendarz.getMc());
+               int dziendozmienna = DataBean.datado(r.getDatado(), kalendarz.getRok(), kalendarz.getMc());
+               if (DataBean.czysiemiesci(kalendarz.getPierwszyDzien(), kalendarz.getOstatniDzien(), r.getDataod(), r.getDatado())) {
+                   skladnikistale = r.getKwota();
+                   for (Dzien s : kalendarz.getDzienList()) {
+                       //daje norma godzin a nie z uwzglednieniem zwolnien bo przeciez rewdukcja bedzie pozniej
+                       if (s.getTypdnia() == 0 && s.getNormagodzin()>0.0 && s.getNrdnia() >= dzienodzmienna && s.getNrdnia() <= dziendozmienna) {
+                           dniroboczeprzepracowanezm++;
+                           godzinyobecnosciroboczezm = godzinyobecnosciroboczezm +s.getNormagodzin();
+                       }
+                       if (s.getTypdnia() == 0 && s.getPrzepracowano()>0.0 && s.getNrdnia() >= dzienodzmienna && s.getNrdnia() <= dziendozmienna) {
+                           dniroboczeprzepracowanestat++;
+                       }
+                   }
+               }
+               godzinyobecnoscirobocze = godzinyobecnoscirobocze+godzinyobecnosciroboczezm;
+               double stawkadziennazm = Z.z4(skladnikistale / godzinyroboczewmiesiacu);
+               sredniadopodstawystale = sredniadopodstawystale + Z.z(stawkadziennazm * godzinyobecnosciroboczezm);
+               boolean skladnikstaly = true;
+               Sredniadlanieobecnosci srednia = new Sredniadlanieobecnosci(kalendarz.getRok(), kalendarz.getMc(), sredniadopodstawystale, skladnikstaly, naliczenienieobecnosc, godzinyobecnosciroboczezm,
+                       naliczenieskladnikawynagrodzenia.getGodzinyfaktyczne(), naliczenieskladnikawynagrodzenia.getDnifaktyczne(), naliczenieskladnikawynagrodzenia.getGodzinynalezne(), naliczenieskladnikawynagrodzenia.getDninalezne(), 0.0);
+               naliczenienieobecnosc.getSredniadlanieobecnosciList().add(srednia);
+           }
+
+           naliczenienieobecnosc.setSkladnikistale(sredniadopodstawystale);
+           naliczenienieobecnosc.setSredniazailemcy(1);
+           naliczenienieobecnosc.setSumakwotdosredniej(sredniadopodstawystale);
+           naliczenienieobecnosc.setSumagodzindosredniej(godzinyobecnoscirobocze);
+       } else if (naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getStale0zmienne1()==true) {
+             /* nie bedzie tego bo srednia ze zmiennych jest brana z poprzednich miesiecy, a tu ich nie ma*/
+       }
+        if (kalendarze.size()>1) {
+            sredniadopodstawyzmienne = 0.0;
             for (Kalendarzmiesiac p : kalendarze) {
                 if (!p.equals(kalendarz)) {
                     if (p.czyjestchoroba()) {
                         int ilemcy = Mce.odlegloscMcy(p.getMc(), p.getRok(), kalendarz.getMc(), kalendarz.getRok());
                         if (ilemcy <= 3) {
-                            sredniadopodstawy = p.pobierzPodstaweNieobecnosc(nieobecnosc);
+                            sredniadopodstawyzmienne = p.pobierzPodstaweNieobecnosc(nieobecnosc);
                         }
                     }
                 }
-                if (sredniadopodstawy!=0.0) {
+                if (sredniadopodstawyzmienne!=0.0) {
                     double dniroboczeprzepracowanezm = 0.0;
                     double godzinyobecnosciroboczezm = 0.0;
                     int dzienodzmienna = DataBean.dataod(Data.pierwszyDzien(kalendarz.getRok(), kalendarz.getMc()), kalendarz.getRok(), kalendarz.getMc());
@@ -522,13 +524,13 @@ public class KalendarzmiesiacBean {
                         }
                     }
                     boolean skladnikstaly = false;
-                    Sredniadlanieobecnosci srednia = new Sredniadlanieobecnosci(kalendarz.getRok(), kalendarz.getMc(), sredniadopodstawy, skladnikstaly, naliczenienieobecnosc, godzinyobecnosciroboczezm,
+                    Sredniadlanieobecnosci srednia = new Sredniadlanieobecnosci(kalendarz.getRok(), kalendarz.getMc(), sredniadopodstawyzmienne, skladnikstaly, naliczenienieobecnosc, godzinyobecnosciroboczezm,
                             naliczenieskladnikawynagrodzenia.getGodzinyfaktyczne(), naliczenieskladnikawynagrodzenia.getDnifaktyczne(), naliczenieskladnikawynagrodzenia.getGodzinynalezne(), naliczenieskladnikawynagrodzenia.getDninalezne(), 0.0);
                     naliczenienieobecnosc.getSredniadlanieobecnosciList().add(srednia);
                 }
             }
             //idziemy dalej jak nie bylo choroby w ciagu ostatnich 3 mcy
-            if (sredniadopodstawy==0.0) {
+            if (sredniadopodstawyzmienne==0.0) {
                 double i = 0.0;
                 for (Iterator<Kalendarzmiesiac> it = kalendarze.iterator();it.hasNext();) {
                     Kalendarzmiesiac kalendarzdosredniej = it.next();
@@ -562,7 +564,7 @@ public class KalendarzmiesiacBean {
                         boolean skladnikstaly = false;
                         boolean pominiety = true;
                         if (!kalendarzdosredniej.equals(kalendarz)) {
-                            Sredniadlanieobecnosci srednia = new Sredniadlanieobecnosci(kalendarzdosredniej.getRok(), kalendarzdosredniej.getMc(), sredniadopodstawy, skladnikstaly, naliczenienieobecnosc, pominiety, godzinyprzepracowane, dniprzepracowane, godzinyrobocze, dnirobocze);
+                            Sredniadlanieobecnosci srednia = new Sredniadlanieobecnosci(kalendarzdosredniej.getRok(), kalendarzdosredniej.getMc(), sredniadopodstawyzmienne, skladnikstaly, naliczenienieobecnosc, pominiety, godzinyprzepracowane, dniprzepracowane, godzinyrobocze, dnirobocze);
                             naliczenienieobecnosc.getSredniadlanieobecnosciList().add(srednia);
                         }
                         it.remove();
@@ -623,23 +625,23 @@ public class KalendarzmiesiacBean {
                             naliczenienieobecnosc.getSredniadlanieobecnosciList().add(srednia);
                             double suma = zwrot2+zwrot2zwalor;
                             if (suma>0.0) {
-                                sredniadopodstawy = Z.z(sredniadopodstawy+zwrot2+zwrot2zwalor);
+                                sredniadopodstawyzmienne = Z.z(sredniadopodstawyzmienne+zwrot2+zwrot2zwalor);
                                 i++;
                             }
                         }
                     }
                 }
-                naliczenienieobecnosc.setSumakwotdosredniej(sredniadopodstawy);
+                naliczenienieobecnosc.setSumakwotdosredniej(sredniadopodstawyzmienne);
 //                naliczenienieobecnosc.setSumagodzindosredniej(godzinyfaktyczne);
-                naliczenienieobecnosc.setSkladnikizmiennesrednia(sredniadopodstawy);
+                naliczenienieobecnosc.setSkladnikizmiennesrednia(sredniadopodstawyzmienne);
 //                naliczenienieobecnosc.setStawkadzienna(Z.z(kwotywyplacone/dnifaktyczne));
 //                naliczenienieobecnosc.setStawkagodzinowa(stawkazagodzine);
                 if (i>0) {
-                    sredniadopodstawy = Z.z(sredniadopodstawy/i);
+                    sredniadopodstawystale = Z.z(sredniadopodstawyzmienne/i);
                 }
             }
         }
-        
+        sredniadopodstawy = Z.z(sredniadopodstawystale+sredniadopodstawyzmienne);
         /***************************/
        
         return sredniadopodstawy;

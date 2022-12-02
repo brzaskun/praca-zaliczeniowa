@@ -11,7 +11,7 @@
         <p:dataTable id="datalist2" value="#{pasekwynagrodzenView.lista}" var="itempasek" emptyMessage="Brak listy za dany okres"
                      selectionMode="single" selection="#{pasekwynagrodzenView.selectedlista}" rowIndexVar="indexpasek"
                      rowKey="#{itempasek.kalendarzmiesiac.hashCode()}" sortBy="#{itempasek.kalendarzmiesiac.angaz.pracownik.nazwiskoImie}"
-                     style="height: 450px; overflow-y: scroll;width: 1400px;"
+                     style="height: 430px; overflow-y: scroll;width: 1450px;"
                      >
             <p:column width="20" style="text-align: center;">
                 <p:rowToggler rendered="#{itempasek.pobierzskladniki.size() gt 0}"/>
@@ -161,13 +161,16 @@
             <p:rowExpansion>
                 <p:dataTable id="datalist1" value="#{itempasek.pobierzskladniki}" var="itempasekszcz"
                              rowIndexVar="indexpasekszcz"
-                             style="height: 200px; overflow-y: scroll;width: 1370px;"
+                             style="height: 200px; overflow-y: scroll;width: 1420px;"
                              >
                     <p:column style="text-align: center;" headerText="lp" width="40">
                         <h:outputText value="#{itempasekszcz.lp}"/>
                     </p:column>
                     <p:column headerText="kod" width="25" style="text-align: center;">
                         <h:outputText value="#{itempasekszcz.kod}"/>
+                    </p:column>
+                    <p:column headerText="zus" width="25" style="text-align: center;">
+                        <h:outputText value="#{itempasekszcz.kodzus}"/>
                     </p:column>
                     <p:column headerText="składnik" width="320">
                         <h:outputText value="#{itempasekszcz.nazwa}"/>

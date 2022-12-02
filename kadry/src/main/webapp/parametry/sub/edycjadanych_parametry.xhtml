@@ -396,7 +396,7 @@
                 <h:form id="RodzajeNieobecnosciForm">
                     <p:dataTable id="datalistn" value="#{rodzajenieobecnosciView.lista}" var="item13roz"
                                  selectionMode="single" selection="#{rodzajenieobecnosciView.selectedlista}"
-                                 rowKey="#{item13roz.id}" rowIndexVar="yndexvar"
+                                 rowKey="#{item13roz.id}" rowIndexVar="yndexvar" sortBy="#{item13roz.kolejnosc}"
                                  scrollable="true" scrollHeight="750" scrollRows="30" 
                                  style=" width: 850px;"
                                  >
@@ -413,7 +413,7 @@
                             </f:facet>
                             <h:outputText value="#{item13roz.kod}"/>
                         </p:column>
-                        <p:column width="50" style="text-align: center;"  sortOrder="asc" sortBy="#{item13roz.kolejnosc}" filterBy="#{item13roz.kolejnosc}" filterMatchMode="contains">
+                        <p:column width="50" style="text-align: center;"  sortOrder="asc" sortBy="#{item13roz.kolejnosc}" filterBy="#{item13roz.kolejnosc}" filterMatchMode="contains" sortable="true" sortPriority="1">
                             <f:facet name="header">
                                 <h:outputText value="kol."/>
                             </f:facet>

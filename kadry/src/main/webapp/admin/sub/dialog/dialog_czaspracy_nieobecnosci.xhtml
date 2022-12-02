@@ -122,11 +122,17 @@
                             </f:facet>
                             <h:outputText value="#{indexn+1}" style="height: 20px;"/>
                         </p:column>
-                        <p:column width="50" filterBy="#{itemNieob.rodzajnieobecnosci.kod}" filterMatchMode="startsWith"  sortBy="#{itemNieob.rodzajnieobecnosci.kod}" sortOrder="desc">
+                        <p:column width="50" filterBy="#{itemNieob.rodzajnieobecnosci.kod}" filterMatchMode="startsWith"  sortBy="#{itemNieob.rodzajnieobecnosci.kod}" sortOrder="desc" style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="kod"/>
                             </f:facet>
                             <h:outputText value="#{itemNieob.rodzajnieobecnosci.kod}" style="color: #{nieobecnoscView.kolornieobecnosci(itemNieob)};"/>
+                        </p:column>
+                        <p:column width="50" filterBy="#{itemNieob.swiadczeniekodzus.kod}" filterMatchMode="startsWith"  sortBy="#{itemNieob.swiadczeniekodzus.kod}" sortOrder="desc" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="ZUS"/>
+                            </f:facet>
+                            <h:outputText value="#{itemNieob.swiadczeniekodzus.kod}" style="color: #{nieobecnoscView.kolornieobecnosci(itemNieob)};"/>
                         </p:column>
                         <p:column width="200" filterBy="#{itemNieob.rodzajnieobecnosci.opis}" filterMatchMode="contains">
                             <f:facet name="header">
