@@ -30,7 +30,7 @@
                         </p:panelGrid>
                         <p:dataTable id="datalist" value="#{pracownikNieobecnoscView.urlopprezentacja.nieobecnoscwykorzystanieList}" var="urlopwykorzystanie"
                                      rowKey="#{urlopwykorzystanie.id}" emptyMessage="brak urlopu w roku bieżącym" rowIndexVar="indexurlop"
-                                     style="height: 560px;overflow-y: scroll; width: 750px; margin-left: 50px;" sortBy="#{urlopwykorzystanie.data}"
+                                     style="height: 560px;overflow-y: scroll; width: 750px; margin-left: 50px;" sortBy="#{urlopwykorzystanie.mc}"
                                      >
                             <p:column width="40" style="text-align: center;">
                                 <f:facet name="header">
@@ -38,13 +38,13 @@
                                 </f:facet>
                                 <h:outputText value="#{indexurlop+1}"/>
                             </p:column>
-                            <p:column width="40" style="text-align: center;">
+                            <p:column width="40" style="text-align: center;" groupRow="true" sortBy="#{urlopwykorzystanie.mc}">
                                 <f:facet name="header">
                                     <h:outputText value="mc"/>
                                 </f:facet>
                                 <h:outputText value="#{urlopwykorzystanie.mc}"/>
                             </p:column>
-                            <p:column width="70" style="text-align: center;" sortBy="#{urlopwykorzystanie.data}" sortOrder="asc">
+                            <p:column width="70" style="text-align: center;">
                                 <f:facet name="header">
                                     <h:outputText value="data"/>
                                 </f:facet>
@@ -234,7 +234,7 @@
                         </p:panelGrid>
                         <p:dataTable id="datalist" value="#{pracownikNieobecnoscView.chorobaprezentacja.nieobecnoscwykorzystanieList}" var="chorobawykorzystanie"
                                      rowKey="#{chorobawykorzystanie.id}" emptyMessage="brak choroby w roku bieżącym" rowIndexVar="indexchoroba"
-                                     style="height: 560px;overflow-y: scroll; width: 750px; margin-left: 50px;" sortBy="#{chorobawykorzystanie.data}"
+                                     style="height: 560px;overflow-y: scroll; width: 750px; margin-left: 50px;" sortBy="#{chorobawykorzystanie.mc}"
                                      >
                             <p:column width="40" style="text-align: center;">
                                 <f:facet name="header">
@@ -242,13 +242,13 @@
                                 </f:facet>
                                 <h:outputText value="#{indexchoroba+1}"/>
                             </p:column>
-                            <p:column width="40" style="text-align: center;">
+                            <p:column width="40" style="text-align: center;" groupRow="true" sortBy="#{chorobawykorzystanie.mc}">
                                 <f:facet name="header">
                                     <h:outputText value="mc"/>
                                 </f:facet>
                                 <h:outputText value="#{chorobawykorzystanie.mc}"/>
                             </p:column>
-                            <p:column width="70" style="text-align: center;" sortBy="#{chorobawykorzystanie.data}" sortOrder="asc">
+                            <p:column width="70" style="text-align: center;">
                                 <f:facet name="header">
                                     <h:outputText value="data"/>
                                 </f:facet>
@@ -312,7 +312,7 @@
                         </p:panelGrid>
                         <p:dataTable id="datalist" value="#{pracownikNieobecnoscView.zasilekprezentacja.nieobecnoscwykorzystanieList}" var="zasilekwykorzystanie"
                                      rowKey="#{zasilekwykorzystanie.id}" emptyMessage="brak zasiłków w roku bieżącym" rowIndexVar="indexzasilek"
-                                     style="height: 560px;overflow-y: scroll; width: 750px; margin-left: 50px;" sortBy="#{zasilekwykorzystanie.data}"
+                                     style="height: 560px;overflow-y: scroll; width: 750px; margin-left: 50px;" sortBy="#{zasilekwykorzystanie.mc}"
                                      >
                             <p:column width="40" style="text-align: center;">
                                 <f:facet name="header">
@@ -320,13 +320,13 @@
                                 </f:facet>
                                 <h:outputText value="#{indexzasilek+1}"/>
                             </p:column>
-                            <p:column width="40" style="text-align: center;">
+                            <p:column width="40" style="text-align: center;" groupRow="true" sortBy="#{zasilekwykorzystanie.mc}">
                                 <f:facet name="header">
                                     <h:outputText value="mc"/>
                                 </f:facet>
                                 <h:outputText value="#{zasilekwykorzystanie.mc}"/>
                             </p:column>
-                            <p:column width="70" style="text-align: center;" sortBy="#{zasilekwykorzystanie.data}" sortOrder="asc">
+                            <p:column width="70" style="text-align: center;">
                                 <f:facet name="header">
                                     <h:outputText value="data"/>
                                 </f:facet>
@@ -389,7 +389,7 @@
                             <p:inputNumber id="urloplp1" value="#{pracownikNieobecnoscView.oddelegowanieprezentacja.wymiarokresbiezacy}"  size="5" maxlength="3" decimalPlaces="1" decimalSeparator="," inputStyle="text-align: right"/>
                         </p:panelGrid>
                         <p:dataTable id="datalist" value="#{pracownikNieobecnoscView.oddelegowanieprezentacja.nieobecnoscwykorzystanieList}" var="oddelegowanie"
-                                     rowKey="#{chorobawykorzystanie.id}" emptyMessage="brak oddelegowania w roku bieżącym" rowIndexVar="indexoddelegowanie"
+                                     rowKey="#{oddelegowanie.id}" emptyMessage="brak oddelegowania w roku bieżącym" rowIndexVar="indexoddelegowanie"
                                      style="height: 560px;overflow-y: scroll; width: 620px; margin-left: 50px;" sortBy="#{oddelegowanie.data}"
                                      >
                             <p:column width="40" style="text-align: center;">
@@ -403,12 +403,12 @@
                                     <h:outputText value="#{oddelegowanie.mc}" />
                                 </p:column>
                             </p:headerRow>-->
-<!--                            <p:column width="40" style="text-align: center;" groupRow="true">
+                            <p:column width="40" style="text-align: center;" groupRow="true" sortBy="#{oddelegowanie.mc}">
                                 <f:facet name="header">
                                     <h:outputText value="mc"/>
                                 </f:facet>
                                 <h:outputText value="#{oddelegowanie.mc}"/>
-                            </p:column>-->
+                            </p:column>
                             <p:column width="70" style="text-align: center;" sortBy="#{oddelegowanie.data}" sortOrder="asc">
                                 <f:facet name="header">
                                     <h:outputText value="data"/>

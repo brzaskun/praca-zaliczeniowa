@@ -173,7 +173,11 @@ public class PracownikNieobecnoscView  implements Serializable {
             int razem = 0;
             for (Nieobecnoscwykorzystanie p : n.getNieobecnoscwykorzystanieList()) {
                 if (p.getMc()!=null&&p.getMc().equals(ob)) {
-                    razem = razem+(int)p.getDni();
+                    if (p.getKod().equals("Z")) {
+                        razem = razem+(int)p.getDni();
+                    } else {
+                        razem = razem+(int)p.getGodziny();
+                    }
                 }
             }
             zwrot = String.valueOf(razem);
