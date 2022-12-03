@@ -93,7 +93,7 @@ public class DataBean {
         } else if (jestwokresie<0) {
             zwrot = datakalendarza;
         } else {
-            zwrot = "2055-01-01";
+            zwrot = datakalendarza;
         }
         return zwrot;
     }

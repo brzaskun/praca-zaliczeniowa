@@ -100,35 +100,35 @@
                     <h:outputText value="umowa o pracę" rendered="#{itemBHP.umowakodzus.praca}"/>
                     <h:outputText value="umowa zlecenia" rendered="#{itemBHP.umowakodzus.zlecenie}"/>
                 </p:column>
-                <p:column width="60" style="text-align: center;" sortBy="#{itemBHP.dataszkolenierok}" sortOrder="desc">
+                <p:column width="60" style="text-align: center;" sortBy="#{itemBHP.angaz.dataszkolenierok}" sortOrder="desc">
                     <f:facet name="header">
                         <h:outputText value="szkolenie coroczne"/>
                     </f:facet>
-                    <p:inputText value="#{itemBHP.dataszkolenierok}" title="datac od"  placeholder="____-__-__" maxlength="10"/>
+                    <p:inputText value="#{itemBHP.angaz.dataszkolenierok}" title="datac od"  placeholder="____-__-__" maxlength="10"/>
                 </p:column>
-                <p:column width="60" style="text-align: center;" sortBy="#{itemBHP.dataszkolenie3lata}" sortOrder="desc">
+                <p:column width="60" style="text-align: center;" sortBy="#{itemBHP.angaz.dataszkolenie3lata}" sortOrder="desc">
                     <f:facet name="header">
                         <h:outputText value="szkolenie co 3 lata"/>
                     </f:facet>
-                    <p:inputText value="#{itemBHP.dataszkolenie3lata}" title="datac od"  placeholder="____-__-__" maxlength="10"/>
+                    <p:inputText value="#{itemBHP.angaz.dataszkolenie3lata}" title="datac od"  placeholder="____-__-__" maxlength="10"/>
                 </p:column>
-                <p:column width="60" style="text-align: center;" sortBy="#{itemBHP.dataszkolenie5lat}" sortOrder="desc">
+                <p:column width="60" style="text-align: center;" sortBy="#{itemBHP.angaz.dataszkolenie5lat}" sortOrder="desc">
                     <f:facet name="header">
                         <h:outputText value="szkolenie co 5 lat"/>
                     </f:facet>
-                    <p:inputText value="#{itemBHP.dataszkolenie5lat}" title="datac od"  placeholder="____-__-__" maxlength="10"/>
+                    <p:inputText value="#{itemBHP.angaz.dataszkolenie5lat}" title="datac od"  placeholder="____-__-__" maxlength="10"/>
                 </p:column>
                 <p:column width="60" style="text-align: center;">
                     <f:facet name="header">
                         <h:outputText value="data przypomnienia"/>
                     </f:facet>
-                    <h:outputText value="#{itemBHP.dataprzypomnieniaszkolenie}"/>
+                    <h:outputText value="#{itemBHP.angaz.dataprzypomnieniaszkolenie}"/>
                 </p:column>
                 <p:column width="60" style="text-align: center;">
                     <f:facet name="header">
                         <h:outputText value="data mail"/>
                     </f:facet>
-                    <h:outputText value="#{itemBHP.dataprzypomnieniamailszkolenie}"/>
+                    <h:outputText value="#{itemBHP.angaz.dataprzypomnieniamailszkolenie}"/>
                 </p:column>
             </p:dataTable>
                 <p:commandButton value="zapisz" styleClass="buttonnorm" actionListener="#{pracownikAlertyView.zapiszzmianybhp()}" />

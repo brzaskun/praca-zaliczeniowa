@@ -21,6 +21,9 @@
                                  style="height: 300px; overflow-y: scroll; width: 1400px; margin-top: 10px; margin-left: 10px;"
                                  emptyMessage="nie pobrano danych"
                                  >
+                <f:facet name="header">
+                    <h:outputText value="dni oddelegowania"/>
+                </f:facet>
                 <p:column headerText="pracownik" width="150" sortBy="#{itemodd.pracownik.nazwiskoImie}" sortOrder="asc" sortPriority="1">
                     <h:outputText value="#{itemodd.pracownik.nazwiskoImie}"/>
                 </p:column>
@@ -84,6 +87,9 @@
                                  style="height: 300px; overflow-y: scroll; width: 1400px; margin-top: 10px; margin-left: 10px;"
                                  emptyMessage="nie pobrano danych"
                                  >
+                <f:facet name="header">
+                    <h:outputText value="podatek niemcy"/>
+                </f:facet>
                 <p:column headerText="pracownik" width="150" sortBy="#{itemodd.pracownik.nazwiskoImie}" sortOrder="asc" sortPriority="1">
                     <h:outputText value="#{itemodd.pracownik.nazwiskoImie}"/>
                 </p:column>
@@ -147,6 +153,9 @@
                                  style="height: 300px; overflow-y: scroll; width: 1400px; margin-top: 10px; margin-left: 10px;"
                                  emptyMessage="nie pobrano danych"
                                  >
+                  <f:facet name="header">
+                    <h:outputText value="podatek niemcy"/>
+                </f:facet>
                 <p:column headerText="pracownik" width="150" sortBy="#{itemodd.pracownik.nazwiskoImie}" sortOrder="asc" sortPriority="1">
                     <h:outputText value="#{itemodd.pracownik.nazwiskoImie}"/>
                 </p:column>
@@ -211,6 +220,9 @@
                                  style="height: 300px; overflow-y: scroll; width: 900px; margin-top: 10px; margin-left: 10px;"
                                  emptyMessage="nie pobrano danych"
                                  >
+                  <f:facet name="header">
+                    <h:outputText value="rozbicie podatków"/>
+                </f:facet>
                 <p:column headerText="pracownik" width="150" sortBy="#{itemoddd.pracownik.nazwiskoImie}" sortOrder="asc" sortPriority="1">
                     <h:outputText value="#{itemoddd.pracownik.nazwiskoImie}"/>
                 </p:column>

@@ -39,10 +39,10 @@ public class Oddelegowanie implements Serializable{
     private double podatekzagranica;
     private boolean chowaj;
 
-    public Oddelegowanie(List<Kalendarzmiesiac> kalendarze, List<Pasekwynagrodzen> paski, Angaz a, String rok, String mc, List<Podatki> stawkipodatkowe) {
-        this.kalendarz = pobierzkalendarz(kalendarze, rok, mc);
+    public Oddelegowanie(Kalendarzmiesiac kalendarz, List<Pasekwynagrodzen> paski, Angaz angaz, String rok, String mc, List<Podatki> stawkipodatkowe) {
+        this.kalendarz = kalendarz;
         this.pasek = pobierzpasek(paski,rok,mc);
-        this.angaz = kalendarz.getAngaz();
+        this.angaz = angaz;
         this.rok = rok;
         this.mc = mc;
         this.liczbadni = (int) kalendarz.getDnioddelegowania();
@@ -85,16 +85,7 @@ public class Oddelegowanie implements Serializable{
         return zwrot;
     }
     
-    private Kalendarzmiesiac pobierzkalendarz(List<Kalendarzmiesiac> kalendarze, String rok, String mc) {
-        Kalendarzmiesiac zwrot = null;
-        for (Kalendarzmiesiac k : kalendarze) {
-            if (k.getRok().equals(rok)&&k.getMc().equals(mc)) {
-                zwrot = k;
-                break;
-            }
-        }
-        return zwrot;
-    }
+   
  
     private Pasekwynagrodzen pobierzpasek(List<Pasekwynagrodzen> paskizr, String rok, String mc) {
         Pasekwynagrodzen zwrot = null;

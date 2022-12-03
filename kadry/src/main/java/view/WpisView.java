@@ -121,7 +121,11 @@ public class WpisView implements Serializable {
     }
 
     public String getRokUprzedni() {
-        return rokUprzedni;
+        String zwrot = this.rokWpisu;
+        if (zwrot != null) {
+            zwrot = String.valueOf(Integer.parseInt(zwrot)-1);
+        }
+        return zwrot;
     }
 
     public void setRokUprzedni(String rokUprzedni) {

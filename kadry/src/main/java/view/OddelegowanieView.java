@@ -17,7 +17,6 @@ import entity.Kalendarzmiesiac;
 import entity.Pasekwynagrodzen;
 import entity.Podatki;
 import entity.Pracownik;
-import entity.Umowa;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,20 +55,27 @@ public class OddelegowanieView  implements Serializable {
         List<Angaz> angaze = angazFacade.findByFirma(wpisView.getFirma());
         lista = new ArrayList<>();
         List<String> lata = new ArrayList<>();
-        lata.add("2020");
-        lata.add("2021");
+        String rokbiezacy = wpisView.getRokWpisu();
+        String rokuprzedni = wpisView.getRokUprzedni();
+        String rokuprzedniuprzedni = String.valueOf(Integer.parseInt(wpisView.getRokUprzedni())-1);
+        lata.add(rokuprzedniuprzedni);
+        lata.add(rokuprzedni);
+        lata.add(rokbiezacy);
         for (Angaz a : angaze) {
             List<Kalendarzmiesiac> kalendarze = kalendarzmiesiacFacade.findByAngaz(a);
-            List<Pasekwynagrodzen> paski = new ArrayList<>();
-            for (Umowa u : a.getUmowaList()) {
-                //paski.addAll(pasekwynagrodzenFacade.findByUmowa(u));
-            }
             for (String rok : lata) {
+                List<Pasekwynagrodzen> paski = new ArrayList<>();
+                paski.addAll(pasekwynagrodzenFacade.findByRokAngaz(rok, a));
                  List<Podatki> stawkipodatkowe = podatkiFacade.findByRokUmowa(rok, "P");
-                if (Integer.parseInt(rok)>2019) {
+                if (Integer.parseInt(rok)>2020  ) {
                     for (String mc : Mce.getMceListS()) {
-                        Oddelegowanie oddelegowanie = new Oddelegowanie(kalendarze, paski, a, rok, mc, stawkipodatkowe);
-                        lista.add(oddelegowanie);
+                        Kalendarzmiesiac pobierzkalendarz = pobierzkalendarz(kalendarze, rok, mc);
+                        if (pobierzkalendarz!=null) {
+                            Oddelegowanie oddelegowanie = new Oddelegowanie(pobierzkalendarz, paski, a, rok, mc, stawkipodatkowe);
+                            if (oddelegowanie.getLiczbadni()>0) {
+                                lista.add(oddelegowanie);
+                            }
+                        }
                     }
                 }
             }
@@ -168,13 +174,24 @@ public class OddelegowanieView  implements Serializable {
             if (tabela != null) {
                 tabela2001 = new ArrayList<>();
                 for (OddelegowanieTabela p : tabela) {
-                    if (p.getRok().equals("2021")&&p.getRokmcprzekroczenia()!=null) {
+                    if (p.getRok().equals(rokbiezacy)&&p.getRokmcprzekroczenia()!=null) {
                         tabela2001.add(p);
                     }
                 }
             }
         }
         System.out.println("");
+    }
+    
+     private Kalendarzmiesiac pobierzkalendarz(List<Kalendarzmiesiac> kalendarze, String rok, String mc) {
+        Kalendarzmiesiac zwrot = null;
+        for (Kalendarzmiesiac k : kalendarze) {
+            if (k.getRok().equals(rok)&&k.getMc().equals(mc)) {
+                zwrot = k;
+                break;
+            }
+        }
+        return zwrot;
     }
 
     private OddelegowanieTabela pobierzrok(List<OddelegowanieTabela> tabela, Pracownik pracownik, String rok) {
