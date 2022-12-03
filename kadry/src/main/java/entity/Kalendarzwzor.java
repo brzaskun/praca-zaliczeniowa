@@ -128,7 +128,7 @@ public class Kalendarzwzor implements Serializable {
     }
 
      public void generujdnizglobalnego(Kalendarzwzor kalendarzglobalny) {
-        List<Dzien> dzienListGlobalny = this.getDzienList();
+        List<Dzien> dzienListGlobalny = kalendarzglobalny.getDzienList();
         Collections.sort(dzienListGlobalny, new Dziencomparator());
         List<Dzien> nowedni = new ArrayList<>();
         for (int i = 0; i < dzienListGlobalny.size(); i++) {
