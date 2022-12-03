@@ -73,6 +73,7 @@ public class PracownikNieobecnoscView  implements Serializable {
     private Nieobecnoscprezentacja urlopprezentacja;
     private Nieobecnoscprezentacja chorobaprezentacja;
     private Nieobecnoscprezentacja zasilekprezentacja;
+    private Nieobecnoscprezentacja oddelegowanieprezentacja;
     @Inject
     private KalendarzmiesiacFacade kalendarzmiesiacFacade;
     private String stannadzien;
@@ -94,6 +95,7 @@ public class PracownikNieobecnoscView  implements Serializable {
                 pobierzurlop();
                 pobierzchoroba();
                 pobierzzasilek();
+                pobierzoddelegowanie();
                 wspolczynnikEkwiwalent = wspolczynnikEkwiwalentFacade.findbyRok(wpisView.getRokWpisu());
             }
         } catch (Exception e){}
@@ -126,6 +128,17 @@ public class PracownikNieobecnoscView  implements Serializable {
             Msg.msg("Pobrano dane urlopowe");
         }
     }
+    public void pobierzoddelegowanie() {
+        if (wpisView.getPracownik()!=null) {
+            oddelegowanieprezentacja = new Nieobecnoscprezentacja(wpisView.getAngaz(), wpisView.getRokWpisu());  
+            List<Kalendarzmiesiac> kalendarze = kalendarzmiesiacFacade.findByRokAngaz(wpisView.getAngaz(), wpisView.getRokWpisu());
+            oddelegowanieprezentacja.setNieobecnoscwykorzystanieList(naniesdnizkodem(kalendarze, oddelegowanieprezentacja, "Z"));
+            List<Umowa> umowy = umowaFacade.findByAngaz(wpisView.getAngaz());
+            oddelegowanieprezentacja.setWymiarokresbiezacy(obliczwymiarwgodzinach(umowy, wpisView.getAngaz().pobierzetat(stannadzien)));
+            oddelegowanieprezentacja.setDoprzeniesienia(oddelegowanieprezentacja.getWymiarokresbiezacy()-oddelegowanieprezentacja.getWykorzystanierokbiezacy()-oddelegowanieprezentacja.getWykorzystanierokbiezacyekwiwalent());
+            Msg.msg("Pobrano oddelegowania");
+        }
+    }
     
     public void pobierzchoroba() {
         if (wpisView.getPracownik()!=null) {
@@ -153,10 +166,24 @@ public class PracownikNieobecnoscView  implements Serializable {
             Msg.msg("Pobrano dni zasiłkowe");
         }
     }
+     
+    public String sumujdni(String ob, Nieobecnoscprezentacja n) {
+        String zwrot = "";
+        if (ob!=null) {
+            int razem = 0;
+            for (Nieobecnoscwykorzystanie p : n.getNieobecnoscwykorzystanieList()) {
+                if (p.getMc()!=null&&p.getMc().equals(ob)) {
+                    razem = razem+(int)p.getDni();
+                }
+            }
+            zwrot = String.valueOf(razem);
+        } 
+        return zwrot;
+    }
     
     private List<Nieobecnoscwykorzystanie> naniesdnizkodem(List<Kalendarzmiesiac> kalendarze, Nieobecnoscprezentacja urlopprezentacja, String kod) {
         List<Nieobecnoscwykorzystanie> lista = new ArrayList<>();
-        Nieobecnoscwykorzystanie wykorzystaniesuma = new Nieobecnoscwykorzystanie("podsumowanie",0);
+        Nieobecnoscwykorzystanie wykorzystaniesuma = new Nieobecnoscwykorzystanie("podsum.",0);
         for (Kalendarzmiesiac p : kalendarze) {
             for (Dzien r : p.getDzienList()) {
                 if (r.getNieobecnosc()!=null) {
@@ -175,6 +202,9 @@ public class PracownikNieobecnoscView  implements Serializable {
                         }
                         if (kod.equals("ZC")) {
                             wykorzystanie.setGodziny((int) r.getZasilek());
+                        }
+                        if (kod.equals("Z")) {
+                            wykorzystanie.setGodziny((int) r.getPrzepracowano());
                         }
                         wykorzystanie.setUrlopprezentacja(urlopprezentacja);
                         EtatPrac pobierzetat = p.getAngaz().pobierzetat(wykorzystanie.getData());
@@ -196,6 +226,9 @@ public class PracownikNieobecnoscView  implements Serializable {
             urlopprezentacja.setWykorzystanierokbiezacy((int) wykorzystaniesuma.getDni());
         }
         if (kod.equals("ZC")) {
+            urlopprezentacja.setWykorzystanierokbiezacy((int) wykorzystaniesuma.getDni());
+        }
+        if (kod.equals("Z")) {
             urlopprezentacja.setWykorzystanierokbiezacy((int) wykorzystaniesuma.getDni());
         }
         lista.add(wykorzystaniesuma);
@@ -493,6 +526,14 @@ public class PracownikNieobecnoscView  implements Serializable {
 
     public void setWybranyetat(EtatPrac wybranyetat) {
         this.wybranyetat = wybranyetat;
+    }
+
+    public Nieobecnoscprezentacja getOddelegowanieprezentacja() {
+        return oddelegowanieprezentacja;
+    }
+
+    public void setOddelegowanieprezentacja(Nieobecnoscprezentacja oddelegowanieprezentacja) {
+        this.oddelegowanieprezentacja = oddelegowanieprezentacja;
     }
 
     
