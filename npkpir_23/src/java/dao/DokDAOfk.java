@@ -8,6 +8,7 @@ import embeddable.Kwartaly;
 import entity.Klienci;
 import entity.Podatnik;
 import entityfk.Dokfk;
+import entityfk.EVatwpisFK;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -219,11 +220,34 @@ public class DokDAOfk extends DAO implements Serializable {
     
   
     public Dokfk findDokfkObj(Dokfk selected) {
+       Dokfk zwrot = null;
        try {
-           return sessionFacade.findDokfk(selected);
+            zwrot =  (Dokfk)  getEntityManager().createNamedQuery("Dokfk.findByDokEdycjaFK")
+                    .setParameter("seriadokfk", selected.getSeriadokfk())
+                    .setParameter("rok", selected.getRok())
+                    .setParameter("podatnikObj", selected.getPodatnikObj())
+                    .setParameter("numerwlasnydokfk", selected.getNumerwlasnydokfk())
+                    .setParameter("kontrahent", selected.getKontr())
+                    .getSingleResult();
        } catch (Exception e ){
            return null;
        }
+       return zwrot;
+    }
+    
+    public Dokfk findDokfkObjRK(EVatwpisFK ewidencjaVatRK) {
+       Dokfk zwrot = null;
+       try {
+            zwrot =  (Dokfk)  getEntityManager().createNamedQuery("Dokfk.findByDokEdycjaFKRK")
+                    .setParameter("rok", ewidencjaVatRK.getDokfk().getRok())
+                    .setParameter("podatnikObj", ewidencjaVatRK.getDokfk().getPodatnikObj())
+                    .setParameter("numerwlasnydokfk", ewidencjaVatRK.getNumerwlasnydokfk())
+                    .setParameter("kontrahent", ewidencjaVatRK.getKontr())
+                    .getSingleResult();
+       } catch (Exception e ){
+           return null;
+       }
+       return zwrot;
     }
     
      public Dokfk findDokfkSzcz(String seria, String rok, Podatnik podatnik, String nrwlasny, Klienci klient) {

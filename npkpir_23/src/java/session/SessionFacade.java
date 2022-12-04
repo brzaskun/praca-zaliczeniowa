@@ -318,20 +318,7 @@ public class SessionFacade<T> implements Serializable {
 //    public List<Wiersze> findWierszefkRozrachunki(String podatnik, String kontonumer) {
 //        return  getEntityManager().createNamedQuery("Wiersz.findByRozrachunki1").setParameter("podatnik", podatnik).getResultList());
 //    }
-    public Dokfk findDokfk(Dokfk selected) {
-        try {
-            return (Dokfk)  getEntityManager().createNamedQuery("Dokfk.findByDokEdycjaFK")
-                    .setParameter("seriadokfk", selected.getSeriadokfk())
-                    .setParameter("rok", selected.getRok())
-                    .setParameter("podatnikObj", selected.getPodatnikObj())
-                    .setParameter("numerwlasnydokfk", selected.getNumerwlasnydokfk())
-                    .setParameter("kontrahent", selected.getKontr())
-                    .getSingleResult();
-        } catch (Exception e) {
-            E.e(e);
-            return null;
-        }
-    }
+    
     
   
     public Dokfk findDokfkObject(Dokfk selected) {

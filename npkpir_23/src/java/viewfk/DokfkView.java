@@ -1479,6 +1479,34 @@ public class DokfkView implements Serializable {
         }
     }
     
+    public void znajdzduplicatdokumentuRK(EVatwpisFK ewidencjaVatRK) {
+        //uruchamiaj tylko jak jest wpisywanie a nie edycja
+        if (ewidencjaVatRK != null) {
+                Dokfk dokument = null;
+                try {
+                    dokument = dokDAOfk.findDokfkObjRK(ewidencjaVatRK);
+                } catch (Exception e) {
+                    E.e(e);
+                }
+                if (dokument != null) {
+                    Msg.msg("e", "Bład, dokument o takim numerze juz istnieje");
+                    ewidencjaVatRK.setOpisvat("Uwaga DUPLIKAT! Księgi");
+                    PrimeFaces.current().ajax().update("ewidencjavatRK:opisvat");
+                } 
+                EVatwpisFK ewidencja = null;
+                try {
+                    ewidencja = eVatwpisFKDAO.findEwidencja(ewidencjaVatRK);
+                } catch (Exception e) {
+                    E.e(e);
+                }
+                if (ewidencja != null) {
+                    Msg.msg("e", "Bład, dokument o takim numerze juz istnieje");
+                    ewidencjaVatRK.setOpisvat("Uwaga DUPLIKAT! RK");
+                    PrimeFaces.current().ajax().update("ewidencjavatRK:opisvat");
+                } 
+        }
+    }
+    
     public void resetujnumer() {
         wlaczZapiszButon = true;
         komunikatywpisdok = null;
