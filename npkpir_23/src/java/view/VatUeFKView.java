@@ -877,6 +877,14 @@ public class VatUeFKView implements Serializable {
         return lista;
     }
 
+    public void usunpozycje(VatUe vatUe) {
+        if (vatUe!=null) {
+            klienciWDTWNT.remove(vatUe);
+            Msg.msg("Usunieto pozycję");
+        } else {
+            Msg.msg("e","nie wybrano pozycji");
+        }
+    }
     
 
     public WpisView getWpisView() {

@@ -270,6 +270,10 @@
             <from-outcome>importmatacz2</from-outcome>
             <to-view-id>/ksiegowa/ksiegowaImportMatacz2.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
+        <navigation-case>
+            <from-outcome>importmataczxml</from-outcome>
+            <to-view-id>/ksiegowa/ksiegowaImportMataczXML.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
          <navigation-case>
             <from-outcome>importmelka</from-outcome>
             <to-view-id>/ksiegowa/ksiegowaImportMelka.xhtml?faces-redirect=true</to-view-id>

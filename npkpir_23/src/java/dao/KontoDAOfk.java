@@ -288,7 +288,7 @@ public class KontoDAOfk extends DAO implements Serializable {
 
     public List<Konto> findWszystkieKontaPodatnikaPobierzRelacje(Podatnik podatnik, String rok) {
         try {
-             LoadGroup lg = new LoadGroup();
+            LoadGroup lg = new LoadGroup();
             lg.addAttribute("kontomacierzyste");
             lg.setIsConcurrent(Boolean.TRUE);
             return  getEntityManager().createNamedQuery("Konto.findByPodatnikRok").setParameter("podatnik", podatnik).setParameter("rok", Integer.parseInt(rok))

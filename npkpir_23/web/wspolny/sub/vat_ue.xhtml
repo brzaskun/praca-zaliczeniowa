@@ -51,7 +51,7 @@
                               rowKey="#{wpis1.id}" selection="#{vatUeFKView.listawybranych}"
                               emptyMessage="#{vatUeFKView.komunikat}"
                               sortBy="#{wpis1.kontrahent.npelna}" styleClass="upd1"
-                              style="height: 400px;overflow-y: scroll;width: 1280px;" widgetVar="dokTable" 
+                              style="height: 400px;overflow-y: scroll;width: 1300px;" widgetVar="dokTable" 
                               > 
                     <f:facet name="header">  
                         <h:outputText value="#{vatUeFKView.opisvatuepkpir}" /> 
@@ -108,6 +108,9 @@
                          <h:outputText value="#{wpis1.vies.wynikVies}" rendered="#{wpis1.transakcja eq 'podsum.' ? false : true}"
                                        style="#{wpis1.vies.identyfikatorsprawdzenia eq null or wpis1.vies.uwagi ne null ? 'color: red;':'color: green;'}">
                         </h:outputText>
+                    </p:column>
+                     <p:column id="del" style="width: 30px; text-align: center;">  
+                         <p:commandButton icon="fa fa-trash" actionListener="#{vatUeFKView.usunpozycje(wpis1)}" update="@parent:@parent"/>
                     </p:column>
                     
                     <p:rowExpansion>
