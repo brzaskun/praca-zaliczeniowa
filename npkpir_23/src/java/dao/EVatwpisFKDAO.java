@@ -173,7 +173,11 @@ public class EVatwpisFKDAO  extends DAO implements Serializable{
 
 
     public String findEVatwpisFKPodatnikKlient(Podatnik podatnikObiekt, Klienci klient, String rok) {
-        return ((EVatwpisFK)  getEntityManager().createNamedQuery("EVatwpisFK.findEVatwpisFKPodatnikKlient").setParameter("podatnik", podatnikObiekt).setParameter("klient", klient).setParameter("rok", rok).setMaxResults(1).getSingleResult()).getOpisvat();
+        String zwrot = null;
+        try {
+            zwrot = ((EVatwpisFK)  getEntityManager().createNamedQuery("EVatwpisFK.findEVatwpisFKPodatnikKlient").setParameter("podatnik", podatnikObiekt).setParameter("klient", klient).setParameter("rok", rok).setMaxResults(1).getSingleResult()).getOpisvat();
+        } catch (Exception e){}
+        return zwrot;
     }
     
     public List<EVatwpisFK> zwrocRok(String rokWpisuSt) {
