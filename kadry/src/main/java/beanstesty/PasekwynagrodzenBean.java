@@ -856,7 +856,7 @@ public class PasekwynagrodzenBean {
     }
 
     private static void naliczzdrowota(Pasekwynagrodzen pasek, boolean nierezydent, boolean praca) {
-        double spolecznepodstawa = Z.z(pasek.getPodstawaskladkizus()-pasek.getRazemspolecznepracownik());
+        double spolecznepodstawa = Z.z(pasek.getPodstawaskladkizus()+pasek.getBruttobezzusbezpodatek()-pasek.getRazemspolecznepracownik());
         double podstawazdrowotna = Z.z(spolecznepodstawa) > 0.0 ? Z.z(spolecznepodstawa) :0.0;
         //usuwamy z podstawy zasilki chorobowe
         List<Naliczenienieobecnosc> nieobecnoscilist = pasek.getNaliczenienieobecnoscList();
