@@ -409,7 +409,7 @@ public class KalendarzmiesiacBean {
                 double skladnikistalenetto = sredniadopodstawy-(sredniadopodstawy*.1371);
                 double skladnikistaledoredukcji = naliczenieskladnikawynagrodzenia.getKwotaumownazacalymc();
                 naliczenienieobecnosc.setSkladnikistale(skladnikistalenetto);
-                double procentzazwolnienie = Z.z(nieobecnosc.getZwolnienieprocent()/100);
+                double procentzazwolnienie = Z.z(nieobecnosc.getZwolnienieprocent()/nieobecnosc.getZwolnienieprocent());
                 naliczenienieobecnosc.setProcentzazwolnienie(procentzazwolnienie);
                 double stawkadzienna = Z.z(skladnikistalenetto/30)*procentzazwolnienie;
                 naliczenienieobecnosc.setStawkadzienna(stawkadzienna);
