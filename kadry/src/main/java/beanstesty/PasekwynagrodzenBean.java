@@ -818,7 +818,7 @@ public class PasekwynagrodzenBean {
         //usuwamy z podstawy zasilki chorobowe
         List<Naliczenienieobecnosc> nieobecnoscilist = pasek.getNaliczenienieobecnoscList();
         for (Naliczenienieobecnosc n : nieobecnoscilist) {
-            if (n.getNieobecnosc().getSwiadczeniekodzus().isZdrowotne()==false) {
+            if (n.getNieobecnosc().getSwiadczeniekodzus()!=null&&n.getNieobecnosc().getSwiadczeniekodzus().isZdrowotne()==false) {
                 podstawazdrowotna = Z.z(podstawazdrowotna-n.getKwota());
             }
         }
