@@ -10,9 +10,13 @@
     <p:dialog id="dialogkartawynagrodzen" header="Karta wynagrodzeń" widgetVar="dialogkartawynagrodzen"  
               resizable="false"  onShow="ustawdialog('dialogkartawynagrodzen','centertile',1650,800);" closeOnEscape="true" onHide="resetujdialog('dialogkartawynagrodzen');" 
               fitViewport="true">
-        <p:ajax event="open" listener="#{kartaWynagrodzenView.init()}" update="KartyWynangrodzenListForm" global="false"/>
+        <p:ajax event="open" listener="#{kartaWynagrodzenView.pobierzdane(wpisView.angaz)}" update="KartyWynangrodzenListForm" global="false"/>
         <p:outputPanel>
             <h:form id="KartyWynangrodzenListForm">
+                <p:panelGrid columns="1">
+                    <h:outputText value="pracownik"/>
+                    <h:outputText value="#{wpisView.pracownik.nazwiskoImie}"/>
+                </p:panelGrid>
                 <p:dataTable id="datalist" value="#{kartaWynagrodzenView.kartawynagrodzenlist}" var="itemkarta"
                              rowKey="#{itemkarta.id}" sortBy="#{itemkarta.mc}" rowIndexVar="indexka"
                              style="height: 450px; overflow-y: scroll;" emptyMessage="Nie pobrano danych"

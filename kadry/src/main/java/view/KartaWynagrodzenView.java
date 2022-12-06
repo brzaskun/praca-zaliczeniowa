@@ -69,17 +69,17 @@ public class KartaWynagrodzenView  implements Serializable {
 
     
     public void init() {
-        pobierzdane();
+        pobierzdane(wpisView.getAngaz());
         pobierzdaneAll();
         listaPIT11 = deklaracjaPIT11SchowekFacade.findByRokFirma(wpisView.getRokWpisu(), wpisView.getFirma());
     }
 
         
        
-    public void pobierzdane() {
-        if (wpisView.getAngaz()!=null) {
-            kartawynagrodzenlist = pobierzkartywynagrodzen(wpisView.getAngaz(), wpisView.getRokWpisu());
-            aktualizujdane(kartawynagrodzenlist, wpisView.getRokWpisu(), wpisView.getAngaz());
+    public void pobierzdane(Angaz angaz) {
+        if (angaz!=null) {
+            kartawynagrodzenlist = pobierzkartywynagrodzen(angaz, wpisView.getRokWpisu());
+            aktualizujdane(kartawynagrodzenlist, wpisView.getRokWpisu(), angaz);
             Msg.msg("Pobrano dane wynagrodzeń");
         }
     }

@@ -758,16 +758,16 @@ public class PasekwynagrodzenBean {
         }
         pasek.setPodatekwstepnyhipotetyczny(podatek);
         pasek.setPodatekwstepny(0.0);
-        double roznicadoopodatkowania = podstawaopodatkowaniaPodatek-limit26;
+        double roznicadoopodatkowania = podstawaopodatkowaniaPodatek+sumapoprzednich-limit26;
+        double sumadladrugiegoprogu = sumapoprzednich+podstawaopodatkowania-roznicadoopodatkowania;
         if (roznicadoopodatkowania>0.0) {
-            obliczpodatekwstepnyDB26Przekroczenie(pasek, podstawaopodatkowania, stawkipodatkowe, sumapoprzednich, limit26);
+            obliczpodatekwstepnyDB26Przekroczenie(pasek, roznicadoopodatkowania, stawkipodatkowe, sumadladrugiegoprogu);
         }
     }
     
-    private static void obliczpodatekwstepnyDB26Przekroczenie(Pasekwynagrodzen pasek, double podsatwazwolniona, List<Podatki> stawkipodatkowe, double sumapoprzednich, double limit26) {
-        double podstawaopodatkowaniaponadlimit = limit26-(sumapoprzednich+podsatwazwolniona);
+    private static void obliczpodatekwstepnyDB26Przekroczenie(Pasekwynagrodzen pasek, double podstawaopodatkowaniaponadlimit, List<Podatki> stawkipodatkowe, double sumapoprzednich) {
         double podatek = Z.z(Z.z0(podstawaopodatkowaniaponadlimit)*stawkipodatkowe.get(0).getStawka());
-        double drugiprog = stawkipodatkowe.get(0).getKwotawolnado()-limit26;
+        double drugiprog = stawkipodatkowe.get(0).getKwotawolnado();
         if (sumapoprzednich>=drugiprog) {
             podatek = Z.z(Z.z0(podstawaopodatkowaniaponadlimit)*stawkipodatkowe.get(1).getStawka());
             pasek.setDrugiprog(true);
@@ -1110,8 +1110,11 @@ public class PasekwynagrodzenBean {
     public static double sumapodstawaopodpopmce(PasekwynagrodzenFacade pasekwynagrodzenFacade, Kalendarzmiesiac p, double prog) {
         List<Pasekwynagrodzen> paskipodatnika = pasekwynagrodzenFacade.findByRokAngaz(p.getRok(), p.getAngaz());
         double suma = 0.0;
+        int mckalendarza = p.getMcI();
         for (Pasekwynagrodzen r : paskipodatnika) {
-            suma = suma+r.getPodstawaopodatkowania();
+            if (r.getMcI()<=mckalendarza) {
+                suma = suma+r.getPodstawaopodatkowania();
+            }
         }
         return suma;
     }

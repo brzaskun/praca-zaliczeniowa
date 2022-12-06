@@ -948,6 +948,15 @@ public class Pasekwynagrodzen implements Serializable {
         return mc;
     }
 
+    
+    public Integer getMcI() {
+        Integer zwrot = -1;
+        if (this.mc!=null) {
+            zwrot = Integer.parseInt(this.mc);
+        }
+        return zwrot;
+    }
+    
     public void setMc(String mc) {
         this.mc = mc;
     }
