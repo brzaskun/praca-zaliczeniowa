@@ -49,6 +49,8 @@ public class UpdateClassView   implements Serializable {
     private EtatView etatView;
     @Inject
     private SkladnikPotraceniaView skladnikPotraceniaView;
+    @Inject
+    private PracownikNieobecnoscView pracownikNieobecnoscView;
 
 
     public void updateRok(){
@@ -70,6 +72,7 @@ public class UpdateClassView   implements Serializable {
     public void updateUmowaPlace(){
         kalendarzmiesiacView.init();
         nieobecnoscView.init();
+        pracownikNieobecnoscView.init();
     }
     
 }
