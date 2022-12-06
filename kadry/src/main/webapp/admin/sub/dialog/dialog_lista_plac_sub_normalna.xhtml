@@ -11,7 +11,7 @@
         <p:dataTable id="datalist1" value="#{pasekwynagrodzenView.lista}" var="itempasek" emptyMessage="Brak listy za dany okres"
                      selectionMode="single" selection="#{pasekwynagrodzenView.selectedlista}" rowIndexVar="indexpasek"
                      rowKey="#{itempasek.kalendarzmiesiac.hashCode()}" sortBy="#{itempasek.kalendarzmiesiac.angaz.pracownik.nazwiskoImie}"
-                     style="height: 430px; overflow-y: scroll;width: 1450px;"
+                     style="height: 430px; overflow-y: scroll;"
                      >
             <p:column width="20" style="text-align: center;">
                 <p:rowToggler rendered="#{itempasek.pobierzskladniki.size() gt 0}"/>
@@ -27,6 +27,9 @@
                         </p:column>
                         <p:column>
                             <h:outputText value="brutto z zus"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="brutto bez społ."/>
                         </p:column>
                         <p:column>
                             <h:outputText value="brutto bez zus"/>
@@ -72,6 +75,9 @@
                         </p:column>
                         <p:column>
                             <bcf:outputpl value="#{itempasek.bruttozus}" />
+                        </p:column>
+                        <p:column>
+                            <bcf:outputpl value="#{itempasek.bruttobezspolecznych}" />
                         </p:column>
                         <p:column>
                             <bcf:outputpl value="#{itempasek.bruttobezzus}"/>
@@ -124,9 +130,9 @@
                         <p:column>
                             <h:outputText value="#{itempasek.rok}/#{itempasek.mc}"/>
                         </p:column>
-                        <p:column>
+<!--                        <p:column>
                             <h:outputText value="ulga dla kl.sr"/>
-                        </p:column>
+                        </p:column>-->
                         <p:column>
                             <h:outputText value="podstawa opodatk."/>
                         </p:column>
@@ -167,9 +173,9 @@
                             <h:outputText value="#{itempasek.nazwiskoImie}"/>
                         </p:column>
                         
-                        <p:column>
+<!--                        <p:column>
                             <bcf:outputpl value="#{itempasek.ulgadlaklasysredniejSuma}"/>
-                        </p:column>
+                        </p:column>-->
                         <p:column>
                             <bcf:outputpl value="#{itempasek.podstawaopodatkowania}"/>
                         </p:column>

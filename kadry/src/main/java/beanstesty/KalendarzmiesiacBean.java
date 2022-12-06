@@ -405,13 +405,14 @@ public class KalendarzmiesiacBean {
             naliczenienieobecnosc.setNieobecnosc(nieobecnosc);
             naliczenienieobecnosc.setJakiskladnikredukowalny(naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getOpispelny());
             double sredniadopodstawy = wyliczsredniachoroba(kalendarz, naliczenieskladnikawynagrodzenia, nieobecnosc, naliczenienieobecnosc);
+            double procentzazwolnienie = Z.z(nieobecnosc.getZwolnienieprocent() / 100);
+            naliczenienieobecnosc.setProcentzazwolnienie(procentzazwolnienie);
+            sredniadopodstawy = sredniadopodstawy * procentzazwolnienie;
             naliczenienieobecnosc.setPodstawadochoroby(sredniadopodstawy);
             double skladnikistalenetto = sredniadopodstawy - (sredniadopodstawy * .1371);
             double skladnikistaledoredukcji = naliczenieskladnikawynagrodzenia.getKwotaumownazacalymc();
             naliczenienieobecnosc.setSkladnikistale(skladnikistalenetto);
-            double procentzazwolnienie = Z.z(nieobecnosc.getZwolnienieprocent() / nieobecnosc.getZwolnienieprocent());
-            naliczenienieobecnosc.setProcentzazwolnienie(procentzazwolnienie);
-            double stawkadzienna = Z.z(skladnikistalenetto / 30) * procentzazwolnienie;
+            double stawkadzienna = Z.z(skladnikistalenetto / 30);
             naliczenienieobecnosc.setStawkadzienna(stawkadzienna);
             double dowyplatyzaczasnieobecnosci = Z.z(stawkadzienna * dnikalendarzoweniechoroby);
             naliczenienieobecnosc.setStawkadzienna(stawkadzienna);

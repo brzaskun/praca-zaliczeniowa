@@ -78,12 +78,16 @@ public class Pasekwynagrodzen implements Serializable {
     private double brutto;
     @Column(name = "bruttobezzus")
     private double bruttobezzus;
+    @Column(name = "bruttobezspolecznych")
+    private double bruttobezspolecznych;
     @Column(name = "bruttozus")
     private double bruttozus;
+    //informacyjne, kwota jest w brutto
     @Column(name = "bruttozuskraj")
     private double bruttozuskraj;
     @Column(name = "oddelegowaniewaluta")
     private double oddelegowaniewaluta;
+    //informacyjne, kwota jest w brutto
     @Column(name = "oddelegowaniepln")
     private double oddelegowaniepln;
     @Column(name = "oddelegowaniewalutasymbol")
@@ -307,6 +311,7 @@ public class Pasekwynagrodzen implements Serializable {
     
     public void dodajPasek(Pasekwynagrodzen p) {
         this.bruttobezzusbezpodatek = Z.z(this.bruttobezzusbezpodatek +p.bruttobezzusbezpodatek);
+        this.bruttobezspolecznych = Z.z(this.bruttobezspolecznych +p.bruttobezspolecznych);
         this.bruttozus = Z.z(this.bruttozus + p.bruttozus);
         this.bruttozuskraj = Z.z(this.bruttozuskraj + p.bruttozuskraj);
         this.bruttobezzus = Z.z(this.bruttobezzus + p.bruttobezzus);
@@ -419,6 +424,15 @@ public class Pasekwynagrodzen implements Serializable {
         return lis_tyt_serial;
     }
 
+    public double getBruttobezspolecznych() {
+        return bruttobezspolecznych;
+    }
+
+    public void setBruttobezspolecznych(double bruttobezspolecznych) {
+        this.bruttobezspolecznych = bruttobezspolecznych;
+    }
+
+    
     public void setLis_tyt_serial(Integer lis_tyt_serial) {
         this.lis_tyt_serial = lis_tyt_serial;
     }

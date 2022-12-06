@@ -11,7 +11,7 @@
         <p:dataTable id="datalist" value="#{pasekwynagrodzenView.lista}" var="itempasek" emptyMessage="Brak listy za dany okres"
                      selectionMode="single" selection="#{pasekwynagrodzenView.selectedlista}" rowIndexVar="indexpasek"
                      rowKey="#{itempasek.kalendarzmiesiac.hashCode()}" sortBy="#{itempasek.kalendarzmiesiac.angaz.pracownik.nazwiskoImie}"
-                     style="height: 430px; overflow-y: scroll;width: 1450px;"
+                     style="height: 430px; overflow-y: scroll;"
                      >
             <p:column width="20" style="text-align: center;">
                 <p:rowToggler rendered="#{itempasek.pobierzskladniki.size() gt 0}"/>
