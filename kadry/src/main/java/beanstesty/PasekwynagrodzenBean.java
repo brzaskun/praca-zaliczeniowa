@@ -200,7 +200,7 @@ public class PasekwynagrodzenBean {
         List<Nieobecnosc> nieobecnosci = pobierznieobecnosci(kalendarz, nieobecnoscilista);
         //List<Nieobecnosc> zatrudnieniewtrakciemiesiaca = pobierz(nieobecnosci, "D");
         List<Nieobecnosc> choroba = pobierz(nieobecnosci, "CH");
-        //List<Nieobecnosc> zasilekchorobowy = pobierz(nieobecnosci, "ZC");
+        List<Nieobecnosc> zasilekchorobowy = pobierz(nieobecnosci, "ZC");
         List<Nieobecnosc> urlop = pobierz(nieobecnosci, "U");
         List<Nieobecnosc> urlopoddelegowanie = pobierz(nieobecnosci, "UD");
         List<Nieobecnosc> urlopbezplatny = pobierz(nieobecnosci, "X");
@@ -211,7 +211,7 @@ public class PasekwynagrodzenBean {
         //najpierw musimy przyporzadkowac aktualne skladniki, aby potem prawidlowo obliczyc redukcje
         //KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, zatrudnieniewtrakciemiesiaca, pasek);
         KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, choroba, pasek, kalendarzlista, kurs);
-        //KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, zasilekchorobowy, pasek, kalendarzlista, kurs);
+        KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, zasilekchorobowy, pasek, kalendarzlista, kurs);
         KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, urlopbezplatny, pasek, kalendarzlista, kurs);
         //KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, oddelegowanie, pasek);
         KalendarzmiesiacBean.redukujskladnikistale(kalendarz, pasek);
@@ -540,7 +540,8 @@ public class PasekwynagrodzenBean {
         for (Naliczenienieobecnosc p : pasek.getNaliczenienieobecnoscList()) {
             if (p.getNieobecnosc().getSwiadczeniekodzus()==null) {
                 bruttobezzus = Z.z(bruttobezzus+p.getKwotabezzus());
-            } else if (p.getNieobecnosc().getSwiadczeniekodzus()!=null&&(p.getNieobecnosc().getSwiadczeniekodzus().getZrodlofinansowania().equals('P')||p.getNieobecnosc().getSwiadczeniekodzus().getZrodlofinansowania().equals('B'))&&!p.getNieobecnosc().getSwiadczeniekodzus().isZdrowotne()) {
+            } else if (p.getNieobecnosc().getSwiadczeniekodzus()!=null&&(p.getNieobecnosc().getSwiadczeniekodzus().getZrodlofinansowania().equals('P')
+                    ||p.getNieobecnosc().getSwiadczeniekodzus().getZrodlofinansowania().equals('B'))&&!p.getNieobecnosc().getSwiadczeniekodzus().isZdrowotne()) {
                 bruttobezzus = Z.z(bruttobezzus+p.getKwotabezzus());
             }
         }
@@ -609,9 +610,10 @@ public class PasekwynagrodzenBean {
      private static void obliczbruttominusspoleczne(Pasekwynagrodzen pasek) {
         double zzus = pasek.getBruttozus();
         double bezzus = pasek.getBruttobezzus();
+        double bezspolecznych = pasek.getBruttobezspolecznych();
         double oddelegowanie = pasek.getOddelegowaniepln();
         double skladki = pasek.getRazemspolecznepracownik();
-        double podstawa = Z.z(zzus+bezzus-skladki) > 0.0 ? Z.z(zzus+bezzus-skladki) :0.0;
+        double podstawa = Z.z(zzus+bezzus+bezspolecznych-skladki) > 0.0 ? Z.z(zzus+bezzus+bezspolecznych-skladki) :0.0;
         pasek.setBruttominusspoleczne(podstawa);
     }
      
@@ -629,8 +631,9 @@ public class PasekwynagrodzenBean {
      private static void obliczbruttominusspoleczneDB(Pasekwynagrodzen pasek) {
         double zzus = pasek.getBruttozus();
         double bezzus = pasek.getBruttobezzus();
+        double bezspolecznych = pasek.getBruttobezspolecznych();
         double skladki = pasek.getRazemspolecznepracownik();
-        double podstawadochdowyprzeddieta = Z.z(zzus+bezzus-skladki) > 0.0 ? Z.z(zzus+bezzus-skladki) :0.0;
+        double podstawadochdowyprzeddieta = Z.z(zzus+bezzus+bezspolecznych-skladki) > 0.0 ? Z.z(zzus+bezzus+bezspolecznych-skladki) :0.0;
         pasek.setBruttominusspoleczne(podstawadochdowyprzeddieta);
     }
      
@@ -875,7 +878,7 @@ public class PasekwynagrodzenBean {
         //usuwamy z podstawy zasilki chorobowe
         List<Naliczenienieobecnosc> nieobecnoscilist = pasek.getNaliczenienieobecnoscList();
         for (Naliczenienieobecnosc n : nieobecnoscilist) {
-            if (n.getNieobecnosc().getSwiadczeniekodzus()!=null&&n.getNieobecnosc().getSwiadczeniekodzus().isZdrowotne()==false) {
+            if (n.getNieobecnosc().getSwiadczeniekodzus()!=null&&n.getNieobecnosc().getSwiadczeniekodzus().isZdrowotne()==false &&!n.getNieobecnosc().getSwiadczeniekodzus().getRodzajnieobecnosci().getKod().equals("ZC")) {
                 podstawazdrowotna = Z.z(podstawazdrowotna-n.getKwota());
             }
         }

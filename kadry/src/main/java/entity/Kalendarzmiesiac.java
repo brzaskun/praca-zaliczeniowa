@@ -577,18 +577,24 @@ private static final long serialVersionUID = 1L;
     
 
     public void nanies(Kalendarzwzor kalendarzwzor) {
+        List<Dzien> dzienListWzor = kalendarzwzor.getDzienList();
+        Collections.sort(dzienListWzor, new Dziencomparator());
+        List<Dzien> dzienList = this.getDzienList();
+        Collections.sort(dzienList, new Dziencomparator());
         int i = 0;
-        for (Dzien d : this.dzienList) {
-            Dzien dzienwzor = kalendarzwzor.getDzienList().get(i++);
+        for (Dzien d : dzienList) {
+            Dzien dzienwzor = dzienListWzor.get(i++);
             d.nanies(dzienwzor);
         }
     }
     
     public void ganerujdnizwzrocowego(Kalendarzwzor kalendarzwzor, Integer dzienstart) {
+        List<Dzien> dzienListWzor = kalendarzwzor.getDzienList();
+        Collections.sort(dzienListWzor, new Dziencomparator());
         int start = dzienstart!=null? dzienstart:0;
         List<Dzien> nowedni = new ArrayList<>();
-        for (int i = 0; i < kalendarzwzor.getDzienList().size(); i++) {
-            Dzien dzienwzor = kalendarzwzor.getDzienList().get(i);
+        for (int i = 0; i < dzienListWzor.size(); i++) {
+            Dzien dzienwzor = dzienListWzor.get(i);
             Dzien dzien = new Dzien(dzienwzor, this);
             if (dzien.getNrdnia()<start) {
                 dzien.setPrzepracowano(0);
@@ -600,10 +606,12 @@ private static final long serialVersionUID = 1L;
     
     
     public void ganerujdnizwzrocowego(Kalendarzwzor kalendarzwzor, Integer dzienstart, List<EtatPrac> etaty) {
+        List<Dzien> dzienListWzor = kalendarzwzor.getDzienList();
+        Collections.sort(dzienListWzor, new Dziencomparator());
         int start = dzienstart!=null? dzienstart:0;
         List<Dzien> nowedni = new ArrayList<>();
-        for (int i = 0; i < kalendarzwzor.getDzienList().size(); i++) {
-            Dzien dzienwzor = kalendarzwzor.getDzienList().get(i);
+        for (int i = 0; i < dzienListWzor.size(); i++) {
+            Dzien dzienwzor = dzienListWzor.get(i);
             EtatPrac etat = pobierzetat(etaty, dzienwzor);
             Dzien dzien = new Dzien(dzienwzor, this, etat);
             if (dzien.getNrdnia()<start) {
@@ -873,7 +881,7 @@ private static final long serialVersionUID = 1L;
         double kwota = 0.0;
         if (this.getPasek()!=null) {
             for (Naliczenienieobecnosc p : this.getPasek().getNaliczenienieobecnoscList()) {
-                if (p.getNieobecnosc().equals(nieobecnosc)) {
+                if (p.getNieobecnosc().getRodzajnieobecnosci().getKod().equals("CH")||p.getNieobecnosc().getRodzajnieobecnosci().getKod().equals("ZC")) {
                     kwota = p.getPodstawadochoroby();
                 }
             }

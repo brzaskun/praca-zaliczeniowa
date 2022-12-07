@@ -141,7 +141,7 @@ public class NaliczenieskladnikawynagrodzeniaBean {
                         //daje norma godzin a nie z uwzglednieniem zwolnien bo przeciez rewdukcja bedzie pozniej
                         //zmienilem zdanie. redukcja bedzie statystyczna
                         //tu musza byc faktycznie dni
-                        if (s.getKod() == null || s.getKod().equals("") || s.getKod().equals("CH")) {
+                        if (s.getKod() == null || s.getKod().equals("") || s.getKod().equals("CH") || s.getKod().equals("ZC")) {
                             if (s.getTypdnia() == 0 && s.getNormagodzin() > 0.0 && s.getNrdnia() >= dzienodzmienna && s.getNrdnia() <= dziendozmienna) {
                                 dniroboczeprzepracowanezm = dniroboczeprzepracowanezm + 1;
                                 dniroboczeprzepracowane = dniroboczeprzepracowane + 1;
@@ -154,14 +154,14 @@ public class NaliczenieskladnikawynagrodzeniaBean {
                             }
                         }
                     }
-                    double stawkadziennazm = Z.z(skladnikistale / dniroboczewmiesiacu);
-                    double stawkagodzinowazm = Z.z6(skladnikistale / godzinyroboczewmiesiacu);
+                    double stawkadziennazm = (skladnikistale / dniroboczewmiesiacu);
+                    double stawkagodzinowazm = (skladnikistale / godzinyroboczewmiesiacu);
                     stawkadzienna = stawkadzienna + stawkadziennazm;
                     stawkagodzinowa = stawkagodzinowa + stawkagodzinowazm;
                     //tu wylicza wynagrodzenie za faktycznie przepracowany czas i date obowiazywania zmiennej
                     if (skladnikwynagrodzenia.getRodzajwynagrodzenia().isRedukowany()) {
-                        dowyplatyzaczasprzepracowany = dowyplatyzaczasprzepracowany + Z.z(stawkagodzinowazm * godzinyobecnosciroboczezm);
-                        redukcja = Z.z(skladnikistale-dowyplatyzaczasprzepracowany);
+                        dowyplatyzaczasprzepracowany = dowyplatyzaczasprzepracowany + (stawkagodzinowazm * godzinyobecnosciroboczezm);
+                        redukcja = (skladnikistale-dowyplatyzaczasprzepracowany);
                     } else {
                         dowyplatyzaczasprzepracowany = skladnikistale;
                     }

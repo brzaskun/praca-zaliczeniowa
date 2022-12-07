@@ -359,6 +359,8 @@ public class Dzien implements Serializable {
     public String getTypdniaString() {
         String zwrot = "robocz.";
         switch (typdnia) {
+            case -1:
+                zwrot = "";
             case 1:
                 zwrot = "sobota";
                 break;
@@ -378,6 +380,9 @@ public class Dzien implements Serializable {
     public String getTypdniaCol() {
         String zwrot = "init";
         switch (typdnia) {
+            case -1:
+                zwrot = "white";
+                break;
             case 1:
                 zwrot = "blue";
                 break;

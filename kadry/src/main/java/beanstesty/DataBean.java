@@ -31,6 +31,12 @@ public class DataBean {
         if (zaczynasiepokoncu&&konczysiepokoncu) {
             zwrot = false;
         }
+        if (ostatnidzienmiesiaca.equals(zmiennadataod)) {
+            zwrot = true;
+        }
+        if (pierwszydzienmiesiaca.equals(zmiennadatado)) {
+            zwrot = true;
+        }
         return zwrot;
     }
     

@@ -7,6 +7,7 @@ package view;
 
 import beanstesty.KalendarzWzorBean;
 import beanstesty.KalendarzmiesiacBean;
+import dao.DzienFacade;
 import dao.FirmaKadryFacade;
 import dao.KalendarzmiesiacFacade;
 import dao.KalendarzwzorFacade;
@@ -43,6 +44,8 @@ public class KalendarzwzorView  implements Serializable {
     private KalendarzwzorFacade kalendarzwzorFacade;
     @Inject
     private KalendarzmiesiacFacade kalendarzmiesiacFacade;
+    @Inject
+    private DzienFacade dzienFacade;
     @Inject
     private FirmaKadryFacade firmaFacade;
     @Inject
@@ -204,6 +207,7 @@ public class KalendarzwzorView  implements Serializable {
             for (Kalendarzmiesiac kal: kalendarzepracownikow) {
                 Kalendarzwzor znaleziono = kalendarzwzorFacade.findByFirmaRokMc(firma, selected.getRok(), selected.getMc());
                 kal.edytujdnizglobalnego(znaleziono);
+                dzienFacade.editList(kal.getDzienList());
                 kalendarzmiesiacFacade.edit(kal);
             }
             Msg.msg("Naniesiono zmiany na kalendarze pracowników");
