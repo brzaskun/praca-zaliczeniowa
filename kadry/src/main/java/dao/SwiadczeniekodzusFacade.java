@@ -49,10 +49,10 @@ public class SwiadczeniekodzusFacade extends DAO  {
         return (Swiadczeniekodzus) getEntityManager().createNamedQuery("Swiadczeniekodzus.findByKod").setParameter("kod", string).getSingleResult();
     }
     
-    public List<Swiadczeniekodzus> findByRodzajnieobecnosci(Rodzajnieobecnosci rodzajnieobecnosci) {
+    public List<Swiadczeniekodzus> findByRodzajnieobecnosciAktiv(Rodzajnieobecnosci rodzajnieobecnosci) {
         List<Swiadczeniekodzus> zwrot = new ArrayList<>();
         try {
-            zwrot = getEntityManager().createNamedQuery("Swiadczeniekodzus.findByRodzajnieobecnosci").setParameter("rodzajnieobecnosci", rodzajnieobecnosci).getResultList();
+            zwrot = getEntityManager().createNamedQuery("Swiadczeniekodzus.findByRodzajnieobecnosciAktiv").setParameter("rodzajnieobecnosci", rodzajnieobecnosci).getResultList();
         } catch (Exception e) {}
         return zwrot;
     }

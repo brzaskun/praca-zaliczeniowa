@@ -238,7 +238,7 @@ public class NieobecnoscView  implements Serializable {
     
     public void naniesrodzajnieobecnosci() {
         if (selected.getRodzajnieobecnosci()!=null) {
-            swiadczeniekodzusLista = swiadczeniekodzusFacade.findByRodzajnieobecnosci(selected.getRodzajnieobecnosci());
+            swiadczeniekodzusLista = swiadczeniekodzusFacade.findByRodzajnieobecnosciAktiv(selected.getRodzajnieobecnosci());
             if (selected.getRodzajnieobecnosci().getKod().equals("Z")) {
                 selected.setKrajoddelegowania("Niemcy");
                 selected.setWalutadiety("EUR");
@@ -246,6 +246,9 @@ public class NieobecnoscView  implements Serializable {
                 delegacja = true;
             } else {
                 delegacja = false;
+            }
+            if (swiadczeniekodzusLista.size()==1) {
+                selected.setSwiadczeniekodzus(swiadczeniekodzusLista.get(0));
             }
             Msg.msg("Wybrano rodzaj nieobecności");
         }
