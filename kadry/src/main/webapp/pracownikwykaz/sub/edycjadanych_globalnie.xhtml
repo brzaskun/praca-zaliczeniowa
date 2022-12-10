@@ -122,14 +122,14 @@
                             <h:outputText value="#{item2.modyfikowal}"/>
                         </p:column>
                         <p:column width="50" style="text-align: center;">
-                            <p:commandButton icon="fa fa-trash" actionListener="#{pracownikView.usun(item2)}" update="north  PracownikListForm:datalist">
+                            <p:commandButton icon="pi pi-trash" actionListener="#{pracownikView.usun(item2)}" update="north  PracownikListForm:datalist">
                                 <p:confirm type="popup" header="Potwierdzenie" message="Usunąć wyszystkie dane pracownika?" icon="pi pi-exclamation-triangle"/>
                             </p:commandButton>
                         </p:column>
                     </p:dataTable>
                 </p:panel>
                  <p:contextMenu for="PracownikListForm:datalist" style="width: 200px;">
-                        <p:menuitem icon="fa fa-trash" value="usuń wybrane" actionListener="#{pracownikView.usunwybrane()}" global="false" update="north PracownikListForm:datalist"/>
+                        <p:menuitem icon="pi pi-trash" value="usuń wybrane" actionListener="#{pracownikView.usunwybrane()}" global="false" update="north PracownikListForm:datalist"/>
                 </p:contextMenu>
             </h:form>
         </p:outputPanel>

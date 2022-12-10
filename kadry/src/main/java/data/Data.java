@@ -487,8 +487,15 @@ public class Data implements Serializable {
     
     public static String getRok(String data) {
         String zwrot = "";
-        if (data != null) {
+        if (data != null&&data.length()==10) {
             zwrot = getCzescDaty(data, 0);
+        }
+        return zwrot;
+    }
+    public static Integer getRokI(String data) {
+        Integer zwrot = 0;
+        if (data != null&&data.length()==10) {
+            zwrot = Integer.valueOf(getCzescDaty(data, 0));
         }
         return zwrot;
     }

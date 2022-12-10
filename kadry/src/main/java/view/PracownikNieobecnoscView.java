@@ -17,6 +17,7 @@ import dao.SkladnikWynagrodzeniaFacade;
 import dao.UmowaFacade;
 import dao.WspolczynnikEkwiwalentFacade;
 import data.Data;
+import embeddable.Mce;
 import entity.Dzien;
 import entity.EtatPrac;
 import entity.Kalendarzmiesiac;
@@ -37,7 +38,9 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -266,6 +269,33 @@ public class PracownikNieobecnoscView  implements Serializable {
             zwrot = 26;
         }
         zwrot = (zwrot*8*etat.getEtat1())/etat.getEtat2();
+        double zwrotdouble = (double)zwrot;
+        //a teraz sprawdzamy czy nie sa umowy tylko z tego roku i trzeba proporckjonalnie
+            Set<String> napoczetemiesiace = new HashSet<>();
+            for (Umowa p : umowy) {
+                if (p.isLiczdourlopu()) {
+                    if (p.getSlownikszkolazatrhistoria() != null) {
+                        if (p.getSlownikszkolazatrhistoria().getPraca0nauka1() == false) {
+                            String rokumowy = Data.getRok(p.getDataod());
+                            boolean czyumowaztegoroku = wpisView.getRokWpisu().equals(rokumowy);
+                            if (czyumowaztegoroku == false) {
+                                break;
+                            } else {
+                                String dataod = p.getDataod();
+                                String datado = stannadzien;
+                                if (p.getDatado() != null && Data.czyjestpo(p.getDatado(), stannadzien)) {
+                                    datado = p.getDatado();
+                                }
+                                napoczetemiesiace.addAll(Mce.zakresmiesiecy(Data.getMc(dataod), Data.getMc(datado)));
+                            }
+                        }
+                    }
+                }
+            }
+            if (napoczetemiesiace.size()>0) {
+                zwrot = (int) (zwrotdouble/12.0*(double)napoczetemiesiace.size());
+            }
+
         return zwrot;
     }
     
@@ -334,96 +364,99 @@ public class PracownikNieobecnoscView  implements Serializable {
             List<Skladnikwynagrodzenia> skladniki = skladnikWynagrodzeniaFacade.findByAngaz(wpisView.getAngaz());
             double godzinyekwiwalent = urlopprezentacja.getDoprzeniesienia();
             ekwiwalentrazem = 0.0;
-            List<EtatPrac> etatlist = etatPracFacade.findByAngaz(wpisView.getAngaz());
-            wybranyetat = etatlist.get(0);
-            if (etatlist.size()>1) {
-                for (EtatPrac e : etatlist) {
-                    if (DataBean.czysiemiesci(data, data, e.getDataod(), e.getDatado())) {
-                        wybranyetat = e;
-                        break;
+            if (godzinyekwiwalent>0) {
+                List<EtatPrac> etatlist = etatPracFacade.findByAngaz(wpisView.getAngaz());
+                wybranyetat = etatlist.get(0);
+                if (etatlist.size()>1) {
+                    for (EtatPrac e : etatlist) {
+                        if (DataBean.czysiemiesci(data, data, e.getDataod(), e.getDatado())) {
+                            wybranyetat = e;
+                            break;
+                        }
                     }
                 }
-            }
-            double dniekwiwalent = Z.z(godzinyekwiwalent/(8/(wybranyetat.getEtat1()/wybranyetat.getEtat2())));
-            for (Skladnikwynagrodzenia p : skladniki) {
-                  if (p.getRodzajwynagrodzenia().getStale0zmienne1()==false) {
-                    for (Zmiennawynagrodzenia r : p.getZmiennawynagrodzeniaList()) {
-                         if (DataBean.czysiemiesci(data, data, r.getDataod(), r.getDatado())) {
-                            double kwotastala = r.getKwota();
+                double dniekwiwalent = Z.z(godzinyekwiwalent/(8/(wybranyetat.getEtat1()/wybranyetat.getEtat2())));
+                for (Skladnikwynagrodzenia p : skladniki) {
+                      if (p.getRodzajwynagrodzenia().getStale0zmienne1()==false) {
+                        for (Zmiennawynagrodzenia r : p.getZmiennawynagrodzeniaList()) {
+                             if (DataBean.czysiemiesci(data, data, r.getDataod(), r.getDatado())) {
+                                double kwotastala = r.getKwota();
+                                Naliczenienieobecnosc naliczenienieobecnosc = new Naliczenienieobecnosc();
+                                naliczenienieobecnosc.setDatado(data);
+                                naliczenienieobecnosc.setDataod(data);
+                                naliczenienieobecnosc.setSkladnikwynagrodzenia(p);
+                                naliczenienieobecnosc.setSredniazailemcy(1);
+                                naliczenienieobecnosc.setLiczbadniurlopu(dniekwiwalent);
+                                naliczenienieobecnosc.setLiczbagodzinurlopu(godzinyekwiwalent);
+                                naliczenienieobecnosc.setStawkadzienna(Z.z(kwotastala/wspolczynnikEkwiwalent.getKwota()));
+                                double kwotaekwiwalentu = Z.z(naliczenienieobecnosc.getStawkadzienna()*dniekwiwalent);
+                                double stawkagodzinowa = Z.z(kwotaekwiwalentu/godzinyekwiwalent);
+                                naliczenienieobecnosc.setStawkagodzinowa(stawkagodzinowa);
+                                naliczenienieobecnosc.setKwota(kwotaekwiwalentu);
+                                ewiewalentskladnikistale = ewiewalentskladnikistale+kwotaekwiwalentu;
+                                ekwiwalentrazem = ekwiwalentrazem+kwotaekwiwalentu;
+                                skladnikistale.add(naliczenienieobecnosc);
+                             }
+                        }
+                      } else {
+                          List<Kalendarzmiesiac> kalendarzlista = kalendarzmiesiacFacade.findByAngaz(wpisView.getAngaz());
+                            String dzien = wpisView.getAngaz().getFirma().getDzienlp();
+                            if (dzien!=null) {
+                                String[] popokres = Data.poprzedniOkres(mc, rok);
+                                rok = popokres[1];
+                                mc = popokres[0];
+                            }
+                            List<Pasekwynagrodzen> paski = pasekwynagrodzenFacade.findByRokAngaz(rok, wpisView.getAngaz());
+                            List<Naliczenieskladnikawynagrodzenia> naliczonyskladnikdosredniej = pobierzpaski(rok, mc, p, kalendarzlista);
+                            double godzinyfaktyczne = 0.0;
+                            double dninalezne = 0.0;
+                            double stawkazagodzine = 0.0;
+                            double kwotywyplacone = 0.0;
+                            int liczba = 0;
+                            double sredniadopodstawy = 0.0;
                             Naliczenienieobecnosc naliczenienieobecnosc = new Naliczenienieobecnosc();
+                            naliczenienieobecnosc.setSkladnikwynagrodzenia(p);
                             naliczenienieobecnosc.setDatado(data);
                             naliczenienieobecnosc.setDataod(data);
-                            naliczenienieobecnosc.setSkladnikwynagrodzenia(p);
-                            naliczenienieobecnosc.setSredniazailemcy(1);
+                            naliczenienieobecnosc.setSredniazailemcy(3);
                             naliczenienieobecnosc.setLiczbadniurlopu(dniekwiwalent);
                             naliczenienieobecnosc.setLiczbagodzinurlopu(godzinyekwiwalent);
-                            naliczenienieobecnosc.setStawkadzienna(Z.z(kwotastala/wspolczynnikEkwiwalent.getKwota()));
-                            double kwotaekwiwalentu = Z.z(naliczenienieobecnosc.getStawkadzienna()*dniekwiwalent);
-                            double stawkagodzinowa = Z.z(kwotaekwiwalentu/godzinyekwiwalent);
-                            naliczenienieobecnosc.setStawkagodzinowa(stawkagodzinowa);
-                            naliczenienieobecnosc.setKwota(kwotaekwiwalentu);
-                            ewiewalentskladnikistale = ewiewalentskladnikistale+kwotaekwiwalentu;
-                            ekwiwalentrazem = ekwiwalentrazem+kwotaekwiwalentu;
-                            skladnikistale.add(naliczenienieobecnosc);
-                         }
-                    }
-                  } else {
-                      List<Kalendarzmiesiac> kalendarzlista = kalendarzmiesiacFacade.findByAngaz(wpisView.getAngaz());
-                        String dzien = wpisView.getAngaz().getFirma().getDzienlp();
-                        if (dzien!=null) {
-                            String[] popokres = Data.poprzedniOkres(mc, rok);
-                            rok = popokres[1];
-                            mc = popokres[0];
-                        }
-                        List<Pasekwynagrodzen> paski = pasekwynagrodzenFacade.findByRokAngaz(rok, wpisView.getAngaz());
-                        List<Naliczenieskladnikawynagrodzenia> naliczonyskladnikdosredniej = pobierzpaski(rok, mc, p, kalendarzlista);
-                        double godzinyfaktyczne = 0.0;
-                        double dninalezne = 0.0;
-                        double stawkazagodzine = 0.0;
-                        double kwotywyplacone = 0.0;
-                        int liczba = 0;
-                        double sredniadopodstawy = 0.0;
-                        Naliczenienieobecnosc naliczenienieobecnosc = new Naliczenienieobecnosc();
-                        naliczenienieobecnosc.setSkladnikwynagrodzenia(p);
-                        naliczenienieobecnosc.setDatado(data);
-                        naliczenienieobecnosc.setDataod(data);
-                        naliczenienieobecnosc.setSredniazailemcy(3);
-                        naliczenienieobecnosc.setLiczbadniurlopu(dniekwiwalent);
-                        naliczenienieobecnosc.setLiczbagodzinurlopu(godzinyekwiwalent);
-                        for (Naliczenieskladnikawynagrodzenia pa : naliczonyskladnikdosredniej) {
-                            godzinyfaktyczne = godzinyfaktyczne+pa.getGodzinyfaktyczne();
-                            dninalezne = dninalezne+pa.getDninalezne();
-                            kwotywyplacone = kwotywyplacone + pa.getKwotadolistyplac();
-                            liczba++;
-                            boolean skladnikstaly = false;
-                            double stawkazagodzinezm = pa.getKwotadolistyplac()/pa.getGodzinynalezne();
-                            
-                            Sredniadlanieobecnosci srednia = new Sredniadlanieobecnosci(pa.getPasekwynagrodzen().getRok(), pa.getPasekwynagrodzen().getMc(), pa.getKwotadolistyplac(), 
-                                    skladnikstaly, naliczenienieobecnosc, godzinyekwiwalent, pa.getGodzinyfaktyczne(), pa.getDnifaktyczne(), pa.getGodzinynalezne(), pa.getDninalezne(), stawkazagodzinezm);
-                            naliczenienieobecnosc.getSredniadlanieobecnosciList().add(srednia);
-                            naliczenienieobecnosc.setSredniazailemcy(liczba);
-                            if(liczba>3) {
-                                break;
+                            for (Naliczenieskladnikawynagrodzenia pa : naliczonyskladnikdosredniej) {
+                                godzinyfaktyczne = godzinyfaktyczne+pa.getGodzinyfaktyczne();
+                                dninalezne = dninalezne+pa.getDninalezne();
+                                kwotywyplacone = kwotywyplacone + pa.getKwotadolistyplac();
+                                liczba++;
+                                boolean skladnikstaly = false;
+                                double stawkazagodzinezm = pa.getKwotadolistyplac()/pa.getGodzinynalezne();
+
+                                Sredniadlanieobecnosci srednia = new Sredniadlanieobecnosci(pa.getPasekwynagrodzen().getRok(), pa.getPasekwynagrodzen().getMc(), pa.getKwotadolistyplac(), 
+                                        skladnikstaly, naliczenienieobecnosc, godzinyekwiwalent, pa.getGodzinyfaktyczne(), pa.getDnifaktyczne(), pa.getGodzinynalezne(), pa.getDninalezne(), stawkazagodzinezm);
+                                naliczenienieobecnosc.getSredniadlanieobecnosciList().add(srednia);
+                                naliczenienieobecnosc.setSredniazailemcy(liczba);
+                                if(liczba>3) {
+                                    break;
+                                }
                             }
-                        }
-                        if (godzinyfaktyczne!=0.0&&dninalezne!=0.0) {
-                            stawkazagodzine = Z.z6(kwotywyplacone/godzinyfaktyczne);
-                            sredniadopodstawy = Z.z(kwotywyplacone/3);
-                            naliczenienieobecnosc.setSumakwotdosredniej(kwotywyplacone);
-                            naliczenienieobecnosc.setSumagodzindosredniej(godzinyfaktyczne);
-                            naliczenienieobecnosc.setSkladnikizmiennesrednia(sredniadopodstawy);
-                            double stawkadzienna = Z.z(sredniadopodstawy/wspolczynnikEkwiwalent.getKwota());
-                            naliczenienieobecnosc.setStawkadzienna(stawkadzienna);
-                            naliczenienieobecnosc.setStawkagodzinowa(stawkazagodzine);
-                            double kwotaekwiwalentu = stawkadzienna*dniekwiwalent;
-                            naliczenienieobecnosc.setKwota(kwotaekwiwalentu);
-                            ewiewalentskladnikizmienne = ewiewalentskladnikizmienne+kwotaekwiwalentu;
-                            ekwiwalentrazem = ekwiwalentrazem+kwotaekwiwalentu;
-                            skladnikizmienne.add(naliczenienieobecnosc);
-                        }
-                  }
+                            if (godzinyfaktyczne!=0.0&&dninalezne!=0.0) {
+                                stawkazagodzine = Z.z6(kwotywyplacone/godzinyfaktyczne);
+                                sredniadopodstawy = Z.z(kwotywyplacone/3);
+                                naliczenienieobecnosc.setSumakwotdosredniej(kwotywyplacone);
+                                naliczenienieobecnosc.setSumagodzindosredniej(godzinyfaktyczne);
+                                naliczenienieobecnosc.setSkladnikizmiennesrednia(sredniadopodstawy);
+                                double stawkadzienna = Z.z(sredniadopodstawy/wspolczynnikEkwiwalent.getKwota());
+                                naliczenienieobecnosc.setStawkadzienna(stawkadzienna);
+                                naliczenienieobecnosc.setStawkagodzinowa(stawkazagodzine);
+                                double kwotaekwiwalentu = stawkadzienna*dniekwiwalent;
+                                naliczenienieobecnosc.setKwota(kwotaekwiwalentu);
+                                ewiewalentskladnikizmienne = ewiewalentskladnikizmienne+kwotaekwiwalentu;
+                                ekwiwalentrazem = ekwiwalentrazem+kwotaekwiwalentu;
+                                skladnikizmienne.add(naliczenienieobecnosc);
+                            }
+                      }
+                }
+            } else {
+                Msg.msg("w","Wykorzystano urlop w całości. NIe ma ekwiwalentu");
             }
-            System.out.println("");
         }
     }
 

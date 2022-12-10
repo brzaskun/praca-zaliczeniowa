@@ -223,7 +223,7 @@
                             <f:facet name="header">
                                 <h:outputText value=""/>
                             </f:facet>
-                            <p:commandButton icon="fa fa-thumbs-up" actionListener="#{nieobecnoscView.nanies(itemNieob)}"  update="NieobecnoscListForm:datalist KalendarzmiesiacListForm:datalist KalendarzmiesiacCreateForm KalendarzmiesiacCreateRokForm"
+                            <p:commandButton icon="pi pi-thumbs-up" actionListener="#{nieobecnoscView.nanies(itemNieob)}"  update="NieobecnoscListForm:datalist KalendarzmiesiacListForm:datalist KalendarzmiesiacCreateForm KalendarzmiesiacCreateRokForm"
                                              rendered="#{itemNieob.naniesiona eq false and (itemNieob.naliczenienieobecnoscList ne null or itemNieob.naliczenienieobecnoscList.size() eq 0)}">
                             </p:commandButton>
                         </p:column>
@@ -231,7 +231,7 @@
                             <f:facet name="header">
                                 <h:outputText value=""/>
                             </f:facet>
-                            <p:commandButton icon="fa fa-thumbs-down" actionListener="#{nieobecnoscView.zdejmijzkalendarza(itemNieob)}"  update="@parent:@parent KalendarzmiesiacListForm:datalist KalendarzmiesiacCreateForm KalendarzmiesiacCreateRokForm" 
+                            <p:commandButton icon="pi pi-thumbs-down" actionListener="#{nieobecnoscView.zdejmijzkalendarza(itemNieob)}"  update="@parent:@parent KalendarzmiesiacListForm:datalist KalendarzmiesiacCreateForm KalendarzmiesiacCreateRokForm" 
                                              rendered="#{itemNieob.naniesiona eq true and (itemNieob.naliczenienieobecnoscList ne null or itemNieob.naliczenienieobecnoscList.size() eq 0)}">
                             </p:commandButton>
                         </p:column>
@@ -239,7 +239,7 @@
                             <f:facet name="header">
                                 <h:outputText value=""/>
                             </f:facet>
-                            <p:commandButton icon="fa fa-edit" actionListener="#{nieobecnoscView.edytuj(itemNieob)}"  update="NieobecnoscCreateForm" 
+                            <p:commandButton icon="pi pi-edit" actionListener="#{nieobecnoscView.edytuj(itemNieob)}"  update="NieobecnoscCreateForm" 
                                              rendered="#{itemNieob.naniesiona eq false and (itemNieob.naliczenienieobecnoscList ne null or itemNieob.naliczenienieobecnoscList.size() eq 0)}">
                             </p:commandButton>
                         </p:column>
@@ -247,7 +247,7 @@
                             <f:facet name="header">
                                 <h:outputText value=""/>
                             </f:facet>
-                            <p:commandButton icon="fa fa-trash" actionListener="#{nieobecnoscView.usun(itemNieob)}"  update="NieobecnoscListForm:datalist KalendarzmiesiacListForm:datalist KalendarzmiesiacCreateForm KalendarzmiesiacCreateRokForm"
+                            <p:commandButton icon="pi pi-trash" actionListener="#{nieobecnoscView.usun(itemNieob)}"  update="NieobecnoscListForm:datalist KalendarzmiesiacListForm:datalist KalendarzmiesiacCreateForm KalendarzmiesiacCreateRokForm"
                                              rendered="#{itemNieob.naniesiona eq false and (itemNieob.naliczenienieobecnoscList ne null or itemNieob.naliczenienieobecnoscList.size() eq 0)}">
                                 <p:confirm type="popup" header="Potwierdzenie" message="Usunąć nieobecność?" icon="pi pi-exclamation-triangle"/>
                             </p:commandButton>

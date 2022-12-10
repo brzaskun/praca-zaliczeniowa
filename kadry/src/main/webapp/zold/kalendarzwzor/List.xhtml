@@ -54,7 +54,7 @@
                         <f:facet name="footer">
                             <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{kalendarzwzorController.prepareCreate}" update=":KalendarzwzorCreateForm" oncomplete="PF('KalendarzwzorCreateDialog').show()"/>
                             <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":KalendarzwzorViewForm" oncomplete="PF('KalendarzwzorViewDialog').show()" disabled="#{empty kalendarzwzorController.selected}"/>
-                            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":KalendarzwzorEditForm" oncomplete="PF('KalendarzwzorEditDialog').show()" disabled="#{empty kalendarzwzorController.selected}"/>
+                          `  <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":KalendarzwzorEditForm" oncomplete="PF('KalendarzwzorEditDialog').show()" disabled="#{empty kalendarzwzorController.selected}"/>
                             <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{kalendarzwzorController.destroy}" update=":growl,datalist" disabled="#{empty kalendarzwzorController.selected}"/>
                         </f:facet>
                     </p:dataTable>

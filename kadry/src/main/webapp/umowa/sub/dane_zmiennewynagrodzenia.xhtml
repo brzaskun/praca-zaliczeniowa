@@ -106,10 +106,10 @@
                                  <p:selectBooleanCheckbox value="#{itemzmiennawyn.minimalneustatowe}"/>
                             </p:column>
                             <p:column width="30" style="text-align: center;">
-                                <p:commandButton icon="fa fa-edit"  actionListener="#{zmiennaWynagrodzeniaView.wybierzdoedycji(itemzmiennawyn)}" update="north, @(form) akordeon:ZmiennawynagrodzeniaCreateForm"/>
+                                <p:commandButton icon="pi pi-edit"  actionListener="#{zmiennaWynagrodzeniaView.wybierzdoedycji(itemzmiennawyn)}" update="north, @(form) akordeon:ZmiennawynagrodzeniaCreateForm"/>
                             </p:column>
                             <p:column width="30" style="text-align: center;">
-                                <p:commandButton icon="fa fa-trash" actionListener="#{zmiennaWynagrodzeniaView.usunZmiennaWyn(itemzmiennawyn)}" update="north @(form)">
+                                <p:commandButton icon="pi pi-trash" actionListener="#{zmiennaWynagrodzeniaView.usunZmiennaWyn(itemzmiennawyn)}" update="north @(form)">
                                     <p:confirm type="popup" header="Potwierdzenie" message="Usunąć daną zmienną?" icon="pi pi-exclamation-triangle"/>
                                 </p:commandButton>
                             </p:column>

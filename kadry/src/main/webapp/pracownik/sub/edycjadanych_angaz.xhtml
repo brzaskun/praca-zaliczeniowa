@@ -204,10 +204,10 @@
                             </p:selectBooleanCheckbox>
                         </p:column>-->
                         <p:column headerText="mail"  width="40" style="text-align: center;">
-                            <p:commandButton icon="fa fa-file-text" actionListener="#{angazView.mail(itemAngaz.pracownik)}"/>
+                            <p:commandButton icon="pi pi-file-text" actionListener="#{angazView.mail(itemAngaz.pracownik)}"/>
                         </p:column>
                           <p:column width="40" style="text-align: center;">
-                            <p:commandButton icon="fa fa-trash" actionListener="#{angazView.usun(itemAngaz)}" update="north AngazListForm">
+                            <p:commandButton icon="pi pi-trash" actionListener="#{angazView.usun(itemAngaz)}" update="north AngazListForm">
                                 <p:confirm type="popup" header="Potwierdzenie" message="Usunąć angaż pracownika?" icon="pi pi-exclamation-triangle"/>
                             </p:commandButton>
                         </p:column>
