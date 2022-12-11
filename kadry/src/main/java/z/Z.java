@@ -9,6 +9,8 @@ package z;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 /**
  *
@@ -100,12 +102,56 @@ public class Z implements Serializable {
 //    }
      
       public static void main(String[] args) {
-        //double kurswyliczony = Math.round(555354.35 / 133434.49 * 10000);
-        //kurswyliczony /= 10000;
-        String va= "0,19".replace(",", ".");
-        double dab = Double.valueOf(va);
-         //error.E.s(dab);
-         error.E.s(zUD(12.51));
+//        //double kurswyliczony = Math.round(555354.35 / 133434.49 * 10000);
+//        //kurswyliczony /= 10000;
+//        String va= "0,19".replace(",", ".");
+//        double dab = Double.valueOf(va);
+//         //error.E.s(dab);
+//         error.E.s(zUD(12.51));
+//         // Przykładowe daty początkowe i końcowe umowy
+//LocalDate startDate = LocalDate.of(2022, 12, 10);
+//LocalDate endDate = LocalDate.of(2023, 11, 10);
+//
+//// Obliczenie liczby miesięcy pomiędzy datami
+//long monthsBetween = ChronoUnit.MONTHS.between(startDate, endDate);
+//
+//// Wyświetlenie wyniku
+//System.out.println("Umowa trwa " + monthsBetween + " miesięcy");
+//// Przykładowe daty początkowe i końcowe umowy
+//LocalDate startDate1 = LocalDate.of(2022, 12, 1);
+//LocalDate endDate1 = LocalDate.of(2023, 11, 30);
+//
+//// Inicjalizacja listy na miesiące
+//List<YearMonth> months = new ArrayList<>();
+//
+//// Pętla przechodząca przez wszystkie miesiące pomiędzy datami
+//for (YearMonth month = YearMonth.from(startDate1); month.isBefore(YearMonth.from(endDate1)); month = month.plusMonths(1)) {
+//  // Dodanie miesiąca do listy
+//  months.add(month);
+//}
+//
+//// Wyświetlenie zawartości listy
+//System.out.println("Umowa trwa w miesiącach: " + months);
+
+// Przykładowa data urodzenia
+LocalDate birthDate = LocalDate.of(2000, 1, 1);
+
+// Pobranie bieżącej daty
+LocalDate currentDate = LocalDate.now();
+
+// Obliczenie liczby lat
+long years = ChronoUnit.YEARS.between(birthDate, currentDate);
+
+// Obliczenie daty urodzenia w bieżącym roku
+LocalDate birthDateThisYear = birthDate.withYear(currentDate.getYear());
+
+// Obliczenie liczby miesięcy i dni w bieżącym roku
+long months = ChronoUnit.MONTHS.between(birthDateThisYear, currentDate) % 12;
+long days = ChronoUnit.DAYS.between(birthDateThisYear, currentDate) % 30;
+
+// Wyświetlenie wyniku
+System.out.println("Osoba urodziła się w " + birthDate + " i ma " + years + " lat, " + months + " miesięcy i " + days + " dni");
+
 
     }
 
