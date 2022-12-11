@@ -397,7 +397,12 @@ public class Pasekwynagrodzen implements Serializable {
 
     @Override
     public String toString() {
-        return "Pasekwynagrodzen{" + "brutto=" + brutto + ", kosztyuzyskania=" + kosztyuzyskania + ", netto=" + netto + ", definicjalistaplac=" + definicjalistaplac.getId() + ", kalendarzmiesiac=" + kalendarzmiesiac.getId() + ", rok=" + rok + ", mc=" + mc + ", rokwypl=" + rokwypl + ", mcwypl=" + mcwypl + '}';
+        if (definicjalistaplac!=null) {
+            return "Pasekwynagrodzen{" + "brutto=" + brutto + ", kosztyuzyskania=" + kosztyuzyskania + ", netto=" + netto + ", definicjalistaplac=" 
+                    + definicjalistaplac.getId() + ", kalendarzmiesiac=" + kalendarzmiesiac.getId() + ", rok=" + rok + ", mc=" + mc + ", rokwypl=" + rokwypl + ", mcwypl=" + mcwypl + '}';
+        } else {
+            return "Pasekwynagrodzen{" + "brutto=" + brutto + ", kosztyuzyskania=" + kosztyuzyskania + ", netto=" + netto +", rok=" + rok + ", mc=" + mc + ", rokwypl=" + rokwypl + ", mcwypl=" + mcwypl + '}';
+        }
     }
 
     
