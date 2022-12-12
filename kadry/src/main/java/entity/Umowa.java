@@ -358,7 +358,7 @@ public class Umowa implements Serializable {
         this.umowakodzus = umowakodzus;
     }
     public String getCzastrwania() {
-        String zwrot = CzasTrwania.getListaczastrwania().get(this.czastrwania);
+        String zwrot = this.slownikszkolazatrhistoria.getOpis();
         return zwrot;
     }
     public void setCzastrwania(String czastrwania) {

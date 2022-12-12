@@ -55,6 +55,10 @@
             <from-outcome>Pracownikalerty</from-outcome>
             <to-view-id>/pracownikalerty/index.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
+         <navigation-case>
+            <from-outcome>Pracownikaneksy</from-outcome>
+            <to-view-id>/pracownikaneksy/index.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
         <navigation-case>
             <from-outcome>PortalPracownik</from-outcome>
             <to-view-id>/portalpracownik/index.xhtml?faces-redirect=true</to-view-id>

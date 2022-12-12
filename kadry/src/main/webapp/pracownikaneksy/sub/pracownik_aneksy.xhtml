@@ -1,0 +1,61 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    >
+    <p:tabView id="akordeon">
+        <p:tab title="czas trwania umowy">
+            <p:dataTable id="datalist" value="#{pracownikAneksyView.listaumowy}" var="itemUmowa" rowIndexVar="yndex"
+                         selectionMode="single" 
+                         rowKey="#{itemUmowa.id}"  sortBy="#{itemUmowa.datado}"
+                         style="height: 550px; overflow-y: scroll;width: 1200px;"
+                         rowsPerPageTemplate="20,100,250,500" paginatorPosition="top" paginator="true" rows="20"
+                         emptyMessage="Nie pobrano listy"
+                         >
+                <f:facet name="header">
+                    <h:outputText value="Czas trwania umów na czas określony"/>
+                </f:facet>
+                <p:column width="20" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="id"/>
+                    </f:facet>
+                    <h:outputText value="#{yndex+1}"/>
+                </p:column>
+                <p:column width="200" sortBy="#{itemUmowa.nazwiskoImie}">
+                    <f:facet name="header">
+                        <h:outputText value="nazwisko i imię"/>
+                    </f:facet>
+                    <h:outputText value="#{itemUmowa.nazwiskoImie}"/>
+                </p:column>
+                <p:column width="100" >
+                    <f:facet name="header">
+                        <h:outputText value="rodzaj umowy"/>
+                    </f:facet>
+                    <h:outputText value="umowa o pracę" rendered="#{itemUmowa.umowakodzus.praca}"/>
+                    <h:outputText value="umowa zlecenia" rendered="#{itemUmowa.umowakodzus.zlecenie}"/>
+                </p:column>
+                <p:column width="100" >
+                    <f:facet name="header">
+                        <h:outputText value="czas trwania"/>
+                    </f:facet>
+                    <h:outputText value="#{itemUmowa.czastrwania}"/>
+                </p:column>
+                <p:column width="70" style="text-align: center;" sortBy="#{itemUmowa.dataod}" sortOrder="desc">
+                    <f:facet name="header">
+                        <h:outputText value="data od"/>
+                    </f:facet>
+                    <h:outputText value="#{itemUmowa.dataod}"/>
+                </p:column>
+                <p:column width="70" style="text-align: center;" sortBy="#{itemUmowa.datado}" sortOrder="desc">
+                    <f:facet name="header">
+                        <h:outputText value="data do"/>
+                    </f:facet>
+                    <h:outputText value="#{itemUmowa.datado}"/>
+                </p:column>
+            </p:dataTable>
+        </p:tab>
+       
+    </p:tabView>
+</ui:composition>
