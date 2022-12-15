@@ -12,7 +12,8 @@
         <p:ajax event="open" listener="#{walutyViewFK.init()}" update="formkursrecznie wprowadzonekursyrecznie"/>
         <h:form id="formkursrecznie">
             <p:focus for="formkursrecznie:dataKursReczny"/>
-            <p:dataTable id="dataKursReczny" var="wpis" value="#{walutyViewFK.kurswprowadzonyrecznie}" editable="true" style="width: 830px;">
+            <p:dataTable id="dataKursReczny" var="wpis" value="#{walutyViewFK.kurswprowadzonyrecznie}" editable="true" style="width: 830px;"
+                         rowsPerPageTemplate="15,30,250,500" paginatorPosition="top" paginator="true" rows="15">
                  <p:column headerText="tabela" width="100" style="text-align: center;">
                      <p:selectOneMenu value="#{walutyViewFK.symbolRecznie}" id="polewyboruwaluty" maxlength="3"
                                       editable="true" >

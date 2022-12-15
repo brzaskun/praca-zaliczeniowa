@@ -893,7 +893,8 @@ public class EwidencjaVatView implements Serializable {
             switch (vatokres) {
                 case "blad":
                     Msg.msg("e", "Nie ma ustawionego parametru vat za dany okres. Nie można sporządzić ewidencji VAT.");
-                    throw new Exception("Nie ma ustawionego parametru vat za dany okres");
+                    zwrot = new ArrayList<>();
+                    //throw new Exception("Nie ma ustawionego parametru vat za dany okres");
                 case "miesięczne": 
                     zwrot = eVatwpisFKDAO.findPodatnikMc(podatnik, rok, mc, mc);
                     break;
