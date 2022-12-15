@@ -23,7 +23,7 @@
     </p:outputPanel>
     <script type="text/javascript">
       var startujreset = function() {
-        var fiveSeconds = new Date().getTime() + 180000;
+        var fiveSeconds = new Date().getTime() + 60000;
           $('#clock').countdown(fiveSeconds, {elapse: true})
           .on('update.countdown', function(event) {
             var $this = $(this);
