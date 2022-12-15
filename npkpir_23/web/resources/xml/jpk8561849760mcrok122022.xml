@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<JPK xmlns="http://crd.gov.pl/wzor/2021/12/27/11148/" xmlns:ns2="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2021/06/08/eD/DefinicjeTypy/" xmlns:ns3="http://crd.gov.pl/wzor/2021/12/27/11149/">
+    <Naglowek>
+        <KodFormularza kodSystemowy="JPK_V7M (2)" wersjaSchemy="1-0E">JPK_VAT</KodFormularza>
+        <WariantFormularza>2</WariantFormularza>
+        <DataWytworzeniaJPK>2022-12-13T22:10:30.589Z</DataWytworzeniaJPK>
+        <NazwaSystemu>Taxman</NazwaSystemu>
+        <CelZlozenia poz="P_7">1</CelZlozenia>
+        <KodUrzedu>3205</KodUrzedu>
+        <Rok>2022</Rok>
+        <Miesiac>12</Miesiac>
+    </Naglowek>
+    <Podmiot1 rola="Podatnik">
+        <OsobaNiefizyczna>
+            <NIP>8561849760</NIP>
+            <PelnaNazwa>CODY RACKS sp. z o.o.</PelnaNazwa>
+            <Email>info@taxman.biz.pl</Email>
+            <Telefon>605586176</Telefon>
+        </OsobaNiefizyczna>
+    </Podmiot1>
+    <Ewidencja>
+        <SprzedazWiersz>
+            <LpSprzedazy>1</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8561849760</NrKontrahenta>
+            <NazwaKontrahenta>CODY RACKS sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>4848</DowodSprzedazy>
+            <DataWystawienia>2022-12-31</DataWystawienia>
+            <DataSprzedazy>2022-12-15</DataSprzedazy>
+            <K_19>1000.00</K_19>
+            <K_20>230.0</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>2</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8561849760</NrKontrahenta>
+            <NazwaKontrahenta>CODY RACKS sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>45454</DowodSprzedazy>
+            <DataWystawienia>2022-12-31</DataWystawienia>
+            <DataSprzedazy>2022-12-31</DataSprzedazy>
+            <K_19>58000.00</K_19>
+            <K_20>13340.0</K_20>
+        </SprzedazWiersz>
+        <SprzedazCtrl>
+            <LiczbaWierszySprzedazy>2</LiczbaWierszySprzedazy>
+            <PodatekNalezny>13570.00</PodatekNalezny>
+        </SprzedazCtrl>
+        <ZakupCtrl>
+            <LiczbaWierszyZakupow>0</LiczbaWierszyZakupow>
+            <PodatekNaliczony>0</PodatekNaliczony>
+        </ZakupCtrl>
+    </Ewidencja>
+</JPK>
