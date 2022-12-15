@@ -27,7 +27,7 @@ public class Servereset implements Serializable{
     
     public void reset() {
         try {
-            String path="cmd /c start G:\\payara174\\bin\\reset.bat";
+            String path="cmd /c start d:\\restart.bat";
             Runtime rn=Runtime.getRuntime();
             Process pr=rn.exec(path);
             pokazbutton = false;
