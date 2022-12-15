@@ -16,14 +16,14 @@
         <h:form>
             <p:commandButton value="resetuj serwer" actionListener="#{servereset.reset()}" style="padding: 5px;margin: 5px;"
                              update="@form" rendered="#{servereset.pokazbutton}" onclick="startujreset();"/>
-            <h:outputText value="Rozpoczął się reset serwera. Potrwa on ok 2-3 minut. Należy po tym czasie wybrać stronę logowania i wcisnąć kombinację klawiszy Ctrl+F5 celem odświeżenia"
+            <h:outputText value="Rozpoczął się reset serwera. Potrwa on ok 1-2 minut. Należy po tym czasie wybrać stronę logowania i wcisnąć kombinację klawiszy Ctrl+F5 celem odświeżenia"
                           style="color: red;"  rendered="#{!servereset.pokazbutton}"/>
         </h:form>
         <div id="getting-started" style="margin: 10px; font-size: x-large;"><span id="clock"></span></div>
     </p:outputPanel>
     <script type="text/javascript">
       var startujreset = function() {
-        var fiveSeconds = new Date().getTime() + 180000;
+        var fiveSeconds = new Date().getTime() + 60000;
           $('#clock').countdown(fiveSeconds, {elapse: true})
           .on('update.countdown', function(event) {
             var $this = $(this);
