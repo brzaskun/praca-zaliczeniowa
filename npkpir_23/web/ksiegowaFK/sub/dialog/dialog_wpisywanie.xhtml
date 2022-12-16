@@ -172,8 +172,8 @@
                                     </p:inputText>
                                 </p:column>
                                 <p:column>
-                                    <p:inputText id="data2aDialogWpisywanie" value="#{dokfkView.selected.datadokumentu}" 
-                                                 onblur="ustawDateFK(#{WpisView.rokWpisu}, #{WpisView.miesiacWpisu}, 'data2aDialogWpisywanie', #{dokfkView.zapisz0edytuj1});"
+                                    <p:inputText id="data2DialogWpisywanie" value="#{dokfkView.selected.datadokumentu}" 
+                                                 onblur="ustawDateFK(#{WpisView.rokWpisu}, #{WpisView.miesiacWpisu}, 'data2DialogWpisywanie', #{dokfkView.zapisz0edytuj1});"
                                                  title="wpisz numer dnia, lub miesiąc i dzień"  styleClass="dataInput"
                                                  onfocus="zaznaczpoledaty(this)"
                                                  >
@@ -182,8 +182,8 @@
                                 </p:column>
 <!--                                umożliwia zmiane kursu waluty podczas edycji zaimportowanego -->
                                 <p:column rendered="#{dokfkView.zapisz0edytuj1 eq true}">
-                                    <p:inputText id="data2DialogWpisywanie" value="#{dokfkView.selected.datadokumentu}" 
-                                                 onblur="ustawDateFK(#{WpisView.rokWpisu}, #{WpisView.miesiacWpisu}, 'data2DialogWpisywanie', #{dokfkView.zapisz0edytuj1});"
+                                    <p:inputText id="data2aDialogWpisywanie" value="#{dokfkView.selected.datadokumentu}" 
+                                                 onblur="ustawDateFK(#{WpisView.rokWpisu}, #{WpisView.miesiacWpisu}, 'data2aDialogWpisywanie', #{dokfkView.zapisz0edytuj1});"
                                                  title="wpisz numer dnia, lub miesiąc i dzień"  styleClass="dataInput"
                                                  onfocus="zaznaczpoledaty(this)" 
                                                  >
