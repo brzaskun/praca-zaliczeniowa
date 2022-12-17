@@ -3005,7 +3005,7 @@ public class DokfkView implements Serializable {
     public void zmienkursNBP() {
         symbolwalutydowiersza = selected.getWalutadokumentu().getSkrotsymbolu();
         String nazwawaluty = selected.getWalutadokumentu().getSymbolwaluty();
-        String datadokumentu = selected.getDatadokumentu();
+        String datadokumentu = selected.getDataoperacji();
         DateTime dzienposzukiwany = new DateTime(datadokumentu);
         //tu sie dodaje tabele do dokumentu :)
         TabelaNBPBean.pobierzTabeleNBP(dzienposzukiwany, tabelanbpDAO, nazwawaluty, selected, tabelenbp);
