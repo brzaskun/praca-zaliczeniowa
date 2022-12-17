@@ -415,8 +415,10 @@ public class PasekwynagrodzenView implements Serializable {
                 }
                 pasekwynagrodzenFacade.remove(p);
                 lista.remove(p);
+                pobierzkalendarzezamc();
             } else {
                 lista.remove(p);
+                pobierzkalendarzezamc();
             }
             Msg.msg("Usunięto wiersz listy płac");
         } else {
@@ -438,6 +440,13 @@ public class PasekwynagrodzenView implements Serializable {
                 rodzajlistyplac = rodzajlistyplacFacade.findUmowaoPrace();
             }
             List<Kalendarzmiesiac> listakalendarzmiesiac = kalendarzmiesiacFacade.findByFirmaRokMc(wybranalistaplac.getFirma(), wybranalistaplac.getRok(), wybranalistaplac.getMc());
+            for (Iterator<Kalendarzmiesiac> it = listakalendarzmiesiac.iterator(); it.hasNext();) {
+                Kalendarzmiesiac p = it.next();
+                Umowa umowaAktywna = p.getAngaz().pobierzumowaAktywna(wybranalistaplac.getRok(), wybranalistaplac.getMc());
+                if (umowaAktywna==null) {
+                    it.remove();
+                }
+            }
             if (rodzajlistyplac.getSymbol().equals("ZA")) {
                 if (listakalendarzmiesiac!=null) {
                     for (Iterator<Kalendarzmiesiac> it = listakalendarzmiesiac.iterator();it.hasNext();) {

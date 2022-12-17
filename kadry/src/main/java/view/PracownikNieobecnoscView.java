@@ -389,7 +389,7 @@ public class PracownikNieobecnoscView  implements Serializable {
                                 naliczenienieobecnosc.setSredniazailemcy(1);
                                 naliczenienieobecnosc.setLiczbadniurlopu(dniekwiwalent);
                                 naliczenienieobecnosc.setLiczbagodzinurlopu(godzinyekwiwalent);
-                                double stawkadzienna = Z.z(kwotastala/wspolczynnikEkwiwalent.getKwota());
+                                double stawkadzienna = kwotastala/wspolczynnikEkwiwalent.getKwota();
                                 naliczenienieobecnosc.setStawkadzienna(stawkadzienna);
                                 double stawkagodzinowa = stawkadzienna/dobowanormaczasupracy;
                                 double kwotaekwiwalentu = Z.z(stawkagodzinowa*godzinyekwiwalent);
@@ -444,7 +444,7 @@ public class PracownikNieobecnoscView  implements Serializable {
                                 naliczenienieobecnosc.setSumakwotdosredniej(kwotywyplacone);
                                 naliczenienieobecnosc.setSumagodzindosredniej(godzinyfaktyczne);
                                 naliczenienieobecnosc.setSkladnikizmiennesrednia(sredniadopodstawy);
-                                double stawkadzienna = Z.z(sredniadopodstawy/wspolczynnikEkwiwalent.getKwota());
+                                double stawkadzienna = sredniadopodstawy/wspolczynnikEkwiwalent.getKwota();
                                 naliczenienieobecnosc.setStawkadzienna(stawkadzienna);
                                 stawkazagodzine = Z.z6(stawkadzienna/dobowanormaczasupracy);
                                 naliczenienieobecnosc.setStawkagodzinowa(stawkazagodzine);

@@ -75,7 +75,7 @@
                         </p:column>
                         <p:column width="20" style="text-align: center;">
                             <p:commandButton icon="pi pi-print" actionListener="#{pasekwynagrodzenView.drukuj(itempasek)}" global="false"/>
-                            <p:commandButton icon="pi pi-fast-forward" actionListener="#{pasekwynagrodzenView.przelicz(itempasek)}" global="false" update="PasekwynagrodzenListForm"/>
+                            <p:commandButton icon="pi pi-fast-forward" actionListener="#{pasekwynagrodzenView.przelicz(itempasek)}" global="false" update="PasekwynagrodzenListForm "/>
                         </p:column>
                     </p:row>
                     <!--                        <p:column>
@@ -153,7 +153,7 @@
                             <bcf:outputpl value="#{itempasek.netto}"/>
                         </p:column>
                         <p:column width="20" style="text-align: center;">
-                            <p:commandButton icon="pi pi-trash" actionListener="#{pasekwynagrodzenView.usun(itempasek)}" global="false" update="@form NieobecnoscListForm"/>
+                            <p:commandButton icon="pi pi-trash" actionListener="#{pasekwynagrodzenView.usun(itempasek)}" global="false" update="@form NieobecnoscListForm DefinicjalistaplacCreateForm2"/>
                         </p:column>
                     </p:row>
                 </p:panelGrid>

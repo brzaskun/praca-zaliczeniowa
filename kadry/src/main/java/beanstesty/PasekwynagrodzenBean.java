@@ -1195,7 +1195,7 @@ public class PasekwynagrodzenBean {
     public static Rachunekdoumowyzlecenia pobierzRachunekzlecenie(Angaz angaz, String rok, String mc) {
         Rachunekdoumowyzlecenia zwrot = null;
         try {
-            Umowa umowa = angaz.pobierzumowa(rok,mc);
+            Umowa umowa = angaz.pobierzumowaZlecenia(rok,mc);
             List<Rachunekdoumowyzlecenia> rachunekdoumowyzleceniaList = umowa.getRachunekdoumowyzleceniaList();
             if (rachunekdoumowyzleceniaList!=null) {
                 zwrot = rachunekdoumowyzleceniaList.stream().filter(pa->pa.getMc().equals(mc)&&pa.getRok().equals(rok)).findAny().get();
