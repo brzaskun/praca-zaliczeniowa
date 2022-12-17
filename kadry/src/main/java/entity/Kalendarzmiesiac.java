@@ -80,7 +80,7 @@ private static final long serialVersionUID = 1L;
 //    @JoinColumn(name = "umowa", referencedColumnName = "id")
 //    @ManyToOne
 //    private Umowa umowa;
-    @OneToMany(mappedBy = "kalendarzmiesiac", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "kalendarzmiesiac", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Pasekwynagrodzen> pasekwynagrodzenList;
     @OneToMany(mappedBy = "kalendarzmiesiac", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Dzien> dzienList;
@@ -510,6 +510,19 @@ private static final long serialVersionUID = 1L;
          if (this.pasekwynagrodzenList!=null && this.pasekwynagrodzenList.size()==1) {
            for (Pasekwynagrodzen p : this.pasekwynagrodzenList) {
                zwrot = p;
+           }
+         }
+        return zwrot;
+   }
+   
+   public Pasekwynagrodzen getPasek(Definicjalistaplac definicjalistaplac) {
+       Pasekwynagrodzen zwrot = new Pasekwynagrodzen();
+         if (this.pasekwynagrodzenList!=null && this.pasekwynagrodzenList.size()>0&&definicjalistaplac!=null) {
+           for (Pasekwynagrodzen p : this.pasekwynagrodzenList) {
+               if (p.getDefinicjalistaplac().equals(definicjalistaplac)) {
+                    zwrot = p;
+                    break;
+               }
            }
          }
         return zwrot;

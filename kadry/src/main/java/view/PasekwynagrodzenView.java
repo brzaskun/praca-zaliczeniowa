@@ -274,7 +274,8 @@ public class PasekwynagrodzenView implements Serializable {
             } else if (limitdochodudwaszesc==null){
                 Msg.msg("e", "Brak limitu dochodu dla osób 26lat");
             } else if (stawkipodatkowe != null && !stawkipodatkowe.isEmpty()) {
-                for (Kalendarzmiesiac pracownikmc : listakalendarzmiesiac.getTarget()) {
+                for (Iterator<Kalendarzmiesiac>  it = listakalendarzmiesiac.getTarget().iterator();it.hasNext();) {
+                    Kalendarzmiesiac pracownikmc = it.next();
                     boolean czysainnekody = pracownikmc.czysainnekody();
                     List<Pasekwynagrodzen> paskidowyliczeniapodstawy = new ArrayList<>();
                     List<Wynagrodzeniahistoryczne> historiawynagrodzen = new ArrayList<>();
@@ -313,6 +314,7 @@ public class PasekwynagrodzenView implements Serializable {
                     }
                     usunpasekjakzawiera(pasek);
                     lista.add(pasek);
+                    it.remove();
                 }
                 Msg.msg("Sporządzono listę płac");
                 zapisz();
@@ -558,8 +560,8 @@ public class PasekwynagrodzenView implements Serializable {
     }
 
     public void pobierzpracownika() {
-        if (wybranykalendarz != null) {
-            listawynagrodzenpracownika = KalendarzmiesiacBean.skladnikiwynagrodzenialista(wybranykalendarz);
+        if (wybranykalendarz != null&&wybranalistaplac2!=null) {
+            listawynagrodzenpracownika = KalendarzmiesiacBean.skladnikiwynagrodzeniaWybranalista(wybranykalendarz, wybranalistaplac2);
             listanieobecnoscipracownika = wybranykalendarz.skladnikinieobecnosclista();
             for (Naliczenienieobecnosc p : listanieobecnoscipracownika) {
                 Collections.sort(p.getSredniadlanieobecnosciList(), new Sredniadlanieobecnoscicomparator());

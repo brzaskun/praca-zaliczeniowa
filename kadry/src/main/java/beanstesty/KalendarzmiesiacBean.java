@@ -9,6 +9,7 @@ import comparator.KalendarzmiesiacLastcomparator;
 import comparator.KalendarzmiesiacRMcomparator;
 import data.Data;
 import embeddable.Mce;
+import entity.Definicjalistaplac;
 import entity.Dzien;
 import entity.Kalendarzmiesiac;
 import entity.Naliczenienieobecnosc;
@@ -823,6 +824,19 @@ public class KalendarzmiesiacBean {
         if (kalendarz.getPasekwynagrodzenList() != null && !kalendarz.getPasekwynagrodzenList().isEmpty()) {
             for (Pasekwynagrodzen p : kalendarz.getPasekwynagrodzenList()) {
                 if (p.getNaliczenieskladnikawynagrodzeniaList() != null) {
+                    zwrot.addAll(p.getNaliczenieskladnikawynagrodzeniaList());
+                }
+            }
+        }
+        return zwrot;
+    }
+    
+    public static List<Naliczenieskladnikawynagrodzenia> skladnikiwynagrodzeniaWybranalista(Kalendarzmiesiac kalendarz, Definicjalistaplac definicjalistaplac) {
+        List<Naliczenieskladnikawynagrodzenia> zwrot = new ArrayList<>();
+        List<Pasekwynagrodzen> pasekwynagrodzenList = kalendarz.getPasekwynagrodzenList();
+        if (kalendarz.getPasekwynagrodzenList() != null && !kalendarz.getPasekwynagrodzenList().isEmpty()) {
+            for (Pasekwynagrodzen p : kalendarz.getPasekwynagrodzenList()) {
+                if (p.getNaliczenieskladnikawynagrodzeniaList() != null&&p.getDefinicjalistaplac().equals(definicjalistaplac)) {
                     zwrot.addAll(p.getNaliczenieskladnikawynagrodzeniaList());
                 }
             }
