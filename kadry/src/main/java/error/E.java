@@ -16,7 +16,24 @@ public class E {
  
     public static String e(Exception e) {
         String zwrot = "";
-        if (e.getStackTrace() != null && e.getStackTrace().length > 0) {
+        if (e.getCause() != null) {
+            StringBuilder p = new StringBuilder();
+            p.append("Blad ");
+            p.append(e.getCause());
+            zwrot += p.toString();
+            if (e.getCause().getCause() != null) {
+                p = new StringBuilder();
+                p.append("cd. ");
+                p.append(e.getCause().getCause());
+                zwrot += p.toString();
+            }
+            if (e.getCause().getCause().getCause()!= null) {
+                p = new StringBuilder();
+                p.append("cd. ");
+                p.append(e.getCause().getCause().getCause());
+                zwrot += p.toString();
+            }
+        } else if (e.getStackTrace() != null && e.getStackTrace().length > 0) {
             StringBuilder p = new StringBuilder();
             p.append("Blad ");
             p.append(e.getStackTrace()[0].toString());

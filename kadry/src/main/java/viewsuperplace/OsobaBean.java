@@ -409,8 +409,10 @@ public class OsobaBean {
         skladnik.setWks_serial(wybrany.getOssWksSerial().getWksSerial());
         skladnik.setRodzajwynagrodzenia(pobierzrodzajwynagrodzenia(wybrany, rodzajewynagrodzenia));
         pobierzzmiennawynagrodzenia(skladnik, wybrany, zmiennaWynagrodzeniaFacade);
-        if (skladnik.getZmiennawynagrodzeniaList() == null || skladnik.getZmiennawynagrodzeniaList().isEmpty()) {
-            skladnik = null;
+        if (!skladnik.getRodzajwynagrodzenia().getKod().equals("13")) {
+            if (skladnik.getZmiennawynagrodzeniaList() == null || skladnik.getZmiennawynagrodzeniaList().isEmpty()) {
+                skladnik = null;
+            }
         }
         return skladnik;
     }

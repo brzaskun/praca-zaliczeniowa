@@ -149,8 +149,8 @@ public class OsobaView implements Serializable {
     
     public void robgrupa(List<Osoba> wybraneosoby) {
         //OutputStream out = null;
+        List<String> log = new ArrayList<>();
         try {
-            List<String> log = new ArrayList<>();
             log.add("Rozpoczęto import pracowników firmy "+wpisView.getFirma());
             if (wybraneosoby!=null) {
                 List<Osoba> osoby = historiaView.getOsoby();
@@ -183,9 +183,11 @@ public class OsobaView implements Serializable {
 //            baos.writeTo(out);
 //            // Inform JSF that response is completed and it thus doesn't have to navigate.
 //            facesContext.responseComplete();
-              PdfHistoriaImp.drukuj(log, wpisView.getFirma().getNazwa(), wpisView.getFirma().getNip());
         } catch (Exception ex) {
+            log.add(E.e(ex));
             E.e(ex);
+        } finally {
+            PdfHistoriaImp.drukuj(log, wpisView.getFirma().getNazwa(), wpisView.getFirma().getNip());
         }
 //        } finally {
 //            try {
