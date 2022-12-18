@@ -5,22 +5,23 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     >
-    <p:panelGrid columns="2" columnClasses="thirty-percent, seventy-percent" style="height: 200px;width: 1500px;">
-        <p:outputPanel>
+    <p:panelGrid columns="2" columnClasses="thirty-percent seventy-percent" style="height: 200px;width: 500px;">
+        <p:outputPanel style="width: 400px;">
             <h:form id="FirmaCreateForm">
                 <p:panel header="dodaj nową firmę"/>
-                <p:panelGrid columns="2" rendered="#{firmaView.selected != null}" >
+                <p:panelGrid columns="2" rendered="#{firmaView.selected != null}">
                     <p:outputLabel value="importuj" for="nazwaimport" />
                     <p:autoComplete id="nazwaimport" value="#{firmaView.firmaSPimport}" converter="#{firmaSPConverter}"
                                         widgetVar="firmaimport" completeMethod="#{firmaView.complete}"
                                         var="firma" itemLabel="#{firma.firNazwaPel}" itemValue="#{firma}"  title="nazwa firmy"
-                                        minQueryLength="3" maxResults="12" maxlength="20" converterMessage="Nieudana konwersja firmy" queryDelay="0"
+                                        minQueryLength="1" maxResults="15" maxlength="60" converterMessage="Nieudana konwersja firmy" queryDelay="0"
+                                        size="200"
                                         forceSelection="true" styleClass="wpisywaniekontrfk" moreText="jest więcej pasujących pozycji"
                                         >
                             <p:ajax event="query" global="false"/>
                             <p:ajax event="itemSelect" partialSubmit="true" global="false" listener="#{firmaView.sprawdznip}" update="@form"/>
                             <f:facet name="itemtip">  
-                                <h:panelGrid  columns="2" cellpadding="5" width="400">  
+                                <h:panelGrid  columns="2" cellpadding="5" width="500">  
                                     <f:facet name="header">  
                                         <h:outputText value="Dane firmy"/>
                                     </f:facet>  
@@ -55,7 +56,7 @@
                     <p:dataTable id="datalist" value="#{firmaView.lista}" var="item1"
                                  selectionMode="single" selection="#{firmaView.selectedlista}"
                                  rowKey="#{item1.id}"  sortBy="#{item1.nazwa}"
-                                 style="height: 250px; overflow-y: scroll;"
+                                 style="height: 250px; width: 1200px; overflow-y: scroll;"
                                  > 
                         <p:ajax event="rowSelect" update="FirmaUzupelnijForm" listener="#{firmaView.pobierzinfo}"/>
                         <p:column width="40" style="text-align: center;">

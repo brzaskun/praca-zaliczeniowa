@@ -51,6 +51,7 @@ public class OddelegowanieView  implements Serializable {
     @Inject
     private PasekwynagrodzenFacade pasekwynagrodzenFacade;
     
+    
     public void init() {
         List<Angaz> angaze = angazFacade.findByFirma(wpisView.getFirma());
         lista = new ArrayList<>();
@@ -64,16 +65,18 @@ public class OddelegowanieView  implements Serializable {
         for (Angaz a : angaze) {
             List<Kalendarzmiesiac> kalendarze = kalendarzmiesiacFacade.findByAngaz(a);
             for (String rok : lata) {
-                List<Pasekwynagrodzen> paski = new ArrayList<>();
-                paski.addAll(pasekwynagrodzenFacade.findByRokAngaz(rok, a));
-                 List<Podatki> stawkipodatkowe = podatkiFacade.findByRokUmowa(rok, "P");
-                if (Integer.parseInt(rok)>2020  ) {
-                    for (String mc : Mce.getMceListS()) {
-                        Kalendarzmiesiac pobierzkalendarz = pobierzkalendarz(kalendarze, rok, mc);
-                        if (pobierzkalendarz!=null) {
-                            Oddelegowanie oddelegowanie = new Oddelegowanie(pobierzkalendarz, paski, a, rok, mc, stawkipodatkowe);
-                            if (oddelegowanie.getLiczbadni()>0) {
-                                lista.add(oddelegowanie);
+                if (Integer.parseInt(rok)>2019  ) {
+                    List<Pasekwynagrodzen> paski = new ArrayList<>();
+                    paski.addAll(pasekwynagrodzenFacade.findByRokAngaz(rok, a));
+                    List<Podatki> stawkipodatkowe = podatkiFacade.findByRokUmowa(rok, "P");
+                    if (paski!=null&&paski.size()>0) {
+                        for (String mc : Mce.getMceListS()) {
+                            Kalendarzmiesiac pobierzkalendarz = pobierzkalendarz(kalendarze, rok, mc);
+                            if (pobierzkalendarz!=null) {
+                                Oddelegowanie oddelegowanie = new Oddelegowanie(pobierzkalendarz, paski, a, rok, mc, stawkipodatkowe);
+                                if (oddelegowanie.getLiczbadni()>0) {
+                                    lista.add(oddelegowanie);
+                                }
                             }
                         }
                     }
@@ -174,9 +177,9 @@ public class OddelegowanieView  implements Serializable {
             if (tabela != null) {
                 tabela2001 = new ArrayList<>();
                 for (OddelegowanieTabela p : tabela) {
-                    if (p.getRok().equals(rokbiezacy)&&p.getRokmcprzekroczenia()!=null) {
+                    //if (p.getRok().equals(rokbiezacy)&&p.getRokmcprzekroczenia()!=null) {
                         tabela2001.add(p);
-                    }
+                    //}
                 }
             }
         }

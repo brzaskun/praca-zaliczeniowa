@@ -21,10 +21,11 @@
                     <div class="inline-block  col-1 bg-taxman text-3xl flex-auto text-white font-bold text-center p-1 border-round">
                          <h:outputText value="#{wpisView.umowa.nrkolejny}"   rendered="#{wpisView.umowa ne null}"/>
                     </div>
-                    <div class="inline-block col-1 bg-taxman text-3xl flex-auto text-white font-bold text-center p-1 border-round">
-                       <p:inputText value="#{wpisView.rokWpisu}"  size="4">
-                           <p:ajax event="change" partialSubmit="true" global="false" update="@(form)" listener="#{updateClassView.updateUmowa()}"/>
-                        </p:inputText>
+                     <div class="inline-block col-1 bg-taxman text-3xl flex-auto text-white font-bold text-center p-1 border-round">
+                        <p:selectOneMenu id="rokWpisu" value="#{wpisView.rokWpisu}"  style="width: 100px;">
+                            <f:selectItems value="#{roki.rokiList}"/>
+                            <p:ajax event="change" partialSubmit="true" global="false" update="@(form)"  listener="#{updateClassView.updateUmowa()}"/>
+                        </p:selectOneMenu>
                     </div>
                     <div class="inline-block col-1 bg-taxman text-3xl flex-auto text-white font-bold text-center p-1 border-round">
                         <p:selectOneMenu id="miesiacWpisu" value="#{wpisView.miesiacWpisu}"  style="width: 100px;">

@@ -24,25 +24,18 @@ public class Roki implements Serializable{
 
     static{
         rokiList = Collections.synchronizedList(new ArrayList<>());
+        rokiList.add(2023);
+        rokiList.add(2022);
         rokiList.add(2021);
         rokiList.add(2020);
         rokiList.add(2019);
-        rokiList.add(2018);
-        rokiList.add(2017);
-        rokiList.add(2016);
-        rokiList.add(2015);
-        rokiList.add(2014);
-        rokiList.add(2013);
         rokiListS = Collections.synchronizedList(new ArrayList<>());
+        rokiListS.add("2023");
+        rokiListS.add("2022");
         rokiListS.add("2021");
         rokiListS.add("2020");
         rokiListS.add("2019");
-        rokiListS.add("2018");
-        rokiListS.add("2017");
-        rokiListS.add("2016");
-        rokiListS.add("2015");
-        rokiListS.add("2014");
-        rokiListS.add("2013");
+
     }
     
     public static List<Integer> getRokiListS() {
