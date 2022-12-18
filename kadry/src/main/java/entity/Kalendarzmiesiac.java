@@ -530,12 +530,14 @@ private static final long serialVersionUID = 1L;
    
 
    
-   public List<Naliczenienieobecnosc> skladnikinieobecnosclista() {
+   public List<Naliczenienieobecnosc> skladnikinieobecnosclista(Definicjalistaplac wybranalistaplac2) {
        Set<Naliczenienieobecnosc> zwrot = new HashSet<>();
        if (this.pasekwynagrodzenList!=null && !this.pasekwynagrodzenList.isEmpty()) {
            for (Pasekwynagrodzen p : this.pasekwynagrodzenList) {
-               if (p.getNaliczenienieobecnoscList()!=null) {
-                   zwrot.addAll(p.getNaliczenienieobecnoscList());
+               if (p.getDefinicjalistaplac().equals(wybranalistaplac2)) {
+                    if (p.getNaliczenienieobecnoscList()!=null) {
+                        zwrot.addAll(p.getNaliczenienieobecnoscList());
+                    }
                }
            }
        }

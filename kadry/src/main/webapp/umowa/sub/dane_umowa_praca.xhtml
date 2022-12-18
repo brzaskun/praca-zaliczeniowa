@@ -98,10 +98,10 @@
                         <h:outputText value="#{itemumowa.nfz}"/>
                     </p:column>
                     <p:column width="40" style="text-align: center;">
-                        <p:commandButton icon="pi pi-edit" actionListener="#{umowaView.edytuj(itemumowa)}" update="north, @(form)"/>
+                        <p:commandButton icon="pi pi-pencil" actionListener="#{umowaView.edytuj(itemumowa)}" update="north, @(form)"/>
                     </p:column>
                     <p:column width="40" style="text-align: center;">
-                        <p:commandButton icon="pi pi-file-text-o"  actionListener="#{umowaView.edytuj(itemumowa)}" oncomplete="PF('dialogumowatresc').show();" update="north, @(form)" async="true"/>
+                        <p:commandButton icon="pi pi-user-edit"  actionListener="#{umowaView.edytuj(itemumowa)}" oncomplete="PF('dialogumowatresc').show();" update="north, @(form)" async="true"/>
                     </p:column>
                     <p:column width="40" style="text-align: center;">
                         <p:commandButton icon="pi pi-trash" actionListener="#{umowaView.usun(itemumowa)}" update="north, @(form)">

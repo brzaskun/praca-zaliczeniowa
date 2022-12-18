@@ -294,14 +294,16 @@ public class KalendarzmiesiacBean {
                 pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().addAll(naliczenieskladnikawynagrodzenia);
             } else if (p.getRodzajwynagrodzenia().getKod().equals("21")) {
                 Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = NaliczenieskladnikawynagrodzeniaBean.createPremiaDB(kalendarz, pasekwynagrodzen, p);
-                if (naliczenieskladnikawynagrodzenia.getKwotadolistyplac() != 0.0) {
+                //trzeba dodac daty do skladniow
+                //if (naliczenieskladnikawynagrodzenia.getKwotadolistyplac() != 0.0) {
                     pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().add(naliczenieskladnikawynagrodzenia);
-                }
+                //}
             } else if (p.getRodzajwynagrodzenia().getKod().equals("PU")) {
                 Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = NaliczenieskladnikawynagrodzeniaBean.createPremiaDB(kalendarz, pasekwynagrodzen, p);
-                if (naliczenieskladnikawynagrodzenia.getKwotadolistyplac() != 0.0) {
+                //trzeba dodac daty do skladniow
+                //if (naliczenieskladnikawynagrodzenia.getKwotadolistyplac() != 0.0) {
                     pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().add(naliczenieskladnikawynagrodzenia);
-                }
+                //}
             } else if (p.getRodzajwynagrodzenia().getKod().equals("90")) {
                 Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = NaliczenieskladnikawynagrodzeniaBean.createBezZusPodatekDB(kalendarz, pasekwynagrodzen, p);
                 if (naliczenieskladnikawynagrodzenia.getKwotaumownazacalymc() != 0.0) {
@@ -622,7 +624,7 @@ public class KalendarzmiesiacBean {
                             if (kalendarzdosredniej.getPasek().getNaliczenienieobecnoscList() != null) {
                                 for (Naliczenienieobecnosc r : kalendarzdosredniej.getPasek().getNaliczenienieobecnoscList()) {
                                     if (r.getSkladnikwynagrodzenia().equals(naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia())) {
-                                        wynagrodzeniemczwaloryzowane = wynagrodzeniemczwaloryzowane + r.getKwota();
+                                        wynagrodzeniemcwyplacone = wynagrodzeniemcwyplacone + r.getKwota();
                                     }
                                 }
                             }

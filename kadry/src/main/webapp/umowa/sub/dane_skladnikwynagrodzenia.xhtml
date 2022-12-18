@@ -101,7 +101,7 @@
                                  <h:outputText value="&#x2714;" rendered="#{itemskladnikwyn.oddelegowanie eq true}"/>
                             </p:column>
                             <p:column width="30" style="text-align: center;">
-                                <p:commandButton icon="pi pi-edit"  actionListener="#{skladnikWynagrodzeniaView.wybierzdoedycji(itemskladnikwyn)}" update="north, @(form) akordeon:SkladnikwynagrodzeniaCreateForm"/>
+                                <p:commandButton icon="pi pi-pencil"  actionListener="#{skladnikWynagrodzeniaView.wybierzdoedycji(itemskladnikwyn)}" update="north, @(form) akordeon:SkladnikwynagrodzeniaCreateForm"/>
                             </p:column>
                             <p:column style="text-align: center;" width="30">
                                 <p:commandButton icon="pi pi-trash" actionListener="#{skladnikWynagrodzeniaView.usunSkladnikWyn(itemskladnikwyn)}" update="north, @(form)">

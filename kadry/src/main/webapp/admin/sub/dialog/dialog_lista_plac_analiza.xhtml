@@ -31,7 +31,7 @@
                         <p:outputLabel value="wybrana lista płac" for="wybranalista" />
                         <p:selectOneMenu id="wybranalista" value="#{pasekwynagrodzenView.wybranalistaplac2}" autoWidth="false" style="width: 280px;" required="true" requiredMessage="Wybierz firmę" converter="#{definicjalistaplacConverter}" >
                             <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
-                            <f:selectItems value="#{pasekwynagrodzenView.listadefinicjalistaplac}" 
+                            <f:selectItems value="#{pasekwynagrodzenView.listadefinicjalistaplacAnaliza}" 
                                            var="firmalistaItem"
                                            itemValue="#{firmalistaItem}" itemLabel="#{firmalistaItem.opis} #{firmalistaItem.nrkolejny}"/>
                             <p:ajax event="change" partialSubmit="true" global="false" listener="#{pasekwynagrodzenView.pobierzkalendarzezamcanaliza}" 

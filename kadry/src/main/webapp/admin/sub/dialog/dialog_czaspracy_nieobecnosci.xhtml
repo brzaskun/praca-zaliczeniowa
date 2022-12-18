@@ -239,7 +239,7 @@
                             <f:facet name="header">
                                 <h:outputText value=""/>
                             </f:facet>
-                            <p:commandButton icon="pi pi-edit" actionListener="#{nieobecnoscView.edytuj(itemNieob)}"  update="NieobecnoscCreateForm" 
+                            <p:commandButton icon="pi pi-pencil" actionListener="#{nieobecnoscView.edytuj(itemNieob)}"  update="NieobecnoscCreateForm" 
                                              rendered="#{itemNieob.naniesiona eq false and (itemNieob.naliczenienieobecnoscList ne null or itemNieob.naliczenienieobecnoscList.size() eq 0)}">
                             </p:commandButton>
                         </p:column>

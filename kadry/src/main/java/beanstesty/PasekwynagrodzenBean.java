@@ -911,7 +911,7 @@ public class PasekwynagrodzenBean {
                     }
                 } else {
                     if (praca) {
-                        double podatekwstepny = Z.z(pasek.getPodatekwstepny()-pasek.getKwotawolnadlazdrowotnej());
+                        double podatekwstepny = Z.z(pasek.getPodatekwstepny()-pasek.getKwotawolnadlazdrowotnej())>0.0?Z.z(pasek.getPodatekwstepny()-pasek.getKwotawolnadlazdrowotnej()):0.0;
                         if (zdrowotne>podatekwstepny) {
                             pasek.setPraczdrowotne(podatekwstepny);
                             pasek.setPraczdrowotnedoodliczenia(0.0);

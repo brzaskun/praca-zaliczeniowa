@@ -79,6 +79,7 @@ public class PasekwynagrodzenView implements Serializable {
     private Kalendarzmiesiac wybranykalendarz;
     private List<Pasekwynagrodzen> lista;
     private List<Definicjalistaplac> listadefinicjalistaplac;
+    private List<Definicjalistaplac> listadefinicjalistaplacAnaliza;
     private org.primefaces.model.DualListModel<Kalendarzmiesiac> listakalendarzmiesiac;
     private List<Kalendarzmiesiac> listakalendarzmiesiacdoanalizy;
     private List<Kalendarzmiesiac> listakalendarzmiesiacdoanalizy2;
@@ -151,11 +152,14 @@ public class PasekwynagrodzenView implements Serializable {
         }
         if (rodzajlistyplac == null) {
             rodzajlistyplac = rodzajlistyplacFacade.findUmowaoPrace();
-        } else {
-            listadefinicjalistaplac = definicjalistaplacFacade.findByFirmaRokRodzaj(wpisView.getFirma(), wpisView.getRokWpisu(), rodzajlistyplac);
         }
+        listadefinicjalistaplac = definicjalistaplacFacade.findByFirmaRokRodzaj(wpisView.getFirma(), wpisView.getRokWpisu(), rodzajlistyplac);
         if (listadefinicjalistaplac!=null) {
             Collections.sort(listadefinicjalistaplac, new Defnicjalistaplaccomparator());
+        }
+        listadefinicjalistaplacAnaliza = definicjalistaplacFacade.findByFirmaRokMc(wpisView.getFirma(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
+        if (listadefinicjalistaplac!=null) {
+            Collections.sort(listadefinicjalistaplacAnaliza, new Defnicjalistaplaccomparator());
         }
         listakalendarzmiesiac = new org.primefaces.model.DualListModel<>();
         try {
@@ -186,11 +190,14 @@ public class PasekwynagrodzenView implements Serializable {
         }
         if (rodzajlistyplac == null) {
             rodzajlistyplac = rodzajlistyplacFacade.findUmowaoPrace();
-        } else {
-            listadefinicjalistaplac = definicjalistaplacFacade.findByFirmaRokRodzaj(wpisView.getFirma(), wpisView.getRokWpisu(), rodzajlistyplac);
-        }
+        } 
+        listadefinicjalistaplac = definicjalistaplacFacade.findByFirmaRokRodzaj(wpisView.getFirma(), wpisView.getRokWpisu(), rodzajlistyplac);
         if (listadefinicjalistaplac!=null) {
             Collections.sort(listadefinicjalistaplac, new Defnicjalistaplaccomparator());
+        }
+        listadefinicjalistaplacAnaliza = definicjalistaplacFacade.findByFirmaRokMc(wpisView.getFirma(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
+        if (listadefinicjalistaplac!=null) {
+            Collections.sort(listadefinicjalistaplacAnaliza, new Defnicjalistaplaccomparator());
         }
         listakalendarzmiesiac = new org.primefaces.model.DualListModel<>();
         try {
@@ -204,7 +211,7 @@ public class PasekwynagrodzenView implements Serializable {
         } catch (Exception e) {
         }
         listarodzajlistyplac = rodzajlistyplacFacade.findAktywne();
-        ileszczegolow = "prosta";
+        ileszczegolow = "normalna";
         symulacjabrrutto = wpisView.getRokWpisuInt()<2022?2800:3010;
         Msg.msg("Pobrano dane do analizy");
     }
@@ -571,7 +578,7 @@ public class PasekwynagrodzenView implements Serializable {
     public void pobierzpracownika() {
         if (wybranykalendarz != null&&wybranalistaplac2!=null) {
             listawynagrodzenpracownika = KalendarzmiesiacBean.skladnikiwynagrodzeniaWybranalista(wybranykalendarz, wybranalistaplac2);
-            listanieobecnoscipracownika = wybranykalendarz.skladnikinieobecnosclista();
+            listanieobecnoscipracownika = wybranykalendarz.skladnikinieobecnosclista(wybranalistaplac2);
             for (Naliczenienieobecnosc p : listanieobecnoscipracownika) {
                 Collections.sort(p.getSredniadlanieobecnosciList(), new Sredniadlanieobecnoscicomparator());
             }
@@ -768,6 +775,14 @@ public class PasekwynagrodzenView implements Serializable {
 
     public void setListarodzajlistyplac(List<Rodzajlistyplac> listarodzajlistyplac) {
         this.listarodzajlistyplac = listarodzajlistyplac;
+    }
+
+    public List<Definicjalistaplac> getListadefinicjalistaplacAnaliza() {
+        return listadefinicjalistaplacAnaliza;
+    }
+
+    public void setListadefinicjalistaplacAnaliza(List<Definicjalistaplac> listadefinicjalistaplacAnaliza) {
+        this.listadefinicjalistaplacAnaliza = listadefinicjalistaplacAnaliza;
     }
 
 }
