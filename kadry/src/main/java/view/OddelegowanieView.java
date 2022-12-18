@@ -67,13 +67,13 @@ public class OddelegowanieView  implements Serializable {
             for (String rok : lata) {
                 if (Integer.parseInt(rok)>2019  ) {
                     List<Pasekwynagrodzen> paski = new ArrayList<>();
-                    paski.addAll(pasekwynagrodzenFacade.findByRokAngaz(rok, a));
+                    paski.addAll(pasekwynagrodzenFacade.findByRokWyplAngaz(rok, a));
                     List<Podatki> stawkipodatkowe = podatkiFacade.findByRokUmowa(rok, "P");
                     if (paski!=null&&paski.size()>0) {
                         for (String mc : Mce.getMceListS()) {
-                            Kalendarzmiesiac pobierzkalendarz = pobierzkalendarz(kalendarze, rok, mc);
-                            if (pobierzkalendarz!=null) {
-                                Oddelegowanie oddelegowanie = new Oddelegowanie(pobierzkalendarz, paski, a, rok, mc, stawkipodatkowe);
+                            Kalendarzmiesiac pobranykalendarz = pobierzkalendarz(kalendarze, rok, mc);
+                            if (pobranykalendarz!=null) {
+                                Oddelegowanie oddelegowanie = new Oddelegowanie(pobranykalendarz, paski, a, rok, mc, stawkipodatkowe);
                                 if (oddelegowanie.getLiczbadni()>0) {
                                     lista.add(oddelegowanie);
                                 }
