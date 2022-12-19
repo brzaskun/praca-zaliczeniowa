@@ -56,7 +56,7 @@
                     <p:dataTable id="datalist" value="#{historiaView.osoby}" var="osobylistdata" rowIndexVar="yndex"
                                  rowKey="#{osobylistdata.osoSerial}" emptyMessage="brak osób w firmie"
                                  selection="#{historiaView.selectedosoby}" rowSelectMode="add"
-                                 style="height: 200px;overflow-y: scroll; width: 950px; " sortBy="#{osobylistdata.osoNazwisko}"
+                                 style="height: 600px;overflow-y: scroll; width: 1050px; " sortBy="#{osobylistdata.osoNazwisko}"
                                 
                                  >
                         <p:ajax event="toggleSelect" partialSubmit="true" listener="#{historiaView.pobierzinfo()}" update="SuperGroupForm"/>
@@ -119,6 +119,13 @@
                                 <f:convertDateTime dateStyle="medium" locale="pl"/>
                             </h:outputText>
                         </p:column>
+                        <p:column width="60" style="text-align: center;" sortBy="#{osobylistdata.liczbamiesiecy}">
+                            <f:facet name="header">
+                                <h:outputText value="licz. mc"/>
+                            </f:facet>
+                            <h:outputText value="#{osobylistdata.liczbamiesiecy}" style="#{historiaView.zwrotkolor(osobylistdata)}">
+                            </h:outputText>
+                        </p:column>
                          <p:column width="40" style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="zaimp"/>
@@ -153,7 +160,7 @@
             </p:panelGrid>
         </p:outputPanel>
 
-        <p:outputPanel>
+<!--        <p:outputPanel>
             <p:panel header="Wybór pracownika"/>
             <h:form id="HistoriaForm">
                 <p:selectOneMenu id="pracownik" value="#{historiaView.selectedangaz}" required="true" requiredMessage="pracownik"  converter="#{angazConverter}" style="width: 300px;" filter="true" filterMatchMode="contains">
@@ -168,7 +175,7 @@
                                  selectionMode="single" selection="#{historiaView.selectedlista}"
                                  rowIndexVar="index"
                                  rowKey="index" emptyMessage="Nic nie wprowadzono dla danego pracownika"
-                                 style="height: 400px; overflow-y: scroll; width: 1200px;"
+                                 style="height: 200px; overflow-y: scroll; width: 1200px;"
                                  >
 
                         <p:column width="40" style="text-align: center;">
@@ -229,6 +236,6 @@
                 </p:panel>
                 <p:commandButton value="zachowaj" styleClass="buttonnorm" actionListener="#{historiaView.zachowajhist}" update="@form"/>
             </h:form>
-        </p:outputPanel>
+        </p:outputPanel>-->
     </p:panelGrid>
 </ui:composition>

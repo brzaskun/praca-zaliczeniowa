@@ -350,6 +350,10 @@ public class OsobaBean {
             }
             zwrot = single;
         }
+        //dodaj ekwiwalent za urlop bo tego nie ma w skladnikach wynagrodzen
+        Skladnikwynagrodzenia ekwiwalentUrlop = generujskladnikEkwiwalent(rodzajewynagrodzenia, angaz, skladnikWynagrodzeniaFacade, zmiennaWynagrodzeniaFacade);
+        skladnikWynagrodzeniaFacade.create(ekwiwalentUrlop);
+        zwrot.add(ekwiwalentUrlop);
         return zwrot;
     }
 
@@ -412,6 +416,19 @@ public class OsobaBean {
         if (!skladnik.getRodzajwynagrodzenia().getKod().equals("13")) {
             if (skladnik.getZmiennawynagrodzeniaList() == null || skladnik.getZmiennawynagrodzeniaList().isEmpty()) {
                 skladnik = null;
+            }
+        }
+        return skladnik;
+    }
+    
+    private static Skladnikwynagrodzenia generujskladnikEkwiwalent(List<Rodzajwynagrodzenia> rodzajewynagrodzenia, Angaz angaz, SkladnikWynagrodzeniaFacade skladnikWynagrodzeniaFacade, ZmiennaWynagrodzeniaFacade zmiennaWynagrodzeniaFacade) {
+        Skladnikwynagrodzenia skladnik = new Skladnikwynagrodzenia();
+        skladnik.setAngaz(angaz);
+        skladnik.setWks_serial(1014);
+        for (Rodzajwynagrodzenia p : rodzajewynagrodzenia) {
+            if (p.getWks_serial() == 1014) {
+                skladnik.setRodzajwynagrodzenia(p);
+                break;
             }
         }
         return skladnik;

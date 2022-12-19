@@ -7,19 +7,31 @@ package view;
 
 import DAOsuperplace.FirmaFacade;
 import DAOsuperplace.OsobaFacade;
+import comparator.ZatrudHistComparator;
 import dao.AngazFacade;
 import dao.PracownikFacade;
+import dao.SlownikszkolazatrhistoriaFacade;
 import dao.UmowaFacade;
 import dao.WynagrodzeniahistoryczneFacade;
 import data.Data;
 import entity.Angaz;
 import entity.FirmaKadry;
+import entity.Slownikszkolazatrhistoria;
 import entity.Umowa;
 import entity.Wynagrodzeniahistoryczne;
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -28,6 +40,7 @@ import kadryiplace.Firma;
 import kadryiplace.Osoba;
 import kadryiplace.OsobaDet;
 import kadryiplace.OsobaPropTyp;
+import kadryiplace.ZatrudHist;
 import msg.Msg;
 
 /**
@@ -63,6 +76,8 @@ public class HistoriaView  implements Serializable {
     private FirmaFacade firmaFacade;
     @Inject
     private dao.FirmaKadryFacade firmaKadryFacade;
+    @Inject
+    private SlownikszkolazatrhistoriaFacade slownikszkolazatrhistoriaFacade;
     private boolean pokazwszystkie;
     
     @PostConstruct
@@ -118,8 +133,71 @@ public class HistoriaView  implements Serializable {
                 }
             }
         }
+        List<Slownikszkolazatrhistoria> rodzajezatr = slownikszkolazatrhistoriaFacade.findAll();
+        for (Osoba o : osoby) {
+            naniesliczbamcy(o, rodzajezatr);
+        }
     }
     
+    private void naniesliczbamcy(Osoba osoba,List<Slownikszkolazatrhistoria> rodzajezatr) {
+        List<String> kody = new ArrayList<String>(Arrays.asList("1","2","3","4","5","P"));
+        List<ZatrudHist> zatrudHist = osoba.getZatrudHistList();
+        Collections.sort(zatrudHist, new ZatrudHistComparator());
+        int liczbba = 0;
+        for (ZatrudHist r : zatrudHist) {
+            try {
+                Slownikszkolazatrhistoria slownikszkolazatrhistoria = pobierzrodzajzatr(r, rodzajezatr);
+                if (kody.contains(slownikszkolazatrhistoria.getSymbol())) {
+                    if (liczbba==0) {
+                        osoba.setOsoDataZatr(r.getZahDataOd());
+                        Date datado = r.getZahDataDo()!=null?r.getZahDataDo():new SimpleDateFormat("yyyy-MM-dd").parse("2022-12-31");
+                        osoba.setOsoDataZwol(datado);
+                    } else {
+                        Date datado = r.getZahDataDo()!=null?r.getZahDataDo():new SimpleDateFormat("yyyy-MM-dd").parse("2022-12-31");
+                        osoba.setOsoDataZwol(datado);
+                    }
+                    liczbba = liczbba + getLiczbamiesiecy(r);
+                    
+                }
+            } catch (Exception e) {
+            }
+        }
+        osoba.setLiczbamiesiecy(liczbba);
+    }
+    
+     public int getLiczbamiesiecy(ZatrudHist r) {
+        int zwrot = 0;
+        try {
+            String datagraniczna = "2022-12-31";
+            Date datado = r.getZahDataDo()!=null?r.getZahDataDo():new SimpleDateFormat("yyyy-MM-dd").parse(datagraniczna);
+            if (r.getZahDataDo()!=null) {
+                LocalDate dateBefore= LocalDate.parse(datagraniczna);
+                LocalDate dateAfter = LocalDate.parse(new SimpleDateFormat("yyyy-MM-dd").format(r.getZahDataDo()));
+                if (dateAfter.isAfter(dateBefore)) {
+                    datado = new SimpleDateFormat("yyyy-MM-dd").parse(datagraniczna);
+                }
+            }
+            if (r.getZahDataOd()!=null) {
+                LocalDate dateBefore= LocalDate.parse(new SimpleDateFormat("yyyy-MM-dd").format(r.getZahDataOd()));
+                LocalDate dateAfter = LocalDate.parse(new SimpleDateFormat("yyyy-MM-dd").format(datado));
+                zwrot = (int) ChronoUnit.MONTHS.between(dateBefore, dateAfter);
+            }
+        } catch (ParseException ex) {
+            Logger.getLogger(HistoriaView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return zwrot;
+    }
+    
+    private static Slownikszkolazatrhistoria pobierzrodzajzatr(ZatrudHist r, List<Slownikszkolazatrhistoria> rodzajezatr) {
+        Slownikszkolazatrhistoria zwrot = null;
+        for (Slownikszkolazatrhistoria p : rodzajezatr) {
+            if (p.getSymbol().equals(r.getZahTyp().toString())) {
+                zwrot = p;
+                break;
+            }
+        }
+        return zwrot;
+    }
     public void aktywuj(FirmaKadry firma) {
         if (firma!=null) {
             wpisView.setFirma(firma);
