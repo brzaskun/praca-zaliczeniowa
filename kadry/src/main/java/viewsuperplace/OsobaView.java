@@ -260,21 +260,22 @@ public class OsobaView implements Serializable {
                         angaz.setKosztyuzyskaniaprocent(100);
                         angaz.setKwotawolnaprocent(100.0);
                         angaz.setOdliczaculgepodatkowa(true);
-                        if (osoba.getOsoDataZatr()!=null) {
-                            String zatrudnienie = Data.data_yyyyMMdd(osoba.getOsoDataZatr());
-                            rokzatrudnienia = Integer.parseInt(Data.getRok(zatrudnienie));
-                            angaz.setRok(Data.getRok(zatrudnienie));
-                        }
+                        //data w tym miejscu jest data ostatniej umowy. wiec jak ktos mial dwie umowy to bierze zla date
+//                        if (osoba.getOsoDataZatr()!=null) {
+//                            String zatrudnienie = Data.data_yyyyMMdd(osoba.getOsoDataZatr());
+//                            rokzatrudnienia = Integer.parseInt(Data.getRok(zatrudnienie));
+//                            angaz.setRok(Data.getRok(zatrudnienie));
+//                        }
                         angazFacade.create(angaz);
                         //log.add("Stworzono angaż dla "+pracownik.getNazwiskoImie());
                         Msg.msg("Stworzono angaż ");
                     } else {
-                        if (osoba.getOsoDataZatr()!=null) {
-                            String zatrudnienie = Data.data_yyyyMMdd(osoba.getOsoDataZatr());
-                            rokzatrudnienia = Integer.parseInt(Data.getRok(zatrudnienie));
-                            angaz.setRok(Data.getRok(zatrudnienie));
-                            angazFacade.edit(angaz);
-                        }
+//                        if (osoba.getOsoDataZatr()!=null) {
+//                            String zatrudnienie = Data.data_yyyyMMdd(osoba.getOsoDataZatr());
+//                            rokzatrudnienia = Integer.parseInt(Data.getRok(zatrudnienie));
+//                            angaz.setRok(Data.getRok(zatrudnienie));
+//                            angazFacade.edit(angaz);
+//                        }
                     }
                     wpisView.setAngaz(angaz);
                     List<Slownikszkolazatrhistoria> rodzajezatr = slownikszkolazatrhistoriaFacade.findAll();
