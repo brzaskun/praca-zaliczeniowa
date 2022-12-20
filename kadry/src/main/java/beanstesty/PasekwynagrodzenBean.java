@@ -210,13 +210,13 @@ public class PasekwynagrodzenBean {
         //KalendarzmiesiacBean.nalicznadgodziny100(kalendarz, pasek);
         //najpierw musimy przyporzadkowac aktualne skladniki, aby potem prawidlowo obliczyc redukcje
         //KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, zatrudnieniewtrakciemiesiaca, pasek);
-        KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, choroba, pasek, kalendarzlista, kurs);
-        KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, zasilekchorobowy, pasek, kalendarzlista, kurs);
-        KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, urlopbezplatny, pasek, kalendarzlista, kurs);
+        KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, choroba, pasek, kalendarzlista, kurs, definicjalistaplac);
+        KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, zasilekchorobowy, pasek, kalendarzlista, kurs, definicjalistaplac);
+        KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, urlopbezplatny, pasek, kalendarzlista, kurs, definicjalistaplac);
         //KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, oddelegowanie, pasek);
         KalendarzmiesiacBean.redukujskladnikistale(kalendarz, pasek);
-        KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, urlop, pasek, kalendarzlista, kurs);
-        KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, urlopoddelegowanie, pasek, kalendarzlista, kurs);
+        KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, urlop, pasek, kalendarzlista, kurs, definicjalistaplac);
+        KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, urlopoddelegowanie, pasek, kalendarzlista, kurs, definicjalistaplac);
         //KalendarzmiesiacBean.redukujskladnikistale2(kalendarz, pasek);
         if (definicjalistaplac.getRodzajlistyplac().getSymbol().equals("ZA")) {
             PasekwynagrodzenBean.obliczbruttobezzusZasilek(pasek);
@@ -264,7 +264,7 @@ public class PasekwynagrodzenBean {
         //List<Nieobecnosc> zatrudnieniewtrakciemiesiaca = pobierz(nieobecnosci, "D");
         //List<Nieobecnosc> choroba = pobierz(nieobecnosci, "CH");
         List<Nieobecnosc> zasilekchorobowy = pobierz(nieobecnosci, "ZC");
-        KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, zasilekchorobowy, pasek, kalendarzlista, kurs);
+        KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, zasilekchorobowy, pasek, kalendarzlista, kurs, definicjalistaplac);
         //PasekwynagrodzenBean.obliczbruttozus(pasek);
         PasekwynagrodzenBean.obliczbruttobezzusZasilek(pasek);
         PasekwynagrodzenBean.obliczbruttominusspoleczneDB(pasek);

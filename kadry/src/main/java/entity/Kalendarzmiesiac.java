@@ -519,7 +519,7 @@ private static final long serialVersionUID = 1L;
        Pasekwynagrodzen zwrot = new Pasekwynagrodzen();
          if (this.pasekwynagrodzenList!=null && this.pasekwynagrodzenList.size()>0&&definicjalistaplac!=null) {
            for (Pasekwynagrodzen p : this.pasekwynagrodzenList) {
-               if (p.getDefinicjalistaplac().equals(definicjalistaplac)) {
+               if (p.getDefinicjalistaplac().getRodzajlistyplac().equals(definicjalistaplac.getRodzajlistyplac())) {
                     zwrot = p;
                     break;
                }
@@ -528,13 +528,15 @@ private static final long serialVersionUID = 1L;
         return zwrot;
    }
    
+  
+   
 
    
    public List<Naliczenienieobecnosc> skladnikinieobecnosclista(Definicjalistaplac wybranalistaplac2) {
        Set<Naliczenienieobecnosc> zwrot = new HashSet<>();
        if (this.pasekwynagrodzenList!=null && !this.pasekwynagrodzenList.isEmpty()) {
            for (Pasekwynagrodzen p : this.pasekwynagrodzenList) {
-               if (p.getDefinicjalistaplac().equals(wybranalistaplac2)) {
+               if (p.getDefinicjalistaplac().getRodzajlistyplac().equals(wybranalistaplac2.getRodzajlistyplac())) {
                     if (p.getNaliczenienieobecnoscList()!=null) {
                         zwrot.addAll(p.getNaliczenienieobecnoscList());
                     }

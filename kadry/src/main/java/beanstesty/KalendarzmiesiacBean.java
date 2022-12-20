@@ -169,7 +169,7 @@ public class KalendarzmiesiacBean {
             }
         }
         if (nieobecnosc.getKod().equals("CH")) {
-            naliczskladnikiwynagrodzeniazaChorobe(kalendarz, nieobecnosc, pasekwynagrodzen);
+            naliczskladnikiwynagrodzeniazaChorobe(kalendarz, nieobecnosc, pasekwynagrodzen, null);
         } else if (nieobecnosc.getKod().equals("U")) {
             naliczskladnikiwynagrodzeniazaUrlop(kalendarz, nieobecnosc, pasekwynagrodzen, kalendarzList);
         } else if (nieobecnosc.getKod().equals("X")) {
@@ -179,16 +179,16 @@ public class KalendarzmiesiacBean {
         }
     }
 
-    static void dodajnieobecnoscDB(Kalendarzmiesiac kalendarz, List<Nieobecnosc> nieobecnosclista, Pasekwynagrodzen pasekwynagrodzen, List<Kalendarzmiesiac> kalendarzList, double kurs) {
+    static void dodajnieobecnoscDB(Kalendarzmiesiac kalendarz, List<Nieobecnosc> nieobecnosclista, Pasekwynagrodzen pasekwynagrodzen, List<Kalendarzmiesiac> kalendarzList, double kurs, Definicjalistaplac definicjalistaplac) {
         if (nieobecnosclista != null && !nieobecnosclista.isEmpty()) {
             for (Nieobecnosc nieobecnosc : nieobecnosclista) {
                 String kod = nieobecnosc.getKod();
                 if (kod.equals("ZC")) {
                     //zasilek chorobowy
-                    naliczskladnikiwynagrodzeniazaChorobe(kalendarz, nieobecnosc, pasekwynagrodzen);
+                    naliczskladnikiwynagrodzeniazaChorobe(kalendarz, nieobecnosc, pasekwynagrodzen, definicjalistaplac);
                 } else if (kod.equals("CH")) {
                     //wynagrodzenie za czas niezdolnosci od pracy
-                    naliczskladnikiwynagrodzeniazaChorobe(kalendarz, nieobecnosc, pasekwynagrodzen);
+                    naliczskladnikiwynagrodzeniazaChorobe(kalendarz, nieobecnosc, pasekwynagrodzen, definicjalistaplac);
                 } else if (kod.equals("U")) {
                     //urlop wypoczynowy
                     naliczskladnikiwynagrodzeniazaUrlop(kalendarz, nieobecnosc, pasekwynagrodzen, kalendarzList);
@@ -380,7 +380,7 @@ public class KalendarzmiesiacBean {
         }
     }
 
-    static void naliczskladnikiwynagrodzeniazaChorobe(Kalendarzmiesiac kalendarz, Nieobecnosc nieobecnosc, Pasekwynagrodzen pasekwynagrodzen) {
+    static void naliczskladnikiwynagrodzeniazaChorobe(Kalendarzmiesiac kalendarz, Nieobecnosc nieobecnosc, Pasekwynagrodzen pasekwynagrodzen, Definicjalistaplac definicjalistaplac) {
         double liczbagodzinchoroby = 0.0;
         double liczbagodzinobowiazku = 0.0;
         String pierwszydzienmiesiaca = Data.pierwszyDzienKalendarz(kalendarz);
@@ -408,7 +408,7 @@ public class KalendarzmiesiacBean {
                 naliczenienieobecnosc.setSkladnikwynagrodzenia(skladnikwynagrodzenia);
                 naliczenienieobecnosc.setNieobecnosc(nieobecnosc);
                 naliczenienieobecnosc.setJakiskladnikredukowalny(naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getOpispelny());
-                double sredniadopodstawy = wyliczsredniachoroba(kalendarz, naliczenieskladnikawynagrodzenia, nieobecnosc, naliczenienieobecnosc);
+                double sredniadopodstawy = wyliczsredniachoroba(kalendarz, naliczenieskladnikawynagrodzenia, nieobecnosc, naliczenienieobecnosc, definicjalistaplac);
                 naliczenienieobecnosc.setPodstawadochoroby(sredniadopodstawy);
                 double procentzazwolnienie = Z.z(nieobecnosc.getZwolnienieprocent() / 100);
                 naliczenienieobecnosc.setProcentzazwolnienie(procentzazwolnienie);
@@ -434,7 +434,7 @@ public class KalendarzmiesiacBean {
         }
     }
 
-    private static double wyliczsredniachoroba(Kalendarzmiesiac kalendarz, Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia, Nieobecnosc nieobecnosc, Naliczenienieobecnosc naliczenienieobecnosc) {
+    private static double wyliczsredniachoroba(Kalendarzmiesiac kalendarz, Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia, Nieobecnosc nieobecnosc, Naliczenienieobecnosc naliczenienieobecnosc, Definicjalistaplac definicjalistaplac) {
         double zwrot = 0.0;
         List<Kalendarzmiesiac> kalendarze = new ArrayList<>();
         String rok = kalendarz.getRok();
@@ -538,7 +538,7 @@ public class KalendarzmiesiacBean {
                     break;
                 }
             }
-            //idziemy dalej jak nie bylo choroby w ciagu ostatnich 3 mcy
+            //idziemy dalej jak nie bylo choroby w w okresie krtotszum niz 1 mcy
             if (sredniadopodstawyzmienne == 0.0) {
                 double i = 0.0;
                 for (Iterator<Kalendarzmiesiac> it = kalendarze.iterator(); it.hasNext();) {
@@ -573,7 +573,24 @@ public class KalendarzmiesiacBean {
                         boolean skladnikstaly = false;
                         boolean pominiety = true;
                         if (!kalendarzdosredniej.equals(kalendarz)) {
-                            Sredniadlanieobecnosci srednia = new Sredniadlanieobecnosci(kalendarzdosredniej.getRok(), kalendarzdosredniej.getMc(), sredniadopodstawyzmienne, skladnikstaly, naliczenienieobecnosc, pominiety, godzinyprzepracowane, dniprzepracowane, godzinyrobocze, dnirobocze);
+                            double wynagrodzeniemcwyplacone = 0.0;
+                            if (kalendarzdosredniej.getPasek(definicjalistaplac).getNaliczenieskladnikawynagrodzeniaList() != null) {
+                                for (Naliczenieskladnikawynagrodzenia pa : kalendarzdosredniej.getPasek(definicjalistaplac).getNaliczenieskladnikawynagrodzeniaList()) {
+                                    if (pa.getSkladnikwynagrodzenia().equals(naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia())) {
+                                        wynagrodzeniemcwyplacone = wynagrodzeniemcwyplacone + pa.getKwotadolistyplac();
+                                    }
+                                }
+                            }
+                            if (kalendarzdosredniej.getPasek().getNaliczenienieobecnoscList() != null) {
+                                for (Naliczenienieobecnosc r : kalendarzdosredniej.getPasek().getNaliczenienieobecnoscList()) {
+                                    if (r.getNieobecnosc().getRodzajnieobecnosci().isNieskladkowy()==false) {
+                                        if (r.getSkladnikwynagrodzenia().equals(naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia())) {
+                                            wynagrodzeniemcwyplacone = wynagrodzeniemcwyplacone + r.getKwota();
+                                        }
+                                    }
+                                }
+                            }
+                            Sredniadlanieobecnosci srednia = new Sredniadlanieobecnosci(kalendarzdosredniej.getRok(), kalendarzdosredniej.getMc(), wynagrodzeniemcwyplacone, skladnikstaly, naliczenienieobecnosc, pominiety, godzinyprzepracowane, dniprzepracowane, godzinyrobocze, dnirobocze);
                             naliczenienieobecnosc.getSredniadlanieobecnosciList().add(srednia);
                         }
                         it.remove();
@@ -610,8 +627,8 @@ public class KalendarzmiesiacBean {
                             boolean waloryzowac = czywaloryzowac[2] == 1;
                             double wynagrodzeniemcwyplacone = 0.0;
                             double wynagrodzeniemczwaloryzowane = 0.0;
-                            if (kalendarzdosredniej.getPasek().getNaliczenieskladnikawynagrodzeniaList() != null) {
-                                for (Naliczenieskladnikawynagrodzenia pa : kalendarzdosredniej.getPasek().getNaliczenieskladnikawynagrodzeniaList()) {
+                            if (kalendarzdosredniej.getPasek(definicjalistaplac).getNaliczenieskladnikawynagrodzeniaList() != null) {
+                                for (Naliczenieskladnikawynagrodzenia pa : kalendarzdosredniej.getPasek(definicjalistaplac).getNaliczenieskladnikawynagrodzeniaList()) {
                                     if (pa.getSkladnikwynagrodzenia().equals(naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia())) {
                                         if (waloryzowac) {
                                             wynagrodzeniemczwaloryzowane = wynagrodzeniemczwaloryzowane + pa.getKwotadolistyplac() + pa.getKwotyredukujacesuma();
@@ -622,9 +639,11 @@ public class KalendarzmiesiacBean {
                                 }
                             }
                             if (kalendarzdosredniej.getPasek().getNaliczenienieobecnoscList() != null) {
-                                for (Naliczenienieobecnosc r : kalendarzdosredniej.getPasek().getNaliczenienieobecnoscList()) {
-                                    if (r.getSkladnikwynagrodzenia().equals(naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia())) {
-                                        wynagrodzeniemcwyplacone = wynagrodzeniemcwyplacone + r.getKwota();
+                                for (Naliczenienieobecnosc r : kalendarzdosredniej.getPasek(definicjalistaplac).getNaliczenienieobecnoscList()) {
+                                    if (r.getNieobecnosc().getRodzajnieobecnosci().isNieskladkowy()==false) {
+                                        if (r.getSkladnikwynagrodzenia().equals(naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia())) {
+                                            wynagrodzeniemcwyplacone = wynagrodzeniemcwyplacone + r.getKwota();
+                                        }
                                     }
                                 }
                             }

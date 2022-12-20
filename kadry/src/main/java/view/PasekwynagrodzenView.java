@@ -379,7 +379,7 @@ public class PasekwynagrodzenView implements Serializable {
     public void drukuj(Pasekwynagrodzen p) {
         if (p != null) {
             PdfListaPlac.drukuj(p, rodzajnieobecnosciFacade);
-            Msg.msg("Wydrukowano pwsek wynagrodzeń");
+            Msg.msg("Wydrukowano pasek wynagrodzeń");
         } else {
             Msg.msg("e", "Błąd drukowania. Pasek null");
         }
@@ -498,13 +498,16 @@ public class PasekwynagrodzenView implements Serializable {
             lista = pasekwynagrodzenFacade.findByDef(wybranalistaplac);
             for (Iterator<Kalendarzmiesiac> it = listakalendarzmiesiac.iterator(); it.hasNext();) {
                 Kalendarzmiesiac kal = it.next();
-                Pasekwynagrodzen pasek = kal.getPasek();
+                Pasekwynagrodzen pasek = kal.getPasek(wybranalistaplac);
                 if (lista.contains(pasek)) {
                     it.remove();
                 }
             }
-            if (listakalendarzmiesiac != null) {
+            if (listakalendarzmiesiac != null&&listakalendarzmiesiac.size()>0) {
                 this.listakalendarzmiesiac.setSource(listakalendarzmiesiac);
+                this.listakalendarzmiesiac.setTarget(new ArrayList<>());
+            } else {
+                this.listakalendarzmiesiac.setSource(new ArrayList<>());
                 this.listakalendarzmiesiac.setTarget(new ArrayList<>());
             }
             datawyplaty = zrobdatawyplaty(wybranalistaplac.getMc(), wybranalistaplac.getRok(), wpisView.getFirma());
@@ -562,7 +565,6 @@ public class PasekwynagrodzenView implements Serializable {
             }
             lista = pasekwynagrodzenFacade.findByDef(wybranalistaplac);
             if (listakalendarzmiesiac != null) {
-                this.listakalendarzmiesiac.setSource(listakalendarzmiesiac);
                 this.listakalendarzmiesiacdoanalizy2 = listakalendarzmiesiac;
             }
             if (wybranykalendarz != null) {
