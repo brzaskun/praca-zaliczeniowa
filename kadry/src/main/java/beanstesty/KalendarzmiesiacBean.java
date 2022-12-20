@@ -513,7 +513,7 @@ public class KalendarzmiesiacBean {
                 if (!p.equals(kalendarz)) {
                     if (p.czyjestchoroba()) {
                         int ilemcy = Mce.odlegloscMcy(p.getMc(), p.getRok(), kalendarz.getMc(), kalendarz.getRok());
-                        if (ilemcy <= 3) {
+                        if (ilemcy < 1) {
                             sredniadopodstawyzmienne = p.pobierzPodstaweNieobecnosc(nieobecnosc);
                         }
                     }
