@@ -1064,58 +1064,76 @@ public class Pasekwynagrodzen implements Serializable {
         return zwrot;
     }
     
-    public List<Pasekwynagrodzen.Skladnikwynlista> getPobierzskladniki(){
+    public List<Pasekwynagrodzen.Skladnikwynlista> getPobierzskladniki(Definicjalistaplac definicjalistaplac){
         List<Pasekwynagrodzen.Skladnikwynlista> zwrot = new ArrayList<>();
         int i = 1;
         if (this.naliczenieskladnikawynagrodzeniaList!=null) {
             for (Naliczenieskladnikawynagrodzenia p : this.naliczenieskladnikawynagrodzeniaList) {
-                Skladnikwynlista wiersz = new Skladnikwynlista();
-                wiersz.lp = i++;
-                wiersz.kod = p.getSkladnikwynagrodzenia()!=null?p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod():"";
-                wiersz.nazwa = p.getSkladnikwynagrodzenia()!=null?p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getOpisskrocony():"";
-                wiersz.kwota = p.getKwotadolistyplac();
-                wiersz.redukcja = p.getKwotyredukujacesuma();
-                wiersz.dataod = p.getDataod();
-                wiersz.datado = p.getDatado();
-                wiersz.dniobowiazku = p.getDninalezne();
-                wiersz.dniprzepracowane = p.getDnifaktyczne();
-                wiersz.godzinyobowiazku = p.getGodzinynalezne();
-                wiersz.godzinyprzepracowane = p.getGodzinyfaktyczne();
-                wiersz.stawkanagodzine = p.getStawkagodzinowa();
-                wiersz.stawkadzienna = p.getStawkadzienna();
-                wiersz.wynagrodzeniezmienna = p.getKwotaumownazacalymc();
-                wiersz.uwagi = p.getUwagi();
-                wiersz.waluta = p.getWaluta();
-                try {
-                    wiersz.setUrlopSP(p.getSkl_dod_1()!=null&&p.getSkl_dod_1().equals('T'));
-                    wiersz.setRedukcjaSP(p.getSkl_rodzaj()!=null&&p.getSkl_rodzaj().equals('U'));
-                } catch (Exception e){}
-                zwrot.add(wiersz);
+                boolean czyschowac =false;
+//                List<RodzajlistyplacRodzajwynagrodzenia> definicjalistaplacRodzajwynagrodzeniaList = definicjalistaplac.getRodzajlistyplac().getDefinicjalistaplacRodzajwynagrodzeniaList();
+//                for (RodzajlistyplacRodzajwynagrodzenia rodz : definicjalistaplacRodzajwynagrodzeniaList) {
+//                    if (rodz.getRodzajwynagrodzenia().equals(p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia())) {
+//                        czyschowac = false;
+//                    }
+//                }
+                if (czyschowac==false) {
+                    Skladnikwynlista wiersz = new Skladnikwynlista();
+                    wiersz.lp = i++;
+                    wiersz.kod = p.getSkladnikwynagrodzenia()!=null?p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod():"";
+                    wiersz.nazwa = p.getSkladnikwynagrodzenia()!=null?p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getOpisskrocony():"";
+                    wiersz.kwota = p.getKwotadolistyplac();
+                    wiersz.redukcja = p.getKwotyredukujacesuma();
+                    wiersz.dataod = p.getDataod();
+                    wiersz.datado = p.getDatado();
+                    wiersz.dniobowiazku = p.getDninalezne();
+                    wiersz.dniprzepracowane = p.getDnifaktyczne();
+                    wiersz.godzinyobowiazku = p.getGodzinynalezne();
+                    wiersz.godzinyprzepracowane = p.getGodzinyfaktyczne();
+                    wiersz.stawkanagodzine = p.getStawkagodzinowa();
+                    wiersz.stawkadzienna = p.getStawkadzienna();
+                    wiersz.wynagrodzeniezmienna = p.getKwotaumownazacalymc();
+                    wiersz.uwagi = p.getUwagi();
+                    wiersz.waluta = p.getWaluta();
+                    try {
+                        wiersz.setUrlopSP(p.getSkl_dod_1()!=null&&p.getSkl_dod_1().equals('T'));
+                        wiersz.setRedukcjaSP(p.getSkl_rodzaj()!=null&&p.getSkl_rodzaj().equals('U'));
+                    } catch (Exception e){}
+                    zwrot.add(wiersz);
+                }
             }
         }
         if (this.naliczenienieobecnoscList!=null) {
             for (Naliczenienieobecnosc p : this.naliczenienieobecnoscList) {
-                Skladnikwynlista wiersz = new Skladnikwynlista();
-                wiersz.lp = i++;
-                wiersz.kod = p.getNieobecnosc().getKod();
-                if (p.getSkladnikwynagrodzenia()!=null) {
-                    wiersz.nazwa = p.getNieobecnosc().getOpisRodzajSwiadczenie()+"/"+p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getOpisskrocony();
-                } else {
-                    wiersz.nazwa = p.getNieobecnosc().getOpisRodzajSwiadczenie();
+                boolean czyschowac =false;
+//                List<RodzajlistyplacRodzajwynagrodzenia> definicjalistaplacRodzajwynagrodzeniaList = definicjalistaplac.getRodzajlistyplac().getDefinicjalistaplacRodzajwynagrodzeniaList();
+//                for (RodzajlistyplacRodzajwynagrodzenia rodz : definicjalistaplacRodzajwynagrodzeniaList) {
+//                    if (rodz.getRodzajlistyplac().equals(definicjalistaplac.getRodzajlistyplac())) {
+//                        czyschowac = false;
+//                    }
+//                }
+                if (czyschowac==false) {
+                    Skladnikwynlista wiersz = new Skladnikwynlista();
+                    wiersz.lp = i++;
+                    wiersz.kod = p.getNieobecnosc().getKod();
+                    if (p.getSkladnikwynagrodzenia()!=null) {
+                        wiersz.nazwa = p.getNieobecnosc().getOpisRodzajSwiadczenie()+"/"+p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getOpisskrocony();
+                    } else {
+                        wiersz.nazwa = p.getNieobecnosc().getOpisRodzajSwiadczenie();
+                    }
+                    wiersz.kodzus = p.getNieobecnosc().getSwiadczeniekodzus()!=null?p.getNieobecnosc().getSwiadczeniekodzus().getKod():"";
+                    wiersz.kwota = p.getKwota();
+                    wiersz.redukcja = p.getKwotaredukcji()+p.getKwotastatystyczna();
+                    wiersz.dataod = p.getDataod();
+                    wiersz.datado = p.getDatado();
+                    wiersz.dniobowiazku = p.getLiczbadniobowiazku();
+                    wiersz.dniprzepracowane = p.getLiczbadniurlopu();
+                    wiersz.godzinyobowiazku = p.getLiczbagodzinobowiazku();
+                    wiersz.godzinyprzepracowane = p.getLiczbagodzinurlopu();
+                    wiersz.stawkanagodzine = p.getStawkagodzinowa();
+                    wiersz.stawkadzienna = p.getStawkadzienna();
+                    wiersz.waluta = p.getWaluta();
+                    zwrot.add(wiersz);
                 }
-                wiersz.kodzus = p.getNieobecnosc().getSwiadczeniekodzus()!=null?p.getNieobecnosc().getSwiadczeniekodzus().getKod():"";
-                wiersz.kwota = p.getKwota();
-                wiersz.redukcja = p.getKwotaredukcji()+p.getKwotastatystyczna();
-                wiersz.dataod = p.getDataod();
-                wiersz.datado = p.getDatado();
-                wiersz.dniobowiazku = p.getLiczbadniobowiazku();
-                wiersz.dniprzepracowane = p.getLiczbadniurlopu();
-                wiersz.godzinyobowiazku = p.getLiczbagodzinobowiazku();
-                wiersz.godzinyprzepracowane = p.getLiczbagodzinurlopu();
-                wiersz.stawkanagodzine = p.getStawkagodzinowa();
-                wiersz.stawkadzienna = p.getStawkadzienna();
-                wiersz.waluta = p.getWaluta();
-                zwrot.add(wiersz);
             }
         }
         if (this.naliczeniepotracenieList!=null) {

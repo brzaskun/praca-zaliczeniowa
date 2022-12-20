@@ -14,7 +14,7 @@
                      style="height: 430px; overflow-y: scroll;"
                      >
             <p:column width="20" style="text-align: center;">
-                <p:rowToggler rendered="#{itempasek.pobierzskladniki.size() gt 0}"/>
+                <p:rowToggler />
             </p:column>
             <p:column>
                 <p:panelGrid styleClass="pasekwync">
@@ -159,7 +159,7 @@
                 </p:panelGrid>
             </p:column>
             <p:rowExpansion>
-                <p:dataTable id="datalist1" value="#{itempasek.pobierzskladniki}" var="itempasekszcz"
+                <p:dataTable id="datalist1" value="#{itempasek.getPobierzskladniki(pasekwynagrodzenView.wybranalistaplac)}" var="itempasekszcz"
                              rowIndexVar="indexpasekszcz"
                              style="height: 200px; overflow-y: scroll;width: 1420px;"
                              >

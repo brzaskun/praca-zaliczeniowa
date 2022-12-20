@@ -1203,6 +1203,8 @@ public class PasekwynagrodzenBean {
         } catch (Exception e){}
         return zwrot;
     }
+
+    
     
    
 }
