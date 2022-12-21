@@ -86,7 +86,8 @@ public class Sredniadlanieobecnosci implements Serializable {
     @JoinColumn(name = "naliczenienieobecnosc", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Naliczenienieobecnosc naliczenienieobecnosc;
-    
+    @Column(name = "kontynuacja")
+    private String kontynuacja;
 
     public Sredniadlanieobecnosci() {
     }
@@ -303,6 +304,16 @@ public class Sredniadlanieobecnosci implements Serializable {
         this.naliczenienieobecnosc = naliczenienieobecnosc;
     }
 
+    public String getKontynuacja() {
+        return kontynuacja;
+    }
+
+    public void setKontynuacja(String kontynuacja) {
+        this.kontynuacja = kontynuacja;
+    }
+
+    
+    
     @Override
     public int hashCode() {
         int hash = 0;

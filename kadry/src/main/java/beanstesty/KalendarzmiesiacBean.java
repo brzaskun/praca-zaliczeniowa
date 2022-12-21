@@ -508,13 +508,17 @@ public class KalendarzmiesiacBean {
             }
         } else {
             sredniadopodstawyzmienne = 0.0;
+            double sumakwotdosredniej = 0.0;
+            String kontynuacja = "";
             //kontynuacja zwolnienia jest ciaglosc trzeba pobrac poprzednia zmienna
             for (Kalendarzmiesiac p : kalendarze) {
                 if (!p.equals(kalendarz)) {
                     if (p.czyjestchoroba()) {
                         int ilemcy = Mce.odlegloscMcy(p.getMc(), p.getRok(), kalendarz.getMc(), kalendarz.getRok());
-                        if (ilemcy < 1) {
+                        if (ilemcy <= 1) {
+                            sumakwotdosredniej = p.pobierzSumeKwotNieobecnosc(nieobecnosc);
                             sredniadopodstawyzmienne = p.pobierzPodstaweNieobecnosc(nieobecnosc);
+                            kontynuacja = p.getRokMc();
                         }
                     }
                 }
@@ -533,6 +537,8 @@ public class KalendarzmiesiacBean {
                     boolean skladnikstaly = false;
                     Sredniadlanieobecnosci srednia = new Sredniadlanieobecnosci(kalendarz.getRok(), kalendarz.getMc(), sredniadopodstawyzmienne, skladnikstaly, naliczenienieobecnosc, godzinyobecnosciroboczezm,
                             naliczenieskladnikawynagrodzenia.getGodzinyfaktyczne(), naliczenieskladnikawynagrodzenia.getDnifaktyczne(), naliczenieskladnikawynagrodzenia.getGodzinynalezne(), naliczenieskladnikawynagrodzenia.getDninalezne(), 0.0);
+                    srednia.getNaliczenienieobecnosc().setSumakwotdosredniej(sumakwotdosredniej);
+                    srednia.setKontynuacja(kontynuacja);
                     naliczenienieobecnosc.getSredniadlanieobecnosciList().add(srednia);
                     sredniadopodstawy = sredniadopodstawyzmienne;
                     break;

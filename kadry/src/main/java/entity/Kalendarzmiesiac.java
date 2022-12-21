@@ -905,6 +905,18 @@ private static final long serialVersionUID = 1L;
         }
         return kwota;
     }
+    
+    public double pobierzSumeKwotNieobecnosc(Nieobecnosc nieobecnosc) {
+        double kwota = 0.0;
+        if (this.getPasek()!=null) {
+            for (Naliczenienieobecnosc p : this.getPasek().getNaliczenienieobecnoscList()) {
+                if (p.getNieobecnosc().getRodzajnieobecnosci().getKod().equals("CH")||p.getNieobecnosc().getRodzajnieobecnosci().getKod().equals("ZC")) {
+                    kwota = p.getSumakwotdosredniej();
+                }
+            }
+        }
+        return kwota;
+    }
 
     public boolean isNierezydent() {
         return this.getAngaz().getPracownik().isNierezydent();

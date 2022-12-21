@@ -247,7 +247,7 @@
                                     <p:rowExpansion>
                                         <p:dataTable id="datalistsrednia" value="#{itempasekpotr.sredniadlanieobecnosciList}" var="itempaseksrednia"
                                                      rowIndexVar="itempaseksredniaid" rowKey="#{itempaseksrednia.id}"
-                                                     style="height: 200px; overflow-y: scroll;width: 950px;"
+                                                     style="height: 200px; overflow-y: scroll;width: 1050px;"
                                                      >
                                             <p:column style="text-align: center;" headerText="lp" width="40">
                                                 <h:outputText value="#{itempaseksredniaid+1}"/>
@@ -276,6 +276,9 @@
                                             </p:column>
                                             <p:column headerText="stałe" width="50" style="text-align: center;">
                                                 <h:outputText value="&#x2714;"  rendered="#{itempaseksrednia.skladnikstaly}" styleClass="ww"/>
+                                            </p:column>
+                                            <p:column headerText="kont." width="50" style="text-align: center;">
+                                                <h:outputText value="#{itempaseksrednia.kontynuacja}" />
                                             </p:column>
                                             <p:column headerText="kwota" width="80">
                                                 <bcf:outputpl value="#{itempaseksrednia.kwotawyplacona}"/>
