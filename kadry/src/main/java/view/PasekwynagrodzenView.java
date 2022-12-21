@@ -181,50 +181,50 @@ public class PasekwynagrodzenView implements Serializable {
         lista = new ArrayList<>();
         if (wpisView.getUmowa() != null) {
             if (wpisView.getUmowa().getUmowakodzus() != null && wpisView.getUmowa().getUmowakodzus().isPraca()) {
-                rodzajlistyplac = rodzajlistyplacFacade.findUmowaoPrace();
-            } else if  (wpisView.getUmowa().getUmowakodzus() != null && wpisView.getUmowa().getUmowakodzus().isZlecenie()){
-                rodzajlistyplac = rodzajlistyplacFacade.findUmowaZlecenia();
-            } else  if  (wpisView.getUmowa().getUmowakodzus() != null) {
-                rodzajlistyplac = rodzajlistyplacFacade.findUmowaFunkcja();
+                    rodzajlistyplac = rodzajlistyplacFacade.findUmowaoPrace();
+                } else if  (wpisView.getUmowa().getUmowakodzus() != null && wpisView.getUmowa().getUmowakodzus().isZlecenie()){
+                    rodzajlistyplac = rodzajlistyplacFacade.findUmowaZlecenia();
+                } else  if  (wpisView.getUmowa().getUmowakodzus() != null) {
+                    rodzajlistyplac = rodzajlistyplacFacade.findUmowaFunkcja();
+                }
             }
-        }
-        if (rodzajlistyplac == null) {
-            rodzajlistyplac = rodzajlistyplacFacade.findUmowaoPrace();
-        } 
-        listadefinicjalistaplac = definicjalistaplacFacade.findByFirmaRokRodzaj(wpisView.getFirma(), wpisView.getRokWpisu(), rodzajlistyplac);
-        if (listadefinicjalistaplac!=null) {
-            Collections.sort(listadefinicjalistaplac, new Defnicjalistaplaccomparator());
-        }
-        listadefinicjalistaplacAnaliza = definicjalistaplacFacade.findByFirmaRokMc(wpisView.getFirma(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
-        if (listadefinicjalistaplac!=null) {
-            Collections.sort(listadefinicjalistaplacAnaliza, new Defnicjalistaplaccomparator());
-        }
-        listakalendarzmiesiac = new org.primefaces.model.DualListModel<>();
-        try {
-            wybranalistaplac = listadefinicjalistaplac.stream().filter(p -> p.getMc().equals(wpisView.getMiesiacWpisu())).findFirst().get();
-            wybranalistaplac2 = listadefinicjalistaplac.stream().filter(p -> p.getMc().equals(wpisView.getMiesiacWpisu())).findFirst().get();
-            datawyplaty = zrobdatawyplaty(wpisView.getMiesiacWpisu(), wpisView.getRokWpisu(), wpisView.getFirma());
-            listakalendarzmiesiacdoanalizy2 = kalendarzmiesiacFacade.findByFirmaRokMc(wybranalistaplac2.getFirma(), wybranalistaplac2.getRok(), wybranalistaplac2.getMc());
-            wybranykalendarz = listakalendarzmiesiacdoanalizy2.stream().filter(s->s.getPesel().equals(wpisView.getPracownik().getPesel())).findFirst().orElse(null);
-            //pobierzkalendarzezamc();
-            pobierzkalendarzezamcanaliza();
-        } catch (Exception e) {
-        }
-        listarodzajlistyplac = rodzajlistyplacFacade.findAktywne();
-        ileszczegolow = "normalna";
-        symulacjabrrutto = wpisView.getRokWpisuInt()<2022?2800:3010;
-        Msg.msg("Pobrano dane do analizy");
-    }
-
-    public void wyborinnejumowy() {
-        lista = new ArrayList<>();
-        if (rodzajlistyplac == null) {
-            rodzajlistyplac = rodzajlistyplacFacade.findUmowaoPrace();
-        } else {
+            if (rodzajlistyplac == null) {
+                rodzajlistyplac = rodzajlistyplacFacade.findUmowaoPrace();
+            } 
             listadefinicjalistaplac = definicjalistaplacFacade.findByFirmaRokRodzaj(wpisView.getFirma(), wpisView.getRokWpisu(), rodzajlistyplac);
+            if (listadefinicjalistaplac!=null) {
+                Collections.sort(listadefinicjalistaplac, new Defnicjalistaplaccomparator());
+            }
+            listadefinicjalistaplacAnaliza = definicjalistaplacFacade.findByFirmaRokMc(wpisView.getFirma(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
+            if (listadefinicjalistaplac!=null) {
+                Collections.sort(listadefinicjalistaplacAnaliza, new Defnicjalistaplaccomparator());
+            }
+            listakalendarzmiesiac = new org.primefaces.model.DualListModel<>();
+            try {
+                wybranalistaplac = listadefinicjalistaplac.stream().filter(p -> p.getMc().equals(wpisView.getMiesiacWpisu())).findFirst().get();
+                wybranalistaplac2 = listadefinicjalistaplac.stream().filter(p -> p.getMc().equals(wpisView.getMiesiacWpisu())).findFirst().get();
+                datawyplaty = zrobdatawyplaty(wpisView.getMiesiacWpisu(), wpisView.getRokWpisu(), wpisView.getFirma());
+                listakalendarzmiesiacdoanalizy2 = kalendarzmiesiacFacade.findByFirmaRokMc(wybranalistaplac2.getFirma(), wybranalistaplac2.getRok(), wybranalistaplac2.getMc());
+                wybranykalendarz = listakalendarzmiesiacdoanalizy2.stream().filter(s->s.getPesel().equals(wpisView.getPracownik().getPesel())).findFirst().orElse(null);
+                //pobierzkalendarzezamc();
+                pobierzkalendarzezamcanaliza();
+            } catch (Exception e) {
+            }
+            listarodzajlistyplac = rodzajlistyplacFacade.findAktywne();
+            ileszczegolow = "normalna";
+            symulacjabrrutto = wpisView.getRokWpisuInt()<2022?2800:3010;
+            Msg.msg("Pobrano dane do analizy");
         }
-        Collections.sort(listadefinicjalistaplac, new Defnicjalistaplaccomparator());
-        listakalendarzmiesiac = new org.primefaces.model.DualListModel<>();
+
+        public void wyborinnejumowy() {
+            lista = new ArrayList<>();
+            if (rodzajlistyplac == null) {
+                rodzajlistyplac = rodzajlistyplacFacade.findUmowaoPrace();
+            } else {
+                listadefinicjalistaplac = definicjalistaplacFacade.findByFirmaRokRodzaj(wpisView.getFirma(), wpisView.getRokWpisu(), rodzajlistyplac);
+            }
+            Collections.sort(listadefinicjalistaplac, new Defnicjalistaplaccomparator());
+            listakalendarzmiesiac = new org.primefaces.model.DualListModel<>();
         try {
             wybranalistaplac = listadefinicjalistaplac.stream().filter(p -> p.getMc().equals(wpisView.getMiesiacWpisu())).findFirst().get();
             wybranalistaplac2 = listadefinicjalistaplac.stream().filter(p -> p.getMc().equals(wpisView.getMiesiacWpisu())).findFirst().get();

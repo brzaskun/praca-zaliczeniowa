@@ -351,6 +351,7 @@ private static final long serialVersionUID = 1L;
         double[] zwrot = new double[3];
         double godzinyobowiazku = 0;
         double chorobagodziny = 0;
+        double przepracowane = 0;
         if (this.dzienList!=null) {
             for (Dzien d : dzienList) {
                 if (d.getPrzepracowano()==0) {
@@ -361,11 +362,16 @@ private static final long serialVersionUID = 1L;
                 }
             }
         }
+        przepracowane = godzinyobowiazku-chorobagodziny;
         double polowagodzinyobowiazku = godzinyobowiazku/2;
         zwrot[0] = godzinyobowiazku;
         zwrot[1] = chorobagodziny;
         //jedynka to trzeba upgradowac
-        zwrot[2] = chorobagodziny>polowagodzinyobowiazku?1:0;
+        if (przepracowane!=godzinyobowiazku) {
+            zwrot[2] = przepracowane>polowagodzinyobowiazku?1:0;
+        } else {
+            zwrot[2] = 0;
+        }
         return zwrot;
     }
     
