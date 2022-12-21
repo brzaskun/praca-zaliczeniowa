@@ -39,6 +39,11 @@ public class Oddelegowanie implements Serializable{
     private double podatekzagranica;
     private boolean chowaj;
 
+    public Oddelegowanie() {
+    }
+
+    
+    
     public Oddelegowanie(Kalendarzmiesiac kalendarz, List<Pasekwynagrodzen> paski, Angaz angaz, String rok, String mc, List<Podatki> stawkipodatkowe) {
         this.kalendarz = kalendarz;
         this.pasek = pobierzpasek(paski,rok,mc);

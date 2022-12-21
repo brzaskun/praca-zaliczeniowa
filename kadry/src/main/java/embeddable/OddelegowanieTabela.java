@@ -158,7 +158,11 @@ public class OddelegowanieTabela {
     }
 
     public Oddelegowanie getO_01() {
-        return o_01;
+        Oddelegowanie zwrot = this.o_01;
+        if (zwrot==null) {
+            zwrot = new Oddelegowanie();
+        }
+        return zwrot;
     }
 
     public void setO_01(Oddelegowanie o_01) {
@@ -166,7 +170,11 @@ public class OddelegowanieTabela {
     }
 
     public Oddelegowanie getO_02() {
-        return o_02;
+        Oddelegowanie zwrot = this.o_02;
+        if (zwrot==null) {
+            zwrot = new Oddelegowanie();
+        }
+        return zwrot;
     }
 
     public void setO_02(Oddelegowanie o_02) {
@@ -174,7 +182,11 @@ public class OddelegowanieTabela {
     }
 
     public Oddelegowanie getO_03() {
-        return o_03;
+        Oddelegowanie zwrot = this.o_03;
+        if (zwrot==null) {
+            zwrot = new Oddelegowanie();
+        }
+        return zwrot;
     }
 
     public void setO_03(Oddelegowanie o_03) {
@@ -182,7 +194,11 @@ public class OddelegowanieTabela {
     }
 
     public Oddelegowanie getO_04() {
-        return o_04;
+        Oddelegowanie zwrot = this.o_04;
+        if (zwrot==null) {
+            zwrot = new Oddelegowanie();
+        }
+        return zwrot;
     }
 
     public void setO_04(Oddelegowanie o_04) {
@@ -190,7 +206,11 @@ public class OddelegowanieTabela {
     }
 
     public Oddelegowanie getO_05() {
-        return o_05;
+        Oddelegowanie zwrot = this.o_05;
+        if (zwrot==null) {
+            zwrot = new Oddelegowanie();
+        }
+        return zwrot;
     }
 
     public void setO_05(Oddelegowanie o_05) {
@@ -198,7 +218,11 @@ public class OddelegowanieTabela {
     }
 
     public Oddelegowanie getO_06() {
-        return o_06;
+        Oddelegowanie zwrot = this.o_06;
+        if (zwrot==null) {
+            zwrot = new Oddelegowanie();
+        }
+        return zwrot;
     }
 
     public void setO_06(Oddelegowanie o_06) {
@@ -206,7 +230,11 @@ public class OddelegowanieTabela {
     }
 
     public Oddelegowanie getO_07() {
-        return o_07;
+        Oddelegowanie zwrot = this.o_07;
+        if (zwrot==null) {
+            zwrot = new Oddelegowanie();
+        }
+        return zwrot;
     }
 
     public void setO_07(Oddelegowanie o_07) {
@@ -214,7 +242,11 @@ public class OddelegowanieTabela {
     }
 
     public Oddelegowanie getO_08() {
-        return o_08;
+        Oddelegowanie zwrot = this.o_08;
+        if (zwrot==null) {
+            zwrot = new Oddelegowanie();
+        }
+        return zwrot;
     }
 
     public void setO_08(Oddelegowanie o_08) {
@@ -222,7 +254,11 @@ public class OddelegowanieTabela {
     }
 
     public Oddelegowanie getO_09() {
-        return o_09;
+        Oddelegowanie zwrot = this.o_09;
+        if (zwrot==null) {
+            zwrot = new Oddelegowanie();
+        }
+        return zwrot;
     }
 
     public void setO_09(Oddelegowanie o_09) {
@@ -230,7 +266,11 @@ public class OddelegowanieTabela {
     }
 
     public Oddelegowanie getO_10() {
-        return o_10;
+        Oddelegowanie zwrot = this.o_10;
+        if (zwrot==null) {
+            zwrot = new Oddelegowanie();
+        }
+        return zwrot;
     }
 
     public void setO_10(Oddelegowanie o_10) {
@@ -238,7 +278,11 @@ public class OddelegowanieTabela {
     }
 
     public Oddelegowanie getO_11() {
-        return o_11;
+        Oddelegowanie zwrot = this.o_11;
+        if (zwrot==null) {
+            zwrot = new Oddelegowanie();
+        }
+        return zwrot;
     }
 
     public void setO_11(Oddelegowanie o_11) {
@@ -246,7 +290,11 @@ public class OddelegowanieTabela {
     }
 
     public Oddelegowanie getO_12() {
-        return o_12;
+        Oddelegowanie zwrot = this.o_12;
+        if (zwrot==null) {
+            zwrot = new Oddelegowanie();
+        }
+        return zwrot;
     }
 
     public void setO_12(Oddelegowanie o_12) {

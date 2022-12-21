@@ -10,7 +10,7 @@
     <p:dialog id="dialogoddelegowanie" header="Rozliczenie oddelegowania" widgetVar="dialogoddelegowanie"  style="overflow-y: scroll;"
               resizable="false"  onShow="ustawdialog('dialogoddelegowanie','centertile',1650,800);" closeOnEscape="true" onHide="resetujdialog('dialogoddelegowanie');" 
               fitViewport="true">
-        <p:ajax event="open" listener="#{oddelegowanieView.init()}" update="OddelegowanieForm OddelegowanieForm1 OddelegowanieForm2 OddelegowanieForm3" global="false"/>
+        <p:ajax event="open" listener="#{oddelegowanieView.init()}" update="OddelegowanieForm OddelegowanieForm1 OddelegowanieForm2 OddelegowanieForm3" global="true"/>
         <h:form id="OddelegowanieForm">
             <p:commandButton value="XLS" >
                 <p:dataExporter type="xls" target="OddelegowanieForm:datalist" fileName="lista"/>

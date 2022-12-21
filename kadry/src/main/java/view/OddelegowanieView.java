@@ -72,7 +72,7 @@ public class OddelegowanieView  implements Serializable {
                     if (paski!=null&&paski.size()>0) {
                         for (String mc : Mce.getMceListS()) {
                             Kalendarzmiesiac pobranykalendarz = pobierzkalendarz(kalendarze, rok, mc);
-                            if (pobranykalendarz!=null) {
+                            if (pobranykalendarz!=null&&pobranykalendarz.getPasekwynagrodzenList().size()>0) {
                                 Oddelegowanie oddelegowanie = new Oddelegowanie(pobranykalendarz, paski, a, rok, mc, stawkipodatkowe);
                                 if (oddelegowanie.getLiczbadni()>0) {
                                     lista.add(oddelegowanie);
@@ -87,14 +87,16 @@ public class OddelegowanieView  implements Serializable {
         if (lista!=null) {
             tabela = new ArrayList<>();
             for (Oddelegowanie p : lista) {
-                if (tabela.isEmpty()) {
-                    tabela.add(new OddelegowanieTabela(p));
-                } else {
-                    OddelegowanieTabela doedycji = pobierzrok(tabela, p.getAngaz().getPracownik(), p.getRok());
-                    if (doedycji==null) {
+                if (p!=null) {
+                    if (tabela.isEmpty()) {
                         tabela.add(new OddelegowanieTabela(p));
                     } else {
-                        uzupelnij(doedycji, p);
+                        OddelegowanieTabela doedycji = pobierzrok(tabela, p.getAngaz().getPracownik(), p.getRok());
+                        if (doedycji==null) {
+                            tabela.add(new OddelegowanieTabela(p));
+                        } else {
+                            uzupelnij(doedycji, p);
+                        }
                     }
                 }
             }

@@ -32,7 +32,6 @@ import dao.UmowaFacade;
 import dao.UmowakodzusFacade;
 import dao.ZmiennaPotraceniaFacade;
 import dao.ZmiennaWynagrodzeniaFacade;
-import data.Data;
 import embeddable.TKodUS;
 import entity.Angaz;
 import entity.Definicjalistaplac;
@@ -679,7 +678,7 @@ public class OsobaView implements Serializable {
                         Msg.msg("Pracownik pobrany");
                     }
                    
-                    System.out.println("funkcja sprawdzanie sob ");
+                    //System.out.println("funkcja sprawdzanie sob ");
                     List<Angaz> listapracownikow = angazFacade.findByFirma(wpisView.getFirma());
                     if (osoby!=null) {
                         for (Osoba o : osoby) {
@@ -693,7 +692,7 @@ public class OsobaView implements Serializable {
                             }
                         }
                     }
-                    System.out.println("funkcja sprawdzanie sob koniec");
+                    //System.out.println("funkcja sprawdzanie sob koniec");
                 }
             }
         } else {
