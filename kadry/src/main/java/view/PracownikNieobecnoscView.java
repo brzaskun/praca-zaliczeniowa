@@ -293,7 +293,7 @@ public class PracownikNieobecnoscView  implements Serializable {
                 }
             }
             if (napoczetemiesiace.size()>0) {
-                zwrot = (int) (Math.ceil(zwrotdouble/12.0)*napoczetemiesiace.size());
+                zwrot = (int) (Math.ceil(zwrotdouble/12.0*napoczetemiesiace.size()));
             }
 
         return zwrot;
