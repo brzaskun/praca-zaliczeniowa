@@ -16,10 +16,10 @@
               fitViewport="true">
         <p:ajax event="open" listener="#{nieobecnoscView.init()}" update="NieobecnoscCreateForm NieobecnoscListForm" global="false"/>
         <p:outputPanel style="height: 180px">
-            <p:panelGrid columns="2">
+            <p:panelGrid columns="2" columnClasses="eighty-percent twenty-percent" style="width: 1500px;">
                 <h:form id="NieobecnoscCreateForm">
-                    <h:panelGroup id="display">
-                        <p:panelGrid columns="3" rendered="#{nieobecnoscView.selected != null}">
+                    <h:panelGroup id="display" style="width: 1200px;">
+                        <p:panelGrid columns="4" rendered="#{nieobecnoscView.selected != null}">
                             <p:panelGrid columns="2">
                                 <p:outputLabel value="pracownik" for="prac" />
                                 <h:outputText id="prac" value="#{nieobecnoscView.selected.angaz.pracownik.nazwiskoImie}"/>
@@ -84,15 +84,25 @@
                                     </p:selectOneMenu>
                                 </p:panelGrid>
                             </p:fragment>
+                            <p:panelGrid columns="2" style="width: 300px;">
+                                <h:outputText value="rodzaj umowy:"/>
+                                <h:outputText value="#{wpisView.umowa.czastrwania}"/>
+                                <h:outputText value="data od:"/>
+                                <h:outputText value="#{wpisView.umowa.dataod}"/>
+                                <h:outputText value="data do:"/>
+                                <h:outputText value="#{wpisView.umowa.datado}"/>
+                                <h:outputText value="stanowisko:"/>
+                                <h:outputText value="#{wpisView.umowa.stanowisko}"/>
+                            </p:panelGrid>
                         </p:panelGrid>
                         <p:commandButton styleClass="buttonnorm" actionListener="#{nieobecnoscView.create}" value="#{bundle.Save}" update="display,:NieobecnoscListForm:datalist"/>
                         <p:commandButton value="#{bundle.Cancel}" onclick="NieobecnoscCreateDialog.hide()"/>
                     </h:panelGroup>
                 </h:form>
                 <h:form id="NieobecnoscCreateFormZUS">
-                    <h:panelGroup id="display">
-                        <p:panelGrid columns="2" >
-                            <p:outputLabel value="pobranie zwolnien z ZUS" for="zuspobierz" />
+                    <h:panelGroup id="display" style="float: right;">
+                        <p:panelGrid columns="1" >
+                            <p:outputLabel value="pobranie zwolnień z ZUS" for="zuspobierz" />
                             <p:commandButton id="zuspobierz" styleClass="buttonnorm" actionListener="#{nieobecnoscView.pobierzzzus}" value="pobierz" update="display,:NieobecnoscListForm:datalist"/>
                         </p:panelGrid>
                     </h:panelGroup>

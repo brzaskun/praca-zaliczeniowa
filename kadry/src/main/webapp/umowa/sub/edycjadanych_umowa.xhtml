@@ -67,7 +67,7 @@
                         <p:outputLabel value="kod zawodu" for="kodzawodu1" />
                         <p:autoComplete id="kodzawodu1" value="#{umowaView.selected.kodzawodu}" converter="#{kodyzawodowConverter}" style="width: 300px;" cache="true" cacheTimeout="2000"
                                         minQueryLength="3" maxResults="15" maxlength="25" itemtipMyPosition="rightbottom" queryDelay="10" size="50"
-                                        completeMethod="#{kodyzawodowConverter.complete}" var="kodzawoduItem"  required="true"
+                                        completeMethod="#{kodyzawodowConverter.complete}" var="kodzawoduItem"  
                                         itemLabel="#{kodzawoduItem.nazwa}" itemValue="#{kodzawoduItem}" 
                                         >
                             <p:ajax event="query" global="false"/>

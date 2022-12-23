@@ -275,6 +275,7 @@ public class UmowaView implements Serializable {
                 }
                 selected.setAktywna(true);
                 selected.setDatasystem(new Date());
+                selected.setLiczdourlopu(true);
                 String dataostatniejumowy = null;
                 selected.setLicznikumow(1);
                 umowaFacade.create(selected);
@@ -323,6 +324,7 @@ public class UmowaView implements Serializable {
                 }
                 selected.setAktywna(true);
                 selected.setDatasystem(new Date());
+                selected.setLiczdourlopu(true);
                 Umowa ostatniaumowa = null;
                 String dataostatniejumowy = null;
                 String datazamknieciapoprzedniejumowy = Data.odejmijdzien(selected.getDataod(), 1);
@@ -467,6 +469,7 @@ public class UmowaView implements Serializable {
                     } catch (Exception e){}
                 }
                 selected.setDatasystem(new Date());
+                selected.setLiczdourlopu(true);
                 umowaFacade.edit(selected);
                 String dataostatniejumowy = null;
                 if (listapraca != null && !listapraca.isEmpty()) {

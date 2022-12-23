@@ -503,6 +503,7 @@ public class KalendarzmiesiacBean {
                 naliczenienieobecnosc.setSredniazailemcy(1);
                 naliczenienieobecnosc.setSumakwotdosredniej(sredniadopodstawystale);
                 naliczenienieobecnosc.setSumagodzindosredniej(godzinyobecnoscirobocze);
+                sredniadopodstawy = sredniadopodstawystale;
             } else if (naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getStale0zmienne1() == true) {
                 /* nie bedzie tego bo srednia ze zmiennych jest brana z poprzednich miesiecy, a tu ich nie ma*/
             }

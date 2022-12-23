@@ -243,7 +243,7 @@ public class PracownikNieobecnoscView  implements Serializable {
     }
 
     private int obliczwymiarwgodzinach(List<Umowa> umowy, EtatPrac etat) {
-        int zwrot = 20;
+        int wymiarwdniach = 20;
         double liczbadni = 0;
         for (Umowa p : umowy) {
             if (p.isLiczdourlopu()) {
@@ -266,10 +266,8 @@ public class PracownikNieobecnoscView  implements Serializable {
             }
         }
         if (liczbadni>=3650) {
-            zwrot = 26;
+            wymiarwdniach = 26;
         }
-        zwrot = (zwrot*8*etat.getEtat1())/etat.getEtat2();
-        double zwrotdouble = (double)zwrot;
         //a teraz sprawdzamy czy nie sa umowy tylko z tego roku i trzeba proporckjonalnie
             Set<String> napoczetemiesiace = new HashSet<>();
             for (Umowa p : umowy) {
@@ -292,11 +290,12 @@ public class PracownikNieobecnoscView  implements Serializable {
                     }
                 }
             }
+            double nowywymiarwdniach = wymiarwdniach;
             if (napoczetemiesiace.size()>0) {
-                zwrot = (int) (Math.ceil(zwrotdouble/12.0*napoczetemiesiace.size()));
+                nowywymiarwdniach = (int) (Math.ceil(wymiarwdniach/12.0*napoczetemiesiace.size()));
             }
-
-        return zwrot;
+            double wymiargodzin = (nowywymiarwdniach*8*etat.getEtat1())/etat.getEtat2();
+        return (int) wymiargodzin;
     }
     
     private int obliczwymiarwgodzinachchoroba(List<Umowa> umowy, EtatPrac etat) {
