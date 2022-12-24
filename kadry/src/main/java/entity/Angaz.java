@@ -615,6 +615,18 @@ public class Angaz implements Serializable {
         }
         return zwrot;
     }
+
+    public Umowa getAktywnaUmowa() {
+        Umowa zwrot = null;
+        if (this.umowaList!=null) {
+            for (Umowa s : this.umowaList) {
+                if (s.isAktywna()) {
+                    zwrot = s;
+                }
+            }
+        }
+        return zwrot;
+    }
     
     
 }

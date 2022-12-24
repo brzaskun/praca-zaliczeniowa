@@ -397,39 +397,42 @@ public class KalendarzmiesiacBean {
             }
             double dnikalendarzoweniechoroby = Data.iletodniKalendarzowych(dataod, datado);
             for (Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia : pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList()) {
-                Naliczenienieobecnosc naliczenienieobecnosc = new Naliczenienieobecnosc();
-                naliczenienieobecnosc.setDataod(dataod);
-                naliczenienieobecnosc.setDatado(datado);
-                naliczenienieobecnosc.setLiczbadniobowiazku(30);
-                naliczenienieobecnosc.setLiczbadniurlopu(dnikalendarzoweniechoroby);
-                naliczenienieobecnosc.setLiczbagodzinobowiazku(liczbagodzinobowiazku);
-                naliczenienieobecnosc.setLiczbagodzinurlopu(liczbagodzinchoroby);
-                Skladnikwynagrodzenia skladnikwynagrodzenia = naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia();
-                naliczenienieobecnosc.setSkladnikwynagrodzenia(skladnikwynagrodzenia);
-                naliczenienieobecnosc.setNieobecnosc(nieobecnosc);
-                naliczenienieobecnosc.setJakiskladnikredukowalny(naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getOpispelny());
-                double sredniadopodstawy = wyliczsredniachoroba(kalendarz, naliczenieskladnikawynagrodzenia, nieobecnosc, naliczenienieobecnosc, definicjalistaplac);
-                naliczenienieobecnosc.setPodstawadochoroby(sredniadopodstawy);
-                double procentzazwolnienie = Z.z(nieobecnosc.getZwolnienieprocent() / 100);
-                naliczenienieobecnosc.setProcentzazwolnienie(procentzazwolnienie);
-                sredniadopodstawy = sredniadopodstawy * procentzazwolnienie;
-                double skladnikistalenetto = sredniadopodstawy - (sredniadopodstawy * .1371);
-                double skladnikistaledoredukcji = naliczenieskladnikawynagrodzenia.getKwotaumownazacalymc();
-                naliczenienieobecnosc.setSkladnikistale(skladnikistalenetto);
-                double stawkadzienna = Z.z(skladnikistalenetto / 30);
-                naliczenienieobecnosc.setStawkadzienna(stawkadzienna);
-                double dowyplatyzaczasnieobecnosci = Z.z(stawkadzienna * dnikalendarzoweniechoroby);
-                naliczenienieobecnosc.setStawkadzienna(stawkadzienna);
-                naliczenienieobecnosc.setKwota(dowyplatyzaczasnieobecnosci);
-                naliczenienieobecnosc.setKwotabezzus(dowyplatyzaczasnieobecnosci);
-                double stawkadziennaredukcji = skladnikistaledoredukcji / 30;
-                naliczenienieobecnosc.setStawkadziennaredukcji(stawkadziennaredukcji);
-                double kwotaredukcji = stawkadziennaredukcji * dnikalendarzoweniechoroby;
+                //to z mysla o pramiach uznaniowych, ktore jako nierekukowane nei wchodza w sklad podstawy
                 if (naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().isRedukowany()) {
-                    naliczenienieobecnosc.setKwotaredukcji(kwotaredukcji);
+                    Naliczenienieobecnosc naliczenienieobecnosc = new Naliczenienieobecnosc();
+                    naliczenienieobecnosc.setDataod(dataod);
+                    naliczenienieobecnosc.setDatado(datado);
+                    naliczenienieobecnosc.setLiczbadniobowiazku(30);
+                    naliczenienieobecnosc.setLiczbadniurlopu(dnikalendarzoweniechoroby);
+                    naliczenienieobecnosc.setLiczbagodzinobowiazku(liczbagodzinobowiazku);
+                    naliczenienieobecnosc.setLiczbagodzinurlopu(liczbagodzinchoroby);
+                    Skladnikwynagrodzenia skladnikwynagrodzenia = naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia();
+                    naliczenienieobecnosc.setSkladnikwynagrodzenia(skladnikwynagrodzenia);
+                    naliczenienieobecnosc.setNieobecnosc(nieobecnosc);
+                    naliczenienieobecnosc.setJakiskladnikredukowalny(naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getOpispelny());
+                    double sredniadopodstawy = wyliczsredniachoroba(kalendarz, naliczenieskladnikawynagrodzenia, nieobecnosc, naliczenienieobecnosc, definicjalistaplac);
+                    naliczenienieobecnosc.setPodstawadochoroby(sredniadopodstawy);
+                    double procentzazwolnienie = Z.z(nieobecnosc.getZwolnienieprocent() / 100);
+                    naliczenienieobecnosc.setProcentzazwolnienie(procentzazwolnienie);
+                    sredniadopodstawy = sredniadopodstawy * procentzazwolnienie;
+                    double skladnikistalenetto = sredniadopodstawy - (sredniadopodstawy * .1371);
+                    double skladnikistaledoredukcji = naliczenieskladnikawynagrodzenia.getKwotaumownazacalymc();
+                    naliczenienieobecnosc.setSkladnikistale(skladnikistalenetto);
+                    double stawkadzienna = Z.z(skladnikistalenetto / 30);
+                    naliczenienieobecnosc.setStawkadzienna(stawkadzienna);
+                    double dowyplatyzaczasnieobecnosci = Z.z(stawkadzienna * dnikalendarzoweniechoroby);
+                    naliczenienieobecnosc.setStawkadzienna(stawkadzienna);
+                    naliczenienieobecnosc.setKwota(dowyplatyzaczasnieobecnosci);
+                    naliczenienieobecnosc.setKwotabezzus(dowyplatyzaczasnieobecnosci);
+                    double stawkadziennaredukcji = skladnikistaledoredukcji / 30;
+                    naliczenienieobecnosc.setStawkadziennaredukcji(stawkadziennaredukcji);
+                    double kwotaredukcji = stawkadziennaredukcji * dnikalendarzoweniechoroby;
+                    if (naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().isRedukowany()) {
+                        naliczenienieobecnosc.setKwotaredukcji(kwotaredukcji);
+                    }
+                    naliczenienieobecnosc.setPasekwynagrodzen(pasekwynagrodzen);
+                    pasekwynagrodzen.getNaliczenienieobecnoscList().add(naliczenienieobecnosc);
                 }
-                naliczenienieobecnosc.setPasekwynagrodzen(pasekwynagrodzen);
-                pasekwynagrodzen.getNaliczenienieobecnoscList().add(naliczenienieobecnosc);
             }
         }
     }

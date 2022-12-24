@@ -12,6 +12,7 @@ import data.Data;
 import entity.Angaz;
 import entity.Definicjalistaplac;
 import entity.Dzien;
+import entity.FirmaKadry;
 import entity.Kalendarzmiesiac;
 import entity.Kalendarzwzor;
 import entity.Naliczenienieobecnosc;
@@ -162,9 +163,16 @@ public class PasekwynagrodzenBean {
         PasekwynagrodzenBean.rentowa(pasek);
         PasekwynagrodzenBean.wypadkowa(pasek);
         PasekwynagrodzenBean.razemspolecznefirma(pasek);
-        PasekwynagrodzenBean.fp(pasek);
-        PasekwynagrodzenBean.fgsp(pasek);
-        PasekwynagrodzenBean.razem53(pasek);
+        boolean przekroczeniewieku = czyprzekroczonowiek(kalendarz, pasek.getDatawyplaty());
+        boolean ponizejwynminimalnego = czyponizejminimalnego(pasek, wynagrodzenieminimalne);
+        boolean firmamatylkozlecenia = czysatylkozlecenia(kalendarz);
+        if (przekroczeniewieku==false && ponizejwynminimalnego==false && firmamatylkozlecenia==false) {
+            PasekwynagrodzenBean.fp(pasek);
+            PasekwynagrodzenBean.fgsp(pasek);
+        }
+        if (przekroczeniewieku==false) {
+            PasekwynagrodzenBean.razem53(pasek);
+        }
         PasekwynagrodzenBean.razemkosztpracodawcy(pasek);
         PasekwynagrodzenBean.naniesrobocze(pasek,kalendarz);
        
@@ -891,19 +899,19 @@ public class PasekwynagrodzenBean {
             pasek.setPraczdrowotnedopotracenia(zdrowotneodliczane);
         } else {
             if (pasek.isDo26lat()) {
-                double podatekwstepny = Z.z(pasek.getPodatekwstepnyhipotetyczny()-pasek.getKwotawolnadlazdrowotnej()>0.0?pasek.getPodatekwstepnyhipotetyczny()-pasek.getKwotawolnadlazdrowotnej():0.0);
-                zdrowotne = zdrowotne>podatekwstepny?Z.z(podatekwstepny):zdrowotne;
-                zdrowotneodliczane = zdrowotneodliczane>podatekwstepny?Z.z(podatekwstepny):zdrowotneodliczane;
+                double limitdlazdrowotnej = Z.z(pasek.getPodstawaopodatkowania()*0.17-pasek.getKwotawolnadlazdrowotnej())>0.0?Z.z(pasek.getPodstawaopodatkowania()*0.17-pasek.getKwotawolnadlazdrowotnej()):0.0;
+                zdrowotne = zdrowotne>limitdlazdrowotnej?Z.z(limitdlazdrowotnej):zdrowotne;
+                zdrowotneodliczane = zdrowotneodliczane>limitdlazdrowotnej?Z.z(limitdlazdrowotnej):zdrowotneodliczane;
                 pasek.setPraczdrowotne(zdrowotne);
                 zdrowotneodliczane = Integer.parseInt(pasek.getRokwypl())<2022?zdrowotneodliczane:0.0;
                 pasek.setPraczdrowotnedoodliczenia(zdrowotneodliczane);
                 pasek.setPraczdrowotnedopotracenia(zdrowotne);
             } else {
                 if (Integer.parseInt(pasek.getRokwypl())<2022) {
-                    double podatekwstepny = Z.z(pasek.getPodatekwstepny()-pasek.getKwotawolna());
-                    if (zdrowotneodliczane>podatekwstepny) {
-                        pasek.setPraczdrowotne(podatekwstepny);
-                        pasek.setPraczdrowotnedoodliczenia(podatekwstepny);
+                    double limitdlazdrowotnej = Z.z(pasek.getPodstawaopodatkowania()*0.17-pasek.getKwotawolnadlazdrowotnej())>0.0?Z.z(pasek.getPodstawaopodatkowania()*0.17-pasek.getKwotawolnadlazdrowotnej()):0.0;
+                    if (zdrowotneodliczane>limitdlazdrowotnej) {
+                        pasek.setPraczdrowotne(limitdlazdrowotnej);
+                        pasek.setPraczdrowotnedoodliczenia(limitdlazdrowotnej);
                         pasek.setPraczdrowotnedopotracenia(0.0);
                     } else {
                         pasek.setPraczdrowotnedoodliczenia(zdrowotneodliczane);
@@ -911,11 +919,11 @@ public class PasekwynagrodzenBean {
                     }
                 } else {
                     if (praca) {
-                        double podatekwstepny = Z.z(pasek.getPodatekwstepny()-pasek.getKwotawolnadlazdrowotnej())>0.0?Z.z(pasek.getPodatekwstepny()-pasek.getKwotawolnadlazdrowotnej()):0.0;
-                        if (zdrowotne>podatekwstepny) {
-                            pasek.setPraczdrowotne(podatekwstepny);
+                        double limitdlazdrowotnej = Z.z(pasek.getPodstawaopodatkowania()*0.17-pasek.getKwotawolnadlazdrowotnej())>0.0?Z.z(pasek.getPodstawaopodatkowania()*0.17-pasek.getKwotawolnadlazdrowotnej()):0.0;
+                        if (zdrowotne>limitdlazdrowotnej) {
+                            pasek.setPraczdrowotne(limitdlazdrowotnej);
                             pasek.setPraczdrowotnedoodliczenia(0.0);
-                            pasek.setPraczdrowotnedopotracenia(podatekwstepny);
+                            pasek.setPraczdrowotnedopotracenia(limitdlazdrowotnej);
                         } else {
                             pasek.setPraczdrowotnedoodliczenia(0.0);
                             pasek.setPraczdrowotnedopotracenia(Z.z(zdrowotne));
@@ -1202,6 +1210,53 @@ public class PasekwynagrodzenBean {
             }
         } catch (Exception e){}
         return zwrot;
+    }
+
+    private static boolean czyprzekroczonowiek(Kalendarzmiesiac kalendarz, String datalisty) {
+        boolean takprzekroczonowiek = false;
+        boolean mezczyzna = pobierzplec(kalendarz.getAngaz().getPracownik());
+        LocalDate dataurodzin = Data.stringToLocalDate(kalendarz.getPracownik().getDataurodzenia());
+        int lata = mezczyzna?60:55;
+        LocalDate ukonczeniewieku = dataurodzin.plus(lata, ChronoUnit.YEARS);
+        LocalDate datalisty1 = Data.stringToLocalDate(datalisty);
+        if (ukonczeniewieku.getYear()<datalisty1.getYear()) {
+            takprzekroczonowiek = true;
+        } else if (ukonczeniewieku.getYear()==datalisty1.getYear()) {
+            if (ukonczeniewieku.getMonthValue()<datalisty1.getMonthValue()) {
+                takprzekroczonowiek = true;
+            }
+        }
+        return takprzekroczonowiek;
+    }
+
+    private static boolean pobierzplec(Pracownik pracownik) {
+        boolean mezczyzna = true;
+        if (pracownik.getPlec()!=null&&pracownik.getPlec().equals("K")) {
+            mezczyzna = false;
+        }
+        return mezczyzna;
+    }
+
+    private static boolean czyponizejminimalnego(Pasekwynagrodzen pasek, double wynagrodzenieminimalne) {
+        boolean czyjestponizejminimalnego = false;
+        if (pasek.getPodstawaskladkizus()<wynagrodzenieminimalne) {
+            czyjestponizejminimalnego = true;
+        }
+        return czyjestponizejminimalnego;
+    }
+
+    private static boolean czysatylkozlecenia(Kalendarzmiesiac kalendarz) {
+        boolean czysatylkozlecenia = true;
+        FirmaKadry firma = kalendarz.getAngaz().getFirma();
+        List<Angaz> angazewFirmie = firma.getAngazList();
+        for (Angaz a : angazewFirmie) {
+            Umowa u = a.getAktywnaUmowa();
+            if (u.getUmowakodzus().isPraca()) {
+                czysatylkozlecenia= false;
+                break;
+            }
+        }
+        return czysatylkozlecenia;
     }
 
     

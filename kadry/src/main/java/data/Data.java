@@ -754,6 +754,25 @@ public class Data implements Serializable {
         }
         return zwrot;
     }
+    
+    public static LocalDate stringToLocalDate(String data) {
+        LocalDate zwrot = null;
+        String dobradata = zmienkolejnosc(data);
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            zwrot = LocalDate.parse(dobradata, formatter);
+        } catch (Exception ex) {
+            E.e(ex);
+        }
+        return zwrot;
+    }
+    
+    
+
+String dateString = "2022-12-23";
+DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+LocalDate date = LocalDate.parse(dateString, formatter);
+
     /**
      * Generowanie pary poprzedni rok-mc
      * 

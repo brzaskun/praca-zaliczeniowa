@@ -928,6 +928,10 @@ private static final long serialVersionUID = 1L;
         return this.getAngaz().getPracownik().isNierezydent();
     }
 
+    public Pracownik getPracownik() {
+        return this.getAngaz().getPracownik();
+    }
+
     
        
         
