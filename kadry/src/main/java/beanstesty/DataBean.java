@@ -17,6 +17,9 @@ public class DataBean {
     public static boolean czysiemiesci(String pierwszydzienmiesiaca, String ostatnidzienmiesiaca, String zmiennadataod, String zmiennadatado) {
         boolean zwrot = true;
         //czy data poczatkowa zmiennej jest starsza od daty koncowej kalendarza
+        if (zmiennadatado==null||zmiennadatado.equals("")) {
+            zmiennadatado = "2055-01-01";
+        }
         boolean zaczynasieprzedpoczatkiem = Data.czyjestprzed(pierwszydzienmiesiaca, zmiennadataod);
         boolean konczysieprzedpoczatkiem = Data.czyjestprzed(pierwszydzienmiesiaca, zmiennadatado);
         boolean zaczynasiepokoncu = Data.czyjestpo(ostatnidzienmiesiaca, zmiennadataod);

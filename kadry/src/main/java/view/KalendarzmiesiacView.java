@@ -143,12 +143,12 @@ public class KalendarzmiesiacView  implements Serializable {
             if (selected.getRok()!=null&&selected.getMc()!=null) {
                 String rok = selected.getRok();
                 String mc = selected.getMc();
-                Kalendarzmiesiac szukany = kalendarzmiesiacFacade.findByRokMcAngaz(selected.getAngaz(), selected.getRok(), selected.getMc());
+                Kalendarzmiesiac szukany = kalendarzmiesiacFacade.findByRokMcAngaz(selected.getAngaz(), rok, mc);
                 if (szukany !=null) {
                     selected = szukany;
                     Msg.msg("Pobrano z bazy zachowany kalendarz");
                 } else {
-                    Kalendarzwzor znaleziono = kalendarzwzorFacade.findByFirmaRokMc(selected.getAngaz().getFirma(), selected.getRok(), selected.getMc());
+                    Kalendarzwzor znaleziono = kalendarzwzorFacade.findByFirmaRokMc(selected.getAngaz().getFirma(), rok, mc);
                     if (znaleziono!=null) {
                          Kalendarzmiesiac kal = new Kalendarzmiesiac();
                         kal.setRok(rok);
