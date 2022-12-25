@@ -11,7 +11,10 @@
               resizable="false"  onShow="ustawdialog('dialoglistaplac','centertile',1650,800);" closeOnEscape="true" onHide="resetujdialog('dialoglistaplac');" 
               fitViewport="true">
         <p:ajax event="open" listener="#{pasekwynagrodzenView.init()}" update="DefinicjalistaplacCreateForm DefinicjalistaplacCreateForm1 KursDataLPForm DefinicjalistaplacCreateForm2 PasekwynagrodzenListForm" global="false"/>
-        <h:outputText value="W przypadku braku osoby na zleceniu na liście proszę sprawdzić, czy wystawiono rachunek." style="color: #136e13;margin-top: 10px;"/>
+        <p:panelGrid columns="1">
+            <h:outputText value="W przypadku braku osoby na zleceniu na liście proszę sprawdzić, czy wystawiono rachunek." style="color: #136e13;margin-top: 10px;"/>
+            <h:outputText value="Adres email do wysyłki listy: #{wpisView.getFirma().getEmail()}" style="color: #136e13;margin-top: 10px;"/>
+        </p:panelGrid>
         <p:outputPanel style="height: 275px">
             <style>
                 .ui-picklist .ui-picklist-list{
@@ -64,6 +67,9 @@
                                 <f:selectItem itemLabel="oddelegowanie" itemValue="oddelegowanie"/>
                                 <p:ajax event="change" partialSubmit="true" global="false" update="PasekwynagrodzenListForm"/>
                             </p:selectOneMenu>
+                            <h:outputLabel for="niewyslana" value="wysłana: " rendered="#{pasekwynagrodzenView.lista ne null and pasekwynagrodzenView.lista.size() gt 0 and pasekwynagrodzenView.lista.get(0).datawysylki eq null}"/>
+                            <h:outputLabel for="wyslana" value="wysłana: " rendered="#{pasekwynagrodzenView.lista ne null and pasekwynagrodzenView.lista.size() gt 0 and pasekwynagrodzenView.lista.get(0).datawysylki ne null}"/>
+                            <h:outputText id="wyslana" value="#{pasekwynagrodzenView.lista.get(0).datawysylki}" rendered="#{pasekwynagrodzenView.lista ne null and pasekwynagrodzenView.lista.size() gt 0}" style="color: red;"/>
                             </p:panelGrid>
                         </h:form>
                          <h:form id="DefinicjalistaplacCreateForm2">
@@ -74,7 +80,7 @@
                                         />
                             <p:panelGrid columns="5" >
                             <p:commandButton styleClass="buttonnorm" actionListener="#{pasekwynagrodzenView.przelicz()}" value="oblicz" update="PasekwynagrodzenListForm DefinicjalistaplacCreateForm2:wybranypracownik" />
-                            <p:commandButton styleClass="buttonnorm2" actionListener="#{pasekwynagrodzenView.mailListaPlac}" value="mail" update="PasekwynagrodzenListForm" />
+                            <p:commandButton styleClass="buttonnorm2" actionListener="#{pasekwynagrodzenView.mailListaPlac}" value="mail" update="PasekwynagrodzenListForm KursDataLPForm" />
                             <p:commandButton styleClass="buttonnorm2" actionListener="#{pasekwynagrodzenView.usun()}" value="usuń" update="PasekwynagrodzenListForm DefinicjalistaplacCreateForm2:wybranypracownik" />
                             <p:commandButton styleClass="buttonnorm2" actionListener="#{pasekwynagrodzenView.drukujliste}" value="druk lista"/>
                             <p:commandButton styleClass="buttonnorm2" actionListener="#{pasekwynagrodzenView.zapisz}" value="Save" update="PasekwynagrodzenListForm" />

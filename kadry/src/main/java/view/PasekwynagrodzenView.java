@@ -405,6 +405,10 @@ public class PasekwynagrodzenView implements Serializable {
             String nazwa = wybranalistaplac.getFirma().getNip() + "_" + nrpoprawny + "_" + "lp.pdf";
             mail.Mail.mailListaPlac(wpisView.getFirma(), pasek.getRok(), pasek.getMc(), wpisView.getFirma().getEmail(), null, findSprawaByDef, drukujmail.toByteArray(), nazwa);
             Msg.msg("Wysłano listę płac do pracodawcy");
+            for (Pasekwynagrodzen p :lista) {
+                p.setDatawysylki(Data.aktualnaData());
+            }
+            pasekwynagrodzenFacade.editList(lista);
         } else {
             Msg.msg("e", "Błąd drukowania. Brak pasków");
         }

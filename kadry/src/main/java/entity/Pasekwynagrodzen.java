@@ -198,6 +198,9 @@ public class Pasekwynagrodzen implements Serializable {
     @Size(max = 10)
     @Column(name="datawyplaty")
     private String datawyplaty;
+    @Size(max = 10)
+    @Column(name="datawysylki")
+    private String datawysylki;
     @Column(name="importowany")
     private boolean importowany;
     @Column(name = "lata")
@@ -1036,6 +1039,8 @@ public class Pasekwynagrodzen implements Serializable {
     public void setDrugiprog(boolean drugiprog) {
         this.drugiprog = drugiprog;
     }
+    
+    
 //
 //    public EkwiwalentSkladniki getEkwiwalentSkladniki() {
 //        return ekwiwalentSkladniki;
@@ -1044,6 +1049,14 @@ public class Pasekwynagrodzen implements Serializable {
 //    public void setEkwiwalentSkladniki(EkwiwalentSkladniki ekwiwalentSkladniki) {
 //        this.ekwiwalentSkladniki = ekwiwalentSkladniki;
 //    }
+
+    public String getDatawysylki() {
+        return datawysylki;
+    }
+
+    public void setDatawysylki(String datawysylki) {
+        this.datawysylki = datawysylki;
+    }
     
     
 
