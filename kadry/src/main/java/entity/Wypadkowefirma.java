@@ -5,6 +5,7 @@
  */
 package entity;
 
+import data.Data;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -75,6 +76,20 @@ public class Wypadkowefirma implements Serializable {
         this.procent = procent;
     }
 
+     public boolean czynalezydookresu(String rok, String mc) {
+        boolean zwrot = false;
+        String dataod = this.dataod;
+        String datado = this.datado;
+        if (datado==null||datado.equals("")) {
+            datado = "2050-12-31";
+        }
+        if (Data.czyjestpomiedzy(dataod, datado, rok, mc)) {
+            zwrot = true;
+        }
+        //String dataod ()
+        return zwrot;
+    }
+    
     public Integer getId() {
         return id;
     }

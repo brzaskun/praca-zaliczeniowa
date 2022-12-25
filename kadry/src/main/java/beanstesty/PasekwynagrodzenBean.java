@@ -26,6 +26,7 @@ import entity.Rachunekdoumowyzlecenia;
 import entity.Rodzajnieobecnosci;
 import entity.Umowa;
 import entity.Wynagrodzeniahistoryczne;
+import entity.Wypadkowefirma;
 import error.E;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -585,7 +586,19 @@ public class PasekwynagrodzenBean {
     }
     
     private static void wypadkowa(Pasekwynagrodzen pasek) {
+        List<Wypadkowefirma> wypadkowefirmaList = pasek.getKalendarzmiesiac().getAngaz().getFirma().getWypadkowefirmaList();
+        Wypadkowefirma pobrane = null;
+        for (Wypadkowefirma w : wypadkowefirmaList) {
+            if (w.czynalezydookresu(pasek.getRok(), pasek.getMc())) {
+                pobrane = w;
+                break;
+            }
+        }
+        if (pobrane==null) {
             pasek.setWypadkowe(Z.z(pasek.getPodstawaskladkizus()*0.0167));
+        } else {
+            pasek.setWypadkowe(Z.z(pasek.getPodstawaskladkizus()*(pobrane.getProcent()/100.0)));
+        }
     }
     
     private static void fp(Pasekwynagrodzen pasek) {
