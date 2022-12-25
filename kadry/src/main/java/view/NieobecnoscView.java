@@ -102,6 +102,7 @@ public class NieobecnoscView  implements Serializable {
     private  boolean pokazcalyrok;
     private org.primefaces.model.DualListModel<Pracownik> listapracownikow;
     private boolean delegacja;
+    private int dniwykorzystanewroku;
     
 
     
@@ -125,11 +126,13 @@ public class NieobecnoscView  implements Serializable {
         listaabsencji = rodzajnieobecnosciFacade.findAll();
         Collections.sort(listaabsencji, new Rodzajnieobecnoscicomparator());
         delegacja = false;
+        dniwykorzystanewroku = obliczdnichoroby(kalendarzmiesiacFacade.findByRokAngaz(wpisView.getAngaz(), wpisView.getRokWpisu()));
         //Collections.sort(listaabsencji, new Nieobecnoscikodzuscomparator());
     }
     
     public void initzbiorcze() {
         listaabsencji = rodzajnieobecnosciFacade.findAll();
+        Collections.sort(listaabsencji, new Rodzajnieobecnoscicomparator());
         listapracownikow = new org.primefaces.model.DualListModel<>();
         listapracownikow.setSource(new ArrayList<>());
         listapracownikow.setTarget(new ArrayList<>());
@@ -438,6 +441,14 @@ public class NieobecnoscView  implements Serializable {
         }
     }
 
+    private int obliczdnichoroby(List<Kalendarzmiesiac> kalendarze) {
+        int dnichoroby = 0;
+        for (Kalendarzmiesiac kal : kalendarze) {
+            double[] chorobadnigodz = kal.chorobadnigodz();
+            dnichoroby = (int) (dnichoroby + chorobadnigodz[0]);
+        }
+        return dnichoroby;
+    }
       
     public Nieobecnosc getSelected() {
         return selected;
@@ -510,6 +521,16 @@ public class NieobecnoscView  implements Serializable {
     public void setDelegacja(boolean delegacja) {
         this.delegacja = delegacja;
     }
+
+    public int getDniwykorzystanewroku() {
+        return dniwykorzystanewroku;
+    }
+
+    public void setDniwykorzystanewroku(int dniwykorzystanewroku) {
+        this.dniwykorzystanewroku = dniwykorzystanewroku;
+    }
+
+    
 
 
    
