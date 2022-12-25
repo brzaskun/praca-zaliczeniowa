@@ -1,0 +1,70 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+        
+    xmlns:bcf="http://brzaskun.com/facelets"
+>
+    <p:outputPanel style="height: 180px">
+            <p:panelGrid columns="3">
+                <h:form id="WypadkoweForm">
+                    <p:outputPanel>
+                        <p:outputLabel value="data od" for="dataod" />
+                        <p:inputText id="dataod" value="#{wypadkowefirmaView.selected.dataod}" title="datac od"  placeholder="____-__-__" maxlength="10" required="true" requiredMessage="Wprowadź datę od">
+                            <p:ajax event="blur" onstart="ustawDateSprzedazy(#{wpisView.rokWpisu},#{wpisView.miesiacWpisu});" partialSubmit="true" global="false" />
+                        </p:inputText>
+                        <p:outputLabel value="data do" for="datado" />
+                        <p:inputText id="datado" value="#{wypadkowefirmaView.selected.datado}" title="data do"  placeholder="____-__-__" maxlength="10" required="true" requiredMessage="Wprowadź datę do">
+                            <p:ajax event="blur" onstart="ustawDateSprzedazy(#{wpisView.rokWpisu},#{wpisView.miesiacWpisu});" partialSubmit="true" global="false" />
+                        </p:inputText>
+                        <p:outputLabel value="procent" for="procent" />
+                        <p:inputNumber id="procent" value="#{wypadkowefirmaView.selected.procent}"  size="5"  maxlength="4" decimalPlaces="2" decimalSeparator="," inputStyle="text-align: right"/>
+                        <p:commandButton value="dodaj" styleClass="buttonnorm" actionListener="#{wypadkowefirmaView.dodaj}" update="akordeon:WypadkoweForm akordeon:WypadkoweFormLista"/>
+                    </p:outputPanel>
+                </h:form>
+            </p:panelGrid>
+        </p:outputPanel>
+        <p:outputPanel>
+            <p:panelGrid columns="2">
+            <h:form id="WypadkoweFormLista">
+                <p:panel header="Stawki ubezpieczenia wypadkowego dla firmy">
+                    <p:dataTable id="datalist" value="#{wypadkowefirmaView.lista}" var="itemwypadkowe"
+                                 rowKey="#{itemwypadkowe.id}"  sortMode="single"
+                                 style="height: 250px; width: 500px; overflow-y: scroll;"
+                                 emptyMessage="Brak zapisów"
+                                 >
+
+                        <p:column width="50" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="od"/>
+                            </f:facet>
+                            <h:outputText value="#{itemwypadkowe.dataod}"/>
+                        </p:column>
+                        <p:column width="50" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="do"/>
+                            </f:facet>
+                            <h:outputText value="#{itemwypadkowe.datado}"/>
+                        </p:column>
+                        <p:column width="40" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="procent"/>
+                            </f:facet>
+                            <bcf:outputpl value="#{itemwypadkowe.procent}"/>
+                        </p:column>
+                        <p:column width="30" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value=""/>
+                            </f:facet>
+                            <p:commandButton icon="pi pi-trash" actionListener="#{wypadkowefirmaView.usun(itemkartapasek)}" update="akordeon:WypadkoweFormLista"/>
+                        </p:column>
+                        
+                    </p:dataTable>
+                </p:panel>
+           </h:form>
+           
+            </p:panelGrid>
+        </p:outputPanel>
+</ui:composition>

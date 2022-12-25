@@ -44,7 +44,10 @@
                     <p:tab title="firma">
                         <ui:include src="sub/kalendarz_firmy.xhtml"/>
                     </p:tab>
-                    <p:tab title="globalny">
+                    <p:tab title="wypadkowe">
+                        <ui:include src="sub/firma_wypadkowe.xhtml"/>
+                    </p:tab>
+                    <p:tab title="globalny" rendered="#{wpisView.uzer.login eq '2'}">
                         <ui:include src="sub/kalendarz_globalny.xhtml"/>
                     </p:tab>
                 </p:tabView>

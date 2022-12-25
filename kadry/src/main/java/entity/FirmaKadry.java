@@ -128,6 +128,8 @@ public class FirmaKadry implements Serializable {
     private String fir_serial;
     @Column(name = "dzienlp")
     private String dzienlp;
+    @OneToMany(mappedBy = "firma", cascade = CascadeType.ALL)
+    List<Wypadkowefirma> wypadkowefirmaList;
 
     public FirmaKadry() {
     }
@@ -454,6 +456,16 @@ public class FirmaKadry implements Serializable {
     public void setBankkonto(String bankkonto) {
         this.bankkonto = bankkonto;
     }
+    
+    @XmlTransient
+    public List<Wypadkowefirma> getWypadkowefirmaList() {
+        return wypadkowefirmaList;
+    }
+
+    public void setWypadkowefirmaList(List<Wypadkowefirma> wypadkowefirmaList) {
+        this.wypadkowefirmaList = wypadkowefirmaList;
+    }
+    
     
     public String getAdres() {
         String zwrot = this.kod+" "+this.miasto+", "+this.ulica+" "+this.dom+"/"+this.lokal;
