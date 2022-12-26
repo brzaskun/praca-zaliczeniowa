@@ -8,10 +8,10 @@
     xmlns:bcf="http://brzaskun.com/facelets"
 >
     <p:dialog id="dialoglistaplac" header="Wyliczanie listy płac" widgetVar="dialoglistaplac"  
-              resizable="false"  onShow="ustawdialog('dialoglistaplac','centertile',1650,800);" closeOnEscape="true" onHide="resetujdialog('dialoglistaplac');" 
+              resizable="false"  onShow="ustawdialog('dialoglistaplac','centertile',1650,820);" closeOnEscape="true" onHide="resetujdialog('dialoglistaplac');" 
               fitViewport="true">
         <p:ajax event="open" listener="#{pasekwynagrodzenView.init()}" update="DefinicjalistaplacCreateForm DefinicjalistaplacCreateForm1 KursDataLPForm DefinicjalistaplacCreateForm2 PasekwynagrodzenListForm" global="false"/>
-        <p:panelGrid columns="1">
+        <p:panelGrid columns="2">
             <h:outputText value="W przypadku braku osoby na zleceniu na liście proszę sprawdzić, czy wystawiono rachunek." style="color: #136e13;margin-top: 10px;"/>
             <h:outputText value="Adres email do wysyłki listy: #{wpisView.getFirma().getEmail()}" style="color: #136e13;margin-top: 10px;"/>
         </p:panelGrid>

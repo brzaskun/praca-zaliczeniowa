@@ -230,10 +230,17 @@ public class PasekwynagrodzenBean {
         if (definicjalistaplac.getRodzajlistyplac().getSymbol().equals("ZA")) {
             PasekwynagrodzenBean.obliczbruttobezzusZasilek(pasek);
         } else {
-            PasekwynagrodzenBean.obliczbruttozus(pasek);
-            PasekwynagrodzenBean.obliczbruttobezzus(pasek);
-            PasekwynagrodzenBean.obliczbruttobezzusbezpodatek(pasek);
-            PasekwynagrodzenBean.obliczbruttobezSpolecznych(pasek);
+            if (pasek.isDo26lat()) {
+                PasekwynagrodzenBean.obliczbrutto26(pasek, limit26, sumapoprzednich);
+                PasekwynagrodzenBean.obliczbruttobezzus(pasek);
+                PasekwynagrodzenBean.obliczbruttobezzusbezpodatek(pasek);
+                PasekwynagrodzenBean.obliczbruttobezSpolecznych(pasek);
+            } else {
+                PasekwynagrodzenBean.obliczbruttozus(pasek);
+                PasekwynagrodzenBean.obliczbruttobezzus(pasek);
+                PasekwynagrodzenBean.obliczbruttobezzusbezpodatek(pasek);
+                PasekwynagrodzenBean.obliczbruttobezSpolecznych(pasek);
+            }
         }
         if (jestoddelegowanie) {
             if (jestoddelegowanie && kurs == 0.0) {
@@ -513,6 +520,39 @@ public class PasekwynagrodzenBean {
         pasek.setOddelegowaniewaluta(bruttozusoddelegowaniewaluta);
         pasek.setBruttozuskraj(bruttozuskraj);
         pasek.setBruttozus(bruttozus);
+        pasek.setBrutto(Z.z(pasek.getBrutto()+bruttozuskraj+bruttozusoddelegowanie));
+    }
+    
+    private static void obliczbrutto26(Pasekwynagrodzen pasek, double limit26, double sumapoprzednich) {
+        double bruttozuskraj = 0.0;
+        double bruttozusoddelegowanie = 0.0;
+        double bruttozusoddelegowaniewaluta = 0.0;
+        for (Naliczenieskladnikawynagrodzenia p : pasek.getNaliczenieskladnikawynagrodzeniaList()) {
+            if (p.isZus0bezzus1()==false&&p.isPodatek0bezpodatek1()==false) {
+                if (p.getSkladnikwynagrodzenia().isOddelegowanie()) {
+                    bruttozusoddelegowanie = Z.z(bruttozusoddelegowanie+p.getKwotadolistyplac());
+                    bruttozusoddelegowaniewaluta = Z.z(bruttozusoddelegowaniewaluta+p.getKwotadolistyplacwaluta());
+                } else {
+                    bruttozuskraj = Z.z(bruttozuskraj+p.getKwotadolistyplac());
+                }
+            }
+        }
+        for (Naliczenienieobecnosc p : pasek.getNaliczenienieobecnoscList()) {
+            bruttozuskraj = Z.z(bruttozuskraj+p.getKwotazus());
+        }
+        double sumaprzejsciowa = bruttozuskraj+bruttozusoddelegowanie;
+        double nowasumaprzychodow = sumapoprzednich+sumaprzejsciowa;
+        double roznicapowyzejlimitu = nowasumaprzychodow-limit26;
+        if (roznicapowyzejlimitu>0.0) {
+            double bezpodatku = sumaprzejsciowa-roznicapowyzejlimitu;
+            pasek.setBruttozusbezpodatek(bezpodatku);
+            pasek.setBruttozus(roznicapowyzejlimitu);
+        } else {
+            pasek.setBruttozusbezpodatek(sumaprzejsciowa);
+        }
+        pasek.setOddelegowaniepln(bruttozusoddelegowanie);
+        pasek.setOddelegowaniewaluta(bruttozusoddelegowaniewaluta);
+        pasek.setBruttozuskraj(bruttozuskraj);
         pasek.setBrutto(Z.z(pasek.getBrutto()+bruttozuskraj+bruttozusoddelegowanie));
     }
     
@@ -1098,7 +1138,7 @@ public class PasekwynagrodzenBean {
         }
         pasek.setLimitzus(limitZUS);
         pasek.setLimitzuspoza(kwotabezzus);
-        pasek.setPodstawaskladkizus(pasek.getBruttozus()-kwotabezzus);
+        pasek.setPodstawaskladkizus(pasek.getBruttozus()+pasek.getBruttozusbezpodatek()-kwotabezzus);
     }
 
     private static double sumujwynagrodzenia(List<Naliczenieskladnikawynagrodzenia> naliczenieskladnikawynagrodzeniaList) {
@@ -1173,7 +1213,7 @@ public class PasekwynagrodzenBean {
     }
 
     private static void wyliczpodstaweZUS(Pasekwynagrodzen pasek) {
-        pasek.setPodstawaskladkizus(pasek.getBruttozus());
+        pasek.setPodstawaskladkizus(pasek.getBruttozus()+pasek.getBruttozusbezpodatek());
     }
 
     private static boolean obliczczynierezydent(Umowa umowa, String termwyplaty) {

@@ -29,6 +29,9 @@
                             <h:outputText value="brutto z zus"/>
                         </p:column>
                         <p:column>
+                            <h:outputText value="brutto z zus bez pod."/>
+                        </p:column>
+                        <p:column>
                             <h:outputText value="brutto bez społ."/>
                         </p:column>
                         <p:column>
@@ -58,9 +61,6 @@
                         <p:column>
                             <h:outputText value="brutto-zus"/>
                         </p:column>
-                        <p:column>
-                            <h:outputText value="koszty uzyskania"/>
-                        </p:column>
                         <p:column width="20">
                             <h:outputText value=" "/>
                         </p:column>
@@ -75,6 +75,9 @@
                         </p:column>
                         <p:column>
                             <bcf:outputpl value="#{itempasek.bruttozus}" />
+                        </p:column>
+                         <p:column>
+                             <bcf:outputpl value="#{itempasek.bruttozusbezpodatek}" />
                         </p:column>
                         <p:column>
                             <bcf:outputpl value="#{itempasek.bruttobezspolecznych}" />
@@ -106,9 +109,6 @@
                         <p:column>
                             <bcf:outputpl value="#{itempasek.bruttominusspoleczne}"/>
                         </p:column>
-                        <p:column>
-                            <bcf:outputpl value="#{itempasek.kosztyuzyskania}"/>
-                        </p:column>
                         <p:column width="20" style="text-align: center;">
                             <p:commandButton icon="pi pi-print" actionListener="#{pasekwynagrodzenView.drukuj(itempasek)}" global="false"/>
                             <p:commandButton icon="pi pi-fast-forward" actionListener="#{pasekwynagrodzenView.przelicz(itempasek)}" global="false" update="PasekwynagrodzenListForm"/>
@@ -133,6 +133,9 @@
 <!--                        <p:column>
                             <h:outputText value="ulga dla kl.sr"/>
                         </p:column>-->
+                        <p:column>
+                            <h:outputText value="koszty uzyskania"/>
+                        </p:column>
                         <p:column>
                             <h:outputText value="podstawa opodatk."/>
                         </p:column>
@@ -176,6 +179,9 @@
 <!--                        <p:column>
                             <bcf:outputpl value="#{itempasek.ulgadlaklasysredniejSuma}"/>
                         </p:column>-->
+                        <p:column>
+                            <bcf:outputpl value="#{itempasek.kosztyuzyskania}"/>
+                        </p:column>
                         <p:column>
                             <bcf:outputpl value="#{itempasek.podstawaopodatkowania}"/>
                         </p:column>

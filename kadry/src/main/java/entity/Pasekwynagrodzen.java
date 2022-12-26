@@ -82,6 +82,8 @@ public class Pasekwynagrodzen implements Serializable {
     private double bruttobezspolecznych;
     @Column(name = "bruttozus")
     private double bruttozus;
+    @Column(name = "bruttozusbezpodatek")
+    private double bruttozusbezpodatek;
     //informacyjne, kwota jest w brutto
     @Column(name = "bruttozuskraj")
     private double bruttozuskraj;
@@ -1056,6 +1058,14 @@ public class Pasekwynagrodzen implements Serializable {
 
     public void setDatawysylki(String datawysylki) {
         this.datawysylki = datawysylki;
+    }
+
+    public double getBruttozusbezpodatek() {
+        return bruttozusbezpodatek;
+    }
+
+    public void setBruttozusbezpodatek(double bruttozusbezpodatek) {
+        this.bruttozusbezpodatek = bruttozusbezpodatek;
     }
     
     
