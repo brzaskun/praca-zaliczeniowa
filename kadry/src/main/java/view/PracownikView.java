@@ -56,6 +56,7 @@ public class PracownikView  implements Serializable {
             selected.setIpusera(IPaddress.getIpAddr((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest()));
             selected.setDatalogowania(Data.aktualnaDataCzas());
             selected.setModyfikowal(wpisView.getUzer().getLogin());
+            selected.setPlec(pleczPesel(selected.getPesel()));
             pracownikFacade.create(selected);
             lista.add(selected);
             wpisView.setPracownik(selected);
@@ -240,6 +241,17 @@ public class PracownikView  implements Serializable {
 
     public void setListafiltered(List<Pracownik> listafiltered) {
         this.listafiltered = listafiltered;
+    }
+
+    private String pleczPesel(String pesel) {
+        String zwrot = "M";
+        char chara = pesel.charAt(9);
+        int liczbakontrolna = Character.getNumericValue(chara);
+        boolean isEven = liczbakontrolna % 2 == 0;
+        if (isEven) {
+            zwrot = "K";
+        }
+        return zwrot;
     }
     
     

@@ -42,6 +42,8 @@ public class PracownikAneksyView  implements Serializable {
     @Inject
     private SMTPSettingsFacade sMTPSettingsFacade;
     private List<Umowa> listaumowy;
+    private String dataaneksu;
+    private double kwotaaneksu;
     
     @PostConstruct
     private void init() {
@@ -56,8 +58,12 @@ public class PracownikAneksyView  implements Serializable {
     
     public void drukujaneks(Zmiennawynagrodzenia p) {
         if (p != null) {
-            PdfUmowaoPrace.drukujaneks(p);
-            Msg.msg("Wydrukowano aneks");
+            if (p.getNowakwota()>0.0) {
+                PdfUmowaoPrace.drukujaneks(p, dataaneksu);
+                Msg.msg("Wydrukowano aneks");
+            } else {
+                Msg.msg("e", "Nie wprowadzono nowej kwoty wynagrodzenia");
+            }
         } else {
             Msg.msg("e", "Błąd drukowania. Nie można wydrukować aneksu");
         }
@@ -65,7 +71,7 @@ public class PracownikAneksyView  implements Serializable {
     
     public void drukwszystkie() {
         if (listaumowy != null) {
-            PdfUmowaoPrace.drukujanekswszystkie(listaumowy, wpisView.getFirma());
+            PdfUmowaoPrace.drukujanekswszystkie(listaumowy, wpisView.getFirma(), dataaneksu);
         } else {
             Msg.msg("e", "Błąd drukowania. Nie można wydrukować aneksów");
         }
@@ -83,7 +89,7 @@ public class PracownikAneksyView  implements Serializable {
             if (wysylac) {
                 FirmaKadry firmaKadry = wpisView.getFirma();
                 String nazwa = firmaKadry.getNip()+"aneksy.pdf";
-                ByteArrayOutputStream drukujmail = PdfUmowaoPrace.drukujanekswszystkieMail(listaumowy, wpisView.getFirma());
+                ByteArrayOutputStream drukujmail = PdfUmowaoPrace.drukujanekswszystkieMail(listaumowy, wpisView.getFirma(), dataaneksu);
                 SMTPSettings findSprawaByDef = sMTPSettingsFacade.findSprawaByDef();
                 mail.Mail.mailAneksydoUmowy(wpisView.getFirma(), wpisView.getFirma().getEmail(), null, findSprawaByDef, drukujmail.toByteArray(), nazwa, wpisView.getUzer().getEmail());
                 Msg.msg("Wysłano listę płac do pracodawcy");
@@ -95,12 +101,41 @@ public class PracownikAneksyView  implements Serializable {
         }
     }
     
+    public void nanieskwote() {
+        if (kwotaaneksu>0.0) {
+            for (Umowa u :listaumowy) {
+                Zmiennawynagrodzenia zmiennaZasadniczego = u.getZmiennaZasadniczego();
+                if (zmiennaZasadniczego.getId()!=null) {
+                    zmiennaZasadniczego.setNowakwota(kwotaaneksu);
+                }
+            }
+        } else {
+            Msg.msg("e", "Nie wpisano kwoty");
+        }
+    }
+     
     public List<Umowa> getListaumowy() {
         return listaumowy;
     }
 
     public void setListaumowy(List<Umowa> listaumowy) {
         this.listaumowy = listaumowy;
+    }
+
+    public String getDataaneksu() {
+        return dataaneksu;
+    }
+
+    public void setDataaneksu(String dataaneksu) {
+        this.dataaneksu = dataaneksu;
+    }
+
+    public double getKwotaaneksu() {
+        return kwotaaneksu;
+    }
+
+    public void setKwotaaneksu(double kwotaaneksu) {
+        this.kwotaaneksu = kwotaaneksu;
     }
 
 

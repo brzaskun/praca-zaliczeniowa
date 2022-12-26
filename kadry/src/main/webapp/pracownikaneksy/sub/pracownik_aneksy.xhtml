@@ -8,8 +8,18 @@
     xmlns:bcf="http://brzaskun.com/facelets">
     <p:tabView id="akordeon">
         <p:tab title="czas trwania umowy">
-            <h:form>
+            <h:form id="AneksForm">
                 <p:outputPanel>
+                    <p:panelGrid columns="2">
+                        <p:outputLabel for="dataaneksu" value="data aneksu" />
+                        <p:inputText id="dataaneksu" value="#{pracownikAneksyView.dataaneksu}" placeholder="____-__-__" maxlength="10" required="true" requiredMessage="Wprowadź datę aneksu"/>
+                        <p:outputLabel for="kwotaaneksu" value="kwota aneksu" />
+                        <p:inputNumber id="kwotaaneksu" value="#{pracownikAneksyView.kwotaaneksu}"  size="14"  maxlength="7" decimalPlaces="2" decimalSeparator="." inputStyle="text-align: right">
+                            <p:ajax event="change" listener="#{pracownikAneksyView.nanieskwote}" update="akordeon:AneksForm:datalist"/>
+                        </p:inputNumber>
+                    </p:panelGrid>
+                </p:outputPanel>
+                <p:outputPanel style="margin-top: 20px;">
                     <p:dataTable id="datalist" value="#{pracownikAneksyView.listaumowy}" var="itemUmowa" rowIndexVar="yndex"
                                  selectionMode="single" 
                                  rowKey="#{itemUmowa.id}"  sortBy="#{itemUmowa.datado}"

@@ -15,7 +15,6 @@ import com.itextpdf.text.TabSettings;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
-import data.Data;
 import entity.Angaz;
 import entity.FirmaKadry;
 import entity.Naliczenienieobecnosc;
@@ -174,7 +173,7 @@ public class PdfUmowaoPrace {
         }
     }
 
-    public static void drukujaneks(Zmiennawynagrodzenia p) {
+    public static void drukujaneks(Zmiennawynagrodzenia p, String dataaneksu) {
         try {
             Angaz angaz = p.getSkladnikwynagrodzenia().getAngaz();
             String nazwa = angaz.getPracownik().getPesel()+"umowa.pdf";
@@ -183,7 +182,7 @@ public class PdfUmowaoPrace {
                 PdfWriter writer = inicjacjaWritera(document, nazwa);
                 naglowekStopkaP(writer);
                 otwarcieDokumentu(document, nazwa);
-                dodajtrescAneks(p, angaz, document);
+                dodajtrescAneks(p, angaz, document, dataaneksu);
                 finalizacjaDokumentuQR(document,nazwa);
                 String f = "pokazwydruk('"+nazwa+"');";
                 PrimeFaces.current().executeScript(f);
@@ -195,7 +194,7 @@ public class PdfUmowaoPrace {
         }
     }
     
-    public static void drukujanekswszystkie(List<Umowa> listaumowy, FirmaKadry firmaKadry) {
+    public static void drukujanekswszystkie(List<Umowa> listaumowy, FirmaKadry firmaKadry, String dataaneksu) {
         try {
             String nazwa = firmaKadry.getNip()+"aneksy.pdf";
             if (listaumowy != null) {
@@ -211,7 +210,7 @@ public class PdfUmowaoPrace {
                             document.newPage();
                         }
                         Angaz angaz = p.getSkladnikwynagrodzenia().getAngaz();
-                        dodajtrescAneks(p, angaz, document);
+                        dodajtrescAneks(p, angaz, document, dataaneksu);
                         licznik++;
                     }
                 }
@@ -228,7 +227,7 @@ public class PdfUmowaoPrace {
         }
     }
     
-    public static ByteArrayOutputStream drukujanekswszystkieMail(List<Umowa> listaumowy, FirmaKadry firmaKadry) {
+    public static ByteArrayOutputStream drukujanekswszystkieMail(List<Umowa> listaumowy, FirmaKadry firmaKadry, String dataaneksu) {
         ByteArrayOutputStream out = new ByteArrayOutputStream(); 
         try {
             String nazwa = firmaKadry.getNip()+"aneksy.pdf";
@@ -247,7 +246,7 @@ public class PdfUmowaoPrace {
                             document.newPage();
                         }
                         Angaz angaz = p.getSkladnikwynagrodzenia().getAngaz();
-                        dodajtrescAneks(p, angaz, document);
+                        dodajtrescAneks(p, angaz, document, dataaneksu);
                         licznik++;
                     }
                 }
@@ -263,7 +262,7 @@ public class PdfUmowaoPrace {
         return out;
     }
      
-     private static void dodajtrescAneks(Zmiennawynagrodzenia zm, Angaz angaz, Document document) {
+     private static void dodajtrescAneks(Zmiennawynagrodzenia zm, Angaz angaz, Document document, String dataaneksu) {
         try {
             Umowa umowa = angaz.getAktywnaUmowa();
             BaseFont helvetica = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
@@ -271,7 +270,7 @@ public class PdfUmowaoPrace {
             Font fontM = new Font(helvetica, 9);
             Font fontS = new Font(helvetica, 6);
             FirmaKadry firma = angaz.getFirma();
-            Paragraph paragraph = new Paragraph(new Phrase(firma.getMiasto()+", dnia "+Data.aktualnaData(), fontM));
+            Paragraph paragraph = new Paragraph(new Phrase(firma.getMiasto()+", dnia "+dataaneksu, fontM));
             paragraph.setAlignment(Element.ALIGN_RIGHT);
             document.add(paragraph);
             document.add(Chunk.NEWLINE);
@@ -311,7 +310,7 @@ public class PdfUmowaoPrace {
             }
             document.add(paragraph);
             document.add(Chunk.NEWLINE);
-            paragraph = new Paragraph(new Phrase("1. Strony zgodnie postanawiają, że od dnia "+data.Data.aktualnaData()+" ulegają zmianie następujące warunki umowy o pracę:", fontM));
+            paragraph = new Paragraph(new Phrase("1. Strony zgodnie postanawiają, że od dnia "+dataaneksu+" ulegają zmianie następujące warunki umowy o pracę:", fontM));
             document.add(paragraph);
             PdfMain.dodajElementListy(document, "a) Wynagrodzenie zasadnicze: ", f.F.curr(zm.getNowakwota(), "PLN"), fontM);
             paragraph = new Paragraph(new Phrase("2. Pozostałe warunki umowy o pracę pozostają bez zmian ", fontM));
