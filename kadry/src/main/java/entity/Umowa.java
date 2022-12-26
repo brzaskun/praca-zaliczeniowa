@@ -193,6 +193,7 @@ public class Umowa implements Serializable {
     @JoinColumn(name = "rozwiazanieumowy", referencedColumnName = "id")
     @OneToOne
     private Rozwiazanieumowy rozwiazanieumowy;
+    
    
 
     public Umowa() {
@@ -521,13 +522,7 @@ public class Umowa implements Serializable {
         this.stanowisko = stanowisko;
     }
 
-    public boolean nalezydomiesiaca(String rok, String mc) {
-        boolean zaczynasiew = Data.czydatajestwmcu(this.dataod, rok, mc);
-        boolean konczysiew = Data.czydatajestwmcu(this.dataod, rok, mc);
-        boolean zwrot = zaczynasiew || konczysiew;
-        return zwrot;
-    }
-
+ 
 
 
     public Slownikszkolazatrhistoria getSlownikszkolazatrhistoria() {
@@ -699,7 +694,25 @@ public class Umowa implements Serializable {
         //String dataod ()
         return zwrot;
     }
-    
+       public boolean nalezydomiesiaca(String rok, String mc) {
+        boolean zaczynasiew = Data.czydatajestwmcu(this.dataod, rok, mc);
+        boolean konczysiew = Data.czydatajestwmcu(this.dataod, rok, mc);
+        boolean zwrot = zaczynasiew || konczysiew;
+        return zwrot;
+    }
+
+       
+       public Zmiennawynagrodzenia getZmiennaZasadniczego() {
+           Zmiennawynagrodzenia zwrot = null;
+           Skladnikwynagrodzenia zasadnicze = this.angaz.getWynZasadnicze();
+           if (zasadnicze!=null) {
+                Zmiennawynagrodzenia zmienna = zasadnicze.getOstatniaZmienna();
+                if (zmienna!=null) {
+                    zwrot = zmienna;
+                }
+           }
+           return zwrot;
+       }
    
 
 //    private List<EtatPrac> noweetat(List<EtatPrac> etatList, Umowa aThis) {

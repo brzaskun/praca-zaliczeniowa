@@ -9,6 +9,7 @@ import dao.AngazFacade;
 import dao.UmowaFacade;
 import entity.Angaz;
 import entity.Umowa;
+import entity.Zmiennawynagrodzenia;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +18,8 @@ import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import msg.Msg;
+import pdf.PdfUmowaoPrace;
 
 /**
  *
@@ -42,6 +45,15 @@ public class PracownikAneksyView  implements Serializable {
             for (Angaz a : angaze) {
                 listaumowy.addAll(a.getUmowaList().stream().filter(p->p.isAktywna()).collect(Collectors.toList()));
             }
+        }
+    }
+    
+    public void drukujaneks(Zmiennawynagrodzenia p) {
+        if (p != null) {
+            PdfUmowaoPrace.drukujaneks(p);
+            Msg.msg("Wydrukowano aneks");
+        } else {
+            Msg.msg("e", "Błąd drukowania. Nie można wydrukować aneksu");
         }
     }
     

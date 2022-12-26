@@ -220,6 +220,20 @@ public class Skladnikwynagrodzenia implements Serializable {
             for (Zmiennawynagrodzenia r : this.zmiennawynagrodzeniaList) {
                 if (r.getDataod().equals(p.getDataod())) {
                     zwrot = r;
+                    break;
+                }
+            }
+        }
+        return zwrot;
+    }
+
+    public Zmiennawynagrodzenia getOstatniaZmienna() {
+        Zmiennawynagrodzenia zwrot = null;
+        if (this.zmiennawynagrodzeniaList!=null) {
+            for (Zmiennawynagrodzenia r : this.zmiennawynagrodzeniaList) {
+                if (r.getDatado()==null||r.getDatado().equals("")) { 
+                    zwrot = r;
+                    break;
                 }
             }
         }

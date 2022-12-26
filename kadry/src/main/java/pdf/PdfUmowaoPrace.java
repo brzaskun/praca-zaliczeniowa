@@ -15,10 +15,13 @@ import com.itextpdf.text.TabSettings;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import data.Data;
+import entity.Angaz;
 import entity.FirmaKadry;
 import entity.Naliczenienieobecnosc;
 import entity.Naliczenieskladnikawynagrodzenia;
 import entity.Umowa;
+import entity.Zmiennawynagrodzenia;
 import error.E;
 import java.util.List;
 import msg.Msg;
@@ -169,8 +172,101 @@ public class PdfUmowaoPrace {
             }
         }
     }
+
+    public static void drukujaneks(Zmiennawynagrodzenia p) {
+        try {
+            Angaz angaz = p.getSkladnikwynagrodzenia().getAngaz();
+            String nazwa = angaz.getPracownik().getPesel()+"umowa.pdf";
+            if (angaz != null) {
+                Document document = PdfMain.inicjacjaA4Portrait(80,60);
+                PdfWriter writer = inicjacjaWritera(document, nazwa);
+                naglowekStopkaP(writer);
+                otwarcieDokumentu(document, nazwa);
+                dodajtrescAneks(p, angaz, document);
+                finalizacjaDokumentuQR(document,nazwa);
+                String f = "pokazwydruk('"+nazwa+"');";
+                PrimeFaces.current().executeScript(f);
+            } else {
+                Msg.msg("w", "Nie ma Paska do wydruku");
+            }
+        } catch (Exception e) {
+            E.e(e);
+        }
+    }
      
-     
+     private static void dodajtrescAneks(Zmiennawynagrodzenia zm, Angaz angaz, Document document) {
+        try {
+            Umowa umowa = angaz.getAktywnaUmowa();
+            BaseFont helvetica = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
+            Font font = new Font(helvetica, 11);
+            Font fontM = new Font(helvetica, 9);
+            Font fontS = new Font(helvetica, 6);
+            FirmaKadry firma = angaz.getFirma();
+            Paragraph paragraph = new Paragraph(new Phrase(firma.getMiasto()+", dnia "+Data.aktualnaData(), fontM));
+            paragraph.setAlignment(Element.ALIGN_RIGHT);
+            document.add(paragraph);
+            document.add(Chunk.NEWLINE);
+            document.add(Chunk.NEWLINE);
+            document.add(Chunk.NEWLINE);
+            document.add(new Paragraph(new Phrase("..............................", fontM)));
+            document.add(new Paragraph(new Phrase("pieczątka firmy", fontS)));
+            document.add(Chunk.NEWLINE);
+            paragraph = new Paragraph(new Phrase("ANEKS DO UMOWY O PRACĘ", font));
+            paragraph.setAlignment(Element.ALIGN_CENTER);
+            document.add(paragraph);
+            paragraph = new Paragraph(new Phrase(umowa.getCzastrwania(), fontM));
+            paragraph.setAlignment(Element.ALIGN_CENTER);
+            document.add(Chunk.NEWLINE);
+            document.add(paragraph);
+            paragraph = new Paragraph(new Phrase("zawartej w dniu "+umowa.getDatazawarcia()+" pomiędzy:", fontM));
+            document.add(paragraph);
+            document.add(Chunk.NEWLINE);
+            paragraph = new Paragraph(new Phrase(firma.getNazwa(), fontM));
+            document.add(paragraph);
+            paragraph = new Paragraph(new Phrase(firma.getAdres(), fontM));
+            document.add(paragraph);
+            paragraph = new Paragraph(new Phrase("NIP : "+firma.getNip(), fontM));
+            document.add(paragraph);
+            paragraph = new Paragraph(new Phrase("reprezentowanym przez: "+firma.getReprezentant(), fontM));
+            document.add(paragraph);
+            document.add(Chunk.NEWLINE);
+            paragraph = new Paragraph(new Phrase("a ", fontM));
+            document.add(paragraph);
+            document.add(Chunk.NEWLINE);
+            paragraph = new Paragraph(new Phrase(umowa.getPracownik().getNazwiskoImie(), fontM));
+            document.add(paragraph);
+            if (umowa.getPracownik().getPlec()!=null && umowa.getPracownik().getPlec().equals("K")) {
+                paragraph = new Paragraph(new Phrase("zamieszkałą w "+umowa.getPracownik().getAdres(), fontM));
+            } else {
+                paragraph = new Paragraph(new Phrase("zamieszkałym w "+umowa.getPracownik().getAdres(), fontM));
+            }
+            document.add(paragraph);
+            document.add(Chunk.NEWLINE);
+            paragraph = new Paragraph(new Phrase("1. Strony zgodnie postanawiają, że od dnia "+data.Data.aktualnaData()+" ulegają zmianie następujące warunki umowy o pracę:", fontM));
+            document.add(paragraph);
+            PdfMain.dodajElementListy(document, "a) Wynagrodzenie zasadnicze: ", f.F.curr(zm.getNowakwota(), "PLN"), fontM);
+            paragraph = new Paragraph(new Phrase("2. Pozostałe warunki umowy o pracę pozostają bez zmian ", fontM));
+            document.add(paragraph);
+            document.add(Chunk.NEWLINE);
+            document.add(Chunk.NEWLINE);
+            document.add(Chunk.NEWLINE);
+            //document.add(new Paragraph(new Phrase(umowa.getPracownik().getNazwiskoImie()+"                                                          "+umowa.getAngaz().getFirma().getReprezentant(), fontM)));
+            Paragraph p = new Paragraph();
+            p.add(new Phrase(umowa.getPracownik().getNazwiskoImie(), fontM));
+            p.setTabSettings(new TabSettings(350));
+            p.add(Chunk.TABBING);
+            p.add(new Phrase(umowa.getAngaz().getFirma().getReprezentant(), fontM));
+            document.add(p);
+            p = new Paragraph();
+            p.add(new Phrase("(data i podpis pracownika)", fontS));
+            p.setTabSettings(new TabSettings(350));
+            p.add(Chunk.TABBING);
+            p.add(new Phrase("(podpis pracodawcy lub osoby reprezentującej pracodawcę)", fontS));
+            document.add(p);
+        } catch (Exception ex) {
+            E.e(ex);
+        }
+    }
       
 }
 

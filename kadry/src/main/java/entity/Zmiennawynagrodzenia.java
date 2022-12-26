@@ -18,6 +18,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -76,7 +77,8 @@ public class Zmiennawynagrodzenia implements Serializable {
     private  boolean minimalneustatowe;
     @Column(name = "nrkolejnyzmiennej")
     private  int nrkolejnyzmiennej;
-    
+    @Transient
+    private double nowakwota;
 
 
     public Zmiennawynagrodzenia() {
@@ -251,6 +253,14 @@ public class Zmiennawynagrodzenia implements Serializable {
 
     public void setNrkolejnyzmiennej(int nrkolejnyzmiennej) {
         this.nrkolejnyzmiennej = nrkolejnyzmiennej;
+    }
+
+    public double getNowakwota() {
+        return nowakwota;
+    }
+
+    public void setNowakwota(double nowakwota) {
+        this.nowakwota = nowakwota;
     }
 
    

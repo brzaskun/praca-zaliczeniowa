@@ -627,6 +627,22 @@ public class Angaz implements Serializable {
         }
         return zwrot;
     }
+
+    public Skladnikwynagrodzenia getWynZasadnicze() {
+        Skladnikwynagrodzenia zwrot = null;
+        List<Skladnikwynagrodzenia> skladnikwynagrodzeniaList1 = this.skladnikwynagrodzeniaList;
+        if (skladnikwynagrodzeniaList1!=null) {
+            for (Skladnikwynagrodzenia s : skladnikwynagrodzeniaList1) {
+                if (s.getRodzajwynagrodzenia().getKod().equals("11")) {
+                    zwrot = s;
+                    break;
+                }
+            }
+        }
+        return zwrot;
+    }
+
+    
     
     
 }
