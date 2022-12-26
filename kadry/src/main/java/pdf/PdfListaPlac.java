@@ -327,6 +327,10 @@ public class PdfListaPlac {
             if (!rs.getNieobecnosc().getKod().equals("Z")) {
                 sb.append(rs.getNieobecnosc().getKod());
                 sb.append(" ");
+                if (rs.getNieobecnosc().getSwiadczeniekodzus()!=null) {
+                    sb.append(rs.getNieobecnosc().getSwiadczeniekodzus().getKod());
+                    sb.append(" ");
+                }
                 sb.append(rs.getNieobecnosc().getRodzajnieobecnosci().getOpis());
                 sb.append(" ");
                 if (rs.getKwotazus()!=0.0) {
