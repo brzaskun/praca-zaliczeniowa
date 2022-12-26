@@ -6,10 +6,14 @@
 package view;
 
 import dao.AngazFacade;
+import dao.SMTPSettingsFacade;
 import dao.UmowaFacade;
 import entity.Angaz;
+import entity.FirmaKadry;
+import entity.SMTPSettings;
 import entity.Umowa;
 import entity.Zmiennawynagrodzenia;
+import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +39,8 @@ public class PracownikAneksyView  implements Serializable {
     private AngazFacade angazFacade;
     @Inject
     private UmowaFacade umowaFacade;
+    @Inject
+    private SMTPSettingsFacade sMTPSettingsFacade;
     private List<Umowa> listaumowy;
     
     @PostConstruct
@@ -54,6 +60,38 @@ public class PracownikAneksyView  implements Serializable {
             Msg.msg("Wydrukowano aneks");
         } else {
             Msg.msg("e", "Błąd drukowania. Nie można wydrukować aneksu");
+        }
+    }
+    
+    public void drukwszystkie() {
+        if (listaumowy != null) {
+            PdfUmowaoPrace.drukujanekswszystkie(listaumowy, wpisView.getFirma());
+        } else {
+            Msg.msg("e", "Błąd drukowania. Nie można wydrukować aneksów");
+        }
+    }
+    
+     public void mailAneksy() {
+        if (listaumowy != null && listaumowy.size() > 0) {
+            boolean wysylac = false;
+            for (Umowa p : listaumowy) {
+                if (p.getZmiennaZasadniczego().getNowakwota()>0) {
+                    wysylac = true;
+                    break;
+                }
+            }
+            if (wysylac) {
+                FirmaKadry firmaKadry = wpisView.getFirma();
+                String nazwa = firmaKadry.getNip()+"aneksy.pdf";
+                ByteArrayOutputStream drukujmail = PdfUmowaoPrace.drukujanekswszystkieMail(listaumowy, wpisView.getFirma());
+                SMTPSettings findSprawaByDef = sMTPSettingsFacade.findSprawaByDef();
+                mail.Mail.mailAneksydoUmowy(wpisView.getFirma(), wpisView.getFirma().getEmail(), null, findSprawaByDef, drukujmail.toByteArray(), nazwa, wpisView.getUzer().getEmail());
+                Msg.msg("Wysłano listę płac do pracodawcy");
+            } else {
+                Msg.msg("e", "Nie wprowadzono, żadnych nowych kwot wynagrodzeń");
+            }
+        } else {
+            Msg.msg("e", "Błąd drukowania. Brak pasków");
         }
     }
     

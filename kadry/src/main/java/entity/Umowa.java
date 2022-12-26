@@ -703,7 +703,7 @@ public class Umowa implements Serializable {
 
        
        public Zmiennawynagrodzenia getZmiennaZasadniczego() {
-           Zmiennawynagrodzenia zwrot = null;
+           Zmiennawynagrodzenia zwrot = new Zmiennawynagrodzenia();
            Skladnikwynagrodzenia zasadnicze = this.angaz.getWynZasadnicze();
            if (zasadnicze!=null) {
                 Zmiennawynagrodzenia zmienna = zasadnicze.getOstatniaZmienna();

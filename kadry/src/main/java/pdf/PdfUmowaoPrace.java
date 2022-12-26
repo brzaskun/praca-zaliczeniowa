@@ -23,6 +23,7 @@ import entity.Naliczenieskladnikawynagrodzenia;
 import entity.Umowa;
 import entity.Zmiennawynagrodzenia;
 import error.E;
+import java.io.ByteArrayOutputStream;
 import java.util.List;
 import msg.Msg;
 import org.primefaces.PrimeFaces;
@@ -192,6 +193,74 @@ public class PdfUmowaoPrace {
         } catch (Exception e) {
             E.e(e);
         }
+    }
+    
+    public static void drukujanekswszystkie(List<Umowa> listaumowy, FirmaKadry firmaKadry) {
+        try {
+            String nazwa = firmaKadry.getNip()+"aneksy.pdf";
+            if (listaumowy != null) {
+                Document document = PdfMain.inicjacjaA4Portrait(80,60);
+                PdfWriter writer = inicjacjaWritera(document, nazwa);
+                naglowekStopkaP(writer);
+                otwarcieDokumentu(document, nazwa);
+                int licznik = 0;
+                for (Umowa umowa : listaumowy) {
+                    Zmiennawynagrodzenia p = umowa.getZmiennaZasadniczego();
+                    if (p!=null&&p.getNowakwota()>0.0) {
+                        if (licznik>0) {
+                            document.newPage();
+                        }
+                        Angaz angaz = p.getSkladnikwynagrodzenia().getAngaz();
+                        dodajtrescAneks(p, angaz, document);
+                        licznik++;
+                    }
+                }
+                finalizacjaDokumentuQR(document,nazwa);
+                String f = "pokazwydruk('"+nazwa+"');";
+                PrimeFaces.current().executeScript(f);
+                Msg.msg("Wydrukowano aneksy");
+            } else {
+                Msg.msg("w", "Nie ma danych");
+            }
+        } catch (Exception e) {
+            E.e(e);
+            Msg.msg("e", "Nie wprowadzono kwot");
+        }
+    }
+    
+    public static ByteArrayOutputStream drukujanekswszystkieMail(List<Umowa> listaumowy, FirmaKadry firmaKadry) {
+        ByteArrayOutputStream out = new ByteArrayOutputStream(); 
+        try {
+            String nazwa = firmaKadry.getNip()+"aneksy.pdf";
+            if (listaumowy != null) {
+                Document document = PdfMain.inicjacjaA4Portrait(80,60);
+                PdfWriter writer = PdfWriter.getInstance(document, out);
+                writer.setInitialLeading(16);
+                writer.setViewerPreferences(PdfWriter.PageLayoutSinglePage);
+                naglowekStopkaP(writer);
+                otwarcieDokumentu(document, nazwa);
+                int licznik = 0;
+                for (Umowa umowa : listaumowy) {
+                    Zmiennawynagrodzenia p = umowa.getZmiennaZasadniczego();
+                    if (p!=null&&p.getNowakwota()>0.0) {
+                        if (licznik>0) {
+                            document.newPage();
+                        }
+                        Angaz angaz = p.getSkladnikwynagrodzenia().getAngaz();
+                        dodajtrescAneks(p, angaz, document);
+                        licznik++;
+                    }
+                }
+                finalizacjaDokumentuQR(document,nazwa);
+                Msg.msg("Przygotowano aneksy dla maila");
+            } else {
+                Msg.msg("w", "Nie ma danych");
+            }
+        } catch (Exception e) {
+            E.e(e);
+            Msg.msg("e", "Nie wprowadzono kwot");
+        }
+        return out;
     }
      
      private static void dodajtrescAneks(Zmiennawynagrodzenia zm, Angaz angaz, Document document) {

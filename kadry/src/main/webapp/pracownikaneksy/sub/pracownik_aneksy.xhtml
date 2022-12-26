@@ -4,95 +4,108 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
-        
+
     xmlns:bcf="http://brzaskun.com/facelets">
     <p:tabView id="akordeon">
         <p:tab title="czas trwania umowy">
-            <p:dataTable id="datalist" value="#{pracownikAneksyView.listaumowy}" var="itemUmowa" rowIndexVar="yndex"
-                         selectionMode="single" 
-                         rowKey="#{itemUmowa.id}"  sortBy="#{itemUmowa.datado}"
-                         style="height: 550px; overflow-y: scroll;width: 1390px;"
-                         rowsPerPageTemplate="20,100,250,500" paginatorPosition="top" paginator="true" rows="20"
-                         emptyMessage="Nie pobrano listy"
-                         >
-                <f:facet name="header">
-                    <h:outputText value="Czas trwania umów na czas określony"/>
-                </f:facet>
-                <p:column width="20" style="text-align: center;">
-                    <f:facet name="header">
-                        <h:outputText value="id"/>
-                    </f:facet>
-                    <h:outputText value="#{yndex+1}"/>
-                </p:column>
-                <p:column width="200" sortBy="#{itemUmowa.nazwiskoImie}">
-                    <f:facet name="header">
-                        <h:outputText value="nazwisko i imię"/>
-                    </f:facet>
-                    <h:outputText value="#{itemUmowa.nazwiskoImie}"/>
-                </p:column>
-                <p:column width="70" >
-                    <f:facet name="header">
-                        <h:outputText value="rodzaj umowy"/>
-                    </f:facet>
-                    <h:outputText value="umowa o pracę" rendered="#{itemUmowa.umowakodzus.praca}"/>
-                    <h:outputText value="umowa zlecenia" rendered="#{itemUmowa.umowakodzus.zlecenie}"/>
-                </p:column>
-                <p:column width="100" >
-                    <f:facet name="header">
-                        <h:outputText value="czas trwania"/>
-                    </f:facet>
-                    <h:outputText value="#{itemUmowa.czastrwania}"/>
-                </p:column>
-                <p:column width="60" style="text-align: center;" sortBy="#{itemUmowa.dataod}" sortOrder="desc">
-                    <f:facet name="header">
-                        <h:outputText value="data od"/>
-                    </f:facet>
-                    <h:outputText value="#{itemUmowa.dataod}"/>
-                </p:column>
-                <p:column width="60" style="text-align: center;" sortBy="#{itemUmowa.datado}" sortOrder="desc">
-                    <f:facet name="header">
-                        <h:outputText value="data do"/>
-                    </f:facet>
-                    <h:outputText value="#{itemUmowa.datado}"/>
-                </p:column>
-                <p:column width="70" >
-                    <f:facet name="header">
-                        <h:outputText value="kwota zas."/>
-                    </f:facet>
-                    <bcf:outputpl value="#{itemUmowa.zmiennaZasadniczego.kwota}"/>
-                </p:column>
-                <p:column width="60"  style="text-align: center;">
-                    <f:facet name="header">
-                        <h:outputText value="data od"/>
-                    </f:facet>
-                    <h:outputText value="#{itemUmowa.zmiennaZasadniczego.dataod}"/>
-                </p:column>
-                <p:column width="60" style="text-align: center;">
-                    <f:facet name="header">
-                        <h:outputText value="data do"/>
-                    </f:facet>
-                    <h:outputText value="#{itemUmowa.zmiennaZasadniczego.datado}"/>
-                </p:column>
-                <p:column width="20" style="text-align: center;">
-                    <f:facet name="header">
-                        <h:outputText value="min."/>
-                    </f:facet>
-                    <h:outputText value="&#x2714;" rendered="#{itemUmowa.zmiennaZasadniczego.minimalneustatowe}" style="color: green;"/>
-                </p:column>
-                <p:column width="70" >
-                    <f:facet name="header">
-                        <h:outputText value="nowa kwota"/>
-                    </f:facet>
-                    <p:inputNumber id="urloplp" value="#{itemUmowa.zmiennaZasadniczego.nowakwota}"  size="14"  maxlength="7" decimalPlaces="2" decimalSeparator="," inputStyle="text-align: right"/>
-                </p:column>
-                <p:column width="30" style="text-align: center;">
-                    <f:facet name="header">
-                        <h:outputText value=""/>
-                    </f:facet>
-                    <p:commandButton icon="pi pi-print" actionListener="#{pracownikAneksyView.drukujaneks(itemUmowa.zmiennaZasadniczego)}" global="false"/>
-                </p:column>
-            </p:dataTable>
+            <h:form>
+                <p:outputPanel>
+                    <p:dataTable id="datalist" value="#{pracownikAneksyView.listaumowy}" var="itemUmowa" rowIndexVar="yndex"
+                                 selectionMode="single" 
+                                 rowKey="#{itemUmowa.id}"  sortBy="#{itemUmowa.datado}"
+                                 style="height: 450px; overflow-y: scroll;width: 1390px;"
+                                 rowsPerPageTemplate="20,100,250,500" paginatorPosition="top" paginator="true" rows="20"
+                                 emptyMessage="Nie pobrano listy"
+                                 >
+                        <f:facet name="header">
+                            <h:outputText value="Czas trwania umów na czas określony"/>
+                        </f:facet>
+                        <p:column width="20" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="id"/>
+                            </f:facet>
+                            <h:outputText value="#{yndex+1}"/>
+                        </p:column>
+                        <p:column width="200" sortBy="#{itemUmowa.nazwiskoImie}">
+                            <f:facet name="header">
+                                <h:outputText value="nazwisko i imię"/>
+                            </f:facet>
+                            <h:outputText value="#{itemUmowa.nazwiskoImie}"/>
+                        </p:column>
+                        <p:column width="70" >
+                            <f:facet name="header">
+                                <h:outputText value="rodzaj umowy"/>
+                            </f:facet>
+                            <h:outputText value="umowa o pracę" rendered="#{itemUmowa.umowakodzus.praca}"/>
+                            <h:outputText value="umowa zlecenia" rendered="#{itemUmowa.umowakodzus.zlecenie}"/>
+                        </p:column>
+                        <p:column width="100" >
+                            <f:facet name="header">
+                                <h:outputText value="czas trwania"/>
+                            </f:facet>
+                            <h:outputText value="#{itemUmowa.czastrwania}"/>
+                        </p:column>
+                        <p:column width="60" style="text-align: center;" sortBy="#{itemUmowa.dataod}" sortOrder="desc">
+                            <f:facet name="header">
+                                <h:outputText value="data od"/>
+                            </f:facet>
+                            <h:outputText value="#{itemUmowa.dataod}"/>
+                        </p:column>
+                        <p:column width="60" style="text-align: center;" sortBy="#{itemUmowa.datado}" sortOrder="desc">
+                            <f:facet name="header">
+                                <h:outputText value="data do"/>
+                            </f:facet>
+                            <h:outputText value="#{itemUmowa.datado}"/>
+                        </p:column>
+                        <p:column width="70" >
+                            <f:facet name="header">
+                                <h:outputText value="kwota zas."/>
+                            </f:facet>
+                            <bcf:outputpl value="#{itemUmowa.zmiennaZasadniczego.kwota}"/>
+                        </p:column>
+                        <p:column width="60"  style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="data od"/>
+                            </f:facet>
+                            <h:outputText value="#{itemUmowa.zmiennaZasadniczego.dataod}"/>
+                        </p:column>
+                        <p:column width="60" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="data do"/>
+                            </f:facet>
+                            <h:outputText value="#{itemUmowa.zmiennaZasadniczego.datado}"/>
+                        </p:column>
+                        <p:column width="20" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="min."/>
+                            </f:facet>
+                            <h:outputText value="&#x2714;" rendered="#{itemUmowa.zmiennaZasadniczego.minimalneustatowe}" style="color: green;"/>
+                        </p:column>
+                        <p:column width="70" >
+                            <f:facet name="header">
+                                <h:outputText value="nowa kwota"/>
+                            </f:facet>
+                            <p:inputNumber value="#{itemUmowa.zmiennaZasadniczego.nowakwota}"  size="14"  maxlength="7" decimalPlaces="2" decimalSeparator="." inputStyle="text-align: right"/>
+                        </p:column>
+                        <p:column width="30" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value=""/>
+                            </f:facet>
+                            <p:commandButton icon="pi pi-print" actionListener="#{pracownikAneksyView.drukujaneks(itemUmowa.zmiennaZasadniczego)}" global="false"/>
+                        </p:column>
+                    </p:dataTable>
+                </p:outputPanel>
+                <p:outputPanel>
+                    <p:panelGrid columns="2">
+                        <p:commandButton value="drukuj wszystkie" styleClass="buttonnorm" actionListener="#{pracownikAneksyView.drukwszystkie()}" global="true"/>
+                        <p:commandButton value="mail do firmy" styleClass="buttonnorm2" actionListener="#{pracownikAneksyView.mailAneksy()}" global="true"/>
+                    </p:panelGrid>
+                </p:outputPanel>
+            </h:form>
+            <p:outputPanel style="margin-top: 20px;">
+                <h:outputText value="Adres email do wysyłki aneksów: #{wpisView.getFirma().getEmail()}" style="color: #136e13;margin-top: 10px;"/>
+            </p:outputPanel>
         </p:tab>
-       
+
     </p:tabView>
 </ui:composition>
