@@ -99,7 +99,7 @@ public class Rachunekdoumowyzlecenia implements Serializable {
     @Column(name = "procentkosztowuzyskania")
     private double procentkosztowuzyskania;
     @JoinColumn(name = "pasekwynagrodzen", referencedColumnName = "id")
-    @ManyToOne
+    @ManyToOne()
     private Pasekwynagrodzen pasekwynagrodzen;
     @JoinColumn(name = "umowa", referencedColumnName = "id")
     @ManyToOne(optional = false)

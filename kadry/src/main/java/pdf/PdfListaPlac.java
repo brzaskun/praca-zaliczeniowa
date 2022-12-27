@@ -410,7 +410,7 @@ public class PdfListaPlac {
             sb.append(rs.getDataod().replace("-", "."));
             sb.append("-");
             sb.append(rs.getDatado().replace("-", "."));
-            if (rs.getZwolnienieprocent()!=0.0) {
+            if (rs.getZwolnienieprocent()!=0.0 && (rs.getRodzajnieobecnosci().getKod().equals("CH")||rs.getRodzajnieobecnosci().getKod().equals("ZC"))) {
                 sb.append(" proc: "+rs.getZwolnienieprocent()+"%");
                 sb.append("; ");
             } else{

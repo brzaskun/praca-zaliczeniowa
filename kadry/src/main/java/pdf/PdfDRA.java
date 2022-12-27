@@ -45,10 +45,10 @@ public class PdfDRA {
     }
     
     private static PdfPTable generujTabele(String[] opisy) {
-        PdfPTable table = new PdfPTable(18);
+        PdfPTable table = new PdfPTable(19);
         try {
             table.setWidthPercentage(95);
-            table.setWidths(new int[]{1, 5, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3});
+            table.setWidths(new int[]{1, 5, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3});
             table.addCell(ustawfrazeAlign(opisy[0], "center",6));
             table.addCell(ustawfrazeAlign(opisy[1], "center",6));
             table.addCell(ustawfrazeAlign(opisy[2], "center",6));
@@ -67,6 +67,26 @@ public class PdfDRA {
             table.addCell(ustawfrazeAlign(opisy[15], "center",6));
             table.addCell(ustawfrazeAlign(opisy[16], "center",6));
             table.addCell(ustawfrazeAlign(opisy[17], "center",6));
+            table.addCell(ustawfrazeAlign(opisy[18], "center",6));
+            table.addCell(ustawfrazeAlign(opisy[0], "center",6));
+            table.addCell(ustawfrazeAlign(opisy[1], "center",6));
+            table.addCell(ustawfrazeAlign(opisy[2], "center",6));
+            table.addCell(ustawfrazeAlign(opisy[3], "center",6));
+            table.addCell(ustawfrazeAlign(opisy[4], "center",6));
+            table.addCell(ustawfrazeAlign(opisy[5], "center",6));
+            table.addCell(ustawfrazeAlign(opisy[6], "center",6));
+            table.addCell(ustawfrazeAlign(opisy[7], "center",6));
+            table.addCell(ustawfrazeAlign(opisy[8], "center",6));
+            table.addCell(ustawfrazeAlign(opisy[9], "center",6));
+            table.addCell(ustawfrazeAlign(opisy[10], "center",6));
+            table.addCell(ustawfrazeAlign(opisy[11], "center",6));
+            table.addCell(ustawfrazeAlign(opisy[12], "center",6));
+            table.addCell(ustawfrazeAlign(opisy[13], "center",6));
+            table.addCell(ustawfrazeAlign(opisy[14], "center",6));
+            table.addCell(ustawfrazeAlign(opisy[15], "center",6));
+            table.addCell(ustawfrazeAlign(opisy[16], "center",6));
+            table.addCell(ustawfrazeAlign(opisy[17], "center",6));
+            table.addCell(ustawfrazeAlign(opisy[18], "center",6));
             table.addCell(ustawfrazeAlign("1", "center",6));
             table.addCell(ustawfrazeAlign("2", "center",6));
             table.addCell(ustawfrazeAlign("3", "center",6));
@@ -85,7 +105,9 @@ public class PdfDRA {
             table.addCell(ustawfrazeAlign("16", "center",6));
             table.addCell(ustawfrazeAlign("17", "center",6));
             table.addCell(ustawfrazeAlign("18", "center",6));
+            table.addCell(ustawfrazeAlign("19", "center",6));
             table.setHeaderRows(2);
+            table.setFooterRows(1);
         } catch (DocumentException ex) {
         }
         return table;
@@ -106,6 +128,7 @@ public class PdfDRA {
             table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getRentowe())), "right",6));
             table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getWypadkowe())), "right",6));
             table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getRazemspolecznefirma())), "right",6));
+            table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getRazemspolecznefirma()+rs.getRazemspolecznepracownik())), "right",6));//13
             table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPodstawaubezpzdrowotne())), "right",6));
             table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPraczdrowotne())), "right",6));
             table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getFp())), "right",6));
@@ -132,7 +155,7 @@ public class PdfDRA {
                 }
                 PdfMain.dodajOpisWstepny(document, "Zestawienie DRA", def.get(0).getRok(), def.get(0).getMc(), def.get(0).getFirma().getNip(), nazwy);
                 String[] opisy = {"lp","Nazwisko i imię","Razem przychód", "Podst. wymiaru składek ubezp. społecznych", "Ubezp. Emerytalne ", "Ubezp. rentowe", "Ubezp. chorobowe", "Razem składki na ub. społ. prac.",
-                    "Ubezp. Emerytalne ", "Ubezp. rentowe", "Ubezp. wypadkowe", "Razem składki na ub. społ. firma", "Podst. wymiaru składek ubezp. zdrowotnego","Składka zdrowotna",
+                    "Ubezp. Emerytalne ", "Ubezp. rentowe", "Ubezp. wypadkowe", "Razem składki na ub. społ. firma", "Razem składki na ub. społ.", "Podst. wymiaru składek ubezp. zdrowotnego","Składka zdrowotna",
                     "FP", "FGŚP", "Koszt pracodawcy", "Należna zaliczka na podatek dochodowy"};
                 dodajtabeleglowna(lista, document, opisy);
                 document.add(Chunk.NEWLINE);

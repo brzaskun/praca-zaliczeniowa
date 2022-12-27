@@ -212,6 +212,9 @@ public class UmowaView implements Serializable {
 
     public void create() {
         if (selected != null && wpisView.getAngaz() != null) {
+            if (wynagrodzeniemiesieczne==0.0 && wynagrodzeniegodzinowe==0.0) {
+                Msg.msg("e","Nie wprowadzono wynagrodzenia, nie można wygenerować umowy");
+            } else {
             if (listapraca != null && listapraca.size()>0) {
                 createkolejna();
             } else {
@@ -239,6 +242,7 @@ public class UmowaView implements Serializable {
                 etat2 = 1;
                 updateClassView.updateUmowa();
                 Msg.msg("Dodano nową umowę");
+            }
         }
     }
     

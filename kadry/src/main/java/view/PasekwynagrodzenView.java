@@ -281,6 +281,7 @@ public class PasekwynagrodzenView implements Serializable {
             } else if (limitdochodudwaszesc==null){
                 Msg.msg("e", "Brak limitu dochodu dla osób 26lat");
             } else if (stawkipodatkowe != null && !stawkipodatkowe.isEmpty()) {
+                List<Rachunekdoumowyzlecenia> rachunkilista = new ArrayList<>();
                 for (Iterator<Kalendarzmiesiac>  it = listakalendarzmiesiac.getTarget().iterator();it.hasNext();) {
                     Kalendarzmiesiac pracownikmc = it.next();
                     boolean czysainnekody = pracownikmc.czysainnekody();
@@ -314,18 +315,24 @@ public class PasekwynagrodzenView implements Serializable {
                     List<Nieobecnosc> nieobecnosci = nieobecnoscFacade.findByAngaz(wpisView.getAngaz());
                     List<Kalendarzmiesiac> kalendarzlista = kalendarzmiesiacFacade.findByAngaz(wpisView.getAngaz());
                     Rachunekdoumowyzlecenia rachunekdoumowyzlecenia = PasekwynagrodzenBean.pobierzRachunekzlecenie(pracownikmc.getAngaz(),pracownikmc.getRok(), pracownikmc.getMc());
+                    if (rachunekdoumowyzlecenia!=null) {
+                        rachunkilista.add(rachunekdoumowyzlecenia);
+                    }
                     Pasekwynagrodzen pasek = PasekwynagrodzenBean.obliczWynagrodzenie(pracownikmc, wybranalistaplac, nieobecnosckodzusFacade, paskidowyliczeniapodstawy, historiawynagrodzen, stawkipodatkowe, sumapoprzednich, wynagrodzenieminimalne, czyodlicoznokwotewolna,
                             kursdlalisty, limitzus, datawyplaty, nieobecnosci, limitdochodudwaszesc.getKwota(), kalendarzlista, rachunekdoumowyzlecenia, sumabruttopoprzednich);
-                    if (rachunekdoumowyzlecenia!=null) {
-                        rachunekdoumowyzlecenia.setPasekwynagrodzen(pasek);
-                        rachunekdoumowyzleceniaFacade.edit(rachunekdoumowyzlecenia);
-                    }
                     usunpasekjakzawiera(pasek);
                     lista.add(pasek);
                     it.remove();
+                    if (rachunekdoumowyzlecenia!=null) {
+                        rachunekdoumowyzlecenia.setPasekwynagrodzen(pasek);
+                    }
                 }
                 Msg.msg("Sporządzono listę płac");
                 zapisz();
+                if (rachunkilista.size()>0) {
+                    rachunekdoumowyzleceniaFacade.editList(rachunkilista);
+                }
+                
             } else {
                 Msg.msg("e", "Brak stawek podatkowych za bieżący rok");
             }

@@ -297,9 +297,9 @@ public class PasekwynagrodzenBean {
         boolean odliczaculgepodatkowa = kalendarz.getAngaz().isOdliczaculgepodatkowa();
         KalendarzmiesiacBean.naliczskladnikiwynagrodzeniaDBZlecenie(kalendarz, pasek, kurs, zmiennawynagrodzeniakwota, liczbagodzin);
         PasekwynagrodzenBean.obliczbruttoumowazlecenia(pasek, rachunekdoumowyzlecenia);
-        PasekwynagrodzenBean.obliczbruttozus(pasek);
-        PasekwynagrodzenBean.obliczbruttobezzus(pasek);
-        PasekwynagrodzenBean.obliczbruttobezzusbezpodatek(pasek);
+//        PasekwynagrodzenBean.obliczbruttozus(pasek);
+//        PasekwynagrodzenBean.obliczbruttobezzus(pasek);
+//        PasekwynagrodzenBean.obliczbruttobezzusbezpodatek(pasek);
         if (jestoddelegowanie) {
             if (jestoddelegowanie && kurs == 0.0) {
                 Msg.msg("e", "Jest oddelegowanie, a brak kursu!");
@@ -520,12 +520,9 @@ public class PasekwynagrodzenBean {
         if (rachunekdoumowyzlecenia.isSpoleczne()) {
             double bruttozus = bruttozuskraj+bruttozusoddelegowanie;
             pasek.setBruttozus(bruttozus);
-        } else if (rachunekdoumowyzlecenia.isPodatek()){
+        } else {
             double bruttobezspolecznych = bruttozuskraj+bruttozusoddelegowanie;
             pasek.setBruttobezspolecznych(bruttobezspolecznych);
-        } else {
-            double bruttobezzuspodatek = bruttozuskraj+bruttozusoddelegowanie;
-            pasek.setBruttobezzusbezpodatek(bruttobezzuspodatek);
         }
         pasek.setOddelegowaniepln(bruttozusoddelegowanie);
         pasek.setOddelegowaniewaluta(bruttozusoddelegowaniewaluta);
@@ -744,6 +741,7 @@ public class PasekwynagrodzenBean {
         double podstawadochdowyprzeddieta = Z.z(zzus+bezzus+bezspolecznych+zusbezpodatku-skladki) > 0.0 ? Z.z(zzus+bezzus+bezspolecznych+zusbezpodatku-skladki) :0.0;
         pasek.setBruttominusspoleczne(podstawadochdowyprzeddieta);
     }
+     
      
     private static void obliczpodstaweopodatkowaniaZasilekDB(Pasekwynagrodzen pasek, List<Podatki> stawkipodatkowe) {
         Podatki pierwszyprog = stawkipodatkowe.get(0);
