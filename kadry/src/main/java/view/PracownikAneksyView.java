@@ -62,7 +62,7 @@ public class PracownikAneksyView  implements Serializable {
                 PdfUmowaoPrace.drukujaneks(p, dataaneksu);
                 Msg.msg("Wydrukowano aneks");
             } else {
-                Msg.msg("e", "Nie wprowadzono nowej kwoty wynagrodzenia");
+                Msg.msg("e", "Nie wprowadzono nowej kwoty wynagrodzenia dla umowy");
             }
         } else {
             Msg.msg("e", "Błąd drukowania. Nie można wydrukować aneksu");

@@ -117,7 +117,7 @@ public class PasekwynagrodzenBean {
       
     public static Pasekwynagrodzen obliczWynagrodzenie(Kalendarzmiesiac kalendarz, Definicjalistaplac definicjalistaplac, SwiadczeniekodzusFacade nieobecnosckodzusFacade, List<Pasekwynagrodzen> paskidowyliczeniapodstawy, 
         List<Wynagrodzeniahistoryczne> historiawynagrodzen, List<Podatki> stawkipodatkowe, double sumapoprzednich, double wynagrodzenieminimalne, boolean czyodlicoznokwotewolna, double kurs,double limitZUS, 
-        String datawyplaty, List<Nieobecnosc> nieobecnosci, double limit26, List<Kalendarzmiesiac> kalendarzlista,Rachunekdoumowyzlecenia rachunekdoumowyzlecenia) {
+        String datawyplaty, List<Nieobecnosc> nieobecnosci, double limit26, List<Kalendarzmiesiac> kalendarzlista,Rachunekdoumowyzlecenia rachunekdoumowyzlecenia, double sumabruttopoprzednich) {
         boolean umowaoprace = definicjalistaplac.getRodzajlistyplac().getTyp()==1;
         boolean umowazlecenia = definicjalistaplac.getRodzajlistyplac().getTyp()==2;
         boolean umowazlecenianierezydent = definicjalistaplac.getRodzajlistyplac().getTyp()==2&&kalendarz.isNierezydent();
@@ -142,7 +142,7 @@ public class PasekwynagrodzenBean {
         pasek.setMc(definicjalistaplac.getMc());
         boolean jestoddelegowanie = kalendarz.getDnioddelegowania()>0;
         if (umowaoprace) {
-            umowaopracewyliczenie(kalendarz, pasek, kurs, definicjalistaplac, czyodlicoznokwotewolna, jestoddelegowanie, limitZUS, stawkipodatkowe, sumapoprzednich, !po26roku, nieobecnosci, limit26, kalendarzlista, wynagrodzenieminimalne);
+            umowaopracewyliczenie(kalendarz, pasek, kurs, definicjalistaplac, czyodlicoznokwotewolna, jestoddelegowanie, limitZUS, stawkipodatkowe, sumapoprzednich, !po26roku, nieobecnosci, limit26, kalendarzlista, wynagrodzenieminimalne, sumabruttopoprzednich);
         } else if (umowazlecenia) {
             double zmiennawynagrodzeniakwota = rachunekdoumowyzlecenia.getKwota();
             double liczbagodzin = rachunekdoumowyzlecenia.getIloscgodzin();
@@ -203,7 +203,7 @@ public class PasekwynagrodzenBean {
     
         private static void umowaopracewyliczenie(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasek, double kurs, Definicjalistaplac definicjalistaplac, 
                 boolean czyodlicoznokwotewolna, boolean jestoddelegowanie, double limitZUS, List<Podatki> stawkipodatkowe, double sumapoprzednich, boolean nieodliczackup, List<Nieobecnosc> nieobecnoscilista, 
-                double limit26, List<Kalendarzmiesiac> kalendarzlista, double wynqagrodzenieminimalne) {
+                double limit26, List<Kalendarzmiesiac> kalendarzlista, double wynqagrodzenieminimalne, double sumabruttopoprzednich) {
         boolean odliczaculgepodatkowa = kalendarz.getAngaz().isOdliczaculgepodatkowa();
         KalendarzmiesiacBean.naliczskladnikiwynagrodzeniaDB(kalendarz, pasek, kurs, wynqagrodzenieminimalne);
         List<Nieobecnosc> nieobecnosci = pobierznieobecnosci(kalendarz, nieobecnoscilista);
@@ -231,7 +231,7 @@ public class PasekwynagrodzenBean {
             PasekwynagrodzenBean.obliczbruttobezzusZasilek(pasek);
         } else {
             if (pasek.isDo26lat()) {
-                PasekwynagrodzenBean.obliczbrutto26(pasek, limit26, sumapoprzednich);
+                PasekwynagrodzenBean.obliczbrutto26(pasek, limit26, sumabruttopoprzednich);
                 PasekwynagrodzenBean.obliczbruttobezzus(pasek);
                 PasekwynagrodzenBean.obliczbruttobezzusbezpodatek(pasek);
                 PasekwynagrodzenBean.obliczbruttobezSpolecznych(pasek);
@@ -674,9 +674,10 @@ public class PasekwynagrodzenBean {
         double zzus = pasek.getBruttozus();
         double bezzus = pasek.getBruttobezzus();
         double bezspolecznych = pasek.getBruttobezspolecznych();
+        double zusbezpodatku = pasek.getBruttozusbezpodatek();
         double oddelegowanie = pasek.getOddelegowaniepln();
         double skladki = pasek.getRazemspolecznepracownik();
-        double podstawa = Z.z(zzus+bezzus+bezspolecznych-skladki) > 0.0 ? Z.z(zzus+bezzus+bezspolecznych-skladki) :0.0;
+        double podstawa = Z.z(zzus+bezzus+bezspolecznych+zusbezpodatku-skladki) > 0.0 ? Z.z(zzus+bezzus+bezspolecznych+zusbezpodatku-skladki) :0.0;
         pasek.setBruttominusspoleczne(podstawa);
     }
      
@@ -696,7 +697,8 @@ public class PasekwynagrodzenBean {
         double bezzus = pasek.getBruttobezzus();
         double bezspolecznych = pasek.getBruttobezspolecznych();
         double skladki = pasek.getRazemspolecznepracownik();
-        double podstawadochdowyprzeddieta = Z.z(zzus+bezzus+bezspolecznych-skladki) > 0.0 ? Z.z(zzus+bezzus+bezspolecznych-skladki) :0.0;
+        double zusbezpodatku = pasek.getBruttozusbezpodatek();
+        double podstawadochdowyprzeddieta = Z.z(zzus+bezzus+bezspolecznych+zusbezpodatku-skladki) > 0.0 ? Z.z(zzus+bezzus+bezspolecznych+zusbezpodatku-skladki) :0.0;
         pasek.setBruttominusspoleczne(podstawadochdowyprzeddieta);
     }
      
@@ -1126,7 +1128,7 @@ public class PasekwynagrodzenBean {
 
     //diety rozlicza sie dwa razy, raz obnizaja zus raz dochodowy
     private static void wyliczlimitZUS(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasek, double kurs, double limitZUS) {
-        double sumawynagrodzen = pasek.getBruttozus();
+        double sumawynagrodzen = pasek.getBruttozus()+pasek.getBruttozusbezpodatek();
         double sumawynagrodzenpopotraceniudiet = sumawynagrodzen-pasek.getDieta() >- 0.0 ? Z.z(sumawynagrodzen-pasek.getDieta()) : 0.0;
         double kwotabezzus = 0.0;
         if (sumawynagrodzen>limitZUS) {
@@ -1194,6 +1196,18 @@ public class PasekwynagrodzenBean {
         for (Pasekwynagrodzen r : paskipodatnika) {
             if (r.getMcI()<=mckalendarza) {
                 suma = suma+r.getPodstawaopodatkowania();
+            }
+        }
+        return suma;
+    }
+    
+    public static double sumabruttopodstawaopodpopmce(PasekwynagrodzenFacade pasekwynagrodzenFacade, Kalendarzmiesiac p, double prog) {
+        List<Pasekwynagrodzen> paskipodatnika = pasekwynagrodzenFacade.findByRokAngaz(p.getRok(), p.getAngaz());
+        double suma = 0.0;
+        int mckalendarza = p.getMcI();
+        for (Pasekwynagrodzen r : paskipodatnika) {
+            if (r.getMcI()<=mckalendarza) {
+                suma = suma+r.getBrutto();
             }
         }
         return suma;

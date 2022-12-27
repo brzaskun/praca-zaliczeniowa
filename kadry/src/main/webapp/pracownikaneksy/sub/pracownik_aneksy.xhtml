@@ -95,7 +95,9 @@
                             <f:facet name="header">
                                 <h:outputText value="nowa kwota"/>
                             </f:facet>
-                            <p:inputNumber value="#{itemUmowa.zmiennaZasadniczego.nowakwota}"  size="14"  maxlength="7" decimalPlaces="2" decimalSeparator="." inputStyle="text-align: right"/>
+                            <p:inputNumber value="#{itemUmowa.zmiennaZasadniczego.nowakwota}"  size="14"  maxlength="7" decimalPlaces="2" decimalSeparator="," inputStyle="text-align: right">
+                                <p:ajax event="blur" partialSubmit="true" global="false"/>
+                            </p:inputNumber>
                         </p:column>
                         <p:column width="30" style="text-align: center;">
                             <f:facet name="header">
