@@ -11,6 +11,7 @@ import dao.UmowaFacade;
 import entity.Angaz;
 import entity.FirmaKadry;
 import entity.SMTPSettings;
+import entity.Skladnikwynagrodzenia;
 import entity.Umowa;
 import entity.Zmiennawynagrodzenia;
 import java.io.ByteArrayOutputStream;
@@ -47,17 +48,31 @@ public class PracownikAneksyView  implements Serializable {
     
     @PostConstruct
     private void init() {
-        if (wpisView.getFirma()!=null) {
+        if (wpisView.getFirma() != null) {
             List<Angaz> angaze = angazFacade.findByFirma(wpisView.getFirma());
             listaumowy = new ArrayList<>();
             for (Angaz a : angaze) {
-                listaumowy.addAll(a.getUmowaList().stream().filter(p->p.isAktywna()).collect(Collectors.toList()));
+                listaumowy.addAll(a.getUmowaList().stream().filter(p -> p.isAktywna()).collect(Collectors.toList()));
+            }
+            for (Umowa u : listaumowy) {
+                Skladnikwynagrodzenia zwrot = null;
+                List<Skladnikwynagrodzenia> skladnikwynagrodzeniaList1 = u.getAngaz().getSkladnikwynagrodzeniaList();
+                if (skladnikwynagrodzeniaList1 != null) {
+                    for (Skladnikwynagrodzenia s : skladnikwynagrodzeniaList1) {
+                        if (s.getRodzajwynagrodzenia().getKod().equals("11")||s.getRodzajwynagrodzenia().getKod().equals("50")) {
+                            u.setZmiennawynagrodzenia(s.getOstatniaZmienna());
+                            break;
+                        }
+                    }
+                }
             }
         }
     }
     
+   
+    
     public void drukujaneks(Zmiennawynagrodzenia p) {
-        if (p != null) {
+        if (p != null && p.getId()!=null) {
             if (p.getNowakwota()>0.0) {
                 PdfUmowaoPrace.drukujaneks(p, dataaneksu);
                 Msg.msg("Wydrukowano aneks");
@@ -65,7 +80,7 @@ public class PracownikAneksyView  implements Serializable {
                 Msg.msg("e", "Nie wprowadzono nowej kwoty wynagrodzenia dla umowy");
             }
         } else {
-            Msg.msg("e", "Błąd drukowania. Nie można wydrukować aneksu");
+            Msg.msg("e", "Brak zmiennej z wynagrodzeniem. Nie można wydrukować aneksu");
         }
     }
     
@@ -81,7 +96,7 @@ public class PracownikAneksyView  implements Serializable {
         if (listaumowy != null && listaumowy.size() > 0) {
             boolean wysylac = false;
             for (Umowa p : listaumowy) {
-                if (p.getZmiennaZasadniczego().getNowakwota()>0) {
+                if (p.getZmiennawynagrodzenia()!=null&&p.getZmiennawynagrodzenia().getNowakwota()>0) {
                     wysylac = true;
                     break;
                 }
@@ -104,8 +119,8 @@ public class PracownikAneksyView  implements Serializable {
     public void nanieskwote() {
         if (kwotaaneksu>0.0) {
             for (Umowa u :listaumowy) {
-                Zmiennawynagrodzenia zmiennaZasadniczego = u.getZmiennaZasadniczego();
-                if (zmiennaZasadniczego.getId()!=null) {
+                Zmiennawynagrodzenia zmiennaZasadniczego = u.getZmiennawynagrodzenia();
+                if (zmiennaZasadniczego!=null&&zmiennaZasadniczego.getId()!=null) {
                     zmiennaZasadniczego.setNowakwota(kwotaaneksu);
                 }
             }

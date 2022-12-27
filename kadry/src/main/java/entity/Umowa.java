@@ -26,6 +26,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -193,7 +194,8 @@ public class Umowa implements Serializable {
     @JoinColumn(name = "rozwiazanieumowy", referencedColumnName = "id")
     @OneToOne
     private Rozwiazanieumowy rozwiazanieumowy;
-    
+    @Transient
+    private Zmiennawynagrodzenia zmiennawynagrodzenia;
    
 
     public Umowa() {
@@ -302,6 +304,14 @@ public class Umowa implements Serializable {
 
     public void setLicznikumow(int licznikumow) {
         this.licznikumow = licznikumow;
+    }
+
+    public Zmiennawynagrodzenia getZmiennawynagrodzenia() {
+        return zmiennawynagrodzenia;
+    }
+
+    public void setZmiennawynagrodzenia(Zmiennawynagrodzenia zmiennawynagrodzenia) {
+        this.zmiennawynagrodzenia = zmiennawynagrodzenia;
     }
     
 
@@ -702,18 +712,7 @@ public class Umowa implements Serializable {
     }
 
        
-       public Zmiennawynagrodzenia getZmiennaZasadniczego() {
-           Zmiennawynagrodzenia zwrot = new Zmiennawynagrodzenia();
-           Skladnikwynagrodzenia zasadnicze = this.angaz.getWynZasadnicze();
-           if (zasadnicze!=null) {
-                Zmiennawynagrodzenia zmienna = zasadnicze.getOstatniaZmienna();
-                if (zmienna!=null) {
-                    zwrot = zmienna;
-                }
-           }
-           return zwrot;
-       }
-   
+     
 
 //    private List<EtatPrac> noweetat(List<EtatPrac> etatList, Umowa aThis) {
 //        List<EtatPrac> zwrot = new ArrayList<>();

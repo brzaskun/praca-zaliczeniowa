@@ -23,7 +23,7 @@
                     <p:dataTable id="datalist" value="#{pracownikAneksyView.listaumowy}" var="itemUmowa" rowIndexVar="yndex"
                                  selectionMode="single" 
                                  rowKey="#{itemUmowa.id}"  sortBy="#{itemUmowa.datado}"
-                                 style="height: 450px; overflow-y: scroll;width: 1390px;"
+                                 style="height: 450px; overflow-y: scroll;width: 1450px;"
                                  rowsPerPageTemplate="20,100,250,500" paginatorPosition="top" paginator="true" rows="20"
                                  emptyMessage="Nie pobrano listy"
                                  >
@@ -71,39 +71,46 @@
                             <f:facet name="header">
                                 <h:outputText value="kwota zas."/>
                             </f:facet>
-                            <bcf:outputpl value="#{itemUmowa.zmiennaZasadniczego.kwota}"/>
+                            <bcf:outputpl value="#{itemUmowa.zmiennawynagrodzenia.kwota}"/>
+                        </p:column>
+                        <p:column style="text-align: center;" width="50">
+                            <f:facet name="header">
+                                <h:outputText value="godzin. / mies"/>
+                            </f:facet>
+                            <h:outputText value="godz." rendered="#{itemUmowa.zmiennawynagrodzenia.skladnikwynagrodzenia.rodzajwynagrodzenia.godzinowe0miesieczne1 eq false}"/>
                         </p:column>
                         <p:column width="60"  style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="data od"/>
                             </f:facet>
-                            <h:outputText value="#{itemUmowa.zmiennaZasadniczego.dataod}"/>
+                            <h:outputText value="#{itemUmowa.zmiennawynagrodzenia.dataod}"/>
                         </p:column>
                         <p:column width="60" style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="data do"/>
                             </f:facet>
-                            <h:outputText value="#{itemUmowa.zmiennaZasadniczego.datado}"/>
+                            <h:outputText value="#{itemUmowa.zmiennawynagrodzenia.datado}"/>
                         </p:column>
                         <p:column width="20" style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="min."/>
                             </f:facet>
-                            <h:outputText value="&#x2714;" rendered="#{itemUmowa.zmiennaZasadniczego.minimalneustatowe}" style="color: green;"/>
+                            <h:outputText value="&#x2714;" rendered="#{itemUmowa.zmiennawynagrodzenia.minimalneustatowe}" style="color: green;"/>
                         </p:column>
                         <p:column width="70" >
                             <f:facet name="header">
                                 <h:outputText value="nowa kwota"/>
                             </f:facet>
-                            <p:inputNumber value="#{itemUmowa.zmiennaZasadniczego.nowakwota}"  size="14"  maxlength="7" decimalPlaces="2" decimalSeparator="," inputStyle="text-align: right">
+                            <p:inputNumber value="#{itemUmowa.zmiennawynagrodzenia.nowakwota}"  size="14"  maxlength="7" decimalPlaces="2" decimalSeparator="," inputStyle="text-align: right" rendered="#{itemUmowa.zmiennawynagrodzenia ne null}">
                                 <p:ajax event="blur" partialSubmit="true" global="false"/>
                             </p:inputNumber>
+                            <h:outputText value="brak zmiennej wyn." rendered="#{itemUmowa.zmiennawynagrodzenia eq null}"/>
                         </p:column>
                         <p:column width="30" style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value=""/>
                             </f:facet>
-                            <p:commandButton icon="pi pi-print" actionListener="#{pracownikAneksyView.drukujaneks(itemUmowa.zmiennaZasadniczego)}" global="false"/>
+                            <p:commandButton icon="pi pi-print" actionListener="#{pracownikAneksyView.drukujaneks(itemUmowa.zmiennawynagrodzenia)}" global="false"/>
                         </p:column>
                     </p:dataTable>
                 </p:outputPanel>

@@ -204,7 +204,7 @@ public class PdfUmowaoPrace {
                 otwarcieDokumentu(document, nazwa);
                 int licznik = 0;
                 for (Umowa umowa : listaumowy) {
-                    Zmiennawynagrodzenia p = umowa.getZmiennaZasadniczego();
+                    Zmiennawynagrodzenia p = umowa.getZmiennawynagrodzenia();
                     if (p!=null&&p.getNowakwota()>0.0) {
                         if (licznik>0) {
                             document.newPage();
@@ -240,7 +240,7 @@ public class PdfUmowaoPrace {
                 otwarcieDokumentu(document, nazwa);
                 int licznik = 0;
                 for (Umowa umowa : listaumowy) {
-                    Zmiennawynagrodzenia p = umowa.getZmiennaZasadniczego();
+                    Zmiennawynagrodzenia p = umowa.getZmiennawynagrodzenia();
                     if (p!=null&&p.getNowakwota()>0.0) {
                         if (licznik>0) {
                             document.newPage();
@@ -279,10 +279,12 @@ public class PdfUmowaoPrace {
             document.add(new Paragraph(new Phrase("..............................", fontM)));
             document.add(new Paragraph(new Phrase("pieczątka firmy", fontS)));
             document.add(Chunk.NEWLINE);
-            paragraph = new Paragraph(new Phrase("ANEKS DO UMOWY O PRACĘ", font));
+            String naglowek = umowa.getUmowakodzus().isPraca()?"ANEKS DO UMOWY O PRACĘ":"ANEKS DO UMOWY ZLECENIA";
+            paragraph = new Paragraph(new Phrase(naglowek, font));
             paragraph.setAlignment(Element.ALIGN_CENTER);
             document.add(paragraph);
-            paragraph = new Paragraph(new Phrase(umowa.getCzastrwania(), fontM));
+            String czastrwania = umowa.getCzastrwania().replace("biezacy", "");
+            paragraph = new Paragraph(new Phrase(czastrwania, fontM));
             paragraph.setAlignment(Element.ALIGN_CENTER);
             document.add(Chunk.NEWLINE);
             document.add(paragraph);
@@ -310,27 +312,43 @@ public class PdfUmowaoPrace {
             }
             document.add(paragraph);
             document.add(Chunk.NEWLINE);
-            paragraph = new Paragraph(new Phrase("1. Strony zgodnie postanawiają, że od dnia "+dataaneksu+" ulegają zmianie następujące warunki umowy o pracę:", fontM));
+            paragraph = new Paragraph(new Phrase("1. Strony zgodnie postanawiają, że od dnia "+dataaneksu+" ulegają zmianie następujące warunki umowy:", fontM));
             document.add(paragraph);
-            PdfMain.dodajElementListy(document, "a) Wynagrodzenie zasadnicze: ", f.F.curr(zm.getNowakwota(), "PLN"), fontM);
-            paragraph = new Paragraph(new Phrase("2. Pozostałe warunki umowy o pracę pozostają bez zmian ", fontM));
+            String zmienna = zm.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getOpispelny();
+            PdfMain.dodajElementListy(document, "a) "+zmienna+": ", f.F.curr(zm.getNowakwota(), "PLN"), fontM);
+            paragraph = new Paragraph(new Phrase("2. Pozostałe warunki umowy pozostają bez zmian ", fontM));
             document.add(paragraph);
             document.add(Chunk.NEWLINE);
             document.add(Chunk.NEWLINE);
             document.add(Chunk.NEWLINE);
             //document.add(new Paragraph(new Phrase(umowa.getPracownik().getNazwiskoImie()+"                                                          "+umowa.getAngaz().getFirma().getReprezentant(), fontM)));
-            Paragraph p = new Paragraph();
-            p.add(new Phrase(umowa.getPracownik().getNazwiskoImie(), fontM));
-            p.setTabSettings(new TabSettings(350));
-            p.add(Chunk.TABBING);
-            p.add(new Phrase(umowa.getAngaz().getFirma().getReprezentant(), fontM));
-            document.add(p);
-            p = new Paragraph();
-            p.add(new Phrase("(data i podpis pracownika)", fontS));
-            p.setTabSettings(new TabSettings(350));
-            p.add(Chunk.TABBING);
-            p.add(new Phrase("(podpis pracodawcy lub osoby reprezentującej pracodawcę)", fontS));
-            document.add(p);
+            if (umowa.getUmowakodzus().isPraca()) {
+                Paragraph p = new Paragraph();
+                p.add(new Phrase("...........................", fontM));
+                p.setTabSettings(new TabSettings(300));
+                p.add(Chunk.TABBING);
+                p.add(new Phrase(umowa.getAngaz().getFirma().getReprezentant(), fontM));
+                document.add(p);
+                p = new Paragraph();
+                p.add(new Phrase("(data i podpis pracownika)", fontS));
+                p.setTabSettings(new TabSettings(300));
+                p.add(Chunk.TABBING);
+                p.add(new Phrase("(podpis pracodawcy lub osoby rep. pracodawcę)", fontS));
+                document.add(p);
+            } else {
+                Paragraph p = new Paragraph();
+                p.add(new Phrase("...........................", fontM));
+                p.setTabSettings(new TabSettings(300));
+                p.add(Chunk.TABBING);
+                p.add(new Phrase(umowa.getAngaz().getFirma().getReprezentant(), fontM));
+                document.add(p);
+                p = new Paragraph();
+                p.add(new Phrase("(data i podpis Zleceniobiorcy)", fontS));
+                p.setTabSettings(new TabSettings(300));
+                p.add(Chunk.TABBING);
+                p.add(new Phrase("(podpis Zleceniodawcy lub osoby rep. Zlec.)", fontS));
+                document.add(p);
+            }
         } catch (Exception ex) {
             E.e(ex);
         }

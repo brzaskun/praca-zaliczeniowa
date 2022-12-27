@@ -5,8 +5,10 @@
  */
 package entity;
 
+import comparator.ZmiennaWynagrodzeniacomparator;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import javax.persistence.Basic;
@@ -229,12 +231,16 @@ public class Skladnikwynagrodzenia implements Serializable {
 
     public Zmiennawynagrodzenia getOstatniaZmienna() {
         Zmiennawynagrodzenia zwrot = null;
-        if (this.zmiennawynagrodzeniaList!=null) {
+        if (this.zmiennawynagrodzeniaList!=null && this.zmiennawynagrodzeniaList.size()>0) {
             for (Zmiennawynagrodzenia r : this.zmiennawynagrodzeniaList) {
                 if (r.getDatado()==null||r.getDatado().equals("")) { 
                     zwrot = r;
                     break;
                 }
+            }
+            if (zwrot == null) {
+                Collections.sort(this.zmiennawynagrodzeniaList, new ZmiennaWynagrodzeniacomparator());
+                zwrot = this.zmiennawynagrodzeniaList.get(0);
             }
         }
         return zwrot;
