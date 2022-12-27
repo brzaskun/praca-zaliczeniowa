@@ -196,7 +196,7 @@ public class Rachunekdoumowyzlecenia implements Serializable {
         this.koszt = koszt;
     }
 
-    public boolean getSpoleczne() {
+    public boolean isSpoleczne() {
         return spoleczne;
     }
 
@@ -204,7 +204,7 @@ public class Rachunekdoumowyzlecenia implements Serializable {
         this.spoleczne = spoleczne;
     }
 
-    public boolean getChorobowa() {
+    public boolean isChorobowa() {
         return chorobowa;
     }
 
@@ -212,7 +212,7 @@ public class Rachunekdoumowyzlecenia implements Serializable {
         this.chorobowa = chorobowa;
     }
 
-    public boolean getZdrowotna() {
+    public boolean isZdrowotna() {
         return zdrowotna;
     }
 
@@ -220,7 +220,7 @@ public class Rachunekdoumowyzlecenia implements Serializable {
         this.zdrowotna = zdrowotna;
     }
 
-    public boolean getWypadkowa() {
+    public boolean isWypadkowa() {
         return wypadkowa;
     }
 
@@ -228,13 +228,15 @@ public class Rachunekdoumowyzlecenia implements Serializable {
         this.wypadkowa = wypadkowa;
     }
 
-    public boolean getPodatek() {
+    public boolean isPodatek() {
         return podatek;
     }
 
     public void setPodatek(boolean podatek) {
         this.podatek = podatek;
     }
+
+    
 
     public double getProcentkosztowuzyskania() {
         return procentkosztowuzyskania;
