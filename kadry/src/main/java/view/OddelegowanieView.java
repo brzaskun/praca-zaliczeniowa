@@ -17,6 +17,7 @@ import entity.Kalendarzmiesiac;
 import entity.Pasekwynagrodzen;
 import entity.Podatki;
 import entity.Pracownik;
+import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -71,12 +72,16 @@ public class OddelegowanieView  implements Serializable {
                     List<Podatki> stawkipodatkowe = podatkiFacade.findByRokUmowa(rok, "P");
                     if (paski!=null&&paski.size()>0) {
                         for (String mc : Mce.getMceListS()) {
-                            Kalendarzmiesiac pobranykalendarz = pobierzkalendarz(kalendarze, rok, mc);
-                            if (pobranykalendarz!=null&&pobranykalendarz.getPasekwynagrodzenList().size()>0) {
-                                Oddelegowanie oddelegowanie = new Oddelegowanie(pobranykalendarz, paski, a, rok, mc, stawkipodatkowe);
-                                if (oddelegowanie.getLiczbadni()>0) {
-                                    lista.add(oddelegowanie);
+                            try {
+                                Kalendarzmiesiac pobranykalendarz = pobierzkalendarz(kalendarze, rok, mc);
+                                if (pobranykalendarz!=null&&pobranykalendarz.getPasekwynagrodzenList().size()>0) {
+                                    Oddelegowanie oddelegowanie = new Oddelegowanie(pobranykalendarz, paski, a, rok, mc, stawkipodatkowe);
+                                    if (oddelegowanie.getLiczbadni()>0) {
+                                        lista.add(oddelegowanie);
+                                    }
                                 }
+                            } catch (Exception e) {
+                                E.e(e);
                             }
                         }
                     }

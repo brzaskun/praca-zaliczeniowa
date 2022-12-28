@@ -7,7 +7,7 @@
 
     xmlns:bcf="http://brzaskun.com/facelets"
 >
-    <p:dialog id="dialogoddelegowanie" header="Rozliczenie oddelegowania" widgetVar="dialogoddelegowanie"  style="overflow-y: scroll;"
+    <p:dialog id="dialogoddelegowanie" header="Rozliczenie oddelegowania" widgetVar="dialogoddelegowanie"  style="overflow-y: scroll;" dynamic="true"
               resizable="false"  onShow="ustawdialog('dialogoddelegowanie','centertile',1650,800);" closeOnEscape="true" onHide="resetujdialog('dialogoddelegowanie');" 
               fitViewport="true">
         <p:ajax event="open" listener="#{oddelegowanieView.init()}" update="OddelegowanieForm OddelegowanieForm1 OddelegowanieForm2 OddelegowanieForm3" global="true"/>
@@ -21,14 +21,16 @@
                                  style="height: 300px; overflow-y: scroll; width: 1400px; margin-top: 10px; margin-left: 10px;"
                                  emptyMessage="nie pobrano danych"
                                  >
+                <p:ajax event="filter" global="false"/>
                 <f:facet name="header">
                     <h:outputText value="dni oddelegowania"/>
                 </f:facet>
-                <p:column headerText="pracownik" width="150" sortBy="#{itemodd.pracownik.nazwiskoImie}" sortOrder="asc" sortPriority="1">
+                <p:column headerText="pracownik" width="150" sortBy="#{itemodd.pracownik.nazwiskoImie}" sortOrder="asc" sortPriority="1" filterBy="#{itemodd.pracownik.nazwisko}" filterMatchMode="contains" filterable="true">
                     <h:outputText value="#{itemodd.pracownik.nazwiskoImie}"/>
                 </p:column>
-                <p:column headerText="rok" width="50" style="text-align: center;" sortBy="#{itemodd.rok}" sortOrder="asc" sortPriority="2">
-                    <h:outputText value="#{itemodd.rok}"/>
+                <p:column headerText="rok" width="50" style="text-align: center;" sortBy="#{itemodd.rok}" sortOrder="asc" sortPriority="2" filterBy="#{itemodd.rok}" filterMatchMode="contains">
+                    <h:outputText value="#{itemodd.rok}" style="color: green" rendered="#{itemodd.rok eq 2022}"/>
+                    <h:outputText value="#{itemodd.rok}" rendered="#{itemodd.rok ne 2022}"/>
                 </p:column>
                 <p:column headerText="01" style="text-align: center;">
                     <h:outputText value="#{itemodd.o_01.liczbadni}" rendered="#{itemodd.o_01 ne null and itemodd.o_01.liczbadni gt 0}"/>
@@ -81,65 +83,67 @@
             <p:commandButton value="XLS" >
                 <p:dataExporter type="xls" target="OddelegowanieForm1:datalist1" fileName="lista"/>
             </p:commandButton>
-            <p:dataTable id="datalist1" value="#{oddelegowanieView.tabela}" var="itemodd" widgetVar="datalistodd1"
+            <p:dataTable id="datalist1" value="#{oddelegowanieView.tabela}" var="itemodddel" widgetVar="datalistodd1"
                                  selectionMode="single" selection="#{oddelegowanieView.selected1}" rowIndexVar="indexodd"
-                                 rowKey="#{itemodd.hashCode()}" sortBy="#{itemodd.pracownik.nazwiskoImie}"
+                                 rowKey="#{itemodddel.hashCode()}" sortBy="#{itemodddel.pracownik.nazwiskoImie}"
                                  style="height: 300px; overflow-y: scroll; width: 1400px; margin-top: 10px; margin-left: 10px;"
                                  emptyMessage="nie pobrano danych"
                                  >
+                <p:ajax event="filter" global="false"/>
                 <f:facet name="header">
                     <h:outputText value="podatek niemcy"/>
                 </f:facet>
-                <p:column headerText="pracownik" width="150" sortBy="#{itemodd.pracownik.nazwiskoImie}" sortOrder="asc" sortPriority="1">
-                    <h:outputText value="#{itemodd.pracownik.nazwiskoImie}"/>
+                <p:column headerText="pracownik" width="150" sortBy="#{itemodddel.pracownik.nazwiskoImie}" sortOrder="asc" sortPriority="1" filterBy="#{itemodddel.pracownik.nazwisko}" filterMatchMode="contains" filterable="true">
+                    <h:outputText value="#{itemodddel.pracownik.nazwiskoImie}"/>
                 </p:column>
-                <p:column headerText="rok" width="50" sortBy="#{itemodd.rok}" sortOrder="asc" sortPriority="2">
-                    <h:outputText value="#{itemodd.rok}"/>
+                 <p:column headerText="rok" width="50" style="text-align: center;" sortBy="#{itemodddel.rok}" sortOrder="asc" sortPriority="2" filterBy="#{itemodddel.rok}" filterMatchMode="contains">
+                    <h:outputText value="#{itemodddel.rok}" style="color: green" rendered="#{itemodddel.rok eq 2022}"/>
+                    <h:outputText value="#{itemodddel.rok}" rendered="#{itemodddel.rok ne 2022}"/>
                 </p:column>
                 <p:column headerText="01">
-                    <bcf:outputpl0 value="#{itemodd.o_01.podatekzagranica}" rendered="#{itemodd.o_01 ne null and itemodd.o_01.liczbadni gt 0}"/>
+                    <bcf:outputpl0 value="#{itemodddel.o_01.podatekzagranica}" rendered="#{itemodddel.o_01 ne null and itemodddel.o_01.liczbadni gt 0}"/>
                 </p:column>
                 <p:column headerText="02">
-                    <bcf:outputpl0 value="#{itemodd.o_02.podatekzagranica}" rendered="#{itemodd.o_02 ne null and itemodd.o_02.liczbadni gt 0}"/>
+                    <bcf:outputpl0 value="#{itemodddel.o_02.podatekzagranica}" rendered="#{itemodddel.o_02 ne null and itemodddel.o_02.liczbadni gt 0}"/>
                 </p:column>
                 <p:column headerText="03">
-                    <bcf:outputpl0 value="#{itemodd.o_03.podatekzagranica}" rendered="#{itemodd.o_03 ne null and itemodd.o_03.liczbadni gt 0}"/>
+                    <bcf:outputpl0 value="#{itemodddel.o_03.podatekzagranica}" rendered="#{itemodddel.o_03 ne null and itemodddel.o_03.liczbadni gt 0}"/>
                 </p:column>
                 <p:column headerText="04">
-                    <bcf:outputpl0 value="#{itemodd.o_04.podatekzagranica}" rendered="#{itemodd.o_04 ne null and itemodd.o_04.liczbadni gt 0}"/>
+                    <bcf:outputpl0 value="#{itemodddel.o_04.podatekzagranica}" rendered="#{itemodddel.o_04 ne null and itemodddel.o_04.liczbadni gt 0}"/>
                 </p:column>
                 <p:column headerText="05">
-                    <bcf:outputpl0 value="#{itemodd.o_05.podatekzagranica}" rendered="#{itemodd.o_05 ne null and itemodd.o_05.liczbadni gt 0}"/>
+                    <bcf:outputpl0 value="#{itemodddel.o_05.podatekzagranica}" rendered="#{itemodddel.o_05 ne null and itemodddel.o_05.liczbadni gt 0}"/>
                 </p:column>
                 <p:column headerText="06">
-                    <bcf:outputpl0 value="#{itemodd.o_06.podatekzagranica}" rendered="#{itemodd.o_06 ne null and itemodd.o_06.liczbadni gt 0}"/>
+                    <bcf:outputpl0 value="#{itemodddel.o_06.podatekzagranica}" rendered="#{itemodddel.o_06 ne null and itemodddel.o_06.liczbadni gt 0}"/>
                 </p:column>
                 <p:column headerText="07">
-                    <bcf:outputpl0 value="#{itemodd.o_07.podatekzagranica}" rendered="#{itemodd.o_07 ne null and itemodd.o_07.liczbadni gt 0}"/>
+                    <bcf:outputpl0 value="#{itemodddel.o_07.podatekzagranica}" rendered="#{itemodddel.o_07 ne null and itemodddel.o_07.liczbadni gt 0}"/>
                 </p:column>
                 <p:column headerText="08">
-                    <bcf:outputpl0 value="#{itemodd.o_08.podatekzagranica}" rendered="#{itemodd.o_08 ne null and itemodd.o_08.liczbadni gt 0}"/>
+                    <bcf:outputpl0 value="#{itemodddel.o_08.podatekzagranica}" rendered="#{itemodddel.o_08 ne null and itemodddel.o_08.liczbadni gt 0}"/>
                 </p:column>
                 <p:column headerText="09">
-                    <bcf:outputpl0 value="#{itemodd.o_09.podatekzagranica}" rendered="#{itemodd.o_09 ne null and itemodd.o_09.liczbadni gt 0}"/>
+                    <bcf:outputpl0 value="#{itemodddel.o_09.podatekzagranica}" rendered="#{itemodddel.o_09 ne null and itemodddel.o_09.liczbadni gt 0}"/>
                 </p:column>
                 <p:column headerText="10">
-                    <bcf:outputpl0 value="#{itemodd.o_10.podatekzagranica}" rendered="#{itemodd.o_10 ne null and itemodd.o_10.liczbadni gt 0}"/>
+                    <bcf:outputpl0 value="#{itemodddel.o_10.podatekzagranica}" rendered="#{itemodddel.o_10 ne null and itemodddel.o_10.liczbadni gt 0}"/>
                 </p:column>
                 <p:column headerText="11">
-                    <bcf:outputpl0 value="#{itemodd.o_11.podatekzagranica}" rendered="#{itemodd.o_11 ne null and itemodd.o_11.liczbadni gt 0}"/>
+                    <bcf:outputpl0 value="#{itemodddel.o_11.podatekzagranica}" rendered="#{itemodddel.o_11 ne null and itemodddel.o_11.liczbadni gt 0}"/>
                 </p:column>
                 <p:column headerText="12">
-                    <bcf:outputpl0 value="#{itemodd.o_12.podatekzagranica}" rendered="#{itemodd.o_12 ne null and itemodd.o_12.liczbadni gt 0}"/>
+                    <bcf:outputpl0 value="#{itemodddel.o_12.podatekzagranica}" rendered="#{itemodddel.o_12 ne null and itemodddel.o_12.liczbadni gt 0}"/>
                 </p:column>
                 <p:column headerText="suma" style="margin-left: 10px; text-align: center;">
-                    <h:outputText value="#{itemodd.sumadni}" style="color: #{itemodd.sumadni gt 182?'red':'initial'}"/>
+                    <h:outputText value="#{itemodddel.sumadni}" style="color: #{itemodddel.sumadni gt 182?'red':'initial'}"/>
                 </p:column>
                 <p:column headerText="przekr." width="50">
-                    <h:outputText value="#{itemodd.rokmcprzekroczenia}" rendered="#{itemodd.rokmcprzekroczenia ne null}"/>
+                    <h:outputText value="#{itemodddel.rokmcprzekroczenia}" rendered="#{itemodddel.rokmcprzekroczenia ne null}"/>
                 </p:column>
                 <p:column headerText="pracownik" width="150">
-                    <h:outputText value="#{itemodd.pracownik.nazwiskoImie}"/>
+                    <h:outputText value="#{itemodddel.pracownik.nazwiskoImie}"/>
                 </p:column>
             </p:dataTable>
         </h:form>
@@ -147,65 +151,67 @@
             <p:commandButton value="XLS" >
                 <p:dataExporter type="xls" target="OddelegowanieForm2:datalist2" fileName="lista"/>
             </p:commandButton>
-             <p:dataTable id="datalist2" value="#{oddelegowanieView.tabela2001}" var="itemodd" widgetVar="datalistodd2"
+             <p:dataTable id="datalist2" value="#{oddelegowanieView.tabela2001}" var="itemoddpol" widgetVar="datalistodd2"
                                  selectionMode="single" selection="#{oddelegowanieView.selected2}" rowIndexVar="indexodd"
-                                 rowKey="#{itemodd.hashCode()}" sortBy="#{itemodd.pracownik.nazwiskoImie}"
+                                 rowKey="#{itemoddpol.hashCode()}" sortBy="#{itemoddpol.pracownik.nazwiskoImie}"
                                  style="height: 300px; overflow-y: scroll; width: 1400px; margin-top: 10px; margin-left: 10px;"
                                  emptyMessage="nie pobrano danych"
                                  >
+                 <p:ajax event="filter" global="false"/>
                   <f:facet name="header">
                     <h:outputText value="podatek polska "/>
                 </f:facet>
-                <p:column headerText="pracownik" width="150" sortBy="#{itemodd.pracownik.nazwiskoImie}" sortOrder="asc" sortPriority="1">
-                    <h:outputText value="#{itemodd.pracownik.nazwiskoImie}"/>
+                 <p:column headerText="pracownik" width="150" sortBy="#{itemoddpol.pracownik.nazwiskoImie}" sortOrder="asc" sortPriority="1" filterBy="#{itemoddpol.pracownik.nazwisko}" filterMatchMode="contains">
+                    <h:outputText value="#{itemoddpol.pracownik.nazwiskoImie}"/>
                 </p:column>
-                <p:column headerText="rok" width="50" style="text-align: center;" sortBy="#{itemodd.rok}" sortOrder="asc" sortPriority="2">
-                    <h:outputText value="#{itemodd.rok}"/>
+                <p:column headerText="rok" width="50" style="text-align: center;" sortBy="#{itemoddpol.rok}" sortOrder="asc" sortPriority="2" filterBy="#{itemoddpol.rok}" filterMatchMode="contains">
+                    <h:outputText value="#{itemoddpol.rok}" style="color: green" rendered="#{itemoddpol.rok eq 2022}"/>
+                    <h:outputText value="#{itemoddpol.rok}" rendered="#{itemoddpol.rok ne 2022}"/>
                 </p:column>
                 <p:column headerText="01">
-                    <bcf:outputpl0 value="#{itemodd.o_01.podatekpolska}" />
+                    <bcf:outputpl0 value="#{itemoddpol.o_01.podatekpolska}" />
                 </p:column>
                 <p:column headerText="02">
-                    <bcf:outputpl0 value="#{itemodd.o_02.podatekpolska}" />
+                    <bcf:outputpl0 value="#{itemoddpol.o_02.podatekpolska}" />
                 </p:column>
                 <p:column headerText="03">
-                    <bcf:outputpl0 value="#{itemodd.o_03.podatekpolska}" />
+                    <bcf:outputpl0 value="#{itemoddpol.o_03.podatekpolska}" />
                 </p:column>
                 <p:column headerText="04">
-                    <bcf:outputpl0 value="#{itemodd.o_04.podatekpolska}" />
+                    <bcf:outputpl0 value="#{itemoddpol.o_04.podatekpolska}" />
                 </p:column>
                 <p:column headerText="05">
-                    <bcf:outputpl0 value="#{itemodd.o_05.podatekpolska}" />
+                    <bcf:outputpl0 value="#{itemoddpol.o_05.podatekpolska}" />
                 </p:column>
                 <p:column headerText="06">
-                    <bcf:outputpl0 value="#{itemodd.o_06.podatekpolska}" />
+                    <bcf:outputpl0 value="#{itemoddpol.o_06.podatekpolska}" />
                 </p:column>
                 <p:column headerText="07">
-                    <bcf:outputpl0 value="#{itemodd.o_07.podatekpolska}" />
+                    <bcf:outputpl0 value="#{itemoddpol.o_07.podatekpolska}" />
                 </p:column>
                 <p:column headerText="08" >
-                    <bcf:outputpl0 value="#{itemodd.o_08.podatekpolska}" />
+                    <bcf:outputpl0 value="#{itemoddpol.o_08.podatekpolska}" />
                 </p:column>
                 <p:column headerText="09">
-                    <bcf:outputpl0 value="#{itemodd.o_09.podatekpolska}" />
+                    <bcf:outputpl0 value="#{itemoddpol.o_09.podatekpolska}" />
                 </p:column>
                 <p:column headerText="10">
-                    <bcf:outputpl0 value="#{itemodd.o_10.podatekpolska}" />
+                    <bcf:outputpl0 value="#{itemoddpol.o_10.podatekpolska}" />
                 </p:column>
                 <p:column headerText="11">
-                    <bcf:outputpl0 value="#{itemodd.o_11.podatekpolska}" />
+                    <bcf:outputpl0 value="#{itemoddpol.o_11.podatekpolska}" />
                 </p:column>
                 <p:column headerText="12">
-                    <bcf:outputpl0 value="#{itemodd.o_12.podatekpolska}" />
+                    <bcf:outputpl0 value="#{itemoddpol.o_12.podatekpolska}" />
                 </p:column>
                 <p:column headerText="suma" style="margin-left: 10px; text-align: center;">
-                    <h:outputText value="#{itemodd.sumadni}" style="color: #{itemodd.sumadni gt 182?'red':'initial'}"/>
+                    <h:outputText value="#{itemoddpol.sumadni}" style="color: #{itemoddpol.sumadni gt 182?'red':'initial'}"/>
                 </p:column>
                 <p:column headerText="przekr." width="50">
-                    <h:outputText value="#{itemodd.rokmcprzekroczenia}" rendered="#{itemodd.rokmcprzekroczenia ne null}"/>
+                    <h:outputText value="#{itemoddpol.rokmcprzekroczenia}" rendered="#{itemoddpol.rokmcprzekroczenia ne null}"/>
                 </p:column>
                 <p:column headerText="pracownik" width="150">
-                    <h:outputText value="#{itemodd.pracownik.nazwiskoImie}"/>
+                    <h:outputText value="#{itemoddpol.pracownik.nazwiskoImie}"/>
                 </p:column>
             </p:dataTable>
         </h:form>

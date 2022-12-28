@@ -34,6 +34,11 @@ public class OddelegowanieTabela {
     private double podatekzagraniczny;
     private String rokmcprzekroczenia;
 
+    public OddelegowanieTabela() {
+    }
+
+    
+    
     public OddelegowanieTabela(Oddelegowanie p) {
         this.pracownik = p.getAngaz().getPracownik();
         this.rok = p.getRok();
