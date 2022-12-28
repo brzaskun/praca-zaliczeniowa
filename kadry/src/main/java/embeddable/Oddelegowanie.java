@@ -30,6 +30,8 @@ public class Oddelegowanie implements Serializable{
     private Pasekwynagrodzen pasek;
     private String rok;
     private String mc;
+    private String rokwypl;
+    private String mcwypl;
     private int liczbadni;
     private double brutto;
     private double przychodypolska;
@@ -48,8 +50,10 @@ public class Oddelegowanie implements Serializable{
         this.kalendarz = kalendarz;
         this.pasek = pobierzpasek(paski,rok,mc);
         this.angaz = angaz;
-        this.rok = rok;
-        this.mc = mc;
+        this.rok = this.pasek.getRok();
+        this.mc = this.pasek.getMc();
+        this.rokwypl = this.pasek.getRokwypl();
+        this.mcwypl = this.pasek.getMc();
         this.liczbadni = (int) kalendarz.getDnioddelegowania();
         double brutto = 0.0;
         double zagranica = 0.0;
@@ -96,7 +100,7 @@ public class Oddelegowanie implements Serializable{
         Pasekwynagrodzen zwrot = null;
         List<Pasekwynagrodzen> paski = new ArrayList<>();
         for (Pasekwynagrodzen pasek1 : paskizr) {
-            if (pasek1.getId()!=null&&pasek1.getRokwypl().equals(rok)&&pasek1.getMcwypl().equals(mc)) {
+            if (pasek1.getId()!=null) {
                 if (pasek1.getPesel().equals("86113011412")) {
                     System.out.println("");
                 }
@@ -136,6 +140,22 @@ public class Oddelegowanie implements Serializable{
 
     public void setMc(String mc) {
         this.mc = mc;
+    }
+
+    public String getRokwypl() {
+        return rokwypl;
+    }
+
+    public void setRokwypl(String rokwypl) {
+        this.rokwypl = rokwypl;
+    }
+
+    public String getMcwypl() {
+        return mcwypl;
+    }
+
+    public void setMcwypl(String mcwypl) {
+        this.mcwypl = mcwypl;
     }
 
     public int getLiczbadni() {

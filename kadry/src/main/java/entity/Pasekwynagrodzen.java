@@ -315,6 +315,10 @@ public class Pasekwynagrodzen implements Serializable {
     }
     
     public void dodajPasek(Pasekwynagrodzen p) {
+        this.rok = p.getRok();
+        this.mc = p.getMc();
+        this.rokwypl = p.getRokwypl();
+        this.mcwypl = p.getMcwypl();
         this.bruttobezzusbezpodatek = Z.z(this.bruttobezzusbezpodatek +p.bruttobezzusbezpodatek);
         this.bruttobezspolecznych = Z.z(this.bruttobezspolecznych +p.bruttobezspolecznych);
         this.bruttozus = Z.z(this.bruttozus + p.bruttozus);

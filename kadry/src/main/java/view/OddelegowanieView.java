@@ -75,8 +75,8 @@ public class OddelegowanieView  implements Serializable {
                             try {
                                 Kalendarzmiesiac pobranykalendarz = pobierzkalendarz(kalendarze, rok, mc);
                                 if (pobranykalendarz!=null&&pobranykalendarz.getPasekwynagrodzenList().size()>0) {
-                                    Oddelegowanie oddelegowanie = new Oddelegowanie(pobranykalendarz, paski, a, rok, mc, stawkipodatkowe);
-                                    if (oddelegowanie.getLiczbadni()>0) {
+                                    Oddelegowanie oddelegowanie = new Oddelegowanie(pobranykalendarz, pobranykalendarz.getPasekwynagrodzenList(), a, rok, mc, stawkipodatkowe);
+                                    if (oddelegowanie.getLiczbadni()>0||oddelegowanie.getPrzychodyzagranica()>0.0) {
                                         lista.add(oddelegowanie);
                                     }
                                 }

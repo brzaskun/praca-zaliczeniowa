@@ -20,7 +20,7 @@
                     </p:panelGrid>
                 </p:outputPanel>
                 <p:outputPanel style="margin-top: 20px;">
-                    <p:dataTable id="datalist" value="#{pracownikAneksyView.listaumowy}" var="itemUmowa" rowIndexVar="yndex"
+                    <p:dataTable id="datalist" value="#{pracownikAneksyView.listaumowy}" var="itemUmowa" rowIndexVar="yndex" filteredValue="#{pracownikAneksyView.listaumowyfiltered}"
                                  selectionMode="single" 
                                  rowKey="#{itemUmowa.id}"  sortBy="#{itemUmowa.datado}"
                                  style="height: 450px; overflow-y: scroll;width: 1450px;"
@@ -42,9 +42,9 @@
                             </f:facet>
                             <h:outputText value="#{itemUmowa.nazwiskoImie}"/>
                         </p:column>
-                        <p:column width="70" >
+                        <p:column width="70" filterBy="#{itemUmowa.umowakodzus.praca}" filterMatchMode="contains">
                             <f:facet name="header">
-                                <h:outputText value="rodzaj umowy"/>
+                                <h:outputText value="t-praca f-zlec"/>
                             </f:facet>
                             <h:outputText value="umowa o pracę" rendered="#{itemUmowa.umowakodzus.praca}"/>
                             <h:outputText value="umowa zlecenia" rendered="#{itemUmowa.umowakodzus.zlecenie}"/>
