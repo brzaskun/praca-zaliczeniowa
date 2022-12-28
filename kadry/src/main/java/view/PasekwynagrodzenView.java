@@ -484,7 +484,7 @@ public class PasekwynagrodzenView implements Serializable {
                 for (Iterator<Kalendarzmiesiac> it = listakalendarzmiesiac.iterator(); it.hasNext();) {
                     Kalendarzmiesiac p = it.next();
                     Angaz angaz = p.getAngaz();
-                    Rachunekdoumowyzlecenia znaleziony = PasekwynagrodzenBean.pobierzRachunekzlecenie(angaz, wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
+                    Rachunekdoumowyzlecenia znaleziony = PasekwynagrodzenBean.pobierzRachunekzlecenie(angaz, wybranalistaplac.getRok(), wybranalistaplac.getMc());
                     if (znaleziony == null) {
                         it.remove();
                     }
@@ -501,7 +501,7 @@ public class PasekwynagrodzenView implements Serializable {
                 for (Iterator<Kalendarzmiesiac> it = listakalendarzmiesiac.iterator(); it.hasNext();) {
                     Kalendarzmiesiac p = it.next();
                     Angaz angaz = p.getAngaz();
-                    Rachunekdoumowyzlecenia znaleziony = PasekwynagrodzenBean.pobierzRachunekzlecenie(angaz, wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
+                    Rachunekdoumowyzlecenia znaleziony = PasekwynagrodzenBean.pobierzRachunekzlecenie(angaz, wybranalistaplac.getRok(), wybranalistaplac.getMc());
                     if (znaleziony == null) {
                         it.remove();
                     }

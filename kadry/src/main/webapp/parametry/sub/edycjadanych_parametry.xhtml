@@ -77,7 +77,7 @@
                     <p:dataTable id="datalist" value="#{rodzjaumowySetView.lista}" var="item111"
                                  selectionMode="single" selection="#{rodzjaumowySetView.selectedlista}"
                                  rowKey="#{item111.id}" rowIndexVar="indexumowa" 
-                                 scrollable="true" scrollHeight="750" scrollRows="30" 
+                                 scrollable="true" scrollHeight="700" scrollRows="30" 
                                  style="width: 1800px;"
                                  emptyMessage="Nie pobrano elementów"
                                  >
@@ -140,7 +140,7 @@
                     <p:dataTable id="datalistr" value="#{rodzjawynagrodzeniaSetView.lista}" var="item11"
                                  selectionMode="single" selection="#{rodzjawynagrodzeniaSetView.selectedlista}"
                                  rowKey="#{item11.id}" emptyMessage="Nie znaleziono takiego składnika"
-                                 scrollable="true" scrollHeight="750" scrollRows="30" 
+                                 scrollable="true" scrollHeight="700" scrollRows="30" 
                                  style="width: 1700px;" >
 
                         <p:column width="40" style="text-align: center;">
@@ -227,7 +227,7 @@
                     <p:dataTable id="datalists" value="#{slownikpotraceniaView.lista}" var="item12"
                                  selectionMode="single" selection="#{slownikpotraceniaView.selectedlista}"
                                  rowKey="#{item12.id}" 
-                                 scrollable="true" scrollHeight="750" scrollRows="30" 
+                                 scrollable="true" scrollHeight="700" scrollRows="30" 
                                  style="width: 800px;"
                                  >
 
@@ -265,7 +265,7 @@
                     <p:dataTable id="datalistsa" value="#{rodzajlistyplacView.lista}" var="item17"
                                  selectionMode="single" selection="#{rodzajlistyplacView.selectedlista}"
                                  rowKey="#{item17.id}"
-                                 scrollable="true" scrollHeight="750" scrollRows="30" 
+                                 scrollable="true" scrollHeight="700" scrollRows="30" 
                                  style="width: 700px;"
                                  >
 
@@ -329,7 +329,7 @@
                     <p:dataTable id="datalistn" value="#{swiadczeniekodzusView.lista}" var="item13"
                                  selectionMode="single" selection="#{swiadczeniekodzusView.selectedlista}"
                                  rowKey="#{item13.id}" 
-                                 scrollable="true" scrollHeight="750" scrollRows="30" 
+                                 scrollable="true" scrollHeight="700" scrollRows="30" 
                                  style=" width: 1250px;"
                                  >
 
@@ -397,7 +397,7 @@
                     <p:dataTable id="datalistn" value="#{rodzajenieobecnosciView.lista}" var="item13roz"
                                  selectionMode="single" selection="#{rodzajenieobecnosciView.selectedlista}"
                                  rowKey="#{item13roz.id}" rowIndexVar="yndexvar" sortBy="#{item13roz.kolejnosc}"
-                                 scrollable="true" scrollHeight="750" scrollRows="30" 
+                                 scrollable="true" scrollHeight="700" scrollRows="30" 
                                  style=" width: 850px;"
                                  >
 
@@ -472,7 +472,7 @@
                     <h:form id="ZmiennepodatkoweFormLista">
                         <p:dataTable value="#{podatkiUstawieniaView.lista}" var="itempodatki" rowIndexVar="indexpod" rowKey="#{itempodatki.id}"
                                      selection="#{podatkiUstawieniaView.selected}" selectionMode="single"
-                                     scrollable="true" scrollHeight="750" scrollRows="30" 
+                                     scrollable="true" scrollHeight="700" scrollRows="30" 
                                      style="width: 1200px;">
                             <p:ajax event="rowSelect" partialSubmit="true" update="akordeon:ZmiennepodatkoweForm"/>
                             <p:column width="30" style="text-align: center;">
@@ -598,7 +598,7 @@
                     </p:panelGrid>
                     <p:dataTable value="#{wynagrodzenieMinimalneView.lista}" var="itemwynmin" rowIndexVar="indexekwiw" rowKey="#{itemwynmin.id}"
                                  selection="#{wynagrodzenieMinimalneView.selected}" selectionMode="single"  sortBy="#{itemwynmin.rok}"
-                                 scrollable="true" scrollHeight="750" scrollRows="30" 
+                                 scrollable="true" scrollHeight="700" scrollRows="30" 
                                  style="width: 500px;margin-top: 30px;" emptyMessage="Nie wprowadzono wartości">
                         <p:ajax event="rowSelect" partialSubmit="true"/>
                         <p:column width="30" style="text-align: center;">
@@ -647,7 +647,7 @@
                     </p:panelGrid>
                     <p:dataTable value="#{wspolczynnikEkwiwalentView.lista}" var="itemekwiw" rowIndexVar="indexekwiw" rowKey="#{itemekwiw.id}"
                                  selection="#{wspolczynnikEkwiwalentView.selected}" selectionMode="single"  sortBy="#{itemekwiw.rok}"
-                                 scrollable="true" scrollHeight="750" scrollRows="30" 
+                                 scrollable="true" scrollHeight="700" scrollRows="30" 
                                  style="width: 400px;margin-top: 30px;" emptyMessage="Nie wprowadzono wartości">
                         <p:ajax event="rowSelect" partialSubmit="true"/>
                         <p:column width="30" style="text-align: center;">
@@ -684,7 +684,7 @@
                     </p:panelGrid>
                     <p:dataTable value="#{limitdochodudwaszescView.lista}" var="itemekwiw" rowIndexVar="indexekwiw" rowKey="#{itemekwiw.id}"
                                  selection="#{limitdochodudwaszescView.selected}" selectionMode="single"  sortBy="#{itemekwiw.rok}"
-                                 scrollable="true" scrollHeight="750" scrollRows="30" 
+                                 scrollable="true" scrollHeight="700" scrollRows="30" 
                                  style="width: 400px;margin-top: 30px;" emptyMessage="Nie wprowadzono wartości">
                         <p:ajax event="rowSelect" partialSubmit="true"/>
                         <p:column width="30" style="text-align: center;">
@@ -724,7 +724,7 @@
                     </p:panelGrid>
                     <p:dataTable value="#{swiadectwoschemaView.listaswiadectwoschemy}" var="itemeksw" rowIndexVar="indexekwiw" rowKey="#{itemeksw.id}"
                                  selection="#{swiadectwoschemaView.selected}" selectionMode="single"  sortBy="#{itemeksw.rok}"
-                                 scrollable="true" scrollHeight="750" scrollRows="30" 
+                                 scrollable="true" scrollHeight="700" scrollRows="30" 
                                  style="width: 400px;margin-top: 30px;" emptyMessage="Nie wprowadzono wartości">
                         <p:ajax event="rowSelect" partialSubmit="true"/>
                         <p:column width="30" style="text-align: center;">
@@ -785,7 +785,7 @@
                 <h:form id="Swiadectwonieoblista">
                     <p:dataTable value="#{swiadectwoschemaView.listanieob}" var="itemeksw" rowIndexVar="indexekwiw" rowKey="#{itemeksw.id}"
                                  selection="#{swiadectwoschemaView.selectednieobecnoscschema}" selectionMode="single"  sortBy="#{itemeksw.rok}"
-                                 scrollable="true" scrollHeight="750" scrollRows="30" 
+                                 scrollable="true" scrollHeight="700" scrollRows="30" 
                                  style="width: 900px;margin-top: 30px;" emptyMessage="Nie wprowadzono wartości">
                         <p:ajax event="rowSelect" partialSubmit="true"/>
                         <p:column width="30" style="text-align: center;">

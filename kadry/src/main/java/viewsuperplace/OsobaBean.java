@@ -382,15 +382,22 @@ public class OsobaBean {
             for (Skladnikwynagrodzenia s : zwrot) {
                 if (!single.contains(s)) {
                     single.add(s);
-                    skladnikWynagrodzeniaFacade.createFlush(s);
+                    skladnikWynagrodzeniaFacade.create(s);
                 } else {
                     Skladnikwynagrodzenia pobrany = single.get(single.indexOf(s));
                     List<Zmiennawynagrodzenia> nowezmienne = s.getZmiennawynagrodzeniaList();
-                    for (Zmiennawynagrodzenia r : nowezmienne) {
-                        r.setSkladnikwynagrodzenia(pobrany);
+                     for (Zmiennawynagrodzenia r : nowezmienne) {
+                        Zmiennawynagrodzenia starazmienna = zmiennaWynagrodzeniaFacade.findByDataSkladnikPobierz(r);
+                        if ( starazmienna == null) {
+                            r.setSkladnikwynagrodzenia(pobrany);
+                            zmiennaWynagrodzeniaFacade.edit(r);
+                        } else {
+                            starazmienna.setKwota(starazmienna.getKwota()+r.getKwota());
+                            zmiennaWynagrodzeniaFacade.edit(starazmienna);
+                        }
                     }
-                    zmiennaWynagrodzeniaFacade.createListFlush(nowezmienne);
-                    pobrany.getZmiennawynagrodzeniaList().addAll(nowezmienne);
+//                    zmiennaWynagrodzeniaFacade.createListFlush(nowezmienne);
+//                    pobrany.getZmiennawynagrodzeniaList().addAll(nowezmienne);
                 }
             }
             zwrot = single;

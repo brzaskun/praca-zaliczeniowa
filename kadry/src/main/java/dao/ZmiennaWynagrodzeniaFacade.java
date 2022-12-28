@@ -66,4 +66,20 @@ public class ZmiennaWynagrodzeniaFacade extends DAO implements Serializable {
         }
         return zwrot;
     }
+    
+    public Zmiennawynagrodzenia findByDataSkladnikPobierz(Zmiennawynagrodzenia wiersz) {
+        Zmiennawynagrodzenia zwrot = null;
+        List<Zmiennawynagrodzenia> lista = null;
+        try {
+            if (wiersz.getDatado()==null) {
+                lista =  getEntityManager().createNamedQuery("Zmiennawynagrodzenia.findByDataSkladnikNull").setParameter("rodzajwynagrodzenia", wiersz.getSkladnikwynagrodzenia().getRodzajwynagrodzenia()).setParameter("dataod", wiersz.getDataod()).getResultList();
+            } else {
+                lista =  getEntityManager().createNamedQuery("Zmiennawynagrodzenia.findByDataSkladnik").setParameter("rodzajwynagrodzenia", wiersz.getSkladnikwynagrodzenia().getRodzajwynagrodzenia()).setParameter("dataod", wiersz.getDataod()).setParameter("datado", wiersz.getDatado()).getResultList();
+            }
+        } catch (Exception ex) {}
+        if (lista!=null&&lista.size()>0) {
+            zwrot = lista.get(0);
+        }
+        return zwrot;
+    }
 }

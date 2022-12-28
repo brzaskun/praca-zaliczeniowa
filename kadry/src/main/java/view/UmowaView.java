@@ -216,7 +216,7 @@ public class UmowaView implements Serializable {
                 Msg.msg("e","Nie wprowadzono wynagrodzenia, nie można wygenerować umowy");
             } else {
             if (listapraca != null && listapraca.size()>0) {
-                createkolejna();
+                createkolejna(listapraca);
             } else {
                 createpierwsza();
             }
@@ -248,8 +248,8 @@ public class UmowaView implements Serializable {
     
      public void createzlecenie() {
         if (selected != null && wpisView.getAngaz() != null) {
-            if (listapraca != null && listapraca.size()>0) {
-                createkolejna();
+            if (listazlecenia != null && listazlecenia.size()>0) {
+                createkolejna(listazlecenia);
             } else {
                 createpierwsza();
             }
@@ -315,7 +315,7 @@ public class UmowaView implements Serializable {
         }
     }
     
-    public void createkolejna() {
+    public void createkolejna(List<Umowa> listaumowa) {
         if (selected != null && wpisView.getAngaz() != null) {
             try {
                 Angaz angaz = wpisView.getAngaz();
@@ -332,11 +332,11 @@ public class UmowaView implements Serializable {
                 Umowa ostatniaumowa = null;
                 String dataostatniejumowy = null;
                 String datazamknieciapoprzedniejumowy = Data.odejmijdzien(selected.getDataod(), 1);
-                listapraca = umowaFacade.findByAngaz(angaz);
-                int kolejnosc = listapraca.size() + 1;
+                listaumowa = umowaFacade.findByAngaz(angaz);
+                int kolejnosc = listaumowa.size() + 1;
                 selected.setLicznikumow(kolejnosc);
                 int numerpoprzedniejumowy = kolejnosc-1;
-                for (Umowa p : listapraca) {
+                for (Umowa p : listaumowa) {
                     if (p.getLicznikumow()==numerpoprzedniejumowy) {
                         ostatniaumowa = p;
                         if (p.getDatado()!=null&&!p.getDatado().equals("")) {
@@ -354,11 +354,11 @@ public class UmowaView implements Serializable {
                 }
                 
                 umowaFacade.create(selected);
-                for (Umowa p : listapraca) {
+                for (Umowa p : listaumowa) {
                     p.setAktywna(false);
                 }
-                umowaFacade.editList(listapraca);
-                listapraca.add(selected);
+                umowaFacade.editList(listaumowa);
+                listaumowa.add(selected);
                 wpisView.setUmowa(selected);
                 if (selected.getUmowakodzus().isPraca() && etat1 != null && etat2 != null) {
                     List<EtatPrac> etaty = etatFacade.findByAngaz(angaz);
