@@ -7,6 +7,7 @@ package data;
 import embeddable.Mce;
 import entity.Dzien;
 import entity.Kalendarzmiesiac;
+import entity.Pasekwynagrodzen;
 import error.E;
 import java.io.Serializable;
 import java.text.DateFormat;
@@ -16,6 +17,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Year;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import static java.time.temporal.ChronoUnit.DAYS;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -94,7 +96,31 @@ public class Data implements Serializable {
        return ostatniDzien(wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
     }
     
+   public static void obliczwiek(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasek) {
+        if (kalendarz!=null) {
+            String dataurodzenia = kalendarz.getAngaz().getPracownik().getDataurodzenia();
+            LocalDate dataur = LocalDate.parse(dataurodzenia);
+            LocalDate dataumowy = LocalDate.parse(pasek.getDatawyplaty());
+            String rok = Data.getRok(pasek.getDatawyplaty());
+            String pierwszydzienroku = rok+"-01-01";
+            LocalDate dataroku = LocalDate.parse(pierwszydzienroku);
+            long lata = ChronoUnit.YEARS.between(dataur, dataumowy);
+            long dni = ChronoUnit.DAYS.between(dataroku, dataumowy);
+            pasek.setLata((int) lata);
+            pasek.setDni((int) dni);
+        }
+    }
    
+    public static int obliczwieklata(String datastart, String datanadzien) {
+        int zwrot = 0;
+        if (datastart!=null&&datanadzien!=null) {
+            LocalDate dataur = LocalDate.parse(datastart);
+            LocalDate dataumowy = LocalDate.parse(datanadzien);
+            long lata = ChronoUnit.YEARS.between(dataur, dataumowy);
+            zwrot = (int) lata;
+        }
+        return zwrot;
+    }
     
     /**
      * Porównywanie dwóch rokow i mce. Przyjmuje integer

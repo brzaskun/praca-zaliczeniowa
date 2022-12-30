@@ -780,12 +780,16 @@ public class PasekwynagrodzenBean {
     private static void obliczpodstaweopodatkowania26DB(Pasekwynagrodzen pasek, List<Podatki> stawkipodatkowe, boolean nieodliczackup, boolean podwyzszonekoszty, double limit26) {
         Podatki pierwszyprog = stawkipodatkowe.get(0);
         double bruttominusspoleczne = pasek.getBruttominusspoleczne();
+        double spoleczne = pasek.getRazemspolecznepracownik();
+        double procentspoleczny = spoleczne/pasek.getPodstawaskladkizus();
+        double udzialwspolecznychdoodliczenia = spoleczne*procentspoleczny;
+        double kwotanadwyzki = pasek.getBruttozus();
         double kosztyuzyskania = pierwszyprog.getKup();
         if (podwyzszonekoszty) {
             kosztyuzyskania = pierwszyprog.getKuppodwyzszone();
         }
                 //pasek.getKalendarzmiesiac().getUmowa().getKosztyuzyskaniaprocent()==100?pierwszyprog.getKup():pierwszyprog.getKuppodwyzszone();
-        if (nieodliczackup) {
+        if (nieodliczackup && kwotanadwyzki==0.0) {
             kosztyuzyskania = 0.0;
         }
         double dieta30proc = pasek.getDietaodliczeniepodstawaop();
@@ -800,7 +804,7 @@ public class PasekwynagrodzenBean {
         pasek.setKosztyuzyskaniahipotetyczne(kosztyuzyskania);
         pasek.setPodstawaopodatkowaniahipotetyczna(podstawa);
         //kosztyuzyskania = 0.0;
-        podstawa = Z.z0(bruttominusspoleczne-kosztyuzyskania-ulgadlaklasysredniej) > 0.0 ? Z.z0(bruttominusspoleczne-kosztyuzyskania-ulgadlaklasysredniej) :0.0;
+        podstawa = Z.z0(kwotanadwyzki-kosztyuzyskania-udzialwspolecznychdoodliczenia-ulgadlaklasysredniej) > 0.0 ? Z.z0(kwotanadwyzki-kosztyuzyskania-ulgadlaklasysredniej) :0.0;
         pasek.setPodstawaopodatkowania(podstawa);
         pasek.setKosztyuzyskania(kosztyuzyskania);
     }
@@ -881,10 +885,9 @@ public class PasekwynagrodzenBean {
         }
         pasek.setPodatekwstepnyhipotetyczny(podatek);
         pasek.setPodatekwstepny(0.0);
-        double roznicadoopodatkowania = podstawaopodatkowaniaPodatek+sumapoprzednich-limit26;
-        double sumadladrugiegoprogu = sumapoprzednich+podstawaopodatkowania-roznicadoopodatkowania;
-        if (roznicadoopodatkowania>0.0) {
-            obliczpodatekwstepnyDB26Przekroczenie(pasek, roznicadoopodatkowania, stawkipodatkowe, sumadladrugiegoprogu);
+        double sumadladrugiegoprogu = sumapoprzednich+podstawaopodatkowania-podstawaopodatkowaniaPodatek;
+        if (podstawaopodatkowaniaPodatek>0.0) {
+            obliczpodatekwstepnyDB26Przekroczenie(pasek, podstawaopodatkowaniaPodatek, stawkipodatkowe, sumadladrugiegoprogu);
         }
     }
     
@@ -974,6 +977,14 @@ public class PasekwynagrodzenBean {
         } else {
             pasek.setKwotawolnahipotetyczna(kwotawolna);
             pasek.setKwotawolna(0.0);
+        }
+        if (pasek.isDo26lat()==true && pasek.getPodatekwstepny()>0.0) {
+            double podatek = pasek.getPodatekwstepny();
+            if (kwotawolna>podatek) {
+                pasek.setKwotawolna(podatek);
+            } else {
+                pasek.setKwotawolna(kwotawolna);
+            }
         }
         pasek.setKwotawolnadlazdrowotnej(kwotawolnadlazdrowotnej);
     }

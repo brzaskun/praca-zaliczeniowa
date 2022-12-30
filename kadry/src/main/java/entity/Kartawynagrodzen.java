@@ -148,6 +148,8 @@ public class Kartawynagrodzen implements Serializable {
     private boolean kosztypodwyzszone;
     @Column(name = "kosztywieleumow")
     private boolean kosztywieleumow;
+    @Column
+    private int wieklata;
     @Transient
     private String nazwiskoiimie;
     @Transient
@@ -492,6 +494,14 @@ public class Kartawynagrodzen implements Serializable {
 
     public void setJestPIT11(boolean jestPIT11) {
         this.jestPIT11 = jestPIT11;
+    }
+
+    public int getWieklata() {
+        return wieklata;
+    }
+
+    public void setWieklata(int wieklata) {
+        this.wieklata = wieklata;
     }
     
     

@@ -46,35 +46,45 @@ public class PITPola {
     @Column(name = "praca33zaliczka")
     private double praca33zaliczka;
     @Column(name = "funkcja47przychod")
-    private double funkcja47przychod;
+    private double funkcja54przychod;
     @Column(name = "funkcja48koszt")
-    private double funkcja48koszt;
+    private double funkcja55koszt;
     @Column(name = "funkcja49dochod")
-    private double funkcja49dochod;
+    private double funkcja56dochod;
     @Column(name = "funkcja50zaliczka")
-    private double funkcja50zaliczka;
+    private double funkcja57zaliczka;
     @Column(name = "zlecenie51przychod")
-    private double zlecenie51przychod;
+    private double zlecenie58przychod;
     @Column(name = "zlecenie52koszt")
-    private double zlecenie52koszt;
+    private double zlecenie59koszt;
     @Column(name = "zlecenie53dochod")
-    private double zlecenie53dochod;
+    private double zlecenie60dochod;
     @Column(name = "zlecenie54zaliczka")
-    private double zlecenie54zaliczka;
+    private double zlecenie61zaliczka;
+    @Column(name = "zlecenie62przychod26")
+    private double zlecenie62przychod26;
+    @Column(name = "zlecenie63koszt26")
+    private double zlecenie63koszt26;
+    @Column(name = "zlecenie64dochod26")
+    private double zlecenie64dochod26;
+    @Column(name = "zlecenie65zaliczka26")
+    private double zlecenie65zaliczka26;
     @Column(name = "zus51pole75")
-    private double zus51pole75;
+    private double zus51pole95;
+    @Column(name = "zus51pole96")
+    private double zus51pole96;
     @Column(name = "zus51pole77")
-    private double zus51pole77;
+    private double zus51pole97;
     @Column(name = "zus52pole78")
-    private double zus52pole78;
-    @Column(name = "zus52pole80")
-    private double zus52pole80;
+    private double zus52pole122;
+//    @Column(name = "zus52pole80")
+//    private double zus52pole80;
     @Column(name = "przychody92sumado26lat")
-    private double przychody92sumado26lat;
+    private double przychody109sumado26lat;
     @Column(name = "praca93do26lat")
-    private double praca93do26lat;
+    private double praca110do26lat;
     @Column(name = "zlecenie94do26lat")
-    private double zlecenie94do26lat;
+    private double zlecenie111do26lat;
     @JoinColumn(name = "pracownik", referencedColumnName = "id")
     @NotNull
     @ManyToOne
@@ -91,15 +101,15 @@ public class PITPola {
         this.praca30koszt = karta.getKosztyuzyskania();
         this.praca31dochod = this.praca31dochod+this.praca29przychod-this.praca30koszt;
         this.praca33zaliczka = this.praca33zaliczka+karta.getPodatekdochodowy();
-        this.zus51pole75 = this.zus51pole75+karta.getRazemspolecznepracownik();
-        this.zus52pole78 = this.zus52pole78+karta.getPraczdrowotnedoodliczenia();
+        this.zus51pole95 = this.zus51pole95+karta.getRazemspolecznepracownik();
+        this.zus52pole122 = this.zus52pole122+karta.getPraczdrowotnedopotracenia();
     }
 
     public void dodajprace26zwolnione(Kartawynagrodzen karta) {
-        this.praca93do26lat = karta.getBrutto();
-        this.przychody92sumado26lat= this.przychody92sumado26lat+karta.getBrutto();
-        this.zus51pole77 = this.zus51pole77+karta.getRazemspolecznepracownik();
-        this.zus52pole80 = this.zus52pole80+karta.getPraczdrowotnedoodliczenia();
+        this.praca110do26lat = karta.getBrutto();
+        this.przychody109sumado26lat= this.przychody109sumado26lat+karta.getBrutto();
+        this.zus51pole97 = this.zus51pole97+karta.getRazemspolecznepracownik();
+        //this.zus52pole80 = this.zus52pole80+karta.getPraczdrowotnedopotracenia();
     }
 
     public void dodajpracekosztywysokie(Kartawynagrodzen karta) {
@@ -107,33 +117,42 @@ public class PITPola {
         this.praca35wyzszekoszty = karta.getKosztyuzyskania();
         this.praca31dochod = this.praca31dochod+this.praca34przychodwyzszekoszty-this.praca35wyzszekoszty;
         this.praca33zaliczka = this.praca33zaliczka+karta.getPodatekdochodowy();
-        this.zus51pole75 = this.zus51pole75+karta.getRazemspolecznepracownik();
-        this.zus52pole78 = this.zus52pole78+karta.getPraczdrowotnedoodliczenia();
+        this.zus51pole95 = this.zus51pole95+karta.getRazemspolecznepracownik();
+        this.zus52pole122 = this.zus52pole122+karta.getPraczdrowotnedopotracenia();
     }
 
     public void dodajpelnieniefunkcji(Kartawynagrodzen karta) {
-        this.funkcja47przychod = karta.getBrutto();
-        this.funkcja48koszt = karta.getKosztyuzyskania();
-        this.funkcja49dochod = this.funkcja47przychod-this.funkcja48koszt;
-        this.funkcja50zaliczka = karta.getPodatekdochodowy();
-        this.zus51pole75 = this.zus51pole75+karta.getRazemspolecznepracownik();
-        this.zus52pole78 = this.zus52pole78+karta.getPraczdrowotnedoodliczenia();
+        this.funkcja54przychod = karta.getBrutto();
+        this.funkcja55koszt = karta.getKosztyuzyskania();
+        this.funkcja56dochod = this.funkcja54przychod-this.funkcja55koszt;
+        this.funkcja57zaliczka = karta.getPodatekdochodowy();
+        this.zus51pole95 = this.zus51pole95+karta.getRazemspolecznepracownik();
+        this.zus52pole122 = this.zus52pole122+karta.getPraczdrowotnedopotracenia();
     }
 
     public void dodajzlecenie(Kartawynagrodzen karta) {
-        this.zlecenie51przychod = karta.getBrutto();
-        this.zlecenie52koszt = karta.getKosztyuzyskania();
-        this.zlecenie53dochod = this.zlecenie51przychod-this.zlecenie52koszt;
-        this.zlecenie54zaliczka = karta.getPodatekdochodowy();
-        this.zus51pole75 = this.zus51pole75+karta.getRazemspolecznepracownik();
-        this.zus52pole78 = this.zus52pole78+karta.getPraczdrowotnedoodliczenia();
+        this.zlecenie58przychod = karta.getBrutto();
+        this.zlecenie59koszt = karta.getKosztyuzyskania();
+        this.zlecenie60dochod = this.zlecenie58przychod-this.zlecenie59koszt;
+        this.zlecenie61zaliczka = karta.getPodatekdochodowy();
+        this.zus51pole95 = this.zus51pole95+karta.getRazemspolecznepracownik();
+        this.zus52pole122 = this.zus52pole122+karta.getPraczdrowotnedopotracenia();
+    }
+    
+     public void dodajzlecenie26opodatkowane(Kartawynagrodzen karta) {
+        this.zlecenie62przychod26 = karta.getBrutto();
+        this.zlecenie63koszt26 = karta.getKosztyuzyskania();
+        this.zlecenie64dochod26 = this.zlecenie62przychod26-this.zlecenie63koszt26;
+        this.zlecenie65zaliczka26 = karta.getPodatekdochodowy();
+        this.zus51pole96 = this.zus51pole96+karta.getRazemspolecznepracownik();
+        this.zus52pole122 = this.zus52pole122+karta.getPraczdrowotnedopotracenia();
     }
 
     public void dodajzlecenie26zwolnione(Kartawynagrodzen karta) {
-        this.zlecenie94do26lat = karta.getBrutto();
-        this.przychody92sumado26lat= this.przychody92sumado26lat+karta.getBrutto();
-        this.zus51pole77 = this.zus51pole77+karta.getRazemspolecznepracownik();
-        this.zus52pole80 = this.zus52pole80+karta.getPraczdrowotnedoodliczenia();
+        this.zlecenie111do26lat = karta.getBrutto();
+        this.przychody109sumado26lat= this.przychody109sumado26lat+karta.getBrutto();
+        this.zus51pole97 = this.zus51pole97+karta.getRazemspolecznepracownik();
+        //this.zus52pole80 = this.zus52pole80+karta.getPraczdrowotnedopotracenia();
     }
 
     
@@ -182,7 +201,7 @@ public class PITPola {
 
     @Override
     public String toString() {
-        return "PITPola{" + "praca29przychod=" + praca29przychod + ", praca30koszt=" + praca30koszt + ", praca33zaliczka=" + praca33zaliczka + ", zlecenie51przychod=" + zlecenie51przychod + ", zlecenie52koszt=" + zlecenie52koszt + ", zlecenie54zaliczka=" + zlecenie54zaliczka + ", przychody92sumado26lat=" + przychody92sumado26lat + ", pracownik=" + pracownik.getNazwiskoImie() + ", rok=" + rok + '}';
+        return "PITPola{" + "praca29przychod=" + praca29przychod + ", praca30koszt=" + praca30koszt + ", praca33zaliczka=" + praca33zaliczka + ", zlecenie51przychod=" + zlecenie58przychod + ", zlecenie52koszt=" + zlecenie59koszt + ", zlecenie54zaliczka=" + zlecenie61zaliczka + ", przychody92sumado26lat=" + przychody109sumado26lat + ", pracownik=" + pracownik.getNazwiskoImie() + ", rok=" + rok + '}';
     }
 
     public int getId() {
@@ -249,124 +268,124 @@ public class PITPola {
         this.praca33zaliczka = praca33zaliczka;
     }
 
-    public double getFunkcja47przychod() {
-        return funkcja47przychod;
+    public double getFunkcja54przychod() {
+        return funkcja54przychod;
     }
 
-    public void setFunkcja47przychod(double funkcja47przychod) {
-        this.funkcja47przychod = funkcja47przychod;
+    public void setFunkcja54przychod(double funkcja54przychod) {
+        this.funkcja54przychod = funkcja54przychod;
     }
 
-    public double getFunkcja48koszt() {
-        return funkcja48koszt;
+    public double getFunkcja55koszt() {
+        return funkcja55koszt;
     }
 
-    public void setFunkcja48koszt(double funkcja48koszt) {
-        this.funkcja48koszt = funkcja48koszt;
+    public void setFunkcja55koszt(double funkcja55koszt) {
+        this.funkcja55koszt = funkcja55koszt;
     }
 
-    public double getFunkcja49dochod() {
-        return funkcja49dochod;
+    public double getFunkcja56dochod() {
+        return funkcja56dochod;
     }
 
-    public void setFunkcja49dochod(double funkcja49dochod) {
-        this.funkcja49dochod = funkcja49dochod;
+    public void setFunkcja56dochod(double funkcja56dochod) {
+        this.funkcja56dochod = funkcja56dochod;
     }
 
-    public double getFunkcja50zaliczka() {
-        return funkcja50zaliczka;
+    public double getFunkcja57zaliczka() {
+        return funkcja57zaliczka;
     }
 
-    public void setFunkcja50zaliczka(double funkcja50zaliczka) {
-        this.funkcja50zaliczka = funkcja50zaliczka;
+    public void setFunkcja57zaliczka(double funkcja57zaliczka) {
+        this.funkcja57zaliczka = funkcja57zaliczka;
     }
 
-    public double getZlecenie51przychod() {
-        return zlecenie51przychod;
+    public double getZlecenie58przychod() {
+        return zlecenie58przychod;
     }
 
-    public void setZlecenie51przychod(double zlecenie51przychod) {
-        this.zlecenie51przychod = zlecenie51przychod;
+    public void setZlecenie58przychod(double zlecenie58przychod) {
+        this.zlecenie58przychod = zlecenie58przychod;
     }
 
-    public double getZlecenie52koszt() {
-        return zlecenie52koszt;
+    public double getZlecenie59koszt() {
+        return zlecenie59koszt;
     }
 
-    public void setZlecenie52koszt(double zlecenie52koszt) {
-        this.zlecenie52koszt = zlecenie52koszt;
+    public void setZlecenie59koszt(double zlecenie59koszt) {
+        this.zlecenie59koszt = zlecenie59koszt;
     }
 
-    public double getZlecenie53dochod() {
-        return zlecenie53dochod;
+    public double getZlecenie60dochod() {
+        return zlecenie60dochod;
     }
 
-    public void setZlecenie53dochod(double zlecenie53dochod) {
-        this.zlecenie53dochod = zlecenie53dochod;
+    public void setZlecenie60dochod(double zlecenie60dochod) {
+        this.zlecenie60dochod = zlecenie60dochod;
     }
 
-    public double getZlecenie54zaliczka() {
-        return zlecenie54zaliczka;
+    public double getZlecenie61zaliczka() {
+        return zlecenie61zaliczka;
     }
 
-    public void setZlecenie54zaliczka(double zlecenie54zaliczka) {
-        this.zlecenie54zaliczka = zlecenie54zaliczka;
+    public void setZlecenie61zaliczka(double zlecenie61zaliczka) {
+        this.zlecenie61zaliczka = zlecenie61zaliczka;
     }
 
-    public double getZus51pole75() {
-        return zus51pole75;
+    public double getZus51pole95() {
+        return zus51pole95;
     }
 
-    public void setZus51pole75(double zus51pole75) {
-        this.zus51pole75 = zus51pole75;
+    public void setZus51pole95(double zus51pole95) {
+        this.zus51pole95 = zus51pole95;
     }
 
-    public double getZus51pole77() {
-        return zus51pole77;
+    public double getZus51pole97() {
+        return zus51pole97;
     }
 
-    public void setZus51pole77(double zus51pole77) {
-        this.zus51pole77 = zus51pole77;
+    public void setZus51pole97(double zus51pole97) {
+        this.zus51pole97 = zus51pole97;
     }
 
-    public double getZus52pole78() {
-        return zus52pole78;
+    public double getZus52pole122() {
+        return zus52pole122;
     }
 
-    public void setZus52pole78(double zus52pole78) {
-        this.zus52pole78 = zus52pole78;
+    public void setZus52pole122(double zus52pole122) {
+        this.zus52pole122 = zus52pole122;
     }
 
-    public double getZus52pole80() {
-        return zus52pole80;
+//    public double getZus52pole80() {
+//        return zus52pole80;
+//    }
+//
+//    public void setZus52pole80(double zus52pole80) {
+//        this.zus52pole80 = zus52pole80;
+//    }
+
+    public double getPrzychody109sumado26lat() {
+        return przychody109sumado26lat;
     }
 
-    public void setZus52pole80(double zus52pole80) {
-        this.zus52pole80 = zus52pole80;
+    public void setPrzychody109sumado26lat(double przychody109sumado26lat) {
+        this.przychody109sumado26lat = przychody109sumado26lat;
     }
 
-    public double getPrzychody92sumado26lat() {
-        return przychody92sumado26lat;
+    public double getPraca110do26lat() {
+        return praca110do26lat;
     }
 
-    public void setPrzychody92sumado26lat(double przychody92sumado26lat) {
-        this.przychody92sumado26lat = przychody92sumado26lat;
+    public void setPraca110do26lat(double praca110do26lat) {
+        this.praca110do26lat = praca110do26lat;
     }
 
-    public double getPraca93do26lat() {
-        return praca93do26lat;
+    public double getZlecenie111do26lat() {
+        return zlecenie111do26lat;
     }
 
-    public void setPraca93do26lat(double praca93do26lat) {
-        this.praca93do26lat = praca93do26lat;
-    }
-
-    public double getZlecenie94do26lat() {
-        return zlecenie94do26lat;
-    }
-
-    public void setZlecenie94do26lat(double zlecenie94do26lat) {
-        this.zlecenie94do26lat = zlecenie94do26lat;
+    public void setZlecenie111do26lat(double zlecenie111do26lat) {
+        this.zlecenie111do26lat = zlecenie111do26lat;
     }
 
     public Pracownik getPracownik() {
@@ -391,6 +410,46 @@ public class PITPola {
 
     public void setKosztyzuzyskania(byte kosztyzuzyskania) {
         this.kosztyzuzyskania = kosztyzuzyskania;
+    }
+
+    public double getZlecenie62przychod26() {
+        return zlecenie62przychod26;
+    }
+
+    public void setZlecenie62przychod26(double zlecenie62przychod26) {
+        this.zlecenie62przychod26 = zlecenie62przychod26;
+    }
+
+    public double getZlecenie63koszt26() {
+        return zlecenie63koszt26;
+    }
+
+    public void setZlecenie63koszt26(double zlecenie63koszt26) {
+        this.zlecenie63koszt26 = zlecenie63koszt26;
+    }
+
+    public double getZlecenie64dochod26() {
+        return zlecenie64dochod26;
+    }
+
+    public void setZlecenie64dochod26(double zlecenie64dochod26) {
+        this.zlecenie64dochod26 = zlecenie64dochod26;
+    }
+
+    public double getZlecenie65zaliczka26() {
+        return zlecenie65zaliczka26;
+    }
+
+    public void setZlecenie65zaliczka26(double zlecenie65zaliczka26) {
+        this.zlecenie65zaliczka26 = zlecenie65zaliczka26;
+    }
+
+    public double getZus51pole96() {
+        return zus51pole96;
+    }
+
+    public void setZus51pole96(double zus51pole96) {
+        this.zus51pole96 = zus51pole96;
     }
 
    

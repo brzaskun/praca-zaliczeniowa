@@ -6,23 +6,25 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:bcf="http://brzaskun.com/facelets"
     >
-    <f:event type="preRenderView" listener="#{kartaWynagrodzenView.init()}"/>
     <p:tabView id="akordeon">
         <p:tab title="zestawienie do PIT-11">
     <p:outputPanel>
-<!--        <p:commandButton value="pobierz" styleClass="buttonnorm" actionListener="#{kartaWynagrodzenView.pobierzdaneAll()}" update="KartyWynangrodzenPITForm"/>-->
+        <p:commandButton value="pobierz" styleClass="buttonnorm" actionListener="#{kartaWynagrodzenView.init()}" update="KartyWynangrodzenPITForm"/>
         <p:commandButton value="PIT-y 11" styleClass="buttonnorm2" actionListener="#{kartaWynagrodzenView.pit11All()}" update="KartyWynangrodzenPITForm wystawionepit11"/>
     </p:outputPanel>
     <p:outputPanel style="margin: 10px;">
         <h:form id="KartyWynangrodzenPITForm">
             <p:dataTable id="datalist" value="#{kartaWynagrodzenView.sumypracownicy}" var="itemkarta"
-                         rowKey="#{itemkarta.id}" rowIndexVar="indexka" 
-                         style="height: 350px; overflow-y: scroll;width: 1050px;" emptyMessage="Nie pobrano danych"
-                         sortBy="#{itemkarta.nazwiskoiimie}" selection="#{kartaWynagrodzenView.wybranakarta}" selectionMode="single"
+                         rowKey="#{itemkarta.angaz.id}" rowIndexVar="indexka" 
+                         style="height: 350px; overflow-y: scroll;width: 1200px;" emptyMessage="Nie pobrano danych"
+                         sortBy="#{itemkarta.nazwiskoiimie}" selection="#{kartaWynagrodzenView.listaselected}" rowSelectMode="add"
                          >
+                <p:ajax event="rowSelectCheckbox"  partialSubmit="true" global="false"/>
+                <p:ajax event="rowUnselectCheckbox" partialSubmit="true" global="false"/>
                 <f:facet name="header">
                     <h:outputText value="Zestawienie pracowników za rok #{wpisView.rokWpisu}"/>
                 </f:facet>
+                <p:column width="20" style="text-align: center;" selectionMode="multiple" selectRow="true" />
                 <p:column width="20" style="text-align: center;">
                     <f:facet name="header">
                         <h:outputText value="id"/>
@@ -34,6 +36,13 @@
                         <h:outputText value="pracownik"/>
                     </f:facet>
                     <h:outputText value="#{itemkarta.nazwiskoiimie}" />
+                </p:column>
+                <p:column width="30" style="text-align: center;" >
+                    <f:facet name="header">
+                        <h:outputText value="wiek"/>
+                    </f:facet>
+                    <h:outputText value="#{itemkarta.wieklata}"  rendered="#{itemkarta.wieklata gt 26}"/>
+                    <h:outputText value="#{itemkarta.wieklata}"  style="color: green" rendered="#{itemkarta.wieklata lt 27}"/>
                 </p:column>
                 <p:column width="60">
                     <f:facet name="header">
@@ -65,6 +74,12 @@
                         <h:outputText value="składki"/>
                     </f:facet>
                     <bcf:outputpl value="#{itemkarta.razemspolecznepracownik}"/>
+                </p:column>
+                <p:column width="60">
+                    <f:facet name="header">
+                        <h:outputText value="zdrowotne potrąc."/>
+                    </f:facet>
+                    <bcf:outputpl value="#{itemkarta.praczdrowotnedopotracenia}"/>
                 </p:column>
                 <p:column width="60">
                     <f:facet name="header">
@@ -124,8 +139,8 @@
                                 <p:column colspan="1" style="text-align: center;">zaliczka</p:column>
                             </p:row>
                             <p:row>
-                                <p:column colspan="1" rowspan="4" style="text-align: center;">#{indexpit+1}</p:column>
-                                <p:column colspan="1">umowa o pracę</p:column>
+                                <p:column colspan="1" rowspan="5" style="text-align: center;">#{indexpit+1}</p:column>
+                                <p:column colspan="1">umowa o pracę p.29</p:column>
                                 <p:column colspan="1"><bcf:outputpl value="#{itempit.praca29przychod}" rendered="#{itempit.praca29przychod ne 0.0}"/></p:column>
                                 <p:column colspan="1"><bcf:outputpl value="#{itempit.praca30koszt}" rendered="#{itempit.praca29przychod ne 0.0}"/></p:column>
                                 <p:column colspan="1" rowspan="2"><bcf:outputpl value="#{itempit.praca31dochod}" rendered="#{itempit.praca29przychod ne 0.0}"/></p:column>
@@ -133,45 +148,53 @@
                                 <p:column colspan="1" rowspan="2"><bcf:outputpl value="#{itempit.praca33zaliczka}" rendered="#{itempit.praca29przychod ne 0.0}"/></p:column>
                             </p:row>
                             <p:row>
-                                <p:column colspan="1">umowa o pracę wyższe koszty</p:column>
+                                <p:column colspan="1">umowa o pracę wyższe koszty p.34</p:column>
                                 <p:column colspan="1"><bcf:outputpl value="#{itempit.praca34przychodwyzszekoszty}" rendered="#{itempit.praca34przychodwyzszekoszty ne 0.0}"/></p:column>
                                 <p:column colspan="1"><bcf:outputpl value="#{itempit.praca35wyzszekoszty}" rendered="#{itempit.praca34przychodwyzszekoszty ne 0.0}"/></p:column>
                             </p:row>
                             <p:row>
-                                <p:column colspan="1">pełnienie funkcji</p:column>
-                                <p:column colspan="1"><bcf:outputpl value="#{itempit.funkcja47przychod}" rendered="#{itempit.funkcja47przychod ne 0.0}"/></p:column>
-                                <p:column colspan="1"><bcf:outputpl value="#{itempit.funkcja48koszt}" rendered="#{itempit.funkcja47przychod ne 0.0}"/></p:column>
-                                <p:column colspan="1"><bcf:outputpl value="#{itempit.funkcja49dochod}" rendered="#{itempit.funkcja47przychod ne 0.0}"/></p:column>
+                                <p:column colspan="1">pełnienie funkcji p.54</p:column>
+                                <p:column colspan="1"><bcf:outputpl value="#{itempit.funkcja54przychod}" rendered="#{itempit.funkcja54przychod ne 0.0}"/></p:column>
+                                <p:column colspan="1"><bcf:outputpl value="#{itempit.funkcja55koszt}" rendered="#{itempit.funkcja54przychod ne 0.0}"/></p:column>
+                                <p:column colspan="1"><bcf:outputpl value="#{itempit.funkcja56dochod}" rendered="#{itempit.funkcja54przychod ne 0.0}"/></p:column>
                                 <p:column colspan="1"></p:column>
-                                <p:column colspan="1"><bcf:outputpl value="#{itempit.praca33zaliczka}" rendered="#{itempit.funkcja47przychod ne 0.0}"/></p:column>
+                                <p:column colspan="1"><bcf:outputpl value="#{itempit.funkcja57zaliczka}" rendered="#{itempit.funkcja54przychod ne 0.0}"/></p:column>
                             </p:row>
                             <p:row>
-                                <p:column colspan="1">umowa zlecenia</p:column>
-                                <p:column colspan="1"><bcf:outputpl value="#{itempit.zlecenie51przychod}" rendered="#{itempit.zlecenie51przychod ne 0.0}"/></p:column>
-                                <p:column colspan="1"><bcf:outputpl value="#{itempit.zlecenie52koszt}" rendered="#{itempit.zlecenie51przychod ne 0.0}"/></p:column>
-                                <p:column colspan="1"><bcf:outputpl value="#{itempit.zlecenie53dochod}" rendered="#{itempit.zlecenie51przychod ne 0.0}"/></p:column>
+                                <p:column colspan="1">umowa zlecenia p.58</p:column>
+                                <p:column colspan="1"><bcf:outputpl value="#{itempit.zlecenie58przychod}" rendered="#{itempit.zlecenie58przychod ne 0.0}"/></p:column>
+                                <p:column colspan="1"><bcf:outputpl value="#{itempit.zlecenie59koszt}" rendered="#{itempit.zlecenie58przychod ne 0.0}"/></p:column>
+                                <p:column colspan="1"><bcf:outputpl value="#{itempit.zlecenie60dochod}" rendered="#{itempit.zlecenie58przychod ne 0.0}"/></p:column>
                                 <p:column colspan="1"></p:column>
-                                <p:column colspan="1"><bcf:outputpl value="#{itempit.zlecenie54zaliczka}" rendered="#{itempit.zlecenie51przychod ne 0.0}"/></p:column>
+                                <p:column colspan="1"><bcf:outputpl value="#{itempit.zlecenie61zaliczka}" rendered="#{itempit.zlecenie58przychod ne 0.0}"/></p:column>
                             </p:row>
                             <p:row>
-                                <p:column colspan="4" style="text-align: right">społeczne 75</p:column>
-                                <p:column colspan="1"><bcf:outputpl value="#{itempit.zus51pole75}"/></p:column>
-                                <p:column colspan="1" style="text-align: right">społ. do 26l. 77</p:column>
-                                <p:column colspan="1"><bcf:outputpl value="#{itempit.zus51pole77}"/></p:column>
+                                <p:column colspan="1">umowa zlecenia 26 opodatkowana p.62</p:column>
+                                <p:column colspan="1"><bcf:outputpl value="#{itempit.zlecenie62przychod26}" rendered="#{itempit.zlecenie62przychod26 ne 0.0}"/></p:column>
+                                <p:column colspan="1"><bcf:outputpl value="#{itempit.zlecenie63koszt26}" rendered="#{itempit.zlecenie63koszt26 ne 0.0}"/></p:column>
+                                <p:column colspan="1"><bcf:outputpl value="#{itempit.zlecenie64dochod26}" rendered="#{itempit.zlecenie64dochod26 ne 0.0}"/></p:column>
+                                <p:column colspan="1"></p:column>
+                                <p:column colspan="1"><bcf:outputpl value="#{itempit.zlecenie65zaliczka26}" rendered="#{itempit.zlecenie65zaliczka26 ne 0.0}"/></p:column>
                             </p:row>
                             <p:row>
-                                <p:column colspan="4" style="text-align: right">zdrowotne 78</p:column>
-                                <p:column colspan="1"><bcf:outputpl value="#{itempit.zus52pole78}"/></p:column>
-                                <p:column colspan="1" style="text-align: right">zdrow. do 26l. 80</p:column>
-                                <p:column colspan="1"><bcf:outputpl value="#{itempit.zus52pole80}"/></p:column>
+                                <p:column colspan="4" style="text-align: right">zus społeczne p.95</p:column>
+                                <p:column colspan="1"><bcf:outputpl value="#{itempit.zus51pole95}"/></p:column>
+                                <p:column colspan="1" style="text-align: right">zus społ. do 26l. p.97</p:column>
+                                <p:column colspan="1"><bcf:outputpl value="#{itempit.zus51pole97}"/></p:column>
                             </p:row>
                             <p:row>
-                                <p:column colspan="2" style="text-align: right">suma zwolnione 92</p:column>
-                                <p:column colspan="1"><bcf:outputpl value="#{itempit.przychody92sumado26lat}"  rendered="#{itempit.przychody92sumado26lat ne 0.0}"/></p:column>
-                                <p:column colspan="1" style="text-align: right">w tym praca 93</p:column>
-                                <p:column colspan="1"><bcf:outputpl value="#{itempit.praca93do26lat}" rendered="#{itempit.przychody92sumado26lat ne 0.0}"/></p:column>
-                                <p:column colspan="1" style="text-align: right">w tym zlec 94</p:column>
-                                <p:column colspan="1"><bcf:outputpl value="#{itempit.zlecenie94do26lat}" rendered="#{itempit.przychody92sumado26lat ne 0.0}"/></p:column>
+                                <p:column colspan="6" style="text-align: right">zdrowotne potrącone p.122</p:column>
+                                <p:column colspan="1"><bcf:outputpl value="#{itempit.zus52pole122}"/></p:column>
+<!--                                <p:column colspan="1" style="text-align: right">zdrow. do 26l. 80</p:column>
+                                <p:column colspan="1"><bcf:outputpl value="#{itempit.zus52pole80}"/></p:column>-->
+                            </p:row>
+                            <p:row>
+                                <p:column colspan="2" style="text-align: right">suma zwolnione 109</p:column>
+                                <p:column colspan="1"><bcf:outputpl value="#{itempit.przychody109sumado26lat}"  rendered="#{itempit.przychody109sumado26lat ne 0.0}"/></p:column>
+                                <p:column colspan="1" style="text-align: right">w tym praca 110</p:column>
+                                <p:column colspan="1"><bcf:outputpl value="#{itempit.praca110do26lat}" rendered="#{itempit.przychody109sumado26lat ne 0.0}"/></p:column>
+                                <p:column colspan="1" style="text-align: right">w tym zlec 111</p:column>
+                                <p:column colspan="1"><bcf:outputpl value="#{itempit.zlecenie111do26lat}" rendered="#{itempit.przychody109sumado26lat ne 0.0}"/></p:column>
                             </p:row>
                         </p:row>
                     </p:panelGrid>
@@ -251,7 +274,7 @@
                     <f:facet name="header">
                         <h:outputText value=""/>
                     </f:facet>
-                    <p:commandButton icon="pi pi-trash" actionListener="#{kartaWynagrodzenView.usunPIT11(itempity11)}" update="@(form)">
+                    <p:commandButton icon="pi pi-trash" actionListener="#{kartaWynagrodzenView.usunPIT11(itempity11)}" update="akordeon:wystawionepit11">
                         <p:confirm type="popup" header="Potwierdzenie" message="Usunąć deklaracje?" icon="pi pi-exclamation-triangle"/>
                     </p:commandButton>
                 </p:column>

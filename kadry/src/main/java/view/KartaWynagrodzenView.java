@@ -12,6 +12,7 @@ import dao.AngazFacade;
 import dao.DeklaracjaPIT11SchowekFacade;
 import dao.KartaWynagrodzenFacade;
 import dao.PasekwynagrodzenFacade;
+import data.Data;
 import embeddable.Mce;
 import entity.Angaz;
 import entity.DeklaracjaPIT11Schowek;
@@ -59,7 +60,7 @@ public class KartaWynagrodzenView  implements Serializable {
     @Inject
     private DeklaracjaPIT11SchowekFacade deklaracjaPIT11SchowekFacade;
     private List<Kartawynagrodzen> sumypracownicy;
-    private Kartawynagrodzen wybranakarta;
+    private List<Kartawynagrodzen> listaselected;
     private PITPola wybranypitpola;
     private List<PITPola> pitpola;
     @Inject
@@ -166,10 +167,12 @@ public class KartaWynagrodzenView  implements Serializable {
         Kartawynagrodzen suma = new Kartawynagrodzen();
         suma.setAngaz(angaz);
         suma.setMc("razem");
+        int lata = 0;
         for (Kartawynagrodzen karta : kartawynagrodzenlist) {
             List<Angaz> angazzpaskow = new ArrayList<>();
             for (Iterator<Pasekwynagrodzen> it = paski.iterator(); it.hasNext();) {
                 Pasekwynagrodzen pasek = it.next();
+                lata = pasek.getLata();
                 if (pasek.getMcwypl().equals(karta.getMc())) {
                     //tu sie dodaje paski do karty wynagrodzen
                     if (!angazzpaskow.contains(pasek.getKalendarzmiesiac().getAngaz())) {
@@ -211,6 +214,8 @@ public class KartaWynagrodzenView  implements Serializable {
             }
         }
         suma.setNazwiskoiimie(nazwiskoiimie);
+        String ostatnidzien =  Data.ostatniDzien(wpisView.getRokWpisu(), "12");
+        suma.setWieklata(Data.obliczwieklata(angaz.getPracownik().getDataurodzenia(),ostatnidzien));
         sumy.put("sumaUmowaoprace", sumaUmowaoprace);
         sumy.put("sumaUmowaoprace26zwolnione", sumaUmowaoprace26zwolnione);
         sumy.put("sumaUmowaopracekosztypodwyzszone", sumaUmowaopracekosztypodwyzszone);
@@ -256,8 +261,9 @@ public class KartaWynagrodzenView  implements Serializable {
     }
     
     public void pit11All() {
-        if (sumypracownicy!=null && sumypracownicy.size()>0) {
-            for (Kartawynagrodzen karta : sumypracownicy) {
+        List<Kartawynagrodzen> lista = f.l.l(sumypracownicy, listaselected, null);
+        if (lista!=null && lista.size()>0) {
+            for (Kartawynagrodzen karta : lista) {
                 if (karta.isJestPIT11()==false && karta.getAngaz()!=null) {
                     Kartawynagrodzen kartawynagrodzen = karta;
                     FirmaKadry firma = kartawynagrodzen.getAngaz().getFirma();
@@ -379,13 +385,15 @@ public class KartaWynagrodzenView  implements Serializable {
         this.sumypracownicy = sumypracownicy;
     }
 
-    public Kartawynagrodzen getWybranakarta() {
-        return wybranakarta;
+    public List<Kartawynagrodzen> getListaselected() {
+        return listaselected;
     }
 
-    public void setWybranakarta(Kartawynagrodzen wybranakarta) {
-        this.wybranakarta = wybranakarta;
+    public void setListaselected(List<Kartawynagrodzen> listaselected) {
+        this.listaselected = listaselected;
     }
+
+   
 
     public PITPola getWybranypitpola() {
         return wybranypitpola;
