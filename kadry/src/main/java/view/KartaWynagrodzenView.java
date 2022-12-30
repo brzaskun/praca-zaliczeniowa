@@ -244,11 +244,11 @@ public class KartaWynagrodzenView  implements Serializable {
             FirmaKadry firma = kartawynagrodzen.getAngaz().getFirma();
             Pracownik pracownik = kartawynagrodzen.getAngaz().getPracownik();
             Object[] sciezka = beanstesty.PIT11_27Bean.generujXML(kartawynagrodzen, firma, pracownik, (byte)1, pracownik.getKodurzeduskarbowego(), kartawynagrodzen.getRok(), kartawynagrodzen.getSumy());
-            pl.gov.crd.wzor._2021._03._04._10477.Deklaracja deklaracja = (pl.gov.crd.wzor._2021._03._04._10477.Deklaracja)sciezka[2];
+            pl.gov.crd.wzor._2022._11._09._11890.Deklaracja deklaracja = (pl.gov.crd.wzor._2022._11._09._11890.Deklaracja)sciezka[2];
             if (deklaracja!=null) {
                 String polecenie = "wydrukXML(\""+(String)sciezka[0]+"\")";
                 PrimeFaces.current().executeScript(polecenie);
-                String nazwapliku = PdfPIT11.drukuj(deklaracja, wpisView.getUzer().getImieNazwiskoTelefon());
+                String nazwapliku = PdfPIT11.drukuj29(deklaracja, wpisView.getUzer().getImieNazwiskoTelefon());
                 DeklaracjaPIT11Schowek schowek = new DeklaracjaPIT11Schowek(deklaracja, firma, pracownik, wpisView.getRokWpisu(),"PIT11");
                 deklaracjaSchowekFacade.create(schowek);
                 polecenie = "wydrukPDF(\""+nazwapliku+"\")";
@@ -260,6 +260,36 @@ public class KartaWynagrodzenView  implements Serializable {
         }
     }
     
+//    public void pit11All_27() {
+//        List<Kartawynagrodzen> lista = f.l.l(sumypracownicy, listaselected, null);
+//        if (lista!=null && lista.size()>0) {
+//            for (Kartawynagrodzen karta : lista) {
+//                if (karta.isJestPIT11()==false && karta.getAngaz()!=null) {
+//                    Kartawynagrodzen kartawynagrodzen = karta;
+//                    FirmaKadry firma = kartawynagrodzen.getAngaz().getFirma();
+//                    Pracownik pracownik = kartawynagrodzen.getAngaz().getPracownik();
+//                    Object[] sciezka = beanstesty.PIT11_27Bean.generujXML(kartawynagrodzen, firma, pracownik, (byte)1, pracownik.getKodurzeduskarbowego(), kartawynagrodzen.getRok(), kartawynagrodzen.getSumy());
+//                    pl.gov.crd.wzor._2021._03._04._10477.Deklaracja deklaracja = (pl.gov.crd.wzor._2021._03._04._10477.Deklaracja)sciezka[2];
+//                    if (deklaracja!=null) {
+//                        String polecenie = "wydrukXML(\""+(String)sciezka[0]+"\")";
+//                        PrimeFaces.current().executeScript(polecenie);
+//                        String nazwapliku = PdfPIT11.drukuj(deklaracja, wpisView.getUzer().getImieNazwiskoTelefon());
+//                        DeklaracjaPIT11Schowek schowek = new DeklaracjaPIT11Schowek(deklaracja, firma, pracownik, wpisView.getRokWpisu(),"PIT11");
+//                        karta.setJestPIT11(true);
+//                        deklaracjaSchowekFacade.create(schowek);
+//                        listaPIT11.add(schowek);
+//                        polecenie = "wydrukPDF(\""+nazwapliku+"\")";
+//                        PrimeFaces.current().executeScript(polecenie);
+//                        Msg.msg("Wydrukowano PIT-11");
+//                    }
+//                }
+//            }
+//            init();
+//        } else {
+//            Msg.msg("e","Błąd generowania PIT-11. Brak karty wynagrodzeń");
+//        }
+//    }
+    
     public void pit11All() {
         List<Kartawynagrodzen> lista = f.l.l(sumypracownicy, listaselected, null);
         if (lista!=null && lista.size()>0) {
@@ -268,12 +298,12 @@ public class KartaWynagrodzenView  implements Serializable {
                     Kartawynagrodzen kartawynagrodzen = karta;
                     FirmaKadry firma = kartawynagrodzen.getAngaz().getFirma();
                     Pracownik pracownik = kartawynagrodzen.getAngaz().getPracownik();
-                    Object[] sciezka = beanstesty.PIT11_27Bean.generujXML(kartawynagrodzen, firma, pracownik, (byte)1, pracownik.getKodurzeduskarbowego(), kartawynagrodzen.getRok(), kartawynagrodzen.getSumy());
-                    pl.gov.crd.wzor._2021._03._04._10477.Deklaracja deklaracja = (pl.gov.crd.wzor._2021._03._04._10477.Deklaracja)sciezka[2];
+                    Object[] sciezka = beanstesty.PIT11_29Bean.generujXML(kartawynagrodzen, firma, pracownik, (byte)1, pracownik.getKodurzeduskarbowego(), kartawynagrodzen.getRok(), kartawynagrodzen.getSumy());
+                    pl.gov.crd.wzor._2022._11._09._11890.Deklaracja deklaracja = (pl.gov.crd.wzor._2022._11._09._11890.Deklaracja)sciezka[2];
                     if (deklaracja!=null) {
                         String polecenie = "wydrukXML(\""+(String)sciezka[0]+"\")";
                         PrimeFaces.current().executeScript(polecenie);
-                        String nazwapliku = PdfPIT11.drukuj(deklaracja, wpisView.getUzer().getImieNazwiskoTelefon());
+                        String nazwapliku = PdfPIT11.drukuj29(deklaracja, wpisView.getUzer().getImieNazwiskoTelefon());
                         DeklaracjaPIT11Schowek schowek = new DeklaracjaPIT11Schowek(deklaracja, firma, pracownik, wpisView.getRokWpisu(),"PIT11");
                         karta.setJestPIT11(true);
                         deklaracjaSchowekFacade.create(schowek);
@@ -310,8 +340,8 @@ public class KartaWynagrodzenView  implements Serializable {
                 byte[] deklaracja = deklaracjaPIT11Schowek.getDeklaracja(); //        ByteArrayInputStream in = new ByteArrayInputStream(this.deklaracja);
                 ByteArrayInputStream in = new ByteArrayInputStream(deklaracja);
                 is = new ObjectInputStream(in);
-                Deklaracja dekl = (Deklaracja) is.readObject();
-                String nazwapliku = PdfPIT11.drukuj(dekl, wpisView.getUzer().getImieNazwiskoTelefon());
+                pl.gov.crd.wzor._2022._11._09._11890.Deklaracja dekl = (pl.gov.crd.wzor._2022._11._09._11890.Deklaracja) is.readObject();
+                String nazwapliku = PdfPIT11.drukuj29(dekl, wpisView.getUzer().getImieNazwiskoTelefon());
                 String polecenie = "wydrukPDF(\"" + nazwapliku + "\")";
                 PrimeFaces.current().executeScript(polecenie);
                 Msg.msg("Pobrano deklaracje");

@@ -26,7 +26,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import pl.gov.crd.wzor._2021._03._04._10477.Deklaracja;
+
 
 /**
  *
@@ -95,7 +95,7 @@ public class DeklaracjaPIT11Schowek implements Serializable {
 //        return is.readObject();
 //    }
     
-    public DeklaracjaPIT11Schowek(Deklaracja deklaracja, FirmaKadry firma, Pracownik pracownik, String rokWpisu, String nazwa) {
+    public DeklaracjaPIT11Schowek(pl.gov.crd.wzor._2022._11._09._11890.Deklaracja deklaracja, FirmaKadry firma, Pracownik pracownik, String rokWpisu, String nazwa) {
         ByteArrayOutputStream boas = new ByteArrayOutputStream();
         try (ObjectOutputStream ois = new ObjectOutputStream(boas)) {
             ois.writeObject(deklaracja);

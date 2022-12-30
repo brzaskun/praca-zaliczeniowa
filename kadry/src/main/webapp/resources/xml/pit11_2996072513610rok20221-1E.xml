@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Deklaracja xmlns="http://crd.gov.pl/wzor/2022/11/09/11890/" xmlns:ns2="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2022/03/15/eD/DefinicjeTypy/" xmlns:ns4="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2022/03/15/eD/ORDZU/" xmlns:ns3="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2022/03/15/eD/PITR/">
+    <Naglowek>
+        <KodFormularza kodSystemowy="PIT-11 (29)" kodPodatku="PIT" rodzajZobowiazania="Z" wersjaSchemy="1-1E">PIT-11</KodFormularza>
+        <WariantFormularza>29</WariantFormularza>
+        <CelZlozenia poz="P_7">1</CelZlozenia>
+        <Rok>2022</Rok>
+        <KodUrzedu>3210</KodUrzedu>
+    </Naglowek>
+    <Podmiot1 rola="Płatnik/Składający">
+        <OsobaFizyczna>
+            <ns2:NIP>5671480969</ns2:NIP>
+            <ns2:ImiePierwsze>Krzysztof</ns2:ImiePierwsze>
+            <ns2:Nazwisko>Jegliński</ns2:Nazwisko>
+            <ns2:DataUrodzenia>1978-04-04</ns2:DataUrodzenia>
+        </OsobaFizyczna>
+    </Podmiot1>
+    <Podmiot2 rola="Podatnik">
+        <OsobaFizyczna>
+            <PESEL>96072513610</PESEL>
+            <ImiePierwsze>Alan</ImiePierwsze>
+            <Nazwisko>Muzolf</Nazwisko>
+            <DataUrodzenia>1996-07-25</DataUrodzenia>
+        </OsobaFizyczna>
+        <AdresZamieszkania rodzajAdresu="RAD">
+            <KodKraju poz="P_19A">PL</KodKraju>
+            <Wojewodztwo>zachodniopomorskie</Wojewodztwo>
+            <Powiat>Koszalin</Powiat>
+            <Gmina>Koszalin</Gmina>
+            <Ulica poz="P_23">Tetmajera</Ulica>
+            <NrDomu poz="P_24">12</NrDomu>
+            <NrLokalu poz="P_25">12</NrLokalu>
+            <Miejscowosc poz="P_26">Koszalin</Miejscowosc>
+            <KodPocztowy poz="P_27">75610</KodPocztowy>
+        </AdresZamieszkania>
+    </Podmiot2>
+    <PozycjeSzczegolowe>
+        <P_11>1</P_11>
+        <P_58>2346.1</P_58>
+        <P_59>404.89</P_59>
+        <P_60>1941.21</P_60>
+        <P_61>194</P_61>
+        <P_95>321.65</P_95>
+        <P_97>411.19</P_97>
+        <P_109>2999.16</P_109>
+        <P_110>2999.16</P_110>
+        <P_121>2</P_121>
+        <P_122>364.4</P_122>
+    </PozycjeSzczegolowe>
+    <Pouczenie>1</Pouczenie>
+</Deklaracja>

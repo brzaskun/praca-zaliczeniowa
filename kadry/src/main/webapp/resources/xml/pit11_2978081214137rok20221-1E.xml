@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Deklaracja xmlns="http://crd.gov.pl/wzor/2022/11/09/11890/" xmlns:ns2="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2022/03/15/eD/DefinicjeTypy/" xmlns:ns4="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2022/03/15/eD/ORDZU/" xmlns:ns3="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2022/03/15/eD/PITR/">
+    <Naglowek>
+        <KodFormularza kodSystemowy="PIT-11 (29)" kodPodatku="PIT" rodzajZobowiazania="Z" wersjaSchemy="1-1E">PIT-11</KodFormularza>
+        <WariantFormularza>29</WariantFormularza>
+        <CelZlozenia poz="P_7">1</CelZlozenia>
+        <Rok>2022</Rok>
+        <KodUrzedu>2815</KodUrzedu>
+    </Naglowek>
+    <Podmiot1 rola="Płatnik/Składający">
+        <OsobaFizyczna>
+            <ns2:NIP>5671480969</ns2:NIP>
+            <ns2:ImiePierwsze>Krzysztof</ns2:ImiePierwsze>
+            <ns2:Nazwisko>Jegliński</ns2:Nazwisko>
+            <ns2:DataUrodzenia>1978-04-04</ns2:DataUrodzenia>
+        </OsobaFizyczna>
+    </Podmiot1>
+    <Podmiot2 rola="Podatnik">
+        <OsobaFizyczna>
+            <PESEL>78081214137</PESEL>
+            <ImiePierwsze>Marcin</ImiePierwsze>
+            <Nazwisko>Obrycki</Nazwisko>
+            <DataUrodzenia>1978-08-12</DataUrodzenia>
+        </OsobaFizyczna>
+        <AdresZamieszkania rodzajAdresu="RAD">
+            <KodKraju poz="P_19A">PL</KodKraju>
+            <Wojewodztwo>warmińsko-mazurskie</Wojewodztwo>
+            <Powiat>piski</Powiat>
+            <Gmina>Pisz</Gmina>
+            <Ulica poz="P_23">-</Ulica>
+            <NrDomu poz="P_24">17</NrDomu>
+            <NrLokalu poz="P_25">17</NrLokalu>
+            <Miejscowosc poz="P_26">Liski</Miejscowosc>
+            <KodPocztowy poz="P_27">12200</KodPocztowy>
+        </AdresZamieszkania>
+    </Podmiot2>
+    <PozycjeSzczegolowe>
+        <P_11>1</P_11>
+        <P_28>1</P_28>
+        <P_29>12520.96</P_29>
+        <P_30>750.0</P_30>
+        <P_31>11770.96</P_31>
+        <P_33>433</P_33>
+        <P_95>1716.63</P_95>
+        <P_121>2</P_121>
+        <P_122>972.38</P_122>
+    </PozycjeSzczegolowe>
+    <Pouczenie>1</Pouczenie>
+</Deklaracja>

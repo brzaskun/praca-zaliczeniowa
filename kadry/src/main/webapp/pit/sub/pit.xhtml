@@ -9,8 +9,8 @@
     <p:tabView id="akordeon">
         <p:tab title="zestawienie do PIT-11">
     <p:outputPanel>
-        <p:commandButton value="pobierz" styleClass="buttonnorm" actionListener="#{kartaWynagrodzenView.init()}" update="KartyWynangrodzenPITForm"/>
-        <p:commandButton value="PIT-y 11" styleClass="buttonnorm2" actionListener="#{kartaWynagrodzenView.pit11All()}" update="KartyWynangrodzenPITForm wystawionepit11"/>
+        <p:commandButton value="pobierz" styleClass="buttonnorm" actionListener="#{kartaWynagrodzenView.init()}" update="akordeon:KartyWynangrodzenPITForm akordeon:wystawionepit11"/>
+        <p:commandButton value="PIT-y 11" styleClass="buttonnorm2" actionListener="#{kartaWynagrodzenView.pit11All()}" update="akordeon:KartyWynangrodzenPITForm akordeon:wystawionepit11"/>
     </p:outputPanel>
     <p:outputPanel style="margin: 10px;">
         <h:form id="KartyWynangrodzenPITForm">
