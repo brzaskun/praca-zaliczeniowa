@@ -21,6 +21,7 @@ import dao.ZmiennaPotraceniaFacade;
 import dao.ZmiennaWynagrodzeniaFacade;
 import data.Data;
 import embeddable.Mce;
+import embeddable.PanstwaMap;
 import entity.Angaz;
 import entity.Definicjalistaplac;
 import entity.EtatPrac;
@@ -54,6 +55,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 import kadryiplace.Okres;
 import kadryiplace.Osoba;
@@ -99,7 +101,10 @@ public class OsobaBean {
         pracownik.setDatazwolnienia(p.getOsoDataZwol());
         pracownik.setObywatelstwo(p.getOsoObywatelstwo().toLowerCase());
         //adres
-        pracownik.setKraj(p.getOsoPanSerial().getPanNazwa());
+        String kraj = robkraj(p.getOsoPanSerial().getPanNazwa());
+        pracownik.setKraj(kraj);
+        String krajsymbol = robkrajSymbol(p.getOsoPanSerial().getPanNazwa());
+        pracownik.setKrajsymbol(krajsymbol);
         pracownik.setWojewodztwo(p.getOsoWojewodztwo());
         pracownik.setPowiat(p.getOsoPowiat());
         pracownik.setGmina(p.getOsoGmina());
@@ -110,8 +115,9 @@ public class OsobaBean {
         }
         pracownik.setUlica(osoUlica);
         pracownik.setDom(p.getOsoDom());
-        pracownik.setLokal(p.getOsoDom());
-        pracownik.setKod(p.getOsoKod());
+        pracownik.setLokal(p.getOsoMieszkanie()!=null&&!p.getOsoMieszkanie().equals("")?p.getOsoMieszkanie():"-");
+        String kod = robkodpocztowy(p.getOsoKod(), pracownik.getKraj());
+        pracownik.setKod(kod);
         pracownik.setPoczta(p.getOsoPoczta());
         pracownik.setNierezydent(p.getOsoDod11() != null && p.getOsoDod11().equals('T'));
         pracownik.setKodurzeduskarbowego(kodurzedu);
@@ -1091,10 +1097,7 @@ public class OsobaBean {
         return selected;
     }
 
-    public static void main(String[] arg) {
-        String data = "1970-05-11";
-        System.out.println(obliczdata26(data));
-    }
+    
 
     static List<Pasekwynagrodzen> laczduplikaty(List<Pasekwynagrodzen> paskigotowe) {
         int i = 1;
@@ -1140,4 +1143,42 @@ public class OsobaBean {
         return paskigotowe;
     }
 
+    private static String robkodpocztowy(String osoKod, String kraj) {
+        String zwrot = osoKod;
+        if (kraj!=null&&kraj.toLowerCase(new Locale("pl","PL")).equals("polska")) {
+            if (osoKod!=null&&!osoKod.contains("-")) {
+                zwrot = osoKod.substring(0,2)+"-"+osoKod.substring(2,5);
+            }
+        }
+        return zwrot;
+    }
+
+    public static void main(String[] arg) {
+        String data = "72010";
+        String zwrot = robkraj("PL");
+        System.out.println(zwrot);
+    }
+
+    private static String robkraj(String panNazwa) {
+        String zwrot = panNazwa;
+        if (panNazwa!=null&&panNazwa.length()==2) {
+            String get = PanstwaMap.getWykazPanstwXS().get(panNazwa);
+            if (get!=null) {
+                zwrot = get;
+            }
+        }
+        return zwrot;
+    }
+    
+    private static String robkrajSymbol(String panNazwa) {
+        String zwrot = panNazwa;
+        if (panNazwa!=null) {
+            String get = PanstwaMap.getWykazPanstwSX().get(panNazwa);
+            if (get!=null) {
+                zwrot = get;
+            }
+        }
+        return zwrot;
+    }
+    
 }

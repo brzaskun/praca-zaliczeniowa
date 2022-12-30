@@ -181,7 +181,7 @@ public class PIT11_29Bean {
         adres.setRodzajAdresu(adres.getRodzajAdresu());
         Deklaracja.Podmiot2.AdresZamieszkania.KodKraju kraj = new Deklaracja.Podmiot2.AdresZamieszkania.KodKraju();
         kraj.setPoz(kraj.getPoz());
-        kraj.setValue(TKodKraju.PL);
+        kraj.setValue(TKodKraju.fromValue(pracownik.getKrajsymbol()));
         adres.setKodKraju(kraj);
         adres.setWojewodztwo(pracownik.getWojewodztwo());
         adres.setPowiat(pracownik.getPowiat());

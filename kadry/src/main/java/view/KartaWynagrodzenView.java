@@ -66,6 +66,7 @@ public class KartaWynagrodzenView  implements Serializable {
     @Inject
     private AngazFacade angazFacade;
     private List<DeklaracjaPIT11Schowek> listaPIT11;
+    
      
 
     

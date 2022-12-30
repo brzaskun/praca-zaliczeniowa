@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Deklaracja xmlns="http://crd.gov.pl/wzor/2022/11/09/11890/" xmlns:ns2="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2022/03/15/eD/DefinicjeTypy/" xmlns:ns4="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2022/03/15/eD/ORDZU/" xmlns:ns3="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2022/03/15/eD/PITR/">
+    <Naglowek>
+        <KodFormularza kodSystemowy="PIT-11 (29)" kodPodatku="PIT" rodzajZobowiazania="Z" wersjaSchemy="1-1E">PIT-11</KodFormularza>
+        <WariantFormularza>29</WariantFormularza>
+        <CelZlozenia poz="P_7">1</CelZlozenia>
+        <Rok>2022</Rok>
+        <KodUrzedu>3215</KodUrzedu>
+    </Naglowek>
+    <Podmiot1 rola="Płatnik/Składający">
+        <OsobaNiefizyczna>
+            <NIP>9552521552</NIP>
+            <PelnaNazwa>ALEXANDER GLOBAL LOGISTICS</PelnaNazwa>
+        </OsobaNiefizyczna>
+    </Podmiot1>
+    <Podmiot2 rola="Podatnik">
+        <OsobaFizyczna>
+            <PESEL>75061111776</PESEL>
+            <ImiePierwsze>Maciej</ImiePierwsze>
+            <Nazwisko>Budas</Nazwisko>
+            <DataUrodzenia>1975-06-11</DataUrodzenia>
+        </OsobaFizyczna>
+        <AdresZamieszkania rodzajAdresu="RAD">
+            <KodKraju poz="P_19A">PL</KodKraju>
+            <Wojewodztwo>zachodniopomorskie</Wojewodztwo>
+            <Powiat>Policki</Powiat>
+            <Gmina>Police</Gmina>
+            <Ulica poz="P_23">Kresowa</Ulica>
+            <NrDomu poz="P_24">2d</NrDomu>
+            <NrLokalu poz="P_25">9</NrLokalu>
+            <Miejscowosc poz="P_26">Police</Miejscowosc>
+            <KodPocztowy poz="P_27">72010</KodPocztowy>
+        </AdresZamieszkania>
+    </Podmiot2>
+    <PozycjeSzczegolowe>
+        <P_11>1</P_11>
+        <P_28>1</P_28>
+        <P_29>170000.0</P_29>
+        <P_30>3000.0</P_30>
+        <P_31>167000.0</P_31>
+        <P_33>21137</P_33>
+        <P_95>23307.0</P_95>
+        <P_121>2</P_121>
+        <P_122>13202.32</P_122>
+    </PozycjeSzczegolowe>
+    <Pouczenie>1</Pouczenie>
+</Deklaracja>

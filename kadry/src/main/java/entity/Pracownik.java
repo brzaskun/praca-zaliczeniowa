@@ -111,6 +111,9 @@ public class Pracownik implements Serializable {
     @Size(max = 45)
     @Column(name = "kraj")
     private String kraj;
+    @Size(max = 10)
+    @Column(name = "krajsymbol")
+    private String krajsymbol;
     @Size(max = 128)
     @Column(name = "wojewodztwo")
     private String wojewodztwo;
@@ -689,6 +692,14 @@ public class Pracownik implements Serializable {
 
     public void setZaliczkiwinnymkraju(boolean zaliczkiwinnymkraju) {
         this.zaliczkiwinnymkraju = zaliczkiwinnymkraju;
+    }
+
+    public String getKrajsymbol() {
+        return krajsymbol;
+    }
+
+    public void setKrajsymbol(String krajsymbol) {
+        this.krajsymbol = krajsymbol;
     }
 
      public String getAdres() {

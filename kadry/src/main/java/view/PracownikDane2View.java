@@ -10,6 +10,7 @@ import dao.AngazFacade;
 import dao.PracownikFacade;
 import dao.UzFacade;
 import data.Data;
+import embeddable.PanstwaMap;
 import entity.Angaz;
 import entity.Pracownik;
 import java.io.Serializable;
@@ -43,6 +44,8 @@ public class PracownikDane2View  implements Serializable {
     private WpisView wpisView;
     private List<Angaz> listapracownikow;
     private Angaz selectedangaz;
+    @Inject
+    private PanstwaMap panstwaMap;
     
     
     @PostConstruct
@@ -54,6 +57,7 @@ public class PracownikDane2View  implements Serializable {
     public void edit() {
       if (selected!=null) {
           try {
+            selected.setKrajsymbol(robkrajSymbol(selected.getKraj()));
             selected.setIpusera(IPaddress.getIpAddr((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest()));
             Calendar calendar = Calendar.getInstance();
             selected.setDatalogowania(Data.aktualnaDataCzas());
@@ -64,6 +68,17 @@ public class PracownikDane2View  implements Serializable {
               Msg.msg("e", "Błąd - nie zmieniono danych");
           }
       }
+    }
+    
+    private  String robkrajSymbol(String panNazwa) {
+        String zwrot = panNazwa;
+        if (panNazwa!=null) {
+            String get = panstwaMap.getWykazPanstwSX().get(panNazwa);
+            if (get!=null) {
+                zwrot = get;
+            }
+        }
+        return zwrot;
     }
     
     public void pobierzdane() {
