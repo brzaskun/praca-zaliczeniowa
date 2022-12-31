@@ -322,7 +322,45 @@ public class PIT11_29Bean {
             //czy dodano PIT-R 1tak 2nie
             poz.setP121((byte)2);
         }
-        if (sumaUmowaoprace26zwolnione.getBrutto()>0.0) {
+        if (sumaUmowaoprace26zwolnione.getBrutto()>85528.0) {
+            double kwotaponadlimit = sumaUmowaoprace26zwolnione.getBrutto()-85528.0;
+            double zus51 = sumaUmowaoprace26zwolnione.getRazemspolecznepracownik();
+            double zuszwolniony = Z.z(85528.0/sumaUmowaoprace26zwolnione.getBrutto()*zus51);
+            double zusopodatkowany = Z.z(zus51-zuszwolniony);
+            poz.setP28(null);
+            if (poz.getP97()!=null) {
+                poz.setP97(poz.getP97().add(BigDecimal.valueOf(Z.z(zuszwolniony))));
+            } else{
+                poz.setP97(BigDecimal.valueOf(Z.z(zuszwolniony)));
+            }
+            poz.setP110(BigDecimal.valueOf(Z.z(85528.0)));
+            if (poz.getP109()!=null) {
+                poz.setP109(poz.getP109().add(BigDecimal.valueOf(Z.z(85528.0))));
+            } else{
+                poz.setP109(BigDecimal.valueOf(Z.z(85528.0)));
+            }
+            if (poz.getP122()!=null) {
+                poz.setP122(poz.getP122().add(BigDecimal.valueOf(Z.z(sumaUmowaoprace26zwolnione.getPraczdrowotnedopotracenia()))));
+            } else{
+                poz.setP122(BigDecimal.valueOf(Z.z(sumaUmowaoprace26zwolnione.getPraczdrowotnedopotracenia())));
+            }
+            poz.setP121((byte)2);
+            //dodatek nadwyzke
+            poz.setP29(BigDecimal.valueOf(kwotaponadlimit));
+            poz.setP30(BigDecimal.valueOf(sumaUmowaoprace26zwolnione.getKosztyuzyskania()));
+            BigDecimal subtract = poz.getP29().subtract(poz.getP30());
+            if (poz.getP31()!=null) {
+                poz.setP31(poz.getP31().add(subtract));
+            } else{
+                poz.setP31(subtract);
+            }
+            poz.setP33(BigInteger.valueOf(Z.zUD(sumaUmowaoprace26zwolnione.getPodatekdochodowy())));
+            if (poz.getP95()!=null) {
+                poz.setP95(poz.getP95().add(BigDecimal.valueOf(Z.z(zusopodatkowany))));
+            } else{
+                poz.setP95(BigDecimal.valueOf(Z.z(zusopodatkowany)));
+            }
+        } else if (sumaUmowaoprace26zwolnione.getBrutto()>0.0) {
             poz.setP28(null);
             if (poz.getP97()!=null) {
                 poz.setP97(poz.getP97().add(BigDecimal.valueOf(Z.z(sumaUmowaoprace26zwolnione.getRazemspolecznepracownik()))));
@@ -342,7 +380,27 @@ public class PIT11_29Bean {
             }
             poz.setP121((byte)2);
         }
-        if (sumaUmowazlecenia26zwolnione.getBrutto()>0.0) {
+        if (sumaUmowazlecenia26zwolnione.getBrutto()>85528.0) {
+            double kwotaponadlimit = sumaUmowazlecenia26zwolnione.getBrutto()-85528.0;
+            poz.setP28(null);
+            if (poz.getP97()!=null) {
+                poz.setP97(poz.getP97().add(BigDecimal.valueOf(Z.z(sumaUmowazlecenia26zwolnione.getRazemspolecznepracownik()))));
+            } else{
+                poz.setP97(BigDecimal.valueOf(Z.z(sumaUmowazlecenia26zwolnione.getRazemspolecznepracownik())));
+            }
+            poz.setP111(BigDecimal.valueOf(Z.z(85528.0)));
+            if (poz.getP109()!=null) {
+                poz.setP109(poz.getP109().add(BigDecimal.valueOf(Z.z(85528.0))));
+            } else{
+                poz.setP109(BigDecimal.valueOf(Z.z(85528.0)));
+            }
+            if (poz.getP122()!=null) {
+                poz.setP122(poz.getP122().add(BigDecimal.valueOf(Z.z(sumaUmowazlecenia26zwolnione.getPraczdrowotnedopotracenia()))));
+            } else{
+                poz.setP122(BigDecimal.valueOf(Z.z(sumaUmowazlecenia26zwolnione.getPraczdrowotnedopotracenia())));
+            }
+            poz.setP121((byte)2);
+        } else  if (sumaUmowazlecenia26zwolnione.getBrutto()>0.0) {
             poz.setP28(null);
             if (poz.getP97()!=null) {
                 poz.setP97(poz.getP97().add(BigDecimal.valueOf(Z.z(sumaUmowazlecenia26zwolnione.getRazemspolecznepracownik()))));

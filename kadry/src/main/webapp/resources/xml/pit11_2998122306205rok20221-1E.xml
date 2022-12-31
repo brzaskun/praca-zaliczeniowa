@@ -5,48 +5,43 @@
         <WariantFormularza>29</WariantFormularza>
         <CelZlozenia poz="P_7">1</CelZlozenia>
         <Rok>2022</Rok>
-        <KodUrzedu>1445</KodUrzedu>
+        <KodUrzedu>3216</KodUrzedu>
     </Naglowek>
     <Podmiot1 rola="Płatnik/Składający">
         <OsobaFizyczna>
-            <ns2:NIP>7761623296</ns2:NIP>
-            <ns2:ImiePierwsze>Robert</ns2:ImiePierwsze>
-            <ns2:Nazwisko>Świderski</ns2:Nazwisko>
-            <ns2:DataUrodzenia>1986-04-28</ns2:DataUrodzenia>
+            <ns2:NIP>8511005008</ns2:NIP>
+            <ns2:ImiePierwsze>Grzegorz</ns2:ImiePierwsze>
+            <ns2:Nazwisko>Grzelczyk</ns2:Nazwisko>
+            <ns2:DataUrodzenia>1970-05-28</ns2:DataUrodzenia>
         </OsobaFizyczna>
     </Podmiot1>
     <Podmiot2 rola="Podatnik">
         <OsobaFizyczna>
-            <PESEL>97022300513</PESEL>
-            <ImiePierwsze>Adrian</ImiePierwsze>
-            <Nazwisko>Sołtysiak</Nazwisko>
-            <DataUrodzenia>1997-02-23</DataUrodzenia>
+            <PESEL>98122306205</PESEL>
+            <ImiePierwsze>Małgorzata</ImiePierwsze>
+            <Nazwisko>Kalbarczyk</Nazwisko>
+            <DataUrodzenia>1998-12-23</DataUrodzenia>
         </OsobaFizyczna>
         <AdresZamieszkania rodzajAdresu="RAD">
             <KodKraju poz="P_19A">PL</KodKraju>
-            <Wojewodztwo>mazowieckie</Wojewodztwo>
-            <Powiat>Żuromin</Powiat>
-            <Gmina>Żuromin</Gmina>
-            <Ulica poz="P_23">-</Ulica>
-            <NrDomu poz="P_24">49</NrDomu>
-            <NrLokalu poz="P_25">-</NrLokalu>
-            <Miejscowosc poz="P_26">Mleczówka</Miejscowosc>
-            <KodPocztowy poz="P_27">09-304</KodPocztowy>
+            <Wojewodztwo>zachodniopomorskie</Wojewodztwo>
+            <Powiat>Szczecin</Powiat>
+            <Gmina>Szczecin</Gmina>
+            <Ulica poz="P_23">Stanisława Leszczyńskiego</Ulica>
+            <NrDomu poz="P_24">1</NrDomu>
+            <NrLokalu poz="P_25">9</NrLokalu>
+            <Miejscowosc poz="P_26">Szczecin</Miejscowosc>
+            <KodPocztowy poz="P_27">70-394</KodPocztowy>
         </AdresZamieszkania>
     </Podmiot2>
     <PozycjeSzczegolowe>
         <P_11>1</P_11>
-        <P_28>1</P_28>
-        <P_29>15580.75</P_29>
-        <P_30>1500.0</P_30>
-        <P_31>14080.75</P_31>
-        <P_33>956</P_33>
-        <P_95>1893.81</P_95>
-        <P_97>10395.79</P_97>
-        <P_109>85528.0</P_109>
-        <P_110>85528.0</P_110>
+        <P_97>6855.0</P_97>
+        <P_109>55760.0</P_109>
+        <P_110>50000.0</P_110>
+        <P_111>5760.0</P_111>
         <P_121>2</P_121>
-        <P_122>6961.52</P_122>
+        <P_122>3883.1</P_122>
     </PozycjeSzczegolowe>
     <Pouczenie>1</Pouczenie>
 </Deklaracja>
