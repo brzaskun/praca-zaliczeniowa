@@ -449,7 +449,7 @@ public class PdfPIT11 {
                         ;
                 absTextW(writer, pobierz(ps.getP95()), 500, 120);
                 absTextW(writer, pobierz(ps.getP96()), 500, 95);
-                absTextW(writer, pobierz(ps.getP96()), 500, 70);
+                absTextW(writer, pobierz(ps.getP97()), 500, 70);
 //                absTextW(writer, pobierz(ps.getP78()), 500, 226);
 //                absTextW(writer, pobierz(ps.getP79()), 500, 198);
 //                absTextW(writer, pobierz(ps.getP80()), 500, 168);
