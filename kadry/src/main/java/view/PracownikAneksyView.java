@@ -8,6 +8,8 @@ package view;
 import dao.AngazFacade;
 import dao.SMTPSettingsFacade;
 import dao.UmowaFacade;
+import dao.ZmiennaWynagrodzeniaFacade;
+import data.Data;
 import entity.Angaz;
 import entity.FirmaKadry;
 import entity.SMTPSettings;
@@ -43,6 +45,8 @@ public class PracownikAneksyView  implements Serializable {
     private UmowaFacade umowaFacade;
     @Inject
     private SMTPSettingsFacade sMTPSettingsFacade;
+    @Inject
+    private ZmiennaWynagrodzeniaFacade zmiennaWynagrodzeniaFacade;
     private List<Umowa> listaumowy;
     private List<Umowa> listaumowyfiltered;
     private String dataaneksu;
@@ -63,6 +67,7 @@ public class PracownikAneksyView  implements Serializable {
                     for (Skladnikwynagrodzenia s : skladnikwynagrodzeniaList1) {
                         if (s.getRodzajwynagrodzenia().getKod().equals("11")||s.getRodzajwynagrodzenia().getKod().equals("50")) {
                             u.setZmiennawynagrodzenia(s.getOstatniaZmienna());
+                            u.setNetto0brutto1(s.getOstatniaZmienna().isNetto0brutto1());
                             break;
                         }
                     }
@@ -73,10 +78,10 @@ public class PracownikAneksyView  implements Serializable {
     
    
     
-    public void drukujaneks(Zmiennawynagrodzenia p) {
+    public void drukujaneks(Zmiennawynagrodzenia p, boolean netto0brutto1) {
         if (p != null && p.getId()!=null) {
             if (p.getNowakwota()>0.0) {
-                PdfUmowaoPrace.drukujaneks(p, dataaneksu);
+                PdfUmowaoPrace.drukujaneks(p, dataaneksu, netto0brutto1);
                 Msg.msg("Wydrukowano aneks");
             } else {
                 Msg.msg("e", "Nie wprowadzono nowej kwoty wynagrodzenia dla umowy");
@@ -113,10 +118,39 @@ public class PracownikAneksyView  implements Serializable {
                 mail.Mail.mailAneksydoUmowy(wpisView.getFirma(), wpisView.getFirma().getEmail(), null, findSprawaByDef, drukujmail.toByteArray(), nazwa, wpisView.getUzer().getEmail());
                 Msg.msg("Wysłano listę płac do pracodawcy");
             } else {
-                Msg.msg("e", "Nie wprowadzono, żadnych nowych kwot wynagrodzeń");
+                Msg.msg("e", "Nie wprowadzono żadnych nowych kwot wynagrodzeń");
             }
         } else {
-            Msg.msg("e", "Błąd drukowania. Brak pasków");
+            Msg.msg("e", "Błąd drukowania.");
+        }
+    }
+     
+      public void naniesZmienne() {
+        List<Umowa> lysta = CollectionUtils.isNotEmpty(listaumowyfiltered)? listaumowyfiltered: listaumowy;
+        if (lysta != null && lysta.size() > 0) {
+            boolean naniesc = false;
+            for (Umowa p : lysta) {
+                Zmiennawynagrodzenia zmienna = p.getZmiennawynagrodzenia();
+                if (zmienna!=null&&zmienna.getNowakwota()>0) {
+                    Zmiennawynagrodzenia nowazmienna = new Zmiennawynagrodzenia(zmienna, dataaneksu);
+                    nowazmienna.setAktywna(true);
+                    nowazmienna.setAneks(true);
+                    nowazmienna.setNetto0brutto1(p.isNetto0brutto1());
+                    zmiennaWynagrodzeniaFacade.create(nowazmienna);
+                    zmienna.setAktywna(false);
+                    zmienna.setDatado(Data.odejmijdni(dataaneksu,1));
+                    zmiennaWynagrodzeniaFacade.edit(zmienna);
+                    naniesc = true;
+                    break;
+                }
+            }
+            if (naniesc) {
+                Msg.msg("Naniesiono aneksy na zmienne");
+            } else {
+                Msg.msg("e", "Nie wprowadzono żadnych nowych kwot wynagrodzeń");
+            }
+        } else {
+            Msg.msg("e", "Błąd drukowania.");
         }
     }
     

@@ -196,6 +196,8 @@ public class Umowa implements Serializable {
     private Rozwiazanieumowy rozwiazanieumowy;
     @Transient
     private Zmiennawynagrodzenia zmiennawynagrodzenia;
+    @Transient
+    private  boolean netto0brutto1;
    
 
     public Umowa() {
@@ -312,6 +314,14 @@ public class Umowa implements Serializable {
 
     public void setZmiennawynagrodzenia(Zmiennawynagrodzenia zmiennawynagrodzenia) {
         this.zmiennawynagrodzenia = zmiennawynagrodzenia;
+    }
+
+    public boolean isNetto0brutto1() {
+        return netto0brutto1;
+    }
+
+    public void setNetto0brutto1(boolean netto0brutto1) {
+        this.netto0brutto1 = netto0brutto1;
     }
     
 

@@ -73,6 +73,8 @@ public class Zmiennawynagrodzenia implements Serializable {
     private double kwota;
     @Column(name = "aktywna")
     private  boolean aktywna;
+    @Column(name = "aneks")
+    private  boolean aneks;
     @Column(name = "minimalneustatowe")
     private  boolean minimalneustatowe;
     @Column(name = "nrkolejnyzmiennej")
@@ -102,15 +104,15 @@ public class Zmiennawynagrodzenia implements Serializable {
         this.waluta = "PLN";
     }
 
-
-    public Zmiennawynagrodzenia(Zmiennawynagrodzenia r) {
-        this.datado = r.getDatado();
-        this.dataod = r.getDataod();
+    //konstruktor tylko dla aneksowanai
+    public Zmiennawynagrodzenia(Zmiennawynagrodzenia r, String dataod) {
+        this.datado = null;
+        this.dataod = dataod;
         this.nazwa = r.getNazwa();
         this.waluta = r.getWaluta();
         this.netto0brutto1 = r.isNetto0brutto1();
         this.skladnikwynagrodzenia = r.getSkladnikwynagrodzenia();
-        this.kwota = r.getKwota();
+        this.kwota = r.getNowakwota();
         this.aktywna = r.isAktywna();
         this.minimalneustatowe = r.isMinimalneustatowe();
     }
@@ -261,6 +263,14 @@ public class Zmiennawynagrodzenia implements Serializable {
 
     public void setNowakwota(double nowakwota) {
         this.nowakwota = nowakwota;
+    }
+
+    public boolean isAneks() {
+        return aneks;
+    }
+
+    public void setAneks(boolean aneks) {
+        this.aneks = aneks;
     }
 
    

@@ -44,7 +44,7 @@
                         <p:dataTable id="datalist" value="#{zmiennaWynagrodzeniaView.lista}" var="itemzmiennawyn"
                                      selectionMode="single" selection="#{zmiennaWynagrodzeniaView.selectedlista}"
                                      rowKey="#{itemzmiennawyn.id}" emptyMessage="Składnik nie posiada zdefiniowanych zmiennych"
-                                     style="height: 200px; overflow-y: scroll;" sortMode="single"
+                                     style="height: 200px; overflow-y: scroll; width: 1000px;" sortMode="single"
                                      >
 
                             <p:column width="40" style="text-align: center;">
@@ -89,7 +89,7 @@
                             </p:column>
                             <p:column width="40" style="text-align: center;">
                                 <f:facet name="header">
-                                    <h:outputText value="kwota"/>
+                                    <h:outputText value="wal"/>
                                 </f:facet>
                                 <bcf:outputpl value="#{itemzmiennawyn.waluta}"/>
                             </p:column>
@@ -99,11 +99,23 @@
                                 </f:facet>
                                  <h:outputText value="&#x2714;" rendered="#{itemzmiennawyn.netto0brutto1 eq true}"/>
                             </p:column>
-                            <p:column width="20" style="text-align: center;">
+                            <p:column width="25" style="text-align: center;">
                                 <f:facet name="header">
                                     <h:outputText value="min. ust."/>
                                 </f:facet>
                                  <p:selectBooleanCheckbox value="#{itemzmiennawyn.minimalneustatowe}"/>
+                            </p:column>
+                             <p:column width="25" style="text-align: center;">
+                                <f:facet name="header">
+                                    <h:outputText value="aktyw."/>
+                                </f:facet>
+                                 <p:selectBooleanCheckbox value="#{itemzmiennawyn.aktywna}"/>
+                            </p:column>
+                             <p:column width="25" style="text-align: center;">
+                                <f:facet name="header">
+                                    <h:outputText value="aneks"/>
+                                </f:facet>
+                                 <p:selectBooleanCheckbox value="#{itemzmiennawyn.aneks}"/>
                             </p:column>
                             <p:column width="30" style="text-align: center;">
                                 <p:commandButton icon="pi pi-pencil"  actionListener="#{zmiennaWynagrodzeniaView.wybierzdoedycji(itemzmiennawyn)}" update="north, @(form) akordeon:ZmiennawynagrodzeniaCreateForm"/>

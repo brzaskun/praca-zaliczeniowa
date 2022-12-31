@@ -11,7 +11,7 @@
             <h:form id="AneksForm">
                 <p:outputPanel>
                     <p:panelGrid columns="2">
-                        <p:outputLabel for="dataaneksu" value="data aneksu" />
+                        <p:outputLabel for="dataaneksu" value="od kiedy zmiana" />
                         <p:inputText id="dataaneksu" value="#{pracownikAneksyView.dataaneksu}" placeholder="____-__-__" maxlength="10" required="true" requiredMessage="Wprowadź datę aneksu"/>
                         <p:outputLabel for="kwotaaneksu" value="kwota aneksu" />
                         <p:inputNumber id="kwotaaneksu" value="#{pracownikAneksyView.kwotaaneksu}"  size="14"  maxlength="7" decimalPlaces="2" decimalSeparator="." inputStyle="text-align: right">
@@ -23,7 +23,7 @@
                     <p:dataTable id="datalist" value="#{pracownikAneksyView.listaumowy}" var="itemUmowa" rowIndexVar="yndex" filteredValue="#{pracownikAneksyView.listaumowyfiltered}"
                                  selectionMode="single" 
                                  rowKey="#{itemUmowa.id}"  sortBy="#{itemUmowa.datado}"
-                                 style="height: 450px; overflow-y: scroll;width: 1450px;"
+                                 style="height: 450px; overflow-y: scroll;width: 1550px;"
                                  rowsPerPageTemplate="20,100,250,500" paginatorPosition="top" paginator="true" rows="20"
                                  emptyMessage="Nie pobrano listy"
                                  >
@@ -36,7 +36,7 @@
                             </f:facet>
                             <h:outputText value="#{yndex+1}"/>
                         </p:column>
-                        <p:column width="200" sortBy="#{itemUmowa.nazwiskoImie}">
+                        <p:column width="180" sortBy="#{itemUmowa.nazwiskoImie}">
                             <f:facet name="header">
                                 <h:outputText value="nazwisko i imię"/>
                             </f:facet>
@@ -97,6 +97,20 @@
                             </f:facet>
                             <h:outputText value="&#x2714;" rendered="#{itemUmowa.zmiennawynagrodzenia.minimalneustatowe}" style="color: green;"/>
                         </p:column>
+                         <p:column width="30" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="wal."/>
+                            </f:facet>
+                             <h:outputText value="#{itemUmowa.zmiennawynagrodzenia.waluta}"/>
+                        </p:column>
+                        <p:column width="30" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="brutto"/>
+                            </f:facet>
+                            <p:selectBooleanCheckbox value="#{itemUmowa.netto0brutto1}">
+                                <p:ajax event="change" partialSubmit="true" global="false"/>
+                            </p:selectBooleanCheckbox>
+                        </p:column>
                         <p:column width="70" >
                             <f:facet name="header">
                                 <h:outputText value="nowa kwota"/>
@@ -110,14 +124,15 @@
                             <f:facet name="header">
                                 <h:outputText value=""/>
                             </f:facet>
-                            <p:commandButton icon="pi pi-print" actionListener="#{pracownikAneksyView.drukujaneks(itemUmowa.zmiennawynagrodzenia)}" global="false"/>
+                            <p:commandButton icon="pi pi-print" actionListener="#{pracownikAneksyView.drukujaneks(itemUmowa.zmiennawynagrodzenia, itemUmowa.netto0brutto1)}" global="false"/>
                         </p:column>
                     </p:dataTable>
                 </p:outputPanel>
                 <p:outputPanel>
-                    <p:panelGrid columns="2">
+                    <p:panelGrid columns="3">
                         <p:commandButton value="drukuj wszystkie" styleClass="buttonnorm" actionListener="#{pracownikAneksyView.drukwszystkie()}" global="true"/>
                         <p:commandButton value="mail do firmy" styleClass="buttonnorm2" actionListener="#{pracownikAneksyView.mailAneksy()}" global="true"/>
+                        <p:commandButton value="nanieś zmienne" styleClass="buttonnorm2" actionListener="#{pracownikAneksyView.naniesZmienne()}" global="true"/>
                     </p:panelGrid>
                 </p:outputPanel>
             </h:form>
