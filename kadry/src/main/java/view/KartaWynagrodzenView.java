@@ -363,12 +363,7 @@ public class KartaWynagrodzenView  implements Serializable {
         if (deklaracjaPIT11Schowek != null) {
             deklaracjaPIT11SchowekFacade.remove(deklaracjaPIT11Schowek);
             listaPIT11.remove(deklaracjaPIT11Schowek);
-            for (Kartawynagrodzen p : sumypracownicy) {
-                if (p.getAngaz()!=null&&deklaracjaPIT11Schowek.getPracownik().equals(p.getAngaz().getPracownik())) {
-                    p.setJestPIT11(false);
-                    break;
-                }
-            }
+            init();
             Msg.msg("Usuni\u0119to dekalracje");
         } else {
             Msg.msg("e", "B\u0142\u0105d, nie usuni\u0119to dekalracji");
