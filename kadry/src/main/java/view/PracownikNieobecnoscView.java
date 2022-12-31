@@ -290,11 +290,11 @@ public class PracownikNieobecnoscView  implements Serializable {
                     }
                 }
             }
-            double nowywymiarwdniach = wymiarwdniach;
+            double nowywymiarwdniach =  Math.ceil(wymiarwdniach*etat.getEtat1()/etat.getEtat2());
             if (napoczetemiesiace.size()>0) {
                 nowywymiarwdniach = (int) (Math.ceil(wymiarwdniach/12.0*napoczetemiesiace.size()));
             }
-            double wymiargodzin = (nowywymiarwdniach*8*etat.getEtat1())/etat.getEtat2();
+            double wymiargodzin = (nowywymiarwdniach*8*etat.getEtat1()/etat.getEtat2());
         return (int) wymiargodzin;
     }
     
