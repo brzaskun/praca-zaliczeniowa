@@ -16,7 +16,7 @@
                             <h:outputText id="firmakalendarz" value="#{kalendarzGlobalnyView.selected.firma.nazwa}"/>
                             <p:outputLabel value="rok" for="rok" />
                             <p:inputText id="rok" value="#{kalendarzGlobalnyView.selected.rok}" title="rok" >
-                                <p:ajax event="change" partialSubmit="true" listener="#{kalendarzGlobalnyView.zrobkalendarzumowa}" global="false" update="akordeon:KalendarzwzorListGlobForm" />
+                                <p:ajax event="blur" partialSubmit="true" listener="#{kalendarzGlobalnyView.zrobkalendarzumowa}" global="false" update="akordeon:KalendarzwzorListGlobForm" />
                             </p:inputText>
                             <p:outputLabel value="miesiąc" for="mc" />
                             <p:inputText id="mc" value="#{kalendarzGlobalnyView.selected.mc}" title="mc" >

@@ -17,6 +17,8 @@ import entity.FirmaKadry;
 import entity.Kalendarzmiesiac;
 import entity.Kalendarzwzor;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
@@ -123,11 +125,11 @@ public class KalendarzGlobalnyView  implements Serializable {
     }
     
     public void zrobkalendarzumowa() {
-            if (selected!=null && selected.getFirma()!=null) {
-            if (selected.getRok()!=null&&selected.getMc()!=null) {
+        if (selected != null && selected.getFirma() != null) {
+            if (selected.getRok() != null && selected.getMc() != null) {
                 try {
                     Kalendarzwzor znaleziono = kalendarzwzorFacade.findByFirmaRokMc(selected.getFirma(), selected.getRok(), selected.getMc());
-                    if (znaleziono!=null) {
+                    if (znaleziono != null) {
                         selected = znaleziono;
                         Msg.msg("Pobrano kalendarz z bazy danych");
                     } else {
@@ -140,7 +142,8 @@ public class KalendarzGlobalnyView  implements Serializable {
                         selected.zrobkolejnedni(poprzedni);
                         Msg.msg("Przygotowano kalendarz");
                     }
-                } catch (Exception e){}
+                } catch (Exception e) {
+                }
             }
         } else {
             Msg.msg("e", "Błąd - nie wybrano firmy dla kalendarza");
@@ -165,19 +168,27 @@ public class KalendarzGlobalnyView  implements Serializable {
     }
    
        
-//    public void ustaw() {
-//        List<Dzien> dni  = dzienFacade.findAll();
-//        List<Dzien> sortedList = dni.stream()
-//			.sorted(Comparator.comparingInt(Dzien::getId))
-//			.collect(Collectors.toList());
-//        int i = 1;
-//        for (Dzien dzien: sortedList) {
-//            dzien.setNoweid(i);
-//            i = i+1;
-//        }
-//        dzienFacade.editList(sortedList);
-//        System.out.println("KONIEC");
-//    }
+    public void ustaw() {
+        List<Dzien> dni  = dzienFacade.findAll();
+        List<Dzien> sortedList = new ArrayList<>(dni);
+        List<Dzien> dousuniecia = new ArrayList<>();
+        List<Integer> pomin = new ArrayList<>();
+        int i = 1;
+        for (Iterator<Dzien> it = sortedList.iterator(); it.hasNext();) {
+            Dzien dzienwybrany = it.next();
+            if (!pomin.contains(dzienwybrany.getId())) {
+                for (Dzien d : dni) {
+                    if (d.getDatastring().equals(dzienwybrany.getDatastring())&&d.getId()!=dzienwybrany.getId()) {
+                        dousuniecia.add(dzienwybrany);
+                        pomin.add(d.getId());
+                        break;
+                    }
+                }
+            }
+        }
+        dzienFacade.removeList(dousuniecia);
+        System.out.println("KONIEC");
+    }
     
     public Kalendarzwzor getSelected() {
         return selected;

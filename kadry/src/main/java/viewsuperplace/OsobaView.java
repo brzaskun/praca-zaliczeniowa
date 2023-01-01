@@ -32,6 +32,7 @@ import dao.UmowaFacade;
 import dao.UmowakodzusFacade;
 import dao.ZmiennaPotraceniaFacade;
 import dao.ZmiennaWynagrodzeniaFacade;
+import embeddable.PanstwaMap;
 import embeddable.TKodUS;
 import entity.Angaz;
 import entity.Definicjalistaplac;
@@ -93,6 +94,8 @@ public class OsobaView implements Serializable {
     private WpisView wpisView;
     @Inject
     private HistoriaView historiaView;
+    @Inject
+    private PanstwaMap panstwaMap;
     @Inject
     private SlownikszkolazatrhistoriaFacade slownikszkolazatrhistoriaFacade;
     @Inject
@@ -162,7 +165,13 @@ public class OsobaView implements Serializable {
             } else {
                 log.add("BŁĄD. Brak wybranych pracowników. Przerwano import pracowników firmy "+wpisView.getFirma());
                 Msg.msg("e","Nie wybrano osoób");
-            }   log.add("Zakończono import pracowników firmy "+wpisView.getFirma());
+            }   
+            log.add("****************************************************************");
+            if (wybraneosoby!=null) {
+                log.add("Zakończono import "+wybraneosoby.size()+" pracowników firmy "+wpisView.getFirma());
+            } else {
+                log.add("Zakończono import pracowników firmy "+wpisView.getFirma());
+            }
 //            FacesContext facesContext = FacesContext.getCurrentInstance();
 //            ExternalContext externalContext = facesContext.getExternalContext();
 //            externalContext.setResponseContentType("text/plain");
@@ -226,7 +235,7 @@ public class OsobaView implements Serializable {
                                 log.add("BŁĄD. Brak kodu urzedu skarbowego pracownika "+osoba.getOsoNazwisko()+" "+osoba.getOsoImie1());
                             }
                         }
-                        pracownik = OsobaBean.pobierzOsobaBasic(osoba, kodurzedu, nazwaurzedu);
+                        pracownik = OsobaBean.pobierzOsobaBasic(osoba, kodurzedu, nazwaurzedu, panstwaMap);
                         String email = pracownik.getNazwisko()+pracownik.getImie()+"@taxman.biz.pl";
                         email = email.toLowerCase(new Locale("pl","PL"));
                         pracownik.setEmail(email);

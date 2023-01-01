@@ -83,7 +83,7 @@ import z.Z;
  */
 public class OsobaBean {
 
-    public static Pracownik pobierzOsobaBasic(Osoba p, String kodurzedu, String nazwaurzedu) {
+    public static Pracownik pobierzOsobaBasic(Osoba p, String kodurzedu, String nazwaurzedu, PanstwaMap panstwaMap) {
         Pracownik pracownik = new Pracownik();
         pracownik.setImie(p.getOsoImie1());
         pracownik.setDrugieimie(p.getOsoImie2());
@@ -103,7 +103,7 @@ public class OsobaBean {
         //adres
         String kraj = robkraj(p.getOsoPanSerial().getPanNazwa());
         pracownik.setKraj(kraj);
-        String krajsymbol = robkrajSymbol(p.getOsoPanSerial().getPanNazwa());
+        String krajsymbol = robkrajSymbol(p.getOsoPanSerial().getPanNazwa(), panstwaMap);
         pracownik.setKrajsymbol(krajsymbol);
         pracownik.setWojewodztwo(p.getOsoWojewodztwo());
         pracownik.setPowiat(p.getOsoPowiat());
@@ -264,6 +264,7 @@ public class OsobaBean {
                             Kalendarzwzor pobranywzorcowy = kalendarzwzorFacade.findByFirmaRokMc(kal.getAngaz().getFirma(), kal.getRok(), mce);
                             if (pobranywzorcowy != null) {
                                 kal.ganerujdnizwzrocowego(pobranywzorcowy, dzienod, etaty);
+                                kal.setNorma(pobranywzorcowy.getNorma());
                                 zwrot.add(kal);
                                 dzienod = 1;
                             } else {
@@ -1170,10 +1171,10 @@ public class OsobaBean {
         return zwrot;
     }
     
-    private static String robkrajSymbol(String panNazwa) {
+    private static String robkrajSymbol(String panNazwa, PanstwaMap panstwaMap) {
         String zwrot = panNazwa;
         if (panNazwa!=null) {
-            String get = PanstwaMap.getWykazPanstwSX().get(panNazwa);
+            String get = panstwaMap.getWykazPanstwSX().get(panNazwa);;
             if (get!=null) {
                 zwrot = get;
             }
