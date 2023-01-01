@@ -15,6 +15,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import msg.Msg;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
@@ -47,6 +48,18 @@ public class DokumentyWykazView implements Serializable {
                 .contentType("application/pdf")
                 .stream(() -> targetStream)
                 .build();
+    }
+    
+    public void usun(Dokumenty dok) {
+        if (dok!=null) {
+            try {
+                dokumentyFacade.remove(dok);
+                lista.remove(dok);
+                Msg.msg("Usunięto dokument");
+            } catch (Exception e) {
+                Msg.msg("e","Błąd, nie usunięto dokumentu");
+            }
+        }
     }
 
     public StreamedContent getFile(Dokumenty dok) {

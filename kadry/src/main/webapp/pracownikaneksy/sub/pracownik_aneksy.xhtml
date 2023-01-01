@@ -185,6 +185,9 @@
                             <p:commandButton  icon="pi pi-arrow-down" ajax="false" onclick="PrimeFaces.monitorDownload(showStatus, hideStatus)"   >
                                   <p:fileDownload value="#{dokumentyWykazView.getFile(itemAneks)}" />
                             </p:commandButton>
+                            <p:commandButton value="usuń" actionListener="#{dokumentyWykazView.usun(itemAneks)}" update="AneksWykazForm" styleClass="buttonnorm2" >
+                         <p:confirm type="popup" header="Usuwanie dokumentu pracownika" message="Na pewno usunąć dokument?" icon="pi pi-exclamation-triangle"/>
+                    </p:commandButton>
                         </p:column>
                      </p:dataTable>
                 </p:outputPanel>
