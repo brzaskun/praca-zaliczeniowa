@@ -70,9 +70,11 @@ public class PracownikAneksyView  implements Serializable {
                 if (skladnikwynagrodzeniaList1 != null) {
                     for (Skladnikwynagrodzenia s : skladnikwynagrodzeniaList1) {
                         if (s.getRodzajwynagrodzenia().getKod().equals("11")||s.getRodzajwynagrodzenia().getKod().equals("50")) {
-                            u.setZmiennawynagrodzenia(s.getOstatniaZmienna());
-                            u.setNetto0brutto1(s.getOstatniaZmienna().isNetto0brutto1());
-                            break;
+                            if (s.getOstatniaZmienna()!=null) {
+                                u.setZmiennawynagrodzenia(s.getOstatniaZmienna());
+                                u.setNetto0brutto1(s.getOstatniaZmienna().isNetto0brutto1());
+                                break;
+                            }
                         }
                     }
                 }
