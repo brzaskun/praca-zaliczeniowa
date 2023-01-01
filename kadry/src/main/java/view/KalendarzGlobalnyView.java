@@ -7,6 +7,7 @@ package view;
 
 import beanstesty.KalendarzWzorBean;
 import beanstesty.KalendarzmiesiacBean;
+import dao.DzienFacade;
 import dao.FirmaKadryFacade;
 import dao.KalendarzmiesiacFacade;
 import dao.KalendarzwzorFacade;
@@ -39,6 +40,8 @@ public class KalendarzGlobalnyView  implements Serializable {
     private List<Kalendarzwzor> lista;
     @Inject
     private KalendarzwzorFacade kalendarzwzorFacade;
+    @Inject
+    private DzienFacade dzienFacade;
     @Inject
     private KalendarzmiesiacFacade kalendarzmiesiacFacade;
     @Inject
@@ -161,7 +164,20 @@ public class KalendarzGlobalnyView  implements Serializable {
         }
     }
    
-    
+       
+//    public void ustaw() {
+//        List<Dzien> dni  = dzienFacade.findAll();
+//        List<Dzien> sortedList = dni.stream()
+//			.sorted(Comparator.comparingInt(Dzien::getId))
+//			.collect(Collectors.toList());
+//        int i = 1;
+//        for (Dzien dzien: sortedList) {
+//            dzien.setNoweid(i);
+//            i = i+1;
+//        }
+//        dzienFacade.editList(sortedList);
+//        System.out.println("KONIEC");
+//    }
     
     public Kalendarzwzor getSelected() {
         return selected;

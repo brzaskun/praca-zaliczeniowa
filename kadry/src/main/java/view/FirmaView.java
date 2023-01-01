@@ -243,15 +243,14 @@ public class FirmaView  implements Serializable {
     
     public void usun(FirmaKadry firma) {
         if (firma!=null) {
-            if (wpisView.getFirma()!=null && wpisView.getFirma().equals(firma)) {
                 wpisView.setFirma(null);
                 wpisView.setAngaz(null);
                 wpisView.setUmowa(null);
-            }
+                wpisView.usunMemory();
             try {
                 firmaKadryFacade.remove(firma);
                 lista.remove(firma);
-                Msg.msg("Usunięto firmę");
+                Msg.msg("Usunięto firmę. Wybierz nową firmę");
             } catch (Exception e) {
                 Msg.msg("e","Wystąpił błąd. Nie usunięto firmy");
             }

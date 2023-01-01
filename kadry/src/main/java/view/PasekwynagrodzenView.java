@@ -12,6 +12,7 @@ import comparator.Defnicjalistaplaccomparator;
 import comparator.Kalendarzmiesiaccomparator;
 import comparator.Sredniadlanieobecnoscicomparator;
 import dao.DefinicjalistaplacFacade;
+import dao.FirmaKadryFacade;
 import dao.KalendarzmiesiacFacade;
 import dao.KalendarzwzorFacade;
 import dao.LimitdochodudwaszescFacade;
@@ -113,6 +114,8 @@ public class PasekwynagrodzenView implements Serializable {
     private LimitdochodudwaszescFacade limitdochodudwaszescFacade;
     @Inject
     private RachunekdoumowyzleceniaFacade rachunekdoumowyzleceniaFacade;
+    @Inject
+    private FirmaKadryFacade firmaKadryFacade;
     @Inject
     private WpisView wpisView;
     private Rodzajlistyplac rodzajlistyplac;
@@ -346,9 +349,10 @@ public class PasekwynagrodzenView implements Serializable {
     public void symulacjaoblicz(String rodzajumowy) {
         if (symulacjabrrutto > 0.0) {
             int i = 1;
+            FirmaKadry firmaglobalna = firmaKadryFacade.findByNIP("0000000000");
             List<Podatki> stawkipodatkowe = podatkiFacade.findByRokUmowa(wpisView.getRokWpisu(), "P");
             if (stawkipodatkowe != null && !stawkipodatkowe.isEmpty()) {
-                Kalendarzwzor kalendarzwzor = kalendarzwzorFacade.findByFirmaRokMc(wpisView.getFirma(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
+                Kalendarzwzor kalendarzwzor = kalendarzwzorFacade.findByFirmaRokMc(firmaglobalna, wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
                 Kalendarzmiesiac kalendarz = new Kalendarzmiesiac();
                 kalendarz.setRok(wpisView.getRokWpisu());
                 kalendarz.setMc(wpisView.getMiesiacWpisu());

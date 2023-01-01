@@ -286,6 +286,7 @@ public class Dzien implements Serializable {
         return id;
     }
 
+    
     public void setId(Integer id) {
         this.id = id;
     }

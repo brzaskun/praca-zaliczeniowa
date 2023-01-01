@@ -166,7 +166,7 @@ public class UmowaView implements Serializable {
 
         listakodyzawodow = kodyzawodowFacade.findAll();
         datadzisiejsza = Data.aktualnaData();
-        miejscowosc = wpisView.getFirma().getMiasto();
+        miejscowosc = wpisView.getFirma()!=null?wpisView.getFirma().getMiasto():"brak firmy";
         selected = new Umowa();
         etat1 = 1;
         etat2 = 1;

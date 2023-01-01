@@ -91,7 +91,9 @@ public class WpisView implements Serializable {
     
     private Memory createMemory() {
             Memory zwrot = new Memory(this.uzer, uzer.getFirma(),null, Data.aktualnyRok(), Data.aktualnyMc());
-            memoryFacade.create(zwrot);
+            if (zwrot.getFirma()!=null) {
+                memoryFacade.create(zwrot);
+            }
             return zwrot;
     }
     
@@ -181,9 +183,11 @@ public class WpisView implements Serializable {
             memory.setFirma(firma);
             memoryFacade.edit(memory);
         } else {
-            memory = createMemory();
-            memory.setFirma(firma);
-            memoryFacade.edit(memory);
+            if (firma!=null) {
+                memory = createMemory();
+                memory.setFirma(firma);
+                memoryFacade.edit(memory);
+            }
         }
         this.firma = firma;
     }
@@ -197,9 +201,11 @@ public class WpisView implements Serializable {
             memory.setPracownik(pracownik);
             memoryFacade.edit(memory);
         }else {
-            memory = createMemory();
-            memory.setPracownik(pracownik);
-            memoryFacade.edit(memory);
+            if (pracownik!=null) {
+                memory = createMemory();
+                memory.setPracownik(pracownik);
+                memoryFacade.edit(memory);
+            }
         }
         this.pracownik = pracownik;
     }
@@ -212,6 +218,12 @@ public class WpisView implements Serializable {
         if (memory!=null) {
             memory.setAngaz(angaz);
             memoryFacade.edit(memory);
+        } else {
+            if (angaz!=null) {
+                memory = createMemory();
+                memory.setAngaz(angaz);
+                memoryFacade.edit(memory);
+            }
         }
         this.angaz = angaz;
     }
@@ -224,10 +236,25 @@ public class WpisView implements Serializable {
         if (memory!=null) {
             memory.setUmowa(umowa);
             memoryFacade.edit(memory);
+        } else {
+            if (umowa!=null) {
+                memory = createMemory();
+                memory.setUmowa(umowa);
+                memoryFacade.edit(memory);
+            }
         }
         this.umowa = umowa;
     }
 
+    void usunMemory() {
+        if (memory!=null&&memory.getId()!=null) {
+            if (memory.getFirma()==null&&memory.getAngaz()==null&&memory.getUmowa()==null) {
+                memoryFacade.remove(memory);
+                memory=null;
+            }
+        }
+    }
+    
     void memorize() {
         if (memory!=null&&memory.getId()!=null) {
             memoryFacade.edit(memory);
