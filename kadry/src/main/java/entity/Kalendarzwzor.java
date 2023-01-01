@@ -24,6 +24,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -34,7 +35,9 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author Osito
  */
 @Entity
-@Table(name = "kalendarzwzor")
+@Table(name = "kalendarzwzor", uniqueConstraints = {
+    @UniqueConstraint(columnNames={"firma","rok", "mc"})
+})
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Kalendarzwzor.findAll", query = "SELECT k FROM Kalendarzwzor k"),
@@ -42,7 +45,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Kalendarzwzor.findByRok", query = "SELECT k FROM Kalendarzwzor k WHERE k.rok = :rok"),
     @NamedQuery(name = "Kalendarzwzor.findByRokMc", query = "SELECT k FROM Kalendarzwzor k WHERE k.rok = :rok AND k.mc = :mc"),
     @NamedQuery(name = "Kalendarzwzor.findByMc", query = "SELECT k FROM Kalendarzwzor k WHERE k.mc = :mc"),
-    @NamedQuery(name = "Kalendarzwzor.findByFirmaRok", query = "SELECT k FROM Kalendarzwzor k WHERE k.firma=:firma AND k.rok=:rok"),
+    @NamedQuery(name = "Kalendarzwzor.findByFirmaRok", query = "SELECT k FROM Kalendarzwzor k WHERE k.firma=:firma AND k.rok=:rok ORDER BY k.mc"),
     @NamedQuery(name = "Kalendarzwzor.findByFirmaRokMc", query = "SELECT k FROM Kalendarzwzor k WHERE k.firma=:firma AND k.rok=:rok AND k.mc = :mc")
 })
 public class Kalendarzwzor implements Serializable {
