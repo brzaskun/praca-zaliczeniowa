@@ -10,6 +10,7 @@ import dao.SwiadczeniekodzusFacade;
 import entity.Swiadczeniekodzus;
 import java.io.Serializable;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -29,10 +30,14 @@ public class SwiadczeniekodzusView  implements Serializable {
     private SwiadczeniekodzusFacade swiadczeniekodzusFacade;
     private Swiadczeniekodzus selectedlista;
     private List<Swiadczeniekodzus> lista;
+    private boolean pokazwszytskieskladniki;
     
     @PostConstruct
-    private void init() {
+    public void init() {
         lista = swiadczeniekodzusFacade.findAll();
+         if (pokazwszytskieskladniki==false) {
+            lista = lista.stream().filter(p->p.isAktywne()).collect(Collectors.toList());
+        }
     }
 
     public void zachowaj() {
@@ -55,6 +60,15 @@ public class SwiadczeniekodzusView  implements Serializable {
     public void setLista(List<Swiadczeniekodzus> lista) {
         this.lista = lista;
     }
+
+    public boolean isPokazwszytskieskladniki() {
+        return pokazwszytskieskladniki;
+    }
+
+    public void setPokazwszytskieskladniki(boolean pokazwszytskieskladniki) {
+        this.pokazwszytskieskladniki = pokazwszytskieskladniki;
+    }
+    
     
    @Inject
     private DAOsuperplace.AbsencjaFacade absencjaFacade;

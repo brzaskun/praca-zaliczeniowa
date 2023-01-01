@@ -9,6 +9,7 @@ import dao.RodzajlistyplacFacade;
 import entity.Rodzajlistyplac;
 import java.io.Serializable;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
@@ -27,11 +28,15 @@ public class RodzajlistyplacView  implements Serializable {
     private RodzajlistyplacFacade rodzajlistyplacFacade;
     private Rodzajlistyplac selectedlista;
     private List<Rodzajlistyplac> lista;
+    private boolean pokazwszytskieskladniki;
     
     
     @PostConstruct
-    private void init() {
+    public void init() {
         lista = rodzajlistyplacFacade.findAll();
+        if (pokazwszytskieskladniki==false) {
+            lista = lista.stream().filter(p->p.isAktywna()).collect(Collectors.toList());
+        }
     }
 
     public void zachowaj() {
@@ -54,6 +59,15 @@ public class RodzajlistyplacView  implements Serializable {
     public void setLista(List<Rodzajlistyplac> lista) {
         this.lista = lista;
     }
+
+    public boolean isPokazwszytskieskladniki() {
+        return pokazwszytskieskladniki;
+    }
+
+    public void setPokazwszytskieskladniki(boolean pokazwszytskieskladniki) {
+        this.pokazwszytskieskladniki = pokazwszytskieskladniki;
+    }
+    
     
     
     

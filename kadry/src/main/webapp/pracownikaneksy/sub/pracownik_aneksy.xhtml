@@ -7,7 +7,7 @@
 
     xmlns:bcf="http://brzaskun.com/facelets">
     <p:tabView id="akordeon">
-        <p:tab title="czas trwania umowy">
+        <p:tab title="sporządzanie aneksów">
             <h:form id="AneksForm">
                 <p:outputPanel>
                     <p:panelGrid columns="2">
@@ -129,10 +129,11 @@
                     </p:dataTable>
                 </p:outputPanel>
                 <p:outputPanel>
-                    <p:panelGrid columns="3">
+                    <p:panelGrid columns="4">
                         <p:commandButton value="drukuj wszystkie" styleClass="buttonnorm" actionListener="#{pracownikAneksyView.drukwszystkie()}" global="true"/>
                         <p:commandButton value="mail do firmy" styleClass="buttonnorm2" actionListener="#{pracownikAneksyView.mailAneksy()}" global="true"/>
                         <p:commandButton value="nanieś zmienne" styleClass="buttonnorm2" actionListener="#{pracownikAneksyView.naniesZmienne()}" global="true"/>
+                        <p:commandButton value="archiwizuj aneksy" styleClass="buttonnorm2" actionListener="#{pracownikAneksyView.archiwizujAneksy()}" global="true"/>
                     </p:panelGrid>
                 </p:outputPanel>
             </h:form>
@@ -140,6 +141,54 @@
                 <h:outputText value="Adres email do wysyłki aneksów: #{wpisView.getFirma().getEmail()}" style="color: #136e13;margin-top: 10px;"/>
             </p:outputPanel>
         </p:tab>
-
+        <p:tab title="wykaz aneksów">
+            <h:form id="AneksWykazForm">
+                <p:outputPanel>
+                     <p:dataTable id="aneksylist" value="#{dokumentyWykazView.lista}" var="itemAneks" rowIndexVar="yndexa" filteredValue="#{dokumentyWykazView.listafiltered}"
+                                 selectionMode="single" 
+                                 rowKey="#{itemAneks.id}"  sortBy="#{itemAneks.data}"
+                                 style="height: 450px; overflow-y: scroll;width: 550px;"
+                                 rowsPerPageTemplate="20,100,250,500" paginatorPosition="top" paginator="true" rows="20"
+                                 emptyMessage="Nie pobrano listy"
+                                 >
+                        <f:facet name="header">
+                            <h:outputText value="Zestawienie zachowanych aneksów"/>
+                        </f:facet>
+                        <p:column width="20" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="lp"/>
+                            </f:facet>
+                            <h:outputText value="#{yndexa+1}"/>
+                        </p:column>
+                         <p:column width="70" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="data"/>
+                            </f:facet>
+                             <h:outputText value="#{itemAneks.data}"/>
+                        </p:column>
+                         <p:column width="100" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="data"/>
+                            </f:facet>
+                             <h:outputText value="#{itemAneks.angaz.pracownik.nazwiskoImie}"/>
+                        </p:column>
+                        <p:column width="20" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="aneks"/>
+                            </f:facet>
+                              <h:outputText value="&#x2714;" rendered="#{itemAneks.aneks}" style="color: green;"/>
+                        </p:column>
+                         <p:column width="20" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value=""/>
+                            </f:facet>
+                            <p:commandButton  icon="pi pi-arrow-down" ajax="false" onclick="PrimeFaces.monitorDownload(showStatus, hideStatus)"   >
+                                  <p:fileDownload value="#{dokumentyWykazView.getFile(itemAneks)}" />
+                            </p:commandButton>
+                        </p:column>
+                     </p:dataTable>
+                </p:outputPanel>
+            </h:form>
+        </p:tab>
     </p:tabView>
 </ui:composition>

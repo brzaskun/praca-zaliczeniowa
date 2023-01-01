@@ -74,11 +74,17 @@
             </p:tab>
             <p:tab title="Rodzaje umów">
                 <h:form id="RodzajUmowyForm">
+                     <p:outputPanel>
+                        <p:outputLabel for="znacznik1" value="pokaż wszystkie składniki "/><!-- comment -->
+                        <p:selectBooleanCheckbox id="znacznik1" value="#{rodzjaumowySetView.pokazwszytskieskladniki}">
+                            <p:ajax event="change" listener="#{rodzjaumowySetView.init()}" partialSubmit="true" update="RodzajUmowyForm"/>
+                        </p:selectBooleanCheckbox>
+                    </p:outputPanel>
                     <p:dataTable id="datalist" value="#{rodzjaumowySetView.lista}" var="item111"
                                  selectionMode="single" selection="#{rodzjaumowySetView.selectedlista}"
                                  rowKey="#{item111.id}" rowIndexVar="indexumowa" 
                                  scrollable="true" scrollHeight="700" scrollRows="30" 
-                                 style="width: 1800px;"
+                                 style="width: 1820px;"
                                  emptyMessage="Nie pobrano elementów"
                                  >
 
@@ -95,7 +101,7 @@
                             </f:facet>
                             <h:outputText value="#{item111.kod}"/>
                         </p:column>
-                        <p:column width="750" filterBy="#{item111.opis}" filterMatchMode="contains">
+                        <p:column width="730" filterBy="#{item111.opis}" filterMatchMode="contains">
                             <f:facet name="header">
                                 <h:outputText value="opis"/>
                             </f:facet>
@@ -137,6 +143,12 @@
             </p:tab>
             <p:tab title="Rodzaje składników wynagrodzeń">
                 <h:form id="RodzajwynagrodzeniaForm">
+                    <p:outputPanel>
+                        <p:outputLabel for="znacznik1" value="pokaż wszystkie składniki "/><!-- comment -->
+                        <p:selectBooleanCheckbox id="znacznik1" value="#{rodzjawynagrodzeniaSetView.pokazwszytskieskladniki}">
+                            <p:ajax event="change" listener="#{rodzjawynagrodzeniaSetView.init()}" partialSubmit="true" update="RodzajwynagrodzeniaForm"/>
+                        </p:selectBooleanCheckbox>
+                    </p:outputPanel>
                     <p:dataTable id="datalistr" value="#{rodzjawynagrodzeniaSetView.lista}" var="item11"
                                  selectionMode="single" selection="#{rodzjawynagrodzeniaSetView.selectedlista}"
                                  rowKey="#{item11.id}" emptyMessage="Nie znaleziono takiego składnika"
@@ -262,6 +274,12 @@
             </p:tab>
             <p:tab title="Rodzaje list płac">
                 <h:form id="ListaPlacForm">
+                      <p:outputPanel>
+                        <p:outputLabel for="znacznik1" value="pokaż wszystkie składniki "/><!-- comment -->
+                        <p:selectBooleanCheckbox id="znacznik1" value="#{rodzajlistyplacView.pokazwszytskieskladniki}">
+                            <p:ajax event="change" listener="#{rodzajlistyplacView.init()}" partialSubmit="true" update="ListaPlacForm"/>
+                        </p:selectBooleanCheckbox>
+                    </p:outputPanel>
                     <p:dataTable id="datalistsa" value="#{rodzajlistyplacView.lista}" var="item17"
                                  selectionMode="single" selection="#{rodzajlistyplacView.selectedlista}"
                                  rowKey="#{item17.id}"
@@ -326,6 +344,12 @@
             </p:tab>
             <p:tab title="Symbole nieobecności">
                 <h:form id="SlownikNieobecnosciForm">
+                     <p:outputPanel>
+                        <p:outputLabel for="znacznik1" value="pokaż wszystkie składniki "/><!-- comment -->
+                        <p:selectBooleanCheckbox id="znacznik1" value="#{swiadczeniekodzusView.pokazwszytskieskladniki}">
+                            <p:ajax event="change" listener="#{swiadczeniekodzusView.init()}" partialSubmit="true" update="SlownikNieobecnosciForm"/>
+                        </p:selectBooleanCheckbox>
+                    </p:outputPanel>
                     <p:dataTable id="datalistn" value="#{swiadczeniekodzusView.lista}" var="item13"
                                  selectionMode="single" selection="#{swiadczeniekodzusView.selectedlista}"
                                  rowKey="#{item13.id}" 
@@ -394,6 +418,7 @@
             </p:tab>
             <p:tab title="Rodzaje nieobecności">
                 <h:form id="RodzajeNieobecnosciForm">
+                    
                     <p:dataTable id="datalistn" value="#{rodzajenieobecnosciView.lista}" var="item13roz"
                                  selectionMode="single" selection="#{rodzajenieobecnosciView.selectedlista}"
                                  rowKey="#{item13roz.id}" rowIndexVar="yndexvar" sortBy="#{item13roz.kolejnosc}"

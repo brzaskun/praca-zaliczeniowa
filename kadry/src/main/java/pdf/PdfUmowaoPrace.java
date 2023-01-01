@@ -195,6 +195,31 @@ public class PdfUmowaoPrace {
         }
     }
     
+    public static ByteArrayOutputStream drukujaneksMail(Zmiennawynagrodzenia p, String dataaneksu, boolean netto0brutto1) {
+        ByteArrayOutputStream out = new ByteArrayOutputStream(); 
+        try {
+            Angaz angaz = p.getSkladnikwynagrodzenia().getAngaz();
+            String nazwa = angaz.getPracownik().getPesel()+"umowa.pdf";
+            if (angaz != null) {
+                Document document = PdfMain.inicjacjaA4Portrait(80,60);
+                PdfWriter writer = PdfWriter.getInstance(document, out);
+                writer.setInitialLeading(16);
+                writer.setViewerPreferences(PdfWriter.PageLayoutSinglePage);
+                naglowekStopkaP(writer);
+                otwarcieDokumentu(document, nazwa);
+                dodajtrescAneks(p, angaz, document, dataaneksu, netto0brutto1);
+                finalizacjaDokumentuQR(document,nazwa);
+                String f = "pokazwydruk('"+nazwa+"');";
+                PrimeFaces.current().executeScript(f);
+            } else {
+                Msg.msg("w", "Nie ma Paska do wydruku");
+            }
+        } catch (Exception e) {
+            E.e(e);
+        }
+        return out;
+    }
+    
     public static void drukujanekswszystkie(List<Umowa> listaumowy, FirmaKadry firmaKadry, String dataaneksu) {
         try {
             String nazwa = firmaKadry.getNip()+"aneksy.pdf";
@@ -356,6 +381,8 @@ public class PdfUmowaoPrace {
             E.e(ex);
         }
     }
+
+    
       
 }
 

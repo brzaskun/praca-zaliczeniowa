@@ -6,11 +6,13 @@
 package view;
 
 import dao.AngazFacade;
+import dao.DokumentyFacade;
 import dao.SMTPSettingsFacade;
 import dao.UmowaFacade;
 import dao.ZmiennaWynagrodzeniaFacade;
 import data.Data;
 import entity.Angaz;
+import entity.Dokumenty;
 import entity.FirmaKadry;
 import entity.SMTPSettings;
 import entity.Skladnikwynagrodzenia;
@@ -43,6 +45,8 @@ public class PracownikAneksyView  implements Serializable {
     private AngazFacade angazFacade;
     @Inject
     private UmowaFacade umowaFacade;
+    @Inject
+    private DokumentyFacade dokumentyFacade;
     @Inject
     private SMTPSettingsFacade sMTPSettingsFacade;
     @Inject
@@ -122,6 +126,32 @@ public class PracownikAneksyView  implements Serializable {
             }
         } else {
             Msg.msg("e", "Błąd drukowania.");
+        }
+    }
+     
+      public void archiwizujAneksy() {
+        List<Umowa> lysta = CollectionUtils.isNotEmpty(listaumowyfiltered)? listaumowyfiltered: listaumowy;
+        if (lysta != null && lysta.size() > 0) {
+            boolean wysylac = false;
+            for (Umowa p : lysta) {
+                if (p.getZmiennawynagrodzenia()!=null&&p.getZmiennawynagrodzenia().getNowakwota()>0) {
+                    ByteArrayOutputStream plik = PdfUmowaoPrace.drukujaneksMail(p.getZmiennawynagrodzenia(), dataaneksu, p.isNetto0brutto1());
+                    Dokumenty dokument = new Dokumenty();
+                    dokument.setDokument(plik.toByteArray());
+                    dokument.setData(Data.aktualnaData());
+                    dokument.setAngaz(p.getAngaz());
+                    dokument.setAneks(true);
+                    dokumentyFacade.create(dokument);
+                    wysylac = true;
+                }
+            }
+            if (wysylac) {
+                Msg.msg("Archiwizuje aneksy");
+            } else {
+                Msg.msg("e", "Nie wprowadzono żadnych nowych kwot wynagrodzeń");
+            }
+        } else {
+            Msg.msg("e", "Błąd archiwizowanai.");
         }
     }
      

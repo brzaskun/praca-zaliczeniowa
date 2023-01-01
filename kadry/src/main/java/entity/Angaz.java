@@ -127,7 +127,8 @@ public class Angaz implements Serializable {
     private List<Stanowiskoprac> stanowiskopracList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "angaz")
     private List<Nieobecnoscprezentacja> urlopprezentacjaList;
-
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "angaz")
+    private List<Dokumenty> dokumentyList;
 
     public Angaz() {
     }
@@ -417,6 +418,16 @@ public class Angaz implements Serializable {
         this.serialsp = serialsp;
     }
 
+    public List<Dokumenty> getDokumentyList() {
+        return dokumentyList;
+    }
+
+    public void setDokumentyList(List<Dokumenty> dokumentyList) {
+        this.dokumentyList = dokumentyList;
+    }
+
+    
+    
     @XmlTransient
     public List<Kartawynagrodzen> getKartawynagrodzenList() {
         return kartawynagrodzenList;

@@ -9,6 +9,7 @@ import dao.UmowakodzusFacade;
 import entity.Umowakodzus;
 import java.io.Serializable;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
@@ -27,10 +28,14 @@ public class RodzjaumowySetView  implements Serializable {
     private UmowakodzusFacade umowakodzusFacade;
     private Umowakodzus selectedlista;
     private List<Umowakodzus> lista;
+    private boolean pokazwszytskieskladniki;
     
     @PostConstruct
-    private void init() {
+    public void init() {
         lista = umowakodzusFacade.findAll();
+        if (pokazwszytskieskladniki==false) {
+            lista = lista.stream().filter(p->p.isAktywny()).collect(Collectors.toList());
+        }
     }
 
     public void zachowaj() {
@@ -54,6 +59,14 @@ public class RodzjaumowySetView  implements Serializable {
 
     public void setSelectedlista(Umowakodzus selectedlista) {
         this.selectedlista = selectedlista;
+    }
+
+    public boolean isPokazwszytskieskladniki() {
+        return pokazwszytskieskladniki;
+    }
+
+    public void setPokazwszytskieskladniki(boolean pokazwszytskieskladniki) {
+        this.pokazwszytskieskladniki = pokazwszytskieskladniki;
     }
     
     

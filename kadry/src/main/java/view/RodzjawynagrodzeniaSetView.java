@@ -10,6 +10,7 @@ import dao.RodzajwynagrodzeniaFacade;
 import entity.Rodzajwynagrodzenia;
 import java.io.Serializable;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
@@ -29,11 +30,14 @@ public class RodzjawynagrodzeniaSetView  implements Serializable {
     private RodzajwynagrodzeniaFacade rodzajwynagrodzeniaFacade;
     private Rodzajwynagrodzenia selectedlista;
     private List<Rodzajwynagrodzenia> lista;
-    
+    private boolean pokazwszytskieskladniki;
     
     @PostConstruct
-    private void init() {
+    public void init() {
         lista = rodzajwynagrodzeniaFacade.findAll();
+        if (pokazwszytskieskladniki==false) {
+            lista = lista.stream().filter(p->p.isAktywne()).collect(Collectors.toList());
+        }
     }
 
     public void zachowaj() {
@@ -77,6 +81,14 @@ public class RodzjawynagrodzeniaSetView  implements Serializable {
 
     public void setSelectedlista(Rodzajwynagrodzenia selectedlista) {
         this.selectedlista = selectedlista;
+    }
+
+    public boolean isPokazwszytskieskladniki() {
+        return pokazwszytskieskladniki;
+    }
+
+    public void setPokazwszytskieskladniki(boolean pokazwszytskieskladniki) {
+        this.pokazwszytskieskladniki = pokazwszytskieskladniki;
     }
     
     
