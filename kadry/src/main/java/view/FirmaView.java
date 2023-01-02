@@ -146,6 +146,7 @@ public class FirmaView  implements Serializable {
                 if (kalmiesiac==null) {
                     Kalendarzwzor znaleziono = kalendarzwzorFacade.findByFirmaRokMc(firmaglobalna, kal.getRok(), mce);
                     if (znaleziono!=null) {
+                        kal.setNorma(znaleziono.getNorma());
                         kal.generujdnizglobalnego(znaleziono);
                         kalendarzwzorFacade.create(kal);
                     } else {
