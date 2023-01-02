@@ -1020,6 +1020,7 @@ public class PasekwynagrodzenBean {
             } else {
                 if (Integer.parseInt(pasek.getRokwypl())<2022) {
                     double limitdlazdrowotnej = Z.z(pasek.getPodstawaopodatkowania()*0.17-pasek.getKwotawolnadlazdrowotnej())>0.0?Z.z(pasek.getPodstawaopodatkowania()*0.17-pasek.getKwotawolnadlazdrowotnej()):0.0;
+                    //spawa
                     if (zdrowotneodliczane>limitdlazdrowotnej&&Z.z(pasek.getKwotawolna())>0.0) {
                         pasek.setPraczdrowotne(limitdlazdrowotnej);
                         pasek.setPraczdrowotnedoodliczenia(limitdlazdrowotnej);
