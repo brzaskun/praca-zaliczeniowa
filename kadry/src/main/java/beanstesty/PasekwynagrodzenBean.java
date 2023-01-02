@@ -1009,8 +1009,10 @@ public class PasekwynagrodzenBean {
         } else {
             if (pasek.isDo26lat()) {
                 double limitdlazdrowotnej = Z.z(pasek.getPodstawaopodatkowania()*0.17-pasek.getKwotawolnadlazdrowotnej())>0.0?Z.z(pasek.getPodstawaopodatkowania()*0.17-pasek.getKwotawolnadlazdrowotnej()):0.0;
-                zdrowotne = zdrowotne>limitdlazdrowotnej?Z.z(limitdlazdrowotnej):zdrowotne;
-                zdrowotneodliczane = zdrowotneodliczane>limitdlazdrowotnej?Z.z(limitdlazdrowotnej):zdrowotneodliczane;
+                if (Z.z(pasek.getKwotawolna())>0.0) {
+                    zdrowotne = zdrowotne>limitdlazdrowotnej?Z.z(limitdlazdrowotnej):zdrowotne;
+                    zdrowotneodliczane = zdrowotneodliczane>limitdlazdrowotnej?Z.z(limitdlazdrowotnej):zdrowotneodliczane;
+                }
                 pasek.setPraczdrowotne(zdrowotne);
                 zdrowotneodliczane = Integer.parseInt(pasek.getRokwypl())<2022?zdrowotneodliczane:0.0;
                 pasek.setPraczdrowotnedoodliczenia(zdrowotneodliczane);
@@ -1018,7 +1020,7 @@ public class PasekwynagrodzenBean {
             } else {
                 if (Integer.parseInt(pasek.getRokwypl())<2022) {
                     double limitdlazdrowotnej = Z.z(pasek.getPodstawaopodatkowania()*0.17-pasek.getKwotawolnadlazdrowotnej())>0.0?Z.z(pasek.getPodstawaopodatkowania()*0.17-pasek.getKwotawolnadlazdrowotnej()):0.0;
-                    if (zdrowotneodliczane>limitdlazdrowotnej) {
+                    if (zdrowotneodliczane>limitdlazdrowotnej&&Z.z(pasek.getKwotawolna())>0.0) {
                         pasek.setPraczdrowotne(limitdlazdrowotnej);
                         pasek.setPraczdrowotnedoodliczenia(limitdlazdrowotnej);
                         pasek.setPraczdrowotnedopotracenia(0.0);
