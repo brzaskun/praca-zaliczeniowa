@@ -222,6 +222,7 @@ public class OsobaView implements Serializable {
                 boolean moznadalej = false;
                 Osoba osoba = osobaFacade.findBySerial(serial);
                 Pracownik pracownik = pracownikFacade.findByPesel(osoba.getOsoPesel());
+                System.out.println("OsobaView 225");
                 if (pracownik == null) {
                     try {
                         String kodurzedu = null;

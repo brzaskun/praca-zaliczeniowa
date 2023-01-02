@@ -90,15 +90,20 @@ public class OsobaBean {
         pracownik.setNazwisko(p.getOsoNazwisko());
         pracownik.setPesel(p.getOsoPesel());
         pracownik.setDowodosobisty(p.getOsoDodVchar1());
-        pracownik.setDataurodzenia(Data.data_yyyyMMdd(p.getOsoUrodzData()));
+        System.out.println("Osobabeans 93");
+        if (p.getOsoUrodzData()!=null) {
+            pracownik.setDataurodzenia(Data.data_yyyyMMddNull(p.getOsoUrodzData()));
+        }
         pracownik.setPlec(p.getOsoPlec().toString());
         pracownik.setOjciec(p.getOsoImieOjca());
         pracownik.setMatka(p.getOsoImieMatki());
         pracownik.setMiejsceurodzenia(p.getOsoMiejsceUr());
         pracownik.setFormawynagrodzenia(p.getOsoWynForma());
         pracownik.setBankkonto(p.getOsoKonto());
+        System.out.println("Osobabeans 102");
         pracownik.setDatazatrudnienia(p.getOsoDataZatr());
         pracownik.setDatazwolnienia(p.getOsoDataZwol());
+        System.out.println("Osobabeans 105");
         pracownik.setObywatelstwo(p.getOsoObywatelstwo().toLowerCase());
         //adres
         String kraj = robkraj(p.getOsoPanSerial().getPanNazwa());
@@ -1149,9 +1154,12 @@ public class OsobaBean {
     private static String robkodpocztowy(String osoKod, String kraj) {
         String zwrot = osoKod;
         if (kraj!=null&&kraj.toLowerCase(new Locale("pl","PL")).equals("polska")) {
-            if (osoKod!=null&&!osoKod.contains("-")) {
+            if (osoKod!=null&&!osoKod.contains("-")&&osoKod.length()==5) {
                 zwrot = osoKod.substring(0,2)+"-"+osoKod.substring(2,5);
             }
+        }
+        if (zwrot == null) {
+            zwrot = "brak kodu";
         }
         return zwrot;
     }
