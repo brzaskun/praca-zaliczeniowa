@@ -350,7 +350,9 @@ public class OsobaBean {
                     for (Zmiennawynagrodzenia r : nowezmienne) {
                         if (zmiennaWynagrodzeniaFacade.findByDataSkladnik(r) == false) {
                             r.setSkladnikwynagrodzenia(pobrany);
-                            zmiennaWynagrodzeniaFacade.edit(r);
+                            try {
+                                zmiennaWynagrodzeniaFacade.edit(r);
+                            } catch (Exception e){}
                         }
                     }
                 }

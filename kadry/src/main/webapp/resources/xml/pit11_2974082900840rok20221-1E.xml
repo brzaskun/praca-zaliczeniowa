@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Deklaracja xmlns="http://crd.gov.pl/wzor/2022/11/09/11890/" xmlns:ns2="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2022/03/15/eD/DefinicjeTypy/" xmlns:ns4="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2022/03/15/eD/ORDZU/" xmlns:ns3="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2022/03/15/eD/PITR/">
+    <Naglowek>
+        <KodFormularza kodSystemowy="PIT-11 (29)" kodPodatku="PIT" rodzajZobowiazania="Z" wersjaSchemy="1-1E">PIT-11</KodFormularza>
+        <WariantFormularza>29</WariantFormularza>
+        <CelZlozenia poz="P_7">1</CelZlozenia>
+        <Rok>2022</Rok>
+        <KodUrzedu>3215</KodUrzedu>
+    </Naglowek>
+    <Podmiot1 rola="Płatnik/Składający">
+        <OsobaFizyczna>
+            <ns2:NIP>8511005008</ns2:NIP>
+            <ns2:ImiePierwsze>Grzegorz</ns2:ImiePierwsze>
+            <ns2:Nazwisko>Grzelczyk</ns2:Nazwisko>
+            <ns2:DataUrodzenia>1970-05-28</ns2:DataUrodzenia>
+        </OsobaFizyczna>
+    </Podmiot1>
+    <Podmiot2 rola="Podatnik">
+        <OsobaFizyczna>
+            <PESEL>74082900840</PESEL>
+            <ImiePierwsze>Renata</ImiePierwsze>
+            <Nazwisko>Brzozowska</Nazwisko>
+            <DataUrodzenia>1974-08-29</DataUrodzenia>
+        </OsobaFizyczna>
+        <AdresZamieszkania rodzajAdresu="RAD">
+            <KodKraju poz="P_19A">PL</KodKraju>
+            <Wojewodztwo>Zachodniopomorskie</Wojewodztwo>
+            <Powiat>Police</Powiat>
+            <Gmina>Dobra Szczecińska</Gmina>
+            <Ulica poz="P_23">Cyprysowa</Ulica>
+            <NrDomu poz="P_24">3</NrDomu>
+            <NrLokalu poz="P_25">-</NrLokalu>
+            <Miejscowosc poz="P_26">Dobra Szczecinska</Miejscowosc>
+            <KodPocztowy poz="P_27">72-003</KodPocztowy>
+        </AdresZamieszkania>
+    </Podmiot2>
+    <PozycjeSzczegolowe>
+        <P_11>1</P_11>
+        <P_28>1</P_28>
+        <P_29>47185.72</P_29>
+        <P_30>3000.0</P_30>
+        <P_31>44185.72</P_31>
+        <P_33>1111</P_33>
+        <P_95>6469.22</P_95>
+        <P_121>2</P_121>
+        <P_122>3664.5</P_122>
+    </PozycjeSzczegolowe>
+    <Pouczenie>1</Pouczenie>
+</Deklaracja>

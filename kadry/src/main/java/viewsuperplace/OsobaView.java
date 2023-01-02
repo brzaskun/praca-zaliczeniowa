@@ -157,10 +157,11 @@ public class OsobaView implements Serializable {
             if (wybraneosoby!=null) {
                 List<Osoba> osoby = historiaView.getOsoby();
                 for (Osoba osoba : wybraneosoby) {
-                    serial = String.valueOf(osoba.getOsoSerial());
-                    rob(log, String.valueOf(osoba.getOsoSerial()) ,osoby);
+                    if (osoba.getOsoDodVchar3()==null||!osoba.getOsoDodVchar3().equals("tak")) {
+                        serial = String.valueOf(osoba.getOsoSerial());
+                        rob(log, String.valueOf(osoba.getOsoSerial()) ,osoby);
+                    }
                 }
-                wybraneosoby = null;
                 Msg.msg("Pobrano grupę osób");
             } else {
                 log.add("BŁĄD. Brak wybranych pracowników. Przerwano import pracowników firmy "+wpisView.getFirma());
@@ -169,8 +170,10 @@ public class OsobaView implements Serializable {
             log.add("****************************************************************");
             if (wybraneosoby!=null) {
                 log.add("Zakończono import "+wybraneosoby.size()+" pracowników firmy "+wpisView.getFirma());
+                wybraneosoby = null;
             } else {
                 log.add("Zakończono import pracowników firmy "+wpisView.getFirma());
+                wybraneosoby = null;
             }
 //            FacesContext facesContext = FacesContext.getCurrentInstance();
 //            ExternalContext externalContext = facesContext.getExternalContext();
@@ -423,6 +426,8 @@ public class OsobaView implements Serializable {
                                 NieobecnosciBean.nanies(p, nieobecnoscFacade, kalendarzmiesiacFacade);
                             }
                             log.add("Naniesiono nieobecnosci na kalendarz");
+                            log.add("Zakończono import PRACA pracownika "+pracownik.getNazwiskoImie());
+                            log.add("****************************************************************************************");
                         }
                         //pobranie funkcja
                         if (umowakodzusfunkcja!=null) {
@@ -530,6 +535,8 @@ public class OsobaView implements Serializable {
                                 NieobecnosciBean.nanies(p, nieobecnoscFacade, kalendarzmiesiacFacade);
                             }
                             log.add("Naniesiono nieobecnosci na kalendarz");
+                            log.add("Zakończono import FUNKCJA pracownika "+pracownik.getNazwiskoImie());
+                            log.add("****************************************************************************************");
                         }
                         //pobieranie umow zlecenia
                         if (umowakodzuszlecenie!=null) {
@@ -658,15 +665,18 @@ public class OsobaView implements Serializable {
                                     log.add("Udane zachowanie wygenerowanych kalendarzy za 2023");
                                     Msg.msg("Zrobiono kalendarz za 2023 umowa zlecenia");
                                 }
+                                log.add("Zakończono import ZLECENIE pracownika "+pracownik.getNazwiskoImie());
+                                log.add("****************************************************************************************");
                                 //koniec paski 2023 umowa zlecenia
                             } catch (Exception e) {
                                 E.e(e);
                                 log.add("BŁĄD. Przerywam import umowa zlecenia");
                                 log.add(E.e(e));
                             }
-                            log.add("Zakończono import pracownika");
+                            
                         }
-
+                        log.add("KONIEC import pracownika "+pracownik.getNazwiskoImie());
+                        log.add("__________________________________________________________________________________________________________");
                         Msg.msg("Przeniesiono nieobecności");
                         //        //ubezpieczenia u danej osoby
                         //        List<OsobaDet> osobaDet = osoba.getOsobaDetList();

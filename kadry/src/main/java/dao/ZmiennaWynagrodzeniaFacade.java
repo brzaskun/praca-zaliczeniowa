@@ -56,9 +56,11 @@ public class ZmiennaWynagrodzeniaFacade extends DAO implements Serializable {
         List<Zmiennawynagrodzenia> lista = null;
         try {
             if (wiersz.getDatado()==null) {
-                lista =  getEntityManager().createNamedQuery("Zmiennawynagrodzenia.findByDataSkladnikNull").setParameter("rodzajwynagrodzenia", wiersz.getSkladnikwynagrodzenia().getRodzajwynagrodzenia()).setParameter("dataod", wiersz.getDataod()).getResultList();
+                lista =  getEntityManager().createNamedQuery("Zmiennawynagrodzenia.findByDataSkladnikRodzajAngazNull").setParameter("angaz", wiersz.getSkladnikwynagrodzenia().getAngaz())
+                        .setParameter("rodzajwynagrodzenia", wiersz.getSkladnikwynagrodzenia().getRodzajwynagrodzenia()).setParameter("dataod", wiersz.getDataod()).getResultList();
             } else {
-                lista =  getEntityManager().createNamedQuery("Zmiennawynagrodzenia.findByDataSkladnik").setParameter("rodzajwynagrodzenia", wiersz.getSkladnikwynagrodzenia().getRodzajwynagrodzenia()).setParameter("dataod", wiersz.getDataod()).setParameter("datado", wiersz.getDatado()).getResultList();
+                lista =  getEntityManager().createNamedQuery("Zmiennawynagrodzenia.findByDataSkladnikRodzajAngaz").setParameter("angaz", wiersz.getSkladnikwynagrodzenia().getAngaz())
+                        .setParameter("rodzajwynagrodzenia", wiersz.getSkladnikwynagrodzenia().getRodzajwynagrodzenia()).setParameter("dataod", wiersz.getDataod()).setParameter("datado", wiersz.getDatado()).getResultList();
             }
         } catch (Exception ex) {}
         if (lista!=null&&lista.size()>0) {
@@ -72,9 +74,9 @@ public class ZmiennaWynagrodzeniaFacade extends DAO implements Serializable {
         List<Zmiennawynagrodzenia> lista = null;
         try {
             if (wiersz.getDatado()==null) {
-                lista =  getEntityManager().createNamedQuery("Zmiennawynagrodzenia.findByDataSkladnikNull").setParameter("rodzajwynagrodzenia", wiersz.getSkladnikwynagrodzenia().getRodzajwynagrodzenia()).setParameter("dataod", wiersz.getDataod()).getResultList();
+                lista =  getEntityManager().createNamedQuery("Zmiennawynagrodzenia.findByDataSkladnikNull").setParameter("skladnikwynagrodzenia", wiersz.getSkladnikwynagrodzenia()).setParameter("dataod", wiersz.getDataod()).getResultList();
             } else {
-                lista =  getEntityManager().createNamedQuery("Zmiennawynagrodzenia.findByDataSkladnik").setParameter("rodzajwynagrodzenia", wiersz.getSkladnikwynagrodzenia().getRodzajwynagrodzenia()).setParameter("dataod", wiersz.getDataod()).setParameter("datado", wiersz.getDatado()).getResultList();
+                lista =  getEntityManager().createNamedQuery("Zmiennawynagrodzenia.findByDataSkladnik").setParameter("skladnikwynagrodzenia", wiersz.getSkladnikwynagrodzenia()).setParameter("dataod", wiersz.getDataod()).setParameter("datado", wiersz.getDatado()).getResultList();
             }
         } catch (Exception ex) {}
         if (lista!=null&&lista.size()>0) {

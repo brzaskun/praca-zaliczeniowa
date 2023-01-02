@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Deklaracja xmlns="http://crd.gov.pl/wzor/2022/11/09/11890/" xmlns:ns2="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2022/03/15/eD/DefinicjeTypy/" xmlns:ns4="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2022/03/15/eD/ORDZU/" xmlns:ns3="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2022/03/15/eD/PITR/">
+    <Naglowek>
+        <KodFormularza kodSystemowy="PIT-11 (29)" kodPodatku="PIT" rodzajZobowiazania="Z" wersjaSchemy="1-1E">PIT-11</KodFormularza>
+        <WariantFormularza>29</WariantFormularza>
+        <CelZlozenia poz="P_7">1</CelZlozenia>
+        <Rok>2022</Rok>
+        <KodUrzedu>3216</KodUrzedu>
+    </Naglowek>
+    <Podmiot1 rola="Płatnik/Składający">
+        <OsobaFizyczna>
+            <ns2:NIP>8511005008</ns2:NIP>
+            <ns2:ImiePierwsze>Grzegorz</ns2:ImiePierwsze>
+            <ns2:Nazwisko>Grzelczyk</ns2:Nazwisko>
+            <ns2:DataUrodzenia>1970-05-28</ns2:DataUrodzenia>
+        </OsobaFizyczna>
+    </Podmiot1>
+    <Podmiot2 rola="Podatnik">
+        <OsobaFizyczna>
+            <PESEL>96030506106</PESEL>
+            <ImiePierwsze>Marta</ImiePierwsze>
+            <Nazwisko>Mazur</Nazwisko>
+            <DataUrodzenia>1996-03-05</DataUrodzenia>
+        </OsobaFizyczna>
+        <AdresZamieszkania rodzajAdresu="RAD">
+            <KodKraju poz="P_19A">PL</KodKraju>
+            <Wojewodztwo>zachodniopomorskie</Wojewodztwo>
+            <Powiat>Szczecin</Powiat>
+            <Gmina>Szczecin</Gmina>
+            <Ulica poz="P_23">Santocka</Ulica>
+            <NrDomu poz="P_24">2</NrDomu>
+            <NrLokalu poz="P_25">11</NrLokalu>
+            <Miejscowosc poz="P_26">Szczecin</Miejscowosc>
+            <KodPocztowy poz="P_27">71-082</KodPocztowy>
+        </AdresZamieszkania>
+    </Podmiot2>
+    <PozycjeSzczegolowe>
+        <P_11>1</P_11>
+        <P_28>1</P_28>
+        <P_29>29900.0</P_29>
+        <P_30>1250.0</P_30>
+        <P_31>28650.0</P_31>
+        <P_33>1853</P_33>
+        <P_95>4099.3</P_95>
+        <P_97>1519.07</P_97>
+        <P_109>11080.0</P_109>
+        <P_110>11080.0</P_110>
+        <P_121>2</P_121>
+        <P_122>3182.53</P_122>
+    </PozycjeSzczegolowe>
+    <Pouczenie>1</Pouczenie>
+</Deklaracja>

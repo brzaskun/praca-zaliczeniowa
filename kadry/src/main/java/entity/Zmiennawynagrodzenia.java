@@ -40,8 +40,10 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Zmiennawynagrodzenia.findByKwotastala", query = "SELECT z FROM Zmiennawynagrodzenia z WHERE z.kwota = :kwota"),
     @NamedQuery(name = "Zmiennawynagrodzenia.findByNazwa", query = "SELECT z FROM Zmiennawynagrodzenia z WHERE z.nazwa = :nazwa"),
     @NamedQuery(name = "Zmiennawynagrodzenia.findBySkladnik", query = "SELECT z FROM Zmiennawynagrodzenia z WHERE z.skladnikwynagrodzenia = :skladnikwynagrodzenia"),
-    @NamedQuery(name = "Zmiennawynagrodzenia.findByDataSkladnik", query = "SELECT z FROM Zmiennawynagrodzenia z WHERE z.skladnikwynagrodzenia.rodzajwynagrodzenia = :rodzajwynagrodzenia AND z.dataod = :dataod AND z.datado = :datado"),
-    @NamedQuery(name = "Zmiennawynagrodzenia.findByDataSkladnikNull", query = "SELECT z FROM Zmiennawynagrodzenia z WHERE z.skladnikwynagrodzenia.rodzajwynagrodzenia = :rodzajwynagrodzenia AND z.dataod = :dataod AND z.datado IS NULL")
+    @NamedQuery(name = "Zmiennawynagrodzenia.findByDataSkladnik", query = "SELECT z FROM Zmiennawynagrodzenia z WHERE z.skladnikwynagrodzenia = :skladnikwynagrodzenia AND z.dataod = :dataod AND z.datado = :datado"),
+    @NamedQuery(name = "Zmiennawynagrodzenia.findByDataSkladnikNull", query = "SELECT z FROM Zmiennawynagrodzenia z WHERE z.skladnikwynagrodzenia = :skladnikwynagrodzenia AND z.dataod = :dataod AND z.datado IS NULL"),
+    @NamedQuery(name = "Zmiennawynagrodzenia.findByDataSkladnikRodzajAngaz", query = "SELECT z FROM Zmiennawynagrodzenia z WHERE z.skladnikwynagrodzenia.rodzajwynagrodzenia = :rodzajwynagrodzenia AND z.skladnikwynagrodzenia.angaz = :angaz AND z.dataod = :dataod AND z.datado = :datado"),
+    @NamedQuery(name = "Zmiennawynagrodzenia.findByDataSkladnikRodzajAngazNull", query = "SELECT z FROM Zmiennawynagrodzenia z WHERE z.skladnikwynagrodzenia.rodzajwynagrodzenia = :rodzajwynagrodzenia AND z.skladnikwynagrodzenia.angaz = :angaz AND z.dataod = :dataod AND z.datado IS NULL")
 })
 public class Zmiennawynagrodzenia implements Serializable {
 

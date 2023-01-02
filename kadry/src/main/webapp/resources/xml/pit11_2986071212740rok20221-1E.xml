@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Deklaracja xmlns="http://crd.gov.pl/wzor/2022/11/09/11890/" xmlns:ns2="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2022/03/15/eD/DefinicjeTypy/" xmlns:ns4="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2022/03/15/eD/ORDZU/" xmlns:ns3="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2022/03/15/eD/PITR/">
+    <Naglowek>
+        <KodFormularza kodSystemowy="PIT-11 (29)" kodPodatku="PIT" rodzajZobowiazania="Z" wersjaSchemy="1-1E">PIT-11</KodFormularza>
+        <WariantFormularza>29</WariantFormularza>
+        <CelZlozenia poz="P_7">1</CelZlozenia>
+        <Rok>2022</Rok>
+        <KodUrzedu>3216</KodUrzedu>
+    </Naglowek>
+    <Podmiot1 rola="Płatnik/Składający">
+        <OsobaFizyczna>
+            <ns2:NIP>8511005008</ns2:NIP>
+            <ns2:ImiePierwsze>Grzegorz</ns2:ImiePierwsze>
+            <ns2:Nazwisko>Grzelczyk</ns2:Nazwisko>
+            <ns2:DataUrodzenia>1970-05-28</ns2:DataUrodzenia>
+        </OsobaFizyczna>
+    </Podmiot1>
+    <Podmiot2 rola="Podatnik">
+        <OsobaFizyczna>
+            <PESEL>86071212740</PESEL>
+            <ImiePierwsze>Mariola</ImiePierwsze>
+            <Nazwisko>Piwońska</Nazwisko>
+            <DataUrodzenia>1986-07-12</DataUrodzenia>
+        </OsobaFizyczna>
+        <AdresZamieszkania rodzajAdresu="RAD">
+            <KodKraju poz="P_19A">PL</KodKraju>
+            <Wojewodztwo>zachodniopomorskie</Wojewodztwo>
+            <Powiat>Szczecin</Powiat>
+            <Gmina>Szczecin</Gmina>
+            <Ulica poz="P_23">Grota Roweckiego</Ulica>
+            <NrDomu poz="P_24">2a</NrDomu>
+            <NrLokalu poz="P_25">3</NrLokalu>
+            <Miejscowosc poz="P_26">Szczecin</Miejscowosc>
+            <KodPocztowy poz="P_27">71-297</KodPocztowy>
+        </AdresZamieszkania>
+    </Podmiot2>
+    <PozycjeSzczegolowe>
+        <P_11>1</P_11>
+        <P_28>1</P_28>
+        <P_29>61476.56</P_29>
+        <P_30>2500.0</P_30>
+        <P_31>58976.56</P_31>
+        <P_33>3470</P_33>
+        <P_58>5248.0</P_58>
+        <P_59>905.7</P_59>
+        <P_60>4342.3</P_60>
+        <P_61>616</P_61>
+        <P_95>9147.96</P_95>
+        <P_121>2</P_121>
+        <P_122>5181.92</P_122>
+    </PozycjeSzczegolowe>
+    <Pouczenie>1</Pouczenie>
+</Deklaracja>

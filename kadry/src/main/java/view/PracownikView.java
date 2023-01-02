@@ -183,6 +183,8 @@ public class PracownikView  implements Serializable {
     
     public void peseldataurodzenia() {
         if (selected.getPesel()!=null) {
+            Pracownik duplikat = pracownikFacade.findByPesel(selected.getPesel());
+            if (duplikat==null) {
             String skrot = selected.getPesel();
             if (skrot!=null) {
                 String liczbamiesiaca = skrot.substring(2, 3);
@@ -198,6 +200,9 @@ public class PracownikView  implements Serializable {
                     selected.setDataurodzenia(tmp);
                 }
                 
+            }
+            } else {
+                Msg.msg("e","Pracownik z takim numerem PESEL jest już w bazie danych");
             }
         }
     }
