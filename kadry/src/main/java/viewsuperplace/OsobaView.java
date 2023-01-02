@@ -158,8 +158,12 @@ public class OsobaView implements Serializable {
                 List<Osoba> osoby = historiaView.getOsoby();
                 for (Osoba osoba : wybraneosoby) {
                     if (osoba.getOsoDodVchar3()==null||!osoba.getOsoDodVchar3().equals("tak")) {
-                        serial = String.valueOf(osoba.getOsoSerial());
-                        rob(log, String.valueOf(osoba.getOsoSerial()) ,osoby);
+                        try {
+                            serial = String.valueOf(osoba.getOsoSerial());
+                            rob(log, String.valueOf(osoba.getOsoSerial()) ,osoby);
+                        } catch (Exception e) {
+                            log.add("Przerwano import pracownika "+osoba.getOsoNazwisko()+" z powodu błędu.");
+                        }
                     }
                 }
                 Msg.msg("Pobrano grupę osób");

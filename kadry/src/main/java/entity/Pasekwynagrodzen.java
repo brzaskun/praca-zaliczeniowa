@@ -1207,6 +1207,9 @@ public class Pasekwynagrodzen implements Serializable {
         return zwrot;
     }
 
+    public boolean isPraca() {
+        return this.kalendarzmiesiac.getAngaz().getAktywnaUmowa().getUmowakodzus().isPraca();
+    }
    
     
 

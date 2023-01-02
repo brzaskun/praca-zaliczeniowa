@@ -176,7 +176,7 @@ public class PasekwynagrodzenView implements Serializable {
         }
         listarodzajlistyplac = rodzajlistyplacFacade.findAktywne();
         ileszczegolow = "normalna";
-        symulacjabrrutto = wpisView.getRokWpisuInt()<2022?2800:3010;
+        symulacjabrrutto = wpisView.getRokWpisuInt()<2023?3100:3490;
         limitdochodudwaszesc = limitdochodudwaszescFacade.findbyRok(wpisView.getRokWpisu());
     }
     
@@ -510,6 +510,15 @@ public class PasekwynagrodzenView implements Serializable {
                         it.remove();
                     }
                 }
+            }
+            if (rodzajlistyplac.getSymbol().equals("WZ")) {
+                for (Iterator<Kalendarzmiesiac> it = listakalendarzmiesiac.iterator(); it.hasNext();) {
+                Kalendarzmiesiac kal = it.next();
+                Pasekwynagrodzen pasek = kal.getPasek(wybranalistaplac);
+                if (kal.getAngaz().getAktywnaUmowa().getUmowakodzus().isZlecenie()) {
+                    it.remove();
+                }
+            }
             }
             lista = pasekwynagrodzenFacade.findByDef(wybranalistaplac);
             for (Iterator<Kalendarzmiesiac> it = listakalendarzmiesiac.iterator(); it.hasNext();) {
