@@ -794,6 +794,9 @@ private static final long serialVersionUID = 1L;
         String mcod = Data.getMc(p.getDataod());
         String mcdo = Data.getMc(p.getDatado());
         dzienod = modyfikujod(mcod, dzienod);
+        if (Integer.parseInt(p.getRokdo())>this.getRokI()) {
+            mcdo ="13";
+        }
         dziendo = modyfikujdo(mcdo, dziendo);
         int dnirobocze = 0;
         if (p.getDzienList()==null) {

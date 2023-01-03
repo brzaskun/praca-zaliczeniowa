@@ -170,6 +170,7 @@ public class OsobaView implements Serializable {
                             rob(log, String.valueOf(osoba.getOsoSerial()) ,osoby);
                         } catch (Exception e) {
                             log.add("Przerwano import pracownika "+osoba.getOsoNazwisko()+" z powodu błędu.");
+                            log.add(E.e(e));
                         }
                     }
                 }

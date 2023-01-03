@@ -187,6 +187,9 @@ public class NieobecnosciBean {
                         mcod = "01";
                     }
                     String mcdo = nieobecnosc.getMcdo();
+                    if (nieobecnosc.getRokdo().equals(Data.roknastepny(rokwpisu))) {
+                        mcdo = "13";
+                    }
                     for (String mc : Mce.getMceListS()) {
                         if (Data.jestrownywiekszy(mc, mcod) && Data.jestrownywiekszy(mcdo, mc)) {
                             Kalendarzmiesiac znaleziony = kalendarzmiesiacFacade.findByRokMcAngaz(nieobecnosc.getAngaz(), rokwpisu, mc);

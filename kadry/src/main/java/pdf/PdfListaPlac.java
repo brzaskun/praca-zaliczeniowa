@@ -16,6 +16,7 @@ import entity.Angaz;
 import entity.Definicjalistaplac;
 import entity.Kalendarzmiesiac;
 import entity.Naliczenienieobecnosc;
+import entity.Naliczeniepotracenie;
 import entity.Naliczenieskladnikawynagrodzenia;
 import entity.Nieobecnosc;
 import entity.Pasekwynagrodzen;
@@ -67,6 +68,9 @@ public class PdfListaPlac {
                     document.add(ustawparagrafSmall(sb.toString()));
                     sb = new StringBuilder();
                     sb.append(generujpasekobecnosci(p, document, rodzajnieobecnosciFacade));
+                    document.add(ustawparagrafSmall(sb.toString()));
+                    sb = new StringBuilder();
+                    sb.append(generujpasekpotracenia(p, document));
                     document.add(ustawparagrafSmall(sb.toString()));
                     document.add(Chunk.NEWLINE);
                 }
@@ -370,6 +374,18 @@ public class PdfListaPlac {
         }
         return wierszeString;
     }
+    
+    
+    private static String generujpasekpotracenia(Pasekwynagrodzen p, Document document) {
+         String wierszeString = "";
+        try {
+            List<Naliczeniepotracenie> lista = p.getNaliczeniepotracenieList();
+            wierszeString = wierszePotracenieString(lista);
+        } catch (Exception ex) {
+            Logger.getLogger(PdfListaPlac.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return wierszeString;
+    }
      
      private static PdfPTable generujTabeleNieobecnosci() {
         PdfPTable table = new PdfPTable(6);
@@ -416,6 +432,23 @@ public class PdfListaPlac {
             } else{
                 sb.append("; ");
             }
+        }
+        return sb.toString();
+    }
+      
+      public static String wierszePotracenieString(List<Naliczeniepotracenie> lista) {
+        StringBuilder sb = new StringBuilder();
+        for (Naliczeniepotracenie rs : lista) {
+            sb.append("potrącenie:");
+            sb.append(" ");
+            sb.append(rs.getSkladnikpotracenia().getRodzajpotracenia().getOpis());
+            sb.append(" ");
+            sb.append(rs.getDataOd().replace("-", "."));
+            sb.append("-");
+            sb.append(rs.getDataDo().replace("-", "."));
+            sb.append(" kwota: ");
+            sb.append(rs.getKwota());
+            sb.append("; ");
         }
         return sb.toString();
     }
@@ -495,6 +528,9 @@ public class PdfListaPlac {
                     document.add(ustawparagrafSmall(sb.toString()));
                     sb = new StringBuilder();
                     sb.append(generujpasekobecnosci(p, document, rodzajnieobecnosciFacade));
+                    document.add(ustawparagrafSmall(sb.toString()));
+                    sb = new StringBuilder();
+                    sb.append(generujpasekpotracenia(p, document));
                     document.add(ustawparagrafSmall(sb.toString()));
                     document.add(Chunk.NEWLINE);
                 }

@@ -403,6 +403,9 @@ public class OsobaBean {
                      for (Zmiennawynagrodzenia r : nowezmienne) {
                         Zmiennawynagrodzenia starazmienna = zmiennaWynagrodzeniaFacade.findByDataSkladnikPobierz(r);
                         if ( starazmienna == null) {
+                            starazmienna = zmiennaWynagrodzeniaFacade.findByDataSkladnikPobierzRodzaj(r);
+                        }
+                        if ( starazmienna == null) {
                             r.setSkladnikwynagrodzenia(pobrany);
                             zmiennaWynagrodzeniaFacade.edit(r);
                         } else {
