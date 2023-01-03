@@ -35,8 +35,7 @@ import z.Z;
 /**
  *
  * @author Osito
- */
-@Entity
+ */@Entity
 @Table(name = "pasekwynagrodzen", uniqueConstraints = {
     @UniqueConstraint(columnNames={"kalendarzmiesiac", "definicjalistaplac", "lpl_serial"})
 })
@@ -259,7 +258,7 @@ public class Pasekwynagrodzen implements Serializable {
 
    
     public static Pasekwynagrodzen pasekuzupelnianie(Pasekwynagrodzen nowy, Place r, String datakonca26lat) {
-        if (nowy.getRok().equals("2020")||nowy.getRok().equals("2021")) {
+        if (nowy.getRok().equals("2020")||nowy.getRok().equals("2021")||nowy.getRok().equals("2022")) {
             boolean po26roku = Data.czyjestpo(datakonca26lat, nowy.getRok(), nowy.getMc());
             if (po26roku==false) {
                 nowy.do26lat = true;
