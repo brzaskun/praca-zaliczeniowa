@@ -22,6 +22,7 @@ import dao.RodzajlistyplacFacade;
 import dao.RodzajnieobecnosciFacade;
 import dao.RodzajpotraceniaFacade;
 import dao.RodzajwynagrodzeniaFacade;
+import dao.SMTPSettingsFacade;
 import dao.SkladnikPotraceniaFacade;
 import dao.SkladnikWynagrodzeniaFacade;
 import dao.SlownikszkolazatrhistoriaFacade;
@@ -45,6 +46,7 @@ import entity.Pracownik;
 import entity.Rachunekdoumowyzlecenia;
 import entity.Rodzajpotracenia;
 import entity.Rodzajwynagrodzenia;
+import entity.SMTPSettings;
 import entity.Skladnikpotracenia;
 import entity.Skladnikwynagrodzenia;
 import entity.Slownikszkolazatrhistoria;
@@ -54,6 +56,7 @@ import entity.Umowa;
 import entity.Umowakodzus;
 import entity.Zmiennawynagrodzenia;
 import error.E;
+import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -146,6 +149,8 @@ public class OsobaView implements Serializable {
     private ZmiennaPotraceniaFacade zmiennaPotraceniaFacade;
     @Inject
     private WynKodSklFacade wynKodSklFacade;
+    @Inject
+    private SMTPSettingsFacade sMTPSettingsFacade;
 
     private String serial;
     
@@ -203,6 +208,10 @@ public class OsobaView implements Serializable {
             E.e(ex);
         } finally {
             PdfHistoriaImp.drukuj(log, wpisView.getFirma().getNazwa(), wpisView.getFirma().getNip());
+            String nazwa = wpisView.getFirma().getNip()+"aneksy.pdf";
+            ByteArrayOutputStream drukujmail = PdfHistoriaImp.drukujMail(log, wpisView.getFirma().getNazwa(), wpisView.getFirma().getNip());
+            SMTPSettings findSprawaByDef = sMTPSettingsFacade.findSprawaByDef();
+            mail.Mail.mailRaportzImportu(wpisView.getFirma(), wpisView.getUzer().getEmail(), null, findSprawaByDef, drukujmail.toByteArray(), nazwa, wpisView.getUzer().getEmail());
         }
 //        } finally {
 //            try {

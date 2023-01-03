@@ -206,6 +206,36 @@ public class Mail {
         }
     }
     
+    
+    public static void mailRaportzImportu(FirmaKadry firma, String adres, SMTPSettings settings,SMTPSettings ogolne, byte[] zalacznik, String nazwapliku, String adresBCC)  {
+        try {
+            MimeMessage message = new MimeMessage(MailSetUp.otworzsesje(settings, ogolne));
+            message.setFrom(new InternetAddress(SMTPBean.adresFrom(settings, ogolne), SMTPBean.nazwaFirmyFrom(settings, ogolne)));
+            message.setRecipients(Message.RecipientType.TO,
+                    InternetAddress.parse(adres));
+            message.setRecipients(Message.RecipientType.BCC,
+                    InternetAddress.parse(adresBCC));
+            MimeBodyPart mbp1 = new MimeBodyPart();
+            String temat = "Raport z importu pracowników firmy "+firma.getNazwa();
+            message.setSubject(MimeUtility.encodeText(temat, "UTF-8", "Q"));
+            String tresc = "Dzień dobry"
+                    + "<p>W załączeniu plik z zapisem importu firmy firmy "+firma.getNazwa()+" NIP "+firma.getNip()
+                    + "<p></p>"
+                    + stopka;
+            mbp1.setContent(tresc, "text/html; charset=utf-8");
+            mbp1.setHeader("Content-Type", "text/html; charset=utf-8");
+            Multipart mp = new MimeMultipart();
+            mp.addBodyPart(mbp1);
+            dolaczplik(zalacznik, mp, nazwapliku);
+            message.setContent(mp);
+            Transport.send(message);
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        } catch (UnsupportedEncodingException ex) {
+            // Logger.getLogger(MailAdmin.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     private static void dolaczplik(byte[] is, Multipart mimeMultipart, String nazwapliku) {
         if (is != null && is instanceof byte[]) {
             try {
