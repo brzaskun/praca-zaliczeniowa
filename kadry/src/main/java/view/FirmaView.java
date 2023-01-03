@@ -116,7 +116,7 @@ public class FirmaView  implements Serializable {
             UprawnieniaUz uprawnienia = uprawnieniaFacade.findByNazwa("Pracodawca");
             Uz uzer = new Uz(selected, uprawnienia);
             selected = new FirmaKadry();
-            Msg.msg("Dodano nowy angaż");
+            Msg.msg("Dodano nowyego użytkownika z loginem "+selected.getLoginfirmy());
             uzFacade.create(uzer);
             Msg.msg("Dodano nowego użytkownika");
             globalnie("2020");

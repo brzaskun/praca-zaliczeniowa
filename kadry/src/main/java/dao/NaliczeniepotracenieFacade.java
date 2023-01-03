@@ -48,6 +48,6 @@ public class NaliczeniepotracenieFacade extends DAO    implements Serializable {
    
 
     public List<Naliczeniepotracenie> findByAngaz(Angaz angaz) {
-        return getEntityManager().createNamedQuery("Naliczeniepotracenie.findByUmowa").setParameter("angaz", angaz).getResultList();
+        return getEntityManager().createNamedQuery("Naliczeniepotracenie.findByAngaz").setParameter("angaz", angaz).getResultList();
     }
 }
