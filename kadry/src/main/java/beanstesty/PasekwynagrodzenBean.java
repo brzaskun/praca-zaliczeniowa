@@ -12,6 +12,7 @@ import data.Data;
 import entity.Angaz;
 import entity.Definicjalistaplac;
 import entity.Dzien;
+import entity.EtatPrac;
 import entity.FirmaKadry;
 import entity.Kalendarzmiesiac;
 import entity.Kalendarzwzor;
@@ -157,6 +158,8 @@ public class PasekwynagrodzenBean {
         PasekwynagrodzenBean.obliczpodatekdowplaty(pasek);
         PasekwynagrodzenBean.netto(pasek);
         double wolneodzajecia = obliczminimalna(kalendarz, definicjalistaplac, stawkipodatkowe, sumapoprzednich, wynagrodzenieminimalne, pasek.getDatawyplaty());
+        EtatPrac pobierzetat = pasek.getKalendarzmiesiac().getAngaz().pobierzetat(pasek.getDatawyplaty());
+        wolneodzajecia = Z.z(wolneodzajecia*pobierzetat.getEtat1()/pobierzetat.getEtat2());
         KalendarzmiesiacBean.naliczskladnikipotraceniaDB(kalendarz, pasek, wolneodzajecia);
         PasekwynagrodzenBean.potracenia(pasek);
         PasekwynagrodzenBean.dowyplaty(pasek);
