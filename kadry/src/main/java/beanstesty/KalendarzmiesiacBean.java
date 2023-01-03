@@ -416,6 +416,9 @@ public class KalendarzmiesiacBean {
                     naliczenienieobecnosc.setNieobecnosc(nieobecnosc);
                     naliczenienieobecnosc.setJakiskladnikredukowalny(naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getOpispelny());
                     double sredniadopodstawy = wyliczsredniachoroba(kalendarz, naliczenieskladnikawynagrodzenia, nieobecnosc, naliczenienieobecnosc, definicjalistaplac);
+                    if (nieobecnosc.getSredniazmiennerecznie()>0.0&&skladnikwynagrodzenia.getRodzajwynagrodzenia().getStale0zmienne1()) {
+                        sredniadopodstawy = nieobecnosc.getSredniazmiennerecznie();
+                    }
                     naliczenienieobecnosc.setPodstawadochoroby(sredniadopodstawy);
                     double procentzazwolnienie = Z.z(nieobecnosc.getZwolnienieprocent() / 100);
                     naliczenienieobecnosc.setProcentzazwolnienie(procentzazwolnienie);

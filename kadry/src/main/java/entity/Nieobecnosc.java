@@ -121,6 +121,8 @@ public class Nieobecnosc implements Serializable {
     private String krajoddelegowania;
     @Column(name = "ponpiatek")
     private boolean ponpiatek;
+    @Column(name = "sredniazmiennerecznie")
+    private double sredniazmiennerecznie;
     
    
     
@@ -434,6 +436,14 @@ public class Nieobecnosc implements Serializable {
 
     public void setPonpiatek(boolean ponpiatek) {
         this.ponpiatek = ponpiatek;
+    }
+
+    public double getSredniazmiennerecznie() {
+        return sredniazmiennerecznie;
+    }
+
+    public void setSredniazmiennerecznie(double sredniazmiennerecznie) {
+        this.sredniazmiennerecznie = sredniazmiennerecznie;
     }
     
 }
