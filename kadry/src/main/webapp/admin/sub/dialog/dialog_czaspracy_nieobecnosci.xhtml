@@ -23,12 +23,7 @@
                             <p:panelGrid columns="2">
                                 <p:outputLabel value="pracownik" for="prac" />
                                 <h:outputText id="prac" value="#{nieobecnoscView.selected.angaz.pracownik.nazwiskoImie}"/>
-                                <p:outputLabel value="umowa nr" for="umowa" />
-                                <h:outputText id="umowa" value="numer"/>
-                                <p:outputLabel value="data od" for="umowaod" />
-                                <h:outputText id="umowaod" value="od" >
-                                    
-                                </h:outputText>
+
                                 <p:outputLabel value="nazwa nieobecności" for="nieobkodzus" />
                                 <p:selectOneMenu id="nieobkodzus" value="#{nieobecnoscView.selected.rodzajnieobecnosci}" required="true" requiredMessage="wybierz rodzaj nieobecnosci"  converter="#{rodzajnieobecnosciConverter}" filter="true" filterMatchMode="contains">
                                     <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
@@ -46,24 +41,25 @@
                                                    itemValue="#{kodzusItem}" itemLabel="#{kodzusItem.kod} #{kodzusItem.opis}"/>
                                     <p:ajax event="change" partialSubmit="true" global="false" update="NieobecnoscCreateForm:procent" listener="#{nieobecnoscView.naniesprocent()}"/>
                                 </p:selectOneMenu>
+                                <p:outputLabel value="data od" for="dataod" />
+                                <p:inputText id="dataod" value="#{nieobecnoscView.selected.dataod}" title="datac od"  placeholder="____-__-__" maxlength="10" required="true" requiredMessage="Wprowadź datę od">
+                                    <p:ajax event="blur" onstart="ustawDateSprzedazy(#{wpisView.rokWpisu},#{wpisView.miesiacWpisu});" partialSubmit="true" global="false" />
+                                </p:inputText>
+                                <p:outputLabel value="data do" for="datado" />
+                                <p:inputText id="datado" value="#{nieobecnoscView.selected.datado}" title="data do"  placeholder="____-__-__" maxlength="10" required="true" requiredMessage="Wprowadź datę do">
+                                    <p:ajax event="blur" onstart="ustawDateSprzedazy(#{wpisView.rokWpisu},#{wpisView.miesiacWpisu});" partialSubmit="true" global="false" />
+                                </p:inputText>
                             </p:panelGrid>
-                                <p:panelGrid columns="2">
-                                    
-                                    <p:outputLabel value="data od" for="dataod" />
-                                    <p:inputText id="dataod" value="#{nieobecnoscView.selected.dataod}" title="datac od"  placeholder="____-__-__" maxlength="10" required="true" requiredMessage="Wprowadź datę od">
-                                        <p:ajax event="blur" onstart="ustawDateSprzedazy(#{wpisView.rokWpisu},#{wpisView.miesiacWpisu});" partialSubmit="true" global="false" />
-                                    </p:inputText>
-                                    <p:outputLabel value="data do" for="datado" />
-                                    <p:inputText id="datado" value="#{nieobecnoscView.selected.datado}" title="data do"  placeholder="____-__-__" maxlength="10" required="true" requiredMessage="Wprowadź datę do">
-                                        <p:ajax event="blur" onstart="ustawDateSprzedazy(#{wpisView.rokWpisu},#{wpisView.miesiacWpisu});" partialSubmit="true" global="false" />
-                                    </p:inputText>
-                                    <p:outputLabel value="przyczyna" for="przyczyna" />
-                                    <p:inputText id="przyczyna" value="#{nieobecnoscView.selected.uzasadnienie}" title="przyczyna"/>
-                                    <p:outputLabel value="seria i nr zw." for="seriainrzwolnienia" />
-                                    <p:inputText id="seriainrzwolnienia" value="#{nieobecnoscView.selected.seriainrzwolnienia}" title="seria i nr zw."/>
-                                    <p:outputLabel value="procent" for="procent" />
-                                    <p:inputText  id="procent" value="#{nieobecnoscView.selected.zwolnienieprocent}" title="procent zwolenienia" />
-                                </p:panelGrid>
+                            <p:panelGrid columns="2">
+
+
+                                <p:outputLabel value="przyczyna" for="przyczyna" />
+                                <p:inputText id="przyczyna" value="#{nieobecnoscView.selected.uzasadnienie}" title="przyczyna"/>
+                                <p:outputLabel value="seria i nr zw." for="seriainrzwolnienia" />
+                                <p:inputText id="seriainrzwolnienia" value="#{nieobecnoscView.selected.seriainrzwolnienia}" title="seria i nr zw."/>
+                                <p:outputLabel value="procent" for="procent" />
+                                <p:inputText  id="procent" value="#{nieobecnoscView.selected.zwolnienieprocent}" title="procent zwolenienia" />
+                            </p:panelGrid>
                             <p:fragment>
                                 <p:autoUpdate/>
                                 <p:panelGrid columns="2"  rendered="#{nieobecnoscView.delegacja}">

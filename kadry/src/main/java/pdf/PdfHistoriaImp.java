@@ -73,8 +73,8 @@ public class PdfHistoriaImp {
                     }
                 }
                 finalizacjaDokumentuQR(document,nazwa);
-                String f = "pokazwydruk('"+nazwa+"');";
-                PrimeFaces.current().executeScript(f);
+//                String f = "pokazwydruk('"+nazwa+"');";
+//                PrimeFaces.current().executeScript(f);
             } else {
                 Msg.msg("w", "Nie ma Paska do wydruku");
             }

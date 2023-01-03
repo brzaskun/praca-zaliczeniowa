@@ -275,7 +275,7 @@ public class NieobecnoscView  implements Serializable {
             }
         }
         if (nieobecnosc.isImportowana()) {
-            zwrot = "blue";
+            zwrot = "#008B8B";
         }
         return zwrot;
     }

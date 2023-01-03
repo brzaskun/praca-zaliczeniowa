@@ -309,6 +309,11 @@ public class KalendarzmiesiacBean {
                 if (naliczenieskladnikawynagrodzenia.getKwotaumownazacalymc() != 0.0) {
                     pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().add(naliczenieskladnikawynagrodzenia);
                 }
+            } else if (p.getRodzajwynagrodzenia().getKod().equals("50")) {
+                Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = NaliczenieskladnikawynagrodzeniaBean.createPremiaDB(kalendarz, pasekwynagrodzen, p);
+                if (naliczenieskladnikawynagrodzenia.getKwotadolistyplac()>0.0) {
+                    pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().add(naliczenieskladnikawynagrodzenia);
+                }
             } else {
                 System.out.println("Nie ma formuly naliczenia skladnika wynagrodzzenia " + p.getRodzajwynagrodzenia().getOpisskrocony());
             }

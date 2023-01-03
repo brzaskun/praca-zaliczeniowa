@@ -116,7 +116,7 @@ public class HistoriaView  implements Serializable {
             for (Iterator<Osoba> it = osoby.iterator();it.hasNext();) {
                 Osoba o = it.next();
                 if (o.getOsoDataZwol()!=null) {
-                    boolean czyjestpozniej = Data.czyjestpo(o.getOsoDataZwol(), "2020", "01");
+                    boolean czyjestpozniej = Data.czyjestpo(o.getOsoDataZwol(), "2021", "12");
                     if (czyjestpozniej==false) {
                        it.remove();
                     }

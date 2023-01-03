@@ -374,10 +374,10 @@ public class PasekwynagrodzenBean {
         PasekwynagrodzenBean.obliczbruttobezzusbezpodatek(pasek);
         PasekwynagrodzenBean.wyliczpodstaweZUS(pasek);
         PasekwynagrodzenBean.obliczbruttominusspoleczneDB(pasek);
-        PasekwynagrodzenBean.obliczpodstaweopodatkowaniaZlecenie(pasek, stawkipodatkowe, pasek.isNierezydent());
-        PasekwynagrodzenBean.obliczpodatekwstepnyZlecenieDB(pasek, stawkipodatkowe, pasek.isNierezydent());
-        PasekwynagrodzenBean.obliczpodstaweopodatkowaniaFunkcja(pasek, stawkipodatkowe, pasek.isNierezydent());
-        PasekwynagrodzenBean.obliczpodatekwstepnyZlecenieDB(pasek, stawkipodatkowe, pasek.isNierezydent());
+        PasekwynagrodzenBean.obliczpodstaweopodatkowaniafunkcja(pasek, stawkipodatkowe, pasek.isNierezydent());
+        PasekwynagrodzenBean.obliczpodatekwstepnyFunkcjaDB(pasek, stawkipodatkowe, pasek.isNierezydent());
+//        PasekwynagrodzenBean.obliczpodstaweopodatkowaniaFunkcja(pasek, stawkipodatkowe, pasek.isNierezydent());
+//        PasekwynagrodzenBean.obliczpodatekwstepnyZlecenieDB(pasek, stawkipodatkowe, pasek.isNierezydent());
         PasekwynagrodzenBean.naliczzdrowota(pasek, pasek.isNierezydent(), false);
     }
     
@@ -841,15 +841,35 @@ public class PasekwynagrodzenBean {
         }
     }
     
-    private static void obliczpodstaweopodatkowaniaFunkcja(Pasekwynagrodzen pasek, List<Podatki> stawkipodatkowe, boolean nierezydent) {
+    private static void obliczpodstaweopodatkowaniafunkcja(Pasekwynagrodzen pasek, List<Podatki> stawkipodatkowe, boolean nierezydent) {
         Podatki pierwszyprog = stawkipodatkowe.get(0);
         double bruttominusspoleczne = pasek.getBruttominusspoleczne();
-        double kosztyuzyskania = 100;
-        double podstawa = Z.z0(bruttominusspoleczne-kosztyuzyskania) > 0.0 ? Z.z0(bruttominusspoleczne-kosztyuzyskania) :0.0;
+        //Rachunekdoumowyzlecenia rachunekdoumowyzlecenia =null;
+        double kosztyuzyskania = pierwszyprog.getKup();
+        pasek.setProcentkosztow(100);
+        double podstawadlakosztow = Z.z0(bruttominusspoleczne) > 0.0 ? Z.z0(bruttominusspoleczne) :0.0;
+        if (pasek.isDo26lat()) {
+            kosztyuzyskania = 0.0;
+        }
+        double dieta30proc = pasek.getDietaodliczeniepodstawaop();
+        double podstawa = Z.z0(bruttominusspoleczne-kosztyuzyskania-dieta30proc) > 0.0 ? Z.z0(bruttominusspoleczne-kosztyuzyskania-dieta30proc) :0.0;
         pasek.setPodstawaopodatkowania(podstawa);
-        pasek.setKosztyuzyskania(kosztyuzyskania);
-        
+        if (nierezydent) {
+            pasek.setKosztyuzyskania(0.0);
+        } else {
+            pasek.setKosztyuzyskania(kosztyuzyskania);
+        }
     }
+    
+//    private static void obliczpodstaweopodatkowaniaFunkcja(Pasekwynagrodzen pasek, List<Podatki> stawkipodatkowe, boolean nierezydent) {
+//        Podatki pierwszyprog = stawkipodatkowe.get(0);
+//        double bruttominusspoleczne = pasek.getBruttominusspoleczne();
+//        double kosztyuzyskania = 100;
+//        double podstawa = Z.z0(bruttominusspoleczne-kosztyuzyskania) > 0.0 ? Z.z0(bruttominusspoleczne-kosztyuzyskania) :0.0;
+//        pasek.setPodstawaopodatkowania(podstawa);
+//        pasek.setKosztyuzyskania(kosztyuzyskania);
+//        
+//    }
     
     private static void obliczpodstaweopodatkowaniaZlecenieSymulacja(Pasekwynagrodzen pasek, List<Podatki> stawkipodatkowe, boolean nierezydent) {
         Podatki pierwszyprog = stawkipodatkowe.get(0);
@@ -954,6 +974,16 @@ public class PasekwynagrodzenBean {
         pasek.setPodatekwstepny(podatek);
     }
     
+    private static void obliczpodatekwstepnyFunkcjaDB(Pasekwynagrodzen pasek, List<Podatki> stawkipodatkowe, boolean nierezydent) {
+        double podatek = Z.z(Z.z0(pasek.getPodstawaopodatkowania())*stawkipodatkowe.get(0).getStawka());
+        if (nierezydent) {
+            podatek = Z.z(Z.z0(pasek.getBrutto())*0.2);
+        } else if (pasek.isDo26lat()) {
+            podatek = 0.0;
+        }
+        pasek.setPodatekwstepny(podatek);
+    }
+    
     
     private static void ulgapodatkowa(Pasekwynagrodzen pasek, boolean ulga) {
         double kwotawolna = 43.76;
@@ -1001,9 +1031,13 @@ public class PasekwynagrodzenBean {
         }
         pasek.setKwotawolnadlazdrowotnej(kwotawolnadlazdrowotnej);
     }
+    
+    private static void naliczzdrowotaFunkcja(Pasekwynagrodzen pasek, boolean nierezydent, boolean praca) {
+        
+    }
 
     private static void naliczzdrowota(Pasekwynagrodzen pasek, boolean nierezydent, boolean praca) {
-        double spolecznepodstawa = Z.z(pasek.getPodstawaskladkizus()+pasek.getBruttobezzusbezpodatek()-pasek.getRazemspolecznepracownik());
+        double spolecznepodstawa = Z.z(pasek.getPodstawaskladkizus()+pasek.getBruttobezzusbezpodatek()+pasek.getBruttobezzus()-pasek.getRazemspolecznepracownik());
         double podstawazdrowotna = Z.z(spolecznepodstawa+pasek.getBruttobezspolecznych()) > 0.0 ? Z.z(spolecznepodstawa+pasek.getBruttobezspolecznych()) :0.0;
         //usuwamy z podstawy zasilki chorobowe
         List<Naliczenienieobecnosc> nieobecnoscilist = pasek.getNaliczenienieobecnoscList();
