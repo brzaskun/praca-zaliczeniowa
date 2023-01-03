@@ -302,7 +302,7 @@ public class PasekwynagrodzenView implements Serializable {
                         wynagrodzenieminimalne = wynagrodzenielist.get(0).getKwotabrutto();
                     } else if (wynagrodzenielist!=null&&wynagrodzenielist.size()>1){
                         for (Wynagrodzenieminimalne w : wynagrodzenielist) {
-                            if (Data.czyjestpomiedzy(w.getDataod(), w.getDatado(), pracownikmc.getRok(), pracownikmc.getMc())) {
+                            if (Data.czyjestpomiedzy(w.getDataod(), w.getDatado(), Data.getRok(datawyplaty), Data.getMc(datawyplaty))) {
                                 wynagrodzenieminimalne = w.getKwotabrutto();
                                 break;
                             }

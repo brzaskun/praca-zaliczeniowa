@@ -24,8 +24,8 @@
                 <p:outputPanel rendered="#{wpisView.umowa.umowakodzus.zlecenie}">
                 <p:panel header="Miesięczne rozliczenie umowy zlecenia nr #{rachunekZlecenieView.umowabiezaca.nrkolejny}" style="width: 700px;"/>
                 <h:outputText value="Przygotowano nowy rachunek do zatwierdzenia" rendered="#{rachunekZlecenieView.rachunekdoumowyzlecenia.id eq null}"/>
-                <h:outputText value="Pobrano uprzednio przygotowany rachunek. Brak listy płac." rendered="#{rachunekZlecenieView.rachunekdoumowyzlecenia.id ne null and rachunekZlecenieView.rachunekdoumowyzlecenia.pasekwynagrodzen eq null}" style="color: blue;"/>
-                <h:outputText value="Pobrano uprzednio przygotowany rachunek. Rachunek rozliczono w liście płac" rendered="#{rachunekZlecenieView.rachunekdoumowyzlecenia.id ne null and rachunekZlecenieView.rachunekdoumowyzlecenia.pasekwynagrodzen ne null}"  style="color: red;"/>
+                <h:outputText value="Pobrano uprzednio przygotowany rachunek dla #{wpisView.umowa.pracownik.nazwiskoImie}. Brak listy płac." rendered="#{rachunekZlecenieView.rachunekdoumowyzlecenia.id ne null and rachunekZlecenieView.rachunekdoumowyzlecenia.pasekwynagrodzen eq null}" style="color: blue;"/>
+                <h:outputText value="Pobrano uprzednio przygotowany rachunek dla #{wpisView.umowa.pracownik.nazwiskoImie}. Rachunek rozliczono w liście płac" rendered="#{rachunekZlecenieView.rachunekdoumowyzlecenia.id ne null and rachunekZlecenieView.rachunekdoumowyzlecenia.pasekwynagrodzen ne null}"  style="color: red;"/>
                 <p:panelGrid columns="4" rendered="#{rachunekZlecenieView.umowabiezaca ne null}">
                     <p:outputLabel value="data umowy od:"/>
                     <h:outputText value="#{rachunekZlecenieView.umowabiezaca.dataod}" styleClass="ww"/>
