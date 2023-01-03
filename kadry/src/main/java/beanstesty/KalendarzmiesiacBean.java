@@ -172,7 +172,7 @@ public class KalendarzmiesiacBean {
             naliczskladnikiwynagrodzeniazaChorobe(kalendarz, nieobecnosc, pasekwynagrodzen, null);
         } else if (nieobecnosc.getKod().equals("U")) {
             naliczskladnikiwynagrodzeniazaUrlop(kalendarz, nieobecnosc, pasekwynagrodzen, kalendarzList);
-        } else if (nieobecnosc.getKod().equals("X")) {
+        } else if (nieobecnosc.getKod().equals("X")||nieobecnosc.getKod().equals("NP")||nieobecnosc.getKod().equals("NN")) {
             naliczskladnikiwynagrodzeniazaOkresnieprzepracowany(kalendarz, nieobecnosc, pasekwynagrodzen, "X");
         } else if (nieobecnosc.getKod().equals("D")) {
             naliczskladnikiwynagrodzeniazaOkresnieprzepracowany(kalendarz, nieobecnosc, pasekwynagrodzen, "D");
@@ -195,9 +195,9 @@ public class KalendarzmiesiacBean {
                 } else if (kod.equals("UD")) {
                     //urlop wypoczynowy
                     naliczskladnikiwynagrodzeniazaUrlopOddelegowanie(kalendarz, nieobecnosc, pasekwynagrodzen, kalendarzList, kurs);
-                } else if (kod.equals("X")) {
+                } else if (kod.equals("X")||kod.equals("NP")||kod.equals("NN")) {
                     //urlopo bezpłatny
-                    naliczskladnikiwynagrodzeniazaOkresnieprzepracowany(kalendarz, nieobecnosc, pasekwynagrodzen, "X");
+                    naliczskladnikiwynagrodzeniazaOkresnieprzepracowany(kalendarz, nieobecnosc, pasekwynagrodzen, kod);
                 } else if (kod.equals("D")) {
                     //rozpoczęcie umowy w trakcie meisiąca
                     naliczskladnikiwynagrodzeniazaOkresnieprzepracowany(kalendarz, nieobecnosc, pasekwynagrodzen, "D");

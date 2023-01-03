@@ -820,7 +820,7 @@ private static final long serialVersionUID = 1L;
                 dzienaktualny.setPrzepracowano(0);
                 dzienaktualny.setKod(kod);
                 p.setNaniesiona(true);
-            } else if (kod.equals("X")) {
+            } else if (kod.equals("X")||kod.equals("NP")||kod.equals("NN")) {
                 dzienaktualny.setUrlopbezplatny(dzienaktualny.getNormagodzin());
                 dzienaktualny.setPrzepracowano(0);
                 dzienaktualny.setKod(kod);
