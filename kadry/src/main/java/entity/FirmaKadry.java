@@ -18,6 +18,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -130,6 +131,8 @@ public class FirmaKadry implements Serializable {
     private String dzienlp;
     @OneToMany(mappedBy = "firma", cascade = CascadeType.ALL)
     List<Wypadkowefirma> wypadkowefirmaList;
+    @Transient
+    private String loginfirmy;
 
     public FirmaKadry() {
     }
@@ -214,6 +217,14 @@ public class FirmaKadry implements Serializable {
 
     public void setPowiat(String powiat) {
         this.powiat = powiat;
+    }
+
+    public String getLoginfirmy() {
+        return loginfirmy;
+    }
+
+    public void setLoginfirmy(String loginfirmy) {
+        this.loginfirmy = loginfirmy;
     }
 
     public String getPoczta() {

@@ -377,15 +377,16 @@ public class FirmaView  implements Serializable {
         return results;
     }
     public void sprawdzmail() {
-        if (selected.getEmail()!=null) {
-            Uz uzer = uzFacade.findUzByLogin(selected.getEmail());
+        if (selected.getLoginfirmy()!=null) {
+            Uz uzer = uzFacade.findUzByLogin(selected.getLoginfirmy());
             if (uzer!=null) {
-                Msg.msg("e","Adres mail musi być unikalny! Jest już taki adres w programie");
-                selected.setEmail(null);
-                PrimeFaces.current().ajax().update("FirmaCreateForm:email");
+                Msg.msg("e","Login dla firmy musi być unikalny! Jest już taki login w programie");
+                selected.setLoginfirmy(null);
+                PrimeFaces.current().ajax().update("FirmaCreateForm:login");
             }
         }
     }
+    
     
     public void sprawdznip() {
         if (firmaSPimport.getFirNip()!=null) {

@@ -9,6 +9,7 @@ import DAOsuperplace.OsobaFacade;
 import DAOsuperplace.UrzadFacade;
 import DAOsuperplace.WynKodSklFacade;
 import beanstesty.NieobecnosciBean;
+import comparator.Umowacomparator;
 import dao.AngazFacade;
 import dao.DefinicjalistaplacFacade;
 import dao.EtatPracFacade;
@@ -59,6 +60,7 @@ import error.E;
 import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -211,7 +213,7 @@ public class OsobaView implements Serializable {
             String nazwa = wpisView.getFirma().getNip()+"aneksy.pdf";
             ByteArrayOutputStream drukujmail = PdfHistoriaImp.drukujMail(log, wpisView.getFirma().getNazwa(), wpisView.getFirma().getNip());
             SMTPSettings findSprawaByDef = sMTPSettingsFacade.findSprawaByDef();
-            mail.Mail.mailRaportzImportu(wpisView.getFirma(), wpisView.getUzer().getEmail(), null, findSprawaByDef, drukujmail.toByteArray(), nazwa, wpisView.getUzer().getEmail());
+            mail.Mail.mailRaportzImportu(wpisView.getFirma(), wpisView.getUzer().getEmail(), null, findSprawaByDef, drukujmail.toByteArray(), nazwa, "info@taxman.biz.pl");
         }
 //        } finally {
 //            try {
@@ -557,8 +559,9 @@ public class OsobaView implements Serializable {
                             try {
                                 List<OsobaZlec> listaumow = osoba.getOsobaZlecList();
                                 List<Umowa> umowyzlecenia = OsobaBean.pobierzumowyzlecenia(listaumow, angaz, umowakodzuszlecenie);
+                                Collections.sort(umowyzlecenia, new Umowacomparator());
                                 log.add("Udane zachowanie umowy zlecenia");
-                                Umowa aktywnaumowa = umowyzlecenia.stream().filter(p -> p.isAktywna()).findFirst().get();
+                                Umowa aktywnaumowa = umowyzlecenia.get(umowyzlecenia.size()-1);
                                 aktywnaumowa.setDatado(null);
                                 umowaFacade.create(aktywnaumowa);
                                 Msg.msg("Pobrano umowy zlecenia");

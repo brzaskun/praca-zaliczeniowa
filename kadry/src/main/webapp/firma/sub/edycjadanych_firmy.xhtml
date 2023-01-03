@@ -40,6 +40,10 @@
                     <p:inputText id="email" value="#{firmaView.selected.email}" title="email" required="true" requiredMessage="Wpisz email">
 <!--                       <p:ajax event="blur" listener="#{firmaView.sprawdzmail}" partialSubmit="true"/>-->
                     </p:inputText>
+                    <p:outputLabel value="login" for="login" />
+                    <p:inputText id="login" value="#{firmaView.selected.loginfirmy}" title="login firmy" required="true" requiredMessage="Wpisz login firmy">
+                        <p:ajax event="blur" listener="#{firmaView.sprawdzmail}" partialSubmit="true"/>
+                    </p:inputText>
                     <p:outputLabel value="telefon" for="telefon" />
                     <p:inputText id="telefon" value="#{firmaView.selected.telefon}" title="telefon" required="true" requiredMessage="Wpisz telefon"/>
                     <p:outputLabel value="osoba fizyczna" for="osobafizyczna" />
