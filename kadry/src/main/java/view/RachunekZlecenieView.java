@@ -72,7 +72,7 @@ public class RachunekZlecenieView  implements Serializable {
         if (umowabiezaca == null) {
             umowabiezaca = wpisView.getUmowa();
         }
-        if (umowabiezaca != null && umowabiezaca.getUmowakodzus().isZlecenie()) {
+            if (umowabiezaca != null && umowabiezaca.getUmowakodzus().isZlecenie()) {
             umowabiezaca = umowaFacade.findById(umowabiezaca.getId());
             String datado = umowabiezaca.getDatado();
             trzebazrobicrachunek = false;
@@ -187,6 +187,7 @@ public class RachunekZlecenieView  implements Serializable {
     public void zaksieguj() {
         if (rachunekdoumowyzlecenia!=null) {
             rachunekdoumowyzleceniaFacade.create(rachunekdoumowyzlecenia);
+            rachunekdoumowyzlecenia=null;
             Msg.msg("Zachowano rachunek");
         }
     }

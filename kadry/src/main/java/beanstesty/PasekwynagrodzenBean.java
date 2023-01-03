@@ -216,6 +216,8 @@ public class PasekwynagrodzenBean {
         List<Nieobecnosc> urlop = pobierz(nieobecnosci, "U");
         List<Nieobecnosc> urlopoddelegowanie = pobierz(nieobecnosci, "UD");
         List<Nieobecnosc> urlopbezplatny = pobierz(nieobecnosci, "X");
+        List<Nieobecnosc> nieobecnoscNN = pobierz(nieobecnosci, "NN");
+        List<Nieobecnosc> nieobecnoscNP = pobierz(nieobecnosci, "NP");
         List<Nieobecnosc> oddelegowanie = pobierz(nieobecnosci, "Z");
         KalendarzmiesiacBean.nalicznadgodzinyDB(kalendarz, pasek, false);
         KalendarzmiesiacBean.nalicznadgodzinyDB(kalendarz, pasek, true);
@@ -225,6 +227,8 @@ public class PasekwynagrodzenBean {
         KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, choroba, pasek, kalendarzlista, kurs, definicjalistaplac);
         KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, zasilekchorobowy, pasek, kalendarzlista, kurs, definicjalistaplac);
         KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, urlopbezplatny, pasek, kalendarzlista, kurs, definicjalistaplac);
+        KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, nieobecnoscNN, pasek, kalendarzlista, kurs, definicjalistaplac);
+        KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, nieobecnoscNP, pasek, kalendarzlista, kurs, definicjalistaplac);
         //KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, oddelegowanie, pasek);
         KalendarzmiesiacBean.redukujskladnikistale(kalendarz, pasek);
         KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, urlop, pasek, kalendarzlista, kurs, definicjalistaplac);
