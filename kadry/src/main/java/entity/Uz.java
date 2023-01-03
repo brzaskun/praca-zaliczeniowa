@@ -138,7 +138,7 @@ public class Uz implements Serializable {
         this.nrtelefonu = firma.getTelefon();
         this.haslo = haszuj(firma.getNip());
         this.secname = "Pracodawca";
-        this.login = firma.getEmail();
+        this.login = firma.getLoginfirmy();
         this.uprawnienia = uprawnienia;
     }
     
