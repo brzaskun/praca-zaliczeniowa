@@ -495,7 +495,7 @@ public class Angaz implements Serializable {
         double zwrot = 0.0;
         if (this.skladnikwynagrodzeniaList!=null) {
             for (Skladnikwynagrodzenia p : this.skladnikwynagrodzeniaList) {
-                zwrot = pobierzkwoteKwota(p.getZmiennawynagrodzeniaList(), rok, mc, kalendarz);
+                zwrot = zwrot + pobierzkwoteKwota(p.getZmiennawynagrodzeniaList(), rok, mc, kalendarz);
             }
         }
         return zwrot;
@@ -505,7 +505,7 @@ public class Angaz implements Serializable {
         double zwrot = 0.0;
         if (this.skladnikwynagrodzeniaList!=null) {
             for (Skladnikwynagrodzenia p : this.skladnikwynagrodzeniaList) {
-                zwrot = pobierzkwoteKwotaWaluta(p.getZmiennawynagrodzeniaList(), rok, mc, kalendarz);
+                zwrot = zwrot + pobierzkwoteKwotaWaluta(p.getZmiennawynagrodzeniaList(), rok, mc, kalendarz);
             }
         }
         return zwrot;
@@ -534,7 +534,7 @@ public class Angaz implements Serializable {
         double zwrot = 0.0;
         if (zmiennawynagrodzeniaList!=null) {
             for (Zmiennawynagrodzenia p : zmiennawynagrodzeniaList) {
-                if (p.getWaluta()!=null&&p.getWaluta().equals("PLN")) {
+                if (p.getWaluta()!=null&&!p.getWaluta().equals("PLN")) {
                     String dataod1 = p.getDataod();
                     String datado1 = p.getDatado();
                     if (DataBean.czysiemiesci(kalendarz.getPierwszyDzien(), kalendarz.getOstatniDzien(), dataod1, datado1)) {

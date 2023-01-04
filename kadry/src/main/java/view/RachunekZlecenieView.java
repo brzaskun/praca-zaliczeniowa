@@ -123,7 +123,7 @@ public class RachunekZlecenieView  implements Serializable {
                         rachunekdoumowyzlecenia.setWynagrodzeniemiesieczne(kwotaPolska);
                         rachunekdoumowyzlecenia.setKwota(Z.z(kwotaPolska));
                     }
-                    double kwotaZagranica = umowabiezaca.getAngaz().pobierzwynagrodzenieKwota(wpisView.getRokWpisu(), wpisView.getMiesiacWpisu(), kalendarz);
+                    double kwotaZagranica = umowabiezaca.getAngaz().pobierzwynagrodzenieKwotaWaluta(wpisView.getRokWpisu(), wpisView.getMiesiacWpisu(), kalendarz);
                     double kurs = ustawtabelenbp(rachunekdoumowyzlecenia.getDatawystawienia());
                     rachunekdoumowyzlecenia.setKurswaluty(kurs);
                     kwotaZagranica = (kwotaZagranica*kurs);
@@ -192,7 +192,9 @@ public class RachunekZlecenieView  implements Serializable {
                 rachunekdoumowyzlecenia.setKwota(rachunekdoumowyzlecenia.getWynagrodzeniemiesieczne());
             } else {
                 rachunekdoumowyzlecenia.setKwota(Z.z(rachunekdoumowyzlecenia.getWynagrodzeniegodzinowe()*rachunekdoumowyzlecenia.getIloscgodzin()));
-                rachunekdoumowyzlecenia.setKoszt(Z.z(rachunekdoumowyzlecenia.getKwota()*rachunekdoumowyzlecenia.getProcentkosztowuzyskania()/100.0));
+                rachunekdoumowyzlecenia.setKwotaoddelegowanie(Z.z(rachunekdoumowyzlecenia.getWynagrodzeniegodzinoweoddelegowanie()*rachunekdoumowyzlecenia.getIloscgodzinoddelegowanie()));
+                rachunekdoumowyzlecenia.setKwotasuma(Z.z(rachunekdoumowyzlecenia.getKwota()+rachunekdoumowyzlecenia.getKwotaoddelegowanie()));
+                rachunekdoumowyzlecenia.setKoszt(Z.z(rachunekdoumowyzlecenia.getKwotasuma()*rachunekdoumowyzlecenia.getProcentkosztowuzyskania()/100.0));
             }
             Msg.msg("Przeliczono kwotę rachunku");
         }
@@ -205,7 +207,9 @@ public class RachunekZlecenieView  implements Serializable {
                 rach.setKoszt(Z.z(rach.getKwota()*rach.getProcentkosztowuzyskania()/100.0));
             } else {
                 rach.setKwota(Z.z(rach.getWynagrodzeniegodzinowe()*rach.getIloscgodzin()));
-                rach.setKoszt(Z.z(rach.getKwota()*rach.getProcentkosztowuzyskania()/100.0));
+                rach.setKwotaoddelegowanie(Z.z(rach.getWynagrodzeniegodzinoweoddelegowanie()*rach.getIloscgodzinoddelegowanie()));
+                rach.setKwotasuma(Z.z(rach.getKwota()+rach.getKwotaoddelegowanie()));
+                rach.setKoszt(Z.z(rach.getKwotasuma()*rach.getProcentkosztowuzyskania()/100.0));
             }
             Msg.msg("Przeliczono kwotę rachunku");
         }
@@ -214,7 +218,7 @@ public class RachunekZlecenieView  implements Serializable {
     public void zachowajrachunki() {
         for (Rachunekdoumowyzlecenia p : lista) {
             if (p.getId()==null) {
-                if (p.getKwota()>0.0) {
+                if (p.getKwotasuma()>0.0) {
                     Skladnikwynagrodzenia skladnik = p.getUmowa().getAngaz().pobierzskladnikzlecenie();
                     skladnik.getZmiennawynagrodzeniaList().add(new Zmiennawynagrodzenia(p, skladnik));
                     rachunekdoumowyzleceniaFacade.create(p);
@@ -223,7 +227,7 @@ public class RachunekZlecenieView  implements Serializable {
             } else {
                 Skladnikwynagrodzenia skladnik = p.getUmowa().getAngaz().pobierzskladnikzlecenie();
                 Zmiennawynagrodzenia zmienna = skladnik.pobierzzmienna(p);
-                zmienna.setKwota(p.getKwota());
+                zmienna.setKwota(p.getKwotasuma());
                 zmiennaWynagrodzeniaFacade.edit(zmienna);
                 rachunekdoumowyzleceniaFacade.edit(p);
             }
