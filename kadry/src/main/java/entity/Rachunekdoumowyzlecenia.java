@@ -79,13 +79,23 @@ public class Rachunekdoumowyzlecenia implements Serializable {
     private double wynagrodzeniemiesieczne;
     @Column(name="wynagrodzeniegodzinowe")
     private double wynagrodzeniegodzinowe;
+    @Column(name="wynagrodzeniegodzinoweoddelegowanie")
+    private double wynagrodzeniegodzinoweoddelegowanie;
     @Column(name="iloscgodzin")
     private double iloscgodzin;
+    @Column(name="iloscgodzinoddelegowanie")
+    private double iloscgodzinoddelegowanie;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "kwota")
     private double kwota;
+    @Column(name = "kwotaoddelegowanie")
+    private double kwotaoddelegowanie;
+    @Column(name = "kwotasuma")
+    private double kwotasuma;
     @Column(name = "koszt")
     private double koszt;
+    @Column(name = "kurswaluty")
+    private double kurswaluty;
     @Column(name = "spoleczne")
     private boolean spoleczne;
     @Column(name = "chorobowa")
@@ -243,7 +253,7 @@ public class Rachunekdoumowyzlecenia implements Serializable {
     }
     
     public double getProcentkosztowuzyskaniaDisplay() {
-        return Z.z(procentkosztowuzyskania/100.0);
+        return Z.z(20/100.0);
     }
 
     public void setProcentkosztowuzyskania(double procentkosztowuzyskania) {
@@ -314,6 +324,47 @@ public class Rachunekdoumowyzlecenia implements Serializable {
         this.iloscgodzin = iloscgodzin;
     }
 
+    public double getWynagrodzeniegodzinoweoddelegowanie() {
+        return wynagrodzeniegodzinoweoddelegowanie;
+    }
+
+    public void setWynagrodzeniegodzinoweoddelegowanie(double wynagrodzeniegodzinoweoddelegowanie) {
+        this.wynagrodzeniegodzinoweoddelegowanie = wynagrodzeniegodzinoweoddelegowanie;
+    }
+
+    public double getIloscgodzinoddelegowanie() {
+        return iloscgodzinoddelegowanie;
+    }
+
+    public void setIloscgodzinoddelegowanie(double iloscgodzinoddelegowanie) {
+        this.iloscgodzinoddelegowanie = iloscgodzinoddelegowanie;
+    }
+
+    public double getKwotaoddelegowanie() {
+        return kwotaoddelegowanie;
+    }
+
+    public void setKwotaoddelegowanie(double kwotaoddelegowanie) {
+        this.kwotaoddelegowanie = kwotaoddelegowanie;
+    }
+
+    public double getKwotasuma() {
+        return kwotasuma;
+    }
+
+    public void setKwotasuma(double kwotasuma) {
+        this.kwotasuma = kwotasuma;
+    }
+
+    public double getKurswaluty() {
+        return kurswaluty;
+    }
+
+    public void setKurswaluty(double kurswaluty) {
+        this.kurswaluty = kurswaluty;
+    }
+
+    
     @Override
     public int hashCode() {
         int hash = 5;

@@ -262,6 +262,44 @@ private static final long serialVersionUID = 1L;
         return zwrot;
     }
     
+    public double[] roboczeOddelegowaniePolska() {
+        double[] zwrot = new double[2];
+        double roboczenalicz = 0;
+        double roboczenawyk = 0;
+        if (this.dzienList!=null) {
+            for (Dzien d : dzienList) {
+                if (d.getTypdnia()==0&&!d.getKod().equals("Z")) {
+                    roboczenalicz = roboczenalicz+d.getNormagodzin();
+                    if (d.getPrzepracowano()>0) {
+                        roboczenawyk = roboczenawyk+d.getPrzepracowano();
+                    }
+                }
+            }
+        }
+        zwrot[0] = roboczenalicz;
+        zwrot[1] = roboczenawyk;
+        return zwrot;
+    }
+    
+     public double[] roboczeOddelegowanieZagranica() {
+        double[] zwrot = new double[2];
+        double roboczenalicz = 0;
+        double roboczenawyk = 0;
+        if (this.dzienList!=null) {
+            for (Dzien d : dzienList) {
+                if (d.getTypdnia()==0&&d.getKod().equals("Z")) {
+                    roboczenalicz = roboczenalicz+d.getNormagodzin();
+                    if (d.getPrzepracowano()>0) {
+                        roboczenawyk = roboczenawyk+d.getPrzepracowano();
+                    }
+                }
+            }
+        }
+        zwrot[0] = roboczenalicz;
+        zwrot[1] = roboczenawyk;
+        return zwrot;
+    }
+    
    
     
     public double[] urlopdnigodz() {

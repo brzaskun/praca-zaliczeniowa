@@ -8,6 +8,7 @@ package view;
 import dao.KalendarzmiesiacFacade;
 import dao.RachunekdoumowyzleceniaFacade;
 import dao.SkladnikWynagrodzeniaFacade;
+import dao.TabelanbpFacade;
 import dao.UmowaFacade;
 import dao.ZmiennaWynagrodzeniaFacade;
 import data.Data;
@@ -15,6 +16,7 @@ import embeddable.Mce;
 import entity.Kalendarzmiesiac;
 import entity.Rachunekdoumowyzlecenia;
 import entity.Skladnikwynagrodzenia;
+import entity.Tabelanbp;
 import entity.Umowa;
 import entity.Zmiennawynagrodzenia;
 import java.io.Serializable;
@@ -52,6 +54,8 @@ public class RachunekZlecenieView  implements Serializable {
     private ZmiennaWynagrodzeniaFacade zmiennaWynagrodzeniaFacade;
     @Inject
     private UmowaFacade umowaFacade;
+    @Inject
+    private TabelanbpFacade tabelanbpFacade;
     
     public void initzbiorcze() {
         List<Umowa> umowyzlecenia = umowaFacade.findByFirmaZlecenie(wpisView.getFirma(), true);
@@ -109,29 +113,73 @@ public class RachunekZlecenieView  implements Serializable {
                             rachunekdoumowyzlecenia.setDatado(datado);
                         }
                     }
-                    double kwota = umowabiezaca.getAngaz().pobierzwynagrodzenieKwota(wpisView.getRokWpisu(), wpisView.getMiesiacWpisu(), kalendarz);
-                    double iloscgodzinzkalendarza = pobierzgodzinyzkalendarza();
-                    rachunekdoumowyzlecenia.setIloscgodzin(iloscgodzinzkalendarza);
+                    double kwotaPolska = umowabiezaca.getAngaz().pobierzwynagrodzenieKwota(wpisView.getRokWpisu(), wpisView.getMiesiacWpisu(), kalendarz);
+                    double iloscgodzinzkalendarzaPolska = pobierzgodzinyzkalendarzaPolska();
+                    rachunekdoumowyzlecenia.setIloscgodzin(iloscgodzinzkalendarzaPolska);
                     if (umowabiezaca.getAngaz().czywynagrodzeniegodzinowe()) {
-                        rachunekdoumowyzlecenia.setWynagrodzeniegodzinowe(kwota);
-                        rachunekdoumowyzlecenia.setKwota(Z.z(rachunekdoumowyzlecenia.getWynagrodzeniegodzinowe() * iloscgodzinzkalendarza));
+                        rachunekdoumowyzlecenia.setWynagrodzeniegodzinowe(kwotaPolska);
+                        rachunekdoumowyzlecenia.setKwota(Z.z(rachunekdoumowyzlecenia.getWynagrodzeniegodzinowe() * iloscgodzinzkalendarzaPolska));
                     } else {
-                        rachunekdoumowyzlecenia.setWynagrodzeniemiesieczne(kwota);
-                        rachunekdoumowyzlecenia.setKwota(Z.z(kwota));
+                        rachunekdoumowyzlecenia.setWynagrodzeniemiesieczne(kwotaPolska);
+                        rachunekdoumowyzlecenia.setKwota(Z.z(kwotaPolska));
                     }
+                    double kwotaZagranica = umowabiezaca.getAngaz().pobierzwynagrodzenieKwota(wpisView.getRokWpisu(), wpisView.getMiesiacWpisu(), kalendarz);
+                    double kurs = ustawtabelenbp(rachunekdoumowyzlecenia.getDatawystawienia());
+                    rachunekdoumowyzlecenia.setKurswaluty(kurs);
+                    kwotaZagranica = (kwotaZagranica*kurs);
+                    double iloscgodzinzkalendarzaZagranica = pobierzgodzinyzkalendarzaZagranica();
+                    rachunekdoumowyzlecenia.setIloscgodzinoddelegowanie(iloscgodzinzkalendarzaZagranica);
+                    if (umowabiezaca.getAngaz().czywynagrodzeniegodzinowe()) {
+                        rachunekdoumowyzlecenia.setWynagrodzeniegodzinoweoddelegowanie(kwotaZagranica);
+                        rachunekdoumowyzlecenia.setKwotaoddelegowanie(Z.z(rachunekdoumowyzlecenia.getWynagrodzeniegodzinoweoddelegowanie() * iloscgodzinzkalendarzaZagranica));
+                    } else {
+                        rachunekdoumowyzlecenia.setWynagrodzeniemiesieczne(kwotaZagranica);
+                        rachunekdoumowyzlecenia.setKwota(Z.z(kwotaZagranica));
+                    }
+                    rachunekdoumowyzlecenia.setKwotasuma(Z.z(rachunekdoumowyzlecenia.getKwota()+rachunekdoumowyzlecenia.getKwotaoddelegowanie()));
                     rachunekdoumowyzlecenia.setProcentkosztowuzyskania(umowabiezaca.getAngaz().getKosztyuzyskaniaprocent());
-                    rachunekdoumowyzlecenia.setKoszt(Z.z(rachunekdoumowyzlecenia.getKwota() * umowabiezaca.getAngaz().getKosztyuzyskaniaprocent() / 100.0));
+                    rachunekdoumowyzlecenia.setKoszt(Z.z(rachunekdoumowyzlecenia.getKwotasuma() * umowabiezaca.getAngaz().getKosztyuzyskaniaprocent()*0.2 / 100.0));
                 }
             } else {
                 Msg.msg("Pobrano zachowany rachunek");
             }
         }
     }
+    
+     public double ustawtabelenbp(String datawyplaty) {
+            double zwrot = 0.0;
+            if (datawyplaty!=null && datawyplaty.length()==10) {
+                String data = datawyplaty;
+                boolean znaleziono = false;
+                int zabezpieczenie = 0;
+                while (!znaleziono && (zabezpieczenie < 365)) {
+                    data = Data.odejmijdni(data, 1);
+                    Tabelanbp tabelanbppobrana = tabelanbpFacade.findByDateWaluta(data, "EUR");
+                    if (tabelanbppobrana instanceof Tabelanbp) {
+                        znaleziono = true;
+                        zwrot = tabelanbppobrana.getKurssredni();
+                        break;
+                    }
+                    zabezpieczenie++;
+                }
+            }
+            return zwrot;
+    }
 
-    private double pobierzgodzinyzkalendarza() {
+    private double pobierzgodzinyzkalendarzaPolska() {
         double zwrot = 0;
         Kalendarzmiesiac kalendarz = kalendarzmiesiacFacade.findByRokMcAngaz(wpisView.getAngaz(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
-        double[] roboczegodz = kalendarz.roboczegodz();
+        double[] roboczegodz = kalendarz.roboczeOddelegowaniePolska();
+        if (roboczegodz!=null) {
+            zwrot = roboczegodz[1];
+        }
+        return zwrot;
+    }
+    
+    private double pobierzgodzinyzkalendarzaZagranica() {
+        double zwrot = 0;
+        Kalendarzmiesiac kalendarz = kalendarzmiesiacFacade.findByRokMcAngaz(wpisView.getAngaz(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
+        double[] roboczegodz = kalendarz.roboczeOddelegowanieZagranica();
         if (roboczegodz!=null) {
             zwrot = roboczegodz[1];
         }

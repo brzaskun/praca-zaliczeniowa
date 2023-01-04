@@ -501,17 +501,46 @@ public class Angaz implements Serializable {
         return zwrot;
     }   
      
+     public double pobierzwynagrodzenieKwotaWaluta(String rok, String mc, Kalendarzmiesiac kalendarz) {
+        double zwrot = 0.0;
+        if (this.skladnikwynagrodzeniaList!=null) {
+            for (Skladnikwynagrodzenia p : this.skladnikwynagrodzeniaList) {
+                zwrot = pobierzkwoteKwotaWaluta(p.getZmiennawynagrodzeniaList(), rok, mc, kalendarz);
+            }
+        }
+        return zwrot;
+    }   
+     
     
 
     private double pobierzkwoteKwota(List<Zmiennawynagrodzenia> zmiennawynagrodzeniaList, String rok, String mc, Kalendarzmiesiac kalendarz) {
         double zwrot = 0.0;
         if (zmiennawynagrodzeniaList!=null) {
             for (Zmiennawynagrodzenia p : zmiennawynagrodzeniaList) {
-                String dataod1 = p.getDataod();
-                String datado1 = p.getDatado();
-                if (DataBean.czysiemiesci(kalendarz.getPierwszyDzien(), kalendarz.getOstatniDzien(), dataod1, datado1)) {
-                    zwrot = p.getKwota();
-                    break;
+                if (p.getWaluta()==null||p.getWaluta().equals("PLN")) {
+                    String dataod1 = p.getDataod();
+                    String datado1 = p.getDatado();
+                    if (DataBean.czysiemiesci(kalendarz.getPierwszyDzien(), kalendarz.getOstatniDzien(), dataod1, datado1)) {
+                        zwrot = p.getKwota();
+                        break;
+                    }
+                }
+            }
+        }
+        return zwrot;
+    }
+    
+    private double pobierzkwoteKwotaWaluta(List<Zmiennawynagrodzenia> zmiennawynagrodzeniaList, String rok, String mc, Kalendarzmiesiac kalendarz) {
+        double zwrot = 0.0;
+        if (zmiennawynagrodzeniaList!=null) {
+            for (Zmiennawynagrodzenia p : zmiennawynagrodzeniaList) {
+                if (p.getWaluta()!=null&&p.getWaluta().equals("PLN")) {
+                    String dataod1 = p.getDataod();
+                    String datado1 = p.getDatado();
+                    if (DataBean.czysiemiesci(kalendarz.getPierwszyDzien(), kalendarz.getOstatniDzien(), dataod1, datado1)) {
+                        zwrot = p.getKwota();
+                        break;
+                    }
                 }
             }
         }

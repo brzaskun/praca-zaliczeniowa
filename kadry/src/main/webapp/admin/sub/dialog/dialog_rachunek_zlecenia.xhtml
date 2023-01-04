@@ -49,17 +49,31 @@
                     <h:outputText value="#{rachunekZlecenieView.rachunekdoumowyzlecenia.datado}"/>
                     <p:outputLabel value="wynagrodzenie miesięczne:"/>
                     <bcf:outputpl value="#{rachunekZlecenieView.rachunekdoumowyzlecenia.wynagrodzeniemiesieczne}"/>
-                    <p:outputLabel value="wynagrodzenie godzinowe:"/>
+                    <p:outputLabel value="wynagrodzenie godzinowe Polska:"/>
                     <bcf:outputpl value="#{rachunekZlecenieView.rachunekdoumowyzlecenia.wynagrodzeniegodzinowe}"/>
+                    <p:outputLabel value="wynagrodzenie godzinowe Oddelegowanie:"/>
+                    <bcf:outputpl value="#{rachunekZlecenieView.rachunekdoumowyzlecenia.wynagrodzeniegodzinoweoddelegowanie}"/>
+                    <p:outputLabel value="kurs waluty: "/>
+                    <bcf:outputpl value="#{rachunekZlecenieView.rachunekdoumowyzlecenia.kurswaluty}"/>
                 </p:panelGrid>
                 <p:panelGrid columns="2" style="margin-top: 10px;">
-                    <p:outputLabel value="ilośc godzin wg kalendarza:"/>
+                    <p:outputLabel value="ilośc godzin wg kalendarza Polska:"/>
                     <p:inputNumber value="#{rachunekZlecenieView.rachunekdoumowyzlecenia.iloscgodzin}" decimalSeparator=","   inputStyle="text-align: right;" decimalPlaces="2">
                         <p:ajax event="change" partialSubmit="true" listener="#{rachunekZlecenieView.przeliczrachunek()}" update="RachunekZleceniaForm:lolo RachunekZleceniaForm:lolo1"/>
                     </p:inputNumber>
-                     <p:outputLabel value="kwota brutto:"/>
-                    <p:inputNumber value="#{rachunekZlecenieView.rachunekdoumowyzlecenia.kwota}" id="lolo1"  decimalPlaces="1" decimalSeparator="," inputStyle="text-align: right"/>
-                    <p:outputLabel value="koszt uzyskania procent:"/>
+                     <p:outputLabel value="kwota brutto Polska:"/>
+                    <p:inputNumber value="#{rachunekZlecenieView.rachunekdoumowyzlecenia.kwota}" id="lolo1"  decimalPlaces="2" decimalSeparator="," inputStyle="text-align: right"/>
+                    <p:outputLabel value="ilośc godzin wg kalendarza Oddelegowanie:"/>
+                    <p:inputNumber value="#{rachunekZlecenieView.rachunekdoumowyzlecenia.iloscgodzinoddelegowanie}" decimalSeparator=","   inputStyle="text-align: right;" decimalPlaces="2">
+                        <p:ajax event="change" partialSubmit="true" listener="#{rachunekZlecenieView.przeliczrachunek()}" update="RachunekZleceniaForm:lolo RachunekZleceniaForm:lolo1"/>
+                    </p:inputNumber>
+                    <p:outputLabel value="kwota brutto Oddelegowanie:"/>
+                     <p:inputNumber value="#{rachunekZlecenieView.rachunekdoumowyzlecenia.kwotaoddelegowanie}" id="lolo21"  decimalPlaces="2" decimalSeparator="," inputStyle="text-align: right"/>
+                     <p:outputLabel value="Razem wynagrodzenie:"/>
+                     <p:inputNumber value="#{rachunekZlecenieView.rachunekdoumowyzlecenia.kwotasuma}" id="lolo2321"  decimalPlaces="2" decimalSeparator="," inputStyle="text-align: right"/>
+                </p:panelGrid>
+                <p:panelGrid columns="2" style="margin-top: 10px;">
+                <p:outputLabel value="koszt uzyskania procent:"/>
                     <bcf:outputplprocent value="#{rachunekZlecenieView.rachunekdoumowyzlecenia.procentkosztowuzyskaniaDisplay}"/>
                     <p:outputLabel value="koszt uzyskania kwota:"/>
                     <p:inputNumber value="#{rachunekZlecenieView.rachunekdoumowyzlecenia.koszt}" id="lolo" decimalSeparator=","   inputStyle="text-align: right;" decimalPlaces="2"/>
