@@ -74,11 +74,7 @@ public class NaliczeniepotracenieBean {
                         double ilemozna = skladnikpotracenia.getRodzajpotracenia().getLimitumowaoprace();
                         double potracenie = Z.z(pasekwynagrodzen.getNettoprzedpotraceniami()*(ilemozna/100.0));
                         double nowenetto = Z.z(pasekwynagrodzen.getNettoprzedpotraceniami()-potracenie);
-                        if (nowenetto>wolneodzajecia) {
-                            zwrot.setKwota(potracenie);
-                        } else {
-                            zwrot.setKwota(Z.z(pasekwynagrodzen.getNettoprzedpotraceniami()-wolneodzajecia));
-                        }
+                        zwrot.setKwota(potracenie);
                         p.setKwotakomorniczarozliczona(Z.z(juzrozliczono+zwrot.getKwota()));
                         zwrot.setPasekwynagrodzen(pasekwynagrodzen);    
                     }
