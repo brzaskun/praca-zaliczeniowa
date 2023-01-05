@@ -1011,7 +1011,7 @@ public class PasekwynagrodzenBean {
             kwotawolna = 0.0;
             pasek.setKwotawolna(kwotawolna);
         }
-        if (pasek.isNierezydent()) {
+        if (pasek.isNierezydent()&&pasek.isPraca()==false) {
             kwotawolna = 0.0;
             pasek.setKwotawolna(kwotawolna);
         } else if (ulga && (pasek.isDo26lat()==false||ignoruj26lat)) {
