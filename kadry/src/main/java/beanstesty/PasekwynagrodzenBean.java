@@ -1170,7 +1170,7 @@ public class PasekwynagrodzenBean {
         return zwrot;
     }
 
-    public static List<Nieobecnosc> generujNieobecnosci(Angaz angaz, String dataod, String datado, RodzajnieobecnosciFacade rodzajnieobecnosciFacade, String rok, String mc, Kalendarzmiesiac kalendarzmiesiac, String dataostatniejumowy) {
+    public static List<Nieobecnosc> rozpoczecieumowywtrakcieMiesiaca(Angaz angaz, String dataod, String datado, RodzajnieobecnosciFacade rodzajnieobecnosciFacade, String rok, String mc, Kalendarzmiesiac kalendarzmiesiac, String dataostatniejumowy) {
         List<Nieobecnosc> zwrotlist = new ArrayList<>();
         Nieobecnosc zwrot = new Nieobecnosc();
         String rokumowa = Data.getRok(dataod);

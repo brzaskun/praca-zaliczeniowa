@@ -457,13 +457,14 @@ public class KalendarzmiesiacBean {
         List<Kalendarzmiesiac> kalendarzmiesiacList = kalendarz.getAngaz().getKalendarzmiesiacList();
         Collections.sort(kalendarzmiesiacList, new KalendarzmiesiacRMcomparator());
         for (Kalendarzmiesiac kal : kalendarzmiesiacList) {
-            if (kal.getRok().equals(rok) && kal.getMc().equals(mc)) {
+            boolean czyjestZarudnienieWtrakcieMca = kal.czyjestZarudnienieWtrakcieMca();
+            if (kal.getRok().equals(rok) && kal.getMc().equals(mc)&&czyjestZarudnienieWtrakcieMca==false) {
                 kalendarze.add(kal);
                 poprzedniOkres = Data.poprzedniOkres(mc, rok);
                 mc = poprzedniOkres[0];
                 rok = poprzedniOkres[1];
             }
-            if (kalendarze.size() == 12) {
+            if (kalendarze.size() == 12||czyjestZarudnienieWtrakcieMca) {
                 break;
             }
         }

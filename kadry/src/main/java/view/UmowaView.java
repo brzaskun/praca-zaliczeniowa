@@ -227,7 +227,7 @@ public class UmowaView implements Serializable {
                 if (kalendarz == null) {
                     Msg.msg("e", "Brak kalendarza za miesiąc rozpoczęcia umowy");
                 }
-                List<Nieobecnosc> zatrudnieniewtrakciemiesiaca = PasekwynagrodzenBean.generujNieobecnosci(wpisView.getAngaz(), selected.getDataod(), selected.getDatado(), rodzajnieobecnosciFacade, kalendarz.getRok(), kalendarz.getMc(), kalendarz, null);
+                List<Nieobecnosc> zatrudnieniewtrakciemiesiaca = PasekwynagrodzenBean.rozpoczecieumowywtrakcieMiesiaca(wpisView.getAngaz(), selected.getDataod(), selected.getDatado(), rodzajnieobecnosciFacade, kalendarz.getRok(), kalendarz.getMc(), kalendarz, null);
                 if (zatrudnieniewtrakciemiesiaca != null&&zatrudnieniewtrakciemiesiaca.size()>0) {
                     nieobecnoscFacade.createList(zatrudnieniewtrakciemiesiaca);
                     boolean czynaniesiono = NieobecnosciBean.nanies(zatrudnieniewtrakciemiesiaca.get(0), kalendarzmiesiacFacade, nieobecnoscFacade);
@@ -492,7 +492,7 @@ public class UmowaView implements Serializable {
                 String rok = Data.getRok(selected.getDataod());
                 String mc = Data.getMc(selected.getDataod());
                 Kalendarzmiesiac kalendarz = kalendarzmiesiacFacade.findByRokMcAngaz(selected.getAngaz(), selected.getRok(), selected.getMc());
-                List<Nieobecnosc> zatrudnieniewtrakciemiesiaca = PasekwynagrodzenBean.generujNieobecnosci(selected.getAngaz(), selected.getDataod(), selected.getDatado(), rodzajnieobecnosciFacade, rok, mc, kalendarz, dataostatniejumowy);
+                List<Nieobecnosc> zatrudnieniewtrakciemiesiaca = PasekwynagrodzenBean.rozpoczecieumowywtrakcieMiesiaca(selected.getAngaz(), selected.getDataod(), selected.getDatado(), rodzajnieobecnosciFacade, rok, mc, kalendarz, dataostatniejumowy);
                 if (zatrudnieniewtrakciemiesiaca != null) {
                     nieobecnoscFacade.createList(zatrudnieniewtrakciemiesiaca);
                 }

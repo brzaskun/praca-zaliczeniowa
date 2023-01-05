@@ -359,9 +359,9 @@ public class Umowa implements Serializable {
     @Override
     public String toString() {
         if (angaz!=null) {
-            return "Umowa{" + "datado=" + datado + ", dataod=" + dataod + ", angaz=" + angaz.getPracownik().getNazwiskoImie() + ", rodzajumowy="+ "}";
+            return "Umowa{"+ ", dataod=" + dataod + "datado=" + datado  + ", angaz=" + angaz.getPracownik().getNazwiskoImie() + ", rodzajumowy="+ "}";
         } else {
-            return "Umowa{" + "datado=" + datado + ", dataod=" + dataod + ", rodzajumowy="+ "}";
+            return "Umowa{"+ ", dataod=" + dataod  + "datado=" + datado + ", rodzajumowy="+ "}";
         }
     }
 

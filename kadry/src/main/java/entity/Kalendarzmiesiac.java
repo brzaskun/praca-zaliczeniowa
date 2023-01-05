@@ -413,6 +413,18 @@ private static final long serialVersionUID = 1L;
         return zwrot;
     }
     
+    public boolean czyjestZarudnienieWtrakcieMca() {
+        boolean zwrot = false;
+        if (this.dzienList!=null) {
+            for (Dzien d : dzienList) {
+                if (d.getKod()!=null&&d.getKod().equals("D")&&d.getTypdnia()==0) {
+                    zwrot = true;
+                    break;
+                }
+            }
+        }
+        return zwrot;
+    }
     
     
     public boolean czyjestchoroba() {
