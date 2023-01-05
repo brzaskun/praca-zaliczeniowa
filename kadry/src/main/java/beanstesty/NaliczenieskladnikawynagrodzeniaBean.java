@@ -121,6 +121,7 @@ public class NaliczenieskladnikawynagrodzeniaBean {
                 double stawkadzienna = 0.0;
                 double stawkagodzinowa = 0.0;
                 double dowyplatyzaczasprzepracowany = 0.0;
+                double kwotazaokresnieprzepracowany = 0.0;
                 double liczbazmiennych = 0.0;
                 double dniroboczeprzepracowanezm = 0.0;
                 double godzinyobecnosciroboczezm = 0.0;
@@ -161,8 +162,9 @@ public class NaliczenieskladnikawynagrodzeniaBean {
                     stawkagodzinowa = stawkagodzinowa + stawkagodzinowazm;
                     //tu wylicza wynagrodzenie za faktycznie przepracowany czas i date obowiazywania zmiennej
                     if (skladnikwynagrodzenia.getRodzajwynagrodzenia().isRedukowany()) {
-                        dowyplatyzaczasprzepracowany = dowyplatyzaczasprzepracowany + Z.z(stawkagodzinowazm * godzinyobecnosciroboczezm);
-                        redukcja = Z.z(skladnikistale-dowyplatyzaczasprzepracowany);
+                        kwotazaokresnieprzepracowany = kwotazaokresnieprzepracowany + Z.z(stawkagodzinowazm * (godzinyroboczewmiesiacu-godzinyobecnosciroboczezm));
+                        redukcja = Z.z(kwotazaokresnieprzepracowany);
+                        dowyplatyzaczasprzepracowany = Z.z(skladnikistale-redukcja);
                     } else {
                         dowyplatyzaczasprzepracowany = skladnikistale;
                     }
