@@ -8,6 +8,7 @@ package view;
 import beanstesty.NieobecnosciBean;
 import comparator.Pracownikcomparator;
 import comparator.Rodzajnieobecnoscicomparator;
+import dao.AngazFacade;
 import dao.DzienFacade;
 import dao.KalendarzmiesiacFacade;
 import dao.KalendarzwzorFacade;
@@ -19,6 +20,7 @@ import dao.UmowaFacade;
 import data.Data;
 import entity.Angaz;
 import entity.Dzien;
+import entity.FirmaKadry;
 import entity.Kalendarzmiesiac;
 import entity.Nieobecnosc;
 import entity.Pracownik;
@@ -78,6 +80,8 @@ public class NieobecnoscView  implements Serializable {
     private NieobecnoscFacade nieobecnoscFacade;
     @Inject
     private PracownikFacade pracownikFacade;
+    @Inject
+    private AngazFacade angazFacade;
     @Inject
     private SwiadczeniekodzusFacade swiadczeniekodzusFacade;
     @Inject
@@ -188,12 +192,13 @@ public class NieobecnoscView  implements Serializable {
       }
     }
     
-    public void createzbiorczo() {
+    public void createzbiorczo(FirmaKadry firma) {
       if (listapracownikow.getTarget()!=null) {
           try {
             for (Pracownik p : listapracownikow.getTarget()) {
                 Nieobecnosc nowa = new Nieobecnosc();
-                nowa.setAngaz(wpisView.getAngaz());
+                Angaz angaz = angazFacade.findByFirmaPracownik(firma,p);
+                nowa.setAngaz(angaz);
                 nowa.setDataod(selected.getDataod());
                 nowa.setDatado(selected.getDatado());
                 nowa.setRokod(Data.getRok(selected.getDataod()));
