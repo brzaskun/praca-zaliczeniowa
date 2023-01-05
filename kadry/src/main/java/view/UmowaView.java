@@ -230,7 +230,7 @@ public class UmowaView implements Serializable {
                 List<Nieobecnosc> zatrudnieniewtrakciemiesiaca = PasekwynagrodzenBean.generujNieobecnosci(wpisView.getAngaz(), selected.getDataod(), selected.getDatado(), rodzajnieobecnosciFacade, kalendarz.getRok(), kalendarz.getMc(), kalendarz, null);
                 if (zatrudnieniewtrakciemiesiaca != null&&zatrudnieniewtrakciemiesiaca.size()>0) {
                     nieobecnoscFacade.createList(zatrudnieniewtrakciemiesiaca);
-                    boolean czynaniesiono = NieobecnosciBean.nanies(zatrudnieniewtrakciemiesiaca.get(0), wpisView.getRokWpisu(), wpisView.getRokUprzedni(), kalendarzmiesiacFacade, nieobecnoscFacade);
+                    boolean czynaniesiono = NieobecnosciBean.nanies(zatrudnieniewtrakciemiesiaca.get(0), kalendarzmiesiacFacade, nieobecnoscFacade);
                     if (czynaniesiono == false) {
                         Msg.msg("e", "Wystąpił błąd podczas nanoszenia rozpoczęcia umowy");
                     }

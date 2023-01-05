@@ -45,10 +45,10 @@ public class NaliczeniepotracenieBean {
                 if (p.getKwotastala()!=0.0) {
                     if (p.getDatado()==null && Data.czyjestprzed(p.getDatado(), pasekwynagrodzen.getRok(), pasekwynagrodzen.getMc())) {
                         if (p.getKwotastala()<pasekwynagrodzen.getNettoprzedpotraceniami()) {
-                            zwrot.setKwota(p.getKwotastala());
+                            zwrot.setKwota(Z.z(p.getKwotastala()));
                             zwrot.setPasekwynagrodzen(pasekwynagrodzen);
                         } else {
-                            zwrot.setKwota(pasekwynagrodzen.getNettoprzedpotraceniami());
+                            zwrot.setKwota(Z.z(pasekwynagrodzen.getNettoprzedpotraceniami()));
                             zwrot.setPasekwynagrodzen(pasekwynagrodzen);
                         }
                     }
@@ -61,11 +61,11 @@ public class NaliczeniepotracenieBean {
                         }
                         double nowenetto = Z.z(pasekwynagrodzen.getNettoprzedpotraceniami()-potracenie);
                         if (nowenetto>wolneodzajecia) {
-                            zwrot.setKwota(potracenie);
+                            zwrot.setKwota(Z.z(potracenie));
                         } else {
                             zwrot.setKwota(Z.z(pasekwynagrodzen.getNettoprzedpotraceniami()-wolneodzajecia));
                         }
-                        p.setKwotakomorniczarozliczona(juzrozliczono+zwrot.getKwota());
+                        p.setKwotakomorniczarozliczona(Z.z(juzrozliczono+zwrot.getKwota()));
                         zwrot.setPasekwynagrodzen(pasekwynagrodzen);
                     }
 
@@ -79,7 +79,7 @@ public class NaliczeniepotracenieBean {
                         } else {
                             zwrot.setKwota(Z.z(pasekwynagrodzen.getNettoprzedpotraceniami()-wolneodzajecia));
                         }
-                        p.setKwotakomorniczarozliczona(juzrozliczono+zwrot.getKwota());
+                        p.setKwotakomorniczarozliczona(Z.z(juzrozliczono+zwrot.getKwota()));
                         zwrot.setPasekwynagrodzen(pasekwynagrodzen);    
                     }
 

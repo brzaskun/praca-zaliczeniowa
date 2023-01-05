@@ -440,7 +440,7 @@ public class OsobaView implements Serializable {
                             }
                             //koniec paski 2023 umowa o pracę
                              for (Nieobecnosc p : nieobecnosci) {
-                                NieobecnosciBean.nanies(p, nieobecnoscFacade, kalendarzmiesiacFacade);
+                                NieobecnosciBean.nanies(p, kalendarzmiesiacFacade, nieobecnoscFacade);
                             }
                             log.add("Naniesiono nieobecnosci na kalendarz");
                             log.add("Zakończono import PRACA pracownika "+pracownik.getNazwiskoImie());
@@ -549,7 +549,7 @@ public class OsobaView implements Serializable {
                             }
                             //koniec paski 2023 funkcja
                             for (Nieobecnosc p : nieobecnosci) {
-                                NieobecnosciBean.nanies(p, nieobecnoscFacade, kalendarzmiesiacFacade);
+                                NieobecnosciBean.nanies(p, kalendarzmiesiacFacade, nieobecnoscFacade);
                             }
                             log.add("Naniesiono nieobecnosci na kalendarz");
                             log.add("Zakończono import FUNKCJA pracownika "+pracownik.getNazwiskoImie());

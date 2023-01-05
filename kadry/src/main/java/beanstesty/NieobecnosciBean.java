@@ -8,8 +8,6 @@ package beanstesty;
 import dao.KalendarzmiesiacFacade;
 import dao.NieobecnoscFacade;
 import data.Data;
-import embeddable.Mce;
-import embeddable.Okres;
 import entity.Kalendarzmiesiac;
 import entity.Nieobecnosc;
 import error.E;
@@ -91,34 +89,38 @@ public class NieobecnosciBean {
         return urlopbezplatny;
     }
      
-     public static boolean nanies(Nieobecnosc nieobecnosc, NieobecnoscFacade nieobecnoscFacade, KalendarzmiesiacFacade kalendarzmiesiacFacade) {
-        boolean czynaniesiono = false;
-        if (nieobecnosc.isNaniesiona() == false) {
-            List<Okres> okresy = OkresBean.generujokresy(nieobecnosc);
-            try {
-                //bo nanosimy tylko na 2021
-                int rokgraniczny = 2020;
-                if (Integer.parseInt(nieobecnosc.getRokod())>=rokgraniczny) {
-                    for (Okres okr : okresy) {
-                        Kalendarzmiesiac znaleziony = kalendarzmiesiacFacade.findByRokMcAngaz(nieobecnosc.getAngaz(), okr.getRok(), okr.getMc());
-                        if (znaleziony != null) {
-                            znaleziony.naniesnieobecnosc(nieobecnosc);
-                            nieobecnoscFacade.edit(nieobecnosc);
-                            kalendarzmiesiacFacade.edit(znaleziony);
-                            czynaniesiono = true;
-                        } else {
-                            Msg.msg("e", "Brak kalendarza pracownika za miesiąc rozliczeniowy "+okr.toString()+". Nie można nanieść nieobecności!");
-                        }
-                    }
-                }
-
-            } catch (Exception e) {
-                E.e(e);
-                Msg.msg("e", "Wystąpił błąd podczas nanoszenia nieobecności");
-            }
-        }
-        return czynaniesiono;
-    }
+//     public static boolean nanies(Nieobecnosc nieobecnosc, NieobecnoscFacade nieobecnoscFacade, KalendarzmiesiacFacade kalendarzmiesiacFacade) {
+//        boolean czynaniesiono = false;
+//        if (nieobecnosc.isNaniesiona() == false) {
+//            List<Okres> okresy = OkresBean.generujokresy(nieobecnosc);
+//            try {
+//                //bo nanosimy tylko na 2021
+//                int rokgraniczny = 2020;
+//                if (Integer.parseInt(nieobecnosc.getRokod())>=rokgraniczny) {
+//                    for (Okres okr : okresy) {
+//                        Kalendarzmiesiac znaleziony = kalendarzmiesiacFacade.findByRokMcAngaz(nieobecnosc.getAngaz(), okr.getRok(), okr.getMc());
+//                        if (znaleziony != null) {
+//                            int dniroboczenieobecnosci = znaleziony.naniesnieobecnosc(nieobecnosc);
+//                            if (dniroboczenieobecnosci>0) {
+//                                nieobecnosc.setDniroboczenieobecnosci(nieobecnosc.getDniroboczenieobecnosci()+dniroboczenieobecnosci);
+//                            }
+//                            nieobecnoscFacade.edit(nieobecnosc);
+//                            kalendarzmiesiacFacade.edit(znaleziony);
+//                            czynaniesiono = true;
+//                        } else {
+//                            Msg.msg("e", "Brak kalendarza pracownika za miesiąc rozliczeniowy "+okr.toString()+". Nie można nanieść nieobecności!");
+//                        }
+//                    }
+//                }
+//
+//            } catch (Exception e) {
+//                E.e(e);
+//                Msg.msg("e", "Wystąpił błąd podczas nanoszenia nieobecności");
+//            }
+//        }
+//        return czynaniesiono;
+//    }
+     //<editor-fold defaultstate="collapsed" desc="comment">
      
 //      public static boolean nanies(Nieobecnosc nieobecnosc, Umowa umowa, NieobecnoscFacade nieobecnoscFacade, KalendarzmiesiacFacade kalendarzmiesiacFacade) {
 //        boolean czynaniesiono = false;
@@ -176,40 +178,114 @@ public class NieobecnosciBean {
 //        }
 //        return czynaniesiono;
 //    }
+//</editor-fold>
      
-     public static boolean nanies(Nieobecnosc nieobecnosc, String rokwpisu, String rokuprzedni, KalendarzmiesiacFacade kalendarzmiesiacFacade, NieobecnoscFacade nieobecnoscFacade) {
+//     public static boolean nanies(Nieobecnosc nieobecnosc, String rokwpisu, String rokuprzedni, KalendarzmiesiacFacade kalendarzmiesiacFacade, NieobecnoscFacade nieobecnoscFacade) {
+//        boolean czynaniesiono = false;
+//        if (nieobecnosc.isNaniesiona() == false) {
+//            try {
+//                if (nieobecnosc.getRokod().equals(rokwpisu) || nieobecnosc.getRokdo().equals(rokwpisu)) {
+//                    String mcod = nieobecnosc.getMcod();
+//                    if (nieobecnosc.getRokod().equals(rokuprzedni)) {
+//                        mcod = "01";
+//                    }
+//                    String mcdo = nieobecnosc.getMcdo();
+//                    if (nieobecnosc.getRokdo().equals(Data.roknastepny(rokwpisu))) {
+//                        mcdo = "13";
+//                    }
+//                    for (String mc : Mce.getMceListS()) {
+//                        if (Data.jestrownywiekszy(mc, mcod) && Data.jestrownywiekszy(mcdo, mc)) {
+//                            Kalendarzmiesiac znaleziony = kalendarzmiesiacFacade.findByRokMcAngaz(nieobecnosc.getAngaz(), rokwpisu, mc);
+//                            if (znaleziony != null) {
+//                                if (nieobecnosc.getRokod().equals(rokwpisu) || nieobecnosc.getRokdo().equals(rokwpisu)) {
+//                                    int dniroboczenieobecnosci = znaleziony.naniesnieobecnosc(nieobecnosc);
+//                                    if (dniroboczenieobecnosci>0) {
+//                                        nieobecnosc.setDniroboczenieobecnosci(nieobecnosc.getDniroboczenieobecnosci()+dniroboczenieobecnosci);
+//                                    }
+//                                }
+//                                nieobecnoscFacade.edit(nieobecnosc);
+//                                kalendarzmiesiacFacade.edit(znaleziony);
+//                                czynaniesiono = true;
+//                            } else {
+//                                Msg.msg("e", "Brak kalendarza pracownika za miesiąc rozliczeniowy. Nie można nanieść nieobecności!");
+//                            }
+//                        }
+//                    }
+//                }
+//                if (nieobecnosc.getRokdo().equals(Data.roknastepny(rokwpisu))) {
+//                      String mcod = "01";
+//                      String mcdo = nieobecnosc.getMcdo();
+//                    String roknastepny = Data.roknastepny(rokwpisu);
+//                    for (String mc : Mce.getMceListS()) {
+//                        if (Data.jestrownywiekszy(mc, mcod) && Data.jestrownywiekszy(mcdo, mc)) {
+//                            Kalendarzmiesiac znaleziony = kalendarzmiesiacFacade.findByRokMcAngaz(nieobecnosc.getAngaz(), roknastepny, mc);
+//                            if (znaleziony != null) {
+//                                if (nieobecnosc.getRokod().equals(roknastepny) || nieobecnosc.getRokdo().equals(roknastepny)) {
+//                                    int dniroboczenieobecnosci = znaleziony.naniesnieobecnosc(nieobecnosc);
+//                                    if (dniroboczenieobecnosci>0) {
+//                                        nieobecnosc.setDniroboczenieobecnosci(nieobecnosc.getDniroboczenieobecnosci()+dniroboczenieobecnosci);
+//                                    }
+//                                }
+//                                nieobecnoscFacade.edit(nieobecnosc);
+//                                kalendarzmiesiacFacade.edit(znaleziony);
+//                                czynaniesiono = true;
+//                            } else {
+//                                Msg.msg("e", "Brak kalendarza pracownika za miesiąc rozliczeniowy. Nie można nanieść nieobecności!");
+//                            }
+//                        }
+//                    }
+//                }
+//            } catch (Exception e) {
+//                E.e(e);
+//                Msg.msg("e", "Wystąpił błąd podczas nanoszenia nieobecności");
+//            }
+//        }
+//        return czynaniesiono;
+//    }
+     
+    public static boolean nanies(Nieobecnosc nieobecnosc, KalendarzmiesiacFacade kalendarzmiesiacFacade, NieobecnoscFacade nieobecnoscFacade) {
         boolean czynaniesiono = false;
         if (nieobecnosc.isNaniesiona() == false) {
             try {
-                if (nieobecnosc.getRokod().equals(rokwpisu) || nieobecnosc.getRokdo().equals(rokwpisu)) {
-                    String mcod = nieobecnosc.getMcod();
-                    if (nieobecnosc.getRokod().equals(rokuprzedni)) {
-                        mcod = "01";
-                    }
-                    String mcdo = nieobecnosc.getMcdo();
-                    if (nieobecnosc.getRokdo().equals(Data.roknastepny(rokwpisu))) {
-                        mcdo = "13";
-                    }
-                    for (String mc : Mce.getMceListS()) {
-                        if (Data.jestrownywiekszy(mc, mcod) && Data.jestrownywiekszy(mcdo, mc)) {
-                            Kalendarzmiesiac znaleziony = kalendarzmiesiacFacade.findByRokMcAngaz(nieobecnosc.getAngaz(), rokwpisu, mc);
-                            if (znaleziony != null) {
-                                if (nieobecnosc.getRokod().equals(rokwpisu) || nieobecnosc.getRokdo().equals(rokwpisu)) {
-                                    int dniroboczenieobecnosci = znaleziony.naniesnieobecnosc(nieobecnosc);
-                                    if (dniroboczenieobecnosci>0) {
-                                        nieobecnosc.setDniroboczenieobecnosci(nieobecnosc.getDniroboczenieobecnosci()+dniroboczenieobecnosci);
-                                    }
-                                }
-                                nieobecnoscFacade.edit(nieobecnosc);
-                                kalendarzmiesiacFacade.edit(znaleziony);
-                                czynaniesiono = true;
-                            } else {
-                                Msg.msg("e", "Brak kalendarza pracownika za miesiąc rozliczeniowy. Nie można nanieść nieobecności!");
-                            }
+                String rokod = Data.getRok(nieobecnosc.getDataod());
+                String rokdo = Data.getRok(nieobecnosc.getDatado());
+                String mcod = nieobecnosc.getMcod();
+                String mcdo = nieobecnosc.getMcdo();
+                boolean start = false;
+                boolean stop = false;
+                List<Kalendarzmiesiac> kalendarze = kalendarzmiesiacFacade.findByAngaz(nieobecnosc.getAngaz());
+                for (Kalendarzmiesiac kal : kalendarze) {
+                    boolean pierwszymc = false;
+                    boolean ostatnimc = false;
+                    String rokkalendarza = kal.getRok();
+                    String mckalendarza = kal.getMc();
+                    if (rokkalendarza.equals(rokod)) {
+                        if (mckalendarza.equals(mcod)) {
+                            start = true;
+                            pierwszymc = true;
                         }
                     }
+                    if (rokkalendarza.equals(rokdo)) {
+                        if (mckalendarza.equals(mcdo)) {
+                            stop = true;
+                            ostatnimc = true;
+                        }
+                    }
+                    if (start) {
+                         int dniroboczenieobecnosci = kal.naniesnieobecnosc(nieobecnosc, pierwszymc, ostatnimc);
+                         if (dniroboczenieobecnosci > 0) {
+                             nieobecnosc.setDniroboczenieobecnosci(nieobecnosc.getDniroboczenieobecnosci() + dniroboczenieobecnosci);
+                         }
+                         nieobecnoscFacade.edit(nieobecnosc);
+                         kalendarzmiesiacFacade.edit(kal);
+                         czynaniesiono = true;
+                     }
+                     if (stop) {
+                         break;
+                     }
                 }
             } catch (Exception e) {
+                E.e(e);
                 Msg.msg("e", "Wystąpił błąd podczas nanoszenia nieobecności");
             }
         }

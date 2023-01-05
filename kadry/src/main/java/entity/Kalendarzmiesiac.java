@@ -826,16 +826,19 @@ private static final long serialVersionUID = 1L;
 
     
     
-    public int naniesnieobecnosc(Nieobecnosc p) {
+    public int naniesnieobecnosc(Nieobecnosc p, boolean pierwszymc, boolean ostatnimc) {
         int dzienod = Data.getDzienI(p.getDataod());
         int dziendo = Data.getDzienI(p.getDatado());
         String mcod = Data.getMc(p.getDataod());
         String mcdo = Data.getMc(p.getDatado());
-        dzienod = modyfikujod(mcod, dzienod);
-        if (Integer.parseInt(p.getRokdo())>this.getRokI()) {
-            mcdo ="13";
+        if (pierwszymc==true&&ostatnimc==false) {
+            dziendo = 31;
+        } else if (pierwszymc==false&&ostatnimc==true) {
+            dzienod = 1;
+        } else if (pierwszymc==false&&ostatnimc==false) {
+            dzienod = 1;
+            dziendo = 31;
         }
-        dziendo = modyfikujdo(mcdo, dziendo);
         int dnirobocze = 0;
         if (p.getDzienList()==null) {
             p.setDzienList(new ArrayList<>());
@@ -905,29 +908,29 @@ private static final long serialVersionUID = 1L;
         return dnirobocze;
     }
 
-    private int modyfikujod(String mcod, int dzienod) {
-        String mckalendarza = this.getMc();
-        if (!mcod.equals(mckalendarza)) {
-            int mckalendarzaint = Integer.parseInt(mckalendarza);
-            int mcodint = Integer.parseInt(mcod);
-            if (mcodint<mckalendarzaint) {
-                dzienod = 1;
-            }
-        }
-        return dzienod;
-    }
-    
-    private int modyfikujdo(String mcoddo, int dziendo) {
-        String mckalendarza = this.getMc();
-        if (!mcoddo.equals(mckalendarza)) {
-            int mckalendarzaint = Integer.parseInt(mckalendarza);
-            int mcdoint = Integer.parseInt(mcoddo);
-            if (mcdoint>mckalendarzaint) {
-                dziendo = Integer.parseInt(Data.getDzien(Data.ostatniDzien(this.rok, this.mc)));
-            }
-        }
-        return dziendo;
-    }
+//    private int modyfikujod(String mcod, int dzienod) {
+//        String mckalendarza = this.getMc();
+//        if (!mcod.equals(mckalendarza)) {
+//            int mckalendarzaint = Integer.parseInt(mckalendarza);
+//            int mcodint = Integer.parseInt(mcod);
+//            if (mcodint<mckalendarzaint) {
+//                dzienod = 1;
+//            }
+//        }
+//        return dzienod;
+//    }
+//    
+//    private int modyfikujdo(String mcoddo, int dziendo) {
+//        String mckalendarza = this.getMc();
+//        if (!mcoddo.equals(mckalendarza)) {
+//            int mckalendarzaint = Integer.parseInt(mckalendarza);
+//            int mcdoint = Integer.parseInt(mcoddo);
+//            if (mcdoint>mckalendarzaint) {
+//                dziendo = Integer.parseInt(Data.getDzien(Data.ostatniDzien(this.rok, this.mc)));
+//            }
+//        }
+//        return dziendo;
+//    }
 
     public boolean czysainnekody() {
         boolean zwrot = false;

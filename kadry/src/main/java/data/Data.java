@@ -793,7 +793,7 @@ public class Data implements Serializable {
         return zwrot;
     }
 
-    public static Object roknastepny(String rokwpisu) {
+    public static String roknastepny(String rokwpisu) {
         String zwrot = rokwpisu;
         if (rokwpisu!=null) {
             int rokwpisuI = Integer.parseInt(rokwpisu);

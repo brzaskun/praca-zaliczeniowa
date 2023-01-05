@@ -267,11 +267,10 @@ public class PasekwynagrodzenView implements Serializable {
 
     public void usun() {
         if (lista != null && lista.size() > 0) {
-            for (Pasekwynagrodzen p : lista) {
-                pasekwynagrodzenFacade.remove(p);
-                lista.remove(p);
-            }
-            Msg.msg("Usunięto listę płac");
+            pasekwynagrodzenFacade.removeList(lista);
+            lista.clear();
+            init();
+            Msg.msg("Usunięto osoby z listy płac");
         }
     }
 
@@ -315,8 +314,8 @@ public class PasekwynagrodzenView implements Serializable {
                     if (oddelegowanieZUSLimit != null) {
                         limitzus = oddelegowanieZUSLimit.getKwota();
                     }
-                    List<Nieobecnosc> nieobecnosci = nieobecnoscFacade.findByAngaz(wpisView.getAngaz());
-                    List<Kalendarzmiesiac> kalendarzlista = kalendarzmiesiacFacade.findByAngaz(wpisView.getAngaz());
+                    List<Nieobecnosc> nieobecnosci = nieobecnoscFacade.findByAngaz(pracownikmc.getAngaz());
+                    List<Kalendarzmiesiac> kalendarzlista = kalendarzmiesiacFacade.findByAngaz(pracownikmc.getAngaz());
                     Rachunekdoumowyzlecenia rachunekdoumowyzlecenia = PasekwynagrodzenBean.pobierzRachunekzlecenie(pracownikmc.getAngaz(),pracownikmc.getRok(), pracownikmc.getMc());
                     if (rachunekdoumowyzlecenia!=null) {
                         rachunkilista.add(rachunekdoumowyzlecenia);
@@ -496,6 +495,13 @@ public class PasekwynagrodzenView implements Serializable {
             }
             if (rodzajlistyplac.getSymbol().equals("OS")) {
                 listakalendarzmiesiac = kalendarzmiesiacFacade.findByFirmaRokMc(wybranalistaplac.getFirma(), wybranalistaplac.getRok(), wybranalistaplac.getMc());
+                for (Iterator<Kalendarzmiesiac> it = listakalendarzmiesiac.iterator(); it.hasNext();) {
+                    Kalendarzmiesiac kal = it.next();
+                    Pasekwynagrodzen pasek = kal.getPasek(wybranalistaplac);
+                    if (!kal.getAngaz().getAktywnaUmowa().getUmowakodzus().isFunkcja()) {
+                        it.remove();
+                    }
+                }
             }
             if (rodzajlistyplac.getSymbol().equals("ZR")) {
                 listakalendarzmiesiac = kalendarzmiesiacFacade.findByFirmaRokMcNierezydent(wybranalistaplac.getFirma(), wybranalistaplac.getRok(), wybranalistaplac.getMc());
@@ -515,7 +521,7 @@ public class PasekwynagrodzenView implements Serializable {
                 for (Iterator<Kalendarzmiesiac> it = listakalendarzmiesiac.iterator(); it.hasNext();) {
                 Kalendarzmiesiac kal = it.next();
                 Pasekwynagrodzen pasek = kal.getPasek(wybranalistaplac);
-                if (kal.getAngaz().getAktywnaUmowa().getUmowakodzus().isZlecenie()) {
+                if (kal.getAngaz().getAktywnaUmowa().getUmowakodzus().isZlecenie()||kal.getAngaz().getAktywnaUmowa().getUmowakodzus().isFunkcja()) {
                     it.remove();
                 }
             }
