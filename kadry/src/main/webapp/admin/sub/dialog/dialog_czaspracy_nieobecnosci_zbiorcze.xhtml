@@ -22,7 +22,7 @@
             <p:panelGrid columns="1">
                 <h:form id="NieobecnosczbiorczeCreateForm">
                     <h:panelGroup id="display">
-                        <p:panelGrid columns="4" rendered="#{nieobecnoscView.selected != null}">
+                        <p:panelGrid columns="4" rendered="#{nieobecnoscView.selectedzbiorczo != null}">
                             <p:panelGrid columns="1">
                                 <p:outputPanel>
                                     <p:outputLabel value="" for="wybranypracownik" />
@@ -32,50 +32,50 @@
                             </p:panelGrid>
                             <p:panelGrid columns="2">
                                 <p:outputLabel value="nazwa nieobecności" for="nieobkodzus" />
-                                <p:selectOneMenu id="nieobkodzus" value="#{nieobecnoscView.selected.rodzajnieobecnosci}" required="true" requiredMessage="wybierz rodzaj nieobecnosci"  converter="#{rodzajnieobecnosciConverter}" filter="true" filterMatchMode="contains">
+                                <p:selectOneMenu id="nieobkodzus" value="#{nieobecnoscView.selectedzbiorczo.rodzajnieobecnosci}" required="true" requiredMessage="wybierz rodzaj nieobecnosci"  converter="#{rodzajnieobecnosciConverter}" filter="true" filterMatchMode="contains">
                                     <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
                                     <f:selectItems value="#{nieobecnoscView.listaabsencji}" 
                                                    var="kodzusItem"
                                                    itemValue="#{kodzusItem}" itemLabel="#{kodzusItem.kod} #{kodzusItem.opis}"/>
-                                    <p:ajax event="change" partialSubmit="true" global="false" update="NieobecnosczbiorczeCreateForm:swiadczenie" listener="#{nieobecnoscView.naniesrodzajnieobecnosci()}"/>
+                                    <p:ajax event="change" partialSubmit="true" global="false" update="NieobecnosczbiorczeCreateForm:swiadczenie" listener="#{nieobecnoscView.naniesrodzajnieobecnoscizbiorcze()}"/>
                                 </p:selectOneMenu>
                                 <p:outputLabel value="świadczenie" for="swiadczenie" />
-                                <p:selectOneMenu id="swiadczenie" value="#{nieobecnoscView.selected.swiadczeniekodzus}"  converter="#{swiadczeniekodzusConverter}" filter="true" filterMatchMode="contains"
+                                <p:selectOneMenu id="swiadczenie" value="#{nieobecnoscView.selectedzbiorczo.swiadczeniekodzus}"  converter="#{swiadczeniekodzusConverter}" filter="true" filterMatchMode="contains"
                                                  style="width: 300px;">
                                     <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
                                     <f:selectItems value="#{nieobecnoscView.swiadczeniekodzusLista}" 
                                                    var="kodzusItem"
                                                    itemValue="#{kodzusItem}" itemLabel="#{kodzusItem.kod} #{kodzusItem.opis}"/>
-                                    <p:ajax event="change" partialSubmit="true" global="false" update="NieobecnosczbiorczeCreateForm:procent" listener="#{nieobecnoscView.naniesprocent()}"/>
+                                    <p:ajax event="change" partialSubmit="true" global="false" update="NieobecnosczbiorczeCreateForm:procent" listener="#{nieobecnoscView.naniesprocentzbiorcze()}"/>
                                 </p:selectOneMenu>
                             </p:panelGrid>
                                 <p:panelGrid columns="2">
                                     <p:outputLabel value="data od" for="dataod" />
-                                    <p:inputText id="dataod" value="#{nieobecnoscView.selected.dataod}" title="datac od"  placeholder="____-__-__" maxlength="10" required="true" requiredMessage="Wprowadź datę od">
+                                    <p:inputText id="dataod" value="#{nieobecnoscView.selectedzbiorczo.dataod}" title="datac od"  placeholder="____-__-__" maxlength="10" required="true" requiredMessage="Wprowadź datę od">
                                         <p:ajax event="blur" onstart="ustawDateSprzedazy(#{wpisView.rokWpisu},#{wpisView.miesiacWpisu});" partialSubmit="true" global="false" />
                                     </p:inputText>
                                     <p:outputLabel value="data do" for="datado" />
-                                    <p:inputText id="datado" value="#{nieobecnoscView.selected.datado}" title="data do"  placeholder="____-__-__" maxlength="10" required="true" requiredMessage="Wprowadź datę do">
+                                    <p:inputText id="datado" value="#{nieobecnoscView.selectedzbiorczo.datado}" title="data do"  placeholder="____-__-__" maxlength="10" required="true" requiredMessage="Wprowadź datę do">
                                         <p:ajax event="blur" onstart="ustawDateSprzedazy(#{wpisView.rokWpisu},#{wpisView.miesiacWpisu});" partialSubmit="true" global="false" />
                                     </p:inputText>
                                     <p:outputLabel value="przyczyna" for="przyczyna" />
-                                    <p:inputText id="przyczyna" value="#{nieobecnoscView.selected.uzasadnienie}" title="przyczyna"/>
+                                    <p:inputText id="przyczyna" value="#{nieobecnoscView.selectedzbiorczo.uzasadnienie}" title="przyczyna"/>
                                     <p:outputLabel value="seria i nr zw." for="seriainrzwolnienia" />
-                                    <p:inputText id="seriainrzwolnienia" value="#{nieobecnoscView.selected.seriainrzwolnienia}" title="seria i nr zw."/>
+                                    <p:inputText id="seriainrzwolnienia" value="#{nieobecnoscView.selectedzbiorczo.seriainrzwolnienia}" title="seria i nr zw."/>
                                     <p:outputLabel value="procent" for="procent" />
-                                    <p:inputText  id="procent" value="#{nieobecnoscView.selected.zwolnienieprocent}" title="procent zwolenienia" />
+                                    <p:inputText  id="procent" value="#{nieobecnoscView.selectedzbiorczo.zwolnienieprocent}" title="procent zwolenienia" />
                                 </p:panelGrid>
                             <p:fragment>
                                 <p:autoUpdate/>
                                 <p:panelGrid columns="2"  rendered="#{nieobecnoscView.delegacja}">
                                     <p:outputLabel value="oznacz pon-pt" for="ponpiat"  rendered="#{nieobecnoscView.delegacja}"/>
-                                    <p:selectBooleanCheckbox id="ponpiat" value="#{nieobecnoscView.selected.ponpiatek}" rendered="#{nieobecnoscView.delegacja}"/>
+                                    <p:selectBooleanCheckbox id="ponpiat" value="#{nieobecnoscView.selectedzbiorczo.ponpiatek}" rendered="#{nieobecnoscView.delegacja}"/>
                                     <p:outputLabel value="kraj oddel." for="uwagi" />
-                                    <p:inputText id="uwagi" value="#{nieobecnoscView.selected.krajoddelegowania}" title="kraj oddelegowania"/>
+                                    <p:inputText id="uwagi" value="#{nieobecnoscView.selectedzbiorczo.krajoddelegowania}" title="kraj oddelegowania"/>
                                     <p:outputLabel value="kwota diety"/>
-                                    <bcf:inputpl value="#{nieobecnoscView.selected.dietaoddelegowanie}"/>
+                                    <bcf:inputpl value="#{nieobecnoscView.selectedzbiorczo.dietaoddelegowanie}"/>
                                     <p:outputLabel value="waluta diety" for="waluta" />
-                                    <p:selectOneMenu id="waluta"  value="#{nieobecnoscView.selected.walutadiety}" 
+                                    <p:selectOneMenu id="waluta"  value="#{nieobecnoscView.selectedzbiorczo.walutadiety}" 
                                                      style="width: 100px;"  >
                                         <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true"/>
                                         <f:selectItem itemLabel="PLN" itemValue="PLN"/>

@@ -71,6 +71,8 @@ public class NieobecnoscView  implements Serializable {
     @Inject
     private Nieobecnosc selected;
     @Inject
+    private Nieobecnosc selectedzbiorczo;
+    @Inject
     private Nieobecnosc selectedlista;
     private List<Nieobecnosc> lista;
     private List<Rodzajnieobecnosci> listaabsencji;
@@ -199,21 +201,21 @@ public class NieobecnoscView  implements Serializable {
                 Nieobecnosc nowa = new Nieobecnosc();
                 Angaz angaz = angazFacade.findByFirmaPracownik(firma,p);
                 nowa.setAngaz(angaz);
-                nowa.setDataod(selected.getDataod());
-                nowa.setDatado(selected.getDatado());
-                nowa.setRokod(Data.getRok(selected.getDataod()));
-                nowa.setRokdo(Data.getRok(selected.getDatado()));
-                nowa.setMcod(Data.getMc(selected.getDataod()));
-                nowa.setMcdo(Data.getMc(selected.getDatado()));
-                nowa.setRodzajnieobecnosci(selected.getRodzajnieobecnosci());
-                nowa.setKrajoddelegowania(selected.getKrajoddelegowania());
-                nowa.setWalutadiety(selected.getWalutadiety());
-                nowa.setDietaoddelegowanie(selected.getDietaoddelegowanie());
-                nowa.setSwiadczeniekodzus(selected.getSwiadczeniekodzus());
-                nowa.setKodzwolnienia(selected.getKodzwolnienia());
-                nowa.setUzasadnienie(selected.getUzasadnienie());
-                LocalDate oddata = LocalDate.parse(selected.getDataod());
-                LocalDate dodata = LocalDate.parse(selected.getDatado());
+                nowa.setDataod(selectedzbiorczo.getDataod());
+                nowa.setDatado(selectedzbiorczo.getDatado());
+                nowa.setRokod(Data.getRok(selectedzbiorczo.getDataod()));
+                nowa.setRokdo(Data.getRok(selectedzbiorczo.getDatado()));
+                nowa.setMcod(Data.getMc(selectedzbiorczo.getDataod()));
+                nowa.setMcdo(Data.getMc(selectedzbiorczo.getDatado()));
+                nowa.setRodzajnieobecnosci(selectedzbiorczo.getRodzajnieobecnosci());
+                nowa.setKrajoddelegowania(selectedzbiorczo.getKrajoddelegowania());
+                nowa.setWalutadiety(selectedzbiorczo.getWalutadiety());
+                nowa.setDietaoddelegowanie(selectedzbiorczo.getDietaoddelegowanie());
+                nowa.setSwiadczeniekodzus(selectedzbiorczo.getSwiadczeniekodzus());
+                nowa.setKodzwolnienia(selectedzbiorczo.getKodzwolnienia());
+                nowa.setUzasadnienie(selectedzbiorczo.getUzasadnienie());
+                LocalDate oddata = LocalDate.parse(selectedzbiorczo.getDataod());
+                LocalDate dodata = LocalDate.parse(selectedzbiorczo.getDatado());
                 double iloscdni = DAYS.between(oddata,dodata);
                 nowa.setDnikalendarzowe(iloscdni+1.0);
                 nieobecnoscFacade.create(nowa);
@@ -261,10 +263,36 @@ public class NieobecnoscView  implements Serializable {
         }
     }
     
+    public void naniesrodzajnieobecnoscizbiorcze() {
+        if (selectedzbiorczo.getRodzajnieobecnosci()!=null) {
+            swiadczeniekodzusLista = swiadczeniekodzusFacade.findByRodzajnieobecnosciAktiv(selected.getRodzajnieobecnosci());
+            if (selectedzbiorczo.getRodzajnieobecnosci().getKod().equals("Z")) {
+                selectedzbiorczo.setKrajoddelegowania("Niemcy");
+                selectedzbiorczo.setWalutadiety("EUR");
+                selectedzbiorczo.setDietaoddelegowanie(49.0);
+                delegacja = true;
+            } else {
+                delegacja = false;
+            }
+            if (swiadczeniekodzusLista.size()==1) {
+                selected.setSwiadczeniekodzus(swiadczeniekodzusLista.get(0));
+            }
+            Msg.msg("Wybrano rodzaj nieobecności");
+        }
+    }
+    
     public void naniesprocent() {
          if (selected.getSwiadczeniekodzus()!=null) {
             if (selected.getSwiadczeniekodzus().getKod().equals("CH")) {
                 selected.setZwolnienieprocent(80.0);
+            }
+        }
+    }
+    
+    public void naniesprocentzbiorcze() {
+         if (selectedzbiorczo.getSwiadczeniekodzus()!=null) {
+            if (selectedzbiorczo.getSwiadczeniekodzus().getKod().equals("CH")) {
+                selectedzbiorczo.setZwolnienieprocent(80.0);
             }
         }
     }
@@ -532,6 +560,14 @@ public class NieobecnoscView  implements Serializable {
 
     public void setDniwykorzystanewroku(int dniwykorzystanewroku) {
         this.dniwykorzystanewroku = dniwykorzystanewroku;
+    }
+
+    public Nieobecnosc getSelectedzbiorczo() {
+        return selectedzbiorczo;
+    }
+
+    public void setSelectedzbiorczo(Nieobecnosc selectedzbiorczo) {
+        this.selectedzbiorczo = selectedzbiorczo;
     }
 
     
