@@ -95,7 +95,7 @@
         </p:outputPanel>
         <p:outputPanel>
             <h:form id="KalendarzmiesiacListForm">
-                <p:panel header="Dni kalendarza pracownika #{kalendarzmiesiacView.selected.rok}/#{kalendarzmiesiacView.selected.mc}">
+                <p:panel header="Dni kalendarza pracownika #{kalendarzmiesiacView.selected.rok}/#{kalendarzmiesiacView.selected.mc} prac #{kalendarzmiesiacView.selected.angaz.pracownik.nazwiskoImie}">
                     <p:dataTable id="datalist" value="#{kalendarzmiesiacView.selected.dzienList}" var="itemkalendarz"
                                  rowKey="#{itemkalendarz.id}"
                                  style="height: 500px; overflow-y: scroll; width: 1200px;" sortMode="single"
