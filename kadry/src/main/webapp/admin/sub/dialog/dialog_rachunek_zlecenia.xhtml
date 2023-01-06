@@ -24,8 +24,11 @@
                 <p:outputPanel rendered="#{wpisView.umowa.umowakodzus.zlecenie}">
                 <p:panel header="Miesięczne rozliczenie umowy zlecenia nr #{rachunekZlecenieView.umowabiezaca.nrkolejny}" style="width: 700px;"/>
                 <h:outputText value="Przygotowano nowy rachunek do zatwierdzenia" rendered="#{rachunekZlecenieView.rachunekdoumowyzlecenia.id eq null}"/>
-                <h:outputText value="Pobrano uprzednio przygotowany rachunek dla #{wpisView.umowa.pracownik.nazwiskoImie}. Brak listy płac." rendered="#{rachunekZlecenieView.rachunekdoumowyzlecenia.id ne null and rachunekZlecenieView.rachunekdoumowyzlecenia.pasekwynagrodzen eq null}" style="color: blue;"/>
-                <h:outputText value="Pobrano uprzednio przygotowany rachunek dla #{wpisView.umowa.pracownik.nazwiskoImie}. Rachunek rozliczono w liście płac" rendered="#{rachunekZlecenieView.rachunekdoumowyzlecenia.id ne null and rachunekZlecenieView.rachunekdoumowyzlecenia.pasekwynagrodzen ne null}"  style="color: red;"/>
+                <h:outputText value="Pobrano uprzednio przygotowany rachunek.  Brak listy płac." rendered="#{rachunekZlecenieView.rachunekdoumowyzlecenia.id ne null and rachunekZlecenieView.rachunekdoumowyzlecenia.pasekwynagrodzen eq null}" style="color: blue;"/>
+                <h:outputText value="Pobrano uprzednio przygotowany rachunek. Rachunek rozliczono w liście płac" rendered="#{rachunekZlecenieView.rachunekdoumowyzlecenia.id ne null and rachunekZlecenieView.rachunekdoumowyzlecenia.pasekwynagrodzen ne null}"  style="color: red;"/>
+                <p:panelGrid columns="1">
+                    <h:outputText value="Osoba #{wpisView.pracownik.nazwiskoImie}. Wiek #{wpisView.pracownik.wiek}" style="color:green;"/>
+                </p:panelGrid>
                 <p:panelGrid columns="4" rendered="#{rachunekZlecenieView.umowabiezaca ne null}">
                     <p:outputLabel value="data umowy od:"/>
                     <h:outputText value="#{rachunekZlecenieView.umowabiezaca.dataod}" styleClass="ww"/>
@@ -51,12 +54,14 @@
                     <bcf:outputpl value="#{rachunekZlecenieView.rachunekdoumowyzlecenia.wynagrodzeniemiesieczne}"/>
                     <p:outputLabel value="wynagrodzenie godzinowe Polska:"/>
                     <bcf:outputpl value="#{rachunekZlecenieView.rachunekdoumowyzlecenia.wynagrodzeniegodzinowe}"/>
-                    <p:outputLabel value="wynagrodzenie godzinowe Oddelegowanie:"/>
-                    <bcf:outputpl value="#{rachunekZlecenieView.rachunekdoumowyzlecenia.wynagrodzeniegodzinoweoddelegowanie}"/>
+                    <p:outputLabel value="wynagrodzenie godzinowe Oddelegowanie Waluta:"/>
+                    <bcf:outputpl value="#{rachunekZlecenieView.rachunekdoumowyzlecenia.wynagrodzeniegodzinoweoddelegowaniewaluta}"/>
                     <p:outputLabel value="kurs waluty: "/>
                     <bcf:outputpl4 value="#{rachunekZlecenieView.rachunekdoumowyzlecenia.kurswaluty}"/>
                     <p:outputLabel value="symbol waluty: "/>
                     <h:outputText value="#{rachunekZlecenieView.rachunekdoumowyzlecenia.symbolwaluty}"/>
+                    <p:outputLabel value="wynagrodzenie godzinowe Oddelegowanie PLN:"/>
+                    <bcf:outputpl value="#{rachunekZlecenieView.rachunekdoumowyzlecenia.wynagrodzeniegodzinoweoddelegowanie}"/>
                 </p:panelGrid>
                 <p:panelGrid columns="2" style="margin-top: 10px;" id="panelkwoty">
                     <p:outputLabel value="ilośc godzin wg kalendarza Polska:"/>

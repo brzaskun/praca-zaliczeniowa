@@ -81,6 +81,8 @@ public class Rachunekdoumowyzlecenia implements Serializable {
     private double wynagrodzeniegodzinowe;
     @Column(name="wynagrodzeniegodzinoweoddelegowanie")
     private double wynagrodzeniegodzinoweoddelegowanie;
+    @Column(name="wynagrodzeniegodzinoweoddelegowaniewaluta")
+    private double wynagrodzeniegodzinoweoddelegowaniewaluta;
     @Column(name="iloscgodzin")
     private double iloscgodzin;
     @Column(name="iloscgodzinoddelegowanie")
@@ -214,6 +216,14 @@ public class Rachunekdoumowyzlecenia implements Serializable {
 
     public void setKoszt(double koszt) {
         this.koszt = koszt;
+    }
+
+    public double getWynagrodzeniegodzinoweoddelegowaniewaluta() {
+        return wynagrodzeniegodzinoweoddelegowaniewaluta;
+    }
+
+    public void setWynagrodzeniegodzinoweoddelegowaniewaluta(double wynagrodzeniegodzinoweoddelegowaniewaluta) {
+        this.wynagrodzeniegodzinoweoddelegowaniewaluta = wynagrodzeniegodzinoweoddelegowaniewaluta;
     }
 
     public boolean isSpoleczne() {

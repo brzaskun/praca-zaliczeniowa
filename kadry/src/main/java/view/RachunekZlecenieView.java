@@ -122,6 +122,7 @@ public class RachunekZlecenieView  implements Serializable {
                         rachunekdoumowyzlecenia.setKwota(Z.z(kwotaPolska));
                     }
                     double kwotaZagranica = umowabiezaca.getAngaz().pobierzwynagrodzenieKwotaWaluta(wpisView.getRokWpisu(), wpisView.getMiesiacWpisu(), kalendarz);
+                    rachunekdoumowyzlecenia.setWynagrodzeniegodzinoweoddelegowaniewaluta(kwotaZagranica);
                     Tabelanbp tabelanbp = ustawtabelenbp(rachunekdoumowyzlecenia.getDatawystawienia());
                     rachunekdoumowyzlecenia.setKurswaluty(tabelanbp.getKurssredni());
                     kwotaZagranica = (kwotaZagranica*tabelanbp.getKurssredni());
@@ -219,8 +220,20 @@ public class RachunekZlecenieView  implements Serializable {
             if (p.getId()==null) {
                 if (p.getKwotasuma()>0.0) {
                     rachunekdoumowyzleceniaFacade.create(p);
+//                    Skladnikwynagrodzenia skladnik = p.getUmowa().getAngaz().pobierzskladnikzlecenieMiesieczne();
+//                    Zmiennawynagrodzenia zmienna = new Zmiennawynagrodzenia(skladnik);
+//                    zmienna.setDataod(rachunekdoumowyzlecenia.getDataod());
+//                    zmienna.setDatado(rachunekdoumowyzlecenia.getDatado());
+//                    zmienna.s
+//                    zmienna.setKwota(p.getKwota());
+//                    zmiennaWynagrodzeniaFacade.edit(zmienna);
+//                    rachunekdoumowyzleceniaFacade.edit(p);
                 }
             } else {
+//                Skladnikwynagrodzenia skladnik = p.getUmowa().getAngaz().pobierzskladnikzlecenieMiesieczne();
+//                Zmiennawynagrodzenia zmienna = skladnik.pobierzzmienna(p);
+//                zmienna.setKwota(p.getKwota());
+//                zmiennaWynagrodzeniaFacade.edit(zmienna);
                 rachunekdoumowyzleceniaFacade.edit(p);
             }
         }

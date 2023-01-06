@@ -18,7 +18,7 @@
                 <p:dataTable id="datalist" value="#{rachunekZlecenieView.lista}" var="itempasekzlec" emptyMessage="Brak umów zlecenia za dany okres"
                              selectionMode="single" selection="#{rachunekZlecenieView.selectedlista}" rowIndexVar="indexpasekzlec"
                              rowKey="#{itempasekzlec.hashCode()}" sortBy="#{itempasekzlec.pasekwynagrodzen.nazwiskoImie}"
-                             style="height: 550px; overflow-y: scroll;width: 1400px; margin-top: 10px;"
+                             style="height: 550px; overflow-y: scroll;width: 1600px; margin-top: 10px;"
                              >
                     <p:column width="20">
                         <h:outputText value="#{indexpasekzlec+1}"/>
@@ -37,37 +37,36 @@
                             <p:ajax event="change" partialSubmit="true" listener="#{rachunekZlecenieView.przeliczrachuneklista(itempasekzlec)}" update="@(.zbiorczyrach)"  global="false"/>
                         </p:inputNumber>
                     </p:column>
-                    <p:column width="20" style="text-align: center;" headerText="wyn. godz.">
-                        <p:inputNumber value="#{itempasekzlec.wynagrodzeniegodzinowe}" decimalSeparator=","   inputStyle="text-align: right;" decimalPlaces="2" size="7">
-                            <p:ajax event="change" partialSubmit="true" listener="#{rachunekZlecenieView.przeliczrachuneklista(itempasekzlec)}" update="@(.zbiorczyrach)"  global="false"/>
-                        </p:inputNumber>
+                    <p:column width="30" style="text-align: center;" headerText="wyn. godz.">
+                        <bcf:outputpl value="#{itempasekzlec.wynagrodzeniegodzinowe}"/>
                     </p:column>
                     <p:column width="50" style="text-align: center;" headerText="ilość godzin">
                         <p:inputNumber value="#{itempasekzlec.iloscgodzin}" decimalSeparator=","   inputStyle="text-align: right;" decimalPlaces="2" size="8">
                             <p:ajax event="change" partialSubmit="true" listener="#{rachunekZlecenieView.przeliczrachuneklista(itempasekzlec)}" update="@(.zbiorczyrach)"  global="false"/>
                         </p:inputNumber>
                     </p:column>
-                    <p:column width="70"  headerText="kwota kraj">
-                        <p:inputNumber value="#{itempasekzlec.kwota}" id="lolo1"  decimalPlaces="1" decimalSeparator="," inputStyle="text-align: right" size="15" styleClass="zbiorczyrach"/>
+                    <p:column width="60"  headerText="kwota kraj">
+                        <p:inputNumber value="#{itempasekzlec.kwota}" id="lolo1"  decimalPlaces="2" decimalSeparator="," inputStyle="text-align: right" size="11" styleClass="zbiorczyrach"/>
                     </p:column>
-                    <p:column width="20" style="text-align: center;" headerText="wyn. godz. odd.">
-                        <p:inputNumber value="#{itempasekzlec.wynagrodzeniegodzinoweoddelegowanie}" decimalSeparator=","   inputStyle="text-align: right;" decimalPlaces="2" size="7">
-                            <p:ajax event="change" partialSubmit="true" listener="#{rachunekZlecenieView.przeliczrachuneklista(itempasekzlec)}" update="@(.zbiorczyrach)" global="false"/>
-                        </p:inputNumber>
+                    <p:column width="30" style="text-align: center;" headerText="wyn. godz. odd. wal">
+                        <bcf:outputpl value="#{itempasekzlec.wynagrodzeniegodzinoweoddelegowaniewaluta}"/>
                     </p:column>
                     <p:column width="30" style="text-align: center;" headerText="wal">
                         <h:outputText value="#{itempasekzlec.symbolwaluty}"/>
+                    </p:column>
+                    <p:column width="30" style="text-align: center;" headerText="wyn. godz. odd. pln">
+                        <bcf:outputpl value="#{itempasekzlec.wynagrodzeniegodzinoweoddelegowanie}"/>
                     </p:column>
                     <p:column width="50" style="text-align: center;" headerText="ilość godz. odd.">
                         <p:inputNumber value="#{itempasekzlec.iloscgodzinoddelegowanie}" decimalSeparator=","   inputStyle="text-align: right;" decimalPlaces="2" size="8">
                             <p:ajax event="change" partialSubmit="true" listener="#{rachunekZlecenieView.przeliczrachuneklista(itempasekzlec)}" update="@(.zbiorczyrach)" global="false"/>
                         </p:inputNumber>
                     </p:column>
-                    <p:column width="70"  headerText="kwota oddel.">
-                        <p:inputNumber value="#{itempasekzlec.kwotaoddelegowanie}"  decimalPlaces="1" decimalSeparator="," inputStyle="text-align: right" size="15" styleClass="zbiorczyrach"/>
+                    <p:column width="60"  headerText="kwota oddel.">
+                        <p:inputNumber value="#{itempasekzlec.kwotaoddelegowanie}"  decimalPlaces="2" decimalSeparator="," inputStyle="text-align: right" size="12" styleClass="zbiorczyrach"/>
                     </p:column>
-                    <p:column width="70"  headerText="razem brutto">
-                        <p:inputNumber value="#{itempasekzlec.kwotasuma}"  decimalPlaces="1" decimalSeparator="," inputStyle="text-align: right" size="15" styleClass="zbiorczyrach"/>
+                    <p:column width="60"  headerText="razem brutto">
+                        <p:inputNumber value="#{itempasekzlec.kwotasuma}"  decimalPlaces="2" decimalSeparator="," inputStyle="text-align: right" size="12" styleClass="zbiorczyrach"/>
                     </p:column>
                     <p:column width="30" headerText="koszt uzysk. %">
                         <bcf:outputplprocent value="#{itempasekzlec.procentkosztowuzyskaniaDisplay}"/>

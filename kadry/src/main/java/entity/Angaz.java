@@ -601,12 +601,14 @@ public class Angaz implements Serializable {
         return zwrot;
     }
 
-    public Skladnikwynagrodzenia pobierzskladnikzlecenie() {
+    public Skladnikwynagrodzenia pobierzskladnikzlecenieMiesieczne() {
         Skladnikwynagrodzenia zwrot = null;
         if (this.skladnikwynagrodzeniaList!=null) {
             for (Skladnikwynagrodzenia p : this.skladnikwynagrodzeniaList) {
-                zwrot = p;
-                break;
+                if (p.getRodzajwynagrodzenia().getStale0zmienne1()==false) {
+                    zwrot = p;
+                    break;
+                }
             }
         }
         return zwrot;

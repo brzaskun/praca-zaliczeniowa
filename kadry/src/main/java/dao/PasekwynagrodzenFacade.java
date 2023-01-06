@@ -115,5 +115,9 @@ public class PasekwynagrodzenFacade extends DAO   implements Serializable {
 //        return zwrot;
 //    }
 
+    public Pasekwynagrodzen findById(Integer id) {
+        return (Pasekwynagrodzen) getEntityManager().createNamedQuery("Pasekwynagrodzen.findById").setParameter("id", id).getSingleResult();
+    }
+
     
 }

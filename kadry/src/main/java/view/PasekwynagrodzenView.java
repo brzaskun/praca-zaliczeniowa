@@ -434,10 +434,12 @@ public class PasekwynagrodzenView implements Serializable {
         if (p != null) {
             if (p.getId() != null) {
                 if (p.getDefinicjalistaplac().getRodzajlistyplac().getSymbol().equals("UZ")||p.getDefinicjalistaplac().getRodzajlistyplac().getSymbol().equals("UD")) {
-                     Rachunekdoumowyzlecenia rachunekdoumowyzlecenia = PasekwynagrodzenBean.pobierzRachunekzlecenie(p.getKalendarzmiesiac().getAngaz(),p.getRok(), p.getMc());
-                    if (rachunekdoumowyzlecenia!=null) {
-                        rachunekdoumowyzlecenia.setPasekwynagrodzen(null);
-                        rachunekdoumowyzleceniaFacade.edit(rachunekdoumowyzlecenia);
+                    if (p.getRachunekdoumowyzleceniaList()!=null) {
+                        for (Iterator<Rachunekdoumowyzlecenia> it = p.getRachunekdoumowyzleceniaList().iterator(); it.hasNext();) {
+                            Rachunekdoumowyzlecenia rach = it.next();
+                            rachunekdoumowyzleceniaFacade.remove(rach);
+                        }
+                        p =pasekwynagrodzenFacade.findById(p.getId());
                     }   
                 }
                 pasekwynagrodzenFacade.remove(p);
