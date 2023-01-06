@@ -181,7 +181,6 @@ public class Umowa implements Serializable {
     private String  dataprzypomnienia;
     @Column(name = "dataprzypomnieniamail")
     private String  dataprzypomnieniamail;
- 
     @Column(name = "lata")
     private int lata;
     @Column(name = "dni")
@@ -323,8 +322,6 @@ public class Umowa implements Serializable {
     public void setNetto0brutto1(boolean netto0brutto1) {
         this.netto0brutto1 = netto0brutto1;
     }
-    
-
 
     @XmlTransient
     public List<Rachunekdoumowyzlecenia> getRachunekdoumowyzleceniaList() {

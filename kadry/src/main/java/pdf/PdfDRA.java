@@ -153,7 +153,12 @@ public class PdfDRA {
                 for (Definicjalistaplac r : def) {
                     nazwy.add(r.getNrkolejny());
                 }
-                PdfMain.dodajOpisWstepny(document, "Zestawienie DRA", def.get(0).getRok(), def.get(0).getMc(), def.get(0).getFirma().getNip(), nazwy);
+                String datawyplaty = null;
+                for (Pasekwynagrodzen p :lista) {
+                    datawyplaty = p.getDatawyplaty();
+                    break;
+                }
+                PdfMain.dodajOpisWstepny(document, "Zestawienie DRA", def.get(0).getRok(), def.get(0).getMc(), def.get(0).getFirma().getNip(), nazwy, datawyplaty);
                 String[] opisy = {"lp","Nazwisko i imię","Razem przychód", "Podst. wymiaru składek ubezp. społecznych", "Ubezp. Emerytalne ", "Ubezp. rentowe", "Ubezp. chorobowe", "Razem składki na ub. społ. prac.",
                     "Ubezp. Emerytalne ", "Ubezp. rentowe", "Ubezp. wypadkowe", "Razem składki na ub. społ. firma", "Razem składki na ub. społ.", "Podst. wymiaru składek ubezp. zdrowotnego","Składka zdrowotna",
                     "FP", "FGŚP", "Koszt pracodawcy", "Należna zaliczka na podatek dochodowy"};

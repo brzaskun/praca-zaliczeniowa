@@ -318,7 +318,7 @@ public class PdfMain {
     }
     
     
-    public static void dodajOpisWstepny(Document document, String nazwadok, String rok, String mc, String nazwafirmy, List<String> numerylist) {
+    public static void dodajOpisWstepny(Document document, String nazwadok, String rok, String mc, String nazwafirmy, List<String> numerylist, String datawyplaty) {
         try {
             StringBuilder s = new StringBuilder();
             s.append(nazwadok);
@@ -339,13 +339,17 @@ public class PdfMain {
                 opiswstepny = new Paragraph(new Phrase("okres rozliczeniony" + " rok "+ rok, ft[1]));
             }
             document.add(opiswstepny);
+            if (datawyplaty!=null) {
+                opiswstepny = new Paragraph(new Phrase("data wypłaty" + datawyplaty, ft[1]));
+                document.add(opiswstepny);
+            }
             document.add(Chunk.NEWLINE);
         } catch (DocumentException ex) {
             E.e(ex);
         }
     }
     
-    public static void dodajOpisWstepny(Document document, Angaz angaz, String nazwadok, String rok) {
+    public static void dodajOpisWstepny(Document document, Angaz angaz, String nazwadok, String rok, String datawyplaty) {
         try {
             StringBuilder s = new StringBuilder();
             s.append(nazwadok);
@@ -364,6 +368,8 @@ public class PdfMain {
             opiswstepny.setAlignment(Element.ALIGN_CENTER);
             document.add(opiswstepny);
             opiswstepny = new Paragraph(new Phrase("okres rozliczeniony rok "  + rok, ft[1]));
+            document.add(opiswstepny);
+            opiswstepny = new Paragraph(new Phrase("data wypłaty" + datawyplaty, ft[1]));
             document.add(opiswstepny);
             document.add(Chunk.NEWLINE);
         } catch (DocumentException ex) {

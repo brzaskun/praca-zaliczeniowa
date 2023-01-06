@@ -126,10 +126,11 @@ public class PasekwynagrodzenBean {
         boolean zasilekchorobowy = definicjalistaplac.getRodzajlistyplac().getTyp()==4;
         Pasekwynagrodzen pasek = new Pasekwynagrodzen();
         pasek.setDatawyplaty(datawyplaty);
-        obliczwiek(kalendarz, pasek);
+        Data.obliczwiek(kalendarz, pasek);
         String datakonca26lat = OsobaBean.obliczdata26(kalendarz.getDataUrodzenia());
         boolean po26roku = Data.czyjestpo(datakonca26lat, kalendarz.getRok(), kalendarz.getMc());
-        if (po26roku==false) {
+        boolean student = kalendarz.getAngaz().isStudent();
+        if (po26roku==false && student) {
             pasek.setDo26lat(true);
         } else {
             pasek.setDo26lat(false);
@@ -141,6 +142,7 @@ public class PasekwynagrodzenBean {
         pasek.setKalendarzmiesiac(kalendarz);
         pasek.setRok(definicjalistaplac.getRok());
         pasek.setMc(definicjalistaplac.getMc());
+        pasek.setKurs(kurs);
         boolean jestoddelegowanie = kalendarz.getDnioddelegowania()>0;
         if (umowaoprace) {
             umowaopracewyliczenie(kalendarz, pasek, kurs, definicjalistaplac, czyodlicoznokwotewolna, jestoddelegowanie, limitZUS, stawkipodatkowe, sumapoprzednich, !po26roku, nieobecnosci, limit26, kalendarzlista, wynagrodzenieminimalne, sumabruttopoprzednich);
@@ -386,20 +388,7 @@ public class PasekwynagrodzenBean {
         PasekwynagrodzenBean.naliczzdrowota(pasek, pasek.isNierezydent(), false);
     }
     
-     public static void obliczwiek(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasek) {
-        if (kalendarz!=null) {
-            String dataurodzenia = kalendarz.getAngaz().getPracownik().getDataurodzenia();
-            LocalDate dataur = LocalDate.parse(dataurodzenia);
-            LocalDate dataumowy = LocalDate.parse(pasek.getDatawyplaty());
-            String rok = Data.getRok(pasek.getDatawyplaty());
-            String pierwszydzienroku = rok+"-01-01";
-            LocalDate dataroku = LocalDate.parse(pierwszydzienroku);
-            long lata = ChronoUnit.YEARS.between(dataur, dataumowy);
-            long dni = ChronoUnit.DAYS.between(dataroku, dataumowy);
-            pasek.setLata((int) lata);
-            pasek.setDni((int) dni);
-        }
-    }
+     
     
       public static double obliczminimalna(Kalendarzmiesiac kalendarz, Definicjalistaplac definicjalistaplac, 
         List<Podatki> stawkipodatkowe, double sumapoprzednich, double wynagrodzenieminimalne, String datawyplaty) {

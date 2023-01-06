@@ -411,6 +411,10 @@ public class Pracownik implements Serializable {
     }
 
   
+    public String getWiek() {
+        return Data.obliczwiekString(this.dataurodzenia, Data.aktualnaData());
+    }
+    
     public String getFirmypracownika(){
         String zwrot = "";
         if (this.angazList!=null&& !this.angazList.isEmpty()) {

@@ -39,7 +39,8 @@ public class PdfKartaWynagrodzen {
                 PdfWriter writer = inicjacjaWritera(document, nazwa);
                 naglowekStopkaL(writer);
                 otwarcieDokumentu(document, nazwa);
-                PdfMain.dodajOpisWstepny(document, angaz, "Karta wynagrodzeń pracownika", rok);
+                String datawyplaty = null;
+                PdfMain.dodajOpisWstepny(document, angaz, "Karta wynagrodzeń pracownika", rok, datawyplaty);
                 dodajtabeleglowna(angaz, document, rok, lista);
                 finalizacjaDokumentuQR(document,nazwa);
                 String f = "pokazwydruk('"+nazwa+"');";

@@ -226,6 +226,8 @@
                         <p:inputText id="polska" value="#{angazView.selectedlista.dataprzyjazdudopolski}" title="data przyjazdu do Polski"/>
                         <p:outputLabel value="odliczać kwotę wolną" for="ulga" />
                         <p:selectBooleanCheckbox id="ulga" value="#{angazView.selectedlista.odliczaculgepodatkowa}"/>
+                        <p:outputLabel value="status studenta" for="student" />
+                        <p:selectBooleanCheckbox id="student" value="#{angazView.selectedlista.student}"/>
                         <p:outputLabel value="nierezydent" for="nierezydent" />
                         <p:selectBooleanCheckbox id="nierezydent" value="#{angazView.selectedlista.nierezydent}"/>
                     </p:panelGrid>

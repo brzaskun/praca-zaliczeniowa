@@ -131,6 +131,8 @@ public class Angaz implements Serializable {
     private List<Nieobecnoscprezentacja> urlopprezentacjaList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "angaz")
     private List<Dokumenty> dokumentyList;
+    @Column(name = "student")
+    private  boolean student;
 
     public Angaz() {
     }
@@ -354,6 +356,16 @@ public class Angaz implements Serializable {
     public void setStanowiskopracList(List<Stanowiskoprac> stanowiskopracList) {
         this.stanowiskopracList = stanowiskopracList;
     }
+
+    public boolean isStudent() {
+        return student;
+    }
+
+    public void setStudent(boolean student) {
+        this.student = student;
+    }
+    
+    
     
      @XmlTransient
     public List<Nieobecnoscprezentacja> getUrlopprezentacjaList() {

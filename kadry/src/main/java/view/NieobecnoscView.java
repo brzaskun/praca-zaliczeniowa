@@ -220,6 +220,7 @@ public class NieobecnoscView  implements Serializable {
                 nowa.setDnikalendarzowe(iloscdni+1.0);
                 nieobecnoscFacade.create(nowa);
                 NieobecnosciBean.nanies(nowa, kalendarzmiesiacFacade, nieobecnoscFacade);
+                selectedzbiorczo = new Nieobecnosc();
             }
             Msg.msg("Dodano nieobecności");
           } catch (Exception e) {

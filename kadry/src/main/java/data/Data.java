@@ -15,9 +15,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Period;
 import java.time.Year;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
 import static java.time.temporal.ChronoUnit.DAYS;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -101,14 +101,28 @@ public class Data implements Serializable {
             String dataurodzenia = kalendarz.getAngaz().getPracownik().getDataurodzenia();
             LocalDate dataur = LocalDate.parse(dataurodzenia);
             LocalDate dataumowy = LocalDate.parse(pasek.getDatawyplaty());
-            String rok = Data.getRok(pasek.getDatawyplaty());
-            String pierwszydzienroku = rok+"-01-01";
-            LocalDate dataroku = LocalDate.parse(pierwszydzienroku);
-            long lata = ChronoUnit.YEARS.between(dataur, dataumowy);
-            long dni = ChronoUnit.DAYS.between(dataroku, dataumowy);
-            pasek.setLata((int) lata);
-            pasek.setDni((int) dni);
+            Period period = Period.between(dataur, dataumowy);
+            int years = period.getYears();
+            int months = period.getMonths();
+            int days = period.getDays();
+            pasek.setLata((int) years);
+            pasek.setMiesiace((int) months);
+            pasek.setDni((int) days);
         }
+    }
+   
+   public static String obliczwiekString(String dataurodzenia, String databiezaca) {
+       String zwrot = "brak daty";
+        if (dataurodzenia!=null) {
+            LocalDate dataur = LocalDate.parse(dataurodzenia);
+            LocalDate dataumowy = LocalDate.parse(databiezaca);
+            Period period = Period.between(dataur, dataumowy);
+            int years = period.getYears();
+            int months = period.getMonths();
+            int days = period.getDays();
+            zwrot = "lat: "+years+" mc: "+months+" dni: "+days;
+        }
+        return zwrot;
     }
    
     public static int obliczwieklata(String datastart, String datanadzien) {
@@ -116,8 +130,9 @@ public class Data implements Serializable {
         if (datastart!=null&&datanadzien!=null) {
             LocalDate dataur = LocalDate.parse(datastart);
             LocalDate dataumowy = LocalDate.parse(datanadzien);
-            long lata = ChronoUnit.YEARS.between(dataur, dataumowy);
-            zwrot = (int) lata;
+            Period period = Period.between(dataur, dataumowy);
+            int years = period.getYears();
+            zwrot = (int) years;
         }
         return zwrot;
     }
@@ -886,12 +901,13 @@ LocalDate date = LocalDate.parse(dateString, formatter);
 //}
     
      public static void main(String[] args) {
-         String zwrot = aktualnaDataCzas();
-         System.out.println(zwrot);
-         String zwrot2=data_yyyyMMdd(new Date());
-         System.out.println(zwrot2);
-         LocalDate date = LocalDate.parse("2018-05-05");
-         System.out.println(date.toString());
+         LocalDate birthDate = LocalDate.of(2020, 12, 1);
+    LocalDate currentDate = LocalDate.now();
+    Period period = Period.between(birthDate, currentDate);
+    int years = period.getYears();
+    int months = period.getMonths();
+    int days = period.getDays();
+    System.out.println("Years: " + years + ", months: " + months + ", days: " + days);
      }
     
 //   public static void main(String[] args) {

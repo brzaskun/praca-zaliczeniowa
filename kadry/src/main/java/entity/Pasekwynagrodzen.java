@@ -212,6 +212,8 @@ public class Pasekwynagrodzen implements Serializable {
     private String sporzadzil;
     @Column(name = "lata")
     private int lata;
+    @Column(name = "miesiace")
+    private int miesiace;
     @Column(name = "dni")
     private int dni;
     @Column(name="do26lat")
@@ -1049,6 +1051,15 @@ public class Pasekwynagrodzen implements Serializable {
         this.brutto = brutto;
     }
 
+    public int getMiesiace() {
+        return miesiace;
+    }
+
+    public void setMiesiace(int miesiace) {
+        this.miesiace = miesiace;
+    }
+    
+
     public double getBruttobezzusbezpodatek() {
         return bruttobezzusbezpodatek;
     }
@@ -1122,7 +1133,7 @@ public class Pasekwynagrodzen implements Serializable {
     public String getWiekpasek() {
         String zwrot = "";
         if (this.datawyplaty!=null) {
-            zwrot = "lat: "+this.lata+" dni: "+this.dni;
+            zwrot = "lat: "+this.lata+" mc: "+this.miesiace+" dni: "+this.dni;
         }
         return zwrot;
     }

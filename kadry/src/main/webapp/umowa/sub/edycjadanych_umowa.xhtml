@@ -9,10 +9,10 @@
     >
     <p:outputPanel style="height: 550px" id="panelumowadane">
         <h:form id="UmowaCreateForm">
-            <p:panel header="Dodawanie/edycja umowy #{umowaView.rodzajumowy eq '1' ?'o pracę':'zlecenia i o dzieło'}"/>
+            <p:panel header="Dodawanie/edycja umowy #{umowaView.rodzajumowy eq '1' ?'o pracę':'zlecenia i o dzieło'}."/>
             <h:panelGroup id="displaypraca" rendered="#{umowaView.rodzajumowy eq '1'}">
-                <h:outputText value="Dodajesz nową umowę o pracę" style="color:green; margin-left: 50px; font-weight: bolder;" rendered="#{umowaView.selected.id eq null}"/>
-                <h:outputText value="Zmieniasz istniejącą umowę" style="color:blue; margin-left: 50px; font-weight: bolder;" rendered="#{umowaView.selected.id ne null}"/>
+                <h:outputText value="Dodajesz nową umowę o pracę. Osoba #{wpisView.pracownik.nazwiskoImie}. Wiek #{wpisView.pracownik.wiek}" style="color:green; margin-left: 50px; font-weight: bolder;" rendered="#{umowaView.selected.id eq null}"/>
+                <h:outputText value="Zmieniasz istniejącą umowę. Osoba #{wpisView.pracownik.nazwiskoImie}. Wiek #{wpisView.pracownik.wiek}" style="color:blue; margin-left: 50px; font-weight: bolder;" rendered="#{umowaView.selected.id ne null}"/>
                 <p:panelGrid columns="2" rendered="#{umowaView.selected != null}">
                     <p:panelGrid columns="2">
                         <p:outputLabel value="angaz" for="angaz1" />
@@ -105,8 +105,9 @@
                 <p:commandButton styleClass="buttonnorm2" value="Anuluj"  actionListener="#{umowaView.cancel}"  update="north, @(form)" process="@this"/>
             </h:panelGroup>
             <h:panelGroup id="displayzlecenie" rendered="#{umowaView.rodzajumowy eq '2'}">
-                <h:outputText value="Dodajesz nową umowę zlecenia i o dzieło" style="color:green; margin-left: 50px; font-weight: bolder;" rendered="#{umowaView.selected.id eq null}"/>
-                <h:outputText value="Zmieniasz istniejącą umowę" style="color:blue; margin-left: 50px; font-weight: bolder;" rendered="#{umowaView.selected.id ne null}"/>
+                <h:outputText value="Dodajesz nową umowę zlecenia i o dzieło. Osoba #{wpisView.pracownik.nazwiskoImie}. Wiek #{wpisView.pracownik.wiek}" style="color:green; margin-left: 50px; font-weight: bolder;" rendered="#{umowaView.selected.id eq null}"/>
+                <h:outputText value="Zmieniasz istniejącą umowę. Osoba #{wpisView.pracownik.nazwiskoImie}. Wiek #{wpisView.pracownik.wiek}" style="color:blue; margin-left: 50px; font-weight: bolder;" rendered="#{umowaView.selected.id ne null}"/>
+                <h:outputText value="STUDENT" rendered="#{wpisView.angaz.student}"/>
                 <p:panelGrid columns="2" rendered="#{umowaView.selected != null}">
                     <p:panelGrid columns="2">
                         <p:outputLabel value="angaz" for="angaz" />
