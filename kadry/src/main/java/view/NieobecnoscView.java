@@ -141,7 +141,7 @@ public class NieobecnoscView  implements Serializable {
         listapracownikow = new org.primefaces.model.DualListModel<>();
         listapracownikow.setSource(new ArrayList<>());
         listapracownikow.setTarget(new ArrayList<>());
-        List<Angaz> angazList = wpisView.getFirma().getAngazList();
+        List<Angaz> angazList = wpisView.getFirma().getAngazListAktywne();
         List<Pracownik> listapracownikow = pobierzpracownikow (angazList);
         Collections.sort(listapracownikow, new Pracownikcomparator());
         if (listapracownikow != null) {

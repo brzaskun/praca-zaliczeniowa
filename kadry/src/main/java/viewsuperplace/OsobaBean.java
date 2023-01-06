@@ -154,6 +154,13 @@ public class OsobaBean {
             } catch (Exception e) {
             }
         }
+        try {
+            Collections.sort(zwrot, new Umowacomparator());
+            if (zwrot!=null&&zwrot.size()>0) {
+                Umowa szukana = zwrot.get(zwrot.size()-1);
+                szukana.setAktywna(true);
+            }
+        } catch (Exception e){}
         return zwrot;
     }
 
@@ -171,7 +178,7 @@ public class OsobaBean {
             }
         }
         Collections.sort(zwrot, new Umowacomparator());
-        if (!zwrot.isEmpty()) {
+        if (zwrot!=null&&zwrot.size()>0) {
             zwrot.get(0).setAktywna(true);
         }
         return zwrot;

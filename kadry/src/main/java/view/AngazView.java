@@ -200,6 +200,14 @@ public class AngazView  implements Serializable {
          }
      }
     
+     public void ukryjangaz(Angaz angaz) {
+         if (angaz!=null) {
+            angazFacade.edit(angaz);
+            Msg.msg("Ukryto/odkryto angaż");
+        } else {
+            Msg.msg("e", "Błąd nie wybrano angażu");
+        }
+     }
     
 //    public void generujkalendarze() {
 //        if (selected!=null && selected.getRok()!=null && selected.getMc()!=null) {

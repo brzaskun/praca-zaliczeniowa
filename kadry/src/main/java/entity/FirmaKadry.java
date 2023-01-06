@@ -6,6 +6,7 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -352,6 +353,17 @@ public class FirmaKadry implements Serializable {
     @XmlTransient
     public List<Angaz> getAngazList() {
         return angazList;
+    }
+    
+    @XmlTransient
+    public List<Angaz> getAngazListAktywne() {
+        List<Angaz> aktywne = new ArrayList<>();
+        for (Angaz a : this.angazList) {
+            if (a.isUkryj()==false) {
+                aktywne.add(a);
+            }
+        }
+        return aktywne;
     }
 
     public void setAngazList(List<Angaz> angazList) {

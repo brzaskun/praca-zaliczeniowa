@@ -113,7 +113,8 @@ public class Angaz implements Serializable {
     private String  dataprzypomnieniaszkolenie;
     @Column(name = "dataprzypomnieniamailszkolenie")
     private String  dataprzypomnieniamailszkolenie;
-    
+    @Column(name = "ukryj")
+    private boolean ukryj;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "angaz", orphanRemoval = true)
     private List<EtatPrac> etatList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "angaz")
@@ -291,6 +292,14 @@ public class Angaz implements Serializable {
 
     public void setDataprzypomnieniamailszkolenie(String dataprzypomnieniamailszkolenie) {
         this.dataprzypomnieniamailszkolenie = dataprzypomnieniamailszkolenie;
+    }
+
+    public boolean isUkryj() {
+        return ukryj;
+    }
+
+    public void setUkryj(boolean ukryj) {
+        this.ukryj = ukryj;
     }
     
     

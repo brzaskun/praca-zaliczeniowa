@@ -1,0 +1,147 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+
+    xmlns:bcf="http://brzaskun.com/facelets">
+    <p:tabView id="akordeon">
+        <p:tab title="zestawienie umów">
+            <h:form id="AneksForm">
+                <p:outputPanel style="margin-top: 20px;">
+                    <p:dataTable id="datalist" value="#{pracownikUmowyView.listaumowy}" var="itemUmowa" rowIndexVar="yndex" filteredValue="#{pracownikUmowyView.listaumowyfiltered}"
+                                 selectionMode="single" 
+                                 rowKey="#{itemUmowa.id}"  sortBy="#{itemUmowa.nazwiskoImie}"
+                                 style="height: 450px; overflow-y: scroll;width: 1550px;"
+                                 rowsPerPageTemplate="20,100,250,500" paginatorPosition="top" paginator="true" rows="20"
+                                 emptyMessage="Nie pobrano listy"
+                                 >
+                        <f:facet name="header">
+                            <h:outputText value="Czas trwania umów"/>
+                        </f:facet>
+                        <p:column width="20" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="id"/>
+                            </f:facet>
+                            <h:outputText value="#{yndex+1}"/>
+                        </p:column>
+                        <p:column width="180" sortBy="#{itemUmowa.nazwiskoImie}">
+                            <f:facet name="header">
+                                <h:outputText value="nazwisko i imię"/>
+                            </f:facet>
+                            <h:outputText value="#{itemUmowa.nazwiskoImie}"/>
+                        </p:column>
+                        <p:column width="40" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="praca"/>
+                            </f:facet>
+                            <h:outputText value="&#x2714;" rendered="#{itemUmowa.umowakodzus.praca}"/>
+                        </p:column>
+                        <p:column width="40" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="zlecenie"/>
+                            </f:facet>
+                            <h:outputText value="&#x2714;" rendered="#{itemUmowa.umowakodzus.zlecenie}"/>
+                        </p:column>
+                        <p:column width="100" >
+                            <f:facet name="header">
+                                <h:outputText value="czas trwania"/>
+                            </f:facet>
+                            <h:outputText value="#{itemUmowa.czastrwania}"/>
+                        </p:column>
+                        <p:column width="60" style="text-align: center;" >
+                            <f:facet name="header">
+                                <h:outputText value="data od"/>
+                            </f:facet>
+                            <h:outputText value="#{itemUmowa.dataod}"/>
+                        </p:column>
+                        <p:column width="60" style="text-align: center;" sortBy="#{itemUmowa.datado}" sortOrder="desc">
+                            <f:facet name="header">
+                                <h:outputText value="data do"/>
+                            </f:facet>
+                            <h:outputText value="#{itemUmowa.datado}"/>
+                        </p:column>
+                         <p:column width="60" style="text-align: center;" sortBy="#{itemUmowa.stanowisko}" sortOrder="desc">
+                            <f:facet name="header">
+                                <h:outputText value="stanowisko"/>
+                            </f:facet>
+                             <h:outputText value="#{itemUmowa.stanowisko}"/>
+                        </p:column>
+                         <p:column width="30" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="aktywna"/>
+                            </f:facet>
+                             <p:selectBooleanCheckbox value="#{itemUmowa.aktywna}">
+                                 <p:ajax event="change" partialSubmit="true" global="false" listener="#{umowaView.edytuj(itemUmowa)}"/>
+                            </p:selectBooleanCheckbox>
+                        </p:column>
+                        <p:column width="30" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="ukryj"/>
+                            </f:facet>
+                            <p:selectBooleanCheckbox value="#{itemUmowa.angaz.ukryj}">
+                                <p:ajax event="change" partialSubmit="true" global="false" listener="#{angazView.ukryjangaz(itemUmowa.angaz)}"/>
+                            </p:selectBooleanCheckbox>
+                        </p:column>
+                        <p:column width="70" >
+                            <f:facet name="header">
+                                <h:outputText value="kwota zas."/>
+                            </f:facet>
+                            <bcf:outputpl value="#{itemUmowa.zmiennawynagrodzenia.kwota}"/>
+                        </p:column>
+                        <p:column style="text-align: center;" width="50">
+                            <f:facet name="header">
+                                <h:outputText value="godzin. / mies"/>
+                            </f:facet>
+                            <h:outputText value="godz." rendered="#{itemUmowa.zmiennawynagrodzenia.skladnikwynagrodzenia.rodzajwynagrodzenia.godzinowe0miesieczne1 eq false}"/>
+                        </p:column>
+                        <p:column width="60"  style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="data od"/>
+                            </f:facet>
+                            <h:outputText value="#{itemUmowa.zmiennawynagrodzenia.dataod}"/>
+                        </p:column>
+                        <p:column width="60" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="data do"/>
+                            </f:facet>
+                            <h:outputText value="#{itemUmowa.zmiennawynagrodzenia.datado}"/>
+                        </p:column>
+                        <p:column width="20" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="min."/>
+                            </f:facet>
+                            <h:outputText value="&#x2714;" rendered="#{itemUmowa.zmiennawynagrodzenia.minimalneustatowe}" style="color: green;"/>
+                        </p:column>
+                        <p:column width="30" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="wal."/>
+                            </f:facet>
+                            <h:outputText value="#{itemUmowa.zmiennawynagrodzenia.waluta}"/>
+                        </p:column>
+                        <p:column width="30" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="brutto"/>
+                            </f:facet>
+                            <p:selectBooleanCheckbox value="#{itemUmowa.netto0brutto1}">
+                                <p:ajax event="change" partialSubmit="true" global="false"/>
+                            </p:selectBooleanCheckbox>
+                        </p:column>
+                    </p:dataTable>
+                </p:outputPanel>
+                <p:outputPanel>
+                    <p:panelGrid columns="4">
+<!--                        <p:commandButton value="drukuj wszystkie" styleClass="buttonnorm" actionListener="#{pracownikUmowyView.drukwszystkie()}" global="true"/>
+                        <p:commandButton value="mail do firmy" styleClass="buttonnorm2" actionListener="#{pracownikUmowyView.mailAneksy()}" global="true"/>
+                        <p:commandButton value="nanieś zmienne" styleClass="buttonnorm2" actionListener="#{pracownikUmowyView.naniesZmienne()}" global="true"/>
+                        <p:commandButton value="archiwizuj aneksy" styleClass="buttonnorm2" actionListener="#{pracownikUmowyView.archiwizujAneksy()}" global="true"/>-->
+                    </p:panelGrid>
+                </p:outputPanel>
+            </h:form>
+            <p:outputPanel style="margin-top: 20px;">
+                <h:outputText value="Adres email do wysyłki aneksów: #{wpisView.getFirma().getEmail()}" style="color: #136e13;margin-top: 10px;"/>
+            </p:outputPanel>
+        </p:tab>
+    </p:tabView>
+</ui:composition>
