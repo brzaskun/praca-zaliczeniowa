@@ -54,7 +54,9 @@
                     <p:outputLabel value="wynagrodzenie godzinowe Oddelegowanie:"/>
                     <bcf:outputpl value="#{rachunekZlecenieView.rachunekdoumowyzlecenia.wynagrodzeniegodzinoweoddelegowanie}"/>
                     <p:outputLabel value="kurs waluty: "/>
-                    <bcf:outputpl value="#{rachunekZlecenieView.rachunekdoumowyzlecenia.kurswaluty}"/>
+                    <bcf:outputpl4 value="#{rachunekZlecenieView.rachunekdoumowyzlecenia.kurswaluty}"/>
+                    <p:outputLabel value="symbol waluty: "/>
+                    <h:outputText value="#{rachunekZlecenieView.rachunekdoumowyzlecenia.symbolwaluty}"/>
                 </p:panelGrid>
                 <p:panelGrid columns="2" style="margin-top: 10px;" id="panelkwoty">
                     <p:outputLabel value="ilośc godzin wg kalendarza Polska:"/>
@@ -75,8 +77,6 @@
                 <p:panelGrid columns="2" style="margin-top: 10px;" id="panelkwoszty">
                 <p:outputLabel value="koszt uzyskania procent:"/>
                     <bcf:outputplprocent value="#{rachunekZlecenieView.rachunekdoumowyzlecenia.procentkosztowuzyskaniaDisplay}"/>
-                    <p:outputLabel value="koszt uzyskania kwota:"/>
-                    <p:inputNumber value="#{rachunekZlecenieView.rachunekdoumowyzlecenia.koszt}" id="lolo" decimalSeparator=","   inputStyle="text-align: right;" decimalPlaces="2"/>
                 </p:panelGrid>
                 <p:panelGrid columns="2" style="margin-top: 10px;">
                     <p:outputLabel value="naliczać społeczne:"/>

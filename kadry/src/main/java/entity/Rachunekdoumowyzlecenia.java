@@ -96,6 +96,8 @@ public class Rachunekdoumowyzlecenia implements Serializable {
     private double koszt;
     @Column(name = "kurswaluty")
     private double kurswaluty;
+    @Column(name = "symbolwaluty")
+    private String symbolwaluty;
     @Column(name = "spoleczne")
     private boolean spoleczne;
     @Column(name = "chorobowa")
@@ -188,6 +190,14 @@ public class Rachunekdoumowyzlecenia implements Serializable {
 
     public void setDatado(String datado) {
         this.datado = datado;
+    }
+
+    public String getSymbolwaluty() {
+        return symbolwaluty;
+    }
+
+    public void setSymbolwaluty(String symbolwaluty) {
+        this.symbolwaluty = symbolwaluty;
     }
 
     public double getKwota() {

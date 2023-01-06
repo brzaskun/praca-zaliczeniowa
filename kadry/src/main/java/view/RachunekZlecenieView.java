@@ -15,10 +15,8 @@ import data.Data;
 import embeddable.Mce;
 import entity.Kalendarzmiesiac;
 import entity.Rachunekdoumowyzlecenia;
-import entity.Skladnikwynagrodzenia;
 import entity.Tabelanbp;
 import entity.Umowa;
-import entity.Zmiennawynagrodzenia;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -124,9 +122,10 @@ public class RachunekZlecenieView  implements Serializable {
                         rachunekdoumowyzlecenia.setKwota(Z.z(kwotaPolska));
                     }
                     double kwotaZagranica = umowabiezaca.getAngaz().pobierzwynagrodzenieKwotaWaluta(wpisView.getRokWpisu(), wpisView.getMiesiacWpisu(), kalendarz);
-                    double kurs = ustawtabelenbp(rachunekdoumowyzlecenia.getDatawystawienia());
-                    rachunekdoumowyzlecenia.setKurswaluty(kurs);
-                    kwotaZagranica = (kwotaZagranica*kurs);
+                    Tabelanbp tabelanbp = ustawtabelenbp(rachunekdoumowyzlecenia.getDatawystawienia());
+                    rachunekdoumowyzlecenia.setKurswaluty(tabelanbp.getKurssredni());
+                    kwotaZagranica = (kwotaZagranica*tabelanbp.getKurssredni());
+                    rachunekdoumowyzlecenia.setSymbolwaluty(tabelanbp.getWaluta().getSymbolwaluty());
                     double iloscgodzinzkalendarzaZagranica = pobierzgodzinyzkalendarzaZagranica();
                     rachunekdoumowyzlecenia.setIloscgodzinoddelegowanie(iloscgodzinzkalendarzaZagranica);
                     if (umowabiezaca.getAngaz().czywynagrodzeniegodzinowe()) {
@@ -146,8 +145,8 @@ public class RachunekZlecenieView  implements Serializable {
         }
     }
     
-     public double ustawtabelenbp(String datawyplaty) {
-            double zwrot = 0.0;
+     public Tabelanbp ustawtabelenbp(String datawyplaty) {
+            Tabelanbp zwrot = null;
             if (datawyplaty!=null && datawyplaty.length()==10) {
                 String data = datawyplaty;
                 boolean znaleziono = false;
@@ -157,7 +156,7 @@ public class RachunekZlecenieView  implements Serializable {
                     Tabelanbp tabelanbppobrana = tabelanbpFacade.findByDateWaluta(data, "EUR");
                     if (tabelanbppobrana instanceof Tabelanbp) {
                         znaleziono = true;
-                        zwrot = tabelanbppobrana.getKurssredni();
+                        zwrot = tabelanbppobrana;
                         break;
                     }
                     zabezpieczenie++;
@@ -190,11 +189,11 @@ public class RachunekZlecenieView  implements Serializable {
         if (rachunekdoumowyzlecenia!=null) {
             if (rachunekdoumowyzlecenia.getWynagrodzeniemiesieczne()>0.0) {
                 rachunekdoumowyzlecenia.setKwota(rachunekdoumowyzlecenia.getWynagrodzeniemiesieczne());
+                rachunekdoumowyzlecenia.setKwotasuma(Z.z(rachunekdoumowyzlecenia.getKwota()+rachunekdoumowyzlecenia.getKwotaoddelegowanie()));
             } else {
                 rachunekdoumowyzlecenia.setKwota(Z.z(rachunekdoumowyzlecenia.getWynagrodzeniegodzinowe()*rachunekdoumowyzlecenia.getIloscgodzin()));
                 rachunekdoumowyzlecenia.setKwotaoddelegowanie(Z.z(rachunekdoumowyzlecenia.getWynagrodzeniegodzinoweoddelegowanie()*rachunekdoumowyzlecenia.getIloscgodzinoddelegowanie()));
                 rachunekdoumowyzlecenia.setKwotasuma(Z.z(rachunekdoumowyzlecenia.getKwota()+rachunekdoumowyzlecenia.getKwotaoddelegowanie()));
-                rachunekdoumowyzlecenia.setKoszt(Z.z(rachunekdoumowyzlecenia.getKwotasuma()*rachunekdoumowyzlecenia.getProcentkosztowuzyskania()*0.2/100.0));
             }
             Msg.msg("Przeliczono kwotę rachunku");
         }
@@ -204,12 +203,12 @@ public class RachunekZlecenieView  implements Serializable {
         if (rach!=null) {
             if (rach.getWynagrodzeniemiesieczne()>0.0) {
                 rach.setKwota(rach.getWynagrodzeniemiesieczne());
-                rach.setKoszt(Z.z(rach.getKwota()*rach.getProcentkosztowuzyskania()/100.0));
+                rach.setKwotasuma(Z.z(rach.getKwota()+rach.getKwotaoddelegowanie()));
             } else {
                 rach.setKwota(Z.z(rach.getWynagrodzeniegodzinowe()*rach.getIloscgodzin()));
                 rach.setKwotaoddelegowanie(Z.z(rach.getWynagrodzeniegodzinoweoddelegowanie()*rach.getIloscgodzinoddelegowanie()));
                 rach.setKwotasuma(Z.z(rach.getKwota()+rach.getKwotaoddelegowanie()));
-                rach.setKoszt(Z.z(rach.getKwotasuma()*rach.getProcentkosztowuzyskania()/100.0));
+
             }
             Msg.msg("Przeliczono kwotę rachunku");
         }
@@ -219,16 +218,9 @@ public class RachunekZlecenieView  implements Serializable {
         for (Rachunekdoumowyzlecenia p : lista) {
             if (p.getId()==null) {
                 if (p.getKwotasuma()>0.0) {
-                    Skladnikwynagrodzenia skladnik = p.getUmowa().getAngaz().pobierzskladnikzlecenie();
-                    skladnik.getZmiennawynagrodzeniaList().add(new Zmiennawynagrodzenia(p, skladnik));
                     rachunekdoumowyzleceniaFacade.create(p);
-                    skladnikWynagrodzeniaFacade.edit(skladnik);
                 }
             } else {
-                Skladnikwynagrodzenia skladnik = p.getUmowa().getAngaz().pobierzskladnikzlecenie();
-                Zmiennawynagrodzenia zmienna = skladnik.pobierzzmienna(p);
-                zmienna.setKwota(p.getKwotasuma());
-                zmiennaWynagrodzeniaFacade.edit(zmienna);
                 rachunekdoumowyzleceniaFacade.edit(p);
             }
         }
