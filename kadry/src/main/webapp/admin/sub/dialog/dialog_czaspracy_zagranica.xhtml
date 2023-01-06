@@ -11,7 +11,7 @@
               resizable="false"  onShow="ustawdialog('dialogoddelegowanie','centertile',1650,800);" closeOnEscape="true" onHide="resetujdialog('dialogoddelegowanie');" 
               fitViewport="true">
         <p:ajax event="open" listener="#{oddelegowanieView.init()}" update="OddelegowanieForm OddelegowanieForm1 OddelegowanieForm2 OddelegowanieForm3" global="true"/>
-        <h:form id="OddelegowanieForm">
+        <h:form  styleClass="formadmin" id="OddelegowanieForm">
             <p:commandButton value="XLS" >
                 <p:dataExporter type="xls" target="OddelegowanieForm:datalist" fileName="lista"/>
             </p:commandButton>
@@ -79,7 +79,7 @@
                 </p:column>
             </p:dataTable>
         </h:form>
-         <h:form id="OddelegowanieForm1">
+         <h:form  styleClass="formadmin" id="OddelegowanieForm1">
             <p:commandButton value="XLS" >
                 <p:dataExporter type="xls" target="OddelegowanieForm1:datalist1" fileName="lista"/>
             </p:commandButton>
@@ -147,7 +147,7 @@
                 </p:column>
             </p:dataTable>
         </h:form>
-         <h:form id="OddelegowanieForm2">
+         <h:form  styleClass="formadmin" id="OddelegowanieForm2">
             <p:commandButton value="XLS" >
                 <p:dataExporter type="xls" target="OddelegowanieForm2:datalist2" fileName="lista"/>
             </p:commandButton>
@@ -216,7 +216,7 @@
             </p:dataTable>
         </h:form>
         
-        <h:form id="OddelegowanieForm3">
+        <h:form  styleClass="formadmin" id="OddelegowanieForm3">
             <p:commandButton value="XLS" >
                 <p:dataExporter type="xls" target="OddelegowanieForm3:datalist3" fileName="lista"/>
             </p:commandButton>

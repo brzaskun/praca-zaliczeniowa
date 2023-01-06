@@ -14,7 +14,7 @@
               fitViewport="true">
         <p:ajax event="open" listener="#{rachunekZlecenieView.initzbiorcze()}" update="RachunekZleceniaZbiorczeForm" global="false"/>
         <p:outputPanel>
-            <h:form id="RachunekZleceniaZbiorczeForm">
+            <h:form  styleClass="formadmin" id="RachunekZleceniaZbiorczeForm">
                 <p:dataTable id="datalist" value="#{rachunekZlecenieView.lista}" var="itempasekzlec" emptyMessage="Brak umów zlecenia za dany okres"
                              selectionMode="single" selection="#{rachunekZlecenieView.selectedlista}" rowIndexVar="indexpasekzlec"
                              rowKey="#{itempasekzlec.hashCode()}" sortBy="#{itempasekzlec.pasekwynagrodzen.nazwiskoImie}"

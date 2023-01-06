@@ -17,7 +17,7 @@
         <p:ajax event="open" listener="#{nieobecnoscView.init()}" update="NieobecnoscCreateForm NieobecnoscListForm" global="false"/>
         <p:outputPanel style="height: 180px">
             <p:panelGrid columns="2" columnClasses="eighty-percent twenty-percent" style="width: 1500px;">
-                <h:form id="NieobecnoscCreateForm">
+                <h:form  styleClass="formadmin" id="NieobecnoscCreateForm">
                     <h:panelGroup id="display" style="width: 1200px;">
                         <p:panelGrid columns="4" rendered="#{nieobecnoscView.selected != null}">
                             <p:panelGrid columns="2">
@@ -97,7 +97,7 @@
                         <p:commandButton value="#{bundle.Cancel}" onclick="NieobecnoscCreateDialog.hide()"/>
                     </h:panelGroup>
                 </h:form>
-                <h:form id="NieobecnoscCreateFormZUS">
+                <h:form  styleClass="formadmin" id="NieobecnoscCreateFormZUS">
                     <h:panelGroup id="display" style="float: right;">
                         <p:panelGrid columns="1" >
                             <p:outputLabel value="pobranie zwolnień z ZUS" for="zuspobierz" />
@@ -108,7 +108,7 @@
             </p:panelGrid>
         </p:outputPanel>
         <p:outputPanel styleClass="itemNieob">
-            <h:form id="NieobecnoscListForm">
+            <h:form  styleClass="formadmin" id="NieobecnoscListForm">
                 <p:panelGrid columns="6">
                     <p:outputLabel value="pokaż wszystkie lata"/>
                     <p:selectBooleanCheckbox value="#{nieobecnoscView.pokazcalyrok}">

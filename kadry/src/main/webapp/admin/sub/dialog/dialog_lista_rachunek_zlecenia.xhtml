@@ -17,7 +17,7 @@
               fitViewport="true">
         <p:ajax event="open" listener="#{rachunkidoZlecenListaView.init()}" update="ListaRachunekZleceniaForm" global="false"/>
         <p:outputPanel>
-            <h:form id="ListaRachunekZleceniaForm">
+            <h:form  styleClass="formadmin" id="ListaRachunekZleceniaForm">
                 <p:panel header="Rachunki do umów zleceń za rok #{wpisView.rokWpisu}"/>
                 <p:dataTable id="datalist" value="#{rachunkidoZlecenListaView.rachunekdoumowyzlecenialist}" var="itemrachunek"
                              rowKey="#{itemrachunek.id}" sortBy="#{itemrachunek.mc}" rowIndexVar="indexkb"

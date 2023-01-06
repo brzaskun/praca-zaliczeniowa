@@ -12,7 +12,7 @@
               fitViewport="true">
         <p:ajax event="open" listener="#{kartaWynagrodzenView.pobierzdane(wpisView.angaz)}" update="KartyWynangrodzenListForm" global="false"/>
         <p:outputPanel>
-            <h:form id="KartyWynangrodzenListForm">
+            <h:form  styleClass="formadmin" id="KartyWynangrodzenListForm">
                 <p:panelGrid columns="1">
                     <h:outputText value="pracownik"/>
                     <h:outputText value="#{wpisView.pracownik.nazwiskoImie}"/>

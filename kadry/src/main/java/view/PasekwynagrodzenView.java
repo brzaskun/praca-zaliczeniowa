@@ -125,6 +125,7 @@ public class PasekwynagrodzenView implements Serializable {
     @Inject
     private SMTPSettingsFacade sMTPSettingsFacade;
     private double kursdlalisty;
+    private String datadlalisty;
     private String datawyplaty;
     private String ileszczegolow;
     private double symulacjabrrutto;
@@ -176,6 +177,9 @@ public class PasekwynagrodzenView implements Serializable {
         }
         listarodzajlistyplac = rodzajlistyplacFacade.findAktywne();
         ileszczegolow = "normalna";
+        if (wpisView.getFirma().getDomyslnyformatlp()!=null) {
+            ileszczegolow = wpisView.getFirma().getDomyslnyformatlp();
+        }
         symulacjabrrutto = wpisView.getRokWpisuInt()<2023?3100:3490;
         limitdochodudwaszesc = limitdochodudwaszescFacade.findbyRok(wpisView.getRokWpisu());
     }
@@ -323,6 +327,7 @@ public class PasekwynagrodzenView implements Serializable {
                     Pasekwynagrodzen pasek = PasekwynagrodzenBean.obliczWynagrodzenie(pracownikmc, wybranalistaplac, nieobecnosckodzusFacade, paskidowyliczeniapodstawy, historiawynagrodzen, stawkipodatkowe, sumapoprzednich, wynagrodzenieminimalne, czyodlicoznokwotewolna,
                             kursdlalisty, limitzus, datawyplaty, nieobecnosci, limitdochodudwaszesc.getKwota(), kalendarzlista, rachunekdoumowyzlecenia, sumabruttopoprzednich);
                     usunpasekjakzawiera(pasek);
+                    pasek.setSporzadzil(wpisView.getUzer().getLogin());
                     lista.add(pasek);
                     it.remove();
                     if (rachunekdoumowyzlecenia!=null) {
@@ -630,6 +635,7 @@ public class PasekwynagrodzenView implements Serializable {
                     if (tabelanbppobrana instanceof Tabelanbp) {
                         znaleziono = true;
                         kursdlalisty = tabelanbppobrana.getKurssredni();
+                        datadlalisty = tabelanbppobrana.getDatatabeli();
                         break;
                     }
                     zabezpieczenie++;
@@ -776,6 +782,14 @@ public class PasekwynagrodzenView implements Serializable {
 
     public void setIleszczegolow(String ileszczegolow) {
         this.ileszczegolow = ileszczegolow;
+    }
+
+    public String getDatadlalisty() {
+        return datadlalisty;
+    }
+
+    public void setDatadlalisty(String datadlalisty) {
+        this.datadlalisty = datadlalisty;
     }
 
     public double getSymulacjabrrutto() {

@@ -207,6 +207,16 @@
                         </f:facet>
                     </p:autoComplete>
                     </p:panelGrid>
+                     <p:panel header="domyślny format listy płac"/>
+                     <p:panelGrid columns="1">
+                         <p:selectOneMenu id="ileszczegolow" value="#{firmaView.selectedlista.domyslnyformatlp}" requiredMessage="nazwa formatu"  >
+                             <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true"/>
+                                <f:selectItem itemLabel="prosta" itemValue="prosta"/>
+                                <f:selectItem itemLabel="normalna" itemValue="normalna"/>
+                                <f:selectItem itemLabel="oddelegowanie" itemValue="oddelegowanie"/>
+                                <p:ajax event="change" partialSubmit="true" global="false" />
+                        </p:selectOneMenu>
+                     </p:panelGrid>
                      <p:panelGrid columns="2">
                         <p:commandButton value="zachowaj" styleClass="buttonnorm" actionListener="#{firmaView.edytuj()}" update="@(form)"/>
                         

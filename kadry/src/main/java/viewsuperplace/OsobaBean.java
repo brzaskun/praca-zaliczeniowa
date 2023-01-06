@@ -767,6 +767,7 @@ public class OsobaBean {
                         Pasekwynagrodzen nowypasek = new Pasekwynagrodzen();
                         nowypasek.setRok(rok);
                         nowypasek.setMc(mc);
+                        nowypasek.setSporzadzil(wpisView.getUzer().getLogin());
                         nowypasek.setImportowany(true);
                         List<PlaceZlec> placeZlecList = r.getPlaceZlecList();
                         historycznenaliczeniezlecenie(placeZlecList, nowypasek, skladnikwynagrodzenia);
@@ -783,6 +784,7 @@ public class OsobaBean {
                         Pasekwynagrodzen nowypasek = new Pasekwynagrodzen();
                         nowypasek.setRok(rok);
                         nowypasek.setMc(mc);
+                        nowypasek.setSporzadzil(wpisView.getUzer().getLogin());
                         nowypasek.setImportowany(true);
                         List<PlaceSkl> placeSklList = r.getPlaceSklList();
                         Short lplDniObow = r.getLplDniObow();

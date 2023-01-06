@@ -116,6 +116,10 @@ public class Pasekwynagrodzen implements Serializable {
     private double nettoprzedpotraceniami;
     @Column(name = "netto")
     private double netto;
+    @Column(name = "nettowaluta")
+    private double nettowaluta;
+    @Column(name = "symbolwaluty")
+    private String symbolwaluty;
     @Column(name = "podatekdochodowy")
     private double podatekdochodowy;
     @Column(name = "podstawaopodatkowania")
@@ -204,6 +208,8 @@ public class Pasekwynagrodzen implements Serializable {
     private String datawysylki;
     @Column(name="importowany")
     private boolean importowany;
+    @Column(name="sporzadzil")
+    private String sporzadzil;
     @Column(name = "lata")
     private int lata;
     @Column(name = "dni")
@@ -454,6 +460,23 @@ public class Pasekwynagrodzen implements Serializable {
         return lpl_serial;
     }
 
+    public double getNettowaluta() {
+        return nettowaluta;
+    }
+
+    public void setNettowaluta(double nettowaluta) {
+        this.nettowaluta = nettowaluta;
+    }
+
+    public String getSymbolwaluty() {
+        return symbolwaluty;
+    }
+
+    public void setSymbolwaluty(String symbolwaluty) {
+        this.symbolwaluty = symbolwaluty;
+    }
+
+
     public double getUlgadlaklasysredniejI() {
         return ulgadlaklasysredniejI;
     }
@@ -580,6 +603,11 @@ public class Pasekwynagrodzen implements Serializable {
         return this.kalendarzmiesiac.getAngaz().getPracownik().getPesel();
     }
 
+    public String getNrkonta() {
+        return this.kalendarzmiesiac.getAngaz().getPracownik().getBankkonto();
+    }
+
+    
     public double getBruttobezzus() {
         return bruttobezzus;
     }
@@ -1044,6 +1072,15 @@ public class Pasekwynagrodzen implements Serializable {
     public void setDrugiprog(boolean drugiprog) {
         this.drugiprog = drugiprog;
     }
+
+    public String getSporzadzil() {
+        return sporzadzil;
+    }
+
+    public void setSporzadzil(String sporzadzil) {
+        this.sporzadzil = sporzadzil;
+    }
+
     
     
 //

@@ -8,6 +8,9 @@ package pdf;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -30,6 +33,7 @@ import msg.Msg;
 import org.primefaces.PrimeFaces;
 import static pdf.PdfFont.*;
 import static pdf.PdfMain.finalizacjaDokumentuQR;
+import static pdf.PdfMain.ft;
 import static pdf.PdfMain.inicjacjaWritera;
 import static pdf.PdfMain.naglowekStopkaL;
 import static pdf.PdfMain.otwarcieDokumentu;
@@ -74,6 +78,12 @@ public class PdfListaPlac {
                     document.add(ustawparagrafSmall(sb.toString()));
                     document.add(Chunk.NEWLINE);
                 }
+                document.add(Chunk.NEXTPAGE);
+                Paragraph opiswstepny = new Paragraph(new Phrase("DANE DO WYPŁATY", ft[1]));
+                opiswstepny.setAlignment(Element.ALIGN_CENTER);
+                document.add(opiswstepny);
+                document.add(Chunk.NEWLINE);
+                document.add(listadowyplaty(lista));
                 finalizacjaDokumentuQR(document, nazwa);
                 Msg.msg("Udane wysłanie maila z listą płac)");
             } else {
@@ -534,6 +544,12 @@ public class PdfListaPlac {
                     document.add(ustawparagrafSmall(sb.toString()));
                     document.add(Chunk.NEWLINE);
                 }
+                document.add(Chunk.NEXTPAGE);
+                Paragraph opiswstepny = new Paragraph(new Phrase("DANE DO WYPŁATY", ft[1]));
+                opiswstepny.setAlignment(Element.ALIGN_CENTER);
+                document.add(opiswstepny);
+                document.add(Chunk.NEWLINE);
+                document.add(listadowyplaty(lista));
                 finalizacjaDokumentuQR(document, nazwa);
                 String f = "pokazwydruk('" + nazwa + "');";
                 PrimeFaces.current().executeScript(f);
@@ -543,5 +559,31 @@ public class PdfListaPlac {
         } catch (Exception e) {
             E.e(e);
         }
+    }
+
+    private static Element listadowyplaty(List<Pasekwynagrodzen> lista) {
+         PdfPTable table = new PdfPTable(6);
+        try {
+            table.setWidthPercentage(45);
+            table.setWidths(new int[]{1, 3, 3, 6, 3, 3});
+            table.addCell(ustawfrazeAlign("lp", "center",6));
+            table.addCell(ustawfrazeAlign("nazwisko i imię", "center",6));
+            table.addCell(ustawfrazeAlign("Pesel", "center",6));
+            table.addCell(ustawfrazeAlign("konto", "center",6));
+            table.addCell(ustawfrazeAlign("do wypłaty", "center",6));
+            table.addCell(ustawfrazeAlign("w EUR", "center",6));
+            table.setHeaderRows(1);
+            int i = 1;
+            for (Pasekwynagrodzen p :lista) {
+                table.addCell(ustawfrazeAlign(i++, "center",6));
+                table.addCell(ustawfrazeAlign(p.getNazwiskoImie(), "left",6));
+                table.addCell(ustawfrazeAlign(p.getPesel(), "left",6));
+                table.addCell(ustawfrazeAlign(p.getNrkonta(), "left",6));
+                table.addCell(ustawfrazeAlign(formatujWaluta(p.getNetto()), "right",6));
+                table.addCell(ustawfrazeAlign(formatujWaluta(p.getNettowaluta()), "right",6));
+            }
+        } catch (DocumentException ex) {
+        }
+        return table;
     }
 }

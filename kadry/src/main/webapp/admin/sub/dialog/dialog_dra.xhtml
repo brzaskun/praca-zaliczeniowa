@@ -12,7 +12,7 @@
               fitViewport="true">
         <p:ajax event="open" listener="#{draView.init()}" update="DRACreateForm DRASumaForm DRAListForm" global="false"/>
         <p:outputPanel style="height: 180px">
-            <h:form id="DRACreateForm">
+            <h:form  styleClass="formadmin" id="DRACreateForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2">
                         <p:panelGrid columns="2" rendered="#{draView.listadefinicjalistaplac ne null}">
@@ -41,7 +41,7 @@
             </h:form>
         </p:outputPanel>
         <p:outputPanel style="height: 100px">
-            <h:form id="DRASumaForm">
+            <h:form  styleClass="formadmin" id="DRASumaForm">
                 <p:panelGrid columns="5" style="width: 450px;">
                     <p:outputLabel value="ZUS51"/>
                     <p:outputLabel value="ZUS52"/>
@@ -57,7 +57,7 @@
             </h:form>
         </p:outputPanel>
         <p:outputPanel>
-            <h:form id="DRAListForm">
+            <h:form  styleClass="formadmin" id="DRAListForm">
                 <p:panel header="paski wynagrodzeń">
                     <p:dataTable id="datalist" value="#{draView.paskiwynagrodzen}" var="itemdra"
                                  selectionMode="single" selection="#{draView.selectedlista}" rowIndexVar="indexdra"

@@ -182,6 +182,7 @@ public class PasekwynagrodzenBean {
         }
         PasekwynagrodzenBean.razemkosztpracodawcy(pasek);
         PasekwynagrodzenBean.naniesrobocze(pasek,kalendarz);
+        PasekwynagrodzenBean.przelicznawalute(pasek);
        
 //        System.out.println("****************");
 //        for (Naliczenieskladnikawynagrodzenia r : pasek.getNaliczenieskladnikawynagrodzeniaList()) {
@@ -830,8 +831,8 @@ public class PasekwynagrodzenBean {
         Rachunekdoumowyzlecenia rachunekdoumowyzlecenia = PasekwynagrodzenBean.pobierzRachunekzlecenie(pasek.getKalendarzmiesiac().getAngaz(), pasek.getKalendarzmiesiac().getRok(), pasek.getKalendarzmiesiac().getMc());
         //Rachunekdoumowyzlecenia rachunekdoumowyzlecenia =null;
         double procentkosztyuzyskania = rachunekdoumowyzlecenia.getProcentkosztowuzyskania();
-        double podstawadlakosztow = Z.z0(bruttominusspoleczne) > 0.0 ? Z.z0(bruttominusspoleczne) :0.0;
-        double kosztyuzyskania = Z.z(podstawadlakosztow*20/100);
+        double podstawadlakosztow = Z.z(bruttominusspoleczne) > 0.0 ? Z.z(bruttominusspoleczne) :0.0;
+        double kosztyuzyskania = Z.z(podstawadlakosztow*20.0/100.0);
         if (pasek.isDo26lat()) {
             kosztyuzyskania = 0.0;
         }
@@ -1438,6 +1439,14 @@ public class PasekwynagrodzenBean {
             }
         }
         return czysatylkozlecenia;
+    }
+
+    private static void przelicznawalute(Pasekwynagrodzen pasek) {
+        double kurs = pasek.getKurs();
+        double netto = pasek.getNetto();
+        double kwotawwalucie = Z.z(netto/kurs);
+        pasek.setNettowaluta(kwotawwalucie);
+        pasek.setSymbolwaluty("EUR");
     }
 
     

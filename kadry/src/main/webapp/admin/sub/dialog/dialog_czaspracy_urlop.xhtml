@@ -13,7 +13,7 @@
         <p:outputPanel>
             <p:tabView id="akordeon">
                 <p:tab title="wykorzystanie urlopu rok biezacy">
-                    <h:form id="PracownikUrlopForm">
+                    <h:form  styleClass="formadmin" id="PracownikUrlopForm">
                         <p:panelGrid columns="4" rendered="#{pracownikNieobecnoscView.urlopprezentacja != null}">
                             <p:outputLabel value="stan na dzien" for="stannadzien" />
                             <p:inputText id="stannadzien" value="#{pracownikNieobecnoscView.stannadzien}" readonly="true" size="10"/>
@@ -91,7 +91,7 @@
                     </h:form>
                 </p:tab>
                 <p:tab title="naliczenie ekwiwalentu za urlop">
-                    <h:form id="EkwiwalentForm">
+                    <h:form  styleClass="formadmin" id="EkwiwalentForm">
                         <p:panelGrid columns="2">
                             <h:outputText value="naliczenie na dzień"/>
                             <p:inputText value="#{pracownikNieobecnoscView.ekwiwalent.dataod}" title="naliczenie na dzien"  placeholder="____-__-__" maxlength="10" required="true" requiredMessage="Wprowadź datę naliczenia">
@@ -217,7 +217,7 @@
                     </h:form>
                 </p:tab>
                 <p:tab title="wykorzystanie choroby rok biezacy">
-                    <h:form id="PracownikChorobaForm">
+                    <h:form  styleClass="formadmin" id="PracownikChorobaForm">
                         <p:panelGrid columns="4" rendered="#{pracownikNieobecnoscView.chorobaprezentacja != null}">
                             <p:outputLabel value="stan na dzien" for="stannadzien" />
                             <p:inputText id="stannadzien" value="#{pracownikNieobecnoscView.stannadzien}" readonly="true" size="10"/>
@@ -297,7 +297,7 @@
                     </h:form>
                 </p:tab>
                 <p:tab title="wypłacone zasiłki rok biezacy">
-                    <h:form id="PracownikZasilekForm">
+                    <h:form  styleClass="formadmin" id="PracownikZasilekForm">
                         <p:panelGrid columns="4" rendered="#{pracownikNieobecnoscView.zasilekprezentacja != null}">
                             <p:outputLabel value="stan na dzien" for="stannadzienz" />
                             <p:inputText id="stannadzienz" value="#{pracownikNieobecnoscView.stannadzien}" readonly="true" size="10"/>
@@ -375,7 +375,7 @@
                     </h:form>
                 </p:tab>
                 <p:tab title="oddelegowanie rok biezacy">
-                    <h:form id="PracownikOddelegowanieForm">
+                    <h:form  styleClass="formadmin" id="PracownikOddelegowanieForm">
                         <p:panelGrid columns="4" >
                             <p:outputLabel value="stan na dzien" for="stannadzieno" />
                             <p:inputText id="stannadzieno" value="#{pracownikNieobecnoscView.stannadzien}" readonly="true" size="10"/>

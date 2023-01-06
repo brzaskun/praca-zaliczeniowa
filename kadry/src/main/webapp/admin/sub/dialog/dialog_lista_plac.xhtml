@@ -25,7 +25,7 @@
                 <h:panelGroup >
                     
                     <p:panelGrid columns="6" rendered="#{pasekwynagrodzenView.listadefinicjalistaplac ne null}">
-                       <h:form id="DefinicjalistaplacCreateForm">
+                       <h:form  styleClass="formadmin" id="DefinicjalistaplacCreateForm">
                             <p:outputLabel value="rodzaj umowy" />
                             <p:selectOneListbox id="rodzajumowy" value="#{pasekwynagrodzenView.rodzajlistyplac}" scrollHeight="120" style="width: 280px;margin-left: 10px;" required="true" 
                                                  requiredMessage="Wybierz rodzaj listy płac"
@@ -37,7 +37,7 @@
                                         <p:ajax event="change" partialSubmit="true" listener="#{pasekwynagrodzenView.wyborinnejumowy()}" global="false" update="PasekwynagrodzenListForm DefinicjalistaplacCreateForm1 DefinicjalistaplacCreateForm2 KursDataLPForm"/>
                             </p:selectOneListbox>
                         </h:form>
-                        <h:form id="DefinicjalistaplacCreateForm1">
+                        <h:form  styleClass="formadmin" id="DefinicjalistaplacCreateForm1">
                             <p:outputLabel value="wybrana lista płac" for="wybranalista" />
                             <p:selectOneListbox id="wybranalista" value="#{pasekwynagrodzenView.wybranalistaplac}" scrollHeight="120" required="true" style="width: 280px;" requiredMessage="Wybierz listę płac" converter="#{definicjalistaplacConverter}" >
                                 <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
@@ -49,7 +49,7 @@
                            
                             
                         </h:form>
-                        <h:form id="KursDataLPForm">
+                        <h:form  styleClass="formadmin" id="KursDataLPForm">
                             <p:panelGrid columns="2" >
                             <h:outputLabel for="datawyplatypole" value="data wypłaty"/>
                             <p:inputText id="datawyplatypole" value="#{pasekwynagrodzenView.datawyplaty}" title="data wypłaty"  placeholder="____-__-__"  required="true" styleClass="dataUmowy" maxlength="10">
@@ -59,7 +59,8 @@
                             <p:inputNumber value="#{pasekwynagrodzenView.kursdlalisty}" id="kurspole" decimalPlaces="4" style="text-align: right;">
                                 <p:ajax event="blur" partialSubmit="true" global="false"/>
                             </p:inputNumber>
-                           
+                           <h:outputLabel for="kurspoledata" value="z dnia: "/>
+                           <p:inputText id="kurspoledata" value="#{pasekwynagrodzenView.datadlalisty}" readonly="true"/>
                             <p:outputLabel value="forma listy płac" for="ileszczegolow" />
                             <p:selectOneMenu id="ileszczegolow" value="#{pasekwynagrodzenView.ileszczegolow}" requiredMessage="ile szczegółów"  >
                                 <f:selectItem itemLabel="prosta" itemValue="prosta"/>
@@ -72,7 +73,7 @@
                             <h:outputText id="wyslana" value="#{pasekwynagrodzenView.lista.get(0).datawysylki}" rendered="#{pasekwynagrodzenView.lista ne null and pasekwynagrodzenView.lista.size() gt 0}" style="color: red;"/>
                             </p:panelGrid>
                         </h:form>
-                         <h:form id="DefinicjalistaplacCreateForm2">
+                         <h:form  styleClass="formadmin" id="DefinicjalistaplacCreateForm2">
                             <p:outputLabel value="" for="wybranypracownik" />
                             <p:pickList id="wybranypracownik" value="#{pasekwynagrodzenView.listakalendarzmiesiac}" var="kalendarzItem" itemLabel="#{kalendarzItem.angaz.pracownik.nazwiskoImie}" itemValue="#{kalendarzItem}" 
                                         showCheckbox="true" converter="#{kalendarzmiesiacConverter}" showSourceFilter="true" showTargetFilter="true" filterMatchMode="contains" 
@@ -99,7 +100,7 @@
             
         </p:outputPanel>
         <p:outputPanel>
-            <h:form id="PasekwynagrodzenListForm">
+            <h:form  styleClass="formadmin" id="PasekwynagrodzenListForm">
                 <ui:include src="dialog_lista_plac_sub_oddelegowanie.xhtml"/>
                 <ui:include src="dialog_lista_plac_sub_normalna.xhtml"/>
                 <ui:include src="dialog_lista_plac_sub_prosta.xhtml"/>

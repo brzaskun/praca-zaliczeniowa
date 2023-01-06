@@ -16,7 +16,7 @@
             <h:panelGroup >
 
                 <p:panelGrid columns="4" rendered="#{pasekwynagrodzenView.listadefinicjalistaplac ne null}">
-                    <h:form id="DefinicjalistaplacAnalizaForm">
+                    <h:form  styleClass="formadmin" id="DefinicjalistaplacAnalizaForm">
 <!--                        <p:outputLabel value="rodzaj umowy" />
                          <p:selectOneMenu id="rodzajumowy" value="#{pasekwynagrodzenView.rodzajlistyplac}" autoWidth="false" style="width: 280px;margin-left: 10px;" required="true" filter="true" filterMatchMode="contains" requiredMessage="Wybierz rodzaj listy płac"
                                  converter="#{rodzjalistyplacConverter}">
@@ -27,7 +27,7 @@
                                 <p:ajax event="change" partialSubmit="true" listener="#{pasekwynagrodzenView.wyborinnejumowy()}" global="false" update="PasekwynagrodzenAnalizaForm DefinicjalistaplacAnalizaForm1 DefinicjalistaplacAnalizaForm2"/>
                         </p:selectOneMenu>-->
                     </h:form>
-                    <h:form id="DefinicjalistaplacAnalizaForm1">
+                    <h:form  styleClass="formadmin" id="DefinicjalistaplacAnalizaForm1">
                         <p:outputLabel value="wybrana lista płac" for="wybranalista" />
                         <p:selectOneMenu id="wybranalista" value="#{pasekwynagrodzenView.wybranalistaplac2}" autoWidth="false" style="width: 280px;" required="true" requiredMessage="Wybierz firmę" converter="#{definicjalistaplacConverter}" >
                             <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
@@ -40,7 +40,7 @@
 
 
                     </h:form>
-                    <h:form id="DefinicjalistaplacAnalizaForm2">
+                    <h:form  styleClass="formadmin" id="DefinicjalistaplacAnalizaForm2">
                         <p:outputLabel value="" for="wybranypracownik" />
                         <p:selectOneMenu id="wybranypracownik" value="#{pasekwynagrodzenView.wybranykalendarz}" required="true" requiredMessage="Wybierz osobę" converter="#{kalendarzmiesiacConverter}" >
                             <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
@@ -64,7 +64,7 @@
 
         </p:outputPanel>
         <p:outputPanel  styleClass="panelzramka">
-            <h:form id="PasekwynagrodzenAnalizaForm">
+            <h:form  styleClass="formadmin" id="PasekwynagrodzenAnalizaForm">
                 <p:panel header="paski wynagrodzeń">
                     <p:panelGrid columns="12" style="width: 1200px; margin-bottom: 10px;">
                         <h:outputText value="nazwisko i imię: "/>

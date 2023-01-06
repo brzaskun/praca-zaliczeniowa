@@ -129,10 +129,13 @@ public class FirmaKadry implements Serializable {
     private String fir_serial;
     @Column(name = "dzienlp")
     private String dzienlp;
+    @Column(name = "domyslnyformatlp")
+    private String domyslnyformatlp;
     @OneToMany(mappedBy = "firma", cascade = CascadeType.ALL)
     List<Wypadkowefirma> wypadkowefirmaList;
     @Transient
     private String loginfirmy;
+    
 
     public FirmaKadry() {
     }
@@ -185,6 +188,14 @@ public class FirmaKadry implements Serializable {
 
     public void setDom(String dom) {
         this.dom = dom;
+    }
+
+    public String getDomyslnyformatlp() {
+        return domyslnyformatlp;
+    }
+
+    public void setDomyslnyformatlp(String domyslnyformatlp) {
+        this.domyslnyformatlp = domyslnyformatlp;
     }
 
     public String getLokal() {

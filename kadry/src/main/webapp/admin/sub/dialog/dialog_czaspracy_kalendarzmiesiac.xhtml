@@ -13,7 +13,7 @@
             <h:panelGroup id="display">
                 <h:outputText value="W przypadku nierównych godzin mimo całego miesiąca proszę sprawdzić kalendarz wzorcowy"/>
                 <p:panelGrid columns="3">
-                    <h:form id="KalendarzmiesiacCreateForm">
+                    <h:form  styleClass="formadmin" id="KalendarzmiesiacCreateForm">
                         <p:panelGrid columns="4">
                             <p:outputLabel value="rok" for="rok" />
                             <p:inputText id="rok" value="#{kalendarzmiesiacView.selected.rok}" title="rok" >
@@ -27,7 +27,7 @@
                         </p:panelGrid>
                     </h:form>
                     
-                    <h:form id="KalendarzmiesiacSaRokForm">
+                    <h:form  styleClass="formadmin" id="KalendarzmiesiacSaRokForm">
 <!--                        <p:dataTable id="datalist" value="#{kalendarzmiesiacView.listakalendarzeprac}" var="itemkalendarzjest"
                                      rowKey="#{itemkalendarzjest.id}" emptyMessage="brak kalendarzy prac"
                                      selection="#{kalendarzmiesiacView.selected}" selectionMode="single"
@@ -84,7 +84,7 @@
                         </p:panelGrid>
                             </p:panelGrid>
                     </h:form>
-                    <h:form id="KalendarzmiesiacCreateRokForm">
+                    <h:form  styleClass="formadmin" id="KalendarzmiesiacCreateRokForm">
                         <p:panelGrid columns="2">
                             <p:outputLabel value="generuj kalendarz za rok" for="rokkal" />
                             <p:commandButton id="rokkal" value="generuj" styleClass="buttonnorm" actionListener="#{kalendarzmiesiacView.generujrok()}" update="KalendarzmiesiacSaRokForm"/>
@@ -94,7 +94,7 @@
             </h:panelGroup>
         </p:outputPanel>
         <p:outputPanel>
-            <h:form id="KalendarzmiesiacListForm">
+            <h:form  styleClass="formadmin" id="KalendarzmiesiacListForm">
                 <p:panel header="Dni kalendarza pracownika #{kalendarzmiesiacView.selected.rok}/#{kalendarzmiesiacView.selected.mc} prac #{kalendarzmiesiacView.selected.angaz.pracownik.nazwiskoImie}">
                     <p:dataTable id="datalist" value="#{kalendarzmiesiacView.selected.dzienList}" var="itemkalendarz"
                                  rowKey="#{itemkalendarz.id}"

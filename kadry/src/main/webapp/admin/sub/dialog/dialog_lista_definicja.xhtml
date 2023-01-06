@@ -10,7 +10,7 @@
               fitViewport="true">
         <p:ajax event="open" listener="#{definicjalistaplacView.init()}" update="DefinicjalistaplacdefCreateForm DefinicjalistaplacgenerujForm DefinicjalistaplacgenerujForm1 DefinicjalistaplacListForm" global="false"/>
         <p:outputPanel style="height: 150px">
-             <h:form id="DefinicjalistaplacdefCreateForm">
+             <h:form  styleClass="formadmin" id="DefinicjalistaplacdefCreateForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="8" rendered="#{definicjalistaplacView.selected != null}">
                         <p:outputLabel value="okres rozliczeniowy" for="okresrozl" />
@@ -51,15 +51,15 @@
             </h:form>
         </p:outputPanel>
         <p:outputPanel style="height: 30px">
-            <h:form id="DefinicjalistaplacgenerujForm">
+            <h:form  styleClass="formadmin" id="DefinicjalistaplacgenerujForm">
                 <p:commandButton styleClass="buttonnorm" actionListener="#{definicjalistaplacView.createrok}" value="uzupełnij rok" update="display,:DefinicjalistaplacListForm:datalist" rendered="#{definicjalistaplacView.lista.size() gt 0}" />
             </h:form>
-            <h:form id="DefinicjalistaplacgenerujForm1">
+            <h:form  styleClass="formadmin" id="DefinicjalistaplacgenerujForm1">
                 <p:commandButton styleClass="buttonnorm" actionListener="#{firmaView.listywszystkie(wpisView.rokWpisu)}" value="generuj rok" update="display,:DefinicjalistaplacListForm:datalist" />
             </h:form>
         </p:outputPanel>
         <p:outputPanel>
-            <h:form id="DefinicjalistaplacListForm">
+            <h:form  styleClass="formadmin" id="DefinicjalistaplacListForm">
                 <p:outputLabel value="wybierz wyświetlany rodzaj listy" style="margin-left: 700px;" />
                 <p:selectOneMenu id="firma" value="#{definicjalistaplacView.wybranyrodzajlisty}" required="true" requiredMessage="Wybierz rodzaj listy płac"
                                  style="margin-left: 20px;" converter="#{rodzjalistyplacConverter}">

@@ -20,7 +20,7 @@
         <p:ajax event="open" listener="#{nieobecnoscView.initzbiorcze()}" update="NieobecnosczbiorczeCreateForm" global="false"/>
         <p:outputPanel style="height: 680px">
             <p:panelGrid columns="1">
-                <h:form id="NieobecnosczbiorczeCreateForm">
+                <h:form  styleClass="formadmin" id="NieobecnosczbiorczeCreateForm">
                     <h:panelGroup id="display">
                         <p:panelGrid columns="4" rendered="#{nieobecnoscView.selectedzbiorczo != null}">
                             <p:panelGrid columns="1">

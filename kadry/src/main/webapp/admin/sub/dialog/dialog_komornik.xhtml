@@ -12,7 +12,7 @@
               fitViewport="true">
         <p:ajax event="open" listener="#{komornikView.init()}" update="KomornikWyborForm KomornikListForm" global="false"/>
         <p:outputPanel>
-             <h:form id="KomornikWyborForm">
+             <h:form  styleClass="formadmin" id="KomornikWyborForm">
                  <p:selectOneMenu id="skladikpotracen" value="#{komornikView.selected}" converter="#{skladnikpotraceniaConverter}">
                     <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
                     <f:selectItems value="#{komornikView.skladnikpotracenialist}"
@@ -24,7 +24,7 @@
         </p:outputPanel>
         
         <p:outputPanel>
-             <h:form id="KomornikListForm">
+             <h:form  styleClass="formadmin" id="KomornikListForm">
                  <p:outputPanel rendered="#{komornikView.selected ne null}" style="padding: 10px;">
                      <p:panelGrid columns="10">
                          <p:outputLabel for="jeden" value="nazwa"/>
