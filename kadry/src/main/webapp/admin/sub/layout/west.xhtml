@@ -22,7 +22,7 @@
                 </p:dataTable>
             </p:panel>
         </h:form>
-        <h:form id="EastPracownicy">
+    <h:form id="EastPracownicy" styleClass="formadmin">
             <p:panel header="Pracownicy">
                  <p:selectBooleanCheckbox id="wyboropcji" value="#{angazView.pokazwszystkich}">
                     <p:ajax event="change" listener="#{angazView.pobierzpracownikow}" update="@form" global="false"/>
