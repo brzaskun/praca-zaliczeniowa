@@ -8,7 +8,7 @@
     xmlns:bcf="http://brzaskun.com/facelets"
     >
     <p:outputPanel style="margin-top: 10px;">
-        <h:form id="UmowaListFormR">
+        <h:form styleClass="formumowa" id="UmowaListFormR">
             <p:panel header="Wykaz umów #{umowaView.rodzajumowy eq '1' ?'o pracę':'zlecenia i o dzieło'} z uwzględnieniem wypowiedzenia">
                 <p:dataTable id="datalist" value="#{umowaView.listawypowiedzenia}" var="itemumowawy" widgetVar="dataListumowaR"
                              selection="#{rozwiazanieumowyView.wybranaumowa}" emptyMessage="Brak zawartych umów" rowSelectMode="add"

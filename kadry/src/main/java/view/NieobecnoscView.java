@@ -223,12 +223,12 @@ public class NieobecnoscView  implements Serializable {
                     NieobecnosciBean.nanies(nowa, kalendarzmiesiacFacade, nieobecnoscFacade);
                     selectedzbiorczo = new Nieobecnosc();
                 } catch (Exception e){
-                    Msg.msg("w","Nieobecno ju wprowadzona dla "+p.getNazwiskoImie());
+                    Msg.msg("w","Nieobecność była już wprowadzona dla "+p.getNazwiskoImie());
                 }
             }
             Msg.msg("Dodano nieobecności");
           } catch (Exception e) {
-              Msg.msg("e", "Błąd - nie dodano nowej nieobecnosci");
+              Msg.msg("e", "Błąd - nie dodano nowej nieobecnosci ");
           }
       } else {
           Msg.msg("e","Nie wybrano pracowników");

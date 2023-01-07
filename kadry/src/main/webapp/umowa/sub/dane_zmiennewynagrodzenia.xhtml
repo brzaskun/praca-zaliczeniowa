@@ -9,7 +9,7 @@
     <p:panelGrid columns="2" columnClasses="fifty-percent fifty-percent">
             
             <p:outputPanel style="height: 140px" styleClass="panelzramka">
-                <h:form id="ZmiennawynagrodzeniaCreateForm">
+                <h:form styleClass="formumowa" id="ZmiennawynagrodzeniaCreateForm">
                     <p:panel header="Dodawanie/edycja zmiennych"/>
                     <h:panelGroup id="display">
                         <p:panelGrid columns="8" rendered="#{zmiennaWynagrodzeniaView.selected != null}">
@@ -39,7 +39,7 @@
                 </h:form>
             </p:outputPanel>
         <p:outputPanel>
-                <h:form id="ZmiennawynagrodzeniaListForm">
+                <h:form styleClass="formumowa" id="ZmiennawynagrodzeniaListForm">
                     <p:panel header="Wykaz zmiennych składniki wynagrodzenia">
                         <p:dataTable id="datalist" value="#{zmiennaWynagrodzeniaView.lista}" var="itemzmiennawyn"
                                      selectionMode="single" selection="#{zmiennaWynagrodzeniaView.selectedlista}"

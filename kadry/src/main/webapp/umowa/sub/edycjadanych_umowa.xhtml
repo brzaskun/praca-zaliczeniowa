@@ -8,7 +8,8 @@
     xmlns:bcf="http://brzaskun.com/facelets"
     >
     <p:outputPanel style="height: 550px" id="panelumowadane">
-        <h:form id="UmowaCreateForm">
+        <h:form styleClass="formumowa" id="UmowaCreateForm">
+           
             <p:panel header="Dodawanie/edycja umowy #{umowaView.rodzajumowy eq '1' ?'o pracę':'zlecenia i o dzieło'}."/>
             <h:panelGroup id="displaypraca" rendered="#{umowaView.rodzajumowy eq '1'}">
                 <h:outputText value="Dodajesz nową umowę o pracę. Osoba #{wpisView.pracownik.nazwiskoImie}. Wiek #{wpisView.pracownik.wiek}" style="color:green; margin-left: 50px; font-weight: bolder;" rendered="#{umowaView.selected.id eq null}"/>
@@ -214,7 +215,7 @@
     </p:outputPanel>
     <p:outputPanel id="panelsymulacji" style="margin-top: 5px;width: 700px;">
         <h:outputText value="symulacja wynagrodzenia"/>
-        <h:form id="symulacjaform">
+        <h:form styleClass="formumowa" id="symulacjaform">
         <p:panelGrid columns="7" style="width: 700px;">
             <p:outputLabel for="spinner1" value="brutto"/>
             <p:spinner id="spinner1" value="#{pasekwynagrodzenView.symulacjabrrutto}" min="50" max="10000" stepFactor="10"

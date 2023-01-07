@@ -17,7 +17,7 @@
             }
         </style>
         <p:outputPanel style="height: 650px">
-            <h:form id="UmowaTextCreateForm">
+            <h:form styleClass="formumowa" id="UmowaTextCreateForm">
                 <p:panel header="TREŚĆ UMOWY O PRACĘ"/>
                 <p:panelGrid style="margin-top:20px;width: 800px;" styleClass="umowatresc">
                      <p:row>
@@ -150,7 +150,7 @@
                     </p:row>
                 </p:panelGrid>
             </h:form>
-            <h:form>
+            <h:form styleClass="formumowa">
                  <p:panelGrid columns="1" style="margin-top: 10px;">
                     <p:commandButton value="drukuj" actionListener="#{umowaView.drukujumoweselected()}"/>
                 </p:panelGrid>

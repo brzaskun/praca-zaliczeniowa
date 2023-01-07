@@ -48,8 +48,6 @@
                                                    itemValue="#{kodzusItem}" itemLabel="#{kodzusItem.kod} #{kodzusItem.opis}"/>
                                     <p:ajax event="change" partialSubmit="true" global="false" update="NieobecnosczbiorczeCreateForm:procent" listener="#{nieobecnoscView.naniesprocentzbiorcze()}"/>
                                 </p:selectOneMenu>
-                            </p:panelGrid>
-                                <p:panelGrid columns="2">
                                     <p:outputLabel value="data od" for="dataod" />
                                     <p:inputText id="dataod" value="#{nieobecnoscView.selectedzbiorczo.dataod}" title="datac od"  placeholder="____-__-__" maxlength="10" required="true" requiredMessage="Wprowadź datę od">
                                         <p:ajax event="blur" onstart="ustawDateSprzedazy(#{wpisView.rokWpisu},#{wpisView.miesiacWpisu});" partialSubmit="true" global="false" />
@@ -85,6 +83,9 @@
                                     </p:selectOneMenu>
                                 </p:panelGrid>
                             </p:fragment>
+                            <p:panelGrid columns="2" >
+                                <p:messages><p:autoUpdate/></p:messages>
+                            </p:panelGrid>
                         </p:panelGrid>
                         <p:commandButton styleClass="buttonnorm" actionListener="#{nieobecnoscView.createzbiorczo(wpisView.firma)}" value="#{bundle.Save}" update="display"/>
                         <p:commandButton value="#{bundle.Cancel}" onclick="NieobecnoscCreateDialog.hide()"/>

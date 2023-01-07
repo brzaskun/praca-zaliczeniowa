@@ -8,7 +8,7 @@
 >
     <p:panelGrid columns="2" columnClasses="forty-percent">
         <p:outputPanel style="height: 140px" styleClass="panelzramka">
-                <h:form id="SkladnikwynagrodzeniaCreateForm">
+                <h:form styleClass="formumowa" id="SkladnikwynagrodzeniaCreateForm">
                     <p:panel header="Dodawanie/edycja składnika wynagrodzenia"/>
                     <h:panelGroup id="display">
                         <p:panelGrid columns="6" rendered="#{skladnikWynagrodzeniaView.selected != null}">
@@ -33,7 +33,7 @@
                 </h:form>
             </p:outputPanel>
             <p:outputPanel>
-                <h:form id="SkladnikwynagrodzeniaListForm">
+                <h:form styleClass="formumowa" id="SkladnikwynagrodzeniaListForm">
                     <p:panel header="Wykaz składników wynagrodzenia">
                         <p:dataTable id="datalist" value="#{skladnikWynagrodzeniaView.lista}" var="itemskladnikwyn"
                                      selectionMode="single" selection="#{skladnikWynagrodzeniaView.selectedlista}"

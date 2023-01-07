@@ -8,7 +8,7 @@
 >
     <p:panelGrid columns="2">
         <p:outputPanel style="height: 140px;" styleClass="panelzramka">
-            <h:form id="StanowiskoCreateForm">
+            <h:form styleClass="formumowa" id="StanowiskoCreateForm">
                 <p:panel header="Dodawanie/edycja stanowiska do umowy"/>
                 <h:panelGroup id="display">
                     <p:panelGrid columns="6" rendered="#{stanowiskoPracView.selected != null}" style="width: 300px">
@@ -27,7 +27,7 @@
             </h:form>
         </p:outputPanel>
         <p:outputPanel>
-                <h:form id="StanowiskoListForm">
+                <h:form styleClass="formumowa" id="StanowiskoListForm">
                     <p:panel header="Wykaz historii stanowisk">
                         <p:dataTable id="datalist" value="#{stanowiskoPracView.lista}" var="itemstanow"
                                      selectionMode="single" selection="#{stanowiskoPracView.selectedlista}"

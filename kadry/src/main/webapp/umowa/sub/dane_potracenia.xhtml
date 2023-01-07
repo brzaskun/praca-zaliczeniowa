@@ -8,7 +8,7 @@
 >
     <p:panelGrid columns="2" columnClasses="fifty-percent fifty-percent">
          <p:outputPanel style="height: 140px" styleClass="panelzramka">
-                <h:form id="PotraceniaCreateForm">
+                <h:form styleClass="formumowa" id="PotraceniaCreateForm">
                     <p:panel header="Dodawanie/edycja składnika potrąceń"/>
                     <h:panelGroup id="display">
                         <p:panelGrid columns="4" rendered="#{skladnikPotraceniaView.selected != null}">
@@ -31,7 +31,7 @@
                 </h:form>
             </p:outputPanel>
             <p:outputPanel>
-                <h:form id="SkladnikpotraceniaListForm">
+                <h:form styleClass="formumowa" id="SkladnikpotraceniaListForm">
                     <p:panel header="Wykaz składników potrącenia">
                         <p:dataTable id="datalist" value="#{skladnikPotraceniaView.lista}" var="itemskladnikpotracenia"
                                      selectionMode="single" selection="#{skladnikPotraceniaView.selectedlista}"

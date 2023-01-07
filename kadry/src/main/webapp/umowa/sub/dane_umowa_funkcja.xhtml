@@ -8,7 +8,7 @@
     xmlns:bcf="http://brzaskun.com/facelets"
     >
     <p:outputPanel style="margin-top: 10px;">
-        <h:form id="UmowaListFormFunkcja">
+        <h:form styleClass="formumowa" id="UmowaListFormFunkcja">
             <p:panel header="Wykaz umów o pełnienie funkcji / Gdy jest pusta sprawdź w parametrach przyporządkowanie kodu do umowy">
                 <p:dataTable id="datalist" value="#{umowaView.listafunkcja}" var="itemumowa" widgetVar="dataListumowafunkcja"
                              selection="#{umowaView.selectedlista}" emptyMessage="Brak zawartych umów"

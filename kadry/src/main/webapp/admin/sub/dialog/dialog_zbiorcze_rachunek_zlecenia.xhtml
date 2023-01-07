@@ -80,6 +80,9 @@
                 <p:outputPanel >
                     <p:commandButton value="zachowaj" styleClass="buttonnorm" actionListener="#{rachunekZlecenieView.zachowajrachunki()}" update="RachunekZleceniaZbiorczeForm:datalist" global="false"/>
                 </p:outputPanel>
+                <p:panelGrid columns="2" >
+                    <p:messages><p:autoUpdate/></p:messages>
+                </p:panelGrid>
             </h:form>
         </p:outputPanel>
     </p:dialog>

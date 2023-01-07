@@ -215,24 +215,28 @@ public class RachunekZlecenieView  implements Serializable {
     
     public void zachowajrachunki() {
         for (Rachunekdoumowyzlecenia p : lista) {
-            if (p.getId()==null) {
-                if (p.getKwotasuma()>0.0) {
-                    rachunekdoumowyzleceniaFacade.create(p);
-//                    Skladnikwynagrodzenia skladnik = p.getUmowa().getAngaz().pobierzskladnikzlecenieMiesieczne();
-//                    Zmiennawynagrodzenia zmienna = new Zmiennawynagrodzenia(skladnik);
-//                    zmienna.setDataod(rachunekdoumowyzlecenia.getDataod());
-//                    zmienna.setDatado(rachunekdoumowyzlecenia.getDatado());
-//                    zmienna.s
-//                    zmienna.setKwota(p.getKwota());
-//                    zmiennaWynagrodzeniaFacade.edit(zmienna);
-//                    rachunekdoumowyzleceniaFacade.edit(p);
+            try {
+                if (p.getId()==null) {
+                    if (p.getKwotasuma()>0.0) {
+                        rachunekdoumowyzleceniaFacade.create(p);
+    //                    Skladnikwynagrodzenia skladnik = p.getUmowa().getAngaz().pobierzskladnikzlecenieMiesieczne();
+    //                    Zmiennawynagrodzenia zmienna = new Zmiennawynagrodzenia(skladnik);
+    //                    zmienna.setDataod(rachunekdoumowyzlecenia.getDataod());
+    //                    zmienna.setDatado(rachunekdoumowyzlecenia.getDatado());
+    //                    zmienna.s
+    //                    zmienna.setKwota(p.getKwota());
+    //                    zmiennaWynagrodzeniaFacade.edit(zmienna);
+    //                    rachunekdoumowyzleceniaFacade.edit(p);
+                    }
+                } else {
+    //                Skladnikwynagrodzenia skladnik = p.getUmowa().getAngaz().pobierzskladnikzlecenieMiesieczne();
+    //                Zmiennawynagrodzenia zmienna = skladnik.pobierzzmienna(p);
+    //                zmienna.setKwota(p.getKwota());
+    //                zmiennaWynagrodzeniaFacade.edit(zmienna);
+                    rachunekdoumowyzleceniaFacade.edit(p);
                 }
-            } else {
-//                Skladnikwynagrodzenia skladnik = p.getUmowa().getAngaz().pobierzskladnikzlecenieMiesieczne();
-//                Zmiennawynagrodzenia zmienna = skladnik.pobierzzmienna(p);
-//                zmienna.setKwota(p.getKwota());
-//                zmiennaWynagrodzeniaFacade.edit(zmienna);
-                rachunekdoumowyzleceniaFacade.edit(p);
+            } catch (Exception e) {
+                Msg.msg("e","Błąd. Nie zachowano rachunku "+p.getUmowa().getNazwiskoImie());
             }
         }
         Msg.msg("Zachowano rachunki");

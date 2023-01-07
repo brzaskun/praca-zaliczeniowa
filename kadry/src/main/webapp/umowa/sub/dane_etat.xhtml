@@ -8,7 +8,7 @@
     >
     <p:panelGrid columns="2">
         <p:outputPanel style="height: 140px;width: 860px;" styleClass="panelzramka">
-            <h:form id="EtatCreateForm">
+            <h:form styleClass="formumowa" id="EtatCreateForm">
                 <p:panel header="Dodawanie/edycja etatu do umowy"  />
                 <h:panelGroup id="display"  >
                     <p:panelGrid columns="8" rendered="#{etatView.selected != null}" style="width: 300px">
@@ -27,7 +27,7 @@
             </h:form>
         </p:outputPanel>
         <p:outputPanel>
-                <h:form id="EtatListForm">
+                <h:form styleClass="formumowa" id="EtatListForm">
                     <p:panel header="Wykaz historii etatów"  rendered="#{umowaView.rodzajumowy eq '1'}">
                         <p:dataTable id="datalist" value="#{etatView.lista}" var="itemetat"
                                      selectionMode="single" selection="#{etatView.selectedlista}" sortBy="#{itemetat.dataod}"
