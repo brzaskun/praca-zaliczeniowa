@@ -71,9 +71,7 @@ public class RachunekZlecenieView  implements Serializable {
     
 
     public void init() {
-        if (umowabiezaca == null) {
-            umowabiezaca = wpisView.getUmowa();
-        }
+        umowabiezaca = wpisView.getUmowa();
             if (umowabiezaca != null && umowabiezaca.getUmowakodzus().isZlecenie()) {
             umowabiezaca = umowaFacade.findById(umowabiezaca.getId());
             String datado = umowabiezaca.getDatado();

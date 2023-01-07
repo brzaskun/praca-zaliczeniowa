@@ -44,6 +44,8 @@ public class UpdateClassView   implements Serializable {
     @Inject
     private RachunkidoZlecenListaView rachunkidoZlecenView;
     @Inject
+    private RachunekZlecenieView rachunekZlecenieView;
+    @Inject
     private ZmiennaPotraceniaView zmiennaPotraceniaView;
     @Inject
     private EtatView etatView;
@@ -76,6 +78,7 @@ public class UpdateClassView   implements Serializable {
         nieobecnoscView.init();
         pracownikNieobecnoscView.init();
         kartaWynagrodzenView.pobierzdane(wpisView.getAngaz());
+        rachunekZlecenieView.init();
     }
     
 }
