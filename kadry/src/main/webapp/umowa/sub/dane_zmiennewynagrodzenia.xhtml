@@ -17,7 +17,7 @@
                             <p:inputText id="nazwa" value="#{zmiennaWynagrodzeniaView.selected.nazwa}" title="nazwa"  required="true"/>
                             <p:outputLabel value="kwota" />
                             <bcf:inputpl  value="#{zmiennaWynagrodzeniaView.selected.kwota}" />
-                             <p:outputLabel value="umowa" for="umowaskladnik" />
+                             <p:outputLabel value="waluta" for="umowaskladnik" />
                              <p:selectOneMenu id="umowaskladnik" value="#{zmiennaWynagrodzeniaView.selected.waluta}" required="true">
                                 <f:selectItem itemLabel="wybierz" noSelectionOption="true" />
                                 <f:selectItems value="#{waluty.listawalut}"/>
