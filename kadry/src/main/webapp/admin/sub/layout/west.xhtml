@@ -14,15 +14,15 @@
                              rowKey="#{item1.id}" 
                              style="height: 350px;overflow-y: scroll;"
                              >
-                    <p:ajax event="rowSelect" listener="#{firmaView.aktywuj(firmaView.selectedeast)}" partialSubmit="true" global="false" update="north,@(.formadmin)"/>
-                    <p:ajax event="rowSelect" listener="#{angazView.findByFirma(firmaView.selectedeast)}" partialSubmit="true" global="false" update="@(.formadmin)"/>
+                    <p:ajax event="rowSelect" listener="#{firmaView.aktywuj(firmaView.selectedeast)}" partialSubmit="true" global="false" />
+                    <p:ajax event="rowSelect" listener="#{angazView.findByFirma(firmaView.selectedeast)}" partialSubmit="true" global="false" update="north @(.formadmin) @(.formadminwest)"/>
                     <p:column sortBy="#{item1.nazwa}" sortOrder="asc" filterBy="#{item1.nazwa}" filterMatchMode="contains">
                         <h:outputText value="#{item1.nazwa}"/>
                     </p:column>
                 </p:dataTable>
             </p:panel>
         </h:form>
-    <h:form id="EastPracownicy" styleClass="formadmin">
+    <h:form id="EastPracownicy" styleClass="formadminwest">
             <p:panel header="Pracownicy">
                  <p:selectBooleanCheckbox id="wyboropcji" value="#{angazView.pokazwszystkich}">
                     <p:ajax event="change" listener="#{angazView.pobierzpracownikow}" update="@form" global="false"/>
