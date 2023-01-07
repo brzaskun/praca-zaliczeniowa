@@ -680,6 +680,33 @@ public class OsobaBean {
                     wiersz.setNrkolejnyzmiennej(nrkolejnyzmiennej++);
                     skladnikwynagrodzenia.getZmiennawynagrodzeniaList().add(wiersz);
 
+                } else if (ossSsdSerial1.getOsobaSklList2()!=null&&ossSsdSerial1.getOsobaSklList2().size()>0) {
+//                    String nazwazmiennej = "brak";
+//                    List<OsobaSkl> osobaSklList2 = ossSsdSerial1.getOsobaSklList2();
+//                    for(OsobaSkl o : osobaSklList2) {
+//                        StSystOpis ossSsdSerial11 = o.getOssSsdSerial1();
+//                        nazwazmiennej = ossSsdSerial1.getSsdNazwa();
+//                        break;
+//                    }
+                    Zmiennawynagrodzenia wiersz = new Zmiennawynagrodzenia();
+                    wiersz.setSkladnikwynagrodzenia(skladnikwynagrodzenia);
+                    wiersz.setNazwa(ossSsdSerial1.getSsdNazwa());
+                    wiersz.setNetto0brutto1(true);
+                    wiersz.setWaluta("PLN");
+                    if (osobaSkl.getOssDataOd() != null) {
+                        wiersz.setDataod(Data.data_yyyyMMdd(osobaSkl.getOssDataOd()));
+                        if (osobaSkl.getOssDataDo() != null) {
+                            wiersz.setDatado(Data.data_yyyyMMdd(osobaSkl.getOssDataDo()));
+                        }
+                        String ss = String.valueOf(osobaSkl.getOssStatus());
+                        if (ss.equals("T")) {
+                            wiersz.setAktywna(true);
+                        }
+                    }
+                    wiersz.setKwota(0.0);
+                    wiersz.setNrkolejnyzmiennej(nrkolejnyzmiennej++);
+                    skladnikwynagrodzenia.getZmiennawynagrodzeniaList().add(wiersz);
+                    
                 }
             } else {
                 Zmiennawynagrodzenia wiersz = new Zmiennawynagrodzenia();

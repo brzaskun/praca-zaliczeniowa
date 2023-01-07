@@ -198,29 +198,33 @@ public class NieobecnoscView  implements Serializable {
       if (listapracownikow.getTarget()!=null) {
           try {
             for (Pracownik p : listapracownikow.getTarget()) {
-                Nieobecnosc nowa = new Nieobecnosc();
-                Angaz angaz = angazFacade.findByFirmaPracownik(firma,p);
-                nowa.setAngaz(angaz);
-                nowa.setDataod(selectedzbiorczo.getDataod());
-                nowa.setDatado(selectedzbiorczo.getDatado());
-                nowa.setRokod(Data.getRok(selectedzbiorczo.getDataod()));
-                nowa.setRokdo(Data.getRok(selectedzbiorczo.getDatado()));
-                nowa.setMcod(Data.getMc(selectedzbiorczo.getDataod()));
-                nowa.setMcdo(Data.getMc(selectedzbiorczo.getDatado()));
-                nowa.setRodzajnieobecnosci(selectedzbiorczo.getRodzajnieobecnosci());
-                nowa.setKrajoddelegowania(selectedzbiorczo.getKrajoddelegowania());
-                nowa.setWalutadiety(selectedzbiorczo.getWalutadiety());
-                nowa.setDietaoddelegowanie(selectedzbiorczo.getDietaoddelegowanie());
-                nowa.setSwiadczeniekodzus(selectedzbiorczo.getSwiadczeniekodzus());
-                nowa.setKodzwolnienia(selectedzbiorczo.getKodzwolnienia());
-                nowa.setUzasadnienie(selectedzbiorczo.getUzasadnienie());
-                LocalDate oddata = LocalDate.parse(selectedzbiorczo.getDataod());
-                LocalDate dodata = LocalDate.parse(selectedzbiorczo.getDatado());
-                double iloscdni = DAYS.between(oddata,dodata);
-                nowa.setDnikalendarzowe(iloscdni+1.0);
-                nieobecnoscFacade.create(nowa);
-                NieobecnosciBean.nanies(nowa, kalendarzmiesiacFacade, nieobecnoscFacade);
-                selectedzbiorczo = new Nieobecnosc();
+                try {
+                    Nieobecnosc nowa = new Nieobecnosc();
+                    Angaz angaz = angazFacade.findByFirmaPracownik(firma,p);
+                    nowa.setAngaz(angaz);
+                    nowa.setDataod(selectedzbiorczo.getDataod());
+                    nowa.setDatado(selectedzbiorczo.getDatado());
+                    nowa.setRokod(Data.getRok(selectedzbiorczo.getDataod()));
+                    nowa.setRokdo(Data.getRok(selectedzbiorczo.getDatado()));
+                    nowa.setMcod(Data.getMc(selectedzbiorczo.getDataod()));
+                    nowa.setMcdo(Data.getMc(selectedzbiorczo.getDatado()));
+                    nowa.setRodzajnieobecnosci(selectedzbiorczo.getRodzajnieobecnosci());
+                    nowa.setKrajoddelegowania(selectedzbiorczo.getKrajoddelegowania());
+                    nowa.setWalutadiety(selectedzbiorczo.getWalutadiety());
+                    nowa.setDietaoddelegowanie(selectedzbiorczo.getDietaoddelegowanie());
+                    nowa.setSwiadczeniekodzus(selectedzbiorczo.getSwiadczeniekodzus());
+                    nowa.setKodzwolnienia(selectedzbiorczo.getKodzwolnienia());
+                    nowa.setUzasadnienie(selectedzbiorczo.getUzasadnienie());
+                    LocalDate oddata = LocalDate.parse(selectedzbiorczo.getDataod());
+                    LocalDate dodata = LocalDate.parse(selectedzbiorczo.getDatado());
+                    double iloscdni = DAYS.between(oddata,dodata);
+                    nowa.setDnikalendarzowe(iloscdni+1.0);
+                    nieobecnoscFacade.create(nowa);
+                    NieobecnosciBean.nanies(nowa, kalendarzmiesiacFacade, nieobecnoscFacade);
+                    selectedzbiorczo = new Nieobecnosc();
+                } catch (Exception e){
+                    Msg.msg("w","Nieobecno ju wprowadzona dla "+p.getNazwiskoImie());
+                }
             }
             Msg.msg("Dodano nieobecności");
           } catch (Exception e) {
