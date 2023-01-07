@@ -79,6 +79,7 @@ public class UpdateClassView   implements Serializable {
         pracownikNieobecnoscView.init();
         kartaWynagrodzenView.pobierzdane(wpisView.getAngaz());
         rachunekZlecenieView.init();
+        
     }
     
 }
