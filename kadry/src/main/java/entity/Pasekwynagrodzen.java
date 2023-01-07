@@ -1253,9 +1253,17 @@ public class Pasekwynagrodzen implements Serializable {
         }
         return zwrot;
     }
+    
+    public Umowa getUmowa() {
+        return this.kalendarzmiesiac.getAngaz().getAktywnaUmowa();
+    } 
 
     public boolean isPraca() {
         return this.kalendarzmiesiac.getAngaz().getAktywnaUmowa().getUmowakodzus().isPraca();
+    }
+    
+    public String getKodZus() {
+        return this.kalendarzmiesiac.getAngaz().getAktywnaUmowa().getUmowakodzus().getKod();
     }
    
     
