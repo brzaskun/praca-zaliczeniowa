@@ -817,6 +817,23 @@ public class Data implements Serializable {
         }
         return zwrot;
     }
+
+    public static boolean czydatasiezawieranieobecnosc(String datasprawdzana, String dataod, String datado) {
+        boolean zwrot = false;
+        if (datasprawdzana!=null&&!datasprawdzana.equals("")&&datasprawdzana.length()==10) {
+            if (datasprawdzana.equals(dataod)||datasprawdzana.equals(datado)) {
+                zwrot = true;
+            } else {
+                LocalDate datasprawdzanaLocal = LocalDate.parse(datasprawdzana);
+                LocalDate dataodLocal = LocalDate.parse(dataod);
+                LocalDate datadoLocal = LocalDate.parse(datado);
+                if (datasprawdzanaLocal.isAfter(dataodLocal)&&datasprawdzanaLocal.isBefore(dataodLocal)) {
+                    zwrot = true;
+                }
+            }
+        }
+        return zwrot;
+    }
     
     
 

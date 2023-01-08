@@ -51,6 +51,7 @@ public class NieobecnoscFacade extends DAO    implements Serializable {
         return getEntityManager().createNamedQuery("Nieobecnosc.findByAngaz").setParameter("angaz", angaz).getResultList();
     }
     
+    
     public List<Nieobecnosc> findByAngaz200(Angaz angaz) {
         return getEntityManager().createNamedQuery("Nieobecnosc.findByAngaz200").setParameter("angaz", angaz).getResultList();
     }

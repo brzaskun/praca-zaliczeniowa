@@ -181,13 +181,17 @@
                             <f:facet name="header">
                                 <h:outputText value="pięćdziesiątki"/>
                             </f:facet>
-                            <h:inputText size="4"  value="#{itemkalendarz.piecdziesiatki}" style="#{itemkalendarz.piecdziesiatki eq 0 ? 'color: #cccccc':''}"/>
+                            <h:inputText size="4"  value="#{itemkalendarz.piecdziesiatki}" style="#{itemkalendarz.piecdziesiatki eq 0 ? 'color: #cccccc':''}">
+                                <p:ajax event="change" partialSubmit="true" global="false" update="@this"/>
+                            </h:inputText>
                         </p:column>
                         <p:column style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="setki"/>
                             </f:facet>
-                            <h:inputText size="4"  value="#{itemkalendarz.setki}" style="#{itemkalendarz.setki eq 0 ? 'color: #cccccc':''}"/>
+                            <h:inputText size="4"  value="#{itemkalendarz.setki}" style="#{itemkalendarz.setki eq 0 ? 'color: #cccccc':''}">
+                                <p:ajax event="change" partialSubmit="true" global="false" update="@this"/>
+                            </h:inputText>
                         </p:column>
                         <p:column style="text-align: center;">
                             <f:facet name="header">

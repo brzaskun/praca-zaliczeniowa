@@ -8,30 +8,30 @@
       >
     <h:body>
         <ui:composition template="../template.xhtml">
-                
-                <ui:define name="top" >
-                    <ui:include src="sub/layout/north.xhtml"/>
-                </ui:define>
 
-                <ui:define name="left">
-                    <ui:include src="sub/layout/west.xhtml"/>
-                </ui:define>
+            <ui:define name="top" >
+                <ui:include src="sub/layout/north.xhtml"/>
+            </ui:define>
 
-                <ui:define name="content">
-                    <p:outputPanel>
+            <ui:define name="left">
+                <ui:include src="sub/layout/west.xhtml"/>
+            </ui:define>
+
+            <ui:define name="content">
+                <p:outputPanel>
                     <h:form id="formmenu">
-                         <p:menubar autoDisplay="true">
-                             <p:menuitem icon="pi pi-sliders-h" value="parametry" style="width: 150px" action="Parametry"/>
-                             <p:menuitem icon="pi pi-mobile" value="firmy" style="width: 150px" action="Firma"/>
-                             <p:menuitem icon="pi pi-cloud-download" value="historia" style="width: 150px" action="Historia"/>
-                             <p:menuitem icon="pi pi-calendar-plus" value="kalendarze" style="width: 150px" action="KalendarzeGlobalne"/>
-                              <p:submenu icon="pi pi-users" label="pracownicy" style="width: 150px">
-                                        <p:menuitem icon="pi pi-ellipsis-v" value="pracownicy wykaz" style="width: 150px" action="Pracownikwykaz"/>
-                                         <p:menuitem icon="pi pi-ellipsis-v" value="pracownicy angaże" style="width: 150px" action="Pracownik"/>
-                                         <p:menuitem icon="pi pi-ellipsis-v" value="pracownicy dane" style="width: 150px" action="Pracownikdane"/><p:menuitem icon="pi pi-ellipsis-v" value="pracownicy grupy" style="width: 150px" action="Pracownikgrupy"/>
-                                          <p:menuitem icon="pi pi-ellipsis-v" value="pracownicy alerty" style="width: 150px" action="Pracownikalerty"/><p:menuitem icon="pi pi-ellipsis-v" value="pracownicy aneksy" style="width: 150px" action="Pracownikaneksy"/><p:menuitem icon="pi pi-ellipsis-v" value="pracownicy umowy" style="width: 150px" action="Pracownikumowy"/>
-                                    </p:submenu>
-                             <p:menuitem icon="pi pi-file" value="umowy" style="width: 150px" action="Umowa"/>
+                        <p:menubar autoDisplay="true">
+                            <p:menuitem icon="pi pi-sliders-h" value="parametry" style="width: 150px" action="Parametry"/>
+                            <p:menuitem icon="pi pi-mobile" value="firmy" style="width: 150px" action="Firma"/>
+                            <p:menuitem icon="pi pi-cloud-download" value="historia" style="width: 150px" action="Historia"/>
+                            <p:menuitem icon="pi pi-calendar-plus" value="kalendarze" style="width: 150px" action="KalendarzeGlobalne"/>
+                            <p:submenu icon="pi pi-users" label="pracownicy" style="width: 150px">
+                                <p:menuitem icon="pi pi-ellipsis-v" value="pracownicy wykaz" style="width: 150px" action="Pracownikwykaz"/>
+                                <p:menuitem icon="pi pi-ellipsis-v" value="pracownicy angaże" style="width: 150px" action="Pracownik"/>
+                                <p:menuitem icon="pi pi-ellipsis-v" value="pracownicy dane" style="width: 150px" action="Pracownikdane"/><p:menuitem icon="pi pi-ellipsis-v" value="pracownicy grupy" style="width: 150px" action="Pracownikgrupy"/>
+                                <p:menuitem icon="pi pi-ellipsis-v" value="pracownicy alerty" style="width: 150px" action="Pracownikalerty"/><p:menuitem icon="pi pi-ellipsis-v" value="pracownicy aneksy" style="width: 150px" action="Pracownikaneksy"/><p:menuitem icon="pi pi-ellipsis-v" value="pracownicy umowy" style="width: 150px" action="Pracownikumowy"/>
+                            </p:submenu>
+                            <p:menuitem icon="pi pi-file" value="umowy" style="width: 150px" action="Umowa"/>
                             <p:submenu label="czas pracy" style="width: 150px">
                                 <p:menuitem icon="pi pi-user-minus" value="nieobecności" style="width: 150px" onclick="PF('dialogpracownikanieobecnosci').show()" async="true"/>
                                 <p:menuitem icon="pi pi-user-minus" value="nieobecności zbiorcze" style="width: 150px" onclick="PF('dialogpracownikanieobecnoscizbiorcze').show()" async="true"/>
@@ -50,31 +50,49 @@
                                 <p:menuitem icon="pi pi-ellipsis-v" value="komornik" style="width: 150px" onclick="PF('dialogkomornik').show()" async="true"/>
                                 <p:menuitem icon="pi pi-ellipsis-v" value="DRA" style="width: 150px" onclick="PF('dialogdra').show()" async="true"/>
                             </p:submenu>
-                             <p:menuitem icon="pi pi-file-pdf" value="PIT11" style="width: 150px" action="Pit"/>
-                             <p:menuitem icon="pi pi-file-excel" value="PIT4" style="width: 150px" action="Pit4"/>
-                             <p:menuitem icon="pi pi-chart-bar" value="statystyka" style="width: 150px" action="Statystyka"/>
-                             
-                            
+                            <p:menuitem icon="pi pi-file-pdf" value="PIT11" style="width: 150px" action="Pit"/>
+                            <p:menuitem icon="pi pi-file-excel" value="PIT4" style="width: 150px" action="Pit4"/>
+                            <p:menuitem icon="pi pi-chart-bar" value="statystyka" style="width: 150px" action="Statystyka"/>
+
+
                         </p:menubar>
-                        </h:form>
-                        </p:outputPanel>
-                       <ui:include src="sub/menu_wiad.xhtml"/>   <!-- menu contextowe i pole wiadomosci growl-->
-                     <ui:include src="sub/dialog/dialog_czaspracy_kalendarzmiesiac.xhtml"/>
-                     <ui:include src="sub/dialog/dialog_czaspracy_nieobecnosci.xhtml"/>
-                     <ui:include src="sub/dialog/dialog_czaspracy_nieobecnosci_zbiorcze.xhtml"/>
-                     <ui:include src="sub/dialog/dialog_czaspracy_urlop.xhtml"/>
-                     <ui:include src="sub/dialog/dialog_czaspracy_zagranica.xhtml"/>
-                     <ui:include src="sub/dialog/dialog_lista_definicja.xhtml"/>
-                     <ui:include src="sub/dialog/dialog_lista_plac.xhtml"/>
-                     <ui:include src="sub/dialog/dialog_lista_plac_analiza.xhtml"/>
-                     <ui:include src="sub/dialog/dialog_dra.xhtml"/>
-                     <ui:include src="sub/dialog/dialog_karta_wynagrodzen.xhtml"/>
-                     <ui:include src="sub/dialog/dialog_lista_rachunek_zlecenia.xhtml"/>
-                     <ui:include src="sub/dialog/dialog_rachunek_zlecenia.xhtml"/>
-                     <ui:include src="sub/dialog/dialog_zbiorcze_rachunek_zlecenia.xhtml"/>
-                     <ui:include src="sub/dialog/dialog_zbiorcze_wprowadzaniezmiennych.xhtml"/>
-                     <ui:include src="sub/dialog/dialog_komornik.xhtml"/>
-                     <h:form>
+                    </h:form>
+                </p:outputPanel>
+                <p:panelGrid columns="1" style="padding: 20px; overflow-y: no-display;">
+                    <h:outputText value="w celu sporządzenia listy płac:" style="color: green"/>
+                    <h:outputText value="- wprowaź nieobecności" style="color: green"/>
+                    <h:outputText value="- wprowaź nadgodziny - sprawdź czy jest wprowadzony składnik nadgodziny" style="color: green"/>
+                    <h:outputText value="- nanieś je na kalendarz pracownika" style="color: green"/>
+                    <h:outputText value="- otwórz dialog z listą płac" style="color: green"/>
+                    <h:outputText value="- wybierz pracowników do listy" style="color: green"/>
+                    <h:outputText value="- przelicz, zachowaj i wydrukuj listę" style="color: green"/>
+                    <h:outputText value="- wyślij informacje do pracodawcy i pracownika" style="color: green"/>
+                </p:panelGrid>
+                <p:panelGrid columns="1" style="padding: 20px; overflow-y: no-display;">
+                    <h:outputText value="rozliczenie oddelegowania:" style="color: blue"/>
+                    <h:outputText value="- zdefiniować składnik wynagrodzania - wynagrodzenie godzinowe" style="color: blue"/>
+                    <h:outputText value="i oznaczyć go jako oddelegowanie" style="color: blue"/>
+                    <h:outputText value="- dodać zmienną do składnika jako stawkę na godzinę w walucie" style="color: blue"/>
+                    <h:outputText value="- nanieść nieobecność typu Z - praca za granicą" style="color: blue"/>
+                    <h:outputText value=" - przeliczyć, zachować i wydrukować listę w formacie oddelegowanie" style="color: blue"/>
+                </p:panelGrid>
+                <ui:include src="sub/menu_wiad.xhtml"/>   <!-- menu contextowe i pole wiadomosci growl-->
+                <ui:include src="sub/dialog/dialog_czaspracy_kalendarzmiesiac.xhtml"/>
+                <ui:include src="sub/dialog/dialog_czaspracy_nieobecnosci.xhtml"/>
+                <ui:include src="sub/dialog/dialog_czaspracy_nieobecnosci_zbiorcze.xhtml"/>
+                <ui:include src="sub/dialog/dialog_czaspracy_urlop.xhtml"/>
+                <ui:include src="sub/dialog/dialog_czaspracy_zagranica.xhtml"/>
+                <ui:include src="sub/dialog/dialog_lista_definicja.xhtml"/>
+                <ui:include src="sub/dialog/dialog_lista_plac.xhtml"/>
+                <ui:include src="sub/dialog/dialog_lista_plac_analiza.xhtml"/>
+                <ui:include src="sub/dialog/dialog_dra.xhtml"/>
+                <ui:include src="sub/dialog/dialog_karta_wynagrodzen.xhtml"/>
+                <ui:include src="sub/dialog/dialog_lista_rachunek_zlecenia.xhtml"/>
+                <ui:include src="sub/dialog/dialog_rachunek_zlecenia.xhtml"/>
+                <ui:include src="sub/dialog/dialog_zbiorcze_rachunek_zlecenia.xhtml"/>
+                <ui:include src="sub/dialog/dialog_zbiorcze_wprowadzaniezmiennych.xhtml"/>
+                <ui:include src="sub/dialog/dialog_komornik.xhtml"/>
+                <h:form>
 <!--                         <p:commandButton value="rodzaj" styleClass="buttonnorm" actionListener="#{skladnikPotraceniaView.generujtabele()}" />-->
 <!--                         <p:commandButton value="uzupelnij kalendarze" styleClass="buttonnorm" actionListener="#{kalendarzwzorView.uzupelnijkalendarze()}" />-->
 <!--                         <p:commandButton value="prac zmiany" styleClass="buttonnorm" actionListener="#{pracownikView.korektadat()}" />-->
@@ -83,26 +101,9 @@
 <!--                         <p:commandButton value="umowa" styleClass="buttonnorm" actionListener="#{swiadczeniekodzusView.generujtabele()}" />-->
 <!--                         <p:commandButton value="rodzaj" styleClass="buttonnorm" actionListener="#{definicjalistaplacView.generujtabele()}" />-->
 <!--                         <p:commandButton value="rob" styleClass="buttonnorm" actionListener="#{umowaView.rob()}" />-->
-                     </h:form>
-                     <p:panelGrid columns="1" style="padding: 20px; overflow-y: no-display;">
-                     <h:outputText value="w celu sporządzenia listy płac:" style="color: green"/>
-                     <h:outputText value="- wprowaź nieobecności" style="color: green"/>
-                     <h:outputText value="- wprowaź nadgodziny - sprawdź czy jest wprowadzony składnik nadgodziny" style="color: green"/>
-                     <h:outputText value="- nanieś je na kalendarz pracownika" style="color: green"/>
-                     <h:outputText value="- otwórz dialog z listą płac" style="color: green"/>
-                     <h:outputText value="- wybierz pracowników do listy" style="color: green"/>
-                     <h:outputText value="- przelicz, zachowaj i wydrukuj listę" style="color: green"/>
-                     <h:outputText value="- wyślij informacje do pracodawcy i pracownika" style="color: green"/>
-                     </p:panelGrid>
-                     <p:panelGrid columns="1" style="padding: 20px; overflow-y: no-display;">
-                         <h:outputText value="rozliczenie oddelegowania:" style="color: blue"/>
-                         <h:outputText value="- zdefiniować składnik wynagrodzania - wynagrodzenie godzinowe" style="color: blue"/>
-                         <h:outputText value="i oznaczyć go jako oddelegowanie" style="color: blue"/>
-                         <h:outputText value="- dodać zmienną do składnika jako stawkę na godzinę w walucie" style="color: blue"/>
-                         <h:outputText value="- nanieść nieobecność typu Z - praca za granicą" style="color: blue"/>
-                         <h:outputText value=" - przeliczyć, zachować i wydrukować listę w formacie oddelegowanie" style="color: blue"/>
-                     </p:panelGrid>
-                </ui:define>
+                </h:form>
+
+            </ui:define>
 
         </ui:composition>
     </h:body>

@@ -42,12 +42,12 @@
                                     <p:ajax event="change" partialSubmit="true" global="false" update="NieobecnoscCreateForm:procent" listener="#{nieobecnoscView.naniesprocent()}"/>
                                 </p:selectOneMenu>
                                 <p:outputLabel value="data od" for="dataod" />
-                                <p:inputText id="dataod" value="#{nieobecnoscView.selected.dataod}" title="datac od"  placeholder="____-__-__" maxlength="10" required="true" requiredMessage="Wprowadź datę od">
-                                    <p:ajax event="blur" onstart="ustawDateSprzedazy(#{wpisView.rokWpisu},#{wpisView.miesiacWpisu});" partialSubmit="true" global="false" />
+                                <p:inputText id="dataod" value="#{nieobecnoscView.selected.dataod}" title="datac od"  placeholder="____-__-__" maxlength="10" required="true" requiredMessage="Wprowadź datę od" styleClass="dataklasa">
+                                    <p:ajax event="change" onstart="ustawDateSprzedazy(#{wpisView.rokWpisu},#{wpisView.miesiacWpisu});" partialSubmit="true" global="false"  listener="#{nieobecnoscView.sprawdzdaty()}" update="@(.dataklasa)"/>
                                 </p:inputText>
                                 <p:outputLabel value="data do" for="datado" />
-                                <p:inputText id="datado" value="#{nieobecnoscView.selected.datado}" title="data do"  placeholder="____-__-__" maxlength="10" required="true" requiredMessage="Wprowadź datę do">
-                                    <p:ajax event="blur" onstart="ustawDateSprzedazy(#{wpisView.rokWpisu},#{wpisView.miesiacWpisu});" partialSubmit="true" global="false" />
+                                <p:inputText id="datado" value="#{nieobecnoscView.selected.datado}" title="data do"  placeholder="____-__-__" maxlength="10" required="true" requiredMessage="Wprowadź datę do" styleClass="dataklasa">
+                                    <p:ajax event="change" onstart="ustawDateSprzedazy(#{wpisView.rokWpisu},#{wpisView.miesiacWpisu});" partialSubmit="true" global="false" listener="#{nieobecnoscView.sprawdzdaty()}" update="@(.dataklasa)"/>
                                 </p:inputText>
                             </p:panelGrid>
                             <p:panelGrid columns="2">
@@ -109,15 +109,19 @@
         </p:outputPanel>
         <p:outputPanel styleClass="itemNieob">
             <h:form  styleClass="formadmin" id="NieobecnoscListForm">
-                <p:panelGrid columns="6">
+                <p:panelGrid columns="8" style="width: 75%">
                     <p:outputLabel value="pokaż wszystkie lata"/>
                     <p:selectBooleanCheckbox value="#{nieobecnoscView.pokazcalyrok}">
-                        <p:ajax event="change" listener="#{nieobecnoscView.init()}" partialSubmit="true" update="@form"/>
+                        <p:ajax event="change" listener="#{nieobecnoscView.init()}" partialSubmit="true" update=":NieobecnoscListForm:datalist"/>
                     </p:selectBooleanCheckbox>
                     <h:outputText value="wynagrodzenie za czas choroby płatne od dnia: " style="margin-left: 20px;"/>
                     <h:outputText value="#{wpisView.umowa.pierwszydzienzasilku}" style="color: green;"/>
                     <h:outputText value="wypłacono wynagr. za czas choroby za dni: " style="margin-left: 20px;"/>
                     <h:outputText value="#{nieobecnoscView.dniwykorzystanewroku}" style="color: green;"/>
+                    <p:outputLabel value="nanieś bezpośrednio na kalendarz" style="margin-left: 20px;"/>
+                    <p:selectBooleanCheckbox value="#{nieobecnoscView.naniesbezposrednio}">
+                        <p:ajax event="change"  partialSubmit="true" />
+                    </p:selectBooleanCheckbox>
                 </p:panelGrid>
                 <p:panel header="Lista nieobecności #{wpisView.pracownik.nazwiskoImie}">
                     <p:dataTable id="datalist" value="#{nieobecnoscView.lista}" var="itemNieob" 

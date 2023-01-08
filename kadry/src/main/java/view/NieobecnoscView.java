@@ -6,6 +6,7 @@
 package view;
 
 import beanstesty.NieobecnosciBean;
+import comparator.Nieobecnosccomparator;
 import comparator.Pracownikcomparator;
 import comparator.Rodzajnieobecnoscicomparator;
 import dao.AngazFacade;
@@ -108,6 +109,7 @@ public class NieobecnoscView  implements Serializable {
     private org.primefaces.model.DualListModel<Pracownik> listapracownikow;
     private boolean delegacja;
     private int dniwykorzystanewroku;
+    private boolean naniesbezposrednio;
     
 
     
@@ -117,6 +119,7 @@ public class NieobecnoscView  implements Serializable {
         listapracownikow.setSource(new ArrayList<>());
         listapracownikow.setTarget(new ArrayList<>());
         delegacja = false;
+        naniesbezposrednio = true;
     }
     
     public void init() {
@@ -131,6 +134,7 @@ public class NieobecnoscView  implements Serializable {
         listaabsencji = rodzajnieobecnosciFacade.findAll();
         Collections.sort(listaabsencji, new Rodzajnieobecnoscicomparator());
         delegacja = false;
+        naniesbezposrednio = true;
         dniwykorzystanewroku = obliczdnichoroby(kalendarzmiesiacFacade.findByRokAngaz(wpisView.getAngaz(), wpisView.getRokWpisu()));
         //Collections.sort(listaabsencji, new Nieobecnoscikodzuscomparator());
     }
@@ -151,6 +155,45 @@ public class NieobecnoscView  implements Serializable {
         delegacja = false;
     }
 
+    public void sprawdzdaty() {
+        if (lista!=null&&lista.size()>0) {
+            String dataod = selected.getDataod();
+            String datado = selected.getDatado();
+            for (Nieobecnosc p : lista) {
+                if (!selected.getKod().equals("UD")) {
+                    boolean jestwsrodkuod = Data.czydatasiezawieranieobecnosc(dataod, p.getDataod(), p.getDatado());
+                    boolean jestwsrodkudo = Data.czydatasiezawieranieobecnosc(datado, p.getDataod(), p.getDatado());
+                    if (jestwsrodkuod||jestwsrodkudo) {
+                        Msg.msg("e","Daty nieobecności pokrywają się z inną już wprowadzoną nieobecnością");
+                        selected.setDataod(null);
+                        selected.setDatado(null);
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    
+    public boolean sprawdzdaty(List<Nieobecnosc> lista, Nieobecnosc selected) {
+        boolean duplikat = false;
+        Collections.sort(lista, new Nieobecnosccomparator());
+        if (lista!=null&&lista.size()>0) {
+            String dataod = selected.getDataod();
+            String datado = selected.getDatado();
+            for (Nieobecnosc p : lista) {
+                if (!selected.getKod().equals("UD")) {
+                    boolean jestwsrodkuod = Data.czydatasiezawieranieobecnosc(dataod, p.getDataod(), p.getDatado());
+                    boolean jestwsrodkudo = Data.czydatasiezawieranieobecnosc(datado, p.getDataod(), p.getDatado());
+                    if (jestwsrodkuod||jestwsrodkudo) {
+                        duplikat = true;
+                        break;
+                    }
+                }
+            }
+        }
+        return duplikat;
+    }
+    
     private List<Pracownik> pobierzpracownikow(List<Angaz> angazList) {
         Set<Pracownik> zwrot = new HashSet<>();
         for (Angaz a : angazList) {
@@ -161,72 +204,90 @@ public class NieobecnoscView  implements Serializable {
     
     public void create() {
       if (selected!=null) {
-          try {
-            if (selected.getId()==null) {
-                selected.setRokod(Data.getRok(selected.getDataod()));
-                selected.setRokdo(Data.getRok(selected.getDatado()));
-                selected.setMcod(Data.getMc(selected.getDataod()));
-                selected.setMcdo(Data.getMc(selected.getDatado()));
-                LocalDate oddata = LocalDate.parse(selected.getDataod());
-                LocalDate dodata = LocalDate.parse(selected.getDatado());
-                double iloscdni = DAYS.between(oddata,dodata);
-                selected.setDnikalendarzowe(iloscdni+1.0);
-                nieobecnoscFacade.create(selected);
-                lista.add(selected);
-                selected = new Nieobecnosc(wpisView.getAngaz());
-                Msg.msg("Dodano nieobecność");
-            } else {
-                selected.setRokod(Data.getRok(selected.getDataod()));
-                selected.setRokdo(Data.getRok(selected.getDatado()));
-                selected.setMcod(Data.getMc(selected.getDataod()));
-                selected.setMcdo(Data.getMc(selected.getDatado()));
-                LocalDate oddata = LocalDate.parse(selected.getDataod());
-                LocalDate dodata = LocalDate.parse(selected.getDatado());
-                double iloscdni = DAYS.between(oddata,dodata);
-                selected.setDnikalendarzowe(iloscdni+1.0);
-                nieobecnoscFacade.edit(selected);
-                selected = new Nieobecnosc(wpisView.getAngaz());
-                Msg.msg("Edytowano nieobecność");
+          if (selected.getRodzajnieobecnosci()!=null && selected.getDataod()!=null && selected.getDatado()!=null) {
+              Msg.msg("e", "Brak kodu/dat");
+          } else {
+            try {
+              if (selected.getId()==null) {
+                  selected.setRokod(Data.getRok(selected.getDataod()));
+                  selected.setRokdo(Data.getRok(selected.getDatado()));
+                  selected.setMcod(Data.getMc(selected.getDataod()));
+                  selected.setMcdo(Data.getMc(selected.getDatado()));
+                  LocalDate oddata = LocalDate.parse(selected.getDataod());
+                  LocalDate dodata = LocalDate.parse(selected.getDatado());
+                  double iloscdni = DAYS.between(oddata,dodata);
+                  selected.setDnikalendarzowe(iloscdni+1.0);
+                  nieobecnoscFacade.create(selected);
+                  lista.add(selected);
+                  selected = new Nieobecnosc(wpisView.getAngaz());
+                  Msg.msg("Dodano nieobecność");
+              } else {
+                  selected.setRokod(Data.getRok(selected.getDataod()));
+                  selected.setRokdo(Data.getRok(selected.getDatado()));
+                  selected.setMcod(Data.getMc(selected.getDataod()));
+                  selected.setMcdo(Data.getMc(selected.getDatado()));
+                  LocalDate oddata = LocalDate.parse(selected.getDataod());
+                  LocalDate dodata = LocalDate.parse(selected.getDatado());
+                  double iloscdni = DAYS.between(oddata,dodata);
+                  selected.setDnikalendarzowe(iloscdni+1.0);
+                  nieobecnoscFacade.edit(selected);
+                  selected = new Nieobecnosc(wpisView.getAngaz());
+                  Msg.msg("Edytowano nieobecność");
+              }
+              if (naniesbezposrednio) {
+                  nieniesnakalendarz();
+              }
+            } catch (Exception e) {
+                Msg.msg("e", "Błąd - nie dodano nowej nieobecnosci");
             }
-          } catch (Exception e) {
-              Msg.msg("e", "Błąd - nie dodano nowej nieobecnosci");
           }
       }
     }
     
     public void createzbiorczo(FirmaKadry firma) {
       if (listapracownikow.getTarget()!=null) {
+          int licznik = 0;
+          List<Angaz> angazList = wpisView.getFirma().getAngazListAktywne();
           try {
             for (Pracownik p : listapracownikow.getTarget()) {
                 try {
-                    Nieobecnosc nowa = new Nieobecnosc();
-                    Angaz angaz = angazFacade.findByFirmaPracownik(firma,p);
-                    nowa.setAngaz(angaz);
-                    nowa.setDataod(selectedzbiorczo.getDataod());
-                    nowa.setDatado(selectedzbiorczo.getDatado());
-                    nowa.setRokod(Data.getRok(selectedzbiorczo.getDataod()));
-                    nowa.setRokdo(Data.getRok(selectedzbiorczo.getDatado()));
-                    nowa.setMcod(Data.getMc(selectedzbiorczo.getDataod()));
-                    nowa.setMcdo(Data.getMc(selectedzbiorczo.getDatado()));
-                    nowa.setRodzajnieobecnosci(selectedzbiorczo.getRodzajnieobecnosci());
-                    nowa.setKrajoddelegowania(selectedzbiorczo.getKrajoddelegowania());
-                    nowa.setWalutadiety(selectedzbiorczo.getWalutadiety());
-                    nowa.setDietaoddelegowanie(selectedzbiorczo.getDietaoddelegowanie());
-                    nowa.setSwiadczeniekodzus(selectedzbiorczo.getSwiadczeniekodzus());
-                    nowa.setKodzwolnienia(selectedzbiorczo.getKodzwolnienia());
-                    nowa.setUzasadnienie(selectedzbiorczo.getUzasadnienie());
-                    LocalDate oddata = LocalDate.parse(selectedzbiorczo.getDataod());
-                    LocalDate dodata = LocalDate.parse(selectedzbiorczo.getDatado());
-                    double iloscdni = DAYS.between(oddata,dodata);
-                    nowa.setDnikalendarzowe(iloscdni+1.0);
-                    nieobecnoscFacade.create(nowa);
-                    NieobecnosciBean.nanies(nowa, kalendarzmiesiacFacade, nieobecnoscFacade);
-                    selectedzbiorczo = new Nieobecnosc();
+                    Angaz angazpracownika = pobierzangaz(p,angazList);
+                    List<Nieobecnosc> nieobecnosci = nieobecnoscFacade.findByAngaz(angazpracownika);
+                    boolean nierobic = sprawdzdaty(nieobecnosci, selectedzbiorczo);
+                    if (nierobic == false) {
+                        Nieobecnosc nowa = new Nieobecnosc();
+                        Angaz angaz = angazFacade.findByFirmaPracownik(firma,p);
+                        nowa.setAngaz(angaz);
+                        nowa.setDataod(selectedzbiorczo.getDataod());
+                        nowa.setDatado(selectedzbiorczo.getDatado());
+                        nowa.setRokod(Data.getRok(selectedzbiorczo.getDataod()));
+                        nowa.setRokdo(Data.getRok(selectedzbiorczo.getDatado()));
+                        nowa.setMcod(Data.getMc(selectedzbiorczo.getDataod()));
+                        nowa.setMcdo(Data.getMc(selectedzbiorczo.getDatado()));
+                        nowa.setRodzajnieobecnosci(selectedzbiorczo.getRodzajnieobecnosci());
+                        nowa.setKrajoddelegowania(selectedzbiorczo.getKrajoddelegowania());
+                        nowa.setWalutadiety(selectedzbiorczo.getWalutadiety());
+                        nowa.setDietaoddelegowanie(selectedzbiorczo.getDietaoddelegowanie());
+                        nowa.setSwiadczeniekodzus(selectedzbiorczo.getSwiadczeniekodzus());
+                        nowa.setKodzwolnienia(selectedzbiorczo.getKodzwolnienia());
+                        nowa.setUzasadnienie(selectedzbiorczo.getUzasadnienie());
+                        LocalDate oddata = LocalDate.parse(selectedzbiorczo.getDataod());
+                        LocalDate dodata = LocalDate.parse(selectedzbiorczo.getDatado());
+                        double iloscdni = DAYS.between(oddata,dodata);
+                        nowa.setDnikalendarzowe(iloscdni+1.0);
+                        nieobecnoscFacade.create(nowa);
+                        NieobecnosciBean.nanies(nowa, kalendarzmiesiacFacade, nieobecnoscFacade);
+                        licznik++;
+                    } else {
+                        Msg.msg("w","Nieobecność była już wprowadzona dla "+p.getNazwiskoImie());
+                    }
                 } catch (Exception e){
                     Msg.msg("w","Nieobecność była już wprowadzona dla "+p.getNazwiskoImie());
                 }
             }
-            Msg.msg("Dodano nieobecności");
+            selectedzbiorczo = new Nieobecnosc();
+            initzbiorcze();
+            Msg.msg("Dodano "+licznik+" nieobecności");
           } catch (Exception e) {
               Msg.msg("e", "Błąd - nie dodano nowej nieobecnosci ");
           }
@@ -235,11 +296,23 @@ public class NieobecnoscView  implements Serializable {
       }
     }
     
+    
+     private Angaz pobierzangaz(Pracownik pracownik, List<Angaz> angazList) {
+        Angaz zwrot = null;
+        if (angazList!=null) {
+            zwrot = angazList.stream().filter(p->p.getPracownik().equals(pracownik)).findFirst().get();
+        }
+        return zwrot;
+    }
+
+    
     public void nieniesnakalendarz() {
         if (wpisView.getUmowa() != null) {
             boolean czynaniesiono = false;
             for (Nieobecnosc nieobecnosc : lista) {
-                nanies(nieobecnosc);
+                if (nieobecnosc.isNaniesiona()==false) {
+                    nanies(nieobecnosc);
+                }
             }
             kalendarzmiesiacView.init();
             if (czynaniesiono) {
@@ -575,6 +648,15 @@ public class NieobecnoscView  implements Serializable {
         this.selectedzbiorczo = selectedzbiorczo;
     }
 
+    public boolean isNaniesbezposrednio() {
+        return naniesbezposrednio;
+    }
+
+    public void setNaniesbezposrednio(boolean naniesbezposrednio) {
+        this.naniesbezposrednio = naniesbezposrednio;
+    }
+
+   
     
 
 
