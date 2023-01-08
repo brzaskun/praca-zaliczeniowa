@@ -25,7 +25,7 @@
                                     <p:menuitem icon="pi pi-mobile" value="firmy" style="width: 150px" action="Firma"/>
                                     <p:menuitem icon="pi pi-cloud-download" value="historia" style="width: 150px" action="Historia"/>
                                     <p:menuitem icon="pi pi-calendar-plus" value="kalendarze" style="width: 150px" action="KalendarzeGlobalne"/>
-                                     <p:submenu icon="pi pi-users" label="pracownicy" style="width: 150px">
+                                     <p:submenu icon="pi pi-users" label="pracownicy" style="width: 150px" >
                                          <p:menuitem icon="pi pi-ellipsis-v" value="pracownicy wykaz" style="width: 150px" action="Pracownikwykaz"/>
                                          <p:menuitem icon="pi pi-ellipsis-v" value="pracownicy angaże" style="width: 150px" action="Pracownik"/>
                                          <p:menuitem icon="pi pi-ellipsis-v" value="pracownicy dane" style="width: 150px" action="Pracownikdane"/><p:menuitem icon="pi pi-ellipsis-v" value="pracownicy grupy" style="width: 150px" action="Pracownikgrupy"/>
@@ -40,7 +40,9 @@
                             </h:form>
                         </p:outputPanel>
                         <ui:include src="sub/menu_wiad.xhtml"/>   <!-- menu contextowe i pole wiadomosci growl-->
-                        <ui:include src="sub/edycjadanych_historia.xhtml"/>
+                        <ui:include src="sub/pracownicy_grupy.xhtml"/>
+                        
+                        
                     
                 
             

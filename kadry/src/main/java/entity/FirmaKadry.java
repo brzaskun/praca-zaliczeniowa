@@ -132,6 +132,8 @@ public class FirmaKadry implements Serializable {
     private String dzienlp;
     @Column(name = "domyslnyformatlp")
     private String domyslnyformatlp;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "firma")
+    private List<Grupakadry> grupaList;
     @OneToMany(mappedBy = "firma", cascade = CascadeType.ALL)
     List<Wypadkowefirma> wypadkowefirmaList;
     @Transient
@@ -145,7 +147,14 @@ public class FirmaKadry implements Serializable {
         this.id = id;
     }
 
-    
+    @XmlTransient
+    public List<Grupakadry> getGrupaList() {
+        return grupaList;
+    }
+
+    public void setGrupaList(List<Grupakadry> grupaList) {
+        this.grupaList = grupaList;
+    }
     
     public Integer getId() {
         return id;

@@ -122,6 +122,8 @@ public class Pasekwynagrodzen implements Serializable {
     private String symbolwaluty;
     @Column(name = "podatekdochodowy")
     private double podatekdochodowy;
+    @Column(name = "podatekdochodowyzagranica")
+    private double podatekdochodowyzagranica;
     @Column(name = "podstawaopodatkowania")
     private double podstawaopodatkowania;
     @Column(name = "podstawaopodatkowaniahipotetyczna")
@@ -1090,6 +1092,14 @@ public class Pasekwynagrodzen implements Serializable {
 
     public void setSporzadzil(String sporzadzil) {
         this.sporzadzil = sporzadzil;
+    }
+
+    public double getPodatekdochodowyzagranica() {
+        return podatekdochodowyzagranica;
+    }
+
+    public void setPodatekdochodowyzagranica(double podatekdochodowyzagranica) {
+        this.podatekdochodowyzagranica = podatekdochodowyzagranica;
     }
 
     

@@ -64,6 +64,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Umowa.findByPracownikAktywna", query = "SELECT u FROM Umowa u WHERE u.angaz.pracownik = :pracownik AND u.aktywna=TRUE"),
     @NamedQuery(name = "Umowa.findByPracownikFirma", query = "SELECT u FROM Umowa u WHERE u.angaz.pracownik = :pracownik AND u.angaz.firma = :firma"),
     @NamedQuery(name = "Umowa.findByAngaz", query = "SELECT u FROM Umowa u WHERE u.angaz = :angaz ORDER BY u.dataod ASC"),
+    @NamedQuery(name = "Umowa.findByFirma", query = "SELECT u FROM Umowa u WHERE u.angaz.firma = :firma"),
     @NamedQuery(name = "Umowa.findByAngazPraca", query = "SELECT u FROM Umowa u WHERE u.angaz = :angaz AND u.umowakodzus.praca = TRUE ORDER BY u.dataod ASC"),
     @NamedQuery(name = "Umowa.findByAngazZlecenie", query = "SELECT u FROM Umowa u WHERE u.angaz = :angaz AND u.umowakodzus.zlecenie = TRUE ORDER BY u.dataod ASC"),
     @NamedQuery(name = "Umowa.findByFirmaZlecenie", query = "SELECT u FROM Umowa u WHERE u.angaz.firma = :firma AND u.umowakodzus.zlecenie = TRUE ORDER BY u.dataod ASC"),
@@ -193,6 +194,9 @@ public class Umowa implements Serializable {
     @JoinColumn(name = "rozwiazanieumowy", referencedColumnName = "id")
     @OneToOne
     private Rozwiazanieumowy rozwiazanieumowy;
+     @JoinColumn(name = "grupakadry", referencedColumnName = "id")
+    @OneToOne
+    private Grupakadry grupakadry;
     @Transient
     private Zmiennawynagrodzenia zmiennawynagrodzenia;
     @Transient
@@ -281,6 +285,14 @@ public class Umowa implements Serializable {
 
     public void setDatasystem(Date datasystem) {
         this.datasystem = datasystem;
+    }
+
+    public Grupakadry getGrupakadry() {
+        return grupakadry;
+    }
+
+    public void setGrupakadry(Grupakadry grupakadry) {
+        this.grupakadry = grupakadry;
     }
 
     public int getLata() {

@@ -1,0 +1,97 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    >
+    <p:panelGrid columns="1" style="height: 400px;width: 700px;">
+        <p:outputPanel style="height: 250px">
+            <p:panelGrid columns="2">
+                <h:form id="GrupaCreateForm" styleClass="form1">
+
+                    <h:panelGroup id="display">
+                        <p:panel header="Nazwa nowej grupy"/>
+                        <p:panelGrid columns="2">
+                            <p:outputLabel value="nazwa" for="telefon" />
+                            <p:inputText id="telefon" value="#{grupakadryView.selected.nazwa}" title="nazwa grupy" size="25" required="false"/>
+                        </p:panelGrid>
+                        <p:commandButton styleClass="buttonnorm" actionListener="#{grupakadryView.create}" value="dodaj" update="display,@(.form2)" />
+                    </h:panelGroup>
+                </h:form>
+                <h:form id="GrupaListForm" styleClass="form1 form2">
+                    <p:panelGrid columns="1">
+                        <p:dataTable value="#{grupakadryView.lista}" var="poz" size="small" rowKey="#{poz.id}"
+                                     emptyMessage="brak grup" style="height: 100px; overflow-y: scroll; width: 350px;margin-left: 100px;"
+                                     selection="#{grupakadryView.listaselected}" selectionMode="single" rowIndexVar="ind">
+                            <f:facet name="header">
+                                <h:outputText value="wykaz grup"/>
+                            </f:facet>
+                            <p:column width="40" style="text-align: center;">
+                                <f:facet name="header">
+                                    <h:outputText value="id"/>
+                                </f:facet>
+                                <h:outputText value="#{ind+1}"/>
+                            </p:column>
+                            <p:column width="120" >
+                                <f:facet name="header">
+                                    <h:outputText value="nazwa"/>
+                                </f:facet>
+                                <h:outputText value="#{poz.nazwa}"/>
+                            </p:column>
+                            <p:column width="30" style="text-align: center;">
+                                <f:facet name="header">
+                                    <h:outputText value=""/>
+                                </f:facet>
+                                <p:commandButton icon="pi pi-trash" actionListener="#{grupakadryView.usun(poz)}" update="@(.form1)"/>
+                            </p:column>
+                        </p:dataTable>
+                    </p:panelGrid>
+                </h:form>
+            </p:panelGrid>
+        </p:outputPanel>
+        <p:outputPanel>
+            <p:panelGrid columns="2">
+                <h:form id="GrupaListwyborForm">
+                    <p:panelGrid columns="1">
+                        <p:dataTable value="#{grupakadryView.lista2}" var="poz" size="small"
+                                     emptyMessage="brak grup" style="height: 100px; overflow-y: scroll; width: 350px;margin-left: 100px;"
+                                     selection="#{grupakadryView.listaselected2}" rowIndexVar="ind" rowKey="#{poz.id}" selectionMode="single">
+                            <p:ajax event="rowSelect" partialSubmit="true" listener="#{grupakadryView.pobierz()}" global="false" update="@(.grupypick)"/>
+                            <f:facet name="header">
+                                <h:outputText value="wykaz grup"/>
+                            </f:facet>
+                            <p:column width="40" style="text-align: center;">
+                                <f:facet name="header">
+                                    <h:outputText value="id"/>
+                                </f:facet>
+                                <h:outputText value="#{ind+1}"/>
+                            </p:column>
+                            <p:column width="120" >
+                                <f:facet name="header">
+                                    <h:outputText value="nazwa"/>
+                                </f:facet>
+                                <h:outputText value="#{poz.nazwa}"/>
+                            </p:column>
+                        </p:dataTable>
+                    </p:panelGrid>
+                </h:form>
+            </p:panelGrid>
+            <h:form id="GrupaListwyborpracForm" styleClass="grupypick">
+                <style>
+                .ui-picklist .ui-picklist-list{
+                    width: 600px !important;
+                }
+
+            </style>
+                <p:pickList id="wybranypracownik" value="#{grupakadryView.listaumowy}" var="umowaItem" itemLabel="#{umowaItem.angaz.pracownik.nazwiskoImie} - #{umowaItem.dataod} - #{umowaItem.czastrwania}" itemValue="#{umowaItem}" 
+                            showCheckbox="true" converter="#{umowaConverter}" showSourceFilter="true" showTargetFilter="true" filterMatchMode="contains" 
+                            showSourceControls="true" showTargetControls="true" 
+                />
+                <p:outputPanel>
+                    <p:commandButton value="zapisz" actionListener="#{grupakadryView.zapisz()}"  update="@(.grupypick)"  styleClass="buttonnorm" style="margin-top: 20px;"/>
+                </p:outputPanel>
+            </h:form>
+        </p:outputPanel>
+    </p:panelGrid>    
+</ui:composition>
