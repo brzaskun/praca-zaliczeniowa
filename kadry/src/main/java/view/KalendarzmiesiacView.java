@@ -50,6 +50,7 @@ public class KalendarzmiesiacView  implements Serializable {
     private RodzajnieobecnosciFacade rodzajnieobecnosciFacade;
     @Inject
     private WpisView wpisView;
+    private Dzien listaselected;
     
     
     public void init() {
@@ -263,6 +264,14 @@ public class KalendarzmiesiacView  implements Serializable {
 
     public void setListakalendarzeprac(List<Kalendarzmiesiac> listakalendarzeprac) {
         this.listakalendarzeprac = listakalendarzeprac;
+    }
+
+    public Dzien getListaselected() {
+        return listaselected;
+    }
+
+    public void setListaselected(Dzien listaselected) {
+        this.listaselected = listaselected;
     }
 
     

@@ -16,11 +16,12 @@
                     <h:form  styleClass="formadmin" id="KalendarzmiesiacCreateForm">
                         <p:panelGrid columns="4">
                             <p:outputLabel value="rok" for="rok" />
-                            <p:inputText id="rok" value="#{kalendarzmiesiacView.selected.rok}" title="rok" >
+                             <p:selectOneMenu id="rok" value="#{kalendarzmiesiacView.selected.rok}"  style="width: 60px;">
+                                <f:selectItems value="#{roki.rokiList}"/>
                                 <p:ajax event="blur" listener="#{kalendarzmiesiacView.pobierzkalendarzeprac}" partialSubmit="true" global="false" update="KalendarzmiesiacSaRokForm KalendarzmiesiacListForm"/>
-                            </p:inputText>
+                            </p:selectOneMenu>
                             <p:outputLabel value="miesiąc" for="mc" />
-                            <p:selectOneMenu id="mc" value="#{kalendarzmiesiacView.selected.mc}"  style="width: 100px;">
+                            <p:selectOneMenu id="mc" value="#{kalendarzmiesiacView.selected.mc}"  style="width: 30px;">
                                 <f:selectItems value="#{mce.mceList}"/>
                                 <p:ajax event="change" partialSubmit="true" global="false" listener="#{kalendarzmiesiacView.zrobkalendarzumowa}" update=":KalendarzmiesiacListForm:datalist KalendarzmiesiacSaRokForm"/>
                             </p:selectOneMenu>
@@ -81,6 +82,7 @@
                             <p:commandButton value="12" rendered="#{kalendarzmiesiacView.czyjestkalendarz('12')}">
                                 <p:ajax event="click" listener="#{kalendarzmiesiacView.pobierzkalendarz('12')}" update="KalendarzmiesiacListForm KalendarzmiesiacCreateForm"/>
                             </p:commandButton>
+                            
                         </p:panelGrid>
                             </p:panelGrid>
                     </h:form>
@@ -100,6 +102,7 @@
                                  rowKey="#{itemkalendarz.id}"
                                  style="height: 500px; overflow-y: scroll; width: 1200px;" sortMode="single"
                                  emptyMessage="Brak zapisów"
+                                 selection="#{kalendarzmiesiacView.listaselected}" selectionMode="single"
                                  >
 
 <!--                        <p:column>
@@ -210,6 +213,12 @@
                                 <h:outputText value="u. wychow."/>
                             </f:facet>
                             <h:inputText size="4"  value="#{itemkalendarz.wychowawczy}" style="#{itemkalendarz.wychowawczy eq 0 ? 'color: #cccccc':''}"/>
+                        </p:column>
+                        <p:column style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value=""/>
+                            </f:facet>
+                            <h:outputText value="#{itemkalendarz.datastring}"/>
                         </p:column>
                     </p:dataTable>
                     <p:panelGrid columns="10" style="width: 500px;align-content: center; margin-top: 10px;">
