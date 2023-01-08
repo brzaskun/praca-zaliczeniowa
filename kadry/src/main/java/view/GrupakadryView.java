@@ -94,6 +94,11 @@ public class GrupakadryView implements Serializable {
            } else {
                lista.add(selected);
            }
+           if (lista2==null) {
+               lista2 = new ArrayList<>();
+           } else {
+               lista2.add(selected);
+           }
            Msg.msg("Utworzono grupę");
         } else {
             Msg.msg("e","Brak nazwy");

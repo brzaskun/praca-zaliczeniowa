@@ -13,6 +13,7 @@ import comparator.Kalendarzmiesiaccomparator;
 import comparator.Sredniadlanieobecnoscicomparator;
 import dao.DefinicjalistaplacFacade;
 import dao.FirmaKadryFacade;
+import dao.GrupakadryFacade;
 import dao.KalendarzmiesiacFacade;
 import dao.KalendarzwzorFacade;
 import dao.LimitdochodudwaszescFacade;
@@ -32,6 +33,7 @@ import data.Data;
 import entity.Angaz;
 import entity.Definicjalistaplac;
 import entity.FirmaKadry;
+import entity.Grupakadry;
 import entity.Kalendarzmiesiac;
 import entity.Kalendarzwzor;
 import entity.Limitdochodudwaszesc;
@@ -124,6 +126,8 @@ public class PasekwynagrodzenView implements Serializable {
     List<Naliczenienieobecnosc> listanieobecnoscipracownika;
     @Inject
     private SMTPSettingsFacade sMTPSettingsFacade;
+    @Inject
+    private GrupakadryFacade grupakadryFacade;
     private double kursdlalisty;
     private String datadlalisty;
     private String datawyplaty;
@@ -403,7 +407,8 @@ public class PasekwynagrodzenView implements Serializable {
 
     public void drukujliste() {
         if (lista != null && lista.size() > 0) {
-            PdfListaPlac.drukujListaPodstawowa(lista, wybranalistaplac, rodzajnieobecnosciFacade);
+            List<Grupakadry> grupyfirma = grupakadryFacade.findByFirma(wpisView.getFirma());
+            PdfListaPlac.drukujListaPodstawowa(lista, wybranalistaplac, rodzajnieobecnosciFacade, grupyfirma);
             Msg.msg("Wydrukowano listę płac");
         } else {
             Msg.msg("e", "Błąd drukowania. Brak pasków");
@@ -414,7 +419,8 @@ public class PasekwynagrodzenView implements Serializable {
         if (lista != null && lista.size() > 0) {
             List<Definicjalistaplac> listadef = new ArrayList<>();
             listadef.add(wybranalistaplac);
-            ByteArrayOutputStream drukujmail = PdfListaPlac.drukujmail(lista, listadef, rodzajnieobecnosciFacade);
+            List<Grupakadry> grupyfirma = grupakadryFacade.findByFirma(wpisView.getFirma());
+            ByteArrayOutputStream drukujmail = PdfListaPlac.drukujmail(lista, listadef, rodzajnieobecnosciFacade, grupyfirma);
             Pasekwynagrodzen pasek = lista.get(0);
             SMTPSettings findSprawaByDef = sMTPSettingsFacade.findSprawaByDef();
             String nrpoprawny = wybranalistaplac.getNrkolejny().replaceAll("[^A-Za-z0-9]", "");

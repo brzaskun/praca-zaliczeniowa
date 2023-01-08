@@ -123,6 +123,7 @@ public class RachunekZlecenieView  implements Serializable {
                     rachunekdoumowyzlecenia.setWynagrodzeniegodzinoweoddelegowaniewaluta(kwotaZagranica);
                     Tabelanbp tabelanbp = ustawtabelenbp(rachunekdoumowyzlecenia.getDatawystawienia());
                     rachunekdoumowyzlecenia.setKurswaluty(tabelanbp.getKurssredni());
+                    rachunekdoumowyzlecenia.setDatawaluty(tabelanbp.getDatatabeli());
                     kwotaZagranica = (kwotaZagranica*tabelanbp.getKurssredni());
                     rachunekdoumowyzlecenia.setSymbolwaluty(tabelanbp.getWaluta().getSymbolwaluty());
                     double iloscgodzinzkalendarzaZagranica = pobierzgodzinyzkalendarzaZagranica();

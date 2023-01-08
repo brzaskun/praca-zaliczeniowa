@@ -98,6 +98,8 @@ public class Rachunekdoumowyzlecenia implements Serializable {
     private double koszt;
     @Column(name = "kurswaluty")
     private double kurswaluty;
+    @Column(name = "datawaluty")
+    private String datawaluty;
     @Column(name = "symbolwaluty")
     private String symbolwaluty;
     @Column(name = "spoleczne")
@@ -383,6 +385,16 @@ public class Rachunekdoumowyzlecenia implements Serializable {
     public void setKurswaluty(double kurswaluty) {
         this.kurswaluty = kurswaluty;
     }
+
+    public String getDatawaluty() {
+        return datawaluty;
+    }
+
+    public void setDatawaluty(String datawaluty) {
+        this.datawaluty = datawaluty;
+    }
+
+    
 
     
     @Override

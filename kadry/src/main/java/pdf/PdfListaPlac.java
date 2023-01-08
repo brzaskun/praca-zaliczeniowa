@@ -17,6 +17,7 @@ import com.itextpdf.text.pdf.PdfWriter;
 import dao.RodzajnieobecnosciFacade;
 import entity.Angaz;
 import entity.Definicjalistaplac;
+import entity.Grupakadry;
 import entity.Kalendarzmiesiac;
 import entity.Naliczenienieobecnosc;
 import entity.Naliczeniepotracenie;
@@ -26,9 +27,12 @@ import entity.Pasekwynagrodzen;
 import error.E;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import msg.Msg;
 import org.primefaces.PrimeFaces;
 import static pdf.PdfFont.*;
@@ -45,60 +49,7 @@ import z.Z;
  */
 public class PdfListaPlac {
     
-    public static ByteArrayOutputStream drukujmail(List<Pasekwynagrodzen> lista, List<Definicjalistaplac> deflista, RodzajnieobecnosciFacade rodzajnieobecnosciFacade) {
-        ByteArrayOutputStream out = new ByteArrayOutputStream();            
-        try {
-            Definicjalistaplac def = deflista.get(0);
-            String nrpoprawny = def.getNrkolejny().replaceAll("[^A-Za-z0-9]", "");
-            String nazwa = def.getFirma().getNip() + "_" + nrpoprawny + "_" + "lp.pdf";
-            if (lista != null) {
-                Document document = PdfMain.inicjacjaA4Landscape();
-                PdfWriter writer = PdfWriter.getInstance(document, out);
-                writer.setInitialLeading(16);
-                writer.setViewerPreferences(PdfWriter.PageLayoutSinglePage);
-                naglowekStopkaL(writer);
-                otwarcieDokumentu(document, nazwa);
-                List<String> nazwy = new ArrayList<>();
-                for (Definicjalistaplac r : deflista) {
-                    nazwy.add(r.getNrkolejny());
-                }
-                String datawyplaty = null;
-                for (Pasekwynagrodzen p :lista) {
-                    datawyplaty = p.getDatawyplaty();
-                    break;
-                }
-                PdfMain.dodajOpisWstepny(document, "Lista płac", def.getRok(), def.getMc(), def.getFirma().getNip(), nazwy, datawyplaty);
-                String[] opisy = {"Razem przychód", "Podst. wymiaru składek ubezp. społecznych", "Ubezp. Emerytalne", "Ubezp. rentowe", "Ubezp. chorobowe", "Razem składki na ub. Społ.", "Podst. wymiaru składek ubezp. zdrowotnego",
-                    "Koszty uzyskania przychodu", "Podstawa opodatkowania", "Potrącona zaliczka na podatek dochodowy", "Potrącona", "Odliczona od podatku", "Należna zaliczka na podatek dochodowy", "Do wypłaty"};
-                for (Pasekwynagrodzen p : lista) {
-                    dodajtabeleglowna(p, document);
-                    StringBuilder sb = new StringBuilder();
-                    sb.append(generujpasekskladniki(p, document));
-                    document.add(ustawparagrafSmall(sb.toString()));
-                    sb = new StringBuilder();
-                    sb.append(generujpasekobecnosci(p, document, rodzajnieobecnosciFacade));
-                    document.add(ustawparagrafSmall(sb.toString()));
-                    sb = new StringBuilder();
-                    sb.append(generujpasekpotracenia(p, document));
-                    document.add(ustawparagrafSmall(sb.toString()));
-                    document.add(Chunk.NEWLINE);
-                }
-                document.add(Chunk.NEXTPAGE);
-                Paragraph opiswstepny = new Paragraph(new Phrase("DANE DO WYPŁATY", ft[1]));
-                opiswstepny.setAlignment(Element.ALIGN_CENTER);
-                document.add(opiswstepny);
-                document.add(Chunk.NEWLINE);
-                document.add(listadowyplaty(lista));
-                finalizacjaDokumentuQR(document, nazwa);
-                Msg.msg("Udane wysłanie maila z listą płac)");
-            } else {
-                Msg.msg("w", "Nie ma Paska do wydruku");
-            }
-        } catch (Exception e) {
-            E.e(e);
-        }
-        return out;
-    }
+   
     
     public static void drukuj(Pasekwynagrodzen p, RodzajnieobecnosciFacade rodzajnieobecnosciFacade) {
         try {
@@ -270,7 +221,7 @@ public class PdfListaPlac {
         } catch (Exception ex) {
             Logger.getLogger(PdfListaPlac.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return wierszeSkladnikiString;
+        return wierszeSkladnikiString;//
     }
      
      private static PdfPTable generujTabeleSkladniki() {
@@ -523,7 +474,83 @@ public class PdfListaPlac {
         table.addCell(ustawfrazeAlign(roboczenieob[1], "left",6));
     }
 
-    public static void drukujListaPodstawowa(List<Pasekwynagrodzen> lista, Definicjalistaplac def, RodzajnieobecnosciFacade rodzajnieobecnosciFacade) {
+    public static ByteArrayOutputStream drukujmail(List<Pasekwynagrodzen> lista, List<Definicjalistaplac> deflista, RodzajnieobecnosciFacade rodzajnieobecnosciFacade, List<Grupakadry> grupyfirma) {
+        ByteArrayOutputStream out = new ByteArrayOutputStream();            
+        try {
+            Definicjalistaplac def = deflista.get(0);
+            String nrpoprawny = def.getNrkolejny().replaceAll("[^A-Za-z0-9]", "");
+            String nazwa = def.getFirma().getNip() + "_" + nrpoprawny + "_" + "lp.pdf";
+            if (lista != null) {
+                Document document = PdfMain.inicjacjaA4Landscape();
+                PdfWriter writer = PdfWriter.getInstance(document, out);
+                writer.setInitialLeading(16);
+                writer.setViewerPreferences(PdfWriter.PageLayoutSinglePage);
+                naglowekStopkaL(writer);
+                otwarcieDokumentu(document, nazwa);
+                List<String> nazwy = new ArrayList<>();
+                for (Definicjalistaplac r : deflista) {
+                    nazwy.add(r.getNrkolejny());
+                }
+                String datawyplaty = null;
+                for (Pasekwynagrodzen p :lista) {
+                    datawyplaty = p.getDatawyplaty();
+                    break;
+                }
+                if (grupyfirma==null||grupyfirma.isEmpty()) {
+                    sublista(document, nazwa, def, lista, nazwy, datawyplaty, rodzajnieobecnosciFacade);
+                } else {
+                    Set<String> nazwygrup = new HashSet<>(grupyfirma.stream().map(Grupakadry::getNazwa).collect(Collectors.toList()));
+                    int licznik = 0;
+                    for (String nazwa1 : nazwygrup) {
+                        if (licznik>0) {
+                            document.add(Chunk.NEXTPAGE);
+                        }
+                        List<Pasekwynagrodzen> podlista = lista.stream().filter(p->p.getUmowa().getGrupakadry()!=null&&p.getUmowa().getGrupakadry().getNazwa().equals(nazwa1)).collect(Collectors.toList());
+                        if (podlista!=null&&podlista.size()>0) {
+                            sublista(document, nazwa1, def, podlista, nazwy, datawyplaty, rodzajnieobecnosciFacade);
+                            licznik++;
+                        }
+                    }
+                    List<Pasekwynagrodzen> podlista = lista.stream().filter(p->p.getUmowa().getGrupakadry()==null).collect(Collectors.toList());
+                    if (podlista!=null&&podlista.size()>0) {
+                        document.add(Chunk.NEXTPAGE);
+                        sublista(document, "", def, podlista, nazwy, datawyplaty, rodzajnieobecnosciFacade);
+                    }
+                }
+//                PdfMain.dodajOpisWstepny(document, "Lista płac", def.getRok(), def.getMc(), def.getFirma().getNip(), nazwy, datawyplaty);
+//                String[] opisy = {"Razem przychód", "Podst. wymiaru składek ubezp. społecznych", "Ubezp. Emerytalne", "Ubezp. rentowe", "Ubezp. chorobowe", "Razem składki na ub. Społ.", "Podst. wymiaru składek ubezp. zdrowotnego",
+//                    "Koszty uzyskania przychodu", "Podstawa opodatkowania", "Potrącona zaliczka na podatek dochodowy", "Potrącona", "Odliczona od podatku", "Należna zaliczka na podatek dochodowy", "Do wypłaty"};
+//                for (Pasekwynagrodzen p : lista) {
+//                    dodajtabeleglowna(p, document);
+//                    StringBuilder sb = new StringBuilder();
+//                    sb.append(generujpasekskladniki(p, document));
+//                    document.add(ustawparagrafSmall(sb.toString()));
+//                    sb = new StringBuilder();
+//                    sb.append(generujpasekobecnosci(p, document, rodzajnieobecnosciFacade));
+//                    document.add(ustawparagrafSmall(sb.toString()));
+//                    sb = new StringBuilder();
+//                    sb.append(generujpasekpotracenia(p, document));
+//                    document.add(ustawparagrafSmall(sb.toString()));
+//                    document.add(Chunk.NEWLINE);
+//                }
+//                document.add(Chunk.NEXTPAGE);
+//                Paragraph opiswstepny = new Paragraph(new Phrase("DANE DO WYPŁATY", ft[1]));
+//                opiswstepny.setAlignment(Element.ALIGN_CENTER);
+//                document.add(opiswstepny);
+//                document.add(Chunk.NEWLINE);
+//                document.add(listadowyplaty(lista));
+                finalizacjaDokumentuQR(document, nazwa);
+                Msg.msg("Udane wysłanie maila z listą płac)");
+            } else {
+                Msg.msg("w", "Nie ma Paska do wydruku");
+            }
+        } catch (Exception e) {
+            E.e(e);
+        }
+        return out;
+    }
+     
+    public static void drukujListaPodstawowa(List<Pasekwynagrodzen> lista, Definicjalistaplac def, RodzajnieobecnosciFacade rodzajnieobecnosciFacade, List<Grupakadry> grupyfirma) {
         try {
             String nrpoprawny = def.getNrkolejny().replaceAll("[^A-Za-z0-9]", "");
             String nazwa = def.getFirma().getNip() + "_" + nrpoprawny + "_" + "lp.pdf";
@@ -539,28 +566,28 @@ public class PdfListaPlac {
                     datawyplaty = p.getDatawyplaty();
                     break;
                 }
-                PdfMain.dodajOpisWstepny(document, "Lista płac", def.getRok(), def.getMc(), def.getFirma().getNip(), nazwy, datawyplaty);
-                String[] opisy = {"Razem przychód", "Podst. wymiaru składek ubezp. społecznych", "Ubezp. Emerytalne", "Ubezp. rentowe", "Ubezp. chorobowe", "Razem składki na ub. Społ.", "Podst. wymiaru składek ubezp. zdrowotnego",
-                    "Koszty uzyskania przychodu", "Podstawa opodatkowania", "Potrącona zaliczka na podatek dochodowy", "Potrącona", "Odliczona od podatku", "Należna zaliczka na podatek dochodowy", "Do wypłaty"};
-                for (Pasekwynagrodzen p : lista) {
-                    dodajtabeleglowna(p, document);
-                    StringBuilder sb = new StringBuilder();
-                    sb.append(generujpasekskladniki(p, document));
-                    document.add(ustawparagrafSmall(sb.toString()));
-                    sb = new StringBuilder();
-                    sb.append(generujpasekobecnosci(p, document, rodzajnieobecnosciFacade));
-                    document.add(ustawparagrafSmall(sb.toString()));
-                    sb = new StringBuilder();
-                    sb.append(generujpasekpotracenia(p, document));
-                    document.add(ustawparagrafSmall(sb.toString()));
-                    document.add(Chunk.NEWLINE);
+                if (grupyfirma==null||grupyfirma.isEmpty()) {
+                    sublista(document, nazwa, def, lista, nazwy, datawyplaty, rodzajnieobecnosciFacade);
+                } else {
+                    Set<String> nazwygrup = new HashSet<>(grupyfirma.stream().map(Grupakadry::getNazwa).collect(Collectors.toList()));
+                    int licznik = 0;
+                    for (String nazwa1 : nazwygrup) {
+                        if (licznik>0) {
+                            document.add(Chunk.NEXTPAGE);
+                        }
+                        List<Pasekwynagrodzen> podlista = lista.stream().filter(p->p.getUmowa().getGrupakadry()!=null&&p.getUmowa().getGrupakadry().getNazwa().equals(nazwa1)).collect(Collectors.toList());
+                        if (podlista!=null&&podlista.size()>0) {
+                            sublista(document, nazwa1, def, podlista, nazwy, datawyplaty, rodzajnieobecnosciFacade);
+                            licznik++;
+                        }
+                    }
+                    List<Pasekwynagrodzen> podlista = lista.stream().filter(p->p.getUmowa().getGrupakadry()==null).collect(Collectors.toList());
+                    if (podlista!=null&&podlista.size()>0) {
+                        document.add(Chunk.NEXTPAGE);
+                        sublista(document, "", def, podlista, nazwy, datawyplaty, rodzajnieobecnosciFacade);
+                    }
                 }
-                document.add(Chunk.NEXTPAGE);
-                Paragraph opiswstepny = new Paragraph(new Phrase("DANE DO WYPŁATY", ft[1]));
-                opiswstepny.setAlignment(Element.ALIGN_CENTER);
-                document.add(opiswstepny);
-                document.add(Chunk.NEWLINE);
-                document.add(listadowyplaty(lista));
+                
                 finalizacjaDokumentuQR(document, nazwa);
                 String f = "pokazwydruk('" + nazwa + "');";
                 PrimeFaces.current().executeScript(f);
@@ -570,6 +597,36 @@ public class PdfListaPlac {
         } catch (Exception e) {
             E.e(e);
         }
+    }
+    
+    private static void sublista(Document document, String nazwagrupy, Definicjalistaplac def, List<Pasekwynagrodzen> lista, List<String> nazwy, String datawyplaty, RodzajnieobecnosciFacade rodzajnieobecnosciFacade) {
+        try {
+            PdfMain.dodajOpisWstepny(document, "Lista płac - " + nazwagrupy, def.getRok(), def.getMc(), def.getFirma().getNip(), nazwy, datawyplaty);
+            String[] opisy = {"Razem przychód", "Podst. wymiaru składek ubezp. społecznych", "Ubezp. Emerytalne", "Ubezp. rentowe", "Ubezp. chorobowe", "Razem składki na ub. Społ.", "Podst. wymiaru składek ubezp. zdrowotnego",
+                "Koszty uzyskania przychodu", "Podstawa opodatkowania", "Potrącona zaliczka na podatek dochodowy", "Potrącona", "Odliczona od podatku", "Należna zaliczka na podatek dochodowy", "Do wypłaty"};
+            for (Pasekwynagrodzen p : lista) {
+                dodajtabeleglowna(p, document);
+                StringBuilder sb = new StringBuilder();
+                sb.append(generujpasekskladniki(p, document));
+                document.add(ustawparagrafSmall(sb.toString()));
+                sb = new StringBuilder();
+                sb.append(generujpasekobecnosci(p, document, rodzajnieobecnosciFacade));
+                document.add(ustawparagrafSmall(sb.toString()));
+                sb = new StringBuilder();
+                sb.append(generujpasekpotracenia(p, document));
+                document.add(ustawparagrafSmall(sb.toString()));
+                document.add(Chunk.NEWLINE);
+            }
+            document.add(Chunk.NEXTPAGE);
+            Paragraph opiswstepny = new Paragraph(new Phrase("DANE DO WYPŁATY", ft[1]));
+            opiswstepny.setAlignment(Element.ALIGN_CENTER);
+            document.add(opiswstepny);
+            document.add(Chunk.NEWLINE);
+            document.add(listadowyplaty(lista));
+        } catch (Exception e) {
+            E.e(e);
+        }
+
     }
 
     private static Element listadowyplaty(List<Pasekwynagrodzen> lista) {
