@@ -229,7 +229,9 @@ public class PasekwynagrodzenBean {
         List<Nieobecnosc> nieobecnoscNN = pobierz(nieobecnosci, "NN");
         List<Nieobecnosc> nieobecnoscNP = pobierz(nieobecnosci, "NP");
         List<Nieobecnosc> oddelegowanie = pobierz(nieobecnosci, "Z");
+        //piecdziesiatki
         KalendarzmiesiacBean.nalicznadgodzinyDB(kalendarz, pasek, false);
+        //setki
         KalendarzmiesiacBean.nalicznadgodzinyDB(kalendarz, pasek, true);
         //KalendarzmiesiacBean.nalicznadgodziny100(kalendarz, pasek);
         //najpierw musimy przyporzadkowac aktualne skladniki, aby potem prawidlowo obliczyc redukcje

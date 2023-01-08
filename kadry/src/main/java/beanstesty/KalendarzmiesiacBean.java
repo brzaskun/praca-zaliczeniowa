@@ -1143,19 +1143,6 @@ public class KalendarzmiesiacBean {
             if (p.getTypdnia() == 0 && nadgodziny > 0.0) {
                 dninadliczbowe = dninadliczbowe + 1;
                 nadliczbowe = nadliczbowe + nadgodziny;
-                if (dataod == null) {
-                    String nrdnia = String.valueOf(p.getNrdnia());
-                    if (nrdnia.length() == 1) {
-                        nrdnia = "0" + nrdnia;
-                    }
-                    dataod = datapoczatek + nrdnia;
-                } else {
-                    String nrdnia = String.valueOf(p.getNrdnia());
-                    if (nrdnia.length() == 1) {
-                        nrdnia = "0" + nrdnia;
-                    }
-                    datado = datapoczatek + nrdnia;
-                }
             }
         }
         if (nadliczbowe > 0.0) {
