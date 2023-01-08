@@ -9,6 +9,7 @@ import beanstesty.PasekwynagrodzenBean;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import entity.Definicjalistaplac;
@@ -16,6 +17,7 @@ import entity.Pasekwynagrodzen;
 import error.E;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import msg.Msg;
@@ -138,9 +140,17 @@ public class PdfDRA {
         }
     }
     
-          
+//            danezus.put("zus51", zus51);
+//            danezus.put("zus51pracownik", zus51pracownik);
+//            danezus.put("zus51pracodawca", zus51pracodawca);
+//            danezus.put("zus52", zus52);
+//            danezus.put("zusFP", zusFP);
+//            danezus.put("zusFGSP", zusFGSP);
+//            danezus.put("zus53", zus53);
+//            danezus.put("zus", zus);
+//            danezus.put("pit4", pit4);
      
-    public static void drukujListaPodstawowa(List<Pasekwynagrodzen> lista, List<Definicjalistaplac> def, String nip, String mc) {
+    public static void drukujListaPodstawowa(List<Pasekwynagrodzen> lista, List<Definicjalistaplac> def, String nip, String mc, Map<String,Double> danezus) {
         try {
             String nazwa = nip + "_" + mc + "_" + "DRA.pdf";
             if (lista != null) {
@@ -164,6 +174,15 @@ public class PdfDRA {
                     "FP", "FGŚP", "Koszt pracodawcy", "Należna zaliczka na podatek dochodowy"};
                 dodajtabeleglowna(lista, document, opisy);
                 document.add(Chunk.NEWLINE);
+                PdfMain.dodajLinieOpisuBezOdstepuTab(document, "zus 51 pracownik:", f.F.curr(danezus.get("zus51")), Element.ALIGN_LEFT, 2, 100);
+                PdfMain.dodajLinieOpisuBezOdstepuTab(document, "zus 51 pracodawca:", f.F.curr(danezus.get("zus51pracownik")), Element.ALIGN_LEFT, 2, 100);
+                PdfMain.dodajLinieOpisuBezOdstepuTab(document, "zus 51 razem:", f.F.curr(danezus.get("zus51pracodawca")), Element.ALIGN_LEFT, 2, 100);
+                PdfMain.dodajLinieOpisuBezOdstepuTab(document, "zus 52: ", f.F.curr(danezus.get("zus52")), Element.ALIGN_LEFT, 2, 100);
+                PdfMain.dodajLinieOpisuBezOdstepuTab(document, "zus 53 FP: ", f.F.curr(danezus.get("zusFP")), Element.ALIGN_LEFT, 2, 100);
+                PdfMain.dodajLinieOpisuBezOdstepuTab(document, "zus 53 FGŚP: ", f.F.curr(danezus.get("zusFGSP")), Element.ALIGN_LEFT, 2, 100);
+                document.add(Chunk.NEWLINE);
+                PdfMain.dodajLinieOpisuBezOdstepuTab(document, "zus 53 razem: ", f.F.curr(danezus.get("zus")), Element.ALIGN_LEFT, 2, 100);
+                PdfMain.dodajLinieOpisuBezOdstepuTab(document, "PIT-4: ", f.F.curr(danezus.get("pit4")), Element.ALIGN_LEFT, 2, 100);
                 finalizacjaDokumentuQR(document, nazwa);
                 String f = "pokazwydruk('" + nazwa + "');";
                 PrimeFaces.current().executeScript(f);

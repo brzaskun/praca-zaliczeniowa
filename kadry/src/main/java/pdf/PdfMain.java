@@ -16,6 +16,7 @@ import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.Rectangle;
+import com.itextpdf.text.TabSettings;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfPTable;
@@ -419,6 +420,21 @@ public class PdfMain {
         try {
             Paragraph opiswstepny = new Paragraph(new Phrase(opis, ft[fontsize]));
             opiswstepny.setAlignment(al);
+            document.add(opiswstepny);
+        } catch (DocumentException ex) {
+            E.e(ex);
+        }
+    }
+     
+     public static void dodajLinieOpisuBezOdstepuTab(Document document, String opis, String opis1, 
+             int al, int fontsize, int tab) {
+        try {
+            Paragraph opiswstepny = new Paragraph();
+            opiswstepny.add(new Phrase(opis, ft[fontsize]));
+            opiswstepny.setAlignment(Element.ALIGN_LEFT);
+            opiswstepny.setTabSettings(new TabSettings(tab));
+            opiswstepny.add(Chunk.TABBING);
+            opiswstepny.add(new Phrase(opis1, ft[fontsize]));
             document.add(opiswstepny);
         } catch (DocumentException ex) {
             E.e(ex);

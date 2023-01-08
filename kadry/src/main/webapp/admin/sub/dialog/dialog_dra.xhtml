@@ -42,17 +42,27 @@
         </p:outputPanel>
         <p:outputPanel style="height: 100px">
             <h:form  styleClass="formadmin" id="DRASumaForm">
-                <p:panelGrid columns="5" style="width: 450px;">
-                    <p:outputLabel value="ZUS51"/>
-                    <p:outputLabel value="ZUS52"/>
-                    <p:outputLabel value="ZUS53"/>
-                    <p:outputLabel value="razem"/>
-                    <p:outputLabel value="PIT4"/>
+                <p:panelGrid columns="5" style="width: 600px;" styleClass="pasekwync">
+                    <p:outputLabel value="ZUS 51" style="width: 80px;"/>
+                    <p:outputLabel value="ZUS 52" style="width: 80px;"/>
+                    <p:outputLabel value="ZUS 53" style="width: 80px;"/>
+                    <p:outputLabel value="razem ZUS" style="width: 80px;"/>
+                    <p:outputLabel value="PIT4" style="width: 80px;"/>
                     <bcf:outputpl value="#{draView.zus51}"/>
                     <bcf:outputpl value="#{draView.zus52}"/>
                     <bcf:outputpl value="#{draView.zus53}"/>
                     <bcf:outputpl value="#{draView.zus}"/>
                     <bcf:outputpl value="#{draView.pit4}"/>
+                    <p:outputLabel value="ZUS 51 pracownik" style="width: 80px;"/>
+                    <p:outputLabel value="ZUS 51 pracodawca" style="width: 80px;"/>
+                    <p:outputLabel value="ZUS 53 FP" style="width: 80px;"/>
+                    <p:outputLabel value="ZUS 53 FGŚP" style="width: 80px;"/>
+                    <p:outputLabel value=" " style="width: 80px;"/>
+                    <bcf:outputpl value="#{draView.zus51pracownik}"/>
+                    <bcf:outputpl value="#{draView.zus51pracodawca}"/>
+                    <bcf:outputpl value="#{draView.zusFP}"/>
+                    <bcf:outputpl value="#{draView.zusFGSP}"/>
+                    <p:outputLabel value=" "/>
                 </p:panelGrid>
             </h:form>
         </p:outputPanel>
