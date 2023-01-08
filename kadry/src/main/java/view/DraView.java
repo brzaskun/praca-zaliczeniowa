@@ -13,8 +13,10 @@ import entity.Pasekwynagrodzen;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -44,7 +46,11 @@ public class DraView  implements Serializable {
      @Inject
     private WpisView wpisView;
     private double zus51;
+    private double zus51pracownik;
+    private double zus51pracodawca;
     private double zus52;
+    private double zusFP;
+    private double zusFGSP;
     private double zus53;
     private double zus;
     private double pit4;
@@ -73,7 +79,17 @@ public class DraView  implements Serializable {
     
     public void drukujliste () {
         if (paskiwynagrodzen!=null && paskiwynagrodzen.size()>0) {
-            PdfDRA.drukujListaPodstawowa(paskiwynagrodzen, listywybrane, wpisView.getFirma().getNip(), mcdra);
+            Map<String,Double> danezus = new HashMap<>();
+            danezus.put("zus51", zus51);
+            danezus.put("zus51pracownik", zus51pracownik);
+            danezus.put("zus51pracodawca", zus51pracodawca);
+            danezus.put("zus52", zus52);
+            danezus.put("zusFP", zusFP);
+            danezus.put("zusFGSP", zusFGSP);
+            danezus.put("zus53", zus53);
+            danezus.put("zus", zus);
+            danezus.put("pit4", pit4);
+            PdfDRA.drukujListaPodstawowa(paskiwynagrodzen, listywybrane, wpisView.getFirma().getNip(), mcdra, danezus);
             Msg.msg("Wydrukowano listę płac");
         } else {
             Msg.msg("e","Błąd drukowania. Brak pasków");
@@ -84,7 +100,11 @@ public class DraView  implements Serializable {
     public void pobierzpaski() {
         if (listywybrane!=null) {
             zus51 = 0.0;
+            zus51pracodawca = 0.0;
+            zus51pracownik = 0.0;
             zus52 = 0.0;
+            zusFP = 0.0;
+            zusFGSP = 0.0;
             zus53 = 0.0;
             pit4 = 0.0;
             zus = 0.0;
@@ -96,12 +116,16 @@ public class DraView  implements Serializable {
                 }
             }
             for (Pasekwynagrodzen p : paskiwynagrodzen) {
+                zus51pracownik = Z.z(zus51pracownik+p.getRazemspolecznepracownik());
+                zus51pracodawca = Z.z(zus51pracodawca+p.getRazemspolecznefirma());
                 zus51 = Z.z(zus51+p.getRazemspolecznepracownik()+p.getRazemspolecznefirma());
                 zus52 = Z.z(zus52+p.getPraczdrowotne());
+                zusFP = Z.z(zusFP+p.getFp());
+                zusFGSP = Z.z(zusFGSP+p.getFgsp());
                 zus53 = Z.z(zus53+p.getRazem53());
                 pit4 = Z.z(pit4+p.getPodatekdochodowy());
             }
-            zus = Z.z(zus+zus51+zus52+zus+53);
+            zus = Z.z(zus+zus51+zus52+zus53);
             Msg.msg("Pobrano paski do DRA");
         } else {
             Msg.msg("e","Błąd pobierania pasków");
@@ -171,6 +195,39 @@ public class DraView  implements Serializable {
         return zus53;
     }
 
+    public double getZus51pracownik() {
+        return zus51pracownik;
+    }
+
+    public void setZus51pracownik(double zus51pracownik) {
+        this.zus51pracownik = zus51pracownik;
+    }
+
+    public double getZus51pracodawca() {
+        return zus51pracodawca;
+    }
+
+    public void setZus51pracodawca(double zus51pracodawca) {
+        this.zus51pracodawca = zus51pracodawca;
+    }
+
+    public double getZusFP() {
+        return zusFP;
+    }
+
+    public void setZusFP(double zusFP) {
+        this.zusFP = zusFP;
+    }
+
+    public double getZusFGSP() {
+        return zusFGSP;
+    }
+
+    public void setZusFGSP(double zusFGSP) {
+        this.zusFGSP = zusFGSP;
+    }
+
+    
     public void setZus53(double zus53) {
         this.zus53 = zus53;
     }
