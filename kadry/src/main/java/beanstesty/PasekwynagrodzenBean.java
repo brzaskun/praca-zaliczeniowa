@@ -126,12 +126,15 @@ public class PasekwynagrodzenBean {
         boolean zasilekchorobowy = definicjalistaplac.getRodzajlistyplac().getTyp()==4;
         boolean naleznosciosobzagranicznych = definicjalistaplac.getRodzajlistyplac().getTyp()==5;
         Pasekwynagrodzen pasek = new Pasekwynagrodzen();
+        pasek.setKalendarzmiesiac(kalendarz);
         pasek.setDatawyplaty(datawyplaty);
         Data.obliczwiek(kalendarz, pasek);
         String datakonca26lat = OsobaBean.obliczdata26(kalendarz.getDataUrodzenia());
         boolean po26roku = Data.czyjestpo(datakonca26lat, kalendarz.getRok(), kalendarz.getMc());
         boolean student = kalendarz.getAngaz().isStudent();
-        if (po26roku==false && student) {
+        if (pasek.isPraca()==true && po26roku==false) {
+            pasek.setDo26lat(true);
+        } else if (pasek.isPraca()==false && po26roku==false && student) {
             pasek.setDo26lat(true);
         } else {
             pasek.setDo26lat(false);
@@ -140,7 +143,6 @@ public class PasekwynagrodzenBean {
         pasek.setNierezydent(nierezydent);
         pasek.setWynagrodzenieminimalne(wynagrodzenieminimalne);
         pasek.setDefinicjalistaplac(definicjalistaplac);
-        pasek.setKalendarzmiesiac(kalendarz);
         pasek.setRok(definicjalistaplac.getRok());
         pasek.setMc(definicjalistaplac.getMc());
         pasek.setKurs(kurs);

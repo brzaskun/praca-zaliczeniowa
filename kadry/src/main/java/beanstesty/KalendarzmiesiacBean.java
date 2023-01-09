@@ -423,6 +423,7 @@ public class KalendarzmiesiacBean {
                         naliczenienieobecnosc.setPodstawadochoroby(sredniadopodstawy);
                         double procentzazwolnienie = Z.z(nieobecnosc.getZwolnienieprocent() / 100);
                         naliczenienieobecnosc.setProcentzazwolnienie(procentzazwolnienie);
+                        sredniadopodstawy = sredniadopodstawy * procentzazwolnienie;
                         skladnikistalenetto = sredniadopodstawy;
                     } else {
                         double sredniadopodstawy = wyliczsredniachoroba(kalendarz, naliczenieskladnikawynagrodzenia, nieobecnosc, naliczenienieobecnosc, definicjalistaplac);
