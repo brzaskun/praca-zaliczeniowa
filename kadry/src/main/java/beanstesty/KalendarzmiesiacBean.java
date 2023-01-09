@@ -417,15 +417,21 @@ public class KalendarzmiesiacBean {
                     naliczenienieobecnosc.setSkladnikwynagrodzenia(skladnikwynagrodzenia);
                     naliczenienieobecnosc.setNieobecnosc(nieobecnosc);
                     naliczenienieobecnosc.setJakiskladnikredukowalny(naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getOpispelny());
-                    double sredniadopodstawy = wyliczsredniachoroba(kalendarz, naliczenieskladnikawynagrodzenia, nieobecnosc, naliczenienieobecnosc, definicjalistaplac);
-                    if (nieobecnosc.getSredniazmiennerecznie()>0.0&&skladnikwynagrodzenia.getRodzajwynagrodzenia().getStale0zmienne1()) {
-                        sredniadopodstawy = nieobecnosc.getSredniazmiennerecznie();
+                    double skladnikistalenetto = 0.0;
+                    if (nieobecnosc.getSredniazmiennerecznie()>0.0) {
+                        double sredniadopodstawy = nieobecnosc.getSredniazmiennerecznie();
+                        naliczenienieobecnosc.setPodstawadochoroby(sredniadopodstawy);
+                        double procentzazwolnienie = Z.z(nieobecnosc.getZwolnienieprocent() / 100);
+                        naliczenienieobecnosc.setProcentzazwolnienie(procentzazwolnienie);
+                        skladnikistalenetto = sredniadopodstawy;
+                    } else {
+                        double sredniadopodstawy = wyliczsredniachoroba(kalendarz, naliczenieskladnikawynagrodzenia, nieobecnosc, naliczenienieobecnosc, definicjalistaplac);
+                        naliczenienieobecnosc.setPodstawadochoroby(sredniadopodstawy);
+                        double procentzazwolnienie = Z.z(nieobecnosc.getZwolnienieprocent() / 100);
+                        naliczenienieobecnosc.setProcentzazwolnienie(procentzazwolnienie);
+                        sredniadopodstawy = sredniadopodstawy * procentzazwolnienie;
+                        skladnikistalenetto = sredniadopodstawy - (sredniadopodstawy * .1371);
                     }
-                    naliczenienieobecnosc.setPodstawadochoroby(sredniadopodstawy);
-                    double procentzazwolnienie = Z.z(nieobecnosc.getZwolnienieprocent() / 100);
-                    naliczenienieobecnosc.setProcentzazwolnienie(procentzazwolnienie);
-                    sredniadopodstawy = sredniadopodstawy * procentzazwolnienie;
-                    double skladnikistalenetto = sredniadopodstawy - (sredniadopodstawy * .1371);
                     double skladnikistaledoredukcji = naliczenieskladnikawynagrodzenia.getKwotaumownazacalymc();
                     naliczenienieobecnosc.setSkladnikistale(skladnikistalenetto);
                     double stawkadzienna = Z.z(skladnikistalenetto / 30);
@@ -693,6 +699,9 @@ public class KalendarzmiesiacBean {
         /**
          * ************************
          */
+        if (nieobecnosc.getSredniazmiennerecznie()!=0.0) {
+            sredniadopodstawy = nieobecnosc.getSredniazmiennerecznie();
+        }
 
         return sredniadopodstawy;
     }

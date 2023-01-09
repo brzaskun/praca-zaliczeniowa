@@ -635,9 +635,10 @@ public class PasekwynagrodzenBean {
      private static void obliczbruttobezzusZasilek(Pasekwynagrodzen pasek) {
         double bruttobezzus = 0.0;
         for (Naliczenienieobecnosc p : pasek.getNaliczenienieobecnoscList()) {
-            if (p.getNieobecnosc().getSwiadczeniekodzus()!=null&&!p.getNieobecnosc().getSwiadczeniekodzus().getZrodlofinansowania().equals('P')&&!p.getNieobecnosc().getSwiadczeniekodzus().getZrodlofinansowania().equals('B')) {
-                bruttobezzus = Z.z(bruttobezzus+p.getKwotabezzus());
-            }
+            bruttobezzus = Z.z(bruttobezzus+p.getKwotabezzus());
+//            if (p.getNieobecnosc().getSwiadczeniekodzus()!=null&&!p.getNieobecnosc().getSwiadczeniekodzus().getZrodlofinansowania().equals('P')&&!p.getNieobecnosc().getSwiadczeniekodzus().getZrodlofinansowania().equals('B')) {
+//                bruttobezzus = Z.z(bruttobezzus+p.getKwotabezzus());
+//            }
         }
         pasek.setBruttobezzus(bruttobezzus);
         pasek.setBrutto(Z.z(pasek.getBrutto()+bruttobezzus));

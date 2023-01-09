@@ -143,5 +143,129 @@
                 <h:outputText value="Adres email do wysyłki aneksów: #{wpisView.getFirma().getEmail()}" style="color: #136e13;margin-top: 10px;"/>
             </p:outputPanel>
         </p:tab>
+        <p:tab title="umowy zlecenia">
+            <h:form id="UmowazlecenieForm">
+                <h:outputText value="dodawanie zbiorczo umów zleceń" style="color:green; margin-left: 50px; font-weight: bolder;" />
+                <p:outputPanel style="padding: 20px;">
+                    <style>
+                .ui-picklist .ui-picklist-list{
+                    width: 350px !important;
+                }
+
+            </style>
+                    <p:pickList id="wybranypracownik" value="#{umowaGrupowoView.listaumowy}" var="umowaItem" itemLabel="#{umowaItem.pracownik.nazwiskoImie}" itemValue="#{umowaItem}" 
+                            showCheckbox="true" converter="#{angazConverter}" showSourceFilter="true" showTargetFilter="true" filterMatchMode="contains" 
+                            showSourceControls="true" showTargetControls="true" 
+                />
+                </p:outputPanel>
+                <h:panelGroup id="displayzlecenie">
+                
+                <p:panelGrid columns="3" rendered="#{umowaGrupowoView.selected != null}">
+                    <p:panelGrid columns="2">
+                        <p:outputLabel value="rodzaj umowy" for="rodzajumowy" />
+                        <p:selectOneMenu id="rodzajumowy" value="#{umowaGrupowoView.selected.umowakodzus}" converter="#{umowakodzusConverter}" autoWidth="false" style="width: 300px;" filter="true" filterMatchMode="contains" required="true">
+                            <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
+                            <f:selectItems value="#{umowaGrupowoView.listaumowakodzus}"
+                                           var="umowakodzusItem"
+                                           itemValue="#{umowakodzusItem}" itemLabel="#{umowakodzusItem.kod} #{umowakodzusItem.opis}"/>
+                            <p:ajax event="change" listener="#{umowaGrupowoView.ustawumowe}" partialSubmit="true" global="false" update="@(form)"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="kod ZUS" for="kodumowy" />
+                        <p:inputText id="kodumowy" value="#{umowaGrupowoView.selected.umowakodzus.kod}" title="kod" readonly="true"/>
+                        <p:outputLabel value="nr umowy" for="nrumowy" />
+                        <h:outputText id="nrumowy" value="#{umowaGrupowoView.selected.nrkolejny}" title="data od" style="width: 200px;"/>
+                        <p:outputLabel value="czas trwania" for="czasumowy" />
+                        <p:selectOneMenu id="czasumowy" value="#{umowaGrupowoView.selected.slownikszkolazatrhistoria}" autoWidth="false" style="width: 300px;" required="true" 
+                                         converter="#{slownikszkolazatrhistoriaConverter}">
+                            <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
+                            <f:selectItems value="#{slownikszkolazatrhistoriaView.listapraca}"
+                                           var="czastrwaniaItem" 
+                                           itemValue="#{czastrwaniaItem}" itemLabel="#{czastrwaniaItem.opis}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="opis stanowiska" for="stanowisko" />
+                        <p:inputText id="stanowisko" value="#{umowaGrupowoView.selected.stanowisko}" title="stanowisko" style="width: 200px;"/>
+                    </p:panelGrid>
+                    <p:panelGrid columns="2">
+                        <p:outputLabel value="data zawarcia" for="datazawarcia" />
+                        <p:inputText id="datazawarcia" value="#{umowaGrupowoView.selected.datazawarcia}" title="data zawarcia"  placeholder="____-__-__"  required="true" styleClass="dataUmowy" maxlength="10">
+                            <p:ajax event="change" onstart="ustawDateSprzedazy(#{wpisView.rokWpisu},#{wpisView.miesiacWpisu});" listener="#{umowaGrupowoView.naniesdatynaumowe}" partialSubmit="true" global="false" update="@(.dataUmowy)"/>
+                        </p:inputText>
+                        <p:outputLabel value="data od" for="dataod" />
+                        <p:inputText id="dataod" value="#{umowaGrupowoView.selected.dataod}" title="data od"  placeholder="____-__-__"  required="true" styleClass="dataUmowy" maxlength="10">
+                            <p:ajax event="change" onstart="ustawDateSprzedazy(#{wpisView.rokWpisu},#{wpisView.miesiacWpisu});" partialSubmit="true" global="false" update="@(.dataUmowy) @this"/>
+                        </p:inputText>
+                        <p:outputLabel value="data do" for="datado" />
+                        <p:inputText id="datado" value="#{umowaGrupowoView.selected.datado}" title="data do"  placeholder="____-__-__"  maxlength="10">
+                            <p:ajax event="change" onstart="ustawDateSprzedazy(#{wpisView.rokWpisu},#{wpisView.miesiacWpisu});" listener="#{umowaGrupowoView.sprawdzczyumowajestnaczas}" partialSubmit="true" global="false" update="@this"/>
+                        </p:inputText>
+                         <p:outputLabel value="wiek" for="wiek" />
+                         <h:outputText id="wiek" value="#{umowaGrupowoView.selected.wiekumowa}" styleClass="dataUmowy"/>
+                        <p:outputLabel value="termin rozpoczecia pracy" for="datarozp" />
+                        <p:inputText id="datarozp" value="#{umowaGrupowoView.selected.terminrozpoczeciapracy}" title="termin rozpoczecia pracy" styleClass="dataUmowy"  placeholder="____-__-__"  maxlength="10">
+                            <p:ajax event="change" onstart="ustawDateSprzedazy(#{wpisView.rokWpisu},#{wpisView.miesiacWpisu});" partialSubmit="true" global="false" update="@this"/>
+                        </p:inputText>
+
+  
+
+                    </p:panelGrid>
+                    <p:panelGrid columns="2">
+
+
+<!--                        <p:outputLabel value="kod zawodu" for="kodzawodu" />
+                        <p:autoComplete id="kodzawodu" value="#{umowaGrupowoView.selected.kodzawodu}" converter="#{kodyzawodowConverter}" style="width: 300px;" cache="true" cacheTimeout="2000"
+                                        minQueryLength="3" maxResults="15" maxlength="25" itemtipMyPosition="rightbottom" queryDelay="10" size="50"
+                                        completeMethod="#{kodyzawodowConverter.complete}" var="kodzawoduItem" 
+                                        itemLabel="#{kodzawoduItem.nazwa}" itemValue="#{kodzawoduItem}" 
+                                        >
+                            <p:ajax event="query" global="false"/>
+                        </p:autoComplete>-->
+                        <p:outputLabel value="nfz" for="nfz" />
+                        <p:inputText id="nfz" value="#{umowaGrupowoView.selected.nfz}" title="nfz}"  required="true"/>
+                        <p:outputLabel value="nie licz FGSP" for="nieliczFGSP" />
+                        <p:selectBooleanCheckbox id="nieliczFGSP" value="#{umowaGrupowoView.selected.nieliczFGSP}" />
+                        <p:outputLabel value="nie licz FP" for="nieliczFP" />
+                        <p:selectBooleanCheckbox id="nieliczFP" value="#{umowaGrupowoView.selected.nieliczFP}" />
+                    </p:panelGrid>
+                    <p:panelGrid columns="4">
+                        <p:outputLabel value="wynagrodzenie miesięczne" />
+                        <bcf:innum value="#{umowaGrupowoView.wynagrodzeniemiesieczne}"/>
+                        <p:outputLabel value="wynagrodzenie godzinowe" />
+                        <bcf:innum value="#{umowaGrupowoView.wynagrodzeniegodzinowe}"/>
+                        <p:outputLabel value="chorobowe" for="chorobowe" />
+                        <p:selectBooleanCheckbox id="chorobowe" value="#{umowaGrupowoView.selected.chorobowe}" >
+                            <p:ajax event="change" listener="#{umowaGrupowoView.edytujumowe(selected)}" global="false"/>
+                        </p:selectBooleanCheckbox>
+                        <p:outputLabel value="chorobowe dobrowolne" for="chorobowedobrowolne" />
+                        <p:selectBooleanCheckbox id="chorobowedobrowolne" value="#{umowaGrupowoView.selected.chorobowedobrowolne}" >
+                            <p:ajax event="change" listener="#{umowaGrupowoView.edytujumowe(selected)}" global="false"/>
+                        </p:selectBooleanCheckbox>
+                        <p:outputLabel value="emerytalne" for="emerytalne" />
+                        <p:selectBooleanCheckbox id="emerytalne" value="#{umowaGrupowoView.selected.emerytalne}" >
+                            <p:ajax event="change" listener="#{umowaGrupowoView.edytujumowe(selected)}" global="false"/>
+                        </p:selectBooleanCheckbox>
+                        <p:outputLabel value="rentowe" for="rentowe" />
+                        <p:selectBooleanCheckbox id="rentowe" value="#{umowaGrupowoView.selected.rentowe}" >
+                            <p:ajax event="change" listener="#{umowaGrupowoView.edytujumowe(selected)}" global="false"/>
+                        </p:selectBooleanCheckbox>
+                        <p:outputLabel value="wypadkowe" for="wypadkowe" />
+                        <p:selectBooleanCheckbox id="wypadkowe" value="#{umowaGrupowoView.selected.wypadkowe}" >
+                            <p:ajax event="change" listener="#{umowaGrupowoView.edytujumowe(selected)}" global="false"/>
+                        </p:selectBooleanCheckbox>
+                        <p:outputLabel value="zdrowotne" for="zdrowotne" />
+                        <p:selectBooleanCheckbox id="zdrowotne" value="#{umowaGrupowoView.selected.zdrowotne}" >
+                            <p:ajax event="change" listener="#{umowaGrupowoView.edytujumowe(selected)}" global="false"/>
+                        </p:selectBooleanCheckbox>
+                    </p:panelGrid>
+                </p:panelGrid>
+                    <p:panelGrid columns="1">
+                        <p:outputLabel value="inne warunki zatr." />
+                        <p:textEditor id="dodatkowe" value="#{umowaGrupowoView.selected.innewarunkizatrudnienia}"  styleClass="dataUmowy" secure="false" height="80"/>
+                    </p:panelGrid>
+                <p:commandButton styleClass="buttonnorm" actionListener="#{umowaGrupowoView.drukujumoweselected}" value="Drukuj" update="north, @(form)"/>
+<!--                <p:commandButton styleClass="buttonnorm2" actionListener="#{umowaGrupowoView.createzlecenie}" value="Dodaj" update="north, @(form)"  rendered="#{umowaGrupowoView.selected.id eq null}"/>
+                <p:commandButton styleClass="buttonnorm2" value="Anuluj"  actionListener="#{umowaGrupowoView.cancel}"  update="north, @(form)" process="@this"/>-->
+            </h:panelGroup>
+            </h:form>
+        </p:tab>
     </p:tabView>
 </ui:composition>
