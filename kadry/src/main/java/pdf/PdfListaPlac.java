@@ -648,7 +648,7 @@ public class PdfListaPlac {
                 table.addCell(ustawfrazeAlign(p.getPesel(), "left",6));
                 table.addCell(ustawfrazeAlign(p.getNrkonta(), "left",6));
                 table.addCell(ustawfrazeAlign(formatujWaluta(p.getNetto()), "right",6));
-                table.addCell(ustawfrazeAlign(formatujWaluta(p.getNettowaluta()), "right",6));
+                table.addCell(ustawfrazeAlign(formatujEuro(p.getNettowaluta()), "right",6));
             }
         } catch (DocumentException ex) {
         }
