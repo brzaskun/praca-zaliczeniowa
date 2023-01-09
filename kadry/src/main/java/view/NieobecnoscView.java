@@ -204,7 +204,7 @@ public class NieobecnoscView  implements Serializable {
     
     public void create() {
       if (selected!=null) {
-          if (selected.getRodzajnieobecnosci()!=null && selected.getDataod()!=null && selected.getDatado()!=null) {
+          if (selected.getRodzajnieobecnosci()==null || selected.getDataod()==null || selected.getDatado()==null) {
               Msg.msg("e", "Brak kodu/dat");
           } else {
             try {
@@ -311,7 +311,7 @@ public class NieobecnoscView  implements Serializable {
             boolean czynaniesiono = false;
             for (Nieobecnosc nieobecnosc : lista) {
                 if (nieobecnosc.isNaniesiona()==false) {
-                    nanies(nieobecnosc);
+                    czynaniesiono = nanies(nieobecnosc);
                 }
             }
             kalendarzmiesiacView.init();
