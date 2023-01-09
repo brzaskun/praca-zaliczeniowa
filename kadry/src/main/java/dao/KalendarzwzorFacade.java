@@ -63,6 +63,10 @@ public class KalendarzwzorFacade extends DAO   {
     public List<Kalendarzwzor> findByFirmaRok(FirmaKadry firma, String rok) {
        return getEntityManager().createNamedQuery("Kalendarzwzor.findByFirmaRok").setParameter("firma", firma).setParameter("rok", rok).getResultList();
     }
+    
+    public Kalendarzwzor findByFirmaGlobalnaRokMc(String rok, String mc) {
+       return (Kalendarzwzor) getEntityManager().createNamedQuery("Kalendarzwzor.findByFirmaGlobalnaRokMc").setParameter("rok", rok). setParameter("mc", mc).getSingleResult();
+    }
 
    
 }

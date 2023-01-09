@@ -5,13 +5,16 @@
  */
 package beanstesty;
 
+import comparator.Dziencomparator;
 import entity.Dzien;
 import entity.Kalendarzmiesiac;
+import entity.Kalendarzwzor;
 import entity.Naliczenieskladnikawynagrodzenia;
 import entity.Pasekwynagrodzen;
 import entity.Skladnikwynagrodzenia;
 import entity.Zmiennawynagrodzenia;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import z.Z;
 
@@ -100,14 +103,19 @@ public class NaliczenieskladnikawynagrodzeniaBean {
         return zwrot;
     }
 
-    public static List<Naliczenieskladnikawynagrodzenia> createWynagrodzenieDB(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasekwynagrodzen, Skladnikwynagrodzenia skladnikwynagrodzenia, double kurs, double wynagrodzenieminimalne) {
+    public static List<Naliczenieskladnikawynagrodzenia> createWynagrodzenieDB(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasekwynagrodzen, Skladnikwynagrodzenia skladnikwynagrodzenia, double kurs, double wynagrodzenieminimalne, Kalendarzwzor kalendarzwzor) {
         List<Naliczenieskladnikawynagrodzenia> zwrot = new ArrayList<>();
         double dniroboczewmiesiacu = 0.0;
         double godzinyroboczewmiesiacu = 0.0;
-        for (Dzien p : kalendarz.getDzienList()) {
+        List<Dzien> biezacedni = kalendarz.getDzienList();
+        Collections.sort(biezacedni, new Dziencomparator());
+        for (Dzien p : kalendarzwzor.getDzienList()) {
             if (p.getTypdnia() == 0) {
                 dniroboczewmiesiacu++;
-                godzinyroboczewmiesiacu = godzinyroboczewmiesiacu + p.getNormagodzin();
+                double normagodzin = p.getNormagodzin();
+                Dzien get = kalendarz.getDzienList().get(p.getNrdnia()-1);
+                normagodzin = normagodzin*get.getEtat1()/get.getEtat2();
+                godzinyroboczewmiesiacu = godzinyroboczewmiesiacu + normagodzin;
             }
         }
         if (skladnikwynagrodzenia.getRodzajwynagrodzenia().getKod().equals("11")) {

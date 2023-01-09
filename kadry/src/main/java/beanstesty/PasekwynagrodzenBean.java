@@ -118,7 +118,7 @@ public class PasekwynagrodzenBean {
       
         public static Pasekwynagrodzen obliczWynagrodzenie(Kalendarzmiesiac kalendarz, Definicjalistaplac definicjalistaplac, SwiadczeniekodzusFacade nieobecnosckodzusFacade, List<Pasekwynagrodzen> paskidowyliczeniapodstawy, 
         List<Wynagrodzeniahistoryczne> historiawynagrodzen, List<Podatki> stawkipodatkowe, double sumapoprzednich, double wynagrodzenieminimalne, boolean czyodlicoznokwotewolna, double kurs,double limitZUS, 
-        String datawyplaty, List<Nieobecnosc> nieobecnosci, double limit26, List<Kalendarzmiesiac> kalendarzlista,Rachunekdoumowyzlecenia rachunekdoumowyzlecenia, double sumabruttopoprzednich) {
+        String datawyplaty, List<Nieobecnosc> nieobecnosci, double limit26, List<Kalendarzmiesiac> kalendarzlista,Rachunekdoumowyzlecenia rachunekdoumowyzlecenia, double sumabruttopoprzednich, Kalendarzwzor kalendarzwzor) {
         boolean umowaoprace = definicjalistaplac.getRodzajlistyplac().getTyp()==1;
         boolean umowazlecenia = definicjalistaplac.getRodzajlistyplac().getTyp()==2;
         boolean umowazlecenianierezydent = definicjalistaplac.getRodzajlistyplac().getTyp()==2&&kalendarz.isNierezydent();
@@ -148,7 +148,7 @@ public class PasekwynagrodzenBean {
         pasek.setKurs(kurs);
         boolean jestoddelegowanie = kalendarz.getDnioddelegowania()>0;
         if (umowaoprace) {
-            umowaopracewyliczenie(kalendarz, pasek, kurs, definicjalistaplac, czyodlicoznokwotewolna, jestoddelegowanie, limitZUS, stawkipodatkowe, sumapoprzednich, !po26roku, nieobecnosci, limit26, kalendarzlista, wynagrodzenieminimalne, sumabruttopoprzednich);
+            umowaopracewyliczenie(kalendarz, kalendarzwzor, pasek, kurs, definicjalistaplac, czyodlicoznokwotewolna, jestoddelegowanie, limitZUS, stawkipodatkowe, sumapoprzednich, !po26roku, nieobecnosci, limit26, kalendarzlista, wynagrodzenieminimalne, sumabruttopoprzednich);
         } else if (umowazlecenia) {
             double zmiennawynagrodzeniakwota = rachunekdoumowyzlecenia.getKwota();
             double zmiennawynagrodzeniakwotaodelegowanie = rachunekdoumowyzlecenia.getKwotaoddelegowanie();
@@ -162,7 +162,7 @@ public class PasekwynagrodzenBean {
         } else if (umowafunkcja) {
             umowafunkcjawyliczenie(kalendarz, pasek, kurs, definicjalistaplac, czyodlicoznokwotewolna, jestoddelegowanie, limitZUS, stawkipodatkowe, sumapoprzednich);
         } else if (zasilekchorobowy) {
-            zasilekchorobowywyliczenie(kalendarz, pasek, kurs, definicjalistaplac, czyodlicoznokwotewolna, jestoddelegowanie, limitZUS, stawkipodatkowe, sumapoprzednich, nieobecnosci, kalendarzlista, wynagrodzenieminimalne);
+            zasilekchorobowywyliczenie(kalendarz, pasek, kurs, definicjalistaplac, czyodlicoznokwotewolna, jestoddelegowanie, limitZUS, stawkipodatkowe, sumapoprzednich, nieobecnosci, kalendarzlista, wynagrodzenieminimalne, kalendarzwzor);
         }
         PasekwynagrodzenBean.obliczpodatekdowplaty(pasek);
         PasekwynagrodzenBean.netto(pasek);
@@ -216,11 +216,19 @@ public class PasekwynagrodzenBean {
         return pasek;
     }
     
-        private static void umowaopracewyliczenie(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasek, double kurs, Definicjalistaplac definicjalistaplac, 
+        private static void umowaopracewyliczenie(Kalendarzmiesiac kalendarz, Kalendarzwzor kalendarzglobalny, Pasekwynagrodzen pasek, double kurs, Definicjalistaplac definicjalistaplac, 
                 boolean czyodlicoznokwotewolna, boolean jestoddelegowanie, double limitZUS, List<Podatki> stawkipodatkowe, double sumapoprzednich, boolean nieodliczackup, List<Nieobecnosc> nieobecnoscilista, 
                 double limit26, List<Kalendarzmiesiac> kalendarzlista, double wynqagrodzenieminimalne, double sumabruttopoprzednich) {
         boolean odliczaculgepodatkowa = kalendarz.getAngaz().isOdliczaculgepodatkowa();
-        KalendarzmiesiacBean.naliczskladnikiwynagrodzeniaDB(kalendarz, pasek, kurs, wynqagrodzenieminimalne);
+        double dniroboczewmiesiacu = 0.0;
+        double godzinyroboczewmiesiacu = 0.0;
+        for (Dzien p : kalendarz.getDzienList()) {
+            if (p.getTypdnia() == 0) {
+                dniroboczewmiesiacu++;
+                godzinyroboczewmiesiacu = godzinyroboczewmiesiacu + p.getNormagodzin();
+            }
+        }
+        KalendarzmiesiacBean.naliczskladnikiwynagrodzeniaDB(kalendarz, pasek, kurs, wynqagrodzenieminimalne, kalendarzglobalny);
         List<Nieobecnosc> nieobecnosci = pobierznieobecnosci(kalendarz, nieobecnoscilista);
         //List<Nieobecnosc> zatrudnieniewtrakciemiesiaca = pobierz(nieobecnosci, "D");
         List<Nieobecnosc> choroba = pobierz(nieobecnosci, "CH");
@@ -301,8 +309,8 @@ public class PasekwynagrodzenBean {
     }
 
     private static void zasilekchorobowywyliczenie(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasek, double kurs, Definicjalistaplac definicjalistaplac, boolean czyodlicoznokwotewolna, 
-            boolean jestoddelegowanie, double limitZUS, List<Podatki> stawkipodatkowe, double sumapoprzednich, List<Nieobecnosc> nieobecnosci, List<Kalendarzmiesiac> kalendarzlista, double wynqagrodzenieminimalne) {
-        KalendarzmiesiacBean.naliczskladnikiwynagrodzeniaDB(kalendarz, pasek, kurs, wynqagrodzenieminimalne);
+            boolean jestoddelegowanie, double limitZUS, List<Podatki> stawkipodatkowe, double sumapoprzednich, List<Nieobecnosc> nieobecnosci, List<Kalendarzmiesiac> kalendarzlista, double wynqagrodzenieminimalne, Kalendarzwzor kalendarzwzor) {
+        KalendarzmiesiacBean.naliczskladnikiwynagrodzeniaDB(kalendarz, pasek, kurs, wynqagrodzenieminimalne, kalendarzwzor);
         boolean odliczaculgepodatkowa = kalendarz.getAngaz().isOdliczaculgepodatkowa();
         //List<Nieobecnosc> zatrudnieniewtrakciemiesiaca = pobierz(nieobecnosci, "D");
         //List<Nieobecnosc> choroba = pobierz(nieobecnosci, "CH");
