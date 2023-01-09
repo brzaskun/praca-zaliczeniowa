@@ -50,17 +50,22 @@
                             
                         </h:form>
                         <h:form  styleClass="formadmin" id="KursDataLPForm">
+                            <p:fragment>
+                                <p:autoUpdate/>
                             <p:panelGrid columns="2" >
                             <h:outputLabel for="datawyplatypole" value="data wypłaty"/>
                             <p:inputText id="datawyplatypole" value="#{pasekwynagrodzenView.datawyplaty}" title="data wypłaty"  placeholder="____-__-__"  required="true" styleClass="dataUmowy" maxlength="10">
-                                <p:ajax event="blur" onstart="ustawDateSprzedazy(#{wpisView.rokWpisu},#{wpisView.miesiacWpisu});" partialSubmit="true" global="false" listener="#{pasekwynagrodzenView.ustawtabelenbp()}" update="KursDataLPForm:kurspole"/>
+                                <p:ajax event="change" onstart="ustawDateSprzedazy(#{wpisView.rokWpisu},#{wpisView.miesiacWpisu});" partialSubmit="true" global="false" listener="#{pasekwynagrodzenView.ustawtabelenbp()}" update="KursDataLPForm:kurspole KursDataLPForm:kurspoledata"/>
                             </p:inputText>
                             <h:outputLabel for="kurspole" value="kurs przelicz."/>
                             <p:inputNumber value="#{pasekwynagrodzenView.kursdlalisty}" id="kurspole" decimalPlaces="4" style="text-align: right;">
-                                <p:ajax event="blur" partialSubmit="true" global="false"/>
+                                <p:ajax event="change" partialSubmit="true" global="false"/>
                             </p:inputNumber>
                            <h:outputLabel for="kurspoledata" value="z dnia: "/>
                            <p:inputText id="kurspoledata" value="#{pasekwynagrodzenView.datadlalisty}" readonly="true"/>
+                           </p:panelGrid>
+                           </p:fragment>
+                            <p:panelGrid columns="2" >
                             <p:outputLabel value="forma listy płac" for="ileszczegolow" />
                             <p:selectOneMenu id="ileszczegolow" value="#{pasekwynagrodzenView.ileszczegolow}" requiredMessage="ile szczegółów"  >
                                 <f:selectItem itemLabel="prosta" itemValue="prosta"/>
