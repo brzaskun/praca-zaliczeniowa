@@ -39,6 +39,9 @@ import static pdf.PdfMain.otwarcieDokumentu;
  * @author Osito
  */
 public class PdfUmowaoZlecenia {
+    
+    
+    
     public static void drukuj(Umowa umowa) {
         try {
             String nazwa = umowa.getAngaz().getPracownik().getPesel()+"umowa.pdf";
@@ -59,6 +62,31 @@ public class PdfUmowaoZlecenia {
         }
     }
     
+    
+    public static void drukujwszystkie(Umowa umowa, FirmaKadry firmaKadry, List<Angaz> angazlista) {
+        try {
+            String nazwa = firmaKadry.getNip()+"umowyzlecenia.pdf";
+            Document document = PdfMain.inicjacjaA4Portrait(80,60);
+            PdfWriter writer = inicjacjaWritera(document, nazwa);
+            naglowekStopkaP(writer);
+            otwarcieDokumentu(document, nazwa);
+            int licznik = 0;
+            for (Angaz an : angazlista)  {
+                if (licznik>0) {
+                    document.newPage();
+                }
+                umowa.setAngaz(an);
+                dodajtresc(umowa, document);
+                licznik++;
+            }
+            finalizacjaDokumentuQR(document,nazwa);
+            String f = "pokazwydruk('"+nazwa+"');";
+            PrimeFaces.current().executeScript(f);
+        } catch (Exception e) {
+            E.e(e);
+        }
+    }
+    
     private static void dodajtresc(Umowa umowa, Document document) {
         try {
             BaseFont helvetica = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
@@ -69,11 +97,11 @@ public class PdfUmowaoZlecenia {
             Paragraph paragraph = new Paragraph(new Phrase(firma.getMiasto()+", dnia "+umowa.getDatazawarcia(), fontM));
             paragraph.setAlignment(Element.ALIGN_RIGHT);
             document.add(paragraph);
-            document.add(Chunk.NEWLINE);
-            document.add(Chunk.NEWLINE);
-            document.add(Chunk.NEWLINE);
-            document.add(new Paragraph(new Phrase("..............................", fontM)));
-            document.add(new Paragraph(new Phrase("pieczątka firmy", fontS)));
+//            document.add(Chunk.NEWLINE);
+//            document.add(Chunk.NEWLINE);
+//            document.add(Chunk.NEWLINE);
+//            document.add(new Paragraph(new Phrase("..............................", fontM)));
+//            document.add(new Paragraph(new Phrase("pieczątka firmy", fontS)));
             document.add(Chunk.NEWLINE);
             paragraph = new Paragraph(new Phrase("UMOWA ZLECENIA", font));
             paragraph.setAlignment(Element.ALIGN_CENTER);
@@ -83,36 +111,29 @@ public class PdfUmowaoZlecenia {
 //            document.add(Chunk.NEWLINE);
             paragraph = new Paragraph(new Phrase("zawarta w dniu "+umowa.getDatazawarcia()+" pomiędzy Zleceniodawcą:", fontM));
             document.add(paragraph);
-            document.add(Chunk.NEWLINE);
-            paragraph = new Paragraph(new Phrase(firma.getNazwa(), fontM));
-            document.add(paragraph);
-            paragraph = new Paragraph(new Phrase(firma.getAdres(), fontM));
+            paragraph = new Paragraph(new Phrase(firma.getNazwa()+" z siedzibą w "+firma.getAdres(), fontM));
             document.add(paragraph);
             paragraph = new Paragraph(new Phrase("NIP : "+firma.getNip(), fontM));
             document.add(paragraph);
             paragraph = new Paragraph(new Phrase("reprezentowanym przez: "+firma.getReprezentant(), fontM));
             document.add(paragraph);
-            document.add(Chunk.NEWLINE);
             paragraph = new Paragraph(new Phrase("a Zleceniobiorcą", fontM));
             document.add(paragraph);
-            document.add(Chunk.NEWLINE);
-            paragraph = new Paragraph(new Phrase(umowa.getPracownik().getNazwiskoImie(), fontM));
-            document.add(paragraph);
+            String zleceniobiorca = umowa.getPracownik().getNazwiskoImie();
             if (umowa.getPracownik().getPlec().equals("K")) {
-                paragraph = new Paragraph(new Phrase("zamieszkałą w "+umowa.getPracownik().getAdres(), fontM));
+                paragraph = new Paragraph(new Phrase(zleceniobiorca+" zamieszkałą w "+umowa.getPracownik().getAdres(), fontM));
             } else {
-                paragraph = new Paragraph(new Phrase("zamieszkałym w "+umowa.getPracownik().getAdres(), fontM));
+                paragraph = new Paragraph(new Phrase(zleceniobiorca+" zamieszkałym w "+umowa.getPracownik().getAdres(), fontM));
             }
             document.add(paragraph);
             PdfMain.dodajLinieOpisuBezOdstepu(document, "§1", Element.ALIGN_CENTER, 1);
-            PdfMain.dodajLinieOpisu(document, "Zleceniodawca zleca Zleceniobiorcy wykonanie następującej pracy: "+umowa.getStanowisko(), Element.ALIGN_LEFT, 1);
+            PdfMain.dodajLinieOpisuSpacing(document, "Zleceniodawca zleca Zleceniobiorcy wykonanie następującej pracy: "+umowa.getStanowisko(), Element.ALIGN_LEFT, 1, 10);
             PdfMain.dodajLinieOpisuBezOdstepu(document, "§2", Element.ALIGN_CENTER, 1);
 //            if (umowa.getDatado()==null) {
 //                paragraph = new Paragraph(new Phrase("na "+umowa.getCzastrwania().replace("biezacy", ""), fontM));
 //            } else {
-                paragraph = new Paragraph(new Phrase("Zleceniobiorca wykonywać będzie zlecenie w okresie "+umowa.getCzastrwania()+" od "+umowa.getDataod()+" do "+umowa.getDatado(), fontM));
 //            }
-            document.add(paragraph);
+            PdfMain.dodajLinieOpisuSpacing(document, "Zleceniobiorca wykonywać będzie zlecenie w okresie "+umowa.getCzastrwania()+" od "+umowa.getDataod()+" do "+umowa.getDatado(), Element.ALIGN_LEFT, 1, 10);
             PdfMain.dodajLinieOpisuBezOdstepu(document, "§3", Element.ALIGN_CENTER, 1);
             String par3 = "Potwierdzeniem czasu wykonywania czynności określonych w § 1 umowy będzie ewidencja godzin wykonywania\n" +
 "obejmująca okres miesiąca kalendarzowego, zwana dalej ewidencją, której wzór stanowi załącznik nr 1 i która " +
@@ -120,31 +141,35 @@ public class PdfUmowaoZlecenia {
 "Zleceniodawcy przez Zleceniobiorcę najpóźniej do godziny 16 ostatniego dnia roboczego miesiąca, którego dotyczy. " +
 "Dane zawarte w ewidencji są akceptowane przez Zleceniodawcę i podlegają kontroli oraz wyjaśnieniu w przypadku " +
 "wątpliwości.";
-            PdfMain.dodajLinieOpisu(document, par3, Element.ALIGN_JUSTIFIED, 1);
+            PdfMain.dodajLinieOpisuSpacing(document, par3, Element.ALIGN_JUSTIFIED, 1, 10);
             PdfMain.dodajLinieOpisuBezOdstepu(document, "§4", Element.ALIGN_CENTER, 1);
             String par4 = "Z tytułu wykonania zleconej pracy Zleceniobiorca otrzyma wynagrodzenie w wysokości: "+umowa.pobierzwynagrodzenieString();
-            PdfMain.dodajLinieOpisu(document, par4, Element.ALIGN_JUSTIFIED, 1);
+            PdfMain.dodajLinieOpisuSpacing(document, par4, Element.ALIGN_JUSTIFIED, 1, 10);
 
             PdfMain.dodajLinieOpisuBezOdstepu(document, "§5", Element.ALIGN_CENTER, 1);
             String par5 = "Wypłata wynagrodzenia nastąpi po wystawieniu rachunku przez Zleceniobiorcę i stwierdzeniu przez Zleceniodawcę terminowego i prawidłowego wykonania zleconej pracy będącej przedmiotem niniejszej umowy.";
-            PdfMain.dodajLinieOpisu(document, par5, Element.ALIGN_JUSTIFIED, 1);
+            PdfMain.dodajLinieOpisuSpacing(document, par5, Element.ALIGN_JUSTIFIED, 1, 10);
             
             PdfMain.dodajLinieOpisuBezOdstepu(document, "§6", Element.ALIGN_CENTER, 1);
             String par6 = "Dane osobowe Zleceniobiorcy podlegają ochronie zgodnie z obowiązującymi przepisami. Zleceniobiorca wyraża zgodę na przetwarzanie danych osobowych w celach ewidencyjnych, podatkowych i ubezpieczeniowych przez Zleceniodawcę, zgodnie z obowiązującymi przepisami o systemie ubezpieczeń społecznych oraz o podatku dochodowym od osób fizycznych.";
-            PdfMain.dodajLinieOpisu(document, par5, Element.ALIGN_JUSTIFIED, 1);
+            PdfMain.dodajLinieOpisuSpacing(document, par6, Element.ALIGN_JUSTIFIED, 1, 10);
             
             PdfMain.dodajLinieOpisuBezOdstepu(document, "§7", Element.ALIGN_CENTER, 1);
-            String par7 = "";
-            PdfMain.dodajLinieOpisu(document, par7, Element.ALIGN_JUSTIFIED, 1);
+            String par7 = "W sprawach nieunormowanych niniejszą umową mają zastosowanie przepisy Kodeksu Cywilnego.";
+            PdfMain.dodajLinieOpisuSpacing(document, par7, Element.ALIGN_JUSTIFIED, 1, 10);
             
-            PdfMain.dodajElementListy(document, "4) Wynagrodzenie: ", umowa.pobierzwynagrodzenieString(), fontM);
-            PdfMain.dodajElementListy(document, "5) Inne warunki zatrudnienia: ", umowa.getInnewarunkizatrudnienia(), fontM);
-            PdfMain.dodajElementListy(document, "6) termin rozpoczęcia pracy: ", umowa.getTerminrozpoczeciapracy(), fontM);
-            PdfMain.dodajElementListy(document, "7) dopuszczalna liczba godzin, których przekroczenie uprawnia pracownika do dodatku z art. 151(1)§1 KP", umowa.getDopuszczalnailoscgodzin(), fontM);
-            paragraph = new Paragraph(new Phrase("2. Przyczyny uzasadniające zawarcie umowy o pracę na czas nieokreślony w celu, o którym mowa w art. 25(1)§4pkt.1-3,4: ", fontM));
-            document.add(paragraph);
-            paragraph = new Paragraph(new Phrase(umowa.getPrzyczynaumowaokreslony(), fontM));
-            document.add(paragraph);
+            PdfMain.dodajLinieOpisuBezOdstepu(document, "§8", Element.ALIGN_CENTER, 1);
+            String par8 = "Postanowienia dodatkowe: "+umowa.getInnewarunkizatrudnienia();
+            PdfMain.dodajLinieOpisuSpacing(document, par8, Element.ALIGN_JUSTIFIED, 1, 10);
+            
+            PdfMain.dodajLinieOpisuBezOdstepu(document, "§9", Element.ALIGN_CENTER, 1);
+            String par9 = "Spory mogące wyniknąć z realizacji niniejszej umowy będą rozstrzygane przez sąd właściwy rzeczowo dla siedziby Zleceniodawcy.";
+            PdfMain.dodajLinieOpisuSpacing(document, par9, Element.ALIGN_JUSTIFIED, 1, 10);
+            
+            PdfMain.dodajLinieOpisuBezOdstepu(document, "§10", Element.ALIGN_CENTER, 1);
+            String par10 = "Umowa została sporządzona w dwóch jednobrzmiących egzemplarzach, po jednym dla każdej ze stron.";
+            PdfMain.dodajLinieOpisuSpacing(document, par10, Element.ALIGN_JUSTIFIED, 1, 10);
+            
             document.add(Chunk.NEWLINE);
             document.add(Chunk.NEWLINE);
             document.add(Chunk.NEWLINE);

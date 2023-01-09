@@ -259,9 +259,11 @@
                 </p:panelGrid>
                     <p:panelGrid columns="1">
                         <p:outputLabel value="inne warunki zatr." />
-                        <p:textEditor id="dodatkowe" value="#{umowaGrupowoView.selected.innewarunkizatrudnienia}"  styleClass="dataUmowy" secure="false" height="80"/>
+                        <p:textEditor id="dodatkowe" value="#{umowaGrupowoView.selected.innewarunkizatrudnienia}"  styleClass="dataUmowy" secure="false" height="80" allowFormatting="false" toolbarVisible="false" style="width: 800px;">
+                           
+                        </p:textEditor>
                     </p:panelGrid>
-                <p:commandButton styleClass="buttonnorm" actionListener="#{umowaGrupowoView.drukujumoweselected}" value="Drukuj" update="north, @(form)"/>
+                    <p:commandButton styleClass="buttonnorm" actionListener="#{umowaGrupowoView.drukujumoweselectedLista()}" value="Drukuj" update="north, @(form)"/>
 <!--                <p:commandButton styleClass="buttonnorm2" actionListener="#{umowaGrupowoView.createzlecenie}" value="Dodaj" update="north, @(form)"  rendered="#{umowaGrupowoView.selected.id eq null}"/>
                 <p:commandButton styleClass="buttonnorm2" value="Anuluj"  actionListener="#{umowaGrupowoView.cancel}"  update="north, @(form)" process="@this"/>-->
             </h:panelGroup>

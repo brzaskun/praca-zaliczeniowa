@@ -162,7 +162,7 @@ public class Umowa implements Serializable {
     private String opiszawodu;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "umowa")
     private List<Rachunekdoumowyzlecenia> rachunekdoumowyzleceniaList;
-    @Size(max = 256)
+    @Size(max = 1256)
     @Column(name = "innewarunkizatrudnienia")
     private String innewarunkizatrudnienia;
     @Column(name = "terminrozpoczeciapracy")
@@ -624,7 +624,8 @@ public class Umowa implements Serializable {
     }
 
     public void setInnewarunkizatrudnienia(String innewarunkizatrudnienia) {
-        this.innewarunkizatrudnienia = innewarunkizatrudnienia;
+        String zwrot = innewarunkizatrudnienia.replace("<p>", "").replace("</p>", "");
+        this.innewarunkizatrudnienia = zwrot;
     }
 
     public String getTerminrozpoczeciapracy() {

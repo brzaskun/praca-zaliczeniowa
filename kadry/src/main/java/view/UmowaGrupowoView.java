@@ -85,12 +85,13 @@ public class UmowaGrupowoView implements Serializable {
         }
     }
      
-     public void drukujumoweselected() {
+     public void drukujumoweselectedLista() {
         if (selected != null) {
-            if (selected.getAngaz()==null) {
-                selected.setAngaz(wpisView.getAngaz());
-            }
-            PdfUmowaoZlecenia.drukuj(selected);
+             if (listaumowy.getTarget()==null||listaumowy.getTarget().size()==0) {
+                Msg.msg("w", "Nie ma wybranych pracowników");
+            } else {
+                PdfUmowaoZlecenia.drukujwszystkie(selected, wpisView.getFirma(), listaumowy.getTarget());
+             }
         } else {
             Msg.msg("e", "Nie wybrano umowy");
         }
