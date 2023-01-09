@@ -59,16 +59,18 @@ public class ZmiennaPotraceniaView  implements Serializable {
     public void create() {
       if (selected!=null && selected.getSkladnikpotracenia()!=null) {
           try {
-            if (lista!=null && lista.size()>0) {
-                Msg.msg("Do składnika potrąceń można dodać tylko jedną zmienną");
+            if (selected.getId()!=null) {
+                zmiennaPotraceniaFacade.edit(selected);
+                selected = new Zmiennapotracenia();
+                Msg.msg("Edytowano potrącenie");
             } else {
                 zmiennaPotraceniaFacade.create(selected);
                 lista.add(selected);
                 selected = new Zmiennapotracenia();
-                Msg.msg("Dodano zmienną wyn");
+                Msg.msg("Dodano potrącenie");
             }
           } catch (Exception e) {
-              Msg.msg("e", "Błąd - nie dodano zmiennej wyn");
+              Msg.msg("e", "Błąd - nie dodano potrącenia");
           }
       } else {
           Msg.msg("e", "Nie wybrano składnika");
@@ -85,6 +87,19 @@ public class ZmiennaPotraceniaView  implements Serializable {
 //        } catch (Exception e) {}
 //    }
 
+    
+    public void wybierzdoedycji(Zmiennapotracenia selected) {
+      if (selected!=null) {
+          try {
+            this.selected  = selected;
+            Msg.msg("Wybrano potrącenie do edycji");
+          } catch (Exception e) {
+              Msg.msg("e", "Błąd edycji potrącenia");
+          }
+      } else {
+          Msg.msg("e", "Nie wybrano składnika");
+      }
+    }
     public void usunZmiennaPotr(Zmiennapotracenia zmienna) {
         if (zmienna!=null) {
             zmiennaPotraceniaFacade.remove(zmienna);

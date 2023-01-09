@@ -43,7 +43,7 @@ public class NaliczeniepotracenieBean {
             if (DataBean.czysiemiesci(kalendarz.getPierwszyDzien(), kalendarz.getOstatniDzien(), p.getDataod(), p.getDatado())) {
                 double juzrozliczono = podsumuj(pasekwynagrodzen, skladnikpotracenia);
                 if (p.getKwotastala()!=0.0) {
-                    if (p.getDatado()==null && Data.czyjestprzed(p.getDatado(), pasekwynagrodzen.getRok(), pasekwynagrodzen.getMc())) {
+                    if (p.getDatado()==null || Data.czyjestprzed(p.getDatado(), pasekwynagrodzen.getRok(), pasekwynagrodzen.getMc())) {
                         if (p.getKwotastala()<pasekwynagrodzen.getNettoprzedpotraceniami()) {
                             zwrot.setKwota(Z.z(p.getKwotastala()));
                             zwrot.setPasekwynagrodzen(pasekwynagrodzen);
