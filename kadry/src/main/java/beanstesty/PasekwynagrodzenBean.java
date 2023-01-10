@@ -1372,10 +1372,10 @@ public class PasekwynagrodzenBean {
         return suma;
     }
     
-    public static double sumabruttopodstawaopodpopmce(PasekwynagrodzenFacade pasekwynagrodzenFacade, Kalendarzmiesiac p, double prog) {
-        List<Pasekwynagrodzen> paskipodatnika = pasekwynagrodzenFacade.findByRokAngaz(p.getRok(), p.getAngaz());
+    public static double sumabruttopodstawaopodpopmce(PasekwynagrodzenFacade pasekwynagrodzenFacade, String rokwyplaty, String mcwyplaty, Angaz angaz, double prog) {
+        List<Pasekwynagrodzen> paskipodatnika = pasekwynagrodzenFacade.findByRokAngaz(rokwyplaty, angaz);
         double suma = 0.0;
-        int mckalendarza = p.getMcI();
+        int mckalendarza = Integer.parseInt(mcwyplaty);
         for (Pasekwynagrodzen r : paskipodatnika) {
             if (r.getMcI()<=mckalendarza) {
                 suma = suma+r.getBrutto();
