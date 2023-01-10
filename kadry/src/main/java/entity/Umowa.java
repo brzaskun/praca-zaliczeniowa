@@ -859,6 +859,15 @@ public class Umowa implements Serializable {
         return "Zrobić pole opisowe wynagrodzenie w umowie!";
     }
 
+    public String pobierzwynagrodzenieString(double wynagrodzeniegodzinowe) {
+        String zwrot = "brak stawki";
+        if (wynagrodzeniegodzinowe>0.0) {
+            String sl = String.valueOf(wynagrodzeniegodzinowe);
+            zwrot = f.F.curr(wynagrodzeniegodzinowe)+"zł - słownie: "+slownie.Slownie.slownie(sl);
+        }
+        return zwrot;
+    }
+
     
    
 }

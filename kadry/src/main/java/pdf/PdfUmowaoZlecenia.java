@@ -42,7 +42,7 @@ public class PdfUmowaoZlecenia {
     
     
     
-    public static void drukuj(Umowa umowa) {
+    public static void drukuj(Umowa umowa, double wynagrodzeniegodzinowe) {
         try {
             String nazwa = umowa.getAngaz().getPracownik().getPesel()+"umowa.pdf";
             if (umowa != null) {
@@ -50,7 +50,7 @@ public class PdfUmowaoZlecenia {
                 PdfWriter writer = inicjacjaWritera(document, nazwa);
                 naglowekStopkaP(writer);
                 otwarcieDokumentu(document, nazwa);
-                dodajtresc(umowa, document);
+                dodajtresc(umowa, document, wynagrodzeniegodzinowe);
                 finalizacjaDokumentuQR(document,nazwa);
                 String f = "pokazwydruk('"+nazwa+"');";
                 PrimeFaces.current().executeScript(f);
@@ -63,7 +63,7 @@ public class PdfUmowaoZlecenia {
     }
     
     
-    public static void drukujwszystkie(Umowa umowa, FirmaKadry firmaKadry, List<Angaz> angazlista) {
+    public static void drukujwszystkie(Umowa umowa, FirmaKadry firmaKadry, List<Angaz> angazlista, double wynagrodzeniegodzinowe) {
         try {
             String nazwa = firmaKadry.getNip()+"umowyzlecenia.pdf";
             Document document = PdfMain.inicjacjaA4Portrait(80,60);
@@ -76,7 +76,7 @@ public class PdfUmowaoZlecenia {
                     document.newPage();
                 }
                 umowa.setAngaz(an);
-                dodajtresc(umowa, document);
+                dodajtresc(umowa, document, wynagrodzeniegodzinowe);
                 licznik++;
             }
             finalizacjaDokumentuQR(document,nazwa);
@@ -87,7 +87,7 @@ public class PdfUmowaoZlecenia {
         }
     }
     
-    private static void dodajtresc(Umowa umowa, Document document) {
+    private static void dodajtresc(Umowa umowa, Document document, double wynagrodzeniegodzinowe) {
         try {
             BaseFont helvetica = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
             Font font = new Font(helvetica, 11);
@@ -143,7 +143,7 @@ public class PdfUmowaoZlecenia {
 "wątpliwości.";
             PdfMain.dodajLinieOpisuSpacing(document, par3, Element.ALIGN_JUSTIFIED, 1, 10);
             PdfMain.dodajLinieOpisuBezOdstepu(document, "§4", Element.ALIGN_CENTER, 1);
-            String par4 = "Z tytułu wykonania zleconej pracy Zleceniobiorca otrzyma wynagrodzenie w wysokości: "+umowa.pobierzwynagrodzenieString();
+            String par4 = "Z tytułu wykonania zleconej pracy Zleceniobiorca otrzyma wynagrodzenie w wysokości: "+umowa.pobierzwynagrodzenieString(wynagrodzeniegodzinowe);
             PdfMain.dodajLinieOpisuSpacing(document, par4, Element.ALIGN_JUSTIFIED, 1, 10);
 
             PdfMain.dodajLinieOpisuBezOdstepu(document, "§5", Element.ALIGN_CENTER, 1);

@@ -90,7 +90,7 @@ public class UmowaGrupowoView implements Serializable {
              if (listaumowy.getTarget()==null||listaumowy.getTarget().size()==0) {
                 Msg.msg("w", "Nie ma wybranych pracowników");
             } else {
-                PdfUmowaoZlecenia.drukujwszystkie(selected, wpisView.getFirma(), listaumowy.getTarget());
+                PdfUmowaoZlecenia.drukujwszystkie(selected, wpisView.getFirma(), listaumowy.getTarget(), wynagrodzeniegodzinowe);
              }
         } else {
             Msg.msg("e", "Nie wybrano umowy");
