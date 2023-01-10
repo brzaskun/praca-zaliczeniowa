@@ -145,7 +145,7 @@
                         <p:commandButton icon="pi pi-user-edit"  actionListener="#{umowaView.edytuj(itemumowa)}" onclick="PF('dialogumowatresc').show();" update="north akordeon:UmowaListFormZlecenie @(form)"/>
                     </p:column>-->
                     <p:column width="40" style="text-align: center;">
-                        <p:commandButton icon="pi pi-print"  actionListener="#{umowaView.drukujzlecenie(itemumowa)}" onclick="PF('dialogumowatresc').show();" update="north akordeon:UmowaListFormZlecenie @(form)"/>
+                        <p:commandButton icon="pi pi-print"  actionListener="#{umowaView.drukujzlecenie(itemumowa)}" update="north akordeon:UmowaListFormZlecenie @(form)"/>
                     </p:column>
                     <p:column width="40" style="text-align: center;">
                         <p:commandButton icon="pi pi-trash" actionListener="#{umowaView.usunzlecenie(itemumowa)}" update="north @(form)  akordeon:UmowaListFormZlecenie">
