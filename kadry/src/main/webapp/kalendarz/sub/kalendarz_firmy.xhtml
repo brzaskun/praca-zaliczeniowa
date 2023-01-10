@@ -8,7 +8,7 @@
     xmlns:bcf="http://brzaskun.com/facelets"
 >
     <p:outputPanel style="height: 180px">
-            <p:panelGrid columns="3">
+            <p:panelGrid columns="4">
                 <h:form id="KalendarzwzorCreateForm">
                     <h:panelGroup id="display">
                         <p:panelGrid columns="2" rendered="#{kalendarzwzorView.selected != null}">
@@ -41,13 +41,13 @@
                         </p:column>
                     </p:dataTable>
                 </h:form>
-                <h:form id="KalendarzwzorCopyForm">
-                    <p:outputPanel>
+                <h:form id="KalendarzwzorCopyForm" >
+                    <p:outputPanel rendered="#{wpisView.uzer.login eq '2'}">
                         <p:commandButton value="generuj z globalnego" styleClass="buttonnorm" actionListener="#{kalendarzwzorView.globalnie}" update="akordeon:KalendarzwzormiesiacSaRokForm"/>
                     </p:outputPanel>
                 </h:form>
                 <h:form id="KalendarzwzorCopyFormTMP">
-                    <p:outputPanel>
+                    <p:outputPanel rendered="#{wpisView.uzer.login eq '2'}">
                         <p:commandButton value="wygeneruj globalne" styleClass="buttonnorm" actionListener="#{kalendarzwzorView.taxmannaglobalnie}" update="akordeon:KalendarzwzormiesiacSaRokForm"/>
                     </p:outputPanel>
                 </h:form>

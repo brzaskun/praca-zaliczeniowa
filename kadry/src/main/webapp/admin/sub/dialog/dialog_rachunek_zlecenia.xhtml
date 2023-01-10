@@ -16,7 +16,7 @@
     <p:dialog id="dialograchunekzlecenia" header="Wystawianie rachunku do umowy zlecenia" widgetVar="dialograchunekzlecenia"  
               resizable="false"  onShow="ustawdialog('dialograchunekzlecenia','centertile',1650,800);zmienwyglad()" closeOnEscape="true" onHide="resetujdialog('dialograchunekzlecenia');" 
               fitViewport="true">
-        <p:ajax event="open" listener="#{rachunekZlecenieView.init()}" update="RachunekZleceniaForm" global="false"/>
+        <p:ajax event="open" listener="#{rachunekZlecenieView.init(wpisView.umowa)}" update="RachunekZleceniaForm" global="false"/>
             <h:form  styleClass="formadmin" id="RachunekZleceniaForm">
                 <p:outputPanel rendered="#{wpisView.umowa.umowakodzus.praca}">
                     <h:outputText value="Bieżąca umowa to umowa o pracę. Nie można wygenerować rachunku" style="color: green;"/>
@@ -86,6 +86,10 @@
                     <bcf:outputplprocent value="#{rachunekZlecenieView.rachunekdoumowyzlecenia.procentkosztowuzyskaniaDisplay}"/>
                 </p:panelGrid>
                 <p:panelGrid columns="2" style="margin-top: 10px;">
+                    <p:outputLabel value="status studenta:"/>
+                    <p:selectBooleanCheckbox value="#{rachunekZlecenieView.rachunekdoumowyzlecenia.statusstudenta}" styleClass="czekpole"/>
+                    <p:outputLabel value="odliczać kwotę wolną:"/>
+                    <p:selectBooleanCheckbox value="#{rachunekZlecenieView.rachunekdoumowyzlecenia.odliczackwotewolna}" styleClass="czekpole"/>
                     <p:outputLabel value="naliczać społeczne:"/>
                     <p:selectBooleanCheckbox value="#{rachunekZlecenieView.rachunekdoumowyzlecenia.spoleczne}" styleClass="czekpole"/>
                     <p:outputLabel value="naliczać chorobowe:"/>

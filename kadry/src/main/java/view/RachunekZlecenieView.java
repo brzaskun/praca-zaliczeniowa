@@ -60,7 +60,7 @@ public class RachunekZlecenieView  implements Serializable {
         lista = new ArrayList<>();
         for (Umowa umowa : umowyzlecenia) {
             umowabiezaca = umowa;
-            init();
+            init(umowa);
             if (rachunekdoumowyzlecenia!=null) {
                 lista.add(rachunekdoumowyzlecenia);
                 rachunekdoumowyzlecenia = null;
@@ -70,8 +70,7 @@ public class RachunekZlecenieView  implements Serializable {
     }
     
 
-    public void init() {
-        umowabiezaca = wpisView.getUmowa();
+    public void init(Umowa umowabiezaca) {
             if (umowabiezaca != null && umowabiezaca.getUmowakodzus().isZlecenie()) {
             umowabiezaca = umowaFacade.findById(umowabiezaca.getId());
             String datado = umowabiezaca.getDatado();
@@ -255,7 +254,7 @@ public class RachunekZlecenieView  implements Serializable {
     public void usun() {
         if (rachunekdoumowyzlecenia!=null) {
             rachunekdoumowyzleceniaFacade.remove(rachunekdoumowyzlecenia);
-            init();
+            init(wpisView.getUmowa());
             Msg.msg("Usunięto rachunek");
         }
     }

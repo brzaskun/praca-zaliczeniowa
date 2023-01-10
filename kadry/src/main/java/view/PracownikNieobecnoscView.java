@@ -128,7 +128,7 @@ public class PracownikNieobecnoscView  implements Serializable {
             List<Umowa> umowy = umowaFacade.findByAngaz(wpisView.getAngaz());
             urlopprezentacja.setWymiarokresbiezacy(obliczwymiarwgodzinach(umowy, wpisView.getAngaz().pobierzetat(stannadzien)));
             urlopprezentacja.setDoprzeniesienia(urlopprezentacja.getWymiarokresbiezacy()-urlopprezentacja.getWykorzystanierokbiezacy()-urlopprezentacja.getWykorzystanierokbiezacyekwiwalent());
-            Msg.msg("Pobrano dane urlopowe");
+            //Msg.msg("Pobrano dane urlopowe");
         }
     }
     public void pobierzoddelegowanie() {
@@ -139,7 +139,7 @@ public class PracownikNieobecnoscView  implements Serializable {
             List<Umowa> umowy = umowaFacade.findByAngaz(wpisView.getAngaz());
             oddelegowanieprezentacja.setWymiarokresbiezacy(obliczwymiarwgodzinach(umowy, wpisView.getAngaz().pobierzetat(stannadzien)));
             oddelegowanieprezentacja.setDoprzeniesienia(oddelegowanieprezentacja.getWymiarokresbiezacy()-oddelegowanieprezentacja.getWykorzystanierokbiezacy()-oddelegowanieprezentacja.getWykorzystanierokbiezacyekwiwalent());
-            Msg.msg("Pobrano oddelegowania");
+            //Msg.msg("Pobrano oddelegowania");
         }
     }
     
@@ -152,7 +152,7 @@ public class PracownikNieobecnoscView  implements Serializable {
             chorobaprezentacja.setWymiarokresbiezacy(obliczwymiarwgodzinachchoroba(umowy, wpisView.getAngaz().pobierzetat(stannadzien)));
             chorobaprezentacja.setDoprzeniesienia(chorobaprezentacja.getWymiarokresbiezacy()-chorobaprezentacja.getWykorzystanierokbiezacy()-chorobaprezentacja.getWykorzystanierokbiezacyekwiwalent());
             wiekdlachoroby = obliczwiek(wpisView.getAngaz().getPracownik());
-            Msg.msg("Pobrano dane chorobowe");
+            //Msg.msg("Pobrano dane chorobowe");
         }
     }
     
@@ -166,7 +166,7 @@ public class PracownikNieobecnoscView  implements Serializable {
             List<Umowa> umowy = umowaFacade.findByAngaz(wpisView.getAngaz());
             zasilekprezentacja.setWymiarokresbiezacy(obliczwymiarwgodzinachzasilek(umowy, wpisView.getAngaz().pobierzetat(stannadzien)));
             zasilekprezentacja.setDoprzeniesienia(zasilekprezentacja.getWymiarokresbiezacy()-zasilekprezentacja.getWykorzystanierokbiezacy()-zasilekprezentacja.getWykorzystanierokbiezacyekwiwalent());
-            Msg.msg("Pobrano dni zasiłkowe");
+            //Msg.msg("Pobrano dni zasiłkowe");
         }
     }
      

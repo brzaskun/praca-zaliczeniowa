@@ -122,6 +122,10 @@ public class Rachunekdoumowyzlecenia implements Serializable {
     private Umowa umowa;
     @Column(name="importowany")
     private boolean importowany;
+    @Column(name="statusstudenta")
+    private boolean statusstudenta;
+    @Column(name="odliczackwotewolna")
+    private boolean odliczackwotewolna;
 
     public Rachunekdoumowyzlecenia() {
     }
@@ -392,6 +396,22 @@ public class Rachunekdoumowyzlecenia implements Serializable {
 
     public void setDatawaluty(String datawaluty) {
         this.datawaluty = datawaluty;
+    }
+
+    public boolean isStatusstudenta() {
+        return statusstudenta;
+    }
+
+    public void setStatusstudenta(boolean statusstudenta) {
+        this.statusstudenta = statusstudenta;
+    }
+
+    public boolean isOdliczackwotewolna() {
+        return odliczackwotewolna;
+    }
+
+    public void setOdliczackwotewolna(boolean odliczackwotewolna) {
+        this.odliczackwotewolna = odliczackwotewolna;
     }
 
     

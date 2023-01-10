@@ -77,8 +77,8 @@ public class UpdateClassView   implements Serializable {
         kalendarzmiesiacView.init();
         nieobecnoscView.init();
         pracownikNieobecnoscView.init();
-        kartaWynagrodzenView.pobierzdane(wpisView.getAngaz());
-        rachunekZlecenieView.init();
+        //kartaWynagrodzenView.pobierzdane(wpisView.getAngaz());
+        //rachunekZlecenieView.init();
         
     }
     

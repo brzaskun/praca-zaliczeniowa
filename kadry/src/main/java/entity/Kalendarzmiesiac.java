@@ -268,7 +268,7 @@ private static final long serialVersionUID = 1L;
         double roboczenawyk = 0;
         if (this.dzienList!=null) {
             for (Dzien d : dzienList) {
-                if (d.getTypdnia()==0&&!d.getKod().equals("Z")) {
+                if (d.getTypdnia()==0&&(d.getKod()==null||(d.getKod()!=null&&!d.getKod().equals("Z")))) {
                     roboczenalicz = roboczenalicz+d.getNormagodzin();
                     if (d.getPrzepracowano()>0) {
                         roboczenawyk = roboczenawyk+d.getPrzepracowano();
@@ -287,7 +287,7 @@ private static final long serialVersionUID = 1L;
         double roboczenawyk = 0;
         if (this.dzienList!=null) {
             for (Dzien d : dzienList) {
-                if (d.getTypdnia()==0&&d.getKod().equals("Z")) {
+                if (d.getTypdnia()==0&&d.getKod()!=null&&d.getKod().equals("Z")) {
                     roboczenalicz = roboczenalicz+d.getNormagodzin();
                     if (d.getPrzepracowano()>0) {
                         roboczenawyk = roboczenawyk+d.getPrzepracowano();
