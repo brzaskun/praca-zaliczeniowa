@@ -134,7 +134,7 @@ public class PasekwynagrodzenBean {
         boolean student = kalendarz.getAngaz().isStudent();
         if (pasek.isPraca()==true && po26roku==false) {
             pasek.setDo26lat(true);
-        } else if (pasek.isPraca()==false && po26roku==false && student) {
+        } else if (pasek.isPraca()==false && po26roku==false) {
             pasek.setDo26lat(true);
         } else {
             pasek.setDo26lat(false);
