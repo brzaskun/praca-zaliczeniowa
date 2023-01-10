@@ -133,7 +133,7 @@ public class PdfUmowaoZlecenia {
 //                paragraph = new Paragraph(new Phrase("na "+umowa.getCzastrwania().replace("biezacy", ""), fontM));
 //            } else {
 //            }
-            PdfMain.dodajLinieOpisuSpacing(document, "Zleceniobiorca wykonywać będzie zlecenie w okresie "+umowa.getCzastrwania()+" od "+umowa.getDataod()+" do "+umowa.getDatado(), Element.ALIGN_LEFT, 1, 10);
+            PdfMain.dodajLinieOpisuSpacing(document, "Zleceniobiorca wykonywać będzie zlecenie w okresie od "+umowa.getDataod()+" do "+umowa.getDatado(), Element.ALIGN_LEFT, 1, 10);
             PdfMain.dodajLinieOpisuBezOdstepu(document, "§3", Element.ALIGN_CENTER, 1);
             String par3 = "Potwierdzeniem czasu wykonywania czynności określonych w § 1 umowy będzie ewidencja godzin wykonywania\n" +
 "obejmująca okres miesiąca kalendarzowego, zwana dalej ewidencją, której wzór stanowi załącznik nr 1 i która " +
