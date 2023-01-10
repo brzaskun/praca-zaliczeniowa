@@ -101,9 +101,10 @@
                     <p:dataTable id="datalist" value="#{kalendarzmiesiacView.selected.dzienList}" var="itemkalendarz"
                                  rowKey="#{itemkalendarz.id}"
                                  style="height: 500px; overflow-y: scroll; width: 1200px;" sortMode="single"
-                                 emptyMessage="Brak zapisów"
+                                 emptyMessage="Brak zapisów" editable="true" editMode="cell" editInitEvent="dblclick"
                                  selection="#{kalendarzmiesiacView.listaselected}" selectionMode="single"
                                  >
+
 
 <!--                        <p:column>
                             <f:facet name="header">
@@ -127,7 +128,17 @@
                             <f:facet name="header">
                                 <h:outputText value="norma godzin"/>
                             </f:facet>
-                            <h:outputText value="#{itemkalendarz.normagodzin}" style="#{itemkalendarz.normagodzin eq 0 ? 'color: gray':''}"/>
+                            
+                            <p:cellEditor>
+                                <f:facet name="output">
+                                    <h:outputText value="#{itemkalendarz.normagodzin}" style="#{itemkalendarz.normagodzin eq 0 ? 'color: gray':''}"/>
+                                </f:facet>
+                                <f:facet name="input">
+                                    <p:inputText value="#{itemkalendarz.normagodzin}"/>
+                                </f:facet>
+                            </p:cellEditor>
+                            
+                            
                         </p:column>
                         <p:column width="30" style="text-align: center;">
                             <f:facet name="header">
