@@ -85,9 +85,20 @@
                     <p:panelGrid columns="2">
 
                         <p:outputLabel value="wynagrodzenie miesięczne" />
-                        <bcf:innum value="#{umowaView.wynagrodzeniemiesieczne}"/>
+                        <bcf:innum value="#{umowaView.selected.wynagrodzeniemiesieczne}"/>
                         <p:outputLabel value="wynagrodzenie godzinowe" />
-                        <bcf:innum value="#{umowaView.wynagrodzeniegodzinowe}"/>
+                        <bcf:innum value="#{umowaView.selected.wynagrodzeniegodzinowe}"/>
+                        <p:outputLabel value="stawka godz. oddeleg." />
+                        <bcf:innum value="#{umowaView.selected.wynagrodzenieoddelegowanie}"/>
+                          <p:outputLabel value="waluta odelegowanie" for="waluta" />
+                         <p:selectOneMenu id="waluta"  value="#{umowaView.selected.symbolwalutyoddelegowanie}" 
+                                             style="width: 100px;"  >
+                                <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true"/>
+                                <f:selectItem itemLabel="PLN" itemValue="PLN"/>
+                                <f:selectItem itemLabel="EUR" itemValue="EUR"/>
+                                <f:selectItem itemLabel="GBP" itemValue="GBP"/>
+                                <f:selectItem itemLabel="USD" itemValue="USD"/>
+                            </p:selectOneMenu>
                         <!--                        <p:outputLabel value="data wprowadzenia do systemu" for="datasystem1" />
                                                 <p:inputText id="datasystem1" value="#{umowaView.selected.datasystem}" title="data wprowadzenia do systemu"  placeholder="____-__-__"  styleClass="dataUmowy"/>-->
                         <h:outputText value="etat"/>
@@ -111,7 +122,7 @@
                 <h:outputText value="Dodajesz nową umowę zlecenia i o dzieło. Osoba #{wpisView.pracownik.nazwiskoImie}. Wiek #{wpisView.pracownik.wiek}" style="color:green; margin-left: 50px; font-weight: bolder;" rendered="#{umowaView.selected.id eq null}"/>
                 <h:outputText value="Zmieniasz istniejącą umowę. Osoba #{wpisView.pracownik.nazwiskoImie}. Wiek #{wpisView.pracownik.wiek}" style="color:blue; margin-left: 50px; font-weight: bolder;" rendered="#{umowaView.selected.id ne null}"/>
                 <h:outputText value="STUDENT" rendered="#{wpisView.angaz.student}"/>
-                <p:panelGrid columns="2" rendered="#{umowaView.selected != null}">
+                <p:panelGrid columns="3" rendered="#{umowaView.selected != null}" style="width: 1300px;">
                     <p:panelGrid columns="2">
                         <p:outputLabel value="angaz" for="angaz" />
                         <h:outputText id="angaz" value="#{wpisView.angaz.pracownik.nazwiskoImie}"/>
@@ -136,7 +147,7 @@
                                            itemValue="#{czastrwaniaItem}" itemLabel="#{czastrwaniaItem.opis}"/>
                         </p:selectOneMenu>
                         <p:outputLabel value="opis stanowiska" for="stanowisko" />
-                        <p:inputText id="stanowisko" value="#{umowaView.selected.stanowisko}" title="stanowisko" style="width: 200px;"/>
+                        <p:inputText id="stanowisko" value="#{umowaView.selected.stanowisko}" title="stanowisko" style="width: 350px;"/>
                     </p:panelGrid>
                     <p:panelGrid columns="2">
                         <p:outputLabel value="data zawarcia"    for="datazawarcia" />
@@ -162,14 +173,14 @@
                     <p:panelGrid columns="2">
 
 
-                        <p:outputLabel value="kod zawodu" for="kodzawodu" />
+<!--                        <p:outputLabel value="kod zawodu" for="kodzawodu" />
                         <p:autoComplete id="kodzawodu" value="#{umowaView.selected.kodzawodu}" converter="#{kodyzawodowConverter}" style="width: 300px;" cache="true" cacheTimeout="2000"
                                         minQueryLength="3" maxResults="15" maxlength="25" itemtipMyPosition="rightbottom" queryDelay="10" size="50"
                                         completeMethod="#{kodyzawodowConverter.complete}" var="kodzawoduItem" 
                                         itemLabel="#{kodzawoduItem.nazwa}" itemValue="#{kodzawoduItem}" 
                                         >
                             <p:ajax event="query" global="false"/>
-                        </p:autoComplete>
+                        </p:autoComplete>-->
                         <p:outputLabel value="nfz" for="nfz" />
                         <p:inputText id="nfz" value="#{umowaView.selected.nfz}" title="nfz}"  required="true"/>
                         <p:outputLabel value="nie licz FGSP" for="nieliczFGSP" />
@@ -179,9 +190,20 @@
                     </p:panelGrid>
                     <p:panelGrid columns="2">
                         <p:outputLabel value="wynagrodzenie miesięczne" />
-                        <bcf:innum value="#{umowaView.wynagrodzeniemiesieczne}"/>
+                        <bcf:innum value="#{umowaView.selected.wynagrodzeniemiesieczne}"/>
                         <p:outputLabel value="wynagrodzenie godzinowe" />
-                        <bcf:innum value="#{umowaView.wynagrodzeniegodzinowe}"/>
+                        <bcf:innum value="#{umowaView.selected.wynagrodzeniegodzinowe}"/>
+                        <p:outputLabel value="stawka godz. oddeleg." />
+                        <p:inputNumber value="#{umowaView.selected.wynagrodzenieoddelegowanie}"  decimalPlaces="2" decimalSeparator="," inputStyle="text-align: right"/>
+                         <p:outputLabel value="waluta odelegowanie" for="walutaz" />
+                         <p:selectOneMenu id="walutaz"  value="#{umowaView.selected.symbolwalutyoddelegowanie}" 
+                                             style="width: 100px;"  >
+                                <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true"/>
+                                <f:selectItem itemLabel="PLN" itemValue="PLN"/>
+                                <f:selectItem itemLabel="EUR" itemValue="EUR"/>
+                                <f:selectItem itemLabel="GBP" itemValue="GBP"/>
+                                <f:selectItem itemLabel="USD" itemValue="USD"/>
+                            </p:selectOneMenu>
                         <p:outputLabel value="chorobowe" for="chorobowe" />
                         <p:selectBooleanCheckbox id="chorobowe" value="#{umowaView.selected.chorobowe}" >
                             <p:ajax event="change" listener="#{umowaView.edytujumowe(selected)}" global="false"/>
@@ -206,10 +228,14 @@
                         <p:selectBooleanCheckbox id="zdrowotne" value="#{umowaView.selected.zdrowotne}" >
                             <p:ajax event="change" listener="#{umowaView.edytujumowe(selected)}" global="false"/>
                         </p:selectBooleanCheckbox>
-                        <p:outputLabel value="inne warunki zatr." />
-                        <p:inputText id="dodatkowe" value="#{umowaView.selected.innewarunkizatrudnienia}" title="inne warunki zatrudnienia"  styleClass="dataUmowy" size="50"/>
                     </p:panelGrid>
                 </p:panelGrid>
+                 <p:panelGrid columns="2">
+                        <p:outputLabel value="inne warunki zatr." />
+                        <p:textEditor id="dodatkowe" value="#{umowaGrupowoView.selected.innewarunkizatrudnienia}"  styleClass="dataUmowy" secure="false" height="80" allowFormatting="false" toolbarVisible="false" style="width: 800px;">
+                           
+                        </p:textEditor>
+                    </p:panelGrid>
                 <p:commandButton styleClass="buttonnorm" actionListener="#{umowaView.edit}" value="Edytuj" update="north, @(form)" rendered="#{umowaView.selected.id ne null}"/>
                 <p:commandButton styleClass="buttonnorm2" actionListener="#{umowaView.createzlecenie}" value="Dodaj" update="north, @(form)"  rendered="#{umowaView.selected.id eq null}"/>
                 <p:commandButton styleClass="buttonnorm2" value="Anuluj"  actionListener="#{umowaView.cancel}"  update="north, @(form)" process="@this"/>

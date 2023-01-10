@@ -188,6 +188,14 @@ public class Umowa implements Serializable {
     private int dni;
     @Column(name = "licznikumow")
     private int licznikumow;
+    @Column(name = "wynagrodzeniemiesieczne")
+    private double wynagrodzeniemiesieczne;
+    @Column(name = "wynagrodzeniegodzinowe")
+    private double wynagrodzeniegodzinowe;
+    @Column(name = "wynagrodzenieoddelegowanie")
+    private double wynagrodzenieoddelegowanie;
+    @Column(name = "symbolwalutyoddelegowanie")
+    private String symbolwalutyoddelegowanie;
     @JoinColumn(name = "kombinacjaubezpieczen", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Kombinacjaubezpieczen kombinacjaubezpieczen;
@@ -334,6 +342,32 @@ public class Umowa implements Serializable {
     public void setNetto0brutto1(boolean netto0brutto1) {
         this.netto0brutto1 = netto0brutto1;
     }
+
+    public double getWynagrodzeniemiesieczne() {
+        return wynagrodzeniemiesieczne;
+    }
+
+    public void setWynagrodzeniemiesieczne(double wynagrodzeniemiesieczne) {
+        this.wynagrodzeniemiesieczne = wynagrodzeniemiesieczne;
+    }
+
+    public double getWynagrodzeniegodzinowe() {
+        return wynagrodzeniegodzinowe;
+    }
+
+    public void setWynagrodzeniegodzinowe(double wynagrodzeniegodzinowe) {
+        this.wynagrodzeniegodzinowe = wynagrodzeniegodzinowe;
+    }
+
+    public double getWynagrodzenieoddelegowanie() {
+        return wynagrodzenieoddelegowanie;
+    }
+
+    public void setWynagrodzenieoddelegowanie(double wynagrodzenieoddelegowanie) {
+        this.wynagrodzenieoddelegowanie = wynagrodzenieoddelegowanie;
+    }
+    
+    
 
     @XmlTransient
     public List<Rachunekdoumowyzlecenia> getRachunekdoumowyzleceniaList() {
@@ -700,6 +734,14 @@ public class Umowa implements Serializable {
 
     public void setRozwiazanieumowy(Rozwiazanieumowy rozwiazanieumowy) {
         this.rozwiazanieumowy = rozwiazanieumowy;
+    }
+
+    public String getSymbolwalutyoddelegowanie() {
+        return symbolwalutyoddelegowanie;
+    }
+
+    public void setSymbolwalutyoddelegowanie(String symbolwalutyoddelegowanie) {
+        this.symbolwalutyoddelegowanie = symbolwalutyoddelegowanie;
     }
 
   

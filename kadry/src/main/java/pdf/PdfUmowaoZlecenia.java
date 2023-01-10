@@ -42,7 +42,7 @@ public class PdfUmowaoZlecenia {
     
     
     
-    public static void drukuj(Umowa umowa, double wynagrodzeniegodzinowe) {
+    public static void drukuj(Umowa umowa) {
         try {
             String nazwa = umowa.getAngaz().getPracownik().getPesel()+"umowa.pdf";
             if (umowa != null) {
@@ -50,7 +50,7 @@ public class PdfUmowaoZlecenia {
                 PdfWriter writer = inicjacjaWritera(document, nazwa);
                 naglowekStopkaP(writer);
                 otwarcieDokumentu(document, nazwa);
-                dodajtresc(umowa, document, wynagrodzeniegodzinowe);
+                dodajtresc(umowa, document, umowa.getWynagrodzeniegodzinowe());
                 finalizacjaDokumentuQR(document,nazwa);
                 String f = "pokazwydruk('"+nazwa+"');";
                 PrimeFaces.current().executeScript(f);

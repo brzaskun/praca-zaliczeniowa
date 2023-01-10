@@ -228,9 +228,11 @@
                     </p:panelGrid>
                     <p:panelGrid columns="4">
                         <p:outputLabel value="wynagrodzenie miesięczne" />
-                        <bcf:innum value="#{umowaGrupowoView.wynagrodzeniemiesieczne}"/>
+                        <bcf:innum value="#{umowaGrupowoView.selected.wynagrodzeniemiesieczne}"/>
                         <p:outputLabel value="wynagrodzenie godzinowe" />
-                        <bcf:innum value="#{umowaGrupowoView.wynagrodzeniegodzinowe}"/>
+                        <bcf:innum value="#{umowaGrupowoView.selected.wynagrodzeniegodzinowe}"/>
+                        <p:outputLabel value="stawka godz. oddeleg." />
+                        <bcf:innum value="#{umowaGrupowoView.selected.wynagrodzenieoddelegowanie}"/>
                         <p:outputLabel value="chorobowe" for="chorobowe" />
                         <p:selectBooleanCheckbox id="chorobowe" value="#{umowaGrupowoView.selected.chorobowe}" >
                             <p:ajax event="change" listener="#{umowaGrupowoView.edytujumowe(selected)}" global="false"/>

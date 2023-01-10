@@ -290,7 +290,7 @@ public class AngazView  implements Serializable {
                 }
                 wpisView.setUmowa(umowaaktywna);
             } else {
-                Msg.msg("e","Nie pobrano umów do angażu");
+                Msg.msg("e","Nie ma żadnej umowy do angażu");
                 wpisView.setUmowa(null);
                 System.out.println("Nie pobrano umów do angażu");
             }

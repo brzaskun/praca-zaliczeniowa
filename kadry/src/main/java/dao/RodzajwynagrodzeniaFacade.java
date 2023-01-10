@@ -57,7 +57,14 @@ public class RodzajwynagrodzeniaFacade extends DAO    implements Serializable {
         return (Rodzajwynagrodzenia) getEntityManager().createNamedQuery("Rodzajwynagrodzenia.findGodzinowe").setParameter("opispelny", "Wynagrodzenie godzinowe").setParameter("kod", "11").getSingleResult();
     }
     
+    public Rodzajwynagrodzenia findGodzinoweOddelegowaniePraca() {
+        return (Rodzajwynagrodzenia) getEntityManager().createNamedQuery("Rodzajwynagrodzenia.findGodzinowe").setParameter("opispelny", "Wynagrodzenie godzinowe").setParameter("kod", "11").getSingleResult();
+    }
+    
     public Rodzajwynagrodzenia findGodzinoweZlecenie() {
+        return (Rodzajwynagrodzenia) getEntityManager().createNamedQuery("Rodzajwynagrodzenia.findGodzinowe").setParameter("opispelny", "Wynagrodzenie godzinowe").setParameter("kod", "50").getSingleResult();
+    }
+    public Rodzajwynagrodzenia findGodzinoweOddelegowanieZlecenie() {
         return (Rodzajwynagrodzenia) getEntityManager().createNamedQuery("Rodzajwynagrodzenia.findGodzinowe").setParameter("opispelny", "Wynagrodzenie godzinowe").setParameter("kod", "50").getSingleResult();
     }
     

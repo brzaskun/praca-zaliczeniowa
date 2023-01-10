@@ -233,7 +233,9 @@ public class FirmaView  implements Serializable {
                 if (umowy!=null && umowy.size()==1) {
                     wpisView.setUmowa(umowy.get(0));
                 } else if (umowy!=null) {
-                    wpisView.setUmowa(umowy.stream().filter(p->p.isAktywna()).findFirst().get());
+                    try {
+                        wpisView.setUmowa(umowy.stream().filter(p->p.isAktywna()).findFirst().get());
+                    } catch (Exception e){}
                 }
             }
             angazView.init();

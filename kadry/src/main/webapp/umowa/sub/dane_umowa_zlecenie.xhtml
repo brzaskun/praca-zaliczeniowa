@@ -13,7 +13,7 @@
                 <p:dataTable id="datalist" value="#{umowaView.listazlecenia}" var="itemumowa" widgetVar="dataListumowazlecenie"
                              selection="#{umowaView.selectedlista}" emptyMessage="Brak zawartych umów"
                              rowKey="#{itemumowa.id}" sortBy="#{itemumowa.dataod}" sortMode="single"
-                             style="height: 220px; overflow-y: scroll; width: 1850px;"
+                             style="height: 220px; overflow-y: scroll; width: 1750px;"
                              >
                     <p:ajax event="rowSelect" listener="#{umowaView.aktywuj}" partialSubmit="true" global="false" update="north, @(form)"/>
                     <p:ajax event="rowSelectRadio" listener="#{umowaView.aktywuj}" partialSubmit="true" global="false" update="north, @(form)"/>
@@ -141,8 +141,11 @@
                     <p:column width="40" style="text-align: center;">
                         <p:commandButton icon="pi pi-pencil" actionListener="#{umowaView.edytuj(itemumowa)}" update="north @(form)  akordeon:UmowaListFormZlecenie"/>
                     </p:column>
-                    <p:column width="40" style="text-align: center;">
+<!--                    <p:column width="40" style="text-align: center;">
                         <p:commandButton icon="pi pi-user-edit"  actionListener="#{umowaView.edytuj(itemumowa)}" onclick="PF('dialogumowatresc').show();" update="north akordeon:UmowaListFormZlecenie @(form)"/>
+                    </p:column>-->
+                    <p:column width="40" style="text-align: center;">
+                        <p:commandButton icon="pi pi-print"  actionListener="#{umowaView.drukujzlecenie(itemumowa)}" onclick="PF('dialogumowatresc').show();" update="north akordeon:UmowaListFormZlecenie @(form)"/>
                     </p:column>
                     <p:column width="40" style="text-align: center;">
                         <p:commandButton icon="pi pi-trash" actionListener="#{umowaView.usunzlecenie(itemumowa)}" update="north @(form)  akordeon:UmowaListFormZlecenie">
