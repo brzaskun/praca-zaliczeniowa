@@ -783,8 +783,8 @@ public class UmowaView implements Serializable {
     }
 
     public void drukujzlecenie(Umowa zlecenie) {
-        if (selected != null) {
-              PdfUmowaoZlecenia.drukuj(selected);
+        if (zlecenie != null) {
+              PdfUmowaoZlecenia.drukuj(zlecenie);
         } else {
             Msg.msg("e", "Nie wybrano umowy");
         }
