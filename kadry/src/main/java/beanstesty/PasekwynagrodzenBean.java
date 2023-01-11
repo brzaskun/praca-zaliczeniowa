@@ -542,11 +542,13 @@ public class PasekwynagrodzenBean {
         for (Naliczenienieobecnosc p : pasek.getNaliczenienieobecnoscList()) {
             bruttozuskraj = Z.z(bruttozuskraj+p.getKwotazus());
         }
-        if (pasek.isDo26lat()) {
+        if (pasek.isDo26lat()&&rachunekdoumowyzlecenia.isStatusstudenta()) {
             double bruttozusbezzusbezpodatek = bruttozuskraj+bruttozusoddelegowanie;
             pasek.setBruttobezzusbezpodatek(Z.z(bruttozusbezzusbezpodatek));
-        } else 
-        if (rachunekdoumowyzlecenia.isSpoleczne()) {
+        } else if (pasek.isDo26lat()) {
+            double bruttozusbezpodatek = bruttozuskraj+bruttozusoddelegowanie;
+            pasek.setBruttozusbezpodatek(Z.z(bruttozusbezpodatek));
+        } else if (rachunekdoumowyzlecenia.isSpoleczne()) {
             double bruttozus = bruttozuskraj+bruttozusoddelegowanie;
             pasek.setBruttozus(bruttozus);
         } else {
