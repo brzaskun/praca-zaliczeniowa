@@ -198,7 +198,7 @@ public class PodatnikView implements Serializable {
             nazwaWybranegoPodatnika = uz.getPodatnik().getPrintnazwa();
             selected = uz.getPodatnik();
             //zrobdokumenty();
-            weryfikujlisteDokumentowPodatnika(selected, wpisView.getRokWpisuSt(), wpisView.getRokUprzedniSt());
+            weryfikujlisteDokumentowPodatnika(selected, wpisView.getRokWpisuSt());
             zweryfikujBazeBiezacegoPodatnika();
             uzupelnijListyKont();
             if (wpisView.getRokWpisu()==2022) {
@@ -1379,63 +1379,67 @@ public class PodatnikView implements Serializable {
         Msg.msg("i", "Usunięto wzor dokumentu", "akordeon:form6");
     }
     
-    public void nowyrokdokumenty() {
-        List<Podatnik> listapodatnikow = podatnikDAO.findAll();
-        if (listapodatnikow != null) {
-            for (Podatnik p : listapodatnikow) {
-                if (p.isPodmiotaktywny()) {
-                    try {
-                        weryfikujlisteDokumentowPodatnika(p, rokgenerowanie, String.valueOf(Integer.parseInt(rokgenerowanie) - 1));
-                    } catch (Exception e) {
-                    }
-                }
-            }
-            Msg.msg("Skopiowano dokumenty podatnikow do nowego roku");
-        }
-    }
+//    public void nowyrokdokumenty() {
+//        List<Podatnik> listapodatnikow = podatnikDAO.findAll();
+//        if (listapodatnikow != null) {
+//            for (Podatnik p : listapodatnikow) {
+//                if (p.isPodmiotaktywny()) {
+//                    try {
+//                        weryfikujlisteDokumentowPodatnika(p, rokgenerowanie);
+//                    } catch (Exception e) {
+//                    }
+//                }
+//            }
+//            Msg.msg("Skopiowano dokumenty podatnikow do nowego roku");
+//        }
+//    }
 
-    public void weryfikujlisteDokumentowPodatnika(Podatnik selected, String rok, String rokpoprzedni) {
+    public void weryfikujlisteDokumentowPodatnika(Podatnik selected, String rok) {
         try {
             List<Rodzajedok> dokumentyBiezacegoPodatnika = rodzajedokDAO.findListaPodatnik(selected, rok);
-            List<Rodzajedok> ogolnaListaDokumentow = rodzajedokView.getListaWspolnych();
-                for (Rodzajedok tmp : ogolnaListaDokumentow) {
-                    try {
-                        boolean odnaleziono = false;
-                        for (Rodzajedok r: dokumentyBiezacegoPodatnika) {
-                            if (r.getSkrot().equals(tmp.getSkrot())) {
-                                odnaleziono = true;
-                                boolean zachowaj = false;
-                                if (r.getOznaczenie1()==null) {
-                                    r.setOznaczenie1(tmp.getOznaczenie1());
-                                    zachowaj = true;
+            if (dokumentyBiezacegoPodatnika==null||dokumentyBiezacegoPodatnika.size()==0) {
+                pobierzrokpoprzedni();
+            } else  {
+                List<Rodzajedok> ogolnaListaDokumentow = rodzajedokView.getListaWspolnych();
+                    for (Rodzajedok tmp : ogolnaListaDokumentow) {
+                        try {
+                            boolean odnaleziono = false;
+                            for (Rodzajedok r: dokumentyBiezacegoPodatnika) {
+                                if (r.getSkrot().equals(tmp.getSkrot())) {
+                                    odnaleziono = true;
+                                    boolean zachowaj = false;
+                                    if (r.getOznaczenie1()==null) {
+                                        r.setOznaczenie1(tmp.getOznaczenie1());
+                                        zachowaj = true;
+                                    }
+                                    if (r.getOznaczenie2()==null) {
+                                        r.setOznaczenie2(tmp.getOznaczenie2());
+                                        zachowaj = true;
+                                    }
+                                    if (zachowaj) {
+                                        rodzajedokDAO.edit(r);
+                                    }
+                                    break;
                                 }
-                                if (r.getOznaczenie2()==null) {
-                                    r.setOznaczenie2(tmp.getOznaczenie2());
-                                    zachowaj = true;
-                                }
-                                if (zachowaj) {
-                                    rodzajedokDAO.edit(r);
-                                }
-                                break;
                             }
+                            if (odnaleziono == false) {
+                                Rodzajedok nowy  = serialclone.SerialClone.clone(tmp);
+                                nowy.setPodatnikObj(selected);
+                                nowy.setRok(rok);
+                                nowy.setKontoRZiS(null);
+                                nowy.setKontorozrachunkowe(null);
+                                nowy.setKontovat(null);
+                                nowy.setOznaczenie1(tmp.getOznaczenie1());
+                                nowy.setOznaczenie2(tmp.getOznaczenie2());
+                                nowy.setTylkojpk(tmp.isTylkojpk());
+                                nowy.setTylkopodatkowo(tmp.isTylkopodatkowo());
+                                rodzajedokDAO.create(nowy);
+                                dokumentyBiezacegoPodatnika.add(nowy);
+                            }
+                        } catch (Exception ex) {
                         }
-                        if (odnaleziono == false) {
-                            Rodzajedok nowy  = serialclone.SerialClone.clone(tmp);
-                            nowy.setPodatnikObj(selected);
-                            nowy.setRok(rok);
-                            nowy.setKontoRZiS(null);
-                            nowy.setKontorozrachunkowe(null);
-                            nowy.setKontovat(null);
-                            nowy.setOznaczenie1(tmp.getOznaczenie1());
-                            nowy.setOznaczenie2(tmp.getOznaczenie2());
-                            nowy.setTylkojpk(tmp.isTylkojpk());
-                            nowy.setTylkopodatkowo(tmp.isTylkopodatkowo());
-                            rodzajedokDAO.create(nowy);
-                            dokumentyBiezacegoPodatnika.add(nowy);
-                        }
-                    } catch (Exception ex) {
                     }
-                }
+            }
           } catch (Exception ex) {
         }
     }
@@ -1452,60 +1456,96 @@ public class PodatnikView implements Serializable {
             if (((dokumentyBiezacegoPodatnikaRokPoprzedni==null||dokumentyBiezacegoPodatnikaRokPoprzedni.isEmpty()) && dokumentyBiezacegoPodatnika.isEmpty()) && (wspolnedokumentypodatnikow!=null && !wspolnedokumentypodatnikow.isEmpty())) {
                 dokumentyBiezacegoPodatnikaRokPoprzedni = wspolnedokumentypodatnikow;
             }
-            List<Rodzajedok> ogolnaListaDokumentow = rodzajedokView.getListaWspolnych();
-            List<Konto> konta = kontoDAOfk.findWszystkieKontaPodatnika(selected, rokpoprzedni);
-            if (konta!=null && konta.size()>10) {
-                if (dokumentyBiezacegoPodatnikaRokPoprzedni!=null && !dokumentyBiezacegoPodatnikaRokPoprzedni.isEmpty()) {
-                    for (Rodzajedok tmp : dokumentyBiezacegoPodatnikaRokPoprzedni) {
-                        try {
-                            boolean odnaleziono = false;
-                            for (Rodzajedok r : dokumentyBiezacegoPodatnika) {
-                                if (r.getSkrot().equals(tmp.getSkrot())) {
-                                    odnaleziono = true;
-                                    if (r.getOznaczenie1() == null) {
-                                        r.setOznaczenie1(tmp.getOznaczenie1());
+            if (wpisView.getFormaprawna()!=null&&wpisView.getFormaprawna().equals("OSOBA_FIZYCZNA")==false) {
+                List<Konto> konta = kontoDAOfk.findWszystkieKontaPodatnika(selected, rokpoprzedni);
+                if (konta!=null && konta.size()>10) {
+                    if (dokumentyBiezacegoPodatnikaRokPoprzedni!=null && !dokumentyBiezacegoPodatnikaRokPoprzedni.isEmpty()) {
+                        for (Rodzajedok tmp : dokumentyBiezacegoPodatnikaRokPoprzedni) {
+                            try {
+                                boolean odnaleziono = false;
+                                for (Rodzajedok r : dokumentyBiezacegoPodatnika) {
+                                    if (r.getSkrot().equals(tmp.getSkrot())) {
+                                        odnaleziono = true;
+                                        if (r.getOznaczenie1() == null) {
+                                            r.setOznaczenie1(tmp.getOznaczenie1());
+                                        }
+                                        if (r.getOznaczenie2() == null) {
+                                            r.setOznaczenie2(tmp.getOznaczenie2());
+                                        }
+                                        if (tmp.getKontoRZiS() != null) {
+                                            r.setKontoRZiS(ustawkonto(tmp.getKontoRZiS()));
+                                        }
+                                        if (tmp.getKontorozrachunkowe() != null) {
+                                            r.setKontorozrachunkowe(ustawkonto(tmp.getKontorozrachunkowe()));
+                                        }
+                                        if (tmp.getKontovat() != null) {
+                                            r.setKontovat(ustawkonto(tmp.getKontovat()));
+                                        }
+                                        KontaFKBean.nanieskonta(r, kontoDAOfk);
+                                        rodzajedokDAO.edit(r);
+                                        break;
                                     }
-                                    if (r.getOznaczenie2() == null) {
-                                        r.setOznaczenie2(tmp.getOznaczenie2());
-                                    }
-                                    if (tmp.getKontoRZiS() != null) {
-                                        r.setKontoRZiS(ustawkonto(tmp.getKontoRZiS()));
-                                    }
-                                    if (tmp.getKontorozrachunkowe() != null) {
-                                        r.setKontorozrachunkowe(ustawkonto(tmp.getKontorozrachunkowe()));
-                                    }
-                                    if (tmp.getKontovat() != null) {
-                                        r.setKontovat(ustawkonto(tmp.getKontovat()));
-                                    }
-                                    KontaFKBean.nanieskonta(r, kontoDAOfk);
-                                    rodzajedokDAO.edit(r);
-                                    break;
                                 }
+                                if (odnaleziono == false) {
+                                    Rodzajedok nowy  = serialclone.SerialClone.clone(tmp);
+                                    nowy.setRok(rok);
+                                    nowy.setPodatnikObj(selected);
+                                    nowy.setKontoRZiS(null);
+                                    nowy.setKontorozrachunkowe(null);
+                                    nowy.setKontovat(null);
+                                    nowy.setOznaczenie1(tmp.getOznaczenie1());
+                                    nowy.setOznaczenie2(tmp.getOznaczenie2());
+                                    nowy.setTylkojpk(tmp.isTylkojpk());
+                                    nowy.setTylkopodatkowo(tmp.isTylkopodatkowo());
+                                    KontaFKBean.nanieskonta(nowy, kontoDAOfk);
+                                    rodzajedokDAO.create(nowy);
+                                    dokumentyBiezacegoPodatnika.add(nowy);
+                                }
+                            } catch (Exception e){
+                                Msg.msg("w","Wystąpił błąd podczas generowania dokumentów");
                             }
-                            if (odnaleziono == false) {
-                                Rodzajedok nowy  = serialclone.SerialClone.clone(tmp);
-                                nowy.setRok(rok);
-                                nowy.setPodatnikObj(selected);
-                                nowy.setKontoRZiS(null);
-                                nowy.setKontorozrachunkowe(null);
-                                nowy.setKontovat(null);
-                                nowy.setOznaczenie1(tmp.getOznaczenie1());
-                                nowy.setOznaczenie2(tmp.getOznaczenie2());
-                                nowy.setTylkojpk(tmp.isTylkojpk());
-                                nowy.setTylkopodatkowo(tmp.isTylkopodatkowo());
-                                KontaFKBean.nanieskonta(nowy, kontoDAOfk);
-                                rodzajedokDAO.create(nowy);
-                                dokumentyBiezacegoPodatnika.add(nowy);
-                            }
-                        } catch (Exception e){
-                            Msg.msg("w","Wystąpił błąd podczas generowania dokumentów");
                         }
+                        rodzajeDokumentowLista = rodzajedokDAO.findListaPodatnikEdycja(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+                        Msg.msg("Wygenerowano dokumenty","akordeon:form6:messages");
                     }
-                    rodzajeDokumentowLista = rodzajedokDAO.findListaPodatnikEdycja(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
-                    Msg.msg("Wygenerowano dokumenty","akordeon:form6:messages");
+                } else {
+                    Msg.msg("e","Brak planu kont, nie można wygenerować dokumentów","akordeon:form6:messages");
                 }
             } else {
-                Msg.msg("e","Brak planu kont, nie można wygenerować dokumentów","akordeon:form6:messages");
+                if (dokumentyBiezacegoPodatnikaRokPoprzedni!=null && !dokumentyBiezacegoPodatnikaRokPoprzedni.isEmpty()) {
+                        for (Rodzajedok tmp : dokumentyBiezacegoPodatnikaRokPoprzedni) {
+                            try {
+                                boolean odnaleziono = false;
+                                for (Rodzajedok r : dokumentyBiezacegoPodatnika) {
+                                    if (r.getSkrot().equals(tmp.getSkrot())) {
+                                        odnaleziono = true;
+                                        break;
+                                    }
+                                }
+                                if (odnaleziono == false) {
+                                    Rodzajedok nowy  = serialclone.SerialClone.clone(tmp);
+                                    nowy.setRok(rok);
+                                    nowy.setPodatnikObj(selected);
+                                    nowy.setKontoRZiS(null);
+                                    nowy.setKontorozrachunkowe(null);
+                                    nowy.setKontovat(null);
+                                    nowy.setOznaczenie1(tmp.getOznaczenie1());
+                                    nowy.setOznaczenie2(tmp.getOznaczenie2());
+                                    nowy.setTylkojpk(tmp.isTylkojpk());
+                                    nowy.setTylkopodatkowo(tmp.isTylkopodatkowo());
+                                    //KontaFKBean.nanieskonta(nowy, kontoDAOfk);
+                                    rodzajedokDAO.create(nowy);
+                                    dokumentyBiezacegoPodatnika.add(nowy);
+                                }
+                            } catch (Exception e){
+                                Msg.msg("w","Wystąpił błąd podczas generowania dokumentów");
+                            }
+                        }
+                        rodzajeDokumentowLista = rodzajedokDAO.findListaPodatnikEdycja(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+                        Msg.msg("Wygenerowano dokumenty","akordeon:form6:messages");
+                    } else {
+                    Msg.msg("e","Brak planu kont, nie można wygenerować dokumentów","akordeon:form6:messages");
+                }
             }
         } catch (Exception ex) {
         }

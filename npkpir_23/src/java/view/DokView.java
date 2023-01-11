@@ -321,6 +321,10 @@ public class DokView implements Serializable {
         Collections.sort(rodzajedokumentow, new Rodzajedokcomparator());
         return rodzajedokumentow;
     }
+    
+    
+    
+    
 
     public void dodajklientaautomat() {
         try {
