@@ -660,7 +660,8 @@ public class KalendarzmiesiacBean {
                             double wynagrodzeniemczwaloryzowane = 0.0;
                             if (kalendarzdosredniej.getPasek(definicjalistaplac).getNaliczenieskladnikawynagrodzeniaList() != null) {
                                 for (Naliczenieskladnikawynagrodzenia pa : kalendarzdosredniej.getPasek(definicjalistaplac).getNaliczenieskladnikawynagrodzeniaList()) {
-                                    if (pa.getSkladnikwynagrodzenia().equals(naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia())) {
+                                    //superpłace usunac potem "Wyn. za pracę w Niemczech"
+                                    if (pa.getSkladnikwynagrodzenia().equals(naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia())||pa.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getOpispelny().equals("Wyn. za pracę w Niemczech")) {
                                         if (waloryzowac) {
                                             wynagrodzeniemczwaloryzowane = wynagrodzeniemczwaloryzowane + pa.getKwotadolistyplac() + pa.getKwotyredukujacesuma();
                                         } else {
