@@ -555,6 +555,7 @@ public class PasekwynagrodzenBean {
             double bruttobezspolecznych = bruttozuskraj+bruttozusoddelegowanie;
             pasek.setBruttobezspolecznych(bruttobezspolecznych);
         }
+        pasek.setStudent(rachunekdoumowyzlecenia.isStatusstudenta());
         pasek.setOddelegowaniepln(bruttozusoddelegowanie);
         pasek.setOddelegowaniewaluta(bruttozusoddelegowaniewaluta);
         pasek.setBruttozuskraj(bruttozuskraj);
@@ -1119,9 +1120,18 @@ public class PasekwynagrodzenBean {
             pasek.setPraczdrowotnedoodliczenia(0.0);
             pasek.setPraczdrowotnedopotracenia(zdrowotneodliczane);
         } else {
-            if (pasek.isDo26lat()&&pasek.isPraca()==false) {
+            if (pasek.isDo26lat()&&pasek.isPraca()==false&&pasek.isStudent()) {
                 zdrowotne = 0.0;
                 zdrowotneodliczane = 0.0;
+                pasek.setPraczdrowotne(zdrowotne);
+                pasek.setPraczdrowotnedoodliczenia(0.0);
+                pasek.setPraczdrowotnedopotracenia(0.0);
+            } else if (pasek.isDo26lat()&&pasek.isPraca()==false) {
+                double limitdlazdrowotnej = Z.z(pasek.getPodstawaopodatkowania()*0.17-pasek.getKwotawolnadlazdrowotnej())>0.0?Z.z(pasek.getPodstawaopodatkowania()*0.17-pasek.getKwotawolnadlazdrowotnej()):0.0;
+                if (Z.z(pasek.getKwotawolna())>0.0) {
+                    zdrowotne = zdrowotne>limitdlazdrowotnej?Z.z(limitdlazdrowotnej):zdrowotne;
+                    zdrowotneodliczane = zdrowotneodliczane>limitdlazdrowotnej?Z.z(limitdlazdrowotnej):zdrowotneodliczane;
+                }
                 pasek.setPraczdrowotne(zdrowotne);
                 pasek.setPraczdrowotnedoodliczenia(0.0);
                 pasek.setPraczdrowotnedopotracenia(0.0);

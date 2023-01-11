@@ -226,6 +226,8 @@ public class Pasekwynagrodzen implements Serializable {
     private double wynagrodzenieminimalne;
     @Column(name = "nierezydent")
     private boolean nierezydent;
+    @Column(name = "student")
+    private boolean student;
     @Column(name = "lis_tyt_serial")
     private Integer lis_tyt_serial;
     @Column(name = "lpl_serial")
@@ -391,6 +393,15 @@ public class Pasekwynagrodzen implements Serializable {
         this.definicjalistaplac = definicjalistaplac;
     }
 
+    public boolean isStudent() {
+        return student;
+    }
+
+    public void setStudent(boolean student) {
+        this.student = student;
+    }
+
+    
     @Override
     public int hashCode() {
         int hash = 0;
