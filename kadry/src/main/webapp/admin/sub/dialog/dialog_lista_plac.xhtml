@@ -54,7 +54,7 @@
                                 <p:autoUpdate/>
                             <p:panelGrid columns="2" >
                             <h:outputLabel for="datawyplatypole" value="data wypłaty"/>
-                            <p:inputText id="datawyplatypole" value="#{pasekwynagrodzenView.datawyplaty}" title="data wypłaty"  placeholder="____-__-__"  required="true" styleClass="dataUmowy" maxlength="10">
+                            <p:inputText id="datawyplatypole" value="#{pasekwynagrodzenView.datawyplaty}" title="data wypłaty"  placeholder="____-__-__"  required="true" styleClass="dataUmowy" maxlength="10" >
                                 <p:ajax event="change" onstart="ustawDateSprzedazy(#{wpisView.rokWpisu},#{wpisView.miesiacWpisu});" partialSubmit="true" global="false" listener="#{pasekwynagrodzenView.ustawtabelenbp()}" update="KursDataLPForm:kurspole KursDataLPForm:kurspoledata"/>
                             </p:inputText>
                             <h:outputLabel for="kurspole" value="kurs przelicz."/>

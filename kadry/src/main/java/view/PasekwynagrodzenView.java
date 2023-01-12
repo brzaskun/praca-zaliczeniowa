@@ -443,12 +443,15 @@ public class PasekwynagrodzenView implements Serializable {
         if (p != null) {
             if (p.getId() != null) {
                 if (p.getDefinicjalistaplac().getRodzajlistyplac().getSymbol().equals("UZ")||p.getDefinicjalistaplac().getRodzajlistyplac().getSymbol().equals("UD")) {
+                    p =pasekwynagrodzenFacade.findById(p.getId());
                     if (p.getRachunekdoumowyzleceniaList()!=null) {
                         for (Iterator<Rachunekdoumowyzlecenia> it = p.getRachunekdoumowyzleceniaList().iterator(); it.hasNext();) {
                             Rachunekdoumowyzlecenia rach = it.next();
-                            rachunekdoumowyzleceniaFacade.remove(rach);
+                            //rachunekdoumowyzleceniaFacade.remove(rach);
+                            rach.setPasekwynagrodzen(null);
+                            rachunekdoumowyzleceniaFacade.edit(rach);
+                            it.remove();
                         }
-                        p =pasekwynagrodzenFacade.findById(p.getId());
                     }   
                 }
                 pasekwynagrodzenFacade.remove(p);
