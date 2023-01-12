@@ -724,10 +724,8 @@ public class KalendarzmiesiacBean {
         int dziendo = Data.getDzienI(datado);
         for (Dzien p : kalendarz.getDzienList()) {
             if (p.getTypdnia() == 0 && (p.getNormagodzin() != 0.0 || p.getKod().equals("D"))) {
-                if (p.getPrzepracowano() > 0.0 || p.getKod().equals("U") || p.getKod().equals("D")) {
-                    liczbadniobowiazku = liczbadniobowiazku + 1;
-                    liczbagodzinobowiazku = liczbagodzinobowiazku + p.getNormagodzin();
-                }
+                liczbadniobowiazku = liczbadniobowiazku + 1;
+                liczbagodzinobowiazku = liczbagodzinobowiazku + p.getNormagodzin();
             }
             if (p.getTypdnia() == 0 && p.getNrdnia() >= dzienod && p.getNrdnia() <= dziendo) {
                 liczbadniurlopu = liczbadniurlopu + 1;
@@ -753,6 +751,7 @@ public class KalendarzmiesiacBean {
                 naliczenienieobecnosc.setSkladnikistale(sredniamiesieczna);
                 double stawkadzienna = sredniamiesieczna / liczbadniobowiazku;
                 double stawkagodzinowa = Z.z4(sredniamiesieczna / liczbagodzinobowiazku);
+                naliczenienieobecnosc.setStawkagodzinowa(Z.z(stawkagodzinowa));
                 naliczenienieobecnosc.setStawkadzienna(Z.z(stawkadzienna));
                 double dowyplatyzaczasnieobecnosci = Z.z(stawkagodzinowa * liczbagodzinurlopu);
                 naliczenienieobecnosc.setKwota(dowyplatyzaczasnieobecnosci);
