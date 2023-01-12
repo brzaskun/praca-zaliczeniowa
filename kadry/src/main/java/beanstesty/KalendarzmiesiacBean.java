@@ -735,6 +735,8 @@ public class KalendarzmiesiacBean {
         for (Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia : pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList()) {
             if (naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getGodzinowe0miesieczne1() && naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getStale0zmienne1() == false
                     && naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().isSredniaurlopowakraj() == true) {
+                //bierzemy globalne nalezne godziny
+                liczbagodzinobowiazku = naliczenieskladnikawynagrodzenia.getGodzinynalezne();
                 double skladnikistale = 0.0;
                 Naliczenienieobecnosc naliczenienieobecnosc = new Naliczenienieobecnosc();
                 naliczenienieobecnosc.setDataod(dataod);
@@ -749,14 +751,14 @@ public class KalendarzmiesiacBean {
                 naliczenienieobecnosc.setLiczbagodzinurlopu(liczbagodzinurlopu);
                 double sredniamiesieczna = wyliczsredniagodzinowaStale(kalendarz, naliczenieskladnikawynagrodzenia, liczbagodzinurlopu, liczbagodzinobowiazku, naliczenienieobecnosc);
                 naliczenienieobecnosc.setSkladnikistale(sredniamiesieczna);
-                double stawkadzienna = sredniamiesieczna / liczbadniobowiazku;
-                double stawkagodzinowa = Z.z4(sredniamiesieczna / liczbagodzinobowiazku);
+                double stawkadzienna = naliczenieskladnikawynagrodzenia.getStawkadzienna();
+                double stawkagodzinowa = naliczenieskladnikawynagrodzenia.getStawkagodzinowa();
                 naliczenienieobecnosc.setStawkagodzinowa(Z.z(stawkagodzinowa));
                 naliczenienieobecnosc.setStawkadzienna(Z.z(stawkadzienna));
                 double dowyplatyzaczasnieobecnosci = Z.z(stawkagodzinowa * liczbagodzinurlopu);
                 naliczenienieobecnosc.setKwota(dowyplatyzaczasnieobecnosci);
                 naliczenienieobecnosc.setKwotazus(dowyplatyzaczasnieobecnosci);
-                naliczenienieobecnosc.setKwotaredukcji(dowyplatyzaczasnieobecnosci);
+                naliczenienieobecnosc.setKwotaredukcji(0.0);
                 naliczenienieobecnosc.setPasekwynagrodzen(pasekwynagrodzen);
                 pasekwynagrodzen.getNaliczenienieobecnoscList().add(naliczenienieobecnosc);
             }
@@ -903,15 +905,19 @@ public class KalendarzmiesiacBean {
         double sredniadopodstawy = 0.0;
         //wyliczenie dla skladnika stalego ze zmiennymi
         if (naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getGodzinowe0miesieczne1() && naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getStale0zmienne1() == false) {
-            sredniadopodstawy = naliczenieskladnikawynagrodzenia.getKwotaumownazacalymc();
+            //niemoge brac tego co w umowie bo bedzie za wiele, musze zredukowac do czasu przepracowanego po uwzgledneinu nieobecnosci wynikajace z choroby wazne!!!!!!!!!!!!!!
+            sredniadopodstawy = naliczenieskladnikawynagrodzenia.getKwotaumownazacalymc()-naliczenieskladnikawynagrodzenia.getKwotyredukujacesuma();
             boolean skladnikstaly = true;
-            Sredniadlanieobecnosci srednia = new Sredniadlanieobecnosci(kalendarz.getRok(), kalendarz.getMc(), sredniadopodstawy, skladnikstaly, naliczenienieobecnosc, liczbagodzinieobecnosci, naliczenieskladnikawynagrodzenia.getGodzinyfaktyczne(), naliczenieskladnikawynagrodzenia.getDnifaktyczne(), naliczenieskladnikawynagrodzenia.getGodzinynalezne(), naliczenieskladnikawynagrodzenia.getDninalezne(), 0.0);
+            Sredniadlanieobecnosci srednia = new Sredniadlanieobecnosci(kalendarz.getRok(), kalendarz.getMc(), sredniadopodstawy, skladnikstaly, 
+                    naliczenienieobecnosc, liczbagodzinieobecnosci, naliczenieskladnikawynagrodzenia.getGodzinyfaktyczne(), naliczenieskladnikawynagrodzenia.getDnifaktyczne(), 
+                    naliczenieskladnikawynagrodzenia.getGodzinynalezne(), naliczenieskladnikawynagrodzenia.getDninalezne(), 0.0);
 //             Sredniadlanieobecnosci srednia = new Sredniadlanieobecnosci(kalendarz.getRok(), kalendarz.getMc(), sredniadopodstawy, skladnikstaly, naliczenienieobecnosc, liczbagodzinieobecnosci, pa.getGodzinyfaktyczne(), pa.getDnifaktyczne(), pa.getGodzinynalezne(), pa.getDninalezne());
             naliczenienieobecnosc.getSredniadlanieobecnosciList().add(srednia);
             naliczenienieobecnosc.setSkladnikistale(sredniadopodstawy);
             naliczenienieobecnosc.setSredniazailemcy(1);
             naliczenienieobecnosc.setSumakwotdosredniej(sredniadopodstawy);
-            naliczenienieobecnosc.setSumagodzindosredniej(liczbagodzinobowiazku);
+            //bierzemy godziny nalezne z globalnego
+            naliczenienieobecnosc.setSumagodzindosredniej(naliczenieskladnikawynagrodzenia.getGodzinynalezne());
         }
         return sredniadopodstawy;
     }
@@ -1220,10 +1226,10 @@ public class KalendarzmiesiacBean {
                     if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().isRedukowany() && p.getSkladnikwynagrodzenia().equals(naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia())) {
                         switch (p.getNieobecnosc().getKod()) {
                             case "ZC":
-                                redukcjazarchorobe = redukcjazarchorobe + p.getKwotaredukcji();
+                                //redukcjazarchorobe = redukcjazarchorobe + p.getKwotaredukcji();
                                 break;
                             case "CH":
-                                redukcjazarchorobe = redukcjazarchorobe + p.getKwotaredukcji();
+                                //redukcjazarchorobe = redukcjazarchorobe + p.getKwotaredukcji();
                                 break;
                             case "U":
                                 //redukcjazaurlop = redukcjazaurlop+p.getKwotaredukcji();
@@ -1241,17 +1247,18 @@ public class KalendarzmiesiacBean {
                         }
                     }
                 }
-                if (naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().isRedukowany()) {
-                    double wartoscskladnika = Z.z(naliczenieskladnikawynagrodzenia.getKwotadolistyplac());
-                    double redukcjasuma = Z.z(redukcjazarchorobe + redukcjazaurlop + redukcjazabezplatny + redukcjazadnipozaumowa);
-                    naliczenieskladnikawynagrodzenia.setKwotyredukujacesuma(redukcjasuma);
-                    double kwotadolistyplac = Z.z(naliczenieskladnikawynagrodzenia.getKwotadolistyplac() - naliczenieskladnikawynagrodzenia.getKwotyredukujacesuma());
-                        if (kwotadolistyplac<0.0) {
-                        kwotadolistyplac = 0.0;
-                        naliczenieskladnikawynagrodzenia.setKwotyredukujacesuma(wartoscskladnika);
-                    }
-                    naliczenieskladnikawynagrodzenia.setKwotadolistyplac(kwotadolistyplac);
-                }
+                //od 12-01-2023 rozliczamy redukcje w naliczeniu skladnikka
+//                if (naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().isRedukowany()) {
+//                    double wartoscskladnika = Z.z(naliczenieskladnikawynagrodzenia.getKwotadolistyplac());
+//                    double redukcjasuma = Z.z(redukcjazarchorobe + redukcjazaurlop + redukcjazabezplatny + redukcjazadnipozaumowa);
+//                    naliczenieskladnikawynagrodzenia.setKwotyredukujacesuma(redukcjasuma);
+//                    double kwotadolistyplac = Z.z(naliczenieskladnikawynagrodzenia.getKwotadolistyplac() - naliczenieskladnikawynagrodzenia.getKwotyredukujacesuma());
+//                        if (kwotadolistyplac<0.0) {
+//                        kwotadolistyplac = 0.0;
+//                        naliczenieskladnikawynagrodzenia.setKwotyredukujacesuma(wartoscskladnika);
+//                    }
+//                    naliczenieskladnikawynagrodzenia.setKwotadolistyplac(kwotadolistyplac);
+//                }
             }
         }
     }

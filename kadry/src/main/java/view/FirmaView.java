@@ -81,6 +81,8 @@ public class FirmaView  implements Serializable {
     @Inject
     private RodzajlistyplacFacade rodzajlistyplacFacade;
     @Inject
+    private PasekwynagrodzenView pasekwynagrodzenView;
+    @Inject
     private TKodUS tKodUS;
     private List<Firma> firmysuperplace;
     
@@ -240,6 +242,7 @@ public class FirmaView  implements Serializable {
             }
             angazView.init();
             pracodawcaDaneView.init();
+            pasekwynagrodzenView.init();
             Msg.msg("Aktywowano firmę "+firma.getNazwa());
         }
     }

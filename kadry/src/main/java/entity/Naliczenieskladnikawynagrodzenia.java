@@ -60,10 +60,14 @@ public class Naliczenieskladnikawynagrodzenia implements Serializable {
     private double dninalezne;
     @Column(name = "dnifaktyczne")
     private double dnifaktyczne;
+    @Column(name = "dnichoroby")
+    private double dnichoroby;
     @Column(name = "godzinynalezne")
     private double godzinynalezne;
     @Column(name = "godzinyfaktyczne")
     private double godzinyfaktyczne;
+    @Column(name = "godzinychoroby")
+    private double godzinychoroby;
     @Column(name = "stawkadzienna")
     private double stawkadzienna;
     @Column(name = "stawkagodzinowa")
@@ -143,6 +147,23 @@ public class Naliczenieskladnikawynagrodzenia implements Serializable {
         this.waluta = waluta;
     }
 
+    public double getDnichoroby() {
+        return dnichoroby;
+    }
+
+    public void setDnichoroby(double dnichoroby) {
+        this.dnichoroby = dnichoroby;
+    }
+
+    public double getGodzinychoroby() {
+        return godzinychoroby;
+    }
+
+    public void setGodzinychoroby(double godzinychoroby) {
+        this.godzinychoroby = godzinychoroby;
+    }
+
+    
   
     @Override
     public int hashCode() {
