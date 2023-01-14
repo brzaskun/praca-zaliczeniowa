@@ -87,7 +87,21 @@
                     <p:panel header="ustawienia podatkowe"/>
                     <p:panelGrid columns="4">
                         <p:outputLabel value="urząd skarbowy" for="usnazwa" />
-                        <p:inputText id="usnazwa" value="#{pracownikDane2View.selected.nazwaurzeduskarbowego}" title="nazwa urzędu skarbowego" readonly="true" size="40"/>
+                        <p:panelGrid columns="1">
+                        <p:autoComplete id="usnazwa" completeMethod="#{tKodUS.complete}" value="#{pracownikDane2View.selected.nazwaurzeduskarbowego}"
+                                    forceSelection="true" maxResults="15" size="250"  minQueryLength="3" effect="clip" var="p"
+                                    itemLabel="#{p}" itemValue="#{p}" inputStyle="width:400px;">
+                        <f:facet name="itemtip">  
+                            <h:panelGrid  columns="2" cellpadding="5" width="400">  
+                                <f:facet name="header">  
+                                    <h:outputText value="Dane wybranego urzędu"/>
+                                </f:facet>  
+                                <h:outputText value="Nazwa: " />  
+                                <h:outputText id="npelna" value="#{p}" />  
+                            </h:panelGrid>
+                        </f:facet>
+                    </p:autoComplete>
+                    </p:panelGrid>
                         <p:outputLabel value="kod urzędu" for="usnazwakod" />
                         <p:inputText id="usnazwakod" value="#{pracownikDane2View.selected.kodurzeduskarbowego}" title="kod urzędu skarbowego" readonly="true"/>
                         <p:outputLabel value="zaliczki na podatek w innym kraju" for="innykraj" />

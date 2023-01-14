@@ -208,7 +208,7 @@
             <h:form id="wystawionepit11">
             <p:dataTable id="datalistwa" value="#{kartaWynagrodzenView.listaPIT11}" var="itempity11"
                          rowKey="#{itempity11.id}" rowIndexVar="indexpity11" 
-                         style="height: 350px; width: 1250px;" emptyMessage="Nie pobrano danych"
+                         style="height: 350px; width: 1450px;" emptyMessage="Nie pobrano danych"
                          >
                 <f:facet name="header">
                     <h:outputText value="Wygegnerowane deklaracje PIT-11"/>
@@ -242,9 +242,21 @@
                         <f:convertDateTime timeStyle="short" type="both"/>
                     </h:outputText>
                 </p:column>
+                <p:column width="120" style="text-align: left;">
+                    <f:facet name="header">
+                        <h:outputText value="nr id"/>
+                    </f:facet>
+                    <h:outputText value="#{itempity11.identyfikator}"/>
+                </p:column>
+                <p:column width="40" style="text-align: left;">
+                    <f:facet name="header">
+                        <h:outputText value="status"/>
+                    </f:facet>
+                    <h:outputText value="#{itempity11.status}"/>
+                </p:column>
                 <p:column width="100" style="text-align: center;">
                     <f:facet name="header">
-                        <h:outputText value="upo"/>
+                        <h:outputText value="upo data"/>
                     </f:facet>
                     <h:outputText value="#{itempity11.dataupo}">
                         <f:convertDateTime locale="pl"/>
@@ -258,7 +270,7 @@
                 </p:column>
                  <p:column width="30" style="text-align: center;">
                     <f:facet name="header">
-                        <h:outputText value=""/>
+                        <h:outputText value="pdf"/>
                     </f:facet>
                     <p:commandButton icon="pi pi-file-pdf" actionListener="#{kartaWynagrodzenView.pokazpdf(itempity11)}">
                     </p:commandButton>
@@ -274,8 +286,16 @@
                     <f:facet name="header">
                         <h:outputText value="us"/>
                     </f:facet>
-                    <p:commandButton icon="pi pi-envelope" actionListener="#{kartaWynagrodzenView.pokazPIT11(itempity11)}">
+                     <p:commandButton icon="pi pi-envelope" actionListener="#{pitWysylkaView.robPIT1129(itempity11)}" update="akordeon:wystawionepit11:datalistwa">
                         <p:confirm type="popup" header="Potwierdzenie" message="Wysłać deklarację do urzędu?" icon="pi pi-exclamation-triangle"/>
+                    </p:commandButton>
+                </p:column>
+                 <p:column width="30" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="upo"/>
+                    </f:facet>
+                    <p:commandButton icon="pi pi-cloud-download" actionListener="#{pitWysylkaView.pobierztest(itempity11)}" update="akordeon:wystawionepit11:datalistwa">
+                        <p:confirm type="popup" header="Potwierdzenie" message="Pobrać UPO?" icon="pi pi-exclamation-triangle"/>
                     </p:commandButton>
                 </p:column>
                 <p:column width="30" style="text-align: center;">

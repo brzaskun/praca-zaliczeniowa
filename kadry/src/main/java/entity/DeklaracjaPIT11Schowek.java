@@ -77,6 +77,16 @@ public class DeklaracjaPIT11Schowek implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "dataupo")
     private Date dataupo;
+    @Column(name = "identyfikator")
+    private String identyfikator;
+    @Column(name = "status")
+    private String status;
+    @Column(name = "opis")
+    private String opis;
+    @JoinColumn(name = "uz", referencedColumnName = "id")
+    @NotNull
+    @ManyToOne
+    private Uz uz;
 
     public DeklaracjaPIT11Schowek() {
     }
@@ -199,6 +209,38 @@ public class DeklaracjaPIT11Schowek implements Serializable {
 
     public void setDataupo(Date dataupo) {
         this.dataupo = dataupo;
+    }
+
+    public String getIdentyfikator() {
+        return identyfikator;
+    }
+
+    public void setIdentyfikator(String identyfikator) {
+        this.identyfikator = identyfikator;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getOpis() {
+        return opis;
+    }
+
+    public void setOpis(String opis) {
+        this.opis = opis;
+    }
+
+    public Uz getUz() {
+        return uz;
+    }
+
+    public void setUz(Uz uz) {
+        this.uz = uz;
     }
     
     

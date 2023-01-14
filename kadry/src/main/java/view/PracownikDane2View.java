@@ -11,6 +11,7 @@ import dao.PracownikFacade;
 import dao.UzFacade;
 import data.Data;
 import embeddable.PanstwaMap;
+import embeddable.TKodUS;
 import entity.Angaz;
 import entity.Pracownik;
 import java.io.Serializable;
@@ -46,6 +47,8 @@ public class PracownikDane2View  implements Serializable {
     private Angaz selectedangaz;
     @Inject
     private PanstwaMap panstwaMap;
+    @Inject
+    private TKodUS tKodUS;
     
     
     @PostConstruct
@@ -58,6 +61,7 @@ public class PracownikDane2View  implements Serializable {
       if (selected!=null) {
           try {
             selected.setKrajsymbol(robkrajSymbol(selected.getKraj()));
+            selected.setKodurzeduskarbowego(tKodUS.getMapaUrzadKod().get(selected.getNazwaurzeduskarbowego()));
             selected.setIpusera(IPaddress.getIpAddr((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest()));
             Calendar calendar = Calendar.getInstance();
             selected.setDatalogowania(Data.aktualnaDataCzas());

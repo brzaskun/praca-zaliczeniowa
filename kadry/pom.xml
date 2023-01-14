@@ -116,7 +116,6 @@
             <version>2.6.4</version>
         </dependency>
 
-
     </dependencies>
     
     <build>
@@ -205,6 +204,24 @@
                             <staleFile>${project.build.directory}/jaxws/stale/zuszla.stale</staleFile>
                         </configuration>
                         <id>wsimport-generate-zuszla</id>
+                        <phase>generate-sources</phase>
+                    </execution>
+                    <execution>
+                        <goals>
+                            <goal>wsimport</goal>
+                        </goals>
+                        <configuration>
+                            <wsdlFiles>
+                                <wsdlFile>testdokumenty.wsdl</wsdlFile>
+                            </wsdlFiles>
+                            <packageName></packageName>
+                            <vmArgs>
+                                <vmArg>-Djavax.xml.accessExternalSchema=all</vmArg>
+                            </vmArgs>
+                            <wsdlLocation>file:/C:/Users/Osito/Documents/NetBeansProjects/kadry/src/main/webapp/WEB-INF/wsdl/testdokumenty.wsdl</wsdlLocation>
+                            <staleFile>${project.build.directory}/jaxws/stale/testdokumenty.stale</staleFile>
+                        </configuration>
+                        <id>wsimport-generate-testdokumenty</id>
                         <phase>generate-sources</phase>
                     </execution>
                 </executions>
