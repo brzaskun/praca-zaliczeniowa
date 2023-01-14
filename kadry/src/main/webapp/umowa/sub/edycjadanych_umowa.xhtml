@@ -7,7 +7,7 @@
 
     xmlns:bcf="http://brzaskun.com/facelets"
     >
-    <p:outputPanel style="height: 550px" id="panelumowadane">
+    <p:outputPanel style="height: 600px" id="panelumowadane">
         <h:form styleClass="formumowa" id="UmowaCreateForm">
            
             <p:panel header="Dodawanie/edycja umowy #{umowaView.rodzajumowy eq '1' ?'o pracę':'zlecenia i o dzieło'}."/>
@@ -103,21 +103,27 @@
                                                 <p:inputText id="datasystem1" value="#{umowaView.selected.datasystem}" title="data wprowadzenia do systemu"  placeholder="____-__-__"  styleClass="dataUmowy"/>-->
                         <h:outputText value="etat"/>
                         <p:panelGrid columns="2">
-                            <p:inputNumber id="etat11" value="#{umowaView.etat1}" size="2" maxValue="9" maxlength="1" decimalPlaces="0" />
-                            <p:inputNumber id="etat21" value="#{umowaView.etat2}" size="2" maxValue="9" maxlength="1" decimalPlaces="0" />
+                            <p:inputNumber id="etat11" value="#{umowaView.selected.etat1}" size="2" maxValue="9" maxlength="1" decimalPlaces="0" />
+                            <p:inputNumber id="etat21" value="#{umowaView.selected.etat2}" size="2" maxValue="9" maxlength="1" decimalPlaces="0" />
                         </p:panelGrid>
-                        <p:outputLabel value="inne warunki zatr." />
-                        <p:inputText id="dodatkowe1" value="#{umowaView.selected.innewarunkizatrudnienia}" title="inne warunki zatrudnienia"  styleClass="dataUmowy" size="50"/>
                         <p:outputLabel value="dopuszczalna ilośc nadgodzin" />
                         <p:inputText id="dopuszczalna1" value="#{umowaView.selected.dopuszczalnailoscgodzin}" title="dopuszczalna ilość nagdodzin"  styleClass="dataUmowy" size="5"/>
                         <p:outputLabel value="przyczyna umowy na czas określony - zastępstwo" />
                         <p:inputText id="przyczyna1" value="#{umowaView.selected.przyczynaumowaokreslony}" title="przyczyna umowy"  styleClass="dataUmowy" size="50"/>
                     </p:panelGrid>
                 </p:panelGrid>
+                <p:panelGrid columns="2">
+                        <p:outputLabel value="inne warunki zatr." />
+                        <p:textEditor id="dodatkowepraca" value="#{umowaView.selected.innewarunkizatrudnienia}"  styleClass="dataUmowy" secure="false" height="80" allowFormatting="false" toolbarVisible="false" style="width: 900px;">
+                           
+                        </p:textEditor>
+                    </p:panelGrid>
                 <p:commandButton styleClass="buttonnorm" actionListener="#{umowaView.edit}" value="Edytuj" update="north, @(form)" rendered="#{umowaView.selected.id ne null}"/>
                 <p:commandButton styleClass="buttonnorm2" actionListener="#{umowaView.create}" value="Dodaj" update="north, @(form)"  rendered="#{umowaView.selected.id eq null}"/>
                 <p:commandButton styleClass="buttonnorm2" value="Anuluj"  actionListener="#{umowaView.cancel}"  update="north, @(form)" process="@this"/>
             </h:panelGroup>
+            
+<!--            UMOWA ZLECENIA *****************************************************************************-->
             <h:panelGroup id="displayzlecenie" rendered="#{umowaView.rodzajumowy eq '2'}">
                 <h:outputText value="Dodajesz nową umowę zlecenia i o dzieło. Osoba #{wpisView.pracownik.nazwiskoImie}. Wiek #{wpisView.pracownik.wiek}" style="color:green; margin-left: 50px; font-weight: bolder;" rendered="#{umowaView.selected.id eq null}"/>
                 <h:outputText value="Zmieniasz istniejącą umowę. Osoba #{wpisView.pracownik.nazwiskoImie}. Wiek #{wpisView.pracownik.wiek}" style="color:blue; margin-left: 50px; font-weight: bolder;" rendered="#{umowaView.selected.id ne null}"/>

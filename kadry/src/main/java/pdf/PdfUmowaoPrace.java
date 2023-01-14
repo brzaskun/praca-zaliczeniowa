@@ -117,8 +117,17 @@ public class PdfUmowaoPrace {
             PdfMain.dodajElementListy(document, "1) Rodzaj wykonywanej pracy: ", umowa.getStanowisko(), fontM);
             PdfMain.dodajElementListy(document, "2) Miejsce wykonywania pracy: ", umowa.getMiejscepracy(), fontM);
             PdfMain.dodajElementListy(document, "3) Wymiar czasu pracy: ", umowa.getEtat(), fontM);
-            PdfMain.dodajElementListy(document, "4) Wynagrodzenie: ", umowa.pobierzwynagrodzenieString(), fontM);
-            PdfMain.dodajElementListy(document, "5) Inne warunki zatrudnienia: ", umowa.getInnewarunkizatrudnienia(), fontM);
+            double wynagrodzeniemc = umowa.getWynagrodzeniemiesieczne();
+            if (wynagrodzeniemc!=0.0) {
+                PdfMain.dodajElementListy(document, "4) Wynagrodzenie zasadnicze: ", umowa.pobierzwynagrodzenieString(wynagrodzeniemc), fontM);
+            }
+            double wynagrodzeniegodzinowe = umowa.getWynagrodzeniegodzinowe();
+            if (wynagrodzeniegodzinowe!=0.0) {
+                PdfMain.dodajElementListy(document, "4) Wynagrodzenie godzinowe: ", umowa.pobierzwynagrodzenieString(wynagrodzeniegodzinowe), fontM);
+            }
+            PdfMain.dodajElementListy(document, "5) Inne warunki zatrudnienia: ", "", fontM);
+            String par8 = umowa.getInnewarunkizatrudnienia();
+            PdfMain.dodajLinieOpisuSpacing(document, par8, Element.ALIGN_JUSTIFIED, 1, 10);
             PdfMain.dodajElementListy(document, "6) termin rozpoczęcia pracy: ", umowa.getTerminrozpoczeciapracy(), fontM);
             PdfMain.dodajElementListy(document, "7) dopuszczalna liczba godzin, których przekroczenie uprawnia pracownika do dodatku z art. 151(1)§1 KP", umowa.getDopuszczalnailoscgodzin(), fontM);
             paragraph = new Paragraph(new Phrase("2. Przyczyny uzasadniające zawarcie umowy o pracę na czas nieokreślony w celu, o którym mowa w art. 25(1)§4pkt.1-3,4: ", fontM));

@@ -136,7 +136,10 @@ public class Umowa implements Serializable {
     @ManyToOne(optional = false)
     @NotNull
     private Umowakodzus umowakodzus;
-   
+    @Column(name = "etat1")
+    private Integer etat1;
+    @Column(name = "etat2")
+    private Integer etat2;
     @Column(name = "aktywna")
     private  boolean aktywna;
     @Temporal(TemporalType.TIMESTAMP)
@@ -212,11 +215,14 @@ public class Umowa implements Serializable {
    
 
     public Umowa() {
-
+        this.setEtat1(1);
+        this.setEtat2(1);
     }
 
     public Umowa(int id) {
         this.id = id;
+        this.setEtat1(1);
+        this.setEtat2(1);
     }
 
     public Umowa(Umowa stara) {
@@ -236,6 +242,9 @@ public class Umowa implements Serializable {
         this.innewarunkizatrudnienia = stara.innewarunkizatrudnienia;
         this.terminrozpoczeciapracy = nowadata;
         this.dopuszczalnailoscgodzin = stara.dopuszczalnailoscgodzin;
+        this.etat1 = stara.etat1;
+        this.etat2 = stara.etat2;
+        
    }
     
     
@@ -245,6 +254,22 @@ public class Umowa implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getEtat1() {
+        return etat1;
+    }
+
+    public void setEtat1(Integer etat1) {
+        this.etat1 = etat1;
+    }
+
+    public Integer getEtat2() {
+        return etat2;
+    }
+
+    public void setEtat2(Integer etat2) {
+        this.etat2 = etat2;
     }
 
 
@@ -894,7 +919,11 @@ public class Umowa implements Serializable {
 //    }
 
     public String getEtat() {
-        return "Zrobic pole etat w umowie!";
+        String zwrot = "Zrobic pole etat w umowie!";
+        if (this.etat1!=null&&this.etat2!=null) {
+            zwrot = this.etat1+"/"+this.etat2;
+        }
+        return zwrot;
     }
 
     public String pobierzwynagrodzenieString() {

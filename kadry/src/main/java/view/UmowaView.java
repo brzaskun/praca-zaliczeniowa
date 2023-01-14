@@ -115,8 +115,6 @@ public class UmowaView implements Serializable {
     private RodzajnieobecnosciFacade rodzajnieobecnosciFacade;
     @Inject
     private UpdateClassView updateClassView;
-    private Integer etat1;
-    private Integer etat2;
     private String datadzisiejsza;
     private String miejscowosc;
     private String rodzajumowy;
@@ -167,8 +165,8 @@ public class UmowaView implements Serializable {
         datadzisiejsza = Data.aktualnaData();
         miejscowosc = wpisView.getFirma()!=null?wpisView.getFirma().getMiasto():"brak firmy";
         selected = new Umowa();
-        etat1 = 1;
-        etat2 = 1;
+        selected.setEtat1(1);
+        selected.setEtat2(1);
         if (selectedlista==null||selectedlista.getId()==null) {
             if (rodzajumowy.equals("1")&&listapraca != null && listapraca.size() > 0 && wpisView.getUmowa() != null && !listapraca.contains(wpisView.getUmowa())) {
                 wpisView.setUmowa(listapraca.get(listapraca.size() - 1));
@@ -235,8 +233,6 @@ public class UmowaView implements Serializable {
                     }
                 }
                 selected = new Umowa();
-                etat1 = 1;
-                etat2 = 1;
                 updateClassView.updateUmowa();
                 Msg.msg("Dodano nową umowę");
             }
@@ -254,8 +250,6 @@ public class UmowaView implements Serializable {
                 skladnikWynagrodzeniaView.init();
                 zmiennaWynagrodzeniaView.init();
                 selected = new Umowa();
-                etat1 = 1;
-                etat2 = 1;
                 updateClassView.updateUmowa();
                 Msg.msg("Dodano nową umowę");
         }
@@ -280,8 +274,8 @@ public class UmowaView implements Serializable {
                 umowaFacade.create(selected);
                 listapraca.add(selected);
                 wpisView.setUmowa(selected);
-                if (selected.getUmowakodzus().isPraca() && etat1 != null && etat2 != null) {
-                    EtatPrac etat = new EtatPrac(wpisView.getAngaz(), selected.getDataod(), selected.getDatado(), etat1, etat2);
+                if (selected.getUmowakodzus().isPraca() && selected.getEtat1() != null && selected.getEtat2() != null) {
+                    EtatPrac etat = new EtatPrac(wpisView.getAngaz(), selected.getDataod(), selected.getDatado(), selected.getEtat1(), selected.getEtat2());
                     etatFacade.create(etat);
                 }
                 if (selected.getUmowakodzus().isPraca() && selected.getKodzawodu() != null) {
@@ -364,15 +358,15 @@ public class UmowaView implements Serializable {
                 umowaFacade.editList(listaumowa);
                 listaumowa.add(selected);
                 wpisView.setUmowa(selected);
-                if (selected.getUmowakodzus().isPraca() && etat1 != null && etat2 != null) {
+                if (selected.getUmowakodzus().isPraca() && selected.getEtat1() != null && selected.getEtat2() != null) {
                     List<EtatPrac> etaty = etatFacade.findByAngaz(angaz);
                     EtatPrac ostatnietat = null;
                     for (EtatPrac e : etaty) {
                         if (e.getDatado()==null||e.getDatado().equals("")) {
-                            if (etat1!=e.getEtat1()||etat2!=e.getEtat2()) {
+                            if (selected.getEtat1()!=e.getEtat1()||selected.getEtat2()!=e.getEtat2()) {
                                 e.setDatado(datazamknieciapoprzedniejumowy);
                                 etatFacade.edit(e);
-                                EtatPrac etat = new EtatPrac(angaz, selected.getDataod(), selected.getDatado(), etat1, etat2);
+                                EtatPrac etat = new EtatPrac(angaz, selected.getDataod(), selected.getDatado(), selected.getEtat1(), selected.getEtat2());
                                 etatFacade.create(etat);
                             }
                         }
@@ -846,22 +840,6 @@ public class UmowaView implements Serializable {
         this.listakodyzawodow = listakodyzawodow;
     }
 
-
-    public Integer getEtat1() {
-        return etat1;
-    }
-
-    public void setEtat1(Integer etat1) {
-        this.etat1 = etat1;
-    }
-
-    public Integer getEtat2() {
-        return etat2;
-    }
-
-    public void setEtat2(Integer etat2) {
-        this.etat2 = etat2;
-    }
 
     public String getDatadzisiejsza() {
         return datadzisiejsza;
