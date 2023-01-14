@@ -208,7 +208,7 @@
             <h:form id="wystawionepit11">
             <p:dataTable id="datalistwa" value="#{kartaWynagrodzenView.listaPIT11}" var="itempity11"
                          rowKey="#{itempity11.id}" rowIndexVar="indexpity11" 
-                         style="height: 350px; width: 1150px;" emptyMessage="Nie pobrano danych"
+                         style="height: 350px; width: 1250px;" emptyMessage="Nie pobrano danych"
                          >
                 <f:facet name="header">
                     <h:outputText value="Wygegnerowane deklaracje PIT-11"/>
@@ -268,6 +268,14 @@
                         <h:outputText value="xml"/>
                     </f:facet>
                     <p:commandButton icon="pi pi-print" actionListener="#{kartaWynagrodzenView.pokazPIT11(itempity11)}">
+                    </p:commandButton>
+                </p:column>
+                 <p:column width="30" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="us"/>
+                    </f:facet>
+                    <p:commandButton icon="pi pi-envelope" actionListener="#{kartaWynagrodzenView.pokazPIT11(itempity11)}">
+                        <p:confirm type="popup" header="Potwierdzenie" message="Wysłać deklarację do urzędu?" icon="pi pi-exclamation-triangle"/>
                     </p:commandButton>
                 </p:column>
                 <p:column width="30" style="text-align: center;">

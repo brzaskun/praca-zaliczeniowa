@@ -5,7 +5,7 @@
  */
 package view;
 
-import beanstesty.PIT11_27Bean;
+import beanstesty.PIT11_29Bean;
 import comparator.Kartawynagrodzencomparator;
 import comparator.PITPolacomparator;
 import dao.AngazFacade;
@@ -38,7 +38,6 @@ import msg.Msg;
 import org.primefaces.PrimeFaces;
 import pdf.PdfKartaWynagrodzen;
 import pdf.PdfPIT11;
-import pl.gov.crd.wzor._2021._03._04._10477.Deklaracja;
 
 /**
  *
@@ -292,9 +291,8 @@ public class KartaWynagrodzenView  implements Serializable {
 //    }
     
     public void pit11All() {
-        List<Kartawynagrodzen> lista = f.l.l(sumypracownicy, listaselected, null);
-        if (lista!=null && lista.size()>0) {
-            for (Kartawynagrodzen karta : lista) {
+        if (listaselected!=null && listaselected.size()>0) {
+            for (Kartawynagrodzen karta : listaselected) {
                 if (karta.isJestPIT11()==false && karta.getAngaz()!=null) {
                     Kartawynagrodzen kartawynagrodzen = karta;
                     FirmaKadry firma = kartawynagrodzen.getAngaz().getFirma();
@@ -317,7 +315,7 @@ public class KartaWynagrodzenView  implements Serializable {
             }
             init();
         } else {
-            Msg.msg("e","Błąd generowania PIT-11. Brak karty wynagrodzeń");
+            Msg.msg("e","Błąd generowania PIT-11. Nie wybrano pracowników");
         }
     }
     
@@ -377,8 +375,8 @@ public class KartaWynagrodzenView  implements Serializable {
                 byte[] deklaracja = deklaracjaPIT11Schowek.getDeklaracja(); //        ByteArrayInputStream in = new ByteArrayInputStream(this.deklaracja);
                 ByteArrayInputStream in = new ByteArrayInputStream(deklaracja);
                 is = new ObjectInputStream(in);
-                Deklaracja dekl = (Deklaracja) is.readObject();
-                String sciezka = PIT11_27Bean.marszajuldoplikuxml(dekl);
+                pl.gov.crd.wzor._2022._11._09._11890.Deklaracja dekl = (pl.gov.crd.wzor._2022._11._09._11890.Deklaracja) is.readObject();
+                String sciezka = PIT11_29Bean.marszajuldoplikuxml(dekl);
                 String polecenie = "wydrukXML(\"" + sciezka + "\")";
                 PrimeFaces.current().executeScript(polecenie);
                 Msg.msg("Pobrano deklaracje");
@@ -393,6 +391,8 @@ public class KartaWynagrodzenView  implements Serializable {
             Msg.msg("e", "B\u0142\u0105d, nie pobrano dekalracji");
         }
     }
+    
+    
 
     
  public List<Kartawynagrodzen> getKartawynagrodzenlist() {
