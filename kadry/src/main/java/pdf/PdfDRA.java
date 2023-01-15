@@ -15,6 +15,7 @@ import com.itextpdf.text.pdf.PdfWriter;
 import entity.Definicjalistaplac;
 import entity.Pasekwynagrodzen;
 import error.E;
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -24,9 +25,9 @@ import msg.Msg;
 import org.primefaces.PrimeFaces;
 import static pdf.PdfFont.*;
 import static pdf.PdfMain.finalizacjaDokumentuQR;
-import static pdf.PdfMain.inicjacjaWritera;
 import static pdf.PdfMain.naglowekStopkaL;
 import static pdf.PdfMain.otwarcieDokumentu;
+import plik.Plik;
 import z.Z;
 
 /**
@@ -150,13 +151,14 @@ public class PdfDRA {
 //            danezus.put("zus", zus);
 //            danezus.put("pit4", pit4);
      
-    public static void drukujListaPodstawowa(List<Pasekwynagrodzen> lista, List<Definicjalistaplac> def, String nip, String mc, Map<String,Double> danezus) {
+    public static ByteArrayOutputStream drukujListaPodstawowa(List<Pasekwynagrodzen> lista, List<Definicjalistaplac> def, String nip, String mc, Map<String,Double> danezus) {
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
         try {
             String nazwa = nip + "_" + mc + "_" + "DRA.pdf";
             if (lista != null) {
                 lista.add(PasekwynagrodzenBean.sumujpaski(lista));
                 Document document = PdfMain.inicjacjaA4Landscape();
-                PdfWriter writer = inicjacjaWritera(document, nazwa);
+                PdfWriter writer = PdfMain.inicjacjaWriteraOut(document, out);
                 naglowekStopkaL(writer);
                 otwarcieDokumentu(document, nazwa);
                 List<String> nazwy = new ArrayList<>();
@@ -174,9 +176,9 @@ public class PdfDRA {
                     "FP", "FGŚP", "Koszt pracodawcy", "Należna zaliczka na podatek dochodowy"};
                 dodajtabeleglowna(lista, document, opisy);
                 document.add(Chunk.NEWLINE);
-                PdfMain.dodajLinieOpisuBezOdstepuTab(document, "zus 51 pracownik:", f.F.curr(danezus.get("zus51")), Element.ALIGN_LEFT, 2, 100);
-                PdfMain.dodajLinieOpisuBezOdstepuTab(document, "zus 51 pracodawca:", f.F.curr(danezus.get("zus51pracownik")), Element.ALIGN_LEFT, 2, 100);
-                PdfMain.dodajLinieOpisuBezOdstepuTab(document, "zus 51 razem:", f.F.curr(danezus.get("zus51pracodawca")), Element.ALIGN_LEFT, 2, 100);
+                PdfMain.dodajLinieOpisuBezOdstepuTab(document, "zus 51 pracownik:", f.F.curr(danezus.get("zus51pracownik")), Element.ALIGN_LEFT, 2, 100);
+                PdfMain.dodajLinieOpisuBezOdstepuTab(document, "zus 51 pracodawca:", f.F.curr(danezus.get("zus51pracodawca")), Element.ALIGN_LEFT, 2, 100);
+                PdfMain.dodajLinieOpisuBezOdstepuTab(document, "zus 51 razem:", f.F.curr(danezus.get("zus51")), Element.ALIGN_LEFT, 2, 100);
                 PdfMain.dodajLinieOpisuBezOdstepuTab(document, "zus 52: ", f.F.curr(danezus.get("zus52")), Element.ALIGN_LEFT, 2, 100);
                 PdfMain.dodajLinieOpisuBezOdstepuTab(document, "zus 53 FP: ", f.F.curr(danezus.get("zusFP")), Element.ALIGN_LEFT, 2, 100);
                 PdfMain.dodajLinieOpisuBezOdstepuTab(document, "zus 53 FGŚP: ", f.F.curr(danezus.get("zusFGSP")), Element.ALIGN_LEFT, 2, 100);
@@ -184,6 +186,7 @@ public class PdfDRA {
                 PdfMain.dodajLinieOpisuBezOdstepuTab(document, "zus 53 razem: ", f.F.curr(danezus.get("zus")), Element.ALIGN_LEFT, 2, 100);
                 PdfMain.dodajLinieOpisuBezOdstepuTab(document, "PIT-4: ", f.F.curr(danezus.get("pit4")), Element.ALIGN_LEFT, 2, 100);
                 finalizacjaDokumentuQR(document, nazwa);
+                Plik.zapiszBufferdoPlik(nazwa, out);
                 String f = "pokazwydruk('" + nazwa + "');";
                 PrimeFaces.current().executeScript(f);
             } else {
@@ -192,5 +195,6 @@ public class PdfDRA {
         } catch (Exception e) {
             E.e(e);
         }
+        return out;
     }
 }

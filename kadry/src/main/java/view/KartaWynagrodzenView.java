@@ -248,7 +248,7 @@ public class KartaWynagrodzenView  implements Serializable {
             if (deklaracja!=null) {
                 String polecenie = "wydrukXML(\""+(String)sciezka[0]+"\")";
                 PrimeFaces.current().executeScript(polecenie);
-                String nazwapliku = PdfPIT11.drukuj29(deklaracja, wpisView.getUzer().getImieNazwiskoTelefon());
+                String nazwapliku = PdfPIT11.drukuj29(deklaracja, wpisView.getUzer().getImieNazwiskoTelefon(), null);
                 DeklaracjaPIT11Schowek schowek = new DeklaracjaPIT11Schowek(deklaracja, firma, pracownik, wpisView.getRokWpisu(),"PIT11");
                 deklaracjaSchowekFacade.create(schowek);
                 polecenie = "wydrukPDF(\""+nazwapliku+"\")";
@@ -302,7 +302,7 @@ public class KartaWynagrodzenView  implements Serializable {
                     if (deklaracja!=null) {
                         String polecenie = "wydrukXML(\""+(String)sciezka[0]+"\")";
                         PrimeFaces.current().executeScript(polecenie);
-                        String nazwapliku = PdfPIT11.drukuj29(deklaracja, wpisView.getUzer().getImieNazwiskoTelefon());
+                        String nazwapliku = PdfPIT11.drukuj29(deklaracja, wpisView.getUzer().getImieNazwiskoTelefon(), null);
                         DeklaracjaPIT11Schowek schowek = new DeklaracjaPIT11Schowek(deklaracja, firma, pracownik, wpisView.getRokWpisu(),"PIT11");
                         karta.setJestPIT11(true);
                         deklaracjaSchowekFacade.create(schowek);
@@ -340,7 +340,7 @@ public class KartaWynagrodzenView  implements Serializable {
                 ByteArrayInputStream in = new ByteArrayInputStream(deklaracja);
                 is = new ObjectInputStream(in);
                 pl.gov.crd.wzor._2022._11._09._11890.Deklaracja dekl = (pl.gov.crd.wzor._2022._11._09._11890.Deklaracja) is.readObject();
-                String nazwapliku = PdfPIT11.drukuj29(dekl, wpisView.getUzer().getImieNazwiskoTelefon());
+                String nazwapliku = PdfPIT11.drukuj29(dekl, wpisView.getUzer().getImieNazwiskoTelefon(), deklaracjaPIT11Schowek);
                 String polecenie = "wydrukPDF(\"" + nazwapliku + "\")";
                 PrimeFaces.current().executeScript(polecenie);
                 Msg.msg("Pobrano deklaracje");

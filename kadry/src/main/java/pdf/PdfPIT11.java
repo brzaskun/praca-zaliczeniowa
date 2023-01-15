@@ -14,7 +14,9 @@ import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
 import com.itextpdf.text.pdf.PdfWriter;
+import data.Data;
 import embeddable.TKodUS;
+import entity.DeklaracjaPIT11Schowek;
 import f.F;
 import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
@@ -278,7 +280,7 @@ public class PdfPIT11 {
         return nazwapliku;
     }
 
-    public static String drukuj29(pl.gov.crd.wzor._2022._11._09._11890.Deklaracja deklaracja, String sporzadzajacy) {
+    public static String drukuj29(pl.gov.crd.wzor._2022._11._09._11890.Deklaracja deklaracja, String sporzadzajacy, DeklaracjaPIT11Schowek deklaracjaPIT11Schowek) {
         String nazwapliku = null;
         if (deklaracja != null) {
             try {
@@ -390,11 +392,13 @@ public class PdfPIT11 {
                         absText(writer, "X", 329, 68);
                     }
                 }
-                absText(writer, "Data potwierdzebia", 490, 800, 6);
-                absText(writer, "2013-05-05 124885", 490, 790, 6);
-                absText(writer, "Opis", 490, 780, 6);
-                absText(writer, "Nr potwierdzenia:", 460, 770, 6);
-                absText(writer, "ijijiiijiiji", 460, 760, 6);
+                if (deklaracjaPIT11Schowek!=null) {
+//                    absText(writer, "Data potwierdzenia", 490, 795, 8);
+                    absText(writer, Data.data_ddMMMMyyyy(deklaracjaPIT11Schowek.getDataupo()), 490, 795, 8);
+                    absText(writer, "status "+deklaracjaPIT11Schowek.getStatus(), 490, 785, 8);
+                    absText(writer, "Nr wys.:", 340, 795, 8);
+                    absText(writer, deklaracjaPIT11Schowek.getIdentyfikator(), 340, 785, 8);
+                }
                 document.newPage();
                 absTextW(writer, pobierz(ps.getP29()), 218, 700);
                 absTextW(writer, pobierz(ps.getP30()), 300, 700);

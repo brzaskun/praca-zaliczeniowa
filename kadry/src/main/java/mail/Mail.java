@@ -146,6 +146,38 @@ public class Mail {
         }
     }
     
+    
+    public static void mailDRA(FirmaKadry firma, String rok, String mc, String adres, SMTPSettings settings,SMTPSettings ogolne, byte[] zalacznik, String nazwapliku, String adresBCC)  {
+        try {
+            MimeMessage message = new MimeMessage(MailSetUp.otworzsesje(settings, ogolne));
+            message.setFrom(new InternetAddress(SMTPBean.adresFrom(settings, ogolne), SMTPBean.nazwaFirmyFrom(settings, ogolne)));
+            message.setRecipients(Message.RecipientType.TO,
+                    InternetAddress.parse(adres));
+            message.setRecipients(Message.RecipientType.BCC,
+                    InternetAddress.parse(adresBCC));
+            MimeBodyPart mbp1 = new MimeBodyPart();
+            String temat = "Zestawienie DRA "+firma.getNazwa()+" za "+rok+"/"+mc;
+            message.setSubject(MimeUtility.encodeText(temat, "UTF-8", "Q"));
+            String tresc = "Dzień dobry"
+                    + "<p>W załączeniu zestawienie DRA dla firmy "+firma.getNazwa()+" NIP "+firma.getNip()
+                    + "za okres</p>"
+                    + "<p> "+rok+"/"+mc+"</p>"
+                    + stopka;
+            mbp1.setContent(tresc, "text/html; charset=utf-8");
+            mbp1.setHeader("Content-Type", "text/html; charset=utf-8");
+            Multipart mp = new MimeMultipart();
+            mp.addBodyPart(mbp1);
+            dolaczplik(zalacznik, mp, nazwapliku);
+            message.setContent(mp);
+            Transport.send(message);
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        } catch (UnsupportedEncodingException ex) {
+            // Logger.getLogger(MailAdmin.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    
     public static void mailListaPlac(FirmaKadry firma, String rok, String mc, String adres, SMTPSettings settings,SMTPSettings ogolne, byte[] zalacznik, String nazwapliku, String adresBCC)  {
         try {
             MimeMessage message = new MimeMessage(MailSetUp.otworzsesje(settings, ogolne));
