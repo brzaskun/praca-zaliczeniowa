@@ -141,6 +141,8 @@
                        <p:inputText id="dataurodzenia" value="#{firmaView.selectedlista.dataurodzenia}" title="nazwisko przedsiębiorcy"   placeholder="____-__-__"  maxlength="10"/>
                        <p:outputLabel value="Regon" for="regon" />
                        <p:inputText id="regon" value="#{firmaView.selectedlista.regon}" title="Regon" />
+                       <p:outputLabel value="NIP" for="nip" rendered="#{wpisView.uzer.login eq '2'}"/>
+                        <p:inputText id="nip" value="#{firmaView.selectedlista.nip}" title="NIP"  rendered="#{wpisView.uzer.login eq '2'}"/>
                 </p:panelGrid>
                 <p:panel header="adres siedziby firmy #{firmaView.selectedlista.nazwa}"/>
                     <p:panelGrid columns="8">
@@ -218,7 +220,7 @@
                         </p:selectOneMenu>
                      </p:panelGrid>
                      <p:panelGrid columns="2">
-                        <p:commandButton value="zachowaj" styleClass="buttonnorm" actionListener="#{firmaView.edytuj()}" update="@(form)"/>
+                        <p:commandButton value="zachowaj" styleClass="buttonnorm" actionListener="#{firmaView.edytuj()}" update="FirmaListForm:datalist"/>
                         
                     </p:panelGrid>
                     </h:form>

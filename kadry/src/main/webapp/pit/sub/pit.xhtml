@@ -272,14 +272,14 @@
                     <f:facet name="header">
                         <h:outputText value="pdf"/>
                     </f:facet>
-                    <p:commandButton icon="pi pi-file-pdf" actionListener="#{kartaWynagrodzenView.pokazpdf(itempity11)}">
+                    <p:commandButton icon="pi pi-file-pdf" actionListener="#{kartaWynagrodzenView.drukujPIT11(itempity11, pokaz)}">
                     </p:commandButton>
                 </p:column>
                  <p:column width="30" style="text-align: center;">
                     <f:facet name="header">
                         <h:outputText value="xml"/>
                     </f:facet>
-                    <p:commandButton icon="pi pi-print" actionListener="#{kartaWynagrodzenView.pokazPIT11(itempity11)}">
+                    <p:commandButton icon="pi pi-print" actionListener="#{kartaWynagrodzenView.pokazPIT11XML(itempity11)}">
                     </p:commandButton>
                 </p:column>
                  <p:column width="30" style="text-align: center;">
@@ -307,6 +307,10 @@
                     </p:commandButton>
                 </p:column>
             </p:dataTable>
+                <p:panelGrid columns="4">
+                        <p:commandButton value="drukuj wszystkie" styleClass="buttonnorm" actionListener="#{kartaWynagrodzenView.drukujwszystkiePIT11()}" global="true"/>
+                        <p:commandButton value="mail do firmy" styleClass="buttonnorm" actionListener="#{kartaWynagrodzenView.mailwszystkie()}" global="true"/>
+                    </p:panelGrid>
         </h:form>
     </p:outputPanel>
         </p:tab>

@@ -392,12 +392,14 @@ public class PdfPIT11 {
                         absText(writer, "X", 329, 68);
                     }
                 }
-                if (deklaracjaPIT11Schowek!=null) {
+                if (deklaracjaPIT11Schowek!=null&&deklaracjaPIT11Schowek.getDataupo()!=null) {
 //                    absText(writer, "Data potwierdzenia", 490, 795, 8);
                     absText(writer, Data.data_ddMMMMyyyy(deklaracjaPIT11Schowek.getDataupo()), 490, 795, 8);
                     absText(writer, "status "+deklaracjaPIT11Schowek.getStatus(), 490, 785, 8);
                     absText(writer, "Nr wys.:", 340, 795, 8);
                     absText(writer, deklaracjaPIT11Schowek.getIdentyfikator(), 340, 785, 8);
+                } else {
+                    absText(writer, "NIE WYSŁANA!", 340, 785, 12);
                 }
                 document.newPage();
                 absTextW(writer, pobierz(ps.getP29()), 218, 700);

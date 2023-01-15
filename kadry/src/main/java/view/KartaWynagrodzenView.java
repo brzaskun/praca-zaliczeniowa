@@ -12,6 +12,7 @@ import dao.AngazFacade;
 import dao.DeklaracjaPIT11SchowekFacade;
 import dao.KartaWynagrodzenFacade;
 import dao.PasekwynagrodzenFacade;
+import dao.SMTPSettingsFacade;
 import data.Data;
 import embeddable.Mce;
 import entity.Angaz;
@@ -21,8 +22,11 @@ import entity.Kartawynagrodzen;
 import entity.PITPola;
 import entity.Pasekwynagrodzen;
 import entity.Pracownik;
+import entity.SMTPSettings;
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -31,10 +35,16 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.ServletContext;
 import msg.Msg;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
+import org.apache.pdfbox.io.MemoryUsageSetting;
+import org.apache.pdfbox.multipdf.PDFMergerUtility;
 import org.primefaces.PrimeFaces;
 import pdf.PdfKartaWynagrodzen;
 import pdf.PdfPIT11;
@@ -58,6 +68,8 @@ public class KartaWynagrodzenView  implements Serializable {
     private PasekwynagrodzenFacade pasekwynagrodzenFacade;
     @Inject
     private DeklaracjaPIT11SchowekFacade deklaracjaPIT11SchowekFacade;
+    @Inject
+    private SMTPSettingsFacade sMTPSettingsFacade;
     private List<Kartawynagrodzen> sumypracownicy;
     private List<Kartawynagrodzen> listaselected;
     private PITPola wybranypitpola;
@@ -331,8 +343,51 @@ public class KartaWynagrodzenView  implements Serializable {
     }
     
    
-
-    public void pokazpdf(DeklaracjaPIT11Schowek deklaracjaPIT11Schowek) {
+    
+    public void mailwszystkie() {
+        ByteArrayInputStream drukujwszystkiePIT11 = drukujwszystkiePIT11();
+        if (drukujwszystkiePIT11 != null) {
+            try {
+                byte[] bytes = IOUtils.toByteArray(drukujwszystkiePIT11);
+                SMTPSettings findSprawaByDef = sMTPSettingsFacade.findSprawaByDef();
+                String nazwa = wpisView.getFirma().getNip() + "_DRA" + wpisView.getRokWpisu()+ wpisView.getMiesiacWpisu() + "_" + ".pdf";
+                mail.Mail.mailPIT11Zbiorcze(wpisView.getFirma(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu(), wpisView.getFirma().getEmail(), null, findSprawaByDef, bytes, nazwa, wpisView.getUzer().getEmail());
+                Msg.msg("Wysłano zbiorczo PIT11 do pracodawcy");
+            } catch (Exception e){}
+        } else {
+            Msg.msg("e", "Błąd dwysyki zbiorczo PIT11");
+        }
+    }
+   
+    public ByteArrayInputStream drukujwszystkiePIT11() {
+        ByteArrayInputStream zwrot = null;
+         if (listaPIT11!=null && listaPIT11.size()>0) {
+             try {
+                List<InputStream> pliki = new ArrayList<>();
+                for (DeklaracjaPIT11Schowek p : listaPIT11) {
+                    ByteArrayInputStream drukujPIT11 = drukujPIT11(p, false);
+                    pliki.add(drukujPIT11);
+                }
+                PDFMergerUtility uti = new PDFMergerUtility();
+                uti.addSources(pliki);
+                ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+                String bazwa = wpisView.getFirma().getNip()+"_PIT11_zbiorcze.pdf";
+                String realPath = ctx.getRealPath("/")+"resources\\pdf\\"+bazwa;
+                uti.setDestinationFileName(realPath);
+                uti.mergeDocuments(MemoryUsageSetting.setupTempFileOnly());
+                String polecenie = "wydrukPDF(\"" + bazwa + "\")";
+                PrimeFaces.current().executeScript(polecenie);
+                zwrot = new ByteArrayInputStream(FileUtils.readFileToByteArray(new File(realPath)));
+             } catch (Exception e){}
+         } else {
+            Msg.msg("e","Błąd drukowania PIT-11. Nie wybrano pracowników");
+        }
+         return zwrot;
+    }
+            
+   
+    public ByteArrayInputStream drukujPIT11(DeklaracjaPIT11Schowek deklaracjaPIT11Schowek, boolean pokaz) {
+        ByteArrayInputStream zwrot = null;
         if (deklaracjaPIT11Schowek != null) {
             ObjectInputStream is = null;
             try {
@@ -341,9 +396,14 @@ public class KartaWynagrodzenView  implements Serializable {
                 is = new ObjectInputStream(in);
                 pl.gov.crd.wzor._2022._11._09._11890.Deklaracja dekl = (pl.gov.crd.wzor._2022._11._09._11890.Deklaracja) is.readObject();
                 String nazwapliku = PdfPIT11.drukuj29(dekl, wpisView.getUzer().getImieNazwiskoTelefon(), deklaracjaPIT11Schowek);
-                String polecenie = "wydrukPDF(\"" + nazwapliku + "\")";
-                PrimeFaces.current().executeScript(polecenie);
+                if (pokaz) {
+                    String polecenie = "wydrukPDF(\"" + nazwapliku + "\")";
+                    PrimeFaces.current().executeScript(polecenie);
+                }
                 Msg.msg("Pobrano deklaracje");
+                ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+                String realPath = ctx.getRealPath("/")+"resources\\pdf\\"+nazwapliku;
+                zwrot = new ByteArrayInputStream(FileUtils.readFileToByteArray(new File(realPath)));
             } catch (Exception ex) {
             } finally {
                 try {
@@ -354,6 +414,7 @@ public class KartaWynagrodzenView  implements Serializable {
         } else {
             Msg.msg("e", "B\u0142\u0105d, nie pobrano dekalracji");
         }
+        return zwrot;
     }
 
   
@@ -368,7 +429,7 @@ public class KartaWynagrodzenView  implements Serializable {
         }
     }
 
-    public void pokazPIT11(DeklaracjaPIT11Schowek deklaracjaPIT11Schowek) {
+    public void pokazPIT11XML(DeklaracjaPIT11Schowek deklaracjaPIT11Schowek) {
         if (deklaracjaPIT11Schowek != null) {
             ObjectInputStream is = null;
             try {

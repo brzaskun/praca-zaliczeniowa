@@ -295,9 +295,11 @@ public class FirmaView  implements Serializable {
                 uz.setNrtelefonu(selectedlista.getTelefon());
                 uzFacade.edit(uz);
             } else {
-                UprawnieniaUz uprawnienia = uprawnieniaFacade.findByNazwa("Pracodawca");
-                Uz uzer = new Uz(selectedlista, uprawnienia);
-                uzFacade.create(uzer);
+                try {
+                    UprawnieniaUz uprawnienia = uprawnieniaFacade.findByNazwa("Pracodawca");
+                    Uz uzer = new Uz(selectedlista, uprawnienia);
+                    uzFacade.create(uzer);
+                } catch (Exception e){}
             }
             Msg.msg("Edytowano firmę");
         } else {
