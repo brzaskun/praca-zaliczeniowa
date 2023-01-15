@@ -6,19 +6,32 @@
 package beanstesty;
 
 import comparator.Umowacomparator;
+import dao.EtatPracFacade;
+import dao.RodzajwynagrodzeniaFacade;
+import dao.SkladnikWynagrodzeniaFacade;
+import dao.StanowiskopracFacade;
+import dao.UmowaFacade;
+import dao.ZmiennaWynagrodzeniaFacade;
 import data.Data;
 import static data.Data.getDzien;
 import entity.Angaz;
+import entity.EtatPrac;
+import entity.Rodzajwynagrodzenia;
+import entity.Skladnikwynagrodzenia;
 import entity.Slownikszkolazatrhistoria;
+import entity.Stanowiskoprac;
 import entity.Umowa;
 import entity.Umowakodzus;
+import entity.Zmiennawynagrodzenia;
 import java.time.LocalDate;
 import static java.time.temporal.ChronoUnit.DAYS;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import kadryiplace.Osoba;
 import kadryiplace.OsobaZlec;
 import kadryiplace.ZatrudHist;
+import msg.Msg;
 
 /**
  *
@@ -180,6 +193,112 @@ public class UmowaBean {
         return zwrot;
     }
 
+    
+    public static Umowa createpierwsza(Umowa selected, UmowaFacade umowaFacade, EtatPracFacade etatFacade, StanowiskopracFacade stanowiskopracFacade, RodzajwynagrodzeniaFacade rodzajwynagrodzeniaFacade, SkladnikWynagrodzeniaFacade skladnikWynagrodzeniaFacade, ZmiennaWynagrodzeniaFacade zmiennaWynagrodzeniaFacade) {
+        if (selected != null && selected.getAngaz() != null) {
+            Angaz angaz = selected.getAngaz();
+            try {
+                
+                if (selected.getUmowakodzus().isPraca()) {
+                    selected.setLiczdourlopu(true);
+                    try {
+                        String dataodkiedywyplatazasilku = UmowaBean.obliczdatepierwszegozasilku(angaz.getUmowaList(), selected);
+                        selected.setPierwszydzienzasilku(dataodkiedywyplatazasilku);
+                    } catch (Exception e){}
+                }
+                selected.setAktywna(true);
+                selected.setDatasystem(new Date());
+                String dataostatniejumowy = null;
+                selected.setLicznikumow(1);
+                umowaFacade.create(selected);
+                
+                if (selected.getUmowakodzus().isPraca() && selected.getEtat1() != null && selected.getEtat2() != null) {
+                    EtatPrac etat = new EtatPrac(angaz, selected.getDataod(), selected.getDatado(), selected.getEtat1(), selected.getEtat2());
+                    etatFacade.create(etat);
+                }
+                if (selected.getUmowakodzus().isPraca() && selected.getKodzawodu() != null) {
+                    Stanowiskoprac stanowisko = new Stanowiskoprac(angaz, selected.getDataod(), selected.getDatado(), selected.getStanowisko());
+                    stanowiskopracFacade.create(stanowisko);
+                }
+                if (selected.getWynagrodzeniemiesieczne() != 0.0) {
+                    Rodzajwynagrodzenia rodzajwynagrodzenia = selected.getUmowakodzus().isPraca() ? rodzajwynagrodzeniaFacade.findZasadniczePraca() : rodzajwynagrodzeniaFacade.findZasadniczeZlecenie();
+                    Skladnikwynagrodzenia skladnikwynagrodzenia =  dodajskladnikwynagrodzenia(rodzajwynagrodzenia, selected, skladnikWynagrodzeniaFacade);
+                    Zmiennawynagrodzenia zmiennawynagrodzenie = dodajzmiennawynagrodzenie(skladnikwynagrodzenia, "PLN", selected, 1, zmiennaWynagrodzeniaFacade);
+                    if (skladnikwynagrodzenia.getId() != null && zmiennawynagrodzenie != null) {
+                        Msg.msg("Dodano składniki wynagrodzania");
+                    }
+                }
+                if (selected.getWynagrodzeniegodzinowe() != 0.0) {
+                    Rodzajwynagrodzenia rodzajwynagrodzenia = selected.getUmowakodzus().isPraca() ? rodzajwynagrodzeniaFacade.findGodzinowePraca() : rodzajwynagrodzeniaFacade.findGodzinoweZlecenie();
+                    Skladnikwynagrodzenia skladnikwynagrodzenia = dodajskladnikwynagrodzenia(rodzajwynagrodzenia, selected, skladnikWynagrodzeniaFacade);
+                    Zmiennawynagrodzenia zmiennawynagrodzenie = dodajzmiennawynagrodzenie(skladnikwynagrodzenia, "PLN", selected, 2, zmiennaWynagrodzeniaFacade);
+                    if (skladnikwynagrodzenia.getId() != null && zmiennawynagrodzenie != null) {
+                        Msg.msg("Dodano składniki wynagrodzania");
+                    }
+                }
+                
+                if (selected.getWynagrodzenieoddelegowanie() != 0.0&&selected.getSymbolwalutyoddelegowanie()!=null) {
+                    Rodzajwynagrodzenia rodzajwynagrodzenia = selected.getUmowakodzus().isPraca() ? rodzajwynagrodzeniaFacade.findGodzinoweOddelegowaniePraca() : rodzajwynagrodzeniaFacade.findGodzinoweOddelegowanieZlecenie();
+                    Skladnikwynagrodzenia skladnikwynagrodzenia = dodajskladnikwynagrodzeniaOddelegowanie(rodzajwynagrodzenia, selected, skladnikWynagrodzeniaFacade);
+                    Zmiennawynagrodzenia zmiennawynagrodzenie = dodajzmiennawynagrodzenie(skladnikwynagrodzenia, selected.getSymbolwalutyoddelegowanie(), selected, 3, zmiennaWynagrodzeniaFacade);
+                    if (skladnikwynagrodzenia.getId() != null && zmiennawynagrodzenie != null) {
+                        Msg.msg("Dodano składniki wynagrodzania");
+                    }
+                }
+            } catch (Exception e) {
+                Msg.msg("e", "Błąd - nie dodano nowej umowy. Sprawdź angaż");
+            }
+        }
+        return selected;
+    }
+    
+    private static Skladnikwynagrodzenia dodajskladnikwynagrodzenia(Rodzajwynagrodzenia rodzajwynagrodzenia, Umowa selected, SkladnikWynagrodzeniaFacade skladnikWynagrodzeniaFacade) {
+        Skladnikwynagrodzenia skladnikwynagrodzenia = new Skladnikwynagrodzenia();
+        skladnikwynagrodzenia.setAngaz(selected.getAngaz());
+        skladnikwynagrodzenia.setRodzajwynagrodzenia(rodzajwynagrodzenia);
+        try {
+            skladnikWynagrodzeniaFacade.create(skladnikwynagrodzenia);
+        } catch (Exception e) {
+        }
+        return skladnikwynagrodzenia;
+    }
+    
+    private static Skladnikwynagrodzenia dodajskladnikwynagrodzeniaOddelegowanie(Rodzajwynagrodzenia rodzajwynagrodzenia, Umowa selected, SkladnikWynagrodzeniaFacade skladnikWynagrodzeniaFacade) {
+        Skladnikwynagrodzenia skladnikwynagrodzenia = new Skladnikwynagrodzenia();
+        skladnikwynagrodzenia.setAngaz(selected.getAngaz());
+        skladnikwynagrodzenia.setOddelegowanie(true);
+        skladnikwynagrodzenia.setRodzajwynagrodzenia(rodzajwynagrodzenia);
+        try {
+            skladnikWynagrodzeniaFacade.create(skladnikwynagrodzenia);
+        } catch (Exception e) {
+        }
+        return skladnikwynagrodzenia;
+    }
+
+    public static Zmiennawynagrodzenia dodajzmiennawynagrodzenie(Skladnikwynagrodzenia skladnikwynagrodzenia, String waluta, Umowa umowa, int numer, ZmiennaWynagrodzeniaFacade zmiennaWynagrodzeniaFacade) {
+        Zmiennawynagrodzenia zmiennawynagrodzenia = new Zmiennawynagrodzenia();
+        if (skladnikwynagrodzenia.getId() != null) {
+            zmiennawynagrodzenia.setSkladnikwynagrodzenia(skladnikwynagrodzenia);
+            zmiennawynagrodzenia.setWaluta(waluta);
+            if (numer==1&&umowa.getWynagrodzeniemiesieczne() != 0.0) {
+                zmiennawynagrodzenia.setNazwa("miesięczne");
+                zmiennawynagrodzenia.setKwota(umowa.getWynagrodzeniemiesieczne());
+            } else if (numer==2&&umowa.getWynagrodzeniegodzinowe() != 0.0) {
+                zmiennawynagrodzenia.setNazwa("godzinowe");
+                zmiennawynagrodzenia.setKwota(umowa.getWynagrodzeniegodzinowe());
+            } else if (numer==3&&umowa.getWynagrodzenieoddelegowanie() != 0.0) {
+                zmiennawynagrodzenia.setNazwa("oddel.");
+                zmiennawynagrodzenia.setKwota(umowa.getWynagrodzenieoddelegowanie());
+            }
+            zmiennawynagrodzenia.setDataod(umowa.getDataod());
+            zmiennawynagrodzenia.setDatado(umowa.getDatado());
+        }
+        try {
+            zmiennaWynagrodzeniaFacade.create(zmiennawynagrodzenia);
+        } catch (Exception e) {
+        }
+        return zmiennawynagrodzenia;
+    }
 
     public static void main(String[] args) {
         LocalDate dzienzero = LocalDate.parse("2021-01-01");

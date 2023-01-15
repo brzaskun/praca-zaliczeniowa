@@ -5,12 +5,21 @@
  */
 package view;
 
+import dao.EtatPracFacade;
+import dao.RodzajwynagrodzeniaFacade;
+import dao.SMTPSettingsFacade;
+import dao.SkladnikWynagrodzeniaFacade;
+import dao.StanowiskopracFacade;
 import dao.UmowaFacade;
 import dao.UmowakodzusFacade;
+import dao.ZmiennaWynagrodzeniaFacade;
 import data.Data;
 import entity.Angaz;
+import entity.FirmaKadry;
+import entity.SMTPSettings;
 import entity.Umowa;
 import entity.Umowakodzus;
+import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -39,6 +48,18 @@ public class UmowaGrupowoView implements Serializable {
     private Umowa selected;
     @Inject
     private UmowakodzusFacade rodzajumowyFacade;
+    @Inject
+    private SMTPSettingsFacade sMTPSettingsFacade;
+    @Inject
+    private EtatPracFacade etatFacade;
+    @Inject
+    private StanowiskopracFacade stanowiskopracFacade;
+    @Inject
+    private SkladnikWynagrodzeniaFacade skladnikWynagrodzeniaFacade;
+    @Inject
+    private RodzajwynagrodzeniaFacade rodzajwynagrodzeniaFacade;
+    @Inject
+    private ZmiennaWynagrodzeniaFacade zmiennaWynagrodzeniaFacade;
     @Inject
     private UmowaFacade umowaFacade;
     private List<Umowakodzus> listaumowakodzus;
@@ -96,6 +117,33 @@ public class UmowaGrupowoView implements Serializable {
             Msg.msg("e", "Nie wybrano umowy");
         }
     }
+     
+     public void mailUmowyZlecenia() {
+         if (listaumowy.getTarget()==null||listaumowy.getTarget().size()==0) {
+                Msg.msg("w", "Nie ma wybranych zleceniobiorców");
+            } else {
+                FirmaKadry firmaKadry = wpisView.getFirma();
+                ByteArrayOutputStream drukujmail = PdfUmowaoZlecenia.drukujwszystkie(selected, wpisView.getFirma(), listaumowy.getTarget(), wynagrodzeniegodzinowe);
+                SMTPSettings findSprawaByDef = sMTPSettingsFacade.findSprawaByDef();
+                String nazwa = firmaKadry.getNip()+"umowyzlecenia.pdf";
+                mail.Mail.mailUmowyZlecenia(wpisView.getFirma(), wpisView.getFirma().getEmail(), null, findSprawaByDef, drukujmail.toByteArray(), nazwa, wpisView.getUzer().getEmail());
+                Msg.msg("Wysłano umowy zlecenia do klienta");
+         }
+    }
+     
+     public void naniesdoBazy() {
+         if (listaumowy.getTarget()==null||listaumowy.getTarget().size()==0) {
+                Msg.msg("w", "Nie ma wybranych zleceniobiorców");
+            } else {
+             List<Angaz> target = listaumowy.getTarget();
+                for (Angaz angaz : target) {
+                    selected.setAngaz(angaz);
+                    beanstesty.UmowaBean.createpierwsza(selected, umowaFacade, etatFacade, stanowiskopracFacade, rodzajwynagrodzeniaFacade, skladnikWynagrodzeniaFacade, zmiennaWynagrodzeniaFacade);
+                }
+                Msg.msg("Zapisano umowy zlecenia do bazy");
+         }
+     }
+         
      
      public void sprawdzczyumowajestnaczas() {
         if (selected.getDatado() != null) {

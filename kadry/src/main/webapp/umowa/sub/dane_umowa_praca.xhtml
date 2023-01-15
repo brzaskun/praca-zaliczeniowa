@@ -14,7 +14,7 @@
                 <p:dataTable id="datalist" value="#{umowaView.listapraca}" var="itemumowa" widgetVar="dataListumowa"
                              selection="#{umowaView.selectedlista}" emptyMessage="Brak zawartych umów"
                              rowKey="#{itemumowa.id}" sortBy="#{itemumowa.dataod}" sortMode="single"
-                             style="height: 220px; overflow-y: scroll; width: 1600px;"
+                             style="height: 220px; overflow-y: scroll; width: 1750px;"
                              >
                     <p:ajax event="rowSelect" listener="#{umowaView.aktywuj}" partialSubmit="true" global="false" update="north @(form)"/>
                     <p:ajax event="rowSelectRadio" listener="#{umowaView.aktywuj}" partialSubmit="true" global="false" update="north @(form)"/>
@@ -98,10 +98,26 @@
                         <h:outputText value="#{itemumowa.nfz}"/>
                     </p:column>
                     <p:column width="40" style="text-align: center;">
+                         <f:facet name="header">
+                            <h:outputText value="edy."/>
+                        </f:facet>
                         <p:commandButton icon="pi pi-pencil" actionListener="#{umowaView.edytuj(itemumowa)}" update="north, @(form)"/>
                     </p:column>
-                    <p:column width="40" style="text-align: center;">
+                    
+<!--                    <p:column width="40" style="text-align: center;">
                         <p:commandButton icon="pi pi-user-edit"  actionListener="#{umowaView.edytuj(itemumowa)}" oncomplete="PF('dialogumowatresc').show();" update="north, @(form)" async="true"/>
+                    </p:column>-->
+                    <p:column width="40" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="pdf"/>
+                        </f:facet>
+                        <p:commandButton icon="pi pi-print"  actionListener="#{umowaView.drukujumoweselected(itemumowa)}" update="north akordeon:UmowaListForm"/>
+                    </p:column>
+                    <p:column width="40" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="mail"/>
+                        </f:facet>
+                        <p:commandButton icon="pi pi-cloud-upload"  actionListener="#{umowaView.mailUmowaPraca(itemumowa)}" update="north akordeon:UmowaListForm"/>
                     </p:column>
                     <p:column width="40" style="text-align: center;">
                         <p:commandButton icon="pi pi-trash" actionListener="#{umowaView.usun(itemumowa)}" update="north, @(form)">

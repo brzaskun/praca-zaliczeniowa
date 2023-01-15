@@ -145,7 +145,7 @@
         </p:tab>
         <p:tab title="umowy zlecenia">
             <h:form id="UmowazlecenieForm">
-                <h:outputText value="dodawanie zbiorczo umów zleceń" style="color:green; margin-left: 50px; font-weight: bolder;" />
+                <h:outputText value="Dodawanie zbiorczo umów zleceń. Mail firmy #{wpisView.firma.email}" style="color:green; margin-left: 50px; font-weight: bolder;" />
                 <p:outputPanel style="padding: 20px;">
                     <style>
                 .ui-picklist .ui-picklist-list{
@@ -168,7 +168,7 @@
                             <f:selectItems value="#{umowaGrupowoView.listaumowakodzus}"
                                            var="umowakodzusItem"
                                            itemValue="#{umowakodzusItem}" itemLabel="#{umowakodzusItem.kod} #{umowakodzusItem.opis}"/>
-                            <p:ajax event="change" listener="#{umowaGrupowoView.ustawumowe}" partialSubmit="true" global="false" update="@(form)"/>
+                            <p:ajax event="change" listener="#{umowaGrupowoView.ustawumowe}" partialSubmit="true" global="false" update="akordeon:UmowazlecenieForm:kodumowy akordeon:UmowazlecenieForm:nrumowy"/>
                         </p:selectOneMenu>
                         <p:outputLabel value="kod ZUS" for="kodumowy" />
                         <p:inputText id="kodumowy" value="#{umowaGrupowoView.selected.umowakodzus.kod}" title="kod" readonly="true"/>
@@ -265,7 +265,17 @@
                            
                         </p:textEditor>
                     </p:panelGrid>
-                    <p:commandButton styleClass="buttonnorm" actionListener="#{umowaGrupowoView.drukujumoweselectedLista()}" value="Drukuj" update="north, @(form)"/>
+<!--                    <p:commandButton styleClass="buttonnorm" actionListener="#{umowaGrupowoView.drukujumoweselectedLista()}" value="Drukuj" update="north, @(form)"/>-->
+                     <p:outputPanel>
+                    <p:panelGrid columns="4">
+                        <p:commandButton value="drukuj wszystkie" styleClass="buttonnorm" actionListener="#{umowaGrupowoView.drukujumoweselectedLista()}" global="true"/>
+                        <p:commandButton value="mail do firmy" styleClass="buttonnorm" actionListener="#{umowaGrupowoView.mailUmowyZlecenia()}" global="true"/>
+                        <p:commandButton value="zapisz do bazy" styleClass="buttonnorm" actionListener="#{umowaGrupowoView.naniesdoBazy()}" global="true"/>
+<!--                        <p:commandButton value="mail do firmy" styleClass="buttonnorm2" actionListener="#{pracownikAneksyView.mailAneksy()}" global="true"/>
+                        <p:commandButton value="nanieś zmienne" styleClass="buttonnorm2" actionListener="#{pracownikAneksyView.naniesZmienne()}" global="true"/>
+                        <p:commandButton value="archiwizuj aneksy" styleClass="buttonnorm2" actionListener="#{pracownikAneksyView.archiwizujAneksy()}" global="true"/>-->
+                    </p:panelGrid>
+                </p:outputPanel>
 <!--                <p:commandButton styleClass="buttonnorm2" actionListener="#{umowaGrupowoView.createzlecenie}" value="Dodaj" update="north, @(form)"  rendered="#{umowaGrupowoView.selected.id eq null}"/>
                 <p:commandButton styleClass="buttonnorm2" value="Anuluj"  actionListener="#{umowaGrupowoView.cancel}"  update="north, @(form)" process="@this"/>-->
             </h:panelGroup>

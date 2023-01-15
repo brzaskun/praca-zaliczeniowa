@@ -17,13 +17,13 @@
                              >
                     <p:ajax event="rowSelect" listener="#{umowaView.aktywuj}" partialSubmit="true" global="false" update="north, @(form)"/>
                     <p:ajax event="rowSelectRadio" listener="#{umowaView.aktywuj}" partialSubmit="true" global="false" update="north, @(form)"/>
-                    <p:column width="40" selectionMode="single" selectRow="true" style="text-align: center;"/>
+                    <p:column width="20" selectionMode="single" selectRow="true" style="text-align: center;"/>
                     <!--                         <p:column>
                                                 <f:facet name="header">
                                                     <h:outputText value="angaz"/>
                                                 </f:facet>
                                                  <h:outputText value="#{itemumowa.angaz.pracownik.nazwiskoImie}" style="color: #{itemumowa.aktywna eq true ? 'green':'initial'}"/>
-                                            </p:column>-->            <p:column width="100">
+                                            </p:column>-->            <p:column width="90">
                         <f:facet name="header">
                             <h:outputText value="umowa"/>
                         </f:facet>
@@ -95,13 +95,13 @@
                         </f:facet>
                         <h:outputText value="&#x2714;"  rendered="#{itemumowa.zdrowotne eq true}"/>
                     </p:column>
-                    <p:column style="text-align: center;color: #{itemumowa.aktywna eq true ? 'green':'initial'}" sortOrder="desc" sortBy="#{itemumowa.dataod}">
+                    <p:column width="60" style="text-align: center;color: #{itemumowa.aktywna eq true ? 'green':'initial'}" sortOrder="desc" sortBy="#{itemumowa.dataod}">
                         <f:facet name="header">
                             <h:outputText value="data od"/>
                         </f:facet>
                         <h:outputText value="#{itemumowa.dataod}"/>
                     </p:column>
-                    <p:column style="text-align: center;color: #{itemumowa.aktywna eq true ? 'green':'initial'}">
+                    <p:column width="60" style="text-align: center;color: #{itemumowa.aktywna eq true ? 'green':'initial'}">
                         <f:facet name="header">
                             <h:outputText value="data do"/>
                         </f:facet>
@@ -139,13 +139,25 @@
                         <h:outputText value="#{itemumowa.nfz}"/>
                     </p:column>
                     <p:column width="40" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="edy."/>
+                        </f:facet>
                         <p:commandButton icon="pi pi-pencil" actionListener="#{umowaView.edytuj(itemumowa)}" update="north @(form)  akordeon:UmowaListFormZlecenie"/>
                     </p:column>
 <!--                    <p:column width="40" style="text-align: center;">
                         <p:commandButton icon="pi pi-user-edit"  actionListener="#{umowaView.edytuj(itemumowa)}" onclick="PF('dialogumowatresc').show();" update="north akordeon:UmowaListFormZlecenie @(form)"/>
                     </p:column>-->
                     <p:column width="40" style="text-align: center;">
-                        <p:commandButton icon="pi pi-print"  actionListener="#{umowaView.drukujzlecenie(itemumowa)}" update="north akordeon:UmowaListFormZlecenie @(form)"/>
+                        <f:facet name="header">
+                            <h:outputText value="pdf"/>
+                        </f:facet>
+                        <p:commandButton icon="pi pi-print"  actionListener="#{umowaView.drukujzlecenie(itemumowa)}" update="north akordeon:UmowaListFormZlecenie"/>
+                    </p:column>
+                    <p:column width="40" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="mail"/>
+                        </f:facet>
+                        <p:commandButton icon="pi pi-cloud-upload"  actionListener="#{umowaView.mailUmowaZlecenia(itemumowa)}" update="north akordeon:UmowaListFormZlecenie"/>
                     </p:column>
                     <p:column width="40" style="text-align: center;">
                         <p:commandButton icon="pi pi-trash" actionListener="#{umowaView.usunzlecenie(itemumowa)}" update="north @(form)  akordeon:UmowaListFormZlecenie">

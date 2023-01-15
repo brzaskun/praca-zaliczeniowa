@@ -33,6 +33,7 @@ import static pdf.PdfMain.finalizacjaDokumentuQR;
 import static pdf.PdfMain.inicjacjaWritera;
 import static pdf.PdfMain.naglowekStopkaP;
 import static pdf.PdfMain.otwarcieDokumentu;
+import plik.Plik;
 
 /**
  *
@@ -42,16 +43,17 @@ public class PdfUmowaoZlecenia {
     
     
     
-    public static void drukuj(Umowa umowa) {
+    public static ByteArrayOutputStream drukuj(Umowa umowa, String nazwa) {
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
         try {
-            String nazwa = umowa.getAngaz().getPracownik().getPesel()+"umowa.pdf";
             if (umowa != null) {
                 Document document = PdfMain.inicjacjaA4Portrait(80,60);
-                PdfWriter writer = inicjacjaWritera(document, nazwa);
+                PdfWriter writer = PdfMain.inicjacjaWriteraOut(document, out);
                 naglowekStopkaP(writer);
                 otwarcieDokumentu(document, nazwa);
                 dodajtresc(umowa, document, umowa.getWynagrodzeniegodzinowe());
                 finalizacjaDokumentuQR(document,nazwa);
+                Plik.zapiszBufferdoPlik(nazwa, out);
                 String f = "pokazwydruk('"+nazwa+"');";
                 PrimeFaces.current().executeScript(f);
             } else {
@@ -60,14 +62,18 @@ public class PdfUmowaoZlecenia {
         } catch (Exception e) {
             E.e(e);
         }
+        return out;
     }
     
-    
-    public static void drukujwszystkie(Umowa umowa, FirmaKadry firmaKadry, List<Angaz> angazlista, double wynagrodzeniegodzinowe) {
+    //NOWE DRUKOWANIE
+    public static ByteArrayOutputStream drukujwszystkie(Umowa umowa, FirmaKadry firmaKadry, List<Angaz> angazlista, double wynagrodzeniegodzinowe) {
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
         try {
             String nazwa = firmaKadry.getNip()+"umowyzlecenia.pdf";
             Document document = PdfMain.inicjacjaA4Portrait(80,60);
-            PdfWriter writer = inicjacjaWritera(document, nazwa);
+            PdfWriter writer = PdfWriter.getInstance(document, out);
+            writer.setInitialLeading(16);
+            writer.setViewerPreferences(PdfWriter.PageLayoutSinglePage);
             naglowekStopkaP(writer);
             otwarcieDokumentu(document, nazwa);
             int licznik = 0;
@@ -80,11 +86,13 @@ public class PdfUmowaoZlecenia {
                 licznik++;
             }
             finalizacjaDokumentuQR(document,nazwa);
+            Plik.zapiszBufferdoPlik(nazwa, out);
             String f = "pokazwydruk('"+nazwa+"');";
             PrimeFaces.current().executeScript(f);
         } catch (Exception e) {
             E.e(e);
         }
+        return out;
     }
     
     private static void dodajtresc(Umowa umowa, Document document, double wynagrodzeniegodzinowe) {

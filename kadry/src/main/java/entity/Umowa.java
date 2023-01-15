@@ -69,6 +69,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Umowa.findByAngazZlecenie", query = "SELECT u FROM Umowa u WHERE u.angaz = :angaz AND u.umowakodzus.zlecenie = TRUE ORDER BY u.dataod ASC"),
     @NamedQuery(name = "Umowa.findByFirmaZlecenie", query = "SELECT u FROM Umowa u WHERE u.angaz.firma = :firma AND u.umowakodzus.zlecenie = TRUE ORDER BY u.dataod ASC"),
     @NamedQuery(name = "Umowa.findByFirmaZlecenieAktywne", query = "SELECT u FROM Umowa u WHERE u.angaz.firma = :firma AND u.umowakodzus.zlecenie = TRUE AND u.aktywna = TRUE ORDER BY u.dataod ASC"),
+    @NamedQuery(name = "Umowa.findByFirmaPraca", query = "SELECT u FROM Umowa u WHERE u.angaz.firma = :firma AND u.umowakodzus.praca = TRUE ORDER BY u.dataod ASC"),
+    @NamedQuery(name = "Umowa.findByFirmaPracaAktywne", query = "SELECT u FROM Umowa u WHERE u.angaz.firma = :firma AND u.umowakodzus.praca = TRUE AND u.aktywna = TRUE ORDER BY u.dataod ASC"),
     @NamedQuery(name = "Umowa.findByAngazFunkcja", query = "SELECT u FROM Umowa u WHERE u.angaz = :angaz AND u.umowakodzus.funkcja = TRUE ORDER BY u.dataod ASC")
         
 })
@@ -244,6 +246,35 @@ public class Umowa implements Serializable {
         this.dopuszczalnailoscgodzin = stara.dopuszczalnailoscgodzin;
         this.etat1 = stara.etat1;
         this.etat2 = stara.etat2;
+        this.umowakodzus = stara.umowakodzus;
+        this.slownikszkolazatrhistoria = stara.slownikszkolazatrhistoria;
+        
+   }
+    //sluzy do kopiowania umowy przy wystawiamniu umowy dla kilkupracownikow
+    public Umowa(Umowa stara, boolean abyodroznickonstruktor) {
+        this.dataod = stara.dataod;
+        this.datado = stara.datado;
+        this.datazawarcia = stara.datazawarcia;
+        this.nfz = stara.nfz;
+        this.stanowisko = stara.stanowisko;
+        this.miejscepracy = stara.miejscepracy;
+        this.nieliczFGSP = stara.nieliczFGSP;
+        this.nieliczFP = stara.nieliczFP;
+        this.kodzawodu = stara.kodzawodu;
+        this.angaz = stara.angaz;
+        this.opiszawodu = stara.opiszawodu;
+        this.miejscepracy = stara.miejscepracy;
+        this.opiszawodu = stara.opiszawodu;
+        this.innewarunkizatrudnienia = stara.innewarunkizatrudnienia;
+        this.terminrozpoczeciapracy = stara.terminrozpoczeciapracy;
+        this.dopuszczalnailoscgodzin = stara.dopuszczalnailoscgodzin;
+        this.etat1 = stara.etat1;
+        this.etat2 = stara.etat2;
+        this.umowakodzus = stara.umowakodzus;
+        this.slownikszkolazatrhistoria = stara.slownikszkolazatrhistoria;
+        this.wynagrodzeniemiesieczne = stara.wynagrodzeniemiesieczne;
+        this.wynagrodzeniegodzinowe = stara.wynagrodzeniegodzinowe;
+        this.wynagrodzenieoddelegowanie = stara.wynagrodzenieoddelegowanie;
         
    }
     

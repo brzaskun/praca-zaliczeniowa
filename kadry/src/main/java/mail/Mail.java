@@ -206,6 +206,66 @@ public class Mail {
         }
     }
     
+    public static void mailUmowyZlecenia(FirmaKadry firma, String adres, SMTPSettings settings,SMTPSettings ogolne, byte[] zalacznik, String nazwapliku, String adresBCC)  {
+        try {
+            MimeMessage message = new MimeMessage(MailSetUp.otworzsesje(settings, ogolne));
+            message.setFrom(new InternetAddress(SMTPBean.adresFrom(settings, ogolne), SMTPBean.nazwaFirmyFrom(settings, ogolne)));
+            message.setRecipients(Message.RecipientType.TO,
+                    InternetAddress.parse(adres));
+            message.setRecipients(Message.RecipientType.BCC,
+                    InternetAddress.parse(adresBCC));
+            MimeBodyPart mbp1 = new MimeBodyPart();
+            String temat = "Umowy zlecenia "+firma.getNazwa()+" do podpisania ";
+            message.setSubject(MimeUtility.encodeText(temat, "UTF-8", "Q"));
+            String tresc = "Dzień dobry"
+                    + "<p>W załączeniu nowe umowy zlecenia ze zleceniobiorcami dla firmy "+firma.getNazwa()+" NIP "+firma.getNip()
+                    + "<p>Proszę wydrukować i dać zleceniobiorcom do podpisania.</p>"
+                    + "<p>Jeden egzemplarz proszę odesłać do nas.</p>"
+                    + stopka;
+            mbp1.setContent(tresc, "text/html; charset=utf-8");
+            mbp1.setHeader("Content-Type", "text/html; charset=utf-8");
+            Multipart mp = new MimeMultipart();
+            mp.addBodyPart(mbp1);
+            dolaczplik(zalacznik, mp, nazwapliku);
+            message.setContent(mp);
+            Transport.send(message);
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        } catch (UnsupportedEncodingException ex) {
+            // Logger.getLogger(MailAdmin.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public static void mailUmowyoPrace(FirmaKadry firma, String adres, SMTPSettings settings,SMTPSettings ogolne, byte[] zalacznik, String nazwapliku, String adresBCC)  {
+        try {
+            MimeMessage message = new MimeMessage(MailSetUp.otworzsesje(settings, ogolne));
+            message.setFrom(new InternetAddress(SMTPBean.adresFrom(settings, ogolne), SMTPBean.nazwaFirmyFrom(settings, ogolne)));
+            message.setRecipients(Message.RecipientType.TO,
+                    InternetAddress.parse(adres));
+            message.setRecipients(Message.RecipientType.BCC,
+                    InternetAddress.parse(adresBCC));
+            MimeBodyPart mbp1 = new MimeBodyPart();
+            String temat = "Umowy o pracę "+firma.getNazwa()+" do podpisania ";
+            message.setSubject(MimeUtility.encodeText(temat, "UTF-8", "Q"));
+            String tresc = "Dzień dobry"
+                    + "<p>W załączeniu nowe umowy o pracę z pracownikami dla firmy "+firma.getNazwa()+" NIP "+firma.getNip()
+                    + "<p>Proszę wydrukować i dać pracownikom do podpisania.</p>"
+                    + "<p>Jeden egzemplarz proszę odesłać do nas.</p>"
+                    + stopka;
+            mbp1.setContent(tresc, "text/html; charset=utf-8");
+            mbp1.setHeader("Content-Type", "text/html; charset=utf-8");
+            Multipart mp = new MimeMultipart();
+            mp.addBodyPart(mbp1);
+            dolaczplik(zalacznik, mp, nazwapliku);
+            message.setContent(mp);
+            Transport.send(message);
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        } catch (UnsupportedEncodingException ex) {
+            // Logger.getLogger(MailAdmin.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     
     public static void mailRaportzImportu(FirmaKadry firma, String adres, SMTPSettings settings,SMTPSettings ogolne, byte[] zalacznik, String nazwapliku, String adresBCC)  {
         try {

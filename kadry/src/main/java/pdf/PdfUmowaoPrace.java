@@ -33,22 +33,24 @@ import static pdf.PdfMain.finalizacjaDokumentuQR;
 import static pdf.PdfMain.inicjacjaWritera;
 import static pdf.PdfMain.naglowekStopkaP;
 import static pdf.PdfMain.otwarcieDokumentu;
+import plik.Plik;
 
 /**
  *
  * @author Osito
  */
 public class PdfUmowaoPrace {
-    public static void drukuj(Umowa umowa) {
+    public static ByteArrayOutputStream drukuj(Umowa umowa, String nazwa) {
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
         try {
-            String nazwa = umowa.getAngaz().getPracownik().getPesel()+"umowa.pdf";
             if (umowa != null) {
                 Document document = PdfMain.inicjacjaA4Portrait(80,60);
-                PdfWriter writer = inicjacjaWritera(document, nazwa);
+                PdfWriter writer = PdfMain.inicjacjaWriteraOut(document, out);
                 naglowekStopkaP(writer);
                 otwarcieDokumentu(document, nazwa);
                 dodajtresc(umowa, document);
                 finalizacjaDokumentuQR(document,nazwa);
+                Plik.zapiszBufferdoPlik(nazwa, out);
                 String f = "pokazwydruk('"+nazwa+"');";
                 PrimeFaces.current().executeScript(f);
             } else {
@@ -57,6 +59,7 @@ public class PdfUmowaoPrace {
         } catch (Exception e) {
             E.e(e);
         }
+        return out;
     }
     
     private static void dodajtresc(Umowa umowa, Document document) {

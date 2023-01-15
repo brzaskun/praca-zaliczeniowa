@@ -25,6 +25,7 @@ import com.itextpdf.text.pdf.PdfStamper;
 import com.itextpdf.text.pdf.PdfWriter;
 import entity.Angaz;
 import error.E;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -128,6 +129,18 @@ public class PdfMain {
     public static PdfWriter inicjacjaWritera(Document document, String nazwa) {
         try {
             PdfWriter writer = PdfWriter.getInstance(document, Plik.plikR(nazwa));
+            writer.setInitialLeading(16);
+            writer.setViewerPreferences(PdfWriter.PageLayoutSinglePage);
+            return writer;
+        } catch (DocumentException ex) {
+            E.e(ex);
+            return null;
+        }
+    }
+    
+    public static PdfWriter inicjacjaWriteraOut(Document document, ByteArrayOutputStream out) {
+        try {
+            PdfWriter writer = PdfWriter.getInstance(document, out);
             writer.setInitialLeading(16);
             writer.setViewerPreferences(PdfWriter.PageLayoutSinglePage);
             return writer;

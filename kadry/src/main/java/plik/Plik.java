@@ -7,6 +7,7 @@ package plik;
 
 import error.E;
 import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -38,6 +39,22 @@ public class Plik {
         return name;
    }
     
+    public static void zapiszBufferdoPlik(String nazwa, ByteArrayOutputStream out) {
+        try {
+            byte[] bytes = out.toByteArray();
+            File plik = plik(nazwa, true);
+            try {
+                FileOutputStream fileOutputStream = new FileOutputStream(plik);
+                fileOutputStream.write(bytes);
+                fileOutputStream.close();
+            } catch (FileNotFoundException ex) {
+                // Logger.getLogger(Plik.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } catch (Exception ex) {
+            E.e(ex);
+        }
+    }
+    
     public static File plik(String nazwa, boolean temp) {
          String realPath = getKatalog();
         File file = null;
@@ -64,6 +81,8 @@ public class Plik {
             return fileOutputStream;
         }
     }
+    
+    
 
     public static String getKatalog() {
         ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
