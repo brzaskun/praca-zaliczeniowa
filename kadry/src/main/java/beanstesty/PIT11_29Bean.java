@@ -13,6 +13,7 @@ import error.E;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
+import java.io.StringWriter;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Map;
@@ -89,6 +90,26 @@ public class PIT11_29Bean {
             E.e(ex);
         }
         return sciezka;
+    }
+    
+    public static String marszajuldoStringxml(pl.gov.crd.wzor._2022._11._09._11890.Deklaracja deklaracja) {
+        String zwrot = null;
+        try {
+            if (deklaracja!=null) {
+                JAXBContext context = JAXBContext.newInstance(deklaracja.getClass());
+                Marshaller marshaller = context.createMarshaller();
+                marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+                marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
+                StringWriter sw = new StringWriter();
+                marshaller.marshal(deklaracja, sw);
+                zwrot = sw.toString();
+            } else {
+                Msg.msg("e","Nie mozna zachowac danych PIT11 do pliku. Plik jpk pusty");
+            }
+        } catch (Exception ex) {
+            E.e(ex);
+        }
+        return zwrot;
     }
     
      private static Deklaracja genPIT1129(Kartawynagrodzen kartawynagrodzen, FirmaKadry firma, Pracownik pracownik, byte normalna1korekta2, String kodurzedu, String rok, Map<String,Kartawynagrodzen> sumy) {

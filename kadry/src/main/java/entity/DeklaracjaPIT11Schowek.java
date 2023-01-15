@@ -5,8 +5,7 @@
  */
 package entity;
 
-import java.io.ByteArrayOutputStream;
-import java.io.ObjectOutputStream;
+import beanstesty.ObjectBean;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
@@ -69,6 +68,14 @@ public class DeklaracjaPIT11Schowek implements Serializable {
     @NotNull
     @Lob
     @Size(max = 1024000000)
+    @Column(name = "deklaracjapodpisana")
+    private byte[] deklaracjapodpisana;
+    @Lob
+    @Size(max = 1024000000)
+    @Column(name = "deklaracjapodpisanastring")
+    private String deklaracjapodpisanastring;
+    @Lob
+    @Size(max = 1024000000)
     @Column(name = "upo")
     private byte[] upo;
     @Temporal(TemporalType.TIMESTAMP)
@@ -106,13 +113,8 @@ public class DeklaracjaPIT11Schowek implements Serializable {
 //    }
     
     public DeklaracjaPIT11Schowek(pl.gov.crd.wzor._2022._11._09._11890.Deklaracja deklaracja, FirmaKadry firma, Pracownik pracownik, String rokWpisu, String nazwa) {
-        ByteArrayOutputStream boas = new ByteArrayOutputStream();
-        try (ObjectOutputStream ois = new ObjectOutputStream(boas)) {
-            ois.writeObject(deklaracja);
-        } catch (Exception ioe) {
-            ioe.printStackTrace();
-        }
-        this.deklaracja = boas.toByteArray();
+        byte[] convertToBytes = ObjectBean.convertToBytes(deklaracja);
+        this.deklaracja = convertToBytes;
         this.firma = firma;
         this.rok = rokWpisu;
         this.pracownik = pracownik;
@@ -186,6 +188,25 @@ public class DeklaracjaPIT11Schowek implements Serializable {
     public void setDeklaracja(byte[] deklaracja) {
         this.deklaracja = deklaracja;
     }
+
+    public byte[] getDeklaracjapodpisana() {
+        return deklaracjapodpisana;
+    }
+
+    public void setDeklaracjapodpisana(byte[] deklaracjapodpisana) {
+        this.deklaracjapodpisana = deklaracjapodpisana;
+    }
+
+    public String getDeklaracjapodpisanastring() {
+        return deklaracjapodpisanastring;
+    }
+
+    public void setDeklaracjapodpisanastring(String deklaracjapodpisanastring) {
+        this.deklaracjapodpisanastring = deklaracjapodpisanastring;
+    }
+
+   
+    
 
     public byte[] getUpo() {
         return upo;

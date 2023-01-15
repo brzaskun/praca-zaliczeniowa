@@ -5,6 +5,7 @@
  */
 package view;
 
+import beansPodpis.Xad;
 import beanstesty.EDeklaracjeObslugaBledow;
 import dao.DeklaracjaPIT11SchowekFacade;
 import entity.DeklaracjaPIT11Schowek;
@@ -49,16 +50,27 @@ public class PitWysylkaView  implements Serializable {
     }
     
 
-    
+    public Object[] podpiszDeklaracje(DeklaracjaPIT11Schowek wysylanaDeklaracja) {
+        Object[] deklaracjapodpisana = null;
+        try {
+            deklaracjapodpisana = Xad.podpisz(wysylanaDeklaracja.getDeklaracja());
+            wysylanaDeklaracja.setDeklaracjapodpisana((byte[]) deklaracjapodpisana[0]);
+            wysylanaDeklaracja.setDeklaracjapodpisanastring((String) deklaracjapodpisana[1]);
+        } catch (Exception e) {
+            E.e(e);
+        }
+        return deklaracjapodpisana;
+    }
     
     
     public void robPIT1129(DeklaracjaPIT11Schowek wysylanaDeklaracja){
         try {
+            Object[] podpiszDeklaracje = podpiszDeklaracje(wysylanaDeklaracja);
             Holder<String> id = new Holder<>();
             Holder<Integer> stat = new Holder<>();
             Holder<String> opis = new Holder<>();
             Holder<String> upo = new Holder<>();
-            byte[] dok = wysylanaDeklaracja.getDeklaracja();
+            byte[] dok = (byte[]) podpiszDeklaracje[0];
             //sendSignDocument(dok, id, stat, opis);
             sendUnsignDocument(dok, lang, signT, id, stat, opis);
             String idMB = id.value;
@@ -82,7 +94,6 @@ public class PitWysylkaView  implements Serializable {
             } else {
                 Msg.msg("e", "Błąd. Nie wysłano deklaracji");
             }
-            
         } catch (javax.xml.ws.WebServiceException  ex1) {
             Msg.msg("e", "Nie można nawiązać połączenia z serwerem ministerstwa podczas wysyłania PIT11 pracownika " + wysylanaDeklaracja.getPracownik().getNazwiskoImie());
         }
