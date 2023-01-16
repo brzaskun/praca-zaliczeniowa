@@ -45,21 +45,37 @@ public class PITPola {
     private double praca32dochodzwolniony;
     @Column(name = "praca33zaliczka")
     private double praca33zaliczka;
-    @Column(name = "funkcja47przychod")
+    //emeryt
+    @Column(name = "pracaemeryt43przychod")
+    private double pracaemeryt43przychod;
+    @Column(name = "pracaemeryt44koszt")
+    private double pracaemeryt44koszt;
+    @Column(name = "pracaemeryt45dochod")
+    private double pracaemeryt45dochod;
+    @Column(name = "praca46dochodzwolniony")
+    private double pracaemeryt46dochodzwolniony;
+    @Column(name = "pracaemeryt47zaliczka")
+    private double pracaemeryt47zaliczka;
+    @Column(name = "pracaemeryt48przychodwyzszekoszty")
+    private double pracaemeryt48przychodwyzszekoszty;
+    @Column(name = "pracaemeryt49wyzszekoszty")
+    private double pracaemeryt49wyzszekoszty;
+    
+    @Column(name = "funkcja54przychod")
     private double funkcja54przychod;
-    @Column(name = "funkcja48koszt")
+    @Column(name = "funkcja55koszt")
     private double funkcja55koszt;
-    @Column(name = "funkcja49dochod")
+    @Column(name = "funkcja56dochod")
     private double funkcja56dochod;
-    @Column(name = "funkcja50zaliczka")
+    @Column(name = "funkcja57zaliczka")
     private double funkcja57zaliczka;
-    @Column(name = "zlecenie51przychod")
+    @Column(name = "zlecenie58przychod")
     private double zlecenie58przychod;
-    @Column(name = "zlecenie52koszt")
+    @Column(name = "zlecenie59koszt")
     private double zlecenie59koszt;
-    @Column(name = "zlecenie53dochod")
+    @Column(name = "zlecenie60dochod")
     private double zlecenie60dochod;
-    @Column(name = "zlecenie54zaliczka")
+    @Column(name = "zlecenie61zaliczka")
     private double zlecenie61zaliczka;
     @Column(name = "zlecenie62przychod26")
     private double zlecenie62przychod26;
@@ -155,7 +171,24 @@ public class PITPola {
         //this.zus52pole80 = this.zus52pole80+karta.getPraczdrowotnedopotracenia();
     }
 
-    
+    public void dodajumowaopraceEmeryt(Kartawynagrodzen karta) {
+        this.pracaemeryt43przychod = karta.getBrutto();
+        this.pracaemeryt44koszt = karta.getKosztyuzyskania();
+        this.pracaemeryt45dochod = this.pracaemeryt45dochod+this.pracaemeryt43przychod-this.pracaemeryt44koszt;
+        this.pracaemeryt47zaliczka = this.pracaemeryt47zaliczka+karta.getPodatekdochodowy();
+        this.zus51pole96 = this.zus51pole96+karta.getRazemspolecznepracownik();
+        this.zus52pole122 = this.zus52pole122+karta.getPraczdrowotnedopotracenia();
+    }
+
+    public void dodajumowaopraceEmerytkosztypodwyzszone(Kartawynagrodzen karta) {
+        this.pracaemeryt48przychodwyzszekoszty = karta.getBrutto();
+        this.pracaemeryt49wyzszekoszty = karta.getKosztyuzyskania();
+        this.pracaemeryt45dochod = this.pracaemeryt45dochod+this.pracaemeryt48przychodwyzszekoszty-this.pracaemeryt49wyzszekoszty;
+        this.pracaemeryt47zaliczka = this.pracaemeryt47zaliczka+karta.getPodatekdochodowy();
+        this.zus51pole96 = this.zus51pole96+karta.getRazemspolecznepracownik();
+        this.zus52pole122 = this.zus52pole122+karta.getPraczdrowotnedopotracenia();
+    }
+
     
     public PITPola() {
     }
@@ -452,6 +485,64 @@ public class PITPola {
         this.zus51pole96 = zus51pole96;
     }
 
+    public double getPracaemeryt43przychod() {
+        return pracaemeryt43przychod;
+    }
+
+    public void setPracaemeryt43przychod(double pracaemeryt43przychod) {
+        this.pracaemeryt43przychod = pracaemeryt43przychod;
+    }
+
+    public double getPracaemeryt44koszt() {
+        return pracaemeryt44koszt;
+    }
+
+    public void setPracaemeryt44koszt(double pracaemeryt44koszt) {
+        this.pracaemeryt44koszt = pracaemeryt44koszt;
+    }
+
+    public double getPracaemeryt45dochod() {
+        return pracaemeryt45dochod;
+    }
+
+    public void setPracaemeryt45dochod(double pracaemeryt45dochod) {
+        this.pracaemeryt45dochod = pracaemeryt45dochod;
+    }
+
+    public double getPracaemeryt46dochodzwolniony() {
+        return pracaemeryt46dochodzwolniony;
+    }
+
+    public void setPracaemeryt46dochodzwolniony(double pracaemeryt46dochodzwolniony) {
+        this.pracaemeryt46dochodzwolniony = pracaemeryt46dochodzwolniony;
+    }
+
+    public double getPracaemeryt47zaliczka() {
+        return pracaemeryt47zaliczka;
+    }
+
+    public void setPracaemeryt47zaliczka(double pracaemeryt47zaliczka) {
+        this.pracaemeryt47zaliczka = pracaemeryt47zaliczka;
+    }
+
+    public double getPracaemeryt48przychodwyzszekoszty() {
+        return pracaemeryt48przychodwyzszekoszty;
+    }
+
+    public void setPracaemeryt48przychodwyzszekoszty(double pracaemeryt48przychodwyzszekoszty) {
+        this.pracaemeryt48przychodwyzszekoszty = pracaemeryt48przychodwyzszekoszty;
+    }
+
+    public double getPracaemeryt49wyzszekoszty() {
+        return pracaemeryt49wyzszekoszty;
+    }
+
+    public void setPracaemeryt49wyzszekoszty(double pracaemeryt49wyzszekoszty) {
+        this.pracaemeryt49wyzszekoszty = pracaemeryt49wyzszekoszty;
+    }
+
+    
+    
    
     
     

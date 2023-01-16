@@ -100,6 +100,7 @@ public class KartaWynagrodzenView  implements Serializable {
      public void pobierzdaneAll() {
         sumypracownicy = new ArrayList<>();
         pitpola  = new ArrayList<>();
+        List<DeklaracjaPIT11Schowek> pityfirma = deklaracjaPIT11SchowekFacade.findByRokFirma(wpisView.getRokWpisu(), wpisView.getFirma());
         List<Angaz> pracownicy = angazFacade.findByFirma(wpisView.getFirma());
         Kartawynagrodzen duzasuma = new Kartawynagrodzen();
         for (Angaz p: pracownicy) {
@@ -108,8 +109,9 @@ public class KartaWynagrodzenView  implements Serializable {
                List<Pasekwynagrodzen> paski = pasekwynagrodzenFacade.findByRokWyplAngaz(wpisView.getRokWpisu(), p);
                 if (paski!=null && !paski.isEmpty()) {
                     Map<String,Kartawynagrodzen> sumy = new HashMap<>();
-                    Kartawynagrodzen suma = sumuj(kartawynagrodzenlist, paski, p.getPracownik().getNazwiskoImie(), sumy, p);
-                    suma.setJestPIT11(pobierzpotwierdzenie(p.getPracownik(), wpisView.getRokWpisu()));
+                    Kartawynagrodzen suma = sumuj(kartawynagrodzenlist, paski, p.getPracownik().getNazwiskoImie(), p.getPracownik().getDataurodzenia(), wpisView.getPracownik().getPlec(), sumy, p);
+                    suma.setJestPIT11(pobierzpotwierdzenie(p.getPracownik(), pityfirma));
+                    suma.setWyslano(pobierzstatus200(p.getPracownik(), pityfirma));
                     sumypracownicy.add(suma);
                     pitpola.add(naniesnapola(suma, p.getPracownik()));
                     duzasuma.dodajkarta(suma);
@@ -132,6 +134,8 @@ public class KartaWynagrodzenView  implements Serializable {
         pITPola.dodajpelnieniefunkcji(sumy.get("sumaUmowapelnieniefunkcji"));
         pITPola.dodajzlecenie(sumy.get("sumaUmowazlecenia"));
         pITPola.dodajzlecenie26zwolnione(sumy.get("sumaUmowazlecenia26zwolnione"));
+        pITPola.dodajumowaopraceEmeryt(sumy.get("sumaUmowaopraceEmeryt"));
+        pITPola.dodajumowaopraceEmerytkosztypodwyzszone(sumy.get("sumaUmowaopraceEmerytkosztypodwyzszone"));
         return pITPola;
     }
     
@@ -165,12 +169,14 @@ public class KartaWynagrodzenView  implements Serializable {
         List<Pasekwynagrodzen> paski = pasekwynagrodzenFacade.findByRokWyplAngaz(rok, angaz);
         if (paski!=null && !paski.isEmpty()) {
             Map<String,Kartawynagrodzen> sumy = new HashMap<>();
-            sumuj(kartawynagrodzenlist, paski, wpisView.getPracownik().getNazwiskoImie(), sumy, angaz);
+            sumuj(kartawynagrodzenlist, paski, wpisView.getPracownik().getNazwiskoImie(), wpisView.getPracownik().getDataurodzenia(), wpisView.getPracownik().getPlec(), sumy, angaz);
         }
     }
 
-    private Kartawynagrodzen sumuj(List<Kartawynagrodzen> kartawynagrodzenlist, List<Pasekwynagrodzen> paski, String nazwiskoiimie, Map<String,Kartawynagrodzen> sumy, Angaz angaz) {
+    private Kartawynagrodzen sumuj(List<Kartawynagrodzen> kartawynagrodzenlist, List<Pasekwynagrodzen> paski, String nazwiskoiimie, String dataurodzenia, String plec, Map<String,Kartawynagrodzen> sumy, Angaz angaz) {
         Kartawynagrodzen sumaUmowaoprace = new Kartawynagrodzen();
+        Kartawynagrodzen sumaUmowaopraceEmeryt = new Kartawynagrodzen();
+        Kartawynagrodzen sumaUmowaopraceEmerytkosztypodwyzszone = new Kartawynagrodzen();
         Kartawynagrodzen sumaUmowaoprace26zwolnione = new Kartawynagrodzen();
         Kartawynagrodzen sumaUmowaopracekosztypodwyzszone = new Kartawynagrodzen();
         Kartawynagrodzen sumaUmowapelnieniefunkcji  = new Kartawynagrodzen();
@@ -184,6 +190,7 @@ public class KartaWynagrodzenView  implements Serializable {
             List<Angaz> angazzpaskow = new ArrayList<>();
             for (Iterator<Pasekwynagrodzen> it = paski.iterator(); it.hasNext();) {
                 Pasekwynagrodzen pasek = it.next();
+                Data.obliczwiek(dataurodzenia, pasek);
                 lata = pasek.getLata();
                 if (pasek.getMcwypl().equals(karta.getMc())) {
                     //tu sie dodaje paski do karty wynagrodzen
@@ -205,10 +212,19 @@ public class KartaWynagrodzenView  implements Serializable {
 //                    4,zasiłki,4
 
                     if ((pasek.getRodzajWynagrodzenia()==1||pasek.getRodzajWynagrodzenia()==4||pasek.getRodzajWynagrodzenia()==1006)&&pasek.isDo26lat()==false) {
-                        if (pasek.getProcentkosztow()>100.0) {
-                            sumaUmowaopracekosztypodwyzszone.dodaj(pasek);
+                        //emeryci
+                        if ((plec.equals("M")&&lata>65)||(plec.equals("K")&&lata>60)) {
+                            if (pasek.getProcentkosztow()>100.0) {
+                                sumaUmowaopraceEmerytkosztypodwyzszone.dodaj(pasek);
+                            } else {
+                                sumaUmowaopraceEmeryt.dodaj(pasek);
+                            }
                         } else {
-                            sumaUmowaoprace.dodaj(pasek);
+                            if (pasek.getProcentkosztow()>100.0) {
+                                sumaUmowaopracekosztypodwyzszone.dodaj(pasek);
+                            } else {
+                                sumaUmowaoprace.dodaj(pasek);
+                            }
                         }
                     } else if ((pasek.getRodzajWynagrodzenia()==1||pasek.getRodzajWynagrodzenia()==1006)&&pasek.isDo26lat()==true) {
                             sumaUmowaoprace26zwolnione.dodaj(pasek);
@@ -234,6 +250,8 @@ public class KartaWynagrodzenView  implements Serializable {
         sumy.put("sumaUmowapelnieniefunkcji", sumaUmowapelnieniefunkcji);
         sumy.put("sumaUmowazlecenia", sumaUmowazlecenia);
         sumy.put("sumaUmowazlecenia26zwolnione", sumaUmowazlecenia26zwolnione);
+        sumy.put("sumaUmowaopraceEmeryt", sumaUmowaopraceEmeryt);
+        sumy.put("sumaUmowaopraceEmerytkosztypodwyzszone", sumaUmowaopraceEmerytkosztypodwyzszone);
         suma.setSumy(sumy);
         kartaWynagrodzenFacade.createEditList(kartawynagrodzenlist);
         kartawynagrodzenlist.add(suma);
@@ -312,14 +330,14 @@ public class KartaWynagrodzenView  implements Serializable {
                     Object[] sciezka = beanstesty.PIT11_29Bean.generujXML(kartawynagrodzen, firma, pracownik, (byte)1, pracownik.getKodurzeduskarbowego(), kartawynagrodzen.getRok(), kartawynagrodzen.getSumy());
                     pl.gov.crd.wzor._2022._11._09._11890.Deklaracja deklaracja = (pl.gov.crd.wzor._2022._11._09._11890.Deklaracja)sciezka[2];
                     if (deklaracja!=null) {
-                        String polecenie = "wydrukXML(\""+(String)sciezka[0]+"\")";
-                        PrimeFaces.current().executeScript(polecenie);
+                        //String polecenie = "wydrukXML(\""+(String)sciezka[0]+"\")";
+                        //PrimeFaces.current().executeScript(polecenie);
                         String nazwapliku = PdfPIT11.drukuj29(deklaracja, wpisView.getUzer().getImieNazwiskoTelefon(), null);
                         DeklaracjaPIT11Schowek schowek = new DeklaracjaPIT11Schowek(deklaracja, firma, pracownik, wpisView.getRokWpisu(),"PIT11");
                         karta.setJestPIT11(true);
                         deklaracjaSchowekFacade.create(schowek);
                         listaPIT11.add(schowek);
-                        polecenie = "wydrukPDF(\""+nazwapliku+"\")";
+                        String polecenie = "wydrukPDF(\""+nazwapliku+"\")";
                         PrimeFaces.current().executeScript(polecenie);
                         Msg.msg("Wydrukowano PIT-11");
                     }
@@ -331,12 +349,27 @@ public class KartaWynagrodzenView  implements Serializable {
         }
     }
     
-   private boolean pobierzpotwierdzenie(Pracownik pracownik, String rokWpisu) {
+   private boolean pobierzpotwierdzenie(Pracownik pracownik, List<DeklaracjaPIT11Schowek> pityfirma) {
        boolean zwrot = false;
-        if (pracownik!=null) {
-           List<DeklaracjaPIT11Schowek> findByRokPracownik = deklaracjaPIT11SchowekFacade.findByRokPracownik(rokWpisu, pracownik);
-           if (findByRokPracownik!=null&&findByRokPracownik.size()>0) {
-               zwrot = true;
+        if (pracownik!=null && pityfirma!=null) {
+           for (DeklaracjaPIT11Schowek p : pityfirma) {
+               if (p.getPracownik().equals(pracownik)) {
+                   zwrot = true;
+                   break;
+               }
+           }
+        }
+        return zwrot;
+    }
+   
+   private boolean pobierzstatus200(Pracownik pracownik, List<DeklaracjaPIT11Schowek> pityfirma) {
+       boolean zwrot = false;
+        if (pracownik!=null && pityfirma!=null) {
+           for (DeklaracjaPIT11Schowek p : pityfirma) {
+               if (p.getPracownik().equals(pracownik) && p.getStatus()!=null && p.getStatus().equals("200")) {
+                   zwrot = true;
+                   break;
+               }
            }
         }
         return zwrot;

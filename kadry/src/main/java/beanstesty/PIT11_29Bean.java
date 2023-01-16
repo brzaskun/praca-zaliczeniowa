@@ -261,6 +261,8 @@ public class PIT11_29Bean {
         Kartawynagrodzen sumaUmowapelnieniefunkcji = sumy.get("sumaUmowapelnieniefunkcji");
         Kartawynagrodzen sumaUmowazlecenia = sumy.get("sumaUmowazlecenia");
         Kartawynagrodzen sumaUmowazlecenia26zwolnione = sumy.get("sumaUmowazlecenia26zwolnione");
+        Kartawynagrodzen sumaUmowaopraceEmeryt = sumy.get("sumaUmowaopraceEmeryt");
+        Kartawynagrodzen sumaUmowaopraceEmerytkosztypodwyzszone = sumy.get("sumaUmowaopraceEmerytkosztypodwyzszone");
         if (sumaUmowaoprace.getBrutto()>0.0) {
             poz.setP29(BigDecimal.valueOf(sumaUmowaoprace.getBrutto()));
             poz.setP30(BigDecimal.valueOf(sumaUmowaoprace.getKosztyuzyskania()));
@@ -287,7 +289,7 @@ public class PIT11_29Bean {
         if (sumaUmowaopracekosztypodwyzszone.getBrutto()>0.0) {
             poz.setP34(BigDecimal.valueOf(sumaUmowaopracekosztypodwyzszone.getBrutto()));
             poz.setP35(BigDecimal.valueOf(sumaUmowaopracekosztypodwyzszone.getKosztyuzyskania()));
-            BigDecimal subtract = poz.getP29().subtract(poz.getP30());
+            BigDecimal subtract = poz.getP34().subtract(poz.getP35());
             if (poz.getP31()!=null) {
                 poz.setP31(poz.getP31().add(subtract));
             } else{
@@ -307,6 +309,54 @@ public class PIT11_29Bean {
             //czy dodano PIT-R 1tak 2nie
             poz.setP121((byte)2);
         }
+        //emeryt
+         if (sumaUmowaopraceEmeryt.getBrutto()>0.0) {
+            poz.setP43(BigDecimal.valueOf(sumaUmowaopraceEmeryt.getBrutto()));
+            poz.setP44(BigDecimal.valueOf(sumaUmowaopraceEmeryt.getKosztyuzyskania()));
+            BigDecimal subtract = poz.getP43().subtract(poz.getP44());
+            if (poz.getP45()!=null) {
+                poz.setP45(poz.getP45().add(subtract));
+            } else{
+                poz.setP45(subtract);
+            }
+            poz.setP47(BigInteger.valueOf(Z.zUD(sumaUmowaopraceEmeryt.getPodatekdochodowy())));
+            if (poz.getP96()!=null) {
+                poz.setP96(poz.getP96().add(BigDecimal.valueOf(Z.z(sumaUmowaopraceEmeryt.getRazemspolecznepracownik()))));
+            } else{
+                poz.setP96(BigDecimal.valueOf(Z.z(sumaUmowaopraceEmeryt.getRazemspolecznepracownik())));
+            }
+            if (poz.getP122()!=null) {
+                poz.setP122(poz.getP122().add(BigDecimal.valueOf(Z.z(sumaUmowaopraceEmeryt.getPraczdrowotnedopotracenia()))));
+            } else{
+                poz.setP122(BigDecimal.valueOf(Z.z(sumaUmowaopraceEmeryt.getPraczdrowotnedopotracenia())));
+            }
+            //czy dodano PIT-R 1tak 2nie
+            poz.setP121((byte)2);
+        }
+        if (sumaUmowaopracekosztypodwyzszone.getBrutto()>0.0) {
+            poz.setP48(BigDecimal.valueOf(sumaUmowaopraceEmeryt.getBrutto()));
+            poz.setP49(BigDecimal.valueOf(sumaUmowaopraceEmeryt.getKosztyuzyskania()));
+            BigDecimal subtract = poz.getP48().subtract(poz.getP49());
+            if (poz.getP45()!=null) {
+                poz.setP45(poz.getP45().add(subtract));
+            } else{
+                poz.setP45(subtract);
+            }
+            poz.setP47(BigInteger.valueOf(Z.zUD(sumaUmowaopraceEmeryt.getPodatekdochodowy())));
+            if (poz.getP96()!=null) {
+                poz.setP96(poz.getP96().add(BigDecimal.valueOf(Z.z(sumaUmowaopraceEmeryt.getRazemspolecznepracownik()))));
+            } else{
+                poz.setP96(BigDecimal.valueOf(Z.z(sumaUmowaopraceEmeryt.getRazemspolecznepracownik())));
+            }
+            if (poz.getP122()!=null) {
+                poz.setP122(poz.getP122().add(BigDecimal.valueOf(Z.z(sumaUmowaopraceEmeryt.getPraczdrowotnedopotracenia()))));
+            } else{
+                poz.setP122(BigDecimal.valueOf(Z.z(sumaUmowaopraceEmeryt.getPraczdrowotnedopotracenia())));
+            }
+            //czy dodano PIT-R 1tak 2nie
+            poz.setP121((byte)2);
+        }
+        
         if (sumaUmowapelnieniefunkcji.getBrutto()>0.0) {
             poz.setP54(BigDecimal.valueOf(sumaUmowapelnieniefunkcji.getBrutto()));
             poz.setP55(BigDecimal.valueOf(sumaUmowapelnieniefunkcji.getKosztyuzyskania()));

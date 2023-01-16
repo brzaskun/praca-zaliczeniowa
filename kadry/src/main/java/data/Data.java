@@ -96,9 +96,8 @@ public class Data implements Serializable {
        return ostatniDzien(wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
     }
     
-   public static void obliczwiek(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasek) {
-        if (kalendarz!=null) {
-            String dataurodzenia = kalendarz.getAngaz().getPracownik().getDataurodzenia();
+   public static void obliczwiek(String dataurodzenia, Pasekwynagrodzen pasek) {
+        if (pasek!=null&&dataurodzenia!=null) {
             LocalDate dataur = LocalDate.parse(dataurodzenia);
             LocalDate dataumowy = LocalDate.parse(pasek.getDatawyplaty());
             Period period = Period.between(dataur, dataumowy);

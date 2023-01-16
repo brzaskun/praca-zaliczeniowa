@@ -160,6 +160,8 @@ public class Kartawynagrodzen implements Serializable {
     private Set<String> pesele;
     @Transient
     private boolean jestPIT11;
+    @Transient
+    private boolean wyslano;
     
     public Kartawynagrodzen() {
         this.nrlisty = "";
@@ -502,6 +504,14 @@ public class Kartawynagrodzen implements Serializable {
 
     public void setWieklata(int wieklata) {
         this.wieklata = wieklata;
+    }
+
+    public boolean isWyslano() {
+        return wyslano;
+    }
+
+    public void setWyslano(boolean wyslano) {
+        this.wyslano = wyslano;
     }
     
     

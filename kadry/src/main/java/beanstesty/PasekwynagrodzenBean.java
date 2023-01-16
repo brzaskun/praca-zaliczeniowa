@@ -128,7 +128,7 @@ public class PasekwynagrodzenBean {
         Pasekwynagrodzen pasek = new Pasekwynagrodzen();
         pasek.setKalendarzmiesiac(kalendarz);
         pasek.setDatawyplaty(datawyplaty);
-        Data.obliczwiek(kalendarz, pasek);
+        Data.obliczwiek(kalendarz.getDataUrodzenia(), pasek);
         String datakonca26lat = OsobaBean.obliczdata26(kalendarz.getDataUrodzenia());
         boolean po26roku = Data.czyjestpo(datakonca26lat, kalendarz.getRok(), kalendarz.getMc());
         boolean student = kalendarz.getAngaz().isStudent();

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Deklaracja xmlns="http://crd.gov.pl/wzor/2022/11/09/11890/" xmlns:ns2="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2022/03/15/eD/DefinicjeTypy/" xmlns:ns4="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2022/03/15/eD/ORDZU/" xmlns:ns3="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2022/03/15/eD/PITR/">
+    <Naglowek>
+        <KodFormularza kodSystemowy="PIT-11 (29)" kodPodatku="PIT" rodzajZobowiazania="Z" wersjaSchemy="1-1E">PIT-11</KodFormularza>
+        <WariantFormularza>29</WariantFormularza>
+        <CelZlozenia poz="P_7">1</CelZlozenia>
+        <Rok>2022</Rok>
+        <KodUrzedu>3205</KodUrzedu>
+    </Naglowek>
+    <Podmiot1 rola="Płatnik/Składający">
+        <OsobaNiefizyczna>
+            <NIP>8561849760</NIP>
+            <PelnaNazwa>CODY RACKS SP. Z O.O.</PelnaNazwa>
+        </OsobaNiefizyczna>
+    </Podmiot1>
+    <Podmiot2 rola="Podatnik">
+        <OsobaFizyczna>
+            <PESEL>57042416935</PESEL>
+            <ImiePierwsze>Krzysztof</ImiePierwsze>
+            <Nazwisko>Ziętala</Nazwisko>
+            <DataUrodzenia>1957-04-24</DataUrodzenia>
+        </OsobaFizyczna>
+        <AdresZamieszkania rodzajAdresu="RAD">
+            <KodKraju poz="P_19A">PL</KodKraju>
+            <Wojewodztwo>zachodniopomorskie</Wojewodztwo>
+            <Powiat>Goleniów</Powiat>
+            <Gmina>Przybiernów</Gmina>
+            <Ulica poz="P_23">-</Ulica>
+            <NrDomu poz="P_24">1</NrDomu>
+            <NrLokalu poz="P_25">-</NrLokalu>
+            <Miejscowosc poz="P_26">Budzieszewice</Miejscowosc>
+            <KodPocztowy poz="P_27">72-122</KodPocztowy>
+        </AdresZamieszkania>
+    </Podmiot2>
+    <PozycjeSzczegolowe>
+        <P_11>1</P_11>
+        <P_28>1</P_28>
+        <P_29>14545.6</P_29>
+        <P_30>1500.0</P_30>
+        <P_31>13045.6</P_31>
+        <P_33>0</P_33>
+        <P_95>1994.2</P_95>
+        <P_121>2</P_121>
+        <P_122>1129.65</P_122>
+    </PozycjeSzczegolowe>
+    <Pouczenie>1</Pouczenie>
+</Deklaracja>

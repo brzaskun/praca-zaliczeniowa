@@ -7,6 +7,7 @@
     xmlns:bcf="http://brzaskun.com/facelets"
     >
     <p:tabView id="akordeon">
+        <f:event type="preRenderView" listener="#{kartaWynagrodzenView.init()}"/>
         <p:tab title="zestawienie do PIT-11">
     <p:outputPanel>
         <p:commandButton value="pobierz" styleClass="buttonnorm" actionListener="#{kartaWynagrodzenView.init()}" update="akordeon:KartyWynangrodzenPITForm akordeon:wystawionepit11"/>
@@ -16,11 +17,13 @@
         <h:form id="KartyWynangrodzenPITForm">
             <p:dataTable id="datalist" value="#{kartaWynagrodzenView.sumypracownicy}" var="itemkarta"
                          rowKey="#{itemkarta.angaz.id}" rowIndexVar="indexka" 
-                         style="height: 350px; overflow-y: scroll;width: 1200px;" emptyMessage="Nie pobrano danych"
+                         style="height: 350px; overflow-y: scroll;width: 1350px;" emptyMessage="Nie pobrano danych"
                          sortBy="#{itemkarta.nazwiskoiimie}" selection="#{kartaWynagrodzenView.listaselected}" rowSelectMode="add"
                          >
                 <p:ajax event="rowSelectCheckbox"  partialSubmit="true" global="false"/>
                 <p:ajax event="rowUnselectCheckbox" partialSubmit="true" global="false"/>
+                <p:ajax event="rowSelect"  partialSubmit="true" global="false"/>
+                <p:ajax event="rowUnselect"  partialSubmit="true" global="false"/>
                 <f:facet name="header">
                     <h:outputText value="Zestawienie pracowników za rok #{wpisView.rokWpisu}"/>
                 </f:facet>
@@ -31,7 +34,7 @@
                     </f:facet>
                     <h:outputText value="#{indexka+1}"/>
                 </p:column>
-                <p:column width="100" style="text-align: left;" sortBy="#{itemkarta.nazwiskoiimie}" sortOrder="asc">
+                <p:column width="200" style="text-align: left;" sortBy="#{itemkarta.nazwiskoiimie}" sortOrder="asc">
                     <f:facet name="header">
                         <h:outputText value="pracownik"/>
                     </f:facet>
@@ -111,6 +114,12 @@
                     </f:facet>
                      <h:outputText  value="&#x2714;" rendered="#{itemkarta.jestPIT11}" styleClass="ww"/>
                 </p:column>
+                <p:column width="30" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="wysł"/>
+                    </f:facet>
+                    <h:outputText  value="&#x2714;" rendered="#{itemkarta.wyslano}" styleClass="ww"/>
+                </p:column>
             </p:dataTable>
             <p:dataTable id="datalistpit" value="#{kartaWynagrodzenView.pitpola}" var="itempit"
                          rowKey="#{itempit.id}" rowIndexVar="indexpit"
@@ -124,14 +133,14 @@
                     <p:panelGrid style="margin-top:20px" styleClass="pasekwync" columnClasses="no-border no-border">
                         <f:facet name="header">
                             <p:row>
-                                <p:column colspan="7"><h:outputText value="#{itempit.pracownik.nazwiskoImie}"/></p:column>
+                                <p:column colspan="9"><h:outputText value="#{itempit.pracownik.nazwiskoImie}"/></p:column>
                             </p:row>
 
                         </f:facet>
                         <p:row>
                             <p:row>
                                 <p:column colspan="1" style="text-align: center;">lp</p:column>
-                                <p:column colspan="1" style="text-align: center;">rodzaj przychodu</p:column>
+                                <p:column colspan="3" style="text-align: center;" width="200">rodzaj przychodu</p:column>
                                 <p:column colspan="1" style="text-align: center;">przychód</p:column>
                                 <p:column colspan="1" style="text-align: center;">koszty</p:column>
                                 <p:column colspan="1" style="text-align: center;">dochód</p:column>
@@ -139,8 +148,8 @@
                                 <p:column colspan="1" style="text-align: center;">zaliczka</p:column>
                             </p:row>
                             <p:row>
-                                <p:column colspan="1" rowspan="5" style="text-align: center;">#{indexpit+1}</p:column>
-                                <p:column colspan="1">umowa o pracę p.29</p:column>
+                                <p:column colspan="1" rowspan="2" style="text-align: center;">#{indexpit+1}</p:column>
+                                <p:column colspan="3">umowa o pracę p.29</p:column>
                                 <p:column colspan="1"><bcf:outputpl value="#{itempit.praca29przychod}" rendered="#{itempit.praca29przychod ne 0.0}"/></p:column>
                                 <p:column colspan="1"><bcf:outputpl value="#{itempit.praca30koszt}" rendered="#{itempit.praca29przychod ne 0.0}"/></p:column>
                                 <p:column colspan="1" rowspan="2"><bcf:outputpl value="#{itempit.praca31dochod}" rendered="#{itempit.praca29przychod ne 0.0}"/></p:column>
@@ -148,12 +157,27 @@
                                 <p:column colspan="1" rowspan="2"><bcf:outputpl value="#{itempit.praca33zaliczka}" rendered="#{itempit.praca29przychod ne 0.0}"/></p:column>
                             </p:row>
                             <p:row>
-                                <p:column colspan="1">umowa o pracę wyższe koszty p.34</p:column>
+                                <p:column colspan="3">umowa o pracę wyższe koszty p.34</p:column>
                                 <p:column colspan="1"><bcf:outputpl value="#{itempit.praca34przychodwyzszekoszty}" rendered="#{itempit.praca34przychodwyzszekoszty ne 0.0}"/></p:column>
                                 <p:column colspan="1"><bcf:outputpl value="#{itempit.praca35wyzszekoszty}" rendered="#{itempit.praca34przychodwyzszekoszty ne 0.0}"/></p:column>
                             </p:row>
                             <p:row>
-                                <p:column colspan="1">pełnienie funkcji p.54</p:column>
+                                <p:column colspan="1" rowspan="2" style="text-align: center;">#{indexpit+2}</p:column>
+                                <p:column colspan="3">emeryt umowa o pracę p.43</p:column>
+                                <p:column colspan="1"><bcf:outputpl value="#{itempit.pracaemeryt43przychod}" rendered="#{itempit.pracaemeryt43przychod ne 0.0}"/></p:column>
+                                <p:column colspan="1"><bcf:outputpl value="#{itempit.pracaemeryt44koszt}" rendered="#{itempit.pracaemeryt43przychod ne 0.0}"/></p:column>
+                                <p:column colspan="1" rowspan="2"><bcf:outputpl value="#{itempit.pracaemeryt45dochod}" rendered="#{itempit.pracaemeryt43przychod ne 0.0}"/></p:column>
+                                <p:column colspan="1" rowspan="2"><bcf:outputpl value="#{itempit.pracaemeryt46dochodzwolniony}" rendered="#{itempit.pracaemeryt43przychod ne 0.0}"/></p:column>
+                                <p:column colspan="1" rowspan="2"><bcf:outputpl value="#{itempit.pracaemeryt47zaliczka}" rendered="#{itempit.pracaemeryt43przychod ne 0.0}"/></p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column colspan="3">emeryt umowa o pracę wyższe koszty p.34</p:column>
+                                <p:column colspan="1"><bcf:outputpl value="#{itempit.pracaemeryt48przychodwyzszekoszty}" rendered="#{itempit.pracaemeryt48przychodwyzszekoszty ne 0.0}"/></p:column>
+                                <p:column colspan="1"><bcf:outputpl value="#{itempit.pracaemeryt49wyzszekoszty}" rendered="#{itempit.pracaemeryt48przychodwyzszekoszty ne 0.0}"/></p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column colspan="1" rowspan="1" style="text-align: center;">#{indexpit+3}</p:column>
+                                <p:column colspan="3">pełnienie funkcji p.54</p:column>
                                 <p:column colspan="1"><bcf:outputpl value="#{itempit.funkcja54przychod}" rendered="#{itempit.funkcja54przychod ne 0.0}"/></p:column>
                                 <p:column colspan="1"><bcf:outputpl value="#{itempit.funkcja55koszt}" rendered="#{itempit.funkcja54przychod ne 0.0}"/></p:column>
                                 <p:column colspan="1"><bcf:outputpl value="#{itempit.funkcja56dochod}" rendered="#{itempit.funkcja54przychod ne 0.0}"/></p:column>
@@ -161,7 +185,8 @@
                                 <p:column colspan="1"><bcf:outputpl value="#{itempit.funkcja57zaliczka}" rendered="#{itempit.funkcja54przychod ne 0.0}"/></p:column>
                             </p:row>
                             <p:row>
-                                <p:column colspan="1">umowa zlecenia p.58</p:column>
+                                <p:column colspan="1" rowspan="2" style="text-align: center;">#{indexpit+4}</p:column>
+                                <p:column colspan="3">umowa zlecenia p.58</p:column>
                                 <p:column colspan="1"><bcf:outputpl value="#{itempit.zlecenie58przychod}" rendered="#{itempit.zlecenie58przychod ne 0.0}"/></p:column>
                                 <p:column colspan="1"><bcf:outputpl value="#{itempit.zlecenie59koszt}" rendered="#{itempit.zlecenie58przychod ne 0.0}"/></p:column>
                                 <p:column colspan="1"><bcf:outputpl value="#{itempit.zlecenie60dochod}" rendered="#{itempit.zlecenie58przychod ne 0.0}"/></p:column>
@@ -169,7 +194,7 @@
                                 <p:column colspan="1"><bcf:outputpl value="#{itempit.zlecenie61zaliczka}" rendered="#{itempit.zlecenie58przychod ne 0.0}"/></p:column>
                             </p:row>
                             <p:row>
-                                <p:column colspan="1">umowa zlecenia 26 opodatkowana p.62</p:column>
+                                <p:column colspan="3">umowa zlecenia 26 opodatkowana p.62</p:column>
                                 <p:column colspan="1"><bcf:outputpl value="#{itempit.zlecenie62przychod26}" rendered="#{itempit.zlecenie62przychod26 ne 0.0}"/></p:column>
                                 <p:column colspan="1"><bcf:outputpl value="#{itempit.zlecenie63koszt26}" rendered="#{itempit.zlecenie63koszt26 ne 0.0}"/></p:column>
                                 <p:column colspan="1"><bcf:outputpl value="#{itempit.zlecenie64dochod26}" rendered="#{itempit.zlecenie64dochod26 ne 0.0}"/></p:column>
@@ -177,19 +202,25 @@
                                 <p:column colspan="1"><bcf:outputpl value="#{itempit.zlecenie65zaliczka26}" rendered="#{itempit.zlecenie65zaliczka26 ne 0.0}"/></p:column>
                             </p:row>
                             <p:row>
-                                <p:column colspan="4" style="text-align: right">zus społeczne p.95</p:column>
+                                <p:column colspan="8" style="text-align: right">zus społeczne p.95</p:column>
                                 <p:column colspan="1"><bcf:outputpl value="#{itempit.zus51pole95}"/></p:column>
-                                <p:column colspan="1" style="text-align: right">zus społ. do 26l. p.97</p:column>
+                             </p:row>
+                            <p:row>
+                                <p:column colspan="8" style="text-align: right">zus społeczne p.96</p:column>
+                                <p:column colspan="1"><bcf:outputpl value="#{itempit.zus51pole96}"/></p:column>
+                             </p:row>
+                            <p:row>
+                                <p:column colspan="8" style="text-align: right">zus społ. do 26l. p.97</p:column>
                                 <p:column colspan="1"><bcf:outputpl value="#{itempit.zus51pole97}"/></p:column>
                             </p:row>
                             <p:row>
-                                <p:column colspan="6" style="text-align: right">zdrowotne potrącone p.122</p:column>
+                                <p:column colspan="8" style="text-align: right">zdrowotne potrącone p.122</p:column>
                                 <p:column colspan="1"><bcf:outputpl value="#{itempit.zus52pole122}"/></p:column>
 <!--                                <p:column colspan="1" style="text-align: right">zdrow. do 26l. 80</p:column>
                                 <p:column colspan="1"><bcf:outputpl value="#{itempit.zus52pole80}"/></p:column>-->
                             </p:row>
                             <p:row>
-                                <p:column colspan="2" style="text-align: right">suma zwolnione 109</p:column>
+                                <p:column colspan="3" style="text-align: right">suma zwolnione 109</p:column>
                                 <p:column colspan="1"><bcf:outputpl value="#{itempit.przychody109sumado26lat}"  rendered="#{itempit.przychody109sumado26lat ne 0.0}"/></p:column>
                                 <p:column colspan="1" style="text-align: right">w tym praca 110</p:column>
                                 <p:column colspan="1"><bcf:outputpl value="#{itempit.praca110do26lat}" rendered="#{itempit.przychody109sumado26lat ne 0.0}"/></p:column>
@@ -248,11 +279,12 @@
                     </f:facet>
                     <h:outputText value="#{itempity11.identyfikator}"/>
                 </p:column>
-                <p:column width="40" style="text-align: left;">
+                <p:column width="40" style="text-align: center;">
                     <f:facet name="header">
                         <h:outputText value="status"/>
                     </f:facet>
-                    <h:outputText value="#{itempity11.status}"/>
+                    <h:outputText value="#{itempity11.status}" rendered="#{itempity11.status ne '200'}"/>
+                    <h:outputText value="#{itempity11.status}" rendered="#{itempity11.status eq '200'}" style="color: green;"/>
                 </p:column>
                 <p:column width="100" style="text-align: center;">
                     <f:facet name="header">
@@ -262,7 +294,7 @@
                         <f:convertDateTime locale="pl"/>
                     </h:outputText>
                 </p:column>
-                <p:column width="350">
+                <p:column width="300">
                     <f:facet name="header">
                         <h:outputText value="wersja"/>
                     </f:facet>
