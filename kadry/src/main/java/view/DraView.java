@@ -8,8 +8,11 @@ package view;
 import comparator.Defnicjalistaplaccomparator;
 import dao.DefinicjalistaplacFacade;
 import dao.PasekwynagrodzenFacade;
+import dao.SMTPSettingsFacade;
 import entity.Definicjalistaplac;
 import entity.Pasekwynagrodzen;
+import entity.SMTPSettings;
+import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -43,6 +46,8 @@ public class DraView  implements Serializable {
     private DefinicjalistaplacFacade definicjalistaplacFacade;
      @Inject
     private PasekwynagrodzenFacade pasekwynagrodzenFacade;
+     @Inject
+    private SMTPSettingsFacade sMTPSettingsFacade;
      @Inject
     private WpisView wpisView;
     private double zus51;
@@ -89,13 +94,24 @@ public class DraView  implements Serializable {
             danezus.put("zus53", zus53);
             danezus.put("zus", zus);
             danezus.put("pit4", pit4);
-            PdfDRA.drukujListaPodstawowa(paskiwynagrodzen, listywybrane, wpisView.getFirma().getNip(), mcdra, danezus);
+            ByteArrayOutputStream dra = PdfDRA.drukujListaPodstawowa(paskiwynagrodzen, listywybrane, wpisView.getFirma().getNip(), mcdra, danezus);
+            mailListaDRA(dra.toByteArray());
             Msg.msg("Wydrukowano listę płac");
         } else {
             Msg.msg("e","Błąd drukowania. Brak pasków");
         }
     }
     
+    public void mailListaDRA(byte[] dra) {
+        if (dra != null && dra.length > 0) {
+            SMTPSettings findSprawaByDef = sMTPSettingsFacade.findSprawaByDef();
+            String nazwa = wpisView.getFirma().getNip() + "_DRA" + wpisView.getRokWpisu()+ wpisView.getMiesiacWpisu() + "_" + ".pdf";
+            mail.Mail.mailDRA(wpisView.getFirma(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu(), wpisView.getFirma().getEmail(), null, findSprawaByDef, dra, nazwa, wpisView.getUzer().getEmail());
+            Msg.msg("Wysłano listę płac do pracodawcy");
+        } else {
+            Msg.msg("e", "Błąd dwysyki DRA");
+        }
+    }
 
     public void pobierzpaski() {
         if (listywybrane!=null) {
