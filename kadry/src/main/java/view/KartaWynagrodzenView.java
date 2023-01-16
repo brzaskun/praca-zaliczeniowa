@@ -192,6 +192,9 @@ public class KartaWynagrodzenView  implements Serializable {
                 Pasekwynagrodzen pasek = it.next();
                 Data.obliczwiek(dataurodzenia, pasek);
                 lata = pasek.getLata();
+                if (lata==64||lata==65) {
+                    System.out.println("");
+                }
                 if (pasek.getMcwypl().equals(karta.getMc())) {
                     //tu sie dodaje paski do karty wynagrodzen
                     if (!angazzpaskow.contains(pasek.getKalendarzmiesiac().getAngaz())) {
@@ -213,7 +216,7 @@ public class KartaWynagrodzenView  implements Serializable {
 
                     if ((pasek.getRodzajWynagrodzenia()==1||pasek.getRodzajWynagrodzenia()==4||pasek.getRodzajWynagrodzenia()==1006)&&pasek.isDo26lat()==false) {
                         //emeryci
-                        if ((plec.equals("M")&&lata>65)||(plec.equals("K")&&lata>60)) {
+                        if ((plec.equals("M")&&lata>=65)||(plec.equals("K")&&lata>=60)) {
                             if (pasek.getProcentkosztow()>100.0) {
                                 sumaUmowaopraceEmerytkosztypodwyzszone.dodaj(pasek);
                             } else {
