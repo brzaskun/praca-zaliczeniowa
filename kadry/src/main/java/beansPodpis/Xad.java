@@ -85,7 +85,7 @@ public class Xad {
     //}
     
     public static String inneHaslo(String innehaslo) {
-        String zwrot = "123456";
+        String zwrot = "marlena1";
         if (innehaslo!=null && !innehaslo.equals("")) {
             zwrot = innehaslo;
         }
@@ -96,7 +96,7 @@ public class Xad {
         pl.gov.crd.wzor._2022._11._09._11890.Deklaracja deklaracjeobject = (pl.gov.crd.wzor._2022._11._09._11890.Deklaracja) ObjectBean.convertFromBytes(deklaracjarray);
         String deklaracja = PIT11_29Bean.marszajuldoStringxml(deklaracjeobject);
 //        String haslo = inneHaslo(innehaslo);
-        String haslo = "123456";
+        String haslo = "marlena1";
         String pesel = "70052809810";
         Object[] podpisana = null;
         try {
@@ -157,6 +157,7 @@ public class Xad {
 //            validate(doc, xmlSigFactory);
 
         } catch (Exception ex) {
+            E.e(ex);
             // Logger.getLogger(Xad.class.getName()).log(Level.SEVERE, null, ex);
         }
         return podpisana;

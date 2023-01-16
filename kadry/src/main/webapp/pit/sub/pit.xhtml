@@ -309,6 +309,8 @@
             </p:dataTable>
                 <p:panelGrid columns="4">
                         <p:commandButton value="drukuj wszystkie" styleClass="buttonnorm" actionListener="#{kartaWynagrodzenView.drukujwszystkiePIT11()}" global="true"/>
+                        <p:commandButton value="wyślij do urzędu" styleClass="buttonnorm" actionListener="#{pitWysylkaView.zbiorczawysylka(kartaWynagrodzenView.listaPIT11)}" global="true" update="akordeon:wystawionepit11"/>
+                        <p:commandButton value="pobierz UPO" styleClass="buttonnorm" actionListener="#{pitWysylkaView.pobierzUPO(kartaWynagrodzenView.listaPIT11)}" global="true" update="akordeon:wystawionepit11"/>
                         <p:commandButton value="mail do firmy" styleClass="buttonnorm" actionListener="#{kartaWynagrodzenView.mailwszystkie()}" global="true"/>
                     </p:panelGrid>
         </h:form>

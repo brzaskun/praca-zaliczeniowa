@@ -19,6 +19,7 @@ import javax.inject.Named;
 import javax.xml.ws.Holder;
 import javax.xml.ws.WebServiceRef;
 import msg.Msg;
+import pdf.PdfKartaWynagrodzen;
 
 /**
  *
@@ -63,6 +64,32 @@ public class PitWysylkaView  implements Serializable {
     }
     
     
+    public void zbiorczawysylka(List<DeklaracjaPIT11Schowek> listaPIT11) {
+        if (listaPIT11!=null && listaPIT11.size()>0) {
+            for (DeklaracjaPIT11Schowek p : listaPIT11) {
+                if (p.getDataupo()==null) {
+                    robPIT1129(p);
+                }
+            }
+            Msg.msg("Wysłąno zbiorczo deklaracje do US");
+        } else {
+            Msg.msg("e","Błąd wysyłki. Brak karty wynagrodzeń");
+        }
+    }
+    public void pobierzUPO(List<DeklaracjaPIT11Schowek> listaPIT11) {
+        if (listaPIT11!=null && listaPIT11.size()>0) {
+            for (DeklaracjaPIT11Schowek p : listaPIT11) {
+                if (p.getDataupo()!=null) {
+                    pobierztest(p);
+                }
+            }
+            Msg.msg("Wysłąno zbiorczo deklaracje do US");
+        } else {
+            Msg.msg("e","Błąd wysyłki. Brak karty wynagrodzeń");
+        }
+    }
+    
+    
     public void robPIT1129(DeklaracjaPIT11Schowek wysylanaDeklaracja){
         try {
             Object[] podpiszDeklaracje = podpiszDeklaracje(wysylanaDeklaracja);
@@ -72,7 +99,7 @@ public class PitWysylkaView  implements Serializable {
             Holder<String> upo = new Holder<>();
             byte[] dok = (byte[]) podpiszDeklaracje[0];
             //sendSignDocument(dok, id, stat, opis);
-            sendUnsignDocument(dok, lang, signT, id, stat, opis);
+            sendSignDocument(dok, id, stat, opis);
             String idMB = id.value;
             String idpobierz = id.value;
             List<String> komunikat = null;
