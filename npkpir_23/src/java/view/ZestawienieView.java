@@ -1094,7 +1094,7 @@ public class ZestawienieView implements Serializable {
                 Pitpoz tmpX = (Pitpoz) it.next();
                 int miesiacPituPobranego = Integer.parseInt(tmpX.getPkpirM());
                 if (miesiacPituPobranego <= poprzednimc && tmpX.getUdzialowiec().equals(udzialowiec.getNazwiskoimie())) {
-                    if (tmpX.getNaleznazal().signum() == 1) {
+                    if (tmpX.getNaleznazal()!=null&&tmpX.getNaleznazal().signum() == 1) {
                         tmp.setNalzalodpoczrok(tmp.getNalzalodpoczrok().add(tmpX.getNaleznazal()));
                     }
                 }
