@@ -18,12 +18,12 @@
                     <h:outputText value=""/>
                     <h:outputText value=""/>
                     <p:selectOneMenu id="rokWpisu" value="#{fakturaDodPozycjaKontrahentView.rok}" style="width: 60px;">
-                        <p:ajax event="change" partialSubmit="true" />
+                        <p:ajax event="change" partialSubmit="true" listener="#{fakturaDodPozycjaKontrahentView.pobierzklientow()}" update="akordeon:listapozycji:lista akordeon:form3 akordeon:listapozycji2:lista akordeon:form2:kontrpole"/>
                         <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true" />
                         <f:selectItems value="#{roki.rokiList}"/>
                     </p:selectOneMenu>
                     <p:selectOneMenu id="miesiacWpisu" value="#{fakturaDodPozycjaKontrahentView.mc}" style="width: 60px;">
-                        <p:ajax event="change" partialSubmit="true" listener="#{fakturaDodPozycjaKontrahentView.pobierzklientow()}" update="akordeon:listapozycji:lista akordeon:form3 akordeon:listapozycji2:lista"/>
+                        <p:ajax event="change" partialSubmit="true" listener="#{fakturaDodPozycjaKontrahentView.pobierzklientow()}" update="akordeon:listapozycji:lista akordeon:form3 akordeon:listapozycji2:lista akordeon:form2:kontrpole"/>
                         <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true" />
                         <f:selectItems value="#{mce.mceList}"/>
                     </p:selectOneMenu>

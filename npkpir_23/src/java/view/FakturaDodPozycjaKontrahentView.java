@@ -71,27 +71,27 @@ public class FakturaDodPozycjaKontrahentView  implements Serializable {
     @PostConstruct
     private void init() {
         pozycje = fakturaDodatkowaPozycjaDAO.findAll();
-        lista_wzor = fakturaDodPozycjaKontrahentDAO.findByRok(Data.aktualnyRok());
         lista_2 = new ArrayList<>();
         rok = Data.aktualnyRok();
-        klienci = new ArrayList<>();
-        wykazfaktur = fakturywystokresoweDAO.findPodatnikBiezace("GRZELCZYK", rok);
-        for (Fakturywystokresowe p : wykazfaktur) {
-            Podatnik pod = podatnikDAO.findPodatnikByNIP(p.getDokument().getKontrahent().getNip());
-            Klienci k = p.getDokument().getKontrahent();
-            if (pod != null) {
-                k.setJezykwysylki(pod.getJezykmaila());
-                k.setNazwapodatnika(pod.getPrintnazwa());
-            } else {
-                k.setNazwapodatnika(k.getNazwabezCudzy());
-            }
-            klienci.add(k);
-        }
-        Collections.sort(klienci, new Klienci1comparator());
     }
 
     public void pobierzklientow() {
         if (mc != null && rok != null) {
+            klienci = new ArrayList<>();
+            lista_wzor = fakturaDodPozycjaKontrahentDAO.findByRok(rok);
+            wykazfaktur = fakturywystokresoweDAO.findPodatnikBiezace("GRZELCZYK", rok);
+            for (Fakturywystokresowe p : wykazfaktur) {
+                Podatnik pod = podatnikDAO.findPodatnikByNIP(p.getDokument().getKontrahent().getNip());
+                Klienci k = p.getDokument().getKontrahent();
+                if (pod != null) {
+                    k.setJezykwysylki(pod.getJezykmaila());
+                    k.setNazwapodatnika(pod.getPrintnazwa());
+                } else {
+                    k.setNazwapodatnika(k.getNazwabezCudzy());
+                }
+                klienci.add(k);
+            }
+            Collections.sort(klienci, new Klienci1comparator());
             pozycje = fakturaDodatkowaPozycjaDAO.findAll();
             if (rok != null && mc != null) {
                 lista_2_filter = null;
@@ -120,6 +120,8 @@ public class FakturaDodPozycjaKontrahentView  implements Serializable {
                 } catch (Exception e){}
                 Msg.msg("Pobrano stałe pozycje");
             }
+        } else {
+            Msg.msg("e","Brak mca, roku");
         }
     }
     
