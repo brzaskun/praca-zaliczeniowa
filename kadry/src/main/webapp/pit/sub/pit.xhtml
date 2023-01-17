@@ -239,7 +239,7 @@
             <h:form id="wystawionepit11">
             <p:dataTable id="datalistwa" value="#{kartaWynagrodzenView.listaPIT11}" var="itempity11"
                          rowKey="#{itempity11.id}" rowIndexVar="indexpity11" 
-                         style="height: 450px; width: 1450px; overflow-y" emptyMessage="Nie pobrano danych"
+                         style="height: 450px; width: 1450px; overflow-y:scroll;" emptyMessage="Nie pobrano danych"
                          >
                 <f:facet name="header">
                     <h:outputText value="Wygegnerowane deklaracje PIT-11"/>
