@@ -15,7 +15,7 @@
     
     <p:tab id="archiwum" title="Dane zbiorcze">
         <h:form>
-    <p:panelGrid id="zestawienieroczne" columns="9"  rendered="#{WpisView.ksiegaryczalt}" style="max-width: 1150px;">
+    <p:panelGrid id="zestawienieroczne" columns="9"  rendered="#{WpisView.ksiegaryczalt}" style="width: 1050px;">
         <p:dataTable  var="wpis" value="#{kolmn.kolumnZest}" id="dokumentyLista" > 
             <p:column headerText="kolumny" id="przychsprz">  
                 <h:outputText value="#{wpis}" style="#{wpis eq 'razem przych.' ? 'color: red' : wpis eq 'razem koszty' ? 'color: blue' : null }"/>
@@ -220,7 +220,7 @@
             </h:form>
         </div>
     <!-- ***************************************************************************************a teraz akapit jak jest ryczałt-->
-    <p:panelGrid id="zestawienieroczne1" columns="8"  rendered="#{!WpisView.ksiegaryczalt}">
+    <p:panelGrid id="zestawienieroczne1" columns="8"  rendered="#{!WpisView.ksiegaryczalt}" style="max-width: 1050px;">
         <p:dataTable  var="wpis" value="#{kolmn.kolumnRyczalt}" id="dokumentyRListaR" > 
             <p:column headerText="kolumny" id="przychsprz">  
                 <h:outputText value="#{wpis}" />
