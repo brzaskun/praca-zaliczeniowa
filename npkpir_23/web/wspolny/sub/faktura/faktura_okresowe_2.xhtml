@@ -98,22 +98,22 @@
                           filterMatchMode="contains" width="150">
                     <h:outputText value="#{wpis.dokument.kontrahent.nazwabezCudzy}" style="#{wpis.getStyldaty(WpisView.miesiacWpisu)}"/>
                 </p:column>
-                <p:column headerText="data wystawienia" sortBy="#{wpis.getDatawystawieniaOld()}" filterBy="#{wpis.getDatawystawieniaOld()}" filterMatchMode="contains" filterStyle="display : none;" width="90">
+<!--                <p:column headerText="data wystawienia" sortBy="#{wpis.getDatawystawieniaOld()}" filterBy="#{wpis.getDatawystawieniaOld()}" filterMatchMode="contains" filterStyle="display : none;" width="90">
                     <h:outputText value="#{wpis.getDatawystawieniaOld()}" style="#{wpis.getStyldaty(WpisView.miesiacWpisu)}"/>
                 </p:column>
                 <p:column width="100" headerText="#{mgs.opis}" sortBy="#{wpis.dokument.opisFaktury}" filterBy="#{wpis.dokument.opisFaktury}" filterMatchMode="contains">
                     <h:outputText value="#{wpis.dokument.opisFaktury}"  style="#{wpis.getStyldaty(WpisView.miesiacWpisu)}"/>
-                </p:column>
+                </p:column>-->
                 <p:column headerText="netto" sortBy="#{wpis.dokument.nettoFakturaView}" filterBy="#{wpis.dokument.nettoFakturaView}" filterMatchMode="contains" filterStyle="display : none;" width="70">
                     <bcf:outputpl value="#{wpis.dokument.nettoFakturaView}" stylePlus="color: #{wpis.dokument.kolor(WpisView.rokWpisu, WpisView.miesiacWpisu)}"/>
                     <h:outputText value=" #{wpis.dokument.walutafaktury}" rendered="#{wpis.dokument.walutafaktury ne 'PLN'}"/>
                 </p:column>
-                <p:column headerText="brutto" sortBy="#{wpis.dokument.bruttoFakturaView}" filterBy="#{wpis.dokument.bruttoFakturaView}" filterMatchMode="contains" filterStyle="display : none;" width="70">
+<!--                <p:column headerText="brutto" sortBy="#{wpis.dokument.bruttoFakturaView}" filterBy="#{wpis.dokument.bruttoFakturaView}" filterMatchMode="contains" filterStyle="display : none;" width="70">
                     <bcf:outputpl value="#{wpis.dokument.bruttoFakturaView}"/>
                     <h:outputText value=" #{wpis.dokument.walutafaktury}" rendered="#{wpis.dokument.walutafaktury ne 'PLN'}"/>
                     <bcf:outputpl value="#{wpis.dokument.bruttoFakturaViewPLN}" rendered="#{wpis.dokument.walutafaktury ne 'PLN'}"/>
                     <h:outputText value=" PLN" rendered="#{wpis.dokument.walutafaktury ne 'PLN'}" style="color: "/>
-                </p:column>
+                </p:column>-->
                 <p:column headerText="01" width="20" sortBy="#{wpis.m1}"  rendered="#{WpisView.miesiacWpisu eq '01'}">  
                     <h:outputText value="#{wpis.m1}" styleClass="#{wpis.m1 gt 0 ? 'wiecejfaktur' : 'zerofaktur'}"/>
                 </p:column>
@@ -174,6 +174,9 @@
                     <p:inputNumber value="#{wpis.kwotaroknastepny}" symbolPosition="s" decimalSeparator="."   inputStyle="text-align: right;" decimalPlaces="2" size="11" >
                         <p:ajax event="change"  partialSubmit="true" global="false" listener="#{fakturaView.edytujokresowa(wpis)}"/>
                     </p:inputNumber>
+                </p:column>
+                <p:column headerText="wier." width="30" filterBy="#{wpis.dokument.pozycjenafakturze.size()}" sortBy="#{wpis.dokument.pozycjenafakturze.size()}" style="text-align: center;">  
+                    <h:outputText value="#{wpis.dokument.pozycjenafakturze.size()}"/>
                 </p:column>
                 <p:column headerText="drukuj" style="text-align: center;" width="40">
                     <p:commandButton update=":form1:messages" actionListener="#{pdfFaktura.drukujokresowa(wpis, row, WpisView.podatnikObiekt)}" icon="ui-icon-print" />
