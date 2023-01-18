@@ -15,7 +15,6 @@ import embeddable.TKodUS;
 import entity.Angaz;
 import entity.Pracownik;
 import java.io.Serializable;
-import java.util.Calendar;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
@@ -63,7 +62,12 @@ public class PracownikDane2View  implements Serializable {
             selected.setKrajsymbol(robkrajSymbol(selected.getKraj()));
             selected.setKodurzeduskarbowego(tKodUS.getMapaUrzadKod().get(selected.getNazwaurzeduskarbowego()));
             selected.setIpusera(IPaddress.getIpAddr((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest()));
-            Calendar calendar = Calendar.getInstance();
+            if (selected.getUlica()==null||selected.getUlica().equals("")) {
+                selected.setUlica("-");
+            }
+            if (selected.getLokal()==null||selected.getLokal().equals("")) {
+                selected.setLokal("-");
+            }
             selected.setDatalogowania(Data.aktualnaDataCzas());
             selected.setModyfikowal(wpisView.getUzer().getSecname());
             pracownikFacade.edit(selected);
@@ -83,6 +87,12 @@ public class PracownikDane2View  implements Serializable {
             }
         }
         return zwrot;
+    }
+    
+     public  void robkrajSymbolForm() {
+        if (selected.getNazwaurzeduskarbowego()!=null) {
+            selected.setKodurzeduskarbowego(tKodUS.getMapaUrzadKod().get(selected.getNazwaurzeduskarbowego()));
+        }
     }
     
     public void pobierzdane() {

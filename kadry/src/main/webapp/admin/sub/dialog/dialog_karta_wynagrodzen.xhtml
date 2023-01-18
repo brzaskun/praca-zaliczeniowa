@@ -169,7 +169,8 @@
                                     <p:row>
                                         <p:column width="40" style="text-align: center;">
                                             <h:outputText value="#{indexkartapasek+1}"/>
-                                            <h:outputText value="/import" style="color:blue;" rendered="#{itemkartapasek.importowany eq true}"/>
+                                            <h:outputText value="/import/" style="color:blue;" rendered="#{itemkartapasek.importowany eq true}"/>
+                                            <h:outputText value="#{itemkartapasek.id}" style="color:blue;" rendered="#{itemkartapasek.importowany eq true}"/>
                                         </p:column>
                                         <p:column>
                                             <bcf:outputpl value="#{itemkartapasek.bruttozus}" />

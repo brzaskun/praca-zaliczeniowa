@@ -100,6 +100,10 @@
                                 <h:outputText id="npelna" value="#{p}" />  
                             </h:panelGrid>
                         </f:facet>
+                            <p:ajax event="query" global="false"/>
+                            <p:ajax event="itemSelect" partialSubmit="true"  global="false" listener="#{pracownikDane2View.robkrajSymbolForm()}"
+                                    update="PracownikCreateForm:usnazwakod"  />
+
                     </p:autoComplete>
                     </p:panelGrid>
                         <p:outputLabel value="kod urzędu" for="usnazwakod" />

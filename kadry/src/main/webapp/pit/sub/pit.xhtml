@@ -40,6 +40,12 @@
                     </f:facet>
                     <h:outputText value="#{itemkarta.nazwiskoiimie}" />
                 </p:column>
+                <p:column width="20" style="text-align: center;" >
+                    <f:facet name="header">
+                        <h:outputText value="US"/>
+                    </f:facet>
+                     <h:outputText  value="&#x2714;" rendered="#{itemkarta.angaz.pracownik.kodurzeduskarbowego ne null}" style="color: green;"/>
+                </p:column>
                 <p:column width="30" style="text-align: center;" >
                     <f:facet name="header">
                         <h:outputText value="wiek"/>
@@ -235,6 +241,9 @@
     </p:outputPanel>
     </p:tab>
         <p:tab title="wystawione PIT-11">
+            <p:outputPanel style="padding: 20px;">
+                <h:outputText value="Nie widze karty! Nie można podpisać deklaracji" rendered="#{podpisView.jestkarta eq false}" style="color: red;"/>
+            </p:outputPanel>
              <p:outputPanel>
             <h:form id="wystawionepit11">
             <p:dataTable id="datalistwa" value="#{kartaWynagrodzenView.listaPIT11}" var="itempity11"
@@ -318,7 +327,7 @@
                     <f:facet name="header">
                         <h:outputText value="us"/>
                     </f:facet>
-                     <p:commandButton icon="pi pi-envelope" actionListener="#{pitWysylkaView.robPIT1129(itempity11)}" update="akordeon:wystawionepit11:datalistwa">
+                     <p:commandButton icon="pi pi-envelope" actionListener="#{pitWysylkaView.robPIT1129(itempity11)}" update="akordeon:wystawionepit11:datalistwa"  rendered="#{podpisView.jestkarta eq true}">
                         <p:confirm type="popup" header="Potwierdzenie" message="Wysłać deklarację do urzędu?" icon="pi pi-exclamation-triangle"/>
                     </p:commandButton>
                 </p:column>
