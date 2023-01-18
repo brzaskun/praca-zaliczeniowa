@@ -394,7 +394,7 @@ public class PIT11_29Bean {
             poz.setP121((byte)2);
         }
         if (sumaUmowaoprace26zwolnione.getBrutto()>85528.0) {
-            double kwotaponadlimit = sumaUmowaoprace26zwolnione.getBrutto()-85528.0;
+            double kwotaponadlimit = Z.z(sumaUmowaoprace26zwolnione.getBrutto()-85528.0);
             double zus51 = sumaUmowaoprace26zwolnione.getRazemspolecznepracownik();
             double zuszwolniony = Z.z(85528.0/sumaUmowaoprace26zwolnione.getBrutto()*zus51);
             double zusopodatkowany = Z.z(zus51-zuszwolniony);
@@ -452,7 +452,7 @@ public class PIT11_29Bean {
             poz.setP121((byte)2);
         }
         if (sumaUmowazlecenia26zwolnione.getBrutto()>85528.0) {
-            double kwotaponadlimit = sumaUmowazlecenia26zwolnione.getBrutto()-85528.0;
+            double kwotaponadlimit = Z.z(sumaUmowazlecenia26zwolnione.getBrutto()-85528.0);
             double zus51 = sumaUmowazlecenia26zwolnione.getRazemspolecznepracownik();
             double zuszwolniony = Z.z(85528.0/sumaUmowazlecenia26zwolnione.getBrutto()*zus51);
             double zusopodatkowany = Z.z(zus51-zuszwolniony);

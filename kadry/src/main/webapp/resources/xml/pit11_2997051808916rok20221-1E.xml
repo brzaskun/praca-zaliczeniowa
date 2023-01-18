@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Deklaracja xmlns="http://crd.gov.pl/wzor/2022/11/09/11890/" xmlns:ns2="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2022/03/15/eD/DefinicjeTypy/" xmlns:ns4="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2022/03/15/eD/ORDZU/" xmlns:ns3="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2022/03/15/eD/PITR/">
+    <Naglowek>
+        <KodFormularza kodSystemowy="PIT-11 (29)" kodPodatku="PIT" rodzajZobowiazania="Z" wersjaSchemy="1-1E">PIT-11</KodFormularza>
+        <WariantFormularza>29</WariantFormularza>
+        <CelZlozenia poz="P_7">1</CelZlozenia>
+        <Rok>2022</Rok>
+        <KodUrzedu>1217</KodUrzedu>
+    </Naglowek>
+    <Podmiot1 rola="Płatnik/Składający">
+        <OsobaFizyczna>
+            <ns2:NIP>7343250119</ns2:NIP>
+            <ns2:ImiePierwsze>Paweł</ns2:ImiePierwsze>
+            <ns2:Nazwisko>Gumulak</ns2:Nazwisko>
+            <ns2:DataUrodzenia>1989-02-03</ns2:DataUrodzenia>
+        </OsobaFizyczna>
+    </Podmiot1>
+    <Podmiot2 rola="Podatnik">
+        <OsobaFizyczna>
+            <PESEL>97051808916</PESEL>
+            <ImiePierwsze>Przemysław</ImiePierwsze>
+            <Nazwisko>Maślanka</Nazwisko>
+            <DataUrodzenia>1997-05-18</DataUrodzenia>
+        </OsobaFizyczna>
+        <AdresZamieszkania rodzajAdresu="RAD">
+            <KodKraju poz="P_19A">PL</KodKraju>
+            <Wojewodztwo>małopolskie</Wojewodztwo>
+            <Powiat>nowosądecki</Powiat>
+            <Gmina>Piwinczna-Zdrój</Gmina>
+            <Ulica poz="P_23">Świniarki</Ulica>
+            <NrDomu poz="P_24">13</NrDomu>
+            <NrLokalu poz="P_25">-</NrLokalu>
+            <Miejscowosc poz="P_26">Piwniczna-Zdrój</Miejscowosc>
+            <KodPocztowy poz="P_27">33-350</KodPocztowy>
+        </AdresZamieszkania>
+    </Podmiot2>
+    <PozycjeSzczegolowe>
+        <P_11>1</P_11>
+        <P_58>19567.2</P_58>
+        <P_59>3802.11</P_59>
+        <P_60>15765.09</P_60>
+        <P_61>0</P_61>
+        <P_95>1960.14</P_95>
+        <P_97>8567.73</P_97>
+        <P_109>85528.0</P_109>
+        <P_111>85528.0</P_111>
+        <P_121>2</P_121>
+        <P_122>5963.57</P_122>
+    </PozycjeSzczegolowe>
+    <Pouczenie>1</Pouczenie>
+</Deklaracja>
