@@ -474,14 +474,14 @@ public class PIT11_29Bean {
                 poz.setP122(BigDecimal.valueOf(Z.z(sumaUmowazlecenia26zwolnione.getPraczdrowotnedopotracenia())));
             }
             poz.setP121((byte)2);
-            poz.setP58(BigDecimal.valueOf(kwotaponadlimit));
-            poz.setP59(BigDecimal.valueOf(sumaUmowazlecenia26zwolnione.getKosztyuzyskania()));
-            poz.setP60(poz.getP58().subtract(poz.getP59()));
-            poz.setP61(BigInteger.valueOf(Z.zUD(sumaUmowazlecenia26zwolnione.getPodatekdochodowy())));
-            if (poz.getP95()!=null) {
-                poz.setP95(poz.getP95().add(BigDecimal.valueOf(Z.z(zusopodatkowany))));
+            poz.setP62(BigDecimal.valueOf(kwotaponadlimit));
+            poz.setP63(BigDecimal.valueOf(sumaUmowazlecenia26zwolnione.getKosztyuzyskania()));
+            poz.setP64(poz.getP62().subtract(poz.getP63()));
+            poz.setP65(BigInteger.valueOf(Z.zUD(sumaUmowazlecenia26zwolnione.getPodatekdochodowy())));
+            if (poz.getP96()!=null) {
+                poz.setP96(poz.getP96().add(BigDecimal.valueOf(Z.z(zusopodatkowany))));
             } else{
-                poz.setP95(BigDecimal.valueOf(Z.z(zusopodatkowany)));
+                poz.setP96(BigDecimal.valueOf(Z.z(zusopodatkowany)));
             }
             //czy dodano PIT-R 1tak 2nie
             poz.setP121((byte)2);

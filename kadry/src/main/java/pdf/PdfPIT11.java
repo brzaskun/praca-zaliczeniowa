@@ -189,8 +189,8 @@ public class PdfPIT11 {
                 absTextW(writer, pobierz(ps.getP55()), 228, 460);
                 absTextW(writer, pobierz(ps.getP56()), 302, 460);
                 absTextW(writer, pobierz(ps.getP57()), 365, 460);
-                absTextW(writer, pobierzI(ps.getP58()), 520, 460);
                 
+                absTextW(writer, pobierzI(ps.getP58()), 520, 460);
                 absTextW(writer, pobierz(ps.getP59()), 228, 430);
                 absTextW(writer, pobierz(ps.getP60()), 365, 420);
                 absTextW(writer, pobierzI(ps.getP61()), 520, 420);
@@ -433,6 +433,7 @@ public class PdfPIT11 {
                     absTextW(writer, pobierz(ps.getP59()), 300, 430);
                     absTextW(writer, pobierz(ps.getP60()), 372, 430);
                     absTextW(writer, pobierzI(ps.getP61()), 523, 430);
+                    
                     absTextW(writer, pobierz(ps.getP62()), 230, 400);
                     absTextW(writer, pobierz(ps.getP63()), 300, 400);
                     absTextW(writer, pobierz(ps.getP64()), 372, 400);
@@ -443,7 +444,7 @@ public class PdfPIT11 {
                     absTextW(writer, pobierzI(ps.getP72()), 523, 370);
                     absTextW(writer, pobierz(ps.getP73()), 230, 362);
                     absTextW(writer, pobierz(ps.getP74()), 300, 362);
-                    absTextW(writer, pobierz(ps.getP64()), 230, 383);
+//                    absTextW(writer, pobierz(ps.getP64()), 230, 383);
 //                absTextW(writer, pobierz(ps.getP65()), 365, 383);
 //                absTextW(writer, pobierzI(ps.getP66()), 520, 383);
 //                absTextW(writer, pobierz(ps.getP67()), 228, 358);
