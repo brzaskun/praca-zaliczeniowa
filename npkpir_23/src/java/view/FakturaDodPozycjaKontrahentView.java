@@ -72,7 +72,9 @@ public class FakturaDodPozycjaKontrahentView  implements Serializable {
     private void init() {
         pozycje = fakturaDodatkowaPozycjaDAO.findAll();
         lista_2 = new ArrayList<>();
-        rok = Data.aktualnyRok();
+        Object[] okres = Data.poprzedniOkres(Data.aktualnyMc(), Data.aktualnyRok());
+        rok = (String) okres[1];
+        mc = (String) okres[0];
     }
 
     public void pobierzklientow() {

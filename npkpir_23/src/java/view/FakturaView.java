@@ -2385,6 +2385,14 @@ public class FakturaView implements Serializable {
     public void skopiujdoNowegoroku() {
         for (Fakturywystokresowe stara : gosciwybralokres) {
             Fakturywystokresowe p = new Fakturywystokresowe(stara, wpisView.getMiesiacWpisu());
+            if (stara.getKwotaroknastepny()!=0.0) {
+                try {
+                    List<Pozycjenafakturzebazadanych> pozycjenafakturze = p.getDokument().getPozycjenafakturze();
+                    if (pozycjenafakturze.size()==1) {
+                        pozycjenafakturze.get(0).setNetto(p.getKwotaroknastepny());
+                    }
+                }catch(Exception r) {}
+            }
             p.setId(null);
             p.setRok(wpisView.getRokNastepnySt());
             p.setM1(0);
