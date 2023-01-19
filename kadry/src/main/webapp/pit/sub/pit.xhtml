@@ -249,7 +249,8 @@
             <h:form id="wystawionepit11">
             <p:dataTable id="datalistwa" value="#{kartaWynagrodzenView.listaPIT11}" var="itempity11"
                          rowKey="#{itempity11.id}" rowIndexVar="indexpity11" 
-                         style="height: 450px; width: 1450px; overflow-y:scroll;" emptyMessage="Nie pobrano danych"
+                         style="height: 450px; width: 1470px; overflow-y:scroll;" emptyMessage="Nie pobrano danych"
+                         sortBy="#{itempity11.pracownik.nazwiskoImie}" 
                          >
                 <f:facet name="header">
                     <h:outputText value="Wygegnerowane deklaracje PIT-11"/>
@@ -269,7 +270,7 @@
                     </f:facet>
                     <h:outputText value="#{itempity11.nazwa}"/>
                 </p:column>
-                <p:column width="120" style="text-align: left;">
+                <p:column width="120" style="text-align: left;" sortBy="#{itempity11.pracownik.nazwiskoImie}" sortOrder="asc">
                     <f:facet name="header">
                         <h:outputText value="pracownik"/>
                     </f:facet>
@@ -283,7 +284,7 @@
                         <f:convertDateTime timeStyle="short" type="both"/>
                     </h:outputText>
                 </p:column>
-                <p:column width="120" style="text-align: left;">
+                <p:column width="150" style="text-align: left;">
                     <f:facet name="header">
                         <h:outputText value="nr id"/>
                     </f:facet>
@@ -349,7 +350,7 @@
                     </p:commandButton>
                 </p:column>
             </p:dataTable>
-                <p:panelGrid columns="4">
+                <p:panelGrid columns="4" style="padding: 20px;">
                         <p:commandButton value="drukuj wszystkie" styleClass="buttonnorm" actionListener="#{kartaWynagrodzenView.drukujwszystkiePIT11()}" global="true"/>
                         <p:commandButton value="wyślij do urzędu" styleClass="buttonnorm" actionListener="#{pitWysylkaView.zbiorczawysylka(kartaWynagrodzenView.listaPIT11)}" global="true" update="akordeon:wystawionepit11">
                             <p:confirm type="popup" header="Potwierdzenie" message="Wysłać wszystko do US?" icon="pi pi-exclamation-triangle"/>
