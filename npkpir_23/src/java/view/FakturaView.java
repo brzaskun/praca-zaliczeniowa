@@ -802,6 +802,17 @@ public class FakturaView implements Serializable {
 //        PrimeFaces.current().executeScript(funkcja);
        }
     
+    public void skierujfakturedoedycji2023(Fakturywystokresowe fakturaokresowa) {
+        if (fakturaokresowa.getKwotaroknastepny()!=0.0) {
+            skierujfakturedoedycji(fakturaokresowa);
+            List<Pozycjenafakturzebazadanych> pozycjenafakturze = selected.getPozycjenafakturze();
+            pozycjenafakturze.get(0).setCena(fakturaokresowa.getKwotaroknastepny());
+            edytuj();
+            aktywnytab = 6;
+            Msg.dP();
+        }
+    }
+    
     public void skierujfakturedoedycji(Fakturywystokresowe fakturaokresowa) {
         Faktura faktura = fakturaokresowa.getDokument();
         faktura.setIdfakturaokresowa(fakturaokresowa);
