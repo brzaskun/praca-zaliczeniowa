@@ -704,6 +704,10 @@ public class FakturaView implements Serializable {
                 selected.setTylkodlaokresowej(false);
                 fakturaDAO.edit(selected);
             }
+            if (selected.getIdfakturaokresowa()!=null) {
+                selected.getIdfakturaokresowa().setDataedycji(new Date());
+                fakturywystokresoweDAO.edit(selected.getIdfakturaokresowa());
+            } 
             init();
             Msg.msg("i", "Wyedytowano fakturę.");
             pokazfakture = false;
@@ -2385,15 +2389,7 @@ public class FakturaView implements Serializable {
     public void skopiujdoNowegoroku() {
         for (Fakturywystokresowe stara : gosciwybralokres) {
             if (stara.isZawieszona()==false) {
-                Fakturywystokresowe p = new Fakturywystokresowe(stara, wpisView.getMiesiacWpisu());
-                if (stara.getKwotaroknastepny()!=0.0) {
-                    try {
-                        List<Pozycjenafakturzebazadanych> pozycjenafakturze = p.getDokument().getPozycjenafakturze();
-                        if (pozycjenafakturze.size()==1) {
-                            pozycjenafakturze.get(0).setNetto(p.getKwotaroknastepny());
-                        }
-                    }catch(Exception r) {}
-                }
+                Fakturywystokresowe p = new Fakturywystokresowe(stara, wpisView.getRokNastepnySt());
                 p.setId(null);
                 p.setRok(wpisView.getRokNastepnySt());
                 p.setM1(0);
