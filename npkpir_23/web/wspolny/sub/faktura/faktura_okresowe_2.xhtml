@@ -170,6 +170,11 @@
                         <f:convertDateTime pattern="yyyy/MM/dd" />
                     </h:outputText>
                 </p:column>
+                <p:column headerText="edycja" width="60"  sortBy="#{wpis.datautworzenia}">  
+                    <h:outputText value="#{wpis.dataedycji}">
+                        <f:convertDateTime pattern="yyyy/MM/dd" />
+                    </h:outputText>
+                </p:column>
                 <p:column headerText="kwota r.n." width="80" filterBy="#{wpis.kwotaroknastepny}" sortBy="#{wpis.kwotaroknastepny}" >  
                     <p:inputNumber value="#{wpis.kwotaroknastepny}" symbolPosition="s" decimalSeparator="."   inputStyle="text-align: right;" decimalPlaces="2" size="11" >
                         <p:ajax event="change"  partialSubmit="true" global="false" listener="#{fakturaView.edytujokresowa(wpis)}"/>
