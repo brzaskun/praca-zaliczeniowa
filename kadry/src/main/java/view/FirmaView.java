@@ -334,10 +334,15 @@ public class FirmaView  implements Serializable {
             selected.setKod(odnaleziona.getFirKod());
             selected.setPoczta(odnaleziona.getFirPoczta());
             selected.setDataurodzenia(Data.data_yyyyMMdd(odnaleziona.getFirDataUrodz()));
-            Urzad urzad = urzadFacade.findByUrzSerial(odnaleziona.getFirUrzSerial());
-            if (urzad!=null) {
-                selected.setKodurzeduskarbowego(String.valueOf(urzad.getUrzVchar1()));
-                selected.setNazwaurzeduskarbowego(TKodUS.getNazwaUrzedu(selected.getKodurzeduskarbowego()));
+            Integer firUrzSerial = odnaleziona.getFirUrzSerial();
+            if (firUrzSerial!=null) {
+                Urzad urzad = urzadFacade.findByUrzSerial(firUrzSerial);
+                if (urzad!=null) {
+                    selected.setKodurzeduskarbowego(String.valueOf(urzad.getUrzVchar1()));
+                    selected.setNazwaurzeduskarbowego(TKodUS.getNazwaUrzedu(selected.getKodurzeduskarbowego()));
+                } 
+            } else {
+                Msg.msg("e","Brak urzedu skarbowego dla firmy w Superłacach. Uzupełnij");
             }
             if (odnaleziona.getFirPesel()!=null&&!odnaleziona.getFirPesel().equals("")) {
                 selected.setOsobafizyczna(true);
