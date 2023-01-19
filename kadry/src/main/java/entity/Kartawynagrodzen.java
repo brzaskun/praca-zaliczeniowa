@@ -179,7 +179,7 @@ public class Kartawynagrodzen implements Serializable {
     
     public boolean isEmeryt() {
         boolean zwrot = false;
-        if (this.angaz.getPracownik().getPlec()!=null) {
+        if (this.angaz!=null&&this.angaz.getPracownik().getPlec()!=null) {
             if (this.angaz.getPracownik().getPlec().equals("M")) {
                 if (this.wieklata>64) {
                     zwrot = true;
