@@ -50,8 +50,9 @@
                     <f:facet name="header">
                         <h:outputText value="wiek"/>
                     </f:facet>
-                    <h:outputText value="#{itemkarta.wieklata}"  rendered="#{itemkarta.wieklata gt 26}"/>
-                    <h:outputText value="#{itemkarta.wieklata}"  style="color: green" rendered="#{itemkarta.wieklata lt 27}"/>
+                    <h:outputText value="#{itemkarta.wieklata}"  rendered="#{itemkarta.wieklata gt 26 and itemkarta.emeryt eq false}"/>
+                    <h:outputText value="#{itemkarta.wieklata}"  style="color: green" rendered="#{itemkarta.wieklata lt 27 and itemkarta.emeryt eq false}"/>
+                    <h:outputText value="#{itemkarta.wieklata}"  style="color: orange" rendered="#{itemkarta.emeryt eq true}"/>
                 </p:column>
                 <p:column width="60">
                     <f:facet name="header">

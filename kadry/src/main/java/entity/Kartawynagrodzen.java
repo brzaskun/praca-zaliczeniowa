@@ -176,6 +176,23 @@ public class Kartawynagrodzen implements Serializable {
         this.pesele = new HashSet<>();
     }
 
+    
+    public boolean isEmeryt() {
+        boolean zwrot = false;
+        if (this.angaz.getPracownik().getPlec()!=null) {
+            if (this.angaz.getPracownik().getPlec().equals("M")) {
+                if (this.wieklata>64) {
+                    zwrot = true;
+                }
+            } else if (this.angaz.getPracownik().getPlec().equals("K")) {
+                if (this.wieklata>59) {
+                    zwrot = true;
+                }
+            }
+        }
+        return zwrot;
+    }
+    
     public Integer getId() {
         return id;
     }
