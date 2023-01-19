@@ -149,6 +149,9 @@ public class Fakturywystokresowe implements Serializable {
     @Column(name = "datautworzenia", insertable=true, updatable=true)
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date datautworzenia;
+    @Column(name = "dataedycji", insertable=true, updatable=true)
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date dataedycji;
     @Transient
     private boolean sapracownicy;
 
@@ -187,6 +190,9 @@ public class Fakturywystokresowe implements Serializable {
         this.recznaedycja = stara.recznaedycja;
         this.biezaca0archiwalna1 = stara.biezaca0archiwalna1;
         this.zawieszona = stara.zawieszona;
+        this.kwotaroknastepny = stara.kwotaroknastepny;
+        this.datautworzenia = stara.datautworzenia;
+        this.dataedycji = stara.dataedycji;
         this.m1 = stara.m1;
         this.m2 = stara.m2;
         this.m3 = stara.m3;
@@ -425,6 +431,14 @@ public class Fakturywystokresowe implements Serializable {
 
     public void setKwotaroknastepny(double kwotaroknastepny) {
         this.kwotaroknastepny = kwotaroknastepny;
+    }
+
+    public Date getDataedycji() {
+        return dataedycji;
+    }
+
+    public void setDataedycji(Date dataedycji) {
+        this.dataedycji = dataedycji;
     }
 
     
