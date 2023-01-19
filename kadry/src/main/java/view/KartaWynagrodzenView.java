@@ -182,6 +182,7 @@ public class KartaWynagrodzenView  implements Serializable {
         Kartawynagrodzen sumaUmowapelnieniefunkcji  = new Kartawynagrodzen();
         Kartawynagrodzen sumaUmowazlecenia  = new Kartawynagrodzen();
         Kartawynagrodzen sumaUmowazlecenia26zwolnione  = new Kartawynagrodzen();
+        Kartawynagrodzen sumaUmowazleceniaEmeryt  = new Kartawynagrodzen();
         Kartawynagrodzen suma = new Kartawynagrodzen();
         suma.setAngaz(angaz);
         suma.setMc("razem");
@@ -231,6 +232,8 @@ public class KartaWynagrodzenView  implements Serializable {
                         }
                     } else if ((pasek.getRodzajWynagrodzenia()==1||pasek.getRodzajWynagrodzenia()==1006)&&pasek.isDo26lat()==true) {
                             sumaUmowaoprace26zwolnione.dodaj(pasek);
+                    } else if (pasek.getRodzajWynagrodzenia()==2&&(plec.equals("M")&&lata>=65)||(plec.equals("K")&&lata>=60)) {
+                        sumaUmowazleceniaEmeryt.dodaj(pasek);
                     } else if (pasek.getRodzajWynagrodzenia()==2&&pasek.isDo26lat()==false) {
                         sumaUmowazlecenia.dodaj(pasek);
                     } else if (pasek.getRodzajWynagrodzenia()==2&&pasek.isDo26lat()==true) {
@@ -255,6 +258,7 @@ public class KartaWynagrodzenView  implements Serializable {
         sumy.put("sumaUmowazlecenia26zwolnione", sumaUmowazlecenia26zwolnione);
         sumy.put("sumaUmowaopraceEmeryt", sumaUmowaopraceEmeryt);
         sumy.put("sumaUmowaopraceEmerytkosztypodwyzszone", sumaUmowaopraceEmerytkosztypodwyzszone);
+        sumy.put("sumaUmowazleceniaEmeryt", sumaUmowazleceniaEmeryt);
         suma.setSumy(sumy);
         kartaWynagrodzenFacade.createEditList(kartawynagrodzenlist);
         kartawynagrodzenlist.add(suma);

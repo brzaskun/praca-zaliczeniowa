@@ -433,17 +433,18 @@ public class PdfPIT11 {
                     absTextW(writer, pobierz(ps.getP59()), 300, 430);
                     absTextW(writer, pobierz(ps.getP60()), 372, 430);
                     absTextW(writer, pobierzI(ps.getP61()), 523, 430);
-                    
+                    //26 lat zlecenie opodatkowane
                     absTextW(writer, pobierz(ps.getP62()), 230, 400);
                     absTextW(writer, pobierz(ps.getP63()), 300, 400);
                     absTextW(writer, pobierz(ps.getP64()), 372, 400);
                     absTextW(writer, pobierzI(ps.getP65()), 523, 400);
-
-                    absTextW(writer, pobierz(ps.getP70()), 230, 370);
-                    absTextW(writer, pobierz(ps.getP71()), 372, 370);
-                    absTextW(writer, pobierzI(ps.getP72()), 523, 370);
-                    absTextW(writer, pobierz(ps.getP73()), 230, 362);
-                    absTextW(writer, pobierz(ps.getP74()), 300, 362);
+                    //emeryt zlecenei
+                    absTextW(writer, pobierz(ps.getP66()), 230, 370);
+                    absTextW(writer, pobierz(ps.getP67()), 300, 370);
+                    absTextW(writer, pobierz(ps.getP68()), 372, 370);
+                    absTextW(writer, pobierzI(ps.getP69()), 523, 370);
+                    
+                   // absTextW(writer, pobierz(ps.getP74()), 300, 362);
 //                    absTextW(writer, pobierz(ps.getP64()), 230, 383);
 //                absTextW(writer, pobierz(ps.getP65()), 365, 383);
 //                absTextW(writer, pobierzI(ps.getP66()), 520, 383);

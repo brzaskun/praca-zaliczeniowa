@@ -263,6 +263,7 @@ public class PIT11_29Bean {
         Kartawynagrodzen sumaUmowazlecenia26zwolnione = sumy.get("sumaUmowazlecenia26zwolnione");
         Kartawynagrodzen sumaUmowaopraceEmeryt = sumy.get("sumaUmowaopraceEmeryt");
         Kartawynagrodzen sumaUmowaopraceEmerytkosztypodwyzszone = sumy.get("sumaUmowaopraceEmerytkosztypodwyzszone");
+        Kartawynagrodzen sumaUmowazleceniaEmeryt = sumy.get("sumaUmowazleceniaEmeryt");
         if (sumaUmowaoprace.getBrutto()>0.0) {
             poz.setP29(BigDecimal.valueOf(sumaUmowaoprace.getBrutto()));
             poz.setP30(BigDecimal.valueOf(sumaUmowaoprace.getKosztyuzyskania()));
@@ -515,6 +516,24 @@ public class PIT11_29Bean {
             } else if (kartawynagrodzen.isKosztypodwyzszone()&&kartawynagrodzen.isKosztywieleumow()) {
                 poz.setP28((byte)4);
             }
+        }
+        if (sumaUmowazleceniaEmeryt.getBrutto()>0.0) {
+            poz.setP66(BigDecimal.valueOf(sumaUmowazlecenia.getBrutto()));
+            poz.setP67(BigDecimal.valueOf(sumaUmowazlecenia.getKosztyuzyskania()));
+            poz.setP68(poz.getP66().subtract(poz.getP67()));
+            poz.setP69(BigInteger.valueOf(Z.zUD(sumaUmowazlecenia.getPodatekdochodowy())));
+            if (poz.getP96()!=null) {
+                poz.setP96(poz.getP96().add(BigDecimal.valueOf(Z.z(sumaUmowazlecenia.getRazemspolecznepracownik()))));
+            } else{
+                poz.setP96(BigDecimal.valueOf(Z.z(sumaUmowazlecenia.getRazemspolecznepracownik())));
+            }
+            if (poz.getP122()!=null) {
+                poz.setP122(poz.getP122().add(BigDecimal.valueOf(Z.z(sumaUmowazlecenia.getPraczdrowotnedopotracenia()))));
+            } else{
+                poz.setP122(BigDecimal.valueOf(Z.z(sumaUmowazlecenia.getPraczdrowotnedopotracenia())));
+            }
+            //czy dodano PIT-R 1tak 2nie
+            poz.setP121((byte)2);
         }
         return poz;
     }
