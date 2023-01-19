@@ -135,7 +135,9 @@
                 <p:panelGrid columns="1">
                      <p:column>
                         <h:outputLabel value="wprowadz temat wiadomości: " for="akordeon:wysylanie:tytul"/>
-                        <h:inputText value="#{adminMailView.tematwiadomosci}" label="temat wiadomości" style="width: 500px;" id="tytul"/>
+                        <h:inputText value="#{adminMailView.tematwiadomosci}" label="temat wiadomości" style="width: 500px;" id="tytul">
+                            <p:ajax event="blur" partialSubmit="true"/>
+                        </h:inputText>
                     </p:column>
                     <p:column>
                         <p:commandButton value="wyslij" actionListener="#{adminMailView.wyslijAdminMail()}" label="temat wiadomości" style="width: 300px;" update=":akordeon:formmaile:wyslenemaile"/>
