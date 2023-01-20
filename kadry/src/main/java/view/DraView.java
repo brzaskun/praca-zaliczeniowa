@@ -106,7 +106,7 @@ public class DraView  implements Serializable {
         if (dra != null && dra.length > 0) {
             SMTPSettings findSprawaByDef = sMTPSettingsFacade.findSprawaByDef();
             String nazwa = wpisView.getFirma().getNip() + "_DRA" + wpisView.getRokWpisu()+ wpisView.getMiesiacWpisu() + "_" + ".pdf";
-            mail.Mail.mailDRA(wpisView.getFirma(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu(), wpisView.getFirma().getEmail(), null, findSprawaByDef, dra, nazwa, wpisView.getUzer().getEmail());
+            mail.Mail.mailDRA(wpisView.getFirma(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu(), "info@taxman.biz.pl", null, findSprawaByDef, dra, nazwa, wpisView.getUzer().getEmail());
             Msg.msg("Wysłano listę płac do pracodawcy");
         } else {
             Msg.msg("e", "Błąd dwysyki DRA");
