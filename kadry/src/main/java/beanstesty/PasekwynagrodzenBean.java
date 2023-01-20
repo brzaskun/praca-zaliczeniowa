@@ -1500,13 +1500,17 @@ public class PasekwynagrodzenBean {
     private static boolean czysatylkozlecenia(Kalendarzmiesiac kalendarz) {
         boolean czysatylkozlecenia = true;
         FirmaKadry firma = kalendarz.getAngaz().getFirma();
-        List<Angaz> angazewFirmie = firma.getAngazList();
-        for (Angaz a : angazewFirmie) {
-            Umowa u = a.getAktywnaUmowa();
-            if (u.getUmowakodzus().isPraca()) {
-                czysatylkozlecenia= false;
-                break;
+        if (firma.isOsobafizyczna()==true) {
+            List<Angaz> angazewFirmie = firma.getAngazList();
+            for (Angaz a : angazewFirmie) {
+                Umowa u = a.getAktywnaUmowa();
+                if (u.getUmowakodzus().isPraca()) {
+                    czysatylkozlecenia= false;
+                    break;
+                }
             }
+        } else {
+            czysatylkozlecenia = false;
         }
         return czysatylkozlecenia;
     }
