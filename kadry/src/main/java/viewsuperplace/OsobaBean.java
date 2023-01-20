@@ -375,6 +375,10 @@ public class OsobaBean {
         Skladnikwynagrodzenia ekwiwalentUrlop = generujskladnikEkwiwalent(rodzajewynagrodzenia, angaz, skladnikWynagrodzeniaFacade, zmiennaWynagrodzeniaFacade);
         skladnikWynagrodzeniaFacade.create(ekwiwalentUrlop);
         zwrot.add(ekwiwalentUrlop);
+        //dodaj wynagrodzenie  za urlop bo tego nie ma w skladnikach wynagrodzen 50
+        Skladnikwynagrodzenia wynagrodzenieUrlop = generujskladnikwynagrodzenieUrlop(rodzajewynagrodzenia, angaz, skladnikWynagrodzeniaFacade, zmiennaWynagrodzeniaFacade);
+        skladnikWynagrodzeniaFacade.create(wynagrodzenieUrlop);
+        zwrot.add(wynagrodzenieUrlop);
         return zwrot;
     }
 
@@ -458,6 +462,19 @@ public class OsobaBean {
         skladnik.setWks_serial(1014);
         for (Rodzajwynagrodzenia p : rodzajewynagrodzenia) {
             if (p.getWks_serial() == 1014) {
+                skladnik.setRodzajwynagrodzenia(p);
+                break;
+            }
+        }
+        return skladnik;
+    }
+    
+    private static Skladnikwynagrodzenia generujskladnikwynagrodzenieUrlop(List<Rodzajwynagrodzenia> rodzajewynagrodzenia, Angaz angaz, SkladnikWynagrodzeniaFacade skladnikWynagrodzeniaFacade, ZmiennaWynagrodzeniaFacade zmiennaWynagrodzeniaFacade) {
+        Skladnikwynagrodzenia skladnik = new Skladnikwynagrodzenia();
+        skladnik.setAngaz(angaz);
+        skladnik.setWks_serial(1042);
+        for (Rodzajwynagrodzenia p : rodzajewynagrodzenia) {
+            if (p.getWks_serial() == 1042) {
                 skladnik.setRodzajwynagrodzenia(p);
                 break;
             }

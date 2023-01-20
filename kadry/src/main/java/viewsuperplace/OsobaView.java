@@ -414,7 +414,7 @@ public class OsobaView implements Serializable {
                             rokdlakalendarzaI = 2022;
                             //paski rok 2022 umowa o pracę
                             if (rokdlakalendarzaI>=rokzatrudnienia) {
-                                List<Kalendarzmiesiac> generujKalendarzNowaUmowa = OsobaBean.generujKalendarzNowaUmowa(angaz, pracownik, kalendarzmiesiacFacade, kalendarzwzorFacade, rokdlakalendarza, etaty);
+                                    List<Kalendarzmiesiac> generujKalendarzNowaUmowa = OsobaBean.generujKalendarzNowaUmowa(angaz, pracownik, kalendarzmiesiacFacade, kalendarzwzorFacade, rokdlakalendarza, etaty);
                                 kalendarzmiesiacFacade.editList(generujKalendarzNowaUmowa);
                                 log.add("Udane zachowanie wygenerowanych kalendarzy za 2022");
                                 Rok rok = pobierzrok(rokdlakalendarza, rokList);
