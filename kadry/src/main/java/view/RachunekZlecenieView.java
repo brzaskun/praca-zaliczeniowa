@@ -144,6 +144,29 @@ public class RachunekZlecenieView  implements Serializable {
         }
     }
     
+    
+     public void ustawtabelenbpRach() {
+            String datawyplaty = rachunekdoumowyzlecenia.getDatawystawienia();
+            Tabelanbp zwrot = null;
+            if (datawyplaty!=null && datawyplaty.length()==10) {
+                String data = datawyplaty;
+                boolean znaleziono = false;
+                int zabezpieczenie = 0;
+                while (!znaleziono && (zabezpieczenie < 365)) {
+                    data = Data.odejmijdni(data, 1);
+                    Tabelanbp tabelanbppobrana = tabelanbpFacade.findByDateWaluta(data, "EUR");
+                    if (tabelanbppobrana instanceof Tabelanbp) {
+                        znaleziono = true;
+                        zwrot = tabelanbppobrana;
+                        break;
+                    }
+                    zabezpieczenie++;
+                }
+            }
+            rachunekdoumowyzlecenia.setKurswaluty(zwrot.getKurssredniPrzelicznik());
+            rachunekdoumowyzlecenia.setDatawaluty(zwrot.getDatatabeli());
+    }
+    
      public Tabelanbp ustawtabelenbp(String datawyplaty) {
             Tabelanbp zwrot = null;
             if (datawyplaty!=null && datawyplaty.length()==10) {

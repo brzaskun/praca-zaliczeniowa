@@ -43,9 +43,12 @@
                     <h:outputText value="Jest zawarta umowa, ale nie dotyczy bieżacego okresu" styleClass="ww" rendered="#{rachunekZlecenieView.trzebazrobicrachunek eq false and rachunekZlecenieView.rachunekdoumowyzlecenia.id eq null}"/>
                     <h:outputText value="Jest zawarta umowa. Nalezy rozliczyć bieżacy okres" styleClass="ww" rendered="#{rachunekZlecenieView.trzebazrobicrachunek eq true and rachunekZlecenieView.rachunekdoumowyzlecenia.id eq null}"/>
                 </p:panelGrid>
-                <p:panelGrid columns="2">
+                <p:panelGrid columns="2" id="walutyrachunekpanel">
                     <p:outputLabel value="data sporządzenia rach:"/>
-                    <p:inputText value="#{rachunekZlecenieView.rachunekdoumowyzlecenia.datawystawienia}" size="10" placeholder="____-__-__"/>
+                    <p:inputText value="#{rachunekZlecenieView.rachunekdoumowyzlecenia.datawystawienia}" size="10" placeholder="____-__-__">
+                            <p:ajax event="change" onstart="ustawDateSprzedazy(#{wpisView.rokWpisu},#{wpisView.miesiacWpisu});" partialSubmit="true" global="false" 
+                                    listener="#{rachunekZlecenieView.ustawtabelenbpRach()}" update="RachunekZleceniaForm:walutyrachunekpanel"/>
+                    </p:inputText>
                     <p:outputLabel value="data od:"/>
                     <h:outputText value="#{rachunekZlecenieView.rachunekdoumowyzlecenia.dataod}"/>
                     <p:outputLabel value="data do:"/>
