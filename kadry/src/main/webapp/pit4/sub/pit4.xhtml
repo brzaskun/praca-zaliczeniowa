@@ -10,6 +10,7 @@
         <p:commandButton value="PIT-4" styleClass="buttonnorm" actionListener="#{kartaWynagrodzenPIT4View.pit4}" update="@(form)"/>
     </p:outputPanel>
     <p:outputPanel>
+        <h:form>
         <p:panelGrid columns="1" style="padding: 20px;">
             <bcf:outputpl value="#{kartaWynagrodzenPIT4View.podatekrazem}"/>
         </p:panelGrid>
@@ -110,6 +111,7 @@
                 </p:column>
             </p:dataTable>
         </p:panelGrid>
+            </h:form>
     </p:outputPanel>
     <p:outputPanel>
         <h:form>

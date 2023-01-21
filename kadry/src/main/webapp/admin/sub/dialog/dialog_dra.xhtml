@@ -7,11 +7,11 @@
 
     xmlns:bcf="http://brzaskun.com/facelets"
 >
-    <p:dialog id="dialogdra" header="Wyliczanie DRA" widgetVar="dialogdra"  
+    <p:dialog id="dialogdra" header="Wyliczanie DRA" widgetVar="dialogdra"  dynamic="true"
               resizable="false"  onShow="ustawdialog('dialogdra','centertile',1650,800);" closeOnEscape="true" onHide="resetujdialog('dialogdra');" 
               fitViewport="true">
         <p:ajax event="open" listener="#{draView.init()}" update="DRACreateForm DRASumaForm DRAListForm" global="false"/>
-        <p:outputPanel style="height: 180px">
+        <p:outputPanel style="height: 120px">
             <h:form  styleClass="formadmin" id="DRACreateForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2">
@@ -22,20 +22,24 @@
                                 <f:selectItems value="#{mce.mceList}" 
                                                var="dramcItem"
                                                itemValue="#{dramcItem}" itemLabel="#{dramcItem}"/>
-                                <p:ajax event="change" partialSubmit="true" global="false" listener="#{draView.pobierzlisty}" update="DRAListForm DRASumaForm DRACreateForm:wybranalista"/>
+                                <p:ajax event="change" partialSubmit="true" global="true" listener="#{draView.pobierzlisty}" update="DRAListForm DRASumaForm DRACreateForm:wybranalista"/>
                             </p:selectOneMenu>
                         </p:panelGrid>
                         <p:panelGrid columns="2" rendered="#{draView.listadefinicjalistaplac ne null}">
                             <p:outputLabel value="wybrana lista płac" for="wybranalista" />
-                            <p:selectManyMenu id="wybranalista" value="#{draView.listywybrane}" required="true" requiredMessage="Wybierz firmę" converter="#{definicjalistaplacConverter}" rendered="#{draView.listadefinicjalistaplac ne null}">
-                                <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
+                            <p:selectManyCheckbox id="wybranalista" value="#{draView.listywybrane}" layout="grid" columns="3" styleClass="grid-checkbox"
+                                                  requiredMessage="Wybierz firmę" converter="#{definicjalistaplacConverter}" rendered="#{draView.listadefinicjalistaplac ne null}" >
+<!--                                <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>-->
                                 <f:selectItems value="#{draView.listadefinicjalistaplac}" 
                                                var="dralistaItem"
                                                itemValue="#{dralistaItem}" itemLabel="#{dralistaItem.opis} #{dralistaItem.nrkolejny}"/>
                                 <p:ajax event="change" partialSubmit="true" global="false" listener="#{draView.pobierzpaski}" update="DRAListForm DRASumaForm"/>
-                            </p:selectManyMenu>
+                            </p:selectManyCheckbox>
                         </p:panelGrid>
-                        <p:commandButton styleClass="buttonnorm" actionListener="#{draView.drukujliste}" value="druk lista"/>
+                        <p:commandButton styleClass="buttonnorm2" actionListener="#{draView.drukujliste}" value="druk lista"/>
+                        <p:commandButton value="mail do firmy" styleClass="buttonnorm" actionListener="#{draView.mailListaDRAFirma()}" global="true">
+                            <p:confirm type="popup" header="Potwierdzenie" message="Wysłać DRA do firmy?" icon="pi pi-exclamation-triangle"/>
+                        </p:commandButton>
                     </p:panelGrid>
                 </h:panelGroup>
             </h:form>
@@ -79,7 +83,7 @@
                             <p:panelGrid styleClass="pasekwyn">
                                 <p:row>
                                     <p:column width="40" style="text-align: center;">
-                                        <h:outputText value=""/>
+                                        <h:outputText value="data wypł - #{itemdra.datawyplaty}"/>
                                     </p:column>
                                     <p:column>
                                         <h:outputText value="brutto zus"/>

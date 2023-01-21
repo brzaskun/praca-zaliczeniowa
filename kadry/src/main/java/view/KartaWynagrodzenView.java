@@ -12,7 +12,7 @@ import dao.AngazFacade;
 import dao.DeklaracjaPIT11SchowekFacade;
 import dao.KartaWynagrodzenFacade;
 import dao.PasekwynagrodzenFacade;
-import dao.Pasekwynagrodzencomparator;
+import comparator.Pasekwynagrodzencomparator;
 import dao.SMTPSettingsFacade;
 import data.Data;
 import embeddable.Mce;

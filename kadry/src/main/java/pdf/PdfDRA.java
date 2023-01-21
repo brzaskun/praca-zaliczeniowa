@@ -5,7 +5,6 @@
  */
 package pdf;
 
-import beanstesty.PasekwynagrodzenBean;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
@@ -50,7 +49,7 @@ public class PdfDRA {
     private static PdfPTable generujTabele(String[] opisy) {
         PdfPTable table = new PdfPTable(19);
         try {
-            table.setWidthPercentage(95);
+            table.setWidthPercentage(100);
             table.setWidths(new int[]{1, 5, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3});
             table.addCell(ustawfrazeAlign(opisy[0], "center",6));
             table.addCell(ustawfrazeAlign(opisy[1], "center",6));
@@ -156,8 +155,7 @@ public class PdfDRA {
         try {
             String nazwa = nip + "_" + mc + "_" + "DRA.pdf";
             if (lista != null) {
-                lista.add(PasekwynagrodzenBean.sumujpaski(lista));
-                Document document = PdfMain.inicjacjaA4Landscape();
+                Document document = PdfMain.inicjacjaA4Landscape(40,20,40,40);
                 PdfWriter writer = PdfMain.inicjacjaWriteraOut(document, out);
                 naglowekStopkaL(writer);
                 otwarcieDokumentu(document, nazwa);
@@ -176,15 +174,17 @@ public class PdfDRA {
                     "FP", "FGŚP", "Koszt pracodawcy", "Należna zaliczka na podatek dochodowy"};
                 dodajtabeleglowna(lista, document, opisy);
                 document.add(Chunk.NEWLINE);
-                PdfMain.dodajLinieOpisuBezOdstepuTab(document, "zus 51 pracownik:", f.F.curr(danezus.get("zus51pracownik")), Element.ALIGN_LEFT, 2, 100);
-                PdfMain.dodajLinieOpisuBezOdstepuTab(document, "zus 51 pracodawca:", f.F.curr(danezus.get("zus51pracodawca")), Element.ALIGN_LEFT, 2, 100);
-                PdfMain.dodajLinieOpisuBezOdstepuTab(document, "zus 51 razem:", f.F.curr(danezus.get("zus51")), Element.ALIGN_LEFT, 2, 100);
-                PdfMain.dodajLinieOpisuBezOdstepuTab(document, "zus 52: ", f.F.curr(danezus.get("zus52")), Element.ALIGN_LEFT, 2, 100);
-                PdfMain.dodajLinieOpisuBezOdstepuTab(document, "zus 53 FP: ", f.F.curr(danezus.get("zusFP")), Element.ALIGN_LEFT, 2, 100);
-                PdfMain.dodajLinieOpisuBezOdstepuTab(document, "zus 53 FGŚP: ", f.F.curr(danezus.get("zusFGSP")), Element.ALIGN_LEFT, 2, 100);
+                PdfMain.dodajLinieOpisuBezOdstepuTab(document, "zus 51 pracownik:", f.F.curr(danezus.get("zus51pracownik")), Element.ALIGN_LEFT, 1, 100);
+                PdfMain.dodajLinieOpisuBezOdstepuTab(document, "zus 51 pracodawca:", f.F.curr(danezus.get("zus51pracodawca")), Element.ALIGN_LEFT, 1, 100);
+                PdfMain.dodajLinieOpisuBezOdstepuTab(document, "zus 51 razem:", f.F.curr(danezus.get("zus51")), Element.ALIGN_LEFT, 1, 100);
+                PdfMain.dodajLinieOpisuBezOdstepuTab(document, "zus 52: ", f.F.curr(danezus.get("zus52")), Element.ALIGN_LEFT, 1, 100);
+                PdfMain.dodajLinieOpisuBezOdstepuTab(document, "zus 53 FP: ", f.F.curr(danezus.get("zusFP")), Element.ALIGN_LEFT, 1, 100);
+                PdfMain.dodajLinieOpisuBezOdstepuTab(document, "zus 53 FGŚP: ", f.F.curr(danezus.get("zusFGSP")), Element.ALIGN_LEFT, 1, 100);
+                PdfMain.dodajLinieOpisuBezOdstepuTab(document, "zus 53 razem:", f.F.curr(danezus.get("zus53")), Element.ALIGN_LEFT, 1, 100);
                 document.add(Chunk.NEWLINE);
-                PdfMain.dodajLinieOpisuBezOdstepuTab(document, "zus 53 razem: ", f.F.curr(danezus.get("zus")), Element.ALIGN_LEFT, 2, 100);
-                PdfMain.dodajLinieOpisuBezOdstepuTab(document, "PIT-4: ", f.F.curr(danezus.get("pit4")), Element.ALIGN_LEFT, 2, 100);
+                PdfMain.dodajLinieOpisuBezOdstepuTab(document, "wynagrodzenia brutto:", f.F.curr(danezus.get("brutto")), Element.ALIGN_LEFT, 1, 100);
+                PdfMain.dodajLinieOpisuBezOdstepuTab(document, "ZUS do wpłaty: ", f.F.curr(danezus.get("zus")), Element.ALIGN_LEFT, 1, 100);
+                PdfMain.dodajLinieOpisuBezOdstepuTab(document, "PIT-4 do wpłaty: ", f.F.curr(danezus.get("pit4")), Element.ALIGN_LEFT, 1, 100);
                 finalizacjaDokumentuQR(document, nazwa);
                 Plik.zapiszBufferdoPlik(nazwa, out);
                 String f = "pokazwydruk('" + nazwa + "');";
