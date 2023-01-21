@@ -248,6 +248,8 @@ public class Pasekwynagrodzen implements Serializable {
     private double ulgadlaklasysredniejI;
     @Column(name = "ulgadlaklasysredniejII")
     private double ulgadlaklasysredniejII;
+    @Column(name = "przychodzagranicasuperplace")
+    private double przychodzagranicasuperplace;
 //    @OneToOne(cascade = CascadeType.ALL)
 //    @JoinColumn(name = "ekwiwalentskladniki", referencedColumnName = "id")
 //    private EkwiwalentSkladniki ekwiwalentSkladniki;
@@ -1138,6 +1140,14 @@ public class Pasekwynagrodzen implements Serializable {
 
     public void setBruttozusbezpodatek(double bruttozusbezpodatek) {
         this.bruttozusbezpodatek = bruttozusbezpodatek;
+    }
+
+    public double getPrzychodzagranicasuperplace() {
+        return przychodzagranicasuperplace;
+    }
+
+    public void setPrzychodzagranicasuperplace(double przychodzagranicasuperplace) {
+        this.przychodzagranicasuperplace = przychodzagranicasuperplace;
     }
     
     

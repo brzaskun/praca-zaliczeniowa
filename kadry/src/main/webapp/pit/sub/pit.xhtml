@@ -17,7 +17,7 @@
         <h:form id="KartyWynangrodzenPITForm">
             <p:dataTable id="datalist" value="#{kartaWynagrodzenView.sumypracownicy}" var="itemkarta"
                          rowKey="#{itemkarta.angaz.id}" rowIndexVar="indexka" 
-                         style="height: 350px; overflow-y: scroll;width: 1350px;" emptyMessage="Nie pobrano danych"
+                         style="height: 350px; overflow-y: scroll;width: 1410px;" emptyMessage="Nie pobrano danych"
                          sortBy="#{itemkarta.nazwiskoiimie}" selection="#{kartaWynagrodzenView.listaselected}" rowSelectMode="add"
                          >
                 <p:ajax event="rowSelectCheckbox"  partialSubmit="true" global="false"/>
@@ -74,6 +74,12 @@
                 </p:column>
                 <p:column width="60">
                     <f:facet name="header">
+                        <h:outputText value="dochód zagr."/>
+                    </f:facet>
+                    <bcf:outputpl value="#{itemkarta.dochodzagranica}"/>
+                </p:column>
+                <p:column width="60">
+                    <f:facet name="header">
                         <h:outputText value="podatek"/>
                     </f:facet>
                     <bcf:outputpl value="#{itemkarta.podatekdochodowy}"/>
@@ -114,6 +120,14 @@
                         <h:outputText value="koszty wiele um."/>
                     </f:facet>
                     <h:outputText  value="&#x2714;" rendered="#{itemkarta.kosztywieleumow}" styleClass="ww"/>
+                </p:column>
+                <p:column width="30" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="przekr."/>
+                    </f:facet>
+                    <p:selectBooleanCheckbox id="przekroczenie" value="#{itemkarta.przekroczeniedni}">
+                        <p:ajax event="change" partialSubmit="true"/>
+                     </p:selectBooleanCheckbox>
                 </p:column>
                  <p:column width="30" style="text-align: center;">
                     <f:facet name="header">

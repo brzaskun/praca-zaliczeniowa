@@ -12,9 +12,15 @@
               fitViewport="true">
         <p:ajax event="open" listener="#{oddelegowanieView.init()}" update="OddelegowanieForm OddelegowanieForm1 OddelegowanieForm2 OddelegowanieForm3" global="true"/>
         <h:form  styleClass="formadmin" id="OddelegowanieForm">
-            <p:commandButton value="XLS" >
-                <p:dataExporter type="xls" target="OddelegowanieForm:datalist" fileName="lista"/>
-            </p:commandButton>
+            <p:panelGrid columns="3">
+                <p:commandButton value="XLS" styleClass="buttonnorm">
+                    <p:dataExporter type="xls" target="OddelegowanieForm:datalist" fileName="lista"/>
+                </p:commandButton>
+                <p:outputLabel value="pokaż osoby z przekroczeniem" for="przekroczenie"></p:outputLabel>
+                <p:selectBooleanCheckbox id="przekroczenie" value="#{oddelegowanieView.przekroczenie}">
+                    <p:ajax event="change" partialSubmit="true" listener="#{oddelegowanieView.init()}" update="OddelegowanieForm OddelegowanieForm1  OddelegowanieForm2 OddelegowanieForm3"/>
+                </p:selectBooleanCheckbox>
+            </p:panelGrid>
             <p:dataTable id="datalist" value="#{oddelegowanieView.tabela}" var="itemodd" widgetVar="datalistodd"
                                  selectionMode="single" selection="#{oddelegowanieView.selected}" rowIndexVar="indexodd"
                                  rowKey="#{itemodd.hashCode()}" sortBy="#{itemodd.pracownik.nazwiskoImie}"
@@ -249,5 +255,8 @@
                 </p:column>
             </p:dataTable>
         </h:form>
+        <p:outputPanel style="padding: 20px;">
+            <h:outputText value="fefefeefefefeffefqef" style="color: white;"/>
+        </p:outputPanel>
     </p:dialog>
 </ui:composition>

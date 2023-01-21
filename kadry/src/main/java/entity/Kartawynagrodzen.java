@@ -133,6 +133,8 @@ public class Kartawynagrodzen implements Serializable {
     private double razem53;
     @Column(name = "kosztpracodawcy")
     private double kosztpracodawcy;
+    @Column(name = "dochodzagranica")
+    private double dochodzagranica;
     @Size(max = 4)
     @Column(name = "rok")
     private String rok;
@@ -148,6 +150,8 @@ public class Kartawynagrodzen implements Serializable {
     private boolean kosztypodwyzszone;
     @Column(name = "kosztywieleumow")
     private boolean kosztywieleumow;
+    @Column(name = "przekroczeniedni")
+    private boolean przekroczeniedni;
     @Column
     private int wieklata;
     @Transient
@@ -530,6 +534,24 @@ public class Kartawynagrodzen implements Serializable {
     public void setWyslano(boolean wyslano) {
         this.wyslano = wyslano;
     }
+
+    public boolean isPrzekroczeniedni() {
+        return przekroczeniedni;
+    }
+
+    public void setPrzekroczeniedni(boolean przekroczeniedni) {
+        this.przekroczeniedni = przekroczeniedni;
+    }
+
+    public double getDochodzagranica() {
+        return dochodzagranica;
+    }
+
+    public void setDochodzagranica(double dochodzagranica) {
+        this.dochodzagranica = dochodzagranica;
+    }
+    
+    
     
     
     @Override
@@ -587,6 +609,7 @@ public class Kartawynagrodzen implements Serializable {
         this.potracenia = 0.0;
         this.razem53 = 0.0;
         this.kosztpracodawcy = 0.0;
+        this.dochodzagranica = 0.0;
         this.nrlisty = null;
         this.kosztypodwyzszone = false;
         this.kosztywieleumow = false;
@@ -632,6 +655,19 @@ public class Kartawynagrodzen implements Serializable {
             this.paski.add(pasek);
         }
         this.pesele.add(pasek.getPesel());
+        List<Naliczenieskladnikawynagrodzenia> naliczenieskladnikawynagrodzeniaList = pasek.getNaliczenieskladnikawynagrodzeniaList();
+        double niemcy = 0.0;
+        if (this.angaz!=null&&this.angaz.getPracownik().getPrzekroczenierok()!=null) {
+            for (Naliczenieskladnikawynagrodzenia p : naliczenieskladnikawynagrodzeniaList) {
+                double zus = p.getKwotadolistyplac()<5922.0?p.getKwotadolistyplac()*.1371:5922.0*.1371;
+                if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod().equals("13")) {
+                    niemcy = Z.z(niemcy + (p.getKwotadolistyplac()-zus));
+                    this.setPrzekroczeniedni(true);
+                }
+            }
+        }
+        this.dochodzagranica = this.dochodzagranica + Z.z(pasek.getPrzychodzagranicasuperplace()+niemcy);
+        
     }
     
      public void dodajkarta(Kartawynagrodzen pasek) {
@@ -659,6 +695,7 @@ public class Kartawynagrodzen implements Serializable {
         this.podstawaubezpzdrowotne += pasek.getPodstawaubezpzdrowotne();
         this.potracenia += pasek.getPotracenia();
         this.razem53 += pasek.getRazem53();
+        this.dochodzagranica += pasek.getDochodzagranica();
              //this.mc!=null musi byc bo uzywamy tego tez do pit-11
      
      }

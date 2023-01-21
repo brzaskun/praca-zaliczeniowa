@@ -264,8 +264,18 @@ public class PIT11_29Bean {
         Kartawynagrodzen sumaUmowaopraceEmeryt = sumy.get("sumaUmowaopraceEmeryt");
         Kartawynagrodzen sumaUmowaopraceEmerytkosztypodwyzszone = sumy.get("sumaUmowaopraceEmerytkosztypodwyzszone");
         Kartawynagrodzen sumaUmowazleceniaEmeryt = sumy.get("sumaUmowazleceniaEmeryt");
+        double dochodzagranica = kartawynagrodzen.getDochodzagranica();
         if (sumaUmowaoprace.getBrutto()>0.0) {
             poz.setP29(BigDecimal.valueOf(sumaUmowaoprace.getBrutto()));
+            if (dochodzagranica>0.0) {
+                BigDecimal dochzagr = BigDecimal.valueOf(dochodzagranica);
+                poz.setP29(poz.getP29().subtract(dochzagr));
+                if (poz.getP32()!=null) {
+                    poz.setP32(poz.getP32().add(dochzagr));
+                } else{
+                    poz.setP32(dochzagr);
+                }
+            }
             poz.setP30(BigDecimal.valueOf(sumaUmowaoprace.getKosztyuzyskania()));
             BigDecimal subtract = poz.getP29().subtract(poz.getP30());
             if (poz.getP31()!=null) {
@@ -289,6 +299,15 @@ public class PIT11_29Bean {
         }
         if (sumaUmowaopracekosztypodwyzszone.getBrutto()>0.0) {
             poz.setP34(BigDecimal.valueOf(sumaUmowaopracekosztypodwyzszone.getBrutto()));
+            if (dochodzagranica>0.0) {
+                BigDecimal dochzagr = BigDecimal.valueOf(dochodzagranica);
+                poz.setP34(poz.getP34().subtract(dochzagr));
+                if (poz.getP32()!=null) {
+                    poz.setP32(poz.getP32().add(dochzagr));
+                } else{
+                    poz.setP32(dochzagr);
+                }
+            }
             poz.setP35(BigDecimal.valueOf(sumaUmowaopracekosztypodwyzszone.getKosztyuzyskania()));
             BigDecimal subtract = poz.getP34().subtract(poz.getP35());
             if (poz.getP31()!=null) {

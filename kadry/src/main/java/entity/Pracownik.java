@@ -185,6 +185,8 @@ public class Pracownik implements Serializable {
     private int stazdni;
     @Column(name = "fikcyjnymail")
     private boolean fikcyjnymail;
+    @Column(name = "przekroczenierok")
+    private String przekroczenierok;
     
 
     public Pracownik() {
@@ -212,6 +214,16 @@ public class Pracownik implements Serializable {
     public String getOjciec() {
         return ojciec;
     }
+
+    public String getPrzekroczenierok() {
+        return przekroczenierok;
+    }
+
+    public void setPrzekroczenierok(String przekroczenierok) {
+        this.przekroczenierok = przekroczenierok;
+    }
+
+    
 
     public void setOjciec(String ojciec) {
         this.ojciec = ojciec;

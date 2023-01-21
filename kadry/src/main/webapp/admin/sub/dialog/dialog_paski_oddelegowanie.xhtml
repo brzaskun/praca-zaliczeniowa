@@ -1,0 +1,104 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+
+    xmlns:bcf="http://brzaskun.com/facelets"
+    >
+    <p:dialog id="dialogpaskioddeleowanie" header="Karta wynagrodzeń" widgetVar="dialogpaskioddeleowanie"  
+              resizable="false"  onShow="ustawdialog('dialogpaskioddeleowanie','centertile',1650,800);" closeOnEscape="true" onHide="resetujdialog('dialogpaskioddeleowanie');" 
+              fitViewport="true">
+        <p:ajax event="open" listener="#{kartaWynagrodzenView.pobierzdane(wpisView.angaz)}" update="PaskiOddelegowanieForm" global="false"/>
+        <p:outputPanel>
+            <h:form  styleClass="formadmin" id="PaskiOddelegowanieForm">
+                <p:panelGrid columns="2">
+                    <h:outputText value="pracownik "/>
+                    <h:outputText value="#{wpisView.pracownik.nazwiskoImie}"/>
+                </p:panelGrid>
+                <p:dataTable id="datalistpasek" value="#{kartaWynagrodzenView.listapaski}" var="itemkartapasek1"
+                             rowIndexVar="indexkartapasek1"
+                             style="height: 700px; width: 1300px; overflow-y: scroll;" emptyMessage="Nie ma wynagrodzen"
+                             >
+                    <p:column>
+                        <p:panelGrid styleClass="pasekwync">
+                            <p:row>
+                                <p:column width="40" style="text-align: center;">
+                                     <h:outputText value="#{itemkartapasek1.rok}/#{itemkartapasek1.mc}"/>
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="przychód Zagr."/>
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="brutto"/>
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="razem spoleczne prac."/>
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="podstawa opodatk."/>
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="koszty uzyskania"/>
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="kwota wolna"/>
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="podstawa zdrowotne"/>
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="prac zdrowotne"/>
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="podatek dochodowy"/>
+                                </p:column>
+                                 
+                            </p:row>
+                            <p:row>
+                                <p:column width="40" style="text-align: center;">
+                                    <h:outputText value="#{indexkartapasek1+1}"/>
+                                    <h:outputText value="/import/" style="color:blue;" rendered="#{itemkartapasek1.importowany eq true}"/>
+                                    <h:outputText value="#{itemkartapasek1.id}" style="color:blue;" rendered="#{itemkartapasek1.importowany eq true}"/>
+                                </p:column>
+                                 <p:column style="text-align: center;">
+                                     <p:inputNumber value="#{itemkartapasek1.przychodzagranicasuperplace}"  size="11"  maxlength="7" decimalPlaces="2" decimalSeparator="," inputStyle="text-align: right">
+                                         <p:ajax event="change" partialSubmit="true" listener="#{kartaWynagrodzenView.edytujpasek(itemkartapasek1)}"/>
+                                     </p:inputNumber>
+                                </p:column>
+                                <p:column>
+                                    <bcf:outputpl value="#{itemkartapasek1.brutto}"/>
+                                </p:column>
+                                <p:column>
+                                    <bcf:outputpl value="#{itemkartapasek1.razemspolecznepracownik}"/>
+                                </p:column>
+                                <p:column>
+                                    <bcf:outputpl value="#{itemkartapasek1.podstawaopodatkowania}"/>
+                                </p:column>
+                                <p:column>
+                                    <bcf:outputpl value="#{itemkartapasek1.kosztyuzyskania}"/>
+                                </p:column>
+                                <p:column>
+                                    <bcf:outputpl value="#{itemkartapasek1.kwotawolna}"/>
+                                </p:column>
+                                <p:column>
+                                    <bcf:outputpl value="#{itemkartapasek1.podstawaubezpzdrowotne}"/>
+                                </p:column>
+                                <p:column>
+                                    <bcf:outputpl value="#{itemkartapasek1.praczdrowotne}"/>
+                                </p:column>
+                                <p:column>
+                                    <bcf:outputpl value="#{itemkartapasek1.podatekdochodowy}"/>
+                                </p:column>
+                               
+                            </p:row>
+                        </p:panelGrid>
+                    </p:column>
+                </p:dataTable>
+                <p:messages showDetail="true"/>
+            </h:form>
+        </p:outputPanel>
+    </p:dialog>
+</ui:composition>
+

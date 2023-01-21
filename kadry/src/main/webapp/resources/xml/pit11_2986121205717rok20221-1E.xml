@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Deklaracja xmlns="http://crd.gov.pl/wzor/2022/11/09/11890/" xmlns:ns2="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2022/03/15/eD/DefinicjeTypy/" xmlns:ns4="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2022/03/15/eD/ORDZU/" xmlns:ns3="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2022/03/15/eD/PITR/">
+    <Naglowek>
+        <KodFormularza kodSystemowy="PIT-11 (29)" kodPodatku="PIT" rodzajZobowiazania="Z" wersjaSchemy="1-1E">PIT-11</KodFormularza>
+        <WariantFormularza>29</WariantFormularza>
+        <CelZlozenia poz="P_7">1</CelZlozenia>
+        <Rok>2022</Rok>
+        <KodUrzedu>3034</KodUrzedu>
+    </Naglowek>
+    <Podmiot1 rola="Płatnik/Składający">
+        <OsobaFizyczna>
+            <ns2:NIP>5110275048</ns2:NIP>
+            <ns2:ImiePierwsze>Bogdan</ns2:ImiePierwsze>
+            <ns2:Nazwisko>Lemanowicz</ns2:Nazwisko>
+            <ns2:DataUrodzenia>1989-03-26</ns2:DataUrodzenia>
+        </OsobaFizyczna>
+    </Podmiot1>
+    <Podmiot2 rola="Podatnik">
+        <OsobaFizyczna>
+            <PESEL>86121205717</PESEL>
+            <ImiePierwsze>Krzysztof</ImiePierwsze>
+            <Nazwisko>Bieryta</Nazwisko>
+            <DataUrodzenia>1986-12-12</DataUrodzenia>
+        </OsobaFizyczna>
+        <AdresZamieszkania rodzajAdresu="RAD">
+            <KodKraju poz="P_19A">PL</KodKraju>
+            <Wojewodztwo>wielkopolskie</Wojewodztwo>
+            <Powiat>Wolsztyński</Powiat>
+            <Gmina>Przemęt</Gmina>
+            <Ulica poz="P_23">Rzemieślnicza</Ulica>
+            <NrDomu poz="P_24">49G</NrDomu>
+            <NrLokalu poz="P_25">-</NrLokalu>
+            <Miejscowosc poz="P_26">Przemęt</Miejscowosc>
+            <KodPocztowy poz="P_27">64-234</KodPocztowy>
+        </AdresZamieszkania>
+    </Podmiot2>
+    <PozycjeSzczegolowe>
+        <P_11>1</P_11>
+        <P_28>1</P_28>
+        <P_29>37014.43</P_29>
+        <P_30>2500.0</P_30>
+        <P_31>34514.43</P_31>
+        <P_32>60640.63</P_32>
+        <P_33>8591</P_33>
+        <P_95>11023.81</P_95>
+        <P_121>2</P_121>
+        <P_122>6244.51</P_122>
+    </PozycjeSzczegolowe>
+    <Pouczenie>1</Pouczenie>
+</Deklaracja>

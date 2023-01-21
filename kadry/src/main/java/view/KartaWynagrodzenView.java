@@ -12,6 +12,7 @@ import dao.AngazFacade;
 import dao.DeklaracjaPIT11SchowekFacade;
 import dao.KartaWynagrodzenFacade;
 import dao.PasekwynagrodzenFacade;
+import dao.Pasekwynagrodzencomparator;
 import dao.SMTPSettingsFacade;
 import data.Data;
 import embeddable.Mce;
@@ -77,6 +78,7 @@ public class KartaWynagrodzenView  implements Serializable {
     @Inject
     private AngazFacade angazFacade;
     private List<DeklaracjaPIT11Schowek> listaPIT11;
+    private List<Pasekwynagrodzen> listapaski;
     
      
 
@@ -87,7 +89,13 @@ public class KartaWynagrodzenView  implements Serializable {
         listaPIT11 = deklaracjaPIT11SchowekFacade.findByRokFirma(wpisView.getRokWpisu(), wpisView.getFirma());
     }
 
-        
+   
+     public void edytujpasek(Pasekwynagrodzen pasek) {
+        if (pasek!=null) {
+            pasekwynagrodzenFacade.edit(pasek);
+            Msg.dP();
+        }
+    }
        
     public void pobierzdane(Angaz angaz) {
         if (angaz!=null) {
@@ -167,6 +175,8 @@ public class KartaWynagrodzenView  implements Serializable {
     
     private void aktualizujdane(List<Kartawynagrodzen> kartawynagrodzenlist, String rok, Angaz angaz) {
         List<Pasekwynagrodzen> paski = pasekwynagrodzenFacade.findByRokWyplAngaz(rok, angaz);
+        listapaski = new ArrayList<>(paski);
+        Collections.sort(listapaski, new Pasekwynagrodzencomparator());
         if (paski!=null && !paski.isEmpty()) {
             Map<String,Kartawynagrodzen> sumy = new HashMap<>();
             sumuj(kartawynagrodzenlist, paski, wpisView.getPracownik().getNazwiskoImie(), wpisView.getPracownik().getDataurodzenia(), wpisView.getPracownik().getPlec(), sumy, angaz);
@@ -545,6 +555,14 @@ public class KartaWynagrodzenView  implements Serializable {
 
     public void setListaPIT11(List<DeklaracjaPIT11Schowek> listaPIT11) {
         this.listaPIT11 = listaPIT11;
+    }
+
+    public List<Pasekwynagrodzen> getListapaski() {
+        return listapaski;
+    }
+
+    public void setListapaski(List<Pasekwynagrodzen> listapaski) {
+        this.listapaski = listapaski;
     }
    
 

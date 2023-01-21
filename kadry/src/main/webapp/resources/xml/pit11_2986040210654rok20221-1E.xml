@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Deklaracja xmlns="http://crd.gov.pl/wzor/2022/11/09/11890/" xmlns:ns2="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2022/03/15/eD/DefinicjeTypy/" xmlns:ns4="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2022/03/15/eD/ORDZU/" xmlns:ns3="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2022/03/15/eD/PITR/">
+    <Naglowek>
+        <KodFormularza kodSystemowy="PIT-11 (29)" kodPodatku="PIT" rodzajZobowiazania="Z" wersjaSchemy="1-1E">PIT-11</KodFormularza>
+        <WariantFormularza>29</WariantFormularza>
+        <CelZlozenia poz="P_7">1</CelZlozenia>
+        <Rok>2022</Rok>
+        <KodUrzedu>1420</KodUrzedu>
+    </Naglowek>
+    <Podmiot1 rola="Płatnik/Składający">
+        <OsobaNiefizyczna>
+            <NIP>8431623980</NIP>
+            <PelnaNazwa>FIBER-TECH SP. Z O.O.</PelnaNazwa>
+        </OsobaNiefizyczna>
+    </Podmiot1>
+    <Podmiot2 rola="Podatnik">
+        <OsobaFizyczna>
+            <PESEL>86040210654</PESEL>
+            <ImiePierwsze>Łukasz</ImiePierwsze>
+            <Nazwisko>Pesta</Nazwisko>
+            <DataUrodzenia>1986-04-02</DataUrodzenia>
+        </OsobaFizyczna>
+        <AdresZamieszkania rodzajAdresu="RAD">
+            <KodKraju poz="P_19A">PL</KodKraju>
+            <Wojewodztwo>mazowieckie</Wojewodztwo>
+            <Powiat>płoński</Powiat>
+            <Gmina>Raciąż</Gmina>
+            <Ulica poz="P_23">Józefa Piłsudskiego</Ulica>
+            <NrDomu poz="P_24">1</NrDomu>
+            <NrLokalu poz="P_25">39</NrLokalu>
+            <Miejscowosc poz="P_26">Raciąż</Miejscowosc>
+            <KodPocztowy poz="P_27">09-140</KodPocztowy>
+        </AdresZamieszkania>
+    </Podmiot2>
+    <PozycjeSzczegolowe>
+        <P_11>1</P_11>
+        <P_58>87997.64</P_58>
+        <P_59>15813.72</P_59>
+        <P_60>72183.92</P_60>
+        <P_61>9004</P_61>
+        <P_95>8929.18</P_95>
+        <P_121>2</P_121>
+        <P_122>5057.97</P_122>
+    </PozycjeSzczegolowe>
+    <Pouczenie>1</Pouczenie>
+</Deklaracja>

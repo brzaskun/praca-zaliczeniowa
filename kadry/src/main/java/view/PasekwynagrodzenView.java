@@ -273,14 +273,7 @@ public class PasekwynagrodzenView implements Serializable {
         }
     }
 
-    public void usun() {
-        if (lista != null && lista.size() > 0) {
-            pasekwynagrodzenFacade.removeList(lista);
-            lista.clear();
-            init();
-            Msg.msg("Usunięto osoby z listy płac");
-        }
-    }
+    
 
     public void przelicz() {
         if (wybranalistaplac != null && !listakalendarzmiesiac.getTarget().isEmpty()) {
@@ -436,6 +429,31 @@ public class PasekwynagrodzenView implements Serializable {
             pasekwynagrodzenFacade.editList(lista);
         } else {
             Msg.msg("e", "Błąd drukowania. Brak pasków");
+        }
+    }
+    
+    public void usun() {
+        if (lista != null && lista.size() > 0) {
+            if (rodzajlistyplac.getSymbol().equals("UZ")||rodzajlistyplac.getSymbol().equals("UD")) {
+                for (Pasekwynagrodzen p : lista) {
+                    p =pasekwynagrodzenFacade.findById(p.getId());
+                    if (p.getRachunekdoumowyzleceniaList()!=null) {
+                        for (Iterator<Rachunekdoumowyzlecenia> it = p.getRachunekdoumowyzleceniaList().iterator(); it.hasNext();) {
+                            Rachunekdoumowyzlecenia rach = it.next();
+                            //rachunekdoumowyzleceniaFacade.remove(rach);
+                            rach.setPasekwynagrodzen(null);
+                            rachunekdoumowyzleceniaFacade.edit(rach);
+                            it.remove();
+                        }
+                    }
+                     pasekwynagrodzenFacade.remove(p);
+                }
+            } else {
+                pasekwynagrodzenFacade.removeList(lista);
+            }
+            lista.clear();
+            init();
+            Msg.msg("Usunięto osoby z listy płac");
         }
     }
     
