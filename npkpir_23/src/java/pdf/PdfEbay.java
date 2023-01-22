@@ -10,24 +10,18 @@ import com.itextpdf.text.Document;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.pdf.PdfWriter;
 import embeddable.FakturaEbay;
-import embeddablefk.InterpaperXLS;
 import error.E;
 import format.F;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import org.primefaces.PrimeFaces;
-import static pdf.PdfXLSImport.dodajsumy;
 import pdffk.PdfMain;
 import static pdffk.PdfMain.dodajOpisWstepny;
-import static pdffk.PdfMain.dodajTabele;
 import static pdffk.PdfMain.dodajTabele2;
 import static pdffk.PdfMain.finalizacjaDokumentuQR;
-import static pdffk.PdfMain.inicjacjaA4Portrait;
 import static pdffk.PdfMain.inicjacjaWritera;
 import static pdffk.PdfMain.naglowekStopkaP;
 import static pdffk.PdfMain.otwarcieDokumentu;
@@ -95,7 +89,7 @@ public class PdfEbay {
      }
     
     private static void dodajtabelestawka(String stawka, Document document, List<FakturaEbay> lista, int modyfikator) {
-        PdfMain.dodajLinieOpisuBezOdstepuKolor(document, "Stawka "+stawka, BaseColor.BLUE);
+        PdfMain.dodajLinieOpisuBezOdstepuKolor(document, "Stawka "+stawka, BaseColor.BLACK);
         String[] nag1 = new String[]{"lp","data wyst.","klient","kraj","stawka","nr wł","waluta","netto","vat", "paypal", "zapł.", "nazwa tow"};
         int[] nag2 = new int[]{1,2,4,2,1,3,1,3,3,3,2,5};
         dodajTabele2(document, nag1, nag2, lista, 90, modyfikator,"tabelaebay");

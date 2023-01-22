@@ -264,12 +264,12 @@ public class PdfDok extends Pdf implements Serializable {
     }
     
     private static void dodajtabelekraj(String kraj, String waluta, Document document, List<Dok> lista, int modyfikator) {
-        PdfMain.dodajLinieOpisuBezOdstepuKolor(document, "SPRZEDAŻ OPODATKOWANA "+kraj.toUpperCase()+" WALUTA "+waluta, BaseColor.BLUE);
+        PdfMain.dodajLinieOpisuBezOdstepuKolor(document, "SPRZEDAŻ OPODATKOWANA "+kraj.toUpperCase()+" WALUTA "+waluta, BaseColor.BLACK);
         dodajTabele(document, testobjects.testobjects.getListaDokImport(lista),100,modyfikator);
         dodajsumy(lista, document, waluta);
     }
     private static void dodajtabeleWDT(String kraj, String waluta, Document document, List<Dok> lista, int modyfikator) {
-        PdfMain.dodajLinieOpisuBezOdstepuKolor(document, "SPRZEDAŻ WDT "+kraj.toUpperCase()+" WALUTA "+waluta, BaseColor.BLUE);
+        PdfMain.dodajLinieOpisuBezOdstepuKolor(document, "SPRZEDAŻ WDT "+kraj.toUpperCase()+" WALUTA "+waluta, BaseColor.GREEN);
         dodajTabele(document, testobjects.testobjects.getListaDokImport(lista),100,modyfikator);
         dodajsumy(lista, document, waluta);
     }
@@ -416,7 +416,7 @@ public class PdfDok extends Pdf implements Serializable {
     
      public static List<PodsumowanieAmazonOSS> drukujDokAmazonfk(List<KlientJPK> lista, WpisView wpisView, int modyfikator) {
         List<PodsumowanieAmazonOSS> sumy = new ArrayList<>();
-        String nazwa = wpisView.getPodatnikObiekt().getNip()+"listadok";
+        String nazwa = wpisView.getPodatnikObiekt().getNip()+"AmazonRaport"+wpisView.getRokWpisuSt()+wpisView.getMiesiacWpisu();
         File file = Plik.plik(nazwa, true);
         if (file.isFile()) {
             file.delete();
@@ -534,19 +534,19 @@ public class PdfDok extends Pdf implements Serializable {
     }
     
     private static PodsumowanieAmazonOSS dodajtabelekrajfk(String kraj, String waluta, Document document, List<KlientJPK> lista, int modyfikator, List tabelazbiorcza, Podatnik podatnik, String rok, String mc) {
-        PdfMain.dodajLinieOpisuBezOdstepuKolor(document, "SPRZEDAŻ OPODATKOWANA "+kraj.toUpperCase()+" WALUTA "+waluta, BaseColor.BLUE);
+        PdfMain.dodajLinieOpisuBezOdstepuKolor(document, "SPRZEDAŻ OPODATKOWANA "+kraj.toUpperCase()+" WALUTA "+waluta, BaseColor.BLACK);
         dodajTabele(document, testobjects.testobjects.getListaDokJPK(lista),100,modyfikator);
         PodsumowanieAmazonOSS zwrot = dodajsumyfk(lista, document, waluta, tabelazbiorcza, podatnik, rok, mc);
         return zwrot;
     }
     private static void dodajtabeleWDTfk(String kraj, String waluta, Document document, List<KlientJPK> lista, int modyfikator,List tabelazbiorcza) {
-        PdfMain.dodajLinieOpisuBezOdstepuKolor(document, "SPRZEDAŻ WDT "+kraj.toUpperCase()+" WALUTA "+waluta, BaseColor.BLUE);
+        PdfMain.dodajLinieOpisuBezOdstepuKolor(document, "SPRZEDAŻ WDT "+kraj.toUpperCase()+" WALUTA "+waluta, BaseColor.BLACK);
         dodajTabele(document, testobjects.testobjects.getListaDokJPK(lista),100,modyfikator);
         dodajsumyfk(lista, document, waluta, tabelazbiorcza, null, null, null);
     }
     
     private static void dodajtabeleExportfk(String kraj, String waluta, Document document, List<KlientJPK> lista, int modyfikator,List tabelazbiorcza) {
-        PdfMain.dodajLinieOpisuBezOdstepuKolor(document, "SPRZEDAŻ EXPORT "+kraj.toUpperCase()+" WALUTA "+waluta, BaseColor.BLUE);
+        PdfMain.dodajLinieOpisuBezOdstepuKolor(document, "SPRZEDAŻ EXPORT "+kraj.toUpperCase()+" WALUTA "+waluta, BaseColor.BLACK);
         dodajTabele(document, testobjects.testobjects.getListaDokJPK(lista),100,modyfikator);
         dodajsumyfk(lista, document, waluta, tabelazbiorcza, null, null, null);
     }

@@ -17,7 +17,7 @@
 
     <p:dialog id="importamazoncsv" header="Amazon pobieranie danych" widgetVar="importamazoncsv" height="900" width="1450"
               resizable="false"  onShow="ustawdialog('importamazoncsv','menudokumenty',1450,900);" closeOnEscape="true" onHide="resetujdialog('importamazoncsv');" >
-        <p:ajax event="open" listener="#{importCSVView.init()}" update="panelplik amazonload"/>
+        <p:ajax event="open" listener="#{importCSVView.init()}" update="panelplik amazonload importtabela"/>
         <p:ajax event="close" listener="#{dokfkView.resetujzaksiegowaneimport}" update=":akordeon5:form_importinterpaper"/>
         <!--        <h:form>
                     <p:commandButton value="uzupełnij" actionListener="#{dokfkView.uzupelnijdokumentyodkontrahenta()}"/>
