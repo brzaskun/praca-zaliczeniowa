@@ -88,6 +88,9 @@
                         <p:column width="70" headerText="data wypłaty" style="text-align: center;">
                             <h:outputText value="#{itemdra.datawyplaty}"/>
                         </p:column>
+                        <p:column headerText="wiek" width="20" style="text-align: center;">
+                            <h:outputText value="#{itemdra.lata}" rendered="#{itemdra.lata gt 0}"/>
+                        </p:column>
                         <p:column headerText="brutto">
                             <bcf:outputpl value="#{itemdra.bruttozus}" />
                         </p:column>

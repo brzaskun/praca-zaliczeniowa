@@ -9,6 +9,7 @@ import beansPodpis.Xad;
 import beanstesty.EDeklaracjeObslugaBledow;
 import dao.DeklaracjaPIT11SchowekFacade;
 import entity.DeklaracjaPIT11Schowek;
+import entity.DeklaracjaPIT4Schowek;
 import error.E;
 import java.io.Serializable;
 import java.util.Date;
@@ -19,7 +20,6 @@ import javax.inject.Named;
 import javax.xml.ws.Holder;
 import javax.xml.ws.WebServiceRef;
 import msg.Msg;
-import pdf.PdfKartaWynagrodzen;
 
 /**
  *
@@ -52,6 +52,18 @@ public class PitWysylkaView  implements Serializable {
     
 
     public Object[] podpiszDeklaracje(DeklaracjaPIT11Schowek wysylanaDeklaracja) {
+        Object[] deklaracjapodpisana = null;
+        try {
+            deklaracjapodpisana = Xad.podpisz(wysylanaDeklaracja.getDeklaracja());
+            wysylanaDeklaracja.setDeklaracjapodpisana((byte[]) deklaracjapodpisana[0]);
+            wysylanaDeklaracja.setDeklaracjapodpisanastring((String) deklaracjapodpisana[1]);
+        } catch (Exception e) {
+            E.e(e);
+        }
+        return deklaracjapodpisana;
+    }
+    
+     public Object[] podpiszDeklaracjePIT4(DeklaracjaPIT4Schowek wysylanaDeklaracja) {
         Object[] deklaracjapodpisana = null;
         try {
             deklaracjapodpisana = Xad.podpisz(wysylanaDeklaracja.getDeklaracja());
@@ -125,6 +137,42 @@ public class PitWysylkaView  implements Serializable {
             Msg.msg("e", "Nie można nawiązać połączenia z serwerem ministerstwa podczas wysyłania PIT11 pracownika " + wysylanaDeklaracja.getPracownik().getNazwiskoImie());
         }
     }
+    
+    public void robPIT412(DeklaracjaPIT4Schowek wysylanaDeklaracja){
+        try {
+            Object[] podpiszDeklaracje = podpiszDeklaracjePIT4(wysylanaDeklaracja);
+            Holder<String> id = new Holder<>();
+            Holder<Integer> stat = new Holder<>();
+            Holder<String> opis = new Holder<>();
+            Holder<String> upo = new Holder<>();
+            byte[] dok = (byte[]) podpiszDeklaracje[0];
+            //sendSignDocument(dok, id, stat, opis);
+            sendSignDocument(dok, id, stat, opis);
+            String idMB = id.value;
+            String idpobierz = id.value;
+            List<String> komunikat = null;
+            String opisMB = opis.value;
+                komunikat = EDeklaracjeObslugaBledow.odpowiedznakodserwera(stat.value);
+            if (komunikat.size() > 1) {
+                    Msg.msg(komunikat.get(0), komunikat.get(1));
+                    opisMB = komunikat.get(1);
+            }
+            if (idMB!=null) {
+                wysylanaDeklaracja.setIdentyfikator(idMB);
+                wysylanaDeklaracja.setStatus(String.valueOf(stat.value));
+                wysylanaDeklaracja.setOpis(opisMB);
+                wysylanaDeklaracja.setDatawysylki(new Date());
+                wysylanaDeklaracja.setDataupo(new Date());
+                wysylanaDeklaracja.setUz(wpisView.getUzer());
+                deklaracjaPIT11SchowekFacade.edit(wysylanaDeklaracja);
+                Msg.msg("i", "Wypuszczono gołębia z deklaracja PIT11 firmy " + wysylanaDeklaracja.getFirma().getNazwa());
+            } else {
+                Msg.msg("e", "Błąd. Nie wysłano deklaracji");
+            }
+        } catch (javax.xml.ws.WebServiceException  ex1) {
+            Msg.msg("e", "Nie można nawiązać połączenia z serwerem ministerstwa podczas wysyłania PIT11 pracownika " + wysylanaDeklaracja.getFirma().getNazwa());
+        }
+    }
      
     private int sendSignDocument(byte[] dok, javax.xml.ws.Holder<java.lang.String> id, javax.xml.ws.Holder<Integer> stat, javax.xml.ws.Holder<java.lang.String> opis) {
         int zwrot = 0;
@@ -170,8 +218,33 @@ public class PitWysylkaView  implements Serializable {
             wysylanaDeklaracja.setStatus(String.valueOf(stat.value));
             wysylanaDeklaracja.setOpis(opisMB);
             deklaracjaPIT11SchowekFacade.edit(wysylanaDeklaracja);
+            Msg.msg("Pobrano UPO");
         } catch (javax.xml.ws.WebServiceException ex1) {
             Msg.msg("e", "Nie można nawiązać testowego połączenia z serwerem ministerstwa podczas pobierania UPO pracownika " + wysylanaDeklaracja.getPracownik().getNazwiskoImie());
+        }
+       
+    }
+     
+     public void pobierztestPIT4(DeklaracjaPIT4Schowek wysylanaDeklaracja) {
+        try {
+            Holder<Integer> stat = new Holder<>();
+            Holder<String> opis = new Holder<>();
+            Holder<String> upo = new Holder<>();
+            requestUPO_Test(wysylanaDeklaracja.getIdentyfikator(), "pl", upo, stat, opis);
+            List<String> komunikat = null;
+            String opisMB = opis.value;
+                komunikat = EDeklaracjeObslugaBledow.odpowiedznakodserwera(stat.value);
+            if (komunikat.size() > 1) {
+                    Msg.msg(komunikat.get(0), komunikat.get(1));
+                    opisMB = komunikat.get(1);
+            }
+            wysylanaDeklaracja.setDataupo(new Date());
+            wysylanaDeklaracja.setStatus(String.valueOf(stat.value));
+            wysylanaDeklaracja.setOpis(opisMB);
+            deklaracjaPIT11SchowekFacade.edit(wysylanaDeklaracja);
+            Msg.msg("Pobrano UPO");
+        } catch (javax.xml.ws.WebServiceException ex1) {
+            Msg.msg("e", "Nie można nawiązać testowego połączenia z serwerem ministerstwa podczas pobierania UPO dla PIT4 " + wysylanaDeklaracja.getFirma().getNazwa());
         }
        
     }

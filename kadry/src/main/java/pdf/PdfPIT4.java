@@ -61,11 +61,13 @@ public class PdfPIT4 {
                 if (podmiot1.getOsobaNiefizyczna() !=null) {
                     pl.gov.crd.wzor._2021._04._02._10568.TIdentyfikatorOsobyNiefizycznej osobaNiefizyczna = podmiot1.getOsobaNiefizyczna();
                     absText(writer, osobaNiefizyczna.getNIP(), 150, 790);
+                    nazwapliku = osobaNiefizyczna.getNIP();
                     absText(writer, "X", 133, 432);
                     absText(writer, osobaNiefizyczna.getPelnaNazwa(), 133, 407);
                 } else if (podmiot1.getOsobaFizyczna() !=null) {
                     TIdentyfikatorOsobyFizycznej2 osobaFizyczna = podmiot1.getOsobaFizyczna();
                     absText(writer, osobaFizyczna.getNIP(), 150, 790);
+                    nazwapliku = osobaFizyczna.getNIP();
                     absText(writer, "X", 388, 432);
                     absText(writer, osobaFizyczna.getNazwisko()+" "+osobaFizyczna.getImiePierwsze()+" "+osobaFizyczna.getDataUrodzenia().toString(), 133, 407);
                 }

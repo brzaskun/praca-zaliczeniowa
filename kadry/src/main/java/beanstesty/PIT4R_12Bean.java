@@ -93,7 +93,8 @@ public class PIT4R_12Bean {
         return sciezka;
     }
     
-     private static pl.gov.crd.wzor._2021._04._02._10568.Deklaracja genPIT4R12(Map<String, Kartawynagrodzen> sumaUmowaoprace, Map<String, Kartawynagrodzen> sumaUmowaopracekosztypodwyzszone, Map<String, Kartawynagrodzen> sumaUmowaoprace26zwolnione, Map<String, Kartawynagrodzen> sumaUmowazlecenia, Map<String, Kartawynagrodzen> sumaUmowapelnieniefunkcji, FirmaKadry firma, byte normalna1korekta2, String kodurzedu, String rok) {
+     private static pl.gov.crd.wzor._2021._04._02._10568.Deklaracja genPIT4R12(Map<String, Kartawynagrodzen> sumaUmowaoprace, Map<String, Kartawynagrodzen> sumaUmowaopracekosztypodwyzszone, 
+             Map<String, Kartawynagrodzen> sumaUmowaoprace26zwolnione, Map<String, Kartawynagrodzen> sumaUmowazlecenia, Map<String, Kartawynagrodzen> sumaUmowapelnieniefunkcji, FirmaKadry firma, byte normalna1korekta2, String kodurzedu, String rok) {
         pl.gov.crd.wzor._2021._04._02._10568.ObjectFactory of = new pl.gov.crd.wzor._2021._04._02._10568.ObjectFactory();
         pl.gov.crd.wzor._2021._04._02._10568.Deklaracja deklaracja = of.createDeklaracja();
         deklaracja.setNaglowek(of.createTNaglowek());
@@ -119,7 +120,7 @@ public class PIT4R_12Bean {
         kodformularza.setWersjaSchemy(kodformularza.getWersjaSchemy());
         naglowek.setKodFormularza(kodformularza);
         naglowek.setKodUrzedu(kodurzedu);
-        naglowek.setRok(Data.XMLGCinitRok("2021"));
+        naglowek.setRok(Data.XMLGCinitRok(rok));
 //        naglowek.setRok(Data.XMLGCinitRok(rok));
         naglowek.setWariantFormularza((byte)12);
         return naglowek;

@@ -6,12 +6,16 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:bcf="http://brzaskun.com/facelets"
     >
+    <p:outputPanel style="padding: 20px;">
+        <h:outputText value="Nie widze karty! Nie można podpisać deklaracji" rendered="#{podpisView.jestkarta eq false}" style="color: red;"/>
+    </p:outputPanel>
     <p:outputPanel>
         <p:commandButton value="PIT-4" styleClass="buttonnorm" actionListener="#{kartaWynagrodzenPIT4View.pit4}" update="@(form)"/>
     </p:outputPanel>
     <p:outputPanel>
         <h:form>
-        <p:panelGrid columns="1" style="padding: 20px;">
+        <p:panelGrid columns="2" style="padding: 20px;">
+            <h:outputText value="razem podatek: "/>
             <bcf:outputpl value="#{kartaWynagrodzenPIT4View.podatekrazem}"/>
         </p:panelGrid>
         <p:panelGrid columns="7" style="padding: 20px;">
@@ -117,7 +121,7 @@
         <h:form>
             <p:dataTable id="datalistwa" value="#{pit4RView.lista}" var="itempity"
                          rowKey="#{itempity.id}" rowIndexVar="indexpity" 
-                         style="height: 350px; width: 1120px;" emptyMessage="Nie pobrano danych"
+                         style="height: 350px; width: 1320px;" emptyMessage="Nie pobrano danych"
                          >
                 <f:facet name="header">
                     <h:outputText value="Wygenerowane deklaracje PIT-4"/>
@@ -145,6 +149,19 @@
                         <f:convertDateTime timeStyle="short" type="both"/>
                     </h:outputText>
                 </p:column>
+                  <p:column width="150" style="text-align: left;">
+                    <f:facet name="header">
+                        <h:outputText value="nr id"/>
+                    </f:facet>
+                    <h:outputText value="#{itempity.identyfikator}"/>
+                </p:column>
+                <p:column width="40" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="status"/>
+                    </f:facet>
+                    <h:outputText value="#{itempity.status}" rendered="#{itempity.status ne '200'}"/>
+                    <h:outputText value="#{itempity.status}" rendered="#{itempity.status eq '200'}" style="color: green;"/>
+                </p:column>
                 <p:column width="100" style="text-align: center;">
                     <f:facet name="header">
                         <h:outputText value="upo"/>
@@ -161,16 +178,32 @@
                 </p:column>
                  <p:column width="30" style="text-align: center;">
                     <f:facet name="header">
-                        <h:outputText value=""/>
+                        <h:outputText value="pdf"/>
                     </f:facet>
                     <p:commandButton icon="pi pi-file-pdf" actionListener="#{pit4RView.pokazpdf(itempity)}">
                     </p:commandButton>
                 </p:column>
                  <p:column width="30" style="text-align: center;">
                     <f:facet name="header">
-                        <h:outputText value=""/>
+                        <h:outputText value="xml"/>
                     </f:facet>
                     <p:commandButton icon="pi pi-print" actionListener="#{pit4RView.pokaz(itempity)}">
+                    </p:commandButton>
+                </p:column>
+                 <p:column width="30" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="us"/>
+                    </f:facet>
+                     <p:commandButton icon="pi pi-envelope" actionListener="#{pitWysylkaView.robPIT412(itempity)}" update="@(form)"  rendered="#{podpisView.jestkarta eq true}">
+                        <p:confirm type="popup" header="Potwierdzenie" message="Wysłać deklarację do urzędu?" icon="pi pi-exclamation-triangle"/>
+                    </p:commandButton>
+                </p:column>
+                 <p:column width="30" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="upo"/>
+                    </f:facet>
+                    <p:commandButton icon="pi pi-cloud-download" actionListener="#{pitWysylkaView.pobierztestPIT4(itempity)}" update="@(form)">
+                        <p:confirm type="popup" header="Potwierdzenie" message="Pobrać UPO?" icon="pi pi-exclamation-triangle"/>
                     </p:commandButton>
                 </p:column>
                 <p:column width="30" style="text-align: center;">

@@ -226,6 +226,7 @@ public class KartaWynagrodzenPIT4View  implements Serializable {
                 PrimeFaces.current().executeScript(polecenie);
                 String nazwapliku = PdfPIT4.drukuj(deklaracja);
                 DeklaracjaPIT4Schowek schowek = new DeklaracjaPIT4Schowek(deklaracja, wpisView.getFirma(), wpisView.getRokWpisu(),"PIT4R");
+                schowek.setUz(wpisView.getUzer());
                 deklaracjaPIT4SchowekFacade.create(schowek);
                 pit4RView.init();
                 polecenie = "wydrukPDF(\""+nazwapliku+"\")";

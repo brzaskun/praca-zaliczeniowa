@@ -62,6 +62,15 @@ public class DeklaracjaPIT4Schowek implements Serializable {
     @NotNull
     @Lob
     @Size(max = 1024000000)
+    @Column(name = "deklaracjapodpisana")
+    private byte[] deklaracjapodpisana;
+    @Lob
+    @Size(max = 1024000000)
+    @Column(name = "deklaracjapodpisanastring")
+    private String deklaracjapodpisanastring;
+    @NotNull
+    @Lob
+    @Size(max = 1024000000)
     @Column(name = "upo")
     private byte[] upo;
     @Temporal(TemporalType.TIMESTAMP)
@@ -70,6 +79,16 @@ public class DeklaracjaPIT4Schowek implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "dataupo")
     private Date dataupo;
+    @Column(name = "identyfikator")
+    private String identyfikator;
+    @Column(name = "status")
+    private String status;
+    @Column(name = "opis")
+    private String opis;
+    @JoinColumn(name = "uz", referencedColumnName = "id")
+    @NotNull
+    @ManyToOne
+    private Uz uz;
 
     public DeklaracjaPIT4Schowek() {
     }
@@ -184,6 +203,54 @@ public class DeklaracjaPIT4Schowek implements Serializable {
 
     public void setDataupo(Date dataupo) {
         this.dataupo = dataupo;
+    }
+
+    public String getIdentyfikator() {
+        return identyfikator;
+    }
+
+    public void setIdentyfikator(String identyfikator) {
+        this.identyfikator = identyfikator;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getOpis() {
+        return opis;
+    }
+
+    public void setOpis(String opis) {
+        this.opis = opis;
+    }
+
+    public Uz getUz() {
+        return uz;
+    }
+
+    public void setUz(Uz uz) {
+        this.uz = uz;
+    }
+
+    public byte[] getDeklaracjapodpisana() {
+        return deklaracjapodpisana;
+    }
+
+    public void setDeklaracjapodpisana(byte[] deklaracjapodpisana) {
+        this.deklaracjapodpisana = deklaracjapodpisana;
+    }
+
+    public String getDeklaracjapodpisanastring() {
+        return deklaracjapodpisanastring;
+    }
+
+    public void setDeklaracjapodpisanastring(String deklaracjapodpisanastring) {
+        this.deklaracjapodpisanastring = deklaracjapodpisanastring;
     }
     
     
