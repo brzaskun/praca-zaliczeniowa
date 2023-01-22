@@ -5,7 +5,9 @@
  */
 package view;
 
+import beanstesty.PasekwynagrodzenBean;
 import comparator.Defnicjalistaplaccomparator;
+import comparator.PasekwynagrodzenNazwiskacomparator;
 import dao.DefinicjalistaplacFacade;
 import dao.PasekwynagrodzenFacade;
 import dao.SMTPSettingsFacade;
@@ -50,6 +52,7 @@ public class DraView  implements Serializable {
     private SMTPSettingsFacade sMTPSettingsFacade;
      @Inject
     private WpisView wpisView;
+    private double brutto;
     private double zus51;
     private double zus51pracownik;
     private double zus51pracodawca;
@@ -78,7 +81,9 @@ public class DraView  implements Serializable {
                 }
             }
             Collections.sort(listadefinicjalistaplac, new Defnicjalistaplaccomparator());
+            listywybrane = listadefinicjalistaplac;
             Msg.msg("Pobrano listy płac");
+            pobierzpaski();
         }
     }
     
@@ -94,6 +99,7 @@ public class DraView  implements Serializable {
             danezus.put("zus53", zus53);
             danezus.put("zus", zus);
             danezus.put("pit4", pit4);
+            danezus.put("brutto", brutto);
             ByteArrayOutputStream dra = PdfDRA.drukujListaPodstawowa(paskiwynagrodzen, listywybrane, wpisView.getFirma().getNip(), mcdra, danezus);
             mailListaDRA(dra.toByteArray());
             Msg.msg("Wydrukowano listę płac");
@@ -112,9 +118,40 @@ public class DraView  implements Serializable {
             Msg.msg("e", "Błąd dwysyki DRA");
         }
     }
+    
+    
+     public void mailListaDRAFirma() {
+         if (paskiwynagrodzen!=null && paskiwynagrodzen.size()>0) {
+            Map<String,Double> danezus = new HashMap<>();
+            danezus.put("zus51", zus51);
+            danezus.put("zus51pracownik", zus51pracownik);
+            danezus.put("zus51pracodawca", zus51pracodawca);
+            danezus.put("zus52", zus52);
+            danezus.put("zusFP", zusFP);
+            danezus.put("zusFGSP", zusFGSP);
+            danezus.put("zus53", zus53);
+            danezus.put("zus", zus);
+            danezus.put("pit4", pit4);
+            danezus.put("brutto", brutto);
+            ByteArrayOutputStream drastream = PdfDRA.drukujListaPodstawowa(paskiwynagrodzen, listywybrane, wpisView.getFirma().getNip(), mcdra, danezus);
+             byte[] dra = drastream.toByteArray();
+            if (dra != null && dra.length > 0) {
+                SMTPSettings findSprawaByDef = sMTPSettingsFacade.findSprawaByDef();
+                String nazwa = wpisView.getFirma().getNip() + "_DRA" + wpisView.getRokWpisu()+ wpisView.getMiesiacWpisu() + "_" + ".pdf";
+                mail.Mail.mailDRA(wpisView.getFirma(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu(), wpisView.getFirma().getEmail(), null, findSprawaByDef, dra, nazwa, wpisView.getUzer().getEmail());
+                Msg.msg("Wysłano listę płac do pracodawcy");
+            } else {
+                Msg.msg("e", "Błąd dwysyki DRA");
+            }
+            Msg.msg("Wydrukowano listę płac");
+        } else {
+            Msg.msg("e","Błąd drukowania. Brak pasków");
+        }
+    }
 
     public void pobierzpaski() {
         if (listywybrane!=null) {
+            brutto=0.0;
             zus51 = 0.0;
             zus51pracodawca = 0.0;
             zus51pracownik = 0.0;
@@ -131,6 +168,7 @@ public class DraView  implements Serializable {
                     paskiwynagrodzen.addAll(paski);
                 }
             }
+            Collections.sort(paskiwynagrodzen, new PasekwynagrodzenNazwiskacomparator());
             for (Pasekwynagrodzen p : paskiwynagrodzen) {
                 zus51pracownik = Z.z(zus51pracownik+p.getRazemspolecznepracownik());
                 zus51pracodawca = Z.z(zus51pracodawca+p.getRazemspolecznefirma());
@@ -140,7 +178,9 @@ public class DraView  implements Serializable {
                 zusFGSP = Z.z(zusFGSP+p.getFgsp());
                 zus53 = Z.z(zus53+p.getRazem53());
                 pit4 = Z.z(pit4+p.getPodatekdochodowy());
+                brutto = Z.z(brutto+p.getBrutto());
             }
+            paskiwynagrodzen.add(PasekwynagrodzenBean.sumujpaski(paskiwynagrodzen));
             zus = Z.z(zus+zus51+zus52+zus53);
             Msg.msg("Pobrano paski do DRA");
         } else {
@@ -270,6 +310,14 @@ public class DraView  implements Serializable {
 
     public void setMcdra(String mcdra) {
         this.mcdra = mcdra;
+    }
+
+    public double getBrutto() {
+        return brutto;
+    }
+
+    public void setBrutto(double brutto) {
+        this.brutto = brutto;
     }
 
     
