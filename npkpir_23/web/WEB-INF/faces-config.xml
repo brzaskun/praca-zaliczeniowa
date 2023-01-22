@@ -454,6 +454,10 @@
             <from-outcome>fakturarozrachunki</from-outcome>
             <to-view-id>/wspolny/wspolnyFakturaRozrachunki.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
+         <navigation-case>
+            <from-outcome>fakturakadry</from-outcome>
+            <to-view-id>/wspolny/wspolnyFakturaKadry.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
         <navigation-case>
             <from-outcome>fakturaustawienia</from-outcome>
             <to-view-id>/wspolny/wspolnyFakturaUstawienia.xhtml?faces-redirect=true</to-view-id>
