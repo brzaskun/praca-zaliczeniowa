@@ -53,7 +53,7 @@ public class PracownikUmowyView  implements Serializable {
     private List<Umowa> listaumowyfiltered;
     
     @PostConstruct
-    private void init() {
+    public void init() {
         if (wpisView.getFirma() != null) {
             List<Angaz> angaze = angazFacade.findByFirma(wpisView.getFirma());
             listaumowy = new ArrayList<>();

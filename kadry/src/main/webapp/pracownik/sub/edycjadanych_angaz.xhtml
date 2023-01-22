@@ -7,7 +7,7 @@
     >
      <p:panelGrid columns="1" columnClasses="twenty-percent, eighty-percent" style="height: 300px;width: 1700px;">
         <p:outputPanel style="height: 250px">
-            <h:form id="AngazCreateForm">
+            <h:form id="AngazCreateForm" styleClass="formangaz">
                 <h:panelGroup id="display">
                     <p:panel header="Wybór pracownika do angażu w firmie #{wpisView.firma.nazwa}"/>
                     <p:panelGrid columns="2" rendered="#{angazView.selected != null}">
@@ -91,7 +91,7 @@
             </h:form>
         </p:outputPanel>
         <p:outputPanel>
-             <h:form id="AngazListForm">
+             <h:form id="AngazListForm" styleClass="formangaz">
                  <p:panel header="Wykaz angażów w firmie #{wpisView.firma.nazwa}">
                     <p:dataTable id="datalist" value="#{angazView.lista}" var="itemAngaz"
                                  selectionMode="single" selection="#{angazView.selectedlista}"
@@ -214,7 +214,7 @@
                     </p:dataTable>
                 </p:panel>
             </h:form>
-            <h:form id="Angazeditform">
+            <h:form id="Angazeditform" styleClass="formangaz">
                 <p:outputPanel>
                     <p:panel header="Uzupełnienie danych angażu #{angazView.selectedlista.pracownik.nazwiskoImie}"/>
                     <p:panelGrid columns="2">

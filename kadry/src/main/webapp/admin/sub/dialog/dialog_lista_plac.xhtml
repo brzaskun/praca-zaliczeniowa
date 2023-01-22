@@ -7,7 +7,7 @@
 
     xmlns:bcf="http://brzaskun.com/facelets"
 >
-    <p:dialog id="dialoglistaplac" header="Wyliczanie listy płac" widgetVar="dialoglistaplac"  
+    <p:dialog id="dialoglistaplac" header="Wyliczanie listy płac" widgetVar="dialoglistaplac"  maximizable="true" dynamic="true"
               resizable="false"  onShow="ustawdialog('dialoglistaplac','centertile',1650,820);" closeOnEscape="true" onHide="resetujdialog('dialoglistaplac');" 
               fitViewport="true">
         <p:ajax event="open" listener="#{pasekwynagrodzenView.init()}" update="DefinicjalistaplacCreateForm DefinicjalistaplacCreateForm1 KursDataLPForm DefinicjalistaplacCreateForm2 PasekwynagrodzenListForm" global="false"/>

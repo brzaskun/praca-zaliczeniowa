@@ -40,8 +40,8 @@
                         <p:column>
                             <h:outputText value="brutto bez zus i pod."/>
                         </p:column>
-                        <p:column>
-                            <h:outputText value="razem brutto"/>
+                        <p:column style="background-color: #bbc7cd">
+                            <h:outputText value="razem brutto" />
                         </p:column>
                         <p:column>
                             <h:outputText value="podst.społ."/>
@@ -141,25 +141,19 @@
                             <h:outputText value="podstawa opodatk."/>
                         </p:column>
                         <p:column>
-                            <h:outputText value="podatek"/>
+                            <h:outputText value="podatek wstępny"/>
                         </p:column>
                         <p:column>
                             <h:outputText value="kwota wolna"/>
                         </p:column>
                         <p:column>
-                            <h:outputText value="pod. ubezp zdrow."/>
+                            <h:outputText value="podstawa zdrow."/>
                         </p:column>
                         <p:column>
-                            <h:outputText value="prac zdrowotne"/>
+                            <h:outputText value="zdrowotne"/>
                         </p:column>
                         <p:column>
-                            <h:outputText value="prac zdrow. do odliczenia" rendered="#{itempasek.rokI lt 2022}"/>
-                        </p:column>
-                         <p:column>
-                            <h:outputText value="prac zdrow. do potrącenia"/>
-                        </p:column>
-                        <p:column>
-                            <h:outputText value="podatek dochodowy"/>
+                            <h:outputText value="podatek"/>
                         </p:column>
                         <p:column>
                             <h:outputText value="netto"/>
@@ -167,8 +161,14 @@
                         <p:column>
                             <h:outputText value="potracenia"/>
                         </p:column>
-                        <p:column>
+                        <p:column style="background-color: #bbc7cd">
                             <h:outputText value="do wypł."/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="FP"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="FGŚP"/>
                         </p:column>
 
                     </p:row>
@@ -200,12 +200,6 @@
                             <bcf:outputpl value="#{itempasek.praczdrowotne}"/>
                         </p:column>
                         <p:column>
-                            <bcf:outputpl value="#{itempasek.praczdrowotnedoodliczenia}" rendered="#{itempasek.rokI lt 2022}"/>
-                        </p:column>
-                        <p:column>
-                            <bcf:outputpl value="#{itempasek.praczdrowotnedopotracenia  }"/>
-                        </p:column>
-                        <p:column>
                             <bcf:outputpl value="#{itempasek.podatekdochodowy}"/>
                         </p:column>
                         <p:column>
@@ -216,6 +210,12 @@
                         </p:column>
                         <p:column style="text-align: right;">
                             <bcf:outputpl value="#{itempasek.netto}" style="color: #009688;"/>
+                        </p:column>
+                        <p:column>
+                            <bcf:outputpl value="#{itempasek.fp}"/>
+                        </p:column>
+                        <p:column>
+                            <bcf:outputpl value="#{itempasek.fgsp}"/>
                         </p:column>
                         <p:column width="20" style="text-align: center;">
                             <p:commandButton icon="pi pi-trash" actionListener="#{pasekwynagrodzenView.usun(itempasek)}" global="false" update="@form NieobecnoscListForm DefinicjalistaplacCreateForm2"/>
