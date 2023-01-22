@@ -72,7 +72,7 @@ public class FakturaOkresowaGenNum {
             PrimeFaces.current().executeScript("przeskoczdoceny();");
         } else {
             if (istniejafakturykontrahenta == 0) {
-                String nazwaddo = selected.getKontrahent().getNskrocona().replace("\"", "");
+                String nazwaddo = selected.getKontrahent().getNskrocona()!=null?selected.getKontrahent().getNskrocona().replace("\"", ""):selected.getKontrahent().getNpelna().replace("\"", "");
                 int dlugoscnazwy = nazwaddo.length();
                 String nazwadofaktury = dlugoscnazwy > 4 ? nazwaddo.substring(0, 4) : nazwaddo;
                 String numer = "1/" + wpisView.getRokWpisu().toString() + "/" + nazwadofaktury;
