@@ -32,9 +32,10 @@ import z.Z;
  */
 @Named
 @ViewScoped
-public class RachunekZlecenieView  implements Serializable {
+public class RachunekZlecenieView implements Serializable {
+
     private static final long serialVersionUID = 1L;
-    
+
     private Umowa umowabiezaca;
     private Rachunekdoumowyzlecenia rachunekdoumowyzlecenia;
     private Rachunekdoumowyzlecenia selectedlista;
@@ -54,24 +55,34 @@ public class RachunekZlecenieView  implements Serializable {
     private UmowaFacade umowaFacade;
     @Inject
     private TabelanbpFacade tabelanbpFacade;
-    
+    private String datawystawieniaZbiorcze;
+    private double kurswalutyZbiorcze;
+    private String datawalutyZbiorcze;
+    private String symbolwalutyZbiorcze;
+
     public void initzbiorcze() {
         List<Umowa> umowyzlecenia = umowaFacade.findByFirmaZlecenie(wpisView.getFirma(), true);
         lista = new ArrayList<>();
+        datawystawieniaZbiorcze = Data.aktualnaData();
+        Tabelanbp zwrot = ustawtabelenbp(datawystawieniaZbiorcze);
+        datawalutyZbiorcze = zwrot.getDatatabeli();
+        kurswalutyZbiorcze = zwrot.getKurssredniPrzelicznik();
+        symbolwalutyZbiorcze = zwrot.getWaluta().getSymbolwaluty();
         for (Umowa umowa : umowyzlecenia) {
             umowabiezaca = umowa;
             init(umowa);
-            if (rachunekdoumowyzlecenia!=null) {
-                lista.add(rachunekdoumowyzlecenia);
-                rachunekdoumowyzlecenia = null;
-            }
+            lista.add(robrachunek(umowa));
         }
         Msg.msg("wygenerowano/pobrano rachunki");
     }
-    
 
     public void init(Umowa umowabiezaca) {
-            if (umowabiezaca != null && umowabiezaca.getUmowakodzus().isZlecenie()) {
+        rachunekdoumowyzlecenia = robrachunek(umowabiezaca);
+    }
+
+    public Rachunekdoumowyzlecenia robrachunek(Umowa umowabiezaca) {
+        Rachunekdoumowyzlecenia rachunekdoumowyzlecenia = null;
+        if (umowabiezaca != null && umowabiezaca.getUmowakodzus().isZlecenie()) {
             umowabiezaca = umowaFacade.findById(umowabiezaca.getId());
             String datado = umowabiezaca.getDatado();
             trzebazrobicrachunek = false;
@@ -123,7 +134,7 @@ public class RachunekZlecenieView  implements Serializable {
                     Tabelanbp tabelanbp = ustawtabelenbp(rachunekdoumowyzlecenia.getDatawystawienia());
                     rachunekdoumowyzlecenia.setKurswaluty(tabelanbp.getKurssredni());
                     rachunekdoumowyzlecenia.setDatawaluty(tabelanbp.getDatatabeli());
-                    kwotaZagranica = (kwotaZagranica*tabelanbp.getKurssredni());
+                    kwotaZagranica = (kwotaZagranica * tabelanbp.getKurssredni());
                     rachunekdoumowyzlecenia.setSymbolwaluty(tabelanbp.getWaluta().getSymbolwaluty());
                     double iloscgodzinzkalendarzaZagranica = pobierzgodzinyzkalendarzaZagranica();
                     rachunekdoumowyzlecenia.setIloscgodzinoddelegowanie(iloscgodzinzkalendarzaZagranica);
@@ -134,154 +145,164 @@ public class RachunekZlecenieView  implements Serializable {
                         rachunekdoumowyzlecenia.setWynagrodzeniemiesieczne(kwotaZagranica);
                         rachunekdoumowyzlecenia.setKwota(Z.z(kwotaZagranica));
                     }
-                    rachunekdoumowyzlecenia.setKwotasuma(Z.z(rachunekdoumowyzlecenia.getKwota()+rachunekdoumowyzlecenia.getKwotaoddelegowanie()));
+                    rachunekdoumowyzlecenia.setKwotasuma(Z.z(rachunekdoumowyzlecenia.getKwota() + rachunekdoumowyzlecenia.getKwotaoddelegowanie()));
                     rachunekdoumowyzlecenia.setProcentkosztowuzyskania(umowabiezaca.getAngaz().getKosztyuzyskaniaprocent());
-                    rachunekdoumowyzlecenia.setKoszt(Z.z(rachunekdoumowyzlecenia.getKwotasuma() * umowabiezaca.getAngaz().getKosztyuzyskaniaprocent()*0.2 / 100.0));
+                    rachunekdoumowyzlecenia.setKoszt(Z.z(rachunekdoumowyzlecenia.getKwotasuma() * umowabiezaca.getAngaz().getKosztyuzyskaniaprocent() * 0.2 / 100.0));
                 }
             } else {
                 Msg.msg("Pobrano zachowany rachunek");
             }
         }
+        return rachunekdoumowyzlecenia;
     }
     
-    
-     public void ustawtabelenbpRach() {
-            String datawyplaty = rachunekdoumowyzlecenia.getDatawystawienia();
-            Tabelanbp zwrot = null;
-            if (datawyplaty!=null && datawyplaty.length()==10) {
-                String data = datawyplaty;
-                boolean znaleziono = false;
-                int zabezpieczenie = 0;
-                while (!znaleziono && (zabezpieczenie < 365)) {
-                    data = Data.odejmijdni(data, 1);
-                    Tabelanbp tabelanbppobrana = tabelanbpFacade.findByDateWaluta(data, "EUR");
-                    if (tabelanbppobrana instanceof Tabelanbp) {
-                        znaleziono = true;
-                        zwrot = tabelanbppobrana;
-                        break;
-                    }
-                    zabezpieczenie++;
-                }
+    public void ustawtabelenbpRachZbiorcze() {
+        if (lista!=null) {
+            for (Rachunekdoumowyzlecenia r : lista) {
+                Tabelanbp zwrot = ustawtabelenbp(datawystawieniaZbiorcze);
+                datawalutyZbiorcze = zwrot.getDatatabeli();
+                kurswalutyZbiorcze = zwrot.getKurssredniPrzelicznik();
+                symbolwalutyZbiorcze = zwrot.getWaluta().getSymbolwaluty();
+                r.setDatawystawienia(datawystawieniaZbiorcze);
+                ustawtabelenbpRach(r);
+                przeliczrachunek(r);
             }
-            rachunekdoumowyzlecenia.setKurswaluty(zwrot.getKurssredniPrzelicznik());
+            Msg.msg("Przeliczono waluty");
+        }
+    }
+
+    public void ustawTabiPrzelicz(Rachunekdoumowyzlecenia rachunekdoumowyzlecenia) {
+        ustawtabelenbpRach(rachunekdoumowyzlecenia);
+        przeliczrachunek(rachunekdoumowyzlecenia);
+    }
+    
+    public Tabelanbp ustawtabelenbpRach(Rachunekdoumowyzlecenia rachunekdoumowyzlecenia) {
+        String datawyplaty = rachunekdoumowyzlecenia.getDatawystawienia();
+        Tabelanbp zwrot = null;
+        if (datawyplaty != null && datawyplaty.length() == 10) {
+            String data = datawyplaty;
+            boolean znaleziono = false;
+            int zabezpieczenie = 0;
+            while (!znaleziono && (zabezpieczenie < 365)) {
+                data = Data.odejmijdni(data, 1);
+                Tabelanbp tabelanbppobrana = tabelanbpFacade.findByDateWaluta(data, "EUR");
+                if (tabelanbppobrana instanceof Tabelanbp) {
+                    znaleziono = true;
+                    zwrot = tabelanbppobrana;
+                    break;
+                }
+                zabezpieczenie++;
+            }
+        }
+        if (zwrot!=null) {
+            rachunekdoumowyzlecenia.setKurswaluty(Z.z(zwrot.getKurssredniPrzelicznik())+1000);
             rachunekdoumowyzlecenia.setDatawaluty(zwrot.getDatatabeli());
+            rachunekdoumowyzlecenia.setWynagrodzeniegodzinoweoddelegowanie(Z.z(rachunekdoumowyzlecenia.getWynagrodzeniegodzinoweoddelegowaniewaluta()*zwrot.getKurssredniPrzelicznik()));
+        }
+        return zwrot;
     }
-    
-     public Tabelanbp ustawtabelenbp(String datawyplaty) {
-            Tabelanbp zwrot = null;
-            if (datawyplaty!=null && datawyplaty.length()==10) {
-                String data = datawyplaty;
-                boolean znaleziono = false;
-                int zabezpieczenie = 0;
-                while (!znaleziono && (zabezpieczenie < 365)) {
-                    data = Data.odejmijdni(data, 1);
-                    Tabelanbp tabelanbppobrana = tabelanbpFacade.findByDateWaluta(data, "EUR");
-                    if (tabelanbppobrana instanceof Tabelanbp) {
-                        znaleziono = true;
-                        zwrot = tabelanbppobrana;
-                        break;
-                    }
-                    zabezpieczenie++;
+
+    public Tabelanbp ustawtabelenbp(String datawyplaty) {
+        Tabelanbp zwrot = null;
+        if (datawyplaty != null && datawyplaty.length() == 10) {
+            String data = datawyplaty;
+            boolean znaleziono = false;
+            int zabezpieczenie = 0;
+            while (!znaleziono && (zabezpieczenie < 365)) {
+                data = Data.odejmijdni(data, 1);
+                Tabelanbp tabelanbppobrana = tabelanbpFacade.findByDateWaluta(data, "EUR");
+                if (tabelanbppobrana instanceof Tabelanbp) {
+                    znaleziono = true;
+                    zwrot = tabelanbppobrana;
+                    break;
                 }
+                zabezpieczenie++;
             }
-            return zwrot;
+        }
+        return zwrot;
     }
 
     private double pobierzgodzinyzkalendarzaPolska() {
         double zwrot = 0;
         Kalendarzmiesiac kalendarz = kalendarzmiesiacFacade.findByRokMcAngaz(wpisView.getAngaz(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
         double[] roboczegodz = kalendarz.roboczeOddelegowaniePolska();
-        if (roboczegodz!=null) {
+        if (roboczegodz != null) {
             zwrot = roboczegodz[1];
         }
         return zwrot;
     }
-    
+
     private double pobierzgodzinyzkalendarzaZagranica() {
         double zwrot = 0;
         Kalendarzmiesiac kalendarz = kalendarzmiesiacFacade.findByRokMcAngaz(wpisView.getAngaz(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
         double[] roboczegodz = kalendarz.roboczeOddelegowanieZagranica();
-        if (roboczegodz!=null) {
+        if (roboczegodz != null) {
             zwrot = roboczegodz[1];
         }
         return zwrot;
     }
-    
-    public void przeliczrachunek() {
-        if (rachunekdoumowyzlecenia!=null) {
-            if (rachunekdoumowyzlecenia.getWynagrodzeniemiesieczne()>0.0) {
-                rachunekdoumowyzlecenia.setKwota(rachunekdoumowyzlecenia.getWynagrodzeniemiesieczne());
-                rachunekdoumowyzlecenia.setKwotasuma(Z.z(rachunekdoumowyzlecenia.getKwota()+rachunekdoumowyzlecenia.getKwotaoddelegowanie()));
-            } else {
-                rachunekdoumowyzlecenia.setKwota(Z.z(rachunekdoumowyzlecenia.getWynagrodzeniegodzinowe()*rachunekdoumowyzlecenia.getIloscgodzin()));
-                rachunekdoumowyzlecenia.setKwotaoddelegowanie(Z.z(rachunekdoumowyzlecenia.getWynagrodzeniegodzinoweoddelegowanie()*rachunekdoumowyzlecenia.getIloscgodzinoddelegowanie()));
-                rachunekdoumowyzlecenia.setKwotasuma(Z.z(rachunekdoumowyzlecenia.getKwota()+rachunekdoumowyzlecenia.getKwotaoddelegowanie()));
-            }
-            Msg.msg("Przeliczono kwotę rachunku");
-        }
-    }
-    
-    public void przeliczrachuneklista(Rachunekdoumowyzlecenia rach) {
-        if (rach!=null) {
-            if (rach.getWynagrodzeniemiesieczne()>0.0) {
-                rach.setKwota(rach.getWynagrodzeniemiesieczne());
-                rach.setKwotasuma(Z.z(rach.getKwota()+rach.getKwotaoddelegowanie()));
-            } else {
-                rach.setKwota(Z.z(rach.getWynagrodzeniegodzinowe()*rach.getIloscgodzin()));
-                rach.setKwotaoddelegowanie(Z.z(rach.getWynagrodzeniegodzinoweoddelegowanie()*rach.getIloscgodzinoddelegowanie()));
-                rach.setKwotasuma(Z.z(rach.getKwota()+rach.getKwotaoddelegowanie()));
 
+    public void przeliczrachunek(Rachunekdoumowyzlecenia rachunekdoumowyzlecenia) {
+        if (rachunekdoumowyzlecenia != null) {
+            if (rachunekdoumowyzlecenia.getWynagrodzeniemiesieczne() > 0.0) {
+                rachunekdoumowyzlecenia.setKwota(rachunekdoumowyzlecenia.getWynagrodzeniemiesieczne());
+                rachunekdoumowyzlecenia.setKwotasuma(Z.z(rachunekdoumowyzlecenia.getKwota() + rachunekdoumowyzlecenia.getKwotaoddelegowanie()));
+            } else {
+                rachunekdoumowyzlecenia.setKwota(Z.z(rachunekdoumowyzlecenia.getWynagrodzeniegodzinowe() * rachunekdoumowyzlecenia.getIloscgodzin()));
+                rachunekdoumowyzlecenia.setKwotaoddelegowanie(Z.z(rachunekdoumowyzlecenia.getWynagrodzeniegodzinoweoddelegowanie() * rachunekdoumowyzlecenia.getIloscgodzinoddelegowanie()));
+                rachunekdoumowyzlecenia.setKwotasuma(Z.z(rachunekdoumowyzlecenia.getKwota() + rachunekdoumowyzlecenia.getKwotaoddelegowanie()));
             }
             Msg.msg("Przeliczono kwotę rachunku");
         }
     }
-    
+
+   
+
     public void zachowajrachunki() {
         for (Rachunekdoumowyzlecenia p : lista) {
             try {
-                if (p.getId()==null) {
-                    if (p.getKwotasuma()>0.0) {
+                if (p.getId() == null) {
+                    if (p.getKwotasuma() > 0.0) {
                         rachunekdoumowyzleceniaFacade.create(p);
-    //                    Skladnikwynagrodzenia skladnik = p.getUmowa().getAngaz().pobierzskladnikzlecenieMiesieczne();
-    //                    Zmiennawynagrodzenia zmienna = new Zmiennawynagrodzenia(skladnik);
-    //                    zmienna.setDataod(rachunekdoumowyzlecenia.getDataod());
-    //                    zmienna.setDatado(rachunekdoumowyzlecenia.getDatado());
-    //                    zmienna.s
-    //                    zmienna.setKwota(p.getKwota());
-    //                    zmiennaWynagrodzeniaFacade.edit(zmienna);
-    //                    rachunekdoumowyzleceniaFacade.edit(p);
+                        //                    Skladnikwynagrodzenia skladnik = p.getUmowa().getAngaz().pobierzskladnikzlecenieMiesieczne();
+                        //                    Zmiennawynagrodzenia zmienna = new Zmiennawynagrodzenia(skladnik);
+                        //                    zmienna.setDataod(rachunekdoumowyzlecenia.getDataod());
+                        //                    zmienna.setDatado(rachunekdoumowyzlecenia.getDatado());
+                        //                    zmienna.s
+                        //                    zmienna.setKwota(p.getKwota());
+                        //                    zmiennaWynagrodzeniaFacade.edit(zmienna);
+                        //                    rachunekdoumowyzleceniaFacade.edit(p);
                     }
                 } else {
-    //                Skladnikwynagrodzenia skladnik = p.getUmowa().getAngaz().pobierzskladnikzlecenieMiesieczne();
-    //                Zmiennawynagrodzenia zmienna = skladnik.pobierzzmienna(p);
-    //                zmienna.setKwota(p.getKwota());
-    //                zmiennaWynagrodzeniaFacade.edit(zmienna);
+                    //                Skladnikwynagrodzenia skladnik = p.getUmowa().getAngaz().pobierzskladnikzlecenieMiesieczne();
+                    //                Zmiennawynagrodzenia zmienna = skladnik.pobierzzmienna(p);
+                    //                zmienna.setKwota(p.getKwota());
+                    //                zmiennaWynagrodzeniaFacade.edit(zmienna);
                     rachunekdoumowyzleceniaFacade.edit(p);
                 }
             } catch (Exception e) {
-                Msg.msg("e","Błąd. Nie zachowano rachunku "+p.getUmowa().getNazwiskoImie());
+                Msg.msg("e", "Błąd. Nie zachowano rachunku " + p.getUmowa().getNazwiskoImie());
             }
         }
         Msg.msg("Zachowano rachunki");
     }
-    
-    
+
     public void zaksieguj() {
-        if (rachunekdoumowyzlecenia!=null) {
+        if (rachunekdoumowyzlecenia != null) {
             rachunekdoumowyzleceniaFacade.create(rachunekdoumowyzlecenia);
-            rachunekdoumowyzlecenia=null;
+            rachunekdoumowyzlecenia = null;
             Msg.msg("Zachowano rachunek");
         }
     }
-    
+
     public void usun() {
-        if (rachunekdoumowyzlecenia!=null) {
+        if (rachunekdoumowyzlecenia != null) {
             rachunekdoumowyzleceniaFacade.remove(rachunekdoumowyzlecenia);
             init(wpisView.getUmowa());
             Msg.msg("Usunięto rachunek");
         }
     }
-    
+
     public Umowa getUmowabiezaca() {
         return umowabiezaca;
     }
@@ -322,10 +343,37 @@ public class RachunekZlecenieView  implements Serializable {
         this.lista = lista;
     }
 
-    
+    public String getDatawystawieniaZbiorcze() {
+        return datawystawieniaZbiorcze;
+    }
 
-   
-    
-    
+    public void setDatawystawieniaZbiorcze(String datawystawieniaZbiorcze) {
+        this.datawystawieniaZbiorcze = datawystawieniaZbiorcze;
+    }
+
+    public double getKurswalutyZbiorcze() {
+        return kurswalutyZbiorcze;
+    }
+
+    public void setKurswalutyZbiorcze(double kurswalutyZbiorcze) {
+        this.kurswalutyZbiorcze = kurswalutyZbiorcze;
+    }
+
+    public String getDatawalutyZbiorcze() {
+        return datawalutyZbiorcze;
+    }
+
+    public void setDatawalutyZbiorcze(String datawalutyZbiorcze) {
+        this.datawalutyZbiorcze = datawalutyZbiorcze;
+    }
+
+    public String getSymbolwalutyZbiorcze() {
+        return symbolwalutyZbiorcze;
+    }
+
+    public void setSymbolwalutyZbiorcze(String symbolwalutyZbiorcze) {
+        this.symbolwalutyZbiorcze = symbolwalutyZbiorcze;
+    }
+
     
 }

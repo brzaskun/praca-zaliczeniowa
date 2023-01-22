@@ -73,7 +73,7 @@
                                 <h:outputText value="aktywna"/>
                             </f:facet>
                              <p:selectBooleanCheckbox value="#{itemUmowa.aktywna}">
-                                 <p:ajax event="change" partialSubmit="true" global="false" listener="#{umowaView.edytuj(itemUmowa)}"/>
+                                 <p:ajax event="change" partialSubmit="true" global="false" listener="#{umowaView.edytujzapisz(itemUmowa)}"/>
                             </p:selectBooleanCheckbox>
                         </p:column>
                         <p:column width="30" style="text-align: center;">

@@ -481,6 +481,7 @@ public class Umowa implements Serializable {
         String zwrot = "brak informacji";
         if (this.slownikszkolazatrhistoria!=null) {
             zwrot = this.slownikszkolazatrhistoria.getOpis();
+            zwrot = zwrot.replace("biezacy", "");
         }
         return zwrot;
     }

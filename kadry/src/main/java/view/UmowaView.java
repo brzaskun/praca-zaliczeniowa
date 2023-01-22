@@ -626,6 +626,15 @@ public class UmowaView implements Serializable {
             Msg.msg("e", "Nie wybrano umowy");
         }
     }
+    
+    public void edytujzapisz(Umowa umowa) {
+        if (umowa != null) {
+            umowaFacade.edit(umowa);
+            Msg.msg("Naniesiono zmiany");
+        } else {
+            Msg.msg("e", "Nie wybrano umowy");
+        }
+    }
 
 //    public void dodatetat() {
 //        if (etat!=null&&etat.getDataod()!=null) {

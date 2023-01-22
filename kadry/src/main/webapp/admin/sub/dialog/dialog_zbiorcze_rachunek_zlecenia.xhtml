@@ -14,7 +14,21 @@
               fitViewport="true">
         <p:ajax event="open" listener="#{rachunekZlecenieView.initzbiorcze()}" update="RachunekZleceniaZbiorczeForm" global="false"/>
         <p:outputPanel>
+            <h:outputText value="Generuje rachunki jedynie do aktywnych umów zleceń." style="padding: 10px; color: green;"/>
             <h:form  styleClass="formadmin" id="RachunekZleceniaZbiorczeForm">
+                <p:panelGrid columns="8" id="panelwalutzbiorcze">
+                 <p:outputLabel value="data sporządzenia rach:"/>
+                 <p:inputText value="#{rachunekZlecenieView.datawystawieniaZbiorcze}" size="10" placeholder="____-__-__">
+                            <p:ajax event="change" onstart="ustawDateSprzedazy(#{wpisView.rokWpisu},#{wpisView.miesiacWpisu});" partialSubmit="true" global="false" 
+                                    listener="#{rachunekZlecenieView.ustawtabelenbpRachZbiorcze()}" update="RachunekZleceniaZbiorczeForm:panelwalutzbiorcze RachunekZleceniaZbiorczeForm:datalist"/>
+                   </p:inputText>
+                  <p:outputLabel value="kurs waluty: "/>
+                    <bcf:outputpl4 value="#{rachunekZlecenieView.kurswalutyZbiorcze}"/>
+                    <p:outputLabel value="data waluty: "/>
+                    <h:outputText value="#{rachunekZlecenieView.datawalutyZbiorcze}"/>
+                    <p:outputLabel value="symbol waluty: "/>
+                    <h:outputText value="#{rachunekZlecenieView.symbolwalutyZbiorcze}"/>
+                </p:panelGrid>
                 <p:dataTable id="datalist" value="#{rachunekZlecenieView.lista}" var="itempasekzlec" emptyMessage="Brak umów zlecenia za dany okres"
                              selectionMode="single" selection="#{rachunekZlecenieView.selectedlista}" rowIndexVar="indexpasekzlec"
                              rowKey="#{itempasekzlec.hashCode()}" sortBy="#{itempasekzlec.pasekwynagrodzen.nazwiskoImie}"
@@ -34,7 +48,7 @@
                     </p:column>
                     <p:column width="35" style="text-align: center;" headerText="wyn. miesięczne">
                         <p:inputNumber value="#{itempasekzlec.wynagrodzeniemiesieczne}" decimalSeparator=","   inputStyle="text-align: right;" decimalPlaces="2" size="10">
-                            <p:ajax event="change" partialSubmit="true" listener="#{rachunekZlecenieView.przeliczrachuneklista(itempasekzlec)}" update="@(.zbiorczyrach)"  global="false"/>
+                            <p:ajax event="change" partialSubmit="true" listener="#{rachunekZlecenieView.przeliczrachunek(itempasekzlec)}" update="@(.zbiorczyrach)"  global="false"/>
                         </p:inputNumber>
                     </p:column>
                     <p:column width="30" style="text-align: center;" headerText="wyn. godz.">
@@ -42,7 +56,7 @@
                     </p:column>
                     <p:column width="50" style="text-align: center;" headerText="ilość godzin">
                         <p:inputNumber value="#{itempasekzlec.iloscgodzin}" decimalSeparator=","   inputStyle="text-align: right;" decimalPlaces="2" size="8">
-                            <p:ajax event="change" partialSubmit="true" listener="#{rachunekZlecenieView.przeliczrachuneklista(itempasekzlec)}" update="@(.zbiorczyrach)"  global="false"/>
+                            <p:ajax event="change" partialSubmit="true" listener="#{rachunekZlecenieView.przeliczrachunek(itempasekzlec)}" update="@(.zbiorczyrach)"  global="false"/>
                         </p:inputNumber>
                     </p:column>
                     <p:column width="60"  headerText="kwota kraj">
@@ -59,7 +73,7 @@
                     </p:column>
                     <p:column width="50" style="text-align: center;" headerText="ilość godz. odd.">
                         <p:inputNumber value="#{itempasekzlec.iloscgodzinoddelegowanie}" decimalSeparator=","   inputStyle="text-align: right;" decimalPlaces="2" size="8">
-                            <p:ajax event="change" partialSubmit="true" listener="#{rachunekZlecenieView.przeliczrachuneklista(itempasekzlec)}" update="@(.zbiorczyrach)" global="false"/>
+                            <p:ajax event="change" partialSubmit="true" listener="#{rachunekZlecenieView.przeliczrachunek(itempasekzlec)}" update="@(.zbiorczyrach)" global="false"/>
                         </p:inputNumber>
                     </p:column>
                     <p:column width="60"  headerText="kwota oddel.">
