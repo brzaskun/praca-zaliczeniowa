@@ -173,6 +173,12 @@ body {
     float: right;
 }
 
+.ten-percent {
+     width: 10%;
+     vertical-align: top;
+}
+
+
 .fifty-percent {
      width: 50%;
      vertical-align: top;
@@ -197,6 +203,10 @@ body {
 .sixty-percent {
      width: 60%;
      vertical-align: top;
+}
+
+.sixtyfive-percent {
+     width: 65%;
 }
 
 .seventy-percent {

@@ -6,7 +6,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
 
     xmlns:bcf="http://brzaskun.com/facelets"
->
+    >
     <p:dialog id="dialogdra" header="Wyliczanie DRA" widgetVar="dialogdra"  dynamic="true"
               resizable="false"  onShow="ustawdialog('dialogdra','centertile',1650,800);" closeOnEscape="true" onHide="resetujdialog('dialogdra');" 
               fitViewport="true">
@@ -29,7 +29,7 @@
                             <p:outputLabel value="wybrana lista płac" for="wybranalista" />
                             <p:selectManyCheckbox id="wybranalista" value="#{draView.listywybrane}" layout="grid" columns="3" styleClass="grid-checkbox"
                                                   requiredMessage="Wybierz firmę" converter="#{definicjalistaplacConverter}" rendered="#{draView.listadefinicjalistaplac ne null}" >
-<!--                                <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>-->
+                                <!--                                <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>-->
                                 <f:selectItems value="#{draView.listadefinicjalistaplac}" 
                                                var="dralistaItem"
                                                itemValue="#{dralistaItem}" itemLabel="#{dralistaItem.opis} #{dralistaItem.nrkolejny}"/>
@@ -79,152 +79,59 @@
                                  style="height: 500px; overflow-y: scroll;"
                                  emptyMessage="nie pobrano danych"
                                  >
-                        <p:column>
-                            <p:panelGrid styleClass="pasekwyn">
-                                <p:row>
-                                    <p:column width="40" style="text-align: center;">
-                                        <h:outputText value="data wypł - #{itemdra.datawyplaty}"/>
-                                    </p:column>
-                                    <p:column>
-                                        <h:outputText value="brutto zus"/>
-                                    </p:column>
-                                    <p:column>
-                                        <h:outputText value="prac emerytalne"/>
-                                    </p:column>
-                                    <p:column>
-                                        <h:outputText value="prac rentowe"/>
-                                    </p:column>
-                                    <p:column>
-                                        <h:outputText value="prac chorobowe"/>
-                                    </p:column>
-                                    <p:column>
-                                        <h:outputText value="razem spoleczne prac."/>
-                                    </p:column>
-                                    <p:column>
-                                        <h:outputText value="emerytalne"/>
-                                    </p:column>
-                                    <p:column>
-                                        <h:outputText value="rentowe"/>
-                                    </p:column>
-                                    <p:column>
-                                        <h:outputText value="wypadkowe"/>
-                                    </p:column>
-                                    <p:column>
-                                        <h:outputText value="razem spoleczne firma"/>
-                                    </p:column>
-                                </p:row>
-                                <p:row>
-                                    <p:column width="40" style="text-align: center;">
-                                        <h:outputText value="#{indexdra+1}"/>
-                                    </p:column>
-                                    <p:column>
-                                        <bcf:outputpl value="#{itemdra.bruttozus}" />
-                                    </p:column>
-                                    <p:column>
-                                        <bcf:outputpl value="#{itemdra.pracemerytalne}"/>
-                                    </p:column>
-                                    <p:column>
-                                        <bcf:outputpl value="#{itemdra.pracrentowe}"/>
-                                    </p:column>
-                                    <p:column>
-                                        <bcf:outputpl value="#{itemdra.pracchorobowe}"/>
-                                    </p:column>
-                                    <p:column>
-                                        <bcf:outputpl value="#{itemdra.razemspolecznepracownik}"/>
-                                    </p:column>
-                                    <p:column>
-                                        <bcf:outputpl value="#{itemdra.emerytalne}"/>
-                                    </p:column>
-                                    <p:column>
-                                        <bcf:outputpl value="#{itemdra.rentowe}"/>
-                                    </p:column>
-                                    <p:column>
-                                        <bcf:outputpl value="#{itemdra.wypadkowe}"/>
-                                    </p:column>
-                                     <p:column>
-                                         <bcf:outputpl value="#{itemdra.razemspolecznefirma}"/>
-                                    </p:column>
-                                   
-                                </p:row>
-                                <!--                        <p:column>
-                                                            <f:facet name="header">
-                                                                <h:outputText value="fgsp"/>
-                                                            </f:facet>
-                                                            <bcf:outputpl value="#{itemdra.fgsp}"/>
-                                                        </p:column>
-                                                        <p:column>
-                                                            <f:facet name="header">
-                                                                <h:outputText value="fp"/>
-                                                            </f:facet>
-                                                            <bcf:outputpl value="#{itemdra.fp}"/>
-                                                        </p:column>-->
-                                <p:row>
-                                    <p:column>
-                                        <h:outputText value=" "/>
-                                    </p:column>
-                                    <p:column>
-                                        <h:outputText value="zdrowotna potrącona"/>
-                                    </p:column>
-                                    <p:column>
-                                        <h:outputText value="zdrowotna odliczona"/>
-                                    </p:column>
-                                    <p:column>
-                                        <h:outputText value="fundusz pracy"/>
-                                    </p:column>
-                                    <p:column>
-                                        <h:outputText value="fgśp"/>
-                                    </p:column>
-                                    <p:column>
-                                        <h:outputText value="razem ZUS 53"/>
-                                    </p:column>
-                                    <p:column>
-                                        <h:outputText value="podstawa PIT"/>
-                                    </p:column>
-                                    <p:column>
-                                        <h:outputText value="kup"/>
-                                    </p:column>
-                                    <p:column>
-                                        <h:outputText value="podatek dochodowy"/>
-                                    </p:column>
-                                    <p:column>
-                                        <h:outputText value=" "/>
-                                    </p:column>
-                                </p:row>
-                                <p:row>
-                                     <p:column>
-                                         <h:outputText value="#{itemdra.nazwiskoImie}"/>
-                                    </p:column>
-                                    <p:column>
-                                        <bcf:outputpl value="#{itemdra.praczdrowotne}"/>
-                                    </p:column>
-                                    <p:column>
-                                        <bcf:outputpl value="#{itemdra.praczdrowotnedopotracenia}"/>
-                                    </p:column>
-                                    <p:column>
-                                        <bcf:outputpl value="#{itemdra.fp}"/>
-                                    </p:column><!-- <p:column>
-                                        <bcf:outputpl value="#{itemdra.podatekdochodowy}"/>
-                                    </p:column> -->
-                                    <p:column>
-                                        <bcf:outputpl value="#{itemdra.fgsp}"/>
-                                    </p:column>
-                                    <p:column>
-                                        <bcf:outputpl value="#{itemdra.razem53}"/>
-                                    </p:column>
-                                    <p:column>
-                                        <bcf:outputpl value="#{itemdra.podstawaopodatkowania}"/>
-                                    </p:column>
-                                    <p:column>
-                                        <bcf:outputpl value="#{itemdra.kosztyuzyskania}"/>
-                                    </p:column>
-                                    <p:column>
-                                        <bcf:outputpl value="#{itemdra.podatekdochodowy}"/>
-                                    </p:column>
-<!--                                     <p:column style="text-align: center;">
-                                        <p:commandButton icon="pi pi-print" actionListener="#{draView.drukuj(itemdra)}" global="false"/>
-                                    </p:column>-->
-                                </p:row>
-                            </p:panelGrid>
+                        <p:column width="10">
+                            <h:outputText value="#{indexdra+1}"/>
+                        </p:column>
+                        <p:column width="150" headerText="nazwisko i imie">
+                            <h:outputText value="#{itemdra.nazwiskoImie}"/>
+                        </p:column>
+                        <p:column width="70" headerText="data wypłaty" style="text-align: center;">
+                            <h:outputText value="#{itemdra.datawyplaty}"/>
+                        </p:column>
+                        <p:column headerText="brutto">
+                            <bcf:outputpl value="#{itemdra.bruttozus}" />
+                        </p:column>
+                        <p:column headerText="prac emerytalne">
+                            <bcf:outputpl value="#{itemdra.pracemerytalne}"/>
+                        </p:column>
+                        <p:column headerText="prac rentowe">
+                            <bcf:outputpl value="#{itemdra.pracrentowe}"/>
+                        </p:column>
+                        <p:column headerText="prac chorobowe">
+                            <bcf:outputpl value="#{itemdra.pracchorobowe}"/>
+                        </p:column>
+                        <p:column headerText="razem spoleczne prac.">
+                            <bcf:outputpl value="#{itemdra.razemspolecznepracownik}"/>
+                        </p:column>
+                        <p:column headerText="emerytalne">
+                            <bcf:outputpl value="#{itemdra.emerytalne}"/>
+                        </p:column>
+                        <p:column headerText="rentowe">
+                            <bcf:outputpl value="#{itemdra.rentowe}"/>
+                        </p:column>
+                        <p:column headerText="wypadkowe">
+                            <bcf:outputpl value="#{itemdra.wypadkowe}"/>
+                        </p:column>
+                        <p:column headerText="razem spoleczne firma">
+                            <bcf:outputpl value="#{itemdra.razemspolecznefirma}"/>
+                        </p:column>
+                        <p:column headerText="zdrowotna">
+                            <bcf:outputpl value="#{itemdra.praczdrowotnedopotracenia}"/>
+                        </p:column>
+                        <p:column headerText="fundusz pracy">
+                            <bcf:outputpl value="#{itemdra.fp}"/>
+                        </p:column>
+                        <p:column headerText="fgśp">
+                            <bcf:outputpl value="#{itemdra.fgsp}"/>
+                        </p:column>
+                        <p:column headerText="podstawa PIT">
+                            <bcf:outputpl value="#{itemdra.podstawaopodatkowania}"/>
+                        </p:column>
+                        <p:column headerText="kup">
+                            <bcf:outputpl value="#{itemdra.kosztyuzyskania}"/>
+                        </p:column>
+                        <p:column headerText="podatek">
+                            <bcf:outputpl value="#{itemdra.podatekdochodowy}"/>
                         </p:column>
                     </p:dataTable>
                 </p:panel>
