@@ -197,7 +197,7 @@ public class RachunekZlecenieView implements Serializable {
         if (zwrot!=null) {
             rachunekdoumowyzlecenia.setKurswaluty(Z.z4(zwrot.getKurssredniPrzelicznik()));
             rachunekdoumowyzlecenia.setDatawaluty(zwrot.getDatatabeli());
-            rachunekdoumowyzlecenia.setWynagrodzeniegodzinoweoddelegowanie(Z.z(rachunekdoumowyzlecenia.getWynagrodzeniegodzinoweoddelegowaniewaluta()*Z.z4(zwrot.getKurssredniPrzelicznik())));
+            rachunekdoumowyzlecenia.setWynagrodzeniegodzinoweoddelegowanie(Z.z(rachunekdoumowyzlecenia.getWynagrodzeniegodzinoweoddelegowaniewaluta()*Z.z4(zwrot.getKurssredniPrzelicznik()))   );
         }
         return zwrot;
     }
