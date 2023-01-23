@@ -62,6 +62,7 @@ import javax.inject.Named;
 import msg.Msg;
 import org.primefaces.model.DualListModel;
 import pdf.PdfListaPlac;
+import pdf.PdfRachunekZlecenie;
 import z.Z;
 
 /**
@@ -406,6 +407,10 @@ public class PasekwynagrodzenView implements Serializable {
             List<Grupakadry> grupyfirma = grupakadryFacade.findByFirma(wpisView.getFirma());
             PdfListaPlac.drukujListaPodstawowa(lista, wybranalistaplac, rodzajnieobecnosciFacade, grupyfirma);
             Msg.msg("Wydrukowano listę płac");
+            if (wybranalistaplac.getRodzajlistyplac().getSymbol().equals("UZ")) {
+                String nazwa = wpisView.getFirma().getNip()+"rachunekzlecenie.pdf";
+                PdfRachunekZlecenie.drukuj(lista, wybranalistaplac, nazwa);
+            }
         } else {
             Msg.msg("e", "Błąd drukowania. Brak pasków");
         }

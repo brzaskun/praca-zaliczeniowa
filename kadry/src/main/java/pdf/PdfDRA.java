@@ -150,7 +150,7 @@ public class PdfDRA {
 //            danezus.put("zus", zus);
 //            danezus.put("pit4", pit4);
      
-    public static ByteArrayOutputStream drukujListaPodstawowa(List<Pasekwynagrodzen> lista, List<Definicjalistaplac> def, String nip, String mc, Map<String,Double> danezus) {
+    public static ByteArrayOutputStream drukujListaPodstawowa(List<Pasekwynagrodzen> lista, List<Definicjalistaplac> def, String nip, String mc, Map<String,Double> danezus, String nazwafirmy) {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         try {
             String nazwa = nip + "_" + mc + "_" + "DRA.pdf";
@@ -168,7 +168,7 @@ public class PdfDRA {
                     datawyplaty = p.getDatawyplaty();
                     break;
                 }
-                PdfMain.dodajOpisWstepny(document, "Zestawienie DRA", def.get(0).getRok(), def.get(0).getMc(), def.get(0).getFirma().getNip(), nazwy, datawyplaty);
+                PdfMain.dodajOpisWstepny(document, "Zestawienie DRA "+nazwafirmy, def.get(0).getRok(), def.get(0).getMc(), def.get(0).getFirma().getNip(), nazwy, datawyplaty);
                 String[] opisy = {"lp","Nazwisko i imię","Razem przychód", "Podst. wymiaru składek ubezp. społecznych", "Ubezp. Emerytalne ", "Ubezp. rentowe", "Ubezp. chorobowe", "Razem składki na ub. społ. prac.",
                     "Ubezp. Emerytalne ", "Ubezp. rentowe", "Ubezp. wypadkowe", "Razem składki na ub. społ. firma", "Razem składki na ub. społ.", "Podst. wymiaru składek ubezp. zdrowotnego","Składka zdrowotna",
                     "FP", "FGŚP", "Koszt pracodawcy", "Należna zaliczka na podatek dochodowy"};
@@ -183,6 +183,7 @@ public class PdfDRA {
                 PdfMain.dodajLinieOpisuBezOdstepuTab(document, "zus 53 razem:", f.F.curr(danezus.get("zus53")), Element.ALIGN_LEFT, 1, 100);
                 document.add(Chunk.NEWLINE);
                 PdfMain.dodajLinieOpisuBezOdstepuTab(document, "wynagrodzenia brutto:", f.F.curr(danezus.get("brutto")), Element.ALIGN_LEFT, 1, 100);
+                PdfMain.dodajLinieOpisuBezOdstepuTab(document, "wynagrodzenia netto", f.F.curr(danezus.get("netto")), Element.ALIGN_LEFT, 1, 100);
                 PdfMain.dodajLinieOpisuBezOdstepuTab(document, "ZUS do wpłaty: ", f.F.curr(danezus.get("zus")), Element.ALIGN_LEFT, 1, 100);
                 PdfMain.dodajLinieOpisuBezOdstepuTab(document, "PIT-4 do wpłaty: ", f.F.curr(danezus.get("pit4")), Element.ALIGN_LEFT, 1, 100);
                 finalizacjaDokumentuQR(document, nazwa);
