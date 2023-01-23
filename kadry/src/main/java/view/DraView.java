@@ -53,6 +53,7 @@ public class DraView  implements Serializable {
      @Inject
     private WpisView wpisView;
     private double brutto;
+    private double netto;
     private double zus51;
     private double zus51pracownik;
     private double zus51pracodawca;
@@ -100,7 +101,8 @@ public class DraView  implements Serializable {
             danezus.put("zus", zus);
             danezus.put("pit4", pit4);
             danezus.put("brutto", brutto);
-            ByteArrayOutputStream dra = PdfDRA.drukujListaPodstawowa(paskiwynagrodzen, listywybrane, wpisView.getFirma().getNip(), mcdra, danezus);
+            danezus.put("netto", netto);
+            ByteArrayOutputStream dra = PdfDRA.drukujListaPodstawowa(paskiwynagrodzen, listywybrane, wpisView.getFirma().getNip(), mcdra, danezus, wpisView.getFirma().getNazwa());
             mailListaDRA(dra.toByteArray());
             Msg.msg("Wydrukowano listę płac");
         } else {
@@ -133,7 +135,8 @@ public class DraView  implements Serializable {
             danezus.put("zus", zus);
             danezus.put("pit4", pit4);
             danezus.put("brutto", brutto);
-            ByteArrayOutputStream drastream = PdfDRA.drukujListaPodstawowa(paskiwynagrodzen, listywybrane, wpisView.getFirma().getNip(), mcdra, danezus);
+            danezus.put("netto", netto);
+            ByteArrayOutputStream drastream = PdfDRA.drukujListaPodstawowa(paskiwynagrodzen, listywybrane, wpisView.getFirma().getNip(), mcdra, danezus, wpisView.getFirma().getNazwa());
              byte[] dra = drastream.toByteArray();
             if (dra != null && dra.length > 0) {
                 SMTPSettings findSprawaByDef = sMTPSettingsFacade.findSprawaByDef();
@@ -152,6 +155,7 @@ public class DraView  implements Serializable {
     public void pobierzpaski() {
         if (listywybrane!=null) {
             brutto=0.0;
+            netto=0.0;
             zus51 = 0.0;
             zus51pracodawca = 0.0;
             zus51pracownik = 0.0;
@@ -179,6 +183,7 @@ public class DraView  implements Serializable {
                 zus53 = Z.z(zus53+p.getRazem53());
                 pit4 = Z.z(pit4+p.getPodatekdochodowy());
                 brutto = Z.z(brutto+p.getBrutto());
+                netto = Z.z(netto+p.getNetto());
             }
             paskiwynagrodzen.add(PasekwynagrodzenBean.sumujpaski(paskiwynagrodzen));
             zus = Z.z(zus+zus51+zus52+zus53);
@@ -318,6 +323,14 @@ public class DraView  implements Serializable {
 
     public void setBrutto(double brutto) {
         this.brutto = brutto;
+    }
+
+    public double getNetto() {
+        return netto;
+    }
+
+    public void setNetto(double netto) {
+        this.netto = netto;
     }
 
     
