@@ -415,10 +415,12 @@ public class PIT11_29Bean {
         }
         double dochoddoumowyzlecenia26 = sumaUmowaoprace26zwolnione.getBrutto();
         if (dochoddoumowyzlecenia26>85528.0) {
-            poz.setP29(BigDecimal.ZERO);
-            poz.setP30(BigDecimal.ZERO);
-            poz.setP31(BigDecimal.ZERO);
-            poz.setP33(BigInteger.ZERO);
+            if (poz.getP29()==null) {
+                poz.setP29(BigDecimal.ZERO);
+                poz.setP30(BigDecimal.ZERO);
+                poz.setP31(BigDecimal.ZERO);
+                poz.setP33(BigInteger.ZERO);
+            }
             double pole36brutto = Z.z(dochoddoumowyzlecenia26-85528.0);
             double nowepole36 = Z.z(pole36brutto-dochodzagranica);
             double nowepole36powyzejzera = nowepole36<0?0.0:nowepole36;

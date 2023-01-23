@@ -7,7 +7,6 @@
     xmlns:bcf="http://brzaskun.com/facelets"
     >
     <p:tabView id="akordeon">
-        <f:event type="preRenderView" listener="#{kartaWynagrodzenView.init()}"/>
         <p:tab title="zestawienie do PIT-11">
     <p:outputPanel>
         <p:commandButton value="pobierz" styleClass="buttonnorm" actionListener="#{kartaWynagrodzenView.init()}" update="akordeon:KartyWynangrodzenPITForm akordeon:wystawionepit11"/>

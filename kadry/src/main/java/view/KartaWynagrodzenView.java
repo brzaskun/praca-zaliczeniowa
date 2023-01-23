@@ -8,11 +8,11 @@ package view;
 import beanstesty.PIT11_29Bean;
 import comparator.Kartawynagrodzencomparator;
 import comparator.PITPolacomparator;
+import comparator.Pasekwynagrodzencomparator;
 import dao.AngazFacade;
 import dao.DeklaracjaPIT11SchowekFacade;
 import dao.KartaWynagrodzenFacade;
 import dao.PasekwynagrodzenFacade;
-import comparator.Pasekwynagrodzencomparator;
 import dao.SMTPSettingsFacade;
 import data.Data;
 import embeddable.Mce;
@@ -36,6 +36,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -78,11 +79,12 @@ public class KartaWynagrodzenView  implements Serializable {
     @Inject
     private AngazFacade angazFacade;
     private List<DeklaracjaPIT11Schowek> listaPIT11;
+    private List<DeklaracjaPIT11Schowek> listaPIT11sorted;
     private List<Pasekwynagrodzen> listapaski;
     
      
 
-    
+    @PostConstruct
     public void init() {
         pobierzdane(wpisView.getAngaz());
         pobierzdaneAll();
@@ -563,6 +565,14 @@ public class KartaWynagrodzenView  implements Serializable {
 
     public void setListapaski(List<Pasekwynagrodzen> listapaski) {
         this.listapaski = listapaski;
+    }
+
+    public List<DeklaracjaPIT11Schowek> getListaPIT11sorted() {
+        return listaPIT11sorted;
+    }
+
+    public void setListaPIT11sorted(List<DeklaracjaPIT11Schowek> listaPIT11sorted) {
+        this.listaPIT11sorted = listaPIT11sorted;
     }
    
 
