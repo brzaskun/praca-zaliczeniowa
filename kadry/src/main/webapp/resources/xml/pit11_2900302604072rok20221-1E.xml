@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Deklaracja xmlns="http://crd.gov.pl/wzor/2022/11/09/11890/" xmlns:ns2="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2022/03/15/eD/DefinicjeTypy/" xmlns:ns4="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2022/03/15/eD/ORDZU/" xmlns:ns3="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2022/03/15/eD/PITR/">
+    <Naglowek>
+        <KodFormularza kodSystemowy="PIT-11 (29)" kodPodatku="PIT" rodzajZobowiazania="Z" wersjaSchemy="1-1E">PIT-11</KodFormularza>
+        <WariantFormularza>29</WariantFormularza>
+        <CelZlozenia poz="P_7">1</CelZlozenia>
+        <Rok>2022</Rok>
+        <KodUrzedu>0408</KodUrzedu>
+    </Naglowek>
+    <Podmiot1 rola="Płatnik/Składający">
+        <OsobaFizyczna>
+            <ns2:NIP>5110275048</ns2:NIP>
+            <ns2:ImiePierwsze>Bogdan</ns2:ImiePierwsze>
+            <ns2:Nazwisko>Lemanowicz</ns2:Nazwisko>
+            <ns2:DataUrodzenia>1989-03-26</ns2:DataUrodzenia>
+        </OsobaFizyczna>
+    </Podmiot1>
+    <Podmiot2 rola="Podatnik">
+        <OsobaFizyczna>
+            <PESEL>00302604072</PESEL>
+            <ImiePierwsze>Jakub</ImiePierwsze>
+            <Nazwisko>Rydel</Nazwisko>
+            <DataUrodzenia>2000-10-26</DataUrodzenia>
+        </OsobaFizyczna>
+        <AdresZamieszkania rodzajAdresu="RAD">
+            <KodKraju poz="P_19A">PL</KodKraju>
+            <Wojewodztwo>kujawsko-pomorskie</Wojewodztwo>
+            <Powiat>Grudziądz</Powiat>
+            <Gmina>Grudziądz</Gmina>
+            <Ulica poz="P_23">Czerwonodworna</Ulica>
+            <NrDomu poz="P_24">17 A</NrDomu>
+            <NrLokalu poz="P_25">3</NrLokalu>
+            <Miejscowosc poz="P_26">Grudziądz</Miejscowosc>
+            <KodPocztowy poz="P_27">86-300</KodPocztowy>
+        </AdresZamieszkania>
+    </Podmiot2>
+    <PozycjeSzczegolowe>
+        <P_11>1</P_11>
+        <P_28>1</P_28>
+        <P_29>0</P_29>
+        <P_30>0</P_30>
+        <P_31>0</P_31>
+        <P_33>0</P_33>
+        <P_36>1.0</P_36>
+        <P_37>1500.0</P_37>
+        <P_38>0.0</P_38>
+        <P_39>68690.39</P_39>
+        <P_40>1115</P_40>
+        <P_96>1651.33</P_96>
+        <P_97>9853.27</P_97>
+        <P_109>31171.47</P_109>
+        <P_110>31171.47</P_110>
+        <P_121>2</P_121>
+        <P_122>6516.86</P_122>
+    </PozycjeSzczegolowe>
+    <Pouczenie>1</Pouczenie>
+</Deklaracja>
