@@ -670,11 +670,15 @@ public class UmowaView implements Serializable {
             pobraneumowy = umowaFacade.findByFirmaZlecenie(wpisView.getFirma(), true);
         }
         if (pobraneumowy!=null&&pobraneumowy.size()>0) {
-            Collections.sort(pobraneumowy, new UmowaDataBazacomparator());
-            selected = new Umowa(pobraneumowy.get(0), false);
-            selected.setAngaz(wpisView.getAngaz());
-            ustawumowe();
-            Msg.msg("Skopiowano umowę");
+            try {
+                Collections.sort(pobraneumowy, new UmowaDataBazacomparator());
+                selected = new Umowa(pobraneumowy.get(0), false);
+                selected.setAngaz(wpisView.getAngaz());
+                ustawumowe();
+                Msg.msg("Skopiowano umowę");
+            } catch (Exception e){
+                Msg.msg("e","Brak umowy sporządzonej w nowym programie");
+            }
         } else {
             Msg.msg("e","Brak umowy do skopiowania");
         }

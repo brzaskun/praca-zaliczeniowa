@@ -7,7 +7,7 @@
 
     xmlns:bcf="http://brzaskun.com/facelets"
     >
-    <p:outputPanel style="height: 600px" id="panelumowadane">
+    <p:outputPanel style="height: 630px" id="panelumowadane">
         <h:form styleClass="formumowa" id="UmowaCreateForm">
            
             <p:panel header="Dodawanie/edycja umowy #{umowaView.rodzajumowy eq '1' ?'o pracę':'zlecenia i o dzieło'}."/>
@@ -114,7 +114,7 @@
                 </p:panelGrid>
                 <p:panelGrid columns="2">
                         <p:outputLabel value="inne warunki zatr." />
-                        <p:textEditor id="dodatkowepraca" value="#{umowaView.selected.innewarunkizatrudnienia}"  styleClass="dataUmowy" secure="false" height="80" allowFormatting="false" toolbarVisible="false" style="width: 900px;">
+                        <p:textEditor id="dodatkowepraca" value="#{umowaView.selected.innewarunkizatrudnienia}"  styleClass="dataUmowy" secure="false" height="90" allowFormatting="false" toolbarVisible="false" style="width: 1100px;">
                            
                         </p:textEditor>
                     </p:panelGrid>
@@ -246,7 +246,9 @@
                 <p:commandButton styleClass="buttonnorm2" actionListener="#{umowaView.createzlecenie}" value="Dodaj" update="north, @(form)"  rendered="#{umowaView.selected.id eq null}"/>
                 <p:commandButton styleClass="buttonnorm2" value="Anuluj"  actionListener="#{umowaView.cancel}"  update="north, @(form)" process="@this"/>
             </h:panelGroup>
-            <p:messages><p:autoUpdate/></p:messages>
+            <p:outputPanel style="padding: 10px;">
+                <p:messages><p:autoUpdate/></p:messages>
+            </p:outputPanel>
         </h:form>
     </p:outputPanel>
     <p:outputPanel id="panelsymulacji" style="margin-top: 5px;width: 700px;">

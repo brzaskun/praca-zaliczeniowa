@@ -342,7 +342,7 @@
                     <f:facet name="header">
                         <h:outputText value="us"/>
                     </f:facet>
-                     <p:commandButton icon="pi pi-envelope" actionListener="#{pitWysylkaView.robPIT1129(itempity11)}" update="akordeon:wystawionepit11:datalistwa"  rendered="#{podpisView.jestkarta eq true}">
+                     <p:commandButton icon="pi pi-envelope" actionListener="#{pitWysylkaView.robPIT1129(itempity11)}" update="@parent:@parent"  rendered="#{podpisView.jestkarta eq true}">
                         <p:confirm type="popup" header="Potwierdzenie" message="Wysłać deklarację do urzędu?" icon="pi pi-exclamation-triangle"/>
                     </p:commandButton>
                 </p:column>
@@ -350,7 +350,7 @@
                     <f:facet name="header">
                         <h:outputText value="upo"/>
                     </f:facet>
-                    <p:commandButton icon="pi pi-cloud-download" actionListener="#{pitWysylkaView.pobierztest(itempity11)}" update="akordeon:wystawionepit11:datalistwa">
+                    <p:commandButton icon="pi pi-cloud-download" actionListener="#{pitWysylkaView.pobierztest(itempity11)}" update="@parent:@parent">
                         <p:confirm type="popup" header="Potwierdzenie" message="Pobrać UPO?" icon="pi pi-exclamation-triangle"/>
                     </p:commandButton>
                 </p:column>

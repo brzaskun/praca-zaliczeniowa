@@ -20,10 +20,13 @@ public class UmowaDataBazacomparator implements Comparator<Umowa> {
     //najstarsza jest pierwsza
     @Override
     public int compare(Umowa o1, Umowa o2) {
+        int zwrot = -1;
         Date datao1 = o1.getDatasystem();
         Date datao2 = o2.getDatasystem();
-        
-        return (datao1.before(datao2) ? 1 : (datao1.equals(datao2) ? 0 : -1));
+        if (datao1!=null&&datao2!=null) {
+            zwrot = datao1.before(datao2) ? 1 : (datao1.equals(datao2) ? 0 : -1);
+        }
+        return zwrot;
     }
     
 }
