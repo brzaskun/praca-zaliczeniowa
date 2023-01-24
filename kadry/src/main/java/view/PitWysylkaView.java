@@ -7,6 +7,9 @@ package view;
 
 import beansPodpis.Xad;
 import beanstesty.EDeklaracjeObslugaBledow;
+import beanstesty.ObjectBean;
+import beanstesty.PIT11_29Bean;
+import beanstesty.PIT4R_12Bean;
 import dao.DeklaracjaPIT11SchowekFacade;
 import entity.DeklaracjaPIT11Schowek;
 import entity.DeklaracjaPIT4Schowek;
@@ -54,7 +57,9 @@ public class PitWysylkaView  implements Serializable {
     public Object[] podpiszDeklaracje(DeklaracjaPIT11Schowek wysylanaDeklaracja) {
         Object[] deklaracjapodpisana = null;
         try {
-            deklaracjapodpisana = Xad.podpisz(wysylanaDeklaracja.getDeklaracja());
+            pl.gov.crd.wzor._2022._11._09._11890.Deklaracja deklaracjeobject = (pl.gov.crd.wzor._2022._11._09._11890.Deklaracja) ObjectBean.convertFromBytes(wysylanaDeklaracja.getDeklaracja());
+            String deklaracja = PIT11_29Bean.marszajuldoStringxml(deklaracjeobject);
+            deklaracjapodpisana = Xad.podpisz(deklaracja);
             wysylanaDeklaracja.setDeklaracjapodpisana((byte[]) deklaracjapodpisana[0]);
             wysylanaDeklaracja.setDeklaracjapodpisanastring((String) deklaracjapodpisana[1]);
         } catch (Exception e) {
@@ -66,7 +71,9 @@ public class PitWysylkaView  implements Serializable {
      public Object[] podpiszDeklaracjePIT4(DeklaracjaPIT4Schowek wysylanaDeklaracja) {
         Object[] deklaracjapodpisana = null;
         try {
-            deklaracjapodpisana = Xad.podpisz(wysylanaDeklaracja.getDeklaracja());
+            pl.gov.crd.wzor._2021._04._02._10568.Deklaracja deklaracjeobject = (pl.gov.crd.wzor._2021._04._02._10568.Deklaracja) ObjectBean.convertFromBytes(wysylanaDeklaracja.getDeklaracja());
+            String deklaracja = PIT4R_12Bean.marszajuldoStringxml(deklaracjeobject);
+            deklaracjapodpisana = Xad.podpisz(deklaracja);
             wysylanaDeklaracja.setDeklaracjapodpisana((byte[]) deklaracjapodpisana[0]);
             wysylanaDeklaracja.setDeklaracjapodpisanastring((String) deklaracjapodpisana[1]);
         } catch (Exception e) {

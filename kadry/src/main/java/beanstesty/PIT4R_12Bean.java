@@ -13,6 +13,7 @@ import error.E;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
+import java.io.StringWriter;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.HashSet;
@@ -91,6 +92,26 @@ public class PIT4R_12Bean {
             E.e(ex);
         }
         return sciezka;
+    }
+    
+     public static String marszajuldoStringxml(pl.gov.crd.wzor._2021._04._02._10568.Deklaracja deklaracja) {
+        String zwrot = null;
+        try {
+            if (deklaracja!=null) {
+                JAXBContext context = JAXBContext.newInstance(deklaracja.getClass());
+                Marshaller marshaller = context.createMarshaller();
+                marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+                marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
+                StringWriter sw = new StringWriter();
+                marshaller.marshal(deklaracja, sw);
+                zwrot = sw.toString();
+            } else {
+                Msg.msg("e","Nie mozna zachowac danych PIT11 do pliku. Plik jpk pusty");
+            }
+        } catch (Exception ex) {
+            E.e(ex);
+        }
+        return zwrot;
     }
     
      private static pl.gov.crd.wzor._2021._04._02._10568.Deklaracja genPIT4R12(Map<String, Kartawynagrodzen> sumaUmowaoprace, Map<String, Kartawynagrodzen> sumaUmowaopracekosztypodwyzszone, 

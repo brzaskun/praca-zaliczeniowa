@@ -92,9 +92,7 @@ public class Xad {
         return zwrot;
     }
     
-    public static Object[] podpisz(byte[] deklaracjarray) { 
-        pl.gov.crd.wzor._2022._11._09._11890.Deklaracja deklaracjeobject = (pl.gov.crd.wzor._2022._11._09._11890.Deklaracja) ObjectBean.convertFromBytes(deklaracjarray);
-        String deklaracja = PIT11_29Bean.marszajuldoStringxml(deklaracjeobject);
+    public static Object[] podpisz(String deklaracja) { 
 //        String haslo = inneHaslo(innehaslo);
         String haslo = "marlena1";
         String pesel = "70052809810";
