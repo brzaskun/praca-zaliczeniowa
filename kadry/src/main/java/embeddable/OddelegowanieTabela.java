@@ -5,7 +5,7 @@
  */
 package embeddable;
 
-import entity.Pracownik;
+import entity.Angaz;
 import java.util.Objects;
 
 /**
@@ -13,7 +13,7 @@ import java.util.Objects;
  * @author Osito
  */
 public class OddelegowanieTabela {
-    private Pracownik pracownik;
+    private Angaz angaz;
     private String rok;
     private Oddelegowanie o_01;
     private Oddelegowanie o_02;
@@ -40,7 +40,7 @@ public class OddelegowanieTabela {
     
     
     public OddelegowanieTabela(Oddelegowanie p) {
-        this.pracownik = p.getAngaz().getPracownik();
+        this.angaz = p.getAngaz();
         this.rok = p.getRok();
         switch (p.getMc()) {
             case "01":
@@ -145,14 +145,16 @@ public class OddelegowanieTabela {
     public void sumujskladniki() {
         
     }
-    
-    public Pracownik getPracownik() {
-        return pracownik;
+
+    public Angaz getAngaz() {
+        return angaz;
     }
 
-    public void setPracownik(Pracownik pracownik) {
-        this.pracownik = pracownik;
+    public void setAngaz(Angaz angaz) {
+        this.angaz = angaz;
     }
+    
+  
 
     public String getRok() {
         return rok;
@@ -361,7 +363,7 @@ public class OddelegowanieTabela {
     @Override
     public int hashCode() {
         int hash = 3;
-        hash = 71 * hash + Objects.hashCode(this.pracownik);
+        hash = 71 * hash + Objects.hashCode(this.angaz);
         hash = 71 * hash + Objects.hashCode(this.rok);
         hash = 71 * hash + (int) (Double.doubleToLongBits(this.sumadni) ^ (Double.doubleToLongBits(this.sumadni) >>> 32));
         return hash;
@@ -385,7 +387,7 @@ public class OddelegowanieTabela {
         if (!Objects.equals(this.rok, other.rok)) {
             return false;
         }
-        if (!Objects.equals(this.pracownik, other.pracownik)) {
+        if (!Objects.equals(this.angaz, other.angaz)) {
             return false;
         }
         return true;
@@ -393,7 +395,7 @@ public class OddelegowanieTabela {
 
     @Override
     public String toString() {
-        return "OddelegowanieTabela{" + "pracownik=" + pracownik.getNazwiskoImie() + ", rok=" + rok + ", o_01=" + o_01 + ", o_02=" + o_02 + ", o_03=" + o_03 + ", o_04=" + o_04 + ", o_05=" + o_05 + ", o_06=" + o_06 + ", o_07=" + o_07 + ", o_08=" + o_08 + ", o_09=" + o_09 + ", o_10=" + o_10 + ", o_11=" + o_11 + ", o_12=" + o_12 + ", suma=" + sumadni + ", rokmcprzekroczenia=" + rokmcprzekroczenia + '}';
+        return "OddelegowanieTabela{" + "pracownik=" + angaz.getPracownik().getNazwiskoImie() + ", rok=" + rok + ", o_01=" + o_01 + ", o_02=" + o_02 + ", o_03=" + o_03 + ", o_04=" + o_04 + ", o_05=" + o_05 + ", o_06=" + o_06 + ", o_07=" + o_07 + ", o_08=" + o_08 + ", o_09=" + o_09 + ", o_10=" + o_10 + ", o_11=" + o_11 + ", o_12=" + o_12 + ", suma=" + sumadni + ", rokmcprzekroczenia=" + rokmcprzekroczenia + '}';
     }
 
   

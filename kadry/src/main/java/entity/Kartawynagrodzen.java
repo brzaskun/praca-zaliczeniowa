@@ -657,7 +657,7 @@ public class Kartawynagrodzen implements Serializable {
         this.pesele.add(pasek.getPesel());
         List<Naliczenieskladnikawynagrodzenia> naliczenieskladnikawynagrodzeniaList = pasek.getNaliczenieskladnikawynagrodzeniaList();
         double niemcy = 0.0;
-        if (this.angaz!=null&&this.angaz.getPracownik().getPrzekroczenierok()!=null) {
+        if (this.angaz!=null&&this.angaz.getPrzekroczenierok()!=null) {
             for (Naliczenieskladnikawynagrodzenia p : naliczenieskladnikawynagrodzeniaList) {
                 //double zus = p.getKwotadolistyplac()<5922.0?p.getKwotadolistyplac()*.1371:5922.0*.1371;
                 if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod().equals("13")) {

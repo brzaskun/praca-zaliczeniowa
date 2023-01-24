@@ -133,6 +133,9 @@ public class Angaz implements Serializable {
     private List<Dokumenty> dokumentyList;
     @Column(name = "student")
     private  boolean student;
+    @Column(name = "przekroczenierok")
+    private String przekroczenierok;
+     
 
     public Angaz() {
     }
@@ -171,6 +174,14 @@ public class Angaz implements Serializable {
 
     public void setMc(String mc) {
         this.mc = mc;
+    }
+
+    public String getPrzekroczenierok() {
+        return przekroczenierok;
+    }
+
+    public void setPrzekroczenierok(String przekroczenierok) {
+        this.przekroczenierok = przekroczenierok;
     }
 
 

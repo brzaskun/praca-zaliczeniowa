@@ -7,7 +7,7 @@
 
     xmlns:bcf="http://brzaskun.com/facelets"
 >
-    <p:dialog id="dialogoddelegowanie" header="Rozliczenie oddelegowania" widgetVar="dialogoddelegowanie"  style="overflow-y: scroll;" dynamic="true"
+    <p:dialog id="dialogoddelegowanie" header="Rozliczenie oddelegowania" widgetVar="dialogoddelegowanie"  style="overflow-y: scroll;"
               resizable="false"  onShow="ustawdialog('dialogoddelegowanie','centertile',1650,800);" closeOnEscape="true" onHide="resetujdialog('dialogoddelegowanie');" 
               fitViewport="true">
         <p:ajax event="open" listener="#{oddelegowanieView.init()}" update="OddelegowanieForm OddelegowanieForm1 OddelegowanieForm2 OddelegowanieForm3" global="true"/>
@@ -23,7 +23,7 @@
             </p:panelGrid>
             <p:dataTable id="datalist" value="#{oddelegowanieView.tabela}" var="itemodd" widgetVar="datalistodd"
                                  selectionMode="single" selection="#{oddelegowanieView.selected}" rowIndexVar="indexodd"
-                                 rowKey="#{itemodd.hashCode()}" sortBy="#{itemodd.pracownik.nazwiskoImie}"
+                                 rowKey="#{itemodd.hashCode()}" sortBy="#{itemodd.angaz.pracownik.nazwiskoImie}"
                                  style="height: 300px; overflow-y: scroll; width: 1400px; margin-top: 10px; margin-left: 10px;"
                                  emptyMessage="nie pobrano danych"
                                  >
@@ -31,8 +31,8 @@
                 <f:facet name="header">
                     <h:outputText value="dni oddelegowania"/>
                 </f:facet>
-                <p:column headerText="pracownik" width="150" sortBy="#{itemodd.pracownik.nazwiskoImie}" sortOrder="asc" sortPriority="1" filterBy="#{itemodd.pracownik.nazwisko}" filterMatchMode="contains" filterable="true">
-                    <h:outputText value="#{itemodd.pracownik.nazwiskoImie}"/>
+                <p:column headerText="pracownik" width="150" sortBy="#{itemodd.angaz.pracownik.nazwiskoImie}" sortOrder="asc" sortPriority="1" filterBy="#{itemodd.angaz.pracownik.nazwisko}" filterMatchMode="contains" filterable="true">
+                    <h:outputText value="#{itemodd.angaz.pracownik.nazwiskoImie}"/>
                 </p:column>
                 <p:column headerText="rok" width="50" style="text-align: center;" sortBy="#{itemodd.rok}" sortOrder="asc" sortPriority="2" filterBy="#{itemodd.rok}" filterMatchMode="contains">
                     <h:outputText value="#{itemodd.rok}" style="color: green" rendered="#{itemodd.rok eq 2022}"/>
@@ -81,7 +81,7 @@
                     <h:outputText value="#{itemodd.rokmcprzekroczenia}" rendered="#{itemodd.rokmcprzekroczenia ne null}"/>
                 </p:column>
                 <p:column headerText="pracownik" width="150">
-                    <h:outputText value="#{itemodd.pracownik.nazwiskoImie}"/>
+                    <h:outputText value="#{itemodd.angaz.pracownik.nazwiskoImie}"/>
                 </p:column>
             </p:dataTable>
         </h:form>
@@ -91,7 +91,7 @@
             </p:commandButton>
             <p:dataTable id="datalist1" value="#{oddelegowanieView.tabela}" var="itemodddel" widgetVar="datalistodd1"
                                  selectionMode="single" selection="#{oddelegowanieView.selected1}" rowIndexVar="indexodd"
-                                 rowKey="#{itemodddel.hashCode()}" sortBy="#{itemodddel.pracownik.nazwiskoImie}"
+                                 rowKey="#{itemodddel.hashCode()}" sortBy="#{itemodddel.angaz.pracownik.nazwiskoImie}"
                                  style="height: 300px; overflow-y: scroll; width: 1400px; margin-top: 10px; margin-left: 10px;"
                                  emptyMessage="nie pobrano danych"
                                  >
@@ -99,8 +99,8 @@
                 <f:facet name="header">
                     <h:outputText value="podatek niemcy"/>
                 </f:facet>
-                <p:column headerText="pracownik" width="150" sortBy="#{itemodddel.pracownik.nazwiskoImie}" sortOrder="asc" sortPriority="1" filterBy="#{itemodddel.pracownik.nazwisko}" filterMatchMode="contains" filterable="true">
-                    <h:outputText value="#{itemodddel.pracownik.nazwiskoImie}"/>
+                <p:column headerText="pracownik" width="150" sortBy="#{itemodddel.angaz.pracownik.nazwiskoImie}" sortOrder="asc" sortPriority="1" filterBy="#{itemodddel.angaz.pracownik.nazwisko}" filterMatchMode="contains" filterable="true">
+                    <h:outputText value="#{itemodddel.angaz.pracownik.nazwiskoImie}"/>
                 </p:column>
                  <p:column headerText="rok" width="50" style="text-align: center;" sortBy="#{itemodddel.rok}" sortOrder="asc" sortPriority="2" filterBy="#{itemodddel.rok}" filterMatchMode="contains">
                     <h:outputText value="#{itemodddel.rok}" style="color: green" rendered="#{itemodddel.rok eq 2022}"/>
@@ -149,7 +149,7 @@
                     <h:outputText value="#{itemodddel.rokmcprzekroczenia}" rendered="#{itemodddel.rokmcprzekroczenia ne null}"/>
                 </p:column>
                 <p:column headerText="pracownik" width="150">
-                    <h:outputText value="#{itemodddel.pracownik.nazwiskoImie}"/>
+                    <h:outputText value="#{itemodddel.angaz.pracownik.nazwiskoImie}"/>
                 </p:column>
             </p:dataTable>
         </h:form>
@@ -159,7 +159,7 @@
             </p:commandButton>
              <p:dataTable id="datalist2" value="#{oddelegowanieView.tabela2001}" var="itemoddpol" widgetVar="datalistodd2"
                                  selectionMode="single" selection="#{oddelegowanieView.selected2}" rowIndexVar="indexodd"
-                                 rowKey="#{itemoddpol.hashCode()}" sortBy="#{itemoddpol.pracownik.nazwiskoImie}"
+                                 rowKey="#{itemoddpol.hashCode()}" sortBy="#{itemoddpol.angaz.pracownik.nazwiskoImie}"
                                  style="height: 300px; overflow-y: scroll; width: 1400px; margin-top: 10px; margin-left: 10px;"
                                  emptyMessage="nie pobrano danych"
                                  >
@@ -167,8 +167,8 @@
                   <f:facet name="header">
                     <h:outputText value="podatek polska "/>
                 </f:facet>
-                 <p:column headerText="pracownik" width="150" sortBy="#{itemoddpol.pracownik.nazwiskoImie}" sortOrder="asc" sortPriority="1" filterBy="#{itemoddpol.pracownik.nazwisko}" filterMatchMode="contains">
-                    <h:outputText value="#{itemoddpol.pracownik.nazwiskoImie}"/>
+                 <p:column headerText="pracownik" width="150" sortBy="#{itemoddpol.angaz.pracownik.nazwiskoImie}" sortOrder="asc" sortPriority="1" filterBy="#{itemoddpol.angaz.pracownik.nazwisko}" filterMatchMode="contains">
+                    <h:outputText value="#{itemoddpol.angaz.pracownik.nazwiskoImie}"/>
                 </p:column>
                 <p:column headerText="rok" width="50" style="text-align: center;" sortBy="#{itemoddpol.rok}" sortOrder="asc" sortPriority="2" filterBy="#{itemoddpol.rok}" filterMatchMode="contains">
                     <h:outputText value="#{itemoddpol.rok}" style="color: green" rendered="#{itemoddpol.rok eq 2022}"/>
@@ -217,7 +217,7 @@
                     <h:outputText value="#{itemoddpol.rokmcprzekroczenia}" rendered="#{itemoddpol.rokmcprzekroczenia ne null}"/>
                 </p:column>
                 <p:column headerText="pracownik" width="150">
-                    <h:outputText value="#{itemoddpol.pracownik.nazwiskoImie}"/>
+                    <h:outputText value="#{itemoddpol.angaz.pracownik.nazwiskoImie}"/>
                 </p:column>
             </p:dataTable>
         </h:form>
@@ -228,15 +228,15 @@
             </p:commandButton>
              <p:dataTable id="datalist3" value="#{oddelegowanieView.tabela2001}" var="itemoddd" widgetVar="datalistodd3"
                                  selectionMode="single" selection="#{oddelegowanieView.selected3}" rowIndexVar="indexoddd"
-                                 rowKey="#{itemoddd.hashCode()}" sortBy="#{itemoddd.pracownik.nazwiskoImie}"
+                                 rowKey="#{itemoddd.hashCode()}" sortBy="#{itemoddd.angaz.pracownik.nazwiskoImie}"
                                  style="height: 300px; overflow-y: scroll; width: 900px; margin-top: 10px; margin-left: 10px;"
                                  emptyMessage="nie pobrano danych"
                                  >
                   <f:facet name="header">
                     <h:outputText value="rozbicie podatków"/>
                 </f:facet>
-                <p:column headerText="pracownik" width="150" sortBy="#{itemoddd.pracownik.nazwiskoImie}" sortOrder="asc" sortPriority="1">
-                    <h:outputText value="#{itemoddd.pracownik.nazwiskoImie}"/>
+                <p:column headerText="pracownik" width="150" sortBy="#{itemoddd.angaz.pracownik.nazwiskoImie}" sortOrder="asc" sortPriority="1">
+                    <h:outputText value="#{itemoddd.angaz.pracownik.nazwiskoImie}"/>
                 </p:column>
                 <p:column headerText="rok" width="50" style="text-align: center;" sortBy="#{itemoddd.rok}" sortOrder="asc" sortPriority="2">
                     <h:outputText value="#{itemoddd.rok}"/>

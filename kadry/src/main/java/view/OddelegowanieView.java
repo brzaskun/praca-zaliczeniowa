@@ -59,7 +59,6 @@ public class OddelegowanieView  implements Serializable {
     
     
     public void init() {
-        przekroczenie = true;
         List<Angaz> angaze = angazFacade.findByFirma(wpisView.getFirma());
         lista = new ArrayList<>();
         List<String> lata = new ArrayList<>();
@@ -120,98 +119,98 @@ public class OddelegowanieView  implements Serializable {
                 for (OddelegowanieTabela r : tabela) {
                     Integer prok = Integer.parseInt(p.getRok());
                     Integer rrok = Integer.parseInt(r.getRok());
-                    if (p.getPracownik().equals(r.getPracownik()) && rrok < prok) {
+                    if (p.getAngaz().equals(r.getAngaz()) && rrok < prok) {
                         if (r.getRokmcprzekroczenia() == null) {
                             double rsuma = r.getSumadni();
                             double psuma = rsuma;
                             psuma = psuma + p.getO_01().getLiczbadni();
                             if (psuma > 182) {
                                 p.setRokmcprzekroczenia(p.getRok() + "/01");
-                                r.getPracownik().setPrzekroczenierok(p.getRok());
-                                tabelaprzekroczonych.add(r.getPracownik());
+                                r.getAngaz().setPrzekroczenierok(p.getRok());
+                                tabelaprzekroczonych.add(r.getAngaz().getPracownik());
                                 break;
                             }
                             psuma = psuma + p.getO_02().getLiczbadni();
                             if (psuma > 182) {
                                 p.setRokmcprzekroczenia(p.getRok() + "/02");
-                                r.getPracownik().setPrzekroczenierok(p.getRok());
-                                tabelaprzekroczonych.add(r.getPracownik());
+                                r.getAngaz().setPrzekroczenierok(p.getRok());
+                                tabelaprzekroczonych.add(r.getAngaz().getPracownik());
                                 break;
                             }
                             psuma = psuma + p.getO_03().getLiczbadni();
                             if (psuma > 182) {
                                 p.setRokmcprzekroczenia(p.getRok() + "/03");
-                                r.getPracownik().setPrzekroczenierok(p.getRok());
-                                tabelaprzekroczonych.add(r.getPracownik());
+                                r.getAngaz().setPrzekroczenierok(p.getRok());
+                                tabelaprzekroczonych.add(r.getAngaz().getPracownik());
                                 break;
                             }
                             psuma = psuma + p.getO_04().getLiczbadni();
                             if (psuma > 182) {
                                 p.setRokmcprzekroczenia(p.getRok() + "/04");
-                                r.getPracownik().setPrzekroczenierok(p.getRok());
-                                tabelaprzekroczonych.add(r.getPracownik());
+                                r.getAngaz().setPrzekroczenierok(p.getRok());
+                                tabelaprzekroczonych.add(r.getAngaz().getPracownik());
                                 break;
                             }
                             psuma = psuma + p.getO_05().getLiczbadni();
                             if (psuma > 182) {
                                 p.setRokmcprzekroczenia(p.getRok() + "/05");
-                                r.getPracownik().setPrzekroczenierok(p.getRok());
-                                tabelaprzekroczonych.add(r.getPracownik());
+                                r.getAngaz().setPrzekroczenierok(p.getRok());
+                                tabelaprzekroczonych.add(r.getAngaz().getPracownik());
                                 break;
                             }
                             psuma = psuma + p.getO_06().getLiczbadni();
                             if (psuma > 182) {
                                 p.setRokmcprzekroczenia(p.getRok() + "/06");
-                                r.getPracownik().setPrzekroczenierok(p.getRok());
-                                tabelaprzekroczonych.add(r.getPracownik());
+                                r.getAngaz().setPrzekroczenierok(p.getRok());
+                                tabelaprzekroczonych.add(r.getAngaz().getPracownik());
                                 break;
                             }
                             psuma = psuma + p.getO_07().getLiczbadni();
                             if (psuma > 182) {
                                 p.setRokmcprzekroczenia(p.getRok() + "/07");
-                                r.getPracownik().setPrzekroczenierok(p.getRok());
-                                tabelaprzekroczonych.add(r.getPracownik());
+                                r.getAngaz().setPrzekroczenierok(p.getRok());
+                                tabelaprzekroczonych.add(r.getAngaz().getPracownik());
                                 break;
                             }
                             psuma = psuma + p.getO_08().getLiczbadni();
                             if (psuma > 182) {
                                 p.setRokmcprzekroczenia(p.getRok() + "/08");
-                                r.getPracownik().setPrzekroczenierok(p.getRok());
-                                tabelaprzekroczonych.add(r.getPracownik());
+                                r.getAngaz().setPrzekroczenierok(p.getRok());
+                                tabelaprzekroczonych.add(r.getAngaz().getPracownik());
                                 break;
                             }
                             psuma = psuma + p.getO_09().getLiczbadni();
                             if (psuma > 182) {
                                 p.setRokmcprzekroczenia(p.getRok() + "/09");
-                                r.getPracownik().setPrzekroczenierok(p.getRok());
-                                tabelaprzekroczonych.add(r.getPracownik());
+                                r.getAngaz().setPrzekroczenierok(p.getRok());
+                                tabelaprzekroczonych.add(r.getAngaz().getPracownik());
                                 break;
                             }
                             psuma = psuma + p.getO_10().getLiczbadni();
                             if (psuma > 182) {
                                 p.setRokmcprzekroczenia(p.getRok() + "/10");
-                                r.getPracownik().setPrzekroczenierok(p.getRok());
-                                tabelaprzekroczonych.add(r.getPracownik());
+                                r.getAngaz().setPrzekroczenierok(p.getRok());
+                                tabelaprzekroczonych.add(r.getAngaz().getPracownik());
                                 break;
                             }
                             psuma = psuma + p.getO_11().getLiczbadni();
                             if (psuma > 182) {
                                 p.setRokmcprzekroczenia(p.getRok() + "/11");
-                                r.getPracownik().setPrzekroczenierok(p.getRok());
-                                tabelaprzekroczonych.add(r.getPracownik());
+                                r.getAngaz().setPrzekroczenierok(p.getRok());
+                                tabelaprzekroczonych.add(r.getAngaz().getPracownik());
                                 break;
                             }
                             psuma = psuma + p.getO_12().getLiczbadni();
                             if (psuma > 182) {
                                 p.setRokmcprzekroczenia(p.getRok() + "/12");
-                                r.getPracownik().setPrzekroczenierok(p.getRok());
-                                tabelaprzekroczonych.add(r.getPracownik());
+                                r.getAngaz().setPrzekroczenierok(p.getRok());
+                                tabelaprzekroczonych.add(r.getAngaz().getPracownik());
                                 break;
                             }
                         } else {
-                            r.getPracownik().setPrzekroczenierok(r.getRokmcprzekroczenia());
+                            r.getAngaz().setPrzekroczenierok(r.getRokmcprzekroczenia());
                             p.setRokmcprzekroczenia(r.getRokmcprzekroczenia());
-                            tabelaprzekroczonych.add(r.getPracownik());
+                            tabelaprzekroczonych.add(r.getAngaz().getPracownik());
                         }
                     }
                 }
@@ -225,16 +224,17 @@ public class OddelegowanieView  implements Serializable {
                     //}
                 }
             }
-
+            if (przekroczenie) {
                 List<OddelegowanieTabela> nowatabela = new ArrayList<>();
                 for (OddelegowanieTabela p : tabela) {
-                    if (tabelaprzekroczonych.contains(p.getPracownik())) {
+                    if (tabelaprzekroczonych.contains(p.getAngaz().getPracownik())) {
                         nowatabela.add(p);
                     }
                 }
                 tabela = new ArrayList<>(nowatabela);
                 tabela2001 = new ArrayList<>(nowatabela);
 
+            }
         }
         System.out.println("");
     }
@@ -253,7 +253,7 @@ public class OddelegowanieView  implements Serializable {
     private OddelegowanieTabela pobierzrok(List<OddelegowanieTabela> tabela, Pracownik pracownik, String rok) {
         OddelegowanieTabela zwrot = null;
         for (OddelegowanieTabela t : tabela) {
-            if (t.getPracownik().equals(pracownik)&&t.getRok().equals(rok)) {
+            if (t.getAngaz().getPracownik().equals(pracownik)&&t.getRok().equals(rok)) {
                 zwrot = t;
             }
         }
