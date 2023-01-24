@@ -166,7 +166,7 @@ public class PdfPIT4 {
                 absText(writer, pobierzI(ps.getP157()), 528, 156);
 
                 document.newPage();
-                absText(writer, "158 wyjaśnienie różmnic", 70, 720);
+                absText(writer, "", 70, 720);
                 absText(writer, "Grzegorz Grzelczyk", 100, 455);
                 document.close();
                 writer.close();

@@ -141,33 +141,37 @@ public class PitWysylkaView  implements Serializable {
     public void robPIT412(DeklaracjaPIT4Schowek wysylanaDeklaracja){
         try {
             Object[] podpiszDeklaracje = podpiszDeklaracjePIT4(wysylanaDeklaracja);
-            Holder<String> id = new Holder<>();
-            Holder<Integer> stat = new Holder<>();
-            Holder<String> opis = new Holder<>();
-            Holder<String> upo = new Holder<>();
-            byte[] dok = (byte[]) podpiszDeklaracje[0];
-            //sendSignDocument(dok, id, stat, opis);
-            sendSignDocument(dok, id, stat, opis);
-            String idMB = id.value;
-            String idpobierz = id.value;
-            List<String> komunikat = null;
-            String opisMB = opis.value;
-                komunikat = EDeklaracjeObslugaBledow.odpowiedznakodserwera(stat.value);
-            if (komunikat.size() > 1) {
-                    Msg.msg(komunikat.get(0), komunikat.get(1));
-                    opisMB = komunikat.get(1);
-            }
-            if (idMB!=null) {
-                wysylanaDeklaracja.setIdentyfikator(idMB);
-                wysylanaDeklaracja.setStatus(String.valueOf(stat.value));
-                wysylanaDeklaracja.setOpis(opisMB);
-                wysylanaDeklaracja.setDatawysylki(new Date());
-                wysylanaDeklaracja.setDataupo(new Date());
-                wysylanaDeklaracja.setUz(wpisView.getUzer());
-                deklaracjaPIT11SchowekFacade.edit(wysylanaDeklaracja);
-                Msg.msg("i", "Wypuszczono gołębia z deklaracja PIT11 firmy " + wysylanaDeklaracja.getFirma().getNazwa());
+            if (podpiszDeklaracje==null) {
+               Msg.msg("e","Nie udało się podpisać deklaracji");
             } else {
-                Msg.msg("e", "Błąd. Nie wysłano deklaracji");
+                Holder<String> id = new Holder<>();
+                Holder<Integer> stat = new Holder<>();
+                Holder<String> opis = new Holder<>();
+                Holder<String> upo = new Holder<>();
+                byte[] dok = (byte[]) podpiszDeklaracje[0];
+                //sendSignDocument(dok, id, stat, opis);
+                sendSignDocument(dok, id, stat, opis);
+                String idMB = id.value;
+                String idpobierz = id.value;
+                List<String> komunikat = null;
+                String opisMB = opis.value;
+                    komunikat = EDeklaracjeObslugaBledow.odpowiedznakodserwera(stat.value);
+                if (komunikat.size() > 1) {
+                        Msg.msg(komunikat.get(0), komunikat.get(1));
+                        opisMB = komunikat.get(1);
+                }
+                if (idMB!=null) {
+                    wysylanaDeklaracja.setIdentyfikator(idMB);
+                    wysylanaDeklaracja.setStatus(String.valueOf(stat.value));
+                    wysylanaDeklaracja.setOpis(opisMB);
+                    wysylanaDeklaracja.setDatawysylki(new Date());
+                    wysylanaDeklaracja.setDataupo(new Date());
+                    wysylanaDeklaracja.setUz(wpisView.getUzer());
+                    deklaracjaPIT11SchowekFacade.edit(wysylanaDeklaracja);
+                    Msg.msg("i", "Wypuszczono gołębia z deklaracja PIT11 firmy " + wysylanaDeklaracja.getFirma().getNazwa());
+                } else {
+                    Msg.msg("e", "Błąd. Nie wysłano deklaracji");
+                }
             }
         } catch (javax.xml.ws.WebServiceException  ex1) {
             Msg.msg("e", "Nie można nawiązać połączenia z serwerem ministerstwa podczas wysyłania PIT11 pracownika " + wysylanaDeklaracja.getFirma().getNazwa());

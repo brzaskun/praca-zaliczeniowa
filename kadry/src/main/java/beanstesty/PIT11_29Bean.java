@@ -264,7 +264,7 @@ public class PIT11_29Bean {
         Kartawynagrodzen sumaUmowaopraceEmeryt = sumy.get("sumaUmowaopraceEmeryt");
         Kartawynagrodzen sumaUmowaopraceEmerytkosztypodwyzszone = sumy.get("sumaUmowaopraceEmerytkosztypodwyzszone");
         Kartawynagrodzen sumaUmowazleceniaEmeryt = sumy.get("sumaUmowazleceniaEmeryt");
-        double dochodzagranica = kartawynagrodzen.getDochodzagranica();
+        double dochodzagranica = Z.z(kartawynagrodzen.getDochodzagranica());
         if (sumaUmowaoprace.getBrutto()>0.0) {
             poz.setP29(BigDecimal.valueOf(sumaUmowaoprace.getBrutto()));
             if (dochodzagranica>0.0) {

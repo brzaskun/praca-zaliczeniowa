@@ -25,6 +25,7 @@ import java.util.List;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import msg.Msg;
 import z.Z;
 
 /**
@@ -110,6 +111,8 @@ public class OddelegowanieView  implements Serializable {
                     }
                 }
             }
+        } else {
+            Msg.msg("w", "Brak pracowników oddelegowanych");
         }
         List<Pracownik> tabelaprzekroczonych = new ArrayList<>();
         if (tabela != null) {
@@ -222,7 +225,7 @@ public class OddelegowanieView  implements Serializable {
                     //}
                 }
             }
-            if (przekroczenie) {
+
                 List<OddelegowanieTabela> nowatabela = new ArrayList<>();
                 for (OddelegowanieTabela p : tabela) {
                     if (tabelaprzekroczonych.contains(p.getPracownik())) {
@@ -231,7 +234,7 @@ public class OddelegowanieView  implements Serializable {
                 }
                 tabela = new ArrayList<>(nowatabela);
                 tabela2001 = new ArrayList<>(nowatabela);
-            }
+
         }
         System.out.println("");
     }
