@@ -14,7 +14,9 @@ import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
 import com.itextpdf.text.pdf.PdfWriter;
+import data.Data;
 import embeddable.TKodUS;
+import entity.DeklaracjaPIT4Schowek;
 import f.F;
 import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
@@ -38,7 +40,7 @@ public class PdfPIT4 {
 
     public static final String OUTPUTFILE = "pit-4F.pdf";
 
-    public static String drukuj(pl.gov.crd.wzor._2021._04._02._10568.Deklaracja deklaracja) {
+    public static String drukuj(pl.gov.crd.wzor._2021._04._02._10568.Deklaracja deklaracja, DeklaracjaPIT4Schowek deklaracjaPIT4Schowek) {
         String nazwapliku = null;
         if (deklaracja != null) {
             try {
@@ -80,11 +82,16 @@ public class PdfPIT4 {
                     absText(writer, "X", 65, 492);
                     //absText(writer, "X", 299, 492);
                 }
-                absText(writer, "Data potwierdzebia", 490, 780, 6);
-                absText(writer, "2013-05-05 124885", 490, 770, 6);
-                absText(writer, "Opis", 490, 760, 6);
-                absText(writer, "Nr potwierdzenia:", 460, 750, 6);
-                absText(writer, "ijijiiijiiji", 460, 740, 6);
+                if (deklaracjaPIT4Schowek!=null&&deklaracjaPIT4Schowek.getDataupo()!=null) {
+//                    absText(writer, "Data potwierdzenia", 490, 795, 8);
+                    absText(writer, Data.data_ddMMMMyyyy(deklaracjaPIT4Schowek.getDataupo()), 490, 795, 8);
+                    absText(writer, "status "+deklaracjaPIT4Schowek.getStatus(), 490, 785, 8);
+                    absText(writer, "Nr wys.:", 340, 795, 8);
+                    absText(writer, deklaracjaPIT4Schowek.getIdentyfikator(), 340, 785, 8);
+                } else {
+                    absText(writer, "NIE WYSŁANA!", 340, 785, 12);
+                }
+                
                 Deklaracja.PozycjeSzczegolowe ps = deklaracja.getPozycjeSzczegolowe();
                 absText(writer, pobierzI(ps.getP10()), 180, 340);
                 absText(writer, pobierzI(ps.getP11()), 250, 340);

@@ -7,6 +7,7 @@ package schedule;
 
 import dao.AngazFacade;
 import dao.UmowaFacade;
+import data.Data;
 import entity.Angaz;
 import entity.Umowa;
 import java.time.LocalDate;
@@ -42,10 +43,13 @@ public class UmowaReminder {
         }
         if (listaumowy!=null) {
             for (Umowa u : listaumowy) {
-                if (u.getDatado()!=null&&!u.getDatado().equals("")) {
-                    LocalDate today = LocalDate.parse(u.getDatado()) ;
-                    LocalDate tomorrow = today.minusDays(14) ;
-                    u.setDataprzypomnienia(tomorrow.toString());
+                if (u.getDatado()!=null&&!u.getDatado().equals("")&&u.getDatado().length()==10) {
+                    try {
+                        String data = Data.zmienkolejnosc(u.getDatado());
+                        LocalDate today = LocalDate.parse(data) ;
+                        LocalDate tomorrow = today.minusDays(14) ;
+                        u.setDataprzypomnienia(tomorrow.toString());
+                    } catch (Exception e){}
                 }
             }
             umowaFacade.editList(listaumowy);

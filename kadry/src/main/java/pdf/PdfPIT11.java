@@ -153,7 +153,7 @@ public class PdfPIT11 {
                         absText(writer, "X", 329, 68);
                     }
                 }
-                absText(writer, "Data potwierdzebia", 490, 800, 6);
+                absText(writer, "Data potwierdzenia", 490, 800, 6);
                 absText(writer, "2013-05-05 124885", 490, 790, 6);
                 absText(writer, "Opis", 490, 780, 6);
                 absText(writer, "Nr potwierdzenia:", 460, 770, 6);

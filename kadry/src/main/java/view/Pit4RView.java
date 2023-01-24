@@ -91,7 +91,7 @@ public class Pit4RView  implements Serializable {
                 ByteArrayInputStream in = new ByteArrayInputStream(deklaracja);
                 is = new ObjectInputStream(in);
                 pl.gov.crd.wzor._2021._04._02._10568.Deklaracja dekl = (pl.gov.crd.wzor._2021._04._02._10568.Deklaracja) is.readObject();
-                String nazwapliku = PdfPIT4.drukuj(dekl);
+                String nazwapliku = PdfPIT4.drukuj(dekl, deklaracjaPIT4Schowek);
                 String polecenie = "wydrukPDF(\""+nazwapliku+"\")";
                 PrimeFaces.current().executeScript(polecenie);
                 Msg.msg("Pobrano deklaracje");

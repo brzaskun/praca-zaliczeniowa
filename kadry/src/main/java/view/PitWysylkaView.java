@@ -86,7 +86,7 @@ public class PitWysylkaView  implements Serializable {
     public void zbiorczawysylka(List<DeklaracjaPIT11Schowek> listaPIT11) {
         if (listaPIT11!=null && listaPIT11.size()>0) {
             for (DeklaracjaPIT11Schowek p : listaPIT11) {
-                if (p.getDataupo()==null) {
+                if (p.getIdentyfikator()==null) {
                     robPIT1129(p);
                 }
             }
@@ -98,13 +98,13 @@ public class PitWysylkaView  implements Serializable {
     public void pobierzUPO(List<DeklaracjaPIT11Schowek> listaPIT11) {
         if (listaPIT11!=null && listaPIT11.size()>0) {
             for (DeklaracjaPIT11Schowek p : listaPIT11) {
-                if (p.getDataupo()!=null) {
+                if (p.getIdentyfikator()!=null) {
                     pobierztest(p);
                 }
             }
-            Msg.msg("Wysłąno zbiorczo deklaracje do US");
+            Msg.msg("Pobrano zbiorczo potwierdzenia UPO z US");
         } else {
-            Msg.msg("e","Błąd wysyłki. Brak karty wynagrodzeń");
+            Msg.msg("e","Błąd pobierania UPO");
         }
     }
     
@@ -175,13 +175,13 @@ public class PitWysylkaView  implements Serializable {
                     wysylanaDeklaracja.setDataupo(new Date());
                     wysylanaDeklaracja.setUz(wpisView.getUzer());
                     deklaracjaPIT11SchowekFacade.edit(wysylanaDeklaracja);
-                    Msg.msg("i", "Wypuszczono gołębia z deklaracja PIT11 firmy " + wysylanaDeklaracja.getFirma().getNazwa());
+                    Msg.msg("i", "Wypuszczono gołębia z deklaracja PIT4 firmy " + wysylanaDeklaracja.getFirma().getNazwa());
                 } else {
                     Msg.msg("e", "Błąd. Nie wysłano deklaracji");
                 }
             }
         } catch (javax.xml.ws.WebServiceException  ex1) {
-            Msg.msg("e", "Nie można nawiązać połączenia z serwerem ministerstwa podczas wysyłania PIT11 pracownika " + wysylanaDeklaracja.getFirma().getNazwa());
+            Msg.msg("e", "Nie można nawiązać połączenia z serwerem ministerstwa podczas wysyłania PIT4 firmy " + wysylanaDeklaracja.getFirma().getNazwa());
         }
     }
      
