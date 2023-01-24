@@ -264,6 +264,7 @@ public class PIT11_29Bean {
         Kartawynagrodzen sumaUmowaopraceEmeryt = sumy.get("sumaUmowaopraceEmeryt");
         Kartawynagrodzen sumaUmowaopraceEmerytkosztypodwyzszone = sumy.get("sumaUmowaopraceEmerytkosztypodwyzszone");
         Kartawynagrodzen sumaUmowazleceniaEmeryt = sumy.get("sumaUmowazleceniaEmeryt");
+        Kartawynagrodzen sumaZasilkiDorosly = sumy.get("sumaZasilkiDorosly");
         double dochodzagranica = Z.z(kartawynagrodzen.getDochodzagranica());
         if (sumaUmowaoprace.getBrutto()>0.0) {
             poz.setP29(BigDecimal.valueOf(sumaUmowaoprace.getBrutto()));
@@ -391,6 +392,24 @@ public class PIT11_29Bean {
                 poz.setP122(poz.getP122().add(BigDecimal.valueOf(Z.z(sumaUmowapelnieniefunkcji.getPraczdrowotnedopotracenia()))));
             } else{
                 poz.setP122(BigDecimal.valueOf(Z.z(sumaUmowapelnieniefunkcji.getPraczdrowotnedopotracenia())));
+            }
+            //czy dodano PIT-R 1tak 2nie
+            poz.setP121((byte)2);
+        }
+        if (sumaZasilkiDorosly.getBrutto()>0.0) {
+            poz.setP90(BigDecimal.valueOf(sumaZasilkiDorosly.getBrutto()));
+            poz.setP91(BigDecimal.valueOf(sumaZasilkiDorosly.getKosztyuzyskania()));
+            poz.setP92(poz.getP90().subtract(poz.getP91()));
+            poz.setP94(BigInteger.valueOf(Z.zUD(sumaZasilkiDorosly.getPodatekdochodowy())));
+            if (poz.getP95()!=null) {
+                poz.setP95(poz.getP95().add(BigDecimal.valueOf(Z.z(sumaZasilkiDorosly.getRazemspolecznepracownik()))));
+            } else{
+                poz.setP95(BigDecimal.valueOf(Z.z(sumaZasilkiDorosly.getRazemspolecznepracownik())));
+            }
+            if (poz.getP122()!=null) {
+                poz.setP122(poz.getP122().add(BigDecimal.valueOf(Z.z(sumaZasilkiDorosly.getPraczdrowotnedopotracenia()))));
+            } else{
+                poz.setP122(BigDecimal.valueOf(Z.z(sumaZasilkiDorosly.getPraczdrowotnedopotracenia())));
             }
             //czy dodano PIT-R 1tak 2nie
             poz.setP121((byte)2);

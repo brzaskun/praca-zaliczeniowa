@@ -114,6 +114,7 @@ public class OddelegowanieView  implements Serializable {
             Msg.msg("w", "Brak pracowników oddelegowanych");
         }
         List<Pracownik> tabelaprzekroczonych = new ArrayList<>();
+        List<Angaz> angazezprzekroczeniem = new ArrayList<>();
         if (tabela != null) {
             for (OddelegowanieTabela p : tabela) {
                 for (OddelegowanieTabela r : tabela) {
@@ -127,6 +128,7 @@ public class OddelegowanieView  implements Serializable {
                             if (psuma > 182) {
                                 p.setRokmcprzekroczenia(p.getRok() + "/01");
                                 r.getAngaz().setPrzekroczenierok(p.getRok());
+                                angazezprzekroczeniem.add(r.getAngaz());
                                 tabelaprzekroczonych.add(r.getAngaz().getPracownik());
                                 break;
                             }
@@ -134,6 +136,7 @@ public class OddelegowanieView  implements Serializable {
                             if (psuma > 182) {
                                 p.setRokmcprzekroczenia(p.getRok() + "/02");
                                 r.getAngaz().setPrzekroczenierok(p.getRok());
+                                angazezprzekroczeniem.add(r.getAngaz());
                                 tabelaprzekroczonych.add(r.getAngaz().getPracownik());
                                 break;
                             }
@@ -141,6 +144,7 @@ public class OddelegowanieView  implements Serializable {
                             if (psuma > 182) {
                                 p.setRokmcprzekroczenia(p.getRok() + "/03");
                                 r.getAngaz().setPrzekroczenierok(p.getRok());
+                                angazezprzekroczeniem.add(r.getAngaz());
                                 tabelaprzekroczonych.add(r.getAngaz().getPracownik());
                                 break;
                             }
@@ -148,6 +152,7 @@ public class OddelegowanieView  implements Serializable {
                             if (psuma > 182) {
                                 p.setRokmcprzekroczenia(p.getRok() + "/04");
                                 r.getAngaz().setPrzekroczenierok(p.getRok());
+                                angazezprzekroczeniem.add(r.getAngaz());
                                 tabelaprzekroczonych.add(r.getAngaz().getPracownik());
                                 break;
                             }
@@ -155,6 +160,7 @@ public class OddelegowanieView  implements Serializable {
                             if (psuma > 182) {
                                 p.setRokmcprzekroczenia(p.getRok() + "/05");
                                 r.getAngaz().setPrzekroczenierok(p.getRok());
+                                angazezprzekroczeniem.add(r.getAngaz());
                                 tabelaprzekroczonych.add(r.getAngaz().getPracownik());
                                 break;
                             }
@@ -162,6 +168,7 @@ public class OddelegowanieView  implements Serializable {
                             if (psuma > 182) {
                                 p.setRokmcprzekroczenia(p.getRok() + "/06");
                                 r.getAngaz().setPrzekroczenierok(p.getRok());
+                                angazezprzekroczeniem.add(r.getAngaz());
                                 tabelaprzekroczonych.add(r.getAngaz().getPracownik());
                                 break;
                             }
@@ -169,6 +176,7 @@ public class OddelegowanieView  implements Serializable {
                             if (psuma > 182) {
                                 p.setRokmcprzekroczenia(p.getRok() + "/07");
                                 r.getAngaz().setPrzekroczenierok(p.getRok());
+                                angazezprzekroczeniem.add(r.getAngaz());
                                 tabelaprzekroczonych.add(r.getAngaz().getPracownik());
                                 break;
                             }
@@ -176,6 +184,7 @@ public class OddelegowanieView  implements Serializable {
                             if (psuma > 182) {
                                 p.setRokmcprzekroczenia(p.getRok() + "/08");
                                 r.getAngaz().setPrzekroczenierok(p.getRok());
+                                angazezprzekroczeniem.add(r.getAngaz());
                                 tabelaprzekroczonych.add(r.getAngaz().getPracownik());
                                 break;
                             }
@@ -183,6 +192,7 @@ public class OddelegowanieView  implements Serializable {
                             if (psuma > 182) {
                                 p.setRokmcprzekroczenia(p.getRok() + "/09");
                                 r.getAngaz().setPrzekroczenierok(p.getRok());
+                                angazezprzekroczeniem.add(r.getAngaz());
                                 tabelaprzekroczonych.add(r.getAngaz().getPracownik());
                                 break;
                             }
@@ -190,6 +200,7 @@ public class OddelegowanieView  implements Serializable {
                             if (psuma > 182) {
                                 p.setRokmcprzekroczenia(p.getRok() + "/10");
                                 r.getAngaz().setPrzekroczenierok(p.getRok());
+                                angazezprzekroczeniem.add(r.getAngaz());
                                 tabelaprzekroczonych.add(r.getAngaz().getPracownik());
                                 break;
                             }
@@ -197,6 +208,7 @@ public class OddelegowanieView  implements Serializable {
                             if (psuma > 182) {
                                 p.setRokmcprzekroczenia(p.getRok() + "/11");
                                 r.getAngaz().setPrzekroczenierok(p.getRok());
+                                angazezprzekroczeniem.add(r.getAngaz());
                                 tabelaprzekroczonych.add(r.getAngaz().getPracownik());
                                 break;
                             }
@@ -204,17 +216,20 @@ public class OddelegowanieView  implements Serializable {
                             if (psuma > 182) {
                                 p.setRokmcprzekroczenia(p.getRok() + "/12");
                                 r.getAngaz().setPrzekroczenierok(p.getRok());
+                                angazezprzekroczeniem.add(r.getAngaz());
                                 tabelaprzekroczonych.add(r.getAngaz().getPracownik());
                                 break;
                             }
                         } else {
                             r.getAngaz().setPrzekroczenierok(r.getRokmcprzekroczenia());
+                            angazezprzekroczeniem.add(r.getAngaz());
                             p.setRokmcprzekroczenia(r.getRokmcprzekroczenia());
                             tabelaprzekroczonych.add(r.getAngaz().getPracownik());
                         }
                     }
                 }
             }
+            angazFacade.editList(angazezprzekroczeniem);
             pracownikFacade.editList(tabelaprzekroczonych);
             if (tabela != null) {
                 tabela2001 = new ArrayList<>();

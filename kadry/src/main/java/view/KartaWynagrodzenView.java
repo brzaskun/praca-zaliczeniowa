@@ -195,6 +195,7 @@ public class KartaWynagrodzenView  implements Serializable {
         Kartawynagrodzen sumaUmowazlecenia  = new Kartawynagrodzen();
         Kartawynagrodzen sumaUmowazlecenia26zwolnione  = new Kartawynagrodzen();
         Kartawynagrodzen sumaUmowazleceniaEmeryt  = new Kartawynagrodzen();
+        Kartawynagrodzen sumaZasilkiDorosly  = new Kartawynagrodzen();
         Kartawynagrodzen suma = new Kartawynagrodzen();
         suma.setAngaz(angaz);
         suma.setMc("razem");
@@ -227,7 +228,7 @@ public class KartaWynagrodzenView  implements Serializable {
 //                    3,"pełnienie obowiązków",3
 //                    4,zasiłki,4
 
-                    if ((pasek.getRodzajWynagrodzenia()==1||pasek.getRodzajWynagrodzenia()==4||pasek.getRodzajWynagrodzenia()==1006)&&pasek.isDo26lat()==false) {
+                    if ((pasek.getRodzajWynagrodzenia()==1||pasek.getRodzajWynagrodzenia()==4)&&pasek.isDo26lat()==false) {
                         //emeryci
                         if ((plec.equals("M")&&lata>=65)||(plec.equals("K")&&lata>=60)) {
                             if (pasek.getProcentkosztow()>100.0) {
@@ -242,6 +243,8 @@ public class KartaWynagrodzenView  implements Serializable {
                                 sumaUmowaoprace.dodaj(pasek);
                             }
                         }
+                    } else if (pasek.getRodzajWynagrodzenia()==1006&&pasek.isDo26lat()==false) {
+                            sumaZasilkiDorosly.dodaj(pasek);
                     } else if ((pasek.getRodzajWynagrodzenia()==1||pasek.getRodzajWynagrodzenia()==1006)&&pasek.isDo26lat()==true) {
                             sumaUmowaoprace26zwolnione.dodaj(pasek);
                     } else if (pasek.getRodzajWynagrodzenia()==2&&(plec.equals("M")&&lata>=65)||(plec.equals("K")&&lata>=60)) {
@@ -271,6 +274,7 @@ public class KartaWynagrodzenView  implements Serializable {
         sumy.put("sumaUmowaopraceEmeryt", sumaUmowaopraceEmeryt);
         sumy.put("sumaUmowaopraceEmerytkosztypodwyzszone", sumaUmowaopraceEmerytkosztypodwyzszone);
         sumy.put("sumaUmowazleceniaEmeryt", sumaUmowazleceniaEmeryt);
+        sumy.put("sumaZasilkiDorosly", sumaZasilkiDorosly);
         suma.setSumy(sumy);
         kartaWynagrodzenFacade.createEditList(kartawynagrodzenlist);
         kartawynagrodzenlist.add(suma);

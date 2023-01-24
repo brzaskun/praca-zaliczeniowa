@@ -443,6 +443,11 @@ public class PdfPIT11 {
                     absTextW(writer, pobierz(ps.getP67()), 300, 370);
                     absTextW(writer, pobierz(ps.getP68()), 372, 370);
                     absTextW(writer, pobierzI(ps.getP69()), 523, 370);
+                    //zasilki
+                    absTextW(writer, pobierz(ps.getP90()), 230, 150);
+                    absTextW(writer, pobierz(ps.getP91()), 300, 150);
+                    absTextW(writer, pobierz(ps.getP92()), 372, 150);
+                    absTextW(writer, pobierzI(ps.getP94()), 523, 150);
                     
                    // absTextW(writer, pobierz(ps.getP74()), 300, 362);
 //                    absTextW(writer, pobierz(ps.getP64()), 230, 383);
