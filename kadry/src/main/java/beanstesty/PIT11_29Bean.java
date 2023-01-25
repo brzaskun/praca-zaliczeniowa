@@ -520,6 +520,31 @@ public class PIT11_29Bean {
             } else{
                 poz.setP109(BigDecimal.valueOf(Z.z(kwotaponadlimitminusniemcy)));
             }
+            if (dochodzagranica>0.0) {
+                if (poz.getP29()==null) {
+                    poz.setP29(BigDecimal.ZERO);
+                    poz.setP30(BigDecimal.ZERO);
+                    poz.setP31(BigDecimal.ZERO);
+                    poz.setP33(BigInteger.ZERO);
+                }
+                if (poz.getP36()==null) {
+                    poz.setP36(BigDecimal.ZERO);
+                }
+                if (poz.getP37()==null) {
+                    poz.setP37(BigDecimal.ZERO);
+                }
+                if (poz.getP38()==null) {
+                    poz.setP38(BigDecimal.ZERO);
+                }
+                if (poz.getP40()==null) {
+                    poz.setP40(BigInteger.ZERO);
+                }
+            }
+             if (poz.getP39()!=null) {
+                poz.setP39(poz.getP39().add(BigDecimal.valueOf(dochodzagranica))); 
+            } else{
+                poz.setP39(BigDecimal.valueOf(dochodzagranica));
+            }
             if (poz.getP122()!=null) {
                 poz.setP122(poz.getP122().add(BigDecimal.valueOf(Z.z(sumaUmowaoprace26zwolnione.getPraczdrowotnedopotracenia()))));
             } else{
@@ -569,6 +594,7 @@ public class PIT11_29Bean {
                 poz.setP97(BigDecimal.valueOf(Z.z(sumaUmowazlecenia26zwolnione.getRazemspolecznepracownik())));
             }
             poz.setP111(BigDecimal.valueOf(Z.z(sumaUmowazlecenia26zwolnione.getBrutto())));
+            
             if (poz.getP109()!=null) {
                 poz.setP109(poz.getP109().add(BigDecimal.valueOf(Z.z(sumaUmowazlecenia26zwolnione.getBrutto()))));
             } else{
