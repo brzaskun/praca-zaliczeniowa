@@ -269,21 +269,26 @@ public class PIT11_29Bean {
         if (sumaUmowaoprace.getBrutto()>0.0) {
             poz.setP29(BigDecimal.valueOf(sumaUmowaoprace.getBrutto()));
             if (dochodzagranica>0.0) {
-                BigDecimal dochzagr = BigDecimal.valueOf(dochodzagranica);
-                poz.setP29(poz.getP29().subtract(dochzagr));
+                if (sumaUmowaoprace.getBrutto()>dochodzagranica) {
+                    double dochodpolskinowy = Z.z(sumaUmowaoprace.getBrutto()-dochodzagranica);
+                    BigDecimal dochodpolskinowyBI = BigDecimal.valueOf(dochodpolskinowy);
+                    poz.setP29(dochodpolskinowyBI);
+                } else {
+                    poz.setP29(BigDecimal.ZERO);
+                }
                 if (sumaUmowaoprace.getBrutto()>dochodzagranica) {
                     dochodzagranica=0.0;
                 } else {
                     dochodzagranica = Z.z(dochodzagranica-sumaUmowaoprace.getBrutto());
                 }
                 if (poz.getP32()!=null) {
-                    poz.setP32(poz.getP32().add(dochzagr));
+                    poz.setP32(poz.getP32().add(BigDecimal.valueOf(Z.z(kartawynagrodzen.getDochodzagranica()))));
                 } else{
-                    poz.setP32(dochzagr);
+                    poz.setP32(BigDecimal.valueOf(Z.z(kartawynagrodzen.getDochodzagranica())));
                 }
             }
             poz.setP30(BigDecimal.valueOf(sumaUmowaoprace.getKosztyuzyskania()));
-            BigDecimal subtract = poz.getP29().subtract(poz.getP30());
+            BigDecimal subtract = poz.getP29().subtract(poz.getP30()).doubleValue()<0.0?BigDecimal.ZERO:poz.getP29().subtract(poz.getP30());
             if (poz.getP31()!=null) {
                 poz.setP31(poz.getP31().add(subtract));
             } else{
