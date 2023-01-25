@@ -120,7 +120,7 @@ public class OddelegowanieView  implements Serializable {
                 for (OddelegowanieTabela r : tabela) {
                     Integer prok = Integer.parseInt(p.getRok());
                     Integer rrok = Integer.parseInt(r.getRok());
-                    if (p.getAngaz().equals(r.getAngaz()) && rrok < prok) {
+                    if (p.getAngaz().equals(r.getAngaz()) && rrok <= prok) {
                         if (r.getRokmcprzekroczenia() == null) {
                             double rsuma = r.getSumadni();
                             double psuma = rsuma;

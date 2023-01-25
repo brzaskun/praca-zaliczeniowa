@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Deklaracja xmlns="http://crd.gov.pl/wzor/2022/11/09/11890/" xmlns:ns2="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2022/03/15/eD/DefinicjeTypy/" xmlns:ns4="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2022/03/15/eD/ORDZU/" xmlns:ns3="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2022/03/15/eD/PITR/">
+    <Naglowek>
+        <KodFormularza kodSystemowy="PIT-11 (29)" kodPodatku="PIT" rodzajZobowiazania="Z" wersjaSchemy="1-1E">PIT-11</KodFormularza>
+        <WariantFormularza>29</WariantFormularza>
+        <CelZlozenia poz="P_7">1</CelZlozenia>
+        <Rok>2022</Rok>
+        <KodUrzedu>1420</KodUrzedu>
+    </Naglowek>
+    <Podmiot1 rola="Płatnik/Składający">
+        <OsobaFizyczna>
+            <ns2:NIP>7343585541</ns2:NIP>
+            <ns2:ImiePierwsze>Agnieszka</ns2:ImiePierwsze>
+            <ns2:Nazwisko>Toczek</ns2:Nazwisko>
+            <ns2:DataUrodzenia>1992-09-19</ns2:DataUrodzenia>
+        </OsobaFizyczna>
+    </Podmiot1>
+    <Podmiot2 rola="Podatnik">
+        <OsobaFizyczna>
+            <PESEL>96010208136</PESEL>
+            <ImiePierwsze>Paweł</ImiePierwsze>
+            <Nazwisko>Jakowski</Nazwisko>
+            <DataUrodzenia>1996-01-02</DataUrodzenia>
+        </OsobaFizyczna>
+        <AdresZamieszkania rodzajAdresu="RAD">
+            <KodKraju poz="P_19A">PL</KodKraju>
+            <Wojewodztwo>mazowieckie</Wojewodztwo>
+            <Powiat>płoński</Powiat>
+            <Gmina>Raciąż</Gmina>
+            <Ulica poz="P_23">-</Ulica>
+            <NrDomu poz="P_24">14</NrDomu>
+            <NrLokalu poz="P_25">-</NrLokalu>
+            <Miejscowosc poz="P_26">Kraszewo Podborne</Miejscowosc>
+            <KodPocztowy poz="P_27">09-140</KodPocztowy>
+        </AdresZamieszkania>
+    </Podmiot2>
+    <PozycjeSzczegolowe>
+        <P_11>1</P_11>
+        <P_28>1</P_28>
+        <P_29>18073.99</P_29>
+        <P_30>1750.0</P_30>
+        <P_31>16323.99</P_31>
+        <P_32>40214.63</P_32>
+        <P_33>4286</P_33>
+        <P_95>7010.7</P_95>
+        <P_121>2</P_121>
+        <P_122>3971.24</P_122>
+    </PozycjeSzczegolowe>
+    <Pouczenie>1</Pouczenie>
+</Deklaracja>

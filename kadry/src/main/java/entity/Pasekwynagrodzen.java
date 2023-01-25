@@ -273,7 +273,7 @@ public class Pasekwynagrodzen implements Serializable {
    
     public static Pasekwynagrodzen pasekuzupelnianie(Pasekwynagrodzen nowy, Place r, String datakonca26lat) {
         if (nowy.getRok().equals("2020")||nowy.getRok().equals("2021")||nowy.getRok().equals("2022")) {
-            boolean po26roku = Data.czyjestpo(datakonca26lat, nowy.getRok(), nowy.getMc());
+            boolean po26roku = Data.czyjestpo(datakonca26lat, nowy.getRokwypl(), nowy.getMcwypl());
             if (po26roku==false) {
                 nowy.do26lat = true;
             } else {

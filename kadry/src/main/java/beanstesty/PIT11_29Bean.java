@@ -271,6 +271,11 @@ public class PIT11_29Bean {
             if (dochodzagranica>0.0) {
                 BigDecimal dochzagr = BigDecimal.valueOf(dochodzagranica);
                 poz.setP29(poz.getP29().subtract(dochzagr));
+                if (sumaUmowaoprace.getBrutto()>dochodzagranica) {
+                    dochodzagranica=0.0;
+                } else {
+                    dochodzagranica = Z.z(dochodzagranica-sumaUmowaoprace.getBrutto());
+                }
                 if (poz.getP32()!=null) {
                     poz.setP32(poz.getP32().add(dochzagr));
                 } else{
@@ -503,7 +508,7 @@ public class PIT11_29Bean {
             } else{
                 poz.setP97(BigDecimal.valueOf(Z.z(sumaUmowaoprace26zwolnione.getRazemspolecznepracownik())));
             }
-            double kwotaponadlimitminusniemcy = dochoddoumowyzlecenia26-dochodzagranica;
+            double kwotaponadlimitminusniemcy = Z.z(dochoddoumowyzlecenia26-dochodzagranica);
             poz.setP110(BigDecimal.valueOf(Z.z(kwotaponadlimitminusniemcy)));
             if (poz.getP109()!=null) {
                 poz.setP109(poz.getP109().add(BigDecimal.valueOf(Z.z(kwotaponadlimitminusniemcy))));

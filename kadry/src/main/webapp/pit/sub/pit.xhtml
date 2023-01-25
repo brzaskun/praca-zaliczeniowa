@@ -33,11 +33,17 @@
                     </f:facet>
                     <h:outputText value="#{indexka+1}"/>
                 </p:column>
-                <p:column width="200" style="text-align: left;" sortBy="#{itemkarta.nazwiskoiimie}" sortOrder="asc">
+                <p:column width="150" style="text-align: left;" sortBy="#{itemkarta.nazwiskoiimie}" sortOrder="asc">
                     <f:facet name="header">
                         <h:outputText value="pracownik"/>
                     </f:facet>
                     <h:outputText value="#{itemkarta.nazwiskoiimie}" />
+                </p:column>
+                <p:column width="70" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="data ur."/>
+                    </f:facet>
+                    <h:outputText value="#{itemkarta.angaz.pracownik.dataurodzenia}" />
                 </p:column>
                 <p:column width="20" style="text-align: center;" >
                     <f:facet name="header">
@@ -262,8 +268,9 @@
             <h:form id="wystawionepit11">
             <p:dataTable id="datalistwa" value="#{kartaWynagrodzenView.listaPIT11}" var="itempity11"
                          rowKey="#{itempity11.id}" rowIndexVar="indexpity11" 
-                         style="height: 450px; width: 1470px; overflow-y:scroll;" emptyMessage="Nie pobrano danych"
-                         sortBy="#{itempity11.pracownik.nazwiskoImie}" 
+                         style="height: 450px; width: 156   0px; overflow-y:scroll;" emptyMessage="Nie pobrano danych"
+                         sortBy="#{itempity11.pracownik.nazwiskoImie}"
+                         selection="#{kartaWynagrodzenView.listaPIT11sorted}" selectionMode="single"
                          >
                 <f:facet name="header">
                     <h:outputText value="Wygegnerowane deklaracje PIT-11"/>
@@ -323,6 +330,12 @@
                         <h:outputText value="wersja"/>
                     </f:facet>
                     <h:outputText value="#{itempity11.klasa}"/>
+                </p:column>
+                <p:column width="80">
+                    <f:facet name="header">
+                        <h:outputText value="sporządził"/>
+                    </f:facet>
+                    <h:outputText value="#{itempity11.uz.imieNazwisko}"/>
                 </p:column>
                  <p:column width="30" style="text-align: center;">
                     <f:facet name="header">

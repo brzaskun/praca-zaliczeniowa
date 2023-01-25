@@ -7,7 +7,7 @@
 
     xmlns:bcf="http://brzaskun.com/facelets"
 >
-    <p:dialog id="dialogoddelegowanie" header="Rozliczenie oddelegowania" widgetVar="dialogoddelegowanie"  style="overflow-y: scroll;"
+    <p:dialog id="dialogoddelegowanie" header="Rozliczenie oddelegowania" widgetVar="dialogoddelegowanie"  style="overflow-y: scroll;" dynamic="true"
               resizable="false"  onShow="ustawdialog('dialogoddelegowanie','centertile',1650,800);" closeOnEscape="true" onHide="resetujdialog('dialogoddelegowanie');" 
               fitViewport="true">
         <p:ajax event="open" listener="#{oddelegowanieView.init()}" update="OddelegowanieForm OddelegowanieForm1 OddelegowanieForm2 OddelegowanieForm3" global="true"/>

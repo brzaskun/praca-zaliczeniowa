@@ -79,7 +79,7 @@ public class KartaWynagrodzenView  implements Serializable {
     @Inject
     private AngazFacade angazFacade;
     private List<DeklaracjaPIT11Schowek> listaPIT11;
-    private List<DeklaracjaPIT11Schowek> listaPIT11sorted;
+    private DeklaracjaPIT11Schowek listaPIT11sorted;
     private List<Pasekwynagrodzen> listapaski;
     
      
@@ -357,6 +357,7 @@ public class KartaWynagrodzenView  implements Serializable {
                         //PrimeFaces.current().executeScript(polecenie);
                         String nazwapliku = PdfPIT11.drukuj29(deklaracja, wpisView.getUzer().getImieNazwiskoTelefon(), null);
                         DeklaracjaPIT11Schowek schowek = new DeklaracjaPIT11Schowek(deklaracja, firma, pracownik, wpisView.getRokWpisu(),"PIT11");
+                        schowek.setUz(wpisView.getUzer());
                         karta.setJestPIT11(true);
                         deklaracjaSchowekFacade.create(schowek);
                         listaPIT11.add(schowek);
@@ -571,16 +572,13 @@ public class KartaWynagrodzenView  implements Serializable {
         this.listapaski = listapaski;
     }
 
-    public List<DeklaracjaPIT11Schowek> getListaPIT11sorted() {
+    public DeklaracjaPIT11Schowek getListaPIT11sorted() {
         return listaPIT11sorted;
     }
 
-    public void setListaPIT11sorted(List<DeklaracjaPIT11Schowek> listaPIT11sorted) {
+    public void setListaPIT11sorted(DeklaracjaPIT11Schowek listaPIT11sorted) {
         this.listaPIT11sorted = listaPIT11sorted;
     }
-   
-
-   
 
    
    
