@@ -296,7 +296,13 @@ public class KartaWynagrodzenView  implements Serializable {
             Kartawynagrodzen kartawynagrodzen = kartawynagrodzenlist.get(12);
             FirmaKadry firma = kartawynagrodzen.getAngaz().getFirma();
             Pracownik pracownik = kartawynagrodzen.getAngaz().getPracownik();
-            Object[] sciezka = beanstesty.PIT11_29Bean.generujXML(kartawynagrodzen, firma, pracownik, (byte)1, pracownik.getKodurzeduskarbowego(), kartawynagrodzen.getRok(), kartawynagrodzen.getSumy());
+            List<DeklaracjaPIT11Schowek> istniejacedeklaracje = deklaracjaPIT11SchowekFacade.findByRokFirmaPracownik(wpisView.getRokWpisu(), kartawynagrodzen.getAngaz().getPracownik(), firma);
+            boolean korekta = false;
+            if (istniejacedeklaracje!=null&&istniejacedeklaracje.size()>0) {
+                korekta = true;
+            }
+            byte normalna1korekta2 = korekta?(byte)2:(byte)1;
+            Object[] sciezka = beanstesty.PIT11_29Bean.generujXML(kartawynagrodzen, firma, pracownik, normalna1korekta2, pracownik.getKodurzeduskarbowego(), kartawynagrodzen.getRok(), kartawynagrodzen.getSumy());
             pl.gov.crd.wzor._2022._11._09._11890.Deklaracja deklaracja = (pl.gov.crd.wzor._2022._11._09._11890.Deklaracja)sciezka[2];
             if (deklaracja!=null) {
                 String polecenie = "wydrukXML(\""+(String)sciezka[0]+"\")";
@@ -343,20 +349,27 @@ public class KartaWynagrodzenView  implements Serializable {
 //        }
 //    }
     
-    public void pit11All() {
+    public void pit11All(boolean normalne0korekty1) {
         if (listaselected!=null && listaselected.size()>0) {
             for (Kartawynagrodzen karta : listaselected) {
-                if (karta.isJestPIT11()==false && karta.getAngaz()!=null) {
+                if (normalne0korekty1||(karta.isJestPIT11()==false && karta.getAngaz()!=null)) {
                     Kartawynagrodzen kartawynagrodzen = karta;
                     FirmaKadry firma = kartawynagrodzen.getAngaz().getFirma();
                     Pracownik pracownik = kartawynagrodzen.getAngaz().getPracownik();
-                    Object[] sciezka = beanstesty.PIT11_29Bean.generujXML(kartawynagrodzen, firma, pracownik, (byte)1, pracownik.getKodurzeduskarbowego(), kartawynagrodzen.getRok(), kartawynagrodzen.getSumy());
+                    List<DeklaracjaPIT11Schowek> istniejacedeklaracje = deklaracjaPIT11SchowekFacade.findByRokFirmaPracownik(wpisView.getRokWpisu(), karta.getAngaz().getPracownik(), firma);
+                    boolean korekta = false;
+                    if (istniejacedeklaracje!=null&&istniejacedeklaracje.size()>0) {
+                        korekta = true;
+                    }
+                    byte normalna1korekta2 = korekta?(byte)2:(byte)1;
+                    Object[] sciezka = beanstesty.PIT11_29Bean.generujXML(kartawynagrodzen, firma, pracownik, normalna1korekta2, pracownik.getKodurzeduskarbowego(), kartawynagrodzen.getRok(), kartawynagrodzen.getSumy());
                     pl.gov.crd.wzor._2022._11._09._11890.Deklaracja deklaracja = (pl.gov.crd.wzor._2022._11._09._11890.Deklaracja)sciezka[2];
                     if (deklaracja!=null) {
                         //String polecenie = "wydrukXML(\""+(String)sciezka[0]+"\")";
                         //PrimeFaces.current().executeScript(polecenie);
                         String nazwapliku = PdfPIT11.drukuj29(deklaracja, wpisView.getUzer().getImieNazwiskoTelefon(), null);
                         DeklaracjaPIT11Schowek schowek = new DeklaracjaPIT11Schowek(deklaracja, firma, pracownik, wpisView.getRokWpisu(),"PIT11");
+                        schowek.setKorekta(korekta);
                         schowek.setUz(wpisView.getUzer());
                         karta.setJestPIT11(true);
                         deklaracjaSchowekFacade.create(schowek);

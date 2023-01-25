@@ -341,7 +341,8 @@ public class PasekwynagrodzenBean {
                 Msg.msg("e", "Jest oddelegowanie, a brak kursu!");
             }
             pasek.setKurs(kurs);
-            PasekwynagrodzenBean.obliczdietedoodliczenia(pasek, kalendarz);
+            //tego nie ma przy zleceniu
+            //PasekwynagrodzenBean.obliczdietedoodliczenia(pasek, kalendarz);
             PasekwynagrodzenBean.wyliczlimitZUS(kalendarz, pasek, kurs, limitZUS);
         } else {
             PasekwynagrodzenBean.wyliczpodstaweZUS(pasek);

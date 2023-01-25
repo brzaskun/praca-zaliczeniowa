@@ -393,6 +393,17 @@ public class PasekwynagrodzenView implements Serializable {
         }
     }
 
+    public void oznaczNie26(Pasekwynagrodzen p) {
+        if (p!=null) {
+            if (p.isDo26lat()) {
+                p.setDo26lat(false);
+            } else {
+                p.setDo26lat(true);
+            }
+            Msg.dP();
+        }
+    }
+    
     public void drukuj(Pasekwynagrodzen p) {
         if (p != null) {
             PdfListaPlac.drukuj(p, rodzajnieobecnosciFacade);

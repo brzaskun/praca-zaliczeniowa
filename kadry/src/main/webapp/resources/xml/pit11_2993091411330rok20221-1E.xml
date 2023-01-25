@@ -3,9 +3,9 @@
     <Naglowek>
         <KodFormularza kodSystemowy="PIT-11 (29)" kodPodatku="PIT" rodzajZobowiazania="Z" wersjaSchemy="1-1E">PIT-11</KodFormularza>
         <WariantFormularza>29</WariantFormularza>
-        <CelZlozenia poz="P_7">1</CelZlozenia>
+        <CelZlozenia poz="P_7">2</CelZlozenia>
         <Rok>2022</Rok>
-        <KodUrzedu>1445</KodUrzedu>
+        <KodUrzedu>1427</KodUrzedu>
     </Naglowek>
     <Podmiot1 rola="Płatnik/Składający">
         <OsobaFizyczna>
@@ -17,41 +17,34 @@
     </Podmiot1>
     <Podmiot2 rola="Podatnik">
         <OsobaFizyczna>
-            <PESEL>97022300513</PESEL>
-            <ImiePierwsze>Adrian</ImiePierwsze>
-            <Nazwisko>Sołtysiak</Nazwisko>
-            <DataUrodzenia>1997-02-23</DataUrodzenia>
+            <PESEL>93091411330</PESEL>
+            <ImiePierwsze>Jacek</ImiePierwsze>
+            <Nazwisko>Głodkowski</Nazwisko>
+            <DataUrodzenia>1993-09-14</DataUrodzenia>
         </OsobaFizyczna>
         <AdresZamieszkania rodzajAdresu="RAD">
             <KodKraju poz="P_19A">PL</KodKraju>
             <Wojewodztwo>mazowieckie</Wojewodztwo>
-            <Powiat>Żuromin</Powiat>
-            <Gmina>Żuromin</Gmina>
+            <Powiat>sierpecki</Powiat>
+            <Gmina>Mochowo</Gmina>
             <Ulica poz="P_23">-</Ulica>
-            <NrDomu poz="P_24">49</NrDomu>
+            <NrDomu poz="P_24">29</NrDomu>
             <NrLokalu poz="P_25">-</NrLokalu>
-            <Miejscowosc poz="P_26">Mleczówka</Miejscowosc>
-            <KodPocztowy poz="P_27">09-304</KodPocztowy>
+            <Miejscowosc poz="P_26">Malanowo Stare</Miejscowosc>
+            <KodPocztowy poz="P_27">09-228</KodPocztowy>
         </AdresZamieszkania>
     </Podmiot2>
     <PozycjeSzczegolowe>
         <P_11>1</P_11>
         <P_28>1</P_28>
-        <P_29>0</P_29>
-        <P_30>0</P_30>
-        <P_31>0</P_31>
-        <P_33>0</P_33>
-        <P_36>0.0</P_36>
-        <P_37>500.0</P_37>
-        <P_38>0.0</P_38>
-        <P_39>76881.08</P_39>
-        <P_40>956</P_40>
-        <P_96>1893.81</P_96>
-        <P_97>10395.79</P_97>
-        <P_109>24227.67</P_109>
-        <P_110>24227.67</P_110>
+        <P_29>27184.66</P_29>
+        <P_30>2750.0</P_30>
+        <P_31>24434.66</P_31>
+        <P_32>71050.89</P_32>
+        <P_33>7988</P_33>
+        <P_95>9756.24</P_95>
         <P_121>2</P_121>
-        <P_122>6961.52</P_122>
+        <P_122>6052.81</P_122>
     </PozycjeSzczegolowe>
     <Pouczenie>1</Pouczenie>
 </Deklaracja>

@@ -35,6 +35,7 @@ import javax.validation.constraints.Size;
 @Table(name = "deklaracjapit11schowek")
 @NamedQueries({
     @NamedQuery(name = "DeklaracjaPIT11Schowek.findByRokPracownik", query = "SELECT r FROM DeklaracjaPIT11Schowek r WHERE r.rok = :rok AND r.pracownik = :pracownik"),
+    @NamedQuery(name = "DeklaracjaPIT11Schowek.findByRokFirmaPracownik", query = "SELECT r FROM DeklaracjaPIT11Schowek r WHERE r.rok = :rok AND r.pracownik = :pracownik AND r.firma = :firma"),
     @NamedQuery(name = "DeklaracjaPIT11Schowek.findByRokFirma", query = "SELECT r FROM DeklaracjaPIT11Schowek r WHERE r.rok = :rok AND r.firma = :firma")
 })
 public class DeklaracjaPIT11Schowek implements Serializable {
@@ -94,6 +95,8 @@ public class DeklaracjaPIT11Schowek implements Serializable {
     @NotNull
     @ManyToOne
     private Uz uz;
+    @Column(name = "korekta")
+    private boolean korekta;
 
     public DeklaracjaPIT11Schowek() {
     }
@@ -142,7 +145,11 @@ public class DeklaracjaPIT11Schowek implements Serializable {
     }
 
     public String getKlasa() {
-        return klasa;
+        String zwrot = "brak";
+        if (this.klasa.equals("pl.gov.crd.wzor._2022._11._09._11890.Deklaracja")) {
+            zwrot = "PIT11(29)";
+        }
+        return zwrot;
     }
 
     public void setKlasa(String klasa) {
@@ -262,6 +269,14 @@ public class DeklaracjaPIT11Schowek implements Serializable {
 
     public void setUz(Uz uz) {
         this.uz = uz;
+    }
+
+    public boolean isKorekta() {
+        return korekta;
+    }
+
+    public void setKorekta(boolean korekta) {
+        this.korekta = korekta;
     }
     
     

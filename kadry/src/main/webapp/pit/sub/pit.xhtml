@@ -10,13 +10,16 @@
         <p:tab title="zestawienie do PIT-11">
     <p:outputPanel>
         <p:commandButton value="pobierz" styleClass="buttonnorm" actionListener="#{kartaWynagrodzenView.init()}" update="akordeon:KartyWynangrodzenPITForm akordeon:wystawionepit11"/>
-        <p:commandButton value="PIT-y 11" styleClass="buttonnorm2" actionListener="#{kartaWynagrodzenView.pit11All()}" update="akordeon:KartyWynangrodzenPITForm akordeon:wystawionepit11"/>
+        <p:commandButton value="PIT-y 11" styleClass="buttonnorm2" actionListener="#{kartaWynagrodzenView.pit11All(false)}" update="akordeon:KartyWynangrodzenPITForm akordeon:wystawionepit11"/>
+        <p:commandButton value="Korekty" styleClass="buttonnorm2" actionListener="#{kartaWynagrodzenView.pit11All(true)}" update="akordeon:KartyWynangrodzenPITForm akordeon:wystawionepit11">
+                    <p:confirm type="popup" header="Potwierdzenie" message="Wystawić korekty do deklaracji?" icon="pi pi-exclamation-triangle"/>
+        </p:commandButton>
     </p:outputPanel>
     <p:outputPanel style="margin: 10px;">
         <h:form id="KartyWynangrodzenPITForm">
             <p:dataTable id="datalist" value="#{kartaWynagrodzenView.sumypracownicy}" var="itemkarta"
                          rowKey="#{itemkarta.angaz.id}" rowIndexVar="indexka" 
-                         style="height: 350px; overflow-y: scroll;width: 1410px;" emptyMessage="Nie pobrano danych"
+                         style="height: 350px; overflow-y: scroll;width: 1490px;" emptyMessage="Nie pobrano danych"
                          sortBy="#{itemkarta.nazwiskoiimie}" selection="#{kartaWynagrodzenView.listaselected}" rowSelectMode="add"
                          >
                 <p:ajax event="rowSelectCheckbox"  partialSubmit="true" global="false"/>
@@ -268,7 +271,7 @@
             <h:form id="wystawionepit11">
             <p:dataTable id="datalistwa" value="#{kartaWynagrodzenView.listaPIT11}" var="itempity11"
                          rowKey="#{itempity11.id}" rowIndexVar="indexpity11" 
-                         style="height: 450px; width: 1560px; overflow-y:scroll;" emptyMessage="Nie pobrano danych"
+                         style="height: 450px; width: 1550px; overflow-y:scroll;" emptyMessage="Nie pobrano danych"
                          sortBy="#{itempity11.pracownik.nazwiskoImie}"
                          selection="#{kartaWynagrodzenView.listaPIT11sorted}" selectionMode="single"
                          >
@@ -278,23 +281,31 @@
                 <p:column width="20" style="text-align: center;">
                     <h:outputText value="#{indexpity11+1}"/>
                 </p:column>
-                <p:column width="50" style="text-align: center;">
+                <p:column width="40" style="text-align: center;">
                     <f:facet name="header">
                         <h:outputText value="rok"/>
                     </f:facet>
                     <h:outputText value="#{itempity11.rok}"/>
                 </p:column>
-                <p:column width="70" style="text-align: center;">
+                <p:column width="40" style="text-align: center;">
                     <f:facet name="header">
                         <h:outputText value="nazwa"/>
                     </f:facet>
-                    <h:outputText value="#{itempity11.nazwa}"/>
+                    <h:outputText value="#{itempity11.nazwa}" rendered="#{itempity11.korekta eq false}"/>
+                    <h:outputText value="#{itempity11.nazwa}" rendered="#{itempity11.korekta eq true}" style="color: #852196"/>
                 </p:column>
                 <p:column width="120" style="text-align: left;" sortBy="#{itempity11.pracownik.nazwiskoImie}" sortOrder="asc">
                     <f:facet name="header">
                         <h:outputText value="pracownik"/>
                     </f:facet>
-                    <h:outputText value="#{itempity11.pracownik.nazwiskoImie}"/>
+                    <h:outputText value="#{itempity11.pracownik.nazwiskoImie}"  rendered="#{itempity11.korekta eq false}"/>
+                    <h:outputText value="#{itempity11.pracownik.nazwiskoImie}"  rendered="#{itempity11.korekta eq true}" style="color: #852196"/>
+                </p:column>
+                 <p:column width="30" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="kor"/>
+                    </f:facet>
+                     <h:outputText  value="&#x2714;" rendered="#{itempity11.korekta}" style="color: #852196"/>
                 </p:column>
                 <p:column width="100" style="text-align: center;">
                     <f:facet name="header">
@@ -304,7 +315,7 @@
                         <f:convertDateTime timeStyle="short" type="both"/>
                     </h:outputText>
                 </p:column>
-                <p:column width="150" style="text-align: left;">
+                <p:column width="200" style="text-align: left;">
                     <f:facet name="header">
                         <h:outputText value="nr id"/>
                     </f:facet>
@@ -325,13 +336,13 @@
                         <f:convertDateTime locale="pl"/>
                     </h:outputText>
                 </p:column>
-                <p:column width="300">
+                <p:column width="50" style="text-align: center;">
                     <f:facet name="header">
                         <h:outputText value="wersja"/>
                     </f:facet>
                     <h:outputText value="#{itempity11.klasa}"/>
                 </p:column>
-                <p:column width="80">
+                <p:column width="120">
                     <f:facet name="header">
                         <h:outputText value="sporządził"/>
                     </f:facet>
@@ -391,4 +402,5 @@
         </p:tab>
     </p:tabView>
 </ui:composition>
+
 

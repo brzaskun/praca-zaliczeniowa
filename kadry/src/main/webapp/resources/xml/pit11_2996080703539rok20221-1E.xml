@@ -5,53 +5,54 @@
         <WariantFormularza>29</WariantFormularza>
         <CelZlozenia poz="P_7">1</CelZlozenia>
         <Rok>2022</Rok>
-        <KodUrzedu>1445</KodUrzedu>
+        <KodUrzedu>0404</KodUrzedu>
     </Naglowek>
     <Podmiot1 rola="Płatnik/Składający">
         <OsobaFizyczna>
-            <ns2:NIP>7761623296</ns2:NIP>
-            <ns2:ImiePierwsze>Robert</ns2:ImiePierwsze>
-            <ns2:Nazwisko>Świderski</ns2:Nazwisko>
-            <ns2:DataUrodzenia>1986-04-28</ns2:DataUrodzenia>
+            <ns2:NIP>7343585541</ns2:NIP>
+            <ns2:ImiePierwsze>Agnieszka</ns2:ImiePierwsze>
+            <ns2:Nazwisko>Toczek</ns2:Nazwisko>
+            <ns2:DataUrodzenia>1992-09-19</ns2:DataUrodzenia>
         </OsobaFizyczna>
     </Podmiot1>
     <Podmiot2 rola="Podatnik">
         <OsobaFizyczna>
-            <PESEL>97022300513</PESEL>
-            <ImiePierwsze>Adrian</ImiePierwsze>
-            <Nazwisko>Sołtysiak</Nazwisko>
-            <DataUrodzenia>1997-02-23</DataUrodzenia>
+            <PESEL>96080703539</PESEL>
+            <ImiePierwsze>Kamil</ImiePierwsze>
+            <Nazwisko>Wawrowski</Nazwisko>
+            <DataUrodzenia>1996-08-07</DataUrodzenia>
         </OsobaFizyczna>
         <AdresZamieszkania rodzajAdresu="RAD">
             <KodKraju poz="P_19A">PL</KodKraju>
-            <Wojewodztwo>mazowieckie</Wojewodztwo>
-            <Powiat>Żuromin</Powiat>
-            <Gmina>Żuromin</Gmina>
-            <Ulica poz="P_23">-</Ulica>
-            <NrDomu poz="P_24">49</NrDomu>
-            <NrLokalu poz="P_25">-</NrLokalu>
-            <Miejscowosc poz="P_26">Mleczówka</Miejscowosc>
-            <KodPocztowy poz="P_27">09-304</KodPocztowy>
+            <Wojewodztwo>kujawsko-pomorskie</Wojewodztwo>
+            <Powiat>Bydgoski</Powiat>
+            <Gmina>Bydgoszcz</Gmina>
+            <Ulica poz="P_23">Piłsudskiego</Ulica>
+            <NrDomu poz="P_24">2</NrDomu>
+            <NrLokalu poz="P_25">22</NrLokalu>
+            <Miejscowosc poz="P_26">Bydgoszcz</Miejscowosc>
+            <KodPocztowy poz="P_27">85-793</KodPocztowy>
         </AdresZamieszkania>
     </Podmiot2>
     <PozycjeSzczegolowe>
         <P_11>1</P_11>
         <P_28>1</P_28>
         <P_29>0</P_29>
-        <P_30>0</P_30>
+        <P_30>1000.0</P_30>
         <P_31>0</P_31>
-        <P_33>0</P_33>
-        <P_36>0.0</P_36>
-        <P_37>500.0</P_37>
-        <P_38>0.0</P_38>
-        <P_39>76881.08</P_39>
-        <P_40>956</P_40>
-        <P_96>1893.81</P_96>
-        <P_97>10395.79</P_97>
-        <P_109>24227.67</P_109>
-        <P_110>24227.67</P_110>
+        <P_32>61305.27</P_32>
+        <P_33>2387</P_33>
+        <P_36>0</P_36>
+        <P_37>0</P_37>
+        <P_38>0</P_38>
+        <P_39>26740.72</P_39>
+        <P_40>0</P_40>
+        <P_95>3676.9</P_95>
+        <P_97>3625.91</P_97>
+        <P_109>5890.35</P_109>
+        <P_110>5890.35</P_110>
         <P_121>2</P_121>
-        <P_122>6961.52</P_122>
+        <P_122>4136.74</P_122>
     </PozycjeSzczegolowe>
     <Pouczenie>1</Pouczenie>
 </Deklaracja>
