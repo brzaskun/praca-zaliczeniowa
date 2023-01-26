@@ -71,6 +71,7 @@ import org.primefaces.model.chart.LineChartModel;
 import org.primefaces.model.chart.LineChartSeries;
 import pdf.PdfDok;
 import pdf.PdfPIT5;
+import pdf.PdfZestRok;
 import waluty.Z;
 
 /**
@@ -1231,14 +1232,14 @@ public class ZestawienieView implements Serializable {
         }
     }
 
-//    public void drukujPodsumowanieRoczne() {
-//        try {
-//            PdfZestRok.drukuj(wpisView, this);
-//        } catch (Exception e) {
-//            E.e(e);
-//
-//        }
-//    }
+    public void drukujPodsumowanieRoczne() {
+        try {
+            PdfZestRok.drukuj(wpisView, this);
+        } catch (Exception e) {
+            E.e(e);
+
+        }
+    }
 
     public void ustawZus51() {
         setZus51zreki(true);
