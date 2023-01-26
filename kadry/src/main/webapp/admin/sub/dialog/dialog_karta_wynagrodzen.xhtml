@@ -272,10 +272,26 @@
                                             </p:inplace>
                                         </p:column>
                                         <p:column>
-                                            <bcf:outputpl value="#{itemkartapasek.praczdrowotnedoodliczenia}"/>
+                                            <p:inplace  effectSpeed="fast" event="dblclick" editor="true">
+                                                <f:facet name="output">
+                                                    <bcf:outputpl value="#{itemkartapasek.praczdrowotnedopotracenia}"/>
+                                                </f:facet>
+                                                <f:facet name="input">
+                                                    <p:inputNumber value="#{itemkartapasek.praczdrowotnedopotracenia}"  size="11"  maxlength="7" decimalPlaces="2" decimalSeparator="," inputStyle="text-align: right"/>
+                                                </f:facet>
+                                                <p:ajax event="save" listener="#{kartaWynagrodzenView.edytujpasek(itemkartapasek)}" update="@this"/>
+                                            </p:inplace>
                                         </p:column>
                                         <p:column>
-                                            <bcf:outputpl value="#{itemkartapasek.podatekdochodowy}"/>
+                                             <p:inplace  effectSpeed="fast" event="dblclick" editor="true">
+                                                <f:facet name="output">
+                                                    <bcf:outputpl value="#{itemkartapasek.podatekdochodowy}"/>
+                                                </f:facet>
+                                                <f:facet name="input">
+                                                    <p:inputNumber value="#{itemkartapasek.podatekdochodowy}"  size="11"  maxlength="7" decimalPlaces="2" decimalSeparator="," inputStyle="text-align: right"/>
+                                                </f:facet>
+                                                <p:ajax event="save" listener="#{kartaWynagrodzenView.edytujpasek(itemkartapasek)}" update="@this"/>
+                                            </p:inplace>
                                         </p:column>
                                         <p:column>
                                             <bcf:outputpl value="#{itemkartapasek.potracenia}"/>
