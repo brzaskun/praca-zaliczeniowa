@@ -244,7 +244,15 @@
                                             <bcf:outputpl value="#{itemkartapasek.podstawaopodatkowania}"/>
                                         </p:column>
                                         <p:column>
-                                            <bcf:outputpl value="#{itemkartapasek.kosztyuzyskania}"/>
+                                              <p:inplace  effectSpeed="fast" event="dblclick" editor="true">
+                                                <f:facet name="output">
+                                                    <bcf:outputpl value="#{itemkartapasek.kosztyuzyskania}"/>
+                                                </f:facet>
+                                                <f:facet name="input">
+                                                    <p:inputNumber value="#{itemkartapasek.kosztyuzyskania}"  size="11"  maxlength="7" decimalPlaces="2" decimalSeparator="," inputStyle="text-align: right"/>
+                                                </f:facet>
+                                                <p:ajax event="save" listener="#{kartaWynagrodzenView.edytujpasek(itemkartapasek)}" update="@this"/>
+                                            </p:inplace>
                                         </p:column>
                                         <p:column>
                                             <bcf:outputpl value="#{itemkartapasek.kwotawolna}"/>
@@ -253,7 +261,15 @@
                                             <bcf:outputpl value="#{itemkartapasek.podstawaubezpzdrowotne}"/>
                                         </p:column>
                                         <p:column>
-                                            <bcf:outputpl value="#{itemkartapasek.praczdrowotne}"/>
+                                            <p:inplace  effectSpeed="fast" event="dblclick" editor="true">
+                                                <f:facet name="output">
+                                                    <bcf:outputpl value="#{itemkartapasek.praczdrowotne}"/>
+                                                </f:facet>
+                                                <f:facet name="input">
+                                                    <p:inputNumber value="#{itemkartapasek.praczdrowotne}"  size="11"  maxlength="7" decimalPlaces="2" decimalSeparator="," inputStyle="text-align: right"/>
+                                                </f:facet>
+                                                <p:ajax event="save" listener="#{kartaWynagrodzenView.edytujpasek(itemkartapasek)}" update="@this"/>
+                                            </p:inplace>
                                         </p:column>
                                         <p:column>
                                             <bcf:outputpl value="#{itemkartapasek.praczdrowotnedoodliczenia}"/>
