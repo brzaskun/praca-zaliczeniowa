@@ -34,7 +34,7 @@
                                         <f:selectItems value="#{pasekwynagrodzenView.listarodzajlistyplac}"
                                                        var="firmalistaItem"
                                                        itemValue="#{firmalistaItem}" itemLabel="#{firmalistaItem.nazwa}"/>
-                                        <p:ajax event="change" partialSubmit="true" listener="#{pasekwynagrodzenView.wyborinnejumowy()}" global="false" update="PasekwynagrodzenListForm DefinicjalistaplacCreateForm1 DefinicjalistaplacCreateForm2 KursDataLPForm"/>
+                                        <p:ajax event="change" partialSubmit="true" listener="#{pasekwynagrodzenView.wyborinnejumowy()}" global="true" update="PasekwynagrodzenListForm DefinicjalistaplacCreateForm1 DefinicjalistaplacCreateForm2 KursDataLPForm"/>
                             </p:selectOneListbox>
                         </h:form>
                         <h:form  styleClass="formadmin" id="DefinicjalistaplacCreateForm1">
@@ -44,7 +44,7 @@
                                 <f:selectItems value="#{pasekwynagrodzenView.listadefinicjalistaplac}" 
                                                var="firmalistaItem"
                                                itemValue="#{firmalistaItem}" itemLabel="#{firmalistaItem.opis} #{firmalistaItem.nrkolejny}"/>
-                                <p:ajax event="change" partialSubmit="true" global="false" listener="#{pasekwynagrodzenView.pobierzkalendarzezamc}" update="PasekwynagrodzenListForm DefinicjalistaplacCreateForm2 KursDataLPForm"/>
+                                <p:ajax event="change" partialSubmit="true" global="true" listener="#{pasekwynagrodzenView.pobierzkalendarzezamc}" update="PasekwynagrodzenListForm DefinicjalistaplacCreateForm2 KursDataLPForm"/>
                             </p:selectOneListbox>
                            
                             

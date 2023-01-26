@@ -24,6 +24,7 @@ import entity.PITPola;
 import entity.Pasekwynagrodzen;
 import entity.Pracownik;
 import entity.SMTPSettings;
+import entity.Umowa;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
@@ -90,7 +91,30 @@ public class KartaWynagrodzenView  implements Serializable {
         pobierzdaneAll();
         listaPIT11 = deklaracjaPIT11SchowekFacade.findByRokFirma(wpisView.getRokWpisu(), wpisView.getFirma());
     }
-
+ public void aktywujKartaWyn(FirmaKadry firma) {
+        if (firma!=null) {
+            wpisView.setFirma(firma);
+            if (firma.getAngazList()==null||firma.getAngazList().isEmpty()) {
+                wpisView.setPracownik(null);
+                wpisView.setAngaz(null);
+                wpisView.setUmowa(null);
+            } else {
+                Angaz angaz = firma.getAngazList().get(0);
+                wpisView.setPracownik(angaz.getPracownik());
+                wpisView.setAngaz(angaz);
+                List<Umowa> umowy = angaz.getUmowaList();
+                if (umowy!=null && umowy.size()==1) {
+                    wpisView.setUmowa(umowy.get(0));
+                } else if (umowy!=null) {
+                    try {
+                        wpisView.setUmowa(umowy.stream().filter(p->p.isAktywna()).findFirst().get());
+                    } catch (Exception e){}
+                }
+            }
+            init();
+            Msg.msg("Aktywowano firmę "+firma.getNazwa());
+        }
+    }
    
      public void edytujpasek(Pasekwynagrodzen pasek) {
         if (pasek!=null) {
@@ -103,7 +127,7 @@ public class KartaWynagrodzenView  implements Serializable {
         if (angaz!=null) {
             kartawynagrodzenlist = pobierzkartywynagrodzen(angaz, wpisView.getRokWpisu());
             aktualizujdane(kartawynagrodzenlist, wpisView.getRokWpisu(), angaz);
-            Msg.msg("Pobrano dane wynagrodzeń");
+            //Msg.msg("Pobrano dane wynagrodzeń");
         }
     }
     
@@ -128,7 +152,7 @@ public class KartaWynagrodzenView  implements Serializable {
                 }
            }
         }
-        Msg.msg("Pobrano dane wszystkich wynagrodzeń");
+        //Msg.msg("Pobrano dane wszystkich wynagrodzeń");
         if (pitpola!=null) {
             Collections.sort(pitpola, new PITPolacomparator());
         }

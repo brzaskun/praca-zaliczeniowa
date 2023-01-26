@@ -13,7 +13,6 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
-import msg.Msg;
 import view.WpisView;
 /**
  *
@@ -315,7 +314,7 @@ public class Mce implements Serializable{
         int mcod = Mce.miesiacToNumber.get(mcOd);
         int mcdo = Mce.miesiacToNumber.get(mcDo);
         if (mcod > mcdo) {
-            Msg.msg("e", "Miesiąc Od jest późniejszy od miesiąca Do!");
+            //Msg.msg("e", "Miesiąc Od jest późniejszy od miesiąca Do!");
         }
         for (int i = mcod; i < mcdo+1; i++) {
             listamiesiecy.add(Mce.numberToMiesiac.get(i));
