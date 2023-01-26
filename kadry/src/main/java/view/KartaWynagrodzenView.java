@@ -79,7 +79,7 @@ public class KartaWynagrodzenView  implements Serializable {
     @Inject
     private AngazFacade angazFacade;
     private List<DeklaracjaPIT11Schowek> listaPIT11;
-    private DeklaracjaPIT11Schowek listaPIT11sorted;
+    private List<DeklaracjaPIT11Schowek> listaPIT11sorted;
     private List<Pasekwynagrodzen> listapaski;
     
      
@@ -415,26 +415,30 @@ public class KartaWynagrodzenView  implements Serializable {
    
     
     public void mailwszystkie() {
-        ByteArrayInputStream drukujwszystkiePIT11 = drukujwszystkiePIT11();
-        if (drukujwszystkiePIT11 != null) {
-            try {
-                byte[] bytes = IOUtils.toByteArray(drukujwszystkiePIT11);
-                SMTPSettings findSprawaByDef = sMTPSettingsFacade.findSprawaByDef();
-                String nazwa = wpisView.getFirma().getNip() + "_DRA" + wpisView.getRokWpisu()+ wpisView.getMiesiacWpisu() + "_" + ".pdf";
-                mail.Mail.mailPIT11Zbiorcze(wpisView.getFirma(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu(), wpisView.getFirma().getEmail(), null, findSprawaByDef, bytes, nazwa, wpisView.getUzer().getEmail());
-                Msg.msg("Wysłano zbiorczo PIT11 do pracodawcy");
-            } catch (Exception e){}
+        if (listaPIT11sorted!=null && listaPIT11sorted.size()>0) {
+            ByteArrayInputStream drukujwszystkiePIT11 = drukujwszystkiePIT11();
+            if (drukujwszystkiePIT11 != null) {
+                try {
+                    byte[] bytes = IOUtils.toByteArray(drukujwszystkiePIT11);
+                    SMTPSettings findSprawaByDef = sMTPSettingsFacade.findSprawaByDef();
+                    String nazwa = wpisView.getFirma().getNip() + "_DRA" + wpisView.getRokWpisu()+ wpisView.getMiesiacWpisu() + "_" + ".pdf";
+                    mail.Mail.mailPIT11Zbiorcze(wpisView.getFirma(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu(), wpisView.getFirma().getEmail(), null, findSprawaByDef, bytes, nazwa, wpisView.getUzer().getEmail());
+                    Msg.msg("Wysłano zbiorczo PIT11 do pracodawcy");
+                } catch (Exception e){}
+            } else {
+                Msg.msg("e", "Błąd dwysyki zbiorczo PIT11");
+            }
         } else {
-            Msg.msg("e", "Błąd dwysyki zbiorczo PIT11");
+            Msg.msg("e","Błąd wysyłki PIT-11. Nie wybrano pracowników");
         }
     }
    
     public ByteArrayInputStream drukujwszystkiePIT11() {
         ByteArrayInputStream zwrot = null;
-         if (listaPIT11!=null && listaPIT11.size()>0) {
+         if (listaPIT11sorted!=null && listaPIT11sorted.size()>0) {
              try {
                 List<InputStream> pliki = new ArrayList<>();
-                for (DeklaracjaPIT11Schowek p : listaPIT11) {
+                for (DeklaracjaPIT11Schowek p : listaPIT11sorted) {
                     ByteArrayInputStream drukujPIT11 = drukujPIT11(p, false);
                     pliki.add(drukujPIT11);
                 }
@@ -585,16 +589,15 @@ public class KartaWynagrodzenView  implements Serializable {
         this.listapaski = listapaski;
     }
 
-    public DeklaracjaPIT11Schowek getListaPIT11sorted() {
+    public List<DeklaracjaPIT11Schowek> getListaPIT11sorted() {
         return listaPIT11sorted;
     }
 
-    public void setListaPIT11sorted(DeklaracjaPIT11Schowek listaPIT11sorted) {
+    public void setListaPIT11sorted(List<DeklaracjaPIT11Schowek> listaPIT11sorted) {
         this.listaPIT11sorted = listaPIT11sorted;
     }
 
-   
-   
+    
 
    
     

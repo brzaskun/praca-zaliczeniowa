@@ -272,12 +272,13 @@
             <p:dataTable id="datalistwa" value="#{kartaWynagrodzenView.listaPIT11}" var="itempity11"
                          rowKey="#{itempity11.id}" rowIndexVar="indexpity11" 
                          style="height: 450px; width: 1550px; overflow-y:scroll;" emptyMessage="Nie pobrano danych"
-                         sortBy="#{itempity11.pracownik.nazwiskoImie}"
-                         selection="#{kartaWynagrodzenView.listaPIT11sorted}" selectionMode="single"
+                         sortBy="#{itempity11.pracownik.nazwiskoImie}" rowSelectMode="add"
+                         selection="#{kartaWynagrodzenView.listaPIT11sorted}"
                          >
                 <f:facet name="header">
                     <h:outputText value="Wygegnerowane deklaracje PIT-11"/>
                 </f:facet>
+                <p:column width="40" selectionMode="multiple" selectRow="true" style="text-align: center;"/>
                 <p:column width="20" style="text-align: center;">
                     <h:outputText value="#{indexpity11+1}"/>
                 </p:column>

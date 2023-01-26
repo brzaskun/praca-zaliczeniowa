@@ -324,7 +324,7 @@ public class PasekwynagrodzenView implements Serializable {
                     if (rachunekdoumowyzlecenia!=null) {
                         rachunkilista.add(rachunekdoumowyzlecenia);
                     }
-                    Kalendarzwzor kalendarzwzor = kalendarzwzorFacade.findByFirmaGlobalnaRokMc(wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
+                    Kalendarzwzor kalendarzwzor = kalendarzwzorFacade.findByFirmaGlobalnaRokMc(pracownikmc.getRok(), pracownikmc.getMc());
                     Pasekwynagrodzen pasek = PasekwynagrodzenBean.obliczWynagrodzenie(pracownikmc, wybranalistaplac, nieobecnosckodzusFacade, paskidowyliczeniapodstawy, historiawynagrodzen, stawkipodatkowe, sumapoprzednich, wynagrodzenieminimalne, czyodlicoznokwotewolna,
                             kursdlalisty, limitzus, datawyplaty, nieobecnosci, limitdochodudwaszesc.getKwota(), kalendarzlista, rachunekdoumowyzlecenia, sumabruttopoprzednich, kalendarzwzor);
                     usunpasekjakzawiera(pasek);
