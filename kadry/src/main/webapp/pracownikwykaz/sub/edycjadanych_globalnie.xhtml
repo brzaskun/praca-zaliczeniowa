@@ -7,7 +7,7 @@
     >
     <p:panelGrid columns="1" columnClasses="twenty-percent, eighty-percent" style="height: 400px;width: 1700px;">
         <p:outputPanel style="height: 250px">
-            <h:form id="PracownikCreateForm">
+            <h:form id="PracownikCreateForm" styleClass="formsrodek">
                 <h:panelGroup id="display">
                     <p:panel header="Dane nowego pracownika "/>
                     <p:panelGrid columns="2" rendered="#{pracownikView.selected != null}">
@@ -33,7 +33,7 @@
             </h:form>
         </p:outputPanel>
         <p:outputPanel>
-            <h:form id="PracownikListForm">
+            <h:form id="PracownikListForm" styleClass="formsrodek">
                 <p:panel header="Wykaz pracowników u wszystkich pracodawców">
                     <p:dataTable id="datalist" value="#{pracownikView.lista}" var="item2" widgetVar="listapracownikow"
                                  rowSelectMode="add" selection="#{pracownikView.selectedlista}" 

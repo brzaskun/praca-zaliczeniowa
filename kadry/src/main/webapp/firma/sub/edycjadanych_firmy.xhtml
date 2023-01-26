@@ -9,17 +9,17 @@
         <p:outputPanel style="width: 400px;">
             <h:form id="FirmaCreateForm">
                 <p:panel header="dodaj nową firmę"/>
-                <p:panelGrid columns="2" rendered="#{firmaView.selected != null}">
+                <p:panelGrid columns="2" rendered="#{firmaImportView.selected != null}">
                     <p:outputLabel value="importuj" for="nazwaimport" />
-                    <p:autoComplete id="nazwaimport" value="#{firmaView.firmaSPimport}" converter="#{firmaSPConverter}"
-                                        widgetVar="firmaimport" completeMethod="#{firmaView.complete}"
+                    <p:autoComplete id="nazwaimport" value="#{firmaImportView.firmaSPimport}" converter="#{firmaSPConverter}"
+                                        widgetVar="firmaimport" completeMethod="#{firmaImportView.complete}"
                                         var="firma" itemLabel="#{firma.firNazwaPel}" itemValue="#{firma}"  title="nazwa firmy"
                                         minQueryLength="1" maxResults="15" maxlength="60" converterMessage="Nieudana konwersja firmy" queryDelay="0"
                                         size="200"
                                         forceSelection="true" styleClass="wpisywaniekontrfk" moreText="jest więcej pasujących pozycji"
                                         >
                             <p:ajax event="query" global="false"/>
-                            <p:ajax event="itemSelect" partialSubmit="true" global="false" listener="#{firmaView.sprawdznip}" update="@form"/>
+                            <p:ajax event="itemSelect" partialSubmit="true" global="false" listener="#{firmaImportView.sprawdznip}" update="@form"/>
                             <f:facet name="itemtip">  
                                 <h:panelGrid  columns="2" cellpadding="5" width="500">  
                                     <f:facet name="header">  
@@ -33,23 +33,23 @@
                             </f:facet>
                         </p:autoComplete>
                     <p:outputLabel value="nip" for="nip" />
-                    <p:inputText id="nip" value="#{firmaView.selected.nip}" title="nip" required="true" requiredMessage="NIP wymagany"/>
+                    <p:inputText id="nip" value="#{firmaImportView.selected.nip}" title="nip" required="true" requiredMessage="NIP wymagany"/>
                     <p:outputLabel value="nazwa" for="nazwa" />
-                    <p:inputText id="nazwa" value="#{firmaView.selected.nazwa}" title="nazwa" required="true" requiredMessage="Wpisz nazwę"/>
+                    <p:inputText id="nazwa" value="#{firmaImportView.selected.nazwa}" title="nazwa" required="true" requiredMessage="Wpisz nazwę"/>
                     <p:outputLabel value="email" for="email" />
-                    <p:inputText id="email" value="#{firmaView.selected.email}" title="email" required="true" requiredMessage="Wpisz email">
-<!--                       <p:ajax event="blur" listener="#{firmaView.sprawdzmail}" partialSubmit="true"/>-->
+                    <p:inputText id="email" value="#{firmaImportView.selected.email}" title="email" required="true" requiredMessage="Wpisz email">
+<!--                       <p:ajax event="blur" listener="#{firmaImportView.sprawdzmail}" partialSubmit="true"/>-->
                     </p:inputText>
                     <p:outputLabel value="login" for="login" />
-                    <p:inputText id="login" value="#{firmaView.selected.loginfirmy}" title="login firmy" required="true" requiredMessage="Wpisz login firmy">
-                        <p:ajax event="blur" listener="#{firmaView.sprawdzmail}" partialSubmit="true"/>
+                    <p:inputText id="login" value="#{firmaImportView.selected.loginfirmy}" title="login firmy" required="true" requiredMessage="Wpisz login firmy">
+                        <p:ajax event="blur" listener="#{firmaImportView.sprawdzmail}" partialSubmit="true"/>
                     </p:inputText>
                     <p:outputLabel value="telefon" for="telefon" />
-                    <p:inputText id="telefon" value="#{firmaView.selected.telefon}" title="telefon" required="true" requiredMessage="Wpisz telefon"/>
+                    <p:inputText id="telefon" value="#{firmaImportView.selected.telefon}" title="telefon" required="true" requiredMessage="Wpisz telefon"/>
                     <p:outputLabel value="osoba fizyczna" for="osobafizyczna" />
-                    <p:selectBooleanCheckbox value="#{firmaView.selected.osobafizyczna}" id="osobafizyczna" title="czy jest to osoba fizyczna"/> 
+                    <p:selectBooleanCheckbox value="#{firmaImportView.selected.osobafizyczna}" id="osobafizyczna" title="czy jest to osoba fizyczna"/> 
                 </p:panelGrid>
-                <p:commandButton styleClass="buttonnorm" actionListener="#{firmaView.create()}" value="#{bundle.Save}" update="@(form)"/>
+                <p:commandButton styleClass="buttonnorm" actionListener="#{firmaImportView.create()}" value="#{bundle.Save}" update="@(form)"/>
                 <p:commandButton value="#{bundle.Cancel}"/>
                 <p:messages style="width: 800px;"><p:autoUpdate/></p:messages>
             </h:form>
@@ -57,12 +57,12 @@
         <p:outputPanel>
             <h:form id="FirmaListForm">
                 <p:panel header="Wykaz firm do edycji danych">
-                    <p:dataTable id="datalist" value="#{firmaView.lista}" var="item1"
-                                 selectionMode="single" selection="#{firmaView.selectedlista}"
+                    <p:dataTable id="datalist" value="#{firmaImportView.lista}" var="item1"
+                                 selectionMode="single" selection="#{firmaImportView.selectedlista}"
                                  rowKey="#{item1.id}"  sortBy="#{item1.nazwa}"
                                  style="height: 250px; width: 1200px; overflow-y: scroll;"
                                  > 
-                        <p:ajax event="rowSelect" update="FirmaUzupelnijForm" listener="#{firmaView.pobierzinfo}"/>
+                        <p:ajax event="rowSelect" update="FirmaUzupelnijForm" listener="#{firmaImportView.pobierzinfo}"/>
                         <p:column width="40" style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="id"/>
@@ -92,7 +92,7 @@
                                 <h:outputText value="email"/>
                             </f:facet>
                              <p:inputText value="#{item1.email}">
-                                 <p:ajax event="blur" partialSubmit="true" global="false" listener="#{firmaView.edytuj(item1)}"/>
+                                 <p:ajax event="blur" partialSubmit="true" global="false" listener="#{firmaImportView.edytuj(item1)}"/>
                              </p:inputText>
                         </p:column>
                         <p:column>
@@ -100,7 +100,7 @@
                                 <h:outputText value="telefon"/>
                             </f:facet>
                             <p:inputText value="#{item1.telefon}">
-                                <p:ajax event="blur" partialSubmit="true" global="false" listener="#{firmaView.edytuj(item1)}"/>
+                                <p:ajax event="blur" partialSubmit="true" global="false" listener="#{firmaImportView.edytuj(item1)}"/>
                             </p:inputText>
                         </p:column>
                         <p:column width="60" style="text-align: center;">
@@ -111,7 +111,7 @@
                         </p:column>
 
                         <p:column width="40" style="text-align: center;">
-                            <p:commandButton icon="pi pi-trash" actionListener="#{firmaView.usun(item1)}" update="north @(form)" rendered="#{item1.nip ne '0000000000'}">
+                            <p:commandButton icon="pi pi-trash" actionListener="#{firmaImportView.usun(item1)}" update="north @(form)" rendered="#{item1.nip ne '0000000000'}">
                                 <p:confirm type="popup" header="Potwierdzenie" message="Usunąć wyszystkie dane firmy?" icon="pi pi-exclamation-triangle"/>
                             </p:commandButton>
                         </p:column>
@@ -130,72 +130,72 @@
                 <p:panel header="nazwa frmy"/>
                  <p:panelGrid columns="2">
                        <p:outputLabel value="nazwa" for="nazwa" />
-                       <p:inputText id="nazwa" value="#{firmaView.selectedlista.nazwa}" title="nazwa firmy" required="true" requiredMessage="Nazwa firmy wymagana" size="70"/>
+                       <p:inputText id="nazwa" value="#{firmaImportView.selectedlista.nazwa}" title="nazwa firmy" required="true" requiredMessage="Nazwa firmy wymagana" size="70"/>
                 </p:panelGrid>
                 <p:panelGrid columns="4">
                        <p:outputLabel value="imie" for="imie" />
-                       <p:inputText id="imie" value="#{firmaView.selectedlista.imie}" title="imię przedsiębiorcy" size="70"/>
+                       <p:inputText id="imie" value="#{firmaImportView.selectedlista.imie}" title="imię przedsiębiorcy" size="70"/>
                        <p:outputLabel value="nazwisko" for="nazwisko" />
-                       <p:inputText id="nazwisko" value="#{firmaView.selectedlista.nazwisko}" title="nazwisko przedsiębiorcy" size="100"/>
+                       <p:inputText id="nazwisko" value="#{firmaImportView.selectedlista.nazwisko}" title="nazwisko przedsiębiorcy" size="100"/>
                        <p:outputLabel value="data urodzenia" for="dataurodzenia" />
-                       <p:inputText id="dataurodzenia" value="#{firmaView.selectedlista.dataurodzenia}" title="nazwisko przedsiębiorcy"   placeholder="____-__-__"  maxlength="10"/>
+                       <p:inputText id="dataurodzenia" value="#{firmaImportView.selectedlista.dataurodzenia}" title="nazwisko przedsiębiorcy"   placeholder="____-__-__"  maxlength="10"/>
                        <p:outputLabel value="Regon" for="regon" />
-                       <p:inputText id="regon" value="#{firmaView.selectedlista.regon}" title="Regon" />
+                       <p:inputText id="regon" value="#{firmaImportView.selectedlista.regon}" title="Regon" />
                        <p:outputLabel value="NIP" for="nip" rendered="#{wpisView.uzer.login eq '2'}"/>
-                        <p:inputText id="nip" value="#{firmaView.selectedlista.nip}" title="NIP"  rendered="#{wpisView.uzer.login eq '2'}"/>
+                        <p:inputText id="nip" value="#{firmaImportView.selectedlista.nip}" title="NIP"  rendered="#{wpisView.uzer.login eq '2'}"/>
                 </p:panelGrid>
-                <p:panel header="adres siedziby firmy #{firmaView.selectedlista.nazwa}"/>
+                <p:panel header="adres siedziby firmy #{firmaImportView.selectedlista.nazwa}"/>
                     <p:panelGrid columns="8">
                         <p:outputLabel value="kraj" for="kraj" />
-                        <p:inputText id="kraj" value="#{firmaView.selectedlista.kraj}" title="kraj" required="true" requiredMessage="Wpisz nazwę kraju"/>
+                        <p:inputText id="kraj" value="#{firmaImportView.selectedlista.kraj}" title="kraj" required="true" requiredMessage="Wpisz nazwę kraju"/>
                         <p:outputLabel value="województwo" for="woj" />
-                        <p:inputText id="woj" value="#{firmaView.selectedlista.wojewodztwo}" title="województwo" required="true" requiredMessage="Wpisz nazwę województwa"/>
+                        <p:inputText id="woj" value="#{firmaImportView.selectedlista.wojewodztwo}" title="województwo" required="true" requiredMessage="Wpisz nazwę województwa"/>
                         <p:outputLabel value="powiat" for="pow" />
-                        <p:inputText id="pow" value="#{firmaView.selectedlista.powiat}" title="powiat" required="true" requiredMessage="Wpisz powiat"/>
+                        <p:inputText id="pow" value="#{firmaImportView.selectedlista.powiat}" title="powiat" required="true" requiredMessage="Wpisz powiat"/>
                         <p:outputLabel value="gmina" for="gmina" />
-                        <p:inputText id="gmina" value="#{firmaView.selectedlista.gmina}" title="gmina"  required="true" requiredMessage="Wpisz nazwę gminy"/>
+                        <p:inputText id="gmina" value="#{firmaImportView.selectedlista.gmina}" title="gmina"  required="true" requiredMessage="Wpisz nazwę gminy"/>
                         <p:outputLabel value="miasto" for="miasto" />
-                        <p:inputText id="miasto" value="#{firmaView.selectedlista.miasto}" title="miasto" required="true" requiredMessage="Wpisz miasto"/>
+                        <p:inputText id="miasto" value="#{firmaImportView.selectedlista.miasto}" title="miasto" required="true" requiredMessage="Wpisz miasto"/>
                         <p:outputLabel value="ulica" for="ulica" />
-                        <p:inputText id="ulica" value="#{firmaView.selectedlista.ulica}" title="ulica"/>
+                        <p:inputText id="ulica" value="#{firmaImportView.selectedlista.ulica}" title="ulica"/>
                         <p:outputLabel value="nr domu" for="dom" />
-                        <p:inputText id="dom" value="#{firmaView.selectedlista.dom}" title="dom" required="true" requiredMessage="Wpisz nr domu"/>
+                        <p:inputText id="dom" value="#{firmaImportView.selectedlista.dom}" title="dom" required="true" requiredMessage="Wpisz nr domu"/>
                         <p:outputLabel value="nr lokalu" for="lokal" />
-                        <p:inputText id="lokal" value="#{firmaView.selectedlista.lokal}" title="lokal"/>
+                        <p:inputText id="lokal" value="#{firmaImportView.selectedlista.lokal}" title="lokal"/>
                         <p:outputLabel value="kod pocztowy" for="kod" />
-                        <p:inputText id="kod" value="#{firmaView.selectedlista.kod}" title="kod pocztowy" required="true" requiredMessage="Wpisz kod pocztowy"/>
+                        <p:inputText id="kod" value="#{firmaImportView.selectedlista.kod}" title="kod pocztowy" required="true" requiredMessage="Wpisz kod pocztowy"/>
                         <p:outputLabel value="poczta" for="poczta" />
-                        <p:inputText id="poczta" value="#{firmaView.selectedlista.poczta}" title="miasto" required="true" requiredMessage="Wpisz nazwę poczty"/>
+                        <p:inputText id="poczta" value="#{firmaImportView.selectedlista.poczta}" title="miasto" required="true" requiredMessage="Wpisz nazwę poczty"/>
                     </p:panelGrid>
                     <p:panel header="reprezentant"/>
                     <p:panelGrid columns="2">
                         <p:outputLabel value="imię nazwisko" for="rep" />
-                        <p:inputText id="rep" value="#{firmaView.selectedlista.reprezentant}" title="reprezentant" required="true" requiredMessage="Wpisz imię i nazwisko reprezentanta" size="49"/>
+                        <p:inputText id="rep" value="#{firmaImportView.selectedlista.reprezentant}" title="reprezentant" required="true" requiredMessage="Wpisz imię i nazwisko reprezentanta" size="49"/>
                     </p:panelGrid>
                     <p:panel header="osoba fizyczna"/>
                     <p:panelGrid columns="4">
                         <p:outputLabel value="osoba fizyczna" for="osoba" />
-                        <p:selectBooleanCheckbox id="osoba" value="#{firmaView.selectedlista.osobafizyczna}" title="forma prawna"/>
+                        <p:selectBooleanCheckbox id="osoba" value="#{firmaImportView.selectedlista.osobafizyczna}" title="forma prawna"/>
                         <p:outputLabel value="dzień naliczania lp: np. 01, 10" for="dzienlp" />
-                        <p:inputText id="dzienlp" value="#{firmaView.selectedlista.dzienlp}" title="dzień naliczania listy płac" size="4" maxlength="2" required="false"/>
+                        <p:inputText id="dzienlp" value="#{firmaImportView.selectedlista.dzienlp}" title="dzień naliczania listy płac" size="4" maxlength="2" required="false"/>
                     </p:panelGrid>
                     <p:panel header="dane kontaktowe"/>
                     <p:panelGrid columns="4">
                         <p:outputLabel value="telefon" for="tel" />
-                        <p:inputText id="tel" value="#{firmaView.selectedlista.telefon}" title="telefon" required="true" requiredMessage="Wpisz nr telefonu" size="32"/>
+                        <p:inputText id="tel" value="#{firmaImportView.selectedlista.telefon}" title="telefon" required="true" requiredMessage="Wpisz nr telefonu" size="32"/>
                         <p:outputLabel value="adres email" for="email" />
-                        <p:inputText id="email" value="#{firmaView.selectedlista.email}" title="email" required="true" requiredMessage="Wpisz adres email" size="32"/>
+                        <p:inputText id="email" value="#{firmaImportView.selectedlista.email}" title="email" required="true" requiredMessage="Wpisz adres email" size="32"/>
                     </p:panelGrid>
                     <p:panel header="bank"/>
                     <p:panelGrid columns="4">
                         <p:outputLabel value="nazwa banku" for="nzbaku" />
-                        <p:inputText id="nzbaku" value="#{firmaView.selectedlista.banknazwa}" title="nazwa banku" size="32"/>
+                        <p:inputText id="nzbaku" value="#{firmaImportView.selectedlista.banknazwa}" title="nazwa banku" size="32"/>
                         <p:outputLabel value="nr konta" for="nrkonta" />
-                        <p:inputText id="nrkonta" value="#{firmaView.selectedlista.bankkonto}" title="telefon" maxlength="32" size="32"/>
+                        <p:inputText id="nrkonta" value="#{firmaImportView.selectedlista.bankkonto}" title="telefon" maxlength="32" size="32"/>
                     </p:panelGrid>
                      <p:panel header="urząd skarbowy"/>
                     <p:panelGrid columns="1">
-                        <p:autoComplete completeMethod="#{tKodUS.complete}" value="#{firmaView.selectedlista.nazwaurzeduskarbowego}"
+                        <p:autoComplete completeMethod="#{tKodUS.complete}" value="#{firmaImportView.selectedlista.nazwaurzeduskarbowego}"
                                     forceSelection="true" maxResults="15" size="250"  minQueryLength="3" effect="clip" var="p"
                                     itemLabel="#{p}" itemValue="#{p}" inputStyle="width:400px;">
                         <f:facet name="itemtip">  
@@ -211,7 +211,7 @@
                     </p:panelGrid>
                      <p:panel header="domyślny format listy płac"/>
                      <p:panelGrid columns="1">
-                         <p:selectOneMenu id="ileszczegolow" value="#{firmaView.selectedlista.domyslnyformatlp}" requiredMessage="nazwa formatu"  >
+                         <p:selectOneMenu id="ileszczegolow" value="#{firmaImportView.selectedlista.domyslnyformatlp}" requiredMessage="nazwa formatu"  >
                              <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true"/>
                                 <f:selectItem itemLabel="prosta" itemValue="prosta"/>
                                 <f:selectItem itemLabel="normalna" itemValue="normalna"/>
@@ -220,7 +220,7 @@
                         </p:selectOneMenu>
                      </p:panelGrid>
                      <p:panelGrid columns="2">
-                        <p:commandButton value="zachowaj" styleClass="buttonnorm" actionListener="#{firmaView.edytuj()}" update="FirmaListForm:datalist"/>
+                        <p:commandButton value="zachowaj" styleClass="buttonnorm" actionListener="#{firmaImportView.edytuj()}" update="FirmaListForm:datalist"/>
                         
                     </p:panelGrid>
                     </h:form>

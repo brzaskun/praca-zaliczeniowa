@@ -8,7 +8,7 @@
     xmlns:bcf="http://brzaskun.com/facelets">
     <p:tabView id="akordeon">
         <p:tab title="sporządzanie aneksów">
-            <h:form id="AneksForm">
+            <h:form id="AneksForm" styleClass="formsrodek">
                 <p:outputPanel>
                     <p:panelGrid columns="2">
                         <p:outputLabel for="dataaneksu" value="od kiedy zmiana" />
@@ -142,7 +142,7 @@
             </p:outputPanel>
         </p:tab>
         <p:tab title="wykaz aneksów">
-            <h:form id="AneksWykazForm">
+            <h:form id="AneksWykazForm" styleClass="formsrodek">
                 <p:outputPanel>
                     <p:dataTable id="aneksylist" value="#{dokumentyWykazView.lista}" var="itemAneks" rowIndexVar="yndexa" filteredValue="#{dokumentyWykazView.listafiltered}"
                                  selectionMode="single" 
@@ -197,7 +197,7 @@
                     </p:dataTable>
                 </p:outputPanel>
             </h:form>
-            <h:form>
+            <h:form styleClass="formsrodek">
                 <p:commandButton value="porzadkuj kalendar" styleClass="buttonnorm" actionListener="#{kalendarzGlobalnyView.ustaw()}" />
             </h:form>
         </p:tab>

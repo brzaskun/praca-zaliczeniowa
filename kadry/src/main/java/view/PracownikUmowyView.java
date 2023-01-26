@@ -88,7 +88,33 @@ public class PracownikUmowyView  implements Serializable {
             }
         }
     }
-    
+    public void aktywujPracUmowy(FirmaKadry firma) {
+        if (firma!=null) {
+            wpisView.setFirma(firma);
+            if (firma.getAngazList()==null||firma.getAngazList().isEmpty()) {
+                wpisView.setPracownik(null);
+                wpisView.setAngaz(null);
+                wpisView.setUmowa(null);
+            } else {
+                Angaz angaz = firma.getAngazList().get(0);
+                wpisView.setPracownik(angaz.getPracownik());
+                wpisView.setAngaz(angaz);
+                List<Umowa> umowy = angaz.getUmowaList();
+                if (umowy!=null && umowy.size()==1) {
+                    wpisView.setUmowa(umowy.get(0));
+                } else if (umowy!=null) {
+                    try {
+                        wpisView.setUmowa(umowy.stream().filter(p->p.isAktywna()).findFirst().get());
+                    } catch (Exception e){}
+                }
+            }
+            //angazView.init();
+            //pracodawcaDaneView.init();
+            //pasekwynagrodzenView.init();
+            init();
+            Msg.msg("Aktywowano firmę "+firma.getNazwa());
+        }
+    }
     
      public void mailAneksy() {
         List<Umowa> lysta = CollectionUtils.isNotEmpty(listaumowyfiltered)? listaumowyfiltered: listaumowy;

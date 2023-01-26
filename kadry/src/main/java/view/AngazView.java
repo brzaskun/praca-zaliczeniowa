@@ -102,6 +102,31 @@ public class AngazView  implements Serializable {
         }
     }
     
+     public void aktywujPracAngaze(FirmaKadry firma) {
+        if (firma!=null) {
+            wpisView.setFirma(firma);
+            if (firma.getAngazList()==null||firma.getAngazList().isEmpty()) {
+                wpisView.setPracownik(null);
+                wpisView.setAngaz(null);
+                wpisView.setUmowa(null);
+            } else {
+                Angaz angaz = firma.getAngazList().get(0);
+                wpisView.setPracownik(angaz.getPracownik());
+                wpisView.setAngaz(angaz);
+                List<Umowa> umowy = angaz.getUmowaList();
+                if (umowy!=null && umowy.size()==1) {
+                    wpisView.setUmowa(umowy.get(0));
+                } else if (umowy!=null) {
+                    try {
+                        wpisView.setUmowa(umowy.stream().filter(p->p.isAktywna()).findFirst().get());
+                    } catch (Exception e){}
+                }
+            }
+            init();
+            Msg.msg("Aktywowano firmę "+firma.getNazwa());
+        }
+    }
+    
     public void pobierzpracownikow() {
         List<Angaz> zwrot = new ArrayList<>();
         if (pokazwszystkich) {
@@ -381,7 +406,7 @@ public class AngazView  implements Serializable {
     public void findByFirma(FirmaKadry firma) {
         if (firma!=null) {
             listaeast = angazFacade.findByFirma(firma);
-            Msg.msg("Pobrano pracowników firmy");
+            //Msg.msg("Pobrano pracowników firmy");
         } else {
             Msg.msg("e", "Błąd nie wybrano firmy");
         }

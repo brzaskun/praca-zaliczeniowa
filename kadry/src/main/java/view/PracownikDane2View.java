@@ -70,12 +70,24 @@ public class PracownikDane2View  implements Serializable {
             }
             selected.setDatalogowania(Data.aktualnaDataCzas());
             selected.setModyfikowal(wpisView.getUzer().getSecname());
+            selected.setPlec(pleczPesel(selected.getPesel()));
             pracownikFacade.edit(selected);
             Msg.msg("Uaktualniono dane pracownika");
           } catch (Exception e) {
               Msg.msg("e", "Błąd - nie zmieniono danych");
           }
       }
+    }
+    
+    private String pleczPesel(String pesel) {
+        String zwrot = "M";
+        char chara = pesel.charAt(9);
+        int liczbakontrolna = Character.getNumericValue(chara);
+        boolean isEven = liczbakontrolna % 2 == 0;
+        if (isEven) {
+            zwrot = "K";
+        }
+        return zwrot;
     }
     
     private  String robkrajSymbol(String panNazwa) {

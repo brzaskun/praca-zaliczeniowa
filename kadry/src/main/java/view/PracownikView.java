@@ -9,7 +9,10 @@ import beanstesty.IPaddress;
 import comparator.Pracownikcomparator;
 import dao.PracownikFacade;
 import data.Data;
+import entity.Angaz;
+import entity.FirmaKadry;
 import entity.Pracownik;
+import entity.Umowa;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
@@ -47,6 +50,34 @@ public class PracownikView  implements Serializable {
     public void init() {
         lista  = pracownikFacade.findAll();
         Collections.sort(lista, new Pracownikcomparator());
+    }
+    
+     public void aktywujPracWykaz(FirmaKadry firma) {
+        if (firma!=null) {
+            wpisView.setFirma(firma);
+            if (firma.getAngazList()==null||firma.getAngazList().isEmpty()) {
+                wpisView.setPracownik(null);
+                wpisView.setAngaz(null);
+                wpisView.setUmowa(null);
+            } else {
+                Angaz angaz = firma.getAngazList().get(0);
+                wpisView.setPracownik(angaz.getPracownik());
+                wpisView.setAngaz(angaz);
+                List<Umowa> umowy = angaz.getUmowaList();
+                if (umowy!=null && umowy.size()==1) {
+                    wpisView.setUmowa(umowy.get(0));
+                } else if (umowy!=null) {
+                    try {
+                        wpisView.setUmowa(umowy.stream().filter(p->p.isAktywna()).findFirst().get());
+                    } catch (Exception e){}
+                }
+            }
+            //angazView.init();
+            //pracodawcaDaneView.init();
+            //pasekwynagrodzenView.init();
+            init();
+            Msg.msg("Aktywowano firmę "+firma.getNazwa());
+        }
     }
 
         

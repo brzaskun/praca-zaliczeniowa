@@ -29,8 +29,7 @@
                              rowKey="#{item1.id}" 
                              style="height: 350px;overflow-y: scroll;"
                              >
-                    <p:ajax event="rowSelect" listener="#{firmaView.aktywuj(firmaView.selectedeast)}" partialSubmit="true"/>
-                    <p:ajax event="rowSelect" listener="#{pracownikUmowyView.init()}"  global="true" update="north,akordeon"/>
+                    <p:ajax event="rowSelect" listener="#{pracownikUmowyView.aktywujPracUmowy(firmaView.selectedeast)}"  partialSubmit="true" global="true" update="north,@(.formsrodek)"/>
                     <p:column sortBy="#{item1.nazwa}" sortOrder="asc" filterBy="#{item1.nazwa}" filterMatchMode="contains">
                         <h:outputText value="#{item1.nazwa}"/>
                     </p:column>

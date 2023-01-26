@@ -8,7 +8,7 @@
     xmlns:bcf="http://brzaskun.com/facelets">
     <p:tabView id="akordeon">
         <p:tab title="zestawienie umów">
-            <h:form id="AneksForm">
+            <h:form id="AneksForm" styleClass="formsrodek">
                 <p:outputPanel style="margin-top: 20px;">
                     <p:dataTable id="datalist" value="#{pracownikUmowyView.listaumowy}" var="itemUmowa" rowIndexVar="yndex" filteredValue="#{pracownikUmowyView.listaumowyfiltered}"
                                  selectionMode="single" 
@@ -144,7 +144,7 @@
             </p:outputPanel>
         </p:tab>
         <p:tab title="umowy zlecenia">
-            <h:form id="UmowazlecenieForm">
+            <h:form id="UmowazlecenieForm" styleClass="formsrodek">
                 <h:outputText value="Dodawanie zbiorczo umów zleceń. Mail firmy #{wpisView.firma.email}" style="color:green; margin-left: 50px; font-weight: bolder;" />
                 <p:outputPanel style="padding: 20px;">
                     <style>
