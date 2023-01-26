@@ -119,7 +119,7 @@ public class KartaWynagrodzenView  implements Serializable {
                List<Pasekwynagrodzen> paski = pasekwynagrodzenFacade.findByRokWyplAngaz(wpisView.getRokWpisu(), p);
                 if (paski!=null && !paski.isEmpty()) {
                     Map<String,Kartawynagrodzen> sumy = new HashMap<>();
-                    Kartawynagrodzen suma = sumuj(kartawynagrodzenlist, paski, p.getPracownik().getNazwiskoImie(), p.getPracownik().getDataurodzenia(), wpisView.getPracownik().getPlec(), sumy, p);
+                    Kartawynagrodzen suma = sumuj(kartawynagrodzenlist, paski, p.getPracownik().getNazwiskoImie(), p.getPracownik().getDataurodzenia(), p.getPracownik().getPlec(), sumy, p);
                     suma.setJestPIT11(pobierzpotwierdzenie(p.getPracownik(), pityfirma));
                     suma.setWyslano(pobierzstatus200(p.getPracownik(), pityfirma));
                     sumypracownicy.add(suma);

@@ -5,7 +5,7 @@
         <WariantFormularza>29</WariantFormularza>
         <CelZlozenia poz="P_7">1</CelZlozenia>
         <Rok>2022</Rok>
-        <KodUrzedu>0404</KodUrzedu>
+        <KodUrzedu>1420</KodUrzedu>
     </Naglowek>
     <Podmiot1 rola="Płatnik/Składający">
         <OsobaFizyczna>
@@ -17,42 +17,33 @@
     </Podmiot1>
     <Podmiot2 rola="Podatnik">
         <OsobaFizyczna>
-            <PESEL>96080703539</PESEL>
+            <PESEL>93071002338</PESEL>
             <ImiePierwsze>Kamil</ImiePierwsze>
-            <Nazwisko>Wawrowski</Nazwisko>
-            <DataUrodzenia>1996-08-07</DataUrodzenia>
+            <Nazwisko>Werliński</Nazwisko>
+            <DataUrodzenia>1993-07-10</DataUrodzenia>
         </OsobaFizyczna>
         <AdresZamieszkania rodzajAdresu="RAD">
             <KodKraju poz="P_19A">PL</KodKraju>
-            <Wojewodztwo>kujawsko-pomorskie</Wojewodztwo>
-            <Powiat>Bydgoski</Powiat>
-            <Gmina>Bydgoszcz</Gmina>
-            <Ulica poz="P_23">Piłsudskiego</Ulica>
-            <NrDomu poz="P_24">2</NrDomu>
-            <NrLokalu poz="P_25">22</NrLokalu>
-            <Miejscowosc poz="P_26">Bydgoszcz</Miejscowosc>
-            <KodPocztowy poz="P_27">85-793</KodPocztowy>
+            <Wojewodztwo>mazowieckie</Wojewodztwo>
+            <Powiat>płoński</Powiat>
+            <Gmina>Raciąż</Gmina>
+            <Ulica poz="P_23">-</Ulica>
+            <NrDomu poz="P_24">32</NrDomu>
+            <NrLokalu poz="P_25">-</NrLokalu>
+            <Miejscowosc poz="P_26">Cieciersk</Miejscowosc>
+            <KodPocztowy poz="P_27">09-140</KodPocztowy>
         </AdresZamieszkania>
     </Podmiot2>
     <PozycjeSzczegolowe>
         <P_11>1</P_11>
         <P_28>1</P_28>
-        <P_29>0</P_29>
-        <P_30>1250.0</P_30>
-        <P_31>0</P_31>
-        <P_32>43015.23</P_32>
-        <P_33>2962</P_33>
-        <P_36>0</P_36>
-        <P_37>0</P_37>
-        <P_38>0</P_38>
-        <P_39>18290.04</P_39>
-        <P_40>0</P_40>
-        <P_95>4587.06</P_95>
-        <P_97>2715.75</P_97>
-        <P_109>5890.35</P_109>
-        <P_110>5890.35</P_110>
+        <P_29>29694.4</P_29>
+        <P_30>1000.0</P_30>
+        <P_31>28694.4</P_31>
+        <P_33>2000</P_33>
+        <P_95>3619.31</P_95>
         <P_121>2</P_121>
-        <P_122>4136.74</P_122>
+        <P_122>2050.18</P_122>
     </PozycjeSzczegolowe>
     <Pouczenie>1</Pouczenie>
 </Deklaracja>

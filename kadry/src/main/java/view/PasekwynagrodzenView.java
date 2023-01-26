@@ -400,6 +400,7 @@ public class PasekwynagrodzenView implements Serializable {
             } else {
                 p.setDo26lat(true);
             }
+            pasekwynagrodzenFacade.edit(p);
             Msg.dP();
         }
     }

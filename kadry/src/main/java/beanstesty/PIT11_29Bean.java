@@ -273,18 +273,23 @@ public class PIT11_29Bean {
                     double dochodpolskinowy = Z.z(sumaUmowaoprace.getBrutto()-dochodzagranica);
                     BigDecimal dochodpolskinowyBI = BigDecimal.valueOf(dochodpolskinowy);
                     poz.setP29(dochodpolskinowyBI);
+                    if (poz.getP32()!=null) {
+                        poz.setP32(poz.getP32().add(BigDecimal.valueOf(Z.z(dochodzagranica))));
+                    } else{
+                        poz.setP32(BigDecimal.valueOf(Z.z(dochodzagranica)));
+                    }
                 } else {
                     poz.setP29(BigDecimal.ZERO);
+                    if (poz.getP32()!=null) {
+                        poz.setP32(poz.getP32().add(BigDecimal.valueOf(Z.z(sumaUmowaoprace.getBrutto()))));
+                    } else{
+                        poz.setP32(BigDecimal.valueOf(Z.z(sumaUmowaoprace.getBrutto())));
+                    }
                 }
                 if (sumaUmowaoprace.getBrutto()>dochodzagranica) {
                     dochodzagranica=0.0;
                 } else {
                     dochodzagranica = Z.z(dochodzagranica-sumaUmowaoprace.getBrutto());
-                }
-                if (poz.getP32()!=null) {
-                    poz.setP32(poz.getP32().add(BigDecimal.valueOf(Z.z(kartawynagrodzen.getDochodzagranica()))));
-                } else{
-                    poz.setP32(BigDecimal.valueOf(Z.z(kartawynagrodzen.getDochodzagranica())));
                 }
             }
             poz.setP30(BigDecimal.valueOf(sumaUmowaoprace.getKosztyuzyskania()));
