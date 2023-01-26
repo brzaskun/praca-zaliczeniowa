@@ -149,10 +149,15 @@ public class NaliczenieskladnikawynagrodzeniaBean {
                         //daje norma godzin a nie z uwzglednieniem zwolnien bo przeciez rewdukcja bedzie pozniej
                         //zmienilem zdanie. redukcja bedzie statystyczna
                         //tu musza byc faktycznie dni
-                        if (s.getKod() == null || s.getKod().equals("") || s.getKod().equals("CH") || s.getKod().equals("ZC")) {
+                        if (s.getKod() == null || s.getKod().equals("") || s.getKod().equals("CH") || s.getKod().equals("ZC") || s.getKod().equals("MD")) {
                             if (s.getTypdnia() == 0 && s.getPrzepracowano() > 0.0 && s.getNrdnia() >= dzienodzmienna && s.getNrdnia() <= dziendozmienna) {
                                 dniroboczeprzepracowanestat = dniroboczeprzepracowanestat + 1;
                                 godzinyobecnosciroboczestat = godzinyobecnosciroboczestat + s.getPrzepracowano();
+                            }
+                            //bo MD nie redukuje i sie nie oblicza inaczej
+                            if (s.getKod() != null && s.getKod().equals("MD") && s.getTypdnia() == 0 && s.getNrdnia() >= dzienodzmienna && s.getNrdnia() <= dziendozmienna) {
+                                dniroboczeprzepracowanestat = dniroboczeprzepracowanestat + 1;
+                                godzinyobecnosciroboczestat = godzinyobecnosciroboczestat + s.getNormagodzin();
                             }
                         }
                         if (s.getKod() != null && (s.getKod().equals("CH") || s.getKod().equals("ZC"))) {
