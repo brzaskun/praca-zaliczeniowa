@@ -265,6 +265,7 @@ public class PIT11_29Bean {
         Kartawynagrodzen sumaUmowaopraceEmerytkosztypodwyzszone = sumy.get("sumaUmowaopraceEmerytkosztypodwyzszone");
         Kartawynagrodzen sumaUmowazleceniaEmeryt = sumy.get("sumaUmowazleceniaEmeryt");
         Kartawynagrodzen sumaZasilkiDorosly = sumy.get("sumaZasilkiDorosly");
+        Kartawynagrodzen sumaZasilki26 = sumy.get("sumaZasilki26");
         double dochodzagranica = Z.z(kartawynagrodzen.getDochodzagranica());
         if (sumaUmowaoprace.getBrutto()>0.0) {
             poz.setP29(BigDecimal.valueOf(sumaUmowaoprace.getBrutto()));
@@ -416,6 +417,40 @@ public class PIT11_29Bean {
             poz.setP91(BigDecimal.valueOf(sumaZasilkiDorosly.getKosztyuzyskania()));
             poz.setP92(poz.getP90().subtract(poz.getP91()));
             poz.setP94(BigInteger.valueOf(Z.zUD(sumaZasilkiDorosly.getPodatekdochodowy())));
+            if (poz.getP95()!=null) {
+                poz.setP95(poz.getP95().add(BigDecimal.valueOf(Z.z(sumaZasilkiDorosly.getRazemspolecznepracownik()))));
+            } else{
+                poz.setP95(BigDecimal.valueOf(Z.z(sumaZasilkiDorosly.getRazemspolecznepracownik())));
+            }
+            if (poz.getP122()!=null) {
+                poz.setP122(poz.getP122().add(BigDecimal.valueOf(Z.z(sumaZasilkiDorosly.getPraczdrowotnedopotracenia()))));
+            } else{
+                poz.setP122(BigDecimal.valueOf(Z.z(sumaZasilkiDorosly.getPraczdrowotnedopotracenia())));
+            }
+            //czy dodano PIT-R 1tak 2nie
+            poz.setP121((byte)2);
+        }
+        if (sumaZasilki26.getBrutto()>0.0) {
+            if (poz.getP90()!=null) {
+                poz.setP90(poz.getP90().add(BigDecimal.valueOf(sumaZasilki26.getBrutto())));
+            } else {
+                poz.setP90(BigDecimal.valueOf(sumaZasilki26.getBrutto()));
+            }
+            if (poz.getP91()!=null) {
+                poz.setP91(poz.getP91().add(BigDecimal.valueOf(sumaZasilki26.getKosztyuzyskania())));
+            } else {
+                poz.setP91(BigDecimal.valueOf(sumaZasilki26.getKosztyuzyskania()));
+            }
+            if (poz.getP92()!=null) {
+                poz.setP92(poz.getP92().add(poz.getP90().subtract(poz.getP91())));
+            } else {
+                poz.setP92(poz.getP90().subtract(poz.getP91()));
+            }
+            if (poz.getP94()!=null) {
+                poz.setP94(poz.getP94().add(BigInteger.valueOf(Z.zUD(sumaZasilki26.getPodatekdochodowy()))));
+            } else {
+                poz.setP94(BigInteger.valueOf(Z.zUD(sumaZasilki26.getPodatekdochodowy())));
+            }
             if (poz.getP95()!=null) {
                 poz.setP95(poz.getP95().add(BigDecimal.valueOf(Z.z(sumaZasilkiDorosly.getRazemspolecznepracownik()))));
             } else{
