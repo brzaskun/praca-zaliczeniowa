@@ -69,6 +69,9 @@ public class OddelegowanieView  implements Serializable {
         lata.add(rokuprzedni);
         lata.add(rokbiezacy);
         for (Angaz a : angaze) {
+            if (a.getPracownik().getNazwiskoImie().contains("Bogacz")){
+                System.out.println("");
+            }
             List<Kalendarzmiesiac> kalendarze = kalendarzmiesiacFacade.findByAngaz(a);
             for (String rok : lata) {
                 if (Integer.parseInt(rok)>2019  ) {
@@ -117,13 +120,18 @@ public class OddelegowanieView  implements Serializable {
         List<Angaz> angazezprzekroczeniem = new ArrayList<>();
         if (tabela != null) {
             for (OddelegowanieTabela p : tabela) {
+                double sumanarastajaco = 0.0;
+                if (p.getAngaz().getPracownik().getNazwiskoImie().contains("Sominka")) {
+                    System.out.println("");
+                }
                 for (OddelegowanieTabela r : tabela) {
                     Integer prok = Integer.parseInt(p.getRok());
                     Integer rrok = Integer.parseInt(r.getRok());
                     if (p.getAngaz().equals(r.getAngaz()) && rrok <= prok) {
                         if (r.getRokmcprzekroczenia() == null) {
                             double rsuma = r.getSumadni();
-                            double psuma = rsuma;
+                            double psuma = sumanarastajaco+rsuma;
+                            sumanarastajaco = psuma;
                             psuma = psuma + p.getO_01().getLiczbadni();
                             if (psuma > 182) {
                                 p.setRokmcprzekroczenia(p.getRok() + "/01");
@@ -221,7 +229,6 @@ public class OddelegowanieView  implements Serializable {
                                 break;
                             }
                         } else {
-                            r.getAngaz().setPrzekroczenierok(r.getRokmcprzekroczenia());
                             angazezprzekroczeniem.add(r.getAngaz());
                             p.setRokmcprzekroczenia(r.getRokmcprzekroczenia());
                             tabelaprzekroczonych.add(r.getAngaz().getPracownik());

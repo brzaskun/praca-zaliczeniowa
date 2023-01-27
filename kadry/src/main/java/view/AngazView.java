@@ -496,7 +496,9 @@ public class AngazView  implements Serializable {
     public void usunwszystkie() {
         if (lista!=null) {
             Memory findByUzer = memoryFacade.findByUzer(wpisView.getUzer());
-            memoryFacade.remove(findByUzer);
+            findByUzer.setAngaz(null);
+            findByUzer.setPracownik(null);
+            memoryFacade.edit(findByUzer);
             try {
                 angazFacade.removeList(lista);
                 lista = new ArrayList<>();
