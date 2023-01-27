@@ -636,7 +636,7 @@ public class Pasekwynagrodzen implements Serializable {
     }
 
     public double getPodstawaskladkizus() {
-        return podstawaskladkizus;
+        return Z.z(podstawaskladkizus);
     }
 
     public void setPodstawaskladkizus(double podstawaskladkizus) {

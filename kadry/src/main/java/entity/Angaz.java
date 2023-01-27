@@ -459,7 +459,9 @@ public class Angaz implements Serializable {
         this.dokumentyList = dokumentyList;
     }
 
-    
+    public String getRokMc() {
+        return this.rok+"/"+this.mc;
+    }
     
     @XmlTransient
     public List<Kartawynagrodzen> getKartawynagrodzenList() {
