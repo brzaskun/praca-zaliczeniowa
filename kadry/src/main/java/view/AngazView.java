@@ -10,6 +10,7 @@ import dao.AngazFacade;
 import dao.FirmaKadryFacade;
 import dao.KalendarzmiesiacFacade;
 import dao.KalendarzwzorFacade;
+import dao.MemoryFacade;
 import dao.PracownikFacade;
 import dao.SMTPSettingsFacade;
 import dao.UmowaFacade;
@@ -20,6 +21,7 @@ import entity.Angaz;
 import entity.FirmaKadry;
 import entity.Kalendarzmiesiac;
 import entity.Kalendarzwzor;
+import entity.Memory;
 import entity.Pracownik;
 import entity.SMTPSettings;
 import entity.Umowa;
@@ -82,6 +84,8 @@ public class AngazView  implements Serializable {
     private KalendarzmiesiacFacade kalendarzmiesiacFacade;
     @Inject
     private KalendarzwzorFacade kalendarzwzorFacade;
+    @Inject
+    private MemoryFacade memoryFacade;
     private boolean pokazwszystkich;
 
     
@@ -489,6 +493,17 @@ public class AngazView  implements Serializable {
         return zwrot;
     }
 
+    public void usunwszystkie() {
+        if (lista!=null) {
+            Memory findByUzer = memoryFacade.findByUzer(wpisView.getUzer());
+            memoryFacade.remove(findByUzer);
+            try {
+                angazFacade.removeList(lista);
+                lista = new ArrayList<>();
+            } catch (Exception e) {}
+            Msg.dP();
+        }
+    }
     
     public Angaz getSelected() {
         return selected;

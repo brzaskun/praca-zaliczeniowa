@@ -234,6 +234,13 @@
                 </p:outputPanel>
                 <p:commandButton value="zapisz" actionListener="#{angazView.zapiszangaz()}" styleClass="buttonnorm" update="@form"/>
             </h:form>
+            <h:form>
+                <p:outputPanel style="padding: 20px;">
+                    <p:commandButton value="Usuń wszystko" actionListener="#{angazView.usunwszystkie()}" styleClass="buttonnorm" update="@form AngazListForm" style="margin-left: 1200px;">
+                            <p:confirm type="popup" header="Potwierdzenie" message="Usunąć wszystkie angaże?" icon="pi pi-exclamation-triangle"/>
+                        </p:commandButton>
+                </p:outputPanel>
+            </h:form>
         </p:outputPanel>
      </p:panelGrid>
 </ui:composition>

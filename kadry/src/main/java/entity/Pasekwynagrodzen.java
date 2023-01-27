@@ -272,22 +272,6 @@ public class Pasekwynagrodzen implements Serializable {
 
    
     public static Pasekwynagrodzen pasekuzupelnianie(Pasekwynagrodzen nowy, Place r, String datakonca26lat) {
-        if (nowy.getRok().equals("2020")||nowy.getRok().equals("2021")||nowy.getRok().equals("2022")) {
-            boolean po26roku = Data.czyjestpo(datakonca26lat, nowy.getRokwypl(), nowy.getMcwypl());
-            if (po26roku==false) {
-                nowy.do26lat = true;
-            } else {
-                nowy.do26lat = false;
-            }
-        } else {
-            if (r.getLplChar10()!=null) {
-                if (r.getLplChar10().equals('Y')) {
-                    nowy.do26lat = true;
-                } else {
-                    nowy.do26lat = false;
-                }
-            }
-        }
         nowy.podstawaskladkizus = Z.z(r.getLplPdstChor().doubleValue());
         nowy.fgsp = Z.z(r.getLplFgspPrac().doubleValue());
         nowy.fp = Z.z(r.getLplFpPrac().doubleValue());
@@ -320,6 +304,24 @@ public class Pasekwynagrodzen implements Serializable {
         nowy.kurs = 0.0;
         nowy.limitzus = 0.0;
         nowy.setDatawyplaty(Data.data_yyyyMMddNull(r.getLplDataWyplaty()));
+        nowy.rokwypl = Data.getRok(nowy.datawyplaty);
+        nowy.mcwypl = Data.getMc(nowy.datawyplaty);
+        if (nowy.getRok().equals("2020")||nowy.getRok().equals("2021")||nowy.getRok().equals("2022")) {
+            boolean po26roku = Data.czyjestpo(datakonca26lat, nowy.getRokwypl(), nowy.getMcwypl());
+            if (po26roku==false) {
+                nowy.do26lat = true;
+            } else {
+                nowy.do26lat = false;
+            }
+        } else {
+            if (r.getLplChar10()!=null) {
+                if (r.getLplChar10().equals('Y')) {
+                    nowy.do26lat = true;
+                } else {
+                    nowy.do26lat = false;
+                }
+            }
+        }
         nowy.dniobowiazku = r.getLplDniObow().intValue();
         nowy.dniprzepracowane = r.getLplDniPrzepr().intValue();
         nowy.lis_tyt_serial = r.getLplLisSerial().getLisTytSerial().getTytSerial();
