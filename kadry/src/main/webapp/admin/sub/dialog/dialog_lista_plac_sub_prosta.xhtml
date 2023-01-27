@@ -8,7 +8,17 @@
     xmlns:bcf="http://brzaskun.com/facelets"
     >
     <p:panel header="paski wynagrodzeń" rendered="#{pasekwynagrodzenView.ileszczegolow eq 'prosta'}">
-        <p:dataTable id="datalist2" value="#{pasekwynagrodzenView.lista}" var="itempasek" emptyMessage="Brak listy za dany okres"
+        <style>
+            .listaplac .ui-widget-content.ui-datatable-odd.ui-datatable-selectable {
+                border-width: 2px !important;
+                border-color: #006775 !important;
+            }
+            .listaplac .ui-widget-content.ui-datatable-even.ui-datatable-selectable {
+                border-width: 2px !important;
+                border-color: #006775 !important;
+            }
+        </style>
+        <p:dataTable id="datalist2" value="#{pasekwynagrodzenView.lista}" var="itempasek" emptyMessage="Brak listy za dany okres"  styleClass="listaplac"
                      selectionMode="single" selection="#{pasekwynagrodzenView.selectedlista}" rowIndexVar="indexpasek"
                      rowKey="#{itempasek.kalendarzmiesiac.hashCode()}" sortBy="#{itempasek.kalendarzmiesiac.angaz.pracownik.nazwiskoImie}"
                      style="height: 430px; overflow-y: scroll;"
