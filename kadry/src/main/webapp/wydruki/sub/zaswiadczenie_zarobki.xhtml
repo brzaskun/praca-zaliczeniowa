@@ -1,0 +1,34 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:bcf="http://brzaskun.com/facelets"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    >
+
+    <h:form>
+        <p:panel style="margin-top: 20px;"> 
+            
+            <p:panelGrid columns="2">
+                <h:outputText value="#{wpisView.pracownik.nazwiskoImie}"/>
+                <h:outputText value="#{wpisView.pracownik.pesel}"/>
+                <h:outputText value="data od "/>
+                <p:inputText id="dataod" value="#{zaswiadczeniaView.dataod}" title="data od"  placeholder="____-__-__"  required="true" styleClass="dataUmowy dataklasa" maxlength="10" size="10">
+                        <p:ajax event="change" onstart="ustawDateSprzedazy(#{wpisView.rokWpisu},#{wpisView.miesiacWpisu});" partialSubmit="true" global="false"  update="@(.dataklasa)"/>
+                </p:inputText>
+                <h:outputText value="data do "/>
+                <p:inputText id="datado" value="#{zaswiadczeniaView.datado}" title="data do"  placeholder="____-__-__"  required="true" styleClass="dataUmowy dataklasa" maxlength="10" size="10">
+                        <p:ajax event="change" onstart="ustawDateSprzedazy(#{wpisView.rokWpisu},#{wpisView.miesiacWpisu});" partialSubmit="true" global="false"  update="@(.dataklasa)"/>
+                </p:inputText>
+                <p:outputLabel for="zatrudnienie" value="dodać zatrudnienie "/>
+                <p:selectBooleanCheckbox value="#{zaswiadczeniaView.zatrudnienie}" id="zatrudnienie"/>
+                <p:outputLabel for="zarobki" value="dodać zarobki "/>
+                <p:selectBooleanCheckbox value="#{zaswiadczeniaView.zarobki}" id="zarobki"/>
+            </p:panelGrid>
+        </p:panel>
+    </h:form><!-- comment -->
+
+</ui:composition>   
+

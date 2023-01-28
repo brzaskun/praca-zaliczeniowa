@@ -327,7 +327,25 @@ public class Data implements Serializable {
         }
         return poprzedniOkres;
     }
-    
+     /**
+     * Generowanie pary poprzedni rok-mc
+     * 
+     * @param mc miesiac obecny
+     * @param rok rok obecny
+     * @return    array[0] mc poprzedni
+     * @return    array[1] rok poprzedni
+     */
+    public static String[] poprzedniOkres(String data) {
+        return poprzedniOkres(Data.getMc(data), Data.getRok(data));
+    }
+     /**
+     * Generowanie pary poprzedni rok-mc
+     * 
+     * @param mc miesiac obecny
+     * @param rok rok obecny
+     * @return    array[0] mc poprzedni
+     * @return    array[1] rok poprzedni
+     */
     public static String[] poprzedniOkres(Kalendarzmiesiac p) {
         return poprzedniOkres(p.getMc(), p.getRok());
     }
