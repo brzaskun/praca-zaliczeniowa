@@ -114,6 +114,8 @@ public class Pasekwynagrodzen implements Serializable {
     private double kwotawolnadlazdrowotnej;
     @Column(name = "nettoprzedpotraceniami")
     private double nettoprzedpotraceniami;
+    @Column(name = "nettoprzedpotraceniamisafe")
+    private double nettoprzedpotraceniamisafe;
     @Column(name = "netto")
     private double netto;
     @Column(name = "nettowaluta")
@@ -216,6 +218,10 @@ public class Pasekwynagrodzen implements Serializable {
     private String datawysylki;
     @Column(name="importowany")
     private boolean importowany;
+    @Column(name="przekroczenieoddelegowanie")
+    private boolean przekroczenieoddelegowanie;
+    @Column(name="emeryt")
+    private boolean emeryt;
     @Column(name="sporzadzil")
     private String sporzadzil;
     @Column(name = "lata")
@@ -256,6 +262,8 @@ public class Pasekwynagrodzen implements Serializable {
     private double ulgadlaklasysredniejII;
     @Column(name = "przychodzagranicasuperplace")
     private double przychodzagranicasuperplace;
+    @Column(name = "wolneodzajecia")
+    private double wolneodzajecia;
 //    @OneToOne(cascade = CascadeType.ALL)
 //    @JoinColumn(name = "ekwiwalentskladniki", referencedColumnName = "id")
 //    private EkwiwalentSkladniki ekwiwalentSkladniki;
@@ -407,12 +415,46 @@ public class Pasekwynagrodzen implements Serializable {
         this.definicjalistaplac = definicjalistaplac;
     }
 
+    public boolean isPrzekroczenieoddelegowanie() {
+        return przekroczenieoddelegowanie;
+    }
+
+    public void setPrzekroczenieoddelegowanie(boolean przekroczenieoddelegowanie) {
+        this.przekroczenieoddelegowanie = przekroczenieoddelegowanie;
+    }
+
+    public double getWolneodzajecia() {
+        return wolneodzajecia;
+    }
+
+    public void setWolneodzajecia(double wolneodzajecia) {
+        this.wolneodzajecia = wolneodzajecia;
+    }
+
+    
+    public boolean isEmeryt() {
+        return emeryt;
+    }
+
+    public void setEmeryt(boolean emeryt) {
+        this.emeryt = emeryt;
+    }
+    
+
     public boolean isStudent() {
         return student;
     }
 
     public void setStudent(boolean student) {
         this.student = student;
+    }
+
+    public double getNettoprzedpotraceniamisafe() {
+        return nettoprzedpotraceniamisafe;
+    }
+
+    public void setNettoprzedpotraceniamisafe(double nettoprzedpotraceniamisafe) {
+        this.nettoprzedpotraceniamisafe = nettoprzedpotraceniamisafe;
     }
 
     public double getPodstawaopodatkowaniazagranica() {
@@ -1235,6 +1277,7 @@ public class Pasekwynagrodzen implements Serializable {
                     wiersz.stawkanagodzinewaluta = p.getStawkagodzinowawaluta();
                     wiersz.stawkadzienna = p.getStawkadzienna();
                     wiersz.wynagrodzeniezmienna = p.getKwotaumownazacalymc();
+                    wiersz.wynagrodzeniezmiennawaluta = p.getKwotadolistyplacwaluta();
                     wiersz.uwagi = p.getUwagi();
                     wiersz.waluta = p.getWaluta();
                     try {
@@ -1275,6 +1318,7 @@ public class Pasekwynagrodzen implements Serializable {
                     wiersz.stawkanagodzine = p.getStawkagodzinowa();
                     wiersz.stawkadzienna = p.getStawkadzienna();
                     wiersz.waluta = p.getWaluta();
+                    wiersz.procentzwolnienia = p.getNieobecnosc().getZwolnienieprocent();
                     zwrot.add(wiersz);
                 }
             }
@@ -1358,6 +1402,7 @@ public class Pasekwynagrodzen implements Serializable {
         boolean potracenie;
         double kwota;
         double wynagrodzeniezmienna;
+        double wynagrodzeniezmiennawaluta;
         double redukcja;
         double dniobowiazku;
         double dniprzepracowane;
@@ -1366,6 +1411,7 @@ public class Pasekwynagrodzen implements Serializable {
         double stawkanagodzine;
         double stawkanagodzinewaluta;
         double stawkadzienna;
+        double procentzwolnienia;
         String waluta;
         
         public Skladnikwynlista() {
@@ -1401,6 +1447,14 @@ public class Pasekwynagrodzen implements Serializable {
 
         public void setDatado(String datado) {
             this.datado = datado;
+        }
+
+        public double getProcentzwolnienia() {
+            return procentzwolnienia;
+        }
+
+        public void setProcentzwolnienia(double procentzwolnienia) {
+            this.procentzwolnienia = procentzwolnienia;
         }
 
         public boolean isUrlopSP() {
@@ -1506,6 +1560,15 @@ public class Pasekwynagrodzen implements Serializable {
         public void setWynagrodzeniezmienna(double wynagrodzeniezmienna) {
             this.wynagrodzeniezmienna = wynagrodzeniezmienna;
         }
+
+        public double getWynagrodzeniezmiennawaluta() {
+            return wynagrodzeniezmiennawaluta;
+        }
+
+        public void setWynagrodzeniezmiennawaluta(double wynagrodzeniezmiennawaluta) {
+            this.wynagrodzeniezmiennawaluta = wynagrodzeniezmiennawaluta;
+        }
+        
 
         public double getStawkadzienna() {
             return stawkadzienna;

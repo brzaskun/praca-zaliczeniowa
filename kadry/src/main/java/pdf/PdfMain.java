@@ -57,7 +57,7 @@ public class PdfMain {
 //        otwarcieDokumentu(document, "tytul pliku");
 //        //informacjaoZaksiegowaniu(document, "1233");
 //        //dodajDate(document, "2015-05-02");
-//        dodajOpisWstepny(document, testobjects.testobjects.getDokfk("PK"));
+//        dodajOpisWstepnyKartaWyn(document, testobjects.testobjects.getDokfk("PK"));
 ////        infooFirmie(document, testobjects.testobjects.getDokfk("PK"));
 ////        //dodajTabele(document, testobjects.testobjects.getTabela());
 //        dodajTabele(document, testobjects.testobjects.getTabelaKonta(testobjects.testobjects.getWiersze()), 100,0);
@@ -75,7 +75,7 @@ public class PdfMain {
 //        dodajNaglowek(writer);
 //        informacjaoZaksiegowaniu(document, "1233");
 //        dodajDate(document, "2015-05-02");
-//        dodajOpisWstepny(document, testobjects.testobjects.getDokfk("PK"));
+//        dodajOpisWstepnyKartaWyn(document, testobjects.testobjects.getDokfk("PK"));
 //        infooFirmie(document, testobjects.testobjects.getDokfk("PK"));
 //        //dodajTabele(document, testobjects.testobjects.getTabela());
 //        dodajTabele(document, testobjects.testobjects.getTabelaKonta(testobjects.testobjects.getWiersze()));
@@ -376,7 +376,7 @@ public class PdfMain {
         }
     }
     
-    public static void dodajOpisWstepny(Document document, Angaz angaz, String nazwadok, String rok, String datawyplaty) {
+    public static void dodajOpisWstepnyKartaWyn(Document document, Angaz angaz, String nazwadok, String rok, String pesel) {
         try {
             StringBuilder s = new StringBuilder();
             s.append(nazwadok);
@@ -396,7 +396,7 @@ public class PdfMain {
             document.add(opiswstepny);
             opiswstepny = new Paragraph(new Phrase("okres rozliczeniony rok "  + rok, ft[1]));
             document.add(opiswstepny);
-            opiswstepny = new Paragraph(new Phrase("data wypłaty" + datawyplaty, ft[1]));
+            opiswstepny = new Paragraph(new Phrase("Pesel: " + pesel, ft[1]));
             document.add(opiswstepny);
             document.add(Chunk.NEWLINE);
         } catch (DocumentException ex) {

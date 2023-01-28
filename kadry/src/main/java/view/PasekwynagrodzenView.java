@@ -246,6 +246,19 @@ public class PasekwynagrodzenView implements Serializable {
         } catch (Exception e) {
         }
     }
+        
+    public void editpasek(Pasekwynagrodzen pasek) {
+        if (pasek!=null) {
+            pasek.setPodatekdochodowyzagranica(Z.z(pasek.getPodatekdochodowyzagranicawaluta()*pasek.getKurs()));
+            pasek.setNettoprzedpotraceniami(Z.z(pasek.getNettoprzedpotraceniamisafe()-pasek.getPodatekdochodowyzagranica()));
+            KalendarzmiesiacBean.naliczskladnikipotraceniaPonownieDB(pasek.getKalendarzmiesiac(), pasek, pasek.getWolneodzajecia());
+            PasekwynagrodzenBean.dowyplaty(pasek);
+            PasekwynagrodzenBean.przelicznawalute(pasek);
+            pasekwynagrodzenFacade.edit(pasek);
+        } else {
+            Msg.msg("e","Nie wybrano paska");
+        }
+    }
 
     public void create() {
         if (selected != null) {

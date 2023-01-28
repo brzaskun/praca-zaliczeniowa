@@ -517,7 +517,7 @@ public class PdfListaPlac {
                         sublista(document, "", def, podlista, nazwy, datawyplaty, rodzajnieobecnosciFacade);
                     }
                 }
-//                PdfMain.dodajOpisWstepny(document, "Lista płac", def.getRok(), def.getMc(), def.getFirma().getNip(), nazwy, datawyplaty);
+//                PdfMain.dodajOpisWstepnyKartaWyn(document, "Lista płac", def.getRok(), def.getMc(), def.getFirma().getNip(), nazwy, datawyplaty);
 //                String[] opisy = {"Razem przychód", "Podst. wymiaru składek ubezp. społecznych", "Ubezp. Emerytalne", "Ubezp. rentowe", "Ubezp. chorobowe", "Razem składki na ub. Społ.", "Podst. wymiaru składek ubezp. zdrowotnego",
 //                    "Koszty uzyskania przychodu", "Podstawa opodatkowania", "Potrącona zaliczka na podatek dochodowy", "Potrącona", "Odliczona od podatku", "Należna zaliczka na podatek dochodowy", "Do wypłaty"};
 //                for (Pasekwynagrodzen p : lista) {

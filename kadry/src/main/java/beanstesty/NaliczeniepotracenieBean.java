@@ -89,6 +89,20 @@ public class NaliczeniepotracenieBean {
         }
         return zwrot;
     }
+    
+    static double przeliczPotracenieDB(Pasekwynagrodzen pasekwynagrodzen, Naliczeniepotracenie naliczeniepotracenie, double dozajecia) {
+        double zajeciebiezace = 0.0;
+        double kwota = naliczeniepotracenie.getKwota();
+        zajeciebiezace = kwota;
+        double kwotanarastajaco = naliczeniepotracenie.getKwotanarastajaco();
+        if (kwota>dozajecia) {
+            kwotanarastajaco = kwotanarastajaco+kwota-dozajecia;
+            naliczeniepotracenie.setKwota(Z.z(dozajecia));
+            naliczeniepotracenie.setKwotanarastajaco(Z.z(kwotanarastajaco));
+            zajeciebiezace = Z.z(dozajecia);
+        }
+        return zajeciebiezace;
+    }
 
     private static double podsumuj(Pasekwynagrodzen pasekwynagrodzen, Skladnikpotracenia skladnikpotracenia) {
         List<Kalendarzmiesiac> kalendarzmiesiacList = pasekwynagrodzen.getKalendarzmiesiac().getAngaz().getKalendarzmiesiacList();

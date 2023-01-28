@@ -86,9 +86,13 @@
             <from-outcome>Umowa</from-outcome>
             <to-view-id>/umowa/index.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
-         <navigation-case>
+        <navigation-case>
             <from-outcome>Statystyka</from-outcome>
             <to-view-id>/statystyka/index.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>wydruki</from-outcome>
+            <to-view-id>/wydruki/index.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
          <navigation-case>
             <from-outcome>Pit</from-outcome>

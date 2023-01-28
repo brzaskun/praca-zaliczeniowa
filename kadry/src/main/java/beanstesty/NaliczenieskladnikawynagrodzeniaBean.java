@@ -175,9 +175,9 @@ public class NaliczenieskladnikawynagrodzeniaBean {
                     double dnipozachoroba = dniroboczenominalnewmiesiacu-dnichorobyrobocze;
                     double godzinypozachoroba = godzinyroboczenominalnewmiesiacu-godzinychoroby;
                     //zlikwidowano zaokraglenia 29-11-2022, na wniosek Oli przywrocono zaokraglenia 05-01-2022 zeby pasowalo z superplace
-                    double stawkadziennazm = Z.z(kwotazaokresBezchoroby / dnipozachoroba);
+                    double stawkadziennazm = dnipozachoroba==0.0?0.0:Z.z(kwotazaokresBezchoroby / dnipozachoroba);
                     //wstawilem tu zaokraglanie do 6 miejsc bo inaczej wychodzily braki
-                    double stawkagodzinowazm = Z.z6(kwotazaokresBezchoroby / godzinypozachoroba);
+                    double stawkagodzinowazm = godzinypozachoroba==0.0?0.0:Z.z6(kwotazaokresBezchoroby / godzinypozachoroba);
                     stawkadzienna = stawkadzienna + stawkadziennazm;
                     stawkagodzinowa = stawkagodzinowa + stawkagodzinowazm;
                     //tu wylicza wynagrodzenie za faktycznie przepracowany czas i date obowiazywania zmiennej

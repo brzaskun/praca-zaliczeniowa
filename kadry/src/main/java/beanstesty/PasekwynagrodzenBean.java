@@ -43,11 +43,11 @@ import z.Z;
  * @author Osito
  */
 public class PasekwynagrodzenBean {
-    
+
     public static Pasekwynagrodzen pasekwynagrodzen;
-    
+
     public static Pasekwynagrodzen create() {
-        if (pasekwynagrodzen==null) {
+        if (pasekwynagrodzen == null) {
             pasekwynagrodzen = new Pasekwynagrodzen();
             pasekwynagrodzen.setDefinicjalistaplac(DefinicjalistaplacBean.create());
             pasekwynagrodzen.setKalendarzmiesiac(KalendarzmiesiacBean.create());
@@ -57,6 +57,7 @@ public class PasekwynagrodzenBean {
         }
         return pasekwynagrodzen;
     }
+
     public static Pasekwynagrodzen obliczWynagrodzeniesymulacja(Kalendarzmiesiac kalendarz, List<Podatki> stawkipodatkowe, boolean zlecenie0praca1, double kwotabrutto) {
         boolean umowaoprace = zlecenie0praca1;
         Pasekwynagrodzen pasek = new Pasekwynagrodzen();
@@ -90,7 +91,7 @@ public class PasekwynagrodzenBean {
         PasekwynagrodzenBean.pracownikrentowa(pasek);
         PasekwynagrodzenBean.pracownikchorobowa(pasek);
         PasekwynagrodzenBean.razemspolecznepracownik(pasek);
-        PasekwynagrodzenBean.obliczbruttominusspoleczneDB(pasek);        
+        PasekwynagrodzenBean.obliczbruttominusspoleczneDB(pasek);
         if (umowaoprace) {
             PasekwynagrodzenBean.obliczpodstaweopodatkowaniaDB(pasek, stawkipodatkowe, po26roku, kalendarz.getAngaz().isKosztyuzyskania0podwyzszone());
             PasekwynagrodzenBean.obliczpodatekwstepnyDBStandard(pasek, pasek.getPodstawaopodatkowania(), stawkipodatkowe, 0.0);
@@ -112,29 +113,35 @@ public class PasekwynagrodzenBean {
         PasekwynagrodzenBean.fgsp(pasek);
         PasekwynagrodzenBean.razem53(pasek);
         PasekwynagrodzenBean.razemkosztpracodawcy(pasek);
-        PasekwynagrodzenBean.naniesrobocze(pasek,kalendarz);
+        PasekwynagrodzenBean.naniesrobocze(pasek, kalendarz);
         return pasek;
     }
-      
-        public static Pasekwynagrodzen obliczWynagrodzenie(Kalendarzmiesiac kalendarz, Definicjalistaplac definicjalistaplac, SwiadczeniekodzusFacade nieobecnosckodzusFacade, List<Pasekwynagrodzen> paskidowyliczeniapodstawy, 
-        List<Wynagrodzeniahistoryczne> historiawynagrodzen, List<Podatki> stawkipodatkowe, double sumapoprzednich, double wynagrodzenieminimalne, boolean czyodlicoznokwotewolna, double kurs,double limitZUS, 
-        String datawyplaty, List<Nieobecnosc> nieobecnosci, double limit26, List<Kalendarzmiesiac> kalendarzlista,Rachunekdoumowyzlecenia rachunekdoumowyzlecenia, double sumabruttopoprzednich, Kalendarzwzor kalendarzwzor) {
-        boolean umowaoprace = definicjalistaplac.getRodzajlistyplac().getTyp()==1;
-        boolean umowazlecenia = definicjalistaplac.getRodzajlistyplac().getTyp()==2;
-        boolean umowazlecenianierezydent = definicjalistaplac.getRodzajlistyplac().getTyp()==2&&kalendarz.isNierezydent();
-        boolean umowafunkcja = definicjalistaplac.getRodzajlistyplac().getTyp()==3;
-        boolean zasilekchorobowy = definicjalistaplac.getRodzajlistyplac().getTyp()==4;
-        boolean naleznosciosobzagranicznych = definicjalistaplac.getRodzajlistyplac().getTyp()==5;
+
+    public static Pasekwynagrodzen obliczWynagrodzenie(Kalendarzmiesiac kalendarz, Definicjalistaplac definicjalistaplac, SwiadczeniekodzusFacade nieobecnosckodzusFacade, List<Pasekwynagrodzen> paskidowyliczeniapodstawy,
+            List<Wynagrodzeniahistoryczne> historiawynagrodzen, List<Podatki> stawkipodatkowe, double sumapoprzednich, double wynagrodzenieminimalne, boolean czyodlicoznokwotewolna, double kurs, double limitZUS,
+            String datawyplaty, List<Nieobecnosc> nieobecnosci, double limit26, List<Kalendarzmiesiac> kalendarzlista, Rachunekdoumowyzlecenia rachunekdoumowyzlecenia, double sumabruttopoprzednich, Kalendarzwzor kalendarzwzor) {
+        boolean umowaoprace = definicjalistaplac.getRodzajlistyplac().getTyp() == 1;
+        boolean umowazlecenia = definicjalistaplac.getRodzajlistyplac().getTyp() == 2;
+        boolean umowazlecenianierezydent = definicjalistaplac.getRodzajlistyplac().getTyp() == 2 && kalendarz.isNierezydent();
+        boolean umowafunkcja = definicjalistaplac.getRodzajlistyplac().getTyp() == 3;
+        boolean zasilekchorobowy = definicjalistaplac.getRodzajlistyplac().getTyp() == 4;
+        boolean naleznosciosobzagranicznych = definicjalistaplac.getRodzajlistyplac().getTyp() == 5;
         Pasekwynagrodzen pasek = new Pasekwynagrodzen();
+        if (kalendarz.getAngaz().getPrzekroczenierok()!=null) {
+            int rokprzekroczenia = Integer.parseInt(kalendarz.getAngaz().getPrzekroczenierok())+1;
+            if (rokprzekroczenia==kalendarz.getRokI()) {
+                pasek.setPrzekroczenieoddelegowanie(true);
+            }
+        }
         pasek.setKalendarzmiesiac(kalendarz);
         pasek.setDatawyplaty(datawyplaty);
         Data.obliczwiek(kalendarz.getDataUrodzenia(), pasek);
         String datakonca26lat = OsobaBean.obliczdata26(kalendarz.getDataUrodzenia());
         boolean po26roku = Data.czyjestpo(datakonca26lat, kalendarz.getRok(), kalendarz.getMc());
         boolean student = kalendarz.getAngaz().isStudent();
-        if (pasek.isPraca()==true && po26roku==false) {
+        if (pasek.isPraca() == true && po26roku == false) {
             pasek.setDo26lat(true);
-        } else if (pasek.isPraca()==false && po26roku==false) {
+        } else if (pasek.isPraca() == false && po26roku == false) {
             pasek.setDo26lat(true);
         } else {
             pasek.setDo26lat(false);
@@ -146,18 +153,18 @@ public class PasekwynagrodzenBean {
         pasek.setRok(definicjalistaplac.getRok());
         pasek.setMc(definicjalistaplac.getMc());
         pasek.setKurs(kurs);
-        boolean jestoddelegowanie = kalendarz.getDnioddelegowania()>0;
+        boolean jestoddelegowanie = kalendarz.getDnioddelegowania() > 0;
         if (umowaoprace) {
             umowaopracewyliczenie(kalendarz, kalendarzwzor, pasek, kurs, definicjalistaplac, czyodlicoznokwotewolna, jestoddelegowanie, limitZUS, stawkipodatkowe, sumapoprzednich, !po26roku, nieobecnosci, limit26, kalendarzlista, wynagrodzenieminimalne, sumabruttopoprzednich);
         } else if (umowazlecenia) {
             double zmiennawynagrodzeniakwota = rachunekdoumowyzlecenia.getKwota();
             double zmiennawynagrodzeniakwotaodelegowanie = rachunekdoumowyzlecenia.getKwotaoddelegowanie();
-            double liczbagodzin = rachunekdoumowyzlecenia.getIloscgodzin()+rachunekdoumowyzlecenia.getIloscgodzinoddelegowanie();
+            double liczbagodzin = rachunekdoumowyzlecenia.getIloscgodzin() + rachunekdoumowyzlecenia.getIloscgodzinoddelegowanie();
             umowazleceniawyliczenie(kalendarz, pasek, kurs, definicjalistaplac, czyodlicoznokwotewolna, jestoddelegowanie, limitZUS, stawkipodatkowe, sumapoprzednich, zmiennawynagrodzeniakwota, liczbagodzin, rachunekdoumowyzlecenia, limit26, sumabruttopoprzednich, zmiennawynagrodzeniakwotaodelegowanie);
         } else if (umowazlecenianierezydent || naleznosciosobzagranicznych) {
             double zmiennawynagrodzeniakwota = rachunekdoumowyzlecenia.getKwota();
             double zmiennawynagrodzeniakwotaodelegowanie = rachunekdoumowyzlecenia.getKwotaoddelegowanie();
-            double liczbagodzin = rachunekdoumowyzlecenia.getIloscgodzin()+rachunekdoumowyzlecenia.getIloscgodzinoddelegowanie();
+            double liczbagodzin = rachunekdoumowyzlecenia.getIloscgodzin() + rachunekdoumowyzlecenia.getIloscgodzinoddelegowanie();
             umowazleceniaNRwyliczenie(kalendarz, pasek, kurs, definicjalistaplac, czyodlicoznokwotewolna, jestoddelegowanie, limitZUS, stawkipodatkowe, sumapoprzednich, zmiennawynagrodzeniakwota, liczbagodzin, rachunekdoumowyzlecenia, limit26, sumabruttopoprzednich, zmiennawynagrodzeniakwotaodelegowanie);
         } else if (umowafunkcja) {
             umowafunkcjawyliczenie(kalendarz, pasek, kurs, definicjalistaplac, czyodlicoznokwotewolna, jestoddelegowanie, limitZUS, stawkipodatkowe, sumapoprzednich);
@@ -168,9 +175,10 @@ public class PasekwynagrodzenBean {
         PasekwynagrodzenBean.netto(pasek);
         double wolneodzajecia = obliczminimalna(kalendarz, definicjalistaplac, stawkipodatkowe, sumapoprzednich, wynagrodzenieminimalne, pasek.getDatawyplaty());
         EtatPrac pobierzetat = pasek.getKalendarzmiesiac().getAngaz().pobierzetat(pasek.getDatawyplaty());
-        if (pobierzetat!=null) {
-            wolneodzajecia = Z.z(wolneodzajecia*pobierzetat.getEtat1()/pobierzetat.getEtat2());
+        if (pobierzetat != null) {
+            wolneodzajecia = Z.z(wolneodzajecia * pobierzetat.getEtat1() / pobierzetat.getEtat2());
         }
+        pasek.setWolneodzajecia(wolneodzajecia);
         KalendarzmiesiacBean.naliczskladnikipotraceniaDB(kalendarz, pasek, wolneodzajecia);
         PasekwynagrodzenBean.potracenia(pasek);
         PasekwynagrodzenBean.dowyplaty(pasek);
@@ -181,17 +189,17 @@ public class PasekwynagrodzenBean {
         boolean przekroczeniewieku = czyprzekroczonowiek(kalendarz, pasek.getDatawyplaty());
         boolean ponizejwynminimalnego = czyponizejminimalnego(pasek, wynagrodzenieminimalne);
         boolean firmamatylkozlecenia = czysatylkozlecenia(kalendarz);
-        if (przekroczeniewieku==false && ponizejwynminimalnego==false && firmamatylkozlecenia==false) {
+        if (przekroczeniewieku == false && ponizejwynminimalnego == false && firmamatylkozlecenia == false) {
             PasekwynagrodzenBean.fp(pasek);
             PasekwynagrodzenBean.fgsp(pasek);
         }
-        if (przekroczeniewieku==false) {
+        if (przekroczeniewieku == false) {
             PasekwynagrodzenBean.razem53(pasek);
         }
         PasekwynagrodzenBean.razemkosztpracodawcy(pasek);
-        PasekwynagrodzenBean.naniesrobocze(pasek,kalendarz);
+        PasekwynagrodzenBean.naniesrobocze(pasek, kalendarz);
         PasekwynagrodzenBean.przelicznawalute(pasek);
-       
+
 //        System.out.println("****************");
 //        for (Naliczenieskladnikawynagrodzenia r : pasek.getNaliczenieskladnikawynagrodzeniaList()) {
 //            if (r.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().isRedukowany()) {
@@ -216,9 +224,13 @@ public class PasekwynagrodzenBean {
         return pasek;
     }
     
-        private static void umowaopracewyliczenie(Kalendarzmiesiac kalendarz, Kalendarzwzor kalendarzglobalny, Pasekwynagrodzen pasek, double kurs, Definicjalistaplac definicjalistaplac, 
-                boolean czyodlicoznokwotewolna, boolean jestoddelegowanie, double limitZUS, List<Podatki> stawkipodatkowe, double sumapoprzednich, boolean nieodliczackup, List<Nieobecnosc> nieobecnoscilista, 
-                double limit26, List<Kalendarzmiesiac> kalendarzlista, double wynqagrodzenieminimalne, double sumabruttopoprzednich) {
+                    
+
+                        
+
+    private static void umowaopracewyliczenie(Kalendarzmiesiac kalendarz, Kalendarzwzor kalendarzglobalny, Pasekwynagrodzen pasek, double kurs, Definicjalistaplac definicjalistaplac,
+            boolean czyodlicoznokwotewolna, boolean jestoddelegowanie, double limitZUS, List<Podatki> stawkipodatkowe, double sumapoprzednich, boolean nieodliczackup, List<Nieobecnosc> nieobecnoscilista,
+            double limit26, List<Kalendarzmiesiac> kalendarzlista, double wynqagrodzenieminimalne, double sumabruttopoprzednich) {
         boolean odliczaculgepodatkowa = kalendarz.getAngaz().isOdliczaculgepodatkowa();
         double dniroboczewmiesiacu = 0.0;
         double godzinyroboczewmiesiacu = 0.0;
@@ -308,7 +320,7 @@ public class PasekwynagrodzenBean {
         PasekwynagrodzenBean.naliczzdrowota(pasek, pasek.isNierezydent(), true);
     }
 
-    private static void zasilekchorobowywyliczenie(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasek, double kurs, Definicjalistaplac definicjalistaplac, boolean czyodlicoznokwotewolna, 
+    private static void zasilekchorobowywyliczenie(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasek, double kurs, Definicjalistaplac definicjalistaplac, boolean czyodlicoznokwotewolna,
             boolean jestoddelegowanie, double limitZUS, List<Podatki> stawkipodatkowe, double sumapoprzednich, List<Nieobecnosc> nieobecnosci, List<Kalendarzmiesiac> kalendarzlista, double wynqagrodzenieminimalne, Kalendarzwzor kalendarzwzor) {
         KalendarzmiesiacBean.naliczskladnikiwynagrodzeniaDB(kalendarz, pasek, kurs, wynqagrodzenieminimalne, kalendarzwzor);
         boolean odliczaculgepodatkowa = kalendarz.getAngaz().isOdliczaculgepodatkowa();
@@ -325,11 +337,10 @@ public class PasekwynagrodzenBean {
             PasekwynagrodzenBean.ulgapodatkowaDB(pasek, stawkipodatkowe, true, odliczaculgepodatkowa);
         }
     }
-    
-    
+
     private static void umowazleceniawyliczenie(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasek, double kurs, Definicjalistaplac definicjalistaplac, boolean czyodlicoznokwotewolna,
             boolean jestoddelegowanie, double limitZUS, List<Podatki> stawkipodatkowe, double sumapoprzednich, double zmiennawynagrodzeniakwota, double liczbagodzin,
-            Rachunekdoumowyzlecenia rachunekdoumowyzlecenia, double limit26, double sumabruttopoprzednich,double zmiennawynagrodzeniakwotaodelegowanie) {
+            Rachunekdoumowyzlecenia rachunekdoumowyzlecenia, double limit26, double sumabruttopoprzednich, double zmiennawynagrodzeniakwotaodelegowanie) {
         boolean odliczaculgepodatkowa = kalendarz.getAngaz().isOdliczaculgepodatkowa();
         KalendarzmiesiacBean.naliczskladnikiwynagrodzeniaDBZlecenie(kalendarz, pasek, kurs, zmiennawynagrodzeniakwota, liczbagodzin, zmiennawynagrodzeniakwotaodelegowanie);
         PasekwynagrodzenBean.obliczbruttoumowazlecenia(pasek, rachunekdoumowyzlecenia);
@@ -365,7 +376,7 @@ public class PasekwynagrodzenBean {
 
     private static void umowazleceniaNRwyliczenie(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasek, double kurs, Definicjalistaplac definicjalistaplac, boolean czyodlicoznokwotewolna,
             boolean jestoddelegowanie, double limitZUS, List<Podatki> stawkipodatkowe, double sumapoprzednich, double zmiennawynagrodzeniakwota, double liczbagodzin,
-            Rachunekdoumowyzlecenia rachunekdoumowyzlecenia, double limit26, double sumabruttopoprzednich,double zmiennawynagrodzeniakwotaodelegowanie) {
+            Rachunekdoumowyzlecenia rachunekdoumowyzlecenia, double limit26, double sumabruttopoprzednich, double zmiennawynagrodzeniakwotaodelegowanie) {
         boolean odliczaculgepodatkowa = kalendarz.getAngaz().isOdliczaculgepodatkowa();
         pasek.setDo26lat(false);
         KalendarzmiesiacBean.naliczskladnikiwynagrodzeniaDBNierezydent(kalendarz, pasek, kurs, zmiennawynagrodzeniakwota, liczbagodzin, zmiennawynagrodzeniakwotaodelegowanie);
@@ -412,11 +423,9 @@ public class PasekwynagrodzenBean {
 //        PasekwynagrodzenBean.obliczpodatekwstepnyZlecenieDB(pasek, stawkipodatkowe, pasek.isNierezydent());
         PasekwynagrodzenBean.naliczzdrowota(pasek, pasek.isNierezydent(), false);
     }
-    
-     
-    
-      public static double obliczminimalna(Kalendarzmiesiac kalendarz, Definicjalistaplac definicjalistaplac, 
-        List<Podatki> stawkipodatkowe, double sumapoprzednich, double wynagrodzenieminimalne, String datawyplaty) {
+
+    public static double obliczminimalna(Kalendarzmiesiac kalendarz, Definicjalistaplac definicjalistaplac,
+            List<Podatki> stawkipodatkowe, double sumapoprzednich, double wynagrodzenieminimalne, String datawyplaty) {
         Pasekwynagrodzen pasek = new Pasekwynagrodzen();
         pasek.setDatawyplaty(datawyplaty);
         pasek.setDefinicjalistaplac(definicjalistaplac);
@@ -426,7 +435,7 @@ public class PasekwynagrodzenBean {
         pasek.setPodstawaskladkizus(wynagrodzenieminimalne);
         PasekwynagrodzenBean.pracownikemerytalna(pasek);
         PasekwynagrodzenBean.pracownikrentowa(pasek);
-        pasek.setPracchorobowe(Z.z(pasek.getPodstawaskladkizus()*0.0245));
+        pasek.setPracchorobowe(Z.z(pasek.getPodstawaskladkizus() * 0.0245));
         PasekwynagrodzenBean.razemspolecznepracownik(pasek);
         PasekwynagrodzenBean.obliczbruttominusspoleczneDB(pasek);
         PasekwynagrodzenBean.obliczpodstaweopodatkowaniaDB(pasek, stawkipodatkowe, false, kalendarz.getAngaz().isKosztyuzyskania0podwyzszone());
@@ -438,9 +447,8 @@ public class PasekwynagrodzenBean {
         PasekwynagrodzenBean.dowyplaty(pasek);
         return pasek.getNetto();
     }
-    
-    
-     public static void main (String[] args) {
+
+    public static void main(String[] args) {
         Kalendarzwzor kalendarzwzor = KalendarzWzorBean.create();
         Kalendarzmiesiac kalendarz = KalendarzmiesiacBean.create();
         //Nieobecnosc korektakalendarzagora = NieobecnosciBean.createKorektakalendarzaGora();
@@ -463,7 +471,7 @@ public class PasekwynagrodzenBean {
         //KalendarzmiesiacBean.dodajnieobecnosc(kalendarz, choroba2, pasek);
         //KalendarzmiesiacBean.dodajnieobecnosc(kalendarz, urlopbezplatny, pasek);
         //urlop musi byc na samym koncu
-        
+
         KalendarzmiesiacBean.redukujskladnikistale(kalendarz, pasek);
         KalendarzmiesiacBean.dodajnieobecnosc(kalendarz, urlop, pasek, new ArrayList<Kalendarzmiesiac>());
         KalendarzmiesiacBean.redukujskladnikistale2(kalendarz, pasek);
@@ -491,149 +499,147 @@ public class PasekwynagrodzenBean {
         System.out.println("****************");
         for (Naliczenieskladnikawynagrodzenia r : pasek.getNaliczenieskladnikawynagrodzeniaList()) {
             if (r.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().isRedukowany()) {
-                System.out.println(r.getSkladnikwynagrodzenia().getUwagi()+" kwota do listy płac: "+Z.z(r.getKwotadolistyplac()));
+                System.out.println(r.getSkladnikwynagrodzenia().getUwagi() + " kwota do listy płac: " + Z.z(r.getKwotadolistyplac()));
             } else {
-                System.out.println(r.getSkladnikwynagrodzenia().getUwagi()+" nieredukowany "+Z.z(r.getKwotaumownazacalymc()));
+                System.out.println(r.getSkladnikwynagrodzenia().getUwagi() + " nieredukowany " + Z.z(r.getKwotaumownazacalymc()));
             }
-            System.out.println("dni nalezne "+r.getDninalezne()+" faktyczne "+Z.z(r.getDnifaktyczne()));
+            System.out.println("dni nalezne " + r.getDninalezne() + " faktyczne " + Z.z(r.getDnifaktyczne()));
         }
         for (Naliczenienieobecnosc r : pasek.getNaliczenienieobecnoscList()) {
-            if (r.getKwota()!=0.0 && r.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().isRedukowany()) {
-                System.out.println(r.getNieobecnosc().getOpisRodzajSwiadczenie()+" od "+r.getSkladnikwynagrodzenia().getUwagi()+" "+Z.z(r.getKwota()));
+            if (r.getKwota() != 0.0 && r.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().isRedukowany()) {
+                System.out.println(r.getNieobecnosc().getOpisRodzajSwiadczenie() + " od " + r.getSkladnikwynagrodzenia().getUwagi() + " " + Z.z(r.getKwota()));
             }
-            if (r.getKwotastatystyczna()!=0.0 && r.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().isRedukowany()) {
-                System.out.println(r.getSkladnikwynagrodzenia().getUwagi()+" statystyczna redukcja za "+r.getNieobecnosc().getOpisRodzajSwiadczenie()+" kwota "+Z.z(r.getKwotastatystyczna()));
+            if (r.getKwotastatystyczna() != 0.0 && r.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().isRedukowany()) {
+                System.out.println(r.getSkladnikwynagrodzenia().getUwagi() + " statystyczna redukcja za " + r.getNieobecnosc().getOpisRodzajSwiadczenie() + " kwota " + Z.z(r.getKwotastatystyczna()));
             }
-            if (r.getKwotaredukcji()!=0.0 && r.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().isRedukowany()) {
-                System.out.println(r.getSkladnikwynagrodzenia().getUwagi()+" redukcja za "+r.getNieobecnosc().getOpisRodzajSwiadczenie()+" kwota redukcji "+Z.z(r.getKwotaredukcji()));
+            if (r.getKwotaredukcji() != 0.0 && r.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().isRedukowany()) {
+                System.out.println(r.getSkladnikwynagrodzenia().getUwagi() + " redukcja za " + r.getNieobecnosc().getOpisRodzajSwiadczenie() + " kwota redukcji " + Z.z(r.getKwotaredukcji()));
             }
         }
         System.out.println("****************");
-        System.out.println("brutto zus "+pasek.getBruttozus());
-        System.out.println("brutto bezzus "+pasek.getBruttobezzus());
-        double suma = pasek.getBruttozus()+pasek.getBruttobezzus();
-        System.out.println("brutto razem "+pasek.getBrutto());
-        System.out.println("redukcja "+pasek.getRedukcjeSuma());
-        System.out.println("podstawa zus "+pasek.getPodstawaskladkizus());
-        System.out.println("emerytalne: "+Z.z(pasek.getPracemerytalne()));
-        System.out.println("podstawa: "+Z.z(pasek.getPodstawaopodatkowania()));
-        System.out.println("zdrowotna: "+Z.z(pasek.getPraczdrowotne()));
-        System.out.println("podatek: "+Z.z(pasek.getPodatekdochodowy()));
-        System.out.println("Razem: "+Z.z(suma));
-        System.out.println("do wypłaty: "+pasek.getNetto());
+        System.out.println("brutto zus " + pasek.getBruttozus());
+        System.out.println("brutto bezzus " + pasek.getBruttobezzus());
+        double suma = pasek.getBruttozus() + pasek.getBruttobezzus();
+        System.out.println("brutto razem " + pasek.getBrutto());
+        System.out.println("redukcja " + pasek.getRedukcjeSuma());
+        System.out.println("podstawa zus " + pasek.getPodstawaskladkizus());
+        System.out.println("emerytalne: " + Z.z(pasek.getPracemerytalne()));
+        System.out.println("podstawa: " + Z.z(pasek.getPodstawaopodatkowania()));
+        System.out.println("zdrowotna: " + Z.z(pasek.getPraczdrowotne()));
+        System.out.println("podatek: " + Z.z(pasek.getPodatekdochodowy()));
+        System.out.println("Razem: " + Z.z(suma));
+        System.out.println("do wypłaty: " + pasek.getNetto());
         System.out.println("");
         //PdfListaPlac.drukuj(pasek);
     }
-     
-     
-      private static void obliczbruttoumowazlecenia(Pasekwynagrodzen pasek, Rachunekdoumowyzlecenia rachunekdoumowyzlecenia) {
+
+    private static void obliczbruttoumowazlecenia(Pasekwynagrodzen pasek, Rachunekdoumowyzlecenia rachunekdoumowyzlecenia) {
         double bruttozuskraj = 0.0;
         double bruttozusoddelegowanie = 0.0;
         double bruttozusoddelegowaniewaluta = 0.0;
         for (Naliczenieskladnikawynagrodzenia p : pasek.getNaliczenieskladnikawynagrodzeniaList()) {
-            if (p.isZus0bezzus1()==false&&p.isPodatek0bezpodatek1()==false) {
+            if (p.isZus0bezzus1() == false && p.isPodatek0bezpodatek1() == false) {
                 if (p.getSkladnikwynagrodzenia().isOddelegowanie()) {
-                    bruttozusoddelegowanie = Z.z(bruttozusoddelegowanie+p.getKwotadolistyplac());
-                    bruttozusoddelegowaniewaluta = Z.z(bruttozusoddelegowaniewaluta+p.getKwotadolistyplacwaluta());
+                    bruttozusoddelegowanie = Z.z(bruttozusoddelegowanie + p.getKwotadolistyplac());
+                    bruttozusoddelegowaniewaluta = Z.z(bruttozusoddelegowaniewaluta + p.getKwotadolistyplacwaluta());
                 } else {
-                    bruttozuskraj = Z.z(bruttozuskraj+p.getKwotadolistyplac());
+                    bruttozuskraj = Z.z(bruttozuskraj + p.getKwotadolistyplac());
                 }
             }
         }
         for (Naliczenienieobecnosc p : pasek.getNaliczenienieobecnoscList()) {
-            bruttozuskraj = Z.z(bruttozuskraj+p.getKwotazus());
+            bruttozuskraj = Z.z(bruttozuskraj + p.getKwotazus());
         }
-        if (pasek.isDo26lat()&&rachunekdoumowyzlecenia.isStatusstudenta()) {
-            double bruttozusbezzusbezpodatek = bruttozuskraj+bruttozusoddelegowanie;
+        if (pasek.isDo26lat() && rachunekdoumowyzlecenia.isStatusstudenta()) {
+            double bruttozusbezzusbezpodatek = bruttozuskraj + bruttozusoddelegowanie;
             pasek.setBruttobezzusbezpodatek(Z.z(bruttozusbezzusbezpodatek));
         } else if (pasek.isDo26lat()) {
-            double bruttozusbezpodatek = bruttozuskraj+bruttozusoddelegowanie;
+            double bruttozusbezpodatek = bruttozuskraj + bruttozusoddelegowanie;
             pasek.setBruttozusbezpodatek(Z.z(bruttozusbezpodatek));
         } else if (rachunekdoumowyzlecenia.isSpoleczne()) {
-            double bruttozus = bruttozuskraj+bruttozusoddelegowanie;
+            double bruttozus = bruttozuskraj + bruttozusoddelegowanie;
             pasek.setBruttozus(bruttozus);
         } else {
-            double bruttobezspolecznych = bruttozuskraj+bruttozusoddelegowanie;
+            double bruttobezspolecznych = bruttozuskraj + bruttozusoddelegowanie;
             pasek.setBruttobezspolecznych(bruttobezspolecznych);
         }
         pasek.setStudent(rachunekdoumowyzlecenia.isStatusstudenta());
         pasek.setOddelegowaniepln(bruttozusoddelegowanie);
         pasek.setOddelegowaniewaluta(bruttozusoddelegowaniewaluta);
         pasek.setBruttozuskraj(bruttozuskraj);
-         pasek.setBrutto(Z.z(pasek.getBrutto()+bruttozuskraj+bruttozusoddelegowanie));
+        pasek.setBrutto(Z.z(pasek.getBrutto() + bruttozuskraj + bruttozusoddelegowanie));
     }
-             
-      
+
     private static void obliczbruttozusKod0511(Pasekwynagrodzen pasek) {
         double bruttozuskraj = 0.0;
         double bruttozusoddelegowanie = 0.0;
         double bruttozusoddelegowaniewaluta = 0.0;
         for (Naliczenieskladnikawynagrodzenia p : pasek.getNaliczenieskladnikawynagrodzeniaList()) {
-            if (p.isZus0bezzus1()==false&&p.isPodatek0bezpodatek1()==false) {
+            if (p.isZus0bezzus1() == false && p.isPodatek0bezpodatek1() == false) {
                 if (p.getSkladnikwynagrodzenia().isOddelegowanie()) {
-                    bruttozusoddelegowanie = Z.z(bruttozusoddelegowanie+p.getKwotadolistyplac());
-                    bruttozusoddelegowaniewaluta = Z.z(bruttozusoddelegowaniewaluta+p.getKwotadolistyplacwaluta());
+                    bruttozusoddelegowanie = Z.z(bruttozusoddelegowanie + p.getKwotadolistyplac());
+                    bruttozusoddelegowaniewaluta = Z.z(bruttozusoddelegowaniewaluta + p.getKwotadolistyplacwaluta());
                 } else {
-                    bruttozuskraj = Z.z(bruttozuskraj+p.getKwotadolistyplac());
+                    bruttozuskraj = Z.z(bruttozuskraj + p.getKwotadolistyplac());
                 }
-            } 
+            }
         }
         for (Naliczenienieobecnosc p : pasek.getNaliczenienieobecnoscList()) {
-            bruttozuskraj = Z.z(bruttozuskraj+p.getKwotazus());
+            bruttozuskraj = Z.z(bruttozuskraj + p.getKwotazus());
         }
-        double bruttobezzus = bruttozuskraj+bruttozusoddelegowanie;
+        double bruttobezzus = bruttozuskraj + bruttozusoddelegowanie;
         pasek.setOddelegowaniepln(bruttozusoddelegowanie);
         pasek.setOddelegowaniewaluta(bruttozusoddelegowaniewaluta);
-        pasek.setBruttobezzus(bruttozuskraj+bruttozusoddelegowanie);
+        pasek.setBruttobezzus(bruttozuskraj + bruttozusoddelegowanie);
     }
-             
+
     private static void obliczbruttozus(Pasekwynagrodzen pasek) {
         double bruttozuskraj = 0.0;
         double bruttozusoddelegowanie = 0.0;
         double bruttozusoddelegowaniewaluta = 0.0;
         for (Naliczenieskladnikawynagrodzenia p : pasek.getNaliczenieskladnikawynagrodzeniaList()) {
-            if (p.isZus0bezzus1()==false&&p.isPodatek0bezpodatek1()==false) {
+            if (p.isZus0bezzus1() == false && p.isPodatek0bezpodatek1() == false) {
                 if (p.getSkladnikwynagrodzenia().isOddelegowanie()) {
-                    bruttozusoddelegowanie = Z.z(bruttozusoddelegowanie+p.getKwotadolistyplac());
-                    bruttozusoddelegowaniewaluta = Z.z(bruttozusoddelegowaniewaluta+p.getKwotadolistyplacwaluta());
+                    bruttozusoddelegowanie = Z.z(bruttozusoddelegowanie + p.getKwotadolistyplac());
+                    bruttozusoddelegowaniewaluta = Z.z(bruttozusoddelegowaniewaluta + p.getKwotadolistyplacwaluta());
                 } else {
-                    bruttozuskraj = Z.z(bruttozuskraj+p.getKwotadolistyplac());
+                    bruttozuskraj = Z.z(bruttozuskraj + p.getKwotadolistyplac());
                 }
-            } 
+            }
         }
         for (Naliczenienieobecnosc p : pasek.getNaliczenienieobecnoscList()) {
-            bruttozuskraj = Z.z(bruttozuskraj+p.getKwotazus());
+            bruttozuskraj = Z.z(bruttozuskraj + p.getKwotazus());
         }
-        double bruttozus = bruttozuskraj+bruttozusoddelegowanie;
         pasek.setOddelegowaniepln(bruttozusoddelegowanie);
         pasek.setOddelegowaniewaluta(bruttozusoddelegowaniewaluta);
         pasek.setBruttozuskraj(bruttozuskraj);
-            pasek.setBruttozus(bruttozus);
-        pasek.setBrutto(Z.z(pasek.getBrutto()+bruttozuskraj+bruttozusoddelegowanie));
+        double bruttozus = bruttozuskraj + bruttozusoddelegowanie;
+        pasek.setBruttozus(bruttozus);
+        pasek.setBrutto(Z.z(pasek.getBrutto() + bruttozus));
     }
-    
+
     private static void obliczbrutto26(Pasekwynagrodzen pasek, double limit26, double sumapoprzednich) {
         double bruttozuskraj = 0.0;
         double bruttozusoddelegowanie = 0.0;
         double bruttozusoddelegowaniewaluta = 0.0;
         for (Naliczenieskladnikawynagrodzenia p : pasek.getNaliczenieskladnikawynagrodzeniaList()) {
-            if (p.isZus0bezzus1()==false&&p.isPodatek0bezpodatek1()==false) {
+            if (p.isZus0bezzus1() == false && p.isPodatek0bezpodatek1() == false) {
                 if (p.getSkladnikwynagrodzenia().isOddelegowanie()) {
-                    bruttozusoddelegowanie = Z.z(bruttozusoddelegowanie+p.getKwotadolistyplac());
-                    bruttozusoddelegowaniewaluta = Z.z(bruttozusoddelegowaniewaluta+p.getKwotadolistyplacwaluta());
+                    bruttozusoddelegowanie = Z.z(bruttozusoddelegowanie + p.getKwotadolistyplac());
+                    bruttozusoddelegowaniewaluta = Z.z(bruttozusoddelegowaniewaluta + p.getKwotadolistyplacwaluta());
                 } else {
-                    bruttozuskraj = Z.z(bruttozuskraj+p.getKwotadolistyplac());
+                    bruttozuskraj = Z.z(bruttozuskraj + p.getKwotadolistyplac());
                 }
             }
         }
         for (Naliczenienieobecnosc p : pasek.getNaliczenienieobecnoscList()) {
-            bruttozuskraj = Z.z(bruttozuskraj+p.getKwotazus());
+            bruttozuskraj = Z.z(bruttozuskraj + p.getKwotazus());
         }
-        double sumaprzejsciowa = bruttozuskraj+bruttozusoddelegowanie;
-        double nowasumaprzychodow = sumapoprzednich+sumaprzejsciowa;
-        double roznicapowyzejlimitu = nowasumaprzychodow-limit26;
-        if (roznicapowyzejlimitu>0.0) {
-            double bezpodatku = sumaprzejsciowa-roznicapowyzejlimitu;
+        double sumaprzejsciowa = bruttozuskraj + bruttozusoddelegowanie;
+        double nowasumaprzychodow = sumapoprzednich + sumaprzejsciowa;
+        double roznicapowyzejlimitu = nowasumaprzychodow - limit26;
+        if (roznicapowyzejlimitu > 0.0) {
+            double bezpodatku = sumaprzejsciowa - roznicapowyzejlimitu;
             pasek.setBruttozusbezpodatek(bezpodatku);
             pasek.setBruttozus(roznicapowyzejlimitu);
         } else {
@@ -642,104 +648,102 @@ public class PasekwynagrodzenBean {
         pasek.setOddelegowaniepln(bruttozusoddelegowanie);
         pasek.setOddelegowaniewaluta(bruttozusoddelegowaniewaluta);
         pasek.setBruttozuskraj(bruttozuskraj);
-        pasek.setBrutto(Z.z(pasek.getBrutto()+bruttozuskraj+bruttozusoddelegowanie));
+        double brutto = bruttozuskraj + bruttozusoddelegowanie;
+        pasek.setBrutto(Z.z(pasek.getBrutto() + brutto));
     }
-    
-    
-     private static void obliczbruttobezzusZasilek(Pasekwynagrodzen pasek) {
+
+    private static void obliczbruttobezzusZasilek(Pasekwynagrodzen pasek) {
         double bruttobezzus = 0.0;
         for (Naliczenienieobecnosc p : pasek.getNaliczenienieobecnoscList()) {
-            bruttobezzus = Z.z(bruttobezzus+p.getKwotabezzus());
+            bruttobezzus = Z.z(bruttobezzus + p.getKwotabezzus());
 //            if (p.getNieobecnosc().getSwiadczeniekodzus()!=null&&!p.getNieobecnosc().getSwiadczeniekodzus().getZrodlofinansowania().equals('P')&&!p.getNieobecnosc().getSwiadczeniekodzus().getZrodlofinansowania().equals('B')) {
 //                bruttobezzus = Z.z(bruttobezzus+p.getKwotabezzus());
 //            }
         }
         pasek.setBruttobezzus(bruttobezzus);
-        pasek.setBrutto(Z.z(pasek.getBrutto()+bruttobezzus));
+        pasek.setBrutto(Z.z(pasek.getBrutto() + bruttobezzus));
     }
-     
-     private static void obliczbruttobezSpolecznych(Pasekwynagrodzen pasek) {
+
+    private static void obliczbruttobezSpolecznych(Pasekwynagrodzen pasek) {
         double bruttobezspolecznych = 0.0;
         for (Naliczenienieobecnosc p : pasek.getNaliczenienieobecnoscList()) {
-            if (p.getNieobecnosc().getSwiadczeniekodzus()!=null&&p.getNieobecnosc().getSwiadczeniekodzus().isZdrowotne()) {
-                bruttobezspolecznych = Z.z(bruttobezspolecznych+p.getKwotabezzus());
+            if (p.getNieobecnosc().getSwiadczeniekodzus() != null && p.getNieobecnosc().getSwiadczeniekodzus().isZdrowotne()) {
+                bruttobezspolecznych = Z.z(bruttobezspolecznych + p.getKwotabezzus());
             }
         }
         pasek.setBruttobezspolecznych(bruttobezspolecznych);
-        pasek.setBrutto(Z.z(pasek.getBrutto()+bruttobezspolecznych));
+        pasek.setBrutto(Z.z(pasek.getBrutto() + bruttobezspolecznych));
     }
 
-     
-     
     private static void obliczbruttobezzusKod0511(Pasekwynagrodzen pasek) {
         double bruttobezzus = pasek.getBruttobezzus();
         for (Naliczenieskladnikawynagrodzenia p : pasek.getNaliczenieskladnikawynagrodzeniaList()) {
-            if (p.isZus0bezzus1()==true&&p.isPodatek0bezpodatek1()==false) {
-                bruttobezzus = Z.z(bruttobezzus+p.getKwotadolistyplac());
+            if (p.isZus0bezzus1() == true && p.isPodatek0bezpodatek1() == false) {
+                bruttobezzus = Z.z(bruttobezzus + p.getKwotadolistyplac());
             }
         }
         for (Naliczenienieobecnosc p : pasek.getNaliczenienieobecnoscList()) {
-            if (p.getNieobecnosc().getSwiadczeniekodzus()==null) {
-                bruttobezzus = Z.z(bruttobezzus+p.getKwotabezzus());
-            } else if (p.getNieobecnosc().getSwiadczeniekodzus()!=null&&(p.getNieobecnosc().getSwiadczeniekodzus().getZrodlofinansowania().equals('P')
-                    ||p.getNieobecnosc().getSwiadczeniekodzus().getZrodlofinansowania().equals('B'))&&!p.getNieobecnosc().getSwiadczeniekodzus().isZdrowotne()) {
-                bruttobezzus = Z.z(bruttobezzus+p.getKwotabezzus());
+            if (p.getNieobecnosc().getSwiadczeniekodzus() == null) {
+                bruttobezzus = Z.z(bruttobezzus + p.getKwotabezzus());
+            } else if (p.getNieobecnosc().getSwiadczeniekodzus() != null && (p.getNieobecnosc().getSwiadczeniekodzus().getZrodlofinansowania().equals('P')
+                    || p.getNieobecnosc().getSwiadczeniekodzus().getZrodlofinansowania().equals('B')) && !p.getNieobecnosc().getSwiadczeniekodzus().isZdrowotne()) {
+                bruttobezzus = Z.z(bruttobezzus + p.getKwotabezzus());
             }
         }
         pasek.setBruttobezzus(bruttobezzus);
-        pasek.setBrutto(Z.z(pasek.getBrutto()+bruttobezzus));
-    } 
-            
+        pasek.setBrutto(Z.z(pasek.getBrutto() + bruttobezzus));
+    }
+
     private static void obliczbruttobezzus(Pasekwynagrodzen pasek) {
         double bruttobezzus = 0.0;
         for (Naliczenieskladnikawynagrodzenia p : pasek.getNaliczenieskladnikawynagrodzeniaList()) {
-            if (p.isZus0bezzus1()==true&&p.isPodatek0bezpodatek1()==false) {
-                bruttobezzus = Z.z(bruttobezzus+p.getKwotadolistyplac());
+            if (p.isZus0bezzus1() == true && p.isPodatek0bezpodatek1() == false) {
+                bruttobezzus = Z.z(bruttobezzus + p.getKwotadolistyplac());
             }
         }
         for (Naliczenienieobecnosc p : pasek.getNaliczenienieobecnoscList()) {
-            if (p.getNieobecnosc().getSwiadczeniekodzus()==null) {
-                bruttobezzus = Z.z(bruttobezzus+p.getKwotabezzus());
-            } else if (p.getNieobecnosc().getSwiadczeniekodzus()!=null&&(p.getNieobecnosc().getSwiadczeniekodzus().getZrodlofinansowania().equals('P')
-                    ||p.getNieobecnosc().getSwiadczeniekodzus().getZrodlofinansowania().equals('B'))&&!p.getNieobecnosc().getSwiadczeniekodzus().isZdrowotne()) {
-                bruttobezzus = Z.z(bruttobezzus+p.getKwotabezzus());
+            if (p.getNieobecnosc().getSwiadczeniekodzus() == null) {
+                bruttobezzus = Z.z(bruttobezzus + p.getKwotabezzus());
+            } else if (p.getNieobecnosc().getSwiadczeniekodzus() != null && (p.getNieobecnosc().getSwiadczeniekodzus().getZrodlofinansowania().equals('P')
+                    || p.getNieobecnosc().getSwiadczeniekodzus().getZrodlofinansowania().equals('B')) && !p.getNieobecnosc().getSwiadczeniekodzus().isZdrowotne()) {
+                bruttobezzus = Z.z(bruttobezzus + p.getKwotabezzus());
             }
         }
         pasek.setBruttobezzus(bruttobezzus);
-        pasek.setBrutto(Z.z(pasek.getBrutto()+bruttobezzus));
+        pasek.setBrutto(Z.z(pasek.getBrutto() + bruttobezzus));
     }
-    
+
     private static void obliczbruttobezzusbezpodatek(Pasekwynagrodzen pasek) {
         double bruttobezzusbezpodatek = 0.0;
         for (Naliczenieskladnikawynagrodzenia p : pasek.getNaliczenieskladnikawynagrodzeniaList()) {
-            if (p.isPodatek0bezpodatek1()==true&&p.isPodatek0bezpodatek1()==true) {
-                bruttobezzusbezpodatek = Z.z(bruttobezzusbezpodatek+p.getKwotadolistyplac());
+            if (p.isPodatek0bezpodatek1() == true && p.isPodatek0bezpodatek1() == true) {
+                bruttobezzusbezpodatek = Z.z(bruttobezzusbezpodatek + p.getKwotadolistyplac());
             }
         }
         pasek.setBruttobezzusbezpodatek(bruttobezzusbezpodatek);
-        pasek.setBrutto(Z.z(pasek.getBrutto()+bruttobezzusbezpodatek));
+        pasek.setBrutto(Z.z(pasek.getBrutto() + bruttobezzusbezpodatek));
     }
 
     private static void pracownikemerytalna(Pasekwynagrodzen pasek) {
-            pasek.setPracemerytalne(Z.z(pasek.getPodstawaskladkizus()*0.0976));
+        pasek.setPracemerytalne(Z.z(pasek.getPodstawaskladkizus() * 0.0976));
     }
-    
+
     private static void emerytalna(Pasekwynagrodzen pasek) {
-            pasek.setEmerytalne(Z.z(pasek.getPodstawaskladkizus()*0.0976));
+        pasek.setEmerytalne(Z.z(pasek.getPodstawaskladkizus() * 0.0976));
     }
 
     private static void pracownikrentowa(Pasekwynagrodzen pasek) {
-            pasek.setPracrentowe(Z.z(pasek.getPodstawaskladkizus()*0.015));
+        pasek.setPracrentowe(Z.z(pasek.getPodstawaskladkizus() * 0.015));
     }
-    
+
     private static void rentowa(Pasekwynagrodzen pasek) {
-            pasek.setRentowe(Z.z(pasek.getPodstawaskladkizus()*0.065));
+        pasek.setRentowe(Z.z(pasek.getPodstawaskladkizus() * 0.065));
     }
-    
+
     private static void wypadkowa(Pasekwynagrodzen pasek) {
         List<Wypadkowefirma> wypadkowefirmaList = pasek.getKalendarzmiesiac().getAngaz().getFirma().getWypadkowefirmaList();
         Wypadkowefirma pobrane = null;
-        if (wypadkowefirmaList!=null) {
+        if (wypadkowefirmaList != null) {
             for (Wypadkowefirma w : wypadkowefirmaList) {
                 if (w.czynalezydookresu(pasek.getRok(), pasek.getMc())) {
                     pobrane = w;
@@ -747,86 +751,85 @@ public class PasekwynagrodzenBean {
                 }
             }
         }
-        if (pobrane==null) {
-            pasek.setWypadkowe(Z.z(pasek.getPodstawaskladkizus()*0.0167));
+        if (pobrane == null) {
+            pasek.setWypadkowe(Z.z(pasek.getPodstawaskladkizus() * 0.0167));
         } else {
-            pasek.setWypadkowe(Z.z(pasek.getPodstawaskladkizus()*(pobrane.getProcent()/100.0)));
+            pasek.setWypadkowe(Z.z(pasek.getPodstawaskladkizus() * (pobrane.getProcent() / 100.0)));
         }
     }
-    
+
     private static void fp(Pasekwynagrodzen pasek) {
-            pasek.setFp(Z.z(pasek.getPodstawaskladkizus()*0.0245));
+        pasek.setFp(Z.z(pasek.getPodstawaskladkizus() * 0.0245));
     }
-    
+
     private static void fgsp(Pasekwynagrodzen pasek) {
-            pasek.setFgsp(Z.z(pasek.getPodstawaskladkizus()*0.001));
+        pasek.setFgsp(Z.z(pasek.getPodstawaskladkizus() * 0.001));
     }
 
     private static void pracownikchorobowa(Pasekwynagrodzen pasek) {
-            pasek.setPracchorobowe(Z.z(pasek.getPodstawaskladkizus()*0.0245));
+        pasek.setPracchorobowe(Z.z(pasek.getPodstawaskladkizus() * 0.0245));
     }
-    
+
     private static void pracownikchorobowaZlecenie(Pasekwynagrodzen pasek, Rachunekdoumowyzlecenia rachunekdoumowyzlecenia) {
         if (rachunekdoumowyzlecenia.isChorobowa()) {
-            pasek.setPracchorobowe(Z.z(pasek.getPodstawaskladkizus()*0.0245));
+            pasek.setPracchorobowe(Z.z(pasek.getPodstawaskladkizus() * 0.0245));
         }
     }
 
     private static void razemspolecznepracownik(Pasekwynagrodzen pasek) {
-        pasek.setRazemspolecznepracownik(Z.z(pasek.getPracemerytalne()+pasek.getPracrentowe()+pasek.getPracchorobowe()));
-    }
-    
-    private static void razemspolecznefirma(Pasekwynagrodzen pasek) {
-        pasek.setRazemspolecznefirma(Z.z(pasek.getEmerytalne()+pasek.getRentowe()+pasek.getWypadkowe()));
-    }
-    
-    private static void razem53(Pasekwynagrodzen pasek) {
-        pasek.setRazem53(Z.z(pasek.getFp()+pasek.getFgsp()));
+        pasek.setRazemspolecznepracownik(Z.z(pasek.getPracemerytalne() + pasek.getPracrentowe() + pasek.getPracchorobowe()));
     }
 
-     private static void razemkosztpracodawcy(Pasekwynagrodzen pasek) {
-         pasek.setKosztpracodawcy(Z.z(pasek.getBrutto()+pasek.getRazemspolecznefirma()+pasek.getFp()+pasek.getFgsp()));
+    private static void razemspolecznefirma(Pasekwynagrodzen pasek) {
+        pasek.setRazemspolecznefirma(Z.z(pasek.getEmerytalne() + pasek.getRentowe() + pasek.getWypadkowe()));
     }
-     private static void obliczbruttominusspoleczne(Pasekwynagrodzen pasek) {
+
+    private static void razem53(Pasekwynagrodzen pasek) {
+        pasek.setRazem53(Z.z(pasek.getFp() + pasek.getFgsp()));
+    }
+
+    private static void razemkosztpracodawcy(Pasekwynagrodzen pasek) {
+        pasek.setKosztpracodawcy(Z.z(pasek.getBrutto() + pasek.getRazemspolecznefirma() + pasek.getFp() + pasek.getFgsp()));
+    }
+
+    private static void obliczbruttominusspoleczne(Pasekwynagrodzen pasek) {
         double zzus = pasek.getBruttozus();
         double bezzus = pasek.getBruttobezzus();
         double bezspolecznych = pasek.getBruttobezspolecznych();
         double zusbezpodatku = pasek.getBruttozusbezpodatek();
         double oddelegowanie = pasek.getOddelegowaniepln();
         double skladki = pasek.getRazemspolecznepracownik();
-        double podstawa = Z.z(zzus+bezzus+bezspolecznych+zusbezpodatku-skladki) > 0.0 ? Z.z(zzus+bezzus+bezspolecznych+zusbezpodatku-skladki) :0.0;
+        double podstawa = Z.z(zzus + bezzus + bezspolecznych + zusbezpodatku - skladki) > 0.0 ? Z.z(zzus + bezzus + bezspolecznych + zusbezpodatku - skladki) : 0.0;
         pasek.setBruttominusspoleczne(podstawa);
     }
-     
-     
-     private static void obliczpodstaweopodatkowania(Pasekwynagrodzen pasek) {
+
+    private static void obliczpodstaweopodatkowania(Pasekwynagrodzen pasek) {
         double bruttominusspoleczne = pasek.getBruttominusspoleczne();
         double kosztyuzyskania = 250.0;
         double dieta30proc = pasek.getDietaodliczeniepodstawaop();
-        double podstawa = Z.z0(bruttominusspoleczne-kosztyuzyskania-dieta30proc) > 0.0 ? Z.z0(bruttominusspoleczne-kosztyuzyskania-dieta30proc) :0.0;
+        double podstawa = Z.z0(bruttominusspoleczne - kosztyuzyskania - dieta30proc) > 0.0 ? Z.z0(bruttominusspoleczne - kosztyuzyskania - dieta30proc) : 0.0;
         pasek.setPodstawaopodatkowania(podstawa);
         pasek.setKosztyuzyskania(kosztyuzyskania);
-        
+
     }
-     
-     private static void obliczbruttominusspoleczneDB(Pasekwynagrodzen pasek) {
+
+    private static void obliczbruttominusspoleczneDB(Pasekwynagrodzen pasek) {
         double zzus = pasek.getBruttozus();
         double bezzus = pasek.getBruttobezzus();
         double bezspolecznych = pasek.getBruttobezspolecznych();
         double skladki = pasek.getRazemspolecznepracownik();
         double zusbezpodatku = pasek.getBruttozusbezpodatek();
-        double podstawadochdowyprzeddieta = Z.z(zzus+bezzus+bezspolecznych+zusbezpodatku-skladki) > 0.0 ? Z.z(zzus+bezzus+bezspolecznych+zusbezpodatku-skladki) :0.0;
+        double podstawadochdowyprzeddieta = Z.z(zzus + bezzus + bezspolecznych + zusbezpodatku - skladki) > 0.0 ? Z.z(zzus + bezzus + bezspolecznych + zusbezpodatku - skladki) : 0.0;
         pasek.setBruttominusspoleczne(podstawadochdowyprzeddieta);
     }
-     
-     
+
     private static void obliczpodstaweopodatkowaniaZasilekDB(Pasekwynagrodzen pasek, List<Podatki> stawkipodatkowe) {
         Podatki pierwszyprog = stawkipodatkowe.get(0);
         double bruttominusspoleczne = pasek.getBruttominusspoleczne();
         double podstawa = Z.z0(bruttominusspoleczne);
         pasek.setPodstawaopodatkowania(podstawa);
     }
-     
+
     private static void obliczpodstaweopodatkowaniaDB(Pasekwynagrodzen pasek, List<Podatki> stawkipodatkowe, boolean nieodliczackup, boolean podwyzszonekoszty) {
         Podatki pierwszyprog = stawkipodatkowe.get(0);
         double bruttominusspoleczne = pasek.getBruttominusspoleczne();
@@ -836,98 +839,101 @@ public class PasekwynagrodzenBean {
             kosztyuzyskania = pierwszyprog.getKuppodwyzszone();
             pasek.setProcentkosztow(120);
         }
-                //pasek.getKalendarzmiesiac().getUmowa().getKosztyuzyskaniaprocent()==100?pierwszyprog.getKup():pierwszyprog.getKuppodwyzszone();
+        //pasek.getKalendarzmiesiac().getUmowa().getKosztyuzyskaniaprocent()==100?pierwszyprog.getKup():pierwszyprog.getKuppodwyzszone();
         if (nieodliczackup) {
             kosztyuzyskania = 0.0;
         }
         double dieta30proc = pasek.getDietaodliczeniepodstawaop();
-        double ulgadlaklasysredniej = pasek.isUlgadlaKlasySredniej()?pasek.getUlgadlaklasysredniejI()+pasek.getUlgadlaklasysredniejII():0.0;
+        double ulgadlaklasysredniej = pasek.isUlgadlaKlasySredniej() ? pasek.getUlgadlaklasysredniejI() + pasek.getUlgadlaklasysredniejII() : 0.0;
         double przychodypracownikadlakosztow = Z.z0(pasek.getBrutto());
-        if (przychodypracownikadlakosztow<0) {
+        if (przychodypracownikadlakosztow < 0) {
             kosztyuzyskania = 0.0;
-        } else if (przychodypracownikadlakosztow<kosztyuzyskania) {
+        } else if (przychodypracownikadlakosztow < kosztyuzyskania) {
             kosztyuzyskania = przychodypracownikadlakosztow;
         }
-        double podstawa = Z.z0(bruttominusspoleczne-kosztyuzyskania-dieta30proc-ulgadlaklasysredniej) > 0.0 ? Z.z0(bruttominusspoleczne-kosztyuzyskania-dieta30proc-ulgadlaklasysredniej) :0.0;
+        double podstawa = Z.z0(bruttominusspoleczne - kosztyuzyskania - dieta30proc - ulgadlaklasysredniej) > 0.0 ? Z.z0(bruttominusspoleczne - kosztyuzyskania - dieta30proc - ulgadlaklasysredniej) : 0.0;
         pasek.setPodstawaopodatkowania(podstawa);
+        korektaprzychodyopodatkowanezagranica(podstawa,pasek);
         pasek.setKosztyuzyskania(kosztyuzyskania);
-        
+
     }
-    
+
     private static void obliczpodstaweopodatkowania26DB(Pasekwynagrodzen pasek, List<Podatki> stawkipodatkowe, boolean nieodliczackup, boolean podwyzszonekoszty, double limit26) {
         Podatki pierwszyprog = stawkipodatkowe.get(0);
         double bruttominusspoleczne = pasek.getBruttominusspoleczne();
         double spoleczne = pasek.getRazemspolecznepracownik();
-        double procentspoleczny = spoleczne/pasek.getPodstawaskladkizus();
-        double udzialwspolecznychdoodliczenia = spoleczne*procentspoleczny;
+        double procentspoleczny = spoleczne / pasek.getPodstawaskladkizus();
+        double udzialwspolecznychdoodliczenia = spoleczne * procentspoleczny;
         double kwotanadwyzki = pasek.getBruttozus();
         double kosztyuzyskania = pierwszyprog.getKup();
         if (podwyzszonekoszty) {
             kosztyuzyskania = pierwszyprog.getKuppodwyzszone();
         }
-                //pasek.getKalendarzmiesiac().getUmowa().getKosztyuzyskaniaprocent()==100?pierwszyprog.getKup():pierwszyprog.getKuppodwyzszone();
-        if (nieodliczackup && kwotanadwyzki==0.0) {
+        //pasek.getKalendarzmiesiac().getUmowa().getKosztyuzyskaniaprocent()==100?pierwszyprog.getKup():pierwszyprog.getKuppodwyzszone();
+        if (nieodliczackup && kwotanadwyzki == 0.0) {
             kosztyuzyskania = 0.0;
         }
         double dieta30proc = pasek.getDietaodliczeniepodstawaop();
-        double ulgadlaklasysredniej = pasek.isUlgadlaKlasySredniej()?pasek.getUlgadlaklasysredniejI()+pasek.getUlgadlaklasysredniejII():0.0;
-        double podstawapopomniejszeniu = Z.z0(bruttominusspoleczne-dieta30proc-ulgadlaklasysredniej);
-        if (podstawapopomniejszeniu<0) {
+        double ulgadlaklasysredniej = pasek.isUlgadlaKlasySredniej() ? pasek.getUlgadlaklasysredniejI() + pasek.getUlgadlaklasysredniejII() : 0.0;
+        double podstawapopomniejszeniu = Z.z0(bruttominusspoleczne - dieta30proc - ulgadlaklasysredniej);
+        if (podstawapopomniejszeniu < 0) {
             kosztyuzyskania = 0.0;
-        } else if (podstawapopomniejszeniu<kosztyuzyskania) {
+        } else if (podstawapopomniejszeniu < kosztyuzyskania) {
             kosztyuzyskania = podstawapopomniejszeniu;
         }
-        double podstawa = Z.z0(bruttominusspoleczne-kosztyuzyskania-dieta30proc-ulgadlaklasysredniej) > 0.0 ? Z.z0(bruttominusspoleczne-kosztyuzyskania-dieta30proc-ulgadlaklasysredniej) :0.0;
+        double podstawa = Z.z0(bruttominusspoleczne - kosztyuzyskania - dieta30proc - ulgadlaklasysredniej) > 0.0 ? Z.z0(bruttominusspoleczne - kosztyuzyskania - dieta30proc - ulgadlaklasysredniej) : 0.0;
         pasek.setKosztyuzyskaniahipotetyczne(kosztyuzyskania);
         pasek.setPodstawaopodatkowaniahipotetyczna(podstawa);
         //kosztyuzyskania = 0.0;
-        podstawa = Z.z0(kwotanadwyzki-kosztyuzyskania-udzialwspolecznychdoodliczenia-ulgadlaklasysredniej) > 0.0 ? Z.z0(kwotanadwyzki-kosztyuzyskania-ulgadlaklasysredniej) :0.0;
+        podstawa = Z.z0(kwotanadwyzki - kosztyuzyskania - udzialwspolecznychdoodliczenia - ulgadlaklasysredniej) > 0.0 ? Z.z0(kwotanadwyzki - kosztyuzyskania - ulgadlaklasysredniej) : 0.0;
         pasek.setPodstawaopodatkowania(podstawa);
+        korektaprzychodyopodatkowanezagranica(podstawa,pasek);
         pasek.setKosztyuzyskania(kosztyuzyskania);
     }
-    
-    
+
     private static void obliczpodstaweopodatkowaniaZlecenie(Pasekwynagrodzen pasek, List<Podatki> stawkipodatkowe, boolean nierezydent) {
         Podatki pierwszyprog = stawkipodatkowe.get(0);
         double bruttominusspoleczne = pasek.getBruttominusspoleczne();
         Rachunekdoumowyzlecenia rachunekdoumowyzlecenia = PasekwynagrodzenBean.pobierzRachunekzlecenie(pasek.getKalendarzmiesiac().getAngaz(), pasek.getKalendarzmiesiac().getRok(), pasek.getKalendarzmiesiac().getMc());
         //Rachunekdoumowyzlecenia rachunekdoumowyzlecenia =null;
         double procentkosztyuzyskania = rachunekdoumowyzlecenia.getProcentkosztowuzyskania();
-        double podstawadlakosztow = Z.z(bruttominusspoleczne) > 0.0 ? Z.z(bruttominusspoleczne) :0.0;
-        double kosztyuzyskania = Z.z(podstawadlakosztow*20.0/100.0);
+        double podstawadlakosztow = Z.z(bruttominusspoleczne) > 0.0 ? Z.z(bruttominusspoleczne) : 0.0;
+        double kosztyuzyskania = Z.z(podstawadlakosztow * 20.0 / 100.0);
         if (pasek.isDo26lat()) {
             kosztyuzyskania = 0.0;
         }
         double dieta30proc = pasek.getDietaodliczeniepodstawaop();
-        double podstawa = Z.z0(bruttominusspoleczne-kosztyuzyskania-dieta30proc) > 0.0 ? Z.z0(bruttominusspoleczne-kosztyuzyskania-dieta30proc) :0.0;
+        double podstawa = Z.z0(bruttominusspoleczne - kosztyuzyskania - dieta30proc) > 0.0 ? Z.z0(bruttominusspoleczne - kosztyuzyskania - dieta30proc) : 0.0;
         pasek.setPodstawaopodatkowania(podstawa);
+        korektaprzychodyopodatkowanezagranica(podstawa,pasek);
         if (nierezydent) {
             pasek.setKosztyuzyskania(0.0);
         } else {
             pasek.setKosztyuzyskania(kosztyuzyskania);
         }
     }
-    
+
     private static void obliczpodstaweopodatkowaniafunkcja(Pasekwynagrodzen pasek, List<Podatki> stawkipodatkowe, boolean nierezydent) {
         Podatki pierwszyprog = stawkipodatkowe.get(0);
         double bruttominusspoleczne = pasek.getBruttominusspoleczne();
         //Rachunekdoumowyzlecenia rachunekdoumowyzlecenia =null;
         double kosztyuzyskania = pierwszyprog.getKup();
         pasek.setProcentkosztow(100);
-        double podstawadlakosztow = Z.z0(bruttominusspoleczne) > 0.0 ? Z.z0(bruttominusspoleczne) :0.0;
+        double podstawadlakosztow = Z.z0(bruttominusspoleczne) > 0.0 ? Z.z0(bruttominusspoleczne) : 0.0;
         if (pasek.isDo26lat()) {
             kosztyuzyskania = 0.0;
         }
         double dieta30proc = pasek.getDietaodliczeniepodstawaop();
-        double podstawa = Z.z0(bruttominusspoleczne-kosztyuzyskania-dieta30proc) > 0.0 ? Z.z0(bruttominusspoleczne-kosztyuzyskania-dieta30proc) :0.0;
+        double podstawa = Z.z0(bruttominusspoleczne - kosztyuzyskania - dieta30proc) > 0.0 ? Z.z0(bruttominusspoleczne - kosztyuzyskania - dieta30proc) : 0.0;
         pasek.setPodstawaopodatkowania(podstawa);
+        korektaprzychodyopodatkowanezagranica(podstawa,pasek);
         if (nierezydent) {
             pasek.setKosztyuzyskania(0.0);
         } else {
             pasek.setKosztyuzyskania(kosztyuzyskania);
         }
     }
-    
+
 //    private static void obliczpodstaweopodatkowaniaFunkcja(Pasekwynagrodzen pasek, List<Podatki> stawkipodatkowe, boolean nierezydent) {
 //        Podatki pierwszyprog = stawkipodatkowe.get(0);
 //        double bruttominusspoleczne = pasek.getBruttominusspoleczne();
@@ -937,15 +943,14 @@ public class PasekwynagrodzenBean {
 //        pasek.setKosztyuzyskania(kosztyuzyskania);
 //        
 //    }
-    
     private static void obliczpodstaweopodatkowaniaZlecenieSymulacja(Pasekwynagrodzen pasek, List<Podatki> stawkipodatkowe, boolean nierezydent) {
         Podatki pierwszyprog = stawkipodatkowe.get(0);
         double bruttominusspoleczne = pasek.getBruttominusspoleczne();
         double procentkosztyuzyskania = 20.0;
-        double podstawadlakosztow = Z.z0(bruttominusspoleczne) > 0.0 ? Z.z0(bruttominusspoleczne) :0.0;
-        double kosztyuzyskania = Z.z(podstawadlakosztow*procentkosztyuzyskania/100);
+        double podstawadlakosztow = Z.z0(bruttominusspoleczne) > 0.0 ? Z.z0(bruttominusspoleczne) : 0.0;
+        double kosztyuzyskania = Z.z(podstawadlakosztow * procentkosztyuzyskania / 100);
         double dieta30proc = pasek.getDietaodliczeniepodstawaop();
-        double podstawa = Z.z0(bruttominusspoleczne-kosztyuzyskania-dieta30proc) > 0.0 ? Z.z0(bruttominusspoleczne-kosztyuzyskania-dieta30proc) :0.0;
+        double podstawa = Z.z0(bruttominusspoleczne - kosztyuzyskania - dieta30proc) > 0.0 ? Z.z0(bruttominusspoleczne - kosztyuzyskania - dieta30proc) : 0.0;
         pasek.setPodstawaopodatkowania(podstawa);
         if (nierezydent) {
             pasek.setKosztyuzyskania(0.0);
@@ -953,133 +958,129 @@ public class PasekwynagrodzenBean {
             pasek.setKosztyuzyskania(kosztyuzyskania);
         }
         pasek.setProcentkosztow(100);
-        
+
     }
-    
-       private static void obliczpodatekwstepny(Pasekwynagrodzen pasek) {
-        double podatek = Z.z(Z.z0(pasek.getPodstawaopodatkowania())*0.17);
+
+    private static void obliczpodatekwstepny(Pasekwynagrodzen pasek) {
+        double podatek = Z.z(Z.z0(pasek.getPodstawaopodatkowania()) * 0.17);
         pasek.setPodatekwstepny(podatek);
     }
 
-    
- 
-       
     private static void obliczpodatekwstepnyDB26lat(Pasekwynagrodzen pasek, List<Podatki> stawkipodatkowe, double sumapoprzednich, double limit26) {
         double podstawaopodatkowania = pasek.getPodstawaopodatkowaniahipotetyczna();
         double podstawaopodatkowaniaPodatek = pasek.getPodstawaopodatkowania();
-        double podatek = Z.z(Z.z0(podstawaopodatkowania+podstawaopodatkowania)*stawkipodatkowe.get(0).getStawka());
+        double podatek = Z.z(Z.z0(podstawaopodatkowania + podstawaopodatkowania) * stawkipodatkowe.get(0).getStawka());
         double drugiprog = stawkipodatkowe.get(0).getKwotawolnado();
-        if (sumapoprzednich>=drugiprog) {
-            podatek = Z.z(Z.z0(podstawaopodatkowania)*stawkipodatkowe.get(1).getStawka());
+        if (sumapoprzednich >= drugiprog) {
+            podatek = Z.z(Z.z0(podstawaopodatkowania) * stawkipodatkowe.get(1).getStawka());
             pasek.setDrugiprog(true);
-        } else if (sumapoprzednich<drugiprog) {
-            double razemzbiezacym = sumapoprzednich+podstawaopodatkowania;
-            if (razemzbiezacym>drugiprog) {
-                double podatekdol = Z.z(Z.z0(drugiprog-sumapoprzednich)*stawkipodatkowe.get(0).getStawka());
-                double podatekgora = Z.z(Z.z0(razemzbiezacym-drugiprog)*stawkipodatkowe.get(1).getStawka());
-                podatek = podatekdol+podatekgora;
+        } else if (sumapoprzednich < drugiprog) {
+            double razemzbiezacym = sumapoprzednich + podstawaopodatkowania;
+            if (razemzbiezacym > drugiprog) {
+                double podatekdol = Z.z(Z.z0(drugiprog - sumapoprzednich) * stawkipodatkowe.get(0).getStawka());
+                double podatekgora = Z.z(Z.z0(razemzbiezacym - drugiprog) * stawkipodatkowe.get(1).getStawka());
+                podatek = podatekdol + podatekgora;
                 pasek.setDrugiprog(true);
             } else {
-                podatek = Z.z(Z.z0(podstawaopodatkowania)*stawkipodatkowe.get(0).getStawka());
+                podatek = Z.z(Z.z0(podstawaopodatkowania) * stawkipodatkowe.get(0).getStawka());
             }
         }
         pasek.setPodatekwstepnyhipotetyczny(podatek);
         pasek.setPodatekwstepny(0.0);
-        double sumadladrugiegoprogu = sumapoprzednich+podstawaopodatkowania-podstawaopodatkowaniaPodatek;
-        if (podstawaopodatkowaniaPodatek>0.0) {
+        double sumadladrugiegoprogu = sumapoprzednich + podstawaopodatkowania - podstawaopodatkowaniaPodatek;
+        if (podstawaopodatkowaniaPodatek > 0.0) {
             obliczpodatekwstepnyDB26Przekroczenie(pasek, podstawaopodatkowaniaPodatek, stawkipodatkowe, sumadladrugiegoprogu);
         }
     }
-    
+
     private static void obliczpodatekwstepnyDB26Przekroczenie(Pasekwynagrodzen pasek, double podstawaopodatkowaniaponadlimit, List<Podatki> stawkipodatkowe, double sumapoprzednich) {
-        double podatek = Z.z(Z.z0(podstawaopodatkowaniaponadlimit)*stawkipodatkowe.get(0).getStawka());
+        double podatek = Z.z(Z.z0(podstawaopodatkowaniaponadlimit) * stawkipodatkowe.get(0).getStawka());
         double drugiprog = stawkipodatkowe.get(0).getKwotawolnado();
-        if (sumapoprzednich>=drugiprog) {
-            podatek = Z.z(Z.z0(podstawaopodatkowaniaponadlimit)*stawkipodatkowe.get(1).getStawka());
+        if (sumapoprzednich >= drugiprog) {
+            podatek = Z.z(Z.z0(podstawaopodatkowaniaponadlimit) * stawkipodatkowe.get(1).getStawka());
             pasek.setDrugiprog(true);
-        } else if (sumapoprzednich<drugiprog) {
-            double razemzbiezacym = sumapoprzednich+podstawaopodatkowaniaponadlimit;
-            if (razemzbiezacym>drugiprog) {
-                double podatekdol = Z.z(Z.z0(drugiprog-sumapoprzednich)*stawkipodatkowe.get(0).getStawka());
-                double podatekgora = Z.z(Z.z0(razemzbiezacym-drugiprog)*stawkipodatkowe.get(1).getStawka());
-                podatek = podatekdol+podatekgora;
+        } else if (sumapoprzednich < drugiprog) {
+            double razemzbiezacym = sumapoprzednich + podstawaopodatkowaniaponadlimit;
+            if (razemzbiezacym > drugiprog) {
+                double podatekdol = Z.z(Z.z0(drugiprog - sumapoprzednich) * stawkipodatkowe.get(0).getStawka());
+                double podatekgora = Z.z(Z.z0(razemzbiezacym - drugiprog) * stawkipodatkowe.get(1).getStawka());
+                podatek = podatekdol + podatekgora;
                 pasek.setDrugiprog(true);
             } else {
-                podatek = Z.z(Z.z0(podstawaopodatkowaniaponadlimit)*stawkipodatkowe.get(0).getStawka());
+                podatek = Z.z(Z.z0(podstawaopodatkowaniaponadlimit) * stawkipodatkowe.get(0).getStawka());
             }
         }
         pasek.setPodatekwstepny(podatek);
     }
-    
+
     private static void obliczpodatekwstepnyDBStandard(Pasekwynagrodzen pasek, double podstawaopodatkowania, List<Podatki> stawkipodatkowe, double sumapoprzednich) {
-        double podatek = Z.z(Z.z0(podstawaopodatkowania)*stawkipodatkowe.get(0).getStawka());
+        double podatek = Z.z(Z.z0(podstawaopodatkowania) * stawkipodatkowe.get(0).getStawka());
         double drugiprog = stawkipodatkowe.get(0).getKwotawolnado();
-        if (sumapoprzednich>=drugiprog) {
-            podatek = Z.z(Z.z0(podstawaopodatkowania)*stawkipodatkowe.get(1).getStawka());
+        if (sumapoprzednich >= drugiprog) {
+            podatek = Z.z(Z.z0(podstawaopodatkowania) * stawkipodatkowe.get(1).getStawka());
             pasek.setDrugiprog(true);
-        } else if (sumapoprzednich<drugiprog) {
-            double razemzbiezacym = sumapoprzednich+podstawaopodatkowania;
-            if (razemzbiezacym>drugiprog) {
-                double podatekdol = Z.z(Z.z0(drugiprog-sumapoprzednich)*stawkipodatkowe.get(0).getStawka());
-                double podatekgora = Z.z(Z.z0(razemzbiezacym-drugiprog)*stawkipodatkowe.get(1).getStawka());
-                podatek = podatekdol+podatekgora;
+        } else if (sumapoprzednich < drugiprog) {
+            double razemzbiezacym = sumapoprzednich + podstawaopodatkowania;
+            if (razemzbiezacym > drugiprog) {
+                double podatekdol = Z.z(Z.z0(drugiprog - sumapoprzednich) * stawkipodatkowe.get(0).getStawka());
+                double podatekgora = Z.z(Z.z0(razemzbiezacym - drugiprog) * stawkipodatkowe.get(1).getStawka());
+                podatek = podatekdol + podatekgora;
                 pasek.setDrugiprog(true);
             } else {
-                podatek = Z.z(Z.z0(podstawaopodatkowania)*stawkipodatkowe.get(0).getStawka());
+                podatek = Z.z(Z.z0(podstawaopodatkowania) * stawkipodatkowe.get(0).getStawka());
             }
         }
         pasek.setPodatekwstepny(podatek);
     }
-    
+
     private static void obliczpodatekwstepnyZlecenieDB(Pasekwynagrodzen pasek, List<Podatki> stawkipodatkowe, boolean nierezydent) {
-        double podatek = Z.z(Z.z0(pasek.getPodstawaopodatkowania())*stawkipodatkowe.get(0).getStawka());
+        double podatek = Z.z(Z.z0(pasek.getPodstawaopodatkowania()) * stawkipodatkowe.get(0).getStawka());
         if (nierezydent) {
-            podatek = Z.z(Z.z0(pasek.getBrutto())*0.2);
+            podatek = Z.z(Z.z0(pasek.getBrutto()) * 0.2);
         } else if (pasek.isDo26lat()) {
             podatek = 0.0;
         }
         pasek.setPodatekwstepny(podatek);
     }
-    
+
     private static void obliczpodatekwstepnyFunkcjaDB(Pasekwynagrodzen pasek, List<Podatki> stawkipodatkowe, boolean nierezydent) {
-        double podatek = Z.z(Z.z0(pasek.getPodstawaopodatkowania())*stawkipodatkowe.get(0).getStawka());
+        double podatek = Z.z(Z.z0(pasek.getPodstawaopodatkowania()) * stawkipodatkowe.get(0).getStawka());
         if (nierezydent) {
-            podatek = Z.z(Z.z0(pasek.getBrutto())*0.2);
+            podatek = Z.z(Z.z0(pasek.getBrutto()) * 0.2);
         } else if (pasek.isDo26lat()) {
             podatek = 0.0;
         }
         pasek.setPodatekwstepny(podatek);
     }
-    
-    
+
     private static void ulgapodatkowa(Pasekwynagrodzen pasek, boolean ulga) {
         double kwotawolna = 43.76;
-        if (ulga && pasek.isDo26lat()==false) {
+        if (ulga && pasek.isDo26lat() == false) {
             double podatek = pasek.getPodatekwstepny();
-            if (kwotawolna>podatek) {
+            if (kwotawolna > podatek) {
                 pasek.setKwotawolna(podatek);
             } else {
                 pasek.setKwotawolna(kwotawolna);
             }
-            
+
         } else {
             pasek.setKwotawolna(0.0);
         }
     }
 
-    private static void ulgapodatkowaDB(Pasekwynagrodzen pasek,  List<Podatki> stawkipodatkowe, boolean ignoruj26lat, boolean ulga) {
+    private static void ulgapodatkowaDB(Pasekwynagrodzen pasek, List<Podatki> stawkipodatkowe, boolean ignoruj26lat, boolean ulga) {
         double kwotawolna = stawkipodatkowe.get(0).getWolnamc();
         double kwotawolnadlazdrowotnej = stawkipodatkowe.get(0).getWolnadlazdrowotnej();
         if (pasek.isDrugiprog()) {
             kwotawolna = 0.0;
             pasek.setKwotawolna(kwotawolna);
         }
-        if (pasek.isNierezydent()&&pasek.isPraca()==false) {
+        if (pasek.isNierezydent() && pasek.isPraca() == false) {
             kwotawolna = 0.0;
             pasek.setKwotawolna(kwotawolna);
-        } else if (ulga && (pasek.isDo26lat()==false||ignoruj26lat)) {
+        } else if (ulga && (pasek.isDo26lat() == false || ignoruj26lat)) {
             double podatek = pasek.getPodatekwstepny();
-            if (kwotawolna>podatek) {
+            if (kwotawolna > podatek) {
                 pasek.setKwotawolna(podatek);
             } else {
                 pasek.setKwotawolna(kwotawolna);
@@ -1088,9 +1089,9 @@ public class PasekwynagrodzenBean {
             pasek.setKwotawolnahipotetyczna(kwotawolna);
             pasek.setKwotawolna(0.0);
         }
-        if (pasek.isDo26lat()==true && pasek.getPodatekwstepny()>0.0) {
+        if (pasek.isDo26lat() == true && pasek.getPodatekwstepny() > 0.0) {
             double podatek = pasek.getPodatekwstepny();
-            if (kwotawolna>podatek) {
+            if (kwotawolna > podatek) {
                 pasek.setKwotawolna(podatek);
             } else {
                 pasek.setKwotawolna(kwotawolna);
@@ -1098,70 +1099,70 @@ public class PasekwynagrodzenBean {
         }
         pasek.setKwotawolnadlazdrowotnej(kwotawolnadlazdrowotnej);
     }
-    
+
     private static void naliczzdrowotaFunkcja(Pasekwynagrodzen pasek, boolean nierezydent, boolean praca) {
-        
+
     }
 
     private static void naliczzdrowota(Pasekwynagrodzen pasek, boolean nierezydent, boolean praca) {
-        double spolecznepodstawa = Z.z(pasek.getPodstawaskladkizus()+pasek.getBruttobezzus()-pasek.getRazemspolecznepracownik());
-        double podstawazdrowotna = Z.z(spolecznepodstawa+pasek.getBruttobezspolecznych()) > 0.0 ? Z.z(spolecznepodstawa+pasek.getBruttobezspolecznych()) :0.0;
+        double spolecznepodstawa = Z.z(pasek.getPodstawaskladkizus() + pasek.getBruttobezzus() - pasek.getRazemspolecznepracownik());
+        double podstawazdrowotna = Z.z(spolecznepodstawa + pasek.getBruttobezspolecznych()) > 0.0 ? Z.z(spolecznepodstawa + pasek.getBruttobezspolecznych()) : 0.0;
         //usuwamy z podstawy zasilki chorobowe
         List<Naliczenienieobecnosc> nieobecnoscilist = pasek.getNaliczenienieobecnoscList();
         for (Naliczenienieobecnosc n : nieobecnoscilist) {
-            if (n.getNieobecnosc().getSwiadczeniekodzus()!=null&&n.getNieobecnosc().getSwiadczeniekodzus().isZdrowotne()==false &&!n.getNieobecnosc().getSwiadczeniekodzus().getRodzajnieobecnosci().getKod().equals("ZC")) {
-                podstawazdrowotna = Z.z(podstawazdrowotna-n.getKwota());
+            if (n.getNieobecnosc().getSwiadczeniekodzus() != null && n.getNieobecnosc().getSwiadczeniekodzus().isZdrowotne() == false && !n.getNieobecnosc().getSwiadczeniekodzus().getRodzajnieobecnosci().getKod().equals("ZC")) {
+                podstawazdrowotna = Z.z(podstawazdrowotna - n.getKwota());
             }
         }
         pasek.setPodstawaubezpzdrowotne(podstawazdrowotna);
-        double zdrowotne = Z.z(podstawazdrowotna*0.09);
+        double zdrowotne = Z.z(podstawazdrowotna * 0.09);
         pasek.setPraczdrowotne(zdrowotne);
-        double zdrowotneodliczane = Z.z(podstawazdrowotna*0.0775);
+        double zdrowotneodliczane = Z.z(podstawazdrowotna * 0.0775);
         if (nierezydent) {
             pasek.setPraczdrowotnedoodliczenia(0.0);
             pasek.setPraczdrowotnedopotracenia(zdrowotneodliczane);
         } else {
-            if (pasek.isDo26lat()&&pasek.isPraca()==false&&pasek.isStudent()) {
+            if (pasek.isDo26lat() && pasek.isPraca() == false && pasek.isStudent()) {
                 zdrowotne = 0.0;
                 zdrowotneodliczane = 0.0;
                 pasek.setPraczdrowotne(zdrowotne);
                 pasek.setPraczdrowotnedoodliczenia(0.0);
                 pasek.setPraczdrowotnedopotracenia(0.0);
-            } else if (pasek.isDo26lat()&&pasek.isPraca()==false) {
-                double limitdlazdrowotnej = Z.z(pasek.getPodstawaopodatkowania()*0.17-pasek.getKwotawolnadlazdrowotnej())>0.0?Z.z(pasek.getPodstawaopodatkowania()*0.17-pasek.getKwotawolnadlazdrowotnej()):0.0;
-                if (Z.z(pasek.getKwotawolna())>0.0) {
-                    zdrowotne = zdrowotne>limitdlazdrowotnej?Z.z(limitdlazdrowotnej):zdrowotne;
-                    zdrowotneodliczane = zdrowotneodliczane>limitdlazdrowotnej?Z.z(limitdlazdrowotnej):zdrowotneodliczane;
+            } else if (pasek.isDo26lat() && pasek.isPraca() == false) {
+                double limitdlazdrowotnej = Z.z(pasek.getPodstawaopodatkowania() * 0.17 - pasek.getKwotawolnadlazdrowotnej()) > 0.0 ? Z.z(pasek.getPodstawaopodatkowania() * 0.17 - pasek.getKwotawolnadlazdrowotnej()) : 0.0;
+                if (Z.z(pasek.getKwotawolna()) > 0.0) {
+                    zdrowotne = zdrowotne > limitdlazdrowotnej ? Z.z(limitdlazdrowotnej) : zdrowotne;
+                    zdrowotneodliczane = zdrowotneodliczane > limitdlazdrowotnej ? Z.z(limitdlazdrowotnej) : zdrowotneodliczane;
                 }
                 pasek.setPraczdrowotne(zdrowotne);
                 pasek.setPraczdrowotnedoodliczenia(0.0);
                 pasek.setPraczdrowotnedopotracenia(0.0);
             } else if (pasek.isDo26lat()) {
-                double limitdlazdrowotnej = Z.z(pasek.getPodstawaopodatkowania()*0.17-pasek.getKwotawolnadlazdrowotnej())>0.0?Z.z(pasek.getPodstawaopodatkowania()*0.17-pasek.getKwotawolnadlazdrowotnej()):0.0;
-                if (Z.z(pasek.getKwotawolna())>0.0) {
-                    zdrowotne = zdrowotne>limitdlazdrowotnej?Z.z(limitdlazdrowotnej):zdrowotne;
-                    zdrowotneodliczane = zdrowotneodliczane>limitdlazdrowotnej?Z.z(limitdlazdrowotnej):zdrowotneodliczane;
+                double limitdlazdrowotnej = Z.z(pasek.getPodstawaopodatkowania() * 0.17 - pasek.getKwotawolnadlazdrowotnej()) > 0.0 ? Z.z(pasek.getPodstawaopodatkowania() * 0.17 - pasek.getKwotawolnadlazdrowotnej()) : 0.0;
+                if (Z.z(pasek.getKwotawolna()) > 0.0) {
+                    zdrowotne = zdrowotne > limitdlazdrowotnej ? Z.z(limitdlazdrowotnej) : zdrowotne;
+                    zdrowotneodliczane = zdrowotneodliczane > limitdlazdrowotnej ? Z.z(limitdlazdrowotnej) : zdrowotneodliczane;
                 }
                 pasek.setPraczdrowotne(zdrowotne);
-                zdrowotneodliczane = Integer.parseInt(pasek.getRokwypl())<2022?zdrowotneodliczane:0.0;
+                zdrowotneodliczane = Integer.parseInt(pasek.getRokwypl()) < 2022 ? zdrowotneodliczane : 0.0;
                 pasek.setPraczdrowotnedoodliczenia(zdrowotneodliczane);
                 pasek.setPraczdrowotnedopotracenia(zdrowotne);
             } else {
-                if (Integer.parseInt(pasek.getRokwypl())<2022) {
-                    double limitdlazdrowotnej = Z.z(pasek.getPodstawaopodatkowania()*0.17-pasek.getKwotawolnadlazdrowotnej())>0.0?Z.z(pasek.getPodstawaopodatkowania()*0.17-pasek.getKwotawolnadlazdrowotnej()):0.0;
+                if (Integer.parseInt(pasek.getRokwypl()) < 2022) {
+                    double limitdlazdrowotnej = Z.z(pasek.getPodstawaopodatkowania() * 0.17 - pasek.getKwotawolnadlazdrowotnej()) > 0.0 ? Z.z(pasek.getPodstawaopodatkowania() * 0.17 - pasek.getKwotawolnadlazdrowotnej()) : 0.0;
                     //spawa
-                    if (zdrowotneodliczane>limitdlazdrowotnej&&Z.z(pasek.getKwotawolna())>0.0) {
+                    if (zdrowotneodliczane > limitdlazdrowotnej && Z.z(pasek.getKwotawolna()) > 0.0) {
                         pasek.setPraczdrowotne(limitdlazdrowotnej);
                         pasek.setPraczdrowotnedoodliczenia(limitdlazdrowotnej);
                         pasek.setPraczdrowotnedopotracenia(0.0);
                     } else {
                         pasek.setPraczdrowotnedoodliczenia(zdrowotneodliczane);
-                        pasek.setPraczdrowotnedopotracenia(Z.z(zdrowotne-zdrowotneodliczane));
+                        pasek.setPraczdrowotnedopotracenia(Z.z(zdrowotne - zdrowotneodliczane));
                     }
                 } else {
                     if (praca) {
-                        double limitdlazdrowotnej = Z.z(pasek.getPodstawaopodatkowania()*0.17-pasek.getKwotawolnadlazdrowotnej())>0.0?Z.z(pasek.getPodstawaopodatkowania()*0.17-pasek.getKwotawolnadlazdrowotnej()):0.0;
-                        if (zdrowotne>limitdlazdrowotnej&&Z.z(pasek.getKwotawolna())>0.0) {
+                        double limitdlazdrowotnej = Z.z(pasek.getPodstawaopodatkowania() * 0.17 - pasek.getKwotawolnadlazdrowotnej()) > 0.0 ? Z.z(pasek.getPodstawaopodatkowania() * 0.17 - pasek.getKwotawolnadlazdrowotnej()) : 0.0;
+                        if (zdrowotne > limitdlazdrowotnej && Z.z(pasek.getKwotawolna()) > 0.0) {
                             pasek.setPraczdrowotne(limitdlazdrowotnej);
                             pasek.setPraczdrowotnedoodliczenia(0.0);
                             pasek.setPraczdrowotnedopotracenia(limitdlazdrowotnej);
@@ -1180,32 +1181,33 @@ public class PasekwynagrodzenBean {
     }
 
     private static void obliczpodatekdowplaty(Pasekwynagrodzen pasek) {
-        double podateknetto = Z.z0(pasek.getPodatekwstepny()-pasek.getPraczdrowotnedoodliczenia()-pasek.getKwotawolna());
-        pasek.setPodatekdochodowy(podateknetto<0.0?0.0:podateknetto);
+        double podateknetto = Z.z0(pasek.getPodatekwstepny() - pasek.getPraczdrowotnedoodliczenia() - pasek.getKwotawolna());
+        pasek.setPodatekdochodowy(podateknetto < 0.0 ? 0.0 : podateknetto);
     }
-    
-   
+
     private static void potracenia(Pasekwynagrodzen pasek) {
         double potracenia = 0.0;
         for (Naliczeniepotracenie p : pasek.getNaliczeniepotracenieList()) {
-            potracenia = Z.z(potracenia+p.getKwota());
+            potracenia = Z.z(potracenia + p.getKwota());
         }
         pasek.setPotracenia(potracenia);
     }
 
     private static void netto(Pasekwynagrodzen pasek) {
-        double wyliczenie = Z.z(pasek.getBrutto()-pasek.getRazemspolecznepracownik()-pasek.getPraczdrowotne()-pasek.getPodatekdochodowy());
-        pasek.setNettoprzedpotraceniami(wyliczenie <0.0?0.0:wyliczenie);
+        double wyliczenie = Z.z(pasek.getBrutto() - pasek.getRazemspolecznepracownik() - pasek.getPraczdrowotne() - pasek.getPodatekdochodowy());
+        double wyliczenieminuspodatekwaluta = Z.z(wyliczenie-pasek.getPodatekdochodowyzagranica());
+        pasek.setNettoprzedpotraceniamisafe(wyliczenieminuspodatekwaluta < 0.0 ? 0.0 : wyliczenieminuspodatekwaluta);
+        pasek.setNettoprzedpotraceniami(wyliczenieminuspodatekwaluta < 0.0 ? 0.0 : wyliczenieminuspodatekwaluta);
     }
-    
-    private static void dowyplaty(Pasekwynagrodzen pasek) {
-        pasek.setNetto(Z.z(pasek.getNettoprzedpotraceniami()-pasek.getPotracenia()));
+
+    public static void dowyplaty(Pasekwynagrodzen pasek) {
+        pasek.setNetto(Z.z(pasek.getNettoprzedpotraceniami() - pasek.getPotracenia()));
     }
 
     private static List<Nieobecnosc> pobierz(List<Nieobecnosc> nieobecnosci, String string) {
         List<Nieobecnosc> zwrot = new ArrayList<>();
         for (Nieobecnosc p : nieobecnosci) {
-            if (p.getSwiadczeniekodzus()!=null&&p.getSwiadczeniekodzus().getKod().equals(string)) {
+            if (p.getSwiadczeniekodzus() != null && p.getSwiadczeniekodzus().getKod().equals(string)) {
                 zwrot.add(p);
             } else if (String.valueOf(p.getRodzajnieobecnosci().getKod()).equals(string)) {
                 zwrot.add(p);
@@ -1218,7 +1220,7 @@ public class PasekwynagrodzenBean {
         Pasekwynagrodzen jesttaki = null;
         try {
             jesttaki = pasekwynagrodzenFacade.findByDefKal(selected.getDefinicjalistaplac(), selected.getKalendarzmiesiac());
-            if (jesttaki!=null) {
+            if (jesttaki != null) {
                 pasekwynagrodzenFacade.remove(jesttaki);
             }
         } catch (Exception e) {
@@ -1235,7 +1237,7 @@ public class PasekwynagrodzenBean {
         for (Nieobecnosc p : nieobecnosci) {
             jestod = Data.czydatajestwmcu(p.getDataod(), rok, mc);
             jestdo = Data.czydatajestwmcu(p.getDatado(), rok, mc);
-            if ((jestod||jestdo) && p.isNaniesiona()) {
+            if ((jestod || jestdo) && p.isNaniesiona()) {
                 zwrot.add(p);
             }
         }
@@ -1248,19 +1250,19 @@ public class PasekwynagrodzenBean {
         String rokumowa = Data.getRok(dataod);
         String mcumowa = Data.getMc(dataod);
         String dzienumowa = Data.getDzien(dataod);
-        if (rokumowa.equals(rok)&&mcumowa.equals(mc)&&!dzienumowa.equals("01")) {
+        if (rokumowa.equals(rok) && mcumowa.equals(mc) && !dzienumowa.equals("01")) {
             Rodzajnieobecnosci nieobecnosckodzus = rodzajnieobecnosciFacade.findByKod("D");
             zwrot = new Nieobecnosc();
             zwrot.setAngaz(angaz);
             zwrot.setRodzajnieobecnosci(nieobecnosckodzus);
             String pierwszydzienmca = Data.pierwszyDzien(dataod);
-            if (dataostatniejumowy!=null) {
+            if (dataostatniejumowy != null) {
                 LocalDate pierwszydzienmcald = LocalDate.parse(dataostatniejumowy);
                 LocalDate tumorow = pierwszydzienmcald.plusDays(1);
                 pierwszydzienmca = tumorow.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
             }
             LocalDate pierwszydzienumowy = LocalDate.parse(dataod);
-            LocalDate yesterday = pierwszydzienumowy.minusDays(1);  
+            LocalDate yesterday = pierwszydzienumowy.minusDays(1);
             String dzienprzedumowa = yesterday.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
             zwrot.setDataod(pierwszydzienmca);
             zwrot.setDatado(dzienprzedumowa);
@@ -1272,18 +1274,18 @@ public class PasekwynagrodzenBean {
             zwrot.setMcdo(Data.getMc(zwrot.getDatado()));
             zwrotlist.add(zwrot);
         }
-        if (datado!=null&&!datado.equals("")) {
+        if (datado != null && !datado.equals("")) {
             String rokumowado = Data.getRok(datado);
             String mcumowado = Data.getMc(datado);
             String dzienumowado = Data.getDzien(datado);
             String ostatnidzienmca = Data.getDzien(Data.ostatniDzien(rokumowado, mcumowado));
-            if (rokumowado.equals(rok)&&mcumowado.equals(mc)&&!dzienumowado.equals(ostatnidzienmca)) {
+            if (rokumowado.equals(rok) && mcumowado.equals(mc) && !dzienumowado.equals(ostatnidzienmca)) {
                 Rodzajnieobecnosci nieobecnosckodzus = rodzajnieobecnosciFacade.findByKod("D");
                 zwrot = new Nieobecnosc();
                 zwrot.setAngaz(angaz);
                 zwrot.setRodzajnieobecnosci(nieobecnosckodzus);
                 LocalDate ostatnidzienumowy = LocalDate.parse(datado);
-                LocalDate tomorrow = ostatnidzienumowy.plusDays(1);  
+                LocalDate tomorrow = ostatnidzienumowy.plusDays(1);
                 String dzienpoumowie = tomorrow.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
                 zwrot.setDataod(dzienpoumowie);
                 zwrot.setDatado(Data.ostatniDzien(rokumowado, mcumowado));
@@ -1303,7 +1305,7 @@ public class PasekwynagrodzenBean {
         Pasekwynagrodzen sumapasek = new Pasekwynagrodzen();
         sumapasek.setKalendarzmiesiac(new Kalendarzmiesiac());
         sumapasek.getKalendarzmiesiac().setAngaz(new Angaz());
-        sumapasek.getKalendarzmiesiac().getAngaz().setPracownik(new Pracownik("podsumowanie"," "));
+        sumapasek.getKalendarzmiesiac().getAngaz().setPracownik(new Pracownik("podsumowanie", " "));
         for (Pasekwynagrodzen p : lista) {
             sumapasek.dodajPasek(p);
         }
@@ -1312,52 +1314,49 @@ public class PasekwynagrodzenBean {
 
     //diety rozlicza sie dwa razy, raz obnizaja zus raz dochodowy
     private static void wyliczlimitZUS(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasek, double kurs, double limitZUS) {
-        double sumawynagrodzen = pasek.getBruttozus()+pasek.getBruttozusbezpodatek();
-        double sumawynagrodzenpopotraceniudiet = sumawynagrodzen-pasek.getDieta() >- 0.0 ? Z.z(sumawynagrodzen-pasek.getDieta()) : 0.0;
+        double sumawynagrodzen = pasek.getBruttozus() + pasek.getBruttozusbezpodatek();
+        double sumawynagrodzenpopotraceniudiet = sumawynagrodzen - pasek.getDieta() > -0.0 ? Z.z(sumawynagrodzen - pasek.getDieta()) : 0.0;
         double kwotabezzus = 0.0;
-        if (sumawynagrodzen>limitZUS) {
-            if (sumawynagrodzenpopotraceniudiet<limitZUS) {
-                kwotabezzus = Z.z(sumawynagrodzen-limitZUS);
+        if (sumawynagrodzen > limitZUS) {
+            if (sumawynagrodzenpopotraceniudiet < limitZUS) {
+                kwotabezzus = Z.z(sumawynagrodzen - limitZUS);
             } else {
                 kwotabezzus = Z.z(pasek.getDieta());
             }
         }
         pasek.setLimitzus(limitZUS);
         pasek.setLimitzuspoza(kwotabezzus);
-        pasek.setPodstawaskladkizus(pasek.getBruttozus()+pasek.getBruttozusbezpodatek()-kwotabezzus);
+        pasek.setPodstawaskladkizus(pasek.getBruttozus() + pasek.getBruttozusbezpodatek() - kwotabezzus);
     }
 
     private static double sumujwynagrodzenia(List<Naliczenieskladnikawynagrodzenia> naliczenieskladnikawynagrodzeniaList) {
         double suma = 0.0;
         for (Naliczenieskladnikawynagrodzenia p : naliczenieskladnikawynagrodzeniaList) {
             //to trzeba bedzie zmienic!!!!! bo nie ma polksiego wyn
-            if (p.getKwotadolistyplac()!=0.0) {
-                suma = suma +p.getKwotadolistyplac();
+            if (p.getKwotadolistyplac() != 0.0) {
+                suma = suma + p.getKwotadolistyplac();
             } else {
-                suma = suma +p.getKwotaumownazacalymc();
+                suma = suma + p.getKwotaumownazacalymc();
             }
         }
         return suma;
     }
 
-    
-
     private static void obliczdietedoodliczenia(Pasekwynagrodzen pasek, Kalendarzmiesiac kalendarz) {
         double dnioddelegowanie = 0.0;
         double dietawaluta = 0.0;
         for (Dzien p : kalendarz.getDzienList()) {
-            if (p.getKod()!=null&&p.getKod().equals("Z")) {
+            if (p.getKod() != null && p.getKod().equals("Z")) {
                 dnioddelegowanie++;
-                dietawaluta = dietawaluta+p.getNieobecnosc().getDietaoddelegowanie();
+                dietawaluta = dietawaluta + p.getNieobecnosc().getDietaoddelegowanie();
             }
         }
-        double dietypln = Z.z(dietawaluta*pasek.getKurs());
+        double dietypln = Z.z(dietawaluta * pasek.getKurs());
         pasek.setDietawaluta(dietawaluta);
         pasek.setDieta(dietypln);
-        dietypln = Z.z(dietypln*0.3);
+        dietypln = Z.z(dietypln * 0.3);
         pasek.setDietaodliczeniepodstawaop(dietypln);
     }
-
 
     private static void naniesrobocze(Pasekwynagrodzen pasek, Kalendarzmiesiac kalendarz) {
         int[] robocze = kalendarz.robocze();
@@ -1369,8 +1368,9 @@ public class PasekwynagrodzenBean {
         double bruttobezzusbezpodatek = 0.0;
         for (Naliczenieskladnikawynagrodzenia p : pasek.getNaliczenieskladnikawynagrodzeniaList()) {
             //bruttobezzusbezpodatek = Z.z(bruttobezzusbezpodatek+p.getKwotabezzusbezpodatek());
-        }
-        pasek.setNettoprzedpotraceniami(Z.z(pasek.getNettoprzedpotraceniami())+bruttobezzusbezpodatek);
+        
+        pasek.setNettoprzedpotraceniamisafe(Z.z(pasek.getNettoprzedpotraceniami()) + bruttobezzusbezpodatek);}
+        pasek.setNettoprzedpotraceniami(Z.z(pasek.getNettoprzedpotraceniami()) + bruttobezzusbezpodatek);
     }
 
     public static double sumapodstawaopodpopmce(PasekwynagrodzenFacade pasekwynagrodzenFacade, Kalendarzmiesiac p, double prog) {
@@ -1378,20 +1378,20 @@ public class PasekwynagrodzenBean {
         double suma = 0.0;
         int mckalendarza = p.getMcI();
         for (Pasekwynagrodzen r : paskipodatnika) {
-            if (r.getMcI()<=mckalendarza) {
-                suma = suma+r.getPodstawaopodatkowania();
+            if (r.getMcI() <= mckalendarza) {
+                suma = suma + r.getPodstawaopodatkowania();
             }
         }
         return suma;
     }
-    
+
     public static double sumabruttopodstawaopodpopmce(PasekwynagrodzenFacade pasekwynagrodzenFacade, String rokwyplaty, String mcwyplaty, Angaz angaz, double prog) {
         List<Pasekwynagrodzen> paskipodatnika = pasekwynagrodzenFacade.findByRokAngaz(rokwyplaty, angaz);
         double suma = 0.0;
         int mckalendarza = Integer.parseInt(mcwyplaty);
         for (Pasekwynagrodzen r : paskipodatnika) {
-            if (r.getMcI()<=mckalendarza) {
-                suma = suma+r.getBrutto();
+            if (r.getMcI() <= mckalendarza) {
+                suma = suma + r.getBrutto();
             }
         }
         return suma;
@@ -1400,9 +1400,9 @@ public class PasekwynagrodzenBean {
     public static boolean czyodliczonokwotewolna(String rok, String mc, Angaz angaz, PasekwynagrodzenFacade pasekwynagrodzenFacade) {
         boolean zwrot = false;
         List<Pasekwynagrodzen> innepaskiwtymmiesiacu = pasekwynagrodzenFacade.findByRokMcAngaz(rok, mc, angaz);
-        if (innepaskiwtymmiesiacu!=null) {
+        if (innepaskiwtymmiesiacu != null) {
             for (Pasekwynagrodzen p : innepaskiwtymmiesiacu) {
-                if (p.getKwotawolna()!=0.0) {
+                if (p.getKwotawolna() != 0.0) {
                     zwrot = true;
                 }
             }
@@ -1411,23 +1411,23 @@ public class PasekwynagrodzenBean {
     }
 
     private static void wyliczpodstaweZUS(Pasekwynagrodzen pasek) {
-        pasek.setPodstawaskladkizus(pasek.getBruttozus()+pasek.getBruttozusbezpodatek());
+        pasek.setPodstawaskladkizus(pasek.getBruttozus() + pasek.getBruttozusbezpodatek());
     }
 
     private static boolean obliczczynierezydent(Umowa umowa, String termwyplaty) {
         boolean zwrot = false;
-        if (umowa.getAngaz().getDataprzyjazdudopolski()!=null&&!umowa.getAngaz().getDataprzyjazdudopolski().equals("")) {
+        if (umowa.getAngaz().getDataprzyjazdudopolski() != null && !umowa.getAngaz().getDataprzyjazdudopolski().equals("")) {
             String dataprzyjazdu = umowa.getAngaz().getDataprzyjazdudopolski();
             LocalDate dataprzyj = LocalDate.parse(dataprzyjazdu);
             LocalDate datawypl = LocalDate.parse(termwyplaty);
             String rok = Data.getRok(termwyplaty);
-            String pierwszydzienroku = rok+"-01-01";
+            String pierwszydzienroku = rok + "-01-01";
             LocalDate datapoczrok = LocalDate.parse(pierwszydzienroku);
             if (dataprzyj.isBefore(datapoczrok)) {
                 dataprzyj = datapoczrok;
             }
             long dni = ChronoUnit.DAYS.between(dataprzyj, datawypl);
-            if (dni<183) {
+            if (dni < 183) {
                 zwrot = true;
             }
         }
@@ -1439,29 +1439,28 @@ public class PasekwynagrodzenBean {
 //    pracowników w każdym miesiącu w wysokości obliczonej według wzoru:
 //    (A x 6,68% – 380,50 zł) ÷ 0,17, dla A wynoszącego co najmniej 5 701 zł i nieprzekraczającego kwoty 8 549 zł,
 //    (A x (-7,35%) + 819,08 zł) ÷ 0,17, dla A wyższego od 8 549 zł i nieprzekraczającego kwoty 11 141 zł.
-    
     private static void uwzglednijulgeklasasrednia(Pasekwynagrodzen pasek) {
         double kwotaprzychodu = Z.z(pasek.getBrutto());
         double kwotaulgi = 0.0;
-        if (kwotaprzychodu>=5701.0&&kwotaprzychodu<=8549.0) {
-            kwotaulgi = Z.z((Z.z(kwotaprzychodu*0.0668)-380.50)/0.17);
+        if (kwotaprzychodu >= 5701.0 && kwotaprzychodu <= 8549.0) {
+            kwotaulgi = Z.z((Z.z(kwotaprzychodu * 0.0668) - 380.50) / 0.17);
             pasek.setUlgadlaklasysredniejI(kwotaulgi);
-        } else if (kwotaprzychodu>8549.0&&kwotaprzychodu<=11141) {
-            kwotaulgi = Z.z((Z.z(kwotaprzychodu*(-0.0735))+819.08)/0.17);
+        } else if (kwotaprzychodu > 8549.0 && kwotaprzychodu <= 11141) {
+            kwotaulgi = Z.z((Z.z(kwotaprzychodu * (-0.0735)) + 819.08) / 0.17);
             pasek.setUlgadlaklasysredniejII(kwotaulgi);
         }
     }
 
-    
     public static Rachunekdoumowyzlecenia pobierzRachunekzlecenie(Angaz angaz, String rok, String mc) {
         Rachunekdoumowyzlecenia zwrot = null;
         try {
-            Umowa umowa = angaz.pobierzumowaZlecenia(rok,mc);
+            Umowa umowa = angaz.pobierzumowaZlecenia(rok, mc);
             List<Rachunekdoumowyzlecenia> rachunekdoumowyzleceniaList = umowa.getRachunekdoumowyzleceniaList();
-            if (rachunekdoumowyzleceniaList!=null) {
-                zwrot = rachunekdoumowyzleceniaList.stream().filter(pa->pa.getMc().equals(mc)&&pa.getRok().equals(rok)).findAny().get();
+            if (rachunekdoumowyzleceniaList != null) {
+                zwrot = rachunekdoumowyzleceniaList.stream().filter(pa -> pa.getMc().equals(mc) && pa.getRok().equals(rok)).findAny().get();
             }
-        } catch (Exception e){}
+        } catch (Exception e) {
+        }
         return zwrot;
     }
 
@@ -1469,13 +1468,13 @@ public class PasekwynagrodzenBean {
         boolean takprzekroczonowiek = false;
         boolean mezczyzna = pobierzplec(kalendarz.getAngaz().getPracownik());
         LocalDate dataurodzin = Data.stringToLocalDate(kalendarz.getPracownik().getDataurodzenia());
-        int lata = mezczyzna?60:55;
+        int lata = mezczyzna ? 60 : 55;
         LocalDate ukonczeniewieku = dataurodzin.plus(lata, ChronoUnit.YEARS);
         LocalDate datalisty1 = Data.stringToLocalDate(datalisty);
-        if (ukonczeniewieku.getYear()<datalisty1.getYear()) {
+        if (ukonczeniewieku.getYear() < datalisty1.getYear()) {
             takprzekroczonowiek = true;
-        } else if (ukonczeniewieku.getYear()==datalisty1.getYear()) {
-            if (ukonczeniewieku.getMonthValue()<datalisty1.getMonthValue()) {
+        } else if (ukonczeniewieku.getYear() == datalisty1.getYear()) {
+            if (ukonczeniewieku.getMonthValue() < datalisty1.getMonthValue()) {
                 takprzekroczonowiek = true;
             }
         }
@@ -1484,7 +1483,7 @@ public class PasekwynagrodzenBean {
 
     private static boolean pobierzplec(Pracownik pracownik) {
         boolean mezczyzna = true;
-        if (pracownik.getPlec()!=null&&pracownik.getPlec().equals("K")) {
+        if (pracownik.getPlec() != null && pracownik.getPlec().equals("K")) {
             mezczyzna = false;
         }
         return mezczyzna;
@@ -1492,7 +1491,7 @@ public class PasekwynagrodzenBean {
 
     private static boolean czyponizejminimalnego(Pasekwynagrodzen pasek, double wynagrodzenieminimalne) {
         boolean czyjestponizejminimalnego = false;
-        if (pasek.getPodstawaskladkizus()<wynagrodzenieminimalne) {
+        if (pasek.getPodstawaskladkizus() < wynagrodzenieminimalne) {
             czyjestponizejminimalnego = true;
         }
         return czyjestponizejminimalnego;
@@ -1501,12 +1500,12 @@ public class PasekwynagrodzenBean {
     private static boolean czysatylkozlecenia(Kalendarzmiesiac kalendarz) {
         boolean czysatylkozlecenia = true;
         FirmaKadry firma = kalendarz.getAngaz().getFirma();
-        if (firma.isOsobafizyczna()==true) {
+        if (firma.isOsobafizyczna() == true) {
             List<Angaz> angazewFirmie = firma.getAngazList();
             for (Angaz a : angazewFirmie) {
                 Umowa u = a.getAktywnaUmowa();
                 if (u.getUmowakodzus().isPraca()) {
-                    czysatylkozlecenia= false;
+                    czysatylkozlecenia = false;
                     break;
                 }
             }
@@ -1516,15 +1515,30 @@ public class PasekwynagrodzenBean {
         return czysatylkozlecenia;
     }
 
-    private static void przelicznawalute(Pasekwynagrodzen pasek) {
+    public static void przelicznawalute(Pasekwynagrodzen pasek) {
         double kurs = pasek.getKurs();
         double netto = pasek.getNetto();
-        double kwotawwalucie = Z.z(netto/kurs);
+        double kwotawwalucie = Z.z(netto / kurs);
         pasek.setNettowaluta(kwotawwalucie);
         pasek.setSymbolwaluty("EUR");
     }
 
-    
-    
-   
+    private static void korektaprzychodyopodatkowanezagranica(double podstawa, Pasekwynagrodzen pasek) {
+        try {
+            List<Naliczenieskladnikawynagrodzenia> naliczenieskladnikawynagrodzeniaList = pasek.getNaliczenieskladnikawynagrodzeniaList();
+            double zagranicapln = 0.0;
+            double zagranicawaluta = 0.0;
+            for (Naliczenieskladnikawynagrodzenia p : naliczenieskladnikawynagrodzeniaList) {
+                if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod().equals("13")) {
+                    zagranicawaluta = zagranicawaluta + p.getKwotadolistyplacwaluta();
+                    zagranicapln = zagranicapln + p.getKwotadolistyplac();
+                }
+            }
+            pasek.setPodstawaopodatkowaniazagranicawaluta(Z.z(zagranicawaluta));
+            pasek.setPodstawaopodatkowaniazagranica(Z.z(zagranicapln));
+            double nowapodstawapolska = Z.z(pasek.getPodstawaopodatkowania()-zagranicapln);
+            pasek.setPodstawaopodatkowania(nowapodstawapolska);
+        } catch (Exception e){}
+    }
+
 }

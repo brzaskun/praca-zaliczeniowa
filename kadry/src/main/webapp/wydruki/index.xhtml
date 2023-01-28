@@ -18,7 +18,7 @@
                 </ui:define>
 
                 <ui:define name="content">
-                        <p:outputPanel>
+                    <p:outputPanel>
                             <h:form id="formmenu">
                                 <p:menubar autoDisplay="true">
                                     <p:menuitem icon="pi pi-sliders-h" value="parametry" style="width: 150px" action="Parametry"/>
@@ -40,10 +40,11 @@
                             </h:form>
                         </p:outputPanel>
                         <ui:include src="sub/menu_wiad.xhtml"/>   <!-- menu contextowe i pole wiadomosci growl-->
-                        <ui:include src="sub/edycjadanych_firmy.xhtml"/>
+                        <ui:include src="sub/edycjadanych_historia.xhtml"/>
                     
                 
-          </ui:define>
-        </ui:composition>
-    </h:body>
+            
+        </ui:define>
+    </ui:composition>
+</h:body>
 </html>

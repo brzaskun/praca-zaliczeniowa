@@ -219,7 +219,6 @@ public class NieobecnoscView  implements Serializable {
                   selected.setDnikalendarzowe(iloscdni+1.0);
                   nieobecnoscFacade.create(selected);
                   lista.add(selected);
-                  selected = new Nieobecnosc(wpisView.getAngaz());
                   Msg.msg("Dodano nieobecność");
               } else {
                   selected.setRokod(Data.getRok(selected.getDataod()));
@@ -231,12 +230,12 @@ public class NieobecnoscView  implements Serializable {
                   double iloscdni = DAYS.between(oddata,dodata);
                   selected.setDnikalendarzowe(iloscdni+1.0);
                   nieobecnoscFacade.edit(selected);
-                  selected = new Nieobecnosc(wpisView.getAngaz());
                   Msg.msg("Edytowano nieobecność");
               }
               if (naniesbezposrednio) {
-                  nieniesnakalendarz();
+                  nanies(selected);
               }
+              selected = new Nieobecnosc(wpisView.getAngaz());
             } catch (Exception e) {
                 Msg.msg("e", "Błąd - nie dodano nowej nieobecnosci");
             }

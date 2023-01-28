@@ -12,7 +12,7 @@
         <p:dataTable id="datalist3" value="#{pasekwynagrodzenView.lista}" var="itempasekpod" emptyMessage="Brak listy za dany okres"  styleClass="listaplac"
                      selectionMode="single" selection="#{pasekwynagrodzenView.selectedlista}" rowIndexVar="indexpasekpod"
                      rowKey="#{itempasekpod.kalendarzmiesiac.id}" sortBy="#{itempasekpod.nazwiskoImie}"
-                     style="height: 430px; overflow-y: scroll; width: 900px;"
+                     style="height: 430px; overflow-y: scroll; width: 1100px;"
                      >
             <p:column width="10">
                 <h:outputText value="#{indexpasekpod+1}"/>
@@ -38,15 +38,21 @@
             <p:column headerText="kurs">
                 <bcf:outputpl value="#{itempasekpod.kurs}"/>
             </p:column>
+            <p:column headerText="waluta">
+                <bcf:outputpl value="#{itempasekpod.symbolwaluty}"/>
+            </p:column>
             <p:column headerText="podstawa pod. zagr.">
                  <bcf:outputpl value="#{itempasekpod.podstawaopodatkowaniazagranicawaluta}"/>
             </p:column>
-            <p:column headerText="podatek zagr.">
-                <bcf:outputpl value="#{itempasekpod.podatekdochodowyzagranica}"/>
+            <p:column headerText="podatek zagr. wal" style="text-align: center;">
+                <p:inputNumber value="#{itempasekpod.podatekdochodowyzagranicawaluta}"  size="10"  maxlength="7" decimalPlaces="2" decimalSeparator="," inputStyle="text-align: right">
+                    <p:ajax event="change" partialSubmit="true" global="false" listener="#{pasekwynagrodzenView.editpasek(itempasekpod)}" update="@(.polepodatkuwpln)"/>
+                </p:inputNumber>
             </p:column>
-            
-            <p:column headerText="podatek zagr.">
-                <bcf:outputpl value="#{itempasekpod.podatekdochodowyzagranicawaluta}"/>
+            <p:column headerText="podatek zagr. pln">
+                <p:outputPanel  styleClass="polepodatkuwpln">
+                <bcf:outputpl value="#{itempasekpod.podatekdochodowyzagranica}" />
+                </p:outputPanel>
             </p:column>
 
         </p:dataTable>

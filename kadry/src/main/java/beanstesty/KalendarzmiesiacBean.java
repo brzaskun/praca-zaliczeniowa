@@ -381,13 +381,23 @@ public class KalendarzmiesiacBean {
         }
     }
 
-    static void naliczskladnikipotraceniaDB(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasekwynagrodzen, double wolneodzajecia) {
+    public static void naliczskladnikipotraceniaDB(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasekwynagrodzen, double wolneodzajecia) {
         for (Skladnikpotracenia p : kalendarz.getAngaz().getSkladnikpotraceniaList()) {
             Naliczeniepotracenie naliczeniepotracenie = NaliczeniepotracenieBean.createPotracenieDB(pasekwynagrodzen, p, wolneodzajecia);
             if (naliczeniepotracenie != null) {
                 pasekwynagrodzen.getNaliczeniepotracenieList().add(naliczeniepotracenie);
             }
         }
+    }
+    
+    public static void naliczskladnikipotraceniaPonownieDB(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasekwynagrodzen, double wolneodzajecia) {
+        double netto = pasekwynagrodzen.getNettoprzedpotraceniami();
+        double sumazajec = 0.0;
+        for (Naliczeniepotracenie p : pasekwynagrodzen.getNaliczeniepotracenieList()) {
+            double dozajecia = netto - wolneodzajecia - sumazajec;
+            sumazajec = sumazajec + NaliczeniepotracenieBean.przeliczPotracenieDB(pasekwynagrodzen, p, dozajecia);
+        }
+        pasekwynagrodzen.setPotracenia(sumazajec);
     }
 
     static void naliczskladnikiwynagrodzeniazaChorobe(Kalendarzmiesiac kalendarz, Nieobecnosc nieobecnosc, Pasekwynagrodzen pasekwynagrodzen, Definicjalistaplac definicjalistaplac) {
