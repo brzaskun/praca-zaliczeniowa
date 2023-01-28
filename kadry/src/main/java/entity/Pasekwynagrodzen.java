@@ -124,6 +124,12 @@ public class Pasekwynagrodzen implements Serializable {
     private double podatekdochodowy;
     @Column(name = "podatekdochodowyzagranica")
     private double podatekdochodowyzagranica;
+    @Column(name = "podstawaopodatkowaniazagranica")
+    private double podstawaopodatkowaniazagranica;
+    @Column(name = "podatekdochodowyzagranicawaluta")
+    private double podatekdochodowyzagranicawaluta;
+    @Column(name = "podstawaopodatkowaniazagranicawaluta")
+    private double podstawaopodatkowaniazagranicawaluta;
     @Column(name = "podstawaopodatkowania")
     private double podstawaopodatkowania;
     @Column(name = "podstawaopodatkowaniahipotetyczna")
@@ -381,6 +387,10 @@ public class Pasekwynagrodzen implements Serializable {
         } else {
             this.naliczenieskladnikawynagrodzeniaList.addAll(p.getNaliczenieskladnikawynagrodzeniaList());
         }
+        this.podatekdochodowyzagranicawaluta = Z.z(this.podatekdochodowyzagranicawaluta+p.getPodatekdochodowyzagranicawaluta());
+        this.podatekdochodowyzagranica = Z.z(this.podatekdochodowyzagranica+p.getPodatekdochodowyzagranica());
+        this.podstawaopodatkowaniazagranicawaluta = Z.z(this.podstawaopodatkowaniazagranicawaluta+p.getPodstawaopodatkowaniazagranicawaluta());
+        this.podstawaopodatkowaniazagranica = Z.z(this.podstawaopodatkowaniazagranica+p.getPodstawaopodatkowaniazagranica());
     }
 
     public Integer getId() {
@@ -404,6 +414,31 @@ public class Pasekwynagrodzen implements Serializable {
     public void setStudent(boolean student) {
         this.student = student;
     }
+
+    public double getPodstawaopodatkowaniazagranica() {
+        return podstawaopodatkowaniazagranica;
+    }
+
+    public void setPodstawaopodatkowaniazagranica(double podstawaopodatkowaniazagranica) {
+        this.podstawaopodatkowaniazagranica = podstawaopodatkowaniazagranica;
+    }
+
+    public double getPodatekdochodowyzagranicawaluta() {
+        return podatekdochodowyzagranicawaluta;
+    }
+
+    public void setPodatekdochodowyzagranicawaluta(double podatekdochodowyzagranicawaluta) {
+        this.podatekdochodowyzagranicawaluta = podatekdochodowyzagranicawaluta;
+    }
+
+    public double getPodstawaopodatkowaniazagranicawaluta() {
+        return podstawaopodatkowaniazagranicawaluta;
+    }
+
+    public void setPodstawaopodatkowaniazagranicawaluta(double podstawaopodatkowaniazagranicawaluta) {
+        this.podstawaopodatkowaniazagranicawaluta = podstawaopodatkowaniazagranicawaluta;
+    }
+    
 
     
     @Override
@@ -1197,6 +1232,7 @@ public class Pasekwynagrodzen implements Serializable {
                     wiersz.godzinyobowiazku = p.getGodzinynalezne();
                     wiersz.godzinyprzepracowane = p.getGodzinyfaktyczne();
                     wiersz.stawkanagodzine = p.getStawkagodzinowa();
+                    wiersz.stawkanagodzinewaluta = p.getStawkagodzinowawaluta();
                     wiersz.stawkadzienna = p.getStawkadzienna();
                     wiersz.wynagrodzeniezmienna = p.getKwotaumownazacalymc();
                     wiersz.uwagi = p.getUwagi();
@@ -1328,6 +1364,7 @@ public class Pasekwynagrodzen implements Serializable {
         double godzinyobowiazku;
         double godzinyprzepracowane;
         double stawkanagodzine;
+        double stawkanagodzinewaluta;
         double stawkadzienna;
         String waluta;
         
@@ -1452,6 +1489,14 @@ public class Pasekwynagrodzen implements Serializable {
 
         public void setStawkanagodzine(double stawkanagodzine) {
             this.stawkanagodzine = stawkanagodzine;
+        }
+
+        public double getStawkanagodzinewaluta() {
+            return stawkanagodzinewaluta;
+        }
+
+        public void setStawkanagodzinewaluta(double stawkanagodzinewaluta) {
+            this.stawkanagodzinewaluta = stawkanagodzinewaluta;
         }
 
         public double getWynagrodzeniezmienna() {

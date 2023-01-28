@@ -237,6 +237,15 @@ public class AngazView  implements Serializable {
             Msg.msg("e", "Błąd nie wybrano angażu");
         }
      }
+     
+      public void edytuj(Angaz angaz) {
+         if (angaz!=null) {
+            angazFacade.edit(angaz);
+            Msg.msg("Zapisano zmiany");
+        } else {
+            Msg.msg("e", "Błąd nie wybrano angażu");
+        }
+     }
     
 //    public void generujkalendarze() {
 //        if (selected!=null && selected.getRok()!=null && selected.getMc()!=null) {

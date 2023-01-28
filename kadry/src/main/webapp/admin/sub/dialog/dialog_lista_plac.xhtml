@@ -71,6 +71,7 @@
                                 <f:selectItem itemLabel="prosta" itemValue="prosta"/>
                                 <f:selectItem itemLabel="normalna" itemValue="normalna"/>
                                 <f:selectItem itemLabel="oddelegowanie" itemValue="oddelegowanie"/>
+                                <f:selectItem itemLabel="podatek zagr." itemValue="podatek"/>
                                 <p:ajax event="change" partialSubmit="true" global="false" update="PasekwynagrodzenListForm"/>
                             </p:selectOneMenu>
                             <h:outputLabel for="niewyslana" value="wysłana: " rendered="#{pasekwynagrodzenView.lista ne null and pasekwynagrodzenView.lista.size() gt 0 and pasekwynagrodzenView.lista.get(0).datawysylki eq null}"/>
@@ -109,6 +110,7 @@
                 <ui:include src="dialog_lista_plac_sub_oddelegowanie.xhtml"/>
                 <ui:include src="dialog_lista_plac_sub_normalna.xhtml"/>
                 <ui:include src="dialog_lista_plac_sub_prosta.xhtml"/>
+                <ui:include src="dialog_lista_plac_sub_podatek.xhtml"/>
             </h:form>
         </p:outputPanel>
     </p:dialog>

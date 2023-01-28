@@ -107,7 +107,7 @@
                             </f:facet>
                             <h:outputText value="#{itemAngaz.id}"/>
                         </p:column>
-                        <p:column width="80">
+                        <p:column width="120">
                             <f:facet name="header">
                                 <h:outputText value="dodał"/>
                             </f:facet>
@@ -139,6 +139,14 @@
                             </f:facet>
                             <h:outputText value="#{itemAngaz.pracownik.pesel}"/>
                         </p:column>
+                        <p:column width="50" filterBy="#{itemAngaz.przekroczenierok}" filterMatchMode="contains" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="rok przekroczenie"/>
+                            </f:facet>
+                            <p:inputText value="#{itemAngaz.przekroczenierok}" size="6" maxlength="4">
+                                <p:ajax event="change" partialSubmit="true" global="false" listener="#{angazView.edytuj(itemAngaz)}"/>
+                            </p:inputText>
+                        </p:column>
                          <p:column width="150" filterBy="#{itemAngaz.pracownik.email}" filterMatchMode="contains">
                             <f:facet name="header">
                                 <h:outputText value="email"/>
@@ -155,7 +163,7 @@
                                 <p:ajax event="change" partialSubmit="true" global="false" listener="#{pracownikView.edytuj(itemAngaz.pracownik)}"/>
                             </p:inputText>
                         </p:column>
-                        <p:column width="40" style="text-align: center;" sortBy="#{itemAngaz.pracownik.czyjestumowa}">
+                        <p:column width="40" style="text-align: center;" sortBy="#{itemAngaz.pracownik.fikcyjnymailsymbol}">
                             <f:facet name="header">
                                 <h:outputText value="fikcyjnyu mail"/>
                             </f:facet>
