@@ -34,13 +34,11 @@ public class Okres implements Serializable{
         this.rokmc = rok+mc;
         this.nrkolejny = lp;
     }
-    
 
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 59 * hash + Objects.hashCode(this.rok);
-        hash = 59 * hash + Objects.hashCode(this.mc);
+        hash = 89 * hash + Objects.hashCode(this.rokmc);
         return hash;
     }
 
@@ -56,14 +54,14 @@ public class Okres implements Serializable{
             return false;
         }
         final Okres other = (Okres) obj;
-        if (!Objects.equals(this.rok, other.rok)) {
-            return false;
-        }
-        if (!Objects.equals(this.mc, other.mc)) {
+        if (!Objects.equals(this.rokmc, other.rokmc)) {
             return false;
         }
         return true;
     }
+    
+
+ 
 
     @Override
     public String toString() {

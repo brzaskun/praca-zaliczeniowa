@@ -8,6 +8,7 @@ import dao.FirmaKadryFacade;
 import dao.MemoryFacade;
 import dao.PracownikFacade;
 import data.Data;
+import embeddable.Okres;
 import entity.Angaz;
 import entity.FirmaKadry;
 import entity.Memory;
@@ -41,6 +42,7 @@ public class WpisView implements Serializable {
     private String rokUprzedni;
     private String rokNastepny;
     private String miesiacWpisu;
+    private Okres okreswpisu;
     private Uz uzer;
     private String miesiacOd;
     private String miesiacDo;
@@ -267,6 +269,25 @@ public class WpisView implements Serializable {
 
     public void setUzer(Uz uzer) {
         this.uzer = uzer;
+    }
+
+    public Okres getOkreswpisu() {
+        return okreswpisu;
+    }
+
+    public void setOkreswpisu(Okres okreswpisu) {
+        rokWpisu = okreswpisu.getRok();
+        miesiacWpisu = okreswpisu.getMc();
+        if (memory!=null) {
+            memory.setMc(miesiacWpisu);
+            memoryFacade.edit(memory);
+        } else {
+            memory = createMemory();
+            memory.setMc(miesiacWpisu);
+            memoryFacade.edit(memory);
+        }
+        this.miesiacWpisu = miesiacWpisu;
+        this.okreswpisu = okreswpisu;
     }
     
     

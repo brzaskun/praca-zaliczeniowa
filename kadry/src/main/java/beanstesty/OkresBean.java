@@ -97,5 +97,10 @@ public class OkresBean implements Serializable{
         }
         return new ArrayList<>(zwrot);
     }
+
+    public List<Okres> getOkresylista() {
+        return okresylista;
+    }
+    
     
 }

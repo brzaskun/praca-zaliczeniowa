@@ -192,10 +192,8 @@ public class PasekwynagrodzenBean {
         if (przekroczeniewieku == false && ponizejwynminimalnego == false && firmamatylkozlecenia == false) {
             PasekwynagrodzenBean.fp(pasek);
             PasekwynagrodzenBean.fgsp(pasek);
-        }
-        if (przekroczeniewieku == false) {
-            PasekwynagrodzenBean.razem53(pasek);
-        }
+        } 
+        PasekwynagrodzenBean.razem53(pasek);
         PasekwynagrodzenBean.razemkosztpracodawcy(pasek);
         PasekwynagrodzenBean.naniesrobocze(pasek, kalendarz);
         PasekwynagrodzenBean.przelicznawalute(pasek);
