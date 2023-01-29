@@ -8,13 +8,32 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     >
 
-    <h:form>
+    <h:form styleClass="formcentrum">
         <p:panel style="margin-top: 20px;"> 
             
             <p:panelGrid columns="2">
-                <h:outputText value="#{wpisView.pracownik.nazwiskoImie}"/>
-                <h:outputText value="#{wpisView.pracownik.pesel}"/>
+                <h:outputText value="#{wpisView.pracownik.nazwiskoImie}" style="color: green;"/>
+                <h:outputText value="#{wpisView.pracownik.pesel}" style="color: green;"/>
+                <h:outputText value="adres zamieszkania: "/>
+                <h:outputText value="#{wpisView.pracownik.adres}"/>
+            </p:panelGrid>
+            <p:panelGrid columns="2" style="margin-top: 20px;">
+                <h:outputText value="data zatrudnienia: "/>
+                <h:outputText value="#{wpisView.pracownik.datazatrudnienia}"/>
+                <h:outputText value="data zwolnienia: "/>
+                <h:outputText value="#{wpisView.pracownik.datazwolnienia}" rendered="#{wpisView.pracownik.datazwolnienia ne null and wpisView.pracownik.datazwolnienia.length() gt 1}"/>
+                <h:outputText value="do nadal" rendered="#{wpisView.pracownik.datazwolnienia eq null or wpisView.pracownik.datazwolnienia.length() eq 0}"/>
+                <h:outputText value="rodzaj umowy: "/>
+                <h:outputText value="#{zaswiadczeniaView.rodzajumowy}"/>
+                <h:outputText value="okres na jaki zost. zawarta: "/>
+                <h:outputText value="#{zaswiadczeniaView.czastrwania}"/>
+                <h:outputText value="stanowisko: "/>
+                <h:outputText value="#{zaswiadczeniaView.stanowisko}"/>
+                <h:outputText value="etat: "/>
+                <h:outputText value="#{zaswiadczeniaView.etat}"/>
                 <h:outputText value="data od "/>
+            </p:panelGrid>
+            <p:panelGrid columns="2" style="margin-top: 20px;">
                 <p:inputText id="dataod" value="#{zaswiadczeniaView.dataod}" title="data od"  placeholder="____-__-__"  required="true" styleClass="dataUmowy dataklasa" maxlength="10" size="10">
                         <p:ajax event="change" onstart="ustawDateSprzedazy(#{wpisView.rokWpisu},#{wpisView.miesiacWpisu});" partialSubmit="true" global="false"  update="@(.dataklasa)"/>
                 </p:inputText>

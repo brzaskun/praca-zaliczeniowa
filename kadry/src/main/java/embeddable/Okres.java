@@ -19,10 +19,20 @@ public class Okres implements Serializable{
     private String rok;
     @NotNull
     private String mc;
+    private String rokmc;
+    private int nrkolejny;
 
     public Okres(String rok, String mc) {
         this.rok = rok;
         this.mc = mc;
+        this.rokmc = rok+mc;
+    }
+    
+    public Okres(String rok, String mc, int lp) {
+        this.rok = rok;
+        this.mc = mc;
+        this.rokmc = rok+mc;
+        this.nrkolejny = lp;
     }
     
 
@@ -74,6 +84,22 @@ public class Okres implements Serializable{
 
     public void setMc(String mc) {
         this.mc = mc;
+    }
+
+    public String getRokmc() {
+        return rokmc;
+    }
+
+    public void setRokmc(String rokmc) {
+        this.rokmc = rokmc;
+    }
+
+    public int getNrkolejny() {
+        return nrkolejny;
+    }
+
+    public void setNrkolejny(int nrkolejny) {
+        this.nrkolejny = nrkolejny;
     }
     
     
