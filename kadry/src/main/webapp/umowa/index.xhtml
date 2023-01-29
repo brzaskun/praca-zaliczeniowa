@@ -8,7 +8,7 @@
       >
     <h:body>
         <ui:composition template="../template.xhtml">
-                
+               
                 <ui:define name="top" >
                     <ui:include src="sub/layout/north.xhtml"/>
                 </ui:define>
@@ -39,9 +39,11 @@
                         <p:outputPanel style="width: 1800px;">
                             <p:tabView id="akordeon" activeIndex="#{umowaView.tabView}">
                                 <p:tab title="umowy o pracę">
+                                    <h:form>
                                     <p:outputPanel>
                                         <h:outputText value="Umowy pracownika #{wpisView.pracownik.nazwiskoImie}" styleClass="info"/>
                                     </p:outputPanel>
+                                    </h:form>
                                     <ui:include src="sub/dane_umowa_praca.xhtml"/>
                                     <ui:include src="sub/dane_umowa_zlecenie.xhtml"/>
                                     <ui:include src="sub/dane_umowa_funkcja.xhtml"/>

@@ -332,7 +332,8 @@ public class AngazView  implements Serializable {
                 wpisView.setUmowa(null);
                 System.out.println("Nie pobrano umów do angażu");
             }
-            updateClassView.updateUmowa();
+            init();
+            //updateClassView.updateUmowa();
             Msg.msg("Aktywowano pracownika");
         }
     }

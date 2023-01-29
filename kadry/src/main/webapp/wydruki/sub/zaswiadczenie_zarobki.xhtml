@@ -7,8 +7,9 @@
     xmlns:bcf="http://brzaskun.com/facelets"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     >
-
+<bcf:ajaxs/>
     <h:form styleClass="formcentrum">
+        
         <p:panel style="margin-top: 20px;"> 
             
             <p:panelGrid columns="2">
@@ -34,18 +35,95 @@
                 <h:outputText value="data od "/>
             </p:panelGrid>
             <p:panelGrid columns="2" style="margin-top: 20px;">
+                <h:outputText value="średnie wynagrodzenie brutto"/>
+                <bcf:outputpl value="#{zaswiadczeniaView.bruttosrednia}"/>
+                <h:outputText value="średnie wynagrodzenie netto"/>
+                <bcf:outputpl value="#{zaswiadczeniaView.nettosrednia}"/>
+                <h:outputText value="zajęcia komornicze"/>
+                <h:outputText value="Istnieją zajęcia komornicze" rendered="#{zaswiadczeniaView.czyjestkomornik eq true}" style="color:red;"/>
+<!--                <h:outputText value="Wynagrodzenie powyższe nie jest obciążone z tytuły wyroków sądowych lub innych tytułów." rendered="#{zaswiadczeniaView.czyjestkomornik eq false}"/>-->
+                <h:outputText value="Brak zajęć komorniczych." rendered="#{zaswiadczeniaView.czyjestkomornik eq false}"/>
+            </p:panelGrid>
+            <p:panelGrid columns="2" style="margin-top: 20px;">
+                <h:outputText value="zaświadczenie okres od "/>
                 <p:inputText id="dataod" value="#{zaswiadczeniaView.dataod}" title="data od"  placeholder="____-__-__"  required="true" styleClass="dataUmowy dataklasa" maxlength="10" size="10">
-                        <p:ajax event="change" onstart="ustawDateSprzedazy(#{wpisView.rokWpisu},#{wpisView.miesiacWpisu});" partialSubmit="true" global="false"  update="@(.dataklasa)"/>
+                    <p:ajax event="change" onstart="ustawDateSprzedazy(#{wpisView.rokWpisu},#{wpisView.miesiacWpisu});" listener="#{zaswiadczeniaView.init()}" partialSubmit="true" global="false"  update="@(.formcentrum)"/>
                 </p:inputText>
-                <h:outputText value="data do "/>
+                <h:outputText value="zaświadczenie okres do "/>
                 <p:inputText id="datado" value="#{zaswiadczeniaView.datado}" title="data do"  placeholder="____-__-__"  required="true" styleClass="dataUmowy dataklasa" maxlength="10" size="10">
-                        <p:ajax event="change" onstart="ustawDateSprzedazy(#{wpisView.rokWpisu},#{wpisView.miesiacWpisu});" partialSubmit="true" global="false"  update="@(.dataklasa)"/>
+                        <p:ajax event="change" onstart="ustawDateSprzedazy(#{wpisView.rokWpisu},#{wpisView.miesiacWpisu});" listener="#{zaswiadczeniaView.init()}" partialSubmit="true" global="false"  update="@(.formcentrum)"/>
                 </p:inputText>
                 <p:outputLabel for="zatrudnienie" value="dodać zatrudnienie "/>
                 <p:selectBooleanCheckbox value="#{zaswiadczeniaView.zatrudnienie}" id="zatrudnienie"/>
                 <p:outputLabel for="zarobki" value="dodać zarobki "/>
                 <p:selectBooleanCheckbox value="#{zaswiadczeniaView.zarobki}" id="zarobki"/>
             </p:panelGrid>
+            <p:panelGrid columns="2" style="margin-top: 20px;">
+                <p:commandButton value="drukuj" styleClass="buttonnorm" actionListener="#{zaswiadczeniaView.drukuj()}"/>
+                 <p:commandButton value="mail" actionListener="#{zaswiadczeniaView.mail()}" >
+                     <p:confirm type="popup" header="Potwierdzenie" message="Wysłać do firmy?" icon="pi pi-exclamation-triangle"/>
+                </p:commandButton>
+            </p:panelGrid>
+            <p:panel header="paski wynagrodzeń" style="margin-top: 20px;">
+                    <p:dataTable id="datalist" value="#{zaswiadczeniaView.paskiwynagrodzen}" var="itemdra"
+                                 rowIndexVar="indexdra"
+                                 rowKey="#{itemdra.kalendarzmiesiac.hashCode()}" sortBy="#{itemdra.kalendarzmiesiac.angaz.pracownik.nazwiskoImie}"
+                                 style="height: 500px; overflow-y: scroll; width: 1400px;"
+                                 emptyMessage="nie pobrano danych"
+                                 >
+                        <p:column width="10">
+                            <h:outputText value="#{indexdra+1}"/>
+                        </p:column>
+                        <p:column width="150" headerText="nazwisko i imie">
+                            <h:outputText value="#{itemdra.nazwiskoImie}"/>
+                        </p:column>
+                        <p:column width="70" headerText="lista" style="text-align: center;">
+                            <h:outputText value="#{itemdra.definicjalistaplac.nrkolejny}"/>
+                        </p:column>
+                        <p:column width="70" headerText="data wypłaty" style="text-align: center;">
+                            <h:outputText value="#{itemdra.datawyplaty}"/>
+                        </p:column>
+                        <p:column headerText="wiek" width="20" style="text-align: center;">
+                            <h:outputText value="#{itemdra.lata}" rendered="#{itemdra.lata gt 0}"/>
+                        </p:column>
+                        <p:column headerText="brutto">
+                            <bcf:outputpl value="#{itemdra.brutto}" />
+                        </p:column>
+                        <p:column headerText="razem spoleczne prac.">
+                            <bcf:outputpl value="#{itemdra.razemspolecznepracownik}"/>
+                        </p:column>
+                        <p:column headerText="razem spoleczne firma">
+                            <bcf:outputpl value="#{itemdra.razemspolecznefirma}"/>
+                        </p:column>
+                        <p:column headerText="zdrowotna">
+                            <bcf:outputpl value="#{itemdra.praczdrowotnedopotracenia}"/>
+                        </p:column>
+                        <p:column headerText="fundusz pracy">
+                            <bcf:outputpl value="#{itemdra.fp}"/>
+                        </p:column>
+                        <p:column headerText="fgśp">
+                            <bcf:outputpl value="#{itemdra.fgsp}"/>
+                        </p:column>
+                        <p:column headerText="podstawa PIT">
+                            <bcf:outputpl value="#{itemdra.podstawaopodatkowania}"/>
+                        </p:column>
+                        <p:column headerText="kup">
+                            <bcf:outputpl value="#{itemdra.kosztyuzyskania}"/>
+                        </p:column>
+                        <p:column headerText="podatek">
+                            <bcf:outputpl value="#{itemdra.podatekdochodowy}"/>
+                        </p:column>
+                        <p:column headerText="podatek zagr,">
+                            <bcf:outputpl value="#{itemdra.podatekdochodowyzagranica}"/>
+                        </p:column>
+                        <p:column headerText="potrácenia">
+                            <bcf:outputpl value="#{itemdra.potracenia}"/>
+                        </p:column>
+                        <p:column headerText="netto">
+                            <bcf:outputpl value="#{itemdra.netto}"/>
+                        </p:column>
+                    </p:dataTable>
+                </p:panel>
         </p:panel>
     </h:form><!-- comment -->
 

@@ -45,6 +45,7 @@ import z.Z;
     @NamedQuery(name = "Pasekwynagrodzen.findByDefKal", query = "SELECT p FROM Pasekwynagrodzen p WHERE p.definicjalistaplac = :definicjalistaplac AND p.kalendarzmiesiac = :kalendarzmiesiac"),
     @NamedQuery(name = "Pasekwynagrodzen.findByDef", query = "SELECT p FROM Pasekwynagrodzen p WHERE p.definicjalistaplac = :definicjalistaplac"),
     @NamedQuery(name = "Pasekwynagrodzen.findByRokAngaz", query = "SELECT p FROM Pasekwynagrodzen p WHERE p.rok = :rok AND p.kalendarzmiesiac.angaz = :angaz"),
+    @NamedQuery(name = "Pasekwynagrodzen.findByAngaz", query = "SELECT p FROM Pasekwynagrodzen p WHERE p.kalendarzmiesiac.angaz = :angaz"),
     @NamedQuery(name = "Pasekwynagrodzen.findByRokWyplAngaz", query = "SELECT p FROM Pasekwynagrodzen p WHERE p.rokwypl = :rok AND p.kalendarzmiesiac.angaz = :angaz"),
     @NamedQuery(name = "Pasekwynagrodzen.findByRokMcAngaz", query = "SELECT p FROM Pasekwynagrodzen p WHERE p.rok = :rok AND p.mc = :mc AND p.kalendarzmiesiac.angaz = :angaz"),
     @NamedQuery(name = "Pasekwynagrodzen.findByRokMcWyplAngaz", query = "SELECT p FROM Pasekwynagrodzen p WHERE p.rokwypl = :rok AND p.mcwypl = :mc AND p.kalendarzmiesiac.angaz = :angaz"),
@@ -613,7 +614,10 @@ public class Pasekwynagrodzen implements Serializable {
     public void setZmieniony(boolean zmieniony) {
         this.zmieniony = zmieniony;
     }
-    
+   
+    public String getOkresWypl() {
+        return this.getRokwypl()+this.getMcwypl();
+    }
     
     @XmlTransient
     public List<Naliczeniepotracenie> getNaliczeniepotracenieList() {
@@ -1385,6 +1389,21 @@ public class Pasekwynagrodzen implements Serializable {
 
     public Pracownik getPracownik() {
         return this.kalendarzmiesiac.getPracownik();
+    }
+
+    public boolean czyjestkomornik() {
+        boolean zwrot = false;
+        if (this.getNaliczeniepotracenieList()!=null && this.getNaliczeniepotracenieList().size()>0) {
+            for (Naliczeniepotracenie nal  : this.getNaliczeniepotracenieList()) {
+                if (nal.getSkladnikpotracenia().getKwotakomornicza()>0.0) {
+                    zwrot = true;
+                } else {
+                    zwrot = false;
+                }
+            }
+            
+        }
+        return zwrot;
     }
    
     

@@ -7,30 +7,39 @@ package view;
 
 import beanstesty.OkresBean;
 import comparator.Etatcomparator;
+import comparator.Pasekwynagrodzencomparator;
 import comparator.Stanowiskocomparator;
 import comparator.Umowacomparator;
 import dao.AngazFacade;
+import dao.PasekwynagrodzenFacade;
 import dao.PracownikFacade;
+import dao.SMTPSettingsFacade;
 import dao.UmowaFacade;
 import data.Data;
 import embeddable.Okres;
 import entity.Angaz;
 import entity.EtatPrac;
 import entity.FirmaKadry;
-import entity.Kalendarzmiesiac;
-import entity.Kartawynagrodzen;
+import entity.Pasekwynagrodzen;
 import entity.Pracownik;
+import entity.SMTPSettings;
 import entity.Stanowiskoprac;
 import entity.Umowa;
+import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import msg.Msg;
+import pdf.PdfZaswiadczenieZarobki;
+import z.Z;
 
 /**
  *
@@ -49,16 +58,25 @@ public class ZaswiadczeniaView  implements Serializable {
     @Inject
     private AngazFacade angazFacade;
     @Inject
+    private PasekwynagrodzenFacade pasekwynagrodzenFacade;
+    @Inject
     private PracownikFacade pracownikFacade;
+    @Inject
+    private SMTPSettingsFacade sMTPSettingsFacade;
     private String dataod;
     private String datado;
     private boolean zatrudnienie;
     private boolean zarobki;
     private String rodzajumowy;
+    private String dataostatnieumowy;
     private String czastrwania;
     private String stanowisko;
     private String etat;
-    private List<Kartawynagrodzen> paski;
+    private double bruttosrednia;
+    private double nettosrednia;
+    private boolean czyjestkomornik;
+    private List<Pasekwynagrodzen> paskiwynagrodzen;
+    
     
     @PostConstruct
     public void init() {
@@ -66,10 +84,14 @@ public class ZaswiadczeniaView  implements Serializable {
         zatrudnienie = true;
         zarobki = true;
         String[] poprzedniokres = Data.poprzedniOkres(Data.aktualnaData());
-        datado = Data.ostatniDzien(poprzedniokres[1], poprzedniokres[0]);
+        if (datado==null) {
+            datado = Data.ostatniDzien(poprzedniokres[1], poprzedniokres[0]);
+        }
         poprzedniokres = Data.poprzedniOkres(poprzedniokres[0], poprzedniokres[1]);
         poprzedniokres = Data.poprzedniOkres(poprzedniokres[0], poprzedniokres[1]);
-        dataod = Data.pierwszyDzien(poprzedniokres[1], poprzedniokres[0]);
+        if (dataod==null) {
+            dataod = Data.pierwszyDzien(poprzedniokres[1], poprzedniokres[0]);
+        }
         Pracownik pracownik = wpisView.getPracownik();
         List<Umowa> umowy = umowaFacade.findByAngaz(wpisView.getAngaz());
         if (umowy !=null) {
@@ -83,6 +105,7 @@ public class ZaswiadczeniaView  implements Serializable {
             }
             rodzajumowy = ostatnia.getUmowakodzus().isPraca()?"umowa o pracę":"umowa zlecenia";
             czastrwania = ostatnia.getCzastrwania();
+            dataostatnieumowy = ostatnia.getDataod();
             List<EtatPrac> etatList = wpisView.getAngaz().getEtatList();
             if (etatList!=null&&etatList.size()==1) {
                 EtatPrac etata = etatList.get(0);
@@ -101,17 +124,71 @@ public class ZaswiadczeniaView  implements Serializable {
                 Stanowiskoprac stano = stanowiskopracList.get(0);
                 stanowisko = stano.getOpis();
             }
-            paski = pobierzkarty(dataod, datado);
-            System.out.println("");
+            Object[] pdane = pobierzkarty(dataod, datado);
+            bruttosrednia = (double) pdane[0];
+            nettosrednia = (double) pdane[1];
+            czyjestkomornik = (boolean) pdane[3];
+            paskiwynagrodzen = (List<Pasekwynagrodzen>) pdane[2];
         }
     }
     
-    private List<Kartawynagrodzen> pobierzkarty(String dataod, String datado) {
-        List<Kalendarzmiesiac> kalendarzmiesiacList = wpisView.getAngaz().getKalendarzmiesiacList();
+    private Object[] pobierzkarty(String dataod, String datado) {
+        Object[] zwrot = new Object[4];
+        List<Pasekwynagrodzen> paski = pasekwynagrodzenFacade.findByAngaz(wpisView.getAngaz());
         List<Okres> okresylista = OkresBean.pobierzokresy(dataod, datado);
-        return null;
+        Map<Okres, List<Pasekwynagrodzen>> okrespaski = new HashMap<>();
+        if (paski!=null) {
+            for (Okres ok : okresylista) {
+                okrespaski.put(ok, new ArrayList<>());
+            }
+            double bruttosuma = 0.0;
+            double nettosuma = 0.0;
+            boolean czyjestkomornik= false;
+            for (Okres ok : okresylista) {
+                
+                List<Pasekwynagrodzen> wybranyokres = okrespaski.get(ok);
+                for (Pasekwynagrodzen pasek :paski) {
+                    if (pasek.getOkresWypl().equals(ok.getRokmc())) {
+                        bruttosuma = bruttosuma + pasek.getBrutto();
+                        nettosuma = nettosuma + pasek.getNetto();
+                        czyjestkomornik = pasek.czyjestkomornik();
+                        wybranyokres.add(pasek);
+                    }
+                }
+            }
+            zwrot[0] = Z.z(bruttosuma/((double)okresylista.size()));
+            zwrot[1] = Z.z(nettosuma/((double)okresylista.size()));
+            List<Pasekwynagrodzen> listapaskow = new ArrayList<>();
+            for (List<Pasekwynagrodzen> ala : okrespaski.values()) {
+                listapaskow.addAll(ala);
+            }
+            Collections.sort(listapaskow, new Pasekwynagrodzencomparator());
+            zwrot[2] = listapaskow;
+            zwrot[3] = czyjestkomornik;
+        }
+        return zwrot;
     }
     
+     public void drukuj () {
+        if (paskiwynagrodzen!=null && paskiwynagrodzen.size()>0) {
+            ByteArrayOutputStream dra = PdfZaswiadczenieZarobki.drukuj(wpisView.getFirma(), paskiwynagrodzen, wpisView.getPracownik(), dataod, datado, zatrudnienie, zarobki, rodzajumowy, czastrwania, stanowisko, etat, bruttosrednia, nettosrednia, czyjestkomornik, dataostatnieumowy);
+            Msg.msg("Wydrukowano zaświadczenie");
+        } else {
+            Msg.msg("e","Błąd drukowania zaświadczenia.");
+        }
+    }
+    
+      public void mail() {
+        ByteArrayOutputStream dra = PdfZaswiadczenieZarobki.drukuj(wpisView.getFirma(), paskiwynagrodzen, wpisView.getPracownik(), dataod, datado, zatrudnienie, zarobki, rodzajumowy, czastrwania, stanowisko, etat, bruttosrednia, nettosrednia, czyjestkomornik, dataostatnieumowy);
+        if (dra != null && dra.size() > 0) {
+            SMTPSettings findSprawaByDef = sMTPSettingsFacade.findSprawaByDef();
+             String nazwa = wpisView.getPracownik().getPesel() + "_zaswiadczenie_zarobki.pdf";
+            mail.Mail.mailZaswiadczeniezarobki(wpisView.getFirma(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu(), "info@taxman.biz.pl", null, findSprawaByDef, dra.toByteArray(), nazwa, wpisView.getUzer().getEmail(), wpisView.getPracownik());
+            Msg.msg("Wysłano listę płac do pracodawcy");
+        } else {
+            Msg.msg("e", "Błąd dwysyki DRA");
+        }
+    }
     
     
     public void aktywujPracAngaze(FirmaKadry firma) {
@@ -252,6 +329,38 @@ public class ZaswiadczeniaView  implements Serializable {
 
     public void setStanowisko(String stanowisko) {
         this.stanowisko = stanowisko;
+    }
+
+    public double getBruttosrednia() {
+        return bruttosrednia;
+    }
+
+    public void setBruttosrednia(double bruttosrednia) {
+        this.bruttosrednia = bruttosrednia;
+    }
+
+    public double getNettosrednia() {
+        return nettosrednia;
+    }
+
+    public void setNettosrednia(double nettosrednia) {
+        this.nettosrednia = nettosrednia;
+    }
+
+    public boolean isCzyjestkomornik() {
+        return czyjestkomornik;
+    }
+
+    public void setCzyjestkomornik(boolean czyjestkomornik) {
+        this.czyjestkomornik = czyjestkomornik;
+    }
+
+    public List<Pasekwynagrodzen> getPaskiwynagrodzen() {
+        return paskiwynagrodzen;
+    }
+
+    public void setPaskiwynagrodzen(List<Pasekwynagrodzen> paskiwynagrodzen) {
+        this.paskiwynagrodzen = paskiwynagrodzen;
     }
 
     

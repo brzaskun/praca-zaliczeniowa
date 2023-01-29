@@ -11,7 +11,10 @@ import embeddable.Okres;
 import entity.Nieobecnosc;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 
 /**
@@ -19,6 +22,7 @@ import javax.inject.Named;
  * @author Osito
  */
 @Named
+@SessionScoped
 public class OkresBean implements Serializable{
     private static final long serialVersionUID = 1L;
     private static final List<Okres> okresylista;
@@ -27,6 +31,11 @@ public class OkresBean implements Serializable{
     static {
         okresylista = generujokresy();
     }
+
+    public OkresBean() {
+    }
+    
+    
     
     static List<Okres> generujokresy() {
         List<Okres> zwrot = new ArrayList<>();
@@ -61,7 +70,7 @@ public class OkresBean implements Serializable{
     }
 
     public static List<Okres> pobierzokresy(String dataod, String datado) {
-        List<Okres> zwrot = new ArrayList<>();
+        Set<Okres> zwrot = new HashSet<>();
         String rokod = Data.getRok(dataod);
         String mcod = Data.getMc(dataod);
         String rokdo = Data.getRok(datado);
@@ -86,7 +95,7 @@ public class OkresBean implements Serializable{
             }
             
         }
-        return zwrot;
+        return new ArrayList<>(zwrot);
     }
     
 }
