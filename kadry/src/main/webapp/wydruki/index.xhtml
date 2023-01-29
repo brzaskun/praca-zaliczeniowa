@@ -36,7 +36,7 @@
                                     <p:menuitem icon="pi pi-file-pdf" value="PIT11" style="width: 150px" action="Pit"/>
                                     <p:menuitem icon="pi pi-file-excel" value="PIT4" style="width: 150px" action="Pit4"/>
                                     <p:submenu icon="pi pi-print" label="wydruki" style="width: 150px">
-                                        <p:menuitem icon="pi pi-ellipsis-v" value="zaświadczenia" style="width: 150px" action="wydruki"/>
+                                        <p:menuitem icon="pi pi-ellipsis-v" value="zaświadczenia" style="width: 150px" action="wydruki"/><p:menuitem icon="pi pi-ellipsis-v" value="pfron" style="width: 150px" action="wskazniki"/>
                                     </p:submenu>
                                     <p:menuitem icon="pi pi-chart-bar" value="statystyka" style="width: 150px" action="Statystyka"/>
                                 </p:menubar>
@@ -44,7 +44,6 @@
                         </p:outputPanel>
                         <ui:include src="sub/menu_wiad.xhtml"/>   <!-- menu contextowe i pole wiadomosci growl-->
                         <ui:include src="sub/wydruki.xhtml"/>
-                    
                 
             
         </ui:define>

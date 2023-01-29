@@ -715,6 +715,15 @@ public class Pracownik implements Serializable {
         }
         return zwrot;
     }
+
+    public boolean isMezczyzna() {
+        boolean zwrot = false;
+        if (this.plec.equals("M")) {
+            zwrot = true;
+        }
+        return zwrot;
+    }
+    
     
     
    

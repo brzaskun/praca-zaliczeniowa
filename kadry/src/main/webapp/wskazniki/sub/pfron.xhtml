@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:bcf="http://brzaskun.com/facelets"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    >
+    <h:form styleClass="formcentrum">
+        
+        <p:panel style="margin-top: 20px;" header="PFRON stan zatrudnienia"> 
+            
+            <p:panelGrid columns="4">
+                <h:outputText value="firma" style="color: green;"/>
+                <h:outputText value="#{wpisView.firma.nazwa}" style="color: green;"/>
+                <h:outputText value="okres: #{wpisView.rokWpisu}/#{wpisView.miesiacWpisu}"/>
+            </p:panelGrid>
+            <p:panelGrid columns="6">
+                <h:outputText value="razem etaty" />
+                <h:outputText value="#{wskaznikPfronView.razemetaty}" style="color: green;"/>
+                <h:outputText value="ilosć dni" />
+                <h:outputText value="#{wskaznikPfronView.iloscdni}" style="color: green;"/>
+                <h:outputText value="wskaźnik zatrudnienia" />
+                <h:outputText value="#{wskaznikPfronView.sredniamiesieczna}" style="color: green;"/>
+            </p:panelGrid>
+            <p:panelGrid columns="1" style="margin-top: 20px">
+                <p:dataTable id="datalist" value="#{wskaznikPfronView.lista}" var="item"
+                                 rowIndexVar="index"
+                                 rowKey="#{item.dzien}" sortBy="#{item.dzien}"
+                                 style="height: 500px; overflow-y: scroll; width: 650px;"
+                                 emptyMessage="nie pobrano danych"
+                                 >
+                        <p:column width="10">
+                            <h:outputText value="#{index+1}"/>
+                        </p:column>
+                        <p:column width="40" style="text-align: center;">
+                            <h:outputText value="#{item.dzien}"/>
+                        </p:column>
+                        <p:column width="40" headerText="osoby razem" style="text-align: center;">
+                            <h:outputText value="#{item.osobyrazem}"/>
+                        </p:column>
+                        <p:column width="40" headerText="mężczyzni" style="text-align: center;">
+                            <h:outputText value="#{item.mezczyzni}"/>
+                        </p:column>
+                        <p:column width="40" headerText="kobiety" style="text-align: center;">
+                            <h:outputText value="#{item.kobiety}"/>
+                        </p:column>
+                        <p:column width="40" headerText="etaty razem" style="text-align: center;">
+                            <h:outputText value="#{item.etatyrazem}"/>
+                        </p:column>
+                        <p:column width="40" headerText="mężczyzni" style="text-align: center;">
+                            <h:outputText value="#{item.etatymezczyzni}"/>
+                        </p:column>
+                        <p:column width="40" headerText="kobiety" style="text-align: center;">
+                            <h:outputText value="#{item.etatykobiety}"/>
+                        </p:column>
+                </p:dataTable>
+            </p:panelGrid>
+            
+        </p:panel>
+    </h:form><!-- comment -->
+
+</ui:composition>   
+

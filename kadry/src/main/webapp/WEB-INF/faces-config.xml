@@ -95,6 +95,10 @@
             <to-view-id>/wydruki/index.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
          <navigation-case>
+            <from-outcome>wskazniki</from-outcome>
+            <to-view-id>/wskazniki/index.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+         <navigation-case>
             <from-outcome>Pit</from-outcome>
             <to-view-id>/pit/index.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>

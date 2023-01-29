@@ -996,6 +996,16 @@ private static final long serialVersionUID = 1L;
         return this.getAngaz().getPracownik();
     }
 
+    public Dzien getDzień(int nrdnia) {
+        Dzien zwrot = null;
+        for (Dzien p : this.dzienList) {
+            if (p.getNrdnia()==nrdnia) {
+                zwrot = p;
+            }
+        }
+        return zwrot;
+    }
+
     
        
         
