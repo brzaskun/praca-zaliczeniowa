@@ -183,7 +183,7 @@ public class ZaswiadczeniaView  implements Serializable {
         if (dra != null && dra.size() > 0) {
             SMTPSettings findSprawaByDef = sMTPSettingsFacade.findSprawaByDef();
              String nazwa = wpisView.getPracownik().getPesel() + "_zaswiadczenie_zarobki.pdf";
-            mail.Mail.mailZaswiadczeniezarobki(wpisView.getFirma(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu(), "info@taxman.biz.pl", null, findSprawaByDef, dra.toByteArray(), nazwa, wpisView.getUzer().getEmail(), wpisView.getPracownik());
+            mail.Mail.mailZaswiadczeniezarobki(wpisView.getFirma(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu(), wpisView.getFirma().getEmail(), null, findSprawaByDef, dra.toByteArray(), nazwa, wpisView.getUzer().getEmail(), wpisView.getPracownik());
             Msg.msg("Wysłano listę płac do pracodawcy");
         } else {
             Msg.msg("e", "Błąd dwysyki DRA");

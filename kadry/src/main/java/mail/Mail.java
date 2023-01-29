@@ -190,7 +190,7 @@ public class Mail {
             message.setSubject(MimeUtility.encodeText(temat, "UTF-8", "Q"));
             String tresc = "Dzień dobry"
                     + "<p>W załączeniu zaświadczenie o zatrudnieniu dla pracownika "+pracownik.getNazwiskoImie()
-                    + "za ostatni okres</p>"
+                    + " za ostatni okres</p>"
                     + "<p> "+rok+"/"+mc+"</p>"
                     + stopka;
             mbp1.setContent(tresc, "text/html; charset=utf-8");

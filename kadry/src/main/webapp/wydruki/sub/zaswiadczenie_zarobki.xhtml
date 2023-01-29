@@ -60,7 +60,7 @@
             </p:panelGrid>
             <p:panelGrid columns="2" style="margin-top: 20px;">
                 <p:commandButton value="drukuj" styleClass="buttonnorm" actionListener="#{zaswiadczeniaView.drukuj()}"/>
-                 <p:commandButton value="mail" actionListener="#{zaswiadczeniaView.mail()}" >
+                 <p:commandButton value="mail" actionListener="#{zaswiadczeniaView.mail()}"  styleClass="buttonnorm2">
                      <p:confirm type="popup" header="Potwierdzenie" message="Wysłać do firmy?" icon="pi pi-exclamation-triangle"/>
                 </p:commandButton>
             </p:panelGrid>
