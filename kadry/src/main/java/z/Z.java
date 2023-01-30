@@ -36,12 +36,14 @@ public class Z implements Serializable {
     }
     
     public static double z4(double l) {
-        BigDecimal nowa = new BigDecimal(l).setScale(4, RoundingMode.HALF_EVEN);
+        float baba = (float)l;
+        BigDecimal nowa = new BigDecimal(baba).setScale(4, RoundingMode.HALF_EVEN);
         return nowa.doubleValue();
     }
     
     public static double z6(double l) {
-        BigDecimal nowa = new BigDecimal(l).setScale(6, RoundingMode.HALF_EVEN);
+        float baba = (float)l;
+        BigDecimal nowa = new BigDecimal(baba).setScale(6, RoundingMode.HALF_EVEN);
         return nowa.doubleValue();
     }
     
@@ -78,21 +80,41 @@ public class Z implements Serializable {
     }
     
      public static BigDecimal zBD2(double l) {
-         return new BigDecimal(l).setScale(2, RoundingMode.HALF_EVEN);
+         float baba = (float)l;
+         return new BigDecimal(baba).setScale(2, RoundingMode.HALF_EVEN);
      }
      
+     
      public static double z(double l) {
-        BigDecimal nowa = new BigDecimal(l).setScale(2, RoundingMode.HALF_EVEN);
-        return nowa.doubleValue();
+        float baba = (float)l*100f;
+        BigDecimal nowa = new BigDecimal(baba).setScale(0, RoundingMode.HALF_UP);
+        double pierwszy = nowa.doubleValue()/100.0;
+        return pierwszy;
      }
      
     
-//    public static void main(String[] args) {
-//        double kwota = 123.64;
+    public static void main(String[] args) {
+        double kwota = 26.175;
+        error.E.s(kwota);
+        float babab = (float)kwota*100f;
+        error.E.s(babab);
+        BigDecimal nowa = new BigDecimal(babab).setScale(4, RoundingMode.HALF_UP);
+        double nowanowa = nowa.doubleValue();
+        nowa = new BigDecimal(nowanowa).setScale(0, RoundingMode.HALF_UP);
+        error.E.s(nowa.doubleValue()/100.0);
+        String aaa= nowa.toString();
 //        double m = Math.round(kwota);
 //        m /= 1;
-//        error.E.s(m);
-//    }
+        double kwota1 = 113.425;
+        error.E.s(kwota1);
+        float babab1 = (float)kwota1*100f;
+        error.E.s(babab1);
+        BigDecimal nowa1 = new BigDecimal(babab1).setScale(4, RoundingMode.HALF_UP);
+        double nowanowa1 = nowa1.doubleValue();
+        nowa1 = new BigDecimal(nowanowa1).setScale(0, RoundingMode.HALF_UP);
+        error.E.s(nowa1.doubleValue()/100.0);
+        
+    }
     
 //     public static void main(String[] args) {
 //         BigDecimal b = new BigDecimal(1000);
@@ -101,7 +123,7 @@ public class Z implements Serializable {
 //         error.E.s("s "+suma);
 //    }
      
-      public static void main(String[] args) {
+//      public static void main(String[] args) {
 //        //double kurswyliczony = Math.round(555354.35 / 133434.49 * 10000);
 //        //kurswyliczony /= 10000;
 //        String va= "0,19".replace(",", ".");
@@ -150,10 +172,10 @@ long months = ChronoUnit.MONTHS.between(birthDateThisYear, currentDate) % 12;
 long days = ChronoUnit.DAYS.between(birthDateThisYear, currentDate) % 30;
 
 // Wyświetlenie wyniku
-System.out.println("Osoba urodziła się w " + birthDate + " i ma " + years + " lat, " + months + " miesięcy i " + days + " dni");
+//System.out.println("Osoba urodziła się w " + birthDate + " i ma " + years + " lat, " + months + " miesięcy i " + days + " dni");
 
 
-    }
+  //  }
 
     
     

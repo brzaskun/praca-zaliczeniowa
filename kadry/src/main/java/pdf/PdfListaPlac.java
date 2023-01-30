@@ -137,9 +137,10 @@ public class PdfListaPlac {
             table.addCell(ustawfrazeSpanFont("Koszty uzyskania przychodu", 0, 2, 6));
             table.addCell(ustawfrazeSpanFont("Podstawa opodatkowania", 0, 2, 6));
             table.addCell(ustawfrazeSpanFont("Potrącona zaliczka na podatek dochodowy", 0, 2, 6));
-            table.addCell(ustawfrazeSpanFont("Ubezpieczenie zdrowotne", 2, 0, 6));
+            table.addCell(ustawfrazeSpanFont("Ubezpieczenie zdrowotne", 0, 0, 6));
             table.addCell(ustawfrazeSpanFont("Kwota wolna", 0, 2, 6));
             table.addCell(ustawfrazeSpanFont("Należna zaliczka na podatek dochodowy", 0, 2, 6));
+            table.addCell(ustawfrazeSpanFont("Inne potrącenia", 0, 2, 6));
             table.addCell(ustawfrazeSpanFont("Do wypłaty", 0, 2, 6));
             table.addCell(ustawfrazeAlign("Składniki z ZUS", "center",6));
             table.addCell(ustawfrazeAlign("Składniki bez ZUS/bez pod.", "center",6));
@@ -148,7 +149,7 @@ public class PdfListaPlac {
             table.addCell(ustawfrazeAlign("Ubezp. chorobowe", "center",6));
             table.addCell(ustawfrazeAlign("Razem składki na ub. społ.", "center",6));
             table.addCell(ustawfrazeAlign("Potrącona z wyn.", "center",6));
-            table.addCell(ustawfrazeAlign("Odliczona od podatku", "center",6));
+            //table.addCell(ustawfrazeAlign("Odliczona od podatku", "center",6));
             table.addCell(ustawfrazeAlign("1", "center",6));
             table.addCell(ustawfrazeAlign("2", "center",6));
             table.addCell(ustawfrazeAlign("3", "center",6));
@@ -177,25 +178,26 @@ public class PdfListaPlac {
     public static void dodajwiersze(List<Pasekwynagrodzen> wykaz,PdfPTable table) {
         int i = 1;
         for (Pasekwynagrodzen rs : wykaz) {
-            table.addCell(ustawfrazeAlign(String.valueOf(i++), "center",6,18f));
-            table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getBruttozus())), "right",6));
-            table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getBruttobezzus()+rs.getBruttobezzusbezpodatek())), "right",6));
-            table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getBrutto())), "right",6));
-            table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPodstawaskladkizus())), "right",6));
-            table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPracemerytalne())), "right",6));
-            table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPracrentowe())), "right",6));
-            table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPracchorobowe())), "right",6));
-            table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getRazemspolecznepracownik())), "right",6));
-            table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPodstawaubezpzdrowotne())), "right",6));
-            table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPraczdrowotne())), "right",6));
-            table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getKosztyuzyskania())), "right",6));
-            table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPodstawaopodatkowania())), "right",6));
-            table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPodatekwstepny())), "right",6));
-            table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPraczdrowotnedopotracenia())), "right",6));
-            table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPraczdrowotnedoodliczenia())), "right",6));
-            table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getKwotawolna())), "right",6));
-            table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPodatekdochodowy())), "right",6));
-            table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getNetto())), "right",6));
+            table.addCell(ustawfrazeAlign(String.valueOf(i++), "center",7,18f));
+            table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getBruttozus())), "right",7));
+            table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getBruttobezzus()+rs.getBruttobezzusbezpodatek())), "right",7));
+            table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getBrutto())), "right",7));
+            table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPodstawaskladkizus())), "right",7));
+            table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPracemerytalne())), "right",7));
+            table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPracrentowe())), "right",7));
+            table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPracchorobowe())), "right",7));
+            table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getRazemspolecznepracownik())), "right",7));
+            table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPodstawaubezpzdrowotne())), "right",7));
+            table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPraczdrowotne())), "right",7));
+            table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getKosztyuzyskania())), "right",7));
+            table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPodstawaopodatkowania())), "right",7));
+            table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPodatekwstepny())), "right",7));
+            table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPraczdrowotnedopotracenia())), "right",7));
+            //table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPraczdrowotnedoodliczenia())), "right",7));
+            table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getKwotawolna())), "right",7));
+            table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPodatekdochodowy()+rs.getPodatekdochodowyzagranica())), "right",7));
+            table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPotracenia())), "right",7));
+            table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getNetto())), "right",7));
         }
     }
     
@@ -632,23 +634,23 @@ public class PdfListaPlac {
     private static Element listadowyplaty(List<Pasekwynagrodzen> lista) {
          PdfPTable table = new PdfPTable(6);
         try {
-            table.setWidthPercentage(45);
-            table.setWidths(new int[]{1, 3, 3, 6, 3, 3});
-            table.addCell(ustawfrazeAlign("lp", "center",6));
-            table.addCell(ustawfrazeAlign("nazwisko i imię", "center",6));
-            table.addCell(ustawfrazeAlign("Pesel", "center",6));
-            table.addCell(ustawfrazeAlign("konto", "center",6));
-            table.addCell(ustawfrazeAlign("do wypłaty", "center",6));
-            table.addCell(ustawfrazeAlign("w EUR", "center",6));
+            table.setWidthPercentage(55);
+            table.setWidths(new int[]{1, 5, 3, 6, 3, 3});
+            table.addCell(ustawfrazeAlign("lp", "center",7));
+            table.addCell(ustawfrazeAlign("nazwisko i imię", "center",7));
+            table.addCell(ustawfrazeAlign("Pesel", "center",7));
+            table.addCell(ustawfrazeAlign("konto", "center",7));
+            table.addCell(ustawfrazeAlign("do wypłaty", "center",7));
+            table.addCell(ustawfrazeAlign("w EUR", "center",7));
             table.setHeaderRows(1);
             int i = 1;
             for (Pasekwynagrodzen p :lista) {
-                table.addCell(ustawfrazeAlign(i++, "center",6));
-                table.addCell(ustawfrazeAlign(p.getNazwiskoImie(), "left",6));
-                table.addCell(ustawfrazeAlign(p.getPesel(), "left",6));
-                table.addCell(ustawfrazeAlign(p.getNrkonta(), "left",6));
-                table.addCell(ustawfrazeAlign(formatujWaluta(p.getNetto()), "right",6));
-                table.addCell(ustawfrazeAlign(formatujEuro(p.getNettowaluta()), "right",6));
+                table.addCell(ustawfrazeAlign(i++, "center",7));
+                table.addCell(ustawfrazeAlign(p.getNazwiskoImie(), "left",7));
+                table.addCell(ustawfrazeAlign(p.getPesel(), "left",7));
+                table.addCell(ustawfrazeAlign(p.getNrkonta(), "left",7));
+                table.addCell(ustawfrazeAlign(formatujWaluta(p.getNetto()), "right",7));
+                table.addCell(ustawfrazeAlign(formatujEuro(p.getNettowaluta()), "right",7));
             }
         } catch (DocumentException ex) {
         }
