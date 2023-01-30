@@ -74,6 +74,7 @@ public class WpisView implements Serializable {
             this.pracownik = memory.getPracownik();
             this.rokWpisu = memory.getRok();
             this.miesiacWpisu = memory.getMc();
+            this.okreswpisu = new Okres(memory.getRok(), memory.getMc());
         }
     }
     }
