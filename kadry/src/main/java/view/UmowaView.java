@@ -566,6 +566,7 @@ public class UmowaView implements Serializable {
                 System.out.println("Nie pobrano umów do angażu");
             }
             init();
+            updateClassView.updateUmowa();
             //updateClassView.updateUmowa();
             Msg.msg("Aktywowano pracownika");
         }
@@ -592,6 +593,7 @@ public class UmowaView implements Serializable {
                 }
             }
             init();
+            updateClassView.updateUmowa();
             Msg.msg("Aktywowano firmę "+firma.getNazwa());
         }
     }
