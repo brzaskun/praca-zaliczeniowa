@@ -553,6 +553,7 @@ public class PasekwynagrodzenBean {
         }
         for (Naliczenienieobecnosc p : pasek.getNaliczenienieobecnoscList()) {
             bruttozuskraj = Z.z(bruttozuskraj + p.getKwotazus());
+            bruttozusoddelegowaniewaluta = Z.z(bruttozusoddelegowaniewaluta + p.getKwotawaluta());
         }
         if (pasek.isDo26lat() && rachunekdoumowyzlecenia.isStatusstudenta()) {
             double bruttozusbezzusbezpodatek = bruttozuskraj + bruttozusoddelegowanie;
@@ -613,6 +614,7 @@ public class PasekwynagrodzenBean {
         }
         for (Naliczenienieobecnosc p : pasek.getNaliczenienieobecnoscList()) {
             bruttozuskraj = Z.z(bruttozuskraj + p.getKwotazus());
+            bruttozusoddelegowaniewaluta = Z.z(bruttozusoddelegowaniewaluta + p.getKwotawaluta());
         }
         pasek.setOddelegowaniepln(bruttozusoddelegowanie);
         pasek.setOddelegowaniewaluta(bruttozusoddelegowaniewaluta);
@@ -638,6 +640,7 @@ public class PasekwynagrodzenBean {
         }
         for (Naliczenienieobecnosc p : pasek.getNaliczenienieobecnoscList()) {
             bruttozuskraj = Z.z(bruttozuskraj + p.getKwotazus());
+            bruttozusoddelegowaniewaluta = Z.z(bruttozusoddelegowaniewaluta + p.getKwotawaluta());
         }
         double sumaprzejsciowa = bruttozuskraj + bruttozusoddelegowanie;
         double nowasumaprzychodow = sumapoprzednich + sumaprzejsciowa;
@@ -1539,6 +1542,13 @@ public class PasekwynagrodzenBean {
                     if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod().equals("13")) {
                         zagranicawaluta = zagranicawaluta + p.getKwotadolistyplacwaluta();
                         zagranicapln = zagranicapln + p.getKwotadolistyplac();
+                    }
+                }
+                List<Naliczenienieobecnosc> naliczenienieobecnoscList = pasek.getNaliczenienieobecnoscList();
+                for (Naliczenienieobecnosc p : naliczenienieobecnoscList) {
+                    if (p.getNieobecnosc().getRodzajnieobecnosci().getKod().equals("UD")) {
+                        zagranicawaluta = zagranicawaluta + p.getKwota();
+                        zagranicapln = zagranicapln + p.getKwotawaluta();
                     }
                 }
                 pasek.setPodstawaopodatkowaniazagranicawaluta(Z.z(zagranicawaluta));

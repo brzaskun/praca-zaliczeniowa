@@ -1022,6 +1022,7 @@ public class KalendarzmiesiacBean {
     private static double wyliczsredniagodzinowaZmienneOddelegowanieNowe(Kalendarzmiesiac kalendarz, Skladnikwynagrodzenia skladnikwynagrodzenia, double liczbagodzinieobecnosci, double liczbagodzinobowiazku,
             Naliczenienieobecnosc naliczenienieobecnosc, List<Kalendarzmiesiac> kalendarzList, double kurs) {
         double sredniadopodstawy = 0.0;
+        double sredniadopodstawywaluta = 0.0;
         double normadzienna = 0.0;
         if (skladnikwynagrodzenia.getRodzajwynagrodzenia().getStale0zmienne1() == true && skladnikwynagrodzenia.isOddelegowanie()) {
             if (skladnikwynagrodzenia.getRodzajwynagrodzenia().getKod().equals("13") && skladnikwynagrodzenia.isOddelegowanie()) {
@@ -1047,6 +1048,7 @@ public class KalendarzmiesiacBean {
                         stawkagodzinowawaluta = stawkagodzinowawaluta + stawkagodzinowawalutazm;
                         double stawkadziennazm = Z.z(stawkagodzinowawalutazm * normadzienna);
                         sredniadopodstawy = sredniadopodstawy + Z.z(stawkagodzinowazm * liczbagodzinieobecnosci);
+                        sredniadopodstawywaluta = sredniadopodstawywaluta + Z.z(stawkagodzinowawalutazm * liczbagodzinieobecnosci);
                         //tu wylicza wynagrodzenie za faktycznie przepracowany czas i date obowiazywania zmiennej
                         naliczenienieobecnosc.setSumakwotdosredniej(0.0);
                         naliczenienieobecnosc.setSumagodzindosredniej(0.0);
@@ -1054,6 +1056,7 @@ public class KalendarzmiesiacBean {
                         naliczenienieobecnosc.setStawkadzienna(stawkadziennazm);
                         naliczenienieobecnosc.setStawkagodzinowa(stawkagodzinowawalutazm);
                         naliczenienieobecnosc.setWaluta(r.getWaluta());
+                        naliczenienieobecnosc.setKwotawaluta(sredniadopodstawywaluta);
                     }
                 }
             }

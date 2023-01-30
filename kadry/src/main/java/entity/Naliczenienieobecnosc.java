@@ -56,6 +56,8 @@ public class Naliczenienieobecnosc implements Serializable {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "kwota")
     private double kwota;
+    @Column(name = "kwotawaluta")
+    private double kwotawaluta;
     @Column(name = "kwotastatystyczna")
     private double kwotastatystyczna;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
@@ -364,6 +366,14 @@ public class Naliczenienieobecnosc implements Serializable {
 
     public void setWaluta(String waluta) {
         this.waluta = waluta;
+    }
+
+    public double getKwotawaluta() {
+        return kwotawaluta;
+    }
+
+    public void setKwotawaluta(double kwotawaluta) {
+        this.kwotawaluta = kwotawaluta;
     }
 
     @XmlTransient
