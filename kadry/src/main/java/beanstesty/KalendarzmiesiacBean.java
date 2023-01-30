@@ -1173,7 +1173,7 @@ public class KalendarzmiesiacBean {
                 godzinyrobocze = godzinyrobocze + p.getNormagodzin();
             }
             double nadgodziny = sto ? p.getSetki() : p.getPiecdziesiatki();
-            if (p.getTypdnia() == 0 && nadgodziny > 0.0) {
+            if (nadgodziny > 0.0) {
                 dninadliczbowe = dninadliczbowe + 1;
                 nadliczbowe = nadliczbowe + nadgodziny;
             }
