@@ -1185,9 +1185,10 @@ public class KalendarzmiesiacBean {
             Skladnikwynagrodzenia skladniknadgodziny50 = pobierzskladnik(kalendarz, "12");
             if (skladniknadgodziny50 != null) {
                 naliczenieskladnikawynagrodzenia.setSkladnikwynagrodzenia(skladniknadgodziny50);
-                double skladnik = wynagrodzeniezasadnicze.getZmiennawynagrodzeniaList().get(0).getKwota();
+                Zmiennawynagrodzenia zmiennaaktywna = pobierzaktywnazmienna (wynagrodzeniezasadnicze.getZmiennawynagrodzeniaList());
+                double skladnik = zmiennaaktywna.getKwota();
                 double wspolczynnik = sto ? 2.0 : 1.5;
-                double stawkagodznowanormalna = skladnik / godzinyrobocze * wspolczynnik;
+                double stawkagodznowanormalna = Z.z(skladnik / godzinyrobocze * wspolczynnik);
                 String uwagi = sto ? "setki" : "pięćdz.";
                 naliczenieskladnikawynagrodzenia.setUwagi(uwagi);
                 naliczenieskladnikawynagrodzenia.setStawkagodzinowa(stawkagodznowanormalna);
@@ -1339,6 +1340,19 @@ public class KalendarzmiesiacBean {
         //double kwotazumowy = skladnikwynagrodzenia.getZmiennawynagrodzeniaList()
         //czy umowa rozlicza pierwszy miesiac
         return 2800;
+    }
+
+    private static Zmiennawynagrodzenia pobierzaktywnazmienna(List<Zmiennawynagrodzenia> zmiennawynagrodzeniaList) {
+        Zmiennawynagrodzenia zwrot = new Zmiennawynagrodzenia();
+        if (zmiennawynagrodzeniaList!=null) {
+            for (Zmiennawynagrodzenia zmienna : zmiennawynagrodzeniaList) {
+                if (zmienna.isAktywna()) {
+                    zwrot = zmienna;
+                    break;
+                }
+            }
+        }
+        return zwrot;
     }
 
 }

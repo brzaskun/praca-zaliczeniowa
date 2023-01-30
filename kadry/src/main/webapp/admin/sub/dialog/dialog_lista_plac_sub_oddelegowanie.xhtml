@@ -276,7 +276,7 @@
             <p:rowExpansion>
                 <p:dataTable id="datalist" value="#{itempasek.getPobierzskladniki(pasekwynagrodzenView.wybranalistaplac)}" var="itempasekszcz"
                              rowIndexVar="indexpasekszcz"
-                             style="height: 200px; overflow-y: scroll;width: 15000px;"
+                             style="height: 200px; overflow-y: scroll;width: 1500px;"
                              >
                     <p:column style="text-align: center;color: #{itempasekszcz.kwota eq 0.0?'grey':'initial'};" headerText="lp" width="40">
                         <h:outputText value="#{itempasekszcz.lp}"/>
@@ -294,7 +294,8 @@
                         <h:outputText value="za urlop" rendered="#{itempasekszcz.urlopSP}"/>
                          <h:outputText value="redukcja" rendered="#{itempasekszcz.redukcjaSP}"/>
                          <h:outputText value="potrącenie" style="color:red;" rendered="#{itempasekszcz.potracenie}"/>
-                         <h:outputText value="#{itempasekszcz.procentzwolnienia}%"  rendered="#{itempasekszcz.procentzwolnienia ne 0.0}"/>
+                         <h:outputText value="#{itempasekszcz.procentzwolnienia}%,"  rendered="#{itempasekszcz.procentzwolnienia ne 0.0}"/>
+                         <h:outputText value="#{itempasekszcz.uwagi}" rendered="#{itempasekszcz.uwagi ne null}"/>
                     </p:column>
                     <p:column headerText="dni" width="60" style="color: #{itempasekszcz.kwota eq 0.0?'grey':'initial'};">
                         <h:outputText value="#{itempasekszcz.dniobowiazku}/#{itempasekszcz.dniprzepracowane}"/>

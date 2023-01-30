@@ -22,8 +22,6 @@
                                 <f:selectItem itemLabel="wybierz" noSelectionOption="true" />
                                 <f:selectItems value="#{waluty.listawalut}"/>
                             </p:selectOneMenu>
-                             <h:outputText value=" "/>
-                             <h:outputText value=" "/>
                             <p:outputLabel value="data od" for="dataod" />
                             <p:inputText id="dataod" value="#{zmiennaWynagrodzeniaView.selected.dataod}" title="data od" placeholder="____-__-__"  required="true"/>
                             <p:outputLabel value="data do" for="datado" />
@@ -32,6 +30,8 @@
                            <p:selectBooleanCheckbox id="bruttonetto" value="#{zmiennaWynagrodzeniaView.selected.netto0brutto1}"/>
                            <p:outputLabel value="min. ustaw." for="maxust" />
                            <p:selectBooleanCheckbox id="maxust" value="#{zmiennaWynagrodzeniaView.selected.minimalneustatowe}"/>
+                            <p:outputLabel value="aktywna" for="aktyw" />
+                            <p:selectBooleanCheckbox id="aktyw" value="#{zmiennaWynagrodzeniaView.selected.aktywna}"/>
                         </p:panelGrid>
                         <p:commandButton styleClass="buttonnorm" actionListener="#{zmiennaWynagrodzeniaView.create}" value="#{bundle.Save}" update="akordeon:ZmiennawynagrodzeniaCreateForm akordeon:ZmiennawynagrodzeniaListForm:datalist"/>
                         <p:commandButton value="#{bundle.Cancel}"/>
