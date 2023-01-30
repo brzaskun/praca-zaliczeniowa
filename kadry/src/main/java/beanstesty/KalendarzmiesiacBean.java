@@ -1024,7 +1024,7 @@ public class KalendarzmiesiacBean {
         double sredniadopodstawy = 0.0;
         double normadzienna = 0.0;
         if (skladnikwynagrodzenia.getRodzajwynagrodzenia().getStale0zmienne1() == true && skladnikwynagrodzenia.isOddelegowanie()) {
-            if (skladnikwynagrodzenia.getRodzajwynagrodzenia().getKod().equals("11") && skladnikwynagrodzenia.isOddelegowanie()) {
+            if (skladnikwynagrodzenia.getRodzajwynagrodzenia().getKod().equals("13") && skladnikwynagrodzenia.isOddelegowanie()) {
                 for (Zmiennawynagrodzenia r : skladnikwynagrodzenia.getZmiennawynagrodzeniaList()) {
                     Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = new Naliczenieskladnikawynagrodzenia();
                     naliczenieskladnikawynagrodzenia.setWaluta(r.getWaluta());
