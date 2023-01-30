@@ -127,7 +127,7 @@ public class PasekwynagrodzenBean {
         boolean zasilekchorobowy = definicjalistaplac.getRodzajlistyplac().getTyp() == 4;
         boolean naleznosciosobzagranicznych = definicjalistaplac.getRodzajlistyplac().getTyp() == 5;
         Pasekwynagrodzen pasek = new Pasekwynagrodzen();
-        if (kalendarz.getAngaz().getPrzekroczenierok()!=null) {
+        if (kalendarz.getAngaz().getPrzekroczenierok()!=null&&kalendarz.getAngaz().getPrzekroczenierok().length()==4) {
             int rokprzekroczenia = Integer.parseInt(kalendarz.getAngaz().getPrzekroczenierok())+1;
             if (rokprzekroczenia==kalendarz.getRokI()) {
                 pasek.setPrzekroczenieoddelegowanie(true);
