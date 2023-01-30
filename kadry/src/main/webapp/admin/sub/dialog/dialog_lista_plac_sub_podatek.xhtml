@@ -12,13 +12,16 @@
         <p:dataTable id="datalist3" value="#{pasekwynagrodzenView.lista}" var="itempasekpod" emptyMessage="Brak listy za dany okres"  styleClass="listaplac"
                      selectionMode="single" selection="#{pasekwynagrodzenView.selectedlista}" rowIndexVar="indexpasekpod"
                      rowKey="#{itempasekpod.kalendarzmiesiac.id}" sortBy="#{itempasekpod.nazwiskoImie}"
-                     style="height: 430px; overflow-y: scroll; width: 1100px;"
+                     style="height: 500px; overflow-y: scroll; width: 1100px;"
                      >
             <p:column width="10">
                 <h:outputText value="#{indexpasekpod+1}"/>
             </p:column>
             <p:column width="150" headerText="nazwisko i imie">
                 <h:outputText value="#{itempasekpod.nazwiskoImie}"/>
+            </p:column>
+            <p:column width="150" headerText="data ur.">
+                <h:outputText value="#{itempasekpod.angaz.pracownik.dataurodzenia}"/>
             </p:column>
             <p:column width="70" headerText="data wypłaty" style="text-align: center;">
                 <h:outputText value="#{itempasekpod.datawyplaty}"/>
