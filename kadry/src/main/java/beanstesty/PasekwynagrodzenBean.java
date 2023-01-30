@@ -1341,19 +1341,21 @@ public class PasekwynagrodzenBean {
     }
 
     private static void obliczdietedoodliczenia(Pasekwynagrodzen pasek, Kalendarzmiesiac kalendarz) {
-        double dnioddelegowanie = 0.0;
-        double dietawaluta = 0.0;
-        for (Dzien p : kalendarz.getDzienList()) {
-            if (p.getKod() != null && p.getKod().equals("Z")) {
-                dnioddelegowanie++;
-                dietawaluta = dietawaluta + p.getNieobecnosc().getDietaoddelegowanie();
+        if (pasek.isPrzekroczenieoddelegowanie()==false) {
+            double dnioddelegowanie = 0.0;
+            double dietawaluta = 0.0;
+            for (Dzien p : kalendarz.getDzienList()) {
+                if (p.getKod() != null && p.getKod().equals("Z")) {
+                    dnioddelegowanie++;
+                    dietawaluta = dietawaluta + p.getNieobecnosc().getDietaoddelegowanie();
+                }
             }
+            double dietypln = Z.z(dietawaluta * pasek.getKurs());
+            pasek.setDietawaluta(dietawaluta);
+            pasek.setDieta(dietypln);
+            dietypln = Z.z(dietypln * 0.3);
+            pasek.setDietaodliczeniepodstawaop(dietypln);
         }
-        double dietypln = Z.z(dietawaluta * pasek.getKurs());
-        pasek.setDietawaluta(dietawaluta);
-        pasek.setDieta(dietypln);
-        dietypln = Z.z(dietypln * 0.3);
-        pasek.setDietaodliczeniepodstawaop(dietypln);
     }
 
     private static void naniesrobocze(Pasekwynagrodzen pasek, Kalendarzmiesiac kalendarz) {
@@ -1523,19 +1525,23 @@ public class PasekwynagrodzenBean {
 
     private static void korektaprzychodyopodatkowanezagranica(double podstawa, Pasekwynagrodzen pasek) {
         try {
-            List<Naliczenieskladnikawynagrodzenia> naliczenieskladnikawynagrodzeniaList = pasek.getNaliczenieskladnikawynagrodzeniaList();
-            double zagranicapln = 0.0;
-            double zagranicawaluta = 0.0;
-            for (Naliczenieskladnikawynagrodzenia p : naliczenieskladnikawynagrodzeniaList) {
-                if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod().equals("13")) {
-                    zagranicawaluta = zagranicawaluta + p.getKwotadolistyplacwaluta();
-                    zagranicapln = zagranicapln + p.getKwotadolistyplac();
+            if (pasek.isPrzekroczenieoddelegowanie()) {
+                List<Naliczenieskladnikawynagrodzenia> naliczenieskladnikawynagrodzeniaList = pasek.getNaliczenieskladnikawynagrodzeniaList();
+                double zagranicapln = 0.0;
+                double zagranicawaluta = 0.0;
+                for (Naliczenieskladnikawynagrodzenia p : naliczenieskladnikawynagrodzeniaList) {
+                    if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod().equals("13")) {
+                        zagranicawaluta = zagranicawaluta + p.getKwotadolistyplacwaluta();
+                        zagranicapln = zagranicapln + p.getKwotadolistyplac();
+                    }
+                }
+                pasek.setPodstawaopodatkowaniazagranicawaluta(Z.z(zagranicawaluta));
+                pasek.setPodstawaopodatkowaniazagranica(Z.z(zagranicapln));
+                if (pasek.getPodstawaopodatkowania()>0.0) {
+                    double nowapodstawapolska = Z.z(pasek.getPodstawaopodatkowania()-zagranicapln);
+                    pasek.setPodstawaopodatkowania(nowapodstawapolska);
                 }
             }
-            pasek.setPodstawaopodatkowaniazagranicawaluta(Z.z(zagranicawaluta));
-            pasek.setPodstawaopodatkowaniazagranica(Z.z(zagranicapln));
-            double nowapodstawapolska = Z.z(pasek.getPodstawaopodatkowania()-zagranicapln);
-            pasek.setPodstawaopodatkowania(nowapodstawapolska);
         } catch (Exception e){}
     }
 
