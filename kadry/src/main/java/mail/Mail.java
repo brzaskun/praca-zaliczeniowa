@@ -39,8 +39,8 @@ public class Mail {
                + "<div> Grzegorz Grzelczyk</div>"
                + "<div> doradca podatkowy</div>"
                + "<br/>"
-               + "<div> ul. A.Madalińskiego 4</div>"
-               + "<div> PL-70-101 Szczecin</div>"
+               + "<div> ul. 1 Maja 38 bud.A</div>"
+               + "<div> PL-71-627 Szczecin</div>"
                + "<div> mobil +48 603133396</div>"
                + "<br/>"
                + "<div> <a href=\"http://taxman.biz.pl\">http://taxman.biz.pl</a></div>"
@@ -130,13 +130,13 @@ public class Mail {
             message.setRecipients(Message.RecipientType.BCC,
                     InternetAddress.parse("a.barczyk@taxman.biz.pl"));
             message.setRecipients(Message.RecipientType.BCC,
-                    InternetAddress.parse("k.koszarek@taxman.biz.pl"));
+                    InternetAddress.parse("m.piwonska@taxman.biz.pl"));
             String temat = "Nowy pracownik w "+firma.getNazwa();
             message.setSubject(MimeUtility.encodeText(temat, "UTF-8", "Q"));
             message.setContent("Dzień dobry"
                     + "<p>Firma "+firma.getNazwa()+" NIP "+firma.getNip()
-                    + "dodała nowego pracownika</p>"
-                    + "<p>dodała nowego pracownika "+pracownik.getNazwiskoImie()+"</p>"
+                    + " dodała nowego pracownika</p>"
+                    + "<p>Nazwisko i imię pracownika "+pracownik.getNazwiskoImie()+"</p>"
                     + stopka,  "text/html; charset=utf-8");
             message.setHeader("Content-Type", "text/html; charset=utf-8");
             Transport.send(message);

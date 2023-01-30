@@ -45,27 +45,27 @@
                                 <f:facet name="header">
                                     <h:outputText value="id"/>
                                 </f:facet>
-                                <h:outputText value="#{itemskladnikwyn.id}"/>
+                                <h:outputText value="#{itemskladnikwyn.id}"  style="color: #{itemskladnikwyn.rodzajwynagrodzenia.tylkosuperplace eq true?'grey':'initial'};"/>
                             </p:column>
                             <p:column width="170">
                                 <f:facet name="header">
                                     <h:outputText value="nazwa"/>
                                 </f:facet>
                                 <h:outputText value="#{itemskladnikwyn.rodzajwynagrodzenia.opispelny}" rendered="#{itemskladnikwyn.rodzajwynagrodzenia.tylkosuperplace eq false}"/>
-                                <h:outputText value="#{itemskladnikwyn.rodzajwynagrodzenia.opispelny}" rendered="#{itemskladnikwyn.rodzajwynagrodzenia.tylkosuperplace eq true}" style="color: darkorange"/>
+                                <h:outputText value="#{itemskladnikwyn.rodzajwynagrodzenia.opispelny}" rendered="#{itemskladnikwyn.rodzajwynagrodzenia.tylkosuperplace eq true}" style="color: grey"/>
                             </p:column>
                             <p:column style="text-align: center;" width="40">
                                 <f:facet name="header">
                                     <h:outputText value="godz./mies."/>
                                 </f:facet>
-                                <h:outputText value="godz." rendered="#{itemskladnikwyn.rodzajwynagrodzenia.godzinowe0miesieczne1 eq false}"/>
-                                <h:outputText value="miesięczne" rendered="#{itemskladnikwyn.rodzajwynagrodzenia.godzinowe0miesieczne1 eq true}"/>
+                                <h:outputText value="godz." rendered="#{itemskladnikwyn.rodzajwynagrodzenia.godzinowe0miesieczne1 eq false}"  style="color: #{itemskladnikwyn.rodzajwynagrodzenia.tylkosuperplace eq true?'grey':'initial'};"/>
+                                <h:outputText value="miesięczne" rendered="#{itemskladnikwyn.rodzajwynagrodzenia.godzinowe0miesieczne1 eq true}"  style="color: #{itemskladnikwyn.rodzajwynagrodzenia.tylkosuperplace eq true?'grey':'initial'};"/>
                             </p:column>
                             <p:column style="text-align: center;" width="40">
                                 <f:facet name="header">
                                     <h:outputText value="reduk. za czas nieob."/>
                                 </f:facet>
-                                <h:outputText value="tak" rendered="#{itemskladnikwyn.rodzajwynagrodzenia.redukowany eq true}"/>
+                                <h:outputText value="tak" rendered="#{itemskladnikwyn.rodzajwynagrodzenia.redukowany eq true}"  style="color: #{itemskladnikwyn.rodzajwynagrodzenia.tylkosuperplace eq true?'grey':'initial'};"/>
                             </p:column>
                             <p:column style="text-align: center;" width="30">
                                 <f:facet name="header">
@@ -77,28 +77,28 @@
                                 <f:facet name="header">
                                     <h:outputText value="stala0 zmienna1"/>
                                 </f:facet>
-                                <h:outputText value="zmienna" rendered="#{itemskladnikwyn.rodzajwynagrodzenia.stale0zmienne1 eq true}"/>
-                                <h:outputText value="stała" rendered="#{itemskladnikwyn.rodzajwynagrodzenia.stale0zmienne1 eq false}"/>
+                                <h:outputText value="zmienna" rendered="#{itemskladnikwyn.rodzajwynagrodzenia.stale0zmienne1 eq true}"  style="color: #{itemskladnikwyn.rodzajwynagrodzenia.tylkosuperplace eq true?'grey':'initial'};"/>
+                                <h:outputText value="stała" rendered="#{itemskladnikwyn.rodzajwynagrodzenia.stale0zmienne1 eq false}"  style="color: #{itemskladnikwyn.rodzajwynagrodzenia.tylkosuperplace eq true?'grey':'initial'};"/>
                             </p:column>
                              <p:column style="text-align: center;" width="40">
                                 <f:facet name="header">
                                     <h:outputText value="urlop kraj"/>
                                 </f:facet>
-                                 <h:outputText value="&#x2714;" rendered="#{itemskladnikwyn.rodzajwynagrodzenia.sredniaurlopowakraj eq true}" style="color: green"/>
+                                 <h:outputText value="&#x2714;" rendered="#{itemskladnikwyn.rodzajwynagrodzenia.sredniaurlopowakraj eq true}"  style="color: #{itemskladnikwyn.rodzajwynagrodzenia.tylkosuperplace eq true?'grey':'green'};"/>
                                 
                             </p:column>
                              <p:column style="text-align: center;" width="40">
                                 <f:facet name="header">
                                     <h:outputText value="urlop oddel."/>
                                 </f:facet>
-                                 <h:outputText value="&#x2714;" rendered="#{itemskladnikwyn.rodzajwynagrodzenia.sredniaurlopowaoddelegowanie eq true}" style="color: green"/>
+                                 <h:outputText value="&#x2714;" rendered="#{itemskladnikwyn.rodzajwynagrodzenia.sredniaurlopowaoddelegowanie eq true}"  style="color: #{itemskladnikwyn.rodzajwynagrodzenia.tylkosuperplace eq true?'grey':'green'};"/>
 
                             </p:column>
                             <p:column style="text-align: center;" width="20">
                                 <f:facet name="header">
                                     <h:outputText value="należ. za oddel."/>
                                 </f:facet>
-                                 <h:outputText value="&#x2714;" rendered="#{itemskladnikwyn.oddelegowanie eq true}"/>
+                                 <h:outputText value="&#x2714;" rendered="#{itemskladnikwyn.oddelegowanie eq true}" style="color: #{itemskladnikwyn.rodzajwynagrodzenia.tylkosuperplace eq true?'grey':'green'};"/>
                             </p:column>
                             <p:column width="30" style="text-align: center;">
                                 <p:commandButton icon="pi pi-pencil"  actionListener="#{skladnikWynagrodzeniaView.wybierzdoedycji(itemskladnikwyn)}" update="north, @(form) akordeon:SkladnikwynagrodzeniaCreateForm"/>

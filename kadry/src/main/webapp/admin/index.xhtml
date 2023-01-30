@@ -40,7 +40,7 @@
                                 <p:menuitem icon="pi pi-file-excel" value="zbiorcze rach. do zlec." style="width: 150px" onclick="PF('dialogzbiorczerachunekzlecenia').show()" async="true"/>
                                 <p:menuitem icon="pi pi-file-excel" value="wystaw. rach. do zlec." style="width: 150px" onclick="PF('dialograchunekzlecenia').show()" async="true"/>
                                 <p:menuitem icon="pi pi-calendar" value="kalendarz pracownika" style="width: 150px" onclick="PF('dialogkalendarzmiesiac').show()" async="true"/>
-<!--                                <p:menuitem icon="pi pi-calendar" value="paski oddelegowanie" style="width: 150px" onclick="PF('dialogpaskioddeleowanie').show()" async="true"/>-->
+                                <!--                                <p:menuitem icon="pi pi-calendar" value="paski oddelegowanie" style="width: 150px" onclick="PF('dialogpaskioddeleowanie').show()" async="true"/>-->
                                 <p:menuitem icon="pi pi-calendar" value="oddelegowanie" style="width: 150px" onclick="PF('dialogoddelegowanie').show()" async="true"/>
                             </p:submenu>
                             <p:submenu label="listy płac" style="width: 150px">
@@ -60,24 +60,168 @@
                         </p:menubar>
                     </h:form>
                 </p:outputPanel>
-                <p:panelGrid columns="1" style="padding: 20px; overflow-y: no-display;">
-                    <h:outputText value="w celu sporządzenia listy płac:" style="color: green"/>
-                    <h:outputText value="- wprowaź nieobecności" style="color: green"/>
-                    <h:outputText value="- wprowaź nadgodziny - sprawdź czy jest wprowadzony składnik nadgodziny" style="color: green"/>
-                    <h:outputText value="- nanieś je na kalendarz pracownika" style="color: green"/>
-                    <h:outputText value="- otwórz dialog z listą płac" style="color: green"/>
-                    <h:outputText value="- wybierz pracowników do listy" style="color: green"/>
-                    <h:outputText value="- przelicz, zachowaj i wydrukuj listę" style="color: green"/>
-                    <h:outputText value="- wyślij informacje do pracodawcy i pracownika" style="color: green"/>
-                </p:panelGrid>
-                <p:panelGrid columns="1" style="padding: 20px; overflow-y: no-display;">
-                    <h:outputText value="rozliczenie oddelegowania:" style="color: blue"/>
-                    <h:outputText value="- zdefiniować składnik wynagrodzania - wynagrodzenie godzinowe" style="color: blue"/>
-                    <h:outputText value="i oznaczyć go jako oddelegowanie" style="color: blue"/>
-                    <h:outputText value="- dodać zmienną do składnika jako stawkę na godzinę w walucie" style="color: blue"/>
-                    <h:outputText value="- nanieść nieobecność typu Z - praca za granicą" style="color: blue"/>
-                    <h:outputText value=" - przeliczyć, zachować i wydrukować listę w formacie oddelegowanie" style="color: blue"/>
-                </p:panelGrid>
+                <p:outputPanel style="padding: 30px;">
+                    <p:fragment>
+                        <p:autoUpdate/> 
+                        <p:panelGrid columns="2">
+                            <h:outputText value="#{wpisView.pracownik.nazwiskoImie}" style="color: green;"/>
+                            <h:outputText value="#{wpisView.pracownik.pesel}" style="color: green;"/>
+                            <h:outputText value="adres zamieszkania: "/>
+                            <h:outputText value="#{wpisView.pracownik.adres}"/>
+                        </p:panelGrid>
+                        <p:panelGrid columns="2" style="margin-top: 20px;">
+                            <h:outputText value="data zatrudnienia: "/>
+                            <h:outputText value="#{wpisView.pracownik.datazatrudnienia}"/>
+                            <h:outputText value="data zwolnienia: "/>
+                            <h:outputText value="#{wpisView.pracownik.datazwolnienia}" rendered="#{wpisView.pracownik.datazwolnienia ne null and wpisView.pracownik.datazwolnienia.length() gt 1}"/>
+                            <h:outputText value="do nadal" rendered="#{wpisView.pracownik.datazwolnienia eq null or wpisView.pracownik.datazwolnienia.length() eq 0}"/>
+                            <h:outputText value="rodzaj umowy: "/>
+                            <h:outputText value="#{zaswiadczeniaView.rodzajumowy}"/>
+                            <h:outputText value="okres na jaki zost. zawarta: "/>
+                            <h:outputText value="#{zaswiadczeniaView.czastrwania}"/>
+                            <h:outputText value="stanowisko: "/>
+                            <h:outputText value="#{zaswiadczeniaView.stanowisko}"/>
+                            <h:outputText value="etat: "/>
+                            <h:outputText value="#{zaswiadczeniaView.etat}"/>
+                        </p:panelGrid>
+                        <p:panel header="Wykaz składników wynagrodzenia" style="margin-top: 20px;width: 700px;">
+                        <p:dataTable id="datalist" value="#{skladnikWynagrodzeniaView.lista}" var="itemskladnikwyn"
+                                     selectionMode="single" selection="#{skladnikWynagrodzeniaView.selectedlista}"
+                                     rowKey="#{itemskladnikwyn.id}" emptyMessage="Brak ustalonych skłądników wynagrodzenia"
+                                     style="height: 200px; overflow-y: scroll; width: 700px;"
+                                     >
+                            <p:column width="170">
+                                <f:facet name="header">
+                                    <h:outputText value="nazwa"/>
+                                </f:facet>
+                                <h:outputText value="#{itemskladnikwyn.rodzajwynagrodzenia.opispelny}" rendered="#{itemskladnikwyn.rodzajwynagrodzenia.tylkosuperplace eq false}"/>
+                                <h:outputText value="#{itemskladnikwyn.rodzajwynagrodzenia.opispelny}" rendered="#{itemskladnikwyn.rodzajwynagrodzenia.tylkosuperplace eq true}" style="color: grey"/>
+                            </p:column>
+                            <p:column style="text-align: center;" width="40">
+                                <f:facet name="header">
+                                    <h:outputText value="godz./mies."/>
+                                </f:facet>
+                                <h:outputText value="godz." rendered="#{itemskladnikwyn.rodzajwynagrodzenia.godzinowe0miesieczne1 eq false}"  style="color: #{itemskladnikwyn.rodzajwynagrodzenia.tylkosuperplace eq true?'grey':'initial'};"/>
+                                <h:outputText value="miesięczne" rendered="#{itemskladnikwyn.rodzajwynagrodzenia.godzinowe0miesieczne1 eq true}"  style="color: #{itemskladnikwyn.rodzajwynagrodzenia.tylkosuperplace eq true?'grey':'initial'};"/>
+                            </p:column>
+                            <p:column style="text-align: center;" width="40">
+                                <f:facet name="header">
+                                    <h:outputText value="reduk. za czas nieob."/>
+                                </f:facet>
+                                <h:outputText value="tak" rendered="#{itemskladnikwyn.rodzajwynagrodzenia.redukowany eq true}"  style="color: #{itemskladnikwyn.rodzajwynagrodzenia.tylkosuperplace eq true?'grey':'initial'};"/>
+                            </p:column>
+                            <p:column style="text-align: center;" width="30">
+                                <f:facet name="header">
+                                    <h:outputText value="kod"/>
+                                </f:facet>
+                                <h:outputText value="#{itemskladnikwyn.rodzajwynagrodzenia.kod}"/>
+                            </p:column>
+                            <p:column style="text-align: center;" width="40">
+                                <f:facet name="header">
+                                    <h:outputText value="stala0 zmienna1"/>
+                                </f:facet>
+                                <h:outputText value="zmienna" rendered="#{itemskladnikwyn.rodzajwynagrodzenia.stale0zmienne1 eq true}"  style="color: #{itemskladnikwyn.rodzajwynagrodzenia.tylkosuperplace eq true?'grey':'initial'};"/>
+                                <h:outputText value="stała" rendered="#{itemskladnikwyn.rodzajwynagrodzenia.stale0zmienne1 eq false}"  style="color: #{itemskladnikwyn.rodzajwynagrodzenia.tylkosuperplace eq true?'grey':'initial'};"/>
+                            </p:column>
+                             <p:column style="text-align: center;" width="40">
+                                <f:facet name="header">
+                                    <h:outputText value="urlop kraj"/>
+                                </f:facet>
+                                 <h:outputText value="&#x2714;" rendered="#{itemskladnikwyn.rodzajwynagrodzenia.sredniaurlopowakraj eq true}"  style="color: #{itemskladnikwyn.rodzajwynagrodzenia.tylkosuperplace eq true?'grey':'green'};"/>
+                                
+                            </p:column>
+                             <p:column style="text-align: center;" width="40">
+                                <f:facet name="header">
+                                    <h:outputText value="urlop oddel."/>
+                                </f:facet>
+                                 <h:outputText value="&#x2714;" rendered="#{itemskladnikwyn.rodzajwynagrodzenia.sredniaurlopowaoddelegowanie eq true}"  style="color: #{itemskladnikwyn.rodzajwynagrodzenia.tylkosuperplace eq true?'grey':'green'};"/>
+
+                            </p:column>
+                            <p:column style="text-align: center;" width="20">
+                                <f:facet name="header">
+                                    <h:outputText value="należ. za oddel."/>
+                                </f:facet>
+                                 <h:outputText value="&#x2714;" rendered="#{itemskladnikwyn.oddelegowanie eq true}" style="color: #{itemskladnikwyn.rodzajwynagrodzenia.tylkosuperplace eq true?'grey':'green'};"/>
+                            </p:column>
+                        </p:dataTable>
+                    </p:panel>
+                        <p:panel header="Lista nieobecności #{wpisView.pracownik.nazwiskoImie} - angaz od #{wpisView.angaz.rokMc}" style="width: 900px;">
+                    <p:dataTable id="datalist22" value="#{nieobecnoscView.lista}" var="itemNieob" 
+                                 selection="#{nieobecnoscView.selectedlista}" rowIndexVar="indexn" sortMode="multiple"
+                                 rowKey="#{itemNieob.id}"  sortBy="#{itemNieob.dataod}"
+                                 style="height: 450px; overflow-y: scroll;width: 900px;"
+                                 emptyMessage="Nie wpisano żadnych nieobecności"
+                                 >
+                        <p:column width="50"  style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="kod"/>
+                            </f:facet>
+                            <h:outputText value="#{itemNieob.rodzajnieobecnosci.kod}" style="color: #{nieobecnoscView.kolornieobecnosci(itemNieob)};"/>
+                        </p:column>
+                        <p:column width="50"  style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="ZUS"/>
+                            </f:facet>
+                            <h:outputText value="#{itemNieob.swiadczeniekodzus.kod}" style="color: #{nieobecnoscView.kolornieobecnosci(itemNieob)};"/>
+                        </p:column>
+                        <p:column width="200" >
+                            <f:facet name="header">
+                                <h:outputText value="nazwa"/>
+                            </f:facet>
+                            <h:outputText value="#{itemNieob.rodzajnieobecnosci.opis}" style="color: #{nieobecnoscView.kolornieobecnosci(itemNieob)};"/>
+                        </p:column> 
+                        <p:column width="50"  sortBy="#{itemNieob.dataod}" sortOrder="desc" sortPriority="1">
+                            <f:facet name="header">
+                                <h:outputText value="data od"/>
+                            </f:facet>
+                            <h:outputText value="#{itemNieob.dataod}" style="color: #{nieobecnoscView.kolornieobecnosci(itemNieob)};"/>
+                        </p:column>
+                        <p:column width="50" >
+                            <f:facet name="header">
+                                <h:outputText value="data do"/>
+                            </f:facet>
+                            <h:outputText value="#{itemNieob.datado}" style="color: #{nieobecnoscView.kolornieobecnosci(itemNieob)};"/>
+                        </p:column>
+                        <p:column style="text-align: center;" width="40">
+                            <f:facet name="header">
+                                <h:outputText value="dni kal."/>
+                            </f:facet>
+                            <h:outputText value="#{itemNieob.dnikalendarzowe}" style="color: #{nieobecnoscView.kolornieobecnosci(itemNieob)};"/>
+                        </p:column>
+                        <p:column style="text-align: center;" width="40">
+                            <f:facet name="header">
+                                <h:outputText value="dni rob."/>
+                            </f:facet>
+                            <h:outputText value="#{itemNieob.dniroboczenieobecnosci}" style="color: #{nieobecnoscView.kolornieobecnosci(itemNieob)};"/>
+                        </p:column>
+                        <p:column style="text-align: center;" width="40">
+                            <f:facet name="header">
+                                <h:outputText value="nan. na kal."/>
+                            </f:facet>
+                            <h:outputText value="&#x2714;" rendered="#{itemNieob.naniesiona}" style="color: green;font-weight: 900;"/>
+                        </p:column>
+                        <p:column style="#{itemNieob.rokod eq wpisView.rokWpisu ? 'color: green':''}">
+                            <f:facet name="header">
+                                <h:outputText value="kraj"/>
+                            </f:facet>
+                            <h:outputText value="#{itemNieob.krajoddelegowania}"/>
+                        </p:column>
+                        <p:column width="30">
+                            <f:facet name="header">
+                                <h:outputText value="proc."/>
+                            </f:facet>
+                            <bcf:outputpl value="#{itemNieob.zwolnienieprocent}" rendered="#{itemNieob.zwolnienieprocent ne 0.0}"/>
+                        </p:column>
+                        <p:column style="text-align: center;" width="30">
+                            <f:facet name="header">
+                                <h:outputText value="zus"/>
+                            </f:facet>
+                            <h:outputText value="&#x2714;" rendered="#{itemNieob.swiadczeniekodzus.spoleczne}"/>
+                        </p:column>
+                    </p:dataTable>
+                </p:panel>
+                    </p:fragment>
+                </p:outputPanel>
                 <ui:include src="sub/menu_wiad.xhtml"/>   <!-- menu contextowe i pole wiadomosci growl-->
                 <ui:include src="sub/dialog/dialog_czaspracy_kalendarzmiesiac.xhtml"/>
                 <ui:include src="sub/dialog/dialog_czaspracy_nieobecnosci.xhtml"/>
@@ -94,7 +238,7 @@
                 <ui:include src="sub/dialog/dialog_zbiorcze_rachunek_zlecenia.xhtml"/>
                 <ui:include src="sub/dialog/dialog_zbiorcze_wprowadzaniezmiennych.xhtml"/>
                 <ui:include src="sub/dialog/dialog_komornik.xhtml"/>
-<!--                <ui:include src="sub/dialog/dialog_paski_oddelegowanie.xhtml"/>-->
+                <!--                <ui:include src="sub/dialog/dialog_paski_oddelegowanie.xhtml"/>-->
                 <h:form>
 <!--                         <p:commandButton value="rodzaj" styleClass="buttonnorm" actionListener="#{skladnikPotraceniaView.generujtabele()}" />-->
 <!--                         <p:commandButton value="uzupelnij kalendarze" styleClass="buttonnorm" actionListener="#{kalendarzwzorView.uzupelnijkalendarze()}" />-->

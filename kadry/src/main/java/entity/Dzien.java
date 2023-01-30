@@ -10,6 +10,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -24,6 +25,8 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.eclipse.persistence.annotations.Cache;
+import org.eclipse.persistence.annotations.CacheType;
 import z.Z;
 
 /**
@@ -46,6 +49,8 @@ import z.Z;
     @NamedQuery(name = "Dzien.findByPiecdziesiatki", query = "SELECT d FROM Dzien d WHERE d.piecdziesiatki = :piecdziesiatki"),
     @NamedQuery(name = "Dzien.findBySetki", query = "SELECT d FROM Dzien d WHERE d.setki = :setki"),
     @NamedQuery(name = "Dzien.findByPoranocna", query = "SELECT d FROM Dzien d WHERE d.poranocna = :poranocna")})
+@Cacheable
+@Cache(size = 40000, refreshOnlyIfNewer = true, type = CacheType.FULL)
 public class Dzien implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id

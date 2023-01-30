@@ -20,7 +20,14 @@
                 <ui:define name="content">
                     <p:outputPanel>
                         <ui:include src="sub/menu_wiad.xhtml"/>   <!-- menu contextowe i pole wiadomosci growl-->
-                        <ui:include src="sub/edycjadanych_pracownik.xhtml"/>
+                        <p:tabView id="akordeon">
+                            <p:tab title="wprowadzanie pracowników">
+                                <ui:include src="sub/edycjadanych_pracownik.xhtml"/>
+                             </p:tab>
+                             <p:tab title="dane pracowników">
+                                <ui:include src="sub/pracownik_dane.xhtml"/>
+                             </p:tab>
+                        </p:tabView>
                     
                 </p:outputPanel>
             

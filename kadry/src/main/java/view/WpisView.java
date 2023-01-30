@@ -59,24 +59,27 @@ public class WpisView implements Serializable {
 
     @PostConstruct
     public void init() { //E.m(this);
-        rokWpisu = "2020";
-        miesiacWpisu = "12";
+        rokWpisu = "2023";
+        miesiacWpisu = "01";
+        okreswpisu = new Okres(rokWpisu, miesiacWpisu);
         if (uzer == null) {
             HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
             uzer = (Uz) request.getAttribute("uzer");
         }
-        if (uzer != null) {
-        memory = pobierzMemory();
-        if (memory != null && memory.getId() != null) {
-            this.firma = memory.getFirma();
-            this.angaz = memory.getAngaz();
-            this.umowa = memory.getUmowa();
-            this.pracownik = memory.getPracownik();
-            this.rokWpisu = memory.getRok();
-            this.miesiacWpisu = memory.getMc();
-            this.okreswpisu = new Okres(memory.getRok(), memory.getMc());
+        if (uzer != null && uzer.getUprawnienia().getNazwa().equals("Pracodawca")) {
+            this.firma = uzer.getFirma();
+        } else if (uzer != null) {
+            memory = pobierzMemory();
+            if (memory != null && memory.getId() != null) {
+                this.firma = memory.getFirma();
+                this.angaz = memory.getAngaz();
+                this.umowa = memory.getUmowa();
+                this.pracownik = memory.getPracownik();
+                this.rokWpisu = memory.getRok();
+                this.miesiacWpisu = memory.getMc();
+                this.okreswpisu = new Okres(memory.getRok(), memory.getMc());
+            }
         }
-    }
     }
     
     private Memory pobierzMemory() {
