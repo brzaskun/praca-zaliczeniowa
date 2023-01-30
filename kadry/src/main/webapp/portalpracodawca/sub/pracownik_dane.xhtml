@@ -6,6 +6,8 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     >
     <p:panelGrid columns="2" columnClasses="thirty-percent, seventy-percent" style="width: 1500px;">
+        <p:fragment>
+            <p:autoUpdate/>
             <p:outputPanel style="height: 200px">
                 <h:form id="AngazCreateForm">
                     <p:selectOneListbox id="pracownik" value="#{pracownikDane2View.selectedangaz}" required="true" requiredMessage="pracownik"  converter="#{angazConverter}" style="width: 200px;height: 300px;" filter="true" filterMatchMode="contains" scrollHeight="300">
@@ -16,6 +18,7 @@
                     </p:selectOneListbox>
                 </h:form>
             </p:outputPanel>
+        </p:fragment>
         <p:outputPanel style="height: 200px">
             <h:form id="PracownikCreateForm1">
                 <p:outputPanel>
@@ -28,7 +31,7 @@
                         <p:outputLabel value="drugie imię" for="drugieimie" />
                         <p:inputText id="drugieimie" value="#{pracownikDane2View.selected.drugieimie}" title=" drugie imię"/>
                         <p:outputLabel value="pesel" for="pesel" />
-                        <p:inputText id="pesel" value="#{pracownikDane2View.selected.pesel}" title="imię" required="true" requiredMessage="Wpisz Pesel" maxlength="11"/>
+                        <p:inputText id="pesel" value="#{pracownikDane2View.selected.pesel}" title="imię" required="true" requiredMessage="Wpisz Pesel" maxlength="11" />
                         <p:outputLabel value="data urodzenia" for="du" />
                         <p:inputMask id="du" value="#{pracownikDane2View.selected.dataurodzenia}" mask="9999-99-99" title="data urodzenia" required="true" requiredMessage="Wpisz datę urodzenia"/>
                         <p:outputLabel value="miejsce urodzenia" for="mu" />

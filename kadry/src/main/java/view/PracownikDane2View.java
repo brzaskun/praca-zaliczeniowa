@@ -51,7 +51,7 @@ public class PracownikDane2View  implements Serializable {
     
     
     @PostConstruct
-    private void init() {
+    public void init() {
         listapracownikow = angazFacade.findByFirma(wpisView.getFirma());
     }
 

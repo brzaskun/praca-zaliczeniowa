@@ -76,7 +76,7 @@ public class Pracownik implements Serializable {
     @Size(max = 128)
     @Column(name = "miejsceurodzenia")
     private String miejsceurodzenia;
-    @Size(max = 11)
+    @Size(max = 11, min = 11)
     @Column(name = "pesel", unique = true)
     private String pesel;
     // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation

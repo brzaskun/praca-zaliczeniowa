@@ -29,7 +29,7 @@ public class AngazConverter implements javax.faces.convert.Converter, Serializab
     private AngazFacade angazFacade;
     
     @PostConstruct
-    private void init() {
+    public void init() {
         lista = angazFacade.findAll();
     }
     

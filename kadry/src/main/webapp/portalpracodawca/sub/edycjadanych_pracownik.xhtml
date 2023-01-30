@@ -7,7 +7,7 @@
     >
    
             <p:panelGrid columns="1" columnClasses="twenty-percent, eighty-percent" style="height: 400px;width: 1600px;">
-                <p:outputPanel style="height: 250px">
+                <p:outputPanel style="height: 270px">
                     <h:form id="PracownikCreateForm">
                         <h:panelGroup id="display">
                             <p:panel header="Dane nowego pracownika "/>
@@ -17,11 +17,18 @@
                                 <p:outputLabel value="imię" for="imie" />
                                 <p:inputText id="imie" value="#{pracodawcaDaneView.selected.imie}" title="imię" required="true" requiredMessage="Wpisz imię"/>
                                 <p:outputLabel value="pesel" for="pesel" />
-                                <p:inputText id="pesel" value="#{pracodawcaDaneView.selected.pesel}" title="pesel" required="true" requiredMessage="Wpisz Pesel"/>
+                                <p:inputText id="pesel" value="#{pracodawcaDaneView.selected.pesel}" title="pesel" required="true" requiredMessage="Wpisz Pesel" maxlength="11"/>
                                 <p:outputLabel value="email" for="email" />
                                 <p:inputText id="email" value="#{pracodawcaDaneView.selected.email}" title="email"/>
                                 <p:outputLabel value="telefon" for="telefon" />
                                 <p:inputText id="telefon" value="#{pracodawcaDaneView.selected.telefon}" title="telefon"/>
+                                <p:outputLabel value="rok" for="rok" />
+                                <p:inputText id="rok" value="#{pracodawcaDaneView.rok}" title="rok" required="true">
+                                </p:inputText>
+                                <p:outputLabel value="miesiąc" for="mc" />
+                                <p:selectOneMenu id="mc" value="#{pracodawcaDaneView.mc}"  style="width: 100px;" required="true">
+                                   <f:selectItems value="#{mce.mceList}"/>
+                                </p:selectOneMenu>
                             </p:panelGrid>
                             <p:commandButton styleClass="buttonnorm" actionListener="#{pracodawcaDaneView.create}" value="#{bundle.Save}" update="display,@(form)" />
                         </h:panelGroup>
