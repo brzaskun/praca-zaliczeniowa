@@ -189,10 +189,16 @@ public class PasekwynagrodzenBean {
         boolean przekroczeniewieku = czyprzekroczonowiek(kalendarz, pasek.getDatawyplaty());
         boolean ponizejwynminimalnego = czyponizejminimalnego(pasek, wynagrodzenieminimalne);
         boolean firmamatylkozlecenia = czysatylkozlecenia(kalendarz);
-        if (przekroczeniewieku == false && ponizejwynminimalnego == false && firmamatylkozlecenia == false) {
+        if (przekroczeniewieku == true) {
+            //obojetnei jaka forma prawna jak jest przekroczenie wieku to nie liczymy FP i FGSP
+        } else if (ponizejwynminimalnego == true) {
+            PasekwynagrodzenBean.fgsp(pasek);
+        } else if (kalendarz.getAngaz().getFirma().isOsobafizyczna()&&firmamatylkozlecenia == true) {
+            PasekwynagrodzenBean.fgsp(pasek);
+        } else {
             PasekwynagrodzenBean.fp(pasek);
             PasekwynagrodzenBean.fgsp(pasek);
-        } 
+        }
         PasekwynagrodzenBean.razem53(pasek);
         PasekwynagrodzenBean.razemkosztpracodawcy(pasek);
         PasekwynagrodzenBean.naniesrobocze(pasek, kalendarz);
