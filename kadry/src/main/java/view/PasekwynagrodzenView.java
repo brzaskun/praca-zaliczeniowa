@@ -572,8 +572,15 @@ public class PasekwynagrodzenView implements Serializable {
                 listakalendarzmiesiac = kalendarzmiesiacFacade.findByFirmaRokMc(wybranalistaplac.getFirma(), wybranalistaplac.getRok(), wybranalistaplac.getMc());
                 for (Iterator<Kalendarzmiesiac> it = listakalendarzmiesiac.iterator(); it.hasNext();) {
                     Kalendarzmiesiac kal = it.next();
-                    Pasekwynagrodzen pasek = kal.getPasek(wybranalistaplac);
-                    if (!kal.getAngaz().getAktywnaUmowa().getUmowakodzus().isFunkcja()) {
+                    List<Umowa> umowy = kal.getAngaz().getUmowaList();
+                    boolean czyjestfunkcja = false;
+                    for (Umowa u : umowy) {
+                        if (u.getUmowakodzus().isFunkcja()) {
+                            czyjestfunkcja = true;
+                            break;
+                        }
+                    }
+                    if (czyjestfunkcja==false) {
                         it.remove();
                     }
                 }
