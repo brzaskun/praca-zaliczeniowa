@@ -899,6 +899,11 @@ private static final long serialVersionUID = 1L;
                 dzienaktualny.setPrzepracowano(0);
                 dzienaktualny.setKod(kod);
                 p.setNaniesiona(true);
+            } else if (kod.equals("UR")) {
+                dzienaktualny.setMacierzynski(dzienaktualny.getNormagodzin());
+                dzienaktualny.setPrzepracowano(0);
+                dzienaktualny.setKod(kod);
+                p.setNaniesiona(true);
             } else if (kod.equals("WY")) {
                 dzienaktualny.setWychowawczy(dzienaktualny.getNormagodzin());
                 dzienaktualny.setPrzepracowano(0);

@@ -1549,8 +1549,8 @@ public class PasekwynagrodzenBean {
                 List<Naliczenienieobecnosc> naliczenienieobecnoscList = pasek.getNaliczenienieobecnoscList();
                 for (Naliczenienieobecnosc p : naliczenienieobecnoscList) {
                     if (p.getNieobecnosc().getRodzajnieobecnosci().getKod().equals("UD")) {
-                        zagranicawaluta = zagranicawaluta + p.getKwota();
-                        zagranicapln = zagranicapln + p.getKwotawaluta();
+                        zagranicawaluta = zagranicawaluta + p.getKwotawaluta();
+                        zagranicapln = zagranicapln + p.getKwota();
                     }
                 }
                 pasek.setPodstawaopodatkowaniazagranicawaluta(Z.z(zagranicawaluta));
