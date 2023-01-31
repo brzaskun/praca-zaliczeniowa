@@ -446,15 +446,17 @@ public class OsobaView implements Serializable {
                             log.add("Naniesiono nieobecnosci na kalendarz");
                             Umowa pierwszaumowa = umowyoprace.get(0);
                             Kalendarzmiesiac kalendarz = kalendarzmiesiacFacade.findByRokMcAngaz(pierwszaumowa.getAngaz(), pierwszaumowa.getRok(), pierwszaumowa.getMc());
-                            List<Nieobecnosc> zatrudnieniewtrakciemiesiaca = PasekwynagrodzenBean.rozpoczecieumowywtrakcieMiesiaca(pierwszaumowa.getAngaz(), pierwszaumowa.getDataod(), pierwszaumowa.getDatado(), rodzajnieobecnosciFacade,
-                                    kalendarz.getRok(), kalendarz.getMc(), kalendarz, null);
-                            if (zatrudnieniewtrakciemiesiaca != null&&zatrudnieniewtrakciemiesiaca.size()>0) {
-                                nieobecnoscFacade.createList(zatrudnieniewtrakciemiesiaca);
-                                boolean czynaniesiono = NieobecnosciBean.nanies(zatrudnieniewtrakciemiesiaca.get(0), kalendarzmiesiacFacade, nieobecnoscFacade);
-                                if (czynaniesiono == false) {
-                                    Msg.msg("e", "Wystąpił błąd podczas nanoszenia rozpoczęcia umowy");
+                            if (kalendarz!=null) {
+                                List<Nieobecnosc> zatrudnieniewtrakciemiesiaca = PasekwynagrodzenBean.rozpoczecieumowywtrakcieMiesiaca(pierwszaumowa.getAngaz(), pierwszaumowa.getDataod(), pierwszaumowa.getDatado(), rodzajnieobecnosciFacade,
+                                        kalendarz.getRok(), kalendarz.getMc(), kalendarz, null);
+                                if (zatrudnieniewtrakciemiesiaca != null&&zatrudnieniewtrakciemiesiaca.size()>0) {
+                                    nieobecnoscFacade.createList(zatrudnieniewtrakciemiesiaca);
+                                    boolean czynaniesiono = NieobecnosciBean.nanies(zatrudnieniewtrakciemiesiaca.get(0), kalendarzmiesiacFacade, nieobecnoscFacade);
+                                    if (czynaniesiono == false) {
+                                        Msg.msg("e", "Wystąpił błąd podczas nanoszenia rozpoczęcia umowy");
+                                    }
+                                    log.add("Naniesiono rozpoczecie pracy w trakcie miesiaca");
                                 }
-                                log.add("Naniesiono rozpoczecie pracy w trakcie miesiaca");
                             }
                             log.add("Zakończono import PRACA pracownika "+pracownik.getNazwiskoImie());
                             log.add("****************************************************************************************");
