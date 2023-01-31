@@ -353,9 +353,10 @@ public class PdfUmowaoPrace {
             document.add(Chunk.NEWLINE);
             paragraph = new Paragraph(new Phrase("1. Strony zgodnie postanawiają, że od dnia "+datazmiany+" ulegają zmianie następujące warunki umowy:", fontM));
             document.add(paragraph);
+            String rodzaj = zm.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getGodzinowe0miesieczne1()?"miesięcznie":"za godzinę";
             String zmienna = zm.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getOpispelny();
             String nettobruttostring = netto0brutto1?"brutto":"netto";
-            PdfMain.dodajElementListy(document, "a) "+zmienna+": ", f.F.curr(zm.getNowakwota(), "PLN")+" "+nettobruttostring, fontM);
+            PdfMain.dodajElementListy(document, "a) "+zmienna+": ", f.F.curr(zm.getNowakwota(), "PLN")+" "+nettobruttostring+" "+rodzaj, fontM);
             paragraph = new Paragraph(new Phrase("2. Pozostałe warunki umowy pozostają bez zmian ", fontM));
             document.add(paragraph);
             document.add(Chunk.NEWLINE);

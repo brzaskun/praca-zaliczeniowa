@@ -136,6 +136,7 @@ public class PasekwynagrodzenView implements Serializable {
     private double symulacjabrrutto;
     private double symulacjanetto;
     private double symulacjatotalcost;
+    private Definicjalistaplac definicjadlazasilkow;
 
     public PasekwynagrodzenView() {
         listadefinicjalistaplac = new ArrayList<>();
@@ -165,9 +166,15 @@ public class PasekwynagrodzenView implements Serializable {
         listadefinicjalistaplac = definicjalistaplacFacade.findByFirmaRokRodzaj(wpisView.getFirma(), wpisView.getRokWpisu(), rodzajlistyplac);
         if (listadefinicjalistaplac!=null) {
             Collections.sort(listadefinicjalistaplac, new Defnicjalistaplaccomparator());
+            for (Definicjalistaplac def : listadefinicjalistaplac) {
+                if (def.getRodzajlistyplac().getId()==1) {
+                    definicjadlazasilkow = def;
+                    break;
+                }
+            }
         }
         listadefinicjalistaplacAnaliza = definicjalistaplacFacade.findByFirmaRokMc(wpisView.getFirma(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
-        if (listadefinicjalistaplac!=null) {
+        if (listadefinicjalistaplacAnaliza!=null) {
             Collections.sort(listadefinicjalistaplacAnaliza, new Defnicjalistaplaccomparator());
         }
         listakalendarzmiesiac = new org.primefaces.model.DualListModel<>();
@@ -338,8 +345,9 @@ public class PasekwynagrodzenView implements Serializable {
                         rachunkilista.add(rachunekdoumowyzlecenia);
                     }
                     Kalendarzwzor kalendarzwzor = kalendarzwzorFacade.findByFirmaGlobalnaRokMc(pracownikmc.getRok(), pracownikmc.getMc());
-                    Pasekwynagrodzen pasek = PasekwynagrodzenBean.obliczWynagrodzenie(pracownikmc, wybranalistaplac, nieobecnosckodzusFacade, paskidowyliczeniapodstawy, historiawynagrodzen, stawkipodatkowe, sumapoprzednich, wynagrodzenieminimalne, czyodlicoznokwotewolna,
-                            kursdlalisty, limitzus, datawyplaty, nieobecnosci, limitdochodudwaszesc.getKwota(), kalendarzlista, rachunekdoumowyzlecenia, sumabruttopoprzednich, kalendarzwzor);
+                    Pasekwynagrodzen pasek = PasekwynagrodzenBean.obliczWynagrodzenie(pracownikmc, wybranalistaplac, nieobecnosckodzusFacade, paskidowyliczeniapodstawy, historiawynagrodzen, stawkipodatkowe, sumapoprzednich, 
+                            wynagrodzenieminimalne, czyodlicoznokwotewolna,
+                            kursdlalisty, limitzus, datawyplaty, nieobecnosci, limitdochodudwaszesc.getKwota(), kalendarzlista, rachunekdoumowyzlecenia, sumabruttopoprzednich, kalendarzwzor, definicjadlazasilkow);
                     usunpasekjakzawiera(pasek);
                     pasek.setSporzadzil(wpisView.getUzer().getLogin());
                     lista.add(pasek);

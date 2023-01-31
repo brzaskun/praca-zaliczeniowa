@@ -266,7 +266,6 @@ public class PdfFont {
 
     public static String formatujWaluta(double wsad) {
         String zwrot = "";
-        if (wsad!=0.0) {
             NumberFormat formatter = NumberFormat.getCurrencyInstance();
             formatter.setMinimumFractionDigits(2);
             formatter.setMaximumFractionDigits(2);
@@ -275,7 +274,6 @@ public class PdfFont {
                 zwrot = formatter.format(wsad);
             } catch (Exception e) {
             }
-        }
         return zwrot;
     }
 
