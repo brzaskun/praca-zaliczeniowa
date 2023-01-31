@@ -40,8 +40,8 @@ public class Loging implements Serializable {
     private void init() { //E.m(this);
         try {
             invalidatesession();
-            uzytkownik = "2";
-            haslo = "12";
+            //uzytkownik = "2";
+            //haslo = "12";
             //uzytkownik ="pagum.pawel.gumulak@gmail.com";
             //haslo = "6452575972";
         } catch (Exception e) {
