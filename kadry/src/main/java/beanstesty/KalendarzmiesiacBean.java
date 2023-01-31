@@ -170,7 +170,7 @@ public class KalendarzmiesiacBean {
             }
         }
         if (nieobecnosc.getKod().equals("CH")) {
-            naliczskladnikiwynagrodzeniazaChorobe(kalendarz, nieobecnosc, pasekwynagrodzen, null, null);
+            naliczskladnikiwynagrodzeniazaChorobe(kalendarz, nieobecnosc, pasekwynagrodzen, null, null, 0.0);
         } else if (nieobecnosc.getKod().equals("U")) {
             naliczskladnikiwynagrodzeniazaUrlop(kalendarz, nieobecnosc, pasekwynagrodzen, kalendarzList);
         } else if (nieobecnosc.getKod().equals("X")||nieobecnosc.getKod().equals("NP")||nieobecnosc.getKod().equals("NN")) {
@@ -181,16 +181,17 @@ public class KalendarzmiesiacBean {
     }
 
     
-    static void dodajnieobecnoscDB(Kalendarzmiesiac kalendarz, List<Nieobecnosc> nieobecnosclista, Pasekwynagrodzen pasekwynagrodzen, List<Kalendarzmiesiac> kalendarzList, double kurs, Definicjalistaplac definicjalistaplac, Definicjalistaplac definicjadlazasilkow) {
+    static void dodajnieobecnoscDB(Kalendarzmiesiac kalendarz, List<Nieobecnosc> nieobecnosclista, Pasekwynagrodzen pasekwynagrodzen, List<Kalendarzmiesiac> kalendarzList, 
+            double kurs, Definicjalistaplac definicjalistaplac, Definicjalistaplac definicjadlazasilkow, double limitpodstawyzasilkow) {
         if (nieobecnosclista != null && !nieobecnosclista.isEmpty()) {
             for (Nieobecnosc nieobecnosc : nieobecnosclista) {
                 String kod = nieobecnosc.getKod();
                 if (kod.equals("ZC")) {
                     //zasilek chorobowy
-                    naliczskladnikiwynagrodzeniazaChorobe(kalendarz, nieobecnosc, pasekwynagrodzen, definicjalistaplac, definicjadlazasilkow);
+                    naliczskladnikiwynagrodzeniazaChorobe(kalendarz, nieobecnosc, pasekwynagrodzen, definicjalistaplac, definicjadlazasilkow, limitpodstawyzasilkow);
                 } else if (kod.equals("CH")) {
                     //wynagrodzenie za czas niezdolnosci od pracy
-                    naliczskladnikiwynagrodzeniazaChorobe(kalendarz, nieobecnosc, pasekwynagrodzen, definicjalistaplac, null);
+                    naliczskladnikiwynagrodzeniazaChorobe(kalendarz, nieobecnosc, pasekwynagrodzen, definicjalistaplac, null, limitpodstawyzasilkow);
                 } else if (kod.equals("U")) {
                     //urlop wypoczynowy
                     naliczskladnikiwynagrodzeniazaUrlop(kalendarz, nieobecnosc, pasekwynagrodzen, kalendarzList);
@@ -401,7 +402,7 @@ public class KalendarzmiesiacBean {
         pasekwynagrodzen.setPotracenia(sumazajec);
     }
 
-    static void naliczskladnikiwynagrodzeniazaChorobe(Kalendarzmiesiac kalendarz, Nieobecnosc nieobecnosc, Pasekwynagrodzen pasekwynagrodzen, Definicjalistaplac definicjalistaplac, Definicjalistaplac definicjadlazasilkow) {
+    static void naliczskladnikiwynagrodzeniazaChorobe(Kalendarzmiesiac kalendarz, Nieobecnosc nieobecnosc, Pasekwynagrodzen pasekwynagrodzen, Definicjalistaplac definicjalistaplac, Definicjalistaplac definicjadlazasilkow, double limitpodstawyzasilkow) {
         double liczbagodzinchoroby = 0.0;
         double liczbagodzinobowiazku = 0.0;
         String pierwszydzienmiesiaca = Data.pierwszyDzienKalendarz(kalendarz);
@@ -440,12 +441,15 @@ public class KalendarzmiesiacBean {
                         sredniadopodstawy = sredniadopodstawy * procentzazwolnienie;
                         skladnikistalenetto = sredniadopodstawy;
                     } else {
-                        double sredniadopodstawy = wyliczsredniachoroba(kalendarz, naliczenieskladnikawynagrodzenia, nieobecnosc, naliczenienieobecnosc, definicjalistaplac, definicjadlazasilkow);
+                        double sredniadopodstawypobrana = wyliczsredniachoroba(kalendarz, naliczenieskladnikawynagrodzenia, nieobecnosc, naliczenienieobecnosc, definicjalistaplac, definicjadlazasilkow);
+                        double sredniadopodstawy = sredniadopodstawypobrana - (sredniadopodstawypobrana * .1371);
+                        if (sredniadopodstawy<limitpodstawyzasilkow) {
+                            sredniadopodstawy = limitpodstawyzasilkow;
+                        }
                         naliczenienieobecnosc.setPodstawadochoroby(sredniadopodstawy);
                         double procentzazwolnienie = Z.z(nieobecnosc.getZwolnienieprocent() / 100);
                         naliczenienieobecnosc.setProcentzazwolnienie(procentzazwolnienie);
-                        sredniadopodstawy = sredniadopodstawy * procentzazwolnienie;
-                        skladnikistalenetto = sredniadopodstawy - (sredniadopodstawy * .1371);
+                        skladnikistalenetto = sredniadopodstawy * procentzazwolnienie;
                     }
                     double skladnikistaledoredukcji = naliczenieskladnikawynagrodzenia.getKwotaumownazacalymc();
                     naliczenienieobecnosc.setSkladnikistale(skladnikistalenetto);

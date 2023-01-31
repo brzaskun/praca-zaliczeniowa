@@ -51,6 +51,14 @@ public class Wynagrodzenieminimalne implements Serializable {
     @NotNull
     @Column(name = "kwotabrutto")
     private double kwotabrutto;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "kwotanetto")
+    private double kwotanetto;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "limitswiadczenchorobowych")
+    private double limitswiadczenchorobowych;
     @Size(max = 255)
     @Column(name = "datado")
     private String datado;
@@ -109,6 +117,22 @@ public class Wynagrodzenieminimalne implements Serializable {
 
     public void setDataod(String dataod) {
         this.dataod = dataod;
+    }
+
+    public double getKwotanetto() {
+        return kwotanetto;
+    }
+
+    public void setKwotanetto(double kwotanetto) {
+        this.kwotanetto = kwotanetto;
+    }
+
+    public double getLimitswiadczenchorobowych() {
+        return limitswiadczenchorobowych;
+    }
+
+    public void setLimitswiadczenchorobowych(double limitswiadczenchorobowych) {
+        this.limitswiadczenchorobowych = limitswiadczenchorobowych;
     }
     
     

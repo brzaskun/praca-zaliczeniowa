@@ -393,7 +393,7 @@ private static final long serialVersionUID = 1L;
         if (this.dzienList!=null) {
             for (Dzien d : dzienList) {
                 if (d.getPrzepracowano()==0) {
-                    chorobagodziny = chorobagodziny+d.getWynagrodzeniezachorobe()+d.getZasilek();
+                    chorobagodziny = chorobagodziny+d.getWynagrodzeniezachorobe()+d.getZasilek()+d.getUrlopbezplatny();
                 }
                 if (d.getTypdnia()==0) {
                     godzinyobowiazku = godzinyobowiazku+d.getNormagodzin();

@@ -320,13 +320,13 @@ public class PasekwynagrodzenView implements Serializable {
                     String mcwyplaty = Data.getMc(datawyplaty);
                     double sumabruttopoprzednich = PasekwynagrodzenBean.sumabruttopodstawaopodpopmce(pasekwynagrodzenFacade, rokwyplaty, mcwyplaty,  pracownikmc.getAngaz(), stawkipodatkowe.get(1).getKwotawolnaod());
                     List<Wynagrodzenieminimalne> wynagrodzenielist = wynagrodzenieminimalneFacade.findByRok(pracownikmc.getRok());
-                    double wynagrodzenieminimalne = 0.0;
+                    Wynagrodzenieminimalne wynagrodzenieminimalne = null;
                     if (wynagrodzenielist!=null&&wynagrodzenielist.size()==1) {
-                        wynagrodzenieminimalne = wynagrodzenielist.get(0).getKwotabrutto();
+                        wynagrodzenieminimalne = wynagrodzenielist.get(0);
                     } else if (wynagrodzenielist!=null&&wynagrodzenielist.size()>1){
                         for (Wynagrodzenieminimalne w : wynagrodzenielist) {
                             if (Data.czyjestpomiedzy(w.getDataod(), w.getDatado(), pracownikmc.getRok(), pracownikmc.getMc())) {
-                                wynagrodzenieminimalne = w.getKwotabrutto();
+                                wynagrodzenieminimalne = w;
                                 break;
                             }
                         }
