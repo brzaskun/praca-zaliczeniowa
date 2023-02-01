@@ -46,7 +46,7 @@ public class DataBean {
     public static boolean czysiemiescidzien(String databadana, String datagranicznaod, String datagranicznado) {
         boolean zwrot = false;
         //czy data poczatkowa zmiennej jest starsza od daty koncowej kalendarza
-        if (datagranicznado==null) {
+        if (datagranicznado==null||datagranicznado.equals("")) {
             boolean czyjestpopoczatku = Data.czyjestpo(datagranicznaod, databadana);
             if (czyjestpopoczatku) {
                 zwrot = true;
