@@ -180,9 +180,11 @@ public class PasekwynagrodzenBean {
         }
         PasekwynagrodzenBean.obliczpodatekdowplaty(pasek);
         PasekwynagrodzenBean.netto(pasek);
+        double wolneodzajeciabrutto = wynagrodzenieminimalne.getKwotabrutto();
         double wolneodzajecia = wynagrodzenieminimalne.getKwotanetto();
         if (pobierzetat != null) {
-            wolneodzajecia = Z.z(wolneodzajecia * pobierzetat.getEtat1() / pobierzetat.getEtat2());
+            wolneodzajeciabrutto = Z.z(wolneodzajeciabrutto * pobierzetat.getEtat1() / pobierzetat.getEtat2());
+            wolneodzajecia = PasekwynagrodzenBean.obliczminimalna(kalendarz, definicjalistaplac, stawkipodatkowe, 0, wolneodzajeciabrutto, datawyplaty);
         }
         pasek.setWolneodzajecia(wolneodzajecia);
         KalendarzmiesiacBean.naliczskladnikipotraceniaDB(kalendarz, pasek, wolneodzajecia);
@@ -436,29 +438,29 @@ public class PasekwynagrodzenBean {
         PasekwynagrodzenBean.naliczzdrowota(pasek, pasek.isNierezydent(), false);
     }
 
-//    public static double obliczminimalna(Kalendarzmiesiac kalendarz, Definicjalistaplac definicjalistaplac,
-//            List<Podatki> stawkipodatkowe, double sumapoprzednich, double wynagrodzenieminimalne, String datawyplaty) {
-//        Pasekwynagrodzen pasek = new Pasekwynagrodzen();
-//        pasek.setDatawyplaty(datawyplaty);
-//        pasek.setDefinicjalistaplac(definicjalistaplac);
-//        pasek.setKalendarzmiesiac(kalendarz);
-//        pasek.setBruttozus(wynagrodzenieminimalne);
-//        pasek.setBrutto(Z.z(wynagrodzenieminimalne));
-//        pasek.setPodstawaskladkizus(wynagrodzenieminimalne);
-//        PasekwynagrodzenBean.pracownikemerytalna(pasek);
-//        PasekwynagrodzenBean.pracownikrentowa(pasek);
-//        pasek.setPracchorobowe(Z.z(pasek.getPodstawaskladkizus() * 0.0245));
-//        PasekwynagrodzenBean.razemspolecznepracownik(pasek);
-//        PasekwynagrodzenBean.obliczbruttominusspoleczneDB(pasek);
-//        PasekwynagrodzenBean.obliczpodstaweopodatkowaniaDB(pasek, stawkipodatkowe, false, kalendarz.getAngaz().isKosztyuzyskania0podwyzszone());
-//        PasekwynagrodzenBean.obliczpodatekwstepnyDBStandard(pasek, pasek.getPodstawaopodatkowania(), stawkipodatkowe, sumapoprzednich);
-//        PasekwynagrodzenBean.ulgapodatkowaDB(pasek, stawkipodatkowe, true, true);
-//        PasekwynagrodzenBean.naliczzdrowota(pasek, pasek.isNierezydent(), true);
-//        PasekwynagrodzenBean.obliczpodatekdowplaty(pasek);
-//        PasekwynagrodzenBean.netto(pasek);
-//        PasekwynagrodzenBean.dowyplaty(pasek);
-//        return pasek.getNetto();
-//    }
+    public static double obliczminimalna(Kalendarzmiesiac kalendarz, Definicjalistaplac definicjalistaplac,
+            List<Podatki> stawkipodatkowe, double sumapoprzednich, double wynagrodzenieminimalne, String datawyplaty) {
+        Pasekwynagrodzen pasek = new Pasekwynagrodzen();
+        pasek.setDatawyplaty(datawyplaty);
+        pasek.setDefinicjalistaplac(definicjalistaplac);
+        pasek.setKalendarzmiesiac(kalendarz);
+        pasek.setBruttozus(wynagrodzenieminimalne);
+        pasek.setBrutto(Z.z(wynagrodzenieminimalne));
+        pasek.setPodstawaskladkizus(wynagrodzenieminimalne);
+        PasekwynagrodzenBean.pracownikemerytalna(pasek);
+        PasekwynagrodzenBean.pracownikrentowa(pasek);
+        pasek.setPracchorobowe(Z.z(pasek.getPodstawaskladkizus() * 0.0245));
+        PasekwynagrodzenBean.razemspolecznepracownik(pasek);
+        PasekwynagrodzenBean.obliczbruttominusspoleczneDB(pasek);
+        PasekwynagrodzenBean.obliczpodstaweopodatkowaniaDB(pasek, stawkipodatkowe, false, kalendarz.getAngaz().isKosztyuzyskania0podwyzszone());
+        PasekwynagrodzenBean.obliczpodatekwstepnyDBStandard(pasek, pasek.getPodstawaopodatkowania(), stawkipodatkowe, sumapoprzednich);
+        PasekwynagrodzenBean.ulgapodatkowaDB(pasek, stawkipodatkowe, true, true);
+        PasekwynagrodzenBean.naliczzdrowota(pasek, pasek.isNierezydent(), true);
+        PasekwynagrodzenBean.obliczpodatekdowplaty(pasek);
+        PasekwynagrodzenBean.netto(pasek);
+        PasekwynagrodzenBean.dowyplaty(pasek);
+        return pasek.getNetto();
+    }
 
     public static void main(String[] args) {
         Kalendarzwzor kalendarzwzor = KalendarzWzorBean.create();
