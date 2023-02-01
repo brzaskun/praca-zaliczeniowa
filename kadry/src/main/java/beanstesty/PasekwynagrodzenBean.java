@@ -644,13 +644,13 @@ public class PasekwynagrodzenBean {
                     bruttozusoddelegowanie = Z.z(bruttozusoddelegowanie + p.getKwotadolistyplac());
                     bruttozusoddelegowaniewaluta = Z.z(bruttozusoddelegowaniewaluta + p.getKwotadolistyplacwaluta());
                 } else {
-                    bruttozuskraj = Z.z(bruttozuskraj + p.getKwotadolistyplac());
+                    bruttozuskraj = bruttozuskraj + p.getKwotadolistyplac();
                 }
             }
         }
         for (Naliczenienieobecnosc p : pasek.getNaliczenienieobecnoscList()) {
-            bruttozuskraj = Z.z(bruttozuskraj + p.getKwotazus());
-            bruttozusoddelegowaniewaluta = Z.z(bruttozusoddelegowaniewaluta + p.getKwotawaluta());
+            bruttozuskraj = bruttozuskraj + p.getKwotazus();
+            bruttozusoddelegowaniewaluta = bruttozusoddelegowaniewaluta + p.getKwotawaluta();
         }
         double sumaprzejsciowa = bruttozuskraj + bruttozusoddelegowanie;
         double nowasumaprzychodow = sumapoprzednich + sumaprzejsciowa;

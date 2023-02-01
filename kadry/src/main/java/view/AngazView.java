@@ -79,6 +79,8 @@ public class AngazView  implements Serializable {
     @Inject
     private PracownikView pracownikView;
     @Inject
+    private PasekwynagrodzenView pasekwynagrodzenView;
+    @Inject
     private UpdateClassView updateClassView;
     @Inject
     private KalendarzmiesiacFacade kalendarzmiesiacFacade;
@@ -126,6 +128,7 @@ public class AngazView  implements Serializable {
                     } catch (Exception e){}
                 }
             }
+            pasekwynagrodzenView.init();
             init();
             Msg.msg("Aktywowano firmę "+firma.getNazwa());
         }

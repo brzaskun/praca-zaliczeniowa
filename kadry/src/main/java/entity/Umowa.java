@@ -966,7 +966,7 @@ public class Umowa implements Serializable {
         String zwrot = "brak stawki";
         if (wynagrodzeniegodzinowe>0.0) {
             String sl = String.valueOf(wynagrodzeniegodzinowe);
-            zwrot = f.F.curr(wynagrodzeniegodzinowe)+" - słownie: "+slownie.Slownie.slownie(sl);
+            zwrot = f.F.curr(wynagrodzeniegodzinowe)+" brutto "+" - słownie: "+slownie.Slownie.slownie(sl);
         }
         return zwrot;
     }

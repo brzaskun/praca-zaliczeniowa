@@ -255,7 +255,11 @@ public class PdfListaPlac {
         }
         for (Naliczenienieobecnosc rs : wykaznieob) {
             table.addCell(ustawfrazeAlign(String.valueOf(i++), "left",6,10f));
-            table.addCell(ustawfrazeAlign(rs.getNieobecnosc().getKod(), "left",6));
+            if (rs.getNieobecnosc().getSwiadczeniekodzus().getKod()!=null) {
+                table.addCell(ustawfrazeAlign(rs.getNieobecnosc().getKod()+"/"+rs.getNieobecnosc().getSwiadczeniekodzus().getKod(), "left",6));
+            } else {
+                table.addCell(ustawfrazeAlign(rs.getNieobecnosc().getKod(), "left",6));
+            }
             table.addCell(ustawfrazeAlign(rs.getNieobecnosc().getOpisRodzajSwiadczenie()+" "+rs.getJakiskladnikredukowalny(), "left",6));
             table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKwotazus()), "right",6));
             table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKwotabezzus()), "right",6));

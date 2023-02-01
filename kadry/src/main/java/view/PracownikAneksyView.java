@@ -53,8 +53,10 @@ public class PracownikAneksyView  implements Serializable {
     private ZmiennaWynagrodzeniaFacade zmiennaWynagrodzeniaFacade;
     private List<Umowa> listaumowy;
     private List<Umowa> listaumowyfiltered;
+    private List<Umowa> listaumowyselected;
     private String dataaneksu;
     private double kwotaaneksu;
+    private String innewarunkizatrudnienia;
     
     @PostConstruct
     private void init() {
@@ -110,10 +112,10 @@ public class PracownikAneksyView  implements Serializable {
         }
     }
     
-    public void drukujaneks(Zmiennawynagrodzenia p, boolean netto0brutto1) {
-        if (p != null && p.getId()!=null) {
-            if (p.getNowakwota()>0.0) {
-                PdfUmowaoPrace.drukujaneks(p, dataaneksu, netto0brutto1);
+    public void drukujaneks(Zmiennawynagrodzenia nowewynagrodzenie, boolean netto0brutto1) {
+        if (nowewynagrodzenie != null && nowewynagrodzenie.getId()!=null) {
+            if (nowewynagrodzenie.getNowakwota()>0.0 || (innewarunkizatrudnienia!=null&&!innewarunkizatrudnienia.isEmpty())) {
+                PdfUmowaoPrace.drukujaneks(nowewynagrodzenie, innewarunkizatrudnienia, dataaneksu, netto0brutto1);
                 Msg.msg("Wydrukowano aneks");
             } else {
                 Msg.msg("e", "Nie wprowadzono nowej kwoty wynagrodzenia dla umowy");
@@ -124,16 +126,22 @@ public class PracownikAneksyView  implements Serializable {
     }
     
     public void drukwszystkie() {
-        List<Umowa> lysta = CollectionUtils.isNotEmpty(listaumowyfiltered)? listaumowyfiltered: listaumowy;
+        List<Umowa> lysta = listaumowyselected;
+        if (lysta==null||lysta.isEmpty()) {
+            lysta = CollectionUtils.isNotEmpty(listaumowyfiltered)? listaumowyfiltered: listaumowy;
+        }
         if (lysta != null) {
-            PdfUmowaoPrace.drukujanekswszystkie(lysta, wpisView.getFirma(), dataaneksu);
+            PdfUmowaoPrace.drukujanekswszystkie(lysta, innewarunkizatrudnienia,  wpisView.getFirma(), dataaneksu);
         } else {
             Msg.msg("e", "Błąd drukowania. Nie można wydrukować aneksów");
         }
     }
     
      public void mailAneksy() {
-        List<Umowa> lysta = CollectionUtils.isNotEmpty(listaumowyfiltered)? listaumowyfiltered: listaumowy;
+        List<Umowa> lysta = listaumowyselected;
+        if (lysta==null||lysta.isEmpty()) {
+            lysta = CollectionUtils.isNotEmpty(listaumowyfiltered)? listaumowyfiltered: listaumowy;
+        }
         if (lysta != null && lysta.size() > 0) {
             boolean wysylac = false;
             for (Umowa p : lysta) {
@@ -145,7 +153,7 @@ public class PracownikAneksyView  implements Serializable {
             if (wysylac) {
                 FirmaKadry firmaKadry = wpisView.getFirma();
                 String nazwa = firmaKadry.getNip()+"aneksy.pdf";
-                ByteArrayOutputStream drukujmail = PdfUmowaoPrace.drukujanekswszystkieMail(lysta, wpisView.getFirma(), dataaneksu);
+                ByteArrayOutputStream drukujmail = PdfUmowaoPrace.drukujanekswszystkieMail(lysta, innewarunkizatrudnienia, wpisView.getFirma(), dataaneksu);
                 SMTPSettings findSprawaByDef = sMTPSettingsFacade.findSprawaByDef();
                 mail.Mail.mailAneksydoUmowy(wpisView.getFirma(), wpisView.getFirma().getEmail(), null, findSprawaByDef, drukujmail.toByteArray(), nazwa, wpisView.getUzer().getEmail());
                 Msg.msg("Wysłano listę płac do pracodawcy");
@@ -158,12 +166,15 @@ public class PracownikAneksyView  implements Serializable {
     }
      
       public void archiwizujAneksy() {
-        List<Umowa> lysta = CollectionUtils.isNotEmpty(listaumowyfiltered)? listaumowyfiltered: listaumowy;
+        List<Umowa> lysta = listaumowyselected;
+        if (lysta==null||lysta.isEmpty()) {
+            lysta = CollectionUtils.isNotEmpty(listaumowyfiltered)? listaumowyfiltered: listaumowy;
+        }
         if (lysta != null && lysta.size() > 0) {
             boolean wysylac = false;
             for (Umowa p : lysta) {
                 if (p.getZmiennawynagrodzenia()!=null&&p.getZmiennawynagrodzenia().getNowakwota()>0) {
-                    ByteArrayOutputStream plik = PdfUmowaoPrace.drukujaneksMail(p.getZmiennawynagrodzenia(), dataaneksu, p.isNetto0brutto1());
+                    ByteArrayOutputStream plik = PdfUmowaoPrace.drukujaneksMail(p.getZmiennawynagrodzenia(), innewarunkizatrudnienia, dataaneksu, p.isNetto0brutto1());
                     Dokumenty dokument = new Dokumenty();
                     dokument.setDokument(plik.toByteArray());
                     dokument.setData(Data.aktualnaData());
@@ -184,7 +195,10 @@ public class PracownikAneksyView  implements Serializable {
     }
      
       public void naniesZmienne() {
-        List<Umowa> lysta = CollectionUtils.isNotEmpty(listaumowyfiltered)? listaumowyfiltered: listaumowy;
+        List<Umowa> lysta = listaumowyselected;
+        if (lysta==null||lysta.isEmpty()) {
+            lysta = CollectionUtils.isNotEmpty(listaumowyfiltered)? listaumowyfiltered: listaumowy;
+        }
         if (lysta != null && lysta.size() > 0) {
             boolean naniesc = false;
             for (Umowa p : lysta) {
@@ -214,7 +228,27 @@ public class PracownikAneksyView  implements Serializable {
     
     public void nanieskwote() {
         if (kwotaaneksu>0.0) {
-            List<Umowa> lysta = CollectionUtils.isNotEmpty(listaumowyfiltered)? listaumowyfiltered: listaumowy;
+            List<Umowa> lysta = listaumowyselected;
+            if (lysta==null||lysta.isEmpty()) {
+                lysta = CollectionUtils.isNotEmpty(listaumowyfiltered)? listaumowyfiltered: listaumowy;
+            }
+            for (Umowa u :lysta) {
+                Zmiennawynagrodzenia zmiennaZasadniczego = u.getZmiennawynagrodzenia();
+                if (zmiennaZasadniczego!=null&&zmiennaZasadniczego.getId()!=null) {
+                    zmiennaZasadniczego.setNowakwota(kwotaaneksu);
+                }
+            }
+        } else {
+            Msg.msg("e", "Nie wpisano kwoty");
+        }
+    }
+    
+    public void naniesinnewarunkizatrudnienia() {
+        if (kwotaaneksu>0.0) {
+            List<Umowa> lysta = listaumowyselected;
+            if (lysta==null||lysta.isEmpty()) {
+                lysta = CollectionUtils.isNotEmpty(listaumowyfiltered)? listaumowyfiltered: listaumowy;
+            }
             for (Umowa u :lysta) {
                 Zmiennawynagrodzenia zmiennaZasadniczego = u.getZmiennawynagrodzenia();
                 if (zmiennaZasadniczego!=null&&zmiennaZasadniczego.getId()!=null) {
@@ -257,6 +291,23 @@ public class PracownikAneksyView  implements Serializable {
 
     public void setListaumowyfiltered(List<Umowa> listaumowyfiltered) {
         this.listaumowyfiltered = listaumowyfiltered;
+    }
+
+    public String getInnewarunkizatrudnienia() {
+        return innewarunkizatrudnienia;
+    }
+
+    public void setInnewarunkizatrudnienia(String innewarunkizatrudnienia) {
+        String zwrot = innewarunkizatrudnienia.replace("<p>", "").replace("</p>", "");
+        this.innewarunkizatrudnienia = zwrot;
+    }
+
+    public List<Umowa> getListaumowyselected() {
+        return listaumowyselected;
+    }
+
+    public void setListaumowyselected(List<Umowa> listaumowyselected) {
+        this.listaumowyselected = listaumowyselected;
     }
 
 

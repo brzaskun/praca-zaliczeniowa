@@ -94,7 +94,7 @@ public class ZaswiadczeniaView  implements Serializable {
         }
         Pracownik pracownik = wpisView.getPracownik();
         List<Umowa> umowy = umowaFacade.findByAngaz(wpisView.getAngaz());
-        if (umowy !=null) {
+        if (umowy !=null&&umowy.size()>0) {
             Collections.sort(umowy, new Umowacomparator());
             Umowa pierwsza = umowy.get(umowy.size()-1);
             Umowa ostatnia = umowy.get(0);

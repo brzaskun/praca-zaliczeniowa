@@ -10,33 +10,40 @@
         <p:tab title="sporządzanie aneksów">
             <h:form id="AneksForm" styleClass="formsrodek">
                 <p:outputPanel>
+                    <p:panel header="zakres zmian"/>
                     <p:panelGrid columns="2">
                         <p:outputLabel for="dataaneksu" value="od kiedy zmiana" />
                         <p:inputText id="dataaneksu" value="#{pracownikAneksyView.dataaneksu}" placeholder="____-__-__" maxlength="10" required="true" requiredMessage="Wprowadź datę aneksu"/>
-                        <p:outputLabel for="kwotaaneksu" value="kwota aneksu" />
+                        <p:outputLabel for="kwotaaneksu" value="nowa kwota wynagrodzenia" />
                         <p:inputNumber id="kwotaaneksu" value="#{pracownikAneksyView.kwotaaneksu}"  size="14"  maxlength="7" decimalPlaces="2" decimalSeparator="." inputStyle="text-align: right">
                             <p:ajax event="change" listener="#{pracownikAneksyView.nanieskwote}" update="akordeon:AneksForm:datalist"/>
                         </p:inputNumber>
+                         <p:outputLabel value="inne warunki zatr." />
+                        <p:textEditor id="dodatkowepraca" value="#{pracownikAneksyView.innewarunkizatrudnienia}"  styleClass="dataUmowy" secure="false" height="90" allowFormatting="false" toolbarVisible="false" style="width: 1100px;">
+                           <p:ajax event="blur" listener="#{pracownikAneksyView.nanieskwote}" update="akordeon:AneksForm:datalist"/>
+                        </p:textEditor>
                     </p:panelGrid>
                 </p:outputPanel>
                 <p:outputPanel style="margin-top: 20px;">
                     <p:dataTable id="datalist" value="#{pracownikAneksyView.listaumowy}" var="itemUmowa" rowIndexVar="yndex" filteredValue="#{pracownikAneksyView.listaumowyfiltered}"
-                                 selectionMode="single" 
+                                 rowSelectMode="add" selection="#{pracownikAneksyView.listaumowyselected}" 
                                  rowKey="#{itemUmowa.id}"  sortBy="#{itemUmowa.nazwiskoImie}"
                                  style="height: 450px; overflow-y: scroll;width: 1550px;"
                                  rowsPerPageTemplate="20,100,250,500" paginatorPosition="top" paginator="true" rows="20"
                                  emptyMessage="Nie pobrano listy"
                                  >
+                        <p:ajax event="rowSelect" partialSubmit="true" global="false" />
                         <f:facet name="header">
                             <h:outputText value="Czas trwania umów na czas określony"/>
                         </f:facet>
+                        <p:column width="20" style="text-align: center;" selectionMode="multiple" selectRow="true" />
                         <p:column width="20" style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="id"/>
                             </f:facet>
                             <h:outputText value="#{yndex+1}"/>
                         </p:column>
-                        <p:column width="180" sortBy="#{itemUmowa.nazwiskoImie}">
+                        <p:column width="160" sortBy="#{itemUmowa.nazwiskoImie}">
                             <f:facet name="header">
                                 <h:outputText value="nazwisko i imię"/>
                             </f:facet>

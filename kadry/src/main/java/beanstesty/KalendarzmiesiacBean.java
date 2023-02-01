@@ -769,9 +769,10 @@ public class KalendarzmiesiacBean {
                 naliczenienieobecnosc.setSkladnikistale(sredniamiesieczna);
                 double stawkadzienna = naliczenieskladnikawynagrodzenia.getStawkadzienna();
                 double stawkagodzinowa = naliczenieskladnikawynagrodzenia.getStawkagodzinowa();
-                naliczenienieobecnosc.setStawkagodzinowa(Z.z(stawkagodzinowa));
-                naliczenienieobecnosc.setStawkadzienna(Z.z(stawkadzienna));
-                double dowyplatyzaczasnieobecnosci = Z.z(stawkagodzinowa * liczbagodzinurlopu);
+                //zliwkidowalem zaokragklenia bo dawid mial roznice grosza 2023-02-01
+                naliczenienieobecnosc.setStawkagodzinowa(stawkagodzinowa);
+                naliczenienieobecnosc.setStawkadzienna(stawkadzienna);
+                double dowyplatyzaczasnieobecnosci = stawkagodzinowa * liczbagodzinurlopu;
                 naliczenienieobecnosc.setKwota(dowyplatyzaczasnieobecnosci);
                 naliczenienieobecnosc.setKwotazus(dowyplatyzaczasnieobecnosci);
                 naliczenienieobecnosc.setKwotaredukcji(0.0);

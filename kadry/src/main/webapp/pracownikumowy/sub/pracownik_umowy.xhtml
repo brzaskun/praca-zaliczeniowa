@@ -13,7 +13,7 @@
                     <p:dataTable id="datalist" value="#{pracownikUmowyView.listaumowy}" var="itemUmowa" rowIndexVar="yndex" filteredValue="#{pracownikUmowyView.listaumowyfiltered}"
                                  selectionMode="single" 
                                  rowKey="#{itemUmowa.id}"  sortBy="#{itemUmowa.nazwiskoImie}"
-                                 style="height: 450px; overflow-y: scroll;width: 1550px;"
+                                 style="height: 450px; overflow-y: scroll;width: 1600px;"
                                  rowsPerPageTemplate="20,100,250,500" paginatorPosition="top" paginator="true" rows="20"
                                  emptyMessage="Nie pobrano listy"
                                  >
@@ -26,21 +26,21 @@
                             </f:facet>
                             <h:outputText value="#{yndex+1}"/>
                         </p:column>
-                        <p:column width="180" sortBy="#{itemUmowa.nazwiskoImie}">
+                        <p:column width="150" sortBy="#{itemUmowa.nazwiskoImie}">
                             <f:facet name="header">
                                 <h:outputText value="nazwisko i imię"/>
                             </f:facet>
                             <h:outputText value="#{itemUmowa.nazwiskoImie}"/>
                         </p:column>
-                        <p:column width="40" style="text-align: center;">
+                        <p:column width="30" style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="praca"/>
                             </f:facet>
                             <h:outputText value="&#x2714;" rendered="#{itemUmowa.umowakodzus.praca}"/>
                         </p:column>
-                        <p:column width="40" style="text-align: center;">
+                        <p:column width="30" style="text-align: center;">
                             <f:facet name="header">
-                                <h:outputText value="zlecenie"/>
+                                <h:outputText value="zlec."/>
                             </f:facet>
                             <h:outputText value="&#x2714;" rendered="#{itemUmowa.umowakodzus.zlecenie}"/>
                         </p:column>
@@ -62,7 +62,7 @@
                             </f:facet>
                             <h:outputText value="#{itemUmowa.datado}"/>
                         </p:column>
-                         <p:column width="60" style="text-align: center;" sortBy="#{itemUmowa.stanowisko}" sortOrder="desc">
+                         <p:column width="160" style="text-align: left;" sortBy="#{itemUmowa.stanowisko}" sortOrder="desc">
                             <f:facet name="header">
                                 <h:outputText value="stanowisko"/>
                             </f:facet>
@@ -84,7 +84,7 @@
                                 <p:ajax event="change" partialSubmit="true" global="false" listener="#{angazView.ukryjangaz(itemUmowa.angaz)}"/>
                             </p:selectBooleanCheckbox>
                         </p:column>
-                        <p:column width="70" >
+                        <p:column width="60" >
                             <f:facet name="header">
                                 <h:outputText value="kwota zas."/>
                             </f:facet>

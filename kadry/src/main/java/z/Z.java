@@ -42,9 +42,9 @@ public class Z implements Serializable {
     }
     
     public static double z6(double l) {
-        float baba = (float)l;
+        float baba = (float)l*10000f;
         BigDecimal nowa = new BigDecimal(baba).setScale(6, RoundingMode.HALF_EVEN);
-        return nowa.doubleValue();
+        return nowa.doubleValue()/10000;
     }
     
     //obcina kwoty po przeciku typu 1,49999 = 1

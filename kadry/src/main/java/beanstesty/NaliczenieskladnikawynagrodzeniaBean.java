@@ -188,7 +188,7 @@ public class NaliczenieskladnikawynagrodzeniaBean {
 //                    } else {
 //                        dowyplatyzaczasprzepracowany = skladnikistale;
 //                    }
-                    dowyplatyzaczasprzepracowany = dowyplatyzaczasprzepracowany+Z.z(stawkagodzinowa*godzinyobecnosciroboczestat);
+                    dowyplatyzaczasprzepracowany = dowyplatyzaczasprzepracowany+stawkagodzinowa*godzinyobecnosciroboczestat;
                     liczbazmiennych++;
                 }
                 if (liczbazmiennych > 0) {

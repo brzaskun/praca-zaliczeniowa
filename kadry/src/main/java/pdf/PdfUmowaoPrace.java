@@ -149,9 +149,12 @@ public class PdfUmowaoPrace {
             document.add(p);
             p = new Paragraph();
             p.add(new Phrase("(data i podpis pracownika)", fontS));
+            p.setTabSettings(new TabSettings(300));
+            p.add(Chunk.TABBING);
+            p.add(new Phrase("(podpis pracodawcy", fontS));
             p.setTabSettings(new TabSettings(350));
             p.add(Chunk.TABBING);
-            p.add(new Phrase("(podpis pracodawcy lub osoby reprezentującej pracodawcę)", fontS));
+            p.add(new Phrase("lub osoby reprezentującej pracodawcę)", fontS));
             document.add(p);
         } catch (Exception ex) {
             E.e(ex);
@@ -186,16 +189,16 @@ public class PdfUmowaoPrace {
         }
     }
 
-    public static void drukujaneks(Zmiennawynagrodzenia p, String dataaneksu, boolean netto0brutto1) {
+    public static void drukujaneks(Zmiennawynagrodzenia zmiennawynagrodzenia, String innewarunkizatrudnienia,  String dataaneksu, boolean netto0brutto1) {
         try {
-            Angaz angaz = p.getSkladnikwynagrodzenia().getAngaz();
+            Angaz angaz = zmiennawynagrodzenia.getSkladnikwynagrodzenia().getAngaz();
             String nazwa = angaz.getPracownik().getPesel()+"umowa.pdf";
             if (angaz != null) {
                 Document document = PdfMain.inicjacjaA4Portrait(80,60);
                 PdfWriter writer = inicjacjaWritera(document, nazwa);
                 naglowekStopkaP(writer);
                 otwarcieDokumentu(document, nazwa);
-                dodajtrescAneks(p, angaz, document, dataaneksu, netto0brutto1);
+                dodajtrescAneks(zmiennawynagrodzenia, innewarunkizatrudnienia, angaz, document, dataaneksu, netto0brutto1);
                 finalizacjaDokumentuQR(document,nazwa);
                 String f = "pokazwydruk('"+nazwa+"');";
                 PrimeFaces.current().executeScript(f);
@@ -207,7 +210,7 @@ public class PdfUmowaoPrace {
         }
     }
     
-    public static ByteArrayOutputStream drukujaneksMail(Zmiennawynagrodzenia p, String dataaneksu, boolean netto0brutto1) {
+    public static ByteArrayOutputStream drukujaneksMail(Zmiennawynagrodzenia p, String  innewarunkizatrudnienia, String dataaneksu, boolean netto0brutto1) {
         ByteArrayOutputStream out = new ByteArrayOutputStream(); 
         try {
             Angaz angaz = p.getSkladnikwynagrodzenia().getAngaz();
@@ -219,7 +222,7 @@ public class PdfUmowaoPrace {
                 writer.setViewerPreferences(PdfWriter.PageLayoutSinglePage);
                 naglowekStopkaP(writer);
                 otwarcieDokumentu(document, nazwa);
-                dodajtrescAneks(p, angaz, document, dataaneksu, netto0brutto1);
+                dodajtrescAneks(p, innewarunkizatrudnienia, angaz, document, dataaneksu, netto0brutto1);
                 finalizacjaDokumentuQR(document,nazwa);
                 String f = "pokazwydruk('"+nazwa+"');";
                 PrimeFaces.current().executeScript(f);
@@ -232,7 +235,7 @@ public class PdfUmowaoPrace {
         return out;
     }
     
-    public static void drukujanekswszystkie(List<Umowa> listaumowy, FirmaKadry firmaKadry, String dataaneksu) {
+    public static void drukujanekswszystkie(List<Umowa> listaumowy, String innewarunkizatrudnienia, FirmaKadry firmaKadry, String dataaneksu) {
         try {
             String nazwa = firmaKadry.getNip()+"aneksy.pdf";
             if (listaumowy != null) {
@@ -243,12 +246,12 @@ public class PdfUmowaoPrace {
                 int licznik = 0;
                 for (Umowa umowa : listaumowy) {
                     Zmiennawynagrodzenia p = umowa.getZmiennawynagrodzenia();
-                    if (p!=null&&p.getNowakwota()>0.0) {
+                    if (p!=null&&p.getNowakwota()>0.0 || (innewarunkizatrudnienia!=null&&!innewarunkizatrudnienia.isEmpty())) {
                         if (licznik>0) {
                             document.newPage();
                         }
                         Angaz angaz = p.getSkladnikwynagrodzenia().getAngaz();
-                        dodajtrescAneks(p, angaz, document, dataaneksu, umowa.isNetto0brutto1());
+                        dodajtrescAneks(p, innewarunkizatrudnienia, angaz, document, dataaneksu, umowa.isNetto0brutto1());
                         licznik++;
                     }
                 }
@@ -265,7 +268,7 @@ public class PdfUmowaoPrace {
         }
     }
     
-    public static ByteArrayOutputStream drukujanekswszystkieMail(List<Umowa> listaumowy, FirmaKadry firmaKadry, String dataaneksu) {
+    public static ByteArrayOutputStream drukujanekswszystkieMail(List<Umowa> listaumowy, String  innewarunkizatrudnienia, FirmaKadry firmaKadry, String dataaneksu) {
         ByteArrayOutputStream out = new ByteArrayOutputStream(); 
         try {
             String nazwa = firmaKadry.getNip()+"aneksy.pdf";
@@ -279,12 +282,12 @@ public class PdfUmowaoPrace {
                 int licznik = 0;
                 for (Umowa umowa : listaumowy) {
                     Zmiennawynagrodzenia p = umowa.getZmiennawynagrodzenia();
-                    if (p!=null&&p.getNowakwota()>0.0) {
+                    if (p!=null&&p.getNowakwota()>0.0 || (innewarunkizatrudnienia!=null&&!innewarunkizatrudnienia.isEmpty())) {
                         if (licznik>0) {
                             document.newPage();
                         }
                         Angaz angaz = p.getSkladnikwynagrodzenia().getAngaz();
-                        dodajtrescAneks(p, angaz, document, dataaneksu, umowa.isNetto0brutto1());
+                        dodajtrescAneks(p, innewarunkizatrudnienia, angaz, document, dataaneksu, umowa.isNetto0brutto1());
                         licznik++;
                     }
                 }
@@ -300,7 +303,7 @@ public class PdfUmowaoPrace {
         return out;
     }
      
-     private static void dodajtrescAneks(Zmiennawynagrodzenia zm, Angaz angaz, Document document, String datazmiany, boolean netto0brutto1) {
+     private static void dodajtrescAneks(Zmiennawynagrodzenia zmiennawynagrodzenia, String innewarunkizatrudnienia, Angaz angaz, Document document, String datazmiany, boolean netto0brutto1) {
         try {
             String dataaneksu = Data.odejmijdni(datazmiany,1);
             Umowa umowa = angaz.getAktywnaUmowa();
@@ -352,11 +355,19 @@ public class PdfUmowaoPrace {
             document.add(paragraph);
             document.add(Chunk.NEWLINE);
             paragraph = new Paragraph(new Phrase("1. Strony zgodnie postanawiają, że od dnia "+datazmiany+" ulegają zmianie następujące warunki umowy:", fontM));
+            String literka = "a) ";
             document.add(paragraph);
-            String rodzaj = zm.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getGodzinowe0miesieczne1()?"miesięcznie":"za godzinę";
-            String zmienna = zm.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getOpispelny();
-            String nettobruttostring = netto0brutto1?"brutto":"netto";
-            PdfMain.dodajElementListy(document, "a) "+zmienna+": ", f.F.curr(zm.getNowakwota(), "PLN")+" "+nettobruttostring+" "+rodzaj, fontM);
+            if (zmiennawynagrodzenia.getNowakwota()>0) {
+                String rodzaj = zmiennawynagrodzenia.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getGodzinowe0miesieczne1()?"miesięcznie":"za godzinę";
+                String zmienna = zmiennawynagrodzenia.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getOpispelny();
+                String nettobruttostring = netto0brutto1?"brutto":"netto";
+                PdfMain.dodajElementListy(document, literka+zmienna+": ", f.F.curr(zmiennawynagrodzenia.getNowakwota(), "PLN")+" "+nettobruttostring+" "+rodzaj, fontM);
+                literka = "b) ";
+            }
+            if (innewarunkizatrudnienia!=null&&!innewarunkizatrudnienia.isEmpty()) {
+                PdfMain.dodajElementListy(document, literka+" inne warunki zatrudnienia: ", innewarunkizatrudnienia, fontM);
+            }
+            document.add(Chunk.NEWLINE);
             paragraph = new Paragraph(new Phrase("2. Pozostałe warunki umowy pozostają bez zmian ", fontM));
             document.add(paragraph);
             document.add(Chunk.NEWLINE);
