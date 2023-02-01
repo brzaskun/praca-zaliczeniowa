@@ -1457,7 +1457,7 @@ public class PodatnikView implements Serializable {
                 dokumentyBiezacegoPodatnikaRokPoprzedni = wspolnedokumentypodatnikow;
             }
             if (wpisView.getFormaprawna()!=null&&wpisView.getFormaprawna().equals("OSOBA_FIZYCZNA")==false) {
-                List<Konto> konta = kontoDAOfk.findWszystkieKontaPodatnika(selected, rokpoprzedni);
+                List<Konto> konta = kontoDAOfk.findWszystkieKontaPodatnika(selected, rok);
                 if (konta!=null && konta.size()>10) {
                     if (dokumentyBiezacegoPodatnikaRokPoprzedni!=null && !dokumentyBiezacegoPodatnikaRokPoprzedni.isEmpty()) {
                         for (Rodzajedok tmp : dokumentyBiezacegoPodatnikaRokPoprzedni) {
