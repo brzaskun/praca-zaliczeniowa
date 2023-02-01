@@ -1360,7 +1360,6 @@ public class PasekwynagrodzenBean {
     }
 
     private static void obliczdietedoodliczenia(Pasekwynagrodzen pasek, Kalendarzmiesiac kalendarz) {
-        if (pasek.isPrzekroczenieoddelegowanie()==false) {
             double dnioddelegowanie = 0.0;
             double dietawaluta = 0.0;
             for (Dzien p : kalendarz.getDzienList()) {
@@ -1374,7 +1373,6 @@ public class PasekwynagrodzenBean {
             pasek.setDieta(dietypln);
             dietypln = Z.z(dietypln * 0.3);
             pasek.setDietaodliczeniepodstawaop(dietypln);
-        }
     }
 
     private static void naniesrobocze(Pasekwynagrodzen pasek, Kalendarzmiesiac kalendarz) {
