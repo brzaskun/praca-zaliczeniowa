@@ -175,7 +175,7 @@ public class KalendarzmiesiacView  implements Serializable {
         if (wpisView.getAngaz()!=null && wpisView.getPracownik()!=null) {
             String rok = wpisView.getAngaz().getRok();
             String mcu = wpisView.getAngaz().getMc();
-            Integer mcod = Integer.parseInt(rok);
+            Integer mcod = Integer.parseInt(mcu);
             Integer dzienod = Integer.parseInt(mcu);
             List<Kalendarzmiesiac> kalendarze = new ArrayList<>();
             for (String mc: Mce.getMceListS()) {
