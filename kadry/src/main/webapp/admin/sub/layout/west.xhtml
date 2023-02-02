@@ -35,7 +35,8 @@
                              >
                     <p:ajax event="rowSelect" listener="#{angazView.aktywujPlace(angazView.selectedeast)}" partialSubmit="true" update="north,@(.formadmin)"/>
                     <p:column>
-                        <h:outputText value="#{item2.pracownik.nazwiskoImie}"/>
+                        <h:outputText value="#{item2.pracownik.nazwiskoImie}" rendered="#{item2.jestumowaAktywna(wpisView.rokWpisu, wpisView.miesiacWpisu) eq true}" />
+                        <h:outputText value="#{item2.pracownik.nazwiskoImie}" rendered="#{item2.jestumowaAktywna(wpisView.rokWpisu, wpisView.miesiacWpisu) eq false}" style="color: #9E9E9E"/>
                     </p:column>
                 </p:dataTable>
             </p:panel>

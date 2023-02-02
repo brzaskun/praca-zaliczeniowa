@@ -12,8 +12,10 @@
                 <p:outputPanel>
                     <p:panel header="zakres zmian"/>
                     <p:panelGrid columns="2">
+                        <p:outputLabel for="dataaneksu1" value="data aneksu" />
+                        <p:inputText id="dataaneksu1" value="#{pracownikAneksyView.dataaneksu}" placeholder="____-__-__" maxlength="10" required="true" requiredMessage="Wprowadź datę aneksu"/>
                         <p:outputLabel for="dataaneksu" value="od kiedy zmiana" />
-                        <p:inputText id="dataaneksu" value="#{pracownikAneksyView.dataaneksu}" placeholder="____-__-__" maxlength="10" required="true" requiredMessage="Wprowadź datę aneksu"/>
+                        <p:inputText id="dataaneksu" value="#{pracownikAneksyView.odkiedyzmiana}" placeholder="____-__-__" maxlength="10" required="true" requiredMessage="Wprowadź datę zmiany"/>
                         <p:outputLabel for="kwotaaneksu" value="nowa kwota wynagrodzenia" />
                         <p:inputNumber id="kwotaaneksu" value="#{pracownikAneksyView.kwotaaneksu}"  size="14"  maxlength="7" decimalPlaces="2" decimalSeparator="." inputStyle="text-align: right">
                             <p:ajax event="change" listener="#{pracownikAneksyView.nanieskwote}" update="akordeon:AneksForm:datalist"/>

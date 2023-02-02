@@ -90,11 +90,17 @@
                         </f:facet>
                         <h:outputText value="#{itemumowa.kodzawodu.symbolkzis}"/>
                     </p:column>
-                    <p:column style="text-align: center;">
+<!--                    <p:column style="text-align: center;">
                         <f:facet name="header">
                             <h:outputText value="nfz"/>
                         </f:facet>
                         <h:outputText value="#{itemumowa.nfz}"/>
+                    </p:column>-->
+                    <p:column width="40" style="text-align: center;">
+                         <f:facet name="header">
+                            <h:outputText value="akt."/>
+                        </f:facet>
+                        <p:commandButton icon="pi pi-sun" actionListener="#{umowaView.aktywujUmowe(itemumowa)}" update="north, @(form)"/>
                     </p:column>
                     <p:column width="40" style="text-align: center;">
                          <f:facet name="header">
@@ -110,7 +116,7 @@
                         <f:facet name="header">
                             <h:outputText value="pdf"/>
                         </f:facet>
-                        <p:commandButton icon="pi pi-print"  actionListener="#{umowaView.drukujumoweselected(itemumowa)}" update="north akordeon:UmowaListForm"/>
+                        <p:commandButton icon="pi pi-print"  actionListener="#{umowaView.drukujumoweselected(itemumowa)}" update="north, akordeon:UmowaListForm, EastPracownicy"/>
                     </p:column>
                     <p:column width="40" style="text-align: center;">
                         <f:facet name="header">
@@ -126,7 +132,7 @@
                 </p:dataTable>
             </p:panel>
             <p:contextMenu for="datalist" style="width: 200px;">
-                <p:menuitem value="oznacz jako aktywną" icon="pi pi-star" actionListener="#{umowaView.oznaczjakoaktywna()}" update="@form"/>
+<!--                <p:menuitem value="oznacz jako aktywną" icon="pi pi-star" actionListener="#{umowaView.oznaczjakoaktywna()}" update="@form"/>-->
                 <p:menuitem value="przedłuż umowę" icon="pi pi-step-forward-alt" actionListener="#{umowaView.przedluz()}" update="@form akordeon akordeon:UmowaCreateForm"/>
             </p:contextMenu>
         </h:form>

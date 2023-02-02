@@ -15,7 +15,6 @@ import com.itextpdf.text.TabSettings;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
-import data.Data;
 import entity.Angaz;
 import entity.FirmaKadry;
 import entity.Naliczenienieobecnosc;
@@ -189,7 +188,7 @@ public class PdfUmowaoPrace {
         }
     }
 
-    public static void drukujaneks(Zmiennawynagrodzenia zmiennawynagrodzenia, String innewarunkizatrudnienia,  String dataaneksu, boolean netto0brutto1) {
+    public static void drukujaneks(Zmiennawynagrodzenia zmiennawynagrodzenia, String innewarunkizatrudnienia,  String dataaneksu, String odkiedyzmiana, boolean netto0brutto1) {
         try {
             Angaz angaz = zmiennawynagrodzenia.getSkladnikwynagrodzenia().getAngaz();
             String nazwa = angaz.getPracownik().getPesel()+"umowa.pdf";
@@ -198,7 +197,7 @@ public class PdfUmowaoPrace {
                 PdfWriter writer = inicjacjaWritera(document, nazwa);
                 naglowekStopkaP(writer);
                 otwarcieDokumentu(document, nazwa);
-                dodajtrescAneks(zmiennawynagrodzenia, innewarunkizatrudnienia, angaz, document, dataaneksu, netto0brutto1);
+                dodajtrescAneks(zmiennawynagrodzenia, innewarunkizatrudnienia, angaz, document, dataaneksu, odkiedyzmiana, netto0brutto1);
                 finalizacjaDokumentuQR(document,nazwa);
                 String f = "pokazwydruk('"+nazwa+"');";
                 PrimeFaces.current().executeScript(f);
@@ -210,7 +209,7 @@ public class PdfUmowaoPrace {
         }
     }
     
-    public static ByteArrayOutputStream drukujaneksMail(Zmiennawynagrodzenia p, String  innewarunkizatrudnienia, String dataaneksu, boolean netto0brutto1) {
+    public static ByteArrayOutputStream drukujaneksMail(Zmiennawynagrodzenia p, String  innewarunkizatrudnienia, String dataaneksu, String odkiedyzmiana, boolean netto0brutto1) {
         ByteArrayOutputStream out = new ByteArrayOutputStream(); 
         try {
             Angaz angaz = p.getSkladnikwynagrodzenia().getAngaz();
@@ -222,7 +221,7 @@ public class PdfUmowaoPrace {
                 writer.setViewerPreferences(PdfWriter.PageLayoutSinglePage);
                 naglowekStopkaP(writer);
                 otwarcieDokumentu(document, nazwa);
-                dodajtrescAneks(p, innewarunkizatrudnienia, angaz, document, dataaneksu, netto0brutto1);
+                dodajtrescAneks(p, innewarunkizatrudnienia, angaz, document, dataaneksu, odkiedyzmiana, netto0brutto1);
                 finalizacjaDokumentuQR(document,nazwa);
                 String f = "pokazwydruk('"+nazwa+"');";
                 PrimeFaces.current().executeScript(f);
@@ -235,7 +234,7 @@ public class PdfUmowaoPrace {
         return out;
     }
     
-    public static void drukujanekswszystkie(List<Umowa> listaumowy, String innewarunkizatrudnienia, FirmaKadry firmaKadry, String dataaneksu) {
+    public static void drukujanekswszystkie(List<Umowa> listaumowy, String innewarunkizatrudnienia, FirmaKadry firmaKadry, String dataaneksu, String odkiedyzmiana) {
         try {
             String nazwa = firmaKadry.getNip()+"aneksy.pdf";
             if (listaumowy != null) {
@@ -251,7 +250,7 @@ public class PdfUmowaoPrace {
                             document.newPage();
                         }
                         Angaz angaz = p.getSkladnikwynagrodzenia().getAngaz();
-                        dodajtrescAneks(p, innewarunkizatrudnienia, angaz, document, dataaneksu, umowa.isNetto0brutto1());
+                        dodajtrescAneks(p, innewarunkizatrudnienia, angaz, document, dataaneksu, odkiedyzmiana, umowa.isNetto0brutto1());
                         licznik++;
                     }
                 }
@@ -268,7 +267,7 @@ public class PdfUmowaoPrace {
         }
     }
     
-    public static ByteArrayOutputStream drukujanekswszystkieMail(List<Umowa> listaumowy, String  innewarunkizatrudnienia, FirmaKadry firmaKadry, String dataaneksu) {
+    public static ByteArrayOutputStream drukujanekswszystkieMail(List<Umowa> listaumowy, String  innewarunkizatrudnienia, FirmaKadry firmaKadry, String dataaneksu, String odkiedyzmiana) {
         ByteArrayOutputStream out = new ByteArrayOutputStream(); 
         try {
             String nazwa = firmaKadry.getNip()+"aneksy.pdf";
@@ -287,7 +286,7 @@ public class PdfUmowaoPrace {
                             document.newPage();
                         }
                         Angaz angaz = p.getSkladnikwynagrodzenia().getAngaz();
-                        dodajtrescAneks(p, innewarunkizatrudnienia, angaz, document, dataaneksu, umowa.isNetto0brutto1());
+                        dodajtrescAneks(p, innewarunkizatrudnienia, angaz, document, dataaneksu, odkiedyzmiana, umowa.isNetto0brutto1());
                         licznik++;
                     }
                 }
@@ -303,9 +302,8 @@ public class PdfUmowaoPrace {
         return out;
     }
      
-     private static void dodajtrescAneks(Zmiennawynagrodzenia zmiennawynagrodzenia, String innewarunkizatrudnienia, Angaz angaz, Document document, String datazmiany, boolean netto0brutto1) {
+     private static void dodajtrescAneks(Zmiennawynagrodzenia zmiennawynagrodzenia, String innewarunkizatrudnienia, Angaz angaz, Document document, String dataaneksu, String datazmiany, boolean netto0brutto1) {
         try {
-            String dataaneksu = Data.odejmijdni(datazmiany,1);
             Umowa umowa = angaz.getAktywnaUmowa();
             BaseFont helvetica = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
             Font font = new Font(helvetica, 11);

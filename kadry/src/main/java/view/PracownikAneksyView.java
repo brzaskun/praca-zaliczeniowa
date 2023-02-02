@@ -55,6 +55,7 @@ public class PracownikAneksyView  implements Serializable {
     private List<Umowa> listaumowyfiltered;
     private List<Umowa> listaumowyselected;
     private String dataaneksu;
+    private String odkiedyzmiana;
     private double kwotaaneksu;
     private String innewarunkizatrudnienia;
     
@@ -115,7 +116,7 @@ public class PracownikAneksyView  implements Serializable {
     public void drukujaneks(Zmiennawynagrodzenia nowewynagrodzenie, boolean netto0brutto1) {
         if (nowewynagrodzenie != null && nowewynagrodzenie.getId()!=null) {
             if (nowewynagrodzenie.getNowakwota()>0.0 || (innewarunkizatrudnienia!=null&&!innewarunkizatrudnienia.isEmpty())) {
-                PdfUmowaoPrace.drukujaneks(nowewynagrodzenie, innewarunkizatrudnienia, dataaneksu, netto0brutto1);
+                PdfUmowaoPrace.drukujaneks(nowewynagrodzenie, innewarunkizatrudnienia, dataaneksu, odkiedyzmiana, netto0brutto1);
                 Msg.msg("Wydrukowano aneks");
             } else {
                 Msg.msg("e", "Nie wprowadzono nowej kwoty wynagrodzenia dla umowy");
@@ -131,7 +132,7 @@ public class PracownikAneksyView  implements Serializable {
             lysta = CollectionUtils.isNotEmpty(listaumowyfiltered)? listaumowyfiltered: listaumowy;
         }
         if (lysta != null) {
-            PdfUmowaoPrace.drukujanekswszystkie(lysta, innewarunkizatrudnienia,  wpisView.getFirma(), dataaneksu);
+            PdfUmowaoPrace.drukujanekswszystkie(lysta, innewarunkizatrudnienia,  wpisView.getFirma(), dataaneksu, odkiedyzmiana);
         } else {
             Msg.msg("e", "Błąd drukowania. Nie można wydrukować aneksów");
         }
@@ -153,7 +154,7 @@ public class PracownikAneksyView  implements Serializable {
             if (wysylac) {
                 FirmaKadry firmaKadry = wpisView.getFirma();
                 String nazwa = firmaKadry.getNip()+"aneksy.pdf";
-                ByteArrayOutputStream drukujmail = PdfUmowaoPrace.drukujanekswszystkieMail(lysta, innewarunkizatrudnienia, wpisView.getFirma(), dataaneksu);
+                ByteArrayOutputStream drukujmail = PdfUmowaoPrace.drukujanekswszystkieMail(lysta, innewarunkizatrudnienia, wpisView.getFirma(), dataaneksu, odkiedyzmiana);
                 SMTPSettings findSprawaByDef = sMTPSettingsFacade.findSprawaByDef();
                 mail.Mail.mailAneksydoUmowy(wpisView.getFirma(), wpisView.getFirma().getEmail(), null, findSprawaByDef, drukujmail.toByteArray(), nazwa, wpisView.getUzer().getEmail());
                 Msg.msg("Wysłano listę płac do pracodawcy");
@@ -174,7 +175,7 @@ public class PracownikAneksyView  implements Serializable {
             boolean wysylac = false;
             for (Umowa p : lysta) {
                 if (p.getZmiennawynagrodzenia()!=null&&p.getZmiennawynagrodzenia().getNowakwota()>0) {
-                    ByteArrayOutputStream plik = PdfUmowaoPrace.drukujaneksMail(p.getZmiennawynagrodzenia(), innewarunkizatrudnienia, dataaneksu, p.isNetto0brutto1());
+                    ByteArrayOutputStream plik = PdfUmowaoPrace.drukujaneksMail(p.getZmiennawynagrodzenia(), innewarunkizatrudnienia, dataaneksu, odkiedyzmiana, p.isNetto0brutto1());
                     Dokumenty dokument = new Dokumenty();
                     dokument.setDokument(plik.toByteArray());
                     dokument.setData(Data.aktualnaData());
@@ -204,13 +205,13 @@ public class PracownikAneksyView  implements Serializable {
             for (Umowa p : lysta) {
                 Zmiennawynagrodzenia zmienna = p.getZmiennawynagrodzenia();
                 if (zmienna!=null&&zmienna.getNowakwota()>0) {
-                    Zmiennawynagrodzenia nowazmienna = new Zmiennawynagrodzenia(zmienna, dataaneksu);
+                    Zmiennawynagrodzenia nowazmienna = new Zmiennawynagrodzenia(zmienna, odkiedyzmiana);
                     nowazmienna.setAktywna(true);
                     nowazmienna.setAneks(true);
                     nowazmienna.setNetto0brutto1(p.isNetto0brutto1());
                     zmiennaWynagrodzeniaFacade.create(nowazmienna);
                     zmienna.setAktywna(false);
-                    zmienna.setDatado(Data.odejmijdni(dataaneksu,1));
+                    zmienna.setDatado(Data.odejmijdni(odkiedyzmiana,1));
                     zmiennaWynagrodzeniaFacade.edit(zmienna);
                     naniesc = true;
                     break;
@@ -308,6 +309,14 @@ public class PracownikAneksyView  implements Serializable {
 
     public void setListaumowyselected(List<Umowa> listaumowyselected) {
         this.listaumowyselected = listaumowyselected;
+    }
+
+    public String getOdkiedyzmiana() {
+        return odkiedyzmiana;
+    }
+
+    public void setOdkiedyzmiana(String odkiedyzmiana) {
+        this.odkiedyzmiana = odkiedyzmiana;
     }
 
 

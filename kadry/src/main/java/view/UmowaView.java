@@ -760,19 +760,19 @@ public class UmowaView implements Serializable {
 
    
 
-    public void oznaczjakoaktywna() {
-        if (selectedlista != null) {
-            if (selectedlista.isAktywna()) {
-                selectedlista.setAktywna(false);
-                umowaFacade.edit(selectedlista);
+    public void aktywujUmowe(Umowa umowaaktywowana) {
+        if (umowaaktywowana != null) {
+            if (umowaaktywowana.isAktywna()) {
+                umowaaktywowana.setAktywna(false);
+                umowaFacade.edit(umowaaktywowana);
                 Msg.msg("Odznaczono umowę");
             } else {
                 for (Umowa p : listapraca) {
                     p.setAktywna(false);
                 }
                 umowaFacade.editList(listapraca);
-                selectedlista.setAktywna(true);
-                umowaFacade.edit(selectedlista);
+                umowaaktywowana.setAktywna(true);
+                umowaFacade.edit(umowaaktywowana);
                 Msg.msg("Oznaczono umowę");
             }
         }
