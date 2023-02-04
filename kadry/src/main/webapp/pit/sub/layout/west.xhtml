@@ -16,12 +16,16 @@
                              style="height: 350px;overflow-y: scroll;"
                              >
                     <p:ajax event="rowSelect" listener="#{kartaWynagrodzenView.aktywujKartaWyn(firmaView.selectedeast)}" partialSubmit="true"/>
-                    <p:ajax event="rowSelect" listener="#{kartaWynagrodzenView.init()}" global="true" update="north,akordeon"/>
+                    <p:ajax event="rowSelect" listener="#{kartaWynagrodzenView.init()}" global="true" update="north, @(.formpit11)"/>
                     <p:column sortBy="#{item1.nazwa}" sortOrder="asc" filterBy="#{item1.nazwa}" filterMatchMode="contains">
-                        <h:outputText value="#{item1.nazwa}"/>
+                        <h:outputText value="#{item1.nazwa}" rendered="#{item1.isSadekalracjePIT11(wpisView.rokWpisu)}" style="color:green;"/>
+                        <h:outputText value="#{item1.nazwa}" rendered="#{item1.isSadekalracjePIT11(wpisView.rokWpisu) eq false}"/>
                     </p:column>
                 </p:dataTable>
             </p:panel>
+               <p:outputPanel style="padding: 10px;">
+                   <h:outputText value="firmy wyróżnione na zielono mają sporządzone deklaracje"/>
+               </p:outputPanel>
         </h:form>
     
 </ui:composition>   

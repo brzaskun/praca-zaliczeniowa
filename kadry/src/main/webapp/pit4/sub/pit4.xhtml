@@ -13,7 +13,7 @@
         <p:commandButton value="PIT-4" styleClass="buttonnorm" actionListener="#{kartaWynagrodzenPIT4View.pit4}" update="@(form)"/>
     </p:outputPanel>
     <p:outputPanel>
-        <h:form>
+        <h:form styleClass="formpit4">
         <p:panelGrid columns="2" style="padding: 20px;">
             <h:outputText value="razem podatek: "/>
             <bcf:outputpl value="#{kartaWynagrodzenPIT4View.podatekrazem}"/>
@@ -118,10 +118,10 @@
             </h:form>
     </p:outputPanel>
     <p:outputPanel>
-        <h:form>
+        <h:form styleClass="formpit4">
             <p:dataTable id="datalistwa" value="#{pit4RView.lista}" var="itempity"
                          rowKey="#{itempity.id}" rowIndexVar="indexpity" 
-                         style="height: 350px; width: 1320px;" emptyMessage="Nie pobrano danych"
+                         style="height: 350px; width: 1400px;" emptyMessage="Nie pobrano danych"
                          >
                 <f:facet name="header">
                     <h:outputText value="Wygenerowane deklaracje PIT-4"/>
@@ -149,7 +149,7 @@
                         <f:convertDateTime timeStyle="short" type="both"/>
                     </h:outputText>
                 </p:column>
-                  <p:column width="150" style="text-align: left;">
+                  <p:column width="220" style="text-align: left;">
                     <f:facet name="header">
                         <h:outputText value="nr id"/>
                     </f:facet>
@@ -162,7 +162,7 @@
                     <h:outputText value="#{itempity.status}" rendered="#{itempity.status ne '200'}"/>
                     <h:outputText value="#{itempity.status}" rendered="#{itempity.status eq '200'}" style="color: green;"/>
                 </p:column>
-                <p:column width="100" style="text-align: center;">
+                <p:column width="140" style="text-align: center;">
                     <f:facet name="header">
                         <h:outputText value="upo"/>
                     </f:facet>
@@ -170,7 +170,7 @@
                         <f:convertDateTime locale="pl"/>
                     </h:outputText>
                 </p:column>
-                <p:column width="350">
+                <p:column width="300">
                     <f:facet name="header">
                         <h:outputText value="wersja"/>
                     </f:facet>

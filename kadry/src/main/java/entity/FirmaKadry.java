@@ -139,6 +139,7 @@ public class FirmaKadry implements Serializable {
     @Transient
     private String loginfirmy;
     
+    
 
     public FirmaKadry() {
     }
@@ -347,6 +348,8 @@ public class FirmaKadry implements Serializable {
     public String getDzienlp() {
         return dzienlp;
     }
+    
+    
 
     public void setDzienlp(String dzienlp) {
         if (dzienlp.equals("")) {
@@ -514,6 +517,32 @@ public class FirmaKadry implements Serializable {
         String zwrot = this.kod+" "+this.miasto+", "+this.ulica+" "+this.dom+"/"+this.lokal;
         if (this.lokal==null) {
             zwrot = this.kod+" "+this.miasto+", "+this.ulica+" "+this.dom;
+        }
+        return zwrot;
+    }
+    
+    public boolean isSadekalracjePIT11(String rok) {
+        boolean zwrot = false;
+        if (this.deklaracjaPIT11Schowek!=null) {
+            for (DeklaracjaPIT11Schowek pit : this.deklaracjaPIT11Schowek) {
+                if (pit.getRok().equals(rok)) {
+                    zwrot = true;
+                    break;
+                }
+            }
+        }
+        return zwrot;
+    }
+    
+    public boolean isSadekalracjePIT4(String rok) {
+        boolean zwrot = false;
+        if (this.deklaracjaPIT4Schowek!=null) {
+            for (DeklaracjaPIT4Schowek pit : this.deklaracjaPIT4Schowek) {
+                if (pit.getRok().equals(rok)) {
+                    zwrot = true;
+                    break;
+                }
+            }
         }
         return zwrot;
     }

@@ -36,7 +36,7 @@ public class PitWysylkaView  implements Serializable {
     private WpisView wpisView;
     @Inject
     private DeklaracjaPIT11SchowekFacade deklaracjaPIT11SchowekFacade;
-    @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/testdokumenty.wsdl")
+    @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/dokumenty.wsdl")
     private https.bramka_e_deklaracje_mf_gov.GateService testservice;
     private final String lang;
     private final String signT;
@@ -116,7 +116,8 @@ public class PitWysylkaView  implements Serializable {
             Holder<Integer> stat = new Holder<>();
             Holder<String> opis = new Holder<>();
             Holder<String> upo = new Holder<>();
-            byte[] dok = (byte[]) podpiszDeklaracje[0];
+            //byte[] dok = (byte[]) podpiszDeklaracje[0];
+            byte[] dok = wysylanaDeklaracja.getDeklaracjapodpisana();
             //sendSignDocument(dok, id, stat, opis);
             sendSignDocument(dok, id, stat, opis);
             String idMB = id.value;
@@ -155,7 +156,8 @@ public class PitWysylkaView  implements Serializable {
                 Holder<Integer> stat = new Holder<>();
                 Holder<String> opis = new Holder<>();
                 Holder<String> upo = new Holder<>();
-                byte[] dok = (byte[]) podpiszDeklaracje[0];
+                //byte[] dok = (byte[]) podpiszDeklaracje[0];
+                byte[] dok = wysylanaDeklaracja.getDeklaracjapodpisana();
                 //sendSignDocument(dok, id, stat, opis);
                 sendSignDocument(dok, id, stat, opis);
                 String idMB = id.value;

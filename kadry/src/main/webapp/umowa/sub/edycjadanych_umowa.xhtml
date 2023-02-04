@@ -53,14 +53,16 @@
                     <p:panelGrid columns="2">
                         <p:outputLabel value="data od" for="dataod1" />
                         <p:inputText id="dataod1" value="#{umowaView.selected.dataod}" title="data od"  placeholder="____-__-__"  required="true" styleClass="dataUmowy dataklasa" maxlength="10">
-                            <p:ajax event="change" onstart="ustawDateSprzedazy(#{wpisView.rokWpisu},#{wpisView.miesiacWpisu});" partialSubmit="true" global="false"  update="@(.dataklasa)"/>
+                            <p:ajax event="change" onstart="ustawDateSprzedazy(#{wpisView.rokWpisu},#{wpisView.miesiacWpisu});" partialSubmit="true" global="false" />
                         </p:inputText>
                         <p:outputLabel value="data do" for="datado1" />
                         <p:inputText id="datado1" value="#{umowaView.selected.datado}" title="data do"  placeholder="____-__-__"  maxlength="10" styleClass="dataklasa">
-                            <p:ajax event="change" listener="#{umowaView.sprawdzczyumowajestnaczas}"  onstart="ustawDateSprzedazy(#{wpisView.rokWpisu},#{wpisView.miesiacWpisu});" partialSubmit="true" global="false"  update="@(.dataklasa)"/>
+                            <p:ajax event="change" listener="#{umowaView.sprawdzczyumowajestnaczas}"  onstart="ustawDateSprzedazy(#{wpisView.rokWpisu},#{wpisView.miesiacWpisu});" partialSubmit="true" global="false"  />
                         </p:inputText>
                         <p:outputLabel value="termin rozpoczecia pracy" for="datarozp1" />
-                        <p:inputText id="datarozp1" value="#{umowaView.selected.terminrozpoczeciapracy}" title="termin rozpoczecia pracy" styleClass="dataUmowy"  placeholder="____-__-__"  maxlength="10"/>
+                        <p:inputText id="datarozp1" value="#{umowaView.selected.terminrozpoczeciapracy}" title="termin rozpoczecia pracy" styleClass="dataUmowy"  placeholder="____-__-__"  maxlength="10" onblur="ustawDateSprzedazy(#{wpisView.rokWpisu},#{wpisView.miesiacWpisu});">
+                         
+                        </p:inputText>
                         <p:outputLabel value="miejsce pracy" for="miejscepracy" />
                         <p:inputText id="miejscepracy" value="#{umowaView.selected.miejscepracy}" title="miejsce pracy" />
                          
