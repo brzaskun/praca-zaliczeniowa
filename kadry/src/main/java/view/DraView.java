@@ -63,6 +63,7 @@ public class DraView  implements Serializable {
     private double zus53;
     private double zus;
     private double pit4;
+    private double potracenia;
     private String mcdra;
     //nie dupad
     
@@ -102,6 +103,7 @@ public class DraView  implements Serializable {
             danezus.put("pit4", pit4);
             danezus.put("brutto", brutto);
             danezus.put("netto", netto);
+            danezus.put("potracenia", potracenia);
             ByteArrayOutputStream dra = PdfDRA.drukujListaPodstawowa(paskiwynagrodzen, listywybrane, wpisView.getFirma().getNip(), mcdra, danezus, wpisView.getFirma().getNazwa());
             mailListaDRA(dra.toByteArray());
             Msg.msg("Wydrukowano listę płac");
@@ -136,6 +138,7 @@ public class DraView  implements Serializable {
             danezus.put("pit4", pit4);
             danezus.put("brutto", brutto);
             danezus.put("netto", netto);
+            danezus.put("potracenia", potracenia);
             ByteArrayOutputStream drastream = PdfDRA.drukujListaPodstawowa(paskiwynagrodzen, listywybrane, wpisView.getFirma().getNip(), mcdra, danezus, wpisView.getFirma().getNazwa());
              byte[] dra = drastream.toByteArray();
             if (dra != null && dra.length > 0) {
@@ -165,6 +168,7 @@ public class DraView  implements Serializable {
             zus53 = 0.0;
             pit4 = 0.0;
             zus = 0.0;
+            potracenia = 0.0;
             paskiwynagrodzen = new ArrayList<>();
             for (Definicjalistaplac d : listywybrane) {
                 List<Pasekwynagrodzen> paski = pasekwynagrodzenFacade.findByDef(d);
@@ -184,6 +188,7 @@ public class DraView  implements Serializable {
                 pit4 = Z.z(pit4+p.getPodatekdochodowy());
                 brutto = Z.z(brutto+p.getBrutto());
                 netto = Z.z(netto+p.getNetto());
+                potracenia = Z.z(potracenia+p.getPotracenia());
             }
             paskiwynagrodzen.add(PasekwynagrodzenBean.sumujpaski(paskiwynagrodzen));
             zus = Z.z(zus+zus51+zus52+zus53);
