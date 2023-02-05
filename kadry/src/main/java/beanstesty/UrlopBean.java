@@ -147,11 +147,15 @@ public class UrlopBean {
                     }
                 }
             }
-            double nowywymiarwdniach =  Math.ceil(wymiarwdniach*etat.getEtat1()/etat.getEtat2());
+            double nowywymiarwdniach =  Math.ceil(wymiarwdniach);
+            double wymiargodzin = (nowywymiarwdniach*8);
+            if (etat!=null) {
+                nowywymiarwdniach =  Math.ceil(wymiarwdniach*etat.getEtat1()/etat.getEtat2());
+            }
             if (napoczetemiesiace.size()>0) {
                 nowywymiarwdniach = (int) (Math.ceil(wymiarwdniach/12.0*napoczetemiesiace.size()));
+                wymiargodzin = (nowywymiarwdniach*8*etat.getEtat1()/etat.getEtat2());
             }
-            double wymiargodzin = (nowywymiarwdniach*8*etat.getEtat1()/etat.getEtat2());
         return (int) wymiargodzin;
     }
 }

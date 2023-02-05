@@ -101,7 +101,7 @@ public class PasekwynagrodzenBean {
             PasekwynagrodzenBean.obliczpodatekwstepnyZlecenieDB(pasek, stawkipodatkowe, pasek.isNierezydent());
         }
         PasekwynagrodzenBean.ulgapodatkowaDB(pasek, stawkipodatkowe, true, true);
-        PasekwynagrodzenBean.naliczzdrowota(pasek, pasek.isNierezydent(), true);
+        PasekwynagrodzenBean.naliczzdrowota(pasek, pasek.isNierezydent(), true,"");
         PasekwynagrodzenBean.obliczpodatekdowplaty(pasek);
         PasekwynagrodzenBean.netto(pasek);
         PasekwynagrodzenBean.potracenia(pasek);
@@ -336,7 +336,7 @@ public class PasekwynagrodzenBean {
         if (czyodlicoznokwotewolna == false) {
             PasekwynagrodzenBean.ulgapodatkowaDB(pasek, stawkipodatkowe, false, odliczaculgepodatkowa);
         }
-        PasekwynagrodzenBean.naliczzdrowota(pasek, pasek.isNierezydent(), true);
+        PasekwynagrodzenBean.naliczzdrowota(pasek, pasek.isNierezydent(), true, umowakodzus);
     }
 
     private static void zasilekchorobowywyliczenie(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasek, double kurs, Definicjalistaplac definicjalistaplac, boolean czyodlicoznokwotewolna,
@@ -390,7 +390,7 @@ public class PasekwynagrodzenBean {
         if (czyodlicoznokwotewolna == false) {
             PasekwynagrodzenBean.ulgapodatkowaDB(pasek, stawkipodatkowe, false, odliczaculgepodatkowa);
         }
-        PasekwynagrodzenBean.naliczzdrowota(pasek, pasek.isNierezydent(), false);
+        PasekwynagrodzenBean.naliczzdrowota(pasek, pasek.isNierezydent(), false,"");
     }
 
     private static void umowazleceniaNRwyliczenie(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasek, double kurs, Definicjalistaplac definicjalistaplac, boolean czyodlicoznokwotewolna,
@@ -426,7 +426,7 @@ public class PasekwynagrodzenBean {
         if (czyodlicoznokwotewolna == false) {
             PasekwynagrodzenBean.ulgapodatkowaDB(pasek, stawkipodatkowe, false, odliczaculgepodatkowa);
         }
-        PasekwynagrodzenBean.naliczzdrowota(pasek, pasek.isNierezydent(), false);
+        PasekwynagrodzenBean.naliczzdrowota(pasek, pasek.isNierezydent(), false,"");
     }
 
     private static void umowafunkcjawyliczenie(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasek, double kurs, Definicjalistaplac definicjalistaplac, boolean czyodlicoznokwotewolna, boolean jestoddelegowanie, double limitZUS, List<Podatki> stawkipodatkowe, double sumapoprzednich) {
@@ -440,7 +440,7 @@ public class PasekwynagrodzenBean {
         PasekwynagrodzenBean.obliczpodatekwstepnyFunkcjaDB(pasek, stawkipodatkowe, pasek.isNierezydent());
 //        PasekwynagrodzenBean.obliczpodstaweopodatkowaniaFunkcja(pasek, stawkipodatkowe, pasek.isNierezydent());
 //        PasekwynagrodzenBean.obliczpodatekwstepnyZlecenieDB(pasek, stawkipodatkowe, pasek.isNierezydent());
-        PasekwynagrodzenBean.naliczzdrowota(pasek, pasek.isNierezydent(), false);
+        PasekwynagrodzenBean.naliczzdrowota(pasek, pasek.isNierezydent(), false,"");
     }
 
     public static double obliczminimalna(Kalendarzmiesiac kalendarz, Definicjalistaplac definicjalistaplac,
@@ -460,7 +460,7 @@ public class PasekwynagrodzenBean {
         PasekwynagrodzenBean.obliczpodstaweopodatkowaniaDB(pasek, stawkipodatkowe, false, kalendarz.getAngaz().isKosztyuzyskania0podwyzszone());
         PasekwynagrodzenBean.obliczpodatekwstepnyDBStandard(pasek, pasek.getPodstawaopodatkowania(), stawkipodatkowe, sumapoprzednich);
         PasekwynagrodzenBean.ulgapodatkowaDB(pasek, stawkipodatkowe, true, true);
-        PasekwynagrodzenBean.naliczzdrowota(pasek, pasek.isNierezydent(), true);
+        PasekwynagrodzenBean.naliczzdrowota(pasek, pasek.isNierezydent(), true,"");
         PasekwynagrodzenBean.obliczpodatekdowplaty(pasek);
         PasekwynagrodzenBean.netto(pasek);
         PasekwynagrodzenBean.dowyplaty(pasek);
@@ -508,7 +508,7 @@ public class PasekwynagrodzenBean {
         PasekwynagrodzenBean.obliczpodstaweopodatkowania(pasek);
         PasekwynagrodzenBean.obliczpodatekwstepny(pasek);
         PasekwynagrodzenBean.ulgapodatkowa(pasek, true);
-        PasekwynagrodzenBean.naliczzdrowota(pasek, pasek.isNierezydent(), true);
+        PasekwynagrodzenBean.naliczzdrowota(pasek, pasek.isNierezydent(), true,"");
         PasekwynagrodzenBean.obliczpodatekdowplaty(pasek);
         PasekwynagrodzenBean.potracenia(pasek);
         PasekwynagrodzenBean.netto(pasek);
@@ -1130,7 +1130,7 @@ public class PasekwynagrodzenBean {
 
     }
 
-    private static void naliczzdrowota(Pasekwynagrodzen pasek, boolean nierezydent, boolean praca) {
+    private static void naliczzdrowota(Pasekwynagrodzen pasek, boolean nierezydent, boolean praca, String umowakodzus) {
         double spolecznepodstawa = Z.z(pasek.getPodstawaskladkizus() + pasek.getBruttobezzus() - pasek.getRazemspolecznepracownik());
         double podstawazdrowotna = Z.z(spolecznepodstawa + pasek.getBruttobezspolecznych()) > 0.0 ? Z.z(spolecznepodstawa + pasek.getBruttobezspolecznych()) : 0.0;
         //usuwamy z podstawy zasilki chorobowe
@@ -1148,7 +1148,10 @@ public class PasekwynagrodzenBean {
             pasek.setPraczdrowotnedoodliczenia(0.0);
             pasek.setPraczdrowotnedopotracenia(zdrowotneodliczane);
         } else {
-            if (pasek.isDo26lat() && pasek.isPraca() == false && pasek.isStudent()) {
+            if (umowakodzus.equals("0511")) {
+                pasek.setPraczdrowotnedoodliczenia(0.0);
+                pasek.setPraczdrowotnedopotracenia(0.0);
+            } else if (pasek.isDo26lat() && pasek.isPraca() == false && pasek.isStudent()) {
                 zdrowotne = 0.0;
                 zdrowotneodliczane = 0.0;
                 pasek.setPraczdrowotne(zdrowotne);
