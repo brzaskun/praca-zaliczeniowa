@@ -315,6 +315,55 @@ public class NaliczenieskladnikawynagrodzeniaBean {
         return zwrot;
     }
     
+    public static List<Naliczenieskladnikawynagrodzenia> createWynagrodzenieDBPPK(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasekwynagrodzen, Skladnikwynagrodzenia skladnikwynagrodzenia, double kurs) {
+        List<Naliczenieskladnikawynagrodzenia> zwrot = new ArrayList<>();
+        double dniroboczewmiesiacu = 0.0;
+        double godzinyroboczewmiesiacu = 0.0;
+        for (Dzien p : kalendarz.getDzienList()) {
+            if (p.getTypdnia() == 0) {
+                dniroboczewmiesiacu++;
+                godzinyroboczewmiesiacu = godzinyroboczewmiesiacu + p.getNormagodzin();
+            }
+        }
+        if (skladnikwynagrodzenia.getRodzajwynagrodzenia().getKod().equals("98")) {
+            for (Zmiennawynagrodzenia r : skladnikwynagrodzenia.getZmiennawynagrodzeniaList()) {
+                Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = new Naliczenieskladnikawynagrodzenia();
+                naliczenieskladnikawynagrodzenia.setWaluta(r.getWaluta());
+                double liczbazmiennych = 0.0;
+                String datastart = DataBean.dataodString(r.getDataod(), kalendarz.getRok(), kalendarz.getMc());
+                String dataend = DataBean.datadoString(r.getDatado(), kalendarz.getRok(), kalendarz.getMc());
+                if (DataBean.czysiemiesci(kalendarz.getPierwszyDzien(), kalendarz.getOstatniDzien(), r.getDataod(), r.getDatado())) {
+                    //tu wylicza wynagrodzenie za faktycznie przepracowany czas i date obowiazywania zmiennej
+                    liczbazmiennych++;
+                }
+                if (liczbazmiennych > 0) {
+                    double kwotapodstawyzus = pasekwynagrodzen.getPodstawaskladkizus();
+                    double ppkpracodawca = Z.z(kwotapodstawyzus*0.015);
+                    naliczenieskladnikawynagrodzenia.setDataod(datastart);
+                    naliczenieskladnikawynagrodzenia.setDatado(dataend);
+                    naliczenieskladnikawynagrodzenia.setStawkagodzinowa(0.0);
+                    naliczenieskladnikawynagrodzenia.setStawkadzienna(0.0);
+                    naliczenieskladnikawynagrodzenia.setKwotaumownazacalymc(0.0);
+                    naliczenieskladnikawynagrodzenia.setKwotadolistyplac(ppkpracodawca);
+                    naliczenieskladnikawynagrodzenia.setDninalezne(dniroboczewmiesiacu);
+                    naliczenieskladnikawynagrodzenia.setDnifaktyczne(0.0);
+                    naliczenieskladnikawynagrodzenia.setGodzinynalezne(godzinyroboczewmiesiacu);
+                    naliczenieskladnikawynagrodzenia.setGodzinyfaktyczne(0.0);
+                    naliczenieskladnikawynagrodzenia.setSkladnikwynagrodzenia(skladnikwynagrodzenia);
+                    naliczenieskladnikawynagrodzenia.setPasekwynagrodzen(pasekwynagrodzen);
+                    naliczenieskladnikawynagrodzenia.setKwotyredukujacesuma(0.0);
+                    naliczenieskladnikawynagrodzenia.setStawkagodzinowawaluta(0.0);
+                    naliczenieskladnikawynagrodzenia.setKwotadolistyplacwaluta(0.0);
+                    
+                }
+                if (naliczenieskladnikawynagrodzenia.getKwotadolistyplac()!=0.0) {
+                    zwrot.add(naliczenieskladnikawynagrodzenia);
+                }
+            }
+        }
+        return zwrot;
+    }
+    
     public static List<Naliczenieskladnikawynagrodzenia> createWynagrodzenieDBOddelegowanie(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasekwynagrodzen, Skladnikwynagrodzenia skladnikwynagrodzenia, double kurs) {
         List<Naliczenieskladnikawynagrodzenia> zwrot = new ArrayList<>();
         double dniroboczewmiesiacu = 0.0;

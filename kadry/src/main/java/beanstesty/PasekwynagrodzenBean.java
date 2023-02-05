@@ -316,6 +316,11 @@ public class PasekwynagrodzenBean {
         if (pasek.isUlgadlaKlasySredniej() && kalendarz.getRokI() == 2022 && kalendarz.getMcI() < 7) {
             PasekwynagrodzenBean.uwzglednijulgeklasasrednia(pasek);
         }
+        //ppk
+        double skladnikppk = KalendarzmiesiacBean.naliczskladnikiPPKDB(kalendarz, pasek, kurs, wynagrodzenieminimalne.getKwotabrutto(), kalendarzglobalny);
+        pasek.setBruttobezzus(Z.z(pasek.getBruttobezzus()+skladnikppk));
+        pasek.setBrutto(Z.z(pasek.getBrutto() + skladnikppk));
+        //ppk
         PasekwynagrodzenBean.pracownikemerytalna(pasek);
         PasekwynagrodzenBean.pracownikrentowa(pasek);
         PasekwynagrodzenBean.pracownikchorobowa(pasek);

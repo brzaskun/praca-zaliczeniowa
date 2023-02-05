@@ -69,6 +69,12 @@ public class NaliczeniepotracenieBean {
                         zwrot.setPasekwynagrodzen(pasekwynagrodzen);
                     }
 
+                } else if (p.getSkladnikpotracenia().getRodzajpotracenia().getNumer()==12) {
+                        double potracenie = Z.z(pasekwynagrodzen.getPodstawaskladkizus()*0.02);
+                        double nowenetto = Z.z(pasekwynagrodzen.getNettoprzedpotraceniami()-potracenie);
+                        zwrot.setKwota(potracenie);
+                        p.setKwotakomorniczarozliczona(Z.z(juzrozliczono+zwrot.getKwota()));
+                        zwrot.setPasekwynagrodzen(pasekwynagrodzen);    
                 } else if (p.isMaxustawowy()) {
                     if (pasekwynagrodzen.getNettoprzedpotraceniami()>wolneodzajecia) {
                         double ilemozna = skladnikpotracenia.getRodzajpotracenia().getLimitumowaoprace();

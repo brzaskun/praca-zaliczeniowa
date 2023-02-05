@@ -324,6 +324,22 @@ public class KalendarzmiesiacBean {
             }
         }
     }
+    
+     static double naliczskladnikiPPKDB(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasekwynagrodzen, double kurs, double wynagrodzenieminimalne, Kalendarzwzor kalendarzwzor) {
+        double kwotappk = 0.0;
+        for (Skladnikwynagrodzenia p : kalendarz.getAngaz().getSkladnikwynagrodzeniaList()) {
+            if (p.getRodzajwynagrodzenia().isTylkosuperplace()==false) {
+                if (p.getRodzajwynagrodzenia().getKod().equals("98")) {
+                    List<Naliczenieskladnikawynagrodzenia> naliczenieskladnikawynagrodzenia = NaliczenieskladnikawynagrodzeniaBean.createWynagrodzenieDBPPK(kalendarz, pasekwynagrodzen, p, kurs);
+                    pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().addAll(naliczenieskladnikawynagrodzenia);
+                    for (Naliczenieskladnikawynagrodzenia skl : naliczenieskladnikawynagrodzenia) {
+                        kwotappk = Z.z(kwotappk + skl.getKwotadolistyplac());
+                    }
+                }
+            }
+        }
+        return kwotappk;
+    }
 
     static boolean naliczskladnikiwynagrodzeniaDBZlecenie(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasekwynagrodzen, double kurs, double zmiennawynagrodzeniakwota, double iloscgodzin,double zmiennawynagrodzeniakwotaodelegowanie) {
         boolean jestoddelegowanie = false;
