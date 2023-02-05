@@ -135,6 +135,10 @@ public class Angaz implements Serializable {
     private  boolean student;
     @Column(name = "przekroczenierok")
     private String przekroczenierok;
+    @Column(name = "bourlopdni")
+    private int bourlopdni;
+    @Column(name = "bourlopgodziny")
+    private int bourlopgodziny;
      
 
     public Angaz() {
@@ -184,6 +188,23 @@ public class Angaz implements Serializable {
         this.przekroczenierok = przekroczenierok;
     }
 
+    public int getBourlopdni() {
+        return bourlopdni;
+    }
+
+    public void setBourlopdni(int bourlopdni) {
+        this.bourlopdni = bourlopdni;
+    }
+
+    public int getBourlopgodziny() {
+        return bourlopgodziny;
+    }
+
+    public void setBourlopgodziny(int bourlopgodziny) {
+        this.bourlopgodziny = bourlopgodziny;
+    }
+
+    
 
 
     @XmlTransient

@@ -361,9 +361,9 @@ public class PdfMain {
             opiswstepny.setAlignment(Element.ALIGN_CENTER);
             document.add(opiswstepny);
             if (mc != null) {
-                opiswstepny = new Paragraph(new Phrase("okres rozliczeniony" + " " + mc + "/" + rok, ft[1]));
+                opiswstepny = new Paragraph(new Phrase("okres rozliczeniowy" + " " + mc + "/" + rok, ft[1]));
             } else {
-                opiswstepny = new Paragraph(new Phrase("okres rozliczeniony" + " rok "+ rok, ft[1]));
+                opiswstepny = new Paragraph(new Phrase("okres rozliczeniowy" + " rok "+ rok, ft[1]));
             }
             document.add(opiswstepny);
             if (datawyplaty!=null) {

@@ -9,6 +9,7 @@ import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
+import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.BaseFont;
@@ -46,6 +47,7 @@ public class PdfZaswiadczenieZarobki {
                 naglowekStopkaP(writer);
                 otwarcieDokumentu(document, nazwa);
                 dodajtresc(firma, document, paskiwynagrodzen, pracownik, dataod, datado, zatrudnienie, zarobki, rodzajumowy, czastrwania, stanowisko, etat, bruttosrednia, nettosrednia, czyjestkomornik, dataostatnieumowy);
+                drukujPasek(paskiwynagrodzen, document);
                 finalizacjaDokumentuQR(document, nazwa);
                 Plik.zapiszBufferdoPlik(nazwa, out);
                 String f = "pokazwydruk('" + nazwa + "');";
@@ -57,6 +59,23 @@ public class PdfZaswiadczenieZarobki {
             E.e(e);
         }
         return out;
+    }
+    
+     public static void drukujPasek(List<Pasekwynagrodzen> paski,Document document) {
+        try {
+            if (document != null) {
+                document.setPageSize(PageSize.A4.rotate());
+                document.newPage();
+                PdfMain.dodajLinieOpisuBezOdstepu(document, "Załącznik do zaświadczenia o zarobkach z dnia "+Data.aktualnaData(), Element.ALIGN_CENTER, 8);
+                for (Pasekwynagrodzen p : paski) {
+                    PdfListaPlac.dodajtabeleglowna(p, document);
+                }
+            } else {
+                Msg.msg("w", "Nie ma Paska do wydruku");
+            }
+        } catch (Exception e) {
+            E.e(e);
+        }
     }
     
     private static void dodajtresc(FirmaKadry firma, Document document, List<Pasekwynagrodzen> paskiwynagrodzen, Pracownik pracownik, String dataod, String datado, boolean zatrudnienie, 

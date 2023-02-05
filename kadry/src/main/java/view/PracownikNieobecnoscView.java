@@ -8,6 +8,7 @@ package view;
 import beanstesty.DataBean;
 import beanstesty.IPaddress;
 import static beanstesty.KalendarzmiesiacBean.pobierzpaski;
+import beanstesty.UrlopBean;
 import dao.EtatPracFacade;
 import dao.KalendarzmiesiacFacade;
 import dao.NieobecnoscprezentacjaFacade;
@@ -17,8 +18,6 @@ import dao.SkladnikWynagrodzeniaFacade;
 import dao.UmowaFacade;
 import dao.WspolczynnikEkwiwalentFacade;
 import data.Data;
-import embeddable.Mce;
-import entity.Dzien;
 import entity.EtatPrac;
 import entity.Kalendarzmiesiac;
 import entity.Naliczenienieobecnosc;
@@ -38,9 +37,7 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -122,22 +119,16 @@ public class PracownikNieobecnoscView  implements Serializable {
     
     public void pobierzurlop() {
         if (wpisView.getPracownik()!=null) {
-            urlopprezentacja = new Nieobecnoscprezentacja(wpisView.getAngaz(), wpisView.getRokWpisu());  
-            List<Kalendarzmiesiac> kalendarze = kalendarzmiesiacFacade.findByRokAngaz(wpisView.getAngaz(), wpisView.getRokWpisu());
-            urlopprezentacja.setNieobecnoscwykorzystanieList(naniesdnizkodem(kalendarze, urlopprezentacja, "U"));
-            List<Umowa> umowy = umowaFacade.findByAngaz(wpisView.getAngaz());
-            urlopprezentacja.setWymiarokresbiezacy(obliczwymiarwgodzinach(umowy, wpisView.getAngaz().pobierzetat(stannadzien)));
-            urlopprezentacja.setDoprzeniesienia(urlopprezentacja.getWymiarokresbiezacy()-urlopprezentacja.getWykorzystanierokbiezacy()-urlopprezentacja.getWykorzystanierokbiezacyekwiwalent());
-            //Msg.msg("Pobrano dane urlopowe");
+            urlopprezentacja = UrlopBean.pobierzurlop(wpisView.getAngaz(), wpisView.getRokWpisu(), stannadzien);
         }
     }
     public void pobierzoddelegowanie() {
         if (wpisView.getPracownik()!=null) {
             oddelegowanieprezentacja = new Nieobecnoscprezentacja(wpisView.getAngaz(), wpisView.getRokWpisu());  
             List<Kalendarzmiesiac> kalendarze = kalendarzmiesiacFacade.findByRokAngaz(wpisView.getAngaz(), wpisView.getRokWpisu());
-            oddelegowanieprezentacja.setNieobecnoscwykorzystanieList(naniesdnizkodem(kalendarze, oddelegowanieprezentacja, "Z"));
+            oddelegowanieprezentacja.setNieobecnoscwykorzystanieList(UrlopBean.naniesdnizkodem(kalendarze, oddelegowanieprezentacja, "Z"));
             List<Umowa> umowy = umowaFacade.findByAngaz(wpisView.getAngaz());
-            oddelegowanieprezentacja.setWymiarokresbiezacy(obliczwymiarwgodzinach(umowy, wpisView.getAngaz().pobierzetat(stannadzien)));
+            oddelegowanieprezentacja.setWymiarokresbiezacy(UrlopBean.obliczwymiarwgodzinach(umowy, wpisView.getAngaz().pobierzetat(stannadzien), wpisView.getRokWpisu(), stannadzien));
             oddelegowanieprezentacja.setDoprzeniesienia(oddelegowanieprezentacja.getWymiarokresbiezacy()-oddelegowanieprezentacja.getWykorzystanierokbiezacy()-oddelegowanieprezentacja.getWykorzystanierokbiezacyekwiwalent());
             //Msg.msg("Pobrano oddelegowania");
         }
@@ -147,7 +138,7 @@ public class PracownikNieobecnoscView  implements Serializable {
         if (wpisView.getPracownik()!=null) {
             chorobaprezentacja = new Nieobecnoscprezentacja(wpisView.getAngaz(), wpisView.getRokWpisu());  
             List<Kalendarzmiesiac> kalendarze = kalendarzmiesiacFacade.findByRokAngaz(wpisView.getAngaz(), wpisView.getRokWpisu());
-            chorobaprezentacja.setNieobecnoscwykorzystanieList(naniesdnizkodem(kalendarze, chorobaprezentacja, "CH"));
+            chorobaprezentacja.setNieobecnoscwykorzystanieList(UrlopBean.naniesdnizkodem(kalendarze, chorobaprezentacja, "CH"));
             List<Umowa> umowy = umowaFacade.findByAngaz(wpisView.getAngaz());
             chorobaprezentacja.setWymiarokresbiezacy(obliczwymiarwgodzinachchoroba(umowy, wpisView.getAngaz().pobierzetat(stannadzien)));
             chorobaprezentacja.setDoprzeniesienia(chorobaprezentacja.getWymiarokresbiezacy()-chorobaprezentacja.getWykorzystanierokbiezacy()-chorobaprezentacja.getWykorzystanierokbiezacyekwiwalent());
@@ -162,7 +153,7 @@ public class PracownikNieobecnoscView  implements Serializable {
         if (wpisView.getPracownik()!=null) {
             zasilekprezentacja = new Nieobecnoscprezentacja(wpisView.getAngaz(), wpisView.getRokWpisu());  
             List<Kalendarzmiesiac> kalendarze = kalendarzmiesiacFacade.findByRokAngaz(wpisView.getAngaz(), wpisView.getRokWpisu());
-            zasilekprezentacja.setNieobecnoscwykorzystanieList(naniesdnizkodem(kalendarze, zasilekprezentacja, "ZC"));
+            zasilekprezentacja.setNieobecnoscwykorzystanieList(UrlopBean.naniesdnizkodem(kalendarze, zasilekprezentacja, "ZC"));
             List<Umowa> umowy = umowaFacade.findByAngaz(wpisView.getAngaz());
             zasilekprezentacja.setWymiarokresbiezacy(obliczwymiarwgodzinachzasilek(umowy, wpisView.getAngaz().pobierzetat(stannadzien)));
             zasilekprezentacja.setDoprzeniesienia(zasilekprezentacja.getWymiarokresbiezacy()-zasilekprezentacja.getWykorzystanierokbiezacy()-zasilekprezentacja.getWykorzystanierokbiezacyekwiwalent());
@@ -188,115 +179,9 @@ public class PracownikNieobecnoscView  implements Serializable {
         return zwrot;
     }
     
-    private List<Nieobecnoscwykorzystanie> naniesdnizkodem(List<Kalendarzmiesiac> kalendarze, Nieobecnoscprezentacja urlopprezentacja, String kod) {
-        List<Nieobecnoscwykorzystanie> lista = new ArrayList<>();
-        Nieobecnoscwykorzystanie wykorzystaniesuma = new Nieobecnoscwykorzystanie("podsum.",0);
-        for (Kalendarzmiesiac p : kalendarze) {
-            for (Dzien r : p.getDzienList()) {
-                if (r.getNieobecnosc()!=null) {
-                    if (r.getNieobecnosc().getKod().equals(kod)) {
-                        Nieobecnoscwykorzystanie wykorzystanie = new Nieobecnoscwykorzystanie();
-                        wykorzystanie.setMc(p.getMc());
-                        wykorzystanie.setData(Data.zrobdate(r.getNrdnia(), p.getMc(), p.getRok()));
-                        wykorzystanie.setDni(1);
-                        wykorzystanie.setOpis(r.getNieobecnosc().getOpisRodzajSwiadczenie());
-                        wykorzystanie.setKod(r.getNieobecnosc().getKod());
-                        if (kod.equals("U")) {
-                            wykorzystanie.setGodziny((int) r.getUrlopPlatny());
-                        }
-                        if (kod.equals("CH")) {
-                            wykorzystanie.setGodziny((int) r.getWynagrodzeniezachorobe());
-                        }
-                        if (kod.equals("ZC")) {
-                            wykorzystanie.setGodziny((int) r.getZasilek());
-                        }
-                        if (kod.equals("Z")) {
-                            wykorzystanie.setGodziny((int) r.getPrzepracowano());
-                        }
-                        wykorzystanie.setUrlopprezentacja(urlopprezentacja);
-                        EtatPrac pobierzetat = p.getAngaz().pobierzetat(wykorzystanie.getData());
-                        wykorzystanie.setEtat1(pobierzetat.getEtat1());
-                        wykorzystanie.setEtat2(pobierzetat.getEtat2());
-                        if (wykorzystanie.getGodziny()>0) {
-                            wykorzystaniesuma.setGodziny(wykorzystaniesuma.getGodziny()+wykorzystanie.getGodziny());
-                            wykorzystaniesuma.setDni(wykorzystaniesuma.getDni()+wykorzystanie.getDni());
-                            lista.add(wykorzystanie);
-                        }
-                    }
-                }
-            }
-        }
-        if (kod.equals("U")) {
-            urlopprezentacja.setWykorzystanierokbiezacy(wykorzystaniesuma.getGodziny());
-        }
-        if (kod.equals("CH")) {
-            urlopprezentacja.setWykorzystanierokbiezacy((int) wykorzystaniesuma.getDni());
-        }
-        if (kod.equals("ZC")) {
-            urlopprezentacja.setWykorzystanierokbiezacy((int) wykorzystaniesuma.getDni());
-        }
-        if (kod.equals("Z")) {
-            urlopprezentacja.setWykorzystanierokbiezacy((int) wykorzystaniesuma.getDni());
-        }
-        lista.add(wykorzystaniesuma);
-        return lista;
-    }
+    
 
-    private int obliczwymiarwgodzinach(List<Umowa> umowy, EtatPrac etat) {
-        int wymiarwdniach = 20;
-        double liczbadni = 0;
-        for (Umowa p : umowy) {
-            if (p.isLiczdourlopu()) {
-                if (p.getSlownikszkolazatrhistoria()!=null) {
-                    if (p.getSlownikszkolazatrhistoria().getPraca0nauka1()) {
-                        liczbadni = liczbadni+p.getSlownikszkolazatrhistoria().getDni();
-                    } else {
-                        LocalDate dateBefore =  LocalDate.parse(p.getDataod());
-                        LocalDate dateAfter = LocalDate.parse(stannadzien);
-                        if (p.getDatado()!=null && Data.czyjestpo(p.getDatado(), stannadzien)) {
-                            dateAfter = LocalDate.parse(p.getDatado());
-                        }
-                        long daysBetween =  ChronoUnit.DAYS.between(dateBefore, dateAfter);
-                        liczbadni = liczbadni+daysBetween;
-                        if (liczbadni>=3650) {
-                            break;
-                        }
-                    }
-                } 
-            }
-        }
-        if (liczbadni>=3650) {
-            wymiarwdniach = 26;
-        }
-        //a teraz sprawdzamy czy nie sa umowy tylko z tego roku i trzeba proporckjonalnie
-            Set<String> napoczetemiesiace = new HashSet<>();
-            for (Umowa p : umowy) {
-                if (p.isLiczdourlopu()) {
-                    if (p.getSlownikszkolazatrhistoria() != null) {
-                        if (p.getSlownikszkolazatrhistoria().getPraca0nauka1() == false) {
-                            String rokumowy = Data.getRok(p.getDataod());
-                            boolean czyumowaztegoroku = wpisView.getRokWpisu().equals(rokumowy);
-                            if (czyumowaztegoroku == false) {
-                                break;
-                            } else {
-                                String dataod = p.getDataod();
-                                String datado = stannadzien;
-                                if (p.getDatado() != null && Data.czyjestpo(p.getDatado(), stannadzien)) {
-                                    datado = p.getDatado();
-                                }
-                                napoczetemiesiace.addAll(Mce.zakresmiesiecy(Data.getMc(dataod), Data.getMc(datado)));
-                            }
-                        }
-                    }
-                }
-            }
-            double nowywymiarwdniach =  Math.ceil(wymiarwdniach*etat.getEtat1()/etat.getEtat2());
-            if (napoczetemiesiace.size()>0) {
-                nowywymiarwdniach = (int) (Math.ceil(wymiarwdniach/12.0*napoczetemiesiace.size()));
-            }
-            double wymiargodzin = (nowywymiarwdniach*8*etat.getEtat1()/etat.getEtat2());
-        return (int) wymiargodzin;
-    }
+    
     
     private int obliczwymiarwgodzinachchoroba(List<Umowa> umowy, EtatPrac etat) {
         int zwrot = 33;

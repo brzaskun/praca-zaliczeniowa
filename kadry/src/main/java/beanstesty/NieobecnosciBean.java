@@ -272,10 +272,8 @@ public class NieobecnosciBean {
                         }
                     }
                     if (start) {
-                         int dniroboczenieobecnosci = kal.naniesnieobecnosc(nieobecnosc, pierwszymc, ostatnimc);
-                         if (dniroboczenieobecnosci > 0) {
-                             nieobecnosc.setDniroboczenieobecnosci(nieobecnosc.getDniroboczenieobecnosci() + dniroboczenieobecnosci);
-                         }
+                        //tu zmieniłem 2023-02-04 nieobecnosci nanoszenie dni i dodalem godziny
+                         kal.naniesnieobecnosc(nieobecnosc, pierwszymc, ostatnimc);
                          nieobecnoscFacade.edit(nieobecnosc);
                          kalendarzmiesiacFacade.edit(kal);
                          czynaniesiono = true;

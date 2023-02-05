@@ -103,7 +103,7 @@ public class PdfListaPlac {
         }
     }
     
-    private static void dodajtabeleglowna(Pasekwynagrodzen p, Document document) {
+    public static void dodajtabeleglowna(Pasekwynagrodzen p, Document document) {
         try {
             Angaz a = p.getKalendarzmiesiac().getAngaz();
             PdfPTable table = generujTabele(a.getFirma().getNazwa(),a.getPracownik().getNazwiskoImie(), a.getPracownik().getPesel(), p.getKalendarzmiesiac().getRok(),p.getKalendarzmiesiac().getMc(), p.getDefinicjalistaplac().getNrkolejny(), p.getDatawyplaty());

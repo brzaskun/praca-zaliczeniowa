@@ -56,6 +56,14 @@ public class AngazFacade extends DAO implements Serializable {
          return zwrot;
      }
      
+     public Angaz findById(Angaz angaz) {
+         Angaz zwrot = null;
+         try {
+             zwrot = (Angaz) getEntityManager().createNamedQuery("Angaz.findById").setParameter("id", angaz.getId()).getSingleResult();
+         } catch (Exception e){}
+         return zwrot;
+     }
+     
      public Angaz findByFirmaPracownik(FirmaKadry firma, Pracownik pracownik) {
          Angaz zwrot = new Angaz();
          try {

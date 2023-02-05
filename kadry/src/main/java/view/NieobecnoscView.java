@@ -6,6 +6,7 @@
 package view;
 
 import beanstesty.NieobecnosciBean;
+import beanstesty.UrlopBean;
 import comparator.Nieobecnosccomparator;
 import comparator.Pracownikcomparator;
 import comparator.Rodzajnieobecnoscicomparator;
@@ -24,6 +25,7 @@ import entity.Dzien;
 import entity.FirmaKadry;
 import entity.Kalendarzmiesiac;
 import entity.Nieobecnosc;
+import entity.Nieobecnoscprezentacja;
 import entity.Pracownik;
 import entity.Rodzajnieobecnosci;
 import entity.Swiadczeniekodzus;
@@ -110,6 +112,7 @@ public class NieobecnoscView  implements Serializable {
     private boolean delegacja;
     private int dniwykorzystanewroku;
     private boolean naniesbezposrednio;
+    private Nieobecnoscprezentacja urlopprezentacja;
     
 
     
@@ -120,6 +123,10 @@ public class NieobecnoscView  implements Serializable {
         listapracownikow.setTarget(new ArrayList<>());
         delegacja = false;
         naniesbezposrednio = true;
+        String stannadzien = data.Data.ostatniDzien(wpisView);
+        Angaz angaznowy = angazFacade.findById(wpisView.getAngaz());
+        urlopprezentacja = UrlopBean.pobierzurlop(angaznowy, wpisView.getRokWpisu(), stannadzien);
+        
     }
     
     public void init() {
@@ -161,13 +168,15 @@ public class NieobecnoscView  implements Serializable {
             String datado = selected.getDatado();
             for (Nieobecnosc p : lista) {
                 if (!selected.getKod().equals("UD")) {
-                    boolean jestwsrodkuod = Data.czydatasiezawieranieobecnosc(dataod, p.getDataod(), p.getDatado());
-                    boolean jestwsrodkudo = Data.czydatasiezawieranieobecnosc(datado, p.getDataod(), p.getDatado());
-                    if (jestwsrodkuod||jestwsrodkudo) {
-                        Msg.msg("e","Daty nieobecności pokrywają się z inną już wprowadzoną nieobecnością");
-                        selected.setDataod(null);
-                        selected.setDatado(null);
-                        break;
+                    if (selected.getId()==null || (selected.getId()!=null&&!selected.getId().equals(p.getId()))) {
+                        boolean jestwsrodkuod = Data.czydatasiezawieranieobecnosc(dataod, p.getDataod(), p.getDatado());
+                        boolean jestwsrodkudo = Data.czydatasiezawieranieobecnosc(datado, p.getDataod(), p.getDatado());
+                        if (jestwsrodkuod||jestwsrodkudo) {
+                            Msg.msg("e","Daty nieobecności pokrywają się z inną już wprowadzoną nieobecnością");
+                            selected.setDataod(null);
+                            selected.setDatado(null);
+                            break;
+                        }
                     }
                 }
             }
@@ -219,6 +228,9 @@ public class NieobecnoscView  implements Serializable {
                   selected.setDnikalendarzowe(iloscdni+1.0);
                   nieobecnoscFacade.create(selected);
                   lista.add(selected);
+                  String stannadzien = data.Data.ostatniDzien(wpisView);
+                  Angaz angaznowy = angazFacade.findById(wpisView.getAngaz());
+                  urlopprezentacja = UrlopBean.pobierzurlop(angaznowy, wpisView.getRokWpisu(), stannadzien);
                   Msg.msg("Dodano nieobecność");
               } else {
                   selected.setRokod(Data.getRok(selected.getDataod()));
@@ -234,6 +246,9 @@ public class NieobecnoscView  implements Serializable {
               }
               if (naniesbezposrednio) {
                   nanies(selected);
+                  String stannadzien = data.Data.ostatniDzien(wpisView);
+                  Angaz angaznowy = angazFacade.findById(wpisView.getAngaz());
+                  urlopprezentacja = UrlopBean.pobierzurlop(angaznowy, wpisView.getRokWpisu(), stannadzien);
               }
               selected = new Nieobecnosc(wpisView.getAngaz());
             } catch (Exception e) {
@@ -314,6 +329,9 @@ public class NieobecnoscView  implements Serializable {
                 }
             }
             kalendarzmiesiacView.init();
+            String stannadzien = data.Data.ostatniDzien(wpisView);
+            Angaz angaznowy = angazFacade.findById(wpisView.getAngaz());
+            urlopprezentacja = UrlopBean.pobierzurlop(angaznowy, wpisView.getRokWpisu(), stannadzien);
             if (czynaniesiono) {
                 Msg.msg("Naniesiono nieobecnosci");
             } else {
@@ -430,6 +448,9 @@ public class NieobecnoscView  implements Serializable {
         if (czynaniesiono==false) {
             Msg.msg("e", "Wystąpił błąd podczas nanoszenia nieobecności");
         }
+        String stannadzien = data.Data.ostatniDzien(wpisView);
+        Angaz angaznowy = angazFacade.findById(wpisView.getAngaz());
+        urlopprezentacja = UrlopBean.pobierzurlop(angaznowy, wpisView.getRokWpisu(), stannadzien);
         return czynaniesiono;
     }
 
@@ -502,17 +523,23 @@ public class NieobecnoscView  implements Serializable {
             List<Dzien> wzorcowe = dzienFacade.findByNrwrokuByData(nieob.getDataod(), nieob.getDatado(), wpisView.getFirma());
             for (Dzien d : nieob.getDzienList()) {
                 d.setNieobecnosc(null);
-                dzienFacade.edit(d);
+                //dzienFacade.edit(d);
                 try {
                     d.nanieswzorcowe(wzorcowe);
-                } catch (Exception e){}
-                dzienFacade.edit(d);
+                } catch (Exception e){
+                    Msg.msg("w","Błąd podczas nanoszenia na kalendarz");
+                }
+                //dzienFacade.edit(d);
             }
+            dzienFacade.editList(nieob.getDzienList());
             nieob.setDzienList(null);
             nieob.setNaniesiona(false);
             nieob.setDniroboczenieobecnosci(0.0);
             nieobecnoscFacade.edit(nieob);
             kalendarzmiesiacView.init();
+            String stannadzien = data.Data.ostatniDzien(wpisView);
+            Angaz angaznowy = angazFacade.findById(wpisView.getAngaz());
+            urlopprezentacja = UrlopBean.pobierzurlop(angaznowy, wpisView.getRokWpisu(), stannadzien);
             Msg.msg("Zdjęto nieobecnośćz kalendarza.");
         } else {
             Msg.msg("e","Nie można usunąc nieobecnosci");
@@ -653,6 +680,14 @@ public class NieobecnoscView  implements Serializable {
 
     public void setNaniesbezposrednio(boolean naniesbezposrednio) {
         this.naniesbezposrednio = naniesbezposrednio;
+    }
+
+    public Nieobecnoscprezentacja getUrlopprezentacja() {
+        return urlopprezentacja;
+    }
+
+    public void setUrlopprezentacja(Nieobecnoscprezentacja urlopprezentacja) {
+        this.urlopprezentacja = urlopprezentacja;
     }
 
    

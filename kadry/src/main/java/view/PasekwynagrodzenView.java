@@ -340,7 +340,7 @@ public class PasekwynagrodzenView implements Serializable {
                     }
                     List<Nieobecnosc> nieobecnosci = nieobecnoscFacade.findByAngaz(pracownikmc.getAngaz());
                     List<Kalendarzmiesiac> kalendarzlista = kalendarzmiesiacFacade.findByAngaz(pracownikmc.getAngaz());
-                    Rachunekdoumowyzlecenia rachunekdoumowyzlecenia = PasekwynagrodzenBean.pobierzRachunekzlecenie(pracownikmc.getAngaz(),pracownikmc.getRok(), pracownikmc.getMc());
+                    Rachunekdoumowyzlecenia rachunekdoumowyzlecenia = rachunekdoumowyzleceniaFacade.findByRokMcUmowa(rokwyplaty,mcwyplaty, pracownikmc.getAngaz().getAktywnaUmowa());
                     if (rachunekdoumowyzlecenia!=null) {
                         rachunkilista.add(rachunekdoumowyzlecenia);
                     }

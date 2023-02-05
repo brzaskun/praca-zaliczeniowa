@@ -283,14 +283,15 @@ public class WpisView implements Serializable {
         rokWpisu = okreswpisu.getRok();
         miesiacWpisu = okreswpisu.getMc();
         if (memory!=null) {
+            memory.setRok(rokWpisu);
             memory.setMc(miesiacWpisu);
             memoryFacade.edit(memory);
         } else {
             memory = createMemory();
+            memory.setRok(rokWpisu);
             memory.setMc(miesiacWpisu);
             memoryFacade.edit(memory);
         }
-        this.miesiacWpisu = miesiacWpisu;
         this.okreswpisu = okreswpisu;
     }
     

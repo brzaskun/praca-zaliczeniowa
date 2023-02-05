@@ -6,7 +6,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
 
     xmlns:bcf="http://brzaskun.com/facelets">
-    <p:dialog id="dialgoczaspracyurlop" header="Zestawienie urlopu i nieobecności" widgetVar="dialgoczaspracyurlop"  
+    <p:dialog id="dialgoczaspracyurlop" header="Zestawienie urlopu i nieobecności" widgetVar="dialgoczaspracyurlop"  dynamic="true"
               resizable="false"  onShow="ustawdialog('dialgoczaspracyurlop','centertile',1650,800);" closeOnEscape="true" onHide="resetujdialog('dialgoczaspracyurlop');" 
               fitViewport="true">
         <p:ajax event="open" listener="#{pracownikNieobecnoscView.init()}" update="akordeon:PracownikUrlopForm akordeon:PracownikChorobaForm akordeon:PracownikZasilekForm akordeon:EkwiwalentForm akordeon:PracownikOddelegowanieForm" global="false"/>
@@ -23,7 +23,7 @@
                             <p:inputText id="urlopimie" value="#{pracownikNieobecnoscView.urlopprezentacja.angaz.pracownik.nazwiskoImie}" readonly="true"/>
                             <p:outputLabel value="rok rozliczeniowy" for="urloprok" />
                             <p:inputText id="urloprok" value="#{pracownikNieobecnoscView.urlopprezentacja.rok}" readonly="true"/>
-                            <p:outputLabel value="zaległy rok uprzedni" for="urloplp" />
+                            <p:outputLabel value="zaległe/przeniesione godziny " for="urloplp" />
                             <p:inputNumber id="urloplp" value="#{pracownikNieobecnoscView.urlopprezentacja.okrespoprzedni}"  size="5"  maxlength="3" decimalPlaces="1" decimalSeparator="," inputStyle="text-align: right"/>
                             <p:outputLabel value="wymiar rok bieżący" for="urloplp1" />
                             <p:inputNumber id="urloplp1" value="#{pracownikNieobecnoscView.urlopprezentacja.wymiarokresbiezacy}"  size="5" maxlength="3" decimalPlaces="1" decimalSeparator="," inputStyle="text-align: right"/>

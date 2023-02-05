@@ -11,7 +11,7 @@
             height : 25px !important;
         }
     </style>
-        <p:dialog id="dialogpracownikanieobecnosci" header="Wprowadzanie nieobecności" widgetVar="dialogpracownikanieobecnosci"  dynamic="true" 
+        <p:dialog id="dialogpracownikanieobecnosci" header="Wprowadzanie nieobecności" widgetVar="dialogpracownikanieobecnosci"
               resizable="false"  onShow="ustawdialog('dialogpracownikanieobecnosci','centertile',1650,800);" closeOnEscape="true" onHide="resetujdialog('dialogpracownikanieobecnosci');" 
               fitViewport="true">
         <p:ajax event="open" listener="#{nieobecnoscView.init()}" update="NieobecnoscCreateForm NieobecnoscListForm" global="false"/>
@@ -82,7 +82,7 @@
                                     </p:selectOneMenu>
                                 </p:panelGrid>
                             </p:fragment>
-                            <p:panelGrid columns="2" style="width: 300px;">
+                            <p:panelGrid columns="2" style="width: 300px;"  styleClass="urlopnizostalo">
                                 <h:outputText value="rodzaj umowy:"/>
                                 <h:outputText value="#{wpisView.umowa.czastrwania}"/>
                                 <h:outputText value="data od:"/>
@@ -91,9 +91,12 @@
                                 <h:outputText value="#{wpisView.umowa.datado}"/>
                                 <h:outputText value="stanowisko:"/>
                                 <h:outputText value="#{wpisView.umowa.stanowisko}"/>
+                                <p:outputLabel value="urlopu do wyk.:" />
+                                <h:outputText  value="#{nieobecnoscView.urlopprezentacja.doprzeniesienia}" style="color: green;" rendered="#{nieobecnoscView.urlopprezentacja.doprzeniesienia gt 0}"/>
+                                <h:outputText  value="#{nieobecnoscView.urlopprezentacja.doprzeniesienia}" style="color: red;" rendered="#{nieobecnoscView.urlopprezentacja.doprzeniesienia lt 1}"/>
                             </p:panelGrid>
                         </p:panelGrid>
-                        <p:commandButton styleClass="buttonnorm" actionListener="#{nieobecnoscView.create()}" value="#{bundle.Save}" update="display,:NieobecnoscListForm:datalist"/>
+                        <p:commandButton styleClass="buttonnorm" actionListener="#{nieobecnoscView.create()}" value="#{bundle.Save}" update="display,:NieobecnoscListForm:datalist @(.urlopnizostalo)"/>
                         <p:commandButton value="#{bundle.Cancel}" onclick="NieobecnoscCreateDialog.hide()"/>
                     </h:panelGroup>
                 </h:form>
@@ -136,7 +139,7 @@
                             </f:facet>
                             <h:outputText value="#{indexn+1}" style="height: 20px;"/>
                         </p:column>
-                        <p:column width="50" filterBy="#{itemNieob.rodzajnieobecnosci.kod}" filterMatchMode="startsWith"  sortBy="#{itemNieob.rodzajnieobecnosci.kod}" sortOrder="desc" style="text-align: center;">
+                        <p:column width="40" filterBy="#{itemNieob.rodzajnieobecnosci.kod}" filterMatchMode="startsWith"  sortBy="#{itemNieob.rodzajnieobecnosci.kod}" sortOrder="desc" style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="kod"/>
                             </f:facet>
@@ -154,7 +157,7 @@
                             </f:facet>
                             <h:outputText value="#{itemNieob.rodzajnieobecnosci.opis}" style="color: #{nieobecnoscView.kolornieobecnosci(itemNieob)};"/>
                         </p:column> 
-                        <p:column width="50" filterBy="#{itemNieob.dataod}" filterMatchMode="startsWith" sortBy="#{itemNieob.dataod}" sortOrder="desc" sortPriority="1">
+                        <p:column width="50" filterBy="#{itemNieob.dataod}" filterMatchMode="startsWith" sortBy="#{itemNieob.dataod}" sortOrder="desc" >
                             <f:facet name="header">
                                 <h:outputText value="data od"/>
                             </f:facet>
@@ -177,6 +180,12 @@
                                 <h:outputText value="dni rob."/>
                             </f:facet>
                             <h:outputText value="#{itemNieob.dniroboczenieobecnosci}" style="color: #{nieobecnoscView.kolornieobecnosci(itemNieob)};"/>
+                        </p:column>
+                        <p:column style="text-align: center;" width="40">
+                            <f:facet name="header">
+                                <h:outputText value="godz. rob."/>
+                            </f:facet>
+                            <h:outputText value="#{itemNieob.godzinyroboczenieobecnosc}" style="color: #{nieobecnoscView.kolornieobecnosci(itemNieob)};"/>
                         </p:column>
                         <p:column style="text-align: center;" width="40">
                             <f:facet name="header">
@@ -237,7 +246,7 @@
                             <f:facet name="header">
                                 <h:outputText value=""/>
                             </f:facet>
-                            <p:commandButton icon="pi pi-thumbs-up" actionListener="#{nieobecnoscView.nanies(itemNieob)}"  update="NieobecnoscListForm:datalist KalendarzmiesiacListForm:datalist KalendarzmiesiacCreateForm KalendarzmiesiacCreateRokForm"
+                            <p:commandButton icon="pi pi-thumbs-up" actionListener="#{nieobecnoscView.nanies(itemNieob)}"  update="NieobecnoscListForm:datalist KalendarzmiesiacListForm:datalist KalendarzmiesiacCreateForm KalendarzmiesiacCreateRokForm  @(.urlopnizostalo)"
                                              rendered="#{itemNieob.naniesiona eq false and (itemNieob.naliczenienieobecnoscList ne null or itemNieob.naliczenienieobecnoscList.size() eq 0)}">
                             </p:commandButton>
                         </p:column>
@@ -245,7 +254,7 @@
                             <f:facet name="header">
                                 <h:outputText value=""/>
                             </f:facet>
-                            <p:commandButton icon="pi pi-thumbs-down" actionListener="#{nieobecnoscView.zdejmijzkalendarza(itemNieob)}"  update="@parent:@parent KalendarzmiesiacListForm:datalist KalendarzmiesiacCreateForm KalendarzmiesiacCreateRokForm" 
+                            <p:commandButton icon="pi pi-thumbs-down" actionListener="#{nieobecnoscView.zdejmijzkalendarza(itemNieob)}"  update="@parent:@parent KalendarzmiesiacListForm:datalist KalendarzmiesiacCreateForm KalendarzmiesiacCreateRokForm  @(.urlopnizostalo)"  
                                              rendered="#{itemNieob.naniesiona eq true and (itemNieob.naliczenienieobecnoscList ne null or itemNieob.naliczenienieobecnoscList.size() eq 0)}">
                             </p:commandButton>
                         </p:column>

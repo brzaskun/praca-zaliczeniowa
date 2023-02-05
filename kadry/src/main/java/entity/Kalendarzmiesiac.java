@@ -846,7 +846,7 @@ private static final long serialVersionUID = 1L;
 
     
     
-    public int naniesnieobecnosc(Nieobecnosc p, boolean pierwszymc, boolean ostatnimc) {
+    public void naniesnieobecnosc(Nieobecnosc p, boolean pierwszymc, boolean ostatnimc) {
         int dzienod = Data.getDzienI(p.getDataod());
         int dziendo = Data.getDzienI(p.getDatado());
         String mcod = Data.getMc(p.getDataod());
@@ -860,6 +860,7 @@ private static final long serialVersionUID = 1L;
             dziendo = 31;
         }
         int dnirobocze = 0;
+        int godzinyrobocze = 0;
         if (p.getDzienList()==null) {
             p.setDzienList(new ArrayList<>());
         }
@@ -926,11 +927,14 @@ private static final long serialVersionUID = 1L;
             }
             dzienaktualny.setNieobecnosc(p);
             if (dzienaktualny.getTypdnia()==0) {
-                dnirobocze++;
+                dnirobocze = dnirobocze+1;
+                godzinyrobocze = godzinyrobocze+((int)dzienaktualny.getNormagodzin());
             }
             p.getDzienList().add(dzienaktualny);
         }
-        return dnirobocze;
+        p.setDniroboczenieobecnosci(dnirobocze);
+        p.setGodzinyroboczenieobecnosc(godzinyrobocze);
+
     }
 
 //    private int modyfikujod(String mcod, int dzienod) {
