@@ -47,10 +47,10 @@ public class PdfDRA {
     }
     
     private static PdfPTable generujTabele(String[] opisy) {
-        PdfPTable table = new PdfPTable(19);
+        PdfPTable table = new PdfPTable(20);
         try {
             table.setWidthPercentage(100);
-            table.setWidths(new int[]{1, 5, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3});
+            table.setWidths(new int[]{1, 5, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,3});
             table.addCell(ustawfrazeAlign(opisy[0], "center",6));
             table.addCell(ustawfrazeAlign(opisy[1], "center",6));
             table.addCell(ustawfrazeAlign(opisy[2], "center",6));
@@ -70,6 +70,7 @@ public class PdfDRA {
             table.addCell(ustawfrazeAlign(opisy[16], "center",6));
             table.addCell(ustawfrazeAlign(opisy[17], "center",6));
             table.addCell(ustawfrazeAlign(opisy[18], "center",6));
+            table.addCell(ustawfrazeAlign(opisy[19], "center",6));
             table.addCell(ustawfrazeAlign(opisy[0], "center",6));
             table.addCell(ustawfrazeAlign(opisy[1], "center",6));
             table.addCell(ustawfrazeAlign(opisy[2], "center",6));
@@ -89,6 +90,7 @@ public class PdfDRA {
             table.addCell(ustawfrazeAlign(opisy[16], "center",6));
             table.addCell(ustawfrazeAlign(opisy[17], "center",6));
             table.addCell(ustawfrazeAlign(opisy[18], "center",6));
+            table.addCell(ustawfrazeAlign(opisy[19], "center",6));
             table.addCell(ustawfrazeAlign("1", "center",6));
             table.addCell(ustawfrazeAlign("2", "center",6));
             table.addCell(ustawfrazeAlign("3", "center",6));
@@ -108,6 +110,7 @@ public class PdfDRA {
             table.addCell(ustawfrazeAlign("17", "center",6));
             table.addCell(ustawfrazeAlign("18", "center",6));
             table.addCell(ustawfrazeAlign("19", "center",6));
+            table.addCell(ustawfrazeAlign("20", "center",6));
             table.setHeaderRows(2);
             table.setFooterRows(1);
         } catch (DocumentException ex) {
@@ -137,6 +140,7 @@ public class PdfDRA {
             table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getFgsp())), "right",6));
             table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getKosztpracodawcy())), "right",6));
             table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPodatekdochodowy())), "right",6));
+            table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPotracenia())), "right",6));
         }
     }
     
@@ -171,7 +175,7 @@ public class PdfDRA {
                 PdfMain.dodajOpisWstepny(document, "Zestawienie DRA "+nazwafirmy, def.get(0).getRok(), def.get(0).getMc(), def.get(0).getFirma().getNip(), nazwy, datawyplaty);
                 String[] opisy = {"lp","Nazwisko i imię","Razem przychód", "Podst. wymiaru składek ubezp. społecznych", "Ubezp. Emerytalne ", "Ubezp. rentowe", "Ubezp. chorobowe", "Razem składki na ub. społ. prac.",
                     "Ubezp. Emerytalne ", "Ubezp. rentowe", "Ubezp. wypadkowe", "Razem składki na ub. społ. firma", "Razem składki na ub. społ.", "Podst. wymiaru składek ubezp. zdrowotnego","Składka zdrowotna",
-                    "FP", "FGŚP", "Koszt pracodawcy", "Należna zaliczka na podatek dochodowy"};
+                    "FP", "FGŚP", "Koszt pracodawcy", "Należna zaliczka na podatek dochodowy", "Potrącenia"};
                 dodajtabeleglowna(lista, document, opisy);
                 document.add(Chunk.NEWLINE);
                 PdfMain.dodajLinieOpisuBezOdstepuTab(document, "zus 51 pracownik:", f.F.curr(danezus.get("zus51pracownik")), Element.ALIGN_LEFT, 1, 100);
@@ -186,6 +190,7 @@ public class PdfDRA {
                 PdfMain.dodajLinieOpisuBezOdstepuTab(document, "wynagrodzenia netto", f.F.curr(danezus.get("netto")), Element.ALIGN_LEFT, 1, 100);
                 PdfMain.dodajLinieOpisuBezOdstepuTab(document, "ZUS do wpłaty: ", f.F.curr(danezus.get("zus")), Element.ALIGN_LEFT, 1, 100);
                 PdfMain.dodajLinieOpisuBezOdstepuTab(document, "PIT-4 do wpłaty: ", f.F.curr(danezus.get("pit4")), Element.ALIGN_LEFT, 1, 100);
+                PdfMain.dodajLinieOpisuBezOdstepuTab(document, "potrącenia z listy płac: ", f.F.curr(danezus.get("potracenia")), Element.ALIGN_LEFT, 1, 100);
                 finalizacjaDokumentuQR(document, nazwa);
                 Plik.zapiszBufferdoPlik(nazwa, out);
                 String f = "pokazwydruk('" + nazwa + "');";
