@@ -66,7 +66,7 @@ public class Kalendarzwzor implements Serializable {
     private String mc;
     @Column(name="norma")
     private double norma;
-    @OneToMany(mappedBy = "kalendarzwzor", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "kalendarzwzor", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Dzien> dzienList;
     @NotNull
     @JoinColumn(name = "firma", referencedColumnName = "id")
