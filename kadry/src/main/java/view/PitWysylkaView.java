@@ -111,7 +111,7 @@ public class PitWysylkaView  implements Serializable {
     
     public void robPIT1129(DeklaracjaPIT11Schowek wysylanaDeklaracja){
         try {
-            Object[] podpiszDeklaracje = podpiszDeklaracje(wysylanaDeklaracja);
+            //Object[] podpiszDeklaracje = podpiszDeklaracje(wysylanaDeklaracja);
             Holder<String> id = new Holder<>();
             Holder<Integer> stat = new Holder<>();
             Holder<String> opis = new Holder<>();
@@ -148,10 +148,10 @@ public class PitWysylkaView  implements Serializable {
     
     public void robPIT412(DeklaracjaPIT4Schowek wysylanaDeklaracja){
         try {
-            Object[] podpiszDeklaracje = podpiszDeklaracjePIT4(wysylanaDeklaracja);
-            if (podpiszDeklaracje==null) {
-               Msg.msg("e","Nie udało się podpisać deklaracji");
-            } else {
+            //Object[] podpiszDeklaracje = podpiszDeklaracjePIT4(wysylanaDeklaracja);
+//            if (podpiszDeklaracje==null) {
+//               Msg.msg("e","Nie udało się podpisać deklaracji");
+//            } else {
                 Holder<String> id = new Holder<>();
                 Holder<Integer> stat = new Holder<>();
                 Holder<String> opis = new Holder<>();
@@ -181,7 +181,7 @@ public class PitWysylkaView  implements Serializable {
                 } else {
                     Msg.msg("e", "Błąd. Nie wysłano deklaracji");
                 }
-            }
+            //}
         } catch (javax.xml.ws.WebServiceException  ex1) {
             Msg.msg("e", "Nie można nawiązać połączenia z serwerem ministerstwa podczas wysyłania PIT4 firmy " + wysylanaDeklaracja.getFirma().getNazwa());
         }
