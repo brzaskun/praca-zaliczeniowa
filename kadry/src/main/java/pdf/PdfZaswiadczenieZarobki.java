@@ -66,7 +66,7 @@ public class PdfZaswiadczenieZarobki {
             if (document != null) {
                 document.setPageSize(PageSize.A4.rotate());
                 document.newPage();
-                PdfMain.dodajLinieOpisuBezOdstepu(document, "Załącznik do zaświadczenia o zarobkach z dnia "+Data.aktualnaData(), Element.ALIGN_CENTER, 8);
+                PdfMain.dodajLinieOpisu(document, "Załącznik do zaświadczenia o zarobkach z dnia "+Data.aktualnaData(), Element.ALIGN_CENTER, 3);
                 for (Pasekwynagrodzen p : paski) {
                     PdfListaPlac.dodajtabeleglowna(p, document);
                 }

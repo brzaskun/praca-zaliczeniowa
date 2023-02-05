@@ -51,18 +51,23 @@ import entity.Umowa;
 import entity.Wynagrodzeniahistoryczne;
 import entity.Wynagrodzenieminimalne;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import msg.Msg;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.primefaces.model.DualListModel;
 import pdf.PdfListaPlac;
 import pdf.PdfRachunekZlecenie;
+import xls.WriteXLSFile;
 import z.Z;
 
 /**
@@ -730,6 +735,26 @@ public class PasekwynagrodzenView implements Serializable {
         }
         ustawtabelenbp();
         return zwrot;
+    }
+    
+    
+    public void generujXLS() {
+        try {
+            Workbook workbook = WriteXLSFile.listaplacXLS(lista, wpisView, wybranalistaplac);
+            // Prepare response.
+            FacesContext facesContext = FacesContext.getCurrentInstance();
+            ExternalContext externalContext = facesContext.getExternalContext();
+            externalContext.setResponseContentType("application/vnd.ms-excel");
+            String filename = "lp"+wybranalistaplac.getNrkolejny()+wpisView.getOkreswpisu().getRokmc()+".xlsx";
+            externalContext.setResponseHeader("Content-Disposition", "attachment; filename=\"" + filename + "\"");
+            // Write file to response body.
+            workbook.write(externalContext.getResponseOutputStream());
+            // Inform JSF that response is completed and it thus doesn't have to navigate.
+            facesContext.responseComplete();
+        } catch (IOException ex) {
+            // Logger.getLogger(XLSSymulacjaView.class.getName()).log(Level.SEVERE, null, ex);
+            
+        }
     }
 
     public Pasekwynagrodzen getSelected() {

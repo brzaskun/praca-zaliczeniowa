@@ -93,7 +93,9 @@
                                 <p:confirm type="popup" header="Potwierdzenie" message="Lista juz wysłana. Usunąć?" icon="pi pi-exclamation-triangle"/>
                             </p:commandButton>
                             <p:commandButton styleClass="buttonnorm2" actionListener="#{pasekwynagrodzenView.drukujliste}" value="druk lista"/>
-                            <p:commandButton styleClass="buttonnorm2" actionListener="#{pasekwynagrodzenView.zapisz}" value="Save" update="PasekwynagrodzenListForm" />
+<!--                            //tego juz nie uzywamy, kazda lista jest zachowywana
+                            <p:commandButton styleClass="buttonnorm2" actionListener="#{pasekwynagrodzenView.zapisz}" value="Save" update="PasekwynagrodzenListForm" />-->
+                        <p:commandButton styleClass="buttonnorm2" actionListener="#{pasekwynagrodzenView.generujXLS}" value="lista XLS"  global="false"  ajax="false"/>
                             </p:panelGrid>
                         </h:form>
 <!--                        <p:selectOneMenu id="wybranypracownik" value="#{pasekwynagrodzenView.wybranykalendarz}" required="true" requiredMessage="Wybierz pracownika" converter="#{kalendarzmiesiacConverter}">
