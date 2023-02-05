@@ -263,16 +263,16 @@
                         </goals>
                         <configuration>
                             <wsdlFiles>
-                                <wsdlFile>testdokumenty.wsdl</wsdlFile>
+                                <wsdlFile>dokumenty.wsdl</wsdlFile>
                             </wsdlFiles>
                             <packageName></packageName>
                             <vmArgs>
                                 <vmArg>-Djavax.xml.accessExternalSchema=all</vmArg>
                             </vmArgs>
-                            <wsdlLocation>file:/C:/Users/Osito/Documents/NetBeansProjects/kadry/src/main/webapp/WEB-INF/wsdl/testdokumenty.wsdl</wsdlLocation>
-                            <staleFile>${project.build.directory}/jaxws/stale/testdokumenty.stale</staleFile>
+                            <wsdlLocation>file:/C:/Users/Osito/Documents/NetBeansProjects/kadry/src/main/webapp/WEB-INF/wsdl/dokumenty.wsdl</wsdlLocation>
+                            <staleFile>${project.build.directory}/jaxws/stale/dokumenty.stale</staleFile>
                         </configuration>
-                        <id>wsimport-generate-testdokumenty</id>
+                        <id>wsimport-generate-dokumenty</id>
                         <phase>generate-sources</phase>
                     </execution>
                 </executions>
