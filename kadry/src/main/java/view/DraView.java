@@ -112,7 +112,7 @@ public class DraView  implements Serializable {
         }
     }
     
-    public void mailListaDRA(byte[] dra) {
+    private void mailListaDRA(byte[] dra) {
         if (dra != null && dra.length > 0) {
             SMTPSettings findSprawaByDef = sMTPSettingsFacade.findSprawaByDef();
             String nazwa = wpisView.getFirma().getNip() + "_DRA" + wpisView.getRokWpisu()+ wpisView.getMiesiacWpisu() + "_" + ".pdf";
