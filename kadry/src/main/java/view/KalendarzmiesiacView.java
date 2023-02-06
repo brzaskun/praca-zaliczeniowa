@@ -174,9 +174,13 @@ public class KalendarzmiesiacView  implements Serializable {
     public void generujrok() {
         if (wpisView.getAngaz()!=null && wpisView.getPracownik()!=null) {
             String rok = wpisView.getAngaz().getRok();
+            Integer rokI = Integer.parseInt(wpisView.getAngaz().getRok());
             String mcu = wpisView.getAngaz().getMc();
+            if (rokI<wpisView.getRokWpisuInt()) {
+                mcu = "01";
+            }
             Integer mcod = Integer.parseInt(mcu);
-            Integer dzienod = Integer.parseInt(mcu);
+            Integer dzienod = 1;
             List<Kalendarzmiesiac> kalendarze = new ArrayList<>();
             for (String mc: Mce.getMceListS()) {
                 Integer kolejnymc = Integer.parseInt(mc);
@@ -202,8 +206,9 @@ public class KalendarzmiesiacView  implements Serializable {
                 }
             }
             if (wpisView.getUmowa()!=null) {
-                Kalendarzmiesiac kalendarz = kalendarze.stream().filter(p->p.getRok().equals(rok)&&p.getMc().equals(mcu)).findFirst().get();
-                List<Nieobecnosc> zatrudnieniewtrakciemiesiaca = PasekwynagrodzenBean.rozpoczecieumowywtrakcieMiesiaca(wpisView.getAngaz(), wpisView.getUmowa().getDataod(), wpisView.getUmowa().getDatado(),rodzajnieobecnosciFacade, rok, mcu, kalendarz, null);
+                String mcu1 = wpisView.getAngaz().getMc();
+                Kalendarzmiesiac kalendarz = kalendarze.stream().filter(p->p.getRok().equals(rok)&&p.getMc().equals(mcu1)).findFirst().get();
+                List<Nieobecnosc> zatrudnieniewtrakciemiesiaca = PasekwynagrodzenBean.rozpoczecieumowywtrakcieMiesiaca(wpisView.getAngaz(), wpisView.getUmowa().getDataod(), wpisView.getUmowa().getDatado(),rodzajnieobecnosciFacade, rok, mcu1, kalendarz, null);
                 if (zatrudnieniewtrakciemiesiaca!=null) {
                   nieobecnoscFacade.createList(zatrudnieniewtrakciemiesiaca);
                 }

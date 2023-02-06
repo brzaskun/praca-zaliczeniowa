@@ -255,6 +255,27 @@ public class RachunekZlecenieView implements Serializable {
             Msg.msg("Przeliczono kwotę rachunku");
         }
     }
+    
+     public void przeliczrachunekdomyslny() {
+        if (rachunekdoumowyzlecenia != null) {
+            if (rachunekdoumowyzlecenia.getWynagrodzeniemiesieczne() > 0.0) {
+                rachunekdoumowyzlecenia.setKwota(rachunekdoumowyzlecenia.getWynagrodzeniemiesieczne());
+                rachunekdoumowyzlecenia.setKwotasuma(Z.z(rachunekdoumowyzlecenia.getKwota() + rachunekdoumowyzlecenia.getKwotaoddelegowanie()));
+            } else {
+                rachunekdoumowyzlecenia.setKwota(Z.z(rachunekdoumowyzlecenia.getWynagrodzeniegodzinowe() * rachunekdoumowyzlecenia.getIloscgodzin()));
+                rachunekdoumowyzlecenia.setKwotaoddelegowanie(Z.z(rachunekdoumowyzlecenia.getWynagrodzeniegodzinoweoddelegowanie() * rachunekdoumowyzlecenia.getIloscgodzinoddelegowanie()));
+                rachunekdoumowyzlecenia.setKwotasuma(Z.z(rachunekdoumowyzlecenia.getKwota() + rachunekdoumowyzlecenia.getKwotaoddelegowanie()));
+            }
+            Msg.msg("Przeliczono kwotę rachunku");
+        }
+    }
+     
+     public void przeliczrachunekdomyslnyKwotyreczne() {
+        if (rachunekdoumowyzlecenia != null) {
+            rachunekdoumowyzlecenia.setKwotasuma(Z.z(rachunekdoumowyzlecenia.getKwota() + rachunekdoumowyzlecenia.getKwotaoddelegowanie()));
+            Msg.msg("Przeliczono kwotę rachunku");
+        }
+    }
 
    
 
@@ -285,6 +306,13 @@ public class RachunekZlecenieView implements Serializable {
             }
         }
         Msg.msg("Zachowano rachunki");
+    }
+    
+    public void edytujkwadraciki() {
+        if (rachunekdoumowyzlecenia.getId() != null) {
+            rachunekdoumowyzleceniaFacade.edit(rachunekdoumowyzlecenia);
+            Msg.msg("Edytowano rachunek");
+        }
     }
 
     public void zaksieguj() {
