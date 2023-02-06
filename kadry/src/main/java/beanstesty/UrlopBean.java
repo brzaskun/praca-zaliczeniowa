@@ -157,5 +157,6 @@ public class UrlopBean {
                 wymiargodzin = (nowywymiarwdniach*8*etat.getEtat1()/etat.getEtat2());
             }
         return (int) wymiargodzin;
+        //nie wiem co z tym etatem czy badac
     }
 }

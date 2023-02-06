@@ -5,12 +5,14 @@
  */
 package beanstesty;
 
+import comparator.KalendarzmiesiacRMNormalcomparator;
 import dao.KalendarzmiesiacFacade;
 import dao.NieobecnoscFacade;
 import data.Data;
 import entity.Kalendarzmiesiac;
 import entity.Nieobecnosc;
 import error.E;
+import java.util.Collections;
 import java.util.List;
 import msg.Msg;
 
@@ -254,6 +256,7 @@ public class NieobecnosciBean {
                 boolean start = false;
                 boolean stop = false;
                 List<Kalendarzmiesiac> kalendarze = kalendarzmiesiacFacade.findByAngaz(nieobecnosc.getAngaz());
+                Collections.sort(kalendarze, new KalendarzmiesiacRMNormalcomparator());
                 for (Kalendarzmiesiac kal : kalendarze) {
                     boolean pierwszymc = false;
                     boolean ostatnimc = false;
