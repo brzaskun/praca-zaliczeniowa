@@ -47,7 +47,9 @@ public class PdfZaswiadczenieZarobki {
                 naglowekStopkaP(writer);
                 otwarcieDokumentu(document, nazwa);
                 dodajtresc(firma, document, paskiwynagrodzen, pracownik, dataod, datado, zatrudnienie, zarobki, rodzajumowy, czastrwania, stanowisko, etat, bruttosrednia, nettosrednia, czyjestkomornik, dataostatnieumowy);
-                drukujPasek(paskiwynagrodzen, document);
+                if (zarobki) {
+                    drukujPasek(paskiwynagrodzen, document);
+                }
                 finalizacjaDokumentuQR(document, nazwa);
                 Plik.zapiszBufferdoPlik(nazwa, out);
                 String f = "pokazwydruk('" + nazwa + "');";
@@ -126,15 +128,19 @@ public class PdfZaswiadczenieZarobki {
                 paragraph = new Paragraph(new Phrase("Jest zatrudniony od dnia "+pracownik.getDatazatrudnienia(), fontM));
             }
             document.add(paragraph);
-            PdfMain.dodajElementListy(document, "1) Rodzaj umowy: ", rodzajumowy, fontM);
-            PdfMain.dodajElementListy(document, "Data rozpoczęcia bieżącej umowy: ", dataostatnieumowy, fontM);
-            PdfMain.dodajElementListy(document, "2) Umowa na okres: ", czastrwania, fontM);
-            PdfMain.dodajElementListy(document, "3) Stanowisko: ", stanowisko, fontM);
-            PdfMain.dodajElementListy(document, "4) Wymiar czasu pracy: ", etat, fontM);
-            PdfMain.dodajElementListy(document, "Wynagrodzenie za okres ", "od "+dataod+" do "+datado, fontM);
-            PdfMain.dodajElementListy(document, "5) Średnie miesięczne wynagrodzenie brutto: ", f.F.curr(bruttosrednia), fontM);
-            PdfMain.dodajElementListy(document, "6) Średnie miesięczne wynagrodzenie netto: ", f.F.curr(nettosrednia), fontM);
-            if (czyjestkomornik==false) {
+            if (zatrudnienie) {
+                PdfMain.dodajElementListy(document, "1) Rodzaj umowy: ", rodzajumowy, fontM);
+                PdfMain.dodajElementListy(document, "2) Data rozpoczęcia bieżącej umowy: ", dataostatnieumowy, fontM);
+                PdfMain.dodajElementListy(document, "3) Umowa na okres: ", czastrwania, fontM);
+                PdfMain.dodajElementListy(document, "4) Stanowisko: ", stanowisko, fontM);
+                PdfMain.dodajElementListy(document, "5) Wymiar czasu pracy: ", etat, fontM);
+            }
+            if (zarobki) {
+                PdfMain.dodajElementListy(document, "Wynagrodzenie za okres ", "od "+dataod+" do "+datado, fontM);
+                PdfMain.dodajElementListy(document, "1) Średnie miesięczne wynagrodzenie brutto: ", f.F.curr(bruttosrednia), fontM);
+                PdfMain.dodajElementListy(document, "2) Średnie miesięczne wynagrodzenie netto: ", f.F.curr(nettosrednia), fontM);
+            }
+            if (zarobki&&czyjestkomornik==false) {
                 Paragraph p = new Paragraph();
                 p.add(new Phrase("Wynagrodzenie powyższe nie jest obciążone z tytułu wyroków sądowych lub innych tytułów", fontM));
                 document.add(p);

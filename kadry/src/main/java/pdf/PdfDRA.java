@@ -121,26 +121,26 @@ public class PdfDRA {
     public static void dodajwiersze(List<Pasekwynagrodzen> lista,PdfPTable table) {
         int i = 1;
         for (Pasekwynagrodzen rs : lista) {
-            table.addCell(ustawfrazeAlign(String.valueOf(i++), "center",6,18f));
-            table.addCell(ustawfrazeAlign(rs.getNazwiskoImie(), "left",6,18f));
-            table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getBrutto())), "right",6));
-            table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getBruttozus()+rs.getBruttozusbezpodatek())), "right",6));
-            table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPracemerytalne())), "right",6));
-            table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPracrentowe())), "right",6));
-            table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPracchorobowe())), "right",6));
-            table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getRazemspolecznepracownik())), "right",6));
-            table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getEmerytalne())), "right",6));
-            table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getRentowe())), "right",6));
-            table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getWypadkowe())), "right",6));
-            table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getRazemspolecznefirma())), "right",6));
-            table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getRazemspolecznefirma()+rs.getRazemspolecznepracownik())), "right",6));//13
-            table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPodstawaubezpzdrowotne())), "right",6));
-            table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPraczdrowotne())), "right",6));
-            table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getFp())), "right",6));
-            table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getFgsp())), "right",6));
-            table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getKosztpracodawcy())), "right",6));
-            table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPodatekdochodowy())), "right",6));
-            table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPotracenia())), "right",6));
+            table.addCell(ustawfrazeAlign(String.valueOf(i++), "center",7,18f));
+            table.addCell(ustawfrazeAlign(rs.getNazwiskoImie(), "left",7,18f));
+            table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getBrutto())), "right",7));
+            table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPodstawaskladkizus())), "right",7));
+            table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPracemerytalne())), "right",7));
+            table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPracrentowe())), "right",7));
+            table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPracchorobowe())), "right",7));
+            table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getRazemspolecznepracownik())), "right",7));
+            table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getEmerytalne())), "right",7));
+            table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getRentowe())), "right",7));
+            table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getWypadkowe())), "right",7));
+            table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getRazemspolecznefirma())), "right",7));
+            table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getRazemspolecznefirma()+rs.getRazemspolecznepracownik())), "right",7));//13
+            table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPodstawaubezpzdrowotne())), "right",7));
+            table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPraczdrowotne())), "right",7));
+            table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getFp())), "right",7));
+            table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getFgsp())), "right",7));
+            table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getKosztpracodawcy())), "right",7));
+            table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPodatekdochodowy())), "right",7));
+            table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPotracenia())), "right",7));
         }
     }
     
