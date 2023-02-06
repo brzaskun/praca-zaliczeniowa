@@ -631,6 +631,7 @@ public class PasekwynagrodzenBean {
             
             if (p.getNieobecnosc().getKod().equals("UD")) {
                 bruttozusoddelegowaniewaluta = Z.z(bruttozusoddelegowaniewaluta + p.getKwotawaluta());
+                bruttozusoddelegowanie = Z.z(bruttozusoddelegowanie+ p.getKwotazus());
             } else {
                 bruttozuskraj = Z.z(bruttozuskraj + p.getKwotazus());
             }
@@ -1149,6 +1150,7 @@ public class PasekwynagrodzenBean {
             pasek.setPraczdrowotnedopotracenia(zdrowotneodliczane);
         } else {
             if (umowakodzus.equals("0511")) {
+                pasek.setPraczdrowotne(0.0);
                 pasek.setPraczdrowotnedoodliczenia(0.0);
                 pasek.setPraczdrowotnedopotracenia(0.0);
             } else if (pasek.isDo26lat() && pasek.isPraca() == false && pasek.isStudent()) {
