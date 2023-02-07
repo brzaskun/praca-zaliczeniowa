@@ -187,7 +187,7 @@ public class Naliczenieskladnikawynagrodzenia implements Serializable {
 
     @Override
     public String toString() {
-        return "Naliczenieskladnikawynagrodzenia{" + "dataod=" + dataod + ", datado=" + datado + ", kwotaumownazacalymc=" + kwotaumownazacalymc + ", kwotyredukujacesuma=" + kwotyredukujacesuma + ", kwotadolistyplac=" + kwotadolistyplac + ", skladnikwynagrodzenia=" + skladnikwynagrodzenia.getRodzajwynagrodzenia().getKod() + '}';
+        return "Naliczenieskladnikawyn{" + "dataod=" + dataod + ", datado=" + datado + ", kwotaumowna=" + kwotaumownazacalymc + ", reduk=" + kwotyredukujacesuma + ", listaplac=" + kwotadolistyplac + ", skladnikwyn=" + skladnikwynagrodzenia.getRodzajwynagrodzenia().getKod() + '}';
     }
 
     public double getKwotadolistyplacwaluta() {

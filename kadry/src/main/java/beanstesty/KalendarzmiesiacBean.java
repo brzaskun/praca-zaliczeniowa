@@ -459,8 +459,11 @@ public class KalendarzmiesiacBean {
                     } else {
                         double sredniadopodstawypobrana = wyliczsredniachoroba(kalendarz, naliczenieskladnikawynagrodzenia, nieobecnosc, naliczenienieobecnosc, definicjalistaplac, definicjadlazasilkow);
                         double sredniadopodstawy = sredniadopodstawypobrana - (sredniadopodstawypobrana * .1371);
-                        if (sredniadopodstawy<limitpodstawyzasilkow) {
-                            sredniadopodstawy = limitpodstawyzasilkow;
+                        //trzeba dac te ograniczenie bo podwyzszalo podstawe dla wszystkich wyunagrodzen
+                        if (naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getKod().equals("11")) {
+                            if (sredniadopodstawy<limitpodstawyzasilkow) {
+                                sredniadopodstawy = limitpodstawyzasilkow;
+                            }
                         }
                         naliczenienieobecnosc.setPodstawadochoroby(sredniadopodstawy);
                         double procentzazwolnienie = Z.z(nieobecnosc.getZwolnienieprocent() / 100);
