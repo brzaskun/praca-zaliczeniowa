@@ -623,11 +623,11 @@ public class Data implements Serializable {
        //inaczej koniecmca.dataoperacji+4
        return Mce.odlegloscMcy(Data.getMc(dataoperacji), Data.getRok(dataoperacji), Data.getMc(datawplywu), Data.getRok(datawplywu));
    }
-   public static int compareDay(String dateString1, String dateString2) {
+   public static int compareDay(String granica, String datapo) {
         try {
-            SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
-            Date date1 = format.parse(dateString1);
-            Date date2 = format.parse(dateString2);
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            Date date1 = format.parse(granica);
+            Date date2 = format.parse(datapo);
             return date1.compareTo(date2);
          } catch (ParseException ex) {
             // Logger.getLogger(Data.class.getName()).log(Level.SEVERE, null, ex);
@@ -708,7 +708,22 @@ public class Data implements Serializable {
     public static String odejmijdniDzis(int iloscdni) {
         return LocalDate.now().minusDays(iloscdni).toString();
     }
-            
+    
+    
+        public static void main(String[] args) {
+        try {
+            String termin = "2019-12-29";
+            String dzis = "2019-12-29";
+            boolean zwrot = czyjestpo(termin, dzis);
+            if (zwrot) {
+                error.E.s("TRUE");
+            } else {
+                error.E.s("FALSE");
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(Data.class.getName()).log(Level.SEVERE, null, ex);
+        }
+}
             
     public static XMLGregorianCalendar dataoddo(String data) {
         String f = "yyyy-MM-dd";
@@ -934,15 +949,15 @@ LocalDate date = LocalDate.parse(dateString, formatter);
 //        }
 //}
     
-     public static void main(String[] args) {
-         LocalDate birthDate = LocalDate.of(2020, 12, 1);
-    LocalDate currentDate = LocalDate.now();
-    Period period = Period.between(birthDate, currentDate);
-    int years = period.getYears();
-    int months = period.getMonths();
-    int days = period.getDays();
-    System.out.println("Years: " + years + ", months: " + months + ", days: " + days);
-     }
+//     public static void main(String[] args) {
+//         LocalDate birthDate = LocalDate.of(2020, 12, 1);
+//    LocalDate currentDate = LocalDate.now();
+//    Period period = Period.between(birthDate, currentDate);
+//    int years = period.getYears();
+//    int months = period.getMonths();
+//    int days = period.getDays();
+//    System.out.println("Years: " + years + ", months: " + months + ", days: " + days);
+//     }
     
 //   public static void main(String[] args) {
 //        String dzien = null;

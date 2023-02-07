@@ -6,6 +6,7 @@
 package view;
 
 import dao.EtatPracFacade;
+import dao.KalendarzmiesiacFacade;
 import dao.RodzajwynagrodzeniaFacade;
 import dao.SMTPSettingsFacade;
 import dao.SkladnikWynagrodzeniaFacade;
@@ -60,6 +61,8 @@ public class UmowaGrupowoView implements Serializable {
     private RodzajwynagrodzeniaFacade rodzajwynagrodzeniaFacade;
     @Inject
     private ZmiennaWynagrodzeniaFacade zmiennaWynagrodzeniaFacade;
+    @Inject
+    private KalendarzmiesiacFacade kalendarzmiesiacFacade;
     @Inject
     private UmowaFacade umowaFacade;
     private List<Umowakodzus> listaumowakodzus;
@@ -138,7 +141,7 @@ public class UmowaGrupowoView implements Serializable {
              List<Angaz> target = listaumowy.getTarget();
                 for (Angaz angaz : target) {
                     selected.setAngaz(angaz);
-                    beanstesty.UmowaBean.createpierwsza(selected, umowaFacade, etatFacade, stanowiskopracFacade, rodzajwynagrodzeniaFacade, skladnikWynagrodzeniaFacade, zmiennaWynagrodzeniaFacade);
+                    beanstesty.UmowaBean.createpierwsza(selected, umowaFacade, etatFacade, stanowiskopracFacade, rodzajwynagrodzeniaFacade, skladnikWynagrodzeniaFacade, zmiennaWynagrodzeniaFacade, kalendarzmiesiacFacade);
                 }
                 Msg.msg("Zapisano umowy zlecenia do bazy");
          }

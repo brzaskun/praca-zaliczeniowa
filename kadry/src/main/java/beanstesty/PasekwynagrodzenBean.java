@@ -697,6 +697,11 @@ public class PasekwynagrodzenBean {
                 bruttobezspolecznych = Z.z(bruttobezspolecznych + p.getKwotadolistyplac());
             }
         }
+        for (Naliczenienieobecnosc p : pasek.getNaliczenienieobecnoscList()) {
+            if (p.getNieobecnosc().getSwiadczeniekodzus() != null && p.getNieobecnosc().getSwiadczeniekodzus().isZdrowotne()) {
+                bruttobezspolecznych = Z.z(bruttobezspolecznych + p.getKwotabezzus());
+            }
+        }
         pasek.setBruttobezspolecznych(bruttobezspolecznych);
         pasek.setBrutto(Z.z(pasek.getBrutto() + bruttobezspolecznych));
     }

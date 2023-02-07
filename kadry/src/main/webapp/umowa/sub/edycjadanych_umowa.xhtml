@@ -47,7 +47,7 @@
                                            itemValue="#{czastrwaniaItem}" itemLabel="#{czastrwaniaItem.opis}"/>
                         </p:selectOneMenu>
                         <p:outputLabel value="opis stanowiska" for="stanowisko1" />
-                        <p:inputText id="stanowisko1" value="#{umowaView.selected.stanowisko}" title="stanowisko" style="width: 200px;"/>
+                        <p:inputText id="stanowisko1" value="#{umowaView.selected.stanowisko}" title="stanowisko" style="width: 200px;" required="true" requiredMessage="Brak wpisanego stanowiska"/>
                         
                     </p:panelGrid>
                     <p:panelGrid columns="2">

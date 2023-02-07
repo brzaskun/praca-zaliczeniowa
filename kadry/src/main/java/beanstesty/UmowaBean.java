@@ -7,6 +7,7 @@ package beanstesty;
 
 import comparator.Umowacomparator;
 import dao.EtatPracFacade;
+import dao.KalendarzmiesiacFacade;
 import dao.RodzajwynagrodzeniaFacade;
 import dao.SkladnikWynagrodzeniaFacade;
 import dao.StanowiskopracFacade;
@@ -194,7 +195,8 @@ public class UmowaBean {
     }
 
     
-    public static Umowa createpierwsza(Umowa selected, UmowaFacade umowaFacade, EtatPracFacade etatFacade, StanowiskopracFacade stanowiskopracFacade, RodzajwynagrodzeniaFacade rodzajwynagrodzeniaFacade, SkladnikWynagrodzeniaFacade skladnikWynagrodzeniaFacade, ZmiennaWynagrodzeniaFacade zmiennaWynagrodzeniaFacade) {
+    public static Umowa createpierwsza(Umowa selected, UmowaFacade umowaFacade, EtatPracFacade etatFacade, StanowiskopracFacade stanowiskopracFacade, 
+            RodzajwynagrodzeniaFacade rodzajwynagrodzeniaFacade, SkladnikWynagrodzeniaFacade skladnikWynagrodzeniaFacade, ZmiennaWynagrodzeniaFacade zmiennaWynagrodzeniaFacade, KalendarzmiesiacFacade kalendarzmiesiacFacade) {
         if (selected != null && selected.getAngaz() != null) {
             Angaz angaz = selected.getAngaz();
             try {
@@ -215,6 +217,7 @@ public class UmowaBean {
                 if (selected.getUmowakodzus().isPraca() && selected.getEtat1() != null && selected.getEtat2() != null) {
                     EtatPrac etat = new EtatPrac(angaz, selected.getDataod(), selected.getDatado(), selected.getEtat1(), selected.getEtat2());
                     etatFacade.create(etat);
+                    EtatBean.edytujkalendarz(etat, kalendarzmiesiacFacade);
                 }
                 if (selected.getUmowakodzus().isPraca() && selected.getKodzawodu() != null) {
                     Stanowiskoprac stanowisko = new Stanowiskoprac(angaz, selected.getDataod(), selected.getDatado(), selected.getStanowisko());

@@ -239,7 +239,7 @@ public class UmowaView implements Serializable {
                 createkolejna(listapraca);
             } else {
                selected.setAngaz(wpisView.getAngaz());
-                Umowa umowa = beanstesty.UmowaBean.createpierwsza(selected, umowaFacade, etatFacade, stanowiskopracFacade, rodzajwynagrodzeniaFacade, skladnikWynagrodzeniaFacade, zmiennaWynagrodzeniaFacade);
+                Umowa umowa = beanstesty.UmowaBean.createpierwsza(selected, umowaFacade, etatFacade, stanowiskopracFacade, rodzajwynagrodzeniaFacade, skladnikWynagrodzeniaFacade, zmiennaWynagrodzeniaFacade, kalendarzmiesiacFacade);
                 listapraca.add(umowa);
                 wpisView.setUmowa(umowa);
             }
@@ -271,7 +271,7 @@ public class UmowaView implements Serializable {
                 createkolejna(listazlecenia);
             } else {
                 selected.setAngaz(wpisView.getAngaz());
-                Umowa umowa = beanstesty.UmowaBean.createpierwsza(selected, umowaFacade, etatFacade, stanowiskopracFacade, rodzajwynagrodzeniaFacade, skladnikWynagrodzeniaFacade, zmiennaWynagrodzeniaFacade);
+                Umowa umowa = beanstesty.UmowaBean.createpierwsza(selected, umowaFacade, etatFacade, stanowiskopracFacade, rodzajwynagrodzeniaFacade, skladnikWynagrodzeniaFacade, zmiennaWynagrodzeniaFacade, kalendarzmiesiacFacade);
                 listapraca.add(umowa);
                 wpisView.setUmowa(umowa);
             }

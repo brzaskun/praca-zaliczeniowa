@@ -236,7 +236,7 @@ public class PasekwynagrodzenView implements Serializable {
             }
             listarodzajlistyplac = rodzajlistyplacFacade.findAktywne();
             ileszczegolow = "normalna";
-            symulacjabrrutto = wpisView.getRokWpisuInt()<2022?2800:3010;
+            symulacjabrrutto = wpisView.getRokWpisuInt()<2023?3010:3490;
             Msg.msg("Pobrano dane do analizy");
         }
 

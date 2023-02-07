@@ -61,8 +61,11 @@
                                 <h:outputText value="/"/>
                                 <h:outputText value="#{itemetat.etat2}"/>
                             </p:column>
+                            <p:column width="30" style="text-align: center;">
+                                <p:commandButton icon="pi pi-pencil"  actionListener="#{etatView.wybierzdoedycji(itemetat)}" update="north, akordeon:EtatCreateForm"/>
+                            </p:column>
                             <p:column style="text-align: center;">
-                                <p:commandButton icon="pi pi-trash" actionListener="#{etatView.usunEtat(itemetat)}" update="north @(form)"/>
+                                <p:commandButton icon="pi pi-trash" actionListener="#{etatView.usunEtat(itemetat)}" update="north akordeon:EtatListForm"/>
                             </p:column>
                         </p:dataTable>
                     </p:panel>

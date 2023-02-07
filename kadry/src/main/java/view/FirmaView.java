@@ -8,6 +8,7 @@ package view;
 import dao.FirmaKadryFacade;
 import entity.FirmaKadry;
 import java.io.Serializable;
+import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
@@ -32,6 +33,15 @@ public class FirmaView  implements Serializable {
     @PostConstruct
     private void init() {
         lista  = firmaKadryFacade.findAll();
+        if (!wpisView.getUzer().getLogin().equals("ola")&&!wpisView.getUzer().getLogin().equals("2")) {
+            for (Iterator<FirmaKadry> it = lista.iterator();it.hasNext();) {
+                FirmaKadry f = it.next();
+                if (f.getNip().equals("8511005008")) {
+                    it.remove();
+                    break;
+                }
+            }
+        }
         if (wpisView.getFirma()!=null) {
             selectedeast = wpisView.getFirma();
         }
