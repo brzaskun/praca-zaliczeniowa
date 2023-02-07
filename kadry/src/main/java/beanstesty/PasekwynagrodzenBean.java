@@ -431,9 +431,8 @@ public class PasekwynagrodzenBean {
 
     private static void umowafunkcjawyliczenie(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasek, double kurs, Definicjalistaplac definicjalistaplac, boolean czyodlicoznokwotewolna, boolean jestoddelegowanie, double limitZUS, List<Podatki> stawkipodatkowe, double sumapoprzednich) {
         KalendarzmiesiacBean.naliczskladnikiwynagrodzeniaDBFunkcja(kalendarz, pasek, kurs);
-        PasekwynagrodzenBean.obliczbruttozus(pasek);
-        PasekwynagrodzenBean.obliczbruttobezzus(pasek);
-        PasekwynagrodzenBean.obliczbruttobezzusbezpodatek(pasek);
+        //PasekwynagrodzenBean.obliczbruttozus(pasek);
+        PasekwynagrodzenBean.obliczbruttobezSpolecznych(pasek);
         PasekwynagrodzenBean.wyliczpodstaweZUS(pasek);
         PasekwynagrodzenBean.obliczbruttominusspoleczneDB(pasek);
         PasekwynagrodzenBean.obliczpodstaweopodatkowaniafunkcja(pasek, stawkipodatkowe, pasek.isNierezydent());
@@ -693,9 +692,9 @@ public class PasekwynagrodzenBean {
 
     private static void obliczbruttobezSpolecznych(Pasekwynagrodzen pasek) {
         double bruttobezspolecznych = 0.0;
-        for (Naliczenienieobecnosc p : pasek.getNaliczenienieobecnoscList()) {
-            if (p.getNieobecnosc().getSwiadczeniekodzus() != null && p.getNieobecnosc().getSwiadczeniekodzus().isZdrowotne()) {
-                bruttobezspolecznych = Z.z(bruttobezspolecznych + p.getKwotabezzus());
+         for (Naliczenieskladnikawynagrodzenia p : pasek.getNaliczenieskladnikawynagrodzeniaList()) {
+            if (p.isZus0bezzus1() == true && p.isPodatek0bezpodatek1() == false) {
+                bruttobezspolecznych = Z.z(bruttobezspolecznych + p.getKwotadolistyplac());
             }
         }
         pasek.setBruttobezspolecznych(bruttobezspolecznych);
@@ -1226,6 +1225,14 @@ public class PasekwynagrodzenBean {
 
     private static void netto(Pasekwynagrodzen pasek) {
         double wyliczenie = Z.z(pasek.getBrutto() - pasek.getRazemspolecznepracownik() - pasek.getPraczdrowotne() - pasek.getPodatekdochodowy());
+        double ppk = 0.0;
+        for (Naliczenieskladnikawynagrodzenia nal : pasek.getNaliczenieskladnikawynagrodzeniaList()) {
+            if (nal.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod()!=null&&nal.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod().equals("98")) {
+                ppk = ppk+nal.getKwotadolistyplac();
+            }
+        }
+        //korekta o ppk
+        wyliczenie = wyliczenie-ppk;
         double wyliczenieminuspodatekwaluta = Z.z(wyliczenie-pasek.getPodatekdochodowyzagranica());
         pasek.setNettoprzedpotraceniamisafe(wyliczenieminuspodatekwaluta < 0.0 ? 0.0 : wyliczenieminuspodatekwaluta);
         pasek.setNettoprzedpotraceniami(wyliczenieminuspodatekwaluta < 0.0 ? 0.0 : wyliczenieminuspodatekwaluta);

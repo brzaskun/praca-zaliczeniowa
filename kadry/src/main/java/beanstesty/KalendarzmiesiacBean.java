@@ -362,7 +362,7 @@ public class KalendarzmiesiacBean {
     static boolean naliczskladnikiwynagrodzeniaDBFunkcja(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasekwynagrodzen, double kurs) {
         boolean jestoddelegowanie = false;
         for (Skladnikwynagrodzenia p : kalendarz.getAngaz().getSkladnikwynagrodzeniaList()) {
-            if (p.getRodzajwynagrodzenia().getKod().equals("50")) {
+            if (p.getRodzajwynagrodzenia().getKod().equals("60")) {
                 Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = NaliczenieskladnikawynagrodzeniaBean.createWynagrodzenieDBFunkcja(kalendarz, pasekwynagrodzen, p, kurs);
                 if (naliczenieskladnikawynagrodzenia.getKwotaumownazacalymc() != 0.0) {
                     pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().add(naliczenieskladnikawynagrodzenia);

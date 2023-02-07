@@ -10,7 +10,7 @@
     <p:outputPanel style="height: 630px" id="panelumowadane">
         <h:form styleClass="formumowa" id="UmowaCreateForm">
            
-            <p:panel header="Dodawanie/edycja umowy #{umowaView.rodzajumowy eq '1' ?'o pracę':'zlecenia i o dzieło'}."/>
+            <p:panel header="Dodawanie/edycja umowy #{umowaView.rodzajumowy eq '1' ?'o pracę': umowaView.rodzajumowy eq '2' ?'zlecenia i o dzieło' :'pełnienie funkcji'}."/>
             <h:panelGroup id="displaypraca" rendered="#{umowaView.rodzajumowy eq '1'}">
                 <h:outputText value="Dodajesz nową umowę o pracę. Osoba #{wpisView.pracownik.nazwiskoImie}. Wiek #{wpisView.pracownik.wiek}" style="color:green; margin-left: 50px; font-weight: bolder;" rendered="#{umowaView.selected.id eq null}"/>
                 <h:outputText value="Zmieniasz istniejącą umowę. Osoba #{wpisView.pracownik.nazwiskoImie}. Wiek #{wpisView.pracownik.wiek}" style="color:blue; margin-left: 50px; font-weight: bolder;" rendered="#{umowaView.selected.id ne null}"/>
@@ -246,6 +246,68 @@
                     </p:panelGrid>
                 <p:commandButton styleClass="buttonnorm" actionListener="#{umowaView.edit}" value="Edytuj" update="north, @(form)" rendered="#{umowaView.selected.id ne null}"/>
                 <p:commandButton styleClass="buttonnorm2" actionListener="#{umowaView.createzlecenie}" value="Dodaj" update="north, @(form)"  rendered="#{umowaView.selected.id eq null}"/>
+                <p:commandButton styleClass="buttonnorm2" value="Anuluj"  actionListener="#{umowaView.cancel}"  update="north, @(form)" process="@this"/>
+            </h:panelGroup>
+<!--            UMOWA ZLECENIA *****************************************************************************-->
+            <h:panelGroup id="displayfunkcja" rendered="#{umowaView.rodzajumowy eq '3'}">
+                <h:outputText value="Dodajesz nową umowę pełnienie funkcji. Osoba #{wpisView.pracownik.nazwiskoImie}. Wiek #{wpisView.pracownik.wiek}" style="color:green; margin-left: 50px; font-weight: bolder;" rendered="#{umowaView.selected.id eq null}"/>
+                <h:outputText value="Zmieniasz istniejącą umowę. Osoba #{wpisView.pracownik.nazwiskoImie}. Wiek #{wpisView.pracownik.wiek}" style="color:blue; margin-left: 50px; font-weight: bolder;" rendered="#{umowaView.selected.id ne null}"/>
+                <p:panelGrid columns="3" rendered="#{umowaView.selected != null}" style="width: 1300px;">
+                    <p:panelGrid columns="2">
+                        <p:outputLabel value="angaz" for="angaz2" />
+                        <h:outputText id="angaz2" value="#{wpisView.angaz.pracownik.nazwiskoImie}"/>
+                        <p:outputLabel value="rodzaj umowy" for="rodzajumowy2" />
+                        <p:selectOneMenu id="rodzajumowy2" value="#{umowaView.selected.umowakodzus}" converter="#{umowakodzusConverter}" autoWidth="false" style="width: 300px;" filter="true" filterMatchMode="contains" required="true">
+                            <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
+                            <f:selectItems value="#{umowaView.listaumowakodzus}"
+                                           var="umowakodzusItem"
+                                           itemValue="#{umowakodzusItem}" itemLabel="#{umowakodzusItem.kod} #{umowakodzusItem.opis}"/>
+                            <p:ajax event="change" listener="#{umowaView.ustawumowe}" partialSubmit="true" global="false" update="@(form) UmowaCreateForm:nrumowy"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="kod ZUS" for="kodumowy2" />
+                        <p:inputText id="kodumowy2" value="#{umowaView.selected.umowakodzus.kod}" title="kod" readonly="true"/>
+                        <p:outputLabel value="nr umowy" for="nrumowy2" />
+                        <h:outputText id="nrumowy2" value="#{umowaView.selected.nrkolejny}" title="data od" style="width: 200px;"/>
+                        <p:outputLabel value="czas trwania" for="czasumowy2" />
+                        <p:selectOneMenu id="czasumowy2" value="#{umowaView.selected.slownikszkolazatrhistoria}" autoWidth="false" style="width: 300px;" required="true" 
+                                         converter="#{slownikszkolazatrhistoriaConverter}">
+                            <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
+                            <f:selectItems value="#{slownikszkolazatrhistoriaView.listapraca}"
+                                           var="czastrwaniaItem" 
+                                           itemValue="#{czastrwaniaItem}" itemLabel="#{czastrwaniaItem.opis}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="opis stanowiska" for="stanowisko2" />
+                        <p:inputText id="stanowisko2" value="#{umowaView.selected.stanowisko}" title="stanowisko" style="width: 350px;"/>
+                    </p:panelGrid>
+                    <p:panelGrid columns="2">
+                        <p:outputLabel value="data zawarcia"    for="datazawarcia2" />
+                        <p:inputText id="datazawarcia2" value="#{umowaView.selected.datazawarcia}" title="data zawarcia"  placeholder="____-__-__"  required="true" styleClass="dataUmowy" maxlength="10">
+                            <p:ajax event="change"  onstart="ustawDateSprzedazy(#{wpisView.rokWpisu},#{wpisView.miesiacWpisu});" listener="#{umowaView.naniesdatynaumowe}" partialSubmit="true" global="false" update="@(.dataUmowy)"/>
+                        </p:inputText>
+                        <p:outputLabel value="data od" for="dataod2" />
+                        <p:inputText id="dataod2" value="#{umowaView.selected.dataod}" title="data od"  placeholder="____-__-__"  required="true" styleClass="dataUmowy dataklasa" maxlength="10">
+                            <p:ajax event="change" onstart="ustawDateSprzedazy(#{wpisView.rokWpisu},#{wpisView.miesiacWpisu});" partialSubmit="true" global="false"  update="@(.dataklasa)"/>
+                        </p:inputText>
+                        <p:outputLabel value="data do" for="datado2" />
+                        <p:inputText id="datado2" value="#{umowaView.selected.datado}" title="data do"  placeholder="____-__-__"  maxlength="10">
+                            <p:ajax event="change"  onstart="ustawDateSprzedazy(#{wpisView.rokWpisu},#{wpisView.miesiacWpisu});" listener="#{umowaView.sprawdzczyumowajestnaczas}" partialSubmit="true" global="false"  update="@(.dataklasa)"/>
+                        </p:inputText>
+                         <p:outputLabel value="wiek" for="wiek2" />
+                         <h:outputText id="wiek2" value="#{umowaView.selected.wiekumowa}" styleClass="dataUmowy"/>
+                        <p:outputLabel value="termin rozpoczecia pracy" for="datarozp2" />
+                        <p:inputText id="datarozp2" value="#{umowaView.selected.terminrozpoczeciapracy}" title="termin rozpoczecia pracy" styleClass="dataUmowy"  placeholder="____-__-__"  maxlength="10"/>
+
+  
+
+                    </p:panelGrid>
+                    <p:panelGrid columns="2">
+                        <p:outputLabel value="wynagrodzenie miesięczne" />
+                        <bcf:innum value="#{umowaView.selected.wynagrodzeniemiesieczne}"/>
+                    </p:panelGrid>
+                </p:panelGrid>
+
+                <p:commandButton styleClass="buttonnorm" actionListener="#{umowaView.edit}" value="Edytuj" update="north, @(form)" rendered="#{umowaView.selected.id ne null}"/>
+                <p:commandButton styleClass="buttonnorm2" actionListener="#{umowaView.createfunkcja}" value="Dodaj" update="north, @(form)"  rendered="#{umowaView.selected.id eq null}"/>
                 <p:commandButton styleClass="buttonnorm2" value="Anuluj"  actionListener="#{umowaView.cancel}"  update="north, @(form)" process="@this"/>
             </h:panelGroup>
             <p:outputPanel style="padding: 10px;">

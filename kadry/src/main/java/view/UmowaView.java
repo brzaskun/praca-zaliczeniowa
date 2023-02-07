@@ -204,7 +204,13 @@ public class UmowaView implements Serializable {
             rodzajumowy = "1";
         }
         listaangaz = angazFacade.findByFirma(wpisView.getFirma());
-        listaumowakodzus = rodzajumowyFacade.findUmowakodzusAktywne();
+        if (rodzajumowy.equals("1")) {
+            listaumowakodzus = rodzajumowyFacade.findUmowakodzusAktywnePraca();
+        } else if (rodzajumowy.equals("2")) {
+            listaumowakodzus = rodzajumowyFacade.findUmowakodzusAktywneZlecenie();
+        } else {
+            listaumowakodzus = rodzajumowyFacade.findUmowakodzusAktywneFunkcja();
+        }
         listakodyzawodow = kodyzawodowFacade.findAll();
         datadzisiejsza = Data.aktualnaData();
         miejscowosc = wpisView.getFirma().getMiasto();
@@ -266,6 +272,24 @@ public class UmowaView implements Serializable {
             } else {
                 selected.setAngaz(wpisView.getAngaz());
                 Umowa umowa = beanstesty.UmowaBean.createpierwsza(selected, umowaFacade, etatFacade, stanowiskopracFacade, rodzajwynagrodzeniaFacade, skladnikWynagrodzeniaFacade, zmiennaWynagrodzeniaFacade);
+                listapraca.add(umowa);
+                wpisView.setUmowa(umowa);
+            }
+                skladnikWynagrodzeniaView.init();
+                zmiennaWynagrodzeniaView.init();
+                updateClassView.updateUmowa();
+                Msg.msg("Dodano nową umowę");
+                selected = new Umowa();
+        }
+    }
+     
+     public void createfunkcja() {
+        if (selected != null && wpisView.getAngaz() != null) {
+            if (listazlecenia != null && listazlecenia.size()>0) {
+                createkolejna(listazlecenia);
+            } else {
+                selected.setAngaz(wpisView.getAngaz());
+                Umowa umowa = beanstesty.UmowaBean.createpierwszaFunkcja(selected, umowaFacade, etatFacade, stanowiskopracFacade, rodzajwynagrodzeniaFacade, skladnikWynagrodzeniaFacade, zmiennaWynagrodzeniaFacade);
                 listapraca.add(umowa);
                 wpisView.setUmowa(umowa);
             }

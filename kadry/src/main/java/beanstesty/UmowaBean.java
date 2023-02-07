@@ -252,6 +252,39 @@ public class UmowaBean {
         return selected;
     }
     
+    public static Umowa createpierwszaFunkcja(Umowa selected, UmowaFacade umowaFacade, EtatPracFacade etatFacade, StanowiskopracFacade stanowiskopracFacade, RodzajwynagrodzeniaFacade rodzajwynagrodzeniaFacade, SkladnikWynagrodzeniaFacade skladnikWynagrodzeniaFacade, ZmiennaWynagrodzeniaFacade zmiennaWynagrodzeniaFacade) {
+        if (selected != null && selected.getAngaz() != null) {
+            Angaz angaz = selected.getAngaz();
+            try {
+                
+                if (selected.getUmowakodzus().isPraca()) {
+                    selected.setLiczdourlopu(true);
+                    try {
+                        String dataodkiedywyplatazasilku = UmowaBean.obliczdatepierwszegozasilku(angaz.getUmowaList(), selected);
+                        selected.setPierwszydzienzasilku(dataodkiedywyplatazasilku);
+                    } catch (Exception e){}
+                }
+                selected.setAktywna(true);
+                selected.setDatasystem(new Date());
+                String dataostatniejumowy = null;
+                selected.setLicznikumow(1);
+                umowaFacade.create(selected);
+                
+                if (selected.getWynagrodzeniemiesieczne() != 0.0) {
+                    Rodzajwynagrodzenia rodzajwynagrodzenia = rodzajwynagrodzeniaFacade.findZasadniczeFunkcja();
+                    Skladnikwynagrodzenia skladnikwynagrodzenia =  dodajskladnikwynagrodzenia(rodzajwynagrodzenia, selected, skladnikWynagrodzeniaFacade);
+                    Zmiennawynagrodzenia zmiennawynagrodzenie = dodajzmiennawynagrodzenie(skladnikwynagrodzenia, "PLN", selected, 1, zmiennaWynagrodzeniaFacade);
+                    if (skladnikwynagrodzenia.getId() != null && zmiennawynagrodzenie != null) {
+                        Msg.msg("Dodano składniki wynagrodzania");
+                    }
+                }
+            } catch (Exception e) {
+                Msg.msg("e", "Błąd - nie dodano nowej umowy. Sprawdź angaż");
+            }
+        }
+        return selected;
+    }
+    
     private static Skladnikwynagrodzenia dodajskladnikwynagrodzenia(Rodzajwynagrodzenia rodzajwynagrodzenia, Umowa selected, SkladnikWynagrodzeniaFacade skladnikWynagrodzeniaFacade) {
         Skladnikwynagrodzenia skladnikwynagrodzenia = new Skladnikwynagrodzenia();
         skladnikwynagrodzenia.setAngaz(selected.getAngaz());
