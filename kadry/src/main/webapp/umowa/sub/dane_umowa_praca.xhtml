@@ -23,13 +23,13 @@
                                                     <h:outputText value="angaz"/>
                                                 </f:facet>
                                                  <h:outputText value="#{itemumowa.angaz.pracownik.nazwiskoImie}" style="color: #{itemumowa.aktywna eq true ? 'green':'initial'}"/>
-                                            </p:column>-->            <p:column width="100">
+                                            </p:column>-->            <p:column width="120">
                         <f:facet name="header">
                             <h:outputText value="umowa"/>
                         </f:facet>
-                        <h:outputText value="#{itemumowa.slownikszkolazatrhistoria.opis}" style="color: #{itemumowa.aktywna eq true ? 'green':'initial'}"/>
+                        <h:outputText value="#{itemumowa.czastrwania}" style="color: #{itemumowa.aktywna eq true ? 'green':'initial'}"/>
                     </p:column>
-                    <p:column width="200">
+                    <p:column width="350">
                         <f:facet name="header">
                             <h:outputText value="rodzaj umowy ZUS"/>
                         </f:facet>
@@ -43,7 +43,7 @@
                     </p:column>
                     <p:column style="text-align: center;">
                         <f:facet name="header">
-                            <h:outputText value="odliczac ulge pod."/>
+                            <h:outputText value="ulga"/>
                         </f:facet>
                         <h:outputText value="&#x2714;" rendered="#{itemumowa.angaz.odliczaculgepodatkowa eq true}" style="color: #{itemumowa.aktywna eq true ? 'green':'initial'}"/>
                     </p:column>
@@ -66,29 +66,29 @@
                         <h:outputText value="#{itemumowa.datado}"/>
                     </p:column>
 
-                    <p:column style="text-align: center;">
+                    <p:column style="text-align: center;;color: #{itemumowa.aktywna eq true ? 'green':'initial'}">
                         <f:facet name="header">
                             <h:outputText value="zas. chor. od "/>
                         </f:facet>
                         <h:outputText value="#{itemumowa.pierwszydzienzasilku}"/>
                     </p:column>
-                    <p:column style="text-align: center;">
+<!--                    <p:column style="text-align: center;">
                         <f:facet name="header">
                             <h:outputText value="koszty uzyskania"/>
                         </f:facet>
                         <h:outputText value="#{itemumowa.angaz.kosztyuzyskaniaprocent}"/>
-                    </p:column>
-                    <p:column style="text-align: center;">
+                    </p:column>-->
+                    <p:column style="text-align: center;;color: #{itemumowa.aktywna eq true ? 'green':'initial'}">
                         <f:facet name="header">
                             <h:outputText value="kod ubezpieczenia"/>
                         </f:facet>
                         <h:outputText value="#{itemumowa.umowakodzus.kod}"/>
                     </p:column>
-                    <p:column style="text-align: center;">
+                    <p:column style="text-align: center;;color: #{itemumowa.aktywna eq true ? 'green':'initial'}" width="120">
                         <f:facet name="header">
-                            <h:outputText value="kod zawodu"/>
+                            <h:outputText value="czas trwania"/>
                         </f:facet>
-                        <h:outputText value="#{itemumowa.kodzawodu.symbolkzis}"/>
+                        <h:outputText value="#{itemumowa.lataDni}"/>
                     </p:column>
 <!--                    <p:column style="text-align: center;">
                         <f:facet name="header">

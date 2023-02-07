@@ -285,6 +285,7 @@ public class NieobecnoscView  implements Serializable {
                         nowa.setSwiadczeniekodzus(selectedzbiorczo.getSwiadczeniekodzus());
                         nowa.setKodzwolnienia(selectedzbiorczo.getKodzwolnienia());
                         nowa.setUzasadnienie(selectedzbiorczo.getUzasadnienie());
+                        nowa.setPonpiatek(selectedzbiorczo.isPonpiatek());
                         LocalDate oddata = LocalDate.parse(selectedzbiorczo.getDataod());
                         LocalDate dodata = LocalDate.parse(selectedzbiorczo.getDatado());
                         double iloscdni = DAYS.between(oddata,dodata);

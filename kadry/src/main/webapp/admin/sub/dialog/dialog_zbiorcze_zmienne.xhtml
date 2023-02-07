@@ -1,0 +1,65 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:bcf="http://brzaskun.com/facelets"
+    >
+    <style>
+        .itemNieob .ui-datatable .ui-datatable-data tr{
+            height : 25px !important;
+        }
+        .pickzbiorcze .ui-picklist-list {
+            height: 600px  !important;
+        }
+    </style>
+    <p:dialog id="dialogbiorczezmienne" header="Zbiorcze wprowadzanie zmiennych. Widać tylko aktywne angaże." widgetVar="dialogbiorczezmienne"  
+              resizable="false"  onShow="ustawdialog('dialogbiorczezmienne','centertile',1650,800);" closeOnEscape="true" onHide="resetujdialog('dialogbiorczezmienne');" 
+              fitViewport="true">
+        <p:ajax event="open" listener="#{zmienneZbiorczoView.init()}" update="ZmiennezbiorczeCreateForm" global="false"/>
+        <p:outputPanel style="height: 680px">
+            <p:panelGrid columns="1">
+                <h:form  styleClass="formadmin" id="ZmiennezbiorczeCreateForm">
+                    <h:panelGroup id="display">
+                        <p:panelGrid columns="4" >
+                            <p:panelGrid columns="1">
+                                <p:outputPanel>
+                                    <p:outputLabel value="" for="wybranypracownik" />
+                                    <p:pickList id="wybranypracownik" styleClass="pickzbiorcze" value="#{zmienneZbiorczoView.listapracownikow}" var="kalendarzItemz" itemLabel="#{kalendarzItemz.nazwiskoImie}" itemValue="#{kalendarzItemz}" 
+                                                showCheckbox="true" converter="#{pracownikConverter}" style="height: 600px;"/>
+                                </p:outputPanel>
+                            </p:panelGrid>
+                            <p:panelGrid columns="2">
+                                <p:outputLabel value="nazwa składnika" for="skladnik" />
+                                <p:selectOneMenu id="skladnik" value="#{zmienneZbiorczoView.wybranyrodzaj}" required="true" requiredMessage="wybierz rodzaj składnika wynagrodzenia"  converter="#{rodzajwynagrodzeniaConverter}" filter="true" filterMatchMode="contains">
+                                    <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
+                                    <f:selectItems value="#{zmienneZbiorczoView.rodzajewynagrodzen}" 
+                                                   var="rodzajItem"
+                                                   itemValue="#{rodzajItem}" itemLabel="#{rodzajItem.kod} #{rodzajItem.opispelny}"/>
+                                    <p:ajax event="change" partialSubmit="true" />
+                                </p:selectOneMenu>
+                                <p:outputLabel value="data od" for="dataod" />
+                                <p:inputText id="dataod" value="#{zmienneZbiorczoView.dataod}" title="datac od"  placeholder="____-__-__" maxlength="10" required="true" requiredMessage="Wprowadź datę od">
+                                    <p:ajax event="blur" onstart="ustawDateSprzedazy(#{wpisView.rokWpisu},#{wpisView.miesiacWpisu});" partialSubmit="true" global="false" />
+                                </p:inputText>
+                                <p:outputLabel value="data do" for="datado" />
+                                <p:inputText id="datado" value="#{zmienneZbiorczoView.datado}" title="data do"  placeholder="____-__-__" maxlength="10" required="true" requiredMessage="Wprowadź datę do">
+                                    <p:ajax event="blur" onstart="ustawDateSprzedazy(#{wpisView.rokWpisu},#{wpisView.miesiacWpisu});" partialSubmit="true" global="false" />
+                                </p:inputText>
+                                <p:outputLabel value="kwota zmiennej"/>
+                                <bcf:inputpl value="#{zmienneZbiorczoView.kwota}"/>
+                                <p:panelGrid columns="2" >
+                                    <p:messages><p:autoUpdate/></p:messages>
+                                </p:panelGrid>
+                            </p:panelGrid>
+                            <p:commandButton styleClass="buttonnorm" actionListener="#{zmienneZbiorczoView.createzbiorczo()}" value="#{bundle.Save}" update="display"/>
+                            <p:commandButton value="#{bundle.Cancel}" onclick="dialogbiorczezmienne.hide()" styleClass="buttonnorm2" />
+                        </p:panelGrid>
+                    </h:panelGroup>
+                </h:form>
+            </p:panelGrid>
+        </p:outputPanel>
+    </p:dialog>
+</ui:composition>
+

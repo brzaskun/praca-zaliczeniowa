@@ -485,6 +485,14 @@ public class Umowa implements Serializable {
         }
         return zwrot;
     }
+    
+    public String getLataDni() {
+        String zwrot = "brak informacji";
+        if (this.dataod!=null&&datado!=null) {
+            zwrot = Data.obliczwiekString(this.dataod, this.datado);
+        }
+        return zwrot;
+    }
     public void setCzastrwania(String czastrwania) {
         int zwrot = CzasTrwania.find(czastrwania);;
         this.czastrwania = zwrot;
