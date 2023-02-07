@@ -72,8 +72,13 @@ public class UrlopBean {
                         }
                         wykorzystanie.setUrlopprezentacja(urlopprezentacja);
                         EtatPrac pobierzetat = p.getAngaz().pobierzetat(wykorzystanie.getData());
-                        wykorzystanie.setEtat1(pobierzetat.getEtat1());
-                        wykorzystanie.setEtat2(pobierzetat.getEtat2());
+                        if (pobierzetat!=null) {
+                            wykorzystanie.setEtat1(pobierzetat.getEtat1());
+                            wykorzystanie.setEtat2(pobierzetat.getEtat2());
+                        } else {
+                            wykorzystanie.setEtat1(1);
+                            wykorzystanie.setEtat2(1);
+                        }
                         if (wykorzystanie.getGodziny()>0) {
                             wykorzystaniesuma.setGodziny(wykorzystaniesuma.getGodziny()+wykorzystanie.getGodziny());
                             wykorzystaniesuma.setDni(wykorzystaniesuma.getDni()+wykorzystanie.getDni());
