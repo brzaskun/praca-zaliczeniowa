@@ -136,19 +136,19 @@
                          <f:facet name="header">
                             <h:outputText value="akt.."/>
                         </f:facet>
-                        <p:commandButton icon="pi pi-sun" actionListener="#{umowaView.aktywujUmowe(itemumowa)}" update="north, @(form,) EastPracownicy"/>
+                        <p:commandButton icon="pi pi-sun" actionListener="#{umowaView.aktywujUmowe(itemumowa)}"/>
                     </p:column>
                     <p:column width="40" style="text-align: center;">
                          <f:facet name="header">
                             <h:outputText value="edy."/>
                         </f:facet>
-                        <p:commandButton icon="pi pi-pencil" actionListener="#{umowaView.edytuj(itemumowa)}" update="north, @(form)"/>
+                        <p:commandButton icon="pi pi-pencil" actionListener="#{umowaView.edytuj(itemumowa)}" update="north, akordeon:UmowaCreateForm"/>
                     </p:column>
                     <p:column width="40" style="text-align: center;">
                         <p:commandButton icon="pi pi-user-edit"  actionListener="#{umowaView.edytuj(itemumowa)}" onclick="PF('dialogumowatresc').show();" update="north, @(form)"/>
                     </p:column>
                     <p:column width="40" style="text-align: center;">
-                        <p:commandButton icon="pi pi-trash" actionListener="#{umowaView.usunfunkcja(itemumowa)}" update="north, @(form)">
+                        <p:commandButton icon="pi pi-trash" actionListener="#{umowaView.usunfunkcja(itemumowa)}" update="north, akordeon:UmowaListFormFunkcja">
                             <p:confirm type="popup" header="Potwierdzenie" message="Usunąć daną umowę?" icon="pi pi-exclamation-triangle"/>
                         </p:commandButton>
                     </p:column>
