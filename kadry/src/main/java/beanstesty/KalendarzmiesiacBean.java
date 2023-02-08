@@ -470,7 +470,8 @@ public class KalendarzmiesiacBean {
                                 sredniadopodstawy = limitpodstawyzasilkow;
                             }
                         }
-                        naliczenienieobecnosc.setPodstawadochoroby(sredniadopodstawy);
+                        //hjest srednia z zus bo potemn przeciez potraca zus patrz linijki wyzej
+                        naliczenienieobecnosc.setPodstawadochoroby(sredniadopodstawypobrana);
                         double procentzazwolnienie = Z.z(nieobecnosc.getZwolnienieprocent() / 100);
                         naliczenienieobecnosc.setProcentzazwolnienie(procentzazwolnienie);
                         skladnikistalenetto = sredniadopodstawy * procentzazwolnienie;

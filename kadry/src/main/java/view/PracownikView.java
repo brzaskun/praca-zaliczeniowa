@@ -23,7 +23,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import msg.Msg;
-import org.apache.commons.text.CaseUtils;
 
 /**
  *
@@ -202,13 +201,13 @@ public class PracownikView  implements Serializable {
     
     public void modyfikujnazwisko(String nazwisko) {
         if (selected.getNazwisko()!=null) {
-            selected.setNazwisko(CaseUtils.toCamelCase(nazwisko, true, null));
+            //selected.setNazwisko(CaseUtils.toCamelCase(nazwisko, true, null));
         }
     }
     
     public void modyfikujimie(String imie) {
         if (selected.getImie()!=null) {
-            selected.setImie(CaseUtils.toCamelCase(imie, true, null));
+            //selected.setImie(CaseUtils.toCamelCase(imie, true, null));
         }
     }
     
