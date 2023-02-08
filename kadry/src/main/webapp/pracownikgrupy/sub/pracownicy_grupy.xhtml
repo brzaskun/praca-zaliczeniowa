@@ -8,7 +8,7 @@
     <p:panelGrid columns="1" style="height: 400px;width: 700px;">
         <p:outputPanel style="height: 250px">
             <p:panelGrid columns="2">
-                <h:form id="GrupaCreateForm" styleClass="form1">
+                <h:form id="GrupaCreateForm" styleClass="form1 formlistagrupy">
 
                     <h:panelGroup id="display">
                         <p:panel header="Nazwa nowej grupy"/>
@@ -19,7 +19,7 @@
                         <p:commandButton styleClass="buttonnorm" actionListener="#{grupakadryView.create}" value="dodaj" update="display,@(.form2),@(.formlistagrupy)" />
                     </h:panelGroup>
                 </h:form>
-                <h:form id="GrupaListForm" styleClass="form1 form2">
+                <h:form id="GrupaListForm" styleClass="form1 form2 formlistagrupy">
                     <p:panelGrid columns="1">
                         <p:dataTable value="#{grupakadryView.lista}" var="poz" size="small" rowKey="#{poz.id}"
                                      emptyMessage="brak grup" style="height: 100px; overflow-y: scroll; width: 350px;margin-left: 100px;"
@@ -77,7 +77,7 @@
                     </p:panelGrid>
                 </h:form>
             </p:panelGrid>
-            <h:form id="GrupaListwyborpracForm" styleClass="grupypick">
+            <h:form id="GrupaListwyborpracForm" styleClass="grupypick formlistagrupy">
                 <style>
                 .ui-picklist .ui-picklist-list{
                     width: 600px !important;

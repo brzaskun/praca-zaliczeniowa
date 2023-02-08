@@ -6,14 +6,15 @@
 package view;
 
 import comparator.Pracownikcomparator;
-import dao.PracownikFacade;
-import dao.RodzajwynagrodzeniaFacade;
+import dao.SkladnikWynagrodzeniaFacade;
 import dao.ZmiennaWynagrodzeniaFacade;
 import data.Data;
+import embeddable.ZmiennaZbiorcze;
 import entity.Angaz;
 import entity.Pracownik;
 import entity.Rodzajwynagrodzenia;
 import entity.Skladnikwynagrodzenia;
+import entity.Zmiennawynagrodzenia;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -25,7 +26,6 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import msg.Msg;
-import org.primefaces.model.DualListModel;
 
 /**
  *
@@ -40,32 +40,26 @@ public class ZmienneZbiorczoView implements Serializable {
     @Inject
     private ZmiennaWynagrodzeniaFacade zmiennaWynagrodzeniaFacade;
     @Inject
-    private RodzajwynagrodzeniaFacade rodzajwynagrodzeniaFacade;
-    @Inject
-    private PracownikFacade pracownikFacade;
+    private SkladnikWynagrodzeniaFacade skladnikWynagrodzeniaFacade;
     private List<Rodzajwynagrodzenia> rodzajewynagrodzen;
-    private org.primefaces.model.DualListModel<Pracownik> listapracownikow;
     private Rodzajwynagrodzenia wybranyrodzaj;
     private String dataod;
     private String datado;
-    private double kwota;
+    private List<ZmiennaZbiorcze> pracownikzmienna;
+    private ZmiennaZbiorcze selectedlista;
+    private List<Angaz> angazList;
     
     @PostConstruct
-    private void init() {
-        List<Angaz> angazList = wpisView.getFirma().getAngazListAktywne();
-        List<Pracownik> listapracownikow = pobierzpracownikow (angazList);
+    public void init() {
+        angazList = wpisView.getFirma().getAngazListAktywne();
+        List<Pracownik> listapracownikow = pobierzpracownikow ();
         Collections.sort(listapracownikow, new Pracownikcomparator());
-        if (listapracownikow != null) {
-            this.listapracownikow = new org.primefaces.model.DualListModel<>();
-            this.listapracownikow.setSource(listapracownikow);
-            this.listapracownikow.setTarget(new ArrayList<>());
-        }
         dataod = Data.dzienpierwszy(wpisView);
         datado = Data.ostatniDzien(wpisView);
-        rodzajewynagrodzen = pobierzrodzajewyn(angazList);
+        rodzajewynagrodzen = pobierzrodzajewyn();
     }
     
-    private List<Pracownik> pobierzpracownikow(List<Angaz> angazList) {
+    private List<Pracownik> pobierzpracownikow() {
         Set<Pracownik> zwrot = new HashSet<>();
         for (Angaz a : angazList) {
             zwrot.add(a.getPracownik());
@@ -73,7 +67,7 @@ public class ZmienneZbiorczoView implements Serializable {
         return new ArrayList<Pracownik>(zwrot);
     }
     
-     private List<Rodzajwynagrodzenia> pobierzrodzajewyn(List<Angaz> angazList) {
+     private List<Rodzajwynagrodzenia> pobierzrodzajewyn() {
         Set<Rodzajwynagrodzenia> rodzajeset = new HashSet<>();
         for (Angaz p : angazList) {
             List<Skladnikwynagrodzenia> skladnikwynagrodzeniaList = p.getSkladnikwynagrodzeniaList();
@@ -87,19 +81,55 @@ public class ZmienneZbiorczoView implements Serializable {
         return new ArrayList<>(rodzajeset);
     }
     
+     public void tworzzmienne() {
+         pracownikzmienna = new ArrayList<>();
+         if (wybranyrodzaj!=null) {
+             for (Angaz p : angazList) {
+                 List<Skladnikwynagrodzenia> skladnikiangaz = skladnikWynagrodzeniaFacade.findByAngaz(p);
+                    List<Skladnikwynagrodzenia> skladnikwynagrodzeniaList = skladnikiangaz;
+                    if (skladnikwynagrodzeniaList!=null) {
+                        for (Skladnikwynagrodzenia skl : skladnikwynagrodzeniaList) {
+                            Zmiennawynagrodzenia ostatniaZmienna = skl.getOstatniaZmienna();
+                            if (skl.getRodzajwynagrodzenia().equals(wybranyrodzaj) && ostatniaZmienna!=null && !ostatniaZmienna.getDataod().equals(dataod)) {
+                                ZmiennaZbiorcze zmiennaZbiorcze = new ZmiennaZbiorcze();
+                                zmiennaZbiorcze.setPracownik(p.getPracownik());
+                                Zmiennawynagrodzenia zmiennawynagrodzenia = new Zmiennawynagrodzenia();
+                                zmiennawynagrodzenia.setSkladnikwynagrodzenia(skl);
+                                zmiennawynagrodzenia.setDataod(dataod);
+                                zmiennawynagrodzenia.setDatado(datado);
+                                zmiennawynagrodzenia.setNazwa(ostatniaZmienna.getNazwa());
+                                zmiennawynagrodzenia.setNrkolejnyzmiennej(ostatniaZmienna.getNrkolejnyzmiennej()+1);
+                                zmiennawynagrodzenia.setWaluta(ostatniaZmienna.getWaluta());
+                                zmiennawynagrodzenia.setAktywna(true);
+                                ostatniaZmienna.setAktywna(false);
+                                ostatniaZmienna.setDatado(Data.odejmijdni(dataod, 1));
+                                zmiennaZbiorcze.setOstatniazmienna(ostatniaZmienna);
+                                zmiennaZbiorcze.setZmienna(zmiennawynagrodzenia);
+                                pracownikzmienna.add(zmiennaZbiorcze);
+                            }
+                        }
+                    }
+
+                }
+         }
+     }
 
      public void createzbiorczo() {
-         Msg.msg("e", "Funkcja jeszcze nie zaimplementowana");
+         if (!pracownikzmienna.isEmpty()) {
+             for (ZmiennaZbiorcze p : pracownikzmienna) {
+                if (p.getZmienna().getKwota()>0.0) {
+                    try {
+                        zmiennaWynagrodzeniaFacade.create(p.getZmienna());
+                        zmiennaWynagrodzeniaFacade.edit(p.getOstatniazmienna());
+                    } catch (Exception e) {
+                        Msg.msg("e","Błąd przy nanoszeniu zmiennej "+p.getPracownik().getNazwiskoImie());
+                    }
+                }
+             }
+             Msg.msg("Naniesiono zmienne");
+         }
      }
      
-    public DualListModel<Pracownik> getListapracownikow() {
-        return listapracownikow;
-    }
-
-    public void setListapracownikow(DualListModel<Pracownik> listapracownikow) {
-        this.listapracownikow = listapracownikow;
-    }
-
     public Rodzajwynagrodzenia getWybranyrodzaj() {
         return wybranyrodzaj;
     }
@@ -132,15 +162,23 @@ public class ZmienneZbiorczoView implements Serializable {
         this.datado = datado;
     }
 
-    public double getKwota() {
-        return kwota;
+    public List<ZmiennaZbiorcze> getPracownikzmienna() {
+        return pracownikzmienna;
     }
 
-    public void setKwota(double kwota) {
-        this.kwota = kwota;
+    public void setPracownikzmienna(List<ZmiennaZbiorcze> pracownikzmienna) {
+        this.pracownikzmienna = pracownikzmienna;
     }
 
-   
+    public ZmiennaZbiorcze getSelectedlista() {
+        return selectedlista;
+    }
+
+    public void setSelectedlista(ZmiennaZbiorcze selectedlista) {
+        this.selectedlista = selectedlista;
+    }
+
+    
     
     
 }

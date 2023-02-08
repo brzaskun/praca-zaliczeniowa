@@ -54,6 +54,8 @@ public class UpdateClassView   implements Serializable {
     @Inject
     private PracownikNieobecnoscView pracownikNieobecnoscView;
     @Inject
+    private ZmienneZbiorczoView zmienneZbiorczoView;
+    @Inject
     private WpisView wpisView;
 
 
@@ -71,6 +73,7 @@ public class UpdateClassView   implements Serializable {
         etatView.init();
         skladnikPotraceniaView.init();
         pasekwynagrodzenView.init();
+        zmienneZbiorczoView.init();
     }
     
     public void updateUmowaPlace(){
