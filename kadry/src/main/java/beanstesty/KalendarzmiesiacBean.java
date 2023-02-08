@@ -11,6 +11,7 @@ import data.Data;
 import embeddable.Mce;
 import entity.Definicjalistaplac;
 import entity.Dzien;
+import entity.EtatPrac;
 import entity.Kalendarzmiesiac;
 import entity.Kalendarzwzor;
 import entity.Naliczenienieobecnosc;
@@ -461,6 +462,10 @@ public class KalendarzmiesiacBean {
                         double sredniadopodstawy = sredniadopodstawypobrana - (sredniadopodstawypobrana * .1371);
                         //trzeba dac te ograniczenie bo podwyzszalo podstawe dla wszystkich wyunagrodzen
                         if (naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getKod().equals("11")) {
+                             EtatPrac pobierzetat = pasekwynagrodzen.getKalendarzmiesiac().getAngaz().pobierzetat(pasekwynagrodzen.getDatawyplaty());
+                            if (pobierzetat != null) {
+                                limitpodstawyzasilkow = Z.z(limitpodstawyzasilkow * pobierzetat.getEtat1() / pobierzetat.getEtat2());
+                            }
                             if (sredniadopodstawy<limitpodstawyzasilkow) {
                                 sredniadopodstawy = limitpodstawyzasilkow;
                             }
@@ -491,7 +496,8 @@ public class KalendarzmiesiacBean {
         }
     }
 
-    private static double wyliczsredniachoroba(Kalendarzmiesiac kalendarz, Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia, Nieobecnosc nieobecnosc, Naliczenienieobecnosc naliczenienieobecnosc, Definicjalistaplac definicjalistaplac, Definicjalistaplac definicjadlazasilkow) {
+    private static double wyliczsredniachoroba(Kalendarzmiesiac kalendarz, Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia, Nieobecnosc nieobecnosc, Naliczenienieobecnosc naliczenienieobecnosc,
+            Definicjalistaplac definicjalistaplac, Definicjalistaplac definicjadlazasilkow) {
         double zwrot = 0.0;
         List<Kalendarzmiesiac> kalendarze = new ArrayList<>();
         String rok = kalendarz.getRok();
@@ -615,6 +621,7 @@ public class KalendarzmiesiacBean {
                     double godzinyprzepracowane = 0;
                     int dninieobecnosci = 0;
                     double godzinynieobecnosci = 0;
+                    boolean zatrudnieniewtraciemiesiaca = false;
                     if (kalendarzdosredniej.getDzienList() != null) {
                         for (Dzien d : kalendarzdosredniej.getDzienList()) {
                             if (d.getTypdnia() == 0) {
