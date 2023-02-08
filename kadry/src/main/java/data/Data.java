@@ -113,6 +113,7 @@ public class Data implements Serializable {
    public static String obliczwiekString(String dataurodzenia, String databiezaca) {
        String zwrot = "brak daty";
         if (dataurodzenia!=null && databiezaca!=null) {
+            if (!dataurodzenia.equals("") && !databiezaca.equals("")) {
             LocalDate dataur = LocalDate.parse(dataurodzenia);
             LocalDate dataumowy = LocalDate.parse(databiezaca);
             Period period = Period.between(dataur, dataumowy);
@@ -120,6 +121,7 @@ public class Data implements Serializable {
             int months = period.getMonths();
             int days = period.getDays();
             zwrot = years+" lat, "+months+" mcy, "+days+" dni";
+            }
         }
         return zwrot;
     }
