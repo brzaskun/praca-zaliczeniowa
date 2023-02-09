@@ -379,7 +379,14 @@ public class PasekwynagrodzenBean {
             }
             pasek.setKurs(kurs);
             //tego nie ma przy zleceniu
-            //PasekwynagrodzenBean.obliczdietedoodliczenia(pasek, kalendarz);
+            if (jestoddelegowanie) {
+                if (jestoddelegowanie && kurs == 0.0) {
+                    Msg.msg("e", "Jest oddelegowanie, a brak kursu!");
+                }
+                pasek.setKurs(kurs);
+                //to musi byc bo dieta jest zld zle cenia od zus, nie ma jej tylko od podatku
+                PasekwynagrodzenBean.obliczdietedoodliczenia(pasek, kalendarz);
+            }
             PasekwynagrodzenBean.wyliczlimitZUS(kalendarz, pasek, kurs, limitZUS);
         } else {
             PasekwynagrodzenBean.wyliczpodstaweZUS(pasek);
@@ -1421,10 +1428,13 @@ public class PasekwynagrodzenBean {
                     }
                 }
             }
-            pasek.setDietawaluta(dietawaluta);
-            pasek.setDieta(dietypln);
-            dietypln = Z.z(dietypln * 0.3);
-            pasek.setDietaodliczeniepodstawaop(dietypln);
+            
+                pasek.setDietawaluta(dietawaluta);
+                pasek.setDieta(dietypln);
+            if (pasek.isPraca()) {
+                double dietyplnpodatek = Z.z(dietypln * 0.3);
+                pasek.setDietaodliczeniepodstawaop(dietyplnpodatek);
+            }
     }
 
     private static void naniesrobocze(Pasekwynagrodzen pasek, Kalendarzmiesiac kalendarz) {
@@ -1614,8 +1624,8 @@ public class PasekwynagrodzenBean {
                 pasek.setPodstawaopodatkowaniazagranicawaluta(Z.z(zagranicawaluta));
                 pasek.setPodstawaopodatkowaniazagranica(Z.z(zagranicapln));
                 if (pasek.getPodstawaopodatkowania()>0.0) {
-                    double nowapodstawapolska = Z.z0(pasek.getPodstawaopodatkowania()-zagranicapln);
-                    pasek.setPodstawaopodatkowania(nowapodstawapolska);
+                    double nowapodstawapolska = Z.z0(pasek.getPodstawaopodatkowania()-zagranicapln) > 0.0? Z.z0(pasek.getPodstawaopodatkowania()-zagranicapln) : 0.0;
+                    pasek.setPodstawaopodatkowania(Z.z0(nowapodstawapolska));
                 }
             }
         } catch (Exception e){}
