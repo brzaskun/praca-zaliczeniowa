@@ -41,7 +41,7 @@ public class PdfZaswiadczenieZarobki {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         try {
             String nazwa = pracownik.getPesel() + "_zaswiadczenie.pdf";
-            if (bruttosrednia > 0.0) {
+            if ((bruttosrednia > 0.0 && zarobki) || (zatrudnienie && zarobki==false)) {
                 Document document = PdfMain.inicjacjaA4Portrait(60, 20);
                 PdfWriter writer = PdfMain.inicjacjaWriteraOut(document, out);
                 naglowekStopkaP(writer);
@@ -54,8 +54,9 @@ public class PdfZaswiadczenieZarobki {
                 Plik.zapiszBufferdoPlik(nazwa, out);
                 String f = "pokazwydruk('" + nazwa + "');";
                 PrimeFaces.current().executeScript(f);
+                Msg.msg("Wydrukowano zaświadczenie");
             } else {
-                Msg.msg("w", "Nie ma Paska do wydruku");
+                Msg.msg("w", "Nie ma Paska do wydruku. Nie można wydrukować zarobków");
             }
         } catch (Exception e) {
             E.e(e);
