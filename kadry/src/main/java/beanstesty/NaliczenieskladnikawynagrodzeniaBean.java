@@ -175,7 +175,7 @@ public class NaliczenieskladnikawynagrodzeniaBean {
                     if (skladnikwynagrodzenia.getRodzajwynagrodzenia().isRedukowany()) {
                         redukcja = redukcja + Z.z(skladnikistale /30.0*dnichoroby);
                     }
-                    kwotazaokresBezchoroby = skladnikistale-redukcja;
+                    kwotazaokresBezchoroby = skladnikistale-redukcja >0.0?skladnikistale-redukcja:0.0;
                     double dnipozachoroba = dniroboczenominalnewmiesiacu-dnichorobyrobocze;
                     double godzinypozachoroba = godzinyroboczenominalnewmiesiacu-godzinychoroby;
                     //zlikwidowano zaokraglenia 29-11-2022, na wniosek Oli przywrocono zaokraglenia 05-01-2022 zeby pasowalo z superplace
