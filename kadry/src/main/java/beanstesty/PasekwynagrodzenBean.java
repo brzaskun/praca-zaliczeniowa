@@ -25,10 +25,12 @@ import entity.Podatki;
 import entity.Pracownik;
 import entity.Rachunekdoumowyzlecenia;
 import entity.Rodzajnieobecnosci;
+import entity.Skladnikwynagrodzenia;
 import entity.Umowa;
 import entity.Wynagrodzeniahistoryczne;
 import entity.Wynagrodzenieminimalne;
 import entity.Wypadkowefirma;
+import entity.Zmiennawynagrodzenia;
 import error.E;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -155,6 +157,11 @@ public class PasekwynagrodzenBean {
         pasek.setMc(definicjalistaplac.getMc());
         pasek.setKurs(kurs);
         boolean jestoddelegowanie = kalendarz.getDnioddelegowania() > 0;
+        for (Skladnikwynagrodzenia s : kalendarz.getAngaz().getSkladnikwynagrodzeniaList()) {
+            if (s.isOddelegowanie()) {
+                jestoddelegowanie = true;
+            }
+        }
         EtatPrac pobierzetat = pasek.getKalendarzmiesiac().getAngaz().pobierzetat(pasek.getDatawyplaty());
         double limitzasilekchorobowy = wynagrodzenieminimalne.getLimitswiadczenchorobowych();
         if (pobierzetat != null) {
@@ -1399,6 +1406,21 @@ public class PasekwynagrodzenBean {
                 }
             }
             double dietypln = Z.z(dietawaluta * pasek.getKurs());
+            if (dnioddelegowanie==0.0) {
+                List<Skladnikwynagrodzenia> skladnikwynagrodzeniaList = kalendarz.getAngaz().getSkladnikwynagrodzeniaList();
+                for (Skladnikwynagrodzenia skl : skladnikwynagrodzeniaList) {
+                    if (skl.getRodzajwynagrodzenia().getKod().equals("52")) {
+                        List<Zmiennawynagrodzenia> zmiennawynagrodzeniaList = skl.getZmiennawynagrodzeniaList();
+                        for (Zmiennawynagrodzenia r : zmiennawynagrodzeniaList) {
+                            int dzienodzmienna = DataBean.dataod(r.getDataod(), kalendarz.getRok(), kalendarz.getMc());
+                            int dziendozmienna = DataBean.datado(r.getDatado(), kalendarz.getRok(), kalendarz.getMc());
+                            if (DataBean.czysiemiesci(kalendarz.getPierwszyDzien(), kalendarz.getOstatniDzien(), r.getDataod(), r.getDatado())) {
+                                dietypln = Z.z(r.getKwota());
+                            }
+                        }
+                    }
+                }
+            }
             pasek.setDietawaluta(dietawaluta);
             pasek.setDieta(dietypln);
             dietypln = Z.z(dietypln * 0.3);

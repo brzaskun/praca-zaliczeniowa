@@ -36,12 +36,12 @@
                 <h:form styleClass="formumowa" id="SkladnikwynagrodzeniaListForm">
                     <p:panel header="Wykaz składników wynagrodzenia">
                         <p:dataTable id="datalist" value="#{skladnikWynagrodzeniaView.lista}" var="itemskladnikwyn"
-                                     selectionMode="single" selection="#{skladnikWynagrodzeniaView.selectedlista}"
+                                     selectionMode="single" selection="#{skladnikWynagrodzeniaView.selectedlista}" 
                                      rowKey="#{itemskladnikwyn.id}" emptyMessage="Brak ustalonych skłądników wynagrodzenia"
                                      style="height: 200px; overflow-y: scroll;"
                                      >
                             <p:ajax event="rowSelect" listener="#{zmiennaWynagrodzeniaView.init2(skladnikWynagrodzeniaView.selectedlista)}" partialSubmit="true" global="false" update="akordeon:ZmiennawynagrodzeniaListForm:datalist"/>
-                            <p:column width="40" style="text-align: center;">
+                            <p:column width="40" style="text-align: center;"  sortBy="#{itemskladnikwyn.id}" sortOrder="descending">
                                 <f:facet name="header">
                                     <h:outputText value="id"/>
                                 </f:facet>
@@ -51,8 +51,8 @@
                                 <f:facet name="header">
                                     <h:outputText value="nazwa"/>
                                 </f:facet>
-                                <h:outputText value="#{itemskladnikwyn.rodzajwynagrodzenia.opispelny}" rendered="#{itemskladnikwyn.rodzajwynagrodzenia.tylkosuperplace eq false}"/>
-                                <h:outputText value="#{itemskladnikwyn.rodzajwynagrodzenia.opispelny}" rendered="#{itemskladnikwyn.rodzajwynagrodzenia.tylkosuperplace eq true}" style="color: grey"/>
+                                <h:outputText value="#{itemskladnikwyn.rodzajwynagrodzenia.opispelny}" rendered="#{itemskladnikwyn.rodzajwynagrodzenia.tylkosuperplace eq false and itemskladnikwyn.historyczny eq false}"/>
+                                <h:outputText value="#{itemskladnikwyn.rodzajwynagrodzenia.opispelny}" rendered="#{itemskladnikwyn.rodzajwynagrodzenia.tylkosuperplace eq true or itemskladnikwyn.historyczny eq true}" style="color: grey"/>
                             </p:column>
                             <p:column style="text-align: center;" width="40">
                                 <f:facet name="header">
@@ -65,45 +65,54 @@
                                 <f:facet name="header">
                                     <h:outputText value="reduk. za czas nieob."/>
                                 </f:facet>
-                                <h:outputText value="tak" rendered="#{itemskladnikwyn.rodzajwynagrodzenia.redukowany eq true}"  style="color: #{itemskladnikwyn.rodzajwynagrodzenia.tylkosuperplace eq true?'grey':'initial'};"/>
+                                <h:outputText value="tak" rendered="#{itemskladnikwyn.rodzajwynagrodzenia.redukowany eq true}"  style="color: #{itemskladnikwyn.rodzajwynagrodzenia.tylkosuperplace eq true or itemskladnikwyn.historyczny eq true?'grey':'initial'};"/>
                             </p:column>
                             <p:column style="text-align: center;" width="30">
                                 <f:facet name="header">
                                     <h:outputText value="kod"/>
                                 </f:facet>
-                                <h:outputText value="#{itemskladnikwyn.rodzajwynagrodzenia.kod}"/>
+                                <h:outputText value="#{itemskladnikwyn.rodzajwynagrodzenia.kod}"  rendered="#{itemskladnikwyn.rodzajwynagrodzenia.tylkosuperplace eq false and itemskladnikwyn.historyczny eq false}"/>
+                                 <h:outputText value="#{itemskladnikwyn.rodzajwynagrodzenia.kod}" rendered="#{itemskladnikwyn.rodzajwynagrodzenia.tylkosuperplace eq true or itemskladnikwyn.historyczny eq true}" style="color: grey"/>
                             </p:column>
                             <p:column style="text-align: center;" width="40">
                                 <f:facet name="header">
                                     <h:outputText value="stala0 zmienna1"/>
                                 </f:facet>
-                                <h:outputText value="zmienna" rendered="#{itemskladnikwyn.rodzajwynagrodzenia.stale0zmienne1 eq true}"  style="color: #{itemskladnikwyn.rodzajwynagrodzenia.tylkosuperplace eq true?'grey':'initial'};"/>
-                                <h:outputText value="stała" rendered="#{itemskladnikwyn.rodzajwynagrodzenia.stale0zmienne1 eq false}"  style="color: #{itemskladnikwyn.rodzajwynagrodzenia.tylkosuperplace eq true?'grey':'initial'};"/>
+                                <h:outputText value="zmienna" rendered="#{itemskladnikwyn.rodzajwynagrodzenia.stale0zmienne1 eq true}"  style="color: #{itemskladnikwyn.rodzajwynagrodzenia.tylkosuperplace eq true or itemskladnikwyn.historyczny eq true?'grey':'initial'};"/>
+                                <h:outputText value="stała" rendered="#{itemskladnikwyn.rodzajwynagrodzenia.stale0zmienne1 eq false}"  style="color: #{itemskladnikwyn.rodzajwynagrodzenia.tylkosuperplace eq true or itemskladnikwyn.historyczny eq true?'grey':'initial'};"/>
                             </p:column>
                              <p:column style="text-align: center;" width="40">
                                 <f:facet name="header">
                                     <h:outputText value="urlop kraj"/>
                                 </f:facet>
-                                 <h:outputText value="&#x2714;" rendered="#{itemskladnikwyn.rodzajwynagrodzenia.sredniaurlopowakraj eq true}"  style="color: #{itemskladnikwyn.rodzajwynagrodzenia.tylkosuperplace eq true?'grey':'green'};"/>
+                                 <h:outputText value="&#x2714;" rendered="#{itemskladnikwyn.rodzajwynagrodzenia.sredniaurlopowakraj eq true}"  style="color: #{itemskladnikwyn.rodzajwynagrodzenia.tylkosuperplace eq true or itemskladnikwyn.historyczny eq true?'grey':'green'};"/>
                                 
                             </p:column>
                              <p:column style="text-align: center;" width="40">
                                 <f:facet name="header">
                                     <h:outputText value="urlop oddel."/>
                                 </f:facet>
-                                 <h:outputText value="&#x2714;" rendered="#{itemskladnikwyn.rodzajwynagrodzenia.sredniaurlopowaoddelegowanie eq true}"  style="color: #{itemskladnikwyn.rodzajwynagrodzenia.tylkosuperplace eq true?'grey':'green'};"/>
+                                 <h:outputText value="&#x2714;" rendered="#{itemskladnikwyn.rodzajwynagrodzenia.sredniaurlopowaoddelegowanie eq true}"  style="color: #{itemskladnikwyn.rodzajwynagrodzenia.tylkosuperplace eq true or itemskladnikwyn.historyczny eq true?'grey':'green'};"/>
 
                             </p:column>
                             <p:column style="text-align: center;" width="20">
                                 <f:facet name="header">
                                     <h:outputText value="należ. za oddel."/>
                                 </f:facet>
-                                 <h:outputText value="&#x2714;" rendered="#{itemskladnikwyn.oddelegowanie eq true}" style="color: #{itemskladnikwyn.rodzajwynagrodzenia.tylkosuperplace eq true?'grey':'green'};"/>
+                                 <h:outputText value="&#x2714;" rendered="#{itemskladnikwyn.oddelegowanie eq true}" style="color: #{itemskladnikwyn.rodzajwynagrodzenia.tylkosuperplace eq true or itemskladnikwyn.historyczny eq true?'grey':'green'};"/>
                             </p:column>
-                            <p:column width="30" style="text-align: center;">
-                                <p:commandButton icon="pi pi-pencil"  actionListener="#{skladnikWynagrodzeniaView.wybierzdoedycji(itemskladnikwyn)}" update="north, @(form) akordeon:SkladnikwynagrodzeniaCreateForm"/>
+                             <p:column width="25" style="text-align: center;">
+                                <f:facet name="header">
+                                    <h:outputText value="hist."/>
+                                </f:facet>
+                                 <p:selectBooleanCheckbox value="#{itemskladnikwyn.historyczny}">
+                                     <p:ajax event="change" listener="#{skladnikWynagrodzeniaView.edycja(itemskladnikwyn)}" partialSubmit="true" update="akordeon:SkladnikwynagrodzeniaListForm:datalist"/>
+                                 </p:selectBooleanCheckbox>
                             </p:column>
-                            <p:column style="text-align: center;" width="30">
+                            <p:column width="20" style="text-align: center;">
+                                <p:commandButton icon="pi pi-pencil"  actionListener="#{skladnikWynagrodzeniaView.wybierzdoedycji(itemskladnikwyn)}" update="north, akordeon:SkladnikwynagrodzeniaListForm,  akordeon:SkladnikwynagrodzeniaCreateForm"/>
+                            </p:column>
+                            <p:column style="text-align: center;" width="20">
                                 <p:commandButton icon="pi pi-trash" actionListener="#{skladnikWynagrodzeniaView.usunSkladnikWyn(itemskladnikwyn)}" update="north, @(form)">
                                     <p:confirm type="popup" header="Potwierdzenie" message="Usunąć składnik?" icon="pi pi-exclamation-triangle"/>
                                 </p:commandButton>

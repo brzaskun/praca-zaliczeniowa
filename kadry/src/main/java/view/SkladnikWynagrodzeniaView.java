@@ -76,6 +76,22 @@ public class SkladnikWynagrodzeniaView  implements Serializable {
       }
     }
     
+    public void edycja(Skladnikwynagrodzenia skladnik) {
+      if (skladnik!=null && wpisView.getAngaz()!=null) {
+          try {
+            if (skladnik.getId()!=null) {
+                skladnikWynagrodzeniaFacade.edit(skladnik);
+                Msg.msg("Udana edycja składnika wyn");
+            }
+          } catch (Exception e) {
+              Msg.msg("e", "Błąd - nie dodano nowego składnika wynagrodzenai");
+          }
+      } else {
+          Msg.msg("e","Brak wybranej umowy");
+      }
+    }
+    
+    
     public void usunSkladnikWyn(Skladnikwynagrodzenia skladnikwynagrodzenia) {
         if (skladnikwynagrodzenia!=null) {
             skladnikWynagrodzeniaFacade.remove(skladnikwynagrodzenia);

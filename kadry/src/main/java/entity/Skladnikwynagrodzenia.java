@@ -68,6 +68,8 @@ public class Skladnikwynagrodzenia implements Serializable {
     private Rodzajwynagrodzenia rodzajwynagrodzenia;
     @Column(name = "oddelegowanie")
     private  boolean oddelegowanie;
+    @Column(name = "historyczny")
+    private  boolean historyczny;
     @Size(max = 255)
     @Column(name = "uwagi")
     private String uwagi;
@@ -127,6 +129,14 @@ public class Skladnikwynagrodzenia implements Serializable {
 
     public void setAngaz(Angaz angaz) {
         this.angaz = angaz;
+    }
+
+    public boolean isHistoryczny() {
+        return historyczny;
+    }
+
+    public void setHistoryczny(boolean historyczny) {
+        this.historyczny = historyczny;
     }
 
    
