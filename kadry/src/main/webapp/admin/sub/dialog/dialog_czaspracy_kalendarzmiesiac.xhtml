@@ -23,7 +23,7 @@
                             <p:outputLabel value="miesiąc" for="mc" />
                             <p:selectOneMenu id="mc" value="#{kalendarzmiesiacView.selected.mc}"  style="width: 30px;">
                                 <f:selectItems value="#{mce.mceList}"/>
-                                <p:ajax event="change" partialSubmit="true" global="false" listener="#{kalendarzmiesiacView.zrobkalendarzumowa}" update=":KalendarzmiesiacListForm:datalist KalendarzmiesiacSaRokForm"/>
+                                <p:ajax event="change" partialSubmit="true" global="false" listener="#{kalendarzmiesiacView.zrobkalendarzumowa}" update=":KalendarzmiesiacListForm:datalist KalendarzmiesiacSaRokForm KalendarzmiesiacListForm"/>
                             </p:selectOneMenu>
                         </p:panelGrid>
                     </h:form>
@@ -89,7 +89,7 @@
                     <h:form  styleClass="formadmin" id="KalendarzmiesiacCreateRokForm">
                         <p:panelGrid columns="2">
                             <p:outputLabel value="generuj kalendarz za rok" for="rokkal" />
-                            <p:commandButton id="rokkal" value="generuj" styleClass="buttonnorm" actionListener="#{kalendarzmiesiacView.generujrok()}" update="KalendarzmiesiacSaRokForm"/>
+                            <p:commandButton id="rokkal" value="generuj" styleClass="buttonnorm" global="true" actionListener="#{kalendarzmiesiacView.generujrok()}" update="KalendarzmiesiacSaRokForm KalendarzmiesiacListForm"/>
                         </p:panelGrid>
                     </h:form>
                 </p:panelGrid>

@@ -1614,7 +1614,7 @@ public class PasekwynagrodzenBean {
                 pasek.setPodstawaopodatkowaniazagranicawaluta(Z.z(zagranicawaluta));
                 pasek.setPodstawaopodatkowaniazagranica(Z.z(zagranicapln));
                 if (pasek.getPodstawaopodatkowania()>0.0) {
-                    double nowapodstawapolska = Z.z(pasek.getPodstawaopodatkowania()-zagranicapln);
+                    double nowapodstawapolska = Z.z0(pasek.getPodstawaopodatkowania()-zagranicapln);
                     pasek.setPodstawaopodatkowania(nowapodstawapolska);
                 }
             }

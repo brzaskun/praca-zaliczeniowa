@@ -173,9 +173,9 @@ public class KalendarzmiesiacView  implements Serializable {
     
     public void generujrok() {
         if (wpisView.getAngaz()!=null && wpisView.getPracownik()!=null) {
-            String rok = wpisView.getAngaz().getRok();
-            Integer rokI = Integer.parseInt(wpisView.getAngaz().getRok());
-            String mcu = wpisView.getAngaz().getMc();
+            String rok = wpisView.getRokWpisu();
+            Integer rokI = Integer.parseInt(rok);
+            String mcu = wpisView.getMiesiacWpisu();
             if (rokI<wpisView.getRokWpisuInt()) {
                 mcu = "01";
             }
@@ -212,8 +212,9 @@ public class KalendarzmiesiacView  implements Serializable {
                 if (zatrudnieniewtrakciemiesiaca!=null) {
                   nieobecnoscFacade.createList(zatrudnieniewtrakciemiesiaca);
                 }
-                listakalendarzeprac = kalendarzmiesiacFacade.findByRokAngaz(wpisView.getAngaz(), wpisView.getRokWpisu());
             }
+            listakalendarzeprac = kalendarzmiesiacFacade.findByRokAngaz(wpisView.getAngaz(), wpisView.getRokWpisu());
+            init();
             Msg.msg("Pobrano dane z kalendarza wzorcowego z bazy danych i utworzono kalendarze pracownika");
         } else {
             Msg.msg("e","Nie wybrano pracownika i umowy");
