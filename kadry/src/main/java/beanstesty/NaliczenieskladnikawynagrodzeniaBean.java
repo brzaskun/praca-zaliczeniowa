@@ -118,7 +118,9 @@ public class NaliczenieskladnikawynagrodzeniaBean {
                 godzinyroboczenominalnewmiesiacu = godzinyroboczenominalnewmiesiacu + normagodzin;
             }
         }
-        if (skladnikwynagrodzenia.getRodzajwynagrodzenia().getKod().equals("11")) {
+        boolean wynagrodzeniekrajowemiesieczne = skladnikwynagrodzenia.getRodzajwynagrodzenia().getKod().equals("11");
+        boolean wynagrodzeniekierowca = skladnikwynagrodzenia.getRodzajwynagrodzenia().getKod().equals("13") && skladnikwynagrodzenia.getRodzajwynagrodzenia().getGodzinowe0miesieczne1()==true;
+        if (wynagrodzeniekrajowemiesieczne || wynagrodzeniekierowca) {
             for (Zmiennawynagrodzenia r : skladnikwynagrodzenia.getZmiennawynagrodzeniaList()) {
                 Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = new Naliczenieskladnikawynagrodzenia();
                 double skladnikistale = 0.0;
@@ -170,7 +172,9 @@ public class NaliczenieskladnikawynagrodzeniaBean {
                             }
                         }
                     }
-                    redukcja = redukcja + Z.z(skladnikistale /30.0*dnichoroby);
+                    if (skladnikwynagrodzenia.getRodzajwynagrodzenia().isRedukowany()) {
+                        redukcja = redukcja + Z.z(skladnikistale /30.0*dnichoroby);
+                    }
                     kwotazaokresBezchoroby = skladnikistale-redukcja;
                     double dnipozachoroba = dniroboczenominalnewmiesiacu-dnichorobyrobocze;
                     double godzinypozachoroba = godzinyroboczenominalnewmiesiacu-godzinychoroby;
@@ -188,7 +192,11 @@ public class NaliczenieskladnikawynagrodzeniaBean {
 //                    } else {
 //                        dowyplatyzaczasprzepracowany = skladnikistale;
 //                    }
-                    dowyplatyzaczasprzepracowany = dowyplatyzaczasprzepracowany+stawkagodzinowa*godzinyobecnosciroboczestat;
+                    if (skladnikwynagrodzenia.getRodzajwynagrodzenia().isRedukowany()) {
+                        dowyplatyzaczasprzepracowany = dowyplatyzaczasprzepracowany+stawkagodzinowa*godzinyobecnosciroboczestat;
+                    } else {
+                        dowyplatyzaczasprzepracowany = skladnikistale;
+                    }
                     liczbazmiennych++;
                 }
                 if (liczbazmiennych > 0) {
@@ -210,8 +218,11 @@ public class NaliczenieskladnikawynagrodzeniaBean {
                     naliczenieskladnikawynagrodzenia.setPasekwynagrodzen(pasekwynagrodzen);
                     naliczenieskladnikawynagrodzenia.setKwotyredukujacesuma(redukcja);
                 }
-                if (naliczenieskladnikawynagrodzenia.getKwotaumownazacalymc()!=0.0) {
-                    zwrot.add(naliczenieskladnikawynagrodzenia);
+//                if (naliczenieskladnikawynagrodzenia.getKwotaumownazacalymc()!=0.0) {
+//                   zwrot.add(naliczenieskladnikawynagrodzenia);
+//                }
+                if (naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia()!=null) {
+                   zwrot.add(naliczenieskladnikawynagrodzenia);
                 }
             }
         } else if (skladnikwynagrodzenia.getRodzajwynagrodzenia().getKod().equals("13")) {
@@ -275,8 +286,11 @@ public class NaliczenieskladnikawynagrodzeniaBean {
                     naliczenieskladnikawynagrodzenia.setSkladnikwynagrodzenia(skladnikwynagrodzenia);
                     naliczenieskladnikawynagrodzenia.setPasekwynagrodzen(pasekwynagrodzen);
                 }
-                if (naliczenieskladnikawynagrodzenia.getKwotaumownazacalymc()!=0.0) {
-                    zwrot.add(naliczenieskladnikawynagrodzenia);
+//                if (naliczenieskladnikawynagrodzenia.getKwotaumownazacalymc()!=0.0) {
+//                   zwrot.add(naliczenieskladnikawynagrodzenia);
+//                }
+                if (naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia()!=null) {
+                   zwrot.add(naliczenieskladnikawynagrodzenia);
                 }
             }
             
