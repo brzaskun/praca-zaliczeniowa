@@ -923,6 +923,10 @@ public class PasekwynagrodzenBean {
             kosztyuzyskania = 0.0;
         }
         double dieta30proc = pasek.getDietaodliczeniepodstawaop();
+        if (pasek.isPrzekroczenieoddelegowanie()) {
+            pasek.setDietaodliczeniepodstawaop(0.0);
+            dieta30proc = 0.0;
+        }
         double ulgadlaklasysredniej = pasek.isUlgadlaKlasySredniej() ? pasek.getUlgadlaklasysredniejI() + pasek.getUlgadlaklasysredniejII() : 0.0;
         double podstawapopomniejszeniu = Z.z0(bruttominusspoleczne - dieta30proc - ulgadlaklasysredniej);
         if (podstawapopomniejszeniu < 0) {
@@ -1628,7 +1632,9 @@ public class PasekwynagrodzenBean {
                     pasek.setPodstawaopodatkowania(Z.z0(nowapodstawapolska));
                 }
             }
-        } catch (Exception e){}
+        } catch (Exception e){
+            E.e(e);
+        }
     }
 
 }
