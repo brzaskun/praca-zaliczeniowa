@@ -91,14 +91,22 @@ public class NaliczeniepotracenieBean {
                         zwrot.setPasekwynagrodzen(pasekwynagrodzen);    
                     }
 
-                } else if (p.isMaxustawowy()&&p.getSkladnikpotracenia().getRodzajpotracenia().getNumer()==1) {
+                } else if (p.isMaxustawowy()&&p.getSkladnikpotracenia().getRodzajpotracenia().getNumer()==1 && pasekwynagrodzen.isPraca()) {
                         double ilemozna = skladnikpotracenia.getRodzajpotracenia().getLimitumowaoprace();
                         double potracenie = Z.z(pasekwynagrodzen.getNettoprzedpotraceniami()*(ilemozna/100.0));
                         zwrot.setKwota(potracenie);
                         p.setKwotakomorniczarozliczona(Z.z(juzrozliczono+zwrot.getKwota()));
                         zwrot.setPasekwynagrodzen(pasekwynagrodzen);    
 
+                }  else if (p.isMaxustawowy()&&p.getSkladnikpotracenia().getRodzajpotracenia().getNumer()==1) {
+                        double ilemozna = skladnikpotracenia.getRodzajpotracenia().getLimitumowazlecenia();
+                        double potracenie = Z.z(pasekwynagrodzen.getNettoprzedpotraceniami()*(ilemozna/100.0));
+                        zwrot.setKwota(potracenie);
+                        p.setKwotakomorniczarozliczona(Z.z(juzrozliczono+zwrot.getKwota()));
+                        zwrot.setPasekwynagrodzen(pasekwynagrodzen);    
+
                 }
+                
             }
         }
         if (zwrot.getPasekwynagrodzen()!=null) {

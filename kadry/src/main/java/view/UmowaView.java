@@ -382,16 +382,15 @@ public class UmowaView implements Serializable {
                 if (selected.getWynagrodzeniemiesieczne() != 0.0) {
                     Rodzajwynagrodzenia rodzajwynagrodzenia = selected.getUmowakodzus().isPraca() ? rodzajwynagrodzeniaFacade.findZasadniczePraca() : rodzajwynagrodzeniaFacade.findZasadniczeZlecenie();
                     Skladnikwynagrodzenia skladnikwynagrodzenia = skladnikWynagrodzeniaFacade.findByAngazRodzaj(selected.getAngaz(),rodzajwynagrodzenia);
-                    List<Zmiennawynagrodzenia> etaty = zmiennaWynagrodzeniaFacade.findBySkladnik(skladnikwynagrodzenia);
-                    Zmiennawynagrodzenia ostatnietat = null;
-                    for (Zmiennawynagrodzenia e : etaty) {
+                    List<Zmiennawynagrodzenia> zmiennawyn = zmiennaWynagrodzeniaFacade.findBySkladnik(skladnikwynagrodzenia);
+                    for (Zmiennawynagrodzenia e : zmiennawyn) {
                         if (e.getDatado()==null||e.getDatado().equals("")) {
                             if (e.getKwota()!=selected.getWynagrodzeniemiesieczne()) {
                                 e.setDatado(datazamknieciapoprzedniejumowy);
                                 zmiennaWynagrodzeniaFacade.edit(e);
                                 Zmiennawynagrodzenia zmiennawynagrodzenie = beanstesty.UmowaBean.dodajzmiennawynagrodzenie(skladnikwynagrodzenia,"PLN", selected, 1, zmiennaWynagrodzeniaFacade);
                                 if (skladnikwynagrodzenia.getId() != null && zmiennawynagrodzenie != null) {
-                                    Msg.msg("Dodano składniki wynagrodzania");
+                                    Msg.msg("Dodano zmienną wynagrodzania");
                                 }
                             }
                         }
@@ -409,7 +408,7 @@ public class UmowaView implements Serializable {
                                 zmiennaWynagrodzeniaFacade.edit(e);
                                 Zmiennawynagrodzenia zmiennawynagrodzenie = beanstesty.UmowaBean.dodajzmiennawynagrodzenie(skladnikwynagrodzenia,"PLN", selected, 2, zmiennaWynagrodzeniaFacade);
                                 if (skladnikwynagrodzenia.getId() != null && zmiennawynagrodzenie != null) {
-                                    Msg.msg("Dodano składniki wynagrodzania");
+                                    Msg.msg("Dodano zmienną wynagrodzania");
                                 }
                             }
                         }
@@ -427,7 +426,7 @@ public class UmowaView implements Serializable {
                                 zmiennaWynagrodzeniaFacade.edit(e);
                                 Zmiennawynagrodzenia zmiennawynagrodzenie = beanstesty.UmowaBean.dodajzmiennawynagrodzenie(skladnikwynagrodzenia,selected.getSymbolwalutyoddelegowanie(), selected, 3, zmiennaWynagrodzeniaFacade);
                                 if (skladnikwynagrodzenia.getId() != null && zmiennawynagrodzenie != null) {
-                                    Msg.msg("Dodano składniki wynagrodzania");
+                                    Msg.msg("Dodano zmienną wynagrodzania oddelegowanie");
                                 }
                             }
                         }

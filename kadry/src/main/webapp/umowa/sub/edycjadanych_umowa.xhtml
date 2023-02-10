@@ -68,7 +68,7 @@
                          
                          
                     </p:panelGrid>
-                    <p:panelGrid columns="2">
+<!--                    <p:panelGrid columns="2">
                         <p:outputLabel value="kod zawodu" for="kodzawodu1" />
                         <p:autoComplete id="kodzawodu1" value="#{umowaView.selected.kodzawodu}" converter="#{kodyzawodowConverter}" style="width: 300px;" cache="true" cacheTimeout="2000"
                                         minQueryLength="3" maxResults="15" maxlength="25" itemtipMyPosition="rightbottom" queryDelay="10" size="50"
@@ -77,13 +77,13 @@
                                         >
                             <p:ajax event="query" global="false"/>
                         </p:autoComplete>
-<!--                        <p:outputLabel value="nfz" for="nfz1" />
-                        <p:inputText id="nfz1" value="#{umowaView.selected.nfz}" title="nfz}"  required="true"/>-->
+                        <p:outputLabel value="nfz" for="nfz1" />
+                        <p:inputText id="nfz1" value="#{umowaView.selected.nfz}" title="nfz}"  required="true"/>
                         <p:outputLabel value="nie licz FGSP" for="nieliczFGSP1" />
                         <p:selectBooleanCheckbox id="nieliczFGSP1" value="#{umowaView.selected.nieliczFGSP}" />
                         <p:outputLabel value="nie licz FP" for="nieliczFP1" />
                         <p:selectBooleanCheckbox id="nieliczFP1" value="#{umowaView.selected.nieliczFP}" />
-                    </p:panelGrid>
+                    </p:panelGrid>-->
                     <p:panelGrid columns="2">
 
                         <p:outputLabel value="wynagrodzenie miesięczne" />
@@ -178,24 +178,24 @@
   
 
                     </p:panelGrid>
-                    <p:panelGrid columns="2">
+<!--                    <p:panelGrid columns="2">
 
 
-<!--                        <p:outputLabel value="kod zawodu" for="kodzawodu" />
+                        <p:outputLabel value="kod zawodu" for="kodzawodu" />
                         <p:autoComplete id="kodzawodu" value="#{umowaView.selected.kodzawodu}" converter="#{kodyzawodowConverter}" style="width: 300px;" cache="true" cacheTimeout="2000"
                                         minQueryLength="3" maxResults="15" maxlength="25" itemtipMyPosition="rightbottom" queryDelay="10" size="50"
                                         completeMethod="#{kodyzawodowConverter.complete}" var="kodzawoduItem" 
                                         itemLabel="#{kodzawoduItem.nazwa}" itemValue="#{kodzawoduItem}" 
                                         >
                             <p:ajax event="query" global="false"/>
-                        </p:autoComplete>-->
-<!--                        <p:outputLabel value="nfz" for="nfz" />
-                        <p:inputText id="nfz" value="#{umowaView.selected.nfz}" title="nfz}"  required="true"/>-->
+                        </p:autoComplete>
+                        <p:outputLabel value="nfz" for="nfz" />
+                        <p:inputText id="nfz" value="#{umowaView.selected.nfz}" title="nfz}"  required="true"/>
                         <p:outputLabel value="nie licz FGSP" for="nieliczFGSP" />
                         <p:selectBooleanCheckbox id="nieliczFGSP" value="#{umowaView.selected.nieliczFGSP}" />
                         <p:outputLabel value="nie licz FP" for="nieliczFP" />
                         <p:selectBooleanCheckbox id="nieliczFP" value="#{umowaView.selected.nieliczFP}" />
-                    </p:panelGrid>
+                    </p:panelGrid>-->
                     <p:panelGrid columns="2">
                         <p:outputLabel value="wynagrodzenie miesięczne" />
                         <bcf:innum value="#{umowaView.selected.wynagrodzeniemiesieczne}"/>

@@ -16,6 +16,7 @@ import dao.SMTPSettingsFacade;
 import dao.UmowaFacade;
 import dao.UprawnieniaFacade;
 import dao.UzFacade;
+import data.Data;
 import embeddable.Mce;
 import entity.Angaz;
 import entity.FirmaKadry;
@@ -198,20 +199,25 @@ public class AngazView  implements Serializable {
         Kalendarzmiesiac kal = null;
         if (selected != null && selected.getPracownik() != null) {
             String rok = selected.getRok();
+            Integer rokI = Integer.parseInt(rok);
+            Integer rokToday = Integer.parseInt(Data.getRok(Data.aktualnaData()));
             Integer mcod = Integer.parseInt(selected.getMc());
-            for (String mc : Mce.getMceListS()) {
-                Integer kolejnymc = Integer.parseInt(mc);
-                if (kolejnymc >= mcod) {
-                    kal = new Kalendarzmiesiac();
-                    Kalendarzwzor znaleziono = kalendarzwzorFacade.findByFirmaRokMc(wpisView.getAngaz().getFirma(), rok, mc);
-                    if (znaleziono != null) {
-                        kal.setRok(rok);
-                        kal.setMc(mc);
-                        kal.setAngaz(selected);
-                        kal.ganerujdnizwzrocowego(znaleziono, null);
-                        kalendarzmiesiacFacade.create(kal);
-                    } else {
-                        Msg.msg("e", "Brak kalendarza wzorcowego za " + mc);
+            for (int rokgen = rokI;rokgen<=rokToday;rokgen++) {
+                for (String mc : Mce.getMceListS()) {
+                    String rokbiezacy = String.valueOf(rokgen);
+                    Integer kolejnymc = Integer.parseInt(mc);
+                    if (kolejnymc >= mcod) {
+                        kal = new Kalendarzmiesiac();
+                        Kalendarzwzor znaleziono = kalendarzwzorFacade.findByFirmaRokMc(wpisView.getAngaz().getFirma(), rokbiezacy, mc);
+                        if (znaleziono != null) {
+                            kal.setRok(rokbiezacy);
+                            kal.setMc(mc);
+                            kal.setAngaz(selected);
+                            kal.ganerujdnizwzrocowego(znaleziono, null);
+                            kalendarzmiesiacFacade.create(kal);
+                        } else {
+                            Msg.msg("e", "Brak kalendarza wzorcowego za " + mc);
+                        }
                     }
                 }
             }
